@@ -704,15 +704,18 @@ void R_DrawPSprite(pspdef_t *psp)
     boolean             flip;
     vissprite_t         *vis;
     vissprite_t         avis;
+    state_t             *state;
 
-    int flags2[16] = {
+    int flags2[16] =
+    {
         0, 0, 0, 0, MF2_TRANSLUCENT, MF2_TRANSLUCENT, MF2_TRANSLUCENT_REDWHITEONLY, 0,
         MF2_TRANSLUCENT, 0, MF2_TRANSLUCENT, 0, 0, MF2_TRANSLUCENT, 0, MF2_TRANSLUCENT
     };
 
     // decide which patch to use
-    sprdef = &sprites[psp->state->sprite];
-    sprframe = &sprdef->spriteframes[psp->state->frame & FF_FRAMEMASK];
+    state = psp->state;
+    sprdef = &sprites[state->sprite];
+    sprframe = &sprdef->spriteframes[state->frame & FF_FRAMEMASK];
 
     lump = sprframe->lump[0];
     flip = (boolean)sprframe->flip[0];
@@ -789,9 +792,10 @@ void R_DrawPSprite(pspdef_t *psp)
         }
     }
 
-    vis->mobjflags2 |= flags2[psp->state->sprite];
+    if (flash)
+        vis->mobjflags2 |= flags2[psp->state->sprite];
 
-    R_DrawVisSprite (vis, vis->x1, vis->x2, true);
+    R_DrawVisSprite(vis, vis->x1, vis->x2, true);
 }
 
 
@@ -824,7 +828,7 @@ void R_DrawPlayerSprites(void)
     // add all active psprites
     flash = false;
     for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
-        if (psp->state && psp->state->frame & FF_FULLBRIGHT)
+        if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
             flash = true;
     if (viewplayer->powers[pw_invisibility] > 128
         || (viewplayer->powers[pw_invisibility] & 8))
