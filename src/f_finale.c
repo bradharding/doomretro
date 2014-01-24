@@ -7,6 +7,7 @@ A classic, refined DOOM source port. For Windows PC.
 Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
 Copyright © 2005-2014 Simon Howard.
 Copyright © 2013-2014 Brad Harding.
+Copyright © 2014 James Haley.
 
 This file is part of DOOM RETRO.
 
@@ -523,6 +524,7 @@ boolean F_CastResponder(event_t *ev)
     if (ev->type == ev_gamepad && !(ev->data1 & 2048) && !(ev->data1 & 4096))
         return false;
 
+    // rotate (taken from Eternity Engine)
     if (ev->data1 == KEY_LEFTARROW)
     {
         if (castrot == 7)
