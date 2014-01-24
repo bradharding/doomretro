@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>doomretro</ProjectName>
+    <ProjectGuid>{8B744A3B-8F18-41A0-85A3-293816E85B6E}</ProjectGuid>
+    <RootNamespace>DoomEngine</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <UseOfAtl>false</UseOfAtl>
+    <UseOfMfc>false</UseOfMfc>
+    <PlatformToolset>v90</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v90</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Brad\Desktop\Doom Project\msvc\SDL_mixer-1.2.11\include;C:\Users\Brad\Desktop\Doom Project\msvc\SDL_net-1.2.7\include;C:\Users\Brad\Desktop\Doom Project\msvc\SDL-1.2.14\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\Brad\Desktop\Doom Project\msvc\SDL_mixer-1.2.11\lib;C:\Users\Brad\Desktop\Doom Project\msvc\SDL_net-1.2.7\lib;C:\Users\Brad\Desktop\Doom Project\msvc\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">\SDL\SDL-1.2.15\include;\SDL\SDL_net-1.2.8\include;\SDL\SDL_mixer-1.2.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">\SDL\SDL-1.2.15\lib\x86;\SDL\SDL_net-1.2.8\lib\x86;\SDL\SDL_mixer-1.2.12\lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">doomretro</TargetName>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\src;..\setup;..\textscreen;..\pcsound;..\msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ExpandAttributedSource>true</ExpandAttributedSource>
+      <AssemblerOutput>All</AssemblerOutput>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL.lib;SDL_mixer.lib;SDL_net.lib;SDLmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)doom.exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <ResourceCompile>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\src;..\setup;..\textscreen;..\pcsound;..\msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_BIND_TO_CURRENT_VCLIBS_VERSION=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <MultiProcessorCompilation>
+      </MultiProcessorCompilation>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <MinimalRebuild>true</MinimalRebuild>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL.lib;SDL_mixer.lib;SDL_net.lib;SDLmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)doomretro.exe</OutputFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TurnOffAssemblyGeneration>false</TurnOffAssemblyGeneration>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
+      <ShowProgress>NotSet</ShowProgress>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="..\src\doomdata.h" />
+    <CustomBuildStep Include="..\src\doomdef.h" />
+    <CustomBuildStep Include="..\src\doomfeatures.h" />
+    <CustomBuildStep Include="..\src\doomkeys.h" />
+    <CustomBuildStep Include="..\src\doomstat.h" />
+    <CustomBuildStep Include="..\src\doomtype.h" />
+    <CustomBuildStep Include="..\src\dstrings.h" />
+    <CustomBuildStep Include="..\src\info.h" />
+    <CustomBuildStep Include="..\src\md5.h" />
+    <CustomBuildStep Include="..\src\memio.h" />
+    <CustomBuildStep Include="..\src\mus2mid.h" />
+    <CustomBuildStep Include="..\src\sounds.h" />
+    <CustomBuildStep Include="..\src\tables.h" />
+    <CustomBuildStep Include="..\src\am_map.h" />
+    <CustomBuildStep Include="..\src\d_englsh.h" />
+    <CustomBuildStep Include="..\src\d_event.h" />
+    <CustomBuildStep Include="..\src\d_items.h" />
+    <CustomBuildStep Include="..\src\d_iwad.h" />
+    <CustomBuildStep Include="..\src\d_main.h" />
+    <CustomBuildStep Include="..\src\d_net.h" />
+    <CustomBuildStep Include="..\src\d_player.h" />
+    <CustomBuildStep Include="..\src\d_textur.h" />
+    <CustomBuildStep Include="..\src\d_think.h" />
+    <CustomBuildStep Include="..\src\d_ticcmd.h" />
+    <CustomBuildStep Include="..\src\deh_defs.h" />
+    <CustomBuildStep Include="..\src\deh_io.h" />
+    <CustomBuildStep Include="..\src\deh_main.h" />
+    <CustomBuildStep Include="..\src\deh_mapping.h" />
+    <CustomBuildStep Include="..\src\deh_misc.h" />
+    <CustomBuildStep Include="..\src\f_finale.h" />
+    <CustomBuildStep Include="..\src\f_wipe.h" />
+    <CustomBuildStep Include="..\src\g_game.h" />
+    <CustomBuildStep Include="..\src\hu_lib.h" />
+    <CustomBuildStep Include="..\src\hu_stuff.h" />
+    <CustomBuildStep Include="..\src\i_joystick.h" />
+    <CustomBuildStep Include="..\src\i_scale.h" />
+    <CustomBuildStep Include="..\src\i_swap.h" />
+    <CustomBuildStep Include="..\src\i_system.h" />
+    <CustomBuildStep Include="..\src\i_timer.h" />
+    <CustomBuildStep Include="..\src\i_video.h" />
+    <CustomBuildStep Include="..\src\m_argv.h" />
+    <CustomBuildStep Include="..\src\m_bbox.h" />
+    <CustomBuildStep Include="..\src\m_cheat.h" />
+    <CustomBuildStep Include="..\src\m_config.h" />
+    <CustomBuildStep Include="..\src\m_fixed.h" />
+    <CustomBuildStep Include="..\src\m_menu.h" />
+    <CustomBuildStep Include="..\src\m_misc.h" />
+    <CustomBuildStep Include="..\src\m_random.h" />
+    <CustomBuildStep Include="..\src\net_client.h" />
+    <CustomBuildStep Include="..\src\net_common.h" />
+    <CustomBuildStep Include="..\src\net_dedicated.h" />
+    <CustomBuildStep Include="..\src\net_defs.h" />
+    <CustomBuildStep Include="..\src\net_gui.h" />
+    <CustomBuildStep Include="..\src\net_io.h" />
+    <CustomBuildStep Include="..\src\net_loop.h" />
+    <CustomBuildStep Include="..\src\net_packet.h" />
+    <CustomBuildStep Include="..\src\net_query.h" />
+    <CustomBuildStep Include="..\src\net_sdl.h" />
+    <CustomBuildStep Include="..\src\net_server.h" />
+    <CustomBuildStep Include="..\src\net_structrw.h" />
+    <CustomBuildStep Include="..\src\p_inter.h" />
+    <CustomBuildStep Include="..\src\p_local.h" />
+    <CustomBuildStep Include="..\src\p_mobj.h" />
+    <CustomBuildStep Include="..\src\p_pspr.h" />
+    <CustomBuildStep Include="..\src\p_saveg.h" />
+    <CustomBuildStep Include="..\src\p_setup.h" />
+    <CustomBuildStep Include="..\src\p_spec.h" />
+    <CustomBuildStep Include="..\src\p_tick.h" />
+    <CustomBuildStep Include="..\src\r_bsp.h" />
+    <CustomBuildStep Include="..\src\r_data.h" />
+    <CustomBuildStep Include="..\src\r_defs.h" />
+    <CustomBuildStep Include="..\src\r_draw.h" />
+    <CustomBuildStep Include="..\src\r_local.h" />
+    <CustomBuildStep Include="..\src\r_main.h" />
+    <CustomBuildStep Include="..\src\r_plane.h" />
+    <CustomBuildStep Include="..\src\r_segs.h" />
+    <CustomBuildStep Include="..\src\r_sky.h" />
+    <CustomBuildStep Include="..\src\r_state.h" />
+    <CustomBuildStep Include="..\src\r_things.h" />
+    <CustomBuildStep Include="..\src\s_sound.h" />
+    <CustomBuildStep Include="..\src\st_lib.h" />
+    <CustomBuildStep Include="..\src\st_stuff.h" />
+    <CustomBuildStep Include="..\src\v_video.h" />
+    <CustomBuildStep Include="..\src\w_checksum.h" />
+    <CustomBuildStep Include="..\src\w_file.h" />
+    <CustomBuildStep Include="..\src\w_merge.h" />
+    <CustomBuildStep Include="..\src\w_wad.h" />
+    <CustomBuildStep Include="..\src\wi_stuff.h" />
+    <CustomBuildStep Include="..\src\z_zone.h" />
+    <ClInclude Include="..\src\am_map.h" />
+    <ClInclude Include="..\src\doomdata.h" />
+    <ClInclude Include="..\src\doomdef.h" />
+    <ClInclude Include="..\src\doomkeys.h" />
+    <ClInclude Include="..\src\doomstat.h" />
+    <ClInclude Include="..\src\doomtype.h" />
+    <ClInclude Include="..\src\dstrings.h" />
+    <ClInclude Include="..\src\d_englsh.h" />
+    <ClInclude Include="..\src\d_event.h" />
+    <ClInclude Include="..\src\d_items.h" />
+    <ClInclude Include="..\src\d_iwad.h" />
+    <ClInclude Include="..\src\d_main.h" />
+    <ClInclude Include="..\src\d_net.h" />
+    <ClInclude Include="..\src\d_player.h" />
+    <ClInclude Include="..\src\d_textur.h" />
+    <ClInclude Include="..\src\d_think.h" />
+    <ClInclude Include="..\src\d_ticcmd.h" />
+    <ClInclude Include="..\src\f_finale.h" />
+    <ClInclude Include="..\src\f_wipe.h" />
+    <ClInclude Include="..\src\g_game.h" />
+    <ClInclude Include="..\src\hu_lib.h" />
+    <ClInclude Include="..\src\hu_stuff.h" />
+    <ClInclude Include="..\src\info.h" />
+    <ClInclude Include="..\src\inttypes.h" />
+    <ClInclude Include="..\src\i_gamepad.h" />
+    <ClInclude Include="..\src\i_tinttab.h" />
+    <ClInclude Include="..\src\i_swap.h" />
+    <ClInclude Include="..\src\i_system.h" />
+    <ClInclude Include="..\src\i_timer.h" />
+    <ClInclude Include="..\src\i_video.h" />
+    <ClInclude Include="..\src\memio.h" />
+    <ClInclude Include="..\src\midifile.h" />
+    <ClInclude Include="..\src\mus2mid.h" />
+    <ClInclude Include="..\src\m_argv.h" />
+    <ClInclude Include="..\src\m_bbox.h" />
+    <ClInclude Include="..\src\m_cheat.h" />
+    <ClInclude Include="..\src\m_config.h" />
+    <ClInclude Include="..\src\m_fixed.h" />
+    <ClInclude Include="..\src\m_menu.h" />
+    <ClInclude Include="..\src\m_misc.h" />
+    <ClInclude Include="..\src\m_random.h" />
+    <ClInclude Include="..\src\p_fix.h" />
+    <ClInclude Include="..\src\p_inter.h" />
+    <ClInclude Include="..\src\p_local.h" />
+    <ClInclude Include="..\src\p_mobj.h" />
+    <ClInclude Include="..\src\p_pspr.h" />
+    <ClInclude Include="..\src\p_saveg.h" />
+    <ClInclude Include="..\src\p_setup.h" />
+    <ClInclude Include="..\src\p_spec.h" />
+    <ClInclude Include="..\src\p_tick.h" />
+    <ClInclude Include="..\src\r_bsp.h" />
+    <ClInclude Include="..\src\r_data.h" />
+    <ClInclude Include="..\src\r_defs.h" />
+    <ClInclude Include="..\src\r_draw.h" />
+    <ClInclude Include="..\src\r_local.h" />
+    <ClInclude Include="..\src\r_main.h" />
+    <ClInclude Include="..\src\r_plane.h" />
+    <ClInclude Include="..\src\r_segs.h" />
+    <ClInclude Include="..\src\r_sky.h" />
+    <ClInclude Include="..\src\r_state.h" />
+    <ClInclude Include="..\src\r_things.h" />
+    <ClInclude Include="..\src\sounds.h" />
+    <ClInclude Include="..\src\st_lib.h" />
+    <ClInclude Include="..\src\st_stuff.h" />
+    <ClInclude Include="..\src\s_sound.h" />
+    <ClInclude Include="..\src\tables.h" />
+    <ClInclude Include="..\src\v_data.h" />
+    <ClInclude Include="..\src\v_video.h" />
+    <ClInclude Include="..\src\wi_stuff.h" />
+    <ClInclude Include="..\src\w_file.h" />
+    <ClInclude Include="..\src\w_merge.h" />
+    <ClInclude Include="..\src\w_wad.h" />
+    <ClInclude Include="..\src\z_zone.h" />
+    <ClInclude Include="stdint.h" />
+    <CustomBuildStep Include="..\pcsound\pcsound.h" />
+    <CustomBuildStep Include="..\pcsound\pcsound_internal.h" />
+    <CustomBuildStep Include="..\textscreen\textscreen.h" />
+    <CustomBuildStep Include="..\textscreen\txt_button.h" />
+    <CustomBuildStep Include="..\textscreen\txt_checkbox.h" />
+    <CustomBuildStep Include="..\textscreen\txt_desktop.h" />
+    <CustomBuildStep Include="..\textscreen\txt_dropdown.h" />
+    <CustomBuildStep Include="..\textscreen\txt_font.h" />
+    <CustomBuildStep Include="..\textscreen\txt_gui.h" />
+    <CustomBuildStep Include="..\textscreen\txt_inputbox.h" />
+    <CustomBuildStep Include="..\textscreen\txt_io.h" />
+    <CustomBuildStep Include="..\textscreen\txt_label.h" />
+    <CustomBuildStep Include="..\textscreen\txt_main.h" />
+    <CustomBuildStep Include="..\textscreen\txt_radiobutton.h" />
+    <CustomBuildStep Include="..\textscreen\txt_sdl.h">
+      <Inputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Inputs>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\textscreen\txt_separator.h" />
+    <CustomBuildStep Include="..\textscreen\txt_spinctrl.h" />
+    <CustomBuildStep Include="..\textscreen\txt_strut.h" />
+    <CustomBuildStep Include="..\textscreen\txt_table.h" />
+    <CustomBuildStep Include="..\textscreen\txt_widget.h" />
+    <CustomBuildStep Include="..\textscreen\txt_window.h" />
+    <CustomBuildStep Include="..\textscreen\txt_window_action.h" />
+    <CustomBuildStep Include="..\setup\compatibility.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\configfile.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\display.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\execute.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\joystick.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\keyboard.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\m_argv.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\mouse.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\multiplayer.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\sound.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\txt_joybinput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\txt_keyinput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\setup\txt_mouseinput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\textscreen\txt_scrollpane.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\doomstat.c" />
+    <ClCompile Include="..\src\dstrings.c" />
+    <ClCompile Include="..\src\info.c" />
+    <ClCompile Include="..\src\memio.c" />
+    <ClCompile Include="..\src\midifile.c" />
+    <ClCompile Include="..\src\mus2mid.c" />
+    <ClCompile Include="..\src\p_fix.c" />
+    <ClCompile Include="..\src\sounds.c" />
+    <ClCompile Include="..\src\tables.c" />
+    <ClCompile Include="..\src\am_map.c" />
+    <ClCompile Include="..\src\d_items.c" />
+    <ClCompile Include="..\src\d_iwad.c" />
+    <ClCompile Include="..\src\d_main.c" />
+    <ClCompile Include="..\src\d_net.c" />
+    <ClCompile Include="..\src\f_finale.c" />
+    <ClCompile Include="..\src\f_wipe.c" />
+    <ClCompile Include="..\src\g_game.c" />
+    <ClCompile Include="..\src\hu_lib.c" />
+    <ClCompile Include="..\src\hu_stuff.c" />
+    <ClCompile Include="..\src\i_gamepad.c" />
+    <ClCompile Include="..\src\i_main.c" />
+    <ClCompile Include="..\src\i_tinttab.c" />
+    <ClCompile Include="..\src\i_sdlmusic.c" />
+    <ClCompile Include="..\src\i_sdlsound.c" />
+    <ClCompile Include="..\src\i_system.c" />
+    <ClCompile Include="..\src\i_timer.c" />
+    <ClCompile Include="..\src\i_video.c" />
+    <ClCompile Include="..\src\m_argv.c" />
+    <ClCompile Include="..\src\m_bbox.c" />
+    <ClCompile Include="..\src\m_cheat.c" />
+    <ClCompile Include="..\src\m_config.c" />
+    <ClCompile Include="..\src\m_fixed.c" />
+    <ClCompile Include="..\src\m_menu.c" />
+    <ClCompile Include="..\src\m_misc.c" />
+    <ClCompile Include="..\src\m_random.c" />
+    <ClCompile Include="..\src\p_ceilng.c" />
+    <ClCompile Include="..\src\p_doors.c" />
+    <ClCompile Include="..\src\p_enemy.c" />
+    <ClCompile Include="..\src\p_floor.c" />
+    <ClCompile Include="..\src\p_inter.c" />
+    <ClCompile Include="..\src\p_lights.c" />
+    <ClCompile Include="..\src\p_map.c" />
+    <ClCompile Include="..\src\p_maputl.c" />
+    <ClCompile Include="..\src\p_mobj.c" />
+    <ClCompile Include="..\src\p_plats.c" />
+    <ClCompile Include="..\src\p_pspr.c" />
+    <ClCompile Include="..\src\p_saveg.c" />
+    <ClCompile Include="..\src\p_setup.c" />
+    <ClCompile Include="..\src\p_sight.c" />
+    <ClCompile Include="..\src\p_spec.c" />
+    <ClCompile Include="..\src\p_switch.c" />
+    <ClCompile Include="..\src\p_telept.c" />
+    <ClCompile Include="..\src\p_tick.c" />
+    <ClCompile Include="..\src\p_user.c" />
+    <ClCompile Include="..\src\r_bsp.c" />
+    <ClCompile Include="..\src\r_data.c" />
+    <ClCompile Include="..\src\r_draw.c" />
+    <ClCompile Include="..\src\r_main.c" />
+    <ClCompile Include="..\src\r_plane.c" />
+    <ClCompile Include="..\src\r_segs.c" />
+    <ClCompile Include="..\src\r_sky.c" />
+    <ClCompile Include="..\src\r_things.c" />
+    <ClCompile Include="..\src\s_sound.c" />
+    <ClCompile Include="..\src\st_lib.c" />
+    <ClCompile Include="..\src\st_stuff.c" />
+    <ClCompile Include="..\src\v_data.c" />
+    <ClCompile Include="..\src\v_video.c" />
+    <ClCompile Include="..\src\w_file.c" />
+    <ClCompile Include="..\src\w_merge.c" />
+    <ClCompile Include="..\src\w_wad.c" />
+    <ClCompile Include="..\src\wi_stuff.c" />
+    <ClCompile Include="..\src\z_zone.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\win32.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\manifest.xml" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

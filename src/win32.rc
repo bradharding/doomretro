@@ -1,0 +1,57 @@
+/*
+====================================================================
+
+DOOM RETRO
+A classic, refined DOOM source port. For Windows PC.
+
+Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright © 2005-2014 Simon Howard.
+Copyright © 2013-2014 Brad Harding.
+
+This file is part of DOOM RETRO.
+
+DOOM RETRO is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+DOOM RETRO is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
+
+====================================================================
+*/
+
+0 ICON DISCARDABLE "../icons/doomretro.ico"
+doom ICON DISCARDABLE "../icons/doom.ico"
+doom2 ICON DISCARDABLE "../icons/doom2.ico"
+
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "manifest.xml"
+
+1 VERSIONINFO
+PRODUCTVERSION 1,1,0,0
+FILEVERSION 1,1,0,0
+FILETYPE 1
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "FileVersion", "1.1"
+            VALUE "FileDescription", "DOOM RETRO"
+            VALUE "InternalName", "doomretro"
+            VALUE "CompanyName", "brad@doomretro.com"
+            VALUE "LegalCopyright", "© 2013-2014 Brad Harding. All rights reserved."
+            VALUE "ProductName", "DOOM RETRO"
+            VALUE "ProductVersion", "1.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
