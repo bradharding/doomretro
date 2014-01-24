@@ -46,6 +46,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "doomstat.h"
 #include "r_state.h"
 
+#include "i_gamepad.h"
+
 typedef enum
 {
     F_STAGE_TEXT,
@@ -521,29 +523,32 @@ boolean F_CastResponder(event_t *ev)
     if (ev->type == ev_mouse && !(ev->data1 & 1))
         return false;
 
-    if (ev->type == ev_gamepad && !(ev->data1 & 2048) && !(ev->data1 & 4096))
+    if (ev->type == ev_gamepad 
+        && !(ev->data1 & GAMEPAD_RIGHT_TRIGGER) && !(ev->data1 & GAMEPAD_A))
         return false;
-
-    // rotate (taken from Eternity Engine)
-    if (ev->data1 == KEY_LEFTARROW)
-    {
-        if (castrot == 7)
-            castrot = 0;
-        else
-            ++castrot;
-        return true;
-    }
-    if (ev->data1 == KEY_RIGHTARROW)
-    {
-        if (castrot == 0)
-            castrot = 7;
-        else
-            --castrot;
-        return true;
-    }
 
     if (castdeath)
         return true;                    // already in dying frames
+    else
+    {
+        // rotate (taken from Eternity Engine)
+        if (ev->data1 == KEY_LEFTARROW)
+        {
+            if (castrot == 7)
+                castrot = 0;
+            else
+                ++castrot;
+            return true;
+        }
+        if (ev->data1 == KEY_RIGHTARROW)
+        {
+            if (castrot == 0)
+                castrot = 7;
+            else
+                --castrot;
+            return true;
+        }
+    }
 
     S_StartSound(players[consoleplayer].mo, sfx_dshtgn);
 
