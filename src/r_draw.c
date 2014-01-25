@@ -127,6 +127,8 @@ boolean                 dc_bottomsparkle;
 // first pixel in a column (possibly virtual)
 byte                    *dc_source;
 
+extern boolean skipcolor71;
+
 //
 // A column is a vertical slice/span from a wall texture that,
 //  given the DOOM style restrictions on the view orientation,
@@ -153,6 +155,7 @@ void R_DrawColumn(void)
     frac = dc_texturefrac;
 
     {
+        register byte               dot;
         register const byte         *source = dc_source;
         register const lighttable_t *colormap = dc_colormap;
 
@@ -163,11 +166,15 @@ void R_DrawColumn(void)
         {
             // Re-map color indices from wall texture column
             //  using a lighting/special effects LUT.
-            *dest = colormap[source[frac >> FRACBITS]];
+            dot = source[frac >> FRACBITS];
+            if (!skipcolor71 || (skipcolor71 && dot != 71))
+                *dest = colormap[dot];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        *dest = colormap[source[frac >> FRACBITS]];
+        dot = source[frac >> FRACBITS];
+        if (!skipcolor71 || (skipcolor71 && dot != 71))
+            *dest = colormap[dot];
     }
 }
 
@@ -666,8 +673,6 @@ void R_DrawTranslucentRedColumn(void)
     }
 }
 
-extern boolean skipcolor71;
-
 void R_DrawTranslucentRedWhiteColumn(void)
 {
     register int32_t            count = dc_yh - dc_yl;
@@ -683,21 +688,16 @@ void R_DrawTranslucentRedWhiteColumn(void)
     frac = dc_texturefrac;
 
     {
-        register byte                   dot;
         register const byte             *source = dc_source;
         register const lighttable_t     *colormap = dc_colormap;
 
         while (--count)
         {
-            dot = source[frac >> FRACBITS];
-            if (!skipcolor71 || (skipcolor71 && dot != 71))
-                *dest = colormap[tinttabredwhite[(*dest << 8) + dot]];
+            *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        dot = source[frac >> FRACBITS];
-        if (!skipcolor71 || (skipcolor71 && dot != 71))
-            *dest = colormap[tinttabredwhite[(*dest << 8) + dot]];
+        *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
     }
 }
 
