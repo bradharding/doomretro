@@ -1494,8 +1494,7 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
         || newmobj->z > newmobj->subsector->sector->ceilingheight - newmobj->height
         || newmobj->z < newmobj->subsector->sector->floorheight)
     {
-        // kill it immediately
-        P_DamageMobj(newmobj, actor, actor, 10000);
+        P_RemoveMobj(newmobj);
         return;
     }
 
