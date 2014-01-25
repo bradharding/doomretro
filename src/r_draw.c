@@ -143,38 +143,43 @@ void R_DrawColumn(void)
     register fixed_t            frac;
     register const fixed_t      fracstep = dc_iscale;
 
-    // Zero length, column does not exceed a pixel.
     if (count++ < 0)
         return;
 
-    // Framebuffer destination address.
-    // Use ylookup LUT to avoid multiply with ScreenWidth.
-    // Use columnofs LUT for subwindows?
     dest = ylookup[dc_yl] + columnofs[dc_x];
 
     frac = dc_texturefrac;
 
+    if (skipcolor71)
     {
         register byte               dot;
         register const byte         *source = dc_source;
         register const lighttable_t *colormap = dc_colormap;
 
-        // Inner loop that does the actual texture mapping,
-        //  e.g. a DDA-lile scaling.
-        // This is as fast as it gets.
         while (--count)
         {
-            // Re-map color indices from wall texture column
-            //  using a lighting/special effects LUT.
             dot = source[frac >> FRACBITS];
-            if (!skipcolor71 || (skipcolor71 && dot != 71))
+            if (dot != 71)
                 *dest = colormap[dot];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
         dot = source[frac >> FRACBITS];
-        if (!skipcolor71 || (skipcolor71 && dot != 71))
+        if (dot != 71)
             *dest = colormap[dot];
+    }
+    else
+    {
+        register const byte         *source = dc_source;
+        register const lighttable_t *colormap = dc_colormap;
+
+        while (--count)
+        {
+            *dest = colormap[source[frac >> FRACBITS]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+        }
+        *dest = colormap[source[frac >> FRACBITS]];
     }
 }
 
