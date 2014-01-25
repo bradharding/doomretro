@@ -81,6 +81,7 @@ spriteframe_t           sprtemp[29];
 int                     maxframe;
 char                    *spritename;
 
+extern int screenblocks;
 
 
 
@@ -795,7 +796,7 @@ void R_DrawPSprite(pspdef_t *psp)
     if (flash)
         vis->mobjflags2 |= flags2[psp->state->sprite];
 
-    R_DrawVisSprite(vis, vis->x1, vis->x2, true);
+    R_DrawVisSprite(vis, vis->x1, vis->x2, screenblocks >= 10);
 }
 
 
