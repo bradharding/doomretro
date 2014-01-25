@@ -643,9 +643,11 @@ void F_CastDrawer(void)
 
     patch = (patch_t *)W_CacheLumpNum(lump + firstspritelump, PU_CACHE);
 
+    patch->topoffset = spritetopoffset[lump] >> FRACBITS;
+
     if (flip)
     {
-        patch->leftoffset = ((spritewidth[lump] - spriteoffset[lump]) >> FRACBITS);
+        patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
         if (castorder[castnum].type == MT_SKULL
             || (castorder[castnum].type == MT_PAIN && castdeath))
@@ -657,7 +659,7 @@ void F_CastDrawer(void)
     }
     else
     {
-        patch->leftoffset = (spriteoffset[lump] >> FRACBITS);
+        patch->leftoffset = spriteoffset[lump] >> FRACBITS;
 
         if (castorder[castnum].type == MT_SKULL
             || (castorder[castnum].type == MT_PAIN && castdeath))
