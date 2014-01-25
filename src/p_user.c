@@ -41,6 +41,8 @@ extern int      vibrationtics;
 extern int      followplayer;
 extern boolean  oldweaponsowned[];
 
+void G_RemoveChoppers(void);
+
 
 
 //
@@ -381,6 +383,9 @@ void P_PlayerThink(player_t *player)
                 player->pendingweapon = newweapon;
             //}
         }
+
+        if ((player->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
+            G_RemoveChoppers();
     }
 
     // check for use

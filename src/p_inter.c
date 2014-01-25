@@ -184,6 +184,9 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
             P_GiveAmmo(player, weaponinfo[weapon].ammo, 2);
         player->pendingweapon = weapon;
 
+        if ((player->cheats & CF_CHOPPERS) && weapon != wp_chainsaw)
+            G_RemoveChoppers();
+
         if (player == &players[consoleplayer])
             S_StartSound(player->mo, sfx_wpnup);
         return false;

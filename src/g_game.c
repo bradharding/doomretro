@@ -26,6 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <math.h>
 #include <string.h>
 #include <stdlib.h>
 #include <Windows.h>
@@ -574,6 +575,19 @@ struct
     { wp_shotgun,      /* wp_supershotgun */ wp_chaingun,     am_shell,  2  }
 };
 
+void G_RemoveChoppers(void)
+{
+    player_t *player = &players[consoleplayer];
+
+    player->cheats &= ~CF_CHOPPERS;
+    if (player->invulnbeforechoppers)
+        player->powers[pw_invulnerability] = player->invulnbeforechoppers;
+    else
+        player->powers[pw_invulnerability] = STARTFLASHING;
+    player->weaponowned[wp_chainsaw] = player->chainsawbeforechoppers;
+    oldweaponsowned[wp_chainsaw] = player->chainsawbeforechoppers;
+}
+
 void NextWeapon(void)
 {
     player_t *player = &players[consoleplayer];
@@ -589,6 +603,9 @@ void NextWeapon(void)
 
     if (i != player->readyweapon)
         player->pendingweapon = i;
+
+    if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
+        G_RemoveChoppers();
 }
 
 void PrevWeapon(void)
@@ -606,6 +623,9 @@ void PrevWeapon(void)
 
     if (i != player->readyweapon)
         player->pendingweapon = i;
+
+    if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
+        G_RemoveChoppers();
 }
 
 //
@@ -2130,7 +2150,7 @@ void G_DoPlayDemo(void)
                          DemoVersionDescription(demoversion));
     }
 
-    skill = *demo_p++;
+    skill = (skill_t)*demo_p++;
     episode = *demo_p++;
     map = *demo_p++;
     deathmatch = *demo_p++;

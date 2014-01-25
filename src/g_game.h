@@ -95,4 +95,5 @@ extern int      keydown;
 extern int      markpointnum;
 extern int      quickSaveSlot;
 extern int      st_facecount;
+extern boolean  oldweaponsowned[NUMWEAPONS];
 #endif
