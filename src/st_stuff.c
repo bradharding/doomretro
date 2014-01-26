@@ -1199,7 +1199,7 @@ boolean ST_Responder(event_t *ev)
             if (cht_CheckCheat(&cheat_clev_xy, ev->data2))
             {
                 char   buf[3];
-                char   lump[5];
+                char   lump[6];
                 int    epsd;
                 int    map;
 
