@@ -313,11 +313,14 @@ boolean W_CheckMultipleLumps(char* name)
 int W_RangeCheckNumForName(int min, int max, char *name)
 {
     int i;
+
     for (i = min; i <= max; i++)
-        if (!strncasecmp (lumpinfo[i].name, name, 8))
+        if (!strncasecmp(lumpinfo[i].name, name, 8))
             return i;
 
-    I_Error ("W_RangeCheckNumForName: %s not found!", name);
+    I_Error("W_RangeCheckNumForName: %s not found!", name);
+
+    return 0;
 }
 
 

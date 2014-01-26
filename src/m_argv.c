@@ -99,7 +99,7 @@ static void LoadResponseFile(int argv_index)
 
     file = (char *)malloc(size + 1);
 
-    if (fread(file, 1, size, handle) < size)
+    if (fread(file, 1, size, handle) < (unsigned)size)
     {
         I_Error("Failed to read entire response file");
     }
@@ -108,7 +108,7 @@ static void LoadResponseFile(int argv_index)
 
     // Create new arguments list array
 
-    newargv = malloc(sizeof(char *) * MAXARGVS);
+    newargv = (char **)malloc(sizeof(char *) * MAXARGVS);
     newargc = 0;
     memset(newargv, 0, sizeof(char *) * MAXARGVS);
 
@@ -123,7 +123,7 @@ static void LoadResponseFile(int argv_index)
     infile = file;
     k = 0;
 
-    while(k < size)
+    while (k < size)
     {
         // Skip past space characters to the next argument
 
