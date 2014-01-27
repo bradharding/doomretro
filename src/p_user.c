@@ -181,10 +181,11 @@ void P_MovePlayer(player_t *player)
 
 void P_DeathThink(player_t *player)
 {
-    angle_t     angle;
-    angle_t     delta;
-    Uint8       *keystate = SDL_GetKeyState(NULL);
-    static int  count = 0;
+    angle_t             angle;
+    angle_t             delta;
+    Uint8               *keystate = SDL_GetKeyState(NULL);
+    static int          count = 0;
+    static boolean      facingkiller = false;
 
     P_MovePsprites(player);
 
@@ -201,7 +202,8 @@ void P_DeathThink(player_t *player)
     }
     P_CalcHeight(player);
 
-    if (player->attacker && player->attacker != player->mo)
+    if (player->attacker && player->attacker != player->mo
+        && !facingkiller)
     {
         angle = R_PointToAngle2(player->mo->x,
                                 player->mo->y,
@@ -218,6 +220,8 @@ void P_DeathThink(player_t *player)
 
             if (player->damagecount > 0)
                 player->damagecount--;
+
+            facingkiller = true;
         }
         else if (delta < ANG180)
             player->mo->angle += ANG5;
@@ -236,6 +240,7 @@ void P_DeathThink(player_t *player)
         count = 0;
         vibrationtics = 1;
         player->playerstate = PST_REBORN;
+        facingkiller = false;
     }
     else
         count++;
