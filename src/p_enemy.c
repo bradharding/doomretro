@@ -561,14 +561,11 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
         if (player->health <= 0)
             continue;           // dead
 
-        dist = P_ApproxDistance(player->mo->x - actor->x,
-                                player->mo->y - actor->y);
-        if (player->powers[pw_invisibility]
-            && dist > MELEERANGE * 2)
-            continue;
-
         if (!P_CheckSight(actor, player->mo))
             continue;           // out of sight
+
+        dist = P_ApproxDistance(player->mo->x - actor->x,
+                                player->mo->y - actor->y);
 
         if (!allaround)
         {
@@ -583,6 +580,22 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
                 // if real close, react anyway
                 if (dist > MELEERANGE)
                     continue;   // behind back
+            }
+        }
+
+        if (player->mo->flags & MF_SHADOW)
+        {
+            // player is invisible
+            if (dist > 2 * MELEERANGE
+                && P_ApproxDistance(player->mo->momx, player->mo->momy) < 5 * FRACUNIT)
+            {                   
+                // player is sneaking - can't detect
+                return false;
+            }
+            if (P_Random() < 225)
+            {                   
+                // player isn't sneaking, but still didn't detect
+                return false;
             }
         }
 
