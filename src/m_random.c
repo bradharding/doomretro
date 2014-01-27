@@ -76,7 +76,7 @@ int M_Random(void)
 
 int M_RandomInt(int lower, int upper)
 {
-    return (rand() % (upper + 1) + lower);
+    return (rand() % (upper - lower + 1) + lower);
 }
 
 void M_ClearRandom (void)
