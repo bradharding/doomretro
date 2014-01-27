@@ -54,11 +54,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Locally used constants, shortcuts.
 //
 #define HU_TITLE        (mapnames[(gameepisode - 1) * 9 + gamemap - 1][doom])
-#define HU_TITLE2       (mapnames[gamemap-1][doom2])
-#define HU_TITLEP       (mapnames[gamemap-1][pack_plut])
-#define HU_TITLET       (mapnames[gamemap-1][pack_tnt])
-#define HU_TITLEN       (mapnames[gamemap-1][pack_nerve])
-#define HU_TITLE2B      (mapnames[gamemap-1][doom2bfg])
+#define HU_TITLE2       (mapnames[gamemap - 1][doom2])
+#define HU_TITLEP       (mapnames[gamemap - 1][pack_plut])
+#define HU_TITLET       (mapnames[gamemap - 1][pack_tnt])
+#define HU_TITLEN       (mapnames[gamemap - 1][pack_nerve])
+#define HU_TITLE2B      (mapnames[gamemap - 1][doom2bfg])
 #define HU_TITLEHEIGHT  1
 #define HU_TITLEX       0
 #define HU_TITLEY       ((SCREENHEIGHT - SBARHEIGHT) / SCREENSCALE - SHORT(hu_font[0]->height) - 2)

@@ -208,7 +208,7 @@ angle_t R_PointToAngle(fixed_t x, fixed_t y)
     {
         oldx = x;
         oldy = y;
-        oldresult = (int)((float)atan2(y, x) * (ANG180 / M_PI));
+        oldresult = (int)(atan2((float)y, (float)x) * (ANG180 / M_PI));
     }
     return oldresult;
 }
@@ -377,7 +377,7 @@ void R_InitLightTables(void)
         for (j = 0; j < MAXLIGHTZ; j++)
         {
             int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT);
-            int level = startmap - (scale >> LIGHTSCALESHIFT)/DISTMAP;
+            int level = startmap - (scale >> LIGHTSCALESHIFT) / DISTMAP;
 
             if (level < 0)
                 level = 0;
@@ -502,7 +502,7 @@ void R_ExecuteSetViewSize(void)
     for (i = 0; i < LIGHTLEVELS; i++)
     {
         startmap = ((LIGHTLEVELS - 1 - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
-        for (j=0 ; j<MAXLIGHTSCALE ; j++)
+        for (j=0 ; j < MAXLIGHTSCALE ; j++)
         {
             level = startmap - j * SCREENWIDTH / (viewwidth * DISTMAP);
 

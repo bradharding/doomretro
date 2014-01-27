@@ -352,7 +352,7 @@ static void R_GenerateComposite(int texnum)
     // killough 4/9/98: Next, convert multipatched columns into true columns,
     // to fix Medusa bug while still allowing for transparent regions.
 
-    source = malloc(texture->height);           // temporary column
+    source = (byte *)malloc(texture->height);           // temporary column
     for (i = 0; i < texture->width; i++)
         if (collump[i] == -1)                   // process only multipatched columns
         {
@@ -431,7 +431,7 @@ static void R_GenerateLookup(int texnum)
     while (--i >= 0)
     {
         int pat = patch->patch;
-        const patch_t *realpatch = W_CacheLumpNum(pat, PU_CACHE);
+        const patch_t *realpatch = (patch_t *)W_CacheLumpNum(pat, PU_CACHE);
         int x, x1 = (patch++)->originx, x2 = x1 + SHORT(realpatch->width);
         const int *cofs = realpatch->columnofs - x1;
 
@@ -467,7 +467,7 @@ static void R_GenerateLookup(int texnum)
         for (i = texture->patchcount, patch = texture->patches; --i >= 0;)
         {
             int pat = patch->patch;
-            const patch_t *realpatch = W_CacheLumpNum(pat, PU_CACHE);
+            const patch_t *realpatch = (patch_t *)W_CacheLumpNum(pat, PU_CACHE);
             int x, x1 = patch++->originx, x2 = x1 + SHORT(realpatch->width);
             const int *cofs = realpatch->columnofs - x1;
 
@@ -605,7 +605,7 @@ static void GenerateTextureHashTable(void)
 // Initializes the texture list
 //  with the textures from the world map.
 //
-void R_InitTextures (void)
+void R_InitTextures(void)
 {
     maptexture_t        *mtexture;
     texture_t           *texture;
@@ -1013,7 +1013,7 @@ void R_PrecacheLevel(void)
         return;
 
     // Precache flats.
-    flatpresent = Z_Malloc(numflats, PU_STATIC, NULL);
+    flatpresent = (char *)Z_Malloc(numflats, PU_STATIC, NULL);
     memset(flatpresent, 0, numflats);
 
     for (i = 0; i < numsectors; i++)
@@ -1037,7 +1037,7 @@ void R_PrecacheLevel(void)
     Z_Free(flatpresent);
 
     // Precache textures.
-    texturepresent = Z_Malloc(numtextures, PU_STATIC, NULL);
+    texturepresent = (char *)Z_Malloc(numtextures, PU_STATIC, NULL);
     memset(texturepresent, 0, numtextures);
 
     for (i = 0; i < numsides; i++)
@@ -1074,7 +1074,7 @@ void R_PrecacheLevel(void)
     Z_Free(texturepresent);
 
     // Precache sprites.
-    spritepresent = Z_Malloc(numsprites, PU_STATIC, NULL);
+    spritepresent = (char *)Z_Malloc(numsprites, PU_STATIC, NULL);
     memset(spritepresent, 0, numsprites);
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)

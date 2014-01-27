@@ -611,33 +611,34 @@ void WI_updateAnimatedBack(void)
         {
             switch (a->type)
             {
-              case ANIM_ALWAYS:
-                if (++a->ctr >= a->nanims)
-                    a->ctr = 0;
-                a->nexttic = bcnt + a->period;
-                break;
+                case ANIM_ALWAYS:
+                    if (++a->ctr >= a->nanims)
+                        a->ctr = 0;
+                    a->nexttic = bcnt + a->period;
+                    break;
 
-              case ANIM_RANDOM:
-                a->ctr++;
-                if (a->ctr == a->nanims)
-                {
-                    a->ctr = -1;
-                    a->nexttic = bcnt + a->data2 + (M_Random() % a->data1);
-                }
-                else a->nexttic = bcnt + a->period;
-                break;
-
-              case ANIM_LEVEL:
-                // gawd-awful hack for level anims
-                if (!(state == StatCount && i == 7)
-                    && wbs->next == a->data1)
-                {
+                case ANIM_RANDOM:
                     a->ctr++;
                     if (a->ctr == a->nanims)
-                        a->ctr--;
-                    a->nexttic = bcnt + a->period;
-                }
-                break;
+                    {
+                        a->ctr = -1;
+                        a->nexttic = bcnt + a->data2 + (M_Random() % a->data1);
+                    }
+                    else 
+                        a->nexttic = bcnt + a->period;
+                    break;
+
+                case ANIM_LEVEL:
+                    // gawd-awful hack for level anims
+                    if (!(state == StatCount && i == 7)
+                        && wbs->next == a->data1)
+                    {
+                        a->ctr++;
+                        if (a->ctr == a->nanims)
+                            a->ctr--;
+                        a->nexttic = bcnt + a->period;
+                    }
+                    break;
             }
         }
 
@@ -842,7 +843,7 @@ void WI_drawShowNextLoc(void)
             return;
         }
 
-        last = ((wbs->last == 8) ? wbs->next - 1 : wbs->last);
+        last = (wbs->last == 8 ? wbs->next - 1 : wbs->last);
 
         // draw a splat on taken cities.
         for (i = 0; i <= last; i++)

@@ -1019,7 +1019,7 @@ void R_DrawMasked(void)
              spr != &vsprsortedhead;
              spr = spr->next)
         {
-            R_DrawSprite (spr);
+            R_DrawSprite(spr);
         }
     }
 

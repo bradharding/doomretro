@@ -474,7 +474,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 
     // Initialise channel map to mark all channels as unused.
 
-    for (channel=0; channel<NUM_CHANNELS; ++channel)
+    for (channel = 0; channel < NUM_CHANNELS; ++channel)
     {
         channel_map[channel] = -1;
     }
@@ -485,17 +485,6 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
     {
         return true;
     }
-
-#ifdef CHECK_MUS_HEADER
-    // Check MUS header
-    if (musfileheader.id[0] != 'M'
-     || musfileheader.id[1] != 'U'
-     || musfileheader.id[2] != 'S'
-     || musfileheader.id[3] != 0x1A)
-    {
-        return true;
-    }
-#endif
 
     // Seek to where the data is held
     if (mem_fseek(musinput, (long)musfileheader.scorestart,
@@ -525,7 +514,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
             }
 
             channel = GetMIDIChannel(eventdescriptor & 0x0F);
-            event = eventdescriptor & 0x70;
+            event = (musevent)(eventdescriptor & 0x70);
 
             switch (event)
             {
@@ -693,4 +682,3 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 
     return false;
 }
-

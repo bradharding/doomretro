@@ -121,19 +121,19 @@ int M_ReadFile(char *name, byte **buffer)
 
     handle = fopen(name, "rb");
     if (handle == NULL)
-        I_Error ("Couldn't read file %s", name);
+        I_Error("Couldn't read file %s", name);
 
     // find the size of the file by seeking to the end and
     // reading the current position
 
     length = M_FileLength(handle);
 
-    buf = Z_Malloc (length, PU_STATIC, NULL);
+    buf = (byte *)Z_Malloc(length, PU_STATIC, NULL);
     count = fread(buf, 1, length, handle);
     fclose (handle);
 
     if (count < length)
-        I_Error ("Couldn't read file %s", name);
+        I_Error("Couldn't read file %s", name);
 
     *buffer = buf;
     return length;
@@ -158,7 +158,7 @@ char *M_TempFile(char *s)
         tempdir = ".";
     }
 
-    result = Z_Malloc(strlen(tempdir) + strlen(s) + 2, PU_STATIC, 0);
+    result = (char *)Z_Malloc(strlen(tempdir) + strlen(s) + 2, PU_STATIC, 0);
     sprintf(result, "%s%c%s", tempdir, DIR_SEPARATOR, s);
 
     return result;
@@ -167,7 +167,7 @@ char *M_TempFile(char *s)
 boolean M_StrToInt(const char *str, int *result)
 {
     return (sscanf(str, " 0x%x", result) == 1
-        || sscanf(str, " 0X%x", result) == 1
-        || sscanf(str, " 0%o", result) == 1
-        || sscanf(str, " %d", result) == 1);
+            || sscanf(str, " 0X%x", result) == 1
+            || sscanf(str, " 0%o", result) == 1
+            || sscanf(str, " %d", result) == 1);
 }

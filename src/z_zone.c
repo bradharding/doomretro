@@ -204,7 +204,7 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
         hightag = PU_CACHE;
     }
 
-    for (; lowtag<=hightag; ++lowtag)
+    for (; lowtag <= hightag; ++lowtag)
     {
         memblock_t *block, *end_block;
         block = blockbytag[lowtag];
@@ -287,7 +287,7 @@ void *Z_Realloc(void *ptr, size_t n, int32_t tag, void **user)
 
 void *Z_Calloc(size_t n1, size_t n2, int32_t tag, void **user)
 {
-    return (n1 *= n2) ? memset(Z_Malloc(n1, tag, user), 0, n1) : NULL;
+    return ((n1 *= n2) ? memset(Z_Malloc(n1, tag, user), 0, n1) : NULL);
 }
 
 char *Z_Strdup(const char *s, int32_t tag, void **user)
