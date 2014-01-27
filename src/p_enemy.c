@@ -271,9 +271,6 @@ boolean P_Move(mobj_t *actor)
 
     int         speed = actor->info->speed;
 
-    // warning: 'catch', 'throw', and 'try'
-    // are all C++ reserved words
-    boolean     try_ok;
     boolean     good;
 
     if (actor->movedir == DI_NODIR)
@@ -282,9 +279,7 @@ boolean P_Move(mobj_t *actor)
     tryx = actor->x + speed * xspeed[actor->movedir];
     tryy = actor->y + speed * yspeed[actor->movedir];
 
-    try_ok = P_TryMove(actor, tryx, tryy);
-
-    if (!try_ok)
+    if (!P_TryMove(actor, tryx, tryy))
     {
         // open any specials
         if ((actor->flags & MF_FLOAT) && floatok)
@@ -480,6 +475,54 @@ void P_NewChaseDir(mobj_t *actor)
 
 
 
+#define MONS_LOOK_RANGE (16*64*FRACUNIT)
+#define MONS_LOOK_LIMIT 64
+
+boolean P_LookForMonsters(mobj_t *actor)
+{
+    int count;
+    mobj_t *mo;
+    thinker_t *think;
+
+    if (!P_CheckSight(players[0].mo, actor))
+    {                           // player can't see monster
+        return false;
+    }
+    count = 0;
+    for (think = thinkercap.next; think != &thinkercap; think = think->next)
+    {
+        if (think->function.acp1 != (actionf_p1)P_MobjThinker)
+        {                       // not a mobj thinker
+            continue;
+        }
+        mo = (mobj_t *) think;
+        if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
+        {                       // not a valid monster
+            continue;
+        }
+        if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > MONS_LOOK_RANGE)
+        {                       // out of range
+            continue;
+        }
+        if (P_Random() < 16)
+        {                       // skip
+            continue;
+        }
+        if (count++ > MONS_LOOK_LIMIT)
+        {                       // stop searching
+            return false;
+        }
+        if (!P_CheckSight(actor, mo))
+        {                       // out of sight
+            continue;
+        }
+        // Found a target monster
+        actor->target = mo;
+        return true;
+    }
+    return false;
+}
+
 //
 // P_LookForPlayers
 // If allaround is false, only look 180 degrees in front.
@@ -493,10 +536,15 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
     angle_t     an;
     fixed_t     dist;
 
+    if (!netgame && players[0].health <= 0)
+    {
+        // player is dead, look for monsters
+        return P_LookForMonsters(actor);
+    }
     c = 0;
-    stop = (actor->lastlook - 1) & 3;
+    stop = (actor->lastlook + MAXPLAYERS - 1) % MAXPLAYERS;
 
-    for (; ; actor->lastlook = (actor->lastlook + 1) & 3)
+    for (; ; actor->lastlook = (actor->lastlook + 1) & MAXPLAYERS)
     {
         if (!playeringame[actor->lastlook])
             continue;
@@ -1491,8 +1539,8 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
     newmobj->flags &= ~MF_COUNTKILL;
 
     if (!P_TryMove(newmobj, newmobj->x, newmobj->y)
-        || newmobj->z > newmobj->subsector->sector->ceilingheight - newmobj->height
-        || newmobj->z < newmobj->subsector->sector->floorheight)
+        /*|| newmobj->z > newmobj->subsector->sector->ceilingheight - newmobj->height
+        || newmobj->z < newmobj->subsector->sector->floorheight*/)
     {
         P_RemoveMobj(newmobj);
         return;
