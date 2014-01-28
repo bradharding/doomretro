@@ -348,6 +348,19 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case S1_SetFloorToLowestNeighbouringFloor:
             if (EV_DoFloor(line, lowerFloorToLowest))
                 P_ChangeSwitchTexture(line, 0);
+
+            if (nomonsters)
+            {
+                if (gamemode == commercial && gamemap == 7)
+                {
+                    line_t      junk;
+
+                    junk.tag = 666;
+                    EV_DoFloor(&junk, lowerFloorToLowest);
+                    junk.tag = 667;
+                    EV_DoFloor(&junk, raiseToTexture);
+                }
+            }
             break;
 
         case S1_OpenDoorWait4SecondsClose:
