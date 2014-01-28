@@ -900,13 +900,18 @@ void ToggleFullScreen(void)
 
         if (screenblocks == 11)
         {
-            dest_rect.x = 1;
-            ToggleWideScreen(true);
-            if (widescreen)
-                screenblocks--;
-            R_SetViewSize(screenblocks);
-            initialized = true;
-            return;
+            if (gamestate != GS_LEVEL)
+                returntowidescreen = true;
+            else
+            {
+                dest_rect.x = 1;
+                ToggleWideScreen(true);
+                if (widescreen)
+                    screenblocks--;
+                R_SetViewSize(screenblocks);
+                initialized = true;
+                return;
+            }
         }
 
         height = screen->h + 1;

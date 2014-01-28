@@ -1483,9 +1483,14 @@ void M_EndGameResponse(int key)
     viewactive = false;
     automapactive = false;
     S_StartSound(NULL, sfx_swtchx);
-    I_WaitVBL(35);
+    I_WaitVBL(1 * TICRATE);
     MainDef.lastOn = 0;
     endinggame = true;
+    if (widescreen)
+    {
+        returntowidescreen = true;
+        ToggleWideScreen(false);
+    }
     D_StartTitle();
 }
 
