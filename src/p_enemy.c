@@ -542,9 +542,9 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
         return P_LookForMonsters(actor);
     }
     c = 0;
-    stop = (actor->lastlook + MAXPLAYERS - 1) % MAXPLAYERS;
+    stop = (actor->lastlook - 1) % 3;
 
-    for (; ; actor->lastlook = (actor->lastlook + 1) & MAXPLAYERS)
+    for (; ; actor->lastlook = (actor->lastlook + 1) & 3)
     {
         if (!playeringame[actor->lastlook])
             continue;
@@ -792,7 +792,6 @@ void A_Chase(mobj_t *actor)
         return;
     }
 
-    // ?
 nomissile:
     // possibly choose another target
     if (netgame
@@ -1551,9 +1550,7 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
 
     newmobj->flags &= ~MF_COUNTKILL;
 
-    if (!P_TryMove(newmobj, newmobj->x, newmobj->y)
-        /*|| newmobj->z > newmobj->subsector->sector->ceilingheight - newmobj->height
-        || newmobj->z < newmobj->subsector->sector->floorheight*/)
+    if (!P_TryMove(newmobj, newmobj->x, newmobj->y))
     {
         P_RemoveMobj(newmobj);
         return;
