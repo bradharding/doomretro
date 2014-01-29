@@ -1463,7 +1463,7 @@ void G_DoCompleted (void)
         sprintf(lump, "MAP%02i", gamemap);
     else
         sprintf(lump, "E%iM%i", gameepisode, gamemap);
-    if (W_CheckMultipleLumps(lump) && (!nerve || gamemap > 9))
+    if (W_CheckMultipleLumps(lump) > 1 && (!nerve || gamemap > 9))
         wminfo.partime = 0;
     else if (gamemode == commercial)
     {

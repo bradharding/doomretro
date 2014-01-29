@@ -490,7 +490,7 @@ void WI_drawLF(void)
         snprintf(name, 9, "CWILV%2.2d", wbs->last);
     else
         snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
-    if (W_CheckMultipleLumps(name) && !nerve)
+    if (W_CheckMultipleLumps(name) > 1 && !nerve)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->last], false);
@@ -519,7 +519,7 @@ void WI_drawEL(void)
         snprintf(name, 9, "CWILV%2.2d", wbs->next);
     else
         snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
-    if (W_CheckMultipleLumps(name) && !nerve)
+    if (W_CheckMultipleLumps(name) > 1 && !nerve)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->next], false);

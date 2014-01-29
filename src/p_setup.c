@@ -898,7 +898,7 @@ void P_MapName(int episode, int map)
     {
         case doom:
             sprintf(mapnum, "E%iM%i", episode, map);
-            if (W_CheckMultipleLumps(mapnum))
+            if (W_CheckMultipleLumps(mapnum) > 1)
             {
                 strcpy(maptitle, mapnum);
                 strcpy(mapnumandtitle, mapnum);
@@ -912,7 +912,7 @@ void P_MapName(int episode, int map)
 
         case doom2:
             sprintf(mapnum, "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) && (!nerve || map > 9))
+            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9))
             {
                 strcpy(maptitle, mapnum);
                 strcpy(mapnumandtitle, mapnum);
@@ -933,7 +933,7 @@ void P_MapName(int episode, int map)
         case pack_plut:
         case pack_tnt:
             sprintf(mapnum, "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum))
+            if (W_CheckMultipleLumps(mapnum) > 1)
             {
                 strcpy(maptitle, mapnum);
                 strcpy(mapnumandtitle, mapnum);

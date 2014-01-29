@@ -2741,7 +2741,7 @@ void M_Drawer(void)
                 currentMenu->menuitems[mousesens].alphaKey = 'm';
             }
         }
-        else if (W_CheckMultipleLumps(name))
+        else if (W_CheckMultipleLumps(name) > 1)
             M_DrawPatchWithShadow(x, y, 0, (patch_t *)W_CacheLumpName(name, PU_CACHE));
         else
             M_DrawString(x, y, currentMenu->menuitems[i].text);

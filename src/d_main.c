@@ -677,23 +677,23 @@ void D_DoomMain (void)
         }
     }
 
-    M_NEWG = W_CheckMultipleLumps("M_NEWG");
-    M_EPISOD = W_CheckMultipleLumps("M_EPISOD");
-    M_SKILL = W_CheckMultipleLumps("M_SKILL");
-    M_SKULL1 = W_CheckMultipleLumps("M_SKULL1");
-    M_LGTTL = W_CheckMultipleLumps("M_LGTTL");
-    M_SGTTL = W_CheckMultipleLumps("M_SGTTL");
-    M_SVOL = W_CheckMultipleLumps("M_SVOL");
-    M_OPTTTL = W_CheckMultipleLumps("M_OPTTTL");
-    M_MSGON = W_CheckMultipleLumps("M_MSGON");
-    M_MSGOFF = W_CheckMultipleLumps("M_MSGOFF");
-    M_NMARE = W_CheckMultipleLumps("M_NMARE");
-    M_MSENS = W_CheckMultipleLumps("M_MSENS");
-    STBAR    = W_CheckMultipleLumps("STBAR");
-    STCFN034 = W_CheckMultipleLumps("STCFN034");
-    STCFN039 = W_CheckMultipleLumps("STCFN039");
-    WISCRT2  = W_CheckMultipleLumps("WISCRT2");
-    STYSNUM0 = W_CheckMultipleLumps("STYSNUM0");
+    M_NEWG = (W_CheckMultipleLumps("M_NEWG") > 1);
+    M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
+    M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
+    M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);
+    M_LGTTL = (W_CheckMultipleLumps("M_LGTTL") > 1);
+    M_SGTTL = (W_CheckMultipleLumps("M_SGTTL") > 1);
+    M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
+    M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
+    M_MSGON = (W_CheckMultipleLumps("M_MSGON") > 1);
+    M_MSGOFF = (W_CheckMultipleLumps("M_MSGOFF") > 1);
+    M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
+    M_MSENS = (W_CheckMultipleLumps("M_MSENS") > 1);
+    STBAR    = (W_CheckMultipleLumps("STBAR") > 1);
+    STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
+    STCFN039 = (W_CheckMultipleLumps("STCFN039") > 1);
+    WISCRT2  = (W_CheckMultipleLumps("WISCRT2") > 1);
+    STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
     MAPINFO  = (W_CheckNumForName("MAPINFO") >= 0);
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
 
