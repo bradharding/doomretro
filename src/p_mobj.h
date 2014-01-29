@@ -333,6 +333,8 @@ typedef struct mobj_s
     int                bobdirection;
     int                bobcount;
 
+    boolean            visited;
+
 } mobj_t;
 
 
