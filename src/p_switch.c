@@ -265,7 +265,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         if (line->flags & ML_SECRET)
             return false;
 
-        switch(line->special)
+        switch (line->special)
         {
           case DR_OpenDoorWait4SecondsClose:
           case D1_OpenDoorStayOpenBlueKeyRequired:
@@ -295,6 +295,14 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case D1_OpenDoorStayOpenYellowKeyRequired:
 
         case DR_OpenFastDoorWait4SecondsClose:
+            if (nomonsters && (line->flags & ML_TRIGGER666))
+            {
+                line_t      junk;
+
+                junk.tag = 666;
+                EV_DoFloor(&junk, lowerFloorToLowest);
+                line->flags &= ~ML_TRIGGER666;
+            }
         case D1_OpenFastDoorStayOpen:
             EV_VerticalDoor(line, thing);
             break;
@@ -349,17 +357,15 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             if (EV_DoFloor(line, lowerFloorToLowest))
                 P_ChangeSwitchTexture(line, 0);
 
-            if (nomonsters)
+            if (nomonsters && (line->flags & ML_TRIGGER666))
             {
-                if (gamemode == commercial && gamemap == 7)
-                {
-                    line_t      junk;
+                line_t      junk;
 
-                    junk.tag = 666;
-                    EV_DoFloor(&junk, lowerFloorToLowest);
-                    junk.tag = 667;
-                    EV_DoFloor(&junk, raiseToTexture);
-                }
+                junk.tag = 666;
+                EV_DoFloor(&junk, lowerFloorToLowest);
+                junk.tag = 667;
+                EV_DoFloor(&junk, raiseToTexture);
+                line->flags &= ~ML_TRIGGER666;
             }
             break;
 

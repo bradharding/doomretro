@@ -142,6 +142,9 @@ typedef struct
 
 #define ML_DRAWASWALL           512
 
+// Line will trigger sector 666 if no monsters
+#define ML_TRIGGER666           1024
+
 // Sector definition, from editing.
 typedef struct
 {

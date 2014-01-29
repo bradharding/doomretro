@@ -80,6 +80,8 @@ linefix_t linefix[] =
     { doom,             1,   7,     746,    1, "",         "",            "TEKWALL1",    DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom,             1,   7,     747,    1, "",         "",            "TEKWALL1",    DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
+    { doom,             1,   8,     176,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_TRIGGER666,           DEFAULT,                                                       DEFAULT },
+
     { doom,             2,   1,      11,    0, "STONE2",   "",            "STONE2",      DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
     { doom,             2,   2,     947,    1, "BROWN1",   "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
@@ -183,6 +185,7 @@ linefix_t linefix[] =
     { doom,             4,   6,     480,    1, "MARBLE2",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom,             4,   6,     481,    1, "MARBLE2",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom,             4,   6,     482,    1, "MARBLE2",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
+    { doom,             4,   6,    1129,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_TRIGGER666,           DEFAULT,                                                       DEFAULT },
 
     { doom,             4,   7,     325,    1, "",         "BRNBIGR",     "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom,             4,   7,     326,    1, "",         "BRNBIGC",     "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
@@ -191,6 +194,7 @@ linefix_t linefix[] =
     { doom,             4,   7,     452,    1, "",         "BRNBIGC",     "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom,             4,   7,     453,    1, "",         "BRNBIGL",     "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
+    { doom,             4,   8,     231,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_TRIGGER666,           DEFAULT,                                                       DEFAULT },
     { doom,             4,   8,     418,    0, "",         "SP_HOT1",     "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom,             4,   8,     419,    0, "",         "SP_HOT1",     "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom,             4,   8,     420,    0, "",         "SP_HOT1",     "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
@@ -226,6 +230,7 @@ linefix_t linefix[] =
     { doom2,            1,   6,      24,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 NoSpecial,                                                     DEFAULT },
     { doom2,            1,   6,      25,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 NoSpecial,                                                     DEFAULT },
 
+    { doom2,            1,   7,     162,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_TRIGGER666,           DEFAULT,                                                       DEFAULT },
     { doom2,            1,   7,     168,    1, "",         "",            "TANROCK4",    DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
     { doom2,            1,   8,     101,    1, "BRICK7",   "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },

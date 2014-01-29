@@ -490,7 +490,28 @@ void P_CrossSpecialLine(int linenum, int side, mobj_t *thing)
         // All from here to RETRIGGERS.
         case W1_OpenDoorStayOpen:
             if (EV_DoDoor(line, open))
+            {
                 line->special = 0;
+
+                if (nomonsters && (line->flags & ML_TRIGGER666))
+                {
+                    line_t      junk;
+
+                    switch (gameepisode)
+                    {
+                        case 1:
+                            junk.tag = 666;
+                            EV_DoFloor(&junk, lowerFloorToLowest);
+                            break;
+
+                        case 4:
+                            junk.tag = 666;
+                            EV_DoDoor(&junk, blazeOpen);
+                            break;
+                    }
+                    line->flags &= ~ML_TRIGGER666;
+                }
+            }
             break;
 
         case W1_CloseDoor:
