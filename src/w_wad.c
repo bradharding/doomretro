@@ -287,9 +287,8 @@ int W_CheckNumForName(char *name)
     return -1;
 }
 
-// Check if there's two of the same lump. If there's two, then a PWAD is
-// replacing something.
-boolean W_CheckMultipleLumps(char *name)
+// Check if there's more than one of the same lump.
+int W_CheckMultipleLumps(char *name)
 {
     int i, count = 0;
 
@@ -297,11 +296,10 @@ boolean W_CheckMultipleLumps(char *name)
     {
         if (!strncasecmp(lumpinfo[i].name, name, 8))
         {
-            if (++count == 2)
-                return true;
+            ++count;
         }
     }
-    return false;
+    return count;
 }
 
 

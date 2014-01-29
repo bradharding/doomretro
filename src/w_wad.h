@@ -70,7 +70,7 @@ int W_RangeCheckNumForName (int min, int max, char *name);
 int W_GetNumForName(char *name);
 int W_GetNumForName2(char *name);
 
-boolean W_CheckMultipleLumps(char *name);
+int W_CheckMultipleLumps(char *name);
 
 int W_LumpLength(unsigned int lump);
 void W_ReadLump(unsigned int lump, void *dest);

@@ -1189,7 +1189,10 @@ void M_DrawReadThis(void)
             R_SetViewSize(11);
             M_DarkBlueBackground();
         }
-        V_DrawPatchWithShadow(0, 0, 0, (patch_t *)W_CacheLumpName(lumpname, PU_CACHE), false);
+        if (W_CheckMultipleLumps(lumpname) > 2)
+            V_DrawPatch(0, 0, 0, (patch_t *)W_CacheLumpName(lumpname, PU_CACHE));
+        else
+            V_DrawPatchWithShadow(0, 0, 0, (patch_t *)W_CacheLumpName(lumpname, PU_CACHE), false);
     }
 }
 
