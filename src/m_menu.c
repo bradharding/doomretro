@@ -2146,7 +2146,7 @@ boolean M_Responder(event_t *ev)
         if (key == KEY_MINUS)
         {
             keydown = key;
-            if (automapactive || chat_on || !viewactive)
+            if (automapactive || chat_on || !viewactive || inhelpscreens)
                 return false;
             M_SizeDisplay(0);
             return false;
@@ -2156,7 +2156,7 @@ boolean M_Responder(event_t *ev)
         else if (key == KEY_EQUALS)
         {
             keydown = key;
-            if (automapactive || chat_on || !viewactive)
+            if (automapactive || chat_on || !viewactive || inhelpscreens)
                 return false;
             M_SizeDisplay(1);
             return false;
