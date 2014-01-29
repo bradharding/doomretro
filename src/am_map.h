@@ -54,8 +54,6 @@ void AM_Stop(void);
 
 void AM_Init(void);
 
-void AM_addToPath(void);
-
 void D_PostEvent(event_t *ev);
 
 

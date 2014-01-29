@@ -263,7 +263,6 @@ void D_Display(void)
     if (gamestate == GS_LEVEL && gametic)
     {
         R_RenderPlayerView(&players[displayplayer]);
-        AM_addToPath();
         if (automapactive)
             AM_Drawer();
         HU_Drawer();

@@ -77,12 +77,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define CROSSHAIRCOLOR          WHITE
 #define MARKCOLOR               (GRAY + 4)
 #define PLAYERCOLOR             WHITE
-#define INVISIBLEPLAYERCOLOR    (DARKGRAY + 2)
 #define MULTIPLAYERCOLOR1       GREEN
 #define MULTIPLAYERCOLOR2       GRAY
 #define MULTIPLAYERCOLOR3       (BROWN + 1)
 #define MULTIPLAYERCOLOR4       (RED + 1)
-#define PATHCOLOR               (GRAY - 14)
+#define INVISIBLEPLAYERCOLOR    (DARKGRAY + 2)
 #define THINGCOLOR              GREEN
 #define WALLCOLOR               RED
 #define ALLMAPWALLCOLOR         (GRAY + 12)
@@ -97,10 +96,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define BACKGROUNDCOLOR         BLACK
 
 // Automap color priorities
-#define PLAYERPRIORITY          13
-#define INVISIBLEPLAYERPRIORITY 13
-#define MULTIPLAYERPRIORITY     13
-#define PATHPRIORITY            12
+#define PLAYERPRIORITY          12
+#define INVISIBLEPLAYERPRIORITY 12
+#define MULTIPLAYERPRIORITY     12
 #define THINGPRIORITY           11
 #define WALLPRIORITY            10
 #define ALLMAPWALLPRIORITY      9
@@ -122,7 +120,6 @@ byte    *multiplayercolor1;
 byte    *multiplayercolor2;
 byte    *multiplayercolor3;
 byte    *multiplayercolor4;
-byte    *pathcolor;
 byte    *thingcolor;
 byte    *wallcolor;
 byte    *allmapwallcolor;
@@ -298,11 +295,6 @@ mpoint_t        *markpoints = NULL;             // where the points are
 int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
-mpoint_t        *pathpoints = NULL;
-int             pathpointnum = 0;
-int             pathpointnum_max = 0;
-boolean         addtopath = false;
-
 boolean         followplayer = true;            // specifies whether to follow the player around
 
 static boolean  stopped = true;
@@ -392,28 +384,6 @@ void AM_addMark(void)
     sprintf(message, AMSTR_MARKEDSPOT, ++markpointnum);
     plr->message = message;
     message_dontfuckwithme = true;
-}
-
-void AM_addToPath(void)
-{
-    if (plr)
-    {
-        int x = plr->mo->x;
-        int y = plr->mo->y;
-
-        if (pathpointnum)
-            if (ABS(pathpoints[pathpointnum - 1].x - x) < 16 * FRACUNIT  
-                && ABS(pathpoints[pathpointnum - 1].y - y) < 16 * FRACUNIT)
-                return;
-        if (pathpointnum >= pathpointnum_max)
-        {
-            pathpointnum_max = (pathpointnum_max ? pathpointnum_max << 1 : 16);
-            pathpoints = (mpoint_t *)realloc(pathpoints, pathpointnum_max * sizeof(*pathpoints));
-        }
-        pathpoints[pathpointnum].x = x;
-        pathpoints[pathpointnum].y = y;
-        ++pathpointnum;
-    }
 }
 
 //
@@ -514,7 +484,6 @@ void AM_Init(void)
     *(priority + MULTIPLAYERCOLOR2) = MULTIPLAYERPRIORITY;
     *(priority + MULTIPLAYERCOLOR3) = MULTIPLAYERPRIORITY;
     *(priority + MULTIPLAYERCOLOR4) = MULTIPLAYERPRIORITY;
-    *(priority + PATHCOLOR) = PATHPRIORITY;
     *(priority + THINGCOLOR) = THINGPRIORITY;
     *(priority + WALLCOLOR) = WALLPRIORITY;
     *(priority + ALLMAPWALLCOLOR) = ALLMAPWALLPRIORITY;
@@ -544,7 +513,6 @@ void AM_Init(void)
     multiplayercolor2 = priorities + (MULTIPLAYERCOLOR2 << 8);
     multiplayercolor3 = priorities + (MULTIPLAYERCOLOR3 << 8);
     multiplayercolor4 = priorities + (MULTIPLAYERCOLOR4 << 8);
-    pathcolor = priorities + (PATHCOLOR << 8);
     thingcolor = priorities + (THINGCOLOR << 8);
     wallcolor = priorities + (WALLCOLOR << 8);
     allmapwallcolor = priorities + (ALLMAPWALLCOLOR << 8);
@@ -1752,19 +1720,6 @@ void AM_drawMarks(void)
     }
 }
 
-void AM_drawPath(void)
-{
-    if (pathpointnum >= 1)
-    {
-        int i;
-
-        for (i = 1; i < pathpointnum; ++i)
-        {
-            AM_drawMline(pathpoints[i - 1].x, pathpoints[i - 1].y, pathpoints[i].x, pathpoints[i].y, pathcolor);
-        }
-    }
-}
-
 static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
 {
     byte *dest = *screens + ((y << 1) - 1) * MAPWIDTH + (x << 1) - 1;
@@ -1803,10 +1758,7 @@ void AM_Drawer(void)
     if (grid)
         AM_drawGrid();
     if (plr->cheats & CF_ALLMAP_THINGS)
-    {
         AM_drawThings();
-        AM_drawPath();
-    }
     if (markpointnum)
         AM_drawMarks();
     AM_drawPlayers();
