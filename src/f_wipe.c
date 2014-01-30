@@ -29,7 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "z_zone.h"
 #include "i_video.h"
 #include "v_video.h"
-#include "m_random.h"
 
 #include "doomdef.h"
 
@@ -51,9 +50,7 @@ void wipe_shittyColMajorXform(short *array, int width, int height)
 {
     int         x;
     int         y;
-    short       *dest;
-
-    dest = (short *)Z_Malloc(width * height * 2, PU_STATIC, 0);
+    short       *dest = (short *)Z_Malloc(width * height * 2, PU_STATIC, 0);
 
     for (y = 0; y < height; y++)
         for (x = 0; x < width; x++)
@@ -64,22 +61,17 @@ void wipe_shittyColMajorXform(short *array, int width, int height)
     Z_Free(dest);
 }
 
-int wipe_initColorXForm(int width, int height, int ticks)
+int wipe_initColorXForm(int width, int height, int tics)
 {
     memcpy(wipe_scr, wipe_scr_start, width * height);
     return 0;
 }
 
-int wipe_doColorXForm(int width, int height, int ticks)
+int wipe_doColorXForm(int width, int height, int tics)
 {
-    boolean     changed;
-    byte        *w;
-    byte        *e;
-    int         newval;
-
-    changed = false;
-    w = wipe_scr;
-    e = wipe_scr_end;
+    boolean     changed = false;
+    byte        *w = wipe_scr;
+    byte        *e = wipe_scr_end;
 
     while (w != wipe_scr + width * height)
     {
@@ -87,20 +79,12 @@ int wipe_doColorXForm(int width, int height, int ticks)
         {
             if (*w > *e)
             {
-                newval = *w - ticks;
-                if (newval < *e)
-                    *w = *e;
-                else
-                    *w = newval;
+                *w = MAX(*w - tics, *e);
                 changed = true;
             }
             else if (*w < *e)
             {
-                newval = *w + ticks;
-                if (newval > *e)
-                    *w = *e;
-                else
-                    *w = newval;
+                *w = MIN(*w + tics, *e);
                 changed = true;
             }
         }
@@ -111,7 +95,7 @@ int wipe_doColorXForm(int width, int height, int ticks)
     return !changed;
 }
 
-int wipe_exitColorXForm(int width, int height, int ticks)
+int wipe_exitColorXForm(int width, int height, int tics)
 {
     return 0;
 }
@@ -119,9 +103,9 @@ int wipe_exitColorXForm(int width, int height, int ticks)
 
 static int      *y;
 
-int wipe_initMelt(int width, int height, int ticks)
+int wipe_initMelt(int width, int height, int tics)
 {
-    int i, j, r;
+    int i;
 
     // copy start screen to main screen
     memcpy(wipe_scr, wipe_scr_start, width * height);
@@ -132,30 +116,17 @@ int wipe_initMelt(int width, int height, int ticks)
     wipe_shittyColMajorXform((short *)wipe_scr_end, width / 2, height);
 
     // setup initial column positions
-    // (y<0 => not ready to scroll yet)
-    y = (int *) Z_Malloc(width*sizeof(int), PU_STATIC, 0);
-    y[0] = -(M_Random() % 16);
-    for (j = 1; j < SCREENSCALE; j++)
-        y[j] = y[0];
-    for (i = SCREENSCALE; i < width - (SCREENSCALE - 1); i += SCREENSCALE)
-    {
-        r = (M_Random() % 3) - 1;
-        for (j = i; j < i + SCREENSCALE; j++)
-        {
-            y[j] = y[i - 1] + r;
-            if (y[j] > 0)
-                y[j] = 0;
-            else if (y[j] == -16)
-                y[j] = -15;
-        }
-    }
+    // (y < 0 => not ready to scroll yet)
+    y = (int *)Z_Malloc(width * sizeof(int), PU_STATIC, 0);
+    y[0] = y[1] = -(rand() % 16);
+    for (i = 2; i < width - 1; i += 2)
+        y[i] = y[i + 1] = MAX(-15, MIN(y[i - 1] + (rand() % 3) - 1, 0));
 
     return 0;
 }
 
-int wipe_doMelt(int width, int height, int ticks)
+int wipe_doMelt(int width, int height, int tics)
 {
-    int         i;
     int         j;
     int         dy;
     int         idx;
@@ -166,8 +137,10 @@ int wipe_doMelt(int width, int height, int ticks)
 
     width /= 2;
 
-    while (ticks--)
+    while (tics--)
     {
+        int         i;
+
         for (i = 0; i < width; i++)
         {
             if (y[i] < 0)
@@ -205,7 +178,7 @@ int wipe_doMelt(int width, int height, int ticks)
     return done;
 }
 
-int wipe_exitMelt(int width, int height, int ticks)
+int wipe_exitMelt(int width, int height, int tics)
 {
     Z_Free(y);
     Z_Free(wipe_scr_start);
@@ -228,13 +201,17 @@ int wipe_EndScreen(int x, int y, int width, int height)
     return 0;
 }
 
-int wipe_ScreenWipe(int wipeno, int x, int y, int width, int height, int ticks)
+int wipe_ScreenWipe(int wipeno, int x, int y, int width, int height, int tics)
 {
     int rc;
     static int (*wipes[])(int, int, int) =
     {
-        wipe_initColorXForm, wipe_doColorXForm, wipe_exitColorXForm,
-        wipe_initMelt, wipe_doMelt, wipe_exitMelt
+        wipe_initColorXForm, 
+        wipe_doColorXForm, 
+        wipe_exitColorXForm,
+        wipe_initMelt, 
+        wipe_doMelt, 
+        wipe_exitMelt
     };
 
     // initial stuff
@@ -242,18 +219,18 @@ int wipe_ScreenWipe(int wipeno, int x, int y, int width, int height, int ticks)
     {
         go = 1;
         wipe_scr = screens[0];
-        (*wipes[wipeno * 3])(width, height, ticks);
+        (*wipes[wipeno * 3])(width, height, tics);
     }
 
     // do a piece of wipe-in
     V_MarkRect(0, 0, width, height);
-    rc = (*wipes[wipeno * 3 + 1])(width, height, ticks);
+    rc = (*wipes[wipeno * 3 + 1])(width, height, tics);
 
     // final stuff
     if (rc)
     {
         go = 0;
-        (*wipes[wipeno * 3 + 2])(width, height, ticks);
+        (*wipes[wipeno * 3 + 2])(width, height, tics);
     }
 
     return !go;
