@@ -127,12 +127,12 @@ void NetUpdate(void)
     // build new ticcmds for console player
     gameticdiv = gametic/ticdup;
 
-    for (i=0 ; i<newtics ; i++)
+    for (i = 0; i < newtics; i++)
     {
         ticcmd_t cmd;
 
-        I_StartTic ();
-        D_ProcessEvents ();
+        I_StartTic();
+        D_ProcessEvents();
 
         // Always run the menu
 
@@ -197,7 +197,7 @@ void D_CheckNetGame (void)
     extratics = 1;
     offsetms = 0;
 
-    for (i=0; i<MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; i++)
     {
         playeringame[i] = false;
         nettics[i] = 0;
@@ -220,7 +220,7 @@ void D_CheckNetGame (void)
 
     num_players = 0;
 
-    for (i=0; i<MAXPLAYERS; ++i)
+    for (i = 0; i < MAXPLAYERS; ++i)
     {
         if (playeringame[i])
             ++num_players;
@@ -296,7 +296,7 @@ void TryRunTics (void)
 
     lowtic = GetLowTic();
 
-    availabletics = lowtic - gametic/ticdup;
+    availabletics = lowtic - gametic / ticdup;
 
     // decide how many tics to run
 
@@ -369,7 +369,7 @@ void TryRunTics (void)
 
     // wait for new tics if needed
 
-    while (!PlayersInGame() || lowtic < gametic/ticdup + counts)
+    while (!PlayersInGame() || lowtic < gametic / ticdup + counts)
     {
         NetUpdate ();
 

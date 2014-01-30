@@ -72,7 +72,7 @@ static void ReleaseSoundOnChannel(int channel)
 
     channels_playing[channel] = sfx_None;
 
-    for (i=0; i<NUM_CHANNELS; ++i)
+    for (i = 0; i < NUM_CHANNELS; ++i)
     {
         // Playing on this channel? if so, don't release.
 
@@ -149,7 +149,7 @@ static void ExpandSoundData_SDL(byte *data, int samplerate, uint32_t length, Mix
     }
     else
     {
-        Sint16 *expanded = (Sint16 *) destination->abuf;
+        Sint16 *expanded = (Sint16 *)destination->abuf;
         int expanded_length;
         int expand_ratio;
         int i;
@@ -165,7 +165,7 @@ static void ExpandSoundData_SDL(byte *data, int samplerate, uint32_t length, Mix
         expanded_length = ((uint64_t) length * mixer_freq) / samplerate;
         expand_ratio = (length << 8) / expanded_length;
 
-        for (i=0; i<expanded_length; ++i)
+        for (i = 0; i < expanded_length; ++i)
         {
             Sint16 sample;
             int src;
@@ -431,7 +431,7 @@ static void I_SDL_UpdateSound(void)
 
     // Check all channels to see if a sound has finished
 
-    for (i=0; i<NUM_CHANNELS; ++i)
+    for (i = 0; i < NUM_CHANNELS; ++i)
         if (channels_playing[i] && !I_SDL_SoundIsPlaying(i))
             // Sound has finished playing on this channel,
             // but sound data has not been released to cache
@@ -462,7 +462,7 @@ static int GetSliceSize(void)
 
     // Try all powers of two, not exceeding the limit.
 
-    for (n=0;; ++n)
+    for (n = 0; ; ++n)
         // 2^n <= limit < 2^n+1 ?
 
         if ((1 << (n + 1)) > limit)
@@ -479,10 +479,10 @@ static boolean I_SDL_InitSound(void)
 
     // No sounds yet
 
-    for (i=0; i<NUMSFX; ++i)
+    for (i = 0; i < NUMSFX; ++i)
         sound_chunks[i].abuf = NULL;
 
-    for (i=0; i<NUM_CHANNELS; ++i)
+    for (i = 0; i < NUM_CHANNELS; ++i)
         channels_playing[i] = sfx_None;
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
@@ -499,10 +499,10 @@ static boolean I_SDL_InitSound(void)
 
     Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels);
 
-            // precache sounds even when not using libsamplerate to avoid slowdown
-            // inside game
-          for (i=0; i < NUMSFX; i++)
-              CacheSFX_SDL(i);
+    // precache sounds even when not using libsamplerate to avoid slowdown
+    // inside game
+    for (i = 0; i < NUMSFX; i++)
+        CacheSFX_SDL(i);
 
     Mix_AllocateChannels(NUM_CHANNELS);
 

@@ -176,10 +176,10 @@ wad_file_t *W_AddFile (char *filename)
         if (strncmp(header.identification, "IWAD", 4))
         {
             // Homebrew levels?
-            if (strncmp(header.identification,"PWAD",4))
+            if (strncmp(header.identification, "PWAD", 4))
             {
-                I_Error ("Wad file %s doesn't have IWAD "
-                     "or PWAD id\n", filename);
+                I_Error("Wad file %s doesn't have IWAD "
+                        "or PWAD id\n", filename);
             }
         }
 
@@ -197,7 +197,7 @@ wad_file_t *W_AddFile (char *filename)
 
     if (lumpinfo == NULL)
     {
-        I_Error ("Couldn't realloc lumpinfo");
+        I_Error("Couldn't realloc lumpinfo");
     }
 
     lump_p = &lumpinfo[startlump];
@@ -355,7 +355,7 @@ int W_GetNumForName2(char *name)
 
     if (i == numlumps)
     {
-        I_Error ("W_GetNumForName: %s not found!", name);
+        I_Error("W_GetNumForName: %s not found!", name);
     }
 
     return i;
@@ -370,7 +370,7 @@ int W_LumpLength (unsigned int lump)
 {
     if (lump >= numlumps)
     {
-        I_Error ("W_LumpLength: %i >= numlumps", lump);
+        I_Error("W_LumpLength: %i >= numlumps", lump);
     }
 
     return lumpinfo[lump].size;
@@ -390,7 +390,7 @@ void W_ReadLump(unsigned int lump, void *dest)
 
     if (lump >= numlumps)
     {
-        I_Error ("W_ReadLump: %i >= numlumps", lump);
+        I_Error("W_ReadLump: %i >= numlumps", lump);
     }
 
     l = lumpinfo+lump;
@@ -399,8 +399,8 @@ void W_ReadLump(unsigned int lump, void *dest)
 
     if (c < l->size)
     {
-        I_Error ("W_ReadLump: only read %i of %i on lump %i",
-                 c, l->size, lump);
+        I_Error("W_ReadLump: only read %i of %i on lump %i",
+                c, l->size, lump);
     }
 }
 
@@ -426,7 +426,7 @@ void *W_CacheLumpNum(int lumpnum, int tag)
 
     if ((unsigned)lumpnum >= numlumps)
     {
-        I_Error ("W_CacheLumpNum: %i >= numlumps", lumpnum);
+        I_Error("W_CacheLumpNum: %i >= numlumps", lumpnum);
     }
 
     lump = &lumpinfo[lumpnum];
@@ -487,7 +487,7 @@ void W_ReleaseLumpNum(int lumpnum)
 
     if ((unsigned)lumpnum >= numlumps)
     {
-        I_Error ("W_ReleaseLumpNum: %i >= numlumps", lumpnum);
+        I_Error("W_ReleaseLumpNum: %i >= numlumps", lumpnum);
     }
 
     lump = &lumpinfo[lumpnum];
@@ -525,7 +525,7 @@ void W_GenerateHashTable(void)
     // Generate hash table
     if (numlumps > 0)
     {
-        lumphash = Z_Malloc(sizeof(lumpinfo_t *) * numlumps, PU_STATIC, NULL);
+        lumphash = (lumpinfo_t **)Z_Malloc(sizeof(lumpinfo_t *) * numlumps, PU_STATIC, NULL);
         memset(lumphash, 0, sizeof(lumpinfo_t *) * numlumps);
 
         for (i = 0; i < numlumps; ++i)

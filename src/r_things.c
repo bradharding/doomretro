@@ -880,7 +880,7 @@ void R_SortVisSprites(void)
 
     vissprites[0].prev = &unsorted;
     unsorted.next = &vissprites[0];
-    (vissprite_p-1)->next = &unsorted;
+    (vissprite_p - 1)->next = &unsorted;
     unsorted.prev = vissprite_p - 1;
 
     // pull the vissprites out by scale
@@ -938,7 +938,7 @@ void R_DrawSprite(vissprite_t *spr)
         if (ds->x1 > spr->x2
             || ds->x2 < spr->x1
             || (!ds->silhouette
-                && !ds->maskedtexturecol) )
+                && !ds->maskedtexturecol))
         {
             // does not cover sprite
             continue;
@@ -1029,5 +1029,5 @@ void R_DrawMasked(void)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
     // draw the psprites on top of everything
-    R_DrawPlayerSprites ();
+    R_DrawPlayerSprites();
 }

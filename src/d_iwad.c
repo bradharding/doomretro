@@ -185,10 +185,10 @@ static char *GetRegistryString(registry_value_t *reg_val)
     {
         // Allocate a buffer for the value and read the value
 
-        result = malloc(len);
+        result = (char *)malloc(len);
 
         if (RegQueryValueEx(key, reg_val->value, NULL, &valtype,
-                            (unsigned char *) result, &len) != ERROR_SUCCESS)
+                            (unsigned char *)result, &len) != ERROR_SUCCESS)
         {
             free(result);
             result = NULL;
@@ -208,7 +208,7 @@ static void CheckUninstallStrings(void)
 {
     unsigned int i;
 
-    for (i=0; i<arrlen(uninstall_values); ++i)
+    for (i = 0; i < arrlen(uninstall_values); ++i)
     {
         char *val;
         char *path;
@@ -251,11 +251,10 @@ static void CheckCollectorsEdition(void)
         return;
     }
 
-    for (i=0; i<arrlen(collectors_edition_subdirs); ++i)
+    for (i = 0; i < arrlen(collectors_edition_subdirs); ++i)
     {
-        subpath = malloc(strlen(install_path)
-                         + strlen(collectors_edition_subdirs[i])
-                         + 5);
+        subpath = (char *)malloc(strlen(install_path)
+                                 + strlen(collectors_edition_subdirs[i]) + 5);
 
         sprintf(subpath, "%s\\%s", install_path, collectors_edition_subdirs[i]);
 
@@ -281,10 +280,10 @@ static void CheckSteamEdition(void)
         return;
     }
 
-    for (i=0; i<arrlen(steam_install_subdirs); ++i)
+    for (i = 0; i < arrlen(steam_install_subdirs); ++i)
     {
-        subpath = malloc(strlen(install_path)
-                         + strlen(steam_install_subdirs[i]) + 5);
+        subpath = (char *)malloc(strlen(install_path)
+                                 + strlen(steam_install_subdirs[i]) + 5);
 
         sprintf(subpath, "%s\\%s", install_path, steam_install_subdirs[i]);
 
@@ -357,7 +356,7 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
     // Construct the full path to the IWAD if it is located in
     // this directory, and check if it exists.
 
-    filename = malloc(strlen(dir) + strlen(iwadname) + 3);
+    filename = (char *)malloc(strlen(dir) + strlen(iwadname) + 3);
 
     if (!strcmp(dir, "."))
     {
@@ -386,7 +385,7 @@ static char *SearchDirectoryForIWAD(char *dir)
     char *filename;
     size_t i;
 
-    for (i=0; i<arrlen(iwads); ++i)
+    for (i = 0; i < arrlen(iwads); ++i)
     {
         filename = CheckDirectoryHasIWAD(dir, (iwads[i].name));
 
@@ -415,7 +414,7 @@ static void IdentifyIWADByName(char *name)
       name = p + 1;
     gamemission = none;
 
-    for (i=0; i<arrlen(iwads); ++i)
+    for (i = 0; i < arrlen(iwads); ++i)
     {
         char *iwadname;
 
@@ -546,7 +545,7 @@ char *D_FindWADByName(char *name)
 
     // Search through all IWAD paths for a file with the given name.
 
-    for (i=0; i<num_iwad_dirs; ++i)
+    for (i = 0; i < num_iwad_dirs; ++i)
     {
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
         // the "directory" may actually refer directly to an IWAD
@@ -559,7 +558,7 @@ char *D_FindWADByName(char *name)
 
         // Construct a string for the full path
 
-        buf = malloc(strlen(iwad_dirs[i]) + strlen(name) + 5);
+        buf = (char *)malloc(strlen(iwad_dirs[i]) + strlen(name) + 5);
         sprintf(buf, "%s%c%s", iwad_dirs[i], DIR_SEPARATOR, name);
 
         if (M_FileExists(buf))
@@ -645,7 +644,7 @@ char *D_FindIWAD(void)
 
         BuildIWADDirList();
 
-        for (i=0; result == NULL && i<num_iwad_dirs; ++i)
+        for (i = 0; result == NULL && i < num_iwad_dirs; ++i)
         {
             result = SearchDirectoryForIWAD(iwad_dirs[i]);
         }
@@ -677,7 +676,7 @@ static char *SaveGameIWADName(void)
     if (nerve)
         return "NERVE.WAD";
     else
-        for (i=0; i<arrlen(iwads); ++i)
+        for (i = 0; i < arrlen(iwads); ++i)
         {
             if (gamemission == iwads[i].mission)
             {
@@ -714,7 +713,7 @@ void D_SetSaveGameDir(void)
             iwad_name = "unknown.wad";
         }
 
-        savegamedir = Z_Malloc(strlen(configdir) + 30, PU_STATIC, 0);
+        savegamedir = (char *)Z_Malloc(strlen(configdir) + 30, PU_STATIC, 0);
         sprintf(savegamedir, "%ssavegames%c", configdir,
                              DIR_SEPARATOR);
 
@@ -743,7 +742,7 @@ void D_IdentifyVersion(void)
     {
         unsigned int i;
 
-        for (i=0; i<numlumps; ++i)
+        for (i = 0; i < numlumps; ++i)
         {
             if (!strncasecmp(lumpinfo[i].name, "MAP01", 8))
             {

@@ -634,7 +634,7 @@ void M_LoadDefaults(void)
 
     LoadDefaultCollection(&doom_defaults);
 
-    // If there's a default.cfg file in the game folder, then use it instead.
+    // [BH] If there's a default.cfg file in the game folder, then use it instead.
     if (M_FileExists("./default.cfg"))
     {
         sprintf(doom_defaults.filename, "./default.cfg");

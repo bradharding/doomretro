@@ -519,7 +519,7 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     angle = R_PointToAngle2(listener->x, listener->y, source->x, source->y);
 
     if (angle <= listener->angle)
-        angle += 0xFFFFFFFF;
+        angle += 0xffffffff;
     angle -= listener->angle;
     angle >>= ANGLETOFINESHIFT;
 

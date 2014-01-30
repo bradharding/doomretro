@@ -864,7 +864,7 @@ static void saveg_write_player_t(player_t *str)
     }
 
     // boolean cards[NUMCARDS];
-    for (i=0; i<NUMCARDS; ++i)
+    for (i = 0; i < NUMCARDS; ++i)
     {
         saveg_write32(str->cards[i]);
     }
@@ -1499,7 +1499,7 @@ boolean P_ReadSaveGameHeader(void)
     for (i = 0; i < SAVESTRINGSIZE; ++i)
         saveg_read8();
 
-    for (i =0 ; i < VERSIONSIZE; ++i)
+    for (i = 0; i < VERSIONSIZE; ++i)
         read_vcheck[i] = saveg_read8();
 
     memset(vcheck, 0, sizeof(vcheck));
@@ -1513,7 +1513,7 @@ boolean P_ReadSaveGameHeader(void)
 
     saveg_read8();
 
-    for (i=0 ; i<MAXPLAYERS ; i++)
+    for (i = 0; i < MAXPLAYERS; i++)
         playeringame[i] = saveg_read8();
 
     // get the times

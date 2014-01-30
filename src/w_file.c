@@ -101,7 +101,7 @@ wad_file_t *W_OpenFile(char *path)
 
     // Create a new win32_wad_file_t to hold the file handle.
 
-    result = Z_Malloc(sizeof(win32_wad_file_t), PU_STATIC, 0);
+    result = (win32_wad_file_t *)Z_Malloc(sizeof(win32_wad_file_t), PU_STATIC, 0);
     result->wad.file_class = &win32_wad_file;
     result->wad.length = GetFileLength(handle);
     result->handle = handle;

@@ -180,7 +180,7 @@ static void *ReadByteSequence(unsigned int num_bytes, FILE *stream)
 
     // Read the data:
 
-    for (i=0; i<num_bytes; ++i)
+    for (i = 0; i < num_bytes; ++i)
     {
         if (!ReadByte(&result[i], stream))
         {
@@ -511,7 +511,7 @@ static boolean ReadAllTracks(midi_file_t *file, FILE *stream)
 
     // Read each track:
 
-    for (i=0; i<file->num_tracks; ++i)
+    for (i = 0; i < file->num_tracks; ++i)
     {
         if (!ReadTrack(&file->tracks[i], stream))
         {

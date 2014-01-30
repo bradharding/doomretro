@@ -502,7 +502,7 @@ void R_ExecuteSetViewSize(void)
     for (i = 0; i < LIGHTLEVELS; i++)
     {
         startmap = ((LIGHTLEVELS - 1 - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
-        for (j=0 ; j < MAXLIGHTSCALE ; j++)
+        for (j = 0; j < MAXLIGHTSCALE; j++)
         {
             level = startmap - j * SCREENWIDTH / (viewwidth * DISTMAP);
 

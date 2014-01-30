@@ -366,7 +366,7 @@ static int AllocateMIDIChannel(void)
 
     max = -1;
 
-    for (i=0; i<NUM_CHANNELS; ++i)
+    for (i = 0; i < NUM_CHANNELS; ++i)
     {
         if (channel_map[i] > max)
         {

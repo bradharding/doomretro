@@ -658,7 +658,7 @@ static boolean AM_getSpeedToggle(void)
     SDLMod modstate = SDL_GetModState();
     boolean lt = (gamepadbuttons & GAMEPAD_LEFT_TRIGGER);
     boolean caps = (modstate & KMOD_CAPS);
-    boolean shift =  (modstate & KMOD_SHIFT);
+    boolean shift = (modstate & KMOD_SHIFT);
 
     return ((lt ? 1 : 0) + (caps ? 1 : 0) + (shift ? 1 : 0) == 1);
 }

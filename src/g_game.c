@@ -208,7 +208,7 @@ int             gamepadlefthanded = 0;
 int             gamepadvibrate    = 1;
 
 
-#define MAXPLMOVE       (forwardmove[1])
+#define MAXPLMOVE       forwardmove[1]
 
 #define TURBOTHRESHOLD   0x32
 
@@ -549,9 +549,9 @@ static void SetMouseButtons(unsigned int buttons_mask)
 {
     int i;
 
-    for (i=0; i < MAX_MOUSE_BUTTONS; ++i)
+    for (i = 0; i < MAX_MOUSE_BUTTONS; ++i)
     {
-        unsigned int button_on = (buttons_mask & (1 << i)) != 0;
+        unsigned int button_on = ((buttons_mask & (1 << i)) != 0);
 
         mousebuttons[i] = button_on;
     }
@@ -940,6 +940,7 @@ void G_Ticker(void)
             {
                 static char turbomessage[80];
                 extern char *player_names[4];
+
                 sprintf(turbomessage, "%s is turbo!", player_names[i]);
                 players[consoleplayer].message = turbomessage;
                 turbodetected[i] = false;
@@ -1094,7 +1095,7 @@ void G_PlayerReborn(int player)
     p->weaponowned[wp_pistol] = true;
     p->ammo[am_clip] = 50;
 
-    for (i=0 ; i<NUMAMMO ; i++)
+    for (i = 0; i < NUMAMMO; i++)
         p->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
 
     markpointnum = 0;
@@ -1937,7 +1938,7 @@ static void IncreaseDemoBuffer(void)
     // Generate a new buffer twice the size
     new_length = current_length * 2;
 
-    new_demobuffer = Z_Malloc(new_length, PU_STATIC, 0);
+    new_demobuffer = (byte *)Z_Malloc(new_length, PU_STATIC, 0);
     new_demop = new_demobuffer + (demo_p - demobuffer);
 
     // Copy over the old data
@@ -2001,7 +2002,7 @@ void G_RecordDemo(char *name)
     int         maxsize;
 
     usergame = false;
-    demoname = Z_Malloc(strlen(name) + 5, PU_STATIC, NULL);
+    demoname = (char *)Z_Malloc(strlen(name) + 5, PU_STATIC, NULL);
     sprintf(demoname, "%s.lmp", name);
     maxsize = 0x20000;
 
@@ -2016,7 +2017,7 @@ void G_RecordDemo(char *name)
     i = M_CheckParmWithArgs("-maxdemo", 1);
     if (i)
         maxsize = atoi(myargv[i+1])*1024;
-    demobuffer = Z_Malloc(maxsize, PU_STATIC, NULL);
+    demobuffer = (byte *)Z_Malloc(maxsize, PU_STATIC, NULL);
     demoend = demobuffer + maxsize;
 
     demorecording = true;
@@ -2061,7 +2062,7 @@ void G_BeginRecording (void)
     *demo_p++ = nomonsters;
     *demo_p++ = consoleplayer;
 
-    for (i=0 ; i<MAXPLAYERS ; i++)
+    for (i = 0; i < MAXPLAYERS ; i++)
         *demo_p++ = playeringame[i];
 }
 

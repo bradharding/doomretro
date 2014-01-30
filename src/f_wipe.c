@@ -75,18 +75,15 @@ int wipe_doColorXForm(int width, int height, int tics)
 
     while (w != wipe_scr + width * height)
     {
-        if (*w != *e)
+        if (*w > *e)
         {
-            if (*w > *e)
-            {
-                *w = MAX(*w - tics, *e);
-                changed = true;
-            }
-            else if (*w < *e)
-            {
-                *w = MIN(*w + tics, *e);
-                changed = true;
-            }
+            *w = MAX(*w - tics, *e);
+            changed = true;
+        }
+        else if (*w < *e)
+        {
+            *w = MIN(*w + tics, *e);
+            changed = true;
         }
         w++;
         e++;
@@ -127,15 +124,9 @@ int wipe_initMelt(int width, int height, int tics)
 
 int wipe_doMelt(int width, int height, int tics)
 {
-    int         j;
-    int         dy;
-    int         idx;
-
-    short       *s;
-    short       *d;
     boolean     done = true;
 
-    width /= 2;
+    width >>= 1;
 
     while (tics--)
     {
@@ -150,15 +141,18 @@ int wipe_doMelt(int width, int height, int tics)
             }
             else if (y[i] < height)
             {
-                dy = (y[i] < 16 ? y[i] + 1 : 24);
+                int     j;
+                int     dy = (y[i] < 16 ? y[i] + 1 : 24);
+                int     idx = 0;
+
+                short   *s = &((short *)wipe_scr_end)[i * height + y[i]];
+                short   *d = &((short *)wipe_scr)[y[i] * width + i];
+                
                 if (y[i] + dy >= height)
                     dy = height - y[i];
-                s = &((short *)wipe_scr_end)[i * height + y[i]];
-                d = &((short *)wipe_scr)[y[i] * width + i];
-                idx = 0;
                 for (j = dy; j; j--)
                 {
-                    d[idx] = *(s++);
+                    d[idx] = *s++;
                     idx += width;
                 }
                 y[i] += dy;
@@ -167,7 +161,7 @@ int wipe_doMelt(int width, int height, int tics)
                 idx = 0;
                 for (j = height - y[i]; j; j--)
                 {
-                    d[idx] = *(s++);
+                    d[idx] = *s++;
                     idx += width;
                 }
                 done = false;

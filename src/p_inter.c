@@ -628,7 +628,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 player->backpack = true;
                 ammogiven = true;
             }
-            for (i=0 ; i<NUMAMMO ; i++)
+            for (i = 0; i < NUMAMMO; i++)
             {
                 if (player->ammo[i] < player->maxammo[i])
                     ammogiven = true;

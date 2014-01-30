@@ -66,7 +66,7 @@ extern unsigned int numlumps;
 wad_file_t *W_AddFile(char *filename);
 
 int W_CheckNumForName(char *name);
-int W_RangeCheckNumForName (int min, int max, char *name);
+int W_RangeCheckNumForName(int min, int max, char *name);
 int W_GetNumForName(char *name);
 int W_GetNumForName2(char *name);
 

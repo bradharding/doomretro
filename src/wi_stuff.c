@@ -434,19 +434,19 @@ extern char *mapnames[][6];
 
 int chartoi[130] =
 {
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 000 - 009
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 010 - 019
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 020 - 029
-  -1, -1, -1, 27, -1, -1, -1, -1, -1, 28, // 030 - 039
-  -1, -1, -1, -1, -1, 29, 26, 30, 31, 32, // 040 - 049
-  33, 34, 35, 36, 37, 38, 39, 40, -1, -1, // 050 - 059
-  -1, -1, -1, -1, -1,  0,  1,  2,  3,  4, // 060 - 069
-   5,  6,  7,  8,  9, 10, 11, 12, 13, 14, // 070 - 079
-  15, 16, 17, 18, 19, 20, 21, 22, 23, 24, // 080 - 089
-  25, -1, -1, -1, -1, -1, -1,  0,  1,  2, // 090 - 099
-   3,  4,  5,  6,  7,  8,  9, 10, 11, 12, // 100 - 109
-  13, 14, 15, 16, 17, 18, 19, 20, 21, 22, // 110 - 119
-  23, 24, 25, -1, -1, -1, -1, -1, -1, -1, // 120 - 129
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 000 - 009
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 010 - 019
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 020 - 029
+    -1, -1, -1, 27, -1, -1, -1, -1, -1, 28, // 030 - 039
+    -1, -1, -1, -1, -1, 29, 26, 30, 31, 32, // 040 - 049
+    33, 34, 35, 36, 37, 38, 39, 40, -1, -1, // 050 - 059
+    -1, -1, -1, -1, -1,  0,  1,  2,  3,  4, // 060 - 069
+     5,  6,  7,  8,  9, 10, 11, 12, 13, 14, // 070 - 079
+    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, // 080 - 089
+    25, -1, -1, -1, -1, -1, -1,  0,  1,  2, // 090 - 099
+     3,  4,  5,  6,  7,  8,  9, 10, 11, 12, // 100 - 109
+    13, 14, 15, 16, 17, 18, 19, 20, 21, 22, // 110 - 119
+    23, 24, 25, -1, -1, -1, -1, -1, -1, -1, // 120 - 129
 };
 
 void WI_drawWILV(int y, char *str)
@@ -469,7 +469,9 @@ void WI_drawWILV(int y, char *str)
             j = 41;
 
         if (j == -1)
+        {
             x += 6;
+        }
         else
         {
             WI_drawWILVchar(x, y, j);
@@ -496,7 +498,9 @@ void WI_drawLF(void)
                               FB, lnames[wbs->last], false);
     }
     else
+    {
         WI_drawWILV(y, mapname);
+    }
 
     // draw "Finished!"
     y += 14;
@@ -525,7 +529,9 @@ void WI_drawEL(void)
                               FB, lnames[wbs->next], false);
     }
     else
+    {
         WI_drawWILV(y, nextmapname);
+    }
 }
 
 void WI_drawOnLnode(int n, patch_t *c[])
@@ -549,15 +555,19 @@ void WI_drawOnLnode(int n, patch_t *c[])
     if (fits && i < 2)
     {
         if (c[i] == *splat)
+        {
             V_DrawTranslucentNoGreenPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y,
                                           FB, c[i]);
+        }
         else if (c[i] == *yah)
         {
             V_DrawPatchNoGreenWithShadow(lnodes[wbs->epsd][n].x+1, lnodes[wbs->epsd][n].y + 1,
                                          FB, c[i]);
         }
         else
+        {
             V_DrawPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, FB, c[i]);
+        }
     }
 }
 
@@ -574,7 +584,7 @@ void WI_initAnimatedBack(void)
     if (wbs->epsd > 2)
         return;
 
-    for (i=0;i<NUMANIMS[wbs->epsd];i++)
+    for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
         a = &anims[wbs->epsd][i];
 
@@ -766,7 +776,8 @@ void WI_drawTime(int x, int y, int t)
                 V_DrawPatchWithShadow(x + 1, y + 1, FB, colon, true);
             }
 
-        } while (t / div);
+        }
+        while (t / div);
         if (t < 60)
             WI_drawNum(x, y, 0, 2);
     }
@@ -955,7 +966,7 @@ void WI_updateDeathmatchStats(void)
         }
 
 
-        S_StartSound(0, sfx_barexp);
+        S_StartSound(NULL, sfx_barexp);
         dm_state = 4;
     }
 
@@ -963,7 +974,7 @@ void WI_updateDeathmatchStats(void)
     if (dm_state == 2)
     {
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         stillticking = false;
 
@@ -1002,7 +1013,7 @@ void WI_updateDeathmatchStats(void)
         }
         if (!stillticking)
         {
-            S_StartSound(0, sfx_barexp);
+            S_StartSound(NULL, sfx_barexp);
             dm_state++;
         }
 
@@ -1011,9 +1022,9 @@ void WI_updateDeathmatchStats(void)
     {
         if (acceleratestage)
         {
-            S_StartSound(0, sfx_slop);
+            S_StartSound(NULL, sfx_slop);
 
-            if ( gamemode == commercial)
+            if (gamemode == commercial)
                 WI_initNoState();
             else
                 WI_initShowNextLoc();
@@ -1170,14 +1181,14 @@ void WI_updateNetgameStats(void)
             if (dofrags)
                 cnt_frags[i] = WI_fragSum(i);
         }
-        S_StartSound(0, sfx_barexp);
+        S_StartSound(NULL, sfx_barexp);
         ng_state = 10;
     }
 
     if (ng_state == 2)
     {
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         stillticking = false;
 
@@ -1196,14 +1207,14 @@ void WI_updateNetgameStats(void)
 
         if (!stillticking)
         {
-            S_StartSound(0, sfx_barexp);
+            S_StartSound(NULL, sfx_barexp);
             ng_state++;
         }
     }
     else if (ng_state == 4)
     {
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         stillticking = false;
 
@@ -1220,14 +1231,14 @@ void WI_updateNetgameStats(void)
         }
         if (!stillticking)
         {
-            S_StartSound(0, sfx_barexp);
+            S_StartSound(NULL, sfx_barexp);
             ng_state++;
         }
     }
     else if (ng_state == 6)
     {
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         stillticking = false;
 
@@ -1246,14 +1257,14 @@ void WI_updateNetgameStats(void)
 
         if (!stillticking)
         {
-            S_StartSound(0, sfx_barexp);
+            S_StartSound(NULL, sfx_barexp);
             ng_state += 1 + 2 * !dofrags;
         }
     }
     else if (ng_state == 8)
     {
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         stillticking = false;
 
@@ -1272,7 +1283,7 @@ void WI_updateNetgameStats(void)
 
         if (!stillticking)
         {
-            S_StartSound(0, sfx_pldeth);
+            S_StartSound(NULL, sfx_pldeth);
             ng_state++;
         }
     }
@@ -1280,7 +1291,7 @@ void WI_updateNetgameStats(void)
     {
         if (acceleratestage)
         {
-            S_StartSound(0, sfx_sgcock);
+            S_StartSound(NULL, sfx_sgcock);
             if (gamemode == commercial)
                 WI_initNoState();
             else
@@ -1390,7 +1401,7 @@ void WI_updateStats(void)
             cnt_secret[0] = 100;
         cnt_time = (int)(plrs[me].stime) / TICRATE;
         cnt_par = (int)(wbs->partime) / TICRATE;
-        S_StartSound(0, sfx_barexp);
+        S_StartSound(NULL, sfx_barexp);
         sp_state = 10;
     }
 
@@ -1399,12 +1410,12 @@ void WI_updateStats(void)
         cnt_kills[0] += 2;
 
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         if (cnt_kills[0] >= (int)(plrs[me].skills * 100) / wbs->maxkills)
         {
             cnt_kills[0] = (int)(plrs[me].skills * 100) / wbs->maxkills;
-            S_StartSound(0, sfx_barexp);
+            S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
     }
@@ -1413,12 +1424,12 @@ void WI_updateStats(void)
         cnt_items[0] += 2;
 
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         if (cnt_items[0] >= (int)(plrs[me].sitems * 100) / wbs->maxitems)
         {
             cnt_items[0] = (int)(plrs[me].sitems * 100) / wbs->maxitems;
-            S_StartSound(0, sfx_barexp);
+            S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
     }
@@ -1427,12 +1438,12 @@ void WI_updateStats(void)
         cnt_secret[0] += 2;
 
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         if (cnt_secret[0] >= (int)(plrs[me].ssecret * 100) / wbs->maxsecret)
         {
             cnt_secret[0] = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
-            S_StartSound(0, sfx_barexp);
+            S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
     }
@@ -1440,7 +1451,7 @@ void WI_updateStats(void)
     else if (sp_state == 8)
     {
         if (!(bcnt & 3))
-            S_StartSound(0, sfx_pistol);
+            S_StartSound(NULL, sfx_pistol);
 
         cnt_time += 3;
 
@@ -1455,7 +1466,7 @@ void WI_updateStats(void)
 
             if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
             {
-                S_StartSound(0, sfx_barexp);
+                S_StartSound(NULL, sfx_barexp);
                 sp_state++;
             }
         }
@@ -1464,7 +1475,7 @@ void WI_updateStats(void)
     {
         if (acceleratestage)
         {
-            S_StartSound(0, sfx_sgcock);
+            S_StartSound(NULL, sfx_sgcock);
 
             if (gamemode == commercial)
                 WI_initNoState();
@@ -1542,7 +1553,7 @@ void WI_checkForAccelerate(void)
         {
             Uint8 *keystate = SDL_GetKeyState(NULL);
 
-            if (player->cmd.buttons & BT_ATTACK
+            if ((player->cmd.buttons & BT_ATTACK)
                 || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
             {
                 if (!player->attackdown)
@@ -1550,7 +1561,9 @@ void WI_checkForAccelerate(void)
                 player->attackdown = true;
             }
             else
+            {
                 player->attackdown = false;
+            }
             if (player->cmd.buttons & BT_USE)
             {
                 if (!player->usedown)
@@ -1558,7 +1571,9 @@ void WI_checkForAccelerate(void)
                 player->usedown = true;
             }
             else
+            {
                 player->usedown = false;
+            }
         }
     }
 }
@@ -1693,7 +1708,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     // "scrt"
     callback("WIOSTS", &secret);
 
-     // "secret"
+    // "secret"
     callback("WISCRT2", &sp_secret);
 
     // french wad uses WIOBJ (?)
@@ -1704,7 +1719,9 @@ static void WI_loadUnloadData(load_callback_t callback)
             callback("WIOBJ", &items);
         else
             callback("WIOSTI", &items);
-    } else {
+    } 
+    else 
+    {
         callback("WIOSTI", &items);
     }
 
@@ -1828,7 +1845,7 @@ void WI_Drawer (void)
 extern void P_MapName(int episode, int map);
 extern char maptitle[128];
 
-void WI_initVariables(wbstartstruct_t* wbstartstruct)
+void WI_initVariables(wbstartstruct_t *wbstartstruct)
 {
     wbs = wbstartstruct;
 

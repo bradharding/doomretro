@@ -1068,7 +1068,7 @@ void R_InitTranslationTables (void)
 {
     int         i;
 
-    translationtables = Z_Malloc(256 * 3, PU_STATIC, 0);
+    translationtables = (byte *)Z_Malloc(256 * 3, PU_STATIC, 0);
 
     // translate just the 16 green colors
     for (i = 0; i < 256; i++)
@@ -1164,7 +1164,7 @@ void R_InitBuffer(int width, int height)
         viewwindowy = (SCREENHEIGHT - SBARHEIGHT - height) >> 1;
 
     // Preclaculate all row offsets.
-    for (i=0 ; i<height ; i++)
+    for (i = 0; i < height; i++)
     {
         ylookup[i] = screens[0] + (i + viewwindowy) * SCREENWIDTH;
         ylookup2[i] = screens[1] + (i + viewwindowy) * SCREENWIDTH;

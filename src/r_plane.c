@@ -206,7 +206,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
     check->minx = viewwidth;
     check->maxx = -1;
 
-    memset (check->top, 0xffff, sizeof(check->top));
+    memset(check->top, 0xffff, sizeof(check->top));
 
     return check;
 }
@@ -246,7 +246,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
     }
 
     for (x = intrl; x <= intrh; x++)
-        if (pl->top[x] != 0xffffffffu)
+        if (pl->top[x] != 0xffff)
             break;
 
     if (x > intrh)
@@ -267,7 +267,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
     pl->minx = start;
     pl->maxx = stop;
 
-    memset(pl->top, 0xffffffffu, sizeof(pl->top));
+    memset(pl->top, 0xffff, sizeof(pl->top));
 
     return pl;
 }
