@@ -34,6 +34,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "i_video.h"
 #include "z_zone.h"
 #include "m_argv.h"
+#include "m_fixed.h"
 
 #define ADDITIVE -1
 
@@ -88,45 +89,39 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 static byte *GenerateTintTable(byte *palette, int percent, int colors)
 {
     byte *result;
-    int x, y;
+    int foreground, background;
 
     result = (byte *)Z_Malloc(65536, PU_STATIC, NULL);
-    for (y = 0; y < 256; ++y)
+    for (foreground = 0; foreground < 256; ++foreground)
     {
-        if ((filter[y] & colors) || colors == ALL)
+        if ((filter[foreground] & colors) || colors == ALL)
         {
-            for (x = 0; x < 256; ++x)
+            for (background = 0; background < 256; ++background)
             {
-                byte *col1, *col2;
+                byte *color1, *color2;
                 int r, g, b;
 
-                col1 = palette + x * 3;
-                col2 = palette + y * 3;
+                color1 = palette + background * 3;
+                color2 = palette + foreground * 3;
                 if (percent == ADDITIVE)
                 {
-                    r = col1[0] + col2[0];
-                    if (r > 255)
-                        r = 255;
-                    g = col1[1] + col2[1];
-                    if (g > 255)
-                        g = 255;
-                    b = col1[2] + col2[2];
-                    if (b > 255)
-                        b = 255;
+                    r = MIN(color1[0] + color2[0], 255);
+                    g = MIN(color1[1] + color2[1], 255);
+                    b = MIN(color1[2] + color2[2], 255);
                 }
                 else
                 {
-                    r = ((int)col1[0] * percent + (int)col2[0] * (100 - percent)) / 100;
-                    g = ((int)col1[1] * percent + (int)col2[1] * (100 - percent)) / 100;
-                    b = ((int)col1[2] * percent + (int)col2[2] * (100 - percent)) / 100;
+                    r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / 100;
+                    g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / 100;
+                    b = ((int)color1[2] * percent + (int)color2[2] * (100 - percent)) / 100;
                 }
-                *(result + (x << 8) + y) = FindNearestColor(palette, r, g, b);
+                *(result + (background << 8) + foreground) = FindNearestColor(palette, r, g, b);
             }
         }
         else
         {
-            for (x = 0; x < 256; ++x)
-                *(result + (x << 8) + y) = y;
+            for (background = 0; background < 256; ++background)
+                *(result + (background << 8) + foreground) = foreground;
         }
     }
     if (colors == ALL && percent != ADDITIVE)
@@ -166,12 +161,12 @@ void I_InitTintTables(byte *palette)
     tinttab80 = GenerateTintTable(palette, 80, ALL);
 
     tinttabred = GenerateTintTable(palette, ADDITIVE, REDS);
-    tinttabredwhite = GenerateTintTable(palette, ADDITIVE, REDS|WHITES);
+    tinttabredwhite = GenerateTintTable(palette, ADDITIVE, REDS | WHITES);
     tinttabgreen = GenerateTintTable(palette, ADDITIVE, GREENS);
     tinttabblue = GenerateTintTable(palette, ADDITIVE, BLUES);
 
     tinttabred50 = GenerateTintTable(palette, 50, REDS);
-    tinttabredwhite50 = GenerateTintTable(palette, 50, REDS|WHITES);
+    tinttabredwhite50 = GenerateTintTable(palette, 50, REDS | WHITES);
     tinttabgreen50 = GenerateTintTable(palette, 50, GREENS);
     tinttabblue50 = GenerateTintTable(palette, 50, BLUES);
 }

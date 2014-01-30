@@ -3036,7 +3036,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT | MF2_BOB,       // [BH] apply additive translucency and bob
+    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_BOB,    // [BH] apply 33% alpha translucency and bob
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3065,7 +3065,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT | MF2_BOB,       // [BH] apply additive translucency and bob
+    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_BOB,    // [BH] apply 33% alpha translucency and bob
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3123,7 +3123,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT | MF2_BOB,       // [BH] apply additive translucency and bob
+    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_BOB,    // [BH] apply 33% alpha translucency and bob
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3152,8 +3152,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL,
-    // [BH] apply bob
-    /* flags2       */ MF2_BOB,
+    /* flags2       */ MF2_BOB,                         // [BH] apply bob
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -3240,7 +3239,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT | MF2_BOB,       // [BH] apply additive translucency and bob
+    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_BOB,    // [BH] apply 33% alpha translucency and bob
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
