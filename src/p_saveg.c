@@ -56,7 +56,7 @@ char *P_TempSaveGameFile(void)
 
     if (filename == NULL)
     {
-        filename = malloc(strlen(savegamedir) + 32);
+        filename = (char *)malloc(strlen(savegamedir) + 32);
     }
 
     sprintf(filename, "%stemp.dsg", savegamedir);
@@ -73,7 +73,7 @@ char *P_SaveGameFile(int slot)
 
     if (filename == NULL)
     {
-        filename = malloc(strlen(savegamedir) + 32);
+        filename = (char *)malloc(strlen(savegamedir) + 32);
     }
 
     snprintf(basename, 32, SAVEGAMENAME "%d.dsg", slot);
@@ -255,7 +255,7 @@ static void saveg_write_mapthing_t(mapthing_t *str)
 static void saveg_read_actionf_t(actionf_t *str)
 {
     // actionf_p1 acp1;
-    str->acp1 = saveg_readp();
+    str->acp1 = (actionf_p1)saveg_readp();
 }
 
 static void saveg_write_actionf_t(actionf_t *str)
@@ -280,10 +280,10 @@ static void saveg_write_actionf_t(actionf_t *str)
 static void saveg_read_thinker_t(thinker_t *str)
 {
     // struct thinker_s* prev;
-    str->prev = saveg_readp();
+    str->prev = (thinker_t *)saveg_readp();
 
     // struct thinker_s* next;
-    str->next = saveg_readp();
+    str->next = (thinker_t *)saveg_readp();
 
     // think_t function;
     saveg_read_think_t(&str->function);
@@ -322,28 +322,28 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->z = saveg_read32();
 
     // struct mobj_s* snext;
-    str->snext = saveg_readp();
+    str->snext = (mobj_t *)saveg_readp();
 
     // struct mobj_s* sprev;
-    str->sprev = saveg_readp();
+    str->sprev = (mobj_t *)saveg_readp();
 
     // angle_t angle;
     str->angle = saveg_read32();
 
     // spritenum_t sprite;
-    str->sprite = saveg_read_enum();
+    str->sprite = (spritenum_t)saveg_read_enum();
 
     // int frame;
     str->frame = saveg_read32();
 
     // struct mobj_s* bnext;
-    str->bnext = saveg_readp();
+    str->bnext = (mobj_t *)saveg_readp();
 
     // struct mobj_s* bprev;
-    str->bprev = saveg_readp();
+    str->bprev = (mobj_t *)saveg_readp();
 
     // struct subsector_s* subsector;
-    str->subsector = saveg_readp();
+    str->subsector = (subsector_t *)saveg_readp();
 
     // fixed_t floorz;
     str->floorz = saveg_read32();
@@ -370,10 +370,10 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->validcount = saveg_read32();
 
     // mobjtype_t type;
-    str->type = saveg_read_enum();
+    str->type = (mobjtype_t)saveg_read_enum();
 
     // mobjinfo_t* info;
-    str->info = saveg_readp();
+    str->info = (mobjinfo_t *)saveg_readp();
 
     // int tics;
     str->tics = saveg_read32();
@@ -397,7 +397,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     str->movecount = saveg_read32();
 
     // struct mobj_s* target;
-    str->target = saveg_readp();
+    str->target = (mobj_t *)saveg_readp();
 
     // int reactiontime;
     str->reactiontime = saveg_read32();
@@ -425,7 +425,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     saveg_read_mapthing_t(&str->spawnpoint);
 
     // struct mobj_s* tracer;
-    str->tracer = saveg_readp();
+    str->tracer = (mobj_t *)saveg_readp();
 
     // int bobcount;
     str->bobcount = saveg_read32();
@@ -1116,7 +1116,7 @@ static void saveg_read_floormove_t(floormove_t *str)
     saveg_read_thinker_t(&str->thinker);
 
     // floor_e type;
-    str->type = saveg_read_enum();
+    str->type = (floor_e)saveg_read_enum();
 
     // boolean crush;
     str->crush = saveg_read32();
@@ -1202,10 +1202,10 @@ static void saveg_read_plat_t(plat_t *str)
     str->count = saveg_read32();
 
     // plat_e status;
-    str->status = saveg_read_enum();
+    str->status = (plat_e)saveg_read_enum();
 
     // plat_e oldstatus;
-    str->oldstatus = saveg_read_enum();
+    str->oldstatus = (plat_e)saveg_read_enum();
 
     // boolean crush;
     str->crush = saveg_read32();
@@ -1214,7 +1214,7 @@ static void saveg_read_plat_t(plat_t *str)
     str->tag = saveg_read32();
 
     // plattype_e type;
-    str->type = saveg_read_enum();
+    str->type = (plattype_e)saveg_read_enum();
 }
 
 static void saveg_write_plat_t(plat_t *str)
@@ -1604,7 +1604,7 @@ void P_ArchiveWorld(void)
     side_t              *si;
 
     // do sectors
-    for (i = 0, sec = sectors; i < numsectors ; i++, sec++)
+    for (i = 0, sec = sectors; i < numsectors; i++, sec++)
     {
         saveg_write16(sec->floorheight >> FRACBITS);
         saveg_write16(sec->ceilingheight >> FRACBITS);
@@ -1617,7 +1617,7 @@ void P_ArchiveWorld(void)
 
 
     // do lines
-    for (i = 0, li = lines ; i < numlines; i++, li++)
+    for (i = 0, li = lines; i < numlines; i++, li++)
     {
         saveg_write16(li->flags);
         saveg_write16(li->special);
@@ -1758,23 +1758,27 @@ void P_UnArchiveThinkers(void)
         switch (tclass)
         {
             case tc_end:
-                return;     // end of list
+                return;         // end of list
 
             case tc_mobj:
                 saveg_read_pad();
-                mobj = (mobj_t *)Z_Malloc (sizeof(*mobj), PU_LEVEL, NULL);
+                mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
                 saveg_read_mobj_t(mobj);
 
                 mobj->target = NULL;
                 mobj->tracer = NULL;
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
+                if (mobj->flags2 & MF2_FLIPPEDCORPSE)
+                    mobj->flags2 = mobj->info->flags2 | MF2_FLIPPEDCORPSE;
+                else
+                    mobj->flags2 = mobj->info->flags2;
                 mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
                 P_AddThinker(&mobj->thinker);
                 break;
 
             default:
-                I_Error ("Unknown tclass %i in savegame", tclass);
+                I_Error("Unknown tclass %i in savegame", tclass);
         }
     }
 }
@@ -1897,7 +1901,7 @@ void P_ArchiveSpecials(void)
 //
 // P_UnArchiveSpecials
 //
-void P_UnArchiveSpecials (void)
+void P_UnArchiveSpecials(void)
 {
     byte                tclass;
     ceiling_t           *ceiling;
@@ -1917,7 +1921,7 @@ void P_UnArchiveSpecials (void)
         switch (tclass)
         {
             case tc_endspecials:
-                return;     // end of list
+                return;          // end of list
 
             case tc_ceiling:
                 saveg_read_pad();
