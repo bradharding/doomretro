@@ -462,7 +462,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
 void AM_Start(void);
 
-void G_DoLoadLevel (void)
+void G_DoLoadLevel(void)
 {
     int         i;
     char        *caption;
@@ -733,56 +733,56 @@ boolean G_Responder(event_t *ev)
 
     switch (ev->type)
     {
-    case ev_keydown:
-        if (ev->data1 == key_pause && !menuactive && !keydown)
-        {
-            keydown = key_pause;
-            sendpause = true;
-        }
-        else if (ev->data1 < NUMKEYS)
-        {
-            gamekeydown[ev->data1] = true;
-            vibrate = false;
-        }
-        return true;            // eat key down events
-
-    case ev_keyup:
-        keydown = 0;
-        if (ev->data1 <NUMKEYS)
-            gamekeydown[ev->data1] = false;
-        return false;           // always let key up events filter down
-
-    case ev_mouse:
-        SetMouseButtons(ev->data1);
-        if (ev->data1)
-            vibrate = false;
-        if (!automapactive && !menuactive && !paused)
-        {
-            if (ev->data1 & 16)
-                NextWeapon();
-            else if (ev->data1 & 8)
-                PrevWeapon();
-        }
-        if (!automapactive || (automapactive && followplayer))
-            mousex = ev->data2 * (mouseSensitivity + 4) / 10 /2;
-        return true;            // eat events
-
-    case ev_gamepad:
-        if (!automapactive || (automapactive && followplayer))
-        {
-            if ((gamepadpress && gamepadwait < I_GetTime()) || !gamepadpress)
+        case ev_keydown:
+            if (ev->data1 == key_pause && !menuactive && !keydown)
             {
-                if (gamepadbuttons & gamepadnextweapon)
-                    NextWeapon();
-                gamepadpress = false;
+                keydown = key_pause;
+                sendpause = true;
             }
-            if (gamepadbuttons & gamepadprevweapon)
-                PrevWeapon();
-        }
-        return true;            // eat events
+            else if (ev->data1 < NUMKEYS)
+            {
+                gamekeydown[ev->data1] = true;
+                vibrate = false;
+            }
+            return true;            // eat key down events
 
-    default:
-        break;
+        case ev_keyup:
+            keydown = 0;
+            if (ev->data1 < NUMKEYS)
+                gamekeydown[ev->data1] = false;
+            return false;           // always let key up events filter down
+
+        case ev_mouse:
+            SetMouseButtons(ev->data1);
+            if (ev->data1)
+                vibrate = false;
+            if (!automapactive && !menuactive && !paused)
+            {
+                if (ev->data1 & 16)
+                    NextWeapon();
+                else if (ev->data1 & 8)
+                    PrevWeapon();
+            }
+            if (!automapactive || (automapactive && followplayer))
+                mousex = ev->data2 * (mouseSensitivity + 4) / 10 /2;
+            return true;            // eat events
+
+        case ev_gamepad:
+            if (!automapactive || (automapactive && followplayer))
+            {
+                if ((gamepadpress && gamepadwait < I_GetTime()) || !gamepadpress)
+                {
+                    if (gamepadbuttons & gamepadnextweapon)
+                        NextWeapon();
+                    gamepadpress = false;
+                }
+                if (gamepadbuttons & gamepadprevweapon)
+                    PrevWeapon();
+            }
+            return true;            // eat events
+
+        default:
+            break;
     }
     return false;
 }
@@ -1153,7 +1153,8 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
     xa = finecosine[an];
     ya = finesine[an];
 
-    switch (an) {
+    switch (an) 
+    {
         case -4096:
             xa = finetangent[2048];
             ya = finetangent[0];
@@ -1698,7 +1699,8 @@ void G_DeferredInitNew(skill_t skill, int episode, int map)
     d_episode = episode;
     d_map = map;
     gameaction = ga_newgame;
-    markpointnum = 0;   // [BH]
+    markpointnum = 0;
+    startingnewgame = true;
 }
 
 
@@ -1714,7 +1716,7 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
     d_episode = episode;
     d_map = map;
     gameaction = ga_loadlevel;
-    markpointnum = 0;   // [BH]
+    markpointnum = 0;
 
     for (pnum = 0; pnum < MAXPLAYERS; ++pnum)
         if (playeringame[pnum])
@@ -1886,7 +1888,7 @@ void G_InitNew(skill_t skill, int episode, int map)
     //skytexture = R_TextureNumForName(skytexturename);
 
 
-    G_DoLoadLevel ();
+    G_DoLoadLevel();
 }
 
 

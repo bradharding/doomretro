@@ -70,6 +70,8 @@ extern int              st_palette;
 
 extern boolean          widescreen;
 extern boolean          returntowidescreen;
+extern boolean          wipe;
+
 
 void S_StopSounds(void);
 
@@ -126,6 +128,7 @@ char                    saveOldString[SAVESTRINGSIZE];
 boolean                 inhelpscreens;
 boolean                 menuactive;
 boolean                 savegames = false;
+boolean                 startingnewgame = false;
 
 #define SKULLXOFF       -32
 #define LINEHEIGHT      17
@@ -1856,6 +1859,9 @@ boolean M_Responder(event_t *ev)
     ch = 0;
     key = -1;
 
+    if (startingnewgame || wipe)
+        return false;
+
     if (ev->type == ev_gamepad && gamepadwait < I_GetTime())
     {
         if (menuactive)
@@ -2302,7 +2308,7 @@ boolean M_Responder(event_t *ev)
 
         // Quickload
         else if (key == KEY_F9 && !functionkey && (viewactive || automapactive) &&
-            !demoplayback && savegames && !keydown)
+                 !demoplayback && savegames && !keydown)
         {
             keydown = key;
             functionkey = KEY_F9;

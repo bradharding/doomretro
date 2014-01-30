@@ -56,6 +56,8 @@ typedef struct menu_s
 menu_t;
 
 
+boolean startingnewgame;
+
 //
 // MENUS
 //

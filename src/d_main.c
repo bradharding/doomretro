@@ -232,7 +232,10 @@ void D_Display(void)
         menuactive = false;
     }
     else
+    {
         wipe = false;
+        startingnewgame = false;
+    }
 
     if (gamestate == GS_LEVEL && gametic)
         HU_Erase();
