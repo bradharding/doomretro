@@ -146,7 +146,8 @@ void I_Init(void)
 void I_Quit(void)
 {
     D_QuitNetGame();
-    G_CheckDemoStatus();
+    if (demorecording)
+        G_CheckDemoStatus();
     S_Shutdown();
 
     I_SaveWindowPosition();
@@ -201,14 +202,21 @@ void I_Error(char *error, ...)
 
     // Shutdown. Here might be other errors.
 
-    if (demorecording)
-    {
-        G_CheckDemoStatus();
-    }
-
     D_QuitNetGame();
-    I_ShutdownGraphics();
+    if (demorecording)
+        G_CheckDemoStatus();
     S_Shutdown();
+
+    I_SaveWindowPosition();
+
+    if (returntowidescreen)
+        widescreen = true;
+
+    M_SaveDefaults();
+
+    I_ShutdownGraphics();
+
+    I_ShutdownGamepad();
 
     va_start(argptr, error);
     memset(msgbuf, 0, sizeof(msgbuf));
