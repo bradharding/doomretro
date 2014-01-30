@@ -1353,7 +1353,7 @@ void M_VerifyNightmare(int key)
     {
         messageToPrint = 0;
         S_StartSound(NULL, sfx_swtchx);
-        I_WaitVBL(35);
+        I_WaitVBL(1 * TICRATE);
         quickSaveSlot = -1;
         menuactive = false;
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
@@ -1372,9 +1372,8 @@ void M_ChooseSkill(int choice)
     }
 
     S_StartSound(NULL, sfx_pistol);
-    I_WaitVBL(35);
+    I_WaitVBL(1 * TICRATE);
     quickSaveSlot = -1;
-    menuactive = false;
     G_DeferredInitNew((skill_t)choice, epi + 1, 1);
 }
 

@@ -229,6 +229,7 @@ void D_Display(void)
     {
         wipe = true;
         wipe_StartScreen(0, 0, SCREENWIDTH, SCREENHEIGHT);
+        menuactive = false;
     }
     else
         wipe = false;
