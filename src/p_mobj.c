@@ -32,12 +32,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "doomdef.h"
 #include "p_local.h"
-#include "new\sounds.h"
+#include "sounds.h"
 
 #include "st_stuff.h"
 #include "hu_stuff.h"
 
-#include "new\s_sound.h"
+#include "s_sound.h"
 
 #include "doomstat.h"
 

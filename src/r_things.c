@@ -412,7 +412,7 @@ void R_DrawMaskedColumn2(column_t *column)
     }
 }
 
-boolean                 colors9and159to142;
+boolean                 megasphere;
 int                     fuzzpos;
 
 //
@@ -475,7 +475,7 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-    colors9and159to142 = (vis->type == MT_MEGA);
+    megasphere = (vis->type == MT_MEGA);
 
     for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
     {

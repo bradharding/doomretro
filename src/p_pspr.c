@@ -50,7 +50,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define BFGCELLS        40
 
 
-boolean skipcolor71;
+boolean supershotgun;
 
 
 
@@ -86,7 +86,7 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
                 break;
         }
 
-        skipcolor71 = (stnum >= S_DSGUN && stnum <= S_DSGUNUP);
+        supershotgun = (stnum >= S_DSGUN && stnum <= S_DSGUNUP);
 
         stnum = psp->state->nextstate;
 

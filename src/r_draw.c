@@ -127,7 +127,7 @@ boolean                 dc_bottomsparkle;
 // first pixel in a column (possibly virtual)
 byte                    *dc_source;
 
-extern boolean skipcolor71;
+extern boolean supershotgun;
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -150,7 +150,7 @@ void R_DrawColumn(void)
 
     frac = dc_texturefrac;
 
-    if (skipcolor71)
+    if (supershotgun)
     {
         register byte               dot;
         register const byte         *source = dc_source;
@@ -554,8 +554,6 @@ void R_DrawTranslucentRedToGreen50Column(void)
     }
 }
 
-extern boolean colors9and159to142;
-
 void R_DrawTranslucentColumn(void)
 {
     register int32_t            count = dc_yh - dc_yl;
@@ -571,23 +569,16 @@ void R_DrawTranslucentColumn(void)
     frac = dc_texturefrac;
 
     {
-        register byte                   dot;
         register const byte             *source = dc_source;
         register const lighttable_t     *colormap = dc_colormap;
 
         while (--count)
         {
-            dot = source[frac >> FRACBITS];
-            if (colors9and159to142 && (dot == 9 || dot == 159))
-                dot = 142;
-            *dest = tinttab[(*dest << 8) + colormap[dot]];
+            *dest = tinttab[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        dot = source[frac >> FRACBITS];
-        if (colors9and159to142 && (dot == 9 || dot == 159))
-            dot = 142;
-        *dest = tinttab[(*dest << 8) + colormap[dot]];
+        *dest = tinttab[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
     }
 }
 
@@ -622,6 +613,8 @@ void R_DrawTranslucent50Column(void)
     }
 }
 
+extern boolean megasphere;
+
 void R_DrawTranslucent33Column(void)
 {
     register int32_t           count = dc_yh - dc_yl;
@@ -637,16 +630,23 @@ void R_DrawTranslucent33Column(void)
     frac = dc_texturefrac;
 
     {
+        register byte                   dot;
         register const byte             *source = dc_source;
         register const lighttable_t     *colormap = dc_colormap;
 
         while (--count)
         {
-            *dest = tinttab33[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
+            dot = source[frac >> FRACBITS];
+            if (megasphere && (dot == 9 || dot == 159))
+                dot = 142;
+            *dest = tinttab33[(*dest << 8) + colormap[dot]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        *dest = tinttab33[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
+        dot = source[frac >> FRACBITS];
+        if (megasphere && (dot == 9 || dot == 159))
+            dot = 142;
+        *dest = tinttab33[(*dest << 8) + colormap[dot]];
     }
 }
 
@@ -812,13 +812,13 @@ void R_DrawTranslucentRedWhite50Column(void)
         while (--count)
         {
             dot = source[frac >> FRACBITS];
-            if (!skipcolor71 || (skipcolor71 && dot != 71))
+            if (!supershotgun || (supershotgun && dot != 71))
                 *dest = colormap[tinttabredwhite50[(*dest << 8) + dot]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
         dot = source[frac >> FRACBITS];
-        if (!skipcolor71 || (skipcolor71 && dot != 71))
+        if (!supershotgun || (supershotgun && dot != 71))
             *dest = colormap[tinttabredwhite50[(*dest << 8) + dot]];
     }
 }
