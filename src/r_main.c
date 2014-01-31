@@ -87,7 +87,7 @@ angle_t                 viewangle;
 fixed_t                 viewcos;
 fixed_t                 viewsin;
 
-player_t*               viewplayer;
+player_t                *viewplayer;
 
 //
 // precalculated math tables

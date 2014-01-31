@@ -427,14 +427,14 @@ static void saveg_read_mobj_t(mobj_t *str)
     // struct mobj_s* tracer;
     str->tracer = (mobj_t *)saveg_readp();
 
-    // int bobcount;
-    str->bobcount = saveg_read32();
+    // int floatbobcount;
+    str->floatbobcount = saveg_read32();
 
-    // int bobdirection;
-    str->bobdirection = saveg_read32();
+    // int floatbobdirection;
+    str->floatbobdirection = saveg_read32();
 
-    // int boblevel;
-    str->boblevel = saveg_read32();
+    // int floatboblevel;
+    str->floatboblevel = saveg_read32();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -554,14 +554,14 @@ static void saveg_write_mobj_t(mobj_t *str)
     // struct mobj_s* tracer;
     saveg_writep(str->tracer);
 
-    // int bobcount;
-    saveg_write32(str->bobcount);
+    // int floatbobcount;
+    saveg_write32(str->floatbobcount);
 
-    // int bobdirection;
-    saveg_write32(str->bobdirection);
+    // int floatbobdirection;
+    saveg_write32(str->floatbobdirection);
 
-    // int boblevel;
-    saveg_write32(str->boblevel);
+    // int floatboblevel;
+    saveg_write32(str->floatboblevel);
 }
 
 

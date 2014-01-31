@@ -65,7 +65,7 @@ extern boolean          message_dontfuckwithme;
 extern boolean          chat_on;                // in heads-up code
 
 extern int              keydown;
-extern byte*            tinttab50;
+extern byte             *tinttab50;
 extern int              st_palette;
 
 extern boolean          widescreen;
@@ -483,8 +483,8 @@ menu_t SaveDef =
 //
 void M_DarkBackground(void)
 {
-    byte*           colormap;
-    byte*           dot;
+    byte            *colormap;
+    byte            *dot;
     int             i;
 
     if (!TITLEPIC && !usergame)
@@ -825,7 +825,7 @@ static byte saveg_read8(FILE *file)
 //
 boolean M_CheckSaveGame(int choice)
 {
-    FILE*           handle;
+    FILE            *handle;
     int             episode;
     int             map;
     int             mission;

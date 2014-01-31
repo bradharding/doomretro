@@ -201,7 +201,7 @@ void HU_Start(void)
 {
 
     int         i;
-    char*       s = "";
+    char        *s = "";
 
     if (headsupactive)
         HU_Stop();
@@ -453,7 +453,7 @@ boolean HU_Responder(event_t *ev)
 {
 
     static char         lastmessage[HU_MAXLINELENGTH+1];
-    char*               macromessage;
+    char                *macromessage;
     boolean             eatkey = false;
     static boolean      altdown = false;
     unsigned char       c;

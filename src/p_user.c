@@ -253,7 +253,7 @@ void P_DeathThink(player_t *player)
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t*       cmd;
+    ticcmd_t        *cmd;
     weapontype_t    newweapon;
 
     if (player->cheats & CF_NOCLIP)

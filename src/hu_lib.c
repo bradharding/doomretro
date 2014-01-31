@@ -91,32 +91,36 @@ boolean HUlib_delCharFromTextLine(hu_textline_t *t)
 
 }
 
+static void HU_drawDot(int x, int y, char src)
+{
+    byte *dest = &tempscreen[y * SCREENWIDTH + x];
+
+    if (src == 'û')
+        *dest = 0;
+    else if (src != ' ')
+        *dest = src;
+}
+
 // [BH] draw an individual character to temporary buffer
 void HU_drawChar(int x, int y, int i)
 {
-  int           w;
-  int           xx, yy;
-  int           x1, y1;
+    int           w = strlen(smallcharset[i]) / 10;
+    int           x1, y1;
+    
+    for (y1 = 0; y1 < 10; y1++)
+    {
+        for (x1 = 0; x1 < w; x1++)
+        {
+            char src = smallcharset[i][y1 * w + x1];
+            int i = (x + x1) * 2;
+            int j = (y + y1) * 2;
 
-  w = strlen(smallcharset[i]) / 10;
-
-  for (y1 = 0; y1 < 10; y1++)
-      for (x1 = 0; x1 < w; x1++)
-      {
-          char src = smallcharset[i][y1 * w + x1];
-
-          for (yy = 0; yy < SCREENSCALE; yy++)
-             for (xx = 0; xx < SCREENSCALE; xx++)
-             {
-                 byte *dest = &tempscreen[((y + y1) * SCREENSCALE + yy) * SCREENWIDTH +
-                                           (x + x1) * SCREENSCALE + xx];
-
-                 if (src == 'û')
-                     *dest = 0;
-                 else if (src != ' ')
-                     *dest = src;
-             }
-       }
+            HU_drawDot(i, j, src);
+            HU_drawDot(++i, j, src);
+            HU_drawDot(i, ++j, src);
+            HU_drawDot(--i, j, src);
+        }
+    }
 }
 
 static struct
@@ -124,7 +128,8 @@ static struct
     char        char1;
     char        char2;
     int         adjust;
-} kern[] = {
+} 
+kern[] = {
   { '.', '1', -1 },
   { '.', '7', -1 },
   { ',', '1', -1 },

@@ -124,7 +124,7 @@ static void ExpandSoundData_SDL(byte *data, int samplerate, uint32_t length, Mix
 
     // Calculate the length of the expanded version of the sample.
 
-    expanded_length = (uint32_t)((((uint64_t) length) * mixer_freq) / samplerate);
+    expanded_length = (uint32_t)(((uint64_t)length * mixer_freq) / samplerate);
 
     // Double up twice: 8 -> 16 bit and mono -> stereo
 
@@ -162,7 +162,7 @@ static void ExpandSoundData_SDL(byte *data, int samplerate, uint32_t length, Mix
 
         // number of samples in the converted sound
 
-        expanded_length = ((uint64_t) length * mixer_freq) / samplerate;
+        expanded_length = ((uint64_t)length * mixer_freq) / samplerate;
         expand_ratio = (length << 8) / expanded_length;
 
         for (i = 0; i < expanded_length; ++i)
@@ -193,15 +193,15 @@ static void ExpandSoundData_SDL(byte *data, int samplerate, uint32_t length, Mix
             // (maximum frequency, by nyquist)
 
             dt = 1.0f / mixer_freq;
-            rc = 1.0f / (float)(M_PI * samplerate);
+            rc = 1.0f / (float)(2 * M_PI * samplerate);
             alpha = dt / (rc + dt);
 
-            // Both channels are processed in parallel, hence [i-2]:
+            // Both channels are processed in parallel, hence [i - 2]:
 
-            for (i=2; i<expanded_length * 2; ++i)
+            for (i = 2; i < expanded_length * 2; ++i)
             {
-                expanded[i] = (Sint16) (alpha * expanded[i]
-                                      + (1 - alpha) * expanded[i-2]);
+                expanded[i] = (Sint16)(alpha * expanded[i]
+                              + (1 - alpha) * expanded[i - 2]);
             }
         }
     }

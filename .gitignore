@@ -47,6 +47,14 @@ TestResult.xml
 *.pidb
 *.svclog
 *.scc
+*.tlog
+*.intermediate.manifest
+*.lastbuildstate
+*.idb
+*.res
+stderr.txt
+stdout.txt
+*.exe
 
 # Chutzpah Test files
 _Chutzpah*

@@ -150,14 +150,14 @@ typedef struct player_s
     int                 secretcount;
 
     // Hint messages.
-    char*               message;
+    char                *message;
 
     // For screen flashing (red or bright).
     int                 damagecount;
     int                 bonuscount;
 
     // Who did damage (NULL for floors/ceilings).
-    mobj_t*             attacker;
+    mobj_t              *attacker;
 
     // So gun flashes light up areas.
     int                 extralight;

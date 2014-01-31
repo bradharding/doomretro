@@ -158,7 +158,7 @@ byte    *gridcolor;
 #define INITSCALEMTOF           (0.2 * FRACUNIT)
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
-#define F_PANINC                ((4 << speedtoggle) * SCREENSCALE)
+#define F_PANINC                (8 << speedtoggle)
 // how much zoom-in per tic
 // goes to 2x in 1 second
 #define M_ZOOMIN                ((int)((float)FRACUNIT * (1.00f + F_PANINC / 200.0f)))
@@ -585,7 +585,7 @@ void AM_LevelInit(void)
     bigstate = false;
 
     AM_findMinMaxBoundaries();
-    scale_mtof = 0x15D0 * SCREENSCALE;
+    scale_mtof = 0x2BA0;
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
     // for saving & restoring

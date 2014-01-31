@@ -32,12 +32,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "doomdef.h"
 #include "p_local.h"
-#include "sounds.h"
+#include "new\sounds.h"
 
 #include "st_stuff.h"
 #include "hu_stuff.h"
 
-#include "s_sound.h"
+#include "new\s_sound.h"
 
 #include "doomstat.h"
 
@@ -437,26 +437,26 @@ void P_MobjThinker(mobj_t *mobj)
             return;             // mobj was removed
     }
 
-    if (mobj->flags2 & MF2_BOB)
+    if (mobj->flags2 & MF2_FLOATBOB)
     {
-        if (++mobj->bobcount == BOBCOUNT)
+        if (++mobj->floatbobcount == FLOATBOBCOUNT)
         {
-            mobj->boblevel += mobj->bobdirection;
+            mobj->floatboblevel += mobj->floatbobdirection;
 
-            if (mobj->bobdirection == 1
-                && mobj->boblevel > 1)
+            if (mobj->floatbobdirection == FRACUNIT
+                && mobj->floatboblevel > FRACUNIT)
             {
-                mobj->bobdirection = -1;
+                mobj->floatbobdirection = -FRACUNIT;
             }
-            else if (mobj->bobdirection == -1
-                     && mobj->boblevel < -1)
+            else if (mobj->floatbobdirection == -FRACUNIT
+                     && mobj->floatboblevel < -FRACUNIT)
             {
-                mobj->bobdirection = 1;
+                mobj->floatbobdirection = FRACUNIT;
             }
 
-            mobj->bobcount = 0;
+            mobj->floatbobcount = 0;
 
-            mobj->z += mobj->boblevel * FRACUNIT;
+            mobj->z += mobj->floatboblevel;
         }
         if (mobj->z < mobj->floorz - FRACUNIT * 2
             || mobj->z > mobj->floorz + FRACUNIT * 2)
@@ -558,11 +558,11 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->floorz = mobj->subsector->sector->floorheight;
     mobj->ceilingz = mobj->subsector->sector->ceilingheight;
 
-    if (mobj->flags2 & MF2_BOB)
+    if (mobj->flags2 & MF2_FLOATBOB)
     {
-        mobj->boblevel = 0;
-        mobj->bobdirection = (M_RandomInt(0, 1) ? -1 : 1);
-        mobj->bobcount = M_RandomInt(0, BOBCOUNT - 1);
+        mobj->floatboblevel = 0;
+        mobj->floatbobdirection = (M_RandomInt(0, 1) ? -FRACUNIT : FRACUNIT);
+        mobj->floatbobcount = M_RandomInt(0, FLOATBOBCOUNT - 1);
     }
 
     if (z == ONFLOORZ)

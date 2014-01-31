@@ -376,11 +376,14 @@
     <ClCompile Include="..\src\doomstat.c" />
     <ClCompile Include="..\src\dstrings.c" />
     <ClCompile Include="..\src\info.c" />
+    <ClCompile Include="..\src\i_sdlmusic.c" />
+    <ClCompile Include="..\src\i_sdlsound.c" />
     <ClCompile Include="..\src\memio.c" />
     <ClCompile Include="..\src\midifile.c" />
     <ClCompile Include="..\src\mus2mid.c" />
     <ClCompile Include="..\src\p_fix.c" />
     <ClCompile Include="..\src\sounds.c" />
+    <ClCompile Include="..\src\s_sound.c" />
     <ClCompile Include="..\src\tables.c" />
     <ClCompile Include="..\src\am_map.c" />
     <ClCompile Include="..\src\d_items.c" />
@@ -395,8 +398,6 @@
     <ClCompile Include="..\src\i_gamepad.c" />
     <ClCompile Include="..\src\i_main.c" />
     <ClCompile Include="..\src\i_tinttab.c" />
-    <ClCompile Include="..\src\i_sdlmusic.c" />
-    <ClCompile Include="..\src\i_sdlsound.c" />
     <ClCompile Include="..\src\i_system.c" />
     <ClCompile Include="..\src\i_timer.c" />
     <ClCompile Include="..\src\i_video.c" />
@@ -435,7 +436,6 @@
     <ClCompile Include="..\src\r_segs.c" />
     <ClCompile Include="..\src\r_sky.c" />
     <ClCompile Include="..\src\r_things.c" />
-    <ClCompile Include="..\src\s_sound.c" />
     <ClCompile Include="..\src\st_lib.c" />
     <ClCompile Include="..\src\st_stuff.c" />
     <ClCompile Include="..\src\v_data.c" />

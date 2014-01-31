@@ -29,7 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <stdlib.h>
 
 // Data.
-#include "sounds.h"
+#include "new\sounds.h"
 #include "m_fixed.h"
 
 #include "info.h"
@@ -1523,7 +1523,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_vildth,
     /* speed        */ 15,
     /* radius       */ 20 * FRACUNIT,
-    /* height       */ 72 * FRACUNIT,                   // [BH] changed height from 56 * FRACUNIT
+    /* height       */ 72 * FRACUNIT,                           // [BH] changed height from 56 * FRACUNIT
     /* mass         */ 500,
     /* damage       */ 0,
     /* activesound  */ sfx_vilact,
@@ -1557,7 +1557,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -1581,7 +1581,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_skedth,
     /* speed        */ 10,
     /* radius       */ 20 * FRACUNIT,
-    /* height       */ 72 * FRACUNIT,                   // [BH] changed height from 56 * FRACUNIT
+    /* height       */ 72 * FRACUNIT,                           // [BH] changed height from 56 * FRACUNIT
     /* mass         */ 500,
     /* damage       */ 0,
     /* activesound  */ sfx_skeact,
@@ -1615,7 +1615,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 10,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -1644,7 +1644,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -1702,7 +1702,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 8,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -1905,7 +1905,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 8,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -1963,7 +1963,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 3,
     /* activesound  */ sfx_dmact,
     /* flags        */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-    /* flags2       */ MF2_TRANSLUCENT_REDONLY,         // [BH] apply additive translucency to flames
+    /* flags2       */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to flames
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2132,8 +2132,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_keendt,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 67 * FRACUNIT,                   // [BH] reduced height from 72 * FRACUNIT
-    /* mass         */ 10000000,                        //  so he hangs from ceiling better
+    /* height       */ 67 * FRACUNIT,                           // [BH] reduced height from 72 * FRACUNIT
+    /* mass         */ 10000000,                                //  so he hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY | MF_SHOOTABLE | MF_COUNTKILL,
@@ -2282,7 +2282,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2340,7 +2340,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 3,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2369,7 +2369,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 5,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2427,7 +2427,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 5,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2456,7 +2456,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 100,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2485,7 +2485,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 5,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2514,7 +2514,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2572,7 +2572,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2601,7 +2601,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2630,7 +2630,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_NOSECTOR,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -2659,7 +2659,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_NOBLOCKMAP | MF_NOGRAVITY,
-    /* flags2       */ MF2_TRANSLUCENT,                 // [BH] apply additive translucency
+    /* flags2       */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -3036,7 +3036,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_BOB,    // [BH] apply 33% alpha translucency and bob
+    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,       // [BH] apply 33% alpha translucency and float bobbing z movement
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3065,7 +3065,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_BOB,    // [BH] apply 33% alpha translucency and bob
+    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,       // [BH] apply 33% alpha translucency and float bobbing z movement
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3123,7 +3123,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_BOB,    // [BH] apply 33% alpha translucency and bob
+    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,       // [BH] apply 33% alpha translucency and float bobbing z movement
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3152,7 +3152,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL,
-    /* flags2       */ MF2_BOB,                         // [BH] apply bob
+    /* flags2       */ MF2_FLOATBOB,                            // [BH] apply float bobbing z movement
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -3210,7 +3210,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT_REDONLY,         // [BH] apply additive translucency to lenses
+    /* flags2       */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to lenses
     /* raisestate   */ S_NULL,
     /* frames       */ 2
   },
@@ -3239,7 +3239,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPECIAL | MF_COUNTITEM,
-    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_BOB,    // [BH] apply 33% alpha translucency and bob
+    /* flags2       */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,       // [BH] apply 33% alpha translucency and float bobbing z movement
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3732,7 +3732,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_BLUEONLY,        // [BH] apply additive translucency to light
+    /* flags2       */ MF2_TRANSLUCENT_BLUEONLY,                // [BH] apply additive translucency to light
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3761,7 +3761,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_BLUEONLY,        // [BH] apply additive translucency to light
+    /* flags2       */ MF2_TRANSLUCENT_BLUEONLY,                // [BH] apply additive translucency to light
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -3790,7 +3790,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_REDONLY,         // [BH] apply additive translucency to light
+    /* flags2       */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to light
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -3993,7 +3993,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_GREENONLY,       // [BH] apply additive translucency to flames
+    /* flags2       */ MF2_TRANSLUCENT_GREENONLY,               // [BH] apply additive translucency to flames
     /* raisestate   */ S_NULL,
     /* frames       */ 3
   },
@@ -4080,7 +4080,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_BLUEONLY,        // [BH] apply additive translucency to flame
+    /* flags2       */ MF2_TRANSLUCENT_BLUEONLY,                // [BH] apply additive translucency to flame
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -4109,7 +4109,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_GREENONLY,       // [BH] apply additive translucency to flame
+    /* flags2       */ MF2_TRANSLUCENT_GREENONLY,               // [BH] apply additive translucency to flame
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -4138,7 +4138,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_REDONLY,         // [BH] apply additive translucency to flame
+    /* flags2       */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to flame
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -4167,7 +4167,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_BLUEONLY,        // [BH] apply additive translucency to flame
+    /* flags2       */ MF2_TRANSLUCENT_BLUEONLY,                // [BH] apply additive translucency to flame
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -4196,7 +4196,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_GREENONLY,       // [BH] apply additive translucency to flame
+    /* flags2       */ MF2_TRANSLUCENT_GREENONLY,               // [BH] apply additive translucency to flame
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -4225,7 +4225,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_REDONLY,         // [BH] apply additive translucency to flame
+    /* flags2       */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to flame
     /* raisestate   */ S_NULL,
     /* frames       */ 4
   },
@@ -4365,8 +4365,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 67 * FRACUNIT,                   // [BH] change height from 68 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 67 * FRACUNIT,                           // [BH] change height from 68 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4394,8 +4394,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 83 * FRACUNIT,                   // [BH] change height from 84 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 83 * FRACUNIT,                           // [BH] change height from 84 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4423,8 +4423,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 83 * FRACUNIT,                   // [BH] change height from 84 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 83 * FRACUNIT,                           // [BH] change height from 84 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4452,8 +4452,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 67 * FRACUNIT,                   // [BH] change height from 68 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 67 * FRACUNIT,                           // [BH] change height from 68 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4481,8 +4481,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 51 * FRACUNIT,                   // [BH] change height from 52 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 51 * FRACUNIT,                           // [BH] change height from 52 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4510,8 +4510,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 20 * FRACUNIT,
-    /* height       */ 83 * FRACUNIT,                   // [BH] change height from 84 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 83 * FRACUNIT,                           // [BH] change height from 84 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4539,8 +4539,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 20 * FRACUNIT,
-    /* height       */ 67 * FRACUNIT,                   // [BH] change height from 68 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 67 * FRACUNIT,                           // [BH] change height from 68 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4568,8 +4568,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 20 * FRACUNIT,
-    /* height       */ 83 * FRACUNIT,                   // [BH] change height from 52 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 83 * FRACUNIT,                           // [BH] change height from 52 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4597,8 +4597,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 20 * FRACUNIT,
-    /* height       */ 51 * FRACUNIT,                   // [BH] change height from 52 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 51 * FRACUNIT,                           // [BH] change height from 52 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -4626,8 +4626,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 20 * FRACUNIT,
-    /* height       */ 67 * FRACUNIT,                   // [BH] change height from 68 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 67 * FRACUNIT,                           // [BH] change height from 68 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -5124,7 +5124,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID,
-    /* flags2       */ MF2_TRANSLUCENT_REDONLY,         // [BH] apply additive translucency to flames
+    /* flags2       */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to flames
     /* raisestate   */ S_NULL,
     /* frames       */ 3
   },
@@ -5148,8 +5148,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 83 * FRACUNIT,                   // [BH] change height from 88 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 83 * FRACUNIT,                           // [BH] change height from 88 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -5177,8 +5177,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 83 * FRACUNIT,                   // [BH] change height from 88 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 83 * FRACUNIT,                           // [BH] change height from 88 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -5206,8 +5206,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 59 * FRACUNIT,                   // [BH] change height from 64 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 59 * FRACUNIT,                           // [BH] change height from 64 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -5235,8 +5235,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 59 * FRACUNIT,                   // [BH] change height from 64 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 59 * FRACUNIT,                           // [BH] change height from 64 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -5264,8 +5264,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 59 * FRACUNIT,                   // [BH] change height from 64 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 59 * FRACUNIT,                           // [BH] change height from 64 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -5293,8 +5293,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* deathsound   */ sfx_None,
     /* speed        */ 0,
     /* radius       */ 16 * FRACUNIT,
-    /* height       */ 59 * FRACUNIT,                   // [BH] change height from 64 * FRACUNIT
-    /* mass         */ 100,                             //  so it hangs from ceiling better
+    /* height       */ 59 * FRACUNIT,                           // [BH] change height from 64 * FRACUNIT
+    /* mass         */ 100,                                     //  so it hangs from ceiling better
     /* damage       */ 0,
     /* activesound  */ sfx_None,
     /* flags        */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
@@ -5326,8 +5326,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* mass         */ 100,
     /* damage       */ 0,
     /* activesound  */ sfx_None,
-    /* flags        */ 0,                               // [BH] removed MF_NOBLOCKMAP flag so decoration
-    /* flags2       */ 0,                               //  will stay on floor if sector height changes
+    /* flags        */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
+    /* flags2       */ 0,                                       //  will stay on floor if sector height changes
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -5355,8 +5355,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* mass         */ 100,
     /* damage       */ 0,
     /* activesound  */ sfx_None,
-    /* flags        */ 0,                               // [BH] removed MF_NOBLOCKMAP flag so decoration
-    /* flags2       */ 0,                               //  will stay on floor if sector height changes
+    /* flags        */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
+    /* flags2       */ 0,                                       //  will stay on floor if sector height changes
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -5384,8 +5384,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* mass         */ 100,
     /* damage       */ 0,
     /* activesound  */ sfx_None,
-    /* flags        */ 0,                               // [BH] removed MF_NOBLOCKMAP flag so decoration
-    /* flags2       */ 0,                               //  will stay on floor if sector height changes
+    /* flags        */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
+    /* flags2       */ 0,                                       //  will stay on floor if sector height changes
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   }

@@ -576,7 +576,7 @@ void WI_drawOnLnode(int n, patch_t *c[])
 void WI_initAnimatedBack(void)
 {
     int         i;
-    anim_t*     a;
+    anim_t      *a;
 
     if (gamemode == commercial)
         return;
@@ -659,7 +659,7 @@ void WI_updateAnimatedBack(void)
 void WI_drawAnimatedBack(void)
 {
     int                 i;
-    anim_t*             a;
+    anim_t              *a;
 
     if (gamemode == commercial)
         return;

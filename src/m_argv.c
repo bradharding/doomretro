@@ -36,7 +36,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "m_misc.h"
 
 int             myargc;
-char**          myargv;
+char            **myargv;
 
 
 
@@ -127,7 +127,7 @@ static void LoadResponseFile(int argv_index)
     {
         // Skip past space characters to the next argument
 
-        while(k < size && isspace(infile[k]))
+        while (k < size && isspace(infile[k]))
         {
             ++k;
         }
@@ -172,7 +172,7 @@ static void LoadResponseFile(int argv_index)
 
             newargv[newargc++] = &infile[k];
 
-            while(k < size && !isspace(infile[k]))
+            while (k < size && !isspace(infile[k]))
             {
                 ++k;
             }

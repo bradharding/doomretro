@@ -249,24 +249,30 @@ void F_TextWrite(void)
     src = (byte *)W_CacheLumpName(finaleflat, PU_CACHE);
     dest = screens[0];
 
-    for (y = 0; y < SCREENHEIGHT; y += SCREENSCALE)
-        for (x = 0; x < SCREENWIDTH / 64 * SCREENSCALE; x += SCREENSCALE)
+    for (y = 0; y < SCREENHEIGHT; y += 2)
+    {
+        for (x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             for (i = 0; i < 64; i++)
             {
-                int xx, yy;
+                int j = i * 2;
+                byte dot = *(src + (((y / 2) & 63) << 6) + i); 
 
-                for (yy = 0; yy < SCREENSCALE; yy++)
-                    for (xx = 0; xx < SCREENSCALE; xx++)
-                    {
-                        int j = i * SCREENSCALE + yy * SCREENWIDTH + xx;
-
-                        if (y * SCREENWIDTH + x + j < SCREENWIDTH * SCREENHEIGHT - SCREENWIDTH)
-                            *(dest + j) = *(src + (((y / SCREENSCALE) & 63) << 6) + i);
-                    }
+                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                    *(dest + j) = dot;
+                j++;
+                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                    *(dest + j) = dot;
+                j += SCREENWIDTH;
+                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                    *(dest + j) = dot;
+                j--;
+                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                    *(dest + j) = dot;
             }
-            dest += 64 * SCREENSCALE;
+            dest += 128;
         }
+    }
 
     V_MarkRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
 
@@ -322,9 +328,11 @@ typedef struct
 {
     char        *name;
     mobjtype_t  type;
-} castinfo_t;
+} 
+castinfo_t;
 
-castinfo_t castorder[] = {
+castinfo_t castorder[] = 
+{
     { CC_ZOMBIE,  MT_POSSESSED  },
     { CC_SHOTGUN, MT_SHOTGUY    },
     { CC_HEAVY,   MT_CHAINGUY   },
@@ -413,33 +421,69 @@ void F_CastTicker(void)
         // sound hacks....
         switch (st)
         {
-            case S_PLAY_ATK1:   sfx = sfx_dshtgn; break;
-            case S_POSS_ATK2:   sfx = sfx_pistol; break;
-            case S_SPOS_ATK2:   sfx = sfx_shotgn; break;
-            case S_VILE_ATK2:   sfx = sfx_vilatk; break;
-            case S_SKEL_FIST2:  sfx = sfx_skeswg; break;
-            case S_SKEL_FIST4:  sfx = sfx_skepch; break;
-            case S_SKEL_MISS2:  sfx = sfx_skeatk; break;
+            case S_PLAY_ATK1:   
+                sfx = sfx_dshtgn; 
+                break;
+            case S_POSS_ATK2:   
+                sfx = sfx_pistol; 
+                break;
+            case S_SPOS_ATK2:   
+                sfx = sfx_shotgn; 
+                break;
+            case S_VILE_ATK2:   
+                sfx = sfx_vilatk; 
+                break;
+            case S_SKEL_FIST2:  
+                sfx = sfx_skeswg; 
+                break;
+            case S_SKEL_FIST4:  
+                sfx = sfx_skepch; 
+                break;
+            case S_SKEL_MISS2:  
+                sfx = sfx_skeatk; 
+                break;
             case S_FATT_ATK8:
             case S_FATT_ATK5:
-            case S_FATT_ATK2:   sfx = sfx_firsht; break;
+            case S_FATT_ATK2:   
+                sfx = sfx_firsht; 
+                break;
             case S_CPOS_ATK2:
             case S_CPOS_ATK3:
-            case S_CPOS_ATK4:   sfx = sfx_shotgn; break;
-            case S_TROO_ATK3:   sfx = sfx_claw; break;
-            case S_SARG_ATK2:   sfx = sfx_sgtatk; break;
+            case S_CPOS_ATK4:   
+                sfx = sfx_shotgn; 
+                break;
+            case S_TROO_ATK3:   
+                sfx = sfx_claw; 
+                break;
+            case S_SARG_ATK2:   
+                sfx = sfx_sgtatk; 
+                break;
             case S_BOSS_ATK2:
             case S_BOS2_ATK2:
-            case S_HEAD_ATK2:   sfx = sfx_firsht; break;
-            case S_SKULL_ATK2:  sfx = sfx_sklatk; break;
+            case S_HEAD_ATK2:   
+                sfx = sfx_firsht; 
+                break;
+            case S_SKULL_ATK2:  
+                sfx = sfx_sklatk; 
+                break;
             case S_SPID_ATK2:
-            case S_SPID_ATK3:   sfx = sfx_shotgn; break;
-            case S_BSPI_ATK2:   sfx = sfx_plasma; break;
+            case S_SPID_ATK3:   
+                sfx = sfx_shotgn; 
+                break;
+            case S_BSPI_ATK2:   
+                sfx = sfx_plasma; 
+                break;
             case S_CYBER_ATK2:
             case S_CYBER_ATK4:
-            case S_CYBER_ATK6:  sfx = sfx_rlaunc; break;
-            case S_PAIN_ATK3:   sfx = sfx_sklatk; break;
-            default:            sfx = 0; break;
+            case S_CYBER_ATK6:  
+                sfx = sfx_rlaunc; 
+                break;
+            case S_PAIN_ATK3:   
+                sfx = sfx_sklatk; 
+                break;
+            default:            
+                sfx = 0; 
+                break;
         }
 
         if (sfx)
@@ -451,9 +495,9 @@ void F_CastTicker(void)
         // go into attack frame
         castattacking = true;
         if (castonmelee)
-            caststate=&states[mobjinfo[castorder[castnum].type].meleestate];
+            caststate = &states[mobjinfo[castorder[castnum].type].meleestate];
         else
-            caststate=&states[mobjinfo[castorder[castnum].type].missilestate];
+            caststate = &states[mobjinfo[castorder[castnum].type].missilestate];
         castonmelee ^= 1;
         if (caststate == &states[S_NULL])
         {
@@ -471,7 +515,7 @@ void F_CastTicker(void)
     if (castattacking)
     {
         if (castframes == 24
-            ||        caststate == &states[mobjinfo[castorder[castnum].type].seestate] )
+            || caststate == &states[mobjinfo[castorder[castnum].type].seestate])
         {
 stopattack:
             castattacking = false;
@@ -584,13 +628,13 @@ void F_CastPrint(char *text)
         if (!c)
             break;
         c = toupper(c) - HU_FONTSTART;
-        if (c < 0 || c> HU_FONTSIZE)
+        if (c < 0 || c > HU_FONTSIZE)
         {
             width += 4;
             continue;
         }
 
-        w = SHORT (hu_font[c]->width);
+        w = SHORT(hu_font[c]->width);
         width += w;
     }
 
@@ -687,7 +731,7 @@ void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
     column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
     desttop = screens[0] + x + (SCREENWIDTH - SCALEDWIDTH) / 2 +
-        SCREENWIDTH * ((SCREENHEIGHT - SCALEDHEIGHT) / 2);
+              SCREENWIDTH * ((SCREENHEIGHT - SCALEDHEIGHT) / 2);
 
     // step through the posts in a column
     while (column->topdelta != 0xff)

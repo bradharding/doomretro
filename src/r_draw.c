@@ -1182,8 +1182,8 @@ void R_InitBuffer(int width, int height)
 //
 void R_FillBackScreen(void)
 {
-    byte*       src;
-    byte*       dest;
+    byte        *src;
+    byte        *dest;
     int         x;
     int         y;
     int         i;

@@ -46,7 +46,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "info.h"
 
 
-#define BOBCOUNT 4
+#define FLOATBOBCOUNT 4
 
 
 
@@ -241,7 +241,7 @@ typedef enum
     MF2_REDTOBLUE                       = 4096,
 
     // Object bobs up and down
-    MF2_BOB                             = 8192,
+    MF2_FLOATBOB                        = 8192,
 
     MF2_FUZZYWEAPON                     = 16384
 
@@ -329,9 +329,9 @@ typedef struct mobj_s
     struct mobj_s       *tracer;
 
     // For bobbing up and down.
-    int                boblevel;
-    int                bobdirection;
-    int                bobcount;
+    int                floatboblevel;
+    int                floatbobdirection;
+    int                floatbobcount;
 
     boolean            visited;
 

@@ -100,7 +100,7 @@ boolean         nomonsters;     // checkparm of -nomonsters
 boolean         respawnparm;    // checkparm of -respawn
 boolean         fastparm;       // checkparm of -fast
 
-extern  boolean inhelpscreens;
+extern boolean  inhelpscreens;
 
 skill_t         startskill;
 int             startepisode;
@@ -116,7 +116,7 @@ char            mapdir[1024];   // directory of development maps
 
 void D_CheckNetGame(void);
 void D_ProcessEvents(void);
-void G_BuildTiccmd(ticcmd_t* cmd, int maketic);
+void G_BuildTiccmd(ticcmd_t *cmd, int maketic);
 void D_DoAdvanceDemo(void);
 
 
@@ -149,7 +149,7 @@ void D_PostEvent(event_t *ev)
 //
 event_t *D_PopEvent(void)
 {
-    event_t* result;
+    event_t *result;
 
     if (eventtail == eventhead)
     {
@@ -220,7 +220,7 @@ void D_Display(void)
     if (setsizeneeded)
     {
         R_ExecuteSetViewSize();
-        oldgamestate = (gamestate_t)-1;         // force background redraw
+        oldgamestate = (gamestate_t)(-1);         // force background redraw
         borderdrawcount = 3;
     }
 
@@ -304,7 +304,7 @@ void D_Display(void)
     if (paused)
     {
         M_DarkBackground();
-        M_DrawCenteredString(viewwindowy / SCREENSCALE + (viewheight / SCREENSCALE - 16) / 2, "Paused");
+        M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, "Paused");
         pausedstate = true;
     }
     else
@@ -354,7 +354,7 @@ extern  boolean         demorecording;
 void D_DoomLoop (void)
 {
     if (demorecording)
-            G_BeginRecording();
+        G_BeginRecording();
 
     TryRunTics();
 
@@ -528,18 +528,6 @@ static boolean D_AddFile(char *filename)
   return (handle != NULL);
 }
 
-static struct
-{
-    char *description;
-    char *cmdline;
-    GameVersion_t version;
-} gameversions[] = {
-    { "DOOM 1.9",          "1.9",      exe_doom_1_9     },
-    { "The Ultimate DOOM", "ultimate", exe_ultimate     },
-    { "Final DOOM",        "final",    exe_final        },
-    { NULL,                NULL,       (GameVersion_t)0 }
-};
-
 char *uppercase(char *str)
 {
     char *newstr;
@@ -599,7 +587,7 @@ static void InitGameVersion(void)
 //
 // D_DoomMain
 //
-void D_DoomMain (void)
+void D_DoomMain(void)
 {
     int         p;
     char        file[256];
@@ -617,7 +605,7 @@ void D_DoomMain (void)
     if (iwadfile == NULL)
     {
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
-                "specifying one with the '-iwad' command line parameter.\n");
+                "specifying one with the '-iwad' command-line parameter.\n");
     }
 
     modifiedgame = false;
@@ -648,8 +636,8 @@ void D_DoomMain (void)
             scale = 400;
         forwardmove[0] = forwardmove[0] * scale / 100;
         forwardmove[1] = forwardmove[1] * scale / 100;
-        sidemove[0] = sidemove[0]*scale/100;
-        sidemove[1] = sidemove[1]*scale/100;
+        sidemove[0] = sidemove[0] * scale / 100;
+        sidemove[1] = sidemove[1] * scale / 100;
     }
 
     // init subsystems
@@ -703,7 +691,7 @@ void D_DoomMain (void)
 
     bfgedition = (W_CheckNumForName("DMENUPIC") >= 0 && W_CheckNumForName("M_ACPT") >= 0);
 
-    p = M_CheckParmWithArgs ("-playdemo", 1);
+    p = M_CheckParmWithArgs("-playdemo", 1);
 
     if (!p)
     {

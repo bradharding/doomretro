@@ -40,8 +40,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  action functions cleanly.
 //
 typedef  void (*actionf_v)();
-typedef  void (*actionf_p1)( void* );
-typedef  void (*actionf_p2)( void*, void* );
+typedef  void (*actionf_p1)(void *);
+typedef  void (*actionf_p2)(void *, void *);
 
 typedef union
 {

@@ -44,7 +44,7 @@ extern boolean          dc_topsparkle;
 extern boolean          dc_bottomsparkle;
 
 // first pixel in a column
-extern byte*            dc_source;
+extern byte             *dc_source;
 
 extern byte             *tinttab;
 extern byte             *tinttab33;
