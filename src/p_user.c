@@ -266,7 +266,7 @@ void P_PlayerThink(player_t *player)
     if (player->mo->flags & MF_JUSTATTACKED)
     {
         cmd->angleturn = 0;
-        cmd->forwardmove = 0xC800 / 512;
+        cmd->forwardmove = 0xc800 / 512;
         cmd->sidemove = 0;
         player->mo->flags &= ~MF_JUSTATTACKED;
     }

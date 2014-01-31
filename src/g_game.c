@@ -680,21 +680,21 @@ boolean G_Responder(event_t *ev)
             keydown = 0;
 
         if (!menuactive
-            && (    (   ev->type == ev_keydown
-                     && ev->data1 != KEY_PAUSE
-                     && ev->data1 != KEY_RSHIFT
-                     && ev->data1 != KEY_RALT
-                     && ev->data1 != KEY_CAPSLOCK
-                     && ev->data1 != KEY_NUMLOCK
-                     && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12))
-                 || (    ev->type == ev_mouse
-                     && (ev->data1 && !(ev->data1 & 8 || ev->data1 & 16)))
-                 || (    ev->type == ev_gamepad
-                     && gamepadwait < I_GetTime()
-                     && gamepadbuttons
-                     && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN
-                                            | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
-            && !keydown)
+            && ((ev->type == ev_keydown
+                 && ev->data1 != KEY_PAUSE
+                 && ev->data1 != KEY_RSHIFT
+                 && ev->data1 != KEY_RALT
+                 && ev->data1 != KEY_CAPSLOCK
+                 && ev->data1 != KEY_NUMLOCK
+                 && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12))
+                     || (ev->type == ev_mouse
+                         && (ev->data1 && !(ev->data1 & 8 || ev->data1 & 16)))
+                             || (ev->type == ev_gamepad
+                                 && gamepadwait < I_GetTime()
+                                 && gamepadbuttons
+                                 && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN
+                                                        | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
+                 && !keydown)
         {
             keydown = ev->data1;
             gamepadbuttons = 0;
@@ -1205,7 +1205,7 @@ void G_DeathMatchSpawnPlayer(int playernum)
 
     selections = deathmatch_p - deathmatchstarts;
     if (selections < 4)
-        I_Error ("Only %i deathmatch spots, 4 required", selections);
+        I_Error("Only %i deathmatch spots, 4 required", selections);
 
     for (j = 0; j < 20; j++)
     {
@@ -1334,7 +1334,7 @@ void G_SecretExitLevel(void)
 extern int      selectedepisode;
 extern menu_t   EpiDef;
 
-void G_DoCompleted (void)
+void G_DoCompleted(void)
 {
     int         i;
     char        lump[5];
@@ -1490,8 +1490,8 @@ void G_DoCompleted (void)
         wminfo.plyr[i].sitems = players[i].itemcount;
         wminfo.plyr[i].ssecret = players[i].secretcount;
         wminfo.plyr[i].stime = leveltime;
-        memcpy (wminfo.plyr[i].frags, players[i].frags,
-                sizeof(wminfo.plyr[i].frags));
+        memcpy(wminfo.plyr[i].frags, players[i].frags,
+               sizeof(wminfo.plyr[i].frags));
     }
 
     gamestate = GS_INTERMISSION;
@@ -1505,7 +1505,7 @@ void G_DoCompleted (void)
 //
 // G_WorldDone
 //
-void G_WorldDone (void)
+void G_WorldDone(void)
 {
     gameaction = ga_worlddone;
 
@@ -1559,7 +1559,7 @@ void R_ExecuteSetViewSize(void);
 
 void G_LoadGame(char *name)
 {
-    strcpy (savename, name);
+    strcpy(savename, name);
     gameaction = ga_loadgame;
 }
 
@@ -2018,7 +2018,7 @@ void G_RecordDemo(char *name)
 
     i = M_CheckParmWithArgs("-maxdemo", 1);
     if (i)
-        maxsize = atoi(myargv[i+1])*1024;
+        maxsize = atoi(myargv[i + 1]) * 1024;
     demobuffer = (byte *)Z_Malloc(maxsize, PU_STATIC, NULL);
     demoend = demobuffer + maxsize;
 
@@ -2026,7 +2026,7 @@ void G_RecordDemo(char *name)
 }
 
 
-void G_BeginRecording (void)
+void G_BeginRecording(void)
 {
     int         i;
 
@@ -2185,7 +2185,7 @@ void G_DoPlayDemo(void)
 //
 // G_TimeDemo
 //
-void G_TimeDemo (char* name)
+void G_TimeDemo(char *name)
 {
     timingdemo = true;
 
@@ -2213,7 +2213,7 @@ boolean G_CheckDemoStatus(void)
         float fps;
         int realtics;
 
-        endtime = I_GetTime ();
+        endtime = I_GetTime();
         realtics = endtime - starttime;
         fps = ((float)gametic * TICRATE) / realtics;
 
@@ -2221,8 +2221,8 @@ boolean G_CheckDemoStatus(void)
         timingdemo = false;
         demoplayback = false;
 
-        I_Error ("timed %i gametics in %i realtics (%f fps)",
-                 gametic, realtics, fps);
+        I_Error("timed %i gametics in %i realtics (%f fps)",
+                gametic, realtics, fps);
     }
 
     if (demoplayback)
@@ -2239,9 +2239,9 @@ boolean G_CheckDemoStatus(void)
         consoleplayer = 0;
 
         if (singledemo)
-            I_Quit ();
+            I_Quit();
         else
-            D_AdvanceDemo ();
+            D_AdvanceDemo();
 
         return true;
     }

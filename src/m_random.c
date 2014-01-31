@@ -79,7 +79,7 @@ int M_RandomInt(int lower, int upper)
     return (rand() % (upper - lower + 1) + lower);
 }
 
-void M_ClearRandom (void)
+void M_ClearRandom(void)
 {
     prndindex = 0;
 

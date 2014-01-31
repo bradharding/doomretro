@@ -196,7 +196,7 @@ static void *saveg_readp(void)
 
 static void saveg_writep(void *p)
 {
-    saveg_write32((int) p);
+    saveg_write32((int)p);
 }
 
 // Enum values are 32-bit integers.
@@ -279,10 +279,10 @@ static void saveg_write_actionf_t(actionf_t *str)
 
 static void saveg_read_thinker_t(thinker_t *str)
 {
-    // struct thinker_s* prev;
+    // struct thinker_s *prev;
     str->prev = (thinker_t *)saveg_readp();
 
-    // struct thinker_s* next;
+    // struct thinker_s *next;
     str->next = (thinker_t *)saveg_readp();
 
     // think_t function;
@@ -291,10 +291,10 @@ static void saveg_read_thinker_t(thinker_t *str)
 
 static void saveg_write_thinker_t(thinker_t *str)
 {
-    // struct thinker_s* prev;
+    // struct thinker_s *prev;
     saveg_writep(str->prev);
 
-    // struct thinker_s* next;
+    // struct thinker_s *next;
     saveg_writep(str->next);
 
     // think_t function;
@@ -321,10 +321,10 @@ static void saveg_read_mobj_t(mobj_t *str)
     // fixed_t z;
     str->z = saveg_read32();
 
-    // struct mobj_s* snext;
+    // struct mobj_s *snext;
     str->snext = (mobj_t *)saveg_readp();
 
-    // struct mobj_s* sprev;
+    // struct mobj_s *sprev;
     str->sprev = (mobj_t *)saveg_readp();
 
     // angle_t angle;
@@ -336,13 +336,13 @@ static void saveg_read_mobj_t(mobj_t *str)
     // int frame;
     str->frame = saveg_read32();
 
-    // struct mobj_s* bnext;
+    // struct mobj_s *bnext;
     str->bnext = (mobj_t *)saveg_readp();
 
-    // struct mobj_s* bprev;
+    // struct mobj_s *bprev;
     str->bprev = (mobj_t *)saveg_readp();
 
-    // struct subsector_s* subsector;
+    // struct subsector_s *subsector;
     str->subsector = (subsector_t *)saveg_readp();
 
     // fixed_t floorz;
@@ -372,13 +372,13 @@ static void saveg_read_mobj_t(mobj_t *str)
     // mobjtype_t type;
     str->type = (mobjtype_t)saveg_read_enum();
 
-    // mobjinfo_t* info;
+    // mobjinfo_t *info;
     str->info = (mobjinfo_t *)saveg_readp();
 
     // int tics;
     str->tics = saveg_read32();
 
-    // state_t* state;
+    // state_t *state;
     str->state = &states[saveg_read32()];
 
     // int flags;
@@ -396,7 +396,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     // int movecount;
     str->movecount = saveg_read32();
 
-    // struct mobj_s* target;
+    // struct mobj_s *target;
     str->target = (mobj_t *)saveg_readp();
 
     // int reactiontime;
@@ -405,7 +405,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     // int threshold;
     str->threshold = saveg_read32();
 
-    // struct player_s* player;
+    // struct player_s *player;
     pl = saveg_read32();
 
     if (pl > 0)
@@ -424,7 +424,7 @@ static void saveg_read_mobj_t(mobj_t *str)
     // mapthing_t spawnpoint;
     saveg_read_mapthing_t(&str->spawnpoint);
 
-    // struct mobj_s* tracer;
+    // struct mobj_s *tracer;
     str->tracer = (mobj_t *)saveg_readp();
 
     // int floatbobcount;
@@ -451,10 +451,10 @@ static void saveg_write_mobj_t(mobj_t *str)
     // fixed_t z;
     saveg_write32(str->z);
 
-    // struct mobj_s* snext;
+    // struct mobj_s *snext;
     saveg_writep(str->snext);
 
-    // struct mobj_s* sprev;
+    // struct mobj_s *sprev;
     saveg_writep(str->sprev);
 
     // angle_t angle;
@@ -466,13 +466,13 @@ static void saveg_write_mobj_t(mobj_t *str)
     // int frame;
     saveg_write32(str->frame);
 
-    // struct mobj_s* bnext;
+    // struct mobj_s *bnext;
     saveg_writep(str->bnext);
 
-    // struct mobj_s* bprev;
+    // struct mobj_s *bprev;
     saveg_writep(str->bprev);
 
-    // struct subsector_s* subsector;
+    // struct subsector_s *subsector;
     saveg_writep(str->subsector);
 
     // fixed_t floorz;
@@ -502,13 +502,13 @@ static void saveg_write_mobj_t(mobj_t *str)
     // mobjtype_t type;
     saveg_write_enum(str->type);
 
-    // mobjinfo_t* info;
+    // mobjinfo_t *info;
     saveg_writep(str->info);
 
     // int tics;
     saveg_write32(str->tics);
 
-    // state_t* state;
+    // state_t *state;
     saveg_write32(str->state - states);
 
     // int flags;
@@ -526,7 +526,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     // int movecount;
     saveg_write32(str->movecount);
 
-    // struct mobj_s* target;
+    // struct mobj_s *target;
     saveg_writep(str->target);
 
     // int reactiontime;
@@ -535,7 +535,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     // int threshold;
     saveg_write32(str->threshold);
 
-    // struct player_s* player;
+    // struct player_s *player;
     if (str->player)
     {
         saveg_write32(str->player - players + 1);
@@ -551,7 +551,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     // mapthing_t spawnpoint;
     saveg_write_mapthing_t(&str->spawnpoint);
 
-    // struct mobj_s* tracer;
+    // struct mobj_s *tracer;
     saveg_writep(str->tracer);
 
     // int floatbobcount;
@@ -619,7 +619,7 @@ static void saveg_read_pspdef_t(pspdef_t *str)
 {
     int state;
 
-    // state_t* state;
+    // state_t *state;
     state = saveg_read32();
 
     if (state > 0)
@@ -643,7 +643,7 @@ static void saveg_read_pspdef_t(pspdef_t *str)
 
 static void saveg_write_pspdef_t(pspdef_t *str)
 {
-    // state_t* state;
+    // state_t *state;
     if (str->state)
     {
         saveg_write32(str->state - states);
@@ -673,7 +673,7 @@ static void saveg_read_player_t(player_t *str)
 {
     int i;
 
-    // mobj_t* mo;
+    // mobj_t *mo;
     str->mo = (mobj_t *)saveg_readp();
 
     // playerstate_t playerstate;
@@ -774,7 +774,7 @@ static void saveg_read_player_t(player_t *str)
     // int secretcount;
     str->secretcount = saveg_read32();
 
-    // char* message;
+    // char *message;
     str->message = (char *)saveg_readp();
 
     // int damagecount;
@@ -783,7 +783,7 @@ static void saveg_read_player_t(player_t *str)
     // int bonuscount;
     str->bonuscount = saveg_read32();
 
-    // mobj_t* attacker;
+    // mobj_t *attacker;
     str->attacker = (mobj_t *)saveg_readp();
 
     // int extralight;
@@ -824,7 +824,7 @@ static void saveg_write_player_t(player_t *str)
 {
     int i;
 
-    // mobj_t* mo;
+    // mobj_t *mo;
     saveg_writep(str->mo);
 
     // playerstate_t playerstate;
@@ -923,7 +923,7 @@ static void saveg_write_player_t(player_t *str)
     // int secretcount;
     saveg_write32(str->secretcount);
 
-    // char* message;
+    // char *message;
     saveg_writep(str->message);
 
     // int damagecount;
@@ -932,7 +932,7 @@ static void saveg_write_player_t(player_t *str)
     // int bonuscount;
     saveg_write32(str->bonuscount);
 
-    // mobj_t* attacker;
+    // mobj_t *attacker;
     saveg_writep(str->attacker);
 
     // int extralight;
@@ -984,7 +984,7 @@ static void saveg_read_ceiling_t(ceiling_t *str)
     // ceiling_e type;
     str->type = (ceiling_e)saveg_read_enum();
 
-    // sector_t* sector;
+    // sector_t *sector;
     sector = saveg_read32();
     str->sector = &sectors[sector];
 
@@ -1018,7 +1018,7 @@ static void saveg_write_ceiling_t(ceiling_t *str)
     // ceiling_e type;
     saveg_write_enum(str->type);
 
-    // sector_t* sector;
+    // sector_t *sector;
     saveg_write32(str->sector - sectors);
 
     // fixed_t bottomheight;
@@ -1055,9 +1055,9 @@ static void saveg_read_vldoor_t(vldoor_t *str)
     saveg_read_thinker_t(&str->thinker);
 
     // vldoor_e type;
-    str->type = saveg_read_enum();
+    str->type = (vldoor_e)saveg_read_enum();
 
-    // sector_t* sector;
+    // sector_t *sector;
     sector = saveg_read32();
     str->sector = &sectors[sector];
 
@@ -1085,7 +1085,7 @@ static void saveg_write_vldoor_t(vldoor_t *str)
     // vldoor_e type;
     saveg_write_enum(str->type);
 
-    // sector_t* sector;
+    // sector_t *sector;
     saveg_write32(str->sector - sectors);
 
     // fixed_t topheight;
@@ -1121,7 +1121,7 @@ static void saveg_read_floormove_t(floormove_t *str)
     // boolean crush;
     str->crush = saveg_read32();
 
-    // sector_t* sector;
+    // sector_t *sector;
     sector = saveg_read32();
     str->sector = &sectors[sector];
 
@@ -1152,7 +1152,7 @@ static void saveg_write_floormove_t(floormove_t *str)
     // boolean crush;
     saveg_write32(str->crush);
 
-    // sector_t* sector;
+    // sector_t *sector;
     saveg_write32(str->sector - sectors);
 
     // int direction;
@@ -1182,7 +1182,7 @@ static void saveg_read_plat_t(plat_t *str)
     // thinker_t thinker;
     saveg_read_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     sector = saveg_read32();
     str->sector = &sectors[sector];
 
@@ -1222,7 +1222,7 @@ static void saveg_write_plat_t(plat_t *str)
     // thinker_t thinker;
     saveg_write_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     saveg_write32(str->sector - sectors);
 
     // fixed_t speed;
@@ -1267,7 +1267,7 @@ static void saveg_read_lightflash_t(lightflash_t *str)
     // thinker_t thinker;
     saveg_read_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     sector = saveg_read32();
     str->sector = &sectors[sector];
 
@@ -1292,7 +1292,7 @@ static void saveg_write_lightflash_t(lightflash_t *str)
     // thinker_t thinker;
     saveg_write_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     saveg_write32(str->sector - sectors);
 
     // int count;
@@ -1322,7 +1322,7 @@ static void saveg_read_strobe_t(strobe_t *str)
     // thinker_t thinker;
     saveg_read_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     sector = saveg_read32();
     str->sector = &sectors[sector];
 
@@ -1347,7 +1347,7 @@ static void saveg_write_strobe_t(strobe_t *str)
     // thinker_t thinker;
     saveg_write_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     saveg_write32(str->sector - sectors);
 
     // int count;
@@ -1377,7 +1377,7 @@ static void saveg_read_glow_t(glow_t *str)
     // thinker_t thinker;
     saveg_read_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     sector = saveg_read32();
     str->sector = &sectors[sector];
 
@@ -1396,7 +1396,7 @@ static void saveg_write_glow_t(glow_t *str)
     // thinker_t thinker;
     saveg_write_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     saveg_write32(str->sector - sectors);
 
     // int minlight;
@@ -1416,7 +1416,7 @@ static void saveg_read_flicker_t(fireflicker_t *str)
     // thinker_t thinker;
     saveg_read_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     sector = saveg_read32();
     str->sector = &sectors[sector];
 
@@ -1435,7 +1435,7 @@ static void saveg_write_flicker_t(fireflicker_t *str)
     // thinker_t thinker;
     saveg_write_thinker_t(&str->thinker);
 
-    // sector_t* sector;
+    // sector_t *sector;
     saveg_write32(str->sector - sectors);
 
     // int count;
@@ -1461,7 +1461,7 @@ void P_WriteSaveGameHeader(char *description)
 
     for (i = 0; description[i] != '\0'; ++i)
         saveg_write8(description[i]);
-    for ( ; i < SAVESTRINGSIZE; ++i)
+    for (; i < SAVESTRINGSIZE; ++i)
         saveg_write8(0);
 
     memset(name, 0, sizeof(name));
@@ -1992,8 +1992,8 @@ void P_UnArchiveSpecials(void)
                 break;
 
             default:
-                I_Error ("P_UnarchiveSpecials:Unknown tclass %i "
-                         "in savegame", tclass);
+                I_Error("P_UnarchiveSpecials:Unknown tclass %i "
+                        "in savegame", tclass);
         }
     }
 }

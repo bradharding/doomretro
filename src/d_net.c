@@ -184,7 +184,7 @@ void D_StartGameLoop(void)
 // Works out player numbers among the net participants
 //
 
-void D_CheckNetGame (void)
+void D_CheckNetGame(void)
 {
     int i;
     int num_players;
@@ -233,7 +233,7 @@ void D_CheckNetGame (void)
 // Called before quitting to leave a net game
 // without hanging the other players
 //
-void D_QuitNetGame (void)
+void D_QuitNetGame(void)
 {
 }
 
@@ -276,7 +276,7 @@ int     oldnettics;
 
 extern  boolean advancedemo;
 
-void TryRunTics (void)
+void TryRunTics(void)
 {
     int i;
     int lowtic;
@@ -371,7 +371,7 @@ void TryRunTics (void)
 
     while (!PlayersInGame() || lowtic < gametic / ticdup + counts)
     {
-        NetUpdate ();
+        NetUpdate();
 
         lowtic = GetLowTic();
 

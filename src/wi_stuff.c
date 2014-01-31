@@ -561,7 +561,7 @@ void WI_drawOnLnode(int n, patch_t *c[])
         }
         else if (c[i] == *yah)
         {
-            V_DrawPatchNoGreenWithShadow(lnodes[wbs->epsd][n].x+1, lnodes[wbs->epsd][n].y + 1,
+            V_DrawPatchNoGreenWithShadow(lnodes[wbs->epsd][n].x + 1, lnodes[wbs->epsd][n].y + 1,
                                          FB, c[i]);
         }
         else
@@ -1819,7 +1819,7 @@ void WI_unloadData(void)
     WI_loadUnloadData(WI_unloadCallback);
 }
 
-void WI_Drawer (void)
+void WI_Drawer(void)
 {
     switch (state)
     {

@@ -86,9 +86,9 @@ HHOOK g_hKeyboardHook;
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
     bool bEatKeystroke = false;
-    KBDLLHOOKSTRUCT* p = (KBDLLHOOKSTRUCT*)lParam;
+    KBDLLHOOKSTRUCT *p = (KBDLLHOOKSTRUCT *)lParam;
 
-    if (nCode < 0 || nCode != HC_ACTION )
+    if (nCode < 0 || nCode != HC_ACTION)
         return CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam);
 
     switch (wParam)
@@ -102,7 +102,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
         }
     }
 
-    if( bEatKeystroke )
+    if (bEatKeystroke)
         return 1;
     else
         return CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam);
@@ -127,7 +127,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return TRUE;
         }
     }
-    else if (msg == WM_SYSCOMMAND && (wParam & 0xFFF0) == SC_KEYMENU)
+    else if (msg == WM_SYSCOMMAND && (wParam & 0xfff0) == SC_KEYMENU)
         return false;
     else if (msg == WM_SYSKEYDOWN && wParam == VK_RETURN && !(lParam & 0x40000000))
     {

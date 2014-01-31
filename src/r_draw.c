@@ -203,7 +203,7 @@ void R_DrawWallColumn(void)
 
         if (dc_texheight == 128)
         {
-            #define HEIGHTMASK ((127 << FRACBITS) | 0xFFFF)
+            #define HEIGHTMASK ((127 << FRACBITS) | 0xffff)
 
             while (--count)
             {
@@ -222,7 +222,7 @@ void R_DrawWallColumn(void)
 
             if (!(dc_texheight & heightmask))
             {
-                fixed_t _heightmask = (heightmask << FRACBITS) | 0xFFFF;
+                fixed_t _heightmask = (heightmask << FRACBITS) | 0xffff;
 
                 while ((count -= 2) >= 0)
                 {
@@ -296,7 +296,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
         if (dc_texheight == 128)
         {
-            #define HEIGHTMASK ((127 << FRACBITS) | 0xFFFF)
+            #define HEIGHTMASK ((127 << FRACBITS) | 0xffff)
 
             while (--count)
             {
@@ -321,7 +321,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
             if (!(dc_texheight & heightmask))
             {
-                fixed_t _heightmask = (heightmask << FRACBITS) | 0xFFFF;
+                fixed_t _heightmask = (heightmask << FRACBITS) | 0xffff;
 
                 while ((count -= 2) >= 0)
                 {
@@ -1064,7 +1064,7 @@ void R_DrawTranslatedColumn(void)
 // Assumes a given structure of the PLAYPAL.
 // Could be read from a lump instead.
 //
-void R_InitTranslationTables (void)
+void R_InitTranslationTables(void)
 {
     int         i;
 

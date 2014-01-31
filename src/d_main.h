@@ -43,7 +43,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 void D_DoomMain(void);
 
 // Called by IO functions when input is detected.
-void D_PostEvent (event_t *ev);
+void D_PostEvent(event_t *ev);
 
 // Read an event from the event queue
 
@@ -51,17 +51,17 @@ event_t *D_PopEvent(void);
 
 // Read events from all input devices
 
-void D_ProcessEvents (void);
+void D_ProcessEvents(void);
 
 
 //
 // BASE LEVEL
 //
-void D_PageTicker (void);
-void D_PageDrawer (void);
-void D_AdvanceDemo (void);
-void D_DoAdvanceDemo (void);
-void D_StartTitle (void);
+void D_PageTicker(void);
+void D_PageDrawer(void);
+void D_AdvanceDemo(void);
+void D_DoAdvanceDemo(void);
+void D_StartTitle(void);
 
 
 #endif

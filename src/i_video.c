@@ -793,7 +793,7 @@ static void SetWindowPositionVars(void)
 
 static void SetVideoMode(void)
 {
-    SDL_VideoInfo* videoinfo = (SDL_VideoInfo *)SDL_GetVideoInfo();
+    SDL_VideoInfo *videoinfo = (SDL_VideoInfo *)SDL_GetVideoInfo();
 
     desktopwidth = videoinfo->current_w;
     desktopheight = videoinfo->current_h;

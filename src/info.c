@@ -29,7 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <stdlib.h>
 
 // Data.
-#include "new\sounds.h"
+#include "sounds.h"
 #include "m_fixed.h"
 
 #include "info.h"

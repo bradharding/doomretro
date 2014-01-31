@@ -108,7 +108,7 @@ static void R_MapPlane(int y, int x1, int x2)
     float               slope;
     float               realy;
 
-    distance = FixedMul (planeheight, yslope[y]);
+    distance = FixedMul(planeheight, yslope[y]);
     slope = (float)(planeheight / 65535.0f / ABS(centery - y));
     realy = (float)distance / 65536.0f;
 
@@ -122,7 +122,7 @@ static void R_MapPlane(int y, int x1, int x2)
     {
         index = distance >> LIGHTZSHIFT;
 
-        if (index >= MAXLIGHTZ )
+        if (index >= MAXLIGHTZ)
             index = MAXLIGHTZ - 1;
 
         ds_colormap = planezlight[index];
@@ -196,7 +196,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
         return check;
 
     if (lastvisplane - visplanes == MAXVISPLANES)
-        I_Error ("R_FindPlane: no more visplanes");
+        I_Error("R_FindPlane: no more visplanes");
 
     lastvisplane++;
 

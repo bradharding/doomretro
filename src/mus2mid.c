@@ -55,11 +55,11 @@ typedef enum
 {
     midi_releasekey = 0x80,
     midi_presskey = 0x90,
-    midi_aftertouchkey = 0xA0,
-    midi_changecontroller = 0xB0,
-    midi_changepatch = 0xC0,
-    midi_aftertouchchannel = 0xD0,
-    midi_pitchwheel = 0xE0
+    midi_aftertouchkey = 0xa0,
+    midi_changecontroller = 0xb0,
+    midi_changepatch = 0xc0,
+    midi_aftertouchchannel = 0xd0,
+    midi_pitchwheel = 0xe0
 } midievent;
 
 // Structure to hold MUS file header
@@ -102,8 +102,8 @@ static unsigned int tracksize;
 
 static const byte controller_map[] =
 {
-    0x00, 0x20, 0x01, 0x07, 0x0A, 0x0B, 0x5B, 0x5D,
-    0x40, 0x43, 0x78, 0x7B, 0x7E, 0x7F, 0x79
+    0x00, 0x20, 0x01, 0x07, 0x0a, 0x0b, 0x5b, 0x5d,
+    0x40, 0x43, 0x78, 0x7b, 0x7e, 0x7f, 0x79
 };
 
 static int channel_map[NUM_CHANNELS];
@@ -112,18 +112,18 @@ static int channel_map[NUM_CHANNELS];
 
 static boolean WriteTime(unsigned int time, MEMFILE *midioutput)
 {
-    unsigned int buffer = time & 0x7F;
+    unsigned int buffer = time & 0x7f;
     byte writeval;
 
     while ((time >>= 7) != 0)
     {
         buffer <<= 8;
-        buffer |= ((time & 0x7F) | 0x80);
+        buffer |= ((time & 0x7f) | 0x80);
     }
 
     for (;;)
     {
-        writeval = (byte)(buffer & 0xFF);
+        writeval = (byte)(buffer & 0xff);
 
         if (mem_fwrite(&writeval, 1, 1, midioutput) != 1)
         {
@@ -148,7 +148,7 @@ static boolean WriteTime(unsigned int time, MEMFILE *midioutput)
 // Write the end of track marker
 static boolean WriteEndTrack(MEMFILE *midioutput)
 {
-    byte endtrack[] = {0xFF, 0x2F, 0x00};
+    byte endtrack[] = { 0xff, 0x2f, 0x00 };
 
     if (WriteTime(queuedtime, midioutput))
     {
@@ -180,14 +180,14 @@ static boolean WritePressKey(byte channel, byte key,
         return true;
     }
 
-    working = key & 0x7F;
+    working = key & 0x7f;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
         return true;
     }
 
-    working = velocity & 0x7F;
+    working = velocity & 0x7f;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
@@ -215,7 +215,7 @@ static boolean WriteReleaseKey(byte channel, byte key,
         return true;
     }
 
-    working = key & 0x7F;
+    working = key & 0x7f;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
@@ -250,14 +250,14 @@ static boolean WritePitchWheel(byte channel, short wheel,
         return true;
     }
 
-    working = wheel & 0x7F;
+    working = wheel & 0x7f;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
         return true;
     }
 
-    working = (wheel >> 7) & 0x7F;
+    working = (wheel >> 7) & 0x7f;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
@@ -284,7 +284,7 @@ static boolean WriteChangePatch(byte channel, byte patch,
         return true;
     }
 
-    working = patch & 0x7F;
+    working = patch & 0x7f;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
@@ -315,7 +315,7 @@ static boolean WriteChangeController_Valued(byte channel,
         return true;
     }
 
-    working = control & 0x7F;
+    working = control & 0x7f;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
@@ -325,14 +325,14 @@ static boolean WriteChangeController_Valued(byte channel,
     // Quirk in vanilla DOOM? MUS controller values should be
     // 7-bit, not 8-bit.
 
-    working = value;// & 0x7F;
+    working = value;    // & 0x7F;
 
     // Fix on said quirk to stop MIDI players from complaining that
     // the value is out of range:
 
     if (working & 0x80)
     {
-        working = 0x7F;
+        working = 0x7f;
     }
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
@@ -513,7 +513,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                 return true;
             }
 
-            channel = GetMIDIChannel(eventdescriptor & 0x0F);
+            channel = GetMIDIChannel(eventdescriptor & 0x0f);
             event = (musevent)(eventdescriptor & 0x70);
 
             switch (event)
@@ -544,7 +544,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                             return true;
                         }
 
-                        channelvelocities[channel] &= 0x7F;
+                        channelvelocities[channel] &= 0x7f;
                     }
 
                     if (WritePressKey(channel, key,
@@ -648,7 +648,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     return true;
                 }
 
-                timedelay = timedelay * 128 + (working & 0x7F);
+                timedelay = timedelay * 128 + (working & 0x7f);
                 if ((working & 0x80) == 0)
                 {
                     break;

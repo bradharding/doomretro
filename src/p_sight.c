@@ -109,7 +109,7 @@ static boolean P_CrossSubsector(int num)
     count = sub->numlines;
     seg = &segs[sub->firstline];
 
-    for ( ; count; seg++, count--)
+    for (; count; seg++, count--)
     {
         line = seg->linedef;
 

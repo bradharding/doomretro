@@ -1014,7 +1014,7 @@ boolean PTR_ShootTraverse(intercept_t *in)
 
         if (li->frontsector->ceilingheight != li->backsector->ceilingheight)
         {
-            slope = FixedDiv (opentop - shootz, dist);
+            slope = FixedDiv(opentop - shootz, dist);
             if (slope < aimslope)
                 goto hitline;
         }

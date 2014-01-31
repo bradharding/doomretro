@@ -585,7 +585,7 @@ void AM_LevelInit(void)
     bigstate = false;
 
     AM_findMinMaxBoundaries();
-    scale_mtof = 0x2BA0;
+    scale_mtof = 0x2ba0;
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
     // for saving & restoring
@@ -684,13 +684,13 @@ boolean AM_Responder(event_t *ev)
 
         if (!automapactive)
         {
-            if (   (ev->type == ev_keydown
-                    && ev->data1 == AM_STARTKEY
-                    && keydown != AM_STARTKEY
-                    && !(modstate & KMOD_ALT))
-                || (ev->type == ev_gamepad
-                    && (gamepadbuttons & gamepadautomap)
-                    && !backbuttondown))
+            if ((ev->type == ev_keydown
+                 && ev->data1 == AM_STARTKEY
+                 && keydown != AM_STARTKEY
+                 && !(modstate & KMOD_ALT))
+                 || (ev->type == ev_gamepad
+                     && (gamepadbuttons & gamepadautomap)
+                     && !backbuttondown))
             {
                 keydown = AM_STARTKEY;
                 backbuttondown = true;
@@ -900,8 +900,8 @@ boolean AM_Responder(event_t *ev)
                 if (key == AM_CLEARMARKKEY)
                     markpress = 0;
                 keydown = 0;
-                if (   (key == AM_ZOOMOUTKEY
-                        || key == AM_ZOOMINKEY)
+                if ((key == AM_ZOOMOUTKEY
+                     || key == AM_ZOOMINKEY)
                     && !movement)
                 {
                     mtof_zoommul = FRACUNIT;

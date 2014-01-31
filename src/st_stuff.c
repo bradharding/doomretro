@@ -109,7 +109,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ST_NUMEXTRAFACES        2
 
 #define ST_NUMFACES \
-            (ST_FACESTRIDE*ST_NUMPAINFACES+ST_NUMEXTRAFACES)
+            (ST_FACESTRIDE * ST_NUMPAINFACES + ST_NUMEXTRAFACES)
 
 #define ST_TURNOFFSET           (ST_NUMSTRAIGHTFACES)
 #define ST_OUCHOFFSET           (ST_TURNOFFSET + ST_NUMTURNFACES)
@@ -258,7 +258,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ST_OUTHEIGHT            1
 
 #define ST_MAPWIDTH \
-            (strlen(mapnames[(gameepisode - 1) * 9+(gamemap - 1)]))
+            (strlen(mapnames[(gameepisode - 1) * 9 + (gamemap - 1)]))
 
 #define ST_MAPTITLEX \
             (SCREENWIDTH - ST_MAPWIDTH * ST_CHATFONTWIDTH)
@@ -522,7 +522,7 @@ boolean ST_Responder(event_t *ev)
 
     // Filter automap on/off.
     if (ev->type == ev_keyup
-        && ((ev->data1 & 0xFFFF0000) == AM_MSGHEADER))
+        && (ev->data1 & 0xffff0000) == AM_MSGHEADER)
     {
         switch(ev->data1)
         {
@@ -1241,7 +1241,7 @@ boolean ST_Responder(event_t *ev)
                 //    return false;
                 //
                 //if ((gamemode == commercial)
-                //    && (( epsd > 1) || (map > 34)))
+                //    && ((epsd > 1) || (map > 34)))
                 //    return false;
                 if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9))
                 {
@@ -1672,8 +1672,8 @@ void ST_diffDraw(void)
 
 void ST_Drawer(boolean fullscreen, boolean refresh)
 {
-    st_statusbaron = !fullscreen || automapactive;
-    st_firsttime = st_firsttime || refresh;
+    st_statusbaron = (!fullscreen || automapactive);
+    st_firsttime = (st_firsttime || refresh);
 
     // Do red-/gold-shifts from damage/items
     ST_doPaletteStuff();
@@ -1686,7 +1686,7 @@ void ST_Drawer(boolean fullscreen, boolean refresh)
         ST_diffDraw();
 }
 
-typedef void (* load_callback_t)(char* lumpname, patch_t** variable);
+typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 
 static void ST_loadUnloadGraphics(load_callback_t callback)
 {
@@ -1763,7 +1763,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     callback("STFDEAD0", &faces[facenum++]);
 }
 
-static void ST_loadCallback(char* lumpname, patch_t** variable)
+static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
     *variable = (patch_t*)W_CacheLumpName(lumpname, PU_STATIC);
 }
@@ -1779,7 +1779,7 @@ void ST_loadData(void)
     ST_loadGraphics();
 }
 
-static void ST_unloadCallback(char* lumpname, patch_t** variable)
+static void ST_unloadCallback(char *lumpname, patch_t **variable)
 {
     W_ReleaseLumpName(lumpname);
     *variable = NULL;
@@ -2004,7 +2004,7 @@ void ST_Stop(void)
     st_stopped = true;
 }
 
-void ST_Init (void)
+void ST_Init(void)
 {
     int    i;
 

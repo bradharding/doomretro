@@ -118,8 +118,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     else if (curline->v1->x == curline->v2->x)
         lightnum++;
 
-    walllights = scalelight[lightnum >= LIGHTLEVELS ? LIGHTLEVELS - 1
-                            : (lightnum < 0 ? 0 : lightnum)];
+    walllights = scalelight[lightnum >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, lightnum)];
 
     maskedtexturecol = ds->maskedtexturecol;
 
@@ -197,7 +196,7 @@ void R_RenderSegLoop(void)
 {
     fixed_t             texturecolumn;
 
-    for ( ; rw_x < rw_stopx; rw_x++)
+    for (; rw_x < rw_stopx; rw_x++)
     {
         int             yl;
         int             yh;
@@ -245,7 +244,7 @@ void R_RenderSegLoop(void)
         if (markfloor)
         {
 
-            top = (yh < ceilingclip[rw_x] ? ceilingclip[rw_x] : yh);
+            top = MAX(yh, ceilingclip[rw_x]);
             if (++top <= bottom)
             {
                 floorplane->top[rw_x] = top;
@@ -805,7 +804,7 @@ void R_StoreWallRange(int start, int stop)
     if (((ds_p->silhouette & SIL_BOTTOM) || maskedtexture)
         && !ds_p->sprbottomclip)
     {
-        memcpy (lastopening, floorclip + start, sizeof(int) * (rw_stopx - start));
+        memcpy(lastopening, floorclip + start, sizeof(int) * (rw_stopx - start));
         ds_p->sprbottomclip = lastopening - start;
         lastopening += rw_stopx - start;
     }

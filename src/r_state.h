@@ -117,8 +117,8 @@ extern player_t         *viewplayer;
 // ?
 extern angle_t          clipangle;
 
-extern int              viewangletox[FINEANGLES/2];
-extern angle_t          xtoviewangle[SCREENWIDTH+1];
+extern int              viewangletox[FINEANGLES / 2];
+extern angle_t          xtoviewangle[SCREENWIDTH + 1];
 
 extern fixed_t          rw_distance;
 extern angle_t          rw_normalangle;

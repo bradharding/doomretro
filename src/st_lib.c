@@ -161,7 +161,7 @@ void STlib_drawNum(st_number_t *n, boolean refresh)
         if (n->p[0]->height == 6 && !STYSNUM0)
             STlib_drawNum2(0, 160, 47, x - w, n->y);
         else
-            V_DrawPatch(x - w, n->y, FG, n->p[ 0 ]);
+            V_DrawPatch(x - w, n->y, FG, n->p[0]);
     }
 
     // draw the new number
@@ -171,7 +171,7 @@ void STlib_drawNum(st_number_t *n, boolean refresh)
         if (n->p[0]->height == 6 && !STYSNUM0)
             STlib_drawNum2(num % 10, 160, 47, x, n->y);
         else
-           V_DrawPatch(x, n->y, FG, n->p[ num % 10 ]);
+           V_DrawPatch(x, n->y, FG, n->p[num % 10]);
         num /= 10;
     }
 
@@ -240,7 +240,8 @@ void STlib_DrawPercent(st_percent_t *per)
 //
 void STlib_updateNum(st_number_t *n, boolean refresh)
 {
-    if (*n->on) STlib_drawNum(n, refresh);
+    if (*n->on)
+        STlib_drawNum(n, refresh);
 }
 
 
@@ -286,7 +287,7 @@ void STlib_updateMultIcon(st_multicon_t *mi, boolean refresh)
 
     if (*mi->on
         && (mi->oldinum != *mi->inum || refresh)
-        && (*mi->inum!=-1))
+        && (*mi->inum != -1))
     {
         if (mi->oldinum != -1)
         {
@@ -309,7 +310,7 @@ void STlib_updateArmsIcon(st_multicon_t *mi, boolean refresh, int i)
 
     if (*mi->on
         && (mi->oldinum != *mi->inum || refresh)
-        && (*mi->inum!=-1))
+        && (*mi->inum != -1))
     {
         if (mi->oldinum != -1)
         {

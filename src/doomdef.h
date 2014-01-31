@@ -232,10 +232,10 @@ typedef enum
 //
 typedef enum
 {
-    INVULNTICS  = ( 30 * TICRATE ),
-    INVISTICS   = ( 60 * TICRATE ),
-    INFRATICS   = ( 120 * TICRATE ),
-    IRONTICS    = ( 60 * TICRATE )
+    INVULNTICS  = (30 * TICRATE),
+    INVISTICS   = (60 * TICRATE),
+    INFRATICS   = (120 * TICRATE),
+    IRONTICS    = (60 * TICRATE)
 
 } powerduration_t;
 

@@ -811,7 +811,7 @@ nomissile:
 
     // make active sound
     if (actor->info->activesound
-        && P_Random () < 3)
+        && P_Random() < 3)
     {
         S_StartSound(actor, actor->info->activesound);
     }
@@ -1517,7 +1517,7 @@ void A_SkullAttack(mobj_t *actor)
 }
 
 
-extern boolean P_CheckLineSide(mobj_t* actor, int x, int y);
+extern boolean P_CheckLineSide(mobj_t *actor, int x, int y);
 
 //
 // A_PainShootSkull
@@ -1923,7 +1923,7 @@ void A_BrainExplode(mobj_t *mo)
     int         z;
     mobj_t      *th;
 
-    x = mo->x + (P_Random () - P_Random ()) * 2048;
+    x = mo->x + (P_Random() - P_Random()) * 2048;
     y = mo->y;
     z = 128 + P_Random() * 2 * FRACUNIT;
     th = P_SpawnMobj(x, y, z, MT_ROCKET);

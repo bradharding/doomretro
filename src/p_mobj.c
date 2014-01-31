@@ -504,7 +504,7 @@ void P_MobjThinker(mobj_t *mobj)
         if (leveltime & 31)
             return;
 
-        if (P_Random () > 4)
+        if (P_Random() > 4)
             return;
 
         P_NightmareRespawn(mobj);
@@ -538,7 +538,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     if (gameskill != sk_nightmare)
         mobj->reactiontime = info->reactiontime;
 
-    mobj->lastlook = P_Random () % MAXPLAYERS;
+    mobj->lastlook = P_Random() % MAXPLAYERS;
 
     // do not set the state with P_SetMobjState,
     // because action routines cannot be called yet
@@ -862,7 +862,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     mobj->spawnpoint = *mthing;
 
     if (mobj->tics > 0)
-        mobj->tics = 1 + (P_Random () % mobj->tics);
+        mobj->tics = 1 + (P_Random() % mobj->tics);
     if (mobj->flags & MF_COUNTKILL)
         totalkills++;
     if (mobj->flags & MF_COUNTITEM)
@@ -945,7 +945,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         if (damage < 9)
             P_SetMobjState(th, th->state->nextstate);
 
-        angle += ((P_Random() - P_Random()) * 0xB60B60);
+        angle += ((P_Random() - P_Random()) * 0xb60b60);
     }
 }
 

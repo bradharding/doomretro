@@ -228,10 +228,10 @@ static void R_ClipPassWallSegment(int first, int last)
 //
 void R_ClearClipSegs(void)
 {
-    solidsegs[0].first = -0x7FFF;
+    solidsegs[0].first = -0x7fff;
     solidsegs[0].last = -1;
     solidsegs[1].first = viewwidth;
-    solidsegs[1].last = 0x7FFF;
+    solidsegs[1].last = 0x7fff;
     newend = solidsegs + 2;
 }
 
@@ -246,14 +246,14 @@ int R_DoorClosed(void)
         backsector->ceilingheight <= backsector->floorheight
 
         // preserve a kind of transparent door/lift special effect:
-        && (backsector->ceilingheight >= frontsector->ceilingheight ||
-            curline->sidedef->toptexture)
-        && (backsector->floorheight <= frontsector->floorheight ||
-            curline->sidedef->bottomtexture)
+        && (backsector->ceilingheight >= frontsector->ceilingheight 
+            || curline->sidedef->toptexture)
+        && (backsector->floorheight <= frontsector->floorheight 
+            || curline->sidedef->bottomtexture)
 
         // properly render skies (consider door "open" if both ceilings are sky):
-        && (backsector->ceilingpic != skyflatnum ||
-            frontsector->ceilingpic != skyflatnum);
+        && (backsector->ceilingpic != skyflatnum
+            || frontsector->ceilingpic != skyflatnum);
 }
 
 

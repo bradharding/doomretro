@@ -399,7 +399,7 @@ static int I_SDL_StartSound(int id, int channel, int vol, int sep)
     return channel;
 }
 
-static void I_SDL_StopSound (int handle)
+static void I_SDL_StopSound(int handle)
 {
     if (!sound_initialized)
         return;

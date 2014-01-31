@@ -388,7 +388,7 @@ void HU_Ticker(void)
                     if (rc && c == KEY_ENTER)
                     {
                         if (w_inputbuffer[i].l.len
-                            && (chat_dest[i] == consoleplayer+1
+                            && (chat_dest[i] == consoleplayer + 1
                                 || chat_dest[i] == HU_BROADCAST))
                         {
                             HUlib_addMessageToSText(&w_message,
@@ -452,7 +452,7 @@ char HU_dequeueChatChar(void)
 boolean HU_Responder(event_t *ev)
 {
 
-    static char         lastmessage[HU_MAXLINELENGTH+1];
+    static char         lastmessage[HU_MAXLINELENGTH + 1];
     char                *macromessage;
     boolean             eatkey = false;
     static boolean      altdown = false;

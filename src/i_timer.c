@@ -38,7 +38,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 static Uint32 basetime = 0;
 
-int  I_GetTime (void)
+int I_GetTime(void)
 {
     Uint32 ticks;
 

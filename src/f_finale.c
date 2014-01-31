@@ -284,7 +284,7 @@ void F_TextWrite(void)
     count = ((signed int)finalecount - 10) / TEXTSPEED;
     if (count < 0)
         count = 0;
-    for ( ; count; count--)
+    for (; count; count--)
     {
         c = *ch++;
         if (!c)
@@ -306,7 +306,7 @@ void F_TextWrite(void)
         }
         prev = letter;
 
-        w = SHORT (hu_font[c]->width);
+        w = SHORT(hu_font[c]->width);
         if (cx + w > SCREENWIDTH)
             break;
         ay = 0;

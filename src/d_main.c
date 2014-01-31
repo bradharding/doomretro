@@ -351,7 +351,7 @@ void D_Display(void)
 //
 extern  boolean         demorecording;
 
-void D_DoomLoop (void)
+void D_DoomLoop(void)
 {
     if (demorecording)
         G_BeginRecording();
@@ -456,7 +456,7 @@ void D_DoAdvanceDemo(void)
             if (gamemode == commercial)
                 S_StartMusic(mus_dm2ttl);
             else
-                S_StartMusic (mus_intro);
+                S_StartMusic(mus_intro);
             break;
         case 1:
             G_DeferredPlayDemo("demo1");
@@ -613,7 +613,7 @@ void D_DoomMain(void)
     nomonsters = M_CheckParm("-nomonsters");
     respawnparm = M_CheckParm("-respawn");
     fastparm = M_CheckParm("-fast");
-    devparm = M_CheckParm ("-devparm");
+    devparm = M_CheckParm("-devparm");
     if (M_CheckParm("-altdeath"))
         deathmatch = 2;
     else if (M_CheckParm("-deathmatch"))
@@ -700,13 +700,13 @@ void D_DoomMain(void)
 
     if (p)
     {
-        if (!strcasecmp(myargv[p+1] + strlen(myargv[p+1]) - 4, ".lmp"))
+        if (!strcasecmp(myargv[p + 1] + strlen(myargv[p + 1]) - 4, ".lmp"))
         {
             strcpy(file, myargv[p + 1]);
         }
         else
         {
-            sprintf (file,"%s.lmp", myargv[p+1]);
+            sprintf (file,"%s.lmp", myargv[p + 1]);
         }
 
         if (D_AddFile(file))
@@ -786,10 +786,10 @@ void D_DoomMain(void)
     p = M_CheckParmWithArgs("-timer", 1);
     if (p)
     {
-        timelimit = atoi(myargv[p+1]);
+        timelimit = atoi(myargv[p + 1]);
     }
 
-    p = M_CheckParm ("-avg");
+    p = M_CheckParm("-avg");
     if (p)
     {
         timelimit = 20;
@@ -820,7 +820,7 @@ void D_DoomMain(void)
     p = M_CheckParmWithArgs("-loadgame", 1);
     if (p)
     {
-        startloadgame = atoi(myargv[p+1]);
+        startloadgame = atoi(myargv[p + 1]);
     }
     else
     {

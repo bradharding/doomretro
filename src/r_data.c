@@ -282,7 +282,7 @@ struct
 void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy, int cacheheight,
                          byte *marks)
 {
-    while (patch->topdelta != 0xFF)
+    while (patch->topdelta != 0xff)
     {
         int     count = patch->length;
         int     position = originy + patch->topdelta;
@@ -301,7 +301,7 @@ void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy, int ca
         if (count > 0)
         {
             memcpy(cache + position, source, count);
-            memset (marks + position, 0xFF, count);
+            memset(marks + position, 0xff, count);
         }
 
         patch = (column_t *)((byte *)patch + patch->length + 4);
@@ -696,7 +696,7 @@ void R_InitTextures(void)
         offset = LONG(*directory);
 
         if (offset > maxoff)
-            I_Error ("R_InitTextures: bad texture directory");
+            I_Error("R_InitTextures: bad texture directory");
 
         mtexture = (maptexture_t *)((byte *)maptex + offset);
 
@@ -720,8 +720,7 @@ void R_InitTextures(void)
             patch->patch = patchlookup[SHORT(mpatch->patch)];
             if (patch->patch == -1)
             {
-                I_Error ("R_InitTextures: Missing patch in texture %s",
-                         texture->name);
+                I_Error("R_InitTextures: Missing patch in texture %s", texture->name);
             }
         }
         texturecolumnlump[i] = (short *)Z_Malloc(texture->width * sizeof(**texturecolumnlump),
@@ -924,7 +923,7 @@ int R_FlatNumForName(char *name)
     if (i == -1)
     {
         namet[8] = 0;
-        memcpy (namet, name, 8);
+        memcpy(namet, name, 8);
         I_Error("R_FlatNumForName: %s not found", namet);
     }
     return i - firstflat;
@@ -977,8 +976,7 @@ int R_TextureNumForName(char *name)
 
     if (i == -1)
     {
-         I_Error ("R_TextureNumForName: %s not found",
-                  name);
+         I_Error("R_TextureNumForName: %s not found", name);
     }
     return i;
 }

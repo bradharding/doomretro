@@ -122,7 +122,7 @@ void P_MobjThinker(mobj_t *mobj);
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobjflag2_t flag);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
-void P_SpawnPlayerMissile(mobj_t* source, mobjtype_t type);
+void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 
 
 //
@@ -174,7 +174,7 @@ extern fixed_t          openbottom;
 extern fixed_t          openrange;
 extern fixed_t          lowfloor;
 
-void P_LineOpening (line_t *linedef);
+void P_LineOpening(line_t *linedef);
 
 boolean P_BlockLinesIterator(int x, int y, boolean(*func)(line_t *));
 boolean P_BlockThingsIterator(int x, int y, boolean(*func)(mobj_t *));

@@ -114,7 +114,7 @@ byte *I_ZoneBase(int *size)
 
     if (p > 0)
     {
-        default_ram = atoi(myargv[p+1]);
+        default_ram = atoi(myargv[p + 1]);
         min_ram = default_ram;
     }
     else

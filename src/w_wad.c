@@ -108,7 +108,7 @@ unsigned int W_LumpNameHash(const char *s)
 
     for (i = 0; i < 8 && s[i] != '\0'; ++i)
     {
-        result = ((result << 5) ^ result ) ^ toupper(s[i]);
+        result = ((result << 5) ^ result) ^ toupper(s[i]);
     }
 
     return result;
@@ -232,7 +232,7 @@ wad_file_t *W_AddFile (char *filename)
 //
 // W_NumLumps
 //
-int W_NumLumps (void)
+int W_NumLumps(void)
 {
     return numlumps;
 }
@@ -393,7 +393,7 @@ void W_ReadLump(unsigned int lump, void *dest)
         I_Error("W_ReadLump: %i >= numlumps", lump);
     }
 
-    l = lumpinfo+lump;
+    l = lumpinfo + lump;
 
     c = W_Read(l->wad_file, l->position, dest, l->size);
 

@@ -932,7 +932,7 @@ void R_DrawSprite(vissprite_t *spr)
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale
     //  is the clip seg.
-    for (ds = ds_p; ds-- > drawsegs; )
+    for (ds = ds_p; ds-- > drawsegs;)
     {
         // determine if the drawseg obscures the sprite
         if (ds->x1 > spr->x2
@@ -1024,7 +1024,7 @@ void R_DrawMasked(void)
     }
 
     // render any remaining masked mid textures
-    for (ds = ds_p; ds-- > drawsegs; )
+    for (ds = ds_p; ds-- > drawsegs;)
         if (ds->maskedtexturecol)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
