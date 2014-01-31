@@ -33,21 +33,21 @@ doom2 ICON DISCARDABLE "../icons/doom2.ico"
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "manifest.xml"
 
 1 VERSIONINFO
-PRODUCTVERSION 1,1,0,0
-FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,2,0,0
+FILEVERSION 1,2,0,0
 FILETYPE 1
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "040904E4"
         BEGIN
-            VALUE "FileVersion", "1.1"
+            VALUE "FileVersion", "1.2"
             VALUE "FileDescription", "DOOM RETRO"
             VALUE "InternalName", "doomretro"
             VALUE "CompanyName", "brad@doomretro.com"
             VALUE "LegalCopyright", "© 2013-2014 Brad Harding. All rights reserved."
             VALUE "ProductName", "DOOM RETRO"
-            VALUE "ProductVersion", "1.1"
+            VALUE "ProductVersion", "1.2"
         END
     END
     BLOCK "VarFileInfo"
