@@ -83,6 +83,7 @@ int                     maxframe;
 char                    *spritename;
 
 extern int screenblocks;
+extern boolean supershotgun;
 
 
 
@@ -442,7 +443,8 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
     if (vis->mobjflags2 & MF2_FUZZYWEAPON)
         colfunc = psprcolfunc;
     else if (vis->mobjflags2 & MF2_TRANSLUCENT)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tl50colfunc : tlcolfunc);
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
+                   tl50colfunc : tlcolfunc);
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOGREEN_50)
         colfunc = tlredtogreen50colfunc;
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOBLUE_50)
@@ -452,13 +454,17 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_33)
         colfunc = tl33colfunc;
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_GREENONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlgreen50colfunc : tlgreencolfunc);
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
+                   tlgreen50colfunc : tlgreencolfunc);
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlred50colfunc : tlredcolfunc);
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
+                   tlred50colfunc : tlredcolfunc);
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlredwhite50colfunc : tlredwhitecolfunc);
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
+                   tlredwhite50colfunc : tlredwhitecolfunc);
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_BLUEONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlblue50colfunc : tlbluecolfunc);
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
+                   tlblue50colfunc : tlbluecolfunc);
     else if (vis->mobjflags2 & MF2_REDTOGREEN)
         colfunc = redtogreencolfunc;
     else if (vis->mobjflags2 & MF2_REDTOBLUE)
@@ -475,8 +481,6 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
         dc_translation = translationtables - 256 +
             ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
-    //if (viewplayer->fixedcolormap == INVERSECOLORMAP)
-    //    colfunc = basecolfunc;
 
     dc_iscale = FixedDiv(FRACUNIT, vis->scale);
     dc_texturemid = vis->texturemid;
@@ -496,6 +500,8 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
         else
             R_DrawMaskedColumn2(column);
     }
+
+    supershotgun = false;
 
     colfunc = basecolfunc;
 }
