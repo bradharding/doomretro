@@ -1591,6 +1591,9 @@ void G_DoLoadGame(void)
 
     leveltime = savedleveltime;
 
+    bloodSplatQueueSlot = 0;
+    memset(bloodSplatQueue, 0, sizeof(mobj_t *) * BLOODSPLATQUEUESIZE);
+
      // dearchive all the modifications
     P_UnArchivePlayers();
     P_UnArchiveWorld();
@@ -2126,7 +2129,7 @@ void G_DoPlayDemo(void)
     int demoversion;
 
     gameaction = ga_nothing;
-    demobuffer = demo_p = (byte *)W_CacheLumpName (defdemoname, PU_STATIC);
+    demobuffer = demo_p = (byte *)W_CacheLumpName(defdemoname, PU_STATIC);
 
     demoversion = *demo_p++;
 

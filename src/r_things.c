@@ -42,6 +42,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "doomstat.h"
 
 #include "v_video.h"
+#include "p_local.h"
 
 
 
@@ -307,7 +308,15 @@ vissprite_t             overflowsprite;
 vissprite_t *R_NewVisSprite(void)
 {
     if (vissprite_p == &vissprites[MAXVISSPRITES])
-        return &overflowsprite;
+    {
+        // Try to remove an old blood splat
+        mobj_t *old = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
+
+        if (old)
+            P_RemoveMobj(old);
+        else
+            I_Error("R_NewVisSprite: MAXVISSPRITES reached");
+    }
 
     vissprite_p++;
     return vissprite_p - 1;

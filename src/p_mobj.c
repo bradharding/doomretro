@@ -45,6 +45,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 void G_PlayerReborn(int player);
 
 
+mobj_t          *bloodSplatQueue[BLOODSPLATQUEUESIZE];
+int             bloodSplatQueueSlot;
+
+
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
@@ -585,10 +589,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 //
 // P_RemoveMobj
 //
-mapthing_t      itemrespawnque[ITEMQUESIZE];
-int             itemrespawntime[ITEMQUESIZE];
-int             iquehead;
-int             iquetail;
+mapthing_t      itemrespawnqueue[ITEMQUEUESIZE];
+int             itemrespawntime[ITEMQUEUESIZE];
+int             iqueuehead;
+int             iqueuetail;
 
 void P_RemoveMobj(mobj_t *mobj)
 {
@@ -597,17 +601,17 @@ void P_RemoveMobj(mobj_t *mobj)
         && (mobj->type != MT_INV)
         && (mobj->type != MT_INS))
     {
-        itemrespawnque[iquehead] = mobj->spawnpoint;
-        itemrespawntime[iquehead] = leveltime;
-        iquehead = (iquehead + 1) & (ITEMQUESIZE - 1);
+        itemrespawnqueue[iqueuehead] = mobj->spawnpoint;
+        itemrespawntime[iqueuehead] = leveltime;
+        iqueuehead = (iqueuehead + 1) & (ITEMQUEUESIZE - 1);
 
         // lose one off the end?
-        if (iquehead == iquetail)
-            iquetail = (iquetail + 1) & (ITEMQUESIZE - 1);
+        if (iqueuehead == iqueuetail)
+            iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
     }
 
     if (mobj->type == MT_BLOOD)
-        P_SpawnBloodSplat(mobj->x, mobj->y, mobj->flags2);
+        P_SpawnBloodSplat(mobj->x, mobj->y, (mobjflag2_t)mobj->flags2);
 
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
@@ -654,14 +658,14 @@ void P_RespawnSpecials(void)
         return;
 
     // nothing left to respawn?
-    if (iquehead == iquetail)
+    if (iqueuehead == iqueuetail)
         return;
 
     // wait at least 30 seconds
-    if (leveltime - itemrespawntime[iquetail] < 30 * TICRATE)
+    if (leveltime - itemrespawntime[iqueuetail] < 30 * TICRATE)
         return;
 
-    mthing = &itemrespawnque[iquetail];
+    mthing = &itemrespawnqueue[iqueuetail];
 
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
@@ -690,7 +694,7 @@ void P_RespawnSpecials(void)
     mo->angle = ANG45 * (mthing->angle / 45);
 
     // pull it from the queue
-    iquetail = (iquetail + 1) & (ITEMQUESIZE - 1);
+    iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
 }
 
 
@@ -955,14 +959,25 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
 
 //
-// P_SpawnBlood
+// P_SpawnBloodSplat
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, mobjflag2_t flag)
 {
-    mobj_t *th = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
+    mobj_t *newmobj = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
 
-    th->flags2 |= flag;
-    P_SetMobjState(th, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
+    newmobj->flags2 |= flag;
+    P_SetMobjState(newmobj, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
+
+    if (bloodSplatQueueSlot >= BLOODSPLATQUEUESIZE)
+    {
+        // Too many blood splats - remove an old one
+        mobj_t *old = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
+
+        if (old)
+            P_RemoveMobj(old);
+    }
+    bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE] = newmobj;
+    bloodSplatQueueSlot++;
 }
 
 

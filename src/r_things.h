@@ -31,7 +31,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 
 
-#define MAXVISSPRITES   1024
+#define MAXVISSPRITES   2048
 
 extern vissprite_t      vissprites[MAXVISSPRITES];
 extern vissprite_t      *vissprite_p;

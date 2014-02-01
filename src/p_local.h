@@ -102,13 +102,17 @@ void P_PlayerThink(player_t *player);
 #define ONCEILINGZ              INT_MAX
 
 // Time interval for item respawning.
-#define ITEMQUESIZE             128
+#define ITEMQUEUESIZE             128
 
-extern mapthing_t       itemrespawnque[ITEMQUESIZE];
-extern int              itemrespawntime[ITEMQUESIZE];
-extern int              iquehead;
-extern int              iquetail;
+extern mapthing_t       itemrespawnqueue[ITEMQUEUESIZE];
+extern int              itemrespawntime[ITEMQUEUESIZE];
+extern int              iqueuehead;
+extern int              iqueuetail;
 
+#define BLOODSPLATQUEUESIZE       512
+
+extern mobj_t           *bloodSplatQueue[BLOODSPLATQUEUESIZE];
+extern int              bloodSplatQueueSlot;
 
 void P_RespawnSpecials(void);
 

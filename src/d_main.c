@@ -706,7 +706,7 @@ void D_DoomMain(void)
         }
         else
         {
-            sprintf (file,"%s.lmp", myargv[p + 1]);
+            sprintf(file,"%s.lmp", myargv[p + 1]);
         }
 
         if (D_AddFile(file))

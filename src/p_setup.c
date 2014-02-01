@@ -1031,6 +1031,8 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     bodyqueslot = 0;
     deathmatch_p = deathmatchstarts;
+    bloodSplatQueueSlot = 0;
+    memset(bloodSplatQueue, 0, sizeof(mobj_t *) * BLOODSPLATQUEUESIZE);
     P_LoadThings(lumpnum + ML_THINGS);
 
     // if deathmatch, randomly spawn the active players
@@ -1046,7 +1048,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
     }
 
     // clear special respawning queue
-    iquehead = iquetail = 0;
+    iqueuehead = iqueuetail = 0;
 
     // set up world state
     P_SpawnSpecials();
