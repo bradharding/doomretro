@@ -951,7 +951,7 @@ void G_Ticker(void)
                 if (gametic > BACKUPTICS
                     && consistancy[i][buf] != cmd->consistancy)
                 {
-                    I_Error("consistency failure (%i should be %i)",
+                    I_Error("Consistency failure (%i should be %i)",
                             cmd->consistancy, consistancy[i][buf]);
                 }
                 if (players[i].mo)
@@ -2224,7 +2224,7 @@ boolean G_CheckDemoStatus(void)
         timingdemo = false;
         demoplayback = false;
 
-        I_Error("timed %i gametics in %i realtics (%f fps)",
+        I_Error("Timed %i gametics in %i realtics (%f fps)",
                 gametic, realtics, fps);
     }
 

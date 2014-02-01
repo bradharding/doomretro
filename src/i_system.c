@@ -185,7 +185,6 @@ void I_Error(char *error, ...)
 
     if (already_quitting)
     {
-        fprintf(stderr, "Warning: recursive call to I_Error detected.\n");
         exit(-1);
     }
     else

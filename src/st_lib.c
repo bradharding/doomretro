@@ -102,7 +102,7 @@ const char *bigstatnums[10] =
 void STlib_drawNum2(int number, int color, int shadow, int x, int y)
 {
     int i;
-    int j = (y * SCREENWIDTH + x) * SCREENSCALE;
+    int j = (y * SCREENWIDTH + x) * 2;
 
     for (i = 0; i < 96; i++)
     {

@@ -1202,33 +1202,37 @@ void R_FillBackScreen(void)
     src = (byte *)W_CacheLumpName(name, PU_CACHE);
     dest = screens[1];
 
-    for (y = 0; y < SCREENHEIGHT - SBARHEIGHT; y += SCREENSCALE)
+    for (y = 0; y < SCREENHEIGHT; y += 2)
     {
-        for (x = 0; x < SCREENWIDTH / 64 * SCREENSCALE; x += SCREENSCALE)
+        for (x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             for (i = 0; i < 64; i++)
             {
-                int xx, yy;
+                int j = i * 2;
+                byte dot = *(src + (((y / 2) & 63) << 6) + i); 
 
-                for (yy = 0; yy < SCREENSCALE; yy++)
-                    for (xx = 0; xx < SCREENSCALE; xx++)
-                        if (y * SCREENWIDTH + x + i * SCREENSCALE + yy * SCREENWIDTH + xx
-                            < SCREENWIDTH * SCREENHEIGHT - SCREENWIDTH)
-                        {
-                            *(dest + i * SCREENSCALE + yy * SCREENWIDTH + xx) =
-                                *(src + (((y / SCREENSCALE) & 63) << 6) + i);
-                        }
+                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                    *(dest + j) = dot;
+                j++;
+                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                    *(dest + j) = dot;
+                j += SCREENWIDTH;
+                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                    *(dest + j) = dot;
+                j--;
+                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
+                    *(dest + j) = dot;
             }
-            dest += 64 * SCREENSCALE;
+            dest += 128;
         }
     }
 
     // Draw screen and bezel; this is done to a separate screen buffer.
 
-    width = scaledviewwidth / SCREENSCALE;
-    height = viewheight / SCREENSCALE;
-    windowx = viewwindowx / SCREENSCALE;
-    windowy = viewwindowy / SCREENSCALE;
+    width = scaledviewwidth / 2;
+    height = viewheight / 2;
+    windowx = viewwindowx / 2;
+    windowy = viewwindowy / 2;
 
     patch = (patch_t *)W_CacheLumpName("brdr_t", PU_CACHE);
     for (x = 0; x < width; x += 8)

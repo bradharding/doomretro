@@ -605,7 +605,7 @@ void D_DoomMain(void)
     if (iwadfile == NULL)
     {
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
-                "specifying one with the '-iwad' command-line parameter.\n");
+                "specifying one with the “-iwad” command-line parameter.\n");
     }
 
     modifiedgame = false;

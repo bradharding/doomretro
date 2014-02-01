@@ -1745,7 +1745,7 @@ void P_UnArchiveThinkers(void)
         if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
             P_RemoveMobj((mobj_t *)currentthinker);
         else
-            Z_Free (currentthinker);
+            Z_Free(currentthinker);
 
         currentthinker = next;
     }
@@ -2005,7 +2005,7 @@ void P_UnArchiveSpecials(void)
                 break;
 
             default:
-                I_Error("P_UnarchiveSpecials:Unknown tclass %i "
+                I_Error("P_UnarchiveSpecials: unknown tclass %i "
                         "in savegame", tclass);
         }
     }

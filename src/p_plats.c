@@ -65,7 +65,7 @@ void T_PlatRaise(plat_t *plat)
             if (plat->type == raiseAndChange
                 || plat->type == raiseToNearestAndChange)
             {
-                if (!(leveltime&7) && plat->sector->floorheight != plat->high)
+                if (!(leveltime & 7) && plat->sector->floorheight != plat->high)
                     S_StartSound(&plat->sector->soundorg, sfx_stnmov);
             }
 

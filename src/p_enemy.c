@@ -916,7 +916,7 @@ void A_CPosRefire(mobj_t *actor)
         || actor->target->health <= 0
         || !P_CheckSight(actor, actor->target))
     {
-        P_SetMobjState (actor, (statenum_t)actor->info->seestate);
+        P_SetMobjState(actor, (statenum_t)actor->info->seestate);
     }
 }
 

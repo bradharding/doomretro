@@ -450,6 +450,7 @@
     <ResourceCompile Include="..\src\win32.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
     <None Include="..\src\manifest.xml" />
   </ItemGroup>

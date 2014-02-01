@@ -220,7 +220,7 @@ static boolean P_CrossBSPNode(int bspnum)
             if (!P_CrossBSPNode(bsp->children[side]))
                 return 0;                              // cross the starting side
             else
-                bspnum = bsp->children[side^1];        // cross the ending side
+                bspnum = bsp->children[side ^ 1];        // cross the ending side
     }
     return P_CrossSubsector(bspnum == -1 ? 0 : bspnum & ~NF_SUBSECTOR);
 }
@@ -238,6 +238,9 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
     int         pnum;
     int         bytenum;
     int         bitnum;
+
+    if (!t1 || !t2)
+        return false;
 
     // First check for trivial rejection.
 

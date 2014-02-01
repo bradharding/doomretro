@@ -130,7 +130,7 @@ int M_ReadFile(char *name, byte **buffer)
 
     buf = (byte *)Z_Malloc(length, PU_STATIC, NULL);
     count = fread(buf, 1, length, handle);
-    fclose (handle);
+    fclose(handle);
 
     if (count < length)
         I_Error("Couldn't read file %s", name);

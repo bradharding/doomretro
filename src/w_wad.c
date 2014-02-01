@@ -366,7 +366,7 @@ int W_GetNumForName2(char *name)
 // W_LumpLength
 // Returns the buffer size needed to load the given lump.
 //
-int W_LumpLength (unsigned int lump)
+int W_LumpLength(unsigned int lump)
 {
     if (lump >= numlumps)
     {

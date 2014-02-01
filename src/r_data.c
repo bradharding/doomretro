@@ -720,7 +720,7 @@ void R_InitTextures(void)
             patch->patch = patchlookup[SHORT(mpatch->patch)];
             if (patch->patch == -1)
             {
-                I_Error("R_InitTextures: Missing patch in texture %s", texture->name);
+                I_Error("R_InitTextures: missing patch in texture %s", texture->name);
             }
         }
         texturecolumnlump[i] = (short *)Z_Malloc(texture->width * sizeof(**texturecolumnlump),

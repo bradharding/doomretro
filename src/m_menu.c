@@ -58,6 +58,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "m_random.h"
 #include "v_data.h"
 #include "i_gamepad.h"
+#include "m_config.h"
 
 extern patch_t          *hu_font[HU_FONTSIZE];
 extern boolean          message_dontfuckwithme;
@@ -1282,8 +1283,8 @@ void M_DrawMainMenu(void)
     int dot2;
 
     M_DarkBackground();
-    dot1 = screens[0][(11 * SCREENWIDTH + 98) * SCREENSCALE];
-    dot2 = screens[0][(12 * SCREENWIDTH + 99) * SCREENSCALE];
+    dot1 = screens[0][(11 * SCREENWIDTH + 98) * 2];
+    dot2 = screens[0][(12 * SCREENWIDTH + 99) * 2];
     M_DrawCenteredPatchWithShadow(11, 0, (patch_t *)W_CacheLumpName("M_DOOM", PU_CACHE));
     if (gamemode != commercial)
     {
@@ -1377,6 +1378,7 @@ void M_ChooseSkill(int choice)
     S_StartSound(NULL, sfx_pistol);
     I_WaitVBL(1 * TICRATE);
     quickSaveSlot = -1;
+    M_SaveDefaults();
     G_DeferredInitNew((skill_t)choice, epi + 1, 1);
 }
 
@@ -2676,8 +2678,7 @@ void M_Drawer(void)
         }
         else
         {
-            y = viewwindowy / SCREENSCALE + (viewheight / SCREENSCALE
-                - M_StringHeight(messageString)) / 2 - 1;
+            y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
         }
         while (messageString[start] != '\0')
         {
