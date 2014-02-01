@@ -86,11 +86,10 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
                 break;
         }
 
-        supershotgun = (stnum >= S_DSGUN && stnum <= S_DSGUNUP);
-
         stnum = psp->state->nextstate;
 
-    } while (!psp->tics);
+    } 
+    while (!psp->tics);
     // an initial state of 0 could cycle through
 }
 

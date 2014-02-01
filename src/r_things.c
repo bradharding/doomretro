@@ -501,7 +501,7 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
             R_DrawMaskedColumn2(column);
     }
 
-    supershotgun = false;
+    //supershotgun = false;
 
     colfunc = basecolfunc;
 }
@@ -591,14 +591,14 @@ void R_ProjectSprite(mobj_t *thing)
 
     // calculate edges of the shape
     tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
-    x1 = (centerxfrac + FRACUNIT/2 + FixedMul(tx, xscale)) >> FRACBITS;
+    x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
 
     // off the right side?
     if (x1 > viewwidth)
         return;
 
     tx += spritewidth[lump];
-    x2 = ((centerxfrac + FRACUNIT/2 + FixedMul(tx, xscale)) >> FRACBITS) - 1;
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS) - 1;
 
     // off the left side
     if (x2 < 0)
@@ -791,7 +791,7 @@ void R_DrawPSprite(pspdef_t *psp)
     }
     else
     {
-        if (flash || psp->state->frame & FF_FULLBRIGHT)
+        if (flash || (state->frame & FF_FULLBRIGHT))
         {
             // full bright
             vis->colormap = colormaps;
@@ -809,9 +809,11 @@ void R_DrawPSprite(pspdef_t *psp)
     }
 
     if (flash)
-        vis->mobjflags2 |= flags2[psp->state->sprite];
+        vis->mobjflags2 |= flags2[state->sprite];
 
+    supershotgun = (state == &states[S_DSGUN]);
     R_DrawVisSprite(vis, vis->x1, vis->x2, screenblocks >= 10);
+    supershotgun = false;
 }
 
 
