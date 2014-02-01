@@ -211,8 +211,6 @@ void I_Error(char *error, ...)
     if (returntowidescreen)
         widescreen = true;
 
-    M_SaveDefaults();
-
     I_ShutdownGraphics();
 
     I_ShutdownGamepad();
