@@ -172,6 +172,7 @@ typedef enum
     SPR_BRS1,
     SPR_TLMP,
     SPR_TLP2,
+    SPR_BLD2,
     NUMSPRITES
 
 } spritenum_t;
@@ -1146,6 +1147,14 @@ typedef enum
     S_TECH2LAMP2,
     S_TECH2LAMP3,
     S_TECH2LAMP4,
+    S_BLOODSPLAT,
+    S_BLOODSPLAT2,
+    S_BLOODSPLAT3,
+    S_BLOODSPLAT4,
+    S_BLOODSPLAT5,
+    S_BLOODSPLAT6,
+    S_BLOODSPLAT7,
+    S_BLOODSPLAT8,
     NUMSTATES
 } statenum_t;
 
@@ -1313,6 +1322,7 @@ typedef enum {
     MT_MISC84,
     MT_MISC85,
     MT_MISC86,
+    MT_BLOODSPLAT,
     NUMMOBJTYPES
 
 } mobjtype_t;

@@ -51,7 +51,7 @@ char *sprnames[] = {
     "POL3", "POL1", "POL6", "GOR2", "GOR3", "GOR4", "GOR5", "SMIT", "COL1", "COL2",
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
-    "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", NULL
+    "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", NULL // [BH] "BLD2"
 };
 
 
@@ -1408,7 +1408,17 @@ state_t states[NUMSTATES] =
     { SPR_TLP2,  0 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP2    }, // S_TECH2LAMP
     { SPR_TLP2,  1 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP3    }, // S_TECH2LAMP2
     { SPR_TLP2,  2 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP4    }, // S_TECH2LAMP3
-    { SPR_TLP2,  3 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP     }  // S_TECH2LAMP4
+    { SPR_TLP2,  3 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP     }, // S_TECH2LAMP4
+
+    // [BH] Blood Splat (MT_BLOODSPLAT)
+    { SPR_BLD2,  0,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT
+    { SPR_BLD2,  1,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT2
+    { SPR_BLD2,  2,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT3
+    { SPR_BLD2,  3,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT4
+    { SPR_BLD2,  4,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT5
+    { SPR_BLD2,  5,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT6
+    { SPR_BLD2,  6,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT7
+    { SPR_BLD2,  7,              (10 * 60 * TICRATE),               NULL,            S_NULL          }  // S_BLOODSPLAT8
 };
 
 
@@ -2542,8 +2552,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* mass         */ 100,
     /* damage       */ 0,
     /* activesound  */ sfx_None,
-    /* flags        */ MF_NOBLOCKMAP,
-    /* flags2       */ 0,
+    /* flags        */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so blood will
+    /* flags2       */ 0,                                       //  rise or fall if sector height changes
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   },
@@ -5386,6 +5396,35 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     /* activesound  */ sfx_None,
     /* flags        */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
     /* flags2       */ 0,                                       //  will stay on floor if sector height changes
+    /* raisestate   */ S_NULL,
+    /* frames       */ 0
+  },
+
+  // [BH] Blood Splat (MT_BLOODSPLAT)
+  {
+    /* doomednum    */ -1,
+    /* spawnstate   */ S_BLOODSPLAT,
+    /* spawnhealth  */ 1000,
+    /* seestate     */ S_NULL,
+    /* seesound     */ sfx_None,
+    /* reactiontime */ 8,
+    /* attacksound  */ sfx_None,
+    /* painstate    */ S_NULL,
+    /* painchance   */ 0,
+    /* painsound    */ sfx_None,
+    /* meleestate   */ S_NULL,
+    /* missilestate */ S_NULL,
+    /* deathstate   */ S_NULL,
+    /* xdeathstate  */ S_NULL,
+    /* deathsound   */ sfx_None,
+    /* speed        */ 0,
+    /* radius       */ 20 * FRACUNIT,
+    /* height       */ 16 * FRACUNIT,
+    /* mass         */ 100,
+    /* damage       */ 0,
+    /* activesound  */ sfx_None,
+    /* flags        */ S_NULL,
+    /* flags2       */ 0,
     /* raisestate   */ S_NULL,
     /* frames       */ 0
   }

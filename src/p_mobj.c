@@ -606,6 +606,9 @@ void P_RemoveMobj(mobj_t *mobj)
             iquetail = (iquetail + 1) & (ITEMQUESIZE - 1);
     }
 
+    if (mobj->type == MT_BLOOD)
+        P_SpawnBloodSplat(mobj->x, mobj->y, mobj->flags2);
+
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
 
@@ -947,6 +950,19 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         angle += ((P_Random() - P_Random()) * 0xb60b60);
     }
+}
+
+
+
+//
+// P_SpawnBlood
+//
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, mobjflag2_t flag)
+{
+    mobj_t *th = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
+
+    th->flags2 |= flag;
+    P_SetMobjState(th, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
 }
 
 

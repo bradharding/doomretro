@@ -1622,7 +1622,7 @@ void AM_drawThings(void)
 
         while (thing)
         {
-            if (thing->type != MT_PLAYER)
+            if (thing->type != MT_PLAYER && thing->type != MT_BLOODSPLAT)
             {
                 int x = thing->x;
                 int y = thing->y;
