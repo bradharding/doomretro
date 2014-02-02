@@ -611,7 +611,7 @@ void P_RemoveMobj(mobj_t *mobj)
     }
 
     if (mobj->type == MT_BLOOD)
-        P_SpawnBloodSplat(mobj->x, mobj->y, (mobjflag2_t)mobj->flags2);
+        P_SpawnBloodSplat(mobj->x, mobj->y, mobj->flags2);
 
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
@@ -921,7 +921,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 // P_SpawnBlood
 //
-void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobjflag2_t flag)
+void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, int flag)
 {
     mobj_t      *th;
     int         i;
@@ -961,22 +961,22 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, mobjflag2_t flag)
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
 {
-    mobj_t *newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
+    mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
 
-    newsplat->flags2 |= flag;
-    P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
-
-    if (bloodSplatQueueSlot > BLOODSPLATQUEUESIZE)
+    if (!oldsplat || (oldsplat->x != x && oldsplat->y != y))
     {
-        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
+        mobj_t *newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
 
-        if (oldsplat)
+        newsplat->flags2 |= flag;
+        P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
+
+        if (oldsplat && bloodSplatQueueSlot > BLOODSPLATQUEUESIZE)
             P_RemoveMobj(oldsplat);
-    }
 
-    bloodSplatQueue[bloodSplatQueueSlot++ % BLOODSPLATQUEUESIZE] = newsplat;
+        bloodSplatQueue[bloodSplatQueueSlot++ % BLOODSPLATQUEUESIZE] = newsplat;
+    }
 }
 
 
