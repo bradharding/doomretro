@@ -1178,9 +1178,7 @@ typedef struct
 extern state_t states[NUMSTATES];
 extern char *sprnames[];
 
-#define NUMOFFSETS 1381
-
-extern offset_t sproffsets[NUMOFFSETS];
+extern offset_t sproffsets[];
 
 typedef enum 
 {
