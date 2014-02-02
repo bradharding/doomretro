@@ -133,6 +133,20 @@ animdef_t               animdefs[] =
 anim_t          anims[MAXANIMS];
 anim_t          *lastanim;
 
+int *isliquid;
+char *liquids[] =
+{
+    { "NUKAGE1" },
+    { "FWATER1" },
+    { "SWATER1" },
+    { "LAVA1"   },
+    { "BLOOD1"  },
+    { "SLIME01" },
+    { "SLIME05" },
+    { "SLIME09" },
+    { ""        }
+};
+
 
 //
 //      Animating line specials
@@ -141,8 +155,26 @@ anim_t          *lastanim;
 
 extern short    numlinespecials;
 extern line_t   *linespeciallist[MAXLINEANIMS];
+extern int      numflats;
 
 extern boolean  canmodify;
+
+void P_InitLiquids(void)
+{
+    int i;
+    int lump;
+    int size;
+
+    size = (numflats + 1) * sizeof(int);
+    isliquid = (int *)Z_Malloc(size, PU_STATIC, 0);
+    memset(isliquid, 0, size);
+    for (i = 0; liquids[i][0]; i++)
+    {
+        lump = W_CheckNumForName(liquids[i]);
+        if (lump != -1)
+            isliquid[lump - firstflat] = true;
+    }
+}
 
 void P_InitPicAnims(void)
 {
@@ -575,7 +607,7 @@ void P_CrossSpecialLine(int linenum, int side, mobj_t *thing)
             break;
 
         case W1_RaiseFloorToNextFloorChangeFloorTextureAndType:
-            if (EV_DoPlat(line, raiseToNearestAndChange,0))
+            if (EV_DoPlat(line, raiseToNearestAndChange, 0))
                 line->special = 0;
             break;
 
@@ -885,7 +917,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
         case G1_RaiseFloorToNextFloorChangeFloorTextureAndType:
             if (EV_DoPlat(line, raiseToNearestAndChange, 0))
-                P_ChangeSwitchTexture(line,0);
+                P_ChangeSwitchTexture(line, 0);
             break;
     }
 }
@@ -1076,7 +1108,7 @@ int EV_DoDonut(line_t *line)
             continue;
 
         rtn = 1;
-        s2 = getNextSector(s1->lines[0],s1);
+        s2 = getNextSector(s1->lines[0], s1);
 
         // Vanilla Doom does not check if the linedef is one sided.  The
         // game does not crash, but reads invalid memory and causes the

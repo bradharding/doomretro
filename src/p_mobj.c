@@ -594,6 +594,8 @@ int             itemrespawntime[ITEMQUEUESIZE];
 int             iqueuehead;
 int             iqueuetail;
 
+extern int *isliquid;
+
 void P_RemoveMobj(mobj_t *mobj)
 {
     if ((mobj->flags & MF_SPECIAL)
@@ -610,7 +612,8 @@ void P_RemoveMobj(mobj_t *mobj)
             iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
     }
 
-    if (mobj->type == MT_BLOOD)
+    if (mobj->type == MT_BLOOD
+        && !isliquid[mobj->subsector->sector->floorpic])
         P_SpawnBloodSplat(mobj->x, mobj->y, mobj->flags2);
 
     // unlink from sector and block lists
@@ -729,10 +732,10 @@ void P_SpawnPlayer(mapthing_t *mthing)
     if (p->playerstate == PST_REBORN)
         G_PlayerReborn(mthing->type - 1);
 
-    x           = mthing->x << FRACBITS;
-    y           = mthing->y << FRACBITS;
-    z           = ONFLOORZ;
-    mobj        = P_SpawnMobj(x, y, z, MT_PLAYER);
+    x = mthing->x << FRACBITS;
+    y = mthing->y << FRACBITS;
+    z = ONFLOORZ;
+    mobj = P_SpawnMobj(x, y, z, MT_PLAYER);
 
     // set color translations for player sprites
     if (mthing->type > 1)

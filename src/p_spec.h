@@ -44,6 +44,8 @@ extern  int     levelTimeCount;
 // at game start
 void P_InitPicAnims(void);
 
+void P_InitLiquids(void);
+
 // at map load
 void P_SpawnSpecials(void);
 
@@ -470,7 +472,7 @@ typedef enum
 result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crush,
     int floorOrCeiling, int direction);
 
-int EV_BuildStairs(line_t *line,stair_e type);
+int EV_BuildStairs(line_t *line, stair_e type);
 
 int EV_DoFloor(line_t *line, floor_e floortype);
 

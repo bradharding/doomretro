@@ -1066,5 +1066,6 @@ void P_Init(void)
 {
     P_InitSwitchList();
     P_InitPicAnims();
+    P_InitLiquids();
     R_InitSprites(sprnames);
 }
