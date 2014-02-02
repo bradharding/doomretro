@@ -963,21 +963,20 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, mobjflag2_t flag)
 {
-    mobj_t *newmobj = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
+    mobj_t *newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
 
-    newmobj->flags2 |= flag;
-    P_SetMobjState(newmobj, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
+    newsplat->flags2 |= flag;
+    P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
 
-    if (bloodSplatQueueSlot >= BLOODSPLATQUEUESIZE)
+    if (bloodSplatQueueSlot > BLOODSPLATQUEUESIZE)
     {
-        // Too many blood splats - remove an old one
-        mobj_t *old = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
+        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
 
-        if (old)
-            P_RemoveMobj(old);
+        if (oldsplat)
+            P_RemoveMobj(oldsplat);
     }
-    bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE] = newmobj;
-    bloodSplatQueueSlot++;
+
+    bloodSplatQueue[bloodSplatQueueSlot++ % BLOODSPLATQUEUESIZE] = newsplat;
 }
 
 

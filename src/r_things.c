@@ -5,6 +5,7 @@ DOOM RETRO
 A classic, refined DOOM source port. For Windows PC.
 
 Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright © 1999 Lee Killough.
 Copyright © 2005-2014 Simon Howard.
 Copyright © 2013-2014 Brad Harding.
 
@@ -78,7 +79,9 @@ int                     screenheightarray[SCREENWIDTH];
 spritedef_t             *sprites;
 int                     numsprites;
 
-spriteframe_t           sprtemp[29];
+#define MAX_SPRITE_FRAMES 29          /* Macroized -- killough 1/25/98 */
+
+spriteframe_t           sprtemp[MAX_SPRITE_FRAMES];
 int                     maxframe;
 char                    *spritename;
 
@@ -91,11 +94,10 @@ extern boolean supershotgun;
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, boolean flipped)
+void R_InstallSpriteLump(int lump, unsigned frame,
+                         unsigned rotation, boolean flipped)
 {
-    int         r;
-
-    if (frame >= 29 || rotation > 8)
+    if (frame >= MAX_SPRITE_FRAMES || rotation > 8)
         I_Error("R_InstallSpriteLump: "
                 "Bad frame characters in lump %i", lump);
 
@@ -104,6 +106,8 @@ void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, boolean fl
 
     if (rotation == 0)
     {
+        int     r;
+
         // the lump should be used for all rotations
         if (sprtemp[frame].rotate == false)
             I_Error("R_InitSprites: Sprite %s frame %c has "
@@ -267,10 +271,8 @@ void R_InitSpriteDefs(char **namelist)
 //
 // GAME FUNCTIONS
 //
-vissprite_t             vissprites[MAXVISSPRITES];
-vissprite_t             *vissprite_p;
-int                     newvissprite;
-
+static vissprite_t *vissprites, **vissprite_ptrs;       // killough
+static int num_vissprite, num_vissprite_alloc, num_vissprite_ptrs;
 
 
 //
@@ -297,7 +299,7 @@ void R_InitSprites(char **namelist)
 //
 void R_ClearSprites(void)
 {
-    vissprite_p = vissprites;
+    num_vissprite = 0;          // killough
 }
 
 
@@ -308,19 +310,18 @@ vissprite_t             overflowsprite;
 
 vissprite_t *R_NewVisSprite(void)
 {
-    if (vissprite_p == &vissprites[MAXVISSPRITES])
+    if (num_vissprite >= num_vissprite_alloc)           // killough
     {
-        // Try to remove an old blood splat
-        mobj_t *old = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
+        size_t num_vissprite_alloc_prev = num_vissprite_alloc;
 
-        if (old)
-            P_RemoveMobj(old);
-        else
-            I_Error("R_NewVisSprite: MAXVISSPRITES reached");
+        num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : 128);
+        vissprites = (vissprite_t *)realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
+
+        //e6y: set all fields to zero
+        memset(vissprites + num_vissprite_alloc_prev, 0,
+            (num_vissprite_alloc - num_vissprite_alloc_prev) * sizeof(*vissprites));
     }
-
-    vissprite_p++;
-    return vissprite_p - 1;
+    return (vissprites + num_vissprite++);
 }
 
 
@@ -867,63 +868,82 @@ void R_DrawPlayerSprites(void)
 
 
 
-
 //
 // R_SortVisSprites
 //
-vissprite_t             vsprsortedhead;
+// Rewritten by Lee Killough to avoid using unnecessary
+// linked lists, and to use faster sorting algorithm.
+//
 
-void R_SortVisSprites(void)
+#define bcopyp(d, s, n) memcpy(d, s, (n) * sizeof(void *))
+
+// killough 9/2/98: merge sort
+
+static void msort(vissprite_t **s, vissprite_t **t, int n)
 {
-    int                 i;
-    int                 count;
-    vissprite_t         *ds;
-    vissprite_t         *best;
-    vissprite_t         unsorted;
-    fixed_t             bestscale;
-
-    count = vissprite_p - vissprites;
-
-    unsorted.next = unsorted.prev = &unsorted;
-
-    if (!count)
-        return;
-
-    for (ds = vissprites; ds < vissprite_p; ds++)
+    if (n >= 16)
     {
-        ds->next = ds + 1;
-        ds->prev = ds - 1;
+        int n1 = n / 2, n2 = n - n1;
+        vissprite_t **s1 = s, **s2 = s + n1, **d = t;
+
+        msort(s1, t, n1);
+        msort(s2, t, n2);
+
+        while ((*s1)->scale > (*s2)->scale ?
+            (*d++ = *s1++, --n1) : (*d++ = *s2++, --n2));
+
+        if (n2)
+            bcopyp(d, s2, n2);
+        else
+            bcopyp(d, s1, n1);
+
+        bcopyp(s, t, n);
     }
-
-    vissprites[0].prev = &unsorted;
-    unsorted.next = &vissprites[0];
-    (vissprite_p - 1)->next = &unsorted;
-    unsorted.prev = vissprite_p - 1;
-
-    // pull the vissprites out by scale
-
-    vsprsortedhead.next = vsprsortedhead.prev = &vsprsortedhead;
-    for (i = 0; i < count; i++)
+    else
     {
-        bestscale = INT_MAX;
-        best = unsorted.next;
-        for (ds = unsorted.next; ds != &unsorted; ds = ds->next)
+        int i;
+
+        for (i = 1; i < n; i++)
         {
-            if (ds->scale < bestscale)
+            vissprite_t *temp = s[i];
+
+            if (s[i - 1]->scale < temp->scale)
             {
-                bestscale = ds->scale;
-                best = ds;
+                int j = i;
+
+                while ((s[j] = s[j - 1])->scale < temp->scale && --j);
+                s[j] = temp;
             }
         }
-        best->next->prev = best->prev;
-        best->prev->next = best->next;
-        best->next = &vsprsortedhead;
-        best->prev = vsprsortedhead.prev;
-        vsprsortedhead.prev->next = best;
-        vsprsortedhead.prev = best;
     }
 }
 
+void R_SortVisSprites(void)
+{
+    if (num_vissprite)
+    {
+        int i = num_vissprite;
+
+        // If we need to allocate more pointers for the vissprites,
+        // allocate as many as were allocated for sprites -- killough
+        // killough 9/22/98: allocate twice as many
+
+        if (num_vissprite_ptrs < num_vissprite * 2)
+        {
+            free(vissprite_ptrs);  // better than realloc -- no preserving needed
+            vissprite_ptrs = (vissprite_t **)malloc((num_vissprite_ptrs = num_vissprite_alloc * 2)
+                * sizeof *vissprite_ptrs);
+        }
+
+        while (--i >= 0)
+            vissprite_ptrs[num_vissprite - i - 1] = vissprites + i;
+
+        // killough 9/22/98: replace qsort with merge sort, since the keys
+        // are roughly in order to begin with, due to BSP rendering.
+
+        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
+    }
+}
 
 
 //
@@ -1024,18 +1044,19 @@ void R_DrawSprite(vissprite_t *spr)
 //
 void R_DrawMasked(void)
 {
-    vissprite_t         *spr;
-    drawseg_t           *ds;
+    drawseg_t   *ds;
 
     R_SortVisSprites();
 
-    if (vissprite_p > vissprites)
+    if (num_vissprite > 0)
     {
+        int i;
+
         // draw all vissprites back to front
-        for (spr = vsprsortedhead.next;
-             spr != &vsprsortedhead;
-             spr = spr->next)
+        for (i = num_vissprite; --i >= 0;)
         {
+            vissprite_t *spr = vissprite_ptrs[i];
+
             R_DrawSprite(spr);
         }
     }

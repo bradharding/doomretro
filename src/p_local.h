@@ -109,7 +109,7 @@ extern int              itemrespawntime[ITEMQUEUESIZE];
 extern int              iqueuehead;
 extern int              iqueuetail;
 
-#define BLOODSPLATQUEUESIZE       512
+#define BLOODSPLATQUEUESIZE       256
 
 extern mobj_t           *bloodSplatQueue[BLOODSPLATQUEUESIZE];
 extern int              bloodSplatQueueSlot;
