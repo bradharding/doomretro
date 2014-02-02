@@ -147,7 +147,7 @@ int wipe_doMelt(int width, int height, int tics)
 
                 short   *s = &((short *)wipe_scr_end)[i * height + y[i]];
                 short   *d = &((short *)wipe_scr)[y[i] * width + i];
-                
+
                 if (y[i] + dy >= height)
                     dy = height - y[i];
                 for (j = dy; j; j--)
@@ -200,11 +200,11 @@ int wipe_ScreenWipe(int wipeno, int x, int y, int width, int height, int tics)
     int rc;
     static int (*wipes[])(int, int, int) =
     {
-        wipe_initColorXForm, 
-        wipe_doColorXForm, 
+        wipe_initColorXForm,
+        wipe_doColorXForm,
         wipe_exitColorXForm,
-        wipe_initMelt, 
-        wipe_doMelt, 
+        wipe_initMelt,
+        wipe_doMelt,
         wipe_exitMelt
     };
 

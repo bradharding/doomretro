@@ -1166,15 +1166,13 @@ typedef struct
     int tics;
     actionf_t action;
     statenum_t nextstate;
-    int misc1;
-    int misc2;
 } state_t;
 
 typedef struct
 {
-  char *name;
-  short x;
-  short y;
+    char *name;
+    short x;
+    short y;
 } offset_t;
 
 extern state_t states[NUMSTATES];
@@ -1184,7 +1182,8 @@ extern char *sprnames[];
 
 extern offset_t sproffsets[NUMOFFSETS];
 
-typedef enum {
+typedef enum 
+{
     MT_PLAYER,
     MT_POSSESSED,
     MT_SHOTGUY,

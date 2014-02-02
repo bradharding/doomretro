@@ -256,7 +256,7 @@ void F_TextWrite(void)
             for (i = 0; i < 64; i++)
             {
                 int j = i * 2;
-                byte dot = *(src + (((y / 2) & 63) << 6) + i); 
+                byte dot = *(src + (((y / 2) & 63) << 6) + i);
 
                 if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
                     *(dest + j) = dot;
@@ -328,10 +328,9 @@ typedef struct
 {
     char        *name;
     mobjtype_t  type;
-} 
-castinfo_t;
+} castinfo_t;
 
-castinfo_t castorder[] = 
+castinfo_t castorder[] =
 {
     { CC_ZOMBIE,  MT_POSSESSED  },
     { CC_SHOTGUN, MT_SHOTGUY    },
@@ -421,68 +420,68 @@ void F_CastTicker(void)
         // sound hacks....
         switch (st)
         {
-            case S_PLAY_ATK1:   
-                sfx = sfx_dshtgn; 
+            case S_PLAY_ATK1:
+                sfx = sfx_dshtgn;
                 break;
-            case S_POSS_ATK2:   
-                sfx = sfx_pistol; 
+            case S_POSS_ATK2:
+                sfx = sfx_pistol;
                 break;
-            case S_SPOS_ATK2:   
-                sfx = sfx_shotgn; 
+            case S_SPOS_ATK2:
+                sfx = sfx_shotgn;
                 break;
-            case S_VILE_ATK2:   
-                sfx = sfx_vilatk; 
+            case S_VILE_ATK2:
+                sfx = sfx_vilatk;
                 break;
-            case S_SKEL_FIST2:  
-                sfx = sfx_skeswg; 
+            case S_SKEL_FIST2:
+                sfx = sfx_skeswg;
                 break;
-            case S_SKEL_FIST4:  
-                sfx = sfx_skepch; 
+            case S_SKEL_FIST4:
+                sfx = sfx_skepch;
                 break;
-            case S_SKEL_MISS2:  
-                sfx = sfx_skeatk; 
+            case S_SKEL_MISS2:
+                sfx = sfx_skeatk;
                 break;
             case S_FATT_ATK8:
             case S_FATT_ATK5:
-            case S_FATT_ATK2:   
-                sfx = sfx_firsht; 
+            case S_FATT_ATK2:
+                sfx = sfx_firsht;
                 break;
             case S_CPOS_ATK2:
             case S_CPOS_ATK3:
-            case S_CPOS_ATK4:   
-                sfx = sfx_shotgn; 
+            case S_CPOS_ATK4:
+                sfx = sfx_shotgn;
                 break;
-            case S_TROO_ATK3:   
-                sfx = sfx_claw; 
+            case S_TROO_ATK3:
+                sfx = sfx_claw;
                 break;
-            case S_SARG_ATK2:   
-                sfx = sfx_sgtatk; 
+            case S_SARG_ATK2:
+                sfx = sfx_sgtatk;
                 break;
             case S_BOSS_ATK2:
             case S_BOS2_ATK2:
-            case S_HEAD_ATK2:   
-                sfx = sfx_firsht; 
+            case S_HEAD_ATK2:
+                sfx = sfx_firsht;
                 break;
-            case S_SKULL_ATK2:  
-                sfx = sfx_sklatk; 
+            case S_SKULL_ATK2:
+                sfx = sfx_sklatk;
                 break;
             case S_SPID_ATK2:
-            case S_SPID_ATK3:   
-                sfx = sfx_shotgn; 
+            case S_SPID_ATK3:
+                sfx = sfx_shotgn;
                 break;
-            case S_BSPI_ATK2:   
-                sfx = sfx_plasma; 
+            case S_BSPI_ATK2:
+                sfx = sfx_plasma;
                 break;
             case S_CYBER_ATK2:
             case S_CYBER_ATK4:
-            case S_CYBER_ATK6:  
-                sfx = sfx_rlaunc; 
+            case S_CYBER_ATK6:
+                sfx = sfx_rlaunc;
                 break;
-            case S_PAIN_ATK3:   
-                sfx = sfx_sklatk; 
+            case S_PAIN_ATK3:
+                sfx = sfx_sklatk;
                 break;
-            default:            
-                sfx = 0; 
+            default:
+                sfx = 0;
                 break;
         }
 
@@ -567,7 +566,7 @@ boolean F_CastResponder(event_t *ev)
     if (ev->type == ev_mouse && !(ev->data1 & 1))
         return false;
 
-    if (ev->type == ev_gamepad 
+    if (ev->type == ev_gamepad
         && !(ev->data1 & GAMEPAD_RIGHT_TRIGGER) && !(ev->data1 & GAMEPAD_A))
         return false;
 

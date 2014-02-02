@@ -1153,7 +1153,7 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
     xa = finecosine[an];
     ya = finesine[an];
 
-    switch (an) 
+    switch (an)
     {
         case -4096:
             xa = finetangent[2048];
@@ -1623,9 +1623,9 @@ void G_DoLoadGame(void)
 //
 void G_SaveGame(int slot, char *description)
 {
-  savegameslot = slot;
-  strcpy(savedescription, description);
-  sendsave = true;
+    savegameslot = slot;
+    strcpy(savedescription, description);
+    sendsave = true;
 }
 
 void G_DoSaveGame(void)
@@ -1713,7 +1713,7 @@ void G_DeferredInitNew(skill_t skill, int episode, int map)
 //
 void G_DeferredLoadLevel(skill_t skill, int episode, int map)
 {
-  int pnum, i;
+    int pnum, i;
 
     d_skill = skill;
     d_episode = episode;

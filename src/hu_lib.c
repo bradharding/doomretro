@@ -106,7 +106,7 @@ void HU_drawChar(int x, int y, int i)
 {
     int           w = strlen(smallcharset[i]) / 10;
     int           x1, y1;
-    
+
     for (y1 = 0; y1 < 10; y1++)
     {
         for (x1 = 0; x1 < w; x1++)
@@ -128,17 +128,16 @@ static struct
     char        char1;
     char        char2;
     int         adjust;
-} 
-kern[] = {
-  { '.', '1', -1 },
-  { '.', '7', -1 },
-  { ',', '1', -1 },
-  { ',', '7', -1 },
-  { ',', 'Y', -1 },
-  { 'T', '.', -1 },
-  { 'T', ',', -1 },
-  { 'Y', '.', -1 },
-  { 'Y', ',', -1 },
+} kern[] = {
+    { '.', '1', -1 },
+    { '.', '7', -1 },
+    { ',', '1', -1 },
+    { ',', '7', -1 },
+    { ',', 'Y', -1 },
+    { 'T', '.', -1 },
+    { 'T', ',', -1 },
+    { 'Y', '.', -1 },
+    { 'Y', ',', -1 }
 };
 
 void HUlib_drawTextLine(hu_textline_t *l, boolean drawcursor)

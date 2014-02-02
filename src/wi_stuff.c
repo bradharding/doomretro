@@ -634,7 +634,7 @@ void WI_updateAnimatedBack(void)
                         a->ctr = -1;
                         a->nexttic = bcnt + a->data2 + (M_Random() % a->data1);
                     }
-                    else 
+                    else
                         a->nexttic = bcnt + a->period;
                     break;
 
@@ -1719,8 +1719,8 @@ static void WI_loadUnloadData(load_callback_t callback)
             callback("WIOBJ", &items);
         else
             callback("WIOSTI", &items);
-    } 
-    else 
+    }
+    else
     {
         callback("WIOSTI", &items);
     }
@@ -1768,44 +1768,44 @@ static void WI_loadCallback(char *name, patch_t **variable)
 
 void WI_loadData(void)
 {
-  char     bg_lumpname[9];
-  patch_t  *bg;
+    char        bg_lumpname[9];
+    patch_t     *bg;
 
-  if (gamemode == commercial)
-  {
-      NUMCMAPS = 32 + (W_CheckNumForName("MAP33") >= 0);
-      lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMCMAPS, PU_STATIC, NULL);
-  }
-  else
-  {
-      lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMMAPS, PU_STATIC, NULL);
-  }
+    if (gamemode == commercial)
+    {
+        NUMCMAPS = 32 + (W_CheckNumForName("MAP33") >= 0);
+        lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMCMAPS, PU_STATIC, NULL);
+    }
+    else
+    {
+        lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMMAPS, PU_STATIC, NULL);
+    }
 
-  WI_loadUnloadData(WI_loadCallback);
+    WI_loadUnloadData(WI_loadCallback);
 
-  // These two graphics are special cased because we're sharing
-  // them with the status bar code
+    // These two graphics are special cased because we're sharing
+    // them with the status bar code
 
-  // your face
-  star = (patch_t *)W_CacheLumpName("STFST01", PU_STATIC);
+    // your face
+    star = (patch_t *)W_CacheLumpName("STFST01", PU_STATIC);
 
-  // dead face
-  bstar = (patch_t *)W_CacheLumpName("STFDEAD0", PU_STATIC);
+    // dead face
+    bstar = (patch_t *)W_CacheLumpName("STFDEAD0", PU_STATIC);
 
-  // Background image
+    // Background image
 
-  if (gamemode == commercial
-      || (gamemode == retail && wbs->epsd == 3))
-  {
-      strncpy(bg_lumpname, "INTERPIC", 9);
-      bg_lumpname[8] = '\0';
-  }
-  else
-  {
-      snprintf(bg_lumpname, 9, "WIMAP%d", wbs->epsd);
-  }
-  bg = (patch_t *)W_CacheLumpName(bg_lumpname, PU_CACHE);
-  V_DrawPatch(0, 0, 1, bg);
+    if (gamemode == commercial
+        || (gamemode == retail && wbs->epsd == 3))
+    {
+        strncpy(bg_lumpname, "INTERPIC", 9);
+        bg_lumpname[8] = '\0';
+    }
+    else
+    {
+        snprintf(bg_lumpname, 9, "WIMAP%d", wbs->epsd);
+    }
+    bg = (patch_t *)W_CacheLumpName(bg_lumpname, PU_CACHE);
+    V_DrawPatch(0, 0, 1, bg);
 }
 
 static void WI_unloadCallback(char *name, patch_t **variable)

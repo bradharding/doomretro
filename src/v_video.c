@@ -51,7 +51,7 @@ int                     dirtybox[4];
 
 byte                    gammatable[GAMMALEVELS][256];
 
-double gammalevel[GAMMALEVELS] = 
+double gammalevel[GAMMALEVELS] =
 {
     0.5, 0.625, 0.75, 0.875, 1.0, 1.25, 1.5, 1.75, 2.0
 };

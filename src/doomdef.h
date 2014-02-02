@@ -69,11 +69,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  to handle IWAD dependend animations etc.
 typedef enum
 {
-  shareware,    // DOOM 1 shareware, E1, M9
-  registered,   // DOOM 1 registered, E3, M27
-  commercial,   // DOOM 2 retail, E1 M34
-  retail,       // DOOM 1 retail, E4, M36
-  indetermined  // Well, no IWAD found.
+    shareware,          // DOOM 1 shareware, E1, M9
+    registered,         // DOOM 1 registered, E3, M27
+    commercial,         // DOOM 2 retail, E1 M34
+    retail,             // DOOM 1 retail, E4, M36
+    indetermined        // Well, no IWAD found.
 
 } GameMode_t;
 
@@ -81,13 +81,13 @@ typedef enum
 // Mission packs - might be useful for TC stuff?
 typedef enum
 {
-  doom,         // DOOM 1
-  doom2,        // DOOM 2
-  pack_tnt,     // TNT mission pack
-  pack_plut,    // Plutonia pack
-  pack_nerve,   // No Rest for the Living
-  doom2bfg,
-  none
+    doom,               // DOOM 1
+    doom2,              // DOOM 2
+    pack_tnt,           // TNT mission pack
+    pack_plut,          // Plutonia pack
+    pack_nerve,         // No Rest for the Living
+    doom2bfg,
+    none
 
 } GameMission_t;
 

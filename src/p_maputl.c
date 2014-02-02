@@ -108,10 +108,10 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
     return
-      !line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 :
-      !line->dy ? y <= line->y ? line->dx < 0 : line->dx > 0 :
-      (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ? (line->dy ^ x) < 0 :
-      FixedMul(y >> 8, line->dx >> 8) >= FixedMul(line->dy >> 8, x >> 8);
+        (!line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 :
+        !line->dy ? y <= line->y ? line->dx < 0 : line->dx > 0 :
+        (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ? (line->dy ^ x) < 0 :
+        FixedMul(y >> 8, line->dx >> 8) >= FixedMul(line->dy >> 8, x >> 8));
 }
 
 
@@ -121,10 +121,10 @@ int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 //
 void P_MakeDivline(line_t *li, divline_t *dl)
 {
-  dl->x = li->v1->x;
-  dl->y = li->v1->y;
-  dl->dx = li->dx;
-  dl->dy = li->dy;
+    dl->x = li->v1->x;
+    dl->y = li->v1->y;
+    dl->dx = li->dx;
+    dl->dy = li->dy;
 }
 
 
@@ -138,9 +138,10 @@ void P_MakeDivline(line_t *li, divline_t *dl)
 //
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
-  fixed_t den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy);
-  return den ? FixedDiv((FixedMul((v1->x - v2->x) >> 8, v1->dy) +
-                         FixedMul((v2->y - v1->y) >> 8, v1->dx)), den) : 0;
+    fixed_t den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy);
+
+    return (den ? FixedDiv((FixedMul((v1->x - v2->x) >> 8, v1->dy) +
+                           FixedMul((v2->y - v1->y) >> 8, v1->dx)), den) : 0);
 }
 
 

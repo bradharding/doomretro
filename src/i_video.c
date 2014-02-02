@@ -331,9 +331,9 @@ int TranslateKey2(int key)
 
 boolean keystate(int key)
 {
-  Uint8 *keystate = SDL_GetKeyState(NULL);
+    Uint8 *keystate = SDL_GetKeyState(NULL);
 
-  return keystate[TranslateKey2(key)];
+    return keystate[TranslateKey2(key)];
 }
 
 void I_SaveWindowPosition(void)

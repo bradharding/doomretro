@@ -651,12 +651,12 @@ void M_LoadDefaults(void)
 
 void M_SetConfigDir(void)
 {
-  char appdata[MAX_PATH];
+    char appdata[MAX_PATH];
 
-  HRESULT hr = SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, SHGFP_TYPE_CURRENT, appdata);
+    HRESULT hr = SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, SHGFP_TYPE_CURRENT, appdata);
 
-  sprintf(appdata, "%s\\DOOM RETRO\\", appdata);
+    sprintf(appdata, "%s\\DOOM RETRO\\", appdata);
 
-  M_MakeDirectory(appdata);
-  configdir = strdup(appdata);
+    M_MakeDirectory(appdata);
+    configdir = strdup(appdata);
 }

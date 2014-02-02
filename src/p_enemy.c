@@ -588,12 +588,12 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
             // player is invisible
             if (dist > 2 * MELEERANGE
                 && P_ApproxDistance(player->mo->momx, player->mo->momy) < 5 * FRACUNIT)
-            {                   
+            {
                 // player is sneaking - can't detect
                 return false;
             }
             if (P_Random() < 225)
-            {                   
+            {
                 // player isn't sneaking, but still didn't detect
                 return false;
             }

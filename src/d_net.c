@@ -125,7 +125,7 @@ void NetUpdate(void)
     }
 
     // build new ticcmds for console player
-    gameticdiv = gametic/ticdup;
+    gameticdiv = gametic / ticdup;
 
     for (i = 0; i < newtics; i++)
     {

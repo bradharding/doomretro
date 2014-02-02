@@ -45,9 +45,9 @@ typedef  void (*actionf_p2)(void *, void *);
 
 typedef union
 {
-  actionf_v     acv;
-  actionf_p1    acp1;
-  actionf_p2    acp2;
+    actionf_v     acv;
+    actionf_p1    acp1;
+    actionf_p2    acp2;
 
 } actionf_t;
 

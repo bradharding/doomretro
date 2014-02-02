@@ -54,14 +54,14 @@ int             sightcounts[2];
 //
 int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 {
-  fixed_t left, right;
+    fixed_t left, right;
 
-  return
-    !node->dx ? x == node->x ? 2 : x <= node->x ? node->dy > 0 : node->dy < 0 :
-    !node->dy ? x == node->y ? 2 : y <= node->y ? node->dx < 0 : node->dx > 0 :
-    (right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS)) <
-    (left  = ((x - node->x) >> FRACBITS) * (node->dy >> FRACBITS)) ? 0 :
-    right == left ? 2 : 1;
+    return
+        (!node->dx ? x == node->x ? 2 : x <= node->x ? node->dy > 0 : node->dy < 0 :
+        !node->dy ? x == node->y ? 2 : y <= node->y ? node->dx < 0 : node->dx > 0 :
+        (right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS)) <
+        (left  = ((x - node->x) >> FRACBITS) * (node->dy >> FRACBITS)) ? 0 :
+        right == left ? 2 : 1);
 }
 
 
@@ -73,11 +73,12 @@ int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 //
 static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 {
-  fixed_t den;
+    fixed_t den;
 
-  return (den = FixedMul(v1->dy>>8, v2->dx) - FixedMul(v1->dx>>8, v2->dy)) ?
-    FixedDiv(FixedMul((v1->x - v2->x)>>8, v1->dy) +
-             FixedMul((v2->y - v1->y)>>8, v1->dx), den) : 0;
+    return 
+        ((den = FixedMul(v1->dy>>8, v2->dx) - FixedMul(v1->dx>>8, v2->dy)) ?
+        FixedDiv(FixedMul((v1->x - v2->x)>>8, v1->dy) +
+        FixedMul((v2->y - v1->y)>>8, v1->dx), den) : 0);
 }
 
 //

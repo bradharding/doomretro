@@ -246,9 +246,9 @@ int R_DoorClosed(void)
         backsector->ceilingheight <= backsector->floorheight
 
         // preserve a kind of transparent door/lift special effect:
-        && (backsector->ceilingheight >= frontsector->ceilingheight 
+        && (backsector->ceilingheight >= frontsector->ceilingheight
             || curline->sidedef->toptexture)
-        && (backsector->floorheight <= frontsector->floorheight 
+        && (backsector->floorheight <= frontsector->floorheight
             || curline->sidedef->bottomtexture)
 
         // properly render skies (consider door "open" if both ceilings are sky):

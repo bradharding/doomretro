@@ -521,11 +521,11 @@ char            title[128];
 
 static boolean D_AddFile(char *filename)
 {
-  wad_file_t *handle;
+    wad_file_t *handle;
 
-  handle = W_AddFile(filename);
+    handle = W_AddFile(filename);
 
-  return (handle != NULL);
+    return (handle != NULL);
 }
 
 char *uppercase(char *str)
