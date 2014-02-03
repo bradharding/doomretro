@@ -968,9 +968,9 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, in
         if (th->tics < 1)
           th->tics = 1;
 
-        th->momx = FixedMul(i * FRACUNIT / 3,
+        th->momx = FixedMul(i * FRACUNIT / 2,
                             finecosine[angle >> ANGLETOFINESHIFT]);
-        th->momy = FixedMul(i * FRACUNIT / 3,
+        th->momy = FixedMul(i * FRACUNIT / 2,
                             finesine[angle >> ANGLETOFINESHIFT]);
 
         th->flags2 |= flag;
@@ -993,20 +993,25 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, in
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
 {
-    mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
+    mobj_t *newsplat;
 
-    if (!oldsplat || (oldsplat->x != x && oldsplat->y != y))
+    x += M_RandomInt(-4, 4) << FRACBITS;
+    y += M_RandomInt(-4, 4) << FRACBITS;
+
+    newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
+
+    newsplat->flags2 |= flag;
+    P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
+
+    if (bloodSplatQueueSlot > BLOODSPLATQUEUESIZE)
     {
-        mobj_t *newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
+        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
 
-        newsplat->flags2 |= flag;
-        P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
-
-        if (oldsplat && bloodSplatQueueSlot > BLOODSPLATQUEUESIZE)
+        if (oldsplat)
             P_RemoveMobj(oldsplat);
-
-        bloodSplatQueue[bloodSplatQueueSlot++ % BLOODSPLATQUEUESIZE] = newsplat;
     }
+
+    bloodSplatQueue[bloodSplatQueueSlot++ % BLOODSPLATQUEUESIZE] = newsplat;
 }
 
 
