@@ -138,13 +138,31 @@ int *isliquid;
 char *liquids[] =
 {
     { "NUKAGE1" },
+    { "NUKAGE2" },
+    { "NUKAGE3" },
     { "FWATER1" },
+    { "FWATER2" },
+    { "FWATER3" },
+    { "FWATER4" },
     { "SWATER1" },
+    { "SWATER2" },
+    { "SWATER3" },
+    { "SWATER4" },
     { "LAVA1"   },
+    { "LAVA2"   },
+    { "LAVA3"   },
+    { "LAVA4"   },
     { "BLOOD1"  },
+    { "BLOOD2"  },
+    { "BLOOD3"  },
     { "SLIME01" },
+    { "SLIME02" },
+    { "SLIME03" },
+    { "SLIME04" },
     { "SLIME05" },
-    { "SLIME09" },
+    { "SLIME06" },
+    { "SLIME07" },
+    { "SLIME08" },
     { ""        }
 };
 
