@@ -510,7 +510,7 @@ void G_DoLoadLevel(void)
     levelstarttic = gametic;                    // for time calculation
 
     if (wipegamestate == GS_LEVEL)
-        wipegamestate = (gamestate_t)-1;        // force a wipe
+        wipegamestate = (gamestate_t)(-1);      // force a wipe
 
     gamestate = GS_LEVEL;
 
@@ -1200,7 +1200,7 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
 //
 void G_DeathMatchSpawnPlayer(int playernum)
 {
-    int         i,j;
+    int         i, j;
     int         selections;
 
     selections = deathmatch_p - deathmatchstarts;
@@ -1566,6 +1566,7 @@ void G_LoadGame(char *name)
 void G_DoLoadGame(void)
 {
     int savedleveltime;
+    int i;
 
     gameaction = ga_nothing;
 
@@ -1594,7 +1595,10 @@ void G_DoLoadGame(void)
     bloodSplatQueueSlot = 0;
     memset(bloodSplatQueue, 0, sizeof(mobj_t *) * BLOODSPLATQUEUESIZE);
 
-     // dearchive all the modifications
+    for (i = 0; i < NUMCARDS; i++)
+        cards[i] = false;
+
+    // dearchive all the modifications
     P_UnArchivePlayers();
     P_UnArchiveWorld();
     P_UnArchiveThinkers();

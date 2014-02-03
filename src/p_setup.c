@@ -1032,7 +1032,12 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
     bodyqueslot = 0;
     deathmatch_p = deathmatchstarts;
     bloodSplatQueueSlot = 0;
+
     memset(bloodSplatQueue, 0, sizeof(mobj_t *) * BLOODSPLATQUEUESIZE);
+
+    for (i = 0; i < NUMCARDS; i++)
+        cards[i] = false;
+
     P_LoadThings(lumpnum + ML_THINGS);
 
     // if deathmatch, randomly spawn the active players

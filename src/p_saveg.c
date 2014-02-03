@@ -1775,6 +1775,31 @@ void P_UnArchiveThinkers(void)
                     mobj->flags2 = mobj->info->flags2;
                 mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
                 P_AddThinker(&mobj->thinker);
+
+                // [BH] remember keys present in level
+                switch (mobj->sprite)
+                {
+                    case SPR_BKEY:
+                        cards[it_bluecard] = true;
+                        break;
+                    case SPR_RKEY:
+                        cards[it_redcard] = true;
+                        break;
+                    case SPR_YKEY:
+                        cards[it_yellowcard] = true;
+                        break;
+                    case SPR_BSKU:
+                        cards[it_blueskull] = true;
+                        break;
+                    case SPR_RSKU:
+                        cards[it_redskull] = true;
+                        break;
+                    case SPR_YSKU:
+                        cards[it_yellowskull] = true;
+                        break;
+                    default:
+                        break;
+                }
                 break;
 
             default:

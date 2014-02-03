@@ -188,13 +188,11 @@ void T_VerticalDoor(vldoor_t *door)
 // EV_DoLockedDoor
 // Move a locked door up/down
 //
-extern int showMessages;
-
 int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 {
     player_t    *p;
-    int         i;
-    mobj_t      *t;
+    //int         i;
+    //mobj_t      *t;
 
     p = thing->player;
 
@@ -208,27 +206,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             if (!p->cards[it_bluecard]
                 && !p->cards[it_blueskull])
             {
-                if (showMessages)
-                {
-                    for (i = 0; i < numsectors; i++)
-                    {
-                        t = sectors[i].thinglist;
-                        while (t)
-                        {
-                            if (t->sprite == SPR_BKEY)
-                            {
-                                p->message = PD_BLUEO;
-                                break;
-                            }
-                            if (t->sprite == SPR_BSKU)
-                            {
-                                p->message = PD_BLUEO2;
-                                break;
-                            }
-                            t = t->snext;
-                        }
-                    }
-                }
+                p->message = (cards[it_bluecard] ? PD_BLUEO : PD_BLUEO2);
                 S_StartSound(p->mo, sfx_noway);
                 return 0;
             }
@@ -239,27 +217,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             if (!p->cards[it_redcard]
                 && !p->cards[it_redskull])
             {
-                if (showMessages)
-                {
-                    for (i = 0; i < numsectors; i++)
-                    {
-                        t = sectors[i].thinglist;
-                        while (t)
-                        {
-                            if (t->sprite == SPR_RKEY)
-                            {
-                                p->message = PD_REDO;
-                                break;
-                            }
-                            if (t->sprite == SPR_RSKU)
-                            {
-                                p->message = PD_REDO2;
-                                break;
-                            }
-                            t = t->snext;
-                        }
-                    }
-                }
+                p->message = (cards[it_redcard] ? PD_REDO : PD_REDO2);
                 S_StartSound(p->mo, sfx_noway);
                 return 0;
             }
@@ -270,27 +228,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             if (!p->cards[it_yellowcard]
                 && !p->cards[it_yellowskull])
             {
-                if (showMessages)
-                {
-                    for (i = 0; i < numsectors; i++)
-                    {
-                        t = sectors[i].thinglist;
-                        while (t)
-                        {
-                            if (t->sprite == SPR_YKEY)
-                            {
-                                p->message = PD_YELLOWO;
-                                break;
-                            }
-                            if (t->sprite == SPR_YSKU)
-                            {
-                                p->message = PD_YELLOWO2;
-                                break;
-                            }
-                            t = t->snext;
-                        }
-                    }
-                }
+                p->message = (cards[it_yellowcard] ? PD_YELLOWO : PD_YELLOWO2);
                 S_StartSound(p->mo, sfx_noway);
                 return 0;
             }
@@ -392,7 +330,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     vldoor_t    *door;
     int         side;
     int         i;
-    mobj_t      *t;
+    //mobj_t      *t;
 
     side = 0;   // only front sides can be used
 
@@ -410,27 +348,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
             if (!player->cards[it_bluecard] && !player->cards[it_blueskull])
             {
-                if (showMessages)
-                {
-                    for (i = 0; i < numsectors; i++)
-                    {
-                        t = sectors[i].thinglist;
-                        while (t)
-                        {
-                            if (t->sprite == SPR_BKEY)
-                            {
-                                player->message = PD_BLUEK;
-                                break;
-                            }
-                            if (t->sprite == SPR_BSKU)
-                            {
-                                player->message = PD_BLUEK2;
-                                break;
-                            }
-                            t = t->snext;
-                        }
-                    }
-                }
+                player->message = (cards[it_bluecard] ? PD_BLUEK : PD_BLUEK2);
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }
@@ -443,27 +361,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
             if (!player->cards[it_yellowcard] && !player->cards[it_yellowskull])
             {
-                if (showMessages)
-                {
-                    for (i = 0; i < numsectors; i++)
-                    {
-                        t = sectors[i].thinglist;
-                        while (t)
-                        {
-                            if (t->sprite == SPR_YKEY)
-                            {
-                                player->message = PD_YELLOWK;
-                                break;
-                            }
-                            if (t->sprite == SPR_YSKU)
-                            {
-                                player->message = PD_YELLOWK2;
-                                break;
-                            }
-                            t = t->snext;
-                        }
-                    }
-                }
+                player->message = (cards[it_yellowcard] ? PD_YELLOWK : PD_YELLOWK2);
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }
@@ -476,27 +374,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
             if (!player->cards[it_redcard] && !player->cards[it_redskull])
             {
-                if (showMessages)
-                {
-                    for (i = 0; i < numsectors; i++)
-                    {
-                        t = sectors[i].thinglist;
-                        while (t)
-                        {
-                            if (t->sprite == SPR_RKEY)
-                            {
-                                player->message = PD_REDK;
-                                break;
-                            }
-                            if (t->sprite == SPR_RSKU)
-                            {
-                                player->message = PD_REDK2;
-                                break;
-                            }
-                            t = t->snext;
-                        }
-                    }
-                }
+                player->message = (cards[it_redcard] ? PD_REDK : PD_REDK2);
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }

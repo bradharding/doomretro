@@ -852,33 +852,11 @@ boolean ST_Responder(event_t *ev)
 
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given
-                //for (i = 0; i < NUMCARDS; i++)
-                //    plyr->cards[i] = true;
-                for (i = 0; i < numsectors; i++)
+                for (i = 0; i < NUMCARDS; i++)
                 {
-                    thing = sectors[i].thinglist;
-                    while (thing)
-                    {
-                        if (thing->sprite == SPR_BKEY
-                            && !plyr->cards[it_bluecard])
-                            keysgiven = plyr->cards[it_bluecard] = true;
-                        if (thing->sprite == SPR_RKEY
-                            && !plyr->cards[it_redcard])
-                            keysgiven = plyr->cards[it_redcard] = true;
-                        if (thing->sprite == SPR_YKEY
-                            && !plyr->cards[it_yellowcard])
-                            keysgiven = plyr->cards[it_yellowcard] = true;
-                        if (thing->sprite == SPR_BSKU
-                            && !plyr->cards[it_blueskull])
-                            keysgiven = plyr->cards[it_blueskull] = true;
-                        if (thing->sprite == SPR_RSKU
-                            && !plyr->cards[it_redskull])
-                            keysgiven = plyr->cards[it_redskull] = true;
-                        if (thing->sprite == SPR_YSKU
-                            && !plyr->cards[it_yellowskull])
-                            keysgiven = plyr->cards[it_yellowskull] = true;
-                        thing = thing->snext;
-                    }
+                    plyr->cards[i] = cards[i];
+                    if (cards[i])
+                        keysgiven = true;
                 }
 
                 // [BH] show evil grin if player was given any new weapons

@@ -134,6 +134,7 @@ anim_t          anims[MAXANIMS];
 anim_t          *lastanim;
 
 int *isliquid;
+
 char *liquids[] =
 {
     { "NUKAGE1" },

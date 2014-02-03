@@ -114,6 +114,9 @@ extern int              iqueuetail;
 extern mobj_t           *bloodSplatQueue[BLOODSPLATQUEUESIZE];
 extern int              bloodSplatQueueSlot;
 
+extern boolean          cards[NUMCARDS];
+
+
 void P_RespawnSpecials(void);
 
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
