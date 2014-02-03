@@ -70,8 +70,8 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
         if (toupper(key) == toupper(cht->sequence[cht->chars_read]))
             ++cht->chars_read;
         else
-           // [BH] recognise key as first in sequence if it matches, rather than resetting
-           cht->chars_read = (toupper(key) == toupper(cht->sequence[0]));
+            // [BH] recognise key as first in sequence if it matches, rather than resetting
+            cht->chars_read = (toupper(key) == toupper(cht->sequence[0]));
 
         cht->param_chars_read = 0;
 

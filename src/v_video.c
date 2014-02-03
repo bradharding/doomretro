@@ -268,7 +268,7 @@ void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
     stretchy = (y * DY) >> 16;
 
     if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16,(patch->height * DY) >> 16);
+        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
 
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;

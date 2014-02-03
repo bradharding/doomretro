@@ -332,9 +332,9 @@ static boolean DirIsFile(char *path, char *filename)
     path_len = strlen(path);
     filename_len = strlen(filename);
 
-    return path_len >= filename_len + 1
+    return (path_len >= filename_len + 1
         && path[path_len - filename_len - 1] == DIR_SEPARATOR
-        && !strcasecmp(&path[path_len - filename_len], filename);
+        && !strcasecmp(&path[path_len - filename_len], filename));
 }
 
 // Check if the specified directory contains the specified IWAD

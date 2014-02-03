@@ -329,7 +329,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_RaiseFloorBy32UnitsChangeFloorTextureAndType:
-            if (EV_DoPlat(line,raiseAndChange, 32))
+            if (EV_DoPlat(line, raiseAndChange, 32))
                 P_ChangeSwitchTexture(line, 0);
             break;
 

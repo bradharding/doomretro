@@ -256,7 +256,7 @@ struct
     { "SW2STRTN", greenonly1     }, { "SW2TEK",   greenonly1     }, { "SW2VINE",  greenonly1     },
     { "SW2WDMET", redonly        }, { "SW2WOOD",  redonly        }, { "SW2ZIM",   redonly        },
     { "WOOD4",    redonly        }, { "WOODGARG", redonly        }, { "WOODSKUL", redonly        },
-    { "ZELDOOR",  redonly        }, { "",        0               }
+    { "ZELDOOR",  redonly        }, { "",         0              }
 };
 
 
@@ -549,12 +549,12 @@ byte *R_GetColumn(int tex, int col)
     ofs = texturecolumnofs[tex][col];
 
     if (lump > 0)
-        return (byte *)W_CacheLumpNum(lump, PU_CACHE) + ofs;
+        return ((byte *)W_CacheLumpNum(lump, PU_CACHE) + ofs);
 
     if (!texturecomposite[tex])
         R_GenerateComposite(tex);
 
-    return texturecomposite[tex] + ofs;
+    return (texturecomposite[tex] + ofs);
 }
 
 
@@ -645,7 +645,7 @@ void R_InitTextures(void)
 
     for (i = 0; i < nummappatches; i++)
     {
-        strncpy(name,name_p + i * 8, 8);
+        strncpy(name, name_p + i * 8, 8);
         patchlookup[i] = W_CheckNumForName(name);
     }
     W_ReleaseLumpName("PNAMES");
@@ -833,7 +833,7 @@ void R_InitSpriteLumps(void)
 
     // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
     i = 0;
-    while (sproffsets[i].x || sproffsets[i].y)
+    while (sproffsets[i].name[0])
     {
         int j = W_CheckNumForName(sproffsets[i].name);
 
@@ -928,7 +928,7 @@ int R_FlatNumForName(char *name)
         memcpy(namet, name, 8);
         I_Error("R_FlatNumForName: %s not found", namet);
     }
-    return i - firstflat;
+    return (i - firstflat);
 }
 
 

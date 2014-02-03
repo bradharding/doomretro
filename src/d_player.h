@@ -144,7 +144,7 @@ typedef struct player_s
     // Refired shots are less accurate.
     int                 refire;
 
-     // For intermission stats.
+    // For intermission stats.
     int                 killcount;
     int                 itemcount;
     int                 secretcount;

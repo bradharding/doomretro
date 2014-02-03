@@ -140,21 +140,21 @@ void NetUpdate(void)
 
         if (net_cl_new_sync)
         {
-           // If playing single player, do not allow tics to buffer
-           // up very far
+            // If playing single player, do not allow tics to buffer
+            // up very far
 
-           if ((!netgame || demoplayback) && maketic - gameticdiv > 2)
-               break;
+            if ((!netgame || demoplayback) && maketic - gameticdiv > 2)
+                break;
 
-           // Never go more than ~200ms ahead
+            // Never go more than ~200ms ahead
 
-           if (maketic - gameticdiv > 8)
-               break;
+            if (maketic - gameticdiv > 8)
+                break;
         }
         else
         {
-           if (maketic - gameticdiv >= 5)
-               break;
+            if (maketic - gameticdiv >= 5)
+                break;
         }
 
         memset(&cmd, 0, sizeof(ticcmd_t));

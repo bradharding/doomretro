@@ -308,7 +308,7 @@ static int              acceleratestage;
 // wbs->pnum
 static int              me;
 
- // specifies current state
+// specifies current state
 static stateenum_t      state;
 
 // contains information passed into intermission
@@ -365,7 +365,7 @@ static patch_t          *entering;
 // "secret"
 static patch_t          *sp_secret;
 
- // "Kills", "Scrt", "Items", "Frags"
+// "Kills", "Scrt", "Items", "Frags"
 static patch_t          *kills;
 static patch_t          *secret;
 static patch_t          *items;
@@ -391,7 +391,7 @@ static patch_t          *p[MAXPLAYERS];
 // "gray P[1..MAXPLAYERS]"
 static patch_t          *bp[MAXPLAYERS];
 
- // Name graphics of each level (centered)
+// Name graphics of each level (centered)
 static patch_t          **lnames;
 
 extern byte *tinttab50;
@@ -1688,7 +1688,7 @@ static void WI_loadUnloadData(load_callback_t callback)
 
     for (i = 0; i < 10; i++)
     {
-         // numbers 0-9
+        // numbers 0-9
         snprintf(name, 9, "WINUM%d", i);
         callback(name, &num[i]);
     }

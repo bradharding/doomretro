@@ -134,7 +134,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
 {
     plat_t      *plat;
     int         secnum;
-    int         rtn,i;
+    int         rtn, i;
     sector_t    *sec;
 
     secnum = -1;

@@ -84,7 +84,7 @@ typedef struct
 {
     hu_textline_t       l;                      // text line to input on
 
-     // left margin past which I am not to delete characters
+    // left margin past which I am not to delete characters
     int                 lm;
 
     // pointer to boolean stating whether to update window

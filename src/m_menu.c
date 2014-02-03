@@ -238,7 +238,7 @@ menu_t MainDef =
     NULL,               // previous menu
     MainMenu,           // menuitem_t ->
     M_DrawMainMenu,     // drawing routine ->
-    98,77,              // x,y
+    98, 77,             // x, y
     0                   // lastOn
 };
 
@@ -269,7 +269,7 @@ menu_t EpiDef =
     &MainDef,           // previous menu
     EpisodeMenu,        // menuitem_t ->
     M_DrawEpisode,      // drawing routine ->
-    39,63,              // x,y
+    39, 63,             // x, y
     ep1                 // lastOn
 };
 
@@ -295,7 +295,7 @@ menu_t ExpDef =
     &MainDef,             // previous menu
     ExpansionMenu,        // menuitem_t ->
     M_DrawExpansion,      // drawing routine ->
-    39,63,                // x,y
+    39, 63,               // x, y
     exp1                  // lastOn
 };
 
@@ -327,7 +327,7 @@ menu_t NewDef =
     &EpiDef,            // previous menu
     NewGameMenu,        // menuitem_t ->
     M_DrawNewGame,      // drawing routine ->
-    39,63,              // x,y
+    39, 63,             // x, y
     hurtme              // lastOn
 };
 
@@ -365,7 +365,7 @@ menu_t OptionsDef =
     &MainDef,
     OptionsMenu,
     M_DrawOptions,
-    56,41,
+    56, 41,
     0
 };
 
@@ -386,7 +386,7 @@ menu_t ReadDef =
     &ReadDef,
     ReadMenu,
     M_DrawReadThis,
-    330,175,
+    330, 175,
     0
 };
 
@@ -416,7 +416,7 @@ menu_t SoundDef =
     &OptionsDef,
     SoundMenu,
     M_DrawSound,
-    89,64,
+    89, 64,
     0
 };
 
@@ -450,7 +450,7 @@ menu_t LoadDef =
     &MainDef,
     LoadMenu,
     M_DrawLoad,
-    67,51,
+    67, 51,
     0
 };
 
@@ -473,7 +473,7 @@ menu_t SaveDef =
     &MainDef,
     SaveMenu,
     M_DrawSave,
-    67,51,
+    67, 51,
     0
 };
 

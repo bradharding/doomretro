@@ -203,13 +203,13 @@ typedef struct
 
 
 
- // max # of wall switches in a level
+// max # of wall switches in a level
 #define MAXSWITCHES             100
 
- // 4 players, 4 buttons each at once, max.
+// 4 players, 4 buttons each at once, max.
 #define MAXBUTTONS              32
 
- // 1 second, in ticks.
+// 1 second, in ticks.
 #define BUTTONTIME              35
 
 extern button_t buttonlist[MAXBUTTONS];
@@ -421,7 +421,7 @@ typedef enum
     raiseFloor24AndChange,
     raiseFloorCrush,
 
-     // raise to next highest floor, turbo-speed
+    // raise to next highest floor, turbo-speed
     raiseFloorTurbo,
     donutRaise,
     raiseFloor512,

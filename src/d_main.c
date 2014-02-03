@@ -206,7 +206,7 @@ void D_Display(void)
     static boolean      menuactivestate = false;
     static boolean      pausedstate = false;
     static boolean      inhelpscreensstate = false;
-    static gamestate_t  oldgamestate = (gamestate_t)-1;
+    static gamestate_t  oldgamestate = (gamestate_t)(-1);
     static int          borderdrawcount;
     int                 nowtime;
     int                 tics;
@@ -706,7 +706,7 @@ void D_DoomMain(void)
         }
         else
         {
-            sprintf(file,"%s.lmp", myargv[p + 1]);
+            sprintf(file, "%s.lmp", myargv[p + 1]);
         }
 
         if (D_AddFile(file))

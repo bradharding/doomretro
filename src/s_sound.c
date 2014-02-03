@@ -509,7 +509,7 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     if (ady > adx)
         dist = adx, adx = ady, ady = dist;
 
-    dist = (adx ? FixedDiv(adx, finesine[(tantoangle[FixedDiv(ady,adx) >> DBITS]
+    dist = (adx ? FixedDiv(adx, finesine[(tantoangle[FixedDiv(ady, adx) >> DBITS]
         + ANG90) >> ANGLETOFINESHIFT]) : 0);
 
     if (dist > S_CLIPPING_DIST >> FRACBITS)

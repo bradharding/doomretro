@@ -524,7 +524,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
         // Strip off trailing non-printable characters (\r characters
         // from DOS text files)
 
-        while (strlen(strparm) > 0 && !isprint(strparm[strlen(strparm)-1]))
+        while (strlen(strparm) > 0 && !isprint(strparm[strlen(strparm) - 1]))
         {
             strparm[strlen(strparm) - 1] = '\0';
         }

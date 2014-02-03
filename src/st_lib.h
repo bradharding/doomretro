@@ -95,7 +95,7 @@ typedef struct
 // Multiple Icon widget
 typedef struct
 {
-     // center-justified location of icons
+    // center-justified location of icons
     int                 x;
     int                 y;
 

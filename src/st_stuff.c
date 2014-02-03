@@ -229,7 +229,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ST_WEAPON4X             122
 #define ST_WEAPON4Y             181
 
- // bfg
+// bfg
 #define ST_WEAPON5X             134
 #define ST_WEAPON5Y             181
 
@@ -237,7 +237,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ST_WPNSX                109
 #define ST_WPNSY                191
 
- // DETH title
+// DETH title
 #define ST_DETHX                109
 #define ST_DETHY                191
 
@@ -254,7 +254,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 // Width, in characters again.
 #define ST_OUTWIDTH             52
- // Height, in lines.
+// Height, in lines.
 #define ST_OUTHEIGHT            1
 
 #define ST_MAPWIDTH \
@@ -327,7 +327,7 @@ static patch_t                  *faces[ST_NUMFACES];
 // face background
 static patch_t                  *faceback;
 
- // main bar right
+// main bar right
 static patch_t                  *armsbg;
 
 // weapon ownership patches
@@ -336,7 +336,7 @@ static patch_t                  *arms[6][2];
 // ready-weapon widget
 static st_number_t              w_ready;
 
- // in deathmatch only, summary of frags stats
+// in deathmatch only, summary of frags stats
 static st_number_t              w_frags;
 
 // health widget
@@ -366,7 +366,7 @@ static st_number_t              w_maxammo[4];
 
 
 
- // number of frags so far in deathmatch
+// number of frags so far in deathmatch
 static int                      st_fragscount;
 
 // used to use appopriately pained face
@@ -722,7 +722,7 @@ boolean ST_Responder(event_t *ev)
 
                 for (i = 0; i < NUMAMMO; i++)
                 {
-                   // [BH] note if any ammo given
+                    // [BH] note if any ammo given
                     if (plyr->ammo[i] < plyr->maxammo[i])
                         ammogiven = true;
                     plyr->ammo[i] = plyr->maxammo[i];
@@ -740,7 +740,7 @@ boolean ST_Responder(event_t *ev)
                 // [BH] only acknowledge cheat if player was given something
                 if (ammogiven || armorgiven || weaponsgiven)
                 {
-                   // [BH] flash screen
+                    // [BH] flash screen
                     P_AddBonus(plyr, BONUSADD);//plyr->bonuscount += BONUSADD;
 
                     plyr->message = STSTR_FAADDED;
@@ -844,7 +844,7 @@ boolean ST_Responder(event_t *ev)
 
                 for (i = 0; i < NUMAMMO; i++)
                 {
-                   // [BH] note if any ammo given
+                    // [BH] note if any ammo given
                     if (plyr->ammo[i] < plyr->maxammo[i])
                         ammogiven = true;
                     plyr->ammo[i] = plyr->maxammo[i];
@@ -871,7 +871,7 @@ boolean ST_Responder(event_t *ev)
                 // [BH] only acknowledge cheat if player was given something
                 if (ammogiven || armorgiven || weaponsgiven || keysgiven)
                 {
-                   // [BH] flash screen
+                    // [BH] flash screen
                     P_AddBonus(plyr, BONUSADD);//plyr->bonuscount += BONUSADD;
 
                     plyr->message = STSTR_KFAADDED;

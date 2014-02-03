@@ -5,6 +5,7 @@ DOOM RETRO
 A classic, refined DOOM source port. For Windows PC.
 
 Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright © 1999 Lee Killough.
 Copyright © 2005-2014 Simon Howard.
 Copyright © 2013-2014 Brad Harding.
 
@@ -1207,13 +1208,26 @@ static boolean PTR_UseTraverse(intercept_t *in)
 }
 
 
+// Returns false if a "oof" sound should be made because of a blocking
+// linedef. Makes 2s middles which are impassable, as well as 2s uppers
+// and lowers which block the player, cause the sound effect when the
+// player tries to activate them. Specials are excluded, although it is
+// assumed that all special linedefs within reach have been considered
+// and rejected already (see P_UseLines).
+//
+// by Lee Killough
+//
+
 boolean PTR_NoWayTraverse(intercept_t *in)
 {
     line_t *ld = in->d.line;
 
-    return (ld->special || !(ld->flags & ML_BLOCKING || (P_LineOpening(ld),
-        openrange <= 0 || openbottom > usething->z + 24 * FRACUNIT ||
-        opentop < usething->z + usething->height)));
+    return (ld->special 
+            || !(ld->flags & ML_BLOCKING 
+                 || (P_LineOpening(ld),
+                     openrange <= 0 || 
+                     openbottom > usething->z + 24 * FRACUNIT ||
+                     opentop < usething->z + usething->height)));
 }
 
 
@@ -1240,6 +1254,12 @@ void P_UseLines(player_t *player)
     y1 = player->mo->y;
     x2 = x1 + (USERANGE >> FRACBITS) * finecosine[angle];
     y2 = y1 + (USERANGE >> FRACBITS) * finesine[angle];
+
+    // old code:
+    //
+    // P_PathTraverse ( x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse );
+    //
+    // This added test makes the "oof" sound work on 2s lines -- killough:
 
     if (P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse))
         if (!P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_NoWayTraverse))
@@ -1284,6 +1304,8 @@ boolean PIT_RadiusAttack(mobj_t *thing)
 
     if (thing->type == MT_BOSSBRAIN)
     {
+        // [BH] if killing boss in DOOM II MAP30, use old code that
+        //  doesn't use z height in blast radius
         dist >>= FRACBITS;
 
         dist = MAX(0, dist);
@@ -1362,8 +1384,8 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
 //  the way it was and call P_ChangeSector again
 //  to undo the changes.
 //
-boolean                 crushchange;
-boolean                 nofit;
+static boolean          crushchange;
+static boolean          nofit;
 
 
 //
@@ -1382,7 +1404,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
     player = &players[consoleplayer];
 
     if (thing->type == MT_PLAYER &&
-        (!player->health ||
+        (player->health <= 0 ||
          player->powers[pw_invulnerability] ||
          (player->cheats & CF_GODMODE)))
     {

@@ -368,45 +368,45 @@ int EV_DoFloor(line_t *line, floor_e floortype)
             }
             break;
 
-        case lowerAndChange:
-            floor->direction = -1;
-            floor->sector = sec;
-            floor->speed = FLOORSPEED;
-            floor->floordestheight = P_FindLowestFloorSurrounding(sec);
-            floor->texture = sec->floorpic;
-            floor->newspecial = sec->special;
+            case lowerAndChange:
+                floor->direction = -1;
+                floor->sector = sec;
+                floor->speed = FLOORSPEED;
+                floor->floordestheight = P_FindLowestFloorSurrounding(sec);
+                floor->texture = sec->floorpic;
+                floor->newspecial = sec->special;
 
-            for (i = 0; i < sec->linecount; i++)
-            {
-                if (twoSided(secnum, i))
+                for (i = 0; i < sec->linecount; i++)
                 {
-                    if (getSide(secnum,i,0)->sector - sectors == secnum)
+                    if (twoSided(secnum, i))
                     {
-                        sec = getSector(secnum, i, 1);
-
-                        if (sec->floorheight == floor->floordestheight)
+                        if (getSide(secnum, i, 0)->sector - sectors == secnum)
                         {
-                            floor->texture = sec->floorpic;
-                            floor->newspecial = sec->special;
-                            break;
+                            sec = getSector(secnum, i, 1);
+
+                            if (sec->floorheight == floor->floordestheight)
+                            {
+                                floor->texture = sec->floorpic;
+                                floor->newspecial = sec->special;
+                                break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        sec = getSector(secnum,i,0);
-
-                        if (sec->floorheight == floor->floordestheight)
+                        else
                         {
-                            floor->texture = sec->floorpic;
-                            floor->newspecial = sec->special;
-                            break;
+                            sec = getSector(secnum, i, 0);
+
+                            if (sec->floorheight == floor->floordestheight)
+                            {
+                                floor->texture = sec->floorpic;
+                                floor->newspecial = sec->special;
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-        default:
-            break;
+            default:
+                break;
         }
 
         floor->stopsound = (floor->sector->floorheight != floor->floordestheight);

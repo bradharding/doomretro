@@ -264,7 +264,7 @@ int EV_LightTurnOn(line_t *line, int bright)
 {
     int         i;
 
-    for (i = -1; (i = P_FindSectorFromLineTag(line,i)) >= 0;)
+    for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
         sector_t        *temp;
         sector_t        *sector = sectors + i;
@@ -276,7 +276,7 @@ int EV_LightTurnOn(line_t *line, int bright)
         // surrounding sector
         if (!bright)
             for (j = 0; j < sector->linecount; j++)
-                if ((temp = getNextSector(sector->lines[j],sector))
+                if ((temp = getNextSector(sector->lines[j], sector))
                     && temp->lightlevel > tbright)
                     tbright = temp->lightlevel;
 
