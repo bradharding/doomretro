@@ -63,12 +63,14 @@ fixed_t         tmdropoffz;
 // keep track of the line that lowers the ceiling,
 // so missiles don't explode against sky hack walls
 line_t          *ceilingline;
+line_t          *blockline;     // killough 8/11/98: blocking linedef
 
 // keep track of special lines as they are hit,
 // but don't process them until the move is proven valid
-#define MAXSPECIALCROSS         20
 
-line_t          *spechit[MAXSPECIALCROSS];
+// 1/11/98 killough: removed limit on special lines crossed
+line_t          **spechit;
+static int      spechit_max;
 int             numspechit;
 
 angle_t         shootangle;
@@ -211,7 +213,10 @@ static boolean PIT_CheckLine(line_t *ld)
     // could be crossed in either order.
 
     if (!ld->backsector)
+    {
+        blockline = ld;
         return false;           // one sided line
+    }
 
     if (!(tmthing->flags & MF_MISSILE))
     {
@@ -230,10 +235,14 @@ static boolean PIT_CheckLine(line_t *ld)
     {
         tmceilingz = opentop;
         ceilingline = ld;
+        blockline = ld;
     }
 
     if (openbottom > tmfloorz)
+    {
         tmfloorz = openbottom;
+        blockline = ld;
+    }
 
     if (lowfloor < tmdropoffz)
         tmdropoffz = lowfloor;
@@ -241,8 +250,13 @@ static boolean PIT_CheckLine(line_t *ld)
     // if contacted a special line, add it to the list
     if (ld->special)
     {
-        spechit[numspechit] = ld;
-        numspechit++;
+        // 1/11/98 killough: remove limit on lines hit, by array doubling
+        if (numspechit >= spechit_max)
+        {
+            spechit_max = (spechit_max ? spechit_max * 2 : 8);
+            spechit = (line_t **)realloc(spechit, sizeof(*spechit) * spechit_max);
+        }
+        spechit[numspechit++] = ld;
     }
 
     if (tmthing->flags & MF_MISSILE)
@@ -420,6 +434,7 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 
     newsubsec = R_PointInSubsector(x, y);
     ceilingline = NULL;
+    blockline = NULL;
 
     // The base floor / ceiling is from the subsector
     // that contains the point.
@@ -569,7 +584,7 @@ boolean PIT_CrossLine(line_t *ld)
 //
 // P_CheckLineSide
 //
-boolean P_CheckLineSide(mobj_t *actor, int x, int y)
+boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
 {
     int         bx;
     int         by;
@@ -1094,8 +1109,7 @@ hitline:
 
         if (in->d.thing->type == MT_HEAD)
             P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_REDTOBLUE_50);
-        else if (in->d.thing->type == MT_BRUISER
-                 || in->d.thing->type == MT_KNIGHT)
+        else if (in->d.thing->type == MT_BRUISER || in->d.thing->type == MT_KNIGHT)
             P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_REDTOGREEN_50);
         else
             P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_50);
