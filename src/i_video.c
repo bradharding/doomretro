@@ -39,6 +39,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "i_system.h"
 #include "i_video.h"
 #include "i_tinttab.h"
+#include "m_config.h"
 #include "s_sound.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -978,6 +979,7 @@ void ToggleFullScreen(void)
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
 
+    M_SaveDefaults();
     initialized = true;
 }
 
