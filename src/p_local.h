@@ -109,11 +109,6 @@ extern int              itemrespawntime[ITEMQUEUESIZE];
 extern int              iqueuehead;
 extern int              iqueuetail;
 
-#define BLOODSPLATQUEUESIZE       256
-
-extern mobj_t           *bloodSplatQueue[BLOODSPLATQUEUESIZE];
-extern int              bloodSplatQueueSlot;
-
 extern boolean          cards[NUMCARDS];
 
 
@@ -160,13 +155,6 @@ typedef struct
         line_t  *line;
     } d;
 } intercept_t;
-
-// Extended MAXINTERCEPTS, to allow for intercepts overrun emulation.
-
-#define MAXINTERCEPTS          256
-
-extern intercept_t      intercepts[MAXINTERCEPTS];
-extern intercept_t      *intercept_p;
 
 typedef boolean (*traverser_t)(intercept_t *in);
 

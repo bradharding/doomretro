@@ -1592,9 +1592,6 @@ void G_DoLoadGame(void)
 
     leveltime = savedleveltime;
 
-    bloodSplatQueueSlot = 0;
-    memset(bloodSplatQueue, 0, sizeof(mobj_t *) * BLOODSPLATQUEUESIZE);
-
     for (i = 0; i < NUMCARDS; i++)
         cards[i] = false;
 
@@ -1782,9 +1779,9 @@ void G_SetFastParms(int fast_pending)
         {
             for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
                 states[i].tics <<= 1;
-            mobjinfo[MT_BRUISERSHOT].speed = 15*FRACUNIT;
-            mobjinfo[MT_HEADSHOT].speed = 10*FRACUNIT;
-            mobjinfo[MT_TROOPSHOT].speed = 10*FRACUNIT;
+            mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
+            mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
+            mobjinfo[MT_TROOPSHOT].speed = 10 * FRACUNIT;
         }
     }
 }
