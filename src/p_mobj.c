@@ -269,8 +269,7 @@ void P_ZMovement(mobj_t *mo)
     // adjust height
     mo->z += mo->momz;
 
-    if ((mo->flags & MF_FLOAT)
-        && mo->target)
+    if ((mo->flags & MF_FLOAT) && mo->target)
     {
         // float down towards target if too close
         if (!(mo->flags & MF_SKULLFLY)
@@ -301,8 +300,7 @@ void P_ZMovement(mobj_t *mo)
 
         if (mo->momz < 0)
         {
-            if (mo->player
-                && mo->momz < -GRAVITY * 8)
+            if (mo->player && mo->momz < -GRAVITY * 8)
             {
                 // Squat down.
                 // Decrease viewheight for a moment
@@ -317,8 +315,12 @@ void P_ZMovement(mobj_t *mo)
         }
         mo->z = mo->floorz;
 
-        if ((mo->flags & MF_MISSILE)
-            && !(mo->flags & MF_NOCLIP))
+        // [BH] remove blood the moment it hits the ground so
+        //  a blood splat can be spawned in its place
+        if (mo->type == MT_BLOOD)
+            P_RemoveMobj(mo);
+
+        if ((mo->flags & MF_MISSILE) && !(mo->flags & MF_NOCLIP))
         {
             P_ExplodeMissile(mo);
             return;
@@ -968,9 +970,9 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, in
         if (th->tics < 1)
           th->tics = 1;
 
-        th->momx = FixedMul(i * FRACUNIT / 2,
+        th->momx = FixedMul(i * FRACUNIT / 4,
                             finecosine[angle >> ANGLETOFINESHIFT]);
-        th->momy = FixedMul(i * FRACUNIT / 2,
+        th->momy = FixedMul(i * FRACUNIT / 4,
                             finesine[angle >> ANGLETOFINESHIFT]);
 
         th->flags2 |= flag;
@@ -995,8 +997,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
 {
     mobj_t *newsplat;
 
-    x += M_RandomInt(-4, 4) << FRACBITS;
-    y += M_RandomInt(-4, 4) << FRACBITS;
+    x += M_RandomInt(-5, 5) << FRACBITS;
+    y += M_RandomInt(-5, 5) << FRACBITS;
 
     newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
 
