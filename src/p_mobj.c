@@ -611,8 +611,11 @@ void P_RemoveMobj(mobj_t *mobj)
     }
 
     if (mobj->type == MT_BLOOD
+        && mobj->floorz == mobj->subsector->sector->floorheight
         && !isliquid[mobj->subsector->sector->floorpic])
+    {
         P_SpawnBloodSplat(mobj->x, mobj->y, mobj->flags2);
+    }
 
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
@@ -995,9 +998,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
 
     x += M_RandomInt(-5, 5) << FRACBITS;
     y += M_RandomInt(-5, 5) << FRACBITS;
-
     newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
-
     newsplat->flags2 |= flag;
     P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
 }

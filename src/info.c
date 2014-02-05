@@ -1411,14 +1411,14 @@ state_t states[NUMSTATES] =
     { SPR_TLP2,  3 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP     }, // S_TECH2LAMP4
 
     // [BH] Blood Splat (MT_BLOODSPLAT)
-    { SPR_BLD2,  0,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT
-    { SPR_BLD2,  1,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT2
-    { SPR_BLD2,  2,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT3
-    { SPR_BLD2,  3,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT4
-    { SPR_BLD2,  4,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT5
-    { SPR_BLD2,  5,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT6
-    { SPR_BLD2,  6,              (10 * 60 * TICRATE),               NULL,            S_NULL          }, // S_BLOODSPLAT7
-    { SPR_BLD2,  7,              (10 * 60 * TICRATE),               NULL,            S_NULL          }  // S_BLOODSPLAT8
+    { SPR_BLD2,  0,                   SPLATTICS +  0,               NULL,            S_NULL          }, // S_BLOODSPLAT
+    { SPR_BLD2,  1,                   SPLATTICS +  5,               NULL,            S_NULL          }, // S_BLOODSPLAT2
+    { SPR_BLD2,  2,                   SPLATTICS + 10,               NULL,            S_NULL          }, // S_BLOODSPLAT3
+    { SPR_BLD2,  3,                   SPLATTICS + 15,               NULL,            S_NULL          }, // S_BLOODSPLAT4
+    { SPR_BLD2,  4,                   SPLATTICS + 20,               NULL,            S_NULL          }, // S_BLOODSPLAT5
+    { SPR_BLD2,  5,                   SPLATTICS + 25,               NULL,            S_NULL          }, // S_BLOODSPLAT6
+    { SPR_BLD2,  6,                   SPLATTICS + 30,               NULL,            S_NULL          }, // S_BLOODSPLAT7
+    { SPR_BLD2,  7,                   SPLATTICS + 35,               NULL,            S_NULL          }  // S_BLOODSPLAT8
 };
 
 
@@ -2547,8 +2547,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* xdeathstate  */ S_NULL,
         /* deathsound   */ sfx_None,
         /* speed        */ 0,
-        /* radius       */ 20 * FRACUNIT,
-        /* height       */ 16 * FRACUNIT,
+        /* radius       */ 0 * FRACUNIT,
+        /* height       */ 0 * FRACUNIT,
         /* mass         */ 100,
         /* damage       */ 0,
         /* activesound  */ sfx_None,
@@ -5418,8 +5418,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* xdeathstate  */ S_NULL,
         /* deathsound   */ sfx_None,
         /* speed        */ 0,
-        /* radius       */ 20 * FRACUNIT,
-        /* height       */ 16 * FRACUNIT,
+        /* radius       */ 0 * FRACUNIT,
+        /* height       */ 0 * FRACUNIT,
         /* mass         */ 100,
         /* damage       */ 0,
         /* activesound  */ sfx_None,

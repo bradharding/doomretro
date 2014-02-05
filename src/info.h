@@ -32,6 +32,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Needed for action function pointer handling.
 #include "d_think.h"
 
+#define SPLATTICS (10 * 60 * TICRATE)
+
 typedef enum
 {
     SPR_TROO,
