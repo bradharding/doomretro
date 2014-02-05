@@ -739,7 +739,8 @@ void D_DoomMain(void)
         int i;
 
         if (gamemode == shareware)
-            I_Error("You cannot use -file with the shareware version. Register!");
+            I_Error("You cannot use -file with the shareware version.\n"
+                    "Please purchase the full version.");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
