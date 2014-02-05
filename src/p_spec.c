@@ -26,31 +26,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdlib.h>
-
-#include "doomdef.h"
 #include "doomstat.h"
-
-#include "i_system.h"
-#include "z_zone.h"
-#include "m_argv.h"
-#include "m_misc.h"
-#include "m_random.h"
-#include "w_wad.h"
-
-#include "r_local.h"
-#include "p_local.h"
-
 #include "g_game.h"
-
+#include "m_random.h"
+#include "p_local.h"
 #include "s_sound.h"
-
-// State.
-#include "r_state.h"
-
-// Data.
-#include "sounds.h"
-
+#include "w_wad.h"
+#include "z_zone.h"
 
 //
 // Animating textures and planes
@@ -58,12 +40,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 typedef struct
 {
-    boolean     istexture;
-    int         picnum;
-    int         basepic;
-    int         numpics;
-    int         speed;
-
+    boolean istexture;
+    int     picnum;
+    int     basepic;
+    int     numpics;
+    int     speed;
 } anim_t;
 
 //
@@ -71,18 +52,16 @@ typedef struct
 //
 typedef struct
 {
-    int         istexture;      // if false, it is a flat
-    char        endname[9];
-    char        startname[9];
-    int         speed;
+    int  istexture;     // if false, it is a flat
+    char endname[9];
+    char startname[9];
+    int  speed;
 } animdef_t;
 
+#define MAXANIMS 32
 
-
-#define MAXANIMS                32
-
-extern anim_t   anims[MAXANIMS];
-extern anim_t   *lastanim;
+static anim_t *lastanim, *anims;        // new structure w/o limits -- killough
+static size_t maxanims;
 
 //
 // P_InitPicAnims
@@ -97,7 +76,7 @@ extern anim_t   *lastanim;
 //  and end entry, in the order found in
 //  the WAD file.
 //
-animdef_t               animdefs[] =
+animdef_t animdefs[] =
 {
     { false,    "NUKAGE3",      "NUKAGE1",      8 },
     { false,    "FWATER4",      "FWATER1",      8 },
@@ -130,8 +109,52 @@ animdef_t               animdefs[] =
     { -1,       "",             "",             0 }
 };
 
-anim_t          anims[MAXANIMS];
-anim_t          *lastanim;
+void P_InitPicAnims(void)
+{
+    int i;
+
+    //  Init animation
+    lastanim = anims;
+    for (i = 0; animdefs[i].istexture != -1; i++)
+    {
+        char *startname = animdefs[i].startname;
+        char *endname = animdefs[i].endname;
+
+        // 1/11/98 killough -- removed limit by array-doubling
+        if (lastanim >= anims + maxanims)
+        {
+            size_t newmax = (maxanims ? maxanims * 2 : MAXANIMS);
+
+            anims = (anim_t *)realloc(anims, newmax * sizeof(*anims));
+            lastanim = anims + maxanims;
+            maxanims = newmax;
+        }
+
+        if (animdefs[i].istexture)
+        {
+            // different episode?
+            if (R_CheckTextureNumForName(startname) == -1)
+                continue;
+
+            lastanim->picnum = R_TextureNumForName(endname);
+            lastanim->basepic = R_TextureNumForName(startname);
+        }
+        else
+        {
+            if (W_CheckNumForName(startname) == -1)
+                continue;
+
+            lastanim->picnum = R_FlatNumForName(endname);
+            lastanim->basepic = R_FlatNumForName(startname);
+        }
+
+        lastanim->istexture = animdefs[i].istexture;
+        lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
+
+        lastanim->speed = animdefs[i].speed;
+        lastanim++;
+    }
+}
 
 int *isliquid;
 
@@ -166,7 +189,6 @@ char *liquids[] =
     { ""        }
 };
 
-
 //
 //      Animating line specials
 //
@@ -192,45 +214,6 @@ void P_InitLiquids(void)
         lump = W_CheckNumForName(liquids[i]);
         if (lump != -1)
             isliquid[lump - firstflat] = true;
-    }
-}
-
-void P_InitPicAnims(void)
-{
-    int         i;
-
-    //  Init animation
-    lastanim = anims;
-    for (i = 0; animdefs[i].istexture != -1; i++)
-    {
-        char *startname, *endname;
-
-        startname = animdefs[i].startname;
-        endname = animdefs[i].endname;
-
-        if (animdefs[i].istexture)
-        {
-            // different episode?
-            if (R_CheckTextureNumForName(startname) == -1)
-                continue;
-
-            lastanim->picnum = R_TextureNumForName(endname);
-            lastanim->basepic = R_TextureNumForName(startname);
-        }
-        else
-        {
-            if (W_CheckNumForName(startname) == -1)
-                continue;
-
-            lastanim->picnum = R_FlatNumForName(endname);
-            lastanim->basepic = R_FlatNumForName(startname);
-        }
-
-        lastanim->istexture = animdefs[i].istexture;
-        lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
-
-        lastanim->speed = animdefs[i].speed;
-        lastanim++;
     }
 }
 
