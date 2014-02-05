@@ -49,11 +49,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // to disk.
 //
 
-#ifdef __GNUC__
-#define PACKEDATTR __attribute__((packed))
-#else
 #define PACKEDATTR
-#endif
 
 //
 // Global parameters/defines.

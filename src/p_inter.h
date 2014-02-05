@@ -29,20 +29,14 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __P_INTER__
 #define __P_INTER__
 
-
-
-
 boolean P_GivePower(player_t *player, int power);
 void P_AddBonus(player_t *player, int amount);
 void XInputVibration(int left, int right);
 void G_RemoveChoppers(void);
 
-extern boolean  message_dontfuckwithme;
-extern boolean  oldweaponsowned[NUMWEAPONS];
-extern boolean  vibrate;
-extern int      gamepadvibrate;
-
-
-
+extern boolean message_dontfuckwithme;
+extern boolean oldweaponsowned[NUMWEAPONS];
+extern boolean vibrate;
+extern int     gamepadvibrate;
 
 #endif

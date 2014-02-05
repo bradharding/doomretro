@@ -98,50 +98,35 @@ void R_InstallSpriteLump(int lump, unsigned frame,
                          unsigned rotation, boolean flipped)
 {
     if (frame >= MAX_SPRITE_FRAMES || rotation > 8)
-        I_Error("R_InstallSpriteLump: "
-                "Bad frame characters in lump %i", lump);
+        I_Error("R_InstallSpriteLump: Bad frame characters in lump %i", lump);
 
     if ((int)frame > maxframe)
         maxframe = frame;
 
     if (rotation == 0)
     {
-        int     r;
+        int r;
 
         // the lump should be used for all rotations
-        if (sprtemp[frame].rotate == false)
-            I_Error("R_InitSprites: Sprite %s frame %c has "
-                    "multip rot=0 lump", spritename, 'A' + frame);
-
-        if (sprtemp[frame].rotate == true)
-            I_Error("R_InitSprites: Sprite %s frame %c has rotations "
-                    "and a rot=0 lump", spritename, 'A' + frame);
-
-        sprtemp[frame].rotate = false;
         for (r = 0; r < 8; r++)
         {
-            sprtemp[frame].lump[r] = lump - firstspritelump;
-            sprtemp[frame].flip[r] = (byte)flipped;
+            if (sprtemp[frame].lump[r]==-1)
+            {
+                sprtemp[frame].lump[r] = lump - firstspritelump;
+                sprtemp[frame].flip[r] = (byte)flipped;
+                sprtemp[frame].rotate = false;
+            }
         }
         return;
     }
 
     // the lump is only used for one rotation
-    if (sprtemp[frame].rotate == false)
-        I_Error("R_InitSprites: Sprite %s frame %c has rotations "
-                "and a rot=0 lump", spritename, 'A' + frame);
-
-    sprtemp[frame].rotate = true;
-
-    // make 0 based
-    rotation--;
-    if (sprtemp[frame].lump[rotation] != -1)
-        I_Error("R_InitSprites: Sprite %s : %c : %c "
-                "has two lumps mapped to it",
-                spritename, 'A' + frame, '1' + rotation);
-
-    sprtemp[frame].lump[rotation] = lump - firstspritelump;
-    sprtemp[frame].flip[rotation] = (byte)flipped;
+    if (sprtemp[frame].lump[--rotation] == -1)
+    {
+        sprtemp[frame].lump[rotation] = lump - firstspritelump;
+        sprtemp[frame].flip[rotation] = (byte)flipped;
+        sprtemp[frame].rotate = true;
+    }
 }
 
 
@@ -607,8 +592,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     gzt = thing->z + spritetopoffset[lump];
 
-    if (thing->z > viewz + FixedDiv(viewheight << FRACBITS, xscale) ||
-        gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
+    if (thing->z > viewz + FixedDiv(viewheight << FRACBITS, xscale)
+        || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
         return;
 
     // store information in a vissprite

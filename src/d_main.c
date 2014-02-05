@@ -837,8 +837,8 @@ void D_DoomMain(void)
         musicVolume = 15;
     if (mouseSensitivity < 0)
         mouseSensitivity = 0;
-    else if (mouseSensitivity > 9*2)
-        mouseSensitivity = 9*2;
+    else if (mouseSensitivity > 9 * 2)
+        mouseSensitivity = 9 * 2;
     gamepadSensitivity = 1.25f + mouseSensitivity / 18.0f;
     if (screenblocks < 3)
         screenblocks = 3;

@@ -26,34 +26,25 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "z_zone.h"
-#include "doomdef.h"
-#include "p_local.h"
-
-#include "s_sound.h"
-
-// State.
 #include "doomstat.h"
-#include "r_state.h"
-
-// Data.
-#include "sounds.h"
+#include "p_local.h"
+#include "s_sound.h"
+#include "z_zone.h"
 
 //
 // CEILINGS
 //
 
+ceiling_t *activeceilings[MAXCEILINGS];
 
-ceiling_t       *activeceilings[MAXCEILINGS];
-
+extern boolean canmodify;
 
 //
 // T_MoveCeiling
 //
-
 void T_MoveCeiling(ceiling_t *ceiling)
 {
-    result_e    res;
+    result_e res;
 
     switch (ceiling->direction)
     {
@@ -146,7 +137,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         break;
                 }
             }
-            else        // (res != pastdest)
+            else
             {
                 if (res == crushed)
                 {
@@ -167,23 +158,16 @@ void T_MoveCeiling(ceiling_t *ceiling)
     }
 }
 
-
-extern boolean  canmodify;
-
-
 //
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
 int EV_DoCeiling(line_t *line, ceiling_e type)
 {
-    int         secnum;
-    int         rtn;
+    int         secnum = -1;
+    int         rtn = 0;
     sector_t    *sec;
     ceiling_t   *ceiling;
-
-    secnum = -1;
-    rtn = 0;
 
     // Reactivate in-stasis ceilings...for certain types.
     switch (type)
@@ -249,31 +233,32 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
     return rtn;
 }
 
-
 //
 // Add an active ceiling
 //
 void P_AddActiveCeiling(ceiling_t *c)
 {
-    int         i;
+    int i;
 
     for (i = 0; i < MAXCEILINGS; i++)
+    {
         if (activeceilings[i] == NULL)
         {
             activeceilings[i] = c;
             return;
         }
+    }
 }
-
 
 //
 // Remove a ceiling's thinker
 //
 void P_RemoveActiveCeiling(ceiling_t *c)
 {
-    int         i;
+    int i;
 
     for (i = 0; i < MAXCEILINGS; i++)
+    {
         if (activeceilings[i] == c)
         {
             activeceilings[i]->sector->specialdata = NULL;
@@ -281,31 +266,30 @@ void P_RemoveActiveCeiling(ceiling_t *c)
             activeceilings[i] = NULL;
             break;
         }
+    }
 }
-
 
 //
 // Restart a ceiling that's in-stasis
 //
 int P_ActivateInStasisCeiling(line_t *line)
 {
-    int         i;
-    int         rtn;
+    int i;
+    int rtn = 0;
 
-    rtn = 0;
     for (i = 0; i < MAXCEILINGS; i++)
+    {
         if (activeceilings[i]
             && activeceilings[i]->tag == line->tag
             && activeceilings[i]->direction == 0)
         {
             activeceilings[i]->direction = activeceilings[i]->olddirection;
-            activeceilings[i]->thinker.function.acp1
-                = (actionf_p1)T_MoveCeiling;
+            activeceilings[i]->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
             rtn = 1;
         }
+    }
     return rtn;
 }
-
 
 //
 // EV_CeilingCrushStop
@@ -313,19 +297,20 @@ int P_ActivateInStasisCeiling(line_t *line)
 //
 int EV_CeilingCrushStop(line_t *line)
 {
-    int         i;
-    int         rtn;
+    int i;
+    int rtn = 0;
 
-    rtn = 0;
     for (i = 0; i < MAXCEILINGS; i++)
+    {
         if (activeceilings[i]
             && activeceilings[i]->tag == line->tag
             && activeceilings[i]->direction != 0)
         {
             activeceilings[i]->olddirection = activeceilings[i]->direction;
             activeceilings[i]->thinker.function.acv = (actionf_v)NULL;
-            activeceilings[i]->direction = 0;           // in-stasis
+            activeceilings[i]->direction = 0;
             rtn = 1;
         }
+    }
     return rtn;
 }

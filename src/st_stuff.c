@@ -423,8 +423,6 @@ cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
 
 
-#define BONUSADD                6
-
 #define NONE                    -1
 #define IDMUS_MAX               50
 
@@ -1743,7 +1741,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
-    *variable = (patch_t*)W_CacheLumpName(lumpname, PU_STATIC);
+    *variable = (patch_t *)W_CacheLumpName(lumpname, PU_STATIC);
 }
 
 void ST_loadGraphics(void)

@@ -28,13 +28,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "z_zone.h"
 #include "m_random.h"
-
-#include "doomdef.h"
 #include "p_local.h"
-
-
-// State.
-#include "r_state.h"
 
 //
 // FIRELIGHT FLICKER
@@ -45,7 +39,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 void T_FireFlicker(fireflicker_t *flick)
 {
-    int         amount;
+    int amount;
 
     if (--flick->count)
         return;
@@ -60,14 +54,12 @@ void T_FireFlicker(fireflicker_t *flick)
     flick->count = 4;
 }
 
-
-
 //
 // P_SpawnFireFlicker
 //
 void P_SpawnFireFlicker(sector_t *sector)
 {
-    fireflicker_t       *flick;
+    fireflicker_t *flick;
 
     // Note that we are resetting sector attributes.
     // Nothing special about it during gameplay.
@@ -84,12 +76,9 @@ void P_SpawnFireFlicker(sector_t *sector)
     flick->count = 4;
 }
 
-
-
 //
 // BROKEN LIGHT FLASHING
 //
-
 
 //
 // T_LightFlash
@@ -112,9 +101,6 @@ void T_LightFlash(lightflash_t *flash)
     }
 }
 
-
-
-
 //
 // P_SpawnLightFlash
 // After the map has been loaded, scan each sector
@@ -122,7 +108,7 @@ void T_LightFlash(lightflash_t *flash)
 //
 void P_SpawnLightFlash(sector_t *sector)
 {
-    lightflash_t        *flash;
+    lightflash_t *flash;
 
     // nothing special about it during gameplay
     sector->special = 0;
@@ -141,12 +127,9 @@ void P_SpawnLightFlash(sector_t *sector)
     flash->count = (P_Random() & flash->maxtime) + 1;
 }
 
-
-
 //
 // STROBE LIGHT FLASHING
 //
-
 
 //
 // T_StrobeFlash
@@ -168,8 +151,6 @@ void T_StrobeFlash(strobe_t *flash)
     }
 }
 
-
-
 //
 // P_SpawnStrobeFlash
 // After the map has been loaded, scan each sector
@@ -177,7 +158,7 @@ void T_StrobeFlash(strobe_t *flash)
 //
 void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
 {
-    strobe_t    *flash;
+    strobe_t *flash;
 
     flash = (strobe_t *)Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
 
@@ -202,16 +183,14 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
         flash->count = 1;
 }
 
-
 //
 // Start strobing lights (usually from a trigger)
 //
 int EV_StartLightStrobing(line_t *line)
 {
-    int         secnum;
-    sector_t    *sec;
+    int      secnum = -1;
+    sector_t *sec;
 
-    secnum = -1;
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         sec = &sectors[secnum];
@@ -223,18 +202,17 @@ int EV_StartLightStrobing(line_t *line)
     return 1;
 }
 
-
 //
 // TURN LINE'S TAG LIGHTS OFF
 //
 int EV_TurnTagLightsOff(line_t *line)
 {
-    int         i;
-    int         j;
-    int         min;
-    sector_t    *sector;
-    sector_t    *tsec;
-    line_t      *templine;
+    int      i;
+    int      j;
+    int      min;
+    sector_t *sector;
+    sector_t *tsec;
+    line_t   *templine;
 
     sector = sectors;
 
@@ -262,14 +240,14 @@ int EV_TurnTagLightsOff(line_t *line)
 //
 int EV_LightTurnOn(line_t *line, int bright)
 {
-    int         i;
+    int i;
 
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        sector_t        *temp;
-        sector_t        *sector = sectors + i;
-        int             j;
-        int             tbright = bright;
+        sector_t *temp;
+        sector_t *sector = sectors + i;
+        int      j;
+        int      tbright = bright;
 
         // bright = 0 means to search
         // for highest light level
@@ -316,9 +294,7 @@ void T_Glow(glow_t *g)
 
 void P_SpawnGlowingLight(sector_t *sector)
 {
-    glow_t      *g;
-
-    g = (glow_t *)Z_Malloc(sizeof(*g), PU_LEVSPEC, 0);
+    glow_t *g = (glow_t *)Z_Malloc(sizeof(*g), PU_LEVSPEC, 0);
 
     P_AddThinker(&g->thinker);
 

@@ -56,7 +56,7 @@ static int mixer_freq;
 static Uint16 mixer_format;
 static int mixer_channels;
 
-// When a sound stops, check if it is still playing.  If it is not,
+// When a sound stops, check if it is still playing. If it is not,
 // we can mark the sound data as CACHE to be freed back for other
 // means.
 
@@ -111,7 +111,7 @@ static boolean ConvertibleRatio(int freq1, int freq2)
             ratio = ratio >> 1;
         }
 
-        return ratio == 1;
+        return (ratio == 1);
     }
 }
 
@@ -499,8 +499,7 @@ static boolean I_SDL_InitSound(void)
 
     Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels);
 
-    // precache sounds even when not using libsamplerate to avoid slowdown
-    // inside game
+    // precache sounds to avoid slowdown inside game
     for (i = 0; i < NUMSFX; i++)
         CacheSFX_SDL(i);
 

@@ -1,12 +1,12 @@
-/*
+ï»¿/*
 ====================================================================
 
 DOOM RETRO
 A classic, refined DOOM source port. For Windows PC.
 
-Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
-Copyright © 2005-2014 Simon Howard.
-Copyright © 2013-2014 Brad Harding.
+Copyright Â© 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright Â© 2005-2014 Simon Howard.
+Copyright Â© 2013-2014 Brad Harding.
 
 This file is part of DOOM RETRO.
 
@@ -26,21 +26,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "z_zone.h"
-#include "doomdef.h"
-#include "p_local.h"
-
-#include "s_sound.h"
-
-
-// State.
-#include "doomstat.h"
-#include "r_state.h"
-
-// Data.
 #include "dstrings.h"
-#include "sounds.h"
-
+#include "p_local.h"
+#include "s_sound.h"
+#include "z_zone.h"
 
 //
 // VERTICAL DOORS
@@ -51,7 +40,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 void T_VerticalDoor(vldoor_t *door)
 {
-    result_e    res;
+    result_e res;
 
     switch (door->direction)
     {
@@ -183,53 +172,45 @@ void T_VerticalDoor(vldoor_t *door)
     }
 }
 
-
 //
 // EV_DoLockedDoor
 // Move a locked door up/down
 //
 int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 {
-    player_t    *p;
-    //int         i;
-    //mobj_t      *t;
+    player_t *player = thing->player;
 
-    p = thing->player;
-
-    if (!p)
+    if (!player)
         return 0;
 
     switch (line->special)
     {
         case SR_OpenFastDoorStayOpenBlueKeyRequired:
         case S1_OpenFastDoorStayOpenBlueKeyRequired:
-            if (!p->cards[it_bluecard]
-                && !p->cards[it_blueskull])
+            if (!player->cards[it_bluecard] && !player->cards[it_blueskull])
             {
-                p->message = (cards[it_bluecard] ? PD_BLUEO : PD_BLUEO2);
-                S_StartSound(p->mo, sfx_noway);
+                player->message = (cards[it_bluecard] ? PD_BLUEO : PD_BLUEO2);
+                S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
             break;
 
         case SR_OpenFastDoorStayOpenRedKeyRequired:
         case S1_OpenFastDoorStayOpenRedKeyRequired:
-            if (!p->cards[it_redcard]
-                && !p->cards[it_redskull])
+            if (!player->cards[it_redcard] && !player->cards[it_redskull])
             {
-                p->message = (cards[it_redcard] ? PD_REDO : PD_REDO2);
-                S_StartSound(p->mo, sfx_noway);
+                player->message = (cards[it_redcard] ? PD_REDO : PD_REDO2);
+                S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
             break;
 
         case SR_OpenFastDoorStayOpenYellowKeyRequired:
         case S1_OpenFastDoorStayOpenYellowKeyRequired:
-            if (!p->cards[it_yellowcard]
-                && !p->cards[it_yellowskull])
+            if (!player->cards[it_yellowcard] && !player->cards[it_yellowskull])
             {
-                p->message = (cards[it_yellowcard] ? PD_YELLOWO : PD_YELLOWO2);
-                S_StartSound(p->mo, sfx_noway);
+                player->message = (cards[it_yellowcard] ? PD_YELLOWO : PD_YELLOWO2);
+                S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
             break;
@@ -240,14 +221,11 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 
 int EV_DoDoor(line_t *line, vldoor_e type)
 {
-    int         secnum;
-    int         rtn;
+    int         secnum = -1;
+    int         rtn = 0;
     int         i;
     sector_t    *sec;
     vldoor_t    *door;
-
-    secnum = -1;
-    rtn = 0;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
@@ -319,25 +297,16 @@ int EV_DoDoor(line_t *line, vldoor_e type)
     return rtn;
 }
 
-
 //
-// EV_VerticalDoor : open a door manually, no tag value
+// EV_VerticalDoor
+// Open a door manually, no tag value
 //
 void EV_VerticalDoor(line_t *line, mobj_t *thing)
 {
-    player_t    *player;
+    player_t    *player = thing->player;
     sector_t    *sec;
     vldoor_t    *door;
-    int         side;
     int         i;
-    //mobj_t      *t;
-
-    side = 0;   // only front sides can be used
-
-    // Check for locks
-    player = thing->player;
-
-    sec = sides[line->sidenum[side ^ 1]].sector;
 
     switch (line->special)
     {
@@ -381,6 +350,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             break;
     }
 
+    sec = sides[line->sidenum[1]].sector;
+
     if (sec->specialdata)
     {
         door = (vldoor_t *)sec->specialdata;
@@ -416,9 +387,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     else if (door->thinker.function.acp1 == (actionf_p1)T_PlatRaise)
                     {
-                        plat_t *plat;
+                        plat_t *plat = (plat_t *)door;
 
-                        plat = (plat_t *)door;
                         plat->wait = -1;
                     }
                     else
@@ -495,15 +465,12 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
         sec->lines[i]->flags &= ~ML_SECRET;
 }
 
-
 //
 // Spawn a door that closes after 30 seconds
 //
 void P_SpawnDoorCloseIn30(sector_t *sec)
 {
-    vldoor_t    *door;
-
-    door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+    vldoor_t *door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 
     P_AddThinker(&door->thinker);
 
@@ -523,9 +490,7 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
 //
 void P_SpawnDoorRaiseIn5Mins(sector_t *sec, int secnum)
 {
-    vldoor_t    *door;
-
-    door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+    vldoor_t *door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 
     P_AddThinker(&door->thinker);
 
