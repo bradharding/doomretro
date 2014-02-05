@@ -577,10 +577,13 @@ void I_GetEvent(void)
                 break;
 
             case SDL_VIDEORESIZE:
-                need_resize = true;
-                resize_w = sdlevent.resize.w;
-                resize_h = sdlevent.resize.h;
-                break;
+                if (!fullscreen)
+                {
+                    need_resize = true;
+                    resize_w = sdlevent.resize.w;
+                    resize_h = sdlevent.resize.h;
+                    break;
+                }
 
             default:
                 break;
