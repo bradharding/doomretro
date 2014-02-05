@@ -26,24 +26,18 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-
+#include "doomstat.h"
 #include "dstrings.h"
 #include "i_system.h"
-#include "z_zone.h"
 #include "p_local.h"
 #include "p_saveg.h"
-
-// State.
-#include "doomstat.h"
-#include "r_state.h"
+#include "z_zone.h"
 
 #define SAVEGAME_EOF 0x1d
-#define VERSIONSIZE 16
+#define VERSIONSIZE  16
 
-FILE *save_stream;
-int savegamelength;
+FILE    *save_stream;
+int     savegamelength;
 boolean savegame_error;
 
 // Get the filename of a temporary file to write the savegame to. After
@@ -1409,7 +1403,7 @@ static void saveg_write_glow_t(glow_t *str)
     saveg_write32(str->direction);
 }
 
-static void saveg_read_flicker_t(fireflicker_t *str)
+static void saveg_read_fireflicker_t(fireflicker_t *str)
 {
     int sector;
 
@@ -1430,7 +1424,7 @@ static void saveg_read_flicker_t(fireflicker_t *str)
     str->maxlight = saveg_read32();
 }
 
-static void saveg_write_flicker_t(fireflicker_t *str)
+static void saveg_write_fireflicker_t(fireflicker_t *str)
 {
     // thinker_t thinker;
     saveg_write_thinker_t(&str->thinker);
@@ -1446,6 +1440,39 @@ static void saveg_write_flicker_t(fireflicker_t *str)
 
     // int maxlight;
     saveg_write32(str->maxlight);
+}
+
+static void saveg_read_button_t(button_t *str)
+{
+    int line;
+
+    // line_t *line;
+    line = saveg_read32();
+    str->line = &lines[line];
+
+    // bwhere_e where;
+    str->where = (bwhere_e)saveg_read32();
+
+    // int btexture;
+    str->btexture = saveg_read32();
+
+    // int btimer;
+    str->btimer = saveg_read32();
+}
+
+static void saveg_write_button_t(button_t *str)
+{
+    // line_t *line;
+    saveg_write32(str->line - lines);
+
+    // bwhere_e where;
+    saveg_write32((int)str->where);
+
+    // int btexture;
+    saveg_write32(str->btexture);
+
+    // int btimer;
+    saveg_write32(str->btimer);
 }
 
 //
@@ -1565,8 +1592,6 @@ void P_ArchivePlayers(void)
     }
 }
 
-
-
 //
 // P_UnArchivePlayers
 //
@@ -1589,8 +1614,6 @@ void P_UnArchivePlayers(void)
         players[i].attacker = NULL;
     }
 }
-
-
 
 //
 // P_ArchiveWorld
@@ -1615,7 +1638,6 @@ void P_ArchiveWorld(void)
         saveg_write16(sec->tag);
     }
 
-
     // do lines
     for (i = 0, li = lines; i < numlines; i++, li++)
     {
@@ -1637,8 +1659,6 @@ void P_ArchiveWorld(void)
         }
     }
 }
-
-
 
 //
 // P_UnArchiveWorld
@@ -1685,10 +1705,6 @@ void P_UnArchiveWorld(void)
     }
 }
 
-
-
-
-
 //
 // Thinkers
 //
@@ -1698,7 +1714,6 @@ typedef enum
     tc_mobj
 
 } thinkerclass_t;
-
 
 //
 // P_ArchiveThinkers
@@ -1723,8 +1738,6 @@ void P_ArchiveThinkers(void)
     // add a terminating marker
     saveg_write8(tc_end);
 }
-
-
 
 //
 // P_UnArchiveThinkers
@@ -1808,7 +1821,6 @@ void P_UnArchiveThinkers(void)
     }
 }
 
-
 //
 // P_ArchiveSpecials
 //
@@ -1821,11 +1833,10 @@ enum
     tc_flash,
     tc_strobe,
     tc_glow,
-    tc_endspecials
-
+    tc_endspecials,
+    tc_fireflicker,
+    tc_button
 } specials_e;
-
-
 
 //
 // Things to handle:
@@ -1842,6 +1853,7 @@ void P_ArchiveSpecials(void)
 {
     thinker_t           *th;
     int                 i;
+    button_t            *button_ptr;
 
     // save off the current thinkers
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
@@ -1929,12 +1941,30 @@ void P_ArchiveSpecials(void)
             saveg_write_glow_t((glow_t *)th);
             continue;
         }
+
+        if (th->function.acp1 == (actionf_p1)T_FireFlicker)
+        {
+            saveg_write8(tc_fireflicker);
+            saveg_write_pad();
+            saveg_write_fireflicker_t((fireflicker_t *)th);
+            continue;
+        }
     }
+
+    button_ptr = buttonlist;
+    i = MAXBUTTONS;
+    do
+    {
+        if (button_ptr->btimer != 0)
+            saveg_write_button_t(button_ptr);
+        button_ptr++;
+    } while (--i);
 
     // add a terminating marker
     saveg_write8(tc_endspecials);
 }
 
+void P_StartButton(line_t *line, bwhere_e w, int texture, int time);
 
 //
 // P_UnArchiveSpecials
@@ -1949,7 +1979,8 @@ void P_UnArchiveSpecials(void)
     lightflash_t        *flash;
     strobe_t            *strobe;
     glow_t              *glow;
-
+    fireflicker_t       *fireflicker;
+    button_t            *button;
 
     // read in saved thinkers
     while (1)
@@ -2029,9 +2060,23 @@ void P_UnArchiveSpecials(void)
                 P_AddThinker(&glow->thinker);
                 break;
 
+            case tc_fireflicker:
+                saveg_read_pad();
+                fireflicker = (fireflicker_t *)Z_Malloc(sizeof(*fireflicker), PU_LEVEL, NULL);
+                saveg_read_fireflicker_t(fireflicker);
+                fireflicker->thinker.function.acp1 = (actionf_p1)T_FireFlicker;
+                P_AddThinker(&fireflicker->thinker);
+                break;
+
+            case tc_button:
+                saveg_read_pad();
+                button = (button_t *)Z_Malloc(sizeof(*button), PU_LEVEL, NULL);
+                saveg_read_button_t(button);
+                P_StartButton(button->line, button->where, button->btexture, button->btimer);
+                break;
+
             default:
-                I_Error("P_UnarchiveSpecials: unknown tclass %i "
-                        "in savegame", tclass);
+                I_Error("P_UnarchiveSpecials: unknown tclass %i in savegame", tclass);
         }
     }
 }
