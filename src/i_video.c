@@ -573,6 +573,7 @@ void I_GetEvent(void)
                 {
                     I_SaveWindowPosition();
                     SetWindowPositionVars();
+                    M_SaveDefaults();
                 }
                 break;
 
@@ -1019,6 +1020,8 @@ void ApplyWindowResize(int w, int h)
 
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
+
+    M_SaveDefaults();
 }
 
 
