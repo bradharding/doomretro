@@ -255,7 +255,7 @@ state_t states[NUMSTATES] =
     // Blood (MT_BLOOD)
     { SPR_BLUD,  2,                                8,               NULL,            S_BLOOD2        }, // S_BLOOD1
     { SPR_BLUD,  1,                                8,               NULL,            S_BLOOD3        }, // S_BLOOD2
-    { SPR_BLUD,  0,                                8,               NULL,            S_NULL          }, // S_BLOOD3
+    { SPR_BLUD,  0,                    (2 * TICRATE),               NULL,            S_NULL          }, // S_BLOOD3
 
     // Bullet Puff (MT_PUFF)
     { SPR_PUFF,  0 | FF_FULLBRIGHT,                4,               NULL,            S_PUFF2         }, // S_PUFF1
