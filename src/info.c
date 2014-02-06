@@ -1411,14 +1411,14 @@ state_t states[NUMSTATES] =
     { SPR_TLP2,  3 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP     }, // S_TECH2LAMP4
 
     // [BH] Blood Splat (MT_BLOODSPLAT)
-    { SPR_BLD2,  0,                   SPLATTICS +  0,               NULL,            S_NULL          }, // S_BLOODSPLAT
-    { SPR_BLD2,  1,                   SPLATTICS +  5,               NULL,            S_NULL          }, // S_BLOODSPLAT2
-    { SPR_BLD2,  2,                   SPLATTICS + 10,               NULL,            S_NULL          }, // S_BLOODSPLAT3
-    { SPR_BLD2,  3,                   SPLATTICS + 15,               NULL,            S_NULL          }, // S_BLOODSPLAT4
-    { SPR_BLD2,  4,                   SPLATTICS + 20,               NULL,            S_NULL          }, // S_BLOODSPLAT5
-    { SPR_BLD2,  5,                   SPLATTICS + 25,               NULL,            S_NULL          }, // S_BLOODSPLAT6
-    { SPR_BLD2,  6,                   SPLATTICS + 30,               NULL,            S_NULL          }, // S_BLOODSPLAT7
-    { SPR_BLD2,  7,                   SPLATTICS + 35,               NULL,            S_NULL          }  // S_BLOODSPLAT8
+    { SPR_BLD2,  0,                               -1,               NULL,            S_NULL          }, // S_BLOODSPLAT
+    { SPR_BLD2,  1,                               -1,               NULL,            S_NULL          }, // S_BLOODSPLAT2
+    { SPR_BLD2,  2,                               -1,               NULL,            S_NULL          }, // S_BLOODSPLAT3
+    { SPR_BLD2,  3,                               -1,               NULL,            S_NULL          }, // S_BLOODSPLAT4
+    { SPR_BLD2,  4,                               -1,               NULL,            S_NULL          }, // S_BLOODSPLAT5
+    { SPR_BLD2,  5,                               -1,               NULL,            S_NULL          }, // S_BLOODSPLAT6
+    { SPR_BLD2,  6,                               -1,               NULL,            S_NULL          }, // S_BLOODSPLAT7
+    { SPR_BLD2,  7,                               -1,               NULL,            S_NULL          }  // S_BLOODSPLAT8
 };
 
 
