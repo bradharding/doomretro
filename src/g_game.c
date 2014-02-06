@@ -1359,7 +1359,7 @@ void G_DoCompleted(void)
 
     if (gamemode != commercial)
     {
-        switch(gamemap)
+        switch (gamemap)
         {
             case 8:
                 // [BH] this episode is complete, so select the next episode in the menu

@@ -544,7 +544,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y)
             if (side != oldside)
             {
                 if (ld->special)
-                    P_CrossSpecialLine(ld - lines, oldside, thing);
+                    P_CrossSpecialLine(ld, oldside, thing);
             }
         }
     }

@@ -141,7 +141,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
     rtn = 0;
 
     //  Activate all <type> plats that are in_stasis
-    switch(type)
+    switch (type)
     {
         case perpetualRaise:
             P_ActivateInStasis(line->tag);
@@ -171,7 +171,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
         plat->tag = line->tag;
         plat->low = sec->floorheight;
 
-        switch(type)
+        switch (type)
         {
             case raiseToNearestAndChange:
                 plat->speed = PLATSPEED / 2;

@@ -215,7 +215,7 @@ static void SetShowCursor(boolean show)
 
 static int TranslateKey(SDL_keysym *sym)
 {
-    switch(sym->sym)
+    switch (sym->sym)
     {
         case SDLK_LEFT:        return KEY_LEFTARROW;
         case SDLK_RIGHT:       return KEY_RIGHTARROW;
@@ -283,7 +283,7 @@ static int TranslateKey(SDL_keysym *sym)
 
 int TranslateKey2(int key)
 {
-    switch(key)
+    switch (key)
     {
         case KEY_LEFTARROW:    return SDLK_LEFT;
         case KEY_RIGHTARROW:   return SDLK_RIGHT;

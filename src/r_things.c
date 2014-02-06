@@ -35,8 +35,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MINZ            (FRACUNIT * 4)
-#define BASEYCENTER     (ORIGINALHEIGHT / 2)
+#define MINZ        (FRACUNIT * 4)
+#define BASEYCENTER (ORIGINALHEIGHT / 2)
 
 //
 // Sprite rotation 0 is facing the viewer,
@@ -45,7 +45,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-fixed_t  pspritexscale;
+fixed_t pspritexscale;
 fixed_t pspriteyscale;
 fixed_t pspriteiscale;
 
@@ -255,7 +255,6 @@ void R_ClearSprites(void)
     num_vissprite = 0;          // killough
 }
 
-
 //
 // R_NewVisSprite
 //
@@ -381,7 +380,7 @@ int     fuzzpos;
 // R_DrawVisSprite
 //  mfloorclip and mceilingclip should also be set.
 //
-void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
+void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
 {
     column_t *column;
     int      texturecolumn;
@@ -390,35 +389,30 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
 
     dc_colormap = vis->colormap;
 
-    if (vis->mobjflags2 & MF2_FUZZYWEAPON)
-        colfunc = psprcolfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-                   tl50colfunc : tlcolfunc);
+    if (vis->mobjflags2 & MF2_TRANSLUCENT)
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tl50colfunc : tlcolfunc);
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDONLY)
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlred50colfunc : tlredcolfunc);
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT_GREENONLY)
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlgreen50colfunc : tlgreencolfunc);
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT_BLUEONLY)
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlblue50colfunc : tlbluecolfunc);
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT_33)
+        colfunc = tl33colfunc;
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT_50)
+        colfunc = tl50colfunc;
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlredwhite50colfunc : tlredwhitecolfunc);
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOGREEN_50)
         colfunc = tlredtogreen50colfunc;
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOBLUE_50)
         colfunc = tlredtoblue50colfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_50)
-        colfunc = tl50colfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_33)
-        colfunc = tl33colfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_GREENONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-                   tlgreen50colfunc : tlgreencolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-                   tlred50colfunc : tlredcolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-                   tlredwhite50colfunc : tlredwhitecolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_BLUEONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ?
-                   tlblue50colfunc : tlbluecolfunc);
     else if (vis->mobjflags2 & MF2_REDTOGREEN)
         colfunc = redtogreencolfunc;
     else if (vis->mobjflags2 & MF2_REDTOBLUE)
         colfunc = redtobluecolfunc;
+    else if (vis->mobjflags2 & MF2_FUZZYWEAPON)
+        colfunc = psprcolfunc;
     else if (!dc_colormap)
     {
         // NULL colormap = shadow draw
@@ -765,7 +759,7 @@ void R_DrawPSprite(pspdef_t *psp)
         vis->mobjflags2 |= flags2[state->sprite];
 
     supershotgun = (state == &states[S_DSGUN]);
-    R_DrawVisSprite(vis, vis->x1, vis->x2, screenblocks >= 10);
+    R_DrawVisSprite(vis, screenblocks >= 10);
     supershotgun = false;
 }
 
@@ -972,7 +966,7 @@ void R_DrawSprite(vissprite_t *spr)
 
     mfloorclip = clipbot;
     mceilingclip = cliptop;
-    R_DrawVisSprite(spr, spr->x1, spr->x2, false);
+    R_DrawVisSprite(spr, false);
 }
 
 //

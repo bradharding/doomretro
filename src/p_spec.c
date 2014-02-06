@@ -5,6 +5,7 @@ DOOM RETRO
 A classic, refined DOOM source port. For Windows PC.
 
 Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright © 1999 Lee Killough.
 Copyright © 2005-2014 Simon Howard.
 Copyright © 2013-2014 Brad Harding.
 
@@ -109,6 +110,16 @@ animdef_t animdefs[] =
     { -1,       "",             "",             0 }
 };
 
+//
+// Animating line specials
+//
+#define MAXLINEANIMS 16384
+
+extern short   numlinespecials;
+extern line_t  *linespeciallist[MAXLINEANIMS];
+extern int     numflats;
+extern boolean canmodify;
+
 void P_InitPicAnims(void)
 {
     int i;
@@ -189,17 +200,6 @@ char *liquids[] =
     { ""        }
 };
 
-//
-//      Animating line specials
-//
-#define MAXLINEANIMS            16384
-
-extern short    numlinespecials;
-extern line_t   *linespeciallist[MAXLINEANIMS];
-extern int      numflats;
-
-extern boolean  canmodify;
-
 void P_InitLiquids(void)
 {
     int i;
@@ -217,13 +217,9 @@ void P_InitLiquids(void)
     }
 }
 
-
-
 //
 // UTILITIES
 //
-
-
 
 //
 // getSide()
@@ -236,7 +232,6 @@ side_t *getSide(int currentSector, int line, int side)
     return &sides[(sectors[currentSector].lines[line])->sidenum[side]];
 }
 
-
 //
 // getSector()
 // Will return a sector_t*
@@ -248,7 +243,6 @@ sector_t *getSector(int currentSector, int line, int side)
     return sides[(sectors[currentSector].lines[line])->sidenum[side]].sector;
 }
 
-
 //
 // twoSided()
 // Given the sector number and the line number,
@@ -256,11 +250,11 @@ sector_t *getSector(int currentSector, int line, int side)
 //
 int twoSided(int sector, int line)
 {
-    return (sectors[sector].lines[line])->flags & ML_TWOSIDED;
+    // jff 1/26/98 return what is actually needed, whether the line
+    // has two sidedefs, rather than whether the 2S flag is set
+
+    return (sectors[sector].lines[line]->sidenum[1] != -1);
 }
-
-
-
 
 //
 // getNextSector()
@@ -269,16 +263,14 @@ int twoSided(int sector, int line)
 //
 sector_t *getNextSector(line_t *line, sector_t *sec)
 {
-    if (!(line->flags & ML_TWOSIDED))
-        return NULL;
+    // jff 1/26/98 check unneeded since line->backsector already
+    // returns NULL if the line is not two sided, and does so from
+    // the actual two-sidedness of the line, rather than its 2S flag
+    //if (!(line->flags & ML_TWOSIDED))
+    //    return NULL;
 
-    if (line->frontsector == sec)
-        return line->backsector;
-
-    return line->frontsector;
+    return (line->frontsector == sec ? line->backsector : line->frontsector);
 }
-
-
 
 //
 // P_FindLowestFloorSurrounding()
@@ -286,26 +278,20 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
 //
 fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 {
-    int                 i;
-    line_t              *check;
-    sector_t            *other;
-    fixed_t             floor = sec->floorheight;
+    int      i;
+    sector_t *other;
+    fixed_t  floor = sec->floorheight;
 
     for (i = 0; i < sec->linecount; i++)
     {
-        check = sec->lines[i];
-        other = getNextSector(check, sec);
-
-        if (!other)
-            continue;
-
-        if (other->floorheight < floor)
+        if ((other = getNextSector(sec->lines[i], sec))
+            && other->floorheight < floor)
+        {
             floor = other->floorheight;
+        }
     }
     return floor;
 }
-
-
 
 //
 // P_FindHighestFloorSurrounding()
@@ -313,26 +299,20 @@ fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 //
 fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 {
-    int                 i;
-    line_t              *check;
-    sector_t            *other;
-    fixed_t             floor = -32000 * FRACUNIT;
+    int      i;
+    sector_t *other;
+    fixed_t  floor = -32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
     {
-        check = sec->lines[i];
-        other = getNextSector(check, sec);
-
-        if (!other)
-            continue;
-
-        if (other->floorheight > floor)
+        if ((other = getNextSector(sec->lines[i], sec)) 
+            && other->floorheight > floor)
+        {
             floor = other->floorheight;
+        }
     }
     return floor;
 }
-
-
 
 //
 // P_FindNextHighestFloor
@@ -340,8 +320,8 @@ fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 //
 fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
 {
-    int                 i;
-    sector_t            *other;
+    int      i;
+    sector_t *other;
 
     for (i = 0; i < sec->linecount; i++)
     {
@@ -370,51 +350,40 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
 //
 fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 {
-    int                 i;
-    line_t              *check;
-    sector_t            *other;
-    fixed_t             height = 32000 * FRACUNIT;
+    int      i;
+    sector_t *other;
+    fixed_t  height = 32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
     {
-        check = sec->lines[i];
-        other = getNextSector(check, sec);
-
-        if (!other)
-            continue;
-
-        if (other->ceilingheight < height)
+        if ((other = getNextSector(sec->lines[i], sec))
+            && other->ceilingheight < height)
+        {
             height = other->ceilingheight;
+        }
     }
     return height;
 }
-
 
 //
 // FIND HIGHEST CEILING IN THE SURROUNDING SECTORS
 //
 fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 {
-    int                 i;
-    line_t              *check;
-    sector_t            *other;
-    fixed_t             height = -32000 * FRACUNIT;
+    int      i;
+    sector_t *other;
+    fixed_t  height = -32000 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
     {
-        check = sec->lines[i];
-        other = getNextSector(check, sec);
-
-        if (!other)
-            continue;
-
-        if (other->ceilingheight > height)
+        if ((other = getNextSector(sec->lines[i], sec))
+            && other->ceilingheight > height)
+        {
             height = other->ceilingheight;
+        }
     }
     return height;
 }
-
-
 
 //
 // RETURN NEXT SECTOR # THAT LINE TAG REFERS TO
@@ -430,35 +399,24 @@ int P_FindSectorFromLineTag(line_t *line, int start)
     return -1;
 }
 
-
-
-
 //
 // Find minimum light from an adjacent sector
 //
-int P_FindMinSurroundingLight(sector_t *sector, int max)
+int P_FindMinSurroundingLight(sector_t *sector, int min)
 {
-    int                 i;
-    int                 min;
-    line_t              *line;
-    sector_t            *check;
+    int      i;
+    sector_t *check;
 
-    min = max;
     for (i = 0; i < sector->linecount; i++)
     {
-        line = sector->lines[i];
-        check = getNextSector(line, sector);
-
-        if (!check)
-            continue;
-
-        if (check->lightlevel < min)
+        if ((check = getNextSector(sector->lines[i], sector))
+            && check->lightlevel < min)
+        {
             min = check->lightlevel;
+        }
     }
     return min;
 }
-
-
 
 //
 // EVENTS
@@ -471,12 +429,9 @@ int P_FindMinSurroundingLight(sector_t *sector, int max)
 // Called every time a thing origin is about
 //  to cross a line with a non 0 special.
 //
-void P_CrossSpecialLine(int linenum, int side, mobj_t *thing)
+void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 {
-    line_t              *line;
-    int                 ok;
-
-    line = &lines[linenum];
+    int ok;
 
     // Triggers that other things can activate
     if (!thing->player)
@@ -880,15 +835,13 @@ void P_CrossSpecialLine(int linenum, int side, mobj_t *thing)
     }
 }
 
-
-
 //
 // P_ShootSpecialLine - IMPACT SPECIALS
 // Called when a thing shoots a special line.
 //
 void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 {
-    int         ok;
+    int ok;
 
     // Impacts that other things can activate.
     if (!thing->player)
@@ -924,8 +877,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     }
 }
 
-
-
 //
 // P_PlayerInSpecialSector
 // Called every tic frame
@@ -933,10 +884,8 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 //
 void P_PlayerInSpecialSector(player_t *player)
 {
-    int           i;
-    sector_t      *sector;
-
-    sector = player->mo->subsector->sector;
+    int      i;
+    sector_t *sector = player->mo->subsector->sector;
 
     // Falling, not all the way down yet?
     if (player->mo->z != sector->floorheight)
@@ -963,8 +912,7 @@ void P_PlayerInSpecialSector(player_t *player)
             // SUPER HELLSLIME DAMAGE
         case 4:
             // STROBE HURT
-            if (!player->powers[pw_ironfeet]
-                || P_Random() < 5)
+            if (!player->powers[pw_ironfeet] || P_Random() < 5)
             {
                 if (!(leveltime & 0x1f))
                     P_DamageMobj(player->mo, NULL, NULL, 20);
@@ -997,31 +945,23 @@ void P_PlayerInSpecialSector(player_t *player)
     }
 }
 
-
-
-
 //
 // P_UpdateSpecials
 // Animate planes, scroll walls, etc.
 //
-boolean         levelTimer;
-int             levelTimeCount;
+boolean levelTimer;
+int     levelTimeCount;
 
 void P_UpdateSpecials(void)
 {
-    anim_t      *anim;
-    int         pic;
-    int         i;
-    line_t      *line;
-
+    anim_t *anim;
+    int    pic;
+    int    i;
+    line_t *line;
 
     // LEVEL TIMER
-    if (levelTimer == true)
-    {
-        levelTimeCount--;
-        if (!levelTimeCount)
-            G_ExitLevel();
-    }
+    if (levelTimer && --levelTimeCount)
+        G_ExitLevel();
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim = anims; anim < lastanim; anim++)
@@ -1036,19 +976,17 @@ void P_UpdateSpecials(void)
         }
     }
 
-
     // ANIMATE LINE SPECIALS
     for (i = 0; i < numlinespecials; i++)
     {
         line = linespeciallist[i];
-        switch(line->special)
+        switch (line->special)
         {
             case MovingWallTextureToLeft:
                 sides[line->sidenum[0]].textureoffset += FRACUNIT;
                 break;
         }
     }
-
 
     // DO BUTTONS
     for (i = 0; i < MAXBUTTONS; i++)
@@ -1057,7 +995,7 @@ void P_UpdateSpecials(void)
             buttonlist[i].btimer--;
             if (!buttonlist[i].btimer)
             {
-                switch(buttonlist[i].where)
+                switch (buttonlist[i].where)
                 {
                     case top:
                         sides[buttonlist[i].line->sidenum[0]].toptexture =
@@ -1075,32 +1013,27 @@ void P_UpdateSpecials(void)
                         break;
                 }
                 if (buttonlist[i].line->special != -G1_OpenDoorStayOpen)
-                    S_StartSound((mobj_t *)buttonlist[i].soundorg, sfx_swtchn);
+                    S_StartSound(buttonlist[i].soundorg, sfx_swtchn);
                 memset(&buttonlist[i], 0, sizeof(button_t));
             }
         }
 }
-
-
-
 
 //
 // Special Stuff that can not be categorized
 //
 int EV_DoDonut(line_t *line)
 {
-    sector_t            *s1;
-    sector_t            *s2;
-    sector_t            *s3;
-    int                 secnum;
-    int                 rtn;
-    int                 i;
-    floormove_t         *floor;
-    fixed_t             s3_floorheight;
-    short               s3_floorpic;
+    sector_t    *s1;
+    sector_t    *s2;
+    sector_t    *s3;
+    int         secnum = -1;
+    int         rtn = 0;
+    int         i;
+    floormove_t *floor;
+    fixed_t     s3_floorheight;
+    short       s3_floorpic;
 
-    secnum = -1;
-    rtn = 0;
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         s1 = &sectors[secnum];
@@ -1111,15 +1044,6 @@ int EV_DoDonut(line_t *line)
 
         rtn = 1;
         s2 = getNextSector(s1->lines[0], s1);
-
-        // Vanilla Doom does not check if the linedef is one sided.  The
-        // game does not crash, but reads invalid memory and causes the
-        // sector floor to move "down" to some unknown height.
-        // DOSbox prints a warning about an invalid memory access.
-        //
-        // I'm not sure exactly what invalid memory is being read.  This
-        // isn't something that should be done, anyway.
-        // Just print a warning and return.
 
         if (s2 == NULL)
             continue;
@@ -1132,9 +1056,7 @@ int EV_DoDonut(line_t *line)
                 continue;
 
             if (s3 == NULL)
-            {
                 continue;
-            }
             else
             {
                 s3_floorheight = s3->floorheight;
@@ -1174,8 +1096,6 @@ int EV_DoDonut(line_t *line)
     return rtn;
 }
 
-
-
 //
 // SPECIAL SPAWNING
 //
@@ -1185,8 +1105,8 @@ int EV_DoDonut(line_t *line)
 // After the map has been loaded, scan for specials
 //  that spawn thinkers
 //
-short           numlinespecials;
-line_t          *linespeciallist[MAXLINEANIMS];
+short  numlinespecials;
+line_t *linespeciallist[MAXLINEANIMS];
 
 
 // Parses command line parameters.

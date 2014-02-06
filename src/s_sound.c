@@ -407,7 +407,7 @@ void S_Start(void)
         }
         else
         {
-            mnum = spmus[gamemap-1];
+            mnum = spmus[gamemap - 1];
         }
     }
 

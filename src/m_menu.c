@@ -1254,7 +1254,7 @@ void M_MusicVol(int choice)
 {
     if (!nomusic && !nosound)
     {
-        switch(choice)
+        switch (choice)
         {
             case 0:
                 if (musicVolume)

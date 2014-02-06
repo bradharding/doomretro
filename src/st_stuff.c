@@ -522,7 +522,7 @@ boolean ST_Responder(event_t *ev)
     if (ev->type == ev_keyup
         && (ev->data1 & 0xffff0000) == AM_MSGHEADER)
     {
-        switch(ev->data1)
+        switch (ev->data1)
         {
             case AM_MSGENTERED:
                 st_gamestate = AutomapState;
@@ -1547,7 +1547,7 @@ void ST_doPaletteStuff(void)
         palette = (cnt + 7) >> 3;
 
         //if (palette >= NUMREDPALS)
-        //    palette = NUMREDPALS-1;
+        //    palette = NUMREDPALS - 1;
 
         //palette += STARTREDPALS;
 
@@ -1563,7 +1563,7 @@ void ST_doPaletteStuff(void)
         palette = (plyr->bonuscount + 7) >> 3;
 
         //if (palette >= NUMBONUSPALS)
-        //   palette = NUMBONUSPALS-1;
+        //   palette = NUMBONUSPALS - 1;
 
         //palette += STARTBONUSPALS;
 
