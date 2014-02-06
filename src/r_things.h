@@ -49,7 +49,6 @@ extern fixed_t          pspriteiscale;
 extern fixed_t          viewheightfrac;
 
 
-void R_DrawMaskedColumn(column_t *column);
 void R_DrawMaskedColumn2(column_t *column);
 
 

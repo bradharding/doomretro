@@ -27,30 +27,16 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-
-#include "doomdef.h"
-
+#include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
-#include "z_zone.h"
-#include "w_wad.h"
-
-#include "r_local.h"
-
-#include "doomstat.h"
-
-#include "v_video.h"
 #include "p_local.h"
-
-
+#include "v_video.h"
+#include "w_wad.h"
+#include "z_zone.h"
 
 #define MINZ            (FRACUNIT * 4)
 #define BASEYCENTER     (ORIGINALHEIGHT / 2)
-
-
 
 //
 // Sprite rotation 0 is facing the viewer,
@@ -59,43 +45,39 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-fixed_t                 pspritexscale;
-fixed_t                 pspriteyscale;
-fixed_t                 pspriteiscale;
+fixed_t  pspritexscale;
+fixed_t pspriteyscale;
+fixed_t pspriteiscale;
 
-lighttable_t            **spritelights;
+lighttable_t **spritelights;
 
 // constant arrays
 //  used for psprite clipping and initializing clipping
-int                     negonearray[SCREENWIDTH];
-int                     screenheightarray[SCREENWIDTH];
-
+int negonearray[SCREENWIDTH];
+int screenheightarray[SCREENWIDTH];
 
 //
 // INITIALIZATION FUNCTIONS
 //
 
 // variables used to look up and range check thing_t sprites patches
-spritedef_t             *sprites;
-int                     numsprites;
+spritedef_t *sprites;
+int         numsprites;
 
-#define MAX_SPRITE_FRAMES 29          /* Macroized -- killough 1/25/98 */
+#define MAX_SPRITE_FRAMES 29
 
-spriteframe_t           sprtemp[MAX_SPRITE_FRAMES];
-int                     maxframe;
-char                    *spritename;
+spriteframe_t sprtemp[MAX_SPRITE_FRAMES];
+int           maxframe;
+char          *spritename;
 
 extern int screenblocks;
 extern boolean supershotgun;
-
-
 
 //
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-void R_InstallSpriteLump(int lump, unsigned frame,
-                         unsigned rotation, boolean flipped)
+void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, boolean flipped)
 {
     if (frame >= MAX_SPRITE_FRAMES || rotation > 8)
         I_Error("R_InstallSpriteLump: Bad frame characters in lump %i", lump);
@@ -110,7 +92,7 @@ void R_InstallSpriteLump(int lump, unsigned frame,
         // the lump should be used for all rotations
         for (r = 0; r < 8; r++)
         {
-            if (sprtemp[frame].lump[r]==-1)
+            if (sprtemp[frame].lump[r] == -1)
             {
                 sprtemp[frame].lump[r] = lump - firstspritelump;
                 sprtemp[frame].flip[r] = (byte)flipped;
@@ -128,9 +110,6 @@ void R_InstallSpriteLump(int lump, unsigned frame,
         sprtemp[frame].rotate = true;
     }
 }
-
-
-
 
 //
 // R_InitSpriteDefs
@@ -192,10 +171,7 @@ void R_InitSpriteDefs(char **namelist)
                 frame = lumpinfo[l].name[4] - 'A';
                 rotation = lumpinfo[l].name[5] - '0';
 
-                if (modifiedgame)
-                    patched = W_GetNumForName(lumpinfo[l].name);
-                else
-                    patched = l;
+                patched = (modifiedgame ? W_GetNumForName(lumpinfo[l].name) : 1);
 
                 R_InstallSpriteLump(patched, frame, rotation, false);
 
@@ -250,15 +226,11 @@ void R_InitSpriteDefs(char **namelist)
     }
 }
 
-
-
-
 //
 // GAME FUNCTIONS
 //
 static vissprite_t *vissprites, **vissprite_ptrs;       // killough
 static int num_vissprite, num_vissprite_alloc, num_vissprite_ptrs;
-
 
 //
 // R_InitSprites
@@ -266,17 +238,13 @@ static int num_vissprite, num_vissprite_alloc, num_vissprite_ptrs;
 //
 void R_InitSprites(char **namelist)
 {
-    int         i;
+    int i;
 
     for (i = 0; i < SCREENWIDTH; i++)
-    {
         negonearray[i] = -1;
-    }
 
     R_InitSpriteDefs(namelist);
 }
-
-
 
 //
 // R_ClearSprites
@@ -291,8 +259,6 @@ void R_ClearSprites(void)
 //
 // R_NewVisSprite
 //
-vissprite_t             overflowsprite;
-
 vissprite_t *R_NewVisSprite(void)
 {
     if (num_vissprite >= num_vissprite_alloc)           // killough
@@ -309,21 +275,21 @@ vissprite_t *R_NewVisSprite(void)
     return (vissprites + num_vissprite++);
 }
 
-
-
 //
 // R_DrawMaskedColumn
 // Used for sprites and masked mid textures.
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
-int                     *mfloorclip;
-int                     *mceilingclip;
+int *mfloorclip;
+int *mceilingclip;
 
-fixed_t                 spryscale;
-fixed_t                 sprtopscreen;
+fixed_t spryscale;
+fixed_t sprtopscreen;
 
-void R_DrawMaskedColumn(column_t *column)
+void (*R_DrawMaskedColumn)(column_t *);
+
+void R_DrawMaskedColumn1(column_t *column)
 {
     while (column->topdelta != 0xff)
     {
@@ -408,8 +374,8 @@ void R_DrawMaskedColumn2(column_t *column)
     }
 }
 
-boolean                 megasphere;
-int                     fuzzpos;
+boolean megasphere;
+int     fuzzpos;
 
 //
 // R_DrawVisSprite
@@ -417,12 +383,10 @@ int                     fuzzpos;
 //
 void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
 {
-    column_t            *column;
-    int                 texturecolumn;
-    fixed_t             frac;
-    patch_t             *patch;
-
-    patch = (patch_t *)W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+    column_t *column;
+    int      texturecolumn;
+    fixed_t  frac;
+    patch_t  *patch = (patch_t *)W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
 
     dc_colormap = vis->colormap;
 
@@ -476,23 +440,16 @@ void R_DrawVisSprite(vissprite_t *vis, int x1, int x2, boolean psprite)
 
     megasphere = (vis->type == MT_MEGA);
 
+    R_DrawMaskedColumn = (psprite ? R_DrawMaskedColumn1 : R_DrawMaskedColumn2);
     for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
     {
         texturecolumn = frac >> FRACBITS;
-        column = (column_t *)((byte *)patch +
-                              LONG(patch->columnofs[texturecolumn]));
-        if (psprite)
-            R_DrawMaskedColumn(column);
-        else
-            R_DrawMaskedColumn2(column);
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[texturecolumn]));
+        R_DrawMaskedColumn(column);
     }
-
-    //supershotgun = false;
 
     colfunc = basecolfunc;
 }
-
-
 
 //
 // R_ProjectSprite
@@ -544,6 +501,9 @@ void R_ProjectSprite(mobj_t *thing)
         return;
 
     xscale = FixedDiv(projection, tz);
+
+    if (thing->type == MT_BLOODSPLAT && xscale < FRACUNIT / 3)
+        return;
 
     gxt = -FixedMul(tr_x, viewsin);
     gyt = FixedMul(tr_y, viewcos);
@@ -607,8 +567,8 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gz = thing->z;
     vis->gzt = gzt;
     vis->texturemid = vis->gzt - viewz;
-    vis->x1 = (x1 < 0 ? 0 : x1);
-    vis->x2 = (x2 >= viewwidth ? viewwidth-1 : x2);
+    vis->x1 = MAX(0, x1);
+    vis->x2 = (x2 >= viewwidth ? viewwidth - 1 : x2);
     iscale = FixedDiv(FRACUNIT, xscale);
 
     if (flip)
@@ -653,17 +613,14 @@ void R_ProjectSprite(mobj_t *thing)
     }
 }
 
-
-
-
 //
 // R_AddSprites
 // During BSP traversal, this adds sprites by sector.
 //
 void R_AddSprites(sector_t *sec)
 {
-    mobj_t              *thing;
-    int                 lightnum;
+    mobj_t *thing;
+    int    lightnum;
 
     // BSP is traversed by subsector.
     // A sector might have been split into several
@@ -689,29 +646,41 @@ void R_AddSprites(sector_t *sec)
         R_ProjectSprite(thing);
 }
 
-
 //
 // R_DrawPSprite
 //
-static boolean          flash;
+static boolean flash;
 
 void R_DrawPSprite(pspdef_t *psp)
 {
-    fixed_t             tx;
-    int                 x1;
-    int                 x2;
-    spritedef_t         *sprdef;
-    spriteframe_t       *sprframe;
-    int                 lump;
-    boolean             flip;
-    vissprite_t         *vis;
-    vissprite_t         avis;
-    state_t             *state;
+    fixed_t       tx;
+    int           x1, x2;
+    spritedef_t   *sprdef;
+    spriteframe_t *sprframe;
+    int           lump;
+    boolean       flip;
+    vissprite_t   *vis;
+    vissprite_t   avis;
+    state_t       *state;
 
     int flags2[16] =
     {
-        0, 0, 0, 0, MF2_TRANSLUCENT, MF2_TRANSLUCENT, MF2_TRANSLUCENT_REDWHITEONLY, 0,
-        MF2_TRANSLUCENT, 0, MF2_TRANSLUCENT, 0, 0, MF2_TRANSLUCENT, 0, MF2_TRANSLUCENT
+        /* n/a      */ 0,
+        /* SPR_SHTG */ 0,
+        /* SPR_PUNG */ 0,
+        /* SPR_PISG */ 0,
+        /* SPR_PISF */ MF2_TRANSLUCENT,
+        /* SPR_SHTF */ MF2_TRANSLUCENT,
+        /* SPR_SHT2 */ MF2_TRANSLUCENT_REDWHITEONLY,
+        /* SPR_CHGG */ 0,
+        /* SPR_CHGF */ MF2_TRANSLUCENT,
+        /* SPR_MISG */ 0,
+        /* SPR_MISF */ MF2_TRANSLUCENT,
+        /* SPR_SAWG */ 0,
+        /* SPR_PLSG */ 0,
+        /* SPR_PLSF */ MF2_TRANSLUCENT,
+        /* SPR_BFGG */ 0,
+        /* SPR_BFGF */ MF2_TRANSLUCENT
     };
 
     // decide which patch to use
@@ -723,9 +692,7 @@ void R_DrawPSprite(pspdef_t *psp)
     flip = (boolean)sprframe->flip[0];
 
     // calculate edges of the shape
-    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT;
-
-    tx -= spriteoffset[lump];
+    tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - spriteoffset[lump];
     x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, pspritexscale)) >> FRACBITS;
 
     // off the right side
@@ -744,7 +711,7 @@ void R_DrawPSprite(pspdef_t *psp)
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 2 - (psp->sy - spritetopoffset[lump]);
-    vis->x1 = (x1 < 0 ? 0 : x1);
+    vis->x1 = MAX(0, x1);
     vis->x2 = (x2 >= viewwidth ? viewwidth - 1 : x2);
     vis->scale = pspriteyscale;
 
@@ -802,21 +769,17 @@ void R_DrawPSprite(pspdef_t *psp)
     supershotgun = false;
 }
 
-
-
 //
 // R_DrawPlayerSprites
 //
 void R_DrawPlayerSprites(void)
 {
-    int                 i;
-    int                 lightnum;
-    pspdef_t            *psp;
+    int      i;
+    int      lightnum;
+    pspdef_t *psp;
 
     // get light level
-    lightnum =
-        (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
-        + extralight;
+    lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT) + extralight;
 
     if (lightnum < 0)
         spritelights = scalelight2[0];
@@ -850,8 +813,6 @@ void R_DrawPlayerSprites(void)
                 R_DrawPSprite(psp);
     }
 }
-
-
 
 //
 // R_SortVisSprites
@@ -915,7 +876,7 @@ void R_SortVisSprites(void)
 
         if (num_vissprite_ptrs < num_vissprite * 2)
         {
-            free(vissprite_ptrs);  // better than realloc -- no preserving needed
+            free(vissprite_ptrs);
             vissprite_ptrs = (vissprite_t **)malloc((num_vissprite_ptrs = num_vissprite_alloc * 2)
                 * sizeof *vissprite_ptrs);
         }
@@ -936,14 +897,14 @@ void R_SortVisSprites(void)
 //
 void R_DrawSprite(vissprite_t *spr)
 {
-    drawseg_t           *ds;
-    int                 clipbot[MAXWIDTH];
-    int                 cliptop[MAXWIDTH];
-    int                 x;
-    int                 r1;
-    int                 r2;
-    fixed_t             scale;
-    fixed_t             lowscale;
+    drawseg_t *ds;
+    int       clipbot[MAXWIDTH];
+    int       cliptop[MAXWIDTH];
+    int       x;
+    int       r1;
+    int       r2;
+    fixed_t   scale;
+    fixed_t   lowscale;
 
     if (spr->x1 > spr->x2)
         return;
@@ -957,14 +918,8 @@ void R_DrawSprite(vissprite_t *spr)
     for (ds = ds_p; ds-- > drawsegs;)
     {
         // determine if the drawseg obscures the sprite
-        if (ds->x1 > spr->x2
-            || ds->x2 < spr->x1
-            || (!ds->silhouette
-                && !ds->maskedtexturecol))
-        {
-            // does not cover sprite
-            continue;
-        }
+        if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
+            continue;           // does not cover sprite
 
         r1 = (ds->x1 < spr->x1 ? spr->x1 : ds->x1);
         r2 = (ds->x2 > spr->x2 ? spr->x2 : ds->x2);
@@ -980,9 +935,8 @@ void R_DrawSprite(vissprite_t *spr)
             scale = ds->scale2;
         }
 
-        if (scale < spr->scale
-            || (lowscale < spr->scale
-                && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+        if (scale < spr->scale || (lowscale < spr->scale
+            && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
         {
             // masked mid texture?
             if (ds->maskedtexturecol)
@@ -1021,15 +975,12 @@ void R_DrawSprite(vissprite_t *spr)
     R_DrawVisSprite(spr, spr->x1, spr->x2, false);
 }
 
-
-
-
 //
 // R_DrawMasked
 //
 void R_DrawMasked(void)
 {
-    drawseg_t   *ds;
+    drawseg_t *ds;
 
     R_SortVisSprites();
 
