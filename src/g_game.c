@@ -881,23 +881,26 @@ void G_Ticker(void)
                 G_DoWorldDone();
                 break;
             case ga_screenshot:
-                HU_clearMessages();
-                D_Display();
-                if (V_ScreenShot())
+                if (gametic)
                 {
-                    static char message[512];
-
-                    S_StartSound(NULL, sfx_swtchx);
-                    if (usergame || gamestate == GS_LEVEL)
+                    HU_clearMessages();
+                    D_Display();
+                    if (V_ScreenShot())
                     {
-                        sprintf(message, "\"%s\" saved", lbmname);
-                        players[consoleplayer].message = message;
-                        message_dontfuckwithme = true;
-                        if (menuactive)
-                            message_dontpause = true;
+                        static char message[512];
+
+                        S_StartSound(NULL, sfx_swtchx);
+                        if (usergame || gamestate == GS_LEVEL)
+                        {
+                            sprintf(message, GSCREENSHOT, lbmname);
+                            players[consoleplayer].message = message;
+                            message_dontfuckwithme = true;
+                            if (menuactive)
+                                message_dontpause = true;
+                        }
                     }
+                    gameaction = ga_nothing;
                 }
-                gameaction = ga_nothing;
                 break;
             case ga_nothing:
                 break;

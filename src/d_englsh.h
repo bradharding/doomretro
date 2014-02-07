@@ -139,7 +139,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // G_game.C
 //
 #define GGSAVED                 "\"%s\" saved"
-#define GSCREENSHOT             "Screenshot %i taken"
+#define GSCREENSHOT             "\"%s\" saved"
 
 //
 //  HU_stuff.C
