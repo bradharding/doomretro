@@ -385,28 +385,31 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     // in the scantokey table
 
                     int s;
-                    int j = 0;
-                    bool flag = false;
-
-                    while (alias[j].value != -1)
-                    {
-                        if (v == alias[j].value && defaults[i].set == alias[j].set)
-                        {
-                            fprintf(f, "%s", alias[j].text);
-                            flag = true;
-                            break;
-                        }
-                        j++;
-                    }
-                    if (flag)
-                        break;
-
                     for (s = 0; s < 128; ++s)
                     {
                         if (scantokey[s] == v)
                         {
+                            int j = 0;
+                            bool flag = false;
+
                             v = s;
-                            fprintf(f, "%i", v);
+                            while (alias[j].value != -1)
+                            {
+                                if (v == alias[j].value && defaults[i].set == alias[j].set)
+                                {
+                                    fprintf(f, "%s", alias[j].text);
+                                    flag = true;
+                                    break;
+                                }
+                                j++;
+                            }
+                            if (flag)
+                                break;
+
+                            if (isprint(scantokey[v]))
+                                fprintf(f, "\'%c\'", scantokey[v]);
+                            else
+                                fprintf(f, "%i", v);
                             break;
                         }
                     }
