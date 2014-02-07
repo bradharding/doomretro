@@ -214,7 +214,6 @@ boolean wipe_ScreenWipe(int wipeno, int x, int y, int width, int height, int tic
     }
 
     // do a piece of wipe-in
-    V_MarkRect(0, 0, width, height);
     if ((*wipes[wipeno * 3 + 1])(width, height, tics))
     {
         // final stuff

@@ -404,7 +404,6 @@ extern byte *tinttab50;
 void WI_slamBackground(void)
 {
     memcpy(screens[0], screens[1], SCREENWIDTH * SCREENHEIGHT);
-    V_MarkRect(0, 0, SCREENWIDTH, SCREENHEIGHT);
 }
 
 // The ticker is used to detect keys

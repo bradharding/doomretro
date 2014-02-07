@@ -82,20 +82,6 @@ static void V_SetRes(void)
     DYI = (ORIGINALHEIGHT << 16) / SCALEDHEIGHT;
 }
 
-
-//
-// V_MarkRect
-//
-void V_MarkRect(int x, int y, int width, int height)
-{
-    // If we are temporarily using an alternate screen, do not
-    // affect the update box.
-
-    M_AddToBox(dirtybox, x, y);
-    M_AddToBox(dirtybox, x + width - 1, y + height - 1);
-}
-
-
 //
 // V_CopyRect
 //
@@ -104,8 +90,6 @@ void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height,
 {
     byte        *src;
     byte        *dest;
-
-    V_MarkRect(destx, desty, width, height);
 
     src = screens[srcscrn] + SCREENWIDTH * srcy + srcx;
     dest = screens[destscrn] + SCREENWIDTH * desty + destx;
@@ -158,9 +142,6 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
 
-    if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
-
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
 
@@ -209,9 +190,6 @@ void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
-
-    if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
 
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
@@ -266,9 +244,6 @@ void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
-
-    if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
 
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
@@ -329,9 +304,6 @@ void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch)
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
-
-    if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
 
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
@@ -394,9 +366,6 @@ void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch)
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
 
-    if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
-
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
 
@@ -443,9 +412,6 @@ void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch)
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
-
-    if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
 
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
@@ -504,9 +470,6 @@ void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch)
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
-
-    if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
 
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
@@ -575,9 +538,6 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
 
-    if (!scrn)
-        V_MarkRect(stretchx, stretchy, (patch->width * DX) >> 16, (patch->height * DY) >> 16);
-
     col = 0;
     desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
 
@@ -615,8 +575,6 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
 void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src)
 {
     byte        *dest;
-
-    V_MarkRect(x, y, width, height);
 
     dest = screens[scrn] + y * SCREENWIDTH + x;
 
