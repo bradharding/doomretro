@@ -246,7 +246,8 @@ void P_ZMovement(mobj_t *mo)
             fixed_t dist = P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y);
             fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
-            mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
+            if (dist < ABS(delta))
+                mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
         }
     }
 
