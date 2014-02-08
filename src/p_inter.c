@@ -673,6 +673,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mobj_t     *mo;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
+    target->flags2 &= ~MF2_FLOATBOB;
 
     if (target->type != MT_SKULL)
         target->flags &= ~MF_NOGRAVITY;

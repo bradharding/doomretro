@@ -1857,7 +1857,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage       */ 0,
         /* activesound  */ sfx_dmact,
         /* flags        */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-        /* flags2       */ 0,
+        /* flags2       */ MF2_FLOATBOB,                            // [BH] apply float bobbing z movement
         /* raisestate   */ S_HEAD_RAISE1,
         /* frames       */ 0
     },
@@ -2089,7 +2089,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage       */ 0,
         /* activesound  */ sfx_dmact,
         /* flags        */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-        /* flags2       */ 0,
+        /* flags2       */ MF2_FLOATBOB,                            // [BH] apply float bobbing z movement
         /* raisestate   */ S_PAIN_RAISE1,
         /* frames       */ 0
     },
