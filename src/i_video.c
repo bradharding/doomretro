@@ -26,25 +26,21 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "SDL.h"
-#include "SDL_syswm.h"
 #include <math.h>
-
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-
-#include "doomstat.h"
 #include "d_main.h"
+#include "doomstat.h"
+#include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_system.h"
-#include "i_video.h"
 #include "i_tinttab.h"
+#include "i_video.h"
 #include "m_config.h"
+#include "SDL.h"
+#include "SDL_syswm.h"
 #include "s_sound.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
-#include "hu_stuff.h"
 
 // Window position:
 
@@ -61,7 +57,7 @@ static SDL_Surface *screenbuffer = NULL;
 // palette
 
 static SDL_Color palette[256];
-static boolean palette_to_set;
+static boolean   palette_to_set;
 
 // display has been set up?
 
@@ -101,7 +97,7 @@ static SDL_Cursor *emptycursor;
 
 // Window resize state.
 
-boolean need_resize = false;
+boolean      need_resize = false;
 unsigned int resize_w, resize_h;
 
 int desktopwidth;
@@ -118,6 +114,8 @@ int pitch;
 
 byte *pixels;
 
+boolean keys[UCHAR_MAX];
+
 // Mouse acceleration
 //
 // This emulates some of the behavior of DOS mouse drivers by increasing
@@ -128,7 +126,7 @@ byte *pixels;
 // by mouse_acceleration to increase the speed.
 
 float mouse_acceleration = 2.0;
-int mouse_threshold = 10;
+int  mouse_threshold = 10;
 
 static void ApplyWindowResize(int w, int h);
 static void SetWindowPositionVars(void);
@@ -165,7 +163,7 @@ boolean MouseShouldBeGrabbed()
 
 static void UpdateFocus(void)
 {
-    Uint8 state;
+    Uint8          state;
     static boolean alreadypaused = false;
 
     state = SDL_GetAppState();
@@ -177,9 +175,9 @@ static void UpdateFocus(void)
     // We should have input (keyboard) focus and be visible
     // (not minimized)
 
-    window_focused = (state & SDL_APPINPUTFOCUS) && screenvisible;
+    window_focused = ((state & SDL_APPINPUTFOCUS) && screenvisible);
 
-    if (!window_focused && !menuactive && (gamestate == GS_LEVEL) && !demoplayback && !advancedemo)
+    if (!window_focused && !menuactive && gamestate == GS_LEVEL && !demoplayback && !advancedemo)
     {
         if (paused)
             alreadypaused = true;
@@ -207,7 +205,6 @@ static void SetShowCursor(boolean show)
 
     SDL_WM_GrabInput((SDL_GrabMode)!show);
 }
-
 
 //
 // Translates the SDL key
@@ -368,15 +365,12 @@ void I_ShutdownGraphics(void)
     }
 }
 
-
 static void UpdateMouseButtonState(unsigned int button, boolean on)
 {
-    event_t event;
+    event_t ev;
 
     if (button < SDL_BUTTON_LEFT || button > MAX_MOUSE_BUTTONS)
-    {
         return;
-    }
 
     // Note: button "0" is left, button "1" is right,
     // button "2" is middle for Doom.  This is different
@@ -405,20 +399,16 @@ static void UpdateMouseButtonState(unsigned int button, boolean on)
     // Turn bit representing this button on or off.
 
     if (on)
-    {
         mouse_button_state |= (1 << button);
-    }
     else
-    {
         mouse_button_state &= ~(1 << button);
-    }
 
     // Post an event with the new button state.
 
-    event.type = ev_mouse;
-    event.data1 = mouse_button_state;
-    event.data2 = event.data3 = 0;
-    D_PostEvent(&event);
+    ev.type = ev_mouse;
+    ev.data1 = mouse_button_state;
+    ev.data2 = ev.data3 = 0;
+    D_PostEvent(&ev);
 }
 
 static int AccelerateMouse(int val)
@@ -427,13 +417,9 @@ static int AccelerateMouse(int val)
         return -AccelerateMouse(-val);
 
     if (val > mouse_threshold)
-    {
         return (int)((val - mouse_threshold) * mouse_acceleration + mouse_threshold);
-    }
     else
-    {
         return val;
-    }
 }
 
 boolean altdown = false;
@@ -442,51 +428,38 @@ boolean waspaused = false;
 void I_GetEvent(void)
 {
     SDL_Event sdlevent;
-    event_t event;
-
-    SDL_PumpEvents();
+    event_t   ev;
 
     while (SDL_PollEvent(&sdlevent))
     {
         switch (sdlevent.type)
         {
             case SDL_KEYDOWN:
-                event.type = ev_keydown;
-                event.data1 = TranslateKey(&sdlevent.key.keysym);
-                event.data2 = sdlevent.key.keysym.unicode;
+                ev.type = ev_keydown;
+                ev.data1 = TranslateKey(&sdlevent.key.keysym);
+                ev.data2 = sdlevent.key.keysym.unicode;
 
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
 
-                if (altdown && event.data1 == KEY_TAB)
-                    event.data1 = event.data2 = event.data3 = 0;
+                if (altdown && ev.data1 == KEY_TAB)
+                    ev.data1 = ev.data2 = ev.data3 = 0;
 
-                if (!isdigit(event.data2))
+                if (!isdigit(ev.data2))
+                    idclev = idmus = false;
+
+                if (idbehold && keys[ev.data2])
                 {
-                    idclev = false;
-                    idmus = false;
+                    HU_clearMessages();
+                    idbehold = false;
                 }
 
-                if (idbehold)
-                {
-                    int key = toupper(event.data2);
-
-                    if (key != 'R' && key != 'I' && key != 'V' && key != 'A' &&
-                        key != 'L' && key != 'S')
-                    {
-                        HU_clearMessages();
-                        idbehold = false;
-                    }
-                }
-
-                if (event.data1 != 0)
-                {
-                    D_PostEvent(&event);
-                }
+                if (ev.data1)
+                    D_PostEvent(&ev);
                 break;
 
             case SDL_KEYUP:
-                event.type = ev_keyup;
-                event.data1 = TranslateKey(&sdlevent.key.keysym);
+                ev.type = ev_keyup;
+                ev.data1 = TranslateKey(&sdlevent.key.keysym);
 
                 // data2 is just initialized to zero for ev_keyup.
                 // For ev_keydown it's the shifted Unicode character
@@ -494,15 +467,13 @@ void I_GetEvent(void)
                 // key releases it should do so based on data1
                 // (key ID), not the printable char.
 
-                event.data2 = 0;
+                ev.data2 = 0;
 
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
                 keydown = 0;
 
-                if (event.data1 != 0)
-                {
-                    D_PostEvent(&event);
-                }
+                if (ev.data1 != 0)
+                    D_PostEvent(&ev);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -510,9 +481,7 @@ void I_GetEvent(void)
                     int x = sdlevent.button.x;
                     int y = sdlevent.button.y;
 
-                    if (window_focused
-                        && x > 0 && x < screen->w - 1
-                        && y > 0 && y < screen->h - 1)
+                    if (window_focused && x > 0 && x < screen->w - 1 && y > 0 && y < screen->h - 1)
                     {
                         idclev = false;
                         idmus = false;
@@ -531,9 +500,7 @@ void I_GetEvent(void)
                     int x = sdlevent.button.x;
                     int y = sdlevent.button.y;
 
-                    if (window_focused
-                        && x > 0 && x < screen->w - 1
-                        && y > 0 && y < screen->h - 1)
+                    if (window_focused && x > 0 && x < screen->w - 1 && y > 0 && y < screen->h - 1)
                     {
                         keydown = 0;
                         UpdateMouseButtonState(sdlevent.button.button, false);
@@ -614,19 +581,19 @@ static void CenterMouse(void)
 
 static void I_ReadMouse(void)
 {
-    int x, y;
-    event_t event;
+    int     x, y;
+    event_t ev;
 
     SDL_GetRelativeMouseState(&x, &y);
 
     if (x)
     {
-        event.type = ev_mouse;
-        event.data1 = mouse_button_state;
-        event.data2 = AccelerateMouse(x);
-        event.data3 = 0;
+        ev.type = ev_mouse;
+        ev.data1 = mouse_button_state;
+        ev.data2 = AccelerateMouse(x);
+        ev.data3 = 0;
 
-        D_PostEvent(&event);
+        D_PostEvent(&ev);
     }
 
     if (MouseShouldBeGrabbed())
@@ -662,7 +629,6 @@ static void UpdateGrab(void)
 
     currently_grabbed = grab;
 }
-
 
 static __inline void blit(void)
 {
@@ -727,7 +693,6 @@ void I_FinishUpdate(void)
     SDL_Flip(screen);
 }
 
-
 //
 // I_ReadScreen
 //
@@ -735,7 +700,6 @@ void I_ReadScreen(byte *scr)
 {
     memcpy(scr, screens[0], SCREENWIDTH * SCREENHEIGHT);
 }
-
 
 //
 // I_SetPalette
@@ -753,7 +717,6 @@ void I_SetPalette(byte *doompalette)
 
     palette_to_set = true;
 }
-
 
 static void CreateCursors(void)
 {
@@ -955,6 +918,7 @@ void ToggleFullScreen(void)
         UpdateFocus();
         UpdateGrab();
 
+        SDL_EnableUNICODE(SDL_ENABLE);
         SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
         event.type = ev_keyup;
@@ -1014,7 +978,6 @@ void ApplyWindowResize(int w, int h)
     M_SaveDefaults();
 }
 
-
 void I_InitGammaTables(void)
 {
     int i;
@@ -1032,8 +995,19 @@ void I_InitGammaTables(void)
 
 void I_InitGraphics(void)
 {
+    int i = 0;
+
     SDL_Event dummy;
     byte *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
+
+    while (i < UCHAR_MAX)
+        keys[i++] = true;
+    keys['v'] = keys['V'] = false;
+    keys['s'] = keys['S'] = false;
+    keys['i'] = keys['I'] = false;
+    keys['r'] = keys['R'] = false;
+    keys['a'] = keys['A'] = false;
+    keys['l'] = keys['L'] = false;
 
     I_InitTintTables(doompal);
 
@@ -1068,6 +1042,7 @@ void I_InitGraphics(void)
 
     memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
 
+    SDL_EnableUNICODE(SDL_ENABLE);
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
     while (SDL_PollEvent(&dummy));
