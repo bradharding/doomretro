@@ -639,10 +639,8 @@ static void I_ReadMouse(void)
 void I_StartTic(void)
 {
     I_GetEvent();
-
     I_ReadMouse();
-
-   gamepadfunc();
+    gamepadfunc();
 }
 
 boolean currently_grabbed = false;
@@ -658,13 +656,6 @@ static void UpdateGrab(void)
     else if (!grab && currently_grabbed)
     {
         SetShowCursor(true);
-
-        // When releasing the mouse from grab, warp the mouse cursor to
-        // the bottom-right of the screen. This is a minimally distracting
-        // place for it to appear - we may only have released the grab
-        // because we're at an end of level intermission screen, for
-        // example.
-
         SDL_WarpMouse(screen->w - 16, screen->h - 16);
         SDL_GetRelativeMouseState(NULL, NULL);
     }
@@ -809,10 +800,11 @@ static void SetVideoMode(void)
     if (windowheight < ORIGINALWIDTH * 3 / 4)
         windowheight = ORIGINALWIDTH * 3 / 4;
 
-    if (!screenwidth)
-        screenheight = 0;
-    else if (!screenheight)
-        screenwidth = 0;
+    if (!screenwidth || !screenheight)
+    {
+        screenwidth = desktopwidth;
+        screenheight = desktopheight;
+    }
 
     if (fullscreen)
     {
@@ -900,7 +892,7 @@ void ToggleFullScreen(void)
     fullscreen = !fullscreen;
     if (fullscreen)
     {
-        screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
+        screen = SDL_SetVideoMode(screenwidth, screenheight, 0,
                                   SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
         if (screenblocks == 11)
@@ -962,8 +954,6 @@ void ToggleFullScreen(void)
         currently_grabbed = true;
         UpdateFocus();
         UpdateGrab();
-
-        SDL_EnableUNICODE(1);
 
         SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
@@ -1077,8 +1067,6 @@ void I_InitGraphics(void)
     screens[0] = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
-
-    SDL_EnableUNICODE(1);
 
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
