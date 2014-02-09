@@ -218,7 +218,6 @@ boolean P_GiveArmor(player_t *player, int armortype)
     return true;
 }
 
-
 //
 // P_GiveCard
 //
@@ -663,7 +662,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     S_StartSound(player->mo, sound);
 }
 
-
 //
 // P_KillMobj
 //
@@ -673,7 +671,6 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mobj_t     *mo;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
-    target->flags2 &= ~MF2_FLOATBOB;
 
     if (target->type == MT_SKULL)
         target->momx = target->momy = target->momz = 0;
@@ -806,8 +803,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     if (inflictor && !(target->flags & MF_NOCLIP)
         && (!source || !source->player || source->player->readyweapon != wp_chainsaw))
     {
-        unsigned int ang = R_PointToAngle2(inflictor->x, inflictor->y, target->x, target->y);
-        fixed_t      thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
+        unsigned ang = R_PointToAngle2(inflictor->x, inflictor->y, target->x, target->y);
+        fixed_t  thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health
