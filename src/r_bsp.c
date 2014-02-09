@@ -26,39 +26,25 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "doomdef.h"
-
+#include "doomstat.h"
 #include "m_bbox.h"
-
-#include "i_system.h"
-
 #include "r_main.h"
 #include "r_plane.h"
 #include "r_things.h"
 
-// State.
-#include "doomstat.h"
-#include "r_state.h"
+seg_t        *curline;
+side_t       *sidedef;
+line_t       *linedef;
+sector_t     *frontsector;
+sector_t     *backsector;
 
+int          doorclosed;
 
-
-seg_t           *curline;
-side_t          *sidedef;
-line_t          *linedef;
-sector_t        *frontsector;
-sector_t        *backsector;
-
-int             doorclosed;
-
-drawseg_t       *drawsegs;
-unsigned int    maxdrawsegs;
-drawseg_t       *ds_p;
-
+drawseg_t    *drawsegs;
+unsigned int maxdrawsegs;
+drawseg_t    *ds_p;
 
 void R_StoreWallRange(int start, int stop);
-
-
-
 
 //
 // R_ClearDrawSegs
@@ -68,8 +54,6 @@ void R_ClearDrawSegs(void)
     ds_p = drawsegs;
 }
 
-
-
 //
 // ClipWallSegment
 // Clips the given range of columns
@@ -77,19 +61,15 @@ void R_ClearDrawSegs(void)
 //
 typedef struct
 {
-    short       first;
-    short       last;
+    short first;
+    short last;
 } cliprange_t;
-
 
 #define MAXSEGS (ORIGINALWIDTH / 2 + 1)
 
 // newend is one past the last valid seg
-cliprange_t     *newend;
-cliprange_t     solidsegs[MAXSEGS];
-
-
-
+cliprange_t *newend;
+cliprange_t solidsegs[MAXSEGS];
 
 //
 // R_ClipSolidWallSegment
@@ -100,11 +80,10 @@ cliprange_t     solidsegs[MAXSEGS];
 static void R_ClipSolidWallSegment(int first, int last)
 {
     cliprange_t *next;
-    cliprange_t *start;
+    cliprange_t *start = solidsegs;
 
     // Find the first range that touches the range
     //  (adjacent pixels are touching).
-    start = solidsegs;
     while (start->last < first - 1)
         start++;
 
@@ -157,21 +136,13 @@ static void R_ClipSolidWallSegment(int first, int last)
     // because start now covers their area.
 crunch:
     if (next == start)
-    {
-        // Post just extended past the bottom of one post.
-        return;
-    }
+        return;                 // Post just extended past the bottom of one post.
 
     while (next++ != newend)
-    {
-        // Remove a post.
-        *++start = *next;
-    }
+        *++start = *next;       // Remove a post.
 
     newend = start + 1;
 }
-
-
 
 //
 // R_ClipPassWallSegment
@@ -182,11 +153,10 @@ crunch:
 //
 static void R_ClipPassWallSegment(int first, int last)
 {
-    cliprange_t *start;
+    cliprange_t *start = solidsegs;
 
     // Find the first range that touches the range
     //  (adjacent pixels are touching).
-    start = solidsegs;
     while (start->last < first - 1)
         start++;
 
@@ -221,8 +191,6 @@ static void R_ClipPassWallSegment(int first, int last)
     R_StoreWallRange(start->last + 1, last);
 }
 
-
-
 //
 // R_ClearClipSegs
 //
@@ -235,7 +203,6 @@ void R_ClearClipSegs(void)
     newend = solidsegs + 2;
 }
 
-
 //
 // R_DoorClosed
 //
@@ -243,7 +210,7 @@ int R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
-        backsector->ceilingheight <= backsector->floorheight
+        (backsector->ceilingheight <= backsector->floorheight
 
         // preserve a kind of transparent door/lift special effect:
         && (backsector->ceilingheight >= frontsector->ceilingheight
@@ -253,9 +220,8 @@ int R_DoorClosed(void)
 
         // properly render skies (consider door "open" if both ceilings are sky):
         && (backsector->ceilingpic != skyflatnum
-            || frontsector->ceilingpic != skyflatnum);
+            || frontsector->ceilingpic != skyflatnum));
 }
-
 
 //
 // R_AddLine
@@ -264,12 +230,12 @@ int R_DoorClosed(void)
 //
 static void R_AddLine(seg_t *line)
 {
-    int         x1;
-    int         x2;
-    angle_t     angle1;
-    angle_t     angle2;
-    angle_t     span;
-    angle_t     tspan;
+    int     x1;
+    int     x2;
+    angle_t angle1;
+    angle_t angle2;
+    angle_t span;
+    angle_t tspan;
 
     curline = line;
 
@@ -356,10 +322,8 @@ static void R_AddLine(seg_t *line)
     if (backsector->ceilingpic == frontsector->ceilingpic
         && backsector->floorpic == frontsector->floorpic
         && backsector->lightlevel == frontsector->lightlevel
-        && curline->sidedef->midtexture == 0)
-    {
+        && !curline->sidedef->midtexture)
         return;
-    }
 
 clippass:
     R_ClipPassWallSegment(x1, x2 - 1);
@@ -368,7 +332,6 @@ clippass:
 clipsolid:
     R_ClipSolidWallSegment(x1, x2 - 1);
 }
-
 
 //
 // R_CheckBBox
@@ -391,22 +354,13 @@ static const int checkcoord[12][4] =
     { 2, 1, 3, 0 }
 };
 
-
 static boolean R_CheckBBox(const fixed_t *bspcoord)
 {
-    int         boxx;
-    int         boxy;
     int         boxpos;
-
-    fixed_t     x1;
-    fixed_t     y1;
-    fixed_t     x2;
-    fixed_t     y2;
+    const int   *check;
 
     angle_t     angle1;
     angle_t     angle2;
-    angle_t     span;
-    angle_t     tspan;
 
     cliprange_t *start;
 
@@ -415,63 +369,38 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
 
     // Find the corners of the box
     // that define the edges from current viewpoint.
-    if (viewx <= bspcoord[BOXLEFT])
-        boxx = 0;
-    else if (viewx < bspcoord[BOXRIGHT])
-        boxx = 1;
-    else
-        boxx = 2;
+    boxpos = (viewx <= bspcoord[BOXLEFT] ? 0 : viewx < bspcoord[BOXRIGHT ] ? 1 : 2) +
+             (viewy >= bspcoord[BOXTOP ] ? 0 : viewy > bspcoord[BOXBOTTOM] ? 4 : 8);
 
-    if (viewy >= bspcoord[BOXTOP])
-        boxy = 0;
-    else if (viewy > bspcoord[BOXBOTTOM])
-        boxy = 1;
-    else
-        boxy = 2;
-
-    boxpos = (boxy << 2) + boxx;
     if (boxpos == 5)
         return true;
 
-    x1 = bspcoord[checkcoord[boxpos][0]];
-    y1 = bspcoord[checkcoord[boxpos][1]];
-    x2 = bspcoord[checkcoord[boxpos][2]];
-    y2 = bspcoord[checkcoord[boxpos][3]];
+    check = checkcoord[boxpos];
 
     // check clip list for an open space
-    angle1 = R_PointToAngle(x1, y1) - viewangle;
-    angle2 = R_PointToAngle(x2, y2) - viewangle;
+    angle1 = R_PointToAngle(bspcoord[check[0]], bspcoord[check[1]]) - viewangle;
+    angle2 = R_PointToAngle(bspcoord[check[2]], bspcoord[check[3]]) - viewangle;
 
-    span = angle1 - angle2;
-
-    // Sitting on a line?
-    if (span >= ANG180)
-        return true;
-
-    tspan = angle1 + clipangle;
-
-    if (tspan > 2 * clipangle)
+    // cph - replaced old code, which was unclear and badly commented
+    // Much more efficient code now
+    if ((signed)angle1 < (signed)angle2) 
     {
-        tspan -= 2 * clipangle;
-
-        // Totally off the left edge?
-        if (tspan >= span)
-            return false;
-
-        angle1 = clipangle;
-    }
-    tspan = clipangle - angle2;
-    if (tspan > 2 * clipangle)
-    {
-        tspan -= 2 * clipangle;
-
-        // Totally off the left edge?
-        if (tspan >= span)
-            return false;
-
-        angle2 = 0 - clipangle;
+        // Either angle1 or angle2 is behind us, so it doesn't matter if we
+        // change it to the corect sign
+        if (angle1 >= ANG180 && angle1 < ANG270)
+            angle1 = INT_MAX;           // which is ANG180 - 1
+        else
+            angle2 = INT_MIN;
     }
 
+    if ((signed)angle2 >= (signed)clipangle)
+        return false;                   // Both off left edge
+    if ((signed)angle1 <= -(signed)clipangle)
+        return false;                   // Both off right edge
+    if ((signed)angle1 >= (signed)clipangle)
+        angle1 = clipangle;             // Clip at left edge
+    if ((signed)angle2 <= -(signed)clipangle)
+        angle2 = 0 - clipangle;         // Clip at right edge
 
     // Find the first clippost
     //  that touches the source post
@@ -490,17 +419,11 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
     while (start->last < sx2)
         start++;
 
-    if (sx1 >= start->first
-        && sx2 <= start->last)
-    {
-        // The clippost contains the new span.
-        return false;
-    }
+    if (sx1 >= start->first && sx2 <= start->last)
+        return false;                   // The clippost contains the new span.
 
     return true;
 }
-
-
 
 //
 // R_Subsector
@@ -510,14 +433,11 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
 //
 static void R_Subsector(int num)
 {
-    int         count;
-    seg_t       *line;
-    subsector_t *sub;
+    subsector_t *sub = &subsectors[num];
+    int         count = sub->numlines;
+    seg_t       *line = &segs[sub->firstline];
 
-    sub = &subsectors[num];
     frontsector = sub->sector;
-    count = sub->numlines;
-    line = &segs[sub->firstline];
 
     if (frontsector->floorheight < viewz)
     {
@@ -528,8 +448,7 @@ static void R_Subsector(int num)
     else
         floorplane = NULL;
 
-    if (frontsector->ceilingheight > viewz
-        || frontsector->ceilingpic == skyflatnum)
+    if (frontsector->ceilingheight > viewz || frontsector->ceilingpic == skyflatnum)
     {
         ceilingplane = R_FindPlane(frontsector->ceilingheight,
                                    frontsector->ceilingpic,
@@ -541,13 +460,8 @@ static void R_Subsector(int num)
     R_AddSprites(frontsector);
 
     while (count--)
-    {
         R_AddLine(line++);
-    }
 }
-
-
-
 
 //
 // RenderBSPNode
@@ -556,7 +470,7 @@ static void R_Subsector(int num)
 // Just call with BSP root.
 void R_RenderBSPNode(int bspnum)
 {
-    while (!(bspnum & NF_SUBSECTOR)) // Found a subsector?
+    while (!(bspnum & NF_SUBSECTOR))    // Found a subsector?
     {
         const node_t *bsp = &nodes[bspnum];
 
@@ -567,10 +481,10 @@ void R_RenderBSPNode(int bspnum)
         R_RenderBSPNode(bsp->children[side]);
 
         // Possibly divide back space.
-        if (!R_CheckBBox(bsp->bbox[side ^= 1]))
+        if (!R_CheckBBox(bsp->bbox[side ^ 1]))
             return;
 
-        bspnum = bsp->children[side];
+        bspnum = bsp->children[side ^ 1];
     }
-    R_Subsector(bspnum == -1 ? 0 : bspnum & ~NF_SUBSECTOR);
+    R_Subsector(bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR));
 }
