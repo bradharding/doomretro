@@ -257,10 +257,9 @@ fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     fixed_t             num;
     int                 den;
 
-    // [BH] help to fix wobbly lines (when player stands on
-    //  vertex with height change). 1024 produces better
-    //  results but also causes overflow, which is worse.
-    int max = /*64*/256 * FRACUNIT;
+    // [BH] Fix wobbly lines (when player stands on
+    //  vertex with height change).
+    int max = /*64*/1024 * FRACUNIT;
 
     anglea = ANG90 + (visangle - viewangle);
     angleb = ANG90 + (visangle - rw_normalangle);
