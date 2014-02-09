@@ -55,8 +55,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define SIL_TOP         2
 #define SIL_BOTH        3
 
-#define MAXDRAWSEGS     2048
-
 
 
 

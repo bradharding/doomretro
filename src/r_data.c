@@ -154,7 +154,7 @@ fixed_t         *textureheight;
 byte            **texturefullbright;
 int             *texturecompositesize;
 short           **texturecolumnlump;
-unsigned        **texturecolumnofs;
+unsigned int    **texturecolumnofs;
 byte            **texturecomposite;
 
 // for global animation
@@ -326,7 +326,7 @@ static void R_GenerateComposite(int texnum)
     // Composite the columns together.
     texpatch_t *patch = texture->patches;
     short *collump = texturecolumnlump[texnum];
-    unsigned *colofs = texturecolumnofs[texnum]; // killough 4/9/98: make 32-bit
+    unsigned int *colofs = texturecolumnofs[texnum]; // killough 4/9/98: make 32-bit
     int i = texture->patchcount;
     // killough 4/9/98: marks to identify transparent regions in merged textures
     byte *marks = (byte *)calloc(texture->width, texture->height), *source;
@@ -365,7 +365,7 @@ static void R_GenerateComposite(int texnum)
 
             for (;;)  // reconstruct the column by scanning transparency marks
             {
-                unsigned len;                           // killough 12/98
+                unsigned int len;                       // killough 12/98
 
                 while (j < texture->height && !mark[j]) // skip transparent cells
                     j++;
@@ -414,13 +414,13 @@ static void R_GenerateLookup(int texnum)
     // Composited texture not created yet.
 
     short *collump = texturecolumnlump[texnum];
-    unsigned *colofs = texturecolumnofs[texnum];        // killough 4/9/98: make 32-bit
+    unsigned int *colofs = texturecolumnofs[texnum];    // killough 4/9/98: make 32-bit
 
     // killough 4/9/98: keep count of posts in addition to patches.
     // Part of fix for medusa bug for multipatched 2s normals.
 
     struct {
-        unsigned patches, posts;
+        unsigned int patches, posts;
     } *count = calloc(sizeof *count, texture->width);
 
     // killough 12/98: First count the number of patches per column.
@@ -462,7 +462,7 @@ static void R_GenerateLookup(int texnum)
     if (texture->patchcount > 1 && texture->height < 256)
     {
         // killough 12/98: Warn about a common column construction bug
-        unsigned limit = texture->height * 3 + 3;       // absolute column size limit
+        unsigned int limit = texture->height * 3 + 3;   // absolute column size limit
 
         for (i = texture->patchcount, patch = texture->patches; --i >= 0;)
         {
@@ -674,7 +674,7 @@ void R_InitTextures(void)
 
     textures = (texture_t **)Z_Malloc(numtextures * sizeof(*textures), PU_STATIC, 0);
     texturecolumnlump = (short **)Z_Malloc(numtextures * sizeof(*texturecolumnlump), PU_STATIC, 0);
-    texturecolumnofs = (unsigned **)Z_Malloc(numtextures * sizeof(*texturecolumnofs), PU_STATIC, 0);
+    texturecolumnofs = (unsigned int **)Z_Malloc(numtextures * sizeof(*texturecolumnofs), PU_STATIC, 0);
     texturecomposite = (byte **)Z_Malloc(numtextures * sizeof(*texturecomposite), PU_STATIC, 0);
     texturecompositesize = (int *)Z_Malloc(numtextures * sizeof(*texturecompositesize), PU_STATIC, 0);
     texturewidthmask = (int *)Z_Malloc(numtextures * sizeof(*texturewidthmask), PU_STATIC, 0);
@@ -725,8 +725,8 @@ void R_InitTextures(void)
         }
         texturecolumnlump[i] = (short *)Z_Malloc(texture->width * sizeof(**texturecolumnlump),
                                                  PU_STATIC, 0);
-        texturecolumnofs[i] = (unsigned *)Z_Malloc(texture->width * sizeof(**texturecolumnofs),
-                                                   PU_STATIC, 0);
+        texturecolumnofs[i] = (unsigned int *)Z_Malloc(texture->width * sizeof(**texturecolumnofs),
+                                                       PU_STATIC, 0);
 
         j = 1;
         while (j * 2 <= texture->width)

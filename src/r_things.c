@@ -77,7 +77,7 @@ extern boolean supershotgun;
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, boolean flipped)
+void R_InstallSpriteLump(int lump, unsigned int frame, unsigned int rotation, boolean flipped)
 {
     if (frame >= MAX_SPRITE_FRAMES || rotation > 8)
         I_Error("R_InstallSpriteLump: Bad frame characters in lump %i", lump);
@@ -471,7 +471,7 @@ void R_ProjectSprite(mobj_t *thing)
     spriteframe_t       *sprframe;
     int                 lump;
 
-    unsigned            rot;
+    unsigned int        rot;
     boolean             flip;
 
     int                 index;

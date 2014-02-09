@@ -49,7 +49,7 @@ extern boolean          markceiling;
 extern boolean          skymap;
 
 extern drawseg_t        *drawsegs;
-extern unsigned         maxdrawsegs;
+extern unsigned int     maxdrawsegs;
 
 extern drawseg_t        *ds_p;
 

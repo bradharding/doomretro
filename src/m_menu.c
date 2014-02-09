@@ -944,7 +944,7 @@ void M_LoadSelect(int choice)
         strcpy(name, P_SaveGameFile(choice));
 
         S_StartSound(NULL, sfx_pistol);
-        I_WaitVBL(35);
+        I_WaitVBL(1 * TICRATE);
         functionkey = 0;
         quickSaveSlot = choice;
         menuactive = false;
@@ -1594,7 +1594,7 @@ void M_QuitResponse(int key)
             S_StartSound(NULL, quitsounds2[M_Random() % 8]);
         else
             S_StartSound(NULL, quitsounds[M_Random() % 8]);
-        I_WaitVBL(105);
+        I_WaitVBL(3 * TICRATE);
     }
     I_Quit();
 }

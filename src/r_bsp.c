@@ -51,7 +51,7 @@ sector_t        *backsector;
 int             doorclosed;
 
 drawseg_t       *drawsegs;
-unsigned        maxdrawsegs;
+unsigned int    maxdrawsegs;
 drawseg_t       *ds_p;
 
 
@@ -514,7 +514,6 @@ static void R_Subsector(int num)
     seg_t       *line;
     subsector_t *sub;
 
-    sscount++;
     sub = &subsectors[num];
     frontsector = sub->sector;
     count = sub->numlines;

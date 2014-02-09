@@ -92,7 +92,7 @@ void R_DrawFuzzColumns(void);
 //  Green/Red/Blue/Indigo shirts.
 void  R_DrawTranslatedColumn(void);
 
-void R_VideoErase(unsigned ofs, int count);
+void R_VideoErase(unsigned int ofs, int count);
 
 extern int              ds_y;
 extern int              ds_x1;

@@ -47,8 +47,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte                    *screens[5];
 
-int                     dirtybox[4];
-
 byte                    gammatable[GAMMALEVELS][256];
 
 double gammalevel[GAMMALEVELS] =

@@ -26,19 +26,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdlib.h>
-
-#include "i_system.h"
-#include "z_zone.h"
-#include "w_wad.h"
-
-#include "doomdef.h"
 #include "doomstat.h"
-
+#include "i_system.h"
 #include "r_local.h"
 #include "r_sky.h"
-
-
+#include "w_wad.h"
+#include "z_zone.h"
 
 planefunction_t         floorfunc;
 planefunction_t         ceilingfunc;
@@ -48,45 +41,42 @@ planefunction_t         ceilingfunc;
 //
 
 // Here comes the obnoxious "visplane".
-#define MAXVISPLANES    1024
-visplane_t              visplanes[MAXVISPLANES];
-visplane_t              *lastvisplane;
-visplane_t              *floorplane;
-visplane_t              *ceilingplane;
+#define MAXVISPLANES 1024
+visplane_t           visplanes[MAXVISPLANES];
+visplane_t           *lastvisplane;
+visplane_t           *floorplane;
+visplane_t           *ceilingplane;
 
 // ?
-#define MAXOPENINGS     SCREENWIDTH * 64
-size_t                  maxopenings;
-int                     *openings;
-int                     *lastopening;
-
+#define MAXOPENINGS  SCREENWIDTH * 64
+size_t               maxopenings;
+int                  *openings;
+int                  *lastopening;
 
 //
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
 //
-int                     floorclip[SCREENWIDTH];
-int                     ceilingclip[SCREENWIDTH];
+int                  floorclip[SCREENWIDTH];
+int                  ceilingclip[SCREENWIDTH];
 
 //
 // spanstart holds the start of a plane span
 // initialized to 0 at start
 //
-int                     spanstart[SCREENHEIGHT];
+int                  spanstart[SCREENHEIGHT];
 
 //
 // texture mapping
 //
-lighttable_t            **planezlight;
-fixed_t                 planeheight;
+lighttable_t         **planezlight;
+fixed_t              planeheight;
 
-fixed_t                 yslope[SCREENHEIGHT];
-fixed_t                 distscale[SCREENWIDTH];
-fixed_t                 basexscale;
-fixed_t                 baseyscale;
-
-
+fixed_t              yslope[SCREENHEIGHT];
+fixed_t              distscale[SCREENWIDTH];
+fixed_t              basexscale;
+fixed_t              baseyscale;
 
 //
 // R_MapPlane
@@ -103,14 +93,9 @@ fixed_t                 baseyscale;
 //
 static void R_MapPlane(int y, int x1, int x2)
 {
-    fixed_t             distance;
-    unsigned            index;
-    float               slope;
-    float               realy;
-
-    distance = FixedMul(planeheight, yslope[y]);
-    slope = (float)(planeheight / 65535.0f / ABS(centery - y));
-    realy = (float)distance / 65536.0f;
+    fixed_t  distance = FixedMul(planeheight, yslope[y]);
+    float    slope = (float)(planeheight / 65535.0f / ABS(centery - y));
+    float    realy = (float)distance / 65536.0f;
 
     ds_xstep = (fixed_t)(viewsin * slope);
     ds_ystep = (fixed_t)(viewcos * slope);
@@ -120,7 +105,7 @@ static void R_MapPlane(int y, int x1, int x2)
 
     if (!fixedcolormap)
     {
-        index = distance >> LIGHTZSHIFT;
+        unsigned int index = distance >> LIGHTZSHIFT;
 
         if (index >= MAXLIGHTZ)
             index = MAXLIGHTZ - 1;
@@ -137,15 +122,14 @@ static void R_MapPlane(int y, int x1, int x2)
     spanfunc();
 }
 
-
 //
 // R_ClearPlanes
 // At begining of frame.
 //
 void R_ClearPlanes(void)
 {
-    int                 i;
-    angle_t             angle;
+    int     i;
+    angle_t angle;
 
     // opening / clipping determination
     for (i = 0; i < viewwidth; i++)
@@ -165,32 +149,19 @@ void R_ClearPlanes(void)
     baseyscale = FixedDiv(viewcos, projection);
 }
 
-
-
-
 //
 // R_FindPlane
 //
 visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
 {
-    visplane_t          *check;
+    visplane_t *check;
 
     if (picnum == skyflatnum)
-    {
-        height = 0;                     // all skys map together
-        lightlevel = 0;
-    }
+        height = lightlevel = 0;        // all skys map together
 
     for (check = visplanes; check < lastvisplane; check++)
-    {
-        if (height == check->height
-            && picnum == check->picnum
-            && lightlevel == check->lightlevel)
-        {
+        if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel)
             break;
-        }
-    }
-
 
     if (check < lastvisplane)
         return check;
@@ -211,17 +182,16 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
     return check;
 }
 
-
 //
 // R_CheckPlane
 //
 visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 {
-    int                 intrl;
-    int                 intrh;
-    int                 unionl;
-    int                 unionh;
-    int                 x;
+    int intrl;
+    int intrh;
+    int unionl;
+    int unionh;
+    int x;
 
     if (start < pl->minx)
     {
@@ -272,7 +242,6 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
     return pl;
 }
 
-
 //
 // R_MakeSpans
 //
@@ -301,26 +270,23 @@ void R_MakeSpans(int x, int t1, int b1, int t2, int b2)
     }
 }
 
-
-
 //
 // R_DrawPlanes
 // At the end of each frame.
 //
 void R_DrawPlanes(void)
 {
-    visplane_t          *pl;
-    int                 light;
-    int                 x;
-    int                 stop;
-    int                 angle;
-    int                 lumpnum;
+    visplane_t *pl;
+    int        light;
+    int        x;
+    int        stop;
+    int        angle;
+    int        lumpnum;
 
     for (pl = visplanes; pl < lastvisplane; pl++)
     {
         if (pl->minx > pl->maxx)
             continue;
-
 
         // sky flat
         if (pl->picnum == skyflatnum)
@@ -361,11 +327,10 @@ void R_DrawPlanes(void)
         planeheight = ABS(pl->height-viewz);
         light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight;
 
-        if (light >= LIGHTLEVELS)
-            light = LIGHTLEVELS - 1;
-
         if (light < 0)
             light = 0;
+        else if (light >= LIGHTLEVELS)
+            light = LIGHTLEVELS - 1;
 
         planezlight = zlight[light];
 
@@ -375,12 +340,7 @@ void R_DrawPlanes(void)
         stop = pl->maxx + 1;
 
         for (x = pl->minx; x <= stop; x++)
-        {
-            R_MakeSpans(x, pl->top[x - 1],
-                        pl->bottom[x - 1],
-                        pl->top[x],
-                        pl->bottom[x]);
-        }
+            R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
 
         W_ReleaseLumpNum(lumpnum);
     }

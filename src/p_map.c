@@ -382,11 +382,11 @@ boolean PIT_CheckThing(mobj_t *thing)
 //
 boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 {
-    int                 xl;
-    int                 xh;
-    int                 yl;
-    int                 yh;
-    int                 bx;
+    int          xl;
+    int          xh;
+    int          yl;
+    int          yh;
+    int          bx;
     int          by;
     subsector_t  *newsubsec;
 

@@ -1272,7 +1272,7 @@ void R_FillBackScreen(void)
 //
 // Copy a screen buffer.
 //
-void R_VideoErase(unsigned ofs, int count)
+void R_VideoErase(unsigned int ofs, int count)
 {
     // LFB copy.
     // This might not be a good idea if memcpy

@@ -292,7 +292,7 @@ void P_ZMovement(mobj_t *mo)
     }
     else if (!(mo->flags & MF_NOGRAVITY))
     {
-        if (mo->momz == 0)
+        if (!mo->momz)
             mo->momz = -GRAVITY * 2;
         else
             mo->momz -= GRAVITY;
@@ -583,34 +583,34 @@ void P_RemoveMobj(mobj_t *mobj)
 // Finds a mobj type with a matching doomednum
 // killough 8/24/98: rewrote to use hashing
 //
-static int P_FindDoomedNum(unsigned type)
+static int P_FindDoomedNum(unsigned int type)
 {
-  static struct
-  { 
-      int first, next;
-  } 
-  *hash;
-  register int i;
+    static struct
+    { 
+        int first, next;
+    } 
+    *hash;
+    register int i;
 
-  if (!hash)
-      {
-      hash = Z_Malloc(sizeof *hash * NUMMOBJTYPES, PU_CACHE, (void **)&hash);
-      for (i = 0; i < NUMMOBJTYPES; i++)
-          hash[i].first = NUMMOBJTYPES;
-      for (i = 0; i < NUMMOBJTYPES; i++)
-          if (mobjinfo[i].doomednum != -1)
-          {
-              unsigned h = (unsigned)mobjinfo[i].doomednum % NUMMOBJTYPES;
+    if (!hash)
+    {
+        hash = Z_Malloc(sizeof *hash * NUMMOBJTYPES, PU_CACHE, (void **)&hash);
+        for (i = 0; i < NUMMOBJTYPES; i++)
+            hash[i].first = NUMMOBJTYPES;
+        for (i = 0; i < NUMMOBJTYPES; i++)
+            if (mobjinfo[i].doomednum != -1)
+            {
+                unsigned int h = (unsigned)mobjinfo[i].doomednum % NUMMOBJTYPES;
 
-              hash[i].next = hash[h].first;
-              hash[h].first = i;
-          }
-      }
+                hash[i].next = hash[h].first;
+                hash[h].first = i;
+            }
+    }
 
-  i = hash[type % NUMMOBJTYPES].first;
-  while ((i < NUMMOBJTYPES) && ((unsigned)mobjinfo[i].doomednum != type))
-      i = hash[i].next;
-  return i;
+    i = hash[type % NUMMOBJTYPES].first;
+    while ((i < NUMMOBJTYPES) && ((unsigned)mobjinfo[i].doomednum != type))
+        i = hash[i].next;
+    return i;
 }
 
 //

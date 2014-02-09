@@ -5,6 +5,7 @@ DOOM RETRO
 A classic, refined DOOM source port. For Windows PC.
 
 Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright © 1999 Lee Killough.
 Copyright © 2005-2014 Simon Howard.
 Copyright © 2013-2014 Brad Harding.
 
@@ -27,72 +28,50 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <stdlib.h>
-
-#include "i_system.h"
-
-#include "doomdef.h"
 #include "doomstat.h"
-
 #include "r_local.h"
-#include "r_sky.h"
-
 
 // killough 1/6/98: replaced globals with statics where appropriate
 
-// True if any of the segs textures might be visible.
-boolean                 segtextured;
 
-// False if the back side is the same plane.
-boolean                 markfloor;
-boolean                 markceiling;
+static boolean segtextured;     // True if any of the segs textures might be visible.
+static boolean markfloor;       // False if the back side is the same plane.
+static boolean markceiling;
+static boolean maskedtexture;
+static int     toptexture;
+static int     bottomtexture;
+static int     midtexture;
 
-boolean                 maskedtexture;
-int                     toptexture;
-int                     bottomtexture;
-int                     midtexture;
-
-
-angle_t                 rw_normalangle;
-// angle to line origin
-int                     rw_angle1;
-
-fixed_t                 rw_distance;
+angle_t        rw_normalangle;  // angle to line origin
+int            rw_angle1;
+fixed_t        rw_distance;
+lighttable_t   **walllights;
 
 //
 // regular wall
 //
-static int              rw_x;
-static int              rw_stopx;
-static angle_t          rw_centerangle;
-static fixed_t          rw_offset;
-static fixed_t          rw_scale;
-static fixed_t          rw_scalestep;
-static fixed_t          rw_midtexturemid;
-static fixed_t          rw_toptexturemid;
-static fixed_t          rw_bottomtexturemid;
-
-static int              worldtop;
-static int              worldbottom;
-static int              worldhigh;
-static int              worldlow;
-
-static fixed_t          pixhigh;
-static fixed_t          pixlow;
-static fixed_t          pixhighstep;
-static fixed_t          pixlowstep;
-
-static fixed_t          topfrac;
-static fixed_t          topstep;
-
-static fixed_t          bottomfrac;
-static fixed_t          bottomstep;
-
-
-lighttable_t            **walllights;
-
-static int              *maskedtexturecol;
-
-
+static int     rw_x;
+static int     rw_stopx;
+static angle_t rw_centerangle;
+static fixed_t rw_offset;
+static fixed_t rw_scale;
+static fixed_t rw_scalestep;
+static fixed_t rw_midtexturemid;
+static fixed_t rw_toptexturemid;
+static fixed_t rw_bottomtexturemid;
+static int     worldtop;
+static int     worldbottom;
+static int     worldhigh;
+static int     worldlow;
+static fixed_t pixhigh;
+static fixed_t pixlow;
+static fixed_t pixhighstep;
+static fixed_t pixlowstep;
+static fixed_t topfrac;
+static fixed_t topstep;
+static fixed_t bottomfrac;
+static fixed_t bottomstep;
+static int     *maskedtexturecol;
 
 //
 // R_ScaleFromGlobalAngle
@@ -118,10 +97,10 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 {
-    unsigned            index;
-    column_t            *col;
-    int                 lightnum;
-    int                 texnum;
+    unsigned index;
+    column_t *col;
+    int      lightnum;
+    int      texnum;
 
     // Calculate light table.
     // Use different light tables
@@ -197,9 +176,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     }
 }
 
-
-
-
 //
 // R_RenderSegLoop
 // Draws zero, one, or two textures (and possibly a masked
@@ -208,27 +184,25 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 //  textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
-#define HEIGHTBITS      12
-#define HEIGHTUNIT      (1 << HEIGHTBITS)
+#define HEIGHTBITS 12
+#define HEIGHTUNIT (1 << HEIGHTBITS)
 
 void R_RenderSegLoop(void)
 {
-    fixed_t             texturecolumn;
+    fixed_t texturecolumn;
 
     for (; rw_x < rw_stopx; rw_x++)
     {
-        int             yl;
-        int             yh;
-        int             top;
-        int             bottom;
-        boolean         bottomclipped = false;
-        boolean         topclipped = false;
-
         // mark floor / ceiling areas
-        yl = (topfrac + HEIGHTUNIT - 1) >> HEIGHTBITS;
+        int     yl = (topfrac + HEIGHTUNIT - 1) >> HEIGHTBITS;
+        int     yh = bottomfrac >> HEIGHTBITS;
 
         // no space above wall?
-        top = ceilingclip[rw_x] + 1;
+        int     bottom, top = ceilingclip[rw_x] + 1;
+
+        boolean bottomclipped = false;
+        boolean topclipped = false;
+
         if (yl < top)
         {
             yl = top;
@@ -250,8 +224,6 @@ void R_RenderSegLoop(void)
 
             ceilingclip[rw_x] = bottom;
         }
-
-        yh = bottomfrac >> HEIGHTBITS;
 
         bottom = floorclip[rw_x] - 1;
         if (yh > bottom)
@@ -276,15 +248,12 @@ void R_RenderSegLoop(void)
         // texturecolumn and lighting are independent of wall tiers
         if (segtextured)
         {
-            angle_t     angle;
-            unsigned    index;
+            // calculate texture offset and lighting
+            angle_t  angle = ((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT) & 0x1fff;
+            unsigned index = rw_scale >> LIGHTSCALESHIFT;
 
-            // calculate texture offset
-            angle = ((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT) & 0x1fff;
             texturecolumn = rw_offset - FixedMul(finetangent[angle], rw_distance);
             texturecolumn >>= FRACBITS;
-            // calculate lighting
-            index = rw_scale >> LIGHTSCALESHIFT;
 
             if (index >= MAXLIGHTSCALE)
                 index = MAXLIGHTSCALE - 1;
@@ -292,12 +261,6 @@ void R_RenderSegLoop(void)
             dc_colormap = walllights[index];
             dc_x = rw_x;
             dc_iscale = 0xffffffffu / (unsigned)rw_scale;
-        }
-        else
-        {
-            // purely to shut up the compiler
-
-            texturecolumn = 0;
         }
 
         // draw the wall tiers
@@ -307,9 +270,7 @@ void R_RenderSegLoop(void)
             dc_yl = yl;
             dc_yh = yh;
             dc_topsparkle = false;
-            dc_bottomsparkle = (!bottomclipped
-                                && dc_yh > dc_yl
-                                && rw_distance < (512 << FRACBITS));
+            dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
             dc_texturemid = rw_midtexturemid;
             dc_source = R_GetColumn(midtexture, texturecolumn);
             dc_texheight = textureheight[midtexture] >> FRACBITS;
@@ -325,10 +286,9 @@ void R_RenderSegLoop(void)
             // two sided line
             if (toptexture)
             {
-                int mid;
-
                 // top wall
-                mid = pixhigh >> HEIGHTBITS;
+                int mid = pixhigh >> HEIGHTBITS;
+
                 pixhigh += pixhighstep;
 
                 dc_bottomsparkle = true;
@@ -343,9 +303,7 @@ void R_RenderSegLoop(void)
                     dc_yl = yl;
                     dc_yh = mid;
                     dc_topsparkle = false;
-                    dc_bottomsparkle = (dc_bottomsparkle
-                                        && dc_yh > dc_yl
-                                        && rw_distance < (512 << FRACBITS));
+                    dc_bottomsparkle = (dc_bottomsparkle && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
                     dc_texturemid = rw_toptexturemid;
                     dc_source = R_GetColumn(toptexture, texturecolumn);
                     dc_texheight = textureheight[toptexture] >> FRACBITS;
@@ -369,6 +327,7 @@ void R_RenderSegLoop(void)
             {
                 // bottom wall
                 int mid = (pixlow + HEIGHTUNIT - 1) >> HEIGHTBITS;
+
                 pixlow += pixlowstep;
 
                 // no space above wall?
@@ -383,12 +342,8 @@ void R_RenderSegLoop(void)
                 {
                     dc_yl = mid;
                     dc_yh = yh;
-                    dc_topsparkle = (dc_topsparkle
-                                     && dc_yh > dc_yl
-                                     && rw_distance < (128 << FRACBITS));
-                    dc_bottomsparkle = (!bottomclipped
-                                        && dc_yh > dc_yl
-                                        && rw_distance < (512 << FRACBITS));
+                    dc_topsparkle = (dc_topsparkle && dc_yh > dc_yl && rw_distance < (128 << FRACBITS));
+                    dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
                     dc_texturemid = rw_bottomtexturemid;
                     dc_source = R_GetColumn(bottomtexture, texturecolumn);
                     dc_texheight = textureheight[bottomtexture] >> FRACBITS;
@@ -422,9 +377,6 @@ void R_RenderSegLoop(void)
     }
 }
 
-
-
-
 //
 // R_StoreWallRange
 // A wall segment will be drawn
@@ -432,11 +384,10 @@ void R_RenderSegLoop(void)
 //
 void R_StoreWallRange(int start, int stop)
 {
-    fixed_t             hyp;
-    fixed_t             sineval;
-    angle_t             distangle, offsetangle;
-    fixed_t             vtop;
-    int                 lightnum;
+    fixed_t hyp;
+    angle_t offsetangle;
+    fixed_t vtop;
+    int     lightnum;
 
     sidedef = curline->sidedef;
     linedef = curline->linedef;
@@ -451,8 +402,8 @@ void R_StoreWallRange(int start, int stop)
     // don't overflow and crash
     if (ds_p == drawsegs + maxdrawsegs)
     {
-        unsigned pos = ds_p - drawsegs;
-        unsigned newmax = (maxdrawsegs ? maxdrawsegs * 2 : 128);
+        unsigned int pos = ds_p - drawsegs;
+        unsigned int newmax = (maxdrawsegs ? maxdrawsegs * 2 : 128);
 
         drawsegs = (drawseg_t *)realloc(drawsegs, newmax * sizeof(*drawsegs));
         ds_p = drawsegs + pos;
@@ -461,16 +412,14 @@ void R_StoreWallRange(int start, int stop)
 
     // calculate rw_distance for scale calculation
     rw_normalangle = curline->angle + ANG90;
-    offsetangle = ABS(rw_normalangle - rw_angle1);
+    offsetangle = rw_normalangle - rw_angle1;
 
-    if (offsetangle > ANG90)
+    if (ABS(offsetangle) > ANG90)
         offsetangle = ANG90;
 
-    distangle = ANG90 - offsetangle;
-    hyp = (viewx == curline->v1->x
-           && viewy == curline->v1->y ? 0 : R_PointToDist(curline->v1->x, curline->v1->y));
-    sineval = finesine[distangle >> ANGLETOFINESHIFT];
-    rw_distance = FixedMul(hyp, sineval);
+    hyp = (viewx == curline->v1->x && viewy == curline->v1->y ? 
+           0 : R_PointToDist(curline->v1->x, curline->v1->y));
+    rw_distance = FixedMul(hyp, finecosine[offsetangle >> ANGLETOFINESHIFT]);
 
     ds_p->x1 = rw_x = start;
     ds_p->x2 = stop;
@@ -479,21 +428,19 @@ void R_StoreWallRange(int start, int stop)
 
     // killough 1/6/98, 2/1/98: remove limit on openings
     {
-        extern int      *openings;
-        extern size_t   maxopenings;
-        size_t          pos = lastopening - openings;
-        size_t          need = (rw_stopx - start) * 4 + pos;
+        extern int    *openings;
+        extern size_t maxopenings;
+        size_t        pos = lastopening - openings;
+        size_t        need = (rw_stopx - start) * 4 + pos;
 
         if (need > maxopenings)
         {
             drawseg_t *ds;                      //jff 8/9/98 needed for fix from ZDoom
-            int *oldopenings = openings;
-            int *oldlast = lastopening;
+            int       *oldopenings = openings;
+            int       *oldlast = lastopening;
 
             do
-            {
                 maxopenings = (maxopenings ? maxopenings * 2 : 16384);
-            }
             while (need > maxopenings);
             openings = (int *)realloc(openings, maxopenings * sizeof(*openings));
             lastopening = openings + pos;
@@ -517,14 +464,12 @@ void R_StoreWallRange(int start, int stop)
     }
 
     // calculate scale at both ends and step
-    ds_p->scale1 = rw_scale =
-        R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start]);
+    ds_p->scale1 = rw_scale = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start]);
 
     if (stop > start)
     {
         ds_p->scale2 = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[stop]);
-        ds_p->scalestep = rw_scalestep =
-            (ds_p->scale2 - rw_scale) / (stop - start);
+        ds_p->scalestep = rw_scalestep = (ds_p->scale2 - rw_scale) / (stop - start);
     }
     else
     {
@@ -543,12 +488,14 @@ void R_StoreWallRange(int start, int stop)
     {
         // single sided line
         midtexture = texturetranslation[sidedef->midtexture];
+
         // a single sided line is terminal, so it must mark ends
         markfloor = markceiling = true;
+
         if (linedef->flags & ML_DONTPEGBOTTOM)
         {
-            vtop = frontsector->floorheight +
-                textureheight[sidedef->midtexture];
+            vtop = frontsector->floorheight + textureheight[sidedef->midtexture];
+
             // bottom of texture at bottom
             rw_midtexturemid = vtop - viewz;
         }
@@ -709,21 +656,10 @@ void R_StoreWallRange(int start, int stop)
 
     if (segtextured)
     {
-        offsetangle = rw_normalangle - rw_angle1;
-
-        if (offsetangle > ANG180)
-            offsetangle = 0 - offsetangle;
-
-        if (offsetangle > ANG90)
-            offsetangle = ANG90;
-
-        sineval = finesine[offsetangle >> ANGLETOFINESHIFT];
-        rw_offset = FixedMul(hyp, sineval);
-
-        if (rw_normalangle - rw_angle1 < ANG180)
-            rw_offset = -rw_offset;
+        rw_offset = FixedMul(hyp, -finesine[offsetangle >> ANGLETOFINESHIFT]);
 
         rw_offset += sidedef->textureoffset + curline->offset;
+
         rw_centerangle = ANG90 + viewangle - rw_normalangle;
 
         // calculate light table
@@ -757,8 +693,7 @@ void R_StoreWallRange(int start, int stop)
         markfloor = false;
     }
 
-    if (frontsector->ceilingheight <= viewz
-        && frontsector->ceilingpic != skyflatnum)
+    if (frontsector->ceilingheight <= viewz && frontsector->ceilingpic != skyflatnum)
     {
         // below view plane
         markceiling = false;
@@ -812,16 +747,14 @@ void R_StoreWallRange(int start, int stop)
     R_RenderSegLoop();
 
     // save sprite clipping info
-    if (((ds_p->silhouette & SIL_TOP) || maskedtexture)
-        && !ds_p->sprtopclip)
+    if (((ds_p->silhouette & SIL_TOP) || maskedtexture) && !ds_p->sprtopclip)
     {
         memcpy(lastopening, ceilingclip + start, sizeof(int) * (rw_stopx - start));
         ds_p->sprtopclip = lastopening - start;
         lastopening += rw_stopx - start;
     }
 
-    if (((ds_p->silhouette & SIL_BOTTOM) || maskedtexture)
-        && !ds_p->sprbottomclip)
+    if (((ds_p->silhouette & SIL_BOTTOM) || maskedtexture) && !ds_p->sprbottomclip)
     {
         memcpy(lastopening, floorclip + start, sizeof(int) * (rw_stopx - start));
         ds_p->sprbottomclip = lastopening - start;

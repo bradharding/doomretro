@@ -44,8 +44,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Screen 1 is an extra buffer.
 extern byte *screens[5];
 
-extern int dirtybox[4];
-
 extern byte *tinttab33;
 extern byte *tinttab50;
 extern byte *tinttabred;
