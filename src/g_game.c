@@ -883,8 +883,11 @@ void G_Ticker(void)
             case ga_screenshot:
                 if (gametic)
                 {
-                    HU_clearMessages();
-                    D_Display();
+                    if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS))
+                    {
+                        HU_clearMessages();
+                        D_Display();
+                    }
                     if (V_ScreenShot())
                     {
                         static char message[512];
