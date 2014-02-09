@@ -28,36 +28,20 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define _USE_MATH_DEFINES
 
-
-#include <stdlib.h>
 #include <math.h>
-
-
-#include "doomdef.h"
 #include "d_net.h"
-
-#include "m_bbox.h"
 #include "m_menu.h"
-
 #include "r_local.h"
 #include "r_sky.h"
-
 #include "v_video.h"
 
-
-
-
-
 // Fineangles in the SCREENWIDTH wide window.
-#define FIELDOFVIEW             2048
-
-
+#define FIELDOFVIEW     2048
 
 int                     viewangleoffset;
 
 // increment every time a check is made
 int                     validcount = 1;
-
 
 lighttable_t            *fixedcolormap;
 extern lighttable_t     **walllights;
@@ -70,13 +54,6 @@ fixed_t                 centeryfrac;
 fixed_t                 viewheightfrac;
 fixed_t                 projection;
 fixed_t                 projectiony;
-
-// just for profiling purposes
-int                     framecount;
-
-int                     sscount;
-int                     linecount;
-int                     loopcount;
 
 fixed_t                 viewx;
 fixed_t                 viewy;
@@ -117,8 +94,6 @@ int                     extralight;
 
 extern int              automapactive;
 
-
-
 void (*colfunc)(void);
 void (*wallcolfunc)(void);
 void (*fbwallcolfunc)(byte *);
@@ -144,26 +119,6 @@ void (*tlredtoblue50colfunc)(void);
 void (*tlredtogreen50colfunc)(void);
 void (*psprcolfunc)(void);
 
-
-
-//
-// R_AddPointToBox
-// Expand a given bbox
-// so that it encloses a given point.
-//
-void R_AddPointToBox(int x, int y, fixed_t *box)
-{
-    if (x < box[BOXLEFT])
-        box[BOXLEFT] = x;
-    if (x > box[BOXRIGHT])
-        box[BOXRIGHT] = x;
-    if (y < box[BOXBOTTOM])
-        box[BOXBOTTOM] = y;
-    if (y > box[BOXTOP])
-        box[BOXTOP] = y;
-}
-
-
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,
@@ -175,13 +130,11 @@ int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node)
     return ((int64_t)(y - node->y) * node->dx + (int64_t)(node->x - x) * node->dy >= 0);
 }
 
-
 int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 {
     return ((int64_t)(line->v2->x - line->v1->x) * (y - line->v1->y)
             - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x) >= 0);
 }
-
 
 //
 // R_PointToAngle
@@ -191,10 +144,7 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 //  the y (<=x) is scaled and divided by x to get a
 //  tangent (slope) value which is looked up in the
 //  tantoangle[] table.
-
 //
-
-
 angle_t R_PointToAngle(fixed_t x, fixed_t y)
 {
     static fixed_t      oldx;
@@ -213,7 +163,6 @@ angle_t R_PointToAngle(fixed_t x, fixed_t y)
     return oldresult;
 }
 
-
 angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2)
 {
     viewx = x1;
@@ -221,7 +170,6 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2)
 
     return R_PointToAngle(x2, y2);
 }
-
 
 fixed_t R_PointToDist(fixed_t x, fixed_t y)
 {
@@ -239,62 +187,15 @@ fixed_t R_PointToDist(fixed_t x, fixed_t y)
     return FixedDiv(dx, finecosine[tantoangle[FixedDiv(dy, dx) >> DBITS] >> ANGLETOFINESHIFT]);
 }
 
-
-//
-// R_ScaleFromGlobalAngle
-// Returns the texture mapping scale
-//  for the current line (horizontal span)
-//  at the given angle.
-// rw_distance must be calculated first.
-//
-fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
-{
-    fixed_t             scale;
-    angle_t             anglea;
-    angle_t             angleb;
-    int                 sinea;
-    int                 sineb;
-    fixed_t             num;
-    int                 den;
-
-    // [BH] Fix wobbly lines (when player stands on
-    //  vertex with height change).
-    int max = /*64*/1024 * FRACUNIT;
-
-    anglea = ANG90 + (visangle - viewangle);
-    angleb = ANG90 + (visangle - rw_normalangle);
-
-    // both sines are allways positive
-    sinea = finesine[anglea >> ANGLETOFINESHIFT];
-    sineb = finesine[angleb >> ANGLETOFINESHIFT];
-    num = FixedMul(projection, sineb);
-    den = FixedMul(rw_distance, sinea);
-
-    if ((den >> 8) > 0 && den > (num >> 16))
-    {
-        scale = FixedDiv(num, den);
-
-        if (scale > max)
-            scale = max;
-        else if (scale < 256)
-            scale = 256;
-    }
-    else
-        scale = max;
-
-    return scale;
-}
-
-
 //
 // R_InitTextureMapping
 //
 void R_InitTextureMapping(void)
 {
-    int         i;
-    int         x;
-    int         t;
-    fixed_t     focallength;
+    int     i;
+    int     x;
+    int     t;
+    fixed_t focallength;
 
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x
@@ -302,7 +203,7 @@ void R_InitTextureMapping(void)
 
     const fixed_t hitan = finetangent[FINEANGLES / 4 + FIELDOFVIEW / 2];
     const fixed_t lotan = finetangent[FINEANGLES / 4 - FIELDOFVIEW / 2];
-    const int highend = viewwidth + 1;
+    const int     highend = viewwidth + 1;
 
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
@@ -319,11 +220,7 @@ void R_InitTextureMapping(void)
         else
         {
             t = (centerxfrac - FixedMul(tangent, focallength) + FRACUNIT - 1) >> FRACBITS;
-
-            if (t < -1)
-                t = -1;
-            else if (t > highend)
-                t = highend;
+            t = MAX(-1, (MIN(t, highend)));
         }
         viewangletox[i] = t;
     }
@@ -333,17 +230,13 @@ void R_InitTextureMapping(void)
     //  that maps to x.
     for (x = 0; x <= viewwidth; x++)
     {
-        i = 0;
-        while (viewangletox[i] > x)
-            i++;
+        for (i=0; viewangletox[i] > x; i++);
         xtoviewangle[x] = (i << ANGLETOFINESHIFT) - ANG90;
     }
 
     // Take out the fencepost cases from viewangletox.
     for (i = 0; i < FINEANGLES / 2; i++)
     {
-        t = centerx - FixedMul(finetangent[i], focallength);
-
         if (viewangletox[i] == -1)
             viewangletox[i] = 0;
         else if (viewangletox[i] == highend)
@@ -353,14 +246,12 @@ void R_InitTextureMapping(void)
     clipangle = xtoviewangle[0];
 }
 
-
-
 //
 // R_InitLightTables
 // Only inits the zlight table,
 //  because the scalelight table changes with view size.
 //
-#define DISTMAP         2
+#define DISTMAP 2
 
 void R_InitLightTables(void)
 {
@@ -370,8 +261,7 @@ void R_InitLightTables(void)
     //  for each level / distance combination.
     for (i = 0; i < LIGHTLEVELS; i++)
     {
-        int j;
-        int startmap = ((LIGHTLEVELS - 1 - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        int j, startmap = ((LIGHTLEVELS - 1 - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (j = 0; j < MAXLIGHTZ; j++)
         {
@@ -380,16 +270,13 @@ void R_InitLightTables(void)
 
             if (level < 0)
                 level = 0;
-            else
-                if (level >= NUMCOLORMAPS)
-                    level = NUMCOLORMAPS - 1;
+            else if (level >= NUMCOLORMAPS)
+                level = NUMCOLORMAPS - 1;
 
             zlight[i][j] = colormaps + level * 256;
         }
     }
 }
-
-
 
 //
 // R_SetViewSize
@@ -397,8 +284,8 @@ void R_InitLightTables(void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-boolean         setsizeneeded;
-int             setblocks;
+boolean setsizeneeded;
+int     setblocks;
 
 
 void R_SetViewSize(int blocks)
@@ -407,18 +294,17 @@ void R_SetViewSize(int blocks)
     setblocks = blocks;
 }
 
-
 //
 // R_ExecuteSetViewSize
 //
 void R_ExecuteSetViewSize(void)
 {
-    fixed_t     cosadj;
-    fixed_t     dy;
-    int         i;
-    int         j;
-    int         level;
-    int         startmap;
+    fixed_t cosadj;
+    fixed_t dy;
+    int     i;
+    int     j;
+    int     level;
+    int     startmap;
 
     setsizeneeded = false;
 
@@ -504,8 +390,7 @@ void R_ExecuteSetViewSize(void)
 
             if (level < 0)
                 level = 0;
-
-            if (level >= NUMCOLORMAPS)
+            else if (level >= NUMCOLORMAPS)
                 level = NUMCOLORMAPS - 1;
 
             scalelight[i][j] = colormaps + level * 256;
@@ -516,8 +401,7 @@ void R_ExecuteSetViewSize(void)
 
             if (level < 0)
                 level = 0;
-
-            if (level >= NUMCOLORMAPS)
+            else if (level >= NUMCOLORMAPS)
                 level = NUMCOLORMAPS - 1;
 
             scalelight2[i][j] = colormaps + level * 256;
@@ -525,14 +409,9 @@ void R_ExecuteSetViewSize(void)
     }
 }
 
-
-
 //
 // R_Init
 //
-
-
-
 void R_Init(void)
 {
     R_InitData();
@@ -541,19 +420,14 @@ void R_Init(void)
     R_InitLightTables();
     R_InitSkyMap();
     R_InitTranslationTables();
-
-    framecount = 0;
 }
-
 
 //
 // R_PointInSubsector
 //
 subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 {
-    node_t      *node;
-    int         side;
-    int         nodenum;
+    int    nodenum;
 
     // single subsector is a special case
     if (!numnodes)
@@ -562,22 +436,17 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
     nodenum = numnodes - 1;
 
     while (!(nodenum & NF_SUBSECTOR))
-    {
-        node = &nodes[nodenum];
-        side = R_PointOnSide(x, y, node);
-        nodenum = node->children[side];
-    }
+        nodenum = nodes[nodenum].children[R_PointOnSide(x, y, nodes+nodenum)];
 
     return &subsectors[nodenum & ~NF_SUBSECTOR];
 }
-
 
 //
 // R_SetupFrame
 //
 void R_SetupFrame(player_t *player)
 {
-    int         i;
+    int i;
 
     viewplayer = player;
     viewx = player->mo->x;
@@ -590,13 +459,9 @@ void R_SetupFrame(player_t *player)
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
 
-    sscount = 0;
-
     if (player->fixedcolormap)
     {
-        fixedcolormap =
-            colormaps
-            + player->fixedcolormap * 256 * sizeof(lighttable_t);
+        fixedcolormap = colormaps + player->fixedcolormap * 256 * sizeof(lighttable_t);
 
         walllights = scalelightfixed;
 
@@ -606,7 +471,6 @@ void R_SetupFrame(player_t *player)
     else
         fixedcolormap = 0;
 
-    framecount++;
     validcount++;
 }
 
@@ -635,23 +499,10 @@ void R_RenderPlayerView(player_t *player)
         if (player->cheats & CF_NOCLIP)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, 0);
 
-        // Check for new console commands.
-        NetUpdate();
-
         // The head node is the last node output.
         R_RenderBSPNode(numnodes - 1);
 
-        // Check for new console commands.
-        NetUpdate();
-
         R_DrawPlanes();
-
-        // Check for new console commands.
-        NetUpdate();
-
         R_DrawMasked();
-
-        // Check for new console commands.
-        NetUpdate();
     }
 }

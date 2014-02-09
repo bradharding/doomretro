@@ -95,6 +95,25 @@ static int              *maskedtexturecol;
 
 
 //
+// R_ScaleFromGlobalAngle
+// Returns the texture mapping scale
+//  for the current line (horizontal span)
+//  at the given angle.
+// rw_distance must be calculated first.
+//
+static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
+{
+    int     anglea = ANG90 + (visangle-viewangle);
+    int     angleb = ANG90 + (visangle-rw_normalangle);
+    int     den = FixedMul(rw_distance, finesine[anglea>>ANGLETOFINESHIFT]);
+    int     max = 1024 * FRACUNIT;      // [BH] fix wobbly vertexes
+    fixed_t num = FixedMul(projectiony, finesine[angleb>>ANGLETOFINESHIFT]);
+
+    return ((den >> 8) > 0 && den > (num >> 16) ? ((num = FixedDiv(num, den)) > max ? 
+            max : MAX(256, num)) : max);
+}
+
+//
 // R_RenderMaskedSegRange
 //
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
