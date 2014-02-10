@@ -85,7 +85,8 @@ void M_Init(void);
 // does nothing if menu is already up.
 void M_StartControlPanel(void);
 
-
+void M_DarkBackground(void);
+void M_DrawCenteredString(int y, char *str);
 
 extern int screenblocks;
 

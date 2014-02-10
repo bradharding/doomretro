@@ -230,7 +230,7 @@ void R_InitTextureMapping(void)
     //  that maps to x.
     for (x = 0; x <= viewwidth; x++)
     {
-        for (i=0; viewangletox[i] > x; i++);
+        for (i = 0; viewangletox[i] > x; i++);
         xtoviewangle[x] = (i << ANGLETOFINESHIFT) - ANG90;
     }
 
