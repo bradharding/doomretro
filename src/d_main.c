@@ -193,7 +193,6 @@ void D_ProcessEvents(void)
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_DEMOSCREEN;
-static  boolean fullscreen = false;
 extern  boolean setsizeneeded;
 void R_ExecuteSetViewSize(void);
 void M_DarkBackground(void);
@@ -247,7 +246,6 @@ void D_Display(void)
             if (!gametic)
                 break;
             ST_Drawer(viewheight == SCREENHEIGHT, true);
-            fullscreen = (viewheight == SCREENHEIGHT);
             break;
 
         case GS_INTERMISSION:
