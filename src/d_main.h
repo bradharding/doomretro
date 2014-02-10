@@ -51,6 +51,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define SCREENBLOCKS_DEFAULT       10
 #define SCREENBLOCKS_MAX           11
 
+#define USEGAMMA_MIN               0
+#define USEGAMMA_DEFAULT           2
+#define USEGAMMA_MAX               (GAMMALEVELS - 1)
+
 //
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,

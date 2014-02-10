@@ -848,6 +848,9 @@ void D_DoomMain(void)
         screenblocks = 10;
     }
 
+    if (usegamma < USEGAMMA_MIN || usegamma > USEGAMMA_MAX)
+        usegamma = USEGAMMA_DEFAULT;
+
     M_Init();
 
     R_Init();

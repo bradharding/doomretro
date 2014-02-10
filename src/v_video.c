@@ -43,6 +43,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
+#include "d_main.h"
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte                    *screens[5];
@@ -55,7 +56,7 @@ double gammalevel[GAMMALEVELS] =
 };
 
 // Gamma correction level to use
-int                     usegamma = 2;
+int                     usegamma = USEGAMMA_DEFAULT;
 
 //
 // V_SetRes

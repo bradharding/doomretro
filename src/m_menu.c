@@ -2347,13 +2347,13 @@ boolean M_Responder(event_t *ev)
         keydown = key;
         if (keyMods & KMOD_SHIFT)
         {
-            if (--usegamma < 0)
-                usegamma = GAMMALEVELS - 1;
+            if (--usegamma < USEGAMMA_MIN)
+                usegamma = USEGAMMA_MAX;
         }
         else
         {
-            if (++usegamma > GAMMALEVELS - 1)
-                usegamma = 0;
+            if (++usegamma > USEGAMMA_MAX)
+                usegamma = USEGAMMA_MIN;
         }
         message_dontpause = true;
         players[consoleplayer].message = gammamsg[usegamma];
