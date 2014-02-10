@@ -79,14 +79,14 @@ void S_StopSounds(void);
 //
 // defaulted values
 //
-int                     mouseSensitivity = 6;
-float                   gamepadSensitivity = 1.6f;
+int                     mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
+float                   gamepadSensitivity = 1.25f + MOUSESENSITIVITY_DEFAULT / 18.0f;
 
 // Show messages has default, 0 = off, 1 = on
 int                     showMessages = 0;
 
 
-int                     screenblocks = 10;
+int                     screenblocks = SCREENBLOCKS_DEFAULT;
 
 // temp for screenblocks (0-9)
 int                     screenSize;
@@ -1231,7 +1231,7 @@ void M_SfxVol(int choice)
         switch (choice)
         {
             case 0:
-                if (sfxVolume)
+                if (sfxVolume > SFXVOLUME_MIN)
                 {
                     S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
@@ -1239,7 +1239,7 @@ void M_SfxVol(int choice)
                 }
                 break;
             case 1:
-                if (sfxVolume < 15)
+                if (sfxVolume < SFXVOLUME_MAX)
                 {
                     S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
@@ -1257,7 +1257,7 @@ void M_MusicVol(int choice)
         switch (choice)
         {
             case 0:
-                if (musicVolume)
+                if (musicVolume > MUSICVOLUME_MIN)
                 {
                     S_SetMusicVolume((int)(--musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
@@ -1265,7 +1265,7 @@ void M_MusicVol(int choice)
                 }
                 break;
             case 1:
-                if (musicVolume < 15)
+                if (musicVolume < MUSICVOLUME_MAX)
                 {
                     S_SetMusicVolume((int)(++musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
@@ -1627,7 +1627,7 @@ void M_ChangeSensitivity(int choice)
     switch (choice)
     {
         case 0:
-            if (mouseSensitivity)
+            if (mouseSensitivity > MOUSESENSITIVITY_MIN)
             {
                 mouseSensitivity--;
                 gamepadSensitivity = 1.25f + mouseSensitivity / 18.0f;
@@ -1636,7 +1636,7 @@ void M_ChangeSensitivity(int choice)
             }
             break;
         case 1:
-            if (mouseSensitivity < 9 * 2)
+            if (mouseSensitivity < MOUSESENSITIVITY_MAX)
             {
                 mouseSensitivity++;
                 gamepadSensitivity = 1.25f + mouseSensitivity / 18.0f;

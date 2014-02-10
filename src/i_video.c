@@ -125,8 +125,8 @@ boolean keys[UCHAR_MAX];
 // the values exceed the value of mouse_threshold, they are multiplied
 // by mouse_acceleration to increase the speed.
 
-float mouse_acceleration = 2.0;
-int  mouse_threshold = 10;
+float mouse_acceleration = MOUSEACCELERATION_DEFAULT;
+int  mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
 static void ApplyWindowResize(int w, int h);
 static void SetWindowPositionVars(void);

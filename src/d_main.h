@@ -31,8 +31,25 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "d_event.h"
 
+#define MOUSESENSITIVITY_MIN       0
+#define MOUSESENSITIVITY_DEFAULT   6
+#define MOUSESENSITIVITY_MAX       18
 
+#define MOUSEACCELERATION_DEFAULT  2.0
 
+#define MOUSETHRESHOLD_DEFAULT     10
+
+#define SFXVOLUME_MIN              0
+#define SFXVOLUME_DEFAULT          15
+#define SFXVOLUME_MAX              15
+
+#define MUSICVOLUME_MIN            0
+#define MUSICVOLUME_DEFAULT        15
+#define MUSICVOLUME_MAX            15
+
+#define SCREENBLOCKS_MIN           0
+#define SCREENBLOCKS_DEFAULT       10
+#define SCREENBLOCKS_MAX           11
 
 //
 // D_DoomMain()

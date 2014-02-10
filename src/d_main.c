@@ -828,25 +828,25 @@ void D_DoomMain(void)
         startloadgame = -1;
     }
 
-    if (sfxVolume < 0)
-        sfxVolume = 0;
-    else if (sfxVolume > 15)
-        sfxVolume = 15;
-    if (musicVolume < 0)
-        musicVolume = 0;
-    else if (musicVolume > 15)
-        musicVolume = 15;
-    if (mouseSensitivity < 0)
-        mouseSensitivity = 0;
-    else if (mouseSensitivity > 9 * 2)
-        mouseSensitivity = 9 * 2;
+    if (mouseSensitivity < MOUSESENSITIVITY_MIN || mouseSensitivity > MOUSESENSITIVITY_MAX)
+        mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
     gamepadSensitivity = 1.25f + mouseSensitivity / 18.0f;
-    if (screenblocks < 3)
-        screenblocks = 3;
-    else if (screenblocks > 11)
+
+    if (sfxVolume < SFXVOLUME_MIN || sfxVolume > SFXVOLUME_MAX)
+        sfxVolume = SFXVOLUME_DEFAULT;
+
+    if (musicVolume < MUSICVOLUME_MIN || musicVolume > MUSICVOLUME_MAX)
+        musicVolume = MUSICVOLUME_DEFAULT;
+
+    if (screenblocks < SCREENBLOCKS_MIN || screenblocks > SCREENBLOCKS_MAX)
+        screenblocks = SCREENBLOCKS_DEFAULT;
+    if (widescreen && !fullscreen)
         screenblocks = 11;
-    if (widescreen)
+    if (fullscreen && screenblocks == 11)
+    {
+        widescreen = true;
         screenblocks = 10;
+    }
 
     M_Init();
 
