@@ -34,6 +34,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // maximum size of a savegame description
 
 #define SAVESTRINGSIZE 256
+#define VERSIONSIZE    16
 
 // temporary filename to use while saving.
 

@@ -26,87 +26,67 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "SDL.h"
-
-#include "dstrings.h"
-
 #include "d_main.h"
-
+#include "doomstat.h"
+#include "dstrings.h"
+#include "g_game.h"
+#include "hu_stuff.h"
+#include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "i_video.h"
-#include "z_zone.h"
+#include "m_config.h"
+#include "m_menu.h"
+#include "m_random.h"
+#include "p_saveg.h"
+#include "r_local.h"
+#include "s_sound.h"
+#include "SDL.h"
+#include "v_data.h"
 #include "v_video.h"
 #include "w_wad.h"
+#include "z_zone.h"
 
-#include "r_local.h"
+extern patch_t *hu_font[HU_FONTSIZE];
+extern boolean message_dontfuckwithme;
 
+extern boolean chat_on;                // in heads-up code
 
-#include "hu_stuff.h"
+extern int     st_palette;
 
-#include "g_game.h"
-
-#include "p_saveg.h"
-
-#include "s_sound.h"
-
-#include "doomstat.h"
-
-#include "m_menu.h"
-
-#include "m_random.h"
-#include "v_data.h"
-#include "i_gamepad.h"
-#include "m_config.h"
-
-extern patch_t          *hu_font[HU_FONTSIZE];
-extern boolean          message_dontfuckwithme;
-
-extern boolean          chat_on;                // in heads-up code
-
-extern int              keydown;
-extern byte             *tinttab50;
-extern int              st_palette;
-
-extern boolean          widescreen;
-extern boolean          returntowidescreen;
-extern boolean          wipe;
-
-
-void S_StopSounds(void);
+extern boolean wipe;
 
 //
 // defaulted values
 //
-int                     mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-float                   gamepadSensitivity = 1.25f + MOUSESENSITIVITY_DEFAULT / 18.0f;
+int            mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
+float          gamepadSensitivity = 1.25f + MOUSESENSITIVITY_DEFAULT / 18.0f;
 
 // Show messages has default, 0 = off, 1 = on
-int                     showMessages = 0;
+int            showMessages = 0;
 
-
-int                     screenblocks = SCREENBLOCKS_DEFAULT;
+int            screenblocks = SCREENBLOCKS_DEFAULT;
 
 // temp for screenblocks (0-9)
-int                     screenSize;
+int            screenSize;
 
 // -1 = no quicksave slot picked!
-int                     quickSaveSlot;
+int            quickSaveSlot;
 
 // 1 = message to be printed
-int                     messageToPrint;
+int            messageToPrint;
 // ...and here is the message string!
-char                    *messageString;
+char           *messageString;
 
-int                     messageLastMenuActive;
+int            messageLastMenuActive;
 
 // timed message = no input from user
-boolean                 messageNeedsInput;
+boolean        messageNeedsInput;
 
 void (*messageRoutine)(int response);
 
-char gammamsg[9][30] =
+char gammamsg[GAMMALEVELS][30] =
 {
     GAMMALVL0,
     GAMMALVL1,
@@ -120,44 +100,42 @@ char gammamsg[9][30] =
 };
 
 // we are going to be entering a savegame string
-int                     saveStringEnter;
-int                     saveSlot;               // which slot to save in
-int                     saveCharIndex;          // which char we're editing
+int            saveStringEnter;
+int            saveSlot;               // which slot to save in
+int            saveCharIndex;          // which char we're editing
 // old save description before edit
-char                    saveOldString[SAVESTRINGSIZE];
+char           saveOldString[SAVESTRINGSIZE];
 
-boolean                 inhelpscreens;
-boolean                 menuactive;
-boolean                 savegames = false;
-boolean                 startingnewgame = false;
+boolean        inhelpscreens;
+boolean        menuactive;
+boolean        savegames = false;
+boolean        startingnewgame = false;
 
-#define SKULLXOFF       -32
-#define LINEHEIGHT      17
+#define SKULLXOFF  -32
+#define LINEHEIGHT 17
 
-char                    savegamestrings[10][SAVESTRINGSIZE];
+char           savegamestrings[10][SAVESTRINGSIZE];
 
-char                    endstring[160];
+char           endstring[160];
 
+short          itemOn;                 // menu item skull is on
+short          skullAnimCounter;       // skull animation counter
+short          whichSkull;             // which skull to draw
 
+int            selectedskilllevel = 2;
+int            selectedepisode = 0;
+int            selectedexpansion = 0;
+int            selectedsavegame = 0;
 
-short                   itemOn;                 // menu item skull is on
-short                   skullAnimCounter;       // skull animation counter
-short                   whichSkull;             // which skull to draw
+static int     functionkey = 0;
 
-int                     selectedskilllevel = 2;
-int                     selectedepisode = 0;
-int                     selectedexpansion = 0;
-int                     selectedsavegame = 0;
-
-static int              functionkey = 0;
-
-static boolean          usinggamepad = false;
+static boolean usinggamepad = false;
 
 // graphic name of skulls
-char                    *skullName[2] = { "M_SKULL1", "M_SKULL2" };
+char           *skullName[2] = { "M_SKULL1", "M_SKULL2" };
 
 // current menudef
-menu_t                  *currentMenu;
+menu_t         *currentMenu;
 
 //
 // PROTOTYPES
@@ -205,14 +183,10 @@ int M_StringWidth(char *string);
 int M_StringHeight(char *string);
 void M_StartMessage(char *string, void *routine, boolean input);
 
-void ToggleWideScreen(boolean toggle);
-
-
-
-
 //
 // DOOM MENU
 //
+
 enum
 {
     newgame = 0,
@@ -242,10 +216,10 @@ menu_t MainDef =
     0                   // lastOn
 };
 
-
 //
 // EPISODE SELECT
 //
+
 enum
 {
     ep1,
@@ -276,6 +250,7 @@ menu_t EpiDef =
 //
 // EXPANSION SELECT
 //
+
 enum
 {
     exp1,
@@ -302,6 +277,7 @@ menu_t ExpDef =
 //
 // NEW GAME
 //
+
 enum
 {
     killthings,
@@ -331,11 +307,10 @@ menu_t NewDef =
     hurtme              // lastOn
 };
 
-
-
 //
 // OPTIONS MENU
 //
+
 enum
 {
     endgame,
@@ -393,6 +368,7 @@ menu_t ReadDef =
 //
 // SOUND VOLUME MENU
 //
+
 enum
 {
     sfx_vol,
@@ -423,6 +399,7 @@ menu_t SoundDef =
 //
 // LOAD GAME MENU
 //
+
 enum
 {
     load1,
@@ -457,6 +434,7 @@ menu_t LoadDef =
 //
 // SAVE GAME MENU
 //
+
 menuitem_t SaveMenu[] =
 {
     { 1, "", M_SaveSelect, '1', "" },
@@ -477,16 +455,15 @@ menu_t SaveDef =
     0
 };
 
-
 //
 // M_DarkBackground
 //  darken background while menu is displayed
 //
 void M_DarkBackground(void)
 {
-    byte            *colormap;
-    byte            *dot;
-    int             i;
+    byte *colormap;
+    byte *dot;
+    int  i;
 
     if (!TITLEPIC && !usergame)
         return;
@@ -497,11 +474,9 @@ void M_DarkBackground(void)
     while (i < SCREENWIDTH * SCREENHEIGHT)
     {
         dot = &screens[0][i++];
-
         *dot = *(*dot + colormap);
     }
 }
-
 
 static byte blues[] =
 {
@@ -531,11 +506,6 @@ void M_DarkBlueBackground(void)
 {
     int x, y;
 
-    //if (players[consoleplayer].fixedcolormap == INVERSECOLORMAP)
-    //{
-    //    players[consoleplayer].fixedcolormap = 0;
-    //    R_RenderPlayerView(&players[displayplayer]);
-    //}
     for (y = 0; y < SCREENWIDTH * SCREENHEIGHT; y += SCREENWIDTH * 2)
         for (x = 0; x < SCREENWIDTH; x += 2)
         {
@@ -551,38 +521,35 @@ void M_DarkBlueBackground(void)
         }
 }
 
-
 //
 // M_DrawChar
 //  draw a character on screen
 //
 void M_DrawChar(int x, int y, int i)
 {
-    int w, x1, y1;
-
-    w = strlen(redcharset[i]) / 18;
+    int x1, y1;
+    int w = strlen(redcharset[i]) / 18;
 
     for (y1 = 0; y1 < 18; y1++)
         for (x1 = 0; x1 < w; x1++)
             V_DrawPixel(x + x1, y + y1, 0, (int)redcharset[i][y1 * w + x1], true);
 }
 
-
 static const int chartoi[123] =
 {
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, //   0 -   9
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, //  10 -  19
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, //  20 -  29
-    -1, -1, -1,  0, -1, -1, -1, -1, -1,  1, //  30 -  39
-    -1, -1, -1, -1,  2,  3,  4, -1, -1, -1, //  40 -  49
-    -1, -1, -1, -1, -1, -1, -1, -1,  5, -1, //  50 -  59
-    -1, -1, -1,  6, -1,  7,  8,  9, 10, 11, //  60 -  69
-    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, //  70 -  79
-    22, 23, 24, 25, 26, 27, 28, 29, 30, 31, //  80 -  89
-    32, -1, -1, -1, -1, -1, -1, 33, 34, 35, //  90 -  99
-    36, 37, 38, 39, 40, 41, 42, 43, 44, 45, // 100 - 109
-    46, 47, 48, 49, 50, 51, 52, 53, 54, 55, // 110 - 119
-    56, 57, 58                              // 120 - 122
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1,  0, -1, -1, -1, -1, -1,  1,
+    -1, -1, -1, -1,  2,  3,  4, -1, -1, -1,
+    -1, -1, -1, -1, -1, -1, -1, -1,  5, -1,
+    -1, -1, -1,  6, -1,  7,  8,  9, 10, 11,
+    12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+    32, -1, -1, -1, -1, -1, -1, 33, 34, 35,
+    36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+    46, 47, 48, 49, 50, 51, 52, 53, 54, 55,
+    56, 57, 58
 };
 
 static struct
@@ -648,7 +615,6 @@ void M_DrawString(int x, int y, char *str)
     }
 }
 
-
 //
 // M_DrawCenteredString
 //  draw a string centered horizontally on screen
@@ -709,7 +675,6 @@ void M_DrawCenteredString(int y, char *str)
     }
 }
 
-
 //
 // M_BigStringWidth
 //  return width of string in pixels
@@ -742,7 +707,6 @@ int M_BigStringWidth(char *str)
     return w;
 }
 
-
 //
 // M_SplitString
 //  split string of words into two lines
@@ -761,7 +725,6 @@ void M_SplitString(char *string)
     }
 }
 
-
 //
 // M_DrawPatchWithShadow
 //  draw patch with shadow on screen
@@ -771,7 +734,6 @@ void M_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch)
     V_DrawPatchWithShadow(x, y, scrn, patch, false);
 }
 
-
 //
 // M_DrawPatchWithShadow
 //  draw patch with shadow horizontally centered on screen
@@ -780,7 +742,6 @@ void M_DrawCenteredPatchWithShadow(int y, int scrn, patch_t *patch)
 {
     V_DrawPatchWithShadow((ORIGINALWIDTH - patch->width) / 2 + patch->leftoffset, y, scrn, patch, false);
 }
-
 
 //
 // M_ReadSaveStrings
@@ -810,7 +771,6 @@ void M_ReadSaveStrings(void)
     }
 }
 
-
 static byte saveg_read8(FILE *file)
 {
     byte result;
@@ -818,8 +778,6 @@ static byte saveg_read8(FILE *file)
         return 0;
     return result;
 }
-
-#define VERSIONSIZE 16
 
 //
 // M_CheckSaveGame
@@ -879,13 +837,12 @@ boolean M_CheckSaveGame(int choice)
     return true;
 }
 
-
 //
 // M_LoadGame
 //
 void M_DrawLoad(void)
 {
-    int         i;
+    int i;
 
     M_DarkBackground();
     if (M_LGTTL)
@@ -902,15 +859,13 @@ void M_DrawLoad(void)
     }
 }
 
-
-
 //
 // Draw border for the savegame description
 //
 void M_DrawSaveLoadBorder(int x, int y)
 {
-    int         i;
-    int         xx, yy;
+    int i;
+    int xx, yy;
 
     for (yy = 0; yy < 16; yy++)
         for (xx = 0; xx < 8; xx++)
@@ -929,8 +884,6 @@ void M_DrawSaveLoadBorder(int x, int y)
         for (xx = 0; xx < 9; xx++)
             V_DrawPixel(x + xx, y + yy, 0, lsrght[yy * 9 + xx], true);
 }
-
-
 
 //
 // User wants to load this game
@@ -969,18 +922,17 @@ void M_LoadGame(int choice)
 boolean showcaret = true;
 int carettics = 0;
 
-
 //
 //  M_SaveGame & Cie.
 //
 void M_DrawSave(void)
 {
-    char        *left;
-    char        *right;
-    int         i;
-    int         j;
-    int         x, y;
-    int         xx, yy;
+    char *left;
+    char *right;
+    int  i;
+    int  j;
+    int  x, y;
+    int  xx, yy;
 
     left = (char *)Z_Malloc(256, PU_STATIC, NULL);
     right = (char *)Z_Malloc(256, PU_STATIC, NULL);
@@ -1118,8 +1070,6 @@ void M_QuickSave(void)
     S_StartSound(NULL, sfx_swtchx);
 }
 
-
-
 //
 // M_QuickLoad
 //
@@ -1132,7 +1082,6 @@ void M_QuickLoadResponse(int key)
         S_StartSound(NULL, sfx_swtchx);
     }
 }
-
 
 void M_QuickLoad(void)
 {
@@ -1151,9 +1100,6 @@ void M_QuickLoad(void)
         snprintf(tempstring, 160, "%s\n\n"PRESSYN, tempstring);
     M_StartMessage(tempstring, M_QuickLoadResponse, true);
 }
-
-
-
 
 //
 // M_DrawReadThis
@@ -1199,7 +1145,6 @@ void M_DrawReadThis(void)
             V_DrawPatchWithShadow(0, 0, 0, (patch_t *)W_CacheLumpName(lumpname, PU_CACHE), false);
     }
 }
-
 
 //
 // Change Sfx & Music volumes
@@ -1276,10 +1221,6 @@ void M_MusicVol(int choice)
     }
 }
 
-
-
-
-
 //
 // M_DrawMainMenu
 //
@@ -1298,9 +1239,6 @@ void M_DrawMainMenu(void)
         V_DrawPixel(99, 12, 0, dot2, false);
     }
 }
-
-
-
 
 //
 // M_NewGame
@@ -1326,11 +1264,10 @@ void M_NewGame(int choice)
     M_SetupNextMenu(gamemode == commercial ? (nerve ? &ExpDef : &NewDef) : &EpiDef);
 }
 
-
 //
 //      M_Episode
 //
-int     epi;
+int epi;
 
 void M_DrawEpisode(void)
 {
@@ -1409,8 +1346,6 @@ void M_Expansion(int choice)
     M_SetupNextMenu(&NewDef);
 }
 
-
-
 //
 // M_Options
 //
@@ -1445,7 +1380,6 @@ void M_DrawOptions(void)
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17, 9,
                  (float)screenSize);
-
 }
 
 void M_Options(int choice)
@@ -1453,11 +1387,8 @@ void M_Options(int choice)
     M_SetupNextMenu(&OptionsDef);
 }
 
-
-
-
 //
-//      Toggle messages on/off
+// Toggle messages on/off
 //
 boolean message_dontpause = false;
 
@@ -1470,7 +1401,6 @@ void M_ChangeMessages(int choice)
     message_dontfuckwithme = true;
     M_SaveDefaults();
 }
-
 
 //
 // M_EndGame
@@ -1519,9 +1449,6 @@ void M_EndGame(int choice)
         M_StartMessage(ENDGAME"\n\n"PRESSYN, M_EndGameResponse, true);
 }
 
-
-
-
 //
 // M_ReadThis
 //
@@ -1535,9 +1462,6 @@ void M_FinishReadThis(int choice)
     choice = 0;
     M_SetupNextMenu(&MainDef);
 }
-
-
-
 
 //
 // M_QuitDOOM
@@ -1566,10 +1490,8 @@ int quitsounds2[8] =
     sfx_sgtatk
 };
 
-
-
-boolean         quitting;
-extern boolean  waspaused;
+boolean        quitting;
+extern boolean waspaused;
 
 void M_QuitResponse(int key)
 {
@@ -1599,7 +1521,6 @@ void M_QuitResponse(int key)
     I_Quit();
 }
 
-
 static char *M_SelectEndMessage(void)
 {
     char **endmsg;
@@ -1607,7 +1528,6 @@ static char *M_SelectEndMessage(void)
     endmsg = (gamemission == doom ? doom1_endmsg : doom2_endmsg);
     return endmsg[M_Random() % NUM_QUITMESSAGES];
 }
-
 
 void M_QuitDOOM(int choice)
 {
@@ -1618,9 +1538,6 @@ void M_QuitDOOM(int choice)
         sprintf(endstring, "%s\n\n"WINDOWSY, M_SelectEndMessage());
     M_StartMessage(endstring, M_QuitResponse, true);
 }
-
-
-
 
 void M_ChangeSensitivity(int choice)
 {
@@ -1646,9 +1563,6 @@ void M_ChangeSensitivity(int choice)
             break;
     }
 }
-
-
-
 
 void M_SizeDisplay(int choice)
 {
@@ -1696,9 +1610,6 @@ void M_SizeDisplay(int choice)
     }
 }
 
-
-
-
 //
 //      Menu Functions
 //
@@ -1721,7 +1632,6 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot)
         V_DrawPixel(i, y + 13, 0, 251, true);
 }
 
-
 void M_StartMessage(char *string, void *routine, boolean input)
 {
     messageLastMenuActive = menuactive;
@@ -1732,16 +1642,14 @@ void M_StartMessage(char *string, void *routine, boolean input)
     menuactive = true;
 }
 
-
-
 //
 // Find string width
 //
 int M_StringWidth(char *string)
 {
-    size_t      i;
-    int         w = 0;
-    int         c;
+    size_t i;
+    int    w = 0;
+    int    c;
 
     for (i = 0; i < strlen(string); i++)
     {
@@ -1752,8 +1660,6 @@ int M_StringWidth(char *string)
     }
     return w;
 }
-
-
 //
 // Find string height
 //
@@ -1767,7 +1673,6 @@ int M_StringHeight(char *string)
             h += (i > 0 && string[i - 1] == '\n' ? 4 : 8);
     return h;
 }
-
 
 //
 //  Write a char
@@ -1783,23 +1688,18 @@ void M_DrawSmallChar(int x, int y, int i, boolean shadow)
             V_DrawPixel(x + x1, y + y1, 0, (int)smallcharset[i][y1 * w + x1], shadow);
 }
 
-
 //
 // Write a string
 //
 void M_WriteText(int x, int y, char *string, boolean shadow)
 {
-    int         w;
-    char        *ch;
-    char        letter;
-    char        prev = ' ';
-    int         c;
-    int         cx;
-    int         cy;
-
-    ch = string;
-    cx = x;
-    cy = y;
+    int  w;
+    char *ch = string;
+    char letter;
+    char prev = ' ';
+    int  c;
+    int  cx = x;
+    int  cy = y;
 
     while (1)
     {
@@ -1860,13 +1760,13 @@ boolean gamepadpress = false;
 
 boolean M_Responder(event_t *ev)
 {
-    int         ch;
-    int         key;
-    int         i;
-    static int  keywait = 0;
-    static int  mousewait = 0;
-    char        *tempstring = "";
-    SDLMod      keyMods = SDL_GetModState();
+    int        ch;
+    int        key;
+    int        i;
+    static int keywait = 0;
+    static int mousewait = 0;
+    char       *tempstring = "";
+    SDLMod     keyMods = SDL_GetModState();
 
     // key is the key pressed, ch is the actual character typed
 
@@ -2683,8 +2583,6 @@ boolean M_Responder(event_t *ev)
     return false;
 }
 
-
-
 //
 // M_StartControlPanel
 //
@@ -2700,7 +2598,6 @@ void M_StartControlPanel(void)
 
     S_StopSounds();
 }
-
 
 //
 // M_DrawNightmare
@@ -2720,7 +2617,6 @@ void M_DrawNightmare(void)
     }
 }
 
-
 //
 // M_Drawer
 // Called after the view has been rendered,
@@ -2728,13 +2624,13 @@ void M_DrawNightmare(void)
 //
 void M_Drawer(void)
 {
-    static short        x;
-    static short        y;
-    unsigned int        i;
-    unsigned int        max;
-    char                string[80];
-    char                *name;
-    int                 start;
+    static short x;
+    static short y;
+    unsigned int i;
+    unsigned int max;
+    char         string[80];
+    char         *name;
+    int          start;
 
     inhelpscreens = false;
 
@@ -2841,9 +2737,6 @@ void M_Drawer(void)
     }
 }
 
-
-
-
 //
 // M_SetupNextMenu
 //
@@ -2852,7 +2745,6 @@ void M_SetupNextMenu(menu_t *menudef)
     currentMenu = menudef;
     itemOn = currentMenu->lastOn;
 }
-
 
 //
 // M_Ticker
@@ -2868,7 +2760,6 @@ void M_Ticker(void)
         }
     }
 }
-
 
 //
 // M_Init

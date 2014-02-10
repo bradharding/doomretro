@@ -799,8 +799,6 @@ static byte saveg_read8(FILE *file)
     return result;
 }
 
-#define VERSIONSIZE 16
-
 boolean G_CheckSaveGame(void)
 {
     FILE        *handle;

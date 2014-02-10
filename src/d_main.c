@@ -26,18 +26,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "SDL.h"
 
-#include "doomdef.h"
 #include "doomstat.h"
-
-#include "dstrings.h"
-#include "sounds.h"
 
 #include "d_iwad.h"
 
@@ -52,7 +43,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "m_argv.h"
 #include "m_config.h"
-#include "m_misc.h"
 #include "m_menu.h"
 #include "p_saveg.h"
 
@@ -65,7 +55,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "hu_stuff.h"
 #include "wi_stuff.h"
 #include "st_stuff.h"
-#include "am_map.h"
+//#include "am_map.h"
 
 #include "p_setup.h"
 #include "r_local.h"
@@ -311,8 +301,6 @@ void D_Display(void)
 
     // menus go directly to the screen
     M_Drawer();                 // menu is drawn even on top of everything
-    NetUpdate();                // send out any new accumulation
-
 
     // normal update
     if (!wipe)
