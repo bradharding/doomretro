@@ -44,9 +44,9 @@ enum
     wipe_NUMWIPES
 };
 
-boolean wipe_StartScreen(int x, int y, int width, int height);
-boolean wipe_EndScreen(int x, int y, int width, int height);
-boolean wipe_ScreenWipe(int wipeno, int x, int y, int width, int height, int ticks);
+boolean wipe_StartScreen(void);
+boolean wipe_EndScreen(void);
+boolean wipe_ScreenWipe(int tics);
 
 extern boolean widescreen;
 
