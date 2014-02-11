@@ -1782,10 +1782,13 @@ void P_UnArchiveThinkers(void)
                 mobj->tracer = NULL;
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
-                if (mobj->flags2 & MF2_FLIPPEDCORPSE)
-                    mobj->flags2 = mobj->info->flags2 | MF2_FLIPPEDCORPSE;
-                else
-                    mobj->flags2 = mobj->info->flags2;
+                if (mobj->type != MT_BLOODSPLAT)
+                {
+                    if (mobj->flags2 & MF2_FLIPPEDCORPSE)
+                        mobj->flags2 = mobj->info->flags2 | MF2_FLIPPEDCORPSE;
+                    else
+                        mobj->flags2 = mobj->info->flags2;
+                }
                 mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
                 P_AddThinker(&mobj->thinker);
 
