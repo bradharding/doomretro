@@ -32,8 +32,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "d_event.h"
 
 #define MOUSESENSITIVITY_MIN       0
-#define MOUSESENSITIVITY_DEFAULT   6
-#define MOUSESENSITIVITY_MAX       18
+#define MOUSESENSITIVITY_DEFAULT   8
+#define MOUSESENSITIVITY_MAX       64
 
 #define MOUSEACCELERATION_DEFAULT  2.0
 

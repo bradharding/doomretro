@@ -1376,7 +1376,7 @@ void M_DrawOptions(void)
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17, 9,
-                 mouseSensitivity / 9.0f * 8.0f / 2.0f);
+                 mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f);
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17, 9,
                  (float)screenSize);
@@ -1547,7 +1547,7 @@ void M_ChangeSensitivity(int choice)
             if (mouseSensitivity > MOUSESENSITIVITY_MIN)
             {
                 mouseSensitivity--;
-                gamepadSensitivity = 1.25f + mouseSensitivity / 18.0f;
+                gamepadSensitivity = 1.25f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX;
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1556,7 +1556,7 @@ void M_ChangeSensitivity(int choice)
             if (mouseSensitivity < MOUSESENSITIVITY_MAX)
             {
                 mouseSensitivity++;
-                gamepadSensitivity = 1.25f + mouseSensitivity / 18.0f;
+                gamepadSensitivity = 1.25f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX;
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1637,7 +1637,7 @@ void M_StartMessage(char *string, void *routine, boolean input)
     messageLastMenuActive = menuactive;
     messageToPrint = 1;
     messageString = string;
-    messageRoutine = routine;
+    messageRoutine = (void (*)(int))routine;
     messageNeedsInput = input;
     menuactive = true;
 }
