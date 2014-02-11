@@ -1569,7 +1569,7 @@ void M_SizeDisplay(int choice)
     switch (choice)
     {
         case 0:
-            if (widescreen)
+            if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 screenSize--;
                 S_StartSound(NULL, sfx_stnmov);
@@ -1588,11 +1588,16 @@ void M_SizeDisplay(int choice)
         case 1:
             if (screenSize == 7 && fullscreen)
             {
-                ToggleWideScreen(true);
-                if (!widescreen)
+                if (gamestate != GS_LEVEL)
+                    returntowidescreen = true;
+                else
                 {
-                    screenblocks++;
-                    R_SetViewSize(screenblocks);
+                    ToggleWideScreen(true);
+                    if (!widescreen)
+                    {
+                        screenblocks++;
+                        R_SetViewSize(screenblocks);
+                    }
                 }
                 screenSize++;
                 S_StartSound(NULL, sfx_stnmov);

@@ -819,7 +819,6 @@ void ToggleWideScreen(boolean toggle)
             return;
 
         widescreen = true;
-        returntowidescreen = false;
 
         width = screen->w + 1;
         height = screen->h + (int)((double)screen->h * 32 / (ORIGINALHEIGHT - 32) + 1.5);
@@ -832,6 +831,7 @@ void ToggleWideScreen(boolean toggle)
         width = height * 4 / 3;
         width += (width & 1);
     }
+    returntowidescreen = false;
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
     pitch = screenbuffer->pitch;
