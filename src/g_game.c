@@ -881,7 +881,8 @@ void G_Ticker(void)
             case ga_screenshot:
                 if (gametic)
                 {
-                    if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS))
+                    if ((usergame || gamestate == GS_LEVEL)
+                        && !idbehold && !(players[consoleplayer].cheats & CF_MYPOS))
                     {
                         HU_clearMessages();
                         D_Display();
