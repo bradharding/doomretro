@@ -320,7 +320,7 @@ void P_PlayerThink(player_t *player)
         {
             if (player->readyweapon == wp_fist)
             {
-                if (player->weaponowned[wp_chainsaw] && player->powers[pw_strength])
+                if (player->weaponowned[wp_chainsaw])
                 {
                     player->fistorchainsaw = wp_chainsaw;
                     newweapon = wp_chainsaw;

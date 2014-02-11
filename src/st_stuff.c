@@ -691,6 +691,7 @@ boolean ST_Responder(event_t *ev)
                     weaponsgiven = true;
                     plyr->weaponowned[wp_chainsaw] = true;
                     oldweaponsowned[wp_chainsaw] = true;
+                    plyr->fistorchainsaw = wp_chainsaw;
 
                     // [BH] if fist is current weapon, switch to new chainsaw
                     if (plyr->readyweapon == wp_fist)
@@ -813,6 +814,7 @@ boolean ST_Responder(event_t *ev)
                     weaponsgiven = true;
                     plyr->weaponowned[wp_chainsaw] = true;
                     oldweaponsowned[wp_chainsaw] = true;
+                    plyr->fistorchainsaw = wp_chainsaw;
 
                     // [BH] if fist is current weapon, switch to new chainsaw
                     if (plyr->readyweapon == wp_fist)
