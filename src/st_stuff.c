@@ -723,8 +723,10 @@ boolean ST_Responder(event_t *ev)
                 {
                     // [BH] note if any ammo given
                     if (plyr->ammo[i] < plyr->maxammo[i])
+                    {
+                        plyr->ammo[i] = plyr->maxammo[i];
                         ammogiven = true;
-                    plyr->ammo[i] = plyr->maxammo[i];
+                    }
                 }
 
                 // [BH] show evil grin if player was given any new weapons
@@ -846,17 +848,21 @@ boolean ST_Responder(event_t *ev)
                 {
                     // [BH] note if any ammo given
                     if (plyr->ammo[i] < plyr->maxammo[i])
+                    {
+                        plyr->ammo[i] = plyr->maxammo[i];
                         ammogiven = true;
-                    plyr->ammo[i] = plyr->maxammo[i];
+                    }
                 }
 
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given
                 for (i = 0; i < NUMCARDS; i++)
                 {
-                    plyr->cards[i] = cards[i];
-                    if (cards[i])
+                    if (cards[i] && !plyr->cards[i])
+                    {
+                        plyr->cards[i] = cards[i];
                         keysgiven = true;
+                    }
                 }
 
                 // [BH] show evil grin if player was given any new weapons
