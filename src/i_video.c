@@ -437,7 +437,7 @@ void I_GetEvent(void)
             case SDL_KEYDOWN:
                 ev.type = ev_keydown;
                 ev.data1 = TranslateKey(&sdlevent.key.keysym);
-                ev.data2 = sdlevent.key.keysym.unicode;
+                ev.data2 = sdlevent.key.keysym.sym;
 
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
 
@@ -460,13 +460,6 @@ void I_GetEvent(void)
             case SDL_KEYUP:
                 ev.type = ev_keyup;
                 ev.data1 = TranslateKey(&sdlevent.key.keysym);
-
-                // data2 is just initialized to zero for ev_keyup.
-                // For ev_keydown it's the shifted Unicode character
-                // that was typed, but if something wants to detect
-                // key releases it should do so based on data1
-                // (key ID), not the printable char.
-
                 ev.data2 = 0;
 
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
@@ -935,7 +928,6 @@ void ToggleFullScreen(void)
         UpdateFocus();
         UpdateGrab();
 
-        SDL_EnableUNICODE(SDL_ENABLE);
         SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
         event.type = ev_keyup;
@@ -1059,7 +1051,6 @@ void I_InitGraphics(void)
 
     memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
 
-    SDL_EnableUNICODE(SDL_ENABLE);
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
     while (SDL_PollEvent(&dummy));
