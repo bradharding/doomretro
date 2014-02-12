@@ -774,13 +774,15 @@ static void SetVideoMode(void)
         screen = SDL_SetVideoMode(screenwidth, screenheight, 0,
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
-        height = screen->h + 1;
+        height = screen->h;
+        height += (height & 1);
         width = height * 4 / 3;
         width += (width & 1);
 
         if (width > screen->w)
         {
-            width = screen->w + 1;
+            width = screen->w;
+            width += (width & 1);
             height = width * 3 / 4;
             height += (height & 1);
         }
@@ -827,7 +829,8 @@ void ToggleWideScreen(boolean toggle)
     {
         widescreen = false;
 
-        height = screen->h + 1;
+        height = screen->h;
+        height += (height & 1);
         width = height * 4 / 3;
         width += (width & 1);
     }
@@ -874,13 +877,15 @@ void ToggleFullScreen(void)
             }
         }
 
-        height = screen->h + 1;
+        height = screen->h;
+        height += (height & 1);
         width = height * 4 / 3;
         width += (width & 1);
 
         if (width > screen->w)
         {
-            width = screen->w + 1;
+            width = screen->w;
+            width += (width & 1);
             height = width * 3 / 4;
             height += (height & 1);
         }
