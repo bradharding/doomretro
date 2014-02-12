@@ -1844,7 +1844,8 @@ boolean M_Responder(event_t *ev)
 
                 // decrease slider
                 else if ((gamepadthumbLX < 0 || (gamepadbuttons & GAMEPAD_DPAD_LEFT))
-                    && !saveStringEnter)
+                    && !saveStringEnter
+                    && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_LEFTARROW;
                     gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 4);
@@ -1853,7 +1854,8 @@ boolean M_Responder(event_t *ev)
 
                 // increase slider
                 else if ((gamepadthumbLX > 0 || (gamepadbuttons & GAMEPAD_DPAD_RIGHT))
-                    && !saveStringEnter)
+                    && !saveStringEnter
+                    && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_RIGHTARROW;
                     gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 4);
@@ -2404,7 +2406,8 @@ boolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_LEFTARROW || key == KEY_MINUS)
+        else if (key == KEY_LEFTARROW 
+                 || (key == KEY_MINUS && !(currentMenu == &OptionsDef && itemOn == 1)))
         {
             // Slide slider left
 
@@ -2420,7 +2423,8 @@ boolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_RIGHTARROW || key == KEY_EQUALS)
+        else if (key == KEY_RIGHTARROW 
+                 || (key == KEY_EQUALS && !(currentMenu == &OptionsDef && itemOn == 1)))
         {
             // Slide slider right
 
