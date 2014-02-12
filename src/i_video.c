@@ -822,7 +822,7 @@ void ToggleWideScreen(boolean toggle)
 
         widescreen = true;
 
-        width = screen->w + 1;
+        width = screen->w;
         height = screen->h + (int)((double)screen->h * 32 / (ORIGINALHEIGHT - 32) + 1.5);
     }
     else
