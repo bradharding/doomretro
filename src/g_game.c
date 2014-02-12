@@ -1348,8 +1348,8 @@ void G_DoCompleted(void)
 
     if (widescreen)
     {
-        returntowidescreen = true;
         ToggleWideScreen(false);
+        returntowidescreen = true;
     }
 
     // [BH] allow the exit switch to turn on before the screen wipes

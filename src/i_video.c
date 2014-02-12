@@ -813,7 +813,7 @@ static void SetVideoMode(void)
 
 void ToggleWideScreen(boolean toggle)
 {
-    if ((double)screenwidth / screenheight < 1.6)
+    if ((double)screen->w / screen->h < 1.6)
         return;
 
     if (toggle)

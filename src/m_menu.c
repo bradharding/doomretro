@@ -1128,8 +1128,8 @@ void M_DrawReadThis(void)
         inhelpscreens = true;
         if (widescreen)
         {
-            returntowidescreen = true;
             ToggleWideScreen(false);
+            returntowidescreen = true;
         }
         if (automapactive)
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 245);
@@ -1431,8 +1431,8 @@ void M_EndGameResponse(int key)
     endinggame = true;
     if (widescreen)
     {
-        returntowidescreen = true;
         ToggleWideScreen(false);
+        returntowidescreen = true;
     }
     D_StartTitle();
 }
