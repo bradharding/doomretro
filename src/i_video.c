@@ -749,29 +749,24 @@ static void SetWindowPositionVars(void)
     }
 }
 
-
 static void SetVideoMode(void)
 {
-    SDL_VideoInfo *videoinfo = (SDL_VideoInfo *)SDL_GetVideoInfo();
-
-    desktopwidth = videoinfo->current_w;
-    desktopheight = videoinfo->current_h;
-
-    if (windowwidth < ORIGINALWIDTH)
-        windowwidth = ORIGINALWIDTH;
-
-    if (windowheight < ORIGINALWIDTH * 3 / 4)
-        windowheight = ORIGINALWIDTH * 3 / 4;
-
-    if (!screenwidth || !screenheight)
-    {
-        screenwidth = desktopwidth;
-        screenheight = desktopheight;
-    }
-
     if (fullscreen)
     {
-        screen = SDL_SetVideoMode(screenwidth, screenheight, 0,
+        SDL_VideoInfo *videoinfo = (SDL_VideoInfo *)SDL_GetVideoInfo();
+
+        desktopwidth = videoinfo->current_w;
+        desktopheight = videoinfo->current_h;
+
+        width = screenwidth;
+        height = screenheight;
+        if (!width || !height)
+        {
+            width = desktopwidth;
+            height = desktopheight;
+        }
+
+        screen = SDL_SetVideoMode(width, height, 0,
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
         height = screen->h;
@@ -789,6 +784,12 @@ static void SetVideoMode(void)
     }
     else
     {
+        if (windowwidth < ORIGINALWIDTH)
+            windowwidth = ORIGINALWIDTH;
+
+        if (windowheight < ORIGINALWIDTH * 3 / 4)
+            windowheight = ORIGINALWIDTH * 3 / 4;
+
         SetWindowPositionVars();
         screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
@@ -858,7 +859,15 @@ void ToggleFullScreen(void)
     fullscreen = !fullscreen;
     if (fullscreen)
     {
-        screen = SDL_SetVideoMode(screenwidth, screenheight, 0,
+        width = screenwidth;
+        height = screenheight;
+        if (!width || !height)
+        {
+            width = desktopwidth;
+            height = desktopheight;
+        }
+
+        screen = SDL_SetVideoMode(width, height, 0,
                                   SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
         if (screenblocks == 11)
