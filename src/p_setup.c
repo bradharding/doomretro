@@ -1029,7 +1029,6 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     P_RemoveSlimeTrails();
 
-    bodyqueslot = 0;
     deathmatch_p = deathmatchstarts;
 
     for (i = 0; i < NUMCARDS; i++)

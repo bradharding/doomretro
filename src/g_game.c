@@ -27,60 +27,37 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <math.h>
-#include <string.h>
-#include <stdlib.h>
 #include <Windows.h>
 #include <Xinput.h>
-
-#include "doomdef.h"
+#include "am_map.h"
+#include "d_main.h"
 #include "doomstat.h"
-
-#include "z_zone.h"
+#include "dstrings.h"
 #include "f_finale.h"
-#include "m_argv.h"
-#include "m_misc.h"
-#include "m_menu.h"
-#include "m_random.h"
+#include "g_game.h"
+#include "hu_stuff.h"
+#include "i_gamepad.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "i_video.h"
-
-#include "p_setup.h"
-#include "p_saveg.h"
-#include "p_tick.h"
-
-#include "d_main.h"
-
-#include "wi_stuff.h"
-#include "hu_stuff.h"
-#include "st_stuff.h"
-#include "am_map.h"
-
-// Needs access to LFB.
-#include "v_video.h"
-
-#include "w_wad.h"
-
+#include "m_argv.h"
+#include "m_menu.h"
+#include "m_misc.h"
+#include "m_random.h"
 #include "p_local.h"
-
-#include "s_sound.h"
-
-// Data.
-#include "dstrings.h"
-#include "sounds.h"
-
-// SKY handling.
-#include "r_data.h"
+#include "p_saveg.h"
+#include "p_setup.h"
+#include "p_tick.h"
 #include "r_sky.h"
-
-
-
-#include "g_game.h"
-
+#include "s_sound.h"
 #include "SDL.h"
-#include "i_gamepad.h"
+#include "st_stuff.h"
+#include "v_video.h"
+#include "w_wad.h"
+#include "wi_stuff.h"
+#include "z_zone.h"
 
-#define SAVEGAMESIZE            0x2c0000
+#define SAVEGAMESIZE 0x2c0000
 
 void G_ReadDemoTiccmd(ticcmd_t *cmd);
 void G_WriteDemoTiccmd(ticcmd_t *cmd);
@@ -154,7 +131,6 @@ byte            consistancy[MAXPLAYERS][BACKUPTICS];
 
 boolean         flipsky;
 
-
 //
 // controls (have defaults)
 //
@@ -184,7 +160,6 @@ int             key_nextweapon = 0;
 
 int             key_pause = KEY_PAUSE;
 int             key_demo_quit = 'q';
-int             key_spy = KEY_F12;
 
 int             mousebfire = 0;
 int             mousewheelup = 3;
@@ -207,10 +182,9 @@ int             gamepadweapon7    = 0;
 int             gamepadlefthanded = 0;
 int             gamepadvibrate    = 1;
 
-
 #define MAXPLMOVE       forwardmove[1]
 
-#define TURBOTHRESHOLD   0x32
+#define TURBOTHRESHOLD  0x32
 
 fixed_t         forwardmove[2] = { 0x19, 0x32 };
 fixed_t         sidemove[2] = { 0x18, 0x28 };
@@ -261,11 +235,6 @@ static int      dclicks2;
 static int      savegameslot;
 static char     savedescription[32];
 
-#define BODYQUESIZE     32
-
-mobj_t          *bodyque[BODYQUESIZE];
-int             bodyqueslot;
-
 int G_CmdChecksum(ticcmd_t *cmd)
 {
     size_t      i;
@@ -302,9 +271,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     int         side;
 
     memset(cmd, 0, sizeof(ticcmd_t));
-
-    cmd->consistancy =
-        consistancy[consoleplayer][maketic % BACKUPTICS];
+    cmd->consistancy = consistancy[consoleplayer][maketic % BACKUPTICS];
 
     if (automapactive && !followplayer)
         return;
@@ -326,13 +293,10 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     if (strafe)
     {
         if (gamekeydown[key_right])
-        {
             side += sidemove[speed];
-        }
+
         if (gamekeydown[key_left])
-        {
             side -= sidemove[speed];
-        }
     }
     else
     {
@@ -345,6 +309,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
             cmd->angleturn -= angleturn[tspeed];
         else if (gamepadthumbRX > 0)
             cmd->angleturn -= (int)(angleturn[speed] * gamepadthumbRXright * gamepadSensitivity);
+
         if (gamekeydown[key_left])
             cmd->angleturn += angleturn[tspeed];
         else if (gamepadthumbRX < 0)
@@ -352,50 +317,32 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     }
 
     if (gamekeydown[key_up] || gamekeydown[key_up2])
-    {
         forward += forwardmove[speed];
-    }
     else if (gamepadthumbLY < 0)
-    {
         forward += (int)(forwardmove[speed] * gamepadthumbLYup);
-    }
 
     if (gamekeydown[key_down] || gamekeydown[key_down2])
-    {
         forward -= forwardmove[speed];
-    }
     else if (gamepadthumbLY > 0)
-    {
         forward -= (int)(forwardmove[speed] * gamepadthumbLYdown);
-    }
 
     if (gamekeydown[key_straferight])
-    {
         side += sidemove[speed];
-    }
     else if (gamepadthumbLX > 0)
-    {
         side += (int)(sidemove[speed] * gamepadthumbLXright);
-    }
 
     if (gamekeydown[key_strafeleft])
-    {
         side -= sidemove[speed];
-    }
     else if (gamepadthumbLX < 0)
-    {
         side -= (int)(sidemove[speed] * gamepadthumbLXleft);
-    }
 
     // buttons
     cmd->chatchar = HU_dequeueChatChar();
 
-    if (gamekeydown[key_fire] || mousebuttons[mousebfire]
-        || (gamepadbuttons & gamepadfire))
+    if (gamekeydown[key_fire] || mousebuttons[mousebfire] || (gamepadbuttons & gamepadfire))
         cmd->buttons |= BT_ATTACK;
 
-    if (gamekeydown[key_use]
-        || (gamepadbuttons & gamepaduse))
+    if (gamekeydown[key_use] || (gamepadbuttons & gamepaduse))
         cmd->buttons |= BT_USE;
 
     if (!idclev && !idmus)
@@ -403,7 +350,6 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         for (i = 0; i < NUMWEAPONS - 1; i++)
         {
             int key = *weapon_keys[i];
-            int gamepadcontrol = *gamepadweapons[i];
 
             if (gamekeydown[key] && !keydown)
             {
@@ -412,7 +358,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
                 cmd->buttons |= i << BT_WEAPONSHIFT;
                 break;
             }
-            else if (gamepadbuttons & gamepadcontrol)
+            else if (gamepadbuttons & *gamepadweapons[i])
             {
                 cmd->buttons |= BT_CHANGE;
                 cmd->buttons |= i << BT_WEAPONSHIFT;
@@ -432,6 +378,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         forward = MAXPLMOVE;
     else if (forward < -MAXPLMOVE)
         forward = -MAXPLMOVE;
+
     if (side > MAXPLMOVE)
         side = MAXPLMOVE;
     else if (side < -MAXPLMOVE)
@@ -454,13 +401,9 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     }
 }
 
-
 //
 // G_DoLoadLevel
 //
-
-
-void AM_Start(void);
 
 void G_DoLoadLevel(void)
 {
@@ -527,7 +470,6 @@ void G_DoLoadLevel(void)
     gameaction = ga_nothing;
 
     // clear cmd building stuff
-
     memset(gamekeydown, 0, sizeof(gamekeydown));
     mousex = 0;
     sendpause = sendsave = paused = false;
@@ -559,10 +501,10 @@ static void SetMouseButtons(unsigned int buttons_mask)
 
 struct
 {
-    weapontype_t prev;
-    weapontype_t next;
-    ammotype_t   ammotype;
-    int          minammo;
+    weapontype_t        prev;
+    weapontype_t        next;
+    ammotype_t          ammotype;
+    int                 minammo;
 } weapons[] = {
     { wp_bfg,          /* wp_fist         */ wp_chainsaw,     am_noammo, 0  },
     { wp_chainsaw,     /* wp_pistol       */ wp_shotgun,      am_clip,   1  },
@@ -577,7 +519,7 @@ struct
 
 void G_RemoveChoppers(void)
 {
-    player_t *player = &players[consoleplayer];
+    player_t            *player = &players[consoleplayer];
 
     player->cheats &= ~CF_CHOPPERS;
     if (player->invulnbeforechoppers)
@@ -590,8 +532,8 @@ void G_RemoveChoppers(void)
 
 void NextWeapon(void)
 {
-    player_t *player = &players[consoleplayer];
-    weapontype_t i = player->readyweapon;
+    player_t            *player = &players[consoleplayer];
+    weapontype_t        i = player->readyweapon;
 
     do
     {
@@ -610,8 +552,8 @@ void NextWeapon(void)
 
 void PrevWeapon(void)
 {
-    player_t *player = &players[consoleplayer];
-    weapontype_t i = player->readyweapon;
+    player_t            *player = &players[consoleplayer];
+    weapontype_t        i = player->readyweapon;
 
     do
     {
@@ -634,23 +576,8 @@ void PrevWeapon(void)
 //
 boolean G_Responder(event_t *ev)
 {
-    // allow spy mode changes even during the demo
-    if (gamestate == GS_LEVEL && ev->type == ev_keydown
-        && ev->data1 == key_spy && (singledemo || !deathmatch))
-    {
-        // spy mode
-        do
-        {
-            displayplayer++;
-            if (displayplayer == MAXPLAYERS)
-                displayplayer = 0;
-        } while (!playeringame[displayplayer] && displayplayer != consoleplayer);
-        return true;
-    }
-
     // any other key pops up menu if in demos
-    if (gameaction == ga_nothing && !singledemo
-        && (demoplayback || gamestate == GS_DEMOSCREEN))
+    if (gameaction == ga_nothing && !singledemo && (demoplayback || gamestate == GS_DEMOSCREEN))
     {
         if (ev->type == ev_keydown && ev->data1 == key_pause && !keydown)
         {
@@ -723,13 +650,9 @@ boolean G_Responder(event_t *ev)
     }
 
     if (ev->type == ev_keydown && ev->data1 == key_prevweapon)
-    {
         PrevWeapon();
-    }
     else if (ev->type == ev_keydown && ev->data1 == key_nextweapon)
-    {
         NextWeapon();
-    }
 
     switch (ev->type)
     {
@@ -764,7 +687,7 @@ boolean G_Responder(event_t *ev)
                     PrevWeapon();
             }
             if (!automapactive || (automapactive && followplayer))
-                mousex = ev->data2 * (mouseSensitivity + 4) / 10 /2;
+                mousex = ev->data2 * (mouseSensitivity + 4) / 10 / 2;
             return true;            // eat events
 
         case ev_gamepad:
@@ -787,13 +710,12 @@ boolean G_Responder(event_t *ev)
     return false;
 }
 
-
-
 char    savename[256];
 
 static byte saveg_read8(FILE *file)
 {
-    byte result;
+    byte        result;
+
     if (fread(&result, 1, 1, file) < 1)
         return 0;
     return result;
@@ -934,21 +856,20 @@ void G_Ticker(void)
             // for each player so messages are not displayed at the
             // same time.
 
-            if (cmd->forwardmove > TURBOTHRESHOLD)
+            if (netgame || demoplayback)
             {
-                turbodetected[i] = true;
-            }
+                if (cmd->forwardmove > TURBOTHRESHOLD)
+                    turbodetected[i] = true;
 
-            if ((gametic & 31) == 0
-                && ((gametic >> 5) % MAXPLAYERS) == i
-                && turbodetected[i])
-            {
-                static char turbomessage[80];
-                extern char *player_names[4];
+                if (!(gametic & 31) && ((gametic >> 5) % MAXPLAYERS) == i && turbodetected[i])
+                {
+                    static char turbomessage[80];
+                    extern char *player_names[4];
 
-                sprintf(turbomessage, "%s is turbo!", player_names[i]);
-                players[consoleplayer].message = turbomessage;
-                turbodetected[i] = false;
+                    sprintf(turbomessage, "%s is turbo!", player_names[i]);
+                    players[consoleplayer].message = turbomessage;
+                    turbodetected[i] = false;
+                }
             }
 
             if (netgame && !netdemo && !(gametic % ticdup))
@@ -992,8 +913,7 @@ void G_Ticker(void)
                     case BTS_SAVEGAME:
                         if (!savedescription[0])
                             strcpy(savedescription, "NET GAME");
-                        savegameslot =
-                            (players[i].cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
+                        savegameslot = (players[i].cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
                         gameaction = ga_savegame;
                         break;
                 }
@@ -1002,11 +922,8 @@ void G_Ticker(void)
     }
 
     // Have we just finished displaying an intermission screen?
-
     if (oldgamestate == GS_INTERMISSION && gamestate != GS_INTERMISSION)
-    {
         WI_End();
-    }
 
     oldgamestate = gamestate;
 
@@ -1034,13 +951,10 @@ void G_Ticker(void)
     }
 }
 
-
 //
 // PLAYER STRUCTURE FUNCTIONS
 // also see P_SpawnPlayer in P_Things
 //
-
-
 
 //
 // G_PlayerFinishLevel
@@ -1048,9 +962,7 @@ void G_Ticker(void)
 //
 void G_PlayerFinishLevel(int player)
 {
-    player_t    *p;
-
-    p = &players[player];
+    player_t    *p = &players[player];
 
     memset(p->powers, 0, sizeof(p->powers));
     memset(p->cards, 0, sizeof(p->cards));
@@ -1060,7 +972,6 @@ void G_PlayerFinishLevel(int player)
     p->damagecount = 0;                 // no palette changes
     p->bonuscount = 0;
 }
-
 
 //
 // G_PlayerReborn
@@ -1146,12 +1057,6 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
     if (!i)
         return false;
 
-    // flush an old corpse if needed
-    if (bodyqueslot >= BODYQUESIZE)
-        P_RemoveMobj(bodyque[bodyqueslot % BODYQUESIZE]);
-    bodyque[bodyqueslot%BODYQUESIZE] = players[playernum].mo;
-    bodyqueslot++;
-
     // spawn a teleport fog
     ss = R_PointInSubsector(x, y);
     an = (ANG45 * ((signed)mthing->angle / 45)) >> ANGLETOFINESHIFT;
@@ -1186,9 +1091,7 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
             I_Error("G_CheckSpot: unexpected angle %d\n", an);
     }
 
-    mo = P_SpawnMobj(x + 20 * xa, y + 20 * ya,
-                     ss->sector->floorheight,
-                     MT_TFOG);
+    mo = P_SpawnMobj(x + 20 * xa, y + 20 * ya, ss->sector->floorheight, MT_TFOG);
     mo->angle = mthing->angle;
 
     if (players[consoleplayer].viewz != 1)
@@ -1196,7 +1099,6 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
 
     return true;
 }
-
 
 //
 // G_DeathMatchSpawnPlayer
@@ -1232,18 +1134,12 @@ void G_DeathMatchSpawnPlayer(int playernum)
 //
 void G_DoReborn(int playernum)
 {
-    int         i;
-
     if (!netgame)
-    {
-        if (quickSaveSlot < 0)
-            gameaction = ga_loadlevel;
-        else
-            gameaction = ga_reloadgame;
-    }
+        gameaction = (quickSaveSlot < 0 ? ga_loadlevel : ga_reloadgame);
     else
     {
         // respawn at the start
+        int     i;
 
         // first dissasociate the corpse
         players[playernum].mo->player = NULL;
@@ -1277,13 +1173,10 @@ void G_DoReborn(int playernum)
     }
 }
 
-
 void G_ScreenShot(void)
 {
     gameaction = ga_screenshot;
 }
-
-
 
 // DOOM Par Times
 int pars[5][10] =
@@ -1311,7 +1204,6 @@ int npars[9] =
     75, 105, 120, 105, 210, 105, 165, 105, 135
 };
 
-
 //
 // G_DoCompleted
 //
@@ -1328,8 +1220,7 @@ void G_ExitLevel(void)
 void G_SecretExitLevel(void)
 {
     // IF NO WOLF3D LEVELS, NO SECRET EXIT!
-    if (gamemode == commercial
-        && W_CheckNumForName("map31") < 0)
+    if (gamemode == commercial && W_CheckNumForName("map31") < 0)
         secretexit = false;
     else
         secretexit = true;
@@ -1553,8 +1444,6 @@ void G_DoWorldDone(void)
     markpointnum = 0;   // [BH]
 }
 
-
-
 //
 // G_InitFromSavegame
 // Can be called by the startup code or the menu task.
@@ -1578,9 +1467,7 @@ void G_DoLoadGame(void)
     save_stream = fopen(savename, "rb");
 
     if (save_stream == NULL)
-    {
         return;
-    }
 
     savegame_error = false;
 
@@ -1621,7 +1508,6 @@ void G_DoLoadGame(void)
     R_FillBackScreen();
 }
 
-
 //
 // G_SaveGame
 // Called by the menu task.
@@ -1651,9 +1537,7 @@ void G_DoSaveGame(void)
     save_stream = fopen(temp_savegame_file, "wb");
 
     if (save_stream == NULL)
-    {
         return;
-    }
 
     savegame_error = false;
 
@@ -1665,7 +1549,6 @@ void G_DoSaveGame(void)
     P_ArchiveSpecials();
 
     P_WriteSaveGameEOF();
-
 
     if (ftell(save_stream) > SAVEGAMESIZE)
         I_Error("Savegame buffer overrun");
@@ -1692,7 +1575,6 @@ void G_DoSaveGame(void)
     R_FillBackScreen();
 }
 
-
 //
 // G_InitNew
 // Can be called by the startup code or the menu task,
@@ -1711,7 +1593,6 @@ void G_DeferredInitNew(skill_t skill, int episode, int map)
     markpointnum = 0;
     startingnewgame = true;
 }
-
 
 //
 // G_DeferredLoadLevel
@@ -1738,7 +1619,6 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
         }
 }
 
-
 void G_DoNewGame(void)
 {
     demoplayback = false;
@@ -1761,7 +1641,6 @@ void G_DoNewGame(void)
     gameaction = ga_nothing;
     markpointnum = 0;   // [BH]
 }
-
 
 // [BH] Fix demon speed bug. See doomwiki.org/wiki/Demon_speed_bug.
 void G_SetFastParms(int fast_pending)
@@ -1791,7 +1670,6 @@ void G_SetFastParms(int fast_pending)
     }
 }
 
-
 void G_InitNew(skill_t skill, int episode, int map)
 {
     int         i;
@@ -1802,14 +1680,9 @@ void G_InitNew(skill_t skill, int episode, int map)
         S_ResumeSound();
     }
 
-
     if (skill > sk_nightmare)
         skill = sk_nightmare;
 
-
-    // This was quite messy with SPECIAL and commented parts.
-    // Supposedly hacks to make the latest edition work.
-    // It might not work properly.
     if (episode < 1)
         episode = 1;
 
@@ -1829,8 +1702,6 @@ void G_InitNew(skill_t skill, int episode, int map)
             episode = 3;
     }
 
-
-
     if (map < 1)
         map = 1;
 
@@ -1847,7 +1718,6 @@ void G_InitNew(skill_t skill, int episode, int map)
 
     // [BH] Fix demon speed bug. See doomwiki.org/wiki/Demon_speed_bug.
     G_SetFastParms(fastparm || skill == sk_nightmare);
-
 
     // force players to be initialized upon first level load
     for (i = 0; i < MAXPLAYERS ; i++)
@@ -1896,16 +1766,13 @@ void G_InitNew(skill_t skill, int episode, int map)
 
     //skytexture = R_TextureNumForName(skytexturename);
 
-
     G_DoLoadLevel();
 }
-
 
 //
 // DEMO RECORDING
 //
 #define DEMOMARKER              0x80
-
 
 void G_ReadDemoTiccmd(ticcmd_t *cmd)
 {
@@ -2002,8 +1869,6 @@ void G_WriteDemoTiccmd(ticcmd_t *cmd)
     G_ReadDemoTiccmd(cmd);                      // make SURE it is exactly the same
 }
 
-
-
 //
 // G_RecordDemo
 //
@@ -2033,7 +1898,6 @@ void G_RecordDemo(char *name)
 
     demorecording = true;
 }
-
 
 void G_BeginRecording(void)
 {
@@ -2076,7 +1940,6 @@ void G_BeginRecording(void)
     for (i = 0; i < MAXPLAYERS ; i++)
         *demo_p++ = playeringame[i];
 }
-
 
 //
 // G_PlayDemo
@@ -2201,7 +2064,6 @@ void G_TimeDemo(char *name)
     defdemoname = name;
     gameaction = ga_playdemo;
 }
-
 
 /*
 ===================

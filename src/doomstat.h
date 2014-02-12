@@ -271,11 +271,6 @@ extern gamestate_t      wipegamestate;
 
 extern int              mouseSensitivity;
 extern float            gamepadSensitivity;
-//?
-// debug flag to cancel adaptiveness
-//extern  boolean         singletics;
-
-extern int              bodyqueslot;
 
 
 
