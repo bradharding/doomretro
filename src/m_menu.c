@@ -1539,6 +1539,17 @@ void M_QuitDOOM(int choice)
     M_StartMessage(endstring, M_QuitResponse, true);
 }
 
+void M_SliderSound(void)
+{
+    static int wait = 0;
+
+    if (wait < I_GetTime())
+    {
+        wait = I_GetTime() + 7;
+        S_StartSound(NULL, sfx_stnmov);
+    }
+}
+
 void M_ChangeSensitivity(int choice)
 {
     switch (choice)
@@ -1548,7 +1559,7 @@ void M_ChangeSensitivity(int choice)
             {
                 mouseSensitivity--;
                 gamepadSensitivity = 1.25f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX;
-                S_StartSound(NULL, sfx_stnmov);
+                M_SliderSound();
                 M_SaveDefaults();
             }
             break;
@@ -1557,7 +1568,7 @@ void M_ChangeSensitivity(int choice)
             {
                 mouseSensitivity++;
                 gamepadSensitivity = 1.25f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX;
-                S_StartSound(NULL, sfx_stnmov);
+                M_SliderSound();
                 M_SaveDefaults();
             }
             break;
@@ -1572,7 +1583,7 @@ void M_SizeDisplay(int choice)
             if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 screenSize--;
-                S_StartSound(NULL, sfx_stnmov);
+                M_SliderSound();
                 ToggleWideScreen(false);
                 M_SaveDefaults();
             }
@@ -1580,7 +1591,7 @@ void M_SizeDisplay(int choice)
             {
                 screenblocks--;
                 screenSize--;
-                S_StartSound(NULL, sfx_stnmov);
+                M_SliderSound();
                 R_SetViewSize(screenblocks);
                 M_SaveDefaults();
             }
@@ -1600,14 +1611,14 @@ void M_SizeDisplay(int choice)
                     }
                 }
                 screenSize++;
-                S_StartSound(NULL, sfx_stnmov);
+                M_SliderSound();
                 M_SaveDefaults();
             }
             else if (screenSize < 8)
             {
                 screenblocks++;
                 screenSize++;
-                S_StartSound(NULL, sfx_stnmov);
+                M_SliderSound();
                 R_SetViewSize(screenblocks);
                 M_SaveDefaults();
             }
