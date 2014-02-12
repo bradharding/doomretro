@@ -1847,7 +1847,7 @@ boolean M_Responder(event_t *ev)
                     && !saveStringEnter)
                 {
                     key = KEY_LEFTARROW;
-                    gamepadwait = I_GetTime() + 8;
+                    gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 4);
                     usinggamepad = true;
                 }
 
@@ -1856,7 +1856,7 @@ boolean M_Responder(event_t *ev)
                     && !saveStringEnter)
                 {
                     key = KEY_RIGHTARROW;
-                    gamepadwait = I_GetTime() + 8;
+                    gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 4);
                     usinggamepad = true;
                 }
             }
