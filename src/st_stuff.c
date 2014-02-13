@@ -163,7 +163,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // ARMOR number pos.
 
 #define ST_ARMORWIDTH           3
-#define ST_ARMORX               221
+#define ST_ARMORX               220
 #define ST_ARMORY               172
 
 // Key icon positions.
