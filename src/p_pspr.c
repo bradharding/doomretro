@@ -28,6 +28,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "d_event.h"
 #include "m_random.h"
+#include "m_menu.h"
 #include "p_local.h"
 #include "s_sound.h"
 #include "doomstat.h"
@@ -38,7 +39,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define WEAPONBOTTOM 128 * FRACUNIT
 #define WEAPONTOP    32 * FRACUNIT
 
-#define BFGCELLS        40
+#define BFGCELLS     40
 
 boolean supershotgun;
 
@@ -333,6 +334,7 @@ void A_Raise(player_t *player, pspdef_t *psp)
         return;
 
     psp->sy = WEAPONTOP;
+    startingnewgame = false;
 
     // The weapon has been raised all the way,
     //  so change to the ready state.
@@ -372,7 +374,7 @@ void A_Punch(player_t *player, pspdef_t *psp)
     S_StartSound(player->mo, sfx_punch);
 
     // turn to face target
-    player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y, 
+    player->mo->angle = R_PointToAngle2(player->mo->x, player->mo->y,
                                         linetarget->x, linetarget->y);
 }
 

@@ -76,8 +76,6 @@ boolean        nomonsters;     // checkparm of -nomonsters
 boolean        respawnparm;    // checkparm of -respawn
 boolean        fastparm;       // checkparm of -fast
 
-extern boolean inhelpscreens;
-
 skill_t        startskill;
 int            startepisode;
 int            startmap;
@@ -186,10 +184,7 @@ void D_Display(void)
         menuactive = false;
     }
     else
-    {
         wipe = false;
-        startingnewgame = false;
-    }
 
     if (gamestate == GS_LEVEL && gametic)
         HU_Erase();
