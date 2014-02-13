@@ -37,6 +37,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 void G_PlayerReborn(int player);
 
+mobj_t          *bloodSplatQueue[BLOODSPLATQUEUESIZE];
+int             bloodSplatQueueSlot;
+
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
@@ -924,13 +927,25 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, in
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
 {
-    mobj_t *th;
+    mobj_t *newsplat;
 
     x += M_RandomInt(-5, 5) << FRACBITS;
     y += M_RandomInt(-5, 5) << FRACBITS;
-    th = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
-    th->flags2 |= flag;
-    P_SetMobjState(th, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
+
+    newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
+
+    newsplat->flags2 |= flag;
+    P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
+
+    if (bloodSplatQueueSlot > BLOODSPLATQUEUESIZE)
+    {
+        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
+
+        if (oldsplat)
+            P_RemoveMobj(oldsplat);
+    }
+
+    bloodSplatQueue[bloodSplatQueueSlot++ % BLOODSPLATQUEUESIZE] = newsplat;
 }
 
 //

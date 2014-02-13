@@ -103,7 +103,12 @@ extern int              itemrespawntime[ITEMQUEUESIZE];
 extern int              iqueuehead;
 extern int              iqueuetail;
 
-extern boolean          cards[NUMCARDS];
+#define BLOODSPLATQUEUESIZE       1024
+
+extern mobj_t           *bloodSplatQueue[BLOODSPLATQUEUESIZE];
+extern int              bloodSplatQueueSlot;
+ 
+ extern boolean          cards[NUMCARDS];
 
 void P_RespawnSpecials(void);
 
