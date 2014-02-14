@@ -35,6 +35,7 @@ char *D_FindIWAD(void);
 void D_SetSaveGameDir(void);
 void D_IdentifyVersion(void);
 void D_SetGameDescription(void);
+void IdentifyIWADByName(char *name);
 
 #endif
 

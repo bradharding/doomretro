@@ -243,7 +243,7 @@ boolean I_ChooseIWAD(void)
     ofn.lpstrFile = szFile;
     ofn.lpstrFile[0] = '\0';
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "WAD Files\0*.WAD\0";
+    ofn.lpstrFilter = "IWAD Files (*.wad)\0*.WAD\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;

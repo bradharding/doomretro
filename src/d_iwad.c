@@ -403,7 +403,7 @@ static char *SearchDirectoryForIWAD(char *dir)
 // When given an IWAD with the '-iwad' parameter,
 // attempt to identify it by its name.
 
-static void IdentifyIWADByName(char *name)
+void IdentifyIWADByName(char *name)
 {
     size_t i;
     char *p;

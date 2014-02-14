@@ -519,9 +519,11 @@ static void D_DoomMainSetup(void)
         I_ChooseIWAD();
 
     iwadfile = selectedfile;
-
+    
     if (iwadfile == NULL)
         exit(-1);
+
+    IdentifyIWADByName(iwadfile);
 
     modifiedgame = false;
 
