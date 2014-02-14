@@ -744,13 +744,13 @@ static void SetWindowPositionVars(void)
 
 static void SetVideoMode(void)
 {
+    SDL_VideoInfo *videoinfo = (SDL_VideoInfo *)SDL_GetVideoInfo();
+
+    desktopwidth = videoinfo->current_w;
+    desktopheight = videoinfo->current_h;
+
     if (fullscreen)
     {
-        SDL_VideoInfo *videoinfo = (SDL_VideoInfo *)SDL_GetVideoInfo();
-
-        desktopwidth = videoinfo->current_w;
-        desktopheight = videoinfo->current_h;
-
         width = screenwidth;
         height = screenheight;
         if (!width || !height)
@@ -897,7 +897,7 @@ void ToggleFullScreen(void)
     }
     else
     {
-        event_t event;
+        event_t ev;
 
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         putenv(envstring);
@@ -930,10 +930,10 @@ void ToggleFullScreen(void)
 
         SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-        event.type = ev_keyup;
-        event.data1 = KEY_RALT;
-        event.data2 = event.data3 = 0;
-        D_PostEvent(&event);
+        ev.type = ev_keyup;
+        ev.data1 = KEY_RALT;
+        ev.data2 = ev.data3 = 0;
+        D_PostEvent(&ev);
     }
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
