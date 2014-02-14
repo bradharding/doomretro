@@ -60,6 +60,7 @@ void I_Quit(void);
 
 void I_Error(char *error, ...);
 
+boolean I_ChooseIWAD(void);
 
 extern boolean widescreen;
 extern boolean returntowidescreen;

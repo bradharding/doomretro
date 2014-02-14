@@ -493,6 +493,8 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
+char selectedfile[260] = "";
+
 //
 // D_DoomMainSetup
 //
@@ -514,8 +516,12 @@ static void D_DoomMainSetup(void)
     // None found?
 
     if (iwadfile == NULL)
-        I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
-                "specifying one with the \"-iwad\" command-line parameter.\n");
+        I_ChooseIWAD();
+
+    iwadfile = selectedfile;
+
+    if (iwadfile == NULL)
+        exit(-1);
 
     modifiedgame = false;
 
