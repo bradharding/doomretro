@@ -626,13 +626,13 @@ static void UpdateGrab(void)
 static __inline void blit(void)
 {
     fixed_t i = 0;
-    fixed_t y = stepy;
+    fixed_t y = stepy - 1;
 
     do
     {
-        byte *dest = pixels + i;
-        byte *src = *screens + (y >> FRACBITS) * SCREENWIDTH;
-        fixed_t x = stepx;
+        byte    *dest = pixels + i;
+        byte    *src = *screens + (y >> FRACBITS) * SCREENWIDTH;
+        fixed_t x = stepx - 1;
 
         do
             *dest++ = *(src + (x >> FRACBITS));
