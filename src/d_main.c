@@ -516,14 +516,15 @@ static void D_DoomMainSetup(void)
     // None found?
 
     if (iwadfile == NULL)
-        I_ChooseIWAD();
-
-    iwadfile = selectedfile;
-    
-    if (iwadfile == NULL)
-        exit(-1);
-
-    IdentifyIWADByName(iwadfile);
+    {
+        if (I_ChooseIWAD())
+        {
+            iwadfile = selectedfile;
+            IdentifyIWADByName(iwadfile);
+        }
+        else
+            exit(-1);
+    }
 
     modifiedgame = false;
 
