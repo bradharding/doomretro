@@ -40,6 +40,7 @@ mobj_t     *tmthing;
 int        tmflags;
 fixed_t    tmx;
 fixed_t    tmy;
+fixed_t    tmz;
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
@@ -93,6 +94,11 @@ boolean PIT_StompThing(mobj_t *thing)
     if (!tmthing->player && gamemap != 30)
         return false;
 
+    if (tmz > thing->z + thing->height)
+        return true;        // overhead
+    if (tmz + tmthing->height < thing->z)
+        return true;        // underneath
+
     P_DamageMobj(thing, tmthing, tmthing, 10000);
 
     return true;
@@ -118,6 +124,7 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z)
 
     tmx = x;
     tmy = y;
+    tmz = z;
 
     tmbbox[BOXTOP] = y + tmthing->radius;
     tmbbox[BOXBOTTOM] = y - tmthing->radius;
