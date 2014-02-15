@@ -1583,7 +1583,7 @@ void M_SizeDisplay(int choice)
             if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 screenSize--;
-                M_SliderSound();
+                S_StartSound(NULL, sfx_stnmov);
                 ToggleWideScreen(false);
                 M_SaveDefaults();
             }
@@ -1591,7 +1591,7 @@ void M_SizeDisplay(int choice)
             {
                 screenblocks--;
                 screenSize--;
-                M_SliderSound();
+                S_StartSound(NULL, sfx_stnmov);
                 R_SetViewSize(screenblocks);
                 M_SaveDefaults();
             }
@@ -1611,14 +1611,14 @@ void M_SizeDisplay(int choice)
                     }
                 }
                 screenSize++;
-                M_SliderSound();
+                S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
             else if (screenSize < 8)
             {
                 screenblocks++;
                 screenSize++;
-                M_SliderSound();
+                S_StartSound(NULL, sfx_stnmov);
                 R_SetViewSize(screenblocks);
                 M_SaveDefaults();
             }

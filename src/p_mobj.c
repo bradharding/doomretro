@@ -935,7 +935,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
     newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
 
     newsplat->flags2 |= flag;
-    P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + M_RandomInt(0, 7)));
+    P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + rand() % 8));
 
     if (bloodSplatQueueSlot > BLOODSPLATQUEUESIZE)
     {

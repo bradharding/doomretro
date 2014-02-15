@@ -33,7 +33,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 // killough 1/6/98: replaced globals with statics where appropriate
 
-
 static boolean segtextured;     // True if any of the segs textures might be visible.
 static boolean markfloor;       // False if the back side is the same plane.
 static boolean markceiling;

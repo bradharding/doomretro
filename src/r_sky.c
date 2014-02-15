@@ -26,19 +26,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-// Needed for FRACUNIT.
 #include "m_fixed.h"
-
 #include "r_sky.h"
 
 //
 // sky mapping
 //
-int                     skyflatnum;
-int                     skytexture;
-int                     skytexturemid;
-
-
+int skyflatnum;
+int skytexture;
+int skytexturemid;
 
 //
 // R_InitSkyMap

@@ -67,11 +67,10 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 
     for (i = 0; i < 256; ++i)
     {
-        byte *color = palette + i * 3;
-        long rmean = ((long)red + (long)color[0]) >> 1;
-        long r = (long)red - (long)color[0];
-        long g = (long)green - (long)color[1];
-        long b = (long)blue - (long)color[2];
+        long rmean = ((long)red + *palette) >> 1;
+        long r = (long)red - *palette++;
+        long g = (long)green - *palette++;
+        long b = (long)blue - *palette++;
         double difference = sqrt((double)((((512 + rmean) * r * r) >> 8) +
                             4 * g * g + (((767 - rmean) * b * b) >> 8)));
 

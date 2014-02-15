@@ -27,28 +27,19 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <Shlobj.h>
-
-#include "SDL.h"
-
-#include "i_system.h"
-#include "r_local.h"
-
-#include "doomdef.h"
-#include "doomdata.h"
-
-#include "m_bbox.h"
-#include "i_swap.h"
-#include "i_video.h"
-#include "m_misc.h"
-#include "v_video.h"
-#include "w_wad.h"
-#include "z_zone.h"
+#include "doomstat.h"
 #include "d_main.h"
+#include "i_swap.h"
+#include "m_misc.h"
+#include "m_random.h"
+#include "SDL.h"
+#include "v_video.h"
+#include "z_zone.h"
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
-byte                    *screens[5];
+byte            *screens[5];
 
-byte                    gammatable[GAMMALEVELS][256];
+byte            gammatable[GAMMALEVELS][256];
 
 double gammalevel[GAMMALEVELS] =
 {
@@ -56,29 +47,17 @@ double gammalevel[GAMMALEVELS] =
 };
 
 // Gamma correction level to use
-int                     usegamma = USEGAMMA_DEFAULT;
+int             usegamma = USEGAMMA_DEFAULT;
 
 //
 // V_SetRes
 //
 static void V_SetRes(void)
 {
-    if (SCALEDWIDTH < 320 || SCALEDHEIGHT < 200)
-    {
-        SCALEDWIDTH = SCREENWIDTH;
-        SCALEDHEIGHT = SCREENHEIGHT;
-        X_OFFSET = Y_OFFSET = 0;
-    }
-    else
-    {
-        X_OFFSET = (SCREENWIDTH - SCALEDWIDTH) / (2 * (SCALEDWIDTH / ORIGINALWIDTH));
-        Y_OFFSET = (SCREENHEIGHT - SCALEDHEIGHT) / (2 * (SCALEDHEIGHT / ORIGINALHEIGHT));
-    }
-
-    DX  = (SCALEDWIDTH << 16) / ORIGINALWIDTH;
-    DXI = (ORIGINALWIDTH << 16) / SCALEDWIDTH;
-    DY  = (SCALEDHEIGHT << 16) / ORIGINALHEIGHT;
-    DYI = (ORIGINALHEIGHT << 16) / SCALEDHEIGHT;
+    DX  = (SCREENWIDTH << 16) / ORIGINALWIDTH;
+    DXI = (ORIGINALWIDTH << 16) / SCREENWIDTH;
+    DY  = (SCREENHEIGHT << 16) / ORIGINALHEIGHT;
+    DYI = (ORIGINALHEIGHT << 16) / SCREENHEIGHT;
 }
 
 //
@@ -100,7 +79,6 @@ void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height,
         dest += SCREENWIDTH;
     }
 }
-
 
 //
 // V_FillRect
@@ -135,9 +113,6 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    x += X_OFFSET;
-    y += Y_OFFSET;
-
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
 
@@ -167,7 +142,6 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-
 void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
 {
     int         count;
@@ -183,9 +157,6 @@ void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
-
-    x += X_OFFSET;
-    y += Y_OFFSET;
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
@@ -212,7 +183,7 @@ void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
                 dest += SCREENWIDTH;
                 shadow = dest + SCREENWIDTH + 2;
                 if (!flag || (*shadow != 47 && *shadow != 191))
-                *shadow = tinttab50[*shadow];
+                    *shadow = tinttab50[*shadow];
                 srccol += DYI;
             }
 
@@ -220,7 +191,6 @@ void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
         }
     }
 }
-
 
 void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
 {
@@ -237,9 +207,6 @@ void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
-
-    x += X_OFFSET;
-    y += Y_OFFSET;
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
@@ -298,9 +265,6 @@ void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch)
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    x += X_OFFSET;
-    y += Y_OFFSET;
-
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
 
@@ -331,9 +295,6 @@ void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-
-#include "m_random.h"
-
 extern int fuzztable[SCREENWIDTH * SCREENHEIGHT];
 
 const int _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
@@ -358,9 +319,6 @@ void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
-
-    x += X_OFFSET;
-    y += Y_OFFSET;
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
@@ -406,9 +364,6 @@ void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch)
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    x += X_OFFSET;
-    y += Y_OFFSET;
-
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
 
@@ -437,7 +392,8 @@ void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-byte nogreen[256] = {
+byte nogreen[256] = 
+{
     1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // 000-031
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // 032-063
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // 064-095
@@ -463,9 +419,6 @@ void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
-
-    x += X_OFFSET;
-    y += Y_OFFSET;
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
@@ -507,9 +460,6 @@ void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-
-
-
 void V_DrawPatchCentered(int y, int scrn, patch_t *patch)
 {
     V_DrawPatch((ORIGINALWIDTH - patch->width) / 2, y, scrn, patch);
@@ -530,9 +480,6 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
-
-    x += X_OFFSET;
-    y += Y_OFFSET;
 
     stretchx = (x * DX) >> 16;
     stretchy = (y * DY) >> 16;
@@ -585,8 +532,6 @@ void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src)
     }
 }
 
-
-
 //
 // V_GetBlock
 // Gets a linear block of pixels from the view buffer.
@@ -604,7 +549,6 @@ void V_GetBlock(int x, int y, int scrn, int width, int height, byte *dest)
         dest += width;
     }
 }
-
 
 void V_DrawPixel(int x, int y, int screen, int color, boolean shadow)
 {
@@ -635,7 +579,6 @@ void V_DrawPixel(int x, int y, int screen, int color, boolean shadow)
     }
 }
 
-
 //
 // V_Init
 //
@@ -647,23 +590,17 @@ void V_Init(void)
     base = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
 
     for (i = 0; i < 4; i++)
-    {
         screens[i] = base + i * SCREENWIDTH * SCREENHEIGHT;
-    }
 
     V_SetRes();
 }
-
 
 extern char maptitle[128];
 
 extern boolean nerve;
 
-#include "doomstat.h"
-
 char lbmname[256];
 char lbmpath[256];
-
 
 boolean V_ScreenShot(void)
 {

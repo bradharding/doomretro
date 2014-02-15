@@ -248,8 +248,8 @@ boolean I_ChooseIWAD(void)
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
-    ofn.lpstrTitle = "Where's All the Data?\0";
+    ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+    ofn.lpstrTitle = "Where’s All the Data?\0";
 
     if (GetOpenFileName(&ofn))
     {

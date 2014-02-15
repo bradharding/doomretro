@@ -54,7 +54,7 @@ byte gammatable[GAMMALEVELS][256];
 extern int usegamma;
 extern double gammalevel[GAMMALEVELS];
 
-fixed_t DX, DY, DXI, DYI, SCALEDWIDTH, SCALEDHEIGHT, X_OFFSET, Y_OFFSET;
+fixed_t DX, DY, DXI, DYI;
 
 
 // Allocates buffer screens, call before R_Init.

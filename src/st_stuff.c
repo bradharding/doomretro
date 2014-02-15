@@ -26,49 +26,26 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdio.h>
-
-#include "i_system.h"
-#include "i_video.h"
-#include "z_zone.h"
-#include "m_random.h"
-#include "w_wad.h"
-
-#include "doomdef.h"
-
-#include "g_game.h"
-
-#include "st_stuff.h"
-#include "st_lib.h"
-#include "r_local.h"
-
-#include "p_local.h"
-#include "p_inter.h"
-
 #include "am_map.h"
-#include "m_cheat.h"
-
-#include "s_sound.h"
-
-// Needs access to LFB.
-#include "v_video.h"
-
-// State.
 #include "doomstat.h"
-
-// Data.
 #include "dstrings.h"
-#include "sounds.h"
-
+#include "g_game.h"
 #include "hu_stuff.h"
-#include "m_argv.h"
-
+#include "i_video.h"
 #include "m_menu.h"
+#include "m_random.h"
+#include "p_inter.h"
+#include "p_local.h"
+#include "s_sound.h"
+#include "st_lib.h"
+#include "st_stuff.h"
+#include "v_video.h"
+#include "w_wad.h"
+#include "z_zone.h"
 
 //
 // STATUS BAR DATA
 //
-
 
 // Palette indices.
 // For damage/bonus red-/gold-shifts
@@ -127,7 +104,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ST_RAMPAGEDELAY         (2 * TICRATE)
 
 #define ST_MUCHPAIN             20
-
 
 // Location and size of statistics,
 //  justified according to widget type.
@@ -266,7 +242,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ST_MAPTITLEY            0
 #define ST_MAPHEIGHT            1
 
-
 // main player in game
 static player_t                 *plyr;
 
@@ -345,7 +320,6 @@ static st_percent_t             w_health;
 // arms background
 static st_binicon_t             w_armsbg;
 
-
 // weapon ownership widgets
 static st_multicon_t            w_arms[6];
 
@@ -363,8 +337,6 @@ static st_number_t              w_ammo[4];
 
 // max ammo widgets
 static st_number_t              w_maxammo[4];
-
-
 
 // number of frags so far in deathmatch
 static int                      st_fragscount;
@@ -421,7 +393,6 @@ cheatseq_t cheat_clev = CHEAT("idclev", 0);
 cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
 cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
-
 
 #define NONE                    -1
 #define IDMUS_MAX               50
@@ -481,7 +452,6 @@ int mus[IDMUS_MAX][6] =
     /* 49 */ { NONE,        NONE,        NONE,        mus_e1m9,   NONE,        NONE       }
 };
 
-
 //
 // STATUS BAR CODE
 //
@@ -503,7 +473,6 @@ void ST_refreshBackground(void)
     }
 }
 
-
 extern char cheatkey;
 extern int selectedepisode;
 extern menu_t EpiDef;
@@ -519,8 +488,7 @@ boolean ST_Responder(event_t *ev)
     mobj_t              *thing;
 
     // Filter automap on/off.
-    if (ev->type == ev_keyup
-        && (ev->data1 & 0xffff0000) == AM_MSGHEADER)
+    if (ev->type == ev_keyup && (ev->data1 & 0xffff0000) == AM_MSGHEADER)
     {
         switch (ev->data1)
         {
@@ -559,10 +527,8 @@ boolean ST_Responder(event_t *ev)
                     x = plyr->mo->x;
                     y = plyr->mo->y;
                     angle = plyr->mo->angle >> ANGLETOFINESHIFT;
-                    thing = P_SpawnMobj(x + 20 * finecosine[angle],
-                                        y + 20 * finesine[angle],
-                                        ONFLOORZ,
-                                        MT_TFOG);
+                    thing = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle],
+                                        ONFLOORZ, MT_TFOG);
                     thing->angle = plyr->mo->angle;
                     S_StartSound(thing, sfx_telept);
 
@@ -631,8 +597,7 @@ boolean ST_Responder(event_t *ev)
             }
 
             // 'fa' cheat for killer fucking arsenal
-            else if (cht_CheckCheat(&cheat_ammonokey, ev->data2)
-                     && gameskill != sk_nightmare
+            else if (cht_CheckCheat(&cheat_ammonokey, ev->data2) && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
                      && plyr->health)
             {
@@ -755,8 +720,7 @@ boolean ST_Responder(event_t *ev)
             }
 
             // 'kfa' cheat for key full ammo
-            else if (cht_CheckCheat(&cheat_ammo, ev->data2)
-                     && gameskill != sk_nightmare
+            else if (cht_CheckCheat(&cheat_ammo, ev->data2) && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
                      && plyr->health)
             {
@@ -866,8 +830,7 @@ boolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] show evil grin if player was given any new weapons
-                if (weaponsgiven
-                    && !(plyr->cheats & CF_GODMODE)
+                if (weaponsgiven && !(plyr->cheats & CF_GODMODE)
                     && !plyr->powers[pw_invulnerability])
                 {
                     st_facecount = ST_EVILGRINCOUNT;
@@ -954,8 +917,7 @@ boolean ST_Responder(event_t *ev)
             }
 
             // no clipping mode cheat
-            else if (((cht_CheckCheat(&cheat_noclip, ev->data2)
-                       && gamemode != commercial)
+            else if (((cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial)
                       || (cht_CheckCheat(&cheat_commercial_noclip, ev->data2)
                           && gamemode == commercial))
                      && gameskill != sk_nightmare
@@ -979,8 +941,7 @@ boolean ST_Responder(event_t *ev)
             // 'behold?' power-up cheats
             for (i = 0; i < 6; i++)
             {
-                if (cht_CheckCheat(&cheat_powerup[i], ev->data2)
-                    && gameskill != sk_nightmare
+                if (cht_CheckCheat(&cheat_powerup[i], ev->data2) && gameskill != sk_nightmare
                     // [BH] can only enter cheat while player is alive
                     && plyr->health)
                 {
@@ -1271,11 +1232,9 @@ boolean ST_Responder(event_t *ev)
 
 int ST_calcPainOffset(void)
 {
-    int        health;
-    static int lastcalc;
-    static int oldhealth = -1;
-
-    health = (plyr->health > 100 ? 100 : plyr->health);
+    int         health = (plyr->health > 100 ? 100 : plyr->health);
+    static int  lastcalc;
+    static int  oldhealth = -1;
 
     if (health != oldhealth)
     {
@@ -1342,9 +1301,7 @@ void ST_updateFaceWidget(void)
 
     if (priority < 8)
     {
-        if (plyr->damagecount
-            && plyr->attacker
-            && plyr->attacker != plyr->mo)
+        if (plyr->damagecount && plyr->attacker && plyr->attacker != plyr->mo)
         {
             // being attacked
             priority = 7;
@@ -1355,27 +1312,25 @@ void ST_updateFaceWidget(void)
             {
                 st_facecount = ST_TURNCOUNT;
                 st_faceindex = ST_calcPainOffset() + ST_OUCHOFFSET;
-                priority = 8; // [BH] keep ouch-face visible
+                priority = 8;   // [BH] keep ouch-face visible
             }
             else
             {
-                badguyangle = R_PointToAngle2(plyr->mo->x,
-                                  plyr->mo->y,
-                                  plyr->attacker->x,
-                                  plyr->attacker->y);
+                badguyangle = R_PointToAngle2(plyr->mo->x, plyr->mo->y,
+                                              plyr->attacker->x, plyr->attacker->y);
 
                 if (badguyangle > plyr->mo->angle)
                 {
                     // whether right or left
                     diffang = badguyangle - plyr->mo->angle;
-                    i = diffang > ANG180;
+                    i = (diffang > ANG180);
                 }
                 else
                 {
                     // whether left or right
                     diffang = plyr->mo->angle - badguyangle;
-                    i = diffang <= ANG180;
-                } // confusing, aint it?
+                    i = (diffang <= ANG180);
+                }       // confusing, aint it?
 
                 st_facecount = ST_TURNCOUNT;
                 st_faceindex = ST_calcPainOffset();
@@ -1425,8 +1380,7 @@ void ST_updateFaceWidget(void)
     {
         if (plyr->attackdown
             // [BH] no rampage face when invulnerable
-            && !(plyr->cheats & CF_GODMODE)
-            && !plyr->powers[pw_invulnerability])
+            && !(plyr->cheats & CF_GODMODE) && !plyr->powers[pw_invulnerability])
         {
             if (lastattackdown == -1)
                 lastattackdown = ST_RAMPAGEDELAY;
@@ -1582,8 +1536,7 @@ void ST_doPaletteStuff(void)
         palette += STARTBONUSPALS - 1;
     }
 
-    else if (plyr->powers[pw_ironfeet] > STARTFLASHING
-             || plyr->powers[pw_ironfeet] & 8)
+    else if (plyr->powers[pw_ironfeet] > STARTFLASHING || plyr->powers[pw_ironfeet] & 8)
         palette = RADIATIONPAL;
     else
         palette = 0;
@@ -1645,7 +1598,6 @@ void ST_doRefresh(void)
 
     // and refresh all widgets
     ST_drawWidgets(true);
-
 }
 
 void ST_diffDraw(void)
@@ -1690,7 +1642,6 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     }
 
     // Load percent key.
-    //Note: why not load STMINUS here, too?
     callback("STTPRCNT", &tallpercent);
 
     // key cards

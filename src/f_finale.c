@@ -727,8 +727,7 @@ void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
 
     column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
-    desttop = screens[0] + x + (SCREENWIDTH - SCALEDWIDTH) / 2 +
-              SCREENWIDTH * ((SCREENHEIGHT - SCALEDHEIGHT) / 2);
+    desttop = screens[0] + x;
 
     // step through the posts in a column
     while (column->topdelta != 0xff)
@@ -760,8 +759,8 @@ void F_BunnyScroll(void)
     char                name[10];
     int                 stage;
     static int          laststage;
-    const fixed_t       yscale = (ORIGINALHEIGHT << FRACBITS) / SCALEDHEIGHT;
-    const fixed_t       xscale = (ORIGINALWIDTH << FRACBITS) / SCALEDWIDTH;
+    const fixed_t       yscale = (ORIGINALHEIGHT << FRACBITS) / SCREENHEIGHT;
+    const fixed_t       xscale = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
     fixed_t             frac = 0;
 
     p1 = (patch_t *)W_CacheLumpName("PFUB2", PU_LEVEL);

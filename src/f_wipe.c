@@ -35,17 +35,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // SCREEN WIPE PACKAGE
 //
 
-// when zero, stop the wipe
-static boolean go = false;
-
-static byte    *wipe_scr_start;
-static byte    *wipe_scr_end;
-static byte    *wipe_scr;
+static byte *wipe_scr_start;
+static byte *wipe_scr_end;
+static byte *wipe_scr;
 
 void wipe_shittyColMajorXform(short *array)
 {
-    int   x;
-    int   y;
+    int   x, y;
     short *dest = (short *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, 0);
 
     for (y = 0; y < SCREENHEIGHT; y++)
@@ -98,8 +94,9 @@ boolean wipe_doMelt(int tics)
             {
                 y[i]++;
                 done = false;
+                continue;
             }
-            else if (y[i] < SCREENHEIGHT)
+            if (y[i] < SCREENHEIGHT)
             {
                 int   j;
                 int   dy = (y[i] < 16 ? y[i] + 1 : speed);
@@ -157,6 +154,9 @@ boolean wipe_EndScreen(void)
 
 boolean wipe_ScreenWipe(int tics)
 {
+    // when zero, stop the wipe
+    static boolean go = false;
+
     // initial stuff
     if (!go)
     {
