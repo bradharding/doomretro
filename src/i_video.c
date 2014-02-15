@@ -106,11 +106,13 @@ int desktopheight;
 char *videodriver = "windib";
 char envstring[255];
 
-int width;
-int height;
-int stepx;
-int stepy;
-int pitch;
+static int width;
+static int height;
+static int stepx;
+static int stepy;
+static int startx;
+static int starty;
+static int pitch;
 
 byte *pixels;
 
@@ -126,7 +128,7 @@ boolean keys[UCHAR_MAX];
 // by mouse_acceleration to increase the speed.
 
 float mouse_acceleration = MOUSEACCELERATION_DEFAULT;
-int  mouse_threshold = MOUSETHRESHOLD_DEFAULT;
+int   mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
 static void ApplyWindowResize(int w, int h);
 static void SetWindowPositionVars(void);
@@ -163,10 +165,8 @@ boolean MouseShouldBeGrabbed()
 
 static void UpdateFocus(void)
 {
-    Uint8          state;
+    Uint8          state = SDL_GetAppState();
     static boolean alreadypaused = false;
-
-    state = SDL_GetAppState();
 
     // Should the screen be grabbed?
 
@@ -471,10 +471,7 @@ void I_GetEvent(void)
 
             case SDL_MOUSEBUTTONDOWN:
                 {
-                    int x = sdlevent.button.x;
-                    int y = sdlevent.button.y;
-
-                    if (window_focused && x > 0 && x < screen->w - 1 && y > 0 && y < screen->h - 1)
+                    if (window_focused)
                     {
                         idclev = false;
                         idmus = false;
@@ -490,10 +487,7 @@ void I_GetEvent(void)
 
             case SDL_MOUSEBUTTONUP:
                 {
-                    int x = sdlevent.button.x;
-                    int y = sdlevent.button.y;
-
-                    if (window_focused && x > 0 && x < screen->w - 1 && y > 0 && y < screen->h - 1)
+                    if (window_focused)
                     {
                         keydown = 0;
                         UpdateMouseButtonState(sdlevent.button.button, false);
@@ -626,13 +620,13 @@ static void UpdateGrab(void)
 static __inline void blit(void)
 {
     fixed_t i = 0;
-    fixed_t y = stepy - 1;
+    fixed_t y = starty;
 
     do
     {
         byte    *dest = pixels + i;
         byte    *src = *screens + (y >> FRACBITS) * SCREENWIDTH;
-        fixed_t x = stepx - 1;
+        fixed_t x = startx;
 
         do
             *dest++ = *(src + (x >> FRACBITS));
@@ -763,32 +757,32 @@ static void SetVideoMode(void)
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
         height = screen->h;
-        height += (height & 1);
         width = height * 4 / 3;
         width += (width & 1);
 
         if (width > screen->w)
         {
             width = screen->w;
-            width += (width & 1);
             height = width * 3 / 4;
             height += (height & 1);
         }
     }
     else
     {
-        if (windowwidth < ORIGINALWIDTH)
-            windowwidth = ORIGINALWIDTH;
+        height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
+        width = height * 4 / 3;
+        width += (width & 1);
 
-        if (windowheight < ORIGINALWIDTH * 3 / 4)
-            windowheight = ORIGINALWIDTH * 3 / 4;
+        if (width > windowwidth)
+        {
+            width = windowwidth;
+            height = width * 3 / 4;
+            height += (height & 1);
+        }
 
         SetWindowPositionVars();
         screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
-
-        width = windowwidth;
-        height = windowheight;
+                                  SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
         widescreen = false;
     }
@@ -799,6 +793,9 @@ static void SetVideoMode(void)
 
     stepx = (SCREENWIDTH << FRACBITS) / width;
     stepy = (SCREENHEIGHT << FRACBITS) / height;
+
+    startx = stepx - 1;
+    starty = stepy - 1;
 
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
@@ -814,7 +811,7 @@ void ToggleWideScreen(boolean toggle)
 
     if (toggle)
     {
-        if (dest_rect.x == 0 && dest_rect.y == 0)
+        if (!dest_rect.x && !dest_rect.y)
             return;
 
         widescreen = true;
@@ -827,7 +824,6 @@ void ToggleWideScreen(boolean toggle)
         widescreen = false;
 
         height = screen->h;
-        height += (height & 1);
         width = height * 4 / 3;
         width += (width & 1);
     }
@@ -839,6 +835,9 @@ void ToggleWideScreen(boolean toggle)
 
     stepx = (SCREENWIDTH << FRACBITS) / width;
     stepy = (SCREENHEIGHT << FRACBITS) / height;
+
+    startx = stepx - 1;
+    starty = stepy - 1;
 
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
@@ -883,14 +882,12 @@ void ToggleFullScreen(void)
         }
 
         height = screen->h;
-        height += (height & 1);
         width = height * 4 / 3;
         width += (width & 1);
 
         if (width > screen->w)
         {
             width = screen->w;
-            width += (width & 1);
             height = width * 3 / 4;
             height += (height & 1);
         }
@@ -905,8 +902,16 @@ void ToggleFullScreen(void)
 
         init_win32(gamemission == doom ? "doom" : "doom2");
 
-        width = windowwidth;
-        height = windowheight;
+        height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
+        width = height * 4 / 3;
+        width += (width & 1);
+
+        if (width > windowwidth)
+        {
+            width = windowwidth;
+            height = width * 3 / 4;
+            height += (height & 1);
+        }
 
         if (widescreen)
         {
@@ -943,6 +948,9 @@ void ToggleFullScreen(void)
     stepx = (SCREENWIDTH << FRACBITS) / width;
     stepy = (SCREENHEIGHT << FRACBITS) / height;
 
+    startx = stepx - 1;
+    starty = stepy - 1;
+
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
 
@@ -952,24 +960,16 @@ void ToggleFullScreen(void)
 
 void ApplyWindowResize(int w, int h)
 {
-    if (w < ORIGINALWIDTH)
-        w = ORIGINALWIDTH;
-
-    if (h < ORIGINALWIDTH * 3 / 4)
-        h = ORIGINALWIDTH * 3 / 4;
-
-    width = w;
-    height = h;
-
+    height = MAX(ORIGINALWIDTH * 3 / 4, h);
     width = height * 4 / 3;
+    width += (width & 1);
+
     if (width > w)
     {
         width = w;
         height = width * 3 / 4;
+        height += (height & 1);
     }
-
-    windowwidth = width;
-    windowheight = height;
 
     screen = SDL_SetVideoMode(width, height, 0,
                               SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
@@ -980,6 +980,9 @@ void ApplyWindowResize(int w, int h)
 
     stepx = (SCREENWIDTH << FRACBITS) / width;
     stepy = (SCREENHEIGHT << FRACBITS) / height;
+
+    startx = stepx - 1;
+    starty = stepy - 1;
 
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
@@ -998,16 +1001,14 @@ void I_InitGammaTables(void)
                 gammatable[i][j] = j;
         else
             for (j = 0; j < 256; j++)
-                gammatable[i][j] = (byte)(pow((j + 1) / 256.0,
-                    1.0 / gammalevel[i]) * 255.0);
+                gammatable[i][j] = (byte)(pow((j + 1) / 256.0, 1.0 / gammalevel[i]) * 255.0);
 }
 
 void I_InitGraphics(void)
 {
-    int i = 0;
-
+    int       i = 0;
     SDL_Event dummy;
-    byte *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
+    byte      *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
 
     while (i < UCHAR_MAX)
         keys[i++] = true;
