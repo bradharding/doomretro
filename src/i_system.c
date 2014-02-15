@@ -34,7 +34,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <Commdlg.h>
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -228,33 +227,4 @@ void I_Error(char *error, ...)
     MessageBoxW(NULL, wmsgbuf, L"DOOM RETRO", MB_ICONERROR | MB_OK);
 
     exit(-1);
-}
-
-extern char selectedfile[260];
-
-boolean I_ChooseIWAD(void)
-{
-    OPENFILENAME ofn;
-    char         szFile[MAX_PATH];
-
-    ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = NULL;
-    ofn.lpstrFile = szFile;
-    ofn.lpstrFile[0] = '\0';
-    ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD Files (*.wad)\0*.WAD\0";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
-    ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-    ofn.lpstrTitle = "Where’s All the Data?\0";
-
-    if (GetOpenFileName(&ofn))
-    {
-        strcpy(selectedfile, ofn.lpstrFile);
-        return true;
-    }
-    return false;
 }

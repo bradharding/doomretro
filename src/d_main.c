@@ -26,6 +26,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#define WIN32_LEAN_AND_MEAN
+
+#include <windows.h>
+#include <Commdlg.h>
 #include "am_map.h"
 #include "d_iwad.h"
 #include "d_main.h"
@@ -493,7 +497,76 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
-char selectedfile[260] = "";
+boolean I_ChooseIWAD(void)
+{
+    OPENFILENAME ofn;
+    char         szFile[MAX_PATH * 4];
+    boolean      iwadfound = false;
+
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = NULL;
+    ofn.lpstrFile = szFile;
+    ofn.lpstrFile[0] = '\0';
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = "WAD Files (*.wad)\0*.WAD\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = NULL;
+    ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
+                | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER;
+    ofn.lpstrTitle = "Where’s All the Data?\0";
+
+    if (GetOpenFileName(&ofn))
+    {
+        if (ofn.lpstrFile[ofn.nFileOffset - 1] != '\0')
+        {
+            IdentifyIWADByName(ofn.lpstrFile);
+            D_AddFile(ofn.lpstrFile);
+            return true;
+        }
+        else
+        {
+            char *file = ofn.lpstrFile;
+            char *folder = file;
+
+            while (*file)
+            {
+                file += lstrlen(file) + 1;
+
+                if (   !strcasecmp(file, "DOOM.WAD")
+                    || !strcasecmp(file, "DOOM1.WAD")
+                    || !strcasecmp(file, "DOOM2.WAD")
+                    || !strcasecmp(file, "TNT.WAD")
+                    || !strcasecmp(file, "PLUTONIA.WAD")
+                    || !strcasecmp(file, "DOOM.WAD"))
+                {
+                    if (!iwadfound)
+                    {
+                        static char fullpath[MAX_PATH];
+
+                        IdentifyIWADByName(file);
+                        sprintf(fullpath, "%s\\%s", folder, file);
+                        D_AddFile(fullpath);
+                        iwadfound = true;
+                    }
+                }
+                else
+                {
+                    static char fullpath[MAX_PATH];
+
+                    sprintf(fullpath, "%s\\%s", folder, file);
+                    if (W_MergeFile(fullpath))
+                        if (!strcasecmp(file, "NERVE.WAD"))
+                            nerve = true;
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
 
 //
 // D_DoomMainSetup
@@ -512,19 +585,6 @@ static void D_DoomMainSetup(void)
     M_FindResponseFile();
 
     iwadfile = D_FindIWAD();
-
-    // None found?
-
-    if (iwadfile == NULL)
-    {
-        if (I_ChooseIWAD())
-        {
-            iwadfile = selectedfile;
-            IdentifyIWADByName(iwadfile);
-        }
-        else
-            exit(-1);
-    }
 
     modifiedgame = false;
 
@@ -565,7 +625,10 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
 
-    D_AddFile(iwadfile);
+    if (iwadfile)
+        D_AddFile(iwadfile);
+    else if (!I_ChooseIWAD())
+        exit(-1);
 
     if (!W_MergeFile("doomretro.wad"))
         I_Error("Can't find doomretro.wad.");
@@ -582,7 +645,7 @@ static void D_DoomMainSetup(void)
             modifiedgame = true;
 
             if (W_MergeFile(filename))
-                if (strstr(filename, "NERVE.WAD"))
+                if (!strcasecmp(filename, "NERVE.WAD"))
                     nerve = true;
         }
     }
