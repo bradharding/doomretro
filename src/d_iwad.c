@@ -387,7 +387,7 @@ static char *SearchDirectoryForIWAD(char *dir)
 
     for (i = 0; i < arrlen(iwads); ++i)
     {
-        filename = CheckDirectoryHasIWAD(dir, (iwads[i].name));
+        filename = CheckDirectoryHasIWAD(dir, iwads[i].name);
 
         if (filename != NULL)
         {
@@ -609,7 +609,6 @@ char *D_FindIWAD(void)
     char *result;
     char *iwadfile;
     int iwadparm;
-    int i;
 
     // Check for the -iwad parameter
 
@@ -635,19 +634,6 @@ char *D_FindIWAD(void)
         }
 
         IdentifyIWADByName(result);
-    }
-    else
-    {
-        // Search through the list and look for an IWAD
-
-        result = NULL;
-
-        BuildIWADDirList();
-
-        for (i = 0; result == NULL && i < num_iwad_dirs; ++i)
-        {
-            result = SearchDirectoryForIWAD(iwad_dirs[i]);
-        }
     }
 
     return result;
@@ -810,17 +796,17 @@ void D_SetGameDescription(void)
         {
             // Ultimate Doom
             if (bfgedition)
-                gamedescription = "The Ultimate DOOM\xE2\x84\xA2 (BFG Edition)";
+                gamedescription = "The Ultimate DOOM\u2122 (BFG Edition)";
             else
-                gamedescription = "The Ultimate DOOM\xE2\x84\xA2";
+                gamedescription = "The Ultimate DOOM\u2122";
         }
         else if (gamemode == registered)
         {
-            gamedescription = "DOOM\xE2\x84\xA2 Registered";
+            gamedescription = "DOOM\u2122 Registered";
         }
         else if (gamemode == shareware)
         {
-            gamedescription = "DOOM\xE2\x84\xA2 Shareware";
+            gamedescription = "DOOM\u2122 Shareware";
         }
     }
     else
@@ -829,20 +815,20 @@ void D_SetGameDescription(void)
         if (nerve)
         {
                 if (bfgedition)
-                    gamedescription = "DOOM\xE2\x84\xA2 II (BFG Edition)";
+                    gamedescription = "DOOM\u2122 II (BFG Edition)";
                 else
-                    gamedescription = "DOOM\xE2\x84\xA2 II";
+                    gamedescription = "DOOM\u2122 II";
         }
         else if (gamemission == doom2)
         {
             if (bfgedition)
-                gamedescription = "DOOM\xE2\x84\xA2 II: Hell On Earth (BFG Edition)";
+                gamedescription = "DOOM\u2122 II: Hell On Earth (BFG Edition)";
             else
-                gamedescription = "DOOM\xE2\x84\xA2 II: Hell On Earth";
+                gamedescription = "DOOM\u2122 II: Hell On Earth";
         }
         else if (gamemission == pack_plut)
-            gamedescription = "Final DOOM\xE2\x84\xA2: The Plutonia Experiment";
+            gamedescription = "Final DOOM\u2122: The Plutonia Experiment";
         else if (gamemission == pack_tnt)
-            gamedescription = "Final DOOM\xE2\x84\xA2: TNT - Evilution";
+            gamedescription = "Final DOOM\u2122: TNT - Evilution";
     }
 }

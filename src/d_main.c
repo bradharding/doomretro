@@ -497,7 +497,7 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
-boolean I_ChooseIWAD(void)
+boolean D_ChooseIWAD(void)
 {
     OPENFILENAME ofn;
     char         szFile[MAX_PATH * 4];
@@ -509,14 +509,14 @@ boolean I_ChooseIWAD(void)
     ofn.lpstrFile = szFile;
     ofn.lpstrFile[0] = '\0';
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "WAD Files (*.wad)\0*.WAD\0";
+    ofn.lpstrFilter = "IWAD/PWAD (*.wad)\0*.WAD\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
     ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
                 | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER;
-    ofn.lpstrTitle = "Where’s All the Data?\0";
+    ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     if (GetOpenFileName(&ofn))
     {
@@ -524,7 +524,6 @@ boolean I_ChooseIWAD(void)
         {
             IdentifyIWADByName(ofn.lpstrFile);
             D_AddFile(ofn.lpstrFile);
-            return true;
         }
         else
         {
@@ -535,12 +534,11 @@ boolean I_ChooseIWAD(void)
             {
                 file += lstrlen(file) + 1;
 
-                if (   !strcasecmp(file, "DOOM.WAD")
+                if (!strcasecmp(file, "DOOM.WAD")
                     || !strcasecmp(file, "DOOM1.WAD")
                     || !strcasecmp(file, "DOOM2.WAD")
-                    || !strcasecmp(file, "TNT.WAD")
                     || !strcasecmp(file, "PLUTONIA.WAD")
-                    || !strcasecmp(file, "DOOM.WAD"))
+                    || !strcasecmp(file, "TNT.WAD"))
                 {
                     if (!iwadfound)
                     {
@@ -552,18 +550,21 @@ boolean I_ChooseIWAD(void)
                         iwadfound = true;
                     }
                 }
-                else
+                else if (strcasecmp(file, "DOOMRETRO.WAD"))
                 {
                     static char fullpath[MAX_PATH];
 
                     sprintf(fullpath, "%s\\%s", folder, file);
                     if (W_MergeFile(fullpath))
+                    {
+                        modifiedgame = true;
                         if (!strcasecmp(file, "NERVE.WAD"))
                             nerve = true;
+                    }
                 }
             }
-            return true;
         }
+        return true;
     }
     return false;
 }
@@ -627,7 +628,7 @@ static void D_DoomMainSetup(void)
 
     if (iwadfile)
         D_AddFile(iwadfile);
-    else if (!I_ChooseIWAD())
+    else if (!D_ChooseIWAD())
         exit(-1);
 
     if (!W_MergeFile("doomretro.wad"))
@@ -638,15 +639,14 @@ static void D_DoomMainSetup(void)
     {
         for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
         {
-            char *filename;
-
-            filename = uppercase(D_TryFindWADByName(myargv[p]));
-
-            modifiedgame = true;
+            char *filename = uppercase(D_TryFindWADByName(myargv[p]));
 
             if (W_MergeFile(filename))
+            {
+                modifiedgame = true;
                 if (!strcasecmp(filename, "NERVE.WAD"))
                     nerve = true;
+            }
         }
     }
 
