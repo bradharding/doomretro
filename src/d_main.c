@@ -576,10 +576,11 @@ boolean D_ChooseIWAD(void)
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
-    int  p;
-    char file[256];
-    char demolumpname[9];
-    int  temp;
+    int     p;
+    char    file[256];
+    char    demolumpname[9];
+    int     temp;
+    boolean choseniwad = false;
 
     SDL_Init(0);
 
@@ -628,7 +629,9 @@ static void D_DoomMainSetup(void)
 
     if (iwadfile)
         D_AddFile(iwadfile);
-    else if (!D_ChooseIWAD())
+    else if (D_ChooseIWAD())
+        choseniwad = true;
+    else
         exit(-1);
 
     if (!W_MergeFile("doomretro.wad"))
@@ -714,8 +717,9 @@ static void D_DoomMainSetup(void)
         int i;
 
         if (gamemode == shareware)
-            I_Error("You cannot use -file with the shareware version.\n"
-                    "Please purchase the full version.");
+            I_Error("You cannot %s with the shareware version.\n"
+                    "Please purchase the full version.",
+                    choseniwad ? "open PWADs" : "use -FILE");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.

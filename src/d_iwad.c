@@ -606,7 +606,7 @@ char *D_TryFindWADByName(char *filename)
 
 char *D_FindIWAD(void)
 {
-    char *result;
+    char *result = NULL;
     char *iwadfile;
     int iwadparm;
 
