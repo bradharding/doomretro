@@ -30,8 +30,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 doom ICON DISCARDABLE "../icons/doom.ico"
 doom2 ICON DISCARDABLE "../icons/doom2.ico"
 
-CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "manifest.xml"
-
 1 VERSIONINFO
 PRODUCTVERSION 1,2,0,0
 FILEVERSION 1,2,0,0

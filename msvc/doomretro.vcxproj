@@ -129,6 +129,11 @@
       <GenerateMapFile>false</GenerateMapFile>
       <MapExports>false</MapExports>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>..\src\manifest.xml</AdditionalManifestFiles>
+      <EnableDPIAwareness>
+      </EnableDPIAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CustomBuildStep Include="..\src\doomdata.h" />
