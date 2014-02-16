@@ -500,7 +500,7 @@ static void InitGameVersion(void)
 boolean D_ChooseIWAD(void)
 {
     OPENFILENAME ofn;
-    char         szFile[MAX_PATH * 4];
+    char         szFile[4096];
     boolean      iwadfound = false;
 
     ZeroMemory(&ofn, sizeof(ofn));
@@ -509,7 +509,7 @@ boolean D_ChooseIWAD(void)
     ofn.lpstrFile = szFile;
     ofn.lpstrFile[0] = '\0';
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD/PWAD (*.wad)\0*.WAD\0";
+    ofn.lpstrFilter = "IWAD/PWAD Files (*.wad)\0*.WAD\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
@@ -538,7 +538,8 @@ boolean D_ChooseIWAD(void)
                     || !strcasecmp(file, "DOOM1.WAD")
                     || !strcasecmp(file, "DOOM2.WAD")
                     || !strcasecmp(file, "PLUTONIA.WAD")
-                    || !strcasecmp(file, "TNT.WAD"))
+                    || !strcasecmp(file, "TNT.WAD")
+                    || W_WadType(file) == IWAD)
                 {
                     if (!iwadfound)
                     {
@@ -550,7 +551,8 @@ boolean D_ChooseIWAD(void)
                         iwadfound = true;
                     }
                 }
-                else if (strcasecmp(file, "DOOMRETRO.WAD"))
+                else if (strcasecmp(file, "DOOMRETRO.WAD")
+                         && W_WadType(file) == PWAD)
                 {
                     static char fullpath[MAX_PATH];
 
@@ -563,6 +565,8 @@ boolean D_ChooseIWAD(void)
                     }
                 }
             }
+            free(file);
+            free(folder);
         }
         return true;
     }

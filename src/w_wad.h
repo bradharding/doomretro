@@ -44,6 +44,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // WADFILE I/O related stuff.
 //
 
+#define IWAD 1
+#define PWAD 2
+
 typedef struct lumpinfo_s lumpinfo_t;
 
 struct lumpinfo_s
@@ -64,6 +67,7 @@ extern lumpinfo_t *lumpinfo;
 extern unsigned int numlumps;
 
 wad_file_t *W_AddFile(char *filename);
+int W_WadType(char *filename);
 
 int W_CheckNumForName(char *name);
 int W_RangeCheckNumForName(int min, int max, char *name);
