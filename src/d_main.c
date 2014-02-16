@@ -532,31 +532,28 @@ boolean D_ChooseIWAD(void)
 
             while (*file)
             {
+                static char fullpath[MAX_PATH];
+
                 file += lstrlen(file) + 1;
+                sprintf(fullpath, "%s\\%s", folder, file);
 
                 if (!strcasecmp(file, "DOOM.WAD")
                     || !strcasecmp(file, "DOOM1.WAD")
                     || !strcasecmp(file, "DOOM2.WAD")
                     || !strcasecmp(file, "PLUTONIA.WAD")
                     || !strcasecmp(file, "TNT.WAD")
-                    || W_WadType(file) == IWAD)
+                    || W_WadType(fullpath) == IWAD)
                 {
                     if (!iwadfound)
                     {
-                        static char fullpath[MAX_PATH];
-
                         IdentifyIWADByName(file);
-                        sprintf(fullpath, "%s\\%s", folder, file);
                         D_AddFile(fullpath);
                         iwadfound = true;
                     }
                 }
                 else if (strcasecmp(file, "DOOMRETRO.WAD")
-                         && W_WadType(file) == PWAD)
+                         && W_WadType(fullpath) == PWAD)
                 {
-                    static char fullpath[MAX_PATH];
-
-                    sprintf(fullpath, "%s\\%s", folder, file);
                     if (W_MergeFile(fullpath))
                     {
                         modifiedgame = true;
