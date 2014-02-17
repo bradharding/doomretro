@@ -29,7 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __M_MISC__
 #define __M_MISC__
 
-
 #include "doomtype.h"
 
 boolean M_WriteFile(char *name, void *source, int length);
@@ -38,6 +37,8 @@ void M_MakeDirectory(char *dir);
 char *M_TempFile(char *s);
 boolean M_FileExists(char *file);
 long M_FileLength(FILE *handle);
+char *M_ExtractFilename(char *str);
+char *M_ExtractFolder(char *str);
 boolean M_StrToInt(const char *str, int *result);
 
 #endif

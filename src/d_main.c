@@ -44,6 +44,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_menu.h"
+#include "m_misc.h"
 #include "p_saveg.h"
 #include "p_setup.h"
 #include "r_local.h"
@@ -510,7 +511,6 @@ void D_ToggleHiddenFile(char *filename, boolean hide)
         SetFileAttributes(filename, attributes & ~FILE_ATTRIBUTE_HIDDEN);
 }
 
-
 boolean D_ChooseIWAD(void)
 {
     OPENFILENAME ofn;
@@ -536,8 +536,23 @@ boolean D_ChooseIWAD(void)
     {
         if (ofn.lpstrFile[ofn.nFileOffset - 1] != '\0')
         {
-            IdentifyIWADByName(ofn.lpstrFile);
-            D_AddFile(ofn.lpstrFile);
+            if (!strcasecmp(M_ExtractFilename(ofn.lpstrFile), "NERVE.WAD"))
+            {
+                static char fullpath[MAX_PATH];
+                char *file = ofn.lpstrFile;
+
+                sprintf(fullpath, "%s\\DOOM2.WAD", M_ExtractFolder(file));
+                IdentifyIWADByName(fullpath);
+                D_AddFile(fullpath);
+                W_MergeFile(ofn.lpstrFile);
+                modifiedgame = true;
+                nerve = true;
+            }
+            else
+            {
+                IdentifyIWADByName(ofn.lpstrFile);
+                D_AddFile(ofn.lpstrFile);
+            }
         }
         else
         {

@@ -59,7 +59,7 @@ boolean M_FileExists(char *filename)
         // If we can't open because the file is a directory, the
         // "file" exists at least!
 
-        return errno == EISDIR;
+        return (errno == EISDIR);
     }
 }
 
@@ -83,6 +83,36 @@ long M_FileLength(FILE *handle)
     fseek(handle, savedpos, SEEK_SET);
 
     return length;
+}
+
+char *M_ExtractFolder(char *path)
+{
+    char *pos;
+    char *folder = (char *)malloc(strlen(path));
+
+    strcpy(folder, path);
+
+    pos = strrchr(folder, '\\');
+    if (pos)
+        *pos = '\0';
+
+    return folder;
+}
+
+char *M_ExtractFilename(char *path)
+{
+    char *pos = strrchr(path, '\\');
+    char *file = NULL;
+
+    if (!pos)
+        pos = path; 
+    else
+        pos++;
+
+    file = (char *)malloc(strlen(pos) + 1);
+    strncpy(file, pos, strlen(pos) + 1);
+
+    return file;
 }
 
 //
