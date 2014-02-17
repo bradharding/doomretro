@@ -424,23 +424,20 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     if (tmflags & MF_NOCLIP)
         return true;
 
-    if (!(tmflags & MF_CORPSE))
-    {
-        // Check things first, possibly picking things up.
-        // The bounding box is extended by MAXRADIUS
-        // because mobj_ts are grouped into mapblocks
-        // based on their origin point, and can overlap
-        // into adjacent blocks by up to MAXRADIUS units.
-        xl = (tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS) >> MAPBLOCKSHIFT;
-        xh = (tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS) >> MAPBLOCKSHIFT;
-        yl = (tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
-        yh = (tmbbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
+    // Check things first, possibly picking things up.
+    // The bounding box is extended by MAXRADIUS
+    // because mobj_ts are grouped into mapblocks
+    // based on their origin point, and can overlap
+    // into adjacent blocks by up to MAXRADIUS units.
+    xl = (tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS) >> MAPBLOCKSHIFT;
+    xh = (tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS) >> MAPBLOCKSHIFT;
+    yl = (tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
+    yh = (tmbbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
 
-        for (bx = xl; bx <= xh; bx++)
-            for (by = yl; by <= yh; by++)
-                if (!P_BlockThingsIterator(bx, by, PIT_CheckThing))
-                    return false;
-    }
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
+            if (!P_BlockThingsIterator(bx, by, PIT_CheckThing))
+                return false;
 
     // check lines
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
