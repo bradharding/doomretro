@@ -425,8 +425,6 @@ void P_NewChaseDir(mobj_t *actor)
     actor->movedir = DI_NODIR;  // cannot move
 }
 
-
-
 #define MONS_LOOK_RANGE (16 * 64 * FRACUNIT)
 #define MONS_LOOK_LIMIT 64
 
@@ -582,7 +580,6 @@ void A_KeenDie(mobj_t *mo)
     EV_DoDoor(&junk, open);
 }
 
-
 //
 // ACTION ROUTINES
 //
@@ -645,7 +642,6 @@ seeyou:
 
     P_SetMobjState(actor, (statenum_t)actor->info->seestate);
 }
-
 
 //
 // A_Chase
@@ -860,7 +856,6 @@ void A_BspiAttack(mobj_t *actor)
     P_SpawnMissile(actor, actor->target, MT_ARACHPLAZ);
 }
 
-
 //
 // A_TroopAttack
 //
@@ -883,7 +878,6 @@ void A_TroopAttack(mobj_t *actor)
     actor->frame |= FF_FULLBRIGHT;
     P_SpawnMissile(actor, actor->target, MT_TROOPSHOT);
 }
-
 
 void A_SargAttack(mobj_t *actor)
 {
@@ -927,7 +921,6 @@ void A_CyberAttack(mobj_t *actor)
     P_SpawnMissile(actor, actor->target, MT_ROCKET);
 }
 
-
 void A_BruisAttack(mobj_t *actor)
 {
     if (!actor->target)
@@ -947,7 +940,6 @@ void A_BruisAttack(mobj_t *actor)
     actor->frame |= FF_FULLBRIGHT;
     P_SpawnMissile(actor, actor->target, MT_BRUISERSHOT);
 }
-
 
 //
 // A_SkelMissile
@@ -1060,7 +1052,6 @@ void A_SkelFist(mobj_t *actor)
 // Detect a corpse that could be raised.
 //
 mobj_t  *corpsehit;
-mobj_t  *vileobj;
 fixed_t viletryx;
 fixed_t viletryy;
 
@@ -1107,13 +1098,9 @@ boolean PIT_VileCheck(mobj_t *thing)
 //
 void A_VileChase(mobj_t *actor)
 {
-    int xl;
-    int xh;
-    int yl;
-    int yh;
-
-    int bx;
-    int by;
+    int xl, xh;
+    int yl, yh;
+    int bx, by;
 
     if (actor->movedir != DI_NODIR)
     {
@@ -1126,7 +1113,6 @@ void A_VileChase(mobj_t *actor)
         yl = (viletryy - bmaporgy - MAXRADIUS * 2) >> MAPBLOCKSHIFT;
         yh = (viletryy - bmaporgy + MAXRADIUS * 2) >> MAPBLOCKSHIFT;
 
-        vileobj = actor;
         for (bx = xl; bx <= xh; bx++)
         {
             for (by = yl; by <= yh; by++)
@@ -1137,8 +1123,8 @@ void A_VileChase(mobj_t *actor)
                 if (!P_BlockThingsIterator(bx, by, PIT_VileCheck))
                 {
                     // got one!
-                    mobj_t      *temp = actor->target;
-                    mobjinfo_t  *info;
+                    mobj_t     *temp = actor->target;
+                    mobjinfo_t *info;
 
                     actor->target = corpsehit;
                     A_FaceTarget(actor);
@@ -1158,7 +1144,10 @@ void A_VileChase(mobj_t *actor)
                     corpsehit->health = info->spawnhealth;
                     corpsehit->target = NULL;
 
-                    actor->target->player->killcount--;
+                    if (!netgame)
+                        players[0].killcount--;
+                    else if (actor->target && actor->target->player)
+                        actor->target->player->killcount--;
 
                     return;
                 }
@@ -1287,7 +1276,6 @@ void A_FatRaise(mobj_t *actor)
     A_FaceTarget(actor);
     S_StartSound(actor, sfx_manatk);
 }
-
 
 void A_FatAttack1(mobj_t *actor)
 {
@@ -1448,7 +1436,6 @@ void A_PainAttack(mobj_t *actor)
     A_FaceTarget(actor);
     A_PainShootSkull(actor, actor->angle);
 }
-
 
 void A_PainDie(mobj_t *actor)
 {
@@ -1734,12 +1721,10 @@ void A_BrainAwake(mobj_t *mo)
         S_StartSound(NULL, sfx_bossit);
 }
 
-
 void A_BrainPain(mobj_t *mo)
 {
     S_StartSound(NULL, sfx_bospn);
 }
-
 
 void A_BrainScream(mobj_t *mo)
 {
