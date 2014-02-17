@@ -497,6 +497,20 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
+void D_ToggleHiddenFile(char *filename, boolean hide)
+{
+    DWORD attributes = GetFileAttributes(filename);
+
+    if (attributes == INVALID_FILE_ATTRIBUTES)
+        return;
+
+    if (hide)
+        SetFileAttributes(filename, attributes | FILE_ATTRIBUTE_HIDDEN);
+    else
+        SetFileAttributes(filename, attributes & ~FILE_ATTRIBUTE_HIDDEN);
+}
+
+
 boolean D_ChooseIWAD(void)
 {
     OPENFILENAME ofn;
@@ -630,10 +644,18 @@ static void D_DoomMainSetup(void)
 
     if (iwadfile)
         D_AddFile(iwadfile);
-    else if (D_ChooseIWAD())
-        choseniwad = true;
-    else
-        exit(-1);
+    else 
+    {
+        D_ToggleHiddenFile("doomretro.wad", true);
+
+        if (D_ChooseIWAD())
+            choseniwad = true;
+
+        D_ToggleHiddenFile("doomretro.wad", false);
+
+        if (!choseniwad)
+            exit(-1);
+    }
 
     if (!W_MergeFile("doomretro.wad"))
         I_Error("Can't find doomretro.wad.");
