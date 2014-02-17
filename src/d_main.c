@@ -534,26 +534,40 @@ boolean D_ChooseIWAD(void)
 
     if (GetOpenFileName(&ofn))
     {
+        // only one file was selected
         if (ofn.lpstrFile[ofn.nFileOffset - 1] != '\0')
         {
+            char *file = M_ExtractFilename(ofn.lpstrFile);
+
+            // if it's NERVE.WAD, try to open DOOM2.WAD with it
             if (!strcasecmp(M_ExtractFilename(ofn.lpstrFile), "NERVE.WAD"))
             {
                 static char fullpath[MAX_PATH];
-                char *file = ofn.lpstrFile;
 
-                sprintf(fullpath, "%s\\DOOM2.WAD", M_ExtractFolder(file));
+                sprintf(fullpath, "%s\\DOOM2.WAD", M_ExtractFolder(ofn.lpstrFile));
                 IdentifyIWADByName(fullpath);
-                D_AddFile(fullpath);
+                if (D_AddFile(fullpath))
+                    iwadfound = true;
                 W_MergeFile(ofn.lpstrFile);
                 modifiedgame = true;
                 nerve = true;
             }
-            else
+
+            // otherwise make sure it's an IWAD
+            else if (!strcasecmp(file, "DOOM.WAD")
+                    || !strcasecmp(file, "DOOM1.WAD")
+                    || !strcasecmp(file, "DOOM2.WAD")
+                    || !strcasecmp(file, "PLUTONIA.WAD")
+                    || !strcasecmp(file, "TNT.WAD")
+                    || W_WadType(ofn.lpstrFile) == IWAD)
             {
                 IdentifyIWADByName(ofn.lpstrFile);
                 D_AddFile(ofn.lpstrFile);
+                iwadfound = true;
             }
         }
+
+        // more than one file was selected
         else
         {
             char *file = ofn.lpstrFile;
@@ -566,6 +580,7 @@ boolean D_ChooseIWAD(void)
                 file += lstrlen(file) + 1;
                 sprintf(fullpath, "%s\\%s", folder, file);
 
+                // check if its an IWAD
                 if (!strcasecmp(file, "DOOM.WAD")
                     || !strcasecmp(file, "DOOM1.WAD")
                     || !strcasecmp(file, "DOOM2.WAD")
@@ -576,10 +591,12 @@ boolean D_ChooseIWAD(void)
                     if (!iwadfound)
                     {
                         IdentifyIWADByName(file);
-                        D_AddFile(fullpath);
-                        iwadfound = true;
+                        if (D_AddFile(fullpath))
+                            iwadfound = true;
                     }
                 }
+
+                // or a PWAD
                 else if (strcasecmp(file, "DOOMRETRO.WAD")
                          && W_WadType(fullpath) == PWAD)
                 {
@@ -594,7 +611,7 @@ boolean D_ChooseIWAD(void)
             free(file);
             free(folder);
         }
-        return true;
+        return iwadfound;
     }
     return false;
 }
