@@ -445,7 +445,8 @@ boolean P_LookForMonsters(mobj_t *actor)
             continue;           // not a mobj thinker
 
         mo = (mobj_t *)think;
-        if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
+        if ((!(mo->flags & MF_COUNTKILL) && mo->type != MT_SKULL)
+            || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
 
         if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > MONS_LOOK_RANGE)
