@@ -98,7 +98,7 @@ static SDL_Cursor *emptycursor;
 // Window resize state.
 
 boolean      need_resize = false;
-unsigned int resize_w, resize_h;
+unsigned int resize_h;
 
 int desktopwidth;
 int desktopheight;
@@ -130,7 +130,7 @@ boolean keys[UCHAR_MAX];
 float mouse_acceleration = MOUSEACCELERATION_DEFAULT;
 int   mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
-static void ApplyWindowResize(int w, int h);
+static void ApplyWindowResize(int height);
 static void SetWindowPositionVars(void);
 
 boolean MouseShouldBeGrabbed()
@@ -535,7 +535,6 @@ void I_GetEvent(void)
                 if (!fullscreen)
                 {
                     need_resize = true;
-                    resize_w = sdlevent.resize.w;
                     resize_h = sdlevent.resize.h;
                     break;
                 }
@@ -645,7 +644,7 @@ void I_FinishUpdate(void)
 {
     if (need_resize)
     {
-        ApplyWindowResize(resize_w, resize_h);
+        ApplyWindowResize(resize_h);
         need_resize = false;
         palette_to_set = true;
     }
@@ -819,7 +818,6 @@ void ToggleWideScreen(boolean toggle)
         if (returntowidescreen == true && screenblocks == 11)
         {
             screenblocks = 10;
-            //screenSize = 8;
             R_SetViewSize(screenblocks);
         }
 
@@ -968,28 +966,21 @@ void ToggleFullScreen(void)
     initialized = true;
 }
 
-void ApplyWindowResize(int w, int h)
+void ApplyWindowResize(int height)
 {
-    height = MAX(ORIGINALWIDTH * 3 / 4, h);
-    width = height * 4 / 3;
-    width += (width & 1);
+    windowheight = MAX(ORIGINALWIDTH * 3 / 4, height);
+    windowwidth = windowheight * 4 / 3;
+    windowwidth += (windowwidth & 1);
 
-    if (width > w)
-    {
-        width = w;
-        height = width * 3 / 4;
-        height += (height & 1);
-    }
-
-    screen = SDL_SetVideoMode(width, height, 0,
+    screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
                               SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
-    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
+    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, windowheight, 8, 0, 0, 0, 0);
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
 
-    stepx = (SCREENWIDTH << FRACBITS) / width;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
+    stepx = (SCREENWIDTH << FRACBITS) / windowwidth;
+    stepy = (SCREENHEIGHT << FRACBITS) / windowheight;
 
     startx = stepx - 1;
     starty = stepy - 1;
