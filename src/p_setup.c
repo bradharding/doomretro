@@ -942,7 +942,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     // find map name
     if (gamemode == commercial)
-        snprintf(lumpname, 9, "map%02i", map);
+        snprintf(lumpname, 9, "MAP%02i", map);
     else
         sprintf(lumpname, "E%iM%i", episode, map);
 
