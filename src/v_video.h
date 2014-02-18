@@ -48,11 +48,6 @@ extern byte *tinttab33;
 extern byte *tinttab50;
 extern byte *tinttabred;
 
-#define GAMMALEVELS 9
-
-byte gammatable[GAMMALEVELS][256];
-extern int usegamma;
-extern double gammalevel[GAMMALEVELS];
 
 fixed_t DX, DY, DXI, DYI;
 

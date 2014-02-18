@@ -32,7 +32,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "m_argv.h"
 #include "m_menu.h"
 #include "m_misc.h"
-#include "v_video.h"
 
 
 //
@@ -105,6 +104,7 @@ extern int screenwidth;
 extern int screenheight;
 extern int widescreen;
 extern char *videodriver;
+extern int usegamma;
 
 extern float mouse_acceleration;
 extern int mouse_threshold;

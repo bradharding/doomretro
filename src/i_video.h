@@ -32,6 +32,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "doomtype.h"
 
 #define MAX_MOUSE_BUTTONS 8
+#define GAMMALEVELS 9
 
 // Called by D_DoomMain,
 // determines the hardware configuration
@@ -74,5 +75,7 @@ extern boolean idbehold;
 
 extern char mapnumandtitle[133];
 
-#endif
+extern int usegamma;
+extern double gammalevel[GAMMALEVELS];
 
+#endif

@@ -39,16 +39,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
-byte            gammatable[GAMMALEVELS][256];
-
-double gammalevel[GAMMALEVELS] =
-{
-    0.5, 0.625, 0.75, 0.875, 1.0, 1.25, 1.5, 1.75, 2.0
-};
-
-// Gamma correction level to use
-int             usegamma = USEGAMMA_DEFAULT;
-
 //
 // V_SetRes
 //
