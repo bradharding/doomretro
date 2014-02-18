@@ -913,10 +913,8 @@ void P_PlayerInSpecialSector(player_t *player)
         case 4:
             // STROBE HURT
             if (!player->powers[pw_ironfeet] || P_Random() < 5)
-            {
                 if (!(leveltime & 0x1f))
                     P_DamageMobj(player->mo, NULL, NULL, 20);
-            }
             break;
 
         case 9:
@@ -1193,7 +1191,6 @@ void P_SpawnSpecials(void)
         }
     }
 
-
     // Init line EFFECTs
     numlinespecials = 0;
     for (i = 0; i < numlines; i++)
@@ -1206,7 +1203,6 @@ void P_SpawnSpecials(void)
                 break;
         }
     }
-
 
     // Init other misc stuff
     for (i = 0; i < MAXCEILINGS; i++)

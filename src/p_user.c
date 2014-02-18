@@ -27,33 +27,24 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include "SDL.h"
-
-#include "doomdef.h"
 #include "d_event.h"
-
 #include "p_local.h"
-
 #include "doomstat.h"
 
-
-
-extern int      vibrationtics;
-extern int      followplayer;
-extern boolean  oldweaponsowned[];
+extern int     vibrationtics;
+extern int     followplayer;
+extern boolean oldweaponsowned[];
 
 void G_RemoveChoppers(void);
-
-
 
 //
 // Movement.
 //
 
 // 16 pixels of bob
-#define MAXBOB  0x100000
+#define MAXBOB 0x100000
 
-boolean         onground;
-
+boolean onground;
 
 //
 // P_Thrust
@@ -66,9 +57,6 @@ void P_Thrust(player_t *player, angle_t angle, fixed_t move)
     player->mo->momx += FixedMul(move, finecosine[angle]);
     player->mo->momy += FixedMul(move, finesine[angle]);
 }
-
-
-
 
 //
 // P_CalcHeight
@@ -96,18 +84,14 @@ void P_CalcHeight(player_t *player)
         // OPTIMIZE: tablify angle
         // Note: a LUT allows for effects
         //  like a ramp with low health.
-        player->bob =
-            FixedMul(player->mo->momx, player->mo->momx)
-            + FixedMul(player->mo->momy, player->mo->momy);
-
-        player->bob >>= 2;
+        player->bob = (FixedMul(player->mo->momx, player->mo->momx)
+                      + FixedMul(player->mo->momy, player->mo->momy)) >> 2;
 
         if (player->bob > MAXBOB)
             player->bob = MAXBOB;
 
         angle = (FINEANGLES / 20 * leveltime) & FINEMASK;
         bob = FixedMul(player->bob / 2, finesine[angle]);
-
 
         // move viewheight
         player->viewheight += player->deltaviewheight;
@@ -141,51 +125,47 @@ void P_CalcHeight(player_t *player)
         player->viewz = player->mo->ceilingz - 4 * FRACUNIT;
 }
 
-
-
 //
 // P_MovePlayer
 //
 void P_MovePlayer(player_t *player)
 {
-    ticcmd_t    *cmd;
+    ticcmd_t *cmd = &player->cmd;
+    mobj_t   *mo = player->mo;
 
-    cmd = &player->cmd;
-
-    player->mo->angle += (cmd->angleturn << 16);
+    mo->angle += (cmd->angleturn << 16);
 
     // Do not let the player control movement
     //  if not onground.
-    onground = (player->mo->z <= player->mo->floorz);
+    onground = (mo->z <= mo->floorz);
 
-    if (cmd->forwardmove && onground)
-        P_Thrust(player, player->mo->angle, cmd->forwardmove * 2048);
-
-    if (cmd->sidemove && onground)
-        P_Thrust(player, player->mo->angle - ANG90, cmd->sidemove * 2048);
-
-    if ((cmd->forwardmove || cmd->sidemove)
-         && player->mo->state == &states[S_PLAY])
+    if (onground)
     {
-        P_SetMobjState(player->mo, S_PLAY_RUN1);
-    }
-}
+        if (cmd->forwardmove)
+            P_Thrust(player, mo->angle, cmd->forwardmove * 2048);
 
+        if (cmd->sidemove)
+            P_Thrust(player, mo->angle - ANG90, cmd->sidemove * 2048);
+    }
+
+    if ((cmd->forwardmove || cmd->sidemove) && mo->state == &states[S_PLAY])
+        P_SetMobjState(mo, S_PLAY_RUN1);
+}
 
 //
 // P_DeathThink
 // Fall on your face when dying.
 // Decrease POV height to floor height.
 //
-#define ANG5    (ANG90 / 18)
+#define ANG5 (ANG90 / 18)
 
 void P_DeathThink(player_t *player)
 {
-    angle_t             angle;
-    angle_t             delta;
-    Uint8               *keystate = SDL_GetKeyState(NULL);
-    static int          count = 0;
-    static boolean      facingkiller = false;
+    angle_t        angle;
+    angle_t        delta;
+    Uint8          *keystate = SDL_GetKeyState(NULL);
+    static int     count = 0;
+    static boolean facingkiller = false;
 
     P_MovePsprites(player);
 
@@ -202,8 +182,7 @@ void P_DeathThink(player_t *player)
     }
     P_CalcHeight(player);
 
-    if (player->attacker && player->attacker != player->mo
-        && !facingkiller)
+    if (player->attacker && player->attacker != player->mo && !facingkiller)
     {
         angle = R_PointToAngle2(player->mo->x,
                                 player->mo->y,
@@ -231,10 +210,8 @@ void P_DeathThink(player_t *player)
     else if (player->damagecount > 0)
         player->damagecount--;
 
-    if (((player->cmd.buttons & BT_USE)
-        || ((player->cmd.buttons & BT_ATTACK)
-            && !player->damagecount
-            && count > TICRATE * 2)
+    if (((player->cmd.buttons & BT_USE) 
+        || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
         || keystate[SDLK_RETURN]))
     {
         count = 0;
@@ -246,23 +223,20 @@ void P_DeathThink(player_t *player)
         count++;
 }
 
-
-
 //
 // P_PlayerThink
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t        *cmd;
-    weapontype_t    newweapon;
+    ticcmd_t     *cmd = &player->cmd;
+    weapontype_t newweapon;
 
     if (player->cheats & CF_NOCLIP)
         player->mo->flags |= MF_NOCLIP;
     else
         player->mo->flags &= ~MF_NOCLIP;
 
-    // chain saw run forward
-    cmd = &player->cmd;
+    // chainsaw run forward
     if (player->mo->flags & MF_JUSTATTACKED)
     {
         cmd->angleturn = 0;
@@ -270,7 +244,6 @@ void P_PlayerThink(player_t *player)
         cmd->sidemove = 0;
         player->mo->flags &= ~MF_JUSTATTACKED;
     }
-
 
     if (player->playerstate == PST_DEAD)
     {
@@ -297,8 +270,7 @@ void P_PlayerThink(player_t *player)
     if (cmd->buttons & BT_SPECIAL)
         cmd->buttons = 0;
 
-    if ((cmd->buttons & BT_CHANGE)
-        && (!automapactive || (automapactive && followplayer)))
+    if ((cmd->buttons & BT_CHANGE) && (!automapactive || (automapactive && followplayer)))
     {
         // The actual changing of the weapon is done
         //  when the weapon psprite can do it
@@ -375,8 +347,7 @@ void P_PlayerThink(player_t *player)
             newweapon = player->preferredshotgun;
         }
 
-        if (player->weaponowned[newweapon]
-            && newweapon != player->readyweapon)
+        if (player->weaponowned[newweapon] && newweapon != player->readyweapon)
         {
             // Do not go to plasma or BFG in shareware,
             //  even if cheated.
@@ -432,7 +403,6 @@ void P_PlayerThink(player_t *player)
 
     if (player->bonuscount)
         player->bonuscount--;
-
 
     // Handling colormaps.
     if (player->powers[pw_invulnerability] > 4 * 32

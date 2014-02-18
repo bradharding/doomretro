@@ -29,7 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __D_PLAYER__
 #define __D_PLAYER__
 
-
 // The player data structure depends on a number
 // of other structs: items (internal inventory),
 // animation states (closely tied to the sprites
@@ -46,10 +45,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // as commands per game tick.
 #include "d_ticcmd.h"
 
-
-
-
-
 //
 // Player states.
 //
@@ -63,7 +58,6 @@ typedef enum
     PST_REBORN
 
 } playerstate_t;
-
 
 //
 // Player internal flags, for cheats and debug.
@@ -88,7 +82,6 @@ typedef enum
     CF_CHOPPERS         = 128
 
 } cheat_t;
-
 
 //
 // Extended player object info: player_t
@@ -185,7 +178,6 @@ typedef struct player_s
 
 } player_t;
 
-
 //
 // INTERMISSION
 // Structure passed e.g. to WI_Start(wb)
@@ -229,6 +221,5 @@ typedef struct
     wbplayerstruct_t    plyr[MAXPLAYERS];
 
 } wbstartstruct_t;
-
 
 #endif

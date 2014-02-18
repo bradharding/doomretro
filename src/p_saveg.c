@@ -180,7 +180,6 @@ static void saveg_write_pad(void)
     }
 }
 
-
 // Pointers
 
 static void *saveg_readp(void)
@@ -557,7 +556,6 @@ static void saveg_write_mobj_t(mobj_t *str)
     // int floatboblevel;
     saveg_write32(str->floatboblevel);
 }
-
 
 //
 // ticcmd_t
@@ -962,7 +960,6 @@ static void saveg_write_player_t(player_t *str)
     // int invulnbeforechoppers;
     saveg_write32(str->invulnbeforechoppers);
 }
-
 
 //
 // ceiling_t

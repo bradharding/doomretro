@@ -5,6 +5,7 @@ DOOM RETRO
 A classic, refined DOOM source port. For Windows PC.
 
 Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright © 1999 Lee Killough.
 Copyright © 2005-2014 Simon Howard.
 Copyright © 2013-2014 Brad Harding.
 
@@ -27,30 +28,18 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <math.h>
-
+#include "doomstat.h"
+#include "g_game.h"
+#include "i_swap.h"
+#include "i_system.h"
+#include "m_bbox.h"
+#include "p_fix.h"
+#include "p_local.h"
+#include "s_sound.h"
+#include "w_wad.h"
 #include "z_zone.h"
 
-#include "i_swap.h"
-#include "m_argv.h"
-#include "m_bbox.h"
-
-#include "g_game.h"
-
-#include "i_system.h"
-#include "w_wad.h"
-
-#include "doomdef.h"
-#include "p_local.h"
-
-#include "s_sound.h"
-
-#include "doomstat.h"
-
-#include "p_fix.h"
-
-
 void P_SpawnMapThing(mapthing_t *mthing);
-
 
 //
 // MAP related Lookup tables.
@@ -87,17 +76,18 @@ static int      totallines;
 // by spatial subdivision in 2D.
 //
 // Blockmap size.
-int             bmapwidth;
-int             bmapheight;     // size in mapblocks
-short           *blockmap;      // int for larger maps
+int             bmapwidth, bmapheight;  // size in mapblocks
+
+short           *blockmap;
+
 // offsets in blockmap are from here
 short           *blockmaplump;
+
 // origin of block map
-fixed_t         bmaporgx;
-fixed_t         bmaporgy;
+fixed_t         bmaporgx, bmaporgy;
+
 // for thing chains
 mobj_t          **blocklinks;
-
 
 // REJECT
 // For fast sight rejection.
@@ -108,7 +98,6 @@ mobj_t          **blocklinks;
 //
 byte            *rejectmatrix;
 
-
 // Maintain single and multi player starting spots.
 #define MAX_DEATHMATCH_STARTS   10
 
@@ -116,19 +105,17 @@ mapthing_t      deathmatchstarts[MAX_DEATHMATCH_STARTS];
 mapthing_t      *deathmatch_p;
 mapthing_t      playerstarts[MAXPLAYERS];
 
-
 boolean         canmodify;
 
 #define DEFAULT 0x7fff
-
 
 //
 // P_LoadVertexes
 //
 void P_LoadVertexes(int lump)
 {
-    byte        *data;
-    int         i;
+    const mapvertex_t *data;
+    int               i;
 
     // Determine number of lumps:
     // total lump length / vertex record length.
@@ -138,14 +125,14 @@ void P_LoadVertexes(int lump)
     vertexes = (vertex_t *)Z_Malloc(numvertexes * sizeof(vertex_t), PU_LEVEL, 0);
 
     // Load data into cache.
-    data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapvertex_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     // Copy and convert vertex coordinates,
     // internal representation as fixed.
     for (i = 0; i < numvertexes; i++)
     {
-        vertexes[i].x = SHORT(((mapvertex_t *)data)[i].x) << FRACBITS;
-        vertexes[i].y = SHORT(((mapvertex_t *)data)[i].y) << FRACBITS;
+        vertexes[i].x = SHORT(data[i].x) << FRACBITS;
+        vertexes[i].y = SHORT(data[i].y) << FRACBITS;
 
         // Apply any level-specific fixes.
         if (canmodify)
@@ -179,21 +166,20 @@ void P_LoadVertexes(int lump)
 //
 void P_LoadSegs(int lump)
 {
-    byte        *data;
-    int         i;
-    int         sidenum;
+    const mapseg_t *data;
+    int            i;
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
     segs = (seg_t *)Z_Malloc(numsegs * sizeof(seg_t), PU_LEVEL, 0);
     memset(segs, 0, numsegs * sizeof(seg_t));
-    data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapseg_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     for (i = 0; i < numsegs; i++)
     {
-        seg_t *li = segs + i;
-        mapseg_t *ml = (mapseg_t *)data + i;
+        seg_t          *li = segs + i;
+        const mapseg_t *ml = data + i;
 
-        int side, linedef;
+        int    side, linedef;
         line_t *ldef;
 
         short v = SHORT(ml->v1);
@@ -226,7 +212,7 @@ void P_LoadSegs(int lump)
 
         if (ldef-> flags & ML_TWOSIDED)
         {
-            sidenum = ldef->sidenum[side ^ 1];
+            int sidenum = ldef->sidenum[side ^ 1];
 
             // If the sidenum is out of range, this may be a "glass hack"
             // impassible window.  Point at side #0 (this may not be
@@ -306,51 +292,47 @@ void P_LoadSegs(int lump)
     W_ReleaseLumpNum(lump);
 }
 
-
 //
 // P_LoadSubsectors
 //
 void P_LoadSubsectors(int lump)
 {
-    byte        *data;
-    int         i;
+    const mapsubsector_t *data;
+    int                  i;
 
     numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
     subsectors = (subsector_t *)Z_Malloc(numsubsectors * sizeof(subsector_t), PU_LEVEL, 0);
-    data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapsubsector_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     memset(subsectors, 0, numsubsectors * sizeof(subsector_t));
 
     for (i = 0; i < numsubsectors; i++)
     {
-        subsectors[i].numlines = SHORT(((mapsubsector_t *)data)[i].numsegs);
-        subsectors[i].firstline = SHORT(((mapsubsector_t *)data)[i].firstseg);
+        subsectors[i].numlines = SHORT(data[i].numsegs);
+        subsectors[i].firstline = SHORT(data[i].firstseg);
     }
 
     W_ReleaseLumpNum(lump);
 }
-
-
 
 //
 // P_LoadSectors
 //
 void P_LoadSectors(int lump)
 {
-    byte        *data;
-    int         i;
-    mapsector_t *ms;
-    sector_t    *ss;
+    byte *data;
+    int  i;
 
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
     sectors = (sector_t *)Z_Malloc(numsectors * sizeof(sector_t), PU_LEVEL, 0);
     memset(sectors, 0, numsectors * sizeof(sector_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
-    ms = (mapsector_t *)data;
-    ss = sectors;
-    for (i = 0; i < numsectors; i++, ss++, ms++)
+    for (i = 0; i < numsectors; i++)
     {
+        sector_t    *ss = sectors + i;
+        mapsector_t *ms = (mapsector_t *)data + i;
+
         ss->floorheight = SHORT(ms->floorheight) << FRACBITS;
         ss->ceilingheight = SHORT(ms->ceilingheight) << FRACBITS;
         ss->floorpic = R_FlatNumForName(ms->floorpic);
@@ -394,34 +376,32 @@ void P_LoadSectors(int lump)
     W_ReleaseLumpNum(lump);
 }
 
-
 //
 // P_LoadNodes
 //
 void P_LoadNodes(int lump)
 {
-    byte        *data;
-    int         i;
-    int         j;
-    int         k;
-    mapnode_t   *mn;
-    node_t      *no;
+    byte *data;
+    int  i;
 
     numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
     nodes = (node_t *)Z_Malloc(numnodes * sizeof(node_t), PU_LEVEL, 0);
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
-    mn = (mapnode_t *)data;
-    no = nodes;
-
-    for (i = 0; i < numnodes; i++, no++, mn++)
+    for (i = 0; i < numnodes; i++)
     {
+        node_t          *no = nodes + i;
+        const mapnode_t *mn = (const mapnode_t *)data + i;
+        int             j;
+
         no->x = SHORT(mn->x) << FRACBITS;
         no->y = SHORT(mn->y) << FRACBITS;
         no->dx = SHORT(mn->dx) << FRACBITS;
         no->dy = SHORT(mn->dy) << FRACBITS;
         for (j = 0; j < 2; j++)
         {
+            int k;
+
             no->children[j] = SHORT(mn->children[j]);
             for (k = 0; k < 4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
@@ -431,31 +411,27 @@ void P_LoadNodes(int lump)
     W_ReleaseLumpNum(lump);
 }
 
-
 //
 // P_LoadThings
 //
 void P_LoadThings(int lump)
 {
-    byte        *data;
-    int         i;
-    mapthing_t  *mt;
-    mapthing_t  spawnthing;
-    int         numthings;
-    boolean     spawn;
+    const mapthing_t *data;
+    int              i;
+    int              numthings;
 
-    data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+    data = (const mapthing_t *)W_CacheLumpNum(lump, PU_STATIC);
     numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
-    mt = (mapthing_t *)data;
-    for (i = 0; i < numthings; i++, mt++)
+    for (i = 0; i < numthings; i++)
     {
-        spawn = true;
+        mapthing_t mt = data[i];
+        boolean    spawn = true;
 
         // Do not spawn cool, new monsters if !commercial
         if (gamemode != commercial)
         {
-            switch (SHORT(mt->type))
+            switch (SHORT(mt.type))
             {
                 case Arachnotron:
                 case ArchVile:
@@ -471,15 +447,15 @@ void P_LoadThings(int lump)
                     break;
             }
         }
-        if (spawn == false)
+        if (!spawn)
             break;
 
         // Do spawn all other stuff.
-        spawnthing.x = SHORT(mt->x);
-        spawnthing.y = SHORT(mt->y);
-        spawnthing.angle = SHORT(mt->angle);
-        spawnthing.type = SHORT(mt->type);
-        spawnthing.options = SHORT(mt->options);
+        mt.x = SHORT(mt.x);
+        mt.y = SHORT(mt.y);
+        mt.angle = SHORT(mt.angle);
+        mt.type = SHORT(mt.type);
+        mt.options = SHORT(mt.options);
 
         // Apply any level-specific fixes.
         if (canmodify)
@@ -492,21 +468,21 @@ void P_LoadThings(int lump)
                     && gameepisode == thingfix[j].epsiode
                     && gamemap == thingfix[j].map
                     && i == thingfix[j].thing
-                    && spawnthing.type == thingfix[j].type
-                    && spawnthing.x == SHORT(thingfix[j].oldx)
-                    && spawnthing.y == SHORT(thingfix[j].oldy))
+                    && mt.type == thingfix[j].type
+                    && mt.x == SHORT(thingfix[j].oldx)
+                    && mt.y == SHORT(thingfix[j].oldy))
                 {
                     if (thingfix[j].newx == REMOVE && thingfix[j].newy == REMOVE)
                         spawn = false;
                     else
                     {
-                        spawnthing.x = SHORT(thingfix[j].newx);
-                        spawnthing.y = SHORT(thingfix[j].newy);
+                        mt.x = SHORT(thingfix[j].newx);
+                        mt.y = SHORT(thingfix[j].newy);
                     }
                     if (thingfix[j].angle != DEFAULT)
-                        spawnthing.angle = SHORT(thingfix[j].angle);
+                        mt.angle = SHORT(thingfix[j].angle);
                     if (thingfix[j].options != DEFAULT)
-                        spawnthing.options = thingfix[j].options;
+                        mt.options = thingfix[j].options;
                     break;
                 }
                 j++;
@@ -514,16 +490,15 @@ void P_LoadThings(int lump)
         }
 
         // Change each WolfensteinSS into Zombiemen in BFG Edition
-        if (spawnthing.type == WolfensteinSS && bfgedition)
-            spawnthing.type = FormerHuman;
+        if (mt.type == WolfensteinSS && bfgedition)
+            mt.type = FormerHuman;
 
         if (spawn)
-            P_SpawnMapThing(&spawnthing);
+            P_SpawnMapThing(&mt);
     }
 
     W_ReleaseLumpNum(lump);
 }
-
 
 //
 // P_LoadLineDefs
@@ -531,22 +506,20 @@ void P_LoadThings(int lump)
 //
 void P_LoadLineDefs(int lump)
 {
-    byte                *data;
-    int                 i;
-    maplinedef_t        *mld;
-    line_t              *ld;
-    vertex_t            *v1;
-    vertex_t            *v2;
+    byte *data;
+    int  i;
 
     numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
     lines = (line_t *)Z_Malloc(numlines * sizeof(line_t), PU_LEVEL, 0);
     memset(lines, 0, numlines * sizeof(line_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
-    mld = (maplinedef_t *)data;
-    ld = lines;
-    for (i = 0; i < numlines; i++, mld++, ld++)
+    for (i = 0; i < numlines; i++)
     {
+        const maplinedef_t *mld = (const maplinedef_t *) data + i;
+        line_t             *ld = lines+i;
+        vertex_t           *v1, *v2;
+
         ld->flags = SHORT(mld->flags);
         ld->hidden = false;
         ld->special = SHORT(mld->special);
@@ -611,26 +584,24 @@ void P_LoadLineDefs(int lump)
     W_ReleaseLumpNum(lump);
 }
 
-
 //
 // P_LoadSideDefs
 //
 void P_LoadSideDefs(int lump)
 {
-    byte                *data;
-    int                 i;
-    mapsidedef_t        *msd;
-    side_t              *sd;
+    byte *data;
+    int  i;
 
     numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
     sides = (side_t *)Z_Malloc(numsides * sizeof(side_t), PU_LEVEL, 0);
     memset(sides, 0, numsides * sizeof(side_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
-    msd = (mapsidedef_t *)data;
-    sd = sides;
-    for (i = 0; i < numsides; i++, msd++, sd++)
+    for (i = 0; i < numsides; i++)
     {
+        mapsidedef_t *msd = (mapsidedef_t *)data + i;
+        side_t *sd = sides + i;
+
         sd->textureoffset = SHORT(msd->textureoffset) << FRACBITS;
         sd->rowoffset = SHORT(msd->rowoffset) << FRACBITS;
         sd->toptexture = R_TextureNumForName(msd->toptexture);
@@ -642,18 +613,14 @@ void P_LoadSideDefs(int lump)
     W_ReleaseLumpNum(lump);
 }
 
-
 //
 // P_LoadBlockMap
 //
 void P_LoadBlockMap(int lump)
 {
     int i;
-    int count;
-    int lumplen;
-
-    lumplen = W_LumpLength(lump);
-    count = lumplen / 2;
+    int lumplen = W_LumpLength(lump);
+    int count = lumplen / 2;
 
     blockmaplump = (short *)Z_Malloc(lumplen, PU_LEVEL, NULL);
     W_ReadLump(lump, blockmaplump);
@@ -661,9 +628,7 @@ void P_LoadBlockMap(int lump)
 
     // Swap all short integers to native byte ordering.
     for (i = 0; i < count; i++)
-    {
         blockmaplump[i] = SHORT(blockmaplump[i]);
-    }
 
     // Read the header
     bmaporgx = blockmaplump[0] << FRACBITS;
@@ -676,7 +641,6 @@ void P_LoadBlockMap(int lump)
     blocklinks = (mobj_t **)Z_Malloc(count, PU_LEVEL, 0);
     memset(blocklinks, 0, count);
 }
-
 
 //
 // P_GroupLines
@@ -848,31 +812,31 @@ void P_GroupLines(void)
 // Firelines (TM) is a Rezistered Trademark of MBF Productions
 //
 
-static void P_RemoveSlimeTrails(void)           // killough 10/98
+static void P_RemoveSlimeTrails(void)               // killough 10/98
 {
-    byte *hit = (byte *)calloc(1, numvertexes); // Hitlist for vertices
+    byte *hit = (byte *)calloc(1, numvertexes);     // Hitlist for vertices
     int i;
 
-    for (i = 0; i < numsegs; i++)               // Go through each seg
+    for (i = 0; i < numsegs; i++)                   // Go through each seg
     {
-        const line_t *l = segs[i].linedef;      // The parent linedef
+        const line_t *l = segs[i].linedef;          // The parent linedef
 
-        if (l->dx && l->dy)                     // We can ignore orthogonal lines
+        if (l->dx && l->dy)                         // We can ignore orthogonal lines
         {
             vertex_t *v = segs[i].v1;
 
             do
-                if (!hit[v - vertexes])         // If we haven't processed vertex
+                if (!hit[v - vertexes])             // If we haven't processed vertex
                 {
                     hit[v - vertexes] = 1;          // Mark this vertex as processed
 
                     if (v != l->v1 && v != l->v2)   // Exclude endpoints of linedefs
                     {
                         // Project the vertex back onto the parent linedef
-                        long long dx2 = (l->dx >> FRACBITS) * (l->dx >> FRACBITS);
-                        long long dy2 = (l->dy >> FRACBITS) * (l->dy >> FRACBITS);
-                        long long dxy = (l->dx >> FRACBITS) * (l->dy >> FRACBITS);
-                        long long s = dx2 + dy2;
+                        int64_t dx2 = (l->dx >> FRACBITS) * (l->dx >> FRACBITS);
+                        int64_t dy2 = (l->dy >> FRACBITS) * (l->dy >> FRACBITS);
+                        int64_t dxy = (l->dx >> FRACBITS) * (l->dy >> FRACBITS);
+                        int64_t s = dx2 + dy2;
                         int x0 = v->x, y0 = v->y, x1 = l->v1->x, y1 = l->v1->y;
 
                         v->x = (int)((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) / s);
@@ -885,19 +849,18 @@ static void P_RemoveSlimeTrails(void)           // killough 10/98
     free(hit);
 }
 
-char            mapnum[6];
-char            maptitle[128];
-char            mapnumandtitle[133];
+char        mapnum[6];
+char        maptitle[128];
+char        mapnumandtitle[133];
 
-extern char     *mapnames[][6];
+extern char *mapnames[][6];
 
 // Determine map name to use
-void P_MapName(int episode, int map)
+void P_MapName(int episode, int map, char mapnum[6])
 {
     switch (gamemission)
     {
         case doom:
-            sprintf(mapnum, "E%iM%i", episode, map);
             if (W_CheckMultipleLumps(mapnum) > 1)
             {
                 strcpy(maptitle, mapnum);
@@ -911,7 +874,6 @@ void P_MapName(int episode, int map)
             break;
 
         case doom2:
-            sprintf(mapnum, "MAP%02i", map);
             if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9))
             {
                 strcpy(maptitle, mapnum);
@@ -925,14 +887,12 @@ void P_MapName(int episode, int map)
             break;
 
         case pack_nerve:
-            sprintf(mapnum, "MAP%02i", map);
             strcpy(maptitle, mapnames[map - 1][pack_nerve]);
             sprintf(mapnumandtitle, "%s: %s", mapnum, maptitle);
             break;
 
         case pack_plut:
         case pack_tnt:
-            sprintf(mapnum, "MAP%02i", map);
             if (W_CheckMultipleLumps(mapnum) > 1)
             {
                 strcpy(maptitle, mapnum);
@@ -950,25 +910,22 @@ void P_MapName(int episode, int map)
     }
 }
 
-
 extern boolean idclev;
-extern int oldweaponsowned[];
+extern int     oldweaponsowned[];
 
 //
 // P_SetupLevel
 //
 void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 {
-    int         i;
-    char        lumpname[9];
-    int         lumpnum;
+    int  i;
+    char lumpname[9];
+    int  lumpnum;
 
     totalkills = totalitems = totalsecret = wminfo.maxfrags = 0;
     wminfo.partime = 0;
     for (i = 0; i < MAXPLAYERS; i++)
-    {
         players[i].killcount = players[i].secretcount = players[i].itemcount = 0;
-    }
 
     // Initial height of PointOfView
     // will be set by player think.
@@ -985,20 +942,9 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     // find map name
     if (gamemode == commercial)
-    {
-        if (map < 10)
-            snprintf(lumpname, 9, "map0%i", map);
-        else
-            snprintf(lumpname, 9, "map%i", map);
-    }
+        snprintf(lumpname, 9, "map02%i", map);
     else
-    {
-        lumpname[0] = 'E';
-        lumpname[1] = '0' + episode;
-        lumpname[2] = 'M';
-        lumpname[3] = '0' + map;
-        lumpname[4] = 0;
-    }
+        sprintf(lumpname, "E%iM%i", episode, map);
 
     if (nerve && gamemission == doom2)
         lumpnum = W_GetNumForName2(lumpname);
@@ -1011,7 +957,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     leveltime = 0;
 
-    P_MapName(gameepisode, gamemap);
+    P_MapName(gameepisode, gamemap, lumpname);
 
     // note: most of this ordering is important
     P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
@@ -1060,8 +1006,6 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
     // preload graphics
     R_PrecacheLevel();
 }
-
-
 
 //
 // P_Init

@@ -418,7 +418,7 @@ void IdentifyIWADByName(char *name)
     {
         char *iwadname;
 
-        iwadname = (iwads[i].name);
+        iwadname = iwads[i].name;
 
         if (strlen(name) < strlen(iwadname))
             continue;

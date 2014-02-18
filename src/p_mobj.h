@@ -45,13 +45,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Needs precompiled tables/data structures.
 #include "info.h"
 
-
 #define FLOATBOBCOUNT 4
-
-
-
-
-
 
 //
 // NOTES: mobj_t
@@ -333,7 +327,5 @@ typedef struct mobj_s
     int                floatbobcount;
 
 } mobj_t;
-
-
 
 #endif

@@ -25,43 +25,21 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdio.h>
-
 #define _USE_MATH_DEFINES
 
 #include <math.h>
 #include <Windows.h>
 #include <Xinput.h>
-
-#include "SDL.h"
-
-#include "z_zone.h"
-#include "doomdef.h"
-#include "st_stuff.h"
-#include "p_local.h"
-#include "w_wad.h"
-
-#include "m_cheat.h"
-#include "i_system.h"
-
-// Needs access to LFB.
-#include "v_video.h"
-
-// State.
-#include "doomstat.h"
-#include "r_state.h"
-
-// Data.
-#include "dstrings.h"
-
 #include "am_map.h"
-
-#include "d_player.h"
+#include "doomstat.h"
+#include "dstrings.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
-#include "i_timer.h"
-#include "s_sound.h"
-
+#include "p_local.h"
+#include "SDL.h"
+#include "st_stuff.h"
+#include "v_video.h"
+#include "z_zone.h"
 
 #define BLACK                   0
 #define WHITE                   4
@@ -81,7 +59,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define MULTIPLAYERCOLOR2       GRAY
 #define MULTIPLAYERCOLOR3       (BROWN + 1)
 #define MULTIPLAYERCOLOR4       (RED + 1)
-#define INVISIBLEPLAYERCOLOR    (DARKGRAY + 2)
+#define INVISIBLEPLAYERCOLOR    (GRAY + 15)
 #define THINGCOLOR              GREEN
 #define WALLCOLOR               RED
 #define ALLMAPWALLCOLOR         (GRAY + 12)
@@ -183,8 +161,6 @@ typedef struct
     mpoint_t a, b;
 } mline_t;
 
-
-
 //
 // The vector graphics for the automap.
 //  A line drawing of the player pointing right,
@@ -238,10 +214,6 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES 3
 
-
-
-
-
 boolean         grid = false;
 
 boolean         automapactive = false;
@@ -265,7 +237,6 @@ static fixed_t  m_x2, m_y2;                     // UR x,y where the window is on
 //
 fixed_t         m_w;
 fixed_t         m_h;
-
 
 // based on level size
 static fixed_t  min_x;
@@ -310,9 +281,6 @@ __inline static int sign(int a)
     return (a > 0) - (a < 0);
 }
 
-//
-//
-//
 void AM_activateNewScale(void)
 {
     m_x += (m_w >> 1);
@@ -325,9 +293,6 @@ void AM_activateNewScale(void)
     m_y2 = m_y + m_h;
 }
 
-//
-//
-//
 void AM_saveScaleAndLoc(void)
 {
     old_m_x = m_x;
@@ -336,9 +301,6 @@ void AM_saveScaleAndLoc(void)
     old_m_h = m_h;
 }
 
-//
-//
-//
 void AM_restoreScaleAndLoc(void)
 {
     m_w = old_m_w;
@@ -405,7 +367,7 @@ void AM_findMinMaxBoundaries(void)
         fixed_t y = vertexes[i].y;
 
         if (x < min_x)
-            min_x = x;
+            min_x = MIN(x, min_x);
         else if (x > max_x)
             max_x = x;
         if (y < min_y)
@@ -426,10 +388,6 @@ void AM_findMinMaxBoundaries(void)
     max_scale_mtof = FixedDiv(MAPHEIGHT << FRACBITS, PLAYERRADIUS << 1);
 }
 
-
-//
-//
-//
 void AM_changeWindowLoc(void)
 {
     fixed_t w = (m_w >> 1);
@@ -463,9 +421,6 @@ void AM_changeWindowLoc(void)
     m_y2 = m_y + m_h;
 }
 
-//
-//
-//
 void AM_Init(void)
 {
     byte priority[256];
@@ -526,10 +481,6 @@ void AM_Init(void)
     gridcolor = priorities + (GRIDCOLOR << 8);
 }
 
-
-//
-//
-//
 void AM_initVariables(void)
 {
     static event_t st_notify = { ev_keyup, AM_MSGENTERED, 0, 0 };
@@ -595,10 +546,6 @@ void AM_LevelInit(void)
     old_m_h = m_h;
 }
 
-
-//
-//
-//
 void AM_Stop(void)
 {
     static event_t st_notify = { (evtype_t)0, ev_keyup, AM_MSGEXITED, 0 };
@@ -612,9 +559,6 @@ void AM_Stop(void)
 
 int lastlevel = -1, lastepisode = -1;
 
-//
-//
-//
 void AM_Start(void)
 {
     if (!stopped)
@@ -1100,7 +1044,6 @@ boolean AM_Responder(event_t *ev)
     return rc;
 }
 
-
 //
 // Zooming
 //
@@ -1118,10 +1061,6 @@ void AM_changeWindowScale(void)
         AM_activateNewScale();
 }
 
-
-//
-//
-//
 void AM_doFollowPlayer(void)
 {
     fixed_t x = plr->mo->x;
@@ -1138,10 +1077,6 @@ void AM_doFollowPlayer(void)
     }
 }
 
-
-//
-//
-//
 void AM_decelerate(void)
 {
     if (decpanx)
@@ -1150,9 +1085,8 @@ void AM_decelerate(void)
         m_paninc.y = sign(m_paninc.y) * FTOM(--decpany);
 }
 
-
 //
-// Updates on Game Tick
+// Updates on Game Tic
 //
 void AM_Ticker(void)
 {
@@ -1183,7 +1117,6 @@ void AM_Ticker(void)
     }
 }
 
-
 //
 // Clear automap frame buffer.
 //
@@ -1191,7 +1124,6 @@ void AM_clearFB(void)
 {
     memset(*screens, BACKGROUNDCOLOR, MAPAREA);
 }
-
 
 //
 // Automap clipping of lines.
@@ -1209,8 +1141,8 @@ static boolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
         BOTTOM = 8
     };
 
-    unsigned int        outcode1 = 0;
-    unsigned int        outcode2 = 0;
+    unsigned int outcode1 = 0;
+    unsigned int outcode2 = 0;
 
     *x0 = CXMTOF(*x0);
     if (*x0 < -1)
@@ -1242,25 +1174,25 @@ static __inline void _PUTDOT(byte *dot, byte *color)
     *dot = *(*dot + color);
 }
 
-static __inline void PUTDOT(int x, int y, byte *color)
+static __inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if ((unsigned)x < MAPWIDTH && (unsigned)y < MAPAREA)
+    if (x < MAPWIDTH && y < MAPAREA)
         _PUTDOT(*screens + y + x, color);
 }
 
-static __inline void PUTBIGDOT(int x, int y, byte *color)
+static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if ((unsigned)x < MAPWIDTH)
+    if (x < MAPWIDTH)
     {
-        byte *dot = *screens + y + x;
-        boolean top = ((unsigned)y < MAPAREA);
-        boolean bottom = ((unsigned)y + MAPWIDTH < MAPAREA);
+        byte    *dot = *screens + y + x;
+        boolean top = (y < MAPAREA);
+        boolean bottom = (y + MAPWIDTH < MAPAREA);
 
         if (top)
             _PUTDOT(dot, color);
         if (bottom)
             _PUTDOT(dot + MAPWIDTH, color);
-        if ((unsigned)x + 1 < MAPWIDTH)
+        if (x + 1 < MAPWIDTH)
         {
             if (top)
                 _PUTDOT(dot + 1, color);
@@ -1268,23 +1200,22 @@ static __inline void PUTBIGDOT(int x, int y, byte *color)
                 _PUTDOT(dot + MAPWIDTH + 1, color);
         }
     }
-    else if ((unsigned)(++x) < MAPWIDTH)
+    else if (++x < MAPWIDTH)
     {
         byte *dot = *screens + y + x;
 
-        if ((unsigned)y < MAPAREA)
+        if (y < MAPAREA)
             _PUTDOT(dot, color);
-        if ((unsigned)y + MAPWIDTH < MAPAREA)
+        if (y + MAPWIDTH < MAPAREA)
             _PUTDOT(dot + MAPWIDTH, color);
     }
 }
-
 
 //
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
 static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
-                         void (*putdot)(int, int, byte *))
+                         void (*putdot)(unsigned int, unsigned int, byte *))
 {
     int dx = x1 - x0;
     int dy = y1 - y0;
@@ -1374,7 +1305,6 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
     }
 }
 
-
 //
 // Clip lines, draw visible parts of lines.
 //
@@ -1389,8 +1319,6 @@ static void AM_drawBigMline(int x0, int y0, int x1, int y1, byte *color)
     if (AM_clipMline(&x0, &y0, &x1, &y1))
         AM_drawFline(x0, y0, x1, y1, color, PUTBIGDOT); // draws it on frame buffer using fb coords
 }
-
-
 
 //
 // Draws flat (floor/ceiling tile) aligned grid lines.
@@ -1429,7 +1357,6 @@ static void AM_drawGrid(void)
     }
 }
 
-
 //
 // Determines visible lines, draws them.
 // This is LineDef based, not LineSeg based.
@@ -1438,34 +1365,31 @@ static void AM_drawWalls(void)
 {
     boolean allmap = plr->powers[pw_allmap];
     boolean cheating = (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS));
-    int i = 0;
+    int     i = 0;
 
     while (i < numlines)
     {
         line_t *line = &lines[i++];
-        short flags = line->flags;
+        short  flags = line->flags;
 
-        if ((flags & ML_DONTDRAW)
-            && !cheating)
+        if ((flags & ML_DONTDRAW) && !cheating)
             continue;
         else
         {
             sector_t *backsector = line->backsector;
             sector_t *frontsector = line->frontsector;
-            short mapped = (flags & ML_MAPPED);
-            short secret = (flags & ML_SECRET);
-            short special = line->special;
+            short    mapped = (flags & ML_MAPPED);
+            short    secret = (flags & ML_SECRET);
+            short    special = line->special;
 
-            if (special == 39
-                || special == 52
-                || special == 97
-                || (special >= 124
-                    && special <= 126))
+            if (special == W1_TeleportToTaggedSectorContainingTeleportLanding
+                || special == W1_ExitLevel
+                || special == WR_TeleportToTaggedSectorContainingTeleportLanding
+                || (special >= W1_ExitLevelAndGoToSecretLevel  
+                    && special <= MR_TeleportToTaggedSectorContainingTeleportLanding))
             {
-                if (cheating
-                    || (mapped
-                        && !secret
-                        && backsector->ceilingheight != backsector->floorheight))
+                if (cheating || (mapped && !secret
+                    && backsector->ceilingheight != backsector->floorheight))
                 {
                     AM_drawMline(line->v1->x, line->v1->y,
                                  line->v2->x, line->v2->y, teleportercolor);
@@ -1516,7 +1440,6 @@ static void AM_drawWalls(void)
     }
 }
 
-
 //
 // Rotation in 2D.
 // Used to rotate player arrow line character.
@@ -1530,7 +1453,6 @@ static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
     *y = FixedMul(*x, sine) + FixedMul(*y, cosine);
     *x = temp;
 }
-
 
 void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
                           angle_t angle, byte *color, fixed_t x, fixed_t y)
@@ -1584,16 +1506,14 @@ void AM_drawPlayers(void)
             multiplayercolor3,
             multiplayercolor4
         };
-        int i;
+
+        int      i;
         player_t *multiplayer;
 
         for (i = 0; i < MAXPLAYERS; ++i)
         {
             multiplayer = &players[i];
-            if (!playeringame[i]
-                || (deathmatch
-                    && !singledemo
-                    && multiplayer != plr))
+            if (!playeringame[i] || (deathmatch && !singledemo && multiplayer != plr))
                 continue;
             if (multiplayer == plr)
                 AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
@@ -1605,7 +1525,7 @@ void AM_drawPlayers(void)
                 AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
                                      multiplayer->mo->angle,
                                      (invisibility > 128 || (invisibility & 8) ?
-                                         invisibleplayercolor : multiplayercolors[i]),
+                                     invisibleplayercolor : multiplayercolors[i]),
                                      multiplayer->mo->x, multiplayer->mo->y);
             }
         }
@@ -1665,7 +1585,7 @@ const char *marknums[10] =
     "112222210111122101111221012222210122221101111110"
 };
 
-#define MARKWIDTH   8
+#define MARKWIDTH  8
 #define MARKHEIGHT 12
 
 void AM_drawMarks(void)

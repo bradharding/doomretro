@@ -31,19 +31,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include <inttypes.h>
 
-#ifdef __cplusplus
-
-// Use builtin bool type with C++.
-
-#else
-
 typedef enum
 {
     false,
     true
 } bool;
-
-#endif
 
 typedef uint8_t byte;
 
@@ -51,17 +43,8 @@ typedef uint8_t byte;
 
 #define boolean bool
 
-#ifdef _WIN32
-
 #define DIR_SEPARATOR '\\'
 #define PATH_SEPARATOR ';'
-
-#else
-
-#define DIR_SEPARATOR '/'
-#define PATH_SEPARATOR ':'
-
-#endif
 
 #define arrlen(array) (sizeof(array) / sizeof(*array))
 

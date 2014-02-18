@@ -1397,7 +1397,6 @@ void G_DoCompleted(void)
     WI_Start(&wminfo);
 }
 
-
 //
 // G_WorldDone
 //
