@@ -816,6 +816,13 @@ void ToggleWideScreen(boolean toggle)
 
         widescreen = true;
 
+        if (returntowidescreen == true && screenblocks == 11)
+        {
+            screenblocks = 10;
+            //screenSize = 8;
+            R_SetViewSize(screenblocks);
+        }
+
         width = screen->w;
         height = screen->h + (int)((double)screen->h * 32 / (ORIGINALHEIGHT - 32) + 1.5);
     }
@@ -873,8 +880,11 @@ void ToggleFullScreen(void)
             {
                 dest_rect.x = 1;
                 ToggleWideScreen(true);
-                if (widescreen)
-                    screenblocks--;
+                if (widescreen && screenblocks == 11)
+                {
+                    screenblocks = 10;
+                    R_SetViewSize(screenblocks);
+                }
                 R_SetViewSize(screenblocks);
                 initialized = true;
                 return;
