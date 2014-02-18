@@ -796,17 +796,17 @@ void D_SetGameDescription(void)
         {
             // Ultimate Doom
             if (bfgedition)
-                gamedescription = "The Ultimate DOOM\u2122 (BFG Edition)";
+                gamedescription = "The Ultimate DOOM\xE2\x84\xA2 (BFG Edition)";
             else
-                gamedescription = "The Ultimate DOOM\u2122";
+                gamedescription = "The Ultimate DOOM\xE2\x84\xA2";
         }
         else if (gamemode == registered)
         {
-            gamedescription = "DOOM\u2122 Registered";
+            gamedescription = "DOOM\xE2\x84\xA2 Registered";
         }
         else if (gamemode == shareware)
         {
-            gamedescription = "DOOM\u2122 Shareware";
+            gamedescription = "DOOM\xE2\x84\xA2 Shareware";
         }
     }
     else
@@ -815,20 +815,20 @@ void D_SetGameDescription(void)
         if (nerve)
         {
                 if (bfgedition)
-                    gamedescription = "DOOM\u2122 II (BFG Edition)";
+                    gamedescription = "DOOM\xE2\x84\xA2 II (BFG Edition)";
                 else
-                    gamedescription = "DOOM\u2122 II";
+                    gamedescription = "DOOM\xE2\x84\xA2 II";
         }
         else if (gamemission == doom2)
         {
             if (bfgedition)
-                gamedescription = "DOOM\u2122 II: Hell On Earth (BFG Edition)";
+                gamedescription = "DOOM\xE2\x84\xA2 II: Hell On Earth (BFG Edition)";
             else
-                gamedescription = "DOOM\u2122 II: Hell On Earth";
+                gamedescription = "DOOM\xE2\x84\xA2 II: Hell On Earth";
         }
         else if (gamemission == pack_plut)
-            gamedescription = "Final DOOM\u2122: The Plutonia Experiment";
+            gamedescription = "Final DOOM\xE2\x84\xA2: The Plutonia Experiment";
         else if (gamemission == pack_tnt)
-            gamedescription = "Final DOOM\u2122: TNT - Evilution";
+            gamedescription = "Final DOOM\xE2\x84\xA2: TNT - Evilution";
     }
 }
