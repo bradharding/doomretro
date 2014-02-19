@@ -856,11 +856,12 @@ char        mapnumandtitle[133];
 extern char *mapnames[][6];
 
 // Determine map name to use
-void P_MapName(int episode, int map, char mapnum[6])
+void P_MapName(int episode, int map)
 {
     switch (gamemission)
     {
         case doom:
+            sprintf(mapnum, "E%iM%i", episode, map);
             if (W_CheckMultipleLumps(mapnum) > 1)
             {
                 strcpy(maptitle, mapnum);
@@ -874,6 +875,7 @@ void P_MapName(int episode, int map, char mapnum[6])
             break;
 
         case doom2:
+            sprintf(mapnum, "MAP%02i", map);
             if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9))
             {
                 strcpy(maptitle, mapnum);
@@ -887,12 +889,14 @@ void P_MapName(int episode, int map, char mapnum[6])
             break;
 
         case pack_nerve:
+            sprintf(mapnum, "MAP%02i", map);
             strcpy(maptitle, mapnames[map - 1][pack_nerve]);
             sprintf(mapnumandtitle, "%s: %s", mapnum, maptitle);
             break;
 
         case pack_plut:
         case pack_tnt:
+            sprintf(mapnum, "MAP%02i", map);
             if (W_CheckMultipleLumps(mapnum) > 1)
             {
                 strcpy(maptitle, mapnum);
@@ -919,7 +923,7 @@ extern int     oldweaponsowned[];
 void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 {
     int  i;
-    char lumpname[9];
+    char lumpname[6];
     int  lumpnum;
 
     totalkills = totalitems = totalsecret = wminfo.maxfrags = 0;
@@ -957,7 +961,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     leveltime = 0;
 
-    P_MapName(gameepisode, gamemap, lumpname);
+    P_MapName(gameepisode, gamemap);
 
     // note: most of this ordering is important
     P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
