@@ -894,31 +894,26 @@ void P_PlayerInSpecialSector(player_t *player)
     // Has hit ground.
     switch (sector->special)
     {
-        case 5:
-            // HELLSLIME DAMAGE
+        case HellslimeDamage:
             if (!player->powers[pw_ironfeet])
                 if (!(leveltime & 0x1f))
                     P_DamageMobj(player->mo, NULL, NULL, 10);
             break;
 
-        case 7:
-            // NUKAGE DAMAGE
+        case NukageDamage:
             if (!player->powers[pw_ironfeet])
                 if (!(leveltime & 0x1f))
                       P_DamageMobj(player->mo, NULL, NULL, 5);
             break;
 
-        case 16:
-            // SUPER HELLSLIME DAMAGE
-        case 4:
-            // STROBE HURT
+        case StrobeHurt:
+        case SuperHellslimeDamage:
             if (!player->powers[pw_ironfeet] || P_Random() < 5)
                 if (!(leveltime & 0x1f))
                     P_DamageMobj(player->mo, NULL, NULL, 20);
             break;
 
-        case 9:
-            // SECRET SECTOR
+        case SecretSector:
             player->secretcount++;
             sector->special = 0;
 
@@ -926,8 +921,8 @@ void P_PlayerInSpecialSector(player_t *player)
                 sector->lines[i]->flags &= ~ML_SECRET;
             break;
 
-        case 11:
-            // EXIT SUPER DAMAGE! (for E1M8 finale)
+        case ExitSuperDamage:
+            // for E1M8 finale
             player->cheats &= ~CF_GODMODE;
             player->powers[pw_invulnerability] = 0;
 
@@ -1134,58 +1129,48 @@ void P_SpawnSpecials(void)
 
         switch (sector->special)
         {
-            case 1:
-                // FLICKERING LIGHTS
+            case FlickeringLights:
                 P_SpawnLightFlash(sector);
                 break;
 
-            case 2:
-                // STROBE FAST
+            case StrobeFast:
                 P_SpawnStrobeFlash(sector, FASTDARK, 0);
                 break;
 
-            case 3:
-                // STROBE SLOW
+            case StrobeSlow:
                 P_SpawnStrobeFlash(sector, SLOWDARK, 0);
                 break;
 
-            case 4:
-                // STROBE FAST/DEATH SLIME
+            case StrobeHurt:
                 P_SpawnStrobeFlash(sector, FASTDARK, 0);
-                sector->special = 4;
+                sector->special = StrobeHurt;
                 break;
 
-            case 8:
-                // GLOWING LIGHT
+            case GlowingLight:
                 P_SpawnGlowingLight(sector);
                 break;
 
-            case 9:
-                // SECRET SECTOR
+            case SecretSector:
                 totalsecret++;
                 break;
 
-            case 10:
-                // DOOR CLOSE IN 30 SECONDS
+            case CloseDoorIn30Seconds:
                 P_SpawnDoorCloseIn30(sector);
                 break;
 
-            case 12:
-                // SYNC STROBE SLOW
+            case SyncStrobeSlow:
                 P_SpawnStrobeFlash(sector, SLOWDARK, 1);
                 break;
 
-            case 13:
-                // SYNC STROBE FAST
+            case SyncStrobeFast:
                 P_SpawnStrobeFlash(sector, FASTDARK, 1);
                 break;
 
-            case 14:
-                // DOOR RAISE IN 5 MINUTES
+            case RaiseDoorIn5Minutes:
                 P_SpawnDoorRaiseIn5Mins(sector, i);
                 break;
 
-            case 17:
+            case FlickeringFire:
                 P_SpawnFireFlicker(sector);
                 break;
         }

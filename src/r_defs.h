@@ -374,6 +374,25 @@ typedef enum
     W1_StartSlowQuietCrusher                                      = 141
 } linespecial_t;
 
+typedef enum
+{
+    FlickeringLights     =  1,
+    StrobeFast           =  2,
+    StrobeSlow           =  3,
+    StrobeHurt           =  4,
+    HellslimeDamage      =  5,
+    NukageDamage         =  7,
+    GlowingLight         =  8,
+    SecretSector         =  9,
+    CloseDoorIn30Seconds = 10,
+    ExitSuperDamage      = 11,
+    SyncStrobeSlow       = 12,
+    SyncStrobeFast       = 13,
+    RaiseDoorIn5Minutes  = 14,
+    SuperHellslimeDamage = 16,
+    FlickeringFire       = 17
+}
+sectorspecial_t;
 
 typedef enum
 {
