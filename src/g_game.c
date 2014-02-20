@@ -358,7 +358,8 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
                 cmd->buttons |= i << BT_WEAPONSHIFT;
                 break;
             }
-            else if (gamepadbuttons & *gamepadweapons[i])
+            else if ((gamepadbuttons & *gamepadweapons[i])
+                     && players[consoleplayer].readyweapon != i)
             {
                 cmd->buttons |= BT_CHANGE;
                 cmd->buttons |= i << BT_WEAPONSHIFT;
