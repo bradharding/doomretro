@@ -467,10 +467,6 @@ static int GetSliceSize(void)
 
         if ((1 << (n + 1)) > limit)
             return (1 << n);
-
-    // Should never happen?
-
-    return 1024;
 }
 
 static boolean I_SDL_InitSound(void)

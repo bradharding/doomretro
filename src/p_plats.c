@@ -29,23 +29,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "i_system.h"
 #include "z_zone.h"
 #include "m_random.h"
-
-#include "doomdef.h"
 #include "p_local.h"
-
 #include "s_sound.h"
-
-// State.
 #include "doomstat.h"
-#include "r_state.h"
 
-// Data.
-#include "sounds.h"
-
-
-plat_t          *activeplats[MAXPLATS];
-
-
+plat_t *activeplats[MAXPLATS];
 
 //
 // Move a plat up and down
@@ -57,13 +45,9 @@ void T_PlatRaise(plat_t *plat)
     switch (plat->status)
     {
         case up:
-            res = T_MovePlane(plat->sector,
-                              plat->speed,
-                              plat->high,
-                              plat->crush, 0, 1);
+            res = T_MovePlane(plat->sector, plat->speed, plat->high, plat->crush, 0, 1);
 
-            if (plat->type == raiseAndChange
-                || plat->type == raiseToNearestAndChange)
+            if (plat->type == raiseAndChange || plat->type == raiseToNearestAndChange)
             {
                 if (!(leveltime & 7) && plat->sector->floorheight != plat->high)
                     S_StartSound(&plat->sector->soundorg, sfx_stnmov);
@@ -113,10 +97,7 @@ void T_PlatRaise(plat_t *plat)
         case waiting:
             if (!--plat->count)
             {
-                if (plat->sector->floorheight == plat->low)
-                    plat->status = up;
-                else
-                    plat->status = down;
+                plat->status = (plat->sector->floorheight == plat->low ? up : down);
                 S_StartSound(&plat->sector->soundorg, sfx_pstart);
             }
 
@@ -125,7 +106,6 @@ void T_PlatRaise(plat_t *plat)
     }
 }
 
-
 //
 // Do Platforms
 //  "amount" is only used for SOME platforms.
@@ -133,12 +113,9 @@ void T_PlatRaise(plat_t *plat)
 int EV_DoPlat(line_t *line, plattype_e type, int amount)
 {
     plat_t      *plat;
-    int         secnum;
-    int         rtn, i;
-    sector_t    *sec;
-
-    secnum = -1;
-    rtn = 0;
+    int         secnum = -1;
+    int         rtn = 0;
+    sector_t    *sec = NULL;
 
     //  Activate all <type> plats that are in_stasis
     switch (type)
@@ -179,7 +156,6 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->high = P_FindNextHighestFloor(sec, sec->floorheight);
                 plat->wait = 0;
                 plat->status = up;
-                // NO MORE DAMAGE, IF APPLICABLE
                 sec->special = 0;
 
                 S_StartSound(&sec->soundorg, sfx_stnmov);
@@ -244,14 +220,14 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
 
     if (sec)
     {
+        int i;
+
         for (i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
     }
 
     return rtn;
 }
-
-
 
 void P_ActivateInStasis(int tag)
 {

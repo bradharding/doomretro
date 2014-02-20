@@ -113,7 +113,7 @@ WNDPROC oldProc;
 HICON icon;
 HWND hwnd;
 
-boolean MouseShouldBeGrabbed();
+boolean MouseShouldBeGrabbed(void);
 void ToggleFullScreen(void);
 void I_InitGamepad(void);
 
@@ -160,9 +160,10 @@ void init_win32(LPCTSTR lpIconName)
     oldProc = (WNDPROC)SetWindowLong(hwnd, GWL_WNDPROC, (LONG)WndProc);
 }
 
-void done_win32()
+void done_win32(void)
 {
     DestroyIcon(icon);
+    UnhookWindowsHookEx(g_hKeyboardHook);
 }
 
 int main(int argc, char **argv)
@@ -182,8 +183,4 @@ int main(int argc, char **argv)
     // start doom
 
     D_DoomMain();
-
-    UnhookWindowsHookEx(g_hKeyboardHook);
-
-    return 0;
 }

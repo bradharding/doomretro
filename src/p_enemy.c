@@ -545,8 +545,6 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
         actor->target = player->mo;
         return true;
     }
-
-    return false;
 }
 
 //

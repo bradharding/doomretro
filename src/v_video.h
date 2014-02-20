@@ -70,7 +70,7 @@ void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch);
 
-void V_DrawPixel(int x, int y, int screen, int color, boolean shadow);
+void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow);
 
 
 // Draw a linear block of pixels into the view buffer.

@@ -540,7 +540,7 @@ void V_GetBlock(int x, int y, int scrn, int width, int height, byte *dest)
     }
 }
 
-void V_DrawPixel(int x, int y, int screen, int color, boolean shadow)
+void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow)
 {
     byte *dest = &screens[screen][y * 2 * SCREENWIDTH + x * 2];
 
@@ -599,6 +599,9 @@ boolean V_ScreenShot(void)
     char folder[MAX_PATH];
 
     HRESULT hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
+
+    if (!hr)
+        return false;
 
     if (usergame)
         strcpy(mapname, maptitle);

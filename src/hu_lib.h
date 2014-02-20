@@ -117,7 +117,7 @@ boolean HUlib_addCharToTextLine(hu_textline_t *t, char ch);
 boolean HUlib_delCharFromTextLine(hu_textline_t *t);
 
 // draws tline
-void HUlib_drawTextLine(hu_textline_t *l, boolean drawcursor);
+void HUlib_drawTextLine(hu_textline_t *l);
 
 // erases text line
 void HUlib_eraseTextLine(hu_textline_t *l);

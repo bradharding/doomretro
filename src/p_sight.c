@@ -26,13 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "doomdef.h"
-
-#include "i_system.h"
 #include "p_local.h"
-
-// State.
-#include "r_state.h"
 
 //
 // P_CheckSight
@@ -47,12 +41,11 @@ fixed_t         t2y;
 
 int             sightcounts[2];
 
-
 //
 // P_DivlineSide
 // Returns side 0 (front), 1 (back), or 2 (on).
 //
-int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
+__inline static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 {
     fixed_t left, right;
 
@@ -64,14 +57,13 @@ int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
         right == left ? 2 : 1);
 }
 
-
 //
 // P_InterceptVector2
 // Returns the fractional intercept point
 // along the first divline.
 // This is only called by the addthings and addlines traversers.
 //
-static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
+__inline static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 {
     fixed_t den;
 
@@ -102,7 +94,6 @@ static boolean P_CrossSubsector(int num)
     vertex_t            *v1;
     vertex_t            *v2;
     fixed_t             frac;
-    fixed_t             slope;
 
     sub = &subsectors[num];
 
@@ -144,9 +135,7 @@ static boolean P_CrossSubsector(int num)
         // glass" hack line.
 
         if (line->backsector == NULL)
-        {
             return false;
-        }
 
         // stop because it is not two sided anyway
         // might do this after updating validcount?
@@ -164,16 +153,10 @@ static boolean P_CrossSubsector(int num)
 
         // possible occluder
         // because of ceiling height differences
-        if (front->ceilingheight < back->ceilingheight)
-            opentop = front->ceilingheight;
-        else
-            opentop = back->ceilingheight;
+        opentop = MIN(front->ceilingheight, back->ceilingheight);
 
         // because of ceiling height differences
-        if (front->floorheight > back->floorheight)
-            openbottom = front->floorheight;
-        else
-            openbottom = back->floorheight;
+        openbottom = MAX(front->floorheight, back->floorheight);
 
         // quick test for totally closed doors
         if (openbottom >= opentop)
@@ -183,14 +166,16 @@ static boolean P_CrossSubsector(int num)
 
         if (front->floorheight != back->floorheight)
         {
-            slope = FixedDiv(openbottom - sightzstart, frac);
+            fixed_t slope = FixedDiv(openbottom - sightzstart, frac);
+
             if (slope > bottomslope)
                 bottomslope = slope;
         }
 
         if (front->ceilingheight != back->ceilingheight)
         {
-            slope = FixedDiv(opentop - sightzstart, frac);
+            fixed_t slope = FixedDiv(opentop - sightzstart, frac);
+
             if (slope < topslope)
                 topslope = slope;
         }

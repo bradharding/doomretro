@@ -188,7 +188,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
 void R_RenderSegLoop(void)
 {
-    fixed_t texturecolumn;
+    fixed_t texturecolumn = 0;
 
     for (; rw_x < rw_stopx; rw_x++)
     {

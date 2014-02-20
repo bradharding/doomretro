@@ -140,10 +140,10 @@ static struct
     { 'Y', ',', -1 }
 };
 
-void HUlib_drawTextLine(hu_textline_t *l, boolean drawcursor)
+void HUlib_drawTextLine(hu_textline_t *l)
 {
     int                 i;
-    int                 w;
+    int                 w = 0;
     int                 tw = 0;
     int                 x, y;
     int                 xx, yy;
@@ -351,7 +351,7 @@ void HUlib_drawSText(hu_stext_t *s)
         l = &s->l[idx];
 
         // need a decision made here on whether to skip the draw
-        HUlib_drawTextLine(l, false); // no cursor, please
+        HUlib_drawTextLine(l); // no cursor, please
     }
 }
 
@@ -429,7 +429,7 @@ void HUlib_drawIText(hu_itext_t *it)
 
     if (!*it->on)
         return;
-    HUlib_drawTextLine(l, true); // draw the line w/ cursor
+    HUlib_drawTextLine(l);
 
 }
 

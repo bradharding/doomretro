@@ -626,7 +626,7 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-static __inline void blit(void)
+static __forceinline void blit(void)
 {
     fixed_t i = 0;
     fixed_t y = starty;

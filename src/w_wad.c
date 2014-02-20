@@ -302,8 +302,6 @@ int W_RangeCheckNumForName(int min, int max, char *name)
             return i;
 
     I_Error("W_RangeCheckNumForName: %s not found!", name);
-
-    return 0;
 }
 
 //

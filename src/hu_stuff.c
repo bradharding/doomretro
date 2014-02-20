@@ -256,7 +256,7 @@ void HU_Drawer(void)
     if (automapactive)
     {
         w_title.x = (fullscreen && !widescreen ? 0 : 3);
-        HUlib_drawTextLine(&w_title, false);
+        HUlib_drawTextLine(&w_title);
     }
 
 }

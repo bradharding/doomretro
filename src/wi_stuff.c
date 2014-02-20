@@ -406,14 +406,6 @@ void WI_slamBackground(void)
     memcpy(screens[0], screens[1], SCREENWIDTH * SCREENHEIGHT);
 }
 
-// The ticker is used to detect keys
-//  because of timing issues in netgames.
-boolean WI_Responder(event_t *ev)
-{
-    return false;
-}
-
-
 // [BH] Draws character of "<Levelname>"
 void WI_drawWILVchar(int x, int y, int i)
 {
@@ -787,10 +779,10 @@ void WI_drawTime(int x, int y, int t)
     }
 }
 
+void WI_unloadData(void);
 
 void WI_End(void)
 {
-    void WI_unloadData(void);
     WI_unloadData();
 }
 
