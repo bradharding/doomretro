@@ -347,7 +347,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
     if (!idclev && !idmus)
     {
-        for (i = 0; i < NUMWEAPONS - 1; i++)
+        for (i = 0; i < (sizeof(gamepadweapons)/sizeof(gamepadweapons[0])) - 1; i++)
         {
             int key = *weapon_keys[i];
 
