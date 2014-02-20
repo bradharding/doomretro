@@ -31,7 +31,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <Windows.h>
 #include <XInput.h>
 
-#pragma comment(lib, "XInput.lib")
+#pragma comment(lib, "XInput9_1_0.lib")
 
 #include "SDL.h"
 #include "SDL_joystick.h"
