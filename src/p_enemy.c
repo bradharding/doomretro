@@ -1716,8 +1716,7 @@ void A_BrainAwake(mobj_t *mo)
         }
     }
 
-    if (!nomonsters)
-        S_StartSound(NULL, sfx_bossit);
+    S_StartSound(NULL, sfx_bossit);
 }
 
 void A_BrainPain(mobj_t *mo)
