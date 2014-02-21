@@ -1,0 +1,1427 @@
+<!--
+====================================================================
+
+DOOM RETRO
+A classic, refined DOOM source port. For Windows PC.
+
+Copyright © 2013-2014 Brad Harding.
+
+This file is part of DOOM RETRO.
+
+DOOM RETRO is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+DOOM RETRO is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
+
+====================================================================
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "//www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="//www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="<$BlogLanguageDirection$>">
+
+  <head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+
+    <link rel="shortcut icon" href="<$BlogURL$>favicon.ico" />
+
+    <link href="//fonts.googleapis.com/css?family=Bitter:400,700,400italic" rel="stylesheet" type="text/css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+      @font-face {
+        font-family: Retro;
+        font-style: normal;
+        font-weight: normal;
+        src: url("//googledrive.com/host/0B5fBO3r3nBkHVWRZN3hlV0sxdEU?") format("embedded-opentype"),
+             url("//googledrive.com/host/0B5fBO3r3nBkHTGNtOVlIODd4dzA") format("woff"),
+             url("//googledrive.com/host/0B5fBO3r3nBkHa055cW9UNzdPUmM") format("truetype"),
+             url("//googledrive.com/host/0B5fBO3r3nBkHZENVTU9KV1ExQ28#retro") format("svg");
+      }
+    </style>
+
+    <MainOrArchivePage>
+      <title><$BlogTitle$> – <$BlogDescription$></title>
+    </MainOrArchivePage>
+    <Blogger>
+      <ItemPage>
+        <title><$BlogItemTitle$></title>
+      </ItemPage>
+    </Blogger>
+
+    <meta name="description" content="<$BlogDescription$>" />
+
+    <link rel="alternate" type="application/atom+xml" title="<$BlogTitle$>" href="<$BlogSiteFeedUrl$>" />
+    <link rel="alternate" type="application/rss+xml" title="<$BlogTitle$>" href="<$BlogSiteFeedUrl$>?alt=rss" />
+
+    <!-- jquery-1.10.2.min.js -->
+    <script src="//googledrive.com/host/0B5fBO3r3nBkHbi15cDRwaEV3QVE" type="text/javascript"></script>
+
+    <!-- moment.min.js -->
+    <script src="//googledrive.com/host/0B5fBO3r3nBkHLV9PdE9ZMUVWQlE" type="text/javascript"></script>
+
+    <!-- reset.css -->
+    <link href="//googledrive.com/host/0B5fBO3r3nBkHXzE3U0V5bDBqdFU" rel="stylesheet" type="text/css" />
+
+    <!-- lightbox.css -->
+    <link href="//googledrive.com/host/0B5fBO3r3nBkHOEFUVEZCZWVBbU0" rel="stylesheet" type="text/css" />
+
+    <!-- jquery.qtip.min.css -->
+    <link href="//googledrive.com/host/0B5fBO3r3nBkHUS0td0hJdXdVODA" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+      body {
+        background-color: #5c6367;
+        color: #000;
+        counter-reset: figure;
+        cursor: default;
+        font: 13px Bitter, serif;
+        margin: 0 !important;
+        text-align: center;
+        -khtml-user-select: none;
+        -moz-user-select: -moz-none;
+        -o-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(189, 68, 68, 0.8);
+      }
+
+      #content {
+        background: #4d4b4b url(//4.bp.blogspot.com/-j4KTbAKOAgM/UjDveIVrB3I/AAAAAAAAEAM/zihZqarcu_s/s1600/background.png) repeat-y right top;
+        border-left: 2px solid #4a4f52;
+        border-right: 2px solid #4a4f52;
+        margin: 0 auto;
+        position: relative;
+        text-align: left;
+        width: 999px;
+      }
+
+      #main {
+        background-color: #fff;
+        border-left: 1px solid #35312a;
+        color: #444;
+        float: left;
+        line-height: 19px;
+        margin: 0;
+        min-height: 2300px;
+        padding: 36px 0 23px 0;
+        width: 680px;
+      }
+
+      #sidebar {
+        background: #4d4b4b url(//1.bp.blogspot.com/--tXIPjotsjc/UjAGAXDUveI/AAAAAAAAD_U/v3Z7S1fubr4/s1600/sidebar.png) no-repeat center top;
+        border-right: 1px solid #35312a;
+        float: right;
+        font-size: 97%;
+        height: 1250px;
+        line-height: 24px;
+        text-align: justify;
+        width: 310px;
+      }
+
+      i {
+        font-style: italic;
+      }
+
+      img {
+        border: 0;
+        -webkit-user-drag: none;
+      }
+
+      a,
+      input {
+        -webkit-user-drag: none;
+      }
+
+      a:link,
+      a:visited {
+        color: #4c5dae;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #7c89c6 !important;
+      }
+
+      *:focus {
+        outline: none;
+      }
+
+      .date-header {
+        clear: both;
+        color: #5e5e5e;
+        font: bold 115% 'Open Sans', sans-serif;
+        line-height: 32px;
+        margin: 17px 60px 0;
+      }
+
+      .post {
+        margin: 4px 0 8px;
+        padding: 0 53px 0 60px;
+        position: relative;
+      }
+
+      .post p {
+        margin: 0 0 14px;
+      }
+
+      .post-body {
+        padding: 6px 0 1px;
+        text-align: justify;
+      }
+
+      .post-body p {
+        -khtml-user-select: text;
+        -moz-user-select: -moz-text;
+        -o-user-select: text;
+        -webkit-user-select: text;
+        user-select: text;
+      }
+
+      .post-body img {
+        display: block;
+        margin: 20px auto 8px;
+      }
+
+      .screenshots {
+        text-align: center;
+      }
+
+      .screenshot {
+        border: 3px solid #fff;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        display: inline !important;
+        margin-bottom: 15px !important;
+        margin-top: 2px !important;
+      }
+
+      .screenshot:hover {
+        border: 3px solid #bd4444;
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+      }
+
+      .caption:before {
+        content: 'Figure ' counter(figure) '. ';
+      }
+
+      .caption {
+        color: #000;
+        counter-increment: figure;
+        font: bold 80% 'Open Sans', sans-serif;
+        line-height: 90%;
+        margin-bottom: 18px;
+        text-align: center;
+      }
+
+      .post-body kbd {
+        background: #fff;
+        background: -moz-linear-gradient(top, #fff 0%, #fff 5%, #e0e0e0 5%, #fff 95%, #e0e0e0 95%, #e0e0e0 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(5%, #fff), color-stop(5%, #e0e0e0), color-stop(95%, #e0e0e0), color-stop(95%, #e0e0e0), color-stop(100%, #e0e0e0));
+        background: -webkit-linear-gradient(top, #fff 0%, #fff 5%, #e0e0e0 5%, #fff 95%, #e0e0e0 95%, #e0e0e0 100%);
+        background: -o-linear-gradient(top, #fff 0%, #fff 5%, #e0e0e0 5%, #fff 95%, #e0e0e0 95%, #e0e0e0 100%);
+        background: -ms-linear-gradient(top, #fff 0%, #fff 5%, #e0e0e0 5%, #fff 95%, #e0e0e0 95%, #e0e0e0 100%);
+        background: linear-gradient(to bottom, #fff 0%, #fff 5%, #e0e0e0 5%, #fff 95%, #e0e0e0 95%, #e0e0e0 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fff", endColorstr="#e0e0e0", GradientType=0);
+        border: 1px solid #777;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        color: #666;
+        font: bold 80% 'Open Sans', sans-serif;
+        margin: 0 1px;
+        padding: 0 6px 1px;
+        position: relative;
+        top: -1px;
+      }
+
+      .post-title {
+        color: #323232 !important;
+        font: 32px Retro, sans-serif;
+        height: 32px;
+        margin: 10px 0 14px 1px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 515px;
+        word-spacing: -4px;
+      }
+
+      .post-title a,
+      .post-title a:hover {
+        color: #323232 !important;
+      }
+
+      .comment-bubble {
+        background-color: #bd4444;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        border: 1px solid #bd4444;
+        font: bold 105% 'Open Sans', sans-serif;
+        height: 20px;
+        line-height: 20px;
+        position: absolute;
+        right: 52px;
+        top: 20px;
+      }
+
+      .comment-bubble:after
+      {
+        border-bottom: 5px solid transparent;
+        border-right: 5px solid #000;
+        border-right-color: inherit;
+        border-top: 5px solid transparent;
+        content: '';
+        display: block;
+        left: -4px;
+        position: absolute;
+        top: 5px;
+        width: 0;
+        z-index: 1;
+      }
+
+      .comment-bubble a {
+        color: #fff;
+        padding: 0 14px;
+      }
+
+      .comment-bubble:hover {
+        background-color: #cd5454;
+        border: 1px solid #cd5454;
+        cursor: pointer;
+      }
+
+      .comment-bubble a:hover {
+        color: #fff !important;
+      }
+
+      .short-comments b:nth-child(1),
+      .short-comments b:nth-child(3) {
+        left: -9999px;
+        position: absolute;
+        top: -9999px;
+      }
+
+      .tooltip {
+        background-color: #505050;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        border: 1px solid #303030;
+        -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        color: #f3f3f3;
+        font: bold 80% 'Open Sans', sans-serif;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+      }
+
+      .qtip-content {
+        padding: 2px 8px 4px;
+      }
+
+      ol {
+        counter-reset: li;
+        margin-left: 0;
+        padding-left: 0;
+      }
+
+      ol > li {
+        list-style: none;
+        margin: 0 0 16px 28px;
+        position: relative;
+      }
+
+      ol li ol li {
+        margin: 0 0 16px 52px;
+      }
+
+      ol > li:before {
+        color: #323232;
+        content: counters(li, '.') '.';
+        counter-increment: li;
+        font: bold 130% Bitter, serif;
+        left: -28px;
+        margin: 1px 8px 0 0;
+        position: absolute;
+        text-align: left;
+        width: 28px;
+      }
+
+      ol li ol li:before {
+        left: -52px;
+        width: 52px;
+      }
+
+      li p:first-child {
+        color: #323232;
+        font: bold 140% Bitter, serif;
+      }
+
+      .post-footer {
+        padding-bottom: 19px;
+      }
+
+      .post-footer a {
+        color: #a0a0a0;
+      }
+
+      .post-footer a:hover {
+        color: #808080 !important;
+      }
+
+      .post-footer img {
+        border: 1px solid #fff !important;
+        -moz-border-radius: 3px !important;
+        -webkit-border-radius: 3px !important;
+        border-radius: 3px !important;
+      }
+
+      .post-footer-left {
+        color: #a0a0a0;
+        float: left;
+        font: 16px Retro, sans-serif;
+        height: 15px;
+        margin-top: 5px;
+        width: 457px;
+        word-spacing: -2px;
+      }
+
+      .timestamp {
+        display: none;
+      }
+
+      .long-comments b:nth-child(1),
+      .long-comments b:nth-child(3) {
+        font-weight: normal;
+      }
+
+      .long-comments b:nth-child(2) {
+        left: -9999px;
+        position: absolute;
+        top: -9999px;
+      }
+
+      .post-footer-right {
+        float: right;
+        height: 20px;
+        width: 105px;
+      }
+
+      .share-icon {
+        display: block;
+        float: right;
+        margin: 0 !important;
+      }
+
+      .post-ad {
+        background-color: #fafafa;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        border: 3px solid #fff;
+        height: 60px;
+        margin: 62px auto 0;
+        width: 468px;
+      }
+
+      .post-ad:hover {
+        border: 3px solid #bd4444;
+      }
+
+      .post-ad:hover + .post-ad-text {
+        color: #bd4444;
+      }
+
+      .post-ad-text {
+        color: #c0c0c0;
+        font: bold 70% 'Open Sans', sans-serif;
+        line-height: 80%;
+        margin: 1px auto 31px;
+        text-align: right;
+        width: 470px;
+      }
+
+      .comments-header {
+        background-color: #bd4444;
+        -moz-border-radius: 4px 4px 0 0;
+        -webkit-border-radius: 4px 4px 0 0;
+        border-radius: 4px 4px 0 0;
+        height: 16px;
+        margin: 56px 54px 0 61px;
+        padding: 0;
+        position: relative;
+      }
+
+      .comments-header:after {
+        border-color: #bd4444 transparent;
+        border-style: solid;
+        border-width: 7px 7px 0;
+        bottom: -6px;
+        content: '';
+        display: block;
+        left: 48px;
+        position: absolute;
+        width: 0;
+        z-index: 1;
+      }
+
+      .comments {
+        background-color: #f0f0f0;
+        border-bottom: 3px solid #e2e6e8;
+        -moz-border-radius: 0 0 4px 4px;
+        -webkit-border-radius: 0 0 4px 4px;
+        border-radius: 0 0 4px 4px;
+        margin: 0 54px 16px 61px;
+        padding: 23px 30px 12px;
+      }
+
+      #pagination {
+        color: #eaeaea;
+        font: 16px Retro, sans-serif;
+        padding: 19px 53px 27px 60px;
+      }
+
+      #pagination a {
+        color: #a0a0a0;
+      }
+
+      #pagination a:hover {
+        color: #808080 !important;
+      }
+
+      #back {
+        float: left;
+        width: 100px;
+      }
+
+      #back span {
+        padding-left: 3px;
+      }
+
+      #next {
+        float: right;
+        text-align: right;
+        width: 100px;
+      }
+
+      #next span {
+        padding-right: 3px;
+      }
+
+      #home {
+        margin: 0 auto;
+        text-align: center;
+        width: 100px;
+      }
+
+      #home span {
+        padding-left: 5px;
+      }
+
+      #title {
+        padding-top: 38px;
+        text-align: center;
+      }
+
+      #description {
+        padding: 16px 0 33px;
+        text-align: center;
+      }
+
+      #buttons {
+        text-align: center;
+      }
+
+      #download {
+        height: 41px;
+        margin-bottom: 9px;
+        width: 214px;
+      }
+
+      #donate {
+        height: 41px;
+        margin: 0 0 760px 4px;
+        width: 214px;
+      }
+
+      #search-results {
+        color: #a0a0a0;
+        font: 16px Retro, sans-serif;
+        margin: 27px 60px 0;
+        word-spacing: -2px;
+      }
+
+      #search-results a,
+      #search-results span {
+        color: #808080;
+      }
+
+      #search-results a:hover {
+        color: #606060 !important;
+      }
+
+      #search-box {
+        background: rgba(172, 168, 164, 0.33) url(//2.bp.blogspot.com/-Byiyp2yWM9M/UipHhSwbT_I/AAAAAAAAD9M/BYs-k8bGNCs/s1600/search.png) no-repeat 6px center;
+        background-size: 12px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        height: 24px;
+        line-height: 24px;
+        margin: 20px 39px 0;
+        padding: 2px 5px 0 22px;
+        transition: background-color 0.2s ease;
+      }
+
+      #search-box:hover {
+        background-color: rgba(172, 168, 164, 0.5);
+        cursor: pointer;
+      }
+
+      #search-field {
+        background-color: transparent;
+        border: none;
+        color: #505050;
+        font: 16px Retro, sans-serif;
+        margin: 0;
+        padding: 0;
+        width: 188px;
+        word-spacing: -2px;
+      }
+
+      #search-field:hover {
+        cursor: pointer;
+      }
+
+      #cancel-button {
+        margin: 7px 0 0 6px;
+        visibility: hidden;
+      }
+
+      .search-term {
+        background-color: #ffff96;
+        -moz-border-radius: 1px;
+        -webkit-border-radius: 1px;
+        border-radius: 1px;
+        -moz-box-shadow: 0 0 0 1px #ffff96, 1px 0 0 1px #ffff96, -1px 0 0 1px #ffff96,
+          1px 0 0 2px #fee798, -1px 0 0 2px #fee798;
+        -webkit-box-shadow: 0 0 0 1px #ffff96, 1px 0 0 1px #ffff96, -1px 0 0 1px #ffff96,
+          1px 0 0 2px #fee798, -1px 0 0 2px #fee798;
+        box-shadow: 0 0 0 1px #ffff96, 1px 0 0 1px #ffff96, -1px 0 0 1px #ffff96,
+          1px 0 0 2px #fee798, -1px 0 0 2px #fee798;
+        color: rgba(50, 50, 50, .85) !important;
+      }
+
+      .search-term:hover {
+        background-color: #ffff66;
+        -moz-box-shadow: 0 0 0 1px #fdfd87, 1px 0 0 1px #fdfd87, -1px 0 0 1px #fdfd87,
+          1px 0 0 2px #f2da84, -1px 0 0 2px #f2da84;
+        -webkit-box-shadow: 0 0 0 1px #fdfd87, 1px 0 0 1px #fdfd87, -1px 0 0 1px #fdfd87,
+          1px 0 0 2px #f2da84, -1px 0 0 2px #f2da84;
+        box-shadow: 0 0 0 1px #fdfd87, 1px 0 0 1px #fdfd87, -1px 0 0 1px #fdfd87,
+          1px 0 0 2px #f2da84, -1px 0 0 2px #f2da84;
+        color: #323232 !important;
+      }
+
+      #index-container1 {
+        background-color: rgba(172, 168, 164, 0.33);
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        margin: 20px 39px 0;
+        padding: 4px 6px 6px;
+        transition: background-color 0.2s ease;
+      }
+
+      #index-container1:hover {
+        background-color: rgba(172, 168, 164, 0.5);
+      }
+
+      #index-title {
+        color: #505050;
+        margin: 5px 0 6px;
+        text-align: center;
+        font: 16px "Retro", sans-serif;
+        word-spacing: -2px;
+      }
+
+      #index-container2 {
+        background-color: #505050;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: inset 0 0 30px #333;
+        -webkit-box-shadow: inset 0 0 30px #333;
+        box-shadow: inset 0 0 30px #333;
+        padding: 5px;
+        font: 12px 'Helvetica Neue', Arial, sans-serif;
+      }
+
+      #index {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+      }
+
+      #index-item {
+        -moz-border-radius: 1px;
+        -webkit-border-radius: 1px;
+        border-radius: 1px;
+        color: #cfcfcf !important;
+        overflow: hidden;
+        padding: 6px;
+        text-overflow: ellipsis;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+      }
+
+      #index-item:hover {
+        background-color: #e4e1dc;
+        -moz-box-shadow: 0 0 1px #e4e1dc;
+        -webkit-box-shadow: 0 0 1px #e4e1dc;
+        box-shadow: 0 0 1px #e4e1dc;
+        color: #505050 !important;
+        text-shadow: 0 0 1px rgba(80, 80, 80, 0.5);
+      }
+
+      #tweets {
+        background-color: rgba(172, 168, 164, 0.33);
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        font: 16px Retro, sans-serif;
+        margin: 20px 39px 0;
+        padding: 4px 6px 6px;
+        transition: background-color 0.2s ease;
+        word-spacing: -2px;
+      }
+
+      #tweets:hover {
+        background-color: rgba(172, 168, 164, 0.5);
+      }
+
+      #tweets-header-left {
+        color: #505050;
+        float: left;
+        margin: 5px 0 6px;
+      }
+
+      #tweets-header-right {
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        float: right;
+        margin: 2px 1px 6px 0;
+        -webkit-transition: box-shadow 1s linear;
+        -moz-transition: box-shadow 1s linear;
+        -ms-transition: box-shadow 1s linear;
+        -o-transition: box-shadow 1s linear;
+        transition: box-shadow 1s linear;
+        width: 59px;
+      }
+
+      #tweets-header-right:hover,
+      #tweets-header-right.glow {
+        box-shadow: 0 0 10px white;
+      }
+
+      #timeline {
+        background-color: #505050;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: inset 0 0 30px #333;
+        -webkit-box-shadow: inset 0 0 30px #333;
+        box-shadow: inset 0 0 30px #333;
+        clear: both;
+        padding: 5px 5px 3px;
+      }
+
+      #fineprint {
+        background-color: rgba(172, 168, 164, 0.33);
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        color: #505050;
+        font: bold 75% 'Open Sans', sans-serif;
+        line-height: 125%;
+        margin: 20px 39px 0;
+        padding: 10px 24px;
+        text-shadow: 0 0 1px rgba(80, 80, 80, 0.5);
+        transition: background-color 0.2s ease;
+      }
+
+      #fineprint:hover {
+        background-color: rgba(172, 168, 164, 0.5);
+      }
+
+      #fineprint a {
+        color: #505050;
+      }
+
+      #fineprint a:hover {
+        color: #404040 !important;
+      }
+
+      #plug {
+        background-color: rgba(172, 168, 164, 0.33);
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        color: #505050;
+        margin: 20px 39px 0;
+        padding: 10px;
+        text-align: center;
+        text-shadow: 0 0 1px rgba(80, 80, 80, 0.5);
+        transition: background-color 0.2s ease;
+      }
+
+      #plug:hover {
+        background-color: rgba(172, 168, 164, 0.5);
+        cursor: pointer;
+      }
+
+      #plug-image-background {
+        background: url(//4.bp.blogspot.com/-f9La7FAmRC8/UnStMP152vI/AAAAAAAAEL4/9wBRt9DysB4/s1600/cacodemon1.png) no-repeat center center;
+        border-bottom: 2px solid #787878;
+        border-top: 2px solid #404040;
+        height: 126px;
+        margin: 0 auto;
+        transition: all 0.2s ease;
+        width: 160px;
+      }
+
+      #plug-image {
+        display: block;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      #plug-image:hover {
+        opacity: 1.0;
+      }
+
+      #plug-text {
+        color: #505050;
+        font: bold 70% 'Open Sans', sans-serif;
+        line-height: 80%;
+        margin-top: 4px;
+        text-shadow: 0 0 1px rgba(80, 80, 80, 0.5);
+      }
+
+      #sidebar-ad-wrapper {
+        background-color: rgba(172, 168, 164, 0.33);
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+        margin: 20px 39px 0;
+        padding: 10px;
+        transition: background-color 0.2s ease;
+      }
+
+      #sidebar-ad-wrapper:hover {
+        background-color: rgba(172, 168, 164, 0.5);
+      }
+
+      .sidebar-ad {
+        background-color: #fff;
+        height: 600px;
+        margin: 0 auto;
+        width: 160px;
+      }
+
+      .sidebar-ad-text {
+        color: #505050;
+        font: bold 70% 'Open Sans', sans-serif;
+        line-height: 80%;
+        margin: 3px auto 0;
+        text-align: right;
+        text-shadow: 0 0 1px rgba(80, 80, 80, 0.5);
+        width: 160px;
+      }
+
+      #footer {
+        clear: both;
+        margin: 0;
+      }
+
+      #scroll-top {
+        background: url(//1.bp.blogspot.com/-glQxFqk2XYg/UhcEjzs0zLI/AAAAAAAADuU/-Egge1i8OkM/s1600/scroll.png) no-repeat scroll 0 0 transparent;
+        bottom: 20px;
+        display: none;
+        height: 36px;
+        opacity: 0.85;
+        position: fixed;
+        right: 20px;
+        text-indent: -9999px;
+        width: 50px;
+        z-index: 99999;
+      }
+
+      #scroll-top:hover {
+        cursor: pointer;
+        opacity: 1.0;
+      }
+
+      #sharepic {
+        display: none;
+      }
+    </style>
+
+    <script type="text/javascript">
+      function hashtag( text ) {
+        return text.replace( "<$BlogTitle$>", "%23" +
+          ( ( "<$BlogTitle$>" ).replace( /\s/g, "" ) ).toLowerCase() );
+      }
+
+      function popup( event, url, name, width, height ) {
+        window.open( url, name, "width=" + width + ", height=" + height + ", left=" +
+          ( ( screen.width - width - 8 ) / 2 ) + ", top=" + ( ( screen.height - height - 66 ) / 2 ) );
+        event.preventDefault();
+      }
+    </script>
+  </head>
+
+  <body>
+    <div id="content">
+      <div id="main" <MainOrArchivePage>style="min-height:2000px"</MainOrArchivePage>>
+        <div id="search-results"></div>
+
+        <Blogger>
+          <BlogDateHeader>
+            <div class="date-header">
+              <$BlogDateHeaderDate$>
+            </div>
+          </BlogDateHeader>
+
+          <div class="post">
+            <div class="comment-bubble" onclick="window.open('<$BlogItemPermalinkUrl$>#disqus_thread','_self')">
+              <a class="short-comments" href="<$BlogItemPermalinkUrl$>#disqus_thread" data-disqus-identifier="<$BlogItemNumber$>">0</a>
+            </div>
+
+            <div class="post-body">
+              <div class="post-title">
+                <MainOrArchivePage><a href="<$BlogItemPermalinkUrl$>"></MainOrArchivePage><$BlogItemTitle$><MainOrArchivePage></a></MainOrArchivePage>
+              </div>
+
+              <$BlogItemBody$>
+            </div>
+
+            <div class="post-footer">
+              <div class="post-footer-left">
+                This <span class="future">was</span> posted by <a href="mailto:<$BlogItemAuthorEmail$>" onclick="popup(event,this.href,'authoremail',626,436)"><$BlogItemAuthor$></a><span class="timestamp"> <span class="timestamp<$BlogItemNumber$>"><$BlogItemDateTime$></span></span>. <a class="long-comments" href="<$BlogItemPermalinkUrl$>#disqus_thread" data-disqus-identifier="<$BlogItemNumber$>">There are no comments.</a>
+              </div>
+
+              <script type="text/javascript">
+                // Change the post's timestamp to an expression relative to the
+                // current date and time, and update it every minute.
+                $( function() {
+                  var then = $( ".timestamp<$BlogItemNumber$>" ),
+                      date = moment( new Date( then.html() ) ),
+                      update = function() {
+                        then.html( date.fromNow() );
+
+			            // If the post's timestamp is in the future, change the wording.
+			            if ( new Date( "<$BlogItemDateTime$>" ) > new Date() )
+			              $( ".future" ).html( "will be" );
+                      };
+                  update();
+                  setInterval( update, 60000 );
+                  $( ".timestamp" ).css( "display", "inline" );
+                });
+              </script>
+
+              <div class="post-footer-right">
+                <a class="share-link" target="_blank" href="<$BlogSiteFeedUrl$>"><img alt="" class="share-icon" title="Subscribe to feed" src="//2.bp.blogspot.com/-mYWR1I9BbBI/UiaWuODY9jI/AAAAAAAAD54/p1uuURnvMOc/s1600/rssfeed1.png" width="18" height="18" onmouseover="this.src='//4.bp.blogspot.com/-zOMFnEoSxc4/UiaWuddN2MI/AAAAAAAAD6E/tDQ72p4ZygA/s1600/rssfeed2.png'" onmouseout="this.src='//2.bp.blogspot.com/-mYWR1I9BbBI/UiaWuODY9jI/AAAAAAAAD54/p1uuURnvMOc/s1600/rssfeed1.png'" /></a><a class="share-link" href="mailto:?subject=<$BlogItemTitle$>&amp;body=<$BlogItemPermalinkUrl$>" onclick="popup(event,this.href,'emailpost',626,436)"><img alt="" class="share-icon" title="Share by email" src="//3.bp.blogspot.com/-9yCvulCz4rc/UiaWtB3w6PI/AAAAAAAAD5c/R6zuEqTwjUE/s1600/email1.png" width="18" height="18" onmouseover="this.src='//1.bp.blogspot.com/-LoM4IbLs4dU/UiaWtA0rQtI/AAAAAAAAD5o/GIvJdO10BHw/s1600/email2.png'" onmouseout="this.src='//3.bp.blogspot.com/-9yCvulCz4rc/UiaWtB3w6PI/AAAAAAAAD5c/R6zuEqTwjUE/s1600/email1.png'" /></a><a class="share-link" href="//plus.google.com/share?url=<$BlogItemPermalinkUrl$>" onclick="popup(event,this.href,'googleplus',496,450)"><img alt="" class="share-icon" title="Share on Google+" src="//4.bp.blogspot.com/-wjexjowY7v8/UiaWtEw-QsI/AAAAAAAAD5g/4bHaDev3d_g/s1600/googleplus1.png" width="18" height="18" onmouseover="this.src='//4.bp.blogspot.com/-vyUFl04fGwo/UiaWt1oXCCI/AAAAAAAAD5w/MKf-v03OUcg/s1600/googleplus2.png'" onmouseout="this.src='//4.bp.blogspot.com/-wjexjowY7v8/UiaWtEw-QsI/AAAAAAAAD5g/4bHaDev3d_g/s1600/googleplus1.png'" /></a><a class="share-link" href="//twitter.com/share?url=<$BlogItemPermalinkUrl$>&amp;text=<$BlogItemTitle$>&amp;via=doomretro" onclick="popup(event,'//twitter.com/share?url=<$BlogItemPermalinkUrl$>&amp;text='+hashtag('<$BlogItemTitle$>')+'&amp;via=doomretro','twitter',626,257)"><img alt="" class="share-icon" title="Share on Twitter" src="//2.bp.blogspot.com/-br3EDfoIzUg/UiZ0j-bwToI/AAAAAAAAD44/43IgHDW7eP4/s1600/twitter1.png" width="18" height="18" onmouseover="this.src='//3.bp.blogspot.com/-f4t19PXfGiM/UiZ0kXrApzI/AAAAAAAAD5I/g4lisL8kfGg/s1600/twitter2.png'" onmouseout="this.src='//2.bp.blogspot.com/-br3EDfoIzUg/UiZ0j-bwToI/AAAAAAAAD44/43IgHDW7eP4/s1600/twitter1.png'" /></a><a class="share-link" href="//www.facebook.com/sharer/sharer.php?u=<$BlogItemPermalinkUrl$>" onclick="popup(event,this.href,'facebook',626,436)"><img alt="" class="share-icon" title="Share on Facebook" src="//1.bp.blogspot.com/-SfHPSxqUp-c/UiZ0hrS8poI/AAAAAAAAD4E/Cz__bWgI-9U/s1600/facebook1.png" width="18" height="18" onmouseover="this.src='//2.bp.blogspot.com/-lFNxzpzLQgI/UiZ0iYvZc0I/AAAAAAAAD4U/fUdbJM0UoJY/s1600/facebook2.png'" onmouseout="this.src='//1.bp.blogspot.com/-SfHPSxqUp-c/UiZ0hrS8poI/AAAAAAAAD4E/Cz__bWgI-9U/s1600/facebook1.png'" /></a>
+              </div>
+            </div>
+
+            <div class="post-ad">
+              <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
+              <ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-7221815244809845" data-ad-slot="8705427710"></ins>
+              <script type="text/javascript">
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+            </div>
+            <div class="post-ad-text">Advertisement</div>
+          </div>
+
+          <ItemPage>
+            <a id="comment"></a>
+            <div class="comments-header"></div>
+            <div class="comments">
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                var disqus_shortname = "doomretro";
+                var disqus_identifier = "<$BlogItemNumber$>";
+                var disqus_title = "<$BlogItemTitle$>";
+                var disqus_url = "<$BlogItemPermalinkUrl$>";
+                (function() {
+                  var dsq = document.createElement("script");
+                  dsq.async = true;
+                  dsq.src = "//" + disqus_shortname + ".disqus.com/embed.js";
+                  (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(dsq);
+                })();
+              </script>
+            </div>
+
+            <div class="post-ad">
+              <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
+              <ins class="adsbygoogle" style="display:inline-block;width:468px;height:60px" data-ad-client="ca-pub-7221815244809845" data-ad-slot="8705427710"></ins>
+              <script type="text/javascript">
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+            </div>
+            <div class="post-ad-text">Advertisement</div>
+          </ItemPage>
+        </Blogger>
+
+        <script type="text/javascript">
+          $( function() {
+            $( ".date-header" ).each(function() {
+              $( this ).html( moment( $( this ).html() ).format( "dddd, MMMM D, YYYY" ) );
+            });
+          });
+        </script>
+
+        <div id="pagination">
+          <div id="back">
+            <NewerPosts><a href="<$NewerPosts$>"></NewerPosts>&#192;<span>Back</span><NewerPosts></a></NewerPosts>
+          </div>
+          <div id="next">
+            <OlderPosts><a href="<$OlderPosts$>"></OlderPosts><span>Next</span>&#193;<OlderPosts></a></OlderPosts>
+          </div>
+          <div id="home">
+            <a href="<$BlogURL$>">&#194;<span>Home</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div id="sidebar">
+        <div id="title">
+          <a href="<$BlogURL$>"><img alt="" src="//1.bp.blogspot.com/-hxZ1sWX5YEs/UwRPhpWUh8I/AAAAAAAAEnE/bsNWwdUDN60/s1600/title.png" width="234" height="142" /></a>
+        </div>
+
+        <div id="description">
+          <img alt="" src="//3.bp.blogspot.com/-KV2SyU6DU4E/Uwb3Ignb5wI/AAAAAAAAEnY/9OsxuJvMTUI/s1600/description.png" width="219" height="40" />
+        </div>
+
+        <script type="text/javascript">
+          // If on the first page...
+          if ( window.location.href === "<$BlogURL$>" ||
+               window.location.href.indexOf( "<$BlogURL$>?zx=" ) > -1 ) {
+
+            // Make the "Home" button smoothly scroll to the top of the page when clicked.
+            $( "#home a" ).attr( "href", "#" );
+            $( "#home a" ).click( function( event ) {
+              $( "html, body" ).animate({
+                scrollTop: 0
+              }, 500 );
+              event.preventDefault();
+            });
+
+            // Remove the link to the first page from the page's title.
+            $( "#title a" ).replaceWith( function() {
+              return $( this ).contents();
+            });
+          }
+        </script>
+
+        <div id="buttons">
+          <input id="download" type="image" src="//3.bp.blogspot.com/-Rt-THTbBuLY/Um3f_dOit9I/AAAAAAAAEKs/7IbcBY5qnLc/s1600/download1.png" onclick="window.open('//github.com/bradharding/doomretro/releases/download/v1.1/doomretro-1.1.zip','_self')" onmousedown="this.src='//1.bp.blogspot.com/-yZtqZmUUezg/Um3gA1a25tI/AAAAAAAAEK8/6owX0lQWdTQ/s1600/download3.png'" onmouseover="this.src='//4.bp.blogspot.com/-mRSIezz5m_s/Um3f_05DyWI/AAAAAAAAEKw/upcQRaUdynw/s1600/download2.png'" onmouseout="this.src='//3.bp.blogspot.com/-Rt-THTbBuLY/Um3f_dOit9I/AAAAAAAAEKs/7IbcBY5qnLc/s1600/download1.png'" onmouseup="this.src='//4.bp.blogspot.com/-mRSIezz5m_s/Um3f_05DyWI/AAAAAAAAEKw/upcQRaUdynw/s1600/download2.png'" />
+
+          <form action="//www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+            <input type="hidden" name="cmd" value="_donations" />
+            <input type="hidden" name="business" value="<$BlogOwnerEmail$>" />
+            <input type="hidden" name="lc" value="AU" />
+            <input type="hidden" name="item_name" value="<$BlogTitle$>" />
+            <input type="hidden" name="no_note" value="0" />
+            <input type="hidden" name="currency_code" value="AUD" />
+            <input type="hidden" name="bn" value="PP-DonationsBF:donate1.png:NonHostedGuest" />
+            <input id="donate" type="image" name="submit" src="//4.bp.blogspot.com/-GW9QJLhEWbw/Um3f907i3TI/AAAAAAAAEKY/5WsFYDXdfVE/s1600/donate1.png" onmousedown="this.src='//3.bp.blogspot.com/-IZoyTp-v6iw/Um3f9ul7vKI/AAAAAAAAEKU/athO4yF_MAY/s1600/donate3.png'" onmouseover="this.src='//4.bp.blogspot.com/-PJJ-3pHmDF8/Um3f9jjWntI/AAAAAAAAEKc/LQbO63u-DeE/s1600/donate2.png'" onmouseout="this.src='//4.bp.blogspot.com/-GW9QJLhEWbw/Um3f907i3TI/AAAAAAAAEKY/5WsFYDXdfVE/s1600/donate1.png'" onmouseup="this.src='//4.bp.blogspot.com/-PJJ-3pHmDF8/Um3f9jjWntI/AAAAAAAAEKc/LQbO63u-DeE/s1600/donate2.png'" />
+            <img alt="" border="0" src="//www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1" />
+          </form>
+        </div>
+
+        <div id="search-box" onclick="$('#search-field').focus()">
+          <form action="/search" id="search-form" method="get" name="search-form">
+            <input id="search-field" name="q" type="text" value="" autocomplete="off" autocorrect="off" autocapitalize="off" /><img alt="" id="cancel-button" src="//3.bp.blogspot.com/-3PbnTtahIPA/UjEvvaGDGLI/AAAAAAAAEAc/yBmaj2mtnUA/s1600/cancel.png" width="8" height="8" onclick="$('#search-field').val('');$(this).css('visibility','hidden')" />
+          </form>
+        </div>
+
+        <script type="text/javascript">
+          var searchResults = 0;
+
+          // Get a parameter from the current page's URL.
+          $.urlParam = function( name ) {
+            var results = new RegExp( "[\\?&]" + name +
+              "=([^&#]*)" ).exec( top.window.location.href );
+            return ( results !== null ? results[1] : 0 );
+          }
+
+          // For every instance of searchTerm found, change it to a link that
+          // links to the next instance of searchTerm, and apply a "search-term"
+          // class to style.
+          $.fn.highlight = function( searchTerm ) {
+            var regex = new RegExp( searchTerm, "gi" );
+            return this.each( function () {
+              $( this ).contents().filter( function() {
+                return ( this.nodeType == 3 && regex.test( this.nodeValue ) );
+              }).replaceWith( function() {
+                return ( this.nodeValue || "" ).replace( regex, function( match ) {
+                  return ( "<a id='" + ( ++searchResults ) + "' href='#" + ( searchResults + 1 ) +
+                    "' class='search-term'>" + match + "</a>" );
+                });
+              });
+            });
+          };
+
+          $( function() {
+            // If a search query parameter is in the page's URL...
+            if ( window.location.href.indexOf( "<$BlogURL$>search" ) > -1 ) {
+
+              // Get the search term from the search query parameter.
+              var searchTerm = decodeURI( $.urlParam( "q" ).replace( /\+/g, " " ) );
+              if ( searchTerm ) {
+
+                // Put the search term in the search field.
+                $( "#search-field" ).val( searchTerm );
+
+                // Highlight every instance of the search term in the text.
+                $( ".post-body *" ).highlight( searchTerm );
+
+                // Link the last search term to the first one.
+                $( "#" + searchResults ).attr( "href", "#1" );
+
+                // Display the search results at the top of the page.
+                if ( !searchResults ) {
+                  $( "#search-results" ).html( "There are no search results for <span>" +
+                    searchTerm + "</span>." );
+
+                  // Remove the link from the "Next" button.
+                  $( "#next a" ).replaceWith( function() {
+                    return $( this ).contents();
+                  });
+                } else if ( searchResults == 1 ) {
+                  $( "#search-results" ).html( "There is 1 search result for <a href='#1'>" +
+                    searchTerm + "</a>." );
+                } else {
+                  $( "#search-results" ).html( "There are " + searchResults +
+                    " search results for <a href='#1'>" + searchTerm + "</a>." );
+                }
+
+                // Make each search term scroll smoothly to the next one when clicked.
+                $( "#search-results a, .search-term" ).click( function( event ) {
+                  $( "html, body" ).animate({
+                    scrollTop: $( $.attr( this, "href" ) ).offset().top - $( window ).height() / 2
+                  }, 500 );
+                  event.preventDefault();
+                });
+
+                // Give each search term a mousedown effect.
+                $( "#search-results a, .search-term" ).mousedown( function() {
+                  $( this ).css({
+                    "position": "relative",
+                    "top": "1px"
+                  });
+                });
+                $( "#search-results a, .search-term" ).on( "mouseup mouseout", function() {
+                  $( this ).css({
+                    "position": "static",
+                    "top": "0"
+                  });
+                });
+              }
+            }
+
+            // Show or hide the cancel button as necessary.
+            $( "#cancel-button" ).css( "visibility", $( "#search-field" ).val() ? "visible" : "hidden" );
+          });
+
+          // Show or hide the cancel button as necessary as text is entered into
+          // the search field.
+          $( "#search-field" ).on( "change input keydown paste", function() {
+            $( "#cancel-button" ).css( "visibility", $( "#search-field" ).val() ?
+              "visible" : "hidden" );
+          });
+
+          // Trim the text in the search field of any whitespace and make sure it
+          // isn't empty before submitting it.
+          $( "#search-field" ).keypress( function( event ) {
+            if ( event.which == 13 ) {
+              $( "#search-field" ).val( $.trim( $( "#search-field" ).val() ) );
+              if ( !$( "#search-field" ).val() ) {
+                event.preventDefault();
+              }
+            }
+          });
+        </script>
+
+        <div id="index-container1">
+          <div id="index-title">
+            <MainOrArchivePage>
+              Recent Blog Posts
+            </MainOrArchivePage>
+            <ItemPage>
+              Older Blog Posts
+            </ItemPage>
+          </div>
+          <div id="index-container2">
+            <div id="index">
+              <BloggerPreviousItems>
+                <a target="_self" class="shifttextonclick" href="<$BlogItemPermalinkURL$>"><div id="index-item"><$BlogPreviousItemTitle$></div></a>
+              </BloggerPreviousItems>
+            </div>
+          </div>
+        </div>
+
+        <div id="tweets">
+          <div>
+            <div id="tweets-header-left">
+              Twitter Feed
+            </div>
+            <div id="tweets-header-right">
+              <a href="https://twitter.com/doomretro" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false"></a>
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </div>
+          </div>
+          <div id="timeline">
+            <a class="twitter-timeline" href="https://twitter.com/doomretro" data-widget-id="388172715779031040" data-link-color="#cfcfcf" data-chrome="nofooter noheader transparent" height=400></a>
+          </div>
+        </div>
+
+        <script>
+          var glow = $( '#tweets-header-right' );
+          setInterval( function() {
+            glow.hasClass( 'glow' ) ? glow.removeClass( 'glow' ) : glow.addClass( 'glow' );
+          }, 1000);
+        </script>
+
+        <div id="fineprint">
+          <$BlogTitle$> is Copy&shy;right &copy; 2013-2014 by <a href="mailto:<$BlogOwnerEmail$>" onclick="popup(event,this.href,'authoremail',626,436)"><$BlogOwnerFullName$></a>. All rights re&shy;served. Made in Syd&shy;ney, Aus&shy;tra&shy;lia. ABN 37 234 369 257. <$BlogTitle$> is free soft&shy;ware: you can re&shy;dis&shy;trib&shy;ute it and/or modi&shy;fy it un&shy;der the terms of the <a target="_blank" href="//www.gnu.org/licenses/gpl.html">GNU Gen&shy;er&shy;al Pub&shy;lic Li&shy;cense</a> as pub&shy;lished by the <a target="_blank" href="//www.fsf.org/">Free Soft&shy;ware Found&shy;a&shy;tion</a>, either ver&shy;sion 3 of the Li&shy;cense, or (at your op&shy;tion) any later ver&shy;sion. <$BlogTitle$> is dis&shy;trib&shy;uted in the hope that it will be use&shy;ful, but WITH&shy;OUT ANY WAR&shy;RANTY; with&shy;out even the im&shy;plied war&shy;ranty of MER&shy;CHANT&shy;AB&shy;IL&shy;ITY or FIT&shy;NESS FOR A PAR&shy;TIC&shy;U&shy;LAR PUR&shy;POSE. See the <a target="_blank" href="//www.gnu.org/licenses/gpl.html">GNU Gen&shy;er&shy;al Pub&shy;lic Li&shy;cense</a> for more de&shy;tails. DOOM is a re&shy;gi&shy;stered trade&shy;mark of <a target="_blank" href="//www.idsoftware.com/">id Soft&shy;ware LLC</a>, a <a target="_blank" href="//www.zenimax.com/">Zeni&shy;Max Me&shy;dia</a> com&shy;pany, in the US and/or oth&shy;er coun&shy;tries, and is used with&shy;out per&shy;mis&shy;sion. All oth&shy;er trade&shy;marks are the prop&shy;erty of their re&shy;spect&shy;ive hold&shy;ers. <$BlogTitle$> is in no way af&shy;fil&shy;i&shy;ated with nor en&shy;dorsed by <a target="_blank" href="//www.idsoftware.com/">id Soft&shy;ware LLC</a>.
+        </div>
+
+        <div id="plug" onclick="window.open('//emortal982.deviantart.com/gallery/?catpath=%2F&amp;q=DOOM','_blank')">
+          <div id="plug-image-background">
+            <img alt="" id="plug-image" src="//2.bp.blogspot.com/-THL8ClpqJ9o/UnStOAJ697I/AAAAAAAAEME/sBgyoLjtW8Q/s1600/cacodemon2.png" />
+          </div>
+          <div id="plug-text">
+            Cacodemon by Eric Ridgeway.
+          </div>
+        </div>
+
+        <MainOrArchivePage>
+          <div id="sidebar-ad-wrapper">
+            <div class="sidebar-ad">
+              <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="text/javascript"></script>
+              <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-7221815244809845" data-ad-slot="3047343710"></ins>
+              <script type="text/javascript">
+                (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+            </div>
+            <div class="sidebar-ad-text">Advertisement</div>
+          </div>
+        </MainOrArchivePage>
+      </div>
+      <div id="footer"></div>
+    </div>
+
+    <!-- lightbox-2.6.min.js -->
+    <script src="//googledrive.com/host/0B5fBO3r3nBkHSnQ1X3VQR0U0MEk" type="text/javascript"></script>
+
+    <!-- jquery.qtip.min.js -->
+    <script src="//googledrive.com/host/0B5fBO3r3nBkHZ3M3eEpMTGRNSGM" type="text/javascript"></script>
+
+    <script type="text/javascript">
+      $( function() {
+        $( ".share-icon" ).each( function() {
+          $( this ).qtip({
+            style: {
+              classes: "tooltip"
+            },
+            position: {
+              my: "bottom center",
+              at: "top center",
+              adjust: {
+                y: -1
+              }
+            }
+          });
+        });
+      });
+    </script>
+
+    <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","//www.google-analytics.com/analytics.js","ga");ga("create", "UA-42560294-1", "www.doomretro.com");ga("send", "pageview");
+    </script>
+
+    <script type="text/javascript">
+      var disqus_shortname = "doomretro";
+      ( function () {
+        var s = document.createElement( "script" );
+        s.async = true;
+        s.type = "text/javascript";
+        s.src = "//" + disqus_shortname + ".disqus.com/count.js";
+        ( document.getElementsByTagName( "head" )[0] || document.getElementsByTagName( "body" )[0] ).appendChild( s );
+      }() );
+    </script>
+
+    <script type="text/javascript">
+      function preload( arrayOfImages ) {
+        $( arrayOfImages ).each( function() {
+          $( "<img />" ).attr( "src", this ).appendTo( "body" ).css( "display", "none" );
+        });
+      }
+
+      $( window ).load( function() {
+        preload([
+          "//2.bp.blogspot.com/-lFNxzpzLQgI/UiZ0iYvZc0I/AAAAAAAAD4U/fUdbJM0UoJY/s1600/facebook2.png",
+          "//3.bp.blogspot.com/-f4t19PXfGiM/UiZ0kXrApzI/AAAAAAAAD5I/g4lisL8kfGg/s1600/twitter2.png",
+          "//4.bp.blogspot.com/-vyUFl04fGwo/UiaWt1oXCCI/AAAAAAAAD5w/MKf-v03OUcg/s1600/googleplus2.png",
+          "//1.bp.blogspot.com/-LoM4IbLs4dU/UiaWtA0rQtI/AAAAAAAAD5o/GIvJdO10BHw/s1600/email2.png",
+          "//4.bp.blogspot.com/-zOMFnEoSxc4/UiaWuddN2MI/AAAAAAAAD6E/tDQ72p4ZygA/s1600/rssfeed2.png",
+          "//1.bp.blogspot.com/-dzk6ksIujGg/Ugnt_n2cl-I/AAAAAAAADN4/fMv2yjz_DMw/s1600/thumbnail1b.png",
+          "//3.bp.blogspot.com/-J9hO-3webFo/UgnuAIvlSkI/AAAAAAAADN8/htKUxzeGWKg/s1600/thumbnail2b.png",
+          "//3.bp.blogspot.com/-Hs5snljwApk/UgnuA3sq66I/AAAAAAAADOM/g9EH4yVlOig/s1600/thumbnail3b.png",
+          "//4.bp.blogspot.com/-mRSIezz5m_s/Um3f_05DyWI/AAAAAAAAEKw/upcQRaUdynw/s1600/download2.png",
+          "//1.bp.blogspot.com/-yZtqZmUUezg/Um3gA1a25tI/AAAAAAAAEK8/6owX0lQWdTQ/s1600/download3.png",
+          "//4.bp.blogspot.com/-PJJ-3pHmDF8/Um3f9jjWntI/AAAAAAAAEKc/LQbO63u-DeE/s1600/donate2.png",
+          "//3.bp.blogspot.com/-IZoyTp-v6iw/Um3f9ul7vKI/AAAAAAAAEKU/athO4yF_MAY/s1600/donate3.png",
+          "//googledrive.com/host/0B5fBO3r3nBkHRXRvUzBPcE1sbnc",
+          "//googledrive.com/host/0B5fBO3r3nBkHMXBpWEJ4NzYtQ3M",
+          "//googledrive.com/host/0B5fBO3r3nBkHTWo3bTBvZFhaWGs",
+          "//googledrive.com/host/0B5fBO3r3nBkHc0xOR1hYSThpT3c"
+        ])
+      });
+    </script>
+
+    <script type="text/javascript">
+      $( "a[class!='short-comments'][class!='share-link'], #cancel-button, #plug" ).mousedown( function() {
+        $( this ).css({
+          "position": "relative",
+          "top": "1px"
+        });
+      });
+      $( "a[class!='short-comments'][class!='share-link'], #cancel-button, #plug" ).on( "mouseup mouseout", function() {
+        $( this ).css({
+          "position": "static",
+          "top": "0"
+        });
+      });
+    </script>
+
+    <script type="text/javascript">
+      $( ".comment-bubble" ).mousedown( function() {
+        $( this ).css( "top", "21px" );
+      });
+      $( ".comment-bubble" ).on( "mouseup mouseout", function() {
+        $( this ).css( "top", "20px" );
+      });
+      $( ".comment-bubble a" ).mousedown( function() {
+        $( this ).parent().css( "top", "21px" );
+      });
+      $( ".comment-bubble a" ).on( "mouseup mouseout", function() {
+        $( this ).parent().css( "top", "20px" );
+      });
+    </script>
+
+    <script type="text/javascript">
+      $( ".share-icon" ).mousedown( function() {
+        $( this ).css({
+          "position": "relative",
+          "top": "1px"
+        });
+        $( ".share-icon" ).qtip( "reposition" );
+      });
+      $( ".share-icon" ).on( "mouseup mouseout", function() {
+        $( this ).css({
+          "position": "static",
+          "top": "0"
+        });
+        $( ".share-icon" ).qtip( "reposition" );
+      });
+    </script>
+
+    <script type="text/javascript">
+      $( "#tweets" ).mouseover( function() {
+        $( "#timeline" ).css( "background-color", "#606060" );
+      });
+      $( "#tweets" ).on( "mouseout", function() {
+        $( "#timeline" ).css( "background-color", "#505050" );
+      });
+    </script>
+
+    <script type="text/javascript">
+      $( "#index-container1" ).mouseover( function() {
+        $( "#index-container2" ).css( "background-color", "#606060" );
+      });
+      $( "#index-container1" ).on( "mouseout", function() {
+        $( "#index-container2" ).css( "background-color", "#505050" );
+      });
+    </script>
+
+    <script type="text/javascript">
+      $( "#plug" ).mouseover( function() {
+        $( "#plug-image" ).css( "opacity", "1.0" );
+      });
+      $( "#plug" ).mouseout( function() {
+        $( "#plug-image" ).css( "opacity", "0" );
+      });
+    </script>
+
+    <div id="scroll-top"></div>
+    <script type="text/javascript">
+      $( function() {
+        $( window ).scroll( function() {
+          if ( $( this ).scrollTop() > 100 ) {
+            $( "#scroll-top" ).fadeIn();
+          } else {
+            $( "#scroll-top" ).fadeOut();
+          }
+        });
+        $( "#scroll-top" ).click( function( event ) {
+          $( "html, body" ).animate({
+            scrollTop: 0
+          }, 500 );
+        });
+      });
+      $( "#scroll-top" ).mousedown( function() {
+        $( this ).css( "bottom", "19px" );
+      });
+      $( "#scroll-top" ).on( "mouseup mouseout", function() {
+        $( this ).css( "bottom", "20px" );
+      });
+    </script>
+  </body>
+</html>
