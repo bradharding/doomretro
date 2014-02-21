@@ -1,4 +1,4 @@
-![](http://1.bp.blogspot.com/-u7eM3n3U75A/UuMTPJkcCXI/AAAAAAAAEkk/-lua6-DizY0/s1600/logo.png)
+![](http://1.bp.blogspot.com/-XcEjTtLugTQ/Uwey9Mms14I/AAAAAAAAEno/Z9_8h5mzHH4/s1600/title.png)
 
 #### A classic, refined DOOM source port. For Windows PC.
 
