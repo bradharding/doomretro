@@ -161,7 +161,7 @@ void STlib_init(void);
 // Number widget routines
 void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, boolean *on, int width);
 
-void STlib_updateNum(st_number_t *n, boolean refresh);
+void STlib_updateNum(st_number_t *n);
 
 
 

@@ -1167,7 +1167,7 @@ void P_SpawnSpecials(void)
                 break;
 
             case RaiseDoorIn5Minutes:
-                P_SpawnDoorRaiseIn5Mins(sector, i);
+                P_SpawnDoorRaiseIn5Mins(sector);
                 break;
 
             case FlickeringFire:

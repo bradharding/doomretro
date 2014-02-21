@@ -488,7 +488,7 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
 //
 // Spawn a door that opens after 5 minutes
 //
-void P_SpawnDoorRaiseIn5Mins(sector_t *sec, int secnum)
+void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
 {
     vldoor_t *door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 

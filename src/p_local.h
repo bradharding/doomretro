@@ -98,8 +98,6 @@ void P_PlayerThink(player_t *player);
 // Time interval for item respawning.
 #define ITEMQUEUESIZE             128
 
-extern mapthing_t       itemrespawnqueue[ITEMQUEUESIZE];
-extern int              itemrespawntime[ITEMQUEUESIZE];
 extern int              iqueuehead;
 extern int              iqueuetail;
 

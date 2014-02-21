@@ -56,7 +56,7 @@ void wipe_shittyColMajorXform(short *array)
 static int *y;
 static int speed;
 
-boolean wipe_initMelt(int tics)
+boolean wipe_initMelt(void)
 {
     int i;
 
@@ -129,7 +129,7 @@ boolean wipe_doMelt(int tics)
     return done;
 }
 
-boolean wipe_exitMelt(int tics)
+boolean wipe_exitMelt(void)
 {
     Z_Free(y);
     Z_Free(wipe_scr_start);
@@ -162,7 +162,7 @@ boolean wipe_ScreenWipe(int tics)
     {
         go = true;
         wipe_scr = screens[0];
-        wipe_initMelt(tics);
+        wipe_initMelt();
     }
 
     // do a piece of wipe-in
@@ -170,7 +170,7 @@ boolean wipe_ScreenWipe(int tics)
     {
         // final stuff
         go = false;
-        wipe_exitMelt(tics);
+        wipe_exitMelt();
     }
 
     return !go;

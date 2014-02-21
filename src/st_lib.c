@@ -121,13 +121,12 @@ void STlib_drawNum2(int number, int color, int shadow, int x, int y)
 //  based on differences from the old number.
 // Note: worth the trouble?
 //
-void STlib_drawNum(st_number_t *n, boolean refresh)
+void STlib_drawNum(st_number_t *n)
 {
     int         numdigits = n->width;
     int         num = *n->num;
 
     int         w = SHORT(n->p[0]->width);
-    int         h = SHORT(n->p[0]->height);
     int         x = n->x;
 
     int         neg;
@@ -185,7 +184,6 @@ void STlib_DrawNumber(st_number_t *n)
     int         num = *n->num;
     int         x = n->x;
     int         y = n->y;
-    int         h = SHORT(n->p[0]->height);
     int         w = SHORT(n->p[0]->width);
 
     if (num == 1994)
@@ -211,7 +209,6 @@ void STlib_DrawPercent(st_percent_t *per)
     int         num = *per->n.num;
     int         x = per->n.x;
     int         y = per->n.y;
-    int         h = SHORT(per->n.p[0]->height);
     int         w = SHORT(per->n.p[0]->width);
 
     if (num == 1994)
@@ -238,10 +235,10 @@ void STlib_DrawPercent(st_percent_t *per)
 }
 
 //
-void STlib_updateNum(st_number_t *n, boolean refresh)
+void STlib_updateNum(st_number_t *n)
 {
     if (*n->on)
-        STlib_drawNum(n, refresh);
+        STlib_drawNum(n);
 }
 
 
@@ -261,7 +258,7 @@ void STlib_updatePercent(st_percent_t *per, int refresh)
     if (refresh && *per->n.on)
         V_DrawPatch(per->n.x, per->n.y, FG, per->p);
 
-    STlib_updateNum(&per->n, refresh);
+    STlib_updateNum(&per->n);
 }
 
 

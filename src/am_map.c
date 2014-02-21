@@ -423,9 +423,10 @@ void AM_changeWindowLoc(void)
 
 void AM_Init(void)
 {
-    byte priority[256];
+    byte *priority;
     int x;
 
+    priority = (byte *)Z_Malloc(256, PU_STATIC, NULL);
     mask = (byte *)Z_Malloc(256, PU_STATIC, NULL);
     for (x = 0; x < 256; ++x)
     {

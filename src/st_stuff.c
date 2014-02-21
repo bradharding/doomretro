@@ -1560,12 +1560,12 @@ void ST_drawWidgets(boolean refresh)
     // used by w_frags widget
     st_fragson = (deathmatch && st_statusbaron);
 
-    STlib_updateNum(&w_ready, refresh);
+    STlib_updateNum(&w_ready);
 
     for (i = 0; i < 4; i++)
     {
-        STlib_updateNum(&w_ammo[i], refresh);
-        STlib_updateNum(&w_maxammo[i], refresh);
+        STlib_updateNum(&w_ammo[i]);
+        STlib_updateNum(&w_maxammo[i]);
     }
 
     STlib_updatePercent(&w_health, refresh);
@@ -1586,7 +1586,7 @@ void ST_drawWidgets(boolean refresh)
     for (i = 0; i < 3; i++)
         STlib_updateMultIcon(&w_keyboxes[i], refresh);
 
-    STlib_updateNum(&w_frags, refresh);
+    STlib_updateNum(&w_frags);
 }
 
 void ST_doRefresh(void)

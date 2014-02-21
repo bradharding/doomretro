@@ -46,7 +46,7 @@ typedef struct
 
 wad_file_class_t win32_wad_file;
 
-static void MapFile(win32_wad_file_t *wad, char *filename)
+static void MapFile(win32_wad_file_t *wad)
 {
     wad->handle_map = CreateFileMapping(wad->handle,
                                         NULL,
@@ -108,7 +108,7 @@ wad_file_t *W_OpenFile(char *path)
 
     // Try to map the file into memory with mmap:
 
-    MapFile(result, path);
+    MapFile(result);
 
     return &result->wad;
 }

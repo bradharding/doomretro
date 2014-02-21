@@ -53,8 +53,6 @@ extern boolean          flipsky;
 
 void R_ClearPlanes(void);
 
-void R_MapPlane(int y, int x1, int x2);
-
 void R_MakeSpans(int x, int t1, int b1, int t2, int b2);
 
 void R_DrawPlanes(void);

@@ -920,7 +920,7 @@ extern int     oldweaponsowned[];
 //
 // P_SetupLevel
 //
-void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
+void P_SetupLevel(int episode, int map)
 {
     int  i;
     char lumpname[6];
@@ -946,7 +946,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill)
 
     // find map name
     if (gamemode == commercial)
-        snprintf(lumpname, 9, "MAP%02i", map);
+        snprintf(lumpname, 6, "MAP%02i", map);
     else
         sprintf(lumpname, "E%iM%i", episode, map);
 
