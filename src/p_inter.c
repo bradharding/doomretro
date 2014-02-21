@@ -251,7 +251,7 @@ boolean P_GivePower(player_t *player, int power)
     switch (power)
     {
         case pw_strength:
-            P_GiveBody(player,100);
+            P_GiveBody(player, 100);
             break;
         case pw_invisibility:
             player->mo->flags |= MF_SHADOW;
@@ -459,6 +459,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 player->message = GOTBERSERK;
             if (player->readyweapon != wp_fist)
                 player->pendingweapon = wp_fist;
+            player->fistorchainsaw = wp_fist;
             sound = sfx_getpow;
             break;
 

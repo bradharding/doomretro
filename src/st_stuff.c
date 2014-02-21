@@ -969,6 +969,7 @@ boolean ST_Responder(event_t *ev)
                         {
                             if (plyr->readyweapon != wp_fist)
                                 plyr->pendingweapon = wp_fist;
+                            plyr->fistorchainsaw = wp_fist;
 
                             // [BH] cancel 'idchoppers' cheat if necessary
                             if (plyr->cheats & CF_CHOPPERS)
