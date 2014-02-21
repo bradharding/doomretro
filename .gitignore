@@ -58,6 +58,9 @@ stdout.txt
 *.unsuccessfulbuild
 *.cod
 *.map
+*.nativecodeanalysis.xml
+*.nativecodeanalysis.all.xml
+*.lastcodeanalysissucceeded
 
 # Chutzpah Test files
 _Chutzpah*
