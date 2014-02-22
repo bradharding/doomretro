@@ -127,6 +127,7 @@ byte    *gridcolor;
 #define AM_GRIDKEY              'g'
 #define AM_MARKKEY              'm'
 #define AM_CLEARMARKKEY         'c'
+#define AM_ROTATEKEY            'r'
 
 #define MAPWIDTH                SCREENWIDTH
 #define MAPHEIGHT               (SCREENHEIGHT - SBARHEIGHT)
@@ -267,6 +268,7 @@ int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
 boolean         followplayer = true;            // specifies whether to follow the player around
+boolean         rotate = false;
 
 static boolean  stopped = true;
 
@@ -280,6 +282,8 @@ __inline static int sign(int a)
 {
     return (a > 0) - (a < 0);
 }
+
+static void AM_rotate(fixed_t* x, fixed_t* y, angle_t a);
 
 void AM_activateNewScale(void)
 {
@@ -392,29 +396,37 @@ void AM_changeWindowLoc(void)
 {
     fixed_t w = (m_w >> 1);
     fixed_t h = (m_h >> 1);
+    fixed_t incx = m_paninc.x;
+    fixed_t incy = m_paninc.y;
 
-    m_x += m_paninc.x;
-    m_y += m_paninc.y;
+    if (rotate)
+        AM_rotate(&incx, &incy, viewangle - ANG90);
 
-    if (m_x + w > max_x)
+    m_x += incx;
+    m_y += incy;
+
+    if (!rotate)
     {
-        m_x = max_x - w;
-        decpanx = 0;
-    }
-    else if (m_x + w < min_x)
-    {
-        m_x = min_x - w;
-        decpanx = 0;
-    }
-    if (m_y + h > max_y)
-    {
-        m_y = max_y - h;
-        decpany = 0;
-    }
-    else if (m_y + h < min_y)
-    {
-        m_y = min_y - h;
-        decpany = 0;
+        if (m_x + w > max_x)
+        {
+            m_x = max_x - w;
+            decpanx = 0;
+        }
+        else if (m_x + w < min_x)
+        {
+            m_x = min_x - w;
+            decpanx = 0;
+        }
+        if (m_y + h > max_y)
+        {
+            m_y = max_y - h;
+            decpany = 0;
+        }
+        else if (m_y + h < min_y)
+        {
+            m_y = min_y - h;
+            decpany = 0;
+        }
     }
 
     m_x2 = m_x + m_w;
@@ -835,6 +847,18 @@ boolean AM_Responder(event_t *ev)
                         }
                     }
                 }
+
+                // toggle rotate mode
+                else if (key == AM_ROTATEKEY)
+                {
+                    if (keydown != AM_ROTATEKEY)
+                    {
+                        keydown = key;
+                        rotate = !rotate;
+                        plr->message = (rotate ? AMSTR_ROTATEON : AMSTR_ROTATEOFF);
+                        message_dontfuckwithme = true;
+                    }
+                }
                 else
                     rc = false;
             }
@@ -1043,6 +1067,29 @@ boolean AM_Responder(event_t *ev)
         }
     }
     return rc;
+}
+
+//
+// Rotation in 2D.
+// Used to rotate player arrow line character.
+//
+static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
+{
+    fixed_t cosine = finecosine[angle >>= ANGLETOFINESHIFT];
+    fixed_t sine = finesine[angle];
+    fixed_t temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
+
+    *y = FixedMul(*x, sine) + FixedMul(*y, cosine);
+    *x = temp;
+}
+
+void AM_rotatePoint(fixed_t *x, fixed_t *y)
+{
+    *x -= plr->mo->x;
+    *y -= plr->mo->y;
+    AM_rotate(x, y, ANG90 - plr->mo->angle);
+    *x += plr->mo->x;
+    *y += plr->mo->y;
 }
 
 //
@@ -1370,18 +1417,30 @@ static void AM_drawWalls(void)
 
     while (i < numlines)
     {
-        line_t *line = &lines[i++];
-        short  flags = line->flags;
+        line_t line = lines[i++];
+        short  flags = line.flags;
 
         if ((flags & ML_DONTDRAW) && !cheating)
             continue;
         else
         {
-            sector_t *backsector = line->backsector;
-            sector_t *frontsector = line->frontsector;
-            short    mapped = (flags & ML_MAPPED);
-            short    secret = (flags & ML_SECRET);
-            short    special = line->special;
+            sector_t       *backsector = line.backsector;
+            sector_t       *frontsector = line.frontsector;
+            short          mapped = (flags & ML_MAPPED);
+            short          secret = (flags & ML_SECRET);
+            short          special = line.special;
+            static mline_t l;
+
+            l.a.x = line.v1->x;
+            l.a.y = line.v1->y;
+            l.b.x = line.v2->x;
+            l.b.y = line.v2->y;
+
+            if (rotate)
+            {
+                AM_rotatePoint(&l.a.x, &l.a.y);
+                AM_rotatePoint(&l.b.x, &l.b.y);
+            }
 
             if (special == W1_TeleportToTaggedSectorContainingTeleportLanding
                 || special == W1_ExitLevel
@@ -1392,43 +1451,34 @@ static void AM_drawWalls(void)
                 if (cheating || (mapped && !secret
                     && backsector->ceilingheight != backsector->floorheight))
                 {
-                    AM_drawMline(line->v1->x, line->v1->y,
-                                 line->v2->x, line->v2->y, teleportercolor);
+                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, teleportercolor);
                     continue;
                 }
                 else if (allmap)
                 {
-                    AM_drawMline(line->v1->x, line->v1->y,
-                                 line->v2->x, line->v2->y, allmapfdwallcolor);
+                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
                     continue;
                 }
             }
             if (!backsector || (secret && !cheating))
-                AM_drawBigMline(line->v1->x, line->v1->y,
-                                line->v2->x, line->v2->y,
-                                (mapped || cheating ? wallcolor :
-                                    (allmap ? allmapwallcolor : maskcolor)));
+                AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor : 
+                                (allmap ? allmapwallcolor : maskcolor)));
             else if (backsector->floorheight != frontsector->floorheight)
             {
                 if (mapped || cheating)
-                    AM_drawMline(line->v1->x, line->v1->y,
-                                 line->v2->x, line->v2->y, fdwallcolor);
+                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, fdwallcolor);
                 else if (allmap)
-                    AM_drawMline(line->v1->x, line->v1->y,
-                                 line->v2->x, line->v2->y, allmapfdwallcolor);
+                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
             }
             else if (backsector->ceilingheight != frontsector->ceilingheight)
             {
                 if (mapped || cheating)
-                    AM_drawMline(line->v1->x, line->v1->y,
-                                 line->v2->x, line->v2->y, cdwallcolor);
+                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, cdwallcolor);
                 else if (allmap)
-                    AM_drawMline(line->v1->x, line->v1->y,
-                                 line->v2->x, line->v2->y, allmapcdwallcolor);
+                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapcdwallcolor);
             }
             else if (cheating)
-                AM_drawMline(line->v1->x, line->v1->y,
-                             line->v2->x, line->v2->y, tswallcolor);
+                AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, tswallcolor);
         }
     }
 
@@ -1441,24 +1491,13 @@ static void AM_drawWalls(void)
     }
 }
 
-//
-// Rotation in 2D.
-// Used to rotate player arrow line character.
-//
-static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
-{
-    fixed_t cosine = finecosine[angle >>= ANGLETOFINESHIFT];
-    fixed_t sine = finesine[angle];
-    fixed_t temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
-
-    *y = FixedMul(*x, sine) + FixedMul(*y, cosine);
-    *x = temp;
-}
-
 void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
                           angle_t angle, byte *color, fixed_t x, fixed_t y)
 {
     int i;
+
+    if (rotate)
+        angle -= viewangle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
     {
@@ -1491,12 +1530,20 @@ void AM_drawPlayers(void)
 {
     if (!netgame)
     {
+        mpoint_t pt;
+
+        pt.x = viewx;
+        pt.y = viewy;
+
+        if (rotate)
+            AM_rotatePoint(&pt.x, &pt.y);
+
         if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
             AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
-                                 plr->mo->angle, playercolor, plr->mo->x, plr->mo->y);
+                                 plr->mo->angle, playercolor, pt.x, pt.y);
         else
             AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                                 plr->mo->angle, playercolor, plr->mo->x, plr->mo->y);
+                                 plr->mo->angle, playercolor, pt.x, pt.y);
     }
     else
     {
@@ -1513,21 +1560,37 @@ void AM_drawPlayers(void)
 
         for (i = 0; i < MAXPLAYERS; ++i)
         {
+            mpoint_t pt;
+
             multiplayer = &players[i];
             if (!playeringame[i] || (deathmatch && !singledemo && multiplayer != plr))
                 continue;
             if (multiplayer == plr)
+            {
+                pt.x = viewx;
+                pt.y = viewy;
+
+                if (rotate)
+                    AM_rotatePoint(&pt.x, &pt.y);
+
                 AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                                     plr->mo->angle, playercolor, plr->mo->x, plr->mo->y);
+                    plr->mo->angle, playercolor, pt.x, pt.y);
+            }
             else
             {
                 int invisibility = multiplayer->powers[pw_invisibility];
+
+                pt.x = multiplayer->mo->x;
+                pt.y = multiplayer->mo->y;
+
+                if (rotate)
+                    AM_rotatePoint(&pt.x, &pt.y);
 
                 AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
                                      multiplayer->mo->angle,
                                      (invisibility > 128 || (invisibility & 8) ?
                                      invisibleplayercolor : multiplayercolors[i]),
-                                     multiplayer->mo->x, multiplayer->mo->y);
+                                     pt.x, pt.y);
             }
         }
     }
@@ -1551,11 +1614,16 @@ void AM_drawThings(void)
                 int fy = CYMTOF(y);
                 int lump = sprites[thing->sprite].spriteframes[0].lump[0];
                 int w = MAX(24 << FRACBITS, MIN(MIN(spritewidth[lump],
-                        spriteheight[lump]), 96 << FRACBITS)) >> 1;
+                    spriteheight[lump]), 96 << FRACBITS)) >> 1;
 
                 if (fx >= -w && fx <= MAPWIDTH + w && fy >= -w && fy <= MAPHEIGHT + w)
+                {
+                    if (rotate)
+                        AM_rotatePoint(&x, &y);
+
                     AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w,
-                                         thing->angle, thingcolor, x, y);
+                        thing->angle, thingcolor, x, y);
+                }
             }
             thing = thing->snext;
         }

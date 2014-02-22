@@ -387,6 +387,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define AMSTR_MARKCLEARED       "Mark cleared"
 #define AMSTR_MARKSCLEARED      "Marks cleared"
 
+#define AMSTR_ROTATEON          "Rotate Mode ON"
+#define AMSTR_ROTATEOFF         "Rotate Mode OFF"
+
 //
 //  ST_stuff.C
 //
