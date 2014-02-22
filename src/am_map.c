@@ -30,6 +30,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <math.h>
 #include <Windows.h>
 #include <Xinput.h>
+
 #include "am_map.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -245,7 +246,6 @@ static fixed_t  min_y;
 static fixed_t  max_x;
 static fixed_t  max_y;
 
-
 static fixed_t  min_scale_mtof;                 // used to tell when to stop zooming out
 static fixed_t  max_scale_mtof;                 // used to tell when to stop zooming in
 
@@ -394,19 +394,14 @@ void AM_findMinMaxBoundaries(void)
 
 void AM_changeWindowLoc(void)
 {
-    fixed_t w = (m_w >> 1);
-    fixed_t h = (m_h >> 1);
-    fixed_t incx = m_paninc.x;
-    fixed_t incy = m_paninc.y;
-
-    if (rotate)
-        AM_rotate(&incx, &incy, viewangle - ANG90);
-
-    m_x += incx;
-    m_y += incy;
+    m_x += m_paninc.x;
+    m_y += m_paninc.y;
 
     if (!rotate)
     {
+        fixed_t w = (m_w >> 1);
+        fixed_t h = (m_h >> 1);
+
         if (m_x + w > max_x)
         {
             m_x = max_x - w;
