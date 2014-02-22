@@ -1666,8 +1666,14 @@ void AM_drawMarks(void)
         int number = i + 1;
         int temp = number;
         int digits = 1;
-        int x = CXMTOF(markpoints[i].x) - (MARKWIDTH >> 1) + 1;
-        int y = CYMTOF(markpoints[i].y) - (MARKHEIGHT >> 1) - 1;
+        int x = markpoints[i].x;
+        int y = markpoints[i].y;
+
+        if (rotate)
+            AM_rotatePoint(&x, &y);
+
+        x = CXMTOF(x) - (MARKWIDTH >> 1) + 1;
+        y = CYMTOF(y) - (MARKHEIGHT >> 1) - 1;
 
         while (temp /= 10)
             digits++;
