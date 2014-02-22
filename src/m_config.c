@@ -109,6 +109,8 @@ extern int usegamma;
 extern float mouse_acceleration;
 extern int mouse_threshold;
 
+extern char *wadfolder;
+
 typedef enum
 {
     DEFAULT_INT,
@@ -226,7 +228,8 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (screenwidth,        screenwidth,        5),
     CONFIG_VARIABLE_INT   (screenheight,       screenheight,       5),
     CONFIG_VARIABLE_INT   (widescreen,         widescreen,         1),
-    CONFIG_VARIABLE_STRING(videodriver,        videodriver,        0)
+    CONFIG_VARIABLE_STRING(videodriver,        videodriver,        0),
+    CONFIG_VARIABLE_STRING(wadfolder,          wadfolder,          0)
 };
 
 static default_collection_t doom_defaults =

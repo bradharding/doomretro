@@ -76,6 +76,8 @@ char           *savegamedir;
 
 char           *iwadfile;
 
+char           *wadfolder = ".";
+
 boolean        devparm;        // started game with -devparm
 boolean        nomonsters;     // checkparm of -nomonsters
 boolean        respawnparm;    // checkparm of -respawn
@@ -527,7 +529,7 @@ boolean D_ChooseIWAD(void)
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
+    ofn.lpstrInitialDir = wadfolder;
     ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
                 | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER;
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
@@ -539,12 +541,14 @@ boolean D_ChooseIWAD(void)
         {
             char *file = M_ExtractFilename(ofn.lpstrFile);
 
+            wadfolder = M_ExtractFolder(ofn.lpstrFile);
+
             // if it's NERVE.WAD, try to open DOOM2.WAD with it
             if (!strcasecmp(M_ExtractFilename(ofn.lpstrFile), "NERVE.WAD"))
             {
                 static char fullpath[MAX_PATH];
 
-                sprintf(fullpath, "%s\\DOOM2.WAD", M_ExtractFolder(ofn.lpstrFile));
+                sprintf(fullpath, "%s\\DOOM2.WAD", wadfolder);
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
                     iwadfound = true;
@@ -571,14 +575,15 @@ boolean D_ChooseIWAD(void)
         else
         {
             char *file = ofn.lpstrFile;
-            char *folder = file;
+
+            wadfolder = ofn.lpstrFile;
 
             while (*file)
             {
                 static char fullpath[MAX_PATH];
 
                 file += lstrlen(file) + 1;
-                sprintf(fullpath, "%s\\%s", folder, file);
+                sprintf(fullpath, "%s\\%s", wadfolder, file);
 
                 // check if its an IWAD
                 if (!strcasecmp(file, "DOOM.WAD")
@@ -609,7 +614,6 @@ boolean D_ChooseIWAD(void)
                 }
             }
             free(file);
-            free(folder);
         }
         return iwadfound;
     }
