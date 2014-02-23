@@ -457,7 +457,7 @@ void I_GetEvent(void)
                 if (!isdigit(ev.data2))
                     idclev = idmus = false;
 
-                if (idbehold && keys[ev.data2])
+                if (idbehold && keys[MAX(0, MIN(ev.data2, 255))])
                 {
                     HU_clearMessages();
                     idbehold = false;
