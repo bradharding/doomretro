@@ -60,7 +60,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define MULTIPLAYERCOLOR2       GRAY
 #define MULTIPLAYERCOLOR3       (BROWN + 1)
 #define MULTIPLAYERCOLOR4       (RED + 1)
-#define INVISIBLEPLAYERCOLOR    (GRAY + 15)
+#define INVISIBLEPLAYERCOLOR    (DARKGRAY + 2)
 #define THINGCOLOR              GREEN
 #define WALLCOLOR               RED
 #define ALLMAPWALLCOLOR         (GRAY + 12)
