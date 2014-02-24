@@ -1368,35 +1368,57 @@ static void AM_drawBigMline(int x0, int y0, int x1, int y1, byte *color)
 //
 static void AM_drawGrid(void)
 {
-    int x = m_x - (m_x - bmaporgx) % MAPBLOCKSIZE;
-    int y = m_y - (m_y - bmaporgy) % MAPBLOCKSIZE;
+    fixed_t x, y;
+    fixed_t start, end;
+    mline_t ml;
+
+    fixed_t minlen = (int)(sqrt((float)m_w * (float)m_w + (float)m_h * (float)m_h));
+    fixed_t extx = (minlen - m_w) / 2;
+    fixed_t exty = (minlen - m_h) / 2;
+
+    fixed_t minx = m_x;
+    fixed_t miny = m_y;
+
+    // Figure out start of vertical gridlines
+    start = minx - extx;
+    if ((start - bmaporgx) % MAPBLOCKSIZE)
+        start -= ((start - bmaporgx) % MAPBLOCKSIZE);
+    end = minx + minlen - extx;
 
     // draw vertical gridlines
-    if (x < m_x)
-        x += MAPBLOCKSIZE;
-    while (x < m_x2)
+    for (x = start; x < end; x += MAPBLOCKSIZE)
     {
-        byte *dot = *screens + CXMTOF(x);
-
-        while (dot < area)
+        ml.a.x = x;
+        ml.b.x = x;
+        ml.a.y = miny - exty;
+        ml.b.y = ml.a.y + minlen;
+        if (rotate)
         {
-            *dot = *(*dot + gridcolor);
-            dot += MAPWIDTH;
+            AM_rotatePoint(&ml.a.x, &ml.a.y);
+            AM_rotatePoint(&ml.b.x, &ml.b.y);
         }
-        x += MAPBLOCKSIZE;
+        AM_drawMline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor);
     }
 
-    // draw horizontal gridlines
-    if (y < m_y)
-        y += MAPBLOCKSIZE;
-    while (y < m_y2)
-    {
-        byte *dot = *screens + (CYMTOF(y) - 1) * MAPWIDTH;
-        byte *width = dot + MAPWIDTH;
+    // Figure out start of horizontal gridlines
+    start = miny - exty;
+    if ((start - bmaporgy) % MAPBLOCKSIZE)
+        start -= ((start - bmaporgy) % MAPBLOCKSIZE);
+    end = miny + minlen - exty;
 
-        while (dot < width)
-            *dot = *(*(dot++) + gridcolor);
-        y += MAPBLOCKSIZE;
+    // draw horizontal gridlines
+    for (y = start; y < end; y += MAPBLOCKSIZE)
+    {
+        ml.a.x = minx - extx;
+        ml.b.x = ml.a.x + minlen;
+        ml.a.y = y;
+        ml.b.y = y;
+        if (rotate)
+        {
+            AM_rotatePoint(&ml.a.x, &ml.a.y);
+            AM_rotatePoint(&ml.b.x, &ml.b.y);
+        }
+        AM_drawMline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor);
     }
 }
 
