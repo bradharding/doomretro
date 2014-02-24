@@ -517,7 +517,7 @@ boolean D_ChooseIWAD(void)
 {
     OPENFILENAME ofn;
     char         szFile[4096];
-    boolean      iwadfound = false;
+    int          iwadfound = false;
 
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
@@ -615,6 +615,9 @@ boolean D_ChooseIWAD(void)
                 }
             }
         }
+
+        if (!iwadfound)
+            I_Error("Game mode indeterminate. No valid IWAD was specified.");
     }
     return iwadfound;
 }
