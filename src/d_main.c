@@ -689,6 +689,8 @@ static void D_DoomMainSetup(void)
 
         if (!choseniwad)
             exit(-1);
+
+        M_SaveDefaults();
     }
 
     if (!W_MergeFile("doomretro.wad"))
