@@ -425,19 +425,15 @@ void P_NewChaseDir(mobj_t *actor)
     actor->movedir = DI_NODIR;  // cannot move
 }
 
-#define MONS_LOOK_RANGE (16 * 64 * FRACUNIT)
-#define MONS_LOOK_LIMIT 64
+#define MONS_LOOK_RANGE (32 * 64 * FRACUNIT)
 
 boolean P_LookForMonsters(mobj_t *actor)
 {
-    int       count;
     mobj_t    *mo;
     thinker_t *think;
 
     if (!P_CheckSight(players[0].mo, actor))
         return false;           // player can't see monster
-
-    count = 0;
 
     for (think = thinkercap.next; think != &thinkercap; think = think->next)
     {
@@ -451,12 +447,6 @@ boolean P_LookForMonsters(mobj_t *actor)
 
         if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > MONS_LOOK_RANGE)
             continue;           // out of range
-
-        if (P_Random() < 16)
-            continue;           // skip
-
-        if (count++ > MONS_LOOK_LIMIT)
-            return false;       // stop searching
 
         if (!P_CheckSight(actor, mo))
             continue;           // out of sight
