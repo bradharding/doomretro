@@ -537,7 +537,7 @@ boolean D_ChooseIWAD(void)
     if (GetOpenFileName(&ofn))
     {
         // only one file was selected
-        if (ofn.lpstrFile[ofn.nFileOffset - 1] != '\0')
+        if (!ofn.lpstrFile[strlen(ofn.lpstrFile) + 1])
         {
             char *file = M_ExtractFilename(ofn.lpstrFile);
 
@@ -574,50 +574,49 @@ boolean D_ChooseIWAD(void)
         // more than one file was selected
         else
         {
-            char *file = ofn.lpstrFile;
+            wadfolder = szFile;
 
-            wadfolder = ofn.lpstrFile;
-
-            while (*file)
+            while (ofn.lpstrFile[0])
             {
                 static char fullpath[MAX_PATH];
 
-                file += lstrlen(file) + 1;
-                sprintf(fullpath, "%s\\%s", wadfolder, file);
+                ofn.lpstrFile += lstrlen(ofn.lpstrFile) + 1;
+                sprintf(fullpath, "%s\\%s", wadfolder, ofn.lpstrFile);
 
                 // check if its an IWAD
-                if (!strcasecmp(file, "DOOM.WAD")
-                    || !strcasecmp(file, "DOOM1.WAD")
-                    || !strcasecmp(file, "DOOM2.WAD")
-                    || !strcasecmp(file, "PLUTONIA.WAD")
-                    || !strcasecmp(file, "TNT.WAD")
+                if (!strcasecmp(ofn.lpstrFile, "DOOM.WAD")
+                    || !strcasecmp(ofn.lpstrFile, "DOOM1.WAD")
+                    || !strcasecmp(ofn.lpstrFile, "DOOM2.WAD")
+                    || !strcasecmp(ofn.lpstrFile, "PLUTONIA.WAD")
+                    || !strcasecmp(ofn.lpstrFile, "TNT.WAD")
                     || W_WadType(fullpath) == IWAD)
                 {
                     if (!iwadfound)
                     {
-                        IdentifyIWADByName(file);
+                        IdentifyIWADByName(ofn.lpstrFile);
                         if (D_AddFile(fullpath))
                             iwadfound = true;
                     }
                 }
 
                 // or a PWAD
-                else if (strcasecmp(file, "DOOMRETRO.WAD")
-                         && W_WadType(fullpath) == PWAD)
+                else 
                 {
-                    if (W_MergeFile(fullpath))
+                    if (strcasecmp(ofn.lpstrFile, "DOOMRETRO.WAD")
+                        && W_WadType(fullpath) == PWAD)
                     {
-                        modifiedgame = true;
-                        if (!strcasecmp(file, "NERVE.WAD"))
-                            nerve = true;
+                        if (W_MergeFile(fullpath))
+                        {
+                            modifiedgame = true;
+                            if (!strcasecmp(ofn.lpstrFile, "NERVE.WAD"))
+                                nerve = true;
+                        }
                     }
                 }
             }
-            free(file);
         }
-        return iwadfound;
     }
-    return false;
+    return iwadfound;
 }
 
 //
@@ -684,8 +683,7 @@ static void D_DoomMainSetup(void)
     {
         D_ToggleHiddenFile("doomretro.wad", true);
 
-        if (D_ChooseIWAD())
-            choseniwad = true;
+        choseniwad = D_ChooseIWAD();
 
         D_ToggleHiddenFile("doomretro.wad", false);
 
