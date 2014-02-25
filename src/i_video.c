@@ -59,10 +59,6 @@ static SDL_Surface *screenbuffer = NULL;
 static SDL_Color palette[256];
 static boolean   palette_to_set;
 
-// display has been set up?
-
-static boolean initialized = false;
-
 // Bit mask of mouse button state.
 
 static unsigned int mouse_button_state = 0;
@@ -363,16 +359,11 @@ void done_win32();
 
 void I_ShutdownGraphics(void)
 {
-    if (initialized)
-    {
-        SetShowCursor(true);
+    SetShowCursor(true);
 
-        SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
-        done_win32();
-
-        initialized = false;
-    }
+    done_win32();
 }
 
 static void UpdateMouseButtonState(unsigned int button, boolean on)
@@ -864,8 +855,6 @@ void init_win32(LPCTSTR lpIconName);
 
 void ToggleFullScreen(void)
 {
-    initialized = false;
-
     fullscreen = !fullscreen;
     if (fullscreen)
     {
@@ -891,7 +880,6 @@ void ToggleFullScreen(void)
                 if (widescreen && screenblocks == 11)
                     screenblocks = 10;
                 R_SetViewSize(screenblocks);
-                initialized = true;
                 M_SaveDefaults();
                 return;
             }
@@ -971,7 +959,6 @@ void ToggleFullScreen(void)
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
 
     M_SaveDefaults();
-    initialized = true;
 }
 
 void ApplyWindowResize(int height)
@@ -1067,6 +1054,4 @@ void I_InitGraphics(void)
 
     if (fullscreen)
         CenterMouse();
-
-    initialized = true;
 }
