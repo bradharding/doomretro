@@ -164,23 +164,23 @@ int             key_demo_quit = 'q';
 int             mousebfire = 0;
 int             mousewheelup = 3;
 
-int             gamepadautomap    = GAMEPAD_BACK;
-int             gamepadfire       = GAMEPAD_RIGHT_TRIGGER;
-int             gamepadmenu       = GAMEPAD_START;
+int             gamepadautomap = GAMEPAD_BACK;
+int             gamepadfire = GAMEPAD_RIGHT_TRIGGER;
+int             gamepadmenu = GAMEPAD_START;
 int             gamepadnextweapon = GAMEPAD_B;
 int             gamepadprevweapon = GAMEPAD_Y;
-int             gamepadspeed      = GAMEPAD_LEFT_TRIGGER;
-int             gamepaduse        = GAMEPAD_A;
-int             gamepadweapon1    = 0;
-int             gamepadweapon2    = 0;
-int             gamepadweapon3    = 0;
-int             gamepadweapon4    = 0;
-int             gamepadweapon5    = 0;
-int             gamepadweapon6    = 0;
-int             gamepadweapon7    = 0;
+int             gamepadspeed = GAMEPAD_LEFT_TRIGGER;
+int             gamepaduse = GAMEPAD_A;
+int             gamepadweapon1 = 0;
+int             gamepadweapon2 = 0;
+int             gamepadweapon3 = 0;
+int             gamepadweapon4 = 0;
+int             gamepadweapon5 = 0;
+int             gamepadweapon6 = 0;
+int             gamepadweapon7 = 0;
 
 int             gamepadlefthanded = 0;
-int             gamepadvibrate    = 1;
+int             gamepadvibrate = 1;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -620,7 +620,7 @@ boolean G_Responder(event_t *ev)
                  && ev->data1 != KEY_NUMLOCK
                  && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12))
                      || (ev->type == ev_mouse
-                         && (ev->data1 && !(ev->data1 & 8 || ev->data1 & 16)))
+                         && (ev->data1 && !(ev->data1 & MOUSE_WHEELUP || ev->data1 & MOUSE_WHEELDOWN)))
                              || (ev->type == ev_gamepad
                                  && gamepadwait < I_GetTime()
                                  && gamepadbuttons
@@ -686,9 +686,9 @@ boolean G_Responder(event_t *ev)
                 vibrate = false;
             if (!automapactive && !menuactive && !paused)
             {
-                if (ev->data1 & 16)
+                if (ev->data1 & MOUSE_WHEELDOWN)
                     NextWeapon();
-                else if (ev->data1 & 8)
+                else if (ev->data1 & MOUSE_WHEELUP)
                     PrevWeapon();
             }
             if (!automapactive || (automapactive && followplayer))

@@ -124,7 +124,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         if (LOWORD(lParam) == HTCLIENT && !MouseShouldBeGrabbed())
         {
             SetCursor(LoadCursor(NULL, IDC_ARROW));
-            return TRUE;
+            return true;
         }
     }
     else if (msg == WM_SYSCOMMAND && (wParam & 0xfff0) == SC_KEYMENU)

@@ -165,10 +165,6 @@ extern boolean          viewactive;
 
 
 
-// This one is related to the 3-screen display mode.
-// ANG90 = left side, ANG270 = right
-extern int              viewangleoffset;
-
 // Player taking events, and displaying.
 extern int              consoleplayer;
 extern int              displayplayer;

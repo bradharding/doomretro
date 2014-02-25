@@ -956,7 +956,7 @@ boolean AM_Responder(event_t *ev)
             else if (ev->type == ev_mouse)
             {
                 // zoom in
-                if (ev->data1 & 8)
+                if (ev->data1 & MOUSE_WHEELUP)
                 {
                     movement = true;
                     speedtoggle = AM_getSpeedToggle();
@@ -965,7 +965,7 @@ boolean AM_Responder(event_t *ev)
                     bigstate = false;
                 }
                 // zoom out
-                else if (ev->data1 & 16)
+                else if (ev->data1 & MOUSE_WHEELDOWN)
                 {
                     movement = true;
                     speedtoggle = AM_getSpeedToggle();
@@ -1526,7 +1526,7 @@ void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
     int i;
 
     if (rotate)
-        angle -= viewangle - ANG90;
+        angle -= plr->mo->angle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
     {
@@ -1561,7 +1561,7 @@ void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale
     int i;
 
     if (rotate)
-        angle -= viewangle - ANG90;
+        angle -= plr->mo->angle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
     {
@@ -1597,8 +1597,8 @@ void AM_drawPlayers(void)
         int      invisibility = plr->powers[pw_invisibility];
         mpoint_t pt;
 
-        pt.x = viewx;
-        pt.y = viewy;
+        pt.x = plr->mo->x;
+        pt.y = plr->mo->y;
 
         if (rotate)
             AM_rotatePoint(&pt.x, &pt.y);
@@ -1646,8 +1646,8 @@ void AM_drawPlayers(void)
             invisibility = multiplayer->powers[pw_invisibility];
             if (multiplayer == plr)
             {
-                pt.x = viewx;
-                pt.y = viewy;
+                pt.x = plr->mo->x;
+                pt.y = plr->mo->y;
 
                 if (rotate)
                     AM_rotatePoint(&pt.x, &pt.y);
@@ -1657,7 +1657,7 @@ void AM_drawPlayers(void)
                                               plr->mo->angle, NULL, pt.x, pt.y);
                 else
                     AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                        plr->mo->angle, playercolor, pt.x, pt.y);
+                                         plr->mo->angle, playercolor, pt.x, pt.y);
             }
             else
             {

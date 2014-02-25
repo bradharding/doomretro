@@ -39,8 +39,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_random.h"
+#include "p_local.h"
 #include "p_saveg.h"
-#include "r_local.h"
 #include "s_sound.h"
 #include "SDL.h"
 #include "v_data.h"
@@ -1895,7 +1895,7 @@ boolean M_Responder(event_t *ev)
         else if (!messageToPrint)
         {
             // select previous menu item
-            if (ev->data1 & 8)
+            if (ev->data1 & MOUSE_WHEELUP)
             {
                 key = KEY_UPARROW;
                 mousewait = I_GetTime() + 3;
@@ -1903,7 +1903,7 @@ boolean M_Responder(event_t *ev)
             }
 
             // select next menu item
-            else if (ev->data1 & 16)
+            else if (ev->data1 & MOUSE_WHEELDOWN)
             {
                 key = KEY_DOWNARROW;
                 mousewait = I_GetTime() + 3;

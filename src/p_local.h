@@ -59,12 +59,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define USERANGE                (64 * FRACUNIT)
 #define MELEERANGE              (64 * FRACUNIT)
-#define MISSILERANGE            (32 * 64 *FRACUNIT)
+#define MISSILERANGE            (32 * 64 * FRACUNIT)
 
 // follow a player exlusively for 3 seconds
 #define BASETHRESHOLD           100
 
 #define BONUSADD                6
+
+#define MOUSE_WHEELUP           8
+#define MOUSE_WHEELDOWN         16
 
 //
 // P_TICK
@@ -176,7 +179,7 @@ boolean P_BlockThingsIterator(int x, int y, boolean(*func)(mobj_t *));
 extern divline_t        trace;
 
 boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
-    boolean (*trav)(intercept_t *));
+                       boolean (*trav)(intercept_t *));
 
 void P_UnsetThingPosition(mobj_t *thing);
 void P_SetThingPosition(mobj_t *thing);

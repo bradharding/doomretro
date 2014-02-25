@@ -38,8 +38,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW     2048
 
-int                     viewangleoffset;
-
 // increment every time a check is made
 int                     validcount = 1;
 
@@ -451,7 +449,7 @@ void R_SetupFrame(player_t *player)
     viewplayer = player;
     viewx = player->mo->x;
     viewy = player->mo->y;
-    viewangle = player->mo->angle + viewangleoffset;
+    viewangle = player->mo->angle;
     extralight = player->extralight;
 
     viewz = player->viewz;
