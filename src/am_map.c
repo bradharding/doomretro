@@ -60,7 +60,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define MULTIPLAYERCOLOR2       GRAY
 #define MULTIPLAYERCOLOR3       (BROWN + 1)
 #define MULTIPLAYERCOLOR4       (RED + 1)
-#define INVISIBLEPLAYERCOLOR    (DARKGRAY + 2)
 #define THINGCOLOR              GREEN
 #define WALLCOLOR               RED
 #define ALLMAPWALLCOLOR         (GRAY + 12)
@@ -76,7 +75,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 // Automap color priorities
 #define PLAYERPRIORITY          12
-#define INVISIBLEPLAYERPRIORITY 12
 #define MULTIPLAYERPRIORITY     12
 #define THINGPRIORITY           11
 #define WALLPRIORITY            10
@@ -94,7 +92,6 @@ byte    *priorities;
 byte    *mask;
 
 byte    *playercolor;
-byte    *invisibleplayercolor;
 byte    *multiplayercolor1;
 byte    *multiplayercolor2;
 byte    *multiplayercolor3;
@@ -442,7 +439,6 @@ void AM_Init(void)
     }
 
     *(priority + PLAYERCOLOR) = PLAYERPRIORITY;
-    *(priority + INVISIBLEPLAYERCOLOR) = INVISIBLEPLAYERPRIORITY;
     *(priority + MULTIPLAYERCOLOR1) = MULTIPLAYERPRIORITY;
     *(priority + MULTIPLAYERCOLOR2) = MULTIPLAYERPRIORITY;
     *(priority + MULTIPLAYERCOLOR3) = MULTIPLAYERPRIORITY;
@@ -471,7 +467,6 @@ void AM_Init(void)
     }
 
     playercolor = priorities + (PLAYERCOLOR << 8);
-    invisibleplayercolor = priorities + (INVISIBLEPLAYERCOLOR << 8);
     multiplayercolor1 = priorities + (MULTIPLAYERCOLOR1 << 8);
     multiplayercolor2 = priorities + (MULTIPLAYERCOLOR2 << 8);
     multiplayercolor3 = priorities + (MULTIPLAYERCOLOR3 << 8);
@@ -1254,6 +1249,17 @@ static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     }
 }
 
+static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
+{
+    if (x < MAPWIDTH && y < MAPAREA)
+    {
+        byte    *dot = *screens + y + x;
+
+        if (*dot != *(tinttab60 + PLAYERCOLOR))
+            *dot = *(tinttab60 + (*dot << 8) + PLAYERCOLOR);
+    }
+}
+
 //
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
@@ -1361,6 +1367,12 @@ static void AM_drawBigMline(int x0, int y0, int x1, int y1, byte *color)
 {
     if (AM_clipMline(&x0, &y0, &x1, &y1))
         AM_drawFline(x0, y0, x1, y1, color, PUTBIGDOT); // draws it on frame buffer using fb coords
+}
+
+static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
+{
+    if (AM_clipMline(&x0, &y0, &x1, &y1))
+        AM_drawFline(x0, y0, x1, y1, color, PUTTRANSDOT); // draws it on frame buffer using fb coords
 }
 
 //
@@ -1543,10 +1555,46 @@ void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
     }
 }
 
+void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
+                               angle_t angle, byte *color, fixed_t x, fixed_t y)
+{
+    int i;
+
+    if (rotate)
+        angle -= viewangle - ANG90;
+
+    for (i = 0; i < lineguylines; ++i)
+    {
+        int x1, y1, x2, y2;
+
+        if (scale)
+        {
+            x1 = FixedMul(lineguy[i].a.x, scale);
+            y1 = FixedMul(lineguy[i].a.y, scale);
+            x2 = FixedMul(lineguy[i].b.x, scale);
+            y2 = FixedMul(lineguy[i].b.y, scale);
+        }
+        else
+        {
+            x1 = lineguy[i].a.x;
+            y1 = lineguy[i].a.y;
+            x2 = lineguy[i].b.x;
+            y2 = lineguy[i].b.y;
+        }
+        if (angle)
+        {
+            AM_rotate(&x1, &y1, angle);
+            AM_rotate(&x2, &y2, angle);
+        }
+        AM_drawTransMline(x + x1, y + y1, x + x2, y + y2, color);
+    }
+}
+
 void AM_drawPlayers(void)
 {
     if (!netgame)
     {
+        int      invisibility = plr->powers[pw_invisibility];
         mpoint_t pt;
 
         pt.x = viewx;
@@ -1556,11 +1604,23 @@ void AM_drawPlayers(void)
             AM_rotatePoint(&pt.x, &pt.y);
 
         if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
-            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
-                                 plr->mo->angle, playercolor, pt.x, pt.y);
+        {
+            if (invisibility > 128 || (invisibility & 8))
+                AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
+                                          plr->mo->angle, NULL, pt.x, pt.y);
+            else
+                AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
+                                     plr->mo->angle, playercolor, pt.x, pt.y);
+        }
         else
-            AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                                 plr->mo->angle, playercolor, pt.x, pt.y);
+        {
+            if (invisibility > 128 || (invisibility & 8))
+                AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0,
+                                          plr->mo->angle, NULL, pt.x, pt.y);
+            else
+                AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
+                                     plr->mo->angle, playercolor, pt.x, pt.y);
+        }
     }
     else
     {
@@ -1578,10 +1638,12 @@ void AM_drawPlayers(void)
         for (i = 0; i < MAXPLAYERS; ++i)
         {
             mpoint_t pt;
+            int      invisibility;
 
             multiplayer = &players[i];
             if (!playeringame[i] || (deathmatch && !singledemo && multiplayer != plr))
                 continue;
+            invisibility = multiplayer->powers[pw_invisibility];
             if (multiplayer == plr)
             {
                 pt.x = viewx;
@@ -1590,8 +1652,12 @@ void AM_drawPlayers(void)
                 if (rotate)
                     AM_rotatePoint(&pt.x, &pt.y);
 
-                AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                    plr->mo->angle, playercolor, pt.x, pt.y);
+                if (invisibility > 128 || (invisibility & 8))
+                    AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0,
+                                              plr->mo->angle, NULL, pt.x, pt.y);
+                else
+                    AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
+                        plr->mo->angle, playercolor, pt.x, pt.y);
             }
             else
             {
@@ -1603,11 +1669,12 @@ void AM_drawPlayers(void)
                 if (rotate)
                     AM_rotatePoint(&pt.x, &pt.y);
 
-                AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                                     multiplayer->mo->angle,
-                                     (invisibility > 128 || (invisibility & 8) ?
-                                     invisibleplayercolor : multiplayercolors[i]),
-                                     pt.x, pt.y);
+                if (invisibility > 128 || (invisibility & 8))
+                    AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0,
+                                              multiplayer->mo->angle, NULL, pt.x, pt.y);
+                else
+                    AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
+                                         multiplayer->mo->angle, multiplayercolors[i], pt.x, pt.y);
             }
         }
     }
