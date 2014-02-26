@@ -1028,7 +1028,7 @@ void I_InitGraphics(void)
     CreateCursors();
     SDL_SetCursor(emptycursor);
 
-    init_win32(gamemission == doom ? "doom" : "doom2");
+    init_win32(gamemission == doom ? "DOOM" : "DOOM2");
 
     SetVideoMode();
 
