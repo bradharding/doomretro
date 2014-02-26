@@ -594,13 +594,13 @@ char lbmpath[256];
 
 boolean V_ScreenShot(void)
 {
-    char mapname[128];
-    int count = 0;
-    char folder[MAX_PATH];
+    char        mapname[128];
+    int         count = 0;
+    char        folder[MAX_PATH];
 
-    HRESULT hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
+    HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
 
-    if (!hr)
+    if (hr != S_OK)
         return false;
 
     if (usergame)
