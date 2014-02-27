@@ -168,6 +168,17 @@ void done_win32(void)
 
 int main(int argc, char **argv)
 {
+    char   *mutex = "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD";
+    HANDLE hInstanceMutex = CreateMutex(NULL, true, mutex);
+
+    if (GetLastError() == ERROR_ALREADY_EXISTS)
+    {
+        if (hInstanceMutex)
+            CloseHandle(hInstanceMutex);
+        SetForegroundWindow(FindWindow(mutex, NULL));
+        return 1;
+    }
+
     g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
 
     // save arguments
