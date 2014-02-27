@@ -217,10 +217,6 @@ boolean         grid = false;
 
 boolean         automapactive = false;
 
-// location of window on screen
-static int      f_x;
-static int      f_y;
-
 static mpoint_t m_paninc;                       // how far the window pans each tic (map coords)
 static fixed_t  mtof_zoommul;                   // how far the window zooms in each tic (map coords)
 static fixed_t  ftom_zoommul;                   // how far the window zooms in each tic (fb coords)
@@ -368,7 +364,7 @@ void AM_findMinMaxBoundaries(void)
         fixed_t y = vertexes[i].y;
 
         if (x < min_x)
-            min_x = MIN(x, min_x);
+            min_x = x;
         else if (x > max_x)
             max_x = x;
         if (y < min_y)
@@ -391,8 +387,14 @@ void AM_findMinMaxBoundaries(void)
 
 void AM_changeWindowLoc(void)
 {
-    m_x += m_paninc.x;
-    m_y += m_paninc.y;
+    fixed_t incx = m_paninc.x;
+    fixed_t incy = m_paninc.y;
+
+    if (rotate)
+        AM_rotate(&incx, &incy, plr->mo->angle - ANG90);
+
+    m_x += incx;
+    m_y += incy;
 
     if (!rotate)
     {
@@ -428,7 +430,7 @@ void AM_changeWindowLoc(void)
 void AM_Init(void)
 {
     byte *priority;
-    int x;
+    int  x;
 
     priority = (byte *)Z_Malloc(256, PU_STATIC, NULL);
     mask = (byte *)Z_Malloc(256, PU_STATIC, NULL);
@@ -1075,11 +1077,14 @@ static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
 
 void AM_rotatePoint(fixed_t *x, fixed_t *y)
 {
-    *x -= plr->mo->x;
-    *y -= plr->mo->y;
+    fixed_t pivotx = m_x + (m_w >> 1);
+    fixed_t pivoty = m_y + (m_h >> 1);
+
+    *x -= pivotx;
+    *y -= pivoty;
     AM_rotate(x, y, ANG90 - plr->mo->angle);
-    *x += plr->mo->x;
-    *y += plr->mo->y;
+    *x += pivotx;
+    *y += pivoty;
 }
 
 //
@@ -1139,7 +1144,7 @@ void AM_Ticker(void)
         AM_changeWindowScale();
 
     // Change x,y location
-    if (m_paninc.x || m_paninc.y)
+    //if (m_paninc.x || m_paninc.y)
     {
         AM_decelerate();
         AM_changeWindowLoc();
@@ -1384,9 +1389,9 @@ static void AM_drawGrid(void)
     fixed_t start, end;
     mline_t ml;
 
-    fixed_t minlen = (int)(sqrt((float)m_w * (float)m_w + (float)m_h * (float)m_h));
-    fixed_t extx = (minlen - m_w) / 2;
-    fixed_t exty = (minlen - m_h) / 2;
+    fixed_t minlen = (fixed_t)(sqrt((double)m_w * (double)m_w + (double)m_h * (double)m_h));
+    fixed_t extx = (minlen - m_w) >> 1;
+    fixed_t exty = (minlen - m_h) >> 1;
 
     fixed_t minx = m_x;
     fixed_t miny = m_y;
@@ -1394,7 +1399,7 @@ static void AM_drawGrid(void)
     // Figure out start of vertical gridlines
     start = minx - extx;
     if ((start - bmaporgx) % MAPBLOCKSIZE)
-        start -= ((start - bmaporgx) % MAPBLOCKSIZE);
+        start += MAPBLOCKSIZE - ((start - bmaporgx) % MAPBLOCKSIZE);
     end = minx + minlen - extx;
 
     // draw vertical gridlines
@@ -1415,7 +1420,7 @@ static void AM_drawGrid(void)
     // Figure out start of horizontal gridlines
     start = miny - exty;
     if ((start - bmaporgy) % MAPBLOCKSIZE)
-        start -= ((start - bmaporgy) % MAPBLOCKSIZE);
+        start += MAPBLOCKSIZE - ((start - bmaporgy) % MAPBLOCKSIZE);
     end = miny + minlen - exty;
 
     // draw horizontal gridlines
