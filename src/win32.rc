@@ -31,21 +31,21 @@ DOOM ICON DISCARDABLE "../res/doom.ico"
 DOOM2 ICON DISCARDABLE "../res/doom2.ico"
 
 1 VERSIONINFO
-PRODUCTVERSION 1,3,0,0
-FILEVERSION 1,3,0,0
+PRODUCTVERSION 1,2,1,0
+FILEVERSION 1,2,1,0
 FILETYPE 1
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "040904E4"
         BEGIN
-            VALUE "FileVersion", "1.3"
+            VALUE "FileVersion", "1.2.1"
             VALUE "FileDescription", "DOOM RETRO"
             VALUE "InternalName", "doomretro"
             VALUE "CompanyName", "brad@doomretro.com"
             VALUE "LegalCopyright", "© 2013-2014 Brad Harding. All rights reserved."
             VALUE "ProductName", "DOOM RETRO"
-            VALUE "ProductVersion", "1.3"
+            VALUE "ProductVersion", "1.2.1"
         END
     END
     BLOCK "VarFileInfo"
