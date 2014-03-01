@@ -37,6 +37,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 void G_PlayerReborn(int player);
 
+boolean         bloodsplats = true;
 mobj_t          *bloodSplatQueue[BLOODSPLATQUEUESIZE];
 int             bloodSplatQueueSlot;
 
@@ -539,7 +540,7 @@ extern int *isliquid;
 
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if (mobj->type == MT_BLOOD
+    if (bloodsplats && mobj->type == MT_BLOOD
         && mobj->floorz == mobj->subsector->sector->floorheight
         && !isliquid[mobj->subsector->sector->floorpic])
     {
