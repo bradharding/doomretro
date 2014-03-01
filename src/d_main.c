@@ -389,10 +389,7 @@ void D_DoAdvanceDemo(void)
             else
                 pagetic = 170;
             gamestate = GS_DEMOSCREEN;
-            if (TITLEPIC)
-                pagename = "TITLEPIC";
-            else
-                pagename = "INTERPIC";
+            pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
             if (gamemode == commercial)
                 S_StartMusic(mus_dm2ttl);
             else
@@ -414,10 +411,7 @@ void D_DoAdvanceDemo(void)
             if (gamemode == commercial)
             {
                 pagetic = TICRATE * 11;
-                if (TITLEPIC)
-                    pagename = "TITLEPIC";
-                else
-                    pagename = "INTERPIC";
+                pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
                 S_StartMusic(mus_dm2ttl);
             }
             else
@@ -737,8 +731,9 @@ static void D_DoomMainSetup(void)
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
     MAPINFO  = (W_CheckNumForName("MAPINFO") >= 0);
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
+    DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
 
-    bfgedition = (W_CheckNumForName("DMENUPIC") >= 0 && W_CheckNumForName("M_ACPT") >= 0);
+    bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
     p = M_CheckParmWithArgs("-playdemo", 1);
 

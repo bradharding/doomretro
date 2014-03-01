@@ -107,6 +107,7 @@ extern boolean          STCFN039;
 extern boolean          STYSNUM0;
 extern boolean          TITLEPIC;
 extern boolean          WISCRT2;
+extern boolean          DMENUPIC;
 
 // If non-zero, exit the level after this number of minutes
 extern int              timelimit;

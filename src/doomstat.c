@@ -60,3 +60,4 @@ boolean         STCFN039 = false;
 boolean         STYSNUM0 = false;
 boolean         TITLEPIC = false;
 boolean         WISCRT2  = false;
+boolean         DMENUPIC = false;
