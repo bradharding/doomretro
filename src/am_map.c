@@ -325,19 +325,21 @@ void AM_restoreScaleAndLoc(void)
 //
 void AM_addMark(void)
 {
-    int i;
-    int x = m_x + (m_w >> 1);
-    int y = m_y + (m_h >> 1);
+    int         i;
+    int         x = m_x + (m_w >> 1);
+    int         y = m_y + (m_h >> 1);
     static char message[32];
 
     for (i = 0; i < markpointnum; ++i)
         if (markpoints[i].x == x && markpoints[i].y == y)
             return;
+
     if (markpointnum >= markpointnum_max)
     {
         markpointnum_max = (markpointnum_max ? markpointnum_max << 1 : 16);
         markpoints = (mpoint_t *)realloc(markpoints, markpointnum_max * sizeof(*markpoints));
     }
+
     markpoints[markpointnum].x = x;
     markpoints[markpointnum].y = y;
     sprintf(message, AMSTR_MARKEDSPOT, ++markpointnum);
@@ -351,7 +353,7 @@ void AM_addMark(void)
 //
 void AM_findMinMaxBoundaries(void)
 {
-    int i;
+    int     i;
     fixed_t a;
     fixed_t b;
 
@@ -1144,7 +1146,7 @@ void AM_Ticker(void)
         AM_changeWindowScale();
 
     // Change x,y location
-    //if (m_paninc.x || m_paninc.y)
+    if (m_paninc.x || m_paninc.y)
     {
         AM_decelerate();
         AM_changeWindowLoc();
@@ -1365,19 +1367,19 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
 static void AM_drawMline(int x0, int y0, int x1, int y1, byte *color)
 {
     if (AM_clipMline(&x0, &y0, &x1, &y1))
-        AM_drawFline(x0, y0, x1, y1, color, PUTDOT);    // draws it on frame buffer using fb coords
+        AM_drawFline(x0, y0, x1, y1, color, PUTDOT);
 }
 
 static void AM_drawBigMline(int x0, int y0, int x1, int y1, byte *color)
 {
     if (AM_clipMline(&x0, &y0, &x1, &y1))
-        AM_drawFline(x0, y0, x1, y1, color, PUTBIGDOT); // draws it on frame buffer using fb coords
+        AM_drawFline(x0, y0, x1, y1, color, PUTBIGDOT);
 }
 
 static void AM_drawTransMline(int x0, int y0, int x1, int y1, byte *color)
 {
     if (AM_clipMline(&x0, &y0, &x1, &y1))
-        AM_drawFline(x0, y0, x1, y1, color, PUTTRANSDOT); // draws it on frame buffer using fb coords
+        AM_drawFline(x0, y0, x1, y1, color, PUTTRANSDOT);
 }
 
 //
@@ -1689,32 +1691,53 @@ void AM_drawThings(void)
 {
     int i = 0;
 
-    while (i < numsectors)
+    for (i = 0; i < numsectors; i++)
     {
-        mobj_t *thing = sectors[i++].thinglist;
+        // e6y
+        // Two-pass method for better usability of automap:
+        // The first one will draw all things except enemies
+        // The second one is for enemies only
+        // Stop after first pass if the current sector has no enemies
+        int pass;
+        int enemies = 0;
 
-        while (thing)
+        for (pass = 0; pass < 2; pass += (enemies ? 1 : 2))
         {
-            if (thing->type != MT_PLAYER && thing->type != MT_BLOODSPLAT)
+            mobj_t *thing = sectors[i].thinglist;
+
+            while (thing)
             {
-                int x = thing->x;
-                int y = thing->y;
-                int fx = CXMTOF(x);
-                int fy = CYMTOF(y);
-                int lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                int w = MAX(24 << FRACBITS, MIN(MIN(spritewidth[lump],
-                    spriteheight[lump]), 96 << FRACBITS)) >> 1;
-
-                if (fx >= -w && fx <= MAPWIDTH + w && fy >= -w && fy <= MAPHEIGHT + w)
+                //e6y: stop if all enemies from current sector already has been drawn
+                if (pass && !enemies)
+                    break;
+                if (pass == ((thing->flags & (MF_COUNTKILL | MF_CORPSE)) == MF_COUNTKILL ?
+                    (!pass ? enemies++ : enemies--), 0 : 1))
                 {
-                    if (rotate)
-                        AM_rotatePoint(&x, &y);
-
-                    AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w,
-                        thing->angle, thingcolor, x, y);
+                    thing = thing->snext;
+                    continue;
                 }
+
+                if (thing->type != MT_PLAYER && thing->type != MT_BLOODSPLAT)
+                {
+                    int x = thing->x;
+                    int y = thing->y;
+                    int fx = CXMTOF(x);
+                    int fy = CYMTOF(y);
+                    int lump = sprites[thing->sprite].spriteframes[0].lump[0];
+                    int w = MAX(24 << FRACBITS, MIN(MIN(spritewidth[lump],
+                        spriteheight[lump]), 96 << FRACBITS)) >> 1;
+
+                    if (fx >= -w && fx <= MAPWIDTH + w && fy >= -w && fy <= MAPHEIGHT + w)
+                    {
+                        if (rotate)
+                            AM_rotatePoint(&x, &y);
+
+                        AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w,
+                            thing->angle, thingcolor, x, y);
+                    }
+                }
+                thing = thing->snext;
             }
-            thing = thing->snext;
         }
     }
 }
