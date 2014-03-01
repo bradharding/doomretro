@@ -50,8 +50,8 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">\SDL\SDL-1.2.15\include;\SDL\SDL_net-1.2.8\include;\SDL\SDL_mixer-1.2.12\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">\SDL\SDL-1.2.15\lib\x86;\SDL\SDL_net-1.2.8\lib\x86;\SDL\SDL_mixer-1.2.12\lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">\SDL\SDL-1.2.15\include;\SDL\SDL_mixer-1.2.12\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">\SDL\SDL-1.2.15\lib\x86;\SDL\SDL_mixer-1.2.12\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)..\SDL\SDL-1.2.15\include;$(ProjectDir)\..\SDL\SDL_mixer-1.2.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\..\SDL\SDL-1.2.15\lib\x86;$(ProjectDir)\..\SDL\SDL_mixer-1.2.12\lib\x86;$(LibraryPath)</LibraryPath>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">doomretro</TargetName>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
   </PropertyGroup>
