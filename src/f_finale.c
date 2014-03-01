@@ -47,6 +47,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "r_state.h"
 
 #include "i_gamepad.h"
+#include "p_local.h"
 
 typedef enum
 {
@@ -538,7 +539,7 @@ boolean F_CastResponder(event_t *ev)
     if (!ev->data1)
         return false;
 
-    if (ev->type == ev_mouse && (ev->data1 & 1))
+    if (ev->type == ev_mouse && (ev->data1 & MOUSE_LEFTBUTTON))
         firstevent = false;
 
     if (firstevent)
@@ -561,7 +562,7 @@ boolean F_CastResponder(event_t *ev)
     if (ev->type == ev_keyup)
         return false;
 
-    if (ev->type == ev_mouse && !(ev->data1 & 1))
+    if (ev->type == ev_mouse && !(ev->data1 & MOUSE_LEFTBUTTON))
         return false;
 
     if (ev->type == ev_gamepad

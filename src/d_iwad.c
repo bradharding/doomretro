@@ -169,18 +169,14 @@ static char *GetRegistryString(registry_value_t *reg_val)
 
     // Open the key (directory where the value is stored)
 
-    if (RegOpenKeyEx(reg_val->root, reg_val->path,
-                     0, KEY_READ, &key) != ERROR_SUCCESS)
-    {
+    if (RegOpenKeyEx(reg_val->root, reg_val->path, 0, KEY_READ, &key) != ERROR_SUCCESS)
         return NULL;
-    }
 
     result = NULL;
 
     // Find the type and length of the string, and only accept strings.
 
-    if (RegQueryValueEx(key, reg_val->value,
-                        NULL, &valtype, NULL, &len) == ERROR_SUCCESS
+    if (RegQueryValueEx(key, reg_val->value, NULL, &valtype, NULL, &len) == ERROR_SUCCESS
         && valtype == REG_SZ)
     {
         // Allocate a buffer for the value and read the value
@@ -217,16 +213,12 @@ static void CheckUninstallStrings(void)
         val = GetRegistryString(&uninstall_values[i]);
 
         if (val == NULL)
-        {
             continue;
-        }
 
         unstr = strstr(val, UNINSTALLER_STRING);
 
         if (unstr == NULL)
-        {
             free(val);
-        }
         else
         {
             path = unstr + strlen(UNINSTALLER_STRING);

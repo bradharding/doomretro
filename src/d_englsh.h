@@ -432,7 +432,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "The Shores of Hell and its amazing\n"\
 "sequel, Inferno!\n"
 
-
 #define E2TEXT \
 "You've done it! The hideous cyber-\n"\
 "demon lord that ruled the lost Deimos\n"\
@@ -451,7 +450,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "\n" \
 "Now, it's onto the final chapter of\n"\
 "DOOM - Inferno!"
-
 
 #define E3TEXT \
 "The loathsome spiderdemon that\n"\
@@ -472,7 +470,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "spawn could have come through that\n"\
 "door with you..."
 
-
 #define E4TEXT \
 "The spider mastermind must have sent forth\n"\
 "its legions of Hellspawn before your\n"\
@@ -490,7 +487,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "of demons run amok among our cities.\n"\
 "\n"\
 "Next stop, Hell on Earth!"
-
 
 // after level 6, put this:
 
@@ -529,7 +525,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "starport.\" Slowly and painfully you get\n"\
 "up and return to the fray."
 
-
 // After level 20, put this:
 
 #define C3TEXT \
@@ -542,7 +537,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "There must be a way to close it on the\n"\
 "other side. What do you care if you've\n"\
 "got to go through Hell to get to it?"
-
 
 // After level 29, put this:
 
@@ -563,8 +557,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "home. Rebuilding Earth ought to be a\n"\
 "lot more fun than ruining it was.\n"
 
-
-
 // Before level 31, put this:
 
 #define C5TEXT \
@@ -574,14 +566,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "who the inmates of this corner of Hell\n"\
 "will be."
 
-
 // Before level 32, put this:
 
 #define C6TEXT \
 "Congratulations, you've found the\n"\
 "super secret level! You'd better\n"\
 "blaze through this one!\n"
-
 
 // After level 8, put this:
 
@@ -604,7 +594,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "\n"\
 "This ride is closed."
 
-
 // after map 06
 
 #define P1TEXT \
@@ -621,7 +610,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "moving, keep fighting, keep killing.\n"\
 "Oh yes, keep living, too."
 
-
 // after map 11
 
 #define P2TEXT \
@@ -631,7 +619,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "efficiently and permanently deactivated.\n"\
 "\n"\
 "You're good at that kind of thing."
-
 
 // after map 20
 
@@ -678,7 +665,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "level we had ready for ya? Now you know.\n"\
 "No one gets out alive."
 
-
 #define T1TEXT \
 "You've fought your way out of the infested\n"\
 "experimental labs. It seems that the UAC\n"\
@@ -693,7 +679,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "complex still has some warlike ordnance\n"\
 "laying around."
 
-
 #define T2TEXT \
 "You hear the grinding of heavy machinery\n"\
 "ahead. You sure hope they're not stamping\n"\
@@ -704,7 +689,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "maniacs packed into one mad killer.\n"\
 "\n"\
 "You don't plan to go down easy."
-
 
 #define T3TEXT \
 "The vista opening ahead looks real damn\n"\
@@ -736,7 +720,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "than usual. Can it? Or maybe it's best\n"\
 "to let sleeping Gods lie..."
 
-
 #define T6TEXT \
 "Time for a vacation. You've burst the\n"\
 "bowels of Hell and by golly you're ready\n"\
@@ -748,8 +731,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "\n"\
 "As you step off the transport, you hear\n"\
 "the stomp of a cyberdemon's iron shoe."
-
-
 
 //
 // Character cast strings F_FINALE.C
@@ -772,6 +753,5 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define CC_SPIDER       "THE SPIDER MASTERMIND"
 #define CC_CYBER        "THE CYBERDEMON"
 #define CC_HERO         "OUR HERO"
-
 
 #endif

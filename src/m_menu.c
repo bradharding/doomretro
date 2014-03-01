@@ -1877,7 +1877,7 @@ boolean M_Responder(event_t *ev)
     if (ev->type == ev_mouse && mousewait < I_GetTime() && menuactive)
     {
         // activate menu item
-        if (ev->data1 & 1)
+        if (ev->data1 & MOUSE_LEFTBUTTON)
         {
             key = KEY_ENTER;
             mousewait = I_GetTime() + 5;
@@ -1885,7 +1885,7 @@ boolean M_Responder(event_t *ev)
         }
 
         // previous menu
-        else if (ev->data1 & 2)
+        else if (ev->data1 & MOUSE_RIGHTBUTTON)
         {
             key = KEY_ESCAPE;
             mousewait = I_GetTime() + 5;

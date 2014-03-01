@@ -31,7 +31,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "d_items.h"
 
-
 //
 // PSPRITE ACTIONS for waepons.
 // This struct controls the weapon animations.

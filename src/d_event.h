@@ -29,9 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __D_EVENT__
 #define __D_EVENT__
 
-
 #include "doomtype.h"
-
 
 //
 // Event handling.
@@ -55,7 +53,6 @@ typedef struct
     int         data3;          // mouse y move
 } event_t;
 
-
 typedef enum
 {
     ga_nothing,
@@ -70,8 +67,6 @@ typedef enum
     ga_screenshot,
     ga_reloadgame
 } gameaction_t;
-
-
 
 //
 // Button/action code definitions.
@@ -103,11 +98,7 @@ typedef enum
     //  occupy the second byte of buttons.
     BTS_SAVEMASK        = (4 + 8 + 16),
     BTS_SAVESHIFT       = 2
-
 } buttoncode_t;
-
-
-
 
 //
 // GLOBAL VARIABLES

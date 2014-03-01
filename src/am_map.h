@@ -37,7 +37,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define AM_MSGENTERED (AM_MSGHEADER | ('e' << 8))
 #define AM_MSGEXITED (AM_MSGHEADER | ('x' << 8))
 
-
 // Called by main loop.
 boolean AM_Responder(event_t *ev);
 
@@ -57,7 +56,6 @@ void AM_Stop(void);
 void AM_Init(void);
 
 void D_PostEvent(event_t *ev);
-
 
 extern cheatseq_t cheat_amap;
 
@@ -81,6 +79,5 @@ extern boolean    idclev;
 extern boolean    idmus;
 
 boolean keystate(int key);
-
 
 #endif

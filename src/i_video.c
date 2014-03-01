@@ -81,8 +81,7 @@ boolean widescreen = false;
 boolean returntowidescreen = false;
 
 // Flag indicating whether the screen is currently visible:
-// when the screen isnt visible, don't render the screen
-
+// when the screen isn't visible, don't render the screen
 boolean screenvisible;
 
 boolean window_focused;

@@ -31,8 +31,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "doomdef.h"
 
-
-
 // Weapon info: sprite frames, ammunition use.
 typedef struct
 {
@@ -42,7 +40,6 @@ typedef struct
     int         readystate;
     int         atkstate;
     int         flashstate;
-
 } weaponinfo_t;
 
 extern  weaponinfo_t    weaponinfo[NUMWEAPONS];

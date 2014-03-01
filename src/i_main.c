@@ -27,14 +27,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #define WIN32_LEAN_AND_MEAN
+
 #include <windows.h>
 
-#include "SDL.h"
-
-#include "doomdef.h"
-#include "i_system.h"
-#include "m_argv.h"
 #include "d_main.h"
+#include "m_argv.h"
+#include "SDL.h"
+#include "SDL_syswm.h"
 
 typedef BOOL (WINAPI *SetAffinityFunc)(HANDLE hProcess, DWORD mask);
 
@@ -46,47 +45,42 @@ typedef BOOL (WINAPI *SetAffinityFunc)(HANDLE hProcess, DWORD mask);
 
 static void LockCPUAffinity(void)
 {
-    HMODULE kernel32_dll;
-    SetAffinityFunc SetAffinity;
+    HMODULE             kernel32_dll;
+    SetAffinityFunc     SetAffinity;
 
     // Find the kernel interface DLL.
-
     kernel32_dll = LoadLibrary("kernel32.dll");
 
     if (kernel32_dll == NULL)
     {
         // This should never happen...
-
         fprintf(stderr, "Failed to load kernel32.dll\n");
         return;
     }
 
     // Find the SetProcessAffinityMask function.
-
     SetAffinity = (SetAffinityFunc)GetProcAddress(kernel32_dll, "SetProcessAffinityMask");
 
     // If the function was not found, we are on an old (Win9x) system
     // that doesn't have this function.  That's no problem, because
     // those systems don't support SMP anyway.
-
     if (SetAffinity != NULL)
     {
         if (!SetAffinity(GetCurrentProcess(), 1))
         {
-            fprintf(stderr, "Failed to set process affinity (%d)\n",
-                            (int) GetLastError());
+            fprintf(stderr, "Failed to set process affinity (%d)\n", (int)GetLastError());
         }
     }
 }
 
-extern int fullscreen;
-extern boolean window_focused;
-HHOOK g_hKeyboardHook;
+extern int      fullscreen;
+extern boolean  window_focused;
+HHOOK           g_hKeyboardHook;
 
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-    bool bEatKeystroke = false;
-    KBDLLHOOKSTRUCT *p = (KBDLLHOOKSTRUCT *)lParam;
+    boolean             bEatKeystroke = false;
+    KBDLLHOOKSTRUCT     *p = (KBDLLHOOKSTRUCT *)lParam;
 
     if (nCode < 0 || nCode != HC_ACTION)
         return CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam);
@@ -96,22 +90,18 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
         case WM_KEYDOWN:
         case WM_KEYUP:
         {
-            bEatKeystroke = (fullscreen && window_focused &&
-                ((p->vkCode == VK_LWIN) || (p->vkCode == VK_RWIN)));
+            bEatKeystroke = (fullscreen && window_focused
+                             && (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN));
             break;
         }
     }
 
-    if (bEatKeystroke)
-        return 1;
-    else
-        return CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam);
+    return (bEatKeystroke ? 1 : CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam));
 }
 
-
-WNDPROC oldProc;
-HICON icon;
-HWND hwnd;
+WNDPROC         oldProc;
+HICON           icon;
+HWND            hwnd;
 
 boolean MouseShouldBeGrabbed(void);
 void ToggleFullScreen(void);
@@ -140,22 +130,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return CallWindowProc(oldProc, hwnd, msg, wParam, lParam);
 }
 
-#include "SDL_syswm.h"
-
 void init_win32(LPCTSTR lpIconName)
 {
-    HINSTANCE handle = GetModuleHandle(NULL);
+    HINSTANCE           handle = GetModuleHandle(NULL);
+    SDL_SysWMinfo       wminfo;
 
-    SDL_SysWMinfo wminfo;
     SDL_VERSION(&wminfo.version)
-    if (SDL_GetWMInfo(&wminfo) != 1)
-    {
-        // error: wrong SDL version
-    }
+    SDL_GetWMInfo(&wminfo);
     hwnd = wminfo.window;
 
     icon = LoadIcon(handle, lpIconName);
-    SetClassLong(hwnd, GCL_HICON, (LONG) icon);
+    SetClassLong(hwnd, GCL_HICON, (LONG)icon);
 
     oldProc = (WNDPROC)SetWindowLong(hwnd, GWL_WNDPROC, (LONG)WndProc);
 }
@@ -168,8 +153,8 @@ void done_win32(void)
 
 int main(int argc, char **argv)
 {
-    char   *mutex = "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD";
-    HANDLE hInstanceMutex = CreateMutex(NULL, true, mutex);
+    char        *mutex = "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD";
+    HANDLE      hInstanceMutex = CreateMutex(NULL, true, mutex);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS)
     {

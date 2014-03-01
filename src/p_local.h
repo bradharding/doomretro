@@ -66,6 +66,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define BONUSADD                6
 
+#define MOUSE_LEFTBUTTON        1
+#define MOUSE_RIGHTBUTTON       2
 #define MOUSE_WHEELUP           8
 #define MOUSE_WHEELDOWN         16
 
