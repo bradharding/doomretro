@@ -212,7 +212,7 @@ void P_DeathThink(player_t *player)
 
     if (((player->cmd.buttons & BT_USE) 
         || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
-        || keystate[SDLK_RETURN]))
+        || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER]))
     {
         count = 0;
         vibrationtics = 1;

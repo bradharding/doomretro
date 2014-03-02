@@ -185,7 +185,7 @@ void F_Ticker(void)
 
         keystate = SDL_GetKeyState(NULL);
         if (i < MAXPLAYERS
-            || keystate[SDLK_RETURN])
+            || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
         {
             players[i].cmd.buttons = 0;
             if (gamemap == 30
