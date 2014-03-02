@@ -1788,7 +1788,7 @@ void WI_loadData(void)
     if (gamemode == commercial
         || (gamemode == retail && wbs->epsd == 3))
     {
-        strncpy(bg_lumpname, "INTERPIC", 9);
+        strncpy(bg_lumpname, (DMENUPIC ? "DMENUPIC" : "INTERPIC"), 9);
         bg_lumpname[8] = '\0';
     }
     else
