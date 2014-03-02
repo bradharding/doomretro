@@ -56,6 +56,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define DEFAULT_RAM 16 /* MiB */
 #define MIN_RAM     4  /* MiB */
 
+extern HANDLE hInstanceMutex;
+
 // Zone memory auto-allocation function that allocates the zone size
 // by trying progressively smaller zone sizes until one is found that
 // works.
@@ -161,6 +163,9 @@ void I_Quit(void)
 
     I_ShutdownGamepad();
 
+    ReleaseMutex(hInstanceMutex);
+    CloseHandle(hInstanceMutex);
+
     exit(0);
 }
 
@@ -225,6 +230,9 @@ void I_Error(char *error, ...)
                         wmsgbuf, sizeof(wmsgbuf));
 
     MessageBoxW(NULL, wmsgbuf, L"DOOM RETRO", MB_ICONERROR | MB_OK);
+
+    ReleaseMutex(hInstanceMutex);
+    CloseHandle(hInstanceMutex);
 
     exit(-1);
 }
