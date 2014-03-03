@@ -1476,8 +1476,6 @@ static void saveg_write_button_t(button_t *str)
 // Write the header for a savegame
 //
 
-extern skill_t d_skill;
-
 void P_WriteSaveGameHeader(char *description)
 {
     char name[VERSIONSIZE];
@@ -1494,7 +1492,7 @@ void P_WriteSaveGameHeader(char *description)
     for (i = 0; i < VERSIONSIZE; ++i)
         saveg_write8(name[i]);
 
-    saveg_write8(d_skill);
+    saveg_write8(gameskill);
     saveg_write8(gameepisode);
     saveg_write8(gamemap);
     saveg_write8(gamemission);
