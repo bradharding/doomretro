@@ -90,6 +90,8 @@ lighttable_t            *zlight[LIGHTLEVELS][MAXLIGHTZ];
 // bumped light from gun blasts
 int                     extralight;
 
+int                     translucency = true;
+
 extern int              automapactive;
 
 void (*colfunc)(void);
@@ -329,24 +331,45 @@ void R_ExecuteSetViewSize(void)
 
     colfunc = basecolfunc = R_DrawColumn;
     fuzzcolfunc = R_DrawFuzzColumn;
-    tlcolfunc = R_DrawTranslucentColumn;
-    tl50colfunc = R_DrawTranslucent50Column;
-    tl33colfunc = R_DrawTranslucent33Column;
-    tlgreencolfunc = R_DrawTranslucentGreenColumn;
-    tlredcolfunc = R_DrawTranslucentRedColumn;
-    tlredwhitecolfunc = R_DrawTranslucentRedWhiteColumn;
-    tlbluecolfunc = R_DrawTranslucentBlueColumn;
-    tlgreen50colfunc = R_DrawTranslucentGreen50Column;
-    tlred50colfunc = R_DrawTranslucentRed50Column;
-    tlredwhite50colfunc = R_DrawTranslucentRedWhite50Column;
-    tlblue50colfunc = R_DrawTranslucentBlue50Column;
-    redtobluecolfunc = R_DrawRedToBlueColumn;
-    tlredtoblue50colfunc = R_DrawTranslucentRedToBlue50Column;
+
+    if (translucency)
+    {
+        tlcolfunc = R_DrawTranslucentColumn;
+        tl50colfunc = R_DrawTranslucent50Column;
+        tl33colfunc = R_DrawTranslucent33Column;
+        tlgreencolfunc = R_DrawTranslucentGreenColumn;
+        tlredcolfunc = R_DrawTranslucentRedColumn;
+        tlredwhitecolfunc = R_DrawTranslucentRedWhiteColumn;
+        tlbluecolfunc = R_DrawTranslucentBlueColumn;
+        tlgreen50colfunc = R_DrawTranslucentGreen50Column;
+        tlred50colfunc = R_DrawTranslucentRed50Column;
+        tlredwhite50colfunc = R_DrawTranslucentRedWhite50Column;
+        tlblue50colfunc = R_DrawTranslucentBlue50Column;
+        tlredtoblue50colfunc = R_DrawTranslucentRedToBlue50Column;
+        tlredtogreen50colfunc = R_DrawTranslucentRedToGreen50Column;
+    }
+    else
+    {
+        tlcolfunc = R_DrawColumn;
+        tl50colfunc = R_DrawColumn;
+        tl33colfunc = R_DrawColumn;
+        tlgreencolfunc = R_DrawColumn;
+        tlredcolfunc = R_DrawColumn;
+        tlredwhitecolfunc = R_DrawColumn;
+        tlbluecolfunc = R_DrawColumn;
+        tlgreen50colfunc = R_DrawColumn;
+        tlred50colfunc = R_DrawColumn;
+        tlredwhite50colfunc = R_DrawColumn;
+        tlblue50colfunc = R_DrawColumn;
+        tlredtoblue50colfunc = R_DrawColumn;
+        tlredtogreen50colfunc = R_DrawColumn;
+    }
+
     transcolfunc = R_DrawTranslatedColumn;
     spanfunc = R_DrawSpan;
     skycolfunc = R_DrawSkyColumn;
+    redtobluecolfunc = R_DrawRedToBlueColumn;
     redtogreencolfunc = R_DrawRedToGreenColumn;
-    tlredtogreen50colfunc = R_DrawTranslucentRedToGreen50Column;
     wallcolfunc = R_DrawWallColumn;
     fbwallcolfunc = R_DrawFullbrightWallColumn;
     psprcolfunc = R_DrawPlayerSpriteColumn;

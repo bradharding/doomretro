@@ -110,6 +110,7 @@ extern int      mouse_threshold;
 extern char     *wadfolder;
 
 extern boolean  bloodsplats;
+extern boolean  translucency;
 
 typedef enum
 {
@@ -233,7 +234,8 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (widescreen,         widescreen,         1),
     CONFIG_VARIABLE_STRING(videodriver,        videodriver,        0),
     CONFIG_VARIABLE_STRING(wadfolder,          wadfolder,          0),
-    CONFIG_VARIABLE_INT   (bloodsplats,        bloodsplats,        1)
+    CONFIG_VARIABLE_INT   (bloodsplats,        bloodsplats,        1),
+    CONFIG_VARIABLE_INT   (translucency,       translucency,       1)
 };
 
 static default_collection_t doom_defaults =
