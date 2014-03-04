@@ -1027,7 +1027,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     th->momx = FixedMul(th->info->speed, finecosine[an]);
     th->momy = FixedMul(th->info->speed, finesine[an]);
 
-    dist = MAX (1, P_ApproxDistance(dest->x - source->x, dest->y - source->y) / th->info->speed);
+    dist = MAX(1, P_ApproxDistance(dest->x - source->x, dest->y - source->y) / th->info->speed);
 
     th->momz = (dest->z - source->z) / dist;
     P_CheckMissileSpawn(th);

@@ -81,11 +81,11 @@ static int     *maskedtexturecol;
 //
 static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 {
-    int     anglea = ANG90 + (visangle-viewangle);
-    int     angleb = ANG90 + (visangle-rw_normalangle);
-    int     den = FixedMul(rw_distance, finesine[anglea>>ANGLETOFINESHIFT]);
-    int     max = 1024 * FRACUNIT;      // [BH] fix wobbly vertexes
-    fixed_t num = FixedMul(projectiony, finesine[angleb>>ANGLETOFINESHIFT]);
+    int         anglea = ANG90 + visangle - viewangle;
+    int         angleb = ANG90 + visangle - rw_normalangle;
+    int         den = FixedMul(rw_distance, finesine[anglea >> ANGLETOFINESHIFT]);
+    int         max = 1024 * FRACUNIT;          // [BH] fix wobbly vertexes
+    fixed_t     num = FixedMul(projectiony, finesine[angleb >> ANGLETOFINESHIFT]);
 
     return ((den >> 8) > 0 && den > (num >> 16) ? ((num = FixedDiv(num, den)) > max ? 
             max : MAX(256, num)) : max);
@@ -96,10 +96,10 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 {
-    unsigned index;
-    column_t *col;
-    int      lightnum;
-    int      texnum;
+    unsigned    index;
+    column_t    *col;
+    int         lightnum;
+    int         texnum;
 
     // Calculate light table.
     // Use different light tables
@@ -128,13 +128,13 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     if (curline->linedef->flags & ML_DONTPEGBOTTOM)
     {
         dc_texturemid = (frontsector->floorheight > backsector->floorheight
-            ? frontsector->floorheight : backsector->floorheight);
+                         ? frontsector->floorheight : backsector->floorheight);
         dc_texturemid = dc_texturemid + textureheight[texnum] - viewz;
     }
     else
     {
         dc_texturemid = (frontsector->ceilingheight < backsector->ceilingheight
-            ? frontsector->ceilingheight : backsector->ceilingheight);
+                         ? frontsector->ceilingheight : backsector->ceilingheight);
         dc_texturemid = dc_texturemid - viewz;
     }
     dc_texturemid += curline->sidedef->rowoffset;

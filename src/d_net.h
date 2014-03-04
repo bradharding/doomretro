@@ -41,10 +41,6 @@ extern int extratics;
 // Create any new ticcmds and broadcast to other players.
 void NetUpdate(void);
 
-// Broadcasts special packets to other players
-//  to notify of game exit
-void D_QuitNetGame(void);
-
 //? how many ticks to run?
 void TryRunTics(void);
 

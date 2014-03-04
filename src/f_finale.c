@@ -27,34 +27,26 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <ctype.h>
-
-#include "SDL.h"
-
-// Functions.
-#include "i_system.h"
+#include "doomstat.h"
+#include "dstrings.h"
+#include "hu_stuff.h"
+#include "i_gamepad.h"
 #include "i_swap.h"
-#include "z_zone.h"
+#include "i_system.h"
+#include "p_local.h"
+#include "s_sound.h"
+#include "SDL.h"
 #include "v_video.h"
 #include "w_wad.h"
-#include "s_sound.h"
-
-// Data.
-#include "dstrings.h"
-#include "sounds.h"
-
-#include "doomstat.h"
-#include "r_state.h"
-
-#include "i_gamepad.h"
-#include "p_local.h"
+#include "z_zone.h"
 
 typedef enum
 {
     F_STAGE_TEXT,
     F_STAGE_ARTSCREEN,
     F_STAGE_CAST,
-} finalestage_t;
+}
+finalestage_t;
 
 // Stage of animation:
 finalestage_t finalestage;
@@ -70,7 +62,8 @@ typedef struct
     int episode, level;
     char *background;
     char *text;
-} textscreen_t;
+}
+textscreen_t;
 
 static textscreen_t textscreens[] =
 {
@@ -116,24 +109,16 @@ void F_CastDrawer(void);
 //
 void F_StartFinale(void)
 {
-    size_t i;
+    size_t      i;
 
     gameaction = ga_nothing;
     gamestate = GS_FINALE;
     viewactive = false;
     automapactive = false;
 
-    if (gamemission == doom)
-    {
-        S_ChangeMusic(mus_victor, true, false);
-    }
-    else
-    {
-        S_ChangeMusic(mus_read_m, true, false);
-    }
+    S_ChangeMusic(gamemission == doom ? mus_victor : mus_read_m, true, false);
 
     // Find the right screen and set the text and background
-
     for (i = 0; i<arrlen(textscreens); ++i)
     {
         textscreen_t *screen = &textscreens[i];
@@ -151,8 +136,6 @@ void F_StartFinale(void)
     finalecount = 0;
 }
 
-
-
 boolean F_Responder(event_t *ev)
 {
     if (finalestage == F_STAGE_CAST)
@@ -161,22 +144,19 @@ boolean F_Responder(event_t *ev)
     return false;
 }
 
-
 //
 // F_Ticker
 //
 void F_Ticker(void)
 {
-    size_t              i;
-    Uint8               *keystate;
+    size_t      i;
+    Uint8       *keystate;
 
     if (menuactive || paused)
         return;
 
     // check for skipping
-    if (gamemode == commercial
-        && finalecount > 25
-        && finalestage != F_STAGE_CAST)
+    if (gamemode == commercial && finalecount > 25 && finalestage != F_STAGE_CAST)
     {
         // go on to the next level
         for (i = 0; i < MAXPLAYERS; i++)
@@ -184,12 +164,10 @@ void F_Ticker(void)
                 break;
 
         keystate = SDL_GetKeyState(NULL);
-        if (i < MAXPLAYERS
-            || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
+        if (i < MAXPLAYERS || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
         {
             players[i].cmd.buttons = 0;
-            if (gamemap == 30
-                || (gamemission == pack_nerve && gamemap == 8))
+            if (gamemap == 30 || (gamemission == pack_nerve && gamemap == 8))
                 F_StartCast();
             else
                 gameaction = ga_worlddone;
@@ -208,8 +186,7 @@ void F_Ticker(void)
     if (gamemode == commercial)
         return;
 
-    if (finalestage == F_STAGE_TEXT
-        && finalecount > strlen(finaletext) * TEXTSPEED + TEXTWAIT)
+    if (finalestage == F_STAGE_TEXT && finalecount > strlen(finaletext) * TEXTSPEED + TEXTWAIT)
     {
         finalecount = 0;
         finalestage = F_STAGE_ARTSCREEN;
@@ -219,39 +196,33 @@ void F_Ticker(void)
     }
 }
 
-
-
 //
 //
 // F_TextWrite
 //
-
-#include "hu_stuff.h"
 extern patch_t *hu_font[HU_FONTSIZE];
-
 
 void F_TextWrite(void)
 {
-    byte                *src;
-    byte                *dest;
+    byte        *src;
+    byte        *dest;
 
-    int                 x, y, w;
-    signed int          count;
-    char                *ch;
-    int                 c;
-    int                 cx;
-    int                 cy;
-    int                 ay;
-    int                 i;
-    char                letter;
-    char                prev = ' ';
+    int         x, y, w;
+    signed int  count;
+    char        *ch;
+    int         c;
+    int         cx;
+    int         cy;
+    int         ay;
+    int         i;
+    char        letter;
+    char        prev = ' ';
 
     // erase the entire screen to a tiled background
     src = (byte *)W_CacheLumpName(finaleflat, PU_CACHE);
     dest = screens[0];
 
     for (y = 0; y < SCREENHEIGHT; y += 2)
-    {
         for (x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             for (i = 0; i < 64; i++)
@@ -273,7 +244,6 @@ void F_TextWrite(void)
             }
             dest += 128;
         }
-    }
 
     // draw some of the text onto the screen
     cx = 12;
@@ -327,7 +297,8 @@ typedef struct
 {
     char        *name;
     mobjtype_t  type;
-} castinfo_t;
+}
+castinfo_t;
 
 castinfo_t castorder[] =
 {
@@ -363,7 +334,6 @@ int             castonmelee;
 boolean         castattacking;
 boolean         firstevent;
 
-
 //
 // F_StartCast
 //
@@ -382,7 +352,6 @@ void F_StartCast(void)
     castattacking = false;
     S_ChangeMusic(mus_evil, true, false);
 }
-
 
 //
 // F_CastTicker
@@ -500,11 +469,9 @@ void F_CastTicker(void)
         if (caststate == &states[S_NULL])
         {
             if (castonmelee)
-                caststate=
-                &states[mobjinfo[castorder[castnum].type].meleestate];
+                caststate = &states[mobjinfo[castorder[castnum].type].meleestate];
             else
-                caststate=
-                &states[mobjinfo[castorder[castnum].type].missilestate];
+                caststate = &states[mobjinfo[castorder[castnum].type].missilestate];
         }
         if (caststate == &states[S_PLAY_ATK1])
             S_StartSound (NULL, sfx_dshtgn);
@@ -512,8 +479,7 @@ void F_CastTicker(void)
 
     if (castattacking)
     {
-        if (castframes == 24
-            || caststate == &states[mobjinfo[castorder[castnum].type].seestate])
+        if (castframes == 24 || caststate == &states[mobjinfo[castorder[castnum].type].seestate])
         {
 stopattack:
             castattacking = false;
@@ -551,12 +517,8 @@ boolean F_CastResponder(event_t *ev)
     if (menuactive || paused)
         return false;
 
-    if (ev->type == ev_keydown
-        && ev->data1 != key_use
-        && ev->data1 != key_fire
-        && ev->data1 != KEY_LEFTARROW
-        && ev->data1 != KEY_RIGHTARROW
-        && ev->data1 != KEY_ENTER)
+    if (ev->type == ev_keydown && ev->data1 != key_use && ev->data1 != key_fire
+        && ev->data1 != KEY_LEFTARROW && ev->data1 != KEY_RIGHTARROW && ev->data1 != KEY_ENTER)
         return false;
 
     if (ev->type == ev_keyup)
@@ -565,8 +527,7 @@ boolean F_CastResponder(event_t *ev)
     if (ev->type == ev_mouse && !(ev->data1 & MOUSE_LEFTBUTTON))
         return false;
 
-    if (ev->type == ev_gamepad
-        && !(ev->data1 & GAMEPAD_RIGHT_TRIGGER) && !(ev->data1 & GAMEPAD_A))
+    if (ev->type == ev_gamepad && !(ev->data1 & GAMEPAD_RIGHT_TRIGGER) && !(ev->data1 & GAMEPAD_A))
         return false;
 
     if (castdeath)
@@ -713,7 +674,6 @@ void F_CastDrawer(void)
     }
 }
 
-
 //
 // F_DrawPatchCol
 //
@@ -746,7 +706,6 @@ void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
         column = (column_t *)((byte *)column + column->length + 4);
     }
 }
-
 
 //
 // F_BunnyScroll
@@ -790,8 +749,7 @@ void F_BunnyScroll(void)
         return;
     if (finalecount < 1180)
     {
-        V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1,
-                              (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
+        V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
                               0, (patch_t *)W_CacheLumpName("END0", PU_CACHE), false);
         laststage = 0;
         return;
@@ -807,8 +765,7 @@ void F_BunnyScroll(void)
     }
 
     snprintf(name, 10, "END%i", stage);
-    V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1,
-                          (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
+    V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
                           0, (patch_t *)W_CacheLumpName(name, PU_CACHE), false);
 }
 
@@ -817,9 +774,7 @@ static void F_ArtScreenDrawer(void)
     char *lumpname;
 
     if (gameepisode == 3)
-    {
         F_BunnyScroll();
-    }
     else
     {
         switch (gameepisode)

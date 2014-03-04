@@ -115,8 +115,8 @@ void I_PollDirectInputGamepad(void)
 {
     if (gamepad)
     {
-        event_t ev;
-        int hat;
+        event_t         ev;
+        int             hat;
 
         if (gamepadlefthanded)
         {
@@ -164,13 +164,13 @@ void I_PollDirectInputGamepad(void)
             gamepadbuttons |= GAMEPAD_RIGHT_THUMB;
 
         hat = SDL_JoystickGetHat(gamepad, 0);
-        if (hat & 1)
+        if (hat & SDL_HAT_UP)
             gamepadbuttons |= GAMEPAD_DPAD_UP;
-        if (hat & 2)
+        if (hat & SDL_HAT_RIGHT)
             gamepadbuttons |= GAMEPAD_DPAD_RIGHT;
-        if (hat & 4)
+        if (hat & SDL_HAT_DOWN)
             gamepadbuttons |= GAMEPAD_DPAD_DOWN;
-        if (hat & 8)
+        if (hat & SDL_HAT_LEFT)
             gamepadbuttons |= GAMEPAD_DPAD_LEFT;
 
         if (gamepadbuttons)
@@ -192,7 +192,7 @@ void I_PollDirectInputGamepad(void)
 
 void XInputVibration(int left, int right)
 {
-    XINPUT_VIBRATION vibration;
+    XINPUT_VIBRATION    vibration;
 
     ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
     vibration.wLeftMotorSpeed = left;
@@ -204,29 +204,23 @@ void I_PollXInputGamepad(void)
 {
     if (gamepad)
     {
-        event_t ev;
-        XINPUT_STATE state;
+        event_t         ev;
+        XINPUT_STATE    state;
 
         ZeroMemory(&state, sizeof(XINPUT_STATE));
         XInputGetState(0, &state);
 
         if (gamepadlefthanded)
         {
-            gamepadthumbLX = clamp(state.Gamepad.sThumbRX,
-                                   GAMEPAD_RIGHT_THUMB_DEADZONE);
-            gamepadthumbLY = -clamp(state.Gamepad.sThumbRY,
-                                    GAMEPAD_RIGHT_THUMB_DEADZONE);
-            gamepadthumbRX = clamp(state.Gamepad.sThumbLX,
-                                   GAMEPAD_LEFT_THUMB_DEADZONE);
+            gamepadthumbLX = clamp(state.Gamepad.sThumbRX, GAMEPAD_RIGHT_THUMB_DEADZONE);
+            gamepadthumbLY = -clamp(state.Gamepad.sThumbRY, GAMEPAD_RIGHT_THUMB_DEADZONE);
+            gamepadthumbRX = clamp(state.Gamepad.sThumbLX, GAMEPAD_LEFT_THUMB_DEADZONE);
         }
         else
         {
-            gamepadthumbLX = clamp(state.Gamepad.sThumbLX,
-                                   GAMEPAD_LEFT_THUMB_DEADZONE);
-            gamepadthumbLY = -clamp(state.Gamepad.sThumbLY,
-                                    GAMEPAD_LEFT_THUMB_DEADZONE);
-            gamepadthumbRX = clamp(state.Gamepad.sThumbRX,
-                                   GAMEPAD_RIGHT_THUMB_DEADZONE);
+            gamepadthumbLX = clamp(state.Gamepad.sThumbLX, GAMEPAD_LEFT_THUMB_DEADZONE);
+            gamepadthumbLY = -clamp(state.Gamepad.sThumbLY, GAMEPAD_LEFT_THUMB_DEADZONE);
+            gamepadthumbRX = clamp(state.Gamepad.sThumbRX, GAMEPAD_RIGHT_THUMB_DEADZONE);
         }
 
         gamepadbuttons = state.Gamepad.wButtons;

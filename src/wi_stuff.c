@@ -26,42 +26,23 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdio.h>
-
-#include "SDL.h"
-
-#include "z_zone.h"
-
-#include "m_random.h"
-#include "i_swap.h"
-
-#include "i_system.h"
-
-#include "w_wad.h"
-
-#include "g_game.h"
-
-#include "r_local.h"
-#include "s_sound.h"
-
 #include "doomstat.h"
-
-// Data.
-#include "sounds.h"
-
-// Needs access to LFB.
-#include "v_video.h"
-
-#include "wi_stuff.h"
-
+#include "g_game.h"
+#include "i_swap.h"
+#include "m_random.h"
+#include "s_sound.h"
+#include "SDL.h"
 #include "v_data.h"
+#include "v_video.h"
+#include "w_wad.h"
+#include "wi_stuff.h"
+#include "z_zone.h"
 
 //
 // Data needed to add patches to full screen intermission pics.
 // Patches are statistics messages, and animations.
 // Loads of by-pixel layout and placement, offsets etc.
 //
-
 
 //
 // Difference between registered DOOM (1994) and
@@ -71,7 +52,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  in one episode. So there.
 #define NUMEPISODES             4
 #define NUMMAPS                 9
-
 
 // GLOBAL LOCATIONS
 #define WI_TITLEY               2
@@ -83,7 +63,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define SP_TIMEX                16
 #define SP_TIMEY                (ORIGINALHEIGHT - 32)
-
 
 // NET GAME STUFF
 #define NG_STATSY               50
@@ -105,9 +84,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define DM_VICTIMSX             5
 #define DM_VICTIMSY             50
 
-
-
-
 typedef enum
 {
     ANIM_ALWAYS,
@@ -122,7 +98,6 @@ typedef struct
     int                 y;
 
 } point_t;
-
 
 //
 // Animation.
@@ -167,9 +142,7 @@ typedef struct
 
     // used by RANDOM and LEVEL when animating
     int                 state;
-
 } anim_t;
-
 
 static point_t lnodes[NUMEPISODES][NUMMAPS] =
 {
@@ -214,7 +187,6 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
 
 };
 
-
 //
 // Animation locations for episode 0 (1).
 // Using patches saves a lot of space,
@@ -224,7 +196,6 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
 #define ANIM(type, period, nanims, x, y, nexttic)                  \
             { (type), (period), (nanims), { (x), (y) }, (nexttic), \
               0, { NULL, NULL, NULL }, 0, 0, 0, 0 }
-
 
 static anim_t epsd0animinfo[] =
 {
@@ -277,7 +248,6 @@ static anim_t *anims[NUMEPISODES] =
     epsd2animinfo
 };
 
-
 //
 // GENERAL DATA
 //
@@ -286,7 +256,6 @@ static anim_t *anims[NUMEPISODES] =
 // Locally used stuff.
 //
 #define FB                      0
-
 
 // States for single-player
 #define SP_KILLS                0
@@ -300,7 +269,6 @@ static anim_t *anims[NUMEPISODES] =
 
 // in seconds
 #define SHOWNEXTLOCDELAY        4
-
 
 // used to accelerate or skip a stage
 static int              acceleratestage;
@@ -334,7 +302,6 @@ static int              cnt_pause;
 
 // # of commercial levels
 static int              NUMCMAPS;
-
 
 //
 //      GRAPHICS
@@ -394,8 +361,6 @@ static patch_t          *bp[MAXPLAYERS];
 // Name graphics of each level (centered)
 static patch_t          **lnames;
 
-extern byte *tinttab50;
-
 //
 // CODE
 //
@@ -409,7 +374,8 @@ void WI_slamBackground(void)
 // [BH] Draws character of "<Levelname>"
 void WI_drawWILVchar(int x, int y, int i)
 {
-    int w, x1, y1;
+    int         w;
+    int         x1, y1;
 
     w = strlen(wilv[i]) / 13;
 
@@ -442,11 +408,13 @@ int chartoi[130] =
 
 void WI_drawWILV(int y, char *str)
 {
-    int i, w = 0, x;
+    int         i;
+    int         w = 0;
+    int         x;
 
     for (i = 0; (unsigned)i < strlen(str); i++)
     {
-        int j = chartoi[str[i]];
+        int     j = chartoi[str[i]];
 
         w += (j == -1 ? 6 : (strlen(wilv[j]) / 13 - 2));
     }
@@ -454,15 +422,13 @@ void WI_drawWILV(int y, char *str)
 
     for (i = 0; (unsigned)i < strlen(str); i++)
     {
-        int j = chartoi[str[i]];
+        int     j = chartoi[str[i]];
 
         if (str[i] == '\'' && (!i || (i > 0 && str[i - 1] == ' ')))
             j = 41;
 
         if (j == -1)
-        {
             x += 6;
-        }
         else
         {
             WI_drawWILVchar(x, y, j);
@@ -474,24 +440,20 @@ void WI_drawWILV(int y, char *str)
 // Draws "<Levelname> Finished!"
 void WI_drawLF(void)
 {
-    int x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
-    int y = WI_TITLEY;
+    int         x = (ORIGINALWIDTH - SHORT(finished->width)) / 2;
+    int         y = WI_TITLEY;
+    char        name[9];
 
     // draw <LevelName>
-    char name[9];
     if (gamemode == commercial)
         snprintf(name, 9, "CWILV%2.2d", wbs->last);
     else
         snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
     if (W_CheckMultipleLumps(name) > 1 && !nerve)
-    {
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->last], false);
-    }
     else
-    {
         WI_drawWILV(y, mapname);
-    }
 
     // draw "Finished!"
     y += 14;
@@ -501,9 +463,9 @@ void WI_drawLF(void)
 // Draws "Entering <LevelName>"
 void WI_drawEL(void)
 {
-    int x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
-    int y = WI_TITLEY;
-    char name[9];
+    int         x = (ORIGINALWIDTH - SHORT(entering->width)) / 2;
+    int         y = WI_TITLEY;
+    char        name[9];
 
     // draw "Entering"
     V_DrawPatchWithShadow(x + 1, y + 1, FB, entering, false);
@@ -515,14 +477,10 @@ void WI_drawEL(void)
     else
         snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
     if (W_CheckMultipleLumps(name) > 1 && !nerve)
-    {
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->next], false);
-    }
     else
-    {
         WI_drawWILV(y, nextmapname);
-    }
 }
 
 void WI_drawOnLnode(int n, patch_t *c[])
@@ -546,23 +504,13 @@ void WI_drawOnLnode(int n, patch_t *c[])
     if (fits && i < 2)
     {
         if (c[i] == *splat)
-        {
-            V_DrawTranslucentNoGreenPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y,
-                                          FB, c[i]);
-        }
+            V_DrawTranslucentNoGreenPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, FB, c[i]);
         else if (c[i] == *yah)
-        {
-            V_DrawPatchNoGreenWithShadow(lnodes[wbs->epsd][n].x + 1, lnodes[wbs->epsd][n].y + 1,
-                                         FB, c[i]);
-        }
+            V_DrawPatchNoGreenWithShadow(lnodes[wbs->epsd][n].x + 1, lnodes[wbs->epsd][n].y + 1, FB, c[i]);
         else
-        {
             V_DrawPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, FB, c[i]);
-        }
     }
 }
-
-
 
 void WI_initAnimatedBack(void)
 {
@@ -642,15 +590,13 @@ void WI_updateAnimatedBack(void)
                     break;
             }
         }
-
     }
-
 }
 
 void WI_drawAnimatedBack(void)
 {
-    int                 i;
-    anim_t              *a;
+    int         i;
+    anim_t      *a;
 
     if (gamemode == commercial)
         return;
@@ -665,7 +611,6 @@ void WI_drawAnimatedBack(void)
         if (a->ctr >= 0)
             V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[a->ctr]);
     }
-
 }
 
 //
@@ -674,7 +619,6 @@ void WI_drawAnimatedBack(void)
 //  otherwise only use as many as necessary.
 // Returns new x position.
 //
-
 int WI_drawNum(int x, int y, int n, int digits)
 {
 
@@ -685,10 +629,8 @@ int WI_drawNum(int x, int y, int n, int digits)
     if (digits < 0)
     {
         if (!n)
-        {
             // make variable-length zeros 1 digit long
             digits = 1;
-        }
         else
         {
             // figure out # of digits in #
@@ -737,8 +679,6 @@ void WI_drawPercent(int x, int y, int p)
     WI_drawNum(x, y, p, -1);
 }
 
-
-
 //
 // Display level completion time and par,
 //  or "sucks" message if overflow.
@@ -763,9 +703,7 @@ void WI_drawTime(int x, int y, int t)
 
             // draw
             if (div == 60 || t / div)
-            {
                 V_DrawPatchWithShadow(x + 1, y + 1, FB, colon, true);
-            }
 
         }
         while (t / div);
@@ -773,10 +711,8 @@ void WI_drawTime(int x, int y, int t)
             WI_drawNum(x, y, 0, 2);
     }
     else
-    {
         // "sucks"
         V_DrawPatchWithShadow(x + 13 - SHORT(sucks->width), y + 1, FB, sucks, false);
-    }
 }
 
 void WI_unloadData(void);
@@ -798,14 +734,10 @@ void WI_updateNoState(void)
     WI_updateAnimatedBack();
 
     if (!--cnt)
-    {
         G_WorldDone();
-    }
-
 }
 
 static boolean snl_pointeron = false;
-
 
 void WI_initShowNextLoc(void)
 {
@@ -828,7 +760,6 @@ void WI_updateShowNextLoc(void)
 
 void WI_drawShowNextLoc(void)
 {
-
     int         i;
     int         last;
 
@@ -865,7 +796,6 @@ void WI_drawShowNextLoc(void)
         || (gamemission != pack_nerve && wbs->next != 30)
         || (gamemission == pack_nerve && wbs->next != 8))
         WI_drawEL();
-
 }
 
 void WI_drawNoState(void)
@@ -880,30 +810,20 @@ int WI_fragSum(int playernum)
     int         frags = 0;
 
     for (i = 0; i < MAXPLAYERS; i++)
-    {
-        if (playeringame[i]
-            && i != playernum)
-        {
+        if (playeringame[i] && i != playernum)
             frags += plrs[playernum].frags[i];
-        }
-    }
 
     frags -= plrs[playernum].frags[playernum];
 
     return frags;
 }
 
-
-
 static int      dm_state;
 static int      dm_frags[MAXPLAYERS][MAXPLAYERS];
 static int      dm_totals[MAXPLAYERS];
 
-
-
 void WI_initDeathmatchStats(void)
 {
-
     int         i;
     int         j;
 
@@ -914,7 +834,6 @@ void WI_initDeathmatchStats(void)
     cnt_pause = TICRATE;
 
     for (i = 0; i < MAXPLAYERS; i++)
-    {
         if (playeringame[i])
         {
             for (j = 0; j < MAXPLAYERS; j++)
@@ -923,12 +842,9 @@ void WI_initDeathmatchStats(void)
 
             dm_totals[i] = 0;
         }
-    }
 
     WI_initAnimatedBack();
 }
-
-
 
 void WI_updateDeathmatchStats(void)
 {
@@ -945,7 +861,6 @@ void WI_updateDeathmatchStats(void)
         acceleratestage = 0;
 
         for (i = 0; i < MAXPLAYERS; i++)
-        {
             if (playeringame[i])
             {
                 for (j = 0; j < MAXPLAYERS; j++)
@@ -954,13 +869,10 @@ void WI_updateDeathmatchStats(void)
 
                 dm_totals[i] = WI_fragSum(i);
             }
-        }
-
 
         S_StartSound(NULL, sfx_barexp);
         dm_state = 4;
     }
-
 
     if (dm_state == 2)
     {
@@ -970,13 +882,10 @@ void WI_updateDeathmatchStats(void)
         stillticking = false;
 
         for (i = 0; i < MAXPLAYERS; i++)
-        {
             if (playeringame[i])
             {
                 for (j = 0; j < MAXPLAYERS; j++)
-                {
-                    if (playeringame[j]
-                        && dm_frags[i][j] != plrs[i].frags[j])
+                    if (playeringame[j] && dm_frags[i][j] != plrs[i].frags[j])
                     {
                         if (plrs[i].frags[j] < 0)
                             dm_frags[i][j]--;
@@ -991,7 +900,6 @@ void WI_updateDeathmatchStats(void)
 
                         stillticking = true;
                     }
-                }
                 dm_totals[i] = WI_fragSum(i);
 
                 if (dm_totals[i] > 99)
@@ -1001,7 +909,6 @@ void WI_updateDeathmatchStats(void)
                     dm_totals[i] = -99;
             }
 
-        }
         if (!stillticking)
         {
             S_StartSound(NULL, sfx_barexp);
@@ -1031,8 +938,6 @@ void WI_updateDeathmatchStats(void)
     }
 }
 
-
-
 void WI_drawDeathmatchStats(void)
 {
 
@@ -1049,10 +954,7 @@ void WI_drawDeathmatchStats(void)
     WI_drawLF();
 
     // draw stat titles (top line)
-    V_DrawPatch(DM_TOTALSX - SHORT(total->width) / 2,
-                DM_MATRIXY - WI_SPACINGY + 10,
-                FB,
-                total);
+    V_DrawPatch(DM_TOTALSX - SHORT(total->width) / 2, DM_MATRIXY - WI_SPACINGY + 10, FB, total);
 
     V_DrawPatch(DM_KILLERSX, DM_KILLERSY, FB, killers);
     V_DrawPatch(DM_VICTIMSX, DM_VICTIMSY, FB, victims);
@@ -1065,27 +967,15 @@ void WI_drawDeathmatchStats(void)
     {
         if (playeringame[i])
         {
-            V_DrawPatch(x - SHORT(p[i]->width) / 2,
-                        DM_MATRIXY - WI_SPACINGY,
-                        FB,
-                        p[i]);
+            V_DrawPatch(x - SHORT(p[i]->width) / 2, DM_MATRIXY - WI_SPACINGY, FB, p[i]);
 
-            V_DrawPatch(DM_MATRIXX - SHORT(p[i]->width) / 2,
-                        y,
-                        FB,
-                        p[i]);
+            V_DrawPatch(DM_MATRIXX - SHORT(p[i]->width) / 2, y, FB, p[i]);
 
             if (i == me)
             {
-                V_DrawPatch(x - SHORT(p[i]->width) / 2,
-                            DM_MATRIXY - WI_SPACINGY,
-                            FB,
-                            bstar);
+                V_DrawPatch(x - SHORT(p[i]->width) / 2, DM_MATRIXY - WI_SPACINGY, FB, bstar);
 
-                V_DrawPatch(DM_MATRIXX - SHORT(p[i]->width) / 2,
-                            y,
-                            FB,
-                            star);
+                V_DrawPatch(DM_MATRIXX - SHORT(p[i]->width) / 2, y, FB, star);
             }
         }
         x += DM_SPACINGX;
@@ -1143,8 +1033,6 @@ void WI_initNetgameStats(void)
 
     WI_initAnimatedBack();
 }
-
-
 
 void WI_updateNetgameStats(void)
 {
@@ -1299,8 +1187,6 @@ void WI_updateNetgameStats(void)
     }
 }
 
-
-
 void WI_drawNetgameStats(void)
 {
     int         i;
@@ -1316,18 +1202,14 @@ void WI_drawNetgameStats(void)
     WI_drawLF();
 
     // draw stat titles (top line)
-    V_DrawPatch(NG_STATSX + NG_SPACINGX - SHORT(kills->width),
-                NG_STATSY, FB, kills);
+    V_DrawPatch(NG_STATSX + NG_SPACINGX - SHORT(kills->width), NG_STATSY, FB, kills);
 
-    V_DrawPatch(NG_STATSX + 2 * NG_SPACINGX - SHORT(items->width),
-                NG_STATSY, FB, items);
+    V_DrawPatch(NG_STATSX + 2 * NG_SPACINGX - SHORT(items->width), NG_STATSY, FB, items);
 
-    V_DrawPatch(NG_STATSX + 3 * NG_SPACINGX - SHORT(secret->width),
-                NG_STATSY, FB, secret);
+    V_DrawPatch(NG_STATSX + 3 * NG_SPACINGX - SHORT(secret->width), NG_STATSY, FB, secret);
 
     if (dofrags)
-        V_DrawPatch(NG_STATSX + 4 * NG_SPACINGX - SHORT(frags->width),
-                    NG_STATSY, FB, frags);
+        V_DrawPatch(NG_STATSX + 4 * NG_SPACINGX - SHORT(frags->width), NG_STATSY, FB, frags);
 
     // draw stats
     y = NG_STATSY + SHORT(kills->height);
@@ -1491,9 +1373,7 @@ extern boolean canmodify;
 void WI_drawStats(void)
 {
     // line height
-    int lh;
-
-    lh = (3 * SHORT(num[0]->height)) / 2;
+    int lh = (3 * SHORT(num[0]->height)) / 2;
 
     WI_slamBackground();
 
@@ -1511,13 +1391,9 @@ void WI_drawStats(void)
     if (totalsecret)
     {
         if (!WISCRT2)
-        {
             M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 3, "secrets");
-        }
         else
-        {
             V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, FB, sp_secret, false);
-        }
 
         WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret[0]);
     }
@@ -1544,17 +1420,14 @@ void WI_checkForAccelerate(void)
         {
             Uint8 *keystate = SDL_GetKeyState(NULL);
 
-            if ((player->cmd.buttons & BT_ATTACK)
-                || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
+            if ((player->cmd.buttons & BT_ATTACK) || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
             {
                 if (!player->attackdown)
                     acceleratestage = 1;
                 player->attackdown = true;
             }
             else
-            {
                 player->attackdown = false;
-            }
             if (player->cmd.buttons & BT_USE)
             {
                 if (!player->usedown)
@@ -1562,33 +1435,23 @@ void WI_checkForAccelerate(void)
                 player->usedown = true;
             }
             else
-            {
                 player->usedown = false;
-            }
         }
     }
 }
 
-
-
 // Updates stuff each tick
 void WI_Ticker(void)
 {
-
     if (menuactive || paused)
-      return;
+        return;
 
     // counter for general background animation
     bcnt++;
 
     if (bcnt == 1)
-    {
         // intermission music
-        if (gamemode == commercial)
-            S_ChangeMusic(mus_dm2int, true, false);
-        else
-            S_ChangeMusic(mus_inter, true, false);
-    }
+        S_ChangeMusic(gamemode == commercial ? mus_dm2int : mus_inter, true, false);
 
     WI_checkForAccelerate();
 
@@ -1617,7 +1480,6 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 
 // Common load/unload function.  Iterates over all the graphics
 // lumps to be loaded/unloaded into memory.
-
 static void WI_loadUnloadData(load_callback_t callback)
 {
     int         i;
@@ -1665,10 +1527,8 @@ static void WI_loadUnloadData(load_callback_t callback)
                         callback(name, &a->p[i]);
                     }
                     else
-                    {
                         // HACK ALERT!
                         a->p[i] = anims[1][4].p[i];
-                    }
                 }
             }
         }
@@ -1768,9 +1628,7 @@ void WI_loadData(void)
         lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMCMAPS, PU_STATIC, NULL);
     }
     else
-    {
         lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMMAPS, PU_STATIC, NULL);
-    }
 
     WI_loadUnloadData(WI_loadCallback);
 
@@ -1785,16 +1643,13 @@ void WI_loadData(void)
 
     // Background image
 
-    if (gamemode == commercial
-        || (gamemode == retail && wbs->epsd == 3))
+    if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))
     {
         strncpy(bg_lumpname, (DMENUPIC ? "DMENUPIC" : "INTERPIC"), 9);
         bg_lumpname[8] = '\0';
     }
     else
-    {
         snprintf(bg_lumpname, 9, "WIMAP%d", wbs->epsd);
-    }
     bg = (patch_t *)W_CacheLumpName(bg_lumpname, PU_CACHE);
     V_DrawPatch(0, 0, 1, bg);
 }

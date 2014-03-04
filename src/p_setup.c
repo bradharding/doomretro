@@ -226,9 +226,7 @@ void P_LoadSegs(int lump)
             li->backsector = sides[sidenum].sector;
         }
         else
-        {
             li->backsector = 0;
-        }
 
         // From Odamex:
         {
@@ -240,6 +238,7 @@ void P_LoadSegs(int lump)
 
             float dx = (float)(to->x - from->x);
             float dy = (float)(to->y - from->y);
+
             li->offset = (fixed_t)sqrt(dx * dx + dy * dy);
         }
 
@@ -948,7 +947,7 @@ void P_SetupLevel(int episode, int map)
     if (gamemode == commercial)
         snprintf(lumpname, 6, "MAP%02i", map);
     else
-        sprintf(lumpname, "E%iM%i", episode, map);
+        snprintf(lumpname, 5, "E%iM%i", episode, map);
 
     if (nerve && gamemission == doom2)
         lumpnum = W_GetNumForName2(lumpname);
@@ -998,7 +997,6 @@ void P_SetupLevel(int episode, int map)
                 players[i].mo = NULL;
                 G_DeathMatchSpawnPlayer(i);
             }
-
     }
 
     // clear special respawning queue

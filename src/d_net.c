@@ -227,29 +227,14 @@ void D_CheckNetGame(void)
     }
 }
 
-
-//
-// D_QuitNetGame
-// Called before quitting to leave a net game
-// without hanging the other players
-//
-void D_QuitNetGame(void)
-{
-}
-
 // Returns true if there are currently any players in the game.
-
 static boolean PlayersInGame(void)
 {
     int i;
 
     for (i = 0; i < MAXPLAYERS; ++i)
-    {
         if (playeringame[i])
-        {
             return true;
-        }
-    }
 
     return false;
 }
@@ -425,4 +410,3 @@ void TryRunTics(void)
         NetUpdate();   // check for new console commands
     }
 }
-

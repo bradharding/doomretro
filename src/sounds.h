@@ -52,7 +52,7 @@ struct sfxinfo_struct
     char        *name;
 
     // Sfx singularity (only one at a time)
-    int singularity;
+    int         singularity;
 
     // Sfx priority
     int         priority;

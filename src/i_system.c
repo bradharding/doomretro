@@ -130,7 +130,6 @@ byte *I_ZoneBase(int *size)
     return zonemem;
 }
 
-
 //
 // I_Init
 //
@@ -140,14 +139,11 @@ void I_Init(void)
     I_InitGamepad();
 }
 
-
 //
 // I_Quit
 //
-
 void I_Quit(void)
 {
-    D_QuitNetGame();
     if (demorecording)
         G_CheckDemoStatus();
     S_Shutdown();
@@ -187,15 +183,10 @@ void I_Error(char *error, ...)
     char        msgbuf[512];
     wchar_t     wmsgbuf[512];
 
-
     if (already_quitting)
-    {
         exit(-1);
-    }
     else
-    {
         already_quitting = true;
-    }
 
     // Message first.
     va_start(argptr, error);
@@ -205,8 +196,6 @@ void I_Error(char *error, ...)
     fflush(stderr);
 
     // Shutdown. Here might be other errors.
-
-    D_QuitNetGame();
     if (demorecording)
         G_CheckDemoStatus();
     S_Shutdown();

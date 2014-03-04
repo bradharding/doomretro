@@ -903,7 +903,7 @@ void ToggleFullScreen(void)
         putenv(envstring);
         SDL_InitSubSystem(SDL_INIT_VIDEO);
 
-        init_win32(gamemission == doom ? "doom" : "doom2");
+        init_win32(gamemission == doom ? "DOOM" : "DOOM2");
 
         height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
         width = height * 4 / 3;

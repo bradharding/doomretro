@@ -26,29 +26,16 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <ctype.h>
-
-#include "doomdef.h"
-
-#include "z_zone.h"
-
+#include "doomstat.h"
+#include "dstrings.h"
+#include "hu_lib.h"
+#include "hu_stuff.h"
 #include "i_swap.h"
 #include "i_timer.h"
-#include "i_video.h"
-
-#include "hu_stuff.h"
-#include "hu_lib.h"
-#include "w_wad.h"
-
-#include "s_sound.h"
-
-#include "doomstat.h"
-
-// Data.
-#include "dstrings.h"
-#include "sounds.h"
-
 #include "r_main.h"
+#include "s_sound.h"
+#include "w_wad.h"
+#include "z_zone.h"
 
 //
 // Locally used constants, shortcuts.
@@ -56,14 +43,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define HU_TITLEX       0
 #define HU_TITLEY       ((SCREENHEIGHT - SBARHEIGHT) / 2 - SHORT(hu_font[0]->height) - 2)
 
-
 #define HU_INPUTTOGGLE  't'
 #define HU_INPUTX       HU_MSGX
 #define HU_INPUTY       (165 - HU_MSGHEIGHT * SHORT(hu_font[0]->height))
 #define HU_INPUTWIDTH   64
 #define HU_INPUTHEIGHT  1
-
-
 
 char *chat_macros[] =
 {
@@ -121,11 +105,6 @@ extern boolean          widescreen;
 
 static boolean          headsupactive = false;
 
-//
-// Builtin map names.
-// The actual names can be found in d_englsh.h.
-//
-
 void HU_Init(void)
 {
 
@@ -138,7 +117,7 @@ void HU_Init(void)
     for (i = 0; i < HU_FONTSIZE; i++)
     {
         snprintf(buffer, 9, "STCFN%.3d", j++);
-        hu_font[i] = (patch_t *) W_CacheLumpName(buffer, PU_STATIC);
+        hu_font[i] = (patch_t *)W_CacheLumpName(buffer, PU_STATIC);
     }
 }
 
@@ -165,16 +144,10 @@ void HU_Start(void)
     chat_on = false;
 
     // create the message widget
-    HUlib_initSText(&w_message,
-                    HU_MSGX, HU_MSGY, HU_MSGHEIGHT,
-                    hu_font,
-                    HU_FONTSTART, &message_on);
+    HUlib_initSText(&w_message, HU_MSGX, HU_MSGY, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &message_on);
 
     // create the map title widget
-    HUlib_initTextLine(&w_title,
-                       HU_TITLEX, HU_TITLEY,
-                       hu_font,
-                       HU_FONTSTART);
+    HUlib_initTextLine(&w_title, HU_TITLEX, HU_TITLEY, hu_font, HU_FONTSTART);
 
     s = (char *)Z_Malloc(133, PU_STATIC, NULL);
     strcpy(s, mapnumandtitle);
@@ -183,10 +156,7 @@ void HU_Start(void)
         HUlib_addCharToTextLine(&w_title, *(s++));
 
     // create the chat widget
-    HUlib_initIText(&w_chat,
-                    HU_INPUTX, HU_INPUTY,
-                    hu_font,
-                    HU_FONTSTART, &chat_on);
+    HUlib_initIText(&w_chat, HU_INPUTX, HU_INPUTY, hu_font, HU_FONTSTART, &chat_on);
 
     // create the inputbuffer widgets
     for (i = 0; i < MAXPLAYERS; i++)
@@ -196,7 +166,6 @@ void HU_Start(void)
 
     tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 }
-
 
 void HU_Drawer(void)
 {
@@ -210,7 +179,6 @@ void HU_Drawer(void)
         w_title.x = (fullscreen && !widescreen ? 0 : 3);
         HUlib_drawTextLine(&w_title);
     }
-
 }
 
 void HU_Erase(void)
@@ -219,7 +187,6 @@ void HU_Erase(void)
     HUlib_eraseSText(&w_message);
     HUlib_eraseIText(&w_chat);
     HUlib_eraseTextLine(&w_title);
-
 }
 
 extern fixed_t m_x, m_y, m_h, m_w;
@@ -228,17 +195,14 @@ extern int direction;
 
 void HU_Ticker(void)
 {
-    static int lasttic = -1;
-    int i, rc, tic, fps;
-    char c;
+    static int  lasttic = -1;
+    int         i, rc, tic, fps;
+    char        c;
     static char fps_str[8] = "";
 
     // tick down message counter if message is up
-    if (((!menuactive && !paused) || demoplayback || message_dontpause)
-        && !idbehold
-        && !(players[consoleplayer].cheats & CF_MYPOS)
-        && !devparm
-        && message_counter
+    if (((!menuactive && !paused) || demoplayback || message_dontpause) && !idbehold
+        && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm && message_counter
         && !--message_counter)
     {
         message_on = false;
@@ -260,9 +224,9 @@ void HU_Ticker(void)
     else if (players[consoleplayer].cheats & CF_MYPOS)
     {
         // [BH] display and constantly update message for IDMYPOS cheat
-        char buffer[80];
-        int angle;
-        int x, y, z;
+        char    buffer[80];
+        int     angle;
+        int     x, y, z;
 
         if (!message_counter)
             message_counter = HU_MSGTIMEOUT;
@@ -274,8 +238,7 @@ void HU_Ticker(void)
             angle = direction;
             x = (m_x + (m_w >> 1)) / FRACUNIT;
             y = (m_y + (m_h >> 1)) / FRACUNIT;
-            z = R_PointInSubsector(m_x + (m_w >> 1),
-                                   m_y + (m_h >> 1))->sector->floorheight / FRACUNIT;
+            z = R_PointInSubsector(m_x + (m_w >> 1), m_y + (m_h >> 1))->sector->floorheight / FRACUNIT;
         }
         else
         {
@@ -307,7 +270,6 @@ void HU_Ticker(void)
     }
     else if (showMessages || message_dontfuckwithme)
     {
-
         // display message if necessary
         if ((plr->message && !message_nottobefuckedwith)
             || (plr->message && message_dontfuckwithme))
@@ -319,7 +281,6 @@ void HU_Ticker(void)
             message_nottobefuckedwith = message_dontfuckwithme;
             message_dontfuckwithme = 0;
         }
-
     }
 
     // check for incoming chat characters
@@ -329,8 +290,7 @@ void HU_Ticker(void)
         {
             if (!playeringame[i])
                 continue;
-            if (i != consoleplayer
-                && (c = players[i].cmd.chatchar))
+            if (i != consoleplayer && (c = players[i].cmd.chatchar))
             {
                 if (c <= HU_BROADCAST)
                     chat_dest[i] = c;
@@ -340,20 +300,14 @@ void HU_Ticker(void)
                     if (rc && c == KEY_ENTER)
                     {
                         if (w_inputbuffer[i].l.len
-                            && (chat_dest[i] == consoleplayer + 1
-                                || chat_dest[i] == HU_BROADCAST))
+                            && (chat_dest[i] == consoleplayer + 1 || chat_dest[i] == HU_BROADCAST))
                         {
-                            HUlib_addMessageToSText(&w_message,
-                                                    player_names[i],
-                                                    w_inputbuffer[i].l.l);
+                            HUlib_addMessageToSText(&w_message, player_names[i], w_inputbuffer[i].l.l);
 
                             message_nottobefuckedwith = true;
                             message_on = true;
                             message_counter = HU_MSGTIMEOUT;
-                            if (gamemode == commercial)
-                                S_StartSound(NULL, sfx_radio);
-                            else
-                                S_StartSound(NULL, sfx_tink);
+                            S_StartSound(NULL, gamemode == commercial ? sfx_radio : sfx_tink);
                         }
                         HUlib_resetIText(&w_inputbuffer[i]);
                     }
@@ -370,13 +324,10 @@ static char     chatchars[QUEUESIZE];
 static int      head = 0;
 static int      tail = 0;
 
-
 void HU_queueChatChar(char c)
 {
     if (((head + 1) & (QUEUESIZE - 1)) == tail)
-    {
         plr->message = HUSTR_MSGU;
-    }
     else
     {
         chatchars[head] = c;
@@ -394,9 +345,7 @@ char HU_dequeueChatChar(void)
         tail = (tail + 1) & (QUEUESIZE - 1);
     }
     else
-    {
         c = 0;
-    }
 
     return c;
 }
@@ -419,9 +368,7 @@ boolean HU_Responder(event_t *ev)
         numplayers += playeringame[i];
 
     if (ev->data1 == KEY_RSHIFT)
-    {
         return false;
-    }
     else if (ev->data1 == KEY_RALT || ev->data1 == KEY_LALT)
     {
         altdown = ev->type == ev_keydown;
@@ -501,9 +448,7 @@ boolean HU_Responder(event_t *ev)
 
             eatkey = HUlib_keyInIText(&w_chat, c);
             if (eatkey)
-            {
                 HU_queueChatChar(c);
-            }
             if (c == KEY_ENTER)
             {
                 chat_on = false;
