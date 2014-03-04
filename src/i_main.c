@@ -90,8 +90,7 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
         case WM_KEYDOWN:
         case WM_KEYUP:
         {
-            bEatKeystroke = (fullscreen && window_focused
-                             && (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN));
+            bEatKeystroke = (window_focused && (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN));
             break;
         }
     }
@@ -151,10 +150,13 @@ void done_win32(void)
     UnhookWindowsHookEx(g_hKeyboardHook);
 }
 
+HANDLE hInstanceMutex;
+
 int main(int argc, char **argv)
 {
     char        *mutex = "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD";
-    HANDLE      hInstanceMutex = CreateMutex(NULL, true, mutex);
+
+    hInstanceMutex = CreateMutex(NULL, true, mutex);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS)
     {
