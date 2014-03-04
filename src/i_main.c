@@ -37,13 +37,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 typedef BOOL (WINAPI *SetAffinityFunc)(HANDLE hProcess, DWORD mask);
 
-// This is a bit more complicated than it really needs to be.  We really
-// just need to call the SetProcessAffinityMask function, but that
-// function doesn't exist on systems before Windows 2000.  Instead,
-// dynamically look up the function and call the pointer to it.  This
-// way, the program will run on older versions of Windows (Win9x, etc.)
-
-static void LockCPUAffinity(void)
+static void I_SetAffinityMask(void)
 {
     HMODULE             kernel32_dll;
     SetAffinityFunc     SetAffinity;
@@ -53,24 +47,26 @@ static void LockCPUAffinity(void)
 
     if (kernel32_dll == NULL)
     {
-        // This should never happen...
-        fprintf(stderr, "Failed to load kernel32.dll\n");
+        fprintf(stderr, "I_SetAffinityMask: Failed to load kernel32.dll\n");
         return;
     }
 
-    // Find the SetProcessAffinityMask function.
     SetAffinity = (SetAffinityFunc)GetProcAddress(kernel32_dll, "SetProcessAffinityMask");
 
-    // If the function was not found, we are on an old (Win9x) system
-    // that doesn't have this function.  That's no problem, because
-    // those systems don't support SMP anyway.
     if (SetAffinity != NULL)
     {
         if (!SetAffinity(GetCurrentProcess(), 1))
         {
-            fprintf(stderr, "Failed to set process affinity (%d)\n", (int)GetLastError());
+            fprintf(stderr, "I_SetAffinityMask: Failed to set process affinity (%d)\n",
+                    (int)GetLastError());
         }
     }
+}
+
+void I_SetProcessPriority(void)
+{
+    if (SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS) == 0)
+        fprintf(stderr, "Failed to set priority for the process (%d)\n", (int)GetLastError());
 }
 
 extern int      fullscreen;
@@ -168,17 +164,12 @@ int main(int argc, char **argv)
 
     g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
 
-    // save arguments
-
     myargc = argc;
     myargv = argv;
 
-    // Only schedule on a single core, if we have multiple
-    // cores.  This is to work around a bug in SDL_mixer.
+    I_SetAffinityMask();
 
-    LockCPUAffinity();
-
-    // start doom
+    I_SetProcessPriority();
 
     D_DoomMain();
 }
