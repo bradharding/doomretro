@@ -29,6 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <math.h>
 #include <Windows.h>
 #include <Xinput.h>
+
 #include "am_map.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -497,11 +498,7 @@ static void SetMouseButtons(unsigned int buttons_mask)
     int i;
 
     for (i = 0; i < MAX_MOUSE_BUTTONS; ++i)
-    {
-        unsigned int button_on = ((buttons_mask & (1 << i)) != 0);
-
-        mousebuttons[i] = button_on;
-    }
+        mousebuttons[i] = ((buttons_mask & (1 << i)) != 0);
 }
 
 struct
@@ -654,15 +651,14 @@ boolean G_Responder(event_t *ev)
             return true;        // finale ate the event
     }
 
-    if (ev->type == ev_keydown && ev->data1 == key_prevweapon)
-        PrevWeapon();
-    else if (ev->type == ev_keydown && ev->data1 == key_nextweapon)
-        NextWeapon();
-
     switch (ev->type)
     {
         case ev_keydown:
-            if (ev->data1 == key_pause && !menuactive && !keydown)
+            if (ev->data1 == key_prevweapon && !menuactive && !paused)
+                PrevWeapon();
+            else if (ev->data1 == key_nextweapon && !menuactive && !paused)
+                NextWeapon();
+            else if (ev->data1 == key_pause && !menuactive && !keydown)
             {
                 keydown = key_pause;
                 sendpause = true;
@@ -1646,7 +1642,6 @@ void G_DoNewGame(void)
     markpointnum = 0;   // [BH]
 }
 
-// [BH] Fix demon speed bug. See doomwiki.org/wiki/Demon_speed_bug.
 void G_SetFastParms(int fast_pending)
 {
     static int fast = 0;
@@ -1709,16 +1704,12 @@ void G_InitNew(skill_t skill, int episode, int map)
     if (map < 1)
         map = 1;
 
-    if (map > 9
-        && gamemode != commercial)
+    if (map > 9 && gamemode != commercial)
         map = 9;
 
     M_ClearRandom();
 
-    if (skill == sk_nightmare || respawnparm)
-        respawnmonsters = true;
-    else
-        respawnmonsters = false;
+    respawnmonsters = (skill == sk_nightmare || respawnparm);
 
     // [BH] Fix demon speed bug. See doomwiki.org/wiki/Demon_speed_bug.
     G_SetFastParms(fastparm || skill == sk_nightmare);
