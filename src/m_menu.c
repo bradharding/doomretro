@@ -525,14 +525,24 @@ void M_DarkBlueBackground(void)
 // M_DrawChar
 //  draw a character on screen
 //
-void M_DrawChar(int x, int y, int i)
+void M_DrawChar(int x, int y, int i, boolean overlapping)
 {
     int x1, y1;
     int w = strlen(redcharset[i]) / 18;
 
     for (y1 = 0; y1 < 18; y1++)
         for (x1 = 0; x1 < w; x1++)
-            V_DrawPixel(x + x1, y + y1, 0, (int)redcharset[i][y1 * w + x1], true);
+        {
+            char dot = redcharset[i][y1 * w + x1];
+
+            if (dot == 'È')
+            {
+                if (!overlapping)
+                    V_DrawPixel(x + x1, y + y1, 0, 251, true);
+            }
+            else
+                V_DrawPixel(x + x1, y + y1, 0, (int)dot, true);
+        }
 }
 
 static const int chartoi[123] =
@@ -558,25 +568,25 @@ static struct
     char char2;
     int adjust;
 } kern[] = {
-    { '-', 'V', -2 },
-    { 'f', 'e', -1 },
-    { 'f', 'f', -1 },
-    { 'f', 'o', -1 },
-    { 'l', 'e', -1 },
-    { 'l', 't', -1 },
-    { 'l', 'u', -1 },
-    { 'o', 'a', -1 },
-    { 'O', 'A', -1 },
-    { 'o', 't', -1 },
-    { 'p', 'a', -2 },
-    { 'P', 'a', -3 },
-    { 't', 'o', -1 },
-    { 'v', 'e', -1 },
-    { 'V', 'o', -2 },
-    { 'y', '.', -2 },
-    { 'y', ',', -3 },
-    { 'y', 'o', -1 },
-    { 0,   0,    0 }
+    { '-', 'V', -2 }, { 'O', 'A', -1 }, { 'P', 'a', -3 }, { 'V', 'o', -2 },
+    { 'f', 'e', -1 }, { 'f', 'f', -1 }, { 'f', 'o', -1 }, { 'l', 'e', -1 },
+    { 'l', 't', -1 }, { 'l', 'u', -1 }, { 'o', 'a', -1 }, { 'o', 't', -1 },
+    { 'p', 'a', -2 }, { 't', 'o', -1 }, { 'v', 'e', -1 }, { 'y', ',', -3 },
+    { 'y', '.', -2 }, { 'y', 'o', -1 }, {  0,   0,   0 }
+};
+
+static struct
+{
+    char char1;
+    char char2;
+} overlap[] = {
+    { 'A', 'D' }, { 'A', 'M' }, { 'E', 'a' }, { 'E', 'n' }, { 'E', 'p' },
+    { 'E', 'x' }, { 'G', 'A' }, { 'G', 'a' }, { 'I', 'n' }, { 'K', 'n' },
+    { 'L', 'i' }, { 'a', 'd' }, { 'a', 'm' }, { 'a', 'n' }, { 'a', 'r' },
+    { 'c', 'h' }, { 'c', 'r' }, { 'e', 'a' }, { 'e', 'd' }, { 'e', 'n' },
+    { 'e', 'p' }, { 'e', 'r' }, { 'e', 's' }, { 'g', 'h' }, { 'h', 'i' },
+    { 'i', 'n' }, { 'i', 's' }, { 'i', 'z' }, { 'k', 'i' }, { 'p', 'i' },
+    { 'p', 't' }, { 'r', 'a' }, { 'r', 'n' }, { 'x', 'p' }, {  0 ,  0  }
 };
 
 //
@@ -585,13 +595,14 @@ static struct
 //
 void M_DrawString(int x, int y, char *str)
 {
-    int i;
+    int         i;
     static char prev = '\0';
 
     for (i = 0; (unsigned)i < strlen(str); i++)
     {
-        int j = -1;
-        int k = 0;
+        int     j = -1;
+        int     k = 0;
+        boolean overlapping = false;
 
         if (str[i] < 123)
             j = chartoi[str[i]];
@@ -603,63 +614,14 @@ void M_DrawString(int x, int y, char *str)
             k++;
         }
 
-        if (j == -1)
-            x += 9;
-        else
+        k = 0;
+        while (overlap[k].char1)
         {
-            M_DrawChar(x, y, j);
-            x += strlen(redcharset[j]) / 18 - 2;
-        }
-
-        prev = str[i];
-    }
-}
-
-//
-// M_DrawCenteredString
-//  draw a string centered horizontally on screen
-//
-void M_DrawCenteredString(int y, char *str)
-{
-    int i;
-    int x;
-    int w = 0;
-    static char prev = '\0';
-
-    for (i = 0; (unsigned)i < strlen(str); i++)
-    {
-        int j = chartoi[str[i]];
-        int k = 0;
-
-        while (kern[k].char1)
-        {
-            if (prev == kern[k].char1 && str[i] == kern[k].char2)
-                w += kern[k].adjust;
-            k++;
-        }
-
-        if (j == -1)
-            w += 9;
-        else
-            w += strlen(redcharset[j]) / 18 - 2;
-
-        prev = str[i];
-    }
-    x = (ORIGINALWIDTH - w - 1) / 2;
-
-    prev = '\0';
-    for (i = 0; (unsigned)i < strlen(str); i++)
-    {
-        int j = -1;
-        int k = 0;
-
-        if (str[i] < 123)
-            j = chartoi[str[i]];
-
-        while (kern[k].char1)
-        {
-            if (prev == kern[k].char1 && str[i] == kern[k].char2)
-                x += kern[k].adjust;
+            if (prev == overlap[k].char1 && str[i] == overlap[k].char2)
+            {
+                overlapping = true;
+                break;
+            }
             k++;
         }
 
@@ -667,7 +629,7 @@ void M_DrawCenteredString(int y, char *str)
             x += 9;
         else
         {
-            M_DrawChar(x, y, j);
+            M_DrawChar(x, y, j, overlapping);
             x += strlen(redcharset[j]) / 18 - 2;
         }
 
@@ -705,6 +667,15 @@ int M_BigStringWidth(char *str)
         prev = str[i];
     }
     return w;
+}
+
+//
+// M_DrawCenteredString
+//  draw a string centered horizontally on screen
+//
+void M_DrawCenteredString(int y, char *str)
+{
+    M_DrawString((ORIGINALWIDTH - M_BigStringWidth(str) - 1) / 2, y, str);
 }
 
 //
