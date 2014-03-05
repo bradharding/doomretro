@@ -806,11 +806,10 @@ void R_InitSpriteLumps(void)
     i = 0;
     while (sproffsets[i].name[0])
     {
-        int j = W_CheckNumForName(sproffsets[i].name);
-
-        if (j >= 0)
+        if (W_CheckMultipleLumps(sproffsets[i].name) == 1)
         {
-            j -= firstspritelump;
+            int j = W_CheckNumForName(sproffsets[i].name) - firstspritelump;
+
             spriteoffset[j] = sproffsets[i].x << FRACBITS;
             spritetopoffset[j] = sproffsets[i].y << FRACBITS;
         }
