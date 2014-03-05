@@ -33,6 +33,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "p_local.h"
 #include "s_sound.h"
 #include "st_stuff.h"
+#include "w_wad.h"
 #include "z_zone.h"
 
 void G_PlayerReborn(int player);
@@ -468,9 +469,10 @@ void P_MobjThinker(mobj_t *mobj)
 //
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 {
-    mobj_t     *mobj;
-    state_t    *st;
-    mobjinfo_t *info;
+    mobj_t      *mobj;
+    state_t     *st;
+    mobjinfo_t  *info;
+    int         lump;
 
     mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
     memset(mobj, 0, sizeof(*mobj));
@@ -483,7 +485,11 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->radius = info->radius;
     mobj->height = info->height;
     mobj->flags = info->flags;
-    mobj->flags2 = info->flags2;
+
+    lump = firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0];
+    if (W_CheckMultipleLumps(lumpinfo[lump].name) == 1)
+        mobj->flags2 = info->flags2;
+
     mobj->health = info->spawnhealth;
 
     if (gameskill != sk_nightmare)
