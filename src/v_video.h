@@ -46,6 +46,7 @@ extern byte *screens[5];
 
 extern byte *tinttab33;
 extern byte *tinttab50;
+extern byte *tinttab75;
 extern byte *tinttabred;
 
 
@@ -67,6 +68,7 @@ void V_DrawPatchCentered(int y, int scrn, patch_t *patch);
 void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch);
 void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch);
+void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch);
 

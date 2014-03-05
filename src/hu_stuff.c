@@ -34,6 +34,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "i_timer.h"
 #include "r_main.h"
 #include "s_sound.h"
+#include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -105,6 +106,9 @@ extern boolean          widescreen;
 
 static boolean          headsupactive = false;
 
+byte                    *tempscreen;
+int                     hudnumbase;
+
 void HU_Init(void)
 {
 
@@ -125,8 +129,6 @@ void HU_Stop(void)
 {
     headsupactive = false;
 }
-
-byte *tempscreen;
 
 void HU_Start(void)
 {
@@ -165,6 +167,41 @@ void HU_Start(void)
     headsupactive = true;
 
     tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    hudnumbase = W_GetNumForName("STTNUM0");
+}
+
+static void DrawHUDNumber(signed int val, int x, int y)
+{
+    patch_t     *patch;
+    int         xpos = x;
+    int         oldval = val;
+
+    if (val < 0)
+        val = 0;
+    else
+    {
+        if (val > 99)
+        {
+            patch = W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE);
+            V_DrawTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+        }
+        val = val % 100;
+    }
+    xpos += 14;
+    if (val > 9 || oldval > 99)
+    {
+        patch = W_CacheLumpNum(hudnumbase + val / 10, PU_CACHE);
+        V_DrawTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+    }
+    val = val % 10;
+    xpos += 14;
+    patch = W_CacheLumpNum(hudnumbase + val, PU_CACHE);
+    V_DrawTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+}
+
+static void DrawHUD(void)
+{
+    DrawHUDNumber(plr->mo->health, 5, 148);
 }
 
 void HU_Drawer(void)
@@ -178,6 +215,11 @@ void HU_Drawer(void)
     {
         w_title.x = (fullscreen && !widescreen ? 0 : 3);
         HUlib_drawTextLine(&w_title);
+    }
+
+    if (widescreen && !automapactive)
+    {
+        DrawHUD();
     }
 }
 
