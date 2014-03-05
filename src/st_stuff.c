@@ -145,13 +145,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Key icon positions.
 #define ST_KEY0WIDTH            8
 #define ST_KEY0HEIGHT           5
-#define ST_KEY0X                239
+#define ST_KEY0X                238
 #define ST_KEY0Y                171
 #define ST_KEY1WIDTH            ST_KEY0WIDTH
-#define ST_KEY1X                239
+#define ST_KEY1X                238
 #define ST_KEY1Y                181
 #define ST_KEY2WIDTH            ST_KEY0WIDTH
-#define ST_KEY2X                239
+#define ST_KEY2X                238
 #define ST_KEY2Y                191
 
 // Ammunition counter.
