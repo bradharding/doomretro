@@ -693,7 +693,7 @@ static void D_DoomMainSetup(void)
     if (!W_MergeFile("doomretro.wad"))
         I_Error("Can't find doomretro.wad.");
 
-    if (W_CheckNumForName("BLD2A0") < 0)
+    if (W_CheckNumForName("BLD2A0") < 0 || W_CheckNumForName("STHLTH") < 0)
         I_Error("Wrong version of doomretro.wad.");
 
     p = M_CheckParmWithArgs("-file", 1);

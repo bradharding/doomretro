@@ -170,7 +170,7 @@ void HU_Start(void)
     hudnumbase = W_GetNumForName("STTNUM0");
 }
 
-static void DrawHUDNumber(signed int val, int x, int y)
+static void DrawHUDNumber(int x, int y, signed int val)
 {
     patch_t     *patch;
     int         xpos = x;
@@ -183,25 +183,64 @@ static void DrawHUDNumber(signed int val, int x, int y)
         if (val > 99)
         {
             patch = W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE);
-            V_DrawTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+            V_DrawUnscaledTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
         }
-        val = val % 100;
+        val %= 100;
     }
     xpos += 14;
     if (val > 9 || oldval > 99)
     {
         patch = W_CacheLumpNum(hudnumbase + val / 10, PU_CACHE);
-        V_DrawTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+        V_DrawUnscaledTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
     }
-    val = val % 10;
+    val %= 10;
     xpos += 14;
     patch = W_CacheLumpNum(hudnumbase + val, PU_CACHE);
-    V_DrawTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+    V_DrawUnscaledTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
 }
+
+#define HUD_AMMO_X      10
+#define HUD_AMMO_Y      308
+
+#define HUD_HEALTH_X    60
+#define HUD_HEALTH_Y    308
+
+#define HUD_ARMOR_X     127
+#define HUD_ARMOR_Y     308
 
 static void DrawHUD(void)
 {
-    DrawHUDNumber(plr->mo->health, 5, 148);
+    int ammo = weaponinfo[plr->readyweapon].ammo;
+    int health = plr->mo->health;
+    int armor = plr->armorpoints;
+
+    if (health > 0)
+    {
+        if (plr->pendingweapon != wp_nochange)
+            ammo = weaponinfo[plr->pendingweapon].ammo;
+
+        if (ammo != am_noammo)
+        {
+            DrawHUDNumber(HUD_AMMO_X, HUD_AMMO_Y, plr->ammo[ammo]);
+            V_DrawUnscaledTranslucentPatch(HUD_AMMO_X + 6, HUD_AMMO_Y + 18, 0,
+                W_CacheLumpNum(W_GetNumForName("STAMMO"), PU_CACHE));
+        }
+
+        DrawHUDNumber(HUD_HEALTH_X, HUD_HEALTH_Y, health);
+        V_DrawUnscaledTranslucentPatch(HUD_HEALTH_X + 43, HUD_HEALTH_Y, 0,
+                                       W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
+        V_DrawUnscaledTranslucentPatch(HUD_HEALTH_X + 9, HUD_HEALTH_Y + 18, 0,
+                                       W_CacheLumpNum(W_GetNumForName("STHLTH"), PU_CACHE));
+
+        if (armor)
+        {
+            DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor);
+            V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 43, HUD_ARMOR_Y, 0,
+                W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
+            V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 9, HUD_ARMOR_Y + 18, 0,
+                W_CacheLumpNum(W_GetNumForName("STARMOR"), PU_CACHE));
+        }
+    }
 }
 
 void HU_Drawer(void)
