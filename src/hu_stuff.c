@@ -183,7 +183,7 @@ static void DrawHUDNumber(int x, int y, signed int val)
         if (val > 99)
         {
             patch = W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE);
-            V_DrawUnscaledTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+            V_DrawUnscaledTranslucentPatch(xpos + 8, y, 0, patch);
         }
         val %= 100;
     }
@@ -191,54 +191,97 @@ static void DrawHUDNumber(int x, int y, signed int val)
     if (val > 9 || oldval > 99)
     {
         patch = W_CacheLumpNum(hudnumbase + val / 10, PU_CACHE);
-        V_DrawUnscaledTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+        V_DrawUnscaledTranslucentPatch(xpos + 8, y, 0, patch);
     }
     val %= 10;
     xpos += 14;
     patch = W_CacheLumpNum(hudnumbase + val, PU_CACHE);
-    V_DrawUnscaledTranslucentPatch(xpos + 8 - patch->width / 2, y, 0, patch);
+    V_DrawUnscaledTranslucentPatch(xpos + 8, y, 0, patch);
 }
 
-#define HUD_AMMO_X      10
-#define HUD_AMMO_Y      308
-
-#define HUD_HEALTH_X    60
+#define HUD_HEALTH_X    24
 #define HUD_HEALTH_Y    308
 
-#define HUD_ARMOR_X     127
+#define HUD_AMMO_X      130
+#define HUD_AMMO_Y      308
+
+#define HUD_ARMOR_X     530
 #define HUD_ARMOR_Y     308
+
+struct
+{
+    char *lump;
+    int x;
+    int y;
+} ammopic[NUMAMMO] =
+{
+    { "CLIPA0", 2, -3 },
+    { "SHELA0", 0, -4 },
+    { "CELLA0", 0, -2 },
+    { "ROCKA0", 3,  4 }
+};
 
 static void DrawHUD(void)
 {
-    int ammo = weaponinfo[plr->readyweapon].ammo;
+    int ammotype = weaponinfo[plr->readyweapon].ammo;
     int health = plr->mo->health;
     int armor = plr->armorpoints;
 
     if (health > 0)
     {
-        if (plr->pendingweapon != wp_nochange)
-            ammo = weaponinfo[plr->pendingweapon].ammo;
+        int health_x = HUD_HEALTH_X + 12;
 
-        if (ammo != am_noammo)
+        if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
+            || plr->pendingweapon == wp_fist)
+            && plr->powers[pw_strength])
         {
-            DrawHUDNumber(HUD_AMMO_X, HUD_AMMO_Y, plr->ammo[ammo]);
-            V_DrawUnscaledTranslucentPatch(HUD_AMMO_X + 6, HUD_AMMO_Y + 18, 0,
-                W_CacheLumpNum(W_GetNumForName("STAMMO"), PU_CACHE));
+            V_DrawUnscaledTranslucentPatch(HUD_HEALTH_X, HUD_HEALTH_Y + 17, 0,
+                W_CacheLumpNum(W_GetNumForName("PSTRA0"), PU_CACHE));
+        }
+        else
+        {
+            V_DrawUnscaledTranslucentPatch(HUD_HEALTH_X, HUD_HEALTH_Y + 17, 0,
+                W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE));
         }
 
-        DrawHUDNumber(HUD_HEALTH_X, HUD_HEALTH_Y, health);
-        V_DrawUnscaledTranslucentPatch(HUD_HEALTH_X + 43, HUD_HEALTH_Y, 0,
-                                       W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
-        V_DrawUnscaledTranslucentPatch(HUD_HEALTH_X + 9, HUD_HEALTH_Y + 18, 0,
-                                       W_CacheLumpNum(W_GetNumForName("STHLTH"), PU_CACHE));
+        if (health < 10)
+            health_x -= 14;
+        if (health < 100)
+            health_x -= 14;
+
+        DrawHUDNumber(health_x, HUD_HEALTH_Y, health);
+        V_DrawUnscaledTranslucentPatch(health_x + 50, HUD_HEALTH_Y, 0,
+            W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
+
+        if (plr->pendingweapon != wp_nochange)
+            ammotype = weaponinfo[plr->pendingweapon].ammo;
+
+        if (ammotype != am_noammo)
+        {
+            int ammo = plr->ammo[ammotype];
+            int ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
+
+            if (ammo < 10)
+                ammo_x += 14;
+            if (ammo < 100)
+                ammo_x += 14;
+
+            V_DrawUnscaledTranslucentPatch(ammo_x, HUD_AMMO_Y + 16 + ammopic[ammotype].y, 0,
+                W_CacheLumpNum(W_GetNumForName(ammopic[ammotype].lump), PU_CACHE));
+            DrawHUDNumber(HUD_AMMO_X + 8, HUD_AMMO_Y, ammo);
+        }
 
         if (armor)
         {
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor);
-            V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 43, HUD_ARMOR_Y, 0,
+            V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0,
                 W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
-            V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 9, HUD_ARMOR_Y + 18, 0,
-                W_CacheLumpNum(W_GetNumForName("STARMOR"), PU_CACHE));
+            if (plr->armortype == 1)
+                V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 84, HUD_ARMOR_Y + 16, 0,
+                    W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE));
+            else
+                V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 84, HUD_ARMOR_Y + 16, 0,
+                    W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE));
         }
     }
 }
