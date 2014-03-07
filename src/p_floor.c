@@ -42,8 +42,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
                      boolean crush, int floorOrCeiling, int direction)
 {
-    fixed_t lastpos;
-    fixed_t destheight;
+    fixed_t     lastpos;
+    fixed_t     destheight;
 
     switch (floorOrCeiling)
     {
@@ -57,7 +57,11 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
                     {
                         lastpos = sector->floorheight;
                         sector->floorheight = dest;
-                        P_ChangeSector(sector, crush);
+                        if (P_ChangeSector(sector, crush))
+                        {
+                            sector->floorheight = lastpos;
+                            P_ChangeSector(sector, crush);
+                        }
                         return pastdest;
                     }
                     else
@@ -138,7 +142,11 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
                     {
                         lastpos = sector->ceilingheight;
                         sector->ceilingheight = dest;
-                        P_ChangeSector(sector, crush);
+                        if (P_ChangeSector(sector, crush))
+                        {
+                            sector->ceilingheight = lastpos;
+                            P_ChangeSector(sector, crush);
+                        }
                         return pastdest;
                     }
                     else
@@ -154,14 +162,13 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
     return ok;
 }
 
-
 //
 // MOVE A FLOOR TO IT'S DESTINATION (UP OR DOWN)
 //
 void T_MoveFloor(floormove_t *floor)
 {
-    result_e res = T_MovePlane(floor->sector, floor->speed, floor->floordestheight,
-                               floor->crush, 0, floor->direction);
+    result_e    res = T_MovePlane(floor->sector, floor->speed, floor->floordestheight,
+                                  floor->crush, 0, floor->direction);
 
     if (!(leveltime & 7) && floor->sector->floorheight != floor->floordestheight)
         S_StartSound((mobj_t *)&floor->sector->soundorg, sfx_stnmov);
