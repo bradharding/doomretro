@@ -674,6 +674,9 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
 
+    if (!M_FileExists("doomretro.wad"))
+        I_Error("Can't find doomretro.wad.");
+
     if (iwadfile)
         D_AddFile(iwadfile);
     else 
