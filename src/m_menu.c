@@ -178,7 +178,7 @@ void M_DrawSave(void);
 
 void M_DrawSaveLoadBorder(int x, int y);
 void M_SetupNextMenu(menu_t *menudef);
-void M_DrawThermo(int x, int y, int thermWidth, float thermDot);
+void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor);
 void M_WriteText(int x, int y, char *string, boolean shadow);
 int M_StringWidth(char *string);
 int M_StringHeight(char *string);
@@ -1186,10 +1186,10 @@ void M_DrawSound(void)
         M_DrawCenteredString(38, "SOUND VOLUME");
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17, 16,
-                 (float)(sfxVolume * !(nosfx || nosound)));
+                 (float)(sfxVolume * !(nosfx || nosound)), 8.0f);
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * music_vol + 17, 16,
-                 (float)(musicVolume * !(nomusic || nosound)));
+                 (float)(musicVolume * !(nomusic || nosound)), 8.0f);
 }
 
 void M_Sound(int choice)
@@ -1404,10 +1404,11 @@ void M_DrawOptions(void)
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17, 9,
-                 mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f);
+                 mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17, 9,
-                 (float)screenSize);
+                 (float)(screenSize + ((widescreen || (returntowidescreen && 
+                 gamestate != GS_LEVEL)) && !widescreenhud)), 7.2f);
 }
 
 void M_Options(int choice)
@@ -1630,7 +1631,7 @@ void M_SizeDisplay(int choice)
             }
             break;
         case 1:
-            if (widescreen && widescreenhud)
+            if ((widescreen || (returntowidescreen && gamestate != GS_LEVEL)) && widescreenhud)
             {
                 widescreenhud = false;
                 S_StartSound(NULL, sfx_stnmov);
@@ -1639,7 +1640,10 @@ void M_SizeDisplay(int choice)
             else if (screenSize == 7 && fullscreen)
             {
                 if (gamestate != GS_LEVEL)
+                {
                     returntowidescreen = true;
+                    widescreenhud = true;
+                }
                 else
                 {
                     ToggleWideScreen(true);
@@ -1668,7 +1672,7 @@ void M_SizeDisplay(int choice)
 //
 // Menu Functions
 //
-void M_DrawThermo(int x, int y, int thermWidth, float thermDot)
+void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
 {
     int         xx = x;
     int         i;
@@ -1681,7 +1685,7 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot)
         xx += 8;
     }
     M_DrawPatchWithShadow(xx, y, 0, (patch_t *)W_CacheLumpName("M_THERMR", PU_CACHE));
-    V_DrawPatch(x + 8 + (int)(thermDot * 8.0f), y, 0,
+    V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0,
         (patch_t *)W_CacheLumpName("M_THERMO", PU_CACHE));
     for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
         V_DrawPixel(i, y + 13, 0, 251, true);
