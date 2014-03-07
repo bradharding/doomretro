@@ -225,6 +225,7 @@ struct
 static void DrawHUD(void)
 {
     int ammotype = weaponinfo[plr->readyweapon].ammo;
+    int ammo = plr->ammo[ammotype];
     int health = plr->mo->health;
     int armor = plr->armorpoints;
 
@@ -257,9 +258,8 @@ static void DrawHUD(void)
         if (plr->pendingweapon != wp_nochange)
             ammotype = weaponinfo[plr->pendingweapon].ammo;
 
-        if (ammotype != am_noammo)
+        if (ammo && ammotype != am_noammo)
         {
-            int ammo = plr->ammo[ammotype];
             int ammopic_x = HUD_AMMO_X + ammopic[ammotype].x;
             int ammonum_x = HUD_AMMO_X + 8;
 
