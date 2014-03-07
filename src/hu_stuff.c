@@ -206,43 +206,52 @@ static void DrawHUDNumber(int x, int y, signed int val)
 #define HUD_AMMO_X      120
 #define HUD_AMMO_Y      308
 
+#define HUD_KEYS_X      503
+#define HUD_KEYS_Y      308
+
 #define HUD_ARMOR_X     530
 #define HUD_ARMOR_Y     308
 
 struct
 {
-    char *lump;
-    int x;
-    int y;
-} ammopic[NUMAMMO] =
+    char        *lump;
+    int         x;
+    int         y;
+}
+ammopic[NUMAMMO] =
 {
-    { "CLIPA0", 2, -3 },
-    { "SHELA0", 0, -4 },
-    { "CELLA0", 0, -2 },
-    { "ROCKA0", 3,  4 }
+    { "CLIPA0",  0,  2 },
+    { "SHELA0", -5,  4 },
+    { "CELLA0", -8,  2 },
+    { "ROCKA0", -2, -6 }
 };
+
+char *keypic[NUMCARDS] = { "BKEYB0", "YKEYB0", "RKEYB0", "BSKUB0", "YSKUB0", "RSKUB0" };
 
 static void DrawHUD(void)
 {
-    int ammotype = weaponinfo[plr->readyweapon].ammo;
-    int ammo = plr->ammo[ammotype];
-    int health = plr->mo->health;
-    int armor = plr->armorpoints;
+    int         health = plr->mo->health;
 
     if (health > 0)
     {
-        int health_x = HUD_HEALTH_X + 12;
+        int     ammotype = weaponinfo[plr->readyweapon].ammo;
+        int     ammo = plr->ammo[ammotype];
+        int     armor = plr->armorpoints;
+
+        int     health_x = HUD_HEALTH_X + 12;
+        int     keys = 0;
+        int     i = 0;
 
         if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
             || plr->pendingweapon == wp_fist)
             && plr->powers[pw_strength])
         {
-            V_DrawHUDPatch(HUD_HEALTH_X, HUD_HEALTH_Y + 17, 0,
+            V_DrawHUDPatch(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0,
                 W_CacheLumpNum(W_GetNumForName("PSTRA0"), PU_CACHE));
         }
         else
         {
-            V_DrawHUDPatch(HUD_HEALTH_X, HUD_HEALTH_Y + 17, 0,
+            V_DrawHUDPatch(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0,
                 W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE));
         }
 
@@ -274,9 +283,26 @@ static void DrawHUD(void)
                 ammonum_x -= 7;
             }
 
-            V_DrawHUDPatch(ammopic_x, HUD_AMMO_Y + 16 + ammopic[ammotype].y, 0,
+            V_DrawHUDPatch(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0,
                 W_CacheLumpNum(W_GetNumForName(ammopic[ammotype].lump), PU_CACHE));
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo);
+        }
+
+        while (i < NUMCARDS)
+            if (plr->cards[i++])
+                keys++;
+
+        if (keys)
+        {
+            int keypic_x = HUD_KEYS_X - 18 * (keys - 1);
+
+            for (i = 0; i < NUMCARDS; i++)
+                if (plr->cards[i])
+                {
+                    V_DrawHUDPatch(keypic_x, HUD_KEYS_Y, 0,
+                        W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE));
+                    keypic_x += 18;
+                }
         }
 
         if (armor)
@@ -285,10 +311,10 @@ static void DrawHUD(void)
             V_DrawHUDNumberPatch(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0,
                 W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
             if (plr->armortype == 1)
-                V_DrawHUDPatch(HUD_ARMOR_X + 84, HUD_ARMOR_Y + 16, 0,
+                V_DrawHUDPatch(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
                     W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE));
             else
-                V_DrawHUDPatch(HUD_ARMOR_X + 84, HUD_ARMOR_Y + 16, 0,
+                V_DrawHUDPatch(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
                     W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE));
         }
     }

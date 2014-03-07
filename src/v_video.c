@@ -192,9 +192,6 @@ void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch)
     byte        *source;
     int         w;
 
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-
     col = 0;
     desttop = screens[scrn] + y * SCREENWIDTH + x;
 
