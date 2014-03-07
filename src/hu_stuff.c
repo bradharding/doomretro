@@ -226,7 +226,10 @@ ammopic[NUMAMMO] =
     { "ROCKA0", -2, -6 }
 };
 
-char *keypic[NUMCARDS] = { "BKEYB0", "YKEYB0", "RKEYB0", "BSKUB0", "YSKUB0", "RSKUB0" };
+char *keypic[NUMCARDS] =
+{
+    "BKEYB0", "YKEYB0", "RKEYB0", "BSKUB0", "YSKUB0", "RSKUB0"
+};
 
 static void DrawHUD(void)
 {
@@ -265,7 +268,10 @@ static void DrawHUD(void)
             W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
 
         if (plr->pendingweapon != wp_nochange)
+        {
             ammotype = weaponinfo[plr->pendingweapon].ammo;
+            ammo = plr->ammo[ammotype];
+        }
 
         if (ammo && ammotype != am_noammo)
         {
