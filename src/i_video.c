@@ -79,6 +79,7 @@ boolean fullscreen = true;
 
 boolean widescreen = false;
 boolean returntowidescreen = false;
+boolean widescreenhud = true;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
@@ -833,6 +834,7 @@ void ToggleWideScreen(boolean toggle)
         width += (width & 1);
     }
     returntowidescreen = false;
+    widescreenhud = true;
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
     pitch = screenbuffer->pitch;

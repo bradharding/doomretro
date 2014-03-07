@@ -101,6 +101,7 @@ extern int      windowheight;
 extern int      screenwidth;
 extern int      screenheight;
 extern int      widescreen;
+extern int      widescreenhud;
 extern char     *videodriver;
 extern int      usegamma;
 
@@ -232,6 +233,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (screenwidth,        screenwidth,        5),
     CONFIG_VARIABLE_INT   (screenheight,       screenheight,       5),
     CONFIG_VARIABLE_INT   (widescreen,         widescreen,         1),
+    CONFIG_VARIABLE_INT   (widescreenhud,      widescreenhud,      1),
     CONFIG_VARIABLE_STRING(videodriver,        videodriver,        0),
     CONFIG_VARIABLE_STRING(wadfolder,          wadfolder,          0),
     CONFIG_VARIABLE_INT   (bloodsplats,        bloodsplats,        1),

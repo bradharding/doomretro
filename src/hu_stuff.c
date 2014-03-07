@@ -103,6 +103,7 @@ int                     message_counter;
 
 extern int              showMessages;
 extern boolean          widescreen;
+extern boolean          widescreenhud;
 
 static boolean          headsupactive = false;
 
@@ -259,16 +260,23 @@ static void DrawHUD(void)
         if (ammotype != am_noammo)
         {
             int ammo = plr->ammo[ammotype];
-            int ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
+            int ammopic_x = HUD_AMMO_X + ammopic[ammotype].x;
+            int ammonum_x = HUD_AMMO_X + 8;
 
             if (ammo < 10)
-                ammo_x += 14;
+            {
+                ammopic_x += 7;
+                ammonum_x -= 7;
+            }
             if (ammo < 100)
-                ammo_x += 14;
+            {
+                ammopic_x += 7;
+                ammonum_x -= 7;
+            }
 
-            V_DrawUnscaledTranslucentPatch(ammo_x, HUD_AMMO_Y + 16 + ammopic[ammotype].y, 0,
+            V_DrawUnscaledTranslucentPatch(ammopic_x, HUD_AMMO_Y + 16 + ammopic[ammotype].y, 0,
                 W_CacheLumpNum(W_GetNumForName(ammopic[ammotype].lump), PU_CACHE));
-            DrawHUDNumber(HUD_AMMO_X + 8, HUD_AMMO_Y, ammo);
+            DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo);
         }
 
         if (armor)
@@ -299,10 +307,8 @@ void HU_Drawer(void)
         HUlib_drawTextLine(&w_title);
     }
 
-    if (widescreen && !automapactive)
-    {
+    if (widescreen && widescreenhud && !automapactive)
         DrawHUD();
-    }
 }
 
 void HU_Erase(void)

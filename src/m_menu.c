@@ -56,6 +56,7 @@ extern boolean chat_on;                // in heads-up code
 extern int     st_palette;
 
 extern boolean wipe;
+extern boolean widescreenhud;
 
 //
 // defaulted values
@@ -1609,9 +1610,14 @@ void M_SizeDisplay(int choice)
         case 0:
             if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
-                screenSize--;
+                if (!widescreenhud)
+                    widescreenhud = true;
+                else
+                {
+                    screenSize--;
+                    ToggleWideScreen(false);
+                }
                 S_StartSound(NULL, sfx_stnmov);
-                ToggleWideScreen(false);
                 M_SaveDefaults();
             }
             else if (screenSize > 0)
@@ -1624,7 +1630,13 @@ void M_SizeDisplay(int choice)
             }
             break;
         case 1:
-            if (screenSize == 7 && fullscreen)
+            if (widescreen && widescreenhud)
+            {
+                widescreenhud = false;
+                S_StartSound(NULL, sfx_stnmov);
+                M_SaveDefaults();
+            }
+            else if (screenSize == 7 && fullscreen)
             {
                 if (gamestate != GS_LEVEL)
                     returntowidescreen = true;
