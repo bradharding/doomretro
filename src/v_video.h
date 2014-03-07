@@ -70,6 +70,8 @@ void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch);
 void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch);
 void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch);
+void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch);
+void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch);
 

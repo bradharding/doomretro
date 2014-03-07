@@ -104,11 +104,15 @@ int                     message_counter;
 extern int              showMessages;
 extern boolean          widescreen;
 extern boolean          widescreenhud;
+extern int              translucency;
 
 static boolean          headsupactive = false;
 
 byte                    *tempscreen;
 int                     hudnumbase;
+
+void(*hudfunc)(int, int, int, patch_t *);
+void(*hudnumfunc)(int, int, int, patch_t *);
 
 void HU_Init(void)
 {
@@ -169,11 +173,21 @@ void HU_Start(void)
 
     tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     hudnumbase = W_GetNumForName("STTNUM0");
+
+    if (translucency)
+    {
+        hudfunc = V_DrawTranslucentHUDPatch;
+        hudnumfunc = V_DrawTranslucentHUDNumberPatch;
+    }
+    else
+    {
+        hudfunc = V_DrawHUDPatch;
+        hudnumfunc = V_DrawHUDNumberPatch;
+    }
 }
 
 static void DrawHUDNumber(int x, int y, signed int val)
 {
-    patch_t     *patch;
     int         xpos = x;
     int         oldval = val;
 
@@ -182,22 +196,15 @@ static void DrawHUDNumber(int x, int y, signed int val)
     else
     {
         if (val > 99)
-        {
-            patch = W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE);
-            V_DrawHUDNumberPatch(xpos + 8, y, 0, patch);
-        }
+            hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE));
         val %= 100;
     }
     xpos += 14;
     if (val > 9 || oldval > 99)
-    {
-        patch = W_CacheLumpNum(hudnumbase + val / 10, PU_CACHE);
-        V_DrawHUDNumberPatch(xpos + 8, y, 0, patch);
-    }
+        hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val / 10, PU_CACHE));
     val %= 10;
     xpos += 14;
-    patch = W_CacheLumpNum(hudnumbase + val, PU_CACHE);
-    V_DrawHUDNumberPatch(xpos + 8, y, 0, patch);
+    hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val, PU_CACHE));
 }
 
 #define HUD_HEALTH_X    24
@@ -249,13 +256,13 @@ static void DrawHUD(void)
             || plr->pendingweapon == wp_fist)
             && plr->powers[pw_strength])
         {
-            V_DrawHUDPatch(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0,
-                W_CacheLumpNum(W_GetNumForName("PSTRA0"), PU_CACHE));
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0,
+                    W_CacheLumpNum(W_GetNumForName("PSTRA0"), PU_CACHE));
         }
         else
         {
-            V_DrawHUDPatch(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0,
-                W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE));
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0,
+                    W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE));
         }
 
         if (health < 10)
@@ -264,8 +271,8 @@ static void DrawHUD(void)
             health_x -= 14;
 
         DrawHUDNumber(health_x, HUD_HEALTH_Y, health);
-        V_DrawHUDNumberPatch(health_x + 50, HUD_HEALTH_Y, 0,
-            W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
+        hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0,
+                   W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
 
         if (plr->pendingweapon != wp_nochange)
         {
@@ -289,8 +296,8 @@ static void DrawHUD(void)
                 ammonum_x -= 7;
             }
 
-            V_DrawHUDPatch(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0,
-                W_CacheLumpNum(W_GetNumForName(ammopic[ammotype].lump), PU_CACHE));
+            hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0,
+                    W_CacheLumpNum(W_GetNumForName(ammopic[ammotype].lump), PU_CACHE));
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo);
         }
 
@@ -305,8 +312,8 @@ static void DrawHUD(void)
             for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i])
                 {
-                    V_DrawHUDPatch(keypic_x, HUD_KEYS_Y, 0,
-                        W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE));
+                    hudfunc(keypic_x, HUD_KEYS_Y, 0,
+                            W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE));
                     keypic_x += 18;
                 }
         }
@@ -314,14 +321,14 @@ static void DrawHUD(void)
         if (armor)
         {
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor);
-            V_DrawHUDNumberPatch(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0,
-                W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
+            hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0,
+                       W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
             if (plr->armortype == 1)
-                V_DrawHUDPatch(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
-                    W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE));
+                hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
+                        W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE));
             else
-                V_DrawHUDPatch(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
-                    W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE));
+                hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
+                        W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE));
         }
     }
 }
