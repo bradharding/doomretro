@@ -184,7 +184,7 @@ static void DrawHUDNumber(int x, int y, signed int val)
         if (val > 99)
         {
             patch = W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE);
-            V_DrawUnscaledTranslucentPatch(xpos + 8, y, 0, patch);
+            V_DrawHUDNumberPatch(xpos + 8, y, 0, patch);
         }
         val %= 100;
     }
@@ -192,18 +192,18 @@ static void DrawHUDNumber(int x, int y, signed int val)
     if (val > 9 || oldval > 99)
     {
         patch = W_CacheLumpNum(hudnumbase + val / 10, PU_CACHE);
-        V_DrawUnscaledTranslucentPatch(xpos + 8, y, 0, patch);
+        V_DrawHUDNumberPatch(xpos + 8, y, 0, patch);
     }
     val %= 10;
     xpos += 14;
     patch = W_CacheLumpNum(hudnumbase + val, PU_CACHE);
-    V_DrawUnscaledTranslucentPatch(xpos + 8, y, 0, patch);
+    V_DrawHUDNumberPatch(xpos + 8, y, 0, patch);
 }
 
 #define HUD_HEALTH_X    24
 #define HUD_HEALTH_Y    308
 
-#define HUD_AMMO_X      130
+#define HUD_AMMO_X      120
 #define HUD_AMMO_Y      308
 
 #define HUD_ARMOR_X     530
@@ -236,12 +236,12 @@ static void DrawHUD(void)
             || plr->pendingweapon == wp_fist)
             && plr->powers[pw_strength])
         {
-            V_DrawUnscaledTranslucentPatch(HUD_HEALTH_X, HUD_HEALTH_Y + 17, 0,
+            V_DrawHUDPatch(HUD_HEALTH_X, HUD_HEALTH_Y + 17, 0,
                 W_CacheLumpNum(W_GetNumForName("PSTRA0"), PU_CACHE));
         }
         else
         {
-            V_DrawUnscaledTranslucentPatch(HUD_HEALTH_X, HUD_HEALTH_Y + 17, 0,
+            V_DrawHUDPatch(HUD_HEALTH_X, HUD_HEALTH_Y + 17, 0,
                 W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE));
         }
 
@@ -251,7 +251,7 @@ static void DrawHUD(void)
             health_x -= 14;
 
         DrawHUDNumber(health_x, HUD_HEALTH_Y, health);
-        V_DrawUnscaledTranslucentPatch(health_x + 50, HUD_HEALTH_Y, 0,
+        V_DrawHUDNumberPatch(health_x + 50, HUD_HEALTH_Y, 0,
             W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
 
         if (plr->pendingweapon != wp_nochange)
@@ -274,7 +274,7 @@ static void DrawHUD(void)
                 ammonum_x -= 7;
             }
 
-            V_DrawUnscaledTranslucentPatch(ammopic_x, HUD_AMMO_Y + 16 + ammopic[ammotype].y, 0,
+            V_DrawHUDPatch(ammopic_x, HUD_AMMO_Y + 16 + ammopic[ammotype].y, 0,
                 W_CacheLumpNum(W_GetNumForName(ammopic[ammotype].lump), PU_CACHE));
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo);
         }
@@ -282,13 +282,13 @@ static void DrawHUD(void)
         if (armor)
         {
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor);
-            V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0,
+            V_DrawHUDNumberPatch(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0,
                 W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
             if (plr->armortype == 1)
-                V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 84, HUD_ARMOR_Y + 16, 0,
+                V_DrawHUDPatch(HUD_ARMOR_X + 84, HUD_ARMOR_Y + 16, 0,
                     W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE));
             else
-                V_DrawUnscaledTranslucentPatch(HUD_ARMOR_X + 84, HUD_ARMOR_Y + 16, 0,
+                V_DrawHUDPatch(HUD_ARMOR_X + 84, HUD_ARMOR_Y + 16, 0,
                     W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE));
         }
     }
