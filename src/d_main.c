@@ -568,45 +568,50 @@ boolean D_ChooseIWAD(void)
         // more than one file was selected
         else
         {
+            LPSTR iwad = ofn.lpstrFile;
+            LPSTR pwad = ofn.lpstrFile;
+
             wadfolder = strdup(szFile);
 
-            while (ofn.lpstrFile[0])
+            // find and add iwad first
+            while (iwad[0])
             {
                 static char fullpath[MAX_PATH];
 
-                ofn.lpstrFile += lstrlen(ofn.lpstrFile) + 1;
-                sprintf(fullpath, "%s\\%s", wadfolder, ofn.lpstrFile);
+                iwad += lstrlen(iwad) + 1;
+                sprintf(fullpath, "%s\\%s", wadfolder, iwad);
 
-                // check if its an IWAD
-                if (!strcasecmp(ofn.lpstrFile, "DOOM.WAD")
-                    || !strcasecmp(ofn.lpstrFile, "DOOM1.WAD")
-                    || !strcasecmp(ofn.lpstrFile, "DOOM2.WAD")
-                    || !strcasecmp(ofn.lpstrFile, "PLUTONIA.WAD")
-                    || !strcasecmp(ofn.lpstrFile, "TNT.WAD")
+                if (!strcasecmp(iwad, "DOOM.WAD")
+                    || !strcasecmp(iwad, "DOOM1.WAD")
+                    || !strcasecmp(iwad, "DOOM2.WAD")
+                    || !strcasecmp(iwad, "PLUTONIA.WAD")
+                    || !strcasecmp(iwad, "TNT.WAD")
                     || W_WadType(fullpath) == IWAD)
                 {
                     if (!iwadfound)
                     {
-                        IdentifyIWADByName(ofn.lpstrFile);
+                        IdentifyIWADByName(iwad);
                         if (D_AddFile(fullpath))
                             iwadfound = true;
                     }
                 }
+            }
 
-                // or a PWAD
-                else 
-                {
-                    if (strcasecmp(ofn.lpstrFile, "DOOMRETRO.WAD")
-                        && W_WadType(fullpath) == PWAD)
+            // merge any pwads
+            while (pwad[0])
+            {
+                static char fullpath[MAX_PATH];
+
+                pwad += lstrlen(pwad) + 1;
+                sprintf(fullpath, "%s\\%s", wadfolder, pwad);
+
+                if (strcasecmp(pwad, "DOOMRETRO.WAD") && W_WadType(fullpath) == PWAD)
+                    if (W_MergeFile(fullpath))
                     {
-                        if (W_MergeFile(fullpath))
-                        {
-                            modifiedgame = true;
-                            if (!strcasecmp(ofn.lpstrFile, "NERVE.WAD"))
-                                nerve = true;
-                        }
+                        modifiedgame = true;
+                        if (!strcasecmp(pwad, "NERVE.WAD"))
+                            nerve = true;
                     }
-                }
             }
         }
 
