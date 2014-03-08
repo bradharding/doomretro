@@ -389,7 +389,9 @@ void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
 
     dc_colormap = vis->colormap;
 
-    if (vis->mobjflags2 & MF2_TRANSLUCENT)
+    if (vis->mobjflags2 & MF2_FUZZYWEAPON)
+        colfunc = psprcolfunc;
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT)
         colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tl50colfunc : tlcolfunc);
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDONLY)
         colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlred50colfunc : tlredcolfunc);
@@ -411,8 +413,6 @@ void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
         colfunc = redtogreencolfunc;
     else if (vis->mobjflags2 & MF2_REDTOBLUE)
         colfunc = redtobluecolfunc;
-    else if (vis->mobjflags2 & MF2_FUZZYWEAPON)
-        colfunc = psprcolfunc;
     else if (!dc_colormap)
     {
         // NULL colormap = shadow draw
