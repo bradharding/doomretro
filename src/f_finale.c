@@ -621,6 +621,7 @@ void F_CastPrint(char *text)
 //
 // F_CastDrawer
 //
+extern boolean translucency;
 
 void F_CastDrawer(void)
 {
@@ -652,8 +653,8 @@ void F_CastDrawer(void)
     {
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
-        if (castorder[castnum].type == MT_SKULL
-            || (castorder[castnum].type == MT_PAIN && castdeath))
+        if (translucency && (castorder[castnum].type == MT_SKULL
+                             || (castorder[castnum].type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
         else if (castorder[castnum].type == MT_SHADOWS)
             V_DrawFuzzPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
@@ -664,8 +665,8 @@ void F_CastDrawer(void)
     {
         patch->leftoffset = spriteoffset[lump] >> FRACBITS;
 
-        if (castorder[castnum].type == MT_SKULL
-            || (castorder[castnum].type == MT_PAIN && castdeath))
+        if (translucency && (castorder[castnum].type == MT_SKULL
+                             || (castorder[castnum].type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
         else if (castorder[castnum].type == MT_SHADOWS)
             V_DrawFuzzPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
