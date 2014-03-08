@@ -45,33 +45,34 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-fixed_t pspritexscale;
-fixed_t pspriteyscale;
-fixed_t pspriteiscale;
+fixed_t         pspritexscale;
+fixed_t         pspriteyscale;
+fixed_t         pspriteiscale;
 
-lighttable_t **spritelights;
+lighttable_t    **spritelights;
 
 // constant arrays
 //  used for psprite clipping and initializing clipping
-int negonearray[SCREENWIDTH];
-int screenheightarray[SCREENWIDTH];
+int             negonearray[SCREENWIDTH];
+int             screenheightarray[SCREENWIDTH];
 
 //
 // INITIALIZATION FUNCTIONS
 //
 
 // variables used to look up and range check thing_t sprites patches
-spritedef_t *sprites;
-int         numsprites;
+spritedef_t     *sprites;
+int             numsprites;
 
 #define MAX_SPRITE_FRAMES 29
 
-spriteframe_t sprtemp[MAX_SPRITE_FRAMES];
-int           maxframe;
-char          *spritename;
+spriteframe_t   sprtemp[MAX_SPRITE_FRAMES];
+int             maxframe;
+char            *spritename;
 
-extern int screenblocks;
-extern boolean supershotgun;
+extern int      screenblocks;
+extern boolean  supershotgun;
+extern boolean  inhelpscreens;
 
 //
 // R_InstallSpriteLump
@@ -997,5 +998,6 @@ void R_DrawMasked(void)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
     // draw the psprites on top of everything
-    R_DrawPlayerSprites();
+    if (!inhelpscreens)
+        R_DrawPlayerSprites();
 }
