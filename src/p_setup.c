@@ -954,7 +954,7 @@ void P_SetupLevel(int episode, int map)
     else
         lumpnum = W_GetNumForName(lumpname);
 
-    canmodify = (!W_CheckMultipleLumps(lumpname)
+    canmodify = (W_CheckMultipleLumps(lumpname) == 1
                  || gamemission == pack_nerve
                  || (nerve && gamemission == doom2));
 
