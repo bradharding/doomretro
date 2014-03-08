@@ -659,6 +659,8 @@ void V_DrawPatchCentered(int y, int scrn, patch_t *patch)
     V_DrawPatch((ORIGINALWIDTH - patch->width) / 2, y, scrn, patch);
 }
 
+extern boolean translucency;
+
 void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
 {
     int         count;
@@ -698,7 +700,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
                 byte src = source[srccol >> 16];
 
                 if (nogreen[src])
-                    *dest = tinttab33[(*dest << 8) + src];
+                    *dest = (translucency ? tinttab33[(*dest << 8) + src] : src);
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
