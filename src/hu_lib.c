@@ -26,25 +26,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <ctype.h>
-
-#include "doomdef.h"
-
-#include "v_video.h"
-#include "i_swap.h"
-
 #include "hu_lib.h"
+#include "i_swap.h"
 #include "r_local.h"
-#include "r_draw.h"
-
 #include "v_data.h"
+#include "v_video.h"
 
-extern boolean          automapactive;          // in AM_map.c
-extern boolean          widescreen;
-
-void HUlib_init(void)
-{
-}
+extern boolean  automapactive;  // in AM_map.c
+extern boolean  widescreen;
+extern boolean  translucency;
 
 void HUlib_clearTextLine(hu_textline_t *t)
 {
@@ -64,7 +54,6 @@ void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
 
 boolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
 {
-
     if (t->len == HU_MAXLINELENGTH)
         return false;
     else
@@ -74,12 +63,10 @@ boolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
         t->needsupdate = 4;
         return true;
     }
-
 }
 
 boolean HUlib_delCharFromTextLine(hu_textline_t *t)
 {
-
     if (!t->len)
         return false;
     else
@@ -88,12 +75,11 @@ boolean HUlib_delCharFromTextLine(hu_textline_t *t)
         t->needsupdate = 4;
         return true;
     }
-
 }
 
 static void HU_drawDot(int x, int y, char src)
 {
-    byte *dest = &tempscreen[y * SCREENWIDTH + x];
+    byte        *dest = &tempscreen[y * SCREENWIDTH + x];
 
     if (src == 'û')
         *dest = 0;
@@ -104,8 +90,8 @@ static void HU_drawDot(int x, int y, char src)
 // [BH] draw an individual character to temporary buffer
 void HU_drawChar(int x, int y, int i)
 {
-    int           w = strlen(smallcharset[i]) / 10;
-    int           x1, y1;
+    int         w = strlen(smallcharset[i]) / 10;
+    int         x1, y1;
 
     for (y1 = 0; y1 < 10; y1++)
     {
@@ -250,30 +236,31 @@ void HUlib_drawTextLine(hu_textline_t *l)
                 *dest1 = tinttab50[*dest2];
             else if (*source != 251)
             {
-                byte color = tinttab33[(*dest2 << 8) + *source];
+                byte color = *source;
 
-                if (color >= 168 && color <= 175)
-                    color -= 144;
+                if (translucency)
+                {
+                    color = tinttab33[(*dest2 << 8) + color];
+                    if (color >= 168 && color <= 175)
+                        color -= 144;
+                }
                 *dest1 = color;
             }
         }
 }
 
-
 // sorta called by HU_Erase and just better darn get things straight
 void HUlib_eraseTextLine(hu_textline_t *l)
 {
-    int                 lh;
-    int                 y;
-    int                 yoffset;
+    int         lh;
+    int         y;
+    int         yoffset;
 
     // Only erases when NOT in automap and the screen is reduced,
     // and the text must either need updating or refreshing
     // (because of a recent change back from the automap)
 
-    if (!automapactive
-        && viewwindowx
-        && l->needsupdate)
+    if (!automapactive && viewwindowx && l->needsupdate)
     {
         lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
         for (y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh; y++, yoffset += SCREENWIDTH)
@@ -294,23 +281,19 @@ void HUlib_eraseTextLine(hu_textline_t *l)
 
 void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, boolean *on)
 {
-
-    int i;
+    int         i;
 
     s->h = h;
     s->on = on;
     s->laston = true;
     s->cl = 0;
     for (i = 0; i < h; i++)
-        HUlib_initTextLine(&s->l[i],
-                           x, y - i * (SHORT(font[0]->height) + 1),
-                           font, startchar);
+        HUlib_initTextLine(&s->l[i], x, y - i * (SHORT(font[0]->height) + 1), font, startchar);
 }
 
 void HUlib_addLineToSText(hu_stext_t *s)
 {
-
-    int i;
+    int         i;
 
     // add a clear line
     if (++s->cl == s->h)
@@ -335,8 +318,8 @@ void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg)
 
 void HUlib_drawSText(hu_stext_t *s)
 {
-    int i, idx;
-    hu_textline_t *l;
+    int                 i, idx;
+    hu_textline_t       *l;
 
     if (!*s->on)
         return; // if not on, don't draw
@@ -346,7 +329,7 @@ void HUlib_drawSText(hu_stext_t *s)
     {
         idx = s->cl - i;
         if (idx < 0)
-            idx += s->h; // handle queue of lines
+            idx += s->h;        // handle queue of lines
 
         l = &s->l[idx];
 
@@ -357,8 +340,7 @@ void HUlib_drawSText(hu_stext_t *s)
 
 void HUlib_eraseSText(hu_stext_t *s)
 {
-
-    int i;
+    int         i;
 
     for (i = 0; i < s->h; i++)
     {
@@ -371,12 +353,11 @@ void HUlib_eraseSText(hu_stext_t *s)
 
 void HUlib_initIText(hu_itext_t *it, int x, int y, patch_t **font, int startchar, boolean *on)
 {
-    it->lm = 0; // default left margin is start of text
+    it->lm = 0;                 // default left margin is start of text
     it->on = on;
     it->laston = true;
     HUlib_initTextLine(&it->l, x, y, font, startchar);
 }
-
 
 // The following deletion routines adhere to the left margin restriction
 void HUlib_delCharFromIText(hu_itext_t *it)
@@ -419,18 +400,15 @@ boolean HUlib_keyInIText(hu_itext_t *it, unsigned char ch)
         return false; // did not eat key
 
     return true; // ate the key
-
 }
 
 void HUlib_drawIText(hu_itext_t *it)
 {
-
-    hu_textline_t *l = &it->l;
+    hu_textline_t       *l = &it->l;
 
     if (!*it->on)
         return;
     HUlib_drawTextLine(l);
-
 }
 
 void HUlib_eraseIText(hu_itext_t *it)
