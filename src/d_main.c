@@ -674,18 +674,20 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
 
-    if (!M_FileExists("doomretro.wad"))
+    if (!M_FileExists("DOOMRETRO.WAD"))
         I_Error("Can't find doomretro.wad.");
+
+    wadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
 
     if (iwadfile)
         D_AddFile(iwadfile);
     else 
     {
-        D_ToggleHiddenFile("doomretro.wad", true);
+        D_ToggleHiddenFile("DOOMRETRO.WAD", true);
 
         choseniwad = D_ChooseIWAD();
 
-        D_ToggleHiddenFile("doomretro.wad", false);
+        D_ToggleHiddenFile("DOOMRETRO.WAD", false);
 
         if (!choseniwad)
             exit(-1);
@@ -693,7 +695,7 @@ static void D_DoomMainSetup(void)
         M_SaveDefaults();
     }
 
-    if (!W_MergeFile("doomretro.wad"))
+    if (!W_MergeFile("DOOMRETRO.WAD"))
         I_Error("Can't find doomretro.wad.");
 
     if (W_CheckNumForName("BLD2A0") < 0)
