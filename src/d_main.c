@@ -535,7 +535,7 @@ boolean D_ChooseIWAD(void)
         {
             char *file = M_ExtractFilename(ofn.lpstrFile);
 
-            wadfolder = M_ExtractFolder(ofn.lpstrFile);
+            wadfolder = strdup(M_ExtractFolder(ofn.lpstrFile));
 
             // if it's NERVE.WAD, try to open DOOM2.WAD with it
             if (!strcasecmp(M_ExtractFilename(ofn.lpstrFile), "NERVE.WAD"))
@@ -568,7 +568,7 @@ boolean D_ChooseIWAD(void)
         // more than one file was selected
         else
         {
-            wadfolder = szFile;
+            wadfolder = strdup(szFile);
 
             while (ofn.lpstrFile[0])
             {
@@ -676,8 +676,6 @@ static void D_DoomMainSetup(void)
 
     if (!M_FileExists("DOOMRETRO.WAD"))
         I_Error("Can't find doomretro.wad.");
-
-    wadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
 
     if (iwadfile)
         D_AddFile(iwadfile);
