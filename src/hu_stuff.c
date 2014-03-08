@@ -314,9 +314,10 @@ static void DrawHUD(void)
             for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i])
                 {
-                    hudfunc(keypic_x, HUD_KEYS_Y, 0,
-                            W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE));
-                    keypic_x += 18;
+                    patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE);
+
+                    hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
+                    keypic_x += patch->width + 4;
                 }
         }
 
