@@ -191,14 +191,9 @@ static void DrawHUDNumber(int x, int y, signed int val)
     int         xpos = x;
     int         oldval = val;
 
-    if (val < 0)
-        val = 0;
-    else
-    {
-        if (val > 99)
-            hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE));
-        val %= 100;
-    }
+    if (val > 99)
+        hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE));
+    val %= 100;
     xpos += 14;
     if (val > 9 || oldval > 99)
         hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val / 10, PU_CACHE));
@@ -308,6 +303,13 @@ static void DrawHUD(void)
         if (keys)
         {
             int keypic_x = HUD_KEYS_X - 18 * (keys - 1);
+
+            if (!armor)
+                keypic_x += 113;
+            else if (armor < 10)
+                keypic_x += 28;
+            else if (armor < 100)
+                keypic_x += 14;
 
             for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i])
