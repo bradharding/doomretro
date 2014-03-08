@@ -42,8 +42,6 @@ boolean         bloodsplats = true;
 mobj_t          *bloodSplatQueue[BLOODSPLATQUEUESIZE];
 int             bloodSplatQueueSlot;
 
-extern int translucency;
-
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
@@ -94,7 +92,7 @@ void P_ExplodeMissile(mobj_t *mo)
 
     mo->flags &= ~MF_MISSILE;
 
-    if (mo->type == MT_ROCKET && translucency)
+    if (mo->type == MT_ROCKET)
         mo->flags2 |= MF2_TRANSLUCENT;
 
     if (mo->info->deathsound)
