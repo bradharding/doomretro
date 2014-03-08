@@ -305,11 +305,11 @@ static void DrawHUD(void)
             int keypic_x = HUD_KEYS_X - 18 * (keys - 1);
 
             if (!armor)
-                keypic_x += 113;
+                keypic_x += 111;
             else if (armor < 10)
-                keypic_x += 28;
+                keypic_x += 26;
             else if (armor < 100)
-                keypic_x += 14;
+                keypic_x += 12;
 
             for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i])
@@ -317,7 +317,7 @@ static void DrawHUD(void)
                     patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE);
 
                     hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
-                    keypic_x += patch->width + 4;
+                    keypic_x += patch->width + 6;
                 }
         }
 
