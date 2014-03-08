@@ -220,7 +220,44 @@ void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch)
 
 void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch)
 {
-    V_DrawHUDPatch(x, y, scrn, patch);
+
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *desttop;
+    byte        *dest;
+    byte        *source;
+    int         w;
+
+    col = 0;
+    desttop = screens[scrn] + y * SCREENWIDTH + x;
+
+    w = SHORT(patch->width);
+
+    for (; col<w; x++, col++, desttop++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            dest = desttop + column->topdelta*SCREENWIDTH;
+            count = column->length;
+
+            while (count--)
+            {
+                byte dot = *source++;
+
+                if (dot == 109)
+                    *dest = tinttab50[*dest];
+                else
+                    *dest = dot;
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
 }
 
 void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch)
@@ -708,10 +745,8 @@ void V_Init(void)
 
 extern char maptitle[128];
 
-extern boolean nerve;
-
-char lbmname[256];
-char lbmpath[256];
+char lbmname[MAX_PATH];
+char lbmpath[MAX_PATH];
 
 boolean V_ScreenShot(void)
 {
@@ -724,10 +759,7 @@ boolean V_ScreenShot(void)
     if (hr != S_OK)
         return false;
 
-    if (usergame)
-        strcpy(mapname, maptitle);
-    else
-        strcpy(mapname, "Untitled");
+    strcpy(mapname, usergame ? maptitle : "Untitled");
 
     do
     {
