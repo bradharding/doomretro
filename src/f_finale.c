@@ -655,7 +655,7 @@ void F_CastDrawer(void)
 
         if (translucency && (castorder[castnum].type == MT_SKULL
                              || (castorder[castnum].type == MT_PAIN && castdeath)))
-            V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
+            V_DrawTranslucentRedPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
         else if (castorder[castnum].type == MT_SHADOWS)
             V_DrawFuzzPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
         else

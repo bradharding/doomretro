@@ -29,11 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __V_VIDEO__
 #define __V_VIDEO__
 
-#include "doomtype.h"
-
-#include "doomdef.h"
-
-// Needed because we are refering to patches.
 #include "r_data.h"
 
 //
@@ -49,13 +44,10 @@ extern byte *tinttab50;
 extern byte *tinttab75;
 extern byte *tinttabred;
 
-
 fixed_t DX, DY, DXI, DYI;
-
 
 // Allocates buffer screens, call before R_Init.
 void V_Init(void);
-
 
 void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty, int destscrn);
 
@@ -74,9 +66,9 @@ void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch);
+void V_DrawTranslucentRedPatchFlipped(int x, int y, int scrn, patch_t *patch);
 
 void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow);
-
 
 // Draw a linear block of pixels into the view buffer.
 void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src);
