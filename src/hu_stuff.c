@@ -222,8 +222,8 @@ struct
 }
 ammopic[NUMAMMO] =
 {
-    { "CLIPA0",  0,  2 },
-    { "SHELA0", -5,  4 },
+    { "CLIPA0",  0,  3 },
+    { "SHELA0", -5,  5 },
     { "CELLA0", -8,  2 },
     { "ROCKA0", -2, -6 }
 };
