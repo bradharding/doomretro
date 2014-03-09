@@ -986,18 +986,29 @@ boolean ST_Responder(event_t *ev)
                     }
                     else
                     {
-                        // [BH] cancel 'idchoppers' cheat if necessary
-                        if (i == pw_invulnerability && (plyr->cheats & CF_CHOPPERS))
+                        // [BH] toggle berserk off
+                        if (i == pw_strength)
                         {
-                            plyr->cheats &= ~CF_CHOPPERS;
-                            if (plyr->weaponbeforechoppers != wp_chainsaw)
-                                plyr->pendingweapon = plyr->weaponbeforechoppers;
-                            plyr->weaponowned[wp_chainsaw] = plyr->chainsawbeforechoppers;
-                            oldweaponsowned[wp_chainsaw] = plyr->chainsawbeforechoppers;
+                            plyr->powers[i] = 0;
+                            if (plyr->readyweapon == wp_fist && plyr->weaponowned[wp_chainsaw])
+                                plyr->pendingweapon = plyr->fistorchainsaw = wp_chainsaw;
                         }
+                        else
+                        {
 
-                        // [BH] start flashing palette to indicate power-up about to run out
-                        plyr->powers[i] = STARTFLASHING * (i != pw_allmap);
+                            // [BH] cancel 'idchoppers' cheat if necessary
+                            if (i == pw_invulnerability && (plyr->cheats & CF_CHOPPERS))
+                            {
+                                plyr->cheats &= ~CF_CHOPPERS;
+                                if (plyr->weaponbeforechoppers != wp_chainsaw)
+                                    plyr->pendingweapon = plyr->weaponbeforechoppers;
+                                plyr->weaponowned[wp_chainsaw] = plyr->chainsawbeforechoppers;
+                                oldweaponsowned[wp_chainsaw] = plyr->chainsawbeforechoppers;
+                            }
+
+                            // [BH] start flashing palette to indicate power-up about to run out
+                            plyr->powers[i] = STARTFLASHING * (i != pw_allmap);
+                        }
                     }
 
                     // [BH] reset all cheat sequences
