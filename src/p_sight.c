@@ -49,8 +49,7 @@ __inline static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 {
     fixed_t left, right;
 
-    return
-        (!node->dx ? x == node->x ? 2 : x <= node->x ? node->dy > 0 : node->dy < 0 :
+    return (!node->dx ? x == node->x ? 2 : x <= node->x ? node->dy > 0 : node->dy < 0 :
         !node->dy ? x == node->y ? 2 : y <= node->y ? node->dx < 0 : node->dx > 0 :
         (right = ((y - node->y) >> FRACBITS) * (node->dx >> FRACBITS)) <
         (left  = ((x - node->x) >> FRACBITS) * (node->dy >> FRACBITS)) ? 0 :
@@ -67,10 +66,10 @@ __inline static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t 
 {
     fixed_t den;
 
-    return 
-        ((den = FixedMul(v1->dy>>8, v2->dx) - FixedMul(v1->dx>>8, v2->dy)) ?
-        FixedDiv(FixedMul((v1->x - v2->x)>>8, v1->dy) +
-        FixedMul((v2->y - v1->y)>>8, v1->dx), den) : 0);
+    return ((den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy)) ?
+        FixedDiv(FixedMul((v1->x - v2->x) >> 8, v1->dy) +
+        FixedMul((v2->y - v1->y) >> 8, v1->dx), den) : 0);
+
 }
 
 //
@@ -147,8 +146,7 @@ static boolean P_CrossSubsector(int num)
         back = seg->backsector;
 
         // no wall to block sight with?
-        if (front->floorheight == back->floorheight
-            && front->ceilingheight == back->ceilingheight)
+        if (front->floorheight == back->floorheight && front->ceilingheight == back->ceilingheight)
             continue;
 
         // possible occluder
@@ -187,8 +185,6 @@ static boolean P_CrossSubsector(int num)
     return true;
 }
 
-
-
 //
 // P_CrossBSPNode
 // Returns true
@@ -201,12 +197,12 @@ static boolean P_CrossBSPNode(int bspnum)
         register const node_t *bsp = nodes + bspnum;
         int side = P_DivlineSide(strace.x, strace.y, (divline_t *)bsp) & 1;
         if (side == P_DivlineSide(t2x, t2y, (divline_t *)bsp))
-            bspnum = bsp->children[side];              // doesn't touch the other side
-        else                                           // the partition plane is crossed here
+            bspnum = bsp->children[side];               // doesn't touch the other side
+        else                                            // the partition plane is crossed here
             if (!P_CrossBSPNode(bsp->children[side]))
-                return 0;                              // cross the starting side
+                return 0;                               // cross the starting side
             else
-                bspnum = bsp->children[side ^ 1];        // cross the ending side
+                bspnum = bsp->children[side ^ 1];       // cross the ending side
     }
     return P_CrossSubsector(bspnum == -1 ? 0 : bspnum & ~NF_SUBSECTOR);
 }
@@ -238,7 +234,7 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
     bitnum = 1 << (pnum & 7);
 
     // Check in REJECT table.
-    if (rejectmatrix[bytenum] & bitnum)
+    if (bytenum < rejectmatrixsize && (rejectmatrix[bytenum] & bitnum))
     {
         sightcounts[0]++;
 

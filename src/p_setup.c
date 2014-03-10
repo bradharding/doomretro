@@ -97,6 +97,7 @@ mobj_t          **blocklinks;
 //  used as a PVS lookup as well.
 //
 byte            *rejectmatrix;
+int             rejectmatrixsize;
 
 // Maintain single and multi player starting spots.
 #define MAX_DEATHMATCH_STARTS   10
@@ -974,6 +975,7 @@ void P_SetupLevel(int episode, int map)
     P_LoadSegs(lumpnum + ML_SEGS);
 
     rejectmatrix = (byte *)W_CacheLumpNum(lumpnum + ML_REJECT, PU_LEVEL);
+    rejectmatrixsize = W_LumpLength(lumpnum + ML_REJECT);
     P_GroupLines();
 
     P_RemoveSlimeTrails();
