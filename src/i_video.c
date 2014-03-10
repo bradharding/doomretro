@@ -368,7 +368,8 @@ void I_ShutdownGraphics(void)
 
 static void UpdateMouseButtonState(unsigned int button, boolean on)
 {
-    event_t ev;
+    event_t     ev;
+    int         buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 0, 2, 1, 3, 4, 5, 6, 7 };
 
     if (button < SDL_BUTTON_LEFT || button > MAX_MOUSE_BUTTONS)
         return;
@@ -377,32 +378,11 @@ static void UpdateMouseButtonState(unsigned int button, boolean on)
     // button "2" is middle for Doom.  This is different
     // to how SDL sees things.
 
-    switch (button)
-    {
-        case SDL_BUTTON_LEFT:
-            button = 0;
-            break;
-
-        case SDL_BUTTON_RIGHT:
-            button = 1;
-            break;
-
-        case SDL_BUTTON_MIDDLE:
-            button = 2;
-            break;
-
-        default:
-            // SDL buttons are indexed from 1.
-            --button;
-            break;
-    }
-
     // Turn bit representing this button on or off.
-
     if (on)
-        mouse_button_state |= (1 << button);
+        mouse_button_state |= (1 << buttons[button]);
     else
-        mouse_button_state &= ~(1 << button);
+        mouse_button_state &= ~(1 << buttons[button]);
 
     // Post an event with the new button state.
 
@@ -471,30 +451,26 @@ void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
+                if (window_focused)
                 {
-                    if (window_focused)
+                    idclev = false;
+                    idmus = false;
+                    if (idbehold)
                     {
-                        idclev = false;
-                        idmus = false;
-                        if (idbehold)
-                        {
-                            HU_clearMessages();
-                            idbehold = false;
-                        }
-                        UpdateMouseButtonState(sdlevent.button.button, true);
+                        HU_clearMessages();
+                        idbehold = false;
                     }
-                    break;
+                    UpdateMouseButtonState(sdlevent.button.button, true);
                 }
+                break;
 
             case SDL_MOUSEBUTTONUP:
+                if (window_focused)
                 {
-                    if (window_focused)
-                    {
-                        keydown = 0;
-                        UpdateMouseButtonState(sdlevent.button.button, false);
-                    }
-                    break;
+                    keydown = 0;
+                    UpdateMouseButtonState(sdlevent.button.button, false);
                 }
+                break;
 
             case SDL_JOYBUTTONUP:
                 keydown = 0;
