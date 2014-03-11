@@ -369,23 +369,15 @@ void I_ShutdownGraphics(void)
 static void UpdateMouseButtonState(unsigned int button, boolean on)
 {
     event_t     ev;
-    int         buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 0, 2, 1, 3, 4, 5, 6, 7 };
-
-    if (button < SDL_BUTTON_LEFT || button > MAX_MOUSE_BUTTONS)
-        return;
-
-    // Note: button "0" is left, button "1" is right,
-    // button "2" is middle for Doom.  This is different
-    // to how SDL sees things.
+    int         buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
     // Turn bit representing this button on or off.
     if (on)
-        mouse_button_state |= (1 << buttons[button]);
+        mouse_button_state |= buttons[MAX(SDL_BUTTON_LEFT, MIN(button, MAX_MOUSE_BUTTONS))];
     else
-        mouse_button_state &= ~(1 << buttons[button]);
+        mouse_button_state &= ~buttons[MAX(SDL_BUTTON_LEFT, MIN(button, MAX_MOUSE_BUTTONS))];
 
     // Post an event with the new button state.
-
     ev.type = ev_mouse;
     ev.data1 = mouse_button_state;
     ev.data2 = ev.data3 = 0;
@@ -408,8 +400,8 @@ boolean waspaused = false;
 
 void I_GetEvent(void)
 {
-    SDL_Event sdlevent;
-    event_t   ev;
+    SDL_Event   sdlevent;
+    event_t     ev;
 
     while (SDL_PollEvent(&sdlevent))
     {
@@ -446,7 +438,7 @@ void I_GetEvent(void)
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
                 keydown = 0;
 
-                if (ev.data1 != 0)
+                if (ev.data1)
                     D_PostEvent(&ev);
                 break;
 
@@ -523,15 +515,12 @@ void I_GetEvent(void)
 }
 
 // Warp the mouse back to the middle of the screen
-
 static void CenterMouse(void)
 {
     // Warp the the screen center
-
     SDL_WarpMouse(screen->w / 2, screen->h / 2);
 
     // Clear any relative movement caused by warping
-
     SDL_PumpEvents();
     SDL_GetRelativeMouseState(NULL, NULL);
 }
@@ -541,11 +530,10 @@ static void CenterMouse(void)
 //
 // This is to combine all mouse movement for a tic into one mouse
 // motion event.
-
 static void I_ReadMouse(void)
 {
-    int     x, y;
-    event_t ev;
+    int         x, y;
+    event_t     ev;
 
     SDL_GetRelativeMouseState(&x, &y);
 
@@ -577,12 +565,10 @@ boolean currently_grabbed = false;
 
 static void UpdateGrab(void)
 {
-    boolean grab = MouseShouldBeGrabbed();
+    boolean     grab = MouseShouldBeGrabbed();
 
     if (grab && !currently_grabbed)
-    {
         SetShowCursor(false);
-    }
     else if (!grab && currently_grabbed)
     {
         SetShowCursor(true);
@@ -595,8 +581,8 @@ static void UpdateGrab(void)
 
 static __forceinline void blit(void)
 {
-    fixed_t i = 0;
-    fixed_t y = starty;
+    fixed_t     i = 0;
+    fixed_t     y = starty;
 
     do
     {
@@ -631,7 +617,6 @@ void I_FinishUpdate(void)
     // Don't update the screen if the window isn't visible.
     // Not doing this breaks under Windows when we alt-tab away
     // while fullscreen.
-
     if (!screenvisible)
         return;
 
@@ -642,7 +627,6 @@ void I_FinishUpdate(void)
     }
 
     // draw to screen
-
     if (SDL_LockSurface(screenbuffer) >= 0)
     {
         blit();
@@ -690,8 +674,8 @@ static void CreateCursors(void)
 
 static void SetWindowPositionVars(void)
 {
-    char buf[64];
-    int x, y;
+    char        buf[64];
+    int         x, y;
 
     if (sscanf(windowposition, "%i,%i", &x, &y) == 2)
     {
@@ -707,9 +691,7 @@ static void SetWindowPositionVars(void)
         putenv(buf);
     }
     else
-    {
         putenv("SDL_VIDEO_CENTERED=1");
-    }
 }
 
 static void SetVideoMode(void)

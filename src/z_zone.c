@@ -94,9 +94,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
     memblock_t *block = NULL;
 
     if (!size)
-    {
         return (user ? (*user = NULL) : NULL); // malloc(0) returns NULL
-    }
 
     size = (size + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1); // round to chunk size
 
@@ -116,9 +114,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
                 Z_Free((char *)block + HEADER_SIZE);
                 if ((free_memory + memory_size) >= (int32_t)(size + HEADER_SIZE)
                     || block == end_block)
-                {
                     break;
-                }
                 block = next; // Advance to next block
             }
         }
@@ -128,10 +124,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
     while (!(block = (memblock_t *)malloc(size + HEADER_SIZE)))
     {
         if (!blockbytag[PU_CACHE])
-        {
-            I_Error("Z_Malloc: Failure trying to allocate %lu bytes",
-                    (uint32_t)size);
-        }
+            I_Error("Z_Malloc: Failure trying to allocate %lu bytes", (uint32_t)size);
         Z_FreeTags(PU_CACHE, PU_CACHE);
     }
 
@@ -156,9 +149,7 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
     block->user = user; // user
     block = (memblock_t *)((char *)block + HEADER_SIZE);
     if (user) // if there is a user
-    {
         *user = block; // set user to point to new block
-    }
 
     return block;
 }
@@ -168,23 +159,15 @@ void Z_Free(void *p)
     memblock_t *block = (memblock_t *)((char *)p - HEADER_SIZE);
 
     if (!p)
-    {
         return;
-    }
 
     if (block->user) // Nullify user if one exists
-    {
         *block->user = NULL;
-    }
 
     if (block == block->next)
-    {
         blockbytag[block->tag] = NULL;
-    }
     else if (blockbytag[block->tag] == block)
-    {
         blockbytag[block->tag] = block->next;
-    }
     block->prev->next = block->next;
     block->next->prev = block->prev;
 
@@ -196,31 +179,23 @@ void Z_Free(void *p)
 void Z_FreeTags(int32_t lowtag, int32_t hightag)
 {
     if (lowtag <= PU_FREE)
-    {
         lowtag = PU_FREE + 1;
-    }
     if (hightag > PU_CACHE)
-    {
         hightag = PU_CACHE;
-    }
 
     for (; lowtag <= hightag; ++lowtag)
     {
         memblock_t *block, *end_block;
         block = blockbytag[lowtag];
         if (!block)
-        {
             continue;
-        }
         end_block = block->prev;
         while (1)
         {
             memblock_t *next = block->next;
             Z_Free((char *)block + HEADER_SIZE);
             if (block == end_block)
-            {
                 break;
-            }
             block = next; // Advance to next block
         }
     }
@@ -232,23 +207,15 @@ void Z_ChangeTag(void *ptr, int32_t tag)
 
     // proff - added sanity check, this can happen when an empty lump is locked
     if (!ptr)
-    {
         return;
-    }
     // proff - do nothing if tag doesn't differ
     if (tag == block->tag)
-    {
         return;
-    }
 
     if (block == block->next)
-    {
         blockbytag[block->tag] = NULL;
-    }
     else if (blockbytag[block->tag] == block)
-    {
         blockbytag[block->tag] = block->next;
-    }
     block->prev->next = block->next;
     block->next->prev = block->prev;
 
@@ -278,9 +245,7 @@ void *Z_Realloc(void *ptr, size_t n, int32_t tag, void **user)
         memcpy(p, ptr, n <= block->size ? n : block->size);
         Z_Free(ptr);
         if (user) // in case Z_Free nullified same user
-        {
             *user = p;
-        }
     }
     return p;
 }

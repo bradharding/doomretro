@@ -71,6 +71,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define MOUSE_WHEELUP           8
 #define MOUSE_WHEELDOWN         16
 
+#define NEEDKEYTICS             72
+
 //
 // P_TICK
 //
