@@ -688,7 +688,7 @@ boolean G_Responder(event_t *ev)
                     PrevWeapon();
             }
             if (!automapactive || (automapactive && followplayer))
-                mousex = ev->data2 * (mouseSensitivity + 4) / 10 / 2;
+                mousex = ev->data2 * (mouseSensitivity + 5) / 10;
             return true;            // eat events
 
         case ev_gamepad:
