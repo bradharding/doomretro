@@ -228,7 +228,8 @@ void P_GiveCard(player_t *player, card_t card)
 
     P_AddBonus(player, BONUSADD);
     player->cards[card] = true;
-    player->needcards[card] = 0;
+    if (card == player->neededcard)
+        player->neededcard = player->neededcardtics = 0;
 }
 
 //
