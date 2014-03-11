@@ -305,8 +305,8 @@ static void DrawHUD(void)
 
         if (keys)
         {
-            int            keypic_x = HUD_KEYS_X - 18 * (keys - 1);
-            static int     keyanimcounter = 8;
+            int            keypic_x = HUD_KEYS_X - 20 * (keys - 1);
+            static int     keyanimcounter = 12;
             static boolean showkey = false;
 
             if (!armor)
@@ -317,28 +317,27 @@ static void DrawHUD(void)
                 keypic_x += 12;
 
             for (i = 0; i < NUMCARDS; i++)
+                if (plr->needcards[i])
+                {
+                    patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE);
+
+                    plr->needcards[i]--;
+                    if (!--keyanimcounter)
+                    {
+                        showkey = !showkey;
+                        keyanimcounter = 12;
+                    }
+                    if (showkey)
+                        hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
+                    keypic_x += patch->width + 6;
+                }
+            for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i])
                 {
                     patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE);
 
                     hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
                     keypic_x += patch->width + 6;
-                }
-                else if (plr->needcards[i])
-                {
-                    plr->needcards[i]--;
-                    if (!--keyanimcounter)
-                    {
-                        showkey = !showkey;
-                        keyanimcounter = 8;
-                    }
-                    if (showkey)
-                    {
-                        patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE);
-
-                        hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
-                        keypic_x += patch->width + 6;
-                    }
                 }
         }
 
