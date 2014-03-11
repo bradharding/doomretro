@@ -318,11 +318,14 @@ static void DrawHUD(void)
                 patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[plr->neededcard]), PU_CACHE);
 
                 keypic_x -= 20;
-                plr->neededcardtics--;
-                if (!--keyanimcounter)
+                if (!menuactive && !paused)
                 {
-                    showkey = !showkey;
-                    keyanimcounter = 12;
+                    plr->neededcardtics--;
+                    if (!--keyanimcounter)
+                    {
+                        showkey = !showkey;
+                        keyanimcounter = 12;
+                    }
                 }
                 if (showkey)
                     hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
