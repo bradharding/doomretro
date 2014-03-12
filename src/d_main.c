@@ -869,7 +869,7 @@ static void D_DoomMainSetup(void)
 
     if (mouseSensitivity < MOUSESENSITIVITY_MIN || mouseSensitivity > MOUSESENSITIVITY_MAX)
         mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-    gamepadSensitivity = 1.25f + (float)mouseSensitivity / MOUSESENSITIVITY_MAX;
+    gamepadSensitivity = 2.0f + (float)mouseSensitivity / MOUSESENSITIVITY_MAX;
 
     if (sfxVolume < SFXVOLUME_MIN || sfxVolume > SFXVOLUME_MAX)
         sfxVolume = SFXVOLUME_DEFAULT;

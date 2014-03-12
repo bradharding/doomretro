@@ -1587,7 +1587,7 @@ void M_ChangeSensitivity(int choice)
             if (mouseSensitivity > MOUSESENSITIVITY_MIN)
             {
                 mouseSensitivity--;
-                gamepadSensitivity = 1.25f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX;
+                gamepadSensitivity = 2.0f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX;
                 M_SliderSound();
                 M_SaveDefaults();
             }
@@ -1596,7 +1596,7 @@ void M_ChangeSensitivity(int choice)
             if (mouseSensitivity < MOUSESENSITIVITY_MAX)
             {
                 mouseSensitivity++;
-                gamepadSensitivity = 1.25f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX;
+                gamepadSensitivity = 2.0f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX;
                 M_SliderSound();
                 M_SaveDefaults();
             }
