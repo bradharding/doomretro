@@ -62,7 +62,7 @@ extern boolean widescreenhud;
 // defaulted values
 //
 int            mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-float          gamepadSensitivity = 1.25f + MOUSESENSITIVITY_DEFAULT / 18.0f;
+float          gamepadSensitivity;
 
 // Show messages has default, 0 = off, 1 = on
 int            showMessages = 0;

@@ -853,13 +853,9 @@ static void D_DoomMainSetup(void)
             startepisode = myargv[p + 1][0] - '0';
 
             if (p + 2 < myargc)
-            {
                 startmap = myargv[p + 2][0] - '0';
-            }
             else
-            {
                 startmap = 1;
-            }
         }
         autostart = true;
     }
@@ -867,17 +863,13 @@ static void D_DoomMainSetup(void)
 
     p = M_CheckParmWithArgs("-loadgame", 1);
     if (p)
-    {
         startloadgame = atoi(myargv[p + 1]);
-    }
     else
-    {
         startloadgame = -1;
-    }
 
     if (mouseSensitivity < MOUSESENSITIVITY_MIN || mouseSensitivity > MOUSESENSITIVITY_MAX)
         mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-    gamepadSensitivity = 1.25f + mouseSensitivity / 18.0f;
+    gamepadSensitivity = 1.25f + (float)mouseSensitivity / MOUSESENSITIVITY_MAX;
 
     if (sfxVolume < SFXVOLUME_MIN || sfxVolume > SFXVOLUME_MAX)
         sfxVolume = SFXVOLUME_DEFAULT;
