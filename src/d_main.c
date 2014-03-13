@@ -494,19 +494,6 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
-void D_ToggleHiddenFile(char *filename, boolean hide)
-{
-    DWORD attributes = GetFileAttributes(filename);
-
-    if (attributes == INVALID_FILE_ATTRIBUTES)
-        return;
-
-    if (hide)
-        SetFileAttributes(filename, attributes | FILE_ATTRIBUTE_HIDDEN);
-    else
-        SetFileAttributes(filename, attributes & ~FILE_ATTRIBUTE_HIDDEN);
-}
-
 boolean D_ChooseIWAD(void)
 {
     OPENFILENAME ofn;
@@ -686,11 +673,7 @@ static void D_DoomMainSetup(void)
         D_AddFile(iwadfile);
     else 
     {
-        D_ToggleHiddenFile("DOOMRETRO.WAD", true);
-
         choseniwad = D_ChooseIWAD();
-
-        D_ToggleHiddenFile("DOOMRETRO.WAD", false);
 
         if (!choseniwad)
             exit(-1);
