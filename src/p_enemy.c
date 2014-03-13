@@ -45,7 +45,8 @@ typedef enum
     DI_SOUTHEAST,
     DI_NODIR,
     NUMDIRS
-} dirtype_t;
+} 
+dirtype_t;
 
 //
 // P_NewChaseDir related LUT.
@@ -89,7 +90,7 @@ void A_Fall(mobj_t *actor);
 
 void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
 {
-    int i;
+    int         i;
 
     // wake up all monsters in this sector
     if (sec->validcount == validcount && sec->soundtraversed <= soundblocks + 1)
@@ -101,8 +102,8 @@ void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
 
     for (i = 0; i < sec->linecount; i++)
     {
-        sector_t *other;
-        line_t   *check = sec->lines[i];
+        sector_t        *other;
+        line_t          *check = sec->lines[i];
 
         if (!(check->flags & ML_TWOSIDED))
             continue;
@@ -140,8 +141,8 @@ void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
 //
 boolean P_CheckMeleeRange(mobj_t *actor)
 {
-    mobj_t  *pl = actor->target;
-    fixed_t dist = P_ApproxDistance(pl->x - actor->x, pl->y - actor->y);
+    mobj_t      *pl = actor->target;
+    fixed_t     dist = P_ApproxDistance(pl->x - actor->x, pl->y - actor->y);
 
     if (dist >= MELEERANGE - 20 * FRACUNIT + pl->info->radius)
         return false;
@@ -161,7 +162,7 @@ boolean P_CheckMeleeRange(mobj_t *actor)
 //
 boolean P_CheckMissileRange(mobj_t *actor)
 {
-    fixed_t dist;
+    fixed_t     dist;
 
     if (!P_CheckSight(actor, actor->target))
         return false;
@@ -217,8 +218,8 @@ boolean P_CheckMissileRange(mobj_t *actor)
 // Move in the current direction,
 // returns false if the move is blocked.
 //
-fixed_t xspeed[8] = { FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000 };
-fixed_t yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000 };
+fixed_t         xspeed[8] = { FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 47000 };
+fixed_t         yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000 };
 
 // 1/11/98 killough: Limit removed on special lines crossed
 extern line_t **spechit;
@@ -226,10 +227,10 @@ extern int    numspechit;
 
 boolean P_Move(mobj_t *actor)
 {
-    fixed_t tryx;
-    fixed_t tryy;
+    fixed_t     tryx;
+    fixed_t     tryy;
 
-    int     speed;
+    int         speed;
 
     if (actor->movedir == DI_NODIR)
         return false;
@@ -284,9 +285,7 @@ boolean P_Move(mobj_t *actor)
         return (good && ((P_Random() >= 230) ^ (good & 1)));
     }
     else
-    {
         actor->flags &= ~MF_INFLOAT;
-    }
 
     if (!(actor->flags & MF_FLOAT))
         actor->z = actor->floorz;
@@ -315,15 +314,15 @@ boolean P_TryWalk(mobj_t *actor)
 
 void P_NewChaseDir(mobj_t *actor)
 {
-    fixed_t   deltax = actor->target->x - actor->x;
-    fixed_t   deltay = actor->target->y - actor->y;
+    fixed_t     deltax = actor->target->x - actor->x;
+    fixed_t     deltay = actor->target->y - actor->y;
 
-    dirtype_t d[3];
+    dirtype_t   d[3];
 
-    int       tdir;
-    dirtype_t olddir = (dirtype_t)actor->movedir;
+    int         tdir;
+    dirtype_t   olddir = (dirtype_t)actor->movedir;
 
-    dirtype_t turnaround = opposite[olddir];
+    dirtype_t   turnaround = opposite[olddir];
 
     if (deltax > 10 * FRACUNIT)
         d[1] = DI_EAST;
@@ -429,8 +428,8 @@ void P_NewChaseDir(mobj_t *actor)
 
 boolean P_LookForMonsters(mobj_t *actor)
 {
-    mobj_t    *mo;
-    thinker_t *think;
+    mobj_t      *mo;
+    thinker_t   *think;
 
     if (!P_CheckSight(players[0].mo, actor))
         return false;           // player can't see monster
@@ -465,17 +464,15 @@ boolean P_LookForMonsters(mobj_t *actor)
 //
 boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
 {
-    int      c;
-    int      stop;
-    player_t *player;
-    angle_t  an;
-    fixed_t  dist;
+    int         c;
+    int         stop;
+    player_t    *player;
+    angle_t     an;
+    fixed_t     dist;
 
     if (!netgame && players[0].health <= 0)
-    {
         // player is dead, look for monsters
         return P_LookForMonsters(actor);
-    }
     c = 0;
     stop = (actor->lastlook - 1) % (MAXPLAYERS - 1);
 
@@ -498,14 +495,11 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
         if (!P_CheckSight(actor, player->mo))
             continue;           // out of sight
 
-        dist = P_ApproxDistance(player->mo->x - actor->x, 
-            player->mo->y - actor->y);
+        dist = P_ApproxDistance(player->mo->x - actor->x, player->mo->y - actor->y);
 
         if (!allaround)
         {
-            an = R_PointToAngle2(actor->x, actor->y, 
-                                 player->mo->x, player->mo->y)
-                 - actor->angle;
+            an = R_PointToAngle2(actor->x, actor->y, player->mo->x, player->mo->y) - actor->angle;
 
             if (an > ANG90 && an < ANG270)
             {
@@ -519,8 +513,7 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
         {
             // player is invisible
             if (dist > 2 * MELEERANGE
-                && P_ApproxDistance(player->mo->momx, 
-                                    player->mo->momy) < 5 * FRACUNIT)
+                && P_ApproxDistance(player->mo->momx, player->mo->momy) < 5 * FRACUNIT)
             {
                 // player is sneaking - can't detect
                 return false;
@@ -603,7 +596,7 @@ void A_Look(mobj_t *actor)
 seeyou:
     if (actor->info->seesound)
     {
-        int sound;
+        int     sound;
 
         switch (actor->info->seesound)
         {

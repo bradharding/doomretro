@@ -117,7 +117,6 @@ void(*hudnumfunc)(int, int, int, patch_t *);
 
 void HU_Init(void)
 {
-
     int         i;
     int         j;
     char        buffer[9];
@@ -138,7 +137,6 @@ void HU_Stop(void)
 
 void HU_Start(void)
 {
-
     int         i;
     char        *s = "";
 
@@ -358,7 +356,6 @@ static void DrawHUD(void)
 
 void HU_Drawer(void)
 {
-
     w_message.l->x = (automapactive && fullscreen && !widescreen ? 0 : 3);
     w_message.l->y = HU_MSGY;
     HUlib_drawSText(&w_message);
@@ -375,7 +372,6 @@ void HU_Drawer(void)
 
 void HU_Erase(void)
 {
-
     HUlib_eraseSText(&w_message);
     HUlib_eraseIText(&w_chat);
     HUlib_eraseTextLine(&w_title);

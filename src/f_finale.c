@@ -568,7 +568,6 @@ boolean F_CastResponder(event_t *ev)
     return true;
 }
 
-
 void F_CastPrint(char *text)
 {
     char        *ch;
@@ -781,14 +780,7 @@ static void F_ArtScreenDrawer(void)
         switch (gameepisode)
         {
             case 1:
-                if (gamemode == retail)
-                {
-                    lumpname = "CREDIT";
-                }
-                else
-                {
-                    lumpname = "HELP2";
-                }
+                lumpname = (gamemode == retail ? "CREDIT" : "HELP2");
                 break;
             case 2:
                 lumpname = "VICTORY2";

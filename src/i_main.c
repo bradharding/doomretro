@@ -162,6 +162,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    init_win32("0");
+
     g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
 
     myargc = argc;

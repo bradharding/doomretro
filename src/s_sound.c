@@ -26,29 +26,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "i_system.h"
-
 #include "doomstat.h"
-#include "doomdef.h"
-
-#include "sounds.h"
-#include "s_sound.h"
-
-#include "m_random.h"
 #include "m_argv.h"
-
 #include "p_local.h"
 #include "w_wad.h"
+#include "s_sound.h"
 #include "z_zone.h"
-
-#include "SDL_mixer.h"
 
 // when to clip out sounds
 // Does not fit the large outdoor areas.
-
 #define S_CLIPPING_DIST (1200 << FRACBITS)
 
 // Distance tp origin when sounds should be maxed out.
@@ -56,81 +42,67 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // (see BLOCKMAP handling).
 // In the source code release: (160*FRACUNIT).  Changed back to the
 // Vanilla value of 200 (why was this changed?)
-
-#define S_CLOSE_DIST (200 << FRACBITS)
+#define S_CLOSE_DIST    (200 << FRACBITS)
 
 // The range over which sound attenuates
-
-#define S_ATTENUATOR ((S_CLIPPING_DIST - S_CLOSE_DIST) >> FRACBITS)
+#define S_ATTENUATOR    ((S_CLIPPING_DIST - S_CLOSE_DIST) >> FRACBITS)
 
 // Stereo separation
+#define S_STEREO_SWING  (96 << FRACBITS)
 
-#define S_STEREO_SWING (96 << FRACBITS)
-
-#define NORM_PRIORITY 64
-#define NORM_SEP 128
-
+#define NORM_PRIORITY   64
+#define NORM_SEP        128
 
 typedef struct
 {
     // sound information (if null, channel avail.)
-    sfxinfo_t *sfxinfo;
+    sfxinfo_t           *sfxinfo;
 
     // origin of sound
-    mobj_t *origin;
+    mobj_t              *origin;
 
     // handle of the sound being played
-    int handle;
-} channel_t;
+    int                 handle;
+}
+channel_t;
 
 // Low-level sound and music modules we are using
-
-static sound_module_t *sound_module;
-static music_module_t *music_module;
+static sound_module_t   *sound_module;
+static music_module_t   *music_module;
 
 // The set of channels available
-
-static channel_t *channels;
+static channel_t        *channels;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-15.
-
-int sfxVolume = 15;
+int                     sfxVolume = 15;
 
 // Maximum volume of music.
-
-int musicVolume = 15;
+int                     musicVolume = 15;
 
 // Sound sample rate to use for digital output (Hz)
-
-int snd_samplerate = 44100;
+int                     snd_samplerate = 44100;
 
 // Internal volume level, ranging from 0-127
-
-static int snd_SfxVolume;
+static int              snd_SfxVolume;
 
 // Whether songs are mus_paused
-
-static boolean mus_paused;
+static boolean          mus_paused;
 
 // Music currently being played
-
-static musicinfo_t *mus_playing = NULL;
+static musicinfo_t      *mus_playing = NULL;
 
 // Number of channels to use
-
 int numChannels = 32;
 
 int snd_musicdevice = SNDDEVICE_GENMIDI;
 int snd_sfxdevice = SNDDEVICE_SB;
 
 // Sound modules
-
 extern sound_module_t sound_sdl_module;
 extern music_module_t music_sdl_module;
 
 // Compiled-in sound modules:
-
 static sound_module_t *sound_modules[] =
 {
     &sound_sdl_module,
@@ -138,7 +110,6 @@ static sound_module_t *sound_modules[] =
 };
 
 // Compiled-in music modules:
-
 static music_module_t *music_modules[] =
 {
     &music_sdl_module,
@@ -146,10 +117,9 @@ static music_module_t *music_modules[] =
 };
 
 // Check if a sound device is in the given list of devices
-
 static boolean SndDeviceInList(snddevice_t device, snddevice_t *list, int len)
 {
-    int i;
+    int         i;
 
     for (i = 0; i < len; ++i)
         if (device == list[i])
@@ -160,10 +130,9 @@ static boolean SndDeviceInList(snddevice_t device, snddevice_t *list, int len)
 
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
-
 static void InitSfxModule(void)
 {
-    int i;
+    int         i;
 
     sound_module = NULL;
 
@@ -191,7 +160,7 @@ static void InitSfxModule(void)
 
 static void InitMusicModule(void)
 {
-    int i;
+    int         i;
 
     music_module = NULL;
 
@@ -215,48 +184,26 @@ static void InitMusicModule(void)
     }
 }
 
+boolean nosound, nosfx, nomusic;
+
 //
 // Initializes sound stuff, including volume
 // Sets channels, SFX and music volume,
 //  allocates channel buffer, sets S_sfx lookup.
 //
-
-boolean nosound, nosfx, nomusic;
-
 void S_Init(int sfxVolume, int musicVolume)
 {
-    int i;
-
-    //!
-    // @vanilla
-    //
-    // Disable all sound output.
-    //
-
     nosound = (M_CheckParm("-nosound") > 0);
-
-    //!
-    // @vanilla
-    //
-    // Disable sound effects.
-    //
-
     nosfx = (M_CheckParm("-nosfx") > 0);
-
-    //!
-    // @vanilla
-    //
-    // Disable music.
-    //
-
     nomusic = (M_CheckParm("-nomusic") > 0);
 
     // Initialize the sound and music subsystems.
-
     if (!nosound)
     {
         if (!nosfx)
         {
+            int i;
+
             InitSfxModule();
             S_SetSfxVolume(sfxVolume);
 
@@ -288,60 +235,44 @@ void S_Init(int sfxVolume, int musicVolume)
 void S_Shutdown(void)
 {
     if (sound_module != NULL)
-    {
         sound_module->Shutdown();
-    }
 
     if (music_module != NULL)
-    {
         music_module->Shutdown();
-    }
 }
 
 static void S_StopChannel(int cnum)
 {
-    int i;
-    channel_t *c;
-
-    c = &channels[cnum];
+    channel_t   *c = &channels[cnum];
 
     if (c->sfxinfo)
     {
-        // stop the sound playing
+        int     i;
 
+        // stop the sound playing
         if (sound_module != NULL)
-        {
             if (sound_module->SoundIsPlaying(c->handle))
-            {
                 sound_module->StopSound(c->handle);
-            }
-        }
 
         // check to see if other channels are playing the sound
-
         for (i = 0; i < numChannels; i++)
-        {
             if (cnum != i && c->sfxinfo == channels[i].sfxinfo)
-            {
                 break;
-            }
-        }
 
         c->sfxinfo = NULL;
     }
 }
-
 
 void S_StopSounds(void)
 {
     int cnum;
 
     if (nosfx || nosound)
-      return;
+        return;
 
     for (cnum = 0; cnum < numChannels; cnum++)
-      if (channels[cnum].sfxinfo)
-        S_StopChannel(cnum);
+        if (channels[cnum].sfxinfo)
+            S_StopChannel(cnum);
 }
 
 //
@@ -352,12 +283,12 @@ void S_StopSounds(void)
 
 void S_Start(void)
 {
-    int mnum;
+    int         mnum;
 
     S_StopSounds();
 
     if (nomusic || nosound)
-      return;
+        return;
 
     // start new music for the level
     mus_paused = 0;
@@ -366,30 +297,29 @@ void S_Start(void)
     {
         if (gamemission == pack_nerve)
         {
-          int nmus[] =
-          {
-            mus_messag,
-            mus_ddtblu,
-            mus_doom,
-            mus_shawn,
-            mus_in_cit,
-            mus_the_da,
-            mus_in_cit,
-            mus_shawn,
-            mus_ddtblu
-          };
+            int nmus[] =
+            {
+                mus_messag,
+                mus_ddtblu,
+                mus_doom,
+                mus_shawn,
+                mus_in_cit,
+                mus_the_da,
+                mus_in_cit,
+                mus_shawn,
+                mus_ddtblu
+            };
 
-          mnum = nmus[gamemap - 1];
+            mnum = nmus[gamemap - 1];
         }
         else
-          mnum = mus_runnin + gamemap - 1;
+            mnum = mus_runnin + gamemap - 1;
     }
     else
     {
         int spmus[]=
         {
             // Song - Who? - Where?
-
             mus_e3m4,           // American     e4m1
             mus_e3m2,           // Romero       e4m2
             mus_e3m3,           // Shawn        e4m3
@@ -402,13 +332,9 @@ void S_Start(void)
         };
 
         if (gameepisode < 4)
-        {
             mnum = mus_e1m1 + (gameepisode-1) * 9 + gamemap - 1;
-        }
         else
-        {
             mnum = spmus[gamemap - 1];
-        }
     }
 
     S_ChangeMusic(mnum, true, false);
@@ -416,42 +342,37 @@ void S_Start(void)
 
 void S_StopSound(mobj_t *origin)
 {
-    int cnum;
+    int         cnum;
 
     if (nosound || nosfx)
         return;
 
     for (cnum = 0; cnum < numChannels; cnum++)
-    {
         if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
         {
             S_StopChannel(cnum);
             break;
         }
-    }
 }
 
 //
 // S_GetChannel :
 //   If none available, return -1.  Otherwise channel #.
 //
-
 static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 {
     // channel number to use
-    int cnum;
-    channel_t *c;
+    int         cnum;
+    channel_t   *c;
 
     // Find an open channel
     for (cnum = 0; cnum < numChannels && channels[cnum].sfxinfo; cnum++)
-    {
         if (origin && channels[cnum].origin == origin
             && channels[cnum].sfxinfo->singularity == sfxinfo->singularity)
         {
             S_StopChannel(cnum);
             break;
         }
-    }
 
     // None available
     if (cnum == numChannels)
@@ -459,20 +380,14 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
         // Look for lower priority
         for (cnum = 0; cnum < numChannels; cnum++)
             if (channels[cnum].sfxinfo->priority >= sfxinfo->priority)
-            {
                 break;
-            }
 
         if (cnum == numChannels)
-        {
             // FUCK!  No lower priority.  Sorry, Charlie.
             return -1;
-        }
         else
-        {
             // Otherwise, kick out lower priority.
             S_StopChannel(cnum);
-        }
     }
 
     c = &channels[cnum];
@@ -489,10 +404,10 @@ static int S_GetChannel(mobj_t *origin, sfxinfo_t *sfxinfo)
 // modifies parameters and returns 1.
 static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *sep)
 {
-    fixed_t dist;
-    fixed_t adx;
-    fixed_t ady;
-    angle_t angle;
+    fixed_t     dist;
+    fixed_t     adx;
+    fixed_t     ady;
+    angle_t     angle;
 
     if (!listener)
         return 0;
@@ -502,7 +417,6 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     //
     // killough 11/98: scale coordinates down before calculations start
     // killough 12/98: use exact distance formula instead of approximation
-
     adx = ABS((listener->x >> FRACBITS) - (source->x >> FRACBITS));
     ady = ABS((listener->y >> FRACBITS) - (source->y >> FRACBITS));
 
@@ -537,12 +451,12 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
 
 void S_StartSound(void *origin_p, int sfx_id)
 {
-    sfxinfo_t *sfx;
-    mobj_t *origin;
-    int sep;
-    int priority;
-    int cnum;
-    int volume;
+    sfxinfo_t   *sfx;
+    mobj_t      *origin;
+    int         sep;
+    int         priority;
+    int         cnum;
+    int         volume;
 
     if (nosound || nosfx)
         return;
@@ -596,13 +510,11 @@ void S_StartSound(void *origin_p, int sfx_id)
     if (sound_module != NULL)
     {
         // Get lumpnum if necessary
-
         if (sfx->lumpnum < 0)
             sfx->lumpnum = sound_module->GetSfxLumpNum(sfx);
 
         // Assigns the handle to one of the channels in the
         //  mix/output buffer.
-
         channels[cnum].handle = sound_module->StartSound(sfx_id, cnum, volume, sep);
     }
 }
@@ -610,7 +522,6 @@ void S_StartSound(void *origin_p, int sfx_id)
 //
 // Stop and resume music, during game PAUSE.
 //
-
 void S_PauseSound(void)
 {
     if (nosound || nomusic)
@@ -619,9 +530,7 @@ void S_PauseSound(void)
     if (mus_playing && !mus_paused)
     {
         if (music_module != NULL)
-        {
             music_module->PauseMusic();
-        }
         mus_paused = true;
     }
 }
@@ -634,9 +543,7 @@ void S_ResumeSound(void)
     if (mus_playing && mus_paused)
     {
         if (music_module != NULL)
-        {
             music_module->ResumeMusic();
-        }
         mus_paused = false;
     }
 }
@@ -654,8 +561,8 @@ void S_UpdateSounds(mobj_t *listener)
 
     for (cnum = 0; cnum < numChannels; cnum++)
     {
-        channel_t *c = &channels[cnum];
-        sfxinfo_t *sfx = c->sfxinfo;
+        channel_t       *c = &channels[cnum];
+        sfxinfo_t       *sfx = c->sfxinfo;
 
         if (c->sfxinfo)
         {
@@ -700,9 +607,7 @@ void S_SetMusicVolume(int volume)
         return;
 
     if (music_module != NULL)
-    {
         music_module->SetMusicVolume(volume);
-    }
 }
 
 void S_SetSfxVolume(int volume)
@@ -716,7 +621,6 @@ void S_SetSfxVolume(int volume)
 //
 // Starts some music with the music id found in sounds.h.
 //
-
 void S_StartMusic(int m_id)
 {
     if (nosound || nomusic)
@@ -728,27 +632,22 @@ void S_StartMusic(int m_id)
 void S_ChangeMusic(int musicnum, int looping, int cheating)
 {
     musicinfo_t *music = NULL;
-    char namebuf[9];
-    void *handle;
+    char        namebuf[9];
+    void        *handle;
 
     if (nosound || nomusic)
         return;
 
     // The Doom IWAD file has two versions of the intro music: d_intro
     // and d_introa.  The latter is used for OPL playback.
-
     if (musicnum == mus_intro && (snd_musicdevice == SNDDEVICE_ADLIB
                                   || snd_musicdevice == SNDDEVICE_SB))
-    {
         musicnum = mus_introa;
-    }
 
     music = &S_music[musicnum];
 
     if (mus_playing == music && !cheating)
-    {
         return;
-    }
 
     // shutdown old music
     S_StopMusic();
@@ -763,7 +662,6 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
     if (music_module != NULL)
     {
         // Load & register it
-
         music->data = W_CacheLumpNum(music->lumpnum, PU_STATIC);
         handle = music_module->RegisterSong(music->data,
                                             W_LumpLength(music->lumpnum));
@@ -771,7 +669,6 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
         music->handle = handle;
 
         // Play it
-
         music_module->PlaySong(handle, looping);
     }
 
@@ -781,13 +678,9 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
 boolean S_MusicPlaying(void)
 {
     if (music_module != NULL)
-    {
         return music_module->MusicIsPlaying();
-    }
     else
-    {
         return false;
-    }
 }
 
 void S_StopMusic(void)
@@ -800,9 +693,7 @@ void S_StopMusic(void)
         if (music_module != NULL)
         {
             if (mus_paused)
-            {
                 music_module->ResumeMusic();
-            }
 
             music_module->StopSong();
             music_module->UnRegisterSong(mus_playing->handle);

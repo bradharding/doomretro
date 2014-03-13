@@ -443,8 +443,6 @@ static void AddDoomWadPath(void)
         return;
     }
 
-    doomwadpath = strdup(doomwadpath);
-
     // Add the initial directory
 
     AddIWADDir(doomwadpath);
