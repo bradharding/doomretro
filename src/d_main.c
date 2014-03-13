@@ -30,6 +30,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include <windows.h>
 #include <Commdlg.h>
+
 #include "am_map.h"
 #include "d_iwad.h"
 #include "d_main.h"
@@ -864,6 +865,8 @@ static void D_DoomMainSetup(void)
         screenblocks = SCREENBLOCKS_DEFAULT;
     if (widescreen && !fullscreen)
         screenblocks = 11;
+    if (!widescreen)
+        widescreenhud = true;
     if (fullscreen && screenblocks == 11)
     {
         widescreen = true;
