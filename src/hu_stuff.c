@@ -105,6 +105,7 @@ extern int              showMessages;
 extern boolean          widescreen;
 extern boolean          widescreenhud;
 extern int              translucency;
+extern int              cardsfound;
 
 static boolean          headsupactive = false;
 
@@ -297,10 +298,10 @@ static void DrawHUD(void)
         }
 
         while (i < NUMCARDS)
-            if (plr->cards[i++])
+            if (plr->cards[i++] > 0)
                 keys++;
 
-        if (keys)
+        if (keys || plr->neededcardtics)
         {
             int            keypic_x = HUD_KEYS_X - 20 * (keys - 1);
             static int     keyanimcounter = 12;
@@ -332,12 +333,11 @@ static void DrawHUD(void)
                 keypic_x += patch->width + 6;
             }
             for (i = 0; i < NUMCARDS; i++)
-                if (plr->cards[i])
+                if (plr->cards[i] > 0)
                 {
                     patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE);
 
-                    hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
-                    keypic_x += patch->width + 6;
+                    hudfunc(keypic_x + (patch->width + 6) * (cardsfound - plr->cards[i]), HUD_KEYS_Y, 0, patch);
                 }
         }
 

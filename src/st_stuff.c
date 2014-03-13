@@ -821,13 +821,11 @@ boolean ST_Responder(event_t *ev)
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given
                 for (i = 0; i < NUMCARDS; i++)
-                {
-                    if (cards[i] && !plyr->cards[i])
+                    if (plyr->cards[i] == CARDNOTFOUNDYET)
                     {
-                        plyr->cards[i] = cards[i];
+                        P_GiveCard(plyr, i);
                         keysgiven = true;
                     }
-                }
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(plyr->cheats & CF_GODMODE)
@@ -1443,9 +1441,9 @@ void ST_updateWidgets(void)
     // update keycard multiple widgets
     for (i = 0; i < 3; i++)
     {
-        keyboxes[i] = (plyr->cards[i] ? i : -1);
+        keyboxes[i] = (plyr->cards[i] > 0 ? i : -1);
 
-        if (plyr->cards[i + 3])
+        if (plyr->cards[i + 3] > 0)
             keyboxes[i] = i + 3;
     }
 

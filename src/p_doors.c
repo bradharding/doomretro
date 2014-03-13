@@ -187,9 +187,9 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
     {
         case SR_OpenFastDoorStayOpenBlueKeyRequired:
         case S1_OpenFastDoorStayOpenBlueKeyRequired:
-            if (!player->cards[it_bluecard] && !player->cards[it_blueskull])
+            if (player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0)
             {
-                if (cards[it_bluecard])
+                if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
                 {
                     player->neededcard = it_bluecard;
                     player->message = PD_BLUEO;
@@ -207,9 +207,9 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 
         case SR_OpenFastDoorStayOpenRedKeyRequired:
         case S1_OpenFastDoorStayOpenRedKeyRequired:
-            if (!player->cards[it_redcard] && !player->cards[it_redskull])
+            if (player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0)
             {
-                if (cards[it_redcard])
+                if (player->cards[it_redcard] == CARDNOTFOUNDYET)
                 {
                     player->neededcard = it_redcard;
                     player->message = PD_REDO;
@@ -227,9 +227,9 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 
         case SR_OpenFastDoorStayOpenYellowKeyRequired:
         case S1_OpenFastDoorStayOpenYellowKeyRequired:
-            if (!player->cards[it_yellowcard] && !player->cards[it_yellowskull])
+            if (player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)
             {
-                if (cards[it_yellowcard])
+                if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
                 {
                     player->neededcard = it_yellowcard;
                     player->message = PD_YELLOWO;
@@ -345,9 +345,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             if (!player)
                 return;
 
-            if (!player->cards[it_bluecard] && !player->cards[it_blueskull])
+            if (player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0)
             {
-                if (cards[it_bluecard])
+                if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
                 {
                     player->neededcard = it_bluecard;
                     player->message = PD_BLUEK;
@@ -368,9 +368,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             if (!player)
                 return;
 
-            if (!player->cards[it_yellowcard] && !player->cards[it_yellowskull])
+            if (player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)
             {
-                if (cards[it_yellowcard])
+                if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
                 {
                     player->neededcard = it_yellowcard;
                     player->message = PD_YELLOWK;
@@ -391,9 +391,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             if (!player)
                 return;
 
-            if (!player->cards[it_redcard] && !player->cards[it_redskull])
+            if (player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0)
             {
-                if (cards[it_redcard])
+                if (player->cards[it_redcard] == CARDNOTFOUNDYET)
                 {
                     player->neededcard = it_redcard;
                     player->message = PD_REDK;

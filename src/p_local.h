@@ -113,7 +113,10 @@ extern int              iqueuetail;
 extern mobj_t           *bloodSplatQueue[BLOODSPLATQUEUESIZE];
 extern int              bloodSplatQueueSlot;
 
-extern boolean          cards[NUMCARDS];
+#define CARDNOTFOUNDYET -1
+#define CARDNOTINMAP     0
+
+void P_InitCards(player_t *player);
 
 void P_RespawnSpecials(void);
 

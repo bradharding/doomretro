@@ -746,8 +746,6 @@ void P_SpawnPlayer(mapthing_t *mthing)
     }
 }
 
-boolean cards[NUMCARDS];
-
 //
 // P_SpawnMapThing
 // The fields of the mapthing should
@@ -819,31 +817,6 @@ void P_SpawnMapThing(mapthing_t *mthing)
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;
-
-    // [BH] remember keys present in level
-    switch (mobj->sprite)
-    {
-        case SPR_BKEY:
-            cards[it_bluecard] = true;
-            break;
-        case SPR_RKEY:
-            cards[it_redcard] = true;
-            break;
-        case SPR_YKEY:
-            cards[it_yellowcard] = true;
-            break;
-        case SPR_BSKU:
-            cards[it_blueskull] = true;
-            break;
-        case SPR_RSKU:
-            cards[it_redskull] = true;
-            break;
-        case SPR_YSKU:
-            cards[it_yellowskull] = true;
-            break;
-        default:
-            break;
-    }
 
     if (mobj->tics > 0)
         mobj->tics = 1 + (P_Random() % mobj->tics);

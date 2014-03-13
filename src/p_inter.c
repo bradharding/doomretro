@@ -218,16 +218,61 @@ boolean P_GiveArmor(player_t *player, int armortype)
     return true;
 }
 
+int cardsfound;
+
+//
+// P_InitCards
+//
+void P_InitCards(player_t *player)
+{
+    int i;
+
+    for (i = 0; i < NUMCARDS; i++)
+        player->cards[i] = CARDNOTINMAP;
+
+    cardsfound = 0;
+
+    for (i = 0; i < numsectors; i++)
+    {
+        mobj_t *thing = sectors[i].thinglist;
+
+        while (thing)
+        {
+            switch (thing->sprite)
+            {
+            case SPR_BKEY:
+                player->cards[it_bluecard] = CARDNOTFOUNDYET;
+                break;
+            case SPR_RKEY:
+                player->cards[it_redcard] = CARDNOTFOUNDYET;
+                break;
+            case SPR_YKEY:
+                player->cards[it_yellowcard] = CARDNOTFOUNDYET;
+                break;
+            case SPR_BSKU:
+                player->cards[it_blueskull] = CARDNOTFOUNDYET;
+                break;
+            case SPR_RSKU:
+                player->cards[it_redskull] = CARDNOTFOUNDYET;
+                break;
+            case SPR_YSKU:
+                player->cards[it_yellowskull] = CARDNOTFOUNDYET;
+                break;
+            default:
+                break;
+            }
+            thing = thing->snext;
+        }
+    }
+}
+
 //
 // P_GiveCard
 //
 void P_GiveCard(player_t *player, card_t card)
 {
-    if (player->cards[card])
-        return;
-
     P_AddBonus(player, BONUSADD);
-    player->cards[card] = true;
+    player->cards[card] = ++cardsfound;
     if (card == player->neededcard)
         player->neededcard = player->neededcardtics = 0;
 }
@@ -360,7 +405,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
         // cards
         // leave cards for everyone
         case SPR_BKEY:
-            if (!player->cards[it_bluecard])
+            if (player->cards[it_bluecard] <= 0)
             {
                 if (!message_dontfuckwithme)
                     player->message = GOTBLUECARD;
@@ -371,7 +416,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             return;
 
         case SPR_YKEY:
-            if (!player->cards[it_yellowcard])
+            if (player->cards[it_yellowcard] <= 0)
             {
                 if (!message_dontfuckwithme)
                     player->message = GOTYELWCARD;
@@ -382,7 +427,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             return;
 
         case SPR_RKEY:
-            if (!player->cards[it_redcard])
+            if (player->cards[it_redcard] <= 0)
             {
                 if (!message_dontfuckwithme)
                     player->message = GOTREDCARD;
@@ -393,7 +438,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             return;
 
         case SPR_BSKU:
-            if (!player->cards[it_blueskull])
+            if (player->cards[it_blueskull] <= 0)
             {
                 if (!message_dontfuckwithme)
                     player->message = GOTBLUESKUL;
@@ -404,7 +449,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             return;
 
         case SPR_YSKU:
-            if (!player->cards[it_yellowskull])
+            if (player->cards[it_yellowskull] <= 0)
             {
                 if (!message_dontfuckwithme)
                     player->message = GOTYELWSKUL;
@@ -415,7 +460,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             return;
 
         case SPR_RSKU:
-            if (!player->cards[it_redskull])
+            if (player->cards[it_redskull] <= 0)
             {
                 if (!message_dontfuckwithme)
                     player->message = GOTREDSKULL;

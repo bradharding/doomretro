@@ -1460,7 +1460,6 @@ void G_LoadGame(char *name)
 void G_DoLoadGame(void)
 {
     int savedleveltime;
-    int i;
 
     gameaction = ga_nothing;
 
@@ -1484,14 +1483,13 @@ void G_DoLoadGame(void)
 
     leveltime = savedleveltime;
 
-    for (i = 0; i < NUMCARDS; i++)
-        cards[i] = false;
-
     // dearchive all the modifications
     P_UnArchivePlayers();
     P_UnArchiveWorld();
     P_UnArchiveThinkers();
     P_UnArchiveSpecials();
+
+    P_InitCards(&players[consoleplayer]);
 
     if (!P_ReadSaveGameEOF())
         I_Error("Bad savegame");
@@ -1627,19 +1625,14 @@ void G_DoNewGame(void)
     deathmatch = false;
     playeringame[1] = playeringame[2] = playeringame[3] = 0;
 
-    // [BH]
-    //respawnparm = false;
-    //fastparm = false;
-    //nomonsters = false;
-
     if (fullscreen && widescreen)
         ToggleWideScreen(true);
 
     consoleplayer = 0;
-    st_facecount = ST_STRAIGHTFACECOUNT; // [BH]
+    st_facecount = ST_STRAIGHTFACECOUNT;
     G_InitNew(d_skill, d_episode, d_map);
     gameaction = ga_nothing;
-    markpointnum = 0;   // [BH]
+    markpointnum = 0;
 }
 
 void G_SetFastParms(int fast_pending)
