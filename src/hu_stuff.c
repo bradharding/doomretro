@@ -302,7 +302,7 @@ static void DrawHUD(void)
         if (keys || plr->neededcardtics)
         {
             int            keypic_x = HUD_KEYS_X - 20 * (keys - 1);
-            static int     keyanimcounter = 8;
+            static int     keyanimcounter = 12;
             static boolean showkey = true;
 
             if (!armor)
@@ -314,21 +314,29 @@ static void DrawHUD(void)
 
             if (plr->neededcardtics)
             {
-                patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[plr->neededcard]), PU_CACHE);
-
-                keypic_x -= 20;
-                if (!menuactive && !paused)
+                if (gametic)
                 {
-                    plr->neededcardtics--;
-                    if (!--keyanimcounter)
+                    patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[plr->neededcard]), PU_CACHE);
+
+                    keypic_x -= 20;
+                    if (!menuactive && !paused)
                     {
-                        showkey = !showkey;
-                        keyanimcounter = 8;
+                        plr->neededcardtics--;
+                        if (!--keyanimcounter)
+                        {
+                            showkey = !showkey;
+                            keyanimcounter = 12;
+                        }
                     }
+                    if (showkey)
+                        hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
+                    keypic_x += patch->width + 6;
                 }
-                if (showkey)
-                    hudfunc(keypic_x, HUD_KEYS_Y, 0, patch);
-                keypic_x += patch->width + 6;
+            }
+            else
+            {
+                showkey = true;
+                keyanimcounter = 12;
             }
             for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i] > 0)
