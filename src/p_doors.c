@@ -199,7 +199,8 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     player->neededcard = it_blueskull;
                     player->message = PD_BLUEO2;
                 }
-                player->neededcardtics = NEEDEDCARDTICS;
+                if (!player->neededcardtics)
+                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
@@ -219,7 +220,8 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     player->neededcard = it_redskull;
                     player->message = PD_REDO2;
                 }
-                player->neededcardtics = NEEDEDCARDTICS;
+                if (!player->neededcardtics)
+                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
@@ -239,7 +241,8 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     player->neededcard = it_yellowskull;
                     player->message = PD_YELLOWO2;
                 }
-                player->neededcardtics = NEEDEDCARDTICS;
+                if (!player->neededcardtics)
+                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
@@ -357,7 +360,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     player->neededcard = it_blueskull;
                     player->message = PD_BLUEK2;
                 }
-                player->neededcardtics = NEEDEDCARDTICS;
+                if (!player->neededcardtics)
+                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }
@@ -380,7 +384,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     player->neededcard = it_yellowskull;
                     player->message = PD_YELLOWK2;
                 }
-                player->neededcardtics = NEEDEDCARDTICS;
+                if (!player->neededcardtics)
+                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }
@@ -403,7 +408,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     player->neededcard = it_redskull;
                     player->message = PD_REDK2;
                 }
-                player->neededcardtics = NEEDEDCARDTICS;
+                if (!player->neededcardtics)
+                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }
