@@ -626,13 +626,6 @@ void M_LoadDefaults(void)
     }
 
     LoadDefaultCollection(&doom_defaults);
-
-    // [BH] If there's a default.cfg file in the game folder, then use it instead.
-    if (M_FileExists("./default.cfg"))
-    {
-        sprintf(doom_defaults.filename, "./default.cfg");
-        LoadDefaultCollection(&doom_defaults);
-    }
 }
 
 //
@@ -643,12 +636,5 @@ void M_LoadDefaults(void)
 //
 void M_SetConfigDir(void)
 {
-    char appdata[MAX_PATH];
-
-    HRESULT hr = SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, SHGFP_TYPE_CURRENT, appdata);
-
-    sprintf(appdata, "%s\\DOOM RETRO\\", appdata);
-
-    M_MakeDirectory(appdata);
-    configdir = strdup(appdata);
+    configdir = strdup("");
 }
