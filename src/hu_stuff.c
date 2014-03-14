@@ -302,8 +302,8 @@ static void DrawHUD(void)
         if (keys || plr->neededcardtics)
         {
             int            keypic_x = HUD_KEYS_X - 20 * (keys - 1);
-            static int     keyanimcounter = 12;
-            static boolean showkey = false;
+            static int     keyanimcounter = 8;
+            static boolean showkey = true;
 
             if (!armor)
                 keypic_x += 111;
@@ -323,7 +323,7 @@ static void DrawHUD(void)
                     if (!--keyanimcounter)
                     {
                         showkey = !showkey;
-                        keyanimcounter = 12;
+                        keyanimcounter = 8;
                     }
                 }
                 if (showkey)
