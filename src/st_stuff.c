@@ -476,6 +476,7 @@ void ST_refreshBackground(void)
 extern char cheatkey;
 extern int selectedepisode;
 extern menu_t EpiDef;
+extern int cardsfound;
 
 // Respond to keyboard input events,
 //  intercept cheats.
@@ -820,8 +821,9 @@ boolean ST_Responder(event_t *ev)
 
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given
-                for (i = 0; i < NUMCARDS; i++)
-                    if (plyr->cards[i] == CARDNOTFOUNDYET)
+                cardsfound = 0;
+                for (i = NUMCARDS - 1; i >= 0; i--)
+                    if (plyr->cards[i] != CARDNOTINMAP)
                     {
                         P_GiveCard(plyr, i);
                         keysgiven = true;
