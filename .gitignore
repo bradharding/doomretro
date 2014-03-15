@@ -195,4 +195,4 @@ $RECYCLE.BIN/
 *.bak
 
 SDL/
-msvc/Release/default.cfg
+*.cfg
