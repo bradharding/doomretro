@@ -1147,7 +1147,7 @@ void AM_Ticker(void)
         AM_changeWindowScale();
 
     // Change x,y location
-    if (m_paninc.x || m_paninc.y)
+    if ((m_paninc.x || m_paninc.y) && !menuactive && !paused)
     {
         AM_decelerate();
         AM_changeWindowLoc();
@@ -1396,21 +1396,18 @@ static void AM_drawGrid(void)
     fixed_t extx = (minlen - m_w) >> 1;
     fixed_t exty = (minlen - m_h) >> 1;
 
-    fixed_t minx = m_x;
-    fixed_t miny = m_y;
-
     // Figure out start of vertical gridlines
-    start = minx - extx;
+    start = m_x - extx;
     if ((start - bmaporgx) % MAPBLOCKSIZE)
         start += MAPBLOCKSIZE - ((start - bmaporgx) % MAPBLOCKSIZE);
-    end = minx + minlen - extx;
+    end = m_x + minlen - extx;
 
     // draw vertical gridlines
     for (x = start; x < end; x += MAPBLOCKSIZE)
     {
         ml.a.x = x;
         ml.b.x = x;
-        ml.a.y = miny - exty;
+        ml.a.y = m_y - exty;
         ml.b.y = ml.a.y + minlen;
         if (rotate)
         {
@@ -1421,15 +1418,15 @@ static void AM_drawGrid(void)
     }
 
     // Figure out start of horizontal gridlines
-    start = miny - exty;
+    start = m_y - exty;
     if ((start - bmaporgy) % MAPBLOCKSIZE)
         start += MAPBLOCKSIZE - ((start - bmaporgy) % MAPBLOCKSIZE);
-    end = miny + minlen - exty;
+    end = m_y + minlen - exty;
 
     // draw horizontal gridlines
     for (y = start; y < end; y += MAPBLOCKSIZE)
     {
-        ml.a.x = minx - extx;
+        ml.a.x = m_x - extx;
         ml.b.x = ml.a.x + minlen;
         ml.a.y = y;
         ml.b.y = y;
