@@ -191,16 +191,22 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
                 {
-                    player->neededcard = it_bluecard;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_bluecard;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_BLUEO;
                 }
                 else
                 {
-                    player->neededcard = it_blueskull;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_blueskull;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_BLUEO2;
                 }
-                if (!player->neededcardtics)
-                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
@@ -212,16 +218,22 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_redcard] == CARDNOTFOUNDYET)
                 {
-                    player->neededcard = it_redcard;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_redcard;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_REDO;
                 }
                 else
                 {
-                    player->neededcard = it_redskull;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_redskull;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_REDO2;
                 }
-                if (!player->neededcardtics)
-                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
@@ -233,16 +245,22 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
                 {
-                    player->neededcard = it_yellowcard;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_yellowcard;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_YELLOWO;
                 }
                 else
                 {
-                    player->neededcard = it_yellowskull;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_yellowskull;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_YELLOWO2;
                 }
-                if (!player->neededcardtics)
-                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return 0;
             }
@@ -352,16 +370,22 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
                 {
-                    player->neededcard = it_bluecard;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_bluecard;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_BLUEK;
                 }
                 else
                 {
-                    player->neededcard = it_blueskull;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_blueskull;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_BLUEK2;
                 }
-                if (!player->neededcardtics)
-                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }
@@ -376,16 +400,22 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
                 {
-                    player->neededcard = it_yellowcard;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_yellowcard;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_YELLOWK;
                 }
                 else
                 {
-                    player->neededcard = it_yellowskull;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_yellowskull;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_YELLOWK2;
                 }
-                if (!player->neededcardtics)
-                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }
@@ -400,16 +430,22 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_redcard] == CARDNOTFOUNDYET)
                 {
-                    player->neededcard = it_redcard;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_redcard;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_REDK;
                 }
                 else
                 {
-                    player->neededcard = it_redskull;
+                    if (!player->neededcardtics)
+                    {
+                        player->neededcard = it_redskull;
+                        player->neededcardtics = NEEDEDCARDTICS;
+                    }
                     player->message = PD_REDK2;
                 }
-                if (!player->neededcardtics)
-                    player->neededcardtics = NEEDEDCARDTICS;
                 S_StartSound(player->mo, sfx_noway);
                 return;
             }
