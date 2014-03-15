@@ -271,7 +271,6 @@ void P_InitCards(player_t *player)
 //
 void P_GiveCard(player_t *player, card_t card)
 {
-    P_AddBonus(player, BONUSADD);
     player->cards[card] = ++cardsfound;
     if (card == player->neededcard)
         player->neededcard = player->neededcardtics = 0;
@@ -410,6 +409,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = GOTBLUECARD;
                 P_GiveCard(player, it_bluecard);
+                P_AddBonus(player, BONUSADD);
                 if (!netgame)
                     break;
             }
@@ -421,6 +421,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = GOTYELWCARD;
                 P_GiveCard(player, it_yellowcard);
+                P_AddBonus(player, BONUSADD);
                 if (!netgame)
                     break;
             }
@@ -432,6 +433,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = GOTREDCARD;
                 P_GiveCard(player, it_redcard);
+                P_AddBonus(player, BONUSADD);
                 if (!netgame)
                     break;
             }
@@ -443,6 +445,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = GOTBLUESKUL;
                 P_GiveCard(player, it_blueskull);
+                P_AddBonus(player, BONUSADD);
                 if (!netgame)
                     break;
             }
@@ -454,6 +457,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = GOTYELWSKUL;
                 P_GiveCard(player, it_yellowskull);
+                P_AddBonus(player, BONUSADD);
                 if (!netgame)
                     break;
             }
@@ -465,6 +469,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = GOTREDSKULL;
                 P_GiveCard(player, it_redskull);
+                P_AddBonus(player, BONUSADD);
                 if (!netgame)
                     break;
             }
