@@ -44,44 +44,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define HU_TITLEX       0
 #define HU_TITLEY       ((SCREENHEIGHT - SBARHEIGHT) / 2 - SHORT(hu_font[0]->height) - 2)
 
-#define HU_INPUTTOGGLE  't'
-#define HU_INPUTX       HU_MSGX
-#define HU_INPUTY       (165 - HU_MSGHEIGHT * SHORT(hu_font[0]->height))
-#define HU_INPUTWIDTH   64
-#define HU_INPUTHEIGHT  1
-
-char *chat_macros[] =
-{
-    HUSTR_CHATMACRO0,
-    HUSTR_CHATMACRO1,
-    HUSTR_CHATMACRO2,
-    HUSTR_CHATMACRO3,
-    HUSTR_CHATMACRO4,
-    HUSTR_CHATMACRO5,
-    HUSTR_CHATMACRO6,
-    HUSTR_CHATMACRO7,
-    HUSTR_CHATMACRO8,
-    HUSTR_CHATMACRO9
-};
-
-char *player_names[] =
-{
-    HUSTR_PLRGREEN,
-    HUSTR_PLRINDIGO,
-    HUSTR_PLRBROWN,
-    HUSTR_PLRRED
-};
-
-int key_multi_msg = HU_INPUTTOGGLE;
-
-int key_multi_msgplayer[MAXPLAYERS] =
-{
-    HUSTR_KEYGREEN,
-    HUSTR_KEYINDIGO,
-    HUSTR_KEYBROWN,
-    HUSTR_KEYRED
-};
-
 char                    chat_char;
 static player_t         *plr;
 patch_t                 *hu_font[HU_FONTSIZE];
@@ -161,9 +123,6 @@ void HU_Start(void)
     while (*s)
         HUlib_addCharToTextLine(&w_title, *(s++));
 
-    // create the chat widget
-    HUlib_initIText(&w_chat, HU_INPUTX, HU_INPUTY, hu_font, HU_FONTSTART, &chat_on);
-
     // create the inputbuffer widgets
     for (i = 0; i < MAXPLAYERS; i++)
         HUlib_initIText(&w_inputbuffer[i], 0, 0, 0, 0, &always_off);
@@ -232,7 +191,7 @@ char *keypic[NUMCARDS] =
     "BKEYB0", "YKEYB0", "RKEYB0", "BSKUB0", "YSKUB0", "RSKUB0"
 };
 
-static void DrawHUD(void)
+static void HU_DrawHUD(void)
 {
     int         health = plr->mo->health;
 
@@ -343,7 +302,8 @@ static void DrawHUD(void)
                 {
                     patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE);
 
-                    hudfunc(keypic_x + (patch->width + 6) * (cardsfound - plr->cards[i]), HUD_KEYS_Y, 0, patch);
+                    hudfunc(keypic_x + (patch->width + 6) * (cardsfound - plr->cards[i]),
+                            HUD_KEYS_Y, 0, patch);
                 }
         }
 
@@ -367,21 +327,18 @@ void HU_Drawer(void)
     w_message.l->x = (automapactive && fullscreen && !widescreen ? 0 : 3);
     w_message.l->y = HU_MSGY;
     HUlib_drawSText(&w_message);
-    HUlib_drawIText(&w_chat);
     if (automapactive)
     {
         w_title.x = (fullscreen && !widescreen ? 0 : 3);
         HUlib_drawTextLine(&w_title);
     }
-
-    if (widescreen && widescreenhud && !automapactive)
-        DrawHUD();
+    else if (widescreen && widescreenhud)
+        HU_DrawHUD();
 }
 
 void HU_Erase(void)
 {
     HUlib_eraseSText(&w_message);
-    HUlib_eraseIText(&w_chat);
     HUlib_eraseTextLine(&w_title);
 }
 
@@ -392,8 +349,7 @@ extern int direction;
 void HU_Ticker(void)
 {
     static int  lasttic = -1;
-    int         i, rc, tic, fps;
-    char        c;
+    int         tic, fps;
     static char fps_str[8] = "";
 
     // tick down message counter if message is up
@@ -478,40 +434,6 @@ void HU_Ticker(void)
             message_dontfuckwithme = 0;
         }
     }
-
-    // check for incoming chat characters
-    if (netgame)
-    {
-        for (i = 0; i < MAXPLAYERS; i++)
-        {
-            if (!playeringame[i])
-                continue;
-            if (i != consoleplayer && (c = players[i].cmd.chatchar))
-            {
-                if (c <= HU_BROADCAST)
-                    chat_dest[i] = c;
-                else
-                {
-                    rc = HUlib_keyInIText(&w_inputbuffer[i], c);
-                    if (rc && c == KEY_ENTER)
-                    {
-                        if (w_inputbuffer[i].l.len
-                            && (chat_dest[i] == consoleplayer + 1 || chat_dest[i] == HU_BROADCAST))
-                        {
-                            HUlib_addMessageToSText(&w_message, player_names[i], w_inputbuffer[i].l.l);
-
-                            message_nottobefuckedwith = true;
-                            message_on = true;
-                            message_counter = HU_MSGTIMEOUT;
-                            S_StartSound(NULL, gamemode == commercial ? sfx_radio : sfx_tink);
-                        }
-                        HUlib_resetIText(&w_inputbuffer[i]);
-                    }
-                }
-                players[i].cmd.chatchar = 0;
-            }
-        }
-    }
 }
 
 #define QUEUESIZE               128
@@ -544,122 +466,6 @@ char HU_dequeueChatChar(void)
         c = 0;
 
     return c;
-}
-
-boolean HU_Responder(event_t *ev)
-{
-
-    static char         lastmessage[HU_MAXLINELENGTH + 1];
-    char                *macromessage;
-    boolean             eatkey = false;
-    static boolean      altdown = false;
-    unsigned char       c;
-    int                 i;
-    int                 numplayers;
-
-    static int          num_nobrainers = 0;
-
-    numplayers = 0;
-    for (i = 0; i < MAXPLAYERS; i++)
-        numplayers += playeringame[i];
-
-    if (ev->data1 == KEY_RSHIFT)
-        return false;
-    else if (ev->data1 == KEY_RALT || ev->data1 == KEY_LALT)
-    {
-        altdown = ev->type == ev_keydown;
-        return false;
-    }
-
-    if (ev->type != ev_keydown)
-        return false;
-
-    if (!chat_on)
-    {
-        if (netgame && ev->data2 == key_multi_msg)
-        {
-            eatkey = chat_on = true;
-            HUlib_resetIText(&w_chat);
-            HU_queueChatChar(HU_BROADCAST);
-        }
-        else if (netgame && numplayers > 2)
-        {
-            for (i = 0; i < MAXPLAYERS; i++)
-            {
-                if (ev->data2 == key_multi_msgplayer[i])
-                {
-                    if (playeringame[i] && i != consoleplayer)
-                    {
-                        eatkey = chat_on = true;
-                        HUlib_resetIText(&w_chat);
-                        HU_queueChatChar(i + 1);
-                        break;
-                    }
-                    else if (i == consoleplayer)
-                    {
-                        num_nobrainers++;
-                        if (num_nobrainers < 3)
-                            plr->message = HUSTR_TALKTOSELF1;
-                        else if (num_nobrainers < 6)
-                            plr->message = HUSTR_TALKTOSELF2;
-                        else if (num_nobrainers < 9)
-                            plr->message = HUSTR_TALKTOSELF3;
-                        else if (num_nobrainers < 32)
-                            plr->message = HUSTR_TALKTOSELF4;
-                        else
-                            plr->message = HUSTR_TALKTOSELF5;
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        c = ev->data2;
-        // send a macro
-        if (altdown)
-        {
-            c = c - '0';
-            if (c > 9)
-                return false;
-            macromessage = chat_macros[c];
-
-            // kill last message with a '\n'
-            HU_queueChatChar(KEY_ENTER);
-
-            // send the macro message
-            while (*macromessage)
-                HU_queueChatChar(*macromessage++);
-            HU_queueChatChar(KEY_ENTER);
-
-            // leave chat mode and notify that it was sent
-            chat_on = false;
-            strcpy(lastmessage, chat_macros[c]);
-            plr->message = lastmessage;
-            eatkey = true;
-        }
-        else
-        {
-            c = ev->data2;
-
-            eatkey = HUlib_keyInIText(&w_chat, c);
-            if (eatkey)
-                HU_queueChatChar(c);
-            if (c == KEY_ENTER)
-            {
-                chat_on = false;
-                if (w_chat.l.len)
-                {
-                    strcpy(lastmessage, w_chat.l.l);
-                    plr->message = lastmessage;
-                }
-            }
-            else if (c == KEY_ESCAPE)
-                chat_on = false;
-        }
-    }
-
-    return eatkey;
 }
 
 void HU_clearMessages(void)

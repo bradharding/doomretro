@@ -637,8 +637,6 @@ boolean G_Responder(event_t *ev)
 
     if (gamestate == GS_LEVEL)
     {
-        if (HU_Responder(ev))
-            return true;        // chat ate the event
         if (ST_Responder(ev))
             return true;        // status window ate it
         if (AM_Responder(ev))
