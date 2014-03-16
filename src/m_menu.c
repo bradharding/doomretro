@@ -2345,7 +2345,6 @@ boolean M_Responder(event_t *ev)
         if (key == KEY_DOWNARROW && keywait < I_GetTime())
         {
             // Move down to next item
-
             do
             {
                 if (itemOn + 1 > currentMenu->numitems - 1)
@@ -2398,7 +2397,6 @@ boolean M_Responder(event_t *ev)
             do
             {
                 // Move back up to previous item
-
                 if (!itemOn)
                     itemOn = currentMenu->numitems - 1;
                 else
@@ -2449,15 +2447,14 @@ boolean M_Responder(event_t *ev)
                  || (key == KEY_MINUS && !(currentMenu == &OptionsDef && itemOn == 1)))
         {
             // Slide slider left
-
             if (currentMenu->menuitems[itemOn].routine
                 && currentMenu->menuitems[itemOn].status == 2)
                 currentMenu->menuitems[itemOn].routine(0);
-            else if (currentMenu == &OptionsDef && (itemOn == 1 || itemOn == 2) && !keydown)
+            else if (currentMenu == &OptionsDef && itemOn == 1 && !keydown)
             {
                 keydown = key;
                 currentMenu->menuitems[itemOn].routine(itemOn);
-                S_StartSound(NULL, sfx_stnmov);
+                S_StartSound(NULL, sfx_pistol);
             }
             return false;
         }
@@ -2466,15 +2463,14 @@ boolean M_Responder(event_t *ev)
                  || (key == KEY_EQUALS && !(currentMenu == &OptionsDef && itemOn == 1)))
         {
             // Slide slider right
-
             if (currentMenu->menuitems[itemOn].routine
                 && currentMenu->menuitems[itemOn].status == 2)
                 currentMenu->menuitems[itemOn].routine(1);
-            else if (currentMenu == &OptionsDef && (itemOn == 1 || itemOn == 2) && !keydown)
+            else if (currentMenu == &OptionsDef && itemOn == 1 && !keydown)
             {
                 keydown = key;
                 currentMenu->menuitems[itemOn].routine(itemOn);
-                S_StartSound(NULL, sfx_stnmov);
+                S_StartSound(NULL, sfx_pistol);
             }
             return false;
         }
@@ -2482,7 +2478,6 @@ boolean M_Responder(event_t *ev)
         else if (key == KEY_ENTER && !keydown)
         {
             // Activate menu item
-
             keydown = key;
             if (currentMenu == &ReadDef)
             {
@@ -2517,7 +2512,6 @@ boolean M_Responder(event_t *ev)
         else if (key == KEY_ESCAPE && !keydown)
         {
             // Deactivate menu or go back to previous menu
-
             keydown = key;
             if (gamemode != shareware || currentMenu != &EpiDef)
                 currentMenu->lastOn = itemOn;
@@ -2546,7 +2540,6 @@ boolean M_Responder(event_t *ev)
         }
 
         // Keyboard shortcut?
-
         else if (ch != 0)
         {
 
