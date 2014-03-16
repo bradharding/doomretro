@@ -627,11 +627,7 @@ void I_FinishUpdate(void)
     }
 
     // draw to screen
-    if (SDL_LockSurface(screenbuffer) >= 0)
-    {
-        blit();
-        SDL_UnlockSurface(screenbuffer);
-    }
+    blit();
 
     SDL_FillRect(screen, NULL, 0);
 
