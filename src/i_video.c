@@ -27,6 +27,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <math.h>
+
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -212,77 +213,31 @@ static void SetShowCursor(boolean show)
     SDL_WM_GrabInput((SDL_GrabMode)!show);
 }
 
-//
-// Translates the SDL key
-//
-
-static int TranslateKey(SDL_keysym *sym)
+int translatekey[] =
 {
-    switch (sym->sym)
-    {
-        case SDLK_LEFT:        return KEY_LEFTARROW;
-        case SDLK_RIGHT:       return KEY_RIGHTARROW;
-        case SDLK_DOWN:        return KEY_DOWNARROW;
-        case SDLK_UP:          return KEY_UPARROW;
-        case SDLK_ESCAPE:      return KEY_ESCAPE;
-        case SDLK_RETURN:      return KEY_ENTER;
-        case SDLK_TAB:         return KEY_TAB;
-        case SDLK_F1:          return KEY_F1;
-        case SDLK_F2:          return KEY_F2;
-        case SDLK_F3:          return KEY_F3;
-        case SDLK_F4:          return KEY_F4;
-        case SDLK_F5:          return KEY_F5;
-        case SDLK_F6:          return KEY_F6;
-        case SDLK_F7:          return KEY_F7;
-        case SDLK_F8:          return KEY_F8;
-        case SDLK_F9:          return KEY_F9;
-        case SDLK_F10:         return KEY_F10;
-        case SDLK_F11:         return KEY_F11;
-        case SDLK_F12:         return KEY_F12;
-        case SDLK_BACKSPACE:   return KEY_BACKSPACE;
-        case SDLK_DELETE:      return KEY_DEL;
-        case SDLK_PAUSE:       return KEY_PAUSE;
-        case SDLK_EQUALS:      return KEY_EQUALS;
-        case SDLK_MINUS:       return KEY_MINUS;
-        case SDLK_LSHIFT:
-        case SDLK_RSHIFT:      return KEY_RSHIFT;
-        case SDLK_LCTRL:
-        case SDLK_RCTRL:       return KEY_RCTRL;
-        case SDLK_LALT:
-        case SDLK_RALT:
-        case SDLK_LMETA:
-        case SDLK_RMETA:       return KEY_RALT;
-        case SDLK_LSUPER:
-        case SDLK_RSUPER:      return 0;
-        case SDLK_CAPSLOCK:    return KEY_CAPSLOCK;
-        case SDLK_SCROLLOCK:   return KEY_SCRLCK;
-        case SDLK_KP0:         return KEYP_0;
-        case SDLK_KP1:         return KEYP_1;
-        case SDLK_KP2:         return KEYP_2;
-        case SDLK_KP3:         return KEYP_3;
-        case SDLK_KP4:         return KEYP_4;
-        case SDLK_KP5:         return KEYP_5;
-        case SDLK_KP6:         return KEYP_6;
-        case SDLK_KP7:         return KEYP_7;
-        case SDLK_KP8:         return KEYP_8;
-        case SDLK_KP9:         return KEYP_9;
-        case SDLK_KP_PERIOD:   return KEYP_PERIOD;
-        case SDLK_KP_MULTIPLY: return KEYP_MULTIPLY;
-        case SDLK_KP_PLUS:     return KEYP_PLUS;
-        case SDLK_KP_MINUS:    return KEYP_MINUS;
-        case SDLK_KP_DIVIDE:   return KEYP_DIVIDE;
-        case SDLK_KP_EQUALS:   return KEYP_EQUALS;
-        case SDLK_KP_ENTER:    return KEYP_ENTER;
-        case SDLK_HOME:        return KEY_HOME;
-        case SDLK_INSERT:      return KEY_INS;
-        case SDLK_END:         return KEY_END;
-        case SDLK_PAGEUP:      return KEY_PGUP;
-        case SDLK_PAGEDOWN:    return KEY_PGDN;
-        case SDLK_PRINT:       return KEY_PRINT;
-        case SDLK_NUMLOCK:     return KEY_NUMLOCK;
-        default:               return tolower(sym->sym);
-    }
-}
+    0, 0, 0, 0, 0, 0, 0, 0, KEY_BACKSPACE, KEY_TAB, 0, 0, 0, KEY_ENTER, 0, 0,
+    0, 0, 0, KEY_PAUSE, 0, 0, 0, 0, 0, 0, 0, KEY_ESCAPE, 0, 0, 0, 0, ' ', '!',
+    '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', '-', KEY_MINUS, '.',
+    ',', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<',
+    KEY_EQUALS, '>', '?', '@', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+    'y', 'z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+    'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+    'w', 'x', 'y', 'z', 0, 0, 0, 0, KEY_DEL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEYP_0, KEYP_1, KEYP_2,
+    KEYP_3, KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9, KEYP_PERIOD,
+    KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS, KEYP_PLUS, KEYP_ENTER, KEYP_EQUALS,
+    KEY_UPARROW, KEY_DOWNARROW, KEY_RIGHTARROW, KEY_LEFTARROW, KEY_INS,
+    KEY_HOME, KEY_END, KEY_PGUP, KEY_PGDN, KEY_F1, KEY_F2, KEY_F3, KEY_F4,
+    KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, 0, 0, 0,
+    0, 0, 0, KEY_NUMLOCK, KEY_CAPSLOCK, KEY_SCRLCK, KEY_RSHIFT, KEY_RSHIFT,
+    KEY_RCTRL, KEY_RCTRL, KEY_RALT, KEY_RALT, KEY_RALT, KEY_RALT, 0, 0, 0, 0,
+    0, KEY_PRINT, 0, 0, 0, 0, 0, 0
+};
 
 int TranslateKey2(int key)
 {
@@ -402,6 +357,7 @@ void I_GetEvent(void)
 {
     SDL_Event   sdlevent;
     event_t     ev;
+    SDLKey      key;
 
     while (SDL_PollEvent(&sdlevent))
     {
@@ -409,8 +365,9 @@ void I_GetEvent(void)
         {
             case SDL_KEYDOWN:
                 ev.type = ev_keydown;
-                ev.data1 = TranslateKey(&sdlevent.key.keysym);
-                ev.data2 = sdlevent.key.keysym.sym;
+                key = sdlevent.key.keysym.sym;
+                ev.data1 = translatekey[key];
+                ev.data2 = key;
 
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
 
@@ -432,7 +389,7 @@ void I_GetEvent(void)
 
             case SDL_KEYUP:
                 ev.type = ev_keyup;
-                ev.data1 = TranslateKey(&sdlevent.key.keysym);
+                ev.data1 = translatekey[sdlevent.key.keysym.sym];
                 ev.data2 = 0;
 
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
