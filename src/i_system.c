@@ -58,6 +58,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 extern HANDLE hInstanceMutex;
 
+void I_AccessibilityShortcutKeys(boolean);
+
 // Zone memory auto-allocation function that allocates the zone size
 // by trying progressively smaller zone sizes until one is found that
 // works.
@@ -162,6 +164,8 @@ void I_Quit(void)
     ReleaseMutex(hInstanceMutex);
     CloseHandle(hInstanceMutex);
 
+    I_AccessibilityShortcutKeys(true);
+
     exit(0);
 }
 
@@ -222,6 +226,8 @@ void I_Error(char *error, ...)
 
     ReleaseMutex(hInstanceMutex);
     CloseHandle(hInstanceMutex);
+
+    I_AccessibilityShortcutKeys(true);
 
     exit(-1);
 }
