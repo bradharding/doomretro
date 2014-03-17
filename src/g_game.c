@@ -338,8 +338,6 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         side -= (int)(sidemove[speed] * gamepadthumbLXleft);
 
     // buttons
-    cmd->chatchar = HU_dequeueChatChar();
-
     if (gamekeydown[key_fire] || mousebuttons[mousebfire] || (gamepadbuttons & gamepadfire))
         cmd->buttons |= BT_ATTACK;
 
@@ -862,11 +860,11 @@ void G_Ticker(void)
 
                 if (!(gametic & 31) && ((gametic >> 5) % MAXPLAYERS) == i && turbodetected[i])
                 {
-                    static char turbomessage[80];
-                    extern char *player_names[4];
+                    //static char turbomessage[80];
+                    //extern char *player_names[4];
 
-                    sprintf(turbomessage, "%s is turbo!", player_names[i]);
-                    players[consoleplayer].message = turbomessage;
+                    //sprintf(turbomessage, "%s is turbo!", player_names[i]);
+                    //players[consoleplayer].message = turbomessage;
                     turbodetected[i] = false;
                 }
             }
@@ -2096,7 +2094,7 @@ boolean G_CheckDemoStatus(void)
         consoleplayer = 0;
 
         if (singledemo)
-            I_Quit();
+            I_Quit(true);
         else
             D_AdvanceDemo();
 

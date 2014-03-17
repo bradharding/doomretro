@@ -144,22 +144,25 @@ void I_Init(void)
 //
 // I_Quit
 //
-void I_Quit(void)
+void I_Quit(boolean shutdown)
 {
-    if (demorecording)
-        G_CheckDemoStatus();
-    S_Shutdown();
+    if (shutdown)
+    {
+        if (demorecording)
+            G_CheckDemoStatus();
+        S_Shutdown();
 
-    I_SaveWindowPosition();
+        I_SaveWindowPosition();
 
-    if (returntowidescreen)
-        widescreen = true;
+        if (returntowidescreen)
+            widescreen = true;
 
-    M_SaveDefaults();
+        M_SaveDefaults();
 
-    I_ShutdownGraphics();
+        I_ShutdownGraphics();
 
-    I_ShutdownGamepad();
+        I_ShutdownGamepad();
+    }
 
     ReleaseMutex(hInstanceMutex);
     CloseHandle(hInstanceMutex);

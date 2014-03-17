@@ -677,7 +677,7 @@ static void D_DoomMainSetup(void)
         choseniwad = D_ChooseIWAD();
 
         if (!choseniwad)
-            exit(-1);
+            I_Quit(false);
 
         M_SaveDefaults();
     }

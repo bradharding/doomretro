@@ -1547,7 +1547,7 @@ void M_QuitResponse(int key)
             S_StartSound(NULL, quitsounds[M_Random() % 8]);
         I_WaitVBL(3 * TICRATE);
     }
-    I_Quit();
+    I_Quit(true);
 }
 
 static char *M_SelectEndMessage(void)
