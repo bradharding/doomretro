@@ -261,8 +261,8 @@ struct
 // Clip and draw a column
 //  from a patch into a cached post.
 //
-void R_DrawColumnInCache(const column_t *patch, byte *cache, 
-                         int originy, int cacheheight, byte *marks)
+void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy,
+                         int cacheheight, byte *marks, boolean oldmethod)
 {
     while (patch->topdelta != 0xff)
     {
@@ -273,7 +273,8 @@ void R_DrawColumnInCache(const column_t *patch, byte *cache,
         if (position < 0)
         {
             count += position;
-            source -= position;
+            if (!oldmethod)
+                source -= position;
             position = 0;
         }
 
@@ -310,6 +311,7 @@ static void R_GenerateComposite(int texnum)
     int          i = texture->patchcount;
     // killough 4/9/98: marks to identify transparent regions in merged textures
     byte         *marks = (byte *)calloc(texture->width, texture->height), *source;
+    boolean      tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
 
     for (; --i >= 0; patch++)
     {
@@ -326,7 +328,8 @@ static void R_GenerateComposite(int texnum)
                 // killough 1/25/98, 4/9/98: Fix medusa bug.
                 R_DrawColumnInCache((column_t *)((byte *)realpatch + LONG(cofs[x])),
                                     block + colofs[x], patch->originy,
-                                    texture->height, marks + x * texture->height);
+                                    texture->height, marks + x * texture->height,
+                                    tekwall1);
     }
 
     // killough 4/9/98: Next, convert multipatched columns into true columns,
@@ -740,18 +743,15 @@ static void R_InitTextures(void)
     GenerateTextureHashTable();
 
     // [BH] Initialize partially fullbright textures.
+    memset(texturefullbright, 0, sizeof(byte *) * numtextures);
+    i = 0;
+    while (fullbright[i].colormask)
     {
-        int j = 0;
+        int num = R_CheckTextureNumForName(fullbright[i].texture);
 
-        memset(texturefullbright, 0, sizeof(byte *) * numtextures);
-        while (fullbright[j].colormask)
-        {
-            int num = R_CheckTextureNumForName(fullbright[j].texture);
-
-            if (num != -1)
-              texturefullbright[num] = fullbright[j].colormask;
-            j++;
-        }
+        if (num != -1)
+            texturefullbright[num] = fullbright[i].colormask;
+        i++;
     }
 }
 
