@@ -938,11 +938,6 @@ thingfix_t thingfix[] =
 
     { doom2,            1,  32,    67, PlayerDeathmatchStart,     1216,    4640,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
-    { pack_nerve,       1,   9,   370, ArmorBonus,               -1408,    3920,   -1408,    3912, DEFAULT,  DEFAULT                          },
-    { pack_nerve,       1,   9,   371, ArmorBonus,               -1536,    3920,   -1536,    3912, DEFAULT,  DEFAULT                          },
-    { pack_nerve,       1,   9,   372, ArmorBonus,               -1440,    3920,   -1440,    3912, DEFAULT,  DEFAULT                          },
-    { pack_nerve,       1,   9,   373, ArmorBonus,               -1504,    3920,   -1504,    3912, DEFAULT,  DEFAULT                          },
-    { pack_nerve,       1,   9,   374, ArmorBonus,               -1472,    3920,   -1472,    3912, DEFAULT,  DEFAULT                          },
     { pack_nerve,       1,   9,   595, DeadPlayer,               -1280,    3904,   -1280,    3880, DEFAULT,  DEFAULT                          },
 
     { pack_plut,        1,   9,   304, ShortGreenFirestick,      -5216,   -1568,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
