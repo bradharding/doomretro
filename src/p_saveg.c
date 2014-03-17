@@ -575,9 +575,6 @@ static void saveg_read_ticcmd_t(ticcmd_t *str)
     // short consistancy;
     str->consistancy = (byte)saveg_read16();
 
-    // byte chatchar;
-    str->chatchar = saveg_read8();
-
     // byte buttons;
     str->buttons = saveg_read8();
 }
@@ -595,9 +592,6 @@ static void saveg_write_ticcmd_t(ticcmd_t *str)
 
     // short consistancy;
     saveg_write16(str->consistancy);
-
-    // byte chatchar;
-    saveg_write8(str->chatchar);
 
     // byte buttons;
     saveg_write8(str->buttons);
@@ -704,11 +698,17 @@ static void saveg_read_player_t(player_t *str)
         str->powers[i] = saveg_read32();
     }
 
-    // boolean cards[NUMCARDS];
+    // int cards[NUMCARDS];
     for (i = 0; i < NUMCARDS; ++i)
     {
         str->cards[i] = saveg_read32();
     }
+
+    // int neededcard;
+    str->neededcard = saveg_read32();
+
+    // int neededcardtics;
+    str->neededcardtics = saveg_read32();
 
     // boolean backpack;
     str->backpack = saveg_read32();
@@ -855,11 +855,17 @@ static void saveg_write_player_t(player_t *str)
         saveg_write32(str->powers[i]);
     }
 
-    // boolean cards[NUMCARDS];
+    // int cards[NUMCARDS];
     for (i = 0; i < NUMCARDS; ++i)
     {
         saveg_write32(str->cards[i]);
     }
+
+    // int neededcard;
+    saveg_write32(str->neededcard);
+
+    // int neededcardtics;
+    saveg_write32(str->neededcardtics);
 
     // boolean backpack;
     saveg_write32(str->backpack);
@@ -1786,9 +1792,10 @@ void P_UnArchiveThinkers(void)
                 }
                 mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
                 P_AddThinker(&mobj->thinker);
+                break;
 
             default:
-                I_Error("Unknown tclass %i in savegame", tclass);
+                I_Error("P_UnArchiveThinkers: Unknown tclass %i in savegame", tclass);
         }
     }
 }
