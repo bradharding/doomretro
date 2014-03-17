@@ -38,6 +38,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 fixed_t    tmbbox[4];
 mobj_t     *tmthing;
 int        tmflags;
+int        tmradius;
 fixed_t    tmx;
 fixed_t    tmy;
 fixed_t    tmz;
@@ -400,13 +401,15 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     tmthing = thing;
     tmflags = thing->flags;
 
+    tmradius = (tmflags & MF_SPECIAL ? MAX(tmthing->radius, 20 * FRACUNIT) : tmthing->radius);
+
     tmx = x;
     tmy = y;
 
-    tmbbox[BOXTOP] = y + tmthing->radius;
-    tmbbox[BOXBOTTOM] = y - tmthing->radius;
-    tmbbox[BOXRIGHT] = x + tmthing->radius;
-    tmbbox[BOXLEFT] = x - tmthing->radius;
+    tmbbox[BOXTOP] = y + tmradius;
+    tmbbox[BOXBOTTOM] = y - tmradius;
+    tmbbox[BOXRIGHT] = x + tmradius;
+    tmbbox[BOXLEFT] = x - tmradius;
 
     newsubsec = R_PointInSubsector(x, y);
     ceilingline = blockline = NULL;
@@ -438,6 +441,12 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
         for (by = yl; by <= yh; by++)
             if (!P_BlockThingsIterator(bx, by, PIT_CheckThing))
                 return false;
+
+    tmradius = tmthing->radius;
+    tmbbox[BOXTOP] = y + tmradius;
+    tmbbox[BOXBOTTOM] = y - tmradius;
+    tmbbox[BOXRIGHT] = x + tmradius;
+    tmbbox[BOXLEFT] = x - tmradius;
 
     // check lines
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
