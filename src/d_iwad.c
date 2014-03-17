@@ -639,9 +639,6 @@ static char *SaveGameIWADName(void)
 
     // Find what subdirectory to use for savegames
     //
-    // They should be stored in something like
-    //    ~/AppData/Local/DOOM RETRO/savegames/doom.wad/
-    //
     // The directory depends on the IWAD, so that savegames for
     // different IWADs are kept separate.
     //
@@ -653,12 +650,8 @@ static char *SaveGameIWADName(void)
         return "NERVE.WAD";
     else
         for (i = 0; i < arrlen(iwads); ++i)
-        {
             if (gamemission == iwads[i].mission)
-            {
                 return iwads[i].name;
-            }
-        }
 
     return NULL;
 }
@@ -672,34 +665,21 @@ void D_SetSaveGameDir(void)
 {
     char *iwad_name;
 
-    if (!strcmp(configdir, ""))
-    {
-        // Use the current directory, just like configdir.
+    // Directory for savegames
 
-        savegamedir = strdup("");
-    }
-    else
-    {
-        // Directory for savegames
+    iwad_name = SaveGameIWADName();
 
-        iwad_name = SaveGameIWADName();
+    if (iwad_name == NULL)
+        iwad_name = "unknown.wad";
 
-        if (iwad_name == NULL)
-        {
-            iwad_name = "unknown.wad";
-        }
+    savegamedir = (char *)Z_Malloc(strlen(configdir) + 30, PU_STATIC, 0);
+    sprintf(savegamedir, "%ssavegames%c", configdir, DIR_SEPARATOR);
 
-        savegamedir = (char *)Z_Malloc(strlen(configdir) + 30, PU_STATIC, 0);
-        sprintf(savegamedir, "%ssavegames%c", configdir,
-                             DIR_SEPARATOR);
+    M_MakeDirectory(savegamedir);
 
-        M_MakeDirectory(savegamedir);
+    sprintf(savegamedir + strlen(savegamedir), "%s%c", iwad_name, DIR_SEPARATOR);
 
-        sprintf(savegamedir + strlen(savegamedir), "%s%c",
-                iwad_name, DIR_SEPARATOR);
-
-        M_MakeDirectory(savegamedir);
-    }
+    M_MakeDirectory(savegamedir);
 }
 
 //
