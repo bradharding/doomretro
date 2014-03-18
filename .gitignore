@@ -195,4 +195,5 @@ $RECYCLE.BIN/
 *.bak
 
 SDL/
-*.cfg
+savegames/
+default.cfg
