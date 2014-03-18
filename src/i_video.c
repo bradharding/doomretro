@@ -47,13 +47,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 char *windowposition = "";
 
-static SDL_Surface *screen;
-
-// Intermediate 8-bit buffer that we draw to instead of 'screen'.
-// This is used when we are rendering in 32-bit screen mode.
-// When in a real 8-bit screen mode, screenbuffer == screen.
-
-static SDL_Surface *screenbuffer = NULL;
+SDL_Surface *screen;
+SDL_Surface *screenbuffer = NULL;
 
 // palette
 
@@ -310,15 +305,11 @@ void I_SaveWindowPosition(void)
     }
 }
 
-void done_win32();
-
 void I_ShutdownGraphics(void)
 {
     SetShowCursor(true);
 
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
-
-    done_win32();
 }
 
 static void UpdateMouseButtonState(unsigned int button, boolean on)

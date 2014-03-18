@@ -792,6 +792,7 @@ void V_Init(void)
 }
 
 extern char maptitle[128];
+extern SDL_Surface *screen;
 
 char lbmname[MAX_PATH];
 char lbmpath[MAX_PATH];
@@ -811,16 +812,16 @@ boolean V_ScreenShot(void)
 
     do
     {
-      if (!count)
-          sprintf(lbmname, "%s.bmp", mapname);
-      else
-          sprintf(lbmname, "%s (%i).bmp", mapname, count);
-      count++;
-      sprintf(lbmpath, "%s\\DOOM RETRO", folder);
-      M_MakeDirectory(lbmpath);
-      sprintf(lbmpath, "%s\\%s", lbmpath, lbmname);
+        if (!count)
+            sprintf(lbmname, "%s.bmp", mapname);
+        else
+            sprintf(lbmname, "%s (%i).bmp", mapname, count);
+        count++;
+        sprintf(lbmpath, "%s\\DOOM RETRO", folder);
+        M_MakeDirectory(lbmpath);
+        sprintf(lbmpath, "%s\\%s", lbmpath, lbmname);
     }
     while (M_FileExists(lbmpath));
 
-    return (!SDL_SaveBMP(SDL_GetVideoSurface(), lbmpath));
+    return (!SDL_SaveBMP(screen, lbmpath));
 }
