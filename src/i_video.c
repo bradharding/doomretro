@@ -52,7 +52,7 @@ SDL_Surface *screenbuffer = NULL;
 
 // palette
 
-static SDL_Color palette[256];
+SDL_Color palette[256];
 static boolean   palette_to_set;
 
 // Bit mask of mouse button state.

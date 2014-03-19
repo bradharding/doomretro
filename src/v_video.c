@@ -793,17 +793,23 @@ void V_Init(void)
 
 extern char maptitle[128];
 extern SDL_Surface *screen;
+extern SDL_Surface *screenbuffer;
+extern SDL_Color palette[256];
+extern SDL_Rect dest_rect;
 
 char lbmname[MAX_PATH];
 char lbmpath[MAX_PATH];
 
 boolean V_ScreenShot(void)
 {
+    boolean     result;
     char        mapname[128];
-    int         count = 0;
     char        folder[MAX_PATH];
+    int         count = 0;
 
     HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
+
+    SDL_Surface *screenshot;
 
     if (hr != S_OK)
         return false;
@@ -823,5 +829,18 @@ boolean V_ScreenShot(void)
     }
     while (M_FileExists(lbmpath));
 
-    return (!SDL_SaveBMP(screen, lbmpath));
+    screenshot = SDL_CreateRGBSurface(screenbuffer->flags, screen->w, screen->h,
+                                      screenbuffer->format->BitsPerPixel,
+                                      screenbuffer->format->Rmask,
+                                      screenbuffer->format->Gmask,
+                                      screenbuffer->format->Bmask,
+                                      screenbuffer->format->Amask);
+    SDL_SetColors(screenshot, palette, 0, 256);
+    SDL_BlitSurface(screenbuffer, NULL, screenshot, &dest_rect);
+
+    result = !SDL_SaveBMP(screenshot, lbmpath);
+
+    SDL_FreeSurface(screenshot);
+
+    return result;
 }
