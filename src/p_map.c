@@ -265,7 +265,7 @@ boolean PIT_CheckThing(mobj_t *thing)
     if (!(thing->flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
         return true;
 
-    blockdist = thing->radius + tmthing->radius;
+    blockdist = ((thing->flags & MF_SPECIAL) ? 20 * FRACUNIT : thing->radius) + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
         return true;            // didn't hit it
@@ -400,8 +400,7 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
 
     tmthing = thing;
     tmflags = thing->flags;
-
-    tmradius = (tmflags & MF_SPECIAL ? MAX(tmthing->radius, 20 * FRACUNIT) : tmthing->radius);
+    tmradius = tmthing->radius;
 
     tmx = x;
     tmy = y;
@@ -441,12 +440,6 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
         for (by = yl; by <= yh; by++)
             if (!P_BlockThingsIterator(bx, by, PIT_CheckThing))
                 return false;
-
-    tmradius = tmthing->radius;
-    tmbbox[BOXTOP] = y + tmradius;
-    tmbbox[BOXBOTTOM] = y - tmradius;
-    tmbbox[BOXRIGHT] = x + tmradius;
-    tmbbox[BOXLEFT] = x - tmradius;
 
     // check lines
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
