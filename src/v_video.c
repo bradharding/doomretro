@@ -791,11 +791,11 @@ void V_Init(void)
     V_SetRes();
 }
 
+extern boolean widescreen;
 extern char maptitle[128];
 extern SDL_Surface *screen;
 extern SDL_Surface *screenbuffer;
 extern SDL_Color palette[256];
-extern SDL_Rect dest_rect;
 
 char lbmname[MAX_PATH];
 char lbmpath[MAX_PATH];
@@ -806,6 +806,7 @@ boolean V_ScreenShot(void)
     char        mapname[128];
     char        folder[MAX_PATH];
     int         count = 0;
+    int         width, height;
 
     HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
 
@@ -826,17 +827,27 @@ boolean V_ScreenShot(void)
         sprintf(lbmpath, "%s\\DOOM RETRO", folder);
         M_MakeDirectory(lbmpath);
         sprintf(lbmpath, "%s\\%s", lbmpath, lbmname);
-    }
-    while (M_FileExists(lbmpath));
+    } while (M_FileExists(lbmpath));
 
-    screenshot = SDL_CreateRGBSurface(screenbuffer->flags, screen->w, screen->h,
+    if (widescreen)
+    {
+        width = screen->w;
+        height = screen->h;
+    }
+    else
+    {
+        width = screenbuffer->w;
+        height = screenbuffer->h;
+    }
+
+    screenshot = SDL_CreateRGBSurface(screenbuffer->flags, width, height,
                                       screenbuffer->format->BitsPerPixel,
                                       screenbuffer->format->Rmask,
                                       screenbuffer->format->Gmask,
                                       screenbuffer->format->Bmask,
                                       screenbuffer->format->Amask);
     SDL_SetColors(screenshot, palette, 0, 256);
-    SDL_BlitSurface(screenbuffer, NULL, screenshot, &dest_rect);
+    SDL_BlitSurface(screenbuffer, NULL, screenshot, NULL);
 
     result = !SDL_SaveBMP(screenshot, lbmpath);
 
