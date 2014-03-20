@@ -150,6 +150,9 @@ byte    *gridcolor;
 #define CXMTOF(x)               MTOF(x - m_x)
 #define CYMTOF(y)               (MAPHEIGHT - MTOF(y - m_y))
 
+#define FLOAT2FIXED(f)          (((int)(f)) * 65536)
+#define FIXED2FLOAT(f)          (((float)(f)) / (float)65536)
+
 typedef struct
 {
     fixed_t x, y;
@@ -276,7 +279,7 @@ __inline static int sign(int a)
     return (a > 0) - (a < 0);
 }
 
-static void AM_rotate(fixed_t* x, fixed_t* y, angle_t a);
+static void AM_rotate(fixed_t* xp, fixed_t* yp, angle_t a);
 
 void AM_activateNewScale(void)
 {
@@ -1042,9 +1045,7 @@ boolean AM_Responder(event_t *ev)
                 }
             }
 
-            if ((plr->cheats & CF_MYPOS)
-                && !followplayer
-                && (m_paninc.x || m_paninc.y))
+            if ((plr->cheats & CF_MYPOS) && !followplayer && (m_paninc.x || m_paninc.y))
             {
                 double x = m_paninc.x;
                 double y = m_paninc.y;
@@ -1068,14 +1069,30 @@ boolean AM_Responder(event_t *ev)
 // Rotation in 2D.
 // Used to rotate player arrow line character.
 //
-static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
+static void AM_rotate(fixed_t *xp, fixed_t *yp, angle_t a)
 {
-    fixed_t cosine = finecosine[angle >>= ANGLETOFINESHIFT];
-    fixed_t sine = finesine[angle];
-    fixed_t temp = FixedMul(*x, cosine) - FixedMul(*y, sine);
+    static angle_t      angle_saved = 0;
+    static double       sinrot = 0;
+    static double       cosrot = 1;
 
-    *y = FixedMul(*x, sine) + FixedMul(*y, cosine);
-    *x = temp;
+    double              x, y;
+    double              tmpx;
+
+    if (angle_saved != a)
+    {
+        double rot = (double)a / (double)(1u << 31) * (double)M_PI;
+
+        angle_saved = a;
+        sinrot = sin(rot);
+        cosrot = cos(rot);
+    }
+    x = FIXED2FLOAT(*xp);
+    y = FIXED2FLOAT(*yp);
+    tmpx = (x * cosrot) - (y * sinrot);
+    y = (x * sinrot) + (y * cosrot);
+    x = tmpx;
+    *xp = FLOAT2FIXED(x);
+    *yp = FLOAT2FIXED(y);
 }
 
 void AM_rotatePoint(fixed_t *x, fixed_t *y)
