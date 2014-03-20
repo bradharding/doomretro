@@ -486,10 +486,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->height = info->height;
     mobj->flags = info->flags;
 
-    lump = firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0];
-    if (W_CheckMultipleLumps(lumpinfo[lump].name) == 1)
-        mobj->flags2 = info->flags2;
-
     mobj->health = info->spawnhealth;
 
     if (gameskill != sk_nightmare)
@@ -508,6 +504,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->tics = st->tics;
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
+
+    lump = firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0];
+    if (W_CheckMultipleLumps(lumpinfo[lump].name) == 1)
+        mobj->flags2 = info->flags2;
 
     if (bfgedition)
     {
