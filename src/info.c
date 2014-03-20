@@ -5432,7 +5432,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
 };
 
 // [BH] Override offsets in wad file to provide better animation and positioning.
-//  Many of these offsets are taken from the DOOM 2 Minor Sprite Fixing Project v1.3
+//  Many of these offsets are taken from the DOOM 2 Minor Sprite Fixing Project v1.4
 //  by Revenant100, and then further refined by me.
 offset_t sproffsets[] =
 {
@@ -5676,15 +5676,19 @@ offset_t sproffsets[] =
     { "FATBB5",      9,    8 }, //    9,   11
     { "FATTA1",     40,   60 }, //   39,   60
     { "FATTA2A8",   51,   61 }, //   39,   61
+    { "FATTA3A7",   41,   60 }, //   38,   60
     { "FATTA5",     35,   59 }, //   39,   59
     { "FATTB1",     43,   64 }, //   43,   65
     { "FATTB2B8",   43,   64 }, //   43,   65
+    { "FATTB3B7",   41,   61 }, //   43,   61
     { "FATTB5",     45,   58 }, //   43,   58
     { "FATTC5",     37,   59 }, //   36,   58
     { "FATTD1",     33,   60 }, //   38,   60
     { "FATTE1",     45,   64 }, //   43,   65
     { "FATTE2E8",   43,   62 }, //   43,   61
+    { "FATTE3E7",   41,   62 }, //   43,   62
     { "FATTF1",     39,   65 }, //   42,   65
+    { "FATTF3F7",   41,   61 }, //   43,   61
     { "FATTF4F6",   34,   59 }, //   43,   59
     { "FATTG1",     44,   61 }, //   42,   60
     { "FATTG2G8",   54,   59 }, //   51,   59
@@ -5876,6 +5880,18 @@ offset_t sproffsets[] =
     { "POL6B0",     19,   65 }, //   19,   62
     { "POSSC4C6",   22,   51 }, //   20,   51
     { "POSSD4D6",   24,   52 }, //   22,   52
+    { "POSSE1",     13,   50 }, //   12,   50
+    { "POSSE2E8",   25,   50 }, //   21,   50
+    { "POSSE3E7",   28,   50 }, //   26,   50
+    { "POSSE5",     11,   47 }, //   12,   46
+    { "POSSF1",     14,   50 }, //   13,   50
+    { "POSSF2F8",   27,   50 }, //   23,   50
+    { "POSSF3F7",   29,   50 }, //   27,   50
+    { "POSSF5",     10,   47 }, //   11,   46
+    { "POSSG2G8",   19,   53 }, //   16,   53
+    { "POSSG3G7",   22,   53 }, //   21,   53
+    { "POSSG4G6",   21,   50 }, //   20,   50
+    { "POSSG5",     16,   49 }, //   17,   49
     { "POSSO0",     21,   58 }, //   25,   58
     { "POSSQ0",     23,   47 }, //   27,   47
     { "PSTRA0",     14,   17 }, //   12,   15
@@ -6064,8 +6080,18 @@ offset_t sproffsets[] =
     { "SPIDI6",    117,  105 }, //  106,  107
     { "SPIDI7",     96,  102 }, //   88,  102
     { "SPIDI8",    120,  103 }, //  115,  105
+    { "SPOSE1",     13,   50 }, //   12,   50
+    { "SPOSE2E8",   21,   50 }, //   17,   50
     { "SPOSE3E7",   19,   50 }, //   19,   49
-    { "SPOSF3F7",   24,   50 }, //   24,   49
+    { "SPOSE5",     11,   47 }, //   12,   46
+    { "SPOSF1",     14,   50 }, //   13,   50
+    { "SPOSF2F8",   25,   50 }, //   21,   50
+    { "SPOSF3F7",   26,   50 }, //   24,   49
+    { "SPOSF5",     10,   47 }, //   11,   46
+    { "SPOSG2G8",   16,   52 }, //   13,   51
+    { "SPOSG3G7",   22,   52 }, //   21,   50
+    { "SPOSG4G6",   21,   49 }, //   20,   50
+    { "SPOSG5",     16,   49 }, //   17,   49
     { "SPOSO0",     21,   58 }, //   25,   58
     { "SPOSQ0",     23,   47 }, //   27,   47
     { "SSWVB3",     18,   51 }, //   14,   51
