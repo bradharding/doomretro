@@ -1962,14 +1962,6 @@ boolean M_Responder(event_t *ev)
     if (key == -1)
         return false;
 
-    // screenshot
-    if (key == KEY_PRINT && !keydown)
-    {
-        keydown = key;
-        G_ScreenShot();
-        return true;
-    }
-
     // Save Game string input
     if (saveStringEnter)
     {

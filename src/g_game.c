@@ -597,13 +597,7 @@ boolean G_Responder(event_t *ev)
             return true;
         }
 
-        if (ev->type == ev_keydown && ev->data1 == KEY_PRINT && !keydown)
-        {
-            keydown = ev->data1;
-            G_ScreenShot();
-            return true;
-        }
-        else if (ev->type == ev_keyup)
+        if (ev->type == ev_keyup)
             keydown = 0;
 
         if (!menuactive

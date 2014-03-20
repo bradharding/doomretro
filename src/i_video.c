@@ -231,7 +231,7 @@ int translatekey[] =
     KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, 0, 0, 0,
     0, 0, 0, KEY_NUMLOCK, KEY_CAPSLOCK, KEY_SCRLCK, KEY_RSHIFT, KEY_RSHIFT,
     KEY_RCTRL, KEY_RCTRL, KEY_RALT, KEY_RALT, KEY_RALT, KEY_RALT, 0, 0, 0, 0,
-    0, KEY_PRINT, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0, 0
 };
 
 int TranslateKey2(int key)
@@ -277,7 +277,6 @@ int TranslateKey2(int key)
         case KEYP_MULTIPLY:    return SDLK_KP_MULTIPLY;
         case KEYP_DIVIDE:      return SDLK_KP_DIVIDE;
         case KEY_INS:          return SDLK_INSERT;
-        case KEY_PRINT:        return SDLK_PRINT;
         case KEY_NUMLOCK:      return SDLK_NUMLOCK;
         default:               return key;
     }

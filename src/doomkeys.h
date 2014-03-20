@@ -79,8 +79,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define KEY_INS         (0x80 + 0x52)
 #define KEY_DEL         (0x80 + 0x60)
 
-#define KEY_PRINT       (0x80 + 0x54)
-
 #define KEYP_0          0x100
 #define KEYP_1          KEY_END
 #define KEYP_2          KEY_DOWNARROW

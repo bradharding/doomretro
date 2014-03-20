@@ -54,13 +54,9 @@ static void I_SetAffinityMask(void)
     SetAffinity = (SetAffinityFunc)GetProcAddress(kernel32_dll, "SetProcessAffinityMask");
 
     if (SetAffinity != NULL)
-    {
         if (!SetAffinity(GetCurrentProcess(), 1))
-        {
             fprintf(stderr, "I_SetAffinityMask: Failed to set process affinity (%d)\n",
                     (int)GetLastError());
-        }
-    }
 }
 
 void I_SetProcessPriority(void)
@@ -73,23 +69,34 @@ extern int      fullscreen;
 extern boolean  window_focused;
 HHOOK           g_hKeyboardHook;
 
+void G_ScreenShot(void);
+
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-    boolean             bEatKeystroke = false;
-    KBDLLHOOKSTRUCT     *p = (KBDLLHOOKSTRUCT *)lParam;
+    boolean     bEatKeystroke = false;
 
-    if (nCode < 0 || nCode != HC_ACTION)
-        return CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam);
-
-    switch (wParam)
-    {
-        case WM_KEYDOWN:
-        case WM_KEYUP:
+    if (nCode == HC_ACTION)
+        switch (wParam)
         {
-            bEatKeystroke = (window_focused && (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN));
-            break;
+            case WM_KEYDOWN:
+            case WM_SYSKEYDOWN:
+            case WM_KEYUP:
+            case WM_SYSKEYUP:
+                if (window_focused)
+                {
+                    KBDLLHOOKSTRUCT *p = (KBDLLHOOKSTRUCT *)lParam;
+
+                    if (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN)
+                        bEatKeystroke = true;
+                    else if (p->vkCode == VK_SNAPSHOT)
+                    {
+                        if (wParam == WM_KEYDOWN)
+                            G_ScreenShot();
+                        bEatKeystroke = true;
+                    }
+                }
+                break;
         }
-    }
 
     return (bEatKeystroke ? 1 : CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam));
 }
@@ -123,27 +130,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         I_InitGamepad();
 
     return CallWindowProc(oldProc, hwnd, msg, wParam, lParam);
-}
-
-void init_win32(LPCTSTR lpIconName)
-{
-    HINSTANCE           handle = GetModuleHandle(NULL);
-    SDL_SysWMinfo       wminfo;
-
-    SDL_VERSION(&wminfo.version)
-    SDL_GetWMInfo(&wminfo);
-    hwnd = wminfo.window;
-
-    icon = LoadIcon(handle, lpIconName);
-    SetClassLong(hwnd, GCL_HICON, (LONG)icon);
-
-    oldProc = (WNDPROC)SetWindowLong(hwnd, GWL_WNDPROC, (LONG)WndProc);
-}
-
-void done_win32(void)
-{
-    DestroyIcon(icon);
-    UnhookWindowsHookEx(g_hKeyboardHook);
 }
 
 HANDLE hInstanceMutex;
@@ -195,6 +181,30 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
             SystemParametersInfo(SPI_SETFILTERKEYS, sizeof(FILTERKEYS), &fkOff, 0);
         }
     }
+}
+
+void init_win32(LPCTSTR lpIconName)
+{
+    HINSTANCE           handle = GetModuleHandle(NULL);
+    SDL_SysWMinfo       wminfo;
+
+    SDL_VERSION(&wminfo.version)
+        SDL_GetWMInfo(&wminfo);
+    hwnd = wminfo.window;
+
+    icon = LoadIcon(handle, lpIconName);
+    SetClassLong(hwnd, GCL_HICON, (LONG)icon);
+
+    oldProc = (WNDPROC)SetWindowLong(hwnd, GWL_WNDPROC, (LONG)WndProc);
+}
+
+void done_win32(void)
+{
+    DestroyIcon(icon);
+    UnhookWindowsHookEx(g_hKeyboardHook);
+    ReleaseMutex(hInstanceMutex);
+    CloseHandle(hInstanceMutex);
+    I_AccessibilityShortcutKeys(true);
 }
 
 int main(int argc, char **argv)
