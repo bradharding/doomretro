@@ -173,6 +173,8 @@ typedef enum
     SPR_TLMP,
     SPR_TLP2,
     SPR_BLD2,
+    SPR_STIM_BFG,
+    SPR_MEDI_BFG,
     NUMSPRITES
 
 } spritenum_t;
