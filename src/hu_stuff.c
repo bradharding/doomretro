@@ -74,6 +74,12 @@ static boolean          headsupactive = false;
 byte                    *tempscreen;
 int                     hudnumbase;
 
+patch_t                 *healthpatch;
+patch_t                 *berserkpatch;
+patch_t                 *percentpatch;
+patch_t                 *greenarmorpatch;
+patch_t                 *bluearmorpatch;
+
 void(*hudfunc)(int, int, int, patch_t *);
 void(*hudnumfunc)(int, int, int, patch_t *);
 
@@ -142,6 +148,12 @@ void HU_Start(void)
         hudfunc = V_DrawHUDPatch;
         hudnumfunc = V_DrawHUDNumberPatch;
     }
+
+    healthpatch = W_CacheLumpNum(W_GetNumForName(bfgedition ? "MEDBA0" : "MEDIA0"), PU_CACHE);
+    berserkpatch = W_CacheLumpNum(W_GetNumForName(gamemode != shareware ? "PSTRA0" : "MEDIA0"), PU_CACHE);
+    percentpatch = W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE);
+    greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
+    bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
 }
 
 static void DrawHUDNumber(int x, int y, signed int val)
@@ -208,15 +220,9 @@ static void HU_DrawHUD(void)
         if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
             || plr->pendingweapon == wp_fist)
             && plr->powers[pw_strength])
-        {
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0,
-                    W_CacheLumpNum(W_GetNumForName("PSTRA0"), PU_CACHE));
-        }
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, berserkpatch);
         else
-        {
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0,
-                    W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE));
-        }
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, healthpatch);
 
         if (health < 10)
             health_x -= 14;
@@ -224,8 +230,7 @@ static void HU_DrawHUD(void)
             health_x -= 14;
 
         DrawHUDNumber(health_x, HUD_HEALTH_Y, health);
-        hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0,
-                   W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
+        hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, percentpatch);
 
         if (plr->pendingweapon != wp_nochange)
         {
@@ -310,14 +315,9 @@ static void HU_DrawHUD(void)
         if (armor)
         {
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor);
-            hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0,
-                       W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE));
-            if (plr->armortype == 1)
-                hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
-                        W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE));
-            else
-                hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
-                        W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE));
+            hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, percentpatch);
+            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
+                    plr->armortype == 1 ? greenarmorpatch : bluearmorpatch);
         }
     }
 }
@@ -434,38 +434,6 @@ void HU_Ticker(void)
             message_dontfuckwithme = 0;
         }
     }
-}
-
-#define QUEUESIZE               128
-
-static char     chatchars[QUEUESIZE];
-static int      head = 0;
-static int      tail = 0;
-
-void HU_queueChatChar(char c)
-{
-    if (((head + 1) & (QUEUESIZE - 1)) == tail)
-        plr->message = HUSTR_MSGU;
-    else
-    {
-        chatchars[head] = c;
-        head = (head + 1) & (QUEUESIZE - 1);
-    }
-}
-
-char HU_dequeueChatChar(void)
-{
-    char c;
-
-    if (head != tail)
-    {
-        c = chatchars[tail];
-        tail = (tail + 1) & (QUEUESIZE - 1);
-    }
-    else
-        c = 0;
-
-    return c;
 }
 
 void HU_clearMessages(void)
