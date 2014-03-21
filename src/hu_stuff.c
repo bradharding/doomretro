@@ -173,16 +173,16 @@ static void DrawHUDNumber(int x, int y, signed int val)
 }
 
 #define HUD_HEALTH_X    24
-#define HUD_HEALTH_Y    308
+#define HUD_HEALTH_Y    310
 
 #define HUD_AMMO_X      120
-#define HUD_AMMO_Y      308
+#define HUD_AMMO_Y      310
 
 #define HUD_KEYS_X      503
-#define HUD_KEYS_Y      308
+#define HUD_KEYS_Y      310
 
 #define HUD_ARMOR_X     530
-#define HUD_ARMOR_Y     308
+#define HUD_ARMOR_Y     310
 
 struct
 {
