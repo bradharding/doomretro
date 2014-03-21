@@ -746,8 +746,13 @@ void ToggleWideScreen(boolean toggle)
     startx = stepx - 1;
     starty = stepy - 1;
 
-    dest_rect.x = (screen->w - screenbuffer->w) / 2;
-    dest_rect.y = (screen->h - screenbuffer->h) / 2;
+    if (widescreen)
+        dest_rect.x = dest_rect.y = 0;
+    else
+    {
+        dest_rect.x = (screen->w - screenbuffer->w) / 2;
+        dest_rect.y = (screen->h - screenbuffer->h) / 2;
+    }
 
     palette_to_set = true;
 }
