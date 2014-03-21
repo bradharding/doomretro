@@ -462,20 +462,16 @@ menu_t SaveDef =
 //
 void M_DarkBackground(void)
 {
-    byte *colormap;
-    byte *dot;
-    int  i;
+    byte        *dot;
+    int         i = 0;
 
     if (!TITLEPIC && !usergame)
         return;
 
-    colormap = colormaps + 4096;
-    i = 0;
-
     while (i < SCREENWIDTH * SCREENHEIGHT)
     {
         dot = &screens[0][i++];
-        *dot = *(*dot + colormap);
+        *dot = *(*dot + tinttab50);
     }
 }
 
