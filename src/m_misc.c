@@ -29,6 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <errno.h>
 #include <direct.h>
 
+#include "doomdef.h"
 #include "i_system.h"
 #include "z_zone.h"
 
@@ -87,8 +88,8 @@ long M_FileLength(FILE *handle)
 
 char *M_ExtractFolder(char *path)
 {
-    char *pos;
-    char *folder = (char *)malloc(strlen(path));
+    char        *pos;
+    char        *folder = (char *)malloc(strlen(path));
 
     strcpy(folder, path);
 
@@ -99,20 +100,17 @@ char *M_ExtractFolder(char *path)
     return folder;
 }
 
-char *M_ExtractFilename(char *path)
+boolean M_CheckFilename(char *path, char *filename)
 {
-    char *pos = strrchr(path, '\\');
-    char *file = NULL;
+    size_t path_len;
+    size_t filename_len;
 
-    if (!pos)
-        pos = path; 
-    else
-        pos++;
+    path_len = strlen(path);
+    filename_len = strlen(filename);
 
-    file = (char *)malloc(strlen(pos) + 1);
-    strncpy(file, pos, strlen(pos) + 1);
-
-    return file;
+    return (path_len >= filename_len + 1
+            && path[path_len - filename_len - 1] == DIR_SEPARATOR
+            && !strcasecmp(&path[path_len - filename_len], filename));
 }
 
 //

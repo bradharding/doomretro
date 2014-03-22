@@ -37,7 +37,7 @@ void M_MakeDirectory(char *dir);
 char *M_TempFile(char *s);
 boolean M_FileExists(char *file);
 long M_FileLength(FILE *handle);
-char *M_ExtractFilename(char *str);
+boolean M_CheckFilename(char *path, char *filename);
 char *M_ExtractFolder(char *str);
 boolean M_StrToInt(const char *str, int *result);
 

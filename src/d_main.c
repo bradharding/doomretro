@@ -521,12 +521,12 @@ boolean D_ChooseIWAD(void)
         // only one file was selected
         if (!ofn.lpstrFile[strlen(ofn.lpstrFile) + 1])
         {
-            char *file = M_ExtractFilename(ofn.lpstrFile);
+            LPSTR file = ofn.lpstrFile;
 
-            wadfolder = strdup(M_ExtractFolder(ofn.lpstrFile));
+            wadfolder = strdup(M_ExtractFolder(file));
 
             // if it's NERVE.WAD, try to open DOOM2.WAD with it
-            if (!strcasecmp(M_ExtractFilename(ofn.lpstrFile), "NERVE.WAD"))
+            if (M_CheckFilename(file, "NERVE.WAD"))
             {
                 static char fullpath[MAX_PATH];
 
@@ -534,22 +534,22 @@ boolean D_ChooseIWAD(void)
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
                     iwadfound = true;
-                W_MergeFile(ofn.lpstrFile);
+                W_MergeFile(file);
                 modifiedgame = true;
                 nerve = true;
             }
 
             // otherwise make sure it's an IWAD
-            else if (!strcasecmp(file, "DOOM.WAD")
-                    || !strcasecmp(file, "DOOM1.WAD")
-                    || !strcasecmp(file, "DOOM2.WAD")
-                    || !strcasecmp(file, "PLUTONIA.WAD")
-                    || !strcasecmp(file, "TNT.WAD")
-                    || W_WadType(ofn.lpstrFile) == IWAD)
+            else if (M_CheckFilename(file, "DOOM.WAD")
+                     || M_CheckFilename(file, "DOOM1.WAD")
+                     || M_CheckFilename(file, "DOOM2.WAD")
+                     || M_CheckFilename(file, "PLUTONIA.WAD")
+                     || M_CheckFilename(file, "TNT.WAD")
+                     || W_WadType(file) == IWAD)
             {
-                IdentifyIWADByName(ofn.lpstrFile);
-                D_AddFile(ofn.lpstrFile);
-                iwadfound = true;
+                IdentifyIWADByName(file);
+                if (D_AddFile(file))
+                    iwadfound = true;
             }
         }
 
@@ -569,11 +569,11 @@ boolean D_ChooseIWAD(void)
                 iwad += lstrlen(iwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, iwad);
 
-                if (!strcasecmp(iwad, "DOOM.WAD")
-                    || !strcasecmp(iwad, "DOOM1.WAD")
-                    || !strcasecmp(iwad, "DOOM2.WAD")
-                    || !strcasecmp(iwad, "PLUTONIA.WAD")
-                    || !strcasecmp(iwad, "TNT.WAD")
+                if (M_CheckFilename(iwad, "DOOM.WAD")
+                    || M_CheckFilename(iwad, "DOOM1.WAD")
+                    || M_CheckFilename(iwad, "DOOM2.WAD")
+                    || M_CheckFilename(iwad, "PLUTONIA.WAD")
+                    || M_CheckFilename(iwad, "TNT.WAD")
                     || W_WadType(fullpath) == IWAD)
                 {
                     if (!iwadfound)
@@ -593,11 +593,11 @@ boolean D_ChooseIWAD(void)
                 pwad += lstrlen(pwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, pwad);
 
-                if (strcasecmp(pwad, "DOOMRETRO.WAD") && W_WadType(fullpath) == PWAD)
+                if (M_CheckFilename(pwad, "DOOMRETRO.WAD") && W_WadType(fullpath) == PWAD)
                     if (W_MergeFile(fullpath))
                     {
                         modifiedgame = true;
-                        if (!strcasecmp(pwad, "NERVE.WAD"))
+                        if (M_CheckFilename(pwad, "NERVE.WAD"))
                             nerve = true;
                     }
             }
@@ -747,7 +747,6 @@ static void D_DoomMainSetup(void)
     }
 
     // Generate the WAD hash table.  Speed things up a bit.
-
     W_GenerateHashTable();
 
     D_IdentifyVersion();
@@ -843,7 +842,6 @@ static void D_DoomMainSetup(void)
         }
         autostart = true;
     }
-
 
     p = M_CheckParmWithArgs("-loadgame", 1);
     if (p)
