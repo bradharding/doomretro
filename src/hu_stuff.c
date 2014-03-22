@@ -74,14 +74,56 @@ static boolean          headsupactive = false;
 byte                    *tempscreen;
 int                     hudnumbase;
 
-patch_t                 *healthpatch;
-patch_t                 *berserkpatch;
-patch_t                 *percentpatch;
-patch_t                 *greenarmorpatch;
-patch_t                 *bluearmorpatch;
+static patch_t          *healthpatch;
+static patch_t          *berserkpatch;
+static patch_t          *percentpatch;
+static patch_t          *greenarmorpatch;
+static patch_t          *bluearmorpatch;
 
 void(*hudfunc)(int, int, int, patch_t *);
 void(*hudnumfunc)(int, int, int, patch_t *);
+
+#define HUD_HEALTH_X    24
+#define HUD_HEALTH_Y    310
+
+#define HUD_AMMO_X      120
+#define HUD_AMMO_Y      310
+
+#define HUD_KEYS_X      503
+#define HUD_KEYS_Y      310
+
+#define HUD_ARMOR_X     530
+#define HUD_ARMOR_Y     310
+
+static struct
+{
+    char        *lump;
+    int         x;
+    int         y;
+    patch_t     *patch;
+}
+ammopic[NUMAMMO] =
+{
+    { "CLIPA0",  0,  3, NULL },
+    { "SHELA0", -5,  5, NULL },
+    { "CELLA0", -8,  2, NULL },
+    { "ROCKA0", -2, -6, NULL }
+};
+
+static struct
+{
+    char        *lump;
+    patch_t     *patch;
+}
+keypic[NUMCARDS] =
+{
+    { "BKEYB0", NULL },
+    { "YKEYB0", NULL },
+    { "RKEYB0", NULL },
+    { "BSKUB0", NULL },
+    { "YSKUB0", NULL },
+    { "RSKUB0", NULL }
+};
 
 void HU_Init(void)
 {
@@ -154,6 +196,11 @@ void HU_Start(void)
     percentpatch = W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE);
     greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
     bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
+
+    for (i = 0; i < NUMAMMO; i++)
+        ammopic[i].patch = W_CacheLumpNum(W_GetNumForName(ammopic[i].lump), PU_CACHE);
+    for (i = 0; i < NUMCARDS; i++)
+        keypic[i].patch = W_CacheLumpNum(W_GetNumForName(keypic[i].lump), PU_CACHE);
 }
 
 static void DrawHUDNumber(int x, int y, signed int val)
@@ -171,37 +218,6 @@ static void DrawHUDNumber(int x, int y, signed int val)
     xpos += 14;
     hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val, PU_CACHE));
 }
-
-#define HUD_HEALTH_X    24
-#define HUD_HEALTH_Y    310
-
-#define HUD_AMMO_X      120
-#define HUD_AMMO_Y      310
-
-#define HUD_KEYS_X      503
-#define HUD_KEYS_Y      310
-
-#define HUD_ARMOR_X     530
-#define HUD_ARMOR_Y     310
-
-struct
-{
-    char        *lump;
-    int         x;
-    int         y;
-}
-ammopic[NUMAMMO] =
-{
-    { "CLIPA0",  0,  3 },
-    { "SHELA0", -5,  5 },
-    { "CELLA0", -8,  2 },
-    { "ROCKA0", -2, -6 }
-};
-
-char *keypic[NUMCARDS] =
-{
-    "BKEYB0", "YKEYB0", "RKEYB0", "BSKUB0", "YSKUB0", "RSKUB0"
-};
 
 static void HU_DrawHUD(void)
 {
@@ -254,8 +270,7 @@ static void HU_DrawHUD(void)
                 ammonum_x -= 7;
             }
 
-            hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0,
-                    W_CacheLumpNum(W_GetNumForName(ammopic[ammotype].lump), PU_CACHE));
+            hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0, ammopic[ammotype].patch);
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo);
         }
 
@@ -280,7 +295,7 @@ static void HU_DrawHUD(void)
             {
                 if (gametic)
                 {
-                    patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[plr->neededcard]), PU_CACHE);
+                    patch_t *patch = keypic[plr->neededcard].patch;
 
                     keypic_x -= 20;
                     if (!menuactive && !paused)
@@ -305,7 +320,7 @@ static void HU_DrawHUD(void)
             for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i] > 0)
                 {
-                    patch_t *patch = W_CacheLumpNum(W_GetNumForName(keypic[i]), PU_CACHE);
+                    patch_t *patch = keypic[i].patch;
 
                     hudfunc(keypic_x + (patch->width + 6) * (cardsfound - plr->cards[i]),
                             HUD_KEYS_Y, 0, patch);
