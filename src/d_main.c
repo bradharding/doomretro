@@ -593,7 +593,7 @@ boolean D_ChooseIWAD(void)
                 pwad += lstrlen(pwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, pwad);
 
-                if (M_CheckFilename(pwad, "DOOMRETRO.WAD") && W_WadType(fullpath) == PWAD)
+                if (!M_CheckFilename(pwad, "DOOMRETRO.WAD") && W_WadType(fullpath) == PWAD)
                     if (W_MergeFile(fullpath))
                     {
                         modifiedgame = true;
