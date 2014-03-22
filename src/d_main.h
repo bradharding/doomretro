@@ -55,6 +55,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define USEGAMMA_DEFAULT           2
 #define USEGAMMA_MAX               (GAMMALEVELS - 1)
 
+#define BLOODSPLATS_MIN            0
+#define BLOODSPLATS_DEFAULT        1024
+#define BLOODSPLATS_MAX            32768
+
 //
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,

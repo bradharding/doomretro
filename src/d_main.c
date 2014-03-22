@@ -46,9 +46,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "p_local.h"
 #include "p_saveg.h"
 #include "p_setup.h"
-#include "r_local.h"
 #include "s_sound.h"
 #include "SDL.h"
 #include "st_stuff.h"
@@ -873,6 +873,9 @@ static void D_DoomMainSetup(void)
 
     if (usegamma < USEGAMMA_MIN || usegamma > USEGAMMA_MAX)
         usegamma = USEGAMMA_DEFAULT;
+
+    if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
+        bloodsplats = BLOODSPLATS_DEFAULT;
 
     M_Init();
 

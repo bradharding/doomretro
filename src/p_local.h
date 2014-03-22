@@ -33,6 +33,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "r_local.h"
 #endif
 
+#ifndef __D_MAIN__
+#include "d_main.h"
+#endif
+
 #define FLOATSPEED              (FRACUNIT * 4)
 
 #define MAXHEALTH               100
@@ -108,10 +112,9 @@ void P_PlayerThink(player_t *player);
 extern int              iqueuehead;
 extern int              iqueuetail;
 
-#define BLOODSPLATQUEUESIZE       1024
-
-extern mobj_t           *bloodSplatQueue[BLOODSPLATQUEUESIZE];
+extern mobj_t           *bloodSplatQueue[BLOODSPLATS_MAX];
 extern int              bloodSplatQueueSlot;
+extern int              bloodsplats;
 
 #define CARDNOTFOUNDYET -1
 #define CARDNOTINMAP     0

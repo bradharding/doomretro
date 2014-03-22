@@ -27,6 +27,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
 #include "m_random.h"
@@ -38,8 +39,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 void G_PlayerReborn(int player);
 
-boolean         bloodsplats = true;
-mobj_t          *bloodSplatQueue[BLOODSPLATQUEUESIZE];
+int             bloodsplats = BLOODSPLATS_DEFAULT;
+mobj_t          *bloodSplatQueue[BLOODSPLATS_MAX];
 int             bloodSplatQueueSlot;
 
 //
@@ -554,7 +555,7 @@ extern int *isliquid;
 
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if (bloodsplats && mobj->type == MT_BLOOD
+    if (bloodsplats > 0 && mobj->type == MT_BLOOD
         && mobj->floorz == mobj->subsector->sector->floorheight
         && !isliquid[mobj->subsector->sector->floorpic])
     {
@@ -925,15 +926,15 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
     newsplat->flags2 |= flag;
     P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + rand() % 8));
 
-    if (bloodSplatQueueSlot > BLOODSPLATQUEUESIZE)
+    if (bloodSplatQueueSlot > bloodsplats)
     {
-        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % BLOODSPLATQUEUESIZE];
+        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
 
         if (oldsplat)
             P_RemoveMobj(oldsplat);
     }
 
-    bloodSplatQueue[bloodSplatQueueSlot++ % BLOODSPLATQUEUESIZE] = newsplat;
+    bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
 }
 
 //
