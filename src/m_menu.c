@@ -501,12 +501,13 @@ static byte blues[] =
 //
 void M_DarkBlueBackground(void)
 {
-    int x, y;
+    int         x, y;
 
     for (y = 0; y < SCREENWIDTH * SCREENHEIGHT; y += SCREENWIDTH * 2)
         for (x = 0; x < SCREENWIDTH; x += 2)
         {
-            byte *dot = *screens + y + x, *copy;
+            byte        *dot = *screens + y + x;
+            byte        *copy;
 
             *dot = blues[*dot];
             copy = dot + 1;
@@ -1150,17 +1151,11 @@ void M_DrawReadThis(void)
     if (W_CheckNumForName(lumpname) >= 0)
     {
         inhelpscreens = true;
-        if (widescreen)
-        {
-            ToggleWideScreen(false);
-            returntowidescreen = true;
-        }
         if (automapactive)
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 245);
         else
         {
             players[consoleplayer].fixedcolormap = 0;
-            R_SetViewSize(11);
             M_DarkBlueBackground();
         }
         if (W_CheckMultipleLumps(lumpname) > 2)
@@ -2150,6 +2145,14 @@ boolean M_Responder(event_t *ev)
                 currentMenu = &ReadDef;
                 itemOn = 0;
                 S_StartSound(NULL, sfx_swtchn);
+                inhelpscreens = true;
+                if (widescreen)
+                {
+                    ToggleWideScreen(false);
+                    returntowidescreen = true;
+                }
+                if (!automapactive)
+                    R_SetViewSize(11);
             }
             return false;
         }
