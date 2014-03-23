@@ -2716,7 +2716,10 @@ void M_Drawer(void)
     }
 
     if (!menuactive)
+    {
+        inhelpscreens = false;
         return;
+    }
 
     if (currentMenu->routine)
         currentMenu->routine();         // call Draw routine
