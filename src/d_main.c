@@ -495,11 +495,11 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
-boolean D_ChooseIWAD(void)
+static int D_ChooseIWAD(void)
 {
-    OPENFILENAME ofn;
-    char         szFile[4096];
-    int          iwadfound = false;
+    OPENFILENAME        ofn;
+    char                szFile[4096];
+    int                 iwadfound = -1;
 
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
@@ -518,22 +518,24 @@ boolean D_ChooseIWAD(void)
 
     if (GetOpenFileName(&ofn))
     {
+        iwadfound = 0;
+
         // only one file was selected
         if (!ofn.lpstrFile[strlen(ofn.lpstrFile) + 1])
         {
-            LPSTR file = ofn.lpstrFile;
+            LPSTR       file = ofn.lpstrFile;
 
             wadfolder = strdup(M_ExtractFolder(file));
 
             // if it's NERVE.WAD, try to open DOOM2.WAD with it
             if (D_CheckFilename(file, "NERVE.WAD"))
             {
-                static char fullpath[MAX_PATH];
+                static char     fullpath[MAX_PATH];
 
                 sprintf(fullpath, "%s\\DOOM2.WAD", wadfolder);
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
-                    iwadfound = true;
+                    iwadfound = 1;
                 W_MergeFile(file);
                 modifiedgame = true;
                 nerve = true;
@@ -549,22 +551,22 @@ boolean D_ChooseIWAD(void)
             {
                 IdentifyIWADByName(file);
                 if (D_AddFile(file))
-                    iwadfound = true;
+                    iwadfound = 1;
             }
         }
 
         // more than one file was selected
         else
         {
-            LPSTR iwad = ofn.lpstrFile;
-            LPSTR pwad = ofn.lpstrFile;
+            LPSTR       iwad = ofn.lpstrFile;
+            LPSTR       pwad = ofn.lpstrFile;
 
             wadfolder = strdup(szFile);
 
             // find and add iwad first
             while (iwad[0])
             {
-                static char fullpath[MAX_PATH];
+                static char     fullpath[MAX_PATH];
 
                 iwad += lstrlen(iwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, iwad);
@@ -580,7 +582,7 @@ boolean D_ChooseIWAD(void)
                     {
                         IdentifyIWADByName(iwad);
                         if (D_AddFile(fullpath))
-                            iwadfound = true;
+                            iwadfound = 1;
                     }
                 }
             }
@@ -588,7 +590,7 @@ boolean D_ChooseIWAD(void)
             // merge any pwads
             while (pwad[0])
             {
-                static char fullpath[MAX_PATH];
+                static char     fullpath[MAX_PATH];
 
                 pwad += lstrlen(pwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, pwad);
@@ -602,9 +604,6 @@ boolean D_ChooseIWAD(void)
                     }
             }
         }
-
-        if (!iwadfound)
-            I_Error("Game mode indeterminate. No valid IWAD was specified.");
     }
     return iwadfound;
 }
@@ -620,7 +619,7 @@ static void D_DoomMainSetup(void)
     char    file[256];
     char    demolumpname[9];
     int     temp;
-    boolean choseniwad = false;
+    int     choseniwad;
 
     SDL_Init(0);
 
@@ -674,10 +673,14 @@ static void D_DoomMainSetup(void)
         D_AddFile(iwadfile);
     else 
     {
-        choseniwad = D_ChooseIWAD();
+        do
+        {
+            choseniwad = D_ChooseIWAD();
 
-        if (!choseniwad)
-            I_Quit(false);
+            if (choseniwad == -1)
+                I_Quit(false);
+
+        } while (!choseniwad);
 
         M_SaveDefaults();
     }
