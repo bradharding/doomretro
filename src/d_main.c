@@ -557,10 +557,14 @@ static int D_ChooseIWAD(void)
                 sprintf(fullpath, "%s\\DOOM2.WAD", wadfolder);
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
+                {
                     iwadfound = 1;
-                W_MergeFile(file);
-                modifiedgame = true;
-                nerve = true;
+                    if (W_MergeFile(file))
+                    {
+                        modifiedgame = true;
+                        nerve = true;
+                    }
+                }
             }
 
             // otherwise make sure it's an IWAD
@@ -613,7 +617,7 @@ static int D_ChooseIWAD(void)
                     if (W_MergeFile(fullpath))
                     {
                         modifiedgame = true;
-                        if (D_CheckFilename(pwad, "NERVE.WAD"))
+                        if (!strcasecmp(pwad, "NERVE.WAD"))
                             nerve = true;
                     }
             }
