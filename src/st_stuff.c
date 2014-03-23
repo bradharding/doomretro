@@ -926,10 +926,10 @@ boolean ST_Responder(event_t *ev)
             {
                 plyr->cheats ^= CF_NOCLIP;
 
-                  if (plyr->cheats & CF_NOCLIP)
-                      plyr->message = STSTR_NCON;
-                  else
-                      plyr->message = STSTR_NCOFF;
+                if (plyr->cheats & CF_NOCLIP)
+                    plyr->message = STSTR_NCON;
+                else
+                    plyr->message = STSTR_NCOFF;
 
                 // [BH] always display message
                 message_dontfuckwithme = true;
@@ -1528,8 +1528,6 @@ void ST_doPaletteStuff(void)
         // [BH] use additional red palette
         if (palette > NUMREDPALS)
             palette = NUMREDPALS;
-
-        palette += STARTREDPALS - 1;
     }
 
     else if (plyr->bonuscount)

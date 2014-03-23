@@ -526,7 +526,7 @@ boolean D_ChooseIWAD(void)
             wadfolder = strdup(M_ExtractFolder(file));
 
             // if it's NERVE.WAD, try to open DOOM2.WAD with it
-            if (M_CheckFilename(file, "NERVE.WAD"))
+            if (D_CheckFilename(file, "NERVE.WAD"))
             {
                 static char fullpath[MAX_PATH];
 
@@ -540,11 +540,11 @@ boolean D_ChooseIWAD(void)
             }
 
             // otherwise make sure it's an IWAD
-            else if (M_CheckFilename(file, "DOOM.WAD")
-                     || M_CheckFilename(file, "DOOM1.WAD")
-                     || M_CheckFilename(file, "DOOM2.WAD")
-                     || M_CheckFilename(file, "PLUTONIA.WAD")
-                     || M_CheckFilename(file, "TNT.WAD")
+            else if (D_CheckFilename(file, "DOOM.WAD")
+                     || D_CheckFilename(file, "DOOM1.WAD")
+                     || D_CheckFilename(file, "DOOM2.WAD")
+                     || D_CheckFilename(file, "PLUTONIA.WAD")
+                     || D_CheckFilename(file, "TNT.WAD")
                      || W_WadType(file) == IWAD)
             {
                 IdentifyIWADByName(file);
@@ -569,11 +569,11 @@ boolean D_ChooseIWAD(void)
                 iwad += lstrlen(iwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, iwad);
 
-                if (M_CheckFilename(iwad, "DOOM.WAD")
-                    || M_CheckFilename(iwad, "DOOM1.WAD")
-                    || M_CheckFilename(iwad, "DOOM2.WAD")
-                    || M_CheckFilename(iwad, "PLUTONIA.WAD")
-                    || M_CheckFilename(iwad, "TNT.WAD")
+                if (D_CheckFilename(iwad, "DOOM.WAD")
+                    || D_CheckFilename(iwad, "DOOM1.WAD")
+                    || D_CheckFilename(iwad, "DOOM2.WAD")
+                    || D_CheckFilename(iwad, "PLUTONIA.WAD")
+                    || D_CheckFilename(iwad, "TNT.WAD")
                     || W_WadType(fullpath) == IWAD)
                 {
                     if (!iwadfound)
@@ -593,11 +593,11 @@ boolean D_ChooseIWAD(void)
                 pwad += lstrlen(pwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, pwad);
 
-                if (!M_CheckFilename(pwad, "DOOMRETRO.WAD") && W_WadType(fullpath) == PWAD)
+                if (!D_CheckFilename(pwad, "DOOMRETRO.WAD") && W_WadType(fullpath) == PWAD)
                     if (W_MergeFile(fullpath))
                     {
                         modifiedgame = true;
-                        if (M_CheckFilename(pwad, "NERVE.WAD"))
+                        if (D_CheckFilename(pwad, "NERVE.WAD"))
                             nerve = true;
                     }
             }

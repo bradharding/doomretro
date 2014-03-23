@@ -32,7 +32,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "v_data.h"
 #include "v_video.h"
 
-extern boolean  automapactive;  // in AM_map.c
+extern boolean  automapactive;
 extern boolean  widescreen;
 extern boolean  translucency;
 
@@ -94,19 +94,17 @@ void HU_drawChar(int x, int y, int i)
     int         x1, y1;
 
     for (y1 = 0; y1 < 10; y1++)
-    {
         for (x1 = 0; x1 < w; x1++)
         {
-            char src = smallcharset[i][y1 * w + x1];
-            int i = (x + x1) * 2;
-            int j = (y + y1) * 2;
+            char        src = smallcharset[i][y1 * w + x1];
+            int         i = (x + x1) * 2;
+            int         j = (y + y1) * 2;
 
             HU_drawDot(i, j, src);
             HU_drawDot(++i, j, src);
             HU_drawDot(i, ++j, src);
             HU_drawDot(--i, j, src);
         }
-    }
 }
 
 static struct
@@ -148,9 +146,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
             x = l->x;
             y += 9;
         }
-        else if (c != ' '
-                 && c >= l->sc
-                 && c <= '_')
+        else if (c != ' ' && c >= l->sc && c <= '_')
         {
             int j = c - '!';
             int k = 0;
@@ -190,18 +186,19 @@ void HUlib_drawTextLine(hu_textline_t *l)
         }
         else
         {
-            w = (i > 0 && (l->l[i - 1] == '.'
-                           || l->l[i - 1] == '!'
-                           || l->l[i - 1] == '?') ? 5 : 3);
+            w = (i > 0 && (l->l[i - 1] == '.' || l->l[i - 1] == '!' || l->l[i - 1] == '?') ? 5 : 3);
             x += w;
         }
         tw += w;
     }
 
+    if (STCFN034)
+        return;
+
     // [BH] draw underscores for IDBEHOLD cheat message
-    if (idbehold && !STCFN034)
+    if (idbehold)
     {
-        int x1, y1, x2, y2;
+        int     x1, y1, x2, y2;
 
         for (y1 = 0; y1 < 4; y1++)
             for (x1 = 0; x1 < ORIGINALWIDTH; x1++)
@@ -227,10 +224,10 @@ void HUlib_drawTextLine(hu_textline_t *l)
     for (yy = l->y - 1; yy < (y + 10) * SCREENSCALE; yy++)
         for (xx = l->x; xx < (l->x + tw + 1) * SCREENSCALE; xx++)
         {
-            int dot = yy * SCREENWIDTH + xx;
-            byte *source = &tempscreen[dot];
-            byte *dest1 = &screens[0][dot];
-            byte *dest2 = &screens[screenSize < 7 && !automapactive][dot];
+            int         dot = yy * SCREENWIDTH + xx;
+            byte        *source = &tempscreen[dot];
+            byte        *dest1 = &screens[0][dot];
+            byte        *dest2 = &screens[screenSize < 7 && !automapactive][dot];
 
             if (!*source)
                 *dest1 = tinttab50[*dest2];

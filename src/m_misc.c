@@ -36,14 +36,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 // Create a directory
 //
-
 void M_MakeDirectory(char *path)
 {
     mkdir(path);
 }
 
 // Check if a file exists
-
 boolean M_FileExists(char *filename)
 {
     FILE        *fstream;
@@ -56,18 +54,14 @@ boolean M_FileExists(char *filename)
         return true;
     }
     else
-    {
         // If we can't open because the file is a directory, the
         // "file" exists at least!
-
         return (errno == EISDIR);
-    }
 }
 
 //
 // Determine the length of an open file.
 //
-
 long M_FileLength(FILE *handle)
 {
     long        savedpos;
@@ -100,23 +94,9 @@ char *M_ExtractFolder(char *path)
     return folder;
 }
 
-boolean M_CheckFilename(char *path, char *filename)
-{
-    size_t path_len;
-    size_t filename_len;
-
-    path_len = strlen(path);
-    filename_len = strlen(filename);
-
-    return (path_len >= filename_len + 1
-            && path[path_len - filename_len - 1] == DIR_SEPARATOR
-            && !strcasecmp(&path[path_len - filename_len], filename));
-}
-
 //
 // M_WriteFile
 //
-
 boolean M_WriteFile(char *name, void *source, int length)
 {
     FILE        *handle;
@@ -136,11 +116,9 @@ boolean M_WriteFile(char *name, void *source, int length)
     return true;
 }
 
-
 //
 // M_ReadFile
 //
-
 int M_ReadFile(char *name, byte **buffer)
 {
     FILE        *handle;
@@ -153,7 +131,6 @@ int M_ReadFile(char *name, byte **buffer)
 
     // find the size of the file by seeking to the end and
     // reading the current position
-
     length = M_FileLength(handle);
 
     buf = (byte *)Z_Malloc(length, PU_STATIC, NULL);
@@ -171,20 +148,16 @@ int M_ReadFile(char *name, byte **buffer)
 // inside the system temporary directory.
 //
 // The returned value must be freed with Z_Free after use.
-
 char *M_TempFile(char *s)
 {
     char *result;
     char *tempdir;
 
     // Check the TEMP environment variable to find the location.
-
     tempdir = getenv("TEMP");
 
     if (tempdir == NULL)
-    {
         tempdir = ".";
-    }
 
     result = (char *)Z_Malloc(strlen(tempdir) + strlen(s) + 2, PU_STATIC, 0);
     sprintf(result, "%s%c%s", tempdir, DIR_SEPARATOR, s);

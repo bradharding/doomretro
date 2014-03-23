@@ -189,7 +189,7 @@ void init_win32(LPCTSTR lpIconName)
     SDL_SysWMinfo       wminfo;
 
     SDL_VERSION(&wminfo.version)
-        SDL_GetWMInfo(&wminfo);
+    SDL_GetWMInfo(&wminfo);
     hwnd = wminfo.window;
 
     icon = LoadIcon(handle, lpIconName);
