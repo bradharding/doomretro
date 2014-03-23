@@ -495,6 +495,28 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
+static boolean D_IsDOOMIWAD(char *filename)
+{
+    return (D_CheckFilename(filename, "DOOM.WAD")
+            || D_CheckFilename(filename, "DOOM1.WAD")
+            || D_CheckFilename(filename, "DOOM2.WAD")
+            || D_CheckFilename(filename, "PLUTONIA.WAD")
+            || D_CheckFilename(filename, "TNT.WAD"));
+}
+
+static boolean D_IsUnsupportedIWAD(char *filename)
+{
+    return (D_CheckFilename(filename, "HERETIC1.WAD")
+            || D_CheckFilename(filename, "HERETIC.WAD")
+            || D_CheckFilename(filename, "HEXEN.WAD")
+            || D_CheckFilename(filename, "HEXDD.WAD")
+            || D_CheckFilename(filename, "STRIFE0.WAD")
+            || D_CheckFilename(filename, "STRIFE1.WAD")
+            || D_CheckFilename(filename, "VOICES.WAD")
+            || D_CheckFilename(filename, "CHEX.WAD")
+            || D_CheckFilename(filename, "HACX.WAD"));
+}
+
 static int D_ChooseIWAD(void)
 {
     OPENFILENAME        ofn;
@@ -542,12 +564,8 @@ static int D_ChooseIWAD(void)
             }
 
             // otherwise make sure it's an IWAD
-            else if (D_CheckFilename(file, "DOOM.WAD")
-                     || D_CheckFilename(file, "DOOM1.WAD")
-                     || D_CheckFilename(file, "DOOM2.WAD")
-                     || D_CheckFilename(file, "PLUTONIA.WAD")
-                     || D_CheckFilename(file, "TNT.WAD")
-                     || W_WadType(file) == IWAD)
+            else if (D_IsDOOMIWAD(file)
+                     || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
             {
                 IdentifyIWADByName(file);
                 if (D_AddFile(file))
@@ -571,12 +589,8 @@ static int D_ChooseIWAD(void)
                 iwad += lstrlen(iwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, iwad);
 
-                if (D_CheckFilename(iwad, "DOOM.WAD")
-                    || D_CheckFilename(iwad, "DOOM1.WAD")
-                    || D_CheckFilename(iwad, "DOOM2.WAD")
-                    || D_CheckFilename(iwad, "PLUTONIA.WAD")
-                    || D_CheckFilename(iwad, "TNT.WAD")
-                    || W_WadType(fullpath) == IWAD)
+                if (D_IsDOOMIWAD(fullpath)
+                    || (W_WadType(fullpath) == IWAD && !D_IsUnsupportedIWAD(fullpath)))
                 {
                     if (!iwadfound)
                     {
