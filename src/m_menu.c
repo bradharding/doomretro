@@ -1150,7 +1150,6 @@ void M_DrawReadThis(void)
     }
     if (W_CheckNumForName(lumpname) >= 0)
     {
-        inhelpscreens = true;
         if (automapactive)
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 245);
         else
@@ -2137,6 +2136,7 @@ boolean M_Responder(event_t *ev)
                     if (returntowidescreen)
                         ToggleWideScreen(true);
                 }
+                inhelpscreens = false;
             }
             else
             {
@@ -2675,8 +2675,6 @@ void M_Drawer(void)
     char         *name;
     int          start;
 
-    inhelpscreens = false;
-
     // Horiz. & Vertically center string and print it.
     if (messageToPrint)
     {
@@ -2684,19 +2682,14 @@ void M_Drawer(void)
 
         start = 0;
         if (!usergame || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
-        {
             y = (ORIGINALHEIGHT - M_StringHeight(messageString)) / 2 - 1;
-        }
         else
-        {
             y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
-        }
         while (messageString[start] != '\0')
         {
             int foundnewline = 0;
 
             for (i = 0; i < strlen(messageString + start); i++)
-            {
                 if (messageString[start + i] == '\n')
                 {
                     memset(string, 0, sizeof(string));
@@ -2705,7 +2698,6 @@ void M_Drawer(void)
                     start += i + 1;
                     break;
                 }
-            }
 
             if (!foundnewline)
             {
