@@ -92,6 +92,11 @@ int            startloadgame;
 
 boolean        advancedemo;
 
+extern int screenwidth;
+extern int screenheight;
+extern int windowwidth;
+extern int windowheight;
+
 void D_CheckNetGame(void);
 
 //
@@ -890,6 +895,19 @@ static void D_DoomMainSetup(void)
     {
         widescreen = true;
         screenblocks = 10;
+    }
+
+    if (screenwidth && screenheight
+        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
+    {
+        screenwidth = SCREENWIDTH;
+        screenheight = SCREENWIDTH * 3 / 4;
+    }
+
+    if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
+    {
+        windowwidth = SCREENWIDTH;
+        windowheight = SCREENWIDTH * 3 / 4;
     }
 
     if (usegamma < USEGAMMA_MIN || usegamma > USEGAMMA_MAX)

@@ -869,7 +869,7 @@ void ToggleFullScreen(void)
 
 void ApplyWindowResize(int height)
 {
-    windowheight = MAX(ORIGINALWIDTH * 3 / 4, height);
+    windowheight = MAX(SCREENWIDTH * 3 / 4, height);
     windowwidth = windowheight * 4 / 3;
     windowwidth += (windowwidth & 1);
 
