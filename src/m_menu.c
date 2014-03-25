@@ -471,15 +471,15 @@ void M_DarkBackground(void)
     if (!TITLEPIC && !usergame)
         return;
 
-    height = SCREENHEIGHT - widescreen * SBARHEIGHT;
+    height = (SCREENHEIGHT - widescreen * SBARHEIGHT) * SCREENWIDTH;
 
-    while (i < SCREENWIDTH * height)
+    while (i < height)
         tempscreen[i] = screens[0][i++];
 
-    for (y = 0; y < height; y++)
+    for (y = 0; y < height; y += SCREENWIDTH)
         for (x = 0; x < SCREENWIDTH; x++)
         {
-            int i = y * SCREENWIDTH + x;
+            int i = y + x;
             int dot = tempscreen[i];
 
             if (x > 0)
@@ -491,66 +491,70 @@ void M_DarkBackground(void)
         }
 
     i = 0;
-    while (i < SCREENWIDTH * height)
+    while (i < height)
         tempscreen[i] = screens[0][i++];
 
-    for (y = 0; y < height; y++)
+    for (y = 0; y < height; y += SCREENWIDTH)
         for (x = 0; x < SCREENWIDTH; x++)
         {
-            int i = y * SCREENWIDTH + x;
-            int dot = tempscreen[i];
-
-            if (y > 0)
-                dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH] << 8)];
-            if (y < height - 1)
-                dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH] << 8)];
-
-            screens[0][i] = dot;
-        }
-
-    i = 0;
-    while (i < SCREENWIDTH * height)
-        tempscreen[i] = screens[0][i++];
-
-    for (y = 0; y < height; y++)
-        for (x = 0; x < SCREENWIDTH; x++)
-        {
-            int i = y * SCREENWIDTH + x;
+            int i = y + x;
             int dot = tempscreen[i];
 
             if (x > 0 && y > 0)
                 dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH - 1] << 8)];
-            if (x < SCREENWIDTH - 1 && y < height - 1)
+            if (x < SCREENWIDTH - 1 && y < height - SCREENWIDTH)
                 dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH + 1] << 8)];
 
             screens[0][i] = dot;
         }
 
     i = 0;
-    while (i < SCREENWIDTH * height)
+    while (i < height)
         tempscreen[i] = screens[0][i++];
 
-    for (y = 0; y < height; y++)
+    for (y = 0; y < height; y += SCREENWIDTH)
         for (x = 0; x < SCREENWIDTH; x++)
         {
-            int i = y * SCREENWIDTH + x;
+            int i = y + x;
+            int dot = tempscreen[i];
+
+            if (y > 0)
+                dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH] << 8)];
+            if (y < height - SCREENWIDTH)
+                dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH] << 8)];
+
+            screens[0][i] = dot;
+        }
+
+    i = 0;
+    while (i < height)
+        tempscreen[i] = screens[0][i++];
+
+    for (y = 0; y < height; y += SCREENWIDTH)
+        for (x = 0; x < SCREENWIDTH; x++)
+        {
+            int i = y + x;
             int dot = tempscreen[i];
 
             if (x < SCREENWIDTH - 1 && y > 0)
                 dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH + 1] << 8)];
-            if (x > 0 && y < height - 1)
+            if (x > 0 && y < height - SCREENWIDTH)
                 dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH - 1] << 8)];
 
             screens[0][i] = tinttab50[dot];
         }
 
     if (fullscreen && !widescreen)
-        for (y = 0; y < height; y++)
+    {
+        for (y = 0; y < height; y += SCREENWIDTH)
         {
-            screens[0][y * SCREENWIDTH] = tinttab50[screens[0][y * SCREENWIDTH]];
-            screens[0][y * SCREENWIDTH + SCREENWIDTH - 1] = 
-                tinttab50[screens[0][y * SCREENWIDTH + SCREENWIDTH - 1]];
+            screens[0][y] = tinttab50[screens[0][y]];
+            screens[0][y + 1] = tinttab50[screens[0][y] + (screens[0][y + 1] << 8)];
+            screens[0][y + SCREENWIDTH - 1] = tinttab50[screens[0][y + SCREENWIDTH - 1]];
+            screens[0][y + SCREENWIDTH - 2] = tinttab50[screens[0][y + SCREENWIDTH - 1] +
+                (screens[0][y + SCREENWIDTH - 2] << 8)];
         }
+    }
 }
 
 static byte blues[] =
