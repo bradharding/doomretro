@@ -543,6 +543,14 @@ void M_DarkBackground(void)
 
             screens[0][i] = tinttab50[dot];
         }
+
+    if (fullscreen && !widescreen)
+        for (y = 0; y < height; y++)
+        {
+            screens[0][y * SCREENWIDTH] = tinttab50[screens[0][y * SCREENWIDTH]];
+            screens[0][y * SCREENWIDTH + SCREENWIDTH - 1] = 
+                tinttab50[screens[0][y * SCREENWIDTH + SCREENWIDTH - 1]];
+        }
 }
 
 static byte blues[] =
