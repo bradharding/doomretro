@@ -460,7 +460,7 @@ menu_t SaveDef =
 
 //
 // M_DarkBackground
-//  darken background while menu is displayed
+//  darken and blur background while menu is displayed
 //
 void M_DarkBackground(void)
 {
@@ -504,6 +504,42 @@ void M_DarkBackground(void)
                 dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH] << 8)];
             if (y < height - 1)
                 dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH] << 8)];
+
+            screens[0][i] = dot;
+        }
+
+    i = 0;
+    while (i < SCREENWIDTH * height)
+        tempscreen[i] = screens[0][i++];
+
+    for (y = 0; y < height; y++)
+        for (x = 0; x < SCREENWIDTH; x++)
+        {
+            int i = y * SCREENWIDTH + x;
+            int dot = tempscreen[i];
+
+            if (x > 0 && y > 0)
+                dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH - 1] << 8)];
+            if (x < SCREENWIDTH - 1 && y < height - 1)
+                dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH + 1] << 8)];
+
+            screens[0][i] = dot;
+        }
+
+    i = 0;
+    while (i < SCREENWIDTH * height)
+        tempscreen[i] = screens[0][i++];
+
+    for (y = 0; y < height; y++)
+        for (x = 0; x < SCREENWIDTH; x++)
+        {
+            int i = y * SCREENWIDTH + x;
+            int dot = tempscreen[i];
+
+            if (x < SCREENWIDTH - 1 && y > 0)
+                dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH + 1] << 8)];
+            if (x > 0 && y < height - 1)
+                dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH - 1] << 8)];
 
             screens[0][i] = tinttab50[dot];
         }
