@@ -896,6 +896,11 @@ static void D_DoomMainSetup(void)
         widescreen = true;
         screenblocks = 10;
     }
+    if (widescreen)
+    {
+        returntowidescreen = true;
+        widescreen = false;
+    }
 
     if (screenwidth && screenheight
         && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))

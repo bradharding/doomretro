@@ -138,6 +138,8 @@ char           *skullName[2] = { "M_SKULL1", "M_SKULL2" };
 // current menudef
 menu_t         *currentMenu;
 
+byte           *tempscreen;
+
 //
 // PROTOTYPES
 //
@@ -462,17 +464,49 @@ menu_t SaveDef =
 //
 void M_DarkBackground(void)
 {
-    byte        *dot;
-    int         i = 0;
+    int i = 0;
+    int x, y;
+    int height;
 
     if (!TITLEPIC && !usergame)
         return;
 
-    while (i < SCREENWIDTH * SCREENHEIGHT)
-    {
-        dot = &screens[0][i++];
-        *dot = *(*dot + tinttab50);
-    }
+    height = SCREENHEIGHT - widescreen * SBARHEIGHT;
+
+    while (i < SCREENWIDTH * height)
+        tempscreen[i] = screens[0][i++];
+
+    for (y = 0; y < height; y++)
+        for (x = 0; x < SCREENWIDTH; x++)
+        {
+            int i = y * SCREENWIDTH + x;
+            int dot = tempscreen[i];
+
+            if (x > 0)
+                dot = tinttab50[dot + (tempscreen[i - 1] << 8)];
+            if (x < SCREENWIDTH - 1)
+                dot = tinttab50[dot + (tempscreen[i + 1] << 8)];
+
+            screens[0][i] = dot;
+        }
+
+    i = 0;
+    while (i < SCREENWIDTH * height)
+        tempscreen[i] = screens[0][i++];
+
+    for (y = 0; y < height; y++)
+        for (x = 0; x < SCREENWIDTH; x++)
+        {
+            int i = y * SCREENWIDTH + x;
+            int dot = tempscreen[i];
+
+            if (y > 0)
+                dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH] << 8)];
+            if (y < height - 1)
+                dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH] << 8)];
+
+            screens[0][i] = tinttab50[dot];
+        }
 }
 
 static byte blues[] =
@@ -2814,6 +2848,7 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = menuactive;
     quickSaveSlot = -1;
+    tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if (autostart)
     {
