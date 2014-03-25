@@ -138,7 +138,9 @@ char           *skullName[2] = { "M_SKULL1", "M_SKULL2" };
 // current menudef
 menu_t         *currentMenu;
 
-byte           *tempscreen;
+byte           *temp;
+
+boolean        menublur = true;
 
 //
 // PROTOTYPES
@@ -458,6 +460,19 @@ menu_t SaveDef =
     0
 };
 
+int height;
+
+__inline static void blur(int i)
+{
+    int x, y;
+
+    memcpy(temp, screens[0], SCREENWIDTH * SCREENHEIGHT);
+
+    for (y = SCREENWIDTH; y < height - SCREENWIDTH; y += SCREENWIDTH)
+        for (x = y + 1; x < y + SCREENWIDTH - 1; x++)
+            screens[0][x] = tinttab50[tinttab50[temp[x] + (temp[x - i] << 8)] + (temp[x + i] << 8)];
+}
+
 //
 // M_DarkBackground
 //  darken and blur background while menu is displayed
@@ -465,96 +480,22 @@ menu_t SaveDef =
 void M_DarkBackground(void)
 {
     int i = 0;
-    int x, y;
-    int height;
 
     if (!TITLEPIC && !usergame)
         return;
 
     height = (SCREENHEIGHT - widescreen * SBARHEIGHT) * SCREENWIDTH;
 
-    while (i < height)
-        tempscreen[i] = screens[0][i++];
-
-    for (y = 0; y < height; y += SCREENWIDTH)
-        for (x = 0; x < SCREENWIDTH; x++)
-        {
-            int i = y + x;
-            int dot = tempscreen[i];
-
-            if (x > 0)
-                dot = tinttab50[dot + (tempscreen[i - 1] << 8)];
-            if (x < SCREENWIDTH - 1)
-                dot = tinttab50[dot + (tempscreen[i + 1] << 8)];
-
-            screens[0][i] = dot;
-        }
-
-    i = 0;
-    while (i < height)
-        tempscreen[i] = screens[0][i++];
-
-    for (y = 0; y < height; y += SCREENWIDTH)
-        for (x = 0; x < SCREENWIDTH; x++)
-        {
-            int i = y + x;
-            int dot = tempscreen[i];
-
-            if (x > 0 && y > 0)
-                dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH - 1] << 8)];
-            if (x < SCREENWIDTH - 1 && y < height - SCREENWIDTH)
-                dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH + 1] << 8)];
-
-            screens[0][i] = dot;
-        }
-
-    i = 0;
-    while (i < height)
-        tempscreen[i] = screens[0][i++];
-
-    for (y = 0; y < height; y += SCREENWIDTH)
-        for (x = 0; x < SCREENWIDTH; x++)
-        {
-            int i = y + x;
-            int dot = tempscreen[i];
-
-            if (y > 0)
-                dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH] << 8)];
-            if (y < height - SCREENWIDTH)
-                dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH] << 8)];
-
-            screens[0][i] = dot;
-        }
-
-    i = 0;
-    while (i < height)
-        tempscreen[i] = screens[0][i++];
-
-    for (y = 0; y < height; y += SCREENWIDTH)
-        for (x = 0; x < SCREENWIDTH; x++)
-        {
-            int i = y + x;
-            int dot = tempscreen[i];
-
-            if (x < SCREENWIDTH - 1 && y > 0)
-                dot = tinttab50[dot + (tempscreen[i - SCREENWIDTH + 1] << 8)];
-            if (x > 0 && y < height - SCREENWIDTH)
-                dot = tinttab50[dot + (tempscreen[i + SCREENWIDTH - 1] << 8)];
-
-            screens[0][i] = tinttab50[dot];
-        }
-
-    if (fullscreen && !widescreen)
+    if (menublur)
     {
-        for (y = 0; y < height; y += SCREENWIDTH)
-        {
-            screens[0][y] = tinttab50[screens[0][y]];
-            screens[0][y + 1] = tinttab50[screens[0][y] + (screens[0][y + 1] << 8)];
-            screens[0][y + SCREENWIDTH - 1] = tinttab50[screens[0][y + SCREENWIDTH - 1]];
-            screens[0][y + SCREENWIDTH - 2] = tinttab50[screens[0][y + SCREENWIDTH - 1] +
-                (screens[0][y + SCREENWIDTH - 2] << 8)];
-        }
+        blur(1);
+        blur(SCREENWIDTH + 1);
+        blur(SCREENWIDTH);
+        blur(SCREENWIDTH - 1);
     }
+
+    while (i < height)
+        screens[0][i] = tinttab50[screens[0][i++]];
 }
 
 static byte blues[] =
@@ -2896,7 +2837,7 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = menuactive;
     quickSaveSlot = -1;
-    tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    temp = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if (autostart)
     {
