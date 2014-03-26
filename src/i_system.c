@@ -53,8 +53,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define DEFAULT_RAM 16 /* MiB */
-#define MIN_RAM     4  /* MiB */
+#define DEFAULT_RAM 32 /* MiB */
+#define MIN_RAM     32 /* MiB */
 
 void done_win32(void);
 
