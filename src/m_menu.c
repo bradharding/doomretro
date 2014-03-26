@@ -479,7 +479,7 @@ __inline static void blur(int i)
 //
 void M_DarkBackground(void)
 {
-    int i = 0;
+    int i, j;
 
     if (!TITLEPIC && !usergame)
         return;
@@ -492,8 +492,24 @@ void M_DarkBackground(void)
         blur(SCREENWIDTH + 1);
         blur(SCREENWIDTH);
         blur(SCREENWIDTH - 1);
+
+        for (i = 0, j = height - SCREENWIDTH; i < SCREENWIDTH; i++, j++)
+        {
+            screens[0][i] = tinttab50[screens[0][i] + (screens[0][i + SCREENWIDTH] << 8)];
+            screens[0][j] = tinttab50[screens[0][j] + (screens[0][j - SCREENWIDTH] << 8)];
+        }
+
+        if (fullscreen && !widescreen)
+            for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
+            {
+                screens[0][i] = tinttab50[screens[0][i]];
+                screens[0][i + 1] = tinttab50[screens[0][i] + (screens[0][i + 1] << 8)];
+                screens[0][j] = tinttab50[screens[0][j]];
+                screens[0][j - 1] = tinttab50[screens[0][j] + (screens[0][j - 1] << 8)];
+            }
     }
 
+    i = 0;
     while (i < height)
         screens[0][i] = tinttab50[screens[0][i++]];
 }
@@ -527,17 +543,16 @@ void M_DarkBlueBackground(void)
     int         x, y;
 
     for (y = 0; y < SCREENWIDTH * SCREENHEIGHT; y += SCREENWIDTH * 2)
-        for (x = 0; x < SCREENWIDTH; x += 2)
+        for (x = y; x < y + SCREENWIDTH; x += 2)
         {
-            byte        *dot = *screens + y + x;
+            byte        *dot = *screens + x;
             byte        *copy;
 
             *dot = blues[*dot];
             copy = dot + 1;
             *copy = *dot;
             copy += SCREENWIDTH;
-            *copy = *dot;
-            copy--;
+            *copy-- = *dot;
             *copy = *dot;
         }
 }
