@@ -888,7 +888,10 @@ static void D_DoomMainSetup(void)
     if (screenblocks < SCREENBLOCKS_MIN || screenblocks > SCREENBLOCKS_MAX)
         screenblocks = SCREENBLOCKS_DEFAULT;
     if (widescreen && !fullscreen)
+    {
+        widescreen = false;
         screenblocks = 11;
+    }
     if (!widescreen)
         widescreenhud = true;
     if (fullscreen && screenblocks == 11)

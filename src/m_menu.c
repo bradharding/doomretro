@@ -2847,7 +2847,7 @@ void M_Init(void)
     itemOn = currentMenu->lastOn;
     whichSkull = 0;
     skullAnimCounter = 10;
-    screenSize = (widescreen ? 8 : screenblocks - 3);
+    screenSize = (widescreen || returntowidescreen ? 8 : screenblocks - 3);
     messageToPrint = 0;
     messageString = NULL;
     messageLastMenuActive = menuactive;
