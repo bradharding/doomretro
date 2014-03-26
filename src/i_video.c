@@ -670,6 +670,13 @@ static void SetVideoMode(void)
     }
     else
     {
+        if (windowheight > desktopheight)
+        {
+            windowheight = desktopheight;
+            windowwidth = windowheight * 4 / 3;
+            windowwidth += (windowwidth & 1);
+            M_SaveDefaults();
+        }
         height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
         width = height * 4 / 3;
         width += (width & 1);
@@ -812,6 +819,13 @@ void ToggleFullScreen(void)
 
         init_win32(gamemission == doom ? "DOOM" : "DOOM2");
 
+        if (windowheight > desktopheight)
+        {
+            windowheight = desktopheight;
+            windowwidth = windowheight * 4 / 3;
+            windowwidth += (windowwidth & 1);
+            M_SaveDefaults();
+        }
         height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
         width = height * 4 / 3;
         width += (width & 1);
