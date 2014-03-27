@@ -26,20 +26,19 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include "m_bbox.h"
 #include "p_local.h"
 
 //
 // P_CheckSight
 //
-fixed_t         sightzstart;            // eye z of looker
-fixed_t         topslope;
-fixed_t         bottomslope;            // slopes to top and bottom of target
-
-divline_t       strace;                 // from t1 to t2
-fixed_t         t2x;
-fixed_t         t2y;
-
-int             sightcounts[2];
+typedef struct los_s
+{
+    fixed_t     sightzstart, t2x, t2y;  // eye z of looker
+    divline_t   strace;                 // from t1 to t2
+    fixed_t     topslope, bottomslope;  // slopes to top and bottom of target
+    fixed_t     bbox[4];
+} los_t;
 
 //
 // P_DivlineSide
@@ -69,7 +68,6 @@ __inline static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t 
     return ((den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy)) ?
         FixedDiv(FixedMul((v1->x - v2->x) >> 8, v1->dy) +
         FixedMul((v2->y - v1->y) >> 8, v1->dx), den) : 0);
-
 }
 
 //
@@ -77,12 +75,9 @@ __inline static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t 
 // Returns true
 //  if strace crosses the given subsector successfully.
 //
-static boolean P_CrossSubsector(int num)
+static boolean P_CrossSubsector(int num, register los_t *los)
 {
     seg_t               *seg;
-    line_t              *line;
-    int                 s1;
-    int                 s2;
     int                 count;
     subsector_t         *sub;
     sector_t            *front;
@@ -102,7 +97,7 @@ static boolean P_CrossSubsector(int num)
 
     for (; count; seg++, count--)
     {
-        line = seg->linedef;
+        line_t  *line = seg->linedef;
 
         // already checked other side?
         if (line->validcount == validcount)
@@ -110,34 +105,31 @@ static boolean P_CrossSubsector(int num)
 
         line->validcount = validcount;
 
+        if (line->bbox[BOXLEFT] > los->bbox[BOXRIGHT] ||
+            line->bbox[BOXRIGHT] < los->bbox[BOXLEFT] ||
+            line->bbox[BOXBOTTOM] > los->bbox[BOXTOP] ||
+            line->bbox[BOXTOP] < los->bbox[BOXBOTTOM])
+            continue;
+
         v1 = line->v1;
         v2 = line->v2;
-        s1 = P_DivlineSide(v1->x, v1->y, &strace);
-        s2 = P_DivlineSide(v2->x, v2->y, &strace);
 
         // line isn't crossed?
-        if (s1 == s2)
+        if (P_DivlineSide(v1->x, v1->y, &los->strace) ==
+            P_DivlineSide(v2->x, v2->y, &los->strace))
             continue;
 
         divl.x = v1->x;
         divl.y = v1->y;
         divl.dx = v2->x - v1->x;
         divl.dy = v2->y - v1->y;
-        s1 = P_DivlineSide(strace.x, strace.y, &divl);
-        s2 = P_DivlineSide(t2x, t2y, &divl);
 
         // line isn't crossed?
-        if (s1 == s2)
+        if (P_DivlineSide(los->strace.x, los->strace.y, &divl) ==
+            P_DivlineSide(los->t2x, los->t2y, &divl))
             continue;
 
-        // Backsector may be NULL if this is an "impassible
-        // glass" hack line.
-
-        if (line->backsector == NULL)
-            return false;
-
         // stop because it is not two sided anyway
-        // might do this after updating validcount?
         if (!(line->flags & ML_TWOSIDED))
             return false;
 
@@ -160,27 +152,28 @@ static boolean P_CrossSubsector(int num)
         if (openbottom >= opentop)
             return false;               // stop
 
-        frac = P_InterceptVector2(&strace, &divl);
+        frac = P_InterceptVector2(&los->strace, &divl);
 
         if (front->floorheight != back->floorheight)
         {
-            fixed_t slope = FixedDiv(openbottom - sightzstart, frac);
+            fixed_t slope = FixedDiv(openbottom - los->sightzstart, frac);
 
-            if (slope > bottomslope)
-                bottomslope = slope;
+            if (slope > los->bottomslope)
+                los->bottomslope = slope;
         }
 
         if (front->ceilingheight != back->ceilingheight)
         {
-            fixed_t slope = FixedDiv(opentop - sightzstart, frac);
+            fixed_t slope = FixedDiv(opentop - los->sightzstart, frac);
 
-            if (slope < topslope)
-                topslope = slope;
+            if (slope < los->topslope)
+                los->topslope = slope;
         }
 
-        if (topslope <= bottomslope)
+        if (los->topslope <= los->bottomslope)
             return false;               // stop
     }
+
     // passed the subsector ok
     return true;
 }
@@ -190,21 +183,22 @@ static boolean P_CrossSubsector(int num)
 // Returns true
 //  if strace crosses the given node successfully.
 //
-static boolean P_CrossBSPNode(int bspnum)
+static boolean P_CrossBSPNode(int bspnum, register los_t *los)
 {
     while (!(bspnum & NF_SUBSECTOR))
     {
         register const node_t *bsp = nodes + bspnum;
-        int side = P_DivlineSide(strace.x, strace.y, (divline_t *)bsp) & 1;
-        if (side == P_DivlineSide(t2x, t2y, (divline_t *)bsp))
+        int side = P_DivlineSide(los->strace.x, los->strace.y, (divline_t *)bsp) & 1;
+
+        if (side == P_DivlineSide(los->t2x, los->t2y, (divline_t *)bsp))
             bspnum = bsp->children[side];               // doesn't touch the other side
         else                                            // the partition plane is crossed here
-            if (!P_CrossBSPNode(bsp->children[side]))
+            if (!P_CrossBSPNode(bsp->children[side], los))
                 return 0;                               // cross the starting side
             else
                 bspnum = bsp->children[side ^ 1];       // cross the ending side
     }
-    return P_CrossSubsector(bspnum == -1 ? 0 : bspnum & ~NF_SUBSECTOR);
+    return P_CrossSubsector((bspnum == -1 ? 0 : bspnum & ~NF_SUBSECTOR), los);
 }
 
 //
@@ -215,53 +209,44 @@ static boolean P_CrossBSPNode(int bspnum)
 //
 boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
-    int         s1;
-    int         s2;
-    int         pnum;
-    int         bytenum;
-    int         bitnum;
+    const sector_t *s1 = t1->subsector->sector;
+    const sector_t *s2 = t2->subsector->sector;
+    int pnum = (s1 - sectors) * numsectors + (s2 - sectors);
+    los_t los;
 
     if (!t1 || !t2)
         return false;
 
     // First check for trivial rejection.
-
     // Determine subsector entries in REJECT table.
-    s1 = (t1->subsector->sector - sectors);
-    s2 = (t2->subsector->sector - sectors);
-    pnum = s1 * numsectors + s2;
-    bytenum = pnum >> 3;
-    bitnum = 1 << (pnum & 7);
-
     // Check in REJECT table.
-    if (bytenum < rejectmatrixsize && (rejectmatrix[bytenum] & bitnum))
-    {
-        sightcounts[0]++;
-
-        // can't possibly be connected
+    if ((pnum >> 3) < rejectmatrixsize && (rejectmatrix[pnum >> 3] & (1 << (pnum & 7))))
         return false;
-    }
+
+    // An unobstructed LOS is possible.
+    // Now look from eyes of t1 to any part of t2.
 
     if (t1->subsector == t2->subsector)
         return true;
 
-    // An unobstructed LOS is possible.
-    // Now look from eyes of t1 to any part of t2.
-    sightcounts[1]++;
-
     validcount++;
 
-    sightzstart = t1->z + t1->height - (t1->height >> 2);
-    topslope = (t2->z + t2->height) - sightzstart;
-    bottomslope = t2->z - sightzstart;
+    los.sightzstart = t1->z + t1->height - (t1->height >> 2);
+    los.topslope = t2->z + t2->height - los.sightzstart;
+    los.bottomslope = t2->z - los.sightzstart;
 
-    strace.x = t1->x;
-    strace.y = t1->y;
-    t2x = t2->x;
-    t2y = t2->y;
-    strace.dx = t2->x - t1->x;
-    strace.dy = t2->y - t1->y;
+    los.strace.x = t1->x;
+    los.strace.y = t1->y;
+    los.t2x = t2->x;
+    los.t2y = t2->y;
+    los.strace.dx = t2->x - t1->x;
+    los.strace.dy = t2->y - t1->y;
+
+    los.bbox[BOXRIGHT] = MAX(t1->x, t2->x);
+    los.bbox[BOXLEFT] = MIN(t1->x, t2->x);
+    los.bbox[BOXTOP] = MAX(t1->y, t2->y);
+    los.bbox[BOXBOTTOM] = MIN(t1->y, t2->y);
 
     // the head node is the last node output
-    return P_CrossBSPNode(numnodes - 1);
+    return P_CrossBSPNode(numnodes - 1, &los);
 }
