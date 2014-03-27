@@ -576,7 +576,8 @@ void I_FinishUpdate(void)
     // draw to screen
     blit();
 
-    SDL_FillRect(screen, NULL, 0);
+    if (!widescreen || !fullscreen)
+        SDL_FillRect(screen, NULL, 0);
 
     SDL_BlitSurface(screenbuffer, NULL, screen, &dest_rect);
 
