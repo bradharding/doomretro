@@ -199,15 +199,13 @@ void D_Display(void)
     else
         wipe = false;
 
-    if (gamestate == GS_LEVEL && gametic)
+    if (gamestate == GS_LEVEL)
         HU_Erase();
 
     // do buffered drawing
     switch (gamestate)
     {
         case GS_LEVEL:
-            if (!gametic)
-                break;
             ST_Drawer(viewheight == SCREENHEIGHT, true);
             break;
 
@@ -225,7 +223,7 @@ void D_Display(void)
     }
 
     // draw the view directly
-    if (gamestate == GS_LEVEL && gametic)
+    if (gamestate == GS_LEVEL)
     {
         R_RenderPlayerView(&players[displayplayer]);
         if (automapactive)
