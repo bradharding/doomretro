@@ -197,8 +197,12 @@ void HU_Start(void)
     greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
     bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
 
-    for (i = 0; i < NUMAMMO; i++)
-        ammopic[i].patch = W_CacheLumpNum(W_GetNumForName(ammopic[i].lump), PU_CACHE);
+    ammopic[am_clip].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_clip].lump), PU_CACHE);
+    ammopic[am_shell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_shell].lump), PU_CACHE);
+    if (gamemode != shareware)
+        ammopic[am_cell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_cell].lump), PU_CACHE);
+    ammopic[am_misl].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_misl].lump), PU_CACHE);
+
     for (i = 0; i < NUMCARDS; i++)
         keypic[i].patch = W_CacheLumpNum(W_GetNumForName(keypic[i].lump), PU_CACHE);
 }
