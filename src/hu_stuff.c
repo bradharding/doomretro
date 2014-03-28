@@ -203,8 +203,15 @@ void HU_Start(void)
         ammopic[am_cell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_cell].lump), PU_CACHE);
     ammopic[am_misl].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_misl].lump), PU_CACHE);
 
-    for (i = 0; i < NUMCARDS; i++)
-        keypic[i].patch = W_CacheLumpNum(W_GetNumForName(keypic[i].lump), PU_CACHE);
+    keypic[it_bluecard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_bluecard].lump), PU_CACHE);
+    keypic[it_yellowcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowcard].lump), PU_CACHE);
+    keypic[it_redcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_redcard].lump), PU_CACHE);
+    if (gamemode != shareware)
+    {
+        keypic[it_blueskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_blueskull].lump), PU_CACHE);
+        keypic[it_yellowskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowskull].lump), PU_CACHE);
+        keypic[it_redskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_redskull].lump), PU_CACHE);
+    }
 }
 
 static void DrawHUDNumber(int x, int y, signed int val)
