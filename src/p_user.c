@@ -42,8 +42,7 @@ void G_RemoveChoppers(void);
 //
 
 // 16 pixels of bob
-// DHM - NERVE :: MAXBOB reduced 25%
-#define MAXBOB (bfgedition ? 0xC0000 : 0x100000)
+#define MAXBOB 0x100000
 
 boolean onground;
 
@@ -87,12 +86,6 @@ void P_CalcHeight(player_t *player)
         //  like a ramp with low health.
         player->bob = (FixedMul(player->mo->momx, player->mo->momx)
                       + FixedMul(player->mo->momy, player->mo->momy)) >> 2;
-
-        if (bfgedition)
-        {
-            // DHM - NERVE :: player bob reduced by 25%, MAXBOB reduced by 25% as well
-            player->bob = (fixed_t)((float)player->bob * 0.75f);
-        }
 
         if (player->bob > MAXBOB)
             player->bob = MAXBOB;
