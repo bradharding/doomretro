@@ -797,10 +797,29 @@ void ToggleFullScreen(void)
         {
             width = desktopwidth;
             height = desktopheight;
+            screenwidth = 0;
+            screenheight = 0;
+            M_SaveDefaults();
         }
 
         screen = SDL_SetVideoMode(width, height, 0,
                                   SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+
+        if (!screen)
+        {
+            width = desktopwidth;
+            height = desktopheight;
+            screenwidth = 0;
+            screenheight = 0;
+            M_SaveDefaults();
+
+            screen = SDL_SetVideoMode(width, height, 0,
+                                      SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+
+            if (!screen)
+                I_Error("Error setting video mode %i×%i: %s\n",
+                        width, height, SDL_GetError());
+        }
 
         if (screenblocks == 11)
         {
