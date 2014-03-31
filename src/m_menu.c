@@ -462,15 +462,15 @@ menu_t SaveDef =
 
 int height;
 
-__inline static void blur(int i)
+__inline static void blur(int x1, int y1, int x2, int y2, int i)
 {
     int x, y;
 
     memcpy(temp, screens[0], SCREENWIDTH * SCREENHEIGHT);
 
-    for (y = SCREENWIDTH; y < height - SCREENWIDTH; y += SCREENWIDTH)
-        for (x = y + 1; x < y + SCREENWIDTH - 1; x++)
-            screens[0][x] = tinttab50[tinttab50[temp[x] + (temp[x - i] << 8)] + (temp[x + i] << 8)];
+    for (y = y1; y < y2; y += SCREENWIDTH)
+        for (x = y + x1; x < y + x2; x++)
+            screens[0][x] = tinttab50[temp[x] + (temp[x + i] << 8)];
 }
 
 //
@@ -488,16 +488,14 @@ void M_DarkBackground(void)
 
     if (menublur)
     {
-        blur(1);
-        blur(SCREENWIDTH + 1);
-        blur(SCREENWIDTH);
-        blur(SCREENWIDTH - 1);
-
-        for (i = 0, j = height - SCREENWIDTH; i < SCREENWIDTH; i++, j++)
-        {
-            screens[0][i] = tinttab50[screens[0][i] + (screens[0][i + SCREENWIDTH] << 8)];
-            screens[0][j] = tinttab50[screens[0][j] + (screens[0][j - SCREENWIDTH] << 8)];
-        }
+        blur(0, 0, SCREENWIDTH - 1, height, 1);
+        blur(1, 0, SCREENWIDTH, height, -1);
+        blur(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
+        blur(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
+        blur(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+        blur(0, 1, SCREENWIDTH, height, -SCREENWIDTH);
+        blur(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+        blur(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
 
         if (fullscreen && !widescreen)
             for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
