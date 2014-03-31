@@ -758,16 +758,13 @@ static void D_DoomMainSetup(void)
 
     if (p)
     {
-        if (!strcasecmp(myargv[p + 1] + strlen(myargv[p + 1]) - 4, ".lmp"))
-            strcpy(file, myargv[p + 1]);
+        if (M_StringEndsWith(myargv[p + 1], ".lmp"))
+            M_StringCopy(file, myargv[p + 1], sizeof(file));
         else
-            sprintf(file, "%s.lmp", myargv[p + 1]);
+            snprintf(file, sizeof(file), "%s.lmp", myargv[p + 1]);
 
         if (D_AddFile(file))
-        {
-            strncpy(demolumpname, lumpinfo[numlumps - 1].name, 8);
-            demolumpname[8] = '\0';
-        }
+            M_StringCopy(demolumpname, lumpinfo[numlumps - 1].name, sizeof(demolumpname));
     }
 
     // Generate the WAD hash table.  Speed things up a bit.
@@ -964,7 +961,7 @@ static void D_DoomMainSetup(void)
 
     if (startloadgame >= 0)
     {
-        strcpy(file, P_SaveGameFile(startloadgame));
+        M_StringCopy(file, P_SaveGameFile(startloadgame), sizeof(file));
         G_LoadGame(file);
     }
 

@@ -29,6 +29,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <errno.h>
 #include <direct.h>
 
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 #include "doomdef.h"
 #include "i_system.h"
 #include "z_zone.h"
@@ -171,4 +174,161 @@ boolean M_StrToInt(const char *str, int *result)
             || sscanf(str, " 0X%x", result) == 1
             || sscanf(str, " 0%o", result) == 1
             || sscanf(str, " %d", result) == 1);
+}
+
+void M_ForceUppercase(char *text)
+{
+    char        *p;
+
+    for (p = text; *p != '\0'; ++p)
+        *p = toupper(*p);
+}
+
+//
+// M_StrCaseStr
+//
+// Case-insensitive version of strstr()
+//
+char *M_StrCaseStr(char *haystack, char *needle)
+{
+    unsigned int        haystack_len;
+    unsigned int        needle_len;
+    unsigned int        len;
+    unsigned int        i;
+
+    haystack_len = strlen(haystack);
+    needle_len = strlen(needle);
+
+    if (haystack_len < needle_len)
+        return NULL;
+
+    len = haystack_len - needle_len;
+
+    for (i = 0; i <= len; ++i)
+        if (!strncasecmp(haystack + i, needle, needle_len))
+            return haystack + i;
+
+    return NULL;
+}
+
+//
+// String replace function.
+//
+char *M_StringReplace(char *haystack, char *needle, char *replacement)
+{
+    char        *result, *p;
+    char        *dst;
+    size_t      needle_len = strlen(needle);
+    size_t      result_len, dst_len;
+
+    // Iterate through occurrences of 'needle' and calculate the size of
+    // the new string.
+    result_len = strlen(haystack) + 1;
+    p = haystack;
+
+    for (;;)
+    {
+        p = strstr(p, needle);
+        if (p == NULL)
+            break;
+
+        p += needle_len;
+        result_len += strlen(replacement) - needle_len;
+    }
+
+    // Construct new string.
+
+    result = malloc(result_len);
+    if (result == NULL)
+    {
+        I_Error("M_StringReplace: Failed to allocate new string");
+        return NULL;
+    }
+
+    dst = result; dst_len = result_len;
+    p = haystack;
+
+    while (*p != '\0')
+        if (!strncmp(p, needle, needle_len))
+        {
+            M_StringCopy(dst, replacement, dst_len);
+            p += needle_len;
+            dst += strlen(replacement);
+            dst_len -= strlen(replacement);
+        }
+        else
+        {
+            *dst = *p;
+            ++dst;
+            --dst_len;
+            ++p;
+        }
+
+    return result;
+}
+
+// Safe string copy function that works like OpenBSD's strlcpy().
+// Returns true if the string was not truncated.
+boolean M_StringCopy(char *dest, char *src, size_t dest_size)
+{
+    strncpy(dest, src, dest_size);
+    dest[dest_size - 1] = '\0';
+    return strlen(dest) == strlen(src);
+}
+
+// Returns true if 's' begins with the specified prefix.
+boolean M_StringStartsWith(char *s, char *prefix)
+{
+    return (strlen(s) > strlen(prefix) && strncmp(s, prefix, strlen(prefix)) == 0);
+}
+
+// Returns true if 's' ends with the specified suffix.
+boolean M_StringEndsWith(char *s, char *suffix)
+{
+    return (strlen(s) >= strlen(suffix) && strcmp(s + strlen(s) - strlen(suffix), suffix) == 0);
+}
+
+// Return a newly-malloced string with all the strings given as arguments
+// concatenated together.
+char *M_StringJoin(char *s, ...)
+{
+    char *result, *v;
+    va_list args;
+    size_t result_len;
+
+    result_len = strlen(s) + 1;
+
+    va_start(args, s);
+    for (;;)
+    {
+        v = va_arg(args, char *);
+        if (v == NULL)
+            break;
+
+        result_len += strlen(v);
+    }
+    va_end(args);
+
+    result = malloc(result_len);
+
+    if (result == NULL)
+    {
+        I_Error("M_StringJoin: Failed to allocate new string.");
+        return NULL;
+    }
+
+    M_StringCopy(result, s, result_len);
+
+    va_start(args, s);
+    for (;;)
+    {
+        v = va_arg(args, char *);
+        if (v == NULL)
+            break;
+
+        strncat(result, v, result_len);
+    }
+    va_end(args);
+
+    return result;
 }

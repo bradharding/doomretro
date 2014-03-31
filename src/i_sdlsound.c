@@ -30,6 +30,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include <math.h>
 
+#include "m_misc.h"
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "s_sound.h"
@@ -287,7 +288,7 @@ static int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
 {
     char        namebuf[9];
 
-    sprintf(namebuf, "ds%s", sfx->name);
+    snprintf(namebuf, 9, "ds%s", sfx->name);
 
     return W_GetNumForName(namebuf);
 }

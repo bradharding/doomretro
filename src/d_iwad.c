@@ -316,12 +316,14 @@ static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
 
     // Construct the full path to the IWAD if it is located in
     // this directory, and check if it exists.
-    filename = (char *)malloc(strlen(dir) + strlen(iwadname) + 3);
-
     if (!strcmp(dir, "."))
-        strcpy(filename, iwadname);
+        filename = strdup(iwadname);
     else
-        sprintf(filename, "%s%c%s", dir, DIR_SEPARATOR, iwadname);
+    {
+        char sep[] = { DIR_SEPARATOR, '\0' };
+
+        filename = M_StringJoin(dir, sep, iwadname);
+    }
 
     if (M_FileExists(filename))
         return filename;
