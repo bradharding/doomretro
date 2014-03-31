@@ -493,7 +493,7 @@ void M_DarkBackground(void)
         blur(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
         blur(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
         blur(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-        blur(0, 1, SCREENWIDTH, height, -SCREENWIDTH);
+        blur(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
         blur(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
         blur(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
 
