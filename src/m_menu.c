@@ -481,9 +481,6 @@ void M_DarkBackground(void)
 {
     int i, j;
 
-    if (!TITLEPIC && !usergame)
-        return;
-
     height = (SCREENHEIGHT - widescreen * SBARHEIGHT) * SCREENWIDTH;
 
     if (menublur)
