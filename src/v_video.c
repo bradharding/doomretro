@@ -792,6 +792,7 @@ void V_Init(void)
 }
 
 extern boolean widescreen;
+extern boolean inhelpscreens;
 extern char maptitle[128];
 extern SDL_Surface *screen;
 extern SDL_Surface *screenbuffer;
@@ -815,7 +816,7 @@ boolean V_ScreenShot(void)
     if (hr != S_OK)
         return false;
 
-    strcpy(mapname, usergame ? maptitle : "Untitled");
+    strcpy(mapname, usergame && !inhelpscreens ? maptitle : "Untitled");
 
     do
     {
