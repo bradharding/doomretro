@@ -588,6 +588,7 @@ boolean G_Responder(event_t *ev)
                 S_StopSounds();
                 S_StartSound(NULL, sfx_swtchn);
                 S_PauseSound();
+                blurred = false;
             }
             else
             {
@@ -652,6 +653,7 @@ boolean G_Responder(event_t *ev)
             {
                 keydown = key_pause;
                 sendpause = true;
+                blurred = false;
             }
             else if (ev->data1 < NUMKEYS)
             {

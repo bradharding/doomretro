@@ -96,4 +96,6 @@ extern int      markpointnum;
 extern int      quickSaveSlot;
 extern int      st_facecount;
 extern boolean  oldweaponsowned[NUMWEAPONS];
+extern boolean  blurred;
+
 #endif
