@@ -139,9 +139,11 @@ char           *skullName[2] = { "M_SKULL1", "M_SKULL2" };
 // current menudef
 menu_t         *currentMenu;
 
-byte           *temp;
+byte           *tempscreen;
+byte           *blurredscreen;
 
 boolean        menublur = true;
+boolean        blurred = false;
 
 //
 // PROTOTYPES
@@ -467,11 +469,11 @@ __inline static void blur(int x1, int y1, int x2, int y2, int i)
 {
     int x, y;
 
-    memcpy(temp, screens[0], SCREENWIDTH * SCREENHEIGHT);
+    memcpy(tempscreen, blurredscreen, SCREENWIDTH * SCREENHEIGHT);
 
     for (y = y1; y < y2; y += SCREENWIDTH)
         for (x = y + x1; x < y + x2; x++)
-            screens[0][x] = tinttab50[temp[x] + (temp[x + i] << 8)];
+            blurredscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
 }
 
 //
@@ -484,30 +486,37 @@ void M_DarkBackground(void)
 
     height = (SCREENHEIGHT - widescreen * SBARHEIGHT) * SCREENWIDTH;
 
-    if (menublur)
+    if (!blurred)
     {
-        blur(0, 0, SCREENWIDTH - 1, height, 1);
-        blur(1, 0, SCREENWIDTH, height, -1);
-        blur(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-        blur(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
-        blur(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-        blur(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-        blur(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-        blur(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+        memcpy(blurredscreen, screens[0], SCREENWIDTH * SCREENHEIGHT);
 
-        if (fullscreen && !widescreen)
-            for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
-            {
-                screens[0][i] = tinttab50[screens[0][i]];
-                screens[0][i + 1] = tinttab50[screens[0][i] + (screens[0][i + 1] << 8)];
-                screens[0][j] = tinttab50[screens[0][j]];
-                screens[0][j - 1] = tinttab50[screens[0][j] + (screens[0][j - 1] << 8)];
-            }
+        if (menublur)
+        {
+            blur(0, 0, SCREENWIDTH - 1, height, 1);
+            blur(1, 0, SCREENWIDTH, height, -1);
+            blur(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
+            blur(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
+            blur(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+            blur(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
+            blur(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+            blur(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+
+            if (fullscreen && !widescreen)
+                for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
+                {
+                    blurredscreen[i] = tinttab50[blurredscreen[i]];
+                    blurredscreen[i + 1] = tinttab50[blurredscreen[i] + (blurredscreen[i + 1] << 8)];
+                    blurredscreen[j] = tinttab50[blurredscreen[j]];
+                    blurredscreen[j - 1] = tinttab50[blurredscreen[j] + (blurredscreen[j - 1] << 8)];
+                }
+
+            blurred = true;
+        }
     }
 
     i = 0;
     while (i < height)
-        screens[0][i] = tinttab50[screens[0][i++]];
+        screens[0][i] = tinttab50[blurredscreen[i++]];
 }
 
 static byte blues[] =
@@ -2675,6 +2684,7 @@ void M_StartControlPanel(void)
     menuactive = true;
     currentMenu = &MainDef;
     itemOn = currentMenu->lastOn;
+    blurred = false;
 
     S_StopSounds();
 }
@@ -2851,7 +2861,8 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = menuactive;
     quickSaveSlot = -1;
-    temp = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    blurredscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if (autostart)
     {
@@ -2882,7 +2893,5 @@ void M_Init(void)
             NewDef.prevMenu = &MainDef;
     }
     else if (gamemode == registered)
-    {
         EpiDef.numitems--;
-    }
 }
