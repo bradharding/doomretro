@@ -116,6 +116,8 @@ extern boolean  menublur;
 
 extern int      snd_maxslicetime_ms;
 
+extern char     *timidity_cfg_path;
+
 typedef enum
 {
     DEFAULT_INT,
@@ -234,6 +236,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (show_messages,       showMessages,        1),
     CONFIG_VARIABLE_INT   (skilllevel,          selectedskilllevel,  0),
     CONFIG_VARIABLE_INT   (snd_maxslicetime_ms, snd_maxslicetime_ms, 0),
+    CONFIG_VARIABLE_STRING(timidity_cfg_path,   timidity_cfg_path,   0),
     CONFIG_VARIABLE_INT   (translucency,        translucency,        1),
     CONFIG_VARIABLE_INT   (usegamma,            usegamma,            6),
     CONFIG_VARIABLE_STRING(videodriver,         videodriver,         0),
