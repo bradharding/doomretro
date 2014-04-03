@@ -2667,8 +2667,6 @@ boolean M_Responder(event_t *ev)
             }
         }
     }
-    if (keywait < I_GetTime())
-        keydown = 0;
     return false;
 }
 
