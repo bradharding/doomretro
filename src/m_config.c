@@ -118,6 +118,8 @@ extern int      snd_maxslicetime_ms;
 
 extern char     *timidity_cfg_path;
 
+extern boolean  firstuse;
+
 typedef enum
 {
     DEFAULT_INT,
@@ -189,6 +191,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,         0),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,     0),
     CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,   0),
+    CONFIG_VARIABLE_INT   (firstuse,            firstuse,            1),
     CONFIG_VARIABLE_INT   (fullscreen,          fullscreen,          1),
     CONFIG_VARIABLE_INT   (gamepad_automap,     gamepadautomap,      2),
     CONFIG_VARIABLE_INT   (gamepad_fire,        gamepadfire,         2),

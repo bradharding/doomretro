@@ -84,6 +84,8 @@ boolean        nomonsters;     // checkparm of -nomonsters
 boolean        respawnparm;    // checkparm of -respawn
 boolean        fastparm;       // checkparm of -fast
 
+boolean        firstuse = true;
+
 skill_t        startskill;
 int            startepisode;
 int            startmap;
@@ -106,6 +108,7 @@ void D_CheckNetGame(void);
 // Events can be discarded if no responder claims them
 //
 #define MAXEVENTS 64
+
 static event_t    events[MAXEVENTS];
 static int        eventhead;
 static int        eventtail;
@@ -498,6 +501,17 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
+static void D_FirstUse(void)
+{
+    LPCWSTR msg = L"As with all DOOM source ports, no actual level data is provided with "
+                  L"DOOM RETRO. In the following dialog box, please navigate to where an "
+                  L"official release of DOOM has been installed and select the WAD files "
+                  L"(such as DOOM.WAD or DOOM2.WAD) that DOOM RETRO requires.";
+
+    if (MessageBoxW(NULL, msg, L"DOOM RETRO", MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
+        I_Quit(false);
+}
+
 static boolean D_IsDOOMIWAD(char *filename)
 {
     return (D_CheckFilename(filename, "DOOM.WAD")
@@ -692,9 +706,15 @@ static void D_DoomMainSetup(void)
         I_Error("Can't find doomretro.wad.");
 
     if (iwadfile)
-        D_AddFile(iwadfile);
+    {
+        if (D_AddFile(iwadfile))
+            firstuse = false;
+    }
     else 
     {
+        if (firstuse)
+            D_FirstUse();
+
         do
         {
             choseniwad = D_ChooseIWAD();
@@ -704,8 +724,9 @@ static void D_DoomMainSetup(void)
 
         } while (!choseniwad);
 
-        M_SaveDefaults();
+        firstuse = false;
     }
+    M_SaveDefaults();
 
     if (!W_MergeFile("DOOMRETRO.WAD"))
         I_Error("Can't find doomretro.wad.");
