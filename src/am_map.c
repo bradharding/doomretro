@@ -264,7 +264,7 @@ int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
 boolean         followplayer = true;            // specifies whether to follow the player around
-boolean         rotate = false;
+boolean         rotate = true;
 
 static boolean  stopped = true;
 
