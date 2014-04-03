@@ -517,6 +517,7 @@ static boolean D_IsUnsupportedIWAD(char *filename)
             || D_CheckFilename(filename, "STRIFE1.WAD")
             || D_CheckFilename(filename, "VOICES.WAD")
             || D_CheckFilename(filename, "CHEX.WAD")
+            || D_CheckFilename(filename, "CHEX3.WAD")
             || D_CheckFilename(filename, "HACX.WAD"));
 }
 
