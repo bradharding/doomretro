@@ -1062,7 +1062,7 @@ hitline:
                  && !(players[consoleplayer].cheats & CF_GODMODE)))
     {
         if (in->d.thing->type == MT_PLAYER)
-            z += FRACUNIT * 8;
+            z += FRACUNIT * M_RandomInt(4, 16);
 
         if (in->d.thing->type == MT_HEAD)
             P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_REDTOBLUE_50);
