@@ -503,7 +503,7 @@ static void InitGameVersion(void)
 
 static void D_FirstUse(void)
 {
-    LPCWSTR msg = L"Welcome to DOOM RETRO!\n\n"
+    LPCWSTR msg = L"Thank you for downloading DOOM RETRO!\n\n"
                   L"Please note that, as with all DOOM source ports, no actual map data is "
                   L"provided with DOOM RETRO.\n\n"
                   L"In the dialog box that follows, please navigate to where an official "
@@ -621,7 +621,10 @@ static int D_ChooseIWAD(void)
                     {
                         IdentifyIWADByName(iwad);
                         if (D_AddFile(fullpath))
+                        {
                             iwadfound = 1;
+                            break;
+                        }
                     }
                 }
             }
