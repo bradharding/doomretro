@@ -703,8 +703,9 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
 
-    if (!M_FileExists("DOOMRETRO.WAD"))
-        I_Error("Can't find doomretro.wad.");
+    if (!M_FileExists("doomretro.wad"))
+        if (!M_FileExists("doomretro.wad.temp"))
+            I_Error("Can't find doomretro.wad.");
 
     if (iwadfile)
     {
@@ -716,21 +717,29 @@ static void D_DoomMainSetup(void)
         if (firstuse)
             D_FirstUse();
 
+        rename("doomretro.wad", "doomretro.wad.temp");
+
         do
         {
             choseniwad = D_ChooseIWAD();
 
             if (choseniwad == -1)
+            {
+                rename("doomretro.wad.temp", "doomretro.wad");
                 I_Quit(false);
+            }
 
         } while (!choseniwad);
+
+        rename("doomretro.wad.temp", "doomretro.wad");
 
         firstuse = false;
     }
     M_SaveDefaults();
 
-    if (!W_MergeFile("DOOMRETRO.WAD"))
-        I_Error("Can't find doomretro.wad.");
+    if (!W_MergeFile("doomretro.wad"))
+        if (!W_MergeFile("doomretro.wad.temp"))
+            I_Error("Can't find doomretro.wad.");
 
     if (W_CheckNumForName("BLD2A0") < 0 || W_CheckNumForName("MEDBA0") < 0)
         I_Error("Wrong version of doomretro.wad.");
