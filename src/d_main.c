@@ -627,6 +627,23 @@ static int D_ChooseIWAD(void)
                         }
                     }
                 }
+                else if (!strcasecmp(iwad, "NERVE.WAD"))
+                {
+                    static char     fullpath2[MAX_PATH];
+
+                    sprintf(fullpath2, "%s\\DOOM2.WAD", wadfolder);
+                    IdentifyIWADByName(fullpath2);
+                    if (D_AddFile(fullpath2))
+                    {
+                        iwadfound = 1;
+                        if (W_MergeFile(fullpath))
+                        {
+                            modifiedgame = true;
+                            nerve = true;
+                        }
+                        break;
+                    }
+                }
             }
 
             // merge any pwads
