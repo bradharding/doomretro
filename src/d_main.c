@@ -503,11 +503,13 @@ static void InitGameVersion(void)
 
 static void D_FirstUse(void)
 {
-    LPCWSTR msg = L"As with all DOOM source ports, no actual map data is provided with "
-                  L"DOOM RETRO.\n\n"
+    LPCWSTR msg = L"Welcome to DOOM RETRO!\n\n"
+                  L"Please note that, as with all DOOM source ports, no actual map data is "
+                  L"provided with DOOM RETRO.\n\n"
                   L"In the dialog box that follows, please navigate to where an official "
-                  L"release of DOOM has been installed and select a \u201cWAD file\u201d (such as "
-                  L"DOOM.WAD or DOOM2.WAD) that DOOM RETRO requires.";
+                  L"release of DOOM or DOOM II has been installed and select a \u201cWAD file\u201d "
+                  L"that DOOM RETRO requires (such as DOOM.WAD or DOOM2.WAD).\n\n"
+                  L"This message won\u2019t appear again.";
 
     if (MessageBoxW(NULL, msg, L"DOOM RETRO", MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
         I_Quit(false);
