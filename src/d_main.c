@@ -84,7 +84,7 @@ boolean        nomonsters;     // checkparm of -nomonsters
 boolean        respawnparm;    // checkparm of -respawn
 boolean        fastparm;       // checkparm of -fast
 
-boolean        firstuse = true;
+boolean        runcount = 0;
 
 skill_t        startskill;
 int            startepisode;
@@ -712,11 +712,11 @@ static void D_DoomMainSetup(void)
     if (iwadfile)
     {
         if (D_AddFile(iwadfile))
-            firstuse = false;
+            runcount++;
     }
     else 
     {
-        if (firstuse)
+        if (!runcount)
             D_FirstUse();
 
         rename("doomretro.wad", "doomretro.wad.temp");
@@ -735,7 +735,7 @@ static void D_DoomMainSetup(void)
 
         rename("doomretro.wad.temp", "doomretro.wad");
 
-        firstuse = false;
+        runcount++;
     }
     M_SaveDefaults();
 
