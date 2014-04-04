@@ -54,7 +54,9 @@ fixed_t    tmdropoffz;
 // keep track of the line that lowers the ceiling,
 // so missiles don't explode against sky hack walls
 line_t     *ceilingline;
-line_t     *blockline;     // killough 8/11/98: blocking linedef
+line_t     *blockline;  // killough 8/11/98: blocking linedef
+line_t     *floorline;  // killough 8/1/98: Highest touched floor
+static int tmunstuck;   // killough 8/1/98: whether to allow unsticking
 
 // keep track of special lines as they are hit,
 // but don't process them until the move is proven valid
@@ -174,6 +176,20 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z)
 // MOVEMENT ITERATOR FUNCTIONS
 //
 
+// killough 8/1/98: used to test intersection between thing and line
+// assuming NO movement occurs -- used to avoid sticky situations.
+static int untouched(line_t *ld)
+{
+    fixed_t x, y, tmbbox[4];
+
+    return
+        (tmbbox[BOXRIGHT] = (x = tmthing->x) + tmthing->radius) <= ld->bbox[BOXLEFT] ||
+        (tmbbox[BOXLEFT] = x - tmthing->radius) >= ld->bbox[BOXRIGHT] ||
+        (tmbbox[BOXTOP] = (y = tmthing->y) + tmthing->radius) <= ld->bbox[BOXBOTTOM] ||
+        (tmbbox[BOXBOTTOM] = y - tmthing->radius) >= ld->bbox[BOXTOP] ||
+        P_BoxOnLineSide(tmbbox, ld) != -1;
+}
+
 //
 // PIT_CheckLine
 // Adjusts tmfloorz and tmceilingz as lines are contacted
@@ -200,19 +216,22 @@ static boolean PIT_CheckLine(line_t *ld)
     // so two special lines that are only 8 pixels apart
     // could be crossed in either order.
 
-    if (!ld->backsector)
+    // killough 7/24/98: allow player to move out of 1s wall, to prevent sticking
+    if (!ld->backsector)                          // one sided line
     {
         blockline = ld;
-        return false;           // one sided line
+        return (tmunstuck
+                && !untouched(ld)
+                && FixedMul(tmx - tmthing->x, ld->dy) > FixedMul(tmy - tmthing->y, ld->dx));
     }
 
     if (!(tmthing->flags & MF_MISSILE))
     {
-        if (ld->flags & ML_BLOCKING)
-            return false;       // explicitly blocking everything
+        if (ld->flags & ML_BLOCKING)              // explicitly blocking everything
+            return (tmunstuck && !untouched(ld)); // killough 8/1/98: allow escape
 
         if (!tmthing->player && (ld->flags & ML_BLOCKMONSTERS))
-            return false;       // block monsters only
+            return false;                         // block monsters only
     }
 
     // set openrange, opentop, openbottom
@@ -229,6 +248,7 @@ static boolean PIT_CheckLine(line_t *ld)
     if (openbottom > tmfloorz)
     {
         tmfloorz = openbottom;
+        floorline = ld;         // killough 8/1/98: remember floor linedef
         blockline = ld;
     }
 
@@ -411,7 +431,11 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     tmbbox[BOXLEFT] = x - tmradius;
 
     newsubsec = R_PointInSubsector(x, y);
-    ceilingline = blockline = NULL;
+    floorline = blockline = ceilingline = NULL; // killough 8/1/98
+
+    // Whether object can get out of a sticky situation:
+    tmunstuck = (thing->player &&               // only players
+                thing->player->mo == thing);    // not voodoo dolls
 
     // The base floor / ceiling is from the subsector
     // that contains the point.
@@ -471,19 +495,19 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y)
 
     if (!(thing->flags & MF_NOCLIP))
     {
-        if (tmceilingz - tmfloorz < thing->height)
-            return false;       // doesn't fit
+        // killough 7/26/98: reformatted slightly
+        // killough 8/1/98: Possibly allow escape if otherwise stuck
 
-        floatok = true;
-
-        if (!(thing->flags & MF_TELEPORT))
-        {
-            if (tmceilingz - thing->z < thing->height)
-                return false;   // mobj must lower itself to fit
-
-            if (tmfloorz - thing->z > 24 * FRACUNIT)
-                return false;   // too big a step up
-        }
+        if (tmceilingz - tmfloorz < thing->height ||     // doesn't fit
+            // mobj must lower to fit
+            (floatok = true, !(thing->flags & MF_TELEPORT) &&
+            tmceilingz - thing->z < thing->height) ||
+            // too big a step up
+            (!(thing->flags & MF_TELEPORT) &&
+            tmfloorz - thing->z > 24 * FRACUNIT))
+            return tmunstuck
+            && !(ceilingline && untouched(ceilingline))
+            && !(floorline && untouched(floorline));
 
         if (!(thing->flags & (MF_DROPOFF | MF_FLOAT)) && tmfloorz - tmdropoffz > 24 * FRACUNIT)
             return false;       // don't stand over a dropoff
@@ -1056,14 +1080,8 @@ hitline:
         P_SpawnPuff(x, y, z, shootangle);
     else if (in->d.thing->type == MT_SKULL)
         P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
-    else if (in->d.thing->type != MT_PLAYER
-             || (in->d.thing->type == MT_PLAYER
-                 && !players[consoleplayer].powers[pw_invulnerability]
-                 && !(players[consoleplayer].cheats & CF_GODMODE)))
+    else if (in->d.thing->type != MT_PLAYER)
     {
-        if (in->d.thing->type == MT_PLAYER)
-            z += FRACUNIT * M_RandomInt(4, 16);
-
         if (in->d.thing->type == MT_HEAD)
             P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_REDTOBLUE_50);
         else if (in->d.thing->type == MT_BRUISER || in->d.thing->type == MT_KNIGHT)
@@ -1071,6 +1089,10 @@ hitline:
         else
             P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_50);
     }
+    else if (in->d.thing->type == MT_PLAYER
+             && !players[consoleplayer].powers[pw_invulnerability]
+             && !(players[consoleplayer].cheats & CF_GODMODE))
+        P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, MF2_TRANSLUCENT_50);
 
     if (la_damage)
         P_DamageMobj(th, shootthing, shootthing, la_damage);
