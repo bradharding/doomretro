@@ -715,7 +715,8 @@ static void D_DoomMainSetup(void)
     if (iwadfile)
     {
         if (D_AddFile(iwadfile))
-            runcount++;
+            if (runcount < RUNCOUNT_MAX)
+                runcount++;
     }
     else 
     {
@@ -738,7 +739,8 @@ static void D_DoomMainSetup(void)
 
         rename("doomretro.wad.temp", "doomretro.wad");
 
-        runcount++;
+        if (runcount < RUNCOUNT_MAX)
+            runcount++;
     }
     M_SaveDefaults();
 
