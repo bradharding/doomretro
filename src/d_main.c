@@ -538,6 +538,11 @@ static boolean D_IsUnsupportedIWAD(char *filename)
             || D_CheckFilename(filename, "HACX.WAD"));
 }
 
+static boolean D_IsUnsupportedPWAD(char *filename)
+{
+    return (D_CheckFilename(filename, "VOICES.WAD"));
+}
+
 static int D_ChooseIWAD(void)
 {
     OPENFILENAME        ofn;
@@ -590,7 +595,8 @@ static int D_ChooseIWAD(void)
 
             // otherwise make sure it's an IWAD
             else if (D_IsDOOMIWAD(file)
-                     || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
+                     || (W_WadType(file) == IWAD
+                         && !D_IsUnsupportedIWAD(file)))
             {
                 IdentifyIWADByName(file);
                 if (D_AddFile(file))
@@ -615,7 +621,8 @@ static int D_ChooseIWAD(void)
                 sprintf(fullpath, "%s\\%s", wadfolder, iwad);
 
                 if (D_IsDOOMIWAD(fullpath)
-                    || (W_WadType(fullpath) == IWAD && !D_IsUnsupportedIWAD(fullpath)))
+                    || (W_WadType(fullpath) == IWAD
+                        && !D_IsUnsupportedIWAD(fullpath)))
                 {
                     if (!iwadfound)
                     {
@@ -627,6 +634,8 @@ static int D_ChooseIWAD(void)
                         }
                     }
                 }
+
+                // if it's NERVE.WAD, try to open DOOM2.WAD with it
                 else if (!strcasecmp(iwad, "NERVE.WAD"))
                 {
                     static char     fullpath2[MAX_PATH];
@@ -654,7 +663,9 @@ static int D_ChooseIWAD(void)
                 pwad += lstrlen(pwad) + 1;
                 sprintf(fullpath, "%s\\%s", wadfolder, pwad);
 
-                if (!D_CheckFilename(pwad, "DOOMRETRO.WAD") && W_WadType(fullpath) == PWAD)
+                if (!D_CheckFilename(pwad, "DOOMRETRO.WAD")
+                    && W_WadType(fullpath) == PWAD
+                    && !D_IsUnsupportedPWAD(fullpath))
                     if (W_MergeFile(fullpath))
                     {
                         modifiedgame = true;
