@@ -1859,6 +1859,7 @@ boolean M_Responder(event_t *ev)
     int         i;
     static int  keywait = 0;
     static int  mousewait = 0;
+    static int  gammawait = 0;
     char        *tempstring = "";
     SDLMod      keyMods = SDL_GetModState();
 
@@ -2339,16 +2340,20 @@ boolean M_Responder(event_t *ev)
         static char buf[128];
 
         keydown = key;
-        if (keyMods & KMOD_SHIFT)
+        if (gammawait >= I_GetTime())
         {
-            if (--usegamma < 0)
-                usegamma = GAMMALEVELS - 1;
+            if (keyMods & KMOD_SHIFT)
+            {
+                if (--usegamma < USEGAMMA_MIN)
+                    usegamma = USEGAMMA_MAX;
+            }
+            else
+            {
+                if (++usegamma > USEGAMMA_MAX)
+                    usegamma = USEGAMMA_MIN;
+            }
         }
-        else
-        {
-            if (++usegamma > GAMMALEVELS - 1)
-                usegamma = 0;
-        }
+        gammawait = I_GetTime() + HU_MSGTIMEOUT;
         gammalevel = (float)gammalevels[usegamma];
         message_dontpause = true;
         sprintf(buf, GAMMALVL, gammalevel);
