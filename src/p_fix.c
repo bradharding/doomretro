@@ -648,6 +648,8 @@ linefix_t linefix[] =
 
    // mission,    episode, map, linedef, side, toptexture, middletexture, bottomtexture,  offset, rowoffset, flags,                   special,                                                           tag
 
+    { pack_tnt,         1,   1,      47,    0, "",         "",            "",                  8,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
+
     { pack_tnt,         1,   3,     880,    0, "",         "",            "",                 32,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { pack_tnt,         1,   3,     885,    0, "",         "",            "",                 32,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { pack_tnt,         1,   3,     889,    0, "",         "",            "",                 32,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
