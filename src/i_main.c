@@ -193,9 +193,9 @@ void init_win32(LPCTSTR lpIconName)
     hwnd = wminfo.window;
 
     icon = LoadIcon(handle, lpIconName);
-    SetClassLong(hwnd, GCL_HICON, (LONG)icon);
+    SetClassLongPtr(hwnd, GCLP_HICON, (LONG)icon);
 
-    oldProc = (WNDPROC)SetWindowLong(hwnd, GWL_WNDPROC, (LONG)WndProc);
+    oldProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG)WndProc);
 }
 
 void done_win32(void)
