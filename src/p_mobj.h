@@ -235,8 +235,8 @@ typedef enum
     // Object bobs up and down
     MF2_FLOATBOB                  = 0x00002000,
 
-    // Flip corpses horizontally at random
-    MF2_FLIPPEDCORPSE             = 0x00004000
+    // Mirrored horizontally
+    MF2_MIRRORED                  = 0x00004000
 
 } mobjflag2_t;
 

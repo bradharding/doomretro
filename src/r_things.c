@@ -527,7 +527,7 @@ void R_ProjectSprite(mobj_t *thing)
         flip = (boolean)sprframe->flip[0];
     }
 
-    if (thing->flags2 & MF2_FLIPPEDCORPSE)
+    if (thing->flags2 & MF2_MIRRORED)
         flip = true;
 
     // calculate edges of the shape

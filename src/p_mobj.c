@@ -377,7 +377,7 @@ void P_NightmareRespawn(mobj_t *mobj)
     if (mthing->options & MTF_AMBUSH)
         mo->flags |= MF_AMBUSH;
 
-    mo->flags2 &= ~MF2_FLIPPEDCORPSE;
+    mo->flags2 &= ~MF2_MIRRORED;
 
     mo->reactiontime = 18;
 

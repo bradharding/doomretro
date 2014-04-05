@@ -741,7 +741,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (r <= 5 + prev)
         {
             prev--;
-            target->flags2 |= MF2_FLIPPEDCORPSE;
+            target->flags2 |= MF2_MIRRORED;
         }
         else
         {
@@ -824,6 +824,8 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mo->momz = FRACUNIT * 5 + (P_Random() << 10);
     mo->angle = target->angle + ((P_Random() - P_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
+    if (target->flags2 & MF2_MIRRORED)
+        mo->flags2 |= MF2_MIRRORED;
 }
 
 //

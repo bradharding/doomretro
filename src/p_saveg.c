@@ -1785,8 +1785,8 @@ void P_UnArchiveThinkers(void)
                 mobj->info = &mobjinfo[mobj->type];
                 if (mobj->type != MT_BLOODSPLAT)
                 {
-                    if (mobj->flags2 & MF2_FLIPPEDCORPSE)
-                        mobj->flags2 = mobj->info->flags2 | MF2_FLIPPEDCORPSE;
+                    if (mobj->flags2 & MF2_MIRRORED)
+                        mobj->flags2 = mobj->info->flags2 | MF2_MIRRORED;
                     else
                         mobj->flags2 = mobj->info->flags2;
                 }

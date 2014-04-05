@@ -1122,7 +1122,7 @@ void A_VileChase(mobj_t *actor)
                     corpsehit->radius = info->radius;
                     corpsehit->flags = info->flags;
                     corpsehit->flags2 = info->flags2;
-                    corpsehit->flags2 &= ~MF2_FLIPPEDCORPSE;
+                    corpsehit->flags2 &= ~MF2_MIRRORED;
                     corpsehit->health = info->spawnhealth;
                     corpsehit->target = NULL;
 
