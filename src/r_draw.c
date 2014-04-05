@@ -454,7 +454,7 @@ void R_DrawRedToBlueColumn(void)
     }
 }
 
-void R_DrawTranslucentRedToBlue50Column(void)
+void R_DrawTranslucentRedToBlue33Column(void)
 {
     register int32_t       count = dc_yh - dc_yl;
     register byte          *dest;
@@ -474,11 +474,11 @@ void R_DrawTranslucentRedToBlue50Column(void)
 
         while (--count)
         {
-            *dest = tinttab50[(*dest << 8) + colormap[redtoblue[source[frac >> FRACBITS]]]];
+            *dest = tinttab33[(*dest << 8) + colormap[redtoblue[source[frac >> FRACBITS]]]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        *dest = tinttab50[(*dest << 8) + colormap[redtoblue[source[frac >> FRACBITS]]]];
+        *dest = tinttab33[(*dest << 8) + colormap[redtoblue[source[frac >> FRACBITS]]]];
     }
 }
 
@@ -510,7 +510,7 @@ void R_DrawRedToGreenColumn(void)
     }
 }
 
-void R_DrawTranslucentRedToGreen50Column(void)
+void R_DrawTranslucentRedToGreen33Column(void)
 {
     register int32_t       count = dc_yh - dc_yl;
     register byte          *dest;
@@ -530,11 +530,11 @@ void R_DrawTranslucentRedToGreen50Column(void)
 
         while (--count)
         {
-            *dest = tinttab50[(*dest << 8) + colormap[redtogreen[source[frac >> FRACBITS]]]];
+            *dest = tinttab33[(*dest << 8) + colormap[redtogreen[source[frac >> FRACBITS]]]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        *dest = tinttab50[(*dest << 8) + colormap[redtogreen[source[frac >> FRACBITS]]]];
+        *dest = tinttab33[(*dest << 8) + colormap[redtogreen[source[frac >> FRACBITS]]]];
     }
 }
 

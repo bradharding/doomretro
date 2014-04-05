@@ -406,10 +406,10 @@ void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
         colfunc = tl50colfunc;
     else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDWHITEONLY)
         colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlredwhite50colfunc : tlredwhitecolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOGREEN_50)
-        colfunc = tlredtogreen50colfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOBLUE_50)
-        colfunc = tlredtoblue50colfunc;
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+        colfunc = tlredtogreen33colfunc;
+    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+        colfunc = tlredtoblue33colfunc;
     else if (vis->mobjflags2 & MF2_REDTOGREEN)
         colfunc = redtogreencolfunc;
     else if (vis->mobjflags2 & MF2_REDTOBLUE)

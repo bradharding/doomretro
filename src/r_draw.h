@@ -78,9 +78,9 @@ void R_DrawTranslucentRed50Column(void);
 void R_DrawTranslucentRedWhite50Column(void);
 void R_DrawTranslucentBlue50Column(void);
 void R_DrawRedToBlueColumn(void);
-void R_DrawTranslucentRedToBlue50Column(void);
+void R_DrawTranslucentRedToBlue33Column(void);
 void R_DrawRedToGreenColumn(void);
-void R_DrawTranslucentRedToGreen50Column(void);
+void R_DrawTranslucentRedToGreen33Column(void);
 void R_DrawPlayerSpriteColumn(void);
 
 // The Spectre/Invisibility effect.
