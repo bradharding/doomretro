@@ -2344,13 +2344,13 @@ boolean M_Responder(event_t *ev)
         {
             if (keyMods & KMOD_SHIFT)
             {
-                if (--usegamma < USEGAMMA_MIN)
-                    usegamma = USEGAMMA_MAX;
+                if (--usegamma < 0)
+                    usegamma = GAMMALEVELS - 1;
             }
             else
             {
-                if (++usegamma > USEGAMMA_MAX)
-                    usegamma = USEGAMMA_MIN;
+                if (++usegamma > GAMMALEVELS - 1)
+                    usegamma = 0;
             }
         }
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
