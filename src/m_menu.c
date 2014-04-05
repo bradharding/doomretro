@@ -2358,6 +2358,7 @@ boolean M_Responder(event_t *ev)
         message_dontfuckwithme = true;
         S_StartSound(NULL, sfx_stnmov);
         I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+        M_SaveDefaults();
         return false;
     }
 
