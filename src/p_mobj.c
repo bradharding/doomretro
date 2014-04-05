@@ -878,10 +878,16 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 // P_SpawnBlood
 //
-void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, int flag)
+void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobjtype_t type)
 {
-    mobj_t *th;
-    int    i;
+    mobj_t      *th;
+    int         i;
+    int         flags2 = MF2_TRANSLUCENT_50;
+
+    if (type == MT_HEAD)
+        flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
+    else if (type == MT_BRUISER || type == MT_KNIGHT)
+        flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
 
     angle += ANG180;
 
@@ -898,7 +904,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, in
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
         th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
 
-        th->flags2 |= flag;
+        th->flags2 = flags2;
 
         th->angle = angle;
 

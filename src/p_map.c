@@ -1076,23 +1076,20 @@ hitline:
 
     // Spawn bullet puffs or blood spots,
     // depending on target type.
-    if (in->d.thing->flags & MF_NOBLOOD)
+    if (th->flags & MF_NOBLOOD)
         P_SpawnPuff(x, y, z, shootangle);
-    else if (in->d.thing->type == MT_SKULL)
-        P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
-    else if (in->d.thing->type != MT_PLAYER)
+    else
     {
-        if (in->d.thing->type == MT_HEAD)
-            P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_REDTOBLUE_50);
-        else if (in->d.thing->type == MT_BRUISER || in->d.thing->type == MT_KNIGHT)
-            P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_REDTOGREEN_50);
-        else
-            P_SpawnBlood(x, y, z, shootangle, la_damage, MF2_TRANSLUCENT_50);
+        mobjtype_t type = th->type;
+
+        if (type == MT_SKULL)
+            P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle);
+        else if (type != MT_PLAYER)
+            P_SpawnBlood(x, y, z, shootangle, la_damage, type);
+        else if (!players[consoleplayer].powers[pw_invulnerability]
+                 && !(players[consoleplayer].cheats & CF_GODMODE))
+            P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, type);
     }
-    else if (in->d.thing->type == MT_PLAYER
-             && !players[consoleplayer].powers[pw_invulnerability]
-             && !(players[consoleplayer].cheats & CF_GODMODE))
-        P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, MF2_TRANSLUCENT_50);
 
     if (la_damage)
         P_DamageMobj(th, shootthing, shootthing, la_damage);
@@ -1397,14 +1394,15 @@ boolean PIT_ChangeSector(mobj_t *thing)
 
     if (crushchange && !(leveltime & 3))
     {
+        mobjtype_t type = thing->type;
+
         P_DamageMobj(thing, NULL, NULL, 10);
 
         // spray blood in a random direction
-        if (thing->type != MT_BARREL
-            && thing->type != MT_SKULL)
+        if (type != MT_BARREL && type != MT_SKULL)
         {
-            if (thing->type != MT_PLAYER
-                || (thing->type == MT_PLAYER
+            if (type != MT_PLAYER
+                || (type == MT_PLAYER
                     && !player->powers[pw_invulnerability]
                     && !(player->cheats & CF_GODMODE)))
             {
@@ -1412,13 +1410,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
                 int y = thing->y + M_RandomInt(-10, 10) * FRACUNIT;
                 int z = thing->z + thing->height / 2 + M_RandomInt(-10, 10) * FRACUNIT;
 
-                if (thing->type == MT_HEAD)
-                    P_SpawnBlood(x, y, z, 0, 10, MF2_TRANSLUCENT_REDTOBLUE_50);
-                else if (thing->type == MT_BRUISER
-                         || thing->type == MT_KNIGHT)
-                    P_SpawnBlood(x, y, z, 0, 10, MF2_TRANSLUCENT_REDTOGREEN_50);
-                else
-                    P_SpawnBlood(x, y, z, 0, 10, MF2_TRANSLUCENT_50);
+                P_SpawnBlood(x, y, z, 0, 10, type);
             }
         }
     }
