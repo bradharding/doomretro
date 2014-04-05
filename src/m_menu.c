@@ -2352,6 +2352,8 @@ boolean M_Responder(event_t *ev)
         gammalevel = (float)gammalevels[usegamma];
         message_dontpause = true;
         sprintf(buf, GAMMALVL, gammalevel);
+        if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
+            buf[strlen(buf) - 1] = '\0';
         players[consoleplayer].message = buf;
         message_dontfuckwithme = true;
         S_StartSound(NULL, sfx_stnmov);
