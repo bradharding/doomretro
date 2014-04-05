@@ -505,11 +505,10 @@ static void D_FirstUse(void)
 {
     LPCWSTR msg = L"Thank you for downloading DOOM RETRO!\n\n"
                   L"Please note that, as with all DOOM source ports, no actual map data is "
-                  L"provided with DOOM RETRO.\n\n"
+                  L"distributed with DOOM RETRO.\n\n"
                   L"In the dialog box that follows, please navigate to where an official "
                   L"release of DOOM or DOOM II has been installed and select a \u201cWAD file\u201d "
-                  L"that DOOM RETRO requires (such as DOOM.WAD or DOOM2.WAD).\n\n"
-                  L"This message won\u2019t appear again.";
+                  L"that DOOM RETRO requires (such as DOOM.WAD or DOOM2.WAD).";
 
     if (MessageBoxW(NULL, msg, L"DOOM RETRO", MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
         I_Quit(false);
@@ -548,6 +547,7 @@ static int D_ChooseIWAD(void)
     OPENFILENAME        ofn;
     char                szFile[4096];
     int                 iwadfound = -1;
+    boolean             sharewareiwad = false;
 
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
@@ -630,6 +630,7 @@ static int D_ChooseIWAD(void)
                         if (D_AddFile(fullpath))
                         {
                             iwadfound = 1;
+                            sharewareiwad = !strcasecmp(iwad, "DOOM1.WAD");
                             break;
                         }
                     }
@@ -656,23 +657,24 @@ static int D_ChooseIWAD(void)
             }
 
             // merge any pwads
-            while (pwad[0])
-            {
-                static char     fullpath[MAX_PATH];
+            if (iwadfound && !sharewareiwad)
+                while (pwad[0])
+                {
+                    static char     fullpath[MAX_PATH];
 
-                pwad += lstrlen(pwad) + 1;
-                sprintf(fullpath, "%s\\%s", wadfolder, pwad);
+                    pwad += lstrlen(pwad) + 1;
+                    sprintf(fullpath, "%s\\%s", wadfolder, pwad);
 
-                if (!D_CheckFilename(pwad, "DOOMRETRO.WAD")
-                    && W_WadType(fullpath) == PWAD
-                    && !D_IsUnsupportedPWAD(fullpath))
-                    if (W_MergeFile(fullpath))
-                    {
-                        modifiedgame = true;
-                        if (!strcasecmp(pwad, "NERVE.WAD"))
-                            nerve = true;
-                    }
-            }
+                    if (!D_CheckFilename(pwad, "DOOMRETRO.WAD")
+                        && W_WadType(fullpath) == PWAD
+                        && !D_IsUnsupportedPWAD(fullpath))
+                        if (W_MergeFile(fullpath))
+                        {
+                            modifiedgame = true;
+                            if (!strcasecmp(pwad, "NERVE.WAD"))
+                                nerve = true;
+                        }
+                }
         }
     }
     return iwadfound;
@@ -856,9 +858,8 @@ static void D_DoomMainSetup(void)
         int i;
 
         if (gamemode == shareware)
-            I_Error("You cannot %s with the shareware version.\n"
-                    "Please purchase the full version.",
-                    choseniwad ? "open PWADs" : "use -FILE");
+            I_Error("You cannot use -FILE with the shareware version.\n"
+                    "Please purchase the full version.");
 
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
