@@ -2334,7 +2334,7 @@ boolean M_Responder(event_t *ev)
     }
 
     // gamma toggle
-    if (key == KEY_F11 && !keydown)
+    if (key == KEY_F11)
     {
         static char buf[128];
 
