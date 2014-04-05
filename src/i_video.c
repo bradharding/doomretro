@@ -112,13 +112,22 @@ boolean keys[UCHAR_MAX];
 
 byte gammatable[GAMMALEVELS][256];
 
-double gammalevel[GAMMALEVELS] =
+double gammalevels[GAMMALEVELS] =
 {
-    0.5, 0.625, 0.75, 0.875, 1.0, 1.25, 1.5, 1.75, 2.0
+    // Darker
+    0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95,
+
+    // No gamma correction
+    1.0,
+
+    // Lighter
+    1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5,
+    1.55, 1.6, 1.65, 1.7, 1.75, 1.8, 1.85, 1.9, 1.95, 2.0
 };
 
 // Gamma correction level to use
 int usegamma = USEGAMMA_DEFAULT;
+float gammalevel = GAMMALEVEL_DEFAULT;
 
 // Mouse acceleration
 //
@@ -951,12 +960,12 @@ void I_InitGammaTables(void)
     int j;
 
     for (i = 0; i < GAMMALEVELS; i++)
-        if (gammalevel[i] == 1.0)
+        if (gammalevels[i] == 1.0)
             for (j = 0; j < 256; j++)
                 gammatable[i][j] = j;
         else
             for (j = 0; j < 256; j++)
-                gammatable[i][j] = (byte)(pow((j + 1) / 256.0, 1.0 / gammalevel[i]) * 255.0);
+                gammatable[i][j] = (byte)(pow((j + 1) / 256.0, 1.0 / gammalevels[i]) * 255.0);
 }
 
 void I_InitGraphics(void)

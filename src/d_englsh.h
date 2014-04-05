@@ -63,15 +63,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define WINDOWSY                "[Press 'Y' to quit to Windows.]"
 #define WINDOWSA                "[Press button 'A' to quit to Windows.]"
 
-#define GAMMALVL0               "Gamma correction level 0.5"
-#define GAMMALVL1               "Gamma correction level 0.625"
-#define GAMMALVL2               "Gamma correction level 0.75"
-#define GAMMALVL3               "Gamma correction level 0.875"
-#define GAMMALVL4               "Gamma correction level 1.0"
-#define GAMMALVL5               "Gamma correction level 1.25"
-#define GAMMALVL6               "Gamma correction level 1.5"
-#define GAMMALVL7               "Gamma correction level 1.75"
-#define GAMMALVL8               "Gamma correction level 2.0"
+#define GAMMALVL                "Gamma correction level %.2f"
+
 #define EMPTYSTRING             "  -"
 
 //

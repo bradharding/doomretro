@@ -87,18 +87,18 @@ boolean        messageNeedsInput;
 
 void (*messageRoutine)(int response);
 
-char gammamsg[GAMMALEVELS][30] =
-{
-    GAMMALVL0,
-    GAMMALVL1,
-    GAMMALVL2,
-    GAMMALVL3,
-    GAMMALVL4,
-    GAMMALVL5,
-    GAMMALVL6,
-    GAMMALVL7,
-    GAMMALVL8
-};
+//char gammamsg[GAMMALEVELS][30] =
+//{
+//    GAMMALVL0,
+//    GAMMALVL1,
+//    GAMMALVL2,
+//    GAMMALVL3,
+//    GAMMALVL4,
+//    GAMMALVL5,
+//    GAMMALVL6,
+//    GAMMALVL7,
+//    GAMMALVL8
+//};
 
 // we are going to be entering a savegame string
 int            saveStringEnter;
@@ -2336,19 +2336,23 @@ boolean M_Responder(event_t *ev)
     // gamma toggle
     if (key == KEY_F11 && !keydown)
     {
+        static char buf[128];
+
         keydown = key;
         if (keyMods & KMOD_SHIFT)
         {
-            if (--usegamma < USEGAMMA_MIN)
-                usegamma = USEGAMMA_MAX;
+            if (--usegamma < 0)
+                usegamma = GAMMALEVELS - 1;
         }
         else
         {
-            if (++usegamma > USEGAMMA_MAX)
-                usegamma = USEGAMMA_MIN;
+            if (++usegamma > GAMMALEVELS - 1)
+                usegamma = 0;
         }
+        gammalevel = (float)gammalevels[usegamma];
         message_dontpause = true;
-        players[consoleplayer].message = gammamsg[usegamma];
+        sprintf(buf, GAMMALVL, gammalevel);
+        players[consoleplayer].message = buf;
         message_dontfuckwithme = true;
         S_StartSound(NULL, sfx_stnmov);
         I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);

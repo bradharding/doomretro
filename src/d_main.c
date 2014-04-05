@@ -981,8 +981,17 @@ static void D_DoomMainSetup(void)
         windowheight = SCREENWIDTH * 3 / 4;
     }
 
-    if (usegamma < USEGAMMA_MIN || usegamma > USEGAMMA_MAX)
-        usegamma = USEGAMMA_DEFAULT;
+    if (gammalevel < GAMMALEVEL_MIN || gammalevel > GAMMALEVEL_MAX)
+        gammalevel = GAMMALEVEL_DEFAULT;
+    usegamma = 0;
+    while (usegamma < GAMMALEVELS)
+        if (gammalevels[usegamma++] == gammalevel)
+            break;
+    if (usegamma == GAMMALEVELS)
+    {
+        usegamma = 0;
+        while (gammalevels[usegamma++] != GAMMALEVEL_DEFAULT);
+    }
 
     if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;

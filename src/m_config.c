@@ -103,7 +103,7 @@ extern int      screenheight;
 extern int      widescreen;
 extern int      widescreenhud;
 extern char     *videodriver;
-extern int      usegamma;
+extern float    gammalevel;
 
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
@@ -208,6 +208,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (gamepad_weapon5,     gamepadweapon5,      2),
     CONFIG_VARIABLE_INT   (gamepad_weapon6,     gamepadweapon6,      2),
     CONFIG_VARIABLE_INT   (gamepad_weapon7,     gamepadweapon7,      2),
+    CONFIG_VARIABLE_FLOAT (gammalevel,          gammalevel,          0),
     CONFIG_VARIABLE_INT   (grid,                grid,                1),
     CONFIG_VARIABLE_KEY   (key_down,            key_down,            3),
     CONFIG_VARIABLE_KEY   (key_down2,           key_down2,           3),
@@ -241,7 +242,6 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (snd_maxslicetime_ms, snd_maxslicetime_ms, 0),
     CONFIG_VARIABLE_STRING(timidity_cfg_path,   timidity_cfg_path,   0),
     CONFIG_VARIABLE_INT   (translucency,        translucency,        1),
-    CONFIG_VARIABLE_INT   (usegamma,            usegamma,            6),
     CONFIG_VARIABLE_STRING(videodriver,         videodriver,         0),
     CONFIG_VARIABLE_STRING(wadfolder,           wadfolder,           0),
     CONFIG_VARIABLE_INT   (widescreen,          widescreen,          1),
@@ -307,7 +307,6 @@ static alias_t alias[] =
     { "dpaddown",          2,  2 },
     { "middle",            2,  4 },
     { "dpadleft",          4,  2 },
-    { "off",               4,  6 },
     { "dpadright",         8,  2 },
     { "backspace",        14,  3 },
     { "start",            16,  2 },
@@ -463,7 +462,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 break;
 
             case DEFAULT_FLOAT:
-                fprintf(f, "%.1f", *(float *)defaults[i].location);
+                fprintf(f, "%.2f", *(float *)defaults[i].location);
                 break;
 
             case DEFAULT_STRING:

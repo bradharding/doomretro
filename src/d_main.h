@@ -55,6 +55,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define USEGAMMA_DEFAULT           2
 #define USEGAMMA_MAX               (GAMMALEVELS - 1)
 
+#define GAMMALEVEL_MIN             gammalevels[0]
+#define GAMMALEVEL_DEFAULT         0.75
+#define GAMMALEVEL_MAX             gammalevels[GAMMALEVELS - 1]
+
 #define BLOODSPLATS_MIN            0
 #define BLOODSPLATS_DEFAULT        1024
 #define BLOODSPLATS_MAX            32768
