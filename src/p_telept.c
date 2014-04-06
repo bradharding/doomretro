@@ -106,10 +106,7 @@ int EV_Teleport(line_t *line, int side, mobj_t *thing)
                 thing->z = thing->floorz;
 
                 if (player)
-                {
                     player->viewz = thing->z + player->viewheight;
-                    player->lookdir = 0;
-                }
 
                 // spawn teleport fog at source and destination
                 fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);

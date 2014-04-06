@@ -78,8 +78,6 @@ fixed_t              distscale[SCREENWIDTH];
 fixed_t              basexscale;
 fixed_t              baseyscale;
 
-extern boolean mouselook;
-
 //
 // R_MapPlane
 //
@@ -294,9 +292,6 @@ void R_DrawPlanes(void)
         if (pl->picnum == skyflatnum)
         {
             dc_iscale = pspriteiscale;
-
-            if (mouselook)
-                dc_iscale = dc_iscale * 128 / 228;
 
             // Sky is always drawn full bright,
             //  i.e. colormaps[0] is used.

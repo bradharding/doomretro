@@ -31,7 +31,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "doomtype.h"
 
-
 // The data sampled per tick (single player)
 // and transmitted to other peers (multiplayer).
 // Mainly movements/button commands per game tick,
@@ -43,10 +42,6 @@ typedef struct
     short       angleturn;      // <<16 for angle delta
     byte        buttons;
     byte        consistancy;    // checks for net game
-
-    byte lookfly;               // look/fly up/down/centering
 } ticcmd_t;
-
-
 
 #endif
