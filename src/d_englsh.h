@@ -64,6 +64,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define WINDOWSA                "[Press button 'A' to quit to Windows.]"
 
 #define GAMMALVL                "Gamma correction level %.2f"
+#define GAMMAOFF                "Gamma correction off"
 
 #define EMPTYSTRING             "  -"
 

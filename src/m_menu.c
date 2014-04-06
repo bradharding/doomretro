@@ -2351,14 +2351,17 @@ boolean M_Responder(event_t *ev)
                 if (++gammalevelindex > GAMMALEVELS - 1)
                     gammalevelindex = 0;
             }
+            gammalevel = (float)gammalevels[gammalevelindex];
+
             S_StartSound(NULL, sfx_stnmov);
         }
 
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
-        gammalevel = (float)gammalevels[gammalevelindex];
-
-        sprintf(buf, GAMMALVL, gammalevel);
+        if (gammalevel == 1.0f)
+            strcpy(buf, GAMMAOFF);
+        else
+            sprintf(buf, GAMMALVL, gammalevel);
         if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
             buf[strlen(buf) - 1] = '\0';
         players[consoleplayer].message = buf;
