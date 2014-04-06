@@ -708,7 +708,7 @@ boolean ST_Responder(event_t *ev)
                 if (ammogiven || armorgiven || weaponsgiven)
                 {
                     // [BH] flash screen
-                    P_AddBonus(plyr, BONUSADD);//plyr->bonuscount += BONUSADD;
+                    P_AddBonus(plyr, BONUSADD);
 
                     plyr->message = STSTR_FAADDED;
 
@@ -841,7 +841,7 @@ boolean ST_Responder(event_t *ev)
                 if (ammogiven || armorgiven || weaponsgiven || keysgiven)
                 {
                     // [BH] flash screen
-                    P_AddBonus(plyr, BONUSADD);//plyr->bonuscount += BONUSADD;
+                    P_AddBonus(plyr, BONUSADD);
 
                     plyr->message = STSTR_KFAADDED;
 
@@ -962,7 +962,7 @@ boolean ST_Responder(event_t *ev)
                             plyr->powers[i] = -1;
 
                         // [BH] flash screen
-                        P_AddBonus(plyr, BONUSADD);//plyr->bonuscount += BONUSADD;
+                        P_AddBonus(plyr, BONUSADD);
 
                         // [BH] switch to fists if 'idbeholds' cheat is entered
                         if (i == pw_strength)
@@ -1210,7 +1210,10 @@ boolean ST_Responder(event_t *ev)
                 {
                     static char buf[128];
 
-                    sprintf(buf, STSTR_CLEV, lump);
+                    if (epsd == gameepisode && map == gamemap)
+                        sprintf(buf, STSTR_CLEVSAME, lump);
+                    else
+                        sprintf(buf, STSTR_CLEV, lump);
                     plyr->message = buf;
 
                     // [BH] always display message

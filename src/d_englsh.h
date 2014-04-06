@@ -403,7 +403,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define STSTR_BEHOLDOFF         "Power-up toggled OFF"
 
 #define STSTR_CHOPPERS          "\"...doesn't suck.\" - GM"
+
 #define STSTR_CLEV              "Changing to %s..."
+#define STSTR_CLEVSAME          "Restarting %s..."
 
 #define STSTR_MYPOS             "angle = %i%c  x,y,z = [%i,%i,%i]"
 
