@@ -1850,6 +1850,7 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
 //
 int gamepadwait = 0;
 boolean gamepadpress = false;
+int gammawait = 0;
 
 boolean M_Responder(event_t *ev)
 {
@@ -1859,7 +1860,6 @@ boolean M_Responder(event_t *ev)
     int         i;
     static int  keywait = 0;
     static int  mousewait = 0;
-    static int  gammawait = 0;
     char        *tempstring = "";
     SDLMod      keyMods = SDL_GetModState();
 
@@ -2352,6 +2352,7 @@ boolean M_Responder(event_t *ev)
                 if (++usegamma > GAMMALEVELS - 1)
                     usegamma = 0;
             }
+            S_StartSound(NULL, sfx_stnmov);
         }
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
         gammalevel = (float)gammalevels[usegamma];
@@ -2361,7 +2362,6 @@ boolean M_Responder(event_t *ev)
             buf[strlen(buf) - 1] = '\0';
         players[consoleplayer].message = buf;
         message_dontfuckwithme = true;
-        S_StartSound(NULL, sfx_stnmov);
         I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
         M_SaveDefaults();
         return false;
