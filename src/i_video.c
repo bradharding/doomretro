@@ -44,33 +44,24 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "z_zone.h"
 
 // Window position:
-
 char *windowposition = "";
 
 SDL_Surface *screen;
 SDL_Surface *screenbuffer = NULL;
 
 // palette
-
 SDL_Color palette[256];
 static boolean   palette_to_set;
 
-// Bit mask of mouse button state.
-
-static unsigned int mouse_button_state = 0;
-
 // Fullscreen width and height
-
 int screenwidth = 0;
 int screenheight = 0;
 
 // Window width and height
-
 int windowwidth = SCREENWIDTH;
 int windowheight = SCREENWIDTH * 3 / 4;
 
 // Run in full screen mode?
-
 boolean fullscreen = true;
 
 boolean widescreen = false;
@@ -84,11 +75,9 @@ boolean screenvisible;
 boolean window_focused;
 
 // Empty mouse cursor
-
 static SDL_Cursor *emptycursor;
 
 // Window resize state.
-
 boolean      need_resize = false;
 unsigned int resize_h;
 
@@ -137,7 +126,6 @@ float gammalevel = GAMMALEVEL_DEFAULT;
 // The mouse input values are input directly to the game, but when
 // the values exceed the value of mouse_threshold, they are multiplied
 // by mouse_acceleration to increase the speed.
-
 float mouse_acceleration = MOUSEACCELERATION_DEFAULT;
 int   mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
@@ -194,18 +182,15 @@ static void UpdateFocus(void)
 
 // Show or hide the mouse cursor. We have to use different techniques
 // depending on the OS.
-
 static void SetShowCursor(boolean show)
 {
     // On Windows, using SDL_ShowCursor() adds lag to the mouse input,
     // so work around this by setting an invisible cursor instead. On
     // other systems, it isn't possible to change the cursor, so this
     // hack has to be Windows-only. (Thanks to entryway for this)
-
     SDL_SetCursor(emptycursor);
 
     // When the cursor is hidden, grab the input.
-
     SDL_WM_GrabInput((SDL_GrabMode)!show);
 }
 
@@ -312,35 +297,6 @@ void I_ShutdownGraphics(void)
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
-static void UpdateMouseButtonState(unsigned int button, boolean on)
-{
-    event_t     ev;
-    int         buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
-
-    // Turn bit representing this button on or off.
-    if (on)
-        mouse_button_state |= buttons[MAX(SDL_BUTTON_LEFT, MIN(button, MAX_MOUSE_BUTTONS))];
-    else
-        mouse_button_state &= ~buttons[MAX(SDL_BUTTON_LEFT, MIN(button, MAX_MOUSE_BUTTONS))];
-
-    // Post an event with the new button state.
-    ev.type = ev_mouse;
-    ev.data1 = mouse_button_state;
-    ev.data2 = ev.data3 = 0;
-    D_PostEvent(&ev);
-}
-
-static int AccelerateMouse(int val)
-{
-    if (val < 0)
-        return -AccelerateMouse(-val);
-
-    if (val > mouse_threshold)
-        return (int)((val - mouse_threshold) * mouse_acceleration + mouse_threshold);
-    else
-        return val;
-}
-
 boolean altdown = false;
 boolean waspaused = false;
 
@@ -391,25 +347,18 @@ void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                if (window_focused)
+                idclev = false;
+                idmus = false;
+                if (idbehold)
                 {
-                    idclev = false;
-                    idmus = false;
-                    if (idbehold)
-                    {
-                        HU_clearMessages();
-                        idbehold = false;
-                    }
-                    UpdateMouseButtonState(sdlevent.button.button, true);
+                    HU_clearMessages();
+                    idbehold = false;
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 if (window_focused)
-                {
                     keydown = 0;
-                    UpdateMouseButtonState(sdlevent.button.button, false);
-                }
                 break;
 
             case SDL_JOYBUTTONUP:
@@ -473,6 +422,17 @@ static void CenterMouse(void)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
+static int AccelerateMouse(int val)
+{
+    if (val < 0)
+        return -AccelerateMouse(-val);
+
+    if (val > mouse_threshold)
+        return (int)((val - mouse_threshold) * mouse_acceleration + mouse_threshold);
+    else
+        return val;
+}
+
 //
 // Read the change in mouse state to generate mouse motion events
 //
@@ -483,10 +443,8 @@ static void I_ReadMouse(void)
     int         x;
     event_t     ev;
 
-    SDL_GetRelativeMouseState(&x, NULL);
-
     ev.type = ev_mouse;
-    ev.data1 = mouse_button_state;
+    ev.data1 = SDL_GetRelativeMouseState(&x, NULL);
     ev.data2 = AccelerateMouse(x);
     ev.data3 = 0;
 
@@ -657,7 +615,7 @@ static void SetVideoMode(void)
         }
 
         screen = SDL_SetVideoMode(width, height, 0,
-                                  SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
         if (!screen)
         {
@@ -668,11 +626,10 @@ static void SetVideoMode(void)
             M_SaveDefaults();
 
             screen = SDL_SetVideoMode(width, height, 0,
-                                      SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+                SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
             if (!screen)
-                I_Error("Error setting video mode %i×%i: %s\n",
-                         width, height, SDL_GetError());
+                I_Error("Error setting video mode %i×%i: %s\n", width, height, SDL_GetError());
         }
 
         height = screen->h;
@@ -708,7 +665,7 @@ static void SetVideoMode(void)
 
         SetWindowPositionVars();
         screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
-                                  SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
         widescreen = false;
     }
@@ -801,7 +758,7 @@ void ToggleFullScreen(void)
         }
 
         screen = SDL_SetVideoMode(width, height, 0,
-                                  SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
         if (!screen)
         {
@@ -812,11 +769,10 @@ void ToggleFullScreen(void)
             M_SaveDefaults();
 
             screen = SDL_SetVideoMode(width, height, 0,
-                                      SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+                SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
             if (!screen)
-                I_Error("Error setting video mode %i×%i: %s\n",
-                        width, height, SDL_GetError());
+                I_Error("Error setting video mode %i×%i: %s\n", width, height, SDL_GetError());
         }
 
         if (screenblocks == 11)
@@ -883,7 +839,7 @@ void ToggleFullScreen(void)
 
         SetWindowPositionVars();
         screen = SDL_SetVideoMode(width, height, 0,
-                                  SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
         CreateCursors();
         SDL_SetCursor(emptycursor);
@@ -925,7 +881,7 @@ void ApplyWindowResize(int height)
     windowwidth += (windowwidth & 1);
 
     screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
-                              SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+        SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, windowheight, 8, 0, 0, 0, 0);
     pitch = screenbuffer->pitch;
