@@ -992,6 +992,7 @@ static void D_DoomMainSetup(void)
         usegamma = 0;
         while (gammalevels[usegamma++] != GAMMALEVEL_DEFAULT);
     }
+    usegamma--;
 
     if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;
