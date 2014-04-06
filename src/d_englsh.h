@@ -399,7 +399,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define STSTR_NCOFF             "No clipping mode OFF"
 
 #define STSTR_BEHOLD            "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
-#define STSTR_BEHOLDX           "Power-up toggled"
+#define STSTR_BEHOLDON          "Power-up toggled ON"
+#define STSTR_BEHOLDOFF         "Power-up toggled OFF"
 
 #define STSTR_CHOPPERS          "\"...doesn't suck.\" - GM"
 #define STSTR_CLEV              "Changing to %s..."

@@ -983,6 +983,8 @@ boolean ST_Responder(event_t *ev)
                                 oldweaponsowned[wp_chainsaw] = plyr->chainsawbeforechoppers;
                               }
                         }
+
+                        plyr->message = STSTR_BEHOLDON;
                     }
                     else
                     {
@@ -1009,6 +1011,8 @@ boolean ST_Responder(event_t *ev)
                             // [BH] start flashing palette to indicate power-up about to run out
                             plyr->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
+
+                        plyr->message = STSTR_BEHOLDOFF;
                     }
 
                     // [BH] reset all cheat sequences
@@ -1029,8 +1033,6 @@ boolean ST_Responder(event_t *ev)
                     cheat_mypos.chars_read = 0;
                     cheat_amap.chars_read = 0;
                     cheatkey = '\0';
-
-                    plyr->message = STSTR_BEHOLDX;
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
