@@ -951,8 +951,8 @@ boolean ST_Responder(event_t *ev)
                     //    plyr->powers[i] = 1;
                     //else
                     //    plyr->powers[i] = 0;
-                    if (plyr->powers[i] >= 0
-                        && plyr->powers[i] <= STARTFLASHING)
+                    if ((i != pw_strength && plyr->powers[i] >= 0 && plyr->powers[i] <= STARTFLASHING)
+                        || (i == pw_strength && !plyr->powers[i]))
                     {
                         P_GivePower(plyr, i);
 
