@@ -1206,7 +1206,10 @@ boolean ST_Responder(event_t *ev)
                 }
                 else
                 {
-                    plyr->message = STSTR_CLEV;
+                    static char buf[128];
+
+                    sprintf(buf, STSTR_CLEV, lump);
+                    plyr->message = buf;
 
                     // [BH] always display message
                     message_dontfuckwithme = true;

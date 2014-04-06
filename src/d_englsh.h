@@ -402,7 +402,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define STSTR_BEHOLDX           "Power-up toggled"
 
 #define STSTR_CHOPPERS          "\"...doesn't suck.\" - GM"
-#define STSTR_CLEV              "Changing level..."
+#define STSTR_CLEV              "Changing to %s..."
 
 #define STSTR_MYPOS             "angle = %i%c  x,y,z = [%i,%i,%i]"
 
