@@ -144,28 +144,23 @@ int   mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 static void ApplyWindowResize(int height);
 static void SetWindowPositionVars(void);
 
-boolean MouseShouldBeGrabbed()
+boolean MouseShouldBeGrabbed(void)
 {
     // if the window doesn't have focus, never grab it
-
     if (!window_focused)
         return false;
 
     // always grab the mouse when full screen (dont want to
     // see the mouse pointer)
-
     if (fullscreen)
         return true;
 
     // when menu is active or game is paused, release the mouse
-
     if (menuactive || paused)
         return false;
 
-    // only grab mouse when playing levels (but not demos)
-
-    return (gamestate == GS_LEVEL && !demoplayback && !advancedemo);
-
+    // only grab mouse when playing levels
+    return (gamestate == GS_LEVEL);
 }
 
 // Update the value of window_focused when we get a focus event
@@ -173,22 +168,19 @@ boolean MouseShouldBeGrabbed()
 // We try to make ourselves be well-behaved: the grab on the mouse
 // is removed if we lose focus (such as a popup window appearing),
 // and we dont move the mouse around if we aren't focused either.
-
 static void UpdateFocus(void)
 {
     Uint8          state = SDL_GetAppState();
     static boolean alreadypaused = false;
 
     // Should the screen be grabbed?
-
     screenvisible = (state & SDL_APPACTIVE);
 
     // We should have input (keyboard) focus and be visible
     // (not minimized)
-
     window_focused = ((state & SDL_APPINPUTFOCUS) && screenvisible);
 
-    if (!window_focused && !menuactive && gamestate == GS_LEVEL && !demoplayback && !advancedemo)
+    if (!window_focused && !menuactive && gamestate == GS_LEVEL)
     {
         if (paused)
             alreadypaused = true;
@@ -488,20 +480,17 @@ static void CenterMouse(void)
 // motion event.
 static void I_ReadMouse(void)
 {
-    int         x, y;
+    int         x;
     event_t     ev;
 
-    SDL_GetRelativeMouseState(&x, &y);
+    SDL_GetRelativeMouseState(&x, NULL);
 
-    if (x)
-    {
-        ev.type = ev_mouse;
-        ev.data1 = mouse_button_state;
-        ev.data2 = AccelerateMouse(x);
-        ev.data3 = 0;
+    ev.type = ev_mouse;
+    ev.data1 = mouse_button_state;
+    ev.data2 = AccelerateMouse(x);
+    ev.data3 = 0;
 
-        D_PostEvent(&ev);
-    }
+    D_PostEvent(&ev);
 
     if (MouseShouldBeGrabbed())
         CenterMouse();
