@@ -178,6 +178,9 @@ typedef struct player_s
     int                 chainsawbeforechoppers;
     weapontype_t        weaponbeforechoppers;
 
+    char                *centermessage;
+    int                 lookdir;
+    boolean             centering;
 } player_t;
 
 //

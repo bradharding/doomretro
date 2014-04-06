@@ -498,7 +498,7 @@ static void I_ReadMouse(void)
         ev.type = ev_mouse;
         ev.data1 = mouse_button_state;
         ev.data2 = AccelerateMouse(x);
-        ev.data3 = 0;
+        ev.data3 = -AccelerateMouse(y);
 
         D_PostEvent(&ev);
     }

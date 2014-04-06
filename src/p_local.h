@@ -37,6 +37,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "d_main.h"
 #endif
 
+#define TOCENTER                -8
 #define FLOATSPEED              (FRACUNIT * 4)
 
 #define MAXHEALTH               100

@@ -26,6 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include "doomtype.h"
 #include "m_fixed.h"
 #include "r_sky.h"
 
@@ -36,11 +37,16 @@ int skyflatnum;
 int skytexture;
 int skytexturemid;
 
+extern boolean mouselook;
+
 //
 // R_InitSkyMap
 // Called whenever the view size changes.
 //
 void R_InitSkyMap(void)
 {
-    skytexturemid = 100 * FRACUNIT;
+    if (mouselook)
+        skytexturemid = -28 * FRACUNIT * 128 / 228;
+    else
+        skytexturemid = 100 * FRACUNIT;
 }

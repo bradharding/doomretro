@@ -132,6 +132,7 @@ void P_MovePlayer(player_t *player)
 {
     ticcmd_t *cmd = &player->cmd;
     mobj_t   *mo = player->mo;
+    int      look;
 
     mo->angle += (cmd->angleturn << 16);
 
@@ -150,6 +151,33 @@ void P_MovePlayer(player_t *player)
 
     if ((cmd->forwardmove || cmd->sidemove) && mo->state == &states[S_PLAY])
         P_SetMobjState(mo, S_PLAY_RUN1);
+
+    look = cmd->lookfly & 15;
+    if (look > 7)
+        look -= 16;
+    if (look)
+    {
+        if (look == TOCENTER)
+            player->centering = true;
+        else
+        {
+            player->lookdir += 5 * look;
+            if (player->lookdir > 90 || player->lookdir < -110)
+                player->lookdir -= 5 * look;
+        }
+    }
+    if (player->centering)
+    {
+        if (player->lookdir > 0)
+            player->lookdir -= 8;
+        else if (player->lookdir < 0)
+            player->lookdir += 8;
+        if (ABS(player->lookdir) < 8)
+        {
+            player->lookdir = 0;
+            player->centering = false;
+        }
+    }
 }
 
 //

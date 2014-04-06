@@ -31,7 +31,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <math.h>
 #include "d_net.h"
 #include "m_menu.h"
-#include "r_local.h"
+#include "p_local.h"
 #include "r_sky.h"
 #include "v_video.h"
 
@@ -468,6 +468,7 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 void R_SetupFrame(player_t *player)
 {
     int i;
+    int tempCentery;
 
     viewplayer = player;
     viewx = player->mo->x;
@@ -476,6 +477,15 @@ void R_SetupFrame(player_t *player)
     extralight = player->extralight;
 
     viewz = player->viewz;
+
+    tempCentery = viewheight / 2 + (player->lookdir) * screenblocks / 10;
+    if (centery != tempCentery)
+    {
+        centery = tempCentery;
+        centeryfrac = centery << FRACBITS;
+        for (i = 0; i < viewheight; i++)
+            yslope[i] = FixedDiv(viewwidth / 2 * FRACUNIT, ABS(((i - centery) << FRACBITS) + FRACUNIT / 2));
+    }
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
