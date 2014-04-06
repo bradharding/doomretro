@@ -364,7 +364,6 @@
     <ClInclude Include="..\src\d_main.h" />
     <ClInclude Include="..\src\d_net.h" />
     <ClInclude Include="..\src\d_player.h" />
-    <ClInclude Include="..\src\d_textur.h" />
     <ClInclude Include="..\src\d_think.h" />
     <ClInclude Include="..\src\d_ticcmd.h" />
     <ClInclude Include="..\src\f_finale.h" />
