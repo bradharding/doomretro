@@ -493,12 +493,12 @@ static void I_ReadMouse(void)
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if (x)
+    if (x || y)
     {
         ev.type = ev_mouse;
         ev.data1 = mouse_button_state;
         ev.data2 = AccelerateMouse(x);
-        ev.data3 = -AccelerateMouse(y);
+        ev.data3 = -y;
 
         D_PostEvent(&ev);
     }
