@@ -983,16 +983,16 @@ static void D_DoomMainSetup(void)
 
     if (gammalevel < GAMMALEVEL_MIN || gammalevel > GAMMALEVEL_MAX)
         gammalevel = GAMMALEVEL_DEFAULT;
-    usegamma = 0;
-    while (usegamma < GAMMALEVELS)
-        if (gammalevels[usegamma++] == gammalevel)
+    gammalevelindex = 0;
+    while (gammalevelindex < GAMMALEVELS)
+        if (gammalevels[gammalevelindex++] == gammalevel)
             break;
-    if (usegamma == GAMMALEVELS)
+    if (gammalevelindex == GAMMALEVELS)
     {
-        usegamma = 0;
-        while (gammalevels[usegamma++] != GAMMALEVEL_DEFAULT);
+        gammalevelindex = 0;
+        while (gammalevels[gammalevelindex++] != GAMMALEVEL_DEFAULT);
     }
-    usegamma--;
+    gammalevelindex--;
 
     if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;

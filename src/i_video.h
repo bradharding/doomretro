@@ -76,7 +76,7 @@ extern boolean idbehold;
 
 extern char mapnumandtitle[133];
 
-extern int usegamma;
+extern int gammalevelindex;
 extern float gammalevel;
 extern double gammalevels[GAMMALEVELS];
 

@@ -126,7 +126,7 @@ double gammalevels[GAMMALEVELS] =
 };
 
 // Gamma correction level to use
-int usegamma;
+int gammalevelindex;
 float gammalevel = GAMMALEVEL_DEFAULT;
 
 // Mouse acceleration
@@ -610,9 +610,9 @@ void I_SetPalette(byte *doompalette)
 
     for (i = 0; i < 256; ++i)
     {
-        palette[i].r = gammatable[usegamma][*doompalette++];
-        palette[i].g = gammatable[usegamma][*doompalette++];
-        palette[i].b = gammatable[usegamma][*doompalette++];
+        palette[i].r = gammatable[gammalevelindex][*doompalette++];
+        palette[i].g = gammatable[gammalevelindex][*doompalette++];
+        palette[i].b = gammatable[gammalevelindex][*doompalette++];
     }
 
     palette_to_set = true;

@@ -2339,31 +2339,37 @@ boolean M_Responder(event_t *ev)
     {
         static char buf[128];
 
-        keydown = key;
-        if (gammawait >= I_GetTime())
+        if (gammawait >= I_GetTime() || gamestate != GS_LEVEL || inhelpscreens)
         {
             if (keyMods & KMOD_SHIFT)
             {
-                if (--usegamma < 0)
-                    usegamma = GAMMALEVELS - 1;
+                if (--gammalevelindex < 0)
+                    gammalevelindex = GAMMALEVELS - 1;
             }
             else
             {
-                if (++usegamma > GAMMALEVELS - 1)
-                    usegamma = 0;
+                if (++gammalevelindex > GAMMALEVELS - 1)
+                    gammalevelindex = 0;
             }
             S_StartSound(NULL, sfx_stnmov);
         }
+
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
-        gammalevel = (float)gammalevels[usegamma];
-        message_dontpause = true;
+
+        gammalevel = (float)gammalevels[gammalevelindex];
+
         sprintf(buf, GAMMALVL, gammalevel);
         if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
             buf[strlen(buf) - 1] = '\0';
         players[consoleplayer].message = buf;
+
+        message_dontpause = true;
         message_dontfuckwithme = true;
+
         I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+
         M_SaveDefaults();
+
         return false;
     }
 
