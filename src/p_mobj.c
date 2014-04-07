@@ -915,6 +915,14 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 }
 
 //
+// P_BloodSplatThinker
+//
+void P_BloodSplatThinker(mobj_t *splat)
+{
+    splat->z = splat->subsector->sector->floorheight;
+}
+
+//
 // P_SpawnBloodSplat
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
@@ -935,12 +943,18 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
     P_SetThingPosition(newsplat);
     newsplat->z = newsplat->subsector->sector->floorheight;
 
+    newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
+    P_AddThinker(&newsplat->thinker);
+
     if (bloodSplatQueueSlot > bloodsplats)
     {
         mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
 
         if (oldsplat)
+        {
             P_UnsetThingPosition(oldsplat);
+            ((thinker_t *)oldsplat)->function.acv = (actionf_v)(-1);
+        }
     }
 
     bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
