@@ -534,13 +534,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
               (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
 
-    if (mobj->type != MT_BLOODSPLAT)
-    {
-        mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
-        P_AddThinker(&mobj->thinker);
-    }
-
-    mobj->target = mobj->tracer = NULL;
+    mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+    P_AddThinker(&mobj->thinker);
 
     return mobj;
 }
@@ -924,15 +919,21 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
 {
-    mobj_t *newsplat;
+    mobj_t *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
-    x += M_RandomInt(-5, 5) << FRACBITS;
-    y += M_RandomInt(-5, 5) << FRACBITS;
+    memset(newsplat, 0, sizeof(*newsplat));
 
-    newsplat = P_SpawnMobj(x, y, ONFLOORZ, MT_BLOODSPLAT);
+    newsplat->type = MT_BLOODSPLAT;
+    newsplat->state = &states[S_BLOODSPLAT];
+    newsplat->sprite = SPR_BLD2;
+    newsplat->frame = rand() % 8;
 
-    newsplat->flags2 |= flag;
-    P_SetMobjState(newsplat, (statenum_t)(S_BLOODSPLAT + rand() % 8));
+    newsplat->flags2 = flag;
+
+    newsplat->x = x + (M_RandomInt(-5, 5) << FRACBITS);
+    newsplat->y = y + (M_RandomInt(-5, 5) << FRACBITS);
+    P_SetThingPosition(newsplat);
+    newsplat->z = newsplat->subsector->sector->floorheight;
 
     if (bloodSplatQueueSlot > bloodsplats)
     {
