@@ -178,6 +178,7 @@ typedef struct player_s
     int                 chainsawbeforechoppers;
     weapontype_t        weaponbeforechoppers;
 
+    int                 lookdir;
 } player_t;
 
 //

@@ -1061,7 +1061,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
         if (!linetarget)
         {
             an = source->angle;
-            slope = 0;
+            slope = (source->player->lookdir << FRACBITS) / 173;
         }
     }
 

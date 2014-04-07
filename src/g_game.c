@@ -124,6 +124,8 @@ byte            *demo_p;
 byte            *demoend;
 boolean         singledemo;             // quit after playing a demo from cmdline
 
+boolean         mouselook = true;
+
 boolean         precache = true;        // if true, load all graphics at start
 
 wbstartstruct_t wminfo;                 // parms for world map / intermission
@@ -225,6 +227,7 @@ static boolean  *mousebuttons = &mousearray[1]; // allow [-1]
 
 // mouse values are used once
 int             mousex;
+int             mousey;
 
 static int      dclicktime;
 static boolean  dclickstate;
@@ -268,8 +271,9 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     int         i;
     boolean     strafe;
     int         speed;
-    int         forward;
-    int         side;
+    int         forward = 0;
+    int         side = 0;
+    int         look = 0;
 
     memset(cmd, 0, sizeof(ticcmd_t));
     cmd->consistancy = consistancy[consoleplayer][maketic % BACKUPTICS];
@@ -280,8 +284,6 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     strafe = gamekeydown[key_strafe];
 
     speed = G_GetSpeedToggle();
-
-    forward = side = 0;
 
     // use two stage accelerative turning
     // on the keyboard
@@ -371,15 +373,32 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         }
     }
 
+    if (mouselook)
+    {
+        players[consoleplayer].lookdir += mousey / 8;
+
+        if (players[consoleplayer].lookdir > 90)
+            players[consoleplayer].lookdir = 90;
+        else if (players[consoleplayer].lookdir < -110)
+            players[consoleplayer].lookdir = -110;
+    }
+
     if (strafe)
         side += mousex * 2;
     else
         cmd->angleturn -= mousex * 0x8;
 
-    mousex = 0;
+    mousex = mousey = 0;
 
     cmd->forwardmove += MAX(-MAXPLMOVE, MIN(forward, MAXPLMOVE));
     cmd->sidemove += MAX(-MAXPLMOVE, MIN(side, MAXPLMOVE));
+
+    if (players[consoleplayer].playerstate == PST_LIVE)
+    {
+        if (look < 0)
+            look += 16;
+        cmd->look = look;
+    }
 
     // special buttons
     if (sendpause)
@@ -465,7 +484,7 @@ void G_DoLoadLevel(void)
 
     // clear cmd building stuff
     memset(gamekeydown, 0, sizeof(gamekeydown));
-    mousex = 0;
+    mousex = mousey = 0;
     sendpause = sendsave = paused = false;
     memset(mousebuttons, 0, sizeof(*mousebuttons));
 
@@ -670,7 +689,10 @@ boolean G_Responder(event_t *ev)
                     PrevWeapon();
             }
             if (!automapactive || (automapactive && followplayer))
+            {
                 mousex = ev->data2 * (mouseSensitivity + 5) / 10;
+                mousey = ev->data3 * (mouseSensitivity + 5) / 10;
+            }
             return true;            // eat events
 
         case ev_gamepad:

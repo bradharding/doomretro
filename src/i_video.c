@@ -357,8 +357,7 @@ void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                if (window_focused)
-                    keydown = 0;
+                keydown = 0;
                 break;
 
             case SDL_JOYBUTTONUP:
@@ -440,13 +439,14 @@ static int AccelerateMouse(int val)
 // motion event.
 static void I_ReadMouse(void)
 {
-    int         x;
+    int         x, y;
+    int         buttons = SDL_GetRelativeMouseState(&x, &y);
     event_t     ev;
 
     ev.type = ev_mouse;
-    ev.data1 = SDL_GetRelativeMouseState(&x, NULL);
+    ev.data1 = buttons;
     ev.data2 = AccelerateMouse(x);
-    ev.data3 = 0;
+    ev.data3 = -AccelerateMouse(y);
 
     D_PostEvent(&ev);
 

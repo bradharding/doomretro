@@ -42,6 +42,8 @@ typedef struct
     short       angleturn;      // <<16 for angle delta
     byte        buttons;
     byte        consistancy;    // checks for net game
+
+    byte        look;
 } ticcmd_t;
 
 #endif
