@@ -534,11 +534,13 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
               (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
 
-    mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+    if (mobj->type != MT_BLOODSPLAT)
+    {
+        mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+        P_AddThinker(&mobj->thinker);
+    }
 
     mobj->target = mobj->tracer = NULL;
-
-    P_AddThinker(&mobj->thinker);
 
     return mobj;
 }
