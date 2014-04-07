@@ -940,7 +940,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
         mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
 
         if (oldsplat)
-            P_RemoveMobj(oldsplat);
+            P_UnsetThingPosition(oldsplat);
     }
 
     bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
