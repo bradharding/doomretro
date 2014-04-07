@@ -938,8 +938,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
 
     newsplat->flags2 = flag;
 
-    newsplat->x = x + (M_RandomInt(-5, 5) << FRACBITS);
-    newsplat->y = y + (M_RandomInt(-5, 5) << FRACBITS);
+    newsplat->x = x + ((rand() % 11 - 5) << FRACBITS);
+    newsplat->y = y + ((rand() % 11 - 5) << FRACBITS);
     P_SetThingPosition(newsplat);
     newsplat->z = newsplat->subsector->sector->floorheight;
 
