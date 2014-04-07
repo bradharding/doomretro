@@ -56,7 +56,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define GAMMALEVEL_MAX             gammalevels[GAMMALEVELS]
 
 #define BLOODSPLATS_MIN            0
-#define BLOODSPLATS_DEFAULT        1024
+#define BLOODSPLATS_DEFAULT        2048
 #define BLOODSPLATS_MAX            32768
 
 #define RUNCOUNT_MAX               32768
