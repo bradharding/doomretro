@@ -1736,20 +1736,21 @@ void AM_drawThings(void)
                 {
                     int x = thing->x;
                     int y = thing->y;
-                    int fx = CXMTOF(x);
-                    int fy = CYMTOF(y);
+                    int fx;
+                    int fy;
                     int lump = sprites[thing->sprite].spriteframes[0].lump[0];
                     int w = MAX(24 << FRACBITS, MIN(MIN(spritewidth[lump],
                         spriteheight[lump]), 96 << FRACBITS)) >> 1;
 
-                    if (fx >= -w && fx <= MAPWIDTH + w && fy >= -w && fy <= MAPHEIGHT + w)
-                    {
-                        if (rotate)
-                            AM_rotatePoint(&x, &y);
+                    if (rotate)
+                        AM_rotatePoint(&x, &y);
 
-                        AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w,
-                            thing->angle, thingcolor, x, y);
-                    }
+                    fx = CXMTOF(x);
+                    fy = CYMTOF(y);
+
+                    if (fx >= -w && fx <= MAPWIDTH + w && fy >= -w && fy <= MAPHEIGHT + w)
+                        AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w, thing->angle,
+                                             thingcolor, x, y);
                 }
                 thing = thing->snext;
             }
