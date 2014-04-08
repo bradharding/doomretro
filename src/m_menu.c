@@ -2355,6 +2355,8 @@ boolean M_Responder(event_t *ev)
 
             S_StartSound(NULL, sfx_stnmov);
         }
+        else
+            S_StartSound(NULL, sfx_swtchn);
 
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
