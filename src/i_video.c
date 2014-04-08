@@ -53,6 +53,11 @@ SDL_Surface *screenbuffer = NULL;
 SDL_Color palette[256];
 static boolean   palette_to_set;
 
+// Bit mask of mouse button state
+static unsigned int mouse_button_state = 0;
+
+static int          buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
+
 // Fullscreen width and height
 int screenwidth = 0;
 int screenheight = 0;
@@ -319,7 +324,7 @@ void I_GetEvent(void)
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
 
                 if (altdown && ev.data1 == KEY_TAB)
-                    ev.data1 = ev.data2 = ev.data3 = 0;
+                    ev.data1 = ev.data2 = 0;
 
                 if (!isdigit(ev.data2))
                     idclev = idmus = false;
@@ -354,10 +359,20 @@ void I_GetEvent(void)
                     HU_clearMessages();
                     idbehold = false;
                 }
+                ev.type = ev_mouse;
+                mouse_button_state |= buttons[sdlevent.button.button];
+                ev.data1 = mouse_button_state;
+                ev.data2 = 0;
+                D_PostEvent(&ev);
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 keydown = 0;
+                ev.type = ev_mouse;
+                mouse_button_state &= ~buttons[sdlevent.button.button];
+                ev.data1 = mouse_button_state;
+                ev.data2 = 0;
+                D_PostEvent(&ev);
                 break;
 
             case SDL_JOYBUTTONUP:
@@ -442,10 +457,11 @@ static void I_ReadMouse(void)
     int         x;
     event_t     ev;
 
+    SDL_GetRelativeMouseState(&x, NULL);
+
     ev.type = ev_mouse;
-    ev.data1 = SDL_GetRelativeMouseState(&x, NULL);
+    ev.data1 = mouse_button_state;
     ev.data2 = AccelerateMouse(x);
-    ev.data3 = 0;
 
     D_PostEvent(&ev);
 
