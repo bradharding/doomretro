@@ -31,7 +31,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <Windows.h>
 #include <XInput.h>
 
-#if (_MSC_PLATFORM_TOOLSET == 90)
+#if (_MSC_PLATFORM_TOOLSET <= 100)
 #pragma comment(lib, "XInput.lib")
 #else
 #pragma comment(lib, "XInput9_1_0.lib")
