@@ -302,6 +302,28 @@ void I_ShutdownGraphics(void)
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
+static int AccelerateMouse(int val)
+{
+    if (val < 0)
+        return -AccelerateMouse(-val);
+
+    if (val > mouse_threshold)
+        return (int)((val - mouse_threshold) * mouse_acceleration + mouse_threshold);
+    else
+        return val;
+}
+
+// Warp the mouse back to the middle of the screen
+static void CenterMouse(void)
+{
+    // Warp the the screen center
+    SDL_WarpMouse(screen->w / 2, screen->h / 2);
+
+    // Clear any relative movement caused by warping
+    SDL_PumpEvents();
+    SDL_GetRelativeMouseState(NULL, NULL);
+}
+
 boolean altdown = false;
 boolean waspaused = false;
 
@@ -375,6 +397,14 @@ void I_GetEvent(void)
                 D_PostEvent(&ev);
                 break;
 
+            case SDL_MOUSEMOTION:
+                ev.type = ev_mouse;
+                ev.data1 = mouse_button_state;
+                ev.data2 = -AccelerateMouse(sdlevent.motion.xrel);
+                D_PostEvent(&ev);
+                CenterMouse();
+                break;
+
             case SDL_JOYBUTTONUP:
                 keydown = 0;
                 break;
@@ -425,57 +455,12 @@ void I_GetEvent(void)
     }
 }
 
-// Warp the mouse back to the middle of the screen
-static void CenterMouse(void)
-{
-    // Warp the the screen center
-    SDL_WarpMouse(screen->w / 2, screen->h / 2);
-
-    // Clear any relative movement caused by warping
-    SDL_PumpEvents();
-    SDL_GetRelativeMouseState(NULL, NULL);
-}
-
-static int AccelerateMouse(int val)
-{
-    if (val < 0)
-        return -AccelerateMouse(-val);
-
-    if (val > mouse_threshold)
-        return (int)((val - mouse_threshold) * mouse_acceleration + mouse_threshold);
-    else
-        return val;
-}
-
-//
-// Read the change in mouse state to generate mouse motion events
-//
-// This is to combine all mouse movement for a tic into one mouse
-// motion event.
-static void I_ReadMouse(void)
-{
-    int         x;
-    event_t     ev;
-
-    SDL_GetRelativeMouseState(&x, NULL);
-
-    ev.type = ev_mouse;
-    ev.data1 = mouse_button_state;
-    ev.data2 = AccelerateMouse(x);
-
-    D_PostEvent(&ev);
-
-    if (MouseShouldBeGrabbed())
-        CenterMouse();
-}
-
 //
 // I_StartTic
 //
 void I_StartTic(void)
 {
     I_GetEvent();
-    I_ReadMouse();
     gamepadfunc();
 }
 
@@ -869,7 +854,7 @@ void ToggleFullScreen(void)
 
         ev.type = ev_keyup;
         ev.data1 = KEY_RALT;
-        ev.data2 = ev.data3 = 0;
+        ev.data2 = 0;
         D_PostEvent(&ev);
     }
 
