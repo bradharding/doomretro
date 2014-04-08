@@ -44,6 +44,7 @@ typedef uint8_t byte;
 #define boolean bool
 
 #define DIR_SEPARATOR '\\'
+#define DIR_SEPARATOR_S "\\"
 #define PATH_SEPARATOR ';'
 
 #define arrlen(array) (sizeof(array) / sizeof(*array))

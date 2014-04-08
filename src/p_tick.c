@@ -26,11 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "z_zone.h"
-#include "p_local.h"
-
 #include "doomstat.h"
-
+#include "p_local.h"
 
 int     leveltime;
 
@@ -42,11 +39,8 @@ int     leveltime;
 // but the first element must be thinker_t.
 //
 
-
-
 // Both the head and tail of the thinker list.
 thinker_t       thinkercap;
-
 
 //
 // P_InitThinkers
@@ -55,9 +49,6 @@ void P_InitThinkers(void)
 {
     thinkercap.prev = thinkercap.next = &thinkercap;
 }
-
-
-
 
 //
 // P_AddThinker
@@ -71,8 +62,6 @@ void P_AddThinker(thinker_t *thinker)
     thinkercap.prev = thinker;
 }
 
-
-
 //
 // P_RemoveThinker
 // Deallocation is lazy -- it will not actually be freed
@@ -82,8 +71,6 @@ void P_RemoveThinker(thinker_t *thinker)
 {
     thinker->function.acv = (actionf_v)(-1);
 }
-
-
 
 //
 // P_RunThinkers
@@ -101,21 +88,15 @@ void P_RunThinkers(void)
             currentthinker->next->prev = currentthinker->prev;
             currentthinker->prev->next = currentthinker->next;
         }
-        else
-        {
-            if (currentthinker->function.acp1)
-                currentthinker->function.acp1(currentthinker);
-        }
+        else if (currentthinker->function.acp1)
+            currentthinker->function.acp1(currentthinker);
         currentthinker = currentthinker->next;
     }
 }
 
-
-
 //
 // P_Ticker
 //
-
 void P_Ticker(void)
 {
     int i;
@@ -125,14 +106,8 @@ void P_Ticker(void)
         return;
 
     // pause if in menu and at least one tic has been run
-    if (!netgame
-        && menuactive
-        && !demoplayback
-        && players[consoleplayer].viewz != 1)
-    {
+    if (!netgame && menuactive && !demoplayback && players[consoleplayer].viewz != 1)
         return;
-    }
-
 
     for (i = 0; i < MAXPLAYERS; i++)
         if (playeringame[i])

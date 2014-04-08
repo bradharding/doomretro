@@ -33,6 +33,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <windows.h>
 
 #include "doomdef.h"
+#include "m_misc.h"
 #include "i_system.h"
 #include "z_zone.h"
 

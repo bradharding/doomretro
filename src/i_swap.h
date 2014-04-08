@@ -42,12 +42,4 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define SHORT(x)  ((signed short)SDL_SwapLE16(x))
 #define LONG(x)   ((signed long)SDL_SwapLE32(x))
 
-// Defines for checking the endianness of the system.
-
-#if SDL_BYTEORDER == SYS_LIL_ENDIAN
-#define SYS_LITTLE_ENDIAN
-#elif SDL_BYTEORDER == SYS_BIG_ENDIAN
-#define SYS_BIG_ENDIAN
-#endif
-
 #endif

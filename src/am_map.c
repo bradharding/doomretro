@@ -493,7 +493,7 @@ void AM_Init(void)
 
 void AM_initVariables(void)
 {
-    static event_t st_notify = { ev_keyup, AM_MSGENTERED, 0, 0 };
+    static event_t st_notify = { ev_keyup, AM_MSGENTERED, 0 };
 
     automapactive = true;
 
@@ -558,7 +558,7 @@ void AM_LevelInit(void)
 
 void AM_Stop(void)
 {
-    static event_t st_notify = { (evtype_t)0, ev_keyup, AM_MSGEXITED, 0 };
+    static event_t st_notify = { (evtype_t)0, ev_keyup, AM_MSGEXITED };
 
     automapactive = false;
     if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm)
@@ -901,7 +901,7 @@ boolean AM_Responder(event_t *ev)
 
                         event.type = ev_keydown;
                         event.data1 = keydown;
-                        event.data2 = event.data3 = 0;
+                        event.data2 = 0;
                         D_PostEvent(&event);
                     }
                 }
@@ -1722,7 +1722,7 @@ void AM_drawThings(void)
 
             while (thing)
             {
-                //e6y: stop if all enemies from current sector already has been drawn
+                //e6y: stop if all enemies from current sector already have been drawn
                 if (pass && !enemies)
                     break;
                 if (pass == ((thing->flags & (MF_COUNTKILL | MF_CORPSE)) == MF_COUNTKILL ?

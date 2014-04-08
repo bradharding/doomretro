@@ -744,9 +744,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             target->flags2 |= MF2_MIRRORED;
         }
         else
-        {
             prev++;
-        }
     }
 
     if (source && source->player)

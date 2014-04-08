@@ -29,14 +29,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __DSTRINGS__
 #define __DSTRINGS__
 
-
 // All important printed strings.
-
 #include "d_englsh.h"
 
 // Misc. other strings.
 #define SAVEGAMENAME            "doomsav"
-
 
 // QuitDOOM messages
 // 8 per each game type
@@ -44,6 +41,5 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 extern char *doom1_endmsg[];
 extern char *doom2_endmsg[];
-
 
 #endif

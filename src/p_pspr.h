@@ -53,8 +53,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define FF_FULLBRIGHT   0x8000  // flag in thing->frame
 #define FF_FRAMEMASK    0x7fff
 
-#define RANDOMIZE       0x8000
-
 //
 // Overlay psprites are scaled shapes
 // drawn directly on the view screen,
