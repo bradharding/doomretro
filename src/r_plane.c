@@ -296,7 +296,7 @@ void R_DrawPlanes(void)
             dc_iscale = pspriteiscale;
 
             if (mouselook)
-                dc_iscale = dc_iscale * 128 / 228;
+                dc_iscale = dc_iscale * 128 / SKYSTRETCH_HEIGHT;
 
             // Sky is always drawn full bright,
             //  i.e. colormaps[0] is used.
@@ -315,8 +315,8 @@ void R_DrawPlanes(void)
                     angle = (viewangle + xtoviewangle[x]) >> ANGLETOSKYSHIFT;
                     dc_x = x;
                     dc_source = R_GetColumn(skytexture, angle);
-                    dc_texheight = textureheight[skytexture] >> FRACBITS;
-                    if (flipsky)
+                    dc_texheight = 128;
+                    if (flipsky && !mouselook)
                         skycolfunc();
                     else
                         wallcolfunc();

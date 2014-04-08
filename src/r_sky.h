@@ -29,13 +29,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __R_SKY__
 #define __R_SKY__
 
-
-
 // SKY, store the number for name.
 #define SKYFLATNAME             "F_SKY1"
 
 // The sky map is 256*128*4 maps.
 #define ANGLETOSKYSHIFT         22
+
+#define SKYSTRETCH_HEIGHT       228
 
 extern int              skytexture;
 extern int              skytexturemid;
