@@ -45,8 +45,5 @@ extern boolean mouselook;
 //
 void R_InitSkyMap(void)
 {
-    if (mouselook)
-        skytexturemid = -28 * FRACUNIT * 129 / SKYSTRETCH_HEIGHT;
-    else
-        skytexturemid = 100 * FRACUNIT;
+    skytexturemid = 100 * FRACUNIT;
 }

@@ -177,8 +177,6 @@ typedef struct player_s
     int                 invulnbeforechoppers;
     int                 chainsawbeforechoppers;
     weapontype_t        weaponbeforechoppers;
-
-    int                 lookdir;
 } player_t;
 
 //
@@ -187,39 +185,39 @@ typedef struct player_s
 //
 typedef struct
 {
-    boolean     in;             // whether the player is in game
+    boolean             in;             // whether the player is in game
 
     // Player stats, kills, collected items etc.
-    int         skills;
-    int         sitems;
-    int         ssecret;
-    int         stime;
-    int         frags[4];
-    int         score;          // current score on entry, modified on return
+    int                 skills;
+    int                 sitems;
+    int                 ssecret;
+    int                 stime;
+    int                 frags[4];
+    int                 score;          // current score on entry, modified on return
 
 } wbplayerstruct_t;
 
 typedef struct
 {
-    int         epsd;           // episode # (0-2)
+    int                 epsd;           // episode # (0-2)
 
     // if true, splash the secret level
-    boolean     didsecret;
+    boolean             didsecret;
 
     // previous and next levels, origin 0
-    int         last;
-    int         next;
+    int                 last;
+    int                 next;
 
-    int         maxkills;
-    int         maxitems;
-    int         maxsecret;
-    int         maxfrags;
+    int                 maxkills;
+    int                 maxitems;
+    int                 maxsecret;
+    int                 maxfrags;
 
     // the par time
-    int         partime;
+    int                 partime;
 
     // index of this player in game
-    int         pnum;
+    int                 pnum;
 
     wbplayerstruct_t    plyr[MAXPLAYERS];
 

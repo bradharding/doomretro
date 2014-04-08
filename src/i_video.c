@@ -439,14 +439,13 @@ static int AccelerateMouse(int val)
 // motion event.
 static void I_ReadMouse(void)
 {
-    int         x, y;
-    int         buttons = SDL_GetRelativeMouseState(&x, &y);
+    int         x;
     event_t     ev;
 
     ev.type = ev_mouse;
-    ev.data1 = buttons;
+    ev.data1 = SDL_GetRelativeMouseState(&x, NULL);
     ev.data2 = AccelerateMouse(x);
-    ev.data3 = -AccelerateMouse(y);
+    ev.data3 = 0;
 
     D_PostEvent(&ev);
 

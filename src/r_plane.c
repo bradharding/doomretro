@@ -78,8 +78,6 @@ fixed_t              distscale[SCREENWIDTH];
 fixed_t              basexscale;
 fixed_t              baseyscale;
 
-extern boolean mouselook;
-
 //
 // R_MapPlane
 //
@@ -295,9 +293,6 @@ void R_DrawPlanes(void)
         {
             dc_iscale = pspriteiscale;
 
-            if (mouselook)
-                dc_iscale = dc_iscale * 128 / SKYSTRETCH_HEIGHT;
-
             // Sky is always drawn full bright,
             //  i.e. colormaps[0] is used.
             // Because of this hack, sky is not affected
@@ -316,7 +311,7 @@ void R_DrawPlanes(void)
                     dc_x = x;
                     dc_source = R_GetColumn(skytexture, angle);
                     dc_texheight = 128;
-                    if (flipsky && !mouselook)
+                    if (flipsky)
                         skycolfunc();
                     else
                         wallcolfunc();
