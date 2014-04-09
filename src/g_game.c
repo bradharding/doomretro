@@ -800,7 +800,10 @@ void G_Ticker(void)
                             players[consoleplayer].message = message;
                             message_dontfuckwithme = true;
                             if (menuactive)
+                            {
                                 message_dontpause = true;
+                                blurred = false;
+                            }
                         }
                     }
                     gameaction = ga_nothing;
