@@ -1327,7 +1327,7 @@ void M_NewGame(int choice)
 }
 
 //
-//      M_Episode
+// M_Episode
 //
 int epi;
 
@@ -1458,6 +1458,7 @@ boolean message_dontpause = false;
 void M_ChangeMessages(int choice)
 {
     choice = 0;
+    blurred = true;
     showMessages = !showMessages;
     message_dontpause = true;
     players[consoleplayer].message = (showMessages ? MSGON : MSGOFF);
@@ -1701,6 +1702,7 @@ void M_SizeDisplay(int choice)
             }
             break;
     }
+    blurred = false;
 }
 
 //
