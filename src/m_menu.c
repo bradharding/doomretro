@@ -87,19 +87,6 @@ boolean        messageNeedsInput;
 
 void (*messageRoutine)(int response);
 
-//char gammamsg[GAMMALEVELS][30] =
-//{
-//    GAMMALVL0,
-//    GAMMALVL1,
-//    GAMMALVL2,
-//    GAMMALVL3,
-//    GAMMALVL4,
-//    GAMMALVL5,
-//    GAMMALVL6,
-//    GAMMALVL7,
-//    GAMMALVL8
-//};
-
 // we are going to be entering a savegame string
 int            saveStringEnter;
 int            saveSlot;               // which slot to save in
@@ -1441,8 +1428,8 @@ void M_DrawOptions(void)
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
-        (float)(screenSize + ((widescreen || (returntowidescreen &&
-        gamestate != GS_LEVEL)) && !widescreenhud)), 7.2f);
+        (float)(screenSize + ((widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+        && !widescreenhud)), fullscreen ? 7.2f : 8.0f);
 
     if (mouseSensitivity == -5)
         mouseSensitivity = 0;
