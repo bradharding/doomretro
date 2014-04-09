@@ -1458,7 +1458,7 @@ boolean message_dontpause = false;
 void M_ChangeMessages(int choice)
 {
     choice = 0;
-    blurred = true;
+    blurred = false;
     showMessages = !showMessages;
     message_dontpause = true;
     players[consoleplayer].message = (showMessages ? MSGON : MSGOFF);
