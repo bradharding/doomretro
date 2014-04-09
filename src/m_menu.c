@@ -1413,7 +1413,10 @@ void M_Expansion(int choice)
 //
 void M_DrawOptions(void)
 {
+    static char buf[128];
+
     M_DarkBackground();
+
     if (M_OPTTTL)
         M_DrawCenteredPatchWithShadow(16 + OFFSET, 0,
             (patch_t *)W_CacheLumpName("M_OPTTTL", PU_CACHE));
@@ -1437,12 +1440,19 @@ void M_DrawOptions(void)
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * messages + OFFSET, "off");
     }
 
+    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
+        (float)(screenSize + ((widescreen || (returntowidescreen &&
+        gamestate != GS_LEVEL)) && !widescreenhud)), 7.2f);
+
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
                  mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
 
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
-                 (float)(screenSize + ((widescreen || (returntowidescreen && 
-                 gamestate != GS_LEVEL)) && !widescreenhud)), 7.2f);
+    if (itemOn == 4)
+    {
+        sprintf(buf, "%i", mouseSensitivity);
+        M_WriteText(OptionsDef.x + 98 - M_StringWidth(buf) / 2,
+                    OptionsDef.y + 16 * mousesens + 17 + OFFSET + 2, buf, true);
+    }
 }
 
 void M_Options(int choice)
