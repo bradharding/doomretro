@@ -80,4 +80,6 @@ extern int gammalevelindex;
 extern float gammalevel;
 extern double gammalevels[GAMMALEVELS];
 
+extern boolean blurred;
+
 #endif

@@ -114,7 +114,7 @@ boolean        startingnewgame = false;
 
 #define SKULLXOFF  -32
 #define LINEHEIGHT 17
-#define OFFSET     (!usergame ? 17 : 0)
+#define OFFSET     (!usergame || screenblocks == 11 ? 17 : 0)
 
 char           savegamestrings[10][SAVESTRINGSIZE];
 
