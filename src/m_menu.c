@@ -1444,15 +1444,18 @@ void M_DrawOptions(void)
         (float)(screenSize + ((widescreen || (returntowidescreen &&
         gamestate != GS_LEVEL)) && !widescreenhud)), 7.2f);
 
+    if (mouseSensitivity == -5)
+        mouseSensitivity = 0;
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
                  mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
-
     if (itemOn == 4)
     {
         sprintf(buf, "%i", mouseSensitivity);
         M_WriteText(OptionsDef.x + 98 - M_StringWidth(buf) / 2,
                     OptionsDef.y + 16 * mousesens + 17 + OFFSET + 2, buf, true);
     }
+    if (mouseSensitivity == 0)
+        mouseSensitivity = -5;
 }
 
 void M_Options(int choice)
@@ -1626,6 +1629,8 @@ void M_SliderSound(void)
 
 void M_ChangeSensitivity(int choice)
 {
+    if (mouseSensitivity == -5)
+        mouseSensitivity = 0;
     switch (choice)
     {
         case 0:
@@ -1647,6 +1652,8 @@ void M_ChangeSensitivity(int choice)
             }
             break;
     }
+    if (mouseSensitivity == 0)
+        mouseSensitivity = -5;
 }
 
 void M_SizeDisplay(int choice)
