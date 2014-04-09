@@ -370,6 +370,7 @@ void HU_Erase(void)
 
 extern fixed_t m_x, m_y, m_h, m_w;
 extern boolean message_dontpause;
+extern boolean blurred;
 extern int direction;
 
 void HU_Ticker(void)
@@ -385,7 +386,11 @@ void HU_Ticker(void)
     {
         message_on = false;
         message_nottobefuckedwith = false;
-        message_dontpause = false;
+        if (message_dontpause)
+        {
+            message_dontpause = false;
+            blurred = false;
+        }
     }
 
     if (idbehold)
