@@ -1651,10 +1651,7 @@ void M_SizeDisplay(int choice)
                 if (!widescreenhud)
                     widescreenhud = true;
                 else
-                {
-                    screensize--;
                     ToggleWideScreen(false);
-                }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1673,7 +1670,7 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
-            else if (screensize == 7 && fullscreen)
+            else if (screensize == 7 && fullscreen && !widescreen)
             {
                 if (gamestate != GS_LEVEL)
                 {
@@ -1684,13 +1681,12 @@ void M_SizeDisplay(int choice)
                 {
                     ToggleWideScreen(true);
                     if (!widescreen)
-                        R_SetViewSize(screensize);
+                        R_SetViewSize(++screensize);
                 }
-                screensize++;
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
-            else if (screensize < 8)
+            else if (screensize < 7)
             {
                 screensize++;
                 S_StartSound(NULL, sfx_stnmov);
