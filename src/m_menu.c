@@ -51,8 +51,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 extern patch_t *hu_font[HU_FONTSIZE];
 extern boolean message_dontfuckwithme;
 
-extern boolean chat_on;                // in heads-up code
-
 extern int     st_palette;
 
 extern boolean wipe;
@@ -1655,11 +1653,10 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
-            else if (screensize > 0)
+            else if (screensize > SCREENSIZE_MIN)
             {
-                screensize--;
                 S_StartSound(NULL, sfx_stnmov);
-                R_SetViewSize(screensize);
+                R_SetViewSize(--screensize);
                 M_SaveDefaults();
             }
             break;
@@ -1670,32 +1667,40 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
-            else if (screensize == 7 && fullscreen && !widescreen)
+            else if (screensize == 7 && fullscreen)
             {
-                if (gamestate != GS_LEVEL)
+                if (!widescreen)
                 {
-                    returntowidescreen = true;
-                    widescreenhud = true;
+                    if (gamestate != GS_LEVEL)
+                    {
+                        returntowidescreen = true;
+                        widescreenhud = true;
+                    }
+                    else
+                    {
+                        ToggleWideScreen(true);
+                        if (!widescreen)
+                            R_SetViewSize(++screensize);
+                    }
+                    S_StartSound(NULL, sfx_stnmov);
+                    M_SaveDefaults();
                 }
-                else
-                {
-                    ToggleWideScreen(true);
-                    if (!widescreen)
-                        R_SetViewSize(++screensize);
-                }
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveDefaults();
             }
-            else if (screensize < 7)
+            else if (screensize < SCREENSIZE_MAX)
             {
-                screensize++;
                 S_StartSound(NULL, sfx_stnmov);
-                R_SetViewSize(screensize);
+                R_SetViewSize(++screensize);
                 M_SaveDefaults();
             }
             break;
     }
     blurred = false;
+    {
+        static char buf[128];
+        sprintf(buf, "%i", screensize);
+        players[displayplayer].message = buf;
+        message_dontfuckwithme = true;
+    }
 }
 
 //
@@ -2144,7 +2149,7 @@ boolean M_Responder(event_t *ev)
         if (key == KEY_MINUS)
         {
             keydown = key;
-            if (automapactive || chat_on || !viewactive || inhelpscreens)
+            if (automapactive || !viewactive || inhelpscreens)
                 return false;
             M_SizeDisplay(0);
             return false;
@@ -2154,7 +2159,7 @@ boolean M_Responder(event_t *ev)
         else if (key == KEY_EQUALS)
         {
             keydown = key;
-            if (automapactive || chat_on || !viewactive || inhelpscreens)
+            if (automapactive || !viewactive || inhelpscreens)
                 return false;
             M_SizeDisplay(1);
             return false;

@@ -49,7 +49,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define SCREENSIZE_MIN             0
 #define SCREENSIZE_DEFAULT         7
-#define SCREENSIZE_MAX             9
+#define SCREENSIZE_MAX             8
 
 #define GAMMALEVEL_MIN             gammalevels[0]
 #define GAMMALEVEL_DEFAULT         0.75

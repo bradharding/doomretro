@@ -775,7 +775,7 @@ void ToggleFullScreen(void)
                 I_Error("Error setting video mode %i×%i: %s\n", width, height, SDL_GetError());
         }
 
-        if (screensize == 9)
+        if (screensize == 8)
         {
             if (gamestate != GS_LEVEL)
                 returntowidescreen = true;
@@ -783,7 +783,7 @@ void ToggleFullScreen(void)
             {
                 dest_rect.x = 1;
                 ToggleWideScreen(true);
-                if (widescreen && screensize == 8)
+                if (widescreen)
                     screensize = 7;
                 R_SetViewSize(screensize);
                 M_SaveDefaults();
