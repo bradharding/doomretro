@@ -94,7 +94,7 @@ void P_ExplodeMissile(mobj_t *mo)
     mo->flags &= ~MF_MISSILE;
 
     if (mo->type == MT_ROCKET)
-        mo->flags2 |= MF2_TRANSLUCENT;
+        mo->colfunc = tlcolfunc;
 
     if (mo->info->deathsound)
         S_StartSound(mo, mo->info->deathsound);

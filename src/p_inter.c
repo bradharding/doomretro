@@ -953,9 +953,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     if (target->health <= 0)
     {
         if (target->type == MT_BARREL || target->type == MT_PAIN || target->type == MT_SKULL)
-            target->flags2 |= MF2_TRANSLUCENT_REDONLY;
+            target->colfunc = tlredcolfunc;
         else if (target->type == MT_BRUISER || target->type == MT_KNIGHT)
-            target->flags2 |= MF2_REDTOGREEN;
+            target->colfunc = redtogreencolfunc;
 
         P_KillMobj(source, target);
         return;
