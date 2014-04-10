@@ -387,17 +387,8 @@ void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
     patch_t  *patch = (patch_t *)W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
 
     dc_colormap = vis->colormap;
-
-    if (vis->mobjflags2 & MF2_FUZZYWEAPON)
-        colfunc = psprcolfunc;
-    else
-        colfunc = vis->colfunc;
-    if (!dc_colormap)
-    {
-        // NULL colormap = shadow draw
-        fuzzpos = 0;
-        colfunc = fuzzcolfunc;
-    }
+    colfunc = vis->colfunc;
+    fuzzpos = 0;
 
     dc_iscale = FixedDiv(FRACUNIT, vis->scale);
     dc_texturemid = vis->texturemid;
@@ -555,12 +546,13 @@ void R_ProjectSprite(mobj_t *thing)
     vis->patch = lump;
 
     // get light level
-    if (thing->flags & MF_SHADOW)
-    {
-        // shadow draw
-        vis->colormap = NULL;
-    }
-    else if (fixedcolormap)
+    //if (thing->flags & MF_SHADOW)
+    //{
+    //    // shadow draw
+    //    vis->colormap = NULL;
+    //}
+    //else 
+    if (fixedcolormap)
     {
         // fixed map
         vis->colormap = fixedcolormap;
@@ -703,8 +695,11 @@ void R_DrawPSprite(pspdef_t *psp)
         || (viewplayer->powers[pw_invisibility] & 8))
     {
         // shadow draw
-        vis->mobjflags2 |= MF2_FUZZYWEAPON;
+        vis->colfunc = psprcolfunc;
     }
+    else
+        vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
+
     if (fixedcolormap)
     {
         // fixed color
@@ -728,8 +723,6 @@ void R_DrawPSprite(pspdef_t *psp)
             vis->colormap = spritelights[lightnum];
         }
     }
-
-    vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
 
     supershotgun = (state == &states[S_DSGUN]);
     R_DrawVisSprite(vis, screensize >= 7);
