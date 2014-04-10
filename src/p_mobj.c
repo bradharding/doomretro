@@ -510,6 +510,31 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     if (W_CheckMultipleLumps(lumpinfo[lump].name) == 1)
         mobj->flags2 = info->flags2;
 
+    if (mobj->flags2 & MF2_TRANSLUCENT)
+        mobj->colfunc = tlcolfunc;
+    else if (mobj->flags2 & MF2_TRANSLUCENT_REDONLY)
+        mobj->colfunc = tlredcolfunc;
+    else if (mobj->flags2 & MF2_TRANSLUCENT_GREENONLY)
+        mobj->colfunc = tlgreencolfunc;
+    else if (mobj->flags2 & MF2_TRANSLUCENT_BLUEONLY)
+        mobj->colfunc = tlbluecolfunc;
+    else if (mobj->flags2 & MF2_TRANSLUCENT_33)
+        mobj->colfunc = tl33colfunc;
+    else if (mobj->flags2 & MF2_TRANSLUCENT_50)
+        mobj->colfunc = tl50colfunc;
+    else if (mobj->flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+        mobj->colfunc = tlredwhitecolfunc;
+    else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+        mobj->colfunc = tlredtogreen33colfunc;
+    else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+        mobj->colfunc = tlredtoblue33colfunc;
+    else if (mobj->flags2 & MF2_REDTOGREEN)
+        mobj->colfunc = redtogreencolfunc;
+    else if (mobj->flags2 & MF2_REDTOBLUE)
+        mobj->colfunc = redtobluecolfunc;
+    else
+        mobj->colfunc = basecolfunc;
+
     if (bfgedition)
     {
         if (mobj->sprite == SPR_STIM)
@@ -556,7 +581,7 @@ void P_RemoveMobj(mobj_t *mobj)
         && mobj->floorz == mobj->subsector->sector->floorheight
         && !isliquid[mobj->subsector->sector->floorpic])
     {
-        P_SpawnBloodSplat(mobj->x, mobj->y, mobj->flags2);
+        P_SpawnBloodSplat(mobj->x, mobj->y, mobj->colfunc);
     }
 
     if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
@@ -879,12 +904,14 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 {
     mobj_t      *th;
     int         i;
-    int         flags2 = MF2_TRANSLUCENT_50;
+    void       (*colfunc)(void);
 
     if (type == MT_HEAD)
-        flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
+        colfunc = tlredtoblue33colfunc;
     else if (type == MT_BRUISER || type == MT_KNIGHT)
-        flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
+        colfunc = tlredtogreen33colfunc;
+    else
+        colfunc = tl50colfunc;
 
     angle += ANG180;
 
@@ -901,9 +928,9 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
         th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
 
-        th->flags2 = flags2;
-
         th->angle = angle;
+
+        th->colfunc = colfunc;
 
         if (damage <= 12)
             P_SetMobjState(th, th->state->nextstate);
@@ -925,7 +952,7 @@ void P_BloodSplatThinker(mobj_t *splat)
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, void (*colfunc)(void))
 {
     mobj_t *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
@@ -936,7 +963,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag)
     newsplat->sprite = SPR_BLD2;
     newsplat->frame = rand() % 8;
 
-    newsplat->flags2 = flag;
+    newsplat->colfunc = colfunc;
 
     newsplat->x = x + ((rand() % 11 - 5) << FRACBITS);
     newsplat->y = y + ((rand() % 11 - 5) << FRACBITS);

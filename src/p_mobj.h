@@ -326,6 +326,8 @@ typedef struct mobj_s
     int                floatbobdirection;
     int                floatbobcount;
 
+    void               (*colfunc)(void);
+
 } mobj_t;
 
 #endif

@@ -705,6 +705,8 @@ typedef struct vissprite_s
 
     mobjtype_t          type;
 
+    void                (*colfunc)(void);
+
 } vissprite_t;
 
 

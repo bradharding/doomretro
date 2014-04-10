@@ -132,7 +132,7 @@ void P_MobjThinker(mobj_t *mobj);
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobjtype_t type);
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flag);
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, void(*colfunc)(void));
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 

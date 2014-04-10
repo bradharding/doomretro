@@ -360,9 +360,7 @@ void R_DrawMaskedColumn2(column_t *column)
             const fixed_t maxfrac = column->length << FRACBITS;
 
             if (endfrac >= maxfrac)
-            {
                 dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
-            }
         }
 
         dc_source = (byte *)column + 3;
@@ -392,39 +390,13 @@ void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
 
     if (vis->mobjflags2 & MF2_FUZZYWEAPON)
         colfunc = psprcolfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tl50colfunc : tlcolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlred50colfunc : tlredcolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_GREENONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlgreen50colfunc : tlgreencolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_BLUEONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlblue50colfunc : tlbluecolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_33)
-        colfunc = tl33colfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_50)
-        colfunc = tl50colfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-        colfunc = (viewplayer->fixedcolormap == INVERSECOLORMAP ? tlredwhite50colfunc : tlredwhitecolfunc);
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
-        colfunc = tlredtogreen33colfunc;
-    else if (vis->mobjflags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
-        colfunc = tlredtoblue33colfunc;
-    else if (vis->mobjflags2 & MF2_REDTOGREEN)
-        colfunc = redtogreencolfunc;
-    else if (vis->mobjflags2 & MF2_REDTOBLUE)
-        colfunc = redtobluecolfunc;
-    else if (!dc_colormap)
+    else
+        colfunc = vis->colfunc;
+    if (!dc_colormap)
     {
         // NULL colormap = shadow draw
         fuzzpos = 0;
         colfunc = fuzzcolfunc;
-    }
-    else if (vis->mobjflags & MF_TRANSLATION)
-    {
-        colfunc = transcolfunc;
-        dc_translation = translationtables - 256 +
-            ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
     }
 
     dc_iscale = FixedDiv(FRACUNIT, vis->scale);
@@ -555,6 +527,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis = R_NewVisSprite();
     vis->mobjflags = thing->flags;
     vis->mobjflags2 = thing->flags2;
+    vis->colfunc = thing->colfunc;
     vis->type = thing->type;
     vis->scale = xscale;
     vis->gx = thing->x;
@@ -658,24 +631,24 @@ void R_DrawPSprite(pspdef_t *psp)
     vissprite_t   avis;
     state_t       *state;
 
-    int flags2[16] =
+    void (*colfuncs[])(void) =
     {
-        /* n/a      */ 0,
-        /* SPR_SHTG */ 0,
-        /* SPR_PUNG */ 0,
-        /* SPR_PISG */ 0,
-        /* SPR_PISF */ MF2_TRANSLUCENT,
-        /* SPR_SHTF */ MF2_TRANSLUCENT,
-        /* SPR_SHT2 */ MF2_TRANSLUCENT_REDWHITEONLY,
-        /* SPR_CHGG */ 0,
-        /* SPR_CHGF */ MF2_TRANSLUCENT,
-        /* SPR_MISG */ 0,
-        /* SPR_MISF */ MF2_TRANSLUCENT,
-        /* SPR_SAWG */ 0,
-        /* SPR_PLSG */ 0,
-        /* SPR_PLSF */ MF2_TRANSLUCENT,
-        /* SPR_BFGG */ 0,
-        /* SPR_BFGF */ MF2_TRANSLUCENT
+        /* n/a      */ NULL,
+        /* SPR_SHTG */ basecolfunc,
+        /* SPR_PUNG */ basecolfunc,
+        /* SPR_PISG */ basecolfunc,
+        /* SPR_PISF */ tlcolfunc,
+        /* SPR_SHTF */ tlcolfunc,
+        /* SPR_SHT2 */ tlredwhite50colfunc,
+        /* SPR_CHGG */ basecolfunc,
+        /* SPR_CHGF */ tlcolfunc,
+        /* SPR_MISG */ basecolfunc,
+        /* SPR_MISF */ tlcolfunc,
+        /* SPR_SAWG */ basecolfunc,
+        /* SPR_PLSG */ basecolfunc,
+        /* SPR_PLSF */ tlcolfunc,
+        /* SPR_BFGG */ basecolfunc,
+        /* SPR_BFGF */ tlcolfunc
     };
 
     // decide which patch to use
@@ -756,8 +729,7 @@ void R_DrawPSprite(pspdef_t *psp)
         }
     }
 
-    if (flash)
-        vis->mobjflags2 |= flags2[state->sprite];
+    vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
 
     supershotgun = (state == &states[S_DSGUN]);
     R_DrawVisSprite(vis, screensize >= 7);
