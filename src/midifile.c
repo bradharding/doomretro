@@ -170,7 +170,7 @@ static void *ReadByteSequence(unsigned int num_bytes, FILE *stream)
 
     // Allocate a buffer:
 
-    result = (byte *)malloc(num_bytes);
+    result = (byte *)malloc(num_bytes + 1);
 
     if (result == NULL)
     {
