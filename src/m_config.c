@@ -84,7 +84,7 @@ extern int      viewwidth;
 extern int      viewheight;
 
 extern int      mouseSensitivity;
-extern int      showMessages;
+extern boolean  messages;
 
 extern boolean  grid;
 extern boolean  rotate;
@@ -237,7 +237,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (screenheight,        screenheight,        5),
     CONFIG_VARIABLE_INT   (screenwidth,         screenwidth,         5),
     CONFIG_VARIABLE_INT   (sfx_volume,          sfxVolume,           0),
-    CONFIG_VARIABLE_INT   (show_messages,       showMessages,        1),
+    CONFIG_VARIABLE_INT   (messages,            messages,            1),
     CONFIG_VARIABLE_INT   (skilllevel,          selectedskilllevel,  0),
     CONFIG_VARIABLE_INT   (snd_maxslicetime_ms, snd_maxslicetime_ms, 0),
     CONFIG_VARIABLE_STRING(timidity_cfg_path,   timidity_cfg_path,   0),

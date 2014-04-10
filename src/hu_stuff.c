@@ -63,7 +63,7 @@ boolean                 idbehold = false;
 static hu_stext_t       w_message;
 int                     message_counter;
 
-extern int              showMessages;
+extern boolean          messages;
 extern boolean          widescreen;
 extern boolean          widescreenhud;
 extern int              translucency;
@@ -451,7 +451,7 @@ void HU_Ticker(void)
         HUlib_addMessageToSText(&w_message, 0, fps_str);
         message_on = true;
     }
-    else if (showMessages || message_dontfuckwithme)
+    else if (messages || message_dontfuckwithme)
     {
         // display message if necessary
         if ((plr->message && !message_nottobefuckedwith)

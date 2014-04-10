@@ -64,8 +64,8 @@ extern boolean widescreenhud;
 int            mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
 float          gamepadSensitivity;
 
-// Show messages has default, 0 = off, 1 = on
-int            showMessages = 0;
+// Show messages has default, false = off, true = on
+boolean        messages = false;
 
 int            screensize = SCREENSIZE_DEFAULT;
 
@@ -306,7 +306,7 @@ menu_t NewDef =
 enum
 {
     endgame,
-    messages,
+    msgs,
     scrnsize,
     option_empty1,
     mousesens,
@@ -1407,21 +1407,21 @@ void M_DrawOptions(void)
     else
         M_DrawCenteredString(16 + OFFSET, "OPTIONS");
 
-    if (showMessages)
+    if (messages)
     {
         if (M_MSGON)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * messages + OFFSET,
+            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET,
                 0, (patch_t *)W_CacheLumpName("M_MSGON", PU_CACHE));
         else
-            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * messages + OFFSET, "on");
+            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "on");
     }
     else
     {
         if (M_MSGOFF)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * messages + OFFSET,
+            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET,
                 0, (patch_t *)W_CacheLumpName("M_MSGOFF", PU_CACHE));
         else
-            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * messages + OFFSET, "off");
+            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "off");
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
@@ -1456,9 +1456,9 @@ void M_ChangeMessages(int choice)
 {
     choice = 0;
     blurred = false;
-    showMessages = !showMessages;
+    messages = !messages;
     message_dontpause = true;
-    players[consoleplayer].message = (showMessages ? MSGON : MSGOFF);
+    players[consoleplayer].message = (messages ? MSGON : MSGOFF);
     message_dontfuckwithme = true;
     M_SaveDefaults();
 }
