@@ -167,6 +167,6 @@ extern boolean idbehold;
 extern byte *tempscreen;
 extern byte *tinttab33;
 extern byte *tinttab50;
-extern int screenSize;
+extern int screensize;
 
 #endif

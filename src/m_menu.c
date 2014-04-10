@@ -67,10 +67,7 @@ float          gamepadSensitivity;
 // Show messages has default, 0 = off, 1 = on
 int            showMessages = 0;
 
-int            screenblocks = SCREENBLOCKS_DEFAULT;
-
-// temp for screenblocks (0-9)
-int            screenSize;
+int            screensize = SCREENSIZE_DEFAULT;
 
 // -1 = no quicksave slot picked!
 int            quickSaveSlot;
@@ -101,7 +98,7 @@ boolean        startingnewgame = false;
 
 #define SKULLXOFF  -32
 #define LINEHEIGHT 17
-#define OFFSET     (!usergame || screenblocks == 11 ? 17 : 0)
+#define OFFSET     (!usergame || screensize == 9 ? 17 : 0)
 
 char           savegamestrings[10][SAVESTRINGSIZE];
 
@@ -1428,7 +1425,7 @@ void M_DrawOptions(void)
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
-        (float)(screenSize + ((widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+        (float)(screensize + ((widescreen || (returntowidescreen && gamestate != GS_LEVEL))
         && !widescreenhud)), fullscreen ? 7.2f : 8.0f);
 
     if (mouseSensitivity == -5)
@@ -1655,18 +1652,17 @@ void M_SizeDisplay(int choice)
                     widescreenhud = true;
                 else
                 {
-                    screenSize--;
+                    screensize--;
                     ToggleWideScreen(false);
                 }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
-            else if (screenSize > 0)
+            else if (screensize > 0)
             {
-                screenblocks--;
-                screenSize--;
+                screensize--;
                 S_StartSound(NULL, sfx_stnmov);
-                R_SetViewSize(screenblocks);
+                R_SetViewSize(screensize);
                 M_SaveDefaults();
             }
             break;
@@ -1677,7 +1673,7 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
-            else if (screenSize == 7 && fullscreen)
+            else if (screensize == 7 && fullscreen)
             {
                 if (gamestate != GS_LEVEL)
                 {
@@ -1688,21 +1684,17 @@ void M_SizeDisplay(int choice)
                 {
                     ToggleWideScreen(true);
                     if (!widescreen)
-                    {
-                        screenblocks++;
-                        R_SetViewSize(screenblocks);
-                    }
+                        R_SetViewSize(screensize);
                 }
-                screenSize++;
+                screensize++;
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
-            else if (screenSize < 8)
+            else if (screensize < 8)
             {
-                screenblocks++;
-                screenSize++;
+                screensize++;
                 S_StartSound(NULL, sfx_stnmov);
-                R_SetViewSize(screenblocks);
+                R_SetViewSize(screensize);
                 M_SaveDefaults();
             }
             break;
@@ -2184,7 +2176,7 @@ boolean M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchx);
                 if (inhelpscreens)
                 {
-                    R_SetViewSize(screenblocks);
+                    R_SetViewSize(screensize);
                     if (returntowidescreen)
                         ToggleWideScreen(true);
                 }
@@ -2597,7 +2589,7 @@ boolean M_Responder(event_t *ev)
             }
             if (inhelpscreens)
             {
-                R_SetViewSize(screenblocks);
+                R_SetViewSize(screensize);
                 if (returntowidescreen)
                     ToggleWideScreen(true);
             }
@@ -2884,7 +2876,6 @@ void M_Init(void)
     itemOn = currentMenu->lastOn;
     whichSkull = 0;
     skullAnimCounter = 10;
-    screenSize = (widescreen || returntowidescreen ? 8 : screenblocks - 3);
     messageToPrint = 0;
     messageString = NULL;
     messageLastMenuActive = menuactive;

@@ -227,7 +227,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
             int         dot = yy * SCREENWIDTH + xx;
             byte        *source = &tempscreen[dot];
             byte        *dest1 = &screens[0][dot];
-            byte        *dest2 = &screens[screenSize < 7 && !automapactive][dot];
+            byte        *dest2 = &screens[screensize < 7 && !automapactive][dot];
 
             if (!*source)
                 *dest1 = tinttab50[*dest2];

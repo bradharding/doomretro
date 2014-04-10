@@ -47,9 +47,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define MUSICVOLUME_DEFAULT        15
 #define MUSICVOLUME_MAX            15
 
-#define SCREENBLOCKS_MIN           0
-#define SCREENBLOCKS_DEFAULT       10
-#define SCREENBLOCKS_MAX           11
+#define SCREENSIZE_MIN             0
+#define SCREENSIZE_DEFAULT         7
+#define SCREENSIZE_MAX             9
 
 #define GAMMALEVEL_MIN             gammalevels[0]
 #define GAMMALEVEL_DEFAULT         0.75

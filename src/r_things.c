@@ -70,7 +70,7 @@ spriteframe_t   sprtemp[MAX_SPRITE_FRAMES];
 int             maxframe;
 char            *spritename;
 
-extern int      screenblocks;
+extern int      screensize;
 extern boolean  supershotgun;
 extern boolean  inhelpscreens;
 
@@ -760,7 +760,7 @@ void R_DrawPSprite(pspdef_t *psp)
         vis->mobjflags2 |= flags2[state->sprite];
 
     supershotgun = (state == &states[S_DSGUN]);
-    R_DrawVisSprite(vis, screenblocks >= 10);
+    R_DrawVisSprite(vis, screensize >= 7);
     supershotgun = false;
 }
 

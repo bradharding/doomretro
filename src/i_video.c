@@ -699,10 +699,10 @@ void ToggleWideScreen(boolean toggle)
 
         widescreen = true;
 
-        if (returntowidescreen && screenblocks == 11)
+        if (returntowidescreen && screensize == 9/*screenblocks == 11*/)
         {
-            screenblocks = 10;
-            R_SetViewSize(screenblocks);
+            screensize = 8;//screenblocks = 10;
+            R_SetViewSize(screensize + 3/*screenblocks*/);
         }
 
         width = screen->w;
@@ -775,7 +775,7 @@ void ToggleFullScreen(void)
                 I_Error("Error setting video mode %i×%i: %s\n", width, height, SDL_GetError());
         }
 
-        if (screenblocks == 11)
+        if (screensize == 9/*screenblocks == 11*/)
         {
             if (gamestate != GS_LEVEL)
                 returntowidescreen = true;
@@ -783,9 +783,9 @@ void ToggleFullScreen(void)
             {
                 dest_rect.x = 1;
                 ToggleWideScreen(true);
-                if (widescreen && screenblocks == 11)
-                    screenblocks = 10;
-                R_SetViewSize(screenblocks);
+                if (widescreen && screensize == 9/*screenblocks == 11*/)
+                    screensize = 8;//screenblocks = 10;
+                R_SetViewSize(screensize/*screenblocks*/);
                 M_SaveDefaults();
                 return;
             }
@@ -833,8 +833,8 @@ void ToggleFullScreen(void)
         if (widescreen)
         {
             widescreen = false;
-            screenblocks = 11;
-            R_SetViewSize(screenblocks);
+            screensize = 9;//screenblocks = 11;
+            R_SetViewSize(screensize/*screenblocks*/);
         }
 
         SetWindowPositionVars();

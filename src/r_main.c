@@ -291,7 +291,7 @@ int     setblocks;
 void R_SetViewSize(int blocks)
 {
     setsizeneeded = true;
-    setblocks = blocks;
+    setblocks = blocks + 3;
 }
 
 //
@@ -437,7 +437,7 @@ void R_Init(void)
 {
     R_InitData();
 
-    R_SetViewSize(screenblocks);
+    R_SetViewSize(screensize);
     R_InitLightTables();
     R_InitSkyMap();
     R_InitTranslationTables();

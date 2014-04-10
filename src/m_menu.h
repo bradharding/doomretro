@@ -88,7 +88,7 @@ void M_StartControlPanel(void);
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *str);
 
-extern int screenblocks;
+extern int screensize;
 
 extern int gamepadmenu;
 extern boolean nomusic;

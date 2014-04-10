@@ -951,19 +951,19 @@ static void D_DoomMainSetup(void)
     if (musicVolume < MUSICVOLUME_MIN || musicVolume > MUSICVOLUME_MAX)
         musicVolume = MUSICVOLUME_DEFAULT;
 
-    if (screenblocks < SCREENBLOCKS_MIN || screenblocks > SCREENBLOCKS_MAX)
-        screenblocks = SCREENBLOCKS_DEFAULT;
+    if (screensize < SCREENSIZE_MIN || screensize > SCREENSIZE_MAX)
+        screensize = SCREENSIZE_DEFAULT;
     if (widescreen && !fullscreen)
     {
         widescreen = false;
-        screenblocks = 11;
+        screensize = 9;
     }
     if (!widescreen)
         widescreenhud = true;
-    if (fullscreen && screenblocks == 11)
+    if (fullscreen && screensize == 9)
     {
         widescreen = true;
-        screenblocks = 10;
+        screensize = 7;
     }
     if (widescreen)
     {

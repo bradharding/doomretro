@@ -233,7 +233,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (rotate,              rotate,              1),
     CONFIG_VARIABLE_INT   (runcount,            runcount,            0),
     CONFIG_VARIABLE_INT   (savegame,            selectedsavegame,    0),
-    CONFIG_VARIABLE_INT   (screenblocks,        screenblocks,        0),
+    CONFIG_VARIABLE_INT   (screensize,          screensize,          0),
     CONFIG_VARIABLE_INT   (screenheight,        screenheight,        5),
     CONFIG_VARIABLE_INT   (screenwidth,         screenwidth,         5),
     CONFIG_VARIABLE_INT   (sfx_volume,          sfxVolume,           0),

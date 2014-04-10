@@ -65,8 +65,8 @@ extern int mouse_threshold;
 extern boolean advancedemo;
 extern boolean sendpause;
 extern boolean quitting;
-extern int screenblocks;
-extern int screenSize;
+//extern int screenblocks;
+extern int screensize;
 
 extern int keydown;
 
