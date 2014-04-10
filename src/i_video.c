@@ -181,6 +181,7 @@ static void UpdateFocus(void)
         {
             alreadypaused = false;
             sendpause = true;
+            blurred = false;
         }
     }
 }
