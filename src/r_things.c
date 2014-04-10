@@ -556,7 +556,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->mobjflags = thing->flags;
     vis->mobjflags2 = thing->flags2;
     vis->type = thing->type;
-    vis->scale = FixedDiv(projectiony, tz);
+    vis->scale = xscale;
     vis->gx = thing->x;
     vis->gy = thing->y;
     vis->gz = thing->z;
