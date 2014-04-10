@@ -1695,12 +1695,6 @@ void M_SizeDisplay(int choice)
             break;
     }
     blurred = false;
-    {
-        static char buf[128];
-        sprintf(buf, "%i", screensize);
-        players[displayplayer].message = buf;
-        message_dontfuckwithme = true;
-    }
 }
 
 //
