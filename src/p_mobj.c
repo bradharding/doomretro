@@ -1017,6 +1017,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, void (*colfunc)(void))
     newsplat->y = y + ((rand() % 11 - 5) << FRACBITS);
     P_SetThingPosition(newsplat);
 
+    newsplat->floorz = newsplat->subsector->sector->floorheight;
+
     newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
     P_AddThinker(&newsplat->thinker);
 
