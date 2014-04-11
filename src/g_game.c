@@ -1423,7 +1423,7 @@ void G_DoWorldDone(void)
     G_DoLoadLevel();
     gameaction = ga_nothing;
     viewactive = true;
-    markpointnum = 0;   // [BH]
+    markpointnum = 0;
 }
 
 //
@@ -1432,6 +1432,7 @@ void G_DoWorldDone(void)
 //
 extern boolean setsizeneeded;
 void R_ExecuteSetViewSize(void);
+void P_RestoreColfuncs(void);
 
 void G_LoadGame(char *name)
 {
@@ -1477,6 +1478,8 @@ void G_DoLoadGame(void)
         I_Error("Bad savegame");
 
     fclose(save_stream);
+
+    P_RestoreColfuncs();
 
     if (setsizeneeded)
         R_ExecuteSetViewSize();

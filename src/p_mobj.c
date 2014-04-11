@@ -568,6 +568,52 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 }
 
 //
+// P_RestoreColfuncs
+//
+void P_RestoreColfuncs(void)
+{
+    int i;
+
+    for (i = 0; i < numsectors; i++)
+    {
+        mobj_t *thing = sectors[i].thinglist;
+
+        while (thing)
+        {
+
+            if (thing->flags & MF_SHADOW)
+                thing->colfunc = fuzzcolfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT)
+                thing->colfunc = tlcolfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT_REDONLY)
+                thing->colfunc = tlredcolfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT_GREENONLY)
+                thing->colfunc = tlgreencolfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT_BLUEONLY)
+                thing->colfunc = tlbluecolfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT_33)
+                thing->colfunc = tl33colfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT_50)
+                thing->colfunc = tl50colfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+                thing->colfunc = tlredwhitecolfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+                thing->colfunc = tlredtogreen33colfunc;
+            else if (thing->flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+                thing->colfunc = tlredtoblue33colfunc;
+            else if (thing->flags2 & MF2_REDTOGREEN)
+                thing->colfunc = redtogreencolfunc;
+            else if (thing->flags2 & MF2_REDTOBLUE)
+                thing->colfunc = redtobluecolfunc;
+            else
+                thing->colfunc = basecolfunc;
+
+            thing = thing->snext;
+        }
+    }
+}
+
+//
 // P_RemoveMobj
 //
 static mapthing_t itemrespawnqueue[ITEMQUEUESIZE];
