@@ -1452,7 +1452,7 @@ void M_DrawOptions(void)
         mouseSensitivity = MOUSESENSITIVITY_MIN;
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
                  mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
-    if (itemOn == 4)
+    if (itemOn == 5)
     {
         sprintf(buf, "%i", mouseSensitivity);
         M_WriteText(OptionsDef.x + 98 - M_StringWidth(buf) / 2,
