@@ -94,6 +94,8 @@ extern boolean          M_LGTTL;
 extern boolean          M_MSENS;
 extern boolean          M_MSGOFF;
 extern boolean          M_MSGON;
+extern boolean          M_GDHIGH;
+extern boolean          M_GDLOW;
 extern boolean          M_NEWG;
 extern boolean          M_NMARE;
 extern boolean          M_OPTTTL;

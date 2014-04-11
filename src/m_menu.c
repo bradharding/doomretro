@@ -146,6 +146,7 @@ void M_ChangeMessages(int choice);
 void M_ChangeSensitivity(int choice);
 void M_SfxVol(int choice);
 void M_MusicVol(int choice);
+void M_ChangeDetail(int choice);
 void M_SizeDisplay(int choice);
 void M_StartGame(int choice);
 void M_Sound(int choice);
@@ -307,6 +308,7 @@ enum
 {
     endgame,
     msgs,
+    detail,
     scrnsize,
     option_empty1,
     mousesens,
@@ -319,6 +321,7 @@ menuitem_t OptionsMenu[]=
 {
     {  1, "M_ENDGAM", M_EndGame,           'e', "End Game"          },
     {  1, "M_MESSG",  M_ChangeMessages,    'm', "Messages:"         },
+    {  1, "M_DETAIL", M_ChangeDetail,      'g', "Graphic Detail:"   },
     {  2, "M_SCRNSZ", M_SizeDisplay,       's', "Screen Size"       },
     { -1, "",         0,                   0,   ""                  },
     {  2, "M_MSENS",  M_ChangeSensitivity, 'm', "Mouse Sensitivity" },
@@ -332,7 +335,7 @@ menu_t OptionsDef =
     &MainDef,
     OptionsMenu,
     M_DrawOptions,
-    56, 41,
+    56, 33,
     0
 };
 
@@ -1402,10 +1405,10 @@ void M_DrawOptions(void)
     M_DarkBackground();
 
     if (M_OPTTTL)
-        M_DrawCenteredPatchWithShadow(16 + OFFSET, 0,
+        M_DrawCenteredPatchWithShadow(8 + OFFSET, 0,
             (patch_t *)W_CacheLumpName("M_OPTTTL", PU_CACHE));
     else
-        M_DrawCenteredString(16 + OFFSET, "OPTIONS");
+        M_DrawCenteredString(8 + OFFSET, "OPTIONS");
 
     if (messages)
     {
@@ -1422,6 +1425,23 @@ void M_DrawOptions(void)
                 0, (patch_t *)W_CacheLumpName("M_MSGOFF", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "off");
+    }
+
+    if (graphicdetail == HIGH)
+    {
+        if (M_GDHIGH)
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
+            0, (patch_t *)W_CacheLumpName("M_GDHIGH", PU_CACHE));
+        else
+            M_DrawString(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, "high");
+    }
+    else
+    {
+        if (M_GDLOW)
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
+            0, (patch_t *)W_CacheLumpName("M_GDLOW", PU_CACHE));
+        else
+            M_DrawString(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, "low");
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
@@ -1644,9 +1664,13 @@ void M_ChangeSensitivity(int choice)
 void M_ChangeDetail(int choice)
 {
     choice = 0;
+    blurred = false;
     graphicdetail = !graphicdetail;
-    players[consoleplayer].message = (graphicdetail == HIGH ? DETAILHI : DETAILLO);
-    message_dontfuckwithme = true;
+    if (!menuactive)
+    {
+        players[consoleplayer].message = (graphicdetail == HIGH ? DETAILHI : DETAILLO);
+        message_dontfuckwithme = true;
+    }
     M_SaveDefaults();
 }
 
@@ -2525,7 +2549,7 @@ boolean M_Responder(event_t *ev)
             if (currentMenu->menuitems[itemOn].routine
                 && currentMenu->menuitems[itemOn].status == 2)
                 currentMenu->menuitems[itemOn].routine(0);
-            else if (currentMenu == &OptionsDef && itemOn == 1 && !keydown)
+            else if (currentMenu == &OptionsDef && (itemOn == 1 || itemOn == 2) && !keydown)
             {
                 keydown = key;
                 currentMenu->menuitems[itemOn].routine(itemOn);
@@ -2541,7 +2565,7 @@ boolean M_Responder(event_t *ev)
             if (currentMenu->menuitems[itemOn].routine
                 && currentMenu->menuitems[itemOn].status == 2)
                 currentMenu->menuitems[itemOn].routine(1);
-            else if (currentMenu == &OptionsDef && itemOn == 1 && !keydown)
+            else if (currentMenu == &OptionsDef && (itemOn == 1 || itemOn == 2) && !keydown)
             {
                 keydown = key;
                 currentMenu->menuitems[itemOn].routine(itemOn);

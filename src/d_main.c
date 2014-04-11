@@ -811,6 +811,8 @@ static void D_DoomMainSetup(void)
     M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
     M_MSGON = (W_CheckMultipleLumps("M_MSGON") > 1);
     M_MSGOFF = (W_CheckMultipleLumps("M_MSGOFF") > 1);
+    M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
+    M_GDLOW = (W_CheckMultipleLumps("M_GDLOW") > 1);
     M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
     M_MSENS = (W_CheckMultipleLumps("M_MSENS") > 1);
     STBAR    = (W_CheckMultipleLumps("STBAR") > 1);

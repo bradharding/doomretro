@@ -37,7 +37,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // D_Main.C
 //
 #define D_DEVSTR                "Development mode ON\n"
-#define D_CDROM                 "CD-ROM version: default.cfg from c:\\doomdata\n"
 
 //
 // M_Menu.C
@@ -54,6 +53,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
                                 "isn't even remotely fair!"
 #define SWSTRING                "This is the shareware version of DOOM.\n"\
                                 "You need to purchase the full version."
+
+#define DETAILHI                "High graphic detail"
+#define DETAILLO                "Low graphic detail"
 
 #define MSGOFF                  "Messages OFF"
 #define MSGON                   "Messages ON"
