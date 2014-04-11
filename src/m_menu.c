@@ -65,6 +65,8 @@ float          gamepadSensitivity;
 // Show messages has default, false = off, true = on
 boolean        messages = false;
 
+int            graphicdetail = GRAPHICDETAIL_DEFAULT;
+
 int            screensize = SCREENSIZE_DEFAULT;
 
 // -1 = no quicksave slot picked!

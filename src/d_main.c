@@ -169,8 +169,10 @@ void D_ProcessEvents(void)
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_DEMOSCREEN;
 extern  boolean setsizeneeded;
+extern  int     graphicdetail;
 
 void R_ExecuteSetViewSize(void);
+void V_LowGraphicDetail(void);
 
 void D_Display(void)
 {
@@ -231,6 +233,8 @@ void D_Display(void)
         R_RenderPlayerView(&players[displayplayer]);
         if (automapactive)
             AM_Drawer();
+        else if (graphicdetail == LOW)
+            V_LowGraphicDetail();
         HU_Drawer();
     }
 

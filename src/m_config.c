@@ -86,6 +86,8 @@ extern int      viewheight;
 extern int      mouseSensitivity;
 extern boolean  messages;
 
+extern int      graphicdetail;
+
 extern boolean  grid;
 extern boolean  rotate;
 
@@ -209,6 +211,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (gamepad_weapon6,     gamepadweapon6,      2),
     CONFIG_VARIABLE_INT   (gamepad_weapon7,     gamepadweapon7,      2),
     CONFIG_VARIABLE_FLOAT (gammalevel,          gammalevel,          0),
+    CONFIG_VARIABLE_INT   (graphicdetail,       graphicdetail,       6),
     CONFIG_VARIABLE_INT   (grid,                grid,                1),
     CONFIG_VARIABLE_KEY   (key_down,            key_down,            3),
     CONFIG_VARIABLE_KEY   (key_down2,           key_down2,           3),
@@ -301,9 +304,11 @@ static alias_t alias[] =
     { "none",              0,  3 },
     { "left",              0,  4 },
     { "desktop",           0,  5 },
+    { "low",               0,  6 },
     { "true",              1,  1 },
     { "dpadup",            1,  2 },
     { "right",             1,  4 },
+    { "high",              1,  6 },
     { "dpaddown",          2,  2 },
     { "middle",            2,  4 },
     { "dpadleft",          4,  2 },
