@@ -1641,6 +1641,15 @@ void M_ChangeSensitivity(int choice)
     }
 }
 
+void M_ChangeDetail(int choice)
+{
+    choice = 0;
+    graphicdetail = !graphicdetail;
+    players[consoleplayer].message = (graphicdetail == HIGH ? DETAILHI : DETAILLO);
+    message_dontfuckwithme = true;
+    M_SaveDefaults();
+}
+
 void M_SizeDisplay(int choice)
 {
     switch (choice)
@@ -2272,6 +2281,18 @@ boolean M_Responder(event_t *ev)
                 }
                 return false;
             }
+        }
+
+        // Toggle graphic detail
+        else if (key == KEY_F5 && !functionkey && (viewactive || automapactive)
+                 && !keydown)
+        {
+            keydown = key;
+            functionkey = KEY_F5;
+            M_ChangeDetail(0);
+            functionkey = 0;
+            S_StartSound(NULL, sfx_swtchn);
+            return false;
         }
 
         // Quicksave
