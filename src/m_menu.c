@@ -1413,16 +1413,16 @@ void M_DrawOptions(void)
     if (messages)
     {
         if (M_MSGON)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET,
-                0, (patch_t *)W_CacheLumpName("M_MSGON", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, 0,
+                                  (patch_t *)W_CacheLumpName("M_MSGON", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "on");
     }
     else
     {
         if (M_MSGOFF)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET,
-                0, (patch_t *)W_CacheLumpName("M_MSGOFF", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, 0,
+                                  (patch_t *)W_CacheLumpName("M_MSGOFF", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "off");
     }
@@ -1430,23 +1430,23 @@ void M_DrawOptions(void)
     if (graphicdetail == HIGH)
     {
         if (M_GDHIGH)
-            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
-            0, (patch_t *)W_CacheLumpName("M_GDHIGH", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, 0,
+                                  (patch_t *)W_CacheLumpName("M_GDHIGH", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, "high");
     }
     else
     {
         if (M_GDLOW)
-            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
-            0, (patch_t *)W_CacheLumpName("M_GDLOW", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, 0,
+                                  (patch_t *)W_CacheLumpName("M_GDLOW", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, "low");
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
-        (float)(screensize + ((widescreen || (returntowidescreen && gamestate != GS_LEVEL))
-        && !widescreenhud)), fullscreen ? 7.2f : 8.0f);
+                 (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+                 + !widescreenhud), fullscreen ? 7.2f : 8.0f);
 
     if (mouseSensitivity == -5)
         mouseSensitivity = MOUSESENSITIVITY_MIN;
