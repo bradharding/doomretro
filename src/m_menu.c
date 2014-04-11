@@ -2191,7 +2191,7 @@ boolean M_Responder(event_t *ev)
                     returntowidescreen = true;
                 }
                 if (!automapactive)
-                    R_SetViewSize(11);
+                    R_SetViewSize(8);
             }
             return false;
         }
