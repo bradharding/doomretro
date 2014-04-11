@@ -504,6 +504,9 @@ void M_DarkBackground(void)
     i = 0;
     while (i < height)
         screens[0][i] = tinttab50[blurredscreen[i++]];
+
+    if (graphicdetail == LOW)
+        V_LowGraphicDetail();
 }
 
 static byte blues[] =

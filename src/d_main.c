@@ -172,7 +172,6 @@ extern  boolean setsizeneeded;
 extern  int     graphicdetail;
 
 void R_ExecuteSetViewSize(void);
-void V_LowGraphicDetail(void);
 
 void D_Display(void)
 {
