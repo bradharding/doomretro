@@ -1764,6 +1764,7 @@ void M_StartMessage(char *string, void *routine, boolean input)
     messageString = string;
     messageRoutine = (void (*)(int))routine;
     messageNeedsInput = input;
+    blurred = false;
     menuactive = true;
 }
 
