@@ -584,7 +584,7 @@ void P_RestoreColfuncs(void)
 
         while (thing)
         {
-            if (thing->flags & MF_SHADOW)
+            if ((thing->flags & MF_SHADOW) || (thing->flags2 & MF2_FUZZ))
                 thing->colfunc = fuzzcolfunc;
             else if (thing->flags2 & MF2_TRANSLUCENT)
                 thing->colfunc = tlcolfunc;
