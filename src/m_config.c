@@ -299,7 +299,6 @@ static const int scantokey[128] =
 
 static alias_t alias[] =
 {
-    { "unlimited",        -1,  7 },
     { "false",             0,  1 },
     { "none",              0,  2 },
     { "none",              0,  3 },
@@ -342,6 +341,7 @@ static alias_t alias[] =
     { "b",              8192,  2 },
     { "x",             16384,  2 },
     { "y",             32768,  2 },
+    { "unlimited",     32768,  7 },
     { "",                 -1, -1 }
 };
 

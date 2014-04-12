@@ -1034,6 +1034,9 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
     P_SetThingPosition(newsplat);
 
     newsplat->floorz = newsplat->subsector->sector->floorheight;
+
+    newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
+    P_AddThinker(&newsplat->thinker);
 }
 
 void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
