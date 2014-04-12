@@ -473,7 +473,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj_t      *mobj;
     state_t     *st;
     mobjinfo_t  *info;
-    int         lump;
 
     mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
     memset(mobj, 0, sizeof(*mobj));
@@ -506,43 +505,47 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
 
-    lump = firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0];
-    if (W_CheckMultipleLumps(lumpinfo[lump].name) == 1)
-        mobj->flags2 = info->flags2;
-
-    if (mobj->flags & MF_SHADOW)
-        mobj->colfunc = fuzzcolfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT)
-        mobj->colfunc = tlcolfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT_REDONLY)
-        mobj->colfunc = tlredcolfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT_GREENONLY)
-        mobj->colfunc = tlgreencolfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT_BLUEONLY)
-        mobj->colfunc = tlbluecolfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT_33)
-        mobj->colfunc = tl33colfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT_50)
-        mobj->colfunc = tl50colfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-        mobj->colfunc = tlredwhitecolfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
-        mobj->colfunc = tlredtogreen33colfunc;
-    else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
-        mobj->colfunc = tlredtoblue33colfunc;
-    else if (mobj->flags2 & MF2_REDTOGREEN)
-        mobj->colfunc = redtogreencolfunc;
-    else if (mobj->flags2 & MF2_REDTOBLUE)
-        mobj->colfunc = redtobluecolfunc;
-    else
-        mobj->colfunc = basecolfunc;
-
-    if (bfgedition)
+    if (type != MT_BLOOD)
     {
-        if (mobj->sprite == SPR_STIM)
-            mobj->sprite = SPR_STIM_BFG;
-        else if (mobj->sprite == SPR_MEDI)
-            mobj->sprite = SPR_MEDI_BFG;
+        int     lump = firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0];
+
+        if (W_CheckMultipleLumps(lumpinfo[lump].name) == 1)
+            mobj->flags2 = info->flags2;
+
+        if (mobj->flags & MF_SHADOW)
+            mobj->colfunc = fuzzcolfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT)
+            mobj->colfunc = tlcolfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT_REDONLY)
+            mobj->colfunc = tlredcolfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT_GREENONLY)
+            mobj->colfunc = tlgreencolfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT_BLUEONLY)
+            mobj->colfunc = tlbluecolfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT_33)
+            mobj->colfunc = tl33colfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT_50)
+            mobj->colfunc = tl50colfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+            mobj->colfunc = tlredwhitecolfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+            mobj->colfunc = tlredtogreen33colfunc;
+        else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+            mobj->colfunc = tlredtoblue33colfunc;
+        else if (mobj->flags2 & MF2_REDTOGREEN)
+            mobj->colfunc = redtogreencolfunc;
+        else if (mobj->flags2 & MF2_REDTOBLUE)
+            mobj->colfunc = redtobluecolfunc;
+        else
+            mobj->colfunc = basecolfunc;
+
+        if (bfgedition)
+        {
+            if (mobj->sprite == SPR_STIM)
+                mobj->sprite = SPR_STIM_BFG;
+            else if (mobj->sprite == SPR_MEDI)
+                mobj->sprite = SPR_MEDI_BFG;
+        }
     }
 
     // set subsector and/or block links
@@ -949,7 +952,6 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 //
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobjtype_t type)
 {
-    mobj_t      *th;
     int         i;
     int         flags2;
     void        (*colfunc)(void);
@@ -974,18 +976,20 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     for (i = (P_Random() % 7) + (damage >> 2) < 7 ? (damage >> 2) : 7; i; i--)
     {
-        z += ((P_Random() - P_Random()) << 10);
-        th = P_SpawnMobj(x, y, z, MT_BLOOD);
-        th->momz = FRACUNIT * (2 + i / 6);
-        th->tics -= P_Random() & 3;
+        mobj_t      *th;
 
-        if (th->tics < 1)
-            th->tics = 1;
+        z += ((P_Random() - P_Random()) << 10);
+
+        th = P_SpawnMobj(x, y, z, MT_BLOOD);
+
+        th->tics = MAX(1, th->tics - P_Random() & 3);
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
         th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
+        th->momz = FRACUNIT * (2 + i / 6);
 
         th->angle = angle;
+        angle += ((P_Random() - P_Random()) * 0xb60b60);
 
         th->flags2 = flags2;
         th->colfunc = colfunc;
@@ -994,8 +998,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
             P_SetMobjState(th, th->state->nextstate);
         if (damage < 9)
             P_SetMobjState(th, th->state->nextstate);
-
-        angle += ((P_Random() - P_Random()) * 0xb60b60);
     }
 }
 
