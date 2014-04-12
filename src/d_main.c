@@ -233,7 +233,7 @@ void D_Display(void)
         if (automapactive)
             AM_Drawer();
         else if (graphicdetail == LOW)
-            V_LowGraphicDetail();
+            V_LowGraphicDetail(viewheight);
         HU_Drawer();
     }
 
