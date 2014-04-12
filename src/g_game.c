@@ -1466,8 +1466,6 @@ void G_DoLoadGame(void)
 
     leveltime = savedleveltime;
 
-    P_InitCards(&players[consoleplayer]);
-
     // dearchive all the modifications
     P_UnArchivePlayers();
     P_UnArchiveWorld();

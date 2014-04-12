@@ -649,7 +649,8 @@ static void saveg_write_pspdef_t(pspdef_t *str)
     saveg_write32(str->sy);
 }
 
-extern int oldhealth; // [BH]
+extern int oldhealth;
+extern int cardsfound;
 
 //
 // player_t
@@ -702,6 +703,7 @@ static void saveg_read_player_t(player_t *str)
     for (i = 0; i < NUMCARDS; ++i)
     {
         str->cards[i] = saveg_read32();
+        cardsfound = MAX(cardsfound, str->cards[i]);
     }
 
     // int neededcard;
@@ -1606,6 +1608,8 @@ void P_UnArchivePlayers(void)
             continue;
 
         saveg_read_pad();
+
+        P_InitCards(&players[i]);
 
         saveg_read_player_t(&players[i]);
 

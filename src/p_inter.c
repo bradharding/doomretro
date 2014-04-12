@@ -240,26 +240,26 @@ void P_InitCards(player_t *player)
         {
             switch (thing->sprite)
             {
-            case SPR_BKEY:
-                player->cards[it_bluecard] = CARDNOTFOUNDYET;
-                break;
-            case SPR_RKEY:
-                player->cards[it_redcard] = CARDNOTFOUNDYET;
-                break;
-            case SPR_YKEY:
-                player->cards[it_yellowcard] = CARDNOTFOUNDYET;
-                break;
-            case SPR_BSKU:
-                player->cards[it_blueskull] = CARDNOTFOUNDYET;
-                break;
-            case SPR_RSKU:
-                player->cards[it_redskull] = CARDNOTFOUNDYET;
-                break;
-            case SPR_YSKU:
-                player->cards[it_yellowskull] = CARDNOTFOUNDYET;
-                break;
-            default:
-                break;
+                case SPR_BKEY:
+                    player->cards[it_bluecard] = CARDNOTFOUNDYET;
+                    break;
+                case SPR_RKEY:
+                    player->cards[it_redcard] = CARDNOTFOUNDYET;
+                    break;
+                case SPR_YKEY:
+                    player->cards[it_yellowcard] = CARDNOTFOUNDYET;
+                    break;
+                case SPR_BSKU:
+                    player->cards[it_blueskull] = CARDNOTFOUNDYET;
+                    break;
+                case SPR_RSKU:
+                    player->cards[it_redskull] = CARDNOTFOUNDYET;
+                    break;
+                case SPR_YSKU:
+                    player->cards[it_yellowskull] = CARDNOTFOUNDYET;
+                    break;
+                default:
+                    break;
             }
             thing = thing->snext;
         }
