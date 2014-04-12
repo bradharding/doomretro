@@ -580,7 +580,6 @@ void P_RestoreColfuncs(void)
 
         while (thing)
         {
-
             if (thing->flags & MF_SHADOW)
                 thing->colfunc = fuzzcolfunc;
             else if (thing->flags2 & MF2_TRANSLUCENT)
@@ -629,7 +628,7 @@ void P_RemoveMobj(mobj_t *mobj)
         && mobj->floorz == mobj->subsector->sector->floorheight
         && !isliquid[mobj->subsector->sector->floorpic])
     {
-        P_SpawnBloodSplat(mobj->x, mobj->y, mobj->colfunc);
+        P_SpawnBloodSplat(mobj->x, mobj->y, mobj->flags2, mobj->colfunc);
     }
 
     if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
@@ -952,14 +951,24 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 {
     mobj_t      *th;
     int         i;
-    void       (*colfunc)(void);
+    int         flags2;
+    void        (*colfunc)(void);
 
     if (type == MT_HEAD)
+    {
+        flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
         colfunc = tlredtoblue33colfunc;
+    }
     else if (type == MT_BRUISER || type == MT_KNIGHT)
+    {
+        flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
         colfunc = tlredtogreen33colfunc;
+    }
     else
+    {
+        flags2 = MF2_TRANSLUCENT_50;
         colfunc = tl50colfunc;
+    }
 
     angle += ANG180;
 
@@ -978,6 +987,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->angle = angle;
 
+        th->flags2 = flags2;
         th->colfunc = colfunc;
 
         if (damage <= 12)
@@ -1000,7 +1010,7 @@ void P_BloodSplatThinker(mobj_t *splat)
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, void (*colfunc)(void))
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 {
     mobj_t *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
@@ -1011,6 +1021,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, void (*colfunc)(void))
     newsplat->sprite = SPR_BLD2;
     newsplat->frame = rand() % 8;
 
+    newsplat->flags2 = flags2;
     newsplat->colfunc = colfunc;
 
     newsplat->x = x + ((rand() % 11 - 5) << FRACBITS);

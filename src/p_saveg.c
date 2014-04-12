@@ -1787,6 +1787,7 @@ void P_UnArchiveThinkers(void)
                 mobj->info = &mobjinfo[mobj->type];
                 if (mobj->type == MT_BLOODSPLAT)
                     mobj->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
+                else
                 {
                     if (mobj->flags2 & MF2_MIRRORED)
                         mobj->flags2 = mobj->info->flags2 | MF2_MIRRORED;
