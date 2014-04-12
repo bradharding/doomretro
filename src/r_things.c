@@ -948,12 +948,22 @@ void R_DrawMasked(void)
     {
         int i;
 
+        // draw all blood splats first
+        for (i = num_vissprite; --i >= 0;)
+        {
+            vissprite_t *spr = vissprite_ptrs[i];
+
+            if (spr->type == MT_BLOODSPLAT)
+                R_DrawSprite(spr);
+        }
+
         // draw all vissprites back to front
         for (i = num_vissprite; --i >= 0;)
         {
             vissprite_t *spr = vissprite_ptrs[i];
 
-            R_DrawSprite(spr);
+            if (spr->type != MT_BLOODSPLAT)
+                R_DrawSprite(spr);
         }
     }
 
