@@ -1326,6 +1326,8 @@ typedef enum
 
 } mobjtype_t;
 
+#define MT_FUZZPLAYER NUMMOBJTYPES
+
 typedef struct
 {
     int doomednum;

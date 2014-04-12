@@ -962,6 +962,11 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
         colfunc = tlredtoblue33colfunc;
     }
+    else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
+    {
+        flags2 = MF2_FUZZ;
+        colfunc = fuzzcolfunc;
+    }
     else if (type == MT_BRUISER || type == MT_KNIGHT)
     {
         flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;

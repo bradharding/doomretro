@@ -230,11 +230,14 @@ typedef enum
     // Convert all red to blue
     MF2_REDTOBLUE                 = 0x00000800,
 
+    // Fuzz effect
+    MF2_FUZZ                      = 0x00001000,
+
     // Object bobs up and down
-    MF2_FLOATBOB                  = 0x00001000,
+    MF2_FLOATBOB                  = 0x00002000,
 
     // Mirrored horizontally
-    MF2_MIRRORED                  = 0x00002000
+    MF2_MIRRORED                  = 0x00004000
 
 } mobjflag2_t;
 
