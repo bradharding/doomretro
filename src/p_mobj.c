@@ -1019,13 +1019,15 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
     newsplat->type = MT_BLOODSPLAT;
     newsplat->state = &states[S_BLOODSPLAT];
     newsplat->sprite = SPR_BLD2;
-    newsplat->frame = rand() % 8;
+    newsplat->frame = rand() & 7;
 
+    if (rand() & 1)
+        flags2 |= MF2_MIRRORED;
     newsplat->flags2 = flags2;
     newsplat->colfunc = colfunc;
 
-    newsplat->x = x + ((rand() % 11 - 5) << FRACBITS);
-    newsplat->y = y + ((rand() % 11 - 5) << FRACBITS);
+    newsplat->x = x + ((rand() & 10 - 5) << FRACBITS);
+    newsplat->y = y + ((rand() & 10 - 5) << FRACBITS);
     P_SetThingPosition(newsplat);
 
     newsplat->floorz = newsplat->subsector->sector->floorheight;
