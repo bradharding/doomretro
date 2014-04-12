@@ -190,7 +190,7 @@ alias_t;
 
 static default_t        doom_defaults_list[] =
 {
-    CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,         0),
+    CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,         7),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,     0),
     CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,   0),
     CONFIG_VARIABLE_INT   (fullscreen,          fullscreen,          1),
@@ -299,6 +299,7 @@ static const int scantokey[128] =
 
 static alias_t alias[] =
 {
+    { "unlimited",        -1,  7 },
     { "false",             0,  1 },
     { "none",              0,  2 },
     { "none",              0,  3 },

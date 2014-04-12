@@ -42,6 +42,7 @@ void G_PlayerReborn(int player);
 int             bloodsplats = BLOODSPLATS_DEFAULT;
 mobj_t          *bloodSplatQueue[BLOODSPLATS_MAX];
 int             bloodSplatQueueSlot;
+void            (*bloodSplatSpawner)(fixed_t, fixed_t, int, void(*)(void));
 
 //
 // P_SetMobjState
@@ -631,7 +632,7 @@ void P_RemoveMobj(mobj_t *mobj)
         && mobj->floorz == mobj->subsector->sector->floorheight
         && !isliquid[mobj->subsector->sector->floorpic])
     {
-        P_SpawnBloodSplat(mobj->x, mobj->y, mobj->flags2, mobj->colfunc);
+        bloodSplatSpawner(mobj->x, mobj->y, mobj->flags2, mobj->colfunc);
     }
 
     if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
@@ -1013,6 +1014,29 @@ void P_BloodSplatThinker(mobj_t *splat)
 // P_SpawnBloodSplat
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
+{
+    mobj_t *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
+
+    memset(newsplat, 0, sizeof(*newsplat));
+
+    newsplat->type = MT_BLOODSPLAT;
+    newsplat->state = &states[S_BLOODSPLAT];
+    newsplat->sprite = SPR_BLD2;
+    newsplat->frame = rand() & 7;
+
+    if (rand() & 1)
+        flags2 |= MF2_MIRRORED;
+    newsplat->flags2 = flags2;
+    newsplat->colfunc = colfunc;
+
+    newsplat->x = x + ((rand() & 10 - 5) << FRACBITS);
+    newsplat->y = y + ((rand() & 10 - 5) << FRACBITS);
+    P_SetThingPosition(newsplat);
+
+    newsplat->floorz = newsplat->subsector->sector->floorheight;
+}
+
+void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 {
     mobj_t *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 

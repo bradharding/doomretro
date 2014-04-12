@@ -683,6 +683,8 @@ static int D_ChooseIWAD(void)
     return iwadfound;
 }
 
+void (*bloodSplatSpawner)(fixed_t, fixed_t, int, void(*)(void));
+
 //
 // D_DoomMainSetup
 //
@@ -1004,6 +1006,7 @@ static void D_DoomMainSetup(void)
 
     if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;
+    bloodSplatSpawner = (bloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2);
 
     M_Init();
 
