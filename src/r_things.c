@@ -789,14 +789,16 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
 {
     if (n >= 16)
     {
-        int n1 = n / 2, n2 = n - n1;
-        vissprite_t **s1 = s, **s2 = s + n1, **d = t;
+        int             n1 = n / 2;
+        int             n2 = n - n1;
+        vissprite_t     **s1 = s;
+        vissprite_t     **s2 = s + n1;
+        vissprite_t     **d = t;
 
         msort(s1, t, n1);
         msort(s2, t, n2);
 
-        while ((*s1)->scale > (*s2)->scale ?
-            (*d++ = *s1++, --n1) : (*d++ = *s2++, --n2));
+        while ((*s1)->scale > (*s2)->scale ? (*d++ = *s1++, --n1) : (*d++ = *s2++, --n2));
 
         if (n2)
             bcopyp(d, s2, n2);
@@ -807,7 +809,7 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
     }
     else
     {
-        int i;
+        int             i;
 
         for (i = 1; i < n; i++)
         {
@@ -815,7 +817,7 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
 
             if (s[i - 1]->scale < temp->scale)
             {
-                int j = i;
+                int     j = i;
 
                 while ((s[j] = s[j - 1])->scale < temp->scale && --j);
                 s[j] = temp;
@@ -851,11 +853,10 @@ void R_SortVisSprites(void)
     }
 }
 
-
 //
 // R_DrawSprite
 //
-void R_DrawSprite(vissprite_t *spr)
+void R_DrawSprite(vissprite_t *spr, boolean flag)
 {
     drawseg_t *ds;
     int       clipbot[MAXWIDTH];
@@ -899,7 +900,7 @@ void R_DrawSprite(vissprite_t *spr)
             && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
         {
             // masked mid texture?
-            if (ds->maskedtexturecol)
+            if (flag && ds->maskedtexturecol)
                 R_RenderMaskedSegRange(ds, r1, r2);
             // seg is behind sprite
             continue;
@@ -954,7 +955,7 @@ void R_DrawMasked(void)
             vissprite_t *spr = vissprite_ptrs[i];
 
             if (spr->type == MT_BLOODSPLAT)
-                R_DrawSprite(spr);
+                R_DrawSprite(spr, false);
         }
 
         // draw all vissprites back to front
@@ -963,7 +964,7 @@ void R_DrawMasked(void)
             vissprite_t *spr = vissprite_ptrs[i];
 
             if (spr->type != MT_BLOODSPLAT)
-                R_DrawSprite(spr);
+                R_DrawSprite(spr, true);
         }
     }
 
