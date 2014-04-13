@@ -85,15 +85,18 @@ void(*hudnumfunc)(int, int, int, patch_t *);
 
 #define HUD_HEALTH_X    24
 #define HUD_HEALTH_Y    310
+#define HUD_HEALTH_MIN  10
 
 #define HUD_AMMO_X      120
 #define HUD_AMMO_Y      310
+#define HUD_AMMO_MIN    10
 
 #define HUD_KEYS_X      503
 #define HUD_KEYS_Y      310
 
 #define HUD_ARMOR_X     530
 #define HUD_ARMOR_Y     310
+#define HUD_ARMOR_MIN   10
 
 #define HUD_FLASH_TICS  12
 
@@ -246,29 +249,23 @@ static void HU_DrawHUD(void)
         int             i = 0;
         static int      animationcounter = HUD_FLASH_TICS;
         static boolean  animation = false;
+        patch_t         *patch;
 
         if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
-            || plr->pendingweapon == wp_fist)
-            && plr->powers[pw_strength])
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, berserkpatch);
+            || plr->pendingweapon == wp_fist) && plr->powers[pw_strength])
+            patch = berserkpatch;
+        
         else
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, healthpatch);
+            patch = healthpatch;
 
         if (health < 10)
             health_x -= 14;
         if (health < 100)
             health_x -= 14;
 
-        if (health <= 10)
+        if ((health <= HUD_HEALTH_MIN && animation) || health > HUD_HEALTH_MIN)
         {
-            if (animation)
-            {
-                DrawHUDNumber(health_x, HUD_HEALTH_Y, health);
-                hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, percentpatch);
-            }
-        }
-        else
-        {
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch);
             DrawHUDNumber(health_x, HUD_HEALTH_Y, health);
             hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, percentpatch);
         }
@@ -295,15 +292,7 @@ static void HU_DrawHUD(void)
                 ammonum_x -= 7;
             }
 
-            if (ammo <= 10)
-            {
-                if (animation)
-                {
-                    hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0, ammopic[ammotype].patch);
-                    DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo);
-                }
-            }
-            else
+            if ((ammo <= HUD_AMMO_MIN && animation) || ammo > HUD_AMMO_MIN)
             {
                 hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0, ammopic[ammotype].patch);
                 DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo);
@@ -365,17 +354,7 @@ static void HU_DrawHUD(void)
 
         if (armor)
         {
-            if (armor <= 10)
-            {
-                if (animation)
-                {
-                    DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor);
-                    hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, percentpatch);
-                    hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
-                            plr->armortype == 1 ? greenarmorpatch : bluearmorpatch);
-                }
-            }
-            else
+            if ((armor <= HUD_ARMOR_MIN && animation) || armor > HUD_ARMOR_MIN)
             {
                 DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor);
                 hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, percentpatch);
@@ -384,7 +363,7 @@ static void HU_DrawHUD(void)
             }
         }
 
-        if (health <= 10 || ammo <= 10 || armor <= 10)
+        if (health <= HUD_HEALTH_MIN || ammo <= HUD_AMMO_MIN || armor <= HUD_ARMOR_MIN)
         {
             if (!--animationcounter)
             {
