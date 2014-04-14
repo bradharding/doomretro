@@ -170,6 +170,7 @@ void D_ProcessEvents(void)
 gamestate_t     wipegamestate = GS_DEMOSCREEN;
 extern  boolean setsizeneeded;
 extern  int     graphicdetail;
+extern  int     viewheight2;
 
 void R_ExecuteSetViewSize(void);
 
@@ -233,7 +234,7 @@ void D_Display(void)
         if (automapactive)
             AM_Drawer();
         else if (graphicdetail == LOW)
-            V_LowGraphicDetail(viewheight);
+            V_LowGraphicDetail(viewheight2);
         HU_Drawer();
     }
 

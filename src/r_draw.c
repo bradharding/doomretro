@@ -45,6 +45,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 int  viewwidth;
 int  scaledviewwidth;
 int  viewheight;
+int  viewheight2;
 int  viewwindowx;
 int  viewwindowy;
 byte *ylookup[MAXHEIGHT];

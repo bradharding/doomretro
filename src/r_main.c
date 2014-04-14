@@ -119,6 +119,8 @@ void (*tlredtoblue33colfunc)(void);
 void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
 
+extern int viewheight2;
+
 //
 // R_PointOnSide
 // Traverse BSP (sub) tree,
@@ -312,11 +314,13 @@ void R_ExecuteSetViewSize(void)
     {
         scaledviewwidth = SCREENWIDTH;
         viewheight = SCREENHEIGHT;
+        viewheight2 = SCREENHEIGHT;
     }
     else
     {
         scaledviewwidth = setblocks * 64;
         viewheight = ((setblocks * 168 / 10) & ~7) * 2;
+        viewheight2 = SCREENHEIGHT - SBARHEIGHT;
     }
 
     viewwidth = scaledviewwidth;
