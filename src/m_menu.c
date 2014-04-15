@@ -129,6 +129,8 @@ byte           *blurredscreen;
 boolean        blur = true;
 boolean        blurred = false;
 
+boolean        grayscale = true;
+
 //
 // PROTOTYPES
 //
@@ -463,8 +465,6 @@ __inline static void blurscreen(int x1, int y1, int x2, int y2, int i)
             blurredscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
 }
 
-extern byte grayscale[256];
-
 //
 // M_DarkBackground
 //  darken and blur background while menu is displayed
@@ -479,9 +479,12 @@ void M_DarkBackground(void)
     {
         memcpy(blurredscreen, screens[0], SCREENWIDTH * SCREENHEIGHT);
 
-        i = 0;
-        while (i < height)
-            blurredscreen[i] = grayscale[blurredscreen[i++]];
+        if (grayscale)
+        {
+            i = 0;
+            while (i < height)
+                blurredscreen[i] = grays[blurredscreen[i++]];
+        }
 
         if (blur)
         {

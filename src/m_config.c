@@ -113,6 +113,8 @@ extern int      bloodsplats;
 extern boolean  translucency;
 extern boolean  blur;
 
+extern boolean  grayscale;
+
 extern int      snd_maxslicetime_ms;
 
 extern char     *timidity_cfg_path;
@@ -210,6 +212,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (gamepad_weapon7,     gamepadweapon7,      2),
     CONFIG_VARIABLE_FLOAT (gammalevel,          gammalevel,          0),
     CONFIG_VARIABLE_INT   (graphicdetail,       graphicdetail,       6),
+    CONFIG_VARIABLE_INT   (grayscale,           grayscale,           1),
     CONFIG_VARIABLE_INT   (grid,                grid,                1),
     CONFIG_VARIABLE_KEY   (key_down,            key_down,            3),
     CONFIG_VARIABLE_KEY   (key_down2,           key_down2,           3),

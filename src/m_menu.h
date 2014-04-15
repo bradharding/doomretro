@@ -95,7 +95,6 @@ extern boolean nomusic;
 extern boolean nosound;
 extern boolean nosfx;
 extern boolean firstevent;
-
-
+extern byte grays[256];
 
 #endif
