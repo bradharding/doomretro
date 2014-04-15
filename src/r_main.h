@@ -109,7 +109,6 @@ extern void (*tlredwhitecolfunc)(void);
 extern void (*tlbluecolfunc)(void);
 extern void (*tlgreen50colfunc)(void);
 extern void (*tlred50colfunc)(void);
-extern void (*tlredwhite50colfunc)(void);
 extern void (*tlblue50colfunc)(void);
 extern void (*redtobluecolfunc)(void);
 extern void (*tlredtoblue33colfunc)(void);

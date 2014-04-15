@@ -108,7 +108,6 @@ void (*tlredwhitecolfunc)(void);
 void (*tlbluecolfunc)(void);
 void (*tlgreen50colfunc)(void);
 void (*tlred50colfunc)(void);
-void (*tlredwhite50colfunc)(void);
 void (*tlblue50colfunc)(void);
 void (*redtobluecolfunc)(void);
 void (*transcolfunc)(void);
@@ -347,7 +346,6 @@ void R_ExecuteSetViewSize(void)
         tlbluecolfunc = R_DrawTranslucentBlueColumn;
         tlgreen50colfunc = R_DrawTranslucentGreen50Column;
         tlred50colfunc = R_DrawTranslucentRed50Column;
-        tlredwhite50colfunc = R_DrawTranslucentRedWhite50Column;
         tlblue50colfunc = R_DrawTranslucentBlue50Column;
         tlredtoblue33colfunc = R_DrawTranslucentRedToBlue33Column;
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
@@ -363,7 +361,6 @@ void R_ExecuteSetViewSize(void)
         tlbluecolfunc = R_DrawColumn;
         tlgreen50colfunc = R_DrawColumn;
         tlred50colfunc = R_DrawColumn;
-        tlredwhite50colfunc = R_DrawColumn;
         tlblue50colfunc = R_DrawColumn;
         tlredtoblue33colfunc = R_DrawColumn;
         tlredtogreen33colfunc = R_DrawColumn;

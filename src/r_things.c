@@ -631,7 +631,7 @@ void R_DrawPSprite(pspdef_t *psp)
         /* SPR_PISG */ basecolfunc,
         /* SPR_PISF */ tlcolfunc,
         /* SPR_SHTF */ tlcolfunc,
-        /* SPR_SHT2 */ tlredwhite50colfunc,
+        /* SPR_SHT2 */ tlredwhitecolfunc,
         /* SPR_CHGG */ basecolfunc,
         /* SPR_CHGF */ tlcolfunc,
         /* SPR_MISG */ basecolfunc,
@@ -856,7 +856,7 @@ void R_SortVisSprites(void)
 //
 // R_DrawSprite
 //
-void R_DrawSprite(vissprite_t *spr, boolean flag)
+void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
 {
     drawseg_t *ds;
     int       clipbot[MAXWIDTH];
@@ -882,25 +882,17 @@ void R_DrawSprite(vissprite_t *spr, boolean flag)
         if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
             continue;           // does not cover sprite
 
-        r1 = (ds->x1 < spr->x1 ? spr->x1 : ds->x1);
-        r2 = (ds->x2 > spr->x2 ? spr->x2 : ds->x2);
+        r1 = MAX(ds->x1, spr->x1);
+        r2 = MIN(ds->x2, spr->x2);
 
-        if (ds->scale1 > ds->scale2)
-        {
-            lowscale = ds->scale2;
-            scale = ds->scale1;
-        }
-        else
-        {
-            lowscale = ds->scale1;
-            scale = ds->scale2;
-        }
+        lowscale = MIN(ds->scale1, ds->scale2);
+        scale = MAX(ds->scale1, ds->scale2);
 
-        if (scale < spr->scale || (lowscale < spr->scale
-            && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+        if (scale < spr->scale ||
+            (lowscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
         {
             // masked mid texture?
-            if (flag && ds->maskedtexturecol)
+            if (drawmaskedtextures && ds->maskedtexturecol)
                 R_RenderMaskedSegRange(ds, r1, r2);
             // seg is behind sprite
             continue;
@@ -958,7 +950,7 @@ void R_DrawMasked(void)
                 R_DrawSprite(spr, false);
         }
 
-        // draw all vissprites back to front
+        // draw all other vissprites back to front
         for (i = num_vissprite; --i >= 0;)
         {
             vissprite_t *spr = vissprite_ptrs[i];

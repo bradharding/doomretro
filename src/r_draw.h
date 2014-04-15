@@ -75,7 +75,6 @@ void R_DrawTranslucentRedWhiteColumn(void);
 void R_DrawTranslucentBlueColumn(void);
 void R_DrawTranslucentGreen50Column(void);
 void R_DrawTranslucentRed50Column(void);
-void R_DrawTranslucentRedWhite50Column(void);
 void R_DrawTranslucentBlue50Column(void);
 void R_DrawRedToBlueColumn(void);
 void R_DrawTranslucentRedToBlue33Column(void);
