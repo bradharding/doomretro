@@ -822,6 +822,8 @@ void R_InitSpriteLumps(void)
 //
 extern int FindNearestColor(byte *palette, int red, int green, int blue);
 
+byte grayscale[256];
+
 void R_InitColormaps(void)
 {
     int         lump;
@@ -854,6 +856,8 @@ void R_InitColormaps(void)
             blue = *palsrc++ / 256.0f;
 
             gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
+            grayscale[i] = FindNearestColor(palette, (int)(gray * 255.0f),
+                                            (int)(gray * 255.0f), (int)(gray * 255.0f));
             gray = 1.0f - gray;
             colormaps[32 * 256 + i] = FindNearestColor(palette, (int)(gray * 255.0f),
                                                        (int)(gray * 255.0f), (int)(gray * 255.0f));

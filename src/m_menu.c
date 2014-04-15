@@ -463,6 +463,8 @@ __inline static void blurscreen(int x1, int y1, int x2, int y2, int i)
             blurredscreen[x] = tinttab50[tempscreen[x] + (tempscreen[x + i] << 8)];
 }
 
+extern byte grayscale[256];
+
 //
 // M_DarkBackground
 //  darken and blur background while menu is displayed
@@ -503,7 +505,7 @@ void M_DarkBackground(void)
 
     i = 0;
     while (i < height)
-        screens[0][i] = tinttab50[blurredscreen[i++]];
+        screens[0][i] = tinttab50[grayscale[blurredscreen[i++]]];
 
     if (graphicdetail == LOW)
         V_LowGraphicDetail(SCREENHEIGHT);
