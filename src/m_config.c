@@ -80,9 +80,6 @@ extern int      gamepadweapon7;
 extern int      gamepadlefthanded;
 extern int      gamepadvibrate;
 
-extern int      viewwidth;
-extern int      viewheight;
-
 extern int      mouseSensitivity;
 extern boolean  messages;
 
@@ -114,7 +111,7 @@ extern char     *wadfolder;
 
 extern int      bloodsplats;
 extern boolean  translucency;
-extern boolean  menublur;
+extern boolean  blur;
 
 extern int      snd_maxslicetime_ms;
 
@@ -191,6 +188,7 @@ alias_t;
 static default_t        doom_defaults_list[] =
 {
     CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,         7),
+    CONFIG_VARIABLE_INT   (blur,                blur,                1),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,     0),
     CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,   0),
     CONFIG_VARIABLE_INT   (fullscreen,          fullscreen,          1),
@@ -227,7 +225,6 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_KEY   (key_up,              key_up,              3),
     CONFIG_VARIABLE_KEY   (key_up2,             key_up2,             3),
     CONFIG_VARIABLE_KEY   (key_use,             key_use,             3),
-    CONFIG_VARIABLE_INT   (menublur,            menublur,            1),
     CONFIG_VARIABLE_INT   (messages,            messages,            1),
     CONFIG_VARIABLE_FLOAT (mouse_acceleration,  mouse_acceleration,  0),
     CONFIG_VARIABLE_INT   (mouse_fire,          mousebfire,          4),

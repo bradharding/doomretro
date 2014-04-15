@@ -126,7 +126,7 @@ menu_t         *currentMenu;
 byte           *tempscreen;
 byte           *blurredscreen;
 
-boolean        menublur = true;
+boolean        blur = true;
 boolean        blurred = false;
 
 //
@@ -452,7 +452,7 @@ menu_t SaveDef =
 
 int height;
 
-__inline static void blur(int x1, int y1, int x2, int y2, int i)
+__inline static void blurscreen(int x1, int y1, int x2, int y2, int i)
 {
     int x, y;
 
@@ -477,16 +477,16 @@ void M_DarkBackground(void)
     {
         memcpy(blurredscreen, screens[0], SCREENWIDTH * SCREENHEIGHT);
 
-        if (menublur)
+        if (blur)
         {
-            blur(0, 0, SCREENWIDTH - 1, height, 1);
-            blur(1, 0, SCREENWIDTH, height, -1);
-            blur(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-            blur(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
-            blur(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-            blur(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-            blur(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-            blur(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+            blurscreen(0, 0, SCREENWIDTH - 1, height, 1);
+            blurscreen(1, 0, SCREENWIDTH, height, -1);
+            blurscreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
+            blurscreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
+            blurscreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+            blurscreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
+            blurscreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+            blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
 
             if (fullscreen && !widescreen)
                 for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
