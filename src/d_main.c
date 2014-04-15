@@ -195,70 +195,66 @@ void D_Display(void)
     }
 
     // save the current screen if about to wipe
-    if (gamestate != wipegamestate)
+    if ((wipe = (gamestate != wipegamestate)))
     {
-        wipe = true;
         wipe_StartScreen();
         menuactive = false;
     }
-    else
-        wipe = false;
 
-    if (gamestate == GS_LEVEL)
+    if (gamestate != GS_LEVEL)
+    {
+        if (gamestate != oldgamestate)
+            I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE));
+
+        switch (gamestate)
+        {
+            case GS_INTERMISSION:
+                WI_Drawer();
+                break;
+
+            case GS_FINALE:
+                F_Drawer();
+                break;
+
+            case GS_DEMOSCREEN:
+                D_PageDrawer();
+                break;
+        }
+    }
+    else if (gametic)
+    {
         HU_Erase();
 
-    // do buffered drawing
-    switch (gamestate)
-    {
-        case GS_LEVEL:
-            ST_Drawer(viewheight == SCREENHEIGHT, true);
-            break;
+        ST_Drawer(viewheight == SCREENHEIGHT, true);
 
-        case GS_INTERMISSION:
-            WI_Drawer();
-            break;
-
-        case GS_FINALE:
-            F_Drawer();
-            break;
-
-        case GS_DEMOSCREEN:
-            D_PageDrawer();
-            break;
-    }
-
-    // draw the view directly
-    if (gamestate == GS_LEVEL)
-    {
+        // draw the view directly
         R_RenderPlayerView(&players[displayplayer]);
+
         if (automapactive)
             AM_Drawer();
         else if (graphicdetail == LOW)
             V_LowGraphicDetail(viewheight2);
         HU_Drawer();
-    }
 
-    // clean up border stuff
-    if (gamestate != oldgamestate && gamestate != GS_LEVEL)
-        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE));
-
-    // see if the border needs to be initially drawn
-    if (gamestate == GS_LEVEL && oldgamestate != GS_LEVEL)
-    {
-        viewactivestate = false;        // view was not active
-        R_FillBackScreen();             // draw the pattern into the back screen
-    }
-
-    // see if the border needs to be updated to the screen
-    if (gamestate == GS_LEVEL && !automapactive && scaledviewwidth != SCREENWIDTH)
-    {
-        if (menuactive || menuactivestate || !viewactivestate || paused || pausedstate)
-            borderdrawcount = 3;
-        if (borderdrawcount)
+        // see if the border needs to be initially drawn
+        if (oldgamestate != GS_LEVEL)
         {
-            R_DrawViewBorder();         // erase old menu stuff
-            borderdrawcount--;
+            viewactivestate = false;    // view was not active
+            R_FillBackScreen();         // draw the pattern into the back screen
         }
+
+        // see if the border needs to be updated to the screen
+        if (!automapactive && scaledviewwidth != SCREENWIDTH)
+        {
+            if (menuactive || menuactivestate || !viewactivestate || paused || pausedstate)
+                borderdrawcount = 3;
+            if (borderdrawcount)
+            {
+                R_DrawViewBorder();     // erase old menu stuff
+                borderdrawcount--;
+            }
+        }
+
     }
 
     menuactivestate = menuactive;
@@ -266,14 +262,11 @@ void D_Display(void)
     oldgamestate = wipegamestate = gamestate;
 
     // draw pause pic
-    if (paused)
+    if ((pausedstate = paused))
     {
         M_DarkBackground();
         M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, "Paused");
-        pausedstate = true;
     }
-    else
-        pausedstate = false;
 
     // menus go directly to the screen
     M_Drawer();                 // menu is drawn even on top of everything
@@ -303,7 +296,8 @@ void D_Display(void)
         done = wipe_ScreenWipe(tics);
         M_Drawer();             // menu is drawn even on top of wipes
         I_FinishUpdate();       // page flip or blit buffer
-    } while (!done);
+    }
+    while (!done);
 }
 
 //
