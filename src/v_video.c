@@ -182,7 +182,7 @@ void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
     }
 }
 
-void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
 {
     int         count;
     int         col;
@@ -191,6 +191,9 @@ void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
+
+    if (!invert)
+        return;
 
     col = 0;
     desttop = screens[scrn] + y * SCREENWIDTH + x;
@@ -205,7 +208,7 @@ void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch)
         while (column->topdelta != 0xff)
         {
             source = (byte *)column + 3;
-            dest = desttop + column->topdelta*SCREENWIDTH;
+            dest = desttop + column->topdelta * SCREENWIDTH;
             count = column->length;
 
             while (count--)
@@ -218,7 +221,7 @@ void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
 {
 
     int         count;
@@ -228,6 +231,9 @@ void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
+
+    if (!invert)
+        return;
 
     col = 0;
     desttop = screens[scrn] + y * SCREENWIDTH + x;
@@ -242,7 +248,7 @@ void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch)
         while (column->topdelta != 0xff)
         {
             source = (byte *)column + 3;
-            dest = desttop + column->topdelta*SCREENWIDTH;
+            dest = desttop + column->topdelta * SCREENWIDTH;
             count = column->length;
 
             while (count--)
@@ -260,7 +266,7 @@ void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
 {
     int         count;
     int         col;
@@ -283,12 +289,12 @@ void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch)
         while (column->topdelta != 0xff)
         {
             source = (byte *)column + 3;
-            dest = desttop + column->topdelta*SCREENWIDTH;
+            dest = desttop + column->topdelta * SCREENWIDTH;
             count = column->length;
 
             while (count--)
             {
-                *dest = tinttab75[(*source++ << 8) + *dest];
+                *dest = tinttab75[(*source++ << (8 * invert)) + (*dest << (8 * !invert))];
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);
@@ -296,7 +302,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
 {
     int         count;
     int         col;
@@ -322,17 +328,17 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch)
         while (column->topdelta != 0xff)
         {
             source = (byte *)column + 3;
-            dest = desttop + column->topdelta*SCREENWIDTH;
+            dest = desttop + column->topdelta * SCREENWIDTH;
             count = column->length;
 
             while (count--)
             {
                 byte dot = *source++;
 
-                if (dot == 109)
+                if (dot == 109 && invert)
                     *dest = tinttab50[*dest];
                 else
-                    *dest = tinttab75[(dot << 8) + *dest];
+                    *dest = tinttab75[(dot << (8 * invert)) + (*dest << (8 * !invert))];
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);
