@@ -479,6 +479,10 @@ void M_DarkBackground(void)
     {
         memcpy(blurredscreen, screens[0], SCREENWIDTH * SCREENHEIGHT);
 
+        i = 0;
+        while (i < height)
+            blurredscreen[i] = grayscale[blurredscreen[i++]];
+
         if (blur)
         {
             blurscreen(0, 0, SCREENWIDTH - 1, height, 1);
@@ -505,7 +509,7 @@ void M_DarkBackground(void)
 
     i = 0;
     while (i < height)
-        screens[0][i] = tinttab50[grayscale[blurredscreen[i++]]];
+        screens[0][i] = tinttab50[blurredscreen[i++]];
 
     if (graphicdetail == LOW)
         V_LowGraphicDetail(SCREENHEIGHT);
