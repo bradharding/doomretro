@@ -332,7 +332,7 @@ static void HU_DrawHUD(void)
                         }
                     }
                     if (showkey)
-                        hudfunc(keypic_x, HUD_KEYS_Y, 0, patch, false);
+                        hudfunc(keypic_x, HUD_KEYS_Y, 0, patch, true);
                     keypic_x += patch->width + 6;
                 }
             }
@@ -347,7 +347,7 @@ static void HU_DrawHUD(void)
                     patch_t *patch = keypic[i].patch;
 
                     hudfunc(keypic_x + (patch->width + 6) * (cardsfound - plr->cards[i]),
-                            HUD_KEYS_Y, 0, patch, false);
+                            HUD_KEYS_Y, 0, patch, true);
                 }
         }
 
