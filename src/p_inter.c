@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <stdlib.h>
+
 #include "am_map.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -824,7 +826,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mo->momz = FRACUNIT * 5 + (P_Random() << 10);
     mo->angle = target->angle + ((P_Random() - P_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
-    if (target->flags2 & MF2_MIRRORED)
+    if (rand() & 1)
         mo->flags2 |= MF2_MIRRORED;
 }
 
