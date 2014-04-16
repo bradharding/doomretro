@@ -238,7 +238,7 @@ menu_t EpiDef =
     &MainDef,           // previous menu
     EpisodeMenu,        // menuitem_t ->
     M_DrawEpisode,      // drawing routine ->
-    39, 63,             // x, y
+    39, 68,             // x, y
     ep1                 // lastOn
 };
 
@@ -265,7 +265,7 @@ menu_t ExpDef =
     &MainDef,             // previous menu
     ExpansionMenu,        // menuitem_t ->
     M_DrawExpansion,      // drawing routine ->
-    39, 63,               // x, y
+    39, 68,               // x, y
     exp1                  // lastOn
 };
 
@@ -298,7 +298,7 @@ menu_t NewDef =
     &EpiDef,            // previous menu
     NewGameMenu,        // menuitem_t ->
     M_DrawNewGame,      // drawing routine ->
-    39, 63,             // x, y
+    39, 68,             // x, y
     hurtme              // lastOn
 };
 
@@ -1308,13 +1308,13 @@ void M_DrawNewGame(void)
 {
     M_DarkBackground();
     if (M_NEWG)
-        M_DrawCenteredPatchWithShadow(14 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_NEWG", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(19 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_NEWG", PU_CACHE));
     else
-        M_DrawCenteredString(14 + OFFSET, "NEW GAME");
+        M_DrawCenteredString(19 + OFFSET, "NEW GAME");
     if (M_SKILL)
-        M_DrawCenteredPatchWithShadow(38 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_SKILL", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(43 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_SKILL", PU_CACHE));
     else
-        M_DrawCenteredString(38 + OFFSET, "Choose Skill Level:");
+        M_DrawCenteredString(43 + OFFSET, "Choose Skill Level:");
 }
 
 void M_NewGame(int choice)
@@ -1334,20 +1334,20 @@ void M_DrawEpisode(void)
 {
     M_DarkBackground();
     if (M_NEWG)
-        M_DrawCenteredPatchWithShadow(14 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_NEWG", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(19 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_NEWG", PU_CACHE));
     else
-        M_DrawCenteredString(14 + OFFSET, "NEW GAME");
+        M_DrawCenteredString(19 + OFFSET, "NEW GAME");
     if (M_EPISOD)
-        M_DrawCenteredPatchWithShadow(38 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_EPISOD", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(43 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_EPISOD", PU_CACHE));
     else
-        M_DrawCenteredString(38 + OFFSET, "Which Episode?");
+        M_DrawCenteredString(43 + OFFSET, "Which Episode?");
 }
 
 void M_DrawExpansion(void)
 {
     M_DarkBackground();
-    M_DrawCenteredString(14 + OFFSET, "NEW GAME");
-    M_DrawCenteredString(38 + OFFSET, "Which Expansion?");
+    M_DrawCenteredString(19 + OFFSET, "NEW GAME");
+    M_DrawCenteredString(43 + OFFSET, "Which Expansion?");
 }
 
 void M_VerifyNightmare(int key)
