@@ -1483,7 +1483,8 @@ void M_ChangeMessages(int choice)
     choice = 0;
     blurred = false;
     messages = !messages;
-    message_dontpause = true;
+    if (menuactive)
+        message_dontpause = true;
     players[consoleplayer].message = (messages ? MSGON : MSGOFF);
     message_dontfuckwithme = true;
     M_SaveDefaults();
@@ -1502,9 +1503,7 @@ void M_EndGameResponse(int key)
         if (functionkey == KEY_F7)
             menuactive = false;
         else
-        {
             M_SetupNextMenu(&OptionsDef);
-        }
         return;
     }
 
