@@ -238,7 +238,7 @@ menu_t EpiDef =
     &MainDef,           // previous menu
     EpisodeMenu,        // menuitem_t ->
     M_DrawEpisode,      // drawing routine ->
-    39, 68,             // x, y
+    39, 69,             // x, y
     ep1                 // lastOn
 };
 
@@ -265,7 +265,7 @@ menu_t ExpDef =
     &MainDef,             // previous menu
     ExpansionMenu,        // menuitem_t ->
     M_DrawExpansion,      // drawing routine ->
-    39, 68,               // x, y
+    39, 69,               // x, y
     exp1                  // lastOn
 };
 
@@ -298,7 +298,7 @@ menu_t NewDef =
     &EpiDef,            // previous menu
     NewGameMenu,        // menuitem_t ->
     M_DrawNewGame,      // drawing routine ->
-    39, 68,             // x, y
+    39, 69,             // x, y
     hurtme              // lastOn
 };
 
@@ -612,7 +612,7 @@ static struct
     { 'f', 'e', -1 }, { 'f', 'f', -1 }, { 'f', 'o', -1 }, { 'l', 'e', -1 },
     { 'l', 't', -1 }, { 'l', 'u', -1 }, { 'o', 'a', -1 }, { 'o', 't', -1 },
     { 'p', 'a', -2 }, { 't', 'o', -1 }, { 'v', 'e', -1 }, { 'y', ',', -3 },
-    { 'y', '.', -2 }, { 'y', 'o', -1 }, {  0,   0,   0 }
+    { 'y', '.', -2 }, { 'y', 'o', -1 }, { 't', 'a', -1 }, {  0,   0,   0 }
 };
 
 static struct
@@ -1288,7 +1288,7 @@ void M_DrawMainMenu(void)
 {
     int dot1;
     int dot2;
-    int y = 11 + OFFSET;
+    int y = 9 + OFFSET;
 
     M_DarkBackground();
     dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
@@ -1445,7 +1445,7 @@ void M_DrawOptions(void)
             M_DrawPatchWithShadow(OptionsDef.x + 178, OptionsDef.y + 16 * detail + OFFSET, 0,
                                   (patch_t *)W_CacheLumpName("M_GDHIGH", PU_CACHE));
         else
-            M_DrawString(OptionsDef.x + 178, OptionsDef.y + 16 * detail + OFFSET, "high");
+            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "high");
     }
     else
     {
@@ -1453,7 +1453,7 @@ void M_DrawOptions(void)
             M_DrawPatchWithShadow(OptionsDef.x + 178, OptionsDef.y + 16 * detail + OFFSET, 0,
                                   (patch_t *)W_CacheLumpName("M_GDLOW", PU_CACHE));
         else
-            M_DrawString(OptionsDef.x + 178, OptionsDef.y + 16 * detail + OFFSET, "low");
+            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "low");
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
