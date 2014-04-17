@@ -265,7 +265,10 @@ void D_Display(void)
     if ((pausedstate = paused))
     {
         M_DarkBackground();
-        M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, "Paused");
+        if (widescreen)
+            M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, "Paused");
+        else
+            M_DrawCenteredString((ORIGINALHEIGHT - 16) / 2, "Paused");
     }
 
     // menus go directly to the screen

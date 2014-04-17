@@ -98,7 +98,7 @@ boolean        startingnewgame = false;
 
 #define SKULLXOFF  -32
 #define LINEHEIGHT 17
-#define OFFSET     (!usergame || screensize == 9 ? 17 : 0)
+#define OFFSET     (!widescreen ? 17 : 0)
 
 char           savegamestrings[10][SAVESTRINGSIZE];
 
@@ -1291,7 +1291,7 @@ void M_DrawMainMenu(void)
 {
     int dot1;
     int dot2;
-    int y = 9 + OFFSET;
+    int y = 11 + OFFSET;
 
     M_DarkBackground();
     dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
@@ -1317,7 +1317,7 @@ void M_DrawNewGame(void)
     if (M_SKILL)
         M_DrawCenteredPatchWithShadow(43 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_SKILL", PU_CACHE));
     else
-        M_DrawCenteredString(43 + OFFSET, "Choose Skill Level:");
+        M_DrawCenteredString(44 + OFFSET, "Choose Skill Level:");
 }
 
 void M_NewGame(int choice)
@@ -1343,14 +1343,14 @@ void M_DrawEpisode(void)
     if (M_EPISOD)
         M_DrawCenteredPatchWithShadow(43 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_EPISOD", PU_CACHE));
     else
-        M_DrawCenteredString(43 + OFFSET, "Which Episode?");
+        M_DrawCenteredString(44 + OFFSET, "Which Episode?");
 }
 
 void M_DrawExpansion(void)
 {
     M_DarkBackground();
     M_DrawCenteredString(19 + OFFSET, "NEW GAME");
-    M_DrawCenteredString(43 + OFFSET, "Which Expansion?");
+    M_DrawCenteredString(44 + OFFSET, "Which Expansion?");
 }
 
 void M_VerifyNightmare(int key)
@@ -2799,10 +2799,10 @@ void M_Drawer(void)
         M_DarkBackground();
 
         start = 0;
-        if (!usergame || gamestate == GS_INTERMISSION || gamestate == GS_FINALE)
-            y = (ORIGINALHEIGHT - M_StringHeight(messageString)) / 2 - 1;
-        else
+        if (widescreen)
             y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
+        else
+            y = (ORIGINALHEIGHT - M_StringHeight(messageString)) / 2 - 1;
         while (messageString[start] != '\0')
         {
             int foundnewline = 0;
