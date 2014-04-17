@@ -106,6 +106,7 @@ extern void (*tl33colfunc)(void);
 extern void (*tlgreencolfunc)(void);
 extern void (*tlredcolfunc)(void);
 extern void (*tlredwhitecolfunc)(void);
+extern void (*tlredwhite50colfunc)(void);
 extern void (*tlbluecolfunc)(void);
 extern void (*tlgreen50colfunc)(void);
 extern void (*tlred50colfunc)(void);
@@ -116,7 +117,6 @@ extern void (*skycolfunc)(void);
 extern void (*redtogreencolfunc)(void);
 extern void (*tlredtogreen33colfunc)(void);
 extern void (*psprcolfunc)(void);
-// No shadow effects on floors.
 extern void (*spanfunc)(void);
 
 

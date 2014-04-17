@@ -396,6 +396,20 @@ void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
+    if (viewplayer->fixedcolormap == INVERSECOLORMAP)
+    {
+        if (colfunc == tlcolfunc)
+            colfunc = tl50colfunc;
+        else if (colfunc == tlredcolfunc)
+            colfunc = tlred50colfunc;
+        else if (colfunc == tlgreencolfunc)
+            colfunc = tlgreen50colfunc;
+        else if (colfunc == tlbluecolfunc)
+            colfunc = tlblue50colfunc;
+        else if (colfunc == tlredwhitecolfunc)
+            colfunc = tlredwhite50colfunc;
+    }
+
     megasphere = (vis->type == MT_MEGA);
 
     R_DrawMaskedColumn = (psprite ? R_DrawMaskedColumn1 : R_DrawMaskedColumn2);

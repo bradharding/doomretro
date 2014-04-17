@@ -691,6 +691,34 @@ void R_DrawTranslucentRedWhiteColumn(void)
     }
 }
 
+void R_DrawTranslucentRedWhite50Column(void)
+{
+    register int32_t       count = dc_yh - dc_yl;
+    register byte          *dest;
+    register fixed_t       frac;
+    register const fixed_t fracstep = dc_iscale;
+
+    if (count++ < 0)
+        return;
+
+    dest = ylookup[dc_yl] + columnofs[dc_x];
+
+    frac = dc_texturefrac;
+
+    {
+        register const byte         *source = dc_source;
+        register const lighttable_t *colormap = dc_colormap;
+
+        while (--count)
+        {
+            *dest = colormap[tinttabredwhite50[(*dest << 8) + source[frac >> FRACBITS]]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+        }
+        *dest = colormap[tinttabredwhite50[(*dest << 8) + source[frac >> FRACBITS]]];
+    }
+}
+
 void R_DrawTranslucentGreenColumn(void)
 {
     register int32_t       count = dc_yh - dc_yl;
