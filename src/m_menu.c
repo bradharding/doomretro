@@ -98,7 +98,7 @@ boolean        startingnewgame = false;
 
 #define SKULLXOFF  -32
 #define LINEHEIGHT 17
-#define OFFSET     (!widescreen ? 17 : 0)
+#define OFFSET     (widescreen ? 0 : 17)
 
 char           savegamestrings[10][SAVESTRINGSIZE];
 
@@ -860,7 +860,7 @@ void M_DrawLoad(void)
 
     M_DarkBackground();
     if (M_LGTTL)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_LGTTL", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_LGTTL", PU_CACHE));
     else
         M_DrawCenteredString(23 + OFFSET, "LOAD GAME");
 
@@ -956,7 +956,7 @@ void M_DrawSave(void)
 
     // draw menu subtitle
     if (M_SGTTL)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_SGTTL", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_SGTTL", PU_CACHE));
     else
         M_DrawCenteredString(23 + OFFSET, "SAVE GAME");
 
@@ -1203,9 +1203,9 @@ void M_DrawReadThis(void)
             M_DarkBlueBackground();
         }
         if (W_CheckMultipleLumps(lumpname) > 2)
-            V_DrawPatch(0, 0, 0, (patch_t *)W_CacheLumpName(lumpname, PU_CACHE));
+            V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname, PU_CACHE));
         else
-            V_DrawPatchWithShadow(0, 0, 0, (patch_t *)W_CacheLumpName(lumpname, PU_CACHE), false);
+            V_DrawPatchWithShadow(0, 0, 0, W_CacheLumpName(lumpname, PU_CACHE), false);
     }
 }
 
@@ -1293,10 +1293,12 @@ void M_MusicVol(int choice)
 //
 void M_DrawMainMenu(void)
 {
+    patch_t *patch = W_CacheLumpName("M_DOOM", PU_CACHE);
+
     M_DarkBackground();
-    if (M_DOOM)
+    if (M_DOOM && patch->height > 125)
     {
-        M_DrawPatchWithShadow(94, 2, 0, W_CacheLumpName("M_DOOM", PU_CACHE));
+        M_DrawPatchWithShadow(94, 2, 0, patch);
         MainDef.x = 97;
         MainDef.y = 72;
     }
@@ -1306,7 +1308,7 @@ void M_DrawMainMenu(void)
         int dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
         int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
 
-        M_DrawCenteredPatchWithShadow(y, 0, W_CacheLumpName("M_DOOM", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(y, 0, patch);
         if (gamemode != commercial)
         {
             V_DrawPixel(98, y, 0, dot1, false);
@@ -1778,16 +1780,15 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
     int         xx = x;
     int         i;
 
-    M_DrawPatchWithShadow(xx, y, 0, (patch_t *)W_CacheLumpName("M_THERML", PU_CACHE));
+    M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName("M_THERML", PU_CACHE));
     xx += 8;
     for (i = 0; i < thermWidth; i++)
     {
-        V_DrawPatch(xx, y, 0, (patch_t *)W_CacheLumpName("M_THERMM", PU_CACHE));
+        V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM", PU_CACHE));
         xx += 8;
     }
-    M_DrawPatchWithShadow(xx, y, 0, (patch_t *)W_CacheLumpName("M_THERMR", PU_CACHE));
-    V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0,
-        (patch_t *)W_CacheLumpName("M_THERMO", PU_CACHE));
+    M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName("M_THERMR", PU_CACHE));
+    V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
     for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
         V_DrawPixel(i, y + 13, 0, 251, true);
 }
@@ -2884,7 +2885,7 @@ void M_Drawer(void)
         if (!strcmp(name, "M_NMARE"))
         {
             if (M_NMARE)
-                M_DrawPatchWithShadow(x, y, 0, (patch_t *)W_CacheLumpName(name, PU_CACHE));
+                M_DrawPatchWithShadow(x, y, 0, W_CacheLumpName(name, PU_CACHE));
             else
                 M_DrawNightmare();
         }
@@ -2910,10 +2911,8 @@ void M_Drawer(void)
 
     // DRAW SKULL
     if (currentMenu == &LoadDef || currentMenu == &SaveDef)
-    {
         M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, 0,
-                              (patch_t *)W_CacheLumpName(skullName[whichSkull], PU_CACHE));
-    }
+                              W_CacheLumpName(skullName[whichSkull], PU_CACHE));
     else if (currentMenu != &ReadDef)
     {
         if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
