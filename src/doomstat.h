@@ -105,6 +105,7 @@ extern boolean          M_SKILL;
 extern boolean          M_SKULL1;
 extern boolean          M_SVOL;
 extern boolean          STBAR;
+extern boolean          STARMS;
 extern boolean          STCFN034;
 extern boolean          STCFN039;
 extern boolean          STYSNUM0;

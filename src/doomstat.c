@@ -41,7 +41,7 @@ boolean         bfgedition = false;
 // Set if homebrew PWAD stuff has been added.
 boolean         modifiedgame;
 
-boolean         MAPINFO  = false;
+boolean         MAPINFO = false;
 boolean         M_DOOM = false;
 boolean         M_EPISOD = false;
 boolean         M_LGTTL = false;
@@ -57,7 +57,8 @@ boolean         M_SGTTL = false;
 boolean         M_SKILL = false;
 boolean         M_SKULL1 = false;
 boolean         M_SVOL = false;
-boolean         STBAR    = false;
+boolean         STBAR = false;
+boolean         STARMS = false;
 boolean         STCFN034 = false;
 boolean         STCFN039 = false;
 boolean         STYSNUM0 = false;

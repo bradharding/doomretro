@@ -73,6 +73,7 @@ int W_CheckNumForName(char *name);
 int W_RangeCheckNumForName(int min, int max, char *name);
 int W_GetNumForName(char *name);
 int W_GetNumForName2(char *name);
+int W_GetNumForNameX(char *name, unsigned int count);
 
 int W_CheckMultipleLumps(char *name);
 

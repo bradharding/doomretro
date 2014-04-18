@@ -110,7 +110,7 @@ unsigned int W_LumpNameHash(const char *s)
 // Other files are single lumps with the base filename
 //  for the lump name.
 
-wad_file_t *W_AddFile (char *filename)
+wad_file_t *W_AddFile(char *filename)
 {
     wadinfo_t header;
     lumpinfo_t *lump_p;
@@ -331,6 +331,21 @@ int W_GetNumForName2(char *name)
 
     if (i == numlumps)
         I_Error("W_GetNumForName: %s not found!", name);
+
+    return i;
+}
+
+int W_GetNumForNameX(char *name, unsigned int count)
+{
+    unsigned int i, j = 0;
+
+    for (i = 0; i < numlumps; i++)
+        if (!strncasecmp(lumpinfo[i].name, name, 8))
+            if (++j == count)
+                break;
+
+    if (i == numlumps && j != count)
+        I_Error("W_GetNumForNameX: %s not found!", name);
 
     return i;
 }
