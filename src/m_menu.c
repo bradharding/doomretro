@@ -1216,14 +1216,18 @@ void M_DrawSound(void)
 {
     M_DarkBackground();
     if (M_SVOL)
-        M_DrawCenteredPatchWithShadow(38 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_SVOL", PU_CACHE));
+    {
+        M_DrawPatchWithShadow(60, 38, 0, W_CacheLumpName("M_SVOL", PU_CACHE));
+        SoundDef.x = 80;
+        SoundDef.y = 64;
+    }
     else
         M_DrawCenteredString(38 + OFFSET, "SOUND VOLUME");
 
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17 + OFFSET, 16,
+    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17 + (M_SVOL ? 0 : OFFSET), 16,
                  (float)(sfxVolume * !(nosfx || nosound)), 8.0f);
 
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * music_vol + 17 + OFFSET, 16,
+    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * music_vol + 17 + (M_SVOL ? 0 : OFFSET), 16,
                  (float)(musicVolume * !(nomusic || nosound)), 8.0f);
 }
 
@@ -1289,18 +1293,25 @@ void M_MusicVol(int choice)
 //
 void M_DrawMainMenu(void)
 {
-    int dot1;
-    int dot2;
-    int y = 11 + OFFSET;
-
     M_DarkBackground();
-    dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
-    dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
-    M_DrawCenteredPatchWithShadow(y, 0, (patch_t *)W_CacheLumpName("M_DOOM", PU_CACHE));
-    if (gamemode != commercial)
+    if (M_DOOM)
     {
-        V_DrawPixel(98, y, 0, dot1, false);
-        V_DrawPixel(99, y + 1, 0, dot2, false);
+        M_DrawPatchWithShadow(94, 2, 0, W_CacheLumpName("M_DOOM", PU_CACHE));
+        MainDef.x = 97;
+        MainDef.y = 72;
+    }
+    else
+    {
+        int y = 11 + OFFSET;
+        int dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
+        int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
+
+        M_DrawCenteredPatchWithShadow(y, 0, W_CacheLumpName("M_DOOM", PU_CACHE));
+        if (gamemode != commercial)
+        {
+            V_DrawPixel(98, y, 0, dot1, false);
+            V_DrawPixel(99, y + 1, 0, dot2, false);
+        }
     }
 }
 
@@ -1311,11 +1322,19 @@ void M_DrawNewGame(void)
 {
     M_DarkBackground();
     if (M_NEWG)
-        M_DrawCenteredPatchWithShadow(19 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_NEWG", PU_CACHE));
+    {
+        M_DrawPatchWithShadow(96, 14, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
+        NewDef.x = 48;
+        NewDef.y = 63;
+    }
     else
         M_DrawCenteredString(19 + OFFSET, "NEW GAME");
     if (M_SKILL)
-        M_DrawCenteredPatchWithShadow(43 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_SKILL", PU_CACHE));
+    {
+        M_DrawPatchWithShadow(54, 38, 0, W_CacheLumpName("M_SKILL", PU_CACHE));
+        NewDef.x = 48;
+        NewDef.y = 63;
+    }
     else
         M_DrawCenteredString(44 + OFFSET, "Choose Skill Level:");
 }
@@ -1337,11 +1356,19 @@ void M_DrawEpisode(void)
 {
     M_DarkBackground();
     if (M_NEWG)
-        M_DrawCenteredPatchWithShadow(19 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_NEWG", PU_CACHE));
+    {
+        M_DrawPatchWithShadow(96, 14, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
+        EpiDef.x = 48;
+        EpiDef.y = 63;
+    }
     else
         M_DrawCenteredString(19 + OFFSET, "NEW GAME");
     if (M_EPISOD)
-        M_DrawCenteredPatchWithShadow(43 + OFFSET, 0, (patch_t *)W_CacheLumpName("M_EPISOD", PU_CACHE));
+    {
+        M_DrawPatchWithShadow(54, 38, 0, W_CacheLumpName("M_EPISOD", PU_CACHE));
+        EpiDef.x = 48;
+        EpiDef.y = 63;
+    }
     else
         M_DrawCenteredString(44 + OFFSET, "Which Episode?");
 }
@@ -1420,24 +1447,27 @@ void M_DrawOptions(void)
     M_DarkBackground();
 
     if (M_OPTTTL)
-        M_DrawCenteredPatchWithShadow(8 + OFFSET, 0,
-            (patch_t *)W_CacheLumpName("M_OPTTTL", PU_CACHE));
+    {
+        M_DrawPatchWithShadow(108, 15, 0, W_CacheLumpName("M_OPTTTL", PU_CACHE));
+        OptionsDef.x = 60;
+        OptionsDef.x = 37;
+    }
     else
         M_DrawCenteredString(8 + OFFSET, "OPTIONS");
 
     if (messages)
     {
         if (M_MSGON)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, 0,
-                                  (patch_t *)W_CacheLumpName("M_MSGON", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs, 0,
+                                  W_CacheLumpName("M_MSGON", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "on");
     }
     else
     {
         if (M_MSGOFF)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, 0,
-                                  (patch_t *)W_CacheLumpName("M_MSGOFF", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs, 0,
+                                  W_CacheLumpName("M_MSGOFF", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "off");
     }
@@ -1445,27 +1475,27 @@ void M_DrawOptions(void)
     if (graphicdetail == HIGH)
     {
         if (M_GDHIGH)
-            M_DrawPatchWithShadow(OptionsDef.x + 178, OptionsDef.y + 16 * detail + OFFSET, 0,
-                                  (patch_t *)W_CacheLumpName("M_GDHIGH", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail, 0,
+                                  W_CacheLumpName("M_GDHIGH", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "high");
     }
     else
     {
         if (M_GDLOW)
-            M_DrawPatchWithShadow(OptionsDef.x + 178, OptionsDef.y + 16 * detail + OFFSET, 0,
-                                  (patch_t *)W_CacheLumpName("M_GDLOW", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail, 0,
+                                  W_CacheLumpName("M_GDLOW", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "low");
     }
 
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
+    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + (M_OPTTTL ? 0 : OFFSET), 9,
                  (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
                  + !widescreenhud), fullscreen ? 7.2f : 8.0f);
 
     if (mouseSensitivity == -5)
         mouseSensitivity = MOUSESENSITIVITY_MIN;
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
+    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + (M_OPTTTL ? 0 : OFFSET), 9,
                  mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
     if (mouseSensitivity == MOUSESENSITIVITY_MIN)
         mouseSensitivity = -5;
@@ -2844,7 +2874,7 @@ void M_Drawer(void)
 
     // DRAW MENU
     x = currentMenu->x;
-    y = currentMenu->y + OFFSET;
+    y = currentMenu->y;
     max = currentMenu->numitems;
 
     for (i = 0; i < max; i++)
@@ -2872,9 +2902,10 @@ void M_Drawer(void)
             }
         }
         else if (W_CheckMultipleLumps(name) > 1)
-            M_DrawPatchWithShadow(x, y, 0, (patch_t *)W_CacheLumpName(name, PU_CACHE));
+            V_DrawPatch(x, y, 0, W_CacheLumpName(name, PU_CACHE));
+            //M_DrawPatchWithShadow(x, y, 0, (patch_t *)W_CacheLumpName(name, PU_CACHE));
         else
-            M_DrawString(x, y, currentMenu->menuitems[i].text);
+            M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
         y += LINEHEIGHT - 1;
     }
 
@@ -2888,8 +2919,13 @@ void M_Drawer(void)
     {
         if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
             itemOn++;
-        M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - (M_SKULL1 ? 5 : 3) + OFFSET,
-                              0, (patch_t *)W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+        if (M_SKULL1)
+            M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5, 0,
+                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+        else
+            M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, 0,
+                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+
     }
 }
 

@@ -42,6 +42,7 @@ boolean         bfgedition = false;
 boolean         modifiedgame;
 
 boolean         MAPINFO  = false;
+boolean         M_DOOM = false;
 boolean         M_EPISOD = false;
 boolean         M_LGTTL = false;
 boolean         M_MSENS = false;

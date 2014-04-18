@@ -800,6 +800,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
+    M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
     M_NEWG = (W_CheckMultipleLumps("M_NEWG") > 1);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
     M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
@@ -814,12 +815,12 @@ static void D_DoomMainSetup(void)
     M_GDLOW = (W_CheckMultipleLumps("M_GDLOW") > 1);
     M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
     M_MSENS = (W_CheckMultipleLumps("M_MSENS") > 1);
-    STBAR    = (W_CheckMultipleLumps("STBAR") > 1);
+    STBAR = (W_CheckMultipleLumps("STBAR") > 1);
     STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
     STCFN039 = (W_CheckMultipleLumps("STCFN039") > 1);
-    WISCRT2  = (W_CheckMultipleLumps("WISCRT2") > 1);
+    WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
-    MAPINFO  = (W_CheckNumForName("MAPINFO") >= 0);
+    MAPINFO = (W_CheckNumForName("MAPINFO") >= 0);
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
     DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
 

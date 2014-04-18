@@ -89,6 +89,7 @@ extern boolean          nerve;
 extern boolean          bfgedition;
 
 extern boolean          MAPINFO;
+extern boolean          M_DOOM;
 extern boolean          M_EPISOD;
 extern boolean          M_LGTTL;
 extern boolean          M_MSENS;
