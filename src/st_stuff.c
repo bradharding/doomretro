@@ -452,6 +452,20 @@ int mus[IDMUS_MAX][6] =
     /* 49 */ { NONE,        NONE,        NONE,        mus_e1m9,   NONE,        NONE       }
 };
 
+char *musicname[NUMMUSIC] =
+{
+    "D_NONE",   "D_E1M1",   "D_E1M2",   "D_E1M3",   "D_E1M4",   "D_E1M5",   "D_E1M6",
+    "D_E1M7",   "D_E1M8",   "D_E1M9",   "D_E2M1",   "D_E2M2",   "D_E2M3",   "D_E2M4",
+    "D_E2M5",   "D_E2M6",   "D_E2M7",   "D_E2M8",   "D_E2M9",   "D_E3M1",   "D_E3M2",
+    "D_E3M3",   "D_E3M4",   "D_E3M5",   "D_E3M6",   "D_E3M7",   "D_E3M8",   "D_E3M9",
+    "D_INTER",  "D_INTRO",  "D_BUNNY",  "D_VICTOR", "D_INTROA", "D_RUNNIN", "D_STALKS",
+    "D_COUNTD", "D_BETWEE", "D_DOOM",   "D_THE_DA", "D_SHAWN",  "D_DDTBLU", "D_IN_CIT",
+    "D_DEAD",   "D_STLKS2", "D_THEDA2", "D_DOOM2",  "D_DDTBL2", "D_RUNNI2", "D_DEAD2",
+    "D_STLKS3", "D_ROMERO", "D_SHAWN2", "D_MESSAG", "D_COUNT2", "D_DDTBL3", "D_AMPIE",
+    "D_THEDA3", "D_ADRIAN", "D_MESSG2", "D_ROMER2", "D_TENSE",  "D_SHAWN3", "D_OPENIN",
+    "D_EVIL",   "D_ULTIMA", "D_READ_M", "D_DM2TTL", "D_DM2INT"
+};
+
 //
 // STATUS BAR CODE
 //
@@ -902,9 +916,12 @@ boolean ST_Responder(event_t *ev)
 
                         if (musnum != NONE)
                         {
+                            static char msg[80];
+
                             S_ChangeMusic(musnum, 1, true);
 
-                            plyr->message = STSTR_MUS;
+                            sprintf(msg, STSTR_MUS, musicname[musnum]);
+                            plyr->message = msg;
 
                             // [BH] always display message
                             message_dontfuckwithme = true;
