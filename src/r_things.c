@@ -287,41 +287,7 @@ int *mceilingclip;
 fixed_t spryscale;
 fixed_t sprtopscreen;
 
-void (*R_DrawMaskedColumn)(column_t *);
-
-void R_DrawMaskedColumn1(column_t *column)
-{
-    while (column->topdelta != 0xff)
-    {
-        // calculate unclipped screen coordinates for post
-        int topscreen = sprtopscreen + spryscale * column->topdelta + 1;
-
-        dc_yl = (topscreen + FRACUNIT) >> FRACBITS;
-        dc_yh = (topscreen + spryscale * column->length) >> FRACBITS;
-
-        if (dc_yh >= mfloorclip[dc_x])
-            dc_yh = mfloorclip[dc_x] - 1;
-        if (dc_yl <= mceilingclip[dc_x])
-        {
-            int oldyl = dc_yl;
-
-            dc_yl = mceilingclip[dc_x] + 1;
-            dc_texturefrac = (dc_yl - oldyl) * dc_iscale;
-        }
-        else
-            dc_texturefrac = 0;
-
-        if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
-        {
-            dc_source = (byte *)column + 3;
-
-            colfunc();
-        }
-        column = (column_t *)((byte *)column + column->length + 4);
-    }
-}
-
-void R_DrawMaskedColumn2(column_t *column)
+void R_DrawMaskedColumn(column_t *column)
 {
     while (column->topdelta != 0xff)
     {
@@ -345,7 +311,7 @@ void R_DrawMaskedColumn2(column_t *column)
             dc_yl = mceilingclip[dc_x] + 1;
 
         dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS)
-            + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+                         + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
 
         if (dc_texturefrac < 0)
         {
@@ -379,7 +345,7 @@ int     fuzzpos;
 // R_DrawVisSprite
 //  mfloorclip and mceilingclip should also be set.
 //
-void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
+void R_DrawVisSprite(vissprite_t *vis)
 {
     column_t *column;
     int      texturecolumn;
@@ -412,7 +378,6 @@ void R_DrawVisSprite(vissprite_t *vis, boolean psprite)
 
     megasphere = (vis->type == MT_MEGA);
 
-    R_DrawMaskedColumn = (psprite ? R_DrawMaskedColumn1 : R_DrawMaskedColumn2);
     for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
     {
         texturecolumn = frac >> FRACBITS;
@@ -684,7 +649,7 @@ void R_DrawPSprite(pspdef_t *psp)
     vis = &avis;
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
-    vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 2 - (psp->sy - spritetopoffset[lump]);
+    vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
     vis->x1 = MAX(0, x1);
     vis->x2 = (x2 >= viewwidth ? viewwidth - 1 : x2);
     vis->scale = pspriteyscale;
@@ -739,7 +704,7 @@ void R_DrawPSprite(pspdef_t *psp)
     }
 
     supershotgun = (state == &states[S_DSGUN]);
-    R_DrawVisSprite(vis, screensize >= 7);
+    R_DrawVisSprite(vis);
     supershotgun = false;
 }
 
@@ -939,7 +904,7 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
 
     mfloorclip = clipbot;
     mceilingclip = cliptop;
-    R_DrawVisSprite(spr, false);
+    R_DrawVisSprite(spr);
 }
 
 //
