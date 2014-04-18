@@ -2892,18 +2892,17 @@ void M_Drawer(void)
         {
             if (usinggamepad)
             {
-                M_DrawString(x, y, "Gamepad Sensitivity");
+                M_DrawString(x, y + OFFSET, "Gamepad Sensitivity");
                 currentMenu->menuitems[mousesens].alphaKey = 'g';
             }
             else
             {
-                M_DrawString(x, y, "Mouse Sensitivity");
+                M_DrawString(x, y + OFFSET, "Mouse Sensitivity");
                 currentMenu->menuitems[mousesens].alphaKey = 'm';
             }
         }
         else if (W_CheckMultipleLumps(name) > 1)
-            V_DrawPatch(x, y, 0, W_CacheLumpName(name, PU_CACHE));
-            //M_DrawPatchWithShadow(x, y, 0, (patch_t *)W_CacheLumpName(name, PU_CACHE));
+            M_DrawPatchWithShadow(x, y, 0, W_CacheLumpName(name, PU_CACHE));
         else
             M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
         y += LINEHEIGHT - 1;
