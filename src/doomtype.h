@@ -30,6 +30,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define __DOOMTYPE__
 
 #include <inttypes.h>
+#include <limits.h>
 
 typedef enum
 {
@@ -37,11 +38,9 @@ typedef enum
     true
 } bool;
 
-typedef uint8_t byte;
-
-#include <limits.h>
-
 #define boolean bool
+
+typedef uint8_t byte;
 
 #define DIR_SEPARATOR '\\'
 #define DIR_SEPARATOR_S "\\"

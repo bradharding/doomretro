@@ -31,6 +31,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 // Add a new WAD and merge it into the main directory
 
-bool W_MergeFile(char *filename);
+boolean W_MergeFile(char *filename);
 
 #endif /* #ifndef W_MERGE_H */

@@ -525,7 +525,7 @@ static void DoMerge(void)
 
 // Merge in a file by name
 
-bool W_MergeFile(char *filename)
+boolean W_MergeFile(char *filename)
 {
     int old_numlumps;
 

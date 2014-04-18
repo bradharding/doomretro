@@ -382,8 +382,8 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 {
                     // Has not been changed since the last time we
                     // read the config file.
-                    int  j = 0;
-                    bool flag = false;
+                    int         j = 0;
+                    boolean     flag = false;
 
                     v = defaults[i].untranslated;
                     while (alias[j].value != -1)
@@ -414,8 +414,8 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     {
                         if (scantokey[s] == v)
                         {
-                            int  j = 0;
-                            bool flag = false;
+                            int         j = 0;
+                            boolean     flag = false;
 
                             v = s;
                             while (alias[j].value != -1)
@@ -444,8 +444,8 @@ static void SaveDefaultCollection(default_collection_t *collection)
 
             case DEFAULT_INT:
                 {
-                    int j = 0;
-                    bool flag = false;
+                    int         j = 0;
+                    boolean     flag = false;
 
                     v = *(int *)defaults[i].location;
                     while (alias[j].value != -1)

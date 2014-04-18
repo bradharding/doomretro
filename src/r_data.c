@@ -721,7 +721,7 @@ static void R_InitTextures(void)
     if (maptex2)
         W_ReleaseLumpName("TEXTURE2");
 
-    lookuptextures = (bool *)Z_Malloc(numtextures * sizeof(boolean), PU_STATIC, 0);
+    lookuptextures = (boolean *)Z_Malloc(numtextures * sizeof(boolean), PU_STATIC, 0);
 
     for (i = 0; i < numtextures; i++)
         lookuptextures[i] = false;
