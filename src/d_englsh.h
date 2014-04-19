@@ -34,11 +34,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 
 //
-// D_Main.C
-//
-#define D_DEVSTR                "Development mode ON\n"
-
-//
 // M_Menu.C
 //
 #define PRESSKEY                "[Press any key to continue.]"
@@ -390,7 +385,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  ST_stuff.C
 //
 
-#define STSTR_MUS               "Music changed"
+#define STSTR_MUS               "Music changed to \"%s.MUS\""
 #define STSTR_DQDON             "Degreelessness mode ON"
 #define STSTR_DQDOFF            "Degreelessness mode OFF"
 
