@@ -1889,7 +1889,10 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
             w = hu_font[c]->width;
             if (cx + w > ORIGINALWIDTH)
                 break;
-            V_DrawPatchWithShadow(cx + 1, cy + 1, 0, hu_font[c], false);
+            if (shadow)
+                V_DrawPatchWithShadow(cx + 1, cy + 1, 0, hu_font[c], false);
+            else
+                V_DrawPatch(cx + 1, cy + 1, 0, hu_font[c]);
         }
         else
         {
