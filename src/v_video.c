@@ -132,6 +132,42 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
+void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
+{
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *desttop;
+    byte        *dest;
+    byte        *source;
+    int         w;
+
+    col = 0;
+    desttop = screens[scrn] + y * SCREENWIDTH + x;
+
+    w = SHORT(patch->width);
+
+    for (; col<w; x++, col++, desttop++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            dest = desttop + column->topdelta * SCREENWIDTH;
+            count = column->length;
+
+            while (count--)
+            {
+                *dest = *source++;
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
 {
     int         count;

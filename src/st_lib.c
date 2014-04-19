@@ -360,3 +360,25 @@ void STlib_updateBinIcon(st_binicon_t *bi, boolean refresh)
         bi->oldval = *bi->val;
     }
 }
+
+void STlib_updateBigBinIcon(st_binicon_t *bi, boolean refresh)
+{
+    int                 x;
+    int                 y;
+    int                 w;
+    int                 h;
+
+    if (*bi->on
+        && (bi->oldval != *bi->val || refresh))
+    {
+        x = bi->x - SHORT(bi->p->leftoffset);
+        y = bi->y - SHORT(bi->p->topoffset);
+        w = SHORT(bi->p->width);
+        h = SHORT(bi->p->height);
+
+        if (*bi->val)
+            V_DrawBigPatch(bi->x, bi->y, FG, bi->p);
+
+        bi->oldval = *bi->val;
+    }
+}

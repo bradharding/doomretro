@@ -283,6 +283,9 @@ static boolean                  st_fragson;
 
 // main bar left
 static patch_t                  *sbar;
+static patch_t                  *sbar2;
+
+static boolean                  usesbar2;
 
 // 0-9, tall numbers
 static patch_t                  *tallnum[10];
@@ -304,6 +307,7 @@ static patch_t                  *faceback;
 
 // main bar right
 static patch_t                  *armsbg;
+static patch_t                  *armsbg2;
 
 // weapon ownership patches
 static patch_t                  *arms[6][2];
@@ -319,6 +323,7 @@ static st_percent_t             w_health;
 
 // arms background
 static st_binicon_t             w_armsbg;
+static st_binicon_t             w_armsbg2;
 
 // weapon ownership widgets
 static st_multicon_t            w_arms[6];
@@ -474,11 +479,16 @@ boolean P_GiveBody(player_t *player, int num);
 int ST_calcPainOffset(void);
 void P_KillMobj(mobj_t *source, mobj_t *target);
 
+extern int graphicdetail;
+
 void ST_refreshBackground(void)
 {
     if (st_statusbaron)
     {
-        V_DrawPatch(ST_X, 0, BG, sbar);
+        if (STBAR || graphicdetail == LOW)
+            V_DrawPatch(ST_X, 0, BG, sbar);
+        else
+            V_DrawBigPatch(ST_X, 0, BG, sbar2);
 
         if (netgame)
             V_DrawPatch(ST_FX, 0, BG, faceback);
@@ -1605,7 +1615,11 @@ void ST_drawWidgets(boolean refresh)
     STlib_updatePercent(&w_health, refresh);
 
     STlib_updatePercent(&w_armor, refresh);
-    STlib_updateBinIcon(&w_armsbg, refresh);
+
+    if (STBAR || graphicdetail == LOW)
+        STlib_updateBinIcon(&w_armsbg, refresh);
+    else
+        STlib_updateBigBinIcon(&w_armsbg2, refresh);
 
     // [BH] manually draw arms numbers
     //  changes:
@@ -1688,6 +1702,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
     // arms background
     callback("STARMS", &armsbg);
+    callback("STARMS2", &armsbg2);
 
     // arms ownership widgets
     // [BH] now manually drawn
@@ -1708,6 +1723,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
     // status bar background bits
     callback("STBAR", &sbar);
+    callback("STBAR2", &sbar2);
 
     // face states
     facenum = 0;
@@ -1828,6 +1844,13 @@ void ST_createWidgets(void)
                       ST_ARMSBGX,
                       ST_ARMSBGY,
                       armsbg,
+                      &st_notdeathmatch,
+                      &st_statusbaron);
+
+    STlib_initBinIcon(&w_armsbg2,
+                      ST_ARMSBGX * 2,
+                      ST_ARMSBGY * 2,
+                      armsbg2,
                       &st_notdeathmatch,
                       &st_statusbaron);
 
