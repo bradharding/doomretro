@@ -192,6 +192,4 @@ void STlib_DrawNumber(st_number_t *n);
 
 void STlib_DrawPercent(st_percent_t *n);
 
-void STlib_drawNum2(int number, int color, int shadow, int x, int y);
-
 #endif

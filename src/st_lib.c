@@ -26,12 +26,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include "d_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "st_lib.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
+
+extern int graphicdetail;
 
 //
 // Hack display negative frags.
@@ -55,7 +58,47 @@ void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, boolean
     n->p = pl;
 }
 
-const char *bigstatnums[10] =
+const char *lownums[10] =
+{
+    "111111001111110011221122112211221122112211221122"
+    "112211221122112211111122111111220022222200222222",
+    "001100000011000011112200111122000011220000112200"
+    "001122000011220011111100111111000022222200222222",
+    "111111001111110000221122002211220011002200110022"
+    "110022001100220011111100111111000022222200222222",
+    "111111001111110000221122002211220011112200111122"
+    "000011220000112211111122111111220022222200222222",
+    "110011001100110011221122112211221111112211111122"
+    "002211220022112200001122000011220000002200000022",
+    "111111001111110011222222112222221111110011111100"
+    "002211220022112211111122111111220022222200222222",
+    "111111001111110011222222112222221111110011111100"
+    "112211221122112211111122111111220022222200222222",
+    "111111001111110000221122002211220011002200110022"
+    "110022001100220011220000112200000022000000220000",
+    "111111001111110011221122112211220011002200110022"
+    "112211001122110011111122111111220022222200222222",
+    "111111001111110011221122112211221111112211111122"
+    "002211220022112211111122111111220022222200222222"
+};
+
+void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
+{
+    int         i;
+    int         j = (y * SCREENWIDTH + x) * 2;
+
+    for (i = 0; i < 96; i++)
+    {
+        char    dot = lownums[number][i];
+
+        if (dot == '1')
+            screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = color;
+        else if (dot == '2')
+            screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = shadow;
+    }
+}
+
+const char *highnums[10] =
 {
     "011110001111110011021120112211221122112211221122"
     "112211221122112211111122011110220022222200022220",
@@ -79,14 +122,14 @@ const char *bigstatnums[10] =
     "002211220002112201111122011110220002222200022220"
 };
 
-void STlib_drawNum2(int number, int color, int shadow, int x, int y)
+void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
 {
     int         i;
     int         j = (y * SCREENWIDTH + x) * 2;
 
     for (i = 0; i < 96; i++)
     {
-        char    dot = bigstatnums[number][i];
+        char    dot = highnums[number][i];
 
         if (dot == '1')
             screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = color;
@@ -137,7 +180,12 @@ void STlib_drawNum(st_number_t *n)
     if (!num)
     {
         if (n->p[0]->height == 6 && !STYSNUM0)
-            STlib_drawNum2(0, 160, 47, x - w, n->y);
+        {
+            if (graphicdetail == LOW)
+                STlib_drawLowNum(0, 160, 47, x - w, n->y);
+            else
+                STlib_drawHighNum(0, 160, 47, x - w, n->y);
+        }
         else
             V_DrawPatch(x - w, n->y, FG, n->p[0]);
     }
@@ -147,7 +195,12 @@ void STlib_drawNum(st_number_t *n)
     {
         x -= w;
         if (n->p[0]->height == 6 && !STYSNUM0)
-            STlib_drawNum2(num % 10, 160, 47, x, n->y);
+        {
+            if (graphicdetail == LOW)
+                STlib_drawLowNum(num % 10, 160, 47, x, n->y);
+            else
+                STlib_drawHighNum(num % 10, 160, 47, x, n->y);
+        }
         else
            V_DrawPatch(x, n->y, FG, n->p[num % 10]);
         num /= 10;
@@ -285,7 +338,12 @@ void STlib_updateArmsIcon(st_multicon_t *mi, boolean refresh, int i)
         if (STYSNUM0)
             V_DrawPatch(mi->x, mi->y, FG, mi->p[*mi->inum]);
         else
-            STlib_drawNum2(i + 2, *mi->inum ? 160 : 93, 47, mi->x, mi->y);
+        {
+            if (graphicdetail == LOW)
+                STlib_drawLowNum(i + 2, *mi->inum ? 160 : 93, 47, mi->x, mi->y);
+            else
+                STlib_drawHighNum(i + 2, *mi->inum ? 160 : 93, 47, mi->x, mi->y);
+        }
         mi->oldinum = *mi->inum;
     }
 }
