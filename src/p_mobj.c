@@ -133,7 +133,7 @@ void P_XYMovement(mobj_t *mo)
     if (mo->type == MT_ROCKET)
     {
         if (puffcount++ > 1)
-            P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle);
+            P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle, false);
     }
 
     if (mo->momx > MAXMOVE)
@@ -636,7 +636,7 @@ void P_RemoveMobj(mobj_t *mobj)
     }
 
     if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
-        && (mobj->type != MT_INV) && (mobj->type != MT_INS))
+        && mobj->type != MT_INV && mobj->type != MT_INS)
     {
         itemrespawnqueue[iqueuehead] = mobj->spawnpoint;
         itemrespawntime[iqueuehead] = leveltime;
@@ -925,7 +925,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
 extern fixed_t  attackrange;
 extern angle_t  shootangle;
 
-void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
+void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
 {
     mobj_t *th;
 
@@ -944,7 +944,8 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
     if (attackrange == MELEERANGE)
     {
         P_SetMobjState(th, S_PUFF3);
-        S_StartSound(th, sfx_punch);
+        if (sound)
+            S_StartSound(th, sfx_punch);
     }
 }
 

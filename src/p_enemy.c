@@ -954,7 +954,7 @@ void A_Tracer(mobj_t *actor)
     int     speed = actor->info->speed;
 
     // spawn a puff of smoke behind the rocket
-    P_SpawnPuff(actor->x, actor->y, actor->z, actor->angle);
+    P_SpawnPuff(actor->x, actor->y, actor->z, actor->angle, false);
 
     if ((gametic - levelstarttic) & 3)
         return;
