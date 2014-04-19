@@ -26,21 +26,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "stdlib.h"
-#include "stdint.h"
-
 #include "doomtype.h"
-#include "i_system.h"
-
 #include "m_fixed.h"
-
-
-
-
 
 int ABS(int a)
 {
     int b = a >> 31;
+
     return (a ^ b) - b;
 }
 
@@ -69,11 +61,7 @@ fixed_t FixedMul(fixed_t a, fixed_t b)
 fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
     if ((ABS(a) >> 14) >= ABS(b))
-    {
         return ((a ^ b) >> 31) ^ INT_MAX;
-    }
     else
-    {
         return (fixed_t)(((int64_t) a << FRACBITS) / b);
-    }
 }

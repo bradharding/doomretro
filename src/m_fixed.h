@@ -29,9 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __M_FIXED__
 #define __M_FIXED__
 
-
-
-
 //
 // Fixed point, 32bit as 16.16.
 //
@@ -46,7 +43,5 @@ int MIN(int a, int b);
 int SIGN(int a);
 fixed_t FixedMul(fixed_t a, fixed_t b);
 fixed_t FixedDiv(fixed_t a, fixed_t b);
-
-
 
 #endif

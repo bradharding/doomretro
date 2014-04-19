@@ -26,53 +26,33 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <ctype.h>
-
-#include "doomdef.h"
-
-#include "z_zone.h"
-#include "v_video.h"
-
-#include "i_swap.h"
-#include "i_system.h"
-
-#include "w_wad.h"
-
-#include "st_stuff.h"
-#include "st_lib.h"
-#include "r_local.h"
-
 #include "doomstat.h"
-
-
-// in AM_map.c
-extern boolean          automapactive;
-
-
-
+#include "i_swap.h"
+#include "st_lib.h"
+#include "v_video.h"
+#include "w_wad.h"
+#include "z_zone.h"
 
 //
 // Hack display negative frags.
 //  Loads and store the stminus lump.
 //
-patch_t                 *sttminus;
+patch_t *sttminus;
 
 void STlib_init(void)
 {
-    sttminus = (patch_t *)W_CacheLumpName("STTMINUS", PU_STATIC);
+    sttminus = W_CacheLumpName("STTMINUS", PU_STATIC);
 }
 
-
-// ?
 void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, boolean *on, int width)
 {
-    n->x        = x;
-    n->y        = y;
-    n->oldnum   = 0;
-    n->width    = width;
-    n->num      = num;
-    n->on       = on;
-    n->p        = pl;
+    n->x = x;
+    n->y = y;
+    n->oldnum = 0;
+    n->width = width;
+    n->num = num;
+    n->on = on;
+    n->p = pl;
 }
 
 const char *bigstatnums[10] =
@@ -101,12 +81,12 @@ const char *bigstatnums[10] =
 
 void STlib_drawNum2(int number, int color, int shadow, int x, int y)
 {
-    int i;
-    int j = (y * SCREENWIDTH + x) * 2;
+    int         i;
+    int         j = (y * SCREENWIDTH + x) * 2;
 
     for (i = 0; i < 96; i++)
     {
-        char dot = bigstatnums[number][i];
+        char    dot = bigstatnums[number][i];
 
         if (dot == '1')
             screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = color;
@@ -114,7 +94,6 @@ void STlib_drawNum2(int number, int color, int shadow, int x, int y)
             screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = shadow;
     }
 }
-
 
 //
 // A fairly efficient way to draw a number
@@ -234,24 +213,18 @@ void STlib_DrawPercent(st_percent_t *per)
     }
 }
 
-//
 void STlib_updateNum(st_number_t *n)
 {
     if (*n->on)
         STlib_drawNum(n);
 }
 
-
-//
 void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl,
                        int *num, boolean *on, patch_t *percent)
 {
     STlib_initNum(&p->n, x, y, pl, num, on, 3);
     p->p = percent;
 }
-
-
-
 
 void STlib_updatePercent(st_percent_t *per, int refresh)
 {
@@ -261,30 +234,24 @@ void STlib_updatePercent(st_percent_t *per, int refresh)
     STlib_updateNum(&per->n);
 }
 
-
-
 void STlib_initMultIcon(st_multicon_t *i, int x, int y, patch_t **il, int *inum, boolean *on)
 {
-    i->x        = x;
-    i->y        = y;
-    i->oldinum  = -1;
-    i->inum     = inum;
-    i->on       = on;
-    i->p        = il;
+    i->x = x;
+    i->y = y;
+    i->oldinum = -1;
+    i->inum = inum;
+    i->on = on;
+    i->p = il;
 }
-
-
 
 void STlib_updateMultIcon(st_multicon_t *mi, boolean refresh)
 {
-    int                 w;
-    int                 h;
-    int                 x;
-    int                 y;
+    int         w;
+    int         h;
+    int         x;
+    int         y;
 
-    if (*mi->on
-        && (mi->oldinum != *mi->inum || refresh)
-        && (*mi->inum != -1))
+    if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
         if (mi->oldinum != -1)
         {
@@ -300,14 +267,12 @@ void STlib_updateMultIcon(st_multicon_t *mi, boolean refresh)
 
 void STlib_updateArmsIcon(st_multicon_t *mi, boolean refresh, int i)
 {
-    int                 w;
-    int                 h;
-    int                 x;
-    int                 y;
+    int         w;
+    int         h;
+    int         x;
+    int         y;
 
-    if (*mi->on
-        && (mi->oldinum != *mi->inum || refresh)
-        && (*mi->inum != -1))
+    if (*mi->on && (mi->oldinum != *mi->inum || refresh) && *mi->inum != -1)
     {
         if (mi->oldinum != -1)
         {
@@ -325,29 +290,24 @@ void STlib_updateArmsIcon(st_multicon_t *mi, boolean refresh, int i)
     }
 }
 
-
-
 void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, boolean *val, boolean *on)
 {
-    b->x        = x;
-    b->y        = y;
-    b->oldval   = false;
-    b->val      = val;
-    b->on       = on;
-    b->p        = i;
+    b->x = x;
+    b->y = y;
+    b->oldval = false;
+    b->val = val;
+    b->on = on;
+    b->p = i;
 }
-
-
 
 void STlib_updateBinIcon(st_binicon_t *bi, boolean refresh)
 {
-    int                 x;
-    int                 y;
-    int                 w;
-    int                 h;
+    int         x;
+    int         y;
+    int         w;
+    int         h;
 
-    if (*bi->on
-        && (bi->oldval != *bi->val || refresh))
+    if (*bi->on && (bi->oldval != *bi->val || refresh))
     {
         x = bi->x - SHORT(bi->p->leftoffset);
         y = bi->y - SHORT(bi->p->topoffset);
@@ -363,13 +323,12 @@ void STlib_updateBinIcon(st_binicon_t *bi, boolean refresh)
 
 void STlib_updateBigBinIcon(st_binicon_t *bi, boolean refresh)
 {
-    int                 x;
-    int                 y;
-    int                 w;
-    int                 h;
+    int         x;
+    int         y;
+    int         w;
+    int         h;
 
-    if (*bi->on
-        && (bi->oldval != *bi->val || refresh))
+    if (*bi->on && (bi->oldval != *bi->val || refresh))
     {
         x = bi->x - SHORT(bi->p->leftoffset);
         y = bi->y - SHORT(bi->p->topoffset);
