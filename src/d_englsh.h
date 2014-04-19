@@ -385,7 +385,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  ST_stuff.C
 //
 
-#define STSTR_MUS               "Music changed to \"%s.MUS\""
+#define STSTR_MUS               "Music changed to \"d_%s.mus\""
 #define STSTR_DQDON             "Degreelessness mode ON"
 #define STSTR_DQDOFF            "Degreelessness mode OFF"
 
