@@ -403,7 +403,8 @@ void I_GetEvent(void)
                 ev.data1 = mouse_button_state;
                 ev.data2 = -AccelerateMouse(sdlevent.motion.xrel);
                 D_PostEvent(&ev);
-                CenterMouse();
+                if (MouseShouldBeGrabbed())
+                    CenterMouse();
                 break;
 
             case SDL_JOYBUTTONUP:
@@ -477,6 +478,7 @@ static void UpdateGrab(void)
     {
         SetShowCursor(true);
         SDL_WarpMouse(screen->w - 16, screen->h - 16);
+        SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
     }
 
