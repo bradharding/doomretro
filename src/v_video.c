@@ -39,6 +39,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
+extern byte redtoyellow[];
+
 //
 // V_SetRes
 //
@@ -147,7 +149,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
     w = SHORT(patch->width);
 
-    for (; col<w; x++, col++, desttop++)
+    for (; col < w; x++, col++, desttop++)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -236,7 +238,7 @@ void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
 
     w = SHORT(patch->width);
 
-    for (; col<w; x++, col++, desttop++)
+    for (; col < w; x++, col++, desttop++)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -276,7 +278,7 @@ void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert
 
     w = SHORT(patch->width);
 
-    for (; col<w; x++, col++, desttop++)
+    for (; col < w; x++, col++, desttop++)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -302,6 +304,90 @@ void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert
     }
 }
 
+void V_DrawYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+{
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *desttop;
+    byte        *dest;
+    byte        *source;
+    int         w;
+
+    if (!invert)
+        return;
+
+    col = 0;
+    desttop = screens[scrn] + y * SCREENWIDTH + x;
+
+    w = SHORT(patch->width);
+
+    for (; col < w; x++, col++, desttop++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            dest = desttop + column->topdelta * SCREENWIDTH;
+            count = column->length;
+
+            while (count--)
+            {
+                *dest = redtoyellow[*source++];
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
+void V_DrawYellowHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+{
+
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *desttop;
+    byte        *dest;
+    byte        *source;
+    int         w;
+
+    if (!invert)
+        return;
+
+    col = 0;
+    desttop = screens[scrn] + y * SCREENWIDTH + x;
+
+    w = SHORT(patch->width);
+
+    for (; col < w; x++, col++, desttop++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            dest = desttop + column->topdelta * SCREENWIDTH;
+            count = column->length;
+
+            while (count--)
+            {
+                byte dot = *source++;
+
+                if (dot == 109)
+                    *dest = tinttab33[*dest];
+                else
+                    *dest = redtoyellow[dot];
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
 {
     int         count;
@@ -317,7 +403,7 @@ void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch, boolean i
 
     w = SHORT(patch->width);
 
-    for (; col<w; x++, col++, desttop++)
+    for (; col < w; x++, col++, desttop++)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -356,7 +442,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boo
 
     w = SHORT(patch->width);
 
-    for (; col<w; x++, col++, desttop++)
+    for (; col < w; x++, col++, desttop++)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -382,8 +468,6 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boo
     }
 }
 
-extern byte redtoyellow[];
-
 void V_DrawTranslucentYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
 {
     int         count;
@@ -399,7 +483,7 @@ void V_DrawTranslucentYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boo
 
     w = SHORT(patch->width);
 
-    for (; col<w; x++, col++, desttop++)
+    for (; col < w; x++, col++, desttop++)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -438,7 +522,7 @@ void V_DrawTranslucentYellowHUDNumberPatch(int x, int y, int scrn, patch_t *patc
 
     w = SHORT(patch->width);
 
-    for (; col<w; x++, col++, desttop++)
+    for (; col < w; x++, col++, desttop++)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 

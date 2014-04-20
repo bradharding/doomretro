@@ -198,8 +198,8 @@ void HU_Start(void)
     {
         hudfunc = V_DrawHUDPatch;
         hudnumfunc = V_DrawHUDNumberPatch;
-        godhudfunc = V_DrawTranslucentYellowHUDPatch;
-        godhudnumfunc = V_DrawTranslucentYellowHUDNumberPatch;
+        godhudfunc = V_DrawYellowHUDPatch;
+        godhudnumfunc = V_DrawYellowHUDNumberPatch;
     }
 
     healthpatch = W_CacheLumpNum(W_GetNumForName(bfgedition ? "MEDBA0" : "MEDIA0"), PU_CACHE);
