@@ -827,6 +827,7 @@ byte grays[256];
 void R_InitColormaps(void)
 {
     int         lump;
+    boolean     COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
 
     // Load in the light tables,
     //  256 byte align tables.
@@ -858,9 +859,11 @@ void R_InitColormaps(void)
             gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
             grays[i] = FindNearestColor(palette, (int)(gray * 255.0f),
                                         (int)(gray * 255.0f), (int)(gray * 255.0f));
-            gray = 1.0f - gray;
-            colormaps[32 * 256 + i] = FindNearestColor(palette, (int)(gray * 255.0f),
-                                                       (int)(gray * 255.0f), (int)(gray * 255.0f));
+            if (!COLORMAP)
+            {
+                gray = (1.0f - gray) * 255.0f;
+                colormaps[32 * 256 + i] = FindNearestColor(palette, (int)gray, (int)gray, (int)gray);
+            }
         }
     }
 }
