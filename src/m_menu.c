@@ -1224,7 +1224,7 @@ void M_DrawReadThis(void)
             M_DarkBlueBackground();
         }
         if (W_CheckMultipleLumps(lumpname) > 2)
-            V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname, PU_CACHE));
+            V_DrawPatch(0, 0, 0, W_CacheLumpNum(W_GetNumForNameX(lumpname, 2), PU_CACHE));
         else
             V_DrawPatchWithShadow(0, 0, 0, W_CacheLumpName(lumpname, PU_CACHE), false);
     }
