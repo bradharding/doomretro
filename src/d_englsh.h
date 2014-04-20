@@ -36,9 +36,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 // M_Menu.C
 //
-#define PRESSKEY                "[Press any key to continue.]"
-#define PRESSYN                 "[Press 'Y' or 'N' to continue.]"
-#define PRESSA                  "[Press button 'A' to continue.]"
+#define PRESSKEY                "(Press any key to continue.)"
+#define PRESSYN                 "(Press 'Y' or 'N' to continue.)"
+#define PRESSA                  "(Press button 'A' to continue.)"
 #define QUITMSG                 "Are you sure you want to\n"\
                                 "quit this great game?"
 #define QSPROMPT                "Do you want to quicksave over the savegame \"%s\"?"
@@ -57,8 +57,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ENDGAME                 "Are you sure you want\n"\
                                 "to end this game?"
 
-#define WINDOWSY                "[Press 'Y' to quit to Windows.]"
-#define WINDOWSA                "[Press button 'A' to quit to Windows.]"
+#define WINDOWSY                "(Press 'Y' to quit to Windows.)"
+#define WINDOWSA                "(Press button 'A' to quit to Windows.)"
 
 #define GAMMALVL                "Gamma correction level %.2f"
 #define GAMMAOFF                "Gamma correction off"
@@ -135,7 +135,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 //  HU_stuff.C
 //
-#define HUSTR_MSGU              "[Message unsent]"
+#define HUSTR_MSGU              "(Message unsent)"
 
 #define HUSTR_E1M1              "Hangar"
 #define HUSTR_E1M2              "Nuclear Plant"
@@ -349,7 +349,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define HUSTR_TALKTOSELF4       "You start to rave."
 #define HUSTR_TALKTOSELF5       "You've lost it..."
 
-#define HUSTR_MESSAGESENT       "[Message sent]"
+#define HUSTR_MESSAGESENT       "(Message sent)"
 
 // The following should NOT be changed unless it seems
 // just AWFULLY necessary
@@ -386,11 +386,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 
 #define STSTR_MUS               "Music changed to \"d_%s.mus\""
+
 #define STSTR_DQDON             "Degreelessness mode ON"
 #define STSTR_DQDOFF            "Degreelessness mode OFF"
 
 #define STSTR_KFAADDED          "Very happy ammo added"
-#define STSTR_FAADDED           "Ammo [no keys] added"
+#define STSTR_FAADDED           "Ammo (no keys) added"
 
 #define STSTR_NCON              "No clipping mode ON"
 #define STSTR_NCOFF             "No clipping mode OFF"
@@ -404,7 +405,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define STSTR_CLEV              "Changing to %s..."
 #define STSTR_CLEVSAME          "Restarting %s..."
 
-#define STSTR_MYPOS             "angle = %i%c  x,y,z = [%i,%i,%i]"
+#define STSTR_MYPOS             "angle = %i%c  x,y,z = (%i,%i,%i)"
 
 //
 //  F_Finale.C
