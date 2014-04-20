@@ -417,6 +417,7 @@ void HU_Erase(void)
 extern fixed_t m_x, m_y, m_h, m_w;
 extern boolean message_dontpause;
 extern boolean blurred;
+extern boolean inhelpscreens;
 extern int direction;
 
 void HU_Ticker(void)
@@ -426,9 +427,9 @@ void HU_Ticker(void)
     static char fps_str[8] = "";
 
     // tick down message counter if message is up
-    if (((!menuactive && !paused) || demoplayback || message_dontpause) && !idbehold
-        && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm && message_counter
-        && !--message_counter)
+    if (((!menuactive && !paused) || inhelpscreens || demoplayback || message_dontpause) &&
+        !idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm && message_counter &&
+        !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
