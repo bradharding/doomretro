@@ -382,6 +382,88 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boo
     }
 }
 
+extern byte redtoyellow[];
+
+void V_DrawTranslucentYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+{
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *desttop;
+    byte        *dest;
+    byte        *source;
+    int         w;
+
+    col = 0;
+    desttop = screens[scrn] + y * SCREENWIDTH + x;
+
+    w = SHORT(patch->width);
+
+    for (; col<w; x++, col++, desttop++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            dest = desttop + column->topdelta * SCREENWIDTH;
+            count = column->length;
+
+            while (count--)
+            {
+                *dest = tinttab75[(redtoyellow[*source++] << (8 * invert)) + (*dest << (8 * !invert))];
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
+void V_DrawTranslucentYellowHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+{
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *desttop;
+    byte        *dest;
+    byte        *source;
+    int         w;
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+
+    col = 0;
+    desttop = screens[scrn] + y * SCREENWIDTH + x;
+
+    w = SHORT(patch->width);
+
+    for (; col<w; x++, col++, desttop++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            dest = desttop + column->topdelta * SCREENWIDTH;
+            count = column->length;
+
+            while (count--)
+            {
+                byte dot = *source++;
+
+                if (dot == 109 && invert)
+                    *dest = tinttab50[*dest];
+                else
+                    *dest = tinttab75[(redtoyellow[dot] << (8 * invert)) + (*dest << (8 * !invert))];
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
 {
     int         count;

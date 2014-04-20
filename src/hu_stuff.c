@@ -82,6 +82,8 @@ static patch_t          *bluearmorpatch;
 
 void(*hudfunc)(int, int, int, patch_t *, boolean);
 void(*hudnumfunc)(int, int, int, patch_t *, boolean);
+void(*godhudfunc)(int, int, int, patch_t *, boolean);
+void(*godhudnumfunc)(int, int, int, patch_t *, boolean);
 
 #define HUD_HEALTH_X    24
 #define HUD_HEALTH_Y    310
@@ -189,11 +191,15 @@ void HU_Start(void)
     {
         hudfunc = V_DrawTranslucentHUDPatch;
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
+        godhudfunc = V_DrawTranslucentYellowHUDPatch;
+        godhudnumfunc = V_DrawTranslucentYellowHUDNumberPatch;
     }
     else
     {
         hudfunc = V_DrawHUDPatch;
         hudnumfunc = V_DrawHUDNumberPatch;
+        godhudfunc = V_DrawTranslucentYellowHUDPatch;
+        godhudnumfunc = V_DrawTranslucentYellowHUDNumberPatch;
     }
 
     healthpatch = W_CacheLumpNum(W_GetNumForName(bfgedition ? "MEDBA0" : "MEDIA0"), PU_CACHE);
@@ -219,7 +225,8 @@ void HU_Start(void)
     }
 }
 
-static void DrawHUDNumber(int x, int y, signed int val, boolean invert)
+static void DrawHUDNumber(int x, int y, signed int val, boolean invert,
+                          void (*hudnumfunc)(int, int, int, patch_t *, boolean))
 {
     int         xpos = x;
     int         oldval = val;
@@ -249,13 +256,13 @@ static void HU_DrawHUD(void)
         int             i = 0;
         static int      animationcounter = HUD_FLASH_TICS;
         boolean         invert;
+        boolean         invulnerability = plr->powers[pw_invulnerability];
         static boolean  animation = false;
         patch_t         *patch;
 
         if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
             || plr->pendingweapon == wp_fist) && plr->powers[pw_strength])
             patch = berserkpatch;
-        
         else
             patch = healthpatch;
 
@@ -266,9 +273,18 @@ static void HU_DrawHUD(void)
 
         invert = ((health <= HUD_HEALTH_MIN && animation) || health > HUD_HEALTH_MIN ||
                   menuactive || paused);
-        hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
-        DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert);
-        hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, percentpatch, invert);
+        if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
+        {
+            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
+            DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, godhudnumfunc);
+            godhudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, percentpatch, invert);
+        }
+        else
+        {
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
+            DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
+            hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, percentpatch, invert);
+        }
 
         if (plr->pendingweapon != wp_nochange)
         {
@@ -295,7 +311,7 @@ static void HU_DrawHUD(void)
             invert = ((ammo <= HUD_AMMO_MIN && animation) || ammo > HUD_AMMO_MIN ||
                       menuactive || paused);
             hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0, ammopic[ammotype].patch, invert);
-            DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo, invert);
+            DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
         }
 
         while (i < NUMCARDS)
@@ -355,7 +371,7 @@ static void HU_DrawHUD(void)
         {
             invert = ((armor <= HUD_ARMOR_MIN && animation) || armor > HUD_ARMOR_MIN ||
                       menuactive || paused);
-            DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, invert);
+            DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, invert, hudnumfunc);
             hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, percentpatch, invert);
             hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
                     plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, invert);

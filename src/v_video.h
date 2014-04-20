@@ -65,6 +65,8 @@ void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch, boolean);
 void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean);
 void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
 void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
+void V_DrawTranslucentYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
+void V_DrawTranslucentYellowHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
 void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentRedPatchFlipped(int x, int y, int scrn, patch_t *patch);
