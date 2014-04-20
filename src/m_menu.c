@@ -1017,9 +1017,12 @@ void M_DrawSave(void)
             x = LoadDef.x - 2 + M_StringWidth(left);
             y = LoadDef.y + saveSlot * LINEHEIGHT - 1 + OFFSET;
 
-            for (yy = 0; yy < 9; yy++)
-                for (xx = 0; xx < 3; xx++)
-                    V_DrawPixel(x + xx, y + yy, 0, (int)caret[yy * 3 + xx], false);
+            if (STCFN121)
+                V_DrawPatch(x + 1, y + 1, 0, W_CacheLumpName("STCFN121", PU_CACHE));
+            else
+                for (yy = 0; yy < 9; yy++)
+                    for (xx = 0; xx < 3; xx++)
+                        V_DrawPixel(x + xx, y + yy, 0, (int)caret[yy * 3 + xx], false);
         }
     }
 }

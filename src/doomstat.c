@@ -64,6 +64,7 @@ boolean         STARMS = false;
 boolean         STBAR = false;
 boolean         STCFN034 = false;
 boolean         STCFN039 = false;
+boolean         STCFN121 = false;
 boolean         STYSNUM0 = false;
 boolean         TITLEPIC = false;
 boolean         WISCRT2 = false;

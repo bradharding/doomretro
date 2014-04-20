@@ -111,6 +111,7 @@ extern boolean          STARMS;
 extern boolean          STBAR;
 extern boolean          STCFN034;
 extern boolean          STCFN039;
+extern boolean          STCFN121;
 extern boolean          STYSNUM0;
 extern boolean          TITLEPIC;
 extern boolean          WISCRT2;
