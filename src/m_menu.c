@@ -879,24 +879,42 @@ void M_DrawLoad(void)
 void M_DrawSaveLoadBorder(int x, int y)
 {
     int i;
-    int xx, yy;
 
-    for (yy = 0; yy < 16; yy++)
-        for (xx = 0; xx < 8; xx++)
-            V_DrawPixel(x + xx, y + yy, 0, lsleft[yy * 8 + xx], true);
-
-    x += 8;
-    for (i = 0; i < 24; ++i)
+    if (M_LSCNTR)
     {
+        x += 3;
+        M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSLEFT", PU_CACHE));
+
+        x += 8;
+        for (i = 0; i < 24; i++)
+        {
+            M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSCNTR", PU_CACHE));
+            x += 8;
+        }
+
+        M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSRGHT", PU_CACHE));
+    }
+    else
+    {
+        int xx, yy;
+
         for (yy = 0; yy < 16; yy++)
             for (xx = 0; xx < 8; xx++)
-                V_DrawPixel(x + xx, y + yy, 0, lscntr[yy * 8 + xx], true);
-        x += 8;
-    }
+                V_DrawPixel(x + xx, y + yy, 0, lsleft[yy * 8 + xx], true);
 
-    for (yy = 0; yy < 16; yy++)
-        for (xx = 0; xx < 9; xx++)
-            V_DrawPixel(x + xx, y + yy, 0, lsrght[yy * 9 + xx], true);
+        x += 8;
+        for (i = 0; i < 24; ++i)
+        {
+            for (yy = 0; yy < 16; yy++)
+                for (xx = 0; xx < 8; xx++)
+                    V_DrawPixel(x + xx, y + yy, 0, lscntr[yy * 8 + xx], true);
+            x += 8;
+        }
+
+        for (yy = 0; yy < 16; yy++)
+            for (xx = 0; xx < 9; xx++)
+                V_DrawPixel(x + xx, y + yy, 0, lsrght[yy * 9 + xx], true);
+    }
 }
 
 //

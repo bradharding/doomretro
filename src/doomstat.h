@@ -88,15 +88,17 @@ extern int              gamemap;
 extern boolean          nerve;
 extern boolean          bfgedition;
 
+extern boolean          DMENUPIC;
 extern boolean          MAPINFO;
 extern boolean          M_DOOM;
 extern boolean          M_EPISOD;
+extern boolean          M_GDHIGH;
+extern boolean          M_GDLOW;
 extern boolean          M_LGTTL;
+extern boolean          M_LSCNTR;
 extern boolean          M_MSENS;
 extern boolean          M_MSGOFF;
 extern boolean          M_MSGON;
-extern boolean          M_GDHIGH;
-extern boolean          M_GDLOW;
 extern boolean          M_NEWG;
 extern boolean          M_NMARE;
 extern boolean          M_OPTTTL;
@@ -104,14 +106,13 @@ extern boolean          M_SGTTL;
 extern boolean          M_SKILL;
 extern boolean          M_SKULL1;
 extern boolean          M_SVOL;
-extern boolean          STBAR;
 extern boolean          STARMS;
+extern boolean          STBAR;
 extern boolean          STCFN034;
 extern boolean          STCFN039;
 extern boolean          STYSNUM0;
 extern boolean          TITLEPIC;
 extern boolean          WISCRT2;
-extern boolean          DMENUPIC;
 
 // If non-zero, exit the level after this number of minutes
 extern int              timelimit;

@@ -802,30 +802,31 @@ static void D_DoomMainSetup(void)
         }
     }
 
+    DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
+    MAPINFO = (W_CheckNumForName("MAPINFO") >= 0);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
-    M_NEWG = (W_CheckMultipleLumps("M_NEWG") > 1);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
-    M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
-    M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);
-    M_LGTTL = (W_CheckMultipleLumps("M_LGTTL") > 1);
-    M_SGTTL = (W_CheckMultipleLumps("M_SGTTL") > 1);
-    M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
-    M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
-    M_MSGON = (W_CheckMultipleLumps("M_MSGON") > 1);
-    M_MSGOFF = (W_CheckMultipleLumps("M_MSGOFF") > 1);
     M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
     M_GDLOW = (W_CheckMultipleLumps("M_GDLOW") > 1);
-    M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
+    M_LGTTL = (W_CheckMultipleLumps("M_LGTTL") > 1);
+    M_LSCNTR = (W_CheckMultipleLumps("M_LSCNTR") > 1);
     M_MSENS = (W_CheckMultipleLumps("M_MSENS") > 1);
-    STBAR = (W_CheckMultipleLumps("STBAR") > 2);
+    M_MSGOFF = (W_CheckMultipleLumps("M_MSGOFF") > 1);
+    M_MSGON = (W_CheckMultipleLumps("M_MSGON") > 1);
+    M_NEWG = (W_CheckMultipleLumps("M_NEWG") > 1);
+    M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
+    M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
+    M_SGTTL = (W_CheckMultipleLumps("M_SGTTL") > 1);
+    M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
+    M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);
+    M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
     STARMS = (W_CheckMultipleLumps("STARMS") > 2);
+    STBAR = (W_CheckMultipleLumps("STBAR") > 2);
     STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
     STCFN039 = (W_CheckMultipleLumps("STCFN039") > 1);
-    WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
     STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
-    MAPINFO = (W_CheckNumForName("MAPINFO") >= 0);
     TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
-    DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
+    WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
