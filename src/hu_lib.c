@@ -160,22 +160,22 @@ void HUlib_drawTextLine(hu_textline_t *l)
                     j = 65;
             }
 
-            // [BH] apply kerning to certain character pairs
-            while (kern[k].char1)
-            {
-                if (prev == kern[k].char1 && c == kern[k].char2)
-                    x += kern[k].adjust;
-                k++;
-            }
-
             if (STCFN034)
             {
                 // [BH] display lump from PWAD with shadow
                 w = l->f[c - l->sc]->width;
-                V_DrawPatchWithShadow(x + 1, l->y + 1, 0, l->f[c - l->sc], false);
+                V_DrawPatchWithShadow(x, l->y, 0, l->f[c - l->sc], false);
             }
             else
             {
+                // [BH] apply kerning to certain character pairs
+                while (kern[k].char1)
+                {
+                    if (prev == kern[k].char1 && c == kern[k].char2)
+                        x += kern[k].adjust;
+                    k++;
+                }
+
                 // [BH] draw individual character
                 w = strlen(smallcharset[j]) / 10 - 1;
                 HU_drawChar(x, y - 1, j);
