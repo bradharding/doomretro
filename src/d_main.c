@@ -93,6 +93,7 @@ boolean        autostart;
 int            startloadgame;
 
 boolean        advancedemo;
+boolean        forcewipe = false;
 
 extern int screenwidth;
 extern int screenheight;
@@ -195,10 +196,13 @@ void D_Display(void)
     }
 
     // save the current screen if about to wipe
-    if ((wipe = (gamestate != wipegamestate)))
+    if ((wipe = (gamestate != wipegamestate || forcewipe)))
     {
         wipe_StartScreen();
-        menuactive = false;
+        if (forcewipe)
+            forcewipe = false;
+        else
+            menuactive = false;
     }
 
     if (gamestate != GS_LEVEL)
@@ -309,10 +313,12 @@ void D_Display(void)
             nowtime = I_GetTime();
             tics = nowtime - wipestart;
             I_Sleep(1);
-        } while (tics <= 0);
+        }
+        while (tics <= 0);
 
         wipestart = nowtime;
         done = wipe_ScreenWipe(tics);
+        blurred = false;
         M_Drawer();             // menu is drawn even on top of wipes
         I_FinishUpdate();       // page flip or blit buffer
     }
@@ -324,9 +330,6 @@ void D_Display(void)
 //
 void D_DoomLoop(void)
 {
-    if (demorecording)
-        G_BeginRecording();
-
     TryRunTics();
 
     I_InitGraphics();
@@ -360,8 +363,9 @@ static char *pagename;
 //
 void D_PageTicker(void)
 {
-    if (--pagetic < 0)
-        D_AdvanceDemo();
+    if (!menuactive)
+        if (--pagetic < 0)
+            D_AdvanceDemo();
     if (!TITLEPIC && !menuactive)
         M_StartControlPanel();
 }
@@ -393,69 +397,29 @@ void D_AdvanceDemo(void)
 //
 void D_DoAdvanceDemo(void)
 {
+    static boolean starttitle = true;
+
     players[consoleplayer].playerstate = PST_LIVE;      // not reborn
     advancedemo = false;
     usergame = false;                                   // no save / end game here
     paused = false;
     gameaction = ga_nothing;
+    gamestate = GS_DEMOSCREEN;
+    blurred = false;
+    pagetic = 10 * TICRATE;
 
-    //if (gamemode == retail)
-    //    demosequence = (demosequence + 1) % 7;
-    //else
-    //    demosequence = (demosequence + 1) % 6;
-    demosequence = 0;
-
-    switch (demosequence)
+    if (!demosequence)
     {
-        case 0:
-            if (gamemode == commercial)
-                pagetic = TICRATE * 11;
-            else
-                pagetic = 170;
-            gamestate = GS_DEMOSCREEN;
-            pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
-            if (gamemode == commercial)
-                S_StartMusic(mus_dm2ttl);
-            else
-                S_StartMusic(mus_intro);
-            break;
-        case 1:
-            G_DeferredPlayDemo("demo1");
-            break;
-        case 2:
-            pagetic = 200;
-            gamestate = GS_DEMOSCREEN;
-            pagename = "CREDIT";
-            break;
-        case 3:
-            G_DeferredPlayDemo("demo2");
-            break;
-        case 4:
-            gamestate = GS_DEMOSCREEN;
-            if (gamemode == commercial)
-            {
-                pagetic = TICRATE * 11;
-                pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
-                S_StartMusic(mus_dm2ttl);
-            }
-            else
-            {
-                pagetic = 200;
-
-                if (gamemode == retail)
-                    pagename = "CREDIT";
-                else
-                    pagename = "HELP2";
-            }
-            break;
-        case 5:
-            G_DeferredPlayDemo("demo3");
-            break;
-        // THE DEFINITIVE DOOM Special Edition demo
-        case 6:
-            G_DeferredPlayDemo("demo4");
-            break;
+        pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
+        S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
     }
+    else
+        pagename = "CREDIT";
+    if (starttitle)
+        starttitle = false;
+    else
+        forcewipe = true;
+    demosequence = !demosequence;
 }
 
 //
@@ -464,7 +428,7 @@ void D_DoAdvanceDemo(void)
 void D_StartTitle(void)
 {
     gameaction = ga_nothing;
-    demosequence = -1;
+    demosequence = 0;
     SDL_WM_SetCaption(gamedescription, NULL);
     D_AdvanceDemo();
 }
@@ -490,12 +454,10 @@ char *uppercase(char *str)
 }
 
 // Initialize the game version
-
 static void InitGameVersion(void)
 {
     // Determine automatically
-
-    if (gamemode == shareware || gamemode == registered)
+        if (gamemode == shareware || gamemode == registered)
         // original
         gameversion = exe_doom_1_9;
     else if (gamemode == retail)
