@@ -102,6 +102,7 @@ extern boolean          M_MSGON;
 extern boolean          M_NEWG;
 extern boolean          M_NMARE;
 extern boolean          M_OPTTTL;
+extern boolean          M_PAUSE;
 extern boolean          M_SGTTL;
 extern boolean          M_SKILL;
 extern boolean          M_SKULL1;

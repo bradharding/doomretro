@@ -265,10 +265,26 @@ void D_Display(void)
     if ((pausedstate = paused))
     {
         M_DarkBackground();
-        if (widescreen)
-            M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, "Paused");
+        if (M_PAUSE)
+        {
+            patch_t     *patch = W_CacheLumpName("M_PAUSE", PU_CACHE);
+
+            if (widescreen)
+                V_DrawPatchWithShadow((ORIGINALWIDTH - patch->width) / 2,
+                                      viewwindowy / 2 + (viewheight / 2 - patch->height) / 2,
+                                      0, patch, false);
+            else
+                V_DrawPatchWithShadow((ORIGINALWIDTH - patch->width) / 2,
+                                      (ORIGINALHEIGHT - patch->height) / 2,
+                                      0, patch, false);
+        }
         else
-            M_DrawCenteredString((ORIGINALHEIGHT - 16) / 2, "Paused");
+        {
+            if (widescreen)
+                M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, "Paused");
+            else
+                M_DrawCenteredString((ORIGINALHEIGHT - 16) / 2, "Paused");
+        }
     }
 
     // menus go directly to the screen
@@ -816,6 +832,7 @@ static void D_DoomMainSetup(void)
     M_NEWG = (W_CheckMultipleLumps("M_NEWG") > 1);
     M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
     M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
+    M_PAUSE = (W_CheckMultipleLumps("M_PAUSE") > 1);
     M_SGTTL = (W_CheckMultipleLumps("M_SGTTL") > 1);
     M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
     M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);

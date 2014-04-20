@@ -55,6 +55,7 @@ boolean         M_MSGON = false;
 boolean         M_NEWG = false;
 boolean         M_NMARE = false;
 boolean         M_OPTTTL = false;
+boolean         M_PAUSE = false;
 boolean         M_SGTTL = false;
 boolean         M_SKILL = false;
 boolean         M_SKULL1 = false;
