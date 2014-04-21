@@ -1838,12 +1838,16 @@ int M_StringWidth(char *string)
     for (i = 0; i < strlen(string); i++)
     {
         c = toupper(string[i]) - HU_FONTSTART;
-        w += (c < 0 || c >= HU_FONTSIZE ? (i > 0 && (string[i - 1] == '.' ||
-              string[i - 1] == '!' || string[i - 1] ==  '?') ? 5 : 3) :
-              SHORT(strlen(smallcharset[c]) / 10 - 1));
+        if (c < 0 || c >= HU_FONTSIZE)
+            w += (i > 0 && (string[i - 1] == '.' || string[i - 1] == '!' || string[i - 1] == '?') ?
+                  5 : 3);
+        else
+            w += SHORT(STCFN034 ? hu_font[c]->width : strlen(smallcharset[c]) / 10 - 1);
     }
+
     return w;
 }
+
 //
 // Find string height
 //
@@ -1854,7 +1858,7 @@ int M_StringHeight(char *string)
 
     for (i = 0; i < strlen(string); i++)
         if (string[i] == '\n')
-            h += (i > 0 && string[i - 1] == '\n' ? 4 : 8);
+            h += (i > 0 && string[i - 1] == '\n' ? 4 : (STCFN034 ? SHORT(hu_font[0]->height) : 8));
     return h;
 }
 
@@ -1912,9 +1916,9 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
             if (cx + w > ORIGINALWIDTH)
                 break;
             if (shadow)
-                V_DrawPatchWithShadow(cx + 1, cy + 1, 0, hu_font[c], false);
+                V_DrawPatchWithShadow(cx, cy, 0, hu_font[c], false);
             else
-                V_DrawPatch(cx + 1, cy + 1, 0, hu_font[c]);
+                V_DrawPatch(cx, cy, 0, hu_font[c]);
         }
         else
         {
