@@ -109,11 +109,11 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     backsector = curline->backsector;
     texnum = texturetranslation[curline->sidedef->midtexture];
 
-    lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight;
+    lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
     if (curline->v1->y == curline->v2->y)
-        lightnum--;
+        lightnum -= LIGHTBRIGHT;
     else if (curline->v1->x == curline->v2->x)
-        lightnum++;
+        lightnum += LIGHTBRIGHT;
 
     walllights = scalelight[lightnum >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, lightnum)];
 
@@ -666,19 +666,14 @@ void R_StoreWallRange(int start, int stop)
         //  for horizontal / vertical / diagonal
         if (!fixedcolormap)
         {
-            lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight;
+            lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
 
             if (curline->v1->y == curline->v2->y)
-                lightnum--;
+                lightnum -= LIGHTBRIGHT;
             else if (curline->v1->x == curline->v2->x)
-                lightnum++;
+                lightnum += LIGHTBRIGHT;
 
-            if (lightnum < 0)
-                walllights = scalelight[0];
-            else if (lightnum >= LIGHTLEVELS)
-                walllights = scalelight[LIGHTLEVELS - 1];
-            else
-                walllights = scalelight[lightnum];
+            walllights = scalelight[lightnum >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, lightnum)];
         }
     }
 

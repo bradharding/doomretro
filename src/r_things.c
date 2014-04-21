@@ -571,14 +571,9 @@ void R_AddSprites(sector_t *sec)
     // Well, now it will be done.
     sec->validcount = validcount;
 
-    lightnum = (sec->lightlevel >> LIGHTSEGSHIFT) + extralight;
+    lightnum = (sec->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
 
-    if (lightnum < 0)
-        spritelights = scalelight[0];
-    else if (lightnum >= LIGHTLEVELS)
-        spritelights = scalelight[LIGHTLEVELS - 1];
-    else
-        spritelights = scalelight[lightnum];
+    spritelights = scalelight[lightnum >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, lightnum)];
 
     // Handle all things in sector.
     for (thing = sec->thinglist; thing; thing = thing->snext)
@@ -695,7 +690,7 @@ void R_DrawPSprite(pspdef_t *psp)
         {
             // local light
             int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
-                            + extralight + 16;
+                           + extralight * LIGHTBRIGHT + 16;
 
             if (lightnum > MAXLIGHTSCALE)
                 lightnum = MAXLIGHTSCALE;
@@ -718,7 +713,7 @@ void R_DrawPlayerSprites(void)
     pspdef_t *psp;
 
     // get light level
-    lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT) + extralight;
+    lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
 
     if (lightnum < 0)
         spritelights = scalelight2[0];

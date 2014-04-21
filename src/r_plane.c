@@ -324,15 +324,10 @@ void R_DrawPlanes(void)
         lumpnum = firstflat + flattranslation[pl->picnum];
         ds_source = (byte *)W_CacheLumpNum(lumpnum, PU_STATIC);
 
-        planeheight = ABS(pl->height-viewz);
-        light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight;
+        planeheight = ABS(pl->height - viewz);
+        light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
 
-        if (light < 0)
-            light = 0;
-        else if (light >= LIGHTLEVELS)
-            light = LIGHTLEVELS - 1;
-
-        planezlight = zlight[light];
+        planezlight = zlight[light >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, light)];
 
         pl->top[pl->maxx + 1] = 0xffff;
         pl->top[pl->minx - 1] = 0xffff;
