@@ -597,7 +597,9 @@ void R_DrawPSprite(pspdef_t *psp)
     vissprite_t   avis;
     state_t       *state;
 
-    void (*colfuncs[])(void) =
+    int           invisibility = viewplayer->powers[pw_invisibility];
+
+    void(*colfuncs[])(void) =
     {
         /* n/a      */ NULL,
         /* SPR_SHTG */ basecolfunc,
@@ -665,8 +667,7 @@ void R_DrawPSprite(pspdef_t *psp)
 
     vis->patch = lump;
 
-    if (viewplayer->powers[pw_invisibility] > 128
-        || (viewplayer->powers[pw_invisibility] & 8))
+    if (invisibility > 128 || (invisibility & 8))
     {
         // shadow draw
         vis->colfunc = psprcolfunc;
@@ -690,11 +691,9 @@ void R_DrawPSprite(pspdef_t *psp)
         {
             // local light
             int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
-                           + extralight * LIGHTBRIGHT + 16;
+                           + extralight * LIGHTBRIGHT + 8;
 
-            if (lightnum > MAXLIGHTSCALE)
-                lightnum = MAXLIGHTSCALE;
-            vis->colormap = spritelights[lightnum];
+            vis->colormap = spritelights[MIN(lightnum, MAXLIGHTSCALE)];
         }
     }
 
@@ -710,17 +709,12 @@ void R_DrawPlayerSprites(void)
 {
     int      i;
     int      lightnum;
+    int      invisibility = viewplayer->powers[pw_invisibility];
     pspdef_t *psp;
 
     // get light level
     lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-
-    if (lightnum < 0)
-        spritelights = scalelight2[0];
-    else if (lightnum >= LIGHTLEVELS)
-        spritelights = scalelight2[LIGHTLEVELS - 1];
-    else
-        spritelights = scalelight2[lightnum];
+    spritelights = scalelight2[lightnum >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, lightnum)];
 
     // clip to screen bounds
     mfloorclip = screenheightarray;
@@ -731,8 +725,7 @@ void R_DrawPlayerSprites(void)
     for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
         if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
             flash = true;
-    if (viewplayer->powers[pw_invisibility] > 128
-        || (viewplayer->powers[pw_invisibility] & 8))
+    if (invisibility > 128 || (invisibility & 8))
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251);
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
