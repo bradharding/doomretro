@@ -364,10 +364,12 @@ static char *pagename;
 void D_PageTicker(void)
 {
     if (!menuactive)
+    {
         if (--pagetic < 0)
             D_AdvanceDemo();
-    if (!TITLEPIC && !menuactive)
-        M_StartControlPanel();
+        if (!TITLEPIC)
+            M_StartControlPanel();
+    }
 }
 
 //
@@ -375,12 +377,7 @@ void D_PageTicker(void)
 //
 void D_PageDrawer(void)
 {
-    patch_t *patch = (patch_t *)W_CacheLumpName(pagename, PU_CACHE);
-
-    if (patch)
-        V_DrawPatch(0, 0, 0, patch);
-    else
-        memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
+    V_DrawPatch(0, 0, 0, W_CacheLumpName(pagename, PU_CACHE));
 }
 
 //
@@ -406,15 +403,18 @@ void D_DoAdvanceDemo(void)
     gameaction = ga_nothing;
     gamestate = GS_DEMOSCREEN;
     blurred = false;
-    pagetic = 10 * TICRATE;
 
     if (!demosequence)
     {
         pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
+        pagetic = 20 * TICRATE;
         S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
     }
     else
+    {
         pagename = "CREDIT";
+        pagetic = 10 * TICRATE;
+    }
     if (starttitle)
         starttitle = false;
     else
