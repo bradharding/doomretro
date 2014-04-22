@@ -691,6 +691,8 @@ void WI_drawTime(int x, int y, int t)
     if (t < 0)
         return;
 
+    x += (num[0]->width - 11) * 4;
+
     if (t <= 61 * 59)
     {
         div = 1;
@@ -1403,7 +1405,7 @@ void WI_drawStats(void)
 
     if (canmodify)
     {
-        V_DrawPatchWithShadow(ORIGINALWIDTH/2 + SP_TIMEX * 2 + 5, SP_TIMEY + 1, FB, par, false);
+        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 + 5, SP_TIMEY + 1, FB, par, false);
         WI_drawTime(ORIGINALWIDTH - SP_TIMEX, SP_TIMEY, cnt_par);
     }
 }
