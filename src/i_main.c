@@ -61,7 +61,7 @@ static void I_SetAffinityMask(void)
 
 void I_SetProcessPriority(void)
 {
-    if (!SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS))
+    if (!SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS))
         fprintf(stderr, "Failed to set priority for the process (%d)\n", (int)GetLastError());
 }
 
