@@ -830,6 +830,8 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         mo->flags2 |= MF2_MIRRORED;
 }
 
+boolean P_CheckMeleeRange(mobj_t *actor);
+
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -961,6 +963,15 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
         else if (target->type == MT_BRUISER || target->type == MT_KNIGHT)
             target->colfunc = redtogreencolfunc;
 
+        // [crispy] the lethal pellet of a point-blank SSG blast
+        // gets an extra damage boost for the occasional gib chance
+        if (source && source->player &&
+            source->player->readyweapon == wp_supershotgun &&
+            target->info->xdeathstate &&
+            P_CheckMeleeRange(target) &&
+            damage == 15)
+            target->health -= target->info->spawnhealth;
+        
         P_KillMobj(source, target);
         return;
     }
