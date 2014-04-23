@@ -38,7 +38,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 
 // Location where all configuration data is stored -
-// default.cfg, savegames, etc.
+// doomretro.cfg, savegames, etc.
 
 char            *configdir;
 
@@ -638,7 +638,7 @@ void M_LoadDefaults(void)
     else
     {
         doom_defaults.filename = (char *)malloc(strlen(configdir) + 20);
-        sprintf(doom_defaults.filename, "%sdefault.cfg", configdir);
+        sprintf(doom_defaults.filename, "%sdoomretro.cfg", configdir);
     }
 
     LoadDefaultCollection(&doom_defaults);
@@ -648,7 +648,7 @@ void M_LoadDefaults(void)
 // SetConfigDir:
 //
 // Sets the location of the configuration directory, where configuration
-// files are stored - default.cfg, savegames, etc.
+// files are stored - doomretro.cfg, savegames, etc.
 //
 void M_SetConfigDir(void)
 {
