@@ -1085,7 +1085,7 @@ hitline:
         if (type == MT_SKULL)
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle, true);
         else if (type != MT_PLAYER)
-            P_SpawnBlood(x, y, z, shootangle, la_damage, type);
+            P_SpawnBlood(x, y, z, shootangle, la_damage, th);
         else
         {
             player_t *player = &players[consoleplayer];
@@ -1094,7 +1094,7 @@ hitline:
             {
                 if (player->powers[pw_invisibility])
                     type = MT_FUZZPLAYER;
-                P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, type);
+                P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
             }
         }
     }
@@ -1418,7 +1418,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
                 int y = thing->y + M_RandomInt(-10, 10) * FRACUNIT;
                 int z = thing->z + thing->height / 2 + M_RandomInt(-10, 10) * FRACUNIT;
 
-                P_SpawnBlood(x, y, z, 0, 10, type);
+                P_SpawnBlood(x, y, z, 0, 10, thing);
             }
         }
     }

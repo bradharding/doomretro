@@ -952,10 +952,13 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
 //
 // P_SpawnBlood
 //
-void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobjtype_t type)
+void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
-    int         i, j;
+    int         i;
     int         flags2;
+    int         type = target->type;
+    int         minz = target->z;
+    int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     void        (*colfunc)(void);
 
     if (type == MT_HEAD)
@@ -985,11 +988,11 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     {
         mobj_t      *th;
 
-        z += ((P_Random() - P_Random()) << 10);
+        z = MAX(minz, MIN(z + ((P_Random() - P_Random()) << 10), maxz));
 
         th = P_SpawnMobj(x, y, z, MT_BLOOD);
 
-        th->tics = MAX(1, th->tics - P_Random() & 3);
+        th->tics = MAX(1, th->tics - P_Random() & 6);
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
         th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
