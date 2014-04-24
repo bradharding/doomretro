@@ -954,7 +954,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
 //
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobjtype_t type)
 {
-    int         i;
+    int         i, j;
     int         flags2;
     void        (*colfunc)(void);
 
@@ -981,7 +981,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     angle += ANG180;
 
-    for (i = (P_Random() % 7) + (damage >> 2) < 7 ? (damage >> 2) : 7; i; i--)
+    for (i = MAX(P_Random() % 10, damage >> 2); i; i--)
     {
         mobj_t      *th;
 
