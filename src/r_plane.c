@@ -34,22 +34,22 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MAXVISPLANES   128                              // must be a power of 2
+#define MAXVISPLANES    128                             // must be a power of 2
 
-static visplane_t      *visplanes[MAXVISPLANES];        // killough
-static visplane_t      *freetail;                       // killough
-static visplane_t      **freehead = &freetail;          // killough
-visplane_t             *floorplane;
-visplane_t             *ceilingplane;
+static visplane_t       *visplanes[MAXVISPLANES];       // killough
+static visplane_t       *freetail;                      // killough
+static visplane_t       **freehead = &freetail;         // killough
+visplane_t              *floorplane;
+visplane_t              *ceilingplane;
 
 // killough -- hash function for visplanes
 // Empirically verified to be fairly uniform:
 #define visplane_hash(picnum, lightlevel, height) \
     (((unsigned)(picnum) * 3 + (unsigned)(lightlevel) + (unsigned)(height) * 7) & (MAXVISPLANES - 1))
 
-size_t                  maxopenings;
-int                     *openings;
-int                     *lastopening;
+size_t                 maxopenings;
+int                    *openings;
+int                    *lastopening;
 
 //
 // Clip values are the solid pixel bounding the range.
@@ -98,7 +98,7 @@ static void R_MapPlane(int y, int x1, int x2)
     ds_xstep = (fixed_t)(viewsin * slope);
     ds_ystep = (fixed_t)(viewcos * slope);
 
-    ds_xfrac =  viewx + (int)(viewcos * realy) + (x1 - centerx) * ds_xstep;
+    ds_xfrac = viewx + (int)(viewcos * realy) + (x1 - centerx) * ds_xstep;
     ds_yfrac = -viewy - (int)(viewsin * realy) + (x1 - centerx) * ds_ystep;
 
     if (!fixedcolormap)
@@ -169,8 +169,8 @@ static visplane_t *new_visplane(unsigned hash)
 //
 visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
 {
-    visplane_t  *check;
-    unsigned    hash;                   // killough
+    visplane_t          *check;
+    unsigned int        hash;           // killough
 
     if (picnum == skyflatnum)
         height = lightlevel = 0;        // all skys map together
@@ -257,7 +257,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 //
 // R_MakeSpans
 //
-void R_MakeSpans(int x, int t1, int b1, int t2, int b2)
+static void R_MakeSpans(int x, int t1, int b1, int t2, int b2)
 {
     for (; t1 < t2 && t1 <= b1; t1++)
         R_MapPlane(t1, spanstart[t1], x - 1);
@@ -299,6 +299,7 @@ void R_DrawPlanes(void)
                 //  i.e. colormaps[0] is used.
                 // Because of this hack, sky is not affected
                 //  by INVUL inverse mapping.
+
                 dc_colormap = (fixedcolormap ? fixedcolormap : colormaps); // [BH] So let's fix it...
                 dc_texturemid = skytexturemid;
                 for (x = pl->minx; x <= pl->maxx; x++)
@@ -328,8 +329,7 @@ void R_DrawPlanes(void)
                 planezlight = zlight[light >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, light)];
 
                 stop = pl->maxx + 1;
-
-                pl->top[pl->maxx + 1] = pl->top[stop] = 0xffff;
+                pl->top[pl->minx - 1] = pl->top[stop] = 0xffff;
 
                 for (x = pl->minx; x <= stop; x++)
                     R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
