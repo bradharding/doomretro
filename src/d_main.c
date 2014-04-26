@@ -404,7 +404,7 @@ void D_DoAdvanceDemo(void)
     gamestate = GS_DEMOSCREEN;
     blurred = false;
 
-    if (!demosequence)
+    if ((demosequence = !demosequence))
     {
         pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
         pagetic = 20 * TICRATE;
@@ -419,7 +419,6 @@ void D_DoAdvanceDemo(void)
         starttitle = false;
     else
         forcewipe = true;
-    demosequence = !demosequence;
 }
 
 //

@@ -984,7 +984,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     angle += ANG180;
 
-    for (i = MAX(P_Random() % 10, damage >> 2); i; i--)
+    for (i = MAX(P_Random() & 10, damage >> 2); i; i--)
     {
         mobj_t      *th;
 

@@ -428,7 +428,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "sequel, Inferno!\n"
 
 #define E2TEXT \
-"You've done it! The hideous cyber-\n"\
+"You've done it! The hideous Cyber-\n"\
 "demon lord that ruled the lost Deimos\n"\
 "moon base has been slain and you\n"\
 "are triumphant! But... where are\n"\
@@ -466,7 +466,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "door with you..."
 
 #define E4TEXT \
-"The spider mastermind must have sent forth\n"\
+"The Spider Mastermind must have sent forth\n"\
 "its legions of Hellspawn before your\n"\
 "final confrontation with that terrible\n"\
 "beast from Hell. But you stepped forward\n"\
@@ -572,7 +572,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define N1TEXT \
 "Trouble was brewing again in your favorite\n"\
-"vacation spot... Hell. Some cyberdemon\n"\
+"vacation spot... Hell. Some Cyberdemon\n"\
 "punk thought he could turn hell into a\n"\
 "personal amusement park, and make Earth\n"\
 "the ticket booth.\n"\
@@ -725,7 +725,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "buildings, and presumably no Hellspawn.\n"\
 "\n"\
 "As you step off the transport, you hear\n"\
-"the stomp of a cyberdemon's iron shoe."
+"the stomp of a Cyberdemon's iron shoe."
 
 //
 // Character cast strings F_FINALE.C

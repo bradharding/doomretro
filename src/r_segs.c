@@ -32,45 +32,44 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "r_local.h"
 
 // killough 1/6/98: replaced globals with statics where appropriate
+static boolean  segtextured;    // True if any of the segs textures might be visible.
+static boolean  markfloor;      // False if the back side is the same plane.
+static boolean  markceiling;
+static boolean  maskedtexture;
+static int      toptexture;
+static int      bottomtexture;
+static int      midtexture;
 
-static boolean segtextured;     // True if any of the segs textures might be visible.
-static boolean markfloor;       // False if the back side is the same plane.
-static boolean markceiling;
-static boolean maskedtexture;
-static int     toptexture;
-static int     bottomtexture;
-static int     midtexture;
-
-angle_t        rw_normalangle;  // angle to line origin
-int            rw_angle1;
-fixed_t        rw_distance;
-lighttable_t   **walllights;
+angle_t         rw_normalangle; // angle to line origin
+int             rw_angle1;
+fixed_t         rw_distance;
+lighttable_t    **walllights;
 
 //
 // regular wall
 //
-static int     rw_x;
-static int     rw_stopx;
-static angle_t rw_centerangle;
-static fixed_t rw_offset;
-static fixed_t rw_scale;
-static fixed_t rw_scalestep;
-static fixed_t rw_midtexturemid;
-static fixed_t rw_toptexturemid;
-static fixed_t rw_bottomtexturemid;
-static int     worldtop;
-static int     worldbottom;
-static int     worldhigh;
-static int     worldlow;
-static fixed_t pixhigh;
-static fixed_t pixlow;
-static fixed_t pixhighstep;
-static fixed_t pixlowstep;
-static fixed_t topfrac;
-static fixed_t topstep;
-static fixed_t bottomfrac;
-static fixed_t bottomstep;
-static int     *maskedtexturecol;
+static int      rw_x;
+static int      rw_stopx;
+static angle_t  rw_centerangle;
+static fixed_t  rw_offset;
+static fixed_t  rw_scale;
+static fixed_t  rw_scalestep;
+static fixed_t  rw_midtexturemid;
+static fixed_t  rw_toptexturemid;
+static fixed_t  rw_bottomtexturemid;
+static int      worldtop;
+static int      worldbottom;
+static int      worldhigh;
+static int      worldlow;
+static fixed_t  pixhigh;
+static fixed_t  pixlow;
+static fixed_t  pixhighstep;
+static fixed_t  pixlowstep;
+static fixed_t  topfrac;
+static fixed_t  topstep;
+static fixed_t  bottomfrac;
+static fixed_t  bottomstep;
+static int      *maskedtexturecol;
 
 //
 // R_ScaleFromGlobalAngle
@@ -96,7 +95,6 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 {
-    unsigned    index;
     column_t    *col;
     int         lightnum;
     int         texnum;
@@ -145,16 +143,20 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
         dc_colormap = fixedcolormap;
 
     // draw the columns
-    for (dc_x = x1; dc_x <= x2; dc_x++)
+    for (dc_x = x1; dc_x <= x2; dc_x++, spryscale += rw_scalestep)
     {
         // calculate lighting
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
             int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
+            if (t + (int64_t)textureheight[texnum] * spryscale < 0 ||
+                t > (int64_t) SCREENHEIGHT << FRACBITS * 2)
+                continue;        // skip if the texture is out of screen's range
+
             if (!fixedcolormap)
             {
-                index = spryscale >> LIGHTSCALESHIFT;
+                unsigned int    index = spryscale >> LIGHTSCALESHIFT;
 
                 if (index >=  MAXLIGHTSCALE)
                     index = MAXLIGHTSCALE - 1;
@@ -171,7 +173,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             R_DrawMaskedColumn(col);
             maskedtexturecol[dc_x] = INT_MAX;
         }
-        spryscale += rw_scalestep;
     }
 }
 

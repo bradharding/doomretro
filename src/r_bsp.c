@@ -5,6 +5,7 @@ DOOM RETRO
 A classic, refined DOOM source port. For Windows PC.
 
 Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright © 1999 Lee Killough.
 Copyright © 2005-2014 Simon Howard.
 Copyright © 2013-2014 Brad Harding.
 
@@ -65,7 +66,23 @@ typedef struct
     short last;
 } cliprange_t;
 
-#define MAXSEGS (ORIGINALWIDTH / 2 + 1)
+// 1/11/98: Lee Killough
+//
+// This fixes many strange venetian blinds crashes, which occurred when a scan
+// line had too many "posts" of alternating non-transparent and transparent
+// regions. Using a doubly-linked list to represent the posts is one way to
+// do it, but it has increased overhead and poor spatial locality, which hurts
+// cache performance on modern machines. Since the maximum number of posts
+// theoretically possible is a function of screen width, a static limit is
+// okay in this case. It used to be 32, which was way too small.
+//
+// This limit was frequently mistaken for the visplane limit in some Doom
+// editing FAQs, where visplanes were said to "double" if a pillar or other
+// object split the view's space into two pieces horizontally. That did not
+// have anything to do with visplanes, but it had everything to do with these
+// clip posts.
+
+#define MAXSEGS (SCREENWIDTH / 2 + 1)
 
 // newend is one past the last valid seg
 cliprange_t *newend;
@@ -91,8 +108,7 @@ static void R_ClipSolidWallSegment(int first, int last)
     {
         if (last < start->first - 1)
         {
-            // Post is entirely visible (above start),
-            //  so insert a new clippost.
+            // Post is entirely visible (above start), so insert a new clippost.
             R_StoreWallRange(first, last);
 
             memmove(start + 1, start, (++newend - start) * sizeof(*start));
@@ -103,6 +119,7 @@ static void R_ClipSolidWallSegment(int first, int last)
 
         // There is a fragment above *start.
         R_StoreWallRange(first, start->first - 1);
+
         // Now adjust the clip size.
         start->first = first;
     }
@@ -120,8 +137,7 @@ static void R_ClipSolidWallSegment(int first, int last)
 
         if (last <= next->last)
         {
-            // Bottom is contained in next.
-            // Adjust the clip size.
+            // Bottom is contained in next. Adjust the clip size.
             start->last = next->last;
             goto crunch;
         }
@@ -129,12 +145,15 @@ static void R_ClipSolidWallSegment(int first, int last)
 
     // There is a fragment after *next.
     R_StoreWallRange(next->last + 1, last);
+
     // Adjust the clip size.
     start->last = last;
 
-    // Remove start+1 to next from the clip list,
+    // Remove start + 1 to next from the clip list,
     // because start now covers their area.
+
 crunch:
+
     if (next == start)
         return;                 // Post just extended past the bottom of one post.
 
@@ -203,24 +222,26 @@ void R_ClearClipSegs(void)
     newend = solidsegs + 2;
 }
 
+// killough 1/18/98 -- This function is used to fix the automap bug which
+// showed lines behind closed doors simply because the door had a dropoff.
 //
-// R_DoorClosed
-//
+// It assumes that Doom has already ruled out a door being closed because
+// of front-back closure (e.g. front floor is taller than back ceiling).
 int R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
-        (backsector->ceilingheight <= backsector->floorheight
+        (backsector->ceilingheight <= backsector->floorheight &&
 
         // preserve a kind of transparent door/lift special effect:
-        && (backsector->ceilingheight >= frontsector->ceilingheight
-            || curline->sidedef->toptexture)
-        && (backsector->floorheight <= frontsector->floorheight
-            || curline->sidedef->bottomtexture)
+        (backsector->ceilingheight >= frontsector->ceilingheight ||
+         curline->sidedef->toptexture) &&
+        (backsector->floorheight <= frontsector->floorheight ||
+         curline->sidedef->bottomtexture) &&
 
         // properly render skies (consider door "open" if both ceilings are sky):
-        && (backsector->ceilingpic != skyflatnum
-            || frontsector->ceilingpic != skyflatnum));
+        (backsector->ceilingpic != skyflatnum ||
+         frontsector->ceilingpic != skyflatnum));
 }
 
 //
@@ -230,12 +251,12 @@ int R_DoorClosed(void)
 //
 static void R_AddLine(seg_t *line)
 {
-    int     x1;
-    int     x2;
-    angle_t angle1;
-    angle_t angle2;
-    angle_t span;
-    angle_t tspan;
+    int         x1;
+    int         x2;
+    angle_t     angle1;
+    angle_t     angle2;
+    angle_t     span;
+    angle_t     tspan;
 
     curline = line;
 
@@ -243,12 +264,10 @@ static void R_AddLine(seg_t *line)
     if (R_PointOnSegSide(viewx, viewy, line) != 0)
         return;
 
-    // OPTIMIZE: quickly reject orthogonal back sides.
     angle1 = R_PointToAngle(line->v1->x, line->v1->y);
     angle2 = R_PointToAngle(line->v2->x, line->v2->y);
 
     // Clip to view edges.
-    // OPTIMIZE: make constant out of 2*clipangle (FIELDOFVIEW).
     span = angle1 - angle2;
 
     // Back side? I.e. backface culling?
@@ -271,6 +290,7 @@ static void R_AddLine(seg_t *line)
 
         angle1 = clipangle;
     }
+
     tspan = clipangle - angle2;
     if (tspan > 2 * clipangle)
     {
@@ -286,6 +306,8 @@ static void R_AddLine(seg_t *line)
     // but not necessarily visible.
     angle1 = (angle1 + ANG90) >> ANGLETOFINESHIFT;
     angle2 = (angle2 + ANG90) >> ANGLETOFINESHIFT;
+
+    // killough 1/31/98: Here is where "slime trails" can SOMETIMES occur:
     x1 = viewangletox[angle1];
     x2 = viewangletox[angle2];
 
@@ -302,16 +324,16 @@ static void R_AddLine(seg_t *line)
         goto clipsolid;
 
     // Closed door.
-    if (backsector->ceilingheight <= frontsector->floorheight
-        || backsector->floorheight >= frontsector->ceilingheight)
+    if (backsector->ceilingheight <= frontsector->floorheight ||
+        backsector->floorheight >= frontsector->ceilingheight)
         goto clipsolid;
 
     if ((doorclosed = R_DoorClosed()))
         goto clipsolid;
 
     // Window.
-    if (backsector->ceilingheight != frontsector->ceilingheight
-        || backsector->floorheight != frontsector->floorheight)
+    if (backsector->ceilingheight != frontsector->ceilingheight ||
+        backsector->floorheight != frontsector->floorheight)
         goto clippass;
 
     // Reject empty lines used for triggers
@@ -319,10 +341,10 @@ static void R_AddLine(seg_t *line)
     // Identical floor and ceiling on both sides,
     // identical light levels on both sides,
     // and no middle texture.
-    if (backsector->ceilingpic == frontsector->ceilingpic
-        && backsector->floorpic == frontsector->floorpic
-        && backsector->lightlevel == frontsector->lightlevel
-        && !curline->sidedef->midtexture)
+    if (backsector->ceilingpic == frontsector->ceilingpic &&
+        backsector->floorpic == frontsector->floorpic &&
+        backsector->lightlevel == frontsector->lightlevel &&
+        !curline->sidedef->midtexture)
         return;
 
 clippass:
@@ -472,10 +494,10 @@ void R_RenderBSPNode(int bspnum)
 {
     while (!(bspnum & NF_SUBSECTOR))    // Found a subsector?
     {
-        const node_t *bsp = &nodes[bspnum];
+        const node_t    *bsp = &nodes[bspnum];
 
         // Decide which side the view point is on.
-        int side = R_PointOnSide(viewx, viewy, bsp);
+        int             side = R_PointOnSide(viewx, viewy, bsp);
 
         // Recursively divide front space.
         R_RenderBSPNode(bsp->children[side]);
