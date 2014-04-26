@@ -40,9 +40,6 @@ extern  int             *lastopening;
 
 typedef void (*planefunction_t)(int top, int bottom);
 
-extern planefunction_t  floorfunc;
-extern planefunction_t  ceilingfunc_t;
-
 extern int              floorclip[SCREENWIDTH];
 extern int              ceilingclip[SCREENWIDTH];
 

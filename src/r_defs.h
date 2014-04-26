@@ -29,24 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __R_DEFS__
 #define __R_DEFS__
 
-
-// Screenwidth.
-#include "doomdef.h"
-
-// Some more or less basic data types
-// we depend on.
-#include "m_fixed.h"
-
-// We rely on the thinker data struct
-// to handle sound origins in sectors.
-#include "d_think.h"
-// SECTORS do store MObjs anyway.
 #include "p_mobj.h"
-
-
-
-
-
 
 // Silhouette, needed for clipping Segs (mainly)
 // and sprites representing things.
@@ -54,9 +37,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define SIL_BOTTOM      1
 #define SIL_TOP         2
 #define SIL_BOTH        3
-
-
-
 
 //
 // INTERNAL MAP TYPES
@@ -72,9 +52,7 @@ typedef struct
 {
     fixed_t             x;
     fixed_t             y;
-
 } vertex_t;
-
 
 // Forward of LineDefs, for Sectors.
 struct line_s;
@@ -91,7 +69,6 @@ typedef struct
     fixed_t             x;
     fixed_t             y;
     fixed_t             z;
-
 } degenmobj_t;
 
 //
@@ -131,16 +108,11 @@ typedef struct
 
     int                 linecount;
     struct line_s       **lines;  // [linecount] size
-
 } sector_t;
-
-
-
 
 //
 // The SideDef.
 //
-
 typedef struct
 {
     // add this to the calculated texture column
@@ -157,10 +129,7 @@ typedef struct
 
     // Sector the SideDef is facing.
     sector_t            *sector;
-
 } side_t;
-
-
 
 //
 // Move clipping aid for LineDefs.
@@ -171,18 +140,7 @@ typedef enum
     ST_VERTICAL,
     ST_POSITIVE,
     ST_NEGATIVE
-
 } slopetype_t;
-
-typedef enum
-{
-    WALL,
-    FDWALL,
-    CDWALL,
-    TSWALL
-
-} linetype_t;
-
 
 typedef struct line_s
 {
@@ -391,8 +349,7 @@ typedef enum
     RaiseDoorIn5Minutes  = 14,
     SuperHellslimeDamage = 16,
     FlickeringFire       = 17
-}
-sectorspecial_t;
+} sectorspecial_t;
 
 typedef enum
 {
@@ -521,8 +478,6 @@ typedef enum
     LostSoul                                           = 3006
 } thingtype_t;
 
-
-
 //
 // A SubSector.
 // References a Sector.
@@ -535,10 +490,7 @@ typedef struct subsector_s
     sector_t            *sector;
     short               numlines;
     short               firstline;
-
 } subsector_t;
-
-
 
 //
 // The LineSeg.
@@ -560,10 +512,7 @@ typedef struct
     // backsector is NULL for one sided lines
     sector_t            *frontsector;
     sector_t            *backsector;
-
 } seg_t;
-
-
 
 //
 // BSP node.
@@ -581,11 +530,7 @@ typedef struct
 
     // If NF_SUBSECTOR its a subsector.
     unsigned short      children[2];
-
 } node_t;
-
-
-
 
 // posts are runs of non masked source pixels
 typedef struct
@@ -596,8 +541,6 @@ typedef struct
 
 // column_t is a list of 0 or more post_t, (byte)-1 terminated
 typedef post_t column_t;
-
-
 
 //
 // OTHER TYPES
@@ -610,12 +553,6 @@ typedef post_t column_t;
 // Could even us emore than 32 levels.
 typedef byte lighttable_t;
 
-
-
-
-//
-// ?
-//
 typedef struct drawseg_s
 {
     seg_t               *curline;
@@ -642,8 +579,6 @@ typedef struct drawseg_s
     int                 *maskedtexturecol;
 } drawseg_t;
 
-
-
 // Patches.
 // A patch holds one or more columns.
 // Patches are used for sprites and all masked pictures,
@@ -658,12 +593,6 @@ typedef struct
     int                 columnofs[8];   // only [width] used
     // the [0] is &columnofs[width]
 } PACKEDATTR patch_t;
-
-
-
-
-
-
 
 // A vissprite_t is a thing
 //  that will be drawn during a refresh.
@@ -706,9 +635,7 @@ typedef struct vissprite_s
     mobjtype_t          type;
 
     void                (*colfunc)(void);
-
 } vissprite_t;
-
 
 //
 // Sprites are patches with a special naming convention
@@ -737,10 +664,7 @@ typedef struct
 
     // Flip bit (1 = flip) to use for view angles 0-7.
     byte                flip[8];
-
 } spriteframe_t;
-
-
 
 //
 // A sprite definition:
@@ -750,15 +674,12 @@ typedef struct
 {
     int                 numframes;
     spriteframe_t       *spriteframes;
-
 } spritedef_t;
-
-
 
 //
 // Now what is a visplane, anyway?
 //
-typedef struct
+typedef struct visplane_s
 {
     fixed_t             height;
     int                 picnum;
@@ -778,9 +699,7 @@ typedef struct
     unsigned short      bottom[SCREENWIDTH];
     unsigned short      pad4;
 
+    struct visplane_s   *next;  // Next visplane in hash chain -- killough
 } visplane_t;
-
-
-
 
 #endif
