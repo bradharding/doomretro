@@ -287,10 +287,6 @@ static void *I_SDL_RegisterSong(void *data, int len)
     // Load the MIDI
     music = Mix_LoadMUS(filename);
 
-    if (music == NULL)
-        // Failed to load
-        I_Error("Error loading midi: %s", Mix_GetError());
-
     // remove file now
     remove(filename);
 
