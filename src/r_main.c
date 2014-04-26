@@ -93,6 +93,8 @@ int                     extralight;
 int                     translucency = true;
 
 extern int              automapactive;
+extern int              viewheight2;
+extern boolean          canmodify;
 
 void (*colfunc)(void);
 void (*wallcolfunc)(void);
@@ -118,8 +120,6 @@ void (*redtogreencolfunc)(void);
 void (*tlredtoblue33colfunc)(void);
 void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
-
-extern int viewheight2;
 
 //
 // R_PointOnSide
@@ -289,7 +289,6 @@ void R_InitLightTables(void)
 boolean setsizeneeded;
 int     setblocks;
 
-
 void R_SetViewSize(int blocks)
 {
     setsizeneeded = true;
@@ -371,7 +370,7 @@ void R_ExecuteSetViewSize(void)
 
     transcolfunc = R_DrawTranslatedColumn;
     spanfunc = R_DrawSpan;
-    skycolfunc = (flipsky ? R_DrawSkyColumn : R_DrawWallColumn);
+    skycolfunc = (flipsky && canmodify ? R_DrawSkyColumn : R_DrawWallColumn);
     redtobluecolfunc = R_DrawRedToBlueColumn;
     redtogreencolfunc = R_DrawRedToGreenColumn;
     wallcolfunc = R_DrawWallColumn;
