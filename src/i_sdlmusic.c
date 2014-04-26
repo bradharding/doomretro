@@ -177,7 +177,7 @@ static boolean I_SDL_InitMusic(void)
 //
 static void UpdateMusicVolume(void)
 {
-    Mix_VolumeMusic((current_music_volume * MIX_MAX_VOLUME) / 127 * musicpaused);
+    Mix_VolumeMusic((current_music_volume * MIX_MAX_VOLUME) / 127 * !musicpaused);
 }
 
 // Set music volume (0 - 127)
