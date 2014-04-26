@@ -371,7 +371,7 @@ void R_ExecuteSetViewSize(void)
 
     transcolfunc = R_DrawTranslatedColumn;
     spanfunc = R_DrawSpan;
-    skycolfunc = R_DrawSkyColumn;
+    skycolfunc = (flipsky ? R_DrawSkyColumn : wallcolfunc);
     redtobluecolfunc = R_DrawRedToBlueColumn;
     redtogreencolfunc = R_DrawRedToGreenColumn;
     wallcolfunc = R_DrawWallColumn;

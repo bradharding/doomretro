@@ -312,32 +312,30 @@ void R_DrawPlanes(void)
                         dc_x = x;
                         dc_source = R_GetColumn(skytexture, angle);
                         dc_texheight = 128;
-                        if (flipsky)
-                            skycolfunc();
-                        else
-                            wallcolfunc();
+                        skycolfunc();
                     }
                 }
-                continue;
             }
+            else
+            {
+                // regular flat
+                lumpnum = firstflat + flattranslation[pl->picnum];
+                ds_source = (byte *)W_CacheLumpNum(lumpnum, PU_STATIC);
 
-            // regular flat
-            lumpnum = firstflat + flattranslation[pl->picnum];
-            ds_source = (byte *)W_CacheLumpNum(lumpnum, PU_STATIC);
+                planeheight = ABS(pl->height - viewz);
+                light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
 
-            planeheight = ABS(pl->height - viewz);
-            light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
+                planezlight = zlight[light >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, light)];
 
-            planezlight = zlight[light >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, light)];
+                stop = pl->maxx + 1;
 
-            stop = pl->maxx + 1;
+                pl->top[pl->maxx + 1] = pl->top[stop] = 0xffff;
 
-            pl->top[pl->maxx + 1] = pl->top[stop] = 0xffff;
+                for (x = pl->minx; x <= stop; x++)
+                    R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
 
-            for (x = pl->minx; x <= stop; x++)
-                R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
-
-            W_ReleaseLumpNum(lumpnum);
+                W_ReleaseLumpNum(lumpnum);
+            }
         }
     }
 }
