@@ -1348,6 +1348,7 @@ typedef struct
     int speed;
     int radius;
     int height;
+    int projectilepassheight;
     int mass;
     int damage;
     int activesound;

@@ -350,6 +350,9 @@ static void saveg_read_mobj_t(mobj_t *str)
     // fixed_t height;
     str->height = saveg_read32();
 
+    // fixed_t projectilepassheight;
+    str->projectilepassheight = saveg_read32();
+
     // fixed_t momx;
     str->momx = saveg_read32();
 
@@ -479,6 +482,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // fixed_t height;
     saveg_write32(str->height);
+
+    // fixed_t projectilepassheight;
+    saveg_write32(str->projectilepassheight);
 
     // fixed_t momx;
     saveg_write32(str->momx);
