@@ -722,6 +722,11 @@ static void D_DoomMainSetup(void)
         if (!M_FileExists("doomretro.wad.temp"))
             I_Error("Can't find doomretro.wad.");
 
+    if (W_CheckNumForName("BLD2A0") < 0 ||
+        W_CheckNumForName("MEDBA0") < 0 ||
+        W_CheckNumForName("STBAR2") < 0)
+        I_Error("Wrong version of doomretro.wad.");
+
     if (iwadfile)
     {
         if (D_AddFile(iwadfile))
@@ -757,11 +762,6 @@ static void D_DoomMainSetup(void)
     if (!W_MergeFile("doomretro.wad"))
         if (!W_MergeFile("doomretro.wad.temp"))
             I_Error("Can't find doomretro.wad.");
-
-    if (W_CheckNumForName("BLD2A0") < 0 ||
-        W_CheckNumForName("MEDBA0") < 0 ||
-        W_CheckNumForName("STBAR2") < 0)
-        I_Error("Wrong version of doomretro.wad.");
 
     p = M_CheckParmWithArgs("-file", 1);
     if (p > 0)
