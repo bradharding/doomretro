@@ -26,10 +26,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#pragma comment(lib, "winmm.lib")
+
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
 #include <Commdlg.h>
+#include <MMSystem.h>
 
 #include "am_map.h"
 #include "d_iwad.h"
@@ -722,11 +725,6 @@ static void D_DoomMainSetup(void)
         if (!M_FileExists("doomretro.wad.temp"))
             I_Error("Can't find doomretro.wad.");
 
-    if (W_CheckNumForName("BLD2A0") < 0 ||
-        W_CheckNumForName("MEDBA0") < 0 ||
-        W_CheckNumForName("STBAR2") < 0)
-        I_Error("Wrong version of doomretro.wad.");
-
     if (iwadfile)
     {
         if (D_AddFile(iwadfile))
@@ -749,6 +747,8 @@ static void D_DoomMainSetup(void)
                 rename("doomretro.wad.temp", "doomretro.wad");
                 I_Quit(false);
             }
+            else if (!choseniwad)
+                PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, SND_ALIAS_ID | SND_ASYNC);
 
         } while (!choseniwad);
 
@@ -762,6 +762,11 @@ static void D_DoomMainSetup(void)
     if (!W_MergeFile("doomretro.wad"))
         if (!W_MergeFile("doomretro.wad.temp"))
             I_Error("Can't find doomretro.wad.");
+
+    if (W_CheckNumForName("BLD2A0") < 0 ||
+        W_CheckNumForName("MEDBA0") < 0 ||
+        W_CheckNumForName("STBAR2") < 0)
+        I_Error("Wrong version of doomretro.wad.");
 
     p = M_CheckParmWithArgs("-file", 1);
     if (p > 0)
