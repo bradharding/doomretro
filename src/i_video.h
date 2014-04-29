@@ -78,7 +78,7 @@ extern char mapnumandtitle[133];
 
 extern int gammalevelindex;
 extern float gammalevel;
-extern double gammalevels[GAMMALEVELS];
+extern float gammalevels[GAMMALEVELS];
 
 extern boolean blurred;
 

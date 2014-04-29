@@ -106,17 +106,17 @@ boolean keys[UCHAR_MAX];
 
 byte gammatable[GAMMALEVELS][256];
 
-double gammalevels[GAMMALEVELS] =
+float gammalevels[GAMMALEVELS] =
 {
     // Darker
-    0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95,
+    0.50f, 0.55f, 0.60f, 0.65f, 0.70f, 0.75f, 0.80f, 0.85f, 0.90f, 0.95f,
 
     // No gamma correction
-    1.0,
+    1.0f,
 
     // Lighter
-    1.05, 1.10, 1.15, 1.20, 1.25, 1.30, 1.35, 1.40, 1.45, 1.50,
-    1.55, 1.60, 1.65, 1.70, 1.75, 1.80, 1.85, 1.90, 1.95, 2.0
+    1.05f, 1.10f, 1.15f, 1.20f, 1.25f, 1.30f, 1.35f, 1.40f, 1.45f, 1.50f,
+    1.55f, 1.60f, 1.65f, 1.70f, 1.75f, 1.80f, 1.85f, 1.90f, 1.95f, 2.0f
 };
 
 // Gamma correction level to use
