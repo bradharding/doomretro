@@ -58,8 +58,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "wi_stuff.h"
 #include "z_zone.h"
 
-#define SAVEGAMESIZE 0x2c0000
-
 void G_ReadDemoTiccmd(ticcmd_t *cmd);
 void G_WriteDemoTiccmd(ticcmd_t *cmd);
 void G_PlayerReborn(int player);
@@ -1514,7 +1512,6 @@ void G_DoSaveGame(void)
     // and then rename it at the end if it was successfully written.
     // This prevents an existing savegame from being overwritten by
     // a corrupted one, or if a savegame buffer overrun occurs.
-
     save_stream = fopen(temp_savegame_file, "wb");
 
     if (save_stream == NULL)
@@ -1531,16 +1528,11 @@ void G_DoSaveGame(void)
 
     P_WriteSaveGameEOF();
 
-    if (ftell(save_stream) > SAVEGAMESIZE)
-        I_Error("Savegame buffer overrun");
-
     // Finish up, close the savegame file.
-
     fclose(save_stream);
 
     // Now rename the temporary savegame file to the actual savegame
     // file, overwriting the old savegame if there was one there.
-
     remove(savegame_file);
     rename(temp_savegame_file, savegame_file);
 
