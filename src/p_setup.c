@@ -76,18 +76,21 @@ static int      totallines;
 // by spatial subdivision in 2D.
 //
 // Blockmap size.
-int             bmapwidth, bmapheight;  // size in mapblocks
+int             bmapwidth;
+int             bmapheight;
 
-short           *blockmap;
+// for large maps, wad is 16bit
+uint32_t        *blockmapindex;
 
 // offsets in blockmap are from here
-short           *blockmaplump;
+uint32_t        *blockmaphead;
 
 // origin of block map
-fixed_t         bmaporgx, bmaporgy;
+fixed_t         bmaporgx;
+fixed_t         bmaporgy;
 
 // for thing chains
-mobj_t          **blocklinks;
+mobj_t**        blocklinks;
 
 // REJECT
 // For fast sight rejection.
@@ -616,32 +619,100 @@ void P_LoadSideDefs(int lump)
 //
 // P_LoadBlockMap
 //
+// Read wad blockmap using int16_t wadblockmaplump[].
+// Expand from 16bit wad to internal 32bit blockmap.
+//
 void P_LoadBlockMap(int lump)
 {
-    int i;
-    int lumplen = W_LumpLength(lump);
-    int count = lumplen / 2;
+    unsigned int        count = W_LumpLength(lump) / 2;                    // number of 16 bit blockmap entries
+    uint16_t            *wadblockmaplump = W_CacheLumpNum(lump, PU_LEVEL); // blockmap lump temp
+    uint32_t            firstlist, lastlist;  // blockmap block list bounds
+    uint32_t            overflow_corr = 0;
+    uint32_t            prev_bme = 0;  // for detecting overflow wrap
+    unsigned int        i;
 
-    blockmaplump = (short *)Z_Malloc(lumplen, PU_LEVEL, NULL);
-    W_ReadLump(lump, blockmaplump);
-    blockmap = blockmaplump + 4;
+    // [WDJ] when zennode has not been run, this code will corrupt Zone memory.
+    // It assumes a minimum size blockmap.
+    if (count < 5)
+        I_Error("Missing blockmap, node builder has not been run.\n");
 
-    // Swap all short integers to native byte ordering.
-    for (i = 0; i < count; i++)
-        blockmaplump[i] = SHORT(blockmaplump[i]);
+    // [WDJ] Do endian as read from blockmap lump temp
+    blockmaphead = Z_Malloc(sizeof(*blockmaphead) * count, PU_LEVEL, NULL);
 
-    // Read the header
-    bmaporgx = blockmaplump[0] << FRACBITS;
-    bmaporgy = blockmaplump[1] << FRACBITS;
-    bmapwidth = blockmaplump[2];
-    bmapheight = blockmaplump[3];
+    // killough 3/1/98: Expand wad blockmap into larger internal one,
+    // by treating all offsets except -1 as unsigned and zero-extending
+    // them. This potentially doubles the size of blockmaps allowed,
+    // because Doom originally considered the offsets as always signed.
+    // [WDJ] They are unsigned in Unofficial Doom Spec.
 
-    // Clear out mobj chains
+    blockmaphead[0] = wadblockmaplump[0];               // map orgin_x
+    blockmaphead[1] = wadblockmaplump[1];               // map orgin_y
+    blockmaphead[2] = wadblockmaplump[2];               // number columns (x size)
+    blockmaphead[3] = wadblockmaplump[3];               // number rows (y size)
+
+    bmaporgx = blockmaphead[0] << FRACBITS;
+    bmaporgy = blockmaphead[1] << FRACBITS;
+    bmapwidth = blockmaphead[2];
+    bmapheight = blockmaphead[3];
+    blockmapindex = &blockmaphead[4];
+    firstlist = 4 + bmapwidth * bmapheight;
+    lastlist = count - 1;
+
+    if (firstlist >= lastlist || bmapwidth < 1 || bmapheight < 1)
+        I_Error("Blockmap corrupt, must run node builder on wad.\n");
+
+    // read blockmap index array
+    for (i = 4; i < firstlist; i++)                     // for all entries in wad offset index
+    {
+        uint32_t        bme = wadblockmaplump[i];       // offset
+
+        // upon overflow, the bme will wrap to low values
+        if (bme < firstlist                             // too small to be valid
+            && bme < 0x1000 && prev_bme > 0xf000)       // wrapped
+        {
+            // first or repeated overflow
+            overflow_corr += 0x00010000;
+        }
+        prev_bme = bme;                                 // uncorrected
+
+        // correct for overflow, or else try without correction
+        if (overflow_corr)
+        {
+            uint32_t    bmec = bme + overflow_corr;
+
+            // First entry of list is 0, but high odds of hitting one randomly.
+            // Check for valid blockmap offset, and offset overflow
+            if (bmec <= lastlist
+                && wadblockmaplump[bmec] == 0           // valid start list
+                && bmec - blockmaphead[i - 1] < 1000)   // reasonably close sequentially
+            {
+                bme = bmec;
+            }
+        }
+
+        if (bme > lastlist)
+            I_Error("Blockmap offset[%i]= %i, exceeds bounds.\n", i, bme);
+        if (bme < firstlist
+            || wadblockmaplump[bme] != 0)               // not start list
+            I_Error("Bad blockmap offset[%i]= %i.\n", i, bme);
+        blockmaphead[i] = bme;
+    }
+
+    // read blockmap lists
+    for (i = firstlist; i < count; i++)                 // for all list entries in wad blockmap
+    {
+        // killough 3/1/98
+        // keep -1 (0xffff), but other values are unsigned
+        uint16_t        bme = wadblockmaplump[i];
+
+        blockmaphead[i] = (bme == 0xffff ? (uint32_t)(-1) : (uint32_t)bme);
+    }
+
+    // clear out mobj chains
     count = sizeof(*blocklinks) * bmapwidth * bmapheight;
-    blocklinks = (mobj_t **)Z_Malloc(count, PU_LEVEL, 0);
+    blocklinks = Z_Malloc(count, PU_LEVEL, NULL);
     memset(blocklinks, 0, count);
 }
-
 //
 // P_GroupLines
 // Builds sector line lists and subsector sector numbers.
