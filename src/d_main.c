@@ -1013,28 +1013,6 @@ static void D_DoomMainSetup(void)
 
     AM_Init();
 
-    p = M_CheckParmWithArgs("-record", 1);
-    if (p)
-    {
-        G_RecordDemo(myargv[p + 1]);
-        autostart = true;
-    }
-
-    p = M_CheckParmWithArgs("-playdemo", 1);
-    if (p)
-    {
-        singledemo = true;                      // quit after one demo
-        G_DeferredPlayDemo(demolumpname);
-        D_DoomLoop();                           // never returns
-    }
-
-    p = M_CheckParmWithArgs("-timedemo", 1);
-    if (p)
-    {
-        G_TimeDemo(demolumpname);
-        D_DoomLoop();                           // never returns
-    }
-
     if (startloadgame >= 0)
     {
         M_StringCopy(file, P_SaveGameFile(startloadgame), sizeof(file));
