@@ -54,7 +54,7 @@ extern boolean message_dontfuckwithme;
 extern int     st_palette;
 
 extern boolean wipe;
-extern boolean widescreenhud;
+extern boolean hud;
 
 //
 // defaulted values
@@ -1515,7 +1515,7 @@ void M_DrawOptions(void)
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + (M_OPTTTL ? 0 : OFFSET), 9,
                  (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
-                 + !widescreenhud), fullscreen ? 7.2f : 8.0f);
+                 + !hud), fullscreen ? 7.2f : 8.0f);
 
     if (mouseSensitivity == -5)
         mouseSensitivity = MOUSESENSITIVITY_MIN;
@@ -1741,12 +1741,14 @@ void M_SizeDisplay(int choice)
     switch (choice)
     {
         case 0:
-            if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            if (screensize == SCREENSIZE_MAX)
             {
-                if (!widescreenhud)
-                    widescreenhud = true;
-                else
+                if (!hud)
+                    hud = true;
+                else if (widescreen)
                     ToggleWideScreen(false);
+                else
+                    R_SetViewSize(--screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1758,9 +1760,9 @@ void M_SizeDisplay(int choice)
             }
             break;
         case 1:
-            if ((widescreen || (returntowidescreen && gamestate != GS_LEVEL)) && widescreenhud)
+            if (screensize == SCREENSIZE_MAX && hud)
             {
-                widescreenhud = false;
+                hud = false;
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1771,7 +1773,7 @@ void M_SizeDisplay(int choice)
                     if (gamestate != GS_LEVEL)
                     {
                         returntowidescreen = true;
-                        widescreenhud = true;
+                        hud = true;
                     }
                     else
                     {

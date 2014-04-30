@@ -71,7 +71,7 @@ boolean fullscreen = true;
 
 boolean widescreen = false;
 boolean returntowidescreen = false;
-boolean widescreenhud = true;
+boolean hud = true;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
@@ -397,15 +397,6 @@ void I_GetEvent(void)
                 ev.data2 = 0;
                 D_PostEvent(&ev);
                 break;
-
-            //case SDL_MOUSEMOTION:
-            //    ev.type = ev_mouse;
-            //    ev.data1 = mouse_button_state;
-            //    ev.data2 = -AccelerateMouse(sdlevent.motion.xrel);
-            //    D_PostEvent(&ev);
-            //    if (MouseShouldBeGrabbed())
-            //        CenterMouse();
-            //    break;
 
             case SDL_JOYBUTTONUP:
                 keydown = 0;

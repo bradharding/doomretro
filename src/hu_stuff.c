@@ -26,6 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_lib.h"
@@ -65,7 +66,7 @@ int                     message_counter;
 
 extern boolean          messages;
 extern boolean          widescreen;
-extern boolean          widescreenhud;
+extern boolean          hud;
 extern int              translucency;
 extern int              cardsfound;
 
@@ -73,6 +74,7 @@ static boolean          headsupactive = false;
 
 byte                    *tempscreen;
 int                     hudnumbase;
+int                     hudy;
 
 static patch_t          *healthpatch;
 static patch_t          *berserkpatch;
@@ -86,18 +88,18 @@ void(*godhudfunc)(int, int, int, patch_t *, boolean);
 void(*godhudnumfunc)(int, int, int, patch_t *, boolean);
 
 #define HUD_HEALTH_X    24
-#define HUD_HEALTH_Y    310
+#define HUD_HEALTH_Y    hudy
 #define HUD_HEALTH_MIN  10
 
 #define HUD_AMMO_X      120
-#define HUD_AMMO_Y      310
+#define HUD_AMMO_Y      hudy
 #define HUD_AMMO_MIN    10
 
 #define HUD_KEYS_X      503
-#define HUD_KEYS_Y      310
+#define HUD_KEYS_Y      hudy
 
 #define HUD_ARMOR_X     530
-#define HUD_ARMOR_Y     310
+#define HUD_ARMOR_Y     hudy
 #define HUD_ARMOR_MIN   10
 
 #define HUD_FLASH_TICS  12
@@ -404,8 +406,11 @@ void HU_Drawer(void)
         w_title.x = (fullscreen && !widescreen ? 0 : 3);
         HUlib_drawTextLine(&w_title);
     }
-    else if (widescreen && widescreenhud)
+    else if (screensize == SCREENSIZE_MAX && hud)
+    {
+        hudy = (widescreen ? 310 : 310 + SBARHEIGHT);
         HU_DrawHUD();
+    }
 }
 
 void HU_Erase(void)

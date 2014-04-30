@@ -100,7 +100,7 @@ extern int      windowheight;
 extern int      screenwidth;
 extern int      screenheight;
 extern int      widescreen;
-extern int      widescreenhud;
+extern int      hud;
 extern char     *videodriver;
 extern float    gammalevel;
 
@@ -214,6 +214,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (graphicdetail,       graphicdetail,       6),
     CONFIG_VARIABLE_INT   (grayscale,           grayscale,           1),
     CONFIG_VARIABLE_INT   (grid,                grid,                1),
+    CONFIG_VARIABLE_INT   (hud,                 hud,                 1),
     CONFIG_VARIABLE_KEY   (key_down,            key_down,            3),
     CONFIG_VARIABLE_KEY   (key_down2,           key_down2,           3),
     CONFIG_VARIABLE_KEY   (key_fire,            key_fire,            3),
@@ -248,7 +249,6 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_STRING(videodriver,         videodriver,         0),
     CONFIG_VARIABLE_STRING(wadfolder,           wadfolder,           0),
     CONFIG_VARIABLE_INT   (widescreen,          widescreen,          1),
-    CONFIG_VARIABLE_INT   (widescreenhud,       widescreenhud,       1),
     CONFIG_VARIABLE_INT   (windowheight,        windowheight,        0),
     CONFIG_VARIABLE_STRING(windowposition,      windowposition,      0),
     CONFIG_VARIABLE_INT   (windowwidth,         windowwidth,         0)

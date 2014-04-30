@@ -61,7 +61,7 @@ void I_Quit(boolean shutdown);
 void I_Error(char *error, ...);
 
 extern boolean widescreen;
-extern boolean widescreenhud;
+extern boolean hud;
 extern boolean returntowidescreen;
 
 #endif

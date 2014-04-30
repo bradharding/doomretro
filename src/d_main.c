@@ -950,15 +950,12 @@ static void D_DoomMainSetup(void)
     if (widescreen && !fullscreen)
     {
         widescreen = false;
-        screensize = 9;
+        screensize = SCREENSIZE_MAX;
     }
     if (!widescreen)
-        widescreenhud = true;
-    if (fullscreen && screensize == 9)
-    {
+        hud = true;
+    if (fullscreen && screensize == SCREENSIZE_MAX)
         widescreen = true;
-        screensize = 7;
-    }
     if (widescreen)
     {
         returntowidescreen = true;
