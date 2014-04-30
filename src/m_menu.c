@@ -1745,28 +1745,38 @@ void M_SizeDisplay(int choice)
             {
                 if (!hud)
                     hud = true;
-                else if (widescreen)
-                    ToggleWideScreen(false);
                 else
                     R_SetViewSize(--screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
+            else if (widescreen)
+            {
+                if (!hud)
+                    hud = true;
+                else
+                    ToggleWideScreen(false);
+                S_StartSound(NULL, sfx_stnmov);
+                M_SaveDefaults();
+            }
             else if (screensize > SCREENSIZE_MIN)
             {
-                S_StartSound(NULL, sfx_stnmov);
                 R_SetViewSize(--screensize);
+                S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
             break;
         case 1:
-            if (screensize == SCREENSIZE_MAX && hud)
+            if (widescreen || screensize == SCREENSIZE_MAX)
             {
-                hud = false;
-                S_StartSound(NULL, sfx_stnmov);
-                M_SaveDefaults();
+                if (hud)
+                {
+                    hud = false;
+                    S_StartSound(NULL, sfx_stnmov);
+                    M_SaveDefaults();
+                }
             }
-            else if (screensize == 7 && fullscreen)
+            else if (screensize == SCREENSIZE_MAX - 1 && fullscreen)
             {
                 if (!widescreen)
                 {
@@ -1781,14 +1791,14 @@ void M_SizeDisplay(int choice)
                         if (!widescreen)
                             R_SetViewSize(++screensize);
                     }
-                    S_StartSound(NULL, sfx_stnmov);
-                    M_SaveDefaults();
                 }
+                S_StartSound(NULL, sfx_stnmov);
+                M_SaveDefaults();
             }
             else if (screensize < SCREENSIZE_MAX)
             {
-                S_StartSound(NULL, sfx_stnmov);
                 R_SetViewSize(++screensize);
+                S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
             break;

@@ -406,7 +406,7 @@ void HU_Drawer(void)
         w_title.x = (fullscreen && !widescreen ? 0 : 3);
         HUlib_drawTextLine(&w_title);
     }
-    else if (screensize == SCREENSIZE_MAX && hud)
+    else if ((widescreen || screensize == SCREENSIZE_MAX) && hud)
     {
         hudy = (widescreen ? 310 : 310 + SBARHEIGHT);
         HU_DrawHUD();
