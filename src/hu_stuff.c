@@ -416,7 +416,7 @@ static void HU_DrawHUD(void)
 
             if (armor <= HUD_ARMOR_MIN && !menuactive && !paused)
             {
-                if (!--ammoanimtics)
+                if (!--armoranimtics)
                 {
                     armoranim = !armoranim;
                     armoranimtics = MAX(4, (int)(HUD_ARMOR_TICS * (float)armor / HUD_ARMOR_MIN));
