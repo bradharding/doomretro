@@ -458,7 +458,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boo
                 byte dot = *source++;
 
                 if (dot == 109 && invert)
-                    *dest = tinttab50[*dest];
+                    *dest = tinttab33[*dest];
                 else
                     *dest = tinttab75[(dot << (8 * invert)) + (*dest << (8 * !invert))];
                 dest += SCREENWIDTH;
