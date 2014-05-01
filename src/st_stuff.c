@@ -286,10 +286,10 @@ static patch_t                  *sbar2;
 static boolean                  usesbar2;
 
 // 0-9, tall numbers
-static patch_t                  *tallnum[10];
+patch_t                         *tallnum[10];
 
 // tall % sign
-static patch_t                  *tallpercent;
+patch_t                         *tallpercent;
 
 // 0-9, short, yellow (,different!) numbers
 static patch_t                  *shortnum[10];

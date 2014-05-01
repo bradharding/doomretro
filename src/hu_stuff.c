@@ -26,6 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_lib.h"
@@ -68,16 +69,16 @@ extern boolean          widescreen;
 extern boolean          hud;
 extern int              translucency;
 extern int              cardsfound;
+extern patch_t          *tallnum[10];
+extern patch_t          *tallpercent;
 
 static boolean          headsupactive = false;
 
 byte                    *tempscreen;
-int                     hudnumbase;
 int                     hud_y;
 
 static patch_t          *healthpatch;
 static patch_t          *berserkpatch;
-static patch_t          *percentpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
@@ -189,7 +190,6 @@ void HU_Start(void)
     headsupactive = true;
 
     tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    hudnumbase = W_GetNumForName("STTNUM0");
 
     if (translucency)
     {
@@ -208,7 +208,6 @@ void HU_Start(void)
 
     healthpatch = W_CacheLumpNum(W_GetNumForName(bfgedition ? "MEDBA0" : "MEDIA0"), PU_CACHE);
     berserkpatch = W_CacheLumpNum(W_GetNumForName(gamemode != shareware ? "PSTRA0" : "MEDIA0"), PU_CACHE);
-    percentpatch = W_CacheLumpNum(W_GetNumForName("STTPRCNT"), PU_CACHE);
     greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
     bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
 
@@ -236,14 +235,14 @@ static void DrawHUDNumber(int x, int y, signed int val, boolean invert,
     int         oldval = val;
 
     if (val > 99)
-        hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val / 100, PU_CACHE), invert);
+        hudnumfunc(xpos + 8, y, 0, tallnum[val / 100], invert);
     val %= 100;
     xpos += 14;
     if (val > 9 || oldval > 99)
-        hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val / 10, PU_CACHE), invert);
+        hudnumfunc(xpos + 8, y, 0, tallnum[val / 10], invert);
     val %= 10;
     xpos += 14;
-    hudnumfunc(xpos + 8, y, 0, W_CacheLumpNum(hudnumbase + val, PU_CACHE), invert);
+    hudnumfunc(xpos + 8, y, 0, tallnum[val], invert);
 }
 
 static void HU_DrawHUD(void)
@@ -281,13 +280,13 @@ static void HU_DrawHUD(void)
         {
             godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
             DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, godhudnumfunc);
-            godhudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, percentpatch, invert);
+            godhudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
         }
         else
         {
             hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
             DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
-            hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, percentpatch, invert);
+            hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
         }
 
         if (plr->pendingweapon != wp_nochange)
@@ -376,7 +375,7 @@ static void HU_DrawHUD(void)
             invert = ((armor <= HUD_ARMOR_MIN && animation) || armor > HUD_ARMOR_MIN ||
                       menuactive || paused);
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, invert, hudnumfunc);
-            hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, percentpatch, invert);
+            hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, invert);
             hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
                     plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, invert);
         }
