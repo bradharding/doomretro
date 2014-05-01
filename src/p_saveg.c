@@ -1770,8 +1770,7 @@ void P_UnArchiveThinkers(void)
         if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker
             || currentthinker->function.acp1 == (actionf_p1)P_BloodSplatThinker)
             P_RemoveMobj((mobj_t *)currentthinker);
-        else
-            Z_Free(currentthinker);
+        Z_Free(currentthinker);
 
         currentthinker = next;
     }
