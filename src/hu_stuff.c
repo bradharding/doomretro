@@ -108,6 +108,7 @@ void(*godhudnumfunc)(int, int, int, patch_t *, boolean);
 #define HUD_ARMOR_MIN   20
 #define HUD_ARMOR_TICS  20
 
+#define HUD_MIN_TICS    6
 #define HUD_KEY_TICS    12
 
 static struct
@@ -260,9 +261,9 @@ static void HU_DrawHUD(void)
         int             health_x = HUD_HEALTH_X + 12;
         int             keys = 0;
         int             i = 0;
-        static int      healthanimtics = HUD_HEALTH_TICS;
-        static int      ammoanimtics = HUD_AMMO_TICS;
-        static int      armoranimtics = HUD_ARMOR_TICS;
+        static int      healthanimtics = 1;
+        static int      ammoanimtics = 1;
+        static int      armoranimtics = 1;
         boolean         invert;
         boolean         invulnerability = plr->powers[pw_invulnerability];
         static boolean  healthanim = false;
@@ -301,13 +302,14 @@ static void HU_DrawHUD(void)
             if (!--healthanimtics)
             {
                 healthanim = !healthanim;
-                healthanimtics = MAX(4, (int)(HUD_HEALTH_TICS * (float)health / HUD_HEALTH_MIN));
+                healthanimtics = MAX(HUD_MIN_TICS,
+                                     (int)(HUD_HEALTH_TICS * (float)health / HUD_HEALTH_MIN));
             }
         }
         else
         {
             healthanim = false;
-            healthanimtics = MAX(4, (int)(HUD_HEALTH_TICS * (float)health / HUD_HEALTH_MIN));
+            healthanimtics = 1;
         }
 
         if (plr->pendingweapon != wp_nochange)
@@ -342,13 +344,14 @@ static void HU_DrawHUD(void)
                 if (!--ammoanimtics)
                 {
                     ammoanim = !ammoanim;
-                    ammoanimtics = MAX(4, (int)(HUD_AMMO_TICS * (float)ammo / HUD_AMMO_MIN));
+                    ammoanimtics = MAX(HUD_MIN_TICS,
+                                       (int)(HUD_AMMO_TICS * (float)ammo / HUD_AMMO_MIN));
                 }
             }
             else
             {
                 ammoanim = false;
-                ammoanimtics = MAX(4, (int)(HUD_AMMO_TICS * (float)ammo / HUD_AMMO_MIN));
+                ammoanimtics = 1;
             }
         }
 
@@ -419,13 +422,14 @@ static void HU_DrawHUD(void)
                 if (!--armoranimtics)
                 {
                     armoranim = !armoranim;
-                    armoranimtics = MAX(4, (int)(HUD_ARMOR_TICS * (float)armor / HUD_ARMOR_MIN));
+                    armoranimtics = MAX(HUD_MIN_TICS,
+                                        (int)(HUD_ARMOR_TICS * (float)armor / HUD_ARMOR_MIN));
                 }
             }
             else
             {
                 armoranim = false;
-                armoranimtics = MAX(4, (int)(HUD_ARMOR_TICS * (float)armor / HUD_ARMOR_MIN));
+                armoranimtics = 1;
             }
         }
     }
