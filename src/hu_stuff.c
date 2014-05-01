@@ -26,7 +26,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_lib.h"
@@ -74,7 +73,7 @@ static boolean          headsupactive = false;
 
 byte                    *tempscreen;
 int                     hudnumbase;
-int                     hudy;
+int                     hud_y;
 
 static patch_t          *healthpatch;
 static patch_t          *berserkpatch;
@@ -87,19 +86,22 @@ void(*hudnumfunc)(int, int, int, patch_t *, boolean);
 void(*godhudfunc)(int, int, int, patch_t *, boolean);
 void(*godhudnumfunc)(int, int, int, patch_t *, boolean);
 
-#define HUD_HEALTH_X    24
-#define HUD_HEALTH_Y    hudy
+#define HUD_X           24
+#define HUD_Y           311
+
+#define HUD_HEALTH_X    HUD_X
+#define HUD_HEALTH_Y    hud_y
 #define HUD_HEALTH_MIN  10
 
-#define HUD_AMMO_X      120
-#define HUD_AMMO_Y      hudy
+#define HUD_AMMO_X      (HUD_HEALTH_X + 96)
+#define HUD_AMMO_Y      HUD_HEALTH_Y
 #define HUD_AMMO_MIN    10
 
-#define HUD_KEYS_X      503
-#define HUD_KEYS_Y      hudy
+#define HUD_KEYS_X      (HUD_HEALTH_X + 479)
+#define HUD_KEYS_Y      HUD_HEALTH_Y
 
-#define HUD_ARMOR_X     530
-#define HUD_ARMOR_Y     hudy
+#define HUD_ARMOR_X     (HUD_HEALTH_X + 506)
+#define HUD_ARMOR_Y     HUD_HEALTH_Y
 #define HUD_ARMOR_MIN   10
 
 #define HUD_FLASH_TICS  12
@@ -408,7 +410,7 @@ void HU_Drawer(void)
     }
     else if ((widescreen || screensize == SCREENSIZE_MAX) && hud)
     {
-        hudy = (widescreen ? 310 : 310 + SBARHEIGHT);
+        hud_y = (widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
         HU_DrawHUD();
     }
 }
