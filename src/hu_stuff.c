@@ -92,20 +92,23 @@ void(*godhudnumfunc)(int, int, int, patch_t *, boolean);
 
 #define HUD_HEALTH_X    HUD_X
 #define HUD_HEALTH_Y    hud_y
-#define HUD_HEALTH_MIN  10
+#define HUD_HEALTH_MIN  20
+#define HUD_HEALTH_TICS 20
 
 #define HUD_AMMO_X      (HUD_HEALTH_X + 96)
 #define HUD_AMMO_Y      HUD_HEALTH_Y
-#define HUD_AMMO_MIN    10
+#define HUD_AMMO_MIN    20
+#define HUD_AMMO_TICS   20
 
 #define HUD_KEYS_X      (HUD_HEALTH_X + 479)
 #define HUD_KEYS_Y      HUD_HEALTH_Y
 
 #define HUD_ARMOR_X     (HUD_HEALTH_X + 506)
 #define HUD_ARMOR_Y     HUD_HEALTH_Y
-#define HUD_ARMOR_MIN   10
+#define HUD_ARMOR_MIN   20
+#define HUD_ARMOR_TICS  20
 
-#define HUD_FLASH_TICS  12
+#define HUD_KEY_TICS    12
 
 static struct
 {
@@ -148,7 +151,7 @@ void HU_Init(void)
     for (i = 0; i < HU_FONTSIZE; i++)
     {
         snprintf(buffer, 9, "STCFN%.3d", j++);
-        hu_font[i] = (patch_t *)W_CacheLumpName(buffer, PU_STATIC);
+        hu_font[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
 }
 
@@ -177,7 +180,7 @@ void HU_Start(void)
     // create the map title widget
     HUlib_initTextLine(&w_title, HU_TITLEX, HU_TITLEY, hu_font, HU_FONTSTART);
 
-    s = (char *)Z_Malloc(133, PU_STATIC, NULL);
+    s = Z_Malloc(133, PU_STATIC, NULL);
     strcpy(s, mapnumandtitle);
 
     while (*s)
@@ -189,7 +192,7 @@ void HU_Start(void)
 
     headsupactive = true;
 
-    tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
     if (translucency)
     {
@@ -257,10 +260,14 @@ static void HU_DrawHUD(void)
         int             health_x = HUD_HEALTH_X + 12;
         int             keys = 0;
         int             i = 0;
-        static int      animationcounter = HUD_FLASH_TICS;
+        static int      healthanimtics = HUD_HEALTH_TICS;
+        static int      ammoanimtics = HUD_AMMO_TICS;
+        static int      armoranimtics = HUD_ARMOR_TICS;
         boolean         invert;
         boolean         invulnerability = plr->powers[pw_invulnerability];
-        static boolean  animation = false;
+        static boolean  healthanim = false;
+        static boolean  ammoanim = false;
+        static boolean  armoranim = false;
         patch_t         *patch;
 
         if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
@@ -274,7 +281,7 @@ static void HU_DrawHUD(void)
         if (health < 100)
             health_x -= 14;
 
-        invert = ((health <= HUD_HEALTH_MIN && animation) || health > HUD_HEALTH_MIN ||
+        invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ||
                   menuactive || paused);
         if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
         {
@@ -287,6 +294,20 @@ static void HU_DrawHUD(void)
             hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
             DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
             hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
+        }
+
+        if (health <= HUD_HEALTH_MIN && !menuactive && !paused)
+        {
+            if (!--healthanimtics)
+            {
+                healthanim = !healthanim;
+                healthanimtics = MAX(4, (int)(HUD_HEALTH_TICS * (float)health / HUD_HEALTH_MIN));
+            }
+        }
+        else
+        {
+            healthanim = false;
+            healthanimtics = MAX(4, (int)(HUD_HEALTH_TICS * (float)health / HUD_HEALTH_MIN));
         }
 
         if (plr->pendingweapon != wp_nochange)
@@ -311,10 +332,24 @@ static void HU_DrawHUD(void)
                 ammonum_x -= 7;
             }
 
-            invert = ((ammo <= HUD_AMMO_MIN && animation) || ammo > HUD_AMMO_MIN ||
+            invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN ||
                       menuactive || paused);
             hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0, ammopic[ammotype].patch, invert);
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
+
+            if (ammo <= HUD_AMMO_MIN && !menuactive && !paused)
+            {
+                if (!--ammoanimtics)
+                {
+                    ammoanim = !ammoanim;
+                    ammoanimtics = MAX(4, (int)(HUD_AMMO_TICS * (float)ammo / HUD_AMMO_MIN));
+                }
+            }
+            else
+            {
+                ammoanim = false;
+                ammoanimtics = MAX(4, (int)(HUD_AMMO_TICS * (float)ammo / HUD_AMMO_MIN));
+            }
         }
 
         while (i < NUMCARDS)
@@ -324,7 +359,7 @@ static void HU_DrawHUD(void)
         if (keys || plr->neededcardtics)
         {
             int            keypic_x = HUD_KEYS_X - 20 * (keys - 1);
-            static int     keyanimcounter = HUD_FLASH_TICS;
+            static int     keyanimcounter = HUD_KEY_TICS;
             static boolean showkey = true;
 
             if (!armor)
@@ -347,7 +382,7 @@ static void HU_DrawHUD(void)
                         if (!--keyanimcounter)
                         {
                             showkey = !showkey;
-                            keyanimcounter = HUD_FLASH_TICS;
+                            keyanimcounter = HUD_KEY_TICS;
                         }
                     }
                     if (showkey)
@@ -358,7 +393,7 @@ static void HU_DrawHUD(void)
             else
             {
                 showkey = true;
-                keyanimcounter = HUD_FLASH_TICS;
+                keyanimcounter = HUD_KEY_TICS;
             }
             for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i] > 0)
@@ -372,27 +407,26 @@ static void HU_DrawHUD(void)
 
         if (armor)
         {
-            invert = ((armor <= HUD_ARMOR_MIN && animation) || armor > HUD_ARMOR_MIN ||
+            invert = ((armor <= HUD_ARMOR_MIN && armoranim) || armor > HUD_ARMOR_MIN ||
                       menuactive || paused);
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, invert, hudnumfunc);
             hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, invert);
             hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
                     plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, invert);
-        }
 
-        if ((health <= HUD_HEALTH_MIN || ammo <= HUD_AMMO_MIN || armor <= HUD_ARMOR_MIN)
-            && !menuactive && !paused)
-        {
-            if (!--animationcounter)
+            if (armor <= HUD_ARMOR_MIN && !menuactive && !paused)
             {
-                animation = !animation;
-                animationcounter = HUD_FLASH_TICS;
+                if (!--ammoanimtics)
+                {
+                    armoranim = !armoranim;
+                    armoranimtics = MAX(4, (int)(HUD_ARMOR_TICS * (float)armor / HUD_ARMOR_MIN));
+                }
             }
-        }
-        else
-        {
-            animation = false;
-            animationcounter = HUD_FLASH_TICS;
+            else
+            {
+                armoranim = false;
+                armoranimtics = MAX(4, (int)(HUD_ARMOR_TICS * (float)armor / HUD_ARMOR_MIN));
+            }
         }
     }
 }
