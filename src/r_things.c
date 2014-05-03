@@ -2,12 +2,12 @@
 ====================================================================
 
 DOOM RETRO
-A classic, refined DOOM source port. For Windows PC.
+The classic, refined DOOM source port. For Windows PC.
 
-Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
-Copyright © 1999 Lee Killough.
-Copyright © 2005-2014 Simon Howard.
-Copyright © 2013-2014 Brad Harding.
+Copyright (C) 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright (C) 1999 Lee Killough.
+Copyright (C) 2005-2014 Simon Howard.
+Copyright (C) 2013-2014 Brad Harding.
 
 This file is part of DOOM RETRO.
 
@@ -525,12 +525,6 @@ void R_ProjectSprite(mobj_t *thing)
     vis->patch = lump;
 
     // get light level
-    //if (thing->flags & MF_SHADOW)
-    //{
-    //    // shadow draw
-    //    vis->colormap = NULL;
-    //}
-    //else 
     if (fixedcolormap)
     {
         // fixed map

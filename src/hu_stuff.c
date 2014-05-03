@@ -2,11 +2,11 @@
 ====================================================================
 
 DOOM RETRO
-A classic, refined DOOM source port. For Windows PC.
+The classic, refined DOOM source port. For Windows PC.
 
-Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
-Copyright © 2005-2014 Simon Howard.
-Copyright © 2013-2014 Brad Harding.
+Copyright (C) 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright (C) 2005-2014 Simon Howard.
+Copyright (C) 2013-2014 Brad Harding.
 
 This file is part of DOOM RETRO.
 
@@ -323,12 +323,12 @@ static void HU_DrawHUD(void)
             int ammopic_x = HUD_AMMO_X + ammopic[ammotype].x;
             int ammonum_x = HUD_AMMO_X + 8;
 
-            if (ammo < 10)
+            if (ammo < 100)
             {
                 ammopic_x += 7;
                 ammonum_x -= 7;
             }
-            if (ammo < 100)
+            if (ammo < 10)
             {
                 ammopic_x += 7;
                 ammonum_x -= 7;

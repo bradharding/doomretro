@@ -2,11 +2,11 @@
 ====================================================================
 
 DOOM RETRO
-A classic, refined DOOM source port. For Windows PC.
+The classic, refined DOOM source port. For Windows PC.
 
-Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
-Copyright © 2005-2014 Simon Howard.
-Copyright © 2013-2014 Brad Harding.
+Copyright (C) 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright (C) 2005-2014 Simon Howard.
+Copyright (C) 2013-2014 Brad Harding.
 
 This file is part of DOOM RETRO.
 
@@ -43,7 +43,7 @@ BEGIN
             VALUE "FileDescription", "DOOM RETRO 1.4.2"
             VALUE "InternalName", "doomretro"
             VALUE "CompanyName", "brad@doomretro.com"
-            VALUE "LegalCopyright", "© 2013-2014 Brad Harding. All rights reserved."
+            VALUE "LegalCopyright", "(c) 2013-2014 Brad Harding. All rights reserved."
             VALUE "ProductName", "DOOM RETRO"
             VALUE "ProductVersion", "1.4.2"
         END

@@ -2,12 +2,12 @@
 ====================================================================
 
 DOOM RETRO
-A classic, refined DOOM source port. For Windows PC.
+The classic, refined DOOM source port. For Windows PC.
 
-Copyright © 1993-1996 id Software LLC, a ZeniMax Media company.
-Copyright © 1999 Lee Killough.
-Copyright © 2005-2014 Simon Howard.
-Copyright © 2013-2014 Brad Harding.
+Copyright (C) 1993-1996 id Software LLC, a ZeniMax Media company.
+Copyright (C) 1999 Lee Killough.
+Copyright (C) 2005-2014 Simon Howard.
+Copyright (C) 2013-2014 Brad Harding.
 
 This file is part of DOOM RETRO.
 
@@ -235,11 +235,13 @@ void P_XYMovement(mobj_t *mo)
 //
 void P_ZMovement(mobj_t *mo)
 {
+    player_t *player = mo->player;
+
     // check for smooth step up
-    if (mo->player && mo->z < mo->floorz)
+    if (player && mo->z < mo->floorz)
     {
-        mo->player->viewheight -= mo->floorz - mo->z;
-        mo->player->deltaviewheight = (VIEWHEIGHT - mo->player->viewheight) >> 3;
+        player->viewheight -= mo->floorz - mo->z;
+        player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
     }
 
     // adjust height
@@ -267,7 +269,6 @@ void P_ZMovement(mobj_t *mo)
             P_RemoveMobj(mo);
 
         // hit the floor
-
         if (mo->flags & MF_SKULLFLY)
         {
             // the skull slammed into something
@@ -276,13 +277,13 @@ void P_ZMovement(mobj_t *mo)
 
         if (mo->momz < 0)
         {
-            if (mo->player && mo->momz < -GRAVITY * 8)
+            if (player && mo->momz < -GRAVITY * 8)
             {
                 // Squat down.
                 // Decrease viewheight for a moment
                 // after hitting the ground (hard),
                 // and utter appropriate sound.
-                mo->player->deltaviewheight = mo->momz >> 3;
+                player->deltaviewheight = mo->momz >> 3;
 
                 if (mo->health > 0)
                     S_StartSound(mo, sfx_oof);
