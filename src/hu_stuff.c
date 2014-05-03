@@ -85,7 +85,6 @@ static patch_t          *bluearmorpatch;
 void(*hudfunc)(int, int, int, patch_t *, boolean);
 void(*hudnumfunc)(int, int, int, patch_t *, boolean);
 void(*godhudfunc)(int, int, int, patch_t *, boolean);
-void(*godhudnumfunc)(int, int, int, patch_t *, boolean);
 
 #define HUD_X           24
 #define HUD_Y           311
@@ -200,14 +199,12 @@ void HU_Start(void)
         hudfunc = V_DrawTranslucentHUDPatch;
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
         godhudfunc = V_DrawTranslucentYellowHUDPatch;
-        godhudnumfunc = V_DrawTranslucentYellowHUDNumberPatch;
     }
     else
     {
         hudfunc = V_DrawHUDPatch;
         hudnumfunc = V_DrawHUDNumberPatch;
         godhudfunc = V_DrawYellowHUDPatch;
-        godhudnumfunc = V_DrawYellowHUDNumberPatch;
     }
 
     healthpatch = W_CacheLumpNum(W_GetNumForName(bfgedition ? "MEDBA0" : "MEDIA0"), PU_CACHE);
@@ -285,17 +282,11 @@ static void HU_DrawHUD(void)
         invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ||
                   menuactive || paused);
         if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-        {
             godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
-            DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, godhudnumfunc);
-            godhudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
-        }
         else
-        {
             hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
-            DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
-            hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
-        }
+        DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
+        hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
 
         if (health <= HUD_HEALTH_MIN && !menuactive && !paused)
         {
