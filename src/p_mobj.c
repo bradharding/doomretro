@@ -1040,8 +1040,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
     newsplat->flags2 = flags2;
     newsplat->colfunc = colfunc;
 
-    newsplat->x = x + ((rand() & 10 - 5) << FRACBITS);
-    newsplat->y = y + ((rand() & 10 - 5) << FRACBITS);
+    newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
+    newsplat->y = y + ((rand() % 16 - 5) << FRACBITS);
     P_SetThingPosition(newsplat);
 
     newsplat->floorz = newsplat->subsector->sector->floorheight;
@@ -1066,8 +1066,8 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
     newsplat->flags2 = flags2;
     newsplat->colfunc = colfunc;
 
-    newsplat->x = x + ((rand() & 10 - 5) << FRACBITS);
-    newsplat->y = y + ((rand() & 10 - 5) << FRACBITS);
+    newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
+    newsplat->y = y + ((rand() % 16 - 5) << FRACBITS);
     P_SetThingPosition(newsplat);
 
     newsplat->floorz = newsplat->subsector->sector->floorheight;
