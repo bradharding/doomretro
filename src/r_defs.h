@@ -488,8 +488,8 @@ typedef enum
 typedef struct subsector_s
 {
     sector_t            *sector;
-    short               numlines;
-    short               firstline;
+    int                 numlines;
+    int                 firstline;
 } subsector_t;
 
 //
@@ -529,7 +529,7 @@ typedef struct
     fixed_t             bbox[2][4];
 
     // If NF_SUBSECTOR its a subsector.
-    unsigned short      children[2];
+    int                 children[2];
 } node_t;
 
 // posts are runs of non masked source pixels

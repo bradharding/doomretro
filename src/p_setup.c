@@ -186,14 +186,14 @@ void P_LoadSegs(int lump)
         int    side, linedef;
         line_t *ldef;
 
-        short v = SHORT(ml->v1);
+        unsigned short v = (unsigned short)SHORT(ml->v1);
 
         if (v < 0 || v >= numvertexes)
             I_Error("P_LoadSegs: invalid vertex %d", v);
         else
             li->v1 = &vertexes[v];
 
-        v = SHORT(ml->v2);
+        v = (unsigned short)SHORT(ml->v2);
 
         if (v < 0 || v >= numvertexes)
             I_Error("P_LoadSegs: invalid vertex %d", v);
@@ -201,7 +201,7 @@ void P_LoadSegs(int lump)
             li->v2 = &vertexes[v];
 
         li->angle = SHORT(ml->angle) << 16;
-        linedef = SHORT(ml->linedef);
+        linedef = (unsigned short)SHORT(ml->linedef);
 
         if (linedef < 0 || linedef >= numlines)
             I_Error("P_LoadSegs: invalid linedef %d", linedef);
@@ -311,8 +311,8 @@ void P_LoadSubsectors(int lump)
 
     for (i = 0; i < numsubsectors; i++)
     {
-        subsectors[i].numlines = SHORT(data[i].numsegs);
-        subsectors[i].firstline = SHORT(data[i].firstseg);
+        subsectors[i].numlines = (unsigned short)SHORT(data[i].numsegs);
+        subsectors[i].firstline = (unsigned short)SHORT(data[i].firstseg);
     }
 
     W_ReleaseLumpNum(lump);
@@ -405,7 +405,24 @@ void P_LoadNodes(int lump)
         {
             int k;
 
-            no->children[j] = SHORT(mn->children[j]);
+            no->children[j] = (unsigned short)SHORT(mn->children[j]);
+            // e6y: support for extended nodes
+            if (no->children[j] == 0xFFFF)
+            {
+                no->children[j] = -1;
+            }
+            else if (no->children[j] & 0x8000)
+            {
+                // Convert to extended type
+                no->children[j] &= ~0x8000;
+
+                // haleyjd 11/06/10: check for invalid subsector reference
+                if (no->children[j] >= numsubsectors)
+                    no->children[j] = 0;
+
+                no->children[j] |= NF_SUBSECTOR;
+            }
+
             for (k = 0; k < 4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
         }
@@ -523,12 +540,12 @@ void P_LoadLineDefs(int lump)
         line_t             *ld = lines+i;
         vertex_t           *v1, *v2;
 
-        ld->flags = SHORT(mld->flags);
+        ld->flags = (unsigned short)SHORT(mld->flags);
         ld->hidden = false;
         ld->special = SHORT(mld->special);
         ld->tag = SHORT(mld->tag);
-        v1 = ld->v1 = &vertexes[SHORT(mld->v1)];
-        v2 = ld->v2 = &vertexes[SHORT(mld->v2)];
+        v1 = ld->v1 = &vertexes[(unsigned short)SHORT(mld->v1)];
+        v2 = ld->v2 = &vertexes[(unsigned short)SHORT(mld->v2)];
         ld->dx = v2->x - v1->x;
         ld->dy = v2->y - v1->y;
 
