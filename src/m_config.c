@@ -42,33 +42,18 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 char            *configdir;
 
-extern int      key_right;
-extern int      key_left;
-extern int      key_up;
-extern int      key_up2;
-extern int      key_down;
-extern int      key_down2;
-
-extern int      key_strafeleft;
-extern int      key_straferight;
-
-extern int      key_fire;
-extern int      key_use;
-extern int      key_strafe;
-extern int      key_speed;
-
-extern int      key_nextweapon;
-extern int      key_prevweapon;
-
-extern int      mousebfire;
-
+extern int      bloodsplats;
+extern boolean  blur;
+extern int      fullscreen;
 extern int      gamepadautomap;
 extern int      gamepadfire;
+extern int      gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
 extern int      gamepadspeed;
 extern int      gamepaduse;
+extern int      gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -76,50 +61,48 @@ extern int      gamepadweapon4;
 extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
-
-extern int      gamepadlefthanded;
-extern int      gamepadvibrate;
-
-extern int      mouseSensitivity;
-extern boolean  messages;
-
-extern int      graphicdetail;
-
-extern boolean  grid;
-extern boolean  rotate;
-
-extern int      selectedepisode;
-extern int      selectedexpansion;
-extern int      selectedskilllevel;
-extern int      selectedsavegame;
-
-extern char     *windowposition;
-extern int      fullscreen;
-extern int      windowwidth;
-extern int      windowheight;
-extern int      screenwidth;
-extern int      screenheight;
-extern int      widescreen;
-extern int      hud;
-extern char     *videodriver;
 extern float    gammalevel;
-
+extern int      graphicdetail;
+extern boolean  grayscale;
+extern boolean  grid;
+extern int      hud;
+extern int      key_down;
+extern int      key_down2;
+extern int      key_fire;
+extern int      key_left;
+extern int      key_nextweapon;
+extern int      key_prevweapon;
+extern int      key_right;
+extern int      key_speed;
+extern int      key_strafe;
+extern int      key_strafeleft;
+extern int      key_straferight;
+extern int      key_up;
+extern int      key_up2;
+extern int      key_use;
+extern boolean  messages;
+extern int      mouseSensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
-
-extern char     *wadfolder;
-
-extern int      bloodsplats;
-extern boolean  translucency;
-extern boolean  blur;
-
-extern boolean  grayscale;
-
-extern int      snd_maxslicetime_ms;
-
-extern char     *timidity_cfg_path;
-
+extern int      mousebfire;
+extern boolean  rotate;
 extern int      runcount;
+extern int      screenheight;
+extern int      screenwidth;
+extern int      selectedepisode;
+extern int      selectedexpansion;
+extern int      selectedsavegame;
+extern int      selectedskilllevel;
+extern boolean  smoketrails;
+extern int      snd_maxslicetime_ms;
+extern char     *timidity_cfg_path;
+extern boolean  translucency;
+extern char     *videodriver;
+extern char     *wadfolder;
+extern int      widescreen;
+extern int      windowheight;
+extern char     *windowposition;
+extern int      windowwidth;
 
 typedef enum
 {
@@ -128,8 +111,7 @@ typedef enum
     DEFAULT_STRING,
     DEFAULT_FLOAT,
     DEFAULT_KEY,
-}
-default_type_t;
+} default_type_t;
 
 typedef struct
 {
@@ -243,6 +225,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (screenwidth,         screenwidth,         5),
     CONFIG_VARIABLE_INT   (sfx_volume,          sfxVolume,           0),
     CONFIG_VARIABLE_INT   (skilllevel,          selectedskilllevel,  0),
+    CONFIG_VARIABLE_INT   (smoketrails,         smoketrails,         1),
     CONFIG_VARIABLE_INT   (snd_maxslicetime_ms, snd_maxslicetime_ms, 0),
     CONFIG_VARIABLE_STRING(timidity_cfg_path,   timidity_cfg_path,   0),
     CONFIG_VARIABLE_INT   (translucency,        translucency,        1),

@@ -44,6 +44,8 @@ mobj_t          *bloodSplatQueue[BLOODSPLATS_MAX];
 int             bloodSplatQueueSlot;
 void            (*bloodSplatSpawner)(fixed_t, fixed_t, int, void(*)(void));
 
+boolean         smoketrails = true;
+
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
@@ -130,7 +132,7 @@ void P_XYMovement(mobj_t *mo)
 
     player = mo->player;
 
-    if (mo->type == MT_ROCKET)
+    if (mo->type == MT_ROCKET && smoketrails)
     {
         if (puffcount++ > 1)
             P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle, false);
