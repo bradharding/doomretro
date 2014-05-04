@@ -573,12 +573,12 @@ void P_LoadLineDefs(int lump)
         ld->sidenum[0] = SHORT(mld->sidenum[0]);
         ld->sidenum[1] = SHORT(mld->sidenum[1]);
 
-        if (ld->sidenum[0] != -1)
+        if (ld->sidenum[0] != NO_INDEX)
             ld->frontsector = sides[ld->sidenum[0]].sector;
         else
             ld->frontsector = 0;
 
-        if (ld->sidenum[1] != -1)
+        if (ld->sidenum[1] != NO_INDEX)
             ld->backsector = sides[ld->sidenum[1]].sector;
         else
             ld->backsector = 0;
