@@ -1046,6 +1046,65 @@ void M_DoSave(int slot)
 //
 extern char maptitle[128];
 
+char *mapnames[][6] =
+{
+    { HUSTR_E1M1, HUSTR_1, THUSTR_1, PHUSTR_1, NHUSTR_1, HUSTR2_1 },
+    { HUSTR_E1M2, HUSTR_2, THUSTR_2, PHUSTR_2, NHUSTR_2, HUSTR2_2 },
+    { HUSTR_E1M3, HUSTR_3, THUSTR_3, PHUSTR_3, NHUSTR_3, HUSTR2_3 },
+    { HUSTR_E1M4, HUSTR_4, THUSTR_4, PHUSTR_4, NHUSTR_4, HUSTR2_4 },
+    { HUSTR_E1M5, HUSTR_5, THUSTR_5, PHUSTR_5, NHUSTR_5, HUSTR2_5 },
+    { HUSTR_E1M6, HUSTR_6, THUSTR_6, PHUSTR_6, NHUSTR_6, HUSTR2_6 },
+    { HUSTR_E1M7, HUSTR_7, THUSTR_7, PHUSTR_7, NHUSTR_7, HUSTR2_7 },
+    { HUSTR_E1M8, HUSTR_8, THUSTR_8, PHUSTR_8, NHUSTR_8, HUSTR2_8 },
+    { HUSTR_E1M9, HUSTR_9, THUSTR_9, PHUSTR_9, NHUSTR_9, HUSTR2_9 },
+    { HUSTR_E2M1, HUSTR_10, THUSTR_10, PHUSTR_10, "", HUSTR2_10 },
+    { HUSTR_E2M2, HUSTR_11, THUSTR_11, PHUSTR_11, "", HUSTR2_11 },
+    { HUSTR_E2M3, HUSTR_12, THUSTR_12, PHUSTR_12, "", HUSTR2_12 },
+    { HUSTR_E2M4, HUSTR_13, THUSTR_13, PHUSTR_13, "", HUSTR2_13 },
+    { HUSTR_E2M5, HUSTR_14, THUSTR_14, PHUSTR_14, "", HUSTR2_14 },
+    { HUSTR_E2M6, HUSTR_15, THUSTR_15, PHUSTR_15, "", HUSTR2_15 },
+    { HUSTR_E2M7, HUSTR_16, THUSTR_16, PHUSTR_16, "", HUSTR2_16 },
+    { HUSTR_E2M8, HUSTR_17, THUSTR_17, PHUSTR_17, "", HUSTR2_17 },
+    { HUSTR_E2M9, HUSTR_18, THUSTR_18, PHUSTR_18, "", HUSTR2_18 },
+    { HUSTR_E3M1, HUSTR_19, THUSTR_19, PHUSTR_19, "", HUSTR2_19 },
+    { HUSTR_E3M2, HUSTR_20, THUSTR_20, PHUSTR_20, "", HUSTR2_20 },
+    { HUSTR_E3M3, HUSTR_21, THUSTR_21, PHUSTR_21, "", HUSTR2_21 },
+    { HUSTR_E3M4, HUSTR_22, THUSTR_22, PHUSTR_22, "", HUSTR2_22 },
+    { HUSTR_E3M5, HUSTR_23, THUSTR_23, PHUSTR_23, "", HUSTR2_23 },
+    { HUSTR_E3M6, HUSTR_24, THUSTR_24, PHUSTR_24, "", HUSTR2_24 },
+    { HUSTR_E3M7, HUSTR_25, THUSTR_25, PHUSTR_25, "", HUSTR2_25 },
+    { HUSTR_E3M8, HUSTR_26, THUSTR_26, PHUSTR_26, "", HUSTR2_26 },
+    { HUSTR_E3M9, HUSTR_27, THUSTR_27, PHUSTR_27, "", HUSTR2_27 },
+    { HUSTR_E4M1, HUSTR_28, THUSTR_28, PHUSTR_28, "", HUSTR2_28 },
+    { HUSTR_E4M2, HUSTR_29, THUSTR_29, PHUSTR_29, "", HUSTR2_29 },
+    { HUSTR_E4M3, HUSTR_30, THUSTR_30, PHUSTR_30, "", HUSTR2_30 },
+    { HUSTR_E4M4, HUSTR_31, THUSTR_31, PHUSTR_31, "", HUSTR2_31 },
+    { HUSTR_E4M5, HUSTR_32, THUSTR_32, PHUSTR_32, "", HUSTR2_32 },
+    { HUSTR_E4M6, "",       "",        "",        "", HUSTR2_33 },
+    { HUSTR_E4M7, "",       "",        "",        "", ""        },
+    { HUSTR_E4M8, "",       "",        "",        "", ""        },
+    { HUSTR_E4M9, "",       "",        "",        "", ""        },
+    { "",         "",       "",        "",        "", ""        }
+};
+
+void M_UpdateSaveGameName(int i)
+{
+    boolean     match = false;
+    int         j = 0;
+
+    while (mapnames[j][gamemission][0])
+    {
+        if (!strcasecmp(savegamestrings[i], mapnames[j][gamemission]))
+        {
+            match = true;
+            break;
+        }
+        j++;
+    }
+    if (match)
+        strcpy(savegamestrings[i], maptitle);
+}
+
 void M_SaveSelect(int choice)
 {
     // we are going to be intercepting all chars
@@ -1053,7 +1112,7 @@ void M_SaveSelect(int choice)
 
     saveSlot = choice;
     strcpy(saveOldString, savegamestrings[saveSlot]);
-    strcpy(savegamestrings[saveSlot], maptitle);
+    M_UpdateSaveGameName(saveSlot);
     saveCharIndex = strlen(savegamestrings[saveSlot]);
 }
 
@@ -1071,62 +1130,8 @@ void M_SaveGame(int choice)
 //
 char tempstring[160];
 
-void M_QuickSaveResponse(int key)
-{
-    messageToPrint = 0;
-    if (key == 'y')
-    {
-        strcpy(savegamestrings[quickSaveSlot], maptitle);
-        M_DoSave(quickSaveSlot);
-    }
-}
-
-char *mapnames[][6] =
-{
-    { HUSTR_E1M1, HUSTR_1,  THUSTR_1,  PHUSTR_1,  NHUSTR_1, HUSTR2_1  },
-    { HUSTR_E1M2, HUSTR_2,  THUSTR_2,  PHUSTR_2,  NHUSTR_2, HUSTR2_2  },
-    { HUSTR_E1M3, HUSTR_3,  THUSTR_3,  PHUSTR_3,  NHUSTR_3, HUSTR2_3  },
-    { HUSTR_E1M4, HUSTR_4,  THUSTR_4,  PHUSTR_4,  NHUSTR_4, HUSTR2_4  },
-    { HUSTR_E1M5, HUSTR_5,  THUSTR_5,  PHUSTR_5,  NHUSTR_5, HUSTR2_5  },
-    { HUSTR_E1M6, HUSTR_6,  THUSTR_6,  PHUSTR_6,  NHUSTR_6, HUSTR2_6  },
-    { HUSTR_E1M7, HUSTR_7,  THUSTR_7,  PHUSTR_7,  NHUSTR_7, HUSTR2_7  },
-    { HUSTR_E1M8, HUSTR_8,  THUSTR_8,  PHUSTR_8,  NHUSTR_8, HUSTR2_8  },
-    { HUSTR_E1M9, HUSTR_9,  THUSTR_9,  PHUSTR_9,  NHUSTR_9, HUSTR2_9  },
-    { HUSTR_E2M1, HUSTR_10, THUSTR_10, PHUSTR_10, "",       HUSTR2_10 },
-    { HUSTR_E2M2, HUSTR_11, THUSTR_11, PHUSTR_11, "",       HUSTR2_11 },
-    { HUSTR_E2M3, HUSTR_12, THUSTR_12, PHUSTR_12, "",       HUSTR2_12 },
-    { HUSTR_E2M4, HUSTR_13, THUSTR_13, PHUSTR_13, "",       HUSTR2_13 },
-    { HUSTR_E2M5, HUSTR_14, THUSTR_14, PHUSTR_14, "",       HUSTR2_14 },
-    { HUSTR_E2M6, HUSTR_15, THUSTR_15, PHUSTR_15, "",       HUSTR2_15 },
-    { HUSTR_E2M7, HUSTR_16, THUSTR_16, PHUSTR_16, "",       HUSTR2_16 },
-    { HUSTR_E2M8, HUSTR_17, THUSTR_17, PHUSTR_17, "",       HUSTR2_17 },
-    { HUSTR_E2M9, HUSTR_18, THUSTR_18, PHUSTR_18, "",       HUSTR2_18 },
-    { HUSTR_E3M1, HUSTR_19, THUSTR_19, PHUSTR_19, "",       HUSTR2_19 },
-    { HUSTR_E3M2, HUSTR_20, THUSTR_20, PHUSTR_20, "",       HUSTR2_20 },
-    { HUSTR_E3M3, HUSTR_21, THUSTR_21, PHUSTR_21, "",       HUSTR2_21 },
-    { HUSTR_E3M4, HUSTR_22, THUSTR_22, PHUSTR_22, "",       HUSTR2_22 },
-    { HUSTR_E3M5, HUSTR_23, THUSTR_23, PHUSTR_23, "",       HUSTR2_23 },
-    { HUSTR_E3M6, HUSTR_24, THUSTR_24, PHUSTR_24, "",       HUSTR2_24 },
-    { HUSTR_E3M7, HUSTR_25, THUSTR_25, PHUSTR_25, "",       HUSTR2_25 },
-    { HUSTR_E3M8, HUSTR_26, THUSTR_26, PHUSTR_26, "",       HUSTR2_26 },
-    { HUSTR_E3M9, HUSTR_27, THUSTR_27, PHUSTR_27, "",       HUSTR2_27 },
-    { HUSTR_E4M1, HUSTR_28, THUSTR_28, PHUSTR_28, "",       HUSTR2_28 },
-    { HUSTR_E4M2, HUSTR_29, THUSTR_29, PHUSTR_29, "",       HUSTR2_29 },
-    { HUSTR_E4M3, HUSTR_30, THUSTR_30, PHUSTR_30, "",       HUSTR2_30 },
-    { HUSTR_E4M4, HUSTR_31, THUSTR_31, PHUSTR_31, "",       HUSTR2_31 },
-    { HUSTR_E4M5, HUSTR_32, THUSTR_32, PHUSTR_32, "",       HUSTR2_32 },
-    { HUSTR_E4M6, "",       "",        "",        "",       HUSTR2_33 },
-    { HUSTR_E4M7, "",       "",        "",        "",       ""        },
-    { HUSTR_E4M8, "",       "",        "",        "",       ""        },
-    { HUSTR_E4M9, "",       "",        "",        "",       ""        },
-    { "",         "",       "",        "",        "",       ""        }
-};
-
 void M_QuickSave(void)
 {
-    int         i = 0;
-    boolean     match = false;
-
     if (quickSaveSlot < 0)
     {
         if (functionkey == KEY_F6)
@@ -1145,19 +1150,7 @@ void M_QuickSave(void)
         }
         return;
     }
-
-    while (mapnames[i][gamemission][0])
-    {
-        if (!strcasecmp(savegamestrings[quickSaveSlot], mapnames[i][gamemission]))
-        {
-            match = true;
-            break;
-        }
-        i++;
-    }
-    if (match)
-        strcpy(savegamestrings[quickSaveSlot], maptitle);
-
+    M_UpdateSaveGameName(quickSaveSlot);
     M_DoSave(quickSaveSlot);
     S_StartSound(NULL, sfx_swtchx);
 }
