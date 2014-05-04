@@ -1501,13 +1501,8 @@ void ST_Ticker(void)
     {
         if (!--idclevtics)
         {
-            int i;
-
             if (!samelevel)
                 S_StopMusic();
-
-            for (i = 0; i < NUMCARDS; i++)
-                plyr->cards[i] = false;
 
             G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
         }
