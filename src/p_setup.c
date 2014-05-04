@@ -720,102 +720,88 @@ void P_LoadBlockMap(int lump)
 // Builds sector line lists and subsector sector numbers.
 // Finds block bounding boxes for sectors.
 //
-void P_GroupLines(void)
-{
-    line_t      **linebuffer;
-    int         i;
-    int         j;
-    line_t      *li;
-    sector_t    *sector;
-    subsector_t *ss;
-    seg_t       *seg;
-    fixed_t     bbox[4];
-    int         block;
+// killough 5/3/98: reformatted, cleaned up
+// cph 18/8/99: rewritten to avoid O(numlines * numsectors) section
+// It makes things more complicated, but saves seconds on big levels
+// figgi 09/18/00 -- adapted for gl-nodes
 
-    // look up sector number for each subsector
-    ss = subsectors;
-    for (i = 0; i < numsubsectors; i++, ss++)
+// cph - convenient sub-function
+static void P_AddLineToSector(line_t *li, sector_t *sector)
+{
+    fixed_t *bbox = (void *)sector->blockbox;
+
+    sector->lines[sector->linecount++] = li;
+    M_AddToBox(bbox, li->v1->x, li->v1->y);
+    M_AddToBox(bbox, li->v2->x, li->v2->y);
+}
+
+static void P_GroupLines(void)
+{
+    register line_t     *li;
+    register sector_t   *sector;
+    int                 i, j, total = numlines;
+
+    // figgi
+    for (i = 0; i < numsubsectors; i++)
     {
-        seg = &segs[ss->firstline];
-        ss->sector = seg->sidedef->sector;
+        seg_t   *seg = &segs[subsectors[i].firstline];
+
+        subsectors[i].sector = NULL;
+        for (j = 0; j < subsectors[i].numlines; j++)
+        {
+            if (seg->sidedef)
+            {
+                subsectors[i].sector = seg->sidedef->sector;
+                break;
+            }
+            seg++;
+        }
+        if (subsectors[i].sector == NULL)
+            I_Error("P_GroupLines: Subsector a part of no sector!");
     }
 
     // count number of lines in each sector
-    li = lines;
-    totallines = 0;
-    for (i = 0; i < numlines; i++, li++)
+    for (i = 0, li = lines; i < numlines; i++, li++)
     {
-        totallines++;
-
-        if (!li->frontsector && li->backsector)
-        {
-            li->frontsector = li->backsector;
-            li->backsector = NULL;
-        }
-
-        if (li->frontsector)
-            li->frontsector->linecount++;
-
+        li->frontsector->linecount++;
         if (li->backsector && li->backsector != li->frontsector)
         {
             li->backsector->linecount++;
-            totallines++;
+            total++;
         }
     }
 
-    // build line tables for each sector
-    linebuffer = (line_t **)Z_Malloc(totallines * sizeof(line_t *), PU_LEVEL, 0);
-
-    for (i = 0; i < numsectors; ++i)
+    // allocate line tables for each sector
     {
-        // Assign the line buffer for this sector
-        sectors[i].lines = linebuffer;
-        linebuffer += sectors[i].linecount;
+        line_t  **linebuffer = Z_Malloc(total * sizeof(line_t *), PU_LEVEL, 0);
 
-        // Reset linecount to zero so in the next stage we can count
-        // lines into the list.
-        sectors[i].linecount = 0;
-    }
-
-    // Assign lines to sectors
-    for (i = 0; i < numlines; ++i)
-    {
-        li = &lines[i];
-
-        if (li->frontsector != NULL)
+        // e6y: REJECT overrun emulation code
+        // moved to P_LoadReject
+        for (i = 0, sector = sectors; i < numsectors; i++, sector++)
         {
-            sector = li->frontsector;
-
-            sector->lines[sector->linecount] = li;
-            ++sector->linecount;
-        }
-
-        if (li->backsector != NULL && li->frontsector != li->backsector)
-        {
-            sector = li->backsector;
-
-            sector->lines[sector->linecount] = li;
-            ++sector->linecount;
+            sector->lines = linebuffer;
+            linebuffer += sector->linecount;
+            sector->linecount = 0;
+            M_ClearBox(sector->blockbox);
         }
     }
 
-    // Generate bounding boxes for sectors
-    sector = sectors;
-    for (i = 0 ; i<numsectors ; i++, sector++)
+    // Enter those lines
+    for (i = 0, li = lines; i < numlines; i++, li++)
     {
-        M_ClearBox(bbox);
+        P_AddLineToSector(li, li->frontsector);
+        if (li->backsector && li->backsector != li->frontsector)
+            P_AddLineToSector(li, li->backsector);
+    }
 
-        for (j = 0; j < sector->linecount; j++)
-        {
-            li = sector->lines[j];
+    for (i = 0, sector = sectors; i < numsectors; i++, sector++)
+    {
+        fixed_t *bbox = (void*)sector->blockbox; // cph - For convenience, so
+        int block;                               // I can use the old code unchanged
 
-            M_AddToBox(bbox, li->v1->x, li->v1->y);
-            M_AddToBox(bbox, li->v2->x, li->v2->y);
-        }
-
-        // set the degenmobj_t to the middle of the bounding box
-        sector->soundorg.x = (bbox[BOXRIGHT] + bbox[BOXLEFT]) / 2;
-        sector->soundorg.y = (bbox[BOXTOP] + bbox[BOXBOTTOM]) / 2;
+        //e6y: fix sound origin for large levels
+        sector->soundorg.x = bbox[BOXRIGHT] / 2 + bbox[BOXLEFT] / 2;
+        sector->soundorg.y = bbox[BOXTOP] / 2 + bbox[BOXBOTTOM] / 2;
 
         // adjust bounding box to map blocks
         block = (bbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
