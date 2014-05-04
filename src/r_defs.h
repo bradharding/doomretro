@@ -153,7 +153,7 @@ typedef struct line_s
     fixed_t             dy;
 
     // Animation related.
-    short               flags;
+    unsigned short      flags;
 
     boolean             hidden;
 

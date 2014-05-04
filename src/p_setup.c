@@ -118,15 +118,15 @@ boolean         canmodify;
 //
 void P_LoadVertexes(int lump)
 {
-    const mapvertex_t *data;
-    int               i;
+    const mapvertex_t   *data;
+    int                 i;
 
     // Determine number of lumps:
-    // total lump length / vertex record length.
+    //  total lump length / vertex record length.
     numvertexes = W_LumpLength(lump) / sizeof(mapvertex_t);
 
     // Allocate zone memory for buffer.
-    vertexes = (vertex_t *)Z_Malloc(numvertexes * sizeof(vertex_t), PU_LEVEL, 0);
+    vertexes = Z_Malloc(numvertexes * sizeof(vertex_t), PU_LEVEL, 0);
 
     // Load data into cache.
     data = (const mapvertex_t *)W_CacheLumpNum(lump, PU_STATIC);
@@ -170,8 +170,8 @@ void P_LoadVertexes(int lump)
 //
 void P_LoadSegs(int lump)
 {
-    const mapseg_t *data;
-    int            i;
+    const mapseg_t      *data;
+    int                 i;
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
     segs = (seg_t *)Z_Malloc(numsegs * sizeof(seg_t), PU_LEVEL, 0);
@@ -180,25 +180,14 @@ void P_LoadSegs(int lump)
 
     for (i = 0; i < numsegs; i++)
     {
-        seg_t          *li = segs + i;
-        const mapseg_t *ml = data + i;
+        seg_t           *li = segs + i;
+        const mapseg_t  *ml = data + i;
+        unsigned short  v1, v2;
+        int             side, linedef;
+        line_t          *ldef;
 
-        int    side, linedef;
-        line_t *ldef;
-
-        unsigned short v = (unsigned short)SHORT(ml->v1);
-
-        if (v < 0 || v >= numvertexes)
-            I_Error("P_LoadSegs: invalid vertex %d", v);
-        else
-            li->v1 = &vertexes[v];
-
-        v = (unsigned short)SHORT(ml->v2);
-
-        if (v < 0 || v >= numvertexes)
-            I_Error("P_LoadSegs: invalid vertex %d", v);
-        else
-            li->v2 = &vertexes[v];
+        v1 = (unsigned short)SHORT(ml->v1);
+        v2 = (unsigned short)SHORT(ml->v2);
 
         li->angle = SHORT(ml->angle) << 16;
         linedef = (unsigned short)SHORT(ml->linedef);
@@ -211,8 +200,19 @@ void P_LoadSegs(int lump)
 
         side = SHORT(ml->side);
 
+        // e6y: fix wrong side index
+        if (side != 0 && side != 1)
+            side = 1;
+
         li->sidedef = &sides[ldef->sidenum[side]];
-        li->frontsector = sides[ldef->sidenum[side]].sector;
+
+        // cph 2006/09/30 - our frontsector can be the second side of the
+        // linedef, so must check for NO_INDEX in case we are incorrectly
+        // referencing the back of a 1S line
+        if (ldef->sidenum[side] != NO_INDEX)
+            li->frontsector = sides[ldef->sidenum[side]].sector;
+        else
+            li->frontsector = 0;
 
         if (ldef-> flags & ML_TWOSIDED)
         {
@@ -231,6 +231,30 @@ void P_LoadSegs(int lump)
         }
         else
             li->backsector = 0;
+
+        // e6y
+        // check and fix wrong references to non-existent vertexes
+        // see e1m9 @ NIVELES.WAD
+        // http://www.doomworld.com/idgames/index.php?id=12647
+        if (v1 >= numvertexes || v2 >= numvertexes)
+        {
+
+            if (li->sidedef == &sides[li->linedef->sidenum[0]])
+            {
+                li->v1 = lines[ml->linedef].v1;
+                li->v2 = lines[ml->linedef].v2;
+            }
+            else
+            {
+                li->v1 = lines[ml->linedef].v2;
+                li->v2 = lines[ml->linedef].v1;
+            }
+        }
+        else
+        {
+            li->v1 = &vertexes[v1];
+            li->v2 = &vertexes[v2];
+        }
 
         // From Odamex:
         {
@@ -304,7 +328,7 @@ void P_LoadSubsectors(int lump)
     int                  i;
 
     numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
-    subsectors = (subsector_t *)Z_Malloc(numsubsectors * sizeof(subsector_t), PU_LEVEL, 0);
+    subsectors = Z_Malloc(numsubsectors * sizeof(subsector_t), PU_LEVEL, 0);
     data = (const mapsubsector_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     memset(subsectors, 0, numsubsectors * sizeof(subsector_t));
@@ -323,11 +347,11 @@ void P_LoadSubsectors(int lump)
 //
 void P_LoadSectors(int lump)
 {
-    byte *data;
-    int  i;
+    const byte  *data;
+    int         i;
 
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
-    sectors = (sector_t *)Z_Malloc(numsectors * sizeof(sector_t), PU_LEVEL, 0);
+    sectors = Z_Malloc(numsectors * sizeof(sector_t), PU_LEVEL, 0);
     memset(sectors, 0, numsectors * sizeof(sector_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -384,8 +408,8 @@ void P_LoadSectors(int lump)
 //
 void P_LoadNodes(int lump)
 {
-    byte *data;
-    int  i;
+    const byte  *data;
+    int         i;
 
     numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
     nodes = (node_t *)Z_Malloc(numnodes * sizeof(node_t), PU_LEVEL, 0);
@@ -401,16 +425,15 @@ void P_LoadNodes(int lump)
         no->y = SHORT(mn->y) << FRACBITS;
         no->dx = SHORT(mn->dx) << FRACBITS;
         no->dy = SHORT(mn->dy) << FRACBITS;
+
         for (j = 0; j < 2; j++)
         {
             int k;
 
             no->children[j] = (unsigned short)SHORT(mn->children[j]);
-            // e6y: support for extended nodes
+
             if (no->children[j] == 0xFFFF)
-            {
                 no->children[j] = -1;
-            }
             else if (no->children[j] & 0x8000)
             {
                 // Convert to extended type
@@ -436,17 +459,17 @@ void P_LoadNodes(int lump)
 //
 void P_LoadThings(int lump)
 {
-    const mapthing_t *data;
-    int              i;
-    int              numthings;
+    const mapthing_t    *data;
+    int                 i;
+    int                 numthings;
 
     data = (const mapthing_t *)W_CacheLumpNum(lump, PU_STATIC);
     numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
     for (i = 0; i < numthings; i++)
     {
-        mapthing_t mt = data[i];
-        boolean    spawn = true;
+        mapthing_t      mt = data[i];
+        boolean         spawn = true;
 
         // Do not spawn cool, new monsters if !commercial
         if (gamemode != commercial)
@@ -526,8 +549,8 @@ void P_LoadThings(int lump)
 //
 void P_LoadLineDefs(int lump)
 {
-    byte *data;
-    int  i;
+    const byte  *data;
+    int         i;
 
     numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
     lines = (line_t *)Z_Malloc(numlines * sizeof(line_t), PU_LEVEL, 0);
@@ -536,9 +559,9 @@ void P_LoadLineDefs(int lump)
 
     for (i = 0; i < numlines; i++)
     {
-        const maplinedef_t *mld = (const maplinedef_t *) data + i;
-        line_t             *ld = lines+i;
-        vertex_t           *v1, *v2;
+        const maplinedef_t      *mld = (const maplinedef_t *) data + i;
+        line_t                  *ld = lines + i;
+        vertex_t                *v1, *v2;
 
         ld->flags = (unsigned short)SHORT(mld->flags);
         ld->hidden = false;
@@ -590,6 +613,31 @@ void P_LoadLineDefs(int lump)
         ld->sidenum[0] = SHORT(mld->sidenum[0]);
         ld->sidenum[1] = SHORT(mld->sidenum[1]);
 
+        {
+            /* cph 2006/09/30 - fix sidedef errors right away.
+            * cph 2002/07/20 - these errors are fatal if not fixed, so apply them
+            * in compatibility mode - a desync is better than a crash! */
+            int j;
+
+            for (j = 0; j < 2; j++)
+            {
+                if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides) 
+                    ld->sidenum[j] = NO_INDEX;
+            }
+
+            // killough 11/98: fix common wad errors (missing sidedefs):
+
+            if (ld->sidenum[0] == NO_INDEX)
+                ld->sidenum[0] = 0;  // Substitute dummy sidedef for missing right side
+
+            if ((ld->sidenum[1] == NO_INDEX) && (ld->flags & ML_TWOSIDED)) {
+                // e6y
+                // ML_TWOSIDED flag shouldn't be cleared for compatibility purposes
+                // see CLNJ-506.LMP at http://doomedsda.us/wad1005.html
+                ld->flags &= ~ML_TWOSIDED;  // Clear 2s flag for missing left side
+            }
+        }
+
         if (ld->sidenum[0] != NO_INDEX)
             ld->frontsector = sides[ld->sidenum[0]].sector;
         else
@@ -609,8 +657,8 @@ void P_LoadLineDefs(int lump)
 //
 void P_LoadSideDefs(int lump)
 {
-    byte *data;
-    int  i;
+    const byte  *data;
+    int         i;
 
     numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
     sides = (side_t *)Z_Malloc(numsides * sizeof(side_t), PU_LEVEL, 0);
@@ -624,10 +672,18 @@ void P_LoadSideDefs(int lump)
 
         sd->textureoffset = SHORT(msd->textureoffset) << FRACBITS;
         sd->rowoffset = SHORT(msd->rowoffset) << FRACBITS;
+
+        { /* cph 2006/09/30 - catch out-of-range sector numbers; use sector 0 instead */
+            unsigned short sector_num = SHORT(msd->sector);
+            if (sector_num >= numsectors) {
+                sector_num = 0;
+            }
+            sd->sector = &sectors[sector_num];
+        }
+
         sd->toptexture = R_TextureNumForName(msd->toptexture);
         sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
         sd->midtexture = R_TextureNumForName(msd->midtexture);
-        sd->sector = &sectors[SHORT(msd->sector)];
     }
 
     W_ReleaseLumpNum(lump);
