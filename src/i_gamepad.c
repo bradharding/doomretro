@@ -63,6 +63,8 @@ extern boolean idbehold;
 
 void I_InitGamepad(void)
 {
+    gamepadfunc = NULL;
+
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
         return;
     else
