@@ -94,6 +94,7 @@ int                     translucency = true;
 
 extern int              automapactive;
 extern int              viewheight2;
+extern int              gametic;
 extern boolean          canmodify;
 
 void (*colfunc)(void);
@@ -520,8 +521,8 @@ void R_RenderPlayerView(player_t *player)
         R_ClearPlanes();
         R_ClearSprites();
 
-        if (player->cheats & CF_NOCLIP)
-            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, 0);
+        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
+            (gametic % 20) >= 9 || (player->cheats & CF_NOCLIP) ? 0 : 176);
 
         // The head node is the last node output.
         R_RenderBSPNode(numnodes - 1);
