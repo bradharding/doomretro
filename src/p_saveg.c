@@ -779,9 +779,7 @@ static void saveg_write_player_t(player_t *str)
 
     // int powers[NUMPOWERS];
     for (i = 0; i < NUMPOWERS; ++i)
-    {
         saveg_write32(str->powers[i]);
-    }
 
     // int cards[NUMCARDS];
     for (i = 0; i < NUMCARDS; ++i)
@@ -1553,7 +1551,7 @@ void P_ArchiveWorld(void)
         saveg_write16(li->tag);
         for (j = 0; j < 2; j++)
         {
-            if (li->sidenum[j] == -1)
+            if (li->sidenum[j] == NO_INDEX)
                 continue;
 
             si = &sides[li->sidenum[j]];
@@ -1600,9 +1598,11 @@ void P_UnArchiveWorld(void)
         li->tag = saveg_read16();
         for (j = 0; j < 2; j++)
         {
-            if (li->sidenum[j] == -1)
+            if (li->sidenum[j] == NO_INDEX)
                 continue;
+
             si = &sides[li->sidenum[j]];
+
             si->textureoffset = saveg_read16() << FRACBITS;
             si->rowoffset = saveg_read16() << FRACBITS;
             si->toptexture = saveg_read16();
