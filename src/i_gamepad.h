@@ -73,6 +73,10 @@ void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
 void I_PollDirectInputGamepad(void);
 void I_PollXInputGamepad(void);
+void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY);
+void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY);
+void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY);
+void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY);
 void(*gamepadfunc)(void);
 
 #endif
