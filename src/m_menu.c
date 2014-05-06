@@ -1759,7 +1759,7 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
-            else if (widescreen)
+            else if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 if (!hud)
                     hud = true;
@@ -1776,7 +1776,8 @@ void M_SizeDisplay(int choice)
             }
             break;
         case 1:
-            if (widescreen || screensize == SCREENSIZE_MAX)
+            if (widescreen || (returntowidescreen && gamestate != GS_LEVEL) ||
+                screensize == SCREENSIZE_MAX)
             {
                 if (hud)
                 {
