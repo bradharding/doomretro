@@ -63,7 +63,9 @@ extern boolean idbehold;
 
 void I_InitGamepad(void)
 {
-    gamepadfunc = NULL;
+    gamepadfunc = I_PollDirectInputGamepad;
+    gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_DirectInput_LeftHanded :
+        I_PollThumbs_DirectInput_RightHanded);
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
         return;
@@ -93,12 +95,6 @@ void I_InitGamepad(void)
                 gamepadfunc = I_PollXInputGamepad;
                 gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_XInput_LeftHanded :
                     I_PollThumbs_XInput_RightHanded);
-            }
-            else
-            {
-                gamepadfunc = I_PollDirectInputGamepad;
-                gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_DirectInput_LeftHanded :
-                    I_PollThumbs_DirectInput_RightHanded);
             }
 
             SDL_JoystickEventState(SDL_ENABLE);
