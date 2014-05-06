@@ -102,6 +102,7 @@ extern int screenwidth;
 extern int screenheight;
 extern int windowwidth;
 extern int windowheight;
+extern int pixelsize;
 
 void D_CheckNetGame(void);
 
@@ -994,6 +995,10 @@ static void D_DoomMainSetup(void)
     if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;
     bloodSplatSpawner = (bloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2);
+
+    if (pixelsize < PIXELSIZE_MIN || pixelsize > PIXELSIZE_MAX)
+        pixelsize = PIXELSIZE_DEFAULT;
+    while ((SCREENWIDTH % pixelsize) || (SCREENHEIGHT % pixelsize)) pixelsize--;
 
     M_Init();
 
