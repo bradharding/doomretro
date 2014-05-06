@@ -39,7 +39,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 // Location where all configuration data is stored -
 // doomretro.cfg, savegames, etc.
-
 char            *configdir;
 
 extern int      bloodsplats;
@@ -85,6 +84,7 @@ extern int      mouseSensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
 extern int      mousebfire;
+extern int      pixelsize;
 extern boolean  rotate;
 extern int      runcount;
 extern int      screenheight;
@@ -116,44 +116,41 @@ typedef enum
 typedef struct
 {
     // Name of the variable
-    char *name;
+    char                *name;
 
     // Pointer to the location in memory of the variable
-    void *location;
+    void                *location;
 
     // Type of the variable
-    default_type_t type;
+    default_type_t      type;
 
     // If this is a key value, the original integer scancode we read from
     // the config file before translating it to the internal key value.
     // If zero, we didn't read this value from a config file.
-    int untranslated;
+    int                 untranslated;
 
     // The value we translated the scancode into when we read the
     // config file on startup.  If the variable value is different from
     // this, it has been changed and needs to be converted; otherwise,
     // use the 'untranslated' value.
-    int original_translated;
+    int                 original_translated;
 
-    int set;
-}
-default_t;
-
-typedef struct
-{
-    default_t *defaults;
-    int numdefaults;
-    char *filename;
-}
-default_collection_t;
+    int                 set;
+} default_t;
 
 typedef struct
 {
-    char *text;
-    int value;
-    int set;
-}
-alias_t;
+    default_t           *defaults;
+    int                 numdefaults;
+    char                *filename;
+} default_collection_t;
+
+typedef struct
+{
+    char                *text;
+    int                 value;
+    int                 set;
+} alias_t;
 
 #define CONFIG_VARIABLE_GENERIC(name, variable, type, set) \
     { #name, &variable, type, 0, 0, set }
@@ -217,6 +214,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (mouse_sensitivity,   mouseSensitivity,     0),
     CONFIG_VARIABLE_INT   (mouse_threshold,     mouse_threshold,      0),
     CONFIG_VARIABLE_INT   (music_volume,        musicVolume,          0),
+    CONFIG_VARIABLE_INT   (pixelsize,           pixelsize,            0),
     CONFIG_VARIABLE_INT   (rotate,              rotate,               1),
     CONFIG_VARIABLE_INT   (runcount,            runcount,             0),
     CONFIG_VARIABLE_INT   (savegame,            selectedsavegame,     0),
@@ -241,7 +239,7 @@ static default_collection_t doom_defaults =
 {
     doom_defaults_list,
     arrlen(doom_defaults_list),
-    NULL,
+    NULL
 };
 
 static const int scantokey[128] =
@@ -341,9 +339,9 @@ static alias_t alias[] =
 
 static void SaveDefaultCollection(default_collection_t *collection)
 {
-    default_t *defaults;
-    int       i;
-    FILE      *f = fopen(collection->filename, "w");
+    default_t   *defaults;
+    int         i;
+    FILE        *f = fopen(collection->filename, "w");
 
     if (!f)
         return; // can't write the file, but don't complain
@@ -352,8 +350,8 @@ static void SaveDefaultCollection(default_collection_t *collection)
 
     for (i = 0; i < collection->numdefaults; i++)
     {
-        int chars_written;
-        int v;
+        int     chars_written;
+        int     v;
 
         // Print the name and line up all values at 30 characters
         chars_written = fprintf(f, "%s ", defaults[i].name);
@@ -369,7 +367,6 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 // use the untranslated version if we can, to reduce
                 // the possibility of screwing up the user's config
                 // file
-
                 v = *(int *)defaults[i].location;
 
                 if (defaults[i].untranslated && v == defaults[i].original_translated)
@@ -402,7 +399,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 {
                     // search for a reverse mapping back to a scancode
                     // in the scantokey table
-                    int s;
+                    int         s;
 
                     for (s = 0; s < 128; ++s)
                     {
@@ -479,11 +476,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
 // Parses integer values in the configuration file
 static int ParseIntParameter(char *strparm, int set)
 {
-    int parm;
+    int         parm;
 
     if (strparm[0] == '\'' && strparm[2] == '\'')
     {
-        int s;
+        int     s;
 
         for (s = 0; s < 128; ++s)
         {
@@ -495,14 +492,12 @@ static int ParseIntParameter(char *strparm, int set)
     }
     else
     {
-        int i = 0;
+        int     i = 0;
 
         while (alias[i].value != -1)
         {
             if (!strcasecmp(strparm, alias[i].text) && set == alias[i].set)
-            {
                 return alias[i].value;
-            }
             i++;
         }
     }
@@ -517,43 +512,36 @@ static int ParseIntParameter(char *strparm, int set)
 
 static void LoadDefaultCollection(default_collection_t *collection)
 {
-    default_t *defaults = collection->defaults;
-    int i;
-    FILE *f;
-    char defname[80];
-    char strparm[100];
+    default_t   *defaults = collection->defaults;
+    int         i;
+    FILE        *f;
+    char        defname[80];
+    char        strparm[100];
 
     // read the file in, overriding any set defaults
     f = fopen(collection->filename, "r");
 
     if (!f)
-    {
         // File not opened, but don't complain
         return;
-    }
 
     while (!feof(f))
     {
         if (fscanf(f, "%79s %[^\n]\n", defname, strparm) != 2)
-        {
             // This line doesn't match
             continue;
-        }
 
         // Strip off trailing non-printable characters (\r characters
         // from DOS text files)
-
         while (strlen(strparm) > 0 && !isprint(strparm[strlen(strparm) - 1]))
-        {
             strparm[strlen(strparm) - 1] = '\0';
-        }
 
         // Find the setting in the list
         for (i = 0; i < collection->numdefaults; ++i)
         {
-            default_t *def = &collection->defaults[i];
-            char *s;
-            int intparm;
+            default_t   *def = &collection->defaults[i];
+            char        *s;
+            int         intparm;
 
             if (strcmp(defname, def->name) != 0)
             {
@@ -581,14 +569,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
                     // file (save the old value in untranslated)
                     intparm = ParseIntParameter(strparm, def->set);
                     defaults[i].untranslated = intparm;
-                    if (intparm >= 0 && intparm < 128)
-                    {
-                        intparm = scantokey[intparm];
-                    }
-                    else
-                    {
-                        intparm = 0;
-                    }
+                    intparm = (intparm >= 0 && intparm < 128 ? scantokey[intparm] : 0);
 
                     defaults[i].original_translated = intparm;
                     *(int *)def->location = intparm;
@@ -615,7 +596,6 @@ void M_SaveDefaults(void)
     SaveDefaultCollection(&doom_defaults);
 }
 
-
 //
 // M_LoadDefaults
 //
@@ -624,7 +604,6 @@ void M_LoadDefaults(void)
     int i;
 
     // check for a custom default file
-
     i = M_CheckParmWithArgs("-config", 1);
 
     if (i)

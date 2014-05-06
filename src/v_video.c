@@ -37,7 +37,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "z_zone.h"
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
-byte            *screens[5];
+byte    *screens[5];
+
+int     pixelsize = 2;
 
 extern byte redtoyellow[];
 
@@ -898,17 +900,15 @@ void V_LowGraphicDetail(int height)
 {
     int         x, y;
 
-    for (y = 0; y < SCREENWIDTH * height; y += SCREENWIDTH * 2)
-        for (x = y; x < y + SCREENWIDTH; x += 2)
+    for (y = 0; y < height; y += pixelsize)
+        for (x = 0; x < SCREENWIDTH; x += pixelsize)
         {
-            byte        *dot = *screens + x;
-            byte        *copy;
+            byte        *dot = *screens + y * SCREENWIDTH + x;
+            int         xx, yy;
 
-            copy = dot + 1;
-            *copy = *dot;
-            copy += SCREENWIDTH;
-            *copy-- = *dot;
-            *copy = *dot;
+            for (yy = 0; yy < pixelsize; yy++)
+                for (xx = 0; xx < pixelsize; xx++)
+                    *(dot + yy * SCREENWIDTH + xx) = *dot;
         }
 }
 
