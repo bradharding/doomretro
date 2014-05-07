@@ -1092,7 +1092,9 @@ void M_UpdateSaveGameName(int i)
     boolean     match = false;
     int         j = 0;
 
-    if (strlen(savegamestrings[i]) == 4 &&
+    if (!strcmp(savegamestrings[i], EMPTYSTRING))
+        match = true;
+    else if (strlen(savegamestrings[i]) == 4 &&
         savegamestrings[i][0] == 'E' &&
         isdigit(savegamestrings[i][1]) &&
         savegamestrings[i][2] == 'M' &&
