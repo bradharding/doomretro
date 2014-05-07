@@ -1002,10 +1002,10 @@ static void D_DoomMainSetup(void)
 
     if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
         pixelwidth = PIXELWIDTH_DEFAULT;
-    while (SCREENWIDTH % pixelwidth--);
+    while (SCREENWIDTH % pixelwidth) pixelwidth--;
     if (pixelheight < PIXELHEIGHT_MIN || pixelheight > PIXELHEIGHT_MAX)
         pixelheight = PIXELHEIGHT_DEFAULT;
-    while (SCREENHEIGHT % pixelheight--);
+    while (SCREENHEIGHT % pixelheight) pixelheight--;
 
     M_Init();
 
