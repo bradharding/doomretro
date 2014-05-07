@@ -39,7 +39,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte    *screens[5];
 
-int     pixelsize = 2;
+int     pixelwidth = 2;
+int     pixelheight = 2;
 
 extern byte redtoyellow[];
 
@@ -900,14 +901,14 @@ void V_LowGraphicDetail(int screen, int height)
 {
     int         x, y;
 
-    for (y = 0; y < height; y += pixelsize)
-        for (x = 0; x < SCREENWIDTH; x += pixelsize)
+    for (y = 0; y < height; y += pixelheight)
+        for (x = 0; x < SCREENWIDTH; x += pixelwidth)
         {
             byte        *dot = screens[screen] + y * SCREENWIDTH + x;
             int         xx, yy;
 
-            for (yy = 0; yy < pixelsize; yy++)
-                for (xx = 0; xx < pixelsize; xx++)
+            for (yy = 0; yy < pixelheight; yy++)
+                for (xx = 0; xx < pixelwidth; xx++)
                     *(dot + yy * SCREENWIDTH + xx) = *dot;
         }
 }
