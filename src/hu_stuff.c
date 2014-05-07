@@ -55,7 +55,7 @@ static boolean          always_off = false;
 static char             chat_dest[MAXPLAYERS];
 static hu_itext_t       w_inputbuffer[MAXPLAYERS];
 
-static boolean          message_on;
+boolean                 message_on;
 boolean                 message_dontfuckwithme;
 static boolean          message_nottobefuckedwith;
 

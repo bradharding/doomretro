@@ -174,6 +174,7 @@ void D_ProcessEvents(void)
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_DEMOSCREEN;
 extern  boolean setsizeneeded;
+extern  boolean message_on;
 extern  int     graphicdetail;
 extern  int     viewheight2;
 
@@ -240,9 +241,6 @@ void D_Display(void)
 
         if (automapactive)
             AM_Drawer();
-        else if (graphicdetail == LOW)
-            V_LowGraphicDetail(viewheight2);
-        HU_Drawer();
 
         // see if the border needs to be initially drawn
         if (oldgamestate != GS_LEVEL)
@@ -252,17 +250,22 @@ void D_Display(void)
         }
 
         // see if the border needs to be updated to the screen
-        if (!automapactive && scaledviewwidth != SCREENWIDTH)
+        if (!automapactive)
         {
-            if (menuactive || menuactivestate || !viewactivestate || paused || pausedstate)
-                borderdrawcount = 3;
-            if (borderdrawcount)
+            if (scaledviewwidth != SCREENWIDTH)
             {
-                R_DrawViewBorder();     // erase old menu stuff
-                borderdrawcount--;
+                if (menuactive || menuactivestate || !viewactivestate || paused || pausedstate || message_on)
+                    borderdrawcount = 3;
+                if (borderdrawcount)
+                {
+                    R_DrawViewBorder();     // erase old menu stuff
+                    borderdrawcount--;
+                }
             }
+            if (graphicdetail == LOW)
+                V_LowGraphicDetail(0, viewheight2);
         }
-
+        HU_Drawer();
     }
 
     menuactivestate = menuactive;

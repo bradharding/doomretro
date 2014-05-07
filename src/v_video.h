@@ -73,7 +73,7 @@ void V_DrawTranslucentRedPatchFlipped(int x, int y, int scrn, patch_t *patch);
 
 void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow);
 
-void V_LowGraphicDetail(int height);
+void V_LowGraphicDetail(int screen, int height);
 
 // Draw a linear block of pixels into the view buffer.
 void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src);
