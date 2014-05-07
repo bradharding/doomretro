@@ -215,14 +215,14 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (mouse_sensitivity,   mouseSensitivity,     0),
     CONFIG_VARIABLE_INT   (mouse_threshold,     mouse_threshold,      0),
     CONFIG_VARIABLE_INT   (music_volume,        musicVolume,          0),
-    CONFIG_VARIABLE_INT   (pixelheight,         pixelheight,          0),
     CONFIG_VARIABLE_INT   (pixelwidth,          pixelwidth,           0),
+    CONFIG_VARIABLE_INT   (pixelheight,         pixelheight,          0),
     CONFIG_VARIABLE_INT   (rotate,              rotate,               1),
     CONFIG_VARIABLE_INT   (runcount,            runcount,             0),
     CONFIG_VARIABLE_INT   (savegame,            selectedsavegame,     0),
-    CONFIG_VARIABLE_INT   (screenheight,        screenheight,         5),
     CONFIG_VARIABLE_INT   (screensize,          screensize,           0),
     CONFIG_VARIABLE_INT   (screenwidth,         screenwidth,          5),
+    CONFIG_VARIABLE_INT   (screenheight,        screenheight,         5),
     CONFIG_VARIABLE_INT   (sfx_volume,          sfxVolume,            0),
     CONFIG_VARIABLE_INT   (skilllevel,          selectedskilllevel,  10),
     CONFIG_VARIABLE_INT   (smoketrails,         smoketrails,          1),
@@ -232,9 +232,9 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_STRING(videodriver,         videodriver,          0),
     CONFIG_VARIABLE_STRING(wadfolder,           wadfolder,            0),
     CONFIG_VARIABLE_INT   (widescreen,          widescreen,           1),
-    CONFIG_VARIABLE_INT   (windowheight,        windowheight,         0),
     CONFIG_VARIABLE_STRING(windowposition,      windowposition,       0),
-    CONFIG_VARIABLE_INT   (windowwidth,         windowwidth,          0)
+    CONFIG_VARIABLE_INT   (windowwidth,         windowwidth,          0),
+    CONFIG_VARIABLE_INT   (windowheight,        windowheight,         0)
 };
 
 static default_collection_t doom_defaults =
