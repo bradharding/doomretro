@@ -29,7 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __INFO__
 #define __INFO__
 
-// Needed for action function pointer handling.
+#include "doomtype.h"
 #include "d_think.h"
 
 typedef enum
@@ -1175,6 +1175,7 @@ typedef struct
     char *name;
     short x;
     short y;
+    boolean canmodify;
 } offset_t;
 
 extern state_t states[NUMSTATES];

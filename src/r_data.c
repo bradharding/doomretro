@@ -793,7 +793,7 @@ void R_InitSpriteLumps(void)
     i = 0;
     while (sproffsets[i].name[0])
     {
-        if (W_CheckMultipleLumps(sproffsets[i].name) == 1)
+        if (sproffsets[i].canmodify)
         {
             int j = W_CheckNumForName(sproffsets[i].name) - firstspritelump;
 
