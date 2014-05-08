@@ -862,8 +862,8 @@ void M_DrawLoad(void)
     int i;
 
     M_DarkBackground();
-    if (M_LGTTL)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_LGTTL", PU_CACHE));
+    if (M_LOADG)
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_LOADG", PU_CACHE));
     else
         M_DrawCenteredString(23 + OFFSET, "LOAD GAME");
 
@@ -976,8 +976,8 @@ void M_DrawSave(void)
     M_DarkBackground();
 
     // draw menu subtitle
-    if (M_SGTTL)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_SGTTL", PU_CACHE));
+    if (M_SAVEG)
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_SAVEG", PU_CACHE));
     else
         M_DrawCenteredString(23 + OFFSET, "SAVE GAME");
 
@@ -1148,8 +1148,6 @@ void M_SaveGame(int choice)
 //
 // M_QuickSave
 //
-char tempstring[160];
-
 void M_QuickSave(void)
 {
     if (quickSaveSlot < 0)
@@ -1187,6 +1185,8 @@ void M_QuickLoadResponse(int key)
         S_StartSound(NULL, sfx_swtchx);
     }
 }
+
+char tempstring[160];
 
 void M_QuickLoad(void)
 {
@@ -1252,17 +1252,17 @@ void M_DrawSound(void)
     M_DarkBackground();
     if (M_SVOL)
     {
-        M_DrawPatchWithShadow(60, 38, 0, W_CacheLumpName("M_SVOL", PU_CACHE));
+        M_DrawPatchWithShadow(60, 38 + OFFSET, 0, W_CacheLumpName("M_SVOL", PU_CACHE));
         SoundDef.x = 80;
         SoundDef.y = 64;
     }
     else
         M_DrawCenteredString(38 + OFFSET, "SOUND VOLUME");
 
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17 + (M_SVOL ? 0 : OFFSET), 16,
+    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17 + OFFSET, 16,
                  (float)(sfxVolume * !(nosfx || nosound)), 8.0f);
 
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * music_vol + 17 + (M_SVOL ? 0 : OFFSET), 16,
+    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * music_vol + 17 + OFFSET, 16,
                  (float)(musicVolume * !(nomusic || nosound)), 8.0f);
 }
 
@@ -1392,7 +1392,7 @@ void M_DrawEpisode(void)
     M_DarkBackground();
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow(96, 14, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
+        M_DrawPatchWithShadow(96, 14 + OFFSET, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1400,7 +1400,7 @@ void M_DrawEpisode(void)
         M_DrawCenteredString(19 + OFFSET, "NEW GAME");
     if (M_EPISOD)
     {
-        M_DrawPatchWithShadow(54, 38, 0, W_CacheLumpName("M_EPISOD", PU_CACHE));
+        M_DrawPatchWithShadow(54, 38 + OFFSET, 0, W_CacheLumpName("M_EPISOD", PU_CACHE));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }

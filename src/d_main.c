@@ -790,12 +790,11 @@ static void D_DoomMainSetup(void)
     }
 
     DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
-    MAPINFO = (W_CheckNumForName("MAPINFO") >= 0);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
     M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
     M_GDLOW = (W_CheckMultipleLumps("M_GDLOW") > 1);
-    M_LGTTL = (W_CheckMultipleLumps("M_LGTTL") > 1);
+    M_LOADG = (W_CheckMultipleLumps("M_LOADG") > 1);
     M_LSCNTR = (W_CheckMultipleLumps("M_LSCNTR") > 1);
     M_MSENS = (W_CheckMultipleLumps("M_MSENS") > 1);
     M_MSGOFF = (W_CheckMultipleLumps("M_MSGOFF") > 1);
@@ -804,7 +803,7 @@ static void D_DoomMainSetup(void)
     M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
     M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
     M_PAUSE = (W_CheckMultipleLumps("M_PAUSE") > 1);
-    M_SGTTL = (W_CheckMultipleLumps("M_SGTTL") > 1);
+    M_SAVEG = (W_CheckMultipleLumps("M_SAVEG") > 1);
     M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
     M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);
     M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
