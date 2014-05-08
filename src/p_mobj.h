@@ -325,11 +325,11 @@ typedef struct mobj_s
     struct mobj_s       *tracer;
 
     // For bobbing up and down.
-    int                floatboblevel;
-    int                floatbobdirection;
-    int                floatbobcount;
+    int                 floatboblevel;
+    int                 floatbobdirection;
+    int                 floatbobcount;
 
-    void               (*colfunc)(void);
+    void                (*colfunc)(void);
 
 } mobj_t;
 

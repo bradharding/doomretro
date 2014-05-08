@@ -667,19 +667,17 @@ void P_LoadSideDefs(int lump)
 
     for (i = 0; i < numsides; i++)
     {
-        mapsidedef_t *msd = (mapsidedef_t *)data + i;
-        side_t *sd = sides + i;
+        mapsidedef_t    *msd = (mapsidedef_t *)data + i;
+        side_t          *sd = sides + i;
+        unsigned short  sector_num = SHORT(msd->sector);
 
         sd->textureoffset = SHORT(msd->textureoffset) << FRACBITS;
         sd->rowoffset = SHORT(msd->rowoffset) << FRACBITS;
 
-        { /* cph 2006/09/30 - catch out-of-range sector numbers; use sector 0 instead */
-            unsigned short sector_num = SHORT(msd->sector);
-            if (sector_num >= numsectors) {
-                sector_num = 0;
-            }
-            sd->sector = &sectors[sector_num];
-        }
+        // cph 2006/09/30 - catch out-of-range sector numbers; use sector 0 instead
+        if (sector_num >= numsectors)
+            sector_num = 0;
+        sd->sector = &sectors[sector_num];
 
         sd->toptexture = R_TextureNumForName(msd->toptexture);
         sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);

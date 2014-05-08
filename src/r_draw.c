@@ -1221,7 +1221,6 @@ void R_FillBackScreen(void)
     }
 
     // Draw screen and bezel; this is done to a separate screen buffer.
-
     width = scaledviewwidth / 2;
     height = viewheight / 2;
     windowx = viewwindowx / 2;
