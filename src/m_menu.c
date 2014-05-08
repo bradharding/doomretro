@@ -2953,8 +2953,9 @@ void M_Drawer(void)
                 currentMenu->menuitems[mousesens].alphaKey = 'm';
             }
         }
-        else if (W_CheckMultipleLumps(name) > 1 && titleheight <= 125)
-            M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
+        else if (W_CheckMultipleLumps(name) > 1)
+            M_DrawPatchWithShadow(x, y + OFFSET * (titleheight <= 125), 0,
+                                  W_CacheLumpName(name, PU_CACHE));
         else
             M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
         y += LINEHEIGHT - 1;
