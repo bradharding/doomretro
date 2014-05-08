@@ -2963,20 +2963,25 @@ void M_Drawer(void)
 
     // DRAW SKULL
     if (currentMenu == &LoadDef || currentMenu == &SaveDef)
-        M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, 0,
-                              W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+    {
+        if (M_SKULL1)
+            M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET, 0,
+                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+        else
+            M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, 0,
+                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+    }
     else if (currentMenu != &ReadDef)
     {
         if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
             itemOn++;
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET *
-                                  (titleheight <= 125), 0, W_CacheLumpName(skullName[whichSkull],
-                                  PU_CACHE));
+                                  (titleheight <= 125 || currentMenu != &MainDef), 0,
+                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
         else
             M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, 0,
                                   W_CacheLumpName(skullName[whichSkull], PU_CACHE));
-
     }
 }
 
@@ -3044,12 +3049,7 @@ void M_Init(void)
     M_ReadSaveStrings();
 
     if (gamemode == commercial)
-    {
-        if (nerve)
-            NewDef.prevMenu = &ExpDef;
-        else
-            NewDef.prevMenu = &MainDef;
-    }
+        NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered)
         EpiDef.numitems--;
 }
