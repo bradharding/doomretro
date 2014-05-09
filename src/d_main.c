@@ -773,7 +773,7 @@ static void D_DoomMainSetup(void)
         W_CheckNumForName("STBAR2") < 0)
         I_Error("Wrong version of doomretro.wad.");
 
-    p = M_CheckParmWithArgs("-file", 1);
+    p = M_CheckParmsWithArgs("-file", "-pwad", 1);
     if (p > 0)
     {
         for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
