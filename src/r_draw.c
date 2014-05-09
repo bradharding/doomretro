@@ -422,6 +422,34 @@ void R_DrawSkyColumn(void)
     register byte          *dest;
     register fixed_t       frac;
     register const fixed_t fracstep = dc_iscale;
+
+    if (count++ < 0)
+        return;
+
+    dest = ylookup[dc_yl] + columnofs[dc_x];
+
+    frac = dc_texturemid + (dc_yl - centery) * fracstep;
+
+    {
+        register const byte         *source = dc_source;
+        register const lighttable_t *colormap = dc_colormap;
+
+        while (--count)
+        {
+            *dest = colormap[source[(frac >> FRACBITS) & 127]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+        }
+        *dest = colormap[source[(frac >> FRACBITS) & 127]];
+    }
+}
+
+void R_DrawFlippedSkyColumn(void)
+{
+    register int32_t       count = dc_yh - dc_yl;
+    register byte          *dest;
+    register fixed_t       frac;
+    register const fixed_t fracstep = dc_iscale;
     register fixed_t       i;
 
     if (count++ < 0)

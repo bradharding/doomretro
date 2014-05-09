@@ -128,8 +128,6 @@ wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 byte            consistancy[MAXPLAYERS][BACKUPTICS];
 
-boolean         flipsky;
-
 //
 // controls (have defaults)
 //
@@ -435,8 +433,6 @@ void G_DoLoadLevel(void)
         }
     }
 
-    flipsky = !(canmodify && gamemode == commercial && gamemap >= 20);
-
     respawnmonsters = (gameskill == sk_nightmare || respawnparm);
 
     levelstarttic = gametic;                    // for time calculation
@@ -455,6 +451,10 @@ void G_DoLoadLevel(void)
     }
 
     P_SetupLevel(gameepisode, gamemap);
+
+    skycolfunc = (canmodify && (gamemode != commercial || gamemap < 21) ?
+                  R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+
     displayplayer = consoleplayer;              // view the guy you are playing
     gameaction = ga_nothing;
 

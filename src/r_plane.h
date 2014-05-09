@@ -46,8 +46,6 @@ extern int              ceilingclip[SCREENWIDTH];
 extern fixed_t          yslope[SCREENHEIGHT];
 extern fixed_t          distscale[SCREENWIDTH];
 
-extern boolean          flipsky;
-
 void R_ClearPlanes(void);
 
 void R_MakeSpans(int x, int t1, int b1, int t2, int b2);
