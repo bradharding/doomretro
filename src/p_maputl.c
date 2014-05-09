@@ -33,6 +33,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 extern msecnode_t *sector_list; // phares 3/16/98
 
+void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y);
+
 //
 // P_ApproxDistance
 // Gives an estimation of distance (not exact)
