@@ -432,15 +432,14 @@ void R_DrawSkyColumn(void)
 
     {
         register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
 
         while (--count)
         {
-            *dest = colormap[source[(frac >> FRACBITS) & 127]];
+            *dest = source[(frac >> FRACBITS) & 127];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        *dest = colormap[source[(frac >> FRACBITS) & 127]];
+        *dest = source[(frac >> FRACBITS) & 127];
     }
 }
 
@@ -461,17 +460,16 @@ void R_DrawFlippedSkyColumn(void)
 
     {
         register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
 
         while (--count)
         {
             i = frac >> FRACBITS;
-            *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
+            *dest = source[i > 127 ? 126 - (i & 127) : i];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
         i = frac >> FRACBITS;
-        *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
+        *dest = source[i > 127 ? 126 - (i & 127) : i];
     }
 }
 
