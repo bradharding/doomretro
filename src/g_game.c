@@ -231,6 +231,8 @@ static int      dclicks2;
 static int      savegameslot;
 static char     savedescription[32];
 
+extern msecnode_t *headsecnode; 
+
 int G_CmdChecksum(ticcmd_t *cmd)
 {
     size_t      i;
@@ -449,6 +451,12 @@ void G_DoLoadLevel(void)
             players[i].playerstate = PST_REBORN;
         memset(players[i].frags, 0, sizeof(players[i].frags));
     }
+
+    // initialize the msecnode_t freelist.
+    // any nodes in the freelist are gone by now, cleared
+    // by Z_FreeTags() when the previous level ended or player
+    // died.
+    headsecnode = NULL;
 
     P_SetupLevel(gameepisode, gamemap);
 
