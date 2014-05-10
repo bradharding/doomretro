@@ -238,4 +238,6 @@ int main(int argc, char **argv)
     I_SetProcessPriority();
 
     D_DoomMain();
+
+    return 0;
 }
