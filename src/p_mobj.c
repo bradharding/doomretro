@@ -38,9 +38,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "z_zone.h"
 
 void G_PlayerReborn(int player);
+void P_DelSeclist(msecnode_t *node);
 
-int             bloodsplats = BLOODSPLATS_DEFAULT;
-mobj_t          *bloodSplatQueue[BLOODSPLATS_MAX];
+int             bloodsplatstotal = BLOODSPLATSTOTAL_DEFAULT;
+int             bloodsplatsvisible = BLOODSPLATSVISIBLE_DEFAULT;
+mobj_t          *bloodSplatQueue[BLOODSPLATSTOTAL_MAX];
 int             bloodSplatQueueSlot;
 void            (*bloodSplatSpawner)(fixed_t, fixed_t, int, void(*)(void));
 
@@ -637,7 +639,7 @@ extern int *isliquid;
 
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if (bloodsplats > 0 && mobj->type == MT_BLOOD
+    if (bloodsplatstotal > 0 && mobj->type == MT_BLOOD
         && mobj->floorz == mobj->subsector->sector->floorheight
         && !isliquid[mobj->subsector->sector->floorpic])
     {
@@ -1089,9 +1091,9 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
     newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
     P_AddThinker(&newsplat->thinker);
 
-    if (bloodSplatQueueSlot > bloodsplats)
+    if (bloodSplatQueueSlot > bloodsplatstotal)
     {
-        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
+        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplatstotal];
 
         if (oldsplat)
         {
@@ -1100,7 +1102,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
         }
     }
 
-    bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
+    bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplatstotal] = newsplat;
 }
 
 //

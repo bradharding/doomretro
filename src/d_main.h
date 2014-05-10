@@ -31,49 +31,53 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "d_event.h"
 
-#define MOUSESENSITIVITY_MIN       0
-#define MOUSESENSITIVITY_DEFAULT   12
-#define MOUSESENSITIVITY_MAX       64
+#define MOUSESENSITIVITY_MIN            0
+#define MOUSESENSITIVITY_DEFAULT        12
+#define MOUSESENSITIVITY_MAX            64
 
-#define MOUSEACCELERATION_DEFAULT  2.0
+#define MOUSEACCELERATION_DEFAULT       2.0
 
-#define MOUSETHRESHOLD_DEFAULT     10
+#define MOUSETHRESHOLD_DEFAULT          10
 
-#define SFXVOLUME_MIN              0
-#define SFXVOLUME_DEFAULT          15
-#define SFXVOLUME_MAX              15
+#define SFXVOLUME_MIN                   0
+#define SFXVOLUME_DEFAULT               15
+#define SFXVOLUME_MAX                   15
 
-#define MUSICVOLUME_MIN            0
-#define MUSICVOLUME_DEFAULT        15
-#define MUSICVOLUME_MAX            15
+#define MUSICVOLUME_MIN                 0
+#define MUSICVOLUME_DEFAULT             15
+#define MUSICVOLUME_MAX                 15
 
-#define LOW                        0
-#define HIGH                       1
-#define GRAPHICDETAIL_DEFAULT      HIGH
+#define LOW                             0
+#define HIGH                            1
+#define GRAPHICDETAIL_DEFAULT           HIGH
 
-#define SCREENSIZE_MIN             0
-#define SCREENSIZE_DEFAULT         7
-#define SCREENSIZE_MAX             8
+#define SCREENSIZE_MIN                  0
+#define SCREENSIZE_DEFAULT              7
+#define SCREENSIZE_MAX                  8
 
-#define GAMMALEVEL_MIN             gammalevels[0]
-#define GAMMALEVEL_DEFAULT         0.75
-#define GAMMALEVEL_MAX             gammalevels[GAMMALEVELS - 1]
+#define GAMMALEVEL_MIN                  gammalevels[0]
+#define GAMMALEVEL_DEFAULT              0.75
+#define GAMMALEVEL_MAX                  gammalevels[GAMMALEVELS - 1]
 
-#define UNLIMITED                  32768
+#define UNLIMITED                       32768
 
-#define BLOODSPLATS_MIN            0
-#define BLOODSPLATS_DEFAULT        UNLIMITED
-#define BLOODSPLATS_MAX            32768
+#define BLOODSPLATSTOTAL_MIN            0
+#define BLOODSPLATSTOTAL_DEFAULT        UNLIMITED
+#define BLOODSPLATSTOTAL_MAX            32768
 
-#define PIXELWIDTH_MIN             2
-#define PIXELWIDTH_DEFAULT         2
-#define PIXELWIDTH_MAX             SCREENWIDTH
-#define PIXELHEIGHT_MIN            2
-#define PIXELHEIGHT_DEFAULT        2
-#define PIXELHEIGHT_MAX            SCREENHEIGHT
+#define BLOODSPLATSVISIBLE_MIN          0
+#define BLOODSPLATSVISIBLE_DEFAULT      1024
+#define BLOODSPLATSVISIBLE_MAX          32768
 
+#define PIXELWIDTH_MIN                  2
+#define PIXELWIDTH_DEFAULT              2
+#define PIXELWIDTH_MAX                  SCREENWIDTH
 
-#define RUNCOUNT_MAX               32768
+#define PIXELHEIGHT_MIN                 2
+#define PIXELHEIGHT_DEFAULT             2
+#define PIXELHEIGHT_MAX                 SCREENHEIGHT
+
+#define RUNCOUNT_MAX                    32768
 
 //
 // D_DoomMain()
