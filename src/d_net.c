@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <memory.h>
+
 #include "d_main.h"
 #include "m_argv.h"
 #include "m_menu.h"
