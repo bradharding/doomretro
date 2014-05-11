@@ -677,7 +677,6 @@ static void D_DoomMainSetup(void)
 {
     int     p;
     char    file[256];
-    char    demolumpname[9];
     int     temp;
     int     choseniwad;
 
@@ -818,23 +817,7 @@ static void D_DoomMainSetup(void)
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
-    p = M_CheckParmWithArgs("-playdemo", 1);
-
-    if (!p)
-        p = M_CheckParmWithArgs("-timedemo", 1);
-
-    if (p)
-    {
-        if (M_StringEndsWith(myargv[p + 1], ".lmp"))
-            M_StringCopy(file, myargv[p + 1], sizeof(file));
-        else
-            snprintf(file, sizeof(file), "%s.lmp", myargv[p + 1]);
-
-        if (D_AddFile(file))
-            M_StringCopy(demolumpname, lumpinfo[numlumps - 1].name, sizeof(demolumpname));
-    }
-
-    // Generate the WAD hash table.  Speed things up a bit.
+    // Generate the WAD hash table. Speed things up a bit.
     W_GenerateHashTable();
 
     D_IdentifyVersion();
@@ -1036,7 +1019,7 @@ static void D_DoomMainSetup(void)
     if (gameaction != ga_loadgame)
     {
         if (autostart || netgame)
-            G_InitNew(startskill, startepisode, startmap);
+            G_DeferredInitNew(startskill, startepisode, startmap);
         else
             D_StartTitle();                     // start up intro loop
     }
