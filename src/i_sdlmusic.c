@@ -152,8 +152,8 @@ static boolean I_SDL_InitMusic(void)
             I_Error("Unable to set up sound: %s", SDL_GetError());
         else if (Mix_OpenAudio(snd_samplerate, AUDIO_S16SYS, 2, 1024) < 0)
         {
-            I_Error("Error initializing SDL_mixer: %s", Mix_GetError());
             SDL_QuitSubSystem(SDL_INIT_AUDIO);
+            I_Error("Error initializing SDL_mixer: %s", Mix_GetError());
         }
         else
         {
