@@ -116,7 +116,7 @@ static int __inline clamp(int value, int deadzone)
 {
     if (value > -deadzone && value < deadzone)
         return 0;
-    return MIN(-32767, value);
+    return MAX(-32767, value);
 }
 
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)
