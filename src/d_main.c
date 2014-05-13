@@ -104,6 +104,7 @@ extern int windowwidth;
 extern int windowheight;
 extern int pixelwidth;
 extern int pixelheight;
+extern int selectedexpansion;
 
 void D_CheckNetGame(void);
 
@@ -877,6 +878,20 @@ static void D_DoomMainSetup(void)
                     || (gamemode == retail && temp <= 4))))
         {
             startepisode = temp;
+            startmap = 1;
+            autostart = true;
+        }
+    }
+
+    p = M_CheckParmWithArgs("-expansion", 1);
+    if (p)
+    {
+        temp = myargv[p + 1][0] - '0';
+        if (gamemode == commercial && temp <= (nerve ? 2 : 1))
+        {
+            gamemission = (temp == 1 ? doom2 : pack_nerve);
+            selectedexpansion = temp - 1;
+            startepisode = 1;
             startmap = 1;
             autostart = true;
         }
