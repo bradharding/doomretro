@@ -914,18 +914,34 @@ static void D_DoomMainSetup(void)
 
         if (gamemode == commercial)
         {
-            startmap = atoi(myargv[p + 1]);
+            if (strlen(myargv[p + 1]) == 5 &&
+                toupper(myargv[p + 1][0]) == 'M' &&
+                toupper(myargv[p + 1][1]) == 'A' &&
+                toupper(myargv[p + 1][2]) == 'P')
+                startmap = (myargv[p + 1][3] - '0') * 10 + myargv[p + 1][4] - '0';
+            else
+                startmap = atoi(myargv[p + 1]);
 
             sprintf(lumpname, "MAP%02i", startmap);
         }
         else
         {
-            startepisode = myargv[p + 1][0] - '0';
-
-            if (p + 2 < myargc)
-                startmap = myargv[p + 2][0] - '0';
+            if (strlen(myargv[p + 1]) == 4 &&
+                toupper(myargv[p + 1][0]) == 'E' &&
+                toupper(myargv[p + 1][2]) == 'M')
+            {
+                startepisode = myargv[p + 1][1] - '0';
+                startmap = myargv[p + 1][3] - '0';
+            }
             else
-                startmap = 1;
+            {
+                startepisode = myargv[p + 1][0] - '0';
+
+                if (p + 2 < myargc)
+                    startmap = myargv[p + 2][0] - '0';
+                else
+                    startmap = 1;
+            }
 
             sprintf(lumpname, "E%iM%i", startepisode, startmap);
         }
