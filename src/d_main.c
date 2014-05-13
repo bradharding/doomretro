@@ -494,8 +494,10 @@ static void D_FirstUse(void)
                   L"Please note that, as with all DOOM source ports, no actual map data is "
                   L"distributed with DOOM RETRO.\n\n"
                   L"In the dialog box that follows, please navigate to where an official "
-                  L"release of DOOM or DOOM II has been installed and select a \u201cWAD file\u201d "
-                  L"that DOOM RETRO requires (such as DOOM.WAD or DOOM2.WAD).";
+                  L"release of DOOM or DOOM II has been installed and select an \u201cIWAD "
+                  L"file\u201d that DOOM RETRO requires (such as DOOM.WAD or "
+                  L"DOOM2.WAD). Additional \u201cPWAD files\u201d may also be selected by "
+                  L"CTRL-clicking on them.";
 
     if (MessageBoxW(NULL, msg, L"DOOM RETRO", MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
         I_Quit(false);
@@ -1024,10 +1026,12 @@ static void D_DoomMainSetup(void)
 
     if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
         pixelwidth = PIXELWIDTH_DEFAULT;
-    while (SCREENWIDTH % pixelwidth) pixelwidth--;
+    while (SCREENWIDTH % pixelwidth)
+        pixelwidth--;
     if (pixelheight < PIXELHEIGHT_MIN || pixelheight > PIXELHEIGHT_MAX)
         pixelheight = PIXELHEIGHT_DEFAULT;
-    while (SCREENHEIGHT % pixelheight) pixelheight--;
+    while (SCREENHEIGHT % pixelheight)
+        pixelheight--;
 
     M_Init();
 
