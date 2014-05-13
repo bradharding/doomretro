@@ -910,8 +910,14 @@ static void D_DoomMainSetup(void)
     p = M_CheckParmWithArgs("-warp", 1);
     if (p)
     {
+        static char lumpname[6];
+
         if (gamemode == commercial)
+        {
             startmap = atoi(myargv[p + 1]);
+
+            sprintf(lumpname, "MAP%02i", startmap);
+        }
         else
         {
             startepisode = myargv[p + 1][0] - '0';
@@ -920,8 +926,12 @@ static void D_DoomMainSetup(void)
                 startmap = myargv[p + 2][0] - '0';
             else
                 startmap = 1;
+
+            sprintf(lumpname, "E%iM%i", startepisode, startmap);
         }
-        autostart = true;
+
+        if (W_CheckNumForName(lumpname) >= 0)
+            autostart = true;
     }
 
     p = M_CheckParmWithArgs("-loadgame", 1);
