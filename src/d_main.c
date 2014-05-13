@@ -782,7 +782,7 @@ static void D_DoomMainSetup(void)
             if (W_MergeFile(filename))
             {
                 modifiedgame = true;
-                if (!strcasecmp(filename, "NERVE.WAD"))
+                if (D_CheckFilename(filename, "NERVE.WAD"))
                     nerve = true;
             }
         }
@@ -886,15 +886,11 @@ static void D_DoomMainSetup(void)
 
     p = M_CheckParmWithArgs("-timer", 1);
     if (p)
-    {
         timelimit = atoi(myargv[p + 1]);
-    }
 
     p = M_CheckParm("-avg");
     if (p)
-    {
         timelimit = 20;
-    }
 
     p = M_CheckParmWithArgs("-warp", 1);
     if (p)
