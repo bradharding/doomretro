@@ -213,7 +213,7 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz)
         return;         // no friction when airborne
 
-    if ((mo->flags & MF_CORPSE) && (mo->momx || mo->momy))
+    if ((mo->flags & MF_CORPSE) && type != MT_BARREL && (mo->momx || mo->momy))
     {
         int     i;
         int     flags2;
