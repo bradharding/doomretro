@@ -242,7 +242,7 @@ void P_XYMovement(mobj_t *mo)
 
         for (i = 0; i < ((MAX(mo->momx, mo->momy) << 1) >> FRACBITS); i++)
         {
-            P_SpawnBloodSplat(mo->x + (M_RandomInt(-20, 20) << FRACBITS),
+            bloodSplatSpawner(mo->x + (M_RandomInt(-20, 20) << FRACBITS),
                               mo->y + (M_RandomInt(-20, 20) << FRACBITS),
                               flags2, colfunc);
         }
@@ -969,12 +969,12 @@ void P_SpawnMapThing(mapthing_t *mthing)
 
     if (mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
         for (i = 0; i < 200; i++)
-            P_SpawnBloodSplat(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
+            bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
                               mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
                               MF2_TRANSLUCENT_50, tl50colfunc);
     else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
         for (i = 0; i < 200; i++)
-            P_SpawnBloodSplat(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
+            bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
                               mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
                               MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
 }
