@@ -778,9 +778,13 @@ linefix_t linefix[] =
     { pack_tnt,         1,  27,    2140,    1, "",         "",            "ROCKRED1",    DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { pack_tnt,         1,  27,    2141,    1, "",         "",            "ROCKRED1",    DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
+    { pack_tnt,         1,  31,     138,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 S1_SetFloorToLowestNeighbouringFloor,                          DEFAULT },
+    { pack_tnt,         1,  31,     279,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 S1_SetFloorToLowestNeighbouringFloor,                          DEFAULT },
     { pack_tnt,         1,  31,    1251,    0, "",         "",            "",            DEFAULT,         4, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { pack_tnt,         1,  31,    1252,    0, "",         "",            "",            DEFAULT,         4, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { pack_tnt,         1,  31,    1403,    1, "",         "BRICK5",      "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
+    { pack_tnt,         1,  31,    2527,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 S1_SetFloorToLowestNeighbouringFloor,                          DEFAULT },
+    { pack_tnt,         1,  31,    2528,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 S1_SetFloorToLowestNeighbouringFloor,                          DEFAULT },
     { pack_tnt,         1,  31,    2643,    1, "",         "DRFRONT",     "",                 32,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
     { pack_tnt,         1,  32,     622,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
