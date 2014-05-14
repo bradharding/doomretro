@@ -458,6 +458,8 @@ void G_DoLoadLevel(void)
     // died.
     headsecnode = NULL;
 
+    M_ClearRandom();
+
     P_SetupLevel(gameepisode, gamemap);
 
     skycolfunc = (canmodify && (gamemode != commercial || gamemap < 21) ?
@@ -1682,8 +1684,6 @@ void G_InitNew(skill_t skill, int episode, int map)
 
     if (map > 9 && gamemode != commercial)
         map = 9;
-
-    M_ClearRandom();
 
     respawnmonsters = (skill == sk_nightmare || respawnparm);
 

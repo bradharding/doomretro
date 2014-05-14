@@ -31,6 +31,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "m_random.h"
 
+#define SEED 755481600
+
 //
 // M_Random
 // Returns a 0-255 number
@@ -87,5 +89,5 @@ void M_ClearRandom(void)
 
     rndindex = time(NULL) & 0xff;
 
-    srand((unsigned int)time(NULL));
+    srand((unsigned)SEED);
 }
