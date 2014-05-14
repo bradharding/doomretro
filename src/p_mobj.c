@@ -931,6 +931,17 @@ void P_SpawnMapThing(mapthing_t *mthing)
                                         ANG45 * (mthing->angle / 45));
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
+
+    if (mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
+        for (i = 0; i < 200; i++)
+            P_SpawnBloodSplat(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
+                              mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
+                              MF2_TRANSLUCENT_50, tl50colfunc);
+    else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
+        for (i = 0; i < 200; i++)
+            P_SpawnBloodSplat(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
+                              mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
+                              MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
 }
 
 //
@@ -1058,6 +1069,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 
     newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
     newsplat->y = y + ((rand() % 16 - 5) << FRACBITS);
+    newsplat->z = ONFLOORZ;
     P_SetThingPosition(newsplat);
 
     newsplat->floorz = newsplat->subsector->sector->floorheight;
@@ -1084,6 +1096,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 
     newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
     newsplat->y = y + ((rand() % 16 - 5) << FRACBITS);
+    newsplat->z = ONFLOORZ;
     P_SetThingPosition(newsplat);
 
     newsplat->floorz = newsplat->subsector->sector->floorheight;

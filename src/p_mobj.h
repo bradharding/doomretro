@@ -237,8 +237,12 @@ typedef enum
     MF2_FLOATBOB                  = 0x00002000,
 
     // Mirrored horizontally
-    MF2_MIRRORED                  = 0x00004000
+    MF2_MIRRORED                  = 0x00004000,
 
+    // Spawn more red blood under corpse
+    MF2_MOREREDBLOODSPLATS        = 0x00008000,
+    // Spawn more blue blood under corpse
+    MF2_MOREBLUEBLOODSPLATS       = 0x00010000
 } mobjflag2_t;
 
 // Map Object definition.

@@ -4476,7 +4476,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 3
     },
@@ -4506,7 +4506,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4536,7 +4536,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4566,7 +4566,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4596,7 +4596,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4626,7 +4626,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4656,7 +4656,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4686,7 +4686,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4716,7 +4716,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4746,7 +4746,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4776,7 +4776,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREBLUEBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4806,7 +4806,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4836,7 +4836,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4866,7 +4866,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4926,7 +4926,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4956,7 +4956,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -4986,7 +4986,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5016,7 +5016,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5046,7 +5046,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5076,7 +5076,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5106,7 +5106,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5136,7 +5136,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 2
     },
@@ -5166,7 +5166,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5196,7 +5196,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 2
     },
@@ -5286,7 +5286,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5316,7 +5316,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5346,7 +5346,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5376,7 +5376,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5406,7 +5406,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5436,7 +5436,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5466,7 +5466,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
-        /* flags2               */ 0,                                       //  will stay on floor if sector height changes
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,                  //  will stay on floor if sector height changes
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5496,7 +5496,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
-        /* flags2               */ 0,                                       //  will stay on floor if sector height changes
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,                  //  will stay on floor if sector height changes
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5526,7 +5526,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
-        /* flags2               */ 0,                                       //  will stay on floor if sector height changes
+        /* flags2               */ MF2_MOREREDBLOODSPLATS,                  //  will stay on floor if sector height changes
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
