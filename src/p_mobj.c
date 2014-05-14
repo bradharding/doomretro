@@ -118,8 +118,9 @@ int     puffcount = 0;
 
 void P_XYMovement(mobj_t *mo)
 {
-    player_t *player;
-    fixed_t  xmove, ymove;
+    player_t   *player;
+    fixed_t    xmove, ymove;
+    mobjtype_t type;
 
     if (!mo->momx && !mo->momy)
     {
@@ -135,8 +136,9 @@ void P_XYMovement(mobj_t *mo)
     }
 
     player = mo->player;
+    type = mo->type;
 
-    if (mo->type == MT_ROCKET && smoketrails)
+    if (type == MT_ROCKET && smoketrails)
     {
         if (puffcount++ > 1)
             P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle, false);
@@ -200,9 +202,7 @@ void P_XYMovement(mobj_t *mo)
                 P_ExplodeMissile(mo);
             }
             else
-            {
                 mo->momx = mo->momy = 0;
-            }
         }
     }
     while (xmove || ymove);
@@ -213,7 +213,42 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz)
         return;         // no friction when airborne
 
-    if (mo->flags & MF_CORPSE
+    if ((mo->flags & MF_CORPSE) && (mo->momx || mo->momy))
+    {
+        int     i;
+        int     flags2;
+        void    (*colfunc)(void);
+
+        if (type == MT_HEAD)
+        {
+            flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
+            colfunc = tlredtoblue33colfunc;
+        }
+        else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
+        {
+            flags2 = MF2_FUZZ;
+            colfunc = fuzzcolfunc;
+        }
+        else if (type == MT_BRUISER || type == MT_KNIGHT)
+        {
+            flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
+            colfunc = tlredtogreen33colfunc;
+        }
+        else
+        {
+            flags2 = MF2_TRANSLUCENT_50;
+            colfunc = tl50colfunc;
+        }
+
+        for (i = 0; i < ((MAX(mo->momx, mo->momy) << 1) >> FRACBITS); i++)
+        {
+            P_SpawnBloodSplat(mo->x + (M_RandomInt(-20, 20) << FRACBITS),
+                              mo->y + (M_RandomInt(-20, 20) << FRACBITS),
+                              flags2, colfunc);
+        }
+    }
+
+    if ((mo->flags & MF_CORPSE)
         && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4
             || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
         && (mo->z != mo->subsector->sector->floorheight))
@@ -1059,7 +1094,7 @@ void P_BloodSplatThinker(mobj_t *splat)
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 {
-    mobj_t *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
+    mobj_t      *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
     memset(newsplat, 0, sizeof(*newsplat));
 
@@ -1086,7 +1121,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 
 void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 {
-    mobj_t *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
+    mobj_t      *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
     memset(newsplat, 0, sizeof(*newsplat));
 
@@ -1150,7 +1185,6 @@ void P_CheckMissileSpawn(mobj_t *th)
 // Doom did not crash because of the lack of proper memory
 // protection. This function substitutes NULL pointers for
 // pointers to a dummy mobj, to avoid a crash.
-
 mobj_t *P_SubstNullMobj(mobj_t *mobj)
 {
     if (!mobj)
