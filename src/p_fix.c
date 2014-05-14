@@ -872,9 +872,9 @@ thingfix_t thingfix[] =
 
     { doom,             1,   7,    15, Medikit,                   -304,   -2256,    -304,   -2264, DEFAULT,  DEFAULT                          },
     { doom,             1,   7,    16, BoxOfShells,               -272,   -2256,    -272,   -2264, DEFAULT,  DEFAULT                          },
-    { doom,             1,   7,    17, BoxOfAmmo,                 -240,   -2256,    -240,   -2264, DEFAULT,  DEFAULT                          },
+    { doom,             1,   7,    17, BoxOfBullets,              -240,   -2256,    -240,   -2264, DEFAULT,  DEFAULT                          },
     { doom,             1,   7,    18, Chaingun,                  -208,   -2256,    -208,   -2264, DEFAULT,  DEFAULT                          },
-    { doom,             1,   7,    19, BoxOfAmmo,                 -176,   -2256,    -176,   -2264, DEFAULT,  DEFAULT                          },
+    { doom,             1,   7,    19, BoxOfBullets,              -176,   -2256,    -176,   -2264, DEFAULT,  DEFAULT                          },
 
     { doom,             2,   2,     2, Player1Start,               608,    4576,     608,    4574, DEFAULT,  DEFAULT                          },
     { doom,             2,   2,     3, Player2Start,                96,    4576,      96,    4574, DEFAULT,  DEFAULT                          },
@@ -887,11 +887,11 @@ thingfix_t thingfix[] =
     { doom,             2,   6,   291, Demon,                     1056,    -128,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
     { doom,             2,   7,   195, HangingVictimTwitching,    3360,     320,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
-    { doom,             2,   7,   196, HangingVictim1Legged,      3232,       0,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
+    { doom,             2,   7,   196, HangingVictimOneLegged,    3232,       0,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
     { doom,             3,   2,   186, HangingLeg,                 -80,    1216,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
-    { doom,             3,   3,    19, CellCharge,                -480,     864,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
+    { doom,             3,   3,    19, Cell,                      -480,     864,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
     { doom,             4,   1,     0, Player1Start,               160,     352,     160,     350, DEFAULT,  DEFAULT                          },
     { doom,             4,   1,     1, Player2Start,               288,     352,     288,     350, DEFAULT,  DEFAULT                          },
@@ -909,8 +909,8 @@ thingfix_t thingfix[] =
     { doom2,            1,   2,    69, Barrel,                     464,     784,     464,     800, DEFAULT,  DEFAULT                          },
     { doom2,            1,   2,    84, Barrel,                    2592,    2640,    2592,    2648, DEFAULT,  DEFAULT                          },
     { doom2,            1,   2,    84, Barrel,                     992,     896,     992,     904, DEFAULT,  DEFAULT                          },
-    { doom2,            1,   2,    85, FormerSergeant,            2560,    2640,    2560,    2656, DEFAULT,  DEFAULT                          },
-    { doom2,            1,   2,    85, FormerSergeant,             944,     896,     944,     912, DEFAULT,  DEFAULT                          },
+    { doom2,            1,   2,    85, ShotgunGuy,                2560,    2640,    2560,    2656, DEFAULT,  DEFAULT                          },
+    { doom2,            1,   2,    85, ShotgunGuy,                 944,     896,     944,     912, DEFAULT,  DEFAULT                          },
 
     { doom2,            1,   4,   136, ShortTechnoFloorLamp,      -368,     880,    -360,     880, DEFAULT,  DEFAULT                          },
     { doom2,            1,   4,   137, ShortTechnoFloorLamp,      -368,    1072,    -360,    1080, DEFAULT,  DEFAULT                          },
@@ -918,9 +918,9 @@ thingfix_t thingfix[] =
     { doom2,            1,   5,   108, LostSoul,                  2848,    -400,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
     { doom2,            1,  11,   165, Spectre,                    752,     304,     760,     304, DEFAULT,  DEFAULT                          },
-    { doom2,            1,  11,   236, CellChargePack,            1952,     272,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
+    { doom2,            1,  11,   236, CellPack,                  1952,     272,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
-    { doom2,            1,  15,   301, Chaingunner,               1488,   -1984,    1488,   -1984, DEFAULT,  MTF_NORMAL | MTF_HARD            },
+    { doom2,            1,  15,   301, HeavyWeaponDude,           1488,   -1984,    1488,   -1984, DEFAULT,  MTF_NORMAL | MTF_HARD            },
 
     { doom2,            1,  17,   127, Spectre,                  -1888,   -2896,   -1896,   -2872, DEFAULT,  DEFAULT                          },
     { doom2,            1,  17,   128, Spectre,                  -1984,   -2896,   -1976,   -2872, DEFAULT,  DEFAULT                          },
@@ -952,7 +952,7 @@ thingfix_t thingfix[] =
     { pack_tnt,         1,   3,     7, TeleportDestination,       -416,     416,    -416,     416,     135,  DEFAULT                          },
     { pack_tnt,         1,   3,    34, TeleportDestination,        960,    1472,     960,    1472,     135,  DEFAULT                          },
 
-    { pack_tnt,         1,  20,   511, CellChargePack,            2910,   -1595,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
+    { pack_tnt,         1,  20,   511, CellPack,                  2910,   -1595,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
     { pack_tnt,         1,  24,   158, BurningBarrel,             -912,    1440,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 

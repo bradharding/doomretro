@@ -484,7 +484,7 @@ void P_LoadThings(int lump)
                 case HellKnight:
                 case Mancubus:
                 case PainElemental:
-                case Chaingunner:
+                case HeavyWeaponDude:
                 case Revenant:
                 case WolfensteinSS:
                     spawn = false;
@@ -535,7 +535,7 @@ void P_LoadThings(int lump)
 
         // Change each WolfensteinSS into Zombiemen in BFG Edition
         if (mt.type == WolfensteinSS && bfgedition)
-            mt.type = FormerHuman;
+            mt.type = Zombieman;
 
         if (spawn)
             P_SpawnMapThing(&mt);
