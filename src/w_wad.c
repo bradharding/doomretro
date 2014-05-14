@@ -203,6 +203,51 @@ wad_file_t *W_AddFile(char *filename)
     return wad_file;
 }
 
+void IdentifyIWADByContents(const char *iwadname, GameMode_t *gmode, GameMission_t *gmission)
+{
+    FILE *fp = fopen(iwadname, "rb");
+    int ud, rg, sw, cm, sc, tnt, plut;
+    filelump_t lump;
+    wadinfo_t header;
+    const char *n = lump.name;
+
+    if (!fp)
+        I_Error("Can't open IWAD: %s\n", iwadname);
+
+    // read IWAD header
+    if (fread(&header, 1, sizeof header, fp) != sizeof header ||
+        header.identification[0] != 'I' || header.identification[1] != 'W' ||
+        header.identification[2] != 'A' || header.identification[3] != 'D')
+        I_Error("IWAD tag not present: %s\n", iwadname);
+
+    fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+    // Determine game mode from levels present
+    // Must be a full set for whichever mode is present
+    // Lack of wolf-3d levels also detected here
+
+    for (ud = rg = sw = cm = sc = tnt = plut = 0, header.numlumps = LONG(header.numlumps);
+        header.numlumps && fread(&lump, sizeof lump, 1, fp); header.numlumps--)
+        *n == 'E' && n[2] == 'M' && !n[4] ?
+        n[1] == '4' ? ++ud : n[1] != '1' ? rg += n[1] == '3' || n[1] == '2' : ++sw :
+        *n == 'M' && n[1] == 'A' && n[2] == 'P' && !n[5] ?
+        ++cm, sc += n[3] == '3' && (n[4] == '1' || n[4] == '2') :
+        *n == 'C' && n[1] == 'A' && n[2] == 'V' && !n[7] ? ++tnt :
+        *n == 'M' && n[1] == 'C' && !n[3] && ++plut;
+
+    fclose(fp);
+
+    *gmission = doom;
+    *gmode =
+        cm >= 30 ? (*gmission = tnt >= 4 ? pack_tnt :
+        plut >= 8 ? pack_plut : doom2,
+        commercial) :
+        ud >= 9 ? retail :
+        rg >= 18 ? registered :
+        sw >= 9 ? shareware :
+        indetermined;
+}
+
 //
 // W_WadType
 // Returns IWAD, PWAD or 0.

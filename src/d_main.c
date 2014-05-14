@@ -587,7 +587,7 @@ static int D_ChooseIWAD(void)
                      || (W_WadType(file) == IWAD
                          && !D_IsUnsupportedIWAD(file)))
             {
-                IdentifyIWADByName(file);
+                IdentifyIWADByContents(file, &gamemode, &gamemission);
                 if (D_AddFile(file))
                     iwadfound = 1;
             }
@@ -615,7 +615,7 @@ static int D_ChooseIWAD(void)
                 {
                     if (!iwadfound)
                     {
-                        IdentifyIWADByName(iwad);
+                        IdentifyIWADByContents(iwad, &gamemode, &gamemission);
                         if (D_AddFile(fullpath))
                         {
                             iwadfound = 1;
