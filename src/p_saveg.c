@@ -388,6 +388,9 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // int floatboblevel;
     str->floatboblevel = saveg_read32();
+
+    // void (*colfunc)(void);
+    str->colfunc = saveg_readp();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -511,6 +514,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // int floatboblevel;
     saveg_write32(str->floatboblevel);
+
+    // void (*colfunc)(void);
+    saveg_writep(str->colfunc);
 }
 
 //

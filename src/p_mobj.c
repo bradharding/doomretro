@@ -44,7 +44,7 @@ int             bloodsplatstotal = BLOODSPLATSTOTAL_DEFAULT;
 int             bloodsplatsvisible = BLOODSPLATSVISIBLE_DEFAULT;
 mobj_t          *bloodSplatQueue[BLOODSPLATSTOTAL_MAX];
 int             bloodSplatQueueSlot;
-void            (*bloodSplatSpawner)(fixed_t, fixed_t, int, void(*)(void));
+void            (*bloodSplatSpawner)(fixed_t, fixed_t, void(*)(void));
 
 boolean         smoketrails = true;
 
@@ -216,35 +216,22 @@ void P_XYMovement(mobj_t *mo)
     if ((mo->flags & MF_CORPSE) && type != MT_BARREL && (mo->momx || mo->momy))
     {
         int     i;
-        int     flags2;
         void    (*colfunc)(void);
 
         if (type == MT_HEAD)
-        {
-            flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
             colfunc = tlredtoblue33colfunc;
-        }
         else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
-        {
-            flags2 = MF2_FUZZ;
             colfunc = fuzzcolfunc;
-        }
         else if (type == MT_BRUISER || type == MT_KNIGHT)
-        {
-            flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
             colfunc = tlredtogreen33colfunc;
-        }
         else
-        {
-            flags2 = MF2_TRANSLUCENT_50;
             colfunc = tl50colfunc;
-        }
 
         for (i = 0; i < ((MAX(mo->momx, mo->momy) << 1) >> FRACBITS); i++)
         {
             bloodSplatSpawner(mo->x + (M_RandomInt(-20, 20) << FRACBITS),
                               mo->y + (M_RandomInt(-20, 20) << FRACBITS),
-                              flags2, colfunc);
+                              colfunc);
         }
     }
 
@@ -618,51 +605,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 }
 
 //
-// P_RestoreColfuncs
-//
-void P_RestoreColfuncs(void)
-{
-    int i;
-
-    for (i = 0; i < numsectors; i++)
-    {
-        mobj_t *thing = sectors[i].thinglist;
-
-        while (thing)
-        {
-            if ((thing->flags & MF_SHADOW) || (thing->flags2 & MF2_FUZZ))
-                thing->colfunc = fuzzcolfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT)
-                thing->colfunc = tlcolfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT_REDONLY)
-                thing->colfunc = tlredcolfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT_GREENONLY)
-                thing->colfunc = tlgreencolfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT_BLUEONLY)
-                thing->colfunc = tlbluecolfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT_33)
-                thing->colfunc = tl33colfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT_50)
-                thing->colfunc = tl50colfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-                thing->colfunc = tlredwhitecolfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
-                thing->colfunc = tlredtogreen33colfunc;
-            else if (thing->flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
-                thing->colfunc = tlredtoblue33colfunc;
-            else if (thing->flags2 & MF2_REDTOGREEN)
-                thing->colfunc = redtogreencolfunc;
-            else if (thing->flags2 & MF2_REDTOBLUE)
-                thing->colfunc = redtobluecolfunc;
-            else
-                thing->colfunc = basecolfunc;
-
-            thing = thing->snext;
-        }
-    }
-}
-
-//
 // P_RemoveMobj
 //
 static mapthing_t itemrespawnqueue[ITEMQUEUESIZE];
@@ -674,12 +616,10 @@ extern int *isliquid;
 
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if (bloodsplatstotal > 0 && mobj->type == MT_BLOOD
-        && mobj->floorz == mobj->subsector->sector->floorheight
-        && !isliquid[mobj->subsector->sector->floorpic])
-    {
-        bloodSplatSpawner(mobj->x, mobj->y, mobj->flags2, mobj->colfunc);
-    }
+    if (bloodsplatstotal > 0 && mobj->type == MT_BLOOD &&
+        mobj->floorz == mobj->subsector->sector->floorheight &&
+        !isliquid[mobj->subsector->sector->floorpic])
+        bloodSplatSpawner(mobj->x, mobj->y, mobj->colfunc);
 
     if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
         && mobj->type != MT_INV && mobj->type != MT_INS)
@@ -971,12 +911,12 @@ void P_SpawnMapThing(mapthing_t *mthing)
         for (i = 0; i < 200; i++)
             bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
                               mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
-                              MF2_TRANSLUCENT_50, tl50colfunc);
+                              tl50colfunc);
     else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
         for (i = 0; i < 200; i++)
             bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
                               mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
-                              MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
+                              tlredtoblue33colfunc);
 }
 
 //
@@ -1019,32 +959,19 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
     int         i;
-    int         flags2;
     int         type = target->type;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     void        (*colfunc)(void);
 
     if (type == MT_HEAD)
-    {
-        flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
         colfunc = tlredtoblue33colfunc;
-    }
     else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
-    {
-        flags2 = MF2_FUZZ;
         colfunc = fuzzcolfunc;
-    }
     else if (type == MT_BRUISER || type == MT_KNIGHT)
-    {
-        flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
         colfunc = tlredtogreen33colfunc;
-    }
     else
-    {
-        flags2 = MF2_TRANSLUCENT_50;
         colfunc = tl50colfunc;
-    }
 
     angle += ANG180;
 
@@ -1065,7 +992,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->angle = angle;
         angle += ((P_Random() - P_Random()) * 0xb60b60);
 
-        th->flags2 = flags2;
         th->colfunc = colfunc;
 
         if (damage <= 12)
@@ -1092,7 +1018,7 @@ void P_BloodSplatThinker(mobj_t *splat)
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, void (*colfunc)(void))
 {
     mobj_t      *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
@@ -1104,8 +1030,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
     newsplat->frame = rand() & 7;
 
     if (rand() & 1)
-        flags2 |= MF2_MIRRORED;
-    newsplat->flags2 = flags2;
+        newsplat->flags2 = MF2_MIRRORED;
     newsplat->colfunc = colfunc;
 
     newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
@@ -1119,7 +1044,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
     P_AddThinker(&newsplat->thinker);
 }
 
-void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
+void P_SpawnBloodSplat2(fixed_t x, fixed_t y, void (*colfunc)(void))
 {
     mobj_t      *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
@@ -1131,8 +1056,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
     newsplat->frame = rand() & 7;
 
     if (rand() & 1)
-        flags2 |= MF2_MIRRORED;
-    newsplat->flags2 = flags2;
+        newsplat->flags2 = MF2_MIRRORED;
     newsplat->colfunc = colfunc;
 
     newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
