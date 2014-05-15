@@ -101,10 +101,12 @@ extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
 extern char     *wadfolder;
-extern int      widescreen;
+extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
 extern int      windowwidth;
+
+extern boolean  returntowidescreen;
 
 typedef enum
 {
@@ -597,7 +599,11 @@ static void LoadDefaultCollection(default_collection_t *collection)
 //
 void M_SaveDefaults(void)
 {
+    if (returntowidescreen)
+        widescreen = true;
     SaveDefaultCollection(&doom_defaults);
+    if (returntowidescreen)
+        widescreen = false;
 }
 
 //
