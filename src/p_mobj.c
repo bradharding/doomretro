@@ -908,12 +908,12 @@ void P_SpawnMapThing(mapthing_t *mthing)
         mobj->flags |= MF_AMBUSH;
 
     if (mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
-        for (i = 0; i < 200; i++)
+        for (i = 0; i < M_RandomInt(100, 150); i++)
             bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
                               mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
                               tl50colfunc);
     else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
-        for (i = 0; i < 200; i++)
+        for (i = 0; i < M_RandomInt(100, 150); i++)
             bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
                               mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
                               tlredtoblue33colfunc);
