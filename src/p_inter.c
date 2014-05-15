@@ -691,8 +691,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         case SPR_SGN2:
             weaponowned = player->weaponowned[wp_supershotgun];
-            if (!P_GiveWeapon(player, wp_supershotgun,
-                special->flags & MF_DROPPED))
+            if (!P_GiveWeapon(player, wp_supershotgun, special->flags & MF_DROPPED))
                 return;
             if (!weaponowned)
                 player->preferredshotgun = wp_supershotgun;
@@ -847,10 +846,10 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 {
     player_t *player;
 
-    if (!(target->flags & MF_SHOOTABLE))
-        return;         // shouldn't happen...
+    if (!(target->flags & MF_SHOOTABLE) && !(target->flags & MF_CORPSE))
+        return;
 
-    if (target->health <= 0)
+    if (target->type == MT_BARREL && (target->flags & MF_CORPSE))
         return;
 
     if (target->flags & MF_SKULLFLY)
@@ -955,44 +954,47 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     }
 
     // do the damage
-    target->health -= damage;
-    if (target->health <= 0)
+    if (!(target->flags & MF_CORPSE))
     {
-        if (target->type == MT_BARREL || target->type == MT_PAIN || target->type == MT_SKULL)
-            target->colfunc = tlredcolfunc;
-        else if (target->type == MT_BRUISER || target->type == MT_KNIGHT)
-            target->colfunc = redtogreencolfunc;
+        target->health -= damage;
+        if (target->health <= 0)
+        {
+            if (target->type == MT_BARREL || target->type == MT_PAIN || target->type == MT_SKULL)
+                target->colfunc = tlredcolfunc;
+            else if (target->type == MT_BRUISER || target->type == MT_KNIGHT)
+                target->colfunc = redtogreencolfunc;
 
-        // [crispy] the lethal pellet of a point-blank SSG blast
-        // gets an extra damage boost for the occasional gib chance
-        if (source && source->player &&
-            source->player->readyweapon == wp_supershotgun &&
-            target->info->xdeathstate &&
-            P_CheckMeleeRange(target) &&
-            damage == 15)
-            target->health -= target->info->spawnhealth;
-        
-        P_KillMobj(source, target);
-        return;
-    }
+            // [crispy] the lethal pellet of a point-blank SSG blast
+            // gets an extra damage boost for the occasional gib chance
+            if (source && source->player &&
+                source->player->readyweapon == wp_supershotgun &&
+                target->info->xdeathstate &&
+                P_CheckMeleeRange(target) &&
+                damage == 15)
+                target->health -= target->info->spawnhealth;
 
-    if (P_Random() < target->info->painchance && !(target->flags & MF_SKULLFLY))
-    {
-        target->flags |= MF_JUSTHIT;    // fight back!
+            P_KillMobj(source, target);
+            return;
+        }
 
-        P_SetMobjState(target, (statenum_t)target->info->painstate);
-    }
+        if (P_Random() < target->info->painchance && !(target->flags & MF_SKULLFLY))
+        {
+            target->flags |= MF_JUSTHIT;    // fight back!
 
-    target->reactiontime = 0;           // we're awake now...
+            P_SetMobjState(target, (statenum_t)target->info->painstate);
+        }
 
-    if ((!target->threshold || target->type == MT_VILE)
-         && source && source != target && source->type != MT_VILE)
-    {
-        // if not intent on another player,
-        // chase after this one
-        target->target = source;
-        target->threshold = BASETHRESHOLD;
-        if (target->state == &states[target->info->spawnstate] && target->info->seestate != S_NULL)
-            P_SetMobjState(target, (statenum_t)target->info->seestate);
+        target->reactiontime = 0;           // we're awake now...
+
+        if ((!target->threshold || target->type == MT_VILE)
+            && source && source != target && source->type != MT_VILE)
+        {
+            // if not intent on another player,
+            // chase after this one
+            target->target = source;
+            target->threshold = BASETHRESHOLD;
+            if (target->state == &states[target->info->spawnstate] && target->info->seestate != S_NULL)
+                P_SetMobjState(target, (statenum_t)target->info->seestate);
+        }
     }
 }

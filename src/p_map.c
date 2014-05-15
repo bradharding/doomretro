@@ -1265,7 +1265,7 @@ boolean PIT_RadiusAttack(mobj_t *thing)
     fixed_t dx, dy, dz;
     fixed_t dist;
 
-    if (!(thing->flags & MF_SHOOTABLE))
+    if (!(thing->flags & MF_SHOOTABLE) && !(thing->flags & MF_CORPSE))
         return true;
 
     // Boss spider and cyborg
