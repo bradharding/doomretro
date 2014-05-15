@@ -992,6 +992,8 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->angle = angle;
         angle += ((P_Random() - P_Random()) * 0xb60b60);
 
+        th->flags2 = (rand() & 1) * MF2_MIRRORED;
+
         th->colfunc = colfunc;
 
         if (damage <= 12)
