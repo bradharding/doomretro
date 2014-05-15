@@ -844,7 +844,7 @@ boolean P_CheckMeleeRange(mobj_t *actor);
 //
 void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 {
-    player_t *player;
+    player_t    *player;
 
     if (!(target->flags & MF_SHOOTABLE) && !(target->flags & MF_CORPSE))
         return;
@@ -997,4 +997,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
                 P_SetMobjState(target, (statenum_t)target->info->seestate);
         }
     }
+    else if (damage > target->info->spawnhealth &&
+            target->info->xdeathstate &&
+            target->state == &states[target->info->xdeathstate])
+        P_SetMobjState(target, (statenum_t)target->info->xdeathstate);
 }
