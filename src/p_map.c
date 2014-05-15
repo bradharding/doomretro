@@ -1350,6 +1350,8 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
 static boolean crushchange;
 static boolean nofit;
 
+void (*bloodSplatSpawner)(fixed_t, fixed_t, void(*)(void));
+
 //
 // PIT_ChangeSector
 //
@@ -1376,12 +1378,19 @@ boolean PIT_ChangeSector(mobj_t *thing)
     if (thing->health <= 0 && thing->type != MT_BARREL
         && thing->type != MT_SKULL && thing->type != MT_PAIN)
     {
+        int     i;
+
         P_SetMobjState(thing, S_GIBS);
 
         thing->flags &= ~MF_SOLID;
         thing->flags2 = 0;
         thing->height = 0;
         thing->radius = 0;
+
+        for (i = 0; i < M_RandomInt(100, 150); i++)
+            bloodSplatSpawner(thing->x + (M_RandomInt(-28, 28) << FRACBITS),
+                              thing->y + (M_RandomInt(-28, 28) << FRACBITS),
+                              tl50colfunc);
 
         S_StartSound(thing, sfx_slop);
 
