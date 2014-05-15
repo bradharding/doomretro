@@ -252,7 +252,8 @@ int IWADRequiredByPWAD(const char *pwadname)
     FILE        *fp = fopen(pwadname, "rb");
     filelump_t  lump;
     wadinfo_t   header;
-    const char   *n = lump.name;
+    const char  *n = lump.name;
+    int         result = indetermined;
 
     if (!fp)
         I_Error("Can't open PWAD: %s\n", pwadname);
@@ -266,13 +267,13 @@ int IWADRequiredByPWAD(const char *pwadname)
 
     for (header.numlumps = LONG(header.numlumps);  header.numlumps && fread(&lump, sizeof lump, 1, fp); header.numlumps--)
         if (*n == 'E' && n[2] == 'M' && !n[4])
-            return doom;
+            result = doom;
         else if (*n == 'M' && n[1] == 'A' && n[2] == 'P' && !n[5])
-            return doom2;
+            result = doom2;
 
     fclose(fp);
 
-    return indetermined;
+    return result;
 }
 
 //
