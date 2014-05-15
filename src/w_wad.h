@@ -91,5 +91,6 @@ void W_ReleaseLumpNum(int lump);
 void W_ReleaseLumpName(char *name);
 
 void IdentifyIWADByContents(const char *iwadname, GameMode_t *gmode, GameMission_t *gmission);
+int IWADRequiredByPWAD(const char *pwadname);
 
 #endif

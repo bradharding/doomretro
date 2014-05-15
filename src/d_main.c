@@ -564,12 +564,24 @@ static int D_ChooseIWAD(void)
 
             wadfolder = strdup(M_ExtractFolder(file));
 
-            // if it's NERVE.WAD, try to open DOOM2.WAD with it
-            if (D_CheckFilename(file, "NERVE.WAD"))
+            // check if it's a valid and supported IWAD
+            if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
             {
+                IdentifyIWADByContents(file, &gamemode, &gamemission);
+                if (D_AddFile(file))
+                    iwadfound = 1;
+            }
+
+            // if it's a PWAD, determine the IWAD required and try loading that as well
+            else if (W_WadType(file) == PWAD)
+            {
+                int             iwadrequired = IWADRequiredByPWAD(file);
                 static char     fullpath[MAX_PATH];
 
-                sprintf(fullpath, "%s\\DOOM2.WAD", wadfolder);
+                if (iwadrequired == indetermined)
+                    return 0;
+
+                sprintf(fullpath, "%s\\DOOM%s.WAD", wadfolder, iwadrequired == doom ? "" : "2");
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
                 {
@@ -577,19 +589,10 @@ static int D_ChooseIWAD(void)
                     if (W_MergeFile(file))
                     {
                         modifiedgame = true;
-                        nerve = true;
+                        if (D_CheckFilename(file, "NERVE.WAD"))
+                            nerve = true;
                     }
                 }
-            }
-
-            // otherwise make sure it's an IWAD
-            else if (D_IsDOOMIWAD(file)
-                     || (W_WadType(file) == IWAD
-                         && !D_IsUnsupportedIWAD(file)))
-            {
-                IdentifyIWADByContents(file, &gamemode, &gamemission);
-                if (D_AddFile(file))
-                    iwadfound = 1;
             }
         }
 
@@ -601,7 +604,7 @@ static int D_ChooseIWAD(void)
 
             wadfolder = strdup(szFile);
 
-            // find and add iwad first
+            // find and add IWAD first
             while (iwad[0])
             {
                 static char     fullpath[MAX_PATH];
