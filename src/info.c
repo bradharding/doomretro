@@ -4775,7 +4775,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_None,
-        /* flags                */ 0,
+        /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREBLUEBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
@@ -4805,7 +4805,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_None,
-        /* flags                */ 0,
+        /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
@@ -4835,7 +4835,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_None,
-        /* flags                */ 0,
+        /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
@@ -4865,7 +4865,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_None,
-        /* flags                */ 0,
+        /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
@@ -4925,7 +4925,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_None,
-        /* flags                */ 0,
+        /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
@@ -4955,7 +4955,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_None,
-        /* flags                */ 0,
+        /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
