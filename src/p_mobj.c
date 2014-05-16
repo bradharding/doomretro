@@ -58,15 +58,27 @@ extern msecnode_t *sector_list; // phares 3/16/98
 //
 boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
+    state_t     *st;
+
+    // killough 4/9/98: remember states seen, to detect cycles:
+    static statenum_t   seenstate_tab[NUMSTATES];               // fast transition table
+    statenum_t          *seenstate = seenstate_tab;             // pointer to table
+    static int          recursion;                              // detects recursion
+    statenum_t          i = state;                              // initial state
+    boolean             ret = true;                             // return value
+    statenum_t          tempstate[NUMSTATES];                   // for use with recursion
+
+    if (recursion++)                                            // if recursion detected,
+        memset(seenstate = tempstate, 0, sizeof(tempstate));    // clear state table
+
     do
     {
-        state_t *st;
-
         if (state == S_NULL)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
-            return false;
+            ret = false;
+            break;                                              // killough 4/9/98
         }
 
         st = &states[state];
@@ -80,10 +92,19 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         if (st->action.acp1)
             st->action.acp1(mobj);
 
-        state = st->nextstate;
-    } while (!mobj->tics);
+        seenstate[state] = 1 + st->nextstate;                   // killough 4/9/98
 
-    return true;
+        state = st->nextstate;
+    } while (!mobj->tics && !seenstate[state]);                 // killough 4/9/98
+
+    if (ret && !mobj->tics)                                     // killough 4/9/98: detect state cycles
+        fprintf(stderr, "Warning: State Cycle Detected");
+
+    if (!--recursion)
+        for (; (state = seenstate[i]); i = state - 1)
+            seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
+
+    return ret;
 }
 
 //
