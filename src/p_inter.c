@@ -830,7 +830,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 }
 
 boolean P_CheckMeleeRange(mobj_t *actor);
-
+#include "i_system.h"
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -997,8 +997,4 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
                 P_SetMobjState(target, (statenum_t)target->info->seestate);
         }
     }
-    else if (damage > target->info->spawnhealth &&
-            target->info->xdeathstate &&
-            target->state == &states[target->info->xdeathstate])
-        P_SetMobjState(target, (statenum_t)target->info->xdeathstate);
 }
