@@ -48,6 +48,8 @@ void            (*bloodSplatSpawner)(fixed_t, fixed_t, void(*)(void));
 
 boolean         smoketrails = true;
 
+int             corpses = SLIDE | SMEARBLOOD | MOREBLOOD;
+
 extern msecnode_t *sector_list; // phares 3/16/98
 
 //
@@ -213,7 +215,8 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz)
         return;         // no friction when airborne
 
-    if ((mo->flags & MF_CORPSE) && type != MT_BARREL && (mo->momx || mo->momy))
+    if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD) &&
+        type != MT_BARREL && (mo->momx || mo->momy))
     {
         int     i;
         void    (*colfunc)(void);
@@ -907,16 +910,19 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
-        for (i = 0; i < M_RandomInt(100, 150); i++)
-            bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
-                              mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
-                              tl50colfunc);
-    else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
-        for (i = 0; i < M_RandomInt(100, 150); i++)
-            bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
-                              mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
-                              tlredtoblue33colfunc);
+    if (corpses & MOREBLOOD)
+    {
+        if (mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
+            for (i = 0; i < M_RandomInt(100, 150); i++)
+                bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
+                                  mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
+                                  tl50colfunc);
+        else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
+            for (i = 0; i < M_RandomInt(100, 150); i++)
+                bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
+                                  mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
+                                  tlredtoblue33colfunc);
+    }
 }
 
 //

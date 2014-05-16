@@ -107,7 +107,14 @@ void P_PlayerThink(player_t *player);
 #define ONCEILINGZ              INT_MAX
 
 // Time interval for item respawning.
-#define ITEMQUEUESIZE             128
+#define ITEMQUEUESIZE           128
+
+#define CARDNOTFOUNDYET         -1
+#define CARDNOTINMAP            0
+
+#define SLIDE                   1
+#define SMEARBLOOD              2
+#define MOREBLOOD               4
 
 extern int              iqueuehead;
 extern int              iqueuetail;
@@ -117,8 +124,7 @@ extern int              bloodSplatQueueSlot;
 extern int              bloodsplatstotal;
 extern int              bloodsplatsvisible;
 
-#define CARDNOTFOUNDYET -1
-#define CARDNOTINMAP     0
+extern int              corpses;
 
 void P_InitCards(player_t *player);
 

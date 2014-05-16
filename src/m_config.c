@@ -44,6 +44,7 @@ char            *configdir;
 extern int      bloodsplatstotal;
 extern int      bloodsplatsvisible;
 extern boolean  blur;
+extern int      corpses;
 extern int      fullscreen;
 extern int      gamepadautomap;
 extern int      gamepadfire;
@@ -175,6 +176,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (bloodsplatstotal,    bloodsplatstotal,     7),
     CONFIG_VARIABLE_INT   (bloodsplatsvisible,  bloodsplatsvisible,   7),
     CONFIG_VARIABLE_INT   (blur,                blur,                 1),
+    CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
     CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,    9),
     CONFIG_VARIABLE_INT   (fullscreen,          fullscreen,           1),
@@ -340,6 +342,21 @@ static alias_t alias[] =
     { "\"Hurt me plenty.\"",            2, 10 },
     { "\"Ultra-Violence.\"",            3, 10 },
     { "\"Nightmare!\"",                 4, 10 },
+    { "slide",                          1, 11 },
+    { "smearblood",                     2, 11 },
+    { "slide|smearblood",               3, 11 },
+    { "smearblood|slide",               3, 11 },
+    { "moreblood",                      4, 11 },
+    { "slide|moreblood",                5, 11 },
+    { "moreblood|slide",                5, 11 },
+    { "smearblood|moreblood",           6, 11 },
+    { "moreblood|smearblood",           6, 11 },
+    { "slide|smearblood|moreblood",     7, 11 },
+    { "slide|moreblood|smearblood",     7, 11 },
+    { "smearblood|slide|moreblood",     7, 11 },
+    { "smearblood|moreblood|slide",     7, 11 },
+    { "moreblood|slide|smearblood",     7, 11 },
+    { "moreblood|smearblood|slide",     7, 11 },
     { "",                              -1, -1 }
 };
 

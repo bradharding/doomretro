@@ -830,7 +830,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 }
 
 boolean P_CheckMeleeRange(mobj_t *actor);
-#include "i_system.h"
+
 //
 // P_DamageMobj
 // Damages both enemies and players
@@ -846,7 +846,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 {
     player_t    *player;
 
-    if (!(target->flags & MF_SHOOTABLE) && !(target->flags & MF_CORPSE))
+    if (!(target->flags & MF_SHOOTABLE) && (!(target->flags & MF_CORPSE) || !(corpses & SLIDE)))
         return;
 
     if (target->type == MT_BARREL && (target->flags & MF_CORPSE))
