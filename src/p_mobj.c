@@ -230,7 +230,7 @@ void P_XYMovement(mobj_t *mo)
         else
             colfunc = tl50colfunc;
 
-        for (i = 0; i < ((MAX(mo->momx, mo->momy) << 1) >> FRACBITS); i++)
+        for (i = 0; i < ((mo->momx + mo->momy) >> FRACBITS); i++)
         {
             bloodSplatSpawner(mo->x + (M_RandomInt(-20, 20) << FRACBITS),
                               mo->y + (M_RandomInt(-20, 20) << FRACBITS),
