@@ -303,6 +303,9 @@ static void saveg_read_mobj_t(mobj_t *str)
     // fixed_t ceilingz;
     str->ceilingz = saveg_read32();
 
+    // fixed_t dropoffz;
+    str->dropoffz = saveg_read32();
+
     // fixed_t radius;
     str->radius = saveg_read32();
 
@@ -388,6 +391,9 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // int floatboblevel;
     str->floatboblevel = saveg_read32();
+
+    // short gear;
+    str->gear = saveg_read16();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -433,6 +439,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // fixed_t ceilingz;
     saveg_write32(str->ceilingz);
+
+    // fixed_t dropoffz;
+    saveg_write32(str->dropoffz);
 
     // fixed_t radius;
     saveg_write32(str->radius);
@@ -511,6 +520,12 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // int floatboblevel;
     saveg_write32(str->floatboblevel);
+
+    // int floatboblevel;
+    saveg_write32(str->floatboblevel);
+
+    // short gear;
+    saveg_write16(str->gear);
 }
 
 //
@@ -1720,10 +1735,14 @@ void P_UnArchiveThinkers(void)
                     mobj->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
                 else
                 {
+                    int flags2 = mobj->info->flags2;
+
                     if (mobj->flags2 & MF2_MIRRORED)
-                        mobj->flags2 = mobj->info->flags2 | MF2_MIRRORED;
-                    else
-                        mobj->flags2 = mobj->info->flags2;
+                        flags2 |= MF2_MIRRORED;
+                    if (mobj->flags2 & MF2_FALLING)
+                        flags2 |= MF2_FALLING;
+
+                    mobj->flags2 = flags2;
 
                     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
                 }
