@@ -242,7 +242,7 @@ void P_XYMovement(mobj_t *mo)
         int     flags2;
         void    (*colfunc)(void);
 
-        if (type == MT_HEAD)
+        if (type == MT_HEAD || type == MT_MISC61)
         {
             flags2 = MF2_TRANSLUCENT_REDTOBLUE_33; 
             colfunc = tlredtoblue33colfunc;
