@@ -241,6 +241,7 @@ void P_XYMovement(mobj_t *mo)
         int     i;
         int     flags2;
         void    (*colfunc)(void);
+        int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1;
 
         if (type == MT_HEAD || type == MT_MISC61)
         {
@@ -265,8 +266,8 @@ void P_XYMovement(mobj_t *mo)
 
         for (i = 0; i < ((mo->momx + mo->momy) >> FRACBITS); i++)
         {
-            bloodSplatSpawner(mo->x + (M_RandomInt(-20, 20) << FRACBITS),
-                              mo->y + (M_RandomInt(-20, 20) << FRACBITS),
+            bloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                              mo->y + (M_RandomInt(-radius, radius) << FRACBITS),
                               flags2, colfunc);
         }
     }
@@ -945,15 +946,17 @@ void P_SpawnMapThing(mapthing_t *mthing)
 
     if (corpses & MOREBLOOD)
     {
+        int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
+
         if (mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
             for (i = 0; i < M_RandomInt(100, 150); i++)
-                bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
-                                  mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
+                bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                                  mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
                                   MF2_TRANSLUCENT_50, tl50colfunc);
         else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
             for (i = 0; i < M_RandomInt(100, 150); i++)
-                bloodSplatSpawner(mobj->x + (M_RandomInt(-28, 28) << FRACBITS),
-                                  mobj->y + (M_RandomInt(-28, 28) << FRACBITS),
+                bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                                  mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
                                   MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
     }
 }
