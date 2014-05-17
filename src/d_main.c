@@ -1020,12 +1020,9 @@ static void D_DoomMainSetup(void)
     }
     gammalevelindex--;
 
-    if (bloodsplatstotal < BLOODSPLATSTOTAL_MIN || bloodsplatstotal > BLOODSPLATSTOTAL_MAX)
-        bloodsplatstotal = BLOODSPLATSTOTAL_DEFAULT;
-    bloodSplatSpawner = (bloodsplatstotal == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2);
-
-    if (bloodsplatsvisible < BLOODSPLATSVISIBLE_MIN || bloodsplatsvisible > BLOODSPLATSVISIBLE_MAX)
-        bloodsplatsvisible = BLOODSPLATSVISIBLE_DEFAULT;
+    if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
+        bloodsplats = BLOODSPLATS_DEFAULT;
+    bloodSplatSpawner = (bloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2);
 
     if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
         pixelwidth = PIXELWIDTH_DEFAULT;

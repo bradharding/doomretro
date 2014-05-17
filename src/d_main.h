@@ -61,13 +61,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define UNLIMITED                       32768
 
-#define BLOODSPLATSTOTAL_MIN            0
-#define BLOODSPLATSTOTAL_DEFAULT        UNLIMITED
-#define BLOODSPLATSTOTAL_MAX            32768
-
-#define BLOODSPLATSVISIBLE_MIN          0
-#define BLOODSPLATSVISIBLE_DEFAULT      1024
-#define BLOODSPLATSVISIBLE_MAX          32768
+#define BLOODSPLATS_MIN                 0
+#define BLOODSPLATS_DEFAULT             UNLIMITED
+#define BLOODSPLATS_MAX                 32768
 
 #define PIXELWIDTH_MIN                  2
 #define PIXELWIDTH_DEFAULT              2

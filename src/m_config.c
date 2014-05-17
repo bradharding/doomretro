@@ -41,8 +41,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // doomretro.cfg, savegames, etc.
 char            *configdir;
 
-extern int      bloodsplatstotal;
-extern int      bloodsplatsvisible;
+extern int      bloodsplats;
 extern boolean  blur;
 extern int      corpses;
 extern int      fullscreen;
@@ -173,8 +172,7 @@ typedef struct
 
 static default_t        doom_defaults_list[] =
 {
-    CONFIG_VARIABLE_INT   (bloodsplatstotal,    bloodsplatstotal,     7),
-    CONFIG_VARIABLE_INT   (bloodsplatsvisible,  bloodsplatsvisible,   7),
+    CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,          7),
     CONFIG_VARIABLE_INT   (blur,                blur,                 1),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),

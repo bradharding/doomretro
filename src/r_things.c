@@ -901,18 +901,14 @@ void R_DrawMasked(void)
     if (num_vissprite > 0)
     {
         int i;
-        int count = 0;
 
         // draw all blood splats first, front to back
-        for (i = 0; i < num_vissprite && count < bloodsplatsvisible; i++)
+        for (i = 0; i < num_vissprite; i++)
         {
             vissprite_t *spr = vissprite_ptrs[i];
 
             if (spr->type == MT_BLOODSPLAT)
-            {
-                count++;
                 R_DrawSprite(spr, false);
-            }
         }
 
         // draw all other vissprites, back to front

@@ -119,10 +119,9 @@ void P_PlayerThink(player_t *player);
 extern int              iqueuehead;
 extern int              iqueuetail;
 
-extern mobj_t           *bloodSplatQueue[BLOODSPLATSTOTAL_MAX];
+extern mobj_t           *bloodSplatQueue[BLOODSPLATS_MAX];
 extern int              bloodSplatQueueSlot;
-extern int              bloodsplatstotal;
-extern int              bloodsplatsvisible;
+extern int              bloodsplats;
 
 extern int              corpses;
 

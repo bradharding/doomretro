@@ -1111,7 +1111,7 @@ void P_SetupLevel(int episode, int map)
     deathmatch_p = deathmatchstarts;
 
     bloodSplatQueueSlot = 0;
-    memset(bloodSplatQueue, 0, sizeof(mobj_t *) * bloodsplatstotal);
+    memset(bloodSplatQueue, 0, sizeof(mobj_t *) * bloodsplats);
 
     P_LoadThings(lumpnum + ML_THINGS);
 
