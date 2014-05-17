@@ -47,6 +47,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define FLOATBOBCOUNT 4
 
+// killough 11/98:
+// For torque simulation:
+
+#define OVERDRIVE 6
+#define MAXGEAR (OVERDRIVE + 16)
+
 //
 // NOTES: mobj_t
 //
@@ -242,7 +248,9 @@ typedef enum
     // Spawn more red blood under corpse
     MF2_MOREREDBLOODSPLATS        = 0x00008000,
     // Spawn more blue blood under corpse
-    MF2_MOREBLUEBLOODSPLATS       = 0x00010000
+    MF2_MOREBLUEBLOODSPLATS       = 0x00010000,
+
+    MF2_FALLING                   = 0x00020000
 } mobjflag2_t;
 
 // Map Object definition.
@@ -275,6 +283,9 @@ typedef struct mobj_s
     // The closest interval over all contacted Sectors.
     fixed_t             floorz;
     fixed_t             ceilingz;
+
+    // killough 11/98: the lowest floor over all contacted Sectors.
+    fixed_t             dropoffz;
 
     // For movement checking.
     fixed_t             radius;
@@ -337,6 +348,8 @@ typedef struct mobj_s
 
     // a linked list of sectors where this object appears
     struct msecnode_s   *touching_sectorlist;   // phares 3/14/98
+
+    short               gear; // killough 11/98: used in torque simulation
 } mobj_t;
 
 #endif

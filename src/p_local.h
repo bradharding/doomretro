@@ -209,6 +209,7 @@ void P_SetThingPosition(mobj_t *thing);
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
 extern boolean          floatok;
+extern boolean          felldown;   // killough 11/98: indicates object pushed off ledge
 extern fixed_t          tmfloorz;
 extern fixed_t          tmceilingz;
 
@@ -232,6 +233,8 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance);
 void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage);
 
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage);
+
+void P_ApplyTorque(mobj_t *mo); // killough 9/12/98
 
 //
 // P_SETUP

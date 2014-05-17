@@ -496,6 +496,17 @@ void P_MobjThinker(mobj_t *mobj)
         if (mobj->thinker.function.acv == (actionf_v)(-1))
             return;             // mobj was removed
     }
+    else if (!mobj->momx && !mobj->momy && !mobj->player)
+    {
+        if (mobj->z > mobj->dropoffz && !(mobj->flags & MF_NOGRAVITY))
+            P_ApplyTorque(mobj);
+        else
+        {
+            // Reset torque
+            mobj->flags2 &= ~MF2_FALLING;
+            mobj->gear = 0;
+        }
+    }
 
     // cycle through states,
     //  calling action functions at transitions
@@ -622,6 +633,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // set subsector and/or block links
     P_SetThingPosition(mobj);
 
+    mobj->dropoffz =           // killough 11/98: for tracking dropoffs
     mobj->floorz = mobj->subsector->sector->floorheight;
     mobj->ceilingz = mobj->subsector->sector->ceilingheight;
 

@@ -287,7 +287,7 @@ boolean P_Move(mobj_t *actor)
     else
         actor->flags &= ~MF_INFLOAT;
 
-    if (!(actor->flags & MF_FLOAT))
+    if (!(actor->flags & MF_FLOAT) && !felldown)
         actor->z = actor->floorz;
     return true;
 }
