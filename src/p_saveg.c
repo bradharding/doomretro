@@ -388,9 +388,6 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // int floatboblevel;
     str->floatboblevel = saveg_read32();
-
-    // void (*colfunc)(void);
-    str->colfunc = saveg_readp();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -514,9 +511,6 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // int floatboblevel;
     saveg_write32(str->floatboblevel);
-
-    // void (*colfunc)(void);
-    saveg_writep(str->colfunc);
 }
 
 //
@@ -1690,6 +1684,33 @@ void P_UnArchiveThinkers(void)
                 saveg_read_pad();
                 mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
                 saveg_read_mobj_t(mobj);
+
+                if ((mobj->flags & MF_SHADOW) || (mobj->flags2 & MF2_FUZZ))
+                    mobj->colfunc = fuzzcolfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT)
+                    mobj->colfunc = tlcolfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT_REDONLY)
+                    mobj->colfunc = tlredcolfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT_GREENONLY)
+                    mobj->colfunc = tlgreencolfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT_BLUEONLY)
+                    mobj->colfunc = tlbluecolfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT_33)
+                    mobj->colfunc = tl33colfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT_50)
+                    mobj->colfunc = tl50colfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+                    mobj->colfunc = tlredwhitecolfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+                    mobj->colfunc = tlredtogreen33colfunc;
+                else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+                    mobj->colfunc = tlredtoblue33colfunc;
+                else if (mobj->flags2 & MF2_REDTOGREEN)
+                    mobj->colfunc = redtogreencolfunc;
+                else if (mobj->flags2 & MF2_REDTOBLUE)
+                    mobj->colfunc = redtobluecolfunc;
+                else
+                    mobj->colfunc = basecolfunc;
 
                 mobj->target = NULL;
                 mobj->tracer = NULL;

@@ -672,7 +672,7 @@ static int D_ChooseIWAD(void)
     return iwadfound;
 }
 
-void (*bloodSplatSpawner)(fixed_t, fixed_t, void (*)(void));
+void (*bloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
 //
 // D_DoomMainSetup
