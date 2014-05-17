@@ -217,7 +217,7 @@ extern line_t           *ceilingline;
 extern line_t           *blockline;
 
 boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
-boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y);
+boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff);
 boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
 boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z);
 void P_SlideMove(mobj_t *mo);

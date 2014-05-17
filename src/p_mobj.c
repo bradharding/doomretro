@@ -198,7 +198,7 @@ void P_XYMovement(mobj_t *mo)
             xmove = ymove = 0;
         }
 
-        if (!P_TryMove(mo, ptryx, ptryy))
+        if (!P_TryMove(mo, ptryx, ptryy, true))
         {
             // blocked move
             if (mo->player)
@@ -1167,7 +1167,7 @@ void P_CheckMissileSpawn(mobj_t *th)
     th->y += (th->momy >> 1);
     th->z += (th->momz >> 1);
 
-    if (!P_TryMove(th, th->x, th->y))
+    if (!P_TryMove(th, th->x, th->y, false))
         P_ExplodeMissile(th);
 }
 

@@ -225,7 +225,7 @@ fixed_t         yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -
 extern line_t **spechit;
 extern int    numspechit;
 
-boolean P_Move(mobj_t *actor)
+boolean P_Move(mobj_t *actor, boolean dropoff)
 {
     fixed_t     tryx;
     fixed_t     tryy;
@@ -240,7 +240,7 @@ boolean P_Move(mobj_t *actor)
     tryx = actor->x + speed * xspeed[actor->movedir];
     tryy = actor->y + speed * yspeed[actor->movedir];
 
-    if (!P_TryMove(actor, tryx, tryy))
+    if (!P_TryMove(actor, tryx, tryy, dropoff))
     {
         boolean good;
 
@@ -305,7 +305,7 @@ boolean P_Move(mobj_t *actor)
 //
 boolean P_TryWalk(mobj_t *actor)
 {
-    if (!P_Move(actor))
+    if (!P_Move(actor, false))
         return false;
 
     actor->movecount = P_Random() & 15;
@@ -705,7 +705,7 @@ nomissile:
     }
 
     // chase towards player
-    if (--actor->movecount < 0 || !P_Move(actor))
+    if (--actor->movecount < 0 || !P_Move(actor, false))
         P_NewChaseDir(actor);
 
     // make active sound
@@ -1395,7 +1395,7 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
 
     newmobj->flags &= ~MF_COUNTKILL;
 
-    if (!P_TryMove(newmobj, newmobj->x, newmobj->y))
+    if (!P_TryMove(newmobj, newmobj->x, newmobj->y, false))
     {
         P_RemoveMobj(newmobj);
         return;
