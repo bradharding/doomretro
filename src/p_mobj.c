@@ -227,7 +227,7 @@ void P_XYMovement(mobj_t *mo)
                 mo->momx = mo->momy = 0;
         }
     }
-    while (xmove | ymove);
+    while (xmove || ymove);
 
     if (mo->flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever

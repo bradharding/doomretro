@@ -29,6 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <stdlib.h>
+
 #include "doomstat.h"
 #include "m_bbox.h"
 #include "m_random.h"
@@ -36,13 +37,16 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "s_sound.h"
 #include "z_zone.h"
 
-fixed_t    tmbbox[4];
-mobj_t     *tmthing;
-int        tmflags;
-int        tmradius;
-fixed_t    tmx;
-fixed_t    tmy;
-fixed_t    tmz;
+static mobj_t   *tmthing;
+static int      tmflags;
+static int      tmradius;
+static fixed_t  tmx;
+static fixed_t  tmy;
+static fixed_t  tmz;
+static fixed_t  pe_x;
+static fixed_t  pe_y;
+static fixed_t  ls_x;
+static fixed_t  ls_y;
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
@@ -51,6 +55,7 @@ boolean    floatok;
 // killough 11/98: if "felldown" true, object was pushed down ledge
 boolean   felldown;
 
+fixed_t    tmbbox[4];
 fixed_t    tmfloorz;
 fixed_t    tmceilingz;
 fixed_t    tmdropoffz;
@@ -73,7 +78,7 @@ int        numspechit;
 angle_t    shootangle;
 
 // Temporary holder for thing_sectorlist threads
-msecnode_t *sector_list = NULL;                             // phares 3/16/98
+msecnode_t *sector_list = NULL; // phares 3/16/98
 
 extern int followplayer;
 
@@ -239,7 +244,7 @@ static boolean PIT_CheckLine(line_t *ld)
         if (ld->flags & ML_BLOCKING)              // explicitly blocking everything
             return (tmunstuck && !untouched(ld)); // killough 8/1/98: allow escape
 
-        if (!tmthing->player && (ld->flags & ML_BLOCKMONSTERS))
+        if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS))
             return false;                         // block monsters only
     }
 
@@ -271,7 +276,7 @@ static boolean PIT_CheckLine(line_t *ld)
         if (numspechit >= spechit_max)
         {
             spechit_max = (spechit_max ? spechit_max * 2 : 8);
-            spechit = (line_t **)realloc(spechit, sizeof(*spechit) * spechit_max);
+            spechit = realloc(spechit, sizeof(*spechit) * spechit_max);
         }
         spechit[numspechit++] = ld;
     }
@@ -333,7 +338,7 @@ boolean PIT_CheckThing(mobj_t *thing)
         tmthing->flags &= ~MF_SKULLFLY;
         tmthing->momx = tmthing->momy = tmthing->momz = 0;
 
-        P_SetMobjState(tmthing, (statenum_t)tmthing->info->spawnstate);
+        P_SetMobjState(tmthing, tmthing->info->spawnstate);
 
         return false;           // stop moving
     }
@@ -381,7 +386,7 @@ boolean PIT_CheckThing(mobj_t *thing)
     // check for special pickup
     if (thing->flags & MF_SPECIAL)
     {
-        boolean solid = thing->flags & MF_SOLID;
+        boolean solid = (thing->flags & MF_SOLID);
 
         if (tmflags & MF_PICKUP)
             P_TouchSpecialThing(thing, tmthing);        // can remove thing
@@ -510,7 +515,6 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
     {
         // killough 7/26/98: reformatted slightly
         // killough 8/1/98: Possibly allow escape if otherwise stuck
-
         if (tmceilingz - tmfloorz < thing->height ||     // doesn't fit
             // mobj must lower to fit
             (floatok = true, !(thing->flags & MF_TELEPORT) &&
@@ -526,7 +530,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
         // Prevent monsters from getting stuck hanging off ledges
         // killough 10/98: Allow dropoffs in controlled circumstances
         // killough 11/98: Improve symmetry of clipping on stairs
-        if (!(thing->flags & (MF_DROPOFF | MF_FLOAT)))
+        if (!(thing->flags & MF_DROPOFF) && !(thing->flags & MF_FLOAT))
             if (!dropoff)
             {
                 if (thing->floorz - tmfloorz > 24 * FRACUNIT ||
@@ -538,7 +542,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
                 felldown = (!(thing->flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
 
             // killough 11/98: prevent falling objects from going up too many steps
-            if (thing->flags2 & MF2_FALLING &&
+            if ((thing->flags2 & MF2_FALLING) &&
                 tmfloorz - thing->z > FixedMul(thing->momx, thing->momx) +
                                       FixedMul(thing->momy, thing->momy))
                 return false;
@@ -683,7 +687,7 @@ void P_ApplyTorque(mobj_t *mo)
             P_BlockLinesIterator(bx, by, PIT_ApplyTorque);
 
     // If any momentum, mark object as 'falling' using engine-internal flags
-    if (mo->momx | mo->momy)
+    if (mo->momx && mo->momy)
         mo->flags2 |= MF2_FALLING;
     else  // Clear the engine-internal flag indicating falling object.
         mo->flags2 &= ~MF2_FALLING;
@@ -695,17 +699,12 @@ void P_ApplyTorque(mobj_t *mo)
     // of rotation, so we have to creatively simulate these 
     // systems somehow :)
 
-    if (!((mo->flags2 | flags2) & MF2_FALLING))   // If not falling for a while,
+    if (!(mo->flags2 & MF2_FALLING) && !(flags2 & MF2_FALLING))   // If not falling for a while,
         mo->gear = 0;                                // Reset it to full strength
     else
         if (mo->gear < MAXGEAR)                      // Else if not at max gear,
             mo->gear++;                                // move up a gear
 }
-
-static fixed_t pe_x;
-static fixed_t pe_y;
-static fixed_t ls_x;
-static fixed_t ls_y;
 
 //
 // PIT_CrossLine
