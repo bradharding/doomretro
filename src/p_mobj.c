@@ -227,7 +227,7 @@ void P_XYMovement(mobj_t *mo)
                 mo->momx = mo->momy = 0;
         }
     }
-    while (xmove || ymove);
+    while (xmove | ymove);
 
     if (mo->flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
@@ -272,10 +272,10 @@ void P_XYMovement(mobj_t *mo)
         }
     }
 
-    if ((mo->flags & MF_CORPSE)
+    if (((mo->flags & MF_CORPSE) || (mo->flags2 & MF2_FALLING))
         && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4
             || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
-        && (mo->z != mo->subsector->sector->floorheight))
+        && mo->z != mo->subsector->sector->floorheight)
         return;         // do not stop sliding if halfway off a step with some momentum
 
     if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED

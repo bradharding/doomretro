@@ -518,30 +518,30 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
             // too big a step up
             (!(thing->flags & MF_TELEPORT) &&
             tmfloorz - thing->z > 24 * FRACUNIT))
-            return tmunstuck
-            && !(ceilingline && untouched(ceilingline))
-            && !(floorline && untouched(floorline));
+            return (tmunstuck && !(ceilingline && untouched(ceilingline))
+                    && !(floorline && untouched(floorline)));
 
-        //if (!(thing->flags & (MF_DROPOFF | MF_FLOAT)) && tmfloorz - tmdropoffz > 24 * FRACUNIT)
-        //    return false;       // don't stand over a dropoff
         // killough 3/15/98: Allow certain objects to drop off
         // killough 7/24/98, 8/1/98: 
         // Prevent monsters from getting stuck hanging off ledges
         // killough 10/98: Allow dropoffs in controlled circumstances
         // killough 11/98: Improve symmetry of clipping on stairs
         if (!(thing->flags & (MF_DROPOFF | MF_FLOAT)))
-            if (!dropoff || (dropoff == 2 && 
-                (tmfloorz - tmdropoffz > 128 * FRACUNIT ||
-                !thing->target || thing->target->z > tmdropoffz)))
+            if (!dropoff)
             {
-            felldown = !(thing->flags & MF_NOGRAVITY) &&
-                thing->z - tmfloorz > 24 * FRACUNIT;
+                if (thing->floorz - tmfloorz > 24 * FRACUNIT ||
+                    thing->dropoffz - tmdropoffz > 24 * FRACUNIT)
+                    return false;
+            }
+            else
+                // dropoff allowed -- check for whether it fell more than 24
+                felldown = (!(thing->flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
 
             // killough 11/98: prevent falling objects from going up too many steps
-            if (thing->flags2 & MF2_FALLING && tmfloorz - thing->z >
-                FixedMul(thing->momx, thing->momx) + FixedMul(thing->momy, thing->momy))
+            if (thing->flags2 & MF2_FALLING &&
+                tmfloorz - thing->z > FixedMul(thing->momx, thing->momx) +
+                                      FixedMul(thing->momy, thing->momy))
                 return false;
-            }
     }
 
     // the move is ok,
