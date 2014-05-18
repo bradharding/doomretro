@@ -802,8 +802,8 @@ boolean P_ThingHeightClip(mobj_t *thing)
     boolean onfloor = (thing->z == thing->floorz);
 
     P_CheckPosition(thing, thing->x, thing->y);
-    // what about stranding a monster partially off an edge?
 
+    // what about stranding a monster partially off an edge?
     thing->floorz = tmfloorz;
     thing->ceilingz = tmceilingz;
     thing->dropoffz = tmdropoffz;         // killough 11/98: remember dropoffs
@@ -812,6 +812,10 @@ boolean P_ThingHeightClip(mobj_t *thing)
     {
         // walking monsters rise and fall with the floor
         thing->z = thing->floorz;
+
+        // killough 11/98: Possibly upset balance of objects hanging off ledges
+        if ((thing->flags2 & MF2_FALLING) && thing->gear >= MAXGEAR)
+            thing->gear = 0;
     }
     else
     {
@@ -820,24 +824,18 @@ boolean P_ThingHeightClip(mobj_t *thing)
             thing->z = thing->ceilingz - thing->height;
     }
 
-    if (thing->ceilingz - thing->floorz < thing->height)
-        return false;
-
-    return true;
+    return (thing->ceilingz - thing->floorz >= thing->height);
 }
 
 //
 // SLIDE MOVE
 // Allows the player to slide along any angled walls.
 //
-fixed_t bestslidefrac;
-
-line_t  *bestslideline;
-
-mobj_t  *slidemo;
-
-fixed_t tmxmove;
-fixed_t tmymove;
+static fixed_t bestslidefrac;
+static line_t  *bestslideline;
+static mobj_t  *slidemo;
+static fixed_t tmxmove;
+static fixed_t tmymove;
 
 //
 // P_HitSlideLine
