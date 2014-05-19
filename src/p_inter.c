@@ -943,7 +943,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
             player->health = 0;
 
         player->attacker = source;
-        player->damagecount += damage;  // add damage after armor / invuln
+        player->damagecount += MAX(2, damage);  // add damage after armor / invuln
 
         if (player->damagecount > 100)
             player->damagecount = 100;  // teleport stomp does 10k points...
