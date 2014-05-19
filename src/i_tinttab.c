@@ -26,24 +26,18 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <math.h>
-
-#include "doomdef.h"
-#include "doomtype.h"
-
-#include "i_video.h"
-#include "z_zone.h"
-#include "m_argv.h"
 #include "m_fixed.h"
+#include "z_zone.h"
 
-#define ADDITIVE -1
+#define ADDITIVE       -1
 
-#define R 1
-#define W 2
-#define G 4
-#define B 8
+#define R               1
+#define W               2
+#define G               4
+#define B               8
 
-static byte filter[256] = {
+static byte filter[256] =
+{
     0,0,0,0,R|B,0,0,0,0,0,0,0,0,0,0,0,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,
     R,R,R,R,R,R,R,R,R,R,R,R,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,R,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -53,26 +47,44 @@ static byte filter[256] = {
     R,R,R,R|B,R|B,R,R,R,R,R,R,0,0,0,0,0,0,0,0,B,B,B,B,B,B,B,B,R,R,0,0,0,0,0,0
 };
 
-#define ALL    0
-#define REDS   R
-#define WHITES W
-#define GREENS G
-#define BLUES  B
+#define ALL             0
+#define REDS            R
+#define WHITES          W
+#define GREENS          G
+#define BLUES           B
+
+byte    *tinttab;
+
+byte    *tinttab33;
+byte    *tinttab50;
+byte    *tinttab60;
+byte    *tinttab75;
+byte    *tinttab80;
+
+byte    *tinttabred;
+byte    *tinttabredwhite;
+byte    *tinttabgreen;
+byte    *tinttabblue;
+
+byte    *tinttabred50;
+byte    *tinttabredwhite50;
+byte    *tinttabgreen50;
+byte    *tinttabblue50;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
-    double best_difference = LONG_MAX;
-    int best_color = 0;
-    int i;
+    double      best_difference = LONG_MAX;
+    int         best_color = 0;
+    int         i;
 
     for (i = 0; i < 256; ++i)
     {
-        long rmean = ((long)red + *palette) >> 1;
-        long r = (long)red - *palette++;
-        long g = (long)green - *palette++;
-        long b = (long)blue - *palette++;
-        double difference = sqrt((double)((((512 + rmean) * r * r) >> 8) +
-                            4 * g * g + (((767 - rmean) * b * b) >> 8)));
+        long    rmean = ((long)red + *palette) >> 1;
+        long    r = (long)red - *palette++;
+        long    g = (long)green - *palette++;
+        long    b = (long)blue - *palette++;
+        double  difference = sqrt((double)((((512 + rmean) * r * r) >> 8) +
+                                  4 * g * g + (((767 - rmean) * b * b) >> 8)));
 
         if (!difference)
             return i;
@@ -87,26 +99,33 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 
 static byte *GenerateTintTable(byte *palette, int percent, int colors)
 {
-    byte *result;
-    int foreground, background;
+    byte        *result = (byte *)Z_Malloc(65536, PU_STATIC, NULL);
+    int         foreground, background;
 
-    result = (byte *)Z_Malloc(65536, PU_STATIC, NULL);
     for (foreground = 0; foreground < 256; ++foreground)
     {
         if ((filter[foreground] & colors) || colors == ALL)
         {
             for (background = 0; background < 256; ++background)
             {
-                byte *color1, *color2;
-                int r, g, b;
+                byte    *color1 = palette + background * 3;
+                byte    *color2 = palette + foreground * 3;
+                int     r, g, b;
 
-                color1 = palette + background * 3;
-                color2 = palette + foreground * 3;
                 if (percent == ADDITIVE)
                 {
-                    r = MIN(color1[0] + color2[0], 255);
-                    g = MIN(color1[1] + color2[1], 255);
-                    b = MIN(color1[2] + color2[2], 255);
+                    if (filter[background] & BLUES)
+                    {
+                        r = ((int)color1[0] * 25 + (int)color2[0] * 75) / 100;
+                        g = ((int)color1[1] * 25 + (int)color2[1] * 75) / 100;
+                        b = ((int)color1[2] * 25 + (int)color2[2] * 75) / 100;
+                    }
+                    else
+                    {
+                        r = MIN(color1[0] + color2[0], 255);
+                        g = MIN(color1[1] + color2[1], 255);
+                        b = MIN(color1[2] + color2[2], 255);
+                    }
                 }
                 else
                 {
@@ -130,24 +149,6 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
     }
     return result;
 }
-
-byte *tinttab;
-
-byte *tinttab33;
-byte *tinttab50;
-byte *tinttab60;
-byte *tinttab75;
-byte *tinttab80;
-
-byte *tinttabred;
-byte *tinttabredwhite;
-byte *tinttabgreen;
-byte *tinttabblue;
-
-byte *tinttabred50;
-byte *tinttabredwhite50;
-byte *tinttabgreen50;
-byte *tinttabblue50;
 
 void I_InitTintTables(byte *palette)
 {
