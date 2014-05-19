@@ -915,6 +915,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     // player specific
     if (player)
     {
+        int     damagecount;
+
         // end of game hell hack
         if (target->subsector->sector->special == ExitSuperDamage && damage >= target->health)
             damage = target->health - 1;
@@ -938,15 +940,17 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
             player->armorpoints -= saved;
             damage -= saved;
         }
-        player->health -= damage;       // mirror mobj health here for Dave
+        player->health -= damage;                       // mirror mobj health here for Dave
         if (player->health < 0)
             player->health = 0;
 
         player->attacker = source;
-        player->damagecount += MAX(2, damage);  // add damage after armor / invuln
+        damagecount = player->damagecount + damage;     // add damage after armor / invuln
 
+        if (damage > 0 && damagecount < 2)              // damagecount gets decremented before
+             damagecount = 2;                           // being used so needs to be at least 2
         if (player->damagecount > 100)
-            player->damagecount = 100;  // teleport stomp does 10k points...
+            player->damagecount = 100;                  // teleport stomp does 10k points...
 
         if (gamepadvibrate && vibrate && player == &players[consoleplayer])
         {
