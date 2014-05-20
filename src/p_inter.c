@@ -949,8 +949,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         if (damage > 0 && damagecount < 2)              // damagecount gets decremented before
              damagecount = 2;                           // being used so needs to be at least 2
-        if (player->damagecount > 100)
-            player->damagecount = 100;                  // teleport stomp does 10k points...
+        if (damagecount > 100)
+            damagecount = 100;                          // teleport stomp does 10k points...
 
         player->damagecount = damagecount;
 
