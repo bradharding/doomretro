@@ -952,6 +952,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
         if (player->damagecount > 100)
             player->damagecount = 100;                  // teleport stomp does 10k points...
 
+        player->damagecount = damagecount;
+
         if (gamepadvibrate && vibrate && player == &players[consoleplayer])
         {
             XInputVibration(10000 + (100 - (player->health < 100 ? 
