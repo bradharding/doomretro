@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <math.h>
+
 #include "m_fixed.h"
 #include "z_zone.h"
 
