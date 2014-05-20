@@ -43,7 +43,7 @@ void P_DelSeclist(msecnode_t *node);
 int             bloodsplats = BLOODSPLATS_DEFAULT;
 mobj_t          *bloodSplatQueue[BLOODSPLATS_MAX];
 int             bloodSplatQueueSlot;
-void            (*bloodSplatSpawner)(fixed_t, fixed_t, int, void(*)(void));
+void            (*bloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
 boolean         smoketrails = true;
 
@@ -264,7 +264,7 @@ void P_XYMovement(mobj_t *mo)
             colfunc = tl50colfunc;
         }
 
-        for (i = 0; i < ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 8; i++)
+        for (i = 0; i < ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12; i++)
         {
             bloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
                               mo->y + (M_RandomInt(-radius, radius) << FRACBITS),
