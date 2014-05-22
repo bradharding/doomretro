@@ -56,7 +56,6 @@ boolean vibrate = false;
 void (*gamepadfunc)(void);
 void (*gamepadthumbsfunc)(short, short, short, short);
 
-extern int vibrationtics;
 extern boolean idclev;
 extern boolean idmus;
 extern boolean idbehold;
@@ -176,14 +175,24 @@ void I_PollDirectInputGamepad(void)
     }
 }
 
-void XInputVibration(int left, int right)
+void XInputDamageVibration(int left, int right)
 {
-    XINPUT_VIBRATION    vibration;
+    XINPUT_VIBRATION    damagevibration;
 
-    ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-    vibration.wLeftMotorSpeed = left;
-    vibration.wRightMotorSpeed = right;
-    XInputSetState(0, &vibration);
+    ZeroMemory(&damagevibration, sizeof(XINPUT_VIBRATION));
+    damagevibration.wLeftMotorSpeed = left;
+    damagevibration.wRightMotorSpeed = right;
+    XInputSetState(0, &damagevibration);
+}
+
+void XInputWeaponVibration(int left, int right)
+{
+    XINPUT_VIBRATION    weaponvibration;
+
+    ZeroMemory(&weaponvibration, sizeof(XINPUT_VIBRATION));
+    weaponvibration.wLeftMotorSpeed = left;
+    weaponvibration.wRightMotorSpeed = right;
+    XInputSetState(0, &weaponvibration);
 }
 
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY)
@@ -218,9 +227,13 @@ void I_PollXInputGamepad(void)
             GAMEPAD_LEFT_TRIGGER * (state.Gamepad.bLeftTrigger > GAMEPAD_TRIGGER_THRESHOLD) |
             GAMEPAD_RIGHT_TRIGGER * (state.Gamepad.bRightTrigger > GAMEPAD_TRIGGER_THRESHOLD));
 
-        if (vibrationtics)
-            if (!(--vibrationtics))
-                XInputVibration(0, 0);
+        if (damagevibrationtics)
+            if (!(--damagevibrationtics) && !weaponvibrationtics)
+                XInputDamageVibration(0, 0);
+
+        if (weaponvibrationtics)
+            if (!(--weaponvibrationtics) && !damagevibrationtics)
+                XInputWeaponVibration(0, 0);
 
         if (gamepadbuttons)
         {

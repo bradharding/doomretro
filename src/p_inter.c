@@ -31,6 +31,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "am_map.h"
 #include "doomstat.h"
 #include "dstrings.h"
+#include "i_gamepad.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_inter.h"
@@ -40,8 +41,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // a big item has five clip loads
 int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
 int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
-
-int vibrationtics = 0;
 
 //
 // GET STUFF
@@ -956,10 +955,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         if (gamepadvibrate && vibrate && player == &players[consoleplayer])
         {
-            XInputVibration(10000 + (100 - (player->health < 100 ? 
-                player->health : 100)) / 100 * 50000, 0);
-            vibrationtics += (vibrationtics + damage < 12 ?
-                12 : (damage < 100 ? damage: 100));
+            XInputDamageVibration(10000 + (100 - MIN(player->health, 100)) / 100 * 50000, 0);
+            damagevibrationtics += (MAX(12, MIN(damage, 100)));
         }
     }
 

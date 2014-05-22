@@ -28,10 +28,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "SDL.h"
 #include "d_event.h"
+#include "i_gamepad.h"
 #include "p_local.h"
 #include "doomstat.h"
 
-extern int     vibrationtics;
 extern int     followplayer;
 extern boolean oldweaponsowned[];
 
@@ -215,7 +215,7 @@ void P_DeathThink(player_t *player)
         || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER]))
     {
         count = 0;
-        vibrationtics = 1;
+        damagevibrationtics = 1;
         player->playerstate = PST_REBORN;
         facingkiller = false;
     }

@@ -27,6 +27,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include "d_event.h"
+#include "i_gamepad.h"
 #include "m_random.h"
 #include "m_menu.h"
 #include "p_local.h"
@@ -156,24 +157,50 @@ boolean P_CheckAmmo(player_t *player)
     return false;
 }
 
+struct
+{
+    int left;
+    int right;
+    int tics;
+} weaponvibrate[] = {
+    { 10000, 0, 10 }, // wp_fist
+    { 10000, 0, 10 }, // wp_pistol
+    { 10000, 0, 10 }, // wp_shotgun
+    { 10000, 0, 10 }, // wp_chaingun
+    { 10000, 0, 10 }, // wp_missile
+    { 10000, 0, 10 }, // wp_plasma
+    { 10000, 0, 10 }, // wp_bfg
+    { 10000, 0, 10 }, // wp_chainsaw
+    { 10000, 0, 10 }  // wp_supershotgun
+};
+
 //
 // P_FireWeapon.
 //
 void P_FireWeapon(player_t *player)
 {
-    statenum_t newstate;
+    statenum_t          newstate;
+    weapontype_t        readyweapon;
 
     if (!P_CheckAmmo(player) || (automapactive && !followplayer))
         return;
 
+    readyweapon = player->readyweapon;
+
     P_SetMobjState(player->mo, S_PLAY_ATK1);
-    newstate = (statenum_t)weaponinfo[player->readyweapon].atkstate;
+    newstate = (statenum_t)weaponinfo[readyweapon].atkstate;
     P_SetPsprite(player, ps_weapon, newstate);
 
-    if (player->readyweapon == wp_fist && !linetarget)
+    if (readyweapon == wp_fist && !linetarget)
         return;
 
     P_NoiseAlert(player->mo, player->mo);
+
+    if (gamepadvibrate && vibrate && player == &players[consoleplayer])
+    {
+        XInputWeaponVibration(weaponvibrate[readyweapon].left, weaponvibrate[readyweapon].right);
+        weaponvibrationtics = weaponvibrate[readyweapon].tics;
+    }
 }
 
 //

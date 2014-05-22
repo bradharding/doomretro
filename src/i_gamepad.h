@@ -63,11 +63,16 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define gamepadthumbRXright             pow((gamepadthumbRX - GAMEPAD_RIGHT_THUMB_DEADZONE) /\
                                         (32767.0f - GAMEPAD_RIGHT_THUMB_DEADZONE), 3.0f)
 
+int damagevibrationtics;
+int weaponvibrationtics;
+
 extern int      gamepadbuttons;
 extern int      gamepadthumbLX;
 extern int      gamepadthumbLY;
 extern int      gamepadthumbRX;
 extern int      gamepadlefthanded;
+extern boolean  vibrate;
+extern int      gamepadvibrate;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
@@ -77,6 +82,8 @@ void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY);
 void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY);
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY);
+void XInputDamageVibration(int left, int right);
+void XInputWeaponVibration(int left, int right);
 void(*gamepadfunc)(void);
 
 #endif
