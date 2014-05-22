@@ -618,7 +618,7 @@ static int D_ChooseIWAD(void)
                 {
                     if (!iwadfound)
                     {
-                        IdentifyIWADByContents(iwad, &gamemode, &gamemission);
+                        IdentifyIWADByContents(fullpath, &gamemode, &gamemission);
                         if (D_AddFile(fullpath))
                         {
                             iwadfound = 1;
