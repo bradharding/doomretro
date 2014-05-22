@@ -923,6 +923,21 @@ void I_InitGammaTables(void)
                 gammatable[i][j] = (byte)(pow((j + 1) / 256.0, 1.0 / gammalevels[i]) * 255.0);
 }
 
+boolean I_ValidScreenMode(int width, int height)
+{
+    SDL_Rect    **modes = SDL_ListModes(NULL, SDL_FULLSCREEN);
+    int         i;
+
+    if (modes == NULL || modes == (SDL_Rect **)(-1) || *modes == NULL)
+        return false;
+
+    for (i = 0; modes[i] != NULL; ++i)
+        if (width == modes[i]->w && height == modes[i]->h)
+            return true;
+
+    return false;
+}
+
 void I_InitGraphics(void)
 {
     int       i = 0;
@@ -952,6 +967,18 @@ void I_InitGraphics(void)
     SDL_SetCursor(emptycursor);
 
     init_win32(gamemission == doom ? "DOOM" : "DOOM2");
+
+    if (fullscreen)
+        if (!I_ValidScreenMode(screenwidth, screenheight))
+        {
+            screenwidth = 1280;
+            screenheight = 800;
+            if (!I_ValidScreenMode(screenwidth, screenheight))
+            {
+                screenwidth = 0;
+                screenheight = 0;
+            }
+        }
 
     SetVideoMode();
 
