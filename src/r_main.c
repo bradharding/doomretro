@@ -90,7 +90,9 @@ lighttable_t            *zlight[LIGHTLEVELS][MAXLIGHTZ];
 // bumped light from gun blasts
 int                     extralight;
 
-int                     translucency = true;
+boolean                 translucency = true;
+
+boolean                 homindicator = false;
 
 extern int              automapactive;
 extern int              viewheight2;
@@ -521,7 +523,7 @@ void R_RenderPlayerView(player_t *player)
         R_ClearSprites();
 
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            (gametic % 20) >= 9 || (player->cheats & CF_NOCLIP) ? 0 : 176);
+            homindicator && (gametic % 20) < 9 && !(player->cheats & CF_NOCLIP) ? 176 : 0);
 
         // The head node is the last node output.
         R_RenderBSPNode(numnodes - 1);

@@ -65,6 +65,7 @@ extern float    gammalevel;
 extern int      graphicdetail;
 extern boolean  grayscale;
 extern boolean  grid;
+extern boolean  homindicator;
 extern int      hud;
 extern int      key_down;
 extern int      key_down2;
@@ -198,6 +199,7 @@ static default_t        doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (graphicdetail,       graphicdetail,        6),
     CONFIG_VARIABLE_INT   (grayscale,           grayscale,            1),
     CONFIG_VARIABLE_INT   (grid,                grid,                 1),
+    CONFIG_VARIABLE_INT   (homindicator,        homindicator,         1),
     CONFIG_VARIABLE_INT   (hud,                 hud,                  1),
     CONFIG_VARIABLE_KEY   (key_down,            key_down,             3),
     CONFIG_VARIABLE_KEY   (key_down2,           key_down2,            3),
