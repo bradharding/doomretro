@@ -127,29 +127,26 @@ boolean P_CheckAmmo(player_t *player)
 
     // Out of ammo, pick a weapon to change to.
     // Preferences are set here.
-    do
-    {
-        if (player->weaponowned[wp_plasma] && player->ammo[am_cell])
-            player->pendingweapon = wp_plasma;
-        else if (player->weaponowned[wp_supershotgun] && player->ammo[am_shell] >= 2
-                 && player->preferredshotgun == wp_supershotgun)
-            player->pendingweapon = wp_supershotgun;
-        else if (player->weaponowned[wp_chaingun] && player->ammo[am_clip])
-            player->pendingweapon = wp_chaingun;
-        else if (player->weaponowned[wp_shotgun] && player->ammo[am_shell])
-            player->pendingweapon = wp_shotgun;
-        else if (player->ammo[am_clip])
-            player->pendingweapon = wp_pistol;
-        else if (player->weaponowned[wp_chainsaw])
-            player->pendingweapon = wp_chainsaw;
-        else if (player->weaponowned[wp_missile] && player->ammo[am_misl])
-            player->pendingweapon = wp_missile;
-        else if (player->weaponowned[wp_bfg] && player->ammo[am_cell] >= BFGCELLS)
-            player->pendingweapon = wp_bfg;
-        else
-            // If everything fails.
-            player->pendingweapon = wp_fist;
-    } while (player->pendingweapon == wp_nochange);
+    if (player->weaponowned[wp_plasma] && player->ammo[am_cell])
+        player->pendingweapon = wp_plasma;
+    else if (player->weaponowned[wp_supershotgun] && player->ammo[am_shell] >= 2
+                && player->preferredshotgun == wp_supershotgun)
+        player->pendingweapon = wp_supershotgun;
+    else if (player->weaponowned[wp_chaingun] && player->ammo[am_clip])
+        player->pendingweapon = wp_chaingun;
+    else if (player->weaponowned[wp_shotgun] && player->ammo[am_shell])
+        player->pendingweapon = wp_shotgun;
+    else if (player->ammo[am_clip])
+        player->pendingweapon = wp_pistol;
+    else if (player->weaponowned[wp_chainsaw])
+        player->pendingweapon = wp_chainsaw;
+    else if (player->weaponowned[wp_missile] && player->ammo[am_misl])
+        player->pendingweapon = wp_missile;
+    else if (player->weaponowned[wp_bfg] && player->ammo[am_cell] >= BFGCELLS)
+        player->pendingweapon = wp_bfg;
+    else
+        // If everything fails.
+        player->pendingweapon = wp_fist;
 
     // Now set appropriate weapon overlay.
     P_SetPsprite(player, ps_weapon, (statenum_t)weaponinfo[player->readyweapon].downstate);
@@ -162,15 +159,15 @@ struct
     int motorspeed;
     int tics;
 } weaponvibrate[] = {
-    { 20000, 10 }, // wp_fist
-    { 25000,  6 }, // wp_pistol
-    { 30000, 10 }, // wp_shotgun
-    { 25000, 10 }, // wp_chaingun
-    { 35000, 15 }, // wp_missile
-    { 30000, 10 }, // wp_plasma
-    { 35000, 25 }, // wp_bfg
-    { 30000, 10 }, // wp_chainsaw
-    { 30000, 10 }  // wp_supershotgun
+    { 25000, 10 }, // wp_fist
+    { 30000, 10 }, // wp_pistol
+    { 35000, 10 }, // wp_shotgun
+    { 30000, 10 }, // wp_chaingun
+    { 40000, 15 }, // wp_missile
+    { 35000, 10 }, // wp_plasma
+    { 45000, 30 }, // wp_bfg
+    { 35000, 10 }, // wp_chainsaw
+    { 35000, 10 }  // wp_supershotgun
 };
 
 //
