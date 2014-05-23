@@ -1009,8 +1009,12 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
 
             if (gamepadvibrate && vibrate)
             {
-                XInputVibration(players[consoleplayer].powers[pw_strength] ? 50000 : 25000);
-                weaponvibrationtics = 10;
+                int motorspeed = weaponinfo[wp_fist].motorspeed;
+
+                if (players[consoleplayer].powers[pw_strength])
+                    motorspeed *= 2;
+                XInputVibration(motorspeed);
+                weaponvibrationtics = weaponinfo[wp_fist].tics;
             }
         }
     }

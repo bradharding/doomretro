@@ -40,8 +40,12 @@ typedef struct
     int         readystate;
     int         atkstate;
     int         flashstate;
-} weaponinfo_t;
 
-extern  weaponinfo_t    weaponinfo[NUMWEAPONS];
+    int         motorspeed;
+    int         tics;
+}
+weaponinfo_t;
+
+extern weaponinfo_t     weaponinfo[NUMWEAPONS];
 
 #endif

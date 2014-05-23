@@ -34,25 +34,28 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "s_sound.h"
 #include "doomstat.h"
 
-#define LOWERSPEED   6 * FRACUNIT
-#define RAISESPEED   6 * FRACUNIT
+#define LOWERSPEED              6 * FRACUNIT
+#define RAISESPEED              6 * FRACUNIT
 
-#define WEAPONBOTTOM 128 * FRACUNIT
-#define WEAPONTOP    32 * FRACUNIT
+#define WEAPONBOTTOM            128 * FRACUNIT
+#define WEAPONTOP               32 * FRACUNIT
 
-#define BFGCELLS     40
+#define BFGCELLS                40
 
-boolean supershotgun;
+#define CHAINSAWIDLEMOTORSPEED  7500
+
+boolean         supershotgun;
 
 //
 // P_SetPsprite
 //
 void P_SetPsprite(player_t *player, int position, statenum_t stnum)
 {
-    pspdef_t *psp = &player->psprites[position];
+    pspdef_t    *psp = &player->psprites[position];
+
     do
     {
-        state_t  *state;
+        state_t *state;
 
         if (!stnum)
         {
@@ -88,15 +91,13 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
 //
 void P_BringUpWeapon(player_t *player)
 {
-    statenum_t newstate;
+    statenum_t  newstate = weaponinfo[player->pendingweapon].upstate;
 
     if (player->pendingweapon == wp_nochange)
         player->pendingweapon = player->readyweapon;
 
     if (player->pendingweapon == wp_chainsaw)
         S_StartSound(player->mo, sfx_sawup);
-
-    newstate = (statenum_t)weaponinfo[player->pendingweapon].upstate;
 
     player->pendingweapon = wp_nochange;
     player->psprites[ps_weapon].sy = WEAPONBOTTOM;
@@ -111,8 +112,8 @@ void P_BringUpWeapon(player_t *player)
 //
 boolean P_CheckAmmo(player_t *player)
 {
-    ammotype_t ammo = weaponinfo[player->readyweapon].ammo;
-    int        count = 1;       // Regular.
+    ammotype_t  ammo = weaponinfo[player->readyweapon].ammo;
+    int         count = 1;       // Regular.
 
     // Minimal amount for one shot varies.
     if (player->readyweapon == wp_bfg)
@@ -149,26 +150,10 @@ boolean P_CheckAmmo(player_t *player)
         player->pendingweapon = wp_fist;
 
     // Now set appropriate weapon overlay.
-    P_SetPsprite(player, ps_weapon, (statenum_t)weaponinfo[player->readyweapon].downstate);
+    P_SetPsprite(player, ps_weapon, weaponinfo[player->readyweapon].downstate);
 
     return false;
 }
-
-struct
-{
-    int motorspeed;
-    int tics;
-} weaponvibrate[] = {
-    { 25000, 10 }, // wp_fist
-    { 30000, 10 }, // wp_pistol
-    { 35000, 10 }, // wp_shotgun
-    { 30000, 10 }, // wp_chaingun
-    { 40000, 15 }, // wp_missile
-    { 35000, 10 }, // wp_plasma
-    { 45000, 30 }, // wp_bfg
-    { 35000, 10 }, // wp_chainsaw
-    { 35000, 10 }  // wp_supershotgun
-};
 
 //
 // P_FireWeapon.
@@ -184,7 +169,7 @@ void P_FireWeapon(player_t *player)
     readyweapon = player->readyweapon;
 
     P_SetMobjState(player->mo, S_PLAY_ATK1);
-    newstate = (statenum_t)weaponinfo[readyweapon].atkstate;
+    newstate = weaponinfo[readyweapon].atkstate;
     P_SetPsprite(player, ps_weapon, newstate);
 
     if (readyweapon == wp_fist && !linetarget)
@@ -194,12 +179,12 @@ void P_FireWeapon(player_t *player)
 
     if (gamepadvibrate && vibrate)
     {
-        int motorspeed = weaponvibrate[readyweapon].motorspeed;
+        int motorspeed = weaponinfo[readyweapon].motorspeed;
 
         if (readyweapon == wp_fist && players[consoleplayer].powers[pw_strength])
             motorspeed *= 2;
         XInputVibration(motorspeed);
-        weaponvibrationtics = weaponvibrate[readyweapon].tics;
+        weaponvibrationtics = weaponinfo[readyweapon].tics;
     }
 }
 
@@ -209,7 +194,7 @@ void P_FireWeapon(player_t *player)
 //
 void P_DropWeapon(player_t *player)
 {
-    P_SetPsprite(player, ps_weapon, (statenum_t)weaponinfo[player->readyweapon].downstate);
+    P_SetPsprite(player, ps_weapon, weaponinfo[player->readyweapon].downstate);
 }
 
 //
@@ -239,7 +224,7 @@ void A_WeaponReady(player_t *player, pspdef_t *psp)
         {
             if (pendingweapon == wp_chainsaw)
             {
-                idlemotorspeed = 7500;
+                idlemotorspeed = CHAINSAWIDLEMOTORSPEED;
                 XInputVibration(idlemotorspeed);
             }
             else if (idlemotorspeed)
@@ -250,7 +235,7 @@ void A_WeaponReady(player_t *player, pspdef_t *psp)
         }
 
         // change weapon (pending weapon should already be validated)
-        P_SetPsprite(player, ps_weapon, (statenum_t)weaponinfo[readyweapon].downstate);
+        P_SetPsprite(player, ps_weapon, weaponinfo[readyweapon].downstate);
         return;
     }
 
@@ -271,8 +256,8 @@ void A_WeaponReady(player_t *player, pspdef_t *psp)
     if (player->mo->momx || player->mo->momy || player->mo->momz)
     {
         // bob the weapon based on movement speed
-        int angle = (128 * leveltime) & FINEMASK;
-        int bob = player->bob;
+        int     angle = (128 * leveltime) & FINEMASK;
+        int     bob = player->bob;
 
         if (bob < FRACUNIT / 2)
             bob = 0;
@@ -363,7 +348,7 @@ void A_Raise(player_t *player, pspdef_t *psp)
 
     // The weapon has been raised all the way,
     //  so change to the ready state.
-    P_SetPsprite(player, ps_weapon, (statenum_t)weaponinfo[player->readyweapon].readystate);
+    P_SetPsprite(player, ps_weapon, weaponinfo[player->readyweapon].readystate);
 }
 
 //
@@ -372,7 +357,7 @@ void A_Raise(player_t *player, pspdef_t *psp)
 void A_GunFlash(player_t *player, pspdef_t *psp)
 {
     P_SetMobjState(player->mo, S_PLAY_ATK2);
-    P_SetPsprite(player, ps_flash, (statenum_t)weaponinfo[player->readyweapon].flashstate);
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 }
 
 //
@@ -384,9 +369,9 @@ void A_GunFlash(player_t *player, pspdef_t *psp)
 //
 void A_Punch(player_t *player, pspdef_t *psp)
 {
-    int     damage = (P_Random() % 10 + 1) << 1;
-    angle_t angle = player->mo->angle + ((P_Random() - P_Random()) << 18);
-    int     slope = P_AimLineAttack(player->mo, angle, MELEERANGE);
+    int         damage = (P_Random() % 10 + 1) << 1;
+    angle_t     angle = player->mo->angle + ((P_Random() - P_Random()) << 18);
+    int         slope = P_AimLineAttack(player->mo, angle, MELEERANGE);
 
     if (player->powers[pw_strength])
         damage *= 10;
@@ -408,9 +393,9 @@ void A_Punch(player_t *player, pspdef_t *psp)
 //
 void A_Saw(player_t *player, pspdef_t *psp)
 {
-    int     damage = 2 * (P_Random() % 10 + 1);
-    angle_t angle = player->mo->angle + ((P_Random() - P_Random()) << 18);
-    int     slope = P_AimLineAttack(player->mo, angle, MELEERANGE + 1);
+    int         damage = 2 * (P_Random() % 10 + 1);
+    angle_t     angle = player->mo->angle + ((P_Random() - P_Random()) << 18);
+    int         slope = P_AimLineAttack(player->mo, angle, MELEERANGE + 1);
 
     // use meleerange + 1 so the puff doesn't skip the flash
     P_LineAttack(player->mo, angle, MELEERANGE + 1, slope, damage);
@@ -466,8 +451,7 @@ void A_FirePlasma(player_t *player, pspdef_t *psp)
 {
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash,
-                 (statenum_t)(weaponinfo[player->readyweapon].flashstate + (P_Random() & 1)));
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate + (P_Random() & 1));
 
     P_SpawnPlayerMissile(player->mo, MT_PLASMA);
 }
@@ -482,7 +466,7 @@ fixed_t bulletslope;
 
 static void P_BulletSlope(mobj_t *mo)
 {
-    angle_t an = mo->angle;
+    angle_t     an = mo->angle;
 
     // see which target is to be aimed at
     bulletslope = P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
@@ -504,8 +488,8 @@ static void P_BulletSlope(mobj_t *mo)
 //
 void P_GunShot(mobj_t *mo, boolean accurate)
 {
-    int     damage = 5 * (P_Random() % 3 + 1);
-    angle_t angle = mo->angle;
+    int         damage = 5 * (P_Random() % 3 + 1);
+    angle_t     angle = mo->angle;
 
     if (!accurate)
         angle += (P_Random() - P_Random()) << 18;
@@ -534,7 +518,7 @@ void A_FirePistol(player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun(player_t *player, pspdef_t *psp)
 {
-    int i;
+    int         i;
 
     S_StartSound(player->mo, sfx_shotgn);
     P_SetMobjState(player->mo, S_PLAY_ATK2);
@@ -556,7 +540,7 @@ void A_FireShotgun(player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun2(player_t *player, pspdef_t *psp)
 {
-    int     i;
+    int         i;
 
     S_StartSound(player->mo, sfx_dshtgn);
     P_SetMobjState(player->mo, S_PLAY_ATK2);
@@ -593,8 +577,8 @@ void A_FireCGun(player_t *player, pspdef_t *psp)
     P_SetMobjState(player->mo, S_PLAY_ATK2);
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash, (statenum_t)(weaponinfo[player->readyweapon].flashstate
-                                   + psp->state - &states[S_CHAIN1]));
+    P_SetPsprite(player, ps_flash,
+                 weaponinfo[player->readyweapon].flashstate + psp->state - &states[S_CHAIN1]);
 
     P_BulletSlope(player->mo);
 
@@ -622,7 +606,7 @@ void A_Light2(player_t *player, pspdef_t *psp)
 //
 void A_BFGSpray(mobj_t *mo)
 {
-    int i;
+    int         i;
 
     // offset angles from its attack angle
     for (i = 0; i < 40; i++)
@@ -663,7 +647,7 @@ void A_BFGsound(player_t *player, pspdef_t *psp)
 //
 void P_SetupPsprites(player_t *player)
 {
-    int i;
+    int         i;
 
     // remove all psprites
     for (i = 0; i < NUMPSPRITES; i++)
@@ -680,8 +664,8 @@ void P_SetupPsprites(player_t *player)
 //
 void P_MovePsprites(player_t *player)
 {
-    int      i;
-    pspdef_t *psp = &player->psprites[0];
+    int         i;
+    pspdef_t    *psp = &player->psprites[0];
 
     for (i = 0; i < NUMPSPRITES; i++, psp++)
         if (psp->state && psp->tics != -1 && !(--psp->tics))

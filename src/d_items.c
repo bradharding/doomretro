@@ -26,22 +26,22 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-// We are referring to sprite numbers.
-#include "info.h"
-
 #include "d_items.h"
+#include "info.h"
 
 //
 // PSPRITE ACTIONS for waepons.
 // This struct controls the weapon animations.
 //
 // Each entry is:
-//   ammo/amunition type
+//  ammo/amunition type
 //  upstate
 //  downstate
-// readystate
-// atkstate, i.e. attack/fire/hit frame
-// flashstate, muzzle flash
+//  readystate
+//  atkstate, i.e. attack/fire/hit frame
+//  flashstate, muzzle flash
+//  motorspeed
+//  tics
 //
 weaponinfo_t    weaponinfo[NUMWEAPONS] =
 {
@@ -52,7 +52,9 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_PUNCHDOWN,
         S_PUNCH,
         S_PUNCH1,
-        S_NULL
+        S_NULL,
+        25000,
+        10
     },
     {
         // pistol
@@ -61,7 +63,9 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_PISTOLDOWN,
         S_PISTOL,
         S_PISTOL1,
-        S_PISTOLFLASH
+        S_PISTOLFLASH,
+        30000,
+        10
     },
     {
         // shotgun
@@ -70,7 +74,9 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_SGUNDOWN,
         S_SGUN,
         S_SGUN1,
-        S_SGUNFLASH1
+        S_SGUNFLASH1,
+        35000,
+        10
     },
     {
         // chaingun
@@ -79,7 +85,9 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_CHAINDOWN,
         S_CHAIN,
         S_CHAIN1,
-        S_CHAINFLASH1
+        S_CHAINFLASH1,
+        30000,
+        10
     },
     {
         // rocket launcher
@@ -88,7 +96,9 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_MISSILEDOWN,
         S_MISSILE,
         S_MISSILE1,
-        S_MISSILEFLASH1
+        S_MISSILEFLASH1,
+        40000,
+        20
     },
     {
         // plasma rifle
@@ -97,7 +107,9 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_PLASMADOWN,
         S_PLASMA,
         S_PLASMA1,
-        S_PLASMAFLASH1
+        S_PLASMAFLASH1,
+        35000,
+        10
     },
     {
         // bfg 9000
@@ -106,7 +118,9 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_BFGDOWN,
         S_BFG,
         S_BFG1,
-        S_BFGFLASH1
+        S_BFGFLASH1,
+        45000,
+        30
     },
     {
         // chainsaw
@@ -115,7 +129,9 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_SAWDOWN,
         S_SAW,
         S_SAW1,
-        S_NULL
+        S_NULL,
+        35000,
+        10
     },
     {
         // super shotgun
@@ -124,6 +140,8 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_DSGUNDOWN,
         S_DSGUN,
         S_DSGUN1,
-        S_DSGUNFLASH1
+        S_DSGUNFLASH1,
+        40000,
+        10
     },
 };
