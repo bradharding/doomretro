@@ -197,7 +197,7 @@ void P_FireWeapon(player_t *player)
 
     if (gamepadvibrate && vibrate)
     {
-        XInputWeaponVibration(weaponvibrate[readyweapon].motorspeed);
+        XInputLeftVibration(weaponvibrate[readyweapon].motorspeed);
         weaponvibrationtics = weaponvibrate[readyweapon].tics;
     }
 }
@@ -220,19 +220,30 @@ void P_DropWeapon(player_t *player)
 //
 void A_WeaponReady(player_t *player, pspdef_t *psp)
 {
+    weapontype_t        readyweapon = player->readyweapon;
+    weapontype_t        pendingweapon = player->pendingweapon;
+
     // get out of attack state
     if (player->mo->state == &states[S_PLAY_ATK1] || player->mo->state == &states[S_PLAY_ATK2])
         P_SetMobjState(player->mo, S_PLAY);
 
-    if (player->readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
+    if (readyweapon == wp_chainsaw && psp->state == &states[S_SAW])
         S_StartSound(player->mo, sfx_sawidl);
 
     // check for change
     //  if player is dead, put the weapon away
-    if (player->pendingweapon != wp_nochange || !player->health)
+    if (pendingweapon != wp_nochange || !player->health)
     {
+        if (gamepadvibrate && vibrate)
+        {
+            if (pendingweapon == wp_chainsaw)
+                XInputRightVibration(20000);
+            else if (rightmotorspeed)
+                XInputRightVibration(0);
+        }
+
         // change weapon (pending weapon should already be validated)
-        P_SetPsprite(player, ps_weapon, (statenum_t)weaponinfo[player->readyweapon].downstate);
+        P_SetPsprite(player, ps_weapon, (statenum_t)weaponinfo[readyweapon].downstate);
         return;
     }
 
@@ -240,8 +251,7 @@ void A_WeaponReady(player_t *player, pspdef_t *psp)
     //  the missile launcher and bfg do not auto fire
     if (player->cmd.buttons & BT_ATTACK)
     {
-        if (!player->attackdown 
-            || (player->readyweapon != wp_missile && player->readyweapon != wp_bfg))
+        if (!player->attackdown || (readyweapon != wp_missile && readyweapon != wp_bfg))
         {
             player->attackdown = true;
             P_FireWeapon(player);
