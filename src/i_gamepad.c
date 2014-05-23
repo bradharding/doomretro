@@ -175,23 +175,21 @@ void I_PollDirectInputGamepad(void)
     }
 }
 
-void XInputDamageVibration(int left, int right)
+void XInputDamageVibration(int motorspeed)
 {
     XINPUT_VIBRATION    damagevibration;
 
     ZeroMemory(&damagevibration, sizeof(XINPUT_VIBRATION));
-    damagevibration.wLeftMotorSpeed = left;
-    damagevibration.wRightMotorSpeed = right;
+    damagevibration.wLeftMotorSpeed = motorspeed;
     XInputSetState(0, &damagevibration);
 }
 
-void XInputWeaponVibration(int left, int right)
+void XInputWeaponVibration(int motorspeed)
 {
     XINPUT_VIBRATION    weaponvibration;
 
     ZeroMemory(&weaponvibration, sizeof(XINPUT_VIBRATION));
-    weaponvibration.wLeftMotorSpeed = left;
-    weaponvibration.wRightMotorSpeed = right;
+    weaponvibration.wLeftMotorSpeed = motorspeed;
     XInputSetState(0, &weaponvibration);
 }
 
@@ -229,11 +227,11 @@ void I_PollXInputGamepad(void)
 
         if (damagevibrationtics)
             if (!(--damagevibrationtics) && !weaponvibrationtics)
-                XInputDamageVibration(0, 0);
+                XInputDamageVibration(0);
 
         if (weaponvibrationtics)
             if (!(--weaponvibrationtics) && !damagevibrationtics)
-                XInputWeaponVibration(0, 0);
+                XInputWeaponVibration(0);
 
         if (gamepadbuttons)
         {

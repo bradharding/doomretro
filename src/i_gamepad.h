@@ -82,8 +82,8 @@ void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY);
 void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY);
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY);
-void XInputDamageVibration(int left, int right);
-void XInputWeaponVibration(int left, int right);
-void(*gamepadfunc)(void);
+void XInputDamageVibration(int motorspeed);
+void XInputWeaponVibration(int motorspeed);
+void (*gamepadfunc)(void);
 
 #endif

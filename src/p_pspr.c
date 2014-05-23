@@ -159,19 +159,18 @@ boolean P_CheckAmmo(player_t *player)
 
 struct
 {
-    int left;
-    int right;
+    int motorspeed;
     int tics;
 } weaponvibrate[] = {
-    { 10000, 0, 10 }, // wp_fist
-    { 10000, 0, 10 }, // wp_pistol
-    { 10000, 0, 10 }, // wp_shotgun
-    { 10000, 0, 10 }, // wp_chaingun
-    { 10000, 0, 10 }, // wp_missile
-    { 10000, 0, 10 }, // wp_plasma
-    { 10000, 0, 10 }, // wp_bfg
-    { 10000, 0, 10 }, // wp_chainsaw
-    { 10000, 0, 10 }  // wp_supershotgun
+    { 20000, 10 }, // wp_fist
+    { 20000,  6 }, // wp_pistol
+    { 25000, 10 }, // wp_shotgun
+    { 20000, 10 }, // wp_chaingun
+    { 35000, 15 }, // wp_missile
+    { 30000, 10 }, // wp_plasma
+    { 35000, 25 }, // wp_bfg
+    { 25000, 10 }, // wp_chainsaw
+    { 30000, 10 }  // wp_supershotgun
 };
 
 //
@@ -196,9 +195,9 @@ void P_FireWeapon(player_t *player)
 
     P_NoiseAlert(player->mo, player->mo);
 
-    if (gamepadvibrate && vibrate && player == &players[consoleplayer])
+    if (gamepadvibrate && vibrate)
     {
-        XInputWeaponVibration(weaponvibrate[readyweapon].left, weaponvibrate[readyweapon].right);
+        XInputWeaponVibration(weaponvibrate[readyweapon].motorspeed);
         weaponvibrationtics = weaponvibrate[readyweapon].tics;
     }
 }
