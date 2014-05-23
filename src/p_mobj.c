@@ -30,6 +30,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
+#include "i_gamepad.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "s_sound.h"
@@ -1003,7 +1004,15 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
     {
         P_SetMobjState(th, S_PUFF3);
         if (sound)
+        {
             S_StartSound(th, sfx_punch);
+
+            if (gamepadvibrate && vibrate)
+            {
+                XInputVibration(players[consoleplayer].powers[pw_strength] ? 50000 : 25000);
+                weaponvibrationtics = 10;
+            }
+        }
     }
 }
 

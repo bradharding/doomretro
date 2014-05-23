@@ -194,7 +194,11 @@ void P_FireWeapon(player_t *player)
 
     if (gamepadvibrate && vibrate)
     {
-        XInputVibration(weaponvibrate[readyweapon].motorspeed);
+        int motorspeed = weaponvibrate[readyweapon].motorspeed;
+
+        if (readyweapon == wp_fist && players[consoleplayer].powers[pw_strength])
+            motorspeed *= 2;
+        XInputVibration(motorspeed);
         weaponvibrationtics = weaponvibrate[readyweapon].tics;
     }
 }
