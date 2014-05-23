@@ -73,7 +73,8 @@ extern int      gamepadthumbRX;
 extern int      gamepadlefthanded;
 extern boolean  vibrate;
 extern int      gamepadvibrate;
-extern int      rightmotorspeed;
+extern int      currentmotorspeed;
+extern int      idlemotorspeed;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
@@ -83,8 +84,7 @@ void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY);
 void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY);
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY);
-void XInputLeftVibration(int motorspeed);
-void XInputRightVibration(int motorspeed);
+void XInputVibration(int motorspeed);
 void (*gamepadfunc)(void);
 
 #endif

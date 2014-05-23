@@ -169,7 +169,7 @@ struct
     { 35000, 15 }, // wp_missile
     { 30000, 10 }, // wp_plasma
     { 35000, 25 }, // wp_bfg
-    { 25000, 10 }, // wp_chainsaw
+    { 30000, 10 }, // wp_chainsaw
     { 30000, 10 }  // wp_supershotgun
 };
 
@@ -197,7 +197,7 @@ void P_FireWeapon(player_t *player)
 
     if (gamepadvibrate && vibrate)
     {
-        XInputLeftVibration(weaponvibrate[readyweapon].motorspeed);
+        XInputVibration(weaponvibrate[readyweapon].motorspeed);
         weaponvibrationtics = weaponvibrate[readyweapon].tics;
     }
 }
@@ -237,9 +237,15 @@ void A_WeaponReady(player_t *player, pspdef_t *psp)
         if (gamepadvibrate && vibrate)
         {
             if (pendingweapon == wp_chainsaw)
-                XInputRightVibration(20000);
-            else if (rightmotorspeed)
-                XInputRightVibration(0);
+            {
+                idlemotorspeed = 7500;
+                XInputVibration(idlemotorspeed);
+            }
+            else if (idlemotorspeed)
+            {
+                idlemotorspeed = 0;
+                XInputVibration(idlemotorspeed);
+            }
         }
 
         // change weapon (pending weapon should already be validated)

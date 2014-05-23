@@ -955,7 +955,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         if (gamepadvibrate && vibrate && player == &players[consoleplayer])
         {
-            XInputLeftVibration(10000 + (100 - MIN(player->health, 100)) / 100 * 50000);
+            XInputVibration(10000 + (100 - MIN(player->health, 100)) / 100 * 50000);
             damagevibrationtics += MAX(12, MIN(damage, 100));
         }
     }

@@ -175,27 +175,19 @@ void I_PollDirectInputGamepad(void)
     }
 }
 
-int leftmotorspeed = 0;
-int rightmotorspeed = 0;
+int currentmotorspeed = 0;
+int idlemotorspeed = 0;
 
-void XInputLeftVibration(int motorspeed)
+void XInputVibration(int motorspeed)
 {
-    XINPUT_VIBRATION    vibration;
+    if (motorspeed > currentmotorspeed || motorspeed == idlemotorspeed)
+    {
+        XINPUT_VIBRATION    vibration;
 
-    ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-    vibration.wLeftMotorSpeed = leftmotorspeed = motorspeed;
-    vibration.wRightMotorSpeed = rightmotorspeed;
-    XInputSetState(0, &vibration);
-}
-
-void XInputRightVibration(int motorspeed)
-{
-    XINPUT_VIBRATION    vibration;
-
-    ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
-    vibration.wLeftMotorSpeed = leftmotorspeed;
-    vibration.wRightMotorSpeed = rightmotorspeed = motorspeed;
-    XInputSetState(0, &vibration);
+        ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
+        vibration.wLeftMotorSpeed = currentmotorspeed = motorspeed;
+        XInputSetState(0, &vibration);
+    }
 }
 
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY)
@@ -232,11 +224,11 @@ void I_PollXInputGamepad(void)
 
         if (damagevibrationtics)
             if (!(--damagevibrationtics) && !weaponvibrationtics)
-                XInputLeftVibration(0);
+                XInputVibration(idlemotorspeed);
 
         if (weaponvibrationtics)
             if (!(--weaponvibrationtics) && !damagevibrationtics)
-                XInputLeftVibration(0);
+                XInputVibration(idlemotorspeed);
 
         if (gamepadbuttons)
         {
