@@ -794,6 +794,10 @@ static void D_DoomMainSetup(void)
         }
     }
 
+    if (W_CheckNumForName("FREEDOOM") >= 0)
+        I_Error("FREEDOOM requires a BOOM-compatible source port, and is therefore"
+                "unable to be opened by DOOM RETRO.");
+
     DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
     M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
