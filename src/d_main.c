@@ -564,16 +564,19 @@ static int D_ChooseIWAD(void)
             wadfolder = strdup(M_ExtractFolder(file));
 
             // check if it's a valid and supported IWAD
-            if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
+            if (D_IsDOOMIWAD(file)
+                || (W_WadType(file) == IWAD
+                    && !D_IsUnsupportedIWAD(file)))
             {
-                I_Error("%s,%i,%i", file, W_WadType(file), D_IsUnsupportedIWAD(file));
                 IdentifyIWADByContents(file, &gamemode, &gamemission);
                 if (D_AddFile(file))
                     iwadfound = 1;
             }
 
             // if it's a PWAD, determine the IWAD required and try loading that as well
-            else if (W_WadType(file) == PWAD && !D_IsUnsupportedPWAD(file))
+            else if (!D_CheckFilename(file, "DOOMRETRO.WAD")
+                     && W_WadType(file) == PWAD
+                     && !D_IsUnsupportedPWAD(file))
             {
                 int             iwadrequired = IWADRequiredByPWAD(file);
                 static char     fullpath[MAX_PATH];
@@ -581,7 +584,8 @@ static int D_ChooseIWAD(void)
                 if (iwadrequired == indetermined)
                     return 0;
 
-                sprintf(fullpath, "%s\\DOOM%s.WAD", wadfolder, iwadrequired == doom ? "" : "2");
+                sprintf(fullpath, "%s\\%s", wadfolder,
+                        iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD");
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
                 {
@@ -794,7 +798,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if (W_CheckNumForName("FREEDOOM") >= 0 && W_CheckNumForName("FREEDM") < 0)
+    if (W_CheckNumForName("FREEDOOM") >= 0 && W_CheckNumForName("FREEDM") < 0 && !modifiedgame)
         I_Error("FREEDOOM requires a BOOM-compatible source port, and is therefore"
                 "unable to be opened by DOOM RETRO.");
 
