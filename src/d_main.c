@@ -794,7 +794,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if (W_CheckNumForName("FREEDOOM") >= 0)
+    if (W_CheckNumForName("FREEDOOM") >= 0 && W_CheckNumForName("FREEDM") < 0)
         I_Error("FREEDOOM requires a BOOM-compatible source port, and is therefore"
                 "unable to be opened by DOOM RETRO.");
 
