@@ -895,9 +895,24 @@ void G_Ticker(void)
                             S_StopSounds();
                             S_StartSound(NULL, sfx_swtchn);
                             S_PauseSound();
-                        } else {
+
+                            if (gamepadvibrate && vibrate)
+                            {
+                                restoremotorspeed = idlemotorspeed;
+                                idlemotorspeed = 0;
+                                XInputVibration(idlemotorspeed);
+                            }
+                        }
+                        else
+                        {
                             S_ResumeSound();
                             S_StartSound(NULL, sfx_swtchx);
+
+                            if (gamepadvibrate && vibrate)
+                            {
+                                idlemotorspeed = restoremotorspeed;
+                                XInputVibration(idlemotorspeed);
+                            }
                         }
                         break;
 
