@@ -2961,7 +2961,7 @@ void M_Drawer(void)
                 currentMenu->menuitems[mousesens].alphaKey = 'm';
             }
         }
-        else if (W_CheckMultipleLumps(name) > 1)
+        else if (W_CheckMultipleLumps(name) > 1 || FREEDOOM)
             M_DrawPatchWithShadow(x, y + OFFSET * (titleheight <= 125), 0,
                                   W_CacheLumpName(name, PU_CACHE));
         else

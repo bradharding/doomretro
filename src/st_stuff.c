@@ -1731,11 +1731,11 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
     if (!strcasecmp(lumpname, "STARMS") && STARMS)
-        *variable = (patch_t *)W_CacheLumpNum(W_GetNumForNameX("STARMS", 2), PU_STATIC);
+        *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", FREEDOOM ? 1 : 2), PU_STATIC);
     else if (!strcasecmp(lumpname, "STBAR") && STBAR)
-        *variable = (patch_t *)W_CacheLumpNum(W_GetNumForNameX("STBAR", 2), PU_STATIC);
+        *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", FREEDOOM ? 1 : 2), PU_STATIC);
     else
-        *variable = (patch_t *)W_CacheLumpName(lumpname, PU_STATIC);
+        *variable = W_CacheLumpName(lumpname, PU_STATIC);
 }
 
 void ST_loadGraphics(void)

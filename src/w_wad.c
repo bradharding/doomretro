@@ -27,6 +27,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include "doomdef.h"
+#include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "z_zone.h"
@@ -353,6 +354,9 @@ int W_CheckMultipleLumps(char *name)
 {
     int         i;
     int         count = 0;
+
+    if (FREEDOOM)
+        return 3;
 
     for (i = numlumps - 1; i >= 0; --i)
         if (!strncasecmp(lumpinfo[i].name, name, 8))
