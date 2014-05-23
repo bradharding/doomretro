@@ -790,17 +790,20 @@ void R_InitSpriteLumps(void)
     }
 
     // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
-    i = 0;
-    while (sproffsets[i].name[0])
+    if (!FREEDOOM)
     {
-        if (sproffsets[i].canmodify)
+        i = 0;
+        while (sproffsets[i].name[0])
         {
-            int j = W_CheckNumForName(sproffsets[i].name) - firstspritelump;
+            if (sproffsets[i].canmodify)
+            {
+                int j = W_CheckNumForName(sproffsets[i].name) - firstspritelump;
 
-            spriteoffset[j] = sproffsets[i].x << FRACBITS;
-            spritetopoffset[j] = sproffsets[i].y << FRACBITS;
+                spriteoffset[j] = sproffsets[i].x << FRACBITS;
+                spritetopoffset[j] = sproffsets[i].y << FRACBITS;
+            }
+            i++;
         }
-        i++;
     }
 }
 

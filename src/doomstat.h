@@ -89,6 +89,7 @@ extern boolean          nerve;
 extern boolean          bfgedition;
 
 extern boolean          DMENUPIC;
+extern boolean          FREEDOOM;
 extern boolean          M_DOOM;
 extern boolean          M_EPISOD;
 extern boolean          M_GDHIGH;

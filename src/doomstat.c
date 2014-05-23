@@ -42,6 +42,7 @@ boolean         bfgedition = false;
 boolean         modifiedgame;
 
 boolean         DMENUPIC = false;
+boolean         FREEDOOM = false;
 boolean         M_DOOM = false;
 boolean         M_EPISOD = false;
 boolean         M_GDHIGH = false;
