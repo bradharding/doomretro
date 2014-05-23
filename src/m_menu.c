@@ -179,6 +179,7 @@ void M_WriteText(int x, int y, char *string, boolean shadow);
 int M_StringWidth(char *string);
 int M_StringHeight(char *string);
 void M_StartMessage(char *string, void *routine, boolean input);
+void M_ClearMenus(void);
 
 //
 // DOOM MENU
@@ -935,7 +936,7 @@ void M_LoadSelect(int choice)
         I_WaitVBL(1 * TICRATE);
         functionkey = 0;
         quickSaveSlot = choice;
-        menuactive = false;
+        M_ClearMenus();
         G_LoadGame(name);
     }
 }
@@ -1035,7 +1036,7 @@ void M_DrawSave(void)
 //
 void M_DoSave(int slot)
 {
-    menuactive = false;
+    M_ClearMenus();
     G_SaveGame(slot, savegamestrings[slot]);
 
     savegames = true;
@@ -1155,7 +1156,7 @@ void M_QuickSave(void)
         if (functionkey == KEY_F6)
         {
             functionkey = 0;
-            menuactive = false;
+            M_ClearMenus();
             S_StartSound(NULL, sfx_swtchx);
         }
         else
@@ -1428,7 +1429,7 @@ void M_VerifyNightmare(int key)
         S_StartSound(NULL, sfx_swtchx);
         I_WaitVBL(1 * TICRATE);
         quickSaveSlot = -1;
-        menuactive = false;
+        M_ClearMenus();
         G_DeferredInitNew((skill_t)nightmare, epi + 1, 1);
     }
 }
@@ -1569,14 +1570,14 @@ void M_EndGameResponse(int key)
     if (key != 'y')
     {
         if (functionkey == KEY_F7)
-            menuactive = false;
+            M_ClearMenus();
         else
             M_SetupNextMenu(&OptionsDef);
         return;
     }
 
     currentMenu->lastOn = itemOn;
-    menuactive = false;
+    M_ClearMenus();
     viewactive = false;
     automapactive = false;
     S_StartSound(NULL, sfx_swtchx);
@@ -1659,7 +1660,7 @@ void M_QuitResponse(int key)
             paused = true;
         }
         if (functionkey == KEY_F10)
-            menuactive = false;
+            M_ClearMenus();
         else
             M_SetupNextMenu(&MainDef);
         return;
@@ -2295,7 +2296,7 @@ boolean M_Responder(event_t *ev)
             if (functionkey == KEY_F1)
             {
                 functionkey = 0;
-                menuactive = false;
+                M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
                 if (inhelpscreens)
                 {
@@ -2333,7 +2334,7 @@ boolean M_Responder(event_t *ev)
             if (functionkey == KEY_F2)
             {
                 functionkey = 0;
-                menuactive = false;
+                M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
             }
             else
@@ -2354,7 +2355,7 @@ boolean M_Responder(event_t *ev)
             if (functionkey == KEY_F3)
             {
                 functionkey = 0;
-                menuactive = false;
+                M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
             }
             else
@@ -2385,7 +2386,7 @@ boolean M_Responder(event_t *ev)
                 if (functionkey == KEY_F4)
                 {
                     functionkey = 0;
-                    menuactive = false;
+                    M_ClearMenus();
                     S_StartSound(NULL, sfx_swtchx);
                 }
                 else
@@ -2672,7 +2673,7 @@ boolean M_Responder(event_t *ev)
             if (currentMenu == &ReadDef)
             {
                 functionkey = 0;
-                menuactive = false;
+                M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
                 return true;
             }
@@ -2714,7 +2715,7 @@ boolean M_Responder(event_t *ev)
             else if (TITLEPIC || usergame || gamestate == GS_LEVEL)
             {
                 functionkey = 0;
-                menuactive = false;
+                M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
                 gamepadbuttons = 0;
                 ev->data1 = 0;
@@ -2840,6 +2841,13 @@ void M_StartControlPanel(void)
     blurred = false;
 
     S_StopSounds();
+
+    if (gamepadvibrate && vibrate)
+    {
+        restoremotorspeed = idlemotorspeed;
+        idlemotorspeed = 0;
+        XInputVibration(idlemotorspeed);
+    }
 }
 
 //
@@ -2982,6 +2990,20 @@ void M_Drawer(void)
         else
             M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, 0,
                                   W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+    }
+}
+
+//
+// M_ClearMenus
+//
+void M_ClearMenus(void)
+{
+    menuactive = false;
+
+    if (gamepadvibrate && vibrate)
+    {
+        idlemotorspeed = restoremotorspeed;
+        XInputVibration(idlemotorspeed);
     }
 }
 

@@ -177,6 +177,7 @@ void I_PollDirectInputGamepad(void)
 
 int currentmotorspeed = 0;
 int idlemotorspeed = 0;
+int restoremotorspeed = 0;
 
 void XInputVibration(int motorspeed)
 {

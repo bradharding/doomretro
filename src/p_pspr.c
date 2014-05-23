@@ -163,9 +163,9 @@ struct
     int tics;
 } weaponvibrate[] = {
     { 20000, 10 }, // wp_fist
-    { 20000,  6 }, // wp_pistol
-    { 25000, 10 }, // wp_shotgun
-    { 20000, 10 }, // wp_chaingun
+    { 25000,  6 }, // wp_pistol
+    { 30000, 10 }, // wp_shotgun
+    { 25000, 10 }, // wp_chaingun
     { 35000, 15 }, // wp_missile
     { 30000, 10 }, // wp_plasma
     { 35000, 25 }, // wp_bfg

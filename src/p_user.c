@@ -167,6 +167,9 @@ void P_DeathThink(player_t *player)
     static int     count = 0;
     static boolean facingkiller = false;
 
+    weaponvibrationtics = 1;
+    idlemotorspeed = 0;
+
     P_MovePsprites(player);
 
     // fall to the ground

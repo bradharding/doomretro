@@ -75,6 +75,7 @@ extern boolean  vibrate;
 extern int      gamepadvibrate;
 extern int      currentmotorspeed;
 extern int      idlemotorspeed;
+extern int      restoremotorspeed;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
