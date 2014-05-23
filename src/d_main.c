@@ -520,15 +520,14 @@ static boolean D_IsUnsupportedIWAD(char *filename)
             || D_CheckFilename(filename, "HEXDD.WAD")
             || D_CheckFilename(filename, "STRIFE0.WAD")
             || D_CheckFilename(filename, "STRIFE1.WAD")
-            || D_CheckFilename(filename, "VOICES.WAD")
             || D_CheckFilename(filename, "CHEX.WAD")
-            || D_CheckFilename(filename, "CHEX3.WAD")
             || D_CheckFilename(filename, "HACX.WAD"));
 }
 
 static boolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (D_CheckFilename(filename, "VOICES.WAD"));
+    return (D_CheckFilename(filename, "VOICES.WAD")
+            || D_CheckFilename(filename, "CHEX3.WAD"));
 }
 
 static int D_ChooseIWAD(void)
@@ -567,13 +566,14 @@ static int D_ChooseIWAD(void)
             // check if it's a valid and supported IWAD
             if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
             {
+                I_Error("%s,%i,%i", file, W_WadType(file), D_IsUnsupportedIWAD(file));
                 IdentifyIWADByContents(file, &gamemode, &gamemission);
                 if (D_AddFile(file))
                     iwadfound = 1;
             }
 
             // if it's a PWAD, determine the IWAD required and try loading that as well
-            else if (W_WadType(file) == PWAD)
+            else if (W_WadType(file) == PWAD && !D_IsUnsupportedPWAD(file))
             {
                 int             iwadrequired = IWADRequiredByPWAD(file);
                 static char     fullpath[MAX_PATH];
