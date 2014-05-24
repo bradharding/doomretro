@@ -447,6 +447,8 @@ static boolean D_AddFile(char *filename)
 
     handle = W_AddFile(filename);
 
+    FREEDOOM = IsFreedoom(filename);
+
     return (handle != NULL);
 }
 
@@ -798,7 +800,6 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
     if (FREEDOOM && W_CheckNumForName("FREEDM") < 0 && !modifiedgame)
         I_Error("FREEDOOM requires a BOOM-compatible source port, and is therefore"
                 "unable to be opened by DOOM RETRO.");

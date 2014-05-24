@@ -27,6 +27,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include "doomdef.h"
+#include "doomstat.h"
 #include "info.h"
 #include "i_system.h"
 #include "w_wad.h"
@@ -281,6 +282,9 @@ static void GenerateSpriteList(void)
     for (i = 0; i < pwad_sprites.numlumps; ++i)
     {
         lumpinfo_t      *lump = &pwad_sprites.lumps[i];
+
+        if (FREEDOOM && (!strcasecmp(lump->name, "MEDIA0") || !strcasecmp(lump->name, "STIMA0")))
+            continue;
 
         AddSpriteLump(lump);
         if (i < iwad_sprites.numlumps && lump->size != iwad_sprites.lumps[i].size)

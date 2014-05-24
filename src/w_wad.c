@@ -210,7 +210,7 @@ void IdentifyIWADByContents(const char *iwadname, GameMode_t *gmode, GameMission
     int         ud, rg, sw, cm, sc, tnt, plut;
     filelump_t  lump;
     wadinfo_t   header;
-    const char   *n = lump.name;
+    const char  *n = lump.name;
 
     if (!fp)
         I_Error("Can't open IWAD: %s\n", iwadname);
@@ -246,6 +246,43 @@ void IdentifyIWADByContents(const char *iwadname, GameMode_t *gmode, GameMission
         rg >= 18 ? registered :
         sw >= 9 ? shareware :
         indetermined);
+}
+
+boolean IsFreedoom(const char *iwadname)
+{
+    FILE        *fp = fopen(iwadname, "rb");
+    filelump_t  lump;
+    wadinfo_t   header;
+    const char  *n = lump.name;
+    int         result = false;
+
+    if (!fp)
+        I_Error("Can't open IWAD: %s\n", iwadname);
+
+    // read IWAD header
+    if (fread(&header, 1, sizeof header, fp) != sizeof header ||
+        header.identification[0] != 'I' || header.identification[1] != 'W' ||
+        header.identification[2] != 'A' || header.identification[3] != 'D')
+        I_Error("IWAD tag not present: %s\n", iwadname);
+
+    fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+    // Determine game mode from levels present
+    // Must be a full set for whichever mode is present
+    for (header.numlumps = LONG(header.numlumps);
+         header.numlumps && fread(&lump, sizeof lump, 1, fp); header.numlumps--)
+    {
+        if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' &&
+            n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
+        {
+            result = true;
+            break;
+        }
+    }
+
+    fclose(fp);
+
+    return result;
 }
 
 int IWADRequiredByPWAD(const char *pwadname)
