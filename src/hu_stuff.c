@@ -282,9 +282,9 @@ static void HU_DrawHUD(void)
         invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ||
                   menuactive || paused);
         if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
+            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (patch->height - 17), 0, patch, invert);
         else
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - 2, 0, patch, invert);
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (patch->height - 17), 0, patch, invert);
         DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
         hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
 
@@ -405,7 +405,7 @@ static void HU_DrawHUD(void)
                       menuactive || paused);
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, invert, hudnumfunc);
             hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, invert);
-            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - 1, 0,
+            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (patch->height - 16), 0,
                     plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, invert);
 
             if (armor <= HUD_ARMOR_MIN && !menuactive && !paused)
