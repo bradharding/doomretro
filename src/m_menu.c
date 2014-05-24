@@ -2964,8 +2964,8 @@ void M_Drawer(void)
                 }
             }
             else if (W_CheckMultipleLumps(name) > 1)
-                M_DrawPatchWithShadow(x, y + OFFSET * (titleheight <= 125), 0,
-                W_CacheLumpName(name, PU_CACHE));
+                M_DrawPatchWithShadow(x, y + OFFSET * (titleheight <= 125 ||
+                                      currentMenu != &MainDef), 0, W_CacheLumpName(name, PU_CACHE));
             else
                 M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
         }
