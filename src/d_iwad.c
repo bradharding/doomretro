@@ -639,8 +639,10 @@ void D_SetGameDescription(void)
 
     if (gamemission == doom)
     {
-        // Doom 1.  But which version?
-        if (gamemode == retail)
+        // Doom 1. But which version?
+        if (FREEDOOM)
+            gamedescription = "Ultimate FREEDOOM";
+        else if (gamemode == retail)
         {
             // Ultimate Doom
             if (bfgedition)
@@ -649,18 +651,16 @@ void D_SetGameDescription(void)
                 gamedescription = "The Ultimate DOOM\xE2\x84\xA2";
         }
         else if (gamemode == registered)
-        {
             gamedescription = "DOOM\xE2\x84\xA2 Registered";
-        }
         else if (gamemode == shareware)
-        {
             gamedescription = "DOOM\xE2\x84\xA2 Shareware";
-        }
     }
     else
     {
-        // Doom 2 of some kind.  But which mission?
-        if (nerve)
+        // Doom 2 of some kind. But which mission?
+        if (FREEDOOM)
+            gamedescription = "FREEDOOM";
+        else if (nerve)
         {
                 if (bfgedition)
                     gamedescription = "DOOM\xE2\x84\xA2 II (BFG Edition)";
