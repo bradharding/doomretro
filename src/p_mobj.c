@@ -240,29 +240,27 @@ void P_XYMovement(mobj_t *mo)
         type != MT_BARREL && (mo->momx || mo->momy))
     {
         int     i;
-        int     flags2;
-        void    (*colfunc)(void);
+        int     flags2 = MF2_TRANSLUCENT_50;
+        void    (*colfunc)(void) = tl50colfunc;
         int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1;
 
-        if (type == MT_HEAD || type == MT_MISC61)
+        if (!FREEDOOM)
         {
-            flags2 = MF2_TRANSLUCENT_REDTOBLUE_33; 
-            colfunc = tlredtoblue33colfunc;
-        }
-        else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
-        {
-            flags2 = MF2_FUZZ;
-            colfunc = fuzzcolfunc;
-        }
-        else if (type == MT_BRUISER || type == MT_KNIGHT)
-        {
-            flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
-            colfunc = tlredtogreen33colfunc;
-        }
-        else
-        {
-            flags2 = MF2_TRANSLUCENT_50;
-            colfunc = tl50colfunc;
+            if (type == MT_HEAD || type == MT_MISC61)
+            {
+                flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
+                colfunc = tlredtoblue33colfunc;
+            }
+            else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
+            {
+                flags2 = MF2_FUZZ;
+                colfunc = fuzzcolfunc;
+            }
+            else if (type == MT_BRUISER || type == MT_KNIGHT)
+            {
+                flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
+                colfunc = tlredtogreen33colfunc;
+            }
         }
 
         for (i = 0; i < ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12; i++)
@@ -961,7 +959,8 @@ void P_SpawnMapThing(mapthing_t *mthing)
     {
         int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
 
-        if (mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
+        if ((mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS) ||
+            (FREEDOOM && (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)))
             for (i = 0; i < M_RandomInt(100, 150); i++)
                 bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
                                   mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
@@ -1026,31 +1025,29 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
     int         i;
-    int         flags2;
+    int         flags2 = MF2_TRANSLUCENT_50;
     int         type = target->type;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    void        (*colfunc)(void);
+    void        (*colfunc)(void) = tl50colfunc;
 
-    if (type == MT_HEAD)
+    if (!FREEDOOM)
     {
-        flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
-        colfunc = tlredtoblue33colfunc;
-    }
-    else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
-    {
-        flags2 = MF2_FUZZ;
-        colfunc = fuzzcolfunc;
-    }
-    else if (type == MT_BRUISER || type == MT_KNIGHT)
-    {
-        flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
-        colfunc = tlredtogreen33colfunc;
-    }
-    else
-    {
-        flags2 = MF2_TRANSLUCENT_50;
-        colfunc = tl50colfunc;
+        if (type == MT_HEAD)
+        {
+            flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
+            colfunc = tlredtoblue33colfunc;
+        }
+        else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
+        {
+            flags2 = MF2_FUZZ;
+            colfunc = fuzzcolfunc;
+        }
+        else if (type == MT_BRUISER || type == MT_KNIGHT)
+        {
+            flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
+            colfunc = tlredtogreen33colfunc;
+        }
     }
 
     angle += ANG180;
