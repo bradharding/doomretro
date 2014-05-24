@@ -405,7 +405,7 @@ static void HU_DrawHUD(void)
                       menuactive || paused);
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, invert, hudnumfunc);
             hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, invert);
-            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (patch->height - 16), 0,
+            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (patch->height - 18), 0,
                     plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, invert);
 
             if (armor <= HUD_ARMOR_MIN && !menuactive && !paused)
