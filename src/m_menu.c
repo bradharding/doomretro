@@ -1022,7 +1022,7 @@ void M_DrawSave(void)
             y = LoadDef.y + saveSlot * LINEHEIGHT - 1 + OFFSET;
 
             if (STCFN121)
-                V_DrawPatch(x + 1, y + 1, 0, W_CacheLumpName("STCFN121", PU_CACHE));
+                V_DrawPatch(x + 1, y, 0, W_CacheLumpName("STCFN121", PU_CACHE));
             else
                 for (yy = 0; yy < 9; yy++)
                     for (xx = 0; xx < 3; xx++)
