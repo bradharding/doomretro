@@ -155,7 +155,9 @@ wad_file_t *W_AddFile(char *filename)
         // WAD file
         W_Read(wad_file, 0, &header, sizeof(header));
 
-        if (strncmp(header.identification, "IWAD", 4))
+        if (!strncmp(header.identification, "IWAD", 4))
+            wad_file->freedoom = FREEDOOM = IsFreedoom(filename);
+        else
         {
             // Homebrew levels?
             if (strncmp(header.identification, "PWAD", 4))

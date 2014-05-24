@@ -283,7 +283,8 @@ static void GenerateSpriteList(void)
     {
         lumpinfo_t      *lump = &pwad_sprites.lumps[i];
 
-        if (FREEDOOM && (!strcasecmp(lump->name, "MEDIA0") || !strcasecmp(lump->name, "STIMA0")))
+        if (lump->wad_file->freedoom &&
+            (!strcasecmp(lump->name, "MEDIA0") || !strcasecmp(lump->name, "STIMA0")))
             continue;
 
         AddSpriteLump(lump);

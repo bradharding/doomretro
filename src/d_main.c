@@ -447,8 +447,6 @@ static boolean D_AddFile(char *filename)
 
     handle = W_AddFile(filename);
 
-    FREEDOOM = IsFreedoom(filename);
-
     return (handle != NULL);
 }
 
@@ -961,8 +959,7 @@ static void D_DoomMainSetup(void)
             sprintf(lumpname, "E%iM%i", startepisode, startmap);
         }
 
-        if ((W_CheckNumForName(lumpname) >= 0 && !FREEDOOM)
-            || (W_CheckMultipleLumps(lumpname) > 1 && FREEDOOM))
+        if (W_CheckNumForName(lumpname) >= 0)
             autostart = true;
     }
 
