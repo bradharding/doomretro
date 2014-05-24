@@ -1213,7 +1213,9 @@ boolean ST_Responder(event_t *ev)
                 //if ((gamemode == commercial)
                 //    && ((epsd > 1) || (map > 34)))
                 //    return false;
-                if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9))
+                if (W_CheckNumForName(lump) < 0
+                    || (gamemission == pack_nerve && map > 9)
+                    || (FREEDOOM && W_CheckMultipleLumps(lump) == 1))
                 {
                     idclev = false;
                 }

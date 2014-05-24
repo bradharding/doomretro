@@ -961,7 +961,8 @@ static void D_DoomMainSetup(void)
             sprintf(lumpname, "E%iM%i", startepisode, startmap);
         }
 
-        if (W_CheckNumForName(lumpname) >= 0)
+        if ((W_CheckNumForName(lumpname) >= 0 && !FREEDOOM)
+            || (W_CheckMultipleLumps(lumpname) > 1 && FREEDOOM))
             autostart = true;
     }
 
