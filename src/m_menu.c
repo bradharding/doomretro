@@ -2941,31 +2941,34 @@ void M_Drawer(void)
     {
         name = currentMenu->menuitems[i].name;
 
-        if (!strcmp(name, "M_NMARE"))
+        if (name[0])
         {
-            if (M_NMARE)
-                M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
-            else
-                M_DrawNightmare();
-        }
-        else if (!strcmp(name, "M_MSENS") && !M_MSENS)
-        {
-            if (usinggamepad)
+            if (!strcmp(name, "M_NMARE"))
             {
-                M_DrawString(x, y + OFFSET, "Gamepad Sensitivity");
-                currentMenu->menuitems[mousesens].alphaKey = 'g';
+                if (M_NMARE)
+                    M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
+                else
+                    M_DrawNightmare();
             }
-            else
+            else if (!strcmp(name, "M_MSENS") && !M_MSENS)
             {
-                M_DrawString(x, y + OFFSET, "Mouse Sensitivity");
-                currentMenu->menuitems[mousesens].alphaKey = 'm';
+                if (usinggamepad)
+                {
+                    M_DrawString(x, y + OFFSET, "Gamepad Sensitivity");
+                    currentMenu->menuitems[mousesens].alphaKey = 'g';
+                }
+                else
+                {
+                    M_DrawString(x, y + OFFSET, "Mouse Sensitivity");
+                    currentMenu->menuitems[mousesens].alphaKey = 'm';
+                }
             }
+            else if (W_CheckMultipleLumps(name) > 1)
+                M_DrawPatchWithShadow(x, y + OFFSET * (titleheight <= 125), 0,
+                W_CacheLumpName(name, PU_CACHE));
+            else
+                M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
         }
-        else if (W_CheckMultipleLumps(name) > 1 || FREEDOOM)
-            M_DrawPatchWithShadow(x, y + OFFSET * (titleheight <= 125), 0,
-                                  W_CacheLumpName(name, PU_CACHE));
-        else
-            M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
         y += LINEHEIGHT - 1;
     }
 
