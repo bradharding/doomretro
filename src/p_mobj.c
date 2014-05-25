@@ -237,7 +237,7 @@ void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD) &&
-        type != MT_BARREL && (mo->momx || mo->momy))
+        type != MT_BARREL && (mo->momx || mo->momy) && mo->bloodsplats)
     {
         int     i;
         int     flags2 = MF2_TRANSLUCENT_50;
@@ -265,9 +265,12 @@ void P_XYMovement(mobj_t *mo)
 
         for (i = 0; i < ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12; i++)
         {
+            if (!(--mo->bloodsplats))
+                break;
+
             bloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                              mo->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                              flags2, colfunc);
+                                mo->y + (M_RandomInt(-radius, radius) << FRACBITS),
+                                flags2, colfunc);
         }
     }
 
@@ -955,21 +958,26 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (corpses & MOREBLOOD)
+    if (mobj->flags & MF_CORPSE)
     {
-        int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
+        mobj->bloodsplats = CORPSEBLOODSPLATS;
 
-        if ((mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS) ||
-            (FREEDOOM && (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)))
-            for (i = 0; i < M_RandomInt(100, 150); i++)
-                bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                                  mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                                  MF2_TRANSLUCENT_50, tl50colfunc);
-        else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
-            for (i = 0; i < M_RandomInt(100, 150); i++)
-                bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                                  mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                                  MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
+        if (corpses & MOREBLOOD)
+        {
+            int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
+
+            if ((mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS) ||
+                (FREEDOOM && (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)))
+                for (i = 0; i < M_RandomInt(100, 150); i++)
+                    bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                                      mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
+                                      MF2_TRANSLUCENT_50, tl50colfunc);
+            else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
+                for (i = 0; i < M_RandomInt(100, 150); i++)
+                    bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                                      mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
+                                      MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
+        }
     }
 }
 

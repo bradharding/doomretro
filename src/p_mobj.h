@@ -53,6 +53,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define OVERDRIVE 6
 #define MAXGEAR (OVERDRIVE + 16)
 
+#define CORPSEBLOODSPLATS 1024
+
 //
 // NOTES: mobj_t
 //
@@ -64,7 +66,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // lists of things in sectors as they are being drawn.
 // The sprite, frame, and angle elements determine which patch_t
 // is used to draw the sprite if it is visible.
-// The sprite and frame values are allmost allways set
+// The sprite and frame values are almost always set
 // from state_t structures.
 // The statescr.exe utility generates the states.h and states.c
 // files that contain the sprite/frame numbers from the
@@ -350,6 +352,8 @@ typedef struct mobj_s
     struct msecnode_s   *touching_sectorlist;   // phares 3/14/98
 
     short               gear; // killough 11/98: used in torque simulation
+
+    int                 bloodsplats;
 } mobj_t;
 
 #endif
