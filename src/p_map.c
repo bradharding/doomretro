@@ -293,8 +293,8 @@ static boolean PIT_CheckLine(line_t *ld)
 //
 boolean PIT_CheckThing(mobj_t *thing)
 {
-    fixed_t blockdist;
-    int     damage;
+    fixed_t     blockdist;
+    int         damage;
 
     if (!(thing->flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
         return true;
@@ -307,26 +307,6 @@ boolean PIT_CheckThing(mobj_t *thing)
     // don't clip against self
     if (thing == tmthing)
         return true;
-
-    // see if it went over / under
-    if (tmthing->z >= thing->z + thing->height)
-    {
-        if (!(thing->flags & MF_SPECIAL))
-        {
-            if ((thing->z + thing->height) > tmfloorz)
-                tmfloorz = thing->z + thing->height;
-            return true;        // overhead
-        }
-    }
-    if (tmthing->z + tmthing->height < thing->z)
-    {
-        if (!(thing->flags & MF_SPECIAL))
-        {
-            if (thing->z < tmceilingz)
-                tmceilingz = thing->z;
-            return true;        // underneath
-        }
-    }
 
     // check for skulls slamming into things
     if ((tmthing->flags & MF_SKULLFLY) && (thing->flags & MF_SOLID))
@@ -391,6 +371,26 @@ boolean PIT_CheckThing(mobj_t *thing)
         if (tmflags & MF_PICKUP)
             P_TouchSpecialThing(thing, tmthing);        // can remove thing
         return !solid;
+    }
+
+    // see if it went over / under
+    if (tmthing->z >= thing->z + thing->height)
+    {
+        if (!(thing->flags & MF_SPECIAL))
+        {
+            tmfloorz = thing->z + thing->height;
+            thing->ceilingz = tmthing->z;
+            return true;        // overhead
+        }
+    }
+    if (tmthing->z + tmthing->height < thing->z)
+    {
+        if (!(thing->flags & MF_SPECIAL))
+        {
+            tmceilingz = thing->z;
+            thing->floorz = tmthing->z + tmthing->height;
+            return true;        // underneath
+        }
     }
 
     return !(thing->flags & MF_SOLID);
