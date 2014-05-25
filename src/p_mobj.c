@@ -237,7 +237,7 @@ void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD) &&
-        type != MT_BARREL && (mo->momx || mo->momy) && mo->bloodsplats)
+        type != MT_BARREL && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats > 0)
     {
         int     i;
         int     flags2 = MF2_TRANSLUCENT_50;
@@ -962,7 +962,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (corpses & MOREBLOOD)
+        if ((corpses & MOREBLOOD) && bloodsplats > 0)
         {
             int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
 
@@ -1166,6 +1166,10 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void))
     }
 
     bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
+}
+
+void P_SpawnBloodSplat3(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
+{
 }
 
 //

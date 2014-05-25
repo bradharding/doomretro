@@ -1030,7 +1030,8 @@ static void D_DoomMainSetup(void)
 
     if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;
-    bloodSplatSpawner = (bloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2);
+    bloodSplatSpawner = ((bloodsplats == UNLIMITED ? P_SpawnBloodSplat : 
+                         (bloodsplats ? P_SpawnBloodSplat2 : P_SpawnBloodSplat3)));
 
     if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
         pixelwidth = PIXELWIDTH_DEFAULT;
