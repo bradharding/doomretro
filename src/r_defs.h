@@ -79,6 +79,7 @@ typedef struct
 {
     fixed_t             floorheight;
     fixed_t             ceilingheight;
+    int                 nexttag, firsttag;
     short               floorpic;
     short               ceilingpic;
     short               lightlevel;
@@ -185,6 +186,8 @@ typedef struct line_s
 
     // thinker_t for reversable actions
     void                *specialdata;
+
+    int                 nexttag, firsttag;
 
     // sound origin for switches/buttons
     degenmobj_t         soundorg;

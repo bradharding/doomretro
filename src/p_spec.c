@@ -392,15 +392,53 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 //
 // RETURN NEXT SECTOR # THAT LINE TAG REFERS TO
 //
-int P_FindSectorFromLineTag(line_t *line, int start)
+
+// Find the next sector with the same tag as a linedef.
+// Rewritten by Lee Killough to use chained hashing to improve speed
+int P_FindSectorFromLineTag(const line_t *line, int start)
 {
-    int i;
+    start = (start >= 0 ? sectors[start].nexttag :
+        sectors[(unsigned)line->tag % (unsigned)numsectors].firsttag);
+    while (start >= 0 && sectors[start].tag != line->tag)
+        start = sectors[start].nexttag;
+    return start;
+}
 
-    for (i = start + 1; i < numsectors; i++)
-        if (sectors[i].tag == line->tag)
-            return i;
+// killough 4/16/98: Same thing, only for linedefs
+int P_FindLineFromLineTag(const line_t *line, int start)
+{
+    start = (start >= 0 ? lines[start].nexttag :
+        lines[(unsigned)line->tag % (unsigned)numlines].firsttag);
+    while (start >= 0 && lines[start].tag != line->tag)
+        start = lines[start].nexttag;
+    return start;
+}
 
-    return -1;
+// Hash the sector tags across the sectors and linedefs.
+static void P_InitTagLists(void)
+{
+    register int        i;
+
+    for (i = numsectors; --i >= 0;)     // Initially make all slots empty.
+        sectors[i].firsttag = -1;
+    for (i = numsectors; --i >= 0;)     // Proceed from last to first sector
+    {                                   // so that lower sectors appear first
+        int j = (unsigned)sectors[i].tag % (unsigned)numsectors; // Hash func
+
+        sectors[i].nexttag = sectors[j].firsttag;     // Prepend sector to chain
+        sectors[j].firsttag = i;
+    }
+
+    // killough 4/17/98: same thing, only for linedefs
+    for (i = numlines; --i >= 0;)       // Initially make all slots empty.
+        lines[i].firsttag = -1;
+    for (i = numlines; --i >= 0;)       // Proceed from last to first linedef
+    {                                   // so that lower linedefs appear first
+        int j = (unsigned)lines[i].tag % (unsigned)numlines;    // Hash func
+
+        lines[i].nexttag = lines[j].firsttag;   // Prepend linedef to chain
+        lines[j].firsttag = i;
+    }
 }
 
 //
@@ -1202,4 +1240,6 @@ void P_SpawnSpecials(void)
 
     for (i = 0; i < MAXBUTTONS; i++)
         memset(&buttonlist[i], 0, sizeof(button_t));
+
+    P_InitTagLists();
 }
