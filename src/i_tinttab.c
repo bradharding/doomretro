@@ -116,7 +116,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
 
                 if (percent == ADDITIVE)
                 {
-                    if (filter[background] & BLUES)
+                    if ((filter[background] & BLUES) && !(filter[foreground] & WHITES))
                     {
                         r = ((int)color1[0] * 25 + (int)color2[0] * 75) / 100;
                         g = ((int)color1[1] * 25 + (int)color2[1] * 75) / 100;
