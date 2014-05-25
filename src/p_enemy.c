@@ -45,8 +45,7 @@ typedef enum
     DI_SOUTHEAST,
     DI_NODIR,
     NUMDIRS
-} 
-dirtype_t;
+} dirtype_t;
 
 //
 // P_NewChaseDir related LUT.
@@ -90,7 +89,7 @@ void A_Fall(mobj_t *actor);
 
 void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
 {
-    int         i;
+    int i;
 
     // wake up all monsters in this sector
     if (sec->validcount == validcount && sec->soundtraversed <= soundblocks + 1)
@@ -117,11 +116,8 @@ void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
 
         if (!(check->flags & ML_SOUNDBLOCK))
             P_RecursiveSound(other, soundblocks, soundtarget);
-        else
-        {
-            if (!soundblocks)
-                P_RecursiveSound(other, 1, soundtarget);
-        }
+        else if (!soundblocks)
+            P_RecursiveSound(other, 1, soundtarget);
     }
 }
 
@@ -186,10 +182,8 @@ boolean P_CheckMissileRange(mobj_t *actor)
     dist >>= FRACBITS;
 
     if (actor->type == MT_VILE)
-    {
         if (dist > 14 * 64)
             return false;               // too far away
-    }
 
     if (actor->type == MT_UNDEAD)
     {
@@ -211,6 +205,78 @@ boolean P_CheckMissileRange(mobj_t *actor)
         return false;
 
     return true;
+}
+
+//
+// P_IsOnLift
+//
+// killough 9/9/98:
+//
+// Returns true if the object is on a lift. Used for AI,
+// since it may indicate the need for crowded conditions,
+// or that a monster should stay on the lift for a while
+// while it goes up or down.
+//
+static boolean P_IsOnLift(const mobj_t *actor)
+{
+    const sector_t      *sec = actor->subsector->sector;
+    line_t              line;
+    int                 l;
+
+    // Short-circuit: it's on a lift which is active.
+    if (sec->specialdata && ((thinker_t *)sec->specialdata)->function.acp1 == T_PlatRaise)
+        return true;
+
+    // Check to see if it's in a sector which can be activated as a lift.
+    if ((line.tag = sec->tag))
+        for (l = -1; (l = P_FindLineFromLineTag(&line, l)) >= 0;)
+            switch (lines[l].special)
+            {
+                case W1_LowerLiftWait3SecondsRise:
+                case S1_RaiseFloorBy32UnitsChangeFloorTextureAndType:
+                case S1_RaiseFloorBy24UnitsChangeFloorTextureAndType:
+                case S1_RaiseFloorToNextFloorChangeFloorTextureAndType:
+                case S1_LowerLiftWait3SecondsRise:
+                case W1_RaiseFloorToNextFloorChangeFloorTextureAndType:
+                case G1_RaiseFloorToNextFloorChangeFloorTextureAndType:
+                case W1_StartUpDownMovingFloor:
+                case SR_LowerLiftWait3SecondsRise:
+                case SR_RaiseFloorBy24UnitsChangeFloorTextureAndType:
+                case SR_RaiseFloorBy32UnitsChangeFloorTextureAndType:
+                case SR_RaiseFloorToNextFloorChangeFloorTextureAndType:
+                case WR_StartUpDownMovingFloor:
+                case WR_LowerLiftWait3SecondsRise:
+                case WR_RaiseFloorToNextFloorChangeFloorTextureAndType:
+                case WR_LowerFastLiftWait3SecondsRise:
+                case W1_LowerFastLiftWait3SecondsRise:
+                case S1_LowerFastLiftWait3SecondsRise:
+                case SR_LowerFastLiftWait3SecondsRise:
+                    return true;
+            }
+
+    return false;
+}
+
+//
+// P_IsUnderDamage
+//
+// killough 9/9/98:
+//
+// Returns nonzero if the object is under damage based on
+// their current position. Returns 1 if the damage is moderate,
+// -1 if it is serious. Used for AI.
+//
+static int P_IsUnderDamage(mobj_t *actor)
+{
+    const struct msecnode_s     *seclist;
+    const ceiling_t             *cl;    // Crushing ceiling
+    int                         dir = 0;
+
+    for (seclist = actor->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+        if ((cl = seclist->m_sector->specialdata) &&
+            cl->thinker.function.acp1 == T_MoveCeiling)
+            dir |= cl->direction;
+    return dir;
 }
 
 //
@@ -242,7 +308,7 @@ boolean P_Move(mobj_t *actor, boolean dropoff)
 
     if (!P_TryMove(actor, tryx, tryy, dropoff))
     {
-        boolean good;
+        int good;
 
         // open any specials
         if ((actor->flags & MF_FLOAT) && floatok)
@@ -277,7 +343,6 @@ boolean P_Move(mobj_t *actor, boolean dropoff)
         //
         // Do NOT simply return false 1/4th of the time (causes monsters to
         // back out when they shouldn't, and creates secondary stickiness).
-
         for (good = false; numspechit--;)
             if (P_UseSpecialLine(actor, spechit[numspechit], 0))
                 good |= (spechit[numspechit] == blockline ? 1 : 2);
@@ -289,6 +354,39 @@ boolean P_Move(mobj_t *actor, boolean dropoff)
 
     if (!(actor->flags & MF_FLOAT) && !felldown)
         actor->z = actor->floorz;
+
+    return true;
+}
+
+//
+// P_SmartMove
+//
+// killough 9/12/98: Same as P_Move, except smarter
+//
+static boolean P_SmartMove(mobj_t *actor)
+{
+    mobj_t      *target = actor->target;
+    int         on_lift;
+    int         under_damage;
+
+    // killough 9/12/98: Stay on a lift if target is on one
+    on_lift = (target && target->health > 0 &&
+               target->subsector->sector->tag == actor->subsector->sector->tag &&
+               P_IsOnLift(actor));
+
+    under_damage = P_IsUnderDamage(actor);
+
+    if (!P_Move(actor, false))
+        return false;
+
+    // killough 9/9/98: avoid crushing ceilings or other damaging areas
+    if ((on_lift && P_Random() < 230 &&      // Stay on lift
+        !P_IsOnLift(actor))
+        || (!under_damage &&                 // Get away from damage
+            (under_damage = P_IsUnderDamage(actor)) &&
+            (under_damage < 0 || P_Random() < 200)))
+        actor->movedir = DI_NODIR;           // avoid the area (most of the time anyway)
+
     return true;
 }
 
@@ -305,7 +403,7 @@ boolean P_Move(mobj_t *actor, boolean dropoff)
 //
 boolean P_TryWalk(mobj_t *actor)
 {
-    if (!P_Move(actor, false))
+    if (!P_SmartMove(actor))
         return false;
 
     actor->movecount = P_Random() & 15;
@@ -705,7 +803,7 @@ nomissile:
     }
 
     // chase towards player
-    if (--actor->movecount < 0 || !P_Move(actor, false))
+    if (--actor->movecount < 0 || !P_SmartMove(actor))
         P_NewChaseDir(actor);
 
     // make active sound
