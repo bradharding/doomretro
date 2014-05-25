@@ -40,13 +40,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 void T_VerticalDoor(vldoor_t *door)
 {
-    result_e res;
+    result_e    res;
 
     switch (door->direction)
     {
         case 0:
             // WAITING
-            if (!--door->topcountdown)
+            if (!(--door->topcountdown))
             {
                 switch (door->type)
                 {
@@ -73,7 +73,7 @@ void T_VerticalDoor(vldoor_t *door)
 
         case 2:
             //  INITIAL WAIT
-            if (!--door->topcountdown)
+            if (!(--door->topcountdown))
             {
                 switch (door->type)
                 {
@@ -91,9 +91,7 @@ void T_VerticalDoor(vldoor_t *door)
 
         case -1:
             // DOWN
-            res = T_MovePlane(door->sector,
-                              door->speed,
-                              door->sector->floorheight,
+            res = T_MovePlane(door->sector, door->speed, door->sector->floorheight,
                               false, 1, door->direction);
             if (res == pastdest)
             {
@@ -143,9 +141,7 @@ void T_VerticalDoor(vldoor_t *door)
 
         case 1:
             // UP
-            res = T_MovePlane(door->sector,
-                              door->speed,
-                              door->topheight,
+            res = T_MovePlane(door->sector, door->speed, door->topheight,
                               false, 1, door->direction);
             if (res == pastdest)
             {
@@ -178,7 +174,7 @@ void T_VerticalDoor(vldoor_t *door)
 //
 int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 {
-    player_t *player = thing->player;
+    player_t    *player = thing->player;
 
     if (!player)
         return 0;
@@ -286,11 +282,11 @@ int EV_DoDoor(line_t *line, vldoor_e type)
 
         // new door thinker
         rtn = 1;
-        door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+        door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
         sec->specialdata = door;
 
-        door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+        door->thinker.function.acp1 = T_VerticalDoor;
         door->sector = sec;
         door->type = type;
         door->topwait = VDOORWAIT;
@@ -452,6 +448,13 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             break;
     }
 
+    // if the wrong side of door is pushed, give oof sound
+    if (line->sidenum[1] == NO_INDEX)           // killough
+    {
+        S_StartSound(player->mo, sfx_noway);    // killough 3/20/98
+        return;
+    }
+
     sec = sides[line->sidenum[1]].sector;
 
     if (sec->specialdata)
@@ -478,7 +481,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     if (!thing->player)
                         return;
 
-                    if (door->thinker.function.acp1 == (actionf_p1)T_VerticalDoor)
+                    if (door->thinker.function.acp1 == T_VerticalDoor)
                     {
                         door->direction = -1;   // start going down immediately
 
@@ -487,16 +490,14 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         else
                             S_StartSound(&door->sector->soundorg, sfx_dorcls);
                     }
-                    else if (door->thinker.function.acp1 == (actionf_p1)T_PlatRaise)
+                    else if (door->thinker.function.acp1 == T_PlatRaise)
                     {
-                        plat_t *plat = (plat_t *)door;
+                        plat_t  *plat = (plat_t *)door;
 
                         plat->wait = -1;
                     }
                     else
-                    {
                         door->direction = -1;
-                    }
                 }
                 return;
         }
@@ -521,10 +522,10 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     }
 
     // new door thinker
-    door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+    door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
     P_AddThinker(&door->thinker);
     sec->specialdata = door;
-    door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+    door->thinker.function.acp1 = T_VerticalDoor;
     door->sector = sec;
     door->direction = 1;
     door->speed = VDOORSPEED;
@@ -572,14 +573,14 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 //
 void P_SpawnDoorCloseIn30(sector_t *sec)
 {
-    vldoor_t *door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+    vldoor_t    *door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 
     P_AddThinker(&door->thinker);
 
     sec->specialdata = door;
     sec->special = 0;
 
-    door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+    door->thinker.function.acp1 = T_VerticalDoor;
     door->sector = sec;
     door->direction = 0;
     door->type = normal;
@@ -592,14 +593,14 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
 //
 void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
 {
-    vldoor_t *door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+    vldoor_t    *door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 
     P_AddThinker(&door->thinker);
 
     sec->specialdata = door;
     sec->special = 0;
 
-    door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+    door->thinker.function.acp1 = T_VerticalDoor;
     door->sector = sec;
     door->direction = 2;
     door->type = raiseIn5Mins;
