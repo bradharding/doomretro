@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <stdio.h>
+
 #include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -578,7 +580,7 @@ void M_DrawChar(int x, int y, int i, boolean overlapping)
         {
             char dot = redcharset[i][y1 * w + x1];
 
-            if (dot == 'È')
+            if (dot == '\xC8')
             {
                 if (!overlapping)
                     V_DrawPixel(x + x1, y + y1, 0, 251, true);
@@ -652,7 +654,7 @@ void M_DrawString(int x, int y, char *str)
         boolean overlapping = false;
 
         if (str[i] < 123)
-            j = chartoi[str[i]];
+            j = chartoi[(int)str[i]];
 
         while (kern[k].char1)
         {
@@ -696,7 +698,7 @@ int M_BigStringWidth(char *str)
 
     for (i = 0; (unsigned)i < strlen(str); i++)
     {
-        int j = chartoi[str[i]];
+        int j = chartoi[(int)str[i]];
         int k = 0;
 
         while (kern[k].char1)
@@ -1478,8 +1480,6 @@ void M_Expansion(int choice)
 //
 void M_DrawOptions(void)
 {
-    static char buf[128];
-
     M_DarkBackground();
 
     if (M_OPTTTL)

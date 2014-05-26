@@ -593,7 +593,7 @@ void R_DrawPSprite(pspdef_t *psp)
 
     int           invisibility = viewplayer->powers[pw_invisibility];
 
-    void(*colfuncs[])(void) =
+    void (*colfuncs[])(void) =
     {
         /* n/a      */ NULL,
         /* SPR_SHTG */ basecolfunc,
@@ -869,7 +869,6 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
             for (x = r1; x <= r2; x++)
                 if (cliptop[x] == -2)
                     cliptop[x] = ds->sprtopclip[x];
-
     }
 
     // all clipping has been performed, so draw the sprite

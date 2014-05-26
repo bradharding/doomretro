@@ -27,7 +27,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <math.h>
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
@@ -66,8 +65,6 @@ line_t          *lines;
 int             numsides;
 side_t          *sides;
 
-static int      totallines;
-
 // BLOCKMAP
 // Created from axis aligned bounding box
 // of the map, a rectangular array of
@@ -90,7 +87,7 @@ fixed_t         bmaporgx;
 fixed_t         bmaporgy;
 
 // for thing chains
-mobj_t**        blocklinks;
+mobj_t          **blocklinks;
 
 // REJECT
 // For fast sight rejection.

@@ -283,8 +283,6 @@ static boolean                  st_fragson;
 static patch_t                  *sbar;
 static patch_t                  *sbar2;
 
-static boolean                  usesbar2;
-
 // 0-9, tall numbers
 patch_t                         *tallnum[10];
 

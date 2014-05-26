@@ -645,7 +645,7 @@ void A_KeenDie(mobj_t *mo)
     // to see if all Keens are dead
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
     {
-        if (th->function.acp1 != (actionf_p1)P_MobjThinker)
+        if (th->function.acp1 != P_MobjThinker)
             continue;
 
         mo2 = (mobj_t *)th;
@@ -670,7 +670,7 @@ void A_KeenDie(mobj_t *mo)
 //
 void A_Look(mobj_t *actor)
 {
-    mobj_t *targ = actor->subsector->sector->soundtarget;
+    mobj_t      *targ = actor->subsector->sector->soundtarget;
 
     actor->threshold = 0;       // any shot will wake up
     
@@ -866,8 +866,8 @@ void A_SPosAttack(mobj_t *actor)
     S_StartSound(actor, sfx_shotgn);
     for (i = 0; i < 3; i++)
     {
-        int angle = bangle + ((P_Random() - P_Random()) << 20);
-        int damage = ((P_Random() % 5) + 1) * 3;
+        int     angle = bangle + ((P_Random() - P_Random()) << 20);
+        int     damage = ((P_Random() % 5) + 1) * 3;
 
         P_LineAttack(actor, angle, MISSILERANGE, slope, damage);
     }
@@ -947,7 +947,7 @@ void A_TroopAttack(mobj_t *actor)
     A_FaceTarget(actor);
     if (P_CheckMeleeRange(actor))
     {
-        int damage = (P_Random() % 8 + 1) * 3;
+        int     damage = (P_Random() % 8 + 1) * 3;
 
         S_StartSound(actor, sfx_claw);
         P_DamageMobj(actor->target, actor, actor, damage);
@@ -967,7 +967,7 @@ void A_SargAttack(mobj_t *actor)
     A_FaceTarget(actor);
     if (P_CheckMeleeRange(actor))
     {
-        int damage = (P_Random() % 10 + 1) * 4;
+        int     damage = (P_Random() % 10 + 1) * 4;
 
         P_DamageMobj(actor->target, actor, actor, damage);
     }
@@ -981,7 +981,7 @@ void A_HeadAttack(mobj_t *actor)
     A_FaceTarget(actor);
     if (P_CheckMeleeRange(actor))
     {
-        int damage = (P_Random() % 6 + 1) * 10;
+        int     damage = (P_Random() % 6 + 1) * 10;
 
         P_DamageMobj(actor->target, actor, actor, damage);
         return;
@@ -1009,7 +1009,7 @@ void A_BruisAttack(mobj_t *actor)
     A_FaceTarget(actor);
     if (P_CheckMeleeRange(actor))
     {
-        int damage = (P_Random() % 8 + 1) * 10;
+        int     damage = (P_Random() % 8 + 1) * 10;
 
         S_StartSound(actor, sfx_claw);
         P_DamageMobj(actor->target, actor, actor, damage);
@@ -1026,7 +1026,7 @@ void A_BruisAttack(mobj_t *actor)
 //
 void A_SkelMissile(mobj_t *actor)
 {
-    mobj_t *mo;
+    mobj_t      *mo;
 
     if (!actor->target)
         return;
@@ -1045,11 +1045,11 @@ void A_SkelMissile(mobj_t *actor)
 
 void A_Tracer(mobj_t *actor)
 {
-    angle_t exact;
-    fixed_t dist;
-    fixed_t slope;
-    mobj_t  *dest;
-    int     speed = actor->info->speed;
+    angle_t     exact;
+    fixed_t     dist;
+    fixed_t     slope;
+    mobj_t      *dest;
+    int         speed;
 
     // spawn a puff of smoke behind the rocket
     P_SpawnPuff(actor->x, actor->y, actor->z - 2 * FRACUNIT, actor->angle, false);
@@ -1083,17 +1083,12 @@ void A_Tracer(mobj_t *actor)
     }
 
     exact = actor->angle >> ANGLETOFINESHIFT;
+    speed = actor->info->speed;
     actor->momx = FixedMul(speed, finecosine[exact]);
     actor->momy = FixedMul(speed, finesine[exact]);
 
     // change slope
-    dist = P_ApproxDistance(dest->x - actor->x,
-                            dest->y - actor->y);
-
-    dist = dist / speed;
-
-    if (dist < 1)
-        dist = 1;
+    dist = MAX(1, P_ApproxDistance(dest->x - actor->x, dest->y - actor->y) / speed);
 
     slope = (dest->z + 40 * FRACUNIT - actor->z) / dist;
 
@@ -1137,10 +1132,10 @@ fixed_t viletryy;
 
 boolean PIT_VileCheck(mobj_t *thing)
 {
-    int     maxdist;
-    boolean check;
-    fixed_t height;
-    fixed_t radius;
+    int         maxdist;
+    boolean     check;
+    fixed_t     height;
+    fixed_t     radius;
 
     if (!(thing->flags & MF_CORPSE))
         return true;    // not a monster
@@ -1266,9 +1261,9 @@ void A_FireCrackle(mobj_t *actor)
 
 void A_Fire(mobj_t *actor)
 {
-    mobj_t   *dest = actor->tracer;
-    mobj_t   *target;
-    unsigned an;
+    mobj_t      *dest = actor->tracer;
+    mobj_t      *target;
+    unsigned    an;
 
     if (!dest)
         return;
@@ -1294,7 +1289,7 @@ void A_Fire(mobj_t *actor)
 //
 void A_VileTarget(mobj_t *actor)
 {
-    mobj_t *fog;
+    mobj_t      *fog;
 
     if (!actor->target)
         return;
@@ -1314,8 +1309,8 @@ void A_VileTarget(mobj_t *actor)
 //
 void A_VileAttack(mobj_t *actor)
 {
-    mobj_t *fire;
-    int    an;
+    mobj_t      *fire;
+    int         an;
 
     if (!actor->target)
         return;
@@ -1358,9 +1353,9 @@ void A_FatRaise(mobj_t *actor)
 
 void A_FatAttack1(mobj_t *actor)
 {
-    mobj_t *mo;
-    mobj_t *target;
-    int    an;
+    mobj_t      *mo;
+    mobj_t      *target;
+    int         an;
 
     A_FaceTarget(actor);
 
@@ -1381,9 +1376,9 @@ void A_FatAttack1(mobj_t *actor)
 
 void A_FatAttack2(mobj_t *actor)
 {
-    mobj_t *mo;
-    mobj_t *target;
-    int    an;
+    mobj_t      *mo;
+    mobj_t      *target;
+    int         an;
 
     A_FaceTarget(actor);
 
@@ -1404,9 +1399,9 @@ void A_FatAttack2(mobj_t *actor)
 
 void A_FatAttack3(mobj_t *actor)
 {
-    mobj_t *mo;
-    mobj_t *target;
-    int    an;
+    mobj_t      *mo;
+    mobj_t      *target;
+    int         an;
 
     A_FaceTarget(actor);
 
@@ -1439,9 +1434,9 @@ void A_FatAttack3(mobj_t *actor)
 
 void A_SkullAttack(mobj_t *actor)
 {
-    mobj_t  *dest;
-    angle_t an;
-    int     dist;
+    mobj_t      *dest;
+    angle_t     an;
+    int         dist;
 
     if (!actor->target)
         return;
@@ -1454,11 +1449,8 @@ void A_SkullAttack(mobj_t *actor)
     an = actor->angle >> ANGLETOFINESHIFT;
     actor->momx = FixedMul(SKULLSPEED, finecosine[an]);
     actor->momy = FixedMul(SKULLSPEED, finesine[an]);
-    dist = P_ApproxDistance(dest->x - actor->x, dest->y - actor->y);
-    dist = dist / SKULLSPEED;
+    dist = MAX(1, P_ApproxDistance(dest->x - actor->x, dest->y - actor->y) / SKULLSPEED);
 
-    if (dist < 1)
-        dist = 1;
     actor->momz = (dest->z + (dest->height >> 1) - actor->z) / dist;
 }
 
@@ -1468,19 +1460,14 @@ void A_SkullAttack(mobj_t *actor)
 //
 void A_PainShootSkull(mobj_t *actor, angle_t angle)
 {
-    fixed_t x;
-    fixed_t y;
-    fixed_t z;
-
-    mobj_t  *newmobj;
-    angle_t an;
-    int     prestep;
+    fixed_t     x, y, z;
+    mobj_t      *newmobj;
+    angle_t     an;
+    int         prestep;
 
     an = angle >> ANGLETOFINESHIFT;
 
-    prestep =
-        4 * FRACUNIT
-        + 3 * (actor->info->radius + mobjinfo[MT_SKULL].radius) / 2;
+    prestep = 4 * FRACUNIT + 3 * (actor->info->radius + mobjinfo[MT_SKULL].radius) / 2;
 
     x = actor->x + FixedMul(prestep, finecosine[an]);
     y = actor->y + FixedMul(prestep, finesine[an]);
@@ -1581,7 +1568,7 @@ void A_Explode(mobj_t *thingy)
     P_RadiusAttack(thingy, thingy->target, 128);
 }
 
-boolean         flag667 = false;
+boolean flag667 = false;
 
 //
 // A_BossDeath
@@ -1590,10 +1577,10 @@ boolean         flag667 = false;
 //
 void A_BossDeath(mobj_t *mo)
 {
-    thinker_t *th;
-    mobj_t    *mo2;
-    line_t    junk;
-    int       i;
+    thinker_t   *th;
+    mobj_t      *mo2;
+    line_t      junk;
+    int         i;
 
     if (gamemode == commercial)
     {
@@ -1768,14 +1755,14 @@ void A_CloseShotgun2(player_t *player, pspdef_t *psp)
     A_ReFire(player, psp);
 }
 
-mobj_t *braintargets[32];
-int    numbraintargets;
-int    braintargeton;
+mobj_t  *braintargets[32];
+int     numbraintargets;
+int     braintargeton;
 
 void A_BrainAwake(mobj_t *mo)
 {
-    thinker_t *thinker;
-    mobj_t    *m;
+    thinker_t   *thinker;
+    mobj_t      *m;
 
     // find all the target spots
     numbraintargets = 0;
@@ -1806,10 +1793,10 @@ void A_BrainPain(mobj_t *mo)
 
 void A_BrainScream(mobj_t *mo)
 {
-    int    x;
-    int    y;
-    int    z;
-    mobj_t *th;
+    int         x;
+    int         y;
+    int         z;
+    mobj_t      *th;
 
     for (x = mo->x - 258 * FRACUNIT; x < mo->x + 258 * FRACUNIT; x += FRACUNIT * 8)
     {
@@ -1830,10 +1817,10 @@ void A_BrainScream(mobj_t *mo)
 
 void A_BrainExplode(mobj_t *mo)
 {
-    int    x;
-    int    y;
-    int    z;
-    mobj_t *th;
+    int         x;
+    int         y;
+    int         z;
+    mobj_t      *th;
 
     x = mo->x + (P_Random() - P_Random()) * 2048;
     y = mo->y;
@@ -1855,8 +1842,8 @@ void A_BrainDie(mobj_t *mo)
 
 void A_BrainSpit(mobj_t *mo)
 {
-    mobj_t *targ;
-    mobj_t *newmobj;
+    mobj_t      *targ;
+    mobj_t      *newmobj;
 
     static int  easy = 0;
 
@@ -1896,11 +1883,11 @@ void A_SpawnSound(mobj_t *mo)
 
 void A_SpawnFly(mobj_t *mo)
 {
-    mobj_t     *newmobj;
-    mobj_t     *fog;
-    mobj_t     *targ;
-    int        r;
-    mobjtype_t type;
+    mobj_t      *newmobj;
+    mobj_t      *fog;
+    mobj_t      *targ;
+    int         r;
+    mobjtype_t  type;
 
     if (--mo->reactiontime)
         return;         // still flying

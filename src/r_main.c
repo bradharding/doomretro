@@ -29,6 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define _USE_MATH_DEFINES
 
 #include <math.h>
+
 #include "d_net.h"
 #include "m_menu.h"
 #include "r_local.h"

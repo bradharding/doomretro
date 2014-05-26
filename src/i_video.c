@@ -26,8 +26,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <math.h>
-
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -639,7 +637,7 @@ static void SetVideoMode(void)
                 SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
             if (!screen)
-                I_Error("Error setting video mode %i×%i: %s\n", width, height, SDL_GetError());
+                I_Error("Error setting video mode %i\xD7%i: %s\n", width, height, SDL_GetError());
         }
 
         height = screen->h;

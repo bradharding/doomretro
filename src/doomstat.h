@@ -127,7 +127,7 @@ extern boolean          netgame;
 
 // Flag: true only if started as net deathmatch.
 // An enum might handle altdeath/cooperative better.
-extern boolean          deathmatch;
+extern int              deathmatch;
 
 // -------------------------
 // Internal parameters for sound rendering.

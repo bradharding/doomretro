@@ -461,7 +461,7 @@ void S_StartSound(void *origin_p, int sfx_id)
     if (nosound || nosfx)
         return;
 
-    origin = (mobj_t *) origin_p;
+    origin = (mobj_t *)origin_p;
     volume = snd_SfxVolume;
 
     sfx = &S_sfx[sfx_id];

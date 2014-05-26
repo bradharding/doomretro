@@ -414,7 +414,7 @@ void WI_drawWILV(int y, char *str)
 
     for (i = 0; (unsigned)i < strlen(str); i++)
     {
-        int     j = chartoi[str[i]];
+        int     j = chartoi[(int)str[i]];
 
         w += (j == -1 ? 6 : (strlen(wilv[j]) / 13 - 2));
     }
@@ -422,7 +422,7 @@ void WI_drawWILV(int y, char *str)
 
     for (i = 0; (unsigned)i < strlen(str); i++)
     {
-        int     j = chartoi[str[i]];
+        int     j = chartoi[(int)str[i]];
 
         if (str[i] == '\'' && (!i || (i > 0 && str[i - 1] == ' ')))
             j = 41;

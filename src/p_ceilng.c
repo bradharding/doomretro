@@ -44,18 +44,17 @@ extern boolean canmodify;
 //
 void T_MoveCeiling(ceiling_t *ceiling)
 {
-    result_e res;
+    result_e    res;
 
     switch (ceiling->direction)
     {
         case 0:
             // IN STASIS
             break;
+
         case 1:
             // UP
-            res = T_MovePlane(ceiling->sector,
-                              ceiling->speed,
-                              ceiling->topheight,
+            res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->topheight,
                               false, 1, ceiling->direction);
 
             if (!(leveltime & 7)
@@ -96,9 +95,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
 
         case -1:
             // DOWN
-            res = T_MovePlane(ceiling->sector,
-                              ceiling->speed,
-                              ceiling->bottomheight,
+            res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->bottomheight,
                               ceiling->crush, 1, ceiling->direction);
 
             if (!(leveltime & 7)
@@ -176,6 +173,7 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
         case silentCrushAndRaise:
         case crushAndRaise:
             rtn = P_ActivateInStasisCeiling(line);
+
         default:
             break;
     }
@@ -188,10 +186,10 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
 
         // new door thinker
         rtn = 1;
-        ceiling = (ceiling_t *)Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
+        ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
         P_AddThinker(&ceiling->thinker);
         sec->specialdata = ceiling;
-        ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
+        ceiling->thinker.function.acp1 = T_MoveCeiling;
         ceiling->sector = sec;
         ceiling->crush = false;
 
@@ -200,7 +198,7 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
             case fastCrushAndRaise:
                 ceiling->crush = true;
                 ceiling->topheight = sec->ceilingheight;
-                ceiling->bottomheight = sec->floorheight + (8 * FRACUNIT);
+                ceiling->bottomheight = sec->floorheight + 8 * FRACUNIT;
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED * 2;
                 break;
@@ -209,6 +207,7 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
             case crushAndRaise:
                 ceiling->crush = true;
                 ceiling->topheight = sec->ceilingheight;
+
             case lowerAndCrush:
             case lowerToFloor:
                 ceiling->bottomheight = sec->floorheight;
@@ -284,7 +283,7 @@ int P_ActivateInStasisCeiling(line_t *line)
             && activeceilings[i]->direction == 0)
         {
             activeceilings[i]->direction = activeceilings[i]->olddirection;
-            activeceilings[i]->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
+            activeceilings[i]->thinker.function.acp1 = T_MoveCeiling;
             rtn = 1;
         }
     }
@@ -307,7 +306,7 @@ int EV_CeilingCrushStop(line_t *line)
             && activeceilings[i]->direction != 0)
         {
             activeceilings[i]->olddirection = activeceilings[i]->direction;
-            activeceilings[i]->thinker.function.acv = (actionf_v)NULL;
+            activeceilings[i]->thinker.function.acv = NULL;
             activeceilings[i]->direction = 0;
             rtn = 1;
         }

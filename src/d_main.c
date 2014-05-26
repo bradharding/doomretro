@@ -87,7 +87,7 @@ boolean        nomonsters;     // checkparm of -nomonsters
 boolean        respawnparm;    // checkparm of -respawn
 boolean        fastparm;       // checkparm of -fast
 
-boolean        runcount = 0;
+int            runcount = 0;
 
 skill_t        startskill;
 int            startepisode;
@@ -443,7 +443,7 @@ void D_StartTitle(void)
 
 static boolean D_AddFile(char *filename)
 {
-    wad_file_t *handle;
+    wad_file_t  *handle;
 
     handle = W_AddFile(filename);
 
@@ -452,11 +452,11 @@ static boolean D_AddFile(char *filename)
 
 char *uppercase(char *str)
 {
-    char *newstr;
-    char *p;
+    char        *newstr;
+    char        *p;
 
     p = newstr = strdup(str);
-    while (*p++ = toupper(*p));
+    while (*(p++) = toupper(*p));
 
     return newstr;
 }
@@ -465,7 +465,7 @@ char *uppercase(char *str)
 static void InitGameVersion(void)
 {
     // Determine automatically
-        if (gamemode == shareware || gamemode == registered)
+    if (gamemode == shareware || gamemode == registered)
         // original
         gameversion = exe_doom_1_9;
     else if (gamemode == retail)

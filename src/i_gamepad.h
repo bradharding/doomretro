@@ -29,6 +29,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __I_GAMEPAD__
 #define __I_GAMEPAD__
 
+#include <math.h>
+
 #define GAMEPAD_DPAD_UP                 0x0001
 #define GAMEPAD_DPAD_DOWN               0x0002
 #define GAMEPAD_DPAD_LEFT               0x0004

@@ -81,7 +81,7 @@ static void HU_drawDot(int x, int y, char src)
 {
     byte        *dest = &tempscreen[y * SCREENWIDTH + x];
 
-    if (src == 'û')
+    if (src == '\xFB')
         *dest = 0;
     else if (src != ' ')
         *dest = src;
@@ -212,7 +212,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
                         byte *dest = &tempscreen[((8 + y1) * SCREENSCALE + y2) * SCREENWIDTH +
                                                  x1 * SCREENSCALE + x2];
 
-                        if (src == 'û')
+                        if (src == '\xFB')
                             *dest = 0;
                         else if (src != ' ')
                             *dest = src;

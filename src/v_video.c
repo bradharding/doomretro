@@ -872,7 +872,7 @@ void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow)
 {
     byte *dest = &screens[screen][y * 2 * SCREENWIDTH + x * 2];
 
-    if (color == 251 || color == -5)
+    if (color == 251)
     {
         if (shadow)
         {

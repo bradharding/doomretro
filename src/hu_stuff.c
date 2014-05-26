@@ -50,9 +50,7 @@ static player_t         *plr;
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
 boolean                 chat_on;
-static hu_itext_t       w_chat;
 static boolean          always_off = false;
-static char             chat_dest[MAXPLAYERS];
 static hu_itext_t       w_inputbuffer[MAXPLAYERS];
 
 boolean                 message_on;
@@ -262,7 +260,7 @@ static void HU_DrawHUD(void)
         static int      ammoanimtics = 1;
         static int      armoranimtics = 1;
         boolean         invert;
-        boolean         invulnerability = plr->powers[pw_invulnerability];
+        int             invulnerability = plr->powers[pw_invulnerability];
         static boolean  healthanim = false;
         static boolean  ammoanim = false;
         static boolean  armoranim = false;

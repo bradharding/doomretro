@@ -538,8 +538,10 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
                     return false;
             }
             else
+            {
                 // dropoff allowed -- check for whether it fell more than 24
                 felldown = (!(thing->flags & MF_NOGRAVITY) && thing->z - tmfloorz > 24 * FRACUNIT);
+            }
 
             // killough 11/98: prevent falling objects from going up too many steps
             if ((thing->flags2 & MF2_FALLING) &&
