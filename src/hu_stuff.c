@@ -110,14 +110,14 @@ void(*godhudfunc)(int, int, int, patch_t *, boolean);
 
 static struct
 {
-    char        *lump;
+    char        *patchname;
     int         x;
     int         y;
     patch_t     *patch;
 }
 ammopic[NUMAMMO] =
 {
-    { "CLIPA0",  0,  3, NULL },
+    { "CLIPA0",  0,  2, NULL },
     { "SHELA0", -5,  5, NULL },
     { "CELLA0", -8,  2, NULL },
     { "ROCKA0", -2, -6, NULL }
@@ -125,7 +125,7 @@ ammopic[NUMAMMO] =
 
 static struct
 {
-    char        *lump;
+    char        *patchname;
     patch_t     *patch;
 }
 keypic[NUMCARDS] =
@@ -210,20 +210,20 @@ void HU_Start(void)
     greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
     bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
 
-    ammopic[am_clip].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_clip].lump), PU_CACHE);
-    ammopic[am_shell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_shell].lump), PU_CACHE);
+    ammopic[am_clip].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_clip].patchname), PU_CACHE);
+    ammopic[am_shell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_shell].patchname), PU_CACHE);
     if (gamemode != shareware)
-        ammopic[am_cell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_cell].lump), PU_CACHE);
-    ammopic[am_misl].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_misl].lump), PU_CACHE);
+        ammopic[am_cell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_cell].patchname), PU_CACHE);
+    ammopic[am_misl].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_misl].patchname), PU_CACHE);
 
-    keypic[it_bluecard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_bluecard].lump), PU_CACHE);
-    keypic[it_yellowcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowcard].lump), PU_CACHE);
-    keypic[it_redcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_redcard].lump), PU_CACHE);
+    keypic[it_bluecard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_bluecard].patchname), PU_CACHE);
+    keypic[it_yellowcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowcard].patchname), PU_CACHE);
+    keypic[it_redcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_redcard].patchname), PU_CACHE);
     if (gamemode != shareware)
     {
-        keypic[it_blueskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_blueskull].lump), PU_CACHE);
-        keypic[it_yellowskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowskull].lump), PU_CACHE);
-        keypic[it_redskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_redskull].lump), PU_CACHE);
+        keypic[it_blueskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_blueskull].patchname), PU_CACHE);
+        keypic[it_yellowskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowskull].patchname), PU_CACHE);
+        keypic[it_redskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_redskull].patchname), PU_CACHE);
     }
 }
 
@@ -288,7 +288,7 @@ static void HU_DrawHUD(void)
 
         if (health <= HUD_HEALTH_MIN && !menuactive && !paused)
         {
-            if (!--healthanimtics)
+            if (!(--healthanimtics))
             {
                 healthanim = !healthanim;
                 healthanimtics = MAX(HUD_MIN_TICS,
@@ -330,7 +330,7 @@ static void HU_DrawHUD(void)
 
             if (ammo <= HUD_AMMO_MIN && !menuactive && !paused)
             {
-                if (!--ammoanimtics)
+                if (!(--ammoanimtics))
                 {
                     ammoanim = !ammoanim;
                     ammoanimtics = MAX(HUD_MIN_TICS,
