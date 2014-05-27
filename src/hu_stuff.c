@@ -80,9 +80,9 @@ static patch_t          *berserkpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
-void(*hudfunc)(int, int, int, patch_t *, boolean);
-void(*hudnumfunc)(int, int, int, patch_t *, boolean);
-void(*godhudfunc)(int, int, int, patch_t *, boolean);
+void (*hudfunc)(int, int, int, patch_t *, boolean);
+void (*hudnumfunc)(int, int, int, patch_t *, boolean);
+void (*godhudfunc)(int, int, int, patch_t *, boolean);
 
 #define HUD_X           24
 #define HUD_Y           311
@@ -102,8 +102,6 @@ void(*godhudfunc)(int, int, int, patch_t *, boolean);
 
 #define HUD_ARMOR_X     (HUD_HEALTH_X + 506)
 #define HUD_ARMOR_Y     HUD_HEALTH_Y
-#define HUD_ARMOR_MIN   20
-#define HUD_ARMOR_TICS  20
 
 #define HUD_MIN_TICS    6
 #define HUD_KEY_TICS    12
@@ -258,12 +256,10 @@ static void HU_DrawHUD(void)
         int             i = 0;
         static int      healthanimtics = 1;
         static int      ammoanimtics = 1;
-        static int      armoranimtics = 1;
         boolean         invert;
         int             invulnerability = plr->powers[pw_invulnerability];
         static boolean  healthanim = false;
         static boolean  ammoanim = false;
-        static boolean  armoranim = false;
         patch_t         *patch;
 
         if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
@@ -399,27 +395,10 @@ static void HU_DrawHUD(void)
 
         if (armor)
         {
-            invert = ((armor <= HUD_ARMOR_MIN && armoranim) || armor > HUD_ARMOR_MIN ||
-                      menuactive || paused);
-            DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, invert, hudnumfunc);
-            hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, invert);
+            DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, true, hudnumfunc);
+            hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, true);
             hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (patch->height - 18), 0,
-                    plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, invert);
-
-            if (armor <= HUD_ARMOR_MIN && !menuactive && !paused)
-            {
-                if (!--armoranimtics)
-                {
-                    armoranim = !armoranim;
-                    armoranimtics = MAX(HUD_MIN_TICS,
-                                        (int)(HUD_ARMOR_TICS * (float)armor / HUD_ARMOR_MIN));
-                }
-            }
-            else
-            {
-                armoranim = false;
-                armoranimtics = 1;
-            }
+                    plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, true);
         }
     }
 }
