@@ -831,8 +831,9 @@ boolean ST_Responder(event_t *ev)
                 for (i = NUMCARDS - 1; i >= 0; i--)
                     if (plyr->cards[i] != CARDNOTINMAP)
                     {
+                        if (plyr->cards[i] == CARDNOTFOUNDYET)
+                            keysgiven = true;
                         P_GiveCard(plyr, i);
-                        keysgiven = true;
                     }
 
                 // [BH] show evil grin if player was given any new weapons
