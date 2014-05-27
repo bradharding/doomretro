@@ -955,8 +955,11 @@ void I_InitGraphics(void)
 
     I_InitGammaTables();
 
-    sprintf(envstring, "SDL_VIDEODRIVER=%s", videodriver);
-    putenv(envstring);
+    if (videodriver != NULL && strlen(videodriver) > 0)
+    {
+        sprintf(envstring, "SDL_VIDEODRIVER=%s", videodriver);
+        putenv(envstring);
+    }
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
         I_Error("Failed to initialize video: %s", SDL_GetError());
