@@ -471,7 +471,7 @@ void G_DoLoadLevel(void)
     memset(gamekeydown, 0, sizeof(gamekeydown));
     mousex = 0;
     sendpause = sendsave = paused = false;
-    memset(mousebuttons, 0, sizeof(*mousebuttons));
+    memset(mousearray, 0, sizeof(mousearray));
 
     caption = (char *)Z_Malloc(strlen(mapnumandtitle) + 1, PU_STATIC, NULL);
     strcpy(caption, mapnumandtitle);
