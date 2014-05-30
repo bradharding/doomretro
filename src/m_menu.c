@@ -253,9 +253,9 @@ menu_t EpiDef =
 
 enum
 {
-    exp1,
-    exp2,
-    exp_end
+    ex1,
+    ex2,
+    ex_end
 } expansions_e;
 
 menuitem_t ExpansionMenu[] =
@@ -266,12 +266,12 @@ menuitem_t ExpansionMenu[] =
 
 menu_t ExpDef =
 {
-    exp_end,              // # of menu items
+    ex_end,               // # of menu items
     &MainDef,             // previous menu
     ExpansionMenu,        // menuitem_t ->
     M_DrawExpansion,      // drawing routine ->
     39, 69,               // x, y
-    exp1                  // lastOn
+    ex1                   // lastOn
 };
 
 //
@@ -827,7 +827,7 @@ boolean M_CheckSaveGame(int choice)
             return true;
         if (gamemission == pack_nerve)
         {
-            ExpDef.lastOn = selectedexpansion = exp1;
+            ExpDef.lastOn = selectedexpansion = ex1;
             gamemission = doom2;
             return true;
         }
@@ -840,7 +840,7 @@ boolean M_CheckSaveGame(int choice)
             return true;
         if (gamemission == doom2 && nerve)
         {
-            ExpDef.lastOn = selectedexpansion = exp2;
+            ExpDef.lastOn = selectedexpansion = ex2;
             gamemission = pack_nerve;
             return true;
         }
@@ -1471,7 +1471,7 @@ void M_Episode(int choice)
 
 void M_Expansion(int choice)
 {
-    gamemission = (choice == exp1 ? doom2 : pack_nerve);
+    gamemission = (choice == ex1 ? doom2 : pack_nerve);
     M_SetupNextMenu(&NewDef);
 }
 
