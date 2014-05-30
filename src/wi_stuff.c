@@ -1644,7 +1644,6 @@ void WI_loadData(void)
     bstar = (patch_t *)W_CacheLumpName("STFDEAD0", PU_STATIC);
 
     // Background image
-
     if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))
     {
         strncpy(bg_lumpname, (DMENUPIC ? "DMENUPIC" : "INTERPIC"), 9);

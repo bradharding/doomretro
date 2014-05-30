@@ -27,8 +27,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define _USE_MATH_DEFINES
 
+#include <math.h>
+
+#ifdef _WIN32
 #include <Windows.h>
 #include <Xinput.h>
+#endif
 
 #include "am_map.h"
 #include "doomstat.h"
@@ -1008,6 +1012,7 @@ boolean AM_Responder(event_t *ev)
                     ftom_zoommul = M_ZOOMIN;
                 }
 
+#ifdef _WIN32
                 if (!followplayer)
                 {
                     // pan right
@@ -1042,6 +1047,7 @@ boolean AM_Responder(event_t *ev)
                         m_paninc.y = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLYdown * 1.2f)));
                     }
                 }
+#endif
             }
 
             if ((plr->cheats & CF_MYPOS) && !followplayer && (m_paninc.x || m_paninc.y))
@@ -1537,7 +1543,10 @@ static void AM_drawWalls(void)
         byte *dot = *screens;
 
         while (dot < area)
-            *dot = *(*(dot++) + mask);
+        {
+            *dot = *(*dot + mask);
+            ++dot;
+        }
     }
 }
 

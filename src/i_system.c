@@ -32,8 +32,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include <stdarg.h>
 
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#endif
 
 #include "doomdef.h"
 #include "doomstat.h"
@@ -162,7 +164,9 @@ void I_Quit(boolean shutdown)
         I_ShutdownGamepad();
     }
 
+#ifdef _WIN32
     done_win32();
+#endif
 
     exit(0);
 }
@@ -216,6 +220,7 @@ void I_Error(char *error, ...)
     vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
 
+#ifdef _WIN32
     MultiByteToWideChar(CP_ACP, 0,
                         msgbuf, strlen(msgbuf) + 1,
                         wmsgbuf, sizeof(wmsgbuf));
@@ -223,6 +228,7 @@ void I_Error(char *error, ...)
     MessageBoxW(NULL, wmsgbuf, L"DOOM RETRO", MB_ICONERROR | MB_OK);
 
     done_win32();
+#endif
 
     exit(-1);
 }

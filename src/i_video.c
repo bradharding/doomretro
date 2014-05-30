@@ -281,6 +281,7 @@ boolean keystate(int key)
 
 void I_SaveWindowPosition(void)
 {
+#ifdef _WIN32
     if (!fullscreen)
     {
         static SDL_SysWMinfo pInfo;
@@ -292,6 +293,7 @@ void I_SaveWindowPosition(void)
         GetWindowRect(pInfo.window, &r);
         sprintf(windowposition, "%i,%i", r.left + 8, r.top + 30);
     }
+#endif
 }
 
 void I_ShutdownGraphics(void)
@@ -747,7 +749,9 @@ void ToggleWideScreen(boolean toggle)
     palette_to_set = true;
 }
 
+#ifdef _WIN32
 void init_win32(LPCTSTR lpIconName);
+#endif
 
 void ToggleFullScreen(void)
 {
@@ -818,7 +822,9 @@ void ToggleFullScreen(void)
         putenv(envstring);
         SDL_InitSubSystem(SDL_INIT_VIDEO);
 
+#ifdef _WIN32
         init_win32(gamemission == doom ? "DOOM" : "DOOM2");
+#endif
 
         if (windowheight > desktopheight)
         {
@@ -967,7 +973,9 @@ void I_InitGraphics(void)
     CreateCursors();
     SDL_SetCursor(emptycursor);
 
+#ifdef _WIN32
     init_win32(gamemission == doom ? "DOOM" : "DOOM2");
+#endif
 
     if (fullscreen)
         if (!I_ValidScreenMode(screenwidth, screenheight))

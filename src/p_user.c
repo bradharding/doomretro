@@ -32,7 +32,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "p_local.h"
 #include "doomstat.h"
 
-extern int     followplayer;
+extern boolean followplayer;
 extern boolean oldweaponsowned[];
 
 void G_RemoveChoppers(void);

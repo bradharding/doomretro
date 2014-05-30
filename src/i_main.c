@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#ifdef _WIN32
+
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
@@ -233,3 +235,18 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+#else
+
+#include "SDL.h"
+#include "m_argv.h"
+
+int main(int argc, char *argv[])
+{
+    myargc = argc;
+    myargv = argv;
+
+    D_DoomMain();
+}
+
+#endif

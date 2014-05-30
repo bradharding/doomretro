@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#ifdef _WIN32
+
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
@@ -248,3 +250,37 @@ void I_PollXInputGamepad(void)
         D_PostEvent(&ev);
     }
 }
+#else
+
+#include "doomtype.h"
+
+int gamepadbuttons = 0;
+int gamepadthumbLX;
+int gamepadthumbLY;
+int gamepadthumbRX;
+
+int currentmotorspeed = 0;
+int idlemotorspeed = 0;
+int restoremotorspeed = 0;
+
+boolean vibrate = false;
+void (*gamepadfunc)(void);
+
+static void I_PollDummy(void)
+{
+}
+
+void I_InitGamepad(void)
+{
+    gamepadfunc = I_PollDummy;
+}
+
+void I_ShutdownGamepad(void)
+{
+}
+
+void XInputVibration(int motorspeed)
+{
+}
+
+#endif

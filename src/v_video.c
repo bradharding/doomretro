@@ -26,7 +26,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#ifdef _WIN32
 #include <Shlobj.h>
+#endif
+
 #include "doomstat.h"
 #include "d_main.h"
 #include "i_swap.h"
@@ -934,6 +937,10 @@ extern SDL_Surface *screen;
 extern SDL_Surface *screenbuffer;
 extern SDL_Color palette[256];
 
+#ifndef MAX_PATH
+#define MAX_PATH 4096
+#endif
+
 char lbmname[MAX_PATH];
 char lbmpath[MAX_PATH];
 
@@ -944,13 +951,16 @@ boolean V_ScreenShot(void)
     char        folder[MAX_PATH];
     int         count = 0;
     int         width, height;
-
-    HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
-
     SDL_Surface *screenshot;
+
+#ifdef _WIN32
+    HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
 
     if (hr != S_OK)
         return false;
+#else
+    strncpy(folder, "", MAX_PATH);
+#endif
 
     strcpy(mapname, usergame && !inhelpscreens ? maptitle : "Untitled");
 

@@ -26,8 +26,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#ifdef _WIN32
 #include <Windows.h>
 #include <Xinput.h>
+#endif
 
 #include "am_map.h"
 #include "d_main.h"

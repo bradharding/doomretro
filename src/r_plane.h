@@ -29,33 +29,25 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __R_PLANE__
 #define __R_PLANE__
 
-
 #include "r_data.h"
 
-
-
 // Visplane related.
-extern  int             *lastopening;
-
+extern  int     *lastopening;
 
 typedef void (*planefunction_t)(int top, int bottom);
 
-extern int              floorclip[SCREENWIDTH];
-extern int              ceilingclip[SCREENWIDTH];
+extern int      floorclip[SCREENWIDTH];
+extern int      ceilingclip[SCREENWIDTH];
 
-extern fixed_t          yslope[SCREENHEIGHT];
-extern fixed_t          distscale[SCREENWIDTH];
+extern fixed_t  yslope[SCREENHEIGHT];
+extern fixed_t  distscale[SCREENWIDTH];
 
 void R_ClearPlanes(void);
-
-void R_MakeSpans(int x, int t1, int b1, int t2, int b2);
 
 void R_DrawPlanes(void);
 
 visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel);
 
 visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop);
-
-
 
 #endif

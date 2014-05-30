@@ -27,10 +27,14 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <errno.h>
+#include <stdarg.h>
+
+#ifdef _WIN32
 #include <direct.h>
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#endif
 
 #include "doomdef.h"
 #include "m_misc.h"

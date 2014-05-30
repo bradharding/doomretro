@@ -156,8 +156,12 @@ void HUlib_drawTextLine(hu_textline_t *l)
             {
                 if (c == '\"')
                     j = 64;
-                else if (c == '\'' || c == '\u2019')
+                else if (c == '\'')
                     j = 65;
+#ifdef _WIN32
+                else if (c == '\u2019')
+                    j = 65;
+#endif
             }
 
             if (STCFN034)

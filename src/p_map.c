@@ -80,7 +80,7 @@ angle_t    shootangle;
 // Temporary holder for thing_sectorlist threads
 msecnode_t *sector_list = NULL; // phares 3/16/98
 
-extern int followplayer;
+extern boolean followplayer;
 
 //
 // TELEPORT MOVE

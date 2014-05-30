@@ -48,9 +48,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define GAMEPAD_X                       0x4000
 #define GAMEPAD_Y                       0x8000
 
+#ifdef _WIN32
 #define GAMEPAD_LEFT_THUMB_DEADZONE     XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
 #define GAMEPAD_RIGHT_THUMB_DEADZONE    XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
 #define GAMEPAD_TRIGGER_THRESHOLD       XINPUT_GAMEPAD_TRIGGER_THRESHOLD
+#else
+#define GAMEPAD_LEFT_THUMB_DEADZONE     0
+#define GAMEPAD_RIGHT_THUMB_DEADZONE    0
+#define GAMEPAD_TRIGGER_THRESHOLD       0
+#endif
 
 #define gamepadthumbLXleft              (float)(-gamepadthumbLX - GAMEPAD_LEFT_THUMB_DEADZONE) /\
                                         (32767.0f - GAMEPAD_LEFT_THUMB_DEADZONE)

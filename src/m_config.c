@@ -26,7 +26,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#ifdef _WIN32
 #include <ShlObj.h>
+#endif
 
 #include "doomstat.h"
 #include "m_argv.h"

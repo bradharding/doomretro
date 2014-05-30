@@ -59,12 +59,15 @@ static void AddIWADDir(char *dir)
     }
 }
 
+#ifdef _WIN32
+
 // This is Windows-specific code that automatically finds the location
 // of installed IWAD files.  The registry is inspected to find special
 // keys installed by the Windows installers for various CD versions
 // of Doom.  From these keys we can deduce where to find an IWAD.
 
 #define WIN32_LEAN_AND_MEAN
+
 #include <windows.h>
 
 typedef struct
@@ -276,6 +279,8 @@ static void CheckDOSDefaults(void)
     AddIWADDir("\\doomsw");
 }
 
+#endif
+
 static struct
 {
     char *name;
@@ -442,11 +447,13 @@ static void BuildIWADDirList(void)
     // Add dirs from DOOMWADPATH
     AddDoomWadPath();
 
+#ifdef _WIN32
     // Search the registry and find where IWADs have been installed.
     CheckUninstallStrings();
     CheckCollectorsEdition();
     CheckSteamEdition();
     CheckDOSDefaults();
+#endif
 
     // Don't run this function again.
     iwad_dirs_built = true;
@@ -523,7 +530,7 @@ char *D_FindIWAD(void)
         result = D_FindWADByName(iwadfile);
 
         if (result == NULL)
-            I_Error("The IWAD file “%s” wasn’t found!", iwadfile);
+            I_Error("The IWAD file \"%s\" wasn't found!", iwadfile);
 
         IdentifyIWADByName(result);
     }

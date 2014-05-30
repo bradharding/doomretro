@@ -28,6 +28,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef MEMIO_H
 #define MEMIO_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct _MEMFILE MEMFILE;
 
 typedef enum
@@ -47,4 +50,3 @@ long mem_ftell(MEMFILE *stream);
 int mem_fseek(MEMFILE *stream, signed long offset, mem_rel_t whence);
 
 #endif
-

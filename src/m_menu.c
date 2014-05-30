@@ -459,7 +459,7 @@ menu_t SaveDef =
 
 int height;
 
-__inline static void blurscreen(int x1, int y1, int x2, int y2, int i)
+static void blurscreen(int x1, int y1, int x2, int y2, int i)
 {
     int x, y;
 
@@ -485,11 +485,8 @@ void M_DarkBackground(void)
         memcpy(blurredscreen, screens[0], SCREENWIDTH * SCREENHEIGHT);
 
         if (grayscale)
-        {
-            i = 0;
-            while (i < height)
-                blurredscreen[i] = grays[blurredscreen[i++]];
-        }
+            for (i = 0; i < height; i++)
+                blurredscreen[i] = grays[blurredscreen[i]];
 
         if (blur)
         {
@@ -515,9 +512,8 @@ void M_DarkBackground(void)
         }
     }
 
-    i = 0;
-    while (i < height)
-        screens[0][i] = tinttab50[blurredscreen[i++]];
+    for (i = 0; i < height; i++)
+        screens[0][i] = tinttab50[blurredscreen[i]];
 
     if (graphicdetail == LOW)
         V_LowGraphicDetail(0, SCREENHEIGHT);

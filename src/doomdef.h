@@ -34,11 +34,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "doomkeys.h"
 
-
+#ifdef _WIN32
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
 #define strcasecmp stricmp
 #define strncasecmp strnicmp
+#endif
+
 
 //
 // The packed attribute forces structures to be packed into the minimum
@@ -48,7 +50,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // structures where alignment is important, particularly data read/written
 // to disk.
 //
-
 #define PACKEDATTR
 
 //
@@ -70,9 +71,7 @@ typedef enum
     commercial,         // DOOM 2 retail, E1 M34
     retail,             // DOOM 1 retail, E4, M36
     indetermined        // Well, no IWAD found.
-
 } GameMode_t;
-
 
 // Mission packs - might be useful for TC stuff?
 typedef enum
@@ -84,7 +83,6 @@ typedef enum
     pack_nerve,         // No Rest for the Living
     doom2bfg,
     none
-
 } GameMission_t;
 
 // What version are we emulating?
@@ -95,9 +93,6 @@ typedef enum
     exe_ultimate,       // Ultimate Doom (retail)
     exe_final           // Final Doom
 } GameVersion_t;
-
-
-
 
 // Screen width and height.
 
@@ -133,14 +128,14 @@ typedef enum
 //
 
 // Skill flags.
-#define MTF_EASY                1
-#define MTF_NORMAL              2
-#define MTF_HARD                4
+#define MTF_EASY        1
+#define MTF_NORMAL      2
+#define MTF_HARD        4
 
 // Deaf monsters/do not react to sound.
-#define MTF_AMBUSH              8
+#define MTF_AMBUSH      8
 
-#define MTF_NETGAME             16
+#define MTF_NETGAME     16
 
 typedef enum
 {
@@ -150,7 +145,6 @@ typedef enum
     sk_hard,
     sk_nightmare
 } skill_t;
-
 
 //
 // Key cards.
@@ -165,10 +159,7 @@ typedef enum
     it_redskull,
 
     NUMCARDS
-
 } card_t;
-
-
 
 // The defined weapons,
 //  including a marker indicating
@@ -192,7 +183,6 @@ typedef enum
 
 } weapontype_t;
 
-
 // Ammunition types defined.
 typedef enum
 {
@@ -202,9 +192,7 @@ typedef enum
     am_misl,    // Missile launcher.
     NUMAMMO,
     am_noammo   // Unlimited for chainsaw / fist.
-
 } ammotype_t;
-
 
 // Power up artifacts.
 typedef enum
@@ -216,10 +204,7 @@ typedef enum
     pw_allmap,
     pw_infrared,
     NUMPOWERS
-
 } powertype_t;
-
-
 
 //
 // Power up durations,
@@ -240,4 +225,4 @@ typedef enum
 // Index of the special effects (INVUL inverse) map.
 #define INVERSECOLORMAP 32
 
-#endif          // __DOOMDEF__
+#endif

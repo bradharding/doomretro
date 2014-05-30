@@ -29,17 +29,14 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __P_SPEC__
 #define __P_SPEC__
 
-
 //
 // End-level timer (-TIMER option)
 //
 extern  boolean levelTimer;
 extern  int     levelTimeCount;
 
-
 // Define values for map objects
 #define MO_TELEPORTMAN          14
-
 
 // at game start
 void P_InitPicAnims(void);
@@ -75,20 +72,17 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight);
 fixed_t P_FindLowestCeilingSurrounding(sector_t *sec);
 fixed_t P_FindHighestCeilingSurrounding(sector_t *sec);
 
-int P_FindSectorFromLineTag(line_t *line, int start);
+int P_FindSectorFromLineTag(const line_t *line, int start);
 int P_FindLineFromLineTag(const line_t *line, int start);
 
 int P_FindMinSurroundingLight(sector_t *sector, int max);
 
 sector_t *getNextSector(line_t *line, sector_t *sec);
 
-
 //
 // SPECIAL
 //
 int EV_DoDonut(line_t *line);
-
-
 
 //
 // P_LIGHTS
@@ -100,10 +94,7 @@ typedef struct
     int         count;
     int         maxlight;
     int         minlight;
-
 } fireflicker_t;
-
-
 
 typedef struct
 {
@@ -114,10 +105,7 @@ typedef struct
     int         minlight;
     int         maxtime;
     int         mintime;
-
 } lightflash_t;
-
-
 
 typedef struct
 {
@@ -128,11 +116,7 @@ typedef struct
     int         maxlight;
     int         darktime;
     int         brighttime;
-
 } strobe_t;
-
-
-
 
 typedef struct
 {
@@ -141,9 +125,7 @@ typedef struct
     int         minlight;
     int         maxlight;
     int         direction;
-
 } glow_t;
-
 
 #define GLOWSPEED               8
 #define STROBEBRIGHT            5
@@ -167,9 +149,6 @@ void P_SpawnGlowingLight(sector_t *sector);
 
 void T_FireFlicker(fireflicker_t *flick);
 
-
-
-
 //
 // P_SWITCH
 //
@@ -178,18 +157,14 @@ typedef struct
     char        name1[9];
     char        name2[9];
     short       episode;
-
 } switchlist_t;
-
 
 typedef enum
 {
     top,
     middle,
     bottom
-
 } bwhere_e;
-
 
 typedef struct
 {
@@ -198,11 +173,7 @@ typedef struct
     int         btexture;
     int         btimer;
     degenmobj_t *soundorg;
-
 } button_t;
-
-
-
 
 // max # of wall switches in a level
 #define MAXSWITCHES             100
@@ -219,7 +190,6 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain);
 
 void P_InitSwitchList(void);
 
-
 //
 // P_PLATS
 //
@@ -229,10 +199,7 @@ typedef enum
     down,
     waiting,
     in_stasis
-
 } plat_e;
-
-
 
 typedef enum
 {
@@ -241,10 +208,7 @@ typedef enum
     raiseAndChange,
     raiseToNearestAndChange,
     blazeDWUS
-
 } plattype_e;
-
-
 
 typedef struct
 {
@@ -260,15 +224,11 @@ typedef struct
     boolean     crush;
     int         tag;
     plattype_e  type;
-
 } plat_t;
-
-
 
 #define PLATWAIT                3
 #define PLATSPEED               FRACUNIT
 #define MAXPLATS                7680
-
 
 extern plat_t *activeplats[MAXPLATS];
 
@@ -280,7 +240,6 @@ void P_AddActivePlat(plat_t *plat);
 void P_RemoveActivePlat(plat_t *plat);
 int EV_StopPlat(line_t *line);
 void P_ActivateInStasis(int tag);
-
 
 //
 // P_DOORS
@@ -295,10 +254,7 @@ typedef enum
     blazeRaise,
     blazeOpen,
     blazeClose
-
 } vldoor_e;
-
-
 
 typedef struct
 {
@@ -316,10 +272,7 @@ typedef struct
     // (keep in case a door going down is reset)
     // when it reaches 0, start going down
     int         topcountdown;
-
 } vldoor_t;
-
-
 
 #define VDOORSPEED              FRACUNIT * 2
 #define VDOORWAIT               150
@@ -335,8 +288,6 @@ void P_SpawnDoorCloseIn30(sector_t *sec);
 
 void P_SpawnDoorRaiseIn5Mins(sector_t *sec);
 
-
-
 //
 // P_CEILNG
 //
@@ -348,10 +299,7 @@ typedef enum
     crushAndRaise,
     fastCrushAndRaise,
     silentCrushAndRaise
-
 } ceiling_e;
-
-
 
 typedef struct
 {
@@ -369,12 +317,7 @@ typedef struct
     // ID
     int         tag;
     int         olddirection;
-
 } ceiling_t;
-
-
-
-
 
 #define CEILSPEED               FRACUNIT
 #define CEILWAIT                150
@@ -389,7 +332,6 @@ void P_AddActiveCeiling(ceiling_t *c);
 void P_RemoveActiveCeiling(ceiling_t *c);
 int EV_CeilingCrushStop(line_t *line);
 int P_ActivateInStasisCeiling(line_t *line);
-
 
 //
 // P_FLOOR
@@ -428,20 +370,13 @@ typedef enum
     raiseFloor512,
 
     buildStair
-
 } floor_e;
-
-
-
 
 typedef enum
 {
     build8,     // slowly build by 8
     turbo16     // quickly build by 16
-
 } stair_e;
-
-
 
 typedef struct
 {
@@ -455,10 +390,7 @@ typedef struct
     fixed_t     floordestheight;
     fixed_t     speed;
     boolean     stopsound;
-
 } floormove_t;
-
-
 
 #define FLOORSPEED              FRACUNIT
 
@@ -467,7 +399,6 @@ typedef enum
     ok,
     crushed,
     pastdest
-
 } result_e;
 
 result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crush,

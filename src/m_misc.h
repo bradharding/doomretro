@@ -29,6 +29,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __M_MISC__
 #define __M_MISC__
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "doomtype.h"
 
 boolean M_WriteFile(char *name, void *source, int length);
