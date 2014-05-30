@@ -521,9 +521,6 @@ static void saveg_write_mobj_t(mobj_t *str)
     // int floatboblevel;
     saveg_write32(str->floatboblevel);
 
-    // int floatboblevel;
-    saveg_write32(str->floatboblevel);
-
     // short gear;
     saveg_write16(str->gear);
 }
