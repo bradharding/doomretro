@@ -71,6 +71,7 @@ SRCS =             \
     v_data.c       \
     v_video.c      \
     w_file.c       \
+    w_file_stdc.c  \
     w_merge.c      \
     w_wad.c        \
     wi_stuff.c     \
@@ -79,10 +80,11 @@ SRCS =             \
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 
 doomretro : $(OBJS)
-    $(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 
 %.o : %.c
-    $(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-    rm $(OBJS) doomretro
+	rm -f $(OBJS) doomretro
+
