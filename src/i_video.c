@@ -78,7 +78,7 @@ boolean screenvisible;
 boolean window_focused;
 
 // Empty mouse cursor
-static SDL_Cursor *emptycursor;
+static SDL_Cursor *cursors[2];
 
 // Window resize state.
 boolean      need_resize = false;
@@ -192,10 +192,14 @@ static void SetShowCursor(boolean show)
     // so work around this by setting an invisible cursor instead. On
     // other systems, it isn't possible to change the cursor, so this
     // hack has to be Windows-only. (Thanks to entryway for this)
-    SDL_SetCursor(emptycursor);
+#ifdef _WIN32
+    SDL_SetCursor(cursors[show]);
+#else
+    SDL_ShowCursor(show);
+#endif
 
     // When the cursor is hidden, grab the input.
-    SDL_WM_GrabInput((SDL_GrabMode)!show);
+    SDL_WM_GrabInput(!show);
 }
 
 int translatekey[] =
@@ -577,9 +581,13 @@ void I_SetPalette(byte *doompalette)
 
 static void CreateCursors(void)
 {
-    static Uint8 emptycursordata = 0;
+    static Uint8 empty_cursor_data = 0;
 
-    emptycursor = SDL_CreateCursor(&emptycursordata, &emptycursordata, 1, 1, 0, 0);
+    // Save the default cursor so it can be recalled later
+    cursors[1] = SDL_GetCursor();
+
+    // Create an empty cursor
+    cursors[0] = SDL_CreateCursor(&empty_cursor_data, &empty_cursor_data, 1, 1, 0, 0);
 }
 
 static void SetWindowPositionVars(void)
@@ -856,7 +864,7 @@ void ToggleFullScreen(void)
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
         CreateCursors();
-        SDL_SetCursor(emptycursor);
+        SDL_SetCursor(cursors[0]);
 
         SDL_WM_SetCaption(gamestate == GS_LEVEL ? mapnumandtitle : gamedescription, NULL);
 
@@ -971,7 +979,7 @@ void I_InitGraphics(void)
         I_Error("Failed to initialize video: %s", SDL_GetError());
 
     CreateCursors();
-    SDL_SetCursor(emptycursor);
+    SDL_SetCursor(cursors[0]);
 
 #ifdef _WIN32
     init_win32(gamemission == doom ? "DOOM" : "DOOM2");

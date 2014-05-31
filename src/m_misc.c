@@ -30,10 +30,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <stdarg.h>
 
 #ifdef _WIN32
-#include <direct.h>
-
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <io.h>
+#ifdef _MSC_VER
+#include <direct.h>
+#endif
+#else
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 #include "doomdef.h"
@@ -46,7 +51,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 void M_MakeDirectory(char *path)
 {
+#ifdef _WIN32
     mkdir(path);
+#else
+    mkdir(path, 0755);
+#endif
 }
 
 // Check if a file exists
@@ -161,11 +170,17 @@ char *M_TempFile(char *s)
     char *result;
     char *tempdir;
 
+#ifdef _WIN32
+
     // Check the TEMP environment variable to find the location.
     tempdir = getenv("TEMP");
 
     if (tempdir == NULL)
         tempdir = ".";
+#else
+    // In Unix, just use /tmp.
+    tempdir = "/tmp";
+#endif
 
     result = (char *)Z_Malloc(strlen(tempdir) + strlen(s) + 2, PU_STATIC, 0);
     sprintf(result, "%s%c%s", tempdir, DIR_SEPARATOR, s);

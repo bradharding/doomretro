@@ -30,17 +30,19 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define __DOOMDEF__
 
 #include <stdio.h>
-#include <string.h>
 
 #include "doomkeys.h"
 
 #ifdef _WIN32
 #define snprintf _snprintf
+#if _MSC_VER < 1400 /* not needed for Visual Studio 2008 */
 #define vsnprintf _vsnprintf
+#endif
 #define strcasecmp stricmp
 #define strncasecmp strnicmp
+#else
+#include <strings.h>
 #endif
-
 
 //
 // The packed attribute forces structures to be packed into the minimum
@@ -50,7 +52,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // structures where alignment is important, particularly data read/written
 // to disk.
 //
+#ifdef __GNUC__
+#define PACKEDATTR __attribute__((packed))
+#else
 #define PACKEDATTR
+#endif
 
 //
 // Global parameters/defines.
