@@ -26,7 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#ifdef _WIN32
+#if defined(_WIN32)
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -73,25 +73,25 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 
     if (nCode == HC_ACTION)
         switch (wParam)
-        {
-            case WM_KEYDOWN:
-            case WM_SYSKEYDOWN:
-            case WM_KEYUP:
-            case WM_SYSKEYUP:
-                if (window_focused)
-                {
-                    KBDLLHOOKSTRUCT *p = (KBDLLHOOKSTRUCT *)lParam;
+    {
+        case WM_KEYDOWN:
+        case WM_SYSKEYDOWN:
+        case WM_KEYUP:
+        case WM_SYSKEYUP:
+            if (window_focused)
+            {
+                KBDLLHOOKSTRUCT *p = (KBDLLHOOKSTRUCT *)lParam;
 
-                    if (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN)
-                        bEatKeystroke = true;
-                    else if (p->vkCode == VK_SNAPSHOT)
-                    {
-                        if (wParam == WM_KEYDOWN)
-                            G_ScreenShot();
-                        bEatKeystroke = true;
-                    }
+                if (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN)
+                    bEatKeystroke = true;
+                else if (p->vkCode == VK_SNAPSHOT)
+                {
+                    if (wParam == WM_KEYDOWN)
+                        G_ScreenShot();
+                    bEatKeystroke = true;
                 }
-                break;
+                }
+            break;
         }
 
     return (bEatKeystroke ? 1 : CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam));
@@ -185,7 +185,7 @@ void init_win32(LPCTSTR lpIconName)
     SDL_SysWMinfo       wminfo;
 
     SDL_VERSION(&wminfo.version)
-    SDL_GetWMInfo(&wminfo);
+        SDL_GetWMInfo(&wminfo);
     hwnd = wminfo.window;
 
     icon = LoadIcon(handle, lpIconName);
@@ -203,8 +203,46 @@ void done_win32(void)
     I_AccessibilityShortcutKeys(true);
 }
 
+#elif defined(HAVE_SCHED_SETAFFINITY)
+
+#include <unistd.h>
+#include <sched.h>
+
+// Unix (Linux) version:
+
+static void I_SetAffinityMask(void)
+{
+#ifdef CPU_SET
+    cpu_set_t set;
+
+    CPU_ZERO(&set);
+    CPU_SET(0, &set);
+
+    sched_setaffinity(getpid(), sizeof(set), &set);
+#else
+    unsigned long mask = 1;
+
+    sched_setaffinity(getpid(), sizeof(mask), &mask);
+#endif
+}
+
+#else
+
+#warning No known way to set processor affinity on this platform.
+#warning You may experience crashes due to SDL_mixer.
+
+static void I_SetAffinityMask(void)
+{
+    fprintf(stderr,
+        "WARNING: No known way to set processor affinity on this platform.\n"
+        "         You may experience crashes due to SDL_mixer.\n");
+}
+
+#endif
+
 int main(int argc, char **argv)
 {
+#if defined(_WIN32)
     char        *mutex = "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD";
 
     hInstanceMutex = CreateMutex(NULL, true, mutex);
@@ -228,6 +266,7 @@ int main(int argc, char **argv)
     SystemParametersInfo(SPI_GETFILTERKEYS, sizeof(FILTERKEYS), &g_StartupFilterKeys, 0);
 
     I_AccessibilityShortcutKeys(false);
+#endif
 
     I_SetAffinityMask();
 
@@ -235,18 +274,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-
-#else
-
-#include "SDL.h"
-#include "m_argv.h"
-
-int main(int argc, char *argv[])
-{
-    myargc = argc;
-    myargv = argv;
-
-    D_DoomMain();
-}
-
-#endif
