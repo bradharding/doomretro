@@ -958,7 +958,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (mobj->flags & MF_CORPSE)
+    if (mobjinfo[i].flags2 & (MF2_MOREREDBLOODSPLATS | MF2_MOREBLUEBLOODSPLATS))
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
