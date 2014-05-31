@@ -244,6 +244,8 @@ static struct
     { "ZELDOOR",  redonly        }, { "",         0              }
 };
 
+extern boolean brightmaps;
+
 //
 // MAPTEXTURE_T CACHING
 // When a texture is first needed,
@@ -730,15 +732,18 @@ static void R_InitTextures(void)
     GenerateTextureHashTable();
 
     // [BH] Initialize partially fullbright textures.
-    memset(texturefullbright, 0, sizeof(byte *) * numtextures);
-    i = 0;
-    while (fullbright[i].colormask)
+    if (brightmaps)
     {
-        int num = R_CheckTextureNumForName(fullbright[i].texture);
+        memset(texturefullbright, 0, sizeof(byte *) * numtextures);
+        i = 0;
+        while (fullbright[i].colormask)
+        {
+            int num = R_CheckTextureNumForName(fullbright[i].texture);
 
-        if (num != -1)
-            texturefullbright[num] = fullbright[i].colormask;
-        i++;
+            if (num != -1)
+                texturefullbright[num] = fullbright[i].colormask;
+            i++;
+        }
     }
 }
 

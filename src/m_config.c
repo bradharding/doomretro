@@ -45,6 +45,7 @@ char            *configdir;
 
 extern int      bloodsplats;
 extern boolean  blur;
+extern boolean  brightmaps;
 extern int      corpses;
 extern int      fullscreen;
 extern int      gamepadautomap;
@@ -173,10 +174,11 @@ typedef struct
 #define CONFIG_VARIABLE_STRING(name, variable, set) \
     CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_STRING, set)
 
-static default_t        doom_defaults_list[] =
+static default_t doom_defaults_list[] =
 {
     CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,          7),
     CONFIG_VARIABLE_INT   (blur,                blur,                 1),
+    CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,           1),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
     CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,    9),
