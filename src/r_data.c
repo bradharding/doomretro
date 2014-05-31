@@ -773,8 +773,8 @@ void R_InitFlats(void)
 //
 void R_InitSpriteLumps(void)
 {
-    int     i;
-    patch_t *patch;
+    int         i, j;
+    patch_t     *patch;
 
     firstspritelump = W_GetNumForName("S_START") + 1;
     lastspritelump = W_GetNumForName("S_END") - 1;
@@ -792,22 +792,24 @@ void R_InitSpriteLumps(void)
         spriteheight[i] = SHORT(patch->height) << FRACBITS;
         spriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
         spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
-    }
 
-    // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
-    if (!FREEDOOM)
-    {
-        i = 0;
-        while (sproffsets[i].name[0])
+        // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
+        if (!FREEDOOM)
         {
-            if (sproffsets[i].canmodify)
+            j = 0;
+            while (sproffsets[j].name[0])
             {
-                int j = W_CheckNumForName(sproffsets[i].name) - firstspritelump;
-
-                spriteoffset[j] = sproffsets[i].x << FRACBITS;
-                spritetopoffset[j] = sproffsets[i].y << FRACBITS;
+                if (sproffsets[j].canmodify)
+                {
+                    if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
+                    {
+                        spriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
+                        spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
+                        break;
+                    }
+                }
+                j++;
             }
-            i++;
         }
     }
 

@@ -1172,7 +1172,7 @@ typedef struct
 
 typedef struct
 {
-    char *name;
+    char name[9];
     short x;
     short y;
     boolean canmodify;

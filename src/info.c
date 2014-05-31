@@ -6412,5 +6412,5 @@ offset_t sproffsets[] =
     { "YKEYB0",      7,   14, true }, //    8,   19
     { "YSKUA0",      7,   14, true }, //    7,   18
     { "YSKUB0",      7,   14, true }, //    7,   18
-    { "",            0,    0 }
+    { "",            0,    0, true }
 };
