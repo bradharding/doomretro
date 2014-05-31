@@ -26,6 +26,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include "SDL.h"
+#include "m_argv.h"
+
 #if defined(_WIN32)
 
 #define WIN32_LEAN_AND_MEAN
@@ -34,7 +37,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "d_main.h"
 #include "m_argv.h"
-#include "SDL.h"
 #include "SDL_syswm.h"
 
 typedef BOOL (WINAPI *SetAffinityFunc)(HANDLE hProcess, DWORD mask);
@@ -231,6 +233,8 @@ static void I_SetAffinityMask(void)
 #warning No known way to set processor affinity on this platform.
 #warning You may experience crashes due to SDL_mixer.
 
+#include <stdio.h>
+
 static void I_SetAffinityMask(void)
 {
     fprintf(stderr,
@@ -257,9 +261,6 @@ int main(int argc, char **argv)
 
     g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
 
-    myargc = argc;
-    myargv = argv;
-
     // Save the current sticky/toggle/filter key settings so they can be restored them later
     SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
     SystemParametersInfo(SPI_GETTOGGLEKEYS, sizeof(TOGGLEKEYS), &g_StartupToggleKeys, 0);
@@ -267,6 +268,9 @@ int main(int argc, char **argv)
 
     I_AccessibilityShortcutKeys(false);
 #endif
+
+    myargc = argc;
+    myargv = argv;
 
     I_SetAffinityMask();
 

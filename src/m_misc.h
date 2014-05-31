@@ -49,5 +49,7 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement);
 char *M_StringJoin(char *s, ...);
 boolean M_StringStartsWith(char *s, char *prefix);
 boolean M_StringEndsWith(char *s, char *suffix);
+int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
+int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 
 #endif

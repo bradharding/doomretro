@@ -65,7 +65,7 @@ int windowwidth = SCREENWIDTH;
 int windowheight = SCREENWIDTH * 3 / 4;
 
 // Run in full screen mode?
-boolean fullscreen = true;
+int fullscreen = true;
 
 boolean widescreen = false;
 boolean returntowidescreen = false;
@@ -429,6 +429,7 @@ void I_GetEvent(void)
                 palette_to_set = true;
                 break;
 
+#ifdef _WIN32
             case SDL_SYSWMEVENT:
                 if (sdlevent.syswm.msg->msg == WM_MOVE)
                 {
@@ -437,6 +438,7 @@ void I_GetEvent(void)
                     M_SaveDefaults();
                 }
                 break;
+#endif
 
             case SDL_VIDEORESIZE:
                 if (!fullscreen)

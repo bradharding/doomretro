@@ -1042,7 +1042,7 @@ void P_MapName(int episode, int map)
 }
 
 extern boolean idclev;
-extern int     oldweaponsowned[];
+extern boolean oldweaponsowned[];
 
 //
 // P_SetupLevel
