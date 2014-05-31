@@ -240,6 +240,7 @@ linefix_t linefix[] =
     { doom2,            1,   8,     598,    0, "",         "GRAY5",       "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
     { doom2,            1,  10,     750,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 NoSpecial,                                                     DEFAULT },
+    { doom2,            1,  10,     880,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
 
     { doom2,            1,  12,     632,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 NoSpecial,                                                     DEFAULT },
     { doom2,            1,  12,     648,    1, "",         "",            "PIPES",       DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
