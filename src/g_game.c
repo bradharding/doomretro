@@ -188,6 +188,8 @@ fixed_t         forwardmove[2] = { 0x19, 0x32 };
 fixed_t         sidemove[2] = { 0x18, 0x28 };
 fixed_t         angleturn[3] = { 640, 1280, 320 };      // + slow turn
 
+#define NUMWEAPONKEYS   7
+
 static int *weapon_keys[] =
 {
     &key_weapon1,
@@ -300,7 +302,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         int tspeed = speed;
 
         if (turnheld < SLOWTURNTICS)
-            tspeed *= 2;        // slow turn
+            tspeed = 2;         // slow turn
 
         if (gamekeydown[key_right])
             cmd->angleturn -= angleturn[tspeed];
@@ -342,7 +344,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
     if (!idclev && !idmus)
     {
-        for (i = 0; i < sizeof(gamepadweapons) / sizeof(gamepadweapons[0]); i++)
+        for (i = 0; i < NUMWEAPONKEYS; i++)
         {
             int key = *weapon_keys[i];
 
@@ -1244,14 +1246,14 @@ void G_DoCompleted(void)
 
     gameaction = ga_nothing;
 
+    // [BH] allow the exit switch to turn on before the screen wipes
+    R_RenderPlayerView(&players[displayplayer]);
+
     if (widescreen)
     {
         ToggleWideScreen(false);
         returntowidescreen = true;
     }
-
-    // [BH] allow the exit switch to turn on before the screen wipes
-    R_RenderPlayerView(&players[displayplayer]);
 
     for (i = 0; i < MAXPLAYERS; i++)
         if (playeringame[i])
