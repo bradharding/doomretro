@@ -63,6 +63,12 @@ static void I_SetAffinityMask(void)
                     (int)GetLastError());
 }
 
+void I_SetProcessPriority(void)
+{
+    if (!SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS))
+        fprintf(stderr, "Failed to set priority for the process (%d)\n", (int)GetLastError());
+}
+
 extern int      fullscreen;
 extern boolean  window_focused;
 HHOOK           g_hKeyboardHook;
@@ -271,6 +277,11 @@ int main(int argc, char **argv)
 
     myargc = argc;
     myargv = argv;
+
+#if defined(_WIN32)
+    if (!M_CheckParm("-nopriority"))
+        I_SetProcessPriority();
+#endif
 
     I_SetAffinityMask();
 
