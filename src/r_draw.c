@@ -51,7 +51,6 @@ int  viewwindowy;
 byte *ylookup[MAXHEIGHT];
 byte *ylookup2[MAXHEIGHT];
 int  fuzztable[SCREENWIDTH * SCREENHEIGHT];
-int  columnofs[MAXWIDTH];
 
 byte redtoblue[] =
 {
@@ -151,7 +150,7 @@ void R_DrawColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -198,7 +197,7 @@ void R_DrawWallColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
@@ -276,7 +275,7 @@ void R_DrawWallColumn(void)
 
     if (dc_topsparkle)
     {
-        dest = ylookup[dc_yl] + columnofs[dc_x];
+        dest = ylookup[dc_yl] + dc_x + viewwindowx;
         *dest = *(dest + SCREENWIDTH);
     }
 }
@@ -291,7 +290,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
@@ -388,7 +387,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
     if (dc_topsparkle)
     {
-        dest = ylookup[dc_yl] + columnofs[dc_x];
+        dest = ylookup[dc_yl] + dc_x + viewwindowx;
         *dest = *(dest + SCREENWIDTH);
     }
 }
@@ -403,7 +402,7 @@ void R_DrawPlayerSpriteColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup2[dc_yl] + columnofs[dc_x];
+    dest = ylookup2[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
@@ -426,7 +425,7 @@ void R_DrawSkyColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
@@ -454,7 +453,7 @@ void R_DrawFlippedSkyColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
@@ -483,7 +482,7 @@ void R_DrawRedToBlueColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -511,7 +510,7 @@ void R_DrawTranslucentRedToBlue33Column(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -539,7 +538,7 @@ void R_DrawRedToGreenColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -567,7 +566,7 @@ void R_DrawTranslucentRedToGreen33Column(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -595,7 +594,7 @@ void R_DrawTranslucentColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -623,7 +622,7 @@ void R_DrawTranslucent50Column(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -656,7 +655,7 @@ void R_DrawTranslucent33Column(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -691,7 +690,7 @@ void R_DrawTranslucentRedColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -719,7 +718,7 @@ void R_DrawTranslucentRedWhiteColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -747,7 +746,7 @@ void R_DrawTranslucentRedWhite50Column(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -775,7 +774,7 @@ void R_DrawTranslucentGreenColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -803,7 +802,7 @@ void R_DrawTranslucentBlueColumn(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -831,7 +830,7 @@ void R_DrawTranslucentRed50Column(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -859,7 +858,7 @@ void R_DrawTranslucentGreen50Column(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -887,7 +886,7 @@ void R_DrawTranslucentBlue50Column(void)
     if (count++ < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     frac = dc_texturefrac;
 
@@ -922,7 +921,7 @@ void R_DrawFuzzColumn(void)
     if (count < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
     if (menuactive || paused)
     {
         if (count)
@@ -1060,7 +1059,7 @@ void R_DrawTranslatedColumn(void)
     if (count < 0)
         return;
 
-    dest = ylookup[dc_yl] + columnofs[dc_x];
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
 
     // Looks familiar.
     fracstep = dc_iscale;
@@ -1145,7 +1144,7 @@ byte         *ds_source;
 // Draws the actual span.
 void R_DrawSpan(void)
 {
-    byte    *dest = ylookup[ds_y] + columnofs[ds_x1];
+    byte    *dest = ylookup[ds_y] + ds_x1 + viewwindowx;
     fixed_t xfrac = ds_xfrac;
     fixed_t yfrac = ds_yfrac;
     int     count = ds_x2 - ds_x1;
@@ -1174,10 +1173,6 @@ void R_InitBuffer(int width, int height)
     //  e.g. smaller view windows
     //  with border and/or status bar.
     viewwindowx = (SCREENWIDTH - width) >> 1;
-
-    // Column offset. For windows.
-    for (i = 0; i < width; i++)
-        columnofs[i] = viewwindowx + i;
 
     // Same with base row offset.
     if (width == SCREENWIDTH)
