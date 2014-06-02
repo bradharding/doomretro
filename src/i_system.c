@@ -55,6 +55,8 @@ void done_win32(void);
 
 #include "i_system.h"
 
+#include "SDL.h"
+
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -168,6 +170,8 @@ void I_Quit(boolean shutdown)
 #ifdef _WIN32
     done_win32();
 #endif
+
+    SDL_Quit();
 
     exit(0);
 }
@@ -315,6 +319,9 @@ void I_Error(char *error, ...)
     MessageBoxW(NULL, wmsgbuf, L"DOOM RETRO", MB_ICONERROR | MB_OK);
 
     done_win32();
+
+    SDL_Quit();
+
 #elif defined(__MACOSX__)
     {
         CFStringRef message;
