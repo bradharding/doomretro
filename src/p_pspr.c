@@ -44,8 +44,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define CHAINSAWIDLEMOTORSPEED  7500
 
-boolean         supershotgun;
-
 //
 // P_SetPsprite
 //

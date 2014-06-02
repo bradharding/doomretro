@@ -71,7 +71,6 @@ int             maxframe;
 char            *spritename;
 
 extern int      screensize;
-extern boolean  supershotgun;
 extern boolean  inhelpscreens;
 
 //
@@ -691,9 +690,10 @@ void R_DrawPSprite(pspdef_t *psp)
         }
     }
 
-    supershotgun = (state == &states[S_DSGUN]);
+    if (state == &states[S_DSGUN])
+        vis->colfunc = R_DrawSuperShotgunColumn;
+
     R_DrawVisSprite(vis);
-    supershotgun = false;
 }
 
 //

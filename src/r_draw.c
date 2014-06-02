@@ -130,8 +130,6 @@ boolean      dc_bottomsparkle;
 // first pixel in a column (possibly virtual)
 byte         *dc_source;
 
-extern boolean supershotgun;
-
 //
 // A column is a vertical slice/span from a wall texture that,
 //  given the DOOM style restrictions on the view orientation,
@@ -142,49 +140,20 @@ extern boolean supershotgun;
 
 void R_DrawColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    register int32_t            count = dc_yh - dc_yl + 1;
+    register byte               *dest = ylookup[dc_yl] + dc_x + viewwindowx;
+    register fixed_t            frac = dc_texturefrac;
+    register const fixed_t      fracstep = dc_iscale;
+    register const byte         *source = dc_source;
+    register const lighttable_t *colormap = dc_colormap;
 
-    if (count++ < 0)
-        return;
-
-    dest = ylookup[dc_yl] + dc_x + viewwindowx;
-
-    frac = dc_texturefrac;
-
-    if (supershotgun)
+    while (--count)
     {
-        register byte               dot;
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
-
-        while (--count)
-        {
-            dot = source[frac >> FRACBITS];
-            if (dot != 71)
-                *dest = colormap[dot];
-            dest += SCREENWIDTH;
-            frac += fracstep;
-        }
-        dot = source[frac >> FRACBITS];
-        if (dot != 71)
-            *dest = colormap[dot];
-    }
-    else
-    {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
-
-        while (--count)
-        {
-            *dest = colormap[source[frac >> FRACBITS]];
-            dest += SCREENWIDTH;
-            frac += fracstep;
-        }
         *dest = colormap[source[frac >> FRACBITS]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
     }
+    *dest = colormap[source[frac >> FRACBITS]];
 }
 
 void R_DrawWallColumn(void)
@@ -394,13 +363,10 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
 void R_DrawPlayerSpriteColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
+    register int32_t       count = dc_yh - dc_yl + 1;
     register byte          *dest;
     register fixed_t       frac;
     register const fixed_t fracstep = dc_iscale;
-
-    if (count++ < 0)
-        return;
 
     dest = ylookup2[dc_yl] + dc_x + viewwindowx;
 
@@ -413,6 +379,39 @@ void R_DrawPlayerSpriteColumn(void)
         frac += fracstep;
     }
     *dest = dc_colormap[dc_source[frac >> FRACBITS]];
+}
+
+void R_DrawSuperShotgunColumn(void)
+{
+    register int32_t       count = dc_yh - dc_yl;
+    register byte          *dest;
+    register fixed_t       frac;
+    register const fixed_t fracstep = dc_iscale;
+
+    if (count++ < 0)
+        return;
+
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
+
+    frac = dc_texturefrac;
+
+    {
+        register byte               dot;
+        register const byte         *source = dc_source;
+        register const lighttable_t *colormap = dc_colormap;
+
+        while (--count)
+        {
+            dot = source[frac >> FRACBITS];
+            if (dot != 71)
+                *dest = colormap[dot];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+        }
+        dot = source[frac >> FRACBITS];
+        if (dot != 71)
+            *dest = colormap[dot];
+    }
 }
 
 void R_DrawSkyColumn(void)
@@ -1139,7 +1138,6 @@ fixed_t      ds_ystep;
 // start of a 64*64 tile image
 byte         *ds_source;
 
-
 //
 // Draws the actual span.
 void R_DrawSpan(void)
@@ -1160,7 +1158,7 @@ void R_DrawSpan(void)
 
 //
 // R_InitBuffer
-// Creats lookup tables that avoid
+// Creates lookup tables that avoid
 //  multiplies and other hazzles
 //  for getting the framebuffer address
 //  of a pixel to draw.
