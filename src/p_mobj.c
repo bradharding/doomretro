@@ -679,11 +679,6 @@ void P_RemoveMobj(mobj_t *mobj)
             S_StartSound(mobj, mobj->info->deathsound);
         shootingsky = false;
     }
-    else
-    {
-        // stop any playing sound
-        S_StopSound(mobj);
-    }
 
     if (!demorecording && !demoplayback)
         mobj->target = mobj->tracer = NULL;
