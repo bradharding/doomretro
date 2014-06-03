@@ -1155,7 +1155,7 @@ void R_DrawSpan(void)
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
-    *dest++ = colormap[source[((yfrac >> 10) & 4032) | ((xfrac >> 16) & 63)]];
+    *dest = colormap[source[((yfrac >> 10) & 4032) | ((xfrac >> 16) & 63)]];
 }
 
 //

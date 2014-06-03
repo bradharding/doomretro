@@ -614,28 +614,19 @@ void P_LoadLineDefs(int lump)
         ld->sidenum[1] = SHORT(mld->sidenum[1]);
 
         {
-            /* cph 2006/09/30 - fix sidedef errors right away.
-            * cph 2002/07/20 - these errors are fatal if not fixed, so apply them
-            * in compatibility mode - a desync is better than a crash! */
+            // cph 2006/09/30 - fix sidedef errors right away
             int j;
 
             for (j = 0; j < 2; j++)
-            {
                 if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides) 
                     ld->sidenum[j] = NO_INDEX;
-            }
 
             // killough 11/98: fix common wad errors (missing sidedefs):
-
             if (ld->sidenum[0] == NO_INDEX)
                 ld->sidenum[0] = 0;  // Substitute dummy sidedef for missing right side
 
-            if ((ld->sidenum[1] == NO_INDEX) && (ld->flags & ML_TWOSIDED)) {
-                // e6y
-                // ML_TWOSIDED flag shouldn't be cleared for compatibility purposes
-                // see CLNJ-506.LMP at http://doomedsda.us/wad1005.html
+            if ((ld->sidenum[1] == NO_INDEX) && (ld->flags & ML_TWOSIDED))
                 ld->flags &= ~ML_TWOSIDED;  // Clear 2s flag for missing left side
-            }
         }
 
         if (ld->sidenum[0] != NO_INDEX)
@@ -716,7 +707,6 @@ void P_LoadBlockMap(int lump)
     // them. This potentially doubles the size of blockmaps allowed,
     // because Doom originally considered the offsets as always signed.
     // [WDJ] They are unsigned in Unofficial Doom Spec.
-
     blockmaphead[0] = LE_SWAP16(wadblockmaplump[0]);            // map orgin_x
     blockmaphead[1] = LE_SWAP16(wadblockmaplump[1]);            // map orgin_y
     blockmaphead[2] = LE_SWAP16(wadblockmaplump[2]);            // number columns (x size)

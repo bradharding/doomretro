@@ -67,7 +67,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Version code for cph's longtics hack ("v1.91")
 #define DOOM_191_VERSION        111
 
-
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependend animations etc.
 typedef enum

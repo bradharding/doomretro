@@ -234,8 +234,6 @@ static int      dclicks2;
 static int      savegameslot;
 static char     savedescription[32];
 
-extern msecnode_t *headsecnode; 
-
 int G_CmdChecksum(ticcmd_t *cmd)
 {
     size_t      i;
@@ -455,13 +453,13 @@ void G_DoLoadLevel(void)
         memset(players[i].frags, 0, sizeof(players[i].frags));
     }
 
-    // initialize the msecnode_t freelist.
+    M_ClearRandom();
+
+    // initialize the msecnode_t freelist.                     phares 3/25/98
     // any nodes in the freelist are gone by now, cleared
     // by Z_FreeTags() when the previous level ended or player
     // died.
-    headsecnode = NULL;
-
-    M_ClearRandom();
+    P_FreeSecNodeList();
 
     P_SetupLevel(gameepisode, gamemap);
 

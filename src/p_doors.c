@@ -46,7 +46,7 @@ void T_VerticalDoor(vldoor_t *door)
     {
         case 0:
             // WAITING
-            if (!(--door->topcountdown))
+            if (!--door->topcountdown)
             {
                 switch (door->type)
                 {
@@ -73,7 +73,7 @@ void T_VerticalDoor(vldoor_t *door)
 
         case 2:
             //  INITIAL WAIT
-            if (!(--door->topcountdown))
+            if (!--door->topcountdown)
             {
                 switch (door->type)
                 {

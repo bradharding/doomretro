@@ -1250,11 +1250,7 @@ hitline:
             player_t *player = &players[consoleplayer];
 
             if (!player->powers[pw_invulnerability] && !(player->cheats & CF_GODMODE))
-            {
-                if (player->powers[pw_invisibility])
-                    type = MT_FUZZPLAYER;
                 P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
-            }
         }
     }
 
@@ -1643,6 +1639,11 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
 // Maintain a freelist of msecnode_t's to reduce memory allocs and frees.
 msecnode_t *headsecnode = NULL;
 
+void P_FreeSecNodeList(void)
+{
+    headsecnode = NULL; // this is all thats needed to fix the bug
+}
+
 // P_GetSecnode() retrieves a node from the freelist. The calling routine
 // should make sure it sets all fields properly.
 //
@@ -1653,7 +1654,7 @@ static msecnode_t *P_GetSecnode(void)
 
     return (headsecnode ?
         node = headsecnode, headsecnode = node->m_snext, node :
-        Z_Malloc(sizeof *node, PU_LEVEL, NULL));
+        (msecnode_t *)Z_Malloc(sizeof *node, PU_LEVEL, NULL));
 }
 
 // P_PutSecnode() returns a node to the freelist.
@@ -1701,7 +1702,8 @@ static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode
     node->m_snext = s->touching_thinglist;      // next node on sector thread
     if (s->touching_thinglist)
         node->m_snext->m_sprev = node;
-    return s->touching_thinglist = node;
+    s->touching_thinglist = node;
+    return node;
 }
 
 // P_DelSecnode() deletes a sector node from the list of
@@ -1741,10 +1743,9 @@ static msecnode_t *P_DelSecnode(msecnode_t *node)
 
         // Return this node to the freelist
         P_PutSecnode(node);
-
-        node = tn;
+        return tn;
     }
-    return node;
+    return NULL;
 }
 
 // Delete an entire sector list
@@ -1801,8 +1802,10 @@ static boolean PIT_GetSectors(line_t *ld)
 // killough 11/98: reformatted
 void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
 {
-    int xl, xh, yl, yh, bx, by;
-    msecnode_t *node;
+    int         xl, xh, yl, yh, bx, by;
+    msecnode_t  *node;
+    mobj_t      *saved_tmthing = tmthing;
+    fixed_t     saved_tmx = tmx, saved_tmy = tmy;
 
     // First, clear out the existing m_thing fields. As each node is
     // added or verified as needed, m_thing will be set properly. When
@@ -1847,4 +1850,19 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
         }
         else
             node = node->m_tnext;
+
+    // cph -
+    // This is the strife we get into for using global variables. tmthing
+    //  is being used by several different functions calling
+    //  P_BlockThingIterator, including functions that can be called *from*
+    //  P_BlockThingIterator. Using a global tmthing is not reentrant.
+    //  Fun. We restore its previous value.
+    tmthing = saved_tmthing;
+    tmx = saved_tmx, tmy = saved_tmy;
+    if (tmthing) {
+        tmbbox[BOXTOP] = tmy + tmthing->radius;
+        tmbbox[BOXBOTTOM] = tmy - tmthing->radius;
+        tmbbox[BOXRIGHT] = tmx + tmthing->radius;
+        tmbbox[BOXLEFT] = tmx - tmthing->radius;
+    }
 }

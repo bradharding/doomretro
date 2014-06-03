@@ -392,7 +392,7 @@ void P_PlayerThink(player_t *player)
         player->powers[pw_invulnerability]--;
 
     if (player->powers[pw_invisibility] > 0)
-        if (!(--player->powers[pw_invisibility]))
+        if (!--player->powers[pw_invisibility])
             player->mo->flags &= ~MF_SHADOW;
 
     if (player->powers[pw_infrared] > 0)

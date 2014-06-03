@@ -226,6 +226,7 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2);
 void P_UseLines(player_t *player);
 
 boolean P_ChangeSector(sector_t *sector, boolean crunch);
+void P_FreeSecNodeList(void);
 
 extern mobj_t           *linetarget;    // who got hit (or NULL)
 

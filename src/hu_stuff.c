@@ -284,7 +284,7 @@ static void HU_DrawHUD(void)
 
         if (health <= HUD_HEALTH_MIN && !menuactive && !paused)
         {
-            if (!(--healthanimtics))
+            if (!--healthanimtics)
             {
                 healthanim = !healthanim;
                 healthanimtics = MAX(HUD_MIN_TICS,
@@ -326,7 +326,7 @@ static void HU_DrawHUD(void)
 
             if (ammo <= HUD_AMMO_MIN && !menuactive && !paused)
             {
-                if (!(--ammoanimtics))
+                if (!--ammoanimtics)
                 {
                     ammoanim = !ammoanim;
                     ammoanimtics = MAX(HUD_MIN_TICS,

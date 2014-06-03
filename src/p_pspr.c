@@ -666,7 +666,7 @@ void P_MovePsprites(player_t *player)
     pspdef_t    *psp = &player->psprites[0];
 
     for (i = 0; i < NUMPSPRITES; i++, psp++)
-        if (psp->state && psp->tics != -1 && !(--psp->tics))
+        if (psp->state && psp->tics != -1 && !--psp->tics)
             P_SetPsprite(player, i, psp->state->nextstate);
 
     player->psprites[ps_flash].sx = player->psprites[ps_weapon].sx;

@@ -226,11 +226,11 @@ void I_PollXInputGamepad(void)
             GAMEPAD_RIGHT_TRIGGER * (state.Gamepad.bRightTrigger > GAMEPAD_TRIGGER_THRESHOLD));
 
         if (damagevibrationtics)
-            if (!(--damagevibrationtics) && !weaponvibrationtics)
+            if (!--damagevibrationtics && !weaponvibrationtics)
                 XInputVibration(idlemotorspeed);
 
         if (weaponvibrationtics)
-            if (!(--weaponvibrationtics) && !damagevibrationtics)
+            if (!--weaponvibrationtics && !damagevibrationtics)
                 XInputVibration(idlemotorspeed);
 
         if (gamepadbuttons)

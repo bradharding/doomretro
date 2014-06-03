@@ -148,9 +148,6 @@ extern int              musicVolume;
 //  in: /usr/include/linux/soundcard.h
 extern int              snd_MusicDevice;
 extern int              snd_SfxDevice;
-// Config file? Same disclaimer as above.
-extern int              snd_DesiredMusicDevice;
-extern int              snd_DesiredSfxDevice;
 
 
 // -------------------------
