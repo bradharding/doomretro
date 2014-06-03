@@ -1568,27 +1568,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
     nofit = true;
 
     if (crushchange && !(leveltime & 3))
-    {
-        mobjtype_t type = thing->type;
-
         P_DamageMobj(thing, NULL, NULL, 10);
-
-        // spray blood in a random direction
-        if (type != MT_BARREL && type != MT_SKULL)
-        {
-            if (type != MT_PLAYER
-                || (type == MT_PLAYER
-                    && !player->powers[pw_invulnerability]
-                    && !(player->cheats & CF_GODMODE)))
-            {
-                int x = thing->x + M_RandomInt(-10, 10) * FRACUNIT;
-                int y = thing->y + M_RandomInt(-10, 10) * FRACUNIT;
-                int z = thing->z + thing->height / 2 + M_RandomInt(-10, 10) * FRACUNIT;
-
-                P_SpawnBlood(x, y, z, 0, 10, thing);
-            }
-        }
-    }
 
     // keep checking (crush other things)
     return true;
