@@ -722,33 +722,36 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 //
 void P_KillMobj(mobj_t *source, mobj_t *target)
 {
-    mobjtype_t item;
-    mobj_t     *mo;
+    mobjtype_t  item, type = target->type;
+    mobj_t      *mo;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
 
-    if (target->type == MT_SKULL)
+    if (type == MT_SKULL)
         target->momx = target->momy = target->momz = 0;
     else
         target->flags &= ~MF_NOGRAVITY;
 
     target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->height >>= 2;
-    if (target->type != MT_BARREL && target->type != MT_SHADOWS)
-        target->bloodsplats = CORPSEBLOODSPLATS;
-
-    if (target->type != MT_BARREL && target->type != MT_CHAINGUY && target->type != MT_CYBORG)
+    if (type != MT_BARREL)
     {
-        static int prev = 0;
-        int        r = M_RandomInt(1, 10);
+        if (!(target->flags & MF_SHADOW))
+            target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (r <= 5 + prev)
+        if (type != MT_CHAINGUY && type != MT_CYBORG)
         {
-            prev--;
-            target->flags2 |= MF2_MIRRORED;
+            static int prev = 0;
+            int        r = M_RandomInt(1, 10);
+
+            if (r <= 5 + prev)
+            {
+                prev--;
+                target->flags2 |= MF2_MIRRORED;
+            }
+            else
+                prev++;
         }
-        else
-            prev++;
     }
 
     if (source && source->player)
@@ -767,7 +770,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         players[0].killcount++;
     }
 
-    if (target->type == MT_BARREL && source && source->player)
+    if (type == MT_BARREL && source && source->player)
         target->target = source;
 
     if (target->player)
@@ -800,7 +803,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     // Drop stuff.
     // This determines the kind of object spawned
     // during the death frame of a thing.
-    switch (target->type)
+    switch (type)
     {
         case MT_WOLFSS:
         case MT_POSSESSED:

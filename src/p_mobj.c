@@ -239,12 +239,12 @@ void P_XYMovement(mobj_t *mo)
 
         for (i = 0; i < ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12; i++)
         {
-            if (!(--mo->bloodsplats))
+            if (!--mo->bloodsplats)
                 break;
 
             bloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                                mo->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                                flags2, colfunc);
+                              mo->y + (M_RandomInt(-radius, radius) << FRACBITS),
+                              flags2, colfunc);
         }
     }
 
@@ -1015,7 +1015,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
             flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
             colfunc = tlredtoblue33colfunc;
         }
-        else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
+        else if (target->flags & MF_SHADOW)
         {
             flags2 = MF2_FUZZ;
             colfunc = fuzzcolfunc;
