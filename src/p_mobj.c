@@ -216,7 +216,7 @@ void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD) &&
-        type != MT_BARREL && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats > 0)
+        (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats > 0)
     {
         int     i;
         int     flags2 = MF2_TRANSLUCENT_50;
@@ -229,11 +229,6 @@ void P_XYMovement(mobj_t *mo)
             {
                 flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
                 colfunc = tlredtoblue33colfunc;
-            }
-            else if (type == MT_SHADOWS || type == MT_FUZZPLAYER)
-            {
-                flags2 = MF2_FUZZ;
-                colfunc = fuzzcolfunc;
             }
             else if (type == MT_BRUISER || type == MT_KNIGHT)
             {

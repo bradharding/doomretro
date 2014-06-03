@@ -734,7 +734,8 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
     target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->height >>= 2;
-    target->bloodsplats = CORPSEBLOODSPLATS;
+    if (target->type != MT_BARREL && target->type != MT_SHADOWS)
+        target->bloodsplats = CORPSEBLOODSPLATS;
 
     if (target->type != MT_BARREL && target->type != MT_CHAINGUY && target->type != MT_CYBORG)
     {
