@@ -1142,18 +1142,20 @@ byte         *ds_source;
 // Draws the actual span.
 void R_DrawSpan(void)
 {
-    byte    *dest = ylookup[ds_y] + ds_x1 + viewwindowx;
-    fixed_t xfrac = ds_xfrac;
-    fixed_t yfrac = ds_yfrac;
-    int     count = ds_x2 - ds_x1;
+    register int32_t            count = ds_x2 - ds_x1 + 1;
+    register byte               *dest = ylookup[ds_y] + ds_x1 + viewwindowx;
+    register fixed_t            xfrac = ds_xfrac;
+    register fixed_t            yfrac = ds_yfrac;
+    register const byte         *source = ds_source;
+    register const lighttable_t *colormap = ds_colormap;
 
-    do
+    while (--count)
     {
-        *dest++ = ds_colormap[ds_source[((yfrac >> 10) & 4032) | ((xfrac >> 16) & 63)]];
+        *dest++ = colormap[source[((yfrac >> 10) & 4032) | ((xfrac >> 16) & 63)]];
         xfrac += ds_xstep;
         yfrac += ds_ystep;
     }
-    while (count--);
+    *dest++ = colormap[source[((yfrac >> 10) & 4032) | ((xfrac >> 16) & 63)]];
 }
 
 //
