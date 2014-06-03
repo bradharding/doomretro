@@ -5046,7 +5046,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID,
-        /* flags2               */ MF2_MOREREDBLOODSPLATS,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5106,7 +5106,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID,
-        /* flags2               */ MF2_MOREREDBLOODSPLATS,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -5136,7 +5136,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID,
-        /* flags2               */ MF2_MOREREDBLOODSPLATS,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2
     },
