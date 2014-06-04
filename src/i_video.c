@@ -459,6 +459,8 @@ static void I_ReadMouse(void)
     int         x;
     event_t     ev;
 
+    SDL_PumpEvents();
+
     ev.type = ev_mouse;
     ev.data1 = SDL_GetRelativeMouseState(&x, NULL);
     ev.data2 = AccelerateMouse(x);
