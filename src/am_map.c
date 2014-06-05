@@ -1882,6 +1882,35 @@ static void AM_drawCrosshair(void)
     AM_DrawScaledPixel(CENTERX, CENTERY + 2, color);
 }
 
+#define DARKLEVELS 6
+
+void AM_darkenEdges(void)
+{
+    byte        *dot;
+    int         i, x, y;
+
+    for (i = 0; i < DARKLEVELS; i++)
+    {
+        byte    *colormap = colormaps + (DARKLEVELS - i) * 1024;
+
+        for (x = i; x < MAPWIDTH - i; x++)
+        {
+            dot = *screens + i * MAPWIDTH + x;
+            *dot = *(*dot + colormap);
+            dot = *screens + (MAPHEIGHT - i - 1) * MAPWIDTH + x;
+            *dot = *(*dot + colormap);
+        }
+
+        for (y = i + 1; y < MAPHEIGHT - i - 1; y++)
+        {
+            dot = *screens + y * MAPWIDTH + i;
+            *dot = *(*dot + colormap);
+            dot = *screens + y * MAPWIDTH + MAPWIDTH - i - 1;
+            *dot = *(*dot + colormap);
+        }
+    }
+}
+
 void AM_Drawer(void)
 {
     AM_clearFB();
@@ -1893,6 +1922,7 @@ void AM_Drawer(void)
     if (markpointnum)
         AM_drawMarks();
     AM_drawPlayers();
+    AM_darkenEdges();
     if (!followplayer)
         AM_drawCrosshair();
 }
