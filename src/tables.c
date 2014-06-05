@@ -28,6 +28,16 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "tables.h"
 
+int SlopeDiv(unsigned num, unsigned den)
+{
+    unsigned ans;
+
+    if (den < 512)
+        return SLOPERANGE;
+    ans = (num << 3) / (den >> 8);
+    return ans <= SLOPERANGE ? ans : SLOPERANGE;
+}
+
 const int finetangent[4096] =
 {
     -170910304, -56965752, -34178904, -24413316, -18988036, -15535599, -13145455, -11392683,

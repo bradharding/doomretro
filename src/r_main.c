@@ -142,39 +142,160 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
             - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x) >= 0);
 }
 
+// [WDJ] Generate the tan slope, suitable for tantoangle[] index.
+// This is more accuate than the vanilla version,
+// but would cause sync loss on demos if used everywhere.
+int64_t SlopeDiv_64(fixed_t num, fixed_t den)
+{
+    int64_t ans;
+
+    if (den < 64)
+        return SLOPERANGE;  // max
+
+    ans = (((int64_t)num) << 11) / den;
+    return (ans <= SLOPERANGE) ? ans : SLOPERANGE;  // max
+}
+
 //
 // R_PointToAngle
 // To get a global angle from cartesian coordinates,
-//  the coordinates are flipped until they are in
-//  the first octant of the coordinate system, then
-//  the y (<=x) is scaled and divided by x to get a
-//  tangent (slope) value which is looked up in the
-//  tantoangle[] table.
-//
-angle_t R_PointToAngle(fixed_t x, fixed_t y)
+// the coordinates are flipped until they are in the first octant of
+// the coordinate system, then the y (<=x) is scaled and divided by x
+// to get a tangent (slope) value which is looked up in the
+// tantoangle[] table.
+
+// Point (x2,y2) to point (x1,y1) angle.
+angle_t R_PointToAngle2(fixed_t x2, fixed_t y2, fixed_t x1, fixed_t y1)
 {
-    static fixed_t      oldx;
-    static fixed_t      oldy;
-    static angle_t      oldresult;
+    // [WDJ] This is inaccurate. Angles can be in error by 0x10000000,
+    // and not monotonic (ordering errors).
+    // Has 5 bits correct when compared to atan2().
+    angle_t ra = 0;
 
-    x -= viewx;
-    y -= viewy;
+    x1 -= x2;  // diff
+    y1 -= y2;
 
-    if (oldx != x || oldy != y)
-    {
-        oldx = x;
-        oldy = y;
-        oldresult = (int)(atan2((float)y, (float)x) * (ANG180 / M_PI));
+    if (!x1 && !y1)
+        return 0;
+
+    if (x1 >= 0)
+    {   // x >=0
+        if (y1 >= 0)
+        {   // y >= 0
+            ra = (x1 > y1) ?
+                // octant 0, ra = 0..ANG45
+                tantoangle[SlopeDiv(y1, x1)]
+                :
+                // octant 1, ra = ANG45..ANG90
+                ANG90 - 1 - tantoangle[SlopeDiv(x1, y1)];
+        }
+        else
+        {   // y < 0
+            y1 = -y1;
+            ra = (x1 > y1) ?
+                // octant 8, ra = ANG315..0 due to angle wrap
+                -tantoangle[SlopeDiv(y1, x1)]
+                :
+                // octant 7, ra = AN270..ANG315
+                ANG270 + tantoangle[SlopeDiv(x1, y1)];
+        }
     }
-    return oldresult;
+    else
+    {   // x<0
+        x1 = -x1;
+        if (y1 >= 0)
+        {   // y>= 0
+            ra = (x1 > y1) ?
+                // octant 3, ra = ANG135..ANG180
+                ANG180 - 1 - tantoangle[SlopeDiv(y1, x1)]
+                :
+                // octant 2, ra = ANG90..ANG135
+                ANG90 + tantoangle[SlopeDiv(x1, y1)];
+        }
+        else
+        {   // y<0
+            y1 = -y1;
+            ra = (x1 > y1) ?
+                // octant 4, ra = AN180..ANG225
+                ANG180 + tantoangle[SlopeDiv(y1, x1)]
+                :
+                // octant 5, ra = ANG225..ANG270
+                ANG270 - 1 - tantoangle[SlopeDiv(x1, y1)];
+        }
+    }
+    return ra;
 }
 
-angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2)
-{
-    viewx = x1;
-    viewy = y1;
 
-    return R_PointToAngle(x2, y2);
+// Point of view (viewx,viewy) to point (x1,y1) angle.
+angle_t R_PointToAngle(fixed_t x, fixed_t y)
+{
+    // Has 13 bits correct when compared to atan2(), which is much
+    // better than the 5 correct bits of the vanilla function.
+    // Uses the more accurate SlopeDiv_64.
+    angle_t vpa = 0;
+
+    x -= viewx;  // diff from viewpoint
+    y -= viewy;
+
+    if (!x && !y)
+        return 0;
+
+    // [WDJ] Fix from PrBoom (e6y).
+    // For large x or y, resort to the slower but accurate lib function.
+    if (x > INT_MAX / 4 || x < -INT_MAX / 4 ||
+        y > INT_MAX / 4 || y < -INT_MAX / 4)
+    {
+        // PrBoom used a 1 point cache, but that is too small.
+        return (int)(atan2(y, x) * ANG180 / M_PI);
+    }
+
+    if (x >= 0)
+    {   // x >=0
+        if (y >= 0)
+        {   // y >= 0
+            vpa = (x > y) ?
+                // octant 0, vpa = 0..ANG45
+                tantoangle[SlopeDiv_64(y, x)]
+                :
+                // octant 1, vpa = ANG45..ANG90
+                ANG90 - 1 - tantoangle[SlopeDiv_64(x, y)];
+        }
+        else
+        {   // y<0
+            y = -y;
+            vpa = ( x > y) ?
+                // octant 8, vpa = ANG315..0 due to angle wrap
+                -tantoangle[SlopeDiv(y, x)]
+                :
+                // octant 7, vpa = AN270..ANG315
+                ANG270 + tantoangle[SlopeDiv_64(x, y)];
+        }
+    }
+    else
+    {   // x<0
+        x = -x;
+        if (y >= 0)
+        {   // y >= 0
+            vpa = (x > y) ?
+                // octant 3, vpa = ANG135..ANG180
+                ANG180 - 1 - tantoangle[SlopeDiv_64(y, x)]
+                :
+                // octant 2, vpa = ANG90..ANG135
+                ANG90 + tantoangle[SlopeDiv_64(x, y)];
+        }
+        else
+        {   //  y< 0
+            y = -y;
+            vpa = (x > y) ?
+                // octant 4, vpa = AN180..ANG225
+                ANG180 + tantoangle[SlopeDiv_64(y, x)]
+                :
+                // octant 5, vpa = ANG225..ANG270
+                ANG270 - 1 - tantoangle[SlopeDiv_64(x, y)];
+        }
+    }
+    return vpa;
 }
 
 fixed_t R_PointToDist(fixed_t x, fixed_t y)
