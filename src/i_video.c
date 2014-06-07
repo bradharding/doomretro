@@ -98,6 +98,9 @@ static int startx;
 static int starty;
 static int pitch;
 
+static int blitwidth = SCREENWIDTH << FRACBITS;
+static int blitheight = SCREENHEIGHT << FRACBITS;
+
 byte *pixels;
 
 int rows[SCREENHEIGHT];
@@ -515,10 +518,10 @@ static __forceinline void blit(void)
 
         do
             *dest++ = *(src + (x >> FRACBITS));
-        while ((x += stepx) < (SCREENWIDTH << FRACBITS));
+        while ((x += stepx) < blitwidth);
         i += pitch;
     }
-    while ((y += stepy) < (SCREENHEIGHT << FRACBITS));
+    while ((y += stepy) < blitheight);
 }
 
 SDL_Rect dest_rect;
@@ -731,6 +734,8 @@ void ToggleWideScreen(boolean toggle)
 
         width = screen->w;
         height = screen->h + (int)((double)screen->h * 32 / (ORIGINALHEIGHT - 32) + 1.5);
+
+        blitheight = (SCREENHEIGHT - SBARHEIGHT) << FRACBITS;
     }
     else
     {
@@ -739,7 +744,10 @@ void ToggleWideScreen(boolean toggle)
         height = screen->h;
         width = height * 4 / 3;
         width += (width & 1);
+
+        blitheight = SCREENHEIGHT << FRACBITS;
     }
+
     returntowidescreen = false;
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
