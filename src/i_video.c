@@ -100,6 +100,8 @@ static int pitch;
 
 byte *pixels;
 
+int rows[SCREENHEIGHT];
+
 boolean keys[UCHAR_MAX];
 
 byte gammatable[GAMMALEVELS][256];
@@ -508,7 +510,7 @@ static __forceinline void blit(void)
     do
     {
         byte    *dest = pixels + i;
-        byte    *src = *screens + (y >> FRACBITS) * SCREENWIDTH;
+        byte    *src = *screens + rows[y >> FRACBITS];
         fixed_t x = startx;
 
         do
@@ -956,10 +958,14 @@ boolean I_ValidScreenMode(int width, int height)
 
 void I_InitGraphics(void)
 {
-    int       i = 0;
+    int       i;
     SDL_Event dummy;
     byte      *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
 
+    for (i = 0; i < SCREENHEIGHT; i++)
+        rows[i] = i * SCREENWIDTH;
+
+    i = 0;
     while (i < UCHAR_MAX)
         keys[i++] = true;
     keys['v'] = keys['V'] = false;
