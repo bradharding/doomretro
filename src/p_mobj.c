@@ -474,7 +474,8 @@ void P_MobjThinker(mobj_t *mobj)
     }
     else if (!mobj->momx && !mobj->momy && !mobj->player)
     {
-        if (mobj->z > mobj->dropoffz && !(mobj->flags & MF_NOGRAVITY))
+        if (mobj->z > mobj->dropoffz && !(mobj->flags & MF_NOGRAVITY) &&
+            ((mobj->flags & MF_CORPSE) || (mobj->flags & MF_SHOOTABLE)))
             P_ApplyTorque(mobj);
         else
         {
