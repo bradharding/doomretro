@@ -311,6 +311,9 @@ fixed_t R_PointToDist(fixed_t x, fixed_t y)
         dy = t;
     }
 
+    if (!dy)
+        return dx;
+
     return FixedDiv(dx, finecosine[tantoangle[FixedDiv(dy, dx) >> DBITS] >> ANGLETOFINESHIFT]);
 }
 

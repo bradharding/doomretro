@@ -1886,16 +1886,17 @@ static void AM_drawCrosshair(void)
 
 void AM_darkenEdges(void)
 {
-    byte        *dot;
-    int         i, x, y;
+    int         i;
 
     for (i = 0; i < DARKLEVELS; i++)
     {
         byte    *colormap = colormaps + (DARKLEVELS - i) * 1024;
+        int     x, y;
 
         for (x = i; x < MAPWIDTH - i; x++)
         {
-            dot = *screens + i * MAPWIDTH + x;
+            byte        *dot = *screens + i * MAPWIDTH + x;
+
             *dot = *(*dot + colormap);
             dot = *screens + (MAPHEIGHT - i - 1) * MAPWIDTH + x;
             *dot = *(*dot + colormap);
@@ -1903,9 +1904,10 @@ void AM_darkenEdges(void)
 
         for (y = i + 1; y < MAPHEIGHT - i - 1; y++)
         {
-            dot = *screens + y * MAPWIDTH + i;
+            byte        *dot = *screens + y * MAPWIDTH + i;
+
             *dot = *(*dot + colormap);
-            dot = *screens + y * MAPWIDTH + MAPWIDTH - i - 1;
+            dot = *screens + (y + 1) * MAPWIDTH - i - 1;
             *dot = *(*dot + colormap);
         }
     }

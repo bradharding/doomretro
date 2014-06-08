@@ -35,50 +35,41 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // I_GetTime
 // returns time in 1/35th second tics
 //
-
 static Uint32 basetime = 0;
 
 int I_GetTime(void)
 {
-    Uint32 ticks;
+    Uint32 ticks = SDL_GetTicks();
 
-    ticks = SDL_GetTicks();
-
-    if (basetime == 0)
+    if (!basetime)
         basetime = ticks;
 
-    ticks -= basetime;
-
-    return (ticks * TICRATE) / 1000;
+    return ((ticks - basetime) * TICRATE) / 1000;
 }
 
 //
 // Same as I_GetTime, but returns time in milliseconds
 //
-
 int I_GetTimeMS(void)
 {
-    Uint32 ticks;
+    Uint32 ticks = SDL_GetTicks();
 
-    ticks = SDL_GetTicks();
-
-    if (basetime == 0)
+    if (!basetime)
         basetime = ticks;
 
-    return ticks - basetime;
+    return (ticks - basetime);
 }
 
+//
 // Sleep for a specified number of ms
-
+//
 void I_Sleep(int ms)
 {
     SDL_Delay(ms);
 }
 
-
 void I_InitTimer(void)
 {
     // initialize timer
-
     SDL_InitSubSystem(SDL_INIT_TIMER);
 }

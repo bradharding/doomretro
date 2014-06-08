@@ -42,74 +42,74 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "z_zone.h"
 
 // Window position:
-char *windowposition = "";
+char                    *windowposition = "";
 
-SDL_Surface *screen;
-SDL_Surface *screenbuffer = NULL;
+SDL_Surface             *screen;
+SDL_Surface             *screenbuffer = NULL;
 
 // palette
-SDL_Color palette[256];
-static boolean   palette_to_set;
+SDL_Color               palette[256];
+static boolean          palette_to_set;
 
 // Bit mask of mouse button state
-static unsigned int mouse_button_state = 0;
+static unsigned int     mouse_button_state = 0;
 
-static int          buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
+static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
 // Fullscreen width and height
-int screenwidth = 1280;
-int screenheight = 800;
+int                     screenwidth = 1280;
+int                     screenheight = 800;
 
 // Window width and height
-int windowwidth = SCREENWIDTH;
-int windowheight = SCREENWIDTH * 3 / 4;
+int                     windowwidth = SCREENWIDTH;
+int                     windowheight = SCREENWIDTH * 3 / 4;
 
 // Run in full screen mode?
-int fullscreen = true;
+int                     fullscreen = true;
 
-boolean widescreen = false;
-boolean returntowidescreen = false;
-boolean hud = true;
+boolean                 widescreen = false;
+boolean                 returntowidescreen = false;
+boolean                 hud = true;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
-boolean screenvisible;
+boolean                 screenvisible;
 
-boolean window_focused;
+boolean                 window_focused;
 
 // Empty mouse cursor
-static SDL_Cursor *cursors[2];
+static SDL_Cursor       *cursors[2];
 
 // Window resize state.
-boolean      need_resize = false;
-unsigned int resize_h;
+boolean                 need_resize = false;
+unsigned int            resize_h;
 
-int desktopwidth;
-int desktopheight;
+int                     desktopwidth;
+int                     desktopheight;
 
-char *videodriver = "windib";
-char envstring[255];
+char                    *videodriver = "windib";
+char                    envstring[255];
 
-static int width;
-static int height;
-static int stepx;
-static int stepy;
-static int startx;
-static int starty;
-static int pitch;
+static int              width;
+static int              height;
+static int              stepx;
+static int              stepy;
+static int              startx;
+static int              starty;
+static int              pitch;
 
-static int blitwidth = SCREENWIDTH << FRACBITS;
-static int blitheight = SCREENHEIGHT << FRACBITS;
+static int              blitwidth = SCREENWIDTH << FRACBITS;
+static int              blitheight = SCREENHEIGHT << FRACBITS;
 
-byte *pixels;
+byte                    *pixels;
 
-int rows[SCREENHEIGHT];
+fixed_t                 rows[SCREENHEIGHT];
 
-boolean keys[UCHAR_MAX];
+boolean                 keys[UCHAR_MAX];
 
-byte gammatable[GAMMALEVELS][256];
+byte                    gammatable[GAMMALEVELS][256];
 
-float gammalevels[GAMMALEVELS] =
+float                   gammalevels[GAMMALEVELS] =
 {
     // Darker
     0.50f, 0.55f, 0.60f, 0.65f, 0.70f, 0.75f, 0.80f, 0.85f, 0.90f, 0.95f,
@@ -123,8 +123,8 @@ float gammalevels[GAMMALEVELS] =
 };
 
 // Gamma correction level to use
-int gammalevelindex;
-float gammalevel = GAMMALEVEL_DEFAULT;
+int                     gammalevelindex;
+float                   gammalevel = GAMMALEVEL_DEFAULT;
 
 // Mouse acceleration
 //
@@ -134,8 +134,8 @@ float gammalevel = GAMMALEVEL_DEFAULT;
 // The mouse input values are input directly to the game, but when
 // the values exceed the value of mouse_threshold, they are multiplied
 // by mouse_acceleration to increase the speed.
-float mouse_acceleration = MOUSEACCELERATION_DEFAULT;
-int   mouse_threshold = MOUSETHRESHOLD_DEFAULT;
+float                   mouse_acceleration = MOUSEACCELERATION_DEFAULT;
+int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
 static void ApplyWindowResize(int height);
 static void SetWindowPositionVars(void);
@@ -361,7 +361,7 @@ void I_GetEvent(void)
                 if (!isdigit(ev.data2))
                     idclev = idmus = false;
 
-                if (idbehold && keys[MAX(0, MIN(ev.data2, 255))])
+                if (idbehold && keys[ev.data2])
                 {
                     HU_clearMessages();
                     idbehold = false;
@@ -519,9 +519,9 @@ static __forceinline void blit(void)
         do
             *dest++ = *(src + (x >> FRACBITS));
         while ((x += stepx) < blitwidth);
+
         i += pitch;
-    }
-    while ((y += stepy) < blitheight);
+    } while ((y += stepy) < blitheight);
 }
 
 SDL_Rect dest_rect;

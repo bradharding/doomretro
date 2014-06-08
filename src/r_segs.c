@@ -88,7 +88,7 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     int         max = 512 * FRACUNIT;          // [BH] fix wobbly vertexes
     fixed_t     num = FixedMul(projectiony, finesine[angleb >> ANGLETOFINESHIFT]);
 
-    return ((den >> 8) > 0 && den > (num >> 16) ? ((num = FixedDiv(num, den)) > max ? 
+    return ((den >> 8) > 0 && den > (num >> 16) ? ((num = FixedDiv(num, den)) > max ?
             max : MAX(256, num)) : max);
 }
 

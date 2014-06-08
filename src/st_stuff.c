@@ -1157,7 +1157,6 @@ boolean ST_Responder(event_t *ev)
                   plyr->cheats ^= CF_ALLMAP;
               S_StartSound(NULL, sfx_getpow);
             }
-
         }
 
         // 'clev' change-level cheat
