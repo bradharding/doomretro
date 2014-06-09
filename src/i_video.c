@@ -505,7 +505,7 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-static __forceinline void blit(void)
+static __forceinline void blit(fixed_t width, fixed_t height)
 {
     fixed_t     i = 0;
     fixed_t     y = starty;
@@ -518,10 +518,10 @@ static __forceinline void blit(void)
 
         do
             *dest++ = *(src + (x >> FRACBITS));
-        while ((x += stepx) < blitwidth);
+        while ((x += stepx) < width);
 
         i += pitch;
-    } while ((y += stepy) < blitheight);
+    } while ((y += stepy) < height);
 }
 
 SDL_Rect dest_rect;
@@ -553,9 +553,9 @@ void I_FinishUpdate(void)
     }
 
     // draw to screen
-    blit();
+    blit(blitwidth, blitheight);
 
-    if (!widescreen || !fullscreen)
+    if (fullscreen && !widescreen)
         SDL_FillRect(screen, NULL, 0);
 
     SDL_BlitSurface(screenbuffer, NULL, screen, &dest_rect);
