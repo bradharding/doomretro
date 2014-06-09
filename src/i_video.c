@@ -103,7 +103,7 @@ static int              blitheight = SCREENHEIGHT << FRACBITS;
 
 byte                    *pixels;
 
-fixed_t                 rows[SCREENHEIGHT];
+byte                    *rows[SCREENHEIGHT];
 
 boolean                 keys[UCHAR_MAX];
 
@@ -513,7 +513,7 @@ static __forceinline void blit(void)
     do
     {
         byte    *dest = pixels + i;
-        byte    *src = *screens + rows[y >> FRACBITS];
+        byte    *src = *(rows + (y >> FRACBITS));
         fixed_t x = startx;
 
         do
@@ -970,9 +970,6 @@ void I_InitGraphics(void)
     SDL_Event dummy;
     byte      *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
 
-    for (i = 0; i < SCREENHEIGHT; i++)
-        rows[i] = i * SCREENWIDTH;
-
     i = 0;
     while (i < UCHAR_MAX)
         keys[i++] = true;
@@ -1030,8 +1027,10 @@ void I_InitGraphics(void)
     UpdateGrab();
 
     screens[0] = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-
     memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
+
+    for (i = 0; i < SCREENHEIGHT; i++)
+        rows[i] = *screens + i * SCREENWIDTH;
 
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
