@@ -75,7 +75,7 @@ __inline static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t 
 // Returns true
 //  if strace crosses the given subsector successfully.
 //
-static boolean P_CrossSubsector(int num, register los_t *los)
+static boolean P_CrossSubsector(int num, los_t *los)
 {
     seg_t               *seg;
     int                 count;
@@ -183,12 +183,12 @@ static boolean P_CrossSubsector(int num, register los_t *los)
 // Returns true
 //  if strace crosses the given node successfully.
 //
-static boolean P_CrossBSPNode(int bspnum, register los_t *los)
+static boolean P_CrossBSPNode(int bspnum, los_t *los)
 {
     while (!(bspnum & NF_SUBSECTOR))
     {
-        register const node_t *bsp = nodes + bspnum;
-        int side = P_DivlineSide(los->strace.x, los->strace.y, (divline_t *)bsp) & 1;
+        const node_t    *bsp = nodes + bspnum;
+        int             side = P_DivlineSide(los->strace.x, los->strace.y, (divline_t *)bsp) & 1;
 
         if (side == P_DivlineSide(los->t2x, los->t2y, (divline_t *)bsp))
             bspnum = bsp->children[side];               // doesn't touch the other side

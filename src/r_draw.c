@@ -140,12 +140,12 @@ byte         *dc_source;
 
 void R_DrawColumn(void)
 {
-    register int32_t            count = dc_yh - dc_yl + 1;
-    register byte               *dest = ylookup[dc_yl] + dc_x + viewwindowx;
-    register fixed_t            frac = dc_texturefrac;
-    register const fixed_t      fracstep = dc_iscale;
-    register const byte         *source = dc_source;
-    register const lighttable_t *colormap = dc_colormap;
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup[dc_yl] + dc_x + viewwindowx;
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
 
     while (--count)
     {
@@ -158,10 +158,10 @@ void R_DrawColumn(void)
 
 void R_DrawWallColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -171,8 +171,8 @@ void R_DrawWallColumn(void)
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         if (dc_texheight == 128)
         {
@@ -191,7 +191,7 @@ void R_DrawWallColumn(void)
         }
         else
         {
-            register uint32_t heightmask = dc_texheight - 1;
+            uint32_t    heightmask = dc_texheight - 1;
 
             if (!(dc_texheight & heightmask))
             {
@@ -251,10 +251,10 @@ void R_DrawWallColumn(void)
 
 void R_DrawFullbrightWallColumn(byte *colormask)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -264,8 +264,8 @@ void R_DrawFullbrightWallColumn(byte *colormask)
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         if (dc_texheight == 128)
         {
@@ -273,7 +273,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
             while (--count)
             {
-                register byte dot = source[(frac & HEIGHTMASK) >> FRACBITS];
+                byte dot = source[(frac & HEIGHTMASK) >> FRACBITS];
 
                 *dest = (colormask[dot] ? dot : colormap[dot]);
                 dest += SCREENWIDTH;
@@ -283,14 +283,14 @@ void R_DrawFullbrightWallColumn(byte *colormask)
                 *dest = *(dest - SCREENWIDTH);
             else
             {
-                register byte dot = source[(frac & HEIGHTMASK) >> FRACBITS];
+                byte    dot = source[(frac & HEIGHTMASK) >> FRACBITS];
 
                 *dest = (colormask[dot] ? dot : colormap[dot]);
             }
         }
         else
         {
-            register uint32_t heightmask = dc_texheight - 1;
+            uint32_t    heightmask = dc_texheight - 1;
 
             if (!(dc_texheight & heightmask))
             {
@@ -298,7 +298,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
                 while ((count -= 2) >= 0)
                 {
-                    register byte dot = source[(frac & _heightmask) >> FRACBITS];
+                    byte        dot = source[(frac & _heightmask) >> FRACBITS];
 
                     *dest = (colormask[dot] ? dot : colormap[dot]);
                     dest += SCREENWIDTH;
@@ -314,7 +314,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
                         *dest = *(dest - SCREENWIDTH);
                     else
                     {
-                        register byte dot = source[(frac & _heightmask) >> FRACBITS];
+                        byte    dot = source[(frac & _heightmask) >> FRACBITS];
 
                         *dest = (colormask[dot] ? dot : colormap[dot]);
                     }
@@ -334,7 +334,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
                 while (--count)
                 {
-                    register byte dot = source[frac >> FRACBITS];
+                    byte        dot = source[frac >> FRACBITS];
 
                     *dest = (colormask[dot] ? dot : colormap[dot]);
                     dest += SCREENWIDTH;
@@ -346,7 +346,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
                     *dest = *(dest - SCREENWIDTH);
                 else
                 {
-                    register byte dot = source[frac >> FRACBITS];
+                    byte        dot = source[frac >> FRACBITS];
 
                     *dest = (colormask[dot] ? dot : colormap[dot]);
                 }
@@ -363,10 +363,10 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
 void R_DrawPlayerSpriteColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl + 1;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     dest = ylookup2[dc_yl] + dc_x + viewwindowx;
 
@@ -383,10 +383,10 @@ void R_DrawPlayerSpriteColumn(void)
 
 void R_DrawSuperShotgunColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -396,9 +396,9 @@ void R_DrawSuperShotgunColumn(void)
     frac = dc_texturefrac;
 
     {
-        register byte               dot;
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        byte                    dot;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -416,10 +416,10 @@ void R_DrawSuperShotgunColumn(void)
 
 void R_DrawSkyColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -429,7 +429,7 @@ void R_DrawSkyColumn(void)
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
     {
-        register const byte         *source = dc_source;
+        const byte      *source = dc_source;
 
         while (--count)
         {
@@ -443,11 +443,11 @@ void R_DrawSkyColumn(void)
 
 void R_DrawFlippedSkyColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
-    register fixed_t       i;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
+    fixed_t             i;
 
     if (count++ < 0)
         return;
@@ -457,7 +457,7 @@ void R_DrawFlippedSkyColumn(void)
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
     {
-        register const byte         *source = dc_source;
+        const byte      *source = dc_source;
 
         while (--count)
         {
@@ -473,10 +473,10 @@ void R_DrawFlippedSkyColumn(void)
 
 void R_DrawRedToBlueColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -486,8 +486,8 @@ void R_DrawRedToBlueColumn(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -501,10 +501,10 @@ void R_DrawRedToBlueColumn(void)
 
 void R_DrawTranslucentRedToBlue33Column(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -514,8 +514,8 @@ void R_DrawTranslucentRedToBlue33Column(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -529,10 +529,10 @@ void R_DrawTranslucentRedToBlue33Column(void)
 
 void R_DrawRedToGreenColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -542,8 +542,8 @@ void R_DrawRedToGreenColumn(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -557,10 +557,10 @@ void R_DrawRedToGreenColumn(void)
 
 void R_DrawTranslucentRedToGreen33Column(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -570,8 +570,8 @@ void R_DrawTranslucentRedToGreen33Column(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -585,10 +585,10 @@ void R_DrawTranslucentRedToGreen33Column(void)
 
 void R_DrawTranslucentColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -598,8 +598,8 @@ void R_DrawTranslucentColumn(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -613,10 +613,10 @@ void R_DrawTranslucentColumn(void)
 
 void R_DrawTranslucent50Column(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -626,9 +626,9 @@ void R_DrawTranslucent50Column(void)
     frac = dc_texturefrac;
 
     {
-        register byte               dot;
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        byte                    dot;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -646,10 +646,10 @@ extern boolean megasphere;
 
 void R_DrawTranslucent33Column(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -659,9 +659,9 @@ void R_DrawTranslucent33Column(void)
     frac = dc_texturefrac;
 
     {
-        register byte               dot;
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        byte                    dot;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -681,10 +681,10 @@ void R_DrawTranslucent33Column(void)
 
 void R_DrawTranslucentRedColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -694,8 +694,8 @@ void R_DrawTranslucentRedColumn(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -709,10 +709,10 @@ void R_DrawTranslucentRedColumn(void)
 
 void R_DrawTranslucentRedWhiteColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -722,8 +722,8 @@ void R_DrawTranslucentRedWhiteColumn(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -737,10 +737,10 @@ void R_DrawTranslucentRedWhiteColumn(void)
 
 void R_DrawTranslucentRedWhite50Column(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -750,8 +750,8 @@ void R_DrawTranslucentRedWhite50Column(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -765,10 +765,10 @@ void R_DrawTranslucentRedWhite50Column(void)
 
 void R_DrawTranslucentGreenColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -778,8 +778,8 @@ void R_DrawTranslucentGreenColumn(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -793,10 +793,10 @@ void R_DrawTranslucentGreenColumn(void)
 
 void R_DrawTranslucentBlueColumn(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -806,8 +806,8 @@ void R_DrawTranslucentBlueColumn(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -821,10 +821,10 @@ void R_DrawTranslucentBlueColumn(void)
 
 void R_DrawTranslucentRed50Column(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -834,8 +834,8 @@ void R_DrawTranslucentRed50Column(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -849,10 +849,10 @@ void R_DrawTranslucentRed50Column(void)
 
 void R_DrawTranslucentGreen50Column(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -862,8 +862,8 @@ void R_DrawTranslucentGreen50Column(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -877,10 +877,10 @@ void R_DrawTranslucentGreen50Column(void)
 
 void R_DrawTranslucentBlue50Column(void)
 {
-    register int32_t       count = dc_yh - dc_yl;
-    register byte          *dest;
-    register fixed_t       frac;
-    register const fixed_t fracstep = dc_iscale;
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
 
     if (count++ < 0)
         return;
@@ -890,8 +890,8 @@ void R_DrawTranslucentBlue50Column(void)
     frac = dc_texturefrac;
 
     {
-        register const byte         *source = dc_source;
-        register const lighttable_t *colormap = dc_colormap;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
 
         while (--count)
         {
@@ -1142,12 +1142,12 @@ byte         *ds_source;
 // Draws the actual span.
 void R_DrawSpan(void)
 {
-    register int32_t            count = ds_x2 - ds_x1 + 1;
-    register byte               *dest = ylookup[ds_y] + ds_x1 + viewwindowx;
-    register fixed_t            xfrac = ds_xfrac;
-    register fixed_t            yfrac = ds_yfrac;
-    register const byte         *source = ds_source;
-    register const lighttable_t *colormap = ds_colormap;
+    int32_t             count = ds_x2 - ds_x1 + 1;
+    byte                *dest = ylookup[ds_y] + ds_x1 + viewwindowx;
+    fixed_t             xfrac = ds_xfrac;
+    fixed_t             yfrac = ds_yfrac;
+    const byte          *source = ds_source;
+    const lighttable_t  *colormap = ds_colormap;
 
     while (--count)
     {

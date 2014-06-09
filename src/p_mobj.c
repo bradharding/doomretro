@@ -683,7 +683,7 @@ static int P_FindDoomedNum(unsigned int type)
         int first, next;
     } 
     *hash;
-    register int i;
+    int i;
 
     if (!hash)
     {

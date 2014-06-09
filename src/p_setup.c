@@ -798,9 +798,9 @@ static void P_AddLineToSector(line_t *li, sector_t *sector)
 
 static void P_GroupLines(void)
 {
-    register line_t     *li;
-    register sector_t   *sector;
-    int                 i, j, total = numlines;
+    line_t      *li;
+    sector_t    *sector;
+    int         i, j, total = numlines;
 
     // figgi
     for (i = 0; i < numsubsectors; i++)
