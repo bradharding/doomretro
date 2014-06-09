@@ -198,13 +198,13 @@ void P_UnsetThingPosition(mobj_t *thing)
     {
         // inert things don't need to be in blockmap?
         // unlink from subsector
+        if (thing->snext)
+            thing->snext->sprev = thing->sprev;
 
-        // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
-        // pointers, allows head node pointers to be treated like everything else
-        mobj_t **sprev = thing->sprev;
-        mobj_t  *snext = thing->snext;
-        if ((*sprev = snext))  // unlink from sector list
-            snext->sprev = sprev;
+        if (thing->sprev)
+            thing->sprev->snext = thing->snext;
+        else
+            thing->subsector->sector->thinglist = thing->snext;
 
         // phares 3/14/98
         //
@@ -225,18 +225,20 @@ void P_UnsetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOBLOCKMAP))
     {
         // inert things don't need to be in blockmap
+        // unlink from block map
+        if (thing->bnext)
+            thing->bnext->bprev = thing->bprev;
 
-        // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
-        // pointers, allows head node pointers to be treated like everything else
-        //
-        // Also more robust, since it doesn't depend on current position for
-        // unlinking. Old method required computing head node based on position
-        // at time of unlinking, assuming it was the same position as during
-        // linking.
+        if (thing->bprev)
+            thing->bprev->bnext = thing->bnext;
+        else
+        {
+            int blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
+            int blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
 
-        mobj_t *bnext, **bprev = thing->bprev;
-        if (bprev && (*bprev = bnext = thing->bnext))  // unlink from block map
-            bnext->bprev = bprev;
+            if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
+                blocklinks[blocky * bmapwidth + blockx] = thing->bnext;
+        }
     }
 }
 
@@ -257,16 +259,15 @@ void P_SetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOSECTOR))
     {
         // invisible things don't go into the sector links
+        sector_t *sec = ss->sector;
 
-        // killough 8/11/98: simpler scheme using pointer-to-pointer prev
-        // pointers, allows head nodes to be treated like everything else
-        mobj_t **link = &ss->sector->thinglist;
-        mobj_t *snext = *link;
+        thing->sprev = NULL;
+        thing->snext = sec->thinglist;
 
-        if ((thing->snext = snext))
-            snext->sprev = &thing->snext;
-        thing->sprev = link;
-        *link = thing;
+        if (sec->thinglist)
+            sec->thinglist->sprev = thing;
+
+        sec->thinglist = thing;
 
         // phares 3/16/98
         //
@@ -294,14 +295,13 @@ void P_SetThingPosition(mobj_t *thing)
 
         if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
         {
-            // killough 8/11/98: simpler scheme using pointer-to-pointer prev
-            // pointers, allows head nodes to be treated like everything else
-            mobj_t **link = &blocklinks[blocky*bmapwidth + blockx];
-            mobj_t *bnext = *link;
+            mobj_t **link = &blocklinks[blocky * bmapwidth + blockx];
 
-            if ((thing->bnext = bnext))
-                bnext->bprev = &thing->bnext;
-            thing->bprev = link;
+            thing->bprev = NULL;
+            thing->bnext = *link;
+            if (*link)
+                (*link)->bprev = thing;
+
             *link = thing;
         }
         else
