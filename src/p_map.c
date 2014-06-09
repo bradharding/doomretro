@@ -7,6 +7,7 @@ The classic, refined DOOM source port. For Windows PC.
 Copyright (C) 1993-1996 id Software LLC, a ZeniMax Media company.
 Copyright (C) 1999 Lee Killough.
 Copyright (C) 1999 Rand Phares.
+Copyright (C) 2013 James Haley.
 Copyright (C) 2005-2014 Simon Howard.
 Copyright (C) 2013-2014 Brad Harding.
 
@@ -850,14 +851,12 @@ static fixed_t tmymove;
 //
 void P_HitSlideLine(line_t *ld)
 {
-    int     side;
-
-    angle_t lineangle;
-    angle_t moveangle;
-    angle_t deltaangle;
-
-    fixed_t movelen;
-    fixed_t newlen;
+    int         side;
+    angle_t     lineangle;
+    angle_t     moveangle;
+    angle_t     deltaangle;
+    fixed_t     movelen;
+    fixed_t     newlen;
 
     if (ld->slopetype == ST_HORIZONTAL)
     {
@@ -878,7 +877,7 @@ void P_HitSlideLine(line_t *ld)
     if (side == 1)
         lineangle += ANG180;
 
-    moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove) + 10;
+    moveangle = R_PointToAngle2(0, 0, tmxmove, tmymove);
     moveangle += 10;    // prevents sudden path reversal due to rounding error
     deltaangle = moveangle - lineangle;
 
