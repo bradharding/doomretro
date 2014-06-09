@@ -350,6 +350,7 @@ typedef struct mobj_s
 
     // a linked list of sectors where this object appears
     struct msecnode_s   *touching_sectorlist;   // phares 3/14/98
+    struct msecnode_s   *old_sectorlist;        // haleyjd 04/16/10
 
     short               gear; // killough 11/98: used in torque simulation
 

@@ -899,7 +899,7 @@ void P_HitSlideLine(line_t *ld)
 //
 boolean PTR_SlideTraverse(intercept_t *in)
 {
-    line_t *li = in->d.line;
+    line_t      *li = in->d.line;
 
     if (!(li->flags & ML_TWOSIDED))
     {
@@ -946,9 +946,9 @@ isblocking:
 //
 void P_SlideMove(mobj_t *mo)
 {
-    fixed_t leadx, leady;
-    fixed_t trailx, traily;
-    int     hitcount = 0;
+    fixed_t     leadx, leady;
+    fixed_t     trailx, traily;
+    int         hitcount = 0;
 
     slidemo = mo;
 
@@ -1414,8 +1414,8 @@ int    bombdamage;
 //
 boolean PIT_RadiusAttack(mobj_t *thing)
 {
-    fixed_t dx, dy, dz;
-    fixed_t dist;
+    fixed_t     dx, dy, dz;
+    fixed_t     dist;
 
     if (!(thing->flags & MF_SHOOTABLE) && !(thing->flags & MF_CORPSE))
         return true;
@@ -1469,13 +1469,12 @@ boolean PIT_RadiusAttack(mobj_t *thing)
 //
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
 {
-    int x, y;
-
-    fixed_t dist = (damage + MAXRADIUS) << FRACBITS;
-    int     yh = (spot->y + dist - bmaporgy) >> MAPBLOCKSHIFT;
-    int     yl = (spot->y - dist - bmaporgy) >> MAPBLOCKSHIFT;
-    int     xh = (spot->x + dist - bmaporgx) >> MAPBLOCKSHIFT;
-    int     xl = (spot->x - dist - bmaporgx) >> MAPBLOCKSHIFT;
+    int         x, y;
+    fixed_t     dist = (damage + MAXRADIUS) << FRACBITS;
+    int         yh = (spot->y + dist - bmaporgy) >> MAPBLOCKSHIFT;
+    int         yl = (spot->y - dist - bmaporgy) >> MAPBLOCKSHIFT;
+    int         xh = (spot->x + dist - bmaporgx) >> MAPBLOCKSHIFT;
+    int         xl = (spot->x - dist - bmaporgx) >> MAPBLOCKSHIFT;
 
     bombspot = spot;
     bombsource = source;
@@ -1512,10 +1511,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
     player_t *player;
 
     if (P_ThingHeightClip(thing))
-    {
-        // keep checking
-        return true;
-    }
+        return true;    // keep checking
 
     player = &players[consoleplayer];
 
@@ -1604,14 +1600,16 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
         n->visited = false;
 
     do
+    {
         for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
             if (!n->visited)                                    // unprocessed thing found
             {
                 n->visited = true;                              // mark thing as processed
                 if (!(n->m_thing->flags & MF_NOBLOCKMAP))       // jff 4/7/98 don't do these
                     PIT_ChangeSector(n->m_thing);               // process it
-                break;                                         // exit and start over
+                break;                                          // exit and start over
             }
+    }
     while (n);  // repeat from scratch until all things left are marked valid
 
     return nofit;
@@ -1637,7 +1635,7 @@ static msecnode_t *P_GetSecnode(void)
 
     return (headsecnode ?
         node = headsecnode, headsecnode = node->m_snext, node :
-        (msecnode_t *)Z_Malloc(sizeof *node, PU_LEVEL, NULL));
+        (msecnode_t *)Z_Malloc(sizeof(*node), PU_LEVEL, NULL));
 }
 
 // P_PutSecnode() returns a node to the freelist.
@@ -1794,7 +1792,7 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     // added or verified as needed, m_thing will be set properly. When
     // finished, delete all nodes where m_thing is still NULL. These
     // represent the sectors the Thing has vacated.
-    for (node = sector_list; node; node = node->m_tnext)
+    for (node = thing->old_sectorlist; node; node = node->m_tnext)
         node->m_thing = NULL;
 
     tmthing = thing;
@@ -1814,6 +1812,8 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
     yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
     yh = (tmbbox[BOXTOP] - bmaporgy) >> MAPBLOCKSHIFT;
+
+    sector_list = thing->old_sectorlist;
 
     for (bx = xl; bx <= xh; bx++)
         for (by = yl; by <= yh; by++)

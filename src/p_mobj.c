@@ -651,11 +651,11 @@ void P_RemoveMobj(mobj_t *mobj)
     P_UnsetThingPosition(mobj);
 
     // Delete all nodes on the current sector_list
-    if (sector_list)
-    {
-        P_DelSeclist(sector_list);
-        sector_list = NULL;
-    }
+    if (mobj->old_sectorlist)
+        P_DelSeclist(mobj->old_sectorlist);
+    
+    mobj->flags |= (MF_NOSECTOR | MF_NOBLOCKMAP);
+    mobj->old_sectorlist = NULL;
 
     if (shootingsky)
     {
