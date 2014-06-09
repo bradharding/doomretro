@@ -95,18 +95,14 @@ void P_ExplodeMissile(mobj_t *mo)
 
     P_SetMobjState(mo, (statenum_t)mo->info->deathstate);
 
-    mo->tics -= P_Random() & 3;
-
-    if (mo->tics < 1)
-        mo->tics = 1;
+    mo->tics = MAX(1, mo->tics - (P_Random() & 3));
 
     mo->flags &= ~MF_MISSILE;
 
     if (mo->type == MT_ROCKET)
         mo->colfunc = tlcolfunc;
 
-    if (mo->info->deathsound)
-        S_StartSound(mo, mo->info->deathsound);
+    S_StartSound(mo, mo->info->deathsound);
 }
 
 //
@@ -120,20 +116,20 @@ int     puffcount = 0;
 
 void P_XYMovement(mobj_t *mo)
 {
-    player_t   *player;
-    fixed_t    xmove, ymove;
-    mobjtype_t type;
+    player_t    *player;
+    fixed_t     xmove, ymove;
+    mobjtype_t  type;
 
-    if (!mo->momx && !mo->momy)
+    if (!(mo->momx | mo->momy))
     {
         if (mo->flags & MF_SKULLFLY)
         {
             // the skull slammed into something
             mo->flags &= ~MF_SKULLFLY;
-            mo->momx = mo->momy = mo->momz = 0;
-
-            P_SetMobjState(mo, (statenum_t)mo->info->spawnstate);
+            mo->momz = 0;
+            P_SetMobjState(mo, mo->info->spawnstate);
         }
+
         return;
     }
 
@@ -141,10 +137,8 @@ void P_XYMovement(mobj_t *mo)
     type = mo->type;
 
     if (type == MT_ROCKET && smoketrails)
-    {
         if (puffcount++ > 1)
             P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle, false);
-    }
 
     if (mo->momx > MAXMOVE)
         mo->momx = MAXMOVE;
@@ -161,7 +155,7 @@ void P_XYMovement(mobj_t *mo)
 
     do
     {
-        fixed_t  ptryx, ptryy;
+        fixed_t ptryx, ptryy;
 
         if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2
             || xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
@@ -182,10 +176,8 @@ void P_XYMovement(mobj_t *mo)
         {
             // blocked move
             if (mo->player)
-            {
                 // try to slide along it
                 P_SlideMove(mo);
-            }
             else if (mo->flags & MF_MISSILE)
             {
                 // explode a missile
@@ -307,7 +299,10 @@ void P_ZMovement(mobj_t *mo)
         // [BH] remove blood the moment it hits the ground so
         //  a blood splat can be spawned in its place
         if (mo->type == MT_BLOOD)
+        {
             P_RemoveMobj(mo);
+            return;
+        }
 
         // hit the floor
         if (mo->flags & MF_SKULLFLY)
@@ -342,22 +337,21 @@ void P_ZMovement(mobj_t *mo)
     else if (!(mo->flags & MF_NOGRAVITY))
     {
         if (!mo->momz)
-            mo->momz = -GRAVITY * 2;
-        else
-            mo->momz -= GRAVITY;
+            mo->momz = -GRAVITY;
+        mo->momz -= GRAVITY;
     }
 
     if (mo->z + mo->height > mo->ceilingz)
     {
+        // hit the ceiling
+        if (mo->momz > 0)
+            mo->momz = 0;
+
         if (mo->flags & MF_SKULLFLY)
         {
             // the skull slammed into something
             mo->momz = -mo->momz;
         }
-
-        // hit the ceiling
-        if (mo->momz > 0)
-            mo->momz = 0;
 
         mo->z = mo->ceilingz - mo->height;
 
@@ -408,8 +402,6 @@ void P_NightmareRespawn(mobj_t *mobj)
 
     // spawn the new monster
     mthing = &mobj->spawnpoint;
-
-    // spawn it
     z = ((mobj->info->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
     // inherit attributes from deceased one
@@ -525,13 +517,11 @@ void P_MobjThinker(mobj_t *mobj)
 //
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 {
-    mobj_t      *mobj;
+    mobj_t      *mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
     state_t     *st;
-    mobjinfo_t  *info;
+    mobjinfo_t  *info = &mobjinfo[type];
 
-    mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
     memset(mobj, 0, sizeof(*mobj));
-    info = &mobjinfo[type];
 
     mobj->type = type;
     mobj->info = info;
@@ -642,9 +632,7 @@ extern int *isliquid;
 
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if (bloodsplats > 0 && mobj->type == MT_BLOOD &&
-        mobj->floorz == mobj->subsector->sector->floorheight &&
-        !isliquid[mobj->subsector->sector->floorpic])
+    if (mobj->type == MT_BLOOD && bloodsplats > 0 && !isliquid[mobj->subsector->sector->floorpic])
         bloodSplatSpawner(mobj->x, mobj->y, mobj->flags2, mobj->colfunc);
 
     if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
@@ -676,8 +664,7 @@ void P_RemoveMobj(mobj_t *mobj)
         shootingsky = false;
     }
 
-    if (!demorecording && !demoplayback)
-        mobj->target = mobj->tracer = NULL;
+    mobj->target = mobj->tracer = NULL;
 
     // free block
     P_RemoveThinker((thinker_t *)mobj);
@@ -849,10 +836,10 @@ void P_SpawnPlayer(mapthing_t *mthing)
 //
 void P_SpawnMapThing(mapthing_t *mthing)
 {
-    int     i;
-    int     bit;
-    mobj_t  *mobj;
-    fixed_t x, y, z;
+    int         i;
+    int         bit;
+    mobj_t      *mobj;
+    fixed_t     x, y, z;
 
     // count deathmatch start positions
     if (mthing->type == PlayerDeathmatchStart)
@@ -963,16 +950,10 @@ extern angle_t  shootangle;
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
 {
-    mobj_t *th;
+    mobj_t *th = P_SpawnMobj(x, y, z + ((P_Random() - P_Random()) << 10), MT_PUFF);
 
-    z += ((P_Random() - P_Random()) << 10);
-
-    th = P_SpawnMobj(x, y, z, MT_PUFF);
     th->momz = FRACUNIT;
-    th->tics -= P_Random() & 3;
-
-    if (th->tics < 1)
-        th->tics = 1;
+    th->tics = MAX(1, th->tics - (P_Random() & 3));
 
     th->angle = angle;
 
@@ -1038,7 +1019,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th = P_SpawnMobj(x, y, z, MT_BLOOD);
 
-        th->tics = MAX(1, th->tics - P_Random() & 6);
+        th->tics = MAX(1, th->tics - (P_Random() & 6));
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
         th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
@@ -1063,9 +1044,11 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_BloodSplatThinker(mobj_t *splat)
 {
-    splat->z = splat->subsector->sector->floorheight;
+    sector_t *sec = splat->subsector->sector;
 
-    if (isliquid[splat->subsector->sector->floorpic])
+    splat->z = sec->floorheight;
+
+    if (isliquid[sec->floorpic])
     {
         P_UnsetThingPosition(splat);
         ((thinker_t *)splat)->function.acv = (actionf_v)(-1);
@@ -1149,9 +1132,7 @@ void P_SpawnBloodSplat3(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 //
 void P_CheckMissileSpawn(mobj_t *th)
 {
-    th->tics -= P_Random() & 3;
-    if (th->tics < 1)
-        th->tics = 1;
+    th->tics = MAX(1, th->tics - (P_Random() & 3));
 
     // move a little forward so an angle can
     // be computed if it immediately explodes
@@ -1190,9 +1171,9 @@ mobj_t *P_SubstNullMobj(mobj_t *mobj)
 //
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 {
-    mobj_t  *th;
-    angle_t an;
-    int     dist;
+    mobj_t      *th;
+    angle_t     an;
+    int         dist;
 
     if (!dest)
     {
@@ -1233,10 +1214,10 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 //
 void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 {
-    mobj_t  *th;
-    angle_t an;
-    fixed_t x, y, z;
-    fixed_t slope;
+    mobj_t      *th;
+    angle_t     an;
+    fixed_t     x, y, z;
+    fixed_t     slope;
 
     // see which target is to be aimed at
     an = source->angle;
