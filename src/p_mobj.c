@@ -1044,11 +1044,9 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_BloodSplatThinker(mobj_t *splat)
 {
-    sector_t *sec = splat->subsector->sector;
+    splat->z = splat->floorz;
 
-    splat->z = sec->floorheight;
-
-    if (isliquid[sec->floorpic])
+    if (isliquid[splat->subsector->sector->floorpic])
     {
         P_UnsetThingPosition(splat);
         ((thinker_t *)splat)->function.acv = (actionf_v)(-1);
