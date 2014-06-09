@@ -194,20 +194,17 @@ void P_LineOpening(line_t *linedef)
 //
 void P_UnsetThingPosition(mobj_t *thing)
 {
-    int blockx;
-    int blocky;
-
     if (!(thing->flags & MF_NOSECTOR))
     {
         // inert things don't need to be in blockmap?
         // unlink from subsector
-        if (thing->snext)
-            thing->snext->sprev = thing->sprev;
 
-        if (thing->sprev)
-            thing->sprev->snext = thing->snext;
-        else
-            thing->subsector->sector->thinglist = thing->snext;
+        // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
+        // pointers, allows head node pointers to be treated like everything else
+        mobj_t **sprev = thing->sprev;
+        mobj_t  *snext = thing->snext;
+        if ((*sprev = snext))  // unlink from sector list
+            snext->sprev = sprev;
 
         // phares 3/14/98
         //
@@ -228,20 +225,18 @@ void P_UnsetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOBLOCKMAP))
     {
         // inert things don't need to be in blockmap
-        // unlink from block map
-        if (thing->bnext)
-            thing->bnext->bprev = thing->bprev;
 
-        if (thing->bprev)
-            thing->bprev->bnext = thing->bnext;
-        else
-        {
-            blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
-            blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
+        // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
+        // pointers, allows head node pointers to be treated like everything else
+        //
+        // Also more robust, since it doesn't depend on current position for
+        // unlinking. Old method required computing head node based on position
+        // at time of unlinking, assuming it was the same position as during
+        // linking.
 
-            if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
-                blocklinks[blocky * bmapwidth + blockx] = thing->bnext;
-        }
+        mobj_t *bnext, **bprev = thing->bprev;
+        if (bprev && (*bprev = bnext = thing->bnext))  // unlink from block map
+            bnext->bprev = bprev;
     }
 }
 
@@ -254,10 +249,6 @@ void P_UnsetThingPosition(mobj_t *thing)
 void P_SetThingPosition(mobj_t *thing)
 {
     subsector_t *ss;
-    sector_t    *sec;
-    int         blockx;
-    int         blocky;
-    mobj_t      **link;
 
     // link into subsector
     ss = R_PointInSubsector(thing->x, thing->y);
@@ -266,15 +257,16 @@ void P_SetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOSECTOR))
     {
         // invisible things don't go into the sector links
-        sec = ss->sector;
 
-        thing->sprev = NULL;
-        thing->snext = sec->thinglist;
+        // killough 8/11/98: simpler scheme using pointer-to-pointer prev
+        // pointers, allows head nodes to be treated like everything else
+        mobj_t **link = &ss->sector->thinglist;
+        mobj_t *snext = *link;
 
-        if (sec->thinglist)
-            sec->thinglist->sprev = thing;
-
-        sec->thinglist = thing;
+        if ((thing->snext = snext))
+            snext->sprev = &thing->snext;
+        thing->sprev = link;
+        *link = thing;
 
         // phares 3/16/98
         //
@@ -297,17 +289,19 @@ void P_SetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOBLOCKMAP))
     {
         // inert things don't need to be in blockmap
-        blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
-        blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
+        int blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
+        int blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
 
         if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
         {
-            link = &blocklinks[blocky * bmapwidth + blockx];
-            thing->bprev = NULL;
-            thing->bnext = *link;
-            if (*link)
-                (*link)->bprev = thing;
+            // killough 8/11/98: simpler scheme using pointer-to-pointer prev
+            // pointers, allows head nodes to be treated like everything else
+            mobj_t **link = &blocklinks[blocky*bmapwidth + blockx];
+            mobj_t *bnext = *link;
 
+            if ((thing->bnext = bnext))
+                bnext->bprev = &thing->bnext;
+            thing->bprev = link;
             *link = thing;
         }
         else
