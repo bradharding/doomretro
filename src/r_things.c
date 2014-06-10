@@ -49,7 +49,7 @@ fixed_t                         pspritexscale;
 fixed_t                         pspriteyscale;
 fixed_t                         pspriteiscale;
 
-lighttable_t                    **spritelights;
+static lighttable_t             **spritelights;         // killough 1/25/98 made static
 
 typedef struct drawseg_xrange_item_s
 {
@@ -84,11 +84,11 @@ int                             screenheightarray[SCREENWIDTH];
 spritedef_t                     *sprites;
 int                             numsprites;
 
-#define MAX_SPRITE_FRAMES 29
+#define MAX_SPRITE_FRAMES       29
 
-spriteframe_t                   sprtemp[MAX_SPRITE_FRAMES];
-int                             maxframe;
-char                            *spritename;
+static spriteframe_t            sprtemp[MAX_SPRITE_FRAMES];
+static int                      maxframe;
+static char                     *spritename;
 
 extern int                      screensize;
 extern boolean                  inhelpscreens;
@@ -249,8 +249,8 @@ void R_InitSpriteDefs(char **namelist)
 //
 // GAME FUNCTIONS
 //
-static vissprite_t *vissprites, **vissprite_ptrs;       // killough
-static int num_vissprite, num_vissprite_alloc, num_vissprite_ptrs;
+static vissprite_t      *vissprites, **vissprite_ptrs;          // killough
+static int              num_vissprite, num_vissprite_alloc, num_vissprite_ptrs;
 
 //
 // R_InitSprites
@@ -282,10 +282,10 @@ vissprite_t *R_NewVisSprite(void)
 {
     if (num_vissprite >= num_vissprite_alloc)           // killough
     {
-        size_t num_vissprite_alloc_prev = num_vissprite_alloc;
+        size_t  num_vissprite_alloc_prev = num_vissprite_alloc;
 
         num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : 128);
-        vissprites = (vissprite_t *)realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
+        vissprites = realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
 
         //e6y: set all fields to zero
         memset(vissprites + num_vissprite_alloc_prev, 0,
@@ -300,8 +300,8 @@ vissprite_t *R_NewVisSprite(void)
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
-int *mfloorclip;
-int *mceilingclip;
+int     *mfloorclip;
+int     *mceilingclip;
 
 fixed_t spryscale;
 fixed_t sprtopscreen;
@@ -366,10 +366,10 @@ int     fuzzpos;
 //
 void R_DrawVisSprite(vissprite_t *vis)
 {
-    column_t *column;
-    int      texturecolumn;
-    fixed_t  frac;
-    patch_t  *patch = (patch_t *)W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+    column_t    *column;
+    int         texturecolumn;
+    fixed_t     frac;
+    patch_t     *patch = (patch_t *)W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
@@ -435,8 +435,6 @@ void R_ProjectSprite(mobj_t *thing)
 
     unsigned int        rot;
     boolean             flip;
-
-    int                 index;
 
     vissprite_t         *vis;
 
@@ -557,7 +555,8 @@ void R_ProjectSprite(mobj_t *thing)
     else
     {
         // diminished light
-        index = xscale >> LIGHTSCALESHIFT;
+        int index = ((xscale * 160 / centerx) >> LIGHTSCALESHIFT);
+
         if (index >= MAXLIGHTSCALE)
             index = MAXLIGHTSCALE - 1;
 
