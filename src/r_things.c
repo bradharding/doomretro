@@ -543,25 +543,12 @@ void R_ProjectSprite(mobj_t *thing)
 
     // get light level
     if (fixedcolormap)
-    {
-        // fixed map
-        vis->colormap = fixedcolormap;
-    }
+        vis->colormap = fixedcolormap;                          // fixed map
     else if (thing->frame & FF_FULLBRIGHT)
-    {
-        // full bright
-        vis->colormap = colormaps;
-    }
+        vis->colormap = colormaps;                              // full bright
     else
-    {
-        // diminished light
-        int index = ((xscale * 160 / centerx) >> LIGHTSCALESHIFT);
-
-        if (index >= MAXLIGHTSCALE)
-            index = MAXLIGHTSCALE - 1;
-
-        vis->colormap = spritelights[index];
-    }
+        vis->colormap = spritelights[MIN(((xscale * 160 / centerx) >> LIGHTSCALESHIFT),
+                                         MAXLIGHTSCALE - 1)];   // diminished light
 }
 
 //
@@ -570,8 +557,8 @@ void R_ProjectSprite(mobj_t *thing)
 //
 void R_AddSprites(sector_t *sec)
 {
-    mobj_t *thing;
-    int    lightnum;
+    mobj_t      *thing;
+    int         lightnum;
 
     // BSP is traversed by subsector.
     // A sector might have been split into several
@@ -584,7 +571,6 @@ void R_AddSprites(sector_t *sec)
     sec->validcount = validcount;
 
     lightnum = (sec->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-
     spritelights = scalelight[lightnum >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, lightnum)];
 
     // Handle all things in sector.
@@ -599,17 +585,16 @@ static boolean flash;
 
 void R_DrawPSprite(pspdef_t *psp)
 {
-    fixed_t       tx;
-    int           x1, x2;
-    spritedef_t   *sprdef;
-    spriteframe_t *sprframe;
-    int           lump;
-    boolean       flip;
-    vissprite_t   *vis;
-    vissprite_t   avis;
-    state_t       *state;
-
-    int           invisibility = viewplayer->powers[pw_invisibility];
+    fixed_t             tx;
+    int                 x1, x2;
+    spritedef_t         *sprdef;
+    spriteframe_t       *sprframe;
+    int                 lump;
+    boolean             flip;
+    vissprite_t         *vis;
+    vissprite_t         avis;
+    state_t             *state;
+    int                 invisibility;
 
     void (*colfuncs[])(void) =
     {
@@ -660,7 +645,7 @@ void R_DrawPSprite(pspdef_t *psp)
     vis->mobjflags2 = 0;
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
     vis->x1 = MAX(0, x1);
-    vis->x2 = (x2 >= viewwidth ? viewwidth - 1 : x2);
+    vis->x2 = MIN(x2, viewwidth - 1);
     vis->scale = pspriteyscale;
 
     if (flip)
@@ -679,26 +664,18 @@ void R_DrawPSprite(pspdef_t *psp)
 
     vis->patch = lump;
 
+    invisibility = viewplayer->powers[pw_invisibility];
     if (invisibility > 128 || (invisibility & 8))
-    {
-        // shadow draw
-        vis->colfunc = psprcolfunc;
-    }
+        vis->colfunc = psprcolfunc;                             // shadow draw
     else
         vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
 
     if (fixedcolormap)
-    {
-        // fixed color
-        vis->colormap = fixedcolormap;
-    }
+        vis->colormap = fixedcolormap;                          // fixed color
     else
     {
         if (flash || (state->frame & FF_FULLBRIGHT))
-        {
-            // full bright
-            vis->colormap = colormaps;
-        }
+            vis->colormap = colormaps;                          // full bright
         else
         {
             // local light
@@ -720,10 +697,10 @@ void R_DrawPSprite(pspdef_t *psp)
 //
 void R_DrawPlayerSprites(void)
 {
-    int      i;
-    int      lightnum;
-    int      invisibility = viewplayer->powers[pw_invisibility];
-    pspdef_t *psp;
+    int         i;
+    int         lightnum;
+    int         invisibility = viewplayer->powers[pw_invisibility];
+    pspdef_t    *psp;
 
     // get light level
     lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
@@ -764,7 +741,6 @@ void R_DrawPlayerSprites(void)
 #define bcopyp(d, s, n) memcpy(d, s, (n) * sizeof(void *))
 
 // killough 9/2/98: merge sort
-
 static void msort(vissprite_t **s, vissprite_t **t, int n)
 {
     if (n >= 16)
@@ -810,12 +786,11 @@ void R_SortVisSprites(void)
 {
     if (num_vissprite)
     {
-        int i = num_vissprite;
+        int     i = num_vissprite;
 
         // If we need to allocate more pointers for the vissprites,
         // allocate as many as were allocated for sprites -- killough
         // killough 9/22/98: allocate twice as many
-
         if (num_vissprite_ptrs < num_vissprite * 2)
         {
             free(vissprite_ptrs);
@@ -824,11 +799,10 @@ void R_SortVisSprites(void)
         }
 
         while (--i >= 0)
-            vissprite_ptrs[num_vissprite - i - 1] = vissprites + i;
+            vissprite_ptrs[i] = vissprites + i;
 
         // killough 9/22/98: replace qsort with merge sort, since the keys
         // are roughly in order to begin with, due to BSP rendering.
-
         msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
     }
 }
@@ -838,14 +812,14 @@ void R_SortVisSprites(void)
 //
 void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
 {
-    drawseg_t *ds;
-    int       clipbot[MAXWIDTH];
-    int       cliptop[MAXWIDTH];
-    int       x;
-    int       r1;
-    int       r2;
-    fixed_t   scale;
-    fixed_t   lowscale;
+    drawseg_t   *ds;
+    int         clipbot[MAXWIDTH];
+    int         cliptop[MAXWIDTH];
+    int         x;
+    int         r1;
+    int         r2;
+    fixed_t     scale;
+    fixed_t     lowscale;
 
     if (spr->x1 > spr->x2)
         return;
