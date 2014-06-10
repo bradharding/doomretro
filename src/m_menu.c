@@ -27,6 +27,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <stdio.h>
+#include <time.h>
 
 #include "d_main.h"
 #include "doomstat.h"
@@ -512,8 +513,10 @@ void M_DarkBackground(void)
         }
     }
 
+    srand(666);
     for (i = 0; i < height; i++)
-        screens[0][i] = tinttab50[blurredscreen[i]];
+        screens[0][i] = colormaps[(M_RandomInt(10, 13) << 8) + blurredscreen[i]];
+    srand((unsigned int)time(NULL));
 
     if (graphicdetail == LOW)
         V_LowGraphicDetail(0, SCREENHEIGHT);
