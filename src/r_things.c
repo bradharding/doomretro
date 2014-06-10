@@ -35,8 +35,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define MINZ        (FRACUNIT * 4)
-#define BASEYCENTER (ORIGINALHEIGHT / 2)
+#define MINZ                    (FRACUNIT * 4)
+#define BASEYCENTER             (ORIGINALHEIGHT / 2)
 
 //
 // Sprite rotation 0 is facing the viewer,
@@ -45,33 +45,53 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-fixed_t         pspritexscale;
-fixed_t         pspriteyscale;
-fixed_t         pspriteiscale;
+fixed_t                         pspritexscale;
+fixed_t                         pspriteyscale;
+fixed_t                         pspriteiscale;
 
-lighttable_t    **spritelights;
+lighttable_t                    **spritelights;
+
+typedef struct drawseg_xrange_item_s
+{
+    short                       x1, x2;
+    drawseg_t                   *user;
+} drawseg_xrange_item_t;
+
+typedef struct drawsegs_xrange_s
+{
+    drawseg_xrange_item_t       *items;
+    int                         count;
+} drawsegs_xrange_t;
+
+#define DS_RANGES_COUNT         3
+
+static drawsegs_xrange_t        drawsegs_xranges[DS_RANGES_COUNT];
+
+static drawseg_xrange_item_t    *drawsegs_xrange;
+static unsigned int             drawsegs_xrange_size = 0;
+static int                      drawsegs_xrange_count = 0;
 
 // constant arrays
 //  used for psprite clipping and initializing clipping
-int             negonearray[SCREENWIDTH];
-int             screenheightarray[SCREENWIDTH];
+int                             negonearray[SCREENWIDTH];
+int                             screenheightarray[SCREENWIDTH];
 
 //
 // INITIALIZATION FUNCTIONS
 //
 
 // variables used to look up and range check thing_t sprites patches
-spritedef_t     *sprites;
-int             numsprites;
+spritedef_t                     *sprites;
+int                             numsprites;
 
 #define MAX_SPRITE_FRAMES 29
 
-spriteframe_t   sprtemp[MAX_SPRITE_FRAMES];
-int             maxframe;
-char            *spritename;
+spriteframe_t                   sprtemp[MAX_SPRITE_FRAMES];
+int                             maxframe;
+char                            *spritename;
 
-extern int      screensize;
-extern boolean  inhelpscreens;
+extern int                      screensize;
+extern boolean                  inhelpscreens;
 
 //
 // R_InstallSpriteLump
@@ -837,38 +857,87 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
     // Scan drawsegs from end to start for obscuring segs.
     // The first drawseg that has a greater scale
     //  is the clip seg.
-    for (ds = ds_p; ds-- > drawsegs;)
+
+    // e6y: optimization
+
+    if (drawsegs_xrange_size)
     {
-        // determine if the drawseg obscures the sprite
-        if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
-            continue;           // does not cover sprite
+        const drawseg_xrange_item_t     *last = &drawsegs_xrange[drawsegs_xrange_count - 1];
+        drawseg_xrange_item_t           *curr = &drawsegs_xrange[-1];
 
-        r1 = MAX(ds->x1, spr->x1);
-        r2 = MIN(ds->x2, spr->x2);
-
-        lowscale = MIN(ds->scale1, ds->scale2);
-        scale = MAX(ds->scale1, ds->scale2);
-
-        if (scale < spr->scale ||
-            (lowscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+        while (++curr <= last)
         {
-            // masked mid texture?
-            if (drawmaskedtextures && ds->maskedtexturecol)
-                R_RenderMaskedSegRange(ds, r1, r2);
-            // seg is behind sprite
-            continue;
+            // determine if the drawseg obscures the sprite
+            if (curr->x1 > spr->x2 || curr->x2 < spr->x1)
+                continue;           // does not cover sprite
+
+            ds = curr->user;
+
+            r1 = MAX(ds->x1, spr->x1);
+            r2 = MIN(ds->x2, spr->x2);
+
+            lowscale = MIN(ds->scale1, ds->scale2);
+            scale = MAX(ds->scale1, ds->scale2);
+
+            if (scale < spr->scale ||
+                (lowscale < spr->scale &&  !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            {
+                // masked mid texture?
+                if (drawmaskedtextures && ds->maskedtexturecol)
+                    R_RenderMaskedSegRange(ds, r1, r2);
+                // seg is behind sprite
+                continue;
+            }
+
+            // clip this piece of the sprite
+            // killough 3/27/98: optimized and made much shorter
+            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+                for (x = r1; x <= r2; x++)
+                    if (clipbot[x] == -2)
+                        clipbot[x] = ds->sprbottomclip[x];
+
+            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+                for (x = r1; x <= r2; x++)
+                    if (cliptop[x] == -2)
+                        cliptop[x] = ds->sprtopclip[x];
         }
+    }
+    else
+    {
+        for (ds = ds_p; ds-- > drawsegs;)
+        {
+            // determine if the drawseg obscures the sprite
+            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
+                continue;           // does not cover sprite
 
-        // clip this piece of the sprite
-        if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
-            for (x = r1; x <= r2; x++)
-                if (clipbot[x] == -2)
-                    clipbot[x] = ds->sprbottomclip[x];
+            r1 = MAX(ds->x1, spr->x1);
+            r2 = MIN(ds->x2, spr->x2);
 
-        if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
-            for (x = r1; x <= r2; x++)
-                if (cliptop[x] == -2)
-                    cliptop[x] = ds->sprtopclip[x];
+            lowscale = MIN(ds->scale1, ds->scale2);
+            scale = MAX(ds->scale1, ds->scale2);
+
+            if (scale < spr->scale ||
+                (lowscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            {
+                // masked mid texture?
+                if (drawmaskedtextures && ds->maskedtexturecol)
+                    R_RenderMaskedSegRange(ds, r1, r2);
+                // seg is behind sprite
+                continue;
+            }
+
+            // clip this piece of the sprite
+            // killough 3/27/98: optimized and made much shorter
+            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+                for (x = r1; x <= r2; x++)
+                    if (clipbot[x] == -2)
+                        clipbot[x] = ds->sprbottomclip[x];
+
+            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+                for (x = r1; x <= r2; x++)
+                    if (cliptop[x] == -2)
+                        cliptop[x] = ds->sprtopclip[x];
+        }
     }
 
     // all clipping has been performed, so draw the sprite
@@ -893,30 +962,111 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
 //
 void R_DrawMasked(void)
 {
-    drawseg_t *ds;
+    drawseg_t   *ds;
+    int         i;
+    int         cx = SCREENWIDTH / 2;
 
     R_SortVisSprites();
+
+    // e6y
+    // Reducing of cache misses in the following R_DrawSprite()
+    // Makes sense for scenes with huge amount of drawsegs.
+    // ~12% of speed improvement on epic.wad map05
+    for (i = 0; i < DS_RANGES_COUNT; i++)
+        drawsegs_xranges[i].count = 0;
 
     if (num_vissprite > 0)
     {
         int i;
 
-        // draw all blood splats first, front to back
-        for (i = 0; i < num_vissprite; i++)
+        if (drawsegs_xrange_size < maxdrawsegs)
         {
-            vissprite_t *spr = vissprite_ptrs[i];
-
-            if (spr->type == MT_BLOODSPLAT)
-                R_DrawSprite(spr, false);
+            drawsegs_xrange_size = 2 * maxdrawsegs;
+            for (i = 0; i < DS_RANGES_COUNT; i++)
+            {
+                drawsegs_xranges[i].items = realloc(
+                    drawsegs_xranges[i].items,
+                    drawsegs_xrange_size * sizeof(drawsegs_xranges[i].items[0]));
+            }
         }
-
-        // draw all other vissprites, back to front
-        for (i = num_vissprite; --i >= 0;)
+        for (ds = ds_p; ds-- > drawsegs;)
         {
-            vissprite_t *spr = vissprite_ptrs[i];
+            if (ds->silhouette || ds->maskedtexturecol)
+            {
+                drawsegs_xranges[0].items[drawsegs_xranges[0].count].x1 = ds->x1;
+                drawsegs_xranges[0].items[drawsegs_xranges[0].count].x2 = ds->x2;
+                drawsegs_xranges[0].items[drawsegs_xranges[0].count].user = ds;
 
-            if (spr->type != MT_BLOODSPLAT)
-                R_DrawSprite(spr, true);
+                // e6y: ~13% of speed improvement on sunder.wad map10
+                if (ds->x1 < cx)
+                {
+                    drawsegs_xranges[1].items[drawsegs_xranges[1].count] =
+                        drawsegs_xranges[0].items[drawsegs_xranges[0].count];
+                    drawsegs_xranges[1].count++;
+                }
+                if (ds->x2 >= cx)
+                {
+                    drawsegs_xranges[2].items[drawsegs_xranges[2].count] =
+                        drawsegs_xranges[0].items[drawsegs_xranges[0].count];
+                    drawsegs_xranges[2].count++;
+                }
+
+                drawsegs_xranges[0].count++;
+            }
+        }
+    }
+
+    // draw all blood splats first, front to back
+    for (i = 0; i < num_vissprite; i++)
+    {
+        vissprite_t *spr = vissprite_ptrs[i];
+
+        if (spr->type == MT_BLOODSPLAT)
+        {
+            if (spr->x2 < cx)
+            {
+                drawsegs_xrange = drawsegs_xranges[1].items;
+                drawsegs_xrange_count = drawsegs_xranges[1].count;
+            }
+            else if (spr->x1 >= cx)
+            {
+                drawsegs_xrange = drawsegs_xranges[2].items;
+                drawsegs_xrange_count = drawsegs_xranges[2].count;
+            }
+            else
+            {
+                drawsegs_xrange = drawsegs_xranges[0].items;
+                drawsegs_xrange_count = drawsegs_xranges[0].count;
+            }
+
+            R_DrawSprite(spr, false);
+        }
+    }
+
+    // draw all other vissprites, back to front
+    for (i = num_vissprite; --i >= 0;)
+    {
+        vissprite_t *spr = vissprite_ptrs[i];
+
+        if (spr->type != MT_BLOODSPLAT)
+        {
+            if (spr->x2 < cx)
+            {
+                drawsegs_xrange = drawsegs_xranges[1].items;
+                drawsegs_xrange_count = drawsegs_xranges[1].count;
+            }
+            else if (spr->x1 >= cx)
+            {
+                drawsegs_xrange = drawsegs_xranges[2].items;
+                drawsegs_xrange_count = drawsegs_xranges[2].count;
+            }
+            else
+            {
+                drawsegs_xrange = drawsegs_xranges[0].items;
+                drawsegs_xrange_count = drawsegs_xranges[0].count;
+            }
+
+            R_DrawSprite(spr, true);
         }
     }
 
