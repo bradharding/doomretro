@@ -483,11 +483,12 @@ void M_DarkBackground(void)
 
     if (!blurred)
     {
-        memcpy(blurredscreen, screens[0], SCREENWIDTH * SCREENHEIGHT);
-
         if (grayscale)
             for (i = 0; i < height; i++)
-                blurredscreen[i] = grays[blurredscreen[i]];
+                blurredscreen[i] = grays[screens[0][i]];
+        else
+            for (i = 0; i < height; i++)
+                blurredscreen[i] = screens[0][i];
 
         if (blur)
         {
@@ -513,10 +514,8 @@ void M_DarkBackground(void)
         }
     }
 
-    srand(666);
     for (i = 0; i < height; i++)
-        screens[0][i] = colormaps[(M_RandomInt(10, 13) << 8) + blurredscreen[i]];
-    srand((unsigned int)time(NULL));
+        screens[0][i] = tinttab50[blurredscreen[i]];
 
     if (graphicdetail == LOW)
         V_LowGraphicDetail(0, SCREENHEIGHT);
