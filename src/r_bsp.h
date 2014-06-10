@@ -29,8 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __R_BSP__
 #define __R_BSP__
 
-
-
 extern seg_t            *curline;
 extern side_t           *sidedef;
 extern line_t           *linedef;
@@ -44,21 +42,13 @@ extern unsigned int     maxdrawsegs;
 
 extern drawseg_t        *ds_p;
 
-extern lighttable_t     **hscalelight;
-extern lighttable_t     **vscalelight;
-extern lighttable_t     **dscalelight;
-
-
 typedef void (*drawfunc_t)(int start, int stop);
-
 
 // BSP?
 void R_ClearClipSegs(void);
 void R_ClearDrawSegs(void);
 
-
 void R_RenderBSPNode(int bspnum);
 int R_DoorClosed(void);
-
 
 #endif

@@ -42,15 +42,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //  and the total size == width*height*depth/8.,
 //
 
-int  viewwidth;
-int  scaledviewwidth;
-int  viewheight;
-int  viewheight2;
-int  viewwindowx;
-int  viewwindowy;
-byte *ylookup[MAXHEIGHT];
-byte *ylookup2[MAXHEIGHT];
-int  fuzztable[SCREENWIDTH * SCREENHEIGHT];
+int     viewwidth;
+int     scaledviewwidth;
+int     viewheight;
+int     viewheight2;
+int     viewwindowx;
+int     viewwindowy;
+byte    *ylookup[MAXHEIGHT];
+byte    *ylookup2[MAXHEIGHT];
+int     fuzztable[SCREENWIDTH * SCREENHEIGHT];
 
 byte redtoblue[] =
 {
@@ -116,19 +116,19 @@ byte redtoyellow[] =
 // R_DrawColumn
 // Source is the top of the column to scale.
 //
-lighttable_t *dc_colormap;
-int          dc_x;
-int          dc_yl;
-int          dc_yh;
-fixed_t      dc_iscale;
-fixed_t      dc_texturemid;
-fixed_t      dc_texheight;
-fixed_t      dc_texturefrac;
-boolean      dc_topsparkle;
-boolean      dc_bottomsparkle;
+lighttable_t    *dc_colormap;
+int             dc_x;
+int             dc_yl;
+int             dc_yh;
+fixed_t         dc_iscale;
+fixed_t         dc_texturemid;
+fixed_t         dc_texheight;
+fixed_t         dc_texturefrac;
+boolean         dc_topsparkle;
+boolean         dc_bottomsparkle;
 
 // first pixel in a column (possibly virtual)
-byte         *dc_source;
+byte            *dc_source;
 
 //
 // A column is a vertical slice/span from a wall texture that,
@@ -156,6 +156,8 @@ void R_DrawColumn(void)
     *dest = colormap[source[frac >> FRACBITS]];
 }
 
+#define HEIGHTMASK ((127 << FRACBITS) | 0xffff)
+
 void R_DrawWallColumn(void)
 {
     int32_t             count = dc_yh - dc_yl;
@@ -176,8 +178,6 @@ void R_DrawWallColumn(void)
 
         if (dc_texheight == 128)
         {
-            #define HEIGHTMASK ((127 << FRACBITS) | 0xffff)
-
             while (--count)
             {
                 *dest = colormap[source[(frac & HEIGHTMASK) >> FRACBITS]];
@@ -269,8 +269,6 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 
         if (dc_texheight == 128)
         {
-            #define HEIGHTMASK ((127 << FRACBITS) | 0xffff)
-
             while (--count)
             {
                 byte dot = source[(frac & HEIGHTMASK) >> FRACBITS];
