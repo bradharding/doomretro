@@ -1526,9 +1526,6 @@ boolean PIT_ChangeSector(mobj_t *thing)
     if (thing->health <= 0 && thing->type != MT_BARREL
         && thing->type != MT_SKULL && thing->type != MT_PAIN)
     {
-        int     i;
-        int     radius;
-
         P_SetMobjState(thing, S_GIBS);
 
         thing->flags &= ~MF_SOLID;
@@ -1536,12 +1533,17 @@ boolean PIT_ChangeSector(mobj_t *thing)
         thing->height = 0;
         thing->radius = 0;
 
-        radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
+        if (!(thing->flags & MF_SHADOW))
+        {
+            int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >>
+                           FRACBITS) >> 1) + 8;
+            int i;
 
-        for (i = 0; i < M_RandomInt(100, 150); i++)
-            bloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                              thing->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                              MF2_TRANSLUCENT_50, tl50colfunc);
+            for (i = 0; i < M_RandomInt(100, 150); i++)
+                bloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                                  thing->y + (M_RandomInt(-radius, radius) << FRACBITS),
+                                  MF2_TRANSLUCENT_50, tl50colfunc);
+        }
 
         S_StartSound(thing, sfx_slop);
 
