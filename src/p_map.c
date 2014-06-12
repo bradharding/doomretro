@@ -1510,6 +1510,9 @@ boolean PIT_ChangeSector(mobj_t *thing)
 {
     player_t *player;
 
+    if (thing->type == MT_BLOODSPLAT)
+        return true;
+
     if (P_ThingHeightClip(thing))
         return true;    // keep checking
 

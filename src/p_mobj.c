@@ -1044,7 +1044,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_BloodSplatThinker(mobj_t *splat)
 {
-    splat->z = splat->floorz;
+    splat->z = splat->subsector->sector->floorheight;
 
     if (isliquid[splat->subsector->sector->floorpic])
     {
@@ -1072,10 +1072,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void))
 
     newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
     newsplat->y = y + ((rand() % 16 - 5) << FRACBITS);
-    newsplat->z = ONFLOORZ;
     P_SetThingPosition(newsplat);
-
-    newsplat->floorz = newsplat->subsector->sector->floorheight;
 
     newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
     P_AddThinker(&newsplat->thinker);
@@ -1097,10 +1094,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void))
 
     newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
     newsplat->y = y + ((rand() % 16 - 5) << FRACBITS);
-    newsplat->z = ONFLOORZ;
     P_SetThingPosition(newsplat);
-
-    newsplat->floorz = newsplat->subsector->sector->floorheight;
 
     newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
     P_AddThinker(&newsplat->thinker);
