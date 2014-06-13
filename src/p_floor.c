@@ -167,23 +167,24 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
 //
 void T_MoveFloor(floormove_t *floor)
 {
-    result_e    res = T_MovePlane(floor->sector, floor->speed, floor->floordestheight,
+    sector_t    *sec = floor->sector;
+    result_e    res = T_MovePlane(sec, floor->speed, floor->floordestheight,
                                   floor->crush, 0, floor->direction);
 
-    if (!(leveltime & 7) && floor->sector->floorheight != floor->floordestheight)
-        S_StartSound((mobj_t *)&floor->sector->soundorg, sfx_stnmov);
+    if (!(leveltime & 7) && sec->floorheight != floor->floordestheight)
+        S_StartSound(&sec->soundorg, sfx_stnmov);
 
     if (res == pastdest)
     {
-        floor->sector->specialdata = NULL;
+        sec->specialdata = NULL;
 
         if (floor->direction == 1)
         {
             switch (floor->type)
             {
                 case donutRaise:
-                    floor->sector->special = floor->newspecial;
-                    floor->sector->floorpic = floor->texture;
+                    sec->special = floor->newspecial;
+                    sec->floorpic = floor->texture;
                 default:
                     break;
             }
@@ -193,8 +194,8 @@ void T_MoveFloor(floormove_t *floor)
             switch (floor->type)
             {
                 case lowerAndChange:
-                    floor->sector->special = floor->newspecial;
-                    floor->sector->floorpic = floor->texture;
+                    sec->special = floor->newspecial;
+                    sec->floorpic = floor->texture;
                 default:
                     break;
             }
@@ -202,7 +203,7 @@ void T_MoveFloor(floormove_t *floor)
         P_RemoveThinker(&floor->thinker);
 
         if (floor->stopsound)
-            S_StartSound((mobj_t *)&floor->sector->soundorg, sfx_pstop);
+            S_StartSound(&sec->soundorg, sfx_pstop);
     }
 }
 
