@@ -1044,13 +1044,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_BloodSplatThinker(mobj_t *splat)
 {
-    splat->z = splat->subsector->sector->floorheight;
-
-    if (isliquid[splat->subsector->sector->floorpic])
-    {
-        P_UnsetThingPosition(splat);
-        ((thinker_t *)splat)->function.acv = (actionf_v)(-1);
-    }
 }
 
 //
@@ -1058,59 +1051,81 @@ void P_BloodSplatThinker(mobj_t *splat)
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void))
 {
-    mobj_t      *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
+    subsector_t *ss;
 
-    memset(newsplat, 0, sizeof(*newsplat));
+    x += ((rand() % 16 - 5) << FRACBITS);
+    y += ((rand() % 16 - 5) << FRACBITS);
 
-    newsplat->type = MT_BLOODSPLAT;
-    newsplat->state = &states[S_BLOODSPLAT];
-    newsplat->sprite = SPR_BLD2;
-    newsplat->frame = rand() & 7;
+    ss = R_PointInSubsector(x, y);
 
-    newsplat->flags2 = flags2 | (rand() & 1) * MF2_MIRRORED;
-    newsplat->colfunc = colfunc;
+    if (!isliquid[ss->sector->floorpic])
+    {
+        mobj_t  *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
-    newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
-    newsplat->y = y + ((rand() % 16 - 5) << FRACBITS);
-    P_SetThingPosition(newsplat);
+        memset(newsplat, 0, sizeof(*newsplat));
 
-    newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
-    P_AddThinker(&newsplat->thinker);
+        newsplat->type = MT_BLOODSPLAT;
+        newsplat->state = &states[S_BLOODSPLAT];
+        newsplat->sprite = SPR_BLD2;
+        newsplat->frame = rand() & 7;
+
+        newsplat->flags2 = flags2 | (rand() & 1) * MF2_MIRRORED;
+        newsplat->colfunc = colfunc;
+
+        newsplat->x = x;
+        newsplat->y = y;
+        P_SetThingPosition(newsplat);
+        newsplat->z = ss->sector->floorheight;
+
+        newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
+        P_AddThinker(&newsplat->thinker);
+    }
 }
 
 void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void))
 {
-    mobj_t      *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
+    subsector_t *ss;
 
-    memset(newsplat, 0, sizeof(*newsplat));
+    x += ((rand() % 16 - 5) << FRACBITS);
+    y += ((rand() % 16 - 5) << FRACBITS);
 
-    newsplat->type = MT_BLOODSPLAT;
-    newsplat->state = &states[S_BLOODSPLAT];
-    newsplat->sprite = SPR_BLD2;
-    newsplat->frame = rand() & 7;
+    ss = R_PointInSubsector(x, y);
 
-    newsplat->flags2 = flags2 | (rand() & 1) * MF2_MIRRORED;
-    newsplat->colfunc = colfunc;
-
-    newsplat->x = x + ((rand() % 16 - 5) << FRACBITS);
-    newsplat->y = y + ((rand() % 16 - 5) << FRACBITS);
-    P_SetThingPosition(newsplat);
-
-    newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
-    P_AddThinker(&newsplat->thinker);
-
-    if (bloodSplatQueueSlot > bloodsplats)
+    if (!isliquid[ss->sector->floorpic])
     {
-        mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
+        mobj_t  *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
-        if (oldsplat)
+        memset(newsplat, 0, sizeof(*newsplat));
+
+        newsplat->type = MT_BLOODSPLAT;
+        newsplat->state = &states[S_BLOODSPLAT];
+        newsplat->sprite = SPR_BLD2;
+        newsplat->frame = rand() & 7;
+
+        newsplat->flags2 = flags2 | (rand() & 1) * MF2_MIRRORED;
+        newsplat->colfunc = colfunc;
+
+        newsplat->x = x;
+        newsplat->y = y;
+        P_SetThingPosition(newsplat);
+        newsplat->z = ss->sector->floorheight;
+
+        newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
+        P_AddThinker(&newsplat->thinker);
+
+        if (bloodSplatQueueSlot > bloodsplats)
         {
-            P_UnsetThingPosition(oldsplat);
-            ((thinker_t *)oldsplat)->function.acv = (actionf_v)(-1);
-        }
-    }
+            mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
 
-    bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
+            if (oldsplat)
+            {
+                P_UnsetThingPosition(oldsplat);
+                ((thinker_t *)oldsplat)->function.acv = (actionf_v)(-1);
+            }
+        }
+
+        bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
+    }
 }
 
 void P_SpawnBloodSplat3(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))

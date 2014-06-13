@@ -1510,9 +1510,6 @@ boolean PIT_ChangeSector(mobj_t *thing)
 {
     player_t *player;
 
-    if (thing->type == MT_BLOODSPLAT)
-        return true;
-
     if (P_ThingHeightClip(thing))
         return true;    // keep checking
 
@@ -1578,6 +1575,21 @@ boolean PIT_ChangeSector(mobj_t *thing)
     return true;
 }
 
+extern int *isliquid;
+
+void P_UpdateBloodSplat(mobj_t *splat)
+{
+    sector_t    *sec = splat->subsector->sector;
+
+    splat->z = sec->floorheight;
+
+    if (isliquid[sec->floorpic])
+    {
+        P_UnsetThingPosition(splat);
+        ((thinker_t *)splat)->function.acv = (actionf_v)(-1);
+    }
+}
+
 //
 // P_ChangeSector
 // jff 3/19/98 added to just check monsters on the periphery
@@ -1609,9 +1621,13 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
         for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
             if (!n->visited)                                    // unprocessed thing found
             {
+                mobj_t  *mobj = n->m_thing;
+
                 n->visited = true;                              // mark thing as processed
-                if (!(n->m_thing->flags & MF_NOBLOCKMAP))       // jff 4/7/98 don't do these
-                    PIT_ChangeSector(n->m_thing);               // process it
+                if (mobj->type == MT_BLOODSPLAT)
+                    P_UpdateBloodSplat(mobj);
+                else if (!(mobj->flags & MF_NOBLOCKMAP))        // jff 4/7/98 don't do these
+                    PIT_ChangeSector(mobj);                     // process it
                 break;                                          // exit and start over
             }
     }
