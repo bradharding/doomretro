@@ -1059,6 +1059,9 @@ static void saveg_read_floormove_t(floormove_t *str)
 
     // fixed_t speed;
     str->speed = saveg_read32();
+
+    // boolean stopsound;
+    str->stopsound = saveg_read32();
 }
 
 static void saveg_write_floormove_t(floormove_t *str)
@@ -1089,6 +1092,9 @@ static void saveg_write_floormove_t(floormove_t *str)
 
     // fixed_t speed;
     saveg_write32(str->speed);
+
+    // boolean stopsound;
+    saveg_write32(str->stopsound);
 }
 
 //
