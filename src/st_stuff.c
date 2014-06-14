@@ -552,6 +552,7 @@ boolean ST_Responder(event_t *ev)
                     plyr->playerstate = PST_LIVE;
                     plyr->viewheight = VIEWHEIGHT;
                     plyr->health = 0;//plyr->health = 100;
+                    infight = false;
                     P_SetupPsprites(plyr);
                     ST_Start();
                     HU_Start();

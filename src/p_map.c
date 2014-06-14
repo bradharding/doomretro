@@ -81,6 +81,8 @@ angle_t    shootangle;
 // Temporary holder for thing_sectorlist threads
 msecnode_t *sector_list = NULL; // phares 3/16/98
 
+boolean    infight;
+
 extern boolean followplayer;
 
 //
@@ -345,7 +347,7 @@ boolean PIT_CheckThing(mobj_t *thing)
             if (thing == tmthing->target)
                 return true;
 
-            if (thing->type != MT_PLAYER)
+            if (thing->type != MT_PLAYER && !infight)
             {
                 // Explode, but do no damage.
                 // Let players missile other players.

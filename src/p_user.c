@@ -169,6 +169,7 @@ void P_DeathThink(player_t *player)
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
+    infight = true;
 
     P_MovePsprites(player);
 

@@ -217,6 +217,8 @@ extern fixed_t          tmceilingz;
 extern line_t           *ceilingline;
 extern line_t           *blockline;
 
+extern boolean          infight;
+
 boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y);
 boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff);
 boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);

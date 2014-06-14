@@ -568,7 +568,7 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
     angle_t     an;
     fixed_t     dist;
 
-    if (!netgame && players[0].health <= 0)
+    if (!netgame && infight)
         // player is dead, look for monsters
         return P_LookForMonsters(actor);
     c = 0;

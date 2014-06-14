@@ -1022,6 +1022,7 @@ void G_PlayerReborn(int player)
         p->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
 
     markpointnum = 0;
+    infight = false;
 }
 
 //
@@ -1588,6 +1589,7 @@ void G_DeferredInitNew(skill_t skill, int episode, int map)
     gameaction = ga_newgame;
     markpointnum = 0;
     startingnewgame = true;
+    infight = false;
 }
 
 //
@@ -1603,6 +1605,7 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
     d_map = map;
     gameaction = ga_loadlevel;
     markpointnum = 0;
+    infight = false;
 
     for (pnum = 0; pnum < MAXPLAYERS; ++pnum)
         if (playeringame[pnum])
@@ -1631,6 +1634,7 @@ void G_DoNewGame(void)
     G_InitNew(d_skill, d_episode, d_map);
     gameaction = ga_nothing;
     markpointnum = 0;
+    infight = false;
 }
 
 void G_SetFastParms(int fast_pending)
