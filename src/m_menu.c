@@ -1115,7 +1115,8 @@ void M_UpdateSaveGameName(int i)
     if (!match)
         while (mapnames[j][gamemission][0])
         {
-            if (!strcasecmp(savegamestrings[i], mapnames[j][gamemission]))
+            if (!strcasecmp(savegamestrings[i], mapnames[j][gamemode == commercial && bfgedition ?
+                            doom2bfg : gamemission]))
             {
                 match = true;
                 break;
