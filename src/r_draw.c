@@ -427,15 +427,17 @@ void R_DrawSkyColumn(void)
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
     {
-        const byte      *source = dc_source;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
+
 
         while (--count)
         {
-            *dest = source[(frac >> FRACBITS) & 127];
+            *dest = colormap[source[(frac >> FRACBITS) & 127]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
-        *dest = source[(frac >> FRACBITS) & 127];
+        *dest = colormap[source[(frac >> FRACBITS) & 127]];
     }
 }
 
@@ -455,17 +457,19 @@ void R_DrawFlippedSkyColumn(void)
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
     {
-        const byte      *source = dc_source;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
+
 
         while (--count)
         {
             i = frac >> FRACBITS;
-            *dest = source[i > 127 ? 126 - (i & 127) : i];
+            *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
         i = frac >> FRACBITS;
-        *dest = source[i > 127 ? 126 - (i & 127) : i];
+        *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
     }
 }
 
