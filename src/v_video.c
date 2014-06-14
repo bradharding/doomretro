@@ -964,6 +964,11 @@ boolean V_ScreenShot(void)
 
     strcpy(mapname, usergame && !inhelpscreens ? maptitle : "Untitled");
 
+    if (sscanf(mapname, "The %[^\n]", mapname))
+        sprintf(mapname, "%s, The", mapname);
+    else if (sscanf(mapname, "A %[^\n]", mapname))
+        sprintf(mapname, "%s, A", mapname);
+
     do
     {
         if (!count)
