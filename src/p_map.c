@@ -354,6 +354,25 @@ boolean PIT_CheckThing(mobj_t *thing)
             }
         }
 
+        // killough 8/10/98: if moving thing is not a missile, no damage
+        // is inflicted, and momentum is reduced if object hit is solid.
+        if (!(tmthing->flags & MF_MISSILE))
+        {
+            if (!(thing->flags & MF_SOLID))
+                return true;
+            else
+            {
+                tmthing->momx = -tmthing->momx;
+                tmthing->momy = -tmthing->momy;
+                if (!(tmthing->flags & MF_NOGRAVITY))
+                {
+                    tmthing->momx >>= 2;
+                    tmthing->momy >>= 2;
+                }
+                return false;
+            }
+        }
+
         if (!(thing->flags & MF_SHOOTABLE))
             return !(thing->flags & MF_SOLID);         // didn't do any damage
 
@@ -395,7 +414,12 @@ boolean PIT_CheckThing(mobj_t *thing)
         }
     }
 
-    return !(thing->flags & MF_SOLID);
+    // killough 3/16/98: Allow non-solid moving objects to move through solid
+    // ones, by allowing the moving thing (tmthing) to move if it's non-solid,
+    // despite another solid thing being in the way.
+    // killough 4/11/98: Treat no-clipping things as not blocking
+    return !((thing->flags & MF_SOLID) && !(thing->flags & MF_NOCLIP)
+           && (tmthing->flags & MF_SOLID));
 }
 
 //
