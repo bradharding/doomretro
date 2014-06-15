@@ -40,7 +40,7 @@ BEGIN
         BLOCK "040904E4"
         BEGIN
             VALUE "FileVersion", "1.5"
-            VALUE "FileDescription", "DOOM RETRO 1.5"
+            VALUE "FileDescription", "DOOM RETRO v1.5"
             VALUE "InternalName", "doomretro"
             VALUE "CompanyName", "brad@doomretro.com"
             VALUE "LegalCopyright", "(c) 2013-2014 Brad Harding. All rights reserved."
