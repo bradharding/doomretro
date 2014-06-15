@@ -1000,7 +1000,7 @@ void I_InitGraphics(void)
     init_win32(gamemission == doom ? "DOOM" : "DOOM2");
 #endif
 
-    if (fullscreen)
+    if (fullscreen && (screenwidth || screenheight))
         if (!I_ValidScreenMode(screenwidth, screenheight))
         {
             screenwidth = 1280;
