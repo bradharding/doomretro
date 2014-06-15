@@ -308,7 +308,7 @@ static int AllocateMIDIChannel(void)
 
 // Given a MUS channel number, get the MIDI channel number to use
 // in the outputted file.
-static int GetMIDIChannel(int mus_channel)
+static int GetMIDIChannel(int mus_channel, MEMFILE *midioutput)
 {
     // Find the MIDI channel to use for this MUS channel.
     // MUS channel 15 is the percusssion channel.
@@ -320,7 +320,10 @@ static int GetMIDIChannel(int mus_channel)
         // If a MIDI channel hasn't been allocated for this MUS channel
         // yet, allocate the next free MIDI channel.
         if (channel_map[mus_channel] == -1)
+        {
             channel_map[mus_channel] = AllocateMIDIChannel();
+            WriteChangeController_Valueless(channel_map[mus_channel], 0x7b, midioutput);
+        }
 
         return channel_map[mus_channel];
     }
@@ -407,7 +410,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
             if (mem_fread(&eventdescriptor, 1, 1, musinput) != 1)
                 return true;
 
-            channel = GetMIDIChannel(eventdescriptor & 0x0f);
+            channel = GetMIDIChannel(eventdescriptor & 0x0f, midioutput);
             event = (musevent)(eventdescriptor & 0x70);
 
             switch (event)
@@ -511,10 +514,6 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
             queuedtime += timedelay;
         }
     }
-
-    // Write all notes off event to all channels
-    for (channel = 0; channel < NUM_CHANNELS; ++channel)
-        WriteChangeController_Valueless(channel, 0x7b, midioutput);
 
     // End of track
     if (WriteEndTrack(midioutput))
