@@ -51,23 +51,17 @@ size_t                 maxopenings;
 int                    *openings;
 int                    *lastopening;
 
-//
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
-//
 int                     floorclip[SCREENWIDTH];
 int                     ceilingclip[SCREENWIDTH];
 
-//
 // spanstart holds the start of a plane span
 // initialized to 0 at start
-//
 static int              spanstart[SCREENHEIGHT];
 
-//
 // texture mapping
-//
 static lighttable_t     **planezlight;
 static fixed_t          planeheight;
 
@@ -102,14 +96,7 @@ static void R_MapPlane(int y, int x1, int x2)
     ds_yfrac = -viewy - (int)(viewsin * realy) + (x1 - centerx) * ds_ystep;
 
     if (!fixedcolormap)
-    {
-        unsigned int    index = distance >> LIGHTZSHIFT;
-
-        if (index >= MAXLIGHTZ)
-            index = MAXLIGHTZ - 1;
-
-        ds_colormap = planezlight[index];
-    }
+        ds_colormap = planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
     else
         ds_colormap = fixedcolormap;
 
@@ -126,7 +113,8 @@ static void R_MapPlane(int y, int x1, int x2)
 //
 void R_ClearPlanes(void)
 {
-    int         i;
+    int i;
+
     // opening / clipping determination
     for (i = 0; i < viewwidth; i++)
     {
@@ -187,7 +175,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
     check->minx = viewwidth;
     check->maxx = -1;
 
-    memset(check->top, 0xff, sizeof(check->top));
+    memset(check->top, SHRT_MAX, sizeof(check->top));
 
     return check;
 }
@@ -225,7 +213,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         intrh = stop;
     }
 
-    for (x = intrl; x <= intrh && pl->top[x] == 0xffff; x++);
+    for (x = intrl; x <= intrh && pl->top[x] == SHRT_MAX; x++);
 
     if (x > intrh)
     {
@@ -243,7 +231,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         pl = new_pl;
         pl->minx = start;
         pl->maxx = stop;
-        memset(pl->top, 0xff, sizeof pl->top);
+        memset(pl->top, SHRT_MAX, sizeof(pl->top));
     }
 
     return pl;
@@ -270,66 +258,65 @@ static void R_MakeSpans(int x, int t1, int b1, int t2, int b2)
 //
 void R_DrawPlanes(void)
 {
-    visplane_t  *pl;
-    int         light;
-    int         x;
-    int         stop;
-    int         angle;
-    int         lumpnum;
-    int         i;
+    int i;
 
     for (i = 0; i < MAXVISPLANES; i++)
     {
+        visplane_t      *pl;
+
         for (pl = visplanes[i]; pl; pl = pl->next)
         {
-            if (pl->minx > pl->maxx)
-                continue;
-
-            // sky flat
-            if (pl->picnum == skyflatnum)
+            if (pl->minx <= pl->maxx)
             {
-                dc_iscale = pspriteiscale;
-
-                // Sky is always drawn full bright,
-                //  i.e. colormaps[0] is used.
-                // Because of this hack, sky is not affected
-                //  by INVUL inverse mapping.
-
-                dc_colormap = (fixedcolormap ? fixedcolormap : colormaps); // [BH] So let's fix it...
-                dc_texturemid = skytexturemid;
-                for (x = pl->minx; x <= pl->maxx; x++)
+                // sky flat
+                if (pl->picnum == skyflatnum)
                 {
-                    dc_yl = pl->top[x];
-                    dc_yh = pl->bottom[x];
+                    int x;
+                    
+                    dc_iscale = pspriteiscale;
 
-                    if (dc_yl <= dc_yh)
+                    // Sky is always drawn full bright,
+                    //  i.e. colormaps[0] is used.
+                    // Because of this hack, sky is not affected
+                    //  by INVUL inverse mapping.
+                    dc_colormap = (fixedcolormap ? fixedcolormap : colormaps); // [BH] So let's fix it...
+                    dc_texturemid = skytexturemid;
+                    for (x = pl->minx; x <= pl->maxx; x++)
                     {
-                        angle = (viewangle + xtoviewangle[x]) >> ANGLETOSKYSHIFT;
-                        dc_x = x;
-                        dc_source = R_GetColumn(skytexture, angle);
-                        dc_texheight = 128;
-                        skycolfunc();
+                        dc_yl = pl->top[x];
+                        dc_yh = pl->bottom[x];
+
+                        if (dc_yl != SHRT_MAX && dc_yl <= dc_yh)
+                        {
+                            dc_x = x;
+                            dc_source = R_GetColumn(skytexture,
+                                (viewangle + xtoviewangle[x]) >> ANGLETOSKYSHIFT);
+                            dc_texheight = 128;
+                            skycolfunc();
+                        }
                     }
                 }
-            }
-            else
-            {
-                // regular flat
-                lumpnum = firstflat + flattranslation[pl->picnum];
-                ds_source = (byte *)W_CacheLumpNum(lumpnum, PU_STATIC);
+                else
+                {
+                    // regular flat
+                    int light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
+                    int stop = pl->maxx + 1;
+                    int lumpnum = firstflat + flattranslation[pl->picnum];
+                    int x;
 
-                planeheight = ABS(pl->height - viewz);
-                light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
+                    ds_source = (byte *)W_CacheLumpNum(lumpnum, PU_STATIC);
 
-                planezlight = zlight[light >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, light)];
+                    planeheight = ABS(pl->height - viewz);
 
-                stop = pl->maxx + 1;
-                pl->top[pl->minx - 1] = pl->top[stop] = 0xffff;
+                    planezlight = zlight[MAX(0, MIN(light, LIGHTLEVELS - 1))];
 
-                for (x = pl->minx; x <= stop; x++)
-                    R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
+                    pl->top[pl->minx - 1] = pl->top[stop] = SHRT_MAX;
 
-                W_ReleaseLumpNum(lumpnum);
+                    for (x = pl->minx; x <= stop; x++)
+                        R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
+
+                    W_ReleaseLumpNum(lumpnum);
+                }
             }
         }
     }

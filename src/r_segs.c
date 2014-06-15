@@ -115,7 +115,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     else if (curline->v1->x == curline->v2->x)
         lightnum += LIGHTBRIGHT;
 
-    walllights = scalelight[lightnum >= LIGHTLEVELS ? LIGHTLEVELS - 1 : MAX(0, lightnum)];
+    walllights = scalelight[MAX(0, MIN(lightnum, LIGHTLEVELS - 1))];
 
     maskedtexturecol = ds->maskedtexturecol;
 
@@ -129,13 +129,13 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     {
         dc_texturemid = (frontsector->floorheight > backsector->floorheight
                          ? frontsector->floorheight : backsector->floorheight);
-        dc_texturemid = dc_texturemid + textureheight[texnum] - viewz;
+        dc_texturemid += textureheight[texnum] - viewz;
     }
     else
     {
         dc_texturemid = (frontsector->ceilingheight < backsector->ceilingheight
                          ? frontsector->ceilingheight : backsector->ceilingheight);
-        dc_texturemid = dc_texturemid - viewz;
+        dc_texturemid -= viewz;
     }
     dc_texturemid += curline->sidedef->rowoffset;
 
@@ -153,20 +153,13 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
             if (t + (int64_t)textureheight[texnum] * spryscale < 0 ||
-                t > (int64_t) SCREENHEIGHT << FRACBITS * 2)
+                t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
                 continue;        // skip if the texture is out of screen's range
 
             if (!fixedcolormap)
-            {
-                unsigned int    index = spryscale >> LIGHTSCALESHIFT;
+                dc_colormap = walllights[MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
-                if (index >=  MAXLIGHTSCALE)
-                    index = MAXLIGHTSCALE - 1;
-
-                dc_colormap = walllights[index];
-            }
-
-            sprtopscreen = (fixed_t)(t >> FRACBITS);
+            sprtopscreen = (long)(t >> FRACBITS);
             dc_iscale = 0xffffffffu / (unsigned)spryscale;
 
             // draw the texture
@@ -176,6 +169,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             maskedtexturecol[dc_x] = INT_MAX;
         }
     }
+    curline = NULL;
 }
 
 //
@@ -252,15 +246,11 @@ void R_RenderSegLoop(void)
         {
             // calculate texture offset and lighting
             angle_t  angle = ((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT) & 0x1fff;
-            unsigned index = rw_scale >> LIGHTSCALESHIFT;
 
             texturecolumn = rw_offset - FixedMul(finetangent[angle], rw_distance);
             texturecolumn >>= FRACBITS;
 
-            if (index >= MAXLIGHTSCALE)
-                index = MAXLIGHTSCALE - 1;
-
-            dc_colormap = walllights[index];
+            dc_colormap = walllights[MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
             dc_x = rw_x;
             dc_iscale = 0xffffffffu / (unsigned)rw_scale;
         }
@@ -407,7 +397,7 @@ void R_StoreWallRange(int start, int stop)
         unsigned int pos = ds_p - drawsegs;
         unsigned int newmax = (maxdrawsegs ? maxdrawsegs * 2 : 128);
 
-        drawsegs = (drawseg_t *)realloc(drawsegs, newmax * sizeof(*drawsegs));
+        drawsegs = realloc(drawsegs, newmax * sizeof(*drawsegs));
         ds_p = drawsegs + pos;
         maxdrawsegs = newmax;
     }
@@ -474,9 +464,7 @@ void R_StoreWallRange(int start, int stop)
         ds_p->scalestep = rw_scalestep = (ds_p->scale2 - rw_scale) / (stop - start);
     }
     else
-    {
         ds_p->scale2 = ds_p->scale1;
-    }
 
     // calculate texture boundaries
     //  and decide if floor / ceiling marks are needed
@@ -502,10 +490,9 @@ void R_StoreWallRange(int start, int stop)
             rw_midtexturemid = vtop - viewz;
         }
         else
-        {
             // top of texture at top
             rw_midtexturemid = worldtop;
-        }
+
         rw_midtexturemid += sidedef->rowoffset;
 
         ds_p->silhouette = SIL_BOTH;
