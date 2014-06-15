@@ -343,6 +343,8 @@ void D_DoomLoop(void)
 {
     TryRunTics();
 
+    I_InitGraphics();
+
     R_ExecuteSetViewSize();
 
     D_StartGameLoop();
@@ -809,8 +811,6 @@ static void D_DoomMainSetup(void)
     if (FREEDOOM && W_CheckNumForName("FREEDM") < 0 && !modifiedgame)
         I_Error("FREEDOOM requires a BOOM-compatible source port, and is therefore"
                 "unable to be opened by DOOM RETRO.");
-
-    I_InitGraphics();
 
     DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
