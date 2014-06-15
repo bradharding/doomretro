@@ -2376,7 +2376,7 @@ boolean M_Responder(event_t *ev)
             if (keyMods & KMOD_ALT)
             {
                 S_StartSound(NULL, sfx_swtchn);
-                M_QuitDOOM(0);
+                M_QuitResponse('y');
                 return false;
             }
             else
