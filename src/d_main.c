@@ -107,6 +107,7 @@ extern int windowheight;
 extern int pixelwidth;
 extern int pixelheight;
 extern int selectedexpansion;
+extern float saturation;
 
 void D_CheckNetGame(void);
 
@@ -1037,6 +1038,9 @@ static void D_DoomMainSetup(void)
         while (gammalevels[gammalevelindex++] != GAMMALEVEL_DEFAULT);
     }
     gammalevelindex--;
+
+    if (saturation < SATURATION_MIN || saturation > SATURATION_MAX)
+        saturation = SATURATION_DEFAULT;
 
     if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;

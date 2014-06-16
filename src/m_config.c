@@ -93,6 +93,7 @@ extern int      pixelheight;
 extern int      pixelwidth;
 extern boolean  rotate;
 extern int      runcount;
+extern float    saturation;
 extern int      screenheight;
 extern int      screenwidth;
 extern int      selectedepisode;
@@ -229,6 +230,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (pixelheight,         pixelheight,          0),
     CONFIG_VARIABLE_INT   (rotate,              rotate,               1),
     CONFIG_VARIABLE_INT   (runcount,            runcount,             0),
+    CONFIG_VARIABLE_FLOAT (saturation,          saturation,           0),
     CONFIG_VARIABLE_INT   (savegame,            selectedsavegame,     0),
     CONFIG_VARIABLE_INT   (screensize,          screensize,           0),
     CONFIG_VARIABLE_INT   (screenwidth,         screenwidth,          5),

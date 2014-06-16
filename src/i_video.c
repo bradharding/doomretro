@@ -126,6 +126,8 @@ float                   gammalevels[GAMMALEVELS] =
 int                     gammalevelindex;
 float                   gammalevel = GAMMALEVEL_DEFAULT;
 
+float                   saturation = SATURATION_DEFAULT;
+
 // Mouse acceleration
 //
 // This emulates some of the behavior of DOS mouse drivers by increasing
@@ -571,6 +573,7 @@ void I_ReadScreen(byte *scr)
     memcpy(scr, screens[0], SCREENWIDTH * SCREENHEIGHT);
 }
 
+
 //
 // I_SetPalette
 //
@@ -580,9 +583,14 @@ void I_SetPalette(byte *doompalette)
 
     for (i = 0; i < 256; ++i)
     {
-        palette[i].r = gammatable[gammalevelindex][*doompalette++];
-        palette[i].g = gammatable[gammalevelindex][*doompalette++];
-        palette[i].b = gammatable[gammalevelindex][*doompalette++];
+        byte    r = gammatable[gammalevelindex][*doompalette++];
+        byte    g = gammatable[gammalevelindex][*doompalette++];
+        byte    b = gammatable[gammalevelindex][*doompalette++];
+        double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+
+        palette[i].r = (byte)(p + (r - p) * saturation);
+        palette[i].g = (byte)(p + (g - p) * saturation);
+        palette[i].b = (byte)(p + (b - p) * saturation);
     }
 
     palette_to_set = true;

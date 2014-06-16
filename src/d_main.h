@@ -59,6 +59,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define GAMMALEVEL_DEFAULT              0.75
 #define GAMMALEVEL_MAX                  gammalevels[GAMMALEVELS - 1]
 
+#define SATURATION_MIN                  0.0
+#define SATURATION_DEFAULT              0.75
+#define SATURATION_MAX                  2.0
+
 #define UNLIMITED                       32768
 
 #define BLOODSPLATS_MIN                 0
