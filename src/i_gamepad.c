@@ -130,9 +130,9 @@ void I_InitGamepad(void)
                             I_PollThumbs_XInput_RightHanded);
                     }
                 }
-
-                SDL_JoystickEventState(SDL_ENABLE);
             }
+
+            SDL_JoystickEventState(SDL_ENABLE);
         }
     }
 }
