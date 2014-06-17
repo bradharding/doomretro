@@ -33,12 +33,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <Windows.h>
 #include <XInput.h>
 
-#if (_MSC_PLATFORM_TOOLSET <= 100)
-#pragma comment(lib, "XInput.lib")
-#else
-#pragma comment(lib, "XInput9_1_0.lib")
-#endif
-
 #include "d_main.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
@@ -57,6 +51,12 @@ boolean vibrate = false;
 
 void (*gamepadfunc)(void);
 void (*gamepadthumbsfunc)(short, short, short, short);
+
+typedef DWORD(WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
+typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
+
+static XINPUTGETSTATE pXInputGetState;
+static XINPUTSETSTATE pXInputSetState;
 
 extern boolean idclev;
 extern boolean idmus;
@@ -89,16 +89,33 @@ void I_InitGamepad(void)
         }
         else
         {
-            XINPUT_STATE state;
+            HMODULE pXInputDLL = LoadLibrary("XInput1_4.dll");
 
-            if (XInputGetState(0, &state) == ERROR_SUCCESS)
+            if (!pXInputDLL)
+                pXInputDLL = LoadLibrary("XInput9_1_0.dll");
+
+            if (!pXInputDLL)
+                pXInputDLL = LoadLibrary("XInput1_3.dll");
+
+            if (pXInputDLL)
             {
-                gamepadfunc = I_PollXInputGamepad;
-                gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_XInput_LeftHanded :
-                    I_PollThumbs_XInput_RightHanded);
-            }
+                pXInputGetState = (XINPUTGETSTATE)GetProcAddress(pXInputDLL, "XInputGetState");
+                pXInputSetState = (XINPUTSETSTATE)GetProcAddress(pXInputDLL, "XInputSetState");
 
-            SDL_JoystickEventState(SDL_ENABLE);
+                if (pXInputGetState && pXInputSetState)
+                {
+                    XINPUT_STATE state;
+
+                    if (pXInputGetState(0, &state) == ERROR_SUCCESS)
+                    {
+                        gamepadfunc = I_PollXInputGamepad;
+                        gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_XInput_LeftHanded :
+                            I_PollThumbs_XInput_RightHanded);
+                    }
+                }
+
+                SDL_JoystickEventState(SDL_ENABLE);
+            }
         }
     }
 }
@@ -189,7 +206,7 @@ void XInputVibration(int motorspeed)
 
         ZeroMemory(&vibration, sizeof(XINPUT_VIBRATION));
         vibration.wLeftMotorSpeed = currentmotorspeed = motorspeed;
-        XInputSetState(0, &vibration);
+        pXInputSetState(0, &vibration);
     }
 }
 
@@ -216,7 +233,7 @@ void I_PollXInputGamepad(void)
         XINPUT_GAMEPAD  Gamepad;
 
         ZeroMemory(&state, sizeof(XINPUT_STATE));
-        XInputGetState(0, &state);
+        pXInputGetState(0, &state);
         Gamepad = state.Gamepad;
 
         gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
@@ -251,7 +268,6 @@ void I_PollXInputGamepad(void)
     }
 }
 #else
-
 #include "doomtype.h"
 
 int gamepadbuttons = 0;
@@ -282,5 +298,4 @@ void I_ShutdownGamepad(void)
 void XInputVibration(int motorspeed)
 {
 }
-
 #endif
