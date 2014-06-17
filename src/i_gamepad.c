@@ -36,6 +36,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "d_main.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
+#include "m_config.h"
 #include "m_fixed.h"
 #include "SDL.h"
 #include "SDL_joystick.h"
@@ -57,6 +58,8 @@ typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
 
 static XINPUTGETSTATE pXInputGetState;
 static XINPUTSETSTATE pXInputSetState;
+
+char *xinput = "";
 
 extern boolean idclev;
 extern boolean idmus;
@@ -91,14 +94,28 @@ void I_InitGamepad(void)
         {
             HMODULE pXInputDLL = LoadLibrary("XInput1_4.dll");
 
-            if (!pXInputDLL)
+            xinput = (char *)malloc(16);
+
+            if (pXInputDLL)
+                strcpy(xinput, "XInput1_4.dll");
+            else
+            {
                 pXInputDLL = LoadLibrary("XInput9_1_0.dll");
 
-            if (!pXInputDLL)
-                pXInputDLL = LoadLibrary("XInput1_3.dll");
+                if (pXInputDLL)
+                    strcpy(xinput, "XInput9_1_0.dll");
+                else
+                {
+                    pXInputDLL = LoadLibrary("XInput1_3.dll");
+                    if (pXInputDLL)
+                        strcpy(xinput, "XInput1_3.dll");
+                }
+            }
 
             if (pXInputDLL)
             {
+                M_SaveDefaults();
+
                 pXInputGetState = (XINPUTGETSTATE)GetProcAddress(pXInputDLL, "XInputGetState");
                 pXInputSetState = (XINPUTSETSTATE)GetProcAddress(pXInputDLL, "XInputSetState");
 
