@@ -33,6 +33,14 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <Windows.h>
 #include <XInput.h>
 
+typedef DWORD(WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
+typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
+
+static XINPUTGETSTATE pXInputGetState;
+static XINPUTSETSTATE pXInputSetState;
+
+#endif
+
 #include "d_main.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
@@ -43,7 +51,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 static SDL_Joystick *gamepad = NULL;
 
-int gamepadbuttons;
+int gamepadbuttons = 0;
 int gamepadthumbLX;
 int gamepadthumbLY;
 int gamepadthumbRX;
@@ -52,12 +60,6 @@ boolean vibrate = false;
 
 void (*gamepadfunc)(void);
 void (*gamepadthumbsfunc)(short, short, short, short);
-
-typedef DWORD(WINAPI *XINPUTGETSTATE)(DWORD, XINPUT_STATE *);
-typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
-
-static XINPUTGETSTATE pXInputGetState;
-static XINPUTSETSTATE pXInputSetState;
 
 char *xinput = "";
 
@@ -92,6 +94,7 @@ void I_InitGamepad(void)
         }
         else
         {
+#ifdef _WIN32
             HMODULE pXInputDLL = LoadLibrary("XInput1_4.dll");
 
             xinput = (char *)malloc(16);
@@ -131,7 +134,7 @@ void I_InitGamepad(void)
                     }
                 }
             }
-
+#endif
             SDL_JoystickEventState(SDL_ENABLE);
         }
     }
@@ -217,6 +220,7 @@ int restoremotorspeed = 0;
 
 void XInputVibration(int motorspeed)
 {
+#ifdef _WIN32
     if (motorspeed > currentmotorspeed || motorspeed == idlemotorspeed)
     {
         XINPUT_VIBRATION    vibration;
@@ -225,6 +229,7 @@ void XInputVibration(int motorspeed)
         vibration.wLeftMotorSpeed = currentmotorspeed = motorspeed;
         pXInputSetState(0, &vibration);
     }
+#endif
 }
 
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY)
@@ -243,6 +248,7 @@ void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
 
 void I_PollXInputGamepad(void)
 {
+#ifdef _WIN32
     if (gamepad)
     {
         event_t         ev;
@@ -283,39 +289,5 @@ void I_PollXInputGamepad(void)
         ev.data1 = gamepadbuttons;
         D_PostEvent(&ev);
     }
-}
-#else
-#include "doomtype.h"
-
-int gamepadbuttons = 0;
-int gamepadthumbLX;
-int gamepadthumbLY;
-int gamepadthumbRX;
-
-int currentmotorspeed = 0;
-int idlemotorspeed = 0;
-int restoremotorspeed = 0;
-
-boolean vibrate = false;
-
-void (*gamepadfunc)(void);
-
-char *xinput = "";
-
-static void I_PollDummy(void)
-{
-}
-
-void I_InitGamepad(void)
-{
-    gamepadfunc = I_PollDummy;
-}
-
-void I_ShutdownGamepad(void)
-{
-}
-
-void XInputVibration(int motorspeed)
-{
-}
 #endif
+}
