@@ -297,7 +297,10 @@ int idlemotorspeed = 0;
 int restoremotorspeed = 0;
 
 boolean vibrate = false;
+
 void (*gamepadfunc)(void);
+
+char *xinput = "";
 
 static void I_PollDummy(void)
 {
