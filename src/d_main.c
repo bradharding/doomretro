@@ -344,8 +344,6 @@ void D_DoomLoop(void)
 {
     TryRunTics();
 
-    I_InitGraphics();
-
     R_ExecuteSetViewSize();
 
     D_StartGameLoop();
@@ -783,6 +781,8 @@ static void D_DoomMainSetup(void)
             runcount++;
     }
     M_SaveDefaults();
+
+    I_InitGraphics();
 
     if (!W_MergeFile("doomretro.wad"))
         if (!W_MergeFile("doomretro.wad.temp"))
