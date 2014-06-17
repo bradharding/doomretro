@@ -1026,18 +1026,18 @@ static void D_DoomMainSetup(void)
         windowheight = SCREENWIDTH * 3 / 4;
     }
 
-    if (gammalevel < GAMMALEVEL_MIN || gammalevel > GAMMALEVEL_MAX)
-        gammalevel = GAMMALEVEL_DEFAULT;
-    gammalevelindex = 0;
-    while (gammalevelindex < GAMMALEVELS)
-        if (gammalevels[gammalevelindex++] == gammalevel)
+    if (gamma < GAMMA_MIN || gamma > GAMMA_MAX)
+        gamma = GAMMA_DEFAULT;
+    gammaindex = 0;
+    while (gammaindex < GAMMALEVELS)
+        if (gammalevels[gammaindex++] == gamma)
             break;
-    if (gammalevelindex == GAMMALEVELS)
+    if (gammaindex == GAMMALEVELS)
     {
-        gammalevelindex = 0;
-        while (gammalevels[gammalevelindex++] != GAMMALEVEL_DEFAULT);
+        gammaindex = 0;
+        while (gammalevels[gammaindex++] != GAMMA_DEFAULT);
     }
-    gammalevelindex--;
+    gammaindex--;
 
     if (saturation < SATURATION_MIN || saturation > SATURATION_MAX)
         saturation = SATURATION_DEFAULT;

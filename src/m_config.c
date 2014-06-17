@@ -64,7 +64,7 @@ extern int      gamepadweapon4;
 extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
-extern float    gammalevel;
+extern float    gamma;
 extern int      graphicdetail;
 extern boolean  grayscale;
 extern boolean  grid;
@@ -201,7 +201,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (gamepad_weapon5,     gamepadweapon5,       2),
     CONFIG_VARIABLE_INT   (gamepad_weapon6,     gamepadweapon6,       2),
     CONFIG_VARIABLE_INT   (gamepad_weapon7,     gamepadweapon7,       2),
-    CONFIG_VARIABLE_FLOAT (gammalevel,          gammalevel,           0),
+    CONFIG_VARIABLE_FLOAT (gamma,               gamma,                0),
     CONFIG_VARIABLE_INT   (graphicdetail,       graphicdetail,        6),
     CONFIG_VARIABLE_INT   (grayscale,           grayscale,            1),
     CONFIG_VARIABLE_INT   (grid,                grid,                 1),

@@ -123,8 +123,8 @@ float                   gammalevels[GAMMALEVELS] =
 };
 
 // Gamma correction level to use
-int                     gammalevelindex;
-float                   gammalevel = GAMMALEVEL_DEFAULT;
+int                     gammaindex;
+float                   gamma = GAMMA_DEFAULT;
 
 float                   saturation = SATURATION_DEFAULT;
 
@@ -587,9 +587,9 @@ void I_SetPalette(byte *doompalette)
         byte    b = *doompalette++;
         double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-        palette[i].r = gammatable[gammalevelindex][(byte)(p + (r - p) * saturation)];
-        palette[i].g = gammatable[gammalevelindex][(byte)(p + (g - p) * saturation)];
-        palette[i].b = gammatable[gammalevelindex][(byte)(p + (b - p) * saturation)];
+        palette[i].r = gammatable[gammaindex][(byte)(p + (r - p) * saturation)];
+        palette[i].g = gammatable[gammaindex][(byte)(p + (g - p) * saturation)];
+        palette[i].b = gammatable[gammaindex][(byte)(p + (b - p) * saturation)];
     }
 
     palette_to_set = true;

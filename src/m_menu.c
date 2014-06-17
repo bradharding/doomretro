@@ -2477,25 +2477,25 @@ boolean M_Responder(event_t *ev)
         {
             if (keyMods & KMOD_SHIFT)
             {
-                if (--gammalevelindex < 0)
-                    gammalevelindex = GAMMALEVELS - 1;
+                if (--gammaindex < 0)
+                    gammaindex = GAMMALEVELS - 1;
             }
             else
             {
-                if (++gammalevelindex > GAMMALEVELS - 1)
-                    gammalevelindex = 0;
+                if (++gammaindex > GAMMALEVELS - 1)
+                    gammaindex = 0;
             }
-            gammalevel = (float)gammalevels[gammalevelindex];
+            gamma = (float)gammalevels[gammaindex];
 
             S_StartSound(NULL, sfx_stnmov);
         }
 
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
-        if (gammalevel == 1.0f)
+        if (gamma == 1.0f)
             strcpy(buf, GAMMAOFF);
         else
-            sprintf(buf, GAMMALVL, gammalevel);
+            sprintf(buf, GAMMALVL, gamma);
         if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
             buf[strlen(buf) - 1] = '\0';
         players[consoleplayer].message = buf;
