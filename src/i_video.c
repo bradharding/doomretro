@@ -573,7 +573,6 @@ void I_ReadScreen(byte *scr)
     memcpy(scr, screens[0], SCREENWIDTH * SCREENHEIGHT);
 }
 
-
 //
 // I_SetPalette
 //
@@ -583,14 +582,14 @@ void I_SetPalette(byte *doompalette)
 
     for (i = 0; i < 256; ++i)
     {
-        byte    r = gammatable[gammalevelindex][*doompalette++];
-        byte    g = gammatable[gammalevelindex][*doompalette++];
-        byte    b = gammatable[gammalevelindex][*doompalette++];
+        byte    r = *doompalette++;
+        byte    g = *doompalette++;
+        byte    b = *doompalette++;
         double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
 
-        palette[i].r = (byte)(p + (r - p) * saturation);
-        palette[i].g = (byte)(p + (g - p) * saturation);
-        palette[i].b = (byte)(p + (b - p) * saturation);
+        palette[i].r = gammatable[gammalevelindex][(byte)(p + (r - p) * saturation)];
+        palette[i].g = gammatable[gammalevelindex][(byte)(p + (g - p) * saturation)];
+        palette[i].b = gammatable[gammalevelindex][(byte)(p + (b - p) * saturation)];
     }
 
     palette_to_set = true;

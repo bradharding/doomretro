@@ -61,7 +61,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define SATURATION_MIN                  0.0
 #define SATURATION_DEFAULT              0.75
-#define SATURATION_MAX                  2.0
+#define SATURATION_MAX                  1.0
 
 #define UNLIMITED                       32768
 
