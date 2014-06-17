@@ -395,7 +395,7 @@ boolean PIT_CheckThing(mobj_t *thing)
     }
 
     // see if it went over / under
-    if (tmthing->flags & MF_SOLID)
+    if (tmthing->player)
     {
         if (tmthing->z >= thing->z + thing->height)
         {
