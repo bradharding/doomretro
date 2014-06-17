@@ -395,22 +395,25 @@ boolean PIT_CheckThing(mobj_t *thing)
     }
 
     // see if it went over / under
-    if (tmthing->z >= thing->z + thing->height)
+    if (tmthing->flags & MF_SOLID)
     {
-        if (!(thing->flags & MF_SPECIAL))
+        if (tmthing->z >= thing->z + thing->height)
         {
-            tmfloorz = thing->z + thing->height;
-            thing->ceilingz = tmthing->z;
-            return true;        // overhead
+            if (!(thing->flags & MF_SPECIAL))
+            {
+                tmfloorz = thing->z + thing->height;
+                thing->ceilingz = tmthing->z;
+                return true;        // overhead
+            }
         }
-    }
-    if (tmthing->z + tmthing->height < thing->z)
-    {
-        if (!(thing->flags & MF_SPECIAL))
+        if (tmthing->z + tmthing->height < thing->z)
         {
-            tmceilingz = thing->z;
-            thing->floorz = tmthing->z + tmthing->height;
-            return true;        // underneath
+            if (!(thing->flags & MF_SPECIAL))
+            {
+                tmceilingz = thing->z;
+                thing->floorz = tmthing->z + tmthing->height;
+                return true;        // underneath
+            }
         }
     }
 
