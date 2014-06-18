@@ -396,7 +396,6 @@ boolean PIT_CheckThing(mobj_t *thing)
 
     // see if it went over / under
     if (tmthing->player || (tmthing->flags & MF_FLOAT))
-    {
         if (tmthing->z >= thing->z + thing->height)
         {
             // over
@@ -404,13 +403,12 @@ boolean PIT_CheckThing(mobj_t *thing)
             thing->ceilingz = tmthing->z;
             return true;
         }
-        if (tmthing->z + tmthing->height <= thing->z)
-        {
-            // underneath
-            tmceilingz = thing->z;
-            thing->floorz = tmthing->z + tmthing->height;
-            return true;
-        }
+    if (tmthing->z + tmthing->height <= thing->z)
+    {
+        // underneath
+        tmceilingz = thing->z;
+        thing->floorz = tmthing->z + tmthing->height;
+        return true;
     }
 
     // killough 3/16/98: Allow non-solid moving objects to move through solid
