@@ -395,25 +395,21 @@ boolean PIT_CheckThing(mobj_t *thing)
     }
 
     // see if it went over / under
-    if (tmthing->player)
+    if (tmthing->player || (tmthing->flags & MF_FLOAT))
     {
         if (tmthing->z >= thing->z + thing->height)
         {
-            if (!(thing->flags & MF_SPECIAL))
-            {
-                tmfloorz = thing->z + thing->height;
-                thing->ceilingz = tmthing->z;
-                return true;        // overhead
-            }
+            // over
+            tmfloorz = thing->z + thing->height;
+            thing->ceilingz = tmthing->z;
+            return true;
         }
-        if (tmthing->z + tmthing->height < thing->z)
+        if (tmthing->z + tmthing->height <= thing->z)
         {
-            if (!(thing->flags & MF_SPECIAL))
-            {
-                tmceilingz = thing->z;
-                thing->floorz = tmthing->z + tmthing->height;
-                return true;        // underneath
-            }
+            // underneath
+            tmceilingz = thing->z;
+            thing->floorz = tmthing->z + tmthing->height;
+            return true;
         }
     }
 
@@ -695,15 +691,11 @@ static boolean PIT_ApplyTorque(line_t *ld)
 //
 void P_ApplyTorque(mobj_t *mo)
 {
-    int xl = ((tmbbox[BOXLEFT] =
-        mo->x - mo->radius) - bmaporgx) >> MAPBLOCKSHIFT;
-    int xh = ((tmbbox[BOXRIGHT] =
-        mo->x + mo->radius) - bmaporgx) >> MAPBLOCKSHIFT;
-    int yl = ((tmbbox[BOXBOTTOM] =
-        mo->y - mo->radius) - bmaporgy) >> MAPBLOCKSHIFT;
-    int yh = ((tmbbox[BOXTOP] =
-        mo->y + mo->radius) - bmaporgy) >> MAPBLOCKSHIFT;
-    int bx, by, flags2 = mo->flags2; //Remember the current state, for gear-change
+    int xl = ((tmbbox[BOXLEFT] = mo->x - mo->radius) - bmaporgx) >> MAPBLOCKSHIFT;
+    int xh = ((tmbbox[BOXRIGHT] = mo->x + mo->radius) - bmaporgx) >> MAPBLOCKSHIFT;
+    int yl = ((tmbbox[BOXBOTTOM] = mo->y - mo->radius) - bmaporgy) >> MAPBLOCKSHIFT;
+    int yh = ((tmbbox[BOXTOP] = mo->y + mo->radius) - bmaporgy) >> MAPBLOCKSHIFT;
+    int bx, by, flags2 = mo->flags2; // Remember the current state, for gear-change
 
     tmthing = mo;
     validcount++; // prevents checking same line twice
