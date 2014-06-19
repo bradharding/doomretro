@@ -129,10 +129,7 @@ menu_t         *currentMenu;
 byte           *tempscreen;
 byte           *blurredscreen;
 
-boolean        blur = true;
 boolean        blurred = false;
-
-boolean        grayscale = true;
 
 int            titleheight;
 
@@ -483,35 +480,28 @@ void M_DarkBackground(void)
 
     if (!blurred)
     {
-        if (grayscale)
-            for (i = 0; i < height; i++)
-                blurredscreen[i] = grays[screens[0][i]];
-        else
-            for (i = 0; i < height; i++)
-                blurredscreen[i] = screens[0][i];
+        for (i = 0; i < height; i++)
+            blurredscreen[i] = grays[screens[0][i]];
 
-        if (blur)
-        {
-            blurscreen(0, 0, SCREENWIDTH - 1, height, 1);
-            blurscreen(1, 0, SCREENWIDTH, height, -1);
-            blurscreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
-            blurscreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
-            blurscreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
-            blurscreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
-            blurscreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
-            blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+        blurscreen(0, 0, SCREENWIDTH - 1, height, 1);
+        blurscreen(1, 0, SCREENWIDTH, height, -1);
+        blurscreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
+        blurscreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
+        blurscreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+        blurscreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
+        blurscreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+        blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
 
-            if (fullscreen && !widescreen)
-                for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
-                {
-                    blurredscreen[i] = tinttab50[blurredscreen[i]];
-                    blurredscreen[i + 1] = tinttab50[blurredscreen[i] + (blurredscreen[i + 1] << 8)];
-                    blurredscreen[j] = tinttab50[blurredscreen[j]];
-                    blurredscreen[j - 1] = tinttab50[blurredscreen[j] + (blurredscreen[j - 1] << 8)];
-                }
+        if (fullscreen && !widescreen)
+            for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
+            {
+                blurredscreen[i] = tinttab50[blurredscreen[i]];
+                blurredscreen[i + 1] = tinttab50[blurredscreen[i] + (blurredscreen[i + 1] << 8)];
+                blurredscreen[j] = tinttab50[blurredscreen[j]];
+                blurredscreen[j - 1] = tinttab50[blurredscreen[j] + (blurredscreen[j - 1] << 8)];
+            }
 
             blurred = true;
-        }
     }
 
     for (i = 0; i < height; i++)

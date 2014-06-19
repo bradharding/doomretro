@@ -44,7 +44,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 char            *configdir;
 
 extern int      bloodsplats;
-extern boolean  blur;
 extern boolean  brightmaps;
 extern int      corpses;
 extern int      fullscreen;
@@ -66,7 +65,6 @@ extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 extern float    gamma;
 extern int      graphicdetail;
-extern boolean  grayscale;
 extern boolean  grid;
 extern boolean  homindicator;
 extern int      hud;
@@ -180,7 +178,6 @@ typedef struct
 static default_t doom_defaults_list[] =
 {
     CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,          7),
-    CONFIG_VARIABLE_INT   (blur,                blur,                 1),
     CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,           1),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
@@ -204,7 +201,6 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (gamepad_weapon7,     gamepadweapon7,       2),
     CONFIG_VARIABLE_FLOAT (gamma,               gamma,                0),
     CONFIG_VARIABLE_INT   (graphicdetail,       graphicdetail,        6),
-    CONFIG_VARIABLE_INT   (grayscale,           grayscale,            1),
     CONFIG_VARIABLE_INT   (grid,                grid,                 1),
     CONFIG_VARIABLE_INT   (homindicator,        homindicator,         1),
     CONFIG_VARIABLE_INT   (hud,                 hud,                  1),
