@@ -91,6 +91,7 @@ extern int      mouse_threshold;
 extern int      mousebfire;
 extern int      pixelheight;
 extern int      pixelwidth;
+extern boolean  randompitch;
 extern boolean  rotate;
 extern int      runcount;
 extern float    saturation;
@@ -229,6 +230,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (music_volume,        musicVolume,          0),
     CONFIG_VARIABLE_INT   (pixelwidth,          pixelwidth,           0),
     CONFIG_VARIABLE_INT   (pixelheight,         pixelheight,          0),
+    CONFIG_VARIABLE_INT   (randompitch,         randompitch,          1),
     CONFIG_VARIABLE_INT   (rotate,              rotate,               1),
     CONFIG_VARIABLE_INT   (runcount,            runcount,             0),
     CONFIG_VARIABLE_FLOAT (saturation,          saturation,           0),

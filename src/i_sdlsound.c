@@ -54,6 +54,8 @@ static int mixer_freq;
 static Uint16 mixer_format;
 static int mixer_channels;
 
+boolean randompitch = false;
+
 // When a sound stops, check if it is still playing. If it is not,
 // we can mark the sound data as CACHE to be freed back for other
 // means.
@@ -72,34 +74,42 @@ static void ReleaseSoundOnChannel(int channel)
         // Playing on this channel? if so, don't release.
         if (channels_playing[i] == id)
         {
-            int j, k;
+            if (randompitch)
+            {
+                int j, k;
 
-            for (j = 0; j < NUMSFX; j++)
-                for (k = 0; k < NUM_CHANNELS; k++)
-                {
-                    // Skip sound
-                    if (j == id)
-                        continue;
+                for (j = 0; j < NUMSFX; j++)
+                    for (k = 0; k < NUM_CHANNELS; k++)
+                    {
+                        // Skip sound
+                        if (j == id)
+                            continue;
 
-                    if (toychunks[j][k].abuf)
-                        Z_Free(toychunks[j][k].abuf);
-                    toychunks[j][k].allocated = 0;
-                    toychunks[j][k].alen = (Uint32)NULL;
-                    toychunks[j][k].abuf = NULL;
-                }
+                        if (toychunks[j][k].abuf)
+                            Z_Free(toychunks[j][k].abuf);
+                        toychunks[j][k].allocated = 0;
+                        toychunks[j][k].alen = (Uint32)NULL;
+                        toychunks[j][k].abuf = NULL;
+                    }
+            }
             return;
         }
     }
 
     // Not used on any channel, and can be safely released
-    for (i = 0; i < NUMSFX; i++)
+    if (randompitch)
     {
-        if (toychunks[i][channel].abuf)
-            Z_Free(toychunks[i][channel].abuf);
-        toychunks[i][channel].allocated = 0;
-        toychunks[i][channel].alen = (Uint32)NULL;
-        toychunks[i][channel].abuf = NULL;
+        for (i = 0; i < NUMSFX; i++)
+        {
+            if (toychunks[i][channel].abuf)
+                Z_Free(toychunks[i][channel].abuf);
+            toychunks[i][channel].allocated = 0;
+            toychunks[i][channel].alen = (Uint32)NULL;
+            toychunks[i][channel].abuf = NULL;
+        }
     }
+    else
+        Z_ChangeTag(sound_chunks[id].abuf, PU_CACHE);
 }
 
 static boolean ConvertibleRatio(int freq1, int freq2)
@@ -367,38 +377,44 @@ static int I_SDL_StartSound(int id, int channel, int vol, int sep)
     if (chunk == NULL)
         return -1;
 
-    // Change pitch
-    pitchscale = 0.0;
-    do
+    // play sound
+    if (randompitch)
     {
-        pitchscale = ((double)127) / ((double)((int)M_Random() + 1));
-    } while (pitchscale < 0.80 || pitchscale > 1.20);
+        // Change pitch
+        pitchscale = 0.0;
+        do
+        {
+            pitchscale = ((double)127) / ((double)((int)M_Random() + 1));
+        } while (pitchscale < 0.80 || pitchscale > 1.20);
 
-    // Get new buffer
-    toychunks[id][channel].allocated = 1;
-    toychunks[id][channel].alen = ((int)((double)(chunk->alen >> 2) / pitchscale)) << 2;
-    toychunks[id][channel].abuf = Z_Malloc(toychunks[id][channel].alen, PU_STATIC, &toychunks[id][channel].abuf);
-    toychunks[id][channel].volume = MIX_MAX_VOLUME;
+        // Get new buffer
+        toychunks[id][channel].allocated = 1;
+        toychunks[id][channel].alen = ((int)((double)(chunk->alen >> 2) / pitchscale)) << 2;
+        toychunks[id][channel].abuf = Z_Malloc(toychunks[id][channel].alen, PU_STATIC, &toychunks[id][channel].abuf);
+        toychunks[id][channel].volume = MIX_MAX_VOLUME;
 
-    memset(toychunks[id][channel].abuf, 0, toychunks[id][channel].alen);
+        memset(toychunks[id][channel].abuf, 0, toychunks[id][channel].alen);
 
-    // Get 16-bit pointers from in and out
-    in = (Uint16 *)chunk->abuf;
-    out = (Uint16 *)toychunks[id][channel].abuf;
+        // Get 16-bit pointers from in and out
+        in = (Uint16 *)chunk->abuf;
+        out = (Uint16 *)toychunks[id][channel].abuf;
 
-    // Get limits
-    inlim = chunk->alen >> 2;
-    outlim = toychunks[id][channel].alen >> 2;
+        // Get limits
+        inlim = chunk->alen >> 2;
+        outlim = toychunks[id][channel].alen >> 2;
 
-    for (outpos = 0, position = 0.0; outpos < outlim && (int)position < inlim; position += pitchscale, outpos++)
-        for (i = 0; i < 2; i++)
-            out[(outpos * 2) + i] = in[((int)position * 2) + i];
+        for (outpos = 0, position = 0.0; outpos < outlim && (int)position < inlim; position += pitchscale, outpos++)
+            for (i = 0; i < 2; i++)
+                out[(outpos * 2) + i] = in[((int)position * 2) + i];
 
-    // Original sound no longer needed, really
-    Z_ChangeTag(chunk->abuf, PU_CACHE);
+        // Original sound no longer needed, really
+        Z_ChangeTag(chunk->abuf, PU_CACHE);
 
-    // Now play
-    Mix_PlayChannelTimed(channel, &toychunks[id][channel], 0, -1);
+        // Now play
+        Mix_PlayChannelTimed(channel, &toychunks[id][channel], 0, -1);
+    }
+    else
+        Mix_PlayChannelTimed(channel, chunk, 0, -1);
 
     channels_playing[channel] = id;
 
