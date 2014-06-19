@@ -6,6 +6,7 @@ The classic, refined DOOM source port. For Windows PC.
 
 Copyright (C) 1993-1996 id Software LLC, a ZeniMax Media company.
 Copyright (C) 2005-2014 Simon Howard.
+Copyright (C) 2008 David Flater.
 Copyright (C) 2013-2014 Brad Harding.
 
 This file is part of DOOM RETRO.
@@ -31,6 +32,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <math.h>
 
 #include "m_misc.h"
+#include "m_random.h"
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "s_sound.h"
@@ -45,6 +47,8 @@ static boolean sound_initialized = false;
 
 static Mix_Chunk sound_chunks[NUMSFX];
 static int channels_playing[NUM_CHANNELS];
+
+static Mix_Chunk toychunks[NUMSFX][NUM_CHANNELS];
 
 static int mixer_freq;
 static Uint16 mixer_format;
@@ -67,13 +71,36 @@ static void ReleaseSoundOnChannel(int channel)
     {
         // Playing on this channel? if so, don't release.
         if (channels_playing[i] == id)
+        {
+            int j, k;
+
+            for (j = 0; j < NUMSFX; j++)
+                for (k = 0; k < NUM_CHANNELS; k++)
+                {
+                    // Skip sound
+                    if (j == id)
+                        continue;
+
+                    if (toychunks[j][k].abuf)
+                        Z_Free(toychunks[j][k].abuf);
+                    toychunks[j][k].allocated = 0;
+                    toychunks[j][k].alen = (Uint32)NULL;
+                    toychunks[j][k].abuf = NULL;
+                }
             return;
+        }
     }
 
     // Not used on any channel, and can be safely released
-    Z_ChangeTag(sound_chunks[id].abuf, PU_CACHE);
+    for (i = 0; i < NUMSFX; i++)
+    {
+        if (toychunks[i][channel].abuf)
+            Z_Free(toychunks[i][channel].abuf);
+        toychunks[i][channel].allocated = 0;
+        toychunks[i][channel].alen = (Uint32)NULL;
+        toychunks[i][channel].abuf = NULL;
+    }
 }
-
 
 static boolean ConvertibleRatio(int freq1, int freq2)
 {
@@ -321,6 +348,11 @@ static void I_SDL_UpdateSoundParams(int handle, int vol, int sep)
 static int I_SDL_StartSound(int id, int channel, int vol, int sep)
 {
     Mix_Chunk   *chunk;
+    double      pitchscale = 1.0;
+    double      position = 0;
+    Uint16      *in;
+    Uint16      *out;
+    int         outpos, inlim, outlim, i;
 
     if (!sound_initialized)
         return -1;
@@ -335,8 +367,38 @@ static int I_SDL_StartSound(int id, int channel, int vol, int sep)
     if (chunk == NULL)
         return -1;
 
-    // play sound
-    Mix_PlayChannelTimed(channel, chunk, 0, -1);
+    // Change pitch
+    pitchscale = 0.0;
+    do
+    {
+        pitchscale = ((double)127) / ((double)((int)M_Random() + 1));
+    } while (pitchscale < 0.80 || pitchscale > 1.20);
+
+    // Get new buffer
+    toychunks[id][channel].allocated = 1;
+    toychunks[id][channel].alen = ((int)((double)(chunk->alen >> 2) / pitchscale)) << 2;
+    toychunks[id][channel].abuf = Z_Malloc(toychunks[id][channel].alen, PU_STATIC, &toychunks[id][channel].abuf);
+    toychunks[id][channel].volume = MIX_MAX_VOLUME;
+
+    memset(toychunks[id][channel].abuf, 0, toychunks[id][channel].alen);
+
+    // Get 16-bit pointers from in and out
+    in = (Uint16 *)chunk->abuf;
+    out = (Uint16 *)toychunks[id][channel].abuf;
+
+    // Get limits
+    inlim = chunk->alen >> 2;
+    outlim = toychunks[id][channel].alen >> 2;
+
+    for (outpos = 0, position = 0.0; outpos < outlim && (int)position < inlim; position += pitchscale, outpos++)
+        for (i = 0; i < 2; i++)
+            out[(outpos * 2) + i] = in[((int)position * 2) + i];
+
+    // Original sound no longer needed, really
+    Z_ChangeTag(chunk->abuf, PU_CACHE);
+
+    // Now play
+    Mix_PlayChannelTimed(channel, &toychunks[id][channel], 0, -1);
 
     channels_playing[channel] = id;
 
