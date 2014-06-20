@@ -282,10 +282,10 @@ void P_GiveCard(player_t *player, card_t card)
 //
 boolean P_GivePower(player_t *player, int power)
 {
-    static const int tics[NUMPOWERS] = 
+    static const int tics[NUMPOWERS] =
     {
-        /* pw_invulnerability */ INVULNTICS, 
-        /* pw_strength */        1, 
+        /* pw_invulnerability */ INVULNTICS,
+        /* pw_strength */        1,
         /* pw_invisibility */    INVISTICS,
         /* pw_ironfeet */        IRONTICS,
         /* pw_allmap */          STARTFLASHING + 1,

@@ -518,7 +518,7 @@ boolean ST_Responder(event_t *ev)
         {
             // [BH]
             if (cht_CheckCheat(&cheat_mus, ev->data2)
-                && !nosound && !nomusic && musicVolume)
+                && !nomusic && musicVolume)
                 idmus = true;
 
             // 'dqd' cheat for toggleable god mode
@@ -864,7 +864,7 @@ boolean ST_Responder(event_t *ev)
             // 'mus' cheat for changing music
             else if (cht_CheckCheat(&cheat_mus_xy, ev->data2)
                      // [BH] can only enter cheat if music is playing
-                     && !nosound && !nomusic && musicVolume)
+                     && !nomusic && musicVolume)
             {
                 char   buf[3];
                 //int  musnum;
@@ -1508,67 +1508,33 @@ void ST_Ticker(void)
     }
 }
 
-/* static */ int   st_palette = 0;
+int     st_palette = 0;
 
 void ST_doPaletteStuff(void)
 {
+    int palette;
+    int count = plyr->damagecount;
 
-    int         palette;
-    byte        *pal;
-    int         cnt;
-    int         bzc;
+    if (plyr->powers[pw_strength] &&
+        (plyr->pendingweapon == wp_fist ||
+         (plyr->readyweapon == wp_fist && plyr->pendingweapon == wp_nochange)))
+        count = MAX(12, count);
 
-    cnt = plyr->damagecount;
-
-    if (plyr->powers[pw_strength])
-    {
-        // slowly fade the berzerk out
-        bzc = 12 - (plyr->powers[pw_strength] >> 6);
-
-        if (bzc > cnt)
-            cnt = bzc;
-    }
-
-    if (cnt)
-    {
-        palette = (cnt + 7) >> 3;
-
-        //if (palette >= NUMREDPALS)
-        //    palette = NUMREDPALS - 1;
-
-        //palette += STARTREDPALS;
-
-        // [BH] use additional red palette
-        if (palette > NUMREDPALS)
-            palette = NUMREDPALS;
-    }
-
+    if (count)
+        palette = MIN((count + 7) >> 3, NUMREDPALS);
     else if (plyr->bonuscount)
-    {
-        palette = (plyr->bonuscount + 7) >> 3;
-
-        //if (palette >= NUMBONUSPALS)
-        //   palette = NUMBONUSPALS - 1;
-
-        //palette += STARTBONUSPALS;
-
-        // [BH] use additional bonus palette
-        if (palette > NUMBONUSPALS)
-            palette = NUMBONUSPALS;
-
-        palette += STARTBONUSPALS - 1;
-    }
-
-    else if (plyr->powers[pw_ironfeet] > STARTFLASHING || plyr->powers[pw_ironfeet] & 8)
+        palette = MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS) + STARTBONUSPALS - 1;
+    else if (plyr->powers[pw_ironfeet] > STARTFLASHING || (plyr->powers[pw_ironfeet] & 8))
         palette = RADIATIONPAL;
     else
         palette = 0;
 
     if (palette != st_palette)
     {
+        byte    *lump = (byte *)W_CacheLumpNum(lu_palette, PU_CACHE) + palette * 768;
+
+        I_SetPalette(lump);
         st_palette = palette;
-        pal = (byte *)W_CacheLumpNum(lu_palette, PU_CACHE) + palette * 768;
-        I_SetPalette(pal);
     }
 }
 
