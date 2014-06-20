@@ -66,11 +66,9 @@ static void ReleaseSoundOnChannel(int channel)
     channels_playing[channel] = sfx_None;
 
     for (i = 0; i < NUM_CHANNELS; ++i)
-    {
         // Playing on this channel? if so, don't release.
         if (channels_playing[i] == id)
             return;
-    }
 
     // Not used on any channel, and can be safely released
     Z_ChangeTag(sound_chunks[id].abuf, PU_CACHE);
@@ -364,21 +362,6 @@ static boolean I_SDL_SoundIsPlaying(int handle)
     return Mix_Playing(handle);
 }
 
-//
-// Periodically called to update the sound system
-//
-static void I_SDL_UpdateSound(void)
-{
-    int         i;
-
-    // Check all channels to see if a sound has finished
-    for (i = 0; i < NUM_CHANNELS; ++i)
-        if (channels_playing[i] && !I_SDL_SoundIsPlaying(i))
-            // Sound has finished playing on this channel,
-            // but sound data has not been released to cache
-            ReleaseSoundOnChannel(i);
-}
-
 static void I_SDL_ShutdownSound(void)
 {
     if (!sound_initialized)
@@ -456,9 +439,8 @@ sound_module_t sound_sdl_module =
     I_SDL_InitSound,
     I_SDL_ShutdownSound,
     I_SDL_GetSfxLumpNum,
-    I_SDL_UpdateSound,
     I_SDL_UpdateSoundParams,
     I_SDL_StartSound,
     I_SDL_StopSound,
-    I_SDL_SoundIsPlaying,
+    I_SDL_SoundIsPlaying
 };

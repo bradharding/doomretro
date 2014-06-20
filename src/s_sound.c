@@ -189,8 +189,8 @@ boolean nosound, nosfx, nomusic;
 void S_Init(int sfxVolume, int musicVolume)
 {
     nosound = (M_CheckParm("-nosound") > 0);
-    nosfx = (M_CheckParm("-nosfx") > 0);
-    nomusic = (M_CheckParm("-nomusic") > 0);
+    nosfx = (nosound || M_CheckParm("-nosfx") > 0);
+    nomusic = (nosound || M_CheckParm("-nomusic") > 0);
 
     // Initialize the sound and music subsystems.
     if (!nosound)
@@ -262,9 +262,6 @@ void S_StopSounds(void)
 {
     int cnum;
 
-    if (nosfx || nosound)
-        return;
-
     for (cnum = 0; cnum < numChannels; cnum++)
         if (channels[cnum].sfxinfo)
             S_StopChannel(cnum);
@@ -275,15 +272,11 @@ void S_StopSounds(void)
 // Kills playing sounds at start of level,
 //  determines music if any, changes music.
 //
-
 void S_Start(void)
 {
     int         mnum;
 
     S_StopSounds();
-
-    if (nomusic || nosound)
-        return;
 
     // start new music for the level
     mus_paused = 0;
@@ -401,7 +394,7 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     fixed_t     ady;
     angle_t     angle;
 
-    if (!listener)
+    if (nosfx || !listener)
         return 0;
 
     // calculate the distance to sound origin
@@ -450,7 +443,7 @@ void S_StartSound(void *origin_p, int sfx_id)
     int         cnum;
     int         volume;
 
-    if (nosound || nosfx)
+    if (nosfx)
         return;
 
     origin = (mobj_t *)origin_p;
@@ -501,13 +494,18 @@ void S_StartSound(void *origin_p, int sfx_id)
 
     if (sound_module != NULL)
     {
+        int handle;
+
         // Get lumpnum if necessary
-        if (sfx->lumpnum < 0)
-            sfx->lumpnum = sound_module->GetSfxLumpNum(sfx);
+        // killough 2/28/98: make missing sounds non-fatal
+        if (sfx->lumpnum < 0 && (sfx->lumpnum = sound_module->GetSfxLumpNum(sfx)) < 0)
+            return;
 
         // Assigns the handle to one of the channels in the
         //  mix/output buffer.
-        channels[cnum].handle = sound_module->StartSound(sfx_id, cnum, volume, sep);
+        // e6y: [Fix] Crash with zero-length sounds.
+        if ((handle = sound_module->StartSound(sfx_id, cnum, volume, sep)) != -1)
+            channels[cnum].handle = handle;
     }
 }
 
@@ -516,7 +514,7 @@ void S_StartSound(void *origin_p, int sfx_id)
 //
 void S_PauseSound(void)
 {
-    if (nosound || nomusic)
+    if (nomusic)
         return;
 
     if (mus_playing && !mus_paused)
@@ -529,7 +527,7 @@ void S_PauseSound(void)
 
 void S_ResumeSound(void)
 {
-    if (nosound || nomusic)
+    if (nomusic)
         return;
 
     if (mus_playing && mus_paused)
@@ -543,10 +541,12 @@ void S_ResumeSound(void)
 //
 // Updates music & sounds
 //
-
 void S_UpdateSounds(mobj_t *listener)
 {
     int cnum;
+
+    if (nosfx)
+        return;
 
     for (cnum = 0; cnum < numChannels; cnum++)
     {
@@ -611,11 +611,11 @@ void S_StartMusic(int m_id)
 
 void S_ChangeMusic(int musicnum, int looping, int cheating)
 {
-    musicinfo_t *music = NULL;
+    musicinfo_t *music;
     char        namebuf[9];
     void        *handle;
 
-    if (nosound || nomusic)
+    if (nomusic)
         return;
 
     music = &S_music[musicnum];
