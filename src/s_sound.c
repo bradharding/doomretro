@@ -106,14 +106,14 @@ extern music_module_t music_sdl_module;
 static sound_module_t *sound_modules[] =
 {
     &sound_sdl_module,
-    NULL,
+    NULL
 };
 
 // Compiled-in music modules:
 static music_module_t *music_modules[] =
 {
     &music_sdl_module,
-    NULL,
+    NULL
 };
 
 // Check if a sound device is in the given list of devices
@@ -140,13 +140,11 @@ static void InitSfxModule(void)
     {
         // Is the sfx device in the list of devices supported by
         // this module?
-
-        if (SndDeviceInList((snddevice_t)snd_sfxdevice,
+        if (SndDeviceInList(snd_sfxdevice,
                             sound_modules[i]->sound_devices,
                             sound_modules[i]->num_sound_devices))
         {
             // Initialize the module
-
             if (sound_modules[i]->Init())
             {
                 sound_module = sound_modules[i];
@@ -157,7 +155,6 @@ static void InitSfxModule(void)
 }
 
 // Initialize music according to snd_musicdevice.
-
 static void InitMusicModule(void)
 {
     int         i;
@@ -168,13 +165,11 @@ static void InitMusicModule(void)
     {
         // Is the music device in the list of devices supported
         // by this module?
-
         if (SndDeviceInList((snddevice_t)snd_musicdevice,
                             music_modules[i]->sound_devices,
                             music_modules[i]->num_sound_devices))
         {
             // Initialize the module
-
             if (music_modules[i]->Init())
             {
                 music_module = music_modules[i];
@@ -210,7 +205,7 @@ void S_Init(int sfxVolume, int musicVolume)
             // Allocating the internal channels for mixing
             // (the maximum numer of sounds rendered
             // simultaneously) within zone memory.
-            channels = (channel_t *)Z_Malloc(numChannels * sizeof(channel_t), PU_STATIC, 0);
+            channels = Z_Malloc(numChannels * sizeof(channel_t), PU_STATIC, 0);
 
             // Free all channels for use
             for (i = 0; i < numChannels; i++)
@@ -343,9 +338,6 @@ void S_Start(void)
 void S_StopSound(mobj_t *origin)
 {
     int         cnum;
-
-    if (nosound || nosfx)
-        return;
 
     for (cnum = 0; cnum < numChannels; cnum++)
         if (channels[cnum].sfxinfo && channels[cnum].origin == origin)
@@ -556,9 +548,6 @@ void S_UpdateSounds(mobj_t *listener)
 {
     int cnum;
 
-    if (nosound || nosfx)
-        return;
-
     for (cnum = 0; cnum < numChannels; cnum++)
     {
         channel_t       *c = &channels[cnum];
@@ -603,18 +592,12 @@ void S_UpdateSounds(mobj_t *listener)
 
 void S_SetMusicVolume(int volume)
 {
-    if (nosound || nomusic)
-        return;
-
     if (music_module != NULL)
         music_module->SetMusicVolume(volume);
 }
 
 void S_SetSfxVolume(int volume)
 {
-    if (nosound || nosfx)
-        return;
-
     snd_SfxVolume = volume;
 }
 
@@ -623,9 +606,6 @@ void S_SetSfxVolume(int volume)
 //
 void S_StartMusic(int m_id)
 {
-    if (nosound || nomusic)
-        return;
-
     S_ChangeMusic(m_id, false, false);
 }
 
@@ -678,9 +658,6 @@ boolean S_MusicPlaying(void)
 
 void S_StopMusic(void)
 {
-    if (nosound || nomusic)
-        return;
-
     if (mus_playing)
     {
         if (music_module != NULL)
