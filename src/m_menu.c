@@ -2622,7 +2622,7 @@ boolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_LEFTARROW 
+        else if (key == KEY_LEFTARROW
                  || (key == KEY_MINUS && !(currentMenu == &OptionsDef && itemOn == 1)))
         {
             // Slide slider left
@@ -2638,7 +2638,7 @@ boolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_RIGHTARROW 
+        else if (key == KEY_RIGHTARROW
                  || (key == KEY_EQUALS && !(currentMenu == &OptionsDef && itemOn == 1)))
         {
             // Slide slider right
@@ -2658,11 +2658,14 @@ boolean M_Responder(event_t *ev)
         {
             // Activate menu item
             keydown = key;
-            if (currentMenu == &ReadDef)
+            if (inhelpscreens)
             {
                 functionkey = 0;
                 M_ClearMenus();
                 S_StartSound(NULL, sfx_swtchx);
+                R_SetViewSize(screensize);
+                if (returntowidescreen)
+                    ToggleWideScreen(true);
                 return true;
             }
             if (currentMenu->menuitems[itemOn].routine &&
