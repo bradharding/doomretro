@@ -187,6 +187,7 @@ int             gamepadvibrate = 1;
 fixed_t         forwardmove[2] = { 0x19, 0x32 };
 fixed_t         sidemove[2] = { 0x18, 0x28 };
 fixed_t         angleturn[3] = { 640, 1280, 320 };      // + slow turn
+fixed_t         gamepadangleturn[2] = { 640, 960 };
 
 #define NUMWEAPONKEYS   7
 
@@ -305,12 +306,12 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         if (gamekeydown[key_right])
             cmd->angleturn -= angleturn[tspeed];
         else if (gamepadthumbRX > 0)
-            cmd->angleturn -= (int)(angleturn[speed] * gamepadthumbRXright * gamepadSensitivity);
+            cmd->angleturn -= (int)(gamepadangleturn[speed] * gamepadthumbRXright * gamepadSensitivity);
 
         if (gamekeydown[key_left])
             cmd->angleturn += angleturn[tspeed];
         else if (gamepadthumbRX < 0)
-            cmd->angleturn += (int)(angleturn[speed] * gamepadthumbRXleft * gamepadSensitivity);
+            cmd->angleturn += (int)(gamepadangleturn[speed] * gamepadthumbRXleft * gamepadSensitivity);
     }
 
     if (gamekeydown[key_up] || gamekeydown[key_up2])
