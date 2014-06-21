@@ -1023,7 +1023,7 @@ void I_InitGraphics(void)
 
     SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
-    SDL_WM_SetCaption(gamedescription, NULL);
+    SDL_WM_SetCaption("DOOM RETRO", NULL);
 
     SDL_FillRect(screenbuffer, NULL, 0);
 
