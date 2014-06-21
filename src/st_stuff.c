@@ -970,14 +970,15 @@ boolean ST_Responder(event_t *ev)
                         // [BH] set to -1 so power-up won't run out, but can
                         //  still be toggled off using cheat
                         if (i != pw_strength)
+                        {
                             plyr->powers[i] = -1;
 
-                        // [BH] flash screen
-                        P_AddBonus(plyr, BONUSADD);
-
-                        // [BH] switch to fists if 'idbeholds' cheat is entered
-                        if (i == pw_strength)
+                            // [BH] flash screen
+                            P_AddBonus(plyr, BONUSADD);
+                        }
+                        else
                         {
+                            // [BH] switch to fists if 'idbeholds' cheat is entered
                             if (plyr->readyweapon != wp_fist)
                                 plyr->pendingweapon = wp_fist;
                             plyr->fistorchainsaw = wp_fist;
@@ -1240,7 +1241,7 @@ boolean ST_Responder(event_t *ev)
                     //G_DeferedInitNew(gameskill, epsd, map);
                     samelevel = (gameepisode == epsd && gamemap == map);
                     gameepisode = epsd;
-                    if (gamemission == doom)
+                    if (gamemission == doom && epsd <= 4)
                     {
                         selectedepisode = gameepisode - 1;
                         EpiDef.lastOn = selectedepisode;
@@ -1512,7 +1513,7 @@ int     st_palette = 0;
 
 void ST_doPaletteStuff(void)
 {
-    int palette;
+    int palette = 0;
     int count = plyr->damagecount;
 
     if (plyr->powers[pw_strength] &&
@@ -1526,15 +1527,11 @@ void ST_doPaletteStuff(void)
         palette = MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS) + STARTBONUSPALS - 1;
     else if (plyr->powers[pw_ironfeet] > STARTFLASHING || (plyr->powers[pw_ironfeet] & 8))
         palette = RADIATIONPAL;
-    else
-        palette = 0;
 
     if (palette != st_palette)
     {
-        byte    *lump = (byte *)W_CacheLumpNum(lu_palette, PU_CACHE) + palette * 768;
-
-        I_SetPalette(lump);
         st_palette = palette;
+        I_SetPalette((byte *)W_CacheLumpNum(lu_palette, PU_CACHE) + palette * 768);
     }
 }
 

@@ -118,7 +118,7 @@ typedef enum
     DEFAULT_INT_HEX,
     DEFAULT_STRING,
     DEFAULT_FLOAT,
-    DEFAULT_KEY,
+    DEFAULT_KEY
 } default_type_t;
 
 typedef struct
