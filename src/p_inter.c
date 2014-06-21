@@ -739,7 +739,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (!(target->flags & MF_SHADOW))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (type != MT_CHAINGUY && type != MT_CYBORG)
+        if ((corpses & MIRROR) && type != MT_CHAINGUY && type != MT_CYBORG)
         {
             static int prev = 0;
             int        r = M_RandomInt(1, 10);
@@ -829,7 +829,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mo->momz = FRACUNIT * 5 + (P_Random() << 10);
     mo->angle = target->angle + ((P_Random() - P_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
-    if (rand() & 1)
+    if ((corpses & MIRROR) && rand() & 1)
         mo->flags2 |= MF2_MIRRORED;
 }
 

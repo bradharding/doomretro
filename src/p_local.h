@@ -112,9 +112,10 @@ void P_PlayerThink(player_t *player);
 #define CARDNOTFOUNDYET         -1
 #define CARDNOTINMAP            0
 
-#define SLIDE                   1
-#define SMEARBLOOD              2
-#define MOREBLOOD               4
+#define MIRROR                  1
+#define SLIDE                   2
+#define SMEARBLOOD              4
+#define MOREBLOOD               8
 
 extern int              iqueuehead;
 extern int              iqueuetail;
