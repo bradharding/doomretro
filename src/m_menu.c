@@ -1368,7 +1368,7 @@ void M_DrawNewGame(void)
 
 void M_NewGame(int choice)
 {
-    if (netgame && !demoplayback)
+    if (netgame)
         return;
 
     M_SetupNextMenu(gamemode == commercial ? (nerve ? &ExpDef : &NewDef) : &EpiDef);
@@ -2293,7 +2293,6 @@ boolean M_Responder(event_t *ev)
                     if (returntowidescreen)
                         ToggleWideScreen(true);
                 }
-                inhelpscreens = false;
             }
             else
             {
@@ -2316,7 +2315,7 @@ boolean M_Responder(event_t *ev)
 
         // Save
         else if (key == KEY_F2 && (!functionkey || functionkey == KEY_F2)
-                 && (viewactive || automapactive) && !demoplayback && !keydown
+                 && (viewactive || automapactive) && !keydown
                  && players[consoleplayer].health > 0)
         {
             keydown = key;
@@ -2404,7 +2403,7 @@ boolean M_Responder(event_t *ev)
 
         // Quicksave
         else if (key == KEY_F6 && (!functionkey || functionkey == KEY_F6)
-                 && (viewactive || automapactive) && !demoplayback && !keydown
+                 && (viewactive || automapactive) && !keydown
                  && players[consoleplayer].health > 0)
         {
             keydown = key;
@@ -2416,7 +2415,7 @@ boolean M_Responder(event_t *ev)
 
         // End game
         else if (key == KEY_F7 && !functionkey && (viewactive || automapactive)
-                 && !demoplayback && !keydown)
+                 && !keydown)
         {
             keydown = key;
             functionkey = KEY_F7;
@@ -2438,8 +2437,8 @@ boolean M_Responder(event_t *ev)
         }
 
         // Quickload
-        else if (key == KEY_F9 && !functionkey && (viewactive || automapactive) &&
-                 !demoplayback && savegames && !keydown)
+        else if (key == KEY_F9 && !functionkey && (viewactive || automapactive) 
+                 && savegames && !keydown)
         {
             keydown = key;
             functionkey = KEY_F9;
@@ -2722,7 +2721,6 @@ boolean M_Responder(event_t *ev)
         // Keyboard shortcut?
         else if (ch != 0)
         {
-
             for (i = itemOn + 1; i < currentMenu->numitems; i++)
             {
                 if (toupper(currentMenu->menuitems[i].alphaKey) == toupper(ch))

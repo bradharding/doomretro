@@ -189,23 +189,7 @@ extern int              leveltime;      // tics in game play for par
 
 
 
-// --------------------------------------
-// DEMO playback/recording related stuff.
-// No demo, there is a human player in charge?
-// Disable save/end game?
 extern boolean          usergame;
-
-//?
-extern boolean          demoplayback;
-extern boolean          demorecording;
-
-// Round angleturn in ticcmds to the nearest 256.  This is used when
-// recording Vanilla demos in netgames.
-
-//extern boolean lowres_turn;
-
-// Quit after playing a demo from cmdline.
-extern boolean          singledemo;
 
 
 

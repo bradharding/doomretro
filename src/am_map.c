@@ -1671,7 +1671,7 @@ void AM_drawPlayers(void)
             int      invisibility;
 
             multiplayer = &players[i];
-            if (!playeringame[i] || (deathmatch && !singledemo && multiplayer != plr))
+            if (!playeringame[i] || (deathmatch && multiplayer != plr))
                 continue;
             invisibility = multiplayer->powers[pw_invisibility];
             if (multiplayer == plr)

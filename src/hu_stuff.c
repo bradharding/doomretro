@@ -439,7 +439,7 @@ void HU_Ticker(void)
     static char fps_str[8] = "";
 
     // tick down message counter if message is up
-    if (((!menuactive && !paused) || inhelpscreens || demoplayback || message_dontpause) &&
+    if (((!menuactive && !paused) || inhelpscreens || message_dontpause) &&
         !idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm && message_counter &&
         !--message_counter)
     {

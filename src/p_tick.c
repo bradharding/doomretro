@@ -106,7 +106,7 @@ void P_Ticker(void)
         return;
 
     // pause if in menu and at least one tic has been run
-    if (!netgame && menuactive && !demoplayback && players[consoleplayer].viewz != 1)
+    if (!netgame && menuactive  && players[consoleplayer].viewz != 1)
         return;
 
     for (i = 0; i < MAXPLAYERS; i++)

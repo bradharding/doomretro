@@ -972,9 +972,6 @@ void R_PrecacheLevel(void)
     thinker_t     *th;
     spriteframe_t *sf;
 
-    if (demoplayback)
-        return;
-
     // Precache flats.
     flatpresent = Z_Malloc(numflats, PU_STATIC, NULL);
     memset(flatpresent, 0, numflats);

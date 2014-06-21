@@ -151,8 +151,6 @@ void I_Quit(boolean shutdown)
 {
     if (shutdown)
     {
-        if (demorecording)
-            G_CheckDemoStatus();
         S_Shutdown();
 
         I_SaveWindowPosition();
@@ -270,8 +268,6 @@ static int ZenityErrorBox(char *message)
 //
 // I_Error
 //
-extern boolean demorecording;
-
 static boolean already_quitting = false;
 
 void I_Error(char *error, ...)
@@ -293,8 +289,6 @@ void I_Error(char *error, ...)
     fflush(stderr);
 
     // Shutdown. Here might be other errors.
-    if (demorecording)
-        G_CheckDemoStatus();
     S_Shutdown();
 
     I_SaveWindowPosition();

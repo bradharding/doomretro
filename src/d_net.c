@@ -145,7 +145,7 @@ void NetUpdate(void)
             // If playing single player, do not allow tics to buffer
             // up very far
 
-            if ((!netgame || demoplayback) && maketic - gameticdiv > 2)
+            if (!netgame && maketic - gameticdiv > 2)
                 break;
 
             // Never go more than ~200ms ahead
@@ -306,7 +306,6 @@ void TryRunTics(void)
 
         frameon++;
 
-        if (!demoplayback)
         {
             int keyplayer = -1;
 
