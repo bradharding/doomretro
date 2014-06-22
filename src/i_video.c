@@ -884,7 +884,6 @@ void ToggleFullScreen(void)
         screen = SDL_SetVideoMode(width, height, 0,
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
-        CreateCursors();
         SDL_SetCursor(cursors[0]);
 
         SDL_WM_SetCaption(gamestate == GS_LEVEL ? mapnumandtitle : gamedescription, NULL);
