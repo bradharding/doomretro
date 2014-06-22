@@ -392,6 +392,10 @@ static void saveg_read_mobj_t(mobj_t *str)
     // int floatboblevel;
     str->floatboblevel = saveg_read32();
 
+    str->touching_sectorlist = NULL;
+
+    str->old_sectorlist = NULL;
+
     // short gear;
     str->gear = saveg_read16();
 }
