@@ -893,16 +893,11 @@ void R_InitData(void)
 int R_FlatNumForName(char *name)
 {
     int  i;
-    char namet[9];
 
     i = W_RangeCheckNumForName(firstflat, lastflat, name);
 
     if (i == -1)
-    {
-        namet[8] = 0;
-        memcpy(namet, name, 8);
-        I_Error("R_FlatNumForName: %s not found", namet);
-    }
+        I_Error("R_FlatNumForName: %.8s not found", name);
     return (i - firstflat);
 }
 
@@ -945,7 +940,7 @@ int R_TextureNumForName(char *name)
     int i = R_CheckTextureNumForName(name);
 
     if (i == -1)
-         I_Error("R_TextureNumForName: %s not found", name);
+         I_Error("R_TextureNumForName: %.8s not found", name);
     return i;
 }
 
