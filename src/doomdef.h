@@ -91,7 +91,6 @@ typedef enum
 } GameMission_t;
 
 // What version are we emulating?
-
 typedef enum
 {
     exe_doom_1_9,       // Doom 1.9: used for shareware, registered and commercial
@@ -119,13 +118,13 @@ typedef enum
 
 // The current state of the game: whether we are
 // playing, gazing at the intermission screen,
-// the game final animation, or a demo.
+// the game final animation, or title screen.
 typedef enum
 {
     GS_LEVEL,
     GS_INTERMISSION,
     GS_FINALE,
-    GS_DEMOSCREEN
+    GS_TITLESCREEN
 } gamestate_t;
 
 //
@@ -185,7 +184,6 @@ typedef enum
 
     // No pending weapon change.
     wp_nochange
-
 } weapontype_t;
 
 // Ammunition types defined.
@@ -222,7 +220,6 @@ typedef enum
     INVISTICS   = (60 * TICRATE),
     INFRATICS   = (120 * TICRATE),
     IRONTICS    = (60 * TICRATE)
-
 } powerduration_t;
 
 #define STARTFLASHING   127

@@ -97,7 +97,7 @@ int            startmap;
 boolean        autostart;
 int            startloadgame;
 
-boolean        advancedemo;
+boolean        advancetitle;
 boolean        forcewipe = false;
 
 extern int screenwidth;
@@ -177,7 +177,7 @@ void D_ProcessEvents(void)
 //
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
-gamestate_t     wipegamestate = GS_DEMOSCREEN;
+gamestate_t     wipegamestate = GS_TITLESCREEN;
 extern  boolean setsizeneeded;
 extern  boolean message_on;
 extern  int     graphicdetail;
@@ -230,7 +230,7 @@ void D_Display(void)
                 F_Drawer();
                 break;
 
-            case GS_DEMOSCREEN:
+            case GS_TITLESCREEN:
                 D_PageDrawer();
                 break;
         }
@@ -361,9 +361,9 @@ void D_DoomLoop(void)
 }
 
 //
-//  DEMO LOOP
+//  TITLE LOOP
 //
-static int  demosequence;
+static int  titlesequence;
 static int  pagetic;
 static char *pagename;
 
@@ -376,7 +376,7 @@ void D_PageTicker(void)
     if (!menuactive)
     {
         if (--pagetic < 0)
-            D_AdvanceDemo();
+            D_AdvanceTitle();
         if (!TITLEPIC)
             M_StartControlPanel();
     }
@@ -391,30 +391,30 @@ void D_PageDrawer(void)
 }
 
 //
-// D_AdvanceDemo
-// Called after each demo or intro demosequence finishes
+// D_AdvanceTitle
+// Called after each titlesequence finishes
 //
-void D_AdvanceDemo(void)
+void D_AdvanceTitle(void)
 {
-    advancedemo = true;
+    advancetitle = true;
 }
 
 //
-// This cycles through the demo sequences.
+// This cycles through the title sequence.
 //
-void D_DoAdvanceDemo(void)
+void D_DoAdvanceTitle(void)
 {
     static boolean starttitle = true;
 
     players[consoleplayer].playerstate = PST_LIVE;      // not reborn
-    advancedemo = false;
+    advancetitle = false;
     usergame = false;                                   // no save / end game here
     paused = false;
     gameaction = ga_nothing;
-    gamestate = GS_DEMOSCREEN;
+    gamestate = GS_TITLESCREEN;
     blurred = false;
 
-    if ((demosequence = !demosequence))
+    if ((titlesequence = !titlesequence))
     {
         pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
         pagetic = 20 * TICRATE;
@@ -437,9 +437,9 @@ void D_DoAdvanceDemo(void)
 void D_StartTitle(void)
 {
     gameaction = ga_nothing;
-    demosequence = 0;
+    titlesequence = 0;
     SDL_WM_SetCaption(gamedescription, NULL);
-    D_AdvanceDemo();
+    D_AdvanceTitle();
 }
 
 static boolean D_AddFile(char *filename)

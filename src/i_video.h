@@ -62,7 +62,7 @@ extern boolean screenvisible;
 extern float mouse_acceleration;
 extern int mouse_threshold;
 
-extern boolean advancedemo;
+extern boolean advancetitle;
 extern boolean sendpause;
 extern boolean quitting;
 extern int screensize;

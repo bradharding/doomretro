@@ -75,7 +75,7 @@ void G_DoSaveGame(void);
 gamestate_t     oldgamestate;
 
 gameaction_t    gameaction;
-gamestate_t     gamestate = GS_DEMOSCREEN;
+gamestate_t     gamestate = GS_TITLESCREEN;
 skill_t         gameskill;
 boolean         respawnmonsters;
 int             gameepisode;
@@ -552,8 +552,8 @@ void PrevWeapon(void)
 //
 boolean G_Responder(event_t *ev)
 {
-    // any other key pops up menu if in demos
-    if (gameaction == ga_nothing && gamestate == GS_DEMOSCREEN)
+    // any other key pops up menu if on title screen
+    if (gameaction == ga_nothing && gamestate == GS_TITLESCREEN)
     {
         if (ev->type == ev_keydown && ev->data1 == key_pause && !keydown)
         {
@@ -924,7 +924,7 @@ void G_Ticker(void)
             F_Ticker();
             break;
 
-        case GS_DEMOSCREEN:
+        case GS_TITLESCREEN:
             D_PageTicker();
             break;
     }
@@ -1681,7 +1681,7 @@ void G_InitNew(skill_t skill, int episode, int map)
     for (i = 0; i < MAXPLAYERS ; i++)
         players[i].playerstate = PST_REBORN;
 
-    usergame = true;            // will be set false if a demo
+    usergame = true;            // will be set false if on title screen
     paused = false;
     automapactive = false;
     viewactive = true;

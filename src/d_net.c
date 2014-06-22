@@ -261,7 +261,7 @@ int     frameon;
 int     frameskip[4];
 int     oldnettics;
 
-extern  boolean advancedemo;
+extern  boolean advancetitle;
 
 void TryRunTics(void)
 {
@@ -385,8 +385,8 @@ void TryRunTics(void)
                 return;
             }
 
-            if (advancedemo)
-                D_DoAdvanceDemo();
+            if (advancetitle)
+                D_DoAdvanceTitle();
 
             G_Ticker();
             gametic++;

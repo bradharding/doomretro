@@ -29,8 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __M_RANDOM__
 #define __M_RANDOM__
 
-
-
 // Returns a number from 0 to 255,
 // from a lookup table.
 int M_Random(void);
@@ -38,7 +36,6 @@ int M_Random(void);
 // As M_Random, but used only by the play simulation.
 int P_Random(void);
 
-// Fix randoms for demos.
 void M_ClearRandom(void);
 
 int M_RandomInt(int, int);

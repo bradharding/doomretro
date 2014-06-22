@@ -83,7 +83,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,
 // calls all startup code, parses command line options.
-// If not overrided by user input, calls D_AdvanceDemo.
+// If not overrided by user input, calls D_AdvanceTitle.
 //
 void D_DoomMain(void);
 
@@ -91,22 +91,18 @@ void D_DoomMain(void);
 void D_PostEvent(event_t *ev);
 
 // Read an event from the event queue
-
 event_t *D_PopEvent(void);
 
 // Read events from all input devices
-
 void D_ProcessEvents(void);
-
 
 //
 // BASE LEVEL
 //
 void D_PageTicker(void);
 void D_PageDrawer(void);
-void D_AdvanceDemo(void);
-void D_DoAdvanceDemo(void);
+void D_AdvanceTitle(void);
+void D_DoAdvanceTitle(void);
 void D_StartTitle(void);
-
 
 #endif

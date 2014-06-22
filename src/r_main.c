@@ -143,8 +143,7 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 }
 
 // [WDJ] Generate the tan slope, suitable for tantoangle[] index.
-// This is more accuate than the vanilla version,
-// but would cause sync loss on demos if used everywhere.
+// This is more accuate than the vanilla version.
 int64_t SlopeDiv_64(fixed_t num, fixed_t den)
 {
     int64_t ans;
