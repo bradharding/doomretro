@@ -1210,6 +1210,8 @@ void G_SecretExitLevel(void)
 extern int      selectedepisode;
 extern menu_t   EpiDef;
 
+void ST_doRefresh(void);
+
 void G_DoCompleted(void)
 {
     int         i;
@@ -1224,6 +1226,7 @@ void G_DoCompleted(void)
     {
         ToggleWideScreen(false);
         returntowidescreen = true;
+        ST_doRefresh();
     }
 
     for (i = 0; i < MAXPLAYERS; i++)
