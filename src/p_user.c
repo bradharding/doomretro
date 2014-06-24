@@ -46,6 +46,8 @@ void G_RemoveChoppers(void);
 //#define MAXBOB  0x100000
 #define MAXBOB  0xC0000
 
+int playerbob = 75;
+
 boolean onground;
 
 //
@@ -86,10 +88,11 @@ void P_CalcHeight(player_t *player)
         // OPTIMIZE: tablify angle
         // Note: a LUT allows for effects
         //  like a ramp with low health.
+        bob = (FixedMul(player->mo->momx, player->mo->momx) +
+               FixedMul(player->mo->momy, player->mo->momy) >> 2);
+
         // DHM - NERVE :: player bob reduced by 25%, MAXBOB reduced by 25% as well
-        player->bob = MIN((3 * (FixedMul(player->mo->momx, player->mo->momx)
-                      + FixedMul(player->mo->momy, player->mo->momy))) >> 3,
-                      MAXBOB);
+        player->bob = MIN(bob * playerbob / 100, MAXBOB);
 
         angle = (FINEANGLES / 20 * leveltime) & FINEMASK;
         bob = FixedMul(player->bob / 2, finesine[angle]);

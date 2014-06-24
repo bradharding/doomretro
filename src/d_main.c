@@ -108,6 +108,7 @@ extern int pixelwidth;
 extern int pixelheight;
 extern int selectedexpansion;
 extern float saturation;
+extern int playerbob;
 
 void D_CheckNetGame(void);
 
@@ -1055,6 +1056,9 @@ static void D_DoomMainSetup(void)
         pixelheight = PIXELHEIGHT_DEFAULT;
     while (SCREENHEIGHT % pixelheight)
         pixelheight--;
+
+    if (playerbob < PLAYERBOB_MIN || playerbob > PLAYERBOB_MAX)
+        playerbob = PLAYERBOB_DEFAULT;
 
     M_Init();
 

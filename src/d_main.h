@@ -79,6 +79,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define RUNCOUNT_MAX                    32768
 
+#define PLAYERBOB_MIN                   0
+#define PLAYERBOB_DEFAULT               75
+#define PLAYERBOB_MAX                   100
+
 //
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,
