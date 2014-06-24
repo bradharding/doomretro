@@ -783,8 +783,6 @@ static void D_DoomMainSetup(void)
     }
     M_SaveDefaults();
 
-    I_InitGraphics();
-
     if (!W_MergeFile("doomretro.wad"))
         if (!W_MergeFile("doomretro.wad.temp"))
             I_Error("Can't find doomretro.wad.");
@@ -844,6 +842,8 @@ static void D_DoomMainSetup(void)
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
+
+    I_InitGraphics();
 
     // Generate the WAD hash table. Speed things up a bit.
     W_GenerateHashTable();
