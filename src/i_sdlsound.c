@@ -284,7 +284,7 @@ static int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
 {
     char        namebuf[9];
 
-    snprintf(namebuf, 9, "ds%s", sfx->name);
+    M_snprintf(namebuf, 9, "ds%s", sfx->name);
 
     return W_GetNumForName(namebuf);
 }

@@ -29,6 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
+#include "m_misc.h"
 #include "m_random.h"
 #include "s_sound.h"
 #include "SDL.h"
@@ -446,9 +447,9 @@ void WI_drawLF(void)
 
     // draw <LevelName>
     if (gamemode == commercial)
-        snprintf(name, 9, "CWILV%2.2d", wbs->last);
+        M_snprintf(name, 9, "CWILV%2.2d", wbs->last);
     else
-        snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
+        M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
     if (W_CheckMultipleLumps(name) > 1 && !nerve)
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->last], false);
@@ -473,9 +474,9 @@ void WI_drawEL(void)
     // draw level
     y += 14;
     if (gamemode == commercial)
-        snprintf(name, 9, "CWILV%2.2d", wbs->next);
+        M_snprintf(name, 9, "CWILV%2.2d", wbs->next);
     else
-        snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
+        M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
     if (W_CheckMultipleLumps(name) > 1 && !nerve)
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->next], false);
@@ -1493,7 +1494,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     {
         for (i = 0; i < NUMCMAPS; i++)
         {
-            snprintf(name, 9, "CWILV%2.2d", i);
+            M_snprintf(name, 9, "CWILV%2.2d", i);
             callback(name, &lnames[i]);
         }
     }
@@ -1501,7 +1502,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     {
         for (i = 0; i < NUMMAPS; i++)
         {
-            snprintf(name, 9, "WILV%d%d", wbs->epsd, i);
+            M_snprintf(name, 9, "WILV%d%d", wbs->epsd, i);
             callback(name, &lnames[i]);
         }
 
@@ -1525,7 +1526,7 @@ static void WI_loadUnloadData(load_callback_t callback)
                     if (wbs->epsd != 1 || j != 8)
                     {
                         // animations
-                        snprintf(name, 9, "WIA%d%.2d%.2d", wbs->epsd, j, i);
+                        M_snprintf(name, 9, "WIA%d%.2d%.2d", wbs->epsd, j, i);
                         callback(name, &a->p[i]);
                     }
                     else
@@ -1542,7 +1543,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     for (i = 0; i < 10; i++)
     {
         // numbers 0-9
-        snprintf(name, 9, "WINUM%d", i);
+        M_snprintf(name, 9, "WINUM%d", i);
         callback(name, &num[i]);
     }
 
@@ -1605,11 +1606,11 @@ static void WI_loadUnloadData(load_callback_t callback)
     for (i = 0; i < MAXPLAYERS; i++)
     {
         // "1,2,3,4"
-        snprintf(name, 9, "STPB%d", i);
+        M_snprintf(name, 9, "STPB%d", i);
         callback(name, &p[i]);
 
         // "1,2,3,4"
-        snprintf(name, 9, "WIBP%d", i + 1);
+        M_snprintf(name, 9, "WIBP%d", i + 1);
         callback(name, &bp[i]);
     }
 }
@@ -1646,11 +1647,11 @@ void WI_loadData(void)
     // Background image
     if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))
     {
-        strncpy(bg_lumpname, (DMENUPIC ? "DMENUPIC" : "INTERPIC"), 9);
+        M_StringCopy(bg_lumpname, (DMENUPIC ? "DMENUPIC" : "INTERPIC"), sizeof(bg_lumpname));
         bg_lumpname[8] = '\0';
     }
     else
-        snprintf(bg_lumpname, 9, "WIMAP%d", wbs->epsd);
+        M_snprintf(bg_lumpname, 9, "WIMAP%d", wbs->epsd);
     bg = (patch_t *)W_CacheLumpName(bg_lumpname, PU_CACHE);
     V_DrawPatch(0, 0, 1, bg);
 }

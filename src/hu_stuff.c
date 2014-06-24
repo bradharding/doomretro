@@ -31,6 +31,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "dstrings.h"
 #include "hu_lib.h"
 #include "hu_stuff.h"
+#include "m_misc.h"
 #include "i_swap.h"
 #include "i_timer.h"
 #include "r_main.h"
@@ -146,7 +147,7 @@ void HU_Init(void)
     j = HU_FONTSTART;
     for (i = 0; i < HU_FONTSIZE; i++)
     {
-        snprintf(buffer, 9, "STCFN%.3d", j++);
+        M_snprintf(buffer, 9, "STCFN%.3d", j++);
         hu_font[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
 }
@@ -492,7 +493,7 @@ void HU_Ticker(void)
             z = plr->mo->z / FRACUNIT;
         }
 
-        sprintf(buffer, STSTR_MYPOS, angle, STCFN034 ? ' ' : '*', x, y, z);
+        M_snprintf(buffer, sizeof(buffer), STSTR_MYPOS, angle, STCFN034 ? ' ' : '*', x, y, z);
         HUlib_addMessageToSText(&w_message, 0, buffer);
         message_on = true;
     }
@@ -506,7 +507,7 @@ void HU_Ticker(void)
         if (fps > TICRATE)
             fps = TICRATE;
         lasttic = tic;
-        sprintf(fps_str, "%i FPS", fps);
+        M_snprintf(fps_str, sizeof(fps_str), "%i FPS", fps);
         HUlib_addMessageToSText(&w_message, 0, fps_str);
         message_on = true;
     }

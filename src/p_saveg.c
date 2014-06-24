@@ -29,6 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "doomstat.h"
 #include "dstrings.h"
 #include "i_system.h"
+#include "m_misc.h"
 #include "p_local.h"
 #include "p_saveg.h"
 #include "z_zone.h"
@@ -48,9 +49,7 @@ char *P_TempSaveGameFile(void)
     static char *filename = NULL;
 
     if (filename == NULL)
-        filename = (char *)malloc(strlen(savegamedir) + 32);
-
-    sprintf(filename, "%stemp.dsg", savegamedir);
+        filename = M_StringJoin(savegamedir, "temp.dsg", NULL);
 
     return filename;
 }
@@ -58,15 +57,18 @@ char *P_TempSaveGameFile(void)
 // Get the filename of the save game file to use for the specified slot.
 char *P_SaveGameFile(int slot)
 {
-    static char *filename = NULL;
-    char basename[32];
+    static char   *filename = NULL;
+    static size_t filename_size = 0;
+    char          basename[32];
 
     if (filename == NULL)
-        filename = (char *)malloc(strlen(savegamedir) + 32);
+    {
+        filename_size = strlen(savegamedir) + 32;
+        filename = malloc(filename_size);
+    }
 
-    snprintf(basename, 32, SAVEGAMENAME"%d.dsg", slot);
-
-    sprintf(filename, "%s%s", savegamedir, basename);
+    M_snprintf(basename, 32, SAVEGAMENAME"%d.dsg", slot);
+    M_snprintf(filename, filename_size, "%s%s", savegamedir, basename);
 
     return filename;
 }
@@ -1421,7 +1423,7 @@ void P_WriteSaveGameHeader(char *description)
         saveg_write8(0);
 
     memset(name, 0, sizeof(name));
-    sprintf(name, "version %i", DOOM_VERSION);
+    M_snprintf(name, sizeof(name), "version %i", DOOM_VERSION);
 
     for (i = 0; i < VERSIONSIZE; ++i)
         saveg_write8(name[i]);
@@ -1458,7 +1460,7 @@ boolean P_ReadSaveGameHeader(void)
         read_vcheck[i] = saveg_read8();
 
     memset(vcheck, 0, sizeof(vcheck));
-    sprintf(vcheck, "version %i", DOOM_VERSION);
+    M_snprintf(vcheck, sizeof(vcheck), "version %i", DOOM_VERSION);
     if (strcmp(read_vcheck, vcheck) != 0)
         return false;                           // bad version
 

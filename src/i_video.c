@@ -34,6 +34,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "i_tinttab.h"
 #include "i_video.h"
 #include "m_config.h"
+#include "m_misc.h"
 #include "SDL.h"
 #include "SDL_syswm.h"
 #include "s_sound.h"
@@ -1008,7 +1009,7 @@ void I_InitGraphics(void)
 
     if (videodriver != NULL && strlen(videodriver) > 0)
     {
-        sprintf(envstring, "SDL_VIDEODRIVER=%s", videodriver);
+        M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
         putenv(envstring);
     }
 

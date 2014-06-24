@@ -302,7 +302,7 @@ void I_Error(char *error, ...)
 
     va_start(argptr, error);
     memset(msgbuf, 0, sizeof(msgbuf));
-    vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
+    M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
 
 #ifdef _WIN32

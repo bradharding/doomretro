@@ -231,10 +231,8 @@ static void CheckCollectorsEdition(void)
 
     for (i = 0; i < arrlen(collectors_edition_subdirs); ++i)
     {
-        subpath = (char *)malloc(strlen(install_path)
-                                 + strlen(collectors_edition_subdirs[i]) + 5);
-
-        sprintf(subpath, "%s\\%s", install_path, collectors_edition_subdirs[i]);
+        subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
+                               collectors_edition_subdirs[i], NULL);
 
         AddIWADDir(subpath);
     }
@@ -254,10 +252,8 @@ static void CheckSteamEdition(void)
 
     for (i = 0; i < arrlen(steam_install_subdirs); ++i)
     {
-        subpath = (char *)malloc(strlen(install_path)
-                                 + strlen(steam_install_subdirs[i]) + 5);
-
-        sprintf(subpath, "%s\\%s", install_path, steam_install_subdirs[i]);
+        subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
+                               steam_install_subdirs[i], NULL);
 
         AddIWADDir(subpath);
     }
@@ -465,7 +461,7 @@ static void BuildIWADDirList(void)
 
 char *D_FindWADByName(char *name)
 {
-    char        *buf;
+    char        *path;
     int         i;
 
     // Absolute path?
@@ -484,13 +480,12 @@ char *D_FindWADByName(char *name)
             return strdup(iwad_dirs[i]);
 
         // Construct a string for the full path
-        buf = (char *)malloc(strlen(iwad_dirs[i]) + strlen(name) + 5);
-        sprintf(buf, "%s%c%s", iwad_dirs[i], DIR_SEPARATOR, name);
+        path = M_StringJoin(iwad_dirs[i], DIR_SEPARATOR_S, name, NULL);
 
-        if (M_FileExists(buf))
-            return buf;
+        if (M_FileExists(path))
+            return path;
 
-        free(buf);
+        free(path);
     }
 
     // File not found
@@ -572,18 +567,18 @@ static char *SaveGameIWADName(void)
 void D_SetSaveGameDir(void)
 {
     char *iwad_name = SaveGameIWADName();
+    char *topdir;
 
     if (iwad_name == NULL)
         iwad_name = "unknown.wad";
 
-    savegamedir = (char *)Z_Malloc(strlen(configdir) + 30, PU_STATIC, 0);
-    sprintf(savegamedir, "%ssavegames%c", configdir, DIR_SEPARATOR);
+    topdir = M_StringJoin(configdir, "savegames", NULL);
+    M_MakeDirectory(topdir);
 
+    savegamedir = M_StringJoin(topdir, DIR_SEPARATOR_S, iwad_name, DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamedir);
 
-    sprintf(savegamedir + strlen(savegamedir), "%s%c", iwad_name, DIR_SEPARATOR);
-
-    M_MakeDirectory(savegamedir);
+    free(topdir);
 }
 
 //

@@ -33,6 +33,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_misc.h"
 #include "p_local.h"
 #include "s_sound.h"
 #include "SDL.h"
@@ -764,7 +765,7 @@ void F_BunnyScroll(void)
         laststage = stage;
     }
 
-    snprintf(name, 10, "END%i", stage);
+    M_snprintf(name, 10, "END%i", stage);
     V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
                           0, (patch_t *)W_CacheLumpName(name, PU_CACHE), false);
 }

@@ -959,26 +959,26 @@ boolean V_ScreenShot(void)
     if (hr != S_OK)
         return false;
 #else
-    strncpy(folder, "", MAX_PATH);
+    M_StringCopy(folder, "", MAX_PATH);
 #endif
 
-    strcpy(mapname, usergame && !inhelpscreens ? maptitle : "Untitled");
+    M_StringCopy(mapname, (usergame && !inhelpscreens ? maptitle : "Untitled"), sizeof(mapname));
 
     if (sscanf(mapname, "The %[^\n]", mapname))
-        sprintf(mapname, "%s, The", mapname);
+        M_snprintf(mapname, sizeof(mapname), "%s, The", mapname);
     else if (sscanf(mapname, "A %[^\n]", mapname))
-        sprintf(mapname, "%s, A", mapname);
+        M_snprintf(mapname, sizeof(mapname), "%s, A", mapname);
 
     do
     {
         if (!count)
-            sprintf(lbmname, "%s.bmp", mapname);
+            M_snprintf(lbmname, sizeof(lbmname), "%s.bmp", mapname);
         else
-            sprintf(lbmname, "%s (%i).bmp", mapname, count);
+            M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", mapname, count);
         count++;
-        sprintf(lbmpath, "%s\\DOOM RETRO", folder);
+        M_snprintf(lbmpath, sizeof(lbmpath), "%s\\DOOM RETRO", folder);
         M_MakeDirectory(lbmpath);
-        sprintf(lbmpath, "%s\\%s", lbmpath, lbmname);
+        M_snprintf(lbmpath, sizeof(lbmpath), "%s\\%s", lbmpath, lbmname);
     } while (M_FileExists(lbmpath));
 
     if (widescreen)

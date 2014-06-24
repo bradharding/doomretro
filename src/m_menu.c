@@ -41,6 +41,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "i_video.h"
 #include "m_config.h"
 #include "m_menu.h"
+#include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_saveg.h"
@@ -763,12 +764,12 @@ void M_ReadSaveStrings(void)
 
     for (i = 0; i < load_end; i++)
     {
-        strcpy(name, P_SaveGameFile(i));
+        M_StringCopy(name, P_SaveGameFile(i), sizeof(name));
 
         handle = fopen(name, "rb");
         if (handle == NULL)
         {
-            strcpy(&savegamestrings[i][0], EMPTYSTRING);
+            M_StringCopy(&savegamestrings[i][0], EMPTYSTRING, SAVESTRINGSIZE);
             LoadMenu[i].status = 0;
             continue;
         }
@@ -920,7 +921,7 @@ void M_LoadSelect(int choice)
     {
         char name[256];
 
-        strcpy(name, P_SaveGameFile(choice));
+        M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
 
         S_StartSound(NULL, sfx_pistol);
         I_WaitVBL(1 * TICRATE);
@@ -1114,7 +1115,7 @@ void M_UpdateSaveGameName(int i)
             j++;
         }
     if (match)
-        strcpy(savegamestrings[i], maptitle);
+        M_StringCopy(savegamestrings[i], maptitle, SAVESTRINGSIZE);
 }
 
 void M_SaveSelect(int choice)
@@ -1123,7 +1124,7 @@ void M_SaveSelect(int choice)
     saveStringEnter = 1;
 
     saveSlot = choice;
-    strcpy(saveOldString, savegamestrings[saveSlot]);
+    M_StringCopy(saveOldString, savegamestrings[saveSlot], SAVESTRINGSIZE);
     M_UpdateSaveGameName(saveSlot);
     saveCharIndex = strlen(savegamestrings[saveSlot]);
 }
@@ -1189,12 +1190,12 @@ void M_QuickLoad(void)
     }
 
     S_StartSound(NULL, sfx_swtchn);
-    snprintf(tempstring, 160, QLPROMPT, savegamestrings[quickSaveSlot]);
+    M_snprintf(tempstring, 160, QLPROMPT, savegamestrings[quickSaveSlot]);
     M_SplitString(tempstring);
     if (usinggamepad)
-        snprintf(tempstring, 160, "%s\n\n"PRESSA, tempstring);
+        M_snprintf(tempstring, 160, "%s\n\n"PRESSA, tempstring);
     else
-        snprintf(tempstring, 160, "%s\n\n"PRESSYN, tempstring);
+        M_snprintf(tempstring, 160, "%s\n\n"PRESSYN, tempstring);
     M_StartMessage(tempstring, M_QuickLoadResponse, true);
 }
 
@@ -1677,9 +1678,9 @@ void M_QuitDOOM(int choice)
 {
     quitting = true;
     if (usinggamepad)
-        sprintf(endstring, "%s\n\n"WINDOWSA, M_SelectEndMessage());
+        M_snprintf(endstring, sizeof(endstring), "%s\n\n"WINDOWSA, M_SelectEndMessage());
     else
-        sprintf(endstring, "%s\n\n"WINDOWSY, M_SelectEndMessage());
+        M_snprintf(endstring, sizeof(endstring), "%s\n\n"WINDOWSY, M_SelectEndMessage());
     M_StartMessage(endstring, M_QuitResponse, true);
 }
 
@@ -2149,7 +2150,7 @@ boolean M_Responder(event_t *ev)
                     saveStringEnter = 0;
                     carettics = 0;
                     showcaret = true;
-                    strcpy(&savegamestrings[saveSlot][0], saveOldString);
+                    M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, SAVESTRINGSIZE);
                     S_StartSound(NULL, sfx_swtchx);
                 }
                 break;
@@ -2482,9 +2483,9 @@ boolean M_Responder(event_t *ev)
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
         if (gamma == 1.0f)
-            strcpy(buf, GAMMAOFF);
+            M_StringCopy(buf, GAMMAOFF, sizeof(buf));
         else
-            sprintf(buf, GAMMALVL, gamma);
+            M_snprintf(buf, sizeof(buf), GAMMALVL, gamma);
         if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
             buf[strlen(buf) - 1] = '\0';
         players[consoleplayer].message = buf;
@@ -2890,8 +2891,9 @@ void M_Drawer(void)
             for (i = 0; i < strlen(messageString + start); i++)
                 if (messageString[start + i] == '\n')
                 {
-                    memset(string, 0, sizeof(string));
-                    strncpy(string, messageString + start, i);
+                    M_StringCopy(string, messageString + start, sizeof(string));
+                    if (i < sizeof(string))
+                        string[i] = '\0';
                     foundnewline = 1;
                     start += i + 1;
                     break;
@@ -2899,7 +2901,7 @@ void M_Drawer(void)
 
             if (!foundnewline)
             {
-                strcpy(string, messageString + start);
+                M_StringCopy(string, messageString + start, sizeof(string));
                 start += strlen(string);
             }
 

@@ -33,6 +33,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "hu_stuff.h"
 #include "i_video.h"
 #include "m_menu.h"
+#include "m_misc.h"
 #include "m_random.h"
 #include "p_inter.h"
 #include "p_local.h"
@@ -914,7 +915,7 @@ boolean ST_Responder(event_t *ev)
 
                             S_ChangeMusic(musnum, 1, true);
 
-                            sprintf(msg, STSTR_MUS, S_music[musnum].name);
+                            M_snprintf(msg, sizeof(msg), STSTR_MUS, S_music[musnum].name);
                             plyr->message = msg;
 
                             // [BH] always display message
@@ -1179,13 +1180,13 @@ boolean ST_Responder(event_t *ev)
                 {
                     epsd = 1;//0
                     map = (buf[0] - '0') * 10 + buf[1] - '0';
-                    sprintf(lump, "MAP%c%c", buf[0], buf[1]);
+                    M_snprintf(lump, sizeof(lump), "MAP%c%c", buf[0], buf[1]);
                 }
                 else
                 {
                     epsd = buf[0] - '0';
                     map = buf[1] - '0';
-                    sprintf(lump, "E%cM%c", buf[0], buf[1]);
+                    M_snprintf(lump, sizeof(lump), "E%cM%c", buf[0], buf[1]);
                 }
 
                 // Catch invalid maps.
@@ -1222,9 +1223,9 @@ boolean ST_Responder(event_t *ev)
                     static char buf[128];
 
                     if (epsd == gameepisode && map == gamemap)
-                        sprintf(buf, STSTR_CLEVSAME, lump);
+                        M_snprintf(buf, sizeof(buf), STSTR_CLEVSAME, lump);
                     else
-                        sprintf(buf, STSTR_CLEV, lump);
+                        M_snprintf(buf, sizeof(buf), STSTR_CLEV, lump);
                     plyr->message = buf;
 
                     // [BH] always display message
@@ -1628,9 +1629,9 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // Load the numbers, tall and short
     for (i = 0; i < 10; i++)
     {
-        snprintf(namebuf, 9, "STTNUM%d", i);
+        M_snprintf(namebuf, 9, "STTNUM%d", i);
         callback(namebuf, &tallnum[i]);
-        snprintf(namebuf, 9, "STYSNUM%d", i);
+        M_snprintf(namebuf, 9, "STYSNUM%d", i);
         callback(namebuf, &shortnum[i]);
     }
 
@@ -1640,7 +1641,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // key cards
     for (i = 0; i < NUMCARDS; i++)
     {
-        snprintf(namebuf, 9, "STKEYS%d", i);
+        M_snprintf(namebuf, 9, "STKEYS%d", i);
         callback(namebuf, &keys[i]);
     }
 
@@ -1652,7 +1653,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // [BH] now manually drawn
     for (i = 0; i < 6; i++)
     {
-        snprintf(namebuf, 9, "STGNUM%d", i + 2);
+        M_snprintf(namebuf, 9, "STGNUM%d", i + 2);
 
         // gray #
         callback(namebuf, &arms[i][0]);
@@ -1662,7 +1663,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     }
 
     // face backgrounds for different color players
-    snprintf(namebuf, 9, "STFB%d", consoleplayer);
+    M_snprintf(namebuf, 9, "STFB%d", consoleplayer);
     callback(namebuf, &faceback);
 
     // status bar background bits
@@ -1675,18 +1676,18 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     {
         for (j = 0; j < ST_NUMSTRAIGHTFACES; j++)
         {
-            snprintf(namebuf, 9, "STFST%d%d", i, j);
+            M_snprintf(namebuf, 9, "STFST%d%d", i, j);
             callback(namebuf, &faces[facenum++]);
         }
-        snprintf(namebuf, 9, "STFTR%d0", i);  // turn right
+        M_snprintf(namebuf, 9, "STFTR%d0", i);  // turn right
         callback(namebuf, &faces[facenum++]);
-        snprintf(namebuf, 9, "STFTL%d0", i);  // turn left
+        M_snprintf(namebuf, 9, "STFTL%d0", i);  // turn left
         callback(namebuf, &faces[facenum++]);
-        snprintf(namebuf, 9, "STFOUCH%d", i); // ouch!
+        M_snprintf(namebuf, 9, "STFOUCH%d", i); // ouch!
         callback(namebuf, &faces[facenum++]);
-        snprintf(namebuf, 9, "STFEVL%d", i);  // evil grin ;)
+        M_snprintf(namebuf, 9, "STFEVL%d", i);  // evil grin ;)
         callback(namebuf, &faces[facenum++]);
-        snprintf(namebuf, 9, "STFKILL%d", i); // pissed off
+        M_snprintf(namebuf, 9, "STFKILL%d", i); // pissed off
         callback(namebuf, &faces[facenum++]);
     }
     callback("STFGOD0", &faces[facenum++]);

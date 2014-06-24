@@ -39,6 +39,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "dstrings.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
+#include "m_misc.h"
 #include "p_local.h"
 #include "SDL.h"
 #include "st_stuff.h"
@@ -348,7 +349,7 @@ void AM_addMark(void)
 
     markpoints[markpointnum].x = x;
     markpoints[markpointnum].y = y;
-    sprintf(message, AMSTR_MARKEDSPOT, ++markpointnum);
+    M_snprintf(message, sizeof(message), AMSTR_MARKEDSPOT, ++markpointnum);
     plr->message = message;
     message_dontfuckwithme = true;
 }

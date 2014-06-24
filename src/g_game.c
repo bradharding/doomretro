@@ -378,7 +378,6 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 void G_DoLoadLevel(void)
 {
     int         i;
-    char        *caption;
 
     // Set the sky map.
     // First thing, we have a dummy sky texture name,
@@ -455,10 +454,7 @@ void G_DoLoadLevel(void)
     sendpause = sendsave = paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
-    caption = (char *)Z_Malloc(strlen(mapnumandtitle) + 1, PU_STATIC, NULL);
-    strcpy(caption, mapnumandtitle);
-    SDL_WM_SetCaption(caption, NULL);
-    Z_Free(caption);
+    SDL_WM_SetCaption(mapnumandtitle, NULL);
 
     if (automapactive)
         AM_Start();
@@ -742,7 +738,7 @@ void G_Ticker(void)
                 G_DoLoadLevel();
                 break;
             case ga_reloadgame:
-                strcpy(savename, P_SaveGameFile(quickSaveSlot));
+                M_StringCopy(savename, P_SaveGameFile(quickSaveSlot), sizeof(savename));
                 if (G_CheckSaveGame())
                     G_DoLoadGame();
                 else
@@ -782,7 +778,7 @@ void G_Ticker(void)
                         S_StartSound(NULL, sfx_swtchx);
                         if (usergame || gamestate == GS_LEVEL)
                         {
-                            sprintf(message, GSCREENSHOT, lbmname);
+                            M_snprintf(message, sizeof(message), GSCREENSHOT, lbmname);
                             players[consoleplayer].message = message;
                             message_dontfuckwithme = true;
                             if (menuactive)
@@ -891,7 +887,7 @@ void G_Ticker(void)
 
                     case BTS_SAVEGAME:
                         if (!savedescription[0])
-                            strcpy(savedescription, "NET GAME");
+                            M_StringCopy(savedescription, "NET GAME", sizeof(savedescription));
                         savegameslot = (players[i].cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
                         gameaction = ga_savegame;
                         break;
@@ -1341,9 +1337,9 @@ void G_DoCompleted(void)
 
     // [BH] have no par time if this level is from a PWAD
     if (gamemode == commercial)
-        sprintf(lump, "MAP%02i", gamemap);
+        M_snprintf(lump, sizeof(lump), "MAP%02i", gamemap);
     else
-        sprintf(lump, "E%iM%i", gameepisode, gamemap);
+        M_snprintf(lump, sizeof(lump), "E%iM%i", gameepisode, gamemap);
     if (W_CheckMultipleLumps(lump) > 1 && (!nerve || gamemap > 9))
         wminfo.partime = 0;
     else if (gamemode == commercial)
@@ -1435,7 +1431,7 @@ void R_ExecuteSetViewSize(void);
 
 void G_LoadGame(char *name)
 {
-    strcpy(savename, name);
+    M_StringCopy(savename, name, sizeof(savename));
     gameaction = ga_loadgame;
 }
 
@@ -1494,7 +1490,7 @@ void G_DoLoadGame(void)
 void G_SaveGame(int slot, char *description)
 {
     savegameslot = slot;
-    strcpy(savedescription, description);
+    M_StringCopy(savedescription, description, sizeof(savedescription));
     sendsave = true;
 }
 
@@ -1536,12 +1532,12 @@ void G_DoSaveGame(void)
     rename(temp_savegame_file, savegame_file);
 
     // [BH] use the save description in the message displayed
-    sprintf(buffer, GGSAVED, savedescription);
+    M_snprintf(buffer, sizeof(buffer), GGSAVED, savedescription);
     players[consoleplayer].message = buffer;
     message_dontfuckwithme = true;
 
     gameaction = ga_nothing;
-    strcpy(savedescription, "");
+    M_StringCopy(savedescription, "", sizeof(savedescription));
 
     // draw the pattern into the back screen
     R_FillBackScreen();

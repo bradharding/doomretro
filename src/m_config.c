@@ -694,10 +694,7 @@ void M_LoadDefaults(void)
     if (i)
         doom_defaults.filename = myargv[i + 1];
     else
-    {
-        doom_defaults.filename = (char *)malloc(strlen(configdir) + 20);
-        sprintf(doom_defaults.filename, "%sdoomretro.cfg", configdir);
-    }
+        doom_defaults.filename = M_StringJoin(configdir, "doomretro.cfg", NULL);
 
     LoadDefaultCollection(&doom_defaults);
 }

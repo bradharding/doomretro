@@ -30,6 +30,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_misc.h"
 #include "p_local.h"
 #include "r_sky.h"
 #include "w_wad.h"
@@ -619,7 +620,7 @@ static void R_InitTextures(void)
 
     for (i = 0; i < nummappatches; i++)
     {
-        strncpy(name, name_p + i * 8, 8);
+        M_StringCopy(name, name_p + i * 8, sizeof(name));
         patchlookup[i] = W_CheckNumForName(name);
     }
     W_ReleaseLumpName("PNAMES");

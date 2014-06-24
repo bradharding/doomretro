@@ -589,8 +589,8 @@ static int D_ChooseIWAD(void)
                 if (iwadrequired == indetermined)
                     return 0;
 
-                sprintf(fullpath, "%s\\%s", wadfolder,
-                        iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD");
+                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder,
+                           iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD");
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
                 {
@@ -619,7 +619,7 @@ static int D_ChooseIWAD(void)
                 static char     fullpath[MAX_PATH];
 
                 iwad += lstrlen(iwad) + 1;
-                sprintf(fullpath, "%s\\%s", wadfolder, iwad);
+                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder, iwad);
 
                 if (D_IsDOOMIWAD(fullpath)
                     || (W_WadType(fullpath) == IWAD
@@ -642,7 +642,7 @@ static int D_ChooseIWAD(void)
                 {
                     static char     fullpath2[MAX_PATH];
 
-                    sprintf(fullpath2, "%s\\DOOM2.WAD", wadfolder);
+                    M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", wadfolder);
                     IdentifyIWADByName(fullpath2);
                     if (D_AddFile(fullpath2))
                     {
@@ -664,7 +664,7 @@ static int D_ChooseIWAD(void)
                     static char     fullpath[MAX_PATH];
 
                     pwad += lstrlen(pwad) + 1;
-                    sprintf(fullpath, "%s\\%s", wadfolder, pwad);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder, pwad);
 
                     if (!D_CheckFilename(pwad, "DOOMRETRO.WAD")
                         && W_WadType(fullpath) == PWAD
@@ -949,7 +949,7 @@ static void D_DoomMainSetup(void)
             else
                 startmap = atoi(myargv[p + 1]);
 
-            sprintf(lumpname, "MAP%02i", startmap);
+            M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
         }
         else
         {
@@ -970,7 +970,7 @@ static void D_DoomMainSetup(void)
                     startmap = 1;
             }
 
-            sprintf(lumpname, "E%iM%i", startepisode, startmap);
+            M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
         }
 
         if (W_CheckNumForName(lumpname) >= 0)

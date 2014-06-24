@@ -28,6 +28,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "doomstat.h"
 #include "m_argv.h"
+#include "m_misc.h"
 #include "p_local.h"
 #include "w_wad.h"
 #include "s_sound.h"
@@ -629,7 +630,7 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
     // get lumpnum if neccessary
     if (!music->lumpnum)
     {
-        sprintf(namebuf, "d_%s", music->name);
+        M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
         music->lumpnum = W_GetNumForName(namebuf);
     }
 
