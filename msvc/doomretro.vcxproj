@@ -179,7 +179,7 @@
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <MinimalRebuild>true</MinimalRebuild>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerOutput>All</AssemblerOutput>
       <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
@@ -202,7 +202,7 @@
       </DelayLoadDLLs>
       <ShowProgress>NotSet</ShowProgress>
       <EnableUAC>false</EnableUAC>
-      <GenerateMapFile>false</GenerateMapFile>
+      <GenerateMapFile>true</GenerateMapFile>
       <MapExports>false</MapExports>
     </Link>
     <Manifest>
