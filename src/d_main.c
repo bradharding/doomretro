@@ -811,8 +811,8 @@ static void D_DoomMainSetup(void)
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
 
     if (FREEDOOM && W_CheckNumForName("FREEDM") < 0 && !modifiedgame)
-        I_Error("FREEDOOM requires a BOOM-compatible source port, and is therefore"
-                "unable to be opened by DOOM RETRO.");
+        I_Error("FREEDOOM requires a BOOM-compatible source port,\n"
+                "and is therefore unable to be opened by DOOM RETRO.");
 
     DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
     M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
