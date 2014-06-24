@@ -210,27 +210,28 @@ typedef enum
     blazeDWUS
 } plattype_e;
 
-typedef struct
+typedef struct plat_s
 {
-    thinker_t   thinker;
-    sector_t    *sector;
-    fixed_t     speed;
-    fixed_t     low;
-    fixed_t     high;
-    int         wait;
-    int         count;
-    plat_e      status;
-    plat_e      oldstatus;
-    boolean     crush;
-    int         tag;
-    plattype_e  type;
+    thinker_t          thinker;
+    struct plat_s       *next;
+    struct plat_s      *prev;
+    sector_t           *sector;
+    fixed_t            speed;
+    fixed_t            low;
+    fixed_t            high;
+    int                wait;
+    int                count;
+    plat_e             status;
+    plat_e             oldstatus;
+    boolean            crush;
+    int                tag;
+    plattype_e         type;
 } plat_t;
 
 #define PLATWAIT                3
 #define PLATSPEED               FRACUNIT
-#define MAXPLATS                7680
 
-extern plat_t *activeplats[MAXPLATS];
+extern plat_t *activeplatshead;
 
 void T_PlatRaise(plat_t *plat);
 
@@ -301,29 +302,30 @@ typedef enum
     silentCrushAndRaise
 } ceiling_e;
 
-typedef struct
+typedef struct ceiling_s
 {
-    thinker_t   thinker;
-    ceiling_e   type;
-    sector_t    *sector;
-    fixed_t     bottomheight;
-    fixed_t     topheight;
-    fixed_t     speed;
-    boolean     crush;
+    thinker_t           thinker;
+    struct ceiling_s    *next;
+    struct ceiling_s    *prev;
+    ceiling_e           type;
+    sector_t            *sector;
+    fixed_t             bottomheight;
+    fixed_t             topheight;
+    fixed_t             speed;
+    boolean             crush;
 
     // 1 = up, 0 = waiting, -1 = down
-    int         direction;
+    int                 direction;
 
     // ID
-    int         tag;
-    int         olddirection;
+    int                 tag;
+    int                 olddirection;
 } ceiling_t;
 
 #define CEILSPEED               FRACUNIT
 #define CEILWAIT                150
-#define MAXCEILINGS             30
 
-extern ceiling_t        *activeceilings[MAXCEILINGS];
+extern ceiling_t        *activeceilingshead;
 
 int EV_DoCeiling(line_t *line, ceiling_e type);
 

@@ -33,7 +33,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "s_sound.h"
 #include "doomstat.h"
 
-plat_t *activeplats[MAXPLATS];
+plat_t *activeplatshead;
 
 //
 // Move a plat up and down
@@ -231,30 +231,26 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
 
 void P_ActivateInStasis(int tag)
 {
-    int         i;
+    plat_t *plat;
 
-    for (i = 0; i < MAXPLATS; i++)
-        if (activeplats[i]
-            && (activeplats[i])->tag == tag
-            && (activeplats[i])->status == in_stasis)
+    for (plat = activeplatshead; plat != NULL; plat = plat->next)
+        if (plat->tag == tag && plat->status == in_stasis)
         {
-            (activeplats[i])->status = (activeplats[i])->oldstatus;
-            (activeplats[i])->thinker.function.acp1 = (actionf_p1)T_PlatRaise;
+            plat->status = plat->oldstatus;
+            plat->thinker.function.acp1 = (actionf_p1)T_PlatRaise;
         }
 }
 
 int EV_StopPlat(line_t *line)
 {
-    int         j;
+    plat_t *plat;
 
-    for (j = 0; j < MAXPLATS; j++)
-        if (activeplats[j]
-            && ((activeplats[j])->status != in_stasis)
-            && ((activeplats[j])->tag == line->tag))
+    for (plat = activeplatshead; plat != NULL; plat = plat->next)
+        if (plat->tag == line->tag && plat->status != in_stasis)
         {
-            (activeplats[j])->oldstatus = (activeplats[j])->status;
-            (activeplats[j])->status = in_stasis;
-            (activeplats[j])->thinker.function.acv = (actionf_v)NULL;
+            plat->oldstatus = plat->status;
+            plat->status = in_stasis;
+            plat->thinker.function.acv = (actionf_v)NULL;
 
             return 1;
         }
@@ -264,29 +260,26 @@ int EV_StopPlat(line_t *line)
 
 void P_AddActivePlat(plat_t *plat)
 {
-    int         i;
+    plat_t *next = activeplatshead;
 
-    for (i = 0; i < MAXPLATS; i++)
-        if (activeplats[i] == NULL)
-        {
-            activeplats[i] = plat;
-            return;
-        }
-    I_Error("P_AddActivePlat: no more plats!");
+    if (next)
+        next->prev = plat;
+
+    activeplatshead = plat;
+    plat->next = next;
+    plat->prev = NULL;
 }
 
 void P_RemoveActivePlat(plat_t *plat)
 {
-    int         i;
+    plat_t *next = plat->next;
+    plat_t *prev = plat->prev;
 
-    for (i = 0; i < MAXPLATS; i++)
-        if (plat == activeplats[i])
-        {
-            (activeplats[i])->sector->specialdata = NULL;
-            P_RemoveThinker(&(activeplats[i])->thinker);
-            activeplats[i] = NULL;
+    if (prev == NULL)
+        activeplatshead = next;
+    else
+        prev->next = next;
 
-            return;
-        }
-    I_Error("P_RemoveActivePlat: can't find plat!");
+    plat->sector->specialdata = NULL;
+    P_RemoveThinker(&plat->thinker);
 }

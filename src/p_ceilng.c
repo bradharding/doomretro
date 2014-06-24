@@ -35,7 +35,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // CEILINGS
 //
 
-ceiling_t *activeceilings[MAXCEILINGS];
+ceiling_t *activeceilingshead;
 
 extern boolean canmodify;
 
@@ -237,16 +237,13 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
 //
 void P_AddActiveCeiling(ceiling_t *c)
 {
-    int i;
+    ceiling_t *next = activeceilingshead;
 
-    for (i = 0; i < MAXCEILINGS; i++)
-    {
-        if (activeceilings[i] == NULL)
-        {
-            activeceilings[i] = c;
-            return;
-        }
-    }
+    if (next)
+        next->prev = c;
+    activeceilingshead = c;
+    c->next = next;
+    c->prev = NULL;
 }
 
 //
@@ -254,18 +251,19 @@ void P_AddActiveCeiling(ceiling_t *c)
 //
 void P_RemoveActiveCeiling(ceiling_t *c)
 {
-    int i;
+    ceiling_t *next = c->next;
+    ceiling_t *prev = c->prev;
 
-    for (i = 0; i < MAXCEILINGS; i++)
-    {
-        if (activeceilings[i] == c)
-        {
-            activeceilings[i]->sector->specialdata = NULL;
-            P_RemoveThinker(&activeceilings[i]->thinker);
-            activeceilings[i] = NULL;
-            break;
-        }
-    }
+    if (next)
+        next->prev = prev;
+
+    if (prev == NULL)
+        activeceilingshead = next;
+    else
+        prev->next = next;
+
+    c->sector->specialdata = NULL;
+    P_RemoveThinker(&c->thinker);
 }
 
 //
@@ -273,17 +271,15 @@ void P_RemoveActiveCeiling(ceiling_t *c)
 //
 int P_ActivateInStasisCeiling(line_t *line)
 {
-    int i;
-    int rtn = 0;
+    int         rtn = 0;
+    ceiling_t   *ceiling;
 
-    for (i = 0; i < MAXCEILINGS; i++)
+    for (ceiling = activeceilingshead; ceiling != NULL; ceiling = ceiling->next)
     {
-        if (activeceilings[i]
-            && activeceilings[i]->tag == line->tag
-            && activeceilings[i]->direction == 0)
+        if (ceiling->tag == line->tag
+            && ceiling->thinker.function.acp1 == (actionf_p1)NULL)
         {
-            activeceilings[i]->direction = activeceilings[i]->olddirection;
-            activeceilings[i]->thinker.function.acp1 = T_MoveCeiling;
+            ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
             rtn = 1;
         }
     }
@@ -296,18 +292,15 @@ int P_ActivateInStasisCeiling(line_t *line)
 //
 int EV_CeilingCrushStop(line_t *line)
 {
-    int i;
-    int rtn = 0;
+    int         rtn = 0;
+    ceiling_t   *ceiling;
 
-    for (i = 0; i < MAXCEILINGS; i++)
+    for (ceiling = activeceilingshead; ceiling != NULL; ceiling = ceiling->next)
     {
-        if (activeceilings[i]
-            && activeceilings[i]->tag == line->tag
-            && activeceilings[i]->direction != 0)
+        if (ceiling->tag == line->tag
+            && ceiling->thinker.function.acp1 != (actionf_p1)NULL)
         {
-            activeceilings[i]->olddirection = activeceilings[i]->direction;
-            activeceilings[i]->thinker.function.acv = NULL;
-            activeceilings[i]->direction = 0;
+            ceiling->thinker.function.acp1 = (actionf_p1)NULL;
             rtn = 1;
         }
     }

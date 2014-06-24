@@ -1797,36 +1797,32 @@ void P_ArchiveSpecials(void)
     thinker_t   *th;
     int         i;
     button_t    *button_ptr;
+    plat_t      *plat;
+    ceiling_t   *ceiling;
 
     // save off the current thinkers
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
     {
         if (th->function.acv == (actionf_v)NULL)
         {
-            for (i = 0; i < MAXCEILINGS; i++)
-                if (activeceilings[i] == (ceiling_t *)th)
+            for (ceiling = activeceilingshead; ceiling != NULL; ceiling = ceiling->next)
+                if (ceiling == (ceiling_t *)th)
+                {
+                    saveg_write8(tc_ceiling);
+                    saveg_write_pad();
+                    saveg_write_ceiling_t((ceiling_t *)th);
                     break;
-
-            if (i < MAXCEILINGS)
-            {
-                saveg_write8(tc_ceiling);
-                saveg_write_pad();
-                saveg_write_ceiling_t((ceiling_t *)th);
-                continue;
-            }
+                }
 
             // [jeff-d] save height of moving platforms
-            for (i = 0; i < MAXPLATS; i++)
-                if (activeplats[i] == (plat_t *)th)
+            for (plat = activeplatshead; plat != NULL; plat = plat->next)
+                if (plat == (plat_t*)th)
+                {
+                    saveg_write8(tc_plat);
+                    saveg_write_pad();
+                    saveg_write_plat_t((plat_t *)th);
                     break;
-
-            if (i < MAXPLATS)
-            {
-                saveg_write8(tc_plat);
-                saveg_write_pad();
-                saveg_write_plat_t((plat_t *)th);
-                continue;
-            }
+                }
         }
 
         if (th->function.acp1 == (actionf_p1)T_MoveCeiling)
