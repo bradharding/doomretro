@@ -158,7 +158,7 @@ wad_file_t *W_AddFile(char *filename)
             strncmp(header.identification, "PWAD", 4))
             I_Error("Wad file %s doesn't have IWAD or PWAD id\n", filename);
 
-        wad_file->freedoom = FREEDOOM = IsFreedoom(filename);
+        wad_file->freedoom = IsFreedoom(filename);
 
         header.numlumps = LONG(header.numlumps);
         header.infotableofs = LONG(header.infotableofs);
