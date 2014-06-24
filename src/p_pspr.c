@@ -179,11 +179,14 @@ void P_FireWeapon(player_t *player)
     {
         int motorspeed = weaponinfo[readyweapon].motorspeed;
 
-        if (readyweapon == wp_fist && players[consoleplayer].powers[pw_strength])
+        if (readyweapon == wp_fist && player->powers[pw_strength])
             motorspeed *= 2;
         XInputVibration(motorspeed);
         weaponvibrationtics = weaponinfo[readyweapon].tics;
     }
+
+    player->psprites[ps_weapon].sx = 0;
+    player->psprites[ps_weapon].sy = WEAPONTOP;
 }
 
 //
