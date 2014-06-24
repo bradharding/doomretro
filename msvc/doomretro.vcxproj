@@ -409,6 +409,7 @@
     <ClInclude Include="..\src\r_state.h" />
     <ClInclude Include="..\src\r_things.h" />
     <ClInclude Include="..\src\sounds.h" />
+    <ClInclude Include="..\src\stdint.h" />
     <ClInclude Include="..\src\st_lib.h" />
     <ClInclude Include="..\src\st_stuff.h" />
     <ClInclude Include="..\src\s_sound.h" />
@@ -420,7 +421,6 @@
     <ClInclude Include="..\src\w_merge.h" />
     <ClInclude Include="..\src\w_wad.h" />
     <ClInclude Include="..\src\z_zone.h" />
-    <ClInclude Include="stdint.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\doomstat.c" />
