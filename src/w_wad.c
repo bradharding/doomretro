@@ -139,14 +139,12 @@ wad_file_t *W_AddFile(char *filename)
         // parsing code expects a little-endian directory, so will swap
         // them back.  Effectively we're constructing a "fake WAD directory"
         // here, as it would appear on disk.
-
         fileinfo = (filelump_t *)Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
         fileinfo->filepos = LONG(0);
         fileinfo->size = LONG(wad_file->length);
 
         // Name the lump after the base of the filename (without the
         // extension).
-
         ExtractFileBase(filename, fileinfo->name);
         numlumps++;
     }
@@ -155,14 +153,12 @@ wad_file_t *W_AddFile(char *filename)
         // WAD file
         W_Read(wad_file, 0, &header, sizeof(header));
 
-        if (!strncmp(header.identification, "IWAD", 4))
-            wad_file->freedoom = FREEDOOM = IsFreedoom(filename);
-        else
-        {
-            // Homebrew levels?
-            if (strncmp(header.identification, "PWAD", 4))
-                I_Error("Wad file %s doesn't have IWAD or PWAD id\n", filename);
-        }
+        // Homebrew levels?
+        if (strncmp(header.identification, "IWAD", 4) &&
+            strncmp(header.identification, "PWAD", 4))
+            I_Error("Wad file %s doesn't have IWAD or PWAD id\n", filename);
+
+        wad_file->freedoom = FREEDOOM = IsFreedoom(filename);
 
         header.numlumps = LONG(header.numlumps);
         header.infotableofs = LONG(header.infotableofs);
@@ -262,10 +258,8 @@ boolean IsFreedoom(const char *iwadname)
         I_Error("Can't open IWAD: %s\n", iwadname);
 
     // read IWAD header
-    if (fread(&header, 1, sizeof header, fp) != sizeof header ||
-        header.identification[0] != 'I' || header.identification[1] != 'W' ||
-        header.identification[2] != 'A' || header.identification[3] != 'D')
-        I_Error("IWAD tag not present: %s\n", iwadname);
+    if (fread(&header, 1, sizeof(header), fp) != sizeof(header))
+        I_Error("IWAD/PWAD tag not present: %s\n", iwadname);
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
