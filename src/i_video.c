@@ -653,17 +653,25 @@ static void SetVideoMode(void)
 
         if (!screen)
         {
-            width = desktopwidth;
-            height = desktopheight;
-            screenwidth = 0;
-            screenheight = 0;
+            screenwidth = 1280;
+            screenheight = 800;
             M_SaveDefaults();
 
-            screen = SDL_SetVideoMode(width, height, 0,
+            screen = SDL_SetVideoMode(screenwidth, screenheight, 0,
                 SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
             if (!screen)
-                I_Error("Error setting video mode %i\xD7%i: %s\n", width, height, SDL_GetError());
+            {
+                screenwidth = 0;
+                screenheight = 0;
+                M_SaveDefaults();
+
+                screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
+                    SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+
+                if (!screen)
+                    I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
+            }
         }
 
         height = screen->h;
@@ -803,17 +811,25 @@ void ToggleFullScreen(void)
 
         if (!screen)
         {
-            width = desktopwidth;
-            height = desktopheight;
-            screenwidth = 0;
-            screenheight = 0;
+            screenwidth = 1280;
+            screenheight = 800;
             M_SaveDefaults();
 
-            screen = SDL_SetVideoMode(width, height, 0,
+            screen = SDL_SetVideoMode(screenwidth, screenheight, 0,
                 SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
             if (!screen)
-                I_Error("Error setting video mode %i×%i: %s\n", width, height, SDL_GetError());
+            {
+                screenwidth = 0;
+                screenheight = 0;
+                M_SaveDefaults();
+
+                screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
+                    SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+
+                if (!screen)
+                    I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
+            }
         }
 
         if (screensize == 8)
