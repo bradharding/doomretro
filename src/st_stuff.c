@@ -480,6 +480,27 @@ void ST_refreshBackground(void)
     }
 }
 
+//
+// ST_AutomapEvent
+//
+// haleyjd 09/29/04: Replaces the weird hack Dave Taylor put into
+// ST_Responder to toggle the status bar when the automap is toggled.
+// The automap now calls this function instead of sending fake events
+// to ST_Responder, allowing that function to be minimized.
+//
+void ST_AutomapEvent(int type)
+{
+    switch (type)
+    {
+    case AM_MSGENTERED:
+        st_gamestate = AutomapState;
+        break;
+    case AM_MSGEXITED:
+        st_gamestate = FirstPersonState;
+        break;
+    }
+}
+
 extern char cheatkey;
 extern int selectedepisode;
 extern menu_t EpiDef;

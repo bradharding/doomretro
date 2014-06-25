@@ -495,10 +495,10 @@ void AM_Init(void)
     gridcolor = priorities + (GRIDCOLOR << 8);
 }
 
+extern void ST_AutomapEvent(int type);
+
 void AM_initVariables(void)
 {
-    static event_t st_notify = { ev_keyup, AM_MSGENTERED, 0 };
-
     automapactive = true;
 
     area = *screens + MAPAREA;
@@ -537,7 +537,7 @@ void AM_initVariables(void)
     }
 
     // inform the status bar of the change
-    ST_Responder(&st_notify);
+    ST_AutomapEvent(AM_MSGENTERED);
 }
 
 //
@@ -562,12 +562,10 @@ void AM_LevelInit(void)
 
 void AM_Stop(void)
 {
-    static event_t st_notify = { (evtype_t)0, ev_keyup, AM_MSGEXITED };
-
     automapactive = false;
     if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm)
         HU_clearMessages();
-    ST_Responder(&st_notify);
+    ST_AutomapEvent(AM_MSGEXITED);
     stopped = true;
 }
 
