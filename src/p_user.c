@@ -88,8 +88,8 @@ void P_CalcHeight(player_t *player)
         // OPTIMIZE: tablify angle
         // Note: a LUT allows for effects
         //  like a ramp with low health.
-        bob = (FixedMul(player->mo->momx, player->mo->momx) +
-               FixedMul(player->mo->momy, player->mo->momy) >> 2);
+        bob = ((FixedMul(player->mo->momx, player->mo->momx) +
+                FixedMul(player->mo->momy, player->mo->momy)) >> 2);
 
         // DHM - NERVE :: player bob reduced by 25%, MAXBOB reduced by 25% as well
         player->bob = MIN(bob * playerbob / 100, MAXBOB);
