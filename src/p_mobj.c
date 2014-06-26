@@ -628,11 +628,9 @@ static int        itemrespawntime[ITEMQUEUESIZE];
 int               iqueuehead;
 int               iqueuetail;
 
-extern int *isliquid;
-
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if (mobj->type == MT_BLOOD && bloodsplats > 0 && !isliquid[mobj->subsector->sector->floorpic])
+    if (mobj->type == MT_BLOOD && bloodsplats > 0)
         bloodSplatSpawner(mobj->x, mobj->y, mobj->flags2, mobj->colfunc);
 
     if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
@@ -1045,6 +1043,8 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 void P_BloodSplatThinker(mobj_t *splat)
 {
 }
+
+extern int *isliquid;
 
 //
 // P_SpawnBloodSplat
