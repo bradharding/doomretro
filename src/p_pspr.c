@@ -266,11 +266,6 @@ void A_WeaponReady(player_t *player, pspdef_t *psp)
         psp->sx = FixedMul(bob, finecosine[angle]);
         psp->sy = WEAPONTOP + (bob - FixedMul(bob, finecosine[angle * 2 & (FINEANGLES - 1)])) / 2;
     }
-    else
-    {
-        psp->sx = 0;
-        psp->sy = WEAPONTOP;
-    }
 }
 
 //
