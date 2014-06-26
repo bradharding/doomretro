@@ -494,6 +494,7 @@ void ST_AutomapEvent(int type)
     {
     case AM_MSGENTERED:
         st_gamestate = AutomapState;
+        st_firsttime = true;
         break;
     case AM_MSGEXITED:
         st_gamestate = FirstPersonState;
