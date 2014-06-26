@@ -1354,14 +1354,16 @@ void A_FatRaise(mobj_t *actor)
 void A_FatAttack1(mobj_t *actor)
 {
     mobj_t      *mo;
-    mobj_t      *target;
+    mobj_t      *target = actor->target;
     int         an;
+
+    if (!target)
+        return;
 
     A_FaceTarget(actor);
 
     // Change direction to...
     actor->angle += FATSPREAD;
-    target = P_SubstNullMobj(actor->target);
     P_SpawnMissile(actor, target, MT_FATSHOT);
 
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
@@ -1377,14 +1379,16 @@ void A_FatAttack1(mobj_t *actor)
 void A_FatAttack2(mobj_t *actor)
 {
     mobj_t      *mo;
-    mobj_t      *target;
+    mobj_t      *target = actor->target;
     int         an;
+
+    if (!target)
+        return;
 
     A_FaceTarget(actor);
 
     // Now here choose opposite deviation.
     actor->angle -= FATSPREAD;
-    target = P_SubstNullMobj(actor->target);
     P_SpawnMissile(actor, target, MT_FATSHOT);
 
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
@@ -1400,12 +1404,13 @@ void A_FatAttack2(mobj_t *actor)
 void A_FatAttack3(mobj_t *actor)
 {
     mobj_t      *mo;
-    mobj_t      *target;
+    mobj_t      *target = actor->target;
     int         an;
 
-    A_FaceTarget(actor);
+    if (!target)
+        return;
 
-    target = P_SubstNullMobj(actor->target);
+    A_FaceTarget(actor);
 
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
     if (mo)
