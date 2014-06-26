@@ -46,6 +46,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 // Called by main loop.
 boolean ST_Responder(event_t *ev);
+void ST_AutomapEvent(int type);
 
 // Called by main loop.
 void ST_Ticker(void);

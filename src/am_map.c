@@ -495,8 +495,6 @@ void AM_Init(void)
     gridcolor = priorities + (GRIDCOLOR << 8);
 }
 
-extern void ST_AutomapEvent(int type);
-
 void AM_initVariables(void)
 {
     automapactive = true;

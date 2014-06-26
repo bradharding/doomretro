@@ -516,23 +516,8 @@ boolean ST_Responder(event_t *ev)
     fixed_t             y;
     mobj_t              *thing;
 
-    // Filter automap on/off.
-    if (ev->type == ev_keyup && (ev->data1 & 0xffff0000) == AM_MSGHEADER)
-    {
-        switch (ev->data1)
-        {
-            case AM_MSGENTERED:
-                st_gamestate = AutomapState;
-                st_firsttime = true;
-                break;
-            case AM_MSGEXITED:
-                st_gamestate = FirstPersonState;
-                break;
-        }
-    }
-
     // if a user keypress...
-    else if (ev->type == ev_keydown)
+    if (ev->type == ev_keydown)
     {
         if (!netgame
             // [BH] no cheats when in menu or paused
