@@ -1151,28 +1151,6 @@ void P_CheckMissileSpawn(mobj_t *th)
         P_ExplodeMissile(th);
 }
 
-// Certain functions assume that a mobj_t pointer is non-NULL,
-// causing a crash in some situations where it is NULL.  Vanilla
-// Doom did not crash because of the lack of proper memory
-// protection. This function substitutes NULL pointers for
-// pointers to a dummy mobj, to avoid a crash.
-mobj_t *P_SubstNullMobj(mobj_t *mobj)
-{
-    if (!mobj)
-    {
-        static mobj_t dummy_mobj;
-
-        dummy_mobj.x = 0;
-        dummy_mobj.y = 0;
-        dummy_mobj.z = 0;
-        dummy_mobj.flags = 0;
-
-        mobj = &dummy_mobj;
-    }
-
-    return mobj;
-}
-
 //
 // P_SpawnMissile
 //

@@ -1268,7 +1268,8 @@ void A_Fire(mobj_t *actor)
     if (!dest)
         return;
 
-    target = P_SubstNullMobj(actor->target);
+    if (!(target = actor->target))
+        return;
 
     // don't move it if the vile lost sight
     if (!P_CheckSight(target, dest))
@@ -1897,7 +1898,8 @@ void A_SpawnFly(mobj_t *mo)
     if (--mo->reactiontime)
         return;         // still flying
 
-    targ = P_SubstNullMobj(mo->target);
+    if (!(targ = mo->target))
+        return;
 
     // First spawn teleport fog.
     fog = P_SpawnMobj(targ->x, targ->y, targ->z, MT_SPAWNFIRE);
