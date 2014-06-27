@@ -420,6 +420,18 @@ void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 }
 
+fixed_t floatbobdiffs[64] =
+{
+     51389,  51389,  50894,  49909,  48444,  46511,  44131,  41326,
+     38123,  34553,  30649,  26451,  21998,  17334,  12501,   7550,
+      2524,  -2524,  -7550, -12501, -17334, -21998, -26451, -30649,
+    -34553, -38123, -41326, -44131, -46511, -48444, -49909, -50894,
+    -51390, -51389, -50894, -49909, -48444, -46511, -44131, -41326,
+    -38123, -34553, -30649, -26451, -21999, -17333, -12502,  -7549,
+     -2524,   2524,   7550,  12501,  17334,  21998,  26451,  30650,
+     34552,  38123,  41326,  44131,  46511,  48444,  49909,  50895
+};
+
 //
 // P_MobjThinker
 //
@@ -435,28 +447,7 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     if (mobj->flags2 & MF2_FLOATBOB)
-    {
-        if (++mobj->floatbobcount == FLOATBOBCOUNT)
-        {
-            mobj->floatboblevel += mobj->floatbobdirection;
-
-            if (mobj->floatbobdirection == FRACUNIT && mobj->floatboblevel > FRACUNIT)
-                mobj->floatbobdirection = -FRACUNIT;
-            else if (mobj->floatbobdirection == -FRACUNIT && mobj->floatboblevel < -FRACUNIT)
-                mobj->floatbobdirection = FRACUNIT;
-
-            mobj->floatbobcount = 0;
-
-            mobj->z += mobj->floatboblevel;
-        }
-        if (mobj->z < mobj->floorz - FRACUNIT * 2 || mobj->z > mobj->floorz + FRACUNIT * 2)
-        {
-            P_ZMovement(mobj);
-
-            if (mobj->thinker.function.acv == (actionf_v)(-1))
-                return;
-        }
-    }
+        mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63] >> 1;
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
         P_ZMovement(mobj);
@@ -605,11 +596,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->ceilingz = mobj->subsector->sector->ceilingheight;
 
     if (mobj->flags2 & MF2_FLOATBOB)
-    {
-        mobj->floatboblevel = 0;
-        mobj->floatbobdirection = (M_RandomInt(0, 1) ? -FRACUNIT : FRACUNIT);
-        mobj->floatbobcount = M_RandomInt(0, FLOATBOBCOUNT - 1);
-    }
+        mobj->floatbob = P_Random();
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
               (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));

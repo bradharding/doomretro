@@ -385,14 +385,8 @@ static void saveg_read_mobj_t(mobj_t *str)
     // struct mobj_s *tracer;
     str->tracer = (mobj_t *)saveg_readp();
 
-    // int floatbobcount;
-    str->floatbobcount = saveg_read32();
-
-    // int floatbobdirection;
-    str->floatbobdirection = saveg_read32();
-
-    // int floatboblevel;
-    str->floatboblevel = saveg_read32();
+    // int floatbob;
+    str->floatbob = saveg_read32();
 
     str->touching_sectorlist = NULL;
 
@@ -518,14 +512,8 @@ static void saveg_write_mobj_t(mobj_t *str)
     // struct mobj_s *tracer;
     saveg_writep(str->tracer);
 
-    // int floatbobcount;
-    saveg_write32(str->floatbobcount);
-
-    // int floatbobdirection;
-    saveg_write32(str->floatbobdirection);
-
-    // int floatboblevel;
-    saveg_write32(str->floatboblevel);
+    // int floatbob;
+    saveg_write32(str->floatbob);
 
     // short gear;
     saveg_write16(str->gear);
