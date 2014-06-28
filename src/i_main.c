@@ -41,7 +41,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 typedef BOOL (WINAPI *SetAffinityFunc)(HANDLE hProcess, DWORD mask);
 
-static void I_SetAffinityMask(void)
+static void I_SetAffinityMask(HANDLE hProcess)
 {
     HMODULE             kernel32_dll;
     SetAffinityFunc     SetAffinity;
@@ -58,14 +58,14 @@ static void I_SetAffinityMask(void)
     SetAffinity = (SetAffinityFunc)GetProcAddress(kernel32_dll, "SetProcessAffinityMask");
 
     if (SetAffinity != NULL)
-        if (!SetAffinity(GetCurrentProcess(), 1))
+        if (!SetAffinity(hProcess, 1))
             fprintf(stderr, "I_SetAffinityMask: Failed to set process affinity (%d)\n",
                     (int)GetLastError());
 }
 
-void I_SetProcessPriority(void)
+void I_SetProcessPriority(HANDLE hProcess)
 {
-    if (!SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS))
+    if (!SetPriorityClass(hProcess, ABOVE_NORMAL_PRIORITY_CLASS))
         fprintf(stderr, "Failed to set priority for the process (%d)\n", (int)GetLastError());
 }
 
@@ -252,6 +252,8 @@ static void I_SetAffinityMask(void)
 
 int main(int argc, char **argv)
 {
+    HANDLE hProcess = GetCurrentProcess();
+
 #if defined(_WIN32)
     char        *mutex = "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD";
 
@@ -280,10 +282,10 @@ int main(int argc, char **argv)
 
 #if defined(_WIN32)
     if (!M_CheckParm("-nopriority"))
-        I_SetProcessPriority();
+        I_SetProcessPriority(hProcess);
 #endif
 
-    I_SetAffinityMask();
+    I_SetAffinityMask(hProcess);
 
     D_DoomMain();
 
