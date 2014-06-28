@@ -204,7 +204,7 @@ void P_XYMovement(mobj_t *mo)
     if (mo->flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
 
-    if (mo->z > mo->floorz)
+    if (mo->z > mo->floorz && !(mo->flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
     if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD) &&
@@ -420,6 +420,13 @@ void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 }
 
+static void PlayerLandedOnThing(mobj_t *mo, mobj_t *onmobj)
+{
+    mo->player->deltaviewheight = mo->momz >> 3;
+    if (mo->momz < -23 * FRACUNIT)
+        P_NoiseAlert(mo, mo);
+}
+
 fixed_t floatbobdiffs[64] =
 {
      25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
@@ -450,7 +457,38 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
-        P_ZMovement(mobj);
+        if (mobj->flags2 & MF2_PASSMOBJ)
+        {
+            mobj_t *onmo;
+
+            if (!(onmo = P_CheckOnmobj(mobj)))
+            {
+                P_ZMovement(mobj);
+                if (mobj->player && (mobj->flags & MF2_ONMOBJ))
+                    mobj->flags2 &= ~MF2_ONMOBJ;
+            }
+            else
+            {
+                if (mobj->player)
+                {
+                    if (mobj->momz < -GRAVITY * 8)
+                        PlayerLandedOnThing(mobj, onmo);
+                    if (onmo->z + onmo->height - mobj->z <= 24 * FRACUNIT)
+                    {
+                        mobj->player->viewheight -= onmo->z + onmo->height - mobj->z;
+                        mobj->player->deltaviewheight = (VIEWHEIGHT - mobj->player->viewheight) >> 3;
+                        mobj->z = onmo->z + onmo->height;
+                        mobj->flags2 |= MF2_ONMOBJ;
+                        mobj->momz = 0;
+                    }
+                    else
+                        // hit the bottom of the blocking mobj
+                        mobj->momz = 0;
+                }
+            }
+        }
+        else
+            P_ZMovement(mobj);
 
         if (mobj->thinker.function.acv == (actionf_v)(-1))
             return;             // mobj was removed

@@ -252,7 +252,13 @@ typedef enum
     // Spawn more blue blood under corpse
     MF2_MOREBLUEBLOODSPLATS       = 0x00010000,
 
-    MF2_FALLING                   = 0x00020000
+    MF2_FALLING                   = 0x00020000,
+
+    // Object is resting on top of another object
+    MF2_ONMOBJ                    = 0x00040000,
+
+    // Object is allowed to pass over/under other objects
+    MF2_PASSMOBJ                  = 0x00080000
 } mobjflag2_t;
 
 // Map Object definition.

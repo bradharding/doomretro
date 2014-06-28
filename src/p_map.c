@@ -83,6 +83,8 @@ msecnode_t *sector_list = NULL; // phares 3/16/98
 
 boolean    infight;
 
+mobj_t     *onmobj;
+
 extern boolean followplayer;
 
 //
@@ -316,6 +318,15 @@ boolean PIT_CheckThing(mobj_t *thing)
     if (thing == tmthing)
         return true;
 
+    // check if a mobj passed over/under another object
+    if (tmthing->flags2 & MF2_PASSMOBJ)
+    {                           
+        if (tmthing->z >= thing->z + thing->height)
+            return true;        // over thing
+        else if (tmthing->z + tmthing->height <= thing->z)
+            return true;        // under thing
+    }
+
     // check for skulls slamming into things
     if ((tmthing->flags & MF_SKULLFLY) && (thing->flags & MF_SOLID))
     {
@@ -380,29 +391,36 @@ boolean PIT_CheckThing(mobj_t *thing)
         return !solid;
     }
 
-    // see if it went over / under
-    if (tmthing->player || (tmthing->flags & MF_FLOAT))
-        if (tmthing->z >= thing->z + thing->height)
-        {
-            // over
-            tmfloorz = thing->z + thing->height;
-            thing->ceilingz = tmthing->z;
-            return true;
-        }
-    if (tmthing->z + tmthing->height <= thing->z)
-    {
-        // underneath
-        tmceilingz = thing->z;
-        thing->floorz = tmthing->z + tmthing->height;
-        return true;
-    }
-
     // killough 3/16/98: Allow non-solid moving objects to move through solid
     // ones, by allowing the moving thing (tmthing) to move if it's non-solid,
     // despite another solid thing being in the way.
     // killough 4/11/98: Treat no-clipping things as not blocking
     return !((thing->flags & MF_SOLID) && !(thing->flags & MF_NOCLIP)
            && (tmthing->flags & MF_SOLID));
+}
+
+//
+// PIT_CheckOnmobjZ
+//
+boolean PIT_CheckOnmobjZ(mobj_t * thing)
+{
+    fixed_t     blockdist;
+
+    if (!(thing->flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
+        return true;          // Can't hit thing
+    blockdist = thing->radius + tmthing->radius;
+    if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
+        return true;            // Didn't hit thing
+    if (thing == tmthing)
+        return true;            // Don't clip against self
+    if (tmthing->z > thing->z + thing->height)
+        return true;
+    else if (tmthing->z + tmthing->height < thing->z)
+        return true;            // Under thing
+    if (thing->flags & MF_SOLID)
+        onmobj = thing;
+
+    return !(thing->flags & MF_SOLID);
 }
 
 //
@@ -502,6 +520,121 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
                 return false;
 
     return true;
+}
+
+//
+// P_CheckOnmobj
+// Checks if the new Z position is legal
+//
+mobj_t *P_CheckOnmobj(mobj_t * thing)
+{
+    int         xl, xh, yl, yh, bx, by;
+    subsector_t *newsubsec;
+    fixed_t     x;
+    fixed_t     y;
+    mobj_t      oldmo;
+
+    x = thing->x;
+    y = thing->y;
+    tmthing = thing;
+    tmflags = thing->flags;
+    oldmo = *thing;             // save the old mobj before the fake zmovement
+    P_FakeZMovement(tmthing);
+
+    tmx = x;
+    tmy = y;
+
+    tmbbox[BOXTOP] = y + tmthing->radius;
+    tmbbox[BOXBOTTOM] = y - tmthing->radius;
+    tmbbox[BOXRIGHT] = x + tmthing->radius;
+    tmbbox[BOXLEFT] = x - tmthing->radius;
+
+    newsubsec = R_PointInSubsector(x, y);
+    ceilingline = NULL;
+
+    // the base floor / ceiling is from the subsector that contains the
+    // point.  Any contacted lines the step closer together will adjust them
+    tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
+    tmceilingz = newsubsec->sector->ceilingheight;
+
+    validcount++;
+    numspechit = 0;
+
+    if (tmflags & MF_NOCLIP)
+        return NULL;
+
+    // check things first, possibly picking things up
+    // the bounding box is extended by MAXRADIUS because mobj_ts are grouped
+    // into mapblocks based on their origin point, and can overlap into adjacent
+    // blocks by up to MAXRADIUS units
+    xl = (tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS) >> MAPBLOCKSHIFT;
+    xh = (tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS) >> MAPBLOCKSHIFT;
+    yl = (tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
+    yh = (tmbbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
+
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
+            if (!P_BlockThingsIterator(bx, by, PIT_CheckOnmobjZ))
+            {
+                *tmthing = oldmo;
+                return onmobj;
+            }
+    *tmthing = oldmo;
+
+    return NULL;
+}
+
+//
+// P_FakeZMovement
+//
+void P_FakeZMovement(mobj_t *mo)
+{
+    // adjust height
+    mo->z += mo->momz;
+    if (mo->flags & MF_FLOAT && mo->target)
+    {
+        // float down towards target if too close
+        if (!(mo->flags & MF_SKULLFLY) && !(mo->flags & MF_INFLOAT))
+        {
+            int dist = P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y);
+            int delta = (mo->target->z + (mo->height >> 1)) - mo->z;
+
+            if (delta < 0 && dist < -(delta * 3))
+                mo->z -= FLOATSPEED;
+            else if (delta > 0 && dist < (delta * 3))
+                mo->z += FLOATSPEED;
+        }
+    }
+
+    // clip movement
+    if (mo->z <= mo->floorz)
+    {
+        // Hit the floor
+        mo->z = mo->floorz;
+        if (mo->momz < 0)
+            mo->momz = 0;
+        if (mo->flags & MF_SKULLFLY)
+            // The skull slammed into something
+            mo->momz = -mo->momz;
+    }
+    else if (!(mo->flags & MF_NOGRAVITY))
+    {
+        if (mo->momz == 0)
+            mo->momz = -GRAVITY * 2;
+        else
+            mo->momz -= GRAVITY;
+    }
+
+    if (mo->z + mo->height > mo->ceilingz)
+    {
+        // hit the ceiling
+        if (mo->momz > 0)
+            mo->momz = 0;
+        mo->z = mo->ceilingz - mo->height;
+        if (mo->flags & MF_SKULLFLY)
+            // the skull slammed into something
+            mo->momz = -mo->momz;
+    }
 }
 
 //

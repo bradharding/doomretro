@@ -141,7 +141,7 @@ void P_MovePlayer(player_t *player)
 
     // Do not let the player control movement
     //  if not onground.
-    onground = (mo->z <= mo->floorz);
+    onground = (mo->z <= mo->floorz || (player->mo->flags2 & MF2_ONMOBJ));
 
     if (onground)
     {

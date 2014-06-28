@@ -1446,7 +1446,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP | MF_NOTDMATCH,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_PASSMOBJ,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
@@ -1866,7 +1866,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_PASSMOBJ,
         /* raisestate           */ S_HEAD_RAISE1,
         /* frames               */ 0
     },
@@ -1986,7 +1986,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 3,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-        /* flags2               */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to flames
+        /* flags2               */ MF2_PASSMOBJ | MF2_TRANSLUCENT_REDONLY,  // [BH] apply additive translucency to flames
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     },
