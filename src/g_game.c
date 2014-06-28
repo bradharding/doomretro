@@ -838,7 +838,7 @@ void G_Ticker(void)
                     && consistency[i][buf] != cmd->consistency)
                 {
                     I_Error("Consistency failure (%i should be %i)",
-                            cmd->consistency, consistaency[i][buf]);
+                            cmd->consistency, consistency[i][buf]);
                 }
                 if (players[i].mo)
                     consistency[i][buf] = players[i].mo->x;
