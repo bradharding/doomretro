@@ -109,7 +109,7 @@ boolean         precache = true;        // if true, load all graphics at start
 
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
-byte            consistancy[MAXPLAYERS][BACKUPTICS];
+byte            consistency[MAXPLAYERS][BACKUPTICS];
 
 //
 // controls (have defaults)
@@ -250,7 +250,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     int         side = 0;
 
     memset(cmd, 0, sizeof(ticcmd_t));
-    cmd->consistancy = consistancy[consoleplayer][maketic % BACKUPTICS];
+    cmd->consistency = consistency[consoleplayer][maketic % BACKUPTICS];
 
     if (automapactive && !followplayer)
         return;
@@ -796,8 +796,8 @@ void G_Ticker(void)
         }
     }
 
-    // get commands, check consistancy,
-    // and build new consistancy check
+    // get commands, check consistency,
+    // and build new consistency check
     buf = (gametic / ticdup) % BACKUPTICS;
 
     for (i = 0; i < MAXPLAYERS; i++)
@@ -835,15 +835,15 @@ void G_Ticker(void)
             if (netgame && !(gametic % ticdup))
             {
                 if (gametic > BACKUPTICS
-                    && consistancy[i][buf] != cmd->consistancy)
+                    && consistency[i][buf] != cmd->consistency)
                 {
                     I_Error("Consistency failure (%i should be %i)",
-                            cmd->consistancy, consistancy[i][buf]);
+                            cmd->consistency, consistaency[i][buf]);
                 }
                 if (players[i].mo)
-                    consistancy[i][buf] = players[i].mo->x;
+                    consistency[i][buf] = players[i].mo->x;
                 else
-                    consistancy[i][buf] = rndindex;
+                    consistency[i][buf] = rndindex;
             }
         }
     }
