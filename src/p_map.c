@@ -302,6 +302,11 @@ boolean PIT_CheckThing(mobj_t *thing)
     if (!(thing->flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
         return true;
 
+    // [BH] don't hit if either thing is a corpse, which may still be solid if
+    // they are still going through their death sequence.
+    if ((thing->flags & MF_CORPSE) || (tmthing->flags & MF_CORPSE))
+        return true;
+
     blockdist = ((thing->flags & MF_SPECIAL) ? 20 * FRACUNIT : thing->radius) + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
