@@ -285,7 +285,7 @@ __inline static int sign(int a)
 
 static void AM_rotate(fixed_t* xp, fixed_t* yp, angle_t a);
 
-void AM_activateNewScale(void)
+static void AM_activateNewScale(void)
 {
     m_x += (m_w >> 1);
     m_y += (m_h >> 1);
@@ -297,7 +297,7 @@ void AM_activateNewScale(void)
     m_y2 = m_y + m_h;
 }
 
-void AM_saveScaleAndLoc(void)
+static void AM_saveScaleAndLoc(void)
 {
     old_m_x = m_x;
     old_m_y = m_y;
@@ -305,7 +305,7 @@ void AM_saveScaleAndLoc(void)
     old_m_h = m_h;
 }
 
-void AM_restoreScaleAndLoc(void)
+static void AM_restoreScaleAndLoc(void)
 {
     m_w = old_m_w;
     m_h = old_m_h;
@@ -330,7 +330,7 @@ void AM_restoreScaleAndLoc(void)
 //
 // adds a marker at the current location
 //
-void AM_addMark(void)
+static void AM_addMark(void)
 {
     int         i;
     int         x = m_x + (m_w >> 1);
@@ -358,11 +358,11 @@ void AM_addMark(void)
 // Determines bounding box of all vertices,
 // sets global variables controlling zoom range.
 //
-void AM_findMinMaxBoundaries(void)
+static void AM_findMinMaxBoundaries(void)
 {
-    int     i;
-    fixed_t a;
-    fixed_t b;
+    int         i;
+    fixed_t     a;
+    fixed_t     b;
 
     min_x = min_y = INT_MAX;
     max_x = max_y = INT_MIN;
@@ -394,10 +394,10 @@ void AM_findMinMaxBoundaries(void)
     max_scale_mtof = FixedDiv(MAPHEIGHT << FRACBITS, PLAYERRADIUS << 1);
 }
 
-void AM_changeWindowLoc(void)
+static void AM_changeWindowLoc(void)
 {
-    fixed_t incx = m_paninc.x;
-    fixed_t incy = m_paninc.y;
+    fixed_t     incx = m_paninc.x;
+    fixed_t     incy = m_paninc.y;
 
     if (rotate)
         AM_rotate(&incx, &incy, plr->mo->angle - ANG90);
@@ -495,7 +495,7 @@ void AM_Init(void)
     gridcolor = priorities + (GRIDCOLOR << 8);
 }
 
-void AM_initVariables(void)
+static void AM_initVariables(void)
 {
     automapactive = true;
 
@@ -542,7 +542,7 @@ void AM_initVariables(void)
 // should be called at the start of every level
 // right now, i figure it out myself
 //
-void AM_LevelInit(void)
+static void AM_LevelInit(void)
 {
     followplayer = true;
     bigstate = false;
@@ -590,7 +590,7 @@ void AM_Start(void)
 //
 // set the window scale to the maximum size
 //
-void AM_minOutWindowScale(void)
+static void AM_minOutWindowScale(void)
 {
     scale_mtof = min_scale_mtof;
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
@@ -600,7 +600,7 @@ void AM_minOutWindowScale(void)
 //
 // set the window scale to the minimum size
 //
-void AM_maxOutWindowScale(void)
+static void AM_maxOutWindowScale(void)
 {
     scale_mtof = max_scale_mtof;
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
@@ -1097,7 +1097,7 @@ static void AM_rotate(fixed_t *xp, fixed_t *yp, angle_t a)
     *yp = FLOAT2FIXED(y);
 }
 
-void AM_rotatePoint(fixed_t *x, fixed_t *y)
+static void AM_rotatePoint(fixed_t *x, fixed_t *y)
 {
     fixed_t pivotx = m_x + (m_w >> 1);
     fixed_t pivoty = m_y + (m_h >> 1);
@@ -1112,7 +1112,7 @@ void AM_rotatePoint(fixed_t *x, fixed_t *y)
 //
 // Zooming
 //
-void AM_changeWindowScale(void)
+static void AM_changeWindowScale(void)
 {
     // Change the scaling multipliers
     scale_mtof = FixedMul(scale_mtof, mtof_zoommul);
@@ -1126,7 +1126,7 @@ void AM_changeWindowScale(void)
         AM_activateNewScale();
 }
 
-void AM_doFollowPlayer(void)
+static void AM_doFollowPlayer(void)
 {
     fixed_t x = plr->mo->x;
     fixed_t y = plr->mo->y;
@@ -1142,7 +1142,7 @@ void AM_doFollowPlayer(void)
     }
 }
 
-void AM_decelerate(void)
+static void AM_decelerate(void)
 {
     if (decpanx)
         m_paninc.x = sign(m_paninc.x) * FTOM(--decpanx);
@@ -1185,7 +1185,7 @@ void AM_Ticker(void)
 //
 // Clear automap frame buffer.
 //
-void AM_clearFB(void)
+static void AM_clearFB(void)
 {
     memset(*screens, BACKGROUNDCOLOR, MAPAREA);
 }
@@ -1547,8 +1547,8 @@ static void AM_drawWalls(void)
     }
 }
 
-void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
-                          angle_t angle, byte *color, fixed_t x, fixed_t y)
+static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
+                                 angle_t angle, byte *color, fixed_t x, fixed_t y)
 {
     int i;
 
@@ -1582,8 +1582,8 @@ void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
     }
 }
 
-void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
-                               angle_t angle, byte *color, fixed_t x, fixed_t y)
+static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale,
+                                      angle_t angle, byte *color, fixed_t x, fixed_t y)
 {
     int i;
 
@@ -1617,7 +1617,7 @@ void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_t scale
     }
 }
 
-void AM_drawPlayers(void)
+static void AM_drawPlayers(void)
 {
     if (!netgame)
     {
@@ -1707,7 +1707,7 @@ void AM_drawPlayers(void)
     }
 }
 
-void AM_drawThings(void)
+static void AM_drawThings(void)
 {
     int i = 0;
 
@@ -1790,7 +1790,7 @@ const char *marknums[10] =
 #define MARKWIDTH  8
 #define MARKHEIGHT 12
 
-void AM_drawMarks(void)
+static void AM_drawMarks(void)
 {
     int i;
 
@@ -1881,7 +1881,7 @@ static void AM_drawCrosshair(void)
 
 #define DARKLEVELS 6
 
-void AM_darkenEdges(void)
+static void AM_darkenEdges(void)
 {
     int         i;
 
