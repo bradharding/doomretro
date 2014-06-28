@@ -451,13 +451,19 @@ void WI_drawLF(void)
     else
         M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->last);
     if (W_CheckMultipleLumps(name) > 1 && !nerve)
+    {
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->last], false);
+        y += lnames[wbs->last]->height + 1;
+    }
     else
+    {
         WI_drawWILV(y, mapname);
+        y += 14;
+    }
 
     // draw "Finished!"
-    y += 14;
+    
     V_DrawPatchWithShadow(x + 1, y + 1, FB, finished, false);
 }
 
