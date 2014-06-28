@@ -529,9 +529,6 @@ boolean P_LookForMonsters(mobj_t *actor)
     mobj_t      *mo;
     thinker_t   *think;
 
-    if (!P_CheckSight(players[0].mo, actor))
-        return false;           // player can't see monster
-
     for (think = thinkercap.next; think != &thinkercap; think = think->next)
     {
         if (think->function.acp1 != (actionf_p1)P_MobjThinker)
