@@ -31,10 +31,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "d_player.h"
 
-#define MAXNETNODES 8
+#define MAXNETNODES     8
 
 // Networking and tick handling related.
-#define BACKUPTICS              128
+#define BACKUPTICS      128
 
 extern int extratics;
 
@@ -47,8 +47,4 @@ void TryRunTics(void);
 // Called at start of game loop to initialize timers
 void D_StartGameLoop(void);
 
-//extern boolean drone;
-extern boolean net_cl_new_sync;
-
 #endif
-

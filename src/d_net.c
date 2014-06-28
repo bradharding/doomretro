@@ -38,7 +38,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "doomdef.h"
 #include "doomstat.h"
 
-
 //
 // NETWORKING
 //
@@ -55,44 +54,20 @@ int             nettics[MAXPLAYERS];
 int             maketic;
 
 // Used for original sync code.
-
 int             lastnettic;
 int             skiptics = 0;
 
 // Reduce the bandwidth needed by sampling game input less and transmitting
 // less.  If ticdup is 2, sample half normal, 3 = one third normal, etc.
-
 int             ticdup;
 
 // Send this many extra (backup) tics in each packet.
-
 int             extratics;
 
-// Amount to offset the timer for game sync.
-
-fixed_t         offsetms;
-
-// Use new client syncronisation code
-
-boolean         net_cl_new_sync = true;
-
-// 35 fps clock adjusted by offsetms milliseconds
-
-static int GetAdjustedTime(void)
+// 35 fps clock
+static int GetTime(void)
 {
-    int time_ms;
-
-    time_ms = I_GetTimeMS();
-
-    if (net_cl_new_sync)
-    {
-        // Use the adjustments from net_client.c only if we are
-        // using the new sync mode.
-
-        time_ms += (offsetms / FRACUNIT);
-    }
-
-    return (time_ms * TICRATE) / 1000;
+    return (I_GetTimeMS() * TICRATE) / 1000;
 }
 
 //
@@ -100,17 +75,17 @@ static int GetAdjustedTime(void)
 // Builds ticcmds for console player,
 // sends out a packet
 //
-int      lasttime;
+int             lasttime;
 
 void NetUpdate(void)
 {
-    int nowtime;
-    int newtics;
-    int i;
-    int gameticdiv;
+    int         nowtime;
+    int         newtics;
+    int         i;
+    int         gameticdiv;
 
     // check time
-    nowtime = GetAdjustedTime() / ticdup;
+    nowtime = GetTime() / ticdup;
     newtics = nowtime - lasttime;
 
     lasttime = nowtime;
@@ -137,27 +112,10 @@ void NetUpdate(void)
         D_ProcessEvents();
 
         // Always run the menu
-
         M_Ticker();
 
-        if (net_cl_new_sync)
-        {
-            // If playing single player, do not allow tics to buffer
-            // up very far
-
-            if (!netgame && maketic - gameticdiv > 2)
-                break;
-
-            // Never go more than ~200ms ahead
-
-            if (maketic - gameticdiv > 8)
-                break;
-        }
-        else
-        {
-            if (maketic - gameticdiv >= 5)
-                break;
-        }
+        if (maketic - gameticdiv >= 5)
+            break;
 
         memset(&cmd, 0, sizeof(ticcmd_t));
         G_BuildTiccmd(&cmd, maketic);
@@ -174,30 +132,25 @@ void NetUpdate(void)
 //
 // Called after the screen is set but before the game starts running.
 //
-
 void D_StartGameLoop(void)
 {
-    lasttime = GetAdjustedTime() / ticdup;
+    lasttime = GetTime() / ticdup;
 }
-
 
 //
 // D_CheckNetGame
 // Works out player numbers among the net participants
 //
-
 void D_CheckNetGame(void)
 {
-    int i;
-    int num_players;
+    int         i;
+    int         num_players;
 
     // default values for single player
-
     consoleplayer = 0;
     netgame = false;
     ticdup = 1;
     extratics = 1;
-    offsetms = 0;
 
     for (i = 0; i < MAXPLAYERS; i++)
     {
@@ -207,26 +160,11 @@ void D_CheckNetGame(void)
 
     playeringame[0] = true;
 
-    //!
-    // @category net
-    //
-    // Start the game playing as though in a netgame with a single
-    // player.  This can also be used to play back single player netgame
-    // demos.
-    //
-
-    if (M_CheckParm("-solo-net") > 0)
-    {
-        netgame = true;
-    }
-
     num_players = 0;
 
     for (i = 0; i < MAXPLAYERS; ++i)
-    {
         if (playeringame[i])
             ++num_players;
-    }
 }
 
 // Returns true if there are currently any players in the game.
@@ -241,17 +179,6 @@ static boolean PlayersInGame(void)
     return false;
 }
 
-static int GetLowTic(void)
-{
-    int lowtic;
-
-    {
-        lowtic = maketic;
-    }
-
-    return lowtic;
-}
-
 //
 // TryRunTics
 //
@@ -261,17 +188,17 @@ int     frameon;
 int     frameskip[4];
 int     oldnettics;
 
-extern  boolean advancetitle;
+extern boolean advancetitle;
 
 void TryRunTics(void)
 {
-    int i;
-    int lowtic;
-    int entertic;
-    static int oldentertics;
-    int realtics;
-    int availabletics;
-    int counts;
+    int         i;
+    int         lowtic;
+    int         entertic;
+    static int  oldentertics;
+    int         realtics;
+    int         availabletics;
+    int         counts;
 
     // get real tics
     entertic = I_GetTime() / ticdup;
@@ -281,72 +208,52 @@ void TryRunTics(void)
     // get available tics
     NetUpdate();
 
-    lowtic = GetLowTic();
+    lowtic = maketic;
 
     availabletics = lowtic - gametic / ticdup;
 
     // decide how many tics to run
-
-    if (net_cl_new_sync)
-    {
-        counts = availabletics;
-    }
+    if (realtics < availabletics - 1)
+        counts = realtics + 1;
+    else if (realtics < availabletics)
+        counts = realtics;
     else
+        counts = availabletics;
+
+    if (counts < 1)
+        counts = 1;
+
+    frameon++;
+
     {
-        // decide how many tics to run
-        if (realtics < availabletics - 1)
-            counts = realtics + 1;
-        else if (realtics < availabletics)
-            counts = realtics;
-        else
-            counts = availabletics;
+        int keyplayer = -1;
 
-        if (counts < 1)
-            counts = 1;
+        // ideally maketic should be 1 - 3 tics above lowtic
+        // if we are consistantly slower, speed up time
+        for (i = 0; i < MAXPLAYERS; i++)
+            if (playeringame[i])
+            {
+                keyplayer = i;
+                break;
+            }
 
-        frameon++;
+        if (keyplayer < 0)
+            return;     // If there are no players, we can never advance anyway
 
+        if (consoleplayer == keyplayer)
         {
-            int keyplayer = -1;
+            // the key player does not adapt
+        }
+        else
+        {
+            if (maketic <= nettics[keyplayer])
+                lasttime--;
 
-            // ideally maketic should be 1 - 3 tics above lowtic
-            // if we are consistantly slower, speed up time
+            frameskip[frameon & 3] = (oldnettics > nettics[keyplayer]);
+            oldnettics = maketic;
 
-            for (i = 0; i < MAXPLAYERS; i++)
-            {
-                if (playeringame[i])
-                {
-                    keyplayer = i;
-                    break;
-                }
-            }
-
-            if (keyplayer < 0)
-            {
-                // If there are no players, we can never advance anyway
-
-                return;
-            }
-
-            if (consoleplayer == keyplayer)
-            {
-                // the key player does not adapt
-            }
-            else
-            {
-                if (maketic <= nettics[keyplayer])
-                {
-                    lasttime--;
-                }
-
-                frameskip[frameon & 3] = (oldnettics > nettics[keyplayer]);
-                oldnettics = maketic;
-
-                if (frameskip[0] && frameskip[1] && frameskip[2] && frameskip[3])
-                {
-                    skiptics = 1;
-                }
-            }
+            if (frameskip[0] && frameskip[1] && frameskip[2] && frameskip[3])
+                skiptics = 1;
         }
     }
 
@@ -354,20 +261,16 @@ void TryRunTics(void)
         counts = 1;
 
     // wait for new tics if needed
-
     while (!PlayersInGame() || lowtic < gametic / ticdup + counts)
     {
         NetUpdate();
 
-        lowtic = GetLowTic();
+        lowtic = maketic;
 
         // Don't stay in this loop forever.  The menu is still running,
         // so return to update the screen
-
         if (I_GetTime() / ticdup - entertic > 0)
-        {
             return;
-        }
 
         I_Sleep(1);
     }
@@ -379,11 +282,8 @@ void TryRunTics(void)
         {
             // check that there are players in the game.  if not, we cannot
             // run a tic.
-
             if (!PlayersInGame())
-            {
                 return;
-            }
 
             if (advancetitle)
                 D_DoAdvanceTitle();
@@ -394,14 +294,13 @@ void TryRunTics(void)
             // modify command for duplicated tics
             if (i != ticdup - 1)
             {
-                ticcmd_t        *cmd;
-                int             buf;
-                int             j;
+                int     buf = (gametic / ticdup) % BACKUPTICS;
+                int     j;
 
-                buf = (gametic / ticdup) % BACKUPTICS;
                 for (j = 0; j < MAXPLAYERS; j++)
                 {
-                    cmd = &netcmds[j][buf];
+                    ticcmd_t    *cmd = &netcmds[j][buf];
+
                     if (cmd->buttons & BT_SPECIAL)
                         cmd->buttons = 0;
                 }
