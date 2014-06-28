@@ -464,8 +464,7 @@ void P_MobjThinker(mobj_t *mobj)
             if (!(onmo = P_CheckOnmobj(mobj)))
             {
                 P_ZMovement(mobj);
-                if (mobj->player)
-                    mobj->flags2 &= ~MF2_ONMOBJ;
+                mobj->flags2 &= ~MF2_ONMOBJ;
             }
             else
             {
