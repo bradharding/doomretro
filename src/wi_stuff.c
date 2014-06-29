@@ -454,7 +454,7 @@ void WI_drawLF(void)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->last], false);
-        y += lnames[wbs->last]->height + 1;
+        y += lnames[wbs->last]->height + 2;
     }
     else
     {
