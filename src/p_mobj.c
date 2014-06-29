@@ -478,11 +478,8 @@ void P_MobjThinker(mobj_t *mobj)
                         mobj->player->deltaviewheight = (VIEWHEIGHT - mobj->player->viewheight) >> 3;
                         mobj->z = onmo->z + onmo->height;
                         mobj->flags2 |= MF2_ONMOBJ;
-                        mobj->momz = 0;
                     }
-                    else
-                        // hit the bottom of the blocking mobj
-                        mobj->momz = 0;
+                    mobj->momz = 0;
                 }
             }
         }
@@ -509,34 +506,20 @@ void P_MobjThinker(mobj_t *mobj)
     //  calling action functions at transitions
     if (mobj->tics != -1)
     {
-        mobj->tics--;
-
         // you can cycle through multiple states in a tic
-        if (!mobj->tics)
-            if (!P_SetMobjState(mobj, mobj->state->nextstate))
-                return;         // freed itself
+        if (!--mobj->tics)
+            P_SetMobjState(mobj, mobj->state->nextstate);
     }
     else
     {
         // check for nightmare respawn
-        if (!(mobj->flags & MF_COUNTKILL))
-            return;
+        if ((mobj->flags & MF_COUNTKILL) && respawnmonsters)
+        {
+            mobj->movecount++;
 
-        if (!respawnmonsters)
-            return;
-
-        mobj->movecount++;
-
-        if (mobj->movecount < 12 * TICRATE)
-            return;
-
-        if (leveltime & 31)
-            return;
-
-        if (P_Random() > 4)
-            return;
-
-        P_NightmareRespawn(mobj);
+            if (mobj->movecount >= 12 * TICRATE && !(leveltime & 31) && P_Random() <= 4)
+                P_NightmareRespawn(mobj);
+        }
     }
 }
 
@@ -545,7 +528,7 @@ void P_MobjThinker(mobj_t *mobj)
 //
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 {
-    mobj_t      *mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+    mobj_t      *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
     state_t     *st;
     mobjinfo_t  *info = &mobjinfo[type];
 
@@ -700,22 +683,18 @@ void P_RemoveMobj(mobj_t *mobj)
 //
 static int P_FindDoomedNum(unsigned int type)
 {
-    static struct
-    { 
-        int first, next;
-    } 
-    *hash;
+    static struct { int first, next; } *hash;
     int i;
 
     if (!hash)
     {
-        hash = Z_Malloc(sizeof *hash * NUMMOBJTYPES, PU_CACHE, (void **)&hash);
+        hash = Z_Malloc(sizeof(*hash) * NUMMOBJTYPES, PU_CACHE, (void **)&hash);
         for (i = 0; i < NUMMOBJTYPES; i++)
             hash[i].first = NUMMOBJTYPES;
         for (i = 0; i < NUMMOBJTYPES; i++)
             if (mobjinfo[i].doomednum != -1)
             {
-                unsigned int h = (unsigned)mobjinfo[i].doomednum % NUMMOBJTYPES;
+                unsigned int h = (unsigned int)mobjinfo[i].doomednum % NUMMOBJTYPES;
 
                 hash[i].next = hash[h].first;
                 hash[h].first = i;
@@ -723,7 +702,7 @@ static int P_FindDoomedNum(unsigned int type)
     }
 
     i = hash[type % NUMMOBJTYPES].first;
-    while ((i < NUMMOBJTYPES) && ((unsigned)mobjinfo[i].doomednum != type))
+    while ((i < NUMMOBJTYPES) && ((unsigned int)mobjinfo[i].doomednum != type))
         i = hash[i].next;
     return i;
 }
@@ -734,11 +713,9 @@ static int P_FindDoomedNum(unsigned int type)
 void P_RespawnSpecials(void)
 {
     fixed_t     x, y, z;
-
     subsector_t *ss;
     mobj_t      *mo;
     mapthing_t  *mthing;
-
     int         i;
 
     // only respawn items in deathmatch
@@ -789,10 +766,9 @@ extern int lastepisode;
 
 void P_SpawnPlayer(mapthing_t *mthing)
 {
-    player_t *p;
-    fixed_t  x, y, z;
-    mobj_t   *mobj;
-    int      i;
+    player_t    *p;
+    fixed_t     x, y, z;
+    mobj_t      *mobj;
 
     // not playing?
     if (!playeringame[mthing->type - 1])
@@ -836,8 +812,12 @@ void P_SpawnPlayer(mapthing_t *mthing)
 
     // give all cards in deathmatch mode
     if (deathmatch)
+    {
+        int     i;
+
         for (i = 0; i < NUMCARDS; i++)
             p->cards[i] = true;
+    }
 
     lastlevel = -1;
     lastepisode = -1;
@@ -862,9 +842,10 @@ void P_SpawnMapThing(mapthing_t *mthing)
     int         bit;
     mobj_t      *mobj;
     fixed_t     x, y, z;
+    short       type = mthing->type;
 
     // count deathmatch start positions
-    if (mthing->type == PlayerDeathmatchStart)
+    if (type == PlayerDeathmatchStart)
     {
         if (deathmatch_p < &deathmatchstarts[10])
         {
@@ -875,10 +856,10 @@ void P_SpawnMapThing(mapthing_t *mthing)
     }
 
     // check for players specially
-    if (mthing->type >= Player1Start && mthing->type <= Player4Start)
+    if (type >= Player1Start && type <= Player4Start)
     {
         // save spots for respawning in network games
-        playerstarts[mthing->type - 1] = *mthing;
+        playerstarts[type - 1] = *mthing;
         if (!deathmatch)
             P_SpawnPlayer(mthing);
 
@@ -902,7 +883,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     // find which type to spawn
 
     // killough 8/23/98: use table for faster lookup
-    i = P_FindDoomedNum(mthing->type);
+    i = P_FindDoomedNum(type);
 
     if (i == NUMMOBJTYPES)
         return;
