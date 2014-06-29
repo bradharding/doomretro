@@ -300,6 +300,7 @@ boolean PIT_CheckThing(mobj_t *thing)
 {
     fixed_t     blockdist;
     int         damage;
+    bool        unblocking = false;
 
     if (!(thing->flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
         return true;
@@ -317,6 +318,21 @@ boolean PIT_CheckThing(mobj_t *thing)
     // don't clip against self
     if (thing == tmthing)
         return true;
+
+    // check if things are stuck and allow move if it makes them further apart
+    if (tmx == tmthing->x && tmy == tmthing->y)
+        unblocking = true;
+    else
+    {
+        fixed_t     newdist = P_ApproxDistance(thing->x - tmx, thing->y - tmy);
+        fixed_t     olddist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
+
+        if (newdist > olddist)
+        {
+            unblocking = !((tmthing->z >= thing->z + thing->height && tmz < thing->z + thing->height) ||
+                (tmthing->z + tmthing->height <= thing->z && tmz + tmthing->height > thing->z));
+        }
+    }
 
     // check if a mobj passed over/under another object
     if (tmthing->flags2 & MF2_PASSMOBJ)
@@ -396,7 +412,7 @@ boolean PIT_CheckThing(mobj_t *thing)
     // despite another solid thing being in the way.
     // killough 4/11/98: Treat no-clipping things as not blocking
     return !((thing->flags & MF_SOLID) && !(thing->flags & MF_NOCLIP)
-           && (tmthing->flags & MF_SOLID));
+           && (tmthing->flags & MF_SOLID)) || unblocking;
 }
 
 //
@@ -591,38 +607,35 @@ void P_FakeZMovement(mobj_t *mo)
 {
     // adjust height
     mo->z += mo->momz;
-    if (mo->flags & MF_FLOAT && mo->target)
+
+    if ((mo->flags & MF_FLOAT) && mo->target)
     {
         // float down towards target if too close
         if (!(mo->flags & MF_SKULLFLY) && !(mo->flags & MF_INFLOAT))
         {
-            int dist = P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y);
-            int delta = (mo->target->z + (mo->height >> 1)) - mo->z;
+            fixed_t     delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
-            if (delta < 0 && dist < -(delta * 3))
-                mo->z -= FLOATSPEED;
-            else if (delta > 0 && dist < (delta * 3))
-                mo->z += FLOATSPEED;
+            if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
+                mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
         }
     }
 
     // clip movement
     if (mo->z <= mo->floorz)
     {
-        // Hit the floor
-        mo->z = mo->floorz;
+        // hit the floor
+        if (mo->flags & MF_SKULLFLY)
+            mo->momz = -mo->momz;       // the skull slammed into something
+
         if (mo->momz < 0)
             mo->momz = 0;
-        if (mo->flags & MF_SKULLFLY)
-            // The skull slammed into something
-            mo->momz = -mo->momz;
+        mo->z = mo->floorz;
     }
     else if (!(mo->flags & MF_NOGRAVITY))
     {
-        if (mo->momz == 0)
-            mo->momz = -GRAVITY * 2;
-        else
-            mo->momz -= GRAVITY;
+        if (!mo->momz)
+            mo->momz = -GRAVITY;
+        mo->momz -= GRAVITY;
     }
 
     if (mo->z + mo->height > mo->ceilingz)
@@ -630,10 +643,11 @@ void P_FakeZMovement(mobj_t *mo)
         // hit the ceiling
         if (mo->momz > 0)
             mo->momz = 0;
-        mo->z = mo->ceilingz - mo->height;
+
         if (mo->flags & MF_SKULLFLY)
-            // the skull slammed into something
-            mo->momz = -mo->momz;
+            mo->momz = -mo->momz;       // the skull slammed into something
+
+        mo->z = mo->ceilingz - mo->height;
     }
 }
 
@@ -644,10 +658,10 @@ void P_FakeZMovement(mobj_t *mo)
 //
 boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
 {
-    fixed_t oldx;
-    fixed_t oldy;
+    fixed_t     oldx;
+    fixed_t     oldy;
 
-    felldown = false;               // killough 11/98
+    felldown = false;           // killough 11/98
     floatok = false;
 
     if (!P_CheckPosition(thing, x, y))
@@ -700,7 +714,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
     oldy = thing->y;
     thing->floorz = tmfloorz;
     thing->ceilingz = tmceilingz;
-    thing->dropoffz = tmdropoffz;      // killough 11/98: keep track of dropoffs
+    thing->dropoffz = tmdropoffz;       // killough 11/98: keep track of dropoffs
     thing->x = x;
     thing->y = y;
 
@@ -712,8 +726,8 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
         while (numspechit--)
         {
             // see if the line was crossed
-            line_t *ld = spechit[numspechit];
-            int    oldside = P_PointOnLineSide(oldx, oldy, ld);
+            line_t      *ld = spechit[numspechit];
+            int         oldside = P_PointOnLineSide(oldx, oldy, ld);
 
             if (oldside != P_PointOnLineSide(thing->x, thing->y, ld) && ld->special)
                 P_CrossSpecialLine(ld, oldside, thing);
@@ -735,19 +749,18 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
 // If more than one linedef is contacted, the effects are cumulative,
 // so balancing is possible.
 //
-
 static boolean PIT_ApplyTorque(line_t *ld)
 {
     if (ld->backsector &&       // If thing touches two-sided pivot linedef
-        tmbbox[BOXRIGHT]  > ld->bbox[BOXLEFT] &&
-        tmbbox[BOXLEFT]   < ld->bbox[BOXRIGHT] &&
-        tmbbox[BOXTOP]    > ld->bbox[BOXBOTTOM] &&
+        tmbbox[BOXRIGHT] > ld->bbox[BOXLEFT] &&
+        tmbbox[BOXLEFT] < ld->bbox[BOXRIGHT] &&
+        tmbbox[BOXTOP] > ld->bbox[BOXBOTTOM] &&
         tmbbox[BOXBOTTOM] < ld->bbox[BOXTOP] &&
         P_BoxOnLineSide(tmbbox, ld) == -1)
     {
         mobj_t  *mo = tmthing;
         fixed_t dist =                               // lever arm
-            +(ld->dx >> FRACBITS) * (mo->y >> FRACBITS)
+              (ld->dx >> FRACBITS) * (mo->y >> FRACBITS)
             - (ld->dy >> FRACBITS) * (mo->x >> FRACBITS)
             - (ld->dx >> FRACBITS) * (ld->v1->y >> FRACBITS)
             + (ld->dy >> FRACBITS) * (ld->v1->x >> FRACBITS);
@@ -770,8 +783,7 @@ static boolean PIT_ApplyTorque(line_t *ld)
                 y = t;
             }
 
-            y = finesine[(tantoangle[FixedDiv(y, x) >> DBITS] +
-                         ANG90) >> ANGLETOFINESHIFT];
+            y = finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT];
 
             // Momentum is proportional to distance between the
             // object's center of mass and the pivot linedef.
@@ -780,9 +792,9 @@ static boolean PIT_ApplyTorque(line_t *ld)
             // increased, the momentum gradually decreases to 0 for
             // the same amount of pseudotorque, so that oscillations
             // are prevented, yet it has a chance to reach equilibrium.
-            dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE) ?
+            dist = FixedDiv(FixedMul(dist, (mo->gear < OVERDRIVE ?
                 y << -(mo->gear - OVERDRIVE) :
-                y >> +(mo->gear - OVERDRIVE)), x);
+                y >> +(mo->gear - OVERDRIVE))), x);
 
             // Apply momentum away from the pivot linedef.
             x = FixedMul(ld->dy, dist);
@@ -792,7 +804,12 @@ static boolean PIT_ApplyTorque(line_t *ld)
             dist = FixedMul(x, x) + FixedMul(y, y);
 
             while (dist > FRACUNIT * 4 && mo->gear < MAXGEAR)
-                ++mo->gear, x >>= 1, y >>= 1, dist >>= 1;
+            {
+                ++mo->gear;
+                x >>= 1;
+                y >>= 1;
+                dist >>= 1;
+            }
 
             mo->momx -= x;
             mo->momy += y;
