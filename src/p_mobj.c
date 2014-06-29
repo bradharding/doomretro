@@ -243,7 +243,7 @@ void P_XYMovement(mobj_t *mo)
     if (((mo->flags & MF_CORPSE) || (mo->flags2 & MF2_FALLING))
         && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4
             || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
-        && mo->floorz != mo->subsector->sector->floorheight)
+        && mo->z != mo->floorz)
         return;         // do not stop sliding if halfway off a step with some momentum
 
     if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED
