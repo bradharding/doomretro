@@ -138,7 +138,12 @@ void P_NoiseAlert(mobj_t *target, mobj_t *emmiter)
 boolean P_CheckMeleeRange(mobj_t *actor)
 {
     mobj_t      *pl = actor->target;
-    fixed_t     dist = P_ApproxDistance(pl->x - actor->x, pl->y - actor->y);
+    fixed_t     dist;
+
+    if (!pl)
+        return false;
+
+    dist = P_ApproxDistance(pl->x - actor->x, pl->y - actor->y);
 
     if (dist >= MELEERANGE - 20 * FRACUNIT + pl->info->radius)
         return false;
