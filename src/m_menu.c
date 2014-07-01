@@ -1519,12 +1519,8 @@ void M_DrawOptions(void)
                  (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
                  + !hud), fullscreen ? 7.2f : 8.0f);
 
-    if (mouseSensitivity == -5)
-        mouseSensitivity = MOUSESENSITIVITY_MIN;
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
                  mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
-    if (mouseSensitivity == MOUSESENSITIVITY_MIN)
-        mouseSensitivity = -5;
 }
 
 void M_Options(int choice)
@@ -1697,8 +1693,6 @@ void M_SliderSound(void)
 
 void M_ChangeSensitivity(int choice)
 {
-    if (mouseSensitivity == -5)
-        mouseSensitivity = MOUSESENSITIVITY_MIN;
     switch (choice)
     {
         case 0:
@@ -1708,8 +1702,6 @@ void M_ChangeSensitivity(int choice)
                 gamepadSensitivity = (!mouseSensitivity ? 0.0f : 
                                       (2.0f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX));
                 M_SliderSound();
-                if (mouseSensitivity == MOUSESENSITIVITY_MIN)
-                    mouseSensitivity = -5;
                 M_SaveDefaults();
             }
             break;

@@ -985,8 +985,6 @@ static void D_DoomMainSetup(void)
 
     if (mouseSensitivity < MOUSESENSITIVITY_MIN || mouseSensitivity > MOUSESENSITIVITY_MAX)
         mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-    if (mouseSensitivity == MOUSESENSITIVITY_MIN)
-        mouseSensitivity = -5;
     gamepadSensitivity = (!mouseSensitivity ? 0.0f :
                           (2.0f + mouseSensitivity / (float)MOUSESENSITIVITY_MAX));
 
