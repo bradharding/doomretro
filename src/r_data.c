@@ -44,6 +44,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // a patch or sprite is composed of zero or more columns.
 //
 
+#ifdef _MSC_VER
+#pragma pack(push)
+#pragma pack(1)
+#endif
+
 //
 // Texture definition.
 // Each texture is composed of one or more patches,
@@ -76,6 +81,10 @@ typedef struct
     short       patchcount;
     mappatch_t  patches[1];
 } PACKEDATTR maptexture_t;
+
+#ifdef _MSC_VER
+#pragma pack(pop)
+#endif
 
 // A single patch from a texture definition,
 //  basically a rectangular area within

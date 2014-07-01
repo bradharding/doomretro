@@ -33,6 +33,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "z_zone.h"
 #include "w_wad.h"
 
+#ifdef _MSC_VER
+#pragma pack(push)
+#pragma pack(1)
+#endif
+
 typedef struct
 {
     // Should be "IWAD" or "PWAD".
@@ -47,6 +52,10 @@ typedef struct
     int         size;
     char        name[8];
 } PACKEDATTR filelump_t;
+
+#ifdef _MSC_VER
+#pragma pack(pop)
+#endif
 
 //
 // GLOBALS

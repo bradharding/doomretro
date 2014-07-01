@@ -59,6 +59,11 @@ typedef enum
     midi_pitchwheel = 0xe0
 } midievent;
 
+#ifdef _MSC_VER
+#pragma pack(push)
+#pragma pack(1)
+#endif
+
 // Structure to hold MUS file header
 typedef struct
 {
@@ -69,6 +74,10 @@ typedef struct
     unsigned short      secondarychannels;
     unsigned short      instrumentcount;
 } PACKEDATTR musheader;
+
+#ifdef _MSC_VER
+#pragma pack(pop)
+#endif
 
 // Standard MIDI type 0 header + track header
 static const byte midiheader[] =

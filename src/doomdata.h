@@ -58,6 +58,11 @@ enum
     ML_BLOCKMAP         // LUT, motion clipping, walls/grid element
 };
 
+#ifdef _MSC_VER
+#pragma pack(push)
+#pragma pack(1)
+#endif
+
 // A single Vertex.
 typedef struct
 {
@@ -92,6 +97,7 @@ typedef struct
     // sidenum[1] will be -1 (NO_INDEX) if one sided
     unsigned short      sidenum[2];
 } PACKEDATTR maplinedef_t;
+
 
 #define NO_INDEX ((unsigned short)(-1))
 
@@ -206,5 +212,9 @@ typedef struct
     short               type;
     short               options;
 } PACKEDATTR mapthing_t;
+
+#ifdef _MSC_VER
+#pragma pack(pop)
+#endif
 
 #endif
