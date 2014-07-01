@@ -41,8 +41,6 @@ extern  int     levelTimeCount;
 // at game start
 void P_InitPicAnims(void);
 
-void P_InitLiquids(void);
-
 // at map load
 void P_SpawnSpecials(void);
 

@@ -120,16 +120,22 @@ extern line_t  *linespeciallist[MAXLINEANIMS];
 extern int     numflats;
 extern boolean canmodify;
 
+boolean *isliquid;
+
 void P_InitPicAnims(void)
 {
     int i;
+    int size = (numflats + 1) * sizeof(int);
+
+    isliquid = (int *)Z_Malloc(size, PU_STATIC, 0);
+    memset(isliquid, 0, size);
 
     //  Init animation
     lastanim = anims;
     for (i = 0; animdefs[i].istexture != -1; i++)
     {
-        char *startname = animdefs[i].startname;
-        char *endname = animdefs[i].endname;
+        char    *startname = animdefs[i].startname;
+        char    *endname = animdefs[i].endname;
 
         // 1/11/98 killough -- removed limit by array-doubling
         if (lastanim >= anims + maxanims)
@@ -149,75 +155,30 @@ void P_InitPicAnims(void)
 
             lastanim->picnum = R_TextureNumForName(endname);
             lastanim->basepic = R_TextureNumForName(startname);
+
+            lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
         }
         else
         {
+            int j;
+
             if (W_CheckNumForName(startname) == -1)
                 continue;
 
             lastanim->picnum = R_FlatNumForName(endname);
             lastanim->basepic = R_FlatNumForName(startname);
+
+            lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
+
+            for (j = 0; j < lastanim->numpics; j++)
+                isliquid[lastanim->basepic + j] = true;
         }
 
         lastanim->istexture = animdefs[i].istexture;
-        lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
+        
 
         lastanim->speed = animdefs[i].speed;
         lastanim++;
-    }
-}
-
-int *isliquid;
-
-char *liquids[] =
-{
-    { "NUKAGE1" },
-    { "NUKAGE2" },
-    { "NUKAGE3" },
-    { "FWATER1" },
-    { "FWATER2" },
-    { "FWATER3" },
-    { "FWATER4" },
-    { "SWATER1" },
-    { "SWATER2" },
-    { "SWATER3" },
-    { "SWATER4" },
-    { "LAVA1"   },
-    { "LAVA2"   },
-    { "LAVA3"   },
-    { "LAVA4"   },
-    { "BLOOD1"  },
-    { "BLOOD2"  },
-    { "BLOOD3"  },
-    { "RROCK05" },
-    { "RROCK06" },
-    { "RROCK07" },
-    { "RROCK08" },
-    { "SLIME01" },
-    { "SLIME02" },
-    { "SLIME03" },
-    { "SLIME04" },
-    { "SLIME05" },
-    { "SLIME06" },
-    { "SLIME07" },
-    { "SLIME08" },
-    { ""        }
-};
-
-void P_InitLiquids(void)
-{
-    int i;
-    int lump;
-    int size;
-
-    size = (numflats + 1) * sizeof(int);
-    isliquid = (int *)Z_Malloc(size, PU_STATIC, 0);
-    memset(isliquid, 0, size);
-    for (i = 0; liquids[i][0]; i++)
-    {
-        lump = W_CheckNumForName(liquids[i]);
-        if (lump != -1)
-            isliquid[lump - firstflat] = true;
     }
 }
 

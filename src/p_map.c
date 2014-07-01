@@ -1728,7 +1728,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
     return true;
 }
 
-extern int *isliquid;
+extern boolean *isliquid;
 
 void P_UpdateBloodSplat(mobj_t *splat)
 {
