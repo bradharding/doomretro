@@ -328,10 +328,8 @@ boolean PIT_CheckThing(mobj_t *thing)
         fixed_t     olddist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
 
         if (newdist > olddist)
-        {
-            unblocking = !((tmthing->z >= thing->z + thing->height && tmz < thing->z + thing->height) ||
-                (tmthing->z + tmthing->height <= thing->z && tmz + tmthing->height > thing->z));
-        }
+            unblocking = !((tmthing->z >= thing->z + thing->height) ||
+                           (tmthing->z + tmthing->height <= thing->z));
     }
 
     // check if a mobj passed over/under another object
