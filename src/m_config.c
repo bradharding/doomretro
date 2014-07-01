@@ -83,6 +83,7 @@ extern int      key_up;
 extern int      key_up2;
 extern int      key_use;
 extern boolean  messages;
+extern boolean  mirrorweapons;
 extern int      mouseSensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
@@ -219,6 +220,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_KEY   (key_up2,             key_up2,              3),
     CONFIG_VARIABLE_KEY   (key_use,             key_use,              3),
     CONFIG_VARIABLE_INT   (messages,            messages,             1),
+    CONFIG_VARIABLE_INT   (mirrorweapons,       mirrorweapons,        1),
     CONFIG_VARIABLE_FLOAT (mouse_acceleration,  mouse_acceleration,   0),
     CONFIG_VARIABLE_INT   (mouse_fire,          mousebfire,           4),
     CONFIG_VARIABLE_INT   (mouse_sensitivity,   mouseSensitivity,     0),

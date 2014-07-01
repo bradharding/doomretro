@@ -42,6 +42,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
 int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
+boolean mirrorweapons = false;
+
 //
 // GET STUFF
 //
@@ -829,7 +831,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mo->momz = FRACUNIT * 5 + (P_Random() << 10);
     mo->angle = target->angle + ((P_Random() - P_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
-    if ((corpses & MIRROR) && rand() & 1)
+    if (mirrorweapons && (rand() & 1))
         mo->flags2 |= MF2_MIRRORED;
 }
 
