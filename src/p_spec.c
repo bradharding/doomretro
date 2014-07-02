@@ -125,9 +125,9 @@ boolean *isliquid;
 void P_InitPicAnims(void)
 {
     int i;
-    int size = (numflats + 1) * sizeof(int);
+    int size = (numflats + 1) * sizeof(boolean);
 
-    isliquid = (int *)Z_Malloc(size, PU_STATIC, 0);
+    isliquid = (boolean *)Z_Malloc(size, PU_STATIC, 0);
     memset(isliquid, 0, size);
 
     //  Init animation

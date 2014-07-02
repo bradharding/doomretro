@@ -176,7 +176,6 @@ typedef enum
     SPR_STIM_BFG,
     SPR_MEDI_BFG,
     NUMSPRITES
-
 } spritenum_t;
 
 typedef enum
@@ -1160,7 +1159,6 @@ typedef enum
     NUMSTATES
 } statenum_t;
 
-
 typedef struct
 {
     spritenum_t sprite;
@@ -1324,7 +1322,6 @@ typedef enum
     MT_MISC86,
     MT_BLOODSPLAT,
     NUMMOBJTYPES
-
 } mobjtype_t;
 
 #define MT_FUZZPLAYER NUMMOBJTYPES
@@ -1357,7 +1354,6 @@ typedef struct
     int flags2;
     int raisestate;
     int frames;
-
 } mobjinfo_t;
 
 extern mobjinfo_t mobjinfo[NUMMOBJTYPES];

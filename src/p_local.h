@@ -135,13 +135,13 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
 void P_RemoveMobj(mobj_t *th);
 boolean P_SetMobjState(mobj_t *mobj, statenum_t state);
 void P_MobjThinker(mobj_t *mobj);
+void P_NullMobjThinker(mobj_t *mobj);
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void));
 void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void));
 void P_SpawnBloodSplat3(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void));
-void P_BloodSplatThinker(mobj_t *splat);
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 

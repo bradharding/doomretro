@@ -218,7 +218,7 @@ void P_DeathThink(player_t *player)
     else if (player->damagecount > 0)
         player->damagecount--;
 
-    if (((player->cmd.buttons & BT_USE) 
+    if (((player->cmd.buttons & BT_USE)
         || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
         || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER]))
     {

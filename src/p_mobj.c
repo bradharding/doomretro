@@ -93,7 +93,7 @@ void P_ExplodeMissile(mobj_t *mo)
 {
     mo->momx = mo->momy = mo->momz = 0;
 
-    P_SetMobjState(mo, (statenum_t)mo->info->deathstate);
+    P_SetMobjState(mo, mo->info->deathstate);
 
     mo->tics = MAX(1, mo->tics - (P_Random() & 3));
 
@@ -108,8 +108,8 @@ void P_ExplodeMissile(mobj_t *mo)
 //
 // P_XYMovement
 //
-#define STOPSPEED 0x1000
-#define FRICTION  0xe800
+#define STOPSPEED       0x1000
+#define FRICTION        0xe800
 
 boolean shootingsky = false;
 int     puffcount = 0;
@@ -129,7 +129,6 @@ void P_XYMovement(mobj_t *mo)
             mo->momz = 0;
             P_SetMobjState(mo, mo->info->spawnstate);
         }
-
         return;
     }
 
@@ -155,10 +154,11 @@ void P_XYMovement(mobj_t *mo)
 
     do
     {
-        fixed_t ptryx, ptryy;
+        fixed_t ptryx;
+        fixed_t ptryy;
 
-        if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2
-            || xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
+        if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2 ||
+            xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
         {
             ptryx = mo->x + xmove / 2;
             ptryy = mo->y + ymove / 2;
@@ -196,7 +196,7 @@ void P_XYMovement(mobj_t *mo)
                 P_ExplodeMissile(mo);
             }
             else
-                mo->momx = mo->momy = 0;
+                xmove = ymove = mo->momx = mo->momy = 0;
         }
     }
     while (xmove || ymove);
@@ -208,7 +208,7 @@ void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD) &&
-        (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats > 0)
+        (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
     {
         int     i;
         int     flags2 = MF2_TRANSLUCENT_50;
@@ -268,7 +268,7 @@ void P_XYMovement(mobj_t *mo)
 //
 void P_ZMovement(mobj_t *mo)
 {
-    player_t *player = mo->player;
+    player_t    *player = mo->player;
 
     // check for smooth step up
     if (player && mo->z < mo->floorz)
@@ -285,10 +285,9 @@ void P_ZMovement(mobj_t *mo)
         // float down towards target if too close
         if (!(mo->flags & MF_SKULLFLY) && !(mo->flags & MF_INFLOAT))
         {
-            fixed_t dist = P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y);
-            fixed_t delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
+            fixed_t     delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
-            if (dist < ABS(delta))
+            if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
                 mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
         }
     }
@@ -296,20 +295,19 @@ void P_ZMovement(mobj_t *mo)
     // clip movement
     if (mo->z <= mo->floorz)
     {
-        // [BH] remove blood the moment it hits the ground so
-        //  a blood splat can be spawned in its place
+        // [BH] remove blood the moment it hits the ground
+        //  and spawn a blood splat in its place
         if (mo->type == MT_BLOOD)
         {
             P_RemoveMobj(mo);
+            if (bloodsplats)
+                bloodSplatSpawner(mo->x, mo->y, mo->flags2, mo->colfunc);
             return;
         }
 
         // hit the floor
         if (mo->flags & MF_SKULLFLY)
-        {
-            // the skull slammed into something
-            mo->momz = -mo->momz;
-        }
+            mo->momz = -mo->momz;       // the skull slammed into something
 
         if (mo->momz < 0)
         {
@@ -348,10 +346,7 @@ void P_ZMovement(mobj_t *mo)
             mo->momz = 0;
 
         if (mo->flags & MF_SKULLFLY)
-        {
-            // the skull slammed into something
-            mo->momz = -mo->momz;
-        }
+            mo->momz = -mo->momz;       // the skull slammed into something
 
         mo->z = mo->ceilingz - mo->height;
 
@@ -524,6 +519,13 @@ void P_MobjThinker(mobj_t *mobj)
 }
 
 //
+// P_NullMobjThinker
+//
+void P_NullMobjThinker(mobj_t *mobj)
+{
+}
+
+//
 // P_SpawnMobj
 //
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
@@ -637,9 +639,6 @@ int               iqueuetail;
 
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if (mobj->type == MT_BLOOD && bloodsplats > 0)
-        bloodSplatSpawner(mobj->x, mobj->y, mobj->flags2, mobj->colfunc);
-
     if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
         && mobj->type != MT_INV && mobj->type != MT_INS)
     {
@@ -1042,14 +1041,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     }
 }
 
-//
-// P_BloodSplatThinker
-//
-void P_BloodSplatThinker(mobj_t *splat)
-{
-}
-
-extern int *isliquid;
+extern boolean *isliquid;
 
 //
 // P_SpawnBloodSplat
@@ -1082,7 +1074,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void))
         P_SetThingPosition(newsplat);
         newsplat->z = ss->sector->floorheight;
 
-        newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
+        newsplat->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
         P_AddThinker(&newsplat->thinker);
     }
 }
@@ -1115,7 +1107,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void))
         P_SetThingPosition(newsplat);
         newsplat->z = ss->sector->floorheight;
 
-        newsplat->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
+        newsplat->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
         P_AddThinker(&newsplat->thinker);
 
         if (bloodSplatQueueSlot > bloodsplats)

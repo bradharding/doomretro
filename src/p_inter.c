@@ -798,9 +798,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     else
         P_SetMobjState(target, (statenum_t)target->info->deathstate);
 
-    target->tics -= P_Random() & 3;
-    if (target->tics < 1)
-        target->tics = 1;
+    target->tics = MAX(1, target->tics - (P_Random() & 3));
 
     // Drop stuff.
     // This determines the kind of object spawned
@@ -824,8 +822,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             return;
     }
 
-    mo = P_SpawnMobj(target->x, target->y, 
-                     target->floorz + FRACUNIT * (target->height / 2), item);
+    mo = P_SpawnMobj(target->x, target->y, target->floorz + FRACUNIT * target->height / 2, item);
     mo->momx += P_Random() << 8;
     mo->momy += P_Random() << 8;
     mo->momz = FRACUNIT * 5 + (P_Random() << 10);
@@ -929,8 +926,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         // Below certain threshold,
         // ignore damage in GOD mode, or with INVUL power.
-        if ((player->cheats & CF_GODMODE)
-            || (damage < 1000 && player->powers[pw_invulnerability]))
+        if ((player->cheats & CF_GODMODE) || (damage < 1000 && player->powers[pw_invulnerability]))
             return;
 
         if (player->armortype)

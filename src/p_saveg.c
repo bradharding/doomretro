@@ -1644,7 +1644,7 @@ void P_ArchiveThinkers(void)
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
     {
         if (th->function.acp1 == (actionf_p1)P_MobjThinker
-            || th->function.acp1 == (actionf_p1)P_BloodSplatThinker)
+            || th->function.acp1 == (actionf_p1)P_NullMobjThinker)
         {
             saveg_write8(tc_mobj);
             saveg_write_pad();
@@ -1675,7 +1675,7 @@ void P_UnArchiveThinkers(void)
         next = currentthinker->next;
 
         if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker
-            || currentthinker->function.acp1 == (actionf_p1)P_BloodSplatThinker)
+            || currentthinker->function.acp1 == (actionf_p1)P_NullMobjThinker)
             P_RemoveMobj((mobj_t *)currentthinker);
         Z_Free(currentthinker);
 
@@ -1729,7 +1729,7 @@ void P_UnArchiveThinkers(void)
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
                 if (mobj->type == MT_BLOODSPLAT)
-                    mobj->thinker.function.acp1 = (actionf_p1)P_BloodSplatThinker;
+                    mobj->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
                 else
                 {
                     int flags2 = mobj->info->flags2;
