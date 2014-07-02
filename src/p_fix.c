@@ -227,9 +227,6 @@ linefix_t linefix[] =
     { doom2,            1,   5,     489,    1, "SUPPORT3", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom2,            1,   5,     560,    1, "SUPPORT3", "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
-    { doom2,            1,   6,      24,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 NoSpecial,                                                     DEFAULT },
-    { doom2,            1,   6,      25,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 NoSpecial,                                                     DEFAULT },
-
     { doom2,            1,   7,     162,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_TRIGGER666,           DEFAULT,                                                       DEFAULT },
     { doom2,            1,   7,     168,    1, "",         "",            "TANROCK4",    DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
