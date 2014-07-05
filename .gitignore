@@ -194,4 +194,5 @@ $RECYCLE.BIN/
 *.bak
 
 SDL/
+SDL2/
 savegames/
