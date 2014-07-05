@@ -998,7 +998,13 @@ boolean V_ScreenShot(void)
                                       screenbuffer->format->Gmask,
                                       screenbuffer->format->Bmask,
                                       screenbuffer->format->Amask);
+
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    SDL_SetPaletteColors(screenshot->format->palette, palette, 0, 256);
+#else
     SDL_SetColors(screenshot, palette, 0, 256);
+#endif
+
     SDL_BlitSurface(screenbuffer, NULL, screenshot, NULL);
 
     result = !SDL_SaveBMP(screenshot, lbmpath);

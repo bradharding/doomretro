@@ -26,6 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <ctype.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -1966,7 +1967,11 @@ boolean M_Responder(event_t *ev)
     static int  keywait = 0;
     static int  mousewait = 0;
     char        *tempstring = "";
-    SDLMod      keyMods = SDL_GetModState();
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    SDL_Keymod  modstate = SDL_GetModState();
+#else
+    SDLMod      modstate = SDL_GetModState();
+#endif
 
     if (startingnewgame || wipe)
         return false;
@@ -2349,13 +2354,13 @@ boolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_F4 && (!functionkey || functionkey == KEY_F4 || (keyMods & KMOD_ALT))
+        else if (key == KEY_F4 && (!functionkey || functionkey == KEY_F4 || (modstate & KMOD_ALT))
                  && !keydown)
         {
             keydown = key;
 
             // Quit DOOM
-            if (keyMods & KMOD_ALT)
+            if (modstate & KMOD_ALT)
             {
                 S_StartSound(NULL, sfx_swtchn);
                 M_QuitResponse('y');
@@ -2457,7 +2462,7 @@ boolean M_Responder(event_t *ev)
 
         if (gammawait >= I_GetTime() || gamestate != GS_LEVEL || inhelpscreens)
         {
-            if (keyMods & KMOD_SHIFT)
+            if (modstate & KMOD_SHIFT)
             {
                 if (--gammaindex < 0)
                     gammaindex = GAMMALEVELS - 1;

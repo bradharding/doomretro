@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <stdio.h>
+
 #include "SDL.h"
 #include "m_argv.h"
 
@@ -187,14 +189,24 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
     }
 }
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+extern SDL_Window *sdl_window;
+#endif
+
 void init_win32(LPCTSTR lpIconName)
 {
     HINSTANCE           handle = GetModuleHandle(NULL);
-    SDL_SysWMinfo       wminfo;
+    SDL_SysWMinfo       info;
 
-    SDL_VERSION(&wminfo.version)
-        SDL_GetWMInfo(&wminfo);
-    hwnd = wminfo.window;
+    SDL_VERSION(&info.version);
+
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    SDL_GetWindowWMInfo(sdl_window, &info);
+    hwnd = info.info.win.window;
+#else
+    SDL_GetWMInfo(&info);
+    hwnd = info.window;
+#endif
 
     icon = LoadIcon(handle, lpIconName);
     SetClassLongPtr(hwnd, GCLP_HICON, (LONG)icon);

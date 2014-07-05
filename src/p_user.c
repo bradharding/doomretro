@@ -165,11 +165,16 @@ void P_MovePlayer(player_t *player)
 
 void P_DeathThink(player_t *player)
 {
-    angle_t        angle;
-    angle_t        delta;
-    Uint8          *keystate = SDL_GetKeyState(NULL);
-    static int     count = 0;
-    static boolean facingkiller = false;
+    angle_t             angle;
+    angle_t             delta;
+    static int          count = 0;
+    static boolean      facingkiller = false;
+
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    const Uint8         *keystate = SDL_GetKeyboardState(NULL);
+#else
+    Uint8               *keystate = SDL_GetKeyState(NULL);
+#endif
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
@@ -220,7 +225,13 @@ void P_DeathThink(player_t *player)
 
     if (((player->cmd.buttons & BT_USE)
         || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
+
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+        || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER]))
+#else
         || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER]))
+#endif
+
     {
         count = 0;
         damagevibrationtics = 1;

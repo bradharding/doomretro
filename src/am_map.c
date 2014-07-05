@@ -607,7 +607,11 @@ static void AM_maxOutWindowScale(void)
     AM_activateNewScale();
 }
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+SDL_Keymod modstate;
+#else
 SDLMod modstate;
+#endif
 
 static boolean AM_getSpeedToggle(void)
 {

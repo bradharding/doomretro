@@ -229,10 +229,14 @@ int G_CmdChecksum(ticcmd_t *cmd)
 
 static boolean G_GetSpeedToggle(void)
 {
-    SDLMod modstate = SDL_GetModState();
-    boolean lt = (gamepadbuttons & gamepadspeed);
-    boolean caps = (modstate & KMOD_CAPS);
-    boolean shift = gamekeydown[key_speed];
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    SDL_Keymod  modstate = SDL_GetModState();
+#else
+    SDLMod      modstate = SDL_GetModState();
+#endif
+    boolean     lt = (gamepadbuttons & gamepadspeed);
+    boolean     caps = (modstate & KMOD_CAPS);
+    boolean     shift = gamekeydown[key_speed];
 
     return ((lt ? 1 : 0) + (caps ? 1 : 0) + (shift ? 1 : 0) == 1);
 }
@@ -371,10 +375,13 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     }
 }
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+extern SDL_Window *sdl_window;
+#endif
+
 //
 // G_DoLoadLevel
 //
-
 void G_DoLoadLevel(void)
 {
     int         i;
@@ -454,7 +461,11 @@ void G_DoLoadLevel(void)
     sendpause = sendsave = paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    SDL_SetWindowTitle(sdl_window, mapnumandtitle);
+#else
     SDL_WM_SetCaption(mapnumandtitle, NULL);
+#endif
 
     if (automapactive)
         AM_Start();

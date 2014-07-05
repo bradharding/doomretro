@@ -110,6 +110,10 @@ extern int selectedexpansion;
 extern float saturation;
 extern int playerbob;
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+extern SDL_Window *sdl_window;
+#endif
+
 void D_CheckNetGame(void);
 
 //
@@ -439,7 +443,13 @@ void D_StartTitle(void)
 {
     gameaction = ga_nothing;
     titlesequence = 0;
+
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    SDL_SetWindowTitle(sdl_window, gamedescription);
+#else
     SDL_WM_SetCaption(gamedescription, NULL);
+#endif
+
     D_AdvanceTitle();
 }
 
