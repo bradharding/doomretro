@@ -27,6 +27,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <ctype.h>
+
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_stuff.h"
@@ -46,8 +48,7 @@ typedef enum
     F_STAGE_TEXT,
     F_STAGE_ARTSCREEN,
     F_STAGE_CAST,
-}
-finalestage_t;
+} finalestage_t;
 
 // Stage of animation:
 finalestage_t finalestage;
@@ -63,8 +64,7 @@ typedef struct
     int episode, level;
     char *background;
     char *text;
-}
-textscreen_t;
+} textscreen_t;
 
 static textscreen_t textscreens[] =
 {
@@ -120,7 +120,7 @@ void F_StartFinale(void)
     S_ChangeMusic(gamemission == doom ? mus_victor : mus_read_m, true, false);
 
     // Find the right screen and set the text and background
-    for (i = 0; i<arrlen(textscreens); ++i)
+    for (i = 0; i < arrlen(textscreens); ++i)
     {
         textscreen_t *screen = &textscreens[i];
 
@@ -151,7 +151,7 @@ boolean F_Responder(event_t *ev)
 void F_Ticker(void)
 {
     size_t      i;
-    Uint8       *keystate;
+    const Uint8 *keystate;
 
     if (menuactive || paused)
         return;
@@ -164,8 +164,14 @@ void F_Ticker(void)
             if (players[i].cmd.buttons)
                 break;
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+        keystate = SDL_GetKeyboardState(NULL);
+        if (i < MAXPLAYERS || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER])
+#else
         keystate = SDL_GetKeyState(NULL);
         if (i < MAXPLAYERS || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
+#endif
+
         {
             players[i].cmd.buttons = 0;
             if (gamemap == 30 || (gamemission == pack_nerve && gamemap == 8))

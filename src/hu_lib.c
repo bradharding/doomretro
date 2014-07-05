@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <ctype.h>
+
 #include "hu_lib.h"
 #include "i_swap.h"
 #include "r_local.h"

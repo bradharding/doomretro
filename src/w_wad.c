@@ -26,6 +26,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <ctype.h>
+
 #include "doomdef.h"
 #include "doomstat.h"
 #include "i_swap.h"
