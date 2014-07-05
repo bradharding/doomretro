@@ -1168,7 +1168,13 @@ void ToggleFullScreen(void)
         D_PostEvent(&ev);
     }
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
+    sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
+#else
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
+#endif
+
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
 
@@ -1198,7 +1204,13 @@ void ApplyWindowResize(int height)
         SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 #endif
 
-    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, windowheight, 8, 0, 0, 0, 0);
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
+    sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
+#else
+    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
+#endif
+
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
 
@@ -1243,17 +1255,16 @@ boolean I_ValidScreenMode(int width, int height)
     }
     return false;
 #else
-    return SDL_VideoModeOK(width, height, bpp, SDL_FULLSCREEN);
+    return SDL_VideoModeOK(width, height, 32, SDL_FULLSCREEN);
 #endif
 }
 
 void I_InitGraphics(void)
 {
-    int       i;
-    SDL_Event dummy;
-    byte      *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
+    int         i = 0;
+    SDL_Event   dummy;
+    byte        *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
 
-    i = 0;
     while (i < UCHAR_MAX)
         keys[i++] = true;
     keys['v'] = keys['V'] = false;
@@ -1310,6 +1321,7 @@ void I_InitGraphics(void)
     SDL_FillRect(screenbuffer, NULL, 0);
 
     I_SetPalette(doompal);
+
 #if SDL_VERSION_ATLEAST(2, 0, 0)
     SDL_SetPaletteColors(screenbuffer->format->palette, palette, 0, 256);
     if (sdl_texture)
