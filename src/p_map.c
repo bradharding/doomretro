@@ -1675,6 +1675,15 @@ boolean PIT_ChangeSector(mobj_t *thing)
         return true;
     }
 
+    // crunch dropped items
+    if (thing->flags & MF_DROPPED)
+    {
+        P_RemoveMobj(thing);
+
+        // keep checking
+        return true;
+    }
+
     // crunch bodies to giblets
     if (thing->health <= 0 && thing->type != MT_BARREL
         && thing->type != MT_SKULL && thing->type != MT_PAIN)
@@ -1699,15 +1708,6 @@ boolean PIT_ChangeSector(mobj_t *thing)
         }
 
         S_StartSound(thing, sfx_slop);
-
-        // keep checking
-        return true;
-    }
-
-    // crunch dropped items
-    if (thing->flags & MF_DROPPED)
-    {
-        P_RemoveMobj(thing);
 
         // keep checking
         return true;
