@@ -1684,38 +1684,35 @@ boolean PIT_ChangeSector(mobj_t *thing)
         return true;
     }
 
+    if (!(thing->flags & MF_SHOOTABLE))
+    {
+        // assume it is bloody gibs or something
+        return true;
+    }
+
     // crunch bodies to giblets
     if (thing->health <= 0 && thing->type != MT_BARREL
         && thing->type != MT_SKULL && thing->type != MT_PAIN)
     {
-        P_SetMobjState(thing, S_GIBS);
-
-        thing->flags &= ~MF_SOLID;
-        thing->flags2 = 0;
-        thing->height = 0;
-        thing->radius = 0;
+        P_RemoveMobj(thing);
 
         if (!(thing->flags & MF_SHADOW))
         {
-            int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >>
+            int  i;
+            int  flags2 = MF2_TRANSLUCENT_50;
+            void (*colfunc)(void) = tl50colfunc;
+            int  radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >>
                            FRACBITS) >> 1) + 8;
-            int i;
 
             for (i = 0; i < M_RandomInt(100, 150); i++)
                 bloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
                                   thing->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                                  MF2_TRANSLUCENT_50, tl50colfunc);
+                                  flags2, colfunc);
         }
 
         S_StartSound(thing, sfx_slop);
 
         // keep checking
-        return true;
-    }
-
-    if (!(thing->flags & MF_SHOOTABLE))
-    {
-        // assume it is bloody gibs or something
         return true;
     }
 
