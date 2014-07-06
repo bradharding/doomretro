@@ -641,7 +641,12 @@ boolean G_Responder(event_t *ev)
             else if (ev->data1 < NUMKEYS)
             {
                 gamekeydown[ev->data1] = true;
-                vibrate = false;
+                if (vibrate)
+                {
+                    vibrate = false;
+                    idlemotorspeed = 0;
+                    XInputVibration(idlemotorspeed);
+                }
             }
             return true;            // eat key down events
 
@@ -653,8 +658,12 @@ boolean G_Responder(event_t *ev)
 
         case ev_mouse:
             SetMouseButtons(ev->data1);
-            if (ev->data1)
+            if (vibrate && ev->data1)
+            {
                 vibrate = false;
+                idlemotorspeed = 0;
+                XInputVibration(idlemotorspeed);
+            }
             if (!automapactive && !menuactive && !paused)
             {
                 if (ev->data1 & MOUSE_WHEELDOWN)
