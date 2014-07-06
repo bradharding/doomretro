@@ -6,11 +6,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doomretro", "doomretro.vcxp
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug (SDL2)|Win32 = Debug (SDL2)|Win32
 		Debug|Win32 = Debug|Win32
 		Release (SDL2)|Win32 = Release (SDL2)|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Debug (SDL2)|Win32.ActiveCfg = Debug (SDL2)|Win32
+		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Debug (SDL2)|Win32.Build.0 = Debug (SDL2)|Win32
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Debug|Win32.Build.0 = Debug|Win32
 		{8B744A3B-8F18-41A0-85A3-293816E85B6E}.Release (SDL2)|Win32.ActiveCfg = Release (SDL2)|Win32
