@@ -668,6 +668,8 @@ void R_DrawPSprite(pspdef_t *psp)
     invisibility = viewplayer->powers[pw_invisibility];
     if (invisibility > 128 || (invisibility & 8))
         vis->colfunc = psprcolfunc;                             // shadow draw
+    else if (state == &states[S_DSGUN])
+        vis->colfunc = R_DrawSuperShotgunColumn;
     else
         vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
 
@@ -686,9 +688,6 @@ void R_DrawPSprite(pspdef_t *psp)
             vis->colormap = spritelights[MIN(lightnum, MAXLIGHTSCALE)];
         }
     }
-
-    if (state == &states[S_DSGUN])
-        vis->colfunc = R_DrawSuperShotgunColumn;
 
     R_DrawVisSprite(vis);
 }
