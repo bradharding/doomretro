@@ -231,6 +231,27 @@ static void SetShowCursor(boolean show)
 
 int translatekey[] =
 {
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+    0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2',
+    '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER, KEY_ESCAPE, KEY_BACKSPACE,
+    KEY_TAB, ' ', KEY_MINUS, KEY_EQUALS, '[', ']', '\\', '\\', ';', '\'', '`',
+    ',', '.', '/', KEY_CAPSLOCK, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6,
+    KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, 0, KEY_SCRLCK, KEY_PAUSE,
+    KEY_INS, KEY_HOME, KEY_PGUP, KEY_DEL, KEY_END, KEY_PGDN, KEY_RIGHTARROW,
+    KEY_LEFTARROW, KEY_DOWNARROW, KEY_UPARROW, KEY_NUMLOCK, KEYP_DIVIDE,
+    KEYP_MULTIPLY, KEYP_MINUS, KEYP_PLUS, KEYP_ENTER, KEYP_1, KEYP_2, KEYP_3,
+    KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9, KEYP_0, KEYP_PERIOD, 0, 0,
+    0, KEYP_EQUALS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    KEY_RCTRL, KEY_RSHIFT, KEY_RALT, 0, KEY_RCTRL, KEY_RSHIFT, KEY_RALT, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0
+#else
     0, 0, 0, 0, 0, 0, 0, 0, KEY_BACKSPACE, KEY_TAB, 0, 0, 0, KEY_ENTER, 0, 0,
     0, 0, 0, KEY_PAUSE, 0, 0, 0, 0, 0, 0, 0, KEY_ESCAPE, 0, 0, 0, 0, ' ', '!',
     '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', '-', KEY_MINUS, '.',
@@ -253,6 +274,7 @@ int translatekey[] =
     0, 0, 0, KEY_NUMLOCK, KEY_CAPSLOCK, KEY_SCRLCK, KEY_RSHIFT, KEY_RSHIFT,
     KEY_RCTRL, KEY_RCTRL, KEY_RALT, KEY_RALT, KEY_RALT, KEY_RALT, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0
+#endif
 };
 
 int TranslateKey2(int key)
@@ -422,13 +444,13 @@ boolean waspaused = false;
 
 void I_GetEvent(void)
 {
-    SDL_Event   sdlevent;
-    event_t     ev;
+    SDL_Event           sdlevent;
+    event_t             ev;
 
 #if SDL_VERSION_ATLEAST(2, 0, 0)
-    SDL_Keycode key;
+    SDL_Scancode        key;
 #else
-    SDLKey      key;
+    SDLKey              key;
 #endif
 
     while (SDL_PollEvent(&sdlevent))
@@ -437,7 +459,12 @@ void I_GetEvent(void)
         {
             case SDL_KEYDOWN:
                 ev.type = ev_keydown;
+
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+                key = sdlevent.key.keysym.scancode;
+#else
                 key = sdlevent.key.keysym.sym;
+#endif
                 ev.data1 = translatekey[key];
                 ev.data2 = key;
 
@@ -461,7 +488,12 @@ void I_GetEvent(void)
 
             case SDL_KEYUP:
                 ev.type = ev_keyup;
+
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+                ev.data1 = translatekey[sdlevent.key.keysym.scancode];
+#else
                 ev.data1 = translatekey[sdlevent.key.keysym.sym];
+#endif
                 ev.data2 = 0;
 
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
