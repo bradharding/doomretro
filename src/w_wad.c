@@ -225,10 +225,7 @@ void IdentifyIWADByContents(const char *iwadname, GameMode_t *gmode, GameMission
         I_Error("Can't open IWAD: %s\n", iwadname);
 
     // read IWAD header
-    if (fread(&header, 1, sizeof header, fp) != sizeof header ||
-        header.identification[0] != 'I' || header.identification[1] != 'W' ||
-        header.identification[2] != 'A' || header.identification[3] != 'D')
-        I_Error("IWAD tag not present: %s\n", iwadname);
+    fread(&header, 1, sizeof(header), fp);
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
@@ -269,8 +266,7 @@ boolean IsFreedoom(const char *iwadname)
         I_Error("Can't open IWAD: %s\n", iwadname);
 
     // read IWAD header
-    if (fread(&header, 1, sizeof(header), fp) != sizeof(header))
-        I_Error("IWAD/PWAD tag not present: %s\n", iwadname);
+    fread(&header, 1, sizeof(header), fp);
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
