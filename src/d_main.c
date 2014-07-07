@@ -714,6 +714,8 @@ static void D_DoomMainSetup(void)
 
     iwadfile = D_FindIWAD();
 
+    wadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
+
     modifiedgame = false;
 
     nomonsters = M_CheckParm("-nomonsters");
