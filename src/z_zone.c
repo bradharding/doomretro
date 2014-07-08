@@ -32,25 +32,25 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Tunables
 
 // Alignment of zone memory (benefit may be negated by HEADER_SIZE, CHUNK_SIZE)
-#define CACHE_ALIGN             32
+#define CACHE_ALIGN     32
 
 // Minimum chunk size at which blocks are allocated
-#define CHUNK_SIZE              32
+#define CHUNK_SIZE      32
 
 // Minimum size a block must be to become part of a split
-#define MIN_BLOCK_SPLIT         1024
+#define MIN_BLOCK_SPLIT 1024
 
 // How much RAM to leave aside for other libraries
-#define LEAVE_ASIDE             (128 * 1024)
+#define LEAVE_ASIDE     (128 * 1024)
 
 // Amount to subtract when retrying failed attempts to allocate initial pool
-#define RETRY_AMOUNT            (256 * 1024)
+#define RETRY_AMOUNT    (256 * 1024)
 
 // signature for block header
-#define ZONEID                  0x931d4a11
+#define ZONEID          0x931d4a11
 
 // Number of mallocs & frees kept in history buffer (must be a power of 2)
-#define ZONE_HISTORY            4
+#define ZONE_HISTORY    4
 
 // End Tunables
 
@@ -60,7 +60,7 @@ typedef struct memblock
     struct memblock     *prev;
     size_t              size;
     void                **user;
-    uint8_t             tag;
+    int32_t             tag;
 } memblock_t;
 
 //
@@ -68,14 +68,9 @@ typedef struct memblock
 // cph - base on sizeof(memblock_t), which can be larger than CHUNK_SIZE on
 // 64bit architectures
 //
-static const size_t     HEADER_SIZE = (sizeof(memblock_t) + CHUNK_SIZE - 1)
-                                      & ~(CHUNK_SIZE - 1);
+static const size_t     HEADER_SIZE = (sizeof(memblock_t) + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1);
 
 static memblock_t       *blockbytag[PU_MAX];
-
-// 0 means unlimited, any other value is a hard limit
-static int32_t          memory_size = 0;
-static int32_t          free_memory = 0;
 
 //
 // Z_Malloc
@@ -91,35 +86,12 @@ static int32_t          free_memory = 0;
 //
 void *Z_Malloc(size_t size, int32_t tag, void **user)
 {
-    memblock_t *block = NULL;
+    memblock_t  *block = NULL;
 
     if (!size)
-        return (user ? (*user = NULL) : NULL); // malloc(0) returns NULL
+        return (user ? (*user = NULL) : NULL);          // malloc(0) returns NULL
 
     size = (size + CHUNK_SIZE - 1) & ~(CHUNK_SIZE - 1); // round to chunk size
-
-    if (memory_size > 0
-        && free_memory + memory_size < (int32_t)(size + HEADER_SIZE))
-    {
-        memblock_t *end_block;
-
-        block = blockbytag[PU_CACHE];
-        if (block)
-        {
-            end_block = block->prev;
-            while (1)
-            {
-                memblock_t *next = block->next;
-
-                Z_Free((char *)block + HEADER_SIZE);
-                if ((free_memory + memory_size) >= (int32_t)(size + HEADER_SIZE)
-                    || block == end_block)
-                    break;
-                block = next; // Advance to next block
-            }
-        }
-        block = NULL;
-    }
 
     while (!(block = (memblock_t *)malloc(size + HEADER_SIZE)))
     {
@@ -143,25 +115,23 @@ void *Z_Malloc(size_t size, int32_t tag, void **user)
 
     block->size = size;
 
-    free_memory -= block->size;
-
-    block->tag = tag; // tag
-    block->user = user; // user
+    block->tag = tag;                                   // tag
+    block->user = user;                                 // user
     block = (memblock_t *)((char *)block + HEADER_SIZE);
-    if (user) // if there is a user
-        *user = block; // set user to point to new block
+    if (user)                                           // if there is a user
+        *user = block;                                  // set user to point to new block
 
     return block;
 }
 
 void Z_Free(void *p)
 {
-    memblock_t *block = (memblock_t *)((char *)p - HEADER_SIZE);
+    memblock_t  *block = (memblock_t *)((char *)p - HEADER_SIZE);
 
     if (!p)
         return;
 
-    if (block->user) // Nullify user if one exists
+    if (block->user)                                    // Nullify user if one exists
         *block->user = NULL;
 
     if (block == block->next)
@@ -170,8 +140,6 @@ void Z_Free(void *p)
         blockbytag[block->tag] = block->next;
     block->prev->next = block->next;
     block->next->prev = block->prev;
-
-    free_memory += block->size;
 
     free(block);
 }
@@ -185,7 +153,9 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
 
     for (; lowtag <= hightag; ++lowtag)
     {
-        memblock_t *block, *end_block;
+        memblock_t      *block;
+        memblock_t      *end_block;
+
         block = blockbytag[lowtag];
         if (!block)
             continue;
@@ -196,18 +166,19 @@ void Z_FreeTags(int32_t lowtag, int32_t hightag)
             Z_Free((char *)block + HEADER_SIZE);
             if (block == end_block)
                 break;
-            block = next; // Advance to next block
+            block = next;                               // Advance to next block
         }
     }
 }
 
 void Z_ChangeTag(void *ptr, int32_t tag)
 {
-    memblock_t *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
+    memblock_t  *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
 
     // proff - added sanity check, this can happen when an empty lump is locked
     if (!ptr)
         return;
+
     // proff - do nothing if tag doesn't differ
     if (tag == block->tag)
         return;
@@ -237,14 +208,16 @@ void Z_ChangeTag(void *ptr, int32_t tag)
 
 void *Z_Realloc(void *ptr, size_t n, int32_t tag, void **user)
 {
-    void *p = Z_Malloc(n, tag, user);
+    void        *p = Z_Malloc(n, tag, user);
 
     if (ptr)
     {
-        memblock_t *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
-        memcpy(p, ptr, n <= block->size ? n : block->size);
+        memblock_t      *block = (memblock_t *)((char *)ptr - HEADER_SIZE);
+
+        if (p)
+            memcpy(p, ptr, n <= block->size ? n : block->size);
         Z_Free(ptr);
-        if (user) // in case Z_Free nullified same user
+        if (user)                                       // in case Z_Free nullified same user
             *user = p;
     }
     return p;
