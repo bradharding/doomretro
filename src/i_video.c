@@ -737,16 +737,14 @@ void I_FinishUpdate(void)
     // draw to screen
     blit(blitwidth, blitheight);
 
-    if (fullscreen && !widescreen)
-        SDL_FillRect(screen, NULL, 0);
-
 #if SDL_VERSION_ATLEAST(2, 0, 0)
-    SDL_BlitSurface(screenbuffer, NULL, screen, &dest_rect);
+    SDL_BlitSurface(screenbuffer, NULL, screen, NULL);
     SDL_UpdateTexture(sdl_texture, NULL, screen->pixels, screen->pitch);
     SDL_RenderClear(sdl_renderer);
     SDL_RenderCopy(sdl_renderer, sdl_texture, NULL, NULL);
     SDL_RenderPresent(sdl_renderer); 
 #else
+    SDL_FillRect(screen, NULL, 0);
     SDL_BlitSurface(screenbuffer, NULL, screen, &dest_rect);
     SDL_Flip(screen);
 #endif
@@ -951,7 +949,7 @@ static void SetVideoMode(void)
 #if SDL_VERSION_ATLEAST(2, 0, 0)
     screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
+    SDL_RenderSetLogicalSize(sdl_renderer, screenbuffer->w, screenbuffer->h);
     SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
     SDL_RenderClear(sdl_renderer);
     SDL_RenderPresent(sdl_renderer); 
