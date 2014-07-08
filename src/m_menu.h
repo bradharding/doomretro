@@ -37,7 +37,7 @@ typedef struct
 {
     short               status;
     char                name[10];
-    void (*routine)(int choice);
+    void                (*routine)(int choice);
     char                alphaKey;
     char                text[30];
 }
@@ -48,7 +48,7 @@ typedef struct menu_s
     short               numitems;
     struct menu_s       *prevMenu;
     menuitem_t          *menuitems;
-    void (*routine)();
+    void                (*routine)(void);
     short               x;
     short               y;
     short               lastOn;

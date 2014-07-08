@@ -44,7 +44,7 @@ typedef struct los_s
 // P_DivlineSide
 // Returns side 0 (front), 1 (back), or 2 (on).
 //
-__inline static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
+static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 {
     fixed_t     left, right;
 
@@ -61,7 +61,7 @@ __inline static int P_DivlineSide(fixed_t x, fixed_t y, const divline_t *node)
 // along the first divline.
 // This is only called by the addthings and addlines traversers.
 //
-__inline static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
+static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 {
     fixed_t     den;
 
