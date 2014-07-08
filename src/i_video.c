@@ -1008,10 +1008,8 @@ void ToggleWideScreen(boolean toggle)
     }
 
     returntowidescreen = false;
-
 #if SDL_VERSION_ATLEAST(2, 0, 0)
-    screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
-    sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
+    SDL_RenderSetLogicalSize(sdl_renderer, width, height);
 #else
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 #endif
