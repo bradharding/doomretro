@@ -47,23 +47,25 @@ typedef enum
 {
     F_STAGE_TEXT,
     F_STAGE_ARTSCREEN,
-    F_STAGE_CAST,
+    F_STAGE_CAST
 } finalestage_t;
 
 // Stage of animation:
-finalestage_t finalestage;
+static finalestage_t    finalestage;
+static int              finalecount;
 
-unsigned int finalecount;
-
-#define TEXTSPEED       3
-#define TEXTWAIT        250
+#define TEXTSPEED       3       // original value               // phares
+#define TEXTWAIT        250     // original value               // phares
+#define NEWTEXTSPEED    0.01f   // new value                    // phares
+#define NEWTEXTWAIT     1000    // new value                    // phares
 
 typedef struct
 {
-    GameMission_t mission;
-    int episode, level;
-    char *background;
-    char *text;
+    GameMission_t       mission;
+    int                 episode;
+    int                 level;
+    char                *background;
+    char                *text;
 } textscreen_t;
 
 static textscreen_t textscreens[] =
@@ -97,13 +99,17 @@ static textscreen_t textscreens[] =
     { pack_plut,  1, 31, "RROCK19",   P6TEXT },
 };
 
-char    *finaletext;
-char    *finaleflat;
+static const char       *finaletext;
+static const char       *finaleflat;
 
 void F_StartCast(void);
 void F_CastTicker(void);
 boolean F_CastResponder(event_t *ev);
 void F_CastDrawer(void);
+
+void WI_checkForAccelerate(void);    // killough 3/28/98: used to
+extern int acceleratestage;          // accelerate intermission screens
+static int midstage;                 // whether we're in "mid-stage"
 
 //
 // F_StartFinale
@@ -116,6 +122,9 @@ void F_StartFinale(void)
     gamestate = GS_FINALE;
     viewactive = false;
     automapactive = false;
+
+    // killough 3/28/98: clear accelerative text flags
+    acceleratestage = midstage = 0;
 
     S_ChangeMusic(gamemission == doom ? mus_victor : mus_read_m, true, false);
 
@@ -145,61 +154,49 @@ boolean F_Responder(event_t *ev)
     return false;
 }
 
+static float TextSpeed(void)
+{
+    return (midstage ? NEWTEXTSPEED : (midstage = acceleratestage) ?
+            acceleratestage = 0, NEWTEXTSPEED : TEXTSPEED);
+}
+
 //
 // F_Ticker
 //
 void F_Ticker(void)
 {
-    size_t      i;
-    const Uint8 *keystate;
-
     if (menuactive || paused)
         return;
 
-    // check for skipping
-    if (gamemode == commercial && finalecount > 25 && finalestage != F_STAGE_CAST)
-    {
-        // go on to the next level
-        for (i = 0; i < MAXPLAYERS; i++)
-            if (players[i].cmd.buttons)
-                break;
-
-#if SDL_VERSION_ATLEAST(2, 0, 0)
-        keystate = SDL_GetKeyboardState(NULL);
-        if (i < MAXPLAYERS || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER])
-#else
-        keystate = SDL_GetKeyState(NULL);
-        if (i < MAXPLAYERS || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
-#endif
-
-        {
-            players[i].cmd.buttons = 0;
-            if (gamemap == 30 || (gamemission == pack_nerve && gamemap == 8))
-                F_StartCast();
-            else
-                gameaction = ga_worlddone;
-        }
-    }
+    WI_checkForAccelerate();
 
     // advance animation
     finalecount++;
 
     if (finalestage == F_STAGE_CAST)
-    {
         F_CastTicker();
-        return;
-    }
 
-    if (gamemode == commercial)
-        return;
-
-    if (finalestage == F_STAGE_TEXT && finalecount > strlen(finaletext) * TEXTSPEED + TEXTWAIT)
+    if (finalestage == F_STAGE_TEXT)
     {
-        finalecount = 0;
-        finalestage = F_STAGE_ARTSCREEN;
-        wipegamestate = (gamestate_t)(-1);      // force a wipe
-        if (gameepisode == 3)
-            S_StartMusic(mus_bunny);
+        if (finalecount > strlen(finaletext) * TextSpeed() + (midstage ? NEWTEXTWAIT : TEXTWAIT)
+            || (midstage && acceleratestage))
+        {
+            if (gamemode != commercial)
+            {
+                finalecount = 0;
+                finalestage = 1;
+                wipegamestate = (gamestate_t)(-1);      // force a wipe
+                if (gameepisode == 3)
+                    S_StartMusic(mus_bunny);
+            }
+            else if (midstage)
+            {
+                if (gamemap == 30 || (gamemission == pack_nerve && gamemap == 8))
+                    F_StartCast();
+                else
+                    gameaction = ga_worlddone;
+            }
+        }
     }
 }
 
@@ -211,22 +208,21 @@ extern patch_t *hu_font[HU_FONTSIZE];
 
 void F_TextWrite(void)
 {
+    // draw some of the text onto the screen
     byte        *src;
     byte        *dest;
-
     int         x, y, w;
-    signed int  count;
-    char        *ch;
-    int         c;
-    int         cx;
-    int         cy;
+    int         count = (int)((float)(finalecount - 10) / TextSpeed());
+    const char  *ch = finaletext;
+    int         cx = 12;
+    int         cy = 10;
     int         ay;
     int         i;
     char        letter;
     char        prev = ' ';
 
     // erase the entire screen to a tiled background
-    src = (byte *)W_CacheLumpName(finaleflat, PU_CACHE);
+    src = (byte *)W_CacheLumpName((char *)finaleflat, PU_CACHE);
     dest = screens[0];
 
     for (y = 0; y < SCREENHEIGHT; y += 2)
@@ -252,17 +248,13 @@ void F_TextWrite(void)
             dest += 128;
         }
 
-    // draw some of the text onto the screen
-    cx = 12;
-    cy = 10;
-    ch = finaletext;
-
-    count = ((signed int)finalecount - 10) / TEXTSPEED;
     if (count < 0)
         count = 0;
+
     for (; count; count--)
     {
-        c = *ch++;
+        int     c = *ch++;
+
         if (!c)
             break;
         if (c == '\n')

@@ -272,7 +272,7 @@ static anim_t *anims[NUMEPISODES] =
 #define SHOWNEXTLOCDELAY        4
 
 // used to accelerate or skip a stage
-static int              acceleratestage;
+int                     acceleratestage;
 
 // wbs->pnum
 static int              me;
