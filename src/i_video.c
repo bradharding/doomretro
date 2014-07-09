@@ -61,6 +61,8 @@ static boolean          palette_to_set;
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
 
+boolean                 novert = true;
+
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
 // Fullscreen width and height
@@ -526,6 +528,7 @@ void I_GetEvent(void)
                 mouse_button_state |= buttons[sdlevent.button.button];
                 ev.data1 = mouse_button_state;
                 ev.data2 = 0;
+                ev.data3 = 0;
                 D_PostEvent(&ev);
                 break;
 
@@ -535,6 +538,7 @@ void I_GetEvent(void)
                 mouse_button_state &= ~buttons[sdlevent.button.button];
                 ev.data1 = mouse_button_state;
                 ev.data2 = 0;
+                ev.data3 = 0;
                 D_PostEvent(&ev);
                 break;
 
@@ -629,13 +633,15 @@ void I_GetEvent(void)
 static void I_ReadMouse(void)
 {
     int         x;
+    int         y;
     event_t     ev;
 
     SDL_PumpEvents();
 
     ev.type = ev_mouse;
-    ev.data1 = SDL_GetRelativeMouseState(&x, NULL);
+    ev.data1 = SDL_GetRelativeMouseState(&x, &y);
     ev.data2 = AccelerateMouse(x);
+    ev.data3 = (novert ? 0 : -AccelerateMouse(y));
 
     D_PostEvent(&ev);
 

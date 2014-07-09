@@ -205,6 +205,7 @@ static boolean  mousearray[MAX_MOUSE_BUTTONS + 1];
 static boolean  *mousebuttons = &mousearray[1]; // allow [-1]
 
 int             mousex;
+int             mousey;
 
 static int      dclicktime;
 static boolean  dclickstate;
@@ -351,12 +352,15 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         }
     }
 
+    forward += mousey;
+
     if (strafe)
         side += mousex * 2;
     else
         cmd->angleturn -= mousex * 0x8;
 
     mousex = 0;
+    mousey = 0;
 
     cmd->forwardmove += MAX(-MAXPLMOVE, MIN(forward, MAXPLMOVE));
     cmd->sidemove += MAX(-MAXPLMOVE, MIN(side, MAXPLMOVE));
@@ -458,6 +462,7 @@ void G_DoLoadLevel(void)
     // clear cmd building stuff
     memset(gamekeydown, 0, sizeof(gamekeydown));
     mousex = 0;
+    mousey = 0;
     sendpause = sendsave = paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
@@ -672,7 +677,10 @@ boolean G_Responder(event_t *ev)
                     PrevWeapon();
             }
             if (!automapactive || (automapactive && followplayer))
+            {
                 mousex = ev->data2 * mouseSensitivity / 10;
+                mousey = ev->data3 * mouseSensitivity / 10;
+            }
             return true;            // eat events
 
         case ev_gamepad:
