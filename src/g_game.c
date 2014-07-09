@@ -141,6 +141,8 @@ int             key_nextweapon = 0;
 int             key_pause = KEY_PAUSE;
 
 int             mousebfire = 0;
+int             mousebstrafe = -1;
+int             mousebforward = -1;
 int             mousewheelup = 3;
 
 int             gamepadautomap = GAMEPAD_BACK;
@@ -207,6 +209,8 @@ static boolean  *mousebuttons = &mousearray[1]; // allow [-1]
 int             mousex;
 int             mousey;
 
+boolean         dclick_use = false;
+
 static int      dclicktime;
 static boolean  dclickstate;
 static int      dclicks;
@@ -250,6 +254,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 {
     int         i;
     boolean     strafe;
+    boolean     bstrafe;
     int         speed;
     int         forward = 0;
     int         side = 0;
@@ -260,7 +265,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     if (automapactive && !followplayer)
         return;
 
-    strafe = gamekeydown[key_strafe];
+    strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
     speed = G_GetSpeedToggle();
 
@@ -348,6 +353,61 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
                     cmd->buttons |= i << BT_WEAPONSHIFT;
                     break;
                 }
+            }
+        }
+    }
+
+    if (mousebuttons[mousebforward])
+        forward += forwardmove[speed];
+
+    if (dclick_use)
+    {
+        // forward double click
+        if (mousebuttons[mousebforward] != dclickstate && dclicktime > 1)
+        {
+            dclickstate = mousebuttons[mousebforward];
+            if (dclickstate)
+                dclicks++;
+            if (dclicks == 2)
+            {
+                cmd->buttons |= BT_USE;
+                dclicks = 0;
+            }
+            else
+                dclicktime = 0;
+        }
+        else
+        {
+            dclicktime += ticdup;
+            if (dclicktime > 20)
+            {
+                dclicks = 0;
+                dclickstate = 0;
+            }
+        }
+
+        // strafe double click
+        bstrafe = mousebuttons[mousebstrafe];
+        if (bstrafe != dclickstate2 && dclicktime2 > 1)
+        {
+            dclickstate2 = bstrafe;
+            if (dclickstate2)
+                dclicks2++;
+            if (dclicks2 == 2)
+            {
+                cmd->buttons |= BT_USE;
+                dclicks2 = 0;
+            }
+            else
+                dclicktime2 = 0;
+        }
+        else
+        {
+            dclicktime2 += ticdup;
+            if (dclicktime2 > 20)
+            {
+                dclicks2 = 0;
+                dclickstate2 = 0;
             }
         }
     }

@@ -46,6 +46,7 @@ char            *configdir;
 extern int      bloodsplats;
 extern boolean  brightmaps;
 extern int      corpses;
+extern boolean  dclick_use;
 extern int      fullscreen;
 extern int      gamepadautomap;
 extern int      gamepadfire;
@@ -88,6 +89,8 @@ extern int      mouseSensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
 extern int      mousebfire;
+extern int      mousebforward;
+extern int      mousebstrafe;
 extern boolean  novert;
 extern int      pixelheight;
 extern int      pixelwidth;
@@ -182,6 +185,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,          7),
     CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,           1),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
+    CONFIG_VARIABLE_INT   (dclick_use,          dclick_use,           1),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
     CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,    9),
     CONFIG_VARIABLE_INT   (fullscreen,          fullscreen,           1),
@@ -224,7 +228,9 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (mirrorweapons,       mirrorweapons,        1),
     CONFIG_VARIABLE_FLOAT (mouse_acceleration,  mouse_acceleration,   0),
     CONFIG_VARIABLE_INT   (mouse_fire,          mousebfire,           4),
+    CONFIG_VARIABLE_INT   (mouse_forward,       mousebforward,        4),
     CONFIG_VARIABLE_INT   (mouse_sensitivity,   mouseSensitivity,     0),
+    CONFIG_VARIABLE_INT   (mouse_strafe,        mousebstrafe,         4),
     CONFIG_VARIABLE_INT   (mouse_threshold,     mouse_threshold,      0),
     CONFIG_VARIABLE_INT   (music_volume,        musicVolume,          0),
     CONFIG_VARIABLE_INT   (novert,              novert,               1),
@@ -334,6 +340,7 @@ static alias_t alias[] =
     { "pagedown",                              81,  3 },
     { "del",                                   83,  3 },
     { "insert",                                82,  3 },
+    { "none",                                  -1,  4 },
     { "left",                                   0,  4 },
     { "right",                                  1,  4 },
     { "middle",                                 2,  4 },
