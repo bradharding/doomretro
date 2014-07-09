@@ -563,8 +563,8 @@ static int D_ChooseIWAD(void)
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = wadfolder;
-    ofn.Flags = OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
-                | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER;
+    ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
+                 | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
 
     if (GetOpenFileName(&ofn))
@@ -572,7 +572,7 @@ static int D_ChooseIWAD(void)
         iwadfound = 0;
 
         // only one file was selected
-        if (!ofn.lpstrFile[strlen(ofn.lpstrFile) + 1])
+        if (!ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1])
         {
             LPSTR       file = ofn.lpstrFile;
 
@@ -623,12 +623,13 @@ static int D_ChooseIWAD(void)
 
             wadfolder = strdup(szFile);
 
+            iwad += lstrlen(iwad) + 1;
+
             // find and add IWAD first
             while (iwad[0])
             {
                 static char     fullpath[MAX_PATH];
 
-                iwad += lstrlen(iwad) + 1;
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder, iwad);
 
                 if (D_IsDOOMIWAD(fullpath)
@@ -665,27 +666,35 @@ static int D_ChooseIWAD(void)
                         break;
                     }
                 }
+
+                iwad += lstrlen(iwad) + 1;
             }
 
             // merge any pwads
             if (iwadfound && !sharewareiwad)
+            {
+                pwad += lstrlen(pwad) + 1;
+
                 while (pwad[0])
                 {
                     static char     fullpath[MAX_PATH];
 
-                    pwad += lstrlen(pwad) + 1;
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder, pwad);
 
                     if (!D_CheckFilename(pwad, "DOOMRETRO.WAD")
                         && W_WadType(fullpath) == PWAD
                         && !D_IsUnsupportedPWAD(fullpath))
+                    {
                         if (W_MergeFile(fullpath))
                         {
                             modifiedgame = true;
                             if (!strcasecmp(pwad, "NERVE.WAD"))
                                 nerve = true;
                         }
+                    }
+                    pwad += lstrlen(pwad) + 1;
                 }
+            }
         }
     }
     return iwadfound;
