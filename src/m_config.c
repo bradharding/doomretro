@@ -342,8 +342,8 @@ static alias_t alias[] =
     { "insert",                                82,  3 },
     { "none",                                  -1,  4 },
     { "left",                                   0,  4 },
-    { "right",                                  1,  4 },
-    { "middle",                                 2,  4 },
+    { "middle",                                 1,  4 },
+    { "right",                                  2,  4 },
     { "desktop",                                0,  5 },
     { "low",                                    0,  6 },
     { "high",                                   1,  6 },
@@ -426,7 +426,7 @@ static alias_t alias[] =
     { "0%",                                     0, 12 },
     { "75%",                                   75, 12 },
     { "100%",                                 100, 12 },
-    { "",                                      -1, -1 }
+    { "",                                       0,  0 }
 };
 
 static void SaveDefaultCollection(default_collection_t *collection)
@@ -469,7 +469,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     boolean     flag = false;
 
                     v = defaults[i].untranslated;
-                    while (alias[j].value != -1)
+                    while (alias[j].text[0])
                     {
                         if (v == alias[j].value && defaults[i].set == alias[j].set)
                         {
@@ -501,7 +501,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                             boolean     flag = false;
 
                             v = s;
-                            while (alias[j].value != -1)
+                            while (alias[j].text[0])
                             {
                                 if (v == alias[j].value && defaults[i].set == alias[j].set)
                                 {
@@ -531,7 +531,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     boolean     flag = false;
 
                     v = *(int *)defaults[i].location;
-                    while (alias[j].value != -1)
+                    while (alias[j].text[0])
                     {
                         if (v == alias[j].value && defaults[i].set == alias[j].set)
                         {
@@ -575,18 +575,14 @@ static int ParseIntParameter(char *strparm, int set)
         int     s;
 
         for (s = 0; s < 128; ++s)
-        {
             if (tolower(strparm[1]) == scantokey[s])
-            {
                 return s;
-            }
-        }
     }
     else
     {
         int     i = 0;
 
-        while (alias[i].value != -1)
+        while (alias[i].text[0])
         {
             if (!strcasecmp(strparm, alias[i].text) && set == alias[i].set)
                 return alias[i].value;
