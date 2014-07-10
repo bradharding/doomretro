@@ -125,10 +125,7 @@ boolean P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
 
 void P_AddBonus(player_t *player, int amount)
 {
-    amount += player->bonuscount;
-    if (amount > 3 * TICRATE)
-        amount = 3 * TICRATE;
-    player->bonuscount = amount;
+    player->bonuscount = MIN(player->bonuscount + amount, 3 * TICRATE);
 }
 
 //
@@ -137,8 +134,8 @@ void P_AddBonus(player_t *player, int amount)
 //
 boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
 {
-    boolean gaveammo;
-    boolean gaveweapon;
+    boolean     gaveammo;
+    boolean     gaveweapon;
 
     if (netgame && deathmatch != 2 && !dropped)
     {
@@ -148,11 +145,7 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
 
         P_AddBonus(player, BONUSADD);
         player->weaponowned[weapon] = true;
-
-        if (deathmatch)
-            P_GiveAmmo(player, weaponinfo[weapon].ammo, 5);
-        else
-            P_GiveAmmo(player, weaponinfo[weapon].ammo, 2);
+        P_GiveAmmo(player, weaponinfo[weapon].ammo, (deathmatch ? 5 : 2));
         player->pendingweapon = weapon;
 
         if ((player->cheats & CF_CHOPPERS) && weapon != wp_chainsaw)
@@ -164,11 +157,8 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
     }
 
     if (weaponinfo[weapon].ammo != am_noammo)
-    {
-        // give one clip with a dropped weapon,
-        // two clips with a found weapon
+        // give one clip with a dropped weapon, two clips with a found weapon
         gaveammo = P_GiveAmmo(player, weaponinfo[weapon].ammo, dropped ? 1 : 2);
-    }
     else
         gaveammo = false;
 
@@ -194,9 +184,7 @@ boolean P_GiveBody(player_t *player, int num)
     if (player->health >= MAXHEALTH)
         return false;
 
-    player->health += num;
-    if (player->health > MAXHEALTH)
-        player->health = MAXHEALTH;
+    player->health = MIN(player->health + num, MAXHEALTH);
     player->mo->health = player->health;
 
     return true;
@@ -209,9 +197,8 @@ boolean P_GiveBody(player_t *player, int num)
 //
 boolean P_GiveArmor(player_t *player, int armortype)
 {
-    int hits;
+    int hits = armortype * 100;
 
-    hits = armortype * 100;
     if (player->armorpoints >= hits)
         return false;   // don't pick up
 
@@ -316,16 +303,14 @@ boolean P_GivePower(player_t *player, int power)
 //
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 {
-    player_t   *player;
-    int        i;
-    fixed_t    delta = special->z - toucher->z;
-    int        sound;
-
-    int        weaponowned;
-    boolean    ammogiven = false;
-
-    static int prevsound = 0;
-    static int prevtic = 0;
+    player_t    *player;
+    int         i;
+    fixed_t     delta = special->z - toucher->z;
+    int         sound;
+    int         weaponowned;
+    boolean     ammogiven = false;
+    static int  prevsound = 0;
+    static int  prevtic = 0;
 
     if (delta > toucher->height || delta < -8 * FRACUNIT)
         return;         // out of reach
@@ -553,16 +538,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         // ammo
         case SPR_CLIP:
-            if (special->flags & MF_DROPPED)
-            {
-                if (!P_GiveAmmo(player, am_clip, 0))
-                    return;
-            }
-            else
-            {
-                if (!P_GiveAmmo(player, am_clip, 1))
-                    return;
-            }
+            if (!P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED)))
+                return;
             if (!message_dontfuckwithme)
                 player->message = GOTCLIP;
             break;
@@ -646,7 +623,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_MGUN:
-            if (!P_GiveWeapon(player, wp_chaingun, special->flags & MF_DROPPED))
+            if (!P_GiveWeapon(player, wp_chaingun, (special->flags & MF_DROPPED)))
                 return;
             if (!message_dontfuckwithme)
                 player->message = GOTCHAINGUN;
@@ -680,11 +657,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         case SPR_SHOT:
             weaponowned = player->weaponowned[wp_shotgun];
-            if (!P_GiveWeapon(player, wp_shotgun, special->flags & MF_DROPPED))
+            if (!P_GiveWeapon(player, wp_shotgun, (special->flags & MF_DROPPED)))
                 return;
             if (!weaponowned)
                 player->preferredshotgun = wp_shotgun;
-            player->shotguns = (player->weaponowned[wp_shotgun] || player->weaponowned[wp_supershotgun]);
+            player->shotguns = (player->weaponowned[wp_shotgun]
+                                || player->weaponowned[wp_supershotgun]);
             if (!message_dontfuckwithme)
                 player->message = GOTSHOTGUN;
             sound = sfx_wpnup;
@@ -692,11 +670,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         case SPR_SGN2:
             weaponowned = player->weaponowned[wp_supershotgun];
-            if (!P_GiveWeapon(player, wp_supershotgun, special->flags & MF_DROPPED))
+            if (!P_GiveWeapon(player, wp_supershotgun, (special->flags & MF_DROPPED)))
                 return;
             if (!weaponowned)
                 player->preferredshotgun = wp_supershotgun;
-            player->shotguns = (player->weaponowned[wp_shotgun] || player->weaponowned[wp_supershotgun]);
+            player->shotguns = (player->weaponowned[wp_shotgun]
+                                || player->weaponowned[wp_supershotgun]);
             if (!message_dontfuckwithme)
                 player->message = GOTSHOTGUN2;
             sound = sfx_wpnup;
@@ -724,7 +703,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 //
 void P_KillMobj(mobj_t *source, mobj_t *target)
 {
-    mobjtype_t  item, type = target->type;
+    mobjtype_t  item;
+    mobjtype_t  type = target->type;
     mobj_t      *mo;
 
     target->flags &= ~(MF_SHOOTABLE | MF_FLOAT | MF_SKULLFLY);
@@ -766,11 +746,8 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             source->player->frags[target->player-players]++;
     }
     else if (!netgame && (target->flags & MF_COUNTKILL))
-    {
-        // count all monster deaths,
-        // even those caused by other monsters
+        // count all monster deaths, even those caused by other monsters
         players[0].killcount++;
-    }
 
     if (type == MT_BARREL && source && source->player)
         target->target = source;
@@ -786,11 +763,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         P_DropWeapon(target->player);
 
         if (target->player == &players[consoleplayer] && automapactive)
-        {
-            // don't die in auto map,
-            // switch view prior to dying
-            AM_Stop();
-        }
+            AM_Stop();          // don't die in auto map, switch view prior to dying
     }
 
     if (target->health < -target->info->spawnhealth && target->info->xdeathstate)
@@ -801,8 +774,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     target->tics = MAX(1, target->tics - (P_Random() & 3));
 
     // Drop stuff.
-    // This determines the kind of object spawned
-    // during the death frame of a thing.
+    // This determines the kind of object spawned during the death frame of a thing.
     switch (type)
     {
         case MT_WOLFSS:
@@ -976,12 +948,14 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
             // [crispy] the lethal pellet of a point-blank SSG blast
             // gets an extra damage boost for the occasional gib chance
-            if (source && source->player &&
-                source->player->readyweapon == wp_supershotgun &&
-                target->info->xdeathstate &&
-                P_CheckMeleeRange(target) &&
-                damage == 15)
+            if (source && source->player
+                && source->player->readyweapon == wp_supershotgun
+                && target->info->xdeathstate
+                && P_CheckMeleeRange(target)
+                && damage >= 10)
+            {
                 target->health -= target->info->spawnhealth;
+            }
 
             P_KillMobj(source, target);
             return;
