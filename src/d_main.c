@@ -75,14 +75,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 void D_DoomLoop(void);
 
 // Location where savegames are stored
-
 char           *savegamedir;
 
 // location of IWAD and WAD files
-
 char           *iwadfile;
 
-char           *wadfolder = ".";
+char           *iwadfolder = ".";
+char           *pwadfolder = ".";
 
 boolean        devparm;        // started game with -devparm
 boolean        nomonsters;     // checkparm of -nomonsters
@@ -562,7 +561,7 @@ static int D_ChooseIWAD(void)
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = wadfolder;
+    ofn.lpstrInitialDir = NULL;
     ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
                  | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
@@ -576,8 +575,6 @@ static int D_ChooseIWAD(void)
         {
             LPSTR       file = ofn.lpstrFile;
 
-            wadfolder = strdup(M_ExtractFolder(file));
-
             // check if it's a valid and supported IWAD
             if (D_IsDOOMIWAD(file)
                 || (W_WadType(file) == IWAD
@@ -585,7 +582,10 @@ static int D_ChooseIWAD(void)
             {
                 IdentifyIWADByContents(file, &gamemode, &gamemission);
                 if (D_AddFile(file))
+                {
                     iwadfound = 1;
+                    iwadfolder = strdup(M_ExtractFolder(file));
+                }
             }
 
             // if it's a PWAD, determine the IWAD required and try loading that as well
@@ -599,17 +599,38 @@ static int D_ChooseIWAD(void)
                 if (iwadrequired == indetermined)
                     return 0;
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder,
-                           iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD");
+                // try the current folder first
+                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
+                           (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
                 {
                     iwadfound = 1;
+                    iwadfolder = strdup(M_ExtractFolder(file));
                     if (W_MergeFile(file))
                     {
                         modifiedgame = true;
                         if (D_CheckFilename(file, "NERVE.WAD"))
                             nerve = true;
+                        pwadfolder = iwadfolder;
+                    }
+                }
+                else
+                {
+                    // otherwise try the iwadfolder
+                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
+                               (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    IdentifyIWADByName(fullpath);
+                    if (D_AddFile(fullpath))
+                    {
+                        iwadfound = 1;
+                        if (W_MergeFile(file))
+                        {
+                            modifiedgame = true;
+                            if (D_CheckFilename(file, "NERVE.WAD"))
+                                nerve = true;
+                            pwadfolder = strdup(M_ExtractFolder(file));
+                        }
                     }
                 }
             }
@@ -621,8 +642,6 @@ static int D_ChooseIWAD(void)
             LPSTR       iwad = ofn.lpstrFile;
             LPSTR       pwad = ofn.lpstrFile;
 
-            wadfolder = strdup(szFile);
-
             iwad += lstrlen(iwad) + 1;
 
             // find and add IWAD first
@@ -630,7 +649,7 @@ static int D_ChooseIWAD(void)
             {
                 static char     fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder, iwad);
+                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), iwad);
 
                 if (D_IsDOOMIWAD(fullpath)
                     || (W_WadType(fullpath) == IWAD
@@ -643,6 +662,7 @@ static int D_ChooseIWAD(void)
                         {
                             iwadfound = 1;
                             sharewareiwad = !strcasecmp(iwad, "DOOM1.WAD");
+                            iwadfolder = strdup(szFile);
                             break;
                         }
                     }
@@ -653,7 +673,8 @@ static int D_ChooseIWAD(void)
                 {
                     static char     fullpath2[MAX_PATH];
 
-                    M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", wadfolder);
+                    // otherwise try the iwadfolder
+                    M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", strdup(szFile));
                     IdentifyIWADByName(fullpath2);
                     if (D_AddFile(fullpath2))
                     {
@@ -662,8 +683,26 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
+                            pwadfolder = strdup(szFile);
                         }
                         break;
+                    }
+                    else
+                    {
+                        // try the current folder first
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", iwadfolder);
+                        IdentifyIWADByName(fullpath2);
+                        if (D_AddFile(fullpath2))
+                        {
+                            iwadfound = 1;
+                            if (W_MergeFile(fullpath))
+                            {
+                                modifiedgame = true;
+                                nerve = true;
+                                pwadfolder = strdup(szFile);
+                            }
+                            break;
+                        }
                     }
                 }
 
@@ -679,7 +718,7 @@ static int D_ChooseIWAD(void)
                 {
                     static char     fullpath[MAX_PATH];
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder, pwad);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), pwad);
 
                     if (!D_CheckFilename(pwad, "DOOMRETRO.WAD")
                         && W_WadType(fullpath) == PWAD
@@ -690,6 +729,7 @@ static int D_ChooseIWAD(void)
                             modifiedgame = true;
                             if (!strcasecmp(pwad, "NERVE.WAD"))
                                 nerve = true;
+                            pwadfolder = strdup(szFile);
                         }
                     }
                     pwad += lstrlen(pwad) + 1;
@@ -723,7 +763,8 @@ static void D_DoomMainSetup(void)
 
     iwadfile = D_FindIWAD();
 
-    wadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
+    iwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
+    pwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
 
     modifiedgame = false;
 
