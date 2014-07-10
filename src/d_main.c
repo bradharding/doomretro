@@ -80,8 +80,7 @@ char           *savegamedir;
 // location of IWAD and WAD files
 char           *iwadfile;
 
-char           *iwadfolder = ".";
-char           *pwadfolder = ".";
+char           *wadfolder = ".";
 
 boolean        devparm;        // started game with -devparm
 boolean        nomonsters;     // checkparm of -nomonsters
@@ -584,7 +583,7 @@ static int D_ChooseIWAD(void)
                 if (D_AddFile(file))
                 {
                     iwadfound = 1;
-                    iwadfolder = strdup(M_ExtractFolder(file));
+                    wadfolder = strdup(M_ExtractFolder(file));
                 }
             }
 
@@ -606,19 +605,18 @@ static int D_ChooseIWAD(void)
                 if (D_AddFile(fullpath))
                 {
                     iwadfound = 1;
-                    iwadfolder = strdup(M_ExtractFolder(file));
+                    wadfolder = strdup(M_ExtractFolder(file));
                     if (W_MergeFile(file))
                     {
                         modifiedgame = true;
                         if (D_CheckFilename(file, "NERVE.WAD"))
                             nerve = true;
-                        pwadfolder = iwadfolder;
                     }
                 }
                 else
                 {
                     // otherwise try the iwadfolder
-                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
+                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder,
                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
                     if (D_AddFile(fullpath))
@@ -629,7 +627,6 @@ static int D_ChooseIWAD(void)
                             modifiedgame = true;
                             if (D_CheckFilename(file, "NERVE.WAD"))
                                 nerve = true;
-                            pwadfolder = strdup(M_ExtractFolder(file));
                         }
                     }
                 }
@@ -662,7 +659,7 @@ static int D_ChooseIWAD(void)
                         {
                             iwadfound = 1;
                             sharewareiwad = !strcasecmp(iwad, "DOOM1.WAD");
-                            iwadfolder = strdup(szFile);
+                            wadfolder = strdup(szFile);
                             break;
                         }
                     }
@@ -683,14 +680,13 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
-                            pwadfolder = strdup(szFile);
                         }
                         break;
                     }
                     else
                     {
                         // try the current folder first
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", iwadfolder);
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", wadfolder);
                         IdentifyIWADByName(fullpath2);
                         if (D_AddFile(fullpath2))
                         {
@@ -699,7 +695,6 @@ static int D_ChooseIWAD(void)
                             {
                                 modifiedgame = true;
                                 nerve = true;
-                                pwadfolder = strdup(szFile);
                             }
                             break;
                         }
@@ -729,7 +724,6 @@ static int D_ChooseIWAD(void)
                             modifiedgame = true;
                             if (!strcasecmp(pwad, "NERVE.WAD"))
                                 nerve = true;
-                            pwadfolder = strdup(szFile);
                         }
                     }
                     pwad += lstrlen(pwad) + 1;
@@ -763,8 +757,7 @@ static void D_DoomMainSetup(void)
 
     iwadfile = D_FindIWAD();
 
-    iwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
-    pwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
+    wadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
 
     modifiedgame = false;
 
