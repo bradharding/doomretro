@@ -45,15 +45,15 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Needs precompiled tables/data structures.
 #include "info.h"
 
-#define FLOATBOBCOUNT 4
+#define FLOATBOBCOUNT           4
 
 // killough 11/98:
 // For torque simulation:
 
-#define OVERDRIVE 6
-#define MAXGEAR (OVERDRIVE + 16)
+#define OVERDRIVE               6
+#define MAXGEAR                 (OVERDRIVE + 16)
 
-#define CORPSEBLOODSPLATS 1024
+#define CORPSEBLOODSPLATS       256
 
 //
 // NOTES: mobj_t
