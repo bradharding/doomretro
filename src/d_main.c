@@ -615,7 +615,7 @@ static int D_ChooseIWAD(void)
                 }
                 else
                 {
-                    // otherwise try the iwadfolder
+                    // otherwise try the wadfolder setting
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder,
                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
@@ -670,7 +670,7 @@ static int D_ChooseIWAD(void)
                 {
                     static char     fullpath2[MAX_PATH];
 
-                    // otherwise try the iwadfolder
+                    // try the current folder first
                     M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", strdup(szFile));
                     IdentifyIWADByName(fullpath2);
                     if (D_AddFile(fullpath2))
@@ -685,7 +685,7 @@ static int D_ChooseIWAD(void)
                     }
                     else
                     {
-                        // try the current folder first
+                        // otherwise try the wadfolder setting
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", wadfolder);
                         IdentifyIWADByName(fullpath2);
                         if (D_AddFile(fullpath2))
@@ -802,13 +802,15 @@ static void D_DoomMainSetup(void)
         if (!M_FileExists("doomretro.wad.temp"))
             I_Error("Can't find doomretro.wad.");
 
+    p = M_CheckParmsWithArgs("-file", "-pwad", 1);
+
     if (iwadfile)
     {
         if (D_AddFile(iwadfile))
             if (runcount < RUNCOUNT_MAX)
                 runcount++;
     }
-    else 
+    else if (!p)
     {
         if (!runcount)
             D_FirstUse();
@@ -838,18 +840,60 @@ static void D_DoomMainSetup(void)
     }
     M_SaveDefaults();
 
-    p = M_CheckParmsWithArgs("-file", "-pwad", 1);
     if (p > 0)
     {
         for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
         {
-            char *filename = uppercase(D_TryFindWADByName(myargv[p]));
+            char *file = uppercase(D_TryFindWADByName(myargv[p]));
 
-            if (W_MergeFile(filename))
+            if (iwadfile)
             {
-                modifiedgame = true;
-                if (D_CheckFilename(filename, "NERVE.WAD"))
-                    nerve = true;
+                if (W_MergeFile(file))
+                {
+                    modifiedgame = true;
+                    if (D_CheckFilename(file, "NERVE.WAD"))
+                        nerve = true;
+                }
+            }
+            else
+            {
+                int             iwadrequired = IWADRequiredByPWAD(myargv[p]);
+                static char     fullpath[MAX_PATH];
+
+                if (iwadrequired != indetermined)
+                {
+
+                    // try the current folder first
+                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
+                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    IdentifyIWADByName(fullpath);
+                    if (D_AddFile(fullpath))
+                    {
+                        wadfolder = strdup(M_ExtractFolder(file));
+                        if (W_MergeFile(file))
+                        {
+                            modifiedgame = true;
+                            if (D_CheckFilename(file, "NERVE.WAD"))
+                                nerve = true;
+                        }
+                    }
+                    else
+                    {
+                        // otherwise try the wadfolder setting
+                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder,
+                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        IdentifyIWADByName(fullpath);
+                        if (D_AddFile(fullpath))
+                        {
+                            if (W_MergeFile(file))
+                            {
+                                modifiedgame = true;
+                                if (D_CheckFilename(file, "NERVE.WAD"))
+                                    nerve = true;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
