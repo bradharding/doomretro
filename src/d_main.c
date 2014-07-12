@@ -838,15 +838,6 @@ static void D_DoomMainSetup(void)
     }
     M_SaveDefaults();
 
-    if (!W_MergeFile("doomretro.wad"))
-        if (!W_MergeFile("doomretro.wad.temp"))
-            I_Error("Can't find doomretro.wad.");
-
-    if (W_CheckNumForName("BLD2A0") < 0 ||
-        W_CheckNumForName("MEDBA0") < 0 ||
-        W_CheckNumForName("STBAR2") < 0)
-        I_Error("Wrong version of doomretro.wad.");
-
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
     if (p > 0)
     {
@@ -862,6 +853,15 @@ static void D_DoomMainSetup(void)
             }
         }
     }
+
+    if (!W_MergeFile("doomretro.wad"))
+        if (!W_MergeFile("doomretro.wad.temp"))
+            I_Error("Can't find doomretro.wad.");
+
+    if (W_CheckNumForName("BLD2A0") < 0 ||
+        W_CheckNumForName("MEDBA0") < 0 ||
+        W_CheckNumForName("STBAR2") < 0)
+        I_Error("Wrong version of doomretro.wad.");
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
 
