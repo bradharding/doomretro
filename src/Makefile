@@ -31,7 +31,6 @@ SRCS =             \
     m_menu.c       \
     m_misc.c       \
     m_random.c     \
-    md5.c          \
     memio.c        \
     midifile.c     \
     mus2mid.c      \
