@@ -40,23 +40,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "z_zone.h"
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
-byte    *screens[5];
+byte            *screens[5];
 
-int     pixelwidth = 2;
-int     pixelheight = 2;
+int             pixelwidth = 2;
+int             pixelheight = 2;
 
-extern byte redtoyellow[];
-
-//
-// V_SetRes
-//
-static void V_SetRes(void)
-{
-    DX  = (SCREENWIDTH << 16) / ORIGINALWIDTH;
-    DXI = (ORIGINALWIDTH << 16) / SCREENWIDTH;
-    DY  = (SCREENHEIGHT << 16) / ORIGINALHEIGHT;
-    DYI = (ORIGINALHEIGHT << 16) / SCREENHEIGHT;
-}
+extern byte     redtoyellow[];
 
 //
 // V_CopyRect
@@ -105,8 +94,8 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int         stretchx, stretchy;
+    int         stretchx;
+    int         stretchy;
     int         srccol;
 
     y -= SHORT(patch->topoffset);
@@ -186,8 +175,8 @@ void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int         stretchx, stretchy;
+    int         stretchx;
+    int         stretchy;
     int         srccol;
 
     y -= SHORT(patch->topoffset);
@@ -212,7 +201,7 @@ void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
             srccol = 0;
             while (count--)
             {
-                byte *shadow;
+                byte    *shadow;
 
                 *dest = source[srccol >> 16];
                 dest += SCREENWIDTH;
@@ -298,12 +287,9 @@ void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert
 
             while (count--)
             {
-                byte dot = *source++;
+                byte    dot = *source++;
 
-                if (dot == 109)
-                    *dest = tinttab50[*dest];
-                else
-                    *dest = dot;
+                *dest = (dot == 109 ? tinttab50[*dest] : dot);
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);
@@ -414,7 +400,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boo
 
             while (count--)
             {
-                byte dot = *source++;
+                byte    dot = *source++;
 
                 if (dot == 109 && invert)
                     *dest = tinttab33[*dest];
@@ -472,8 +458,8 @@ void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int         stretchx, stretchy;
+    int         stretchx;
+    int         stretchy;
     int         srccol;
 
     y -= SHORT(patch->topoffset);
@@ -529,8 +515,8 @@ void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int         stretchx, stretchy;
+    int         stretchx;
+    int         stretchy;
     int         srccol;
 
     y -= SHORT(patch->topoffset);
@@ -575,8 +561,8 @@ void V_DrawTranslucentRedPatchFlipped(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int         stretchx, stretchy;
+    int         stretchx;
+    int         stretchy;
     int         srccol;
 
     y -= SHORT(patch->topoffset);
@@ -612,14 +598,13 @@ void V_DrawTranslucentRedPatchFlipped(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-extern int fuzztable[SCREENWIDTH * SCREENHEIGHT];
+#define _FUZZ(a, b)     _fuzzrange[M_RandomInt(a + 1, b + 1)]
 
-const int _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
+const int       _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
-#define _FUZZ(a, b) _fuzzrange[M_RandomInt(a + 1, b + 1)]
-
-extern boolean menuactive;
-extern boolean paused;
+extern int      fuzztable[SCREENWIDTH * SCREENHEIGHT];
+extern boolean  menuactive;
+extern boolean  paused;
 
 void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch)
 {
@@ -630,9 +615,9 @@ void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int       stretchx, stretchy;
-    int       _fuzzpos = 0;
+    int         stretchx;
+    int         stretchy;
+    int         _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
@@ -674,8 +659,8 @@ void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int         stretchx, stretchy;
+    int         stretchx;
+    int         stretchy;
     int         _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
@@ -711,14 +696,14 @@ void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch)
 
 byte nogreen[256] = 
 {
-    1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // 000-031
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // 032-063
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // 064-095
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, // 096-127
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0, // 128-159
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // 160-191
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, // 192-223
-    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1  // 224-255
+    1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 };
 
 void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch)
@@ -730,8 +715,8 @@ void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int         stretchx, stretchy;
+    int         stretchx;
+    int         stretchy;
     int         srccol;
 
     y -= SHORT(patch->topoffset);
@@ -756,11 +741,11 @@ void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch)
             srccol = 0;
             while (count--)
             {
-                byte src = source[srccol >> 16];
+                byte    src = source[srccol >> 16];
 
                 if (nogreen[src])
                 {
-                    byte *shadow;
+                    byte        *shadow;
 
                     *dest = src;
 
@@ -793,8 +778,8 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
     byte        *dest;
     byte        *source;
     int         w;
-
-    int         stretchx, stretchy;
+    int         stretchx;
+    int         stretchy;
     int         srccol;
 
     y -= SHORT(patch->topoffset);
@@ -814,7 +799,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
         while (column->topdelta != 0xff)
         {
             source = (byte *)column + 3;
-            dest = desttop+((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
             count = (column->length * DY) >> 16;
             srccol = 0;
 
@@ -851,27 +836,9 @@ void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src)
     }
 }
 
-//
-// V_GetBlock
-// Gets a linear block of pixels from the view buffer.
-//
-void V_GetBlock(int x, int y, int scrn, int width, int height, byte *dest)
-{
-    byte        *src;
-
-    src = screens[scrn] + y * SCREENWIDTH + x;
-
-    while (height--)
-    {
-        memcpy(dest, src, width);
-        src += SCREENWIDTH;
-        dest += width;
-    }
-}
-
 void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow)
 {
-    byte *dest = &screens[screen][y * 2 * SCREENWIDTH + x * 2];
+    byte        *dest = &screens[screen][y * 2 * SCREENWIDTH + x * 2];
 
     if (color == 251)
     {
@@ -900,7 +867,8 @@ void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow)
 
 void V_LowGraphicDetail(int screen, int height)
 {
-    int         x, y;
+    int x;
+    int y;
 
     for (y = 0; y < height; y += pixelheight)
         for (x = 0; x < SCREENWIDTH; x += pixelwidth)
@@ -920,29 +888,30 @@ void V_LowGraphicDetail(int screen, int height)
 void V_Init(void)
 {
     int         i;
-    byte        *base;
-
-    base = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
+    byte        *base = Z_Malloc(SCREENWIDTH * SCREENHEIGHT * 4, PU_STATIC, NULL);
 
     for (i = 0; i < 4; i++)
         screens[i] = base + i * SCREENWIDTH * SCREENHEIGHT;
 
-    V_SetRes();
+    DX = (SCREENWIDTH << 16) / ORIGINALWIDTH;
+    DXI = (ORIGINALWIDTH << 16) / SCREENWIDTH;
+    DY = (SCREENHEIGHT << 16) / ORIGINALHEIGHT;
+    DYI = (ORIGINALHEIGHT << 16) / SCREENHEIGHT;
 }
 
-extern boolean widescreen;
-extern boolean inhelpscreens;
-extern char maptitle[128];
-extern SDL_Surface *screen;
-extern SDL_Surface *screenbuffer;
-extern SDL_Color palette[256];
-
 #ifndef MAX_PATH
-#define MAX_PATH 4096
+#define MAX_PATH        4096
 #endif
 
-char lbmname[MAX_PATH];
-char lbmpath[MAX_PATH];
+char                    lbmname[MAX_PATH];
+char                    lbmpath[MAX_PATH];
+
+extern boolean          widescreen;
+extern boolean          inhelpscreens;
+extern char             maptitle[128];
+extern SDL_Surface      *screen;
+extern SDL_Surface      *screenbuffer;
+extern SDL_Color        palette[256];
 
 boolean V_ScreenShot(void)
 {
@@ -962,7 +931,24 @@ boolean V_ScreenShot(void)
     M_StringCopy(folder, "", MAX_PATH);
 #endif
 
-    M_StringCopy(mapname, (usergame && !inhelpscreens ? maptitle : "Untitled"), sizeof(mapname));
+    switch (gamestate)
+    {
+        case GS_INTERMISSION:
+            M_StringCopy(mapname, "Intermission", sizeof(mapname));
+            break;
+
+        case GS_FINALE:
+            M_StringCopy(mapname, "Finale", sizeof(mapname));
+            break;
+
+        case GS_TITLESCREEN:
+            M_StringCopy(mapname, "Title", sizeof(mapname));
+            break;
+
+        default:
+            M_StringCopy(mapname, (inhelpscreens ? "Help" : maptitle), sizeof(mapname));
+            break;
+    }
 
     if (sscanf(mapname, "The %[^\n]", mapname))
         M_snprintf(mapname, sizeof(mapname), "%s, The", mapname);

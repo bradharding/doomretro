@@ -78,9 +78,6 @@ void V_LowGraphicDetail(int screen, int height);
 // Draw a linear block of pixels into the view buffer.
 void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src);
 
-// Reads a linear block of pixels into the view buffer.
-void V_GetBlock(int x, int y, int scrn, int width, int height, byte *dest);
-
 boolean V_ScreenShot(void);
 
 #endif
