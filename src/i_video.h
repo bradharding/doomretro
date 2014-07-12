@@ -30,10 +30,17 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define __I_VIDEO__
 
 #include "doomtype.h"
+#include "SDL.h"
 
-#define MAX_MOUSE_BUTTONS 8
+#if (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION == 0)
+#define SDL20
+#elif (SDL_MAJOR_VERSION == 1 && SDL_MINOR_VERSION == 2)
+#define SDL12
+#endif
 
-#define GAMMALEVELS       31
+#define MAX_MOUSE_BUTTONS       8
+
+#define GAMMALEVELS             31
 
 // Called by D_DoomMain,
 // determines the hardware configuration

@@ -26,7 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#ifdef _WIN32
+#ifdef WIN32
 #include <Windows.h>
 #include <Xinput.h>
 #endif
@@ -234,7 +234,7 @@ int G_CmdChecksum(ticcmd_t *cmd)
 
 static boolean G_GetSpeedToggle(void)
 {
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_Keymod  modstate = SDL_GetModState();
 #else
     SDLMod      modstate = SDL_GetModState();
@@ -439,7 +439,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     }
 }
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
 extern SDL_Window *sdl_window;
 #endif
 
@@ -526,7 +526,7 @@ void G_DoLoadLevel(void)
     sendpause = sendsave = paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_SetWindowTitle(sdl_window, mapnumandtitle);
 #else
     SDL_WM_SetCaption(mapnumandtitle, NULL);

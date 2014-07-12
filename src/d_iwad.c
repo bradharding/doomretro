@@ -59,7 +59,7 @@ static void AddIWADDir(char *dir)
     }
 }
 
-#ifdef _WIN32
+#ifdef WIN32
 
 // This is Windows-specific code that automatically finds the location
 // of installed IWAD files.  The registry is inspected to find special
@@ -443,7 +443,7 @@ static void BuildIWADDirList(void)
     // Add dirs from DOOMWADPATH
     AddDoomWadPath();
 
-#ifdef _WIN32
+#ifdef WIN32
     // Search the registry and find where IWADs have been installed.
     CheckUninstallStrings();
     CheckCollectorsEdition();

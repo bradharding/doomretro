@@ -26,38 +26,17 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "doomdef.h"
-#include "doomstat.h"
-
-#include "s_sound.h"
-
 #include "p_local.h"
-
-
-// Data.
-#include "sounds.h"
-
-// State.
-#include "r_state.h"
-
-
+#include "s_sound.h"
 
 //
 // TELEPORTATION
 //
 int EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
-    int          i;
-    int          tag;
-    mobj_t       *m;
-    mobj_t       *fog;
-    unsigned int an;
-    thinker_t    *thinker;
-    sector_t     *sector;
-    fixed_t      oldx;
-    fixed_t      oldy;
-    fixed_t      oldz;
-    player_t     *player;
+    int                 i;
+    int                 tag;
+    player_t            *player;
 
     // don't teleport missiles
     if (thing->flags & MF_MISSILE)
@@ -68,16 +47,25 @@ int EV_Teleport(line_t *line, int side, mobj_t *thing)
     if (side == 1)
         return 0;
 
-
     tag = line->tag;
     player = thing->player;
+
     for (i = 0; i < numsectors; i++)
     {
         if (sectors[i].tag == tag)
         {
-            thinker = thinkercap.next;
+            thinker_t   *thinker;
+
             for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
             {
+                mobj_t          *m;
+                mobj_t          *fog;
+                sector_t        *sector;
+                unsigned int    an;
+                fixed_t         oldx = thing->x;
+                fixed_t         oldy = thing->y;
+                fixed_t         oldz = thing->z;
+
                 // not a mobj
                 if (thinker->function.acp1 != (actionf_p1)P_MobjThinker)
                     continue;
@@ -89,13 +77,10 @@ int EV_Teleport(line_t *line, int side, mobj_t *thing)
                     continue;
 
                 sector = m->subsector->sector;
+
                 // wrong sector
                 if (sector-sectors != i)
                     continue;
-
-                oldx = thing->x;
-                oldy = thing->y;
-                oldz = thing->z;
 
                 if (player && player->mo != thing)
                     player = NULL;

@@ -795,7 +795,7 @@ void R_SortVisSprites(void)
         {
             free(vissprite_ptrs);
             vissprite_ptrs = (vissprite_t **)malloc((num_vissprite_ptrs = num_vissprite_alloc * 2)
-                * sizeof *vissprite_ptrs);
+                * sizeof(*vissprite_ptrs));
         }
 
         while (--i >= 0)

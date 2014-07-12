@@ -26,9 +26,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "SDL.h"
 #include "d_event.h"
 #include "i_gamepad.h"
+#include "i_video.h"
 #include "p_local.h"
 #include "doomstat.h"
 
@@ -170,7 +170,7 @@ void P_DeathThink(player_t *player)
     static int          count = 0;
     static boolean      facingkiller = false;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     const Uint8         *keystate = SDL_GetKeyboardState(NULL);
 #else
     Uint8               *keystate = SDL_GetKeyState(NULL);
@@ -226,7 +226,7 @@ void P_DeathThink(player_t *player)
     if (((player->cmd.buttons & BT_USE)
         || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER]))
 #else
         || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER]))

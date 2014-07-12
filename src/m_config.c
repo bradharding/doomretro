@@ -26,7 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#ifdef _WIN32
+#ifdef WIN32
 #include <ShlObj.h>
 #endif
 

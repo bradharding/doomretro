@@ -418,7 +418,7 @@ static void R_GenerateLookup(int texnum)
 
     struct {
         unsigned int patches, posts;
-    } *count = calloc(sizeof *count, texture->width);
+    } *count = calloc(sizeof(*count), texture->width);
 
     // killough 12/98: First count the number of patches per column.
 

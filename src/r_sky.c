@@ -26,7 +26,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "doomtype.h"
 #include "m_fixed.h"
 #include "r_sky.h"
 
@@ -36,8 +35,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 int skyflatnum;
 int skytexture;
 int skytexturemid;
-
-extern boolean mouselook;
 
 //
 // R_InitSkyMap

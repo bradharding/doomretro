@@ -28,10 +28,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include <stdio.h>
 
-#include "SDL.h"
+#include "i_video.h"
 #include "m_argv.h"
 
-#if defined(_WIN32)
+#ifdef WIN32
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -189,7 +189,7 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
     }
 }
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
 extern SDL_Window *sdl_window;
 #endif
 
@@ -200,7 +200,7 @@ void init_win32(LPCTSTR lpIconName)
 
     SDL_VERSION(&info.version);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_GetWindowWMInfo(sdl_window, &info);
     hwnd = info.info.win.window;
 #else
@@ -266,7 +266,7 @@ int main(int argc, char **argv)
 {
     HANDLE hProcess = GetCurrentProcess();
 
-#if defined(_WIN32)
+#ifdef WIN32
     char        *mutex = "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD";
 
     hInstanceMutex = CreateMutex(NULL, true, mutex);
@@ -292,7 +292,7 @@ int main(int argc, char **argv)
     myargc = argc;
     myargv = argv;
 
-#if defined(_WIN32)
+#ifdef WIN32
     if (!M_CheckParm("-nopriority"))
         I_SetProcessPriority(hProcess);
 #endif

@@ -32,7 +32,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include <stdarg.h>
 
-#ifdef _WIN32
+#ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 void done_win32(void);
 #include <windows.h>
@@ -165,7 +165,7 @@ void I_Quit(boolean shutdown)
         I_ShutdownGamepad();
     }
 
-#ifdef _WIN32
+#ifdef WIN32
     done_win32();
 #endif
 
@@ -179,7 +179,7 @@ void I_WaitVBL(int count)
     I_Sleep((count * 1000) / 70);
 }
 
-#if !defined(_WIN32) && !defined(__MACOSX__)
+#if !defined(WIN32) && !defined(__MACOSX__)
 
 #define ZENITY_BINARY "/usr/bin/zenity"
 
@@ -305,7 +305,7 @@ void I_Error(char *error, ...)
     M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
 
-#ifdef _WIN32
+#ifdef WIN32
     MultiByteToWideChar(CP_ACP, 0,
                         msgbuf, strlen(msgbuf) + 1,
                         wmsgbuf, sizeof(wmsgbuf));

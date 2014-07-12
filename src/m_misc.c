@@ -29,7 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <errno.h>
 #include <stdarg.h>
 
-#ifdef _WIN32
+#ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <io.h>
@@ -51,7 +51,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 void M_MakeDirectory(char *path)
 {
-#ifdef _WIN32
+#ifdef WIN32
     mkdir(path);
 #else
     mkdir(path, 0755);
@@ -169,7 +169,7 @@ char *M_TempFile(char *s)
 {
     char *tempdir;
 
-#ifdef _WIN32
+#ifdef WIN32
 
     // Check the TEMP environment variable to find the location.
     tempdir = getenv("TEMP");

@@ -26,7 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#ifdef _WIN32
+#ifdef WIN32
 #pragma comment(lib, "winmm.lib")
 
 #define WIN32_LEAN_AND_MEAN
@@ -108,7 +108,7 @@ extern int selectedexpansion;
 extern float saturation;
 extern int playerbob;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
 extern SDL_Window *sdl_window;
 #endif
 
@@ -442,7 +442,7 @@ void D_StartTitle(void)
     gameaction = ga_nothing;
     titlesequence = 0;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_SetWindowTitle(sdl_window, gamedescription);
 #else
     SDL_WM_SetCaption(gamedescription, NULL);
@@ -500,7 +500,7 @@ static void InitGameVersion(void)
 
 static void D_FirstUse(void)
 {
-#ifdef _WIN32
+#ifdef WIN32
     LPCWSTR msg = L"Thank you for downloading DOOM RETRO!\n\n"
                   L"Please note that, as with all DOOM source ports, no actual map data is "
                   L"distributed with DOOM RETRO.\n\n"
@@ -544,7 +544,7 @@ static boolean D_IsUnsupportedPWAD(char *filename)
 
 static int D_ChooseIWAD(void)
 {
-#ifdef _WIN32
+#ifdef WIN32
     OPENFILENAME        ofn;
     char                szFile[4096];
     int                 iwadfound = -1;
@@ -824,7 +824,7 @@ static void D_DoomMainSetup(void)
                 rename("doomretro.wad.temp", "doomretro.wad");
                 I_Quit(false);
             }
-#ifdef _WIN32
+#ifdef WIN32
             else if (!choseniwad)
                 PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, SND_ALIAS_ID | SND_ASYNC);
 #endif

@@ -29,10 +29,10 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
+#include "i_video.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "s_sound.h"
-#include "SDL.h"
 #include "v_data.h"
 #include "v_video.h"
 #include "w_wad.h"
@@ -1428,7 +1428,7 @@ void WI_checkForAccelerate(void)
         if (playeringame[i] && !menuactive)
         {
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
             const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
             if ((player->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER])

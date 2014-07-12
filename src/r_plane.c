@@ -139,7 +139,7 @@ static visplane_t *new_visplane(unsigned hash)
     visplane_t *check = freetail;
 
     if (!check)
-        check = calloc(1, sizeof *check);
+        check = calloc(1, sizeof(*check));
     else if (!(freetail = freetail->next))
         freehead = &freetail;
     check->next = visplanes[hash];
@@ -162,9 +162,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
     hash = visplane_hash(picnum, lightlevel, height);
 
     for (check = visplanes[hash]; check; check = check->next)   // killough
-        if (height == check->height &&
-            picnum == check->picnum &&
-            lightlevel == check->lightlevel)
+        if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel)
             return check;
 
     check = new_visplane(hash);         // killough
@@ -279,7 +277,7 @@ void R_DrawPlanes(void)
                     //  i.e. colormaps[0] is used.
                     // Because of this hack, sky is not affected
                     //  by INVUL inverse mapping.
-                    dc_colormap = (fixedcolormap ? fixedcolormap : colormaps); // [BH] So let's fix it...
+                    dc_colormap = (fixedcolormap ? fixedcolormap : colormaps);
                     dc_texturemid = skytexturemid;
                     for (x = pl->minx; x <= pl->maxx; x++)
                     {

@@ -36,7 +36,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 extern wad_file_class_t stdc_wad_file;
 
-#ifdef _WIN32
+#ifdef WIN32
 extern wad_file_class_t win32_wad_file;
 #endif
 
@@ -46,7 +46,7 @@ extern wad_file_class_t posix_wad_file;
 
 static wad_file_class_t *wad_file_classes[] =
 {
-#ifdef _WIN32
+#ifdef WIN32
     &win32_wad_file,
 #endif
 #ifdef HAVE_MMAP

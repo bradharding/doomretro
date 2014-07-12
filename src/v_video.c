@@ -26,16 +26,16 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#ifdef _WIN32
+#ifdef WIN32
 #include <Shlobj.h>
 #endif
 
 #include "doomstat.h"
 #include "d_main.h"
 #include "i_swap.h"
+#include "i_video.h"
 #include "m_misc.h"
 #include "m_random.h"
-#include "SDL.h"
 #include "v_video.h"
 #include "z_zone.h"
 
@@ -922,7 +922,7 @@ boolean V_ScreenShot(void)
     int         width, height;
     SDL_Surface *screenshot;
 
-#ifdef _WIN32
+#ifdef WIN32
     HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
 
     if (hr != S_OK)
@@ -985,7 +985,7 @@ boolean V_ScreenShot(void)
                                       screenbuffer->format->Bmask,
                                       screenbuffer->format->Amask);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_SetPaletteColors(screenshot->format->palette, palette, 0, 256);
 #else
     SDL_SetColors(screenshot, palette, 0, 256);

@@ -51,7 +51,7 @@ typedef enum
 
 typedef uint8_t byte;
 
-#ifdef _WIN32
+#ifdef WIN32
 
 #define DIR_SEPARATOR   '\\'
 #define DIR_SEPARATOR_S "\\"

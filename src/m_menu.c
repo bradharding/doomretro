@@ -1967,7 +1967,7 @@ boolean M_Responder(event_t *ev)
     static int  keywait = 0;
     static int  mousewait = 0;
     char        *tempstring = "";
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_Keymod  modstate = SDL_GetModState();
 #else
     SDLMod      modstate = SDL_GetModState();

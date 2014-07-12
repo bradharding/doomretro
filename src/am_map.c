@@ -29,7 +29,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include <math.h>
 
-#ifdef _WIN32
+#ifdef WIN32
 #include <Windows.h>
 #include <Xinput.h>
 #endif
@@ -39,6 +39,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "dstrings.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
+#include "i_video.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "SDL.h"
@@ -607,10 +608,10 @@ static void AM_maxOutWindowScale(void)
     AM_activateNewScale();
 }
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
-SDL_Keymod modstate;
+#ifdef SDL20
+SDL_Keymod      modstate;
 #else
-SDLMod modstate;
+SDLMod          modstate;
 #endif
 
 static boolean AM_getSpeedToggle(void)
@@ -1013,7 +1014,7 @@ boolean AM_Responder(event_t *ev)
                     ftom_zoommul = M_ZOOMIN;
                 }
 
-#ifdef _WIN32
+#ifdef WIN32
                 if (!followplayer)
                 {
                     // pan right

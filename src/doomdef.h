@@ -33,7 +33,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "doomkeys.h"
 
-#ifdef _WIN32
+#ifdef WIN32
 #define snprintf _snprintf
 #if _MSC_VER < 1400 /* not needed for Visual Studio 2008 */
 #define vsnprintf _vsnprintf

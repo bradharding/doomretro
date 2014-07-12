@@ -48,7 +48,7 @@ char                    *windowposition = "";
 SDL_Surface             *screen = NULL;
 SDL_Surface             *screenbuffer = NULL;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
 SDL_Window              *sdl_window = NULL;
 static SDL_Renderer     *sdl_renderer = NULL;
 static SDL_Texture      *sdl_texture = NULL;
@@ -179,7 +179,7 @@ static void UpdateFocus(void)
 {
     static boolean      alreadypaused = false;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     Uint32              state = SDL_GetWindowFlags(sdl_window);
 
     // Should the screen be grabbed?
@@ -217,14 +217,14 @@ static void SetShowCursor(boolean show)
     // so work around this by setting an invisible cursor instead. On
     // other systems, it isn't possible to change the cursor, so this
     // hack has to be Windows-only. (Thanks to entryway for this)
-#ifdef _WIN32
+#ifdef WIN32
     SDL_SetCursor(cursors[show]);
 #else
     SDL_ShowCursor(show);
 #endif
 
     // When the cursor is hidden, grab the input.
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_SetRelativeMouseMode(!show);
 #else
     SDL_WM_GrabInput(!show);
@@ -233,7 +233,7 @@ static void SetShowCursor(boolean show)
 
 int translatekey[] =
 {
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
     'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1',
     '2', '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER, KEY_ESCAPE,
@@ -293,7 +293,7 @@ int TranslateKey2(int key)
     switch (key)
     {
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         case KEY_LEFTARROW:    return SDL_SCANCODE_LEFT;
         case KEY_RIGHTARROW:   return SDL_SCANCODE_RIGHT;
         case KEY_DOWNARROW:    return SDL_SCANCODE_DOWN;
@@ -383,7 +383,7 @@ int TranslateKey2(int key)
 
 boolean keystate(int key)
 {
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 #else
     Uint8       *keystate = SDL_GetKeyState(NULL);
@@ -394,7 +394,7 @@ boolean keystate(int key)
 
 void I_SaveWindowPosition(void)
 {
-#ifdef _WIN32
+#ifdef WIN32
     if (!fullscreen)
     {
         static SDL_SysWMinfo    info;
@@ -403,7 +403,7 @@ void I_SaveWindowPosition(void)
 
         SDL_VERSION(&info.version);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         SDL_GetWindowWMInfo(sdl_window, &info);
         hwnd = info.info.win.window;
 #else
@@ -439,7 +439,7 @@ static int AccelerateMouse(int val)
 static void CenterMouse(void)
 {
     // Warp to the screen center
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_WarpMouseInWindow(sdl_window, screen->w / 2, screen->h / 2);
 #else
     SDL_WarpMouse(screen->w / 2, screen->h / 2);
@@ -458,7 +458,7 @@ void I_GetEvent(void)
     SDL_Event           sdlevent;
     event_t             ev;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_Scancode        key;
 #else
     SDLKey              key;
@@ -471,7 +471,7 @@ void I_GetEvent(void)
             case SDL_KEYDOWN:
                 ev.type = ev_keydown;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
                 key = sdlevent.key.keysym.scancode;
 #else
                 key = sdlevent.key.keysym.sym;
@@ -501,7 +501,7 @@ void I_GetEvent(void)
             case SDL_KEYUP:
                 ev.type = ev_keyup;
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
                 ev.data1 = translatekey[sdlevent.key.keysym.scancode];
 #else
                 ev.data1 = translatekey[sdlevent.key.keysym.sym];
@@ -560,7 +560,7 @@ void I_GetEvent(void)
                 }
                 break;
 
-#if !SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL12
             case SDL_ACTIVEEVENT:
                 // need to update our focus state
                 UpdateFocus();
@@ -579,10 +579,10 @@ void I_GetEvent(void)
                 }
 #endif
 
-#ifdef _WIN32
+#ifdef WIN32
             case SDL_SYSWMEVENT:
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
                 if (sdlevent.syswm.msg->msg.win.msg == WM_MOVE)
 #else
                 if (sdlevent.syswm.msg->msg == WM_MOVE)
@@ -596,30 +596,28 @@ void I_GetEvent(void)
                 break;
 #endif
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
-                case SDL_WINDOWEVENT:
+#ifdef SDL20
+            case SDL_WINDOWEVENT:
+                switch (sdlevent.window.event)
                 {
-                    switch (sdlevent.window.event)
-                    {
-                        case SDL_WINDOWEVENT_FOCUS_GAINED:
-                        case SDL_WINDOWEVENT_FOCUS_LOST:
-                            // need to update our focus state
-                            UpdateFocus();
-                            break;
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                        // need to update our focus state
+                        UpdateFocus();
+                        break;
 
-                        case SDL_WINDOWEVENT_EXPOSED:
-                            palette_to_set = true;
-                            break;
+                    case SDL_WINDOWEVENT_EXPOSED:
+                        palette_to_set = true;
+                        break;
 
-                        case SDL_WINDOWEVENT_RESIZED:
-                            if (!fullscreen)
-                            {
-                                need_resize = true;
-                                resize_h = sdlevent.window.data2;
-                                break;
-                            }
+                    case SDL_WINDOWEVENT_RESIZED:
+                        if (!fullscreen)
+                        {
+                            need_resize = true;
+                            resize_h = sdlevent.window.data2;
                             break;
-                    }
+                        }
+                        break;
                 }
                 break;
 #endif
@@ -671,7 +669,7 @@ static void UpdateGrab(void)
     {
         SetShowCursor(true);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         SDL_WarpMouseInWindow(sdl_window, screen->w - 16, screen->h - 16);
 #else
         SDL_WarpMouse(screen->w - 16, screen->h - 16);
@@ -728,7 +726,7 @@ void I_FinishUpdate(void)
     if (palette_to_set)
     {
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         SDL_SetPaletteColors(screenbuffer->format->palette, palette, 0, 256);
         if (sdl_texture)
             SDL_DestroyTexture(sdl_texture);
@@ -743,7 +741,7 @@ void I_FinishUpdate(void)
     // draw to screen
     blit(blitwidth, blitheight);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_BlitSurface(screenbuffer, NULL, screen, NULL);
     SDL_UpdateTexture(sdl_texture, NULL, screen->pixels, screen->pitch);
     SDL_RenderClear(sdl_renderer);
@@ -782,7 +780,7 @@ void I_SetPalette(byte *doompalette)
         palette[i].g = gammatable[gammaindex][(byte)(p + (g - p) * saturation)];
         palette[i].b = gammatable[gammaindex][(byte)(p + (b - p) * saturation)];
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         palette[i].a = 255;
 #endif
     }
@@ -825,7 +823,7 @@ static void SetWindowPositionVars(void)
 
 static void SetVideoMode(void)
 {
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_Rect            displaybounds;
 
     SDL_GetDisplayBounds(0, &displaybounds);
@@ -851,7 +849,7 @@ static void SetVideoMode(void)
             M_SaveDefaults();
         }
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         if (sdl_window)
             SDL_DestroyWindow(sdl_window);
         sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
@@ -869,7 +867,7 @@ static void SetVideoMode(void)
             screenheight = 800;
             M_SaveDefaults();
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
             if (sdl_window)
                 SDL_DestroyWindow(sdl_window);
             sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
@@ -887,7 +885,7 @@ static void SetVideoMode(void)
                 screenheight = 0;
                 M_SaveDefaults();
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
                 if (sdl_window)
                     SDL_DestroyWindow(sdl_window);
                 sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
@@ -937,7 +935,7 @@ static void SetVideoMode(void)
 
         SetWindowPositionVars();
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         if (sdl_window)
             SDL_DestroyWindow(sdl_window);
         sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
@@ -952,7 +950,7 @@ static void SetVideoMode(void)
         widescreen = false;
     }
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
     SDL_RenderSetLogicalSize(sdl_renderer, screenbuffer->w, screenbuffer->h);
@@ -1014,7 +1012,7 @@ void ToggleWideScreen(boolean toggle)
     }
 
     returntowidescreen = false;
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_RenderSetLogicalSize(sdl_renderer, width, height);
 #else
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
@@ -1040,7 +1038,7 @@ void ToggleWideScreen(boolean toggle)
     palette_to_set = true;
 }
 
-#ifdef _WIN32
+#ifdef WIN32
 void init_win32(LPCTSTR lpIconName);
 #endif
 
@@ -1060,7 +1058,7 @@ void ToggleFullScreen(void)
             M_SaveDefaults();
         }
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         if (sdl_window)
             SDL_DestroyWindow(sdl_window);
         sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
@@ -1078,7 +1076,7 @@ void ToggleFullScreen(void)
             screenheight = 800;
             M_SaveDefaults();
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
             if (sdl_window)
                 SDL_DestroyWindow(sdl_window);
             sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
@@ -1096,7 +1094,7 @@ void ToggleFullScreen(void)
                 screenheight = 0;
                 M_SaveDefaults();
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
                 if (sdl_window)
                     SDL_DestroyWindow(sdl_window);
                 sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
@@ -1148,7 +1146,7 @@ void ToggleFullScreen(void)
         putenv(envstring);
         SDL_InitSubSystem(SDL_INIT_VIDEO);
 
-#ifdef _WIN32
+#ifdef WIN32
         init_win32(gamemission == doom ? "DOOM" : "DOOM2");
 #endif
 
@@ -1179,7 +1177,7 @@ void ToggleFullScreen(void)
 
         SetWindowPositionVars();
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         if (sdl_window)
             SDL_DestroyWindow(sdl_window);
         sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
@@ -1193,7 +1191,7 @@ void ToggleFullScreen(void)
 
         SDL_SetCursor(cursors[0]);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
         SDL_SetWindowTitle(sdl_window, gamestate == GS_LEVEL ? mapnumandtitle : gamedescription);
 #else
         SDL_WM_SetCaption(gamestate == GS_LEVEL ? mapnumandtitle : gamedescription, NULL);
@@ -1203,7 +1201,7 @@ void ToggleFullScreen(void)
         UpdateFocus();
         UpdateGrab();
 
-#if !SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL12
         SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 #endif
 
@@ -1213,7 +1211,7 @@ void ToggleFullScreen(void)
         D_PostEvent(&ev);
     }
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
 #else
@@ -1241,18 +1239,16 @@ void ApplyWindowResize(int height)
     windowwidth = windowheight * 4 / 3;
     windowwidth += (windowwidth & 1);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_SetWindowSize(sdl_window, windowwidth, windowheight);
     screen = SDL_GetWindowSurface(sdl_window);
-#else
-    screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
-        SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
-#endif
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
     screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
 #else
+    screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
+        SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 #endif
 
@@ -1287,7 +1283,7 @@ void I_InitGammaTables(void)
 
 boolean I_ValidScreenMode(int width, int height)
 {
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_DisplayMode     mode;
     const int           modecount = SDL_GetNumDisplayModes(0);
     int                 i;
@@ -1323,7 +1319,7 @@ void I_InitGraphics(void)
 
     I_InitGammaTables();
 
-#if !SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL12
     if (videodriver != NULL && strlen(videodriver) > 0)
     {
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
@@ -1351,13 +1347,13 @@ void I_InitGraphics(void)
 
     SetVideoMode();
 
-#ifdef _WIN32
+#ifdef WIN32
     init_win32(gamemission == doom ? "DOOM" : "DOOM2");
 #endif
 
     SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_SetWindowTitle(sdl_window, "DOOM RETRO");
 #else
     SDL_WM_SetCaption("DOOM RETRO", NULL);
@@ -1367,7 +1363,7 @@ void I_InitGraphics(void)
 
     I_SetPalette(doompal);
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL20
     SDL_SetPaletteColors(screenbuffer->format->palette, palette, 0, 256);
     if (sdl_texture)
         SDL_DestroyTexture(sdl_texture);
@@ -1379,13 +1375,13 @@ void I_InitGraphics(void)
     UpdateFocus();
     UpdateGrab();
 
-    screens[0] = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    screens[0] = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
 
     for (i = 0; i < SCREENHEIGHT; i++)
         rows[i] = *screens + i * SCREENWIDTH;
 
-#if !SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef SDL12
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 #endif
 

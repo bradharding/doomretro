@@ -232,7 +232,7 @@ void IdentifyIWADByContents(const char *iwadname, GameMode_t *gmode, GameMission
     // Determine game mode from levels present
     // Must be a full set for whichever mode is present
     for (ud = rg = sw = cm = sc = tnt = plut = 0, header.numlumps = LONG(header.numlumps);
-         header.numlumps && fread(&lump, sizeof lump, 1, fp); header.numlumps--)
+         header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
     {
         *n == 'E' && n[2] == 'M' && !n[4] ?
             n[1] == '4' ? ++ud : n[1] != '1' ? rg += n[1] == '3' || n[1] == '2' : ++sw :
@@ -273,7 +273,7 @@ boolean IsFreedoom(const char *iwadname)
     // Determine game mode from levels present
     // Must be a full set for whichever mode is present
     for (header.numlumps = LONG(header.numlumps);
-         header.numlumps && fread(&lump, sizeof lump, 1, fp); header.numlumps--)
+         header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
     {
         if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' &&
             n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
@@ -299,14 +299,14 @@ int IWADRequiredByPWAD(const char *pwadname)
     if (!fp)
         I_Error("Can't open PWAD: %s\n", pwadname);
 
-    if (fread(&header, 1, sizeof header, fp) != sizeof header ||
+    if (fread(&header, 1, sizeof(header), fp) != sizeof(header) ||
         header.identification[0] != 'P' || header.identification[1] != 'W' ||
         header.identification[2] != 'A' || header.identification[3] != 'D')
         I_Error("PWAD tag not present: %s\n", pwadname);
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-    for (header.numlumps = LONG(header.numlumps);  header.numlumps && fread(&lump, sizeof lump, 1, fp); header.numlumps--)
+    for (header.numlumps = LONG(header.numlumps);  header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
         if (*n == 'E' && n[2] == 'M' && !n[4])
             result = doom;
         else if (*n == 'M' && n[1] == 'A' && n[2] == 'P' && !n[5])
