@@ -26,7 +26,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#ifdef _WIN32
+#ifdef WIN32
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -61,7 +61,7 @@ boolean vibrate = false;
 void (*gamepadfunc)(void);
 void (*gamepadthumbsfunc)(short, short, short, short);
 
-char *xinput = "";
+char *xinput;
 
 extern boolean idclev;
 extern boolean idmus;
@@ -73,12 +73,15 @@ void I_InitGamepad(void)
     gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_DirectInput_LeftHanded :
         I_PollThumbs_DirectInput_RightHanded);
 
+    xinput = (char *)malloc(16);
+    strcpy(xinput, "");
+
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
         return;
     else
     {
-        int i;
-        int numgamepads = SDL_NumJoysticks();
+        int     i;
+        int     numgamepads = SDL_NumJoysticks();
 
         for (i = 0; i < numgamepads; ++i)
         {
@@ -94,10 +97,8 @@ void I_InitGamepad(void)
         }
         else
         {
-#ifdef _WIN32
-            HMODULE pXInputDLL = LoadLibrary("XInput1_4.dll");
-
-            xinput = (char *)malloc(16);
+#ifdef WIN32
+            HMODULE     pXInputDLL = LoadLibrary("XInput1_4.dll");
 
             if (pXInputDLL)
                 strcpy(xinput, "XInput1_4.dll");
@@ -124,7 +125,7 @@ void I_InitGamepad(void)
 
                 if (pXInputGetState && pXInputSetState)
                 {
-                    XINPUT_STATE state;
+                    XINPUT_STATE        state;
 
                     if (pXInputGetState(0, &state) == ERROR_SUCCESS)
                     {
@@ -135,6 +136,7 @@ void I_InitGamepad(void)
                 }
             }
 #endif
+
             SDL_JoystickEventState(SDL_ENABLE);
         }
     }
@@ -180,22 +182,22 @@ void I_PollDirectInputGamepad(void)
 
         gamepadthumbsfunc(0, 1, 2, 3);
 
-        gamepadbuttons = (GAMEPAD_X * SDL_JoystickGetButton(gamepad, 0) |
-            GAMEPAD_A * SDL_JoystickGetButton(gamepad, 1) |
-            GAMEPAD_B * SDL_JoystickGetButton(gamepad, 2) |
-            GAMEPAD_Y * SDL_JoystickGetButton(gamepad, 3) |
-            GAMEPAD_LEFT_SHOULDER * SDL_JoystickGetButton(gamepad, 4) |
-            GAMEPAD_RIGHT_SHOULDER * SDL_JoystickGetButton(gamepad, 5) |
-            GAMEPAD_LEFT_TRIGGER * SDL_JoystickGetButton(gamepad, 6) |
-            GAMEPAD_RIGHT_TRIGGER * SDL_JoystickGetButton(gamepad, 7) |
-            GAMEPAD_BACK * SDL_JoystickGetButton(gamepad, 8) |
-            GAMEPAD_START * SDL_JoystickGetButton(gamepad, 9) |
-            GAMEPAD_LEFT_THUMB * SDL_JoystickGetButton(gamepad, 10) |
-            GAMEPAD_RIGHT_THUMB * SDL_JoystickGetButton(gamepad, 11) |
-            GAMEPAD_DPAD_UP * (hat & SDL_HAT_UP) |
-            GAMEPAD_DPAD_RIGHT * (hat & SDL_HAT_RIGHT) |
-            GAMEPAD_DPAD_DOWN * (hat & SDL_HAT_DOWN) |
-            GAMEPAD_DPAD_LEFT * (hat & SDL_HAT_LEFT));
+        gamepadbuttons = (GAMEPAD_X * SDL_JoystickGetButton(gamepad, 0)
+            | GAMEPAD_A * SDL_JoystickGetButton(gamepad, 1)
+            | GAMEPAD_B * SDL_JoystickGetButton(gamepad, 2)
+            | GAMEPAD_Y * SDL_JoystickGetButton(gamepad, 3)
+            | GAMEPAD_LEFT_SHOULDER * SDL_JoystickGetButton(gamepad, 4)
+            | GAMEPAD_RIGHT_SHOULDER * SDL_JoystickGetButton(gamepad, 5)
+            | GAMEPAD_LEFT_TRIGGER * SDL_JoystickGetButton(gamepad, 6)
+            | GAMEPAD_RIGHT_TRIGGER * SDL_JoystickGetButton(gamepad, 7)
+            | GAMEPAD_BACK * SDL_JoystickGetButton(gamepad, 8)
+            | GAMEPAD_START * SDL_JoystickGetButton(gamepad, 9)
+            | GAMEPAD_LEFT_THUMB * SDL_JoystickGetButton(gamepad, 10)
+            | GAMEPAD_RIGHT_THUMB * SDL_JoystickGetButton(gamepad, 11)
+            | GAMEPAD_DPAD_UP * (hat & SDL_HAT_UP)
+            | GAMEPAD_DPAD_RIGHT * (hat & SDL_HAT_RIGHT)
+            | GAMEPAD_DPAD_DOWN * (hat & SDL_HAT_DOWN)
+            | GAMEPAD_DPAD_LEFT * (hat & SDL_HAT_LEFT));
 
         if (gamepadbuttons)
         {
@@ -220,7 +222,7 @@ int restoremotorspeed = 0;
 
 void XInputVibration(int motorspeed)
 {
-#ifdef _WIN32
+#ifdef WIN32
     if (motorspeed > currentmotorspeed || motorspeed == idlemotorspeed)
     {
         XINPUT_VIBRATION    vibration;
@@ -248,7 +250,7 @@ void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
 
 void I_PollXInputGamepad(void)
 {
-#ifdef _WIN32
+#ifdef WIN32
     if (gamepad)
     {
         event_t         ev;
@@ -261,9 +263,9 @@ void I_PollXInputGamepad(void)
 
         gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
 
-        gamepadbuttons = (state.Gamepad.wButtons |
-            GAMEPAD_LEFT_TRIGGER * (state.Gamepad.bLeftTrigger > GAMEPAD_TRIGGER_THRESHOLD) |
-            GAMEPAD_RIGHT_TRIGGER * (state.Gamepad.bRightTrigger > GAMEPAD_TRIGGER_THRESHOLD));
+        gamepadbuttons = (state.Gamepad.wButtons
+            | GAMEPAD_LEFT_TRIGGER * (state.Gamepad.bLeftTrigger > GAMEPAD_TRIGGER_THRESHOLD)
+            | GAMEPAD_RIGHT_TRIGGER * (state.Gamepad.bRightTrigger > GAMEPAD_TRIGGER_THRESHOLD));
 
         if (damagevibrationtics)
             if (!--damagevibrationtics && !weaponvibrationtics)
