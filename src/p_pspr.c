@@ -43,6 +43,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define BFGCELLS                40
 
 #define CHAINSAWIDLEMOTORSPEED  7500
+#define MAXMOTORSPEED           65535
 
 //
 // P_SetPsprite
@@ -179,8 +180,9 @@ void P_FireWeapon(player_t *player)
     {
         int motorspeed = weaponinfo[readyweapon].motorspeed;
 
-        if (readyweapon == wp_fist && player->powers[pw_strength])
-            motorspeed *= 2;
+        if ((readyweapon == wp_fist && player->powers[pw_strength])
+            || (readyweapon == wp_chainsaw && linetarget))
+            motorspeed = MAXMOTORSPEED;
         XInputVibration(motorspeed);
         weaponvibrationtics = weaponinfo[readyweapon].tics;
     }
