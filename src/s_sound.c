@@ -120,7 +120,7 @@ static music_module_t *music_modules[] =
 // Check if a sound device is in the given list of devices
 static boolean SndDeviceInList(snddevice_t device, snddevice_t *list, int len)
 {
-    int         i;
+    int i;
 
     for (i = 0; i < len; ++i)
         if (device == list[i])
@@ -166,7 +166,7 @@ static void InitMusicModule(void)
     {
         // Is the music device in the list of devices supported
         // by this module?
-        if (SndDeviceInList((snddevice_t)snd_musicdevice,
+        if (SndDeviceInList(snd_musicdevice,
                             music_modules[i]->sound_devices,
                             music_modules[i]->num_sound_devices))
         {
@@ -180,7 +180,9 @@ static void InitMusicModule(void)
     }
 }
 
-boolean nosound, nosfx, nomusic;
+boolean nosound;
+boolean nosfx;
+boolean nomusic;
 
 //
 // Initializes sound stuff, including volume
@@ -196,6 +198,12 @@ void S_Init(int sfxVolume, int musicVolume)
     // Initialize the sound and music subsystems.
     if (!nosound)
     {
+        // This is kind of a hack. If native MIDI is enabled, set up
+        // the TIMIDITY_CFG environment variable here before SDL_mixer
+        // is opened.
+        if (!nomusic)
+            I_InitTimidityConfig();
+
         if (!nosfx)
         {
             int i;
@@ -211,6 +219,7 @@ void S_Init(int sfxVolume, int musicVolume)
             // Free all channels for use
             for (i = 0; i < numChannels; i++)
                 channels[i].sfxinfo = 0;
+
             // Note that sounds have not been cached (yet).
             for (i = 1; i < NUMSFX; i++)
                 S_sfx[i].lumpnum = -1;
@@ -222,10 +231,9 @@ void S_Init(int sfxVolume, int musicVolume)
             S_SetMusicVolume(musicVolume);
 
             // no sounds are playing, and they are not mus_paused
-            mus_paused = 0;
+            mus_paused = false;
         }
     }
-
 }
 
 void S_Shutdown(void)
@@ -280,7 +288,7 @@ void S_Start(void)
     S_StopSounds();
 
     // start new music for the level
-    mus_paused = 0;
+    mus_paused = false;
 
     if (gamemode == commercial)
     {
