@@ -269,23 +269,36 @@ static void AddSpriteLump(lumpinfo_t *lump)
 // Generate the list.  Run at the start, before merging
 static void GenerateSpriteList(void)
 {
-    int i;
+    int                 i;
+    static boolean      medikit = false;
+    static boolean      stimpack = false;
 
     InitSpriteList();
 
     // Add all sprites from the IWAD
     for (i = 0; i < iwad_sprites.numlumps; ++i)
         AddSpriteLump(&iwad_sprites.lumps[i]);
+
     // Add all sprites from the PWAD
     // (replaces IWAD sprites)
-
     for (i = 0; i < pwad_sprites.numlumps; ++i)
     {
         lumpinfo_t      *lump = &pwad_sprites.lumps[i];
 
-        if (lump->wad_file->freedoom &&
-            (!strcasecmp(lump->name, "MEDIA0") || !strcasecmp(lump->name, "STIMA0")))
-            continue;
+        if (!strcasecmp(lump->name, "MEDIA0"))
+        {
+            if (medikit || lump->wad_file->freedoom)
+                continue;
+            else
+                medikit = true;
+        }
+        else if (!strcasecmp(lump->name, "STIMA0"))
+        {
+            if (stimpack || lump->wad_file->freedoom)
+                continue;
+            else
+                stimpack = true;
+        }
 
         AddSpriteLump(lump);
         if (i < iwad_sprites.numlumps && lump->size != iwad_sprites.lumps[i].size)
