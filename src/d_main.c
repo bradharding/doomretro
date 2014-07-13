@@ -80,7 +80,7 @@ char           *savegamedir;
 // location of IWAD and WAD files
 char           *iwadfile;
 
-char           *wadfolder = ".";
+char           *iwadfolder = ".";
 
 boolean        devparm;        // started game with -devparm
 boolean        nomonsters;     // checkparm of -nomonsters
@@ -583,7 +583,7 @@ static int D_ChooseIWAD(void)
                 if (D_AddFile(file))
                 {
                     iwadfound = 1;
-                    wadfolder = strdup(M_ExtractFolder(file));
+                    iwadfolder = strdup(M_ExtractFolder(file));
                 }
             }
 
@@ -605,7 +605,7 @@ static int D_ChooseIWAD(void)
                 if (D_AddFile(fullpath))
                 {
                     iwadfound = 1;
-                    wadfolder = strdup(M_ExtractFolder(file));
+                    iwadfolder = strdup(M_ExtractFolder(file));
                     if (W_MergeFile(file))
                     {
                         modifiedgame = true;
@@ -615,8 +615,8 @@ static int D_ChooseIWAD(void)
                 }
                 else
                 {
-                    // otherwise try the wadfolder setting
-                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder,
+                    // otherwise try the iwadfolder setting
+                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
                     if (D_AddFile(fullpath))
@@ -659,7 +659,7 @@ static int D_ChooseIWAD(void)
                         {
                             iwadfound = 1;
                             sharewareiwad = !strcasecmp(iwad, "DOOM1.WAD");
-                            wadfolder = strdup(szFile);
+                            iwadfolder = strdup(szFile);
                             break;
                         }
                     }
@@ -685,8 +685,8 @@ static int D_ChooseIWAD(void)
                     }
                     else
                     {
-                        // otherwise try the wadfolder setting
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", wadfolder);
+                        // otherwise try the iwadfolder setting
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", iwadfolder);
                         IdentifyIWADByName(fullpath2);
                         if (D_AddFile(fullpath2))
                         {
@@ -757,7 +757,7 @@ static void D_DoomMainSetup(void)
 
     iwadfile = D_FindIWAD();
 
-    wadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
+    iwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
 
     modifiedgame = false;
 
@@ -826,6 +826,7 @@ static void D_DoomMainSetup(void)
                 rename("doomretro.wad.temp", "doomretro.wad");
                 I_Quit(false);
             }
+
 #ifdef WIN32
             else if (!choseniwad)
                 PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, SND_ALIAS_ID | SND_ASYNC);
@@ -869,7 +870,7 @@ static void D_DoomMainSetup(void)
                     IdentifyIWADByName(fullpath);
                     if (D_AddFile(fullpath))
                     {
-                        wadfolder = strdup(M_ExtractFolder(file));
+                        iwadfolder = strdup(M_ExtractFolder(file));
                         if (W_MergeFile(file))
                         {
                             modifiedgame = true;
@@ -879,8 +880,8 @@ static void D_DoomMainSetup(void)
                     }
                     else
                     {
-                        // otherwise try the wadfolder setting
-                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", wadfolder,
+                        // otherwise try the iwadfolder setting
+                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
                             (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                         IdentifyIWADByName(fullpath);
                         if (D_AddFile(fullpath))

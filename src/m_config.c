@@ -69,6 +69,7 @@ extern int      graphicdetail;
 extern boolean  grid;
 extern boolean  homindicator;
 extern int      hud;
+extern char     *iwadfolder;
 extern int      key_down;
 extern int      key_down2;
 extern int      key_fire;
@@ -109,7 +110,6 @@ extern int      snd_maxslicetime_ms;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
-extern char     *wadfolder;
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
@@ -210,6 +210,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (grid,                grid,                 1),
     CONFIG_VARIABLE_INT   (homindicator,        homindicator,         1),
     CONFIG_VARIABLE_INT   (hud,                 hud,                  1),
+    CONFIG_VARIABLE_STRING(iwadfolder,          iwadfolder,           0),
     CONFIG_VARIABLE_KEY   (key_down,            key_down,             3),
     CONFIG_VARIABLE_KEY   (key_down2,           key_down2,            3),
     CONFIG_VARIABLE_KEY   (key_fire,            key_fire,             3),
@@ -251,7 +252,6 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_STRING(timidity_cfg_path,   timidity_cfg_path,    0),
     CONFIG_VARIABLE_INT   (translucency,        translucency,         1),
     CONFIG_VARIABLE_STRING(videodriver,         videodriver,          0),
-    CONFIG_VARIABLE_STRING(wadfolder,           wadfolder,            0),
     CONFIG_VARIABLE_INT   (widescreen,          widescreen,           1),
     CONFIG_VARIABLE_STRING(windowposition,      windowposition,       0),
     CONFIG_VARIABLE_INT   (windowwidth,         windowwidth,          0),
