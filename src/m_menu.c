@@ -1485,16 +1485,24 @@ void M_DrawOptions(void)
     if (messages)
     {
         if (M_MSGON)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, 0,
-                                  W_CacheLumpName("M_MSGON", PU_CACHE));
+        {
+            patch_t *patch = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
+
+            M_DrawPatchWithShadow(OptionsDef.x + patch->width + 10, OptionsDef.y + 16 * msgs + OFFSET, 0,
+                W_CacheLumpName("M_MSGON", PU_CACHE));
+        }
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "on");
     }
     else
     {
         if (M_MSGOFF)
-            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, 0,
-                                  W_CacheLumpName("M_MSGOFF", PU_CACHE));
+        {
+            patch_t *patch = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
+
+            M_DrawPatchWithShadow(OptionsDef.x + patch->width + 10, OptionsDef.y + 16 * msgs + OFFSET, 0,
+                W_CacheLumpName("M_MSGOFF", PU_CACHE));
+        }
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "off");
     }
@@ -1502,16 +1510,24 @@ void M_DrawOptions(void)
     if (graphicdetail == HIGH)
     {
         if (M_GDHIGH)
-            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, 0,
-                                  W_CacheLumpName("M_GDHIGH", PU_CACHE));
+        {
+            patch_t *patch = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
+
+            M_DrawPatchWithShadow(OptionsDef.x + patch->width + 10, OptionsDef.y + 16 * detail + OFFSET, 0,
+                W_CacheLumpName("M_GDHIGH", PU_CACHE));
+        }
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "high");
     }
     else
     {
         if (M_GDLOW)
-            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET, 0,
-                                  W_CacheLumpName("M_GDLOW", PU_CACHE));
+        {
+            patch_t *patch = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
+
+            M_DrawPatchWithShadow(OptionsDef.x + patch->width + 10, OptionsDef.y + 16 * detail + OFFSET, 0,
+                W_CacheLumpName("M_GDLOW", PU_CACHE));
+        }
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "low");
     }
