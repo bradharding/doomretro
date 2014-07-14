@@ -44,6 +44,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "f_wipe.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_swap.h"
 #include "i_system.h"
 #include "i_timer.h"
 #include "i_video.h"
@@ -289,12 +290,12 @@ void D_Display(void)
             patch_t     *patch = W_CacheLumpName("M_PAUSE", PU_CACHE);
 
             if (widescreen)
-                V_DrawPatchWithShadow((ORIGINALWIDTH - patch->width) / 2,
-                                      viewwindowy / 2 + (viewheight / 2 - patch->height) / 2,
+                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
+                                      viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2,
                                       0, patch, false);
             else
-                V_DrawPatchWithShadow((ORIGINALWIDTH - patch->width) / 2,
-                                      (ORIGINALHEIGHT - patch->height) / 2,
+                V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
+                                      (ORIGINALHEIGHT - SHORT(patch->height)) / 2,
                                       0, patch, false);
         }
         else

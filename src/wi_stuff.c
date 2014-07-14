@@ -454,7 +454,7 @@ void WI_drawLF(void)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
                               FB, lnames[wbs->last], false);
-        y += lnames[wbs->last]->height + 2;
+        y += SHORT(lnames[wbs->last]->height) + 2;
     }
     else
     {
@@ -698,7 +698,7 @@ void WI_drawTime(int x, int y, int t)
     if (t < 0)
         return;
 
-    x += (num[0]->width - 11) * 4;
+    x += (SHORT(num[0]->width) - 11) * 4;
 
     if (t <= 61 * 59)
     {

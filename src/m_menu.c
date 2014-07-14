@@ -750,7 +750,8 @@ void M_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch)
 //
 void M_DrawCenteredPatchWithShadow(int y, int scrn, patch_t *patch)
 {
-    V_DrawPatchWithShadow((ORIGINALWIDTH - patch->width) / 2 + patch->leftoffset, y, scrn, patch, false);
+    V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
+        y, scrn, patch, false);
 }
 
 //
@@ -1488,8 +1489,9 @@ void M_DrawOptions(void)
         {
             patch_t *patch = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + patch->width + 10, OptionsDef.y + 16 * msgs + OFFSET, 0,
-                W_CacheLumpName("M_MSGON", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch->width) + 10,
+                                  OptionsDef.y + 16 * msgs + OFFSET,
+                                  0, W_CacheLumpName("M_MSGON", PU_CACHE));
         }
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "on");
@@ -1500,8 +1502,9 @@ void M_DrawOptions(void)
         {
             patch_t *patch = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + patch->width + 10, OptionsDef.y + 16 * msgs + OFFSET, 0,
-                W_CacheLumpName("M_MSGOFF", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch->width) + 10,
+                                  OptionsDef.y + 16 * msgs + OFFSET,
+                                  0, W_CacheLumpName("M_MSGOFF", PU_CACHE));
         }
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "off");
@@ -1513,8 +1516,9 @@ void M_DrawOptions(void)
         {
             patch_t *patch = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + patch->width + 10, OptionsDef.y + 16 * detail + OFFSET, 0,
-                W_CacheLumpName("M_GDHIGH", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch->width) + 10,
+                OptionsDef.y + 16 * detail + OFFSET,
+                0, W_CacheLumpName("M_GDHIGH", PU_CACHE));
         }
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "high");
@@ -1525,8 +1529,9 @@ void M_DrawOptions(void)
         {
             patch_t *patch = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + patch->width + 10, OptionsDef.y + 16 * detail + OFFSET, 0,
-                W_CacheLumpName("M_GDLOW", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch->width) + 10,
+                OptionsDef.y + 16 * detail + OFFSET,
+                0, W_CacheLumpName("M_GDLOW", PU_CACHE));
         }
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "low");
@@ -1866,7 +1871,7 @@ int M_StringWidth(char *string)
             w += (i > 0 && (string[i - 1] == '.' || string[i - 1] == '!' || string[i - 1] == '?') ?
                   5 : 3);
         else
-            w += SHORT(STCFN034 ? hu_font[c]->width : strlen(smallcharset[c]) / 10 - 1);
+            w += (STCFN034 ? SHORT(hu_font[c]->width) : strlen(smallcharset[c]) / 10 - 1);
     }
 
     return w;
@@ -1936,7 +1941,7 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
 
         if (STCFN034)
         {
-            w = hu_font[c]->width;
+            w = SHORT(hu_font[c]->width);
             if (cx + w > ORIGINALWIDTH)
                 break;
             if (shadow)
@@ -2922,7 +2927,7 @@ void M_Drawer(void)
             if (!M_StringWidth(string))
                 y -= 4;
             M_WriteText(x, y, string, true);
-            y += SHORT(hu_font[0]->height + 1);
+            y += SHORT(hu_font[0]->height) + 1;
         }
 
         return;
@@ -3053,9 +3058,9 @@ void M_Init(void)
     messageString = NULL;
     messageLastMenuActive = menuactive;
     quickSaveSlot = -1;
-    tempscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    blurredscreen = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    titleheight = ((patch_t *)W_CacheLumpName("M_DOOM", PU_CACHE))->height;
+    tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    blurredscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM", PU_CACHE))->height);
 
     if (autostart)
     {

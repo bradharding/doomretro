@@ -170,7 +170,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
             if (STCFN034)
             {
                 // [BH] display lump from PWAD with shadow
-                w = l->f[c - l->sc]->width;
+                w = SHORT(l->f[c - l->sc]->width);
                 V_DrawPatchWithShadow(x, l->y, 0, l->f[c - l->sc], false);
             }
             else

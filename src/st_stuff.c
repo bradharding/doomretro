@@ -71,10 +71,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ST_FX                   143
 #define ST_FY                   169
 
-// Should be set to patch width
-//  for tall numbers later on
-#define ST_TALLNUMWIDTH         (tallnum[0]->width)
-
 // Number of status faces.
 #define ST_NUMPAINFACES         5
 #define ST_NUMSTRAIGHTFACES     3

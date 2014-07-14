@@ -179,7 +179,7 @@ void STlib_drawNum(st_number_t *n)
     // in the special case of 0, you draw 0
     if (!num)
     {
-        if (n->p[0]->height == 6 && !STYSNUM0)
+        if (SHORT(n->p[0]->height) == 6 && !STYSNUM0)
         {
             if (graphicdetail == LOW)
                 STlib_drawLowNum(0, 160, 47, x - w, n->y);
@@ -194,7 +194,7 @@ void STlib_drawNum(st_number_t *n)
     while (num && numdigits--)
     {
         x -= w;
-        if (n->p[0]->height == 6 && !STYSNUM0)
+        if (SHORT(n->p[0]->height) == 6 && !STYSNUM0)
         {
             if (graphicdetail == LOW)
                 STlib_drawLowNum(num % 10, 160, 47, x, n->y);

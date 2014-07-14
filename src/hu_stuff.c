@@ -277,9 +277,9 @@ static void HU_DrawHUD(void)
         invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ||
                   menuactive || paused);
         if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (patch->height - 17), 0, patch, invert);
+            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), 0, patch, invert);
         else
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (patch->height - 17), 0, patch, invert);
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), 0, patch, invert);
         DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
         hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
 
@@ -376,7 +376,7 @@ static void HU_DrawHUD(void)
                     }
                     if (showkey)
                         hudfunc(keypic_x, HUD_KEYS_Y, 0, patch, true);
-                    keypic_x += patch->width + 6;
+                    keypic_x += SHORT(patch->width) + 6;
                 }
             }
             else
@@ -389,7 +389,7 @@ static void HU_DrawHUD(void)
                 {
                     patch_t *patch = keypic[i].patch;
 
-                    hudfunc(keypic_x + (patch->width + 6) * (cardsfound - plr->cards[i]),
+                    hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
                             HUD_KEYS_Y, 0, patch, true);
                 }
         }
@@ -398,7 +398,7 @@ static void HU_DrawHUD(void)
         {
             DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, true, hudnumfunc);
             hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, true);
-            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (patch->height - 18), 0,
+            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 18), 0,
                     plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, true);
         }
     }
