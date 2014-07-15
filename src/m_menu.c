@@ -1478,7 +1478,7 @@ void M_DrawOptions(void)
     {
         M_DrawPatchWithShadow(108, 15 + OFFSET, 0, W_CacheLumpName("M_OPTTTL", PU_CACHE));
         OptionsDef.x = 60;
-        OptionsDef.x = 37;
+        OptionsDef.y = 37;
     }
     else
         M_DrawCenteredString(8 + OFFSET, "OPTIONS");
@@ -1487,11 +1487,11 @@ void M_DrawOptions(void)
     {
         if (M_MSGON)
         {
-            patch_t *patch = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
+            patch_t     *patch1 = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
+            patch_t     *patch2 = W_CacheLumpName("M_MSGON", PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch->width) + 10,
-                                  OptionsDef.y + 16 * msgs + OFFSET,
-                                  0, W_CacheLumpName("M_MSGON", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 10,
+                OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
         }
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "on");
@@ -1500,11 +1500,11 @@ void M_DrawOptions(void)
     {
         if (M_MSGOFF)
         {
-            patch_t *patch = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
+            patch_t     *patch1 = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
+            patch_t     *patch2 = W_CacheLumpName("M_MSGOFF", PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch->width) + 10,
-                                  OptionsDef.y + 16 * msgs + OFFSET,
-                                  0, W_CacheLumpName("M_MSGOFF", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 10,
+                OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
         }
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "off");
@@ -1514,11 +1514,11 @@ void M_DrawOptions(void)
     {
         if (M_GDHIGH)
         {
-            patch_t *patch = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
+            patch_t     *patch1 = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
+            patch_t     *patch2 = W_CacheLumpName("M_GDHIGH", PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch->width) + 10,
-                OptionsDef.y + 16 * detail + OFFSET,
-                0, W_CacheLumpName("M_GDHIGH", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 10,
+                OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
         }
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "high");
@@ -1527,22 +1527,22 @@ void M_DrawOptions(void)
     {
         if (M_GDLOW)
         {
-            patch_t *patch = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
+            patch_t     *patch1 = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
+            patch_t     *patch2 = W_CacheLumpName("M_GDLOW", PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch->width) + 10,
-                OptionsDef.y + 16 * detail + OFFSET,
-                0, W_CacheLumpName("M_GDLOW", PU_CACHE));
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 10,
+                OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
         }
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "low");
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
-                 (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
-                 + !hud), fullscreen ? 7.2f : 8.0f);
+        (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL)) + !hud),
+        fullscreen ? 7.2f : 8.0f);
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
-                 mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
+        mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
 }
 
 void M_Options(int choice)
