@@ -1487,7 +1487,7 @@ void M_DrawOptions(void)
             patch_t     *patch1 = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
             patch_t     *patch2 = W_CacheLumpName("M_MSGON", PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 10,
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
         }
         else
@@ -1500,7 +1500,7 @@ void M_DrawOptions(void)
             patch_t     *patch1 = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
             patch_t     *patch2 = W_CacheLumpName("M_MSGOFF", PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 10,
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
         }
         else
@@ -1514,7 +1514,7 @@ void M_DrawOptions(void)
             patch_t     *patch1 = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
             patch_t     *patch2 = W_CacheLumpName("M_GDHIGH", PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 10,
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
         }
         else
@@ -1527,7 +1527,7 @@ void M_DrawOptions(void)
             patch_t     *patch1 = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
             patch_t     *patch2 = W_CacheLumpName("M_GDLOW", PU_CACHE);
 
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 10,
+            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
         }
         else
@@ -1536,7 +1536,7 @@ void M_DrawOptions(void)
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
         (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL)) + !hud),
-        fullscreen ? 7.2f : 8.0f);
+        (fullscreen ? 7.2f : 8.0f));
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
         mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
