@@ -53,87 +53,87 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "w_wad.h"
 #include "z_zone.h"
 
-extern patch_t *hu_font[HU_FONTSIZE];
-extern boolean message_dontfuckwithme;
+extern patch_t  *hu_font[HU_FONTSIZE];
+extern boolean  message_dontfuckwithme;
 
-extern int     st_palette;
+extern int      st_palette;
 
-extern boolean wipe;
-extern boolean hud;
+extern boolean  wipe;
+extern boolean  hud;
 
 //
 // defaulted values
 //
-int            mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-float          gamepadSensitivity;
+int             mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
+float           gamepadSensitivity;
 
 // Show messages has default, false = off, true = on
-boolean        messages = false;
+boolean         messages = false;
 
-int            graphicdetail = GRAPHICDETAIL_DEFAULT;
+int             graphicdetail = GRAPHICDETAIL_DEFAULT;
 
-int            screensize = SCREENSIZE_DEFAULT;
+int             screensize = SCREENSIZE_DEFAULT;
 
 // -1 = no quicksave slot picked!
-int            quickSaveSlot;
+int             quickSaveSlot;
 
 // 1 = message to be printed
-int            messageToPrint;
+int             messageToPrint;
 // ...and here is the message string!
-char           *messageString;
+char            *messageString;
 
-int            messageLastMenuActive;
+int             messageLastMenuActive;
 
 // timed message = no input from user
-boolean        messageNeedsInput;
+boolean         messageNeedsInput;
 
 void (*messageRoutine)(int response);
 
 // we are going to be entering a savegame string
-int            saveStringEnter;
-int            saveSlot;               // which slot to save in
-int            saveCharIndex;          // which char we're editing
+int             saveStringEnter;
+int             saveSlot;               // which slot to save in
+int             saveCharIndex;          // which char we're editing
 // old save description before edit
-char           saveOldString[SAVESTRINGSIZE];
+char            saveOldString[SAVESTRINGSIZE];
 
-boolean        inhelpscreens;
-boolean        menuactive;
-boolean        savegames = false;
-boolean        startingnewgame = false;
+boolean         inhelpscreens;
+boolean         menuactive;
+boolean         savegames = false;
+boolean         startingnewgame = false;
 
-#define SKULLXOFF  -32
-#define LINEHEIGHT 17
-#define OFFSET     (widescreen ? 0 : 17)
+#define SKULLXOFF       -32
+#define LINEHEIGHT      17
+#define OFFSET          (widescreen ? 0 : 17)
 
-char           savegamestrings[10][SAVESTRINGSIZE];
+char            savegamestrings[10][SAVESTRINGSIZE];
 
-char           endstring[160];
+char            endstring[160];
 
-short          itemOn;                 // menu item skull is on
-short          skullAnimCounter;       // skull animation counter
-short          whichSkull;             // which skull to draw
+short           itemOn;                 // menu item skull is on
+short           skullAnimCounter;       // skull animation counter
+short           whichSkull;             // which skull to draw
 
-int            selectedskilllevel = 2;
-int            selectedepisode = 0;
-int            selectedexpansion = 0;
-int            selectedsavegame = 0;
+int             selectedskilllevel = 2;
+int             selectedepisode = 0;
+int             selectedexpansion = 0;
+int             selectedsavegame = 0;
 
-static int     functionkey = 0;
+static int      functionkey = 0;
 
-static boolean usinggamepad = false;
+static boolean  usinggamepad = false;
 
 // graphic name of skulls
-char           *skullName[2] = { "M_SKULL1", "M_SKULL2" };
+char            *skullName[2] = { "M_SKULL1", "M_SKULL2" };
 
 // current menudef
-menu_t         *currentMenu;
+menu_t          *currentMenu;
 
-byte           *tempscreen;
-byte           *blurredscreen;
+byte            *tempscreen;
+byte            *blurredscreen;
 
-boolean        blurred = false;
+boolean         blurred = false;
 
-int            titleheight;
+int             titleheight;
 
 //
 // PROTOTYPES
@@ -539,7 +539,7 @@ static byte blues[] =
 //
 void M_DarkBlueBackground(void)
 {
-    int         x, y;
+    int x, y;
 
     for (y = 0; y < SCREENWIDTH * SCREENHEIGHT; y += SCREENWIDTH * 2)
         for (x = y; x < y + SCREENWIDTH; x += 2)
@@ -568,7 +568,7 @@ void M_DrawChar(int x, int y, int i, boolean overlapping)
     for (y1 = 0; y1 < 18; y1++)
         for (x1 = 0; x1 < w; x1++)
         {
-            char dot = redcharset[i][y1 * w + x1];
+            char        dot = redcharset[i][y1 * w + x1];
 
             if (dot == '\xC8')
             {
@@ -599,9 +599,9 @@ static const int chartoi[123] =
 
 static struct
 {
-    char char1;
-    char char2;
-    int adjust;
+    char        char1;
+    char        char2;
+    int         adjust;
 } kern[] = {
     { '-', 'V', -2 }, { 'O', 'A', -1 }, { 'P', 'a', -3 }, { 'V', 'o', -2 },
     { 'f', 'e', -1 }, { 'f', 'f', -1 }, { 'f', 'o', -1 }, { 'l', 'e', -1 },
@@ -614,8 +614,8 @@ static struct
 
 static struct
 {
-    char char1;
-    char char2;
+    char        char1;
+    char        char2;
 } overlap[] = {
     { 'A', 'D' }, { 'A', 'M' }, { 'E', 'a' }, { 'E', 'n' }, { 'E', 'p' },
     { 'E', 'x' }, { 'G', 'A' }, { 'G', 'a' }, { 'I', 'n' }, { 'K', 'n' },
@@ -682,14 +682,14 @@ void M_DrawString(int x, int y, char *str)
 //
 int M_BigStringWidth(char *str)
 {
-    int i;
-    int w = 0;
+    int         i;
+    int         w = 0;
     static char prev = '\0';
 
     for (i = 0; (unsigned)i < strlen(str); i++)
     {
-        int j = chartoi[(int)str[i]];
-        int k = 0;
+        int     j = chartoi[(int)str[i]];
+        int     k = 0;
 
         while (kern[k].char1)
         {
@@ -745,7 +745,7 @@ void M_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch)
 }
 
 //
-// M_DrawPatchWithShadow
+// M_DrawCenteredPatchWithShadow
 //  draw patch with shadow horizontally centered on screen
 //
 void M_DrawCenteredPatchWithShadow(int y, int scrn, patch_t *patch)
@@ -795,11 +795,11 @@ static byte saveg_read8(FILE *file)
 //
 boolean M_CheckSaveGame(int choice)
 {
-    FILE            *handle;
-    int             episode;
-    int             map;
-    int             mission;
-    int             i;
+    FILE        *handle;
+    int         episode;
+    int         map;
+    int         mission;
+    int         i;
 
     handle = fopen(P_SaveGameFile(itemOn), "rb");
 
@@ -893,7 +893,7 @@ void M_DrawSaveLoadBorder(int x, int y)
     }
     else
     {
-        int xx, yy;
+        int     xx, yy;
 
         for (yy = 0; yy < 16; yy++)
             for (xx = 0; xx < 8; xx++)
@@ -921,7 +921,7 @@ void M_LoadSelect(int choice)
 {
     if (M_CheckSaveGame(choice))
     {
-        char name[256];
+        char    name[256];
 
         M_StringCopy(name, P_SaveGameFile(choice), sizeof(name));
 
@@ -949,22 +949,19 @@ void M_LoadGame(int choice)
 #define CARETTICS       20
 
 boolean showcaret = true;
-int carettics = 0;
+int     carettics = 0;
 
 //
 //  M_SaveGame & Cie.
 //
 void M_DrawSave(void)
 {
-    char *left;
-    char *right;
-    int  i;
-    int  j;
-    int  x, y;
-    int  xx, yy;
-
-    left = (char *)Z_Malloc(256, PU_STATIC, NULL);
-    right = (char *)Z_Malloc(256, PU_STATIC, NULL);
+    char        *left = Z_Malloc(256, PU_STATIC, NULL);
+    char        *right = Z_Malloc(256, PU_STATIC, NULL);
+    int         i;
+    int         j;
+    int         x, y;
+    int         xx, yy;
 
     // darken background
     M_DarkBackground();
@@ -1040,7 +1037,7 @@ void M_DoSave(int slot)
 //
 // User wants to save. Start string input for M_Responder
 //
-extern char maptitle[128];
+extern char     maptitle[128];
 
 char *mapnames[][6] =
 {
@@ -1181,7 +1178,7 @@ void M_QuickLoadResponse(int key)
     }
 }
 
-char tempstring[160];
+char    tempstring[160];
 
 void M_QuickLoad(void)
 {
@@ -1206,7 +1203,7 @@ void M_QuickLoad(void)
 //
 void M_DrawReadThis(void)
 {
-    char *lumpname = "HELP1";
+    char        *lumpname = "HELP1";
 
     switch (gameversion)
     {
@@ -1255,10 +1252,10 @@ void M_DrawSound(void)
         M_DrawCenteredString(38 + OFFSET, "SOUND VOLUME");
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17 + OFFSET, 16,
-                 (float)(sfxVolume * !(nosfx || nosound)), 8.0f);
+        (float)(sfxVolume * !(nosfx || nosound)), 8.0f);
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * music_vol + 17 + OFFSET, 16,
-                 (float)(musicVolume * !(nomusic || nosound)), 8.0f);
+        (float)(musicVolume * !(nomusic || nosound)), 8.0f);
 }
 
 void M_Sound(int choice)
@@ -1653,8 +1650,9 @@ int quitsounds2[8] =
     sfx_sgtatk
 };
 
-boolean        quitting;
-extern boolean waspaused;
+boolean         quitting;
+
+extern boolean  waspaused;
 
 void M_QuitResponse(int key)
 {
@@ -1686,7 +1684,7 @@ void M_QuitResponse(int key)
 
 static char *M_SelectEndMessage(void)
 {
-    char **endmsg;
+    char        **endmsg;
 
     endmsg = (gamemission == doom ? doom1_endmsg : doom2_endmsg);
     return endmsg[M_Random() % NUM_QUITMESSAGES];
@@ -1704,7 +1702,7 @@ void M_QuitDOOM(int choice)
 
 void M_SliderSound(void)
 {
-    static int wait = 0;
+    static int  wait = 0;
 
     if (wait < I_GetTime())
     {
@@ -1828,8 +1826,8 @@ void M_SizeDisplay(int choice)
 //
 void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
 {
-    int         xx = x;
-    int         i;
+    int xx = x;
+    int i;
 
     M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName("M_THERML", PU_CACHE));
     xx += 8;
@@ -1896,7 +1894,8 @@ int M_StringHeight(char *string)
 //
 void M_DrawSmallChar(int x, int y, int i, boolean shadow)
 {
-    int         w, x1, y1;
+    int w;
+    int x1, y1;
 
     w = strlen(smallcharset[i]) / 10;
 
@@ -2456,7 +2455,7 @@ boolean M_Responder(event_t *ev)
         }
 
         // Quickload
-        else if (key == KEY_F9 && !functionkey && (viewactive || automapactive) 
+        else if (key == KEY_F9 && !functionkey && (viewactive || automapactive)
                  && savegames && !keydown)
         {
             keydown = key;
@@ -2864,15 +2863,14 @@ void M_StartControlPanel(void)
 //
 void M_DrawNightmare(void)
 {
-    int x;
-    int y;
+    int x, y;
 
     for (y = 0; y < 20; y++)
     {
         for (x = 0; x < 124; x++)
         {
             V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, 0,
-                        (int)nmare[y * 124 + x], true);
+                (int)nmare[y * 124 + x], true);
         }
     }
 }
@@ -2884,13 +2882,12 @@ void M_DrawNightmare(void)
 //
 void M_Drawer(void)
 {
-    static short x;
-    static short y;
-    unsigned int i;
-    unsigned int max;
-    char         string[80];
-    char         *name;
-    int          start;
+    static short        x, y;
+    unsigned int        i;
+    unsigned int        max;
+    char                string[80];
+    char                *name;
+    int                 start;
 
     // Horiz. & Vertically center string and print it.
     if (messageToPrint)
@@ -2975,7 +2972,7 @@ void M_Drawer(void)
             }
             else if (W_CheckMultipleLumps(name) > 1)
                 M_DrawPatchWithShadow(x, y + OFFSET * (titleheight <= 125 ||
-                                      currentMenu != &MainDef), 0, W_CacheLumpName(name, PU_CACHE));
+                    currentMenu != &MainDef), 0, W_CacheLumpName(name, PU_CACHE));
             else
                 M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
         }
@@ -2987,10 +2984,10 @@ void M_Drawer(void)
     {
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET, 0,
-                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+                W_CacheLumpName(skullName[whichSkull], PU_CACHE));
         else
             M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, 0,
-                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+                W_CacheLumpName(skullName[whichSkull], PU_CACHE));
     }
     else if (currentMenu != &ReadDef)
     {
@@ -2998,11 +2995,11 @@ void M_Drawer(void)
             itemOn++;
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET *
-                                  (titleheight <= 125 || currentMenu != &MainDef), 0,
-                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+                (titleheight <= 125 || currentMenu != &MainDef), 0,
+                W_CacheLumpName(skullName[whichSkull], PU_CACHE));
         else
             M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, 0,
-                                  W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+                W_CacheLumpName(skullName[whichSkull], PU_CACHE));
     }
 }
 

@@ -37,10 +37,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // We need the playr data structure as well.
 #include "d_player.h"
 
-
-
-
-
 // ------------------------
 // Command line parameters.
 //
@@ -49,8 +45,6 @@ extern  boolean         respawnparm;    // checkparm of -respawn
 extern  boolean         fastparm;       // checkparm of -fast
 
 extern  boolean         devparm;        // DEBUG: launched with -devparm
-
-
 
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
@@ -75,7 +69,6 @@ extern int              startmap;
 
 // Savegame slot to load on startup.  This is the value provided to
 // the -loadgame option.  If this has not been provided, this is -1.
-
 extern int              startloadgame;
 
 extern boolean          autostart;
@@ -149,7 +142,6 @@ extern int              musicVolume;
 extern int              snd_MusicDevice;
 extern int              snd_SfxDevice;
 
-
 // -------------------------
 // Status flags for refresh.
 //
@@ -167,13 +159,9 @@ extern boolean          paused;         // Game Pause?
 
 extern boolean          viewactive;
 
-
-
-
 // Player taking events, and displaying.
 extern int              consoleplayer;
 extern int              displayplayer;
-
 
 // -------------------------------------
 // Scores, rating.
@@ -187,20 +175,10 @@ extern int              totalsecret;
 extern int              levelstarttic;  // gametic at level start
 extern int              leveltime;      // tics in game play for par
 
-
-
 extern boolean          usergame;
-
-
-
 
 //?
 extern gamestate_t      gamestate;
-
-
-
-
-
 
 //-----------------------------
 // Internal parameters, fixed.
@@ -208,17 +186,13 @@ extern gamestate_t      gamestate;
 //  according to user inputs. Partly load from
 //  WAD, partly set at startup time.
 
-
-
 extern int              gametic;
-
 
 // Bookkeeping on players - state.
 extern player_t         players[MAXPLAYERS];
 
 // Alive? Disconnected?
 extern boolean          playeringame[MAXPLAYERS];
-
 
 // Player spawn spots for deathmatch.
 #define MAX_DM_STARTS   10
@@ -232,12 +206,6 @@ extern mapthing_t       playerstarts[MAXPLAYERS];
 // Parameters for world map / intermission.
 extern wbstartstruct_t  wminfo;
 
-
-
-
-
-
-
 //-----------------------------------------
 // Internal parameters, used for engine.
 //
@@ -249,7 +217,6 @@ extern char             basedefault[1024];
 // if true, load all graphics at level load
 extern boolean          precache;
 
-
 // wipegamestate can be set to -1
 //  to force a wipe on the next draw
 extern gamestate_t      wipegamestate;
@@ -257,18 +224,12 @@ extern gamestate_t      wipegamestate;
 extern int              mouseSensitivity;
 extern float            gamepadSensitivity;
 
-
-
 // Needed to store the number of the dummy sky flat.
 // Used for rendering,
 //  as well as tracking projectiles etc.
 extern int              skyflatnum;
 
-
-
 // Netgame stuff (buffers and pointers, i.e. indices).
-
-
 extern int              rndindex;
 
 extern int              maketic;
@@ -276,7 +237,5 @@ extern int              nettics[MAXPLAYERS];
 
 extern ticcmd_t         netcmds[MAXPLAYERS][BACKUPTICS];
 extern int              ticdup;
-
-
 
 #endif
