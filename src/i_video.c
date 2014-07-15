@@ -424,6 +424,11 @@ void I_ShutdownGraphics(void)
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
+void I_ShutdownKeyboard(void)
+{
+    SDL_SetModState(KMOD_NONE);
+}
+
 static int AccelerateMouse(int val)
 {
     if (val < 0)

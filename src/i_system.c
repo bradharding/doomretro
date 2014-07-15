@@ -162,6 +162,8 @@ void I_Quit(boolean shutdown)
 
         I_ShutdownGraphics();
 
+        I_ShutdownKeyboard();
+
         I_ShutdownGamepad();
     }
 
@@ -297,6 +299,8 @@ void I_Error(char *error, ...)
         widescreen = true;
 
     I_ShutdownGraphics();
+
+    I_ShutdownKeyboard();
 
     I_ShutdownGamepad();
 
