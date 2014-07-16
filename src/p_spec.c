@@ -128,7 +128,7 @@ void P_InitPicAnims(void)
     int size = (numflats + 1) * sizeof(boolean);
 
     isliquid = (boolean *)Z_Malloc(size, PU_STATIC, 0);
-    memset(isliquid, 0, size);
+    memset(isliquid, false, size);
 
     //  Init animation
     lastanim = anims;

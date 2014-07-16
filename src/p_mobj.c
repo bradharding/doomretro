@@ -923,32 +923,29 @@ void P_SpawnMapThing(mapthing_t *mthing)
 
         if ((corpses & MOREBLOOD) && bloodsplats)
         {
-            short lump = sprites[mobj->sprite].spriteframes[0].lump[0];
-
-            if (sproffsets[lump].canmodify)
+            if ((mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
+                || (FREEDOOM && (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)))
             {
-                if ((mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
-                    || (FREEDOOM && (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)))
-                {
-                    int radius = ((spritewidth[lump] >> FRACBITS) >> 1) + 8;
+                short   lump = sprites[mobj->sprite].spriteframes[0].lump[0];
+                int     radius = ((spritewidth[lump] >> FRACBITS) >> 1) + 8;
 
-                    for (i = 0; i < M_RandomInt(100, 150); i++)
-                    {
-                        bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                                          mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                                          MF2_TRANSLUCENT_50, tl50colfunc);
-                    }
+                for (i = 0; i < M_RandomInt(100, 150); i++)
+                {
+                    bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                                      mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
+                                      MF2_TRANSLUCENT_50, tl50colfunc);
                 }
-                else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
-                {
-                    int radius = ((spritewidth[lump] >> FRACBITS) >> 1) + 8;
+            }
+            else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
+            {
+                short   lump = sprites[mobj->sprite].spriteframes[0].lump[0];
+                int     radius = ((spritewidth[lump] >> FRACBITS) >> 1) + 8;
 
-                    for (i = 0; i < M_RandomInt(100, 150); i++)
-                    {
-                        bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                                          mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                                          MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
-                    }
+                for (i = 0; i < M_RandomInt(100, 150); i++)
+                {
+                    bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                                      mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
+                                      MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
                 }
             }
         }
