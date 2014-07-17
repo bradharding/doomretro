@@ -61,7 +61,7 @@ void done_win32(void);
 #include "z_zone.h"
 
 #define DEFAULT_RAM 32 // MiB
-#define MIN_RAM     32 // MiB
+#define MIN_RAM     16 // MiB
 
 // Zone memory auto-allocation function that allocates the zone size
 // by trying progressively smaller zone sizes until one is found that
