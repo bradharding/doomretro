@@ -868,43 +868,24 @@ static void SetVideoMode(void)
 
         if (!screen)
         {
-            screenwidth = 1280;
-            screenheight = 800;
+            screenwidth = 0;
+            screenheight = 0;
             M_SaveDefaults();
 
 #ifdef SDL20
             if (sdl_window)
                 SDL_DestroyWindow(sdl_window);
             sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
-                SDL_WINDOWPOS_UNDEFINED, screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
+                SDL_WINDOWPOS_UNDEFINED, desktopwidth, desktopheight, SDL_WINDOW_FULLSCREEN);
             screen = SDL_GetWindowSurface(sdl_window);
             sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
 #else
-            screen = SDL_SetVideoMode(screenwidth, screenheight, 0,
+            screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
                 SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 #endif
 
             if (!screen)
-            {
-                screenwidth = 0;
-                screenheight = 0;
-                M_SaveDefaults();
-
-#ifdef SDL20
-                if (sdl_window)
-                    SDL_DestroyWindow(sdl_window);
-                sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, desktopwidth, desktopheight, SDL_WINDOW_FULLSCREEN);
-                screen = SDL_GetWindowSurface(sdl_window);
-                sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
-#else
-                screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
-                    SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-#endif
-
-                if (!screen)
-                    I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
-            }
+                I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
         }
 
         height = screen->h;
@@ -1077,43 +1058,24 @@ void ToggleFullScreen(void)
 
         if (!screen)
         {
-            screenwidth = 1280;
-            screenheight = 800;
+            screenwidth = 0;
+            screenheight = 0;
             M_SaveDefaults();
 
 #ifdef SDL20
             if (sdl_window)
                 SDL_DestroyWindow(sdl_window);
             sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
-                SDL_WINDOWPOS_UNDEFINED, screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
+                SDL_WINDOWPOS_UNDEFINED, desktopwidth, desktopheight, SDL_WINDOW_FULLSCREEN);
             screen = SDL_GetWindowSurface(sdl_window);
             sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
 #else
-            screen = SDL_SetVideoMode(screenwidth, screenheight, 0,
+            screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
                 SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 #endif
 
             if (!screen)
-            {
-                screenwidth = 0;
-                screenheight = 0;
-                M_SaveDefaults();
-
-#ifdef SDL20
-                if (sdl_window)
-                    SDL_DestroyWindow(sdl_window);
-                sdl_window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
-                    SDL_WINDOWPOS_UNDEFINED, desktopwidth, desktopheight, SDL_WINDOW_FULLSCREEN);
-                screen = SDL_GetWindowSurface(sdl_window);
-                sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
-#else
-                screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
-                    SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-#endif
-
-                if (!screen)
-                    I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
-            }
+                I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
         }
 
         if (screensize == 8)
@@ -1341,13 +1303,8 @@ void I_InitGraphics(void)
     if (fullscreen && (screenwidth || screenheight))
         if (!I_ValidScreenMode(screenwidth, screenheight))
         {
-            screenwidth = 1280;
-            screenheight = 800;
-            if (!I_ValidScreenMode(screenwidth, screenheight))
-            {
-                screenwidth = 0;
-                screenheight = 0;
-            }
+            screenwidth = 0;
+            screenheight = 0;
         }
 
     SetVideoMode();
