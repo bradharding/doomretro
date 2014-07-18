@@ -616,7 +616,7 @@ static int D_ChooseIWAD(void)
                 }
                 else
                 {
-                    // otherwise try the iwadfolder setting
+                    // otherwise try the iwadfolder setting in doomretro.cfg
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
@@ -628,6 +628,23 @@ static int D_ChooseIWAD(void)
                             modifiedgame = true;
                             if (D_CheckFilename(file, "NERVE.WAD"))
                                 nerve = true;
+                        }
+                    }
+                    else
+                    {
+                        // still nothing? try the DOOMWADDIR environment variable
+                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", getenv("DOOMWADDIR"),
+                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        IdentifyIWADByName(fullpath);
+                        if (D_AddFile(fullpath))
+                        {
+                            iwadfound = 1;
+                            if (W_MergeFile(file))
+                            {
+                                modifiedgame = true;
+                                if (D_CheckFilename(file, "NERVE.WAD"))
+                                    nerve = true;
+                            }
                         }
                     }
                 }
@@ -686,7 +703,7 @@ static int D_ChooseIWAD(void)
                     }
                     else
                     {
-                        // otherwise try the iwadfolder setting
+                        // otherwise try the iwadfolder setting in doomretro.cfg
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", iwadfolder);
                         IdentifyIWADByName(fullpath2);
                         if (D_AddFile(fullpath2))
@@ -698,6 +715,23 @@ static int D_ChooseIWAD(void)
                                 nerve = true;
                             }
                             break;
+                        }
+                        else
+                        {
+                            // still nothing? try the DOOMWADDIR environment variable
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD",
+                                getenv("DOOMWADDIR"));
+                            IdentifyIWADByName(fullpath2);
+                            if (D_AddFile(fullpath2))
+                            {
+                                iwadfound = 1;
+                                if (W_MergeFile(fullpath))
+                                {
+                                    modifiedgame = true;
+                                    nerve = true;
+                                }
+                                break;
+                            }
                         }
                     }
                 }
@@ -881,7 +915,7 @@ static void D_DoomMainSetup(void)
                     }
                     else
                     {
-                        // otherwise try the iwadfolder setting
+                        // otherwise try the iwadfolder setting in doomretro.cfg
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
                             (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                         IdentifyIWADByName(fullpath);
@@ -892,6 +926,22 @@ static void D_DoomMainSetup(void)
                                 modifiedgame = true;
                                 if (D_CheckFilename(file, "NERVE.WAD"))
                                     nerve = true;
+                            }
+                        }
+                        else
+                        {
+                            // still nothing? try the DOOMWADDIR environment variable
+                            M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", getenv("DOOMWADDIR"),
+                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                            IdentifyIWADByName(fullpath);
+                            if (D_AddFile(fullpath))
+                            {
+                                if (W_MergeFile(file))
+                                {
+                                    modifiedgame = true;
+                                    if (D_CheckFilename(file, "NERVE.WAD"))
+                                        nerve = true;
+                                }
                             }
                         }
                     }
