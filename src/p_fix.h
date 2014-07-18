@@ -30,75 +30,83 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define __P_FIX__
 
 #define DEFAULT 0x7fff
-#define REMOVE 0
+#define REMOVE  0
 
-#define E2M2 (gamemission == doom && gameepisode == 2 && gamemap == 2 && canmodify)
-#define MAP12 (gamemission == doom2 && gamemap == 12 && canmodify)
+#define E2M2    (gamemission == doom && gameepisode == 2 && gamemap == 2 && canmodify)
+#define MAP12   (gamemission == doom2 && gamemap == 12 && canmodify)
+
+#ifdef _MSC_VER
+#pragma pack(push, 1)
+#endif
 
 typedef struct
 {
-    int mission;
-    int epsiode;
-    int map;
-    int vertex;
-    int oldx;
-    int oldy;
-    int newx;
-    int newy;
+    int         mission;
+    int         epsiode;
+    int         map;
+    int         vertex;
+    int         oldx;
+    int         oldy;
+    int         newx;
+    int         newy;
 } vertexfix_t;
 
 extern vertexfix_t vertexfix[];
 
 typedef struct
 {
-    int mission;
-    int epsiode;
-    int map;
-    int linedef;
-    int side;
-    char *toptexture;
-    char *middletexture;
-    char *bottomtexture;
-    short offset;
-    short rowoffset;
-    int flags;
-    int special;
-    int tag;
+    int         mission;
+    int         epsiode;
+    int         map;
+    int         linedef;
+    int         side;
+    char        *toptexture;
+    char        *middletexture;
+    char        *bottomtexture;
+    short       offset;
+    short       rowoffset;
+    int         flags;
+    int         special;
+    int         tag;
 } linefix_t;
 
 extern linefix_t linefix[];
 
 typedef struct
 {
-    int mission;
-    int epsiode;
-    int map;
-    int sector;
-    char *floorpic;
-    char *ceilingpic;
-    int floorheight;
-    int ceilingheight;
-    int special;
-    int tag;
+    int         mission;
+    int         epsiode;
+    int         map;
+    int         sector;
+    char        *floorpic;
+    char        *ceilingpic;
+    int         floorheight;
+    int         ceilingheight;
+    int         special;
+    int         tag;
 } sectorfix_t;
 
 extern sectorfix_t sectorfix[];
 
 typedef struct
 {
-    int mission;
-    int epsiode;
-    int map;
-    int thing;
-    int type;
-    int oldx;
-    int oldy;
-    int newx;
-    int newy;
-    int angle;
-    int options;
+    int         mission;
+    int         epsiode;
+    int         map;
+    int         thing;
+    int         type;
+    int         oldx;
+    int         oldy;
+    int         newx;
+    int         newy;
+    int         angle;
+    int         options;
 } thingfix_t;
 
 extern thingfix_t thingfix[];
+
+#ifdef _MSC_VER
+#pragma pack(pop)
+#endif
 
 #endif

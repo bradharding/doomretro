@@ -150,12 +150,21 @@ void T_FireFlicker(fireflicker_t *flick);
 //
 // P_SWITCH
 //
+
+#ifdef _MSC_VER
+#pragma pack(push, 1)
+#endif
+
 typedef struct
 {
     char        name1[9];
     char        name2[9];
     short       episode;
 } switchlist_t;
+
+#ifdef _MSC_VER
+#pragma pack(pop)
+#endif
 
 typedef enum
 {
