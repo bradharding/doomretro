@@ -1103,6 +1103,8 @@ void P_SetupLevel(int episode, int map)
     bloodSplatQueueSlot = 0;
     memset(bloodSplatQueue, 0, sizeof(mobj_t *) * bloodsplats);
 
+    P_MapStart();
+
     P_LoadThings(lumpnum + ML_THINGS);
 
     P_InitCards(&players[0]);
@@ -1123,6 +1125,8 @@ void P_SetupLevel(int episode, int map)
 
     // set up world state
     P_SpawnSpecials();
+
+    P_MapEnd();
 
     // preload graphics
     R_PrecacheLevel();

@@ -242,6 +242,9 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage);
 
 void P_ApplyTorque(mobj_t *mo); // killough 9/12/98
 
+void P_MapStart(void);
+void P_MapEnd(void);
+
 //
 // P_SETUP
 //

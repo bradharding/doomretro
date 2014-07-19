@@ -658,7 +658,7 @@ boolean G_Responder(event_t *ev)
                  && ev->data1 != KEY_NUMLOCK
                  && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12))
                      || (ev->type == ev_mouse
-                         && (ev->data1 && !(ev->data1 & MOUSE_WHEELUP || ev->data1 & MOUSE_WHEELDOWN)))
+                         && (ev->data1 && !(ev->data1 & (MOUSE_WHEELUP | MOUSE_WHEELDOWN))))
                              || (ev->type == ev_gamepad
                                  && gamepadwait < I_GetTime()
                                  && gamepadbuttons
@@ -812,10 +812,14 @@ void G_Ticker(void)
     int         buf;
     ticcmd_t    *cmd;
 
+    P_MapStart();
+
     // do player reborns if needed
     for (i = 0; i < MAXPLAYERS; i++)
         if (playeringame[i] && players[i].playerstate == PST_REBORN)
             G_DoReborn(i);
+
+    P_MapEnd();
 
     // do things to change the game state
     while (gameaction != ga_nothing)
@@ -1549,11 +1553,15 @@ void G_DoLoadGame(void)
 
     leveltime = savedleveltime;
 
+    P_MapStart();
+
     // dearchive all the modifications
     P_UnArchivePlayers();
     P_UnArchiveWorld();
     P_UnArchiveThinkers();
     P_UnArchiveSpecials();
+
+    P_MapEnd();
 
     if (!P_ReadSaveGameEOF())
         I_Error("Bad savegame");

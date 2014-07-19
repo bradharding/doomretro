@@ -32,6 +32,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <stdlib.h>
 
 #include "doomstat.h"
+#include "i_system.h"
 #include "m_bbox.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -2056,4 +2057,19 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
         tmbbox[BOXRIGHT] = tmx + tmthing->radius;
         tmbbox[BOXLEFT] = tmx - tmthing->radius;
     }
+}
+
+// cphipps 2004/08/30 -
+// Must clear tmthing at tic end, as it might contain a pointer to a removed
+// thinker, or the level might have ended/been ended and we clear the objects it
+// was pointing to. Hopefully we don't need to carry this between tics for sync.
+void P_MapStart(void)
+{
+    if (tmthing)
+        I_Error("P_MapStart: tmthing set!");
+}
+
+void P_MapEnd(void)
+{
+    tmthing = NULL;
 }

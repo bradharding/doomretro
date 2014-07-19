@@ -106,16 +106,21 @@ void P_Ticker(void)
         return;
 
     // pause if in menu and at least one tic has been run
-    if (!netgame && menuactive  && players[consoleplayer].viewz != 1)
+    if (!netgame && menuactive && players[consoleplayer].viewz != 1)
         return;
 
-    for (i = 0; i < MAXPLAYERS; i++)
-        if (playeringame[i])
-            P_PlayerThink(&players[i]);
+    P_MapStart();
+
+    if (gamestate == GS_LEVEL)
+        for (i = 0; i < MAXPLAYERS; i++)
+            if (playeringame[i])
+                P_PlayerThink(&players[i]);
 
     P_RunThinkers();
     P_UpdateSpecials();
     P_RespawnSpecials();
+
+    P_MapEnd();
 
     // for par times
     leveltime++;
