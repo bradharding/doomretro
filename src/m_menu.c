@@ -866,7 +866,7 @@ void M_DrawLoad(void)
         int y = LoadDef.y + LINEHEIGHT * i + OFFSET;
 
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
-        M_WriteText(LoadDef.x - 2, y - 1, savegamestrings[i], false);
+        M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, savegamestrings[i], false);
     }
 }
 
@@ -986,16 +986,16 @@ void M_DrawSave(void)
             for (j = 0; j < saveCharIndex; j++)
                 left[j] = savegamestrings[i][j];
             left[j] = 0;
-            M_WriteText(LoadDef.x - 2, y - 1, left, false);
+            M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, left, false);
 
             // draw text to right of text caret
             for (j = 0; (unsigned)j < strlen(savegamestrings[i]) - saveCharIndex; j++)
                 right[j] = savegamestrings[i][j + saveCharIndex];
             right[j] = 0;
-            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + 3, y - 1, right, false);
+            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + 3, y - !M_LSCNTR, right, false);
         }
         else
-            M_WriteText(LoadDef.x - 2, y - 1, savegamestrings[i], false);
+            M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, savegamestrings[i], false);
     }
 
     // draw text caret
@@ -1009,7 +1009,7 @@ void M_DrawSave(void)
         if (showcaret)
         {
             x = LoadDef.x - 2 + M_StringWidth(left);
-            y = LoadDef.y + saveSlot * LINEHEIGHT - 1 + OFFSET;
+            y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
 
             if (STCFN121)
                 V_DrawPatch(x + 1, y, 0, W_CacheLumpName("STCFN121", PU_CACHE));
@@ -1102,17 +1102,19 @@ void M_UpdateSaveGameName(int i)
         isdigit(savegamestrings[i][4]) &&
         W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
+
     if (!match)
         while (mapnames[j][gamemission][0])
         {
-            if (!strcasecmp(savegamestrings[i], mapnames[j][gamemode == commercial && bfgedition ?
-                            doom2bfg : gamemission]))
+            if (!strcasecmp(savegamestrings[i],
+                (mapnames[j][gamemode == commercial && bfgedition ? doom2bfg : gamemission])))
             {
                 match = true;
                 break;
             }
             j++;
         }
+
     if (match)
         M_StringCopy(savegamestrings[i], maptitle, SAVESTRINGSIZE);
 }
@@ -2983,7 +2985,7 @@ void M_Drawer(void)
     if (currentMenu == &LoadDef || currentMenu == &SaveDef)
     {
         if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET, 0,
+            M_DrawPatchWithShadow(x - 43, currentMenu->y + itemOn * 17 - 8 + OFFSET, 0,
                 W_CacheLumpName(skullName[whichSkull], PU_CACHE));
         else
             M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, 0,
