@@ -1058,6 +1058,8 @@ void ToggleFullScreen(void)
 
         if (!screen)
         {
+            width = desktopwidth;
+            height = desktopheight;
             screenwidth = 0;
             screenheight = 0;
             M_SaveDefaults();
@@ -1156,6 +1158,7 @@ void ToggleFullScreen(void)
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 #endif
 
+        CreateCursors();
         SDL_SetCursor(cursors[0]);
 
 #ifdef SDL20
