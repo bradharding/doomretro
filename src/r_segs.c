@@ -28,6 +28,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include <stdlib.h>
+
 #include "doomstat.h"
 #include "r_local.h"
 
@@ -185,7 +186,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
 void R_RenderSegLoop(void)
 {
-    fixed_t texturecolumn = 0;
+    fixed_t     texturecolumn = 0;
 
     for (; rw_x < rw_stopx; rw_x++)
     {
@@ -194,8 +195,8 @@ void R_RenderSegLoop(void)
         int     yh = bottomfrac >> HEIGHTBITS;
 
         // no space above wall?
-        int     bottom, top = ceilingclip[rw_x] + 1;
-
+        int     bottom;
+        int     top = ceilingclip[rw_x] + 1;
         boolean bottomclipped = false;
         boolean topclipped = false;
 
@@ -245,10 +246,9 @@ void R_RenderSegLoop(void)
         if (segtextured)
         {
             // calculate texture offset and lighting
-            angle_t  angle = ((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT) & 0x1fff;
+            angle_t     angle = ((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT) & 0x1fff;
 
-            texturecolumn = rw_offset - FixedMul(finetangent[angle], rw_distance);
-            texturecolumn >>= FRACBITS;
+            texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
             dc_colormap = walllights[MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
             dc_x = rw_x;
@@ -279,7 +279,7 @@ void R_RenderSegLoop(void)
             if (toptexture)
             {
                 // top wall
-                int mid = pixhigh >> HEIGHTBITS;
+                int     mid = pixhigh >> HEIGHTBITS;
 
                 pixhigh += pixhighstep;
 
@@ -318,7 +318,7 @@ void R_RenderSegLoop(void)
             if (bottomtexture)
             {
                 // bottom wall
-                int mid = (pixlow + HEIGHTUNIT - 1) >> HEIGHTBITS;
+                int     mid = (pixlow + HEIGHTUNIT - 1) >> HEIGHTBITS;
 
                 pixlow += pixlowstep;
 
@@ -355,12 +355,9 @@ void R_RenderSegLoop(void)
                     floorclip[rw_x] = yh + 1;
             }
 
+            // save texturecol for backdrawing of masked mid texture
             if (maskedtexture)
-            {
-                // save texturecol
-                //  for backdrawing of masked mid texture
                 maskedtexturecol[rw_x] = texturecolumn;
-            }
         }
 
         rw_scale += rw_scalestep;
@@ -376,10 +373,9 @@ void R_RenderSegLoop(void)
 //
 void R_StoreWallRange(int start, int stop)
 {
-    fixed_t hyp;
-    angle_t offsetangle;
-    fixed_t vtop;
-    int     lightnum;
+    fixed_t     hyp;
+    angle_t     offsetangle;
+    int         lightnum;
 
     sidedef = curline->sidedef;
     linedef = curline->linedef;
@@ -394,11 +390,10 @@ void R_StoreWallRange(int start, int stop)
     // don't overflow and crash
     if (ds_p == drawsegs + maxdrawsegs)
     {
-        unsigned int pos = ds_p - drawsegs;
-        unsigned int newmax = (maxdrawsegs ? maxdrawsegs * 2 : 128);
+        unsigned int    newmax = (maxdrawsegs ? maxdrawsegs * 2 : 128);
 
         drawsegs = realloc(drawsegs, newmax * sizeof(*drawsegs));
-        ds_p = drawsegs + pos;
+        ds_p = drawsegs + maxdrawsegs;
         maxdrawsegs = newmax;
     }
 
@@ -420,16 +415,16 @@ void R_StoreWallRange(int start, int stop)
 
     // killough 1/6/98, 2/1/98: remove limit on openings
     {
-        extern int    *openings;
-        extern size_t maxopenings;
-        size_t        pos = lastopening - openings;
-        size_t        need = (rw_stopx - start) * 4 + pos;
+        extern int      *openings;
+        extern size_t   maxopenings;
+        size_t          pos = lastopening - openings;
+        size_t          need = (rw_stopx - start) * 4 + pos;
 
         if (need > maxopenings)
         {
-            drawseg_t *ds;                      //jff 8/9/98 needed for fix from ZDoom
-            int       *oldopenings = openings;
-            int       *oldlast = lastopening;
+            drawseg_t   *ds;                    // jff 8/9/98 needed for fix from ZDoom
+            int         *oldopenings = openings;
+            int         *oldlast = lastopening;
 
             do
                 maxopenings = (maxopenings ? maxopenings * 2 : 16384);
@@ -483,17 +478,21 @@ void R_StoreWallRange(int start, int stop)
         markfloor = markceiling = true;
 
         if (linedef->flags & ML_DONTPEGBOTTOM)
-        {
-            vtop = frontsector->floorheight + textureheight[sidedef->midtexture];
-
             // bottom of texture at bottom
-            rw_midtexturemid = vtop - viewz;
-        }
+            rw_midtexturemid = frontsector->floorheight + textureheight[sidedef->midtexture] - viewz;
         else
             // top of texture at top
             rw_midtexturemid = worldtop;
 
         rw_midtexturemid += sidedef->rowoffset;
+
+        // killough 3/27/98: reduce offset
+        {
+            fixed_t     h = textureheight[sidedef->midtexture];
+
+            if (h & (h - FRACUNIT))
+                rw_midtexturemid %= h;
+        }
 
         ds_p->silhouette = SIL_BOTH;
         ds_p->sprtopclip = screenheightarray;
@@ -604,14 +603,8 @@ void R_StoreWallRange(int start, int stop)
                 rw_toptexturemid = worldtop;
             }
             else
-            {
-                vtop =
-                    backsector->ceilingheight
-                    + textureheight[sidedef->toptexture];
-
                 // bottom of texture
-                rw_toptexturemid = vtop - viewz;
-            }
+                rw_toptexturemid = backsector->ceilingheight + textureheight[sidedef->toptexture] - viewz;
         }
         if (worldlow > worldbottom)
         {
@@ -628,7 +621,24 @@ void R_StoreWallRange(int start, int stop)
                 rw_bottomtexturemid = worldlow;
         }
         rw_toptexturemid += sidedef->rowoffset;
+
+        // killough 3/27/98: reduce offset
+        {
+            fixed_t     h = textureheight[sidedef->toptexture];
+
+            if (h & (h - FRACUNIT))
+                rw_toptexturemid %= h;
+        }
+
         rw_bottomtexturemid += sidedef->rowoffset;
+
+        // killough 3/27/98: reduce offset
+        {
+            fixed_t     h = textureheight[sidedef->bottomtexture];
+
+            if (h & (h - FRACUNIT))
+                rw_bottomtexturemid %= h;
+        }
 
         // allocate space for masked texture tables
         if (sidedef->midtexture)
@@ -670,7 +680,6 @@ void R_StoreWallRange(int start, int stop)
     // if a floor / ceiling plane is on the wrong side
     //  of the view plane, it is definitely invisible
     //  and doesn't need to be marked.
-
     if (frontsector->floorheight >= viewz)
     {
         // above view plane
