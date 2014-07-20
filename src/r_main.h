@@ -32,9 +32,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "d_player.h"
 #include "r_data.h"
 
-
-
-
 //
 // POV related.
 //
@@ -43,8 +40,6 @@ extern fixed_t          viewsin;
 
 extern int              viewwindowx;
 extern int              viewwindowy;
-
-
 
 extern int              centerx;
 extern int              centery;
@@ -58,7 +53,6 @@ extern int              validcount;
 
 extern int              linecount;
 extern int              loopcount;
-
 
 //
 // Lighting LUT.
@@ -84,11 +78,9 @@ extern lighttable_t     *zlight[LIGHTLEVELS][MAXLIGHTZ];
 extern int              extralight;
 extern lighttable_t     *fixedcolormap;
 
-
 // Number of diminishing brightness levels.
 // There a 0-31, i.e. 32 LUT in the COLORMAP lump.
 #define NUMCOLORMAPS            32
-
 
 //
 // Function pointers to switch refresh/drawing functions.
@@ -119,7 +111,6 @@ extern void (*tlredtogreen33colfunc)(void);
 extern void (*psprcolfunc)(void);
 extern void (*spanfunc)(void);
 
-
 //
 // Utility functions.
 int R_PointOnSide(fixed_t x, fixed_t y, const node_t *node);
@@ -131,7 +122,6 @@ angle_t R_PointToAngle(fixed_t x, fixed_t y);
 angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2);
 
 fixed_t R_PointToDist(fixed_t x, fixed_t y);
-
 
 subsector_t *R_PointInSubsector(fixed_t x, fixed_t y);
 

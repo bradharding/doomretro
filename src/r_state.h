@@ -33,11 +33,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "d_player.h"
 #include "r_data.h"
 
-
-
-
-
-
 //
 // Refresh internal data structures,
 //  for rendering.
@@ -67,13 +62,10 @@ extern int              firstflat;
 extern int              *flattranslation;
 extern int              *texturetranslation;
 
-
 // Sprite....
 extern int              firstspritelump;
 extern int              lastspritelump;
 extern int              numspritelumps;
-
-
 
 //
 // Lookup tables for map data.
@@ -102,7 +94,6 @@ extern line_t           *lines;
 extern int              numsides;
 extern side_t           *sides;
 
-
 //
 // POV data.
 //
@@ -113,7 +104,6 @@ extern fixed_t          viewz;
 extern angle_t          viewangle;
 extern player_t         *viewplayer;
 
-
 // ?
 extern angle_t          clipangle;
 
@@ -123,13 +113,10 @@ extern angle_t          xtoviewangle[SCREENWIDTH + 1];
 extern fixed_t          rw_distance;
 extern angle_t          rw_normalangle;
 
-
-
 // angle to line origin
 extern int              rw_angle1;
 
 extern visplane_t       *floorplane;
 extern visplane_t       *ceilingplane;
-
 
 #endif

@@ -26,16 +26,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include <stdlib.h>
-
-
 #include "doomtype.h"
 #include "sounds.h"
 
 //
 // Information about all the music
 //
-
 musicinfo_t S_music[] =
 {
     { NULL,     0, 0, 0 },
@@ -108,11 +104,9 @@ musicinfo_t S_music[] =
     { "dm2int", 0, 0, 0 }
 };
 
-
 //
 // Information about all the sfx
 //
-
 sfxinfo_t S_sfx[] =
 {
     // S_sfx[0] needs to be a dummy for odd reasons.

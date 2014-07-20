@@ -60,8 +60,6 @@ typedef struct
 
 } hu_textline_t;
 
-
-
 // Scrolling Text window widget
 //  (child of Text Line widget)
 typedef struct
@@ -75,8 +73,6 @@ typedef struct
     boolean             laston;                 // last value of *->on.
 
 } hu_stext_t;
-
-
 
 // Input Text Line widget
 //  (child of Text Line widget)
@@ -92,7 +88,6 @@ typedef struct
     boolean             laston;                 // last value of *->on;
 
 } hu_itext_t;
-
 
 //
 // Widget creation, access, and update routines
@@ -118,7 +113,6 @@ void HUlib_drawTextLine(hu_textline_t *l);
 
 // erases text line
 void HUlib_eraseTextLine(hu_textline_t *l);
-
 
 //
 // Scrolling Text window widget routines

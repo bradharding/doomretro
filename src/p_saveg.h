@@ -33,8 +33,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 // maximum size of a savegame description
 
-#define SAVESTRINGSIZE 256
-#define VERSIONSIZE    16
+#define SAVESTRINGSIZE  256
+#define VERSIONSIZE     16
 
 // temporary filename to use while saving.
 
@@ -67,6 +67,5 @@ void P_UnArchiveSpecials(void);
 
 extern FILE *save_stream;
 extern boolean savegame_error;
-
 
 #endif

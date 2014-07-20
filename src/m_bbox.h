@@ -33,7 +33,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "m_fixed.h"
 
-
 // Bounding box coordinate storage.
 enum
 {
@@ -47,6 +46,5 @@ enum
 void M_ClearBox(fixed_t *box);
 
 void M_AddToBox(fixed_t *box, fixed_t x, fixed_t y);
-
 
 #endif

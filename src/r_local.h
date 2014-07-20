@@ -38,10 +38,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // Include the refresh/render data structs.
 #include "r_data.h"
 
-
-
-#define MAXWIDTH                        1280
-#define MAXHEIGHT                       960
+#define MAXWIDTH        1280
+#define MAXHEIGHT       960
 
 //
 // Separate header file for each module.
@@ -54,4 +52,4 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "r_things.h"
 #include "r_draw.h"
 
-#endif          // __R_LOCAL__
+#endif

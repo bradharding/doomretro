@@ -321,13 +321,13 @@ static void GenerateSpriteList(void)
 // IWAD first followed by the PWAD.
 //
 // For the IWAD:
-//  * Flats are added.  If a flat with the same name is in the PWAD,
-//    it is ignored(deleted).  At the end of the section, all flats in the
-//    PWAD are inserted.  This is consistent with the behavior of
+//  * Flats are added. If a flat with the same name is in the PWAD,
+//    it is ignored (deleted). At the end of the section, all flats in the
+//    PWAD are inserted. This is consistent with the behavior of
 //    deutex/deusf.
-//  * Sprites are added.  The "replace list" is generated before the merge
-//    from the list of sprites in the PWAD.  Any sprites in the IWAD found
-//    to match the replace list are removed.  At the end of the section,
+//  * Sprites are added. The "replace list" is generated before the merge
+//    from the list of sprites in the PWAD. Any sprites in the IWAD found
+//    to match the replace list are removed. At the end of the section,
 //    the sprites from the PWAD are inserted.
 //
 // For the PWAD:
@@ -335,11 +335,11 @@ static void GenerateSpriteList(void)
 //    already been merged into the IWAD's sections.
 static void DoMerge(void)
 {
-    section_t           current_section;
-    lumpinfo_t          *newlumps;
-    int                 num_newlumps;
-    int                 lumpindex;
-    int                 i, n;
+    section_t   current_section;
+    lumpinfo_t  *newlumps;
+    int         num_newlumps;
+    int         lumpindex;
+    int         i, n;
 
     // Can't ever have more lumps than we already have
     newlumps = (lumpinfo_t *)malloc(sizeof(lumpinfo_t) * numlumps);

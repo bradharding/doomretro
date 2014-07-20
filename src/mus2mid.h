@@ -34,4 +34,3 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput);
 
 #endif
-

@@ -31,7 +31,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include "d_event.h"
 
-
 //
 // Globally visible constants.
 //

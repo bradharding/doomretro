@@ -29,7 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __SOUNDS__
 #define __SOUNDS__
 
-
 //
 // SoundFX struct.
 //
@@ -44,7 +43,6 @@ enum
     sg_getpow,
     sg_stnmov
 };
-
 
 struct sfxinfo_struct
 {
@@ -78,9 +76,6 @@ struct sfxinfo_struct
     int         lumpnum;
 };
 
-
-
-
 //
 // MusicInfo struct.
 //
@@ -97,11 +92,7 @@ typedef struct
 
     // music handle once registered
     void        *handle;
-
 } musicinfo_t;
-
-
-
 
 // the complete set of sound effects
 extern sfxinfo_t        S_sfx[];
@@ -112,7 +103,6 @@ extern musicinfo_t      S_music[];
 //
 // Identifiers for all music in game.
 //
-
 typedef enum
 {
     mus_None,
@@ -186,11 +176,9 @@ typedef enum
     NUMMUSIC
 } musicenum_t;
 
-
 //
 // Identifiers for all sfx in game.
 //
-
 typedef enum
 {
     sfx_None,

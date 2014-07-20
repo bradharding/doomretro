@@ -1440,7 +1440,6 @@ boolean P_ReadSaveGameHeader(void)
     char read_vcheck[VERSIONSIZE];
 
     // skip the description field
-
     for (i = 0; i < SAVESTRINGSIZE; ++i)
         saveg_read8();
 

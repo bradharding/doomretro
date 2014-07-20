@@ -29,9 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __P_SETUP__
 #define __P_SETUP__
 
-
-
-
 void P_SetupLevel(int episode, int map);
 
 // Called by startup code.

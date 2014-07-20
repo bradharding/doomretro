@@ -32,8 +32,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 // Fixed point, 32bit as 16.16.
 //
-#define FRACBITS                16
-#define FRACUNIT                (1 << FRACBITS)
+#define FRACBITS        16
+#define FRACUNIT        (1 << FRACBITS)
 
 typedef int fixed_t;
 

@@ -34,7 +34,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "m_fixed.h"
 #include "tables.h"
 
-
 //
 // Needs to include the precompiled
 //  sprite animation tables.
@@ -43,8 +42,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 // i.e. the Thing Atrributes table
 // and the Frame Sequence table.
 #include "info.h"
-
-
 
 //
 // Frame flags:
@@ -63,7 +60,6 @@ typedef enum
     ps_weapon,
     ps_flash,
     NUMPSPRITES
-
 } psprnum_t;
 
 typedef struct
@@ -72,7 +68,6 @@ typedef struct
     int         tics;
     fixed_t     sx;
     fixed_t     sy;
-
 } pspdef_t;
 
 #endif

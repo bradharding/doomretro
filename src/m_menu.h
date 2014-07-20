@@ -29,8 +29,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #ifndef __M_MENU__
 #define __M_MENU__
 
-
-
 #include "d_event.h"
 
 typedef struct
@@ -40,8 +38,7 @@ typedef struct
     void                (*routine)(int choice);
     char                alphaKey;
     char                text[30];
-}
-menuitem_t;
+} menuitem_t;
 
 typedef struct menu_s
 {
@@ -52,9 +49,7 @@ typedef struct menu_s
     short               x;
     short               y;
     short               lastOn;
-}
-menu_t;
-
+} menu_t;
 
 boolean startingnewgame;
 
@@ -67,7 +62,6 @@ boolean startingnewgame;
 // this can resize the view and change game parameters.
 // Does all the real work of the menu interaction.
 boolean M_Responder(event_t *ev);
-
 
 // Called by main loop,
 // only used for menu (skull cursor) animation.

@@ -55,8 +55,9 @@ static char     *temp_timidity_cfg = NULL;
 // relative to the actual config file.
 static boolean WriteWrapperTimidityConfig(char *write_path)
 {
-    char *p, *path;
-    FILE *fstream;
+    char        *p;
+    char        *path;
+    FILE        *fstream;
 
     if (!strcmp(timidity_cfg_path, ""))
         return false;
@@ -83,8 +84,8 @@ static boolean WriteWrapperTimidityConfig(char *write_path)
 
 void I_InitTimidityConfig(void)
 {
-    char *env_string;
-    boolean success;
+    char        *env_string;
+    boolean     success;
 
     temp_timidity_cfg = M_TempFile("timidity.cfg");
 
@@ -231,7 +232,7 @@ static void I_SDL_UnRegisterSong(void *handle)
     if (!music_initialized || handle == NULL)
         return;
 
-    Mix_FreeMusic((Mix_Music *)handle);
+    Mix_FreeMusic(handle);
 }
 
 // Determine whether memory block is a .mid file
@@ -242,21 +243,15 @@ static boolean IsMid(byte *mem, int len)
 
 static boolean ConvertMus(byte *musdata, int len, char *filename)
 {
-    MEMFILE     *instream;
-    MEMFILE     *outstream;
+    MEMFILE     *instream = mem_fopen_read(musdata, len);
+    MEMFILE     *outstream = mem_fopen_write();
     void        *outbuf;
     size_t      outbuf_len;
-    int         result;
+    int         result = mus2mid(instream, outstream);
 
-    instream = mem_fopen_read(musdata, len);
-    outstream = mem_fopen_write();
-
-    result = mus2mid(instream, outstream);
-
-    if (result == 0)
+    if (!result)
     {
         mem_get_buf(outstream, &outbuf, &outbuf_len);
-
         M_WriteFile(filename, outbuf, outbuf_len);
     }
 

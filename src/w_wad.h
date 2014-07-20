@@ -31,10 +31,9 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #include <stdio.h>
 
+#include "doomdef.h"
 #include "doomtype.h"
-
 #include "w_file.h"
-
 
 //
 // TYPES
@@ -58,10 +57,8 @@ struct lumpinfo_s
     void        *cache;
 
     // Used for hash table lookups
-
     lumpinfo_t  *next;
 };
-
 
 extern lumpinfo_t *lumpinfo;
 extern unsigned int numlumps;
