@@ -81,7 +81,7 @@ int                     viewangletox[FINEANGLES / 2];
 // from clipangle to -clipangle.
 angle_t                 xtoviewangle[SCREENWIDTH + 1];
 
-const fixed_t           *finecosine = &finesine[FINEANGLES / 4];
+fixed_t                 *finecosine = &finesine[FINEANGLES / 4];
 
 lighttable_t            *scalelight[LIGHTLEVELS][MAXLIGHTSCALE];
 lighttable_t            *scalelight2[LIGHTLEVELS][MAXLIGHTSCALE];
@@ -142,17 +142,28 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
             - (int64_t)(line->v2->y - line->v1->y) * (x - line->v1->x) >= 0);
 }
 
+int SlopeDiv(unsigned int num, unsigned int den)
+{
+    unsigned int        ans;
+
+    if (den < 512)
+        return SLOPERANGE;
+
+    ans = (num << 3) / (den >> 8);
+    return (ans <= SLOPERANGE ? ans : SLOPERANGE);
+}
+
 // [WDJ] Generate the tan slope, suitable for tantoangle[] index.
 // This is more accuate than the vanilla version.
 int64_t SlopeDiv_64(fixed_t num, fixed_t den)
 {
-    int64_t ans;
+    int64_t     ans;
 
     if (den < 64)
-        return SLOPERANGE;  // max
+        return SLOPERANGE;
 
     ans = (((int64_t)num) << 11) / den;
-    return (ans <= SLOPERANGE) ? ans : SLOPERANGE;  // max
+    return (ans <= SLOPERANGE ? ans : SLOPERANGE);
 }
 
 //
@@ -314,6 +325,50 @@ fixed_t R_PointToDist(fixed_t x, fixed_t y)
         return dx;
 
     return FixedDiv(dx, finecosine[tantoangle[FixedDiv(dy, dx) >> DBITS] >> ANGLETOFINESHIFT]);
+}
+
+//
+// R_InitTables
+//
+static void R_InitTables(void)
+{
+    int         i;
+    float       a;
+    float       fv;
+    int         t;
+
+    // viewangle tangent table
+    for (i = 0; i < FINEANGLES / 2; i++)
+    {
+        a = (i - FINEANGLES / 4 + 0.5f) * (float)M_PI * 2 / FINEANGLES;
+        fv = FRACUNIT * tanf(a);
+        t = (int)fv;
+        finetangent[i] = t;
+    }
+
+    // finesine table
+    for (i = 0; i < 5 * FINEANGLES / 4; i++)
+    {
+        a = (i + 0.5f) * (float)M_PI * 2 / FINEANGLES;
+        t = (int)(FRACUNIT * sinf(a));
+        finesine[i] = t;
+    }
+}
+
+static void R_InitPointToAngle(void)
+{
+    int         i;
+    long        t;
+    float       f;
+
+    // slope (tangent) to angle lookup
+    for (i = 0; i <= SLOPERANGE; i++)
+    {
+        // this used to have PI (as defined above) written out longhand
+        f = atanf((float)i / SLOPERANGE) / ((float)M_PI * 2);
+        t = (long)(0xffffffff * f);
+        tantoangle[i] = t;
+    }
 }
 
 //
@@ -565,6 +620,8 @@ void R_ExecuteSetViewSize(void)
 void R_Init(void)
 {
     R_InitData();
+    R_InitPointToAngle();
+    R_InitTables();
 
     R_SetViewSize(screensize);
     R_InitLightTables();

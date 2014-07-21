@@ -450,7 +450,6 @@
     <ClCompile Include="..\src\p_fix.c" />
     <ClCompile Include="..\src\sounds.c" />
     <ClCompile Include="..\src\s_sound.c" />
-    <ClCompile Include="..\src\tables.c" />
     <ClCompile Include="..\src\am_map.c" />
     <ClCompile Include="..\src\d_items.c" />
     <ClCompile Include="..\src\d_iwad.c" />
