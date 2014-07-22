@@ -772,7 +772,7 @@ static int D_ChooseIWAD(void)
 #endif
 }
 
-void (*bloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
 //
 // D_DoomMainSetup
@@ -1196,8 +1196,8 @@ static void D_DoomMainSetup(void)
 
     if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;
-    bloodSplatSpawner = ((bloodsplats == UNLIMITED ? P_SpawnBloodSplat : 
-                         (bloodsplats ? P_SpawnBloodSplat2 : P_SpawnBloodSplat3)));
+    P_BloodSplatSpawner = ((bloodsplats == UNLIMITED ? P_SpawnBloodSplat :
+                           (bloodsplats ? P_SpawnBloodSplat2 : P_NullBloodSplatSpawner)));
 
     if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
         pixelwidth = PIXELWIDTH_DEFAULT;

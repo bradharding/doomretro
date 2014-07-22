@@ -33,17 +33,17 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "r_plane.h"
 #include "r_things.h"
 
-seg_t        *curline;
-side_t       *sidedef;
-line_t       *linedef;
-sector_t     *frontsector;
-sector_t     *backsector;
+seg_t           *curline;
+side_t          *sidedef;
+line_t          *linedef;
+sector_t        *frontsector;
+sector_t        *backsector;
 
-int          doorclosed;
+int             doorclosed;
 
-drawseg_t    *drawsegs;
-unsigned int maxdrawsegs;
-drawseg_t    *ds_p;
+drawseg_t       *drawsegs;
+unsigned int    maxdrawsegs;
+drawseg_t       *ds_p;
 
 void R_StoreWallRange(int start, int stop);
 
@@ -62,8 +62,8 @@ void R_ClearDrawSegs(void)
 //
 typedef struct
 {
-    short first;
-    short last;
+    short       first;
+    short       last;
 } cliprange_t;
 
 // 1/11/98: Lee Killough
@@ -85,8 +85,8 @@ typedef struct
 #define MAXSEGS (SCREENWIDTH / 2 + 1)
 
 // newend is one past the last valid seg
-cliprange_t *newend;
-cliprange_t solidsegs[MAXSEGS];
+cliprange_t     *newend;
+cliprange_t     solidsegs[MAXSEGS];
 
 //
 // R_ClipSolidWallSegment
@@ -158,7 +158,7 @@ crunch:
         return;                 // Post just extended past the bottom of one post.
 
     while (next++ != newend)
-        *++start = *next;       // Remove a post.
+        *(++start) = *next;       // Remove a post.
 
     newend = start + 1;
 }
@@ -231,17 +231,17 @@ int R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
-        (backsector->ceilingheight <= backsector->floorheight &&
+        (backsector->ceilingheight <= backsector->floorheight
 
         // preserve a kind of transparent door/lift special effect:
-        (backsector->ceilingheight >= frontsector->ceilingheight ||
-         curline->sidedef->toptexture) &&
-        (backsector->floorheight <= frontsector->floorheight ||
-         curline->sidedef->bottomtexture) &&
+        && (backsector->ceilingheight >= frontsector->ceilingheight 
+            || curline->sidedef->toptexture)
+        && (backsector->floorheight <= frontsector->floorheight
+            || curline->sidedef->bottomtexture)
 
         // properly render skies (consider door "open" if both ceilings are sky):
-        (backsector->ceilingpic != skyflatnum ||
-         frontsector->ceilingpic != skyflatnum));
+        && (backsector->ceilingpic != skyflatnum
+            || frontsector->ceilingpic != skyflatnum));
 }
 
 //
@@ -324,16 +324,16 @@ static void R_AddLine(seg_t *line)
         goto clipsolid;
 
     // Closed door.
-    if (backsector->ceilingheight <= frontsector->floorheight ||
-        backsector->floorheight >= frontsector->ceilingheight)
+    if (backsector->ceilingheight <= frontsector->floorheight
+        || backsector->floorheight >= frontsector->ceilingheight)
         goto clipsolid;
 
     if ((doorclosed = R_DoorClosed()))
         goto clipsolid;
 
     // Window.
-    if (backsector->ceilingheight != frontsector->ceilingheight ||
-        backsector->floorheight != frontsector->floorheight)
+    if (backsector->ceilingheight != frontsector->ceilingheight
+        || backsector->floorheight != frontsector->floorheight)
         goto clippass;
 
     // Reject empty lines used for triggers
@@ -341,10 +341,10 @@ static void R_AddLine(seg_t *line)
     // Identical floor and ceiling on both sides,
     // identical light levels on both sides,
     // and no middle texture.
-    if (backsector->ceilingpic == frontsector->ceilingpic &&
-        backsector->floorpic == frontsector->floorpic &&
-        backsector->lightlevel == frontsector->lightlevel &&
-        !curline->sidedef->midtexture)
+    if (backsector->ceilingpic == frontsector->ceilingpic
+        && backsector->floorpic == frontsector->floorpic
+        && backsector->lightlevel == frontsector->lightlevel
+        && !curline->sidedef->midtexture)
         return;
 
 clippass:

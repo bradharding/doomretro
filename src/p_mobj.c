@@ -44,11 +44,11 @@ void P_DelSeclist(msecnode_t *node);
 int             bloodsplats = BLOODSPLATS_DEFAULT;
 mobj_t          *bloodSplatQueue[BLOODSPLATS_MAX];
 int             bloodSplatQueueSlot;
-void            (*bloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
+void            (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
 boolean         smoketrails = true;
 
-int             corpses = SLIDE | SMEARBLOOD | MOREBLOOD;
+int             corpses = (SLIDE | SMEARBLOOD | MOREBLOOD);
 
 extern msecnode_t *sector_list; // phares 3/16/98
 
@@ -139,18 +139,8 @@ void P_XYMovement(mobj_t *mo)
         if (puffcount++ > 1)
             P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle, false);
 
-    if (mo->momx > MAXMOVE)
-        mo->momx = MAXMOVE;
-    else if (mo->momx < -MAXMOVE)
-        mo->momx = -MAXMOVE;
-
-    if (mo->momy > MAXMOVE)
-        mo->momy = MAXMOVE;
-    else if (mo->momy < -MAXMOVE)
-        mo->momy = -MAXMOVE;
-
-    xmove = mo->momx;
-    ymove = mo->momy;
+    xmove = mo->momx = MAX(-MAXMOVE, MIN(mo->momx, MAXMOVE));
+    ymove = mo->momy = MAX(-MAXMOVE, MIN(mo->momy, MAXMOVE));
 
     do
     {
@@ -234,9 +224,8 @@ void P_XYMovement(mobj_t *mo)
             if (!--mo->bloodsplats)
                 break;
 
-            bloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                              mo->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                              flags2, colfunc);
+            P_BloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                mo->y + (M_RandomInt(-radius, radius) << FRACBITS), flags2, colfunc);
         }
     }
 
@@ -301,7 +290,7 @@ void P_ZMovement(mobj_t *mo)
         {
             P_RemoveMobj(mo);
             if (bloodsplats)
-                bloodSplatSpawner(mo->x, mo->y, mo->flags2, mo->colfunc);
+                P_BloodSplatSpawner(mo->x, mo->y, mo->flags2, mo->colfunc);
             return;
         }
 
@@ -487,7 +476,7 @@ void P_MobjThinker(mobj_t *mobj)
     else if (!mobj->momx && !mobj->momy && !mobj->player)
     {
         if (mobj->z > mobj->dropoffz && !(mobj->flags & MF_NOGRAVITY) &&
-            ((mobj->flags & MF_CORPSE) || (mobj->flags & MF_SHOOTABLE) || (mobj->flags & MF_DROPPED)))
+            mobj->flags & (MF_CORPSE | MF_SHOOTABLE | MF_DROPPED))
             P_ApplyTorque(mobj);
         else
         {
@@ -632,10 +621,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 //
 // P_RemoveMobj
 //
-static mapthing_t itemrespawnqueue[ITEMQUEUESIZE];
-static int        itemrespawntime[ITEMQUEUESIZE];
-int               iqueuehead;
-int               iqueuetail;
+static mapthing_t       itemrespawnqueue[ITEMQUEUESIZE];
+static int              itemrespawntime[ITEMQUEUESIZE];
+int                     iqueuehead;
+int                     iqueuetail;
 
 void P_RemoveMobj(mobj_t *mobj)
 {
@@ -682,7 +671,12 @@ void P_RemoveMobj(mobj_t *mobj)
 //
 static int P_FindDoomedNum(unsigned int type)
 {
-    static struct { int first, next; } *hash;
+    static struct
+    {
+        int     first;
+        int     next;
+    } *hash;
+
     int i;
 
     if (!hash)
@@ -744,7 +738,7 @@ void P_RespawnSpecials(void)
     i = P_FindDoomedNum(mthing->type);
 
     // spawn it
-    z = (mobjinfo[i].flags & MF_SPAWNCEILING ? ONCEILINGZ : ONFLOORZ);
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
     mo = P_SpawnMobj(x, y, z, (mobjtype_t)P_FindDoomedNum(mthing->type));
     mo->spawnpoint = *mthing;
@@ -825,6 +819,7 @@ void P_SpawnPlayer(mapthing_t *mthing)
     {
         // wake up the status bar
         ST_Start();
+
         // wake up the heads up text
         HU_Start();
     }
@@ -898,7 +893,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     // spawn it
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
-    z = (mobjinfo[i].flags & MF_SPAWNCEILING ? ONCEILINGZ : ONFLOORZ);
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;
@@ -931,9 +926,9 @@ void P_SpawnMapThing(mapthing_t *mthing)
 
                 for (i = 0; i < M_RandomInt(100, 150); i++)
                 {
-                    bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                                      mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                                      MF2_TRANSLUCENT_50, tl50colfunc);
+                    P_BloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                        mobj->y + (M_RandomInt(-radius, radius) << FRACBITS), MF2_TRANSLUCENT_50,
+                        tl50colfunc);
                 }
             }
             else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
@@ -943,9 +938,9 @@ void P_SpawnMapThing(mapthing_t *mthing)
 
                 for (i = 0; i < M_RandomInt(100, 150); i++)
                 {
-                    bloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                                      mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                                      MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
+                    P_BloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                        mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
+                        MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
                 }
             }
         }
@@ -1137,7 +1132,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void))
     }
 }
 
-void P_SpawnBloodSplat3(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
+void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int flags2, void(*colfunc)(void))
 {
 }
 

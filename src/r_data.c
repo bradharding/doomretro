@@ -113,11 +113,9 @@ struct texture_s
     short       height;
 
     // Index in textures list
-
     int         index;
 
     // Next in hash table chain
-
     texture_t   *next;
 
     // All the patches[patchcount]
@@ -142,8 +140,8 @@ int             numtextures;
 texture_t       **textures;
 texture_t       **textures_hashtable;
 
-
 int             *texturewidthmask;
+
 // needed for texture pegging
 fixed_t         *textureheight;
 byte            **texturefullbright;
@@ -859,8 +857,8 @@ void R_InitColormaps(void)
     // The resulting  differences are minor.
     {
         int     i;
-        float           red, green, blue, gray;
-        byte            *palsrc, *palette;
+        float   red, green, blue, gray;
+        byte    *palsrc, *palette;
 
         palsrc = palette = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
 

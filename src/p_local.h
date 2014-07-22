@@ -141,7 +141,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound);
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target);
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void));
 void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void));
-void P_SpawnBloodSplat3(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void));
+void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void));
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type);
 void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type);
 
@@ -273,4 +273,4 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 //
 #include "p_spec.h"
 
-#endif  // __P_LOCAL__
+#endif

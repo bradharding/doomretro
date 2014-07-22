@@ -1153,9 +1153,7 @@ void P_SpawnSpecials(void)
         levelTimeCount = timelimit * 60 * TICRATE;
     }
     else
-    {
         levelTimer = false;
-    }
 
     // Init special SECTORs.
     sector = sectors;

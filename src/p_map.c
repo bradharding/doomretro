@@ -1669,7 +1669,7 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
 static boolean crushchange;
 static boolean nofit;
 
-void (*bloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
 //
 // PIT_ChangeSector
@@ -1730,7 +1730,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
 
             for (i = 0; i < M_RandomInt(100, 150); i++)
             {
-                bloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
+                P_BloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
                     thing->y + (M_RandomInt(-radius, radius) << FRACBITS), flags2, colfunc);
             }
         }

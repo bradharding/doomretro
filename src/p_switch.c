@@ -26,21 +26,11 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
-#include "i_system.h"
-#include "doomdef.h"
-#include "p_local.h"
-
-#include "g_game.h"
-
-#include "s_sound.h"
-
-// Data.
-#include "sounds.h"
-
-// State.
 #include "doomstat.h"
-#include "r_state.h"
-
+#include "g_game.h"
+#include "i_system.h"
+#include "p_local.h"
+#include "s_sound.h"
 
 //
 // CHANGE THE TEXTURE OF A WALL SWITCH TO ITS OPPOSITE
@@ -48,52 +38,52 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 switchlist_t alphSwitchList[] =
 {
     // Doom shareware episode 1 switches
-    { "SW1BRCOM",        "SW2BRCOM",     1 },
-    { "SW1BRN1",         "SW2BRN1",      1 },
-    { "SW1BRN2",         "SW2BRN2",      1 },
-    { "SW1BRNGN",        "SW2BRNGN",     1 },
-    { "SW1BROWN",        "SW2BROWN",     1 },
-    { "SW1COMM",         "SW2COMM",      1 },
-    { "SW1COMP",         "SW2COMP",      1 },
-    { "SW1DIRT",         "SW2DIRT",      1 },
-    { "SW1EXIT",         "SW2EXIT",      1 },
-    { "SW1GRAY",         "SW2GRAY",      1 },
-    { "SW1GRAY1",        "SW2GRAY1",     1 },
-    { "SW1METAL",        "SW2METAL",     1 },
-    { "SW1PIPE",         "SW2PIPE",      1 },
-    { "SW1SLAD",         "SW2SLAD",      1 },
-    { "SW1STARG",        "SW2STARG",     1 },
-    { "SW1STON1",        "SW2STON1",     1 },
-    { "SW1STON2",        "SW2STON2",     1 },
-    { "SW1STONE",        "SW2STONE",     1 },
-    { "SW1STRTN",        "SW2STRTN",     1 },
+    { "SW1BRCOM", "SW2BRCOM", 1 },
+    { "SW1BRN1",  "SW2BRN1",  1 },
+    { "SW1BRN2",  "SW2BRN2",  1 },
+    { "SW1BRNGN", "SW2BRNGN", 1 },
+    { "SW1BROWN", "SW2BROWN", 1 },
+    { "SW1COMM",  "SW2COMM",  1 },
+    { "SW1COMP",  "SW2COMP",  1 },
+    { "SW1DIRT",  "SW2DIRT",  1 },
+    { "SW1EXIT",  "SW2EXIT",  1 },
+    { "SW1GRAY",  "SW2GRAY",  1 },
+    { "SW1GRAY1", "SW2GRAY1", 1 },
+    { "SW1METAL", "SW2METAL", 1 },
+    { "SW1PIPE",  "SW2PIPE",  1 },
+    { "SW1SLAD",  "SW2SLAD",  1 },
+    { "SW1STARG", "SW2STARG", 1 },
+    { "SW1STON1", "SW2STON1", 1 },
+    { "SW1STON2", "SW2STON2", 1 },
+    { "SW1STONE", "SW2STONE", 1 },
+    { "SW1STRTN", "SW2STRTN", 1 },
 
     // Doom registered episodes 2&3 switches
-    { "SW1BLUE",         "SW2BLUE",      2 },
-    { "SW1CMT",          "SW2CMT",       2 },
-    { "SW1GARG",         "SW2GARG",      2 },
-    { "SW1GSTON",        "SW2GSTON",     2 },
-    { "SW1HOT",          "SW2HOT",       2 },
-    { "SW1LION",         "SW2LION",      2 },
-    { "SW1SATYR",        "SW2SATYR",     2 },
-    { "SW1SKIN",         "SW2SKIN",      2 },
-    { "SW1VINE",         "SW2VINE",      2 },
-    { "SW1WOOD",         "SW2WOOD",      2 },
+    { "SW1BLUE",  "SW2BLUE",  2 },
+    { "SW1CMT",   "SW2CMT",   2 },
+    { "SW1GARG",  "SW2GARG",  2 },
+    { "SW1GSTON", "SW2GSTON", 2 },
+    { "SW1HOT",   "SW2HOT",   2 },
+    { "SW1LION",  "SW2LION",  2 },
+    { "SW1SATYR", "SW2SATYR", 2 },
+    { "SW1SKIN",  "SW2SKIN",  2 },
+    { "SW1VINE",  "SW2VINE",  2 },
+    { "SW1WOOD",  "SW2WOOD",  2 },
 
     // Doom II switches
-    { "SW1PANEL",        "SW2PANEL",     3 },
-    { "SW1ROCK",         "SW2ROCK",      3 },
-    { "SW1MET2",         "SW2MET2",      3 },
-    { "SW1WDMET",        "SW2WDMET",     3 },
-    { "SW1BRIK",         "SW2BRIK",      3 },
-    { "SW1MOD1",         "SW2MOD1",      3 },
-    { "SW1ZIM",          "SW2ZIM",       3 },
-    { "SW1STON6",        "SW2STON6",     3 },
-    { "SW1TEK",          "SW2TEK",       3 },
-    { "SW1MARB",         "SW2MARB",      3 },
-    { "SW1SKULL",        "SW2SKULL",     3 },
+    { "SW1PANEL", "SW2PANEL", 3 },
+    { "SW1ROCK",  "SW2ROCK",  3 },
+    { "SW1MET2",  "SW2MET2",  3 },
+    { "SW1WDMET", "SW2WDMET", 3 },
+    { "SW1BRIK",  "SW2BRIK",  3 },
+    { "SW1MOD1",  "SW2MOD1",  3 },
+    { "SW1ZIM",   "SW2ZIM",   3 },
+    { "SW1STON6", "SW2STON6", 3 },
+    { "SW1TEK",   "SW2TEK",   3 },
+    { "SW1MARB",  "SW2MARB",  3 },
+    { "SW1SKULL", "SW2SKULL", 3 },
 
-    { "\0",              "\0",           0 }
+    { "\0",       "\0",       0 }
 };
 
 int             switchlist[MAXSWITCHES * 2];
@@ -136,28 +126,19 @@ void P_InitSwitchList(void)
     }
 }
 
-
 //
 // Start a button counting down till it turns off.
 //
 void P_StartButton(line_t *line, bwhere_e w, int texture, int time)
 {
-    int         i;
+    int i;
 
     // See if button is already pressed
     for (i = 0; i < MAXBUTTONS; i++)
-    {
-        if (buttonlist[i].btimer
-            && buttonlist[i].line == line)
-        {
+        if (buttonlist[i].btimer && buttonlist[i].line == line)
             return;
-        }
-    }
-
-
 
     for (i = 0; i < MAXBUTTONS; i++)
-    {
         if (!buttonlist[i].btimer)
         {
             buttonlist[i].line = line;
@@ -167,14 +148,9 @@ void P_StartButton(line_t *line, bwhere_e w, int texture, int time)
             buttonlist[i].soundorg = &line->soundorg;
             return;
         }
-    }
 
     I_Error("P_StartButton: no button slots left!");
 }
-
-
-
-
 
 //
 // Function that changes wall texture.
@@ -238,11 +214,6 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
         P_StartButton(line, position, switchlist[i], BUTTONTIME);
 }
 
-
-
-
-
-
 //
 // P_UseSpecialLine
 // Called when a thing uses a special line.
@@ -250,12 +221,8 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
 //
 boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 {
-
     if (side)
-    {
         return false;
-    }
-
 
     // Switches that other things can activate.
     if (!thing->player)
@@ -266,15 +233,14 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
         switch (line->special)
         {
-          case DR_OpenDoorWait4SecondsClose:
-          case D1_OpenDoorStayOpenBlueKeyRequired:
-          case D1_OpenDoorStayOpenRedKeyRequired:
-          case D1_OpenDoorStayOpenYellowKeyRequired:
-            break;
+            case DR_OpenDoorWait4SecondsClose:
+            case D1_OpenDoorStayOpenBlueKeyRequired:
+            case D1_OpenDoorStayOpenRedKeyRequired:
+            case D1_OpenDoorStayOpenYellowKeyRequired:
+                break;
 
-          default:
-            return false;
-            break;
+            default:
+                return false;
         }
     }
 
@@ -298,7 +264,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case DR_OpenFastDoorWait4SecondsClose:
             if (nomonsters && (line->flags & ML_TRIGGER666))
             {
-                line_t      junk;
+                line_t  junk;
 
                 junk.tag = 666;
                 EV_DoFloor(&junk, lowerFloorToLowest);
@@ -360,7 +326,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
             if (nomonsters && (line->flags & ML_TRIGGER666))
             {
-                line_t      junk;
+                line_t  junk;
 
                 junk.tag = 666;
                 EV_DoFloor(&junk, lowerFloorToLowest);
@@ -453,7 +419,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case S1_RaiseFastFloorToNextFloor:
             if (EV_DoFloor(line, raiseFloorTurbo))
                 P_ChangeSwitchTexture(line, 0);
-        break;
+            break;
 
         case S1_OpenFastDoorStayOpenBlueKeyRequired:
         case S1_OpenFastDoorStayOpenRedKeyRequired:
@@ -465,13 +431,13 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case S1_RaiseFloorBy512Units:
             if (EV_DoFloor(line, raiseFloor512))
                 P_ChangeSwitchTexture(line, 0);
-        break;
+            break;
 
         // BUTTONS
         case SR_LowerCeilingToFloorCloseDoor:
             if (EV_DoDoor(line, close))
                 P_ChangeSwitchTexture(line, 1);
-        break;
+            break;
 
         case SR_LowerCeilingToFloor:
             if (EV_DoCeiling(line, lowerToFloor))
@@ -584,7 +550,6 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 EV_LightTurnOn(line, 35);
             P_ChangeSwitchTexture(line, 1);
             break;
-
     }
 
     return true;

@@ -387,7 +387,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     colfunc = vis->colfunc;
     fuzzpos = 0;
 
-    dc_iscale = FixedDiv(FRACUNIT, vis->scale);
+    dc_iscale = ABS(vis->xiscale);
     dc_texturemid = vis->texturemid;
     frac = vis->startfrac;
     spryscale = vis->scale;
@@ -778,7 +778,7 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
     }
     else
     {
-        int             i;
+        int     i;
 
         for (i = 1; i < n; i++)
         {
