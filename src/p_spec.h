@@ -47,6 +47,8 @@ void P_SpawnSpecials(void);
 // every tic
 void P_UpdateSpecials(void);
 
+boolean P_CheckTag(line_t *line);
+
 // when needed
 boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
 

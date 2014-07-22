@@ -247,18 +247,13 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
 //
 fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 {
-    int      i;
-    sector_t *other;
-    fixed_t  floor = sec->floorheight;
+    int         i;
+    sector_t    *other;
+    fixed_t     floor = sec->floorheight;
 
     for (i = 0; i < sec->linecount; i++)
-    {
-        if ((other = getNextSector(sec->lines[i], sec))
-            && other->floorheight < floor)
-        {
+        if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight < floor)
             floor = other->floorheight;
-        }
-    }
     return floor;
 }
 
@@ -268,18 +263,13 @@ fixed_t P_FindLowestFloorSurrounding(sector_t *sec)
 //
 fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 {
-    int      i;
-    sector_t *other;
-    fixed_t  floor = -32000 * FRACUNIT;
+    int         i;
+    sector_t    *other;
+    fixed_t     floor = -32000 << FRACBITS;
 
     for (i = 0; i < sec->linecount; i++)
-    {
-        if ((other = getNextSector(sec->lines[i], sec)) 
-            && other->floorheight > floor)
-        {
+        if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight > floor)
             floor = other->floorheight;
-        }
-    }
     return floor;
 }
 
@@ -289,28 +279,20 @@ fixed_t P_FindHighestFloorSurrounding(sector_t *sec)
 //
 fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
 {
-    int      i;
-    sector_t *other;
+    int         i;
+    sector_t    *other;
 
     for (i = 0; i < sec->linecount; i++)
-    {
-        if ((other = getNextSector(sec->lines[i], sec))
-            && other->floorheight > currentheight)
+        if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight > currentheight)
         {
             int height = other->floorheight;
 
             while (++i < sec->linecount)
-            {
-                if ((other = getNextSector(sec->lines[i], sec))
-                    && other->floorheight < height
+                if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight < height
                     && other->floorheight > currentheight)
-                {
                     height = other->floorheight;
-                }
-            }
             return height;
         }
-    }
     return currentheight;
 }
 
@@ -319,18 +301,13 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
 //
 fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 {
-    int      i;
-    sector_t *other;
-    fixed_t  height = 32000 * FRACUNIT;
+    int         i;
+    sector_t    *other;
+    fixed_t     height = 32000 << FRACBITS;
 
     for (i = 0; i < sec->linecount; i++)
-    {
-        if ((other = getNextSector(sec->lines[i], sec))
-            && other->ceilingheight < height)
-        {
+        if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight < height)
             height = other->ceilingheight;
-        }
-    }
     return height;
 }
 
@@ -339,18 +316,13 @@ fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
 //
 fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 {
-    int      i;
-    sector_t *other;
-    fixed_t  height = -32000 * FRACUNIT;
+    int         i;
+    sector_t    *other;
+    fixed_t     height = -32000 << FRACBITS;
 
     for (i = 0; i < sec->linecount; i++)
-    {
-        if ((other = getNextSector(sec->lines[i], sec))
-            && other->ceilingheight > height)
-        {
+        if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight > height)
             height = other->ceilingheight;
-        }
-    }
     return height;
 }
 
@@ -388,7 +360,7 @@ static void P_InitTagLists(void)
         sectors[i].firsttag = -1;
     for (i = numsectors; --i >= 0;)     // Proceed from last to first sector
     {                                   // so that lower sectors appear first
-        int j = (unsigned)sectors[i].tag % (unsigned)numsectors; // Hash func
+        int     j = (unsigned)sectors[i].tag % (unsigned)numsectors; // Hash func
 
         sectors[i].nexttag = sectors[j].firsttag;     // Prepend sector to chain
         sectors[j].firsttag = i;
@@ -399,7 +371,7 @@ static void P_InitTagLists(void)
         lines[i].firsttag = -1;
     for (i = numlines; --i >= 0;)       // Proceed from last to first linedef
     {                                   // so that lower linedefs appear first
-        int j = (unsigned)lines[i].tag % (unsigned)numlines;    // Hash func
+        int     j = (unsigned)lines[i].tag % (unsigned)numlines;    // Hash func
 
         lines[i].nexttag = lines[j].firsttag;   // Prepend linedef to chain
         lines[j].firsttag = i;
@@ -411,17 +383,12 @@ static void P_InitTagLists(void)
 //
 int P_FindMinSurroundingLight(sector_t *sector, int min)
 {
-    int      i;
-    sector_t *check;
+    int         i;
+    sector_t    *check;
 
     for (i = 0; i < sector->linecount; i++)
-    {
-        if ((check = getNextSector(sector->lines[i], sector))
-            && check->lightlevel < min)
-        {
+        if ((check = getNextSector(sector->lines[i], sector)) && check->lightlevel < min)
             min = check->lightlevel;
-        }
-    }
     return min;
 }
 
@@ -430,6 +397,63 @@ int P_FindMinSurroundingLight(sector_t *sector, int min)
 // Events are operations triggered by using, crossing,
 // or shooting special lines, or by timed thinkers.
 //
+
+//
+// P_CheckTag()
+//
+// Passed a line, returns true if the tag is non-zero or the line special
+// allows no tag without harm.
+//
+// Note: Only line specials activated by walkover, pushing, or shooting are
+//       checked by this routine.
+//
+// jff 2/27/98 Added to check for zero tag allowed for regular special types
+//
+boolean P_CheckTag(line_t *line)
+{
+    // tag not zero, allowed
+    if (line->tag)
+        return true;
+
+    switch (line->special)
+    {
+        case DR_OpenDoorWait4SecondsClose:
+        case S1_ExitLevel:
+        case W1_LightsToMaximumNeighbouringLevel:
+        case W1_LightsTo255:
+        case W1_StartLightsBlinkingEverySecond:
+        case DR_OpenDoorWait4SecondsCloseBlueKeyRequired:
+        case DR_OpenDoorWait4SecondsCloseYellowKeyRequired:
+        case DR_OpenDoorWait4SecondsCloseRedKeyRequired:
+        case D1_OpenDoorStayOpen:
+        case D1_OpenDoorStayOpenBlueKeyRequired:
+        case D1_OpenDoorStayOpenRedKeyRequired:
+        case D1_OpenDoorStayOpenYellowKeyRequired:
+        case W1_LightsTo0:
+        case W1_TeleportToTaggedSectorContainingTeleportLanding:
+        case MovingWallTextureToLeft:
+        case S1_ExitLevelAndGoToSecretLevel:
+        case W1_ExitLevel:
+        case WR_LightsTo0:
+        case WR_LightsToMaximumNeighbouringLevel:
+        case WR_LightsTo255:
+        case WR_RaiseCeilingToHighestNeighbouringCeiling:
+        case WR_TeleportToTaggedSectorContainingTeleportLanding:
+        case W1_LightsToMinimumNeighbouringLevel:
+        case DR_OpenFastDoorWait4SecondsClose:
+        case D1_OpenFastDoorStayOpen:
+        case W1_ExitLevelAndGoToSecretLevel:
+        case M1_TeleportToTaggedSectorContainingTeleportLanding:
+        case MR_TeleportToTaggedSectorContainingTeleportLanding:
+        case SR_LightsTo255:
+        case SR_LightsTo0:
+            return 1;   // zero tag allowed
+
+        default:
+            break;
+    }
+    return false;       // zero tag not allowed
+}
 
 //
 // P_CrossSpecialLine - TRIGGER
@@ -479,6 +503,9 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         if (!ok)
             return;
     }
+
+    if (!P_CheckTag(line))      // jff 2/27/98 disallow zero tag on some types
+        return;
 
     switch (line->special)
     {
@@ -848,12 +875,11 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 //
 void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 {
-    int ok;
-
     // Impacts that other things can activate.
     if (!thing->player)
     {
-        ok = 0;
+        int     ok = 0;
+
         switch (line->special)
         {
             case G1_OpenDoorStayOpen:
@@ -863,6 +889,9 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         if (!ok)
             return;
     }
+
+    if (!P_CheckTag(line))      // jff 2/27/98 disallow zero tag on some types
+        return;
 
     switch (line->special)
     {

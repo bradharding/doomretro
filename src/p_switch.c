@@ -278,6 +278,8 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         }
     }
 
+    if (!P_CheckTag(line))      // jff 2/27/98 disallow zero tag on some types
+        return false;
 
     // do something
     switch (line->special)
