@@ -45,6 +45,23 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define CHAINSAWIDLEMOTORSPEED  7500
 #define MAXMOTORSPEED           65535
 
+boolean weaponrecoil = true;
+
+static const int recoil[] =     // phares
+{
+    10,         // wp_fist
+    10,         // wp_pistol
+    30,         // wp_shotgun
+    10,         // wp_chaingun
+    100,        // wp_missile
+    20,         // wp_plasma
+    100,        // wp_bfg
+    0,          // wp_chainsaw
+    80          // wp_supershotgun
+};
+
+void P_Thrust(player_t *, angle_t, fixed_t);
+
 //
 // P_SetPsprite
 //
@@ -349,13 +366,27 @@ void A_Raise(player_t *player, pspdef_t *psp)
     P_SetPsprite(player, ps_weapon, weaponinfo[player->readyweapon].readystate);
 }
 
+// Weapons now recoil, amount depending on the weapon.              // phares
+//                                                                  //   |
+// The P_SetPsprite call in each of the weapon firing routines      //   V
+// was moved here so the recoil could be synced with the
+// muzzle flash, rather than the pressing of the trigger.
+// The BFG delay caused this to be necessary.
+static void A_FireSomething(player_t* player, int adder)
+{
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate + adder);
+
+    if (weaponrecoil)
+        P_Thrust(player, ANG180 + player->mo->angle, 2048 * recoil[player->readyweapon]);
+}
+
 //
 // A_GunFlash
 //
 void A_GunFlash(player_t *player, pspdef_t *psp)
 {
     P_SetMobjState(player->mo, S_PLAY_ATK2);
-    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
+    A_FireSomething(player, 0);
 }
 
 //
@@ -449,7 +480,7 @@ void A_FirePlasma(player_t *player, pspdef_t *psp)
 {
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate + (P_Random() & 1));
+    A_FireSomething(player, P_Random() & 1);
 
     P_SpawnPlayerMissile(player->mo, MT_PLASMA);
 }
@@ -505,7 +536,7 @@ void A_FirePistol(player_t *player, pspdef_t *psp)
     P_SetMobjState(player->mo, S_PLAY_ATK2);
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash, (statenum_t)weaponinfo[player->readyweapon].flashstate);
+    A_FireSomething(player, 0);
 
     P_BulletSlope(player->mo);
     P_GunShot(player->mo, !player->refire);
@@ -523,7 +554,7 @@ void A_FireShotgun(player_t *player, pspdef_t *psp)
 
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash, (statenum_t)weaponinfo[player->readyweapon].flashstate);
+    A_FireSomething(player, 0);
 
     P_BulletSlope(player->mo);
 
@@ -545,7 +576,7 @@ void A_FireShotgun2(player_t *player, pspdef_t *psp)
 
     player->ammo[weaponinfo[player->readyweapon].ammo] -= 2;
 
-    P_SetPsprite(player, ps_flash, (statenum_t)weaponinfo[player->readyweapon].flashstate);
+    A_FireSomething(player, 0);
 
     P_BulletSlope(player->mo);
 
@@ -575,8 +606,7 @@ void A_FireCGun(player_t *player, pspdef_t *psp)
     P_SetMobjState(player->mo, S_PLAY_ATK2);
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash,
-                 weaponinfo[player->readyweapon].flashstate + psp->state - &states[S_CHAIN1]);
+    A_FireSomething(player, psp->state - &states[S_CHAIN1]);
 
     P_BulletSlope(player->mo);
 
