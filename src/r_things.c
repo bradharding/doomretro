@@ -153,16 +153,16 @@ void R_InstallSpriteLump(int lump, unsigned int frame, unsigned int rotation, bo
 //
 // Empirically verified to have excellent hash
 // properties across standard Doom sprites:
-
-#define R_SpriteNameHash(s) ((unsigned int)((s)[0]-((s)[1]*3-(s)[3]*2-(s)[2])*2))
+#define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
 
 void R_InitSpriteDefs(char **namelist)
 {
-    size_t      numentries = lastspritelump - firstspritelump + 1;
-    int         i;
+    int numentries = lastspritelump - firstspritelump + 1;
+    int i;
 
     struct {
-        int index, next;
+        int     index;
+        int     next;
     } *hash;
 
     if (!numentries || !*namelist)
