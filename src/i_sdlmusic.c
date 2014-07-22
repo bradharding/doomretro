@@ -34,8 +34,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include "s_sound.h"
 #include "z_zone.h"
 
-#define MAXMIDLENGTH (96 * 1024)
-
 static boolean  music_initialized = false;
 
 // If this is true, this module initialized SDL sound and has the
@@ -273,7 +271,7 @@ static void *I_SDL_RegisterSong(void *data, int len)
     // Reject anything which doesn't have this signature
     filename = M_TempFile("doom.mid");
 
-    if (IsMid(data, len) && len < MAXMIDLENGTH)
+    if (IsMid(data, len))
         M_WriteFile(filename, data, len);
     else
         // Assume a MUS file and try to convert
