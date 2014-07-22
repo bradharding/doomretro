@@ -193,7 +193,7 @@ typedef struct
 // 1 second, in ticks.
 #define BUTTONTIME              35
 
-extern button_t buttonlist[MAXBUTTONS];
+button_t buttonlist[MAXBUTTONS];
 
 void P_ChangeSwitchTexture(line_t *line, int useAgain);
 

@@ -26,104 +26,62 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 ====================================================================
 */
 
+#include <string.h>
+
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_system.h"
 #include "p_local.h"
 #include "s_sound.h"
 
-//
-// CHANGE THE TEXTURE OF A WALL SWITCH TO ITS OPPOSITE
-//
-switchlist_t alphSwitchList[] =
-{
-    // Doom shareware episode 1 switches
-    { "SW1BRCOM", "SW2BRCOM", 1 },
-    { "SW1BRN1",  "SW2BRN1",  1 },
-    { "SW1BRN2",  "SW2BRN2",  1 },
-    { "SW1BRNGN", "SW2BRNGN", 1 },
-    { "SW1BROWN", "SW2BROWN", 1 },
-    { "SW1COMM",  "SW2COMM",  1 },
-    { "SW1COMP",  "SW2COMP",  1 },
-    { "SW1DIRT",  "SW2DIRT",  1 },
-    { "SW1EXIT",  "SW2EXIT",  1 },
-    { "SW1GRAY",  "SW2GRAY",  1 },
-    { "SW1GRAY1", "SW2GRAY1", 1 },
-    { "SW1METAL", "SW2METAL", 1 },
-    { "SW1PIPE",  "SW2PIPE",  1 },
-    { "SW1SLAD",  "SW2SLAD",  1 },
-    { "SW1STARG", "SW2STARG", 1 },
-    { "SW1STON1", "SW2STON1", 1 },
-    { "SW1STON2", "SW2STON2", 1 },
-    { "SW1STONE", "SW2STONE", 1 },
-    { "SW1STRTN", "SW2STRTN", 1 },
+int                     switchlist[(MAXSWITCHES * 2) + 1];
 
-    // Doom registered episodes 2&3 switches
-    { "SW1BLUE",  "SW2BLUE",  2 },
-    { "SW1CMT",   "SW2CMT",   2 },
-    { "SW1GARG",  "SW2GARG",  2 },
-    { "SW1GSTON", "SW2GSTON", 2 },
-    { "SW1HOT",   "SW2HOT",   2 },
-    { "SW1LION",  "SW2LION",  2 },
-    { "SW1SATYR", "SW2SATYR", 2 },
-    { "SW1SKIN",  "SW2SKIN",  2 },
-    { "SW1VINE",  "SW2VINE",  2 },
-    { "SW1WOOD",  "SW2WOOD",  2 },
-
-    // Doom II switches
-    { "SW1PANEL", "SW2PANEL", 3 },
-    { "SW1ROCK",  "SW2ROCK",  3 },
-    { "SW1MET2",  "SW2MET2",  3 },
-    { "SW1WDMET", "SW2WDMET", 3 },
-    { "SW1BRIK",  "SW2BRIK",  3 },
-    { "SW1MOD1",  "SW2MOD1",  3 },
-    { "SW1ZIM",   "SW2ZIM",   3 },
-    { "SW1STON6", "SW2STON6", 3 },
-    { "SW1TEK",   "SW2TEK",   3 },
-    { "SW1MARB",  "SW2MARB",  3 },
-    { "SW1SKULL", "SW2SKULL", 3 },
-
-    { "\0",       "\0",       0 }
-};
-
-int             switchlist[MAXSWITCHES * 2];
-int             numswitches;
-button_t        buttonlist[MAXBUTTONS];
-
-extern boolean  canmodify;
+extern int              numtextures;
+extern texture_t        **textures;
 
 //
 // P_InitSwitchList
 // Only called at game initialization.
+// For each SW1xxxxx texture we look for a corresponding SW2xxxxx texture. (JAD 27/09/11)
 //
 void P_InitSwitchList(void)
 {
-    int         i;
-    int         index;
-    int         episode;
+    int         i = 0;
+    int         count = 0;
+    int         *ptr_B;
+    texture_t   **ptr_1;
+    texture_t   *ptr_2;
+    char        sw2name[9];
 
-    episode = 1;
+    sw2name[8] = 0;
 
-    if (gamemode == registered || gamemode == retail)
-        episode = 2;
-    else if (gamemode == commercial)
-        episode = 3;
+    ptr_1 = textures;
+    ptr_B = switchlist;
 
-    for (index = 0, i = 0; i < MAXSWITCHES; i++)
+    do
     {
-        if (!alphSwitchList[i].episode)
+        ptr_2 = *ptr_1++;
+        if (!strncasecmp(ptr_2->name, "SW1", 3))
         {
-            numswitches = index / 2;
-            switchlist[index] = -1;
-            break;
-        }
+            int j;
 
-        if (alphSwitchList[i].episode <= episode)
-        {
-            switchlist[index++] = R_TextureNumForName(alphSwitchList[i].name1);
-            switchlist[index++] = R_TextureNumForName(alphSwitchList[i].name2);
+            strncpy(sw2name, ptr_2->name, 8);
+            sw2name[2] = '2';
+            j = R_CheckTextureNumForName(sw2name);
+            if (j != -1)
+            {
+                if (count < MAXSWITCHES)
+                {
+                    *ptr_B++ = i;
+                    *ptr_B++ = j;
+                }
+                count++;
+            }
         }
     }
+    while (++i < numtextures);
+
+    *ptr_B = -1;
 }
 
 //
@@ -158,60 +116,48 @@ void P_StartButton(line_t *line, bwhere_e w, int texture, int time)
 //
 void P_ChangeSwitchTexture(line_t *line, int useAgain)
 {
-    mobj_t      *soundorg;
-    int         i;
-    int         sound;
-    short       *texture;
-    short       *texTop;
-    short       *texMid;
-    short       *texBot;
-    bwhere_e    position;
-
-    texTop = &sides[line->sidenum[0]].toptexture;
-    texMid = &sides[line->sidenum[0]].midtexture;
-    texBot = &sides[line->sidenum[0]].bottomtexture;
-
-    sound = sfx_swtchn;
-
-    // use the sound origin of the linedef (its midpoint)
-    soundorg = (mobj_t *)&line->soundorg;
+    int         i = 0;
+    int         swtex;
+    side_t      *side = &sides[line->sidenum[0]];
+    short       texTop = side->toptexture;
+    short       texMid = side->midtexture;
+    short       texBot = side->bottomtexture;
 
     // don't zero line->special until after exit switch test
     if (!useAgain)
         line->special = 0;
 
     // search for a texture to change
-    texture = NULL;
-    position = (bwhere_e)0;
-    for (i = 0; i < numswitches * 2; i++)
+    do
     {
-        if (switchlist[i] == *texTop)
-        {
-            texture = texTop;
-            position = top;
-            break;
-        }
-        else if (switchlist[i] == *texMid)
-        {
-            texture = texMid;
-            position = middle;
-            break;
-        }
-        else if (switchlist[i] == *texBot)
-        {
-            texture = texBot;
-            position = bottom;
-            break;
-        }
-    }
-    if (texture == NULL)
-        return; // no switch texture was found to change
-    *texture = switchlist[i ^ 1];
+        swtex = switchlist[i];
 
-    S_StartSound(soundorg, sound);
-
-    if (useAgain)
-        P_StartButton(line, position, switchlist[i], BUTTONTIME);
+        if (swtex == texTop)
+        {
+            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            if (useAgain)
+                P_StartButton(line, top, swtex, BUTTONTIME);
+            side->toptexture = switchlist[i ^ 1];
+            break;
+        }
+        else if (swtex == texMid)
+        {
+            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            if (useAgain)
+                P_StartButton(line, middle, swtex, BUTTONTIME);
+            side->midtexture = switchlist[i ^ 1];
+            break;
+        }
+        else if (swtex == texBot)
+        {
+            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            if (useAgain)
+                P_StartButton(line, bottom, swtex, BUTTONTIME);
+            side->bottomtexture = switchlist[i ^ 1];
+            break;
+        }
+        i++;
+    } while (swtex != -1);
 }
 
 //
