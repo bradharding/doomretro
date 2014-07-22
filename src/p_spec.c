@@ -237,8 +237,8 @@ sector_t *getNextSector(line_t *line, sector_t *sec)
     // the actual two-sidedness of the line, rather than its 2S flag
     //if (!(line->flags & ML_TWOSIDED))
     //    return NULL;
-
-    return (line->frontsector == sec ? line->backsector : line->frontsector);
+    return (line->frontsector == sec ? (line->backsector != sec ? line->backsector : NULL) :
+        line->frontsector);
 }
 
 //
