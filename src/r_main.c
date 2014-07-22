@@ -204,7 +204,7 @@ angle_t R_PointToAngle2(fixed_t x2, fixed_t y2, fixed_t x1, fixed_t y1)
             y1 = -y1;
             ra = (x1 > y1) ?
                 // octant 8, ra = ANG315..0 due to angle wrap
-                -tantoangle[SlopeDiv(y1, x1)]
+                -(int)tantoangle[SlopeDiv(y1, x1)]
                 :
                 // octant 7, ra = AN270..ANG315
                 ANG270 + tantoangle[SlopeDiv(x1, y1)];
@@ -276,7 +276,7 @@ angle_t R_PointToAngle(fixed_t x, fixed_t y)
             y = -y;
             vpa = ( x > y) ?
                 // octant 8, vpa = ANG315..0 due to angle wrap
-                -tantoangle[SlopeDiv(y, x)]
+                -(int)tantoangle[SlopeDiv(y, x)]
                 :
                 // octant 7, vpa = AN270..ANG315
                 ANG270 + tantoangle[SlopeDiv_64(x, y)];
