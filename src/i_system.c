@@ -136,15 +136,6 @@ byte *I_ZoneBase(int *size)
 }
 
 //
-// I_Init
-//
-void I_Init(void)
-{
-    I_InitTimer();
-    I_InitGamepad();
-}
-
-//
 // I_Quit
 //
 void I_Quit(boolean shutdown)
