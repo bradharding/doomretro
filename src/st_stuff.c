@@ -1251,7 +1251,7 @@ boolean ST_Responder(event_t *ev)
                         EpiDef.lastOn = selectedepisode;
                     }
                     gamemap = map;
-                    idclevtics = 1 * TICRATE;
+                    idclevtics = 2 * TICRATE;
                 }
             }
         }
