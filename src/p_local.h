@@ -91,8 +91,8 @@ void P_RemoveThinker(thinker_t *thinker);
 //
 // P_PSPR
 //
-void P_SetupPsprites(player_t *curplayer);
-void P_MovePsprites(player_t *curplayer);
+void P_SetupPsprites(player_t *player);
+void P_MovePsprites(player_t *player);
 void P_DropWeapon(player_t *player);
 
 //
