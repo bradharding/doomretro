@@ -165,24 +165,25 @@ void D_ProcessEvents(void)
 
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_TITLESCREEN;
-extern  boolean setsizeneeded;
-extern  boolean message_on;
-extern  int     graphicdetail;
-extern  int     viewheight2;
+
+extern boolean  setsizeneeded;
+extern boolean  message_on;
+extern int      graphicdetail;
+extern int      viewheight2;
 
 void R_ExecuteSetViewSize(void);
 
 void D_Display(void)
 {
-    static boolean     viewactivestate = false;
-    static boolean     menuactivestate = false;
-    static boolean     pausedstate = false;
-    static gamestate_t oldgamestate = (gamestate_t)(-1);
-    static int         borderdrawcount;
-    int                nowtime;
-    int                tics;
-    int                wipestart;
-    boolean            done;
+    static boolean      viewactivestate = false;
+    static boolean      menuactivestate = false;
+    static boolean      pausedstate = false;
+    static gamestate_t  oldgamestate = (gamestate_t)(-1);
+    static int          borderdrawcount;
+    int                 nowtime;
+    int                 tics;
+    int                 wipestart;
+    boolean             done;
 
     // change the view size if needed
     if (setsizeneeded)
@@ -274,12 +275,10 @@ void D_Display(void)
 
             if (widescreen)
                 V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
-                                      viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2,
-                                      0, patch, false);
+                    viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, 0, patch, false);
             else
                 V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
-                                      (ORIGINALHEIGHT - SHORT(patch->height)) / 2,
-                                      0, patch, false);
+                    (ORIGINALHEIGHT - SHORT(patch->height)) / 2, 0, patch, false);
         }
         else
         {
@@ -768,8 +767,6 @@ static void D_DoomMainSetup(void)
     char    file[256];
     int     temp;
     int     choseniwad;
-
-    SDL_Init(0);
 
     M_FindResponseFile();
 
