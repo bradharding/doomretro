@@ -134,26 +134,8 @@ static int        eventtail;
 //
 void D_PostEvent(event_t *ev)
 {
-    events[eventhead] = *ev;
-    eventhead = (eventhead + 1) % MAXEVENTS;
-}
-
-//
-// D_PopEvent
-// Read an event from the queue
-//
-event_t *D_PopEvent(void)
-{
-    event_t *result;
-
-    if (eventtail == eventhead)
-        return NULL;
-
-    result = &events[eventtail];
-
-    eventtail = (eventtail + 1) % MAXEVENTS;
-
-    return result;
+    events[eventhead++] = *ev;
+    eventhead &= MAXEVENTS - 1;
 }
 
 boolean wipe = true;
@@ -164,10 +146,10 @@ boolean wipe = true;
 //
 void D_ProcessEvents(void)
 {
-    event_t *ev;
-
-    while ((ev = D_PopEvent()) != NULL)
+    for (; eventtail != eventhead; eventtail = (eventtail + 1) & (MAXEVENTS - 1))
     {
+        event_t *ev = events + eventtail;
+
         if (wipe && ev->type == ev_mouse)
             continue;
         if (M_Responder(ev))
