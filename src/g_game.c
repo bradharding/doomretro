@@ -635,19 +635,21 @@ boolean G_Responder(event_t *ev)
                  && ev->data1 != KEY_CAPSLOCK
                  && ev->data1 != KEY_NUMLOCK
                  && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12))
-                || (ev->type == ev_mouse
-                    && ev->data1
-                    && !(ev->data1 & (MOUSE_WHEELUP | MOUSE_WHEELDOWN)))
-                || (ev->type == ev_gamepad
-                    && gamepadwait < I_GetTime()
-                    && gamepadbuttons
-                    && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN |
-                        GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
+                 || (ev->type == ev_mouse
+                     && mousewait < I_GetTime()
+                     && ev->data1
+                     && !(ev->data1 & (MOUSE_WHEELUP | MOUSE_WHEELDOWN)))
+                 || (ev->type == ev_gamepad
+                     && gamepadwait < I_GetTime()
+                     && gamepadbuttons
+                     && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN |
+                          GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
              && !keydown)
         {
             keydown = ev->data1;
             gamepadbuttons = 0;
             gamepadwait = I_GetTime() + 8;
+            mousewait = I_GetTime() + 5;
             M_StartControlPanel();
             S_StartSound(NULL, sfx_swtchn);
             return true;

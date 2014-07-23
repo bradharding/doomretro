@@ -1977,6 +1977,7 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
 // M_Responder
 //
 int gamepadwait = 0;
+int mousewait = 0;
 int gamepadpress = false;
 int gammawait = 0;
 
@@ -1987,7 +1988,6 @@ boolean M_Responder(event_t *ev)
     int         key = -1;
     int         i;
     static int  keywait = 0;
-    static int  mousewait = 0;
     char        *tempstring = "";
 #ifdef SDL20
     SDL_Keymod  modstate = SDL_GetModState();

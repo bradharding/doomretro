@@ -77,6 +77,7 @@ extern boolean  message_dontpause;
 extern boolean  vibrate;
 extern char     lbmname[256];
 extern char     mapnumandtitle[133];
+extern int      mousewait;
 extern int      gamepadpress;
 extern int      gamepadwait;
 extern int      keydown;
