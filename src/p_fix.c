@@ -489,6 +489,12 @@ linefix_t linefix[] =
     { pack_nerve,       1,   4,    2234,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { pack_nerve,       1,   4,    3765,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { pack_nerve,       1,   4,    3768,    1, "",         "",            "GSTONE1",     DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
+    { pack_nerve,       1,   4,    4456,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
+    { pack_nerve,       1,   4,    4457,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
+    { pack_nerve,       1,   4,    4458,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
+    { pack_nerve,       1,   4,    4461,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
+    { pack_nerve,       1,   4,    4462,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
+    { pack_nerve,       1,   4,    4463,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
 
     { pack_nerve,       1,   5,    1361,    0, "",         "MIDGRATE",    "",                 30,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { pack_nerve,       1,   5,    2243,    1, "",         "MIDGRATE",    "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
