@@ -627,28 +627,6 @@ boolean G_Responder(event_t *ev)
     // any other key pops up menu if on title screen
     if (gameaction == ga_nothing && gamestate == GS_TITLESCREEN)
     {
-        if (ev->type == ev_keydown && ev->data1 == key_pause && !keydown)
-        {
-            keydown = ev->data1;
-            paused ^= 1;
-            if (paused)
-            {
-                S_StopSounds();
-                S_StartSound(NULL, sfx_swtchn);
-                S_PauseSound();
-                blurred = false;
-            }
-            else
-            {
-                S_ResumeSound();
-                S_StartSound(NULL, sfx_swtchx);
-            }
-            return true;
-        }
-
-        if (ev->type == ev_keyup)
-            keydown = 0;
-
         if (!menuactive
             && ((ev->type == ev_keydown
                  && ev->data1 != KEY_PAUSE
@@ -657,14 +635,15 @@ boolean G_Responder(event_t *ev)
                  && ev->data1 != KEY_CAPSLOCK
                  && ev->data1 != KEY_NUMLOCK
                  && (ev->data1 < KEY_F1 || ev->data1 > KEY_F12))
-                     || (ev->type == ev_mouse
-                         && (ev->data1 && !(ev->data1 & (MOUSE_WHEELUP | MOUSE_WHEELDOWN))))
-                             || (ev->type == ev_gamepad
-                                 && gamepadwait < I_GetTime()
-                                 && gamepadbuttons
-                                 && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN
-                                                        | GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
-                 && !keydown)
+                || (ev->type == ev_mouse
+                    && ev->data1
+                    && !(ev->data1 & (MOUSE_WHEELUP | MOUSE_WHEELDOWN)))
+                || (ev->type == ev_gamepad
+                    && gamepadwait < I_GetTime()
+                    && gamepadbuttons
+                    && !(gamepadbuttons & (GAMEPAD_DPAD_UP | GAMEPAD_DPAD_DOWN |
+                        GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
+             && !keydown)
         {
             keydown = ev->data1;
             gamepadbuttons = 0;
