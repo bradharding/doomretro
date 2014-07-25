@@ -303,59 +303,6 @@ boolean D_CheckFilename(char *path, char *filename)
             && !strcasecmp(&path[path_len - filename_len], filename));
 }
 
-// Check if the specified directory contains the specified IWAD
-// file, returning the full path to the IWAD if found, or NULL
-// if not found.
-static char *CheckDirectoryHasIWAD(char *dir, char *iwadname)
-{
-    char        *filename;
-
-    // As a special case, the "directory" may refer directly to an
-    // IWAD file if the path comes from DOOMWADDIR or DOOMWADPATH.
-    if (D_CheckFilename(dir, iwadname) && M_FileExists(dir))
-        return strdup(dir);
-
-    // Construct the full path to the IWAD if it is located in
-    // this directory, and check if it exists.
-    if (!strcmp(dir, "."))
-        filename = strdup(iwadname);
-    else
-    {
-        char sep[] = { DIR_SEPARATOR, '\0' };
-
-        filename = M_StringJoin(dir, sep, iwadname);
-    }
-
-    if (M_FileExists(filename))
-        return filename;
-
-    free(filename);
-
-    return NULL;
-}
-
-// Search a directory to try to find an IWAD
-// Returns the location of the IWAD if found, otherwise NULL.
-static char *SearchDirectoryForIWAD(char *dir)
-{
-    char        *filename;
-    size_t      i;
-
-    for (i = 0; i < arrlen(iwads); ++i)
-    {
-        filename = CheckDirectoryHasIWAD(dir, iwads[i].name);
-
-        if (filename != NULL)
-        {
-            gamemission = iwads[i].mission;
-
-            return filename;
-        }
-    }
-
-    return NULL;
-}
-
 // When given an IWAD with the '-iwad' parameter,
 // attempt to identify it by its name.
 void IdentifyIWADByName(char *name)
