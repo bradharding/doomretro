@@ -55,8 +55,7 @@ fixed_t P_ApproxDistance(fixed_t dx, fixed_t dy)
 //
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t *line)
 {
-    return
-        (!line->dx ? x <= line->v1->x ? line->dy > 0 : line->dy < 0 :
+    return (!line->dx ? x <= line->v1->x ? line->dy > 0 : line->dy < 0 :
         !line->dy ? y <= line->v1->y ? line->dx < 0 : line->dx > 0 :
         FixedMul(y-line->v1->y, line->dx >> FRACBITS) >=
         FixedMul(line->dy >> FRACBITS, x-line->v1->x));
@@ -72,25 +71,21 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 {
     switch (ld->slopetype)
     {
-        int p;
+        int     p;
 
         default:
         case ST_HORIZONTAL:
-            return
-                ((tmbox[BOXBOTTOM] > ld->v1->y) == (p = tmbox[BOXTOP] > ld->v1->y) ?
-                 p ^ (ld->dx < 0) : -1);
+            return ((tmbox[BOXBOTTOM] > ld->v1->y) == (p = tmbox[BOXTOP] > ld->v1->y) ?
+                p ^ (ld->dx < 0) : -1);
         case ST_VERTICAL:
-            return
-                ((tmbox[BOXLEFT] < ld->v1->x) == (p = tmbox[BOXRIGHT] < ld->v1->x) ?
-                 p ^ (ld->dy < 0) : -1);
+            return ((tmbox[BOXLEFT] < ld->v1->x) == (p = tmbox[BOXRIGHT] < ld->v1->x) ?
+                p ^ (ld->dy < 0) : -1);
         case ST_POSITIVE:
-            return
-                (P_PointOnLineSide(tmbox[BOXRIGHT], tmbox[BOXBOTTOM], ld) ==
-                 (p = P_PointOnLineSide(tmbox[BOXLEFT], tmbox[BOXTOP], ld)) ? p : -1);
+            return (P_PointOnLineSide(tmbox[BOXRIGHT], tmbox[BOXBOTTOM], ld) ==
+                (p = P_PointOnLineSide(tmbox[BOXLEFT], tmbox[BOXTOP], ld)) ? p : -1);
         case ST_NEGATIVE:
-            return
-                ((P_PointOnLineSide(tmbox[BOXLEFT], tmbox[BOXBOTTOM], ld)) ==
-                 (p = P_PointOnLineSide(tmbox[BOXRIGHT], tmbox[BOXTOP], ld)) ? p : -1);
+            return ((P_PointOnLineSide(tmbox[BOXLEFT], tmbox[BOXBOTTOM], ld)) ==
+                (p = P_PointOnLineSide(tmbox[BOXRIGHT], tmbox[BOXTOP], ld)) ? p : -1);
     }
 }
 
@@ -101,8 +96,7 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 //
 int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
-    return
-        (!line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 :
+    return (!line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 :
         !line->dy ? y <= line->y ? line->dx < 0 : line->dx > 0 :
         (line->dy ^ line->dx ^ (x -= line->x) ^ (y -= line->y)) < 0 ? (line->dy ^ x) < 0 :
         FixedMul(y >> 8, line->dx >> 8) >= FixedMul(line->dy >> 8, x >> 8));
@@ -129,10 +123,10 @@ void P_MakeDivline(line_t *li, divline_t *dl)
 //
 fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
-    fixed_t den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy);
+    fixed_t     den = FixedMul(v1->dy >> 8, v2->dx) - FixedMul(v1->dx >> 8, v2->dy);
 
     return (den ? FixedDiv((FixedMul((v1->x - v2->x) >> 8, v1->dy) +
-                           FixedMul((v2->y - v1->y) >> 8, v1->dx)), den) : 0);
+        FixedMul((v2->y - v1->y) >> 8, v1->dx)), den) : 0);
 }
 
 //
@@ -146,11 +140,10 @@ fixed_t openbottom;
 fixed_t openrange;
 fixed_t lowfloor;
 
-
 void P_LineOpening(line_t *linedef)
 {
-    sector_t *front;
-    sector_t *back;
+    sector_t    *front;
+    sector_t    *back;
 
     if (linedef->sidenum[1] == NO_INDEX)
     {
@@ -290,12 +283,12 @@ void P_SetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOBLOCKMAP))
     {
         // inert things don't need to be in blockmap
-        int blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
-        int blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
+        int     blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
+        int     blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
 
         if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
         {
-            mobj_t **link = &blocklinks[blocky * bmapwidth + blockx];
+            mobj_t      **link = &blocklinks[blocky * bmapwidth + blockx];
 
             thing->bprev = NULL;
             thing->bnext = *link;
@@ -334,8 +327,8 @@ boolean P_BlockLinesIterator(int x, int y, boolean (*func)(line_t *))
         return true;
     else
     {
-        int                 offset = blockmapindex[y * bmapwidth + x];
-        const uint32_t      *list;
+        int             offset = blockmapindex[y * bmapwidth + x];
+        const uint32_t  *list;
 
         for (list = &blockmaphead[offset]; *list != (uint32_t)(-1); list++)
         {
@@ -358,16 +351,14 @@ boolean P_BlockLinesIterator(int x, int y, boolean (*func)(line_t *))
 //
 boolean P_BlockThingsIterator(int x, int y, boolean (*func)(mobj_t *))
 {
-    mobj_t *mobj;
+    mobj_t      *mobj;
 
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
 
     for (mobj = blocklinks[y * bmapwidth + x]; mobj; mobj = mobj->bnext)
-    {
         if (!func(mobj))
             return false;
-    }
     return true;
 }
 
@@ -376,13 +367,14 @@ boolean P_BlockThingsIterator(int x, int y, boolean (*func)(mobj_t *))
 //
 
 // 1/11/98 killough: Intercept limit removed
-static intercept_t *intercepts, *intercept_p;
+static intercept_t      *intercepts;
+static intercept_t      *intercept_p;
 
 // Check for limit and double size if necessary -- killough
 static void check_intercept(void)
 {
-    static size_t num_intercepts;
-    size_t        offset = intercept_p - intercepts;
+    static size_t       num_intercepts;
+    size_t              offset = intercept_p - intercepts;
 
     if (offset >= num_intercepts)
     {
@@ -408,10 +400,10 @@ int             ptflags;
 //
 boolean PIT_AddLineIntercepts(line_t *ld)
 {
-    int       s1;
-    int       s2;
-    fixed_t   frac;
-    divline_t dl;
+    int         s1;
+    int         s2;
+    fixed_t     frac;
+    divline_t   dl;
 
     // avoid precision problems with two routines
     if (trace.dx > FRACUNIT * 16 || trace.dy > FRACUNIT * 16
@@ -461,9 +453,9 @@ boolean PIT_AddThingIntercepts(mobj_t *thing)
 
     // There's probably a smarter way to determine which two sides
     // of the thing face the trace than by trying all four sides...
-    int numfronts = 0;
-    divline_t line;
-    int i;
+    int         numfronts = 0;
+    divline_t   line;
+    int         i;
 
     for (i = 0; i < 4; ++i)
     {
@@ -584,16 +576,16 @@ boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
                        int flags, boolean (*trav)(intercept_t *))
 {
-    fixed_t xt1, yt1;
-    fixed_t xt2, yt2;
-    fixed_t xstep, ystep;
-    fixed_t partial;
-    fixed_t xintercept, yintercept;
-    int     mapx, mapy;
-    int     mapxstep, mapystep;
-    int     count;
+    fixed_t     xt1, yt1;
+    fixed_t     xt2, yt2;
+    fixed_t     xstep, ystep;
+    fixed_t     partial;
+    fixed_t     xintercept, yintercept;
+    int         mapx, mapy;
+    int         mapxstep, mapystep;
+    int         count;
 
-    earlyout = flags & PT_EARLYOUT;
+    earlyout = (flags & PT_EARLYOUT);
 
     validcount++;
     intercept_p = intercepts;
@@ -670,16 +662,12 @@ boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
     for (count = 0; count < 100; count++)
     {
         if (flags & PT_ADDLINES)
-        {
             if (!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))
                 return false;           // early out
-        }
 
         if (flags & PT_ADDTHINGS)
-        {
             if (!P_BlockThingsIterator(mapx, mapy, PIT_AddThingIntercepts))
                 return false;           // early out
-        }
 
         if (mapx == xt2 && mapy == yt2)
             break;

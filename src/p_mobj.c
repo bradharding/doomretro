@@ -473,7 +473,7 @@ void P_MobjThinker(mobj_t *mobj)
         if (mobj->thinker.function.acv == (actionf_v)(-1))
             return;             // mobj was removed
     }
-    else if (!mobj->momx && !mobj->momy && !mobj->player)
+    else if (!(mobj->momx | mobj->momy) && !mobj->player)
     {
         if (mobj->z > mobj->dropoffz && !(mobj->flags & MF_NOGRAVITY) &&
             mobj->flags & (MF_CORPSE | MF_SHOOTABLE | MF_DROPPED))
@@ -825,6 +825,17 @@ void P_SpawnPlayer(mapthing_t *mthing)
     }
 }
 
+void P_SpawnMoreBlood(mobj_t *mobj, int flags2, void (*colfunc)(void))
+{
+    int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
+    int     i;
+    int     max = M_RandomInt(100, 150);
+
+    for (i = 0; i < max; i++)
+        P_BloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
+            mobj->y + (M_RandomInt(-radius, radius) << FRACBITS), flags2, colfunc);
+}
+
 //
 // P_SpawnMapThing
 // The fields of the mapthing should
@@ -917,33 +928,11 @@ void P_SpawnMapThing(mapthing_t *mthing)
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
         if ((corpses & MOREBLOOD) && bloodsplats)
-        {
             if ((mobjinfo[i].flags2 & MF2_MOREREDBLOODSPLATS)
                 || (FREEDOOM && (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)))
-            {
-                short   lump = sprites[mobj->sprite].spriteframes[0].lump[0];
-                int     radius = ((spritewidth[lump] >> FRACBITS) >> 1) + 8;
-
-                for (i = 0; i < M_RandomInt(100, 150); i++)
-                {
-                    P_BloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                        mobj->y + (M_RandomInt(-radius, radius) << FRACBITS), MF2_TRANSLUCENT_50,
-                        tl50colfunc);
-                }
-            }
+                P_SpawnMoreBlood(mobj, MF2_TRANSLUCENT_50, tl50colfunc);
             else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
-            {
-                short   lump = sprites[mobj->sprite].spriteframes[0].lump[0];
-                int     radius = ((spritewidth[lump] >> FRACBITS) >> 1) + 8;
-
-                for (i = 0; i < M_RandomInt(100, 150); i++)
-                {
-                    P_BloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                        mobj->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                        MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
-                }
-            }
-        }
+                P_SpawnMoreBlood(mobj, MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
     }
 }
 

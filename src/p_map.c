@@ -842,19 +842,20 @@ void P_ApplyTorque(mobj_t *mo)
     int xh = ((tmbbox[BOXRIGHT] = mo->x + mo->radius) - bmaporgx) >> MAPBLOCKSHIFT;
     int yl = ((tmbbox[BOXBOTTOM] = mo->y - mo->radius) - bmaporgy) >> MAPBLOCKSHIFT;
     int yh = ((tmbbox[BOXTOP] = mo->y + mo->radius) - bmaporgy) >> MAPBLOCKSHIFT;
-    int bx, by, flags2 = mo->flags2; // Remember the current state, for gear-change
+    int bx, by;
+    int flags2 = mo->flags2;    // Remember the current state, for gear-change
 
     tmthing = mo;
-    validcount++; // prevents checking same line twice
+    validcount++;               // prevents checking same line twice
 
     for (bx = xl; bx <= xh; bx++)
         for (by = yl; by <= yh; by++)
             P_BlockLinesIterator(bx, by, PIT_ApplyTorque);
 
     // If any momentum, mark object as 'falling' using engine-internal flags
-    if (mo->momx && mo->momy)
+    if (mo->momx | mo->momy)
         mo->flags2 |= MF2_FALLING;
-    else  // Clear the engine-internal flag indicating falling object.
+    else        // Clear the engine-internal flag indicating falling object.
         mo->flags2 &= ~MF2_FALLING;
 
     // If the object has been moving, step up the gear.
@@ -863,11 +864,10 @@ void P_ApplyTorque(mobj_t *mo)
     // Doom has no concept of potential energy, much less
     // of rotation, so we have to creatively simulate these 
     // systems somehow :)
-    if (!(mo->flags2 & MF2_FALLING) && !(flags2 & MF2_FALLING))   // If not falling for a while,
+    if (!((mo->flags2 | flags2) & MF2_FALLING))      // If not falling for a while,
         mo->gear = 0;                                // Reset it to full strength
-    else
-        if (mo->gear < MAXGEAR)                      // Else if not at max gear,
-            mo->gear++;                              // move up a gear
+    else if (mo->gear < MAXGEAR)                     // Else if not at max gear,
+        mo->gear++;                                  // move up a gear
 }
 
 //

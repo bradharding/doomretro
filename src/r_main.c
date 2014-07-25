@@ -180,7 +180,7 @@ angle_t R_PointToAngle2(fixed_t x2, fixed_t y2, fixed_t x1, fixed_t y1)
     // [WDJ] This is inaccurate. Angles can be in error by 0x10000000,
     // and not monotonic (ordering errors).
     // Has 5 bits correct when compared to atan2().
-    angle_t ra = 0;
+    angle_t     ra = 0;
 
     x1 -= x2;  // diff
     y1 -= y2;
@@ -189,63 +189,42 @@ angle_t R_PointToAngle2(fixed_t x2, fixed_t y2, fixed_t x1, fixed_t y1)
         return 0;
 
     if (x1 >= 0)
-    {   // x >=0
+    {
         if (y1 >= 0)
-        {   // y >= 0
-            ra = (x1 > y1) ?
-                // octant 0, ra = 0..ANG45
-                tantoangle[SlopeDiv(y1, x1)]
-                :
-                // octant 1, ra = ANG45..ANG90
-                ANG90 - 1 - tantoangle[SlopeDiv(x1, y1)];
-        }
+            ra = (x1 > y1 ? tantoangle[SlopeDiv(y1, x1)] :
+                ANG90 - 1 - tantoangle[SlopeDiv(x1, y1)]);
         else
-        {   // y < 0
+        {
             y1 = -y1;
-            ra = (x1 > y1) ?
-                // octant 8, ra = ANG315..0 due to angle wrap
-                -(int)tantoangle[SlopeDiv(y1, x1)]
-                :
-                // octant 7, ra = AN270..ANG315
-                ANG270 + tantoangle[SlopeDiv(x1, y1)];
+            ra = (x1 > y1 ? -(int)tantoangle[SlopeDiv(y1, x1)] :
+                ANG270 + tantoangle[SlopeDiv(x1, y1)]);
         }
     }
     else
-    {   // x<0
+    {
         x1 = -x1;
         if (y1 >= 0)
-        {   // y>= 0
-            ra = (x1 > y1) ?
-                // octant 3, ra = ANG135..ANG180
-                ANG180 - 1 - tantoangle[SlopeDiv(y1, x1)]
-                :
-                // octant 2, ra = ANG90..ANG135
-                ANG90 + tantoangle[SlopeDiv(x1, y1)];
-        }
+            ra = (x1 > y1 ? ANG180 - 1 - tantoangle[SlopeDiv(y1, x1)] :
+                ANG90 + tantoangle[SlopeDiv(x1, y1)]);
         else
-        {   // y<0
+        {
             y1 = -y1;
-            ra = (x1 > y1) ?
-                // octant 4, ra = AN180..ANG225
-                ANG180 + tantoangle[SlopeDiv(y1, x1)]
-                :
-                // octant 5, ra = ANG225..ANG270
-                ANG270 - 1 - tantoangle[SlopeDiv(x1, y1)];
+            ra = (x1 > y1 ? ANG180 + tantoangle[SlopeDiv(y1, x1)] :
+                ANG270 - 1 - tantoangle[SlopeDiv(x1, y1)]);
         }
     }
     return ra;
 }
 
-
-// Point of view (viewx,viewy) to point (x1,y1) angle.
+// Point of view (viewx, viewy) to point (x1, y1) angle.
 angle_t R_PointToAngle(fixed_t x, fixed_t y)
 {
     // Has 13 bits correct when compared to atan2(), which is much
     // better than the 5 correct bits of the vanilla function.
     // Uses the more accurate SlopeDiv_64.
-    angle_t vpa = 0;
+    angle_t     vpa = 0;
 
-    x -= viewx;  // diff from viewpoint
+    x -= viewx; // diff from viewpoint
     y -= viewy;
 
     if (!x && !y)
@@ -253,56 +232,33 @@ angle_t R_PointToAngle(fixed_t x, fixed_t y)
 
     // [WDJ] Fix from PrBoom (e6y).
     // For large x or y, resort to the slower but accurate lib function.
-    if (x > INT_MAX / 4 || x < -INT_MAX / 4 ||
-        y > INT_MAX / 4 || y < -INT_MAX / 4)
-    {
+    if (x > INT_MAX / 4 || x < -INT_MAX / 4 || y > INT_MAX / 4 || y < -INT_MAX / 4)
         // PrBoom used a 1 point cache, but that is too small.
         return (int)(atan2(y, x) * ANG180 / M_PI);
-    }
 
     if (x >= 0)
-    {   // x >=0
+    {
         if (y >= 0)
-        {   // y >= 0
-            vpa = (x > y) ?
-                // octant 0, vpa = 0..ANG45
-                tantoangle[SlopeDiv_64(y, x)]
-                :
-                // octant 1, vpa = ANG45..ANG90
-                ANG90 - 1 - tantoangle[SlopeDiv_64(x, y)];
-        }
+            vpa = (x > y ? tantoangle[SlopeDiv_64(y, x)] :
+                ANG90 - 1 - tantoangle[SlopeDiv_64(x, y)]);
         else
-        {   // y<0
+        {
             y = -y;
-            vpa = ( x > y) ?
-                // octant 8, vpa = ANG315..0 due to angle wrap
-                -(int)tantoangle[SlopeDiv(y, x)]
-                :
-                // octant 7, vpa = AN270..ANG315
-                ANG270 + tantoangle[SlopeDiv_64(x, y)];
+            vpa = (x > y ? -(int)tantoangle[SlopeDiv(y, x)] :
+                ANG270 + tantoangle[SlopeDiv_64(x, y)]);
         }
     }
     else
-    {   // x<0
+    {
         x = -x;
         if (y >= 0)
-        {   // y >= 0
-            vpa = (x > y) ?
-                // octant 3, vpa = ANG135..ANG180
-                ANG180 - 1 - tantoangle[SlopeDiv_64(y, x)]
-                :
-                // octant 2, vpa = ANG90..ANG135
-                ANG90 + tantoangle[SlopeDiv_64(x, y)];
-        }
+            vpa = (x > y ? ANG180 - 1 - tantoangle[SlopeDiv_64(y, x)] :
+                ANG90 + tantoangle[SlopeDiv_64(x, y)]);
         else
-        {   //  y< 0
+        {
             y = -y;
-            vpa = (x > y) ?
-                // octant 4, vpa = AN180..ANG225
-                ANG180 + tantoangle[SlopeDiv_64(y, x)]
-                :
-                // octant 5, vpa = ANG225..ANG270
-                ANG270 - 1 - tantoangle[SlopeDiv_64(x, y)];
+            vpa = (x > y ? ANG180 + tantoangle[SlopeDiv_64(y, x)] :
+                ANG270 - 1 - tantoangle[SlopeDiv_64(x, y)]);
         }
     }
     return vpa;
@@ -310,8 +266,8 @@ angle_t R_PointToAngle(fixed_t x, fixed_t y)
 
 fixed_t R_PointToDist(fixed_t x, fixed_t y)
 {
-    fixed_t dx = ABS(x - viewx);
-    fixed_t dy = ABS(y - viewy);
+    fixed_t     dx = ABS(x - viewx);
+    fixed_t     dy = ABS(y - viewy);
 
     if (dy > dx)
     {
@@ -376,10 +332,10 @@ static void R_InitPointToAngle(void)
 //
 void R_InitTextureMapping(void)
 {
-    int     i;
-    int     x;
-    int     t;
-    fixed_t focallength;
+    int         i;
+    int         x;
+    int         t;
+    fixed_t     focallength;
 
     // Use tangent table to generate viewangletox:
     //  viewangletox will give the next greatest x
@@ -450,14 +406,9 @@ void R_InitLightTables(void)
         for (j = 0; j < MAXLIGHTZ; j++)
         {
             int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT);
-            int level = startmap - (scale >> LIGHTSCALESHIFT) / DISTMAP;
 
-            if (level < 0)
-                level = 0;
-            else if (level >= NUMCOLORMAPS)
-                level = NUMCOLORMAPS - 1;
-
-            zlight[i][j] = colormaps + level * 256;
+            zlight[i][j] = colormaps + MAX(0,
+                MIN(startmap - (scale >> LIGHTSCALESHIFT) / DISTMAP, NUMCOLORMAPS - 1)) * 256;
         }
     }
 }
@@ -482,12 +433,10 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
-    fixed_t cosadj;
-    fixed_t dy;
-    int     i;
-    int     j;
-    int     level;
-    int     startmap;
+    fixed_t     cosadj;
+    fixed_t     dy;
+    int         i;
+    int         j;
 
     setsizeneeded = false;
 
@@ -588,28 +537,18 @@ void R_ExecuteSetViewSize(void)
     //  for each level / scale combination.
     for (i = 0; i < LIGHTLEVELS; i++)
     {
-        startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+
         for (j = 0; j < MAXLIGHTSCALE; j++)
         {
-            level = startmap - j * SCREENWIDTH / (viewwidth * DISTMAP);
-
-            if (level < 0)
-                level = 0;
-            else if (level >= NUMCOLORMAPS)
-                level = NUMCOLORMAPS - 1;
-
-            scalelight[i][j] = colormaps + level * 256;
+            scalelight[i][j] = colormaps + 
+                MAX(0, MIN(startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), 
+                           NUMCOLORMAPS - 1)) * 256;
 
             // [BH] calculate separate light levels to use when drawing
             //  player's weapon, so it stays consistent regardless of view size
-            level = startmap - j / DISTMAP;
-
-            if (level < 0)
-                level = 0;
-            else if (level >= NUMCOLORMAPS)
-                level = NUMCOLORMAPS - 1;
-
-            scalelight2[i][j] = colormaps + level * 256;
+            scalelight2[i][j] = colormaps + MAX(0, 
+                MIN(startmap - j / DISTMAP, NUMCOLORMAPS - 1)) * 256;
         }
     }
 }
@@ -649,7 +588,7 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
     nodenum = numnodes - 1;
 
     while (!(nodenum & NF_SUBSECTOR))
-        nodenum = nodes[nodenum].children[R_PointOnSide(x, y, nodes+nodenum)];
+        nodenum = nodes[nodenum].children[R_PointOnSide(x, y, nodes + nodenum)];
 
     return &subsectors[nodenum & ~NF_SUBSECTOR];
 }
