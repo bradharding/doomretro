@@ -808,11 +808,9 @@ static void D_DoomMainSetup(void)
     }
 
     // init subsystems
-    printf("V_Init: allocate screens.\n");
     V_Init();
 
     // Load configuration files before initialising other subsystems.
-    printf("M_LoadDefaults: Load system defaults.\n");
     M_LoadDefaults();
 
     if (!M_FileExists("doomretro.wad"))
@@ -821,7 +819,6 @@ static void D_DoomMainSetup(void)
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
 
-    printf("W_Init: Init WADfiles.\n");
     if (iwadfile)
     {
         if (D_AddFile(iwadfile))
@@ -977,7 +974,6 @@ static void D_DoomMainSetup(void)
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
-    printf("I_Init: Setting up machine state.\n");
     I_InitTimer();
     I_InitGamepad();
     I_InitGraphics();
@@ -1197,25 +1193,18 @@ static void D_DoomMainSetup(void)
     if (playerbob < PLAYERBOB_MIN || playerbob > PLAYERBOB_MAX)
         playerbob = PLAYERBOB_DEFAULT;
 
-    printf("M_Init: Init miscellaneous info.\n");
     M_Init();
 
-    printf("R_Init: Init DOOM refresh daemon - ");
     R_Init();
 
-    printf("\nP_Init: Init Playloop state.\n");
     P_Init();
 
-    printf("S_Init: Setting up sound.\n");
     S_Init((int)(sfxVolume * (127.0f / 15.0f)), (int)(musicVolume * (127.0f / 15.0f)));
 
-    printf("D_CheckNetGame: Checking network game status.\n");
     D_CheckNetGame();
 
-    printf("HU_Init: Setting up heads up display.\n");
     HU_Init();
 
-    printf("ST_Init: Init status bar.\n");
     ST_Init();
 
     AM_Init();

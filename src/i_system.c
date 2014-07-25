@@ -274,13 +274,6 @@ void I_Error(char *error, ...)
     else
         already_quitting = true;
 
-    // Message first.
-    va_start(argptr, error);
-    vfprintf(stderr, error, argptr);
-    fprintf(stderr, "\n\n");
-    va_end(argptr);
-    fflush(stderr);
-
     // Shutdown. Here might be other errors.
     S_Shutdown();
 
