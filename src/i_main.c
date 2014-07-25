@@ -52,23 +52,17 @@ static void I_SetAffinityMask(HANDLE hProcess)
     kernel32_dll = LoadLibrary("kernel32.dll");
 
     if (kernel32_dll == NULL)
-    {
-        fprintf(stderr, "I_SetAffinityMask: Failed to load kernel32.dll\n");
         return;
-    }
 
     SetAffinity = (SetAffinityFunc)GetProcAddress(kernel32_dll, "SetProcessAffinityMask");
 
     if (SetAffinity != NULL)
-        if (!SetAffinity(hProcess, 1))
-            fprintf(stderr, "I_SetAffinityMask: Failed to set process affinity (%d)\n",
-                    (int)GetLastError());
+        SetAffinity(hProcess, 1);
 }
 
 void I_SetProcessPriority(HANDLE hProcess)
 {
-    if (!SetPriorityClass(hProcess, ABOVE_NORMAL_PRIORITY_CLASS))
-        fprintf(stderr, "Failed to set priority for the process (%d)\n", (int)GetLastError());
+    SetPriorityClass(hProcess, ABOVE_NORMAL_PRIORITY_CLASS);
 }
 
 extern int      fullscreen;
@@ -255,9 +249,6 @@ static void I_SetAffinityMask(void)
 
 static void I_SetAffinityMask(void)
 {
-    fprintf(stderr,
-        "WARNING: No known way to set processor affinity on this platform.\n"
-        "         You may experience crashes due to SDL_mixer.\n");
 }
 
 #endif

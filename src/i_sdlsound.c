@@ -401,16 +401,10 @@ static boolean I_SDL_InitSound(void)
         channels_playing[i] = sfx_None;
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-    {
-        fprintf(stderr, "Unable to set up sound.\n");
         return false;
-    }
 
     if (Mix_OpenAudio(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize()) < 0)
-    {
-        fprintf(stderr, "Error initializing SDL_mixer: %s\n", Mix_GetError());
         return false;
-    }
 
     Mix_QuerySpec(&mixer_freq, &mixer_format, &mixer_channels);
 
