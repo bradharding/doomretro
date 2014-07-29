@@ -1596,7 +1596,7 @@ void M_EndGameResponse(int key)
         ToggleWideScreen(false);
         returntowidescreen = true;
     }
-    D_StartTitle();
+    D_StartTitle(1);
 }
 
 void M_EndGame(int choice)

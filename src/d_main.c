@@ -400,30 +400,35 @@ void D_DoAdvanceTitle(void)
     gamestate = GS_TITLESCREEN;
     blurred = false;
 
-    if ((titlesequence = !titlesequence))
+    switch (titlesequence)
     {
-        pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
-        pagetic = 20 * TICRATE;
-        S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
+        case 0:
+            pagename = "SPLASH";
+            pagetic = 2 * TICRATE;
+            break;
+        case 1:
+            pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
+            pagetic = 20 * TICRATE;
+            S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
+            break;
+        case 2:
+            pagename = "CREDIT";
+            pagetic = 10 * TICRATE;
+            forcewipe = true;
+            break;
     }
-    else
-    {
-        pagename = "CREDIT";
-        pagetic = 10 * TICRATE;
-    }
-    if (starttitle)
-        starttitle = false;
-    else
-        forcewipe = true;
+
+    if (++titlesequence > 2)
+        titlesequence = 1;
 }
 
 //
 // D_StartTitle
 //
-void D_StartTitle(void)
+void D_StartTitle(int page)
 {
     gameaction = ga_nothing;
-    titlesequence = 0;
+    titlesequence = page;
 
 #ifdef SDL20
     SDL_SetWindowTitle(sdl_window, gamedescription);
@@ -936,7 +941,8 @@ static void D_DoomMainSetup(void)
 
     if (W_CheckNumForName("BLD2A0") < 0 ||
         W_CheckNumForName("MEDBA0") < 0 ||
-        W_CheckNumForName("STBAR2") < 0)
+        W_CheckNumForName("STBAR2") < 0 ||
+        W_CheckNumForName("SPLASH") < 0)
         I_Error("Wrong version of doomretro.wad.");
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
@@ -1220,7 +1226,7 @@ static void D_DoomMainSetup(void)
         if (autostart || netgame)
             G_DeferredInitNew(startskill, startepisode, startmap);
         else
-            D_StartTitle();                     // start up intro loop
+            D_StartTitle(0);    // start up intro loop
     }
 }
 
@@ -1229,7 +1235,7 @@ static void D_DoomMainSetup(void)
 //
 void D_DoomMain(void)
 {
-    D_DoomMainSetup(); // CPhipps - setup out of main execution stack
+    D_DoomMainSetup();          // CPhipps - setup out of main execution stack
 
-    D_DoomLoop();                               // never returns
+    D_DoomLoop();               // never returns
 }
