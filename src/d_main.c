@@ -349,6 +349,8 @@ void D_DoomLoop(void)
 //
 //  TITLE LOOP
 //
+boolean     splashscreen = true;
+
 static int  titlesequence;
 static int  pagetic;
 static char *pagename;
@@ -390,8 +392,6 @@ void D_AdvanceTitle(void)
 //
 void D_DoAdvanceTitle(void)
 {
-    static boolean starttitle = true;
-
     players[consoleplayer].playerstate = PST_LIVE;      // not reborn
     advancetitle = false;
     usergame = false;                                   // no save / end game here
@@ -409,6 +409,7 @@ void D_DoAdvanceTitle(void)
         case 1:
             pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
             pagetic = 20 * TICRATE;
+            splashscreen = false;
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
             break;
         case 2:

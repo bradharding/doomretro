@@ -618,6 +618,8 @@ void PrevWeapon(void)
         G_RemoveChoppers();
 }
 
+extern boolean splashscreen;
+
 //
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
@@ -628,6 +630,7 @@ boolean G_Responder(event_t *ev)
     if (gameaction == ga_nothing && gamestate == GS_TITLESCREEN)
     {
         if (!menuactive
+            && !splashscreen
             && ((ev->type == ev_keydown
                  && ev->data1 != KEY_PAUSE
                  && ev->data1 != KEY_RSHIFT
@@ -646,6 +649,7 @@ boolean G_Responder(event_t *ev)
                           GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
              && !keydown)
         {
+            I_Error("blah!");
             keydown = ev->data1;
             gamepadbuttons = 0;
             gamepadwait = I_GetTime() + 8;

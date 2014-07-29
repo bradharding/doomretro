@@ -61,6 +61,8 @@ extern int      st_palette;
 extern boolean  wipe;
 extern boolean  hud;
 
+extern boolean  splashscreen;
+
 //
 // defaulted values
 //
@@ -2274,7 +2276,7 @@ boolean M_Responder(event_t *ev)
     }
 
     // F-Keys
-    if ((!menuactive || functionkey) && !paused)
+    if ((!menuactive || functionkey) && !paused && !splashscreen)
     {
 
         // Screen size down
@@ -2522,7 +2524,7 @@ boolean M_Responder(event_t *ev)
     // Pop-up menu?
     if (!menuactive)
     {
-        if (key == KEY_ESCAPE && !keydown)
+        if (key == KEY_ESCAPE && !keydown && !splashscreen)
         {
             keydown = key;
             if (paused)
