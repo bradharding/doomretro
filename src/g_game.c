@@ -649,7 +649,6 @@ boolean G_Responder(event_t *ev)
                           GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
              && !keydown)
         {
-            I_Error("blah!");
             keydown = ev->data1;
             gamepadbuttons = 0;
             gamepadwait = I_GetTime() + 8;
