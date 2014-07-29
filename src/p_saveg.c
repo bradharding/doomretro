@@ -1723,7 +1723,6 @@ void P_UnArchiveThinkers(void)
                 else
                     mobj->colfunc = basecolfunc;
 
-                mobj->target = NULL;
                 mobj->tracer = NULL;
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
@@ -1748,6 +1747,24 @@ void P_UnArchiveThinkers(void)
             default:
                 I_Error("P_UnArchiveThinkers: Unknown tclass %i in savegame", tclass);
         }
+    }
+}
+
+void P_RestoreTargets(player_t *player)
+{
+    thinker_t   *currentthinker = thinkercap.next;
+
+    while (currentthinker != &thinkercap)
+    {
+        if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
+        {
+            mobj_t      *mobj = (mobj_t *)currentthinker;
+
+            if (mobj->target)
+                mobj->target = player->mo;
+        }
+
+        currentthinker = currentthinker->next;
     }
 }
 

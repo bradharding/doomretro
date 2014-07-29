@@ -32,25 +32,20 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #include <stdio.h>
 
 // maximum size of a savegame description
-
 #define SAVESTRINGSIZE  256
 #define VERSIONSIZE     16
 
 // temporary filename to use while saving.
-
 char *P_TempSaveGameFile(void);
 
 // filename to use for a savegame slot
-
 char *P_SaveGameFile(int slot);
 
 // Savegame file header read/write functions
-
 boolean P_ReadSaveGameHeader(void);
 void P_WriteSaveGameHeader(char *description);
 
 // Savegame end-of-file read/write functions
-
 boolean P_ReadSaveGameEOF(void);
 void P_WriteSaveGameEOF(void);
 
@@ -64,6 +59,8 @@ void P_ArchiveThinkers(void);
 void P_UnArchiveThinkers(void);
 void P_ArchiveSpecials(void);
 void P_UnArchiveSpecials(void);
+
+void P_RestoreTargets(player_t *player);
 
 extern FILE *save_stream;
 extern boolean savegame_error;

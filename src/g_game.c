@@ -1542,6 +1542,8 @@ void G_DoLoadGame(void)
     P_UnArchiveThinkers();
     P_UnArchiveSpecials();
 
+    P_RestoreTargets(&players[0]);
+
     P_MapEnd();
 
     if (!P_ReadSaveGameEOF())
