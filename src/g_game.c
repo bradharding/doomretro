@@ -1019,6 +1019,9 @@ void G_PlayerFinishLevel(int player)
     p->fixedcolormap = 0;               // cancel ir gogles
     p->damagecount = 0;                 // no palette changes
     p->bonuscount = 0;
+
+    if (p->readyweapon == wp_fist && p->weaponowned[wp_chainsaw])
+        p->readyweapon = wp_chainsaw;
 }
 
 //
