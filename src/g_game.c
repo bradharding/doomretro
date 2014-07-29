@@ -1016,12 +1016,13 @@ void G_PlayerFinishLevel(int player)
     memset(p->cards, 0, sizeof(p->cards));
     p->mo->flags &= ~MF_SHADOW;         // cancel invisibility
     p->extralight = 0;                  // cancel gun flashes
-    p->fixedcolormap = 0;               // cancel ir gogles
+    p->fixedcolormap = 0;               // cancel ir goggles
     p->damagecount = 0;                 // no palette changes
     p->bonuscount = 0;
 
     if (p->readyweapon == wp_fist && p->weaponowned[wp_chainsaw])
         p->readyweapon = wp_chainsaw;
+    p->fistorchainsaw = (p->weaponowned[wp_chainsaw] ? wp_chainsaw : wp_fist);
 }
 
 //
