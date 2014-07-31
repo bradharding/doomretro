@@ -249,12 +249,13 @@ void D_Display(void)
         {
             if (scaledviewwidth != SCREENWIDTH)
             {
-                if (menuactive || menuactivestate || !viewactivestate || paused || pausedstate || message_on)
+                if (menuactive || menuactivestate || !viewactivestate
+                    || paused || pausedstate || message_on)
                     borderdrawcount = 3;
                 if (borderdrawcount)
                 {
                     R_DrawViewBorder();     // erase old menu stuff
-                    borderdrawcount--;
+                    --borderdrawcount;
                 }
             }
             if (graphicdetail == LOW)
@@ -380,8 +381,8 @@ void D_PageDrawer(void)
         patch_t *ttl = W_CacheLumpName("SPLSHTTL", PU_CACHE);
         patch_t *txt = W_CacheLumpName("SPLSHTXT", PU_CACHE);
 
-        V_DrawBigPatch((SCREENWIDTH - ttl->width) / 2, (SCREENHEIGHT - ttl->height) / 2, 0, ttl);
-        V_DrawBigPatch((SCREENWIDTH - txt->width) / 2, SCREENHEIGHT - txt->height - 4, 0, txt);
+        V_DrawBigPatch((SCREENWIDTH - ttl->width) / 2, (SCREENHEIGHT - ttl->height) / 2 - 16, 0, ttl);
+        V_DrawBigPatch((SCREENWIDTH - txt->width) / 2, SCREENHEIGHT - txt->height - 2, 0, txt);
     }
     else
         V_DrawPatch(0, 0, 0, W_CacheLumpName(pagename, PU_CACHE));
@@ -412,7 +413,7 @@ void D_DoAdvanceTitle(void)
     switch (titlesequence)
     {
         case 0:
-            pagetic = 2 * TICRATE;
+            pagetic = 3 * TICRATE;
             I_SetPalette(W_CacheLumpName("SPLSHPAL", PU_CACHE));
             splashscreen = true;
             break;
@@ -891,7 +892,7 @@ static void D_DoomMainSetup(void)
         } while (!choseniwad);
 
         if (runcount < RUNCOUNT_MAX)
-            runcount++;
+            ++runcount;
     }
     M_SaveDefaults();
 
@@ -1033,9 +1034,9 @@ static void D_DoomMainSetup(void)
         // if any one is not present, execution will be aborted.
         char name[23][9] =
         {
-            "e2m1", "e2m2", "e2m3", "e2m4", "e2m5", "e2m6", "e2m7", "e2m8", "e2m9",
-            "e3m1", "e3m3", "e3m3", "e3m4", "e3m5", "e3m6", "e3m7", "e3m8", "e3m9",
-            "dphoof", "bfgga0", "heada1", "cybra1", "spida1d1"
+            "E2M1", "E2M2", "E2M3", "E2M4", "E2M5", "E2M6", "E2M7", "E2M8", "E2M9",
+            "E3M1", "E3M3", "E3M3", "E3M4", "E3M5", "E3M6", "E3M7", "E3M8", "E3M9",
+            "DPHOOF", "BFGGA0", "HEADA1", "CYBRA1", "SPIDA1D1"
         };
         int i;
 
@@ -1046,7 +1047,7 @@ static void D_DoomMainSetup(void)
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
         if (gamemode == registered)
-            for (i = 0; i < 23; i++)
+            for (i = 0; i < 23; ++i)
                 if (W_CheckNumForName(name[i]) < 0)
                     I_Error("This is not the registered version.");
     }
@@ -1211,7 +1212,7 @@ static void D_DoomMainSetup(void)
         gammaindex = 0;
         while (gammalevels[gammaindex++] != GAMMA_DEFAULT);
     }
-    gammaindex--;
+    --gammaindex;
 
     if (saturation < SATURATION_MIN || saturation > SATURATION_MAX)
         saturation = SATURATION_DEFAULT;
@@ -1224,11 +1225,11 @@ static void D_DoomMainSetup(void)
     if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
         pixelwidth = PIXELWIDTH_DEFAULT;
     while (SCREENWIDTH % pixelwidth)
-        pixelwidth--;
+        --pixelwidth;
     if (pixelheight < PIXELHEIGHT_MIN || pixelheight > PIXELHEIGHT_MAX)
         pixelheight = PIXELHEIGHT_DEFAULT;
     while (SCREENHEIGHT % pixelheight)
-        pixelheight--;
+        --pixelheight;
 
     if (playerbob < PLAYERBOB_MIN || playerbob > PLAYERBOB_MAX)
         playerbob = PLAYERBOB_DEFAULT;
@@ -1239,7 +1240,7 @@ static void D_DoomMainSetup(void)
 
     P_Init();
 
-    S_Init((int)(sfxVolume * (127.0f / 15.0f)), (int)(musicVolume * (127.0f / 15.0f)));
+    S_Init((int)(sfxVolume * 127.0f / 15.0f), (int)(musicVolume * 127.0f / 15.0f));
 
     D_CheckNetGame();
 
