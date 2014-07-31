@@ -575,6 +575,21 @@ static int D_ChooseIWAD(void)
                 {
                     iwadfound = 1;
                     iwadfolder = strdup(M_ExtractFolder(file));
+
+                    // if DOOM2.WAD is selected, load NERVE.WAD automatically if present
+                    if (D_CheckFilename(file, "DOOM2.WAD"))
+                    {
+                        static char     fullpath[MAX_PATH];
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
+                            "NERVE.WAD");
+                        if (W_MergeFile(fullpath))
+                        {
+                            modifiedgame = true;
+                            nerve = true;
+                            selectedexpansion = 0;
+                        }
+                    }
                 }
             }
 
@@ -601,7 +616,10 @@ static int D_ChooseIWAD(void)
                     {
                         modifiedgame = true;
                         if (D_CheckFilename(file, "NERVE.WAD"))
+                        {
                             nerve = true;
+                            selectedexpansion = 1;
+                        }
                     }
                 }
                 else
@@ -617,7 +635,10 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             if (D_CheckFilename(file, "NERVE.WAD"))
+                            {
                                 nerve = true;
+                                selectedexpansion = 1;
+                            }
                         }
                     }
                     else
@@ -633,7 +654,10 @@ static int D_ChooseIWAD(void)
                             {
                                 modifiedgame = true;
                                 if (D_CheckFilename(file, "NERVE.WAD"))
+                                {
                                     nerve = true;
+                                    selectedexpansion = 1;
+                                }
                             }
                         }
                     }
@@ -688,6 +712,7 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
+                            selectedexpansion = 1;
                         }
                         break;
                     }
@@ -703,6 +728,7 @@ static int D_ChooseIWAD(void)
                             {
                                 modifiedgame = true;
                                 nerve = true;
+                                selectedexpansion = 1;
                             }
                             break;
                         }
@@ -719,6 +745,7 @@ static int D_ChooseIWAD(void)
                                 {
                                     modifiedgame = true;
                                     nerve = true;
+                                    selectedexpansion = 1;
                                 }
                                 break;
                             }
@@ -748,7 +775,10 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             if (!strcasecmp(pwad, "NERVE.WAD"))
+                            {
                                 nerve = true;
+                                selectedexpansion = 1;
+                            }
                         }
                     }
                     pwad += lstrlen(pwad) + 1;
