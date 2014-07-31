@@ -27,18 +27,19 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 */
 
 #include "d_event.h"
+#include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_video.h"
 #include "p_local.h"
-#include "doomstat.h"
+#include "s_sound.h"
 
-extern boolean followplayer;
-extern boolean oldweaponsowned[];
+extern boolean  followplayer;
+extern boolean  oldweaponsowned[];
 
 void G_RemoveChoppers(void);
 
 //
-// Movement.
+// Movement
 //
 
 // 16 pixels of bob
@@ -46,7 +47,7 @@ void G_RemoveChoppers(void);
 //#define MAXBOB  0x100000
 #define MAXBOB  0xC0000
 
-int playerbob = 75;
+int     playerbob = 75;
 
 boolean onground;
 
@@ -161,7 +162,7 @@ void P_MovePlayer(player_t *player)
 // Fall on your face when dying.
 // Decrease POV height to floor height.
 //
-#define ANG5 (ANG90 / 18)
+#define ANG5    (ANG90 / 18)
 
 void P_DeathThink(player_t *player)
 {
@@ -247,8 +248,8 @@ void P_DeathThink(player_t *player)
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t     *cmd = &player->cmd;
-    weapontype_t newweapon;
+    ticcmd_t            *cmd = &player->cmd;
+    weapontype_t        newweapon;
 
     if (player->cheats & CF_NOCLIP)
         player->mo->flags |= MF_NOCLIP;
@@ -323,6 +324,7 @@ void P_PlayerThink(player_t *player)
                 {
                     player->fistorchainsaw = wp_fist;
                     newweapon = wp_fist;
+                    S_StartSound(NULL, sfx_getpow);
                 }
                 else
                 {
@@ -332,6 +334,8 @@ void P_PlayerThink(player_t *player)
             else
             {
                 newweapon = player->fistorchainsaw;
+                if (player->fistorchainsaw == wp_fist && player->powers[pw_strength])
+                    S_StartSound(NULL, sfx_getpow);
             }
         }
 

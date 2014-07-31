@@ -596,6 +596,9 @@ void NextWeapon(void)
 
     if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
         G_RemoveChoppers();
+
+    if (i == wp_fist && player->powers[pw_strength])
+        S_StartSound(NULL, sfx_getpow);
 }
 
 void PrevWeapon(void)
@@ -616,6 +619,9 @@ void PrevWeapon(void)
 
     if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
         G_RemoveChoppers();
+
+    if (i == wp_fist && player->powers[pw_strength])
+        S_StartSound(NULL, sfx_getpow);
 }
 
 extern boolean splashscreen;
