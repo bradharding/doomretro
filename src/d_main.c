@@ -852,8 +852,7 @@ static void D_DoomMainSetup(void)
     M_LoadDefaults();
 
     if (!M_FileExists("doomretro.wad"))
-        if (!M_FileExists("doomretro.wad.temp"))
-            I_Error("Can't find doomretro.wad.");
+        I_Error("Can't find doomretro.wad.");
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
 
@@ -868,17 +867,12 @@ static void D_DoomMainSetup(void)
         if (!runcount)
             D_FirstUse();
 
-        rename("doomretro.wad", "doomretro.wad.temp");
-
         do
         {
             choseniwad = D_ChooseIWAD();
 
             if (choseniwad == -1)
-            {
-                rename("doomretro.wad.temp", "doomretro.wad");
                 I_Quit(false);
-            }
 
 #ifdef WIN32
             else if (!choseniwad)
@@ -886,8 +880,6 @@ static void D_DoomMainSetup(void)
 #endif
 
         } while (!choseniwad);
-
-        rename("doomretro.wad.temp", "doomretro.wad");
 
         if (runcount < RUNCOUNT_MAX)
             runcount++;
