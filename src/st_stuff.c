@@ -1520,17 +1520,21 @@ void ST_doPaletteStuff(void)
     int palette = 0;
     int count = plyr->damagecount;
 
-    if (plyr->powers[pw_strength] &&
-        (plyr->pendingweapon == wp_fist ||
-         (plyr->readyweapon == wp_fist && plyr->pendingweapon == wp_nochange)))
+    if (plyr->powers[pw_strength]
+        && (plyr->pendingweapon == wp_fist
+            || (plyr->readyweapon == wp_fist && plyr->pendingweapon == wp_nochange))
+        && plyr->health > 0)
         count = MAX(18, count);
 
     if (count)
         palette = MIN((count + 7) >> 3, NUMREDPALS);
-    else if (plyr->bonuscount)
-        palette = MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS) + STARTBONUSPALS - 1;
-    else if (plyr->powers[pw_ironfeet] > STARTFLASHING || (plyr->powers[pw_ironfeet] & 8))
-        palette = RADIATIONPAL;
+    else if (plyr->health > 0)
+    {
+        if (plyr->bonuscount)
+            palette = MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS) + STARTBONUSPALS - 1;
+        else if (plyr->powers[pw_ironfeet] > STARTFLASHING || (plyr->powers[pw_ironfeet] & 8))
+            palette = RADIATIONPAL;
+    }
 
     if (palette != st_palette)
     {
