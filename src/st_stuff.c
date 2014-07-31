@@ -1523,7 +1523,7 @@ void ST_doPaletteStuff(void)
     if (plyr->powers[pw_strength] &&
         (plyr->pendingweapon == wp_fist ||
          (plyr->readyweapon == wp_fist && plyr->pendingweapon == wp_nochange)))
-        count = MAX(12, count);
+        count = MAX(18, count);
 
     if (count)
         palette = MIN((count + 7) >> 3, NUMREDPALS);
