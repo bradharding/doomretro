@@ -100,7 +100,7 @@ int             startloadgame;
 boolean         advancetitle;
 boolean         forcewipe = false;
 
-boolean         splashscreen = true;
+boolean         splashscreen;
 
 extern int      screenwidth;
 extern int      screenheight;
@@ -375,7 +375,16 @@ void D_PageTicker(void)
 //
 void D_PageDrawer(void)
 {
-    V_DrawPatch(0, 0, 0, W_CacheLumpName(pagename, PU_CACHE));
+    if (splashscreen)
+    {
+        patch_t *ttl = W_CacheLumpName("SPLSHTTL", PU_CACHE);
+        patch_t *txt = W_CacheLumpName("SPLSHTXT", PU_CACHE);
+
+        V_DrawBigPatch((SCREENWIDTH - ttl->width) / 2, (SCREENHEIGHT - ttl->height) / 2, 0, ttl);
+        V_DrawBigPatch((SCREENWIDTH - txt->width) / 2, SCREENHEIGHT - txt->height - 4, 0, txt);
+    }
+    else
+        V_DrawPatch(0, 0, 0, W_CacheLumpName(pagename, PU_CACHE));
 }
 
 //
@@ -403,9 +412,9 @@ void D_DoAdvanceTitle(void)
     switch (titlesequence)
     {
         case 0:
-            pagename = "SPLASH";
             pagetic = 2 * TICRATE;
             I_SetPalette(W_CacheLumpName("SPLSHPAL", PU_CACHE));
+            splashscreen = true;
             break;
         case 1:
             pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
@@ -967,7 +976,7 @@ static void D_DoomMainSetup(void)
     if (W_CheckNumForName("BLD2A0") < 0 ||
         W_CheckNumForName("MEDBA0") < 0 ||
         W_CheckNumForName("STBAR2") < 0 ||
-        W_CheckNumForName("SPLASH") < 0)
+        W_CheckNumForName("SPLSHTTL") < 0)
         I_Error("Wrong version of doomretro.wad.");
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
