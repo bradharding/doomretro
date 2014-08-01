@@ -1702,7 +1702,7 @@ static void AM_drawThings(void)
 {
     int i;
 
-    for (i = 0; i < numsectors; i++)
+    for (i = 0; i < numsectors; ++i)
     {
         // e6y
         // Two-pass method for better usability of automap:
@@ -1800,7 +1800,7 @@ static void AM_drawMarks(void)
         y = CYMTOF(y) - (MARKHEIGHT >> 1) - 1;
 
         while (temp /= 10)
-            digits++;
+            ++digits;
         x += (digits - 1) * (MARKWIDTH >> 1);
         x -= (number > 1 && number % 10 == 1);
         x -= (number / 10 == 1);
@@ -1844,11 +1844,11 @@ static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
     byte        *dest = *screens + ((y << 1) - 1) * MAPWIDTH + (x << 1) - 1;
 
     *dest = *(*dest + color);
-    dest++;
+    ++dest;
     *dest = *(*dest + color);
     dest += MAPWIDTH;
     *dest = *(*dest + color);
-    dest--;
+    --dest;
     *dest = *(*dest + color);
 }
 
@@ -1876,12 +1876,12 @@ static void AM_darkenEdges(void)
 {
     int i;
 
-    for (i = 0; i < DARKLEVELS; i++)
+    for (i = 0; i < DARKLEVELS; ++i)
     {
         byte    *colormap = colormaps + (DARKLEVELS - i) * 1024;
         int     x, y;
 
-        for (x = i; x < MAPWIDTH - i; x++)
+        for (x = i; x < MAPWIDTH - i; ++x)
         {
             byte        *dot = *screens + i * MAPWIDTH + x;
 
@@ -1890,7 +1890,7 @@ static void AM_darkenEdges(void)
             *dot = *(*dot + colormap);
         }
 
-        for (y = i + 1; y < MAPHEIGHT - i - 1; y++)
+        for (y = i + 1; y < MAPHEIGHT - i - 1; ++y)
         {
             byte        *dot = *screens + y * MAPWIDTH + i;
 

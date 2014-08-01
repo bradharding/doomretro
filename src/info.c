@@ -125,7 +125,6 @@ void A_SpawnSound();
 void A_SpawnFly();
 void A_BrainExplode();
 
-
 // [BH] reformatted, ORed frames with FF_FULLBRIGHT for readability
 state_t states[NUMSTATES] =
 {

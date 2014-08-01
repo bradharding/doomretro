@@ -57,8 +57,16 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define ENDGAME                 "Are you sure you want\n"\
                                 "to end this game?"
 
-#define WINDOWSY                "(Press 'Y' to quit to Windows.)"
-#define WINDOWSA                "(Press button 'A' to quit to Windows.)"
+#if defined(WIN32)
+#define QUITY                   "(Press 'Y' to quit to Windows.)"
+#define QUITA                   "(Press button 'A' to quit to Windows.)"
+#elif defined(__MACOSX__)
+#define QUITY                   "(Press 'Y' to quit to OS X.)"
+#define QUITA                   "(Press button 'A' to quit to OS X.)"
+#else
+#define QUITY                   "(Press 'Y' to quit to Linux.)"
+#define QUITA                   "(Press button 'A' to quit to Linux.)"
+#endif
 
 #define GAMMALVL                "Gamma correction level %.2f"
 #define GAMMAOFF                "Gamma correction off"

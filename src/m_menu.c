@@ -1698,9 +1698,9 @@ void M_QuitDOOM(int choice)
 {
     quitting = true;
     if (usinggamepad)
-        M_snprintf(endstring, sizeof(endstring), "%s\n\n"WINDOWSA, M_SelectEndMessage());
+        M_snprintf(endstring, sizeof(endstring), "%s\n\n"QUITA, M_SelectEndMessage());
     else
-        M_snprintf(endstring, sizeof(endstring), "%s\n\n"WINDOWSY, M_SelectEndMessage());
+        M_snprintf(endstring, sizeof(endstring), "%s\n\n"QUITY, M_SelectEndMessage());
     M_StartMessage(endstring, M_QuitResponse, true);
 }
 

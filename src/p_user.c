@@ -324,7 +324,6 @@ void P_PlayerThink(player_t *player)
                 {
                     player->fistorchainsaw = wp_fist;
                     newweapon = wp_fist;
-                    S_StartSound(NULL, sfx_getpow);
                 }
                 else
                 {
@@ -334,8 +333,6 @@ void P_PlayerThink(player_t *player)
             else
             {
                 newweapon = player->fistorchainsaw;
-                if (player->fistorchainsaw == wp_fist && player->powers[pw_strength])
-                    S_StartSound(NULL, sfx_getpow);
             }
         }
 
@@ -380,6 +377,8 @@ void P_PlayerThink(player_t *player)
             //    || gamemode != shareware)
             //{
                 player->pendingweapon = newweapon;
+                if (newweapon == wp_fist && player->powers[pw_strength])
+                    S_StartSound(NULL, sfx_getpow);
             //}
         }
 
