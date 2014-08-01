@@ -2860,6 +2860,8 @@ void M_StartControlPanel(void)
         idlemotorspeed = 0;
         XInputVibration(idlemotorspeed);
     }
+
+    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
 }
 
 //
@@ -3019,6 +3021,8 @@ void M_ClearMenus(void)
         idlemotorspeed = restoremotorspeed;
         XInputVibration(idlemotorspeed);
     }
+
+    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
 }
 
 //
