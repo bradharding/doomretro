@@ -2861,6 +2861,7 @@ void M_StartControlPanel(void)
         XInputVibration(idlemotorspeed);
     }
 
+    players[consoleplayer].fixedcolormap = 0;
     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
 }
 
