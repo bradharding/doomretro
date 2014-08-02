@@ -1,36 +1,30 @@
 /*
-====================================================================
+========================================================================
 
-DOOM RETRO
-The classic, refined DOOM source port. For Windows PC.
+  DOOM RETRO
+  The classic, refined DOOM source port. For Windows PC.
+  Copyright (C) 2013-2014 Brad Harding.
 
-Copyright (C) 1993-1996 id Software LLC, a ZeniMax Media company.
-Copyright (C) 2005-2014 Simon Howard.
-Copyright (C) 2013-2014 Brad Harding.
+  This file is part of DOOM RETRO.
 
-This file is part of DOOM RETRO.
+  DOOM RETRO is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-DOOM RETRO is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+  DOOM RETRO is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  GNU General Public License for more details.
 
-DOOM RETRO is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+  You should have received a copy of the GNU General Public License
+  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
-
-====================================================================
+========================================================================
 */
 
 #ifndef __R_DRAW__
 #define __R_DRAW__
-
-
-
 
 extern lighttable_t     *dc_colormap;
 extern int              dc_x;
@@ -57,7 +51,6 @@ extern byte             *tinttabred50;
 extern byte             *tinttabredwhite50;
 extern byte             *tinttabgreen50;
 extern byte             *tinttabblue50;
-
 
 // The span blitting interface.
 // Hook in assembler or system specific BLT
@@ -113,27 +106,20 @@ extern byte             *ds_source;
 extern byte             *translationtables;
 extern byte             *dc_translation;
 
-
 // Span blitting for rows, floor/ceiling.
 // No Spectre effect needed.
 void R_DrawSpan(void);
 
-
 void R_InitBuffer(int width, int height);
-
 
 // Initialize color translation tables,
 //  for player rendering etc.
 void R_InitTranslationTables(void);
-
-
 
 // Rendering function.
 void R_FillBackScreen(void);
 
 // If the view size is not full screen, draws a border around it.
 void R_DrawViewBorder(void);
-
-
 
 #endif
