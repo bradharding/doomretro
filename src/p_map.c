@@ -853,7 +853,7 @@ void P_ApplyTorque(mobj_t *mo)
             P_BlockLinesIterator(bx, by, PIT_ApplyTorque);
 
     // If any momentum, mark object as 'falling' using engine-internal flags
-    if (mo->momx | mo->momy)
+    if (mo->momx && mo->momy)
         mo->flags2 |= MF2_FALLING;
     else        // Clear the engine-internal flag indicating falling object.
         mo->flags2 &= ~MF2_FALLING;
@@ -864,10 +864,10 @@ void P_ApplyTorque(mobj_t *mo)
     // Doom has no concept of potential energy, much less
     // of rotation, so we have to creatively simulate these 
     // systems somehow :)
-    if (!((mo->flags2 | flags2) & MF2_FALLING))      // If not falling for a while,
-        mo->gear = 0;                                // Reset it to full strength
-    else if (mo->gear < MAXGEAR)                     // Else if not at max gear,
-        mo->gear++;                                  // move up a gear
+    if (!(mo->flags2 & MF2_FALLING) && !(flags2 & MF2_FALLING)) // If not falling for a while,
+        mo->gear = 0;                                           // Reset it to full strength
+    else if (mo->gear < MAXGEAR)                                // Else if not at max gear,
+        mo->gear++;                                             // move up a gear
 }
 
 //
