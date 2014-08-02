@@ -170,6 +170,7 @@ void P_DeathThink(player_t *player)
     angle_t             delta;
     static int          count = 0;
     static boolean      facingkiller = false;
+    mobj_t              *mo = player->mo;
 
 #ifdef SDL20
     const Uint8         *keystate = SDL_GetKeyboardState(NULL);
@@ -185,7 +186,7 @@ void P_DeathThink(player_t *player)
 
     // fall to the ground
     player->deltaviewheight = 0;
-    onground = (player->mo->z <= player->mo->floorz || (player->mo->flags2 & MF2_ONMOBJ));
+    onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
     if (onground)
     {
         if (player->viewheight > 6 * FRACUNIT)
@@ -196,30 +197,26 @@ void P_DeathThink(player_t *player)
     }
     P_CalcHeight(player);
 
-    if (player->attacker && player->attacker != player->mo && !facingkiller)
+    if (player->attacker && player->attacker != mo && !facingkiller)
     {
-        angle = R_PointToAngle2(player->mo->x,
-                                player->mo->y,
-                                player->attacker->x,
-                                player->attacker->y);
+        angle = R_PointToAngle2(mo->x, mo->y, player->attacker->x, player->attacker->y);
 
-        delta = angle - player->mo->angle;
+        delta = angle - mo->angle;
 
-        if (delta < ANG5 || delta > (unsigned)-ANG5)
+        if (delta < ANG5 || delta > (unsigned int)-ANG5)
         {
-            // Looking at killer,
-            //  so fade damage flash down.
-            player->mo->angle = angle;
+            // Looking at killer, so fade damage flash down.
+            mo->angle = angle;
 
-            if (player->damagecount > 0)
+            if (player->damagecount)
                 player->damagecount--;
 
             facingkiller = true;
         }
         else if (delta < ANG180)
-            player->mo->angle += ANG5;
+            mo->angle += ANG5;
         else
-            player->mo->angle -= ANG5;
+            mo->angle -= ANG5;
     }
     else if (player->damagecount > 0)
         player->damagecount--;
@@ -249,12 +246,13 @@ void P_DeathThink(player_t *player)
 void P_PlayerThink(player_t *player)
 {
     ticcmd_t            *cmd = &player->cmd;
+    mobj_t              *mo = player->mo;
     weapontype_t        newweapon;
 
     if (player->cheats & CF_NOCLIP)
-        player->mo->flags |= MF_NOCLIP;
+        mo->flags |= MF_NOCLIP;
     else
-        player->mo->flags &= ~MF_NOCLIP;
+        mo->flags &= ~MF_NOCLIP;
 
     // chainsaw run forward
     if (player->mo->flags & MF_JUSTATTACKED)
@@ -272,8 +270,7 @@ void P_PlayerThink(player_t *player)
     }
 
     // Move around.
-    // Reactiontime is used to prevent movement
-    //  for a bit after a teleport.
+    // Reactiontime is used to prevent movement for a bit after a teleport.
     if (player->mo->reactiontime)
         player->mo->reactiontime--;
     else
@@ -292,20 +289,10 @@ void P_PlayerThink(player_t *player)
 
     if ((cmd->buttons & BT_CHANGE) && (!automapactive || (automapactive && followplayer)))
     {
-        // The actual changing of the weapon is done
-        //  when the weapon psprite can do it
+        // The actual changing of the weapon is done when the weapon psprite can do it
         //  (read: not in the middle of an attack).
         newweapon = (weapontype_t)((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
 
-        //if (newweapon == wp_chainsaw)
-        //    newweapon = wp_nochange;
-        //else if (newweapon == wp_fist
-        //         && player->weaponowned[wp_chainsaw]
-        //         && !(player->readyweapon == wp_chainsaw
-        //              && player->powers[pw_strength]))
-        //{
-        //    newweapon = wp_chainsaw;
-        //}
         if (newweapon == wp_chainsaw)
             newweapon = wp_nochange;
         else if (newweapon == wp_fist)
@@ -326,60 +313,38 @@ void P_PlayerThink(player_t *player)
                     newweapon = wp_fist;
                 }
                 else
-                {
                     newweapon = wp_nochange;
-                }
             }
             else
-            {
                 newweapon = player->fistorchainsaw;
-            }
         }
 
         // Don't switch to a weapon without any or enough ammo.
-        else if (((newweapon == wp_pistol
-                   || newweapon == wp_chaingun)
-                  && !player->ammo[am_clip])
-                 || (newweapon == wp_shotgun
-                     && !player->ammo[am_shell])
-                 || (newweapon == wp_missile
-                     && !player->ammo[am_misl])
-                 || (newweapon == wp_plasma
-                     && !player->ammo[am_cell])
-                 || (newweapon == wp_bfg
-                     && player->ammo[am_cell] < 40))
-        {
+        else if (((newweapon == wp_pistol || newweapon == wp_chaingun) && !player->ammo[am_clip])
+                 || (newweapon == wp_shotgun && !player->ammo[am_shell])
+                 || (newweapon == wp_missile && !player->ammo[am_misl])
+                 || (newweapon == wp_plasma && !player->ammo[am_cell])
+                 || (newweapon == wp_bfg && player->ammo[am_cell] < 40))
             newweapon = wp_nochange;
-        }
 
         // Select the preferred shotgun.
         if (newweapon == wp_shotgun)
         {
-            if ((!player->weaponowned[wp_shotgun]
-                || player->readyweapon == wp_shotgun)
+            if ((!player->weaponowned[wp_shotgun] || player->readyweapon == wp_shotgun)
                 && player->weaponowned[wp_supershotgun]
                 && player->ammo[am_shell] >= 2)
                 player->preferredshotgun = wp_supershotgun;
             else if (player->readyweapon == wp_supershotgun
-                     || (player->preferredshotgun == wp_supershotgun
-                         && player->ammo[am_shell] == 1))
+                     || (player->preferredshotgun == wp_supershotgun && player->ammo[am_shell] == 1))
                 player->preferredshotgun = wp_shotgun;
             newweapon = player->preferredshotgun;
         }
 
         if (player->weaponowned[newweapon] && newweapon != player->readyweapon)
         {
-            // Do not go to plasma or BFG in shareware,
-            //  even if cheated.
-            // [BH] but weaponowned[] isn't going to be set, so no need to check
-            //if ((newweapon != wp_plasma
-            //     && newweapon != wp_bfg)
-            //    || gamemode != shareware)
-            //{
-                player->pendingweapon = newweapon;
-                if (newweapon == wp_fist && player->powers[pw_strength])
-                    S_StartSound(NULL, sfx_getpow);
-            //}
+            player->pendingweapon = newweapon;
+            if (newweapon == wp_fist && player->powers[pw_strength])
+                S_StartSound(NULL, sfx_getpow);
         }
 
         if ((player->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)

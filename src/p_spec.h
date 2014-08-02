@@ -415,15 +415,15 @@ typedef enum
 result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crush,
     int floorOrCeiling, int direction);
 
-int EV_BuildStairs(line_t *line, stair_e type);
+boolean EV_BuildStairs(line_t *line, stair_e type);
 
-int EV_DoFloor(line_t *line, floor_e floortype);
+boolean EV_DoFloor(line_t *line, floor_e floortype);
 
 void T_MoveFloor(floormove_t *floor);
 
 //
 // P_TELEPT
 //
-int EV_Teleport(line_t *line, int side, mobj_t *thing);
+boolean EV_Teleport(line_t *line, int side, mobj_t *thing);
 
 #endif

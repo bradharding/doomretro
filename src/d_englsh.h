@@ -34,7 +34,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 
 //
-// M_Menu.C
+// m_menu.c
 //
 #define PRESSKEY                "(Press any key to continue.)"
 #define PRESSYN                 "(Press 'Y' or 'N' to continue.)"
@@ -43,7 +43,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
                                 "quit this great game?"
 #define QSPROMPT                "Do you want to quicksave over the savegame \"%s\"?"
 #define QLPROMPT                "Do you want to quickload the savegame \"%s\"?"
-#define DELPROMPT               "Are you sure you want to delete the savegame \"%s\"?"
 #define NIGHTMARE               "Are you sure? This skill level\n"\
                                 "isn't even remotely fair!"
 #define SWSTRING                "This is the shareware version of DOOM.\n"\
@@ -74,7 +73,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define EMPTYSTRING             "  -"
 
 //
-// P_inter.C
+// p_inter.c
 //
 #define GOTARMOR                "You picked up some armor."
 #define GOTMEGA                 "You picked up some MegaArmor!"
@@ -119,7 +118,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define GOTSHOTGUN2             "You got a super shotgun!"
 
 //
-// P_Doors.C
+// p_doors.c
 //
 #define PD_BLUEO                "You need a blue keycard to use this."
 #define PD_BLUEO2               "You need a blue skull key to use this."
@@ -135,13 +134,13 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define PD_YELLOWK2             "You need a yellow skull key to open this door."
 
 //
-// G_game.C
+// g_game.c
 //
 #define GGSAVED                 "\"%s\" saved"
 #define GSCREENSHOT             "\"%s\" saved"
 
 //
-//  HU_stuff.C
+//  hu_stuff.c
 //
 #define HUSTR_MSGU              "(Message unsent)"
 
@@ -359,9 +358,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 
 #define HUSTR_MESSAGESENT       "(Message sent)"
 
-// The following should NOT be changed unless it seems
-// just AWFULLY necessary
-
+// The following should NOT be changed unless it seems just AWFULLY necessary
 #define HUSTR_PLRGREEN          "Green: "
 #define HUSTR_PLRINDIGO         "Indigo: "
 #define HUSTR_PLRBROWN          "Brown: "
@@ -373,9 +370,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define HUSTR_KEYRED            'r'
 
 //
-// AM_map.C
+// am_map.c
 //
-
 #define AMSTR_FOLLOWON          "Follow mode ON"
 #define AMSTR_FOLLOWOFF         "Follow mode OFF"
 
@@ -390,9 +386,8 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define AMSTR_ROTATEOFF         "Rotate Mode OFF"
 
 //
-//  ST_stuff.C
+//  st_stuff.c
 //
-
 #define STSTR_MUS               "Music changed to \"d_%s.mus\""
 
 #define STSTR_DQDON             "Degreelessness mode ON"
@@ -416,7 +411,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 #define STSTR_MYPOS             "angle = %i%c  x,y,z = (%i,%i,%i)"
 
 //
-//  F_Finale.C
+//  f_finale.c
 //
 #define E1TEXT \
 "Once you beat the big badasses and\n"\
@@ -491,8 +486,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "\n"\
 "Next stop, Hell on Earth!"
 
-// after level 6, put this:
-
+// After level 6, put this:
 #define C1TEXT \
 "You have entered deeply into the infested\n" \
 "starport. But something is wrong. The\n" \
@@ -508,7 +502,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "hostage."
 
 // After level 11, put this:
-
 #define C2TEXT \
 "You have won! Your victory has enabled\n" \
 "humankind to evacuate Earth and escape\n"\
@@ -529,7 +522,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "up and return to the fray."
 
 // After level 20, put this:
-
 #define C3TEXT \
 "You are at the corrupt heart of the city,\n"\
 "surrounded by the corpses of your enemies.\n"\
@@ -542,7 +534,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "got to go through Hell to get to it?"
 
 // After level 29, put this:
-
 #define C4TEXT \
 "The horrendous visage of the biggest\n"\
 "demon you've ever seen crumbles before\n"\
@@ -561,7 +552,6 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "lot more fun than ruining it was.\n"
 
 // Before level 31, put this:
-
 #define C5TEXT \
 "Congratulations, you've found the secret\n"\
 "level! Looks like it's been built by\n"\
@@ -570,14 +560,12 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "will be."
 
 // Before level 32, put this:
-
 #define C6TEXT \
 "Congratulations, you've found the\n"\
 "super secret level! You'd better\n"\
 "blaze through this one!\n"
 
 // After level 8, put this:
-
 #define N1TEXT \
 "Trouble was brewing again in your favorite\n"\
 "vacation spot... Hell. Some Cyberdemon\n"\
@@ -597,8 +585,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "\n"\
 "This ride is closed."
 
-// after map 06
-
+// After map 06, put this:
 #define P1TEXT \
 "You gloat over the steaming carcass of the\n"\
 "Guardian. With its death, you've wrested\n"\
@@ -613,8 +600,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "moving, keep fighting, keep killing.\n"\
 "Oh yes, keep living, too."
 
-// after map 11
-
+// After map 11, put this:
 #define P2TEXT \
 "Even the deadly Arch-Vile labyrinth could\n"\
 "not stop you, and you've gotten to the\n"\
@@ -623,8 +609,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "\n"\
 "You're good at that kind of thing."
 
-// after map 20
-
+// After map 20, put this:
 #define P3TEXT \
 "You've bashed and battered your way into\n"\
 "the heart of the devil-hive. Time for a\n"\
@@ -637,8 +622,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "get ready to give the bastard a little Hell\n"\
 "of your own making!"
 
-// after map 30
-
+// After map 30, put this:
 #define P4TEXT \
 "The Gatekeeper's evil face is splattered\n"\
 "all over the place. As its tattered corpse\n"\
@@ -653,7 +637,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "when you die, you'll need it for some\n"\
 "final cleaning-up..."
 
-// before map 31
+// Before map 31, put this:
 
 #define P5TEXT \
 "You've found the second-hardest level we\n"\
@@ -661,8 +645,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "two previous. If not, be prepared to die\n"\
 "aplenty. For master marines only."
 
-// before map 32
-
+// Before map 32, put this:
 #define P6TEXT \
 "Betcha wondered just what WAS the hardest\n"\
 "level we had ready for ya? Now you know.\n"\
@@ -736,7 +719,7 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 "the stomp of a Cyberdemon's iron shoe."
 
 //
-// Character cast strings F_FINALE.C
+// Character cast strings for f_finale.c
 //
 #define CC_ZOMBIE       "ZOMBIEMAN"
 #define CC_SHOTGUN      "SHOTGUN GUY"
