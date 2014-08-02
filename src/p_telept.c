@@ -32,61 +32,46 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 // TELEPORTATION
 //
-int EV_Teleport(line_t *line, int side, mobj_t *thing)
+boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
-    int                 i;
-    int                 tag;
-    player_t            *player;
+    int         i;
 
-    // don't teleport missiles
-    if (thing->flags & MF_MISSILE)
-        return 0;
+    // Don't teleport missiles.
+    // Don't teleport if hit back of line, so you can get out of teleporter.
+    if (side || (thing->flags & MF_MISSILE))
+        return false;
 
-    // Don't teleport if hit back of line,
-    //  so you can get out of teleporter.
-    if (side == 1)
-        return 0;
-
-    tag = line->tag;
-    player = thing->player;
-
-    for (i = 0; i < numsectors; i++)
+    // killough 1/31/98: improve performance by using
+    // P_FindSectorFromLineTag instead of simple linear search.
+    for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
     {
-        if (sectors[i].tag == tag)
-        {
-            thinker_t   *thinker;
+        thinker_t       *thinker;
 
-            for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
+        for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
+        {
+            mobj_t      *m;
+
+            // not a mobj
+            if (thinker->function.acp1 != (actionf_p1)P_MobjThinker)
+                continue;
+
+            m = (mobj_t *)thinker;
+
+            if (m->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
             {
-                mobj_t          *m;
-                mobj_t          *fog;
-                sector_t        *sector;
-                unsigned int    an;
                 fixed_t         oldx = thing->x;
                 fixed_t         oldy = thing->y;
                 fixed_t         oldz = thing->z;
+                unsigned int    an;
+                mobj_t          *fog;
+                player_t        *player = thing->player;
 
-                // not a mobj
-                if (thinker->function.acp1 != (actionf_p1)P_MobjThinker)
-                    continue;
-
-                m = (mobj_t *)thinker;
-
-                // not a teleportman
-                if (m->type != MT_TELEPORTMAN)
-                    continue;
-
-                sector = m->subsector->sector;
-
-                // wrong sector
-                if (sector-sectors != i)
-                    continue;
-
+                // killough 5/12/98: exclude voodoo dolls
                 if (player && player->mo != thing)
                     player = NULL;
 
                 if (!P_TeleportMove(thing, m->x, m->y, m->z))
-                    return 0;
+                    return false;
 
                 thing->z = thing->floorz;
 
@@ -97,9 +82,9 @@ int EV_Teleport(line_t *line, int side, mobj_t *thing)
                 fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
                 fog->angle = thing->angle;
                 S_StartSound(fog, sfx_telept);
-                an = m->angle >> ANGLETOFINESHIFT;
+                an = (m->angle >> ANGLETOFINESHIFT);
                 fog = P_SpawnMobj(m->x + 20 * finecosine[an], m->y + 20 * finesine[an],
-                                  thing->z, MT_TFOG);
+                    thing->z, MT_TFOG);
                 fog->angle = m->angle;
 
                 // emit sound, where?
@@ -111,9 +96,9 @@ int EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                 thing->angle = m->angle;
                 thing->momx = thing->momy = thing->momz = 0;
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
