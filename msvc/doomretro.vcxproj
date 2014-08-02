@@ -192,6 +192,10 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <OmitFramePointers>true</OmitFramePointers>
+      <CallingConvention>Cdecl</CallingConvention>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <ExceptionHandling>false</ExceptionHandling>
+      <AdditionalOptions>/GA /GF /Gs %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SDL.lib;SDL_mixer.lib;SDLmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
