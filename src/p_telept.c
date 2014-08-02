@@ -34,64 +34,52 @@ along with DOOM RETRO. If not, see http://www.gnu.org/licenses/.
 //
 boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
-    int         i;
+    int         tag;
+    thinker_t   *thinker;
 
     // Don't teleport missiles.
     // Don't teleport if hit back of line, so you can get out of teleporter.
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
-    // killough 1/31/98: improve performance by using
-    // P_FindSectorFromLineTag instead of simple linear search.
-    for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    tag = line->tag;
+
+    for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
     {
-        thinker_t       *thinker;
+        mobj_t  *m;
 
-        for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
+        if (thinker->function.acp1 == (actionf_p1)P_MobjThinker
+            && (m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
+            && m->subsector->sector->tag == tag)
         {
-            mobj_t      *m;
+            fixed_t     oldx = thing->x;
+            fixed_t     oldy = thing->y;
+            fixed_t     oldz = thing->z;
 
-            // not a mobj
-            if (thinker->function.acp1 != (actionf_p1)P_MobjThinker)
-                continue;
-
-            m = (mobj_t *)thinker;
-
-            if (m->type == MT_TELEPORTMAN && m->subsector->sector - sectors == i)
+            if (P_TeleportMove(thing, m->x, m->y, m->z))
             {
-                fixed_t         oldx = thing->x;
-                fixed_t         oldy = thing->y;
-                fixed_t         oldz = thing->z;
-                unsigned int    an;
                 mobj_t          *fog;
-                player_t        *player = thing->player;
-
-                // killough 5/12/98: exclude voodoo dolls
-                if (player && player->mo != thing)
-                    player = NULL;
-
-                if (!P_TeleportMove(thing, m->x, m->y, m->z))
-                    return false;
+                unsigned int    an;
 
                 thing->z = thing->floorz;
 
-                if (player)
-                    player->viewz = thing->z + player->viewheight;
+                if (thing->player)
+                    thing->player->viewz = thing->z + thing->player->viewheight;
 
                 // spawn teleport fog at source and destination
                 fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
                 fog->angle = thing->angle;
                 S_StartSound(fog, sfx_telept);
                 an = (m->angle >> ANGLETOFINESHIFT);
-                fog = P_SpawnMobj(m->x + 20 * finecosine[an], m->y + 20 * finesine[an],
-                    thing->z, MT_TFOG);
+                fog = P_SpawnMobj(m->x + 20 * finecosine[an],
+                    m->y + 20 * finesine[an], thing->z, MT_TFOG);
                 fog->angle = m->angle;
 
                 // emit sound, where?
                 S_StartSound(fog, sfx_telept);
 
                 // don't move for a bit
-                if (player)
+                if (thing->player)
                     thing->reactiontime = 18;
 
                 thing->angle = m->angle;
@@ -100,5 +88,6 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
             }
         }
     }
+
     return false;
 }
