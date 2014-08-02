@@ -1261,7 +1261,7 @@ static void D_DoomMainSetup(void)
         if (autostart || netgame)
             G_DeferredInitNew(startskill, startepisode, startmap);
         else
-            D_StartTitle(0);    // start up intro loop
+            D_StartTitle((boolean)M_CheckParm("-nosplash"));    // start up intro loop
     }
 }
 
