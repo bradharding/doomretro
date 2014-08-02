@@ -185,7 +185,7 @@ void P_DeathThink(player_t *player)
 
     // fall to the ground
     player->deltaviewheight = 0;
-    onground = (player->mo->z <= player->mo->floorz);
+    onground = (player->mo->z <= player->mo->floorz || (player->mo->flags2 & MF2_ONMOBJ));
     if (onground)
     {
         if (player->viewheight > 6 * FRACUNIT)
