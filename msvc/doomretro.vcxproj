@@ -524,6 +524,7 @@
   <ItemGroup>
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
+    <None Include="..\AUTHORS" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\manifest.xml" />
   </ItemGroup>
