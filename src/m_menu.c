@@ -132,8 +132,6 @@ byte            *blurredscreen;
 
 boolean         blurred = false;
 
-int             titleheight;
-
 //
 // PROTOTYPES
 //
@@ -1321,20 +1319,22 @@ void M_MusicVol(int choice)
 //
 void M_DrawMainMenu(void)
 {
+    patch_t     *patch = W_CacheLumpName("M_DOOM", PU_CACHE);
+
     M_DarkBackground();
-    if (M_DOOM && titleheight > 125)
+    if (M_DOOM && patch->height > 125)
     {
-        M_DrawPatchWithShadow(94, 2, 0, W_CacheLumpName("M_DOOM", PU_CACHE));
+        M_DrawPatchWithShadow(94, 2 + OFFSET, 0, patch);
         MainDef.x = 97;
         MainDef.y = 72;
     }
     else
     {
-        int y = 11 + OFFSET;
-        int dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
-        int dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
+        int     y = 11 + OFFSET;
+        int     dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
+        int     dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
 
-        M_DrawCenteredPatchWithShadow(y, 0, W_CacheLumpName("M_DOOM", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(y, 0, patch);
         if (gamemode != commercial)
         {
             V_DrawPixel(98, y, 0, dot1, false);
@@ -2975,8 +2975,7 @@ void M_Drawer(void)
                 }
             }
             else if (W_CheckMultipleLumps(name) > 1)
-                M_DrawPatchWithShadow(x, y + OFFSET * (titleheight <= 125 ||
-                    currentMenu != &MainDef), 0, W_CacheLumpName(name, PU_CACHE));
+                M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
             else
                 M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
         }
@@ -2986,24 +2985,25 @@ void M_Drawer(void)
     // DRAW SKULL
     if (currentMenu == &LoadDef || currentMenu == &SaveDef)
     {
+        patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
+
+        x += SHORT(patch->leftoffset);
         if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 43, currentMenu->y + itemOn * 17 - 8 + OFFSET, 0,
-                W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+            M_DrawPatchWithShadow(x - 43, currentMenu->y + itemOn * 17 - 8 + OFFSET, 0, patch);
         else
-            M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, 0,
-                W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+            M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, 0, patch);
     }
     else if (currentMenu != &ReadDef)
     {
+        patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
+
+        x += SHORT(patch->leftoffset);
         if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
             itemOn++;
         if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET *
-                (titleheight <= 125 || currentMenu != &MainDef), 0,
-                W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+            M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET, 0, patch);
         else
-            M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, 0,
-                W_CacheLumpName(skullName[whichSkull], PU_CACHE));
+            M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, 0, patch);
     }
 }
 
@@ -3063,7 +3063,6 @@ void M_Init(void)
     quickSaveSlot = -1;
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     blurredscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    titleheight = SHORT(((patch_t *)W_CacheLumpName("M_DOOM", PU_CACHE))->height);
 
     if (autostart)
     {
