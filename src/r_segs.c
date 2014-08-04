@@ -84,8 +84,8 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     int         den = FixedMul(rw_distance, finesine[anglea >> ANGLETOFINESHIFT]);
     fixed_t     num = FixedMul(projectiony, finesine[angleb >> ANGLETOFINESHIFT]);
 
-    return ((den >> 8) > 0 && den > (num >> 16) ? ((num = FixedDiv(num, den)) > 64 * FRACUNIT ?
-        64 * FRACUNIT : MAX(256, num)) : 64 * FRACUNIT);
+    return ((den >> 8) > 0 && den > (num >> 16) ? ((num = FixedDiv(num, den)) > 256 * FRACUNIT ?
+        256 * FRACUNIT : MAX(256, num)) : 256 * FRACUNIT);
 }
 
 //
