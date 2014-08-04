@@ -70,6 +70,47 @@ static int      *maskedtexturecol;
 
 boolean         brightmaps = true;
 
+//[kb] hack to improve rendering precision (wall wiggle)
+int	max_rwscale = 64 * FRACUNIT;
+int	heightbits = 12;
+int	heightunit;
+int	invhgtbits;
+
+//[kb] Adjusts renderer wall/texture precision based on the maximum difference in height
+// of all adjoining sectors. P_SetupWiggleFix() passes max_diff, which is what is needed
+// to make the renderer as precise as possible without overflowing the 16.16 fixed point
+// coordinate system. As a bonus, this also allows the render to display sectors that are
+// up to 32767 units tall (or greater, maybe), improving an old bug. Doom doesn't allow
+// anything to pass through a sector any taller than 32767 units, so this limit is ok.
+// Of course, levels with sectors this large WILL suffer from some wall wiggle...
+void R_SetWiggleHack(int max_diff)
+{
+    int max_scale, h_bits;
+
+    if (max_diff < 256)
+        max_diff = 256;
+
+    h_bits = 12;
+    max_scale = 0x80000 / max_diff;
+
+    //[kb] scale calculation. The higher the max_scale the better, but go too far and
+    // overflow the texture scaling variables. Attempt to get max_scale at least to
+    // 1024. On the other side, h_bits is made less precise - go too far and the top
+    // and bottom of textures start to wiggle. Originally set to 12, 11 and 10 seem ok.
+    // Only use 9 for levels with really tall walls, because that is where height
+    // precision starts to become apparent.
+    while (max_scale < 2048 && h_bits > 9)
+    {
+        max_scale <<= 1;
+        --h_bits;
+    }
+
+    max_rwscale = max_scale << FRACBITS;
+    heightbits = h_bits;
+    heightunit = (1 << heightbits);
+    invhgtbits = 16 - heightbits;
+}
+
 //
 // R_ScaleFromGlobalAngle
 // Returns the texture mapping scale
@@ -84,8 +125,8 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     int         den = FixedMul(rw_distance, finesine[anglea >> ANGLETOFINESHIFT]);
     fixed_t     num = FixedMul(projectiony, finesine[angleb >> ANGLETOFINESHIFT]);
 
-    return ((den >> 8) > 0 && den > (num >> 16) ? ((num = FixedDiv(num, den)) > 256 * FRACUNIT ?
-        256 * FRACUNIT : MAX(256, num)) : 256 * FRACUNIT);
+    return ((den >> 8) > 0 && den > (num >> 16) ? ((num = FixedDiv(num, den)) > max_rwscale ?
+        max_rwscale : MAX(256, num)) : max_rwscale);
 }
 
 //
@@ -176,9 +217,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 //  textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
-#define HEIGHTBITS 12
-#define HEIGHTUNIT (1 << HEIGHTBITS)
-
 void R_RenderSegLoop(void)
 {
     fixed_t     texturecolumn = 0;
@@ -186,8 +224,8 @@ void R_RenderSegLoop(void)
     for (; rw_x < rw_stopx; rw_x++)
     {
         // mark floor / ceiling areas
-        int     yl = (topfrac + HEIGHTUNIT - 1) >> HEIGHTBITS;
-        int     yh = bottomfrac >> HEIGHTBITS;
+        int     yl = (topfrac + heightunit - 1) >> heightbits;
+        int     yh = bottomfrac >> heightbits;
 
         // no space above wall?
         int     bottom;
@@ -274,7 +312,7 @@ void R_RenderSegLoop(void)
             if (toptexture)
             {
                 // top wall
-                int     mid = pixhigh >> HEIGHTBITS;
+                int     mid = pixhigh >> heightbits;
 
                 pixhigh += pixhighstep;
 
@@ -313,7 +351,7 @@ void R_RenderSegLoop(void)
             if (bottomtexture)
             {
                 // bottom wall
-                int     mid = (pixlow + HEIGHTUNIT - 1) >> HEIGHTBITS;
+                int     mid = (pixlow + heightunit - 1) >> heightbits;
 
                 pixlow += pixlowstep;
 
@@ -688,29 +726,29 @@ void R_StoreWallRange(int start, int stop)
     }
 
     // calculate incremental stepping values for texture edges
-    worldtop >>= 4;
-    worldbottom >>= 4;
+    worldtop >>= invhgtbits;
+    worldbottom >>= invhgtbits;
 
     topstep = -FixedMul(rw_scalestep, worldtop);
-    topfrac = (centeryfrac >> 4) - FixedMul(worldtop, rw_scale);
+    topfrac = (centeryfrac >> invhgtbits) - FixedMul(worldtop, rw_scale);
 
     bottomstep = -FixedMul(rw_scalestep, worldbottom);
-    bottomfrac = (centeryfrac >> 4) - FixedMul(worldbottom, rw_scale);
+    bottomfrac = (centeryfrac >> invhgtbits) - FixedMul(worldbottom, rw_scale);
 
     if (backsector)
     {
-        worldhigh >>= 4;
-        worldlow >>= 4;
+        worldhigh >>= invhgtbits;
+        worldlow >>= invhgtbits;
 
         if (worldhigh < worldtop)
         {
-            pixhigh = (centeryfrac >> 4) - FixedMul(worldhigh, rw_scale);
+            pixhigh = (centeryfrac >> invhgtbits) - FixedMul(worldhigh, rw_scale);
             pixhighstep = -FixedMul(rw_scalestep, worldhigh);
         }
 
         if (worldlow > worldbottom)
         {
-            pixlow = (centeryfrac >> 4) - FixedMul(worldlow, rw_scale);
+            pixlow = (centeryfrac >> invhgtbits) - FixedMul(worldlow, rw_scale);
             pixlowstep = -FixedMul(rw_scalestep, worldlow);
         }
     }

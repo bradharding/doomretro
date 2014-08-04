@@ -855,7 +855,7 @@ static void P_GroupLines(void)
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
     {
         fixed_t *bbox = (void*)sector->blockbox; // cph - For convenience, so
-        int block;                               // I can use the old code unchanged
+        int     block;                           // I can use the old code unchanged
 
         //e6y: fix sound origin for large levels
         sector->soundorg.x = bbox[BOXRIGHT] / 2 + bbox[BOXLEFT] / 2;
@@ -961,6 +961,67 @@ static void P_RemoveSlimeTrails(void)               // killough 10/98
         }
     }
     free(hit);
+}
+
+void R_SetWiggleHack(int max_diff);
+
+//[kb] Determine the maximum height difference between all adjacent sectors and adjust the
+// renderer wall precision to attempt to prevent visible left-to right wiggling of walls, especially when
+// looking straight down a linedef. Problem is, if the precision is adjusted too far, wall
+// heights start to wiggle. It would be better to adjust per seg.
+void P_SetupWiggleFix(void)
+{
+    int         curmaxheight, curminheight;
+    int         i = numlines;
+    line_t      *ld = lines;
+    int         maxdiff = 0;
+    int         h;
+
+    for (; i--; ld++)
+    {
+        curmaxheight = -32768;
+        curminheight = 32767;
+
+        if (ld->frontsector)
+        {
+            h = ld->frontsector->ceilingheight >> FRACBITS;
+            if (curmaxheight < h)
+                curmaxheight = h;
+
+            if (curminheight > h)
+                curminheight = h;
+
+            h = ld->frontsector->floorheight >> FRACBITS;
+            if (curmaxheight < h)
+                curmaxheight = h;
+
+            if (curminheight > h)
+                curminheight = h;
+        }
+
+        if (ld->backsector)
+        {
+            h = ld->backsector->ceilingheight >> FRACBITS;
+            if (curmaxheight < h)
+                curmaxheight = h;
+
+            if (curminheight > h)
+                curminheight = h;
+
+            h = ld->backsector->floorheight >> FRACBITS;
+            if (curmaxheight < h)
+                curmaxheight = h;
+
+            if (curminheight > h)
+                curminheight = h;
+        }
+
+        if (maxdiff < (curmaxheight - curminheight))
+            maxdiff = curmaxheight - curminheight;
+    }
+
+    // adjust renderer based on max height difference
+    R_SetWiggleHack(maxdiff);
 }
 
 char        mapnum[6];
@@ -1093,6 +1154,8 @@ void P_SetupLevel(int episode, int map)
     P_GroupLines();
 
     P_RemoveSlimeTrails();
+
+    P_SetupWiggleFix();
 
     deathmatch_p = deathmatchstarts;
 
