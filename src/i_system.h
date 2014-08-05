@@ -32,13 +32,6 @@
 // Called by DoomMain.
 void I_Init(void);
 
-// Called by startup code
-// to get the ammount of memory to malloc
-// for the zone management.
-byte *I_ZoneBase(int *size);
-
-boolean I_ConsoleStdout(void);
-
 //
 // Called by D_DoomLoop,
 // called before processing each tic in a frame.

@@ -36,10 +36,10 @@
 // These are deliberately cast to signed values; this is the behaviour
 // of the macros in the original source and some code relies on it.
 
-#define LE_SWAP16(x) (SDL_SwapLE16(x))
-#define LE_SWAP32(x) (SDL_SwapLE32(x))
+#define LE_SWAP16(x)    (SDL_SwapLE16(x))
+#define LE_SWAP32(x)    (SDL_SwapLE32(x))
 
-#define SHORT(x)  ((signed short)LE_SWAP16(x))
-#define LONG(x)   ((signed long)LE_SWAP32(x))
+#define SHORT(x)        ((signed short)LE_SWAP16(x))
+#define LONG(x)         ((signed long)LE_SWAP32(x))
 
 #endif

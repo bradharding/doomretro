@@ -63,28 +63,25 @@ void done_win32();
 void M_QuitDOOM();
 void R_SetViewSize(int blocks);
 
-extern boolean screenvisible;
+extern boolean  screenvisible;
 
-extern float mouse_acceleration;
-extern int mouse_threshold;
+extern float    mouse_acceleration;
+extern int      mouse_threshold;
 
-extern boolean advancetitle;
-extern boolean sendpause;
-extern boolean quitting;
-extern int screensize;
+extern boolean  sendpause;
+extern boolean  quitting;
+extern int      screensize;
 
-extern int keydown;
+extern int      keydown;
 
-extern boolean idclev;
-extern boolean idmus;
-extern boolean idbehold;
+extern boolean  idclev;
+extern boolean  idmus;
+extern boolean  idbehold;
 
-extern char mapnumandtitle[133];
+extern int      gammaindex;
+extern float    gamma;
+extern float    gammalevels[GAMMALEVELS];
 
-extern int gammaindex;
-extern float gamma;
-extern float gammalevels[GAMMALEVELS];
-
-extern boolean blurred;
+extern boolean  blurred;
 
 #endif

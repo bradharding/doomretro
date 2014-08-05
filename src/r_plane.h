@@ -31,13 +31,11 @@
 // Visplane related.
 extern  int     *lastopening;
 
-typedef void (*planefunction_t)(int top, int bottom);
+extern int      floorclip[];
+extern int      ceilingclip[];
 
-extern int      floorclip[SCREENWIDTH];
-extern int      ceilingclip[SCREENWIDTH];
-
-extern fixed_t  yslope[SCREENHEIGHT];
-extern fixed_t  distscale[SCREENWIDTH];
+extern fixed_t  yslope[];
+extern fixed_t  distscale[];
 
 void R_ClearPlanes(void);
 

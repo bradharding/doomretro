@@ -139,8 +139,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     int         texnum;
 
     // Calculate light table.
-    // Use different light tables
-    //   for horizontal / vertical / diagonal. Diagonal?
+    // Use different light tables for horizontal / vertical.
     curline = ds->curline;
     frontsector = curline->frontsector;
     backsector = curline->backsector;

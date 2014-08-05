@@ -53,8 +53,6 @@ void AM_Init(void);
 
 void D_PostEvent(event_t *ev);
 
-extern cheatseq_t cheat_amap;
-
 extern int        key_up;
 extern int        key_up2;
 extern int        key_down;

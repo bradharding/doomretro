@@ -64,7 +64,6 @@
 #define KEY_LALT        KEY_RALT
 
 // new keys:
-
 #define KEY_NUMLOCK     (0x80 + 0x39)
 #define KEY_CAPSLOCK    (0x80 + 0x3a)
 #define KEY_SCRLCK      (0x80 + 0x46)
@@ -95,4 +94,4 @@
 #define KEYP_EQUALS     KEY_EQUALS
 #define KEYP_ENTER      KEY_ENTER
 
-#endif          // __DOOMKEYS__
+#endif

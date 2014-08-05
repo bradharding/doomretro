@@ -217,7 +217,6 @@ int twoSided(int sector, int line)
 {
     // jff 1/26/98 return what is actually needed, whether the line
     // has two sidedefs, rather than whether the 2S flag is set
-
     return (sectors[sector].lines[line]->sidenum[1] != NO_INDEX);
 }
 

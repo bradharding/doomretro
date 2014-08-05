@@ -1159,22 +1159,22 @@ typedef enum
 typedef struct
 {
     spritenum_t sprite;
-    int frame;
-    int tics;
-    actionf_t action;
-    statenum_t nextstate;
+    int         frame;
+    int         tics;
+    actionf_t   action;
+    statenum_t  nextstate;
 } state_t;
 
 typedef struct
 {
-    char name[9];
-    short x;
-    short y;
-    boolean canmodify;
+    char        name[9];
+    short       x;
+    short       y;
+    boolean     canmodify;
 } offset_t;
 
-extern state_t states[NUMSTATES];
-extern char *sprnames[];
+extern state_t  states[NUMSTATES];
+extern char     *sprnames[];
 
 extern offset_t sproffsets[];
 
@@ -1321,7 +1321,7 @@ typedef enum
     NUMMOBJTYPES
 } mobjtype_t;
 
-#define MT_FUZZPLAYER NUMMOBJTYPES
+#define MT_FUZZPLAYER   NUMMOBJTYPES
 
 typedef struct
 {
@@ -1353,6 +1353,6 @@ typedef struct
     int frames;
 } mobjinfo_t;
 
-extern mobjinfo_t mobjinfo[NUMMOBJTYPES];
+extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];
 
 #endif

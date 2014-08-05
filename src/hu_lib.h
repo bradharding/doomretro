@@ -54,7 +54,6 @@ typedef struct
 
     // whether this line needs to be udpated
     int         needsupdate;
-
 } hu_textline_t;
 
 // Scrolling Text window widget
@@ -68,7 +67,6 @@ typedef struct
     // pointer to boolean stating whether to update window
     boolean             *on;
     boolean             laston;                 // last value of *->on.
-
 } hu_stext_t;
 
 // Input Text Line widget
@@ -83,7 +81,6 @@ typedef struct
     // pointer to boolean stating whether to update window
     boolean             *on;
     boolean             laston;                 // last value of *->on;
-
 } hu_itext_t;
 
 //

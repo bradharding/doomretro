@@ -1766,7 +1766,6 @@ void A_CloseShotgun2(player_t *player, pspdef_t *psp)
 //  and fix http://doomwiki.org/wiki/Spawn_cubes_miss_east_and_west_targets
 
 unsigned int    braintargeted;
-boolean         nobrainspitcheat;
 
 void A_BrainAwake(mobj_t *mo)
 {

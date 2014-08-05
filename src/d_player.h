@@ -53,7 +53,6 @@ typedef enum
     PST_DEAD,
     // Ready to restart/respawn???
     PST_REBORN
-
 } playerstate_t;
 
 //
@@ -77,7 +76,6 @@ typedef enum
     CF_ALLMAP_THINGS    = 64,
 
     CF_CHOPPERS         = 128
-
 } cheat_t;
 
 //
@@ -191,7 +189,6 @@ typedef struct
     int                 stime;
     int                 frags[4];
     int                 score;          // current score on entry, modified on return
-
 } wbplayerstruct_t;
 
 typedef struct
@@ -217,7 +214,6 @@ typedef struct
     int                 pnum;
 
     wbplayerstruct_t    plyr[MAXPLAYERS];
-
 } wbstartstruct_t;
 
 #endif

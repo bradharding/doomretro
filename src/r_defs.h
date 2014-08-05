@@ -737,7 +737,6 @@ typedef struct visplane_s
     int                 maxx;
 
     // leave pads for [minx-1]/[maxx+1]
-
     unsigned short      pad1;
     // Here lies the rub for all
     //  dynamic resize/change of resolution.

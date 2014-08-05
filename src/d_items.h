@@ -40,8 +40,7 @@ typedef struct
 
     int         motorspeed;
     int         tics;
-}
-weaponinfo_t;
+} weaponinfo_t;
 
 extern weaponinfo_t     weaponinfo[NUMWEAPONS];
 

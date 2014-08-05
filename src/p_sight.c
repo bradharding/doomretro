@@ -74,17 +74,17 @@ static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 //
 static boolean P_CrossSubsector(int num, los_t *los)
 {
-    seg_t               *seg;
-    int                 count;
-    subsector_t         *sub;
-    sector_t            *front;
-    sector_t            *back;
-    fixed_t             opentop;
-    fixed_t             openbottom;
-    divline_t           divl;
-    vertex_t            *v1;
-    vertex_t            *v2;
-    fixed_t             frac;
+    seg_t       *seg;
+    int         count;
+    subsector_t *sub;
+    sector_t    *front;
+    sector_t    *back;
+    fixed_t     opentop;
+    fixed_t     openbottom;
+    divline_t   divl;
+    vertex_t    *v1;
+    vertex_t    *v2;
+    fixed_t     frac;
 
     sub = &subsectors[num];
 
@@ -152,20 +152,10 @@ static boolean P_CrossSubsector(int num, los_t *los)
         frac = P_InterceptVector2(&los->strace, &divl);
 
         if (front->floorheight != back->floorheight)
-        {
-            fixed_t slope = FixedDiv(openbottom - los->sightzstart, frac);
-
-            if (slope > los->bottomslope)
-                los->bottomslope = slope;
-        }
+            los->bottomslope = MAX(FixedDiv(openbottom - los->sightzstart, frac), los->bottomslope);
 
         if (front->ceilingheight != back->ceilingheight)
-        {
-            fixed_t slope = FixedDiv(opentop - los->sightzstart, frac);
-
-            if (slope < los->topslope)
-                los->topslope = slope;
-        }
+            los->topslope = MIN(FixedDiv(opentop - los->sightzstart, frac), los->topslope);
 
         if (los->topslope <= los->bottomslope)
             return false;               // stop
@@ -206,10 +196,10 @@ static boolean P_CrossBSPNode(int bspnum, los_t *los)
 //
 boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
 {
-    const sector_t *s1 = t1->subsector->sector;
-    const sector_t *s2 = t2->subsector->sector;
-    int pnum = (s1 - sectors) * numsectors + (s2 - sectors);
-    los_t los;
+    const sector_t      *s1 = t1->subsector->sector;
+    const sector_t      *s2 = t2->subsector->sector;
+    int                 pnum = (s1 - sectors) * numsectors + (s2 - sectors);
+    los_t               los;
 
     if (!t1 || !t2)
         return false;

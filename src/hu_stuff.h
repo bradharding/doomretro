@@ -49,7 +49,6 @@
 //
 // HEADS UP TEXT
 //
-
 void HU_Init(void);
 void HU_Start(void);
 
@@ -61,4 +60,5 @@ void HU_clearMessages(void);
 
 extern char mapnumandtitle[133];
 extern int fullscreen;
+
 #endif

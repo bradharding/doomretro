@@ -155,4 +155,4 @@ int MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event);
 // Reset an iterator to the beginning of a track.
 void MIDI_RestartIterator(midi_track_iter_t *iter);
 
-#endif /* #ifndef MIDIFILE_H */
+#endif
