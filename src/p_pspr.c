@@ -39,7 +39,7 @@
 
 #define BFGCELLS                40
 
-#define CHAINSAWIDLEMOTORSPEED  7500
+#define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 
 //

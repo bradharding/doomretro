@@ -50,7 +50,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_PUNCH,
         S_PUNCH1,
         S_NULL,
-        25000,
+        37500,
         10
     },
     {
@@ -61,7 +61,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_PISTOL,
         S_PISTOL1,
         S_PISTOLFLASH,
-        30000,
+        45000,
         10
     },
     {
@@ -72,7 +72,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_SGUN,
         S_SGUN1,
         S_SGUNFLASH1,
-        35000,
+        52500,
         10
     },
     {
@@ -83,7 +83,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_CHAIN,
         S_CHAIN1,
         S_CHAINFLASH1,
-        30000,
+        45000,
         10
     },
     {
@@ -94,7 +94,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_MISSILE,
         S_MISSILE1,
         S_MISSILEFLASH1,
-        40000,
+        60000,
         20
     },
     {
@@ -105,7 +105,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_PLASMA,
         S_PLASMA1,
         S_PLASMAFLASH1,
-        35000,
+        52500,
         10
     },
     {
@@ -127,7 +127,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_SAW,
         S_SAW1,
         S_NULL,
-        35000,
+        45000,
         10
     },
     {
@@ -138,7 +138,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         S_DSGUN,
         S_DSGUN1,
         S_DSGUNFLASH1,
-        40000,
+        60000,
         10
     },
 };
