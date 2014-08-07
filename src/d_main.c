@@ -414,13 +414,22 @@ void D_DoAdvanceTitle(void)
             I_SetPalette(W_CacheLumpName("SPLSHPAL", PU_CACHE));
             splashscreen = true;
             break;
+
         case 1:
+
+#ifdef SDL20
+            SDL_SetWindowTitle(sdl_window, gamedescription);
+#else
+            SDL_WM_SetCaption(gamedescription, NULL);
+#endif
+
             pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
             pagetic = 20 * TICRATE;
             I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
             splashscreen = false;
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
             break;
+
         case 2:
             pagename = "CREDIT";
             pagetic = 10 * TICRATE;
@@ -439,12 +448,6 @@ void D_StartTitle(int page)
 {
     gameaction = ga_nothing;
     titlesequence = page;
-
-#ifdef SDL20
-    SDL_SetWindowTitle(sdl_window, gamedescription);
-#else
-    SDL_WM_SetCaption(gamedescription, NULL);
-#endif
 
     D_AdvanceTitle();
 }

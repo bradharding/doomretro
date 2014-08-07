@@ -1316,9 +1316,9 @@ void I_InitGraphics(void)
     SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
 #ifdef SDL20
-    SDL_SetWindowTitle(sdl_window, "");
+    SDL_SetWindowTitle(sdl_window, "DOOM RETRO");
 #else
-    SDL_WM_SetCaption("", NULL);
+    SDL_WM_SetCaption("DOOM RETRO", NULL);
 #endif
 
     SDL_FillRect(screenbuffer, NULL, 0);
