@@ -1936,7 +1936,7 @@ void A_SpawnFly(mobj_t* mo)
             if ((P_LookForPlayers(newmobj, true) == 0)
                 || (P_SetMobjState(newmobj, (statenum_t)newmobj->info->seestate)))
                 // telefrag anything in this spot
-                P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z);
+                P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true); // killough 8/9/98
 
             totalkills++;
         }

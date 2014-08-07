@@ -221,7 +221,7 @@ mobj_t *P_CheckOnmobj(mobj_t *thing);
 void P_FakeZMovement(mobj_t *mo);
 boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff);
 boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y);
-boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z);
+boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean boss);
 void P_SlideMove(mobj_t *mo);
 boolean P_CheckSight(mobj_t *t1, mobj_t *t2);
 void P_UseLines(player_t *player);

@@ -89,6 +89,9 @@ extern boolean followplayer;
 //
 // PIT_StompThing
 //
+
+static boolean telefrag;        // killough 8/9/98: whether to telefrag at exit
+
 boolean PIT_StompThing(mobj_t *thing)
 {
     fixed_t     blockdist;
@@ -102,18 +105,17 @@ boolean PIT_StompThing(mobj_t *thing)
 
     blockdist = thing->radius + tmthing->radius;
 
-    if (ABS(thing->x - tmx) >= blockdist
-        || ABS(thing->y - tmy) >= blockdist)
+    if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
         return true;    // didn't hit it
 
     // monsters don't stomp things except on boss level
-    if (!tmthing->player && gamemap != 30)
+    if (!telefrag)      // killough 8/9/98: make consistent across all levels
         return false;
 
     if (tmz > thing->z + thing->height)
-        return true;        // overhead
+        return true;    // overhead
     if (tmz + tmthing->height < thing->z)
-        return true;        // underneath
+        return true;    // underneath
 
     P_DamageMobj(thing, tmthing, tmthing, 10000);
 
@@ -123,7 +125,7 @@ boolean PIT_StompThing(mobj_t *thing)
 //
 // P_TeleportMove
 //
-boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z)
+boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean boss)
 {
     int         xl;
     int         xh;
@@ -132,6 +134,9 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z)
     int         bx;
     int         by;
     subsector_t *newsubsec;
+
+    // killough 8/9/98: make telefragging more consistent
+    telefrag = (thing->player || boss);
 
     // kill anything occupying the position
     tmthing = thing;

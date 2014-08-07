@@ -53,7 +53,7 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
             fixed_t     oldy = thing->y;
             fixed_t     oldz = thing->z;
 
-            if (P_TeleportMove(thing, m->x, m->y, m->z))
+            if (P_TeleportMove(thing, m->x, m->y, m->z, false)) // killough 8/9/98
             {
                 mobj_t          *fog;
                 unsigned int    an;

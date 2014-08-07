@@ -541,7 +541,7 @@ boolean ST_Responder(event_t *ev)
                     S_StartSound(thing, sfx_telept);
 
                     // telefrag anything in this spot
-                    P_TeleportMove(thing, thing->x, thing->y, thing->z);
+                    P_TeleportMove(thing, thing->x, thing->y, thing->z, true);
 
                     // respawn the player.
                     thing = P_SpawnMobj(x, y, ONFLOORZ, MT_PLAYER);
