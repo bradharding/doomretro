@@ -59,9 +59,9 @@ fixed_t         tmdropoffz;
 // keep track of the line that lowers the ceiling,
 // so missiles don't explode against sky hack walls
 line_t          *ceilingline;
-line_t          *blockline;  // killough 8/11/98: blocking linedef
-line_t          *floorline;  // killough 8/1/98: Highest touched floor
-static int      tmunstuck;   // killough 8/1/98: whether to allow unsticking
+line_t          *blockline;     // killough 8/11/98: blocking linedef
+line_t          *floorline;     // killough 8/1/98: Highest touched floor
+static int      tmunstuck;      // killough 8/1/98: whether to allow unsticking
 
 // keep track of special lines as they are hit,
 // but don't process them until the move is proven valid
@@ -71,16 +71,16 @@ line_t          **spechit;
 static int      spechit_max;
 int             numspechit;
 
-angle_t         shootangle;
+angle_t         shootangle;     // [BH] angle of blood and puffs for automap
 
 // Temporary holder for thing_sectorlist threads
-msecnode_t      *sector_list = NULL; // phares 3/16/98
+msecnode_t      *sector_list = NULL;    // phares 3/16/98
 
 boolean         infight;
 
 mobj_t          *onmobj;
 
-extern boolean followplayer;
+extern boolean  followplayer;
 
 //
 // TELEPORT MOVE
@@ -89,13 +89,13 @@ extern boolean followplayer;
 //
 // PIT_StompThing
 //
-
 static boolean telefrag;        // killough 8/9/98: whether to telefrag at exit
 
 boolean PIT_StompThing(mobj_t *thing)
 {
     fixed_t     blockdist;
 
+    // phares 9/10/98: moved this self-check to start of routine
     // don't clip against self
     if (thing == tmthing)
         return true;
@@ -112,12 +112,15 @@ boolean PIT_StompThing(mobj_t *thing)
     if (!telefrag)      // killough 8/9/98: make consistent across all levels
         return false;
 
-    if (tmz > thing->z + thing->height)
-        return true;    // overhead
-    if (tmz + tmthing->height < thing->z)
-        return true;    // underneath
+    if (tmthing->flags2 & MF2_PASSMOBJ)
+    {
+        if (tmz > thing->z + thing->height)
+            return true;    // overhead
+        if (tmz + tmthing->height < thing->z)
+            return true;    // underneath
+    }
 
-    P_DamageMobj(thing, tmthing, tmthing, 10000);
+    P_DamageMobj(thing, tmthing, tmthing, 10000);       // Stomp!
 
     return true;
 }
@@ -203,12 +206,11 @@ static int untouched(line_t *ld)
     fixed_t     y;
     fixed_t     tmbbox[4];
 
-    return
-        (tmbbox[BOXRIGHT] = (x = tmthing->x) + tmthing->radius) <= ld->bbox[BOXLEFT] ||
-        (tmbbox[BOXLEFT] = x - tmthing->radius) >= ld->bbox[BOXRIGHT] ||
-        (tmbbox[BOXTOP] = (y = tmthing->y) + tmthing->radius) <= ld->bbox[BOXBOTTOM] ||
-        (tmbbox[BOXBOTTOM] = y - tmthing->radius) >= ld->bbox[BOXTOP] ||
-        P_BoxOnLineSide(tmbbox, ld) != -1;
+    return ((tmbbox[BOXRIGHT] = (x = tmthing->x) + tmthing->radius) <= ld->bbox[BOXLEFT]
+        || (tmbbox[BOXLEFT] = x - tmthing->radius) >= ld->bbox[BOXRIGHT]
+        || (tmbbox[BOXTOP] = (y = tmthing->y) + tmthing->radius) <= ld->bbox[BOXBOTTOM]
+        || (tmbbox[BOXBOTTOM] = y - tmthing->radius) >= ld->bbox[BOXTOP] 
+        || P_BoxOnLineSide(tmbbox, ld) != -1);
 }
 
 //
@@ -228,8 +230,7 @@ static boolean PIT_CheckLine(line_t *ld)
 
     // A line has been hit
 
-    // The moving thing's destination position will cross
-    // the given line.
+    // The moving thing's destination position will cross the given line.
     // If this should not be allowed, return false.
     // If the line is special, keep track of it
     // to process later if the move is proven ok.
@@ -238,7 +239,7 @@ static boolean PIT_CheckLine(line_t *ld)
     // could be crossed in either order.
 
     // killough 7/24/98: allow player to move out of 1s wall, to prevent sticking
-    if (!ld->backsector)                          // one sided line
+    if (!ld->backsector)                                // one sided line
     {
         blockline = ld;
         return (tmunstuck
@@ -248,11 +249,12 @@ static boolean PIT_CheckLine(line_t *ld)
 
     if (!(tmthing->flags & MF_MISSILE))
     {
-        if (ld->flags & ML_BLOCKING)              // explicitly blocking everything
-            return (tmunstuck && !untouched(ld)); // killough 8/1/98: allow escape
+        if (ld->flags & ML_BLOCKING)                    // explicitly blocking everything
+            return (tmunstuck && !untouched(ld));       // killough 8/1/98: allow escape
 
+        // [BH] monster-blockers don't affect corpses
         if (!tmthing->player && !(tmthing->flags & MF_CORPSE) && (ld->flags & ML_BLOCKMONSTERS))
-            return false;                         // block monsters only
+            return false;                               // block monsters only
     }
 
     // set openrange, opentop, openbottom
@@ -269,7 +271,7 @@ static boolean PIT_CheckLine(line_t *ld)
     if (openbottom > tmfloorz)
     {
         tmfloorz = openbottom;
-        floorline = ld;         // killough 8/1/98: remember floor linedef
+        floorline = ld;                                 // killough 8/1/98: remember floor linedef
         blockline = ld;
     }
 
@@ -290,7 +292,7 @@ static boolean PIT_CheckLine(line_t *ld)
 
     if (tmthing->flags & MF_MISSILE)
         if (tmthing->z < openbottom || tmthing->z + tmthing->height > opentop)
-            return false;       // hit upper or lower texture
+            return false;                               // hit upper or lower texture
 
     return true;
 }
@@ -312,6 +314,8 @@ boolean PIT_CheckThing(mobj_t *thing)
     if ((thing->flags & MF_CORPSE) || (tmthing->flags & MF_CORPSE))
         return true;
 
+    // [BH] specify standard radius of 20 for pickups here as thing->radius
+    // has been changed to allow better clipping
     blockdist = ((thing->flags & MF_SPECIAL) ? 20 * FRACUNIT : thing->radius) + tmthing->radius;
 
     if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
@@ -321,7 +325,7 @@ boolean PIT_CheckThing(mobj_t *thing)
     if (thing == tmthing)
         return true;
 
-    // check if things are stuck and allow move if it makes them further apart
+    // [BH] check if things are stuck and allow move if it makes them further apart
     if (tmx == tmthing->x && tmy == tmthing->y)
         unblocking = true;
     else
@@ -330,10 +334,8 @@ boolean PIT_CheckThing(mobj_t *thing)
         fixed_t     olddist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
 
         if (newdist > olddist)
-        {
             unblocking = (tmthing->z < thing->z + thing->height
                           && tmthing->z + tmthing->height > thing->z);
-        }
     }
 
     // check if a mobj passed over/under another object
@@ -381,11 +383,9 @@ boolean PIT_CheckThing(mobj_t *thing)
             if (thing == tmthing->target)
                 return true;
             else if (thing->type != MT_PLAYER && !infight)
-            {
                 // Explode, but do no damage.
                 // Let players missile other players.
                 return false;
-            }
         }
 
         if (!(thing->flags & MF_SHOOTABLE))
@@ -413,10 +413,8 @@ boolean PIT_CheckThing(mobj_t *thing)
     // ones, by allowing the moving thing (tmthing) to move if it's non-solid,
     // despite another solid thing being in the way.
     // killough 4/11/98: Treat no-clipping things as not blocking
-    return (!((thing->flags & MF_SOLID)
-              && !(thing->flags & MF_NOCLIP)
-              && (tmthing->flags & MF_SOLID))
-            || unblocking);
+    return (!((thing->flags & MF_SOLID) && !(thing->flags & MF_NOCLIP)
+            && (tmthing->flags & MF_SOLID)) || unblocking);
 }
 
 //
@@ -863,10 +861,10 @@ void P_ApplyTorque(mobj_t *mo)
     // Doom has no concept of potential energy, much less
     // of rotation, so we have to creatively simulate these 
     // systems somehow :)
-    if (!(mo->flags2 & MF2_FALLING) && !(flags2 & MF2_FALLING)) // If not falling for a while,
-        mo->gear = 0;                                           // Reset it to full strength
-    else if (mo->gear < MAXGEAR)                                // Else if not at max gear,
-        mo->gear++;                                             // move up a gear
+    if (!((mo->flags2 | flags2) & MF2_FALLING)) // If not falling for a while,
+        mo->gear = 0;                           // Reset it to full strength
+    else if (mo->gear < MAXGEAR)                // Else if not at max gear,
+        mo->gear++;                             // move up a gear
 }
 
 //
