@@ -423,7 +423,13 @@ void I_ShutdownGraphics(void)
 
 void I_ShutdownKeyboard(void)
 {
-    SDL_SetModState(KMOD_NONE);
+#ifdef WIN32
+    if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0)
+    {
+        keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
+        keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
+    }
+#endif
 }
 
 static int AccelerateMouse(int val)
