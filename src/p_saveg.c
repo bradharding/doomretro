@@ -489,7 +489,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write32(str->movecount);
 
     // struct mobj_s *target;
-    saveg_writep(str->target);
+    saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->target));
 
     // int reactiontime;
     saveg_write32(str->reactiontime);
@@ -507,7 +507,7 @@ static void saveg_write_mobj_t(mobj_t *str)
     saveg_write_mapthing_t(&str->spawnpoint);
 
     // struct mobj_s *tracer;
-    saveg_writep(str->tracer);
+    saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->tracer));
 
     // int floatbob;
     saveg_write32(str->floatbob);
@@ -1747,22 +1747,52 @@ void P_UnArchiveThinkers(void)
     }
 }
 
-void P_RestoreTargets(player_t *player)
+// By Fabian Greffrath. See http://www.doomworld.com/vb/post/1294860.
+uint32_t P_ThinkerToIndex(thinker_t *thinker)
 {
-    thinker_t   *currentthinker = thinkercap.next;
+    thinker_t   *th;
+    uint32_t    i;
 
-    while (currentthinker != &thinkercap)
-    {
-        if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
+    if (!thinker)
+        return 0;
+
+    for (th = thinkercap.next, i = 1; th != &thinkercap; th = th->next, ++i)
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+            if (th == thinker)
+                return i;
+
+    return 0;
+}
+
+thinker_t *P_IndexToThinker(uint32_t index)
+{
+    thinker_t *th;
+    uint32_t  i;
+
+    if (!index)
+        return NULL;
+
+    for (th = thinkercap.next, i = 1; th != &thinkercap; th = th->next, ++i)
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+            if (i == index)
+                return th;
+
+    return NULL;
+}
+
+void P_RestoreTargets(void)
+{
+    thinker_t   *th;
+    uint32_t    i;
+
+    for (th = thinkercap.next, i = 1; th != &thinkercap; th = th->next, ++i)
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
         {
-            mobj_t      *mobj = (mobj_t *)currentthinker;
+            mobj_t      *mo = (mobj_t*)th;
 
-            if (mobj->target)
-                mobj->target = player->mo;
+            mo->target = (mobj_t *)P_IndexToThinker((uintptr_t)mo->target);
+            mo->tracer = (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer);
         }
-
-        currentthinker = currentthinker->next;
-    }
 }
 
 //
