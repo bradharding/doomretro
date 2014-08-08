@@ -378,7 +378,7 @@ void D_PageDrawer(void)
         patch_t *ttl = W_CacheLumpName("SPLSHTTL", PU_CACHE);
         patch_t *txt = W_CacheLumpName("SPLSHTXT", PU_CACHE);
 
-        V_DrawBigPatch((SCREENWIDTH - ttl->width) / 2, (SCREENHEIGHT - ttl->height) / 2 - 16, 0, ttl);
+        V_DrawBigPatch((SCREENWIDTH - ttl->width) / 2, (SCREENHEIGHT - ttl->height) / 2, 0, ttl);
         V_DrawBigPatch((SCREENWIDTH - txt->width) / 2, SCREENHEIGHT - txt->height - 2, 0, txt);
     }
     else
