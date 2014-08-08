@@ -63,8 +63,8 @@ boolean                 novert = true;
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
 // Fullscreen width and height
-int                     screenwidth = 1280;
-int                     screenheight = 800;
+int                     screenwidth = 0;
+int                     screenheight = 0;
 
 // Window width and height
 int                     windowwidth = SCREENWIDTH;
