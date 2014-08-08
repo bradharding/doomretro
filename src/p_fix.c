@@ -68,6 +68,8 @@ linefix_t linefix[] =
     { doom,             1,   4,     346,    0, "",         "",            "STEP2",       DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom,             1,   4,     693,    1, "BROWN1",   "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
+    { doom,             1,   6,    1026,    0, "",         "SUPPORT2",    "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
+
     { doom,             1,   7,     447,    0, "",         "-",           "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
     { doom,             1,   7,     450,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DRAWASWALL,           DEFAULT,                                                       DEFAULT },
     { doom,             1,   7,     451,    0, "",         "-",           "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
