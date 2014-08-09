@@ -83,9 +83,6 @@ void P_CalcHeight(player_t *player)
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        // OPTIMIZE: tablify angle
-        // Note: a LUT allows for effects
-        //  like a ramp with low health.
         bob = ((FixedMul(player->mo->momx, player->mo->momx) +
                 FixedMul(player->mo->momy, player->mo->momy)) >> 2);
 
@@ -132,14 +129,14 @@ void P_CalcHeight(player_t *player)
 //
 void P_MovePlayer(player_t *player)
 {
-    ticcmd_t *cmd = &player->cmd;
-    mobj_t   *mo = player->mo;
+    ticcmd_t    *cmd = &player->cmd;
+    mobj_t      *mo = player->mo;
 
     mo->angle += (cmd->angleturn << 16);
 
     // Do not let the player control movement
     //  if not onground.
-    onground = (mo->z <= mo->floorz || (player->mo->flags2 & MF2_ONMOBJ));
+    onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
 
     if (onground)
     {

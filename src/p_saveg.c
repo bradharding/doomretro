@@ -1766,8 +1766,8 @@ uint32_t P_ThinkerToIndex(thinker_t *thinker)
 
 thinker_t *P_IndexToThinker(uint32_t index)
 {
-    thinker_t *th;
-    uint32_t  i;
+    thinker_t   *th;
+    uint32_t    i;
 
     if (!index)
         return NULL;
@@ -1783,9 +1783,8 @@ thinker_t *P_IndexToThinker(uint32_t index)
 void P_RestoreTargets(void)
 {
     thinker_t   *th;
-    uint32_t    i;
 
-    for (th = thinkercap.next, i = 1; th != &thinkercap; th = th->next, ++i)
+    for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function.acp1 == (actionf_p1)P_MobjThinker)
         {
             mobj_t      *mo = (mobj_t*)th;

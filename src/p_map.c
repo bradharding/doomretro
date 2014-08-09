@@ -885,18 +885,12 @@ void P_ApplyTorque(mobj_t *mo)
 //
 static boolean PIT_CrossLine(line_t *ld)
 {
-    if (!(ld->flags & ML_TWOSIDED) || (ld->flags & (ML_BLOCKING | ML_BLOCKMONSTERS)))
-    {
-        if (!(tmbbox[BOXLEFT] > ld->bbox[BOXRIGHT]
-            || tmbbox[BOXRIGHT] < ld->bbox[BOXLEFT]
-            || tmbbox[BOXTOP] < ld->bbox[BOXBOTTOM]
-            || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]))
-        {
-            if (P_PointOnLineSide(pe_x, pe_y, ld) != P_PointOnLineSide(ls_x, ls_y, ld))
-                return false;   // line blocks trajectory
-        }
-    }
-    return true;                // line doesn't block trajectory
+    return (!((ld->flags ^ ML_TWOSIDED) & (ML_TWOSIDED | ML_BLOCKING | ML_BLOCKMONSTERS))
+        || tmbbox[BOXLEFT]   > ld->bbox[BOXRIGHT]
+        || tmbbox[BOXRIGHT]  < ld->bbox[BOXLEFT]
+        || tmbbox[BOXTOP]    < ld->bbox[BOXBOTTOM]
+        || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]
+        || P_PointOnLineSide(pe_x, pe_y, ld) == P_PointOnLineSide(ls_x, ls_y, ld));
 }
 
 //
@@ -929,10 +923,10 @@ boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
     ls_y = y;
 
     // here is the bounding box of the trajectory
-    tmbbox[BOXLEFT] = (pe_x < x ? pe_x : x);
-    tmbbox[BOXRIGHT] = (pe_x > x ? pe_x : x);
-    tmbbox[BOXTOP] = (pe_y > y ? pe_y : y);
-    tmbbox[BOXBOTTOM] = (pe_y < y ? pe_y : y);
+    tmbbox[BOXLEFT] = MIN(pe_x, x);
+    tmbbox[BOXRIGHT] = MAX(pe_x, x);
+    tmbbox[BOXTOP] = MAX(pe_y, y);
+    tmbbox[BOXBOTTOM] = MIN(pe_y, y);
 
     // determine which blocks to look in for blocking lines
     xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;

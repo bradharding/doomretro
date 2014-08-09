@@ -231,54 +231,51 @@ void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy,
 //
 static void R_GenerateComposite(int texnum)
 {
-    byte         *block = Z_Malloc(texturecompositesize[texnum], PU_STATIC,
-                                   (void **)&texturecomposite[texnum]);
-    texture_t    *texture = textures[texnum];
+    byte                *block = Z_Malloc(texturecompositesize[texnum], PU_STATIC,
+                                          (void **)&texturecomposite[texnum]);
+    texture_t           *texture = textures[texnum];
+
     // Composite the columns together.
-    texpatch_t   *patch = texture->patches;
-    short *collump = texturecolumnlump[texnum];
-    unsigned int *colofs = texturecolumnofs[texnum]; // killough 4/9/98: make 32-bit
-    int          i = texture->patchcount;
+    texpatch_t          *patch = texture->patches;
+    short               *collump = texturecolumnlump[texnum];
+    unsigned int        *colofs = texturecolumnofs[texnum];
+    int                 i = texture->patchcount;
+
     // killough 4/9/98: marks to identify transparent regions in merged textures
-    byte         *marks = calloc(texture->width, texture->height), *source;
-    boolean      tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
+    byte                *marks = calloc(texture->width, texture->height), *source;
+    boolean             tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
 
     for (; --i >= 0; patch++)
     {
-        patch_t   *realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
-        int       x, x1 = patch->originx, x2 = x1 + SHORT(realpatch->width);
-        const int *cofs = realpatch->columnofs - x1;
+        patch_t         *realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
+        int             x1 = MAX(0, patch->originx);
+        int             x2 = MIN(x1 + SHORT(realpatch->width), texture->width);
+        const int       *cofs = realpatch->columnofs - x1;
 
-        if (x1 < 0)
-            x1 = 0;
-        if (x2 > texture->width)
-            x2 = texture->width;
-        for (x = x1; x < x2 ; x++)
-            if (collump[x] == -1)               // Column has multiple patches?
+        for (; x1 < x2 ; x1++)
+            if (collump[x1] == -1)      // Column has multiple patches?
                 // killough 1/25/98, 4/9/98: Fix medusa bug.
-                R_DrawColumnInCache((column_t *)((byte *)realpatch + LONG(cofs[x])),
-                                    block + colofs[x], patch->originy,
-                                    texture->height, marks + x * texture->height,
-                                    tekwall1);
+                R_DrawColumnInCache((column_t *)((byte *)realpatch + LONG(cofs[x1])),
+                    block + colofs[x1], patch->originy, texture->height,
+                    marks + x1 * texture->height, tekwall1);
     }
 
     // killough 4/9/98: Next, convert multipatched columns into true columns,
     // to fix Medusa bug while still allowing for transparent regions.
-
-    source = (byte *)malloc(texture->height);           // temporary column
+    source = (byte *)malloc(texture->height);   // temporary column
     for (i = 0; i < texture->width; i++)
         if (collump[i] == -1)                   // process only multipatched columns
         {
-            column_t *col = (column_t *)(block + colofs[i] - 3);        // cached column
-            const byte *mark = marks + i * texture->height;
-            int j = 0;
+            column_t    *col = (column_t *)(block + colofs[i] - 3);     // cached column
+            const byte  *mark = marks + i * texture->height;
+            int         j = 0;
 
             // save column in temporary so we can shuffle it around
             memcpy(source, (byte *)col + 3, texture->height);
 
             for (;;)  // reconstruct the column by scanning transparency marks
             {
-                unsigned int len;                       // killough 12/98
+                unsigned int    len;                    // killough 12/98
 
                 while (j < texture->height && !mark[j]) // skip transparent cells
                     j++;
@@ -304,12 +301,11 @@ static void R_GenerateComposite(int texnum)
                 col = (column_t *)((byte *)col + len + 4); // next post
             }
         }
-    free(source);         // free temporary column
-    free(marks);          // free transparency marks
+    free(source);       // free temporary column
+    free(marks);        // free transparency marks
 
     // Now that the texture has been built in column cache,
     // it is purgable from zone memory.
-
     Z_ChangeTag(block, PU_CACHE);
 }
 
@@ -320,36 +316,30 @@ static void R_GenerateComposite(int texnum)
 //
 static void R_GenerateLookup(int texnum)
 {
-    const texture_t *texture = textures[texnum];
+    const texture_t     *texture = textures[texnum];
 
     // Composited texture not created yet.
-
-    short           *collump = texturecolumnlump[texnum];
-    unsigned int    *colofs = texturecolumnofs[texnum];    // killough 4/9/98: make 32-bit
+    short               *collump = texturecolumnlump[texnum];
+    unsigned int        *colofs = texturecolumnofs[texnum];
 
     // killough 4/9/98: keep count of posts in addition to patches.
     // Part of fix for medusa bug for multipatched 2s normals.
-
     struct {
-        unsigned int patches, posts;
+        unsigned int    patches, posts;
     } *count = calloc(sizeof(*count), texture->width);
 
     // killough 12/98: First count the number of patches per column.
-
-    const texpatch_t *patch = texture->patches;
-    int              i = texture->patchcount;
+    const texpatch_t   *patch = texture->patches;
+    int                i = texture->patchcount;
 
     while (--i >= 0)
     {
-        int           pat = patch->patch;
-        const patch_t *realpatch = (patch_t *)W_CacheLumpNum(pat, PU_CACHE);
-        int           x, x1 = (patch++)->originx, x2 = x1 + SHORT(realpatch->width);
-        const int     *cofs = realpatch->columnofs - x1;
+        int             pat = patch->patch;
+        const patch_t   *realpatch = (patch_t *)W_CacheLumpNum(pat, PU_CACHE);
+        int             x, x1 = MAX(0, (patch++)->originx);
+        int             x2 = MIN(x1 + SHORT(realpatch->width), texture->width);
+        const int       *cofs = realpatch->columnofs - x1;
 
-        if (x2 > texture->width)
-            x2 = texture->width;
-        if (x1 < 0)
-            x1 = 0;
         for (x = x1; x < x2; x++)
         {
             count[x].patches++;
@@ -372,25 +362,21 @@ static void R_GenerateLookup(int texnum)
     if (texture->patchcount > 1 && texture->height < 256)
     {
         // killough 12/98: Warn about a common column construction bug
-        unsigned int limit = texture->height * 3 + 3;   // absolute column size limit
+        unsigned int            limit = texture->height * 3 + 3;   // absolute column size limit
 
         for (i = texture->patchcount, patch = texture->patches; --i >= 0;)
         {
-            int           pat = patch->patch;
-            const patch_t *realpatch = (patch_t *)W_CacheLumpNum(pat, PU_CACHE);
-            int           x, x1 = patch++->originx, x2 = x1 + SHORT(realpatch->width);
-            const int     *cofs = realpatch->columnofs - x1;
-
-            if (x2 > texture->width)
-                x2 = texture->width;
-            if (x1 < 0)
-                x1 = 0;
+            int                 pat = patch->patch;
+            const patch_t       *realpatch = (patch_t *)W_CacheLumpNum(pat, PU_CACHE);
+            int                 x, x1 = MAX(0, (patch++)->originx);
+            int                 x2 = MIN(x1 + SHORT(realpatch->width), texture->width);
+            const int           *cofs = realpatch->columnofs - x1;
 
             for (x = x1; x < x2; x++)
                 if (count[x].patches > 1)               // Only multipatched columns
                 {
-                    const column_t *col = (column_t *)((byte *)realpatch + LONG(cofs[x]));
-                    const byte     *base = (const byte *)col;
+                    const column_t      *col = (column_t *)((byte *)realpatch + LONG(cofs[x]));
+                    const byte          *base = (const byte *)col;
 
                     // count posts
                     for (; col->topdelta != 0xff; count[x].posts++)
@@ -407,13 +393,12 @@ static void R_GenerateLookup(int texnum)
     //  that are covered by more than one patch.
     // Fill in the lump / offset, so columns
     //  with only a single patch are all done.
-
     texturecomposite[texnum] = 0;
 
     {
-        int x = texture->width;
-        int height = texture->height;
-        int csize = 0;                                  // killough 10/98
+        int     x = texture->width;
+        int     height = texture->height;
+        int     csize = 0;                              // killough 10/98
 
         while (--x >= 0)
         {
@@ -770,7 +755,7 @@ void R_InitColormaps(void)
     // value of 0.144 is used when it should be 0.114. So I've grabbed the
     // offending code from dcolor.c, corrected it, put it here, and now colormap
     // 32 is manually calculated rather than grabbing it from the colormap lump.
-    // The resulting  differences are minor.
+    // The resulting differences are minor.
     {
         int     i;
         float   red, green, blue, gray;
