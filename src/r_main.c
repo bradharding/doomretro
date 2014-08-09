@@ -556,19 +556,13 @@ void R_ExecuteSetViewSize(void)
 void R_Init(void)
 {
     R_InitData();
-    printf(".");
     R_InitPointToAngle();
-    printf(".");
     R_InitTables();
-    printf(".");
 
     R_SetViewSize(screensize);
     R_InitLightTables();
-    printf(".");
     R_InitSkyMap();
-    printf(".");
     R_InitTranslationTables();
-    printf(".");
 }
 
 //
