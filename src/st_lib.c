@@ -82,16 +82,16 @@ const char *lownums[10] =
 void STlib_drawLowNum(int number, int color, int shadow, int x, int y)
 {
     int         i;
-    int         j = (y * SCREENWIDTH + x) * 2;
+    int         j = (y * SCREENWIDTH + x) * SCREENSCALE;
 
     for (i = 0; i < 96; i++)
     {
         char    dot = lownums[number][i];
 
         if (dot == '1')
-            screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = color;
+            screens[0][j + i / 8 * SCREENWIDTH + i % 8] = color;
         else if (dot == '2')
-            screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = shadow;
+            screens[0][j + i / 8 * SCREENWIDTH + i % 8] = shadow;
     }
 }
 
@@ -122,16 +122,28 @@ const char *highnums[10] =
 void STlib_drawHighNum(int number, int color, int shadow, int x, int y)
 {
     int         i;
-    int         j = (y * SCREENWIDTH + x) * 2;
+    int         j = (y * SCREENWIDTH + x) * SCREENSCALE;
 
     for (i = 0; i < 96; i++)
     {
         char    dot = highnums[number][i];
 
         if (dot == '1')
-            screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = color;
+        {
+            int xx, yy;
+
+            for (yy = 0; yy < SCREENSCALE; ++yy)
+                for (xx = 0; xx < SCREENSCALE; ++xx)
+                    screens[0][j + i / 8 * SCREENWIDTH + i % 8] = color;
+        }
         else if (dot == '2')
-            screens[0][j + (i / 8) * SCREENWIDTH + i % 8] = shadow;
+        {
+            int xx, yy;
+
+            for (yy = 0; yy < SCREENSCALE; ++yy)
+                for (xx = 0; xx < SCREENSCALE; ++xx)
+                    screens[0][j + i / 8 * SCREENWIDTH + i % 8] = shadow;
+        }
     }
 }
 
@@ -391,7 +403,7 @@ void STlib_updateBigBinIcon(st_binicon_t *bi, boolean refresh)
         h = SHORT(bi->p->height);
 
         if (*bi->val)
-            V_DrawBigPatch(bi->x, bi->y, FG, bi->p);
+            V_DrawScaledPatch(bi->x, bi->y, FG, SCREENSCALE / 2, bi->p);
 
         bi->oldval = *bi->val;
     }

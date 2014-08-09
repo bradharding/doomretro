@@ -102,10 +102,10 @@ typedef enum
 
 #define SCREENSCALE     2
 
-#define SCREENWIDTH     640
-#define SCREENHEIGHT    400
+#define SCREENWIDTH     (ORIGINALWIDTH * SCREENSCALE)
+#define SCREENHEIGHT    (ORIGINALHEIGHT * SCREENSCALE)
 
-#define SBARHEIGHT      64
+#define SBARHEIGHT      (32 * SCREENSCALE)
 
 // The maximum number of players, multiplayer/networking.
 #define MAXPLAYERS      4

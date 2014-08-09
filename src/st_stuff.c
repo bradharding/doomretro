@@ -464,7 +464,7 @@ void ST_refreshBackground(void)
         if (STBAR || graphicdetail == LOW)
             V_DrawPatch(ST_X, 0, BG, sbar);
         else
-            V_DrawBigPatch(ST_X, 0, BG, sbar2);
+            V_DrawScaledPatch(ST_X, 0, BG, SCREENSCALE / 2, sbar2);
 
         if (netgame)
             V_DrawPatch(ST_FX, 0, BG, faceback);

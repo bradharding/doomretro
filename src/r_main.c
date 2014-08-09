@@ -445,8 +445,8 @@ void R_ExecuteSetViewSize(void)
     }
     else
     {
-        scaledviewwidth = setblocks * 64;
-        viewheight = ((setblocks * 168 / 10) & ~7) * 2;
+        scaledviewwidth = setblocks * SCREENWIDTH / 10;
+        viewheight = ((setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7);
         viewheight2 = SCREENHEIGHT - SBARHEIGHT;
     }
 
@@ -570,7 +570,7 @@ void R_Init(void)
 //
 subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 {
-    int    nodenum;
+    int nodenum;
 
     // single subsector is a special case
     if (!numnodes)

@@ -127,6 +127,56 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
+void V_DrawScaledPatch(int x, int y, int scrn, int scale, patch_t *patch)
+{
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *desttop;
+    byte        *dest;
+    byte        *source;
+    int         w;
+    int         stretchx;
+    int         stretchy;
+    int         srccol;
+
+    int         dx = ((ORIGINALWIDTH * scale) << 16) / ORIGINALWIDTH;
+    int         dxi = (ORIGINALWIDTH << 16) / (ORIGINALWIDTH * scale);
+    int         dy = ((ORIGINALHEIGHT * scale) << 16) / ORIGINALHEIGHT;
+    int         dyi = (ORIGINALHEIGHT << 16) / (ORIGINALHEIGHT * scale);
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+
+    stretchx = (x * dx) >> 16;
+    stretchy = (y * dy) >> 16;
+
+    col = 0;
+    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
+
+    for (w = SHORT(patch->width) << 16; col < w; col += dxi, desttop++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            dest = desttop + ((column->topdelta * dy) >> 16) * SCREENWIDTH;
+            count = (column->length * dy) >> 16;
+            srccol = 0;
+            while (count--)
+            {
+                *dest = source[srccol >> 16];
+                dest += SCREENWIDTH;
+                srccol += dyi;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 {
     int         count;
@@ -838,30 +888,26 @@ void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src)
 
 void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow)
 {
-    byte        *dest = &screens[screen][y * 2 * SCREENWIDTH + x * 2];
+    byte        *dest = &screens[screen][y * SCREENSCALE * SCREENWIDTH + x * SCREENSCALE];
 
     if (color == 251)
     {
         if (shadow)
         {
-            *dest = tinttab50[*dest];
-            dest++;
-            *dest = tinttab50[*dest];
-            dest += SCREENWIDTH;
-            *dest = tinttab50[*dest];
-            dest--;
-            *dest = tinttab50[*dest];
+            int xx, yy;
+
+            for (yy = 0; yy < SCREENSCALE; ++yy)
+                for (xx = 0; xx < SCREENSCALE; ++xx)
+                    *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH + xx)];
         }
     }
     else if (color && color != 32)
     {
-        *dest = color;
-        dest++;
-        *dest = color;
-        dest += SCREENWIDTH;
-        *dest = color;
-        dest--;
-        *dest = color;
+        int xx, yy;
+
+        for (yy = 0; yy < SCREENSCALE; ++yy)
+            for (xx = 0; xx < SCREENSCALE; ++xx)
+                *(dest + yy * SCREENWIDTH + xx) = color;
     }
 }
 
