@@ -349,7 +349,7 @@ void D_DoomLoop(void)
 //
 //  TITLE LOOP
 //
-static int  titlesequence;
+int         titlesequence;
 static int  pagetic;
 static char *pagename;
 

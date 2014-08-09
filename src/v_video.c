@@ -912,6 +912,8 @@ extern char             maptitle[128];
 extern SDL_Surface      *screen;
 extern SDL_Surface      *screenbuffer;
 extern SDL_Color        palette[256];
+extern boolean          splashscreen;
+extern int              titlesequence;
 
 boolean V_ScreenShot(void)
 {
@@ -942,7 +944,8 @@ boolean V_ScreenShot(void)
             break;
 
         case GS_TITLESCREEN:
-            M_StringCopy(mapname, "Title", sizeof(mapname));
+            M_StringCopy(mapname, (splashscreen ? "Splash" :
+                (titlesequence == 1 ? "Credits" : "Title")), sizeof(mapname));
             break;
 
         default:
