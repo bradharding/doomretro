@@ -145,6 +145,8 @@ float                   saturation = SATURATION_DEFAULT;
 float                   mouse_acceleration = MOUSEACCELERATION_DEFAULT;
 int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
+boolean                 autorun = false;
+
 static void ApplyWindowResize(int height);
 static void SetWindowPositionVars(void);
 
@@ -1271,6 +1273,21 @@ boolean I_ValidScreenMode(int width, int height)
 #else
     return SDL_VideoModeOK(width, height, 32, SDL_FULLSCREEN);
 #endif
+}
+
+void I_InitKeyboard(void)
+{
+#ifdef WIN32
+    int capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
+
+    if ((autorun && !capslock) || (!autorun && capslock))
+    {
+        keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
+        keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
+    }
+#endif
+
+    putenv("SDL_DISABLE_LOCK_KEYS=1");
 }
 
 void I_InitGraphics(void)

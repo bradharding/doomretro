@@ -39,6 +39,8 @@
 
 #define GAMMALEVELS             31
 
+void I_InitKeyboard(void);
+
 // Called by D_DoomMain,
 // determines the hardware configuration
 // and sets up the video mode

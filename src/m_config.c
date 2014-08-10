@@ -40,6 +40,7 @@
 // doomretro.cfg, savegames, etc.
 char            *configdir;
 
+extern boolean  autorun;
 extern int      bloodsplats;
 extern boolean  brightmaps;
 extern int      corpses;
@@ -179,6 +180,7 @@ typedef struct
 
 static default_t doom_defaults_list[] =
 {
+    CONFIG_VARIABLE_INT   (autorun,             autorun,              1),
     CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,          7),
     CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,           1),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),

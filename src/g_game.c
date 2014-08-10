@@ -40,6 +40,7 @@
 #include "i_timer.h"
 #include "i_video.h"
 #include "m_argv.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -218,6 +219,8 @@ static int      dclicks2;
 static int      savegameslot;
 static char     savedescription[32];
 
+extern boolean  autorun;
+
 int G_CmdChecksum(ticcmd_t *cmd)
 {
     size_t      i;
@@ -237,10 +240,9 @@ static boolean G_GetSpeedToggle(void)
     SDLMod      modstate = SDL_GetModState();
 #endif
     boolean     lt = (gamepadbuttons & gamepadspeed);
-    boolean     caps = (modstate & KMOD_CAPS);
     boolean     shift = gamekeydown[key_speed];
 
-    return ((lt ? 1 : 0) + (caps ? 1 : 0) + (shift ? 1 : 0) == 1);
+    return ((lt ? 1 : 0) + (shift ? 1 : 0) + (autorun ? 1 : 0) == 1);
 }
 
 //
@@ -621,7 +623,7 @@ void PrevWeapon(void)
         S_StartSound(NULL, sfx_getpow);
 }
 
-extern boolean splashscreen;
+extern boolean  splashscreen;
 
 //
 // G_Responder
@@ -689,6 +691,22 @@ boolean G_Responder(event_t *ev)
                 keydown = key_pause;
                 sendpause = true;
                 blurred = false;
+            }
+            else if (ev->data1 == KEY_CAPSLOCK && !keydown)
+            {
+                static char message[512];
+
+                autorun = !autorun;
+                keydown = KEY_CAPSLOCK;
+                M_snprintf(message, sizeof(message), (autorun ? AUTORUNON : AUTORUNOFF), lbmname);
+                players[consoleplayer].message = message;
+                message_dontfuckwithme = true;
+                if (menuactive)
+                {
+                    message_dontpause = true;
+                    blurred = false;
+                }
+                M_SaveDefaults();
             }
             else if (ev->data1 < NUMKEYS)
             {

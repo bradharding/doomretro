@@ -1016,6 +1016,7 @@ static void D_DoomMainSetup(void)
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
     I_InitTimer();
+    I_InitKeyboard();
     I_InitGamepad();
     I_InitGraphics();
 
