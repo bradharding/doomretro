@@ -1287,8 +1287,6 @@ void I_InitKeyboard(void)
     }
 #endif
 
-    putenv("SDL_DISABLE_LOCK_KEYS=1");
-
 #ifdef SDL20
     SDL_SetWindowTitle(sdl_window, gamedescription);
 #else
@@ -1301,6 +1299,8 @@ void I_InitGraphics(void)
     int         i = 0;
     SDL_Event   dummy;
     byte        *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
+
+    putenv("SDL_DISABLE_LOCK_KEYS=1");
 
     while (i < UCHAR_MAX)
         keys[i++] = true;
