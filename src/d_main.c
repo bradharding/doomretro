@@ -399,6 +399,8 @@ void D_AdvanceTitle(void)
 //
 void D_DoAdvanceTitle(void)
 {
+    static boolean      flag = true;
+
     players[consoleplayer].playerstate = PST_LIVE;      // not reborn
     advancetitle = false;
     usergame = false;                                   // no save / end game here
@@ -417,11 +419,11 @@ void D_DoAdvanceTitle(void)
 
         case 1:
 
-#ifdef SDL20
-            SDL_SetWindowTitle(sdl_window, gamedescription);
-#else
-            SDL_WM_SetCaption(gamedescription, NULL);
-#endif
+            if (flag)
+            {
+                flag = false;
+                I_InitKeyboard();
+            }
 
             pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
             pagetic = 20 * TICRATE;
@@ -1016,7 +1018,6 @@ static void D_DoomMainSetup(void)
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
     I_InitTimer();
-    I_InitKeyboard();
     I_InitGamepad();
     I_InitGraphics();
 
@@ -1253,6 +1254,7 @@ static void D_DoomMainSetup(void)
 
     if (startloadgame >= 0)
     {
+        I_InitKeyboard();
         M_StringCopy(file, P_SaveGameFile(startloadgame), sizeof(file));
         G_LoadGame(file);
     }
@@ -1260,7 +1262,10 @@ static void D_DoomMainSetup(void)
     if (gameaction != ga_loadgame)
     {
         if (autostart || netgame)
+        {
+            I_InitKeyboard();
             G_DeferredInitNew(startskill, startepisode, startmap);
+        }
         else
             D_StartTitle((boolean)M_CheckParm("-nosplash"));    // start up intro loop
     }

@@ -1288,6 +1288,12 @@ void I_InitKeyboard(void)
 #endif
 
     putenv("SDL_DISABLE_LOCK_KEYS=1");
+
+#ifdef SDL20
+    SDL_SetWindowTitle(sdl_window, gamedescription);
+#else
+    SDL_WM_SetCaption(gamedescription, NULL);
+#endif
 }
 
 void I_InitGraphics(void)
