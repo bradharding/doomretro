@@ -404,6 +404,8 @@ static void HU_DrawHUD(void)
 
         if (armor)
         {
+            patch_t     *patch = (plr->armortype == 1 ? greenarmorpatch : bluearmorpatch);
+
             if (emptytallpercent)
                 DrawHUDNumber(HUD_ARMOR_X + SHORT(tallpercent->width), HUD_ARMOR_Y, armor, true,
                     hudnumfunc);
@@ -412,8 +414,7 @@ static void HU_DrawHUD(void)
                 DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, true, hudnumfunc);
                 hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, true);
             }
-            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 18), 0,
-                plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, true);
+            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 16), 0, patch, true);
         }
     }
 }
