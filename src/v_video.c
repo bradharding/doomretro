@@ -213,6 +213,36 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
+boolean V_EmptyPatch(patch_t *patch)
+{
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *source;
+    int         w;
+
+    col = 0;
+
+    w = SHORT(patch->width);
+
+    for (; col < w; col++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            if (column->length)
+                return false;
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+    
+    return true;
+}
+
 void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
 {
     int         count;

@@ -67,6 +67,7 @@ extern int              translucency;
 extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
+extern boolean          emptytallpercent;
 
 static boolean          headsupactive = false;
 
@@ -82,23 +83,23 @@ void (*hudfunc)(int, int, int, patch_t *, boolean);
 void (*hudnumfunc)(int, int, int, patch_t *, boolean);
 void (*godhudfunc)(int, int, int, patch_t *, boolean);
 
-#define HUD_X           24
-#define HUD_Y           311
+#define HUD_X           24 * SCREENSCALE / 2
+#define HUD_Y           311 * SCREENSCALE / 2
 
 #define HUD_HEALTH_X    HUD_X
 #define HUD_HEALTH_Y    hud_y
 #define HUD_HEALTH_MIN  20
 #define HUD_HEALTH_TICS 20
 
-#define HUD_AMMO_X      (HUD_HEALTH_X + 96)
+#define HUD_AMMO_X      (HUD_HEALTH_X + 96 * SCREENSCALE / 2)
 #define HUD_AMMO_Y      HUD_HEALTH_Y
 #define HUD_AMMO_MIN    20
 #define HUD_AMMO_TICS   20
 
-#define HUD_KEYS_X      (HUD_HEALTH_X + 479)
+#define HUD_KEYS_X      (HUD_HEALTH_X + 479 * SCREENSCALE / 2)
 #define HUD_KEYS_Y      HUD_HEALTH_Y
 
-#define HUD_ARMOR_X     (HUD_HEALTH_X + 506)
+#define HUD_ARMOR_X     (HUD_HEALTH_X + 506 * SCREENSCALE / 2)
 #define HUD_ARMOR_Y     HUD_HEALTH_Y
 
 #define HUD_MIN_TICS    6
@@ -272,13 +273,16 @@ static void HU_DrawHUD(void)
             health_x -= 14;
 
         invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ||
-                  menuactive || paused);
+            menuactive || paused);
         if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), 0, patch, invert);
+            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), 0, patch,
+                invert);
         else
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), 0, patch, invert);
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), 0, patch,
+                invert);
         DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
-        hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
+        if (!emptytallpercent)
+            hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
 
         if (health <= HUD_HEALTH_MIN && !menuactive && !paused)
         {
@@ -286,7 +290,7 @@ static void HU_DrawHUD(void)
             {
                 healthanim = !healthanim;
                 healthanimtics = MAX(HUD_MIN_TICS,
-                                     (int)(HUD_HEALTH_TICS * (float)health / HUD_HEALTH_MIN));
+                    (int)(HUD_HEALTH_TICS * (float)health / HUD_HEALTH_MIN));
             }
         }
         else
@@ -318,8 +322,9 @@ static void HU_DrawHUD(void)
             }
 
             invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN ||
-                      menuactive || paused);
-            hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0, ammopic[ammotype].patch, invert);
+                menuactive || paused);
+            hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0, ammopic[ammotype].patch,
+                invert);
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
 
             if (ammo <= HUD_AMMO_MIN && !menuactive && !paused)
@@ -328,7 +333,7 @@ static void HU_DrawHUD(void)
                 {
                     ammoanim = !ammoanim;
                     ammoanimtics = MAX(HUD_MIN_TICS,
-                                       (int)(HUD_AMMO_TICS * (float)ammo / HUD_AMMO_MIN));
+                        (int)(HUD_AMMO_TICS * (float)ammo / HUD_AMMO_MIN));
                 }
             }
             else
@@ -344,22 +349,27 @@ static void HU_DrawHUD(void)
 
         if (keys || plr->neededcardtics)
         {
-            int            keypic_x = HUD_KEYS_X - 20 * (keys - 1);
-            static int     keyanimcounter = HUD_KEY_TICS;
-            static boolean showkey = true;
+            int                 keypic_x = HUD_KEYS_X - 20 * (keys - 1);
+            static int          keyanimcounter = HUD_KEY_TICS;
+            static boolean      showkey = true;
 
             if (!armor)
                 keypic_x += 111;
-            else if (armor < 10)
-                keypic_x += 26;
-            else if (armor < 100)
-                keypic_x += 12;
+            else
+            {
+                if (emptytallpercent)
+                    keypic_x += SHORT(tallpercent->width);
+                if (armor < 10)
+                    keypic_x += 26;
+                else if (armor < 100)
+                    keypic_x += 12;
+            }
 
             if (plr->neededcardtics)
             {
                 if (gametic)
                 {
-                    patch_t *patch = keypic[plr->neededcard].patch;
+                    patch_t     *patch = keypic[plr->neededcard].patch;
 
                     keypic_x -= 20;
                     if (!menuactive && !paused)
@@ -381,22 +391,29 @@ static void HU_DrawHUD(void)
                 showkey = true;
                 keyanimcounter = HUD_KEY_TICS;
             }
+
             for (i = 0; i < NUMCARDS; i++)
                 if (plr->cards[i] > 0)
                 {
-                    patch_t *patch = keypic[i].patch;
+                    patch_t     *patch = keypic[i].patch;
 
                     hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
-                            HUD_KEYS_Y, 0, patch, true);
+                        HUD_KEYS_Y, 0, patch, true);
                 }
         }
 
         if (armor)
         {
-            DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, true, hudnumfunc);
-            hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, true);
+            if (emptytallpercent)
+                DrawHUDNumber(HUD_ARMOR_X + SHORT(tallpercent->width), HUD_ARMOR_Y, armor, true,
+                    hudnumfunc);
+            else
+            {
+                DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, true, hudnumfunc);
+                hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, true);
+            }
             hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 18), 0,
-                    plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, true);
+                plr->armortype == 1 ? greenarmorpatch : bluearmorpatch, true);
         }
     }
 }

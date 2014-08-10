@@ -53,6 +53,7 @@ void V_FillRect(int scrn, int x, int y, int width, int height, byte color);
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawScaledPatch(int x, int y, int scrn, int scale, patch_t *patch);
+boolean V_EmptyPatch(patch_t *patch);
 void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag);
 void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch);
 void V_DrawPatchCentered(int y, int scrn, patch_t *patch);

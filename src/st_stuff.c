@@ -282,6 +282,7 @@ patch_t                         *tallnum[10];
 
 // tall % sign
 patch_t                         *tallpercent;
+boolean                         emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
 static patch_t                  *shortnum[10];
@@ -1641,6 +1642,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
 
     // Load percent key.
     callback("STTPRCNT", &tallpercent);
+    emptytallpercent = V_EmptyPatch(tallpercent);
 
     // key cards
     for (i = 0; i < NUMCARDS; i++)
