@@ -107,6 +107,34 @@ mapthing_t      playerstarts[MAXPLAYERS];
 
 boolean         canmodify;
 
+static int current_episode = -1;
+static int current_map = -1;
+static int samelevel = false;
+
+// e6y: Smart malloc
+// Used by P_SetupLevel() for smart data loading
+// Do nothing if level is the same
+static void *malloc_IfSameLevel(void *p, size_t size)
+{
+    if (!samelevel || !p)
+        return malloc(size);
+    return p;
+}
+
+// e6y: Smart calloc
+// Used by P_SetupLevel() for smart data loading
+// Clear the memory without allocation if level is the same
+static void *calloc_IfSameLevel(void *p, size_t n1, size_t n2)
+{
+    if (!samelevel)
+        return calloc(n1, n2);
+    else
+    {
+        memset(p, 0, n1 * n2);
+        return p;
+    }
+}
+
 #define DEFAULT 0x7fff
 
 //
@@ -122,7 +150,7 @@ void P_LoadVertexes(int lump)
     numvertexes = W_LumpLength(lump) / sizeof(mapvertex_t);
 
     // Allocate zone memory for buffer.
-    vertexes = Z_Malloc(numvertexes * sizeof(vertex_t), PU_LEVEL, 0);
+    vertexes = calloc_IfSameLevel(vertexes, numvertexes, sizeof(vertex_t));
 
     // Load data into cache.
     data = (const mapvertex_t *)W_CacheLumpNum(lump, PU_STATIC);
@@ -170,7 +198,7 @@ void P_LoadSegs(int lump)
     int                 i;
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
-    segs = (seg_t *)Z_Malloc(numsegs * sizeof(seg_t), PU_LEVEL, 0);
+    segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
     memset(segs, 0, numsegs * sizeof(seg_t));
     data = (const mapseg_t *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -219,7 +247,6 @@ void P_LoadSegs(int lump)
             // the correct Vanilla behavior; however, it seems to work for
             // OTTAWAU.WAD, which is the one place I've seen this trick
             // used).
-
             if (sidenum < 0 || sidenum >= numsides)
                 sidenum = 0;
 
@@ -324,7 +351,7 @@ void P_LoadSubsectors(int lump)
     int                  i;
 
     numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
-    subsectors = Z_Malloc(numsubsectors * sizeof(subsector_t), PU_LEVEL, 0);
+    subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
     data = (const mapsubsector_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     memset(subsectors, 0, numsubsectors * sizeof(subsector_t));
@@ -347,7 +374,7 @@ void P_LoadSectors(int lump)
     int         i;
 
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
-    sectors = Z_Malloc(numsectors * sizeof(sector_t), PU_LEVEL, 0);
+    sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
     memset(sectors, 0, numsectors * sizeof(sector_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -409,7 +436,7 @@ void P_LoadNodes(int lump)
     int         i;
 
     numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
-    nodes = (node_t *)Z_Malloc(numnodes * sizeof(node_t), PU_LEVEL, 0);
+    nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
     for (i = 0; i < numnodes; i++)
@@ -550,7 +577,7 @@ void P_LoadLineDefs(int lump)
     int         i;
 
     numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
-    lines = (line_t *)Z_Malloc(numlines * sizeof(line_t), PU_LEVEL, 0);
+    lines = calloc_IfSameLevel(lines, numlines, sizeof(line_t));
     memset(lines, 0, numlines * sizeof(line_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -649,7 +676,7 @@ void P_LoadSideDefs(int lump)
     int         i;
 
     numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
-    sides = (side_t *)Z_Malloc(numsides * sizeof(side_t), PU_LEVEL, 0);
+    sides = calloc_IfSameLevel(sides, numsides, sizeof(side_t));
     memset(sides, 0, numsides * sizeof(side_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
@@ -697,7 +724,7 @@ void P_LoadBlockMap(int lump)
         I_Error("Missing blockmap, node builder has not been run.\n");
 
     // [WDJ] Do endian as read from blockmap lump temp
-    blockmaphead = Z_Malloc(sizeof(*blockmaphead) * count, PU_LEVEL, NULL);
+    blockmaphead = malloc_IfSameLevel(blockmaphead, sizeof(*blockmaphead) * count);
 
     // killough 3/1/98: Expand wad blockmap into larger internal one,
     // by treating all offsets except -1 as unsigned and zero-extending
@@ -768,9 +795,8 @@ void P_LoadBlockMap(int lump)
     }
 
     // clear out mobj chains
-    count = sizeof(*blocklinks) * bmapwidth * bmapheight;
-    blocklinks = Z_Malloc(count, PU_LEVEL, NULL);
-    memset(blocklinks, 0, count);
+    blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
+    memset(blocklinks, 0, sizeof(*blocklinks) * bmapwidth * bmapheight);
 }
 
 //
@@ -1137,6 +1163,26 @@ void P_SetupLevel(int episode, int map)
     leveltime = 0;
 
     P_MapName(gameepisode, gamemap);
+
+    // e6y: speedup of level reloading
+    // Most of level's structures now are allocated with PU_STATIC instead of PU_LEVEL
+    samelevel = (map == current_map && episode == current_episode);
+
+    current_episode = episode;
+    current_map = map;
+
+    if (!samelevel)
+    {
+        free(segs);
+        free(nodes);
+        free(subsectors);
+        free(blocklinks);
+        free(blockmaphead);
+        free(lines);
+        free(sides);
+        free(sectors);
+        free(vertexes);
+    }
 
     // note: most of this ordering is important
     P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
