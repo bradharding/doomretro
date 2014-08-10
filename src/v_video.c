@@ -215,24 +215,17 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 boolean V_EmptyPatch(patch_t *patch)
 {
-    int         count;
     int         col;
     column_t    *column;
-    byte        *source;
-    int         w;
+    int         w = SHORT(patch->width);
 
-    col = 0;
-
-    w = SHORT(patch->width);
-
-    for (; col < w; col++)
+    for (col = 0; col < w; col++)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
             if (column->length)
                 return false;
 
