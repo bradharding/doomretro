@@ -694,7 +694,7 @@ void R_DrawPSprite(pspdef_t *psp)
             int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
                            + extralight * LIGHTBRIGHT + 8;
 
-            vis->colormap = spritelights[MIN(lightnum, MAXLIGHTSCALE)];
+            vis->colormap = spritelights[MAX(0, MIN(lightnum, MAXLIGHTSCALE - 1))];
         }
     }
 
@@ -841,7 +841,6 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
     //  is the clip seg.
 
     // e6y: optimization
-
     if (drawsegs_xrange_size)
     {
         const drawseg_xrange_item_t     *last = &drawsegs_xrange[drawsegs_xrange_count - 1];
