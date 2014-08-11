@@ -2987,7 +2987,6 @@ void M_Drawer(void)
     {
         patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
 
-        x += SHORT(patch->leftoffset);
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 43, currentMenu->y + itemOn * 17 - 8 + OFFSET, 0, patch);
         else
@@ -2997,7 +2996,6 @@ void M_Drawer(void)
     {
         patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
 
-        x += SHORT(patch->leftoffset);
         if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
             itemOn++;
         if (M_SKULL1)
