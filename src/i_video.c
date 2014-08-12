@@ -1325,16 +1325,17 @@ void I_InitGraphics(void)
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
     {
-
 #ifdef SDL12
         if (!strcasecmp(videodriver, "directx"))
-            M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=windib", videodriver);
+            M_StringCopy(videodriver, "windib", 7);
         else
-            M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=directx", videodriver);
+            M_StringCopy(videodriver, "directx", 8);
+        M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
         putenv(envstring);
-#endif
+        M_SaveDefaults();
 
         if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
+#endif
             I_Error("Failed to initialize video: %s", SDL_GetError());
     }
 
