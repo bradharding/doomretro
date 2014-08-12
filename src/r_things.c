@@ -692,9 +692,10 @@ void R_DrawPSprite(pspdef_t *psp)
         {
             // local light
             int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
-                           + extralight * LIGHTBRIGHT + 8;
+                           + extralight * LIGHTBRIGHT;
 
-            vis->colormap = spritelights[MAX(0, MIN(lightnum, MAXLIGHTSCALE - 1))];
+            vis->colormap = scalelight2[MAX(0, MIN(lightnum, LIGHTLEVELS - 1))]
+                [MAX(0, MIN(lightnum + 8, MAXLIGHTSCALE - 1))];
         }
     }
 
@@ -707,13 +708,8 @@ void R_DrawPSprite(pspdef_t *psp)
 void R_DrawPlayerSprites(void)
 {
     int         i;
-    int         lightnum;
     int         invisibility = viewplayer->powers[pw_invisibility];
     pspdef_t    *psp;
-
-    // get light level
-    lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-    spritelights = scalelight2[MAX(0, MIN(lightnum, LIGHTLEVELS - 1))];
 
     // clip to screen bounds
     mfloorclip = screenheightarray;
