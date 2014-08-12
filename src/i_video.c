@@ -428,8 +428,8 @@ void I_ShutdownKeyboard(void)
 #ifdef WIN32
     if (GetKeyState(VK_CAPITAL) & 0x0001)
     {
-        keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-        keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
     }
 #endif
 }
@@ -1282,8 +1282,8 @@ void I_InitKeyboard(void)
 
     if ((autorun && !capslock) || (!autorun && capslock))
     {
-        keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-        keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
     }
 #endif
 
@@ -1324,7 +1324,19 @@ void I_InitGraphics(void)
 #endif
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-        I_Error("Failed to initialize video: %s", SDL_GetError());
+    {
+
+#ifdef SDL12
+        if (!strcasecmp(videodriver, "directx"))
+            M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=windib", videodriver);
+        else
+            M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=directx", videodriver);
+        putenv(envstring);
+#endif
+
+        if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
+            I_Error("Failed to initialize video: %s", SDL_GetError());
+    }
 
     CreateCursors();
     SDL_SetCursor(cursors[0]);
