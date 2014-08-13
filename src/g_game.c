@@ -219,7 +219,7 @@ static int      dclicks2;
 static int      savegameslot;
 static char     savedescription[32];
 
-extern boolean  autorun;
+extern boolean  alwaysrun;
 
 int G_CmdChecksum(ticcmd_t *cmd)
 {
@@ -242,7 +242,7 @@ static boolean G_GetSpeedToggle(void)
     boolean     lt = (gamepadbuttons & gamepadspeed);
     boolean     shift = gamekeydown[key_speed];
 
-    return ((lt ? 1 : 0) + (shift ? 1 : 0) + (autorun ? 1 : 0) == 1);
+    return ((lt ? 1 : 0) + (shift ? 1 : 0) + (alwaysrun ? 1 : 0) == 1);
 }
 
 //
@@ -454,7 +454,6 @@ void G_DoLoadLevel(void)
     //  a flat. The data is in the WAD only because
     //  we look for an actual index, instead of simply
     //  setting one.
-
     skyflatnum = R_FlatNumForName(SKYFLATNAME);
 
     if (gamemode == commercial)
@@ -479,7 +478,7 @@ void G_DoLoadLevel(void)
             case 3:
                 skytexture = R_TextureNumForName("SKY3");
                 break;
-            case 4: // Special Edition sky
+            case 4:                             // Special Edition sky
                 skytexture = R_TextureNumForName("SKY4");
                 break;
         }
@@ -694,11 +693,11 @@ boolean G_Responder(event_t *ev)
             }
             else if (ev->data1 == KEY_CAPSLOCK && !keydown)
             {
-                static char message[512];
+                static char     message[512];
 
-                autorun = !autorun;
+                alwaysrun = !alwaysrun;
                 keydown = KEY_CAPSLOCK;
-                M_snprintf(message, sizeof(message), (autorun ? AUTORUNON : AUTORUNOFF), lbmname);
+                M_snprintf(message, sizeof(message), (alwaysrun ? ALWAYSRUNON : ALWAYSRUNOFF), lbmname);
                 players[consoleplayer].message = message;
                 message_dontfuckwithme = true;
                 if (menuactive)

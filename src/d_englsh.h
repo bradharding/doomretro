@@ -136,8 +136,8 @@
 #define GGSAVED                 "\"%s\" saved"
 #define GSCREENSHOT             "\"%s\" saved"
 
-#define AUTORUNOFF              "Autorun OFF"
-#define AUTORUNON               "Autorun ON"
+#define ALWAYSRUNOFF            "Always run OFF"
+#define ALWAYSRUNON             "Always run ON"
 
 //
 //  hu_stuff.c
