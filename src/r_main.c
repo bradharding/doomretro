@@ -539,7 +539,7 @@ void R_ExecuteSetViewSize(void)
         for (j = 0; j < MAXLIGHTSCALE; j++)
         {
             scalelight[i][j] = colormaps + 
-                MAX(0, MIN(startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), 
+                MAX(0, MIN(startmap - j * SCREENWIDTH / (viewwidth * DISTMAP),
                            NUMCOLORMAPS - 1)) * 256;
 
             // [BH] calculate separate light levels to use when drawing

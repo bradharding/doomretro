@@ -913,8 +913,8 @@ int fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 void R_DrawFuzzColumn(void)
 {
-    byte *dest;
-    int  count = dc_yh - dc_yl;
+    byte        *dest;
+    int         count = dc_yh - dc_yl;
 
     if (count < 0)
         return;
@@ -979,11 +979,11 @@ void R_DrawFuzzColumn(void)
 
 void R_DrawFuzzColumns(void)
 {
-    int  x, y;
-    int  w = viewwindowx + viewwidth;
-    int  h = (viewwindowy + viewheight) * SCREENWIDTH;
-    byte *src = screens[1];
-    byte *dest = screens[0];
+    int         x, y;
+    int         w = viewwindowx + viewwidth;
+    int         h = (viewwindowy + viewheight) * SCREENWIDTH;
+    byte        *src = screens[1];
+    byte        *dest = screens[0];
 
     for (x = viewwindowx; x < w; x++)
     {

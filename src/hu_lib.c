@@ -90,20 +90,20 @@ static void HU_drawDot(int x, int y, char src)
 // [BH] draw an individual character to temporary buffer
 void HU_drawChar(int x, int y, int i)
 {
-    int         w = strlen(smallcharset[i]) / 10;
-    int         x1, y1;
+    int w = strlen(smallcharset[i]) / 10;
+    int x1, y1;
 
     for (y1 = 0; y1 < 10; y1++)
         for (x1 = 0; x1 < w; x1++)
         {
             char        src = smallcharset[i][y1 * w + x1];
-            int         i = (x + x1) * 2;
-            int         j = (y + y1) * 2;
+            int         i = (x + x1) * SCREENSCALE;
+            int         j = (y + y1) * SCREENSCALE;
+            int         xx, yy;
 
-            HU_drawDot(i, j, src);
-            HU_drawDot(++i, j, src);
-            HU_drawDot(i, ++j, src);
-            HU_drawDot(--i, j, src);
+            for (yy = 0; yy < SCREENSCALE; ++yy)
+                for (xx = 0; xx < SCREENSCALE; ++xx)
+                    HU_drawDot(i + xx, j + yy, src);
         }
 }
 
@@ -202,19 +202,20 @@ void HUlib_drawTextLine(hu_textline_t *l)
     // [BH] draw underscores for IDBEHOLD cheat message
     if (idbehold)
     {
-        int     x1, y1, x2, y2;
+        int     x1, y1;
+        int     x2, y2;
 
         for (y1 = 0; y1 < 4; y1++)
             for (x1 = 0; x1 < ORIGINALWIDTH; x1++)
             {
-                char src = (automapactive && !widescreen ? underscores2[y1 * ORIGINALWIDTH + x1] :
-                                                           underscores1[y1 * ORIGINALWIDTH + x1]);
+                char    src = (automapactive && !widescreen ? underscores2[y1 * ORIGINALWIDTH + x1] :
+                                                              underscores1[y1 * ORIGINALWIDTH + x1]);
 
                 for (y2 = 0; y2 < SCREENSCALE; y2++)
                     for (x2 = 0; x2 < SCREENSCALE; x2++)
                     {
-                        byte *dest = &tempscreen[((8 + y1) * SCREENSCALE + y2) * SCREENWIDTH +
-                                                 x1 * SCREENSCALE + x2];
+                        byte    *dest = &tempscreen[((8 + y1) * SCREENSCALE + y2) * SCREENWIDTH +
+                                                    x1 * SCREENSCALE + x2];
 
                         if (src == '\xFB')
                             *dest = 0;
@@ -253,14 +254,13 @@ void HUlib_drawTextLine(hu_textline_t *l)
 // sorta called by HU_Erase and just better darn get things straight
 void HUlib_eraseTextLine(hu_textline_t *l)
 {
-    int         lh;
-    int         y;
-    int         yoffset;
+    int lh;
+    int y;
+    int yoffset;
 
     // Only erases when NOT in automap and the screen is reduced,
     // and the text must either need updating or refreshing
     // (because of a recent change back from the automap)
-
     if (!automapactive && viewwindowx && l->needsupdate)
     {
         lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
@@ -282,7 +282,7 @@ void HUlib_eraseTextLine(hu_textline_t *l)
 
 void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, boolean *on)
 {
-    int         i;
+    int i;
 
     s->h = h;
     s->on = on;
@@ -294,7 +294,7 @@ void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int sta
 
 void HUlib_addLineToSText(hu_stext_t *s)
 {
-    int         i;
+    int i;
 
     // add a clear line
     if (++s->cl == s->h)
@@ -341,7 +341,7 @@ void HUlib_drawSText(hu_stext_t *s)
 
 void HUlib_eraseSText(hu_stext_t *s)
 {
-    int         i;
+    int i;
 
     for (i = 0; i < s->h; i++)
     {

@@ -587,10 +587,10 @@ typedef post_t column_t;
 //
 
 // This could be wider for >8 bit display.
-// Indeed, true color support is posibble
+// Indeed, true color support is possible
 //  precalculating 24bpp lightmap/colormap LUT.
 //  from darkening PLAYPAL to all black.
-// Could even us emore than 32 levels.
+// Could even use more than 32 levels.
 typedef byte lighttable_t;
 
 typedef struct drawseg_s

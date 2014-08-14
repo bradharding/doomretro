@@ -96,6 +96,7 @@ unsigned int W_LumpNameHash(const char *s)
 {
     // This is the djb2 string hash function, modded to work on strings
     // that have a maximum length of 8.
+
     unsigned int result = 5381;
     unsigned int i;
 
@@ -120,14 +121,14 @@ unsigned int W_LumpNameHash(const char *s)
 
 wad_file_t *W_AddFile(char *filename)
 {
-    wadinfo_t           header;
-    lumpinfo_t          *lump_p;
-    unsigned int        i;
-    wad_file_t          *wad_file;
-    int                 length;
-    int                 startlump;
-    filelump_t          *fileinfo;
-    filelump_t          *filerover;
+    wadinfo_t header;
+    lumpinfo_t *lump_p;
+    unsigned int i;
+    wad_file_t *wad_file;
+    int length;
+    int startlump;
+    filelump_t *fileinfo;
+    filelump_t *filerover;
 
     // open the file and add to directory
 
