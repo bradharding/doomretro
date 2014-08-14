@@ -2349,7 +2349,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     // Barrel (MT_BARREL)
     {
         /* doomednum            */ Barrel,
-        /* description          */ "a Barrel",
+        /* description          */ "a barrel",
         /* spawnstate           */ S_BAR1,
         /* spawnhealth          */ 20,
         /* seestate             */ S_NULL,

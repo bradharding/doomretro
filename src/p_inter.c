@@ -715,6 +715,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 //
 void P_KillMobj(mobj_t *source, mobj_t *target)
 {
+    boolean     gibbed;
     mobjtype_t  item;
     mobjtype_t  type = target->type;
     mobj_t      *mo;
@@ -768,7 +769,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     {
         // count environment kills against you
         if (!source)
-            target->player->frags[target->player-players]++;
+            target->player->frags[target->player - players]++;
 
         target->flags &= ~MF_SOLID;
         target->player->playerstate = PST_DEAD;
@@ -778,7 +779,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             AM_Stop();          // don't die in auto map, switch view prior to dying
     }
 
-    if (target->health < -target->info->spawnhealth && target->info->xdeathstate)
+    if ((gibbed = target->health < -target->info->spawnhealth && target->info->xdeathstate))
         P_SetMobjState(target, (statenum_t)target->info->xdeathstate);
     else
         P_SetMobjState(target, (statenum_t)target->info->deathstate);
@@ -790,13 +791,19 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         static char     buf[128];
 
         if (source->player)
-            sprintf(buf, "You killed %s with your %s.", target->info->description,
-                weapondescription[source->player->readyweapon]);
-        else
         {
-            sprintf(buf, "%s killed %s.", source->info->description, target->info->description);
+            sprintf(buf, "You %s %s with your %s.",
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
+                (target->player ? "yourself" : target->info->description),
+                weapondescription[source->player->readyweapon]);
+        }
+        else if (target->player || players[consoleplayer].health > 0)
+        {
+            sprintf(buf, "%s killed %s%s", source->info->description,
+                target->info->description, (target->player ? ".\n" : "."));
             buf[0] = toupper(buf[0]);
         }
+
         if (obituaries)
             players[consoleplayer].message = buf;
         else
