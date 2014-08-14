@@ -25,6 +25,7 @@
 
 #include <stdio.h>
 
+#include "config.h"
 #include "i_video.h"
 #include "m_argv.h"
 
@@ -255,15 +256,13 @@ int main(int argc, char **argv)
     HANDLE hProcess = GetCurrentProcess();
 
 #ifdef WIN32
-    char        *mutex = "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD";
-
-    hInstanceMutex = CreateMutex(NULL, true, mutex);
+    hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS)
     {
         if (hInstanceMutex)
             CloseHandle(hInstanceMutex);
-        SetForegroundWindow(FindWindow(mutex, NULL));
+        SetForegroundWindow(FindWindow(PACKAGE_MUTEX, NULL));
         return 1;
     }
 

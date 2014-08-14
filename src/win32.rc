@@ -23,26 +23,31 @@
 ========================================================================
 */
 
-0 ICON DISCARDABLE "../res/doomretro.ico"
-DOOM ICON DISCARDABLE "../res/doom.ico"
+#include <windows.h>
+
+#include "config.h"
+
+0     ICON DISCARDABLE "../res/doomretro.ico"
+DOOM  ICON DISCARDABLE "../res/doom.ico"
 DOOM2 ICON DISCARDABLE "../res/doom2.ico"
 
-1 VERSIONINFO
-PRODUCTVERSION 1,5,2,0
-FILEVERSION 1,5,2,0
-FILETYPE 1
+VS_VERSION_INFO VERSIONINFO
+PRODUCTVERSION PACKAGE_VERSION
+FILEVERSION    PACKAGE_VERSION
+FILEOS         VOS__WINDOWS32
+FILETYPE       VFT_APP
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "040904E4"
         BEGIN
-            VALUE "FileVersion", "1.5.2"
-            VALUE "FileDescription", "DOOM RETRO v1.5.2"
-            VALUE "InternalName", "doomretro"
-            VALUE "CompanyName", "brad@doomretro.com"
-            VALUE "LegalCopyright", "(C) 2013-2014 Brad Harding. All rights reserved."
-            VALUE "ProductName", "DOOM RETRO"
-            VALUE "ProductVersion", "1.5.2"
+            VALUE "FileVersion",     PACKAGE_VERSION
+            VALUE "FileDescription", PACKAGE_DESCRIPTION
+            VALUE "InternalName",    PACKAGE
+            VALUE "CompanyName",     PACKAGE_EMAIL
+            VALUE "LegalCopyright",  PACKAGE_COPYRIGHT
+            VALUE "ProductName",     PACKAGE_NAME
+            VALUE "ProductVersion",  PACKAGE_VERSION
         END
     END
     BLOCK "VarFileInfo"

@@ -369,6 +369,7 @@
     <CustomBuildStep Include="..\src\wi_stuff.h" />
     <CustomBuildStep Include="..\src\z_zone.h" />
     <ClInclude Include="..\src\am_map.h" />
+    <ClInclude Include="..\src\config.h" />
     <ClInclude Include="..\src\doomdata.h" />
     <ClInclude Include="..\src\doomdef.h" />
     <ClInclude Include="..\src\doomkeys.h" />

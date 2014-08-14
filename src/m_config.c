@@ -27,6 +27,7 @@
 #include <ShlObj.h>
 #endif
 
+#include "config.h"
 #include "doomstat.h"
 #include "m_argv.h"
 #include "m_menu.h"
@@ -700,7 +701,7 @@ void M_LoadDefaults(void)
     if (i)
         doom_defaults.filename = myargv[i + 1];
     else
-        doom_defaults.filename = M_StringJoin(configdir, "doomretro.cfg", NULL);
+        doom_defaults.filename = M_StringJoin(configdir, PACKAGE_CONFIG, NULL);
 
     LoadDefaultCollection(&doom_defaults);
 }

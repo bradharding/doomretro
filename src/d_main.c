@@ -34,6 +34,7 @@
 #endif
 
 #include "am_map.h"
+#include "config.h"
 #include "d_iwad.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -606,7 +607,7 @@ static int D_ChooseIWAD(void)
             }
 
             // if it's a PWAD, determine the IWAD required and try loading that as well
-            else if (!D_CheckFilename(file, "DOOMRETRO.WAD")
+            else if (!D_CheckFilename(file, PACKAGE_WAD)
                      && W_WadType(file) == PWAD
                      && !D_IsUnsupportedPWAD(file))
             {
@@ -779,7 +780,7 @@ static int D_ChooseIWAD(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), pwad);
 
-                    if (!D_CheckFilename(pwad, "DOOMRETRO.WAD")
+                    if (!D_CheckFilename(pwad, PACKAGE_WAD)
                         && W_WadType(fullpath) == PWAD
                         && !D_IsUnsupportedPWAD(fullpath))
                     {
@@ -863,8 +864,8 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
 
-    if (!M_FileExists("doomretro.wad"))
-        I_Error("Can't find doomretro.wad.");
+    if (!M_FileExists(PACKAGE_WAD))
+        I_Error("Can't find %s.", PACKAGE_WAD);
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
 
@@ -972,15 +973,14 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if (!W_MergeFile("doomretro.wad"))
-        if (!W_MergeFile("doomretro.wad.temp"))
-            I_Error("Can't find doomretro.wad.");
+    if (!W_MergeFile(PACKAGE_WAD))
+        I_Error("Can't find %s.", PACKAGE_WAD);
 
     if (W_CheckNumForName("BLD2A0") < 0 ||
         W_CheckNumForName("MEDBA0") < 0 ||
         W_CheckNumForName("STBAR2") < 0 ||
         W_CheckNumForName("SPLSHTTL") < 0)
-        I_Error("Wrong version of doomretro.wad.");
+        I_Error("Wrong version of %s.", PACKAGE_WAD);
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
 
