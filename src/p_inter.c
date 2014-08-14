@@ -780,34 +780,32 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     }
 
     if ((gibbed = target->health < -target->info->spawnhealth && target->info->xdeathstate))
-        P_SetMobjState(target, (statenum_t)target->info->xdeathstate);
+        P_SetMobjState(target, target->info->xdeathstate);
     else
-        P_SetMobjState(target, (statenum_t)target->info->deathstate);
+        P_SetMobjState(target, target->info->deathstate);
 
     target->tics = MAX(1, target->tics - (P_Random() & 3));
 
     if (source)
     {
-        static char     buf[128];
+        static char     message[128];
 
         if (source->player)
         {
-            sprintf(buf, "You %s %s with your %s.",
+            sprintf(message, "You %s %s with your %s.",
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 (target->player ? "yourself" : target->info->description),
                 weapondescription[source->player->readyweapon]);
         }
         else if (target->player || players[consoleplayer].health > 0)
         {
-            sprintf(buf, "%s killed %s%s", source->info->description,
+            sprintf(message, "%s %s %s%s", source->info->description,
+                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 target->info->description, (target->player ? ".\n" : "."));
-            buf[0] = toupper(buf[0]);
+            message[0] = toupper(message[0]);
         }
 
-        if (obituaries)
-            players[consoleplayer].message = buf;
-        else
-            printf(buf);
+        printf(message);
     }
 
     // Drop stuff.
