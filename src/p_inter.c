@@ -792,16 +792,16 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
         if (source->player)
         {
-            sprintf(message, "You %s %s with your %s.",
+            sprintf(message, "You %s %s with your %s.\n",
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 (target->player ? "yourself" : target->info->description),
                 weapondescription[source->player->readyweapon]);
         }
         else if (target->player || players[consoleplayer].health > 0)
         {
-            sprintf(message, "%s %s %s%s", source->info->description,
+            sprintf(message, "%s %s %s.%s\n", source->info->description,
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                target->info->description, (target->player ? ".\n" : "."));
+                target->info->description, (target->player ? "\n" : ""));
             message[0] = toupper(message[0]);
         }
 
