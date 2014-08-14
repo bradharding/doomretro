@@ -37,6 +37,7 @@ void done_win32(void);
 #include <unistd.h>
 #endif
 
+#include "config.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "m_argv.h"
@@ -220,7 +221,7 @@ void I_Error(char *error, ...)
                         msgbuf, strlen(msgbuf) + 1,
                         wmsgbuf, sizeof(wmsgbuf));
 
-    MessageBoxW(NULL, wmsgbuf, L"DOOM RETRO", MB_ICONERROR | MB_OK);
+    MessageBoxW(NULL, wmsgbuf, PACKAGE_NAME_W, MB_ICONERROR | MB_OK);
 
     done_win32();
 

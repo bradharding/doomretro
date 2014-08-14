@@ -23,6 +23,7 @@
 ========================================================================
 */
 
+#include "config.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -1358,9 +1359,9 @@ void I_InitGraphics(void)
     SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
 #ifdef SDL20
-    SDL_SetWindowTitle(sdl_window, "DOOM RETRO");
+    SDL_SetWindowTitle(sdl_window, PACKAGE_NAME);
 #else
-    SDL_WM_SetCaption("DOOM RETRO", NULL);
+    SDL_WM_SetCaption(PACKAGE_NAME, NULL);
 #endif
 
     SDL_FillRect(screenbuffer, NULL, 0);

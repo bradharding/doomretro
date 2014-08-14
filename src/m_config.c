@@ -36,11 +36,6 @@
 //
 // DEFAULTS
 //
-
-// Location where all configuration data is stored -
-// doomretro.cfg, savegames, etc.
-char            *configdir;
-
 extern boolean  alwaysrun;
 extern int      bloodsplats;
 extern boolean  brightmaps;
@@ -701,18 +696,7 @@ void M_LoadDefaults(void)
     if (i)
         doom_defaults.filename = myargv[i + 1];
     else
-        doom_defaults.filename = M_StringJoin(configdir, PACKAGE_CONFIG, NULL);
+        doom_defaults.filename = PACKAGE_CONFIG;
 
     LoadDefaultCollection(&doom_defaults);
-}
-
-//
-// SetConfigDir:
-//
-// Sets the location of the configuration directory, where configuration
-// files are stored - doomretro.cfg, savegames, etc.
-//
-void M_SetConfigDir(void)
-{
-    configdir = strdup("");
 }

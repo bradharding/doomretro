@@ -505,16 +505,16 @@ static void InitGameVersion(void)
 static void D_FirstUse(void)
 {
 #ifdef WIN32
-    LPCWSTR msg = L"Thank you for downloading DOOM RETRO!\n\n"
+    LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
                   L"Please note that, as with all DOOM source ports, no actual map data is "
-                  L"distributed with DOOM RETRO.\n\n"
+                  L"distributed with " PACKAGE_NAME_W L".\n\n"
                   L"In the dialog box that follows, please navigate to where an official "
                   L"release of DOOM or DOOM II has been installed and select an \u201cIWAD "
-                  L"file\u201d that DOOM RETRO requires (such as DOOM.WAD or "
+                  L"file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
                   L"DOOM2.WAD). Additional \u201cPWAD files\u201d may also be selected by "
                   L"CTRL-clicking on them.";
 
-    if (MessageBoxW(NULL, msg, L"DOOM RETRO", MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
+    if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
         I_Quit(false);
 #endif
 }
@@ -819,8 +819,6 @@ static void D_DoomMainSetup(void)
     int     temp;
     int     choseniwad;
 
-    M_FindResponseFile();
-
     iwadfile = D_FindIWAD();
 
     iwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
@@ -831,12 +829,6 @@ static void D_DoomMainSetup(void)
     respawnparm = M_CheckParm("-respawn");
     fastparm = M_CheckParm("-fast");
     devparm = M_CheckParm("-devparm");
-    if (M_CheckParm("-altdeath"))
-        deathmatch = 2;
-    else if (M_CheckParm("-deathmatch"))
-        deathmatch = 1;
-
-    M_SetConfigDir();
 
     // turbo option
     p = M_CheckParm("-turbo");

@@ -511,18 +511,14 @@ static char *SaveGameIWADName(void)
 void D_SetSaveGameDir(void)
 {
     char *iwad_name = SaveGameIWADName();
-    char *topdir;
 
     if (iwad_name == NULL)
         iwad_name = "unknown.wad";
 
-    topdir = M_StringJoin(configdir, "savegames", NULL);
-    M_MakeDirectory(topdir);
+    M_MakeDirectory("savegames");
 
-    savegamedir = M_StringJoin(topdir, DIR_SEPARATOR_S, iwad_name, DIR_SEPARATOR_S, NULL);
+    savegamedir = M_StringJoin("savegames", DIR_SEPARATOR_S, iwad_name, DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamedir);
-
-    free(topdir);
 }
 
 //
