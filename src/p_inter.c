@@ -23,6 +23,7 @@
 ========================================================================
 */
 
+#include <ctype.h>
 #include <stdlib.h>
 
 #include "am_map.h"
@@ -36,10 +37,24 @@
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
-int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
-int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
+int     maxammo[NUMAMMO] = { 200, 50, 300, 50 };
+int     clipammo[NUMAMMO] = { 10, 4, 20, 1 };
+char    *weapondescription[] =
+{
+    "fist",
+    "pistol",
+    "shotgun",
+    "chaingun",
+    "rocket launcher",
+    "plasma rifle",
+    "BFG 9000",
+    "chainsaw",
+    "super shotgun"
+};
 
 boolean mirrorweapons = false;
+
+boolean obituaries = true;
 
 //
 // GET STUFF
@@ -740,7 +755,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             source->player->killcount++;
 
         if (target->player)
-            source->player->frags[target->player-players]++;
+            source->player->frags[target->player - players]++;
     }
     else if (!netgame && (target->flags & MF_COUNTKILL))
         // count all monster deaths, even those caused by other monsters
@@ -769,6 +784,24 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         P_SetMobjState(target, (statenum_t)target->info->deathstate);
 
     target->tics = MAX(1, target->tics - (P_Random() & 3));
+
+    if (source)
+    {
+        static char     buf[128];
+
+        if (source->player)
+            sprintf(buf, "You killed %s with your %s.", target->info->description,
+                weapondescription[source->player->readyweapon]);
+        else
+        {
+            sprintf(buf, "%s killed %s.", source->info->description, target->info->description);
+            buf[0] = toupper(buf[0]);
+        }
+        if (obituaries)
+            players[consoleplayer].message = buf;
+        else
+            printf(buf);
+    }
 
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.
