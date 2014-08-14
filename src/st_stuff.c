@@ -556,6 +556,7 @@ boolean ST_Responder(event_t *ev)
                     plyr->health = 0;//plyr->health = 100;
                     infight = false;
                     P_SetupPsprites(plyr);
+                    P_MapEnd();
                     ST_Start();
                     HU_Start();
                 }
