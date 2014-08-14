@@ -526,18 +526,22 @@ void HU_Ticker(void)
         HUlib_addMessageToSText(&w_message, 0, fps_str);
         message_on = true;
     }
-    else if (messages || message_dontfuckwithme)
+    else
     {
         // display message if necessary
         if ((plr->message && !message_nottobefuckedwith)
             || (plr->message && message_dontfuckwithme))
         {
-            HUlib_addMessageToSText(&w_message, 0, plr->message);
+            printf("%s\n", plr->message);
+            if (messages || message_dontfuckwithme)
+            {
+                HUlib_addMessageToSText(&w_message, 0, plr->message);
+                message_on = true;
+                message_counter = HU_MSGTIMEOUT;
+                message_nottobefuckedwith = message_dontfuckwithme;
+                message_dontfuckwithme = 0;
+            }
             plr->message = 0;
-            message_on = true;
-            message_counter = HU_MSGTIMEOUT;
-            message_nottobefuckedwith = message_dontfuckwithme;
-            message_dontfuckwithme = 0;
         }
     }
 }
