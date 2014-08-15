@@ -285,7 +285,7 @@ void R_DrawPlanes(void)
                             dc_x = x;
                             dc_source = R_GetColumn(skytexture,
                                 (viewangle + xtoviewangle[x]) >> ANGLETOSKYSHIFT);
-                            dc_texheight = 128;
+                            dc_texheight = textureheight[skytexture] >> FRACBITS;
                             skycolfunc();
                         }
                     }

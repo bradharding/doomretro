@@ -511,8 +511,8 @@ void G_DoLoadLevel(void)
 
     P_SetupLevel(gameepisode, gamemap);
 
-    skycolfunc = (canmodify && (gamemode != commercial || gamemap < 21) ?
-                  R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+    skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 &&
+        (gamemode != commercial || gamemap < 21) ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
 
     displayplayer = consoleplayer;              // view the guy you are playing
     gameaction = ga_nothing;
