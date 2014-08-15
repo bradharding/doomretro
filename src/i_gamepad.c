@@ -24,7 +24,6 @@
 */
 
 #ifdef WIN32
-
 #define WIN32_LEAN_AND_MEAN
 
 #include <Windows.h>
@@ -35,7 +34,6 @@ typedef DWORD(WINAPI *XINPUTSETSTATE)(DWORD, XINPUT_VIBRATION *);
 
 static XINPUTGETSTATE pXInputGetState;
 static XINPUTSETSTATE pXInputSetState;
-
 #endif
 
 #include "d_main.h"
@@ -46,23 +44,23 @@ static XINPUTSETSTATE pXInputSetState;
 #include "SDL.h"
 #include "SDL_joystick.h"
 
-static SDL_Joystick *gamepad = NULL;
+static SDL_Joystick     *gamepad = NULL;
 
-int gamepadbuttons = 0;
-int gamepadthumbLX;
-int gamepadthumbLY;
-int gamepadthumbRX;
+int                     gamepadbuttons = 0;
+int                     gamepadthumbLX;
+int                     gamepadthumbLY;
+int                     gamepadthumbRX;
 
-boolean vibrate = false;
+boolean                 vibrate = false;
+
+char                    *xinput;
+
+extern boolean          idclev;
+extern boolean          idmus;
+extern boolean          idbehold;
 
 void (*gamepadfunc)(void);
 void (*gamepadthumbsfunc)(short, short, short, short);
-
-char *xinput;
-
-extern boolean idclev;
-extern boolean idmus;
-extern boolean idbehold;
 
 void I_InitGamepad(void)
 {
@@ -123,6 +121,8 @@ void I_InitGamepad(void)
                 if (pXInputGetState && pXInputSetState)
                 {
                     XINPUT_STATE        state;
+
+                    ZeroMemory(&state, sizeof(XINPUT_STATE));
 
                     if (pXInputGetState(0, &state) == ERROR_SUCCESS)
                     {
