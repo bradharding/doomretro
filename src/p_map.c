@@ -1601,7 +1601,7 @@ boolean PIT_RadiusAttack(mobj_t *thing)
     else
     {
         dz = ABS(thing->z + (thing->height >> 1) - bombspot->z);
-        dist = MAX(0, MAX (dist, dz) >> FRACBITS);
+        dist = MAX(0, MAX(dist, dz) >> FRACBITS);
 
         if (dist >= bombdamage)
             return true;        // out of range

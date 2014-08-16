@@ -72,7 +72,7 @@ boolean wipe_initMelt(void)
     y = (int *)Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, 0);
     y[0] = y[1] = -(rand() % 16);
     for (i = 2; i < SCREENWIDTH - 1; i += 2)
-        y[i] = y[i + 1] = MAX(-15, MIN(y[i - 1] + (rand() % 3) - 1, 0));
+        y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + (rand() % 3) - 1, 0);
 
     return false;
 }

@@ -135,8 +135,8 @@ void P_XYMovement(mobj_t *mo)
         if (puffcount++ > 1)
             P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle, false);
 
-    xmove = mo->momx = MAX(-MAXMOVE, MIN(mo->momx, MAXMOVE));
-    ymove = mo->momy = MAX(-MAXMOVE, MIN(mo->momy, MAXMOVE));
+    xmove = mo->momx = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
+    ymove = mo->momy = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
 
     do
     {
@@ -1009,7 +1009,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     {
         mobj_t      *th;
 
-        z = MAX(minz, MIN(z + ((P_Random() - P_Random()) << 10), maxz));
+        z = BETWEEN(minz, z + ((P_Random() - P_Random()) << 10), maxz);
 
         th = P_SpawnMobj(x, y, z, MT_BLOOD);
 

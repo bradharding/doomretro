@@ -421,8 +421,8 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     mousex = 0;
     mousey = 0;
 
-    cmd->forwardmove += MAX(-MAXPLMOVE, MIN(forward, MAXPLMOVE));
-    cmd->sidemove += MAX(-MAXPLMOVE, MIN(side, MAXPLMOVE));
+    cmd->forwardmove += BETWEEN(-MAXPLMOVE, forward, MAXPLMOVE);
+    cmd->sidemove += BETWEEN(-MAXPLMOVE, side, MAXPLMOVE);
 
     // special buttons
     if (sendpause)

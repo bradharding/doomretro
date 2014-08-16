@@ -1287,8 +1287,8 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         // horizontal line
         int     sx = SIGN(dx);
 
-        x0 = MAX(-1, MIN(x0, MAPWIDTH - 1));
-        x1 = MAX(-1, MIN(x1, MAPWIDTH - 1));
+        x0 = BETWEEN(-1, x0, MAPWIDTH - 1);
+        x1 = BETWEEN(-1, x1, MAPWIDTH - 1);
 
         y0 *= MAPWIDTH;
 
@@ -1303,8 +1303,8 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         // vertical line
         int     sy = SIGN(dy) * MAPWIDTH;
 
-        y0 = MAX(-MAPWIDTH, MIN(y0 * MAPWIDTH, MAPAREA - MAPWIDTH));
-        y1 = MAX(-MAPWIDTH, MIN(y1 * MAPWIDTH, MAPAREA - MAPWIDTH));
+        y0 = BETWEEN(-MAPWIDTH, y0 * MAPWIDTH, MAPAREA - MAPWIDTH);
+        y1 = BETWEEN(-MAPWIDTH, y1 * MAPWIDTH, MAPAREA - MAPWIDTH);
 
         putdot(x0, y0, color);
         while (y0 != y1)
@@ -1732,8 +1732,8 @@ static void AM_drawThings(void)
                     int fx;
                     int fy;
                     int lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                    int w = MAX(24 << FRACBITS, MIN(MIN(spritewidth[lump], 
-                            spriteheight[lump]), 96 << FRACBITS)) >> 1;
+                    int w = BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
+                        96 << FRACBITS) >> 1;
 
                     if (rotate)
                         AM_rotatePoint(&x, &y);

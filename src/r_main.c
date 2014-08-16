@@ -357,7 +357,7 @@ void R_InitTextureMapping(void)
         else
         {
             t = (centerxfrac - FixedMul(tangent, focallength) + FRACUNIT - 1) >> FRACBITS;
-            t = MAX(-1, (MIN(t, highend)));
+            t = BETWEEN(-1, t, highend);
         }
         viewangletox[i] = t;
     }
@@ -404,8 +404,8 @@ void R_InitLightTables(void)
         {
             int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT);
 
-            zlight[i][j] = colormaps + MAX(0,
-                MIN(startmap - (scale >> LIGHTSCALESHIFT) / DISTMAP, NUMCOLORMAPS - 1)) * 256;
+            zlight[i][j] = colormaps + BETWEEN(0,
+                startmap - (scale >> LIGHTSCALESHIFT) / DISTMAP, NUMCOLORMAPS - 1) * 256;
         }
     }
 }
@@ -539,13 +539,11 @@ void R_ExecuteSetViewSize(void)
         for (j = 0; j < MAXLIGHTSCALE; j++)
         {
             scalelight[i][j] = colormaps + 
-                MAX(0, MIN(startmap - j * SCREENWIDTH / (viewwidth * DISTMAP),
-                           NUMCOLORMAPS - 1)) * 256;
+                BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
 
             // [BH] calculate separate light levels to use when drawing
             //  player's weapon, so it stays consistent regardless of view size
-            scalelight2[i][j] = colormaps + MAX(0, 
-                MIN(startmap - j / DISTMAP, NUMCOLORMAPS - 1)) * 256;
+            scalelight2[i][j] = colormaps + BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
         }
     }
 }

@@ -294,7 +294,7 @@ void R_DrawPlanes(void)
 
                     planeheight = ABS(pl->height - viewz);
 
-                    planezlight = zlight[MAX(0, MIN(light, LIGHTLEVELS - 1))];
+                    planezlight = zlight[BETWEEN(0, light, LIGHTLEVELS - 1)];
 
                     pl->top[pl->minx - 1] = pl->top[stop] = SHRT_MAX;
 

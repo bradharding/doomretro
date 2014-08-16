@@ -45,6 +45,11 @@ int MIN(int a, int b)
     return b + (a & (a >> 31));
 }
 
+int BETWEEN(int a, int b, int c)
+{
+    return MAX(a, MIN(b, c));
+}
+
 int SIGN(int a)
 {
     return 1 | (a >> 31);

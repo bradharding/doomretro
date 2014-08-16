@@ -570,7 +570,7 @@ void R_AddSprites(sector_t *sec)
     sec->validcount = validcount;
 
     lightnum = (sec->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-    spritelights = scalelight[MAX(0, MIN(lightnum, LIGHTLEVELS - 1))];
+    spritelights = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
 
     // Handle all things in sector.
     for (thing = sec->thinglist; thing; thing = thing->snext)
@@ -683,8 +683,8 @@ void R_DrawPSprite(pspdef_t *psp)
             int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
                            + extralight * LIGHTBRIGHT;
 
-            vis->colormap = scalelight2[MAX(0, MIN(lightnum, LIGHTLEVELS - 1))]
-                [MAX(0, MIN(lightnum + 8, MAXLIGHTSCALE - 1))];
+            vis->colormap = scalelight2[BETWEEN(0, lightnum, LIGHTLEVELS - 1)]
+                [BETWEEN(0, lightnum + 8, MAXLIGHTSCALE - 1)];
         }
     }
 
