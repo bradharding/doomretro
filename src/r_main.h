@@ -68,7 +68,7 @@ extern int              loopcount;
 #define LIGHTZSHIFT             20
 
 extern lighttable_t     *scalelight[LIGHTLEVELS][MAXLIGHTSCALE];
-extern lighttable_t     *scalelight2[LIGHTLEVELS][MAXLIGHTSCALE];
+extern lighttable_t     *psprscalelight[LIGHTLEVELS][MAXLIGHTSCALE];
 extern lighttable_t     *scalelightfixed[MAXLIGHTSCALE];
 extern lighttable_t     *zlight[LIGHTLEVELS][MAXLIGHTZ];
 

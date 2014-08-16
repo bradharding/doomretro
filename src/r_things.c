@@ -665,26 +665,33 @@ void R_DrawPSprite(pspdef_t *psp)
 
     invisibility = viewplayer->powers[pw_invisibility];
     if (invisibility > 128 || (invisibility & 8))
-        vis->colfunc = psprcolfunc;                             // shadow draw
-    else if (state == &states[S_DSGUN])
-        vis->colfunc = R_DrawSuperShotgunColumn;
-    else
-        vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
-
-    if (fixedcolormap)
-        vis->colormap = fixedcolormap;                          // fixed color
+    {
+        // shadow draw
+        vis->colfunc = psprcolfunc;
+        vis->colormap = colormaps;
+    }
     else
     {
-        if (flash || (state->frame & FF_FULLBRIGHT))
-            vis->colormap = colormaps;                          // full bright
+        if (state == &states[S_DSGUN])
+            vis->colfunc = R_DrawSuperShotgunColumn;
+        else
+            vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
+
+        if (fixedcolormap)
+            vis->colormap = fixedcolormap;                          // fixed color
         else
         {
-            // local light
-            int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
-                           + extralight * LIGHTBRIGHT;
+            if (flash || (state->frame & FF_FULLBRIGHT))
+                vis->colormap = colormaps;                          // full bright
+            else
+            {
+                // local light
+                int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
+                    + extralight * LIGHTBRIGHT;
 
-            vis->colormap = scalelight2[BETWEEN(0, lightnum, LIGHTLEVELS - 1)]
-                [BETWEEN(0, lightnum + 8, MAXLIGHTSCALE - 1)];
+                vis->colormap = psprscalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)]
+                    [BETWEEN(0, lightnum + 8, MAXLIGHTSCALE - 1)];
+            }
         }
     }
 

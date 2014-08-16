@@ -81,7 +81,7 @@ angle_t                 xtoviewangle[SCREENWIDTH + 1];
 fixed_t                 *finecosine = &finesine[FINEANGLES / 4];
 
 lighttable_t            *scalelight[LIGHTLEVELS][MAXLIGHTSCALE];
-lighttable_t            *scalelight2[LIGHTLEVELS][MAXLIGHTSCALE];
+lighttable_t            *psprscalelight[LIGHTLEVELS][MAXLIGHTSCALE];
 lighttable_t            *scalelightfixed[MAXLIGHTSCALE];
 lighttable_t            *zlight[LIGHTLEVELS][MAXLIGHTZ];
 
@@ -543,7 +543,7 @@ void R_ExecuteSetViewSize(void)
 
             // [BH] calculate separate light levels to use when drawing
             //  player's weapon, so it stays consistent regardless of view size
-            scalelight2[i][j] = colormaps + BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            psprscalelight[i][j] = colormaps + BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
         }
     }
 }
