@@ -359,54 +359,40 @@ void R_DrawFullbrightWallColumn(byte *colormask)
 void R_DrawPlayerSpriteColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
-    byte                *dest;
-    fixed_t             frac;
+    byte                *dest = ylookup2[dc_yl] + dc_x + viewwindowx;
+    fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
-
-    dest = ylookup2[dc_yl] + dc_x + viewwindowx;
-
-    frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
     while (--count)
     {
-        *dest = dc_colormap[dc_source[frac >> FRACBITS]];
+        *dest = dc_source[frac >> FRACBITS];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = dc_colormap[dc_source[frac >> FRACBITS]];
+    *dest = dc_source[frac >> FRACBITS];
 }
 
 void R_DrawSuperShotgunColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl;
-    byte                *dest;
-    fixed_t             frac;
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup[dc_yl] + dc_x + viewwindowx;
+    fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
+    byte                dot;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
 
-    if (count++ < 0)
-        return;
-
-    dest = ylookup[dc_yl] + dc_x + viewwindowx;
-
-    frac = dc_texturefrac;
-
+    while (--count)
     {
-        byte                    dot;
-        const byte              *source = dc_source;
-        const lighttable_t      *colormap = dc_colormap;
-
-        while (--count)
-        {
-            dot = source[frac >> FRACBITS];
-            if (dot != 71)
-                *dest = colormap[dot];
-            dest += SCREENWIDTH;
-            frac += fracstep;
-        }
         dot = source[frac >> FRACBITS];
         if (dot != 71)
             *dest = colormap[dot];
+        dest += SCREENWIDTH;
+        frac += fracstep;
     }
+    dot = source[frac >> FRACBITS];
+    if (dot != 71)
+        *dest = colormap[dot];
 }
 
 void R_DrawSkyColumn(void)

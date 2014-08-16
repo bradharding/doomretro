@@ -663,11 +663,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     vis->patch = lump;
 
     if (invisibility)
-    {
-        // shadow draw
-        vis->colfunc = psprcolfunc;
-        vis->colormap = colormaps;
-    }
+        vis->colfunc = psprcolfunc;             // shadow draw
     else
     {
         if (state == &states[S_DSGUN])
@@ -676,11 +672,11 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
             vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
 
         if (fixedcolormap)
-            vis->colormap = fixedcolormap;                          // fixed color
+            vis->colormap = fixedcolormap;      // fixed color
         else
         {
             if (flash || (state->frame & FF_FULLBRIGHT))
-                vis->colormap = colormaps;                          // full bright
+                vis->colormap = colormaps;      // full bright
             else
             {
                 // local light
