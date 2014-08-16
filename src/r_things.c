@@ -582,7 +582,7 @@ void R_AddSprites(sector_t *sec)
 //
 static boolean flash;
 
-void R_DrawPSprite(pspdef_t *psp)
+static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
 {
     fixed_t             tx;
     int                 x1, x2;
@@ -593,7 +593,6 @@ void R_DrawPSprite(pspdef_t *psp)
     vissprite_t         *vis;
     vissprite_t         avis;
     state_t             *state;
-    int                 invisibility;
 
     void (*colfuncs[])(void) =
     {
@@ -663,8 +662,7 @@ void R_DrawPSprite(pspdef_t *psp)
 
     vis->patch = lump;
 
-    invisibility = viewplayer->powers[pw_invisibility];
-    if (invisibility > 128 || (invisibility & 8))
+    if (invisibility)
     {
         // shadow draw
         vis->colfunc = psprcolfunc;
@@ -701,7 +699,7 @@ void R_DrawPSprite(pspdef_t *psp)
 //
 // R_DrawPlayerSprites
 //
-void R_DrawPlayerSprites(void)
+static void R_DrawPlayerSprites(void)
 {
     int         i;
     int         invisibility = viewplayer->powers[pw_invisibility];
@@ -712,23 +710,23 @@ void R_DrawPlayerSprites(void)
     mceilingclip = negonearray;
 
     // add all active psprites
-    flash = false;
-    for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
-        if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
-            flash = true;
     if (invisibility > 128 || (invisibility & 8))
     {
         V_FillRect(1, viewwindowx, viewwindowy, viewwidth, viewheight, 251);
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
-                R_DrawPSprite(psp);
+                R_DrawPSprite(psp, true);
         R_DrawFuzzColumns();
     }
     else
     {
+        flash = false;
+        for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
+            if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
+                flash = true;
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
-                R_DrawPSprite(psp);
+                R_DrawPSprite(psp, false);
     }
 }
 
@@ -738,7 +736,6 @@ void R_DrawPlayerSprites(void)
 // Rewritten by Lee Killough to avoid using unnecessary
 // linked lists, and to use faster sorting algorithm.
 //
-
 #define bcopyp(d, s, n) memcpy(d, s, (n) * sizeof(void *))
 
 // killough 9/2/98: merge sort
