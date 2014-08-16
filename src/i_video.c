@@ -528,29 +528,35 @@ void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                idclev = false;
-                idmus = false;
-                if (idbehold)
+                if (mouseSensitivity || menuactive)
                 {
-                    HU_clearMessages();
-                    idbehold = false;
+                    idclev = false;
+                    idmus = false;
+                    if (idbehold)
+                    {
+                        HU_clearMessages();
+                        idbehold = false;
+                    }
+                    ev.type = ev_mouse;
+                    mouse_button_state |= buttons[sdlevent.button.button];
+                    ev.data1 = mouse_button_state;
+                    ev.data2 = 0;
+                    ev.data3 = 0;
+                    D_PostEvent(&ev);
                 }
-                ev.type = ev_mouse;
-                mouse_button_state |= buttons[sdlevent.button.button];
-                ev.data1 = mouse_button_state;
-                ev.data2 = 0;
-                ev.data3 = 0;
-                D_PostEvent(&ev);
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                keydown = 0;
-                ev.type = ev_mouse;
-                mouse_button_state &= ~buttons[sdlevent.button.button];
-                ev.data1 = mouse_button_state;
-                ev.data2 = 0;
-                ev.data3 = 0;
-                D_PostEvent(&ev);
+                if (mouseSensitivity || menuactive)
+                {
+                    keydown = 0;
+                    ev.type = ev_mouse;
+                    mouse_button_state &= ~buttons[sdlevent.button.button];
+                    ev.data1 = mouse_button_state;
+                    ev.data2 = 0;
+                    ev.data3 = 0;
+                    D_PostEvent(&ev);
+                }
                 break;
 
             case SDL_JOYBUTTONUP:
@@ -664,8 +670,11 @@ static void I_ReadMouse(void)
 void I_StartTic(void)
 {
     I_GetEvent();
-    I_ReadMouse();
-    gamepadfunc();
+    if (mouseSensitivity || menuactive)
+    {
+        I_ReadMouse();
+        gamepadfunc();
+    }
 }
 
 boolean currently_grabbed = false;
