@@ -44,14 +44,14 @@ visplane_t              *ceilingplane;
     (((unsigned)(picnum) * 3 + (unsigned)(lightlevel) + (unsigned)(height) * 7) & (MAXVISPLANES - 1))
 
 size_t                 maxopenings;
-int                    *openings;
-int                    *lastopening;
+int                    *openings;                       // dropoff overflow
+int                    *lastopening;                    // dropoff overflow
 
 // Clip values are the solid pixel bounding the range.
 //  floorclip starts out SCREENHEIGHT
 //  ceilingclip starts out -1
-int                     floorclip[SCREENWIDTH];
-int                     ceilingclip[SCREENWIDTH];
+int                     floorclip[SCREENWIDTH];         // dropoff overflow
+int                     ceilingclip[SCREENWIDTH];       // dropoff overflow
 
 // spanstart holds the start of a plane span
 // initialized to 0 at start
@@ -63,8 +63,6 @@ static fixed_t          planeheight;
 
 fixed_t                 yslope[SCREENHEIGHT];
 fixed_t                 distscale[SCREENWIDTH];
-static fixed_t          basexscale;
-static fixed_t          baseyscale;
 
 //
 // R_MapPlane
@@ -72,8 +70,6 @@ static fixed_t          baseyscale;
 // Uses global vars:
 //  planeheight
 //  ds_source
-//  basexscale
-//  baseyscale
 //  viewx
 //  viewy
 //
@@ -91,10 +87,10 @@ static void R_MapPlane(int y, int x1, int x2)
     ds_xfrac = viewx + (int)(viewcos * realy) + (x1 - centerx) * ds_xstep;
     ds_yfrac = -viewy - (int)(viewsin * realy) + (x1 - centerx) * ds_ystep;
 
-    if (!fixedcolormap)
-        ds_colormap = planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
-    else
+    if (fixedcolormap)
         ds_colormap = fixedcolormap;
+    else
+        ds_colormap = planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
 
     ds_y = y;
     ds_x1 = x1;
@@ -123,16 +119,12 @@ void R_ClearPlanes(void)
             freehead = &(*freehead)->next;
 
     lastopening = openings;
-
-    // scale will be unit scale at SCREENWIDTH / 2 distance
-    basexscale = FixedDiv(viewsin, projection);
-    baseyscale = FixedDiv(viewcos, projection);
 }
 
 // New function, by Lee Killough
 static visplane_t *new_visplane(unsigned hash)
 {
-    visplane_t *check = freetail;
+    visplane_t  *check = freetail;
 
     if (!check)
         check = calloc(1, sizeof(*check));
@@ -275,6 +267,7 @@ void R_DrawPlanes(void)
                     //  by INVUL inverse mapping.
                     dc_colormap = (fixedcolormap ? fixedcolormap : colormaps);
                     dc_texturemid = skytexturemid;
+                    dc_texheight = textureheight[skytexture] >> FRACBITS;
                     for (x = pl->minx; x <= pl->maxx; x++)
                     {
                         dc_yl = pl->top[x];
@@ -285,7 +278,6 @@ void R_DrawPlanes(void)
                             dc_x = x;
                             dc_source = R_GetColumn(skytexture,
                                 (viewangle + xtoviewangle[x]) >> ANGLETOSKYSHIFT);
-                            dc_texheight = textureheight[skytexture] >> FRACBITS;
                             skycolfunc();
                         }
                     }
@@ -298,7 +290,7 @@ void R_DrawPlanes(void)
                     int lumpnum = firstflat + flattranslation[pl->picnum];
                     int x;
 
-                    ds_source = (byte *)W_CacheLumpNum(lumpnum, PU_STATIC);
+                    ds_source = W_CacheLumpNum(lumpnum, PU_STATIC);
 
                     planeheight = ABS(pl->height - viewz);
 
