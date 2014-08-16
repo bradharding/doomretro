@@ -71,10 +71,10 @@ static int      *maskedtexturecol;
 boolean         brightmaps = true;
 
 //[kb] hack to improve rendering precision (wall wiggle)
-int	max_rwscale = 64 * FRACUNIT;
-int	heightbits = 12;
-int	heightunit;
-int	invhgtbits;
+int             max_rwscale = 64 * FRACUNIT;
+int             heightbits = 12;
+int             heightunit;
+int             invhgtbits;
 
 //[kb] Adjusts renderer wall/texture precision based on the maximum difference in height
 // of all adjoining sectors. P_SetupWiggleFix() passes max_diff, which is what is needed
@@ -85,7 +85,8 @@ int	invhgtbits;
 // Of course, levels with sectors this large WILL suffer from some wall wiggle...
 void R_SetWiggleHack(int max_diff)
 {
-    int max_scale, h_bits;
+    int max_scale;
+    int h_bits;
 
     if (max_diff < 256)
         max_diff = 256;
@@ -146,10 +147,13 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     texnum = texturetranslation[curline->sidedef->midtexture];
 
     lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-    if (curline->v1->y == curline->v2->y)
-        lightnum -= LIGHTBRIGHT;
-    else if (curline->v1->x == curline->v2->x)
-        lightnum += LIGHTBRIGHT;
+    if (frontsector->ceilingpic != skyflatnum)
+    {
+        if (curline->v1->y == curline->v2->y)
+            lightnum -= LIGHTBRIGHT;
+        else if (curline->v1->x == curline->v2->x)
+            lightnum += LIGHTBRIGHT;
+    }
 
     walllights = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
 
@@ -186,7 +190,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
         // calculate lighting
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
-            int64_t t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
+            int64_t     t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
             if (t + (int64_t)textureheight[texnum] * spryscale < 0 ||
                 t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
@@ -282,7 +286,10 @@ void R_RenderSegLoop(void)
 
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
-            dc_colormap = walllights[MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+            if (fixedcolormap)
+                dc_colormap = fixedcolormap;
+            else
+                dc_colormap = walllights[MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
             dc_x = rw_x;
             dc_iscale = 0xffffffffu / (unsigned)rw_scale;
         }
@@ -408,6 +415,7 @@ void R_StoreWallRange(int start, int stop)
     fixed_t     hyp;
     angle_t     offsetangle;
     int         lightnum;
+    boolean     sky;
 
     sidedef = curline->sidedef;
     linedef = curline->linedef;
@@ -588,11 +596,9 @@ void R_StoreWallRange(int start, int stop)
         worldlow = backsector->floorheight - viewz;
 
         // hack to allow height changes in outdoor areas
-        if (frontsector->ceilingpic == skyflatnum
-            && backsector->ceilingpic == skyflatnum)
-        {
+        sky = (frontsector->ceilingpic == skyflatnum);
+        if (sky && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
-        }
 
         if (worldlow != worldbottom
             || backsector->floorpic != frontsector->floorpic
@@ -700,10 +706,13 @@ void R_StoreWallRange(int start, int stop)
         {
             lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
 
-            if (curline->v1->y == curline->v2->y)
-                lightnum -= LIGHTBRIGHT;
-            else if (curline->v1->x == curline->v2->x)
-                lightnum += LIGHTBRIGHT;
+            if (!sky)
+            {
+                if (curline->v1->y == curline->v2->y)
+                    lightnum -= LIGHTBRIGHT;
+                else if (curline->v1->x == curline->v2->x)
+                    lightnum += LIGHTBRIGHT;
+            }
 
             walllights = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
         }
@@ -718,7 +727,7 @@ void R_StoreWallRange(int start, int stop)
         markfloor = false;
     }
 
-    if (frontsector->ceilingheight <= viewz && frontsector->ceilingpic != skyflatnum)
+    if (frontsector->ceilingheight <= viewz && !sky)
     {
         // below view plane
         markceiling = false;
