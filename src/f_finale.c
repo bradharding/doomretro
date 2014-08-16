@@ -627,7 +627,7 @@ void F_CastDrawer(void)
     patch_t             *patch;
 
     // erase the entire screen to a background
-    V_DrawPatch(0, 0, 0, (patch_t *)W_CacheLumpName("BOSSBACK", PU_CACHE));
+    V_DrawPatch(0, 0, 0, W_CacheLumpName("BOSSBACK", PU_CACHE));
 
     F_CastPrint(castorder[castnum].name);
 
@@ -639,7 +639,7 @@ void F_CastDrawer(void)
     lump = sprframe->lump[rot];
     flip = (boolean)sprframe->flip[rot];
 
-    patch = (patch_t *)W_CacheLumpNum(lump + firstspritelump, PU_CACHE);
+    patch = W_CacheLumpNum(lump + firstspritelump, PU_CACHE);
 
     patch->topoffset = spritetopoffset[lump] >> FRACBITS;
 

@@ -27,6 +27,7 @@
 #include <Shlobj.h>
 #endif
 
+#include "config.h"
 #include "doomstat.h"
 #include "d_main.h"
 #include "i_swap.h"
@@ -565,7 +566,7 @@ void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
 }
 
 //
-// V_DrawPatchInDirectFlipped
+// V_DrawPatchFlipped
 //
 // The co-ordinates for this procedure are always based upon a
 // 320x200 screen and multiplies the size of the patch by the
@@ -1034,7 +1035,7 @@ boolean V_ScreenShot(void)
         else
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", mapname, count);
         count++;
-        M_snprintf(lbmpath, sizeof(lbmpath), "%s\\DOOM RETRO", folder);
+        M_snprintf(lbmpath, sizeof(lbmpath), "%s\\" PACKAGE_NAME, folder);
         M_MakeDirectory(lbmpath);
         M_snprintf(lbmpath, sizeof(lbmpath), "%s\\%s", lbmpath, lbmname);
     } while (M_FileExists(lbmpath));

@@ -180,7 +180,8 @@ void R_InitSpriteDefs(char **namelist)
 
     for (i = 0; i < numentries; i++)            // Prepend each sprite to hash chain
     {                                           // prepend so that later ones win
-        int j = R_SpriteNameHash(lumpinfo[i + firstspritelump].name) % numentries;
+        int     j = R_SpriteNameHash(lumpinfo[i + firstspritelump].name) % numentries;
+
         hash[i].next = hash[j].index;
         hash[j].index = i;
     }
@@ -238,7 +239,8 @@ void R_InitSpriteDefs(char **namelist)
                             // must have all 8 frames
                         {
                             int rotation;
-                            for (rotation = 0; rotation<8; rotation++)
+
+                            for (rotation = 0; rotation < 8; rotation++)
                                 if (sprtemp[frame].lump[rotation] == -1)
                                     I_Error("R_InitSprites: Sprite %.8s frame %c "
                                         "is missing rotations", namelist[i], frame + 'A');
@@ -318,7 +320,7 @@ void R_DrawMaskedColumn(column_t *column)
 {
     while (column->topdelta != 0xff)
     {
-        int topscreen;
+        int     topscreen;
 
         if (column->length == 0)
         {
@@ -337,8 +339,8 @@ void R_DrawMaskedColumn(column_t *column)
         if (dc_yl <= mceilingclip[dc_x])
             dc_yl = mceilingclip[dc_x] + 1;
 
-        dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS)
-                         + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+        dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
+            FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
 
         if (dc_texturefrac < 0)
         {
@@ -349,8 +351,8 @@ void R_DrawMaskedColumn(column_t *column)
         }
 
         {
-            const fixed_t endfrac = dc_texturefrac + (dc_yh - dc_yl) * dc_iscale;
-            const fixed_t maxfrac = column->length << FRACBITS;
+            const fixed_t       endfrac = dc_texturefrac + (dc_yh - dc_yl) * dc_iscale;
+            const fixed_t       maxfrac = column->length << FRACBITS;
 
             if (endfrac >= maxfrac)
                 dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
@@ -375,7 +377,6 @@ int     fuzzpos;
 void R_DrawVisSprite(vissprite_t *vis)
 {
     column_t    *column;
-    int         texturecolumn;
     fixed_t     frac;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
 
@@ -407,8 +408,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
     {
-        texturecolumn = frac >> FRACBITS;
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[texturecolumn]));
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS]));
         R_DrawMaskedColumn(column);
     }
 
@@ -422,15 +422,8 @@ void R_DrawVisSprite(vissprite_t *vis)
 //
 void R_ProjectSprite(mobj_t *thing)
 {
-    fixed_t             tr_x;
-    fixed_t             tr_y;
-
-    fixed_t             gxt;
-    fixed_t             gyt;
     fixed_t             gzt;
-
     fixed_t             tx;
-    fixed_t             tz;
 
     fixed_t             xscale;
 
@@ -441,22 +434,20 @@ void R_ProjectSprite(mobj_t *thing)
     spriteframe_t       *sprframe;
     int                 lump;
 
-    unsigned int        rot;
     boolean             flip;
 
     vissprite_t         *vis;
 
-    angle_t             ang;
     fixed_t             iscale;
 
     // transform the origin point
-    tr_x = thing->x - viewx;
-    tr_y = thing->y - viewy;
+    fixed_t             tr_x = thing->x - viewx;
+    fixed_t             tr_y = thing->y - viewy;
 
-    gxt = FixedMul(tr_x, viewcos);
-    gyt = -FixedMul(tr_y, viewsin);
+    fixed_t             gxt = FixedMul(tr_x, viewcos);
+    fixed_t             gyt = -FixedMul(tr_y, viewsin);
 
-    tz = gxt - gyt;
+    fixed_t             tz = gxt - gyt;
 
     // thing is behind view plane?
     if (tz < MINZ)
@@ -482,8 +473,9 @@ void R_ProjectSprite(mobj_t *thing)
     if (sprframe->rotate)
     {
         // choose a different rotation based on player view
-        ang = R_PointToAngle(thing->x, thing->y);
-        rot = (ang - thing->angle + (unsigned)(ANG45 / 2) * 9) >> 29;
+        angle_t         ang = R_PointToAngle(thing->x, thing->y);
+        unsigned int    rot = (ang - thing->angle + (unsigned)(ANG45 / 2) * 9) >> 29;
+
         lump = sprframe->lump[rot];
         flip = (boolean)sprframe->flip[rot];
     }
@@ -514,8 +506,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     gzt = thing->z + spritetopoffset[lump];
 
-    if (thing->z > viewz + FixedDiv(viewheight << FRACBITS, xscale)
-        || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
+    if (thing->z > viewz + FixedDiv(centeryfrac, xscale) ||
+        gzt < viewz - FixedDiv(centeryfrac - viewheight, xscale))
         return;
 
     // store information in a vissprite
@@ -531,7 +523,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gzt = gzt;
     vis->texturemid = vis->gzt - viewz;
     vis->x1 = MAX(0, x1);
-    vis->x2 = (x2 >= viewwidth ? viewwidth - 1 : x2);
+    vis->x2 = MIN(x2, viewwidth - 1);
     iscale = FixedDiv(FRACUNIT, xscale);
 
     if (flip)
@@ -551,14 +543,11 @@ void R_ProjectSprite(mobj_t *thing)
 
     // get light level
     if (fixedcolormap)
-        vis->colormap = fixedcolormap;                          // fixed map
+        vis->colormap = fixedcolormap;          // fixed map
     else if (thing->frame & FF_FULLBRIGHT)
-        vis->colormap = colormaps;                              // full bright
-    else if (thing->type == MT_BLOOD || thing->type == MT_BLOODSPLAT)
+        vis->colormap = colormaps;              // full bright
+    else                                        // diminished light
         vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
-    else
-        vis->colormap = spritelights[MIN(((xscale * 160 / centerx) >> LIGHTSCALESHIFT),
-                                     MAXLIGHTSCALE - 1)];       // diminished light
 }
 
 //

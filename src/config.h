@@ -28,8 +28,9 @@ along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
 #define PACKAGE_COPYRIGHT       "(C) 2013-2014 Brad Harding. All rights reserved."
 #define PACKAGE_EMAIL           "brad@doomretro.com"
 #define PACKAGE_MUTEX           "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
-#define PACKAGE_NAME            "DOOM RETRO"
+#define PACKAGE_NAME_A          "DOOM RETRO"
 #define PACKAGE_NAME_W          L"DOOM RETRO"
+#define PACKAGE_NAME            PACKAGE_NAME_A
 #define PACKAGE_DESCRIPTION     "DOOM RETRO v1.666"
 #define PACKAGE_VERSION         1,666,0,0
 #define PACKAGE_VERSIONSTRING   "1.666"
