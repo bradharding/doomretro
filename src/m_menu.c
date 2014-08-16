@@ -2024,6 +2024,7 @@ boolean M_Responder(event_t *ev)
             {
                 key = KEY_ESCAPE;
                 currentMenu = &MainDef;
+                itemOn = MainDef.lastOn;
                 gamepadwait = I_GetTime() + 8;
                 usinggamepad = true;
             }
