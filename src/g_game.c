@@ -204,6 +204,8 @@ static int      turnheld;               // for accelerative turning
 static boolean  mousearray[MAX_MOUSE_BUTTONS + 1];
 static boolean  *mousebuttons = &mousearray[1]; // allow [-1]
 
+boolean         skipaction;
+
 int             mousex;
 int             mousey;
 
@@ -323,11 +325,16 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         side -= (int)(sidemove[speed] * gamepadthumbLXleft);
 
     // buttons
-    if (gamekeydown[key_fire] || mousebuttons[mousebfire] || (gamepadbuttons & gamepadfire))
-        cmd->buttons |= BT_ATTACK;
+    if (skipaction)
+        skipaction = false;
+    else
+    {
+        if (gamekeydown[key_fire] || mousebuttons[mousebfire] || (gamepadbuttons & gamepadfire))
+            cmd->buttons |= BT_ATTACK;
 
-    if (gamekeydown[key_use] || (gamepadbuttons & gamepaduse))
-        cmd->buttons |= BT_USE;
+        if (gamekeydown[key_use] || (gamepadbuttons & gamepaduse))
+            cmd->buttons |= BT_USE;
+    }
 
     if (!idclev && !idmus)
     {

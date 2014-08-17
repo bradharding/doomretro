@@ -32,6 +32,7 @@
 
 extern boolean  followplayer;
 extern boolean  oldweaponsowned[];
+extern boolean  skipaction;
 
 void G_RemoveChoppers(void);
 
@@ -229,6 +230,7 @@ void P_DeathThink(player_t *player)
         damagevibrationtics = 1;
         player->playerstate = PST_REBORN;
         facingkiller = false;
+        skipaction = true;
     }
     else
         count++;

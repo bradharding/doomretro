@@ -60,6 +60,8 @@ extern boolean  hud;
 
 extern boolean  splashscreen;
 
+extern boolean  skipaction;
+
 //
 // defaulted values
 //
@@ -2709,7 +2711,8 @@ boolean M_Responder(event_t *ev)
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
             }
-            return (currentMenu == &LoadDef || currentMenu == &SaveDef);
+            skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef);
+            return skipaction;
         }
 
         else if (key == KEY_ESCAPE && !keydown)
