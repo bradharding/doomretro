@@ -378,6 +378,9 @@ void D_PageDrawer(void)
     {
         patch_t *ttl = W_CacheLumpName("SPLSHTTL", PU_CACHE);
         patch_t *txt = W_CacheLumpName("SPLSHTXT", PU_CACHE);
+        int     pal = (pagetic >= 96 ? pagetic - 96 : (pagetic < 9 ? 9 - pagetic - 1 : 0));
+
+        I_SetPalette((byte *)W_CacheLumpName("SPLSHPAL", PU_CACHE) + pal * 768);
 
         V_DrawBigPatch((SCREENWIDTH - ttl->width) / 2, (SCREENHEIGHT - ttl->height) / 2, 0, ttl);
         V_DrawBigPatch((SCREENWIDTH - txt->width) / 2, SCREENHEIGHT - txt->height - 2, 0, txt);
@@ -414,7 +417,6 @@ void D_DoAdvanceTitle(void)
     {
         case 0:
             pagetic = 3 * TICRATE;
-            I_SetPalette(W_CacheLumpName("SPLSHPAL", PU_CACHE));
             splashscreen = true;
             break;
 
