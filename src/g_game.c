@@ -143,23 +143,23 @@ int             mousebstrafe = -1;
 int             mousebforward = -1;
 int             mousewheelup = 3;
 
-int             gamepadautomap = GAMEPAD_BACK;
-int             gamepadfire = GAMEPAD_RIGHT_TRIGGER;
-int             gamepadmenu = GAMEPAD_START;
-int             gamepadnextweapon = GAMEPAD_B;
-int             gamepadprevweapon = GAMEPAD_Y;
-int             gamepadspeed = GAMEPAD_LEFT_TRIGGER;
-int             gamepaduse = GAMEPAD_A;
-int             gamepadweapon1 = 0;
-int             gamepadweapon2 = 0;
-int             gamepadweapon3 = 0;
-int             gamepadweapon4 = 0;
-int             gamepadweapon5 = 0;
-int             gamepadweapon6 = 0;
-int             gamepadweapon7 = 0;
+int             gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
+int             gamepadfire = GAMEPADFIRE_DEFAULT;
+int             gamepadmenu = GAMEPADMENU_DEFAULT;
+int             gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
+int             gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
+int             gamepadspeed = GAMEPADSPEED_DEFAULT;
+int             gamepaduse = GAMEPADUSE_DEFAULT;
+int             gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
+int             gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
+int             gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
+int             gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
+int             gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
+int             gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
+int             gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
-int             gamepadlefthanded = 0;
-int             gamepadvibrate = 1;
+boolean         gamepadlefthanded = false;
+boolean         gamepadvibrate = true;
 
 #define MAXPLMOVE       forwardmove[1]
 

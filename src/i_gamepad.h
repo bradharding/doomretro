@@ -70,6 +70,20 @@
 
 #define GAMEPAD_SENSITIVITY_OFFSET      1.25f
 
+#define VALID(button)                   (button >= 0 && button <= GAMEPAD_Y && !(button & (button - 1)))
+
+#define GAMEPADAUTOMAP_DEFAULT          GAMEPAD_BACK
+#define GAMEPADFIRE_DEFAULT             GAMEPAD_RIGHT_TRIGGER
+#define GAMEPADMENU_DEFAULT             GAMEPAD_START
+#define GAMEPADNEXTWEAPON_DEFAULT       GAMEPAD_B
+#define GAMEPADPREVWEAPON_DEFAULT       GAMEPAD_Y
+#define GAMEPADSPEED_DEFAULT            GAMEPAD_LEFT_TRIGGER
+#define GAMEPADUSE_DEFAULT              GAMEPAD_A
+#define GAMEPADWEAPON_DEFAULT           0
+
+#define GAMEPADLEFTHANDED_DEFAULT       false
+#define GAMEPADVIBRATE_DEFAULT          true
+
 int damagevibrationtics;
 int weaponvibrationtics;
 
@@ -77,12 +91,28 @@ extern int      gamepadbuttons;
 extern int      gamepadthumbLX;
 extern int      gamepadthumbLY;
 extern int      gamepadthumbRX;
-extern int      gamepadlefthanded;
 extern boolean  vibrate;
 extern int      gamepadvibrate;
 extern int      currentmotorspeed;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;
+
+extern int      gamepadautomap;
+extern int      gamepadfire;
+extern boolean  gamepadlefthanded;
+extern int      gamepadmenu;
+extern int      gamepadnextweapon;
+extern int      gamepadprevweapon;
+extern int      gamepadspeed;
+extern int      gamepaduse;
+extern boolean  gamepadvibrate;
+extern int      gamepadweapon1;
+extern int      gamepadweapon2;
+extern int      gamepadweapon3;
+extern int      gamepadweapon4;
+extern int      gamepadweapon5;
+extern int      gamepadweapon6;
+extern int      gamepadweapon7;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);

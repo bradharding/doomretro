@@ -135,6 +135,41 @@ void I_InitGamepad(void)
 #endif
 
             SDL_JoystickEventState(SDL_ENABLE);
+
+
+            if (!VALID(gamepadautomap))
+                gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
+            if (!VALID(gamepadfire))
+                gamepadfire = GAMEPADFIRE_DEFAULT;
+            if (!VALID(gamepadmenu))
+                gamepadmenu = GAMEPADMENU_DEFAULT;
+            if (!VALID(gamepadnextweapon))
+                gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
+            if (!VALID(gamepadprevweapon))
+                gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
+            if (!VALID(gamepadspeed))
+                gamepadspeed = GAMEPADSPEED_DEFAULT;
+            if (!VALID(gamepaduse))
+                gamepaduse = GAMEPADUSE_DEFAULT;
+            if (!VALID(gamepadweapon1))
+                gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
+            if (!VALID(gamepadweapon2))
+                gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
+            if (!VALID(gamepadweapon3))
+                gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
+            if (!VALID(gamepadweapon4))
+                gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
+            if (!VALID(gamepadweapon5))
+                gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
+            if (!VALID(gamepadweapon6))
+                gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
+            if (!VALID(gamepadweapon7))
+                gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
+
+            if (gamepadlefthanded != false && gamepadlefthanded != true)
+                gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
+            if (gamepadvibrate != false && gamepadvibrate != true)
+                gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
         }
     }
 }
