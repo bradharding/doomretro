@@ -44,7 +44,7 @@ void            (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
 boolean         smoketrails = true;
 
-int             corpses = (SLIDE | SMEARBLOOD | MOREBLOOD);
+int             corpses = (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD);
 
 extern msecnode_t *sector_list; // phares 3/16/98
 
