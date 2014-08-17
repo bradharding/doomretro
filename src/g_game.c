@@ -755,7 +755,9 @@ boolean G_Responder(event_t *ev)
             return true;            // eat events
 
         case ev_gamepad:
-            if (!automapactive || (automapactive && followplayer))
+            if (!automapactive || (automapactive && followplayer
+                && gamepadnextweapon != GAMEPAD_LEFT_SHOULDER
+                && gamepadnextweapon != GAMEPAD_RIGHT_SHOULDER))
             {
                 if ((gamepadpress && gamepadwait < I_GetTime()) || !gamepadpress)
                 {
