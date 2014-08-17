@@ -415,7 +415,6 @@ void R_StoreWallRange(int start, int stop)
     fixed_t     hyp;
     angle_t     offsetangle;
     int         lightnum;
-    boolean     sky;
 
     sidedef = curline->sidedef;
     linedef = curline->linedef;
@@ -596,8 +595,7 @@ void R_StoreWallRange(int start, int stop)
         worldlow = backsector->floorheight - viewz;
 
         // hack to allow height changes in outdoor areas
-        sky = (frontsector->ceilingpic == skyflatnum);
-        if (sky && backsector->ceilingpic == skyflatnum)
+        if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
 
         if (worldlow != worldbottom
@@ -706,7 +704,7 @@ void R_StoreWallRange(int start, int stop)
         {
             lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
 
-            if (!sky)
+            if (frontsector->ceilingpic != skyflatnum)
             {
                 if (curline->v1->y == curline->v2->y)
                     lightnum -= LIGHTBRIGHT;
@@ -727,7 +725,7 @@ void R_StoreWallRange(int start, int stop)
         markfloor = false;
     }
 
-    if (frontsector->ceilingheight <= viewz && !sky)
+    if (frontsector->ceilingheight <= viewz && frontsector->ceilingpic != skyflatnum)
     {
         // below view plane
         markceiling = false;
