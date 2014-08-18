@@ -268,6 +268,9 @@ void S_StopSounds(void)
 {
     int cnum;
 
+    if (nosfx)
+        return;
+
     for (cnum = 0; cnum < numChannels; cnum++)
         if (channels[cnum].sfxinfo)
             S_StopChannel(cnum);
