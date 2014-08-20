@@ -138,11 +138,10 @@ int             key_weapon7 = '7';
 int             key_prevweapon = 0;
 int             key_nextweapon = 0;
 
-int             key_pause = KEY_PAUSE;
-
 int             mousebfire = 0;
 int             mousebstrafe = -1;
 int             mousebforward = -1;
+int             mousebuse = -1;
 int             mousewheelup = 3;
 
 int             gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
@@ -334,7 +333,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         if (gamekeydown[key_fire] || mousebuttons[mousebfire] || (gamepadbuttons & gamepadfire))
             cmd->buttons |= BT_ATTACK;
 
-        if (gamekeydown[key_use] || (gamepadbuttons & gamepaduse))
+        if (gamekeydown[key_use] || mousebuttons[mousebuse] || (gamepadbuttons & gamepaduse))
             cmd->buttons |= BT_USE;
     }
 
@@ -694,9 +693,9 @@ boolean G_Responder(event_t *ev)
                 PrevWeapon();
             else if (ev->data1 == key_nextweapon && !menuactive && !paused)
                 NextWeapon();
-            else if (ev->data1 == key_pause && !menuactive && !keydown)
+            else if (ev->data1 == KEY_PAUSE && !menuactive && !keydown)
             {
-                keydown = key_pause;
+                keydown = KEY_PAUSE;
                 sendpause = true;
                 blurred = false;
             }

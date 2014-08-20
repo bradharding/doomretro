@@ -86,6 +86,7 @@ extern int      mouse_threshold;
 extern int      mousebfire;
 extern int      mousebforward;
 extern int      mousebstrafe;
+extern int      mousebuse;
 extern boolean  novert;
 extern int      pixelheight;
 extern int      pixelwidth;
@@ -228,6 +229,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (mouse_sensitivity,   mouseSensitivity,     0),
     CONFIG_VARIABLE_INT   (mouse_strafe,        mousebstrafe,         4),
     CONFIG_VARIABLE_INT   (mouse_threshold,     mouse_threshold,      0),
+    CONFIG_VARIABLE_INT   (mouse_use,           mousebuse,            4),
     CONFIG_VARIABLE_INT   (music_volume,        musicVolume,          0),
     CONFIG_VARIABLE_INT   (novert,              novert,               1),
     CONFIG_VARIABLE_INT   (pixelwidth,          pixelwidth,           0),
