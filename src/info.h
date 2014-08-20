@@ -1163,6 +1163,8 @@ typedef struct
     int         tics;
     actionf_t   action;
     statenum_t  nextstate;
+    int         misc1;
+    int         misc2;
 } state_t;
 
 typedef struct
