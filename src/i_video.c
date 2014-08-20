@@ -25,6 +25,7 @@
 
 #include "config.h"
 #include "d_main.h"
+#include "deh_str.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
@@ -1308,7 +1309,7 @@ void I_InitGraphics(void)
 {
     int         i = 0;
     SDL_Event   dummy;
-    byte        *doompal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
+    byte        *doompal = W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE);
 
     putenv("SDL_DISABLE_LOCK_KEYS=1");
 

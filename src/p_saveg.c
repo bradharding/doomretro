@@ -23,6 +23,7 @@
 ========================================================================
 */
 
+#include "deh_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "i_system.h"
@@ -64,7 +65,7 @@ char *P_SaveGameFile(int slot)
         filename = malloc(filename_size);
     }
 
-    M_snprintf(basename, 32, SAVEGAMENAME"%d.dsg", slot);
+    DEH_snprintf(basename, 32, SAVEGAMENAME"%d.dsg", slot);
     M_snprintf(filename, filename_size, "%s%s", savegamedir, basename);
 
     return filename;

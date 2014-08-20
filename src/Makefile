@@ -32,6 +32,20 @@ SRCS =             \
     d_iwad.c       \
     d_main.c       \
     d_net.c        \
+    deh_ammo.c     \
+    deh_cheat.c    \
+    deh_doom.c     \
+    deh_frame.c    \
+    deh_io.c       \
+    deh_main.c     \
+    deh_mapping.c  \
+    deh_main.c     \
+    deh_ptr.c      \
+    deh_sound.c    \
+    deh_str.c      \
+    deh_text.c     \
+    deh_thing.c    \
+    deh_weapon.c   \
     doomstat.c     \
     dstrings.c     \
     f_finale.c     \
@@ -88,6 +102,7 @@ SRCS =             \
     r_sky.c        \
     r_things.c     \
     s_sound.c      \
+    sha1.c         \
     sounds.c       \
     st_lib.c       \
     st_stuff.c     \
@@ -104,11 +119,10 @@ SRCS =             \
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 
 doomretro : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
+    $(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+    $(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) doomretro
-
+    rm -f $(OBJS) doomretro

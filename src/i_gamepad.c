@@ -136,7 +136,6 @@ void I_InitGamepad(void)
 
             SDL_JoystickEventState(SDL_ENABLE);
 
-
             if (!VALID(gamepadautomap))
                 gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
             if (!VALID(gamepadfire))

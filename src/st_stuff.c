@@ -24,6 +24,8 @@
 */
 
 #include "am_map.h"
+#include "deh_main.h"
+#include "deh_misc.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "g_game.h"
@@ -573,7 +575,7 @@ boolean ST_Responder(event_t *ev)
                     oldhealth = plyr->health;
                     P_GiveBody(plyr, 100);
 
-                    plyr->message = STSTR_DQDON;
+                    plyr->message = DEH_String(STSTR_DQDON);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -583,7 +585,7 @@ boolean ST_Responder(event_t *ev)
                 }
                 else
                 {
-                    plyr->message = STSTR_DQDOFF;
+                    plyr->message = DEH_String(STSTR_DQDOFF);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -619,11 +621,11 @@ boolean ST_Responder(event_t *ev)
                 // [BH] note if doesn't have full armor before giving it
                 //plyr->armorpoints = 200;
                 //plyr->armortype = 2;
-                if (plyr->armorpoints < 200 || plyr->armortype < 2)
+                if (plyr->armorpoints < deh_idfa_armor || plyr->armortype < deh_idfa_armor_class)
                 {
                     armorgiven = true;
-                    plyr->armorpoints = 200;
-                    plyr->armortype = 2;
+                    plyr->armorpoints = deh_idfa_armor;
+                    plyr->armortype = deh_idfa_armor_class;
                 }
 
                 // [BH] note if any weapons given that player didn't have already
@@ -720,7 +722,7 @@ boolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus(plyr, BONUSADD);
 
-                    plyr->message = STSTR_FAADDED;
+                    plyr->message = DEH_String(STSTR_FAADDED);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -743,11 +745,11 @@ boolean ST_Responder(event_t *ev)
                 // [BH] note if doesn't have full armor before giving it
                 //plyr->armorpoints = 200;
                 //plyr->armortype = 2;
-                if (plyr->armorpoints < 200 || plyr->armortype < 2)
+                if (plyr->armorpoints < deh_idkfa_armor || plyr->armortype < deh_idkfa_armor_class)
                 {
                     armorgiven = true;
-                    plyr->armorpoints = 200;
-                    plyr->armortype = 2;
+                    plyr->armorpoints = deh_idkfa_armor;
+                    plyr->armortype = deh_idkfa_armor_class;
                 }
 
                 // [BH] note if any weapons given that player didn't have already
@@ -854,7 +856,7 @@ boolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus(plyr, BONUSADD);
 
-                    plyr->message = STSTR_KFAADDED;
+                    plyr->message = DEH_String(STSTR_KFAADDED);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -917,7 +919,8 @@ boolean ST_Responder(event_t *ev)
 
                             S_ChangeMusic(musnum, 1, true);
 
-                            M_snprintf(msg, sizeof(msg), STSTR_MUS, S_music[musnum].name);
+                            M_snprintf(msg, sizeof(msg), DEH_String(STSTR_MUS),
+                                S_music[musnum].name);
                             plyr->message = msg;
 
                             // [BH] always display message
@@ -941,9 +944,9 @@ boolean ST_Responder(event_t *ev)
                 plyr->cheats ^= CF_NOCLIP;
 
                 if (plyr->cheats & CF_NOCLIP)
-                    plyr->message = STSTR_NCON;
+                    plyr->message = DEH_String(STSTR_NCON);
                 else
-                    plyr->message = STSTR_NCOFF;
+                    plyr->message = DEH_String(STSTR_NCOFF);
 
                 // [BH] always display message
                 message_dontfuckwithme = true;
@@ -999,7 +1002,7 @@ boolean ST_Responder(event_t *ev)
                               }
                         }
 
-                        plyr->message = STSTR_BEHOLDON;
+                        plyr->message = DEH_String(STSTR_BEHOLDON);
                     }
                     else
                     {
@@ -1027,7 +1030,7 @@ boolean ST_Responder(event_t *ev)
                             plyr->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        plyr->message = STSTR_BEHOLDOFF;
+                        plyr->message = DEH_String(STSTR_BEHOLDOFF);
                     }
 
                     // [BH] reset all cheat sequences
@@ -1104,7 +1107,7 @@ boolean ST_Responder(event_t *ev)
                     P_GivePower(plyr, pw_invulnerability);
                     plyr->powers[pw_invulnerability] = -1;
 
-                    plyr->message = STSTR_CHOPPERS;
+                    plyr->message = DEH_String(STSTR_CHOPPERS);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -1225,9 +1228,9 @@ boolean ST_Responder(event_t *ev)
                     static char buf[128];
 
                     if (epsd == gameepisode && map == gamemap)
-                        M_snprintf(buf, sizeof(buf), STSTR_CLEVSAME, lump);
+                        M_snprintf(buf, sizeof(buf), DEH_String(STSTR_CLEVSAME), lump);
                     else
-                        M_snprintf(buf, sizeof(buf), STSTR_CLEV, lump);
+                        M_snprintf(buf, sizeof(buf), DEH_String(STSTR_CLEV), lump);
                     plyr->message = buf;
 
                     // [BH] always display message
@@ -1635,32 +1638,32 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // Load the numbers, tall and short
     for (i = 0; i < 10; i++)
     {
-        M_snprintf(namebuf, 9, "STTNUM%d", i);
+        DEH_snprintf(namebuf, 9, "STTNUM%d", i);
         callback(namebuf, &tallnum[i]);
-        M_snprintf(namebuf, 9, "STYSNUM%d", i);
+        DEH_snprintf(namebuf, 9, "STYSNUM%d", i);
         callback(namebuf, &shortnum[i]);
     }
 
     // Load percent key.
-    callback("STTPRCNT", &tallpercent);
+    callback(DEH_String("STTPRCNT"), &tallpercent);
     emptytallpercent = V_EmptyPatch(tallpercent);
 
     // key cards
     for (i = 0; i < NUMCARDS; i++)
     {
-        M_snprintf(namebuf, 9, "STKEYS%d", i);
+        DEH_snprintf(namebuf, 9, "STKEYS%d", i);
         callback(namebuf, &keys[i]);
     }
 
     // arms background
-    callback("STARMS", &armsbg);
-    callback("STARMS2", &armsbg2);
+    callback(DEH_String("STARMS"), &armsbg);
+    callback(DEH_String("STARMS2"), &armsbg2);
 
     // arms ownership widgets
     // [BH] now manually drawn
     for (i = 0; i < 6; i++)
     {
-        M_snprintf(namebuf, 9, "STGNUM%d", i + 2);
+        DEH_snprintf(namebuf, 9, "STGNUM%d", i + 2);
 
         // gray #
         callback(namebuf, &arms[i][0]);
@@ -1670,12 +1673,12 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     }
 
     // face backgrounds for different color players
-    M_snprintf(namebuf, 9, "STFB%d", consoleplayer);
+    DEH_snprintf(namebuf, 9, "STFB%d", consoleplayer);
     callback(namebuf, &faceback);
 
     // status bar background bits
-    callback("STBAR", &sbar);
-    callback("STBAR2", &sbar2);
+    callback(DEH_String("STBAR"), &sbar);
+    callback(DEH_String("STBAR2"), &sbar2);
 
     // face states
     facenum = 0;
@@ -1683,30 +1686,30 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     {
         for (j = 0; j < ST_NUMSTRAIGHTFACES; j++)
         {
-            M_snprintf(namebuf, 9, "STFST%d%d", i, j);
+            DEH_snprintf(namebuf, 9, "STFST%d%d", i, j);
             callback(namebuf, &faces[facenum++]);
         }
-        M_snprintf(namebuf, 9, "STFTR%d0", i);  // turn right
+        DEH_snprintf(namebuf, 9, "STFTR%d0", i);        // turn right
         callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, 9, "STFTL%d0", i);  // turn left
+        DEH_snprintf(namebuf, 9, "STFTL%d0", i);        // turn left
         callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, 9, "STFOUCH%d", i); // ouch!
+        DEH_snprintf(namebuf, 9, "STFOUCH%d", i);       // ouch!
         callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, 9, "STFEVL%d", i);  // evil grin ;)
+        DEH_snprintf(namebuf, 9, "STFEVL%d", i);        // evil grin ;)
         callback(namebuf, &faces[facenum++]);
-        M_snprintf(namebuf, 9, "STFKILL%d", i); // pissed off
+        DEH_snprintf(namebuf, 9, "STFKILL%d", i);       // pissed off
         callback(namebuf, &faces[facenum++]);
     }
-    callback("STFGOD0", &faces[facenum++]);
-    callback("STFDEAD0", &faces[facenum++]);
+    callback(DEH_String("STFGOD0"), &faces[facenum++]);
+    callback(DEH_String("STFDEAD0"), &faces[facenum++]);
 }
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)
 {
-    if (!strcasecmp(lumpname, "STARMS") && STARMS)
-        *variable = W_CacheLumpNum(W_GetNumForNameX("STARMS", FREEDOOM ? 1 : 2), PU_STATIC);
-    else if (!strcasecmp(lumpname, "STBAR") && STBAR)
-        *variable = W_CacheLumpNum(W_GetNumForNameX("STBAR", FREEDOOM ? 1 : 2), PU_STATIC);
+    if (!strcasecmp(lumpname, DEH_String("STARMS")) && STARMS)
+        *variable = W_CacheLumpNum(W_GetNumForNameX(DEH_String("STARMS"), FREEDOOM ? 1 : 2), PU_STATIC);
+    else if (!strcasecmp(lumpname, DEH_String("STBAR")) && STBAR)
+        *variable = W_CacheLumpNum(W_GetNumForNameX(DEH_String("STBAR"), FREEDOOM ? 1 : 2), PU_STATIC);
     else
         *variable = W_CacheLumpName(lumpname, PU_STATIC);
 }
@@ -1718,7 +1721,7 @@ void ST_loadGraphics(void)
 
 void ST_loadData(void)
 {
-    lu_palette = W_GetNumForName("PLAYPAL");
+    lu_palette = W_GetNumForName(DEH_String("PLAYPAL"));
     ST_loadGraphics();
 }
 

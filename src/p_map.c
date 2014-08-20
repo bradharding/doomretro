@@ -25,6 +25,7 @@
 
 #include <stdlib.h>
 
+#include "deh_misc.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_bbox.h"
@@ -382,7 +383,7 @@ boolean PIT_CheckThing(mobj_t *thing)
             // Don't hit same species as originator.
             if (thing == tmthing->target)
                 return true;
-            else if (thing->type != MT_PLAYER && !infight)
+            else if (thing->type != MT_PLAYER && !infight && !deh_species_infighting)
                 // Explode, but do no damage.
                 // Let players missile other players.
                 return false;

@@ -57,16 +57,12 @@ void ST_Start(void);
 // Called by startup code.
 void ST_Init(void);
 
-
-
 // States for status bar code.
 typedef enum
 {
     AutomapState,
     FirstPersonState
-
 } st_stateenum_t;
-
 
 // States for the chat code.
 typedef enum
@@ -74,10 +70,7 @@ typedef enum
     StartChatState,
     WaitDestState,
     GetChatState
-
 } st_chatstateenum_t;
-
-
 
 extern cheatseq_t cheat_mus;
 extern cheatseq_t cheat_mus_xy;
@@ -91,6 +84,7 @@ extern cheatseq_t cheat_choppers;
 extern cheatseq_t cheat_clev;
 extern cheatseq_t cheat_clev_xy;
 extern cheatseq_t cheat_mypos;
+extern cheatseq_t cheat_amap;
 
 extern boolean widescreen;
 extern boolean returntowidescreen;

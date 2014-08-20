@@ -24,6 +24,7 @@
 */
 
 #include "d_event.h"
+#include "deh_misc.h"
 #include "i_gamepad.h"
 #include "m_random.h"
 #include "m_menu.h"
@@ -37,7 +38,7 @@
 #define WEAPONBOTTOM            128 * FRACUNIT
 #define WEAPONTOP               32 * FRACUNIT
 
-#define BFGCELLS                40
+#define BFGCELLS                deh_bfg_cells_per_shot
 
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
@@ -457,7 +458,6 @@ void A_FirePlasma(player_t *player, pspdef_t *psp)
 // the height of the intended target
 //
 fixed_t bulletslope;
-
 
 static void P_BulletSlope(mobj_t *mo)
 {

@@ -23,6 +23,7 @@
 ========================================================================
 */
 
+#include "deh_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -521,7 +522,7 @@ static void R_InitTextures(void)
 
     // Load the patch names from pnames.lmp.
     name[8] = 0;
-    names = (char *)W_CacheLumpName("PNAMES", PU_STATIC);
+    names = (char *)W_CacheLumpName(DEH_String("PNAMES"), PU_STATIC);
     nummappatches = LONG(*((int *)names));
     name_p = names + 4;
     patchlookup = (int *)Z_Malloc(nummappatches * sizeof(*patchlookup), PU_STATIC, NULL);
@@ -531,21 +532,21 @@ static void R_InitTextures(void)
         M_StringCopy(name, name_p + i * 8, sizeof(name));
         patchlookup[i] = W_CheckNumForName(name);
     }
-    W_ReleaseLumpName("PNAMES");
+    W_ReleaseLumpName(DEH_String("PNAMES"));
 
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
     //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
-    maptex = maptex1 = W_CacheLumpName("TEXTURE1", PU_STATIC);
+    maptex = maptex1 = W_CacheLumpName(DEH_String("TEXTURE1"), PU_STATIC);
     numtextures1 = LONG(*maptex);
-    maxoff = W_LumpLength(W_GetNumForName("TEXTURE1"));
+    maxoff = W_LumpLength(W_GetNumForName(DEH_String("TEXTURE1")));
     directory = maptex + 1;
 
-    if (W_CheckNumForName("TEXTURE2") != -1)
+    if (W_CheckNumForName(DEH_String("TEXTURE2")) != -1)
     {
-        maptex2 = W_CacheLumpName("TEXTURE2", PU_STATIC);
+        maptex2 = W_CacheLumpName(DEH_String("TEXTURE2"), PU_STATIC);
         numtextures2 = LONG(*maptex2);
-        maxoff2 = W_LumpLength(W_GetNumForName("TEXTURE2"));
+        maxoff2 = W_LumpLength(W_GetNumForName(DEH_String("TEXTURE2")));
     }
     else
     {
@@ -616,9 +617,9 @@ static void R_InitTextures(void)
 
     Z_Free(patchlookup);
 
-    W_ReleaseLumpName("TEXTURE1");
+    W_ReleaseLumpName(DEH_String("TEXTURE1"));
     if (maptex2)
-        W_ReleaseLumpName("TEXTURE2");
+        W_ReleaseLumpName(DEH_String("TEXTURE2"));
 
     lookuptextures = Z_Malloc(numtextures * sizeof(boolean), PU_STATIC, 0);
 
@@ -663,8 +664,8 @@ void R_InitFlats(void)
 {
     int i;
 
-    firstflat = W_GetNumForName("F_START") + 1;
-    lastflat = W_GetNumForName("F_END") - 1;
+    firstflat = W_GetNumForName(DEH_String("F_START")) + 1;
+    lastflat = W_GetNumForName(DEH_String("F_END")) - 1;
     numflats = lastflat - firstflat + 1;
 
     // Create translation table for global animation.
@@ -685,8 +686,8 @@ void R_InitSpriteLumps(void)
     int         i, j;
     patch_t     *patch;
 
-    firstspritelump = W_GetNumForName("S_START") + 1;
-    lastspritelump = W_GetNumForName("S_END") - 1;
+    firstspritelump = W_GetNumForName(DEH_String("S_START")) + 1;
+    lastspritelump = W_GetNumForName(DEH_String("S_END")) - 1;
 
     numspritelumps = lastspritelump - firstspritelump + 1;
     spritewidth = Z_Malloc(numspritelumps * sizeof(*spritewidth), PU_STATIC, 0);
@@ -740,11 +741,11 @@ byte grays[256];
 void R_InitColormaps(void)
 {
     int         lump;
-    boolean     COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    boolean     COLORMAP = (W_CheckMultipleLumps(DEH_String("COLORMAP")) > 1);
 
     // Load in the light tables,
     //  256 byte align tables.
-    lump = W_GetNumForName("COLORMAP");
+    lump = W_GetNumForName(DEH_String("COLORMAP"));
     colormaps = (lighttable_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     // [BH] There's a typo in dcolors.c, the source code of the utility Id
@@ -761,7 +762,7 @@ void R_InitColormaps(void)
         float   red, green, blue, gray;
         byte    *palsrc, *palette;
 
-        palsrc = palette = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
+        palsrc = palette = (byte *)W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE);
 
         for (i = 0; i < 255; i++)
         {

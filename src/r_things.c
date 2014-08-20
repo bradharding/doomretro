@@ -911,10 +911,10 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
     // check for unclipped columns
     for (x = spr->x1; x <= spr->x2; x++)
     {
-        if (clipbot[x] == -2 || clipbot[x] > viewheight)
+        if (clipbot[x] == -2)
             clipbot[x] = viewheight;
 
-        if (cliptop[x] == -2 || cliptop[x] < 0)
+        if (cliptop[x] == -2)
             cliptop[x] = -1;
     }
 
@@ -943,7 +943,7 @@ void R_DrawMasked(void)
 
     if (num_vissprite > 0)
     {
-        int i;
+        int     i;
 
         if (drawsegs_xrange_size < maxdrawsegs)
         {
@@ -985,7 +985,7 @@ void R_DrawMasked(void)
     // draw all blood splats first, front to back
     for (i = 0; i < num_vissprite; i++)
     {
-        vissprite_t *spr = vissprite_ptrs[i];
+        vissprite_t     *spr = vissprite_ptrs[i];
 
         if (spr->type == MT_BLOODSPLAT)
         {
@@ -1012,7 +1012,7 @@ void R_DrawMasked(void)
     // draw all other vissprites, back to front
     for (i = num_vissprite; --i >= 0;)
     {
-        vissprite_t *spr = vissprite_ptrs[i];
+        vissprite_t     *spr = vissprite_ptrs[i];
 
         if (spr->type != MT_BLOODSPLAT)
         {

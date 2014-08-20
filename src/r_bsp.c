@@ -478,7 +478,10 @@ static void R_Subsector(int num)
     R_AddSprites(frontsector);
 
     while (count--)
+    {
         R_AddLine(line++);
+        curline = NULL;
+    }
 }
 
 //

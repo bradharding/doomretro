@@ -30,6 +30,8 @@
 
 #include "am_map.h"
 #include "d_main.h"
+#include "deh_main.h"
+#include "deh_misc.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "f_finale.h"
@@ -461,15 +463,15 @@ void G_DoLoadLevel(void)
     //  a flat. The data is in the WAD only because
     //  we look for an actual index, instead of simply
     //  setting one.
-    skyflatnum = R_FlatNumForName(SKYFLATNAME);
+    skyflatnum = R_FlatNumForName(DEH_String(SKYFLATNAME));
 
     if (gamemode == commercial)
     {
-        skytexture = R_TextureNumForName("SKY3");
+        skytexture = R_TextureNumForName(DEH_String("SKY3"));
         if (gamemap < 12)
-            skytexture = R_TextureNumForName("SKY1");
+            skytexture = R_TextureNumForName(DEH_String("SKY1"));
         else if (gamemap < 21)
-            skytexture = R_TextureNumForName("SKY2");
+            skytexture = R_TextureNumForName(DEH_String("SKY2"));
     }
     else
     {
@@ -477,16 +479,16 @@ void G_DoLoadLevel(void)
         {
             default:
             case 1:
-                skytexture = R_TextureNumForName("SKY1");
+                skytexture = R_TextureNumForName(DEH_String("SKY1"));
                 break;
             case 2:
-                skytexture = R_TextureNumForName("SKY2");
+                skytexture = R_TextureNumForName(DEH_String("SKY2"));
                 break;
             case 3:
-                skytexture = R_TextureNumForName("SKY3");
+                skytexture = R_TextureNumForName(DEH_String("SKY3"));
                 break;
             case 4:                             // Special Edition sky
-                skytexture = R_TextureNumForName("SKY4");
+                skytexture = R_TextureNumForName(DEH_String("SKY4"));
                 break;
         }
     }
@@ -883,7 +885,7 @@ void G_Ticker(void)
                         S_StartSound(NULL, sfx_swtchx);
                         if (usergame || gamestate == GS_LEVEL)
                         {
-                            M_snprintf(message, sizeof(message), GSCREENSHOT, lbmname);
+                            M_snprintf(message, sizeof(message), DEH_String(GSCREENSHOT), lbmname);
                             players[consoleplayer].message = message;
                             message_dontfuckwithme = true;
                             if (menuactive)
@@ -1086,14 +1088,14 @@ void G_PlayerReborn(int player)
 
     p->usedown = p->attackdown = true;          // don't do anything immediately
     p->playerstate = PST_LIVE;
-    p->health = 100;
+    p->health = deh_initial_health;
     p->readyweapon = p->pendingweapon = wp_pistol;
     p->preferredshotgun = wp_shotgun;
     p->fistorchainsaw = wp_fist;
     p->shotguns = false;
     p->weaponowned[wp_fist] = true;
     p->weaponowned[wp_pistol] = true;
-    p->ammo[am_clip] = 50;
+    p->ammo[am_clip] = deh_initial_bullets;
 
     for (i = 0; i < NUMAMMO; i++)
         p->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
@@ -1647,7 +1649,7 @@ void G_DoSaveGame(void)
     rename(temp_savegame_file, savegame_file);
 
     // [BH] use the save description in the message displayed
-    M_snprintf(buffer, sizeof(buffer), GGSAVED, savedescription);
+    DEH_snprintf(buffer, sizeof(buffer), DEH_String(GGSAVED), savedescription);
     players[consoleplayer].message = buffer;
     message_dontfuckwithme = true;
 

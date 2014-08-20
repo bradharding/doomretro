@@ -24,6 +24,7 @@
 */
 
 #include "d_main.h"
+#include "deh_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_lib.h"
@@ -145,7 +146,7 @@ void HU_Init(void)
     j = HU_FONTSTART;
     for (i = 0; i < HU_FONTSIZE; i++)
     {
-        M_snprintf(buffer, 9, "STCFN%.3d", j++);
+        DEH_snprintf(buffer, 9, "STCFN%.3d", j++);
         hu_font[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
 }
@@ -177,6 +178,8 @@ void HU_Start(void)
 
     s = Z_Malloc(133, PU_STATIC, NULL);
     strcpy(s, mapnumandtitle);
+
+    s = DEH_String(s);
 
     while (*s)
         HUlib_addCharToTextLine(&w_title, *(s++));

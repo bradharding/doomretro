@@ -37,6 +37,7 @@
 #include "config.h"
 #include "d_iwad.h"
 #include "d_main.h"
+#include "deh_main.h"
 #include "doomstat.h"
 #include "f_finale.h"
 #include "f_wipe.h"
@@ -206,7 +207,7 @@ void D_Display(void)
     if (gamestate != GS_LEVEL)
     {
         if (gamestate != oldgamestate && !splashscreen)
-            I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE));
+            I_SetPalette((byte *)W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE));
 
         switch (gamestate)
         {
@@ -272,7 +273,7 @@ void D_Display(void)
         M_DarkBackground();
         if (M_PAUSE)
         {
-            patch_t     *patch = W_CacheLumpName("M_PAUSE", PU_CACHE);
+            patch_t     *patch = W_CacheLumpName(DEH_String("M_PAUSE"), PU_CACHE);
 
             if (widescreen)
                 V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
@@ -428,15 +429,15 @@ void D_DoAdvanceTitle(void)
                 I_InitKeyboard();
             }
 
-            pagename = (TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
+            pagename = DEH_String(TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"));
             pagetic = 20 * TICRATE;
-            I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+            I_SetPalette(W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE));
             splashscreen = false;
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
             break;
 
         case 2:
-            pagename = "CREDIT";
+            pagename = DEH_String("CREDIT");
             pagetic = 10 * TICRATE;
             forcewipe = true;
             break;
@@ -816,16 +817,19 @@ void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
-    int     p;
-    char    file[256];
-    int     temp;
-    int     choseniwad;
+    int                 p;
+    char                file[256];
+    int                 temp;
+    int                 choseniwad;
+    unsigned int        i;
 
     iwadfile = D_FindIWAD();
 
     iwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
 
     modifiedgame = false;
+
+    DEH_Init();
 
     nomonsters = M_CheckParm("-nomonsters");
     respawnparm = M_CheckParm("-respawn");
@@ -982,34 +986,39 @@ static void D_DoomMainSetup(void)
         I_Error("FREEDOOM requires a BOOM-compatible source port,\n"
                 "and is therefore unable to be opened by DOOM RETRO.");
 
-    DMENUPIC = (W_CheckNumForName("DMENUPIC") >= 0);
-    M_DOOM = (W_CheckMultipleLumps("M_DOOM") > 1);
-    M_EPISOD = (W_CheckMultipleLumps("M_EPISOD") > 1);
-    M_GDHIGH = (W_CheckMultipleLumps("M_GDHIGH") > 1);
-    M_GDLOW = (W_CheckMultipleLumps("M_GDLOW") > 1);
-    M_LOADG = (W_CheckMultipleLumps("M_LOADG") > 1);
-    M_LSCNTR = (W_CheckMultipleLumps("M_LSCNTR") > 1);
-    M_MSENS = (W_CheckMultipleLumps("M_MSENS") > 1);
-    M_MSGOFF = (W_CheckMultipleLumps("M_MSGOFF") > 1);
-    M_MSGON = (W_CheckMultipleLumps("M_MSGON") > 1);
-    M_NEWG = (W_CheckMultipleLumps("M_NEWG") > 1);
-    M_NMARE = (W_CheckMultipleLumps("M_NMARE") > 1);
-    M_OPTTTL = (W_CheckMultipleLumps("M_OPTTTL") > 1);
-    M_PAUSE = (W_CheckMultipleLumps("M_PAUSE") > 1);
-    M_SAVEG = (W_CheckMultipleLumps("M_SAVEG") > 1);
-    M_SKILL = (W_CheckMultipleLumps("M_SKILL") > 1);
-    M_SKULL1 = (W_CheckMultipleLumps("M_SKULL1") > 1);
-    M_SVOL = (W_CheckMultipleLumps("M_SVOL") > 1);
-    STARMS = (W_CheckMultipleLumps("STARMS") > 2);
-    STBAR = (W_CheckMultipleLumps("STBAR") > 2);
-    STCFN034 = (W_CheckMultipleLumps("STCFN034") > 1);
-    STCFN039 = (W_CheckMultipleLumps("STCFN039") > 1);
-    STCFN121 = (W_CheckMultipleLumps("STCFN121") > 1);
-    STYSNUM0 = (W_CheckMultipleLumps("STYSNUM0") > 1);
-    TITLEPIC = (W_CheckNumForName("TITLEPIC") >= 0);
-    WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
+    DMENUPIC = (W_CheckNumForName(DEH_String("DMENUPIC")) >= 0);
+    M_DOOM = (W_CheckMultipleLumps(DEH_String("M_DOOM")) > 1);
+    M_EPISOD = (W_CheckMultipleLumps(DEH_String("M_EPISOD")) > 1);
+    M_GDHIGH = (W_CheckMultipleLumps(DEH_String("M_GDHIGH")) > 1);
+    M_GDLOW = (W_CheckMultipleLumps(DEH_String("M_GDLOW")) > 1);
+    M_LOADG = (W_CheckMultipleLumps(DEH_String("M_LOADG")) > 1);
+    M_LSCNTR = (W_CheckMultipleLumps(DEH_String("M_LSCNTR")) > 1);
+    M_MSENS = (W_CheckMultipleLumps(DEH_String("M_MSENS")) > 1);
+    M_MSGOFF = (W_CheckMultipleLumps(DEH_String("M_MSGOFF")) > 1);
+    M_MSGON = (W_CheckMultipleLumps(DEH_String("M_MSGON")) > 1);
+    M_NEWG = (W_CheckMultipleLumps(DEH_String("M_NEWG")) > 1);
+    M_NMARE = (W_CheckMultipleLumps(DEH_String("M_NMARE")) > 1);
+    M_OPTTTL = (W_CheckMultipleLumps(DEH_String("M_OPTTTL")) > 1);
+    M_PAUSE = (W_CheckMultipleLumps(DEH_String("M_PAUSE")) > 1);
+    M_SAVEG = (W_CheckMultipleLumps(DEH_String("M_SAVEG")) > 1);
+    M_SKILL = (W_CheckMultipleLumps(DEH_String("M_SKILL")) > 1);
+    M_SKULL1 = (W_CheckMultipleLumps(DEH_String("M_SKULL1")) > 1);
+    M_SVOL = (W_CheckMultipleLumps(DEH_String("M_SVOL")) > 1);
+    STARMS = (W_CheckMultipleLumps(DEH_String("STARMS")) > 2);
+    STBAR = (W_CheckMultipleLumps(DEH_String("STBAR")) > 2);
+    STCFN034 = (W_CheckMultipleLumps(DEH_String("STCFN034")) > 1);
+    STCFN039 = (W_CheckMultipleLumps(DEH_String("STCFN039")) > 1);
+    STCFN121 = (W_CheckMultipleLumps(DEH_String("STCFN121")) > 1);
+    STYSNUM0 = (W_CheckMultipleLumps(DEH_String("STYSNUM0")) > 1);
+    TITLEPIC = (W_CheckNumForName(DEH_String("TITLEPIC")) >= 0);
+    WISCRT2 = (W_CheckMultipleLumps(DEH_String("WISCRT2")) > 1);
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
+
+    // Load DEHACKED lumps from WAD files.
+    for (i = 0; i < numlumps; ++i)
+        if (!strncmp(lumpinfo[i].name, "DEHACKED", 8))
+            DEH_LoadLump(i);
 
     I_InitTimer();
     I_InitGamepad();

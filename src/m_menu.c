@@ -28,6 +28,7 @@
 #include <time.h>
 
 #include "d_main.h"
+#include "deh_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "g_game.h"
@@ -856,7 +857,8 @@ void M_DrawLoad(void)
 
     M_DarkBackground();
     if (M_LOADG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_LOADG", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0,
+            W_CacheLumpName(DEH_String("M_LOADG"), PU_CACHE));
     else
         M_DrawCenteredString(23 + OFFSET, "LOAD GAME");
 
@@ -879,16 +881,16 @@ void M_DrawSaveLoadBorder(int x, int y)
     if (M_LSCNTR)
     {
         x += 3;
-        M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSLEFT", PU_CACHE));
+        M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName(DEH_String("M_LSLEFT"), PU_CACHE));
 
         x += 8;
         for (i = 0; i < 24; i++)
         {
-            M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSCNTR", PU_CACHE));
+            M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName(DEH_String("M_LSCNTR"), PU_CACHE));
             x += 8;
         }
 
-        M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSRGHT", PU_CACHE));
+        M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName(DEH_String("M_LSRGHT"), PU_CACHE));
     }
     else
     {
@@ -967,7 +969,8 @@ void M_DrawSave(void)
 
     // draw menu subtitle
     if (M_SAVEG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_SAVEG", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0,
+            W_CacheLumpName(DEH_String("M_SAVEG"), PU_CACHE));
     else
         M_DrawCenteredString(23 + OFFSET, "SAVE GAME");
 
@@ -1103,10 +1106,10 @@ void M_UpdateSaveGameName(int i)
         match = true;
 
     if (!match)
-        while (mapnames[j][gamemission][0])
+        while (DEH_String(mapnames[j][gamemission])[0])
         {
             if (!strcasecmp(savegamestrings[i],
-                (mapnames[j][gamemode == commercial && bfgedition ? doom2bfg : gamemission])))
+                DEH_String(mapnames[j][gamemode == commercial && bfgedition ? doom2bfg : gamemission])))
             {
                 match = true;
                 break;
@@ -1190,12 +1193,12 @@ void M_QuickLoad(void)
     }
 
     S_StartSound(NULL, sfx_swtchn);
-    M_snprintf(tempstring, 160, QLPROMPT, savegamestrings[quickSaveSlot]);
+    M_snprintf(tempstring, 160, DEH_String(QLPROMPT), savegamestrings[quickSaveSlot]);
     M_SplitString(tempstring);
     if (usinggamepad)
-        M_snprintf(tempstring, 160, "%s\n\n"PRESSA, tempstring);
+        DEH_snprintf(tempstring, 160, "%s\n\n"PRESSA, tempstring);
     else
-        M_snprintf(tempstring, 160, "%s\n\n"PRESSYN, tempstring);
+        DEH_snprintf(tempstring, 160, "%s\n\n"PRESSYN, tempstring);
     M_StartMessage(tempstring, M_QuickLoadResponse, true);
 }
 
@@ -1204,21 +1207,18 @@ void M_QuickLoad(void)
 //
 void M_DrawReadThis(void)
 {
-    char        *lumpname = "HELP1";
+    char        *lumpname = DEH_String("HELP1");
 
     switch (gameversion)
     {
         case exe_doom_1_9:
-            if (gamemode == shareware && W_CheckNumForName("HELP3") >= 0)
-                lumpname = "HELP3";
+            if (gamemode == shareware && W_CheckNumForName(DEH_String("HELP3")) >= 0)
+                lumpname = DEH_String("HELP3");
             else
-                lumpname = (gamemode == commercial ? "HELP" : "HELP2");
-            break;
-        case exe_ultimate:
-            lumpname = "HELP1";
+                lumpname = DEH_String(gamemode == commercial ? "HELP" : "HELP2");
             break;
         case exe_final:
-            lumpname = "HELP";
+            lumpname = DEH_String("HELP");
             break;
     }
     if (W_CheckNumForName(lumpname) >= 0)
@@ -1245,7 +1245,7 @@ void M_DrawSound(void)
     M_DarkBackground();
     if (M_SVOL)
     {
-        M_DrawPatchWithShadow(60, 38 + OFFSET, 0, W_CacheLumpName("M_SVOL", PU_CACHE));
+        M_DrawPatchWithShadow(60, 38 + OFFSET, 0, W_CacheLumpName(DEH_String("M_SVOL"), PU_CACHE));
         SoundDef.x = 80;
         SoundDef.y = 64;
     }
@@ -1321,7 +1321,7 @@ void M_MusicVol(int choice)
 //
 void M_DrawMainMenu(void)
 {
-    patch_t     *patch = W_CacheLumpName("M_DOOM", PU_CACHE);
+    patch_t     *patch = W_CacheLumpName(DEH_String("M_DOOM"), PU_CACHE);
 
     M_DarkBackground();
     if (M_DOOM && patch->height > 125)
@@ -1353,7 +1353,7 @@ void M_DrawNewGame(void)
     M_DarkBackground();
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
+        M_DrawPatchWithShadow(96, 14 + OFFSET, 0, W_CacheLumpName(DEH_String("M_NEWG"), PU_CACHE));
         NewDef.x = 48;
         NewDef.y = 63;
     }
@@ -1361,7 +1361,7 @@ void M_DrawNewGame(void)
         M_DrawCenteredString(19 + OFFSET, "NEW GAME");
     if (M_SKILL)
     {
-        M_DrawPatchWithShadow(54, 38 + OFFSET, 0, W_CacheLumpName("M_SKILL", PU_CACHE));
+        M_DrawPatchWithShadow(54, 38 + OFFSET, 0, W_CacheLumpName(DEH_String("M_SKILL"), PU_CACHE));
         NewDef.x = 48;
         NewDef.y = 63;
     }
@@ -1387,7 +1387,7 @@ void M_DrawEpisode(void)
     M_DarkBackground();
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
+        M_DrawPatchWithShadow(96, 14 + OFFSET, 0, W_CacheLumpName(DEH_String("M_NEWG"), PU_CACHE));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1395,7 +1395,7 @@ void M_DrawEpisode(void)
         M_DrawCenteredString(19 + OFFSET, "NEW GAME");
     if (M_EPISOD)
     {
-        M_DrawPatchWithShadow(54, 38 + OFFSET, 0, W_CacheLumpName("M_EPISOD", PU_CACHE));
+        M_DrawPatchWithShadow(54, 38 + OFFSET, 0, W_CacheLumpName(DEH_String("M_EPISOD"), PU_CACHE));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1433,9 +1433,9 @@ void M_ChooseSkill(int choice)
     if (choice == nightmare && gameskill != sk_nightmare && !nomonsters)
     {
         if (usinggamepad)
-            M_StartMessage(NIGHTMARE"\n\n"PRESSA, M_VerifyNightmare, true);
+            M_StartMessage(DEH_String(NIGHTMARE"\n\n"PRESSA), M_VerifyNightmare, true);
         else
-            M_StartMessage(NIGHTMARE"\n\n"PRESSYN, M_VerifyNightmare, true);
+            M_StartMessage(DEH_String(NIGHTMARE"\n\n"PRESSYN), M_VerifyNightmare, true);
         return;
     }
 
@@ -1450,9 +1450,9 @@ void M_Episode(int choice)
     if (gamemode == shareware && choice)
     {
         if (usinggamepad)
-            M_StartMessage(SWSTRING"\n\n"PRESSA, NULL, false);
+            M_StartMessage(DEH_String(SWSTRING"\n\n"PRESSA), NULL, false);
         else
-            M_StartMessage(SWSTRING"\n\n"PRESSKEY, NULL, false);
+            M_StartMessage(DEH_String(SWSTRING"\n\n"PRESSKEY), NULL, false);
         M_SetupNextMenu(&EpiDef);
         return;
     }
@@ -1476,7 +1476,8 @@ void M_DrawOptions(void)
 
     if (M_OPTTTL)
     {
-        M_DrawPatchWithShadow(108, 15 + OFFSET, 0, W_CacheLumpName("M_OPTTTL", PU_CACHE));
+        M_DrawPatchWithShadow(108, 15 + OFFSET, 0,
+            W_CacheLumpName(DEH_String("M_OPTTTL"), PU_CACHE));
         OptionsDef.x = 60;
         OptionsDef.y = 37;
     }
@@ -1488,7 +1489,7 @@ void M_DrawOptions(void)
         if (M_MSGON)
         {
             patch_t     *patch1 = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
-            patch_t     *patch2 = W_CacheLumpName("M_MSGON", PU_CACHE);
+            patch_t     *patch2 = W_CacheLumpName(DEH_String("M_MSGON"), PU_CACHE);
 
             M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
@@ -1501,7 +1502,7 @@ void M_DrawOptions(void)
         if (M_MSGOFF)
         {
             patch_t     *patch1 = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
-            patch_t     *patch2 = W_CacheLumpName("M_MSGOFF", PU_CACHE);
+            patch_t     *patch2 = W_CacheLumpName(DEH_String("M_MSGOFF"), PU_CACHE);
 
             M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
@@ -1515,7 +1516,7 @@ void M_DrawOptions(void)
         if (M_GDHIGH)
         {
             patch_t     *patch1 = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
-            patch_t     *patch2 = W_CacheLumpName("M_GDHIGH", PU_CACHE);
+            patch_t     *patch2 = W_CacheLumpName(DEH_String("M_GDHIGH"), PU_CACHE);
 
             M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
@@ -1528,7 +1529,7 @@ void M_DrawOptions(void)
         if (M_GDLOW)
         {
             patch_t     *patch1 = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
-            patch_t     *patch2 = W_CacheLumpName("M_GDLOW", PU_CACHE);
+            patch_t     *patch2 = W_CacheLumpName(DEH_String("M_GDLOW"), PU_CACHE);
 
             M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
@@ -1562,7 +1563,7 @@ void M_ChangeMessages(int choice)
     messages = !messages;
     if (menuactive)
         message_dontpause = true;
-    players[consoleplayer].message = (messages ? MSGON : MSGOFF);
+    players[consoleplayer].message = DEH_String(messages ? MSGON : MSGOFF);
     message_dontfuckwithme = true;
     M_SaveDefaults();
 }
@@ -1607,9 +1608,9 @@ void M_EndGame(int choice)
         return;
 
     if (usinggamepad)
-        M_StartMessage(ENDGAME"\n\n"PRESSA, M_EndGameResponse, true);
+        M_StartMessage(DEH_String(ENDGAME"\n\n"PRESSA), M_EndGameResponse, true);
     else
-        M_StartMessage(ENDGAME"\n\n"PRESSYN, M_EndGameResponse, true);
+        M_StartMessage(DEH_String(ENDGAME"\n\n"PRESSYN), M_EndGameResponse, true);
 }
 
 //
@@ -1697,9 +1698,11 @@ void M_QuitDOOM(int choice)
 {
     quitting = true;
     if (usinggamepad)
-        M_snprintf(endstring, sizeof(endstring), "%s\n\n"QUITA, M_SelectEndMessage());
+        DEH_snprintf(endstring, sizeof(endstring), "%s\n\n"QUITA,
+            DEH_String(M_SelectEndMessage()));
     else
-        M_snprintf(endstring, sizeof(endstring), "%s\n\n"QUITY, M_SelectEndMessage());
+        DEH_snprintf(endstring, sizeof(endstring), "%s\n\n"QUITY,
+            DEH_String(M_SelectEndMessage()));
     M_StartMessage(endstring, M_QuitResponse, true);
 }
 
@@ -1748,7 +1751,7 @@ void M_ChangeDetail(int choice)
     graphicdetail = !graphicdetail;
     if (!menuactive)
     {
-        players[consoleplayer].message = (graphicdetail == HIGH ? DETAILHI : DETAILLO);
+        players[consoleplayer].message = DEH_String(graphicdetail == HIGH ? DETAILHI : DETAILLO);
         message_dontfuckwithme = true;
     }
     M_SaveDefaults();
@@ -1833,15 +1836,15 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
     int xx = x;
     int i;
 
-    M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName("M_THERML", PU_CACHE));
+    M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName(DEH_String("M_THERML"), PU_CACHE));
     xx += 8;
     for (i = 0; i < thermWidth; i++)
     {
-        V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM", PU_CACHE));
+        V_DrawPatch(xx, y, 0, W_CacheLumpName(DEH_String("M_THERMM"), PU_CACHE));
         xx += 8;
     }
-    M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName("M_THERMR", PU_CACHE));
-    V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
+    M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName(DEH_String("M_THERMR"), PU_CACHE));
+    V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName(DEH_String("M_THERMO"), PU_CACHE));
     for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
         V_DrawPixel(i, y + 13, 0, 251, true);
 }
@@ -2505,9 +2508,9 @@ boolean M_Responder(event_t *ev)
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
         if (gamma == 1.0f)
-            M_StringCopy(buf, GAMMAOFF, sizeof(buf));
+            M_StringCopy(buf, DEH_String(GAMMAOFF), sizeof(buf));
         else
-            M_snprintf(buf, sizeof(buf), GAMMALVL, gamma);
+            DEH_snprintf(buf, sizeof(buf), DEH_String(GAMMALVL), gamma);
         if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
             buf[strlen(buf) - 1] = '\0';
         players[consoleplayer].message = buf;
@@ -2515,7 +2518,7 @@ boolean M_Responder(event_t *ev)
         message_dontpause = true;
         message_dontfuckwithme = true;
 
-        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+        I_SetPalette((byte *)W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE) + st_palette * 768);
 
         M_SaveDefaults();
 
@@ -2955,18 +2958,18 @@ void M_Drawer(void)
 
     for (i = 0; i < max; i++)
     {
-        name = currentMenu->menuitems[i].name;
+        name = DEH_String(currentMenu->menuitems[i].name);
 
         if (name[0])
         {
-            if (!strcmp(name, "M_NMARE"))
+            if (!strcmp(name, DEH_String("M_NMARE")))
             {
                 if (M_NMARE)
                     M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
                 else
                     M_DrawNightmare();
             }
-            else if (!strcmp(name, "M_MSENS") && !M_MSENS)
+            else if (!strcmp(name, DEH_String("M_MSENS")) && !M_MSENS)
             {
                 if (usinggamepad)
                 {
@@ -2999,7 +3002,7 @@ void M_Drawer(void)
     }
     else if (currentMenu != &ReadDef)
     {
-        patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
+        patch_t *patch = W_CacheLumpName(DEH_String(skullName[whichSkull]), PU_CACHE);
 
         if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
             itemOn++;

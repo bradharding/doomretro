@@ -27,6 +27,7 @@
 
 #include <math.h>
 
+#include "deh_str.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "SDL.h"
@@ -280,7 +281,7 @@ static int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
 {
     char        namebuf[9];
 
-    M_snprintf(namebuf, 9, "ds%s", sfx->name);
+    M_snprintf(namebuf, 9, "ds%s", DEH_String(sfx->name));
 
     return W_GetNumForName(namebuf);
 }

@@ -25,6 +25,7 @@
 
 #include <math.h>
 
+#include "deh_main.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
@@ -1147,9 +1148,9 @@ void P_SetupLevel(int episode, int map)
 
     // find map name
     if (gamemode == commercial)
-        M_snprintf(lumpname, 6, "MAP%02i", map);
+        DEH_snprintf(lumpname, 6, "MAP%02i", map);
     else
-        M_snprintf(lumpname, 5, "E%iM%i", episode, map);
+        DEH_snprintf(lumpname, 5, "E%iM%i", episode, map);
 
     if (nerve && gamemission == doom2)
         lumpnum = W_GetNumForName2(lumpname);

@@ -370,6 +370,12 @@
     <CustomBuildStep Include="..\src\z_zone.h" />
     <ClInclude Include="..\src\am_map.h" />
     <ClInclude Include="..\src\config.h" />
+    <ClInclude Include="..\src\deh_defs.h" />
+    <ClInclude Include="..\src\deh_io.h" />
+    <ClInclude Include="..\src\deh_main.h" />
+    <ClInclude Include="..\src\deh_mapping.h" />
+    <ClInclude Include="..\src\deh_misc.h" />
+    <ClInclude Include="..\src\deh_str.h" />
     <ClInclude Include="..\src\doomdata.h" />
     <ClInclude Include="..\src\doomdef.h" />
     <ClInclude Include="..\src\doomkeys.h" />
@@ -429,6 +435,7 @@
     <ClInclude Include="..\src\r_sky.h" />
     <ClInclude Include="..\src\r_state.h" />
     <ClInclude Include="..\src\r_things.h" />
+    <ClInclude Include="..\src\sha1.h" />
     <ClInclude Include="..\src\sounds.h" />
     <ClInclude Include="..\src\stdint.h" />
     <ClInclude Include="..\src\st_lib.h" />
@@ -444,6 +451,20 @@
     <ClInclude Include="..\src\z_zone.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\deh_ammo.c" />
+    <ClCompile Include="..\src\deh_cheat.c" />
+    <ClCompile Include="..\src\deh_doom.c" />
+    <ClCompile Include="..\src\deh_frame.c" />
+    <ClCompile Include="..\src\deh_io.c" />
+    <ClCompile Include="..\src\deh_main.c" />
+    <ClCompile Include="..\src\deh_mapping.c" />
+    <ClCompile Include="..\src\deh_misc.c" />
+    <ClCompile Include="..\src\deh_ptr.c" />
+    <ClCompile Include="..\src\deh_sound.c" />
+    <ClCompile Include="..\src\deh_str.c" />
+    <ClCompile Include="..\src\deh_text.c" />
+    <ClCompile Include="..\src\deh_thing.c" />
+    <ClCompile Include="..\src\deh_weapon.c" />
     <ClCompile Include="..\src\doomstat.c" />
     <ClCompile Include="..\src\dstrings.c" />
     <ClCompile Include="..\src\info.c" />
@@ -453,6 +474,7 @@
     <ClCompile Include="..\src\midifile.c" />
     <ClCompile Include="..\src\mus2mid.c" />
     <ClCompile Include="..\src\p_fix.c" />
+    <ClCompile Include="..\src\sha1.c" />
     <ClCompile Include="..\src\sounds.c" />
     <ClCompile Include="..\src\s_sound.c" />
     <ClCompile Include="..\src\am_map.c" />

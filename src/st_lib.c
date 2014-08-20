@@ -24,6 +24,7 @@
 */
 
 #include "d_main.h"
+#include "deh_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "st_lib.h"
@@ -41,7 +42,7 @@ patch_t *sttminus;
 
 void STlib_init(void)
 {
-    sttminus = W_CacheLumpName("STTMINUS", PU_STATIC);
+    sttminus = W_CacheLumpName(DEH_String("STTMINUS"), PU_STATIC);
 }
 
 void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, boolean *on, int width)

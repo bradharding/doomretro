@@ -23,6 +23,7 @@
 ========================================================================
 */
 
+#include "deh_main.h"
 #include "doomstat.h"
 #include "m_random.h"
 #include "r_local.h"
@@ -1193,14 +1194,11 @@ void R_FillBackScreen(void)
     int     windowx;
     int     windowy;
     patch_t *patch;
-    char    *name;
 
     if (scaledviewwidth == SCREENWIDTH)
         return;
 
-    name = (gamemode == commercial ? "GRNROCK" : "FLOOR7_2");
-
-    src = (byte *)W_CacheLumpName(name, PU_CACHE);
+    src = W_CacheLumpName(DEH_String(gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), PU_CACHE);
     dest = screens[1];
 
     for (y = 0; y < SCREENHEIGHT; y += 2)
@@ -1234,30 +1232,34 @@ void R_FillBackScreen(void)
     windowx = viewwindowx / 2;
     windowy = viewwindowy / 2;
 
-    patch = (patch_t *)W_CacheLumpName("brdr_t", PU_CACHE);
+    patch = W_CacheLumpName(DEH_String("brdr_t"), PU_CACHE);
     for (x = 0; x < width; x += 8)
         V_DrawPatch(windowx + x, windowy - 8, 1, patch);
 
-    patch = (patch_t *)W_CacheLumpName("brdr_b", PU_CACHE);
+    patch = W_CacheLumpName(DEH_String("brdr_b"), PU_CACHE);
     for (x = 0; x < width; x += 8)
         V_DrawPatch (windowx + x, windowy + height, 1, patch);
 
-    patch = (patch_t *)W_CacheLumpName("brdr_l", PU_CACHE);
+    patch = W_CacheLumpName(DEH_String("brdr_l"), PU_CACHE);
     for (y = 0; y < height; y += 8)
         V_DrawPatch(windowx - 8, windowy + y, 1, patch);
 
-    patch = (patch_t *)W_CacheLumpName("brdr_r", PU_CACHE);
+    patch = W_CacheLumpName(DEH_String("brdr_r"), PU_CACHE);
     for (y = 0; y < height; y += 8)
         V_DrawPatch(windowx + width, windowy + y, 1, patch);
 
     // Draw beveled edge.
-    V_DrawPatch(windowx - 8, windowy - 8, 1, (patch_t *)W_CacheLumpName("brdr_tl", PU_CACHE));
+    V_DrawPatch(windowx - 8, windowy - 8, 1,
+        W_CacheLumpName(DEH_String("brdr_tl"), PU_CACHE));
 
-    V_DrawPatch(windowx + width, windowy - 8, 1, (patch_t *)W_CacheLumpName("brdr_tr", PU_CACHE));
+    V_DrawPatch(windowx + width, windowy - 8, 1,
+        W_CacheLumpName(DEH_String("brdr_tr"), PU_CACHE));
 
-    V_DrawPatch(windowx - 8, windowy + height, 1, (patch_t *)W_CacheLumpName("brdr_bl", PU_CACHE));
+    V_DrawPatch(windowx - 8, windowy + height, 1,
+        W_CacheLumpName(DEH_String("brdr_bl"), PU_CACHE));
 
-    V_DrawPatch(windowx + width, windowy + height, 1, (patch_t *)W_CacheLumpName("brdr_br", PU_CACHE));
+    V_DrawPatch(windowx + width, windowy + height, 1,
+        W_CacheLumpName(DEH_String("brdr_br"), PU_CACHE));
 }
 
 //
@@ -1288,7 +1290,7 @@ void R_DrawViewBorder(void)
     if (scaledviewwidth == SCREENWIDTH)
         return;
 
-    top = ((SCREENHEIGHT - SBARHEIGHT) - viewheight) / 2;
+    top = (SCREENHEIGHT - SBARHEIGHT - viewheight) / 2;
     side = (SCREENWIDTH - scaledviewwidth) / 2;
 
     // copy top and one line of left side

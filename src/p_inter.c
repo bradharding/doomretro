@@ -27,6 +27,8 @@
 #include <stdlib.h>
 
 #include "am_map.h"
+#include "deh_main.h"
+#include "deh_misc.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "i_gamepad.h"
@@ -340,17 +342,17 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     {
         // armor
         case SPR_ARM1:
-            if (!P_GiveArmor(player, 1))
+            if (!P_GiveArmor(player, deh_green_armor_class))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTARMOR;
+                player->message = DEH_String(GOTARMOR);
             break;
 
         case SPR_ARM2:
-            if (!P_GiveArmor(player, 2))
+            if (!P_GiveArmor(player, deh_blue_armor_class))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTMEGA;
+                player->message = DEH_String(GOTMEGA);
             break;
 
         // bonus items
@@ -358,46 +360,46 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(player->cheats & CF_GODMODE))
             {
                 player->health++;       // can go over 100%
-                if (player->health > 200)
-                    player->health = 200;
+                if (player->health > deh_max_health)
+                    player->health = deh_max_health;
                 player->mo->health = player->health;
             }
             if (!message_dontfuckwithme)
-                player->message = GOTHTHBONUS;
+                player->message = DEH_String(GOTHTHBONUS);
             break;
 
         case SPR_BON2:
             player->armorpoints++;      // can go over 100%
-            if (player->armorpoints > 200)
-                player->armorpoints = 200;
+            if (player->armorpoints > deh_max_armor)
+                player->armorpoints = deh_max_armor;
             if (!player->armortype)
                 player->armortype = 1;
             if (!message_dontfuckwithme)
-                player->message = GOTARMBONUS;
+                player->message = DEH_String(GOTARMBONUS);
             break;
 
         case SPR_SOUL:
             if (!(player->cheats & CF_GODMODE))
             {
-                player->health += 100;
-                if (player->health > 200)
-                    player->health = 200;
+                player->health += deh_soulsphere_health;
+                if (player->health > deh_max_soulsphere)
+                    player->health = deh_max_soulsphere;
                 player->mo->health = player->health;
             }
             if (!message_dontfuckwithme)
-                player->message = GOTSUPER;
+                player->message = DEH_String(GOTSUPER);
             sound = sfx_getpow;
             break;
 
         case SPR_MEGA:
             if (!(player->cheats & CF_GODMODE))
             {
-                player->health = 200;
+                player->health = deh_megasphere_health;
                 player->mo->health = player->health;
             }
             P_GiveArmor(player, 2);
             if (!message_dontfuckwithme)
-                player->message = GOTMSPHERE;
+                player->message = DEH_String(GOTMSPHERE);
             sound = sfx_getpow;
             break;
 
@@ -407,7 +409,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->cards[it_bluecard] <= 0)
             {
                 if (!message_dontfuckwithme)
-                    player->message = GOTBLUECARD;
+                    player->message = DEH_String(GOTBLUECARD);
                 P_GiveCard(player, it_bluecard);
                 P_AddBonus(player, BONUSADD);
                 if (!netgame)
@@ -419,7 +421,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->cards[it_yellowcard] <= 0)
             {
                 if (!message_dontfuckwithme)
-                    player->message = GOTYELWCARD;
+                    player->message = DEH_String(GOTYELWCARD);
                 P_GiveCard(player, it_yellowcard);
                 P_AddBonus(player, BONUSADD);
                 if (!netgame)
@@ -431,7 +433,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->cards[it_redcard] <= 0)
             {
                 if (!message_dontfuckwithme)
-                    player->message = GOTREDCARD;
+                    player->message = DEH_String(GOTREDCARD);
                 P_GiveCard(player, it_redcard);
                 P_AddBonus(player, BONUSADD);
                 if (!netgame)
@@ -443,7 +445,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->cards[it_blueskull] <= 0)
             {
                 if (!message_dontfuckwithme)
-                    player->message = GOTBLUESKUL;
+                    player->message = DEH_String(GOTBLUESKUL);
                 P_GiveCard(player, it_blueskull);
                 P_AddBonus(player, BONUSADD);
                 if (!netgame)
@@ -455,7 +457,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->cards[it_yellowskull] <= 0)
             {
                 if (!message_dontfuckwithme)
-                    player->message = GOTYELWSKUL;
+                    player->message = DEH_String(GOTYELWSKUL);
                 P_GiveCard(player, it_yellowskull);
                 P_AddBonus(player, BONUSADD);
                 if (!netgame)
@@ -467,7 +469,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->cards[it_redskull] <= 0)
             {
                 if (!message_dontfuckwithme)
-                    player->message = GOTREDSKULL;
+                    player->message = DEH_String(GOTREDSKULL);
                 P_GiveCard(player, it_redskull);
                 P_AddBonus(player, BONUSADD);
                 if (!netgame)
@@ -481,7 +483,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GiveBody(player, 10))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTSTIM;
+                player->message = DEH_String(GOTSTIM);
             break;
 
         case SPR_MEDI:
@@ -491,9 +493,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!message_dontfuckwithme)
             {
                 if (player->health < 50)
-                    player->message = GOTMEDINEED;
+                    player->message = DEH_String(GOTMEDINEED);
                 else
-                    player->message = GOTMEDIKIT;
+                    player->message = DEH_String(GOTMEDIKIT);
             }
             break;
 
@@ -502,7 +504,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GivePower(player, pw_invulnerability))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTINVUL;
+                player->message = DEH_String(GOTINVUL);
             sound = sfx_getpow;
             break;
 
@@ -510,7 +512,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GivePower(player, pw_strength))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTBERSERK;
+                player->message = DEH_String(GOTBERSERK);
             if (player->readyweapon != wp_fist)
                 player->pendingweapon = wp_fist;
             player->fistorchainsaw = wp_fist;
@@ -521,7 +523,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GivePower(player, pw_invisibility))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTINVIS;
+                player->message = DEH_String(GOTINVIS);
             sound = sfx_getpow;
             break;
 
@@ -529,14 +531,14 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GivePower(player, pw_ironfeet))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTSUIT;
+                player->message = DEH_String(GOTSUIT);
             sound = sfx_getpow;
             break;
 
         case SPR_PMAP:
             P_GivePower(player, pw_allmap);
             if (!message_dontfuckwithme)
-                player->message = GOTMAP;
+                player->message = DEH_String(GOTMAP);
             sound = sfx_getpow;
             break;
 
@@ -544,7 +546,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GivePower(player, pw_infrared))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTVISOR;
+                player->message = DEH_String(GOTVISOR);
             sound = sfx_getpow;
             break;
 
@@ -553,56 +555,56 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTCLIP;
+                player->message = DEH_String(GOTCLIP);
             break;
 
         case SPR_AMMO:
             if (!P_GiveAmmo(player, am_clip, 5))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTCLIPBOX;
+                player->message = DEH_String(GOTCLIPBOX);
             break;
 
         case SPR_ROCK:
             if (!P_GiveAmmo(player, am_misl, 1))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTROCKET;
+                player->message = DEH_String(GOTROCKET);
             break;
 
         case SPR_BROK:
             if (!P_GiveAmmo(player, am_misl, 5))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTROCKBOX;
+                player->message = DEH_String(GOTROCKBOX);
             break;
 
         case SPR_CELL:
             if (!P_GiveAmmo(player, am_cell, 1))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTCELL;
+                player->message = DEH_String(GOTCELL);
             break;
 
         case SPR_CELP:
             if (!P_GiveAmmo(player, am_cell, 5))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTCELLBOX;
+                player->message = DEH_String(GOTCELLBOX);
             break;
 
         case SPR_SHEL:
             if (!P_GiveAmmo(player, am_shell, 1))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTSHELLS;
+                player->message = DEH_String(GOTSHELLS);
             break;
 
         case SPR_SBOX:
             if (!P_GiveAmmo(player, am_shell, 5))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTSHELLBOX;
+                player->message = DEH_String(GOTSHELLBOX);
             break;
 
         case SPR_BPAK:
@@ -622,7 +624,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!ammogiven)
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTBACKPACK;
+                player->message = DEH_String(GOTBACKPACK);
             break;
 
         // weapons
@@ -630,7 +632,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GiveWeapon(player, wp_bfg, false))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTBFG9000;
+                player->message = DEH_String(GOTBFG9000);
             sound = sfx_wpnup;
             break;
 
@@ -638,7 +640,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GiveWeapon(player, wp_chaingun, (special->flags & MF_DROPPED)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTCHAINGUN;
+                player->message = DEH_String(GOTCHAINGUN);
             sound = sfx_wpnup;
             break;
 
@@ -647,7 +649,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 return;
             player->fistorchainsaw = wp_chainsaw;
             if (!message_dontfuckwithme)
-                player->message = GOTCHAINSAW;
+                player->message = DEH_String(GOTCHAINSAW);
             sound = sfx_wpnup;
             break;
 
@@ -655,7 +657,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GiveWeapon(player, wp_missile, false))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTLAUNCHER;
+                player->message = DEH_String(GOTLAUNCHER);
             sound = sfx_wpnup;
             break;
 
@@ -663,7 +665,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!P_GiveWeapon(player, wp_plasma, false))
                 return;
             if (!message_dontfuckwithme)
-                player->message = GOTPLASMA;
+                player->message = DEH_String(GOTPLASMA);
             sound = sfx_wpnup;
             break;
 
@@ -676,7 +678,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             player->shotguns = (player->weaponowned[wp_shotgun]
                                 || player->weaponowned[wp_supershotgun]);
             if (!message_dontfuckwithme)
-                player->message = GOTSHOTGUN;
+                player->message = DEH_String(GOTSHOTGUN);
             sound = sfx_wpnup;
             break;
 
@@ -689,7 +691,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             player->shotguns = (player->weaponowned[wp_shotgun]
                                 || player->weaponowned[wp_supershotgun]);
             if (!message_dontfuckwithme)
-                player->message = GOTSHOTGUN2;
+                player->message = DEH_String(GOTSHOTGUN2);
             sound = sfx_wpnup;
             break;
 

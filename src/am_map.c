@@ -33,6 +33,7 @@
 #endif
 
 #include "am_map.h"
+#include "deh_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_stuff.h"
@@ -788,7 +789,7 @@ boolean AM_Responder(event_t *ev)
                         if (followplayer)
                             m_paninc.x = m_paninc.y = 0;
                         f_oldloc.x = INT_MAX;
-                        plr->message = (followplayer ? AMSTR_FOLLOWON : AMSTR_FOLLOWOFF);
+                        plr->message = DEH_String(followplayer ? AMSTR_FOLLOWON : AMSTR_FOLLOWOFF);
                         message_dontfuckwithme = true;
                     }
                 }
@@ -800,7 +801,7 @@ boolean AM_Responder(event_t *ev)
                     {
                         keydown = key;
                         grid = !grid;
-                        plr->message = (grid ? AMSTR_GRIDON : AMSTR_GRIDOFF);
+                        plr->message = DEH_String(grid ? AMSTR_GRIDON : AMSTR_GRIDOFF);
                         message_dontfuckwithme = true;
                     }
                 }
@@ -824,14 +825,14 @@ boolean AM_Responder(event_t *ev)
                         if (++markpress == 5)
                         {
                             // clear all marks
-                            plr->message = (markpointnum == 1 ? AMSTR_MARKCLEARED : AMSTR_MARKSCLEARED);
+                            plr->message = DEH_String(markpointnum == 1 ? AMSTR_MARKCLEARED : AMSTR_MARKSCLEARED);
                             message_dontfuckwithme = true;
                             markpointnum = 0;
                         }
                         else if (markpress == 1)
                         {
                             // clear one mark
-                            plr->message = AMSTR_MARKCLEARED;
+                            plr->message = DEH_String(AMSTR_MARKCLEARED);
                             message_dontfuckwithme = true;
                             markpointnum--;
                         }
@@ -845,7 +846,7 @@ boolean AM_Responder(event_t *ev)
                     {
                         keydown = key;
                         rotate = !rotate;
-                        plr->message = (rotate ? AMSTR_ROTATEON : AMSTR_ROTATEOFF);
+                        plr->message = DEH_String(rotate ? AMSTR_ROTATEON : AMSTR_ROTATEOFF);
                         message_dontfuckwithme = true;
                     }
                 }

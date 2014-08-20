@@ -25,6 +25,7 @@
 
 #include <ctype.h>
 
+#include "deh_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_stuff.h"
@@ -95,8 +96,8 @@ static textscreen_t textscreens[] =
     { pack_plut,  1, 31, "RROCK19",   P6TEXT },
 };
 
-static const char       *finaletext;
-static const char       *finaleflat;
+static char     *finaletext;
+static char     *finaleflat;
 
 void F_StartCast(void);
 void F_CastTicker(void);
@@ -137,6 +138,9 @@ void F_StartFinale(void)
             finaleflat = screen->background;
         }
     }
+
+    finaletext = DEH_String(finaletext);
+    finaleflat = DEH_String(finaleflat);
 
     finalestage = F_STAGE_TEXT;
     finalecount = 0;
@@ -627,9 +631,9 @@ void F_CastDrawer(void)
     patch_t             *patch;
 
     // erase the entire screen to a background
-    V_DrawPatch(0, 0, 0, W_CacheLumpName("BOSSBACK", PU_CACHE));
+    V_DrawPatch(0, 0, 0, W_CacheLumpName(DEH_String("BOSSBACK"), PU_CACHE));
 
-    F_CastPrint(castorder[castnum].name);
+    F_CastPrint(DEH_String(castorder[castnum].name));
 
     // draw the current frame in the middle of the screen
     sprdef = &sprites[caststate->sprite];
@@ -718,8 +722,8 @@ void F_BunnyScroll(void)
     const fixed_t       xscale = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
     fixed_t             frac = 0;
 
-    p1 = (patch_t *)W_CacheLumpName("PFUB2", PU_LEVEL);
-    p2 = (patch_t *)W_CacheLumpName("PFUB1", PU_LEVEL);
+    p1 = W_CacheLumpName(DEH_String("PFUB2"), PU_LEVEL);
+    p2 = W_CacheLumpName(DEH_String("PFUB1"), PU_LEVEL);
 
     scrolled = ORIGINALWIDTH - ((signed int)finalecount - 230) / 2;
     if (scrolled > ORIGINALWIDTH)
@@ -745,7 +749,7 @@ void F_BunnyScroll(void)
     if (finalecount < 1180)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
-                              0, (patch_t *)W_CacheLumpName("END0", PU_CACHE), false);
+            0, W_CacheLumpName(DEH_String("END0"), PU_CACHE), false);
         laststage = 0;
         return;
     }
@@ -759,9 +763,9 @@ void F_BunnyScroll(void)
         laststage = stage;
     }
 
-    M_snprintf(name, 10, "END%i", stage);
+    DEH_snprintf(name, 10, "END%i", stage);
     V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
-                          0, (patch_t *)W_CacheLumpName(name, PU_CACHE), false);
+                          0, W_CacheLumpName(name, PU_CACHE), false);
 }
 
 static void F_ArtScreenDrawer(void)
@@ -787,7 +791,7 @@ static void F_ArtScreenDrawer(void)
                 return;
         }
 
-        V_DrawPatch(0, 0, 0, (patch_t *)W_CacheLumpName(lumpname, PU_CACHE));
+        V_DrawPatch(0, 0, 0, W_CacheLumpName(DEH_String(lumpname), PU_CACHE));
     }
 }
 
