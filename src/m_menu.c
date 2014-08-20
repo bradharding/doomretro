@@ -2867,7 +2867,7 @@ void M_StartControlPanel(void)
     }
 
     players[consoleplayer].fixedcolormap = 0;
-    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
+    I_SetPalette(W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE));
 }
 
 //
@@ -3026,7 +3026,7 @@ void M_ClearMenus(void)
         XInputVibration(idlemotorspeed);
     }
 
-    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+    I_SetPalette((byte *)W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE) + st_palette * 768);
 }
 
 //

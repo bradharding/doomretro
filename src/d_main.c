@@ -207,7 +207,7 @@ void D_Display(void)
     if (gamestate != GS_LEVEL)
     {
         if (gamestate != oldgamestate && !splashscreen)
-            I_SetPalette((byte *)W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE));
+            I_SetPalette(W_CacheLumpName(DEH_String("PLAYPAL"), PU_CACHE));
 
         switch (gamestate)
         {
