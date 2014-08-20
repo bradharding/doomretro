@@ -539,10 +539,21 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     // do not set the state with P_SetMobjState,
     // because action routines cannot be called yet
+    st = &states[info->spawnstate];
+
     if (info->frames > 1)
-        st = &states[info->spawnstate + M_RandomInt(0, info->frames - 1)];
-    else
-        st = &states[info->spawnstate];
+    {
+        int     frames = M_RandomInt(0, info->frames);
+        int     i;
+
+        for (i = 0; i < frames; ++i)
+        {
+            if (st->nextstate == S_NULL)
+                break;
+
+            st = &states[st->nextstate];
+        }
+    }
 
     mobj->state = st;
     mobj->tics = st->tics;

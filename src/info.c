@@ -1075,9 +1075,8 @@ state_t states[NUMSTATES] =
     { SPR_ARM2,  1 | FF_FULLBRIGHT,                6,               NULL,            S_ARM2          }, // S_ARM2A
 
     // Barrel (MT_BARREL)
-    // [BH] add an additional frame to the barel animation, taken from the
+    // [BH] add an additional frame to the barrel animation, taken from the
     //  first barrel explosion frame.
-    { SPR_BEXP,  0,                                6,               NULL,            S_BAR2          }, // S_BAR1
     { SPR_BAR1,  0,                                6,               NULL,            S_BAR3          }, // S_BAR2
     { SPR_BAR1,  1,                                6,               NULL,            S_BAR1          }, // S_BAR3
     { SPR_BEXP,  0 | FF_FULLBRIGHT,                5,               NULL,            S_BEXP2         }, // S_BEXP
@@ -1398,6 +1397,8 @@ state_t states[NUMSTATES] =
     { SPR_TLP2,  1 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP3    }, // S_TECH2LAMP2
     { SPR_TLP2,  2 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP4    }, // S_TECH2LAMP3
     { SPR_TLP2,  3 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP     }, // S_TECH2LAMP4
+
+    { SPR_BEXP,  0,                                6,               NULL,            S_BAR2          }, // S_BAR1
 
     // [BH] Blood Splat (MT_BLOODSPLAT)
     { SPR_BLD2,  0,                               -1,               NULL,            S_NULL          }, // S_BLOODSPLAT
