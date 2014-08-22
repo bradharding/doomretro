@@ -573,17 +573,16 @@ void P_LoadThings(int lump)
 //
 void P_LoadLineDefs(int lump)
 {
-    const byte  *data;
+    const byte  *data = W_CacheLumpNum(lump, PU_STATIC);
     int         i;
 
     numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
     lines = calloc_IfSameLevel(lines, numlines, sizeof(line_t));
     memset(lines, 0, numlines * sizeof(line_t));
-    data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
     for (i = 0; i < numlines; i++)
     {
-        const maplinedef_t      *mld = (const maplinedef_t *) data + i;
+        const maplinedef_t      *mld = (const maplinedef_t *)data + i;
         line_t                  *ld = lines + i;
         vertex_t                *v1, *v2;
 
@@ -649,19 +648,12 @@ void P_LoadLineDefs(int lump)
             if (ld->sidenum[0] == NO_INDEX)
                 ld->sidenum[0] = 0;  // Substitute dummy sidedef for missing right side
 
-            if ((ld->sidenum[1] == NO_INDEX) && (ld->flags & ML_TWOSIDED))
+            if (ld->sidenum[1] == NO_INDEX && (ld->flags & ML_TWOSIDED))
                 ld->flags &= ~ML_TWOSIDED;  // Clear 2s flag for missing left side
         }
 
-        if (ld->sidenum[0] != NO_INDEX)
-            ld->frontsector = sides[ld->sidenum[0]].sector;
-        else
-            ld->frontsector = 0;
-
-        if (ld->sidenum[1] != NO_INDEX)
-            ld->backsector = sides[ld->sidenum[1]].sector;
-        else
-            ld->backsector = 0;
+        ld->frontsector = (ld->sidenum[0] == NO_INDEX ? 0 : sides[ld->sidenum[0]].sector);
+        ld->backsector = (ld->sidenum[1] == NO_INDEX ? 0 : sides[ld->sidenum[1]].sector);
     }
 
     W_ReleaseLumpNum(lump);
@@ -1064,57 +1056,49 @@ extern char     **mapnamesn[];
 // Determine map name to use
 void P_MapName(int episode, int map)
 {
+    char *pos;
+
     switch (gamemission)
     {
         case doom:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", episode, map);
             M_StringCopy(maptitle, *mapnames[(episode - 1) * 9 + map - 1], sizeof(maptitle));
-            if (strchr(maptitle, ':'))
-                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
-            else
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
             break;
 
         case doom2:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
             M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]),
                 sizeof(maptitle));
-            if (strchr(maptitle, ':'))
-                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
-            else
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
             break;
 
         case pack_nerve:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
             M_StringCopy(maptitle, *mapnamesn[map - 1], sizeof(maptitle));
-            if (strchr(maptitle, ':'))
-                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
-            else
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
             break;
 
         case pack_plut:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
             M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
-            if (strchr(maptitle, ':'))
-                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
-            else
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
             break;
 
         case pack_tnt:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
             M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
-            if (strchr(maptitle, ':'))
-                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
-            else
-                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
             break;
 
         default:
             break;
     }
+
+    if ((pos = strchr(maptitle, ':')))
+    {
+        M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
+        strcpy(maptitle, pos + 1);
+        if (maptitle[0] == ' ')
+            strcpy(maptitle, &maptitle[1]);
+    }
+    else
+        M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
 }
 
 extern boolean idclev;
