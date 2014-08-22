@@ -23,6 +23,7 @@
 ========================================================================
 */
 
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -476,7 +477,7 @@ void HU_Ticker(void)
         else if (message_counter > 132)
             message_counter--;
 
-        HUlib_addMessageToSText(&w_message, 0, STSTR_BEHOLD);
+        HUlib_addMessageToSText(&w_message, 0, s_STSTR_BEHOLD);
         message_on = true;
     }
     else if (players[consoleplayer].cheats & CF_MYPOS)
@@ -508,7 +509,7 @@ void HU_Ticker(void)
             z = plr->mo->z / FRACUNIT;
         }
 
-        M_snprintf(buffer, sizeof(buffer), STSTR_MYPOS, angle, STCFN034 ? ' ' : '*', x, y, z);
+        M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, angle, STCFN034 ? ' ' : '*', x, y, z);
         HUlib_addMessageToSText(&w_message, 0, buffer);
         message_on = true;
     }

@@ -26,6 +26,8 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "d_deh.h"
+#include "dstrings.h"
 #include "hu_lib.h"
 #include "i_swap.h"
 #include "r_local.h"
@@ -196,7 +198,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
         tw += w;
     }
 
-    if (STCFN034)
+    if (STCFN034 || s_STSTR_BEHOLD != STSTR_BEHOLD)
         return;
 
     // [BH] draw underscores for IDBEHOLD cheat message

@@ -315,13 +315,17 @@ char *s_QLPROMPT = QLPROMPT;
 char *s_QUITA = QUITA;
 char *s_QUITY = QUITY;
 char *s_STSTR_BEHOLD = STSTR_BEHOLD;
+char *s_STSTR_BEHOLDOFF = STSTR_BEHOLDOFF;
+char *s_STSTR_BEHOLDON = STSTR_BEHOLDON;
 char *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
 char *s_STSTR_CLEV = STSTR_CLEV;
+char *s_STSTR_CLEVSAME = STSTR_CLEVSAME;
 char *s_STSTR_DQDOFF = STSTR_DQDOFF;
 char *s_STSTR_DQDON = STSTR_DQDON;
 char *s_STSTR_FAADDED = STSTR_FAADDED;
 char *s_STSTR_KFAADDED = STSTR_KFAADDED;
 char *s_STSTR_MUS = STSTR_MUS;
+char *s_STSTR_MYPOS = STSTR_MYPOS;
 char *s_STSTR_NCOFF = STSTR_NCOFF;
 char *s_STSTR_NCON = STSTR_NCON;
 char *s_SWSTRING = SWSTRING;
@@ -617,13 +621,17 @@ deh_strs deh_strlookup[] =
     { &s_QUITA,              "QUITA"              },
     { &s_QUITY,              "QUITY"              },
     { &s_STSTR_BEHOLD,       "STSTR_BEHOLD"       },
+    { &s_STSTR_BEHOLDOFF,    "STSTR_BEHOLDOFF"    },
+    { &s_STSTR_BEHOLDON,     "STSTR_BEHOLDON"     },
     { &s_STSTR_CHOPPERS,     "STSTR_CHOPPERS"     },
     { &s_STSTR_CLEV,         "STSTR_CLEV"         },
+    { &s_STSTR_CLEVSAME,     "STSTR_CLEVSAME"     },
     { &s_STSTR_DQDOFF,       "STSTR_DQDOFF"       },
     { &s_STSTR_DQDON,        "STSTR_DQDON"        },
     { &s_STSTR_FAADDED,      "STSTR_FAADDED"      },
     { &s_STSTR_KFAADDED,     "STSTR_KFAADDED"     },
     { &s_STSTR_MUS,          "STSTR_MUS"          },
+    { &s_STSTR_MYPOS,        "STSTR_MYPOS"        },
     { &s_STSTR_NCOFF,        "STSTR_NCOFF"        },
     { &s_STSTR_NCON,         "STSTR_NCON"         },
     { &s_SWSTRING,           "SWSTRING"           },

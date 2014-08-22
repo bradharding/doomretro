@@ -997,7 +997,7 @@ boolean ST_Responder(event_t *ev)
                               }
                         }
 
-                        plyr->message = STSTR_BEHOLDON;
+                        plyr->message = s_STSTR_BEHOLDON;
                     }
                     else
                     {
@@ -1025,7 +1025,7 @@ boolean ST_Responder(event_t *ev)
                             plyr->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        plyr->message = STSTR_BEHOLDOFF;
+                        plyr->message = s_STSTR_BEHOLDOFF;
                     }
 
                     // [BH] reset all cheat sequences
@@ -1223,7 +1223,7 @@ boolean ST_Responder(event_t *ev)
                     static char buf[128];
 
                     if (epsd == gameepisode && map == gamemap)
-                        M_snprintf(buf, sizeof(buf), STSTR_CLEVSAME, lump);
+                        M_snprintf(buf, sizeof(buf), s_STSTR_CLEVSAME, lump);
                     else
                         M_snprintf(buf, sizeof(buf), s_STSTR_CLEV, lump);
                     plyr->message = buf;
