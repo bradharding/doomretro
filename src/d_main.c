@@ -812,6 +812,22 @@ void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
 void ProcessDehFile(char *filename, char *outfilename, int lump);
 
+static void D_ProcessDehCommandLine(void)
+{
+    int p = M_CheckParm("-deh");
+
+    if (p || (p = M_CheckParm("-bex")))
+    {
+        boolean deh = true;
+
+        while (++p < myargc)
+            if (*myargv[p] == '-')
+                deh = (!strcasecmp(myargv[p], "-deh") || !strcasecmp(myargv[p], "-bex"));
+            else if (deh)
+                ProcessDehFile(myargv[p], "deh.txt", 0);
+    }
+}
+
 static void D_ProcessDehInWad(void)
 {
     unsigned int        i;
@@ -838,6 +854,8 @@ static void D_DoomMainSetup(void)
     iwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
 
     modifiedgame = false;
+
+    D_ProcessDehCommandLine();
 
     nomonsters = M_CheckParm("-nomonsters");
     respawnparm = M_CheckParm("-respawn");
