@@ -282,6 +282,7 @@ extern int idfa_armor_class;
 extern int idkfa_armor;
 extern int idkfa_armor_class;
 extern int bfgcells;
+extern int species_infighting;
 extern int maxammo[];
 extern int clipammo[];
 

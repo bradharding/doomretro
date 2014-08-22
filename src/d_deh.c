@@ -1175,9 +1175,7 @@ char *deh_misc[] =
     "IDKFA Armor",              // idkfa_armor
     "IDKFA Armor Class",        // idkfa_armor_class
     "BFG Cells/Shot",           // BFGCELLS
-    "Monsters Infight"          // Unknown--not a specific number it seems, but
-                                // the logic has to be here somewhere or
-                                // it'd happen always
+    "Monsters Infight"          // species_infighting
 };
 
 // TEXT - Dehacked block name = "Text"
@@ -2229,7 +2227,7 @@ void deh_procMisc(DEHFILE *fpin, FILE* fpout, char *line)
         else if (!strcasecmp(key, deh_misc[14]))                // BFG Cells/Shot
             bfgcells = value;
         else if (!strcasecmp(key, deh_misc[15]))                // Monsters Infight
-            /* No such switch in DOOM - nop */;
+            species_infighting = value;
         else if (fpout)
             fprintf(fpout, "Invalid misc item string index for '%s'\n", key);
     }

@@ -55,6 +55,7 @@ int idfa_armor_class = 2;
 int idkfa_armor = 200;
 int idkfa_armor_class = 2;
 int bfgcells = 40;
+int species_infighting = 0;
 
 // a weapon is found with two clip loads,
 // a big item has five clip loads
