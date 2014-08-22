@@ -265,11 +265,17 @@ char *s_P4TEXT = P4TEXT;
 char *s_P5TEXT = P5TEXT;
 char *s_P6TEXT = P6TEXT;
 char *s_PD_BLUEK = PD_BLUEK;
+char *s_PD_BLUEK2 = PD_BLUEK2;
 char *s_PD_BLUEO = PD_BLUEO;
+char *s_PD_BLUEO2 = PD_BLUEO2;
 char *s_PD_REDK = PD_REDK;
+char *s_PD_REDK2 = PD_REDK2;
 char *s_PD_REDO = PD_REDO;
+char *s_PD_REDO2 = PD_REDO2;
 char *s_PD_YELLOWK = PD_YELLOWK;
+char *s_PD_YELLOWK2 = PD_YELLOWK2;
 char *s_PD_YELLOWO = PD_YELLOWO;
+char *s_PD_YELLOWO2 = PD_YELLOWO2;
 char *s_PHUSTR_1 = PHUSTR_1;
 char *s_PHUSTR_2 = PHUSTR_2;
 char *s_PHUSTR_3 = PHUSTR_3;
@@ -562,11 +568,17 @@ deh_strs deh_strlookup[] =
     { &s_P5TEXT,             "P5TEXT"             },
     { &s_P6TEXT,             "P6TEXT"             },
     { &s_PD_BLUEK,           "PD_BLUEK"           },
+    { &s_PD_BLUEK2,          "PD_BLUEK2"          },
     { &s_PD_BLUEO,           "PD_BLUEO"           },
+    { &s_PD_BLUEO2,          "PD_BLUEO2"          },
     { &s_PD_REDK,            "PD_REDK"            },
+    { &s_PD_REDK2,           "PD_REDK2"           },
     { &s_PD_REDO,            "PD_REDO"            },
+    { &s_PD_REDO2,           "PD_REDO2"           },
     { &s_PD_YELLOWK,         "PD_YELLOWK"         },
+    { &s_PD_YELLOWK2,        "PD_YELLOWK2"        },
     { &s_PD_YELLOWO,         "PD_YELLOWO"         },
+    { &s_PD_YELLOWO2,        "PD_YELLOWO2"        },
     { &s_PHUSTR_1,           "PHUSTR_1"           },
     { &s_PHUSTR_2,           "PHUSTR_2"           },
     { &s_PHUSTR_3,           "PHUSTR_3"           },
