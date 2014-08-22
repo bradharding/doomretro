@@ -811,6 +811,7 @@ static int D_ChooseIWAD(void)
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
 void ProcessDehFile(char *filename, char *outfilename, int lump);
+boolean CheckPackageWadVersion(void);
 
 static void D_ProcessDehCommandLine(void)
 {
@@ -1000,10 +1001,7 @@ static void D_DoomMainSetup(void)
     if (!W_MergeFile(PACKAGE_WAD))
         I_Error("Can't find %s.", PACKAGE_WAD);
 
-    if (W_CheckNumForName("BLD2A0") < 0 ||
-        W_CheckNumForName("MEDBA0") < 0 ||
-        W_CheckNumForName("STBAR2") < 0 ||
-        W_CheckNumForName("SPLSHTTL") < 0)
+    if (!CheckPackageWadVersion())
         I_Error("Wrong version of %s.", PACKAGE_WAD);
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);

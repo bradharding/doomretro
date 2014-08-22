@@ -34,4 +34,4 @@
 #define PACKAGE_DESCRIPTION     "DOOM RETRO v1.666"
 #define PACKAGE_VERSION         1,666,0,0
 #define PACKAGE_VERSIONSTRING   "1.666"
-#define PACKAGE_WAD             "doomretro.wad"
+#define PACKAGE_WAD             "DOOMRETRO.WAD"
