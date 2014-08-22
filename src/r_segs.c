@@ -197,7 +197,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
                 continue;        // skip if the texture is out of screen's range
 
             if (!fixedcolormap)
-                dc_colormap = walllights[MIN(spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+                dc_colormap = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 
             sprtopscreen = (long)(t >> FRACBITS);
             dc_iscale = 0xffffffffu / (unsigned)spryscale;
@@ -289,7 +289,7 @@ void R_RenderSegLoop(void)
             if (fixedcolormap)
                 dc_colormap = fixedcolormap;
             else
-                dc_colormap = walllights[MIN(rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+                dc_colormap = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
             dc_x = rw_x;
             dc_iscale = 0xffffffffu / (unsigned)rw_scale;
         }
