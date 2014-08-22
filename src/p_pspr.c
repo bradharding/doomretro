@@ -24,7 +24,6 @@
 */
 
 #include "d_event.h"
-#include "deh_misc.h"
 #include "i_gamepad.h"
 #include "m_random.h"
 #include "m_menu.h"
@@ -37,8 +36,6 @@
 
 #define WEAPONBOTTOM            128 * FRACUNIT
 #define WEAPONTOP               32 * FRACUNIT
-
-#define BFGCELLS                deh_bfg_cells_per_shot
 
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
@@ -121,7 +118,7 @@ boolean P_CheckAmmo(player_t *player)
 
     // Minimal amount for one shot varies.
     if (player->readyweapon == wp_bfg)
-        count = BFGCELLS;
+        count = bfgcells;
     else if (player->readyweapon == wp_supershotgun)
         count = 2;      // Double barrel.
 
@@ -147,7 +144,7 @@ boolean P_CheckAmmo(player_t *player)
         player->pendingweapon = wp_chainsaw;
     else if (player->weaponowned[wp_missile] && player->ammo[am_misl])
         player->pendingweapon = wp_missile;
-    else if (player->weaponowned[wp_bfg] && player->ammo[am_cell] >= BFGCELLS)
+    else if (player->weaponowned[wp_bfg] && player->ammo[am_cell] >= bfgcells)
         player->pendingweapon = wp_bfg;
     else
         // If everything fails.
@@ -443,7 +440,7 @@ void A_FireMissile(player_t *player, pspdef_t *psp)
 //
 void A_FireBFG(player_t *player, pspdef_t *psp)
 {
-    player->ammo[weaponinfo[player->readyweapon].ammo] -= BFGCELLS;
+    player->ammo[weaponinfo[player->readyweapon].ammo] -= bfgcells;
     P_SpawnPlayerMissile(player->mo, MT_BFG);
 }
 

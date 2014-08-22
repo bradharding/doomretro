@@ -36,9 +36,6 @@
 #define PRESSKEY                "(Press any key to continue.)"
 #define PRESSYN                 "(Press 'Y' or 'N' to continue.)"
 #define PRESSA                  "(Press button 'A' to continue.)"
-#define QUITMSG                 "Are you sure you want to\n"\
-                                "quit this great game?"
-#define QSPROMPT                "Do you want to quicksave over the savegame \"%s\"?"
 #define QLPROMPT                "Do you want to quickload the savegame \"%s\"?"
 #define NIGHTMARE               "Are you sure? This skill level\n"\
                                 "isn't even remotely fair!"
@@ -142,8 +139,6 @@
 //
 //  hu_stuff.c
 //
-#define HUSTR_MSGU              "(Message unsent)"
-
 #define HUSTR_E1M1              "Hangar"
 #define HUSTR_E1M2              "Nuclear Plant"
 #define HUSTR_E1M3              "Toxin Refinery"
@@ -220,6 +215,10 @@
 #define HUSTR_31                "Wolfenstein"
 #define HUSTR_32                "Grosse"
 
+#define HUSTR_31_BFG            "IDKFA"
+#define HUSTR_32_BFG            "Keen"
+#define HUSTR_33_BFG            "Betray"
+
 #define PHUSTR_1                "Congo"
 #define PHUSTR_2                "Well of Souls"
 #define PHUSTR_3                "Aztec"
@@ -292,43 +291,6 @@
 #define THUSTR_31               "Pharaoh"
 #define THUSTR_32               "Caribbean"
 
-#define HUSTR2_1                "Entryway"
-#define HUSTR2_2                "Underhalls"
-#define HUSTR2_3                "The Gantlet"
-#define HUSTR2_4                "The Focus"
-#define HUSTR2_5                "The Waste Tunnels"
-#define HUSTR2_6                "The Crusher"
-#define HUSTR2_7                "Dead Simple"
-#define HUSTR2_8                "Tricks and Traps"
-#define HUSTR2_9                "The Pit"
-#define HUSTR2_10               "Refueling Base"
-#define HUSTR2_11               "'O' of Destruction!"
-
-#define HUSTR2_12               "The Factory"
-#define HUSTR2_13               "Downtown"
-#define HUSTR2_14               "The Inmost Dens"
-#define HUSTR2_15               "Industrial Zone"
-#define HUSTR2_16               "Suburbs"
-#define HUSTR2_17               "Tenements"
-#define HUSTR2_18               "The Courtyard"
-#define HUSTR2_19               "The Citadel"
-#define HUSTR2_20               "Gotcha!"
-
-#define HUSTR2_21               "Nirvana"
-#define HUSTR2_22               "The Catacombs"
-#define HUSTR2_23               "Barrels o' Fun"
-#define HUSTR2_24               "The Chasm"
-#define HUSTR2_25               "Bloodfalls"
-#define HUSTR2_26               "The Abandoned Mines"
-#define HUSTR2_27               "Monster Condo"
-#define HUSTR2_28               "The Spirit World"
-#define HUSTR2_29               "The Living End"
-#define HUSTR2_30               "Icon of Sin"
-
-#define HUSTR2_31               "IDKFA"
-#define HUSTR2_32               "Keen"
-#define HUSTR2_33               "Betray"
-
 #define NHUSTR_1                "The Earth Base"
 #define NHUSTR_2                "The Pain Labs"
 #define NHUSTR_3                "Canyon of the Dead"
@@ -338,36 +300,6 @@
 #define NHUSTR_7                "Baron's Banquet"
 #define NHUSTR_8                "Tomb of Malevolence"
 #define NHUSTR_9                "March of the Demons"
-
-#define HUSTR_CHATMACRO1        "I'm ready to kick butt!"
-#define HUSTR_CHATMACRO2        "I'm OK."
-#define HUSTR_CHATMACRO3        "I'm not looking too good!"
-#define HUSTR_CHATMACRO4        "Help!"
-#define HUSTR_CHATMACRO5        "You suck!"
-#define HUSTR_CHATMACRO6        "Next time, scumbag..."
-#define HUSTR_CHATMACRO7        "Come here!"
-#define HUSTR_CHATMACRO8        "I'll take care of it."
-#define HUSTR_CHATMACRO9        "Yes."
-#define HUSTR_CHATMACRO0        "No."
-
-#define HUSTR_TALKTOSELF1       "You mumble to yourself."
-#define HUSTR_TALKTOSELF2       "Who's there?"
-#define HUSTR_TALKTOSELF3       "You scare yourself."
-#define HUSTR_TALKTOSELF4       "You start to rave."
-#define HUSTR_TALKTOSELF5       "You've lost it..."
-
-#define HUSTR_MESSAGESENT       "(Message sent)"
-
-// The following should NOT be changed unless it seems just AWFULLY necessary
-#define HUSTR_PLRGREEN          "Green: "
-#define HUSTR_PLRINDIGO         "Indigo: "
-#define HUSTR_PLRBROWN          "Brown: "
-#define HUSTR_PLRRED            "Red: "
-
-#define HUSTR_KEYGREEN          'g'
-#define HUSTR_KEYINDIGO         'i'
-#define HUSTR_KEYBROWN          'b'
-#define HUSTR_KEYRED            'r'
 
 //
 // am_map.c

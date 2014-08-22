@@ -23,7 +23,6 @@
 ========================================================================
 */
 
-#include "deh_str.h"
 #include "doomstat.h"
 #include "m_argv.h"
 #include "m_misc.h"
@@ -639,7 +638,7 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
     // get lumpnum if neccessary
     if (!music->lumpnum)
     {
-        M_snprintf(namebuf, sizeof(namebuf), "d_%s", DEH_String(music->name));
+        M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
         music->lumpnum = W_GetNumForName(namebuf);
     }
 

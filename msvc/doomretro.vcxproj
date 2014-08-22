@@ -370,18 +370,13 @@
     <CustomBuildStep Include="..\src\z_zone.h" />
     <ClInclude Include="..\src\am_map.h" />
     <ClInclude Include="..\src\config.h" />
-    <ClInclude Include="..\src\deh_defs.h" />
-    <ClInclude Include="..\src\deh_io.h" />
-    <ClInclude Include="..\src\deh_main.h" />
-    <ClInclude Include="..\src\deh_mapping.h" />
-    <ClInclude Include="..\src\deh_misc.h" />
-    <ClInclude Include="..\src\deh_str.h" />
     <ClInclude Include="..\src\doomdata.h" />
     <ClInclude Include="..\src\doomdef.h" />
     <ClInclude Include="..\src\doomkeys.h" />
     <ClInclude Include="..\src\doomstat.h" />
     <ClInclude Include="..\src\doomtype.h" />
     <ClInclude Include="..\src\dstrings.h" />
+    <ClInclude Include="..\src\d_deh.h" />
     <ClInclude Include="..\src\d_englsh.h" />
     <ClInclude Include="..\src\d_event.h" />
     <ClInclude Include="..\src\d_items.h" />
@@ -451,22 +446,9 @@
     <ClInclude Include="..\src\z_zone.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\deh_ammo.c" />
-    <ClCompile Include="..\src\deh_cheat.c" />
-    <ClCompile Include="..\src\deh_doom.c" />
-    <ClCompile Include="..\src\deh_frame.c" />
-    <ClCompile Include="..\src\deh_io.c" />
-    <ClCompile Include="..\src\deh_main.c" />
-    <ClCompile Include="..\src\deh_mapping.c" />
-    <ClCompile Include="..\src\deh_misc.c" />
-    <ClCompile Include="..\src\deh_ptr.c" />
-    <ClCompile Include="..\src\deh_sound.c" />
-    <ClCompile Include="..\src\deh_str.c" />
-    <ClCompile Include="..\src\deh_text.c" />
-    <ClCompile Include="..\src\deh_thing.c" />
-    <ClCompile Include="..\src\deh_weapon.c" />
     <ClCompile Include="..\src\doomstat.c" />
     <ClCompile Include="..\src\dstrings.c" />
+    <ClCompile Include="..\src\d_deh.c" />
     <ClCompile Include="..\src\info.c" />
     <ClCompile Include="..\src\i_sdlmusic.c" />
     <ClCompile Include="..\src\i_sdlsound.c" />

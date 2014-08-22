@@ -23,7 +23,6 @@
 ========================================================================
 */
 
-#include "deh_main.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "m_random.h"
@@ -135,8 +134,8 @@ void P_InitPicAnims(void)
     lastanim = anims;
     for (i = 0; animdefs[i].istexture != -1; i++)
     {
-        char    *startname = DEH_String(animdefs[i].startname);
-        char    *endname = DEH_String(animdefs[i].endname);
+        char    *startname = animdefs[i].startname;
+        char    *endname = animdefs[i].endname;
 
         // 1/11/98 killough -- removed limit by array-doubling
         if (lastanim >= anims + maxanims)

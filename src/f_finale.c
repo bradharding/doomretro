@@ -25,7 +25,7 @@
 
 #include <ctype.h>
 
-#include "deh_main.h"
+#include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_stuff.h"
@@ -56,46 +56,6 @@ static int              finalecount;
 #define NEWTEXTSPEED    0.01f   // new value                    // phares
 #define NEWTEXTWAIT     1000    // new value                    // phares
 
-typedef struct
-{
-    GameMission_t       mission;
-    int                 episode;
-    int                 level;
-    char                *background;
-    char                *text;
-} textscreen_t;
-
-static textscreen_t textscreens[] =
-{
-    { doom,       1, 8,  "FLOOR4_8",  E1TEXT },
-    { doom,       2, 8,  "SFLR6_1",   E2TEXT },
-    { doom,       3, 8,  "MFLR8_4",   E3TEXT },
-    { doom,       4, 8,  "MFLR8_3",   E4TEXT },
-
-    { doom2,      1, 6,  "SLIME16",   C1TEXT },
-    { doom2,      1, 11, "RROCK14",   C2TEXT },
-    { doom2,      1, 20, "RROCK07",   C3TEXT },
-    { doom2,      1, 30, "RROCK17",   C4TEXT },
-    { doom2,      1, 15, "RROCK13",   C5TEXT },
-    { doom2,      1, 31, "RROCK19",   C6TEXT },
-
-    { pack_nerve, 1, 8,  "SLIME16",   N1TEXT },
-
-    { pack_tnt,   1, 6,  "SLIME16",   T1TEXT },
-    { pack_tnt,   1, 11, "RROCK14",   T2TEXT },
-    { pack_tnt,   1, 20, "RROCK07",   T3TEXT },
-    { pack_tnt,   1, 30, "RROCK17",   T4TEXT },
-    { pack_tnt,   1, 15, "RROCK13",   T5TEXT },
-    { pack_tnt,   1, 31, "RROCK19",   T6TEXT },
-
-    { pack_plut,  1, 6,  "SLIME16",   P1TEXT },
-    { pack_plut,  1, 11, "RROCK14",   P2TEXT },
-    { pack_plut,  1, 20, "RROCK07",   P3TEXT },
-    { pack_plut,  1, 30, "RROCK17",   P4TEXT },
-    { pack_plut,  1, 15, "RROCK13",   P5TEXT },
-    { pack_plut,  1, 31, "RROCK19",   P6TEXT },
-};
-
 static char     *finaletext;
 static char     *finaleflat;
 
@@ -113,8 +73,6 @@ static int midstage;                 // whether we're in "mid-stage"
 //
 void F_StartFinale(void)
 {
-    size_t      i;
-
     gameaction = ga_nothing;
     gamestate = GS_FINALE;
     viewactive = false;
@@ -123,24 +81,99 @@ void F_StartFinale(void)
     // killough 3/28/98: clear accelerative text flags
     acceleratestage = midstage = 0;
 
-    S_ChangeMusic(gamemission == doom ? mus_victor : mus_read_m, true, false);
-
-    // Find the right screen and set the text and background
-    for (i = 0; i < arrlen(textscreens); ++i)
+    // Okay - IWAD dependend stuff.
+    // This has been changed severly, and
+    //  some stuff might have changed in the process.
+    switch (gamemode)
     {
-        textscreen_t *screen = &textscreens[i];
-
-        if (gamemission == screen->mission
-            && (gamemission != doom || gameepisode == screen->episode)
-            && gamemap == screen->level)
+        // DOOM 1 - E1, E3 or E4, but each nine missions
+        case shareware:
+        case registered:
+        case retail:
         {
-            finaletext = screen->text;
-            finaleflat = screen->background;
-        }
-    }
+            S_ChangeMusic(mus_victor, true, false);
 
-    finaletext = DEH_String(finaletext);
-    finaleflat = DEH_String(finaleflat);
+            switch (gameepisode)
+            {
+                case 1:
+                    finaleflat = bgflatE1;
+                    finaletext = s_E1TEXT;
+                    break;
+                case 2:
+                    finaleflat = bgflatE2;
+                    finaletext = s_E2TEXT;
+                    break;
+                case 3:
+                    finaleflat = bgflatE3;
+                    finaletext = s_E3TEXT;
+                    break;
+                case 4:
+                    finaleflat = bgflatE4;
+                    finaletext = s_E4TEXT;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
+
+        // DOOM II and missions packs with E1, M34
+        case commercial:
+        {
+            S_ChangeMusic(mus_read_m, true, false);
+
+            switch (gamemap)      // This is regular Doom II
+            {
+                case 6:
+                    finaleflat = bgflat06;
+                    finaletext = (gamemission == pack_tnt ? s_T1TEXT :
+                        (gamemission == pack_plut ? s_P1TEXT : s_C1TEXT));
+                    break;
+                case 8:
+                    if (gamemission == pack_nerve)
+                    {
+                        finaleflat = bgflat06;
+                        finaletext = s_N1TEXT;
+                    }
+                case 11:
+                    finaleflat = bgflat11;
+                    finaletext = (gamemission == pack_tnt ? s_T2TEXT :
+                        (gamemission == pack_plut ? s_P2TEXT : s_C2TEXT));
+                    break;
+                case 20:
+                    finaleflat = bgflat20;
+                    finaletext = (gamemission == pack_tnt ? s_T3TEXT :
+                        (gamemission == pack_plut ? s_P3TEXT : s_C3TEXT));
+                    break;
+                case 30:
+                    finaleflat = bgflat30;
+                    finaletext = (gamemission == pack_tnt ? s_T4TEXT :
+                        (gamemission == pack_plut ? s_P4TEXT : s_C4TEXT));
+                    break;
+                case 15:
+                    finaleflat = bgflat15;
+                    finaletext = (gamemission == pack_tnt ? s_T5TEXT :
+                        (gamemission == pack_plut ? s_P5TEXT : s_C5TEXT));
+                    break;
+                case 31:
+                    finaleflat = bgflat31;
+                    finaletext = (gamemission == pack_tnt ? s_T6TEXT :
+                        (gamemission == pack_plut ? s_P6TEXT : s_C6TEXT));
+                    break;
+                default:
+                    // Ouch.
+                    break;
+            }
+            break;
+        }
+
+        // Indeterminate.
+        default:
+            S_ChangeMusic(mus_read_m, true, false);
+            finaleflat = "F_SKY1";
+            finaletext = s_C1TEXT;
+            break;
+    }
 
     finalestage = F_STAGE_TEXT;
     finalecount = 0;
@@ -296,32 +329,11 @@ typedef struct
 {
     char        *name;
     mobjtype_t  type;
-}
-castinfo_t;
+} castinfo_t;
 
-castinfo_t castorder[] =
-{
-    { CC_ZOMBIE,  MT_POSSESSED  },
-    { CC_SHOTGUN, MT_SHOTGUY    },
-    { CC_HEAVY,   MT_CHAINGUY   },
-    { CC_IMP,     MT_TROOP      },
-    { CC_DEMON,   MT_SERGEANT   },
-    { CC_SPECTRE, MT_SHADOWS    },
-    { CC_LOST,    MT_SKULL      },
-    { CC_CACO,    MT_HEAD       },
-    { CC_HELL,    MT_KNIGHT     },
-    { CC_BARON,   MT_BRUISER    },
-    { CC_ARACH,   MT_BABY       },
-    { CC_PAIN,    MT_PAIN       },
-    { CC_REVEN,   MT_UNDEAD     },
-    { CC_MANCU,   MT_FATSO      },
-    { CC_ARCH,    MT_VILE       },
-    { CC_SPIDER,  MT_SPIDER     },
-    { CC_CYBER,   MT_CYBORG     },
-    { CC_HERO,    MT_PLAYER     },
+#define MAX_CASTORDER   19
 
-    { NULL,       (mobjtype_t)0 }
-};
+castinfo_t      castorder[MAX_CASTORDER];
 
 int             castnum;
 int             casttics;
@@ -338,6 +350,26 @@ boolean         firstevent;
 //
 void F_StartCast(void)
 {
+    castorder[0].name = s_CC_ZOMBIE,  castorder[0].type = MT_POSSESSED;
+    castorder[1].name = s_CC_SHOTGUN, castorder[1].type = MT_SHOTGUY;
+    castorder[2].name = s_CC_HEAVY,   castorder[2].type = MT_CHAINGUY;
+    castorder[3].name = s_CC_IMP,     castorder[3].type = MT_TROOP;
+    castorder[4].name = s_CC_DEMON,   castorder[4].type = MT_SERGEANT;
+    castorder[5].name = s_CC_SPECTRE, castorder[5].type = MT_SHADOWS;
+    castorder[6].name = s_CC_LOST,    castorder[6].type = MT_SKULL;
+    castorder[7].name = s_CC_CACO,    castorder[7].type = MT_HEAD;
+    castorder[8].name = s_CC_HELL,    castorder[8].type = MT_KNIGHT;
+    castorder[9].name = s_CC_BARON,   castorder[9].type = MT_BRUISER;
+    castorder[10].name = s_CC_ARACH,  castorder[10].type = MT_BABY;
+    castorder[11].name = s_CC_PAIN,   castorder[11].type = MT_PAIN;
+    castorder[12].name = s_CC_REVEN,  castorder[12].type = MT_UNDEAD;
+    castorder[13].name = s_CC_MANCU,  castorder[13].type = MT_FATSO;
+    castorder[14].name = s_CC_ARCH,   castorder[14].type = MT_VILE;
+    castorder[15].name = s_CC_SPIDER, castorder[15].type = MT_SPIDER;
+    castorder[16].name = s_CC_CYBER,  castorder[16].type = MT_CYBORG;
+    castorder[17].name = s_CC_HERO,   castorder[17].type = MT_PLAYER;
+    castorder[18].name = NULL,        castorder[18].type = 0;
+
     firstevent = true;
     wipegamestate = (gamestate_t)(-1);  // force a screen wipe
     castnum = 0;
@@ -631,9 +663,9 @@ void F_CastDrawer(void)
     patch_t             *patch;
 
     // erase the entire screen to a background
-    V_DrawPatch(0, 0, 0, W_CacheLumpName(DEH_String("BOSSBACK"), PU_CACHE));
+    V_DrawPatch(0, 0, 0, W_CacheLumpName(bgcastcall, PU_CACHE));
 
-    F_CastPrint(DEH_String(castorder[castnum].name));
+    F_CastPrint(castorder[castnum].name);
 
     // draw the current frame in the middle of the screen
     sprdef = &sprites[caststate->sprite];
@@ -722,8 +754,8 @@ void F_BunnyScroll(void)
     const fixed_t       xscale = (ORIGINALWIDTH << FRACBITS) / SCREENWIDTH;
     fixed_t             frac = 0;
 
-    p1 = W_CacheLumpName(DEH_String("PFUB2"), PU_LEVEL);
-    p2 = W_CacheLumpName(DEH_String("PFUB1"), PU_LEVEL);
+    p1 = W_CacheLumpName("PFUB2", PU_LEVEL);
+    p2 = W_CacheLumpName("PFUB1", PU_LEVEL);
 
     scrolled = ORIGINALWIDTH - ((signed int)finalecount - 230) / 2;
     if (scrolled > ORIGINALWIDTH)
@@ -749,7 +781,7 @@ void F_BunnyScroll(void)
     if (finalecount < 1180)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
-            0, W_CacheLumpName(DEH_String("END0"), PU_CACHE), false);
+            0, W_CacheLumpName("END0", PU_CACHE), false);
         laststage = 0;
         return;
     }
@@ -763,7 +795,7 @@ void F_BunnyScroll(void)
         laststage = stage;
     }
 
-    DEH_snprintf(name, 10, "END%i", stage);
+    M_snprintf(name, 10, "END%i", stage);
     V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
                           0, W_CacheLumpName(name, PU_CACHE), false);
 }
@@ -791,7 +823,7 @@ static void F_ArtScreenDrawer(void)
                 return;
         }
 
-        V_DrawPatch(0, 0, 0, W_CacheLumpName(DEH_String(lumpname), PU_CACHE));
+        V_DrawPatch(0, 0, 0, W_CacheLumpName(lumpname, PU_CACHE));
     }
 }
 

@@ -1159,12 +1159,12 @@ typedef enum
 typedef struct
 {
     spritenum_t sprite;
-    int         frame;
-    int         tics;
+    long        frame;
+    long        tics;
     actionf_t   action;
     statenum_t  nextstate;
-    int         misc1;
-    int         misc2;
+    long        misc1;
+    long        misc2;
 } state_t;
 
 typedef struct

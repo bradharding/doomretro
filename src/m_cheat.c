@@ -38,8 +38,7 @@
 // Called in st_stuff module, which handles the input.
 // Returns a 1 if the cheat was successful, 0 if failed.
 //
-
-char cheatkey = '\0';
+char    cheatkey = '\0';
 
 int cht_CheckCheat(cheatseq_t *cht, char key)
 {
@@ -53,17 +52,15 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     }
 
     // if we make a short sequence on a cheat with parameters, this
-    // will not work in vanilla doom.  behave the same.
-
+    // will not work in vanilla doom. behave the same.
     if (cht->parameter_chars > 0 && strlen(cht->sequence) < cht->sequence_len)
         return false;
 
     if (cht->chars_read < strlen(cht->sequence))
     {
         // still reading characters from the cheat code
-        // and verifying.  reset back to the beginning
+        // and verifying. reset back to the beginning
         // if a key is wrong
-
         if (toupper(key) == toupper(cht->sequence[cht->chars_read]))
             ++cht->chars_read;
         else
@@ -79,7 +76,6 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     {
         // we have passed the end of the cheat sequence and are
         // entering parameters now
-
         if (!isdigit(key))
             cht->param_chars_read = 0;
         else
@@ -99,7 +95,6 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     }
 
     // cheat not matched yet
-
     return false;
 }
 

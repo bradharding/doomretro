@@ -25,7 +25,6 @@
 
 #include <math.h>
 
-#include "deh_main.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
@@ -1051,11 +1050,16 @@ void P_SetupWiggleFix(void)
     R_SetWiggleHack(maxdiff);
 }
 
-char        mapnum[6];
-char        maptitle[128];
-char        mapnumandtitle[133];
+char            mapnum[6];
+char            maptitle[128];
+char            mapnumandtitle[133];
 
-extern char *mapnames[][6];
+extern char     **mapnames[];
+extern char     **mapnames2[];
+extern char     **mapnames2_bfg[];
+extern char     **mapnamesp[];
+extern char     **mapnamest[];
+extern char     **mapnamesn[];
 
 // Determine map name to use
 void P_MapName(int episode, int map)
@@ -1064,51 +1068,48 @@ void P_MapName(int episode, int map)
     {
         case doom:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", episode, map);
-            if (W_CheckMultipleLumps(mapnum) > 1)
-            {
-                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
-                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-            }
+            M_StringCopy(maptitle, *mapnames[(episode - 1) * 9 + map - 1], sizeof(maptitle));
+            if (strchr(maptitle, ':'))
+                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
             else
-            {
-                M_StringCopy(maptitle, mapnames[(episode - 1) * 9 + map - 1][doom], sizeof(maptitle));
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
-            }
             break;
 
         case doom2:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9))
-            {
-                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
-                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-            }
+            M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]),
+                sizeof(maptitle));
+            if (strchr(maptitle, ':'))
+                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
             else
-            {
-                M_StringCopy(maptitle, mapnames[map - 1][bfgedition ? doom2bfg : doom2], sizeof(maptitle));
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
-            }
             break;
 
         case pack_nerve:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            M_StringCopy(maptitle, mapnames[map - 1][pack_nerve], sizeof(maptitle));
-            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+            M_StringCopy(maptitle, *mapnamesn[map - 1], sizeof(maptitle));
+            if (strchr(maptitle, ':'))
+                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
+            else
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
             break;
 
         case pack_plut:
+            M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
+            M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
+            if (strchr(maptitle, ':'))
+                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
+            else
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+            break;
+
         case pack_tnt:
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1)
-            {
-                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
-                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-            }
+            M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
+            if (strchr(maptitle, ':'))
+                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
             else
-            {
-                M_StringCopy(maptitle, mapnames[map - 1][gamemission], sizeof(maptitle));
                 M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
-            }
             break;
 
         default:
@@ -1148,9 +1149,9 @@ void P_SetupLevel(int episode, int map)
 
     // find map name
     if (gamemode == commercial)
-        DEH_snprintf(lumpname, 6, "MAP%02i", map);
+        M_snprintf(lumpname, 6, "MAP%02i", map);
     else
-        DEH_snprintf(lumpname, 5, "E%iM%i", episode, map);
+        M_snprintf(lumpname, 5, "E%iM%i", episode, map);
 
     if (nerve && gamemission == doom2)
         lumpnum = W_GetNumForName2(lumpname);
