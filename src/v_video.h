@@ -69,6 +69,7 @@ void V_DrawTranslucentYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boo
 void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentRedPatchFlipped(int x, int y, int scrn, patch_t *patch);
+void V_DrawPatchToTempScreen(int x, int y, patch_t *patch);
 
 void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow);
 

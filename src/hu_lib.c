@@ -170,7 +170,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
             {
                 // [BH] display lump from PWAD with shadow
                 w = SHORT(l->f[c - l->sc]->width);
-                V_DrawPatchWithShadow(x, l->y, 0, l->f[c - l->sc], false);
+                V_DrawPatchToTempScreen(x, l->y, l->f[c - l->sc]);
             }
             else
             {
@@ -198,11 +198,8 @@ void HUlib_drawTextLine(hu_textline_t *l)
         tw += w;
     }
 
-    if (STCFN034 || s_STSTR_BEHOLD != STSTR_BEHOLD)
-        return;
-
     // [BH] draw underscores for IDBEHOLD cheat message
-    if (idbehold)
+    if (idbehold && !STCFN034 && s_STSTR_BEHOLD == STSTR_BEHOLD)
     {
         int     x1, y1;
         int     x2, y2;

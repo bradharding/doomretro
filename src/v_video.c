@@ -237,6 +237,53 @@ boolean V_EmptyPatch(patch_t *patch)
     return true;
 }
 
+extern byte *tempscreen;
+
+void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
+{
+    int         count;
+    int         col;
+    column_t    *column;
+    byte        *desttop;
+    byte        *dest;
+    byte        *source;
+    int         w;
+    int         stretchx;
+    int         stretchy;
+    int         srccol;
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+
+    stretchx = (x * DX) >> 16;
+    stretchy = (y * DY) >> 16;
+
+    col = 0;
+    desttop = tempscreen + stretchy * SCREENWIDTH + stretchx;
+
+    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    {
+        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            source = (byte *)column + 3;
+            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            count = (column->length * DY) >> 16;
+            srccol = 0;
+            while (count--)
+            {
+                *dest = source[srccol >> 16];
+                dest += SCREENWIDTH;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
 {
     int         count;
