@@ -311,7 +311,8 @@ boolean PIT_CheckThing(mobj_t *thing)
 
     // [BH] don't hit if either thing is a corpse, which may still be solid if
     // they are still going through their death sequence.
-    if ((thing->flags & MF_CORPSE) || (tmthing->flags & MF_CORPSE))
+    if (!(thing->flags2 & MF2_RESURRECTING)
+        && ((thing->flags & MF_CORPSE) || (tmthing->flags & MF_CORPSE)))
         return true;
 
     // [BH] specify standard radius of 20 for pickups here as thing->radius

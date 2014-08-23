@@ -255,7 +255,10 @@ typedef enum
     MF2_ONMOBJ                    = 0x00040000,
 
     // Object is allowed to pass over/under other objects
-    MF2_PASSMOBJ                  = 0x00080000
+    MF2_PASSMOBJ                  = 0x00080000,
+
+    // Object is a corpse and being resurrected
+    MF2_RESURRECTING              = 0x00100000
 } mobjflag2_t;
 
 // Map Object definition.
