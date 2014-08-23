@@ -276,6 +276,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
             {
                 *dest = source[srccol >> 16];
                 dest += SCREENWIDTH;
+                *(dest + SCREENWIDTH + 2) = 0;
                 srccol += DYI;
             }
 
