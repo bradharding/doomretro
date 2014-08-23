@@ -1065,11 +1065,7 @@ struct
     { "UNUSED1",      0x08000000 }, // unused bit # 1 -- For Boom bug-compatibility
     { "UNUSED2",      0x10000000 }, // unused bit # 2 -- For Boom compatibility
     { "UNUSED3",      0x20000000 }, // unused bit # 3 -- For Boom compatibility
-    { "UNUSED4",      0x40000000 }, // unused bit # 4 -- For Boom compatibility
-    { "TOUCHY",       0x10000000 }, // dies on contact with solid objects (MBF)
-    { "BOUNCES",      0x20000000 }, // bounces off floors, ceilings and maybe walls
-    { "FRIEND",       0x40000000 }, // a friend of the player(s) (MBF)
-    { "TRANSLUCENT",  0x80000000 }, // apply translucency to sprite (BOOM)
+    { "UNUSED4",      0x40000000 }  // unused bit # 4 -- For Boom compatibility
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"
