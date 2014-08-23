@@ -1092,10 +1092,20 @@ void P_MapName(int episode, int map)
 
     if ((pos = strchr(maptitle, ':')))
     {
-        M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
-        strcpy(maptitle, pos + 1);
-        if (maptitle[0] == ' ')
-            strcpy(maptitle, &maptitle[1]);
+        if (M_StringStartsWith(maptitle, "Level"))
+        {
+            strcpy(maptitle, pos + 1);
+            if (maptitle[0] == ' ')
+                strcpy(maptitle, &maptitle[1]);
+            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+        }
+        else
+        {
+            M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
+            strcpy(maptitle, pos + 1);
+            if (maptitle[0] == ' ')
+                strcpy(maptitle, &maptitle[1]);
+        }
     }
     else
         M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
