@@ -1644,9 +1644,10 @@ void G_DoSaveGame(void)
     rename(temp_savegame_file, savegame_file);
 
     // [BH] use the save description in the message displayed
-    M_snprintf(buffer, sizeof(buffer), GGSAVED, savedescription);
+    M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
     players[consoleplayer].message = buffer;
     message_dontfuckwithme = true;
+    S_StartSound(NULL, sfx_swtchx);
 
     gameaction = ga_nothing;
     M_StringCopy(savedescription, "", sizeof(savedescription));

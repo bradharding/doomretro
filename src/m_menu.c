@@ -1201,7 +1201,6 @@ void M_QuickSave(void)
     }
     M_UpdateSaveGameName(quickSaveSlot);
     M_DoSave(quickSaveSlot);
-    S_StartSound(NULL, sfx_swtchx);
 }
 
 //
@@ -2216,7 +2215,6 @@ boolean M_Responder(event_t *ev)
                         carettics = 0;
                         showcaret = true;
                         M_DoSave(saveSlot);
-                        S_StartSound(NULL, sfx_swtchx);
                     }
                 }
                 break;
