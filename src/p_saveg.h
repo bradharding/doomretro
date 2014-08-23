@@ -29,8 +29,9 @@
 #include <stdio.h>
 
 // maximum size of a savegame description
-#define SAVESTRINGSIZE  256
-#define VERSIONSIZE     16
+#define SAVESTRINGSIZE          256
+#define SAVESTRINGPIXELWIDTH    185
+#define VERSIONSIZE             16
 
 // temporary filename to use while saving.
 char *P_TempSaveGameFile(void);

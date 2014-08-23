@@ -1136,7 +1136,11 @@ void M_UpdateSaveGameName(int i)
     }
 
     if (match)
+    {
         M_StringCopy(savegamestrings[i], maptitle, SAVESTRINGSIZE);
+        while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
+            savegamestrings[i][strlen(savegamestrings[i]) - 1] = '\0';
+    }
 }
 
 void M_SaveSelect(int choice)
@@ -2248,7 +2252,7 @@ boolean M_Responder(event_t *ev)
                 ch = toupper(ch);
                 tempstring[0] = ch;
                 if (ch >= ' ' && ch <= '_'
-                    && M_StringWidth(savegamestrings[saveSlot]) + M_StringWidth(tempstring) <= 190)
+                    && M_StringWidth(savegamestrings[saveSlot]) + M_StringWidth(tempstring) <= SAVESTRINGPIXELWIDTH)
                 {
                     keydown = key;
                     savegamestrings[saveSlot][strlen(savegamestrings[saveSlot]) + 1] = 0;
