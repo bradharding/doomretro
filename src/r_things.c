@@ -548,7 +548,7 @@ void R_ProjectSprite(mobj_t *thing)
     else if (thing->frame & FF_FULLBRIGHT)
         vis->colormap = colormaps;              // full bright
     else                                        // diminished light
-        vis->colormap = spritelights[MIN(xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+        vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
 //

@@ -90,7 +90,7 @@ static void R_MapPlane(int y, int x1, int x2)
     if (fixedcolormap)
         ds_colormap = fixedcolormap;
     else
-        ds_colormap = planezlight[MIN(distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
+        ds_colormap = planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
 
     ds_y = y;
     ds_x1 = x1;
