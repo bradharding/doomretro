@@ -381,8 +381,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(player->cheats & CF_GODMODE))
             {
                 player->health++;       // can go over 100%
-                if (player->health > maxhealth)
-                    player->health = maxhealth;
+                if (player->health > maxhealth * 2)
+                    player->health = maxhealth * 2;
                 player->mo->health = player->health;
             }
             if (!message_dontfuckwithme)
