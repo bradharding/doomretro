@@ -1053,22 +1053,44 @@ extern char     **mapnamesp[];
 extern char     **mapnamest[];
 extern char     **mapnamesn[];
 
+extern char     *hu_mapnames[];
+extern char     *hu_mapnames2[];
+
 // Determine map name to use
 void P_MapName(int episode, int map)
 {
-    char *pos;
+    char        *pos;
+    int         i;
+    boolean     mapnumonly = false;
 
     switch (gamemission)
     {
         case doom:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", episode, map);
-            M_StringCopy(maptitle, *mapnames[(episode - 1) * 9 + map - 1], sizeof(maptitle));
+            i = (episode - 1) * 9 + map - 1;
+            if (W_CheckMultipleLumps(mapnum) > 1 && !strcasecmp(*mapnames[i], hu_mapnames[i]))
+            {
+                mapnumonly = true;
+                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
+                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+            }
+            else
+                M_StringCopy(maptitle, *mapnames[i], sizeof(maptitle));
             break;
 
         case doom2:
+            i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]),
-                sizeof(maptitle));
+            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9)
+                && !strcasecmp(*mapnames2[i], hu_mapnames2[i]))
+            {
+                mapnumonly = true;
+                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
+                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+            }
+            else
+                M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[i] : *mapnames2[i]),
+                    sizeof(maptitle));
             break;
 
         case pack_nerve:
@@ -1077,15 +1099,33 @@ void P_MapName(int episode, int map)
             break;
 
         case pack_plut:
+            i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
+            if (W_CheckMultipleLumps(mapnum) > 1
+                && !strcasecmp(*mapnamesp[i], hu_mapnames2[i + 32]))
+            {
+                mapnumonly = true;
+                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
+                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+            }
+            else
+                M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
             break;
 
         case pack_tnt:
+            i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
+            if (W_CheckMultipleLumps(mapnum) > 1
+                && !strcasecmp(*mapnamest[i], hu_mapnames2[i + 64]))
+            {
+                mapnumonly = true;
+                M_StringCopy(maptitle, mapnum, sizeof(maptitle));
+                M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+            }
+            else
+                M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
             break;
-
+            
         default:
             break;
     }
@@ -1107,7 +1147,7 @@ void P_MapName(int episode, int map)
                 strcpy(maptitle, &maptitle[1]);
         }
     }
-    else
+    else if (!mapnumonly)
         M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
 }
 
