@@ -77,6 +77,8 @@ extern int              gamemap;
 extern boolean          nerve;
 extern boolean          bfgedition;
 
+extern boolean          BTSX;
+
 extern boolean          DMENUPIC;
 extern boolean          FREEDOOM;
 extern boolean          M_DOOM;

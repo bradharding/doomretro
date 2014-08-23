@@ -708,7 +708,7 @@ void R_InitSpriteLumps(void)
             j = 0;
             while (sproffsets[j].name[0])
             {
-                if (sproffsets[j].canmodify)
+                if (sproffsets[j].canmodify || BTSX)
                 {
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
                     {
