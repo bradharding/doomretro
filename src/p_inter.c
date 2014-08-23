@@ -950,6 +950,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     {
         int     damagecount;
 
+        if (player->health <= 0)
+            return;
+
         // end of game hell hack
         if (target->subsector->sector->special == ExitSuperDamage && damage >= target->health)
             damage = target->health - 1;
