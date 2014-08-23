@@ -381,8 +381,6 @@ char *bgflat15 = "RROCK13";
 char *bgflat31 = "RROCK19";
 char *bgcastcall = "BOSSBACK";
 
-char *savegamename;
-
 // end d_deh.h variable declarations
 // ====================================================================
 
@@ -685,9 +683,7 @@ deh_strs deh_strlookup[] =
     { &bgflat20,             "BGFLAT20"           },
     { &bgflat30,             "BGFLAT30"           },
     { &bgflat31,             "BGFLAT31"           },
-    { &bgcastcall,           "BGCASTCALL"         },
-
-    { &savegamename,         "SAVEGAMENAME"       }
+    { &bgcastcall,           "BGCASTCALL"         }
 };
 
 static int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);

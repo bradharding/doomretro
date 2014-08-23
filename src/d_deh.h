@@ -316,6 +316,4 @@ extern char *bgflat30;
 extern char *bgflat31;
 extern char *bgcastcall;
 
-extern char *savegamename;
-
 #endif
