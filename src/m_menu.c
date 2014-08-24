@@ -1085,7 +1085,7 @@ void M_UpdateSaveGameName(int i)
         W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
 
-    if (!match)
+    if (!match && strcasecmp(maptitle, mapnumandtitle))
     {
         switch (gamemission)
         {
@@ -1150,9 +1150,17 @@ void M_UpdateSaveGameName(int i)
 
     if (match)
     {
+        int len = strlen(maptitle);
+
         M_StringCopy(savegamestrings[i], maptitle, SAVESTRINGSIZE);
         while (M_StringWidth(savegamestrings[i]) > SAVESTRINGPIXELWIDTH)
-            savegamestrings[i][strlen(savegamestrings[i]) - 1] = '\0';
+        {
+            savegamestrings[i][len - 1] = '.';
+            savegamestrings[i][len] = '.';
+            savegamestrings[i][len + 1] = '.';
+            savegamestrings[i][len + 2] = '\0';
+            --len;
+        }
     }
 }
 
@@ -1899,7 +1907,6 @@ int M_StringWidth(char *string)
         else
             w += (STCFN034 ? SHORT(hu_font[c]->width) : strlen(smallcharset[c]) / 10 - 1);
     }
-
     return w;
 }
 
