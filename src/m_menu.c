@@ -1067,86 +1067,97 @@ char *RemoveMapNum(char *maptitle)
 void M_UpdateSaveGameName(int i)
 {
     boolean     match = false;
-    int         j = 0;
 
     if (!strcmp(savegamestrings[i], s_EMPTYSTRING))
         match = true;
-    else if (strlen(savegamestrings[i]) == 4 &&
-        savegamestrings[i][0] == 'E' &&
-        isdigit(savegamestrings[i][1]) &&
-        savegamestrings[i][2] == 'M' &&
-        isdigit(savegamestrings[i][3]) &&
-        W_CheckNumForName(savegamestrings[i]) >= 0)
+    else if (strlen(savegamestrings[i]) == 4
+        && savegamestrings[i][0] == 'E'
+        && isdigit(savegamestrings[i][1])
+        && savegamestrings[i][2] == 'M'
+        && isdigit(savegamestrings[i][3])
+        && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
-    else if (strlen(savegamestrings[i]) == 5 &&
-        savegamestrings[i][0] == 'M' &&
-        savegamestrings[i][1] == 'A' &&
-        savegamestrings[i][2] == 'P' &&
-        isdigit(savegamestrings[i][3]) &&
-        isdigit(savegamestrings[i][4]) &&
-        W_CheckNumForName(savegamestrings[i]) >= 0)
+    else if (strlen(savegamestrings[i]) == 5
+        && savegamestrings[i][0] == 'M' 
+        && savegamestrings[i][1] == 'A'
+        && savegamestrings[i][2] == 'P'
+        && isdigit(savegamestrings[i][3])
+        && isdigit(savegamestrings[i][4])
+        && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
 
     if (!match && strcasecmp(maptitle, mapnumandtitle))
     {
-        switch (gamemission)
+        int     len = strlen(savegamestrings[i]);
+
+        if (len >= 3
+            && savegamestrings[i][len - 1] == '.'
+            && savegamestrings[i][len - 2] == '.'
+            && savegamestrings[i][len - 3] == '.')
+            match = true;
+        else
         {
-            case doom:
-                for (j = 0; j < 9 * 4; j++)
-                    if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames[j])))
-                    {
-                        match = true;
-                        break;
-                    }
-                break;
+            int j = 0;
 
-            case doom2:
-                if (bfgedition)
-                {
-                    for (j = 0; j < 33; j++)
-                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
+            switch (gamemission)
+            {
+                case doom:
+                    for (j = 0; j < 9 * 4; j++)
+                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames[j])))
                         {
                             match = true;
                             break;
                         }
-                }
-                else
-                {
-                    for (j = 0; j < 32; j++)
-                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
+                    break;
+
+                case doom2:
+                    if (bfgedition)
+                    {
+                        for (j = 0; j < 33; j++)
+                            if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames2_bfg[j])))
+                            {
+                                match = true;
+                                break;
+                            }
+                    }
+                    else
+                    {
+                        for (j = 0; j < 32; j++)
+                            if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnames2[j])))
+                            {
+                                match = true;
+                                break;
+                            }
+                    }
+                    break;
+
+                case pack_nerve:
+                    for (j = 0; j < 9 * 4; j++)
+                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
                         {
                             match = true;
                             break;
                         }
-                }
-                break;
+                    break;
 
-            case pack_nerve:
-                for (j = 0; j < 9 * 4; j++)
-                    if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
-                    {
-                        match = true;
-                        break;
-                    }
-                break;
+                case pack_plut:
+                    for (j = 0; j < 9 * 4; j++)
+                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
+                        {
+                            match = true;
+                            break;
+                        }
+                    break;
 
-            case pack_plut:
-                for (j = 0; j < 9 * 4; j++)
-                    if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
-                    {
-                        match = true;
-                        break;
-                    }
-                break;
-
-            case pack_tnt:
-                for (j = 0; j < 9 * 4; j++)
-                    if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
-                    {
-                        match = true;
-                        break;
-                    }
-                break;
+                case pack_tnt:
+                    for (j = 0; j < 9 * 4; j++)
+                        if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
+                        {
+                            match = true;
+                            break;
+                        }
+                    break;
+            }
         }
     }
 
