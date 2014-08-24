@@ -833,7 +833,7 @@ static void D_ProcessDehCommandLine(void)
             if (*myargv[p] == '-')
                 deh = (!strcasecmp(myargv[p], "-deh") || !strcasecmp(myargv[p], "-bex"));
             else if (deh)
-                ProcessDehFile(myargv[p], "deh.txt", 0);
+                ProcessDehFile(myargv[p], "-", 0);
     }
 }
 
@@ -843,7 +843,7 @@ static void D_ProcessDehInWad(void)
 
     for (i = 0; i < numlumps; ++i)
         if (!strncmp(lumpinfo[i].name, "DEHACKED", 8))
-            ProcessDehFile(NULL, "deh.txt", i);
+            ProcessDehFile(NULL, "-", i);
 }
 
 //

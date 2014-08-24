@@ -1397,10 +1397,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
         if (!strcmp(outfilename, "-"))
             fileout = stdout;
         else if (!(fileout = fopen(outfilename, firstfile ? "wt" : "at")))
-        {
-            printf("Could not open -dehout file %s\n... using stdout.\n", outfilename);
             fileout = stdout;
-        }
         firstfile = false;
     }
 
@@ -1408,10 +1405,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     if (filename)
     {
         if (!(infile.inp = (void *)fopen(filename, "rt")))
-        {
-            printf("-deh file %s not found\n", filename);
             return;     // should be checked up front anyway
-        }
         infile.lump = NULL;
     }
     else        // DEH file comes from lump indicated by third argument
@@ -1421,7 +1415,6 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
         filename = "(WAD)";
     }
 
-    printf("Loading DEH file %s\n", filename);
     if (fileout)
         fprintf(fileout, "\nLoading DEH file %s\n\n", filename);
 
