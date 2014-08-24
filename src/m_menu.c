@@ -2276,7 +2276,8 @@ boolean M_Responder(event_t *ev)
             default:
                 ch = toupper(ch);
                 if (ch >= ' ' && ch <= '_'
-                    && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
+                    && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH
+                    && !(modstate & (KMOD_ALT | KMOD_CTRL)))
                 {
                     keydown = key;
                     savegamestrings[saveSlot][strlen(savegamestrings[saveSlot]) + 1] = '\0';
@@ -2294,8 +2295,8 @@ boolean M_Responder(event_t *ev)
     if (messageToPrint && !keydown)
     {
         keydown = key;
-        if (messageNeedsInput && key != KEY_ESCAPE
-            && key != 'y' && key != 'n' && key != functionkey)
+        if (messageNeedsInput && key != KEY_ESCAPE && tolower(key) != 'y' && tolower(key) != 'n'
+            && !(modstate & (KMOD_ALT | KMOD_CTRL)) && key != functionkey)
         {
             functionkey = 0;
             return false;
@@ -2802,7 +2803,7 @@ boolean M_Responder(event_t *ev)
         }
 
         // Keyboard shortcut?
-        else if (ch != 0)
+        else if (ch != 0 && !(modstate & (KMOD_ALT | KMOD_CTRL)))
         {
             for (i = itemOn + 1; i < currentMenu->numitems; i++)
             {
