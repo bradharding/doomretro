@@ -1078,7 +1078,8 @@ void M_UpdateSaveGameName(int i)
         && isdigit(savegamestrings[i][3])
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
-    else if (strlen(savegamestrings[i]) == 5
+    else if (gamemission != doom
+        && strlen(savegamestrings[i]) == 5
         && savegamestrings[i][0] == 'M' 
         && savegamestrings[i][1] == 'A'
         && savegamestrings[i][2] == 'P'
