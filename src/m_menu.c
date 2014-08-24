@@ -2277,7 +2277,6 @@ boolean M_Responder(event_t *ev)
                     && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
                 {
                     keydown = key;
-                    //printf("savegamestrings[saveSlot]=%s,tempstring=%s,M_StringWidth(savegamestrings[saveSlot]) + M_StringWidth(tempstring)=%i\n", savegamestrings[saveSlot], tempstring, M_StringWidth(savegamestrings[saveSlot]) + M_StringWidth(tempstring));
                     savegamestrings[saveSlot][strlen(savegamestrings[saveSlot]) + 1] = '\0';
                     for (i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; i--)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
