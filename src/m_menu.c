@@ -2585,23 +2585,37 @@ boolean M_Responder(event_t *ev)
         if (key == KEY_DOWNARROW && keywait < I_GetTime())
         {
             // Move down to next item
-            do
+            if (currentMenu == &LoadDef)
             {
-                if (itemOn + 1 > currentMenu->numitems - 1)
-                    itemOn = 0;
-                else
-                    itemOn++;
-                if (currentMenu == &MainDef && itemOn == 2 && !savegames)
-                    itemOn++;
-                if (currentMenu == &MainDef && itemOn == 3
-                    && (!usergame || gamestate != GS_LEVEL || players[consoleplayer].health <= 0))
-                    itemOn++;
-                if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
-                    itemOn++;
-                if (currentMenu->menuitems[itemOn].status != -1)
-                    S_StartSound(NULL, sfx_pstop);
+                do
+                {
+                    if (itemOn + 1 > currentMenu->numitems - 1)
+                        itemOn = 0;
+                    else
+                        itemOn++;
+                } while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING));
+                SaveDef.lastOn = selectedsavegame = itemOn;
+                M_SaveDefaults();
             }
-            while (currentMenu->menuitems[itemOn].status == -1);
+            else
+            {
+                do
+                {
+                    if (itemOn + 1 > currentMenu->numitems - 1)
+                        itemOn = 0;
+                    else
+                        itemOn++;
+                    if (currentMenu == &MainDef && itemOn == 2 && !savegames)
+                        itemOn++;
+                    if (currentMenu == &MainDef && itemOn == 3
+                        && (!usergame || gamestate != GS_LEVEL || players[consoleplayer].health <= 0))
+                        itemOn++;
+                    if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
+                        itemOn++;
+                    if (currentMenu->menuitems[itemOn].status != -1)
+                        S_StartSound(NULL, sfx_pstop);
+                } while (currentMenu->menuitems[itemOn].status == -1);
+            }
 
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
@@ -2621,11 +2635,6 @@ boolean M_Responder(event_t *ev)
             else if (currentMenu == &SaveDef)
             {
                 LoadDef.lastOn = selectedsavegame = itemOn;
-                M_SaveDefaults();
-            }
-            else if (currentMenu == &LoadDef)
-            {
-                SaveDef.lastOn = selectedsavegame = itemOn;
                 M_SaveDefaults();
             }
             keywait = I_GetTime() + 2;
@@ -2634,24 +2643,38 @@ boolean M_Responder(event_t *ev)
         }
         else if (key == KEY_UPARROW && keywait < I_GetTime())
         {
-            do
+            // Move back up to previous item
+            if (currentMenu == &LoadDef)
             {
-                // Move back up to previous item
-                if (!itemOn)
-                    itemOn = currentMenu->numitems - 1;
-                else
-                    itemOn--;
-                if (currentMenu == &MainDef && itemOn == 3
-                    && (!usergame || gamestate != GS_LEVEL || players[consoleplayer].health <= 0))
-                    itemOn--;
-                if (currentMenu == &MainDef && itemOn == 2 && !savegames)
-                    itemOn--;
-                if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
-                    itemOn = currentMenu->numitems - 1;
-                if (currentMenu->menuitems[itemOn].status != -1)
-                    S_StartSound(NULL, sfx_pstop);
+                do
+                {
+                    if (!itemOn)
+                        itemOn = currentMenu->numitems - 1;
+                    else
+                        itemOn--;
+                } while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING));
+                SaveDef.lastOn = selectedsavegame = itemOn;
+                M_SaveDefaults();
             }
-            while (currentMenu->menuitems[itemOn].status == -1);
+            else
+            {
+                do
+                {
+                    if (!itemOn)
+                        itemOn = currentMenu->numitems - 1;
+                    else
+                        itemOn--;
+                    if (currentMenu == &MainDef && itemOn == 3
+                        && (!usergame || gamestate != GS_LEVEL || players[consoleplayer].health <= 0))
+                        itemOn--;
+                    if (currentMenu == &MainDef && itemOn == 2 && !savegames)
+                        itemOn--;
+                    if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
+                        itemOn = currentMenu->numitems - 1;
+                    if (currentMenu->menuitems[itemOn].status != -1)
+                        S_StartSound(NULL, sfx_pstop);
+                } while (currentMenu->menuitems[itemOn].status == -1);
+            }
 
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
@@ -2671,11 +2694,6 @@ boolean M_Responder(event_t *ev)
             else if (currentMenu == &SaveDef)
             {
                 LoadDef.lastOn = selectedsavegame = itemOn;
-                M_SaveDefaults();
-            }
-            else if (currentMenu == &LoadDef)
-            {
-                SaveDef.lastOn = selectedsavegame = itemOn;
                 M_SaveDefaults();
             }
             keywait = I_GetTime() + 2;
@@ -2798,6 +2816,8 @@ boolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &OptionsDef && !i && (!usergame || netgame))
                         return true;
+                    if (currentMenu == &LoadDef && !strcasecmp(savegamestrings[i], s_EMPTYSTRING))
+                        return true;
                     if (itemOn != i)
                         S_StartSound(NULL, sfx_pstop);
                     itemOn = i;
@@ -2841,6 +2861,8 @@ boolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
                     if (currentMenu == &OptionsDef && !i && (!usergame || netgame))
+                        return true;
+                    if (currentMenu == &LoadDef && !strcasecmp(savegamestrings[i], s_EMPTYSTRING))
                         return true;
                     if (itemOn != i)
                         S_StartSound(NULL, sfx_pstop);
