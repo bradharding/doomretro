@@ -1890,23 +1890,28 @@ void M_StartMessage(char *string, void *routine, boolean input)
 }
 
 //
+// Find character width
+//
+int M_CharacterWidth(char ch, char prev)
+{
+    int c = toupper(ch) - HU_FONTSTART;
+
+    if (c < 0 || c >= HU_FONTSIZE)
+        return (prev == '.' || prev == '!' || prev == '?' ? 5 : 3);
+    else
+        return (STCFN034 ? SHORT(hu_font[c]->width) : strlen(smallcharset[c]) / 10 - 1);
+}
+
+//
 // Find string width
 //
 int M_StringWidth(char *string)
 {
     size_t      i;
     int         w = 0;
-    int         c;
 
     for (i = 0; i < strlen(string); i++)
-    {
-        c = toupper(string[i]) - HU_FONTSTART;
-        if (c < 0 || c >= HU_FONTSIZE)
-            w += (i > 0 && (string[i - 1] == '.' || string[i - 1] == '!' || string[i - 1] == '?') ?
-                  5 : 3);
-        else
-            w += (STCFN034 ? SHORT(hu_font[c]->width) : strlen(smallcharset[c]) / 10 - 1);
-    }
+        w += M_CharacterWidth(string[i], (i > 0 ? string[i - 1] : 0));
     return w;
 }
 
@@ -2268,12 +2273,12 @@ boolean M_Responder(event_t *ev)
 
             default:
                 ch = toupper(ch);
-                tempstring[0] = ch;
                 if (ch >= ' ' && ch <= '_'
-                    && M_StringWidth(savegamestrings[saveSlot]) + M_StringWidth(tempstring) <= SAVESTRINGPIXELWIDTH)
+                    && M_StringWidth(savegamestrings[saveSlot]) + M_CharacterWidth(ch, 0) <= SAVESTRINGPIXELWIDTH)
                 {
                     keydown = key;
-                    savegamestrings[saveSlot][strlen(savegamestrings[saveSlot]) + 1] = 0;
+                    //printf("savegamestrings[saveSlot]=%s,tempstring=%s,M_StringWidth(savegamestrings[saveSlot]) + M_StringWidth(tempstring)=%i\n", savegamestrings[saveSlot], tempstring, M_StringWidth(savegamestrings[saveSlot]) + M_StringWidth(tempstring));
+                    savegamestrings[saveSlot][strlen(savegamestrings[saveSlot]) + 1] = '\0';
                     for (i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; i--)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
                     savegamestrings[saveSlot][saveCharIndex++] = ch;
