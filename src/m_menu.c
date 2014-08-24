@@ -2588,6 +2588,8 @@ boolean M_Responder(event_t *ev)
             // Move down to next item
             if (currentMenu == &LoadDef)
             {
+                int old = itemOn;
+
                 do
                 {
                     if (itemOn + 1 > currentMenu->numitems - 1)
@@ -2595,6 +2597,8 @@ boolean M_Responder(event_t *ev)
                     else
                         itemOn++;
                 } while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING));
+                if (itemOn != old)
+                    S_StartSound(NULL, sfx_pstop);
                 SaveDef.lastOn = selectedsavegame = itemOn;
                 M_SaveDefaults();
             }
@@ -2647,6 +2651,8 @@ boolean M_Responder(event_t *ev)
             // Move back up to previous item
             if (currentMenu == &LoadDef)
             {
+                int old = itemOn;
+
                 do
                 {
                     if (!itemOn)
@@ -2654,6 +2660,8 @@ boolean M_Responder(event_t *ev)
                     else
                         itemOn--;
                 } while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING));
+                if (itemOn != old)
+                    S_StartSound(NULL, sfx_pstop);
                 SaveDef.lastOn = selectedsavegame = itemOn;
                 M_SaveDefaults();
             }
