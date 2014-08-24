@@ -964,6 +964,7 @@ void M_DrawSave(void)
     int         j;
     int         x, y;
     int         xx, yy;
+    patch_t     *pipe = W_CacheLumpName("STCFN121", PU_CACHE);
 
     // darken background
     M_DarkBackground();
@@ -995,7 +996,8 @@ void M_DrawSave(void)
             for (j = 0; (unsigned)j < strlen(savegamestrings[i]) - saveCharIndex; j++)
                 right[j] = savegamestrings[i][j + saveCharIndex];
             right[j] = 0;
-            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + 3, y - !M_LSCNTR, right, false);
+            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + (STCFN121 ? pipe->width : 3),
+                y - !M_LSCNTR, right, false);
         }
         else
             M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, savegamestrings[i], false);
@@ -1015,7 +1017,7 @@ void M_DrawSave(void)
             y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
 
             if (STCFN121)
-                V_DrawPatch(x + 1, y, 0, W_CacheLumpName("STCFN121", PU_CACHE));
+                V_DrawPatch(x, y, 0, pipe);
             else
                 for (yy = 0; yy < 9; yy++)
                     for (xx = 0; xx < 3; xx++)
