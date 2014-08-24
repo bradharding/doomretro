@@ -146,6 +146,7 @@ float                   saturation = SATURATION_DEFAULT;
 float                   mouse_acceleration = MOUSEACCELERATION_DEFAULT;
 int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
+int                     capslock;
 boolean                 alwaysrun = false;
 
 static void ApplyWindowResize(int height);
@@ -427,7 +428,7 @@ void I_ShutdownGraphics(void)
 void I_ShutdownKeyboard(void)
 {
 #ifdef WIN32
-    if (GetKeyState(VK_CAPITAL) & 0x0001)
+    if ((GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
     {
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
@@ -1288,7 +1289,7 @@ boolean I_ValidScreenMode(int width, int height)
 void I_InitKeyboard(void)
 {
 #ifdef WIN32
-    int capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
+    capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
 
     if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
     {
