@@ -1070,7 +1070,8 @@ void M_UpdateSaveGameName(int i)
 
     if (!strcmp(savegamestrings[i], s_EMPTYSTRING))
         match = true;
-    else if (strlen(savegamestrings[i]) == 4
+    else if (gamemission == doom
+        && strlen(savegamestrings[i]) == 4
         && savegamestrings[i][0] == 'E'
         && isdigit(savegamestrings[i][1])
         && savegamestrings[i][2] == 'M'
