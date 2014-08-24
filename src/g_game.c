@@ -236,11 +236,6 @@ int G_CmdChecksum(ticcmd_t *cmd)
 
 static boolean G_GetSpeedToggle(void)
 {
-#ifdef SDL20
-    SDL_Keymod  modstate = SDL_GetModState();
-#else
-    SDLMod      modstate = SDL_GetModState();
-#endif
     boolean     lt = (gamepadbuttons & gamepadspeed);
     boolean     shift = gamekeydown[key_speed];
 
