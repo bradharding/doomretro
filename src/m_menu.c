@@ -2303,7 +2303,7 @@ boolean M_Responder(event_t *ev)
         menuactive = messageLastMenuActive;
         messageToPrint = 0;
         if (messageRoutine)
-            messageRoutine(key);
+            messageRoutine(tolower(key));
         functionkey = 0;
         if (endinggame)
             endinggame = false;
