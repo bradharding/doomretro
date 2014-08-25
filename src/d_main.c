@@ -538,15 +538,12 @@ static boolean D_IsUnsupportedIWAD(char *filename)
             || D_CheckFilename(filename, "HEXEN.WAD")
             || D_CheckFilename(filename, "HEXDD.WAD")
             || D_CheckFilename(filename, "STRIFE0.WAD")
-            || D_CheckFilename(filename, "STRIFE1.WAD")
-            || D_CheckFilename(filename, "CHEX.WAD")
-            || D_CheckFilename(filename, "HACX.WAD"));
+            || D_CheckFilename(filename, "STRIFE1.WAD"));
 }
 
 static boolean D_IsUnsupportedPWAD(char *filename)
 {
-    return (D_CheckFilename(filename, "VOICES.WAD")
-            || D_CheckFilename(filename, "CHEX3.WAD"));
+    return (D_CheckFilename(filename, "VOICES.WAD"));
 }
 
 static int D_ChooseIWAD(void)
