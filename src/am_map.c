@@ -349,7 +349,7 @@ static void AM_addMark(void)
 
     markpoints[markpointnum].x = x;
     markpoints[markpointnum].y = y;
-    M_snprintf(message, sizeof(message), AMSTR_MARKEDSPOT, ++markpointnum);
+    M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT, ++markpointnum);
     plr->message = message;
     message_dontfuckwithme = true;
 }
