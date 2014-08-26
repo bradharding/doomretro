@@ -129,6 +129,8 @@ char *s_CC_SPIDER = CC_SPIDER;
 char *s_CC_ZOMBIE = CC_ZOMBIE;
 char *s_DETAILHI = DETAILHI;
 char *s_DETAILLO = DETAILLO;
+char *s_DOSA = DOSA;
+char *s_DOSY = DOSY;
 char *s_E1TEXT = E1TEXT;
 char *s_E2TEXT = E2TEXT;
 char *s_E3TEXT = E3TEXT;
@@ -313,8 +315,6 @@ char *s_PRESSA = PRESSA;
 char *s_PRESSKEY = PRESSKEY;
 char *s_PRESSYN = PRESSYN;
 char *s_QLPROMPT = QLPROMPT;
-char *s_QUITA = QUITA;
-char *s_QUITY = QUITY;
 char *s_STSTR_BEHOLD = STSTR_BEHOLD;
 char *s_STSTR_BEHOLDOFF = STSTR_BEHOLDOFF;
 char *s_STSTR_BEHOLDON = STSTR_BEHOLDON;
@@ -434,6 +434,8 @@ deh_strs deh_strlookup[] =
     { &s_CC_ZOMBIE,          "CC_ZOMBIE"          },
     { &s_DETAILHI,           "DETAILHI"           },
     { &s_DETAILLO,           "DETAILLO"           },
+    { &s_DOSA,               "DOSA"               },
+    { &s_DOSY,               "DOSY"               },
     { &s_E1TEXT,             "E1TEXT"             },
     { &s_E2TEXT,             "E2TEXT"             },
     { &s_E3TEXT,             "E3TEXT"             },
@@ -617,8 +619,6 @@ deh_strs deh_strlookup[] =
     { &s_PRESSKEY,           "PRESSKEY"           },
     { &s_PRESSYN,            "PRESSYN"            },
     { &s_QLPROMPT,           "QLPROMPT"           },
-    { &s_QUITA,              "QUITA"              },
-    { &s_QUITY,              "QUITY"              },
     { &s_STSTR_BEHOLD,       "STSTR_BEHOLD"       },
     { &s_STSTR_BEHOLDOFF,    "STSTR_BEHOLDOFF"    },
     { &s_STSTR_BEHOLDON,     "STSTR_BEHOLDON"     },

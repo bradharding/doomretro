@@ -1746,7 +1746,7 @@ static char *M_SelectEndMessage(void)
 void M_QuitDOOM(int choice)
 {
     quitting = true;
-    M_snprintf(endstring, 160, "%s\n\n%s", M_SelectEndMessage(), (usinggamepad ? s_QUITA : s_QUITY));
+    M_snprintf(endstring, 160, "%s\n\n%s", M_SelectEndMessage(), (usinggamepad ? s_DOSA : s_DOSY));
     M_StartMessage(endstring, M_QuitResponse, true);
 }
 
