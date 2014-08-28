@@ -1385,11 +1385,12 @@ boolean CheckPackageWadVersion(void)
 // substantially modified to allow input from wad lumps instead of .deh files.
 void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
 {
-    static FILE *fileout;                       // In case -dehout was used
+    static FILE *fileout = NULL;                // In case -dehout was used
     DEHFILE     infile, *filein = &infile;      // killough 10/98
     char        inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
 
     // Open output file if we're writing output
+#ifdef _DEBUG
     if (outfilename && *outfilename && !fileout)
     {
         static boolean  firstfile = true;       // to allow append to output log
@@ -1400,6 +1401,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             fileout = stdout;
         firstfile = false;
     }
+#endif
 
     // killough 10/98: allow DEH files to come from wad lumps
     if (filename)
