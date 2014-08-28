@@ -1,22 +1,45 @@
-Patch File for DeHackEd v3.0
-
-Doom version = 21
-Patch format = 6
-
-
-
+#
+#========================================================================
+#
+#  DOOM RETRO
+#  The classic, refined DOOM source port. For Windows PC.
+#  Copyright (C) 2013-2014 Brad Harding.
+#
+#  This file is part of DOOM RETRO.
+#
+#  DOOM RETRO is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  DOOM RETRO is distributed in the hope that it will be useful, but
+#  WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+#
+#========================================================================
+#
 
 [STRINGS]
 PRESSKEY = (Press any key to continue.)
 PRESSYN = (Press 'Y' or 'N' to continue.)
+PRESSA = (Press button 'A' to continue.)
 QLPROMPT = Do you want to quickload the savegame\"%s\"?
 NIGHTMARE = Are you sure? This skill level\nisn't even remotely fair!
 SWSTRING = This is the shareware version of DOOM.\nYou need to purchase the full version.
+MSGOFF = Messages OFF
+MSGON = Messages ON
 ENDGAME = Are you sure you want\nto end this game?
 DOSY = (Press 'Y' to quit to Windows.)
+DOSA = (Press button 'A' to quit to Windows.)
 DETAILHI = High graphic detail
 DETAILLO = Low graphic detail
-EMPTYSTRING =   -
+GAMMALVL = Gamma correction level %.2f
+GAMMAOFF = Gamma correction off
+EMPTYSTRING = -
 GOTARMOR = You picked up some armor.
 GOTMEGA = You picked up some MegaArmor!
 GOTHTHBONUS = You picked up a health bonus.
@@ -52,12 +75,21 @@ GOTPLASMA = You got a plasma rifle!
 GOTSHOTGUN = You got a shotgun!
 GOTSHOTGUN2 = You got a super shotgun!
 PD_BLUEO = You need a blue keycard to use this.
+PD_BLUEO2 = You need a blue skull key to use this.
 PD_REDO = You need a red keycard to use this.
+PD_REDO2 = You need a red skull key to use this.
 PD_YELLOWO = You need a yellow keycard to use this.
+PD_YELLOWO2 = You need a yellow skull key to use this.
 PD_BLUEK = You need a blue keycard to open this door.
+PD_BLUEK2 = You need a blue skull key to open this door.
 PD_REDK = You need a red keycard to open this door.
+PD_REDK2 = You need a red skull key to open this door.
 PD_YELLOWK = You need a yellow keycard to open this door.
-GGSAVED ="%s\" saved
+PD_YELLOWK2 = You need a yellow skull key to open this door.
+GGSAVED = \"%s\" saved
+GSCREENSHOT = \"%s\" saved
+ALWAYSRUNOFF = Always run OFF
+ALWAYSRUNON = Always run ON
 HUSTR_E1M1 = Hangar
 HUSTR_E1M2 = Nuclear Plant
 HUSTR_E1M3 = Toxin Refinery
@@ -126,6 +158,9 @@ HUSTR_29 = The Living End
 HUSTR_30 = Icon of Sin
 HUSTR_31 = Wolfenstein
 HUSTR_32 = Grosse
+HUSTR_31_BFG = IDKFA
+HUSTR_32_BFG = Keen
+HUSTR_33_BFG = Betray
 PHUSTR_1 = Congo
 PHUSTR_2 = Well Of Souls
 PHUSTR_3 = Aztec
@@ -190,8 +225,24 @@ THUSTR_29 = River Styx
 THUSTR_30 = Last Call
 THUSTR_31 = Pharaoh
 THUSTR_32 = Caribbean
+NHUSTR_1 = The Earth Base
+NHUSTR_2 = The Pain Labs
+NHUSTR_3 = Canyon of the Dead
+NHUSTR_4 = Hell Mountain
+NHUSTR_5 = Vivisection
+NHUSTR_6 = Inferno of Blood
+NHUSTR_7 = Baron's Banquet
+NHUSTR_8 = Tomb of Malevolence
+NHUSTR_9 = March of the Demons
+AMSTR_FOLLOWON = Follow mode ON
+AMSTR_FOLLOWOFF = Follow mode OFF
+AMSTR_GRIDON = Grid ON
+AMSTR_GRIDOFF = Grid OFF
 AMSTR_MARKEDSPOT = Marked spot %i
+AMSTR_MARKCLEARED = Mark cleared
 AMSTR_MARKSCLEARED = Marks cleared
+AMSTR_ROTATEON = Rotate Mode ON
+AMSTR_ROTATEOFF = Rotate Mode OFF
 STSTR_MUS = Music changed to \"d_%s.mus\"
 STSTR_DQDON = Degreelessness mode ON
 STSTR_DQDOFF = Degreelessness mode OFF
@@ -200,8 +251,12 @@ STSTR_FAADDED = Ammo (no keys) added
 STSTR_NCON = No clipping mode ON
 STSTR_NCOFF = No clipping mode OFF
 STSTR_BEHOLD = inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?
+STSTR_BEHOLDON = Power-up toggled ON
+STSTR_BEHOLDOFF = Power-up toggled OFF
 STSTR_CHOPPERS = \"...doesn't suck.\" - GM
 STSTR_CLEV = Warping to %s...
+STSTR_CLEVSAME = Restarting %s...
+STSTR_MYPOS = angle = %i%c  x,y,z = (%i,%i,%i)
 E1TEXT = Once you beat the big badasses and\nclean out the moon base, you're supposed\nto win, aren't you? Aren't you? Where's\nyour fat reward and ticket home? What\nthe Hell is this? It's not supposed to\nend this way!\n\nIt stinks like rotten meat, but looks\nlike the lost Deimos base. It looks like\nyou're stuck on The Shores of Hell.\nThe only way out is through.\n\nTo continue the DOOM experience, play\nThe Shores of Hell and its amazing\nsequel, Inferno!\n
 E2TEXT = You've done it! The hideous Cyber-\ndemon lord that ruled the lost Deimos\nmoon base has been slain and you\nare triumphant! But... where are\nyou? You clamber to the edge of the\nmoon and look down to see the awful\ntruth.\n\nDeimos floats above Hell itself!\nYou've never heard of anyone escaping\nfrom Hell, but you'll make the bastards\nsorry they ever heard of you! Quickly,\nyou rappel down to the surface of\nHell.\n\nNow, it's onto the final chapter of\nDOOM - Inferno!
 E3TEXT = The loathsome spiderdemon that\nmasterminded the invasion of the moon\nbases and caused so much death has had\nits ass kicked for all time.\n\nA hidden doorway opens and you enter.\nYou've proven too tough for Hell to\ncontain, and now Hell at last plays\nfair - for you emerge from the door\nto see the green fields of Earth!\nHome at last.\n\nYou wonder what's been happening on\nEarth while you were battling evil\nunleashed. It's good that no Hell-\nspawn could have come through that\ndoor with you...
@@ -224,3 +279,4 @@ T3TEXT = The vista opening ahead looks real damn\nfamiliar. Smells familiar, too
 T4TEXT = Suddenly, all is silent, from one horizon\nto the other. The agonizing echo of Hell\nfades away, the nightmare sky turns to\nblue, the heaps of monster corpses start\nto evaporate along with the evil stench\nthat filled the air. Jeez, maybe you've\ndone it. Have you really won?\n\nSomething rumbles in the distance.\nA blue light begins to glow inside the\nruined skull of the demon-spitter.
 T5TEXT = What now? Looks totally different. Kind\nof like King Tut's condo. Well,\nwhatever's here can't be any worse\nthan usual. Can it? Or maybe it's best\nto let sleeping Gods lie...
 T6TEXT = Time for a vacation. You've burst the\nbowels of Hell and by golly you're ready\nfor a break. You mutter to yourself,\n\"Maybe someone else can kick Hell's ass\nnext time around.\" Ahead lies a quiet town,\nwith peaceful flowing water, quaint\nbuildings, and presumably no Hellspawn.\n\nAs you step off the transport, you hear\nthe stomp of a Cyberdemon's iron shoe.
+N1TEXT = Trouble was brewing again in your favorite\nvacation spot... Hell. Some Cyberdemon\npunk thought he could turn hell into a\npersonal amusement park, and make Earth\nthe ticket booth.\n\nWell, that half-robot freak show didn't\nknow who was coming to the fair. There's\nnothing like a shooting gallery full of\nhellspawn to get the blood pumping...\n\nNow the walls of the demon's labyrinth\necho with the sound of his metallic limbs\nhitting the floor. His death moan gurgles\nout through the mess you left of his face.\n\nThis ride is closed.
