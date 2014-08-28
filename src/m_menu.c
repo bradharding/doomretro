@@ -868,7 +868,8 @@ void M_DrawLoad(void)
         int y = LoadDef.y + LINEHEIGHT * i + OFFSET;
 
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
-        M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, savegamestrings[i], false);
+        M_WriteText(LoadDef.x - 2 + (!strcasecmp(savegamestrings[i], s_EMPTYSTRING)) * 6,
+            y - !M_LSCNTR, savegamestrings[i], false);
     }
 }
 
@@ -1000,7 +1001,8 @@ void M_DrawSave(void)
                 y - !M_LSCNTR, right, false);
         }
         else
-            M_WriteText(LoadDef.x - 2, y - !M_LSCNTR, savegamestrings[i], false);
+            M_WriteText(LoadDef.x - 2 + (!strcasecmp(savegamestrings[i], s_EMPTYSTRING)) * 6,
+                y - !M_LSCNTR, savegamestrings[i], false);
     }
 
     // draw text caret
