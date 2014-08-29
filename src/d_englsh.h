@@ -30,13 +30,27 @@
 //  Printed strings for translation
 //
 
+///
+// d_main.C
+//
+//#define D_DEVSTR              "Development mode ON.\n"
+//#define D_CDROM               "CD-ROM Version: default.cfg from c:\\doomdata\n"
+
 //
 // m_menu.c
 //
 #define PRESSKEY                "press a key."
 #define PRESSYN                 "press y or n."
-#define PRESSA                  "(Press button 'A' to continue.)"
+//#define QUITMSG               "are you sure you want to\nquit this great game?"
+//#define LOADNET               "you can't do load while in a net game!\n\n"PRESSKEY
+//#define QLOADNET              "you can't quickload during a netgame!\n\n"PRESSKEY
+//#define QSAVESPOT             "you haven't picked a quicksave slot yet!\n\n"PRESSKEY
+//#define SAVEDEAD              "you can't save if you aren't playing!\n\n"PRESSKEY
+//#define QSPROMPT              "quicksave over your game named\n\n'%s'?\n\n"PRESSYN
 #define QLPROMPT                "do you want to quickload the game named\n\n'%s'?\n\n"PRESSYN
+
+//#define NEWGAME               "you can't start a new game\n"\
+//                              "while in a network game.\n\n"PRESSKEY
 
 #define NIGHTMARE               "are you sure? this skill level\n"\
                                 "isn't even remotely fair.\n\n"PRESSYN
@@ -46,23 +60,18 @@
 
 #define MSGOFF                  "Messages OFF"
 #define MSGON                   "Messages ON"
+//#define NETEND                "you can't end a netgame!\n\n"PRESSKEY
 #define ENDGAME                 "are you sure you want to end the game?\n\n"PRESSYN
 
-#if defined(WIN32)
 #define DOSY                    "(press y to quit to dos.)"
-#define DOSA                    "(Press button 'A' to quit to Windows.)"
-#elif defined(__MACOSX__)
-#define DOSY                    "(Press 'Y' to quit to OS X.)"
-#define DOSA                    "(Press button 'A' to quit to OS X.)"
-#else
-#define DOSY                    "(Press 'Y' to quit to Linux.)"
-#define DOSA                    "(Press button 'A' to quit to Linux.)"
-#endif
 
 #define DETAILHI                "High detail"
 #define DETAILLO                "Low detail"
-#define GAMMALVL                "Gamma correction level %.2f"
-#define GAMMAOFF                "Gamma correction off"
+//#define GAMMALVL0             "Gamma correction OFF"
+//#define GAMMALVL1             "Gamma correction level 1"
+//#define GAMMALVL2             "Gamma correction level 2"
+//#define GAMMALVL3             "Gamma correction level 3"
+//#define GAMMALVL4             "Gamma correction level 4"
 #define EMPTYSTRING             "empty slot"
 
 //
@@ -114,30 +123,22 @@
 // p_doors.c
 //
 #define PD_BLUEO                "You need a blue key to activate this object"
-#define PD_BLUEO2               "You need a blue skull key to use this."
 #define PD_REDO                 "You need a red key to activate this object"
-#define PD_REDO2                "You need a red skull key to use this."
 #define PD_YELLOWO              "You need a yellow key to activate this object"
-#define PD_YELLOWO2             "You need a yellow skull key to use this."
 #define PD_BLUEK                "You need a blue key to open this door"
-#define PD_BLUEK2               "You need a blue skull key to open this door."
 #define PD_REDK                 "You need a red key to open this door"
-#define PD_REDK2                "You need a red skull key to open this door."
 #define PD_YELLOWK              "You need a yellow key to open this door"
-#define PD_YELLOWK2             "You need a yellow skull key to open this door."
 
 //
 // g_game.c
 //
 #define GGSAVED                 "game saved."
-#define GSCREENSHOT             "\"%s\" saved"
-
-#define ALWAYSRUNOFF            "Always run OFF"
-#define ALWAYSRUNON             "Always run ON"
 
 //
 //  hu_stuff.c
 //
+//#define HUSTR_MSGU            "[Message unsent]"
+
 #define HUSTR_E1M1              "E1M1: Hangar"
 #define HUSTR_E1M2              "E1M2: Nuclear Plant"
 #define HUSTR_E1M3              "E1M3: Toxin Refinery"
@@ -214,10 +215,6 @@
 #define HUSTR_31                "level 31: wolfenstein"
 #define HUSTR_32                "level 32: grosse"
 
-#define HUSTR_31_BFG            "IDKFA"
-#define HUSTR_32_BFG            "Keen"
-#define HUSTR_33_BFG            "Betray"
-
 #define PHUSTR_1                "level 1: congo"
 #define PHUSTR_2                "level 2: well of souls"
 #define PHUSTR_3                "level 3: aztec"
@@ -290,15 +287,37 @@
 #define THUSTR_31               "level 31: pharaoh"
 #define THUSTR_32               "level 32: caribbean"
 
-#define NHUSTR_1                "The Earth Base"
-#define NHUSTR_2                "The Pain Labs"
-#define NHUSTR_3                "Canyon of the Dead"
-#define NHUSTR_4                "Hell Mountain"
-#define NHUSTR_5                "Vivisection"
-#define NHUSTR_6                "Inferno of Blood"
-#define NHUSTR_7                "Baron's Banquet"
-#define NHUSTR_8                "Tomb of Malevolence"
-#define NHUSTR_9                "March of the Demons"
+//#define HUSTR_CHATMACRO1      "I'm ready to kick butt!"
+//#define HUSTR_CHATMACRO2      "I'm OK."
+//#define HUSTR_CHATMACRO3      "I'm not looking too good!"
+//#define HUSTR_CHATMACRO4      "Help!"
+//#define HUSTR_CHATMACRO5      "You suck!"
+//#define HUSTR_CHATMACRO6      "Next time, scumbag..."
+//#define HUSTR_CHATMACRO7      "Come here!"
+//#define HUSTR_CHATMACRO8      "I'll take care of it."
+//#define HUSTR_CHATMACRO9      "Yes"
+//#define HUSTR_CHATMACRO0      "No"
+
+//#define HUSTR_TALKTOSELF1     "You mumble to yourself"
+//#define HUSTR_TALKTOSELF2     "Who's there?"
+//#define HUSTR_TALKTOSELF3     "You scare yourself"
+//#define HUSTR_TALKTOSELF4     "You start to rave"
+//#define HUSTR_TALKTOSELF5     "You've lost it..."
+
+//#define HUSTR_MESSAGESENT     "[Message Sent]"
+
+// The following should NOT be changed unless it seems
+// just AWFULLY necessary
+
+//#define HUSTR_PLRGREEN        "Green: "
+//#define HUSTR_PLRINDIGO       "Indigo: "
+//#define HUSTR_PLRBROWN        "Brown: "
+//#define HUSTR_PLRRED          "Red: "
+
+//#define HUSTR_KEYGREEN        'g'
+//#define HUSTR_KEYINDIGO       'i'
+//#define HUSTR_KEYBROWN        'b'
+//#define HUSTR_KEYRED          'r'
 
 //
 // am_map.c
@@ -310,16 +329,13 @@
 #define AMSTR_GRIDOFF           "Grid OFF"
 
 #define AMSTR_MARKEDSPOT        "Marked Spot"
-#define AMSTR_MARKCLEARED       "Mark cleared"
 #define AMSTR_MARKSCLEARED      "All Marks Cleared"
-
-#define AMSTR_ROTATEON          "Rotate Mode ON"
-#define AMSTR_ROTATEOFF         "Rotate Mode OFF"
 
 //
 //  st_stuff.c
 //
 #define STSTR_MUS               "Music Change"
+//#define STSTR_NOMUS           "IMPOSSIBLE SELECTION"
 
 #define STSTR_DQDON             "Degreelessness Mode On"
 #define STSTR_DQDOFF            "Degreelessness Mode Off"
@@ -331,15 +347,10 @@
 #define STSTR_NCOFF             "No Clipping Mode OFF"
 
 #define STSTR_BEHOLD            "inVuln, Str, Inviso, Rad, Allmap, or Lite-amp"
-#define STSTR_BEHOLDON          "Power-up toggled ON"
-#define STSTR_BEHOLDOFF         "Power-up toggled OFF"
 
 #define STSTR_CHOPPERS          "... doesn't suck - GM"
 
 #define STSTR_CLEV              "Changing Level..."
-#define STSTR_CLEVSAME          "Restarting %s..."
-
-#define STSTR_MYPOS             "angle = %i%c  x,y,z = (%i,%i,%i)"
 
 //
 //  f_finale.c
@@ -628,46 +639,64 @@
 "As you step off the transport, you hear\n"\
 "the stomp of a cyberdemon's iron shoe."
 
-// After level 8, put this:
-#define N1TEXT \
-"Trouble was brewing again in your favorite\n"\
-"vacation spot... Hell. Some Cyberdemon\n"\
-"punk thought he could turn hell into a\n"\
-"personal amusement park, and make Earth\n"\
-"the ticket booth.\n"\
-"\n"\
-"Well, that half-robot freak show didn't\n"\
-"know who was coming to the fair. There's\n"\
-"nothing like a shooting gallery full of\n"\
-"hellspawn to get the blood pumping...\n"\
-"\n"\
-"Now the walls of the demon's labyrinth\n"\
-"echo with the sound of his metallic limbs\n"\
-"hitting the floor. His death moan gurgles\n"\
-"out through the mess you left of his face.\n"\
-"\n"\
-"This ride is closed."
-
 //
 // Character cast strings for f_finale.c
 //
-#define CC_ZOMBIE       "ZOMBIEMAN"
-#define CC_SHOTGUN      "SHOTGUN GUY"
-#define CC_HEAVY        "HEAVY WEAPON DUDE"
-#define CC_IMP          "IMP"
-#define CC_DEMON        "DEMON"
-#define CC_SPECTRE      "SPECTRE"
-#define CC_LOST         "LOST SOUL"
-#define CC_CACO         "CACODEMON"
-#define CC_HELL         "HELL KNIGHT"
-#define CC_BARON        "BARON OF HELL"
-#define CC_ARACH        "ARACHNOTRON"
-#define CC_PAIN         "PAIN ELEMENTAL"
-#define CC_REVEN        "REVENANT"
-#define CC_MANCU        "MANCUBUS"
-#define CC_ARCH         "ARCH-VILE"
-#define CC_SPIDER       "THE SPIDER MASTERMIND"
-#define CC_CYBER        "THE CYBERDEMON"
-#define CC_HERO         "OUR HERO"
+#define CC_ZOMBIE               "ZOMBIEMAN"
+#define CC_SHOTGUN              "SHOTGUN GUY"
+#define CC_HEAVY                "HEAVY WEAPON DUDE"
+#define CC_IMP                  "IMP"
+#define CC_DEMON                "DEMON"
+#define CC_LOST                 "LOST SOUL"
+#define CC_CACO                 "CACODEMON"
+#define CC_HELL                 "HELL KNIGHT"
+#define CC_BARON                "BARON OF HELL"
+#define CC_ARACH                "ARACHNOTRON"
+#define CC_PAIN                 "PAIN ELEMENTAL"
+#define CC_REVEN                "REVENANT"
+#define CC_MANCU                "MANCUBUS"
+#define CC_ARCH                 "ARCH-VILE"
+#define CC_SPIDER               "THE SPIDER MASTERMIND"
+#define CC_CYBER                "THE CYBERDEMON"
+#define CC_HERO                 "OUR HERO"
+
+//
+// [BH] New strings
+// These strings are set in the DEHACKED lump in the accompanying doomretro.wad file
+//
+#define PRESSA                  ""
+#define DOSA                    ""
+#define GAMMALVL                ""
+#define GAMMAOFF                ""
+#define PD_BLUEO2               ""
+#define PD_REDO2                ""
+#define PD_YELLOWO2             ""
+#define PD_BLUEK2               ""
+#define PD_REDK2                ""
+#define PD_YELLOWK2             ""
+#define GSCREENSHOT             ""
+#define ALWAYSRUNOFF            ""
+#define ALWAYSRUNON             ""
+#define HUSTR_31_BFG            ""
+#define HUSTR_32_BFG            ""
+#define HUSTR_33_BFG            ""
+#define NHUSTR_1                ""
+#define NHUSTR_2                ""
+#define NHUSTR_3                ""
+#define NHUSTR_4                ""
+#define NHUSTR_5                ""
+#define NHUSTR_6                ""
+#define NHUSTR_7                ""
+#define NHUSTR_8                ""
+#define NHUSTR_9                ""
+#define AMSTR_MARKCLEARED       ""
+#define AMSTR_ROTATEON          ""
+#define AMSTR_ROTATEOFF         ""
+#define STSTR_BEHOLDON          ""
+#define STSTR_BEHOLDOFF         ""
+#define STSTR_CLEVSAME          ""
+#define STSTR_MYPOS             ""
+#define N1TEXT                  ""
+#define CC_SPECTRE              ""
 
 #endif

@@ -92,126 +92,84 @@ boolean deh_pars = false; // in wi_stuff to allow pars in modified games
 
 #include "dstrings.h"  // to get the initial values
 
-char *s_ALWAYSRUNOFF = ALWAYSRUNOFF;
-char *s_ALWAYSRUNON = ALWAYSRUNON;
-char *s_AMSTR_FOLLOWOFF = AMSTR_FOLLOWOFF;
-char *s_AMSTR_FOLLOWON = AMSTR_FOLLOWON;
-char *s_AMSTR_GRIDOFF = AMSTR_GRIDOFF;
-char *s_AMSTR_GRIDON = AMSTR_GRIDON;
-char *s_AMSTR_MARKCLEARED = AMSTR_MARKCLEARED;
-char *s_AMSTR_MARKEDSPOT = AMSTR_MARKEDSPOT;
-char *s_AMSTR_MARKSCLEARED = AMSTR_MARKSCLEARED;
-char *s_AMSTR_ROTATEOFF = AMSTR_ROTATEOFF;
-char *s_AMSTR_ROTATEON = AMSTR_ROTATEON;
-char *s_C1TEXT = C1TEXT;
-char *s_C2TEXT = C2TEXT;
-char *s_C3TEXT = C3TEXT;
-char *s_C4TEXT = C4TEXT;
-char *s_C5TEXT = C5TEXT;
-char *s_C6TEXT = C6TEXT;
-char *s_CC_ARACH = CC_ARACH;
-char *s_CC_ARCH = CC_ARCH;
-char *s_CC_BARON = CC_BARON;
-char *s_CC_CACO = CC_CACO;
-char *s_CC_CYBER = CC_CYBER;
-char *s_CC_DEMON = CC_DEMON;
-char *s_CC_HEAVY = CC_HEAVY;
-char *s_CC_HELL = CC_HELL;
-char *s_CC_HERO = CC_HERO;
-char *s_CC_IMP = CC_IMP;
-char *s_CC_LOST = CC_LOST;
-char *s_CC_MANCU = CC_MANCU;
-char *s_CC_PAIN = CC_PAIN;
-char *s_CC_REVEN = CC_REVEN;
-char *s_CC_SHOTGUN = CC_SHOTGUN;
-char *s_CC_SPECTRE = CC_SPECTRE;
-char *s_CC_SPIDER = CC_SPIDER;
-char *s_CC_ZOMBIE = CC_ZOMBIE;
+char *s_PRESSKEY = PRESSKEY;
+char *s_PRESSYN = PRESSYN;
+char *s_PRESSA = PRESSA;
+char *s_QLPROMPT = QLPROMPT;
+char *s_NIGHTMARE = NIGHTMARE;
+char *s_SWSTRING = SWSTRING;
+char *s_MSGOFF = MSGOFF;
+char *s_MSGON = MSGON;
+char *s_ENDGAME = ENDGAME;
+char *s_DOSY = DOSY;
+char *s_DOSA = DOSA;
 char *s_DETAILHI = DETAILHI;
 char *s_DETAILLO = DETAILLO;
-char *s_DOSA = DOSA;
-char *s_DOSY = DOSY;
-char *s_E1TEXT = E1TEXT;
-char *s_E2TEXT = E2TEXT;
-char *s_E3TEXT = E3TEXT;
-char *s_E4TEXT = E4TEXT;
-char *s_EMPTYSTRING = EMPTYSTRING;
-char *s_ENDGAME = ENDGAME;
 char *s_GAMMALVL = GAMMALVL;
 char *s_GAMMAOFF = GAMMAOFF;
-char *s_GGSAVED = GGSAVED;
-char *s_GOTARMBONUS = GOTARMBONUS;
+char *s_EMPTYSTRING = EMPTYSTRING;
+
 char *s_GOTARMOR = GOTARMOR;
-char *s_GOTBACKPACK = GOTBACKPACK;
-char *s_GOTBERSERK = GOTBERSERK;
-char *s_GOTBFG9000 = GOTBFG9000;
+char *s_GOTMEGA = GOTMEGA;
+char *s_GOTHTHBONUS = GOTHTHBONUS;
+char *s_GOTARMBONUS = GOTARMBONUS;
+char *s_GOTSTIM = GOTSTIM;
+char *s_GOTMEDINEED = GOTMEDINEED;
+char *s_GOTMEDIKIT = GOTMEDIKIT;
+char *s_GOTSUPER = GOTSUPER;
+
 char *s_GOTBLUECARD = GOTBLUECARD;
+char *s_GOTYELWCARD = GOTYELWCARD;
+char *s_GOTREDCARD = GOTREDCARD;
 char *s_GOTBLUESKUL = GOTBLUESKUL;
-char *s_GOTCELL = GOTCELL;
-char *s_GOTCELLBOX = GOTCELLBOX;
-char *s_GOTCHAINGUN = GOTCHAINGUN;
-char *s_GOTCHAINSAW = GOTCHAINSAW;
+char *s_GOTYELWSKUL = GOTYELWSKUL;
+char *s_GOTREDSKULL = GOTREDSKULL;
+
+char *s_GOTINVUL = GOTINVUL;
+char *s_GOTBERSERK = GOTBERSERK;
+char *s_GOTINVIS = GOTINVIS;
+char *s_GOTSUIT = GOTSUIT;
+char *s_GOTMAP = GOTMAP;
+char *s_GOTVISOR = GOTVISOR;
+
 char *s_GOTCLIP = GOTCLIP;
 char *s_GOTCLIPBOX = GOTCLIPBOX;
-char *s_GOTHTHBONUS = GOTHTHBONUS;
-char *s_GOTINVIS = GOTINVIS;
-char *s_GOTINVUL = GOTINVUL;
+char *s_GOTROCKET = GOTROCKET;
+char *s_GOTROCKBOX = GOTROCKBOX;
+char *s_GOTCELL = GOTCELL;
+char *s_GOTCELLBOX = GOTCELLBOX;
+char *s_GOTSHELLS = GOTSHELLS;
+char *s_GOTSHELLBOX = GOTSHELLBOX;
+char *s_GOTBACKPACK = GOTBACKPACK;
+
+char *s_GOTBFG9000 = GOTBFG9000;
+char *s_GOTCHAINGUN = GOTCHAINGUN;
+char *s_GOTCHAINSAW = GOTCHAINSAW;
 char *s_GOTLAUNCHER = GOTLAUNCHER;
-char *s_GOTMAP = GOTMAP;
-char *s_GOTMEDIKIT = GOTMEDIKIT;
-char *s_GOTMEDINEED = GOTMEDINEED;
-char *s_GOTMEGA = GOTMEGA;
 char *s_GOTMSPHERE = GOTMSPHERE;
 char *s_GOTPLASMA = GOTPLASMA;
-char *s_GOTREDCARD = GOTREDCARD;
-char *s_GOTREDSKULL = GOTREDSKULL;
-char *s_GOTROCKBOX = GOTROCKBOX;
-char *s_GOTROCKET = GOTROCKET;
-char *s_GOTSHELLBOX = GOTSHELLBOX;
-char *s_GOTSHELLS = GOTSHELLS;
 char *s_GOTSHOTGUN = GOTSHOTGUN;
 char *s_GOTSHOTGUN2 = GOTSHOTGUN2;
-char *s_GOTSTIM = GOTSTIM;
-char *s_GOTSUIT = GOTSUIT;
-char *s_GOTSUPER = GOTSUPER;
-char *s_GOTVISOR = GOTVISOR;
-char *s_GOTYELWCARD = GOTYELWCARD;
-char *s_GOTYELWSKUL = GOTYELWSKUL;
-char *s_HUSTR_1 = HUSTR_1;
-char *s_HUSTR_2 = HUSTR_2;
-char *s_HUSTR_3 = HUSTR_3;
-char *s_HUSTR_4 = HUSTR_4;
-char *s_HUSTR_5 = HUSTR_5;
-char *s_HUSTR_6 = HUSTR_6;
-char *s_HUSTR_7 = HUSTR_7;
-char *s_HUSTR_8 = HUSTR_8;
-char *s_HUSTR_9 = HUSTR_9;
-char *s_HUSTR_10 = HUSTR_10;
-char *s_HUSTR_11 = HUSTR_11;
-char *s_HUSTR_12 = HUSTR_12;
-char *s_HUSTR_13 = HUSTR_13;
-char *s_HUSTR_14 = HUSTR_14;
-char *s_HUSTR_15 = HUSTR_15;
-char *s_HUSTR_16 = HUSTR_16;
-char *s_HUSTR_17 = HUSTR_17;
-char *s_HUSTR_18 = HUSTR_18;
-char *s_HUSTR_19 = HUSTR_19;
-char *s_HUSTR_20 = HUSTR_20;
-char *s_HUSTR_21 = HUSTR_21;
-char *s_HUSTR_22 = HUSTR_22;
-char *s_HUSTR_23 = HUSTR_23;
-char *s_HUSTR_24 = HUSTR_24;
-char *s_HUSTR_25 = HUSTR_25;
-char *s_HUSTR_26 = HUSTR_26;
-char *s_HUSTR_27 = HUSTR_27;
-char *s_HUSTR_28 = HUSTR_28;
-char *s_HUSTR_29 = HUSTR_29;
-char *s_HUSTR_30 = HUSTR_30;
-char *s_HUSTR_31 = HUSTR_31;
-char *s_HUSTR_32 = HUSTR_32;
-char *s_HUSTR_31_BFG = HUSTR_31_BFG;
-char *s_HUSTR_32_BFG = HUSTR_32_BFG;
-char *s_HUSTR_33_BFG = HUSTR_33_BFG;
+
+char *s_PD_BLUEO = PD_BLUEO;
+char *s_PD_BLUEO2 = PD_BLUEO2;
+char *s_PD_REDO = PD_REDO;
+char *s_PD_REDO2 = PD_REDO2;
+char *s_PD_YELLOWO = PD_YELLOWO;
+char *s_PD_YELLOWO2 = PD_YELLOWO2;
+char *s_PD_BLUEK = PD_BLUEK;
+char *s_PD_BLUEK2 = PD_BLUEK2;
+char *s_PD_REDK = PD_REDK;
+char *s_PD_REDK2 = PD_REDK2;
+char *s_PD_YELLOWK = PD_YELLOWK;
+char *s_PD_YELLOWK2 = PD_YELLOWK2;
+
+char *s_GGSAVED = GGSAVED;
+char *s_GSCREENSHOT = GSCREENSHOT;
+
+char *s_ALWAYSRUNOFF = ALWAYSRUNOFF;
+char *s_ALWAYSRUNON = ALWAYSRUNON;
+
 char *s_HUSTR_E1M1 = HUSTR_E1M1;
 char *s_HUSTR_E1M2 = HUSTR_E1M2;
 char *s_HUSTR_E1M3 = HUSTR_E1M3;
@@ -248,37 +206,41 @@ char *s_HUSTR_E4M6 = HUSTR_E4M6;
 char *s_HUSTR_E4M7 = HUSTR_E4M7;
 char *s_HUSTR_E4M8 = HUSTR_E4M8;
 char *s_HUSTR_E4M9 = HUSTR_E4M9;
-char *s_MSGOFF = MSGOFF;
-char *s_MSGON = MSGON;
-char *s_N1TEXT = N1TEXT;
-char *s_NHUSTR_1 = NHUSTR_1;
-char *s_NHUSTR_2 = NHUSTR_2;
-char *s_NHUSTR_3 = NHUSTR_3;
-char *s_NHUSTR_4 = NHUSTR_4;
-char *s_NHUSTR_5 = NHUSTR_5;
-char *s_NHUSTR_6 = NHUSTR_6;
-char *s_NHUSTR_7 = NHUSTR_7;
-char *s_NHUSTR_8 = NHUSTR_8;
-char *s_NHUSTR_9 = NHUSTR_9;
-char *s_NIGHTMARE = NIGHTMARE;
-char *s_P1TEXT = P1TEXT;
-char *s_P2TEXT = P2TEXT;
-char *s_P3TEXT = P3TEXT;
-char *s_P4TEXT = P4TEXT;
-char *s_P5TEXT = P5TEXT;
-char *s_P6TEXT = P6TEXT;
-char *s_PD_BLUEK = PD_BLUEK;
-char *s_PD_BLUEK2 = PD_BLUEK2;
-char *s_PD_BLUEO = PD_BLUEO;
-char *s_PD_BLUEO2 = PD_BLUEO2;
-char *s_PD_REDK = PD_REDK;
-char *s_PD_REDK2 = PD_REDK2;
-char *s_PD_REDO = PD_REDO;
-char *s_PD_REDO2 = PD_REDO2;
-char *s_PD_YELLOWK = PD_YELLOWK;
-char *s_PD_YELLOWK2 = PD_YELLOWK2;
-char *s_PD_YELLOWO = PD_YELLOWO;
-char *s_PD_YELLOWO2 = PD_YELLOWO2;
+char *s_HUSTR_1 = HUSTR_1;
+char *s_HUSTR_2 = HUSTR_2;
+char *s_HUSTR_3 = HUSTR_3;
+char *s_HUSTR_4 = HUSTR_4;
+char *s_HUSTR_5 = HUSTR_5;
+char *s_HUSTR_6 = HUSTR_6;
+char *s_HUSTR_7 = HUSTR_7;
+char *s_HUSTR_8 = HUSTR_8;
+char *s_HUSTR_9 = HUSTR_9;
+char *s_HUSTR_10 = HUSTR_10;
+char *s_HUSTR_11 = HUSTR_11;
+char *s_HUSTR_12 = HUSTR_12;
+char *s_HUSTR_13 = HUSTR_13;
+char *s_HUSTR_14 = HUSTR_14;
+char *s_HUSTR_15 = HUSTR_15;
+char *s_HUSTR_16 = HUSTR_16;
+char *s_HUSTR_17 = HUSTR_17;
+char *s_HUSTR_18 = HUSTR_18;
+char *s_HUSTR_19 = HUSTR_19;
+char *s_HUSTR_20 = HUSTR_20;
+char *s_HUSTR_21 = HUSTR_21;
+char *s_HUSTR_22 = HUSTR_22;
+char *s_HUSTR_23 = HUSTR_23;
+char *s_HUSTR_24 = HUSTR_24;
+char *s_HUSTR_25 = HUSTR_25;
+char *s_HUSTR_26 = HUSTR_26;
+char *s_HUSTR_27 = HUSTR_27;
+char *s_HUSTR_28 = HUSTR_28;
+char *s_HUSTR_29 = HUSTR_29;
+char *s_HUSTR_30 = HUSTR_30;
+char *s_HUSTR_31 = HUSTR_31;
+char *s_HUSTR_32 = HUSTR_32;
+char *s_HUSTR_31_BFG = HUSTR_31_BFG;
+char *s_HUSTR_32_BFG = HUSTR_32_BFG;
+char *s_HUSTR_33_BFG = HUSTR_33_BFG;
 char *s_PHUSTR_1 = PHUSTR_1;
 char *s_PHUSTR_2 = PHUSTR_2;
 char *s_PHUSTR_3 = PHUSTR_3;
@@ -311,31 +273,6 @@ char *s_PHUSTR_29 = PHUSTR_29;
 char *s_PHUSTR_30 = PHUSTR_30;
 char *s_PHUSTR_31 = PHUSTR_31;
 char *s_PHUSTR_32 = PHUSTR_32;
-char *s_PRESSA = PRESSA;
-char *s_PRESSKEY = PRESSKEY;
-char *s_PRESSYN = PRESSYN;
-char *s_QLPROMPT = QLPROMPT;
-char *s_STSTR_BEHOLD = STSTR_BEHOLD;
-char *s_STSTR_BEHOLDOFF = STSTR_BEHOLDOFF;
-char *s_STSTR_BEHOLDON = STSTR_BEHOLDON;
-char *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
-char *s_STSTR_CLEV = STSTR_CLEV;
-char *s_STSTR_CLEVSAME = STSTR_CLEVSAME;
-char *s_STSTR_DQDOFF = STSTR_DQDOFF;
-char *s_STSTR_DQDON = STSTR_DQDON;
-char *s_STSTR_FAADDED = STSTR_FAADDED;
-char *s_STSTR_KFAADDED = STSTR_KFAADDED;
-char *s_STSTR_MUS = STSTR_MUS;
-char *s_STSTR_MYPOS = STSTR_MYPOS;
-char *s_STSTR_NCOFF = STSTR_NCOFF;
-char *s_STSTR_NCON = STSTR_NCON;
-char *s_SWSTRING = SWSTRING;
-char *s_T1TEXT = T1TEXT;
-char *s_T2TEXT = T2TEXT;
-char *s_T3TEXT = T3TEXT;
-char *s_T4TEXT = T4TEXT;
-char *s_T5TEXT = T5TEXT;
-char *s_T6TEXT = T6TEXT;
 char *s_THUSTR_1 = THUSTR_1;
 char *s_THUSTR_2 = THUSTR_2;
 char *s_THUSTR_3 = THUSTR_3;
@@ -368,6 +305,83 @@ char *s_THUSTR_29 = THUSTR_29;
 char *s_THUSTR_30 = THUSTR_30;
 char *s_THUSTR_31 = THUSTR_31;
 char *s_THUSTR_32 = THUSTR_32;
+char *s_NHUSTR_1 = NHUSTR_1;
+char *s_NHUSTR_2 = NHUSTR_2;
+char *s_NHUSTR_3 = NHUSTR_3;
+char *s_NHUSTR_4 = NHUSTR_4;
+char *s_NHUSTR_5 = NHUSTR_5;
+char *s_NHUSTR_6 = NHUSTR_6;
+char *s_NHUSTR_7 = NHUSTR_7;
+char *s_NHUSTR_8 = NHUSTR_8;
+char *s_NHUSTR_9 = NHUSTR_9;
+
+char *s_AMSTR_FOLLOWON = AMSTR_FOLLOWON;
+char *s_AMSTR_FOLLOWOFF = AMSTR_FOLLOWOFF;
+char *s_AMSTR_GRIDON = AMSTR_GRIDON;
+char *s_AMSTR_GRIDOFF = AMSTR_GRIDOFF;
+char *s_AMSTR_MARKEDSPOT = AMSTR_MARKEDSPOT;
+char *s_AMSTR_MARKCLEARED = AMSTR_MARKCLEARED;
+char *s_AMSTR_MARKSCLEARED = AMSTR_MARKSCLEARED;
+char *s_AMSTR_ROTATEON = AMSTR_ROTATEON;
+char *s_AMSTR_ROTATEOFF = AMSTR_ROTATEOFF;
+
+char *s_STSTR_MUS = STSTR_MUS;
+char *s_STSTR_DQDON = STSTR_DQDON;
+char *s_STSTR_DQDOFF = STSTR_DQDOFF;
+char *s_STSTR_KFAADDED = STSTR_KFAADDED;
+char *s_STSTR_FAADDED = STSTR_FAADDED;
+char *s_STSTR_NCON = STSTR_NCON;
+char *s_STSTR_NCOFF = STSTR_NCOFF;
+char *s_STSTR_BEHOLD = STSTR_BEHOLD;
+char *s_STSTR_BEHOLDON = STSTR_BEHOLDON;
+char *s_STSTR_BEHOLDOFF = STSTR_BEHOLDOFF;
+char *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
+char *s_STSTR_CLEV = STSTR_CLEV;
+char *s_STSTR_CLEVSAME = STSTR_CLEVSAME;
+char *s_STSTR_MYPOS = STSTR_MYPOS;
+
+char *s_E1TEXT = E1TEXT;
+char *s_E2TEXT = E2TEXT;
+char *s_E3TEXT = E3TEXT;
+char *s_E4TEXT = E4TEXT;
+char *s_C1TEXT = C1TEXT;
+char *s_C2TEXT = C2TEXT;
+char *s_C3TEXT = C3TEXT;
+char *s_C4TEXT = C4TEXT;
+char *s_C5TEXT = C5TEXT;
+char *s_C6TEXT = C6TEXT;
+char *s_P1TEXT = P1TEXT;
+char *s_P2TEXT = P2TEXT;
+char *s_P3TEXT = P3TEXT;
+char *s_P4TEXT = P4TEXT;
+char *s_P5TEXT = P5TEXT;
+char *s_P6TEXT = P6TEXT;
+char *s_T1TEXT = T1TEXT;
+char *s_T2TEXT = T2TEXT;
+char *s_T3TEXT = T3TEXT;
+char *s_T4TEXT = T4TEXT;
+char *s_T5TEXT = T5TEXT;
+char *s_T6TEXT = T6TEXT;
+char *s_N1TEXT = N1TEXT;
+
+char *s_CC_ZOMBIE = CC_ZOMBIE;
+char *s_CC_SHOTGUN = CC_SHOTGUN;
+char *s_CC_HEAVY = CC_HEAVY;
+char *s_CC_IMP = CC_IMP;
+char *s_CC_DEMON = CC_DEMON;
+char *s_CC_SPECTRE = CC_SPECTRE;
+char *s_CC_LOST = CC_LOST;
+char *s_CC_CACO = CC_CACO;
+char *s_CC_HELL = CC_HELL;
+char *s_CC_BARON = CC_BARON;
+char *s_CC_ARACH = CC_ARACH;
+char *s_CC_PAIN = CC_PAIN;
+char *s_CC_REVEN = CC_REVEN;
+char *s_CC_MANCU = CC_MANCU;
+char *s_CC_ARCH = CC_ARCH;
+char *s_CC_SPIDER = CC_SPIDER;
+char *s_CC_CYBER = CC_CYBER;
+char *s_CC_HERO = CC_HERO;
 
 char *bgflatE1 = "FLOOR4_8";
 char *bgflatE2 = "SFLR6_1";
@@ -397,126 +411,84 @@ typedef struct
 
 deh_strs deh_strlookup[] =
 {
-    { &s_ALWAYSRUNOFF,       "ALWAYSRUNOFF"       },
-    { &s_ALWAYSRUNON,        "ALWAYSRUNON"        },
-    { &s_AMSTR_FOLLOWOFF,    "AMSTR_FOLLOWOFF"    },
-    { &s_AMSTR_FOLLOWON,     "AMSTR_FOLLOWON"     },
-    { &s_AMSTR_GRIDOFF,      "AMSTR_GRIDOFF"      },
-    { &s_AMSTR_GRIDON,       "AMSTR_GRIDON"       },
-    { &s_AMSTR_MARKCLEARED,  "AMSTR_MARKCLEARED"  },
-    { &s_AMSTR_MARKEDSPOT,   "AMSTR_MARKEDSPOT"   },
-    { &s_AMSTR_MARKSCLEARED, "AMSTR_MARKSCLEARED" },
-    { &s_AMSTR_ROTATEOFF,    "AMSTR_ROTATEOFF"    },
-    { &s_AMSTR_ROTATEON,     "AMSTR_ROTATEON"     },
-    { &s_C1TEXT,             "C1TEXT"             },
-    { &s_C2TEXT,             "C2TEXT"             },
-    { &s_C3TEXT,             "C3TEXT"             },
-    { &s_C4TEXT,             "C4TEXT"             },
-    { &s_C5TEXT,             "C5TEXT"             },
-    { &s_C6TEXT,             "C6TEXT"             },
-    { &s_CC_ARACH,           "CC_ARACH"           },
-    { &s_CC_ARCH,            "CC_ARCH"            },
-    { &s_CC_BARON,           "CC_BARON"           },
-    { &s_CC_CACO,            "CC_CACO"            },
-    { &s_CC_CYBER,           "CC_CYBER"           },
-    { &s_CC_DEMON,           "CC_DEMON"           },
-    { &s_CC_HEAVY,           "CC_HEAVY"           },
-    { &s_CC_HELL,            "CC_HELL"            },
-    { &s_CC_HERO,            "CC_HERO"            },
-    { &s_CC_IMP,             "CC_IMP"             },
-    { &s_CC_LOST,            "CC_LOST"            },
-    { &s_CC_MANCU,           "CC_MANCU"           },
-    { &s_CC_PAIN,            "CC_PAIN"            },
-    { &s_CC_REVEN,           "CC_REVEN"           },
-    { &s_CC_SHOTGUN,         "CC_SHOTGUN"         },
-    { &s_CC_SPECTRE,         "CC_SPECTRE"         },
-    { &s_CC_SPIDER,          "CC_SPIDER"          },
-    { &s_CC_ZOMBIE,          "CC_ZOMBIE"          },
+    { &s_PRESSKEY,           "PRESSKEY"           },
+    { &s_PRESSYN,            "PRESSYN"            },
+    { &s_PRESSA,             "PRESSA"             },
+    { &s_QLPROMPT,           "QLPROMPT"           },
+    { &s_NIGHTMARE,          "NIGHTMARE"          },
+    { &s_SWSTRING,           "SWSTRING"           },
+    { &s_MSGOFF,             "MSGOFF"             },
+    { &s_MSGON,              "MSGON"              },
+    { &s_ENDGAME,            "ENDGAME"            },
+    { &s_DOSY,               "DOSY"               },
+    { &s_DOSA,               "DOSA"               },
     { &s_DETAILHI,           "DETAILHI"           },
     { &s_DETAILLO,           "DETAILLO"           },
-    { &s_DOSA,               "DOSA"               },
-    { &s_DOSY,               "DOSY"               },
-    { &s_E1TEXT,             "E1TEXT"             },
-    { &s_E2TEXT,             "E2TEXT"             },
-    { &s_E3TEXT,             "E3TEXT"             },
-    { &s_E4TEXT,             "E4TEXT"             },
-    { &s_EMPTYSTRING,        "EMPTYSTRING"        },
-    { &s_ENDGAME,            "ENDGAME"            },
     { &s_GAMMALVL,           "GAMMALVL"           },
     { &s_GAMMAOFF,           "GAMMAOFF"           },
-    { &s_GGSAVED,            "GGSAVED"            },
-    { &s_GOTARMBONUS,        "GOTARMBONUS"        },
+    { &s_EMPTYSTRING,        "EMPTYSTRING"        },
+
     { &s_GOTARMOR,           "GOTARMOR"           },
-    { &s_GOTBACKPACK,        "GOTBACKPACK"        },
-    { &s_GOTBERSERK,         "GOTBERSERK"         },
-    { &s_GOTBFG9000,         "GOTBFG9000"         },
+    { &s_GOTMEGA,            "GOTMEGA"            },
+    { &s_GOTHTHBONUS,        "GOTHTHBONUS"        },
+    { &s_GOTARMBONUS,        "GOTARMBONUS"        },
+    { &s_GOTSTIM,            "GOTSTIM"            },
+    { &s_GOTMEDINEED,        "GOTMEDINEED"        },
+    { &s_GOTMEDIKIT,         "GOTMEDIKIT"         },
+    { &s_GOTSUPER,           "GOTSUPER"           },
+
     { &s_GOTBLUECARD,        "GOTBLUECARD"        },
+    { &s_GOTYELWCARD,        "GOTYELWCARD"        },
+    { &s_GOTREDCARD,         "GOTREDCARD"         },
     { &s_GOTBLUESKUL,        "GOTBLUESKUL"        },
-    { &s_GOTCELL,            "GOTCELL"            },
-    { &s_GOTCELLBOX,         "GOTCELLBOX"         },
-    { &s_GOTCHAINGUN,        "GOTCHAINGUN"        },
-    { &s_GOTCHAINSAW,        "GOTCHAINSAW"        },
+    { &s_GOTYELWSKUL,        "GOTYELWSKUL"        },
+    { &s_GOTREDSKULL,        "GOTREDSKULL"        },
+
+    { &s_GOTINVUL,           "GOTINVUL"           },
+    { &s_GOTBERSERK,         "GOTBERSERK"         },
+    { &s_GOTINVIS,           "GOTINVIS"           },
+    { &s_GOTSUIT,            "GOTSUIT"            },
+    { &s_GOTMAP,             "GOTMAP"             },
+    { &s_GOTVISOR,           "GOTVISOR"           },
+
     { &s_GOTCLIP,            "GOTCLIP"            },
     { &s_GOTCLIPBOX,         "GOTCLIPBOX"         },
-    { &s_GOTHTHBONUS,        "GOTHTHBONUS"        },
-    { &s_GOTINVIS,           "GOTINVIS"           },
-    { &s_GOTINVUL,           "GOTINVUL"           },
+    { &s_GOTROCKET,          "GOTROCKET"          },
+    { &s_GOTROCKBOX,         "GOTROCKBOX"         },
+    { &s_GOTCELL,            "GOTCELL"            },
+    { &s_GOTCELLBOX,         "GOTCELLBOX"         },
+    { &s_GOTSHELLS,          "GOTSHELLS"          },
+    { &s_GOTSHELLBOX,        "GOTSHELLBOX"        },
+    { &s_GOTBACKPACK,        "GOTBACKPACK"        },
+
+    { &s_GOTBFG9000,         "GOTBFG9000"         },
+    { &s_GOTCHAINGUN,        "GOTCHAINGUN"        },
+    { &s_GOTCHAINSAW,        "GOTCHAINSAW"        },
     { &s_GOTLAUNCHER,        "GOTLAUNCHER"        },
-    { &s_GOTMAP,             "GOTMAP"             },
-    { &s_GOTMEDIKIT,         "GOTMEDIKIT"         },
-    { &s_GOTMEDINEED,        "GOTMEDINEED"        },
-    { &s_GOTMEGA,            "GOTMEGA"            },
     { &s_GOTMSPHERE,         "GOTMSPHERE"         },
     { &s_GOTPLASMA,          "GOTPLASMA"          },
-    { &s_GOTREDCARD,         "GOTREDCARD"         },
-    { &s_GOTREDSKULL,        "GOTREDSKULL"        },
-    { &s_GOTROCKBOX,         "GOTROCKBOX"         },
-    { &s_GOTROCKET,          "GOTROCKET"          },
-    { &s_GOTSHELLBOX,        "GOTSHELLBOX"        },
-    { &s_GOTSHELLS,          "GOTSHELLS"          },
     { &s_GOTSHOTGUN,         "GOTSHOTGUN"         },
     { &s_GOTSHOTGUN2,        "GOTSHOTGUN2"        },
-    { &s_GOTSTIM,            "GOTSTIM"            },
-    { &s_GOTSUIT,            "GOTSUIT"            },
-    { &s_GOTSUPER,           "GOTSUPER"           },
-    { &s_GOTVISOR,           "GOTVISOR"           },
-    { &s_GOTYELWCARD,        "GOTYELWCARD"        },
-    { &s_GOTYELWSKUL,        "GOTYELWSKUL"        },
-    { &s_HUSTR_1,            "HUSTR_1"            },
-    { &s_HUSTR_2,            "HUSTR_2"            },
-    { &s_HUSTR_3,            "HUSTR_3"            },
-    { &s_HUSTR_4,            "HUSTR_4"            },
-    { &s_HUSTR_5,            "HUSTR_5"            },
-    { &s_HUSTR_6,            "HUSTR_6"            },
-    { &s_HUSTR_7,            "HUSTR_7"            },
-    { &s_HUSTR_8,            "HUSTR_8"            },
-    { &s_HUSTR_9,            "HUSTR_9"            },
-    { &s_HUSTR_10,           "HUSTR_10"           },
-    { &s_HUSTR_11,           "HUSTR_11"           },
-    { &s_HUSTR_12,           "HUSTR_12"           },
-    { &s_HUSTR_13,           "HUSTR_13"           },
-    { &s_HUSTR_14,           "HUSTR_14"           },
-    { &s_HUSTR_15,           "HUSTR_15"           },
-    { &s_HUSTR_16,           "HUSTR_16"           },
-    { &s_HUSTR_17,           "HUSTR_17"           },
-    { &s_HUSTR_18,           "HUSTR_18"           },
-    { &s_HUSTR_19,           "HUSTR_19"           },
-    { &s_HUSTR_20,           "HUSTR_20"           },
-    { &s_HUSTR_21,           "HUSTR_21"           },
-    { &s_HUSTR_22,           "HUSTR_22"           },
-    { &s_HUSTR_23,           "HUSTR_23"           },
-    { &s_HUSTR_24,           "HUSTR_24"           },
-    { &s_HUSTR_25,           "HUSTR_25"           },
-    { &s_HUSTR_26,           "HUSTR_26"           },
-    { &s_HUSTR_27,           "HUSTR_27"           },
-    { &s_HUSTR_28,           "HUSTR_28"           },
-    { &s_HUSTR_29,           "HUSTR_29"           },
-    { &s_HUSTR_30,           "HUSTR_30"           },
-    { &s_HUSTR_31,           "HUSTR_31"           },
-    { &s_HUSTR_32,           "HUSTR_32"           },
-    { &s_HUSTR_31_BFG,       "HUSTR_31_BFG"       },
-    { &s_HUSTR_32_BFG,       "HUSTR_32_BFG"       },
-    { &s_HUSTR_33_BFG,       "HUSTR_33_BFG"       },
+
+    { &s_PD_BLUEO,           "PD_BLUEO"           },
+    { &s_PD_BLUEO2,          "PD_BLUEO2"          },
+    { &s_PD_REDO,            "PD_REDO"            },
+    { &s_PD_REDO2,           "PD_REDO2"           },
+    { &s_PD_YELLOWO,         "PD_YELLOWO"         },
+    { &s_PD_YELLOWO2,        "PD_YELLOWO2"        },
+    { &s_PD_BLUEK,           "PD_BLUEK"           },
+    { &s_PD_BLUEK2,          "PD_BLUEK2"          },
+    { &s_PD_REDK,            "PD_REDK"            },
+    { &s_PD_REDK2,           "PD_REDK2"           },
+    { &s_PD_YELLOWK,         "PD_YELLOWK"         },
+    { &s_PD_YELLOWK2,        "PD_YELLOWK2"        },
+
+    { &s_GGSAVED,            "GGSAVED"            },
+    { &s_GSCREENSHOT,        "GSCREENSHOT"        },
+
+    { &s_ALWAYSRUNOFF,       "ALWAYSRUNOFF"       },
+    { &s_ALWAYSRUNON,        "ALWAYSRUNON"        },
+
     { &s_HUSTR_E1M1,         "HUSTR_E1M1"         },
     { &s_HUSTR_E1M2,         "HUSTR_E1M2"         },
     { &s_HUSTR_E1M3,         "HUSTR_E1M3"         },
@@ -553,37 +525,41 @@ deh_strs deh_strlookup[] =
     { &s_HUSTR_E4M7,         "HUSTR_E4M7"         },
     { &s_HUSTR_E4M8,         "HUSTR_E4M8"         },
     { &s_HUSTR_E4M9,         "HUSTR_E4M9"         },
-    { &s_MSGOFF,             "MSGOFF"             },
-    { &s_MSGON,              "MSGON"              },
-    { &s_N1TEXT,             "N1TEXT"             },
-    { &s_NHUSTR_1,           "NHUSTR_1"           },
-    { &s_NHUSTR_2,           "NHUSTR_2"           },
-    { &s_NHUSTR_3,           "NHUSTR_3"           },
-    { &s_NHUSTR_4,           "NHUSTR_4"           },
-    { &s_NHUSTR_5,           "NHUSTR_5"           },
-    { &s_NHUSTR_6,           "NHUSTR_6"           },
-    { &s_NHUSTR_7,           "NHUSTR_7"           },
-    { &s_NHUSTR_8,           "NHUSTR_8"           },
-    { &s_NHUSTR_9,           "NHUSTR_9"           },
-    { &s_NIGHTMARE,          "NIGHTMARE"          },
-    { &s_P1TEXT,             "P1TEXT"             },
-    { &s_P2TEXT,             "P2TEXT"             },
-    { &s_P3TEXT,             "P3TEXT"             },
-    { &s_P4TEXT,             "P4TEXT"             },
-    { &s_P5TEXT,             "P5TEXT"             },
-    { &s_P6TEXT,             "P6TEXT"             },
-    { &s_PD_BLUEK,           "PD_BLUEK"           },
-    { &s_PD_BLUEK2,          "PD_BLUEK2"          },
-    { &s_PD_BLUEO,           "PD_BLUEO"           },
-    { &s_PD_BLUEO2,          "PD_BLUEO2"          },
-    { &s_PD_REDK,            "PD_REDK"            },
-    { &s_PD_REDK2,           "PD_REDK2"           },
-    { &s_PD_REDO,            "PD_REDO"            },
-    { &s_PD_REDO2,           "PD_REDO2"           },
-    { &s_PD_YELLOWK,         "PD_YELLOWK"         },
-    { &s_PD_YELLOWK2,        "PD_YELLOWK2"        },
-    { &s_PD_YELLOWO,         "PD_YELLOWO"         },
-    { &s_PD_YELLOWO2,        "PD_YELLOWO2"        },
+    { &s_HUSTR_1,            "HUSTR_1"            },
+    { &s_HUSTR_2,            "HUSTR_2"            },
+    { &s_HUSTR_3,            "HUSTR_3"            },
+    { &s_HUSTR_4,            "HUSTR_4"            },
+    { &s_HUSTR_5,            "HUSTR_5"            },
+    { &s_HUSTR_6,            "HUSTR_6"            },
+    { &s_HUSTR_7,            "HUSTR_7"            },
+    { &s_HUSTR_8,            "HUSTR_8"            },
+    { &s_HUSTR_9,            "HUSTR_9"            },
+    { &s_HUSTR_10,           "HUSTR_10"           },
+    { &s_HUSTR_11,           "HUSTR_11"           },
+    { &s_HUSTR_12,           "HUSTR_12"           },
+    { &s_HUSTR_13,           "HUSTR_13"           },
+    { &s_HUSTR_14,           "HUSTR_14"           },
+    { &s_HUSTR_15,           "HUSTR_15"           },
+    { &s_HUSTR_16,           "HUSTR_16"           },
+    { &s_HUSTR_17,           "HUSTR_17"           },
+    { &s_HUSTR_18,           "HUSTR_18"           },
+    { &s_HUSTR_19,           "HUSTR_19"           },
+    { &s_HUSTR_20,           "HUSTR_20"           },
+    { &s_HUSTR_21,           "HUSTR_21"           },
+    { &s_HUSTR_22,           "HUSTR_22"           },
+    { &s_HUSTR_23,           "HUSTR_23"           },
+    { &s_HUSTR_24,           "HUSTR_24"           },
+    { &s_HUSTR_25,           "HUSTR_25"           },
+    { &s_HUSTR_26,           "HUSTR_26"           },
+    { &s_HUSTR_27,           "HUSTR_27"           },
+    { &s_HUSTR_28,           "HUSTR_28"           },
+    { &s_HUSTR_29,           "HUSTR_29"           },
+    { &s_HUSTR_30,           "HUSTR_30"           },
+    { &s_HUSTR_31,           "HUSTR_31"           },
+    { &s_HUSTR_32,           "HUSTR_32"           },
+    { &s_HUSTR_31_BFG,       "HUSTR_31_BFG"       },
+    { &s_HUSTR_32_BFG,       "HUSTR_32_BFG"       },
+    { &s_HUSTR_33_BFG,       "HUSTR_33_BFG"       },
     { &s_PHUSTR_1,           "PHUSTR_1"           },
     { &s_PHUSTR_2,           "PHUSTR_2"           },
     { &s_PHUSTR_3,           "PHUSTR_3"           },
@@ -616,30 +592,6 @@ deh_strs deh_strlookup[] =
     { &s_PHUSTR_30,          "PHUSTR_30"          },
     { &s_PHUSTR_31,          "PHUSTR_31"          },
     { &s_PHUSTR_32,          "PHUSTR_32"          },
-    { &s_PRESSKEY,           "PRESSKEY"           },
-    { &s_PRESSYN,            "PRESSYN"            },
-    { &s_QLPROMPT,           "QLPROMPT"           },
-    { &s_STSTR_BEHOLD,       "STSTR_BEHOLD"       },
-    { &s_STSTR_BEHOLDOFF,    "STSTR_BEHOLDOFF"    },
-    { &s_STSTR_BEHOLDON,     "STSTR_BEHOLDON"     },
-    { &s_STSTR_CHOPPERS,     "STSTR_CHOPPERS"     },
-    { &s_STSTR_CLEV,         "STSTR_CLEV"         },
-    { &s_STSTR_CLEVSAME,     "STSTR_CLEVSAME"     },
-    { &s_STSTR_DQDOFF,       "STSTR_DQDOFF"       },
-    { &s_STSTR_DQDON,        "STSTR_DQDON"        },
-    { &s_STSTR_FAADDED,      "STSTR_FAADDED"      },
-    { &s_STSTR_KFAADDED,     "STSTR_KFAADDED"     },
-    { &s_STSTR_MUS,          "STSTR_MUS"          },
-    { &s_STSTR_MYPOS,        "STSTR_MYPOS"        },
-    { &s_STSTR_NCOFF,        "STSTR_NCOFF"        },
-    { &s_STSTR_NCON,         "STSTR_NCON"         },
-    { &s_SWSTRING,           "SWSTRING"           },
-    { &s_T1TEXT,             "T1TEXT"             },
-    { &s_T2TEXT,             "T2TEXT"             },
-    { &s_T3TEXT,             "T3TEXT"             },
-    { &s_T4TEXT,             "T4TEXT"             },
-    { &s_T5TEXT,             "T5TEXT"             },
-    { &s_T6TEXT,             "T6TEXT"             },
     { &s_THUSTR_1,           "THUSTR_1"           },
     { &s_THUSTR_2,           "THUSTR_2"           },
     { &s_THUSTR_3,           "THUSTR_3"           },
@@ -672,6 +624,83 @@ deh_strs deh_strlookup[] =
     { &s_THUSTR_30,          "THUSTR_30"          },
     { &s_THUSTR_31,          "THUSTR_31"          },
     { &s_THUSTR_32,          "THUSTR_32"          },
+    { &s_NHUSTR_1,           "NHUSTR_1"           },
+    { &s_NHUSTR_2,           "NHUSTR_2"           },
+    { &s_NHUSTR_3,           "NHUSTR_3"           },
+    { &s_NHUSTR_4,           "NHUSTR_4"           },
+    { &s_NHUSTR_5,           "NHUSTR_5"           },
+    { &s_NHUSTR_6,           "NHUSTR_6"           },
+    { &s_NHUSTR_7,           "NHUSTR_7"           },
+    { &s_NHUSTR_8,           "NHUSTR_8"           },
+    { &s_NHUSTR_9,           "NHUSTR_9"           },
+
+    { &s_AMSTR_FOLLOWON,     "AMSTR_FOLLOWON"     },
+    { &s_AMSTR_FOLLOWOFF,    "AMSTR_FOLLOWOFF"    },
+    { &s_AMSTR_GRIDON,       "AMSTR_GRIDON"       },
+    { &s_AMSTR_GRIDOFF,      "AMSTR_GRIDOFF"      },
+    { &s_AMSTR_MARKEDSPOT,   "AMSTR_MARKEDSPOT"   },
+    { &s_AMSTR_MARKCLEARED,  "AMSTR_MARKCLEARED"  },
+    { &s_AMSTR_MARKSCLEARED, "AMSTR_MARKSCLEARED" },
+    { &s_AMSTR_ROTATEON,     "AMSTR_ROTATEON"     },
+    { &s_AMSTR_ROTATEOFF,    "AMSTR_ROTATEOFF"    },
+
+    { &s_STSTR_MUS,          "STSTR_MUS"          },
+    { &s_STSTR_DQDON,        "STSTR_DQDON"        },
+    { &s_STSTR_DQDOFF,       "STSTR_DQDOFF"       },
+    { &s_STSTR_KFAADDED,     "STSTR_KFAADDED"     },
+    { &s_STSTR_FAADDED,      "STSTR_FAADDED"      },
+    { &s_STSTR_NCON,         "STSTR_NCON"         },
+    { &s_STSTR_NCOFF,        "STSTR_NCOFF"        },
+    { &s_STSTR_BEHOLD,       "STSTR_BEHOLD"       },
+    { &s_STSTR_BEHOLDON,     "STSTR_BEHOLDON"     },
+    { &s_STSTR_BEHOLDOFF,    "STSTR_BEHOLDOFF"    },
+    { &s_STSTR_CHOPPERS,     "STSTR_CHOPPERS"     },
+    { &s_STSTR_CLEV,         "STSTR_CLEV"         },
+    { &s_STSTR_CLEVSAME,     "STSTR_CLEVSAME"     },
+    { &s_STSTR_MYPOS,        "STSTR_MYPOS"        },
+
+    { &s_E1TEXT,             "E1TEXT"             },
+    { &s_E2TEXT,             "E2TEXT"             },
+    { &s_E3TEXT,             "E3TEXT"             },
+    { &s_E4TEXT,             "E4TEXT"             },
+    { &s_C1TEXT,             "C1TEXT"             },
+    { &s_C2TEXT,             "C2TEXT"             },
+    { &s_C3TEXT,             "C3TEXT"             },
+    { &s_C4TEXT,             "C4TEXT"             },
+    { &s_C5TEXT,             "C5TEXT"             },
+    { &s_C6TEXT,             "C6TEXT"             },
+    { &s_P1TEXT,             "P1TEXT"             },
+    { &s_P2TEXT,             "P2TEXT"             },
+    { &s_P3TEXT,             "P3TEXT"             },
+    { &s_P4TEXT,             "P4TEXT"             },
+    { &s_P5TEXT,             "P5TEXT"             },
+    { &s_P6TEXT,             "P6TEXT"             },
+    { &s_T1TEXT,             "T1TEXT"             },
+    { &s_T2TEXT,             "T2TEXT"             },
+    { &s_T3TEXT,             "T3TEXT"             },
+    { &s_T4TEXT,             "T4TEXT"             },
+    { &s_T5TEXT,             "T5TEXT"             },
+    { &s_T6TEXT,             "T6TEXT"             },
+    { &s_N1TEXT,             "N1TEXT"             },
+
+    { &s_CC_ZOMBIE,          "CC_ZOMBIE"          },
+    { &s_CC_SHOTGUN,         "CC_SHOTGUN"         },
+    { &s_CC_HEAVY,           "CC_HEAVY"           },
+    { &s_CC_IMP,             "CC_IMP"             },
+    { &s_CC_DEMON,           "CC_DEMON"           },
+    { &s_CC_SPECTRE,         "CC_SPECTRE"         },
+    { &s_CC_LOST,            "CC_LOST"            },
+    { &s_CC_CACO,            "CC_CACO"            },
+    { &s_CC_HELL,            "CC_HELL"            },
+    { &s_CC_BARON,           "CC_BARON"           },
+    { &s_CC_ARACH,           "CC_ARACH"           },
+    { &s_CC_PAIN,            "CC_PAIN"            },
+    { &s_CC_REVEN,           "CC_REVEN"           },
+    { &s_CC_MANCU,           "CC_MANCU"           },
+    { &s_CC_ARCH,            "CC_ARCH"            },
+    { &s_CC_SPIDER,          "CC_SPIDER"          },
+    { &s_CC_CYBER,           "CC_CYBER"           },
+    { &s_CC_HERO,            "CC_HERO"            },
 
     { &bgflatE1,             "BGFLATE1"           },
     { &bgflatE2,             "BGFLATE2"           },
@@ -692,93 +721,87 @@ char *deh_newlevel = "NEWLEVEL";
 
 char **mapnames[] =     // DOOM shareware/registered/retail (Ultimate) names.
 {
-  &s_HUSTR_E1M1,
-  &s_HUSTR_E1M2,
-  &s_HUSTR_E1M3,
-  &s_HUSTR_E1M4,
-  &s_HUSTR_E1M5,
-  &s_HUSTR_E1M6,
-  &s_HUSTR_E1M7,
-  &s_HUSTR_E1M8,
-  &s_HUSTR_E1M9,
-
-  &s_HUSTR_E2M1,
-  &s_HUSTR_E2M2,
-  &s_HUSTR_E2M3,
-  &s_HUSTR_E2M4,
-  &s_HUSTR_E2M5,
-  &s_HUSTR_E2M6,
-  &s_HUSTR_E2M7,
-  &s_HUSTR_E2M8,
-  &s_HUSTR_E2M9,
-
-  &s_HUSTR_E3M1,
-  &s_HUSTR_E3M2,
-  &s_HUSTR_E3M3,
-  &s_HUSTR_E3M4,
-  &s_HUSTR_E3M5,
-  &s_HUSTR_E3M6,
-  &s_HUSTR_E3M7,
-  &s_HUSTR_E3M8,
-  &s_HUSTR_E3M9,
-
-  &s_HUSTR_E4M1,
-  &s_HUSTR_E4M2,
-  &s_HUSTR_E4M3,
-  &s_HUSTR_E4M4,
-  &s_HUSTR_E4M5,
-  &s_HUSTR_E4M6,
-  &s_HUSTR_E4M7,
-  &s_HUSTR_E4M8,
-  &s_HUSTR_E4M9,
-
-  &deh_newlevel,        // spares?  Unused.
-  &deh_newlevel,
-  &deh_newlevel,
-  &deh_newlevel,
-  &deh_newlevel,
-  &deh_newlevel,
-  &deh_newlevel,
-  &deh_newlevel,
-  &deh_newlevel
+    &s_HUSTR_E1M1,
+    &s_HUSTR_E1M2,
+    &s_HUSTR_E1M3,
+    &s_HUSTR_E1M4,
+    &s_HUSTR_E1M5,
+    &s_HUSTR_E1M6,
+    &s_HUSTR_E1M7,
+    &s_HUSTR_E1M8,
+    &s_HUSTR_E1M9,
+    &s_HUSTR_E2M1,
+    &s_HUSTR_E2M2,
+    &s_HUSTR_E2M3,
+    &s_HUSTR_E2M4,
+    &s_HUSTR_E2M5,
+    &s_HUSTR_E2M6,
+    &s_HUSTR_E2M7,
+    &s_HUSTR_E2M8,
+    &s_HUSTR_E2M9,
+    &s_HUSTR_E3M1,
+    &s_HUSTR_E3M2,
+    &s_HUSTR_E3M3,
+    &s_HUSTR_E3M4,
+    &s_HUSTR_E3M5,
+    &s_HUSTR_E3M6,
+    &s_HUSTR_E3M7,
+    &s_HUSTR_E3M8,
+    &s_HUSTR_E3M9,
+    &s_HUSTR_E4M1,
+    &s_HUSTR_E4M2,
+    &s_HUSTR_E4M3,
+    &s_HUSTR_E4M4,
+    &s_HUSTR_E4M5,
+    &s_HUSTR_E4M6,
+    &s_HUSTR_E4M7,
+    &s_HUSTR_E4M8,
+    &s_HUSTR_E4M9,
+    &deh_newlevel,      // spares?  Unused.
+    &deh_newlevel,
+    &deh_newlevel,
+    &deh_newlevel,
+    &deh_newlevel,
+    &deh_newlevel,
+    &deh_newlevel,
+    &deh_newlevel,
+    &deh_newlevel
 };
 
 char **mapnames2[] =     // DOOM 2 map names.
 {
-  &s_HUSTR_1,
-  &s_HUSTR_2,
-  &s_HUSTR_3,
-  &s_HUSTR_4,
-  &s_HUSTR_5,
-  &s_HUSTR_6,
-  &s_HUSTR_7,
-  &s_HUSTR_8,
-  &s_HUSTR_9,
-  &s_HUSTR_10,
-  &s_HUSTR_11,
-
-  &s_HUSTR_12,
-  &s_HUSTR_13,
-  &s_HUSTR_14,
-  &s_HUSTR_15,
-  &s_HUSTR_16,
-  &s_HUSTR_17,
-  &s_HUSTR_18,
-  &s_HUSTR_19,
-  &s_HUSTR_20,
-
-  &s_HUSTR_21,
-  &s_HUSTR_22,
-  &s_HUSTR_23,
-  &s_HUSTR_24,
-  &s_HUSTR_25,
-  &s_HUSTR_26,
-  &s_HUSTR_27,
-  &s_HUSTR_28,
-  &s_HUSTR_29,
-  &s_HUSTR_30,
-  &s_HUSTR_31,
-  &s_HUSTR_32,
+    &s_HUSTR_1,
+    &s_HUSTR_2,
+    &s_HUSTR_3,
+    &s_HUSTR_4,
+    &s_HUSTR_5,
+    &s_HUSTR_6,
+    &s_HUSTR_7,
+    &s_HUSTR_8,
+    &s_HUSTR_9,
+    &s_HUSTR_10,
+    &s_HUSTR_11,
+    &s_HUSTR_12,
+    &s_HUSTR_13,
+    &s_HUSTR_14,
+    &s_HUSTR_15,
+    &s_HUSTR_16,
+    &s_HUSTR_17,
+    &s_HUSTR_18,
+    &s_HUSTR_19,
+    &s_HUSTR_20,
+    &s_HUSTR_21,
+    &s_HUSTR_22,
+    &s_HUSTR_23,
+    &s_HUSTR_24,
+    &s_HUSTR_25,
+    &s_HUSTR_26,
+    &s_HUSTR_27,
+    &s_HUSTR_28,
+    &s_HUSTR_29,
+    &s_HUSTR_30,
+    &s_HUSTR_31,
+    &s_HUSTR_32
 };
 
 char **mapnames2_bfg[] =     // DOOM 2 map names.
@@ -794,7 +817,6 @@ char **mapnames2_bfg[] =     // DOOM 2 map names.
     &s_HUSTR_9,
     &s_HUSTR_10,
     &s_HUSTR_11,
-
     &s_HUSTR_12,
     &s_HUSTR_13,
     &s_HUSTR_14,
@@ -804,7 +826,6 @@ char **mapnames2_bfg[] =     // DOOM 2 map names.
     &s_HUSTR_18,
     &s_HUSTR_19,
     &s_HUSTR_20,
-
     &s_HUSTR_21,
     &s_HUSTR_22,
     &s_HUSTR_23,
@@ -815,7 +836,6 @@ char **mapnames2_bfg[] =     // DOOM 2 map names.
     &s_HUSTR_28,
     &s_HUSTR_29,
     &s_HUSTR_30,
-
     &s_HUSTR_31_BFG,
     &s_HUSTR_32_BFG,
     &s_HUSTR_33_BFG
@@ -823,78 +843,74 @@ char **mapnames2_bfg[] =     // DOOM 2 map names.
 
 char **mapnamesp[] =    // Plutonia WAD map names.
 {
-  &s_PHUSTR_1,
-  &s_PHUSTR_2,
-  &s_PHUSTR_3,
-  &s_PHUSTR_4,
-  &s_PHUSTR_5,
-  &s_PHUSTR_6,
-  &s_PHUSTR_7,
-  &s_PHUSTR_8,
-  &s_PHUSTR_9,
-  &s_PHUSTR_10,
-  &s_PHUSTR_11,
-
-  &s_PHUSTR_12,
-  &s_PHUSTR_13,
-  &s_PHUSTR_14,
-  &s_PHUSTR_15,
-  &s_PHUSTR_16,
-  &s_PHUSTR_17,
-  &s_PHUSTR_18,
-  &s_PHUSTR_19,
-  &s_PHUSTR_20,
-
-  &s_PHUSTR_21,
-  &s_PHUSTR_22,
-  &s_PHUSTR_23,
-  &s_PHUSTR_24,
-  &s_PHUSTR_25,
-  &s_PHUSTR_26,
-  &s_PHUSTR_27,
-  &s_PHUSTR_28,
-  &s_PHUSTR_29,
-  &s_PHUSTR_30,
-  &s_PHUSTR_31,
-  &s_PHUSTR_32,
+    &s_PHUSTR_1,
+    &s_PHUSTR_2,
+    &s_PHUSTR_3,
+    &s_PHUSTR_4,
+    &s_PHUSTR_5,
+    &s_PHUSTR_6,
+    &s_PHUSTR_7,
+    &s_PHUSTR_8,
+    &s_PHUSTR_9,
+    &s_PHUSTR_10,
+    &s_PHUSTR_11,
+    &s_PHUSTR_12,
+    &s_PHUSTR_13,
+    &s_PHUSTR_14,
+    &s_PHUSTR_15,
+    &s_PHUSTR_16,
+    &s_PHUSTR_17,
+    &s_PHUSTR_18,
+    &s_PHUSTR_19,
+    &s_PHUSTR_20,
+    &s_PHUSTR_21,
+    &s_PHUSTR_22,
+    &s_PHUSTR_23,
+    &s_PHUSTR_24,
+    &s_PHUSTR_25,
+    &s_PHUSTR_26,
+    &s_PHUSTR_27,
+    &s_PHUSTR_28,
+    &s_PHUSTR_29,
+    &s_PHUSTR_30,
+    &s_PHUSTR_31,
+    &s_PHUSTR_32
 };
 
 char **mapnamest[] =    // TNT WAD map names.
 {
-  &s_THUSTR_1,
-  &s_THUSTR_2,
-  &s_THUSTR_3,
-  &s_THUSTR_4,
-  &s_THUSTR_5,
-  &s_THUSTR_6,
-  &s_THUSTR_7,
-  &s_THUSTR_8,
-  &s_THUSTR_9,
-  &s_THUSTR_10,
-  &s_THUSTR_11,
-
-  &s_THUSTR_12,
-  &s_THUSTR_13,
-  &s_THUSTR_14,
-  &s_THUSTR_15,
-  &s_THUSTR_16,
-  &s_THUSTR_17,
-  &s_THUSTR_18,
-  &s_THUSTR_19,
-  &s_THUSTR_20,
-
-  &s_THUSTR_21,
-  &s_THUSTR_22,
-  &s_THUSTR_23,
-  &s_THUSTR_24,
-  &s_THUSTR_25,
-  &s_THUSTR_26,
-  &s_THUSTR_27,
-  &s_THUSTR_28,
-  &s_THUSTR_29,
-  &s_THUSTR_30,
-  &s_THUSTR_31,
-  &s_THUSTR_32,
+    &s_THUSTR_1,
+    &s_THUSTR_2,
+    &s_THUSTR_3,
+    &s_THUSTR_4,
+    &s_THUSTR_5,
+    &s_THUSTR_6,
+    &s_THUSTR_7,
+    &s_THUSTR_8,
+    &s_THUSTR_9,
+    &s_THUSTR_10,
+    &s_THUSTR_11,
+    &s_THUSTR_12,
+    &s_THUSTR_13,
+    &s_THUSTR_14,
+    &s_THUSTR_15,
+    &s_THUSTR_16,
+    &s_THUSTR_17,
+    &s_THUSTR_18,
+    &s_THUSTR_19,
+    &s_THUSTR_20,
+    &s_THUSTR_21,
+    &s_THUSTR_22,
+    &s_THUSTR_23,
+    &s_THUSTR_24,
+    &s_THUSTR_25,
+    &s_THUSTR_26,
+    &s_THUSTR_27,
+    &s_THUSTR_28,
+    &s_THUSTR_29,
+    &s_THUSTR_30,
+    &s_THUSTR_31,
+    &s_THUSTR_32
 };
 
 char **mapnamesn[] =    // Nerve WAD map names.
