@@ -41,7 +41,7 @@
 //
 #define PRESSKEY                "press a key."
 #define PRESSYN                 "press y or n."
-//#define QUITMSG               "are you sure you want to\nquit this great game?"
+#define QUITMSG                 "are you sure you want to\nquit this great game?"
 //#define LOADNET               "you can't do load while in a net game!\n\n"PRESSKEY
 //#define QLOADNET              "you can't quickload during a netgame!\n\n"PRESSKEY
 //#define QSAVESPOT             "you haven't picked a quicksave slot yet!\n\n"PRESSKEY

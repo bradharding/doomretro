@@ -27,6 +27,7 @@
 PRESSKEY = (Press any key to continue.)
 PRESSYN = (Press 'Y' or 'N' to continue.)
 PRESSA = (Press button 'A' to continue.)
+QUITMSG = Are you sure you want to\nquit this great game?
 QLPROMPT = Do you want to quickload the savegame\"%s\"?
 NIGHTMARE = Are you sure? This skill level\nisn't even remotely fair!
 SWSTRING = This is the shareware version of DOOM.\nYou need to purchase the full version.
@@ -313,3 +314,18 @@ CC_ARCH = ARCH-VILE
 CC_SPIDER = THE SPIDER MASTERMIND
 CC_CYBER = THE CYBERDEMON
 CC_HERO = OUR HERO
+
+DOOM_ENDMSG1 = Please don't leave - there\nare more demons to toast!
+DOOM_ENDMSG2 = Let's beat it - this is turning\ninto a bloodbath!
+DOOM_ENDMSG3 = I wouldn't leave if I were you.\nWindows is much worse.
+DOOM_ENDMSG4 = So you're trying to say you like\nWindows better than me?
+DOOM_ENDMSG5 = Don't leave yet - there's a\ndemon 'round that corner!
+DOOM_ENDMSG6 = Ya know, next time you come\nin here, I'm gonna toast ya.
+DOOM_ENDMSG7 = Go ahead and leave. See if I care.
+DOOM2_ENDMSG1 = You want to quit?\nThen thou hast lost an eighth!
+DOOM2_ENDMSG2 = Don't go now! There's a dimensional\nshambler waiting on the desktop!
+DOOM2_ENDMSG3 = Get outta here and go back\nto your precious internet.
+DOOM2_ENDMSG4 = If I were your boss, I'd\ndeathmatch ya in a minute!
+DOOM2_ENDMSG5 = Look, bud... You leave now and\nyou forfeit your body count!
+DOOM2_ENDMSG6 = Just leave. When you come back,\nI'll be waiting with a bat.
+DOOM2_ENDMSG7 = You're lucky I don't smack you\none for thinking about leaving.

@@ -1739,10 +1739,7 @@ void M_QuitResponse(int key)
 
 static char *M_SelectEndMessage(void)
 {
-    char        **endmsg;
-
-    endmsg = (gamemission == doom ? doom1_endmsg : doom2_endmsg);
-    return endmsg[M_Random() % NUM_QUITMESSAGES];
+    return *endmsg[M_Random() % NUM_QUITMESSAGES + (gamemission != doom) * NUM_QUITMESSAGES];
 }
 
 void M_QuitDOOM(int choice)

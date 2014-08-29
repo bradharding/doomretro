@@ -29,6 +29,7 @@
 extern char *s_PRESSKEY;
 extern char *s_PRESSYN;
 extern char *s_PRESSA;
+extern char *s_QUITMSG;
 extern char *s_QLPROMPT;
 extern char *s_NIGHTMARE;
 extern char *s_SWSTRING;
@@ -316,6 +317,21 @@ extern char *s_CC_ARCH;
 extern char *s_CC_SPIDER;
 extern char *s_CC_CYBER;
 extern char *s_CC_HERO;
+
+extern char *s_DOOM_ENDMSG1;
+extern char *s_DOOM_ENDMSG2;
+extern char *s_DOOM_ENDMSG3;
+extern char *s_DOOM_ENDMSG4;
+extern char *s_DOOM_ENDMSG5;
+extern char *s_DOOM_ENDMSG6;
+extern char *s_DOOM_ENDMSG7;
+extern char *s_DOOM2_ENDMSG1;
+extern char *s_DOOM2_ENDMSG2;
+extern char *s_DOOM2_ENDMSG3;
+extern char *s_DOOM2_ENDMSG4;
+extern char *s_DOOM2_ENDMSG5;
+extern char *s_DOOM2_ENDMSG6;
+extern char *s_DOOM2_ENDMSG7;
 
 extern char *bgflatE1;
 extern char *bgflatE2;

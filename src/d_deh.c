@@ -95,6 +95,7 @@ boolean deh_pars = false; // in wi_stuff to allow pars in modified games
 char *s_PRESSKEY = PRESSKEY;
 char *s_PRESSYN = PRESSYN;
 char *s_PRESSA = PRESSA;
+char *s_QUITMSG = QUITMSG;
 char *s_QLPROMPT = QLPROMPT;
 char *s_NIGHTMARE = NIGHTMARE;
 char *s_SWSTRING = SWSTRING;
@@ -383,6 +384,21 @@ char *s_CC_SPIDER = CC_SPIDER;
 char *s_CC_CYBER = CC_CYBER;
 char *s_CC_HERO = CC_HERO;
 
+char *s_DOOM_ENDMSG1 = DOOM_ENDMSG1;
+char *s_DOOM_ENDMSG2 = DOOM_ENDMSG2;
+char *s_DOOM_ENDMSG3 = DOOM_ENDMSG3;
+char *s_DOOM_ENDMSG4 = DOOM_ENDMSG4;
+char *s_DOOM_ENDMSG5 = DOOM_ENDMSG5;
+char *s_DOOM_ENDMSG6 = DOOM_ENDMSG6;
+char *s_DOOM_ENDMSG7 = DOOM_ENDMSG7;
+char *s_DOOM2_ENDMSG1 = DOOM2_ENDMSG1;
+char *s_DOOM2_ENDMSG2 = DOOM2_ENDMSG2;
+char *s_DOOM2_ENDMSG3 = DOOM2_ENDMSG3;
+char *s_DOOM2_ENDMSG4 = DOOM2_ENDMSG4;
+char *s_DOOM2_ENDMSG5 = DOOM2_ENDMSG5;
+char *s_DOOM2_ENDMSG6 = DOOM2_ENDMSG6;
+char *s_DOOM2_ENDMSG7 = DOOM2_ENDMSG7;
+
 char *bgflatE1 = "FLOOR4_8";
 char *bgflatE2 = "SFLR6_1";
 char *bgflatE3 = "MFLR8_4";
@@ -414,6 +430,7 @@ deh_strs deh_strlookup[] =
     { &s_PRESSKEY,           "PRESSKEY"           },
     { &s_PRESSYN,            "PRESSYN"            },
     { &s_PRESSA,             "PRESSA"             },
+    { &s_QUITMSG,            "QUITMSG"            },
     { &s_QLPROMPT,           "QLPROMPT"           },
     { &s_NIGHTMARE,          "NIGHTMARE"          },
     { &s_SWSTRING,           "SWSTRING"           },
@@ -701,6 +718,21 @@ deh_strs deh_strlookup[] =
     { &s_CC_SPIDER,          "CC_SPIDER"          },
     { &s_CC_CYBER,           "CC_CYBER"           },
     { &s_CC_HERO,            "CC_HERO"            },
+
+    { &s_DOOM_ENDMSG1,       "DOOM_ENDMSG1"       },
+    { &s_DOOM_ENDMSG2,       "DOOM_ENDMSG2"       },
+    { &s_DOOM_ENDMSG3,       "DOOM_ENDMSG3"       },
+    { &s_DOOM_ENDMSG4,       "DOOM_ENDMSG4"       },
+    { &s_DOOM_ENDMSG5,       "DOOM_ENDMSG5"       },
+    { &s_DOOM_ENDMSG6,       "DOOM_ENDMSG6"       },
+    { &s_DOOM_ENDMSG7,       "DOOM_ENDMSG7"       },
+    { &s_DOOM2_ENDMSG1,      "DOOM2_ENDMSG1"      },
+    { &s_DOOM2_ENDMSG2,      "DOOM2_ENDMSG2"      },
+    { &s_DOOM2_ENDMSG3,      "DOOM2_ENDMSG3"      },
+    { &s_DOOM2_ENDMSG4,      "DOOM2_ENDMSG4"      },
+    { &s_DOOM2_ENDMSG5,      "DOOM2_ENDMSG5"      },
+    { &s_DOOM2_ENDMSG6,      "DOOM2_ENDMSG6"      },
+    { &s_DOOM2_ENDMSG7,      "DOOM2_ENDMSG7"      },
 
     { &bgflatE1,             "BGFLATE1"           },
     { &bgflatE2,             "BGFLATE2"           },
@@ -1406,7 +1438,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     char        inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
 
     // Open output file if we're writing output
-#ifdef _DEBUG
+//#ifdef _DEBUG
     if (outfilename && *outfilename && !fileout)
     {
         static boolean  firstfile = true;       // to allow append to output log
@@ -1417,7 +1449,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             fileout = stdout;
         firstfile = false;
     }
-#endif
+//#endif
 
     // killough 10/98: allow DEH files to come from wad lumps
     if (filename)

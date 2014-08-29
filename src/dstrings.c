@@ -23,29 +23,28 @@
 ========================================================================
 */
 
+#include "d_deh.h"
 #include "dstrings.h"
 
-char *doom1_endmsg[] =
+char **endmsg[] =
 {
-    "Are you sure you want to\nquit this great game?",
-    "Please don't leave - there\nare more demons to toast!",
-    "Let's beat it - this is turning\ninto a bloodbath!",
-    "I wouldn't leave if I were you.\nWindows is much worse.",
-    "So you're trying to say you like\nWindows better than me?",
-    "Don't leave yet - there's a\ndemon 'round that corner!",
-    "Ya know, next time you come\nin here, I'm gonna toast ya.",
-    "Go ahead and leave. See if I care.",
-};
+    // DOOM1
+    &s_QUITMSG,
+    &s_DOOM_ENDMSG1,
+    &s_DOOM_ENDMSG2,
+    &s_DOOM_ENDMSG3,
+    &s_DOOM_ENDMSG4,
+    &s_DOOM_ENDMSG5,
+    &s_DOOM_ENDMSG6,
+    &s_DOOM_ENDMSG7,
 
-char *doom2_endmsg[] =
-{
     // QuitDOOM II messages
-    "Are you sure you want to\nquit this great game?",
-    "You want to quit?\nThen thou hast lost an eighth!",
-    "Don't go now! There's a dimensional\nshambler waiting on the desktop!",
-    "Get outta here and go back\nto your precious internet.",
-    "If I were your boss, I'd\ndeathmatch ya in a minute!",
-    "Look, bud... You leave now and\nyou forfeit your body count!",
-    "Just leave. When you come back,\nI'll be waiting with a bat.",
-    "You're lucky I don't smack you\none for thinking about leaving.",
+    &s_QUITMSG,
+    &s_DOOM2_ENDMSG1,
+    &s_DOOM2_ENDMSG2,
+    &s_DOOM2_ENDMSG3,
+    &s_DOOM2_ENDMSG4,
+    &s_DOOM2_ENDMSG5,
+    &s_DOOM2_ENDMSG6,
+    &s_DOOM2_ENDMSG7
 };
