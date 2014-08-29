@@ -23,9 +23,9 @@
 ========================================================================
 */
 
-#include "d_main.h"
 #include "doomstat.h"
 #include "i_swap.h"
+#include "m_config.h"
 #include "st_lib.h"
 #include "v_video.h"
 #include "w_wad.h"

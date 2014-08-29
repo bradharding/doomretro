@@ -28,58 +28,6 @@
 
 #include "d_event.h"
 
-#define MOUSESENSITIVITY_MIN            0
-#define MOUSESENSITIVITY_DEFAULT        16
-#define MOUSESENSITIVITY_MAX            64
-
-#define MOUSEACCELERATION_DEFAULT       2.0
-
-#define MOUSETHRESHOLD_DEFAULT          10
-
-#define SFXVOLUME_MIN                   0
-#define SFXVOLUME_DEFAULT               15
-#define SFXVOLUME_MAX                   15
-
-#define MUSICVOLUME_MIN                 0
-#define MUSICVOLUME_DEFAULT             15
-#define MUSICVOLUME_MAX                 15
-
-#define LOW                             0
-#define HIGH                            1
-#define GRAPHICDETAIL_DEFAULT           HIGH
-
-#define SCREENSIZE_MIN                  0
-#define SCREENSIZE_DEFAULT              7
-#define SCREENSIZE_MAX                  8
-
-#define GAMMA_MIN                       gammalevels[0]
-#define GAMMA_DEFAULT                   0.75
-#define GAMMA_MAX                       gammalevels[GAMMALEVELS - 1]
-
-#define SATURATION_MIN                  0.0
-#define SATURATION_DEFAULT              0.75
-#define SATURATION_MAX                  1.0
-
-#define UNLIMITED                       32768
-
-#define BLOODSPLATS_MIN                 0
-#define BLOODSPLATS_DEFAULT             UNLIMITED
-#define BLOODSPLATS_MAX                 UNLIMITED
-
-#define PIXELWIDTH_MIN                  2
-#define PIXELWIDTH_DEFAULT              2
-#define PIXELWIDTH_MAX                  SCREENWIDTH
-
-#define PIXELHEIGHT_MIN                 2
-#define PIXELHEIGHT_DEFAULT             2
-#define PIXELHEIGHT_MAX                 SCREENHEIGHT
-
-#define RUNCOUNT_MAX                    32768
-
-#define PLAYERBOB_MIN                   0
-#define PLAYERBOB_DEFAULT               75
-#define PLAYERBOB_MAX                   100
-
 //
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,

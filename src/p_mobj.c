@@ -27,6 +27,7 @@
 #include "doomstat.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
+#include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "s_sound.h"
@@ -42,9 +43,9 @@ mobj_t          *bloodSplatQueue[BLOODSPLATS_MAX];
 int             bloodSplatQueueSlot;
 void            (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
-boolean         smoketrails = true;
+boolean         smoketrails = SMOKETRAILS_DEFAULT;
 
-int             corpses = (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD);
+int             corpses = CORPSES_DEFAULT;
 
 extern msecnode_t *sector_list; // phares 3/16/98
 

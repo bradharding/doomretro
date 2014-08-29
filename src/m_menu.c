@@ -70,7 +70,7 @@ int             mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
 float           gamepadSensitivity;
 
 // Show messages has default, false = off, true = on
-boolean         messages = false;
+boolean         messages = MESSAGES_DEFAULT;
 
 int             graphicdetail = GRAPHICDETAIL_DEFAULT;
 
@@ -3153,19 +3153,10 @@ void M_Init(void)
         selectedepisode = startepisode - 1;
         selectedskilllevel = startskill;
     }
-    if ((gamemode == registered && (selectedepisode < 0 || selectedepisode > 2))
-         || (gamemode == retail && (selectedepisode < 0 || selectedepisode > 3)))
-        selectedepisode = 0;
     if (gamemode != shareware)
         EpiDef.lastOn = selectedepisode;
-    if (selectedexpansion < 0 || selectedexpansion > 1)
-        selectedexpansion = 0;
     ExpDef.lastOn = selectedexpansion;
-    if (selectedskilllevel < 0 || selectedskilllevel > 4)
-        selectedskilllevel = 2;
     NewDef.lastOn = selectedskilllevel;
-    if (selectedsavegame < 0 || selectedsavegame > 5)
-        selectedsavegame = 0;
     SaveDef.lastOn = LoadDef.lastOn = selectedsavegame;
     M_ReadSaveStrings();
 

@@ -70,20 +70,6 @@
 
 #define GAMEPAD_SENSITIVITY_OFFSET      1.25f
 
-#define VALID(button)                   (button >= 0 && button <= GAMEPAD_Y && !(button & (button - 1)))
-
-#define GAMEPADAUTOMAP_DEFAULT          GAMEPAD_BACK
-#define GAMEPADFIRE_DEFAULT             GAMEPAD_RIGHT_TRIGGER
-#define GAMEPADMENU_DEFAULT             GAMEPAD_START
-#define GAMEPADNEXTWEAPON_DEFAULT       GAMEPAD_B
-#define GAMEPADPREVWEAPON_DEFAULT       GAMEPAD_Y
-#define GAMEPADSPEED_DEFAULT            GAMEPAD_LEFT_TRIGGER
-#define GAMEPADUSE_DEFAULT              GAMEPAD_A
-#define GAMEPADWEAPON_DEFAULT           0
-
-#define GAMEPADLEFTHANDED_DEFAULT       false
-#define GAMEPADVIBRATE_DEFAULT          true
-
 int damagevibrationtics;
 int weaponvibrationtics;
 

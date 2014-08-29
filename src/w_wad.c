@@ -91,14 +91,12 @@ static void ExtractFileBase(char *path, char *dest)
 }
 
 // Hash function used for lump names.
-
 unsigned int W_LumpNameHash(const char *s)
 {
     // This is the djb2 string hash function, modded to work on strings
     // that have a maximum length of 8.
-
-    unsigned int result = 5381;
-    unsigned int i;
+    unsigned int        result = 5381;
+    unsigned int        i;
 
     for (i = 0; i < 8 && s[i] != '\0'; ++i)
         result = ((result << 5) ^ result) ^ toupper(s[i]);
@@ -118,7 +116,6 @@ unsigned int W_LumpNameHash(const char *s)
 //  with multiple lumps.
 // Other files are single lumps with the base filename
 //  for the lump name.
-
 wad_file_t *W_AddFile(char *filename)
 {
     wadinfo_t header;
@@ -303,7 +300,8 @@ int IWADRequiredByPWAD(const char *pwadname)
 
     fseek(fp, LONG(header.infotableofs), SEEK_SET);
 
-    for (header.numlumps = LONG(header.numlumps);  header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+    for (header.numlumps = LONG(header.numlumps);
+        header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
         if (*n == 'E' && n[2] == 'M' && !n[4])
             result = doom;
         else if (*n == 'M' && n[1] == 'A' && n[2] == 'P' && !n[5])

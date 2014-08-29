@@ -26,6 +26,155 @@
 #ifndef __M_CONFIG__
 #define __M_CONFIG__
 
+#define ALWAYSRUN_DEFAULT               false
+
+#define BLOODSPLATS_MIN                 0
+#define BLOODSPLATS_DEFAULT             UNLIMITED
+#define BLOODSPLATS_MAX                 UNLIMITED
+#define UNLIMITED                       32768
+
+#define BRIGHTMAPS_DEFAULT              true;
+
+#define CORPSES_MIN                     0
+#define CORPSES_DEFAULT                 (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
+#define CORPSES_MAX                     CORPSES_DEFAULT
+#define MIRROR                          1
+#define SLIDE                           2
+#define SMEARBLOOD                      4
+#define MOREBLOOD                       8
+
+#define DCLICKUSE_DEFAULT               false
+
+#define EPISODE_MIN                     0
+#define EPISODE_DEFAULT                 0
+#define EPISODE_MAX                     3
+
+#define EXPANSION_MIN                   0
+#define EXPANSION_DEFAULT               0
+#define EXPANSION_MAX                   1
+
+#define FULLSCREEN_DEFAULT              true
+
+#define GAMEPADAUTOMAP_DEFAULT          GAMEPAD_BACK
+
+#define GAMEPADFIRE_DEFAULT             GAMEPAD_RIGHT_TRIGGER
+
+#define GAMEPADMENU_DEFAULT             GAMEPAD_START
+
+#define GAMEPADNEXTWEAPON_DEFAULT       GAMEPAD_B
+
+#define GAMEPADPREVWEAPON_DEFAULT       GAMEPAD_Y
+
+#define GAMEPADSPEED_DEFAULT            GAMEPAD_LEFT_TRIGGER
+
+#define GAMEPADUSE_DEFAULT              GAMEPAD_A
+
+#define GAMEPADWEAPON_DEFAULT           0
+
+#define GAMEPADLEFTHANDED_DEFAULT       false
+
+#define GAMEPADVIBRATE_DEFAULT          true
+
+#define GAMMA_MIN                       gammalevels[0]
+#define GAMMA_DEFAULT                   0.75
+#define GAMMA_MAX                       gammalevels[GAMMALEVELS - 1]
+
+#define GRAPHICDETAIL_DEFAULT           HIGH
+#define LOW                             0
+#define HIGH                            1
+
+#define GRID_DEFAULT                    false
+
+#define HOMINDICATOR_DEFAULT            false
+
+#define HUD_DEFAULT                     true
+
+#define KEYDOWN_DEFAULT                 KEY_DOWNARROW
+
+#define KEYDOWN2_DEFAULT                's'
+
+#define KEYFIRE_DEFAULT                 KEY_RCTRL
+
+#define KEYLEFT_DEFAULT                 KEY_LEFTARROW
+
+#define KEYNEXTWEAPON_DEFAULT           0
+
+#define KEYPREVWEAPON_DEFAULT           0
+
+#define KEYRIGHT_DEFAULT                KEY_RIGHTARROW
+
+#define KEYSPEED_DEFAULT                KEY_RSHIFT
+
+#define KEYSTRAFE_DEFAULT               KEY_RALT
+
+#define KEYSTRAFELEFT_DEFAULT           'a'
+
+#define KEYSTRAFERIGHT_DEFAULT          'd'
+
+#define KEYUP_DEFAULT                   KEY_UPARROW
+
+#define KEYUP2_DEFAULT                  'w'
+
+#define KEYUSE_DEFAULT                  ' '
+
+#define MESSAGES_DEFAULT                false
+
+#define MIRRORWEAPONS_DEFAULT           false
+
+#define MOUSEACCELERATION_DEFAULT       2.0
+
+#define MOUSEFIRE_DEFAULT               0
+
+#define MOUSEFORWARD_DEFAULT            -1
+
+#define MOUSESENSITIVITY_MIN            0
+#define MOUSESENSITIVITY_DEFAULT        16
+#define MOUSESENSITIVITY_MAX            64
+
+#define MOUSESTRAFE_DEFAULT             -1
+
+#define MOUSETHRESHOLD_DEFAULT          10
+
+#define MOUSEUSE_DEFAULT                -1
+
+#define MUSICVOLUME_MIN                 0
+#define MUSICVOLUME_DEFAULT             15
+#define MUSICVOLUME_MAX                 15
+
+#define NOVERT_DEFAULT                  false
+
+#define PIXELWIDTH_MIN                  2
+#define PIXELWIDTH_DEFAULT              2
+#define PIXELWIDTH_MAX                  SCREENWIDTH
+
+#define PIXELHEIGHT_MIN                 2
+#define PIXELHEIGHT_DEFAULT             2
+#define PIXELHEIGHT_MAX                 SCREENHEIGHT
+
+#define PLAYERBOB_MIN                   0
+#define PLAYERBOB_DEFAULT               75
+#define PLAYERBOB_MAX                   100
+
+#define ROTATE_DEFAULT                  true
+
+#define RUNCOUNT_MAX                    32768
+
+#define SATURATION_MIN                  0.0
+#define SATURATION_DEFAULT              0.75
+#define SATURATION_MAX                  1.0
+
+#define SCREENSIZE_MIN                  0
+#define SCREENSIZE_DEFAULT              7
+#define SCREENSIZE_MAX                  8
+
+#define SFXVOLUME_MIN                   0
+#define SFXVOLUME_DEFAULT               15
+#define SFXVOLUME_MAX                   15
+
+#define SMOKETRAILS_DEFAULT             true
+
+#define TRANSLUCENCY_DEFAULT            true
+
 void M_LoadDefaults(void);
 void M_SaveDefaults(void);
 

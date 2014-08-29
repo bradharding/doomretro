@@ -39,6 +39,7 @@
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_video.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
 #include "SDL.h"
@@ -220,7 +221,7 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES 3
 
-boolean         grid = false;
+boolean         grid = GRID_DEFAULT;
 
 boolean         automapactive = false;
 
@@ -268,7 +269,7 @@ int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
 boolean         followplayer = true;            // specifies whether to follow the player around
-boolean         rotate = true;
+boolean         rotate = ROTATE_DEFAULT;
 
 static boolean  stopped = true;
 

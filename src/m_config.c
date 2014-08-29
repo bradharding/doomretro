@@ -29,7 +29,10 @@
 
 #include "config.h"
 #include "doomstat.h"
+#include "i_gamepad.h"
+#include "i_video.h"
 #include "m_argv.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 
@@ -693,6 +696,251 @@ void M_SaveDefaults(void)
         widescreen = false;
 }
 
+static void M_CheckDefaults(void)
+{
+    if (alwaysrun != false && alwaysrun != true)
+        alwaysrun = ALWAYSRUN_DEFAULT;
+
+    if (bloodsplats < BLOODSPLATS_MIN || BLOODSPLATS_MAX)
+        bloodsplats = BLOODSPLATS_DEFAULT;
+
+    if (brightmaps != false && brightmaps != true)
+        brightmaps = BRIGHTMAPS_DEFAULT;
+
+    if (corpses < CORPSES_MIN || corpses > CORPSES_MAX || (corpses & (corpses - 1)))
+        corpses = CORPSES_DEFAULT;
+
+    if (dclick_use != false && dclick_use != true)
+        dclick_use = DCLICKUSE_DEFAULT;
+
+    if ((gamemode == registered && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX - 1))
+        || (gamemode == retail && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX)))
+        selectedepisode = EPISODE_DEFAULT;
+
+    if (selectedexpansion < EXPANSION_MIN || selectedexpansion > EXPANSION_MAX)
+        selectedexpansion = EXPANSION_DEFAULT;
+
+    if (fullscreen != false && fullscreen != true)
+        fullscreen = FULLSCREEN_DEFAULT;
+
+    if (gamepadautomap < 0 || gamepadautomap > GAMEPAD_Y || (gamepadautomap & (gamepadautomap - 1)))
+        gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
+
+    if (gamepadfire < 0 || gamepadfire > GAMEPAD_Y || (gamepadfire & (gamepadfire - 1)))
+        gamepadfire = GAMEPADFIRE_DEFAULT;
+
+    if (gamepadlefthanded != false && gamepadlefthanded != true)
+        gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
+
+    if (gamepadmenu < 0 || gamepadmenu > GAMEPAD_Y || (gamepadmenu & (gamepadmenu - 1)))
+        gamepadmenu = GAMEPADMENU_DEFAULT;
+
+    if (gamepadnextweapon < 0 || gamepadnextweapon > GAMEPAD_Y || (gamepadnextweapon & (gamepadnextweapon - 1)))
+        gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
+
+    if (gamepadprevweapon < 0 || gamepadprevweapon > GAMEPAD_Y || (gamepadprevweapon & (gamepadprevweapon - 1)))
+        gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
+
+    if (gamepadspeed < 0 || gamepadspeed > GAMEPAD_Y || (gamepadspeed & (gamepadspeed - 1)))
+        gamepadspeed = GAMEPADSPEED_DEFAULT;
+
+    if (gamepaduse < 0 || gamepaduse > GAMEPAD_Y || (gamepaduse & (gamepaduse - 1)))
+        gamepaduse = GAMEPADUSE_DEFAULT;
+
+    if (gamepadvibrate != false && gamepadvibrate != true)
+        gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
+
+    if (gamepadweapon1 < 0 || gamepadweapon1 > GAMEPAD_Y || (gamepadweapon1 & (gamepadweapon1 - 1)))
+        gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
+
+    if (gamepadweapon2 < 0 || gamepadweapon2 > GAMEPAD_Y || (gamepadweapon2 & (gamepadweapon2 - 1)))
+        gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
+
+    if (gamepadweapon3 < 0 || gamepadweapon3 > GAMEPAD_Y || (gamepadweapon3 & (gamepadweapon3 - 1)))
+        gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
+
+    if (gamepadweapon4 < 0 || gamepadweapon4 > GAMEPAD_Y || (gamepadweapon4 & (gamepadweapon4 - 1)))
+        gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
+
+    if (gamepadweapon5 < 0 || gamepadweapon5 > GAMEPAD_Y || (gamepadweapon5 & (gamepadweapon5 - 1)))
+        gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
+
+    if (gamepadweapon6 < 0 || gamepadweapon6 > GAMEPAD_Y || (gamepadweapon6 & (gamepadweapon6 - 1)))
+        gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
+
+    if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y || (gamepadweapon7 & (gamepadweapon7 - 1)))
+        gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
+
+    if (gamma < GAMMA_MIN || gamma > GAMMA_MAX)
+        gamma = GAMMA_DEFAULT;
+    gammaindex = 0;
+    while (gammaindex < GAMMALEVELS)
+        if (gammalevels[gammaindex++] == gamma)
+            break;
+    if (gammaindex == GAMMALEVELS)
+    {
+        gammaindex = 0;
+        while (gammalevels[gammaindex++] != GAMMA_DEFAULT);
+    }
+    --gammaindex;
+
+    if (graphicdetail != LOW && graphicdetail != HIGH)
+        graphicdetail = GRAPHICDETAIL_DEFAULT;
+
+    if (grid != false && grid != true)
+        grid = GRID_DEFAULT;
+
+    if (homindicator != false && homindicator != true)
+        homindicator = HOMINDICATOR_DEFAULT;
+
+    if (hud != false && hud != true)
+        hud = HUD_DEFAULT;
+
+    if (key_down < 0 || key_down > 255)
+        key_down = KEYDOWN_DEFAULT;
+
+    if (key_down2 < 0 || key_down2 > 255)
+        key_down2 = KEYDOWN2_DEFAULT;
+
+    if (key_fire < 0 || key_fire > 255)
+        key_fire = KEYFIRE_DEFAULT;
+
+    if (key_left < 0 || key_left > 255)
+        key_left = KEYLEFT_DEFAULT;
+
+    if (key_nextweapon < 0 || key_nextweapon > 255)
+        key_nextweapon = KEYNEXTWEAPON_DEFAULT;
+
+    if (key_prevweapon < 0 || key_prevweapon > 255)
+        key_prevweapon = KEYPREVWEAPON_DEFAULT;
+
+    if (key_right < 0 || key_right > 255)
+        key_right = KEYRIGHT_DEFAULT;
+
+    if (key_speed < 0 || key_speed > 255)
+        key_speed = KEYSPEED_DEFAULT;
+
+    if (key_strafe < 0 || key_strafe > 255)
+        key_strafe = KEYSTRAFE_DEFAULT;
+
+    if (key_strafeleft < 0 || key_strafeleft > 255)
+        key_strafeleft = KEYSTRAFELEFT_DEFAULT;
+
+    if (key_straferight < 0 || key_straferight > 255)
+        key_straferight = KEYSTRAFERIGHT_DEFAULT;
+
+    if (key_up < 0 || key_up > 255)
+        key_up = KEYUP_DEFAULT;
+
+    if (key_up2 < 0 || key_up2 > 255)
+        key_up2 = KEYUP2_DEFAULT;
+
+    if (key_use < 0 || key_use > 255)
+        key_use = KEYUSE_DEFAULT;
+
+    if (messages != false && messages != true)
+        messages = MESSAGES_DEFAULT;
+
+    if (mirrorweapons != false && mirrorweapons != true)
+        mirrorweapons = MIRRORWEAPONS_DEFAULT;
+
+    if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
+        mousebfire = MOUSEFIRE_DEFAULT;
+
+    if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS)
+        mousebforward = MOUSEFORWARD_DEFAULT;
+
+    if (mouseSensitivity < MOUSESENSITIVITY_MIN || mouseSensitivity > MOUSESENSITIVITY_MAX)
+        mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
+    gamepadSensitivity = (!mouseSensitivity ? 0.0f :
+        mouseSensitivity / (float)MOUSESENSITIVITY_MAX + GAMEPAD_SENSITIVITY_OFFSET);
+
+    if (mousebstrafe < -1 || mousebstrafe > MAX_MOUSE_BUTTONS)
+        mousebstrafe = MOUSESTRAFE_DEFAULT;
+
+    if (mousebuse < -1 || mousebuse > MAX_MOUSE_BUTTONS)
+        mousebuse = MOUSEUSE_DEFAULT;
+
+    if (musicVolume < MUSICVOLUME_MIN || musicVolume > MUSICVOLUME_MAX)
+        musicVolume = MUSICVOLUME_DEFAULT;
+
+    if (novert != false && novert != true)
+        novert = NOVERT_DEFAULT;
+
+    if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
+        pixelwidth = PIXELWIDTH_DEFAULT;
+    while (SCREENWIDTH % pixelwidth)
+        --pixelwidth;
+
+    if (pixelheight < PIXELHEIGHT_MIN || pixelheight > PIXELHEIGHT_MAX)
+        pixelheight = PIXELHEIGHT_DEFAULT;
+    while (SCREENHEIGHT % pixelheight)
+        --pixelheight;
+
+    if (playerbob < PLAYERBOB_MIN || playerbob > PLAYERBOB_MAX)
+        playerbob = PLAYERBOB_DEFAULT;
+
+    if (rotate != false && rotate != true)
+        rotate = ROTATE_DEFAULT;
+
+    if (runcount < 0 || runcount > RUNCOUNT_MAX)
+        runcount = 0;
+
+    if (saturation < SATURATION_MIN || saturation > SATURATION_MAX)
+        saturation = SATURATION_DEFAULT;
+
+    if (selectedsavegame < 0)
+        selectedsavegame = 0;
+    else if (selectedsavegame > 5)
+        selectedsavegame = 5;
+
+    if (screensize < SCREENSIZE_MIN || screensize > SCREENSIZE_MAX)
+        screensize = SCREENSIZE_DEFAULT;
+
+    if (screenwidth && screenheight
+        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
+    {
+        screenwidth = SCREENWIDTH;
+        screenheight = SCREENWIDTH * 3 / 4;
+    }
+
+    if (sfxVolume < SFXVOLUME_MIN || sfxVolume > SFXVOLUME_MAX)
+        sfxVolume = SFXVOLUME_DEFAULT;
+
+    if (selectedskilllevel < 0 || selectedskilllevel > 4)
+        selectedskilllevel = 2;
+
+    if (smoketrails != false && smoketrails != true)
+        smoketrails = SMOKETRAILS_DEFAULT;
+
+    if (translucency != false && translucency != true)
+        translucency = TRANSLUCENCY_DEFAULT;
+
+    if (widescreen && !fullscreen)
+    {
+        widescreen = false;
+        screensize = SCREENSIZE_MAX;
+    }
+    if (!widescreen)
+        hud = true;
+    if (fullscreen && screensize == SCREENSIZE_MAX)
+    {
+        widescreen = true;
+        screensize = SCREENSIZE_MAX - 1;
+    }
+    if (widescreen)
+    {
+        returntowidescreen = true;
+        widescreen = false;
+    }
+
+    if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
+    {
+        windowwidth = SCREENWIDTH;
+        windowheight = SCREENWIDTH * 3 / 4;
+    }
+}
+
 //
 // M_LoadDefaults
 //
@@ -709,4 +957,5 @@ void M_LoadDefaults(void)
         doom_defaults.filename = PACKAGE_CONFIG;
 
     LoadDefaultCollection(&doom_defaults);
+    M_CheckDefaults();
 }

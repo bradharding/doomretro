@@ -24,7 +24,6 @@
 */
 
 #include "d_deh.h"
-#include "d_main.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "hu_lib.h"
@@ -32,6 +31,7 @@
 #include "m_misc.h"
 #include "i_swap.h"
 #include "i_timer.h"
+#include "m_config.h"
 #include "r_main.h"
 #include "s_sound.h"
 #include "v_video.h"
@@ -61,9 +61,9 @@ boolean                 idbehold = false;
 static hu_stext_t       w_message;
 int                     message_counter;
 
-char *hu_mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
+char *hu_mapnames[] =
 {
-
+    // DOOM shareware/registered/retail (Ultimate) names.
     HUSTR_E1M1,
     HUSTR_E1M2,
     HUSTR_E1M3,
@@ -73,7 +73,6 @@ char *hu_mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
     HUSTR_E1M7,
     HUSTR_E1M8,
     HUSTR_E1M9,
-
     HUSTR_E2M1,
     HUSTR_E2M2,
     HUSTR_E2M3,
@@ -83,7 +82,6 @@ char *hu_mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
     HUSTR_E2M7,
     HUSTR_E2M8,
     HUSTR_E2M9,
-
     HUSTR_E3M1,
     HUSTR_E3M2,
     HUSTR_E3M3,
@@ -93,7 +91,6 @@ char *hu_mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
     HUSTR_E3M7,
     HUSTR_E3M8,
     HUSTR_E3M9,
-
     HUSTR_E4M1,
     HUSTR_E4M2,
     HUSTR_E4M3,
@@ -103,7 +100,6 @@ char *hu_mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
     HUSTR_E4M7,
     HUSTR_E4M8,
     HUSTR_E4M9,
-
     "NEWLEVEL",
     "NEWLEVEL",
     "NEWLEVEL",
@@ -120,11 +116,9 @@ char *hu_mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
 // single large array; WADs like pl2.wad have a MAP33, and rely on
 // the layout in the Vanilla executable, where it is possible to
 // overflow the end of one array into the next.
-
 char *hu_mapnames2[] =
 {
     // DOOM 2 map names.
-
     HUSTR_1,
     HUSTR_2,
     HUSTR_3,
@@ -136,7 +130,6 @@ char *hu_mapnames2[] =
     HUSTR_9,
     HUSTR_10,
     HUSTR_11,
-
     HUSTR_12,
     HUSTR_13,
     HUSTR_14,
@@ -146,7 +139,6 @@ char *hu_mapnames2[] =
     HUSTR_18,
     HUSTR_19,
     HUSTR_20,
-
     HUSTR_21,
     HUSTR_22,
     HUSTR_23,
@@ -161,7 +153,6 @@ char *hu_mapnames2[] =
     HUSTR_32,
 
     // Plutonia WAD map names.
-
     PHUSTR_1,
     PHUSTR_2,
     PHUSTR_3,
@@ -173,7 +164,6 @@ char *hu_mapnames2[] =
     PHUSTR_9,
     PHUSTR_10,
     PHUSTR_11,
-
     PHUSTR_12,
     PHUSTR_13,
     PHUSTR_14,
@@ -183,7 +173,6 @@ char *hu_mapnames2[] =
     PHUSTR_18,
     PHUSTR_19,
     PHUSTR_20,
-
     PHUSTR_21,
     PHUSTR_22,
     PHUSTR_23,
@@ -198,7 +187,6 @@ char *hu_mapnames2[] =
     PHUSTR_32,
 
     // TNT WAD map names.
-
     THUSTR_1,
     THUSTR_2,
     THUSTR_3,
@@ -210,7 +198,6 @@ char *hu_mapnames2[] =
     THUSTR_9,
     THUSTR_10,
     THUSTR_11,
-
     THUSTR_12,
     THUSTR_13,
     THUSTR_14,
@@ -220,7 +207,6 @@ char *hu_mapnames2[] =
     THUSTR_18,
     THUSTR_19,
     THUSTR_20,
-
     THUSTR_21,
     THUSTR_22,
     THUSTR_23,
@@ -235,7 +221,6 @@ char *hu_mapnames2[] =
     THUSTR_32
 
     // Nerve WAD map names.
-
     NHUSTR_1,
     NHUSTR_2,
     NHUSTR_3,

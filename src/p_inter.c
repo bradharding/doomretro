@@ -31,6 +31,7 @@
 #include "doomstat.h"
 #include "dstrings.h"
 #include "i_gamepad.h"
+#include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_inter.h"
@@ -75,7 +76,7 @@ char *weapondescription[] =
     "super shotgun"
 };
 
-boolean mirrorweapons = false;
+boolean mirrorweapons = MIRRORWEAPONS_DEFAULT;
 
 boolean obituaries = true;
 

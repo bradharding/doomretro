@@ -28,6 +28,7 @@
 #include <math.h>
 
 #include "d_net.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "r_local.h"
 #include "r_sky.h"
@@ -88,9 +89,9 @@ lighttable_t            *zlight[LIGHTLEVELS][MAXLIGHTZ];
 // bumped light from gun blasts
 int                     extralight;
 
-boolean                 translucency = true;
+boolean                 translucency = TRANSLUCENCY_DEFAULT;
 
-boolean                 homindicator = false;
+boolean                 homindicator = HOMINDICATOR_DEFAULT;
 
 extern int              automapactive;
 extern int              viewheight2;

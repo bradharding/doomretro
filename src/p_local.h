@@ -30,6 +30,10 @@
 #include "r_local.h"
 #endif
 
+#ifndef __M_CONFIG__
+#include "m_config.h"
+#endif
+
 #ifndef __D_MAIN__
 #include "d_main.h"
 #endif
@@ -108,11 +112,6 @@ void P_PlayerThink(player_t *player);
 
 #define CARDNOTFOUNDYET         -1
 #define CARDNOTINMAP            0
-
-#define MIRROR                  1
-#define SLIDE                   2
-#define SMEARBLOOD              4
-#define MOREBLOOD               8
 
 extern int              iqueuehead;
 extern int              iqueuetail;

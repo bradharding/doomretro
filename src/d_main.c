@@ -1196,82 +1196,8 @@ static void D_DoomMainSetup(void)
     else
         startloadgame = -1;
 
-    if (mouseSensitivity < MOUSESENSITIVITY_MIN || mouseSensitivity > MOUSESENSITIVITY_MAX)
-        mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-    gamepadSensitivity = (!mouseSensitivity ? 0.0f :
-        mouseSensitivity / (float)MOUSESENSITIVITY_MAX + GAMEPAD_SENSITIVITY_OFFSET);
-
-    if (sfxVolume < SFXVOLUME_MIN || sfxVolume > SFXVOLUME_MAX)
-        sfxVolume = SFXVOLUME_DEFAULT;
-
-    if (musicVolume < MUSICVOLUME_MIN || musicVolume > MUSICVOLUME_MAX)
-        musicVolume = MUSICVOLUME_DEFAULT;
-
-    if (screensize < SCREENSIZE_MIN || screensize > SCREENSIZE_MAX)
-        screensize = SCREENSIZE_DEFAULT;
-    if (widescreen && !fullscreen)
-    {
-        widescreen = false;
-        screensize = SCREENSIZE_MAX;
-    }
-    if (!widescreen)
-        hud = true;
-    if (fullscreen && screensize == SCREENSIZE_MAX)
-    {
-        widescreen = true;
-        screensize = SCREENSIZE_MAX - 1;
-    }
-    if (widescreen)
-    {
-        returntowidescreen = true;
-        widescreen = false;
-    }
-
-    if (screenwidth && screenheight
-        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
-    {
-        screenwidth = SCREENWIDTH;
-        screenheight = SCREENWIDTH * 3 / 4;
-    }
-
-    if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
-    {
-        windowwidth = SCREENWIDTH;
-        windowheight = SCREENWIDTH * 3 / 4;
-    }
-
-    if (gamma < GAMMA_MIN || gamma > GAMMA_MAX)
-        gamma = GAMMA_DEFAULT;
-    gammaindex = 0;
-    while (gammaindex < GAMMALEVELS)
-        if (gammalevels[gammaindex++] == gamma)
-            break;
-    if (gammaindex == GAMMALEVELS)
-    {
-        gammaindex = 0;
-        while (gammalevels[gammaindex++] != GAMMA_DEFAULT);
-    }
-    --gammaindex;
-
-    if (saturation < SATURATION_MIN || saturation > SATURATION_MAX)
-        saturation = SATURATION_DEFAULT;
-
-    if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
-        bloodsplats = BLOODSPLATS_DEFAULT;
     P_BloodSplatSpawner = ((bloodsplats == UNLIMITED ? P_SpawnBloodSplat :
                            (bloodsplats ? P_SpawnBloodSplat2 : P_NullBloodSplatSpawner)));
-
-    if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
-        pixelwidth = PIXELWIDTH_DEFAULT;
-    while (SCREENWIDTH % pixelwidth)
-        --pixelwidth;
-    if (pixelheight < PIXELHEIGHT_MIN || pixelheight > PIXELHEIGHT_MAX)
-        pixelheight = PIXELHEIGHT_DEFAULT;
-    while (SCREENHEIGHT % pixelheight)
-        --pixelheight;
-
-    if (playerbob < PLAYERBOB_MIN || playerbob > PLAYERBOB_MAX)
-        playerbob = PLAYERBOB_DEFAULT;
 
     M_Init();
 

@@ -115,7 +115,6 @@ byte            consistency[MAXPLAYERS][BACKUPTICS];
 //
 int             key_right = KEY_RIGHTARROW;
 int             key_left = KEY_LEFTARROW;
-
 int             key_up = KEY_UPARROW;
 int             key_up2 = 'w';
 int             key_down = KEY_DOWNARROW;
