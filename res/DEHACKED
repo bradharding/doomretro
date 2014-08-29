@@ -41,7 +41,6 @@ DETAILLO = Low graphic detail
 GAMMALVL = Gamma correction level %.2f
 GAMMAOFF = Gamma correction off
 EMPTYSTRING = -
-
 GOTARMOR = You picked up some armor.
 GOTMEGA = You picked up some MegaArmor!
 GOTHTHBONUS = You picked up a health bonus.
@@ -50,21 +49,18 @@ GOTSTIM = You picked up a stimpack.
 GOTMEDINEED = You picked up a medikit that you REALLY need!
 GOTMEDIKIT = You picked up a medikit.
 GOTSUPER = SoulSphere!
-
 GOTBLUECARD = You picked up a blue keycard.
 GOTYELWCARD = You picked up a yellow keycard.
 GOTREDCARD = You picked up a red keycard.
 GOTBLUESKUL = You picked up a blue skull key.
 GOTYELWSKUL = You picked up a yellow skull key.
 GOTREDSKULL = You picked up a red skull key.
-
 GOTINVUL = Invulnerability!
 GOTBERSERK = Berserk!
 GOTINVIS = Partial Invisibility!
 GOTSUIT = Radiation Shielding Suit!
 GOTMAP = Computer Area Map!
 GOTVISOR = Light Amplification Visor!
-
 GOTCLIP = You picked up a clip.
 GOTCLIPBOX = You picked up a box of bullets.
 GOTROCKET = You picked up a rocket.
@@ -74,7 +70,6 @@ GOTCELLBOX = You picked up a cell pack.
 GOTSHELLS = You picked up some shotgun shells.
 GOTSHELLBOX = You picked up a box of shotgun shells.
 GOTBACKPACK = You picked up a backpack full of ammo!
-
 GOTBFG9000 = You got a BFG 9000! Oh, yes...
 GOTCHAINGUN = You got a chaingun!
 GOTCHAINSAW = You got a chainsaw! Find some meat!
@@ -82,7 +77,6 @@ GOTLAUNCHER = You got a rocket launcher!
 GOTPLASMA = You got a plasma rifle!
 GOTSHOTGUN = You got a shotgun!
 GOTSHOTGUN2 = You got a super shotgun!
-
 PD_BLUEO = You need a blue keycard to use this.
 PD_BLUEO2 = You need a blue skull key to use this.
 PD_REDO = You need a red keycard to use this.
@@ -95,13 +89,10 @@ PD_REDK = You need a red keycard to open this door.
 PD_REDK2 = You need a red skull key to open this door.
 PD_YELLOWK = You need a yellow keycard to open this door.
 PD_YELLOWK2 = You need a yellow skull key to open this door.
-
 GGSAVED = \"%s\" saved
 GSCREENSHOT = \"%s\" saved
-
 ALWAYSRUNOFF = Always run OFF
 ALWAYSRUNON = Always run ON
-
 HUSTR_E1M1 = Hangar
 HUSTR_E1M2 = Nuclear Plant
 HUSTR_E1M3 = Toxin Refinery
@@ -246,7 +237,6 @@ NHUSTR_6 = Inferno of Blood
 NHUSTR_7 = Baron's Banquet
 NHUSTR_8 = Tomb of Malevolence
 NHUSTR_9 = March of the Demons
-
 AMSTR_FOLLOWON = Follow mode ON
 AMSTR_FOLLOWOFF = Follow mode OFF
 AMSTR_GRIDON = Grid ON
@@ -256,7 +246,6 @@ AMSTR_MARKCLEARED = Mark cleared
 AMSTR_MARKSCLEARED = Marks cleared
 AMSTR_ROTATEON = Rotate Mode ON
 AMSTR_ROTATEOFF = Rotate Mode OFF
-
 STSTR_MUS = Music changed to \"d_%s.mus\"
 STSTR_DQDON = Degreelessness mode ON
 STSTR_DQDOFF = Degreelessness mode OFF
@@ -271,7 +260,6 @@ STSTR_CHOPPERS = \"...doesn't suck.\" - GM
 STSTR_CLEV = Warping to %s...
 STSTR_CLEVSAME = Restarting %s...
 STSTR_MYPOS = angle = %i%c  x,y,z = (%i,%i,%i)
-
 E1TEXT = Once you beat the big badasses and\nclean out the moon base, you're supposed\nto win, aren't you? Aren't you? Where's\nyour fat reward and ticket home? What\nthe Hell is this? It's not supposed to\nend this way!\n\nIt stinks like rotten meat, but looks\nlike the lost Deimos base. It looks like\nyou're stuck on The Shores of Hell.\nThe only way out is through.\n\nTo continue the DOOM experience, play\nThe Shores of Hell and its amazing\nsequel, Inferno!\n
 E2TEXT = You've done it! The hideous Cyber-\ndemon lord that ruled the lost Deimos\nmoon base has been slain and you\nare triumphant! But... where are\nyou? You clamber to the edge of the\nmoon and look down to see the awful\ntruth.\n\nDeimos floats above Hell itself!\nYou've never heard of anyone escaping\nfrom Hell, but you'll make the bastards\nsorry they ever heard of you! Quickly,\nyou rappel down to the surface of\nHell.\n\nNow, it's onto the final chapter of\nDOOM - Inferno!
 E3TEXT = The loathsome spiderdemon that\nmasterminded the invasion of the moon\nbases and caused so much death has had\nits ass kicked for all time.\n\nA hidden doorway opens and you enter.\nYou've proven too tough for Hell to\ncontain, and now Hell at last plays\nfair - for you emerge from the door\nto see the green fields of Earth!\nHome at last.\n\nYou wonder what's been happening on\nEarth while you were battling evil\nunleashed. It's good that no Hell-\nspawn could have come through that\ndoor with you...
@@ -295,7 +283,6 @@ T4TEXT = Suddenly, all is silent, from one horizon\nto the other. The agonizing 
 T5TEXT = What now? Looks totally different. Kind\nof like King Tut's condo. Well,\nwhatever's here can't be any worse\nthan usual. Can it? Or maybe it's best\nto let sleeping Gods lie...
 T6TEXT = Time for a vacation. You've burst the\nbowels of Hell and by golly you're ready\nfor a break. You mutter to yourself,\n\"Maybe someone else can kick Hell's ass\nnext time around.\" Ahead lies a quiet town,\nwith peaceful flowing water, quaint\nbuildings, and presumably no Hellspawn.\n\nAs you step off the transport, you hear\nthe stomp of a Cyberdemon's iron shoe.
 N1TEXT = Trouble was brewing again in your favorite\nvacation spot... Hell. Some Cyberdemon\npunk thought he could turn hell into a\npersonal amusement park, and make Earth\nthe ticket booth.\n\nWell, that half-robot freak show didn't\nknow who was coming to the fair. There's\nnothing like a shooting gallery full of\nhellspawn to get the blood pumping...\n\nNow the walls of the demon's labyrinth\necho with the sound of his metallic limbs\nhitting the floor. His death moan gurgles\nout through the mess you left of his face.\n\nThis ride is closed.
-
 CC_ZOMBIE = ZOMBIEMAN
 CC_SHOTGUN = SHOTGUN GUY
 CC_HEAVY = HEAVY WEAPON DUDE
@@ -314,7 +301,6 @@ CC_ARCH = ARCH-VILE
 CC_SPIDER = THE SPIDER MASTERMIND
 CC_CYBER = THE CYBERDEMON
 CC_HERO = OUR HERO
-
 DOOM_ENDMSG1 = Please don't leave - there\nare more demons to toast!
 DOOM_ENDMSG2 = Let's beat it - this is turning\ninto a bloodbath!
 DOOM_ENDMSG3 = I wouldn't leave if I were you.\nWindows is much worse.
