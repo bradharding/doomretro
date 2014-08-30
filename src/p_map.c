@@ -1695,11 +1695,8 @@ boolean PIT_ChangeSector(mobj_t *thing)
         return true;
     }
 
-    if (chex)
-        return true;
-
     // crunch bodies to giblets
-    if (thing->health <= 0 && type != MT_BARREL && type != MT_SKULL && type != MT_PAIN)
+    if (thing->health <= 0 && type != MT_BARREL && type != MT_SKULL && type != MT_PAIN && !chex)
     {
         if (!(flags & MF_SHADOW))
         {
