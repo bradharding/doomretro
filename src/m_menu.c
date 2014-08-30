@@ -3163,7 +3163,9 @@ void M_Init(void)
     SaveDef.lastOn = LoadDef.lastOn = selectedsavegame;
     M_ReadSaveStrings();
 
-    if (gamemode == commercial)
+    if (chex)
+        NewDef.prevMenu = &MainDef;
+    else if (gamemode == commercial)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered)
         EpiDef.numitems--;
