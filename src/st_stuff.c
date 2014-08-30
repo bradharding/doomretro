@@ -90,7 +90,7 @@
 #define ST_GODFACE              (ST_NUMPAINFACES * ST_FACESTRIDE)
 #define ST_DEADFACE             (ST_GODFACE + 1)
 
-#define ST_FACESX               143
+#define ST_FACESX               (chex ? 144 : 143)
 #define ST_FACESY               168
 
 #define ST_EVILGRINCOUNT        (2 * TICRATE)
