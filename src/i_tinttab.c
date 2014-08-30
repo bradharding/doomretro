@@ -83,7 +83,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
         long    g = (long)green - *palette++;
         long    b = (long)blue - *palette++;
         double  difference = sqrt((double)((((512 + rmean) * r * r) >> 8) +
-                                  4 * g * g + (((767 - rmean) * b * b) >> 8)));
+            4 * g * g + (((767 - rmean) * b * b) >> 8)));
 
         if (!difference)
             return i;
@@ -128,9 +128,11 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
                 }
                 else
                 {
-                    r = ((int)color1[0] * percent + (int)color2[0] * (100 - percent)) / 100;
-                    g = ((int)color1[1] * percent + (int)color2[1] * (100 - percent)) / 100;
-                    b = ((int)color1[2] * percent + (int)color2[2] * (100 - percent)) / 100;
+                    int percentage = ((filter[background] & BLUES) ? MIN(percent + percent / 8, 100) : percent);
+
+                    r = ((int)color1[0] * percentage + (int)color2[0] * (100 - percentage)) / 100;
+                    g = ((int)color1[1] * percentage + (int)color2[1] * (100 - percentage)) / 100;
+                    b = ((int)color1[2] * percentage + (int)color2[2] * (100 - percentage)) / 100;
                 }
                 *(result + (background << 8) + foreground) = FindNearestColor(palette, r, g, b);
             }
