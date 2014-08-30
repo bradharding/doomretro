@@ -1438,7 +1438,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     char        inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
 
     // Open output file if we're writing output
-//#ifdef _DEBUG
+#ifdef _DEBUG
     if (outfilename && *outfilename && !fileout)
     {
         static boolean  firstfile = true;       // to allow append to output log
@@ -1449,7 +1449,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             fileout = stdout;
         firstfile = false;
     }
-//#endif
+#endif
 
     // killough 10/98: allow DEH files to come from wad lumps
     if (filename)
