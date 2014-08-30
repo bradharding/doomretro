@@ -546,6 +546,18 @@ static boolean D_IsUnsupportedPWAD(char *filename)
     return (D_CheckFilename(filename, "VOICES.WAD"));
 }
 
+void ProcessDehFile(char *filename, char *outfilename, int lump);
+
+static void LoadChexDeh(char *path)
+{
+    char *dehpath = M_StringReplace(path, ".wad", ".deh");
+    if (M_FileExists(dehpath))
+    {
+        chexdeh = true;
+        ProcessDehFile(dehpath, "-", 0);
+    }
+}
+
 static int D_ChooseIWAD(void)
 {
 #ifdef WIN32
@@ -634,7 +646,10 @@ static int D_ChooseIWAD(void)
                             selectedexpansion = 1;
                         }
                         else if (D_CheckFilename(file, "CHEX.WAD"))
+                        {
                             chex = true;
+                            LoadChexDeh(file);
+                        }
                         else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                             BTSX = true;
                     }
@@ -657,7 +672,10 @@ static int D_ChooseIWAD(void)
                                 selectedexpansion = 1;
                             }
                             else if (D_CheckFilename(file, "CHEX.WAD"))
+                            {
                                 chex = true;
+                                LoadChexDeh(file);
+                            }
                             else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                 BTSX = true;
                         }
@@ -680,7 +698,10 @@ static int D_ChooseIWAD(void)
                                     selectedexpansion = 1;
                                 }
                                 else if (D_CheckFilename(file, "CHEX.WAD"))
+                                {
                                     chex = true;
+                                    LoadChexDeh(file);
+                                }
                                 else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                     BTSX = true;
                             }
@@ -805,7 +826,10 @@ static int D_ChooseIWAD(void)
                                 selectedexpansion = 1;
                             }
                             else if (!strcasecmp(pwad, "CHEX.WAD"))
+                            {
                                 chex = true;
+                                LoadChexDeh(fullpath);
+                            }
                             else if (!strcasecmp(pwad, "BTSX_E1.WAD"))
                                 BTSX = true;
                         }
@@ -823,7 +847,6 @@ static int D_ChooseIWAD(void)
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
-void ProcessDehFile(char *filename, char *outfilename, int lump);
 boolean CheckPackageWadVersion(void);
 
 static void D_ProcessDehCommandLine(void)
@@ -846,16 +869,12 @@ static void D_ProcessDehInWad(void)
 {
     unsigned int        i;
 
+    if (chexdeh)
+        return;
+
     for (i = 0; i < numlumps; ++i)
         if (!strncmp(lumpinfo[i].name, "DEHACKED", 8))
             ProcessDehFile(NULL, "-", i);
-}
-
-// Load the Chex Quest dehacked file, if we are in Chex mode.
-static void LoadChexDeh(void)
-{
-    if (chex)
-        ProcessDehFile("chex.deh", "-", 0);
 }
 
 //
@@ -958,7 +977,10 @@ static void D_DoomMainSetup(void)
                     if (D_CheckFilename(file, "NERVE.WAD"))
                         nerve = true;
                     else if (D_CheckFilename(file, "CHEX.WAD"))
+                    {
                         chex = true;
+                        LoadChexDeh(file);
+                    }
                     else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                         BTSX = true;
                 }
@@ -984,7 +1006,10 @@ static void D_DoomMainSetup(void)
                             if (D_CheckFilename(file, "NERVE.WAD"))
                                 nerve = true;
                             else if (D_CheckFilename(file, "CHEX.WAD"))
+                            {
                                 chex = true;
+                                LoadChexDeh(file);
+                            }
                             else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                 BTSX = true;
                         }
@@ -1003,7 +1028,10 @@ static void D_DoomMainSetup(void)
                                 if (D_CheckFilename(file, "NERVE.WAD"))
                                     nerve = true;
                                 else if (D_CheckFilename(file, "CHEX.WAD"))
+                                {
                                     chex = true;
+                                    LoadChexDeh(file);
+                                }
                                 else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                     BTSX = true;
                             }
@@ -1022,7 +1050,10 @@ static void D_DoomMainSetup(void)
                                     if (D_CheckFilename(file, "NERVE.WAD"))
                                         nerve = true;
                                     else if (D_CheckFilename(file, "CHEX.WAD"))
+                                    {
                                         chex = true;
+                                        LoadChexDeh(file);
+                                    }
                                     else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                         BTSX = true;
                                 }
@@ -1084,7 +1115,6 @@ static void D_DoomMainSetup(void)
 
     D_IdentifyVersion();
     InitGameVersion();
-    LoadChexDeh();
     D_SetGameDescription();
     D_SetSaveGameDir();
 

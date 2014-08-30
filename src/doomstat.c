@@ -34,7 +34,8 @@ char            *gamedescription;
 boolean         nerve = false;
 boolean         bfgedition = false;
 
-boolean         chex = true;
+boolean         chex = false;
+boolean         chexdeh = false;
 boolean         BTSX = false;
 
 // Set if homebrew PWAD stuff has been added.

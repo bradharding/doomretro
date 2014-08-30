@@ -78,6 +78,7 @@ extern boolean          nerve;
 extern boolean          bfgedition;
 
 extern boolean          chex;
+extern boolean          chexdeh;
 extern boolean          BTSX;
 
 extern boolean          DMENUPIC;
