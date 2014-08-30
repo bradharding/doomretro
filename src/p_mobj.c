@@ -204,15 +204,15 @@ void P_XYMovement(mobj_t *mo)
 
         if (!FREEDOOM)
         {
-            if (type == MT_HEAD || type == MT_MISC61)
-            {
-                flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
-                colfunc = tlredtoblue33colfunc;
-            }
-            else if (type == MT_BRUISER || type == MT_KNIGHT)
+            if (chex || type == MT_BRUISER || type == MT_KNIGHT)
             {
                 flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
                 colfunc = tlredtogreen33colfunc;
+            }
+            else if (type == MT_HEAD || type == MT_MISC61)
+            {
+                flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
+                colfunc = tlredtoblue33colfunc;
             }
         }
 
@@ -931,7 +931,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (mobjinfo[i].flags2 & (MF2_MOREREDBLOODSPLATS | MF2_MOREBLUEBLOODSPLATS))
+    if ((mobjinfo[i].flags2 & (MF2_MOREREDBLOODSPLATS | MF2_MOREBLUEBLOODSPLATS)) && !chex)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
 
@@ -998,7 +998,12 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     if (!FREEDOOM)
     {
-        if (type == MT_HEAD)
+        if (chex)
+        {
+            flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
+            colfunc = tlredtogreen33colfunc;
+        }
+        else if (type == MT_HEAD)
         {
             flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
             colfunc = tlredtoblue33colfunc;

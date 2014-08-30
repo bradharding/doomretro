@@ -276,16 +276,14 @@ static void CheckDOSDefaults(void)
 
 static struct
 {
-    char *name;
-    GameMission_t mission;
-}
-iwads[] =
-{
+    char               *name;
+    GameMission_t       mission;
+} iwads[] = {
     { "DOOM2.WAD",    doom2     },
     { "PLUTONIA.WAD", pack_plut },
     { "TNT.WAD",      pack_tnt  },
     { "DOOM.WAD",     doom      },
-    { "DOOM1.WAD",    doom      },
+    { "DOOM1.WAD",    doom      }
 };
 
 // Returns true if the specified path is a path to a file
@@ -579,7 +577,9 @@ void D_SetGameDescription(void)
 {
     gamedescription = "Unknown";
 
-    if (gamemission == doom)
+    if (chex)
+        gamedescription = "Chex Quest";
+    else if (gamemission == doom)
     {
         // Doom 1. But which version?
         if (FREEDOOM)

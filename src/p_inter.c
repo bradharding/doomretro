@@ -810,6 +810,9 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
     target->tics = MAX(1, target->tics - (P_Random() & 3));
 
+    if (chex)
+        return;
+
     if (source)
     {
         static char     message[128];

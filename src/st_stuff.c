@@ -1189,6 +1189,9 @@ boolean ST_Responder(event_t *ev)
                     M_snprintf(lump, sizeof(lump), "E%cM%c", buf[0], buf[1]);
                 }
 
+                if (chex)
+                    epsd = 1;
+
                 // Catch invalid maps.
                 // [BH] simplified by checking if lump for map exists in WAD
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
@@ -1532,6 +1535,9 @@ void ST_doPaletteStuff(void)
         else if (plyr->powers[pw_ironfeet] > STARTFLASHING || (plyr->powers[pw_ironfeet] & 8))
             palette = RADIATIONPAL;
     }
+
+    if (chex && palette >= STARTREDPALS && palette < STARTREDPALS + NUMREDPALS)
+        palette = RADIATIONPAL;
 
     if (palette != st_palette)
     {

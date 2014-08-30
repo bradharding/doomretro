@@ -633,6 +633,8 @@ static int D_ChooseIWAD(void)
                             nerve = true;
                             selectedexpansion = 1;
                         }
+                        else if (D_CheckFilename(file, "CHEX.WAD"))
+                            chex = true;
                         else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                             BTSX = true;
                     }
@@ -654,6 +656,8 @@ static int D_ChooseIWAD(void)
                                 nerve = true;
                                 selectedexpansion = 1;
                             }
+                            else if (D_CheckFilename(file, "CHEX.WAD"))
+                                chex = true;
                             else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                 BTSX = true;
                         }
@@ -675,6 +679,8 @@ static int D_ChooseIWAD(void)
                                     nerve = true;
                                     selectedexpansion = 1;
                                 }
+                                else if (D_CheckFilename(file, "CHEX.WAD"))
+                                    chex = true;
                                 else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                     BTSX = true;
                             }
@@ -798,6 +804,8 @@ static int D_ChooseIWAD(void)
                                 nerve = true;
                                 selectedexpansion = 1;
                             }
+                            else if (!strcasecmp(pwad, "CHEX.WAD"))
+                                chex = true;
                             else if (!strcasecmp(pwad, "BTSX_E1.WAD"))
                                 BTSX = true;
                         }
@@ -841,6 +849,13 @@ static void D_ProcessDehInWad(void)
     for (i = 0; i < numlumps; ++i)
         if (!strncmp(lumpinfo[i].name, "DEHACKED", 8))
             ProcessDehFile(NULL, "-", i);
+}
+
+// Load the Chex Quest dehacked file, if we are in Chex mode.
+static void LoadChexDeh(void)
+{
+    if (chex)
+        ProcessDehFile("chex.deh", "-", 0);
 }
 
 //
@@ -942,6 +957,8 @@ static void D_DoomMainSetup(void)
                     modifiedgame = true;
                     if (D_CheckFilename(file, "NERVE.WAD"))
                         nerve = true;
+                    else if (D_CheckFilename(file, "CHEX.WAD"))
+                        chex = true;
                     else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                         BTSX = true;
                 }
@@ -966,6 +983,8 @@ static void D_DoomMainSetup(void)
                             modifiedgame = true;
                             if (D_CheckFilename(file, "NERVE.WAD"))
                                 nerve = true;
+                            else if (D_CheckFilename(file, "CHEX.WAD"))
+                                chex = true;
                             else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                 BTSX = true;
                         }
@@ -983,6 +1002,8 @@ static void D_DoomMainSetup(void)
                                 modifiedgame = true;
                                 if (D_CheckFilename(file, "NERVE.WAD"))
                                     nerve = true;
+                                else if (D_CheckFilename(file, "CHEX.WAD"))
+                                    chex = true;
                                 else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                     BTSX = true;
                             }
@@ -1000,6 +1021,8 @@ static void D_DoomMainSetup(void)
                                     modifiedgame = true;
                                     if (D_CheckFilename(file, "NERVE.WAD"))
                                         nerve = true;
+                                    else if (D_CheckFilename(file, "CHEX.WAD"))
+                                        chex = true;
                                     else if (D_CheckFilename(file, "BTSX_E1.WAD"))
                                         BTSX = true;
                                 }
@@ -1061,6 +1084,7 @@ static void D_DoomMainSetup(void)
 
     D_IdentifyVersion();
     InitGameVersion();
+    LoadChexDeh();
     D_SetGameDescription();
     D_SetSaveGameDir();
 

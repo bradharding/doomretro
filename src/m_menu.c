@@ -1430,7 +1430,10 @@ void M_NewGame(int choice)
     if (netgame)
         return;
 
-    M_SetupNextMenu(gamemode == commercial ? (nerve ? &ExpDef : &NewDef) : &EpiDef);
+    if (chex)
+        M_SetupNextMenu(&NewDef);
+    else
+        M_SetupNextMenu(gamemode == commercial ? (nerve ? &ExpDef : &NewDef) : &EpiDef);
 }
 
 //
