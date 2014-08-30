@@ -1332,6 +1332,14 @@ void G_DoCompleted(void)
     if (automapactive)
         AM_Stop();
 
+    if (chex)
+    {
+        if (gamemap == 5)
+        {
+            gameaction = ga_victory;
+            return;
+        }
+    }
     if (gamemode != commercial)
     {
         switch (gamemap)
