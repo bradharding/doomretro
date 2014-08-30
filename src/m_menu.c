@@ -1301,8 +1301,8 @@ void M_DrawSound(void)
     M_DarkBackground();
     if (M_SVOL)
     {
-        M_DrawPatchWithShadow(60, 38 + OFFSET, 0, W_CacheLumpName("M_SVOL", PU_CACHE));
-        SoundDef.x = 80;
+        M_DrawPatchWithShadow((chex ? 100 : 60), 38 + OFFSET, 0, W_CacheLumpName("M_SVOL", PU_CACHE));
+        SoundDef.x = (chex ? 68 : 80);
         SoundDef.y = 64;
     }
     else
@@ -1380,6 +1380,7 @@ void M_DrawMainMenu(void)
     patch_t     *patch = W_CacheLumpName("M_DOOM", PU_CACHE);
 
     M_DarkBackground();
+
     if (M_DOOM && patch->height > 125)
     {
         M_DrawPatchWithShadow(94, 2 + OFFSET, 0, patch);
@@ -1407,18 +1408,20 @@ void M_DrawMainMenu(void)
 void M_DrawNewGame(void)
 {
     M_DarkBackground();
+
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
-        NewDef.x = 48;
+        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
+        NewDef.x = (chex ? 98 : 48);
         NewDef.y = 63;
     }
     else
         M_DrawCenteredString(19 + OFFSET, "NEW GAME");
+
     if (M_SKILL)
     {
-        M_DrawPatchWithShadow(54, 38 + OFFSET, 0, W_CacheLumpName("M_SKILL", PU_CACHE));
-        NewDef.x = 48;
+        M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, 0, W_CacheLumpName("M_SKILL", PU_CACHE));
+        NewDef.x = (chex ? 98 : 48);
         NewDef.y = 63;
     }
     else
@@ -1444,6 +1447,7 @@ int epi;
 void M_DrawEpisode(void)
 {
     M_DarkBackground();
+
     if (M_NEWG)
     {
         M_DrawPatchWithShadow(96, 14 + OFFSET, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
@@ -1452,6 +1456,7 @@ void M_DrawEpisode(void)
     }
     else
         M_DrawCenteredString(19 + OFFSET, "NEW GAME");
+
     if (M_EPISOD)
     {
         M_DrawPatchWithShadow(54, 38 + OFFSET, 0, W_CacheLumpName("M_EPISOD", PU_CACHE));
@@ -1532,9 +1537,9 @@ void M_DrawOptions(void)
 
     if (M_OPTTTL)
     {
-        M_DrawPatchWithShadow(108, 15 + OFFSET, 0,
+        M_DrawPatchWithShadow((chex ? 126 : 108), 15 + OFFSET, 0,
             W_CacheLumpName("M_OPTTTL", PU_CACHE));
-        OptionsDef.x = 60;
+        OptionsDef.x = (chex ? 69 : 60);
         OptionsDef.y = 37;
     }
     else
@@ -1879,9 +1884,15 @@ void M_SizeDisplay(int choice)
 //
 void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
 {
-    int xx = x;
+    int xx;
     int i;
 
+    if (chex)
+    {
+        --x;
+        y -= 2;
+    }
+    xx = x;
     M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName("M_THERML", PU_CACHE));
     xx += 8;
     for (i = 0; i < thermWidth; i++)
@@ -3164,7 +3175,10 @@ void M_Init(void)
     M_ReadSaveStrings();
 
     if (chex)
+    {
+        MainDef.x += 20;
         NewDef.prevMenu = &MainDef;
+    }
     else if (gamemode == commercial)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered)
