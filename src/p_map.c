@@ -1014,8 +1014,8 @@ void P_HitSlideLine(line_t *ld)
     angle_t     lineangle;
     angle_t     moveangle;
     angle_t     deltaangle;
-    fixed_t     movelen;
-    fixed_t     newlen;
+    divline_t   dll, dlv;
+    fixed_t     inter1, inter2, inter3;
 
     if (ld->slopetype == ST_HORIZONTAL)
     {
@@ -1040,17 +1040,27 @@ void P_HitSlideLine(line_t *ld)
     moveangle += 10;    // prevents sudden path reversal due to rounding error
     deltaangle = moveangle - lineangle;
 
-    if (deltaangle > ANG180)
-        deltaangle += ANG180;
+    P_MakeDivline(ld, &dll);
 
-    lineangle >>= ANGLETOFINESHIFT;
-    deltaangle >>= ANGLETOFINESHIFT;
+    dlv.x = slidemo->x;
+    dlv.y = slidemo->y;
+    dlv.dx = dll.dy;
+    dlv.dy = -dll.dx;
 
-    movelen = P_ApproxDistance(tmxmove, tmymove);
-    newlen = FixedMul(movelen, finecosine[deltaangle]);
+    inter1 = P_InterceptVector(&dll, &dlv);
 
-    tmxmove = FixedMul(newlen, finecosine[lineangle]);
-    tmymove = FixedMul(newlen, finesine[lineangle]);
+    dlv.dx = tmxmove;
+    dlv.dy = tmymove;
+    inter2 = P_InterceptVector(&dll, &dlv);
+    inter3 = P_InterceptVector(&dlv, &dll);
+
+    if (inter3 != 0)
+    {
+        tmxmove = FixedDiv(FixedMul(inter2 - inter1, dll.dx), inter3);
+        tmymove = FixedDiv(FixedMul(inter2 - inter1, dll.dy), inter3);
+    }
+    else
+        tmxmove = tmymove = 0;
 }
 
 //

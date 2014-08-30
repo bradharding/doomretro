@@ -116,6 +116,7 @@ void P_XYMovement(mobj_t *mo)
     player_t    *player;
     fixed_t     xmove, ymove;
     mobjtype_t  type;
+    fixed_t     fac;
 
     if (!(mo->momx | mo->momy))
     {
@@ -136,8 +137,14 @@ void P_XYMovement(mobj_t *mo)
         if (puffcount++ > 1)
             P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle, false);
 
-    xmove = mo->momx = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
-    ymove = mo->momy = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
+    // preserve the direction instead of clamping x and y independently.
+    xmove = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
+    ymove = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
+
+    fac = MIN(FixedDiv(xmove, mo->momx), FixedDiv(ymove, mo->momy));
+
+    xmove = mo->momx = FixedMul(mo->momx, fac);
+    ymove = mo->momy = FixedMul(mo->momy, fac);
 
     do
     {
