@@ -1252,10 +1252,15 @@ void M_QuickLoad(void)
     }
 
     S_StartSound(NULL, sfx_swtchn);
-    M_snprintf(tempstring, 160, s_QLPROMPT, savegamestrings[quickSaveSlot]);
-    M_SplitString(tempstring);
-    M_snprintf(tempstring, 160, "%s\n\n%s", tempstring, (usinggamepad ? s_PRESSA : s_PRESSYN));
-    M_StartMessage(tempstring, M_QuickLoadResponse, true);
+    if (M_StringEndsWith(s_QLPROMPT, s_PRESSYN))
+        M_StartMessage(s_QLPROMPT, M_QuickLoadResponse, true);
+    else
+    {
+        M_snprintf(tempstring, 160, s_QLPROMPT, savegamestrings[quickSaveSlot]);
+        M_SplitString(tempstring);
+        M_snprintf(tempstring, 160, "%s\n\n%s", tempstring, (usinggamepad ? s_PRESSA : s_PRESSYN));
+        M_StartMessage(tempstring, M_QuickLoadResponse, true);
+    }
 }
 
 //
@@ -1496,9 +1501,14 @@ void M_ChooseSkill(int choice)
 {
     if (choice == nightmare && gameskill != sk_nightmare && !nomonsters)
     {
-        M_snprintf(tempstring, 160, "%s\n\n%s", s_NIGHTMARE,
-            (usinggamepad ? s_PRESSA : s_PRESSYN));
-        M_StartMessage(tempstring, M_VerifyNightmare, true);
+        if (M_StringEndsWith(s_NIGHTMARE, s_PRESSYN))
+            M_StartMessage(s_NIGHTMARE, M_VerifyNightmare, true);
+        else
+        {
+            M_snprintf(tempstring, 160, "%s\n\n%s", s_NIGHTMARE,
+                (usinggamepad ? s_PRESSA : s_PRESSYN));
+            M_StartMessage(tempstring, M_VerifyNightmare, true);
+        }
         return;
     }
 
@@ -1512,8 +1522,13 @@ void M_Episode(int choice)
 {
     if (gamemode == shareware && choice)
     {
-        M_snprintf(tempstring, 160, "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSYN));
-        M_StartMessage(tempstring, NULL, false);
+        if (M_StringEndsWith(s_SWSTRING, s_PRESSYN))
+            M_StartMessage(s_SWSTRING, NULL, false);
+        else
+        {
+            M_snprintf(tempstring, 160, "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSYN));
+            M_StartMessage(tempstring, NULL, false);
+        }
         M_SetupNextMenu(&EpiDef);
         return;
     }
@@ -1668,8 +1683,13 @@ void M_EndGame(int choice)
     if (!usergame || netgame)
         return;
 
-    M_snprintf(tempstring, 160, "%s\n\n%s", s_ENDGAME, (usinggamepad ? s_PRESSA : s_PRESSYN));
-    M_StartMessage(tempstring, M_EndGameResponse, true);
+    if (M_StringEndsWith(s_ENDGAME, s_PRESSYN))
+        M_StartMessage(s_ENDGAME, M_EndGameResponse, true);
+    else
+    {
+        M_snprintf(tempstring, 160, "%s\n\n%s", s_ENDGAME, (usinggamepad ? s_PRESSA : s_PRESSYN));
+        M_StartMessage(tempstring, M_EndGameResponse, true);
+    }
 }
 
 //
