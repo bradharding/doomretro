@@ -497,7 +497,6 @@ void R_ExecuteSetViewSize(void)
         tlredtogreen33colfunc = R_DrawColumn;
     }
 
-    transcolfunc = R_DrawTranslatedColumn;
     spanfunc = R_DrawSpan;
     redtobluecolfunc = R_DrawRedToBlueColumn;
     redtogreencolfunc = R_DrawRedToGreenColumn;
@@ -561,7 +560,6 @@ void R_Init(void)
     R_SetViewSize(screensize);
     R_InitLightTables();
     R_InitSkyMap();
-    R_InitTranslationTables();
 }
 
 //

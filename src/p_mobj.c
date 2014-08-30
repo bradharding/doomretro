@@ -785,10 +785,6 @@ void P_SpawnPlayer(mapthing_t *mthing)
     z = ONFLOORZ;
     mobj = P_SpawnMobj(x, y, z, MT_PLAYER);
 
-    // set color translations for player sprites
-    if (mthing->type > 1)
-        mobj->flags |= (mthing->type - 1) << MF_TRANSSHIFT;
-
     mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) : 
                                         ANG45 * (mthing->angle / 45));
     mobj->player = p;
