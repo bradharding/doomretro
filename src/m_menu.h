@@ -34,7 +34,7 @@ typedef struct
     char                name[10];
     void                (*routine)(int choice);
     char                alphaKey;
-    char                text[30];
+    char                **text;
 } menuitem_t;
 
 typedef struct menu_s
@@ -78,6 +78,8 @@ void M_StartControlPanel(void);
 
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *str);
+
+char *uppercase(char *str);
 
 extern int screensize;
 

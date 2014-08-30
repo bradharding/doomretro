@@ -199,11 +199,11 @@ enum
 
 menuitem_t MainMenu[] =
 {
-    { 1, "M_NGAME",  M_NewGame,  'n', "New Game"   },
-    { 1, "M_OPTION", M_Options,  'o', "Options"    },
-    { 1, "M_LOADG",  M_LoadGame, 'l', "Load Game"  },
-    { 1, "M_SAVEG",  M_SaveGame, 's', "Save Game"  },
-    { 1, "M_QUITG",  M_QuitDOOM, 'q', "Quit Game"  }
+    { 1, "M_NGAME",  M_NewGame,  'n', &s_M_NEWGAME  },
+    { 1, "M_OPTION", M_Options,  'o', &s_M_OPTIONS  },
+    { 1, "M_LOADG",  M_LoadGame, 'l', &s_M_LOADGAME },
+    { 1, "M_SAVEG",  M_SaveGame, 's', &s_M_SAVEGAME },
+    { 1, "M_QUITG",  M_QuitDOOM, 'q', &s_M_QUITGAME }
 };
 
 menu_t MainDef =
@@ -231,10 +231,10 @@ enum
 
 menuitem_t EpisodeMenu[] =
 {
-    { 1, "M_EPI1", M_Episode, 'k', "Knee-Deep in the Dead" },
-    { 1, "M_EPI2", M_Episode, 't', "The Shores of Hell"    },
-    { 1, "M_EPI3", M_Episode, 'i', "Inferno"               },
-    { 1, "M_EPI4", M_Episode, 't', "Thy Flesh Consumed"    }
+    { 1, "M_EPI1", M_Episode, 'k', &s_M_EPISODE1 },
+    { 1, "M_EPI2", M_Episode, 't', &s_M_EPISODE2 },
+    { 1, "M_EPI3", M_Episode, 'i', &s_M_EPISODE3 },
+    { 1, "M_EPI4", M_Episode, 't', &s_M_EPISODE4 }
 };
 
 menu_t EpiDef =
@@ -260,8 +260,8 @@ enum
 
 menuitem_t ExpansionMenu[] =
 {
-    { 1, "M_EPI1", M_Expansion, 'h', "Hell on Earth"          },
-    { 1, "M_EPI2", M_Expansion, 'n', "No Rest for the Living" }
+    { 1, "M_EPI1", M_Expansion, 'h', &s_M_EXPANSION1 },
+    { 1, "M_EPI2", M_Expansion, 'n', &s_M_EXPANSION2 }
 };
 
 menu_t ExpDef =
@@ -290,11 +290,11 @@ enum
 
 menuitem_t NewGameMenu[] =
 {
-    { 1, "M_JKILL", M_ChooseSkill, 'i', "I\'m too young to die." },
-    { 1, "M_ROUGH", M_ChooseSkill, 'h', "Hey, not too rough."    },
-    { 1, "M_HURT",  M_ChooseSkill, 'h', "Hurt me plenty."        },
-    { 1, "M_ULTRA", M_ChooseSkill, 'u', "Ultra-Violence."        },
-    { 1, "M_NMARE", M_ChooseSkill, 'n', "Nightmare!"             }
+    { 1, "M_JKILL", M_ChooseSkill, 'i', &s_M_SKILLLEVEL1 },
+    { 1, "M_ROUGH", M_ChooseSkill, 'h', &s_M_SKILLLEVEL2 },
+    { 1, "M_HURT",  M_ChooseSkill, 'h', &s_M_SKILLLEVEL3 },
+    { 1, "M_ULTRA", M_ChooseSkill, 'u', &s_M_SKILLLEVEL4 },
+    { 1, "M_NMARE", M_ChooseSkill, 'n', &s_M_SKILLLEVEL5 }
 };
 
 menu_t NewDef =
@@ -326,14 +326,14 @@ enum
 
 menuitem_t OptionsMenu[]=
 {
-    {  1, "M_ENDGAM", M_EndGame,           'e', "End Game"          },
-    {  1, "M_MESSG",  M_ChangeMessages,    'm', "Messages:"         },
-    {  1, "M_DETAIL", M_ChangeDetail,      'g', "Graphic Detail:"   },
-    {  2, "M_SCRNSZ", M_SizeDisplay,       's', "Screen Size"       },
-    { -1, "",         0,                   0,   ""                  },
-    {  2, "M_MSENS",  M_ChangeSensitivity, 'm', "Mouse Sensitivity" },
-    { -1, "",         0,                   0,   ""                  },
-    {  1, "M_SVOL",   M_Sound,             's', "Sound Volume"      }
+    {  1, "M_ENDGAM", M_EndGame,           'e', &s_M_ENDGAME          },
+    {  1, "M_MESSG",  M_ChangeMessages,    'm', &s_M_MESSAGES         },
+    {  1, "M_DETAIL", M_ChangeDetail,      'g', &s_M_GRAPHICDETAIL    },
+    {  2, "M_SCRNSZ", M_SizeDisplay,       's', &s_M_SCREENSIZE       },
+    { -1, "",         0,                   0,   NULL                  },
+    {  2, "M_MSENS",  M_ChangeSensitivity, 'm', &s_M_MOUSESENSITIVITY },
+    { -1, "",         0,                   0,   NULL                  },
+    {  1, "M_SVOL",   M_Sound,             's', &s_M_SOUNDVOLUME      }
 };
 
 menu_t OptionsDef =
@@ -354,7 +354,7 @@ enum
 
 menuitem_t ReadMenu[] =
 {
-    { 1, "", M_FinishReadThis, 0, "" }
+    { 1, "", M_FinishReadThis, 0, NULL }
 };
 
 menu_t ReadDef =
@@ -382,10 +382,10 @@ enum
 
 menuitem_t SoundMenu[] =
 {
-    {  2, "M_SFXVOL", M_SfxVol,   's', "SFX Volume"   },
-    { -1, "",         0,          0,   ""             },
-    {  2, "M_MUSVOL", M_MusicVol, 'm', "Music Volume" },
-    { -1, "",         0,          0,   ""             }
+    {  2, "M_SFXVOL", M_SfxVol,   's', &s_M_SFXVOLUME   },
+    { -1, "",         0,          0,   NULL             },
+    {  2, "M_MUSVOL", M_MusicVol, 'm', &s_M_MUSICVOLUME },
+    { -1, "",         0,          0,   NULL             }
 };
 
 menu_t SoundDef =
@@ -415,12 +415,12 @@ enum
 
 menuitem_t LoadMenu[] =
 {
-    { 1, "", M_LoadSelect, '1', "" },
-    { 1, "", M_LoadSelect, '2', "" },
-    { 1, "", M_LoadSelect, '3', "" },
-    { 1, "", M_LoadSelect, '4', "" },
-    { 1, "", M_LoadSelect, '5', "" },
-    { 1, "", M_LoadSelect, '6', "" }
+    { 1, "", M_LoadSelect, '1', NULL },
+    { 1, "", M_LoadSelect, '2', NULL },
+    { 1, "", M_LoadSelect, '3', NULL },
+    { 1, "", M_LoadSelect, '4', NULL },
+    { 1, "", M_LoadSelect, '5', NULL },
+    { 1, "", M_LoadSelect, '6', NULL }
 };
 
 menu_t LoadDef =
@@ -439,12 +439,12 @@ menu_t LoadDef =
 
 menuitem_t SaveMenu[] =
 {
-    { 1, "", M_SaveSelect, '1', "" },
-    { 1, "", M_SaveSelect, '2', "" },
-    { 1, "", M_SaveSelect, '3', "" },
-    { 1, "", M_SaveSelect, '4', "" },
-    { 1, "", M_SaveSelect, '5', "" },
-    { 1, "", M_SaveSelect, '6', "" }
+    { 1, "", M_SaveSelect, '1', NULL },
+    { 1, "", M_SaveSelect, '2', NULL },
+    { 1, "", M_SaveSelect, '3', NULL },
+    { 1, "", M_SaveSelect, '4', NULL },
+    { 1, "", M_SaveSelect, '5', NULL },
+    { 1, "", M_SaveSelect, '6', NULL }
 };
 
 menu_t SaveDef =
@@ -858,10 +858,9 @@ void M_DrawLoad(void)
 
     M_DarkBackground();
     if (M_LOADG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0,
-            W_CacheLumpName("M_LOADG", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_LOADG", PU_CACHE));
     else
-        M_DrawCenteredString(23 + OFFSET, "LOAD GAME");
+        M_DrawCenteredString(23 + OFFSET, uppercase(s_M_LOADGAME));
 
     for (i = 0; i < load_end; i++)
     {
@@ -972,10 +971,9 @@ void M_DrawSave(void)
 
     // draw menu subtitle
     if (M_SAVEG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0,
-            W_CacheLumpName("M_SAVEG", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_SAVEG", PU_CACHE));
     else
-        M_DrawCenteredString(23 + OFFSET, "SAVE GAME");
+        M_DrawCenteredString(23 + OFFSET, uppercase(s_M_SAVEGAME));
 
     // draw each save game slot
     for (i = 0; i < load_end; ++i)
@@ -1311,7 +1309,7 @@ void M_DrawSound(void)
         SoundDef.y = 64;
     }
     else
-        M_DrawCenteredString(38 + OFFSET, "SOUND VOLUME");
+        M_DrawCenteredString(38 + OFFSET, uppercase(s_M_SOUNDVOLUME));
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17 + OFFSET, 16,
         (float)(sfxVolume * !(nosfx || nosound)), 8.0f);
@@ -1421,7 +1419,7 @@ void M_DrawNewGame(void)
         NewDef.y = 63;
     }
     else
-        M_DrawCenteredString(19 + OFFSET, "NEW GAME");
+        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
 
     if (M_SKILL)
     {
@@ -1430,7 +1428,7 @@ void M_DrawNewGame(void)
         NewDef.y = 63;
     }
     else
-        M_DrawCenteredString(44 + OFFSET, "Choose Skill Level:");
+        M_DrawCenteredString(44 + OFFSET, s_M_CHOOSESKILLLEVEL);
 }
 
 void M_NewGame(int choice)
@@ -1460,7 +1458,7 @@ void M_DrawEpisode(void)
         EpiDef.y = 63;
     }
     else
-        M_DrawCenteredString(19 + OFFSET, "NEW GAME");
+        M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
 
     if (M_EPISOD)
     {
@@ -1469,14 +1467,14 @@ void M_DrawEpisode(void)
         EpiDef.y = 63;
     }
     else
-        M_DrawCenteredString(44 + OFFSET, "Which Episode?");
+        M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
 }
 
 void M_DrawExpansion(void)
 {
     M_DarkBackground();
-    M_DrawCenteredString(19 + OFFSET, "NEW GAME");
-    M_DrawCenteredString(44 + OFFSET, "Which Expansion?");
+    M_DrawCenteredString(19 + OFFSET, uppercase(s_M_NEWGAME));
+    M_DrawCenteredString(44 + OFFSET, s_M_WHICHEXPANSION);
 }
 
 void M_VerifyNightmare(int key)
@@ -1526,7 +1524,8 @@ void M_Episode(int choice)
             M_StartMessage(s_SWSTRING, NULL, false);
         else
         {
-            M_snprintf(tempstring, 160, "%s\n\n%s", s_SWSTRING, (usinggamepad ? s_PRESSA : s_PRESSYN));
+            M_snprintf(tempstring, 160, "%s\n\n%s", s_SWSTRING,
+                (usinggamepad ? s_PRESSA : s_PRESSYN));
             M_StartMessage(tempstring, NULL, false);
         }
         M_SetupNextMenu(&EpiDef);
@@ -1558,7 +1557,7 @@ void M_DrawOptions(void)
         OptionsDef.y = 37;
     }
     else
-        M_DrawCenteredString(8 + OFFSET, "OPTIONS");
+        M_DrawCenteredString(8 + OFFSET, uppercase(s_M_OPTIONS));
 
     if (messages)
     {
@@ -1571,7 +1570,7 @@ void M_DrawOptions(void)
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
         }
         else
-            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "on");
+            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON);
     }
     else
     {
@@ -1584,7 +1583,7 @@ void M_DrawOptions(void)
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
         }
         else
-            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, "off");
+            M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
     }
 
     if (graphicdetail == HIGH)
@@ -1598,7 +1597,7 @@ void M_DrawOptions(void)
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
         }
         else
-            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "high");
+            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
     else
     {
@@ -1611,7 +1610,7 @@ void M_DrawOptions(void)
                 OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
         }
         else
-            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, "low");
+            M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW);
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
@@ -3085,19 +3084,19 @@ void M_Drawer(void)
             {
                 if (usinggamepad)
                 {
-                    M_DrawString(x, y + OFFSET, "Gamepad Sensitivity");
-                    currentMenu->menuitems[mousesens].alphaKey = 'g';
+                    M_DrawString(x, y + OFFSET, s_M_GAMEPADSENSITIVITY);
+                    currentMenu->menuitems[mousesens].alphaKey = s_M_GAMEPADSENSITIVITY[0];
                 }
                 else
                 {
-                    M_DrawString(x, y + OFFSET, "Mouse Sensitivity");
-                    currentMenu->menuitems[mousesens].alphaKey = 'm';
+                    M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY);
+                    currentMenu->menuitems[mousesens].alphaKey = s_M_MOUSESENSITIVITY[0];
                 }
             }
             else if (W_CheckMultipleLumps(name) > 1)
                 M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
             else
-                M_DrawString(x, y + OFFSET, currentMenu->menuitems[i].text);
+                M_DrawString(x, y + OFFSET, *currentMenu->menuitems[i].text);
         }
         y += LINEHEIGHT - 1;
     }

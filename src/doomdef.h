@@ -83,7 +83,7 @@ typedef enum
     pack_tnt,           // TNT mission pack
     pack_plut,          // Plutonia pack
     pack_nerve,         // No Rest for the Living
-    doom2bfg,
+    doom2bfg,           // DOOM 2 (BFG Edition)
     none
 } GameMission_t;
 
