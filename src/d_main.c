@@ -867,13 +867,13 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    unsigned int        i;
+    int i;
 
     if (chexdeh)
         return;
 
-    for (i = 0; i < numlumps; ++i)
-        if (!strncmp(lumpinfo[i].name, "DEHACKED", 8))
+    for (i = numlumps - 1; i >= 0; --i)
+        if (!strncasecmp(lumpinfo[i].name, "DEHACKED", 8))
             ProcessDehFile(NULL, "-", i);
 }
 
