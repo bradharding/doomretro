@@ -92,7 +92,7 @@ boolean         usergame;               // ok to save / end game
 boolean         viewactive;
 
 int             deathmatch;             // only if started as net death
-boolean         netgame;                // only true if packets are broadcast
+//boolean         netgame;                // only true if packets are broadcast
 boolean         playeringame[MAXPLAYERS];
 player_t        players[MAXPLAYERS];
 
@@ -914,35 +914,35 @@ void G_Ticker(void)
             // for each player so messages are not displayed at the
             // same time.
 
-            if (netgame)
-            {
-                if (cmd->forwardmove > TURBOTHRESHOLD)
-                    turbodetected[i] = true;
+            //if (netgame)
+            //{
+            //    if (cmd->forwardmove > TURBOTHRESHOLD)
+            //        turbodetected[i] = true;
 
-                if (!(gametic & 31) && ((gametic >> 5) % MAXPLAYERS) == i && turbodetected[i])
-                {
-                    //static char turbomessage[80];
-                    //extern char *player_names[4];
+            //    if (!(gametic & 31) && ((gametic >> 5) % MAXPLAYERS) == i && turbodetected[i])
+            //    {
+            //        //static char turbomessage[80];
+            //        //extern char *player_names[4];
 
-                    //sprintf(turbomessage, "%s is turbo!", player_names[i]);
-                    //players[consoleplayer].message = turbomessage;
-                    turbodetected[i] = false;
-                }
-            }
+            //        //sprintf(turbomessage, "%s is turbo!", player_names[i]);
+            //        //players[consoleplayer].message = turbomessage;
+            //        turbodetected[i] = false;
+            //    }
+            //}
 
-            if (netgame && !(gametic % ticdup))
-            {
-                if (gametic > BACKUPTICS
-                    && consistency[i][buf] != cmd->consistency)
-                {
-                    I_Error("Consistency failure (%i should be %i)",
-                            cmd->consistency, consistency[i][buf]);
-                }
-                if (players[i].mo)
-                    consistency[i][buf] = players[i].mo->x;
-                else
-                    consistency[i][buf] = rndindex;
-            }
+            //if (netgame && !(gametic % ticdup))
+            //{
+            //    if (gametic > BACKUPTICS
+            //        && consistency[i][buf] != cmd->consistency)
+            //    {
+            //        I_Error("Consistency failure (%i should be %i)",
+            //                cmd->consistency, consistency[i][buf]);
+            //    }
+            //    if (players[i].mo)
+            //        consistency[i][buf] = players[i].mo->x;
+            //    else
+            //        consistency[i][buf] = rndindex;
+            //}
         }
     }
 
@@ -1215,43 +1215,43 @@ void G_DeathMatchSpawnPlayer(int playernum)
 //
 void G_DoReborn(int playernum)
 {
-    if (!netgame)
+    //if (!netgame)
         gameaction = (quickSaveSlot < 0 ? ga_loadlevel : ga_reloadgame);
-    else
-    {
-        // respawn at the start
-        int     i;
+    //else
+    //{
+    //    // respawn at the start
+    //    int     i;
 
-        // first dissasociate the corpse
-        players[playernum].mo->player = NULL;
+    //    // first dissasociate the corpse
+    //    players[playernum].mo->player = NULL;
 
-        // spawn at random spot if in death match
-        if (deathmatch)
-        {
-            G_DeathMatchSpawnPlayer(playernum);
-            return;
-        }
+    //    // spawn at random spot if in death match
+    //    if (deathmatch)
+    //    {
+    //        G_DeathMatchSpawnPlayer(playernum);
+    //        return;
+    //    }
 
-        if (G_CheckSpot(playernum, &playerstarts[playernum]))
-        {
-            P_SpawnPlayer(&playerstarts[playernum]);
-            return;
-        }
+    //    if (G_CheckSpot(playernum, &playerstarts[playernum]))
+    //    {
+    //        P_SpawnPlayer(&playerstarts[playernum]);
+    //        return;
+    //    }
 
-        // try to spawn at one of the other players spots
-        for (i = 0; i < MAXPLAYERS; i++)
-        {
-            if (G_CheckSpot(playernum, &playerstarts[i]))
-            {
-                playerstarts[i].type = playernum + 1;           // fake as other player
-                P_SpawnPlayer(&playerstarts[i]);
-                playerstarts[i].type = i + 1;                   // restore
-                return;
-            }
-            // he's going to be inside something.  Too bad.
-        }
-        P_SpawnPlayer(&playerstarts[playernum]);
-    }
+    //    // try to spawn at one of the other players spots
+    //    for (i = 0; i < MAXPLAYERS; i++)
+    //    {
+    //        if (G_CheckSpot(playernum, &playerstarts[i]))
+    //        {
+    //            playerstarts[i].type = playernum + 1;           // fake as other player
+    //            P_SpawnPlayer(&playerstarts[i]);
+    //            playerstarts[i].type = i + 1;                   // restore
+    //            return;
+    //        }
+    //        // he's going to be inside something.  Too bad.
+    //    }
+    //    P_SpawnPlayer(&playerstarts[playernum]);
+    //}
 }
 
 void G_ScreenShot(void)
@@ -1711,7 +1711,7 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
 
 void G_DoNewGame(void)
 {
-    netgame = false;
+    //netgame = false;
     deathmatch = 0;
     playeringame[1] = playeringame[2] = playeringame[3] = 0;
 

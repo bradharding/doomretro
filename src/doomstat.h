@@ -116,7 +116,7 @@ extern int              timelimit;
 extern boolean          respawnmonsters;
 
 // Netgame? Only true if >1 player.
-extern boolean          netgame;
+//extern boolean          netgame;
 
 // Flag: true only if started as net deathmatch.
 // An enum might handle altdeath/cooperative better.

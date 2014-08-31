@@ -570,7 +570,7 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
     angle_t     an;
     fixed_t     dist;
 
-    if (!netgame && infight)
+    if (/*!netgame && */infight)
         // player is dead, look for monsters
         return P_LookForMonsters(actor);
     c = 0;
@@ -798,11 +798,11 @@ void A_Chase(mobj_t *actor)
 
 nomissile:
     // possibly choose another target
-    if (netgame && !actor->threshold && !P_CheckSight(actor, actor->target))
-    {
-        if (P_LookForPlayers(actor, true))
-            return;     // got a new target
-    }
+    //if (netgame && !actor->threshold && !P_CheckSight(actor, actor->target))
+    //{
+    //    if (P_LookForPlayers(actor, true))
+    //        return;     // got a new target
+    //}
 
     // chase towards player
     if (--actor->movecount < 0 || !P_SmartMove(actor))
@@ -1223,10 +1223,10 @@ void A_VileChase(mobj_t *actor)
                     corpsehit->target = NULL;
                     corpsehit->lastenemy = NULL;
 
-                    if (!netgame)
+                    //if (!netgame)
                         players[0].killcount--;
-                    else if (actor->target && actor->target->player)
-                        actor->target->player->killcount--;
+                    //else if (actor->target && actor->target->player)
+                    //    actor->target->player->killcount--;
 
                     return;
                 }

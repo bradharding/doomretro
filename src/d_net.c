@@ -145,7 +145,7 @@ void D_CheckNetGame(void)
 
     // default values for single player
     consoleplayer = 0;
-    netgame = false;
+    //netgame = false;
     ticdup = 1;
     extratics = 1;
 

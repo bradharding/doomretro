@@ -41,11 +41,11 @@
 //
 // "128 IWAD search directories should be enough for anybody".
 
-#define MAX_IWAD_DIRS 128
+#define MAX_IWAD_DIRS   128
 
-static boolean iwad_dirs_built = false;
-static char *iwad_dirs[MAX_IWAD_DIRS];
-static int num_iwad_dirs = 0;
+static boolean  iwad_dirs_built = false;
+static char     *iwad_dirs[MAX_IWAD_DIRS];
+static int      num_iwad_dirs = 0;
 
 static void AddIWADDir(char *dir)
 {
@@ -69,11 +69,10 @@ static void AddIWADDir(char *dir)
 
 typedef struct
 {
-    HKEY root;
-    char *path;
-    char *value;
-}
-registry_value_t;
+    HKEY        root;
+    char        *path;
+    char        *value;
+} registry_value_t;
 
 #define UNINSTALLER_STRING "\\uninstl.exe /S "
 
@@ -493,6 +492,8 @@ static char *SaveGameIWADName(void)
 
     if (nerve)
         return "NERVE.WAD";
+    else if (chex)
+        return "CHEX.WAD";
     else
         for (i = 0; i < arrlen(iwads); ++i)
             if (gamemission == iwads[i].mission)

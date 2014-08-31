@@ -346,20 +346,17 @@ int W_NumLumps(void)
 // W_CheckNumForName
 // Returns -1 if name not found.
 //
-
 int W_CheckNumForName(char *name)
 {
     lumpinfo_t  *lump_p;
     int         i;
 
     // Do we have a hash table yet?
-
     if (lumphash != NULL)
     {
         int     hash;
 
         // We do! Excellent.
-
         hash = W_LumpNameHash(name) % numlumps;
 
         for (lump_p = lumphash[hash]; lump_p != NULL; lump_p = lump_p->next)
@@ -371,7 +368,6 @@ int W_CheckNumForName(char *name)
         // We don't have a hash table generate yet. Linear search :-(
         //
         // scan backwards so patch lump files take precedence
-
         for (i = numlumps - 1; i >= 0; --i)
             if (!strncasecmp(lumpinfo[i].name, name, 8))
                 return i;

@@ -941,8 +941,8 @@ void M_LoadSelect(int choice)
 //
 void M_LoadGame(int choice)
 {
-    if (netgame)
-        return;
+    //if (netgame)
+    //    return;
 
     M_SetupNextMenu(&LoadDef);
     M_ReadSaveStrings();
@@ -1243,7 +1243,7 @@ char    tempstring[160];
 
 void M_QuickLoad(void)
 {
-    if (netgame || quickSaveSlot < 0)
+    if (/*netgame || */quickSaveSlot < 0)
     {
         functionkey = 0;
         return;
@@ -1433,8 +1433,8 @@ void M_DrawNewGame(void)
 
 void M_NewGame(int choice)
 {
-    if (netgame)
-        return;
+    //if (netgame)
+    //    return;
 
     if (chex)
         M_SetupNextMenu(&NewDef);
@@ -1679,7 +1679,7 @@ void M_EndGameResponse(int key)
 void M_EndGame(int choice)
 {
     choice = 0;
-    if (!usergame || netgame)
+    if (!usergame/* || netgame*/)
         return;
 
     if (M_StringEndsWith(s_ENDGAME, s_PRESSYN))
@@ -1753,7 +1753,7 @@ void M_QuitResponse(int key)
             M_SetupNextMenu(&MainDef);
         return;
     }
-    if (!netgame && !nosound && !nosfx && sfxVolume > 0)
+    if (/*!netgame && */!nosound && !nosfx && sfxVolume > 0)
     {
         if (gamemode == commercial)
             S_StartSound(NULL, quitsounds2[M_Random() % 8]);
@@ -2660,7 +2660,7 @@ boolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 3
                         && (!usergame || gamestate != GS_LEVEL || players[consoleplayer].health <= 0))
                         itemOn++;
-                    if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
+                    if (currentMenu == &OptionsDef && !itemOn && (!usergame/* || netgame*/))
                         itemOn++;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
@@ -2723,7 +2723,7 @@ boolean M_Responder(event_t *ev)
                         itemOn--;
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         itemOn--;
-                    if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
+                    if (currentMenu == &OptionsDef && !itemOn && (!usergame/* || netgame*/))
                         itemOn = currentMenu->numitems - 1;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
@@ -2813,7 +2813,7 @@ boolean M_Responder(event_t *ev)
                     if ((!usergame || gamestate != GS_LEVEL) && currentMenu == &MainDef
                         && itemOn == 3)
                         return true;
-                    if ((!usergame || netgame) && currentMenu == &OptionsDef && !itemOn)
+                    if ((!usergame/* || netgame*/) && currentMenu == &OptionsDef && !itemOn)
                         return true;
                     if (currentMenu != &LoadDef && (currentMenu != &NewDef ||
                         (currentMenu == &NewDef && itemOn == 4)))
@@ -2870,7 +2870,7 @@ boolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
-                    if (currentMenu == &OptionsDef && !i && (!usergame || netgame))
+                    if (currentMenu == &OptionsDef && !i && (!usergame/* || netgame*/))
                         return true;
                     if (currentMenu == &LoadDef && !strcasecmp(savegamestrings[i], s_EMPTYSTRING))
                         return true;
@@ -2918,7 +2918,7 @@ boolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
-                    if (currentMenu == &OptionsDef && !i && (!usergame || netgame))
+                    if (currentMenu == &OptionsDef && !i && (!usergame/* || netgame*/))
                         return true;
                     if (currentMenu == &LoadDef && !strcasecmp(savegamestrings[i], s_EMPTYSTRING))
                         return true;
@@ -3109,7 +3109,7 @@ void M_Drawer(void)
     {
         patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
 
-        if (currentMenu == &OptionsDef && !itemOn && (!usergame || netgame))
+        if (currentMenu == &OptionsDef && !itemOn && (!usergame/* || netgame*/))
             itemOn++;
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET, 0, patch);

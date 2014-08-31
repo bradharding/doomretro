@@ -468,8 +468,8 @@ void ST_refreshBackground(void)
         else
             V_DrawScaledPatch(ST_X, 0, BG, SCREENSCALE / 2, sbar2);
 
-        if (netgame)
-            V_DrawPatch(ST_FX, 0, BG, faceback);
+        //if (netgame)
+        //    V_DrawPatch(ST_FX, 0, BG, faceback);
 
         V_CopyRect(ST_X, 0, BG, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, FG);
     }
@@ -515,9 +515,9 @@ boolean ST_Responder(event_t *ev)
     // if a user keypress...
     if (ev->type == ev_keydown)
     {
-        if (!netgame
+        if (/*!netgame*/
             // [BH] no cheats when in menu or paused
-            && !menuactive && !paused)
+            /*&& */!menuactive && !paused)
         {
             // [BH]
             if (cht_CheckCheat(&cheat_mus, ev->data2)
@@ -1163,7 +1163,7 @@ boolean ST_Responder(event_t *ev)
         }
 
         // 'clev' change-level cheat
-        if (!netgame && !menuactive && !paused)
+        if (/*!netgame && */!menuactive && !paused)
         {
             if (cht_CheckCheat(&cheat_clev, ev->data2))
                 idclev = true;

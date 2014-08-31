@@ -1278,7 +1278,7 @@ static void D_DoomMainSetup(void)
 
     if (gameaction != ga_loadgame)
     {
-        if (autostart || netgame)
+        if (autostart/* || netgame*/)
         {
             I_InitKeyboard();
             G_DeferredInitNew(startskill, startepisode, startmap);

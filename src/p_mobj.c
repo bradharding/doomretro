@@ -883,7 +883,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     }
 
     // check for appropriate skill level
-    if (!netgame && (mthing->options & 16))
+    if (/*!netgame && */(mthing->options & 16))
         return;
 
     if (gameskill == sk_baby)
