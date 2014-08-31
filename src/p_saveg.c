@@ -383,6 +383,9 @@ static void saveg_read_mobj_t(mobj_t *str)
     // struct mobj_s *tracer;
     str->tracer = (mobj_t *)saveg_readp();
 
+    // struct mobj_s *lastenemy;
+    str->lastenemy = (mobj_t *)saveg_readp();
+
     // int floatbob;
     str->floatbob = saveg_read32();
 
@@ -509,6 +512,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // struct mobj_s *tracer;
     saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->tracer));
+
+    // struct mobj_s *lastenemy;
+    saveg_writep((void *)(uintptr_t)P_ThinkerToIndex((thinker_t *)str->lastenemy));
 
     // int floatbob;
     saveg_write32(str->floatbob);
@@ -1721,7 +1727,6 @@ void P_UnArchiveThinkers(void)
                 else
                     mobj->colfunc = basecolfunc;
 
-                mobj->tracer = NULL;
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
                 if (mobj->type == MT_BLOODSPLAT)
@@ -1792,6 +1797,7 @@ void P_RestoreTargets(void)
 
             mo->target = (mobj_t *)P_IndexToThinker((uintptr_t)mo->target);
             mo->tracer = (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer);
+            mo->lastenemy = (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy);
         }
 }
 

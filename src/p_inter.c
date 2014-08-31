@@ -1030,7 +1030,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
         {
             target->flags |= MF_JUSTHIT;    // fight back!
 
-            P_SetMobjState(target, (statenum_t)target->info->painstate);
+            P_SetMobjState(target, target->info->painstate);
         }
 
         target->reactiontime = 0;           // we're awake now...
@@ -1040,10 +1040,14 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
         {
             // if not intent on another player,
             // chase after this one
+            if (!target->lastenemy || target->lastenemy->health <= 0 
+                || !target->lastenemy->player)  // remember last enemy - killough
+                target->lastenemy = target->target;
+
             target->target = source;
             target->threshold = BASETHRESHOLD;
             if (target->state == &states[target->info->spawnstate] && target->info->seestate != S_NULL)
-                P_SetMobjState(target, (statenum_t)target->info->seestate);
+                P_SetMobjState(target, target->info->seestate);
         }
     }
 }

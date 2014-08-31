@@ -338,6 +338,9 @@ typedef struct mobj_s
     // Thing being chased/attacked for tracers.
     struct mobj_s       *tracer;
 
+    // new field: last known enemy -- killough 2/15/98
+    struct mobj_s       *lastenemy;
+
     // For bobbing up and down.
     int                 floatbob;
 

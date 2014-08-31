@@ -550,6 +550,7 @@ boolean P_LookForMonsters(mobj_t *actor)
             continue;           // out of sight
 
         // Found a target monster
+        actor->lastenemy = actor->target;
         actor->target = mo;
         return true;
     }
@@ -1220,6 +1221,7 @@ void A_VileChase(mobj_t *actor)
                     corpsehit->flags2 = info->flags2;
                     corpsehit->health = info->spawnhealth;
                     corpsehit->target = NULL;
+                    corpsehit->lastenemy = NULL;
 
                     if (!netgame)
                         players[0].killcount--;
