@@ -199,11 +199,11 @@ enum
 
 menuitem_t MainMenu[] =
 {
-    { 1, "M_NGAME",  M_NewGame,  'n', &s_M_NEWGAME  },
-    { 1, "M_OPTION", M_Options,  'o', &s_M_OPTIONS  },
-    { 1, "M_LOADG",  M_LoadGame, 'l', &s_M_LOADGAME },
-    { 1, "M_SAVEG",  M_SaveGame, 's', &s_M_SAVEGAME },
-    { 1, "M_QUITG",  M_QuitDOOM, 'q', &s_M_QUITGAME }
+    { 1, "M_NGAME",  M_NewGame,  &s_M_NEWGAME  },
+    { 1, "M_OPTION", M_Options,  &s_M_OPTIONS  },
+    { 1, "M_LOADG",  M_LoadGame, &s_M_LOADGAME },
+    { 1, "M_SAVEG",  M_SaveGame, &s_M_SAVEGAME },
+    { 1, "M_QUITG",  M_QuitDOOM, &s_M_QUITGAME }
 };
 
 menu_t MainDef =
@@ -231,10 +231,10 @@ enum
 
 menuitem_t EpisodeMenu[] =
 {
-    { 1, "M_EPI1", M_Episode, 'k', &s_M_EPISODE1 },
-    { 1, "M_EPI2", M_Episode, 't', &s_M_EPISODE2 },
-    { 1, "M_EPI3", M_Episode, 'i', &s_M_EPISODE3 },
-    { 1, "M_EPI4", M_Episode, 't', &s_M_EPISODE4 }
+    { 1, "M_EPI1", M_Episode, &s_M_EPISODE1 },
+    { 1, "M_EPI2", M_Episode, &s_M_EPISODE2 },
+    { 1, "M_EPI3", M_Episode, &s_M_EPISODE3 },
+    { 1, "M_EPI4", M_Episode, &s_M_EPISODE4 }
 };
 
 menu_t EpiDef =
@@ -260,8 +260,8 @@ enum
 
 menuitem_t ExpansionMenu[] =
 {
-    { 1, "M_EPI1", M_Expansion, 'h', &s_M_EXPANSION1 },
-    { 1, "M_EPI2", M_Expansion, 'n', &s_M_EXPANSION2 }
+    { 1, "M_EPI1", M_Expansion, &s_M_EXPANSION1 },
+    { 1, "M_EPI2", M_Expansion, &s_M_EXPANSION2 }
 };
 
 menu_t ExpDef =
@@ -290,11 +290,11 @@ enum
 
 menuitem_t NewGameMenu[] =
 {
-    { 1, "M_JKILL", M_ChooseSkill, 'i', &s_M_SKILLLEVEL1 },
-    { 1, "M_ROUGH", M_ChooseSkill, 'h', &s_M_SKILLLEVEL2 },
-    { 1, "M_HURT",  M_ChooseSkill, 'h', &s_M_SKILLLEVEL3 },
-    { 1, "M_ULTRA", M_ChooseSkill, 'u', &s_M_SKILLLEVEL4 },
-    { 1, "M_NMARE", M_ChooseSkill, 'n', &s_M_SKILLLEVEL5 }
+    { 1, "M_JKILL", M_ChooseSkill, &s_M_SKILLLEVEL1 },
+    { 1, "M_ROUGH", M_ChooseSkill, &s_M_SKILLLEVEL2 },
+    { 1, "M_HURT",  M_ChooseSkill, &s_M_SKILLLEVEL3 },
+    { 1, "M_ULTRA", M_ChooseSkill, &s_M_SKILLLEVEL4 },
+    { 1, "M_NMARE", M_ChooseSkill, &s_M_SKILLLEVEL5 }
 };
 
 menu_t NewDef =
@@ -326,14 +326,14 @@ enum
 
 menuitem_t OptionsMenu[]=
 {
-    {  1, "M_ENDGAM", M_EndGame,           'e', &s_M_ENDGAME          },
-    {  1, "M_MESSG",  M_ChangeMessages,    'm', &s_M_MESSAGES         },
-    {  1, "M_DETAIL", M_ChangeDetail,      'g', &s_M_GRAPHICDETAIL    },
-    {  2, "M_SCRNSZ", M_SizeDisplay,       's', &s_M_SCREENSIZE       },
-    { -1, "",         0,                   0,   NULL                  },
-    {  2, "M_MSENS",  M_ChangeSensitivity, 'm', &s_M_MOUSESENSITIVITY },
-    { -1, "",         0,                   0,   NULL                  },
-    {  1, "M_SVOL",   M_Sound,             's', &s_M_SOUNDVOLUME      }
+    {  1, "M_ENDGAM", M_EndGame,           &s_M_ENDGAME          },
+    {  1, "M_MESSG",  M_ChangeMessages,    &s_M_MESSAGES         },
+    {  1, "M_DETAIL", M_ChangeDetail,      &s_M_GRAPHICDETAIL    },
+    {  2, "M_SCRNSZ", M_SizeDisplay,       &s_M_SCREENSIZE       },
+    { -1, "",         0,                   NULL                  },
+    {  2, "M_MSENS",  M_ChangeSensitivity, &s_M_MOUSESENSITIVITY },
+    { -1, "",         0,                   NULL                  },
+    {  1, "M_SVOL",   M_Sound,             &s_M_SOUNDVOLUME      }
 };
 
 menu_t OptionsDef =
@@ -354,7 +354,7 @@ enum
 
 menuitem_t ReadMenu[] =
 {
-    { 1, "", M_FinishReadThis, 0, NULL }
+    { 1, "", M_FinishReadThis, NULL }
 };
 
 menu_t ReadDef =
@@ -382,10 +382,10 @@ enum
 
 menuitem_t SoundMenu[] =
 {
-    {  2, "M_SFXVOL", M_SfxVol,   's', &s_M_SFXVOLUME   },
-    { -1, "",         0,          0,   NULL             },
-    {  2, "M_MUSVOL", M_MusicVol, 'm', &s_M_MUSICVOLUME },
-    { -1, "",         0,          0,   NULL             }
+    {  2, "M_SFXVOL", M_SfxVol,   &s_M_SFXVOLUME   },
+    { -1, "",         0,          NULL             },
+    {  2, "M_MUSVOL", M_MusicVol, &s_M_MUSICVOLUME },
+    { -1, "",         0,          NULL             }
 };
 
 menu_t SoundDef =
@@ -415,12 +415,12 @@ enum
 
 menuitem_t LoadMenu[] =
 {
-    { 1, "", M_LoadSelect, '1', NULL },
-    { 1, "", M_LoadSelect, '2', NULL },
-    { 1, "", M_LoadSelect, '3', NULL },
-    { 1, "", M_LoadSelect, '4', NULL },
-    { 1, "", M_LoadSelect, '5', NULL },
-    { 1, "", M_LoadSelect, '6', NULL }
+    { 1, "", M_LoadSelect, NULL },
+    { 1, "", M_LoadSelect, NULL },
+    { 1, "", M_LoadSelect, NULL },
+    { 1, "", M_LoadSelect, NULL },
+    { 1, "", M_LoadSelect, NULL },
+    { 1, "", M_LoadSelect, NULL }
 };
 
 menu_t LoadDef =
@@ -439,12 +439,12 @@ menu_t LoadDef =
 
 menuitem_t SaveMenu[] =
 {
-    { 1, "", M_SaveSelect, '1', NULL },
-    { 1, "", M_SaveSelect, '2', NULL },
-    { 1, "", M_SaveSelect, '3', NULL },
-    { 1, "", M_SaveSelect, '4', NULL },
-    { 1, "", M_SaveSelect, '5', NULL },
-    { 1, "", M_SaveSelect, '6', NULL }
+    { 1, "", M_SaveSelect, NULL },
+    { 1, "", M_SaveSelect, NULL },
+    { 1, "", M_SaveSelect, NULL },
+    { 1, "", M_SaveSelect, NULL },
+    { 1, "", M_SaveSelect, NULL },
+    { 1, "", M_SaveSelect, NULL }
 };
 
 menu_t SaveDef =
@@ -2860,7 +2860,9 @@ boolean M_Responder(event_t *ev)
         {
             for (i = itemOn + 1; i < currentMenu->numitems; i++)
             {
-                if (toupper(currentMenu->menuitems[i].alphaKey) == toupper(ch))
+                if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && ch == i + '1')
+                    || (currentMenu->menuitems[i].text
+                        && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
                     if (currentMenu == &MainDef && i == 3
                         && (!usergame || gamestate != GS_LEVEL
@@ -2906,7 +2908,9 @@ boolean M_Responder(event_t *ev)
 
             for (i = 0; i <= itemOn; i++)
             {
-                if (toupper(currentMenu->menuitems[i].alphaKey) == toupper(ch))
+                if (((currentMenu == &LoadDef || currentMenu == &SaveDef) && ch == i + '1')
+                    || (currentMenu->menuitems[i].text
+                        && toupper(*currentMenu->menuitems[i].text[0]) == toupper(ch)))
                 {
                     if (currentMenu == &MainDef && i == 3
                         && (!usergame || gamestate != GS_LEVEL
@@ -3081,18 +3085,8 @@ void M_Drawer(void)
                     M_DrawNightmare();
             }
             else if (!strcmp(name, "M_MSENS") && !M_MSENS)
-            {
-                if (usinggamepad)
-                {
-                    M_DrawString(x, y + OFFSET, s_M_GAMEPADSENSITIVITY);
-                    currentMenu->menuitems[mousesens].alphaKey = s_M_GAMEPADSENSITIVITY[0];
-                }
-                else
-                {
-                    M_DrawString(x, y + OFFSET, s_M_MOUSESENSITIVITY);
-                    currentMenu->menuitems[mousesens].alphaKey = s_M_MOUSESENSITIVITY[0];
-                }
-            }
+                M_DrawString(x, y + OFFSET,
+                    (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
             else if (W_CheckMultipleLumps(name) > 1)
                 M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
             else

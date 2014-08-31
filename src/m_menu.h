@@ -33,7 +33,6 @@ typedef struct
     short               status;
     char                name[10];
     void                (*routine)(int choice);
-    char                alphaKey;
     char                **text;
 } menuitem_t;
 
