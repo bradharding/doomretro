@@ -285,9 +285,9 @@ void D_Display(void)
         else
         {
             if (widescreen)
-                M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, "Paused");
+                M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, s_M_PAUSED);
             else
-                M_DrawCenteredString((ORIGINALHEIGHT - 16) / 2, "Paused");
+                M_DrawCenteredString((ORIGINALHEIGHT - 16) / 2, s_M_PAUSED);
         }
     }
 

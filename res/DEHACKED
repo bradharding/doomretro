@@ -347,3 +347,4 @@ M_GAMEPADSENSITIVITY = Gamepad Sensitivity
 M_SOUNDVOLUME = Sound Volume
 M_SFXVOLUME = SFX Volume
 M_MUSICVOLUME = Music Volume
+M_PAUSED = Paused

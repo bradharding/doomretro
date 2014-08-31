@@ -431,6 +431,7 @@ char *s_M_GAMEPADSENSITIVITY = M_GAMEPADSENSITIVITY;
 char *s_M_SOUNDVOLUME = M_SOUNDVOLUME;
 char *s_M_SFXVOLUME = M_SFXVOLUME;
 char *s_M_MUSICVOLUME = M_MUSICVOLUME;
+char *s_M_PAUSED = M_PAUSED;
 
 char *bgflatE1 = "FLOOR4_8";
 char *bgflatE2 = "SFLR6_1";
@@ -799,6 +800,7 @@ deh_strs deh_strlookup[] =
     { &s_M_SOUNDVOLUME,        "M_SOUNDVOLUME"        },
     { &s_M_SFXVOLUME,          "M_SFXVOLUME"          },
     { &s_M_MUSICVOLUME,        "M_MUSICVOLUME"        },
+    { &s_M_PAUSED,             "M_PAUSED"             },
 
     { &bgflatE1,               "BGFLATE1"             },
     { &bgflatE2,               "BGFLATE2"             },

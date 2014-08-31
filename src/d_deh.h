@@ -365,6 +365,7 @@ extern char *s_M_GAMEPADSENSITIVITY;
 extern char *s_M_SOUNDVOLUME;
 extern char *s_M_SFXVOLUME;
 extern char *s_M_MUSICVOLUME;
+extern char *s_M_PAUSED;
 
 extern char *bgflatE1;
 extern char *bgflatE2;

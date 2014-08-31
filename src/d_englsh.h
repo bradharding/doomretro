@@ -730,5 +730,6 @@
 #define M_SOUNDVOLUME           ""
 #define M_SFXVOLUME             ""
 #define M_MUSICVOLUME           ""
+#define M_PAUSED                ""
 
 #endif
