@@ -222,6 +222,8 @@ static char     savedescription[32];
 
 extern boolean  alwaysrun;
 
+extern int      st_palette;
+
 int G_CmdChecksum(ticcmd_t *cmd)
 {
     size_t      i;
@@ -967,6 +969,9 @@ void G_Ticker(void)
                                 idlemotorspeed = 0;
                                 XInputVibration(idlemotorspeed);
                             }
+
+                            players[consoleplayer].fixedcolormap = 0;
+                            I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
                         }
                         else
                         {
@@ -978,12 +983,12 @@ void G_Ticker(void)
                                 idlemotorspeed = restoremotorspeed;
                                 XInputVibration(idlemotorspeed);
                             }
+
+                            I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
                         }
                         break;
 
                     case BTS_SAVEGAME:
-                        if (!savedescription[0])
-                            M_StringCopy(savedescription, "NET GAME", sizeof(savedescription));
                         savegameslot = (players[i].cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
                         gameaction = ga_savegame;
                         break;
