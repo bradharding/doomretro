@@ -94,7 +94,7 @@ unsigned int            resize_h;
 int                     desktopwidth;
 int                     desktopheight;
 
-char                    *videodriver = "windib";
+char                    *videodriver = VIDEODRIVER_DEFAULT;
 char                    envstring[255];
 
 static int              width;

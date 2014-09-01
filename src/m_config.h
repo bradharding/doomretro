@@ -175,6 +175,8 @@
 
 #define TRANSLUCENCY_DEFAULT            true
 
+#define VIDEODRIVER_DEFAULT             "directx"
+
 void M_LoadDefaults(void);
 void M_SaveDefaults(void);
 

@@ -113,18 +113,18 @@ byte            consistency[MAXPLAYERS][BACKUPTICS];
 //
 // controls (have defaults)
 //
-int             key_right = KEY_RIGHTARROW;
-int             key_left = KEY_LEFTARROW;
-int             key_up = KEY_UPARROW;
-int             key_up2 = 'w';
-int             key_down = KEY_DOWNARROW;
-int             key_down2 = 's';
-int             key_strafeleft = 'a';
-int             key_straferight = 'd';
-int             key_fire = KEY_RCTRL;
-int             key_use = ' ';
-int             key_strafe = KEY_RALT;
-int             key_speed = KEY_RSHIFT;
+int             key_right = KEYRIGHT_DEFAULT;
+int             key_left = KEYLEFT_DEFAULT;
+int             key_up = KEYUP_DEFAULT;
+int             key_up2 = KEYUP2_DEFAULT;
+int             key_down = KEYDOWN_DEFAULT;
+int             key_down2 = KEYDOWN2_DEFAULT;
+int             key_strafeleft = KEYSTRAFELEFT_DEFAULT;
+int             key_straferight = KEYSTRAFERIGHT_DEFAULT;
+int             key_fire = KEYFIRE_DEFAULT;
+int             key_use = KEYUSE_DEFAULT;
+int             key_strafe = KEYSTRAFE_DEFAULT;
+int             key_speed = KEYSPEED_DEFAULT;
 
 int             key_weapon1 = '1';
 int             key_weapon2 = '2';
@@ -133,14 +133,13 @@ int             key_weapon4 = '4';
 int             key_weapon5 = '5';
 int             key_weapon6 = '6';
 int             key_weapon7 = '7';
-int             key_prevweapon = 0;
-int             key_nextweapon = 0;
+int             key_prevweapon = KEYPREVWEAPON_DEFAULT;
+int             key_nextweapon = KEYNEXTWEAPON_DEFAULT;
 
-int             mousebfire = 0;
-int             mousebstrafe = -1;
-int             mousebforward = -1;
-int             mousebuse = -1;
-int             mousewheelup = 3;
+int             mousebfire = MOUSEFIRE_DEFAULT;
+int             mousebstrafe = MOUSESTRAFE_DEFAULT;
+int             mousebforward = MOUSEFORWARD_DEFAULT;
+int             mousebuse = MOUSEUSE_DEFAULT;
 
 int             gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
 int             gamepadfire = GAMEPADFIRE_DEFAULT;
@@ -157,8 +156,8 @@ int             gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
-boolean         gamepadlefthanded = false;
-boolean         gamepadvibrate = true;
+boolean         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
+boolean         gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 
 #define MAXPLMOVE       forwardmove[1]
 

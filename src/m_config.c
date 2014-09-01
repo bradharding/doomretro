@@ -916,6 +916,9 @@ static void M_CheckDefaults(void)
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;
 
+    if (strcasecmp(videodriver, "directx") && strcasecmp(videodriver, "windib"))
+        M_StringCopy(videodriver, VIDEODRIVER_DEFAULT, 8);
+
     if (widescreen && !fullscreen)
     {
         widescreen = false;
@@ -939,6 +942,8 @@ static void M_CheckDefaults(void)
         windowwidth = SCREENWIDTH;
         windowheight = SCREENWIDTH * 3 / 4;
     }
+
+    M_SaveDefaults();
 }
 
 //
