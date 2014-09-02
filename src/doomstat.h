@@ -80,6 +80,8 @@ extern boolean          bfgedition;
 extern boolean          chex;
 extern boolean          chexdeh;
 extern boolean          BTSX;
+extern boolean          BTSXE1;
+extern boolean          BTSXE2;
 
 extern boolean          DMENUPIC;
 extern boolean          FREEDOOM;

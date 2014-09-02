@@ -522,6 +522,18 @@ static void D_FirstUse(void)
 #endif
 }
 
+void ProcessDehFile(char *filename, char *outfilename, int lump);
+
+static void LoadChexDeh(char *path)
+{
+    char *dehpath = M_StringReplace(path, ".wad", ".deh");
+    if (M_FileExists(dehpath))
+    {
+        chexdeh = true;
+        ProcessDehFile(dehpath, "-", 0);
+    }
+}
+
 static boolean D_IsDOOMIWAD(char *filename)
 {
     return (D_CheckFilename(filename, "DOOM.WAD")
@@ -541,21 +553,27 @@ static boolean D_IsUnsupportedIWAD(char *filename)
             || D_CheckFilename(filename, "STRIFE1.WAD"));
 }
 
+static void D_CheckSupportedPWAD(char *filename)
+{
+    if (D_CheckFilename(filename, "NERVE.WAD"))
+    {
+        nerve = true;
+        selectedexpansion = 1;
+    }
+    else if (D_CheckFilename(filename, "CHEX.WAD"))
+    {
+        chex = true;
+        LoadChexDeh(filename);
+    }
+    else if (D_CheckFilename(filename, "BTSX_E1.WAD"))
+        BTSX = BTSXE1 = true;
+    else if (D_CheckFilename(filename, "BTSX_E2A.WAD") || D_CheckFilename(filename, "BTSX_E2B.WAD"))
+        BTSX = BTSXE2 = true;
+}
+
 static boolean D_IsUnsupportedPWAD(char *filename)
 {
     return (D_CheckFilename(filename, "VOICES.WAD"));
-}
-
-void ProcessDehFile(char *filename, char *outfilename, int lump);
-
-static void LoadChexDeh(char *path)
-{
-    char *dehpath = M_StringReplace(path, ".wad", ".deh");
-    if (M_FileExists(dehpath))
-    {
-        chexdeh = true;
-        ProcessDehFile(dehpath, "-", 0);
-    }
 }
 
 static int D_ChooseIWAD(void)
@@ -640,18 +658,7 @@ static int D_ChooseIWAD(void)
                     if (W_MergeFile(file))
                     {
                         modifiedgame = true;
-                        if (D_CheckFilename(file, "NERVE.WAD"))
-                        {
-                            nerve = true;
-                            selectedexpansion = 1;
-                        }
-                        else if (D_CheckFilename(file, "CHEX.WAD"))
-                        {
-                            chex = true;
-                            LoadChexDeh(file);
-                        }
-                        else if (D_CheckFilename(file, "BTSX_E1.WAD"))
-                            BTSX = true;
+                        D_CheckSupportedPWAD(file);
                     }
                 }
                 else
@@ -666,18 +673,7 @@ static int D_ChooseIWAD(void)
                         if (W_MergeFile(file))
                         {
                             modifiedgame = true;
-                            if (D_CheckFilename(file, "NERVE.WAD"))
-                            {
-                                nerve = true;
-                                selectedexpansion = 1;
-                            }
-                            else if (D_CheckFilename(file, "CHEX.WAD"))
-                            {
-                                chex = true;
-                                LoadChexDeh(file);
-                            }
-                            else if (D_CheckFilename(file, "BTSX_E1.WAD"))
-                                BTSX = true;
+                            D_CheckSupportedPWAD(file);
                         }
                     }
                     else
@@ -692,18 +688,7 @@ static int D_ChooseIWAD(void)
                             if (W_MergeFile(file))
                             {
                                 modifiedgame = true;
-                                if (D_CheckFilename(file, "NERVE.WAD"))
-                                {
-                                    nerve = true;
-                                    selectedexpansion = 1;
-                                }
-                                else if (D_CheckFilename(file, "CHEX.WAD"))
-                                {
-                                    chex = true;
-                                    LoadChexDeh(file);
-                                }
-                                else if (D_CheckFilename(file, "BTSX_E1.WAD"))
-                                    BTSX = true;
+                                D_CheckSupportedPWAD(file);
                             }
                         }
                     }
@@ -820,18 +805,7 @@ static int D_ChooseIWAD(void)
                         if (W_MergeFile(fullpath))
                         {
                             modifiedgame = true;
-                            if (!strcasecmp(pwad, "NERVE.WAD"))
-                            {
-                                nerve = true;
-                                selectedexpansion = 1;
-                            }
-                            else if (!strcasecmp(pwad, "CHEX.WAD"))
-                            {
-                                chex = true;
-                                LoadChexDeh(fullpath);
-                            }
-                            else if (!strcasecmp(pwad, "BTSX_E1.WAD"))
-                                BTSX = true;
+                            D_CheckSupportedPWAD(pwad);
                         }
                     }
                     pwad += lstrlen(pwad) + 1;
@@ -974,15 +948,7 @@ static void D_DoomMainSetup(void)
                 if (W_MergeFile(file))
                 {
                     modifiedgame = true;
-                    if (D_CheckFilename(file, "NERVE.WAD"))
-                        nerve = true;
-                    else if (D_CheckFilename(file, "CHEX.WAD"))
-                    {
-                        chex = true;
-                        LoadChexDeh(file);
-                    }
-                    else if (D_CheckFilename(file, "BTSX_E1.WAD"))
-                        BTSX = true;
+                    D_CheckSupportedPWAD(file);
                 }
             }
             else
@@ -1003,15 +969,7 @@ static void D_DoomMainSetup(void)
                         if (W_MergeFile(file))
                         {
                             modifiedgame = true;
-                            if (D_CheckFilename(file, "NERVE.WAD"))
-                                nerve = true;
-                            else if (D_CheckFilename(file, "CHEX.WAD"))
-                            {
-                                chex = true;
-                                LoadChexDeh(file);
-                            }
-                            else if (D_CheckFilename(file, "BTSX_E1.WAD"))
-                                BTSX = true;
+                            D_CheckSupportedPWAD(file);
                         }
                     }
                     else
@@ -1025,15 +983,7 @@ static void D_DoomMainSetup(void)
                             if (W_MergeFile(file))
                             {
                                 modifiedgame = true;
-                                if (D_CheckFilename(file, "NERVE.WAD"))
-                                    nerve = true;
-                                else if (D_CheckFilename(file, "CHEX.WAD"))
-                                {
-                                    chex = true;
-                                    LoadChexDeh(file);
-                                }
-                                else if (D_CheckFilename(file, "BTSX_E1.WAD"))
-                                    BTSX = true;
+                                D_CheckSupportedPWAD(file);
                             }
                         }
                         else
@@ -1047,15 +997,7 @@ static void D_DoomMainSetup(void)
                                 if (W_MergeFile(file))
                                 {
                                     modifiedgame = true;
-                                    if (D_CheckFilename(file, "NERVE.WAD"))
-                                        nerve = true;
-                                    else if (D_CheckFilename(file, "CHEX.WAD"))
-                                    {
-                                        chex = true;
-                                        LoadChexDeh(file);
-                                    }
-                                    else if (D_CheckFilename(file, "BTSX_E1.WAD"))
-                                        BTSX = true;
+                                    D_CheckSupportedPWAD(file);
                                 }
                             }
                         }
