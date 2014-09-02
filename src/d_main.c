@@ -788,7 +788,7 @@ static int D_ChooseIWAD(void)
             }
 
             // merge any pwads
-            if (iwadfound && !sharewareiwad)
+            if (!sharewareiwad)
             {
                 pwad += lstrlen(pwad) + 1;
 
@@ -802,6 +802,45 @@ static int D_ChooseIWAD(void)
                         && W_WadType(fullpath) == PWAD
                         && !D_IsUnsupportedPWAD(fullpath))
                     {
+                        if (!iwadfound)
+                        {
+                            int             iwadrequired = IWADRequiredByPWAD(fullpath);
+                            static char     fullpath2[MAX_PATH];
+
+                            if (iwadrequired == indetermined)
+                                return 0;
+
+                            // try the current folder first
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", strdup(M_ExtractFolder(pwad)),
+                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                            IdentifyIWADByName(fullpath2);
+                            if (D_AddFile(fullpath2))
+                            {
+                                iwadfound = 1;
+                                iwadfolder = strdup(M_ExtractFolder(pwad));
+                            }
+                            else
+                            {
+                                // otherwise try the iwadfolder setting in doomretro.cfg
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", iwadfolder,
+                                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                IdentifyIWADByName(fullpath2);
+                                if (D_AddFile(fullpath2))
+                                    iwadfound = 1;
+                                else
+                                {
+                                    // still nothing? try the DOOMWADDIR environment variable
+                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", getenv("DOOMWADDIR"),
+                                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                    IdentifyIWADByName(fullpath2);
+                                    if (D_AddFile(fullpath2))
+                                        iwadfound = 1;
+                                }
+                            }
+                        }
+                        if (!iwadfound)
+                            return 0;
+
                         if (W_MergeFile(fullpath))
                         {
                             modifiedgame = true;
