@@ -844,7 +844,7 @@ static int D_ChooseIWAD(void)
                         if (W_MergeFile(fullpath))
                         {
                             modifiedgame = true;
-                            D_CheckSupportedPWAD(pwad);
+                            D_CheckSupportedPWAD(fullpath);
                         }
                     }
                     pwad += lstrlen(pwad) + 1;
