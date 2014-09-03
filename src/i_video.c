@@ -1132,7 +1132,7 @@ void ToggleFullScreen(void)
         SDL_InitSubSystem(SDL_INIT_VIDEO);
 
 #ifdef WIN32
-        init_win32(gamemission == doom ? "DOOM" : "DOOM2");
+        init_win32("IDI_ICON1");
 #endif
 
         if (windowheight > desktopheight)
@@ -1363,7 +1363,7 @@ void I_InitGraphics(void)
     SetVideoMode();
 
 #ifdef WIN32
-    init_win32(gamemission == doom ? "DOOM" : "DOOM2");
+    init_win32("IDI_ICON1");
 #endif
 
     SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);

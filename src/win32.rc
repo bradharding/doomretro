@@ -27,9 +27,7 @@
 
 #include "config.h"
 
-0     ICON DISCARDABLE "../res/doomretro.ico"
-DOOM  ICON DISCARDABLE "../res/doom.ico"
-DOOM2 ICON DISCARDABLE "../res/doom2.ico"
+IDI_ICON1 ICON DISCARDABLE "../res/doomretro.ico"
 
 VS_VERSION_INFO VERSIONINFO
 PRODUCTVERSION PACKAGE_VERSION
