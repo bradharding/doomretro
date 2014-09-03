@@ -580,6 +580,10 @@ void D_SetGameDescription(void)
 
     if (chex)
         gamedescription = "Chex Quest";
+    if (BTSXE1)
+        gamedescription = "Back to Saturn X E1: Get Out Of My Stations";
+    else if (BTSXE2)
+        gamedescription = "Back to Saturn X E1: Tower in the Fountain of Sparks";
     else if (gamemission == doom)
     {
         // Doom 1. But which version?
@@ -589,14 +593,14 @@ void D_SetGameDescription(void)
         {
             // Ultimate Doom
             if (bfgedition)
-                gamedescription = "The Ultimate DOOM\xE2\x84\xA2 (BFG Edition)";
+                gamedescription = "The Ultimate DOOM (BFG Edition)";
             else
-                gamedescription = "The Ultimate DOOM\xE2\x84\xA2";
+                gamedescription = "The Ultimate DOOM";
         }
         else if (gamemode == registered)
-            gamedescription = "DOOM\xE2\x84\xA2 Registered";
+            gamedescription = "DOOM Registered";
         else if (gamemode == shareware)
-            gamedescription = "DOOM\xE2\x84\xA2 Shareware";
+            gamedescription = "DOOM Shareware";
     }
     else
     {
@@ -606,20 +610,20 @@ void D_SetGameDescription(void)
         else if (nerve)
         {
                 if (bfgedition)
-                    gamedescription = "DOOM\xE2\x84\xA2 II (BFG Edition)";
+                    gamedescription = "DOOM II (BFG Edition)";
                 else
-                    gamedescription = "DOOM\xE2\x84\xA2 II";
+                    gamedescription = "DOOM II";
         }
         else if (gamemission == doom2)
         {
             if (bfgedition)
-                gamedescription = "DOOM\xE2\x84\xA2 II: Hell On Earth (BFG Edition)";
+                gamedescription = "DOOM II: Hell On Earth (BFG Edition)";
             else
-                gamedescription = "DOOM\xE2\x84\xA2 II: Hell On Earth";
+                gamedescription = "DOOM II: Hell On Earth";
         }
         else if (gamemission == pack_plut)
-            gamedescription = "Final DOOM\xE2\x84\xA2: The Plutonia Experiment";
+            gamedescription = "Final DOOM: The Plutonia Experiment";
         else if (gamemission == pack_tnt)
-            gamedescription = "Final DOOM\xE2\x84\xA2: TNT - Evilution";
+            gamedescription = "Final DOOM: TNT - Evilution";
     }
 }
