@@ -583,7 +583,7 @@ void D_SetGameDescription(void)
     if (BTSXE1)
         gamedescription = "Back to Saturn X E1: Get Out Of My Stations";
     else if (BTSXE2)
-        gamedescription = "Back to Saturn X E1: Tower in the Fountain of Sparks";
+        gamedescription = "Back to Saturn X E2: Tower in the Fountain of Sparks";
     else if (gamemission == doom)
     {
         // Doom 1. But which version?
