@@ -430,7 +430,6 @@
     <ClInclude Include="..\src\r_sky.h" />
     <ClInclude Include="..\src\r_state.h" />
     <ClInclude Include="..\src\r_things.h" />
-    <ClInclude Include="..\src\sha1.h" />
     <ClInclude Include="..\src\sounds.h" />
     <ClInclude Include="..\src\stdint.h" />
     <ClInclude Include="..\src\st_lib.h" />
@@ -456,7 +455,6 @@
     <ClCompile Include="..\src\midifile.c" />
     <ClCompile Include="..\src\mus2mid.c" />
     <ClCompile Include="..\src\p_fix.c" />
-    <ClCompile Include="..\src\sha1.c" />
     <ClCompile Include="..\src\sounds.c" />
     <ClCompile Include="..\src\s_sound.c" />
     <ClCompile Include="..\src\am_map.c" />

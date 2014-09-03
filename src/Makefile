@@ -102,7 +102,6 @@ SRCS =             \
     r_sky.c        \
     r_things.c     \
     s_sound.c      \
-    sha1.c         \
     sounds.c       \
     st_lib.c       \
     st_stuff.c     \
