@@ -1312,10 +1312,10 @@ void M_DrawSound(void)
         M_DrawCenteredString(38 + OFFSET, uppercase(s_M_SOUNDVOLUME));
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17 + OFFSET, 16,
-        (float)(sfxVolume * !(nosfx || nosound)), 8.0f);
+        (float)(sfxVolume * !nosfx), 8.0f);
 
     M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * music_vol + 17 + OFFSET, 16,
-        (float)(musicVolume * !(nomusic || nosound)), 8.0f);
+        (float)(musicVolume * !nomusic), 8.0f);
 }
 
 void M_Sound(int choice)
@@ -1325,7 +1325,7 @@ void M_Sound(int choice)
 
 void M_SfxVol(int choice)
 {
-    if (!nosfx && !nosound)
+    if (!nosfx)
     {
         switch (choice)
         {
@@ -1351,7 +1351,7 @@ void M_SfxVol(int choice)
 
 void M_MusicVol(int choice)
 {
-    if (!nomusic && !nosound)
+    if (!nomusic)
     {
         switch (choice)
         {
@@ -1753,7 +1753,7 @@ void M_QuitResponse(int key)
             M_SetupNextMenu(&MainDef);
         return;
     }
-    if (/*!netgame && */!nosound && !nosfx && sfxVolume > 0)
+    if (/*!netgame && */!nosfx && sfxVolume > 0)
     {
         if (gamemode == commercial)
             S_StartSound(NULL, quitsounds2[M_Random() % 8]);
