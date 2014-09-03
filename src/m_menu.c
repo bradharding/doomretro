@@ -115,10 +115,10 @@ short           itemOn;                 // menu item skull is on
 short           skullAnimCounter;       // skull animation counter
 short           whichSkull;             // which skull to draw
 
-int             selectedskilllevel = 2;
-int             selectedepisode = 0;
-int             selectedexpansion = 0;
-int             selectedsavegame = 0;
+int             selectedskilllevel = SKILLLEVEL_DEFAULT;
+int             selectedepisode = EPISODE_DEFAULT;
+int             selectedexpansion = EXPANSION_DEFAULT;
+int             selectedsavegame = SAVEGAME_DEFAULT;
 
 static int      functionkey = 0;
 

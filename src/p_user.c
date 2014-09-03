@@ -27,6 +27,7 @@
 #include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_video.h"
+#include "m_config.h"
 #include "p_local.h"
 #include "s_sound.h"
 
@@ -45,7 +46,7 @@ void G_RemoveChoppers(void);
 //#define MAXBOB  0x100000
 #define MAXBOB  0xC0000
 
-int     playerbob = 75;
+int     playerbob = PLAYERBOB_DEFAULT;
 
 boolean onground;
 

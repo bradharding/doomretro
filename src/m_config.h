@@ -89,6 +89,8 @@
 
 #define HUD_DEFAULT                     true
 
+#define IWADFOLDER_DEFAULT              "."
+
 #define KEYDOWN_DEFAULT                 KEY_DOWNARROW
 
 #define KEYDOWN2_DEFAULT                's'
@@ -141,7 +143,7 @@
 #define MUSICVOLUME_DEFAULT             15
 #define MUSICVOLUME_MAX                 15
 
-#define NOVERT_DEFAULT                  false
+#define NOVERT_DEFAULT                  true
 
 #define PIXELWIDTH_MIN                  2
 #define PIXELWIDTH_DEFAULT              2
@@ -163,19 +165,41 @@
 #define SATURATION_DEFAULT              0.75
 #define SATURATION_MAX                  1.0
 
+#define SAVEGAME_DEFAULT                0
+
 #define SCREENSIZE_MIN                  0
 #define SCREENSIZE_DEFAULT              7
 #define SCREENSIZE_MAX                  8
+
+#define SCREENWIDTH_DEFAULT             0
+
+#define SCREENHEIGHT_DEFAULT            0
 
 #define SFXVOLUME_MIN                   0
 #define SFXVOLUME_DEFAULT               15
 #define SFXVOLUME_MAX                   15
 
+#define SKILLLEVEL_MIN                  sk_baby
+#define SKILLLEVEL_DEFAULT              sk_medium
+#define SKILLLEVEL_MAX                  sk_nightmare
+
 #define SMOKETRAILS_DEFAULT             true
+
+#define SND_MAXSLICETIME_MS_DEFAULT     120
+
+#define TIMIDITY_CFG_PATH_DEFAULT       ""
 
 #define TRANSLUCENCY_DEFAULT            true
 
 #define VIDEODRIVER_DEFAULT             "directx"
+
+#define WIDESCREEN_DEFAULT              false
+
+#define WINDOWPOSITION_DEFAULT          ""
+
+#define WINDOWWIDTH_DEFAULT             SCREENWIDTH
+
+#define WINDOWHEIGHT_DEFAULT            (SCREENWIDTH * 3 / 4)
 
 void M_LoadDefaults(void);
 void M_SaveDefaults(void);

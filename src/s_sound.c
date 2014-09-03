@@ -73,10 +73,10 @@ static channel_t        *channels;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-15.
-int                     sfxVolume = 15;
+int                     sfxVolume = SFXVOLUME_DEFAULT;
 
 // Maximum volume of music.
-int                     musicVolume = 15;
+int                     musicVolume = MUSICVOLUME_DEFAULT;
 
 // Sound sample rate to use for digital output (Hz)
 int                     snd_samplerate = 44100;

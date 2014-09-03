@@ -24,8 +24,9 @@
 */
 
 #include "i_system.h"
-#include "mus2mid.h"
+#include "m_config.h"
 #include "m_misc.h"
+#include "mus2mid.h"
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "s_sound.h"
@@ -40,7 +41,7 @@ static boolean  sdl_was_initialized = false;
 static boolean  musicpaused = false;
 static int      current_music_volume;
 
-char            *timidity_cfg_path = "";
+char            *timidity_cfg_path = TIMIDITY_CFG_PATH_DEFAULT;
 
 static char     *temp_timidity_cfg = NULL;
 

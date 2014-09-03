@@ -27,6 +27,7 @@
 
 #include <math.h>
 
+#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "SDL.h"
@@ -37,7 +38,7 @@
 
 #define NUM_CHANNELS 32
 
-int snd_maxslicetime_ms = 120;
+int snd_maxslicetime_ms = SND_MAXSLICETIME_MS_DEFAULT;
 
 static boolean sound_initialized = false;
 

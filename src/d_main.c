@@ -81,7 +81,7 @@ char            *savegamedir;
 // location of IWAD and WAD files
 char            *iwadfile;
 
-char            *iwadfolder = ".";
+char            *iwadfolder = IWADFOLDER_DEFAULT;
 
 boolean         devparm;        // started game with -devparm
 boolean         nomonsters;     // checkparm of -nomonsters

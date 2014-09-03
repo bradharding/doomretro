@@ -207,7 +207,7 @@ boolean         skipaction;
 int             mousex;
 int             mousey;
 
-boolean         dclick_use = false;
+boolean         dclick_use = DCLICKUSE_DEFAULT;
 
 static int      dclicktime;
 static boolean  dclickstate;

@@ -32,6 +32,7 @@
 #include "d_main.h"
 #include "i_swap.h"
 #include "i_video.h"
+#include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "v_video.h"
@@ -40,8 +41,8 @@
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
-int             pixelwidth = 2;
-int             pixelheight = 2;
+int             pixelwidth = PIXELWIDTH_DEFAULT;
+int             pixelheight = PIXELHEIGHT_DEFAULT;
 
 extern byte     redtoyellow[];
 

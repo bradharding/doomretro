@@ -26,6 +26,7 @@
 #include <stdlib.h>
 
 #include "doomstat.h"
+#include "m_config.h"
 #include "r_local.h"
 
 // killough 1/6/98: replaced globals with statics where appropriate
@@ -68,7 +69,7 @@ static fixed_t  bottomfrac;
 static fixed_t  bottomstep;
 static int      *maskedtexturecol;
 
-boolean         brightmaps = true;
+boolean         brightmaps = BRIGHTMAPS_DEFAULT;
 
 //[kb] hack to improve rendering precision (wall wiggle)
 int             max_rwscale = 64 * FRACUNIT;

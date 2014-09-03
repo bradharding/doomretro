@@ -41,7 +41,7 @@
 #include "z_zone.h"
 
 // Window position:
-char                    *windowposition = "";
+char                    *windowposition = WINDOWPOSITION_DEFAULT;
 
 SDL_Surface             *screen = NULL;
 SDL_Surface             *screenbuffer = NULL;
@@ -59,24 +59,24 @@ static boolean          palette_to_set;
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
 
-boolean                 novert = true;
+boolean                 novert = NOVERT_DEFAULT;
 
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
 // Fullscreen width and height
-int                     screenwidth = 0;
-int                     screenheight = 0;
+int                     screenwidth = SCREENWIDTH_DEFAULT;
+int                     screenheight = SCREENHEIGHT_DEFAULT;
 
 // Window width and height
-int                     windowwidth = SCREENWIDTH;
-int                     windowheight = SCREENWIDTH * 3 / 4;
+int                     windowwidth = WINDOWWIDTH_DEFAULT;
+int                     windowheight = WINDOWHEIGHT_DEFAULT;
 
 // Run in full screen mode?
-int                     fullscreen = true;
+int                     fullscreen = FULLSCREEN_DEFAULT;
 
-boolean                 widescreen = false;
+boolean                 widescreen = WIDESCREEN_DEFAULT;
 boolean                 returntowidescreen = false;
-boolean                 hud = true;
+boolean                 hud = HUD_DEFAULT;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
@@ -147,7 +147,7 @@ float                   mouse_acceleration = MOUSEACCELERATION_DEFAULT;
 int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
 int                     capslock;
-boolean                 alwaysrun = false;
+boolean                 alwaysrun = ALWAYSRUN_DEFAULT;
 
 static void ApplyWindowResize(int height);
 static void SetWindowPositionVars(void);

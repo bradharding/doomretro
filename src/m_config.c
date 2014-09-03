@@ -713,13 +713,6 @@ static void M_CheckDefaults(void)
     if (dclick_use != false && dclick_use != true)
         dclick_use = DCLICKUSE_DEFAULT;
 
-    if ((gamemode == registered && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX - 1))
-        || (gamemode == retail && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX)))
-        selectedepisode = EPISODE_DEFAULT;
-
-    if (selectedexpansion < EXPANSION_MIN || selectedexpansion > EXPANSION_MAX)
-        selectedexpansion = EXPANSION_DEFAULT;
-
     if (fullscreen != false && fullscreen != true)
         fullscreen = FULLSCREEN_DEFAULT;
 
@@ -889,10 +882,20 @@ static void M_CheckDefaults(void)
     if (saturation < SATURATION_MIN || saturation > SATURATION_MAX)
         saturation = SATURATION_DEFAULT;
 
+    if ((gamemode == registered && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX - 1))
+        || (gamemode == retail && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX)))
+        selectedepisode = EPISODE_DEFAULT;
+
+    if (selectedexpansion < EXPANSION_MIN || selectedexpansion > EXPANSION_MAX)
+        selectedexpansion = EXPANSION_DEFAULT;
+
     if (selectedsavegame < 0)
         selectedsavegame = 0;
     else if (selectedsavegame > 5)
         selectedsavegame = 5;
+
+    if (selectedskilllevel < SKILLLEVEL_MIN || selectedskilllevel > SKILLLEVEL_MAX)
+        selectedskilllevel = SKILLLEVEL_DEFAULT;
 
     if (screensize < SCREENSIZE_MIN || screensize > SCREENSIZE_MAX)
         screensize = SCREENSIZE_DEFAULT;
@@ -900,15 +903,15 @@ static void M_CheckDefaults(void)
     if (screenwidth && screenheight
         && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
     {
-        screenwidth = SCREENWIDTH;
-        screenheight = SCREENWIDTH * 3 / 4;
+        screenwidth = SCREENWIDTH_DEFAULT;
+        screenheight = SCREENHEIGHT_DEFAULT;
     }
 
     if (sfxVolume < SFXVOLUME_MIN || sfxVolume > SFXVOLUME_MAX)
         sfxVolume = SFXVOLUME_DEFAULT;
 
-    if (selectedskilllevel < 0 || selectedskilllevel > 4)
-        selectedskilllevel = 2;
+    if (selectedskilllevel < SKILLLEVEL_MIN || selectedskilllevel > SKILLLEVEL_MAX)
+        selectedskilllevel = SKILLLEVEL_DEFAULT;
 
     if (smoketrails != false && smoketrails != true)
         smoketrails = SMOKETRAILS_DEFAULT;
@@ -939,8 +942,8 @@ static void M_CheckDefaults(void)
 
     if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
     {
-        windowwidth = SCREENWIDTH;
-        windowheight = SCREENWIDTH * 3 / 4;
+        windowwidth = WINDOWWIDTH_DEFAULT;
+        windowheight = WINDOWHEIGHT_DEFAULT;
     }
 
     M_SaveDefaults();
