@@ -82,6 +82,8 @@ extern boolean          chexdeh;
 extern boolean          BTSX;
 extern boolean          BTSXE1;
 extern boolean          BTSXE2;
+extern boolean          BTSXE2A;
+extern boolean          BTSXE2B;
 
 extern boolean          DMENUPIC;
 extern boolean          FREEDOOM;

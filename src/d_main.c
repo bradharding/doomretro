@@ -567,8 +567,10 @@ static void D_CheckSupportedPWAD(char *filename)
     }
     else if (D_CheckFilename(filename, "BTSX_E1.WAD"))
         BTSX = BTSXE1 = true;
-    else if (D_CheckFilename(filename, "BTSX_E2A.WAD") || D_CheckFilename(filename, "BTSX_E2B.WAD"))
-        BTSX = BTSXE2 = true;
+    else if (D_CheckFilename(filename, "BTSX_E2A.WAD"))
+        BTSX = BTSXE2A = true;
+    else if (D_CheckFilename(filename, "BTSX_E2B.WAD"))
+        BTSX = BTSXE2B = true;
 }
 
 static boolean D_IsUnsupportedPWAD(char *filename)
@@ -692,6 +694,28 @@ static int D_ChooseIWAD(void)
                             }
                         }
                     }
+                }
+            }
+
+            if (BTSX)
+            {
+                if (BTSXE2A && !BTSXE2B)
+                {
+                    static char     fullpath[MAX_PATH];
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
+                        "BTSX_E2B.WAD");
+                    if (W_MergeFile(fullpath))
+                        modifiedgame = true;
+                }
+                else if (!BTSXE2A && BTSXE2B)
+                {
+                    static char     fullpath[MAX_PATH];
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
+                        "BTSX_E2A.WAD");
+                    if (W_MergeFile(fullpath))
+                        modifiedgame = true;
                 }
             }
         }
