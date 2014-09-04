@@ -650,7 +650,10 @@ static int D_ChooseIWAD(void)
                 static char     fullpath[MAX_PATH];
 
                 if (iwadrequired == indetermined)
-                    return 0;
+                    if (D_CheckFilename(file, "BTSX_E2B.WAD"))
+                        iwadrequired = doom2;
+                    else
+                        return 0;
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
