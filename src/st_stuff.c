@@ -468,9 +468,6 @@ void ST_refreshBackground(void)
         else
             V_DrawScaledPatch(ST_X, 0, BG, SCREENSCALE / 2, sbar2);
 
-        //if (netgame)
-        //    V_DrawPatch(ST_FX, 0, BG, faceback);
-
         V_CopyRect(ST_X, 0, BG, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, FG);
     }
 }
@@ -506,22 +503,19 @@ extern int cardsfound;
 //  intercept cheats.
 boolean ST_Responder(event_t *ev)
 {
-    int                 i;
-    angle_t             angle;
-    fixed_t             x;
-    fixed_t             y;
-    mobj_t              *thing;
+    int         i;
+    angle_t     angle;
+    fixed_t     x;
+    fixed_t     y;
+    mobj_t      *thing;
 
     // if a user keypress...
     if (ev->type == ev_keydown)
     {
-        if (/*!netgame*/
-            // [BH] no cheats when in menu or paused
-            /*&& */!menuactive && !paused)
+        if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
             // [BH]
-            if (cht_CheckCheat(&cheat_mus, ev->data2)
-                && !nomusic && musicVolume)
+            if (cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
 
             // 'dqd' cheat for toggleable god mode
@@ -554,7 +548,7 @@ boolean ST_Responder(event_t *ev)
                     plyr->mo = thing;
                     plyr->playerstate = PST_LIVE;
                     plyr->viewheight = VIEWHEIGHT;
-                    plyr->health = 0;//plyr->health = 100;
+                    plyr->health = 0;
                     infight = false;
                     P_SetupPsprites(plyr);
                     P_MapEnd();
@@ -567,10 +561,6 @@ boolean ST_Responder(event_t *ev)
                 {
                     // [BH] remember player's current health,
                     //  and only set to 100% if less than 100%
-                    //if (plyr->mo)
-                    //    plyr->mo->health = 100;
-                    //
-                    //plyr->health = 100;
                     oldhealth = plyr->health;
                     P_GiveBody(plyr, 100);
 
@@ -613,13 +603,11 @@ boolean ST_Responder(event_t *ev)
                      // [BH] can only enter cheat while player is alive
                      && plyr->health)
             {
-                boolean    ammogiven = false;    // [BH]
-                boolean    armorgiven = false;   // [BH]
-                boolean    weaponsgiven = false; // [BH]
+                boolean    ammogiven = false;
+                boolean    armorgiven = false;
+                boolean    weaponsgiven = false;
 
                 // [BH] note if doesn't have full armor before giving it
-                //plyr->armorpoints = 200;
-                //plyr->armortype = 2;
                 if (plyr->armorpoints < idfa_armor || plyr->armortype < idfa_armor_class)
                 {
                     armorgiven = true;
@@ -628,8 +616,6 @@ boolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] note if any weapons given that player didn't have already
-                //for (i = 0; i < NUMWEAPONS; i++)
-                //    plyr->weaponowned[i] = true;
                 if (!oldweaponsowned[wp_shotgun])
                 {
                     weaponsgiven = true;
@@ -736,14 +722,12 @@ boolean ST_Responder(event_t *ev)
                      // [BH] can only enter cheat while player is alive
                      && plyr->health)
             {
-                boolean    ammogiven = false;    // [BH]
-                boolean    armorgiven = false;   // [BH]
-                boolean    keysgiven = false;   // [BH]
-                boolean    weaponsgiven = false; // [BH]
+                boolean    ammogiven = false;
+                boolean    armorgiven = false;
+                boolean    keysgiven = false;
+                boolean    weaponsgiven = false;
 
                 // [BH] note if doesn't have full armor before giving it
-                //plyr->armorpoints = 200;
-                //plyr->armortype = 2;
                 if (plyr->armorpoints < idkfa_armor || plyr->armortype < idkfa_armor_class)
                 {
                     armorgiven = true;
@@ -752,8 +736,6 @@ boolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] note if any weapons given that player didn't have already
-                //for (i = 0; i < NUMWEAPONS; i++)
-                //    plyr->weaponowned[i] = true;
                 if (!oldweaponsowned[wp_shotgun])
                 {
                     weaponsgiven = true;
@@ -874,31 +856,12 @@ boolean ST_Responder(event_t *ev)
                 //int  musnum;
 
                 // [BH] only display message if parameter is valid
-                //plyr->message = STSTR_MUS;
                 cht_GetParam(&cheat_mus_xy, buf);
 
                 // [BH] rewritten to use mus[] LUT
                 // [BH] fix crash if IDMUS0y and IDMUSx0 entered in DOOM,
                 //  IDMUS21 to IDMUS39 entered in shareware, and IDMUS00
                 //  entered in DOOM II
-                //if (gamemode == commercial)
-                //{
-                //    musnum = mus_runnin + (buf[0] - '0') * 10 + buf[1] - '0' - 1;
-                //
-                //    if (((buf[0] - '0') * 10 + buf[1] - '0') > 35)
-                //        plyr->message = STSTR_NOMUS;
-                //    else
-                //        S_ChangeMusic(musnum, 1);
-                //}
-                //else
-                //{
-                //    musnum = mus_e1m1 + (buf[0] - '1') * 9 + (buf[1] - '1');
-                //
-                //    if (((buf[0] - '1') * 9 + buf[1] - '1') > 31)
-                //        plyr->message = STSTR_NOMUS;
-                //    else
-                //        S_ChangeMusic(musnum, 1);
-                //}
                 if (buf[0] >= '0' && buf[0] <= '9' && buf[1] >= '0' && buf[1] <= '9')
                 {
                     int musnum = (buf[0] - '0') * 10 + (buf[1] - '0');
@@ -957,12 +920,6 @@ boolean ST_Responder(event_t *ev)
                     // [BH] can only enter cheat while player is alive
                     && plyr->health)
                 {
-                    //if (!plyr->powers[i])
-                    //    P_GivePower(plyr, i);
-                    //else if (i != pw_strength)
-                    //    plyr->powers[i] = 1;
-                    //else
-                    //    plyr->powers[i] = 0;
                     if ((i != pw_strength && plyr->powers[i] >= 0 && plyr->powers[i] <= STARTFLASHING)
                         || (i == pw_strength && !plyr->powers[i]))
                     {
@@ -1066,7 +1023,6 @@ boolean ST_Responder(event_t *ev)
             {
                 // [BH] message stays on screen until parameter entered or another key
                 //  pressed to cancel. Code is in hu_stuff.c.
-                //plyr->message = STSTR_BEHOLD;
                 idbehold = true;
             }
 
@@ -1079,7 +1035,7 @@ boolean ST_Responder(event_t *ev)
                 if (!(plyr->cheats & CF_CHOPPERS))
                 {
                     // [BH] flash screen
-                    P_AddBonus(plyr, BONUSADD);//plyr->bonuscount += BONUSADD;
+                    P_AddBonus(plyr, BONUSADD);
 
                     // [BH] note if has chainsaw and/or invulnerability already
                     plyr->invulnbeforechoppers = plyr->powers[pw_invulnerability];
@@ -1098,7 +1054,6 @@ boolean ST_Responder(event_t *ev)
 
                     // [BH] fixed bug where invulnerability was never given, and now
                     //  needs to be toggled off with cheat or switch from chainsaw
-                    //plyr->powers[pw_invulnerability] = true;
                     P_GivePower(plyr, pw_invulnerability);
                     plyr->powers[pw_invulnerability] = -1;
 
@@ -1132,13 +1087,6 @@ boolean ST_Responder(event_t *ev)
             {
                 // [BH] message stays on screen until toggled off again using
                 //  cheat. Code is in hu_stuff.c.
-                //static char buf[ST_MSGWIDTH];
-                //
-                //sprintf(buf, "ang=0x%x;x,y=(0x%x,0x%x)",
-                //        players[consoleplayer].mo->angle,
-                //        players[consoleplayer].mo->x,
-                //        players[consoleplayer].mo->y);
-                //plyr->message = buf;
                 plyr->cheats ^= CF_MYPOS;
                 if (!(plyr->cheats & CF_MYPOS))
                     HU_clearMessages();
@@ -1163,7 +1111,7 @@ boolean ST_Responder(event_t *ev)
         }
 
         // 'clev' change-level cheat
-        if (/*!netgame && */!menuactive && !paused)
+        if (!menuactive && !paused)
         {
             if (cht_CheckCheat(&cheat_clev, ev->data2))
                 idclev = true;
@@ -1178,7 +1126,7 @@ boolean ST_Responder(event_t *ev)
 
                 if (gamemode == commercial)
                 {
-                    epsd = 1;//0
+                    epsd = 1;
                     map = (buf[0] - '0') * 10 + buf[1] - '0';
                     M_snprintf(lump, sizeof(lump), "MAP%c%c", buf[0], buf[1]);
                 }
@@ -1195,28 +1143,6 @@ boolean ST_Responder(event_t *ev)
                 // Catch invalid maps.
                 // [BH] simplified by checking if lump for map exists in WAD
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
-                //if (epsd < 1)
-                //    return false;
-                //
-                //if (map < 1)
-                //    return false;
-                //
-                //// Ohmygod - this is not going to work.
-                //if ((gamemode == retail)
-                //    && ((epsd > 4) || (map > 9)))
-                //    return false;
-                //
-                //if ((gamemode == registered)
-                //    && ((epsd > 3) || (map > 9)))
-                //    return false;
-                //
-                //if ((gamemode == shareware)
-                //    && ((epsd > 1) || (map > 9)))
-                //    return false;
-                //
-                //if ((gamemode == commercial)
-                //    && ((epsd > 1) || (map > 34)))
-                //    return false;
                 if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9))
                     idclev = false;
                 else
@@ -1238,12 +1164,7 @@ boolean ST_Responder(event_t *ev)
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
 
-                    // [BH] remove any cards obtained by 'idfa' or 'idkfa'
-                    //for (i = 0; i < NUMCARDS; i++)
-                    //    plyr->cards[i] = false;
-
                     // [BH] delay map change by 1 second to allow message to be displayed
-                    //G_DeferedInitNew(gameskill, epsd, map);
                     samelevel = (gameepisode == epsd && gamemap == map);
                     gameepisode = epsd;
                     if (gamemission == doom && epsd <= 4)
@@ -1286,7 +1207,6 @@ int ST_calcPainOffset(void)
 // the precedence of expressions is:
 //  dead > evil grin > turned head > straight ahead
 //
-
 void ST_updateFaceWidget(void)
 {
     int         i;
@@ -1343,7 +1263,6 @@ void ST_updateFaceWidget(void)
             priority = 7;
 
             // [BH] fix ouch-face when damage > 20
-            // if (plyr->health - st_oldhealth > ST_MUCHPAIN)
             if (st_oldhealth - plyr->health > ST_MUCHPAIN)
             {
                 st_facecount = ST_TURNCOUNT;
@@ -1396,7 +1315,6 @@ void ST_updateFaceWidget(void)
         if (plyr->damagecount)
         {
             // [BH] fix ouch-face when damage > 20
-            // if (plyr->health - st_oldhealth > ST_MUCHPAIN)
             if (st_oldhealth - plyr->health > ST_MUCHPAIN)
             {
                 priority = 7;
@@ -1578,7 +1496,6 @@ void ST_drawWidgets(boolean refresh)
     //  changes:
     //    arms 3 highlighted when player has super shotgun but no shotgun
     //    arms 6 and 7 not visible in shareware
-    //for (i=0;i<6;i++)
     for (i = 0; i < (gamemode == shareware ? 4 : 6); i++)
         STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
