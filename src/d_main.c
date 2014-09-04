@@ -75,6 +75,8 @@
 //
 void D_DoomLoop(void);
 
+char            *version;
+
 // Location where savegames are stored
 char            *savegamedir;
 
@@ -929,6 +931,8 @@ static void D_DoomMainSetup(void)
     char        file[256];
     int         temp;
     int         choseniwad;
+
+    version = PACKAGE_VERSIONSTRING;
 
     iwadfile = D_FindIWAD();
 

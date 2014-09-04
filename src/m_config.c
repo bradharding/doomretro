@@ -105,6 +105,7 @@ extern int      selectedsavegame;
 extern int      selectedskilllevel;
 extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
+extern char     *version;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
@@ -250,6 +251,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (snd_maxslicetime_ms, snd_maxslicetime_ms,  0),
     CONFIG_VARIABLE_STRING(timidity_cfg_path,   timidity_cfg_path,    0),
     CONFIG_VARIABLE_INT   (translucency,        translucency,         1),
+    CONFIG_VARIABLE_STRING(version,             version,              0),
     CONFIG_VARIABLE_STRING(videodriver,         videodriver,          0),
     CONFIG_VARIABLE_INT   (widescreen,          widescreen,           1),
     CONFIG_VARIABLE_STRING(windowposition,      windowposition,       0),
