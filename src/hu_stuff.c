@@ -720,7 +720,22 @@ void HU_Ticker(void)
             printf("%s\n", plr->message);
             if (messages || message_dontfuckwithme)
             {
-                HUlib_addMessageToSText(&w_message, 0, plr->message);
+                char    *s = Z_Malloc(133, PU_STATIC, NULL);
+                int     len;
+
+                strcpy(s, plr->message);
+
+                len = strlen(s);
+                while (M_StringWidth(s) > ORIGINALWIDTH - 6)
+                {
+                    s[len - 1] = '.';
+                    s[len] = '.';
+                    s[len + 1] = '.';
+                    s[len + 2] = '\0';
+                    --len;
+                }
+
+                HUlib_addMessageToSText(&w_message, 0, s);
                 message_on = true;
                 message_counter = HU_MSGTIMEOUT;
                 message_nottobefuckedwith = message_dontfuckwithme;
