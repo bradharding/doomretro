@@ -232,6 +232,8 @@ char *hu_mapnames2[] =
     NHUSTR_9
 };
 
+int M_StringWidth(char *string);
+
 extern boolean          messages;
 extern boolean          widescreen;
 extern boolean          hud;
@@ -330,6 +332,7 @@ void HU_Stop(void)
 void HU_Start(void)
 {
     int         i;
+    int         len;
     char        *s = "";
 
     if (headsupactive)
@@ -349,6 +352,16 @@ void HU_Start(void)
 
     s = Z_Malloc(133, PU_STATIC, NULL);
     strcpy(s, mapnumandtitle);
+
+    len = strlen(s);
+    while (M_StringWidth(s) > ORIGINALWIDTH - 6)
+    {
+        s[len - 1] = '.';
+        s[len] = '.';
+        s[len + 1] = '.';
+        s[len + 2] = '\0';
+        --len;
+    }
 
     while (*s)
         HUlib_addCharToTextLine(&w_title, *(s++));
