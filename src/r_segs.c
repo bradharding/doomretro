@@ -167,18 +167,11 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
     // find positioning
     if (curline->linedef->flags & ML_DONTPEGBOTTOM)
-    {
-        dc_texturemid = (frontsector->floorheight > backsector->floorheight
-                         ? frontsector->floorheight : backsector->floorheight);
-        dc_texturemid += textureheight[texnum] - viewz;
-    }
+        dc_texturemid = MAX(frontsector->floorheight, backsector->floorheight) +
+            textureheight[texnum] - viewz + curline->sidedef->rowoffset;
     else
-    {
-        dc_texturemid = (frontsector->ceilingheight < backsector->ceilingheight
-                         ? frontsector->ceilingheight : backsector->ceilingheight);
-        dc_texturemid -= viewz;
-    }
-    dc_texturemid += curline->sidedef->rowoffset;
+        dc_texturemid = MIN(frontsector->ceilingheight, backsector->ceilingheight) -
+            viewz + curline->sidedef->rowoffset;
 
     dc_texheight = 0;
 
@@ -186,7 +179,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
         dc_colormap = fixedcolormap;
 
     // draw the columns
-    for (dc_x = x1; dc_x <= x2; dc_x++, spryscale += rw_scalestep)
+    for (dc_x = x1; dc_x <= x2; ++dc_x, spryscale += rw_scalestep)
     {
         // calculate lighting
         if (maskedtexturecol[dc_x] != INT_MAX)
@@ -210,7 +203,6 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             maskedtexturecol[dc_x] = INT_MAX;
         }
     }
-    curline = NULL;
 }
 
 //
@@ -225,7 +217,7 @@ void R_RenderSegLoop(void)
 {
     fixed_t     texturecolumn = 0;
 
-    for (; rw_x < rw_stopx; rw_x++)
+    for (; rw_x < rw_stopx; ++rw_x)
     {
         // mark floor / ceiling areas
         int     yl = (topfrac + heightunit - 1) >> heightbits;
@@ -444,8 +436,8 @@ void R_StoreWallRange(int start, int stop)
     if (ABS(offsetangle) > ANG90)
         offsetangle = ANG90;
 
-    hyp = (viewx == curline->v1->x && viewy == curline->v1->y ? 
-           0 : R_PointToDist(curline->v1->x, curline->v1->y));
+    hyp = (viewx == curline->v1->x && viewy == curline->v1->y ? 0 :
+        R_PointToDist(curline->v1->x, curline->v1->y));
     rw_distance = FixedMul(hyp, finecosine[offsetangle >> ANGLETOFINESHIFT]);
 
     ds_p->x1 = rw_x = start;
@@ -804,5 +796,5 @@ void R_StoreWallRange(int start, int stop)
         ds_p->silhouette |= SIL_BOTTOM;
         ds_p->bsilheight = INT_MAX;
     }
-    ds_p++;
+    ++ds_p;
 }

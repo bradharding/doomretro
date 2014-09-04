@@ -58,8 +58,8 @@ void R_ClearDrawSegs(void)
 //
 typedef struct
 {
-    short       first;
-    short       last;
+    int         first;
+    int         last;
 } cliprange_t;
 
 // 1/11/98: Lee Killough
@@ -81,8 +81,8 @@ typedef struct
 #define MAXSEGS (SCREENWIDTH / 2 + 1)
 
 // newend is one past the last valid seg
-cliprange_t     *newend;
-cliprange_t     solidsegs[MAXSEGS];
+static cliprange_t      *newend;
+static cliprange_t      solidsegs[MAXSEGS];
 
 //
 // R_ClipSolidWallSegment
@@ -98,7 +98,7 @@ static void R_ClipSolidWallSegment(int first, int last)
     // Find the first range that touches the range
     //  (adjacent pixels are touching).
     while (start->last < first - 1)
-        start++;
+        ++start;
 
     if (first < start->first)
     {
@@ -107,6 +107,7 @@ static void R_ClipSolidWallSegment(int first, int last)
             // Post is entirely visible (above start), so insert a new clippost.
             R_StoreWallRange(first, last);
 
+            // 1/11/98 killough: performance tuning using fast memmove
             memmove(start + 1, start, (++newend - start) * sizeof(*start));
             start->first = first;
             start->last = last;
@@ -129,7 +130,7 @@ static void R_ClipSolidWallSegment(int first, int last)
     {
         // There is a fragment between two posts.
         R_StoreWallRange(next->last + 1, (next + 1)->first - 1);
-        next++;
+        ++next;
 
         if (last <= next->last)
         {
@@ -154,9 +155,9 @@ crunch:
         return;                 // Post just extended past the bottom of one post.
 
     while (next++ != newend)
-        *(++start) = *next;       // Remove a post.
+        *(++start) = *next;     // Remove a post.
 
-    newend = start + 1;
+    newend = start;
 }
 
 //
@@ -173,7 +174,7 @@ static void R_ClipPassWallSegment(int first, int last)
     // Find the first range that touches the range
     //  (adjacent pixels are touching).
     while (start->last < first - 1)
-        start++;
+        ++start;
 
     if (first < start->first)
     {
@@ -196,7 +197,7 @@ static void R_ClipPassWallSegment(int first, int last)
     {
         // There is a fragment between two posts.
         R_StoreWallRange(start->last + 1, (start + 1)->first - 1);
-        start++;
+        ++start;
 
         if (last <= start->last)
             return;
@@ -211,10 +212,10 @@ static void R_ClipPassWallSegment(int first, int last)
 //
 void R_ClearClipSegs(void)
 {
-    solidsegs[0].first = -0x7fff;
+    solidsegs[0].first = INT_MIN + 1;
     solidsegs[0].last = -1;
     solidsegs[1].first = viewwidth;
-    solidsegs[1].last = 0x7fff;
+    solidsegs[1].last = INT_MAX - 1;
     newend = solidsegs + 2;
 }
 
@@ -428,14 +429,20 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
     sx1 = viewangletox[angle1];
     sx2 = viewangletox[angle2];
 
-    // Does not cross a pixel.
-    if (sx1 == sx2)
-        return false;
-    sx2--;
+    // SoM: To account for the rounding error of the old BSP system, I needed to
+    // make adjustments.
+    // SoM: Moved this to before the "does not cross a pixel" check to fix 
+    // another slime trail
+    if (sx1 > 0)
+        sx1--;
+    if (sx2 < viewwidth - 1)
+        sx2++;
+
+    // SoM: Removed the "does not cross a pixel" test
 
     start = solidsegs;
     while (start->last < sx2)
-        start++;
+        ++start;
 
     if (sx1 >= start->first && sx2 <= start->last)
         return false;                   // The clippost contains the new span.
@@ -458,30 +465,21 @@ static void R_Subsector(int num)
     frontsector = sub->sector;
 
     if (frontsector->floorheight < viewz)
-    {
-        floorplane = R_FindPlane(frontsector->floorheight,
-                                 frontsector->floorpic,
-                                 frontsector->lightlevel);
-    }
+        floorplane = R_FindPlane(frontsector->floorheight, frontsector->floorpic,
+            frontsector->lightlevel);
     else
         floorplane = NULL;
 
     if (frontsector->ceilingheight > viewz || frontsector->ceilingpic == skyflatnum)
-    {
-        ceilingplane = R_FindPlane(frontsector->ceilingheight,
-                                   frontsector->ceilingpic,
-                                   frontsector->lightlevel);
-    }
+        ceilingplane = R_FindPlane(frontsector->ceilingheight, frontsector->ceilingpic,
+            frontsector->lightlevel);
     else
         ceilingplane = NULL;
 
     R_AddSprites(frontsector);
 
     while (count--)
-    {
         R_AddLine(line++);
-        curline = NULL;
-    }
 }
 
 //
@@ -502,10 +500,10 @@ void R_RenderBSPNode(int bspnum)
         R_RenderBSPNode(bsp->children[side]);
 
         // Possibly divide back space.
-        if (!R_CheckBBox(bsp->bbox[side ^ 1]))
+        if (!R_CheckBBox(bsp->bbox[side ^= 1]))
             return;
 
-        bspnum = bsp->children[side ^ 1];
+        bspnum = bsp->children[side];
     }
     R_Subsector(bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR));
 }
