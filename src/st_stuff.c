@@ -1218,18 +1218,19 @@ boolean ST_Responder(event_t *ev)
                 //    && ((epsd > 1) || (map > 34)))
                 //    return false;
                 if (W_CheckNumForName(lump) < 0 || (gamemission == pack_nerve && map > 9))
-                {
                     idclev = false;
-                }
                 else
                 {
-                    static char buf[128];
+                    static char message[128];
+
+                    if (BTSX)
+                        M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : 2), buf[0], buf[1]);
 
                     if (epsd == gameepisode && map == gamemap)
-                        M_snprintf(buf, sizeof(buf), s_STSTR_CLEVSAME, lump);
+                        M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
                     else
-                        M_snprintf(buf, sizeof(buf), s_STSTR_CLEV, lump);
-                    plyr->message = buf;
+                        M_snprintf(message, sizeof(message), s_STSTR_CLEV, lump);
+                    plyr->message = message;
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
