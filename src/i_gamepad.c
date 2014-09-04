@@ -53,8 +53,6 @@ int                     gamepadthumbRX;
 
 boolean                 vibrate = false;
 
-char                    *xinput;
-
 extern boolean          idclev;
 extern boolean          idmus;
 extern boolean          idbehold;
@@ -67,9 +65,6 @@ void I_InitGamepad(void)
     gamepadfunc = I_PollDirectInputGamepad;
     gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_DirectInput_LeftHanded :
         I_PollThumbs_DirectInput_RightHanded);
-
-    xinput = (char *)malloc(16);
-    strcpy(xinput, "");
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
         return;
@@ -93,23 +88,11 @@ void I_InitGamepad(void)
         else
         {
 #ifdef WIN32
-            HMODULE     pXInputDLL = LoadLibrary("XInput1_4.dll");
+            HMODULE     pXInputDLL;
 
-            if (pXInputDLL)
-                strcpy(xinput, "XInput1_4.dll");
-            else
-            {
-                pXInputDLL = LoadLibrary("XInput9_1_0.dll");
-
-                if (pXInputDLL)
-                    strcpy(xinput, "XInput9_1_0.dll");
-                else
-                {
+            if (!(pXInputDLL = LoadLibrary("XInput1_4.dll")))
+                if (!(pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
                     pXInputDLL = LoadLibrary("XInput1_3.dll");
-                    if (pXInputDLL)
-                        strcpy(xinput, "XInput1_3.dll");
-                }
-            }
 
             if (pXInputDLL)
             {

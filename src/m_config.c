@@ -112,7 +112,6 @@ extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
 extern int      windowwidth;
-extern char     *xinput;
 
 extern boolean  returntowidescreen;
 
@@ -255,8 +254,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (widescreen,          widescreen,           1),
     CONFIG_VARIABLE_STRING(windowposition,      windowposition,       0),
     CONFIG_VARIABLE_INT   (windowwidth,         windowwidth,          0),
-    CONFIG_VARIABLE_INT   (windowheight,        windowheight,         0),
-    CONFIG_VARIABLE_STRING(xinput,              xinput,               0)
+    CONFIG_VARIABLE_INT   (windowheight,        windowheight,         0)
 };
 
 static default_collection_t doom_defaults =
