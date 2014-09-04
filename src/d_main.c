@@ -386,7 +386,7 @@ void D_PageDrawer(void)
 {
     if (splashscreen)
     {
-        I_SetPalette(splshpal + (pagetic >= 96 ? pagetic - 96 : (pagetic < 9 ? 9 - pagetic - 1 : 0)) * 768);
+        I_SetPalette(splshpal + (pagetic >= 95 ? pagetic - 95 : (pagetic < 10 ? 10 - pagetic - 1 : 0)) * 768);
 
         V_DrawBigPatch((SCREENWIDTH - splshttl->width) / 2, (SCREENHEIGHT - splshttl->height) / 2, 0, splshttl);
         V_DrawBigPatch((SCREENWIDTH - splshtxt->width) / 2, SCREENHEIGHT - splshtxt->height - 2, 0, splshtxt);
