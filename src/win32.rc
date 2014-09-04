@@ -39,13 +39,13 @@ BEGIN
     BEGIN
         BLOCK "040904E4"
         BEGIN
-            VALUE "FileVersion",     PACKAGE_VERSION
+            VALUE "FileVersion",     PACKAGE_VERSIONSTRING
             VALUE "FileDescription", PACKAGE_DESCRIPTION
             VALUE "InternalName",    PACKAGE
             VALUE "CompanyName",     PACKAGE_EMAIL
             VALUE "LegalCopyright",  PACKAGE_COPYRIGHT
             VALUE "ProductName",     PACKAGE_NAME
-            VALUE "ProductVersion",  PACKAGE_VERSION
+            VALUE "ProductVersion",  PACKAGE_VERSIONSTRING
         END
     END
     BLOCK "VarFileInfo"
