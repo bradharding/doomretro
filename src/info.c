@@ -1408,7 +1408,13 @@ state_t states[NUMSTATES] =
     { SPR_BLD2,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BLOODSPLAT5
     { SPR_BLD2,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BLOODSPLAT6
     { SPR_BLD2,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BLOODSPLAT7
-    { SPR_BLD2,  7,                               -1,               NULL,            S_NULL,          0,     0     }  // S_BLOODSPLAT8
+    { SPR_BLD2,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BLOODSPLAT8
+
+    // [BH] Smoke Trail (MT_TRAIL)
+    { SPR_PUFF,  0 | FF_FULLBRIGHT,                4,               NULL,            S_TRAIL2,        0,     0     }, // S_TRAIL
+    { SPR_PUFF,  1,                                4,               NULL,            S_TRAIL3,        0,     0     }, // S_TRAIL2
+    { SPR_PUFF,  2,                                8,               NULL,            S_TRAIL4,        0,     0     }, // S_TRAIL3
+    { SPR_PUFF,  3,                               12,               NULL,            S_NULL,          0,     0     }  // S_TRAIL4
 };
 
 
@@ -5691,6 +5697,37 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* activesound          */ sfx_None,
         /* flags                */ S_NULL,
         /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0
+    },
+
+    // Smoke Trail (MT_TRAIL)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "Smoke Trail",
+        /* spawnstate           */ S_TRAIL,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
+        /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     }

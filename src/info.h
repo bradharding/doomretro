@@ -1153,6 +1153,10 @@ typedef enum
     S_BLOODSPLAT6,
     S_BLOODSPLAT7,
     S_BLOODSPLAT8,
+    S_TRAIL,
+    S_TRAIL2,
+    S_TRAIL3,
+    S_TRAIL4,
     NUMSTATES
 } statenum_t;
 
@@ -1320,6 +1324,7 @@ typedef enum
     MT_MISC85,
     MT_MISC86,
     MT_BLOODSPLAT,
+    MT_TRAIL,
     NUMMOBJTYPES
 } mobjtype_t;
 

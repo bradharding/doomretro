@@ -135,7 +135,7 @@ void P_XYMovement(mobj_t *mo)
 
     if (type == MT_ROCKET && smoketrails)
         if (puffcount++ > 1)
-            P_SpawnPuff(mo->x, mo->y, mo->z, mo->angle, false);
+            P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
 
     // preserve the direction instead of clamping x and y independently.
     xmove = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
@@ -985,6 +985,18 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
             }
         }
     }
+}
+
+void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
+{
+    mobj_t *th = P_SpawnMobj(x, y, z + ((P_Random() - P_Random()) << 10), MT_TRAIL);
+
+    th->momz = FRACUNIT / 2;
+    th->tics -= (P_Random() & 3);
+
+    th->angle = angle;
+
+    th->flags2 |= (rand() & 1) * MF2_MIRRORED;
 }
 
 //
