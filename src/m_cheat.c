@@ -70,7 +70,8 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
         cht->param_chars_read = 0;
 
         if (cht->chars_read)
-            cheatkey = key;
+            if (!cht->actionkey || (cht->actionkey && cht->chars_read > 1))
+                cheatkey = key;
     }
     else if (cht->param_chars_read < cht->parameter_chars)
     {

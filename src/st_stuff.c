@@ -383,6 +383,47 @@ cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
 cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
 
+static boolean actionkey(char key)
+{
+    return (key == key_right
+        || key == key_left
+        || key == key_up
+        || key == key_up2
+        || key == key_down
+        || key == key_down2
+        || key == key_strafeleft
+        || key == key_straferight
+        || key == key_fire
+        || key == key_use
+        || key == key_strafe
+        || key == key_speed
+        || key == key_prevweapon
+        || key == key_nextweapon);
+}
+
+static void ST_InitCheats(void)
+{
+    cheat_mus.actionkey = (actionkey(cheat_mus.sequence[0]));
+    cheat_mus_xy.actionkey = (actionkey(cheat_mus_xy.sequence[0]));
+    cheat_god.actionkey = (actionkey(cheat_god.sequence[0]));
+    cheat_ammo.actionkey = (actionkey(cheat_ammo.sequence[0]));
+    cheat_ammonokey.actionkey = (actionkey(cheat_ammonokey.sequence[0]));
+    cheat_noclip.actionkey = (actionkey(cheat_noclip.sequence[0]));
+    cheat_commercial_noclip.actionkey = (actionkey(cheat_commercial_noclip.sequence[0]));
+    cheat_powerup[0].actionkey = (actionkey(cheat_powerup[0].sequence[0]));
+    cheat_powerup[1].actionkey = (actionkey(cheat_powerup[1].sequence[0]));
+    cheat_powerup[2].actionkey = (actionkey(cheat_powerup[2].sequence[0]));
+    cheat_powerup[3].actionkey = (actionkey(cheat_powerup[3].sequence[0]));
+    cheat_powerup[4].actionkey = (actionkey(cheat_powerup[4].sequence[0]));
+    cheat_powerup[5].actionkey = (actionkey(cheat_powerup[5].sequence[0]));
+    cheat_powerup[6].actionkey = (actionkey(cheat_powerup[6].sequence[0]));
+    cheat_choppers.actionkey = (actionkey(cheat_choppers.sequence[0]));
+    cheat_clev.actionkey = (actionkey(cheat_clev.sequence[0]));
+    cheat_clev_xy.actionkey = (actionkey(cheat_clev_xy.sequence[0]));
+    cheat_mypos.actionkey = (actionkey(cheat_mypos.sequence[0]));
+    cheat_amap.actionkey = (actionkey(cheat_amap.sequence[0]));
+}
+
 #define NONE                    -1
 #define IDMUS_MAX               50
 
@@ -1880,4 +1921,6 @@ void ST_Init(void)
     // loading save game or entering IDFA/IDKFA cheat
     for (i = 0; i < NUMWEAPONS; i++)
         oldweaponsowned[i] = false;
+
+    ST_InitCheats();
 }

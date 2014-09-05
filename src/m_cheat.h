@@ -34,7 +34,7 @@
 
 // declaring a cheat
 #define CHEAT(value, parameters) \
-    { value, sizeof(value) - 1, parameters, 0, 0, "", 0 }
+    { value, sizeof(value) - 1, parameters, 0, 0, "", 0, false }
 
 #define MAX_CHEAT_LEN           25
 #define MAX_CHEAT_PARAMS        5
@@ -54,6 +54,8 @@ typedef struct
     char        parameter_buf[MAX_CHEAT_PARAMS];
 
     int         timeout;
+
+    boolean     actionkey;
 } cheatseq_t;
 
 int cht_CheckCheat(cheatseq_t *cht, char key);
@@ -62,5 +64,20 @@ void cht_GetParam(cheatseq_t *cht, char *buffer);
 
 extern boolean  idbehold;
 extern int      leveltime;
+
+extern int      key_right;
+extern int      key_left;
+extern int      key_up;
+extern int      key_up2;
+extern int      key_down;
+extern int      key_down2;
+extern int      key_strafeleft;
+extern int      key_straferight;
+extern int      key_fire;
+extern int      key_use;
+extern int      key_strafe;
+extern int      key_speed;
+extern int      key_prevweapon;
+extern int      key_nextweapon;
 
 #endif
