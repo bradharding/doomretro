@@ -485,6 +485,38 @@ static void GenerateTextureHashTable(void)
 }
 
 //
+// R_DoomTextureHacks
+//
+void R_DoomTextureHacks(texture_t *t)
+{
+    if (t->height == 128 &&
+        t->patches[0].originy == -8 &&
+        t->name[0] == 'S' &&
+        t->name[1] == 'K' &&
+        t->name[2] == 'Y' &&
+        t->name[3] == '1' &&
+        t->name[4] == 0)
+    {
+        t->patches[0].originy = 0;
+    }
+
+    if (t->height == 128 &&
+        t->patches[0].originy == -4 &&
+        t->patches[1].originy == -4 &&
+        t->name[0] == 'B' &&
+        t->name[1] == 'I' &&
+        t->name[2] == 'G' &&
+        t->name[3] == 'D' &&
+        t->name[4] == 'O' &&
+        t->name[5] == 'O' &&
+        t->name[6] == 'R' &&
+        t->name[7] == '7')
+    {
+        t->patches[0].originy = t->patches[1].originy = 0;
+    }
+}
+
+//
 // R_InitTextures
 // Initializes the texture list
 //  with the textures from the world map.
@@ -612,6 +644,8 @@ static void R_InitTextures(void)
         textureheight[i] = texture->height << FRACBITS;
 
         totalwidth += texture->width;
+
+        R_DoomTextureHacks(texture);
     }
 
     Z_Free(patchlookup);
