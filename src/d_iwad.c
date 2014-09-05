@@ -28,6 +28,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "config.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "i_system.h"
@@ -576,7 +577,8 @@ void D_IdentifyVersion(void)
 // Set the gamedescription string
 void D_SetGameDescription(void)
 {
-    gamedescription = "Unknown";
+    gamedescription = (char *)malloc(64);
+    gamedescription = PACKAGE_NAME;
 
     if (chex)
         gamedescription = "Chex Quest";
