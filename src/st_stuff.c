@@ -52,15 +52,9 @@
 #define STARTBONUSPALS          9
 #define NUMREDPALS              8
 #define NUMBONUSPALS            4
+
 // Radiation suit, green shift.
 #define RADIATIONPAL            13
-
-// N/256*100% probability
-//  that the normal face state will change
-#define ST_FACEPROBABILITY      96
-
-// For Responder
-#define ST_TOGGLECHAT           KEY_ENTER
 
 // Location of status bar
 #define ST_X                    0
@@ -75,13 +69,11 @@
 #define ST_NUMTURNFACES         2
 #define ST_NUMSPECIALFACES      3
 
-#define ST_FACESTRIDE \
-            (ST_NUMSTRAIGHTFACES + ST_NUMTURNFACES + ST_NUMSPECIALFACES)
+#define ST_FACESTRIDE           (ST_NUMSTRAIGHTFACES + ST_NUMTURNFACES + ST_NUMSPECIALFACES)
 
 #define ST_NUMEXTRAFACES        2
 
-#define ST_NUMFACES \
-            (ST_FACESTRIDE * ST_NUMPAINFACES + ST_NUMEXTRAFACES)
+#define ST_NUMFACES             (ST_FACESTRIDE * ST_NUMPAINFACES + ST_NUMEXTRAFACES)
 
 #define ST_TURNOFFSET           (ST_NUMSTRAIGHTFACES)
 #define ST_OUCHOFFSET           (ST_TURNOFFSET + ST_NUMTURNFACES)
@@ -114,7 +106,6 @@
 #define ST_AMMOY                172
 
 // HEALTH number pos.
-#define ST_HEALTHWIDTH          3
 #define ST_HEALTHX              90
 #define ST_HEALTHY              172
 
@@ -127,9 +118,9 @@
 #define ST_ARMSYSPACE           10
 
 // Frags pos.
-#define ST_FRAGSX               138
-#define ST_FRAGSY               172
-#define ST_FRAGSWIDTH           2
+//#define ST_FRAGSX               138
+//#define ST_FRAGSY               172
+//#define ST_FRAGSWIDTH           2
 
 // ARMOR number pos.
 
@@ -248,7 +239,7 @@ static int                      lu_palette;
 static int                      st_msgcounter = 0;
 
 // used when in chat
-static st_chatstateenum_t       st_chatstate;
+//static st_chatstateenum_t       st_chatstate;
 
 // whether in automap or first-person
 static st_stateenum_t           st_gamestate;
@@ -257,22 +248,22 @@ static st_stateenum_t           st_gamestate;
 static boolean                  st_statusbaron;
 
 // whether status bar chat is active
-static boolean                  st_chat;
+//static boolean                  st_chat;
 
 // value of st_chat before message popped up
-static boolean                  st_oldchat;
+//static boolean                  st_oldchat;
 
 // whether chat window has the cursor on
-static boolean                  st_cursoron;
+//static boolean                  st_cursoron;
 
 // !deathmatch
-static boolean                  st_notdeathmatch;
+//static boolean                  st_notdeathmatch;
 
 // !deathmatch && st_statusbaron
 static boolean                  st_armson;
 
 // !deathmatch
-static boolean                  st_fragson;
+//static boolean                  st_fragson;
 
 // main bar left
 static patch_t                  *sbar;
@@ -303,12 +294,13 @@ static patch_t                  *armsbg2;
 
 // weapon ownership patches
 static patch_t                  *arms[6][2];
+static int                      armsnum;
 
 // ready-weapon widget
 static st_number_t              w_ready;
 
 // in deathmatch only, summary of frags stats
-static st_number_t              w_frags;
+//static st_number_t              w_frags;
 
 // health widget
 static st_percent_t             w_health;
@@ -336,7 +328,7 @@ static st_number_t              w_ammo[4];
 static st_number_t              w_maxammo[4];
 
 // number of frags so far in deathmatch
-static int                      st_fragscount;
+//static int                      st_fragscount;
 
 // used to use appopriately pained face
 static int                      st_oldhealth = -1;
@@ -1397,21 +1389,21 @@ void ST_updateWidgets(void)
         ST_updateFaceWidget();
 
     // used by the w_armsbg widget
-    st_notdeathmatch = !deathmatch;
+    //st_notdeathmatch = !deathmatch;
 
     // used by w_arms[] widgets
     st_armson = (st_statusbaron && !deathmatch);
 
     // used by w_frags widget
-    st_fragson = (deathmatch && st_statusbaron);
-    st_fragscount = 0;
+    //st_fragson = (deathmatch && st_statusbaron);
+    //st_fragscount = 0;
 
-    for (i = 0; i < MAXPLAYERS; i++)
-        st_fragscount += (i != consoleplayer ? plyr->frags[i] : -plyr->frags[i]);
+    //for (i = 0; i < MAXPLAYERS; i++)
+    //    st_fragscount += (i != consoleplayer ? plyr->frags[i] : -plyr->frags[i]);
 
     // get rid of chat window if up because of message
-    if (!--st_msgcounter)
-        st_chat = st_oldchat;
+    //if (!--st_msgcounter)
+    //    st_chat = st_oldchat;
 }
 
 void ST_Ticker(void)
@@ -1473,7 +1465,7 @@ void ST_drawWidgets(boolean refresh)
     st_armson = (st_statusbaron && !deathmatch);
 
     // used by w_frags widget
-    st_fragson = (deathmatch && st_statusbaron);
+    //st_fragson = (deathmatch && st_statusbaron);
 
     STlib_updateNum(&w_ready);
 
@@ -1496,7 +1488,7 @@ void ST_drawWidgets(boolean refresh)
     //  changes:
     //    arms 3 highlighted when player has super shotgun but no shotgun
     //    arms 6 and 7 not visible in shareware
-    for (i = 0; i < (gamemode == shareware ? 4 : 6); i++)
+    for (i = 0; i < armsnum; i++)
         STlib_updateArmsIcon(&w_arms[i], refresh, i);
 
     STlib_updateMultIcon(&w_faces, refresh);
@@ -1504,7 +1496,7 @@ void ST_drawWidgets(boolean refresh)
     for (i = 0; i < 3; i++)
         STlib_updateMultIcon(&w_keyboxes[i], refresh);
 
-    STlib_updateNum(&w_frags);
+    //STlib_updateNum(&w_frags);
 }
 
 void ST_doRefresh(void)
@@ -1667,12 +1659,12 @@ void ST_initData(void)
     st_firsttime = true;
     plyr = &players[consoleplayer];
 
-    st_chatstate = StartChatState;
+    //st_chatstate = StartChatState;
     st_gamestate = FirstPersonState;
 
     st_statusbaron = true;
-    st_oldchat = st_chat = false;
-    st_cursoron = false;
+    //st_oldchat = st_chat = false;
+    //st_cursoron = false;
 
     st_faceindex = 0;
     st_palette = -1;
@@ -1718,18 +1710,19 @@ void ST_createWidgets(void)
                       ST_ARMSBGX,
                       ST_ARMSBGY,
                       armsbg,
-                      &st_notdeathmatch,
+                      &st_statusbaron/*&st_notdeathmatch*/,
                       &st_statusbaron);
 
     STlib_initBinIcon(&w_armsbg2,
                       ST_ARMSBGX * 2,
                       ST_ARMSBGY * 2,
                       armsbg2,
-                      &st_notdeathmatch,
+                      &st_statusbaron/*&st_notdeathmatch*/,
                       &st_statusbaron);
 
     // weapons owned
-    for (i = 0; i < 6; i++)
+    armsnum = (gamemode == shareware ? 4 : 6);
+    for (i = 0; i < armsnum; i++)
     {
         STlib_initMultIcon(&w_arms[i],
                            ST_ARMSX + (i % 3) * ST_ARMSXSPACE,
@@ -1740,13 +1733,13 @@ void ST_createWidgets(void)
     }
 
     // frags sum
-    STlib_initNum(&w_frags,
-                  ST_FRAGSX,
-                  ST_FRAGSY,
-                  tallnum,
-                  &st_fragscount,
-                  &st_fragson,
-                  ST_FRAGSWIDTH);
+    //STlib_initNum(&w_frags,
+    //              ST_FRAGSX,
+    //              ST_FRAGSY,
+    //              tallnum,
+    //              &st_fragscount,
+    //              &st_fragson,
+    //              ST_FRAGSWIDTH);
 
     // faces
     STlib_initMultIcon(&w_faces,
