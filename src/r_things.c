@@ -88,6 +88,7 @@ static int                      maxframe;
 extern int                      screensize;
 extern boolean                  inhelpscreens;
 extern int                      graphicdetail;
+extern boolean                  translucency;
 
 //
 // R_InstallSpriteLump
@@ -332,13 +333,8 @@ void R_DrawMaskedColumn(column_t *column)
         // calculate unclipped screen coordinates for post
         topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
-        dc_yl = (topscreen + FRACUNIT) >> FRACBITS;
-        dc_yh = (topscreen + spryscale * column->length) >> FRACBITS;
-
-        if (dc_yh >= mfloorclip[dc_x])
-            dc_yh = mfloorclip[dc_x] - 1;
-        if (dc_yl <= mceilingclip[dc_x])
-            dc_yl = mceilingclip[dc_x] + 1;
+        dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x]);
+        dc_yh = MIN((topscreen + spryscale * column->length) >> FRACBITS, mfloorclip[dc_x]);
 
         dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
             FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
@@ -391,7 +387,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-    if (viewplayer->fixedcolormap == INVERSECOLORMAP)
+    if (viewplayer->fixedcolormap == INVERSECOLORMAP && translucency)
     {
         if (colfunc == tlcolfunc)
             colfunc = tl50colfunc;
