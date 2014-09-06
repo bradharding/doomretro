@@ -333,8 +333,8 @@ void R_DrawMaskedColumn(column_t *column)
         // calculate unclipped screen coordinates for post
         topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
-        dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x]);
-        dc_yh = MIN((topscreen + spryscale * column->length) >> FRACBITS, mfloorclip[dc_x]);
+        dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x] + 1);
+        dc_yh = MIN((topscreen + spryscale * column->length) >> FRACBITS, mfloorclip[dc_x] - 1);
 
         dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
             FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
