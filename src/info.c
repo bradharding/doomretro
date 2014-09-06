@@ -1536,7 +1536,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* deathsound           */ sfx_vildth,
         /* speed                */ 15,
         /* radius               */ 20 * FRACUNIT,
-        /* height               */ 72 * FRACUNIT,                           // [BH] changed height from 56 * FRACUNIT
+        /* height               */ 56 * FRACUNIT,
         /* projectilepassheight */ 0,
         /* mass                 */ 500,
         /* damage               */ 0,
@@ -1598,7 +1598,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* deathsound           */ sfx_skedth,
         /* speed                */ 10,
         /* radius               */ 20 * FRACUNIT,
-        /* height               */ 72 * FRACUNIT,                           // [BH] changed height from 56 * FRACUNIT
+        /* height               */ 56 * FRACUNIT,
         /* projectilepassheight */ 0,
         /* mass                 */ 500,
         /* damage               */ 0,
