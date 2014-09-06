@@ -511,7 +511,7 @@ void G_DoLoadLevel(void)
     // died.
     P_FreeSecNodeList();
 
-    P_SetupLevel(gameepisode, gamemap);
+    P_SetupLevel((gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode), gamemap);
 
     skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 &&
         (gamemode != commercial || gamemap < 21) ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
