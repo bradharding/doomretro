@@ -395,6 +395,7 @@ boolean PIT_CheckThing(mobj_t *thing)
         // damage / explode
         damage = ((P_Random() % 8) + 1) * tmthing->info->damage;
         P_DamageMobj(thing, tmthing, tmthing->target, damage);
+        thing->flags2 |= MF2_PROJECTILEHIT;
 
         // don't traverse anymore
         return false;
