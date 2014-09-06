@@ -1054,7 +1054,7 @@ void A_Tracer(mobj_t *actor)
     int         speed;
 
     // spawn a puff of smoke behind the rocket
-    P_SpawnPuff(actor->x, actor->y, actor->z - 2 * FRACUNIT, actor->angle, false);
+    P_SpawnSmokeTrail(actor->x, actor->y, actor->z - 2 * FRACUNIT, actor->angle);
 
     if ((gametic - levelstarttic) & 3)
         return;
