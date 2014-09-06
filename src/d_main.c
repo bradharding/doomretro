@@ -34,7 +34,6 @@
 #endif
 
 #include "am_map.h"
-#include "config.h"
 #include "d_deh.h"
 #include "d_iwad.h"
 #include "d_main.h"
@@ -59,6 +58,7 @@
 #include "SDL.h"
 #include "st_stuff.h"
 #include "v_video.h"
+#include "version.h"
 #include "w_merge.h"
 #include "w_wad.h"
 #include "wi_stuff.h"

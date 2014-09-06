@@ -37,24 +37,20 @@ void done_win32(void);
 #include <unistd.h>
 #endif
 
-#include "config.h"
+#include "d_net.h"
 #include "doomdef.h"
 #include "doomstat.h"
+#include "g_game.h"
+#include "i_gamepad.h"
+#include "i_system.h"
+#include "i_timer.h"
+#include "i_video.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
-#include "i_gamepad.h"
-#include "i_timer.h"
-#include "i_video.h"
 #include "s_sound.h"
-
-#include "d_net.h"
-#include "g_game.h"
-
-#include "i_system.h"
-
 #include "SDL.h"
-
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

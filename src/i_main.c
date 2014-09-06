@@ -25,9 +25,9 @@
 
 #include <stdio.h>
 
-#include "config.h"
 #include "i_video.h"
 #include "m_argv.h"
+#include "version.h"
 
 #ifdef WIN32
 

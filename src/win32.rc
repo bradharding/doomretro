@@ -25,7 +25,7 @@
 
 #include <windows.h>
 
-#include "config.h"
+#include "version.h"
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 

@@ -27,7 +27,6 @@
 #include <ShlObj.h>
 #endif
 
-#include "config.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_video.h"
@@ -35,6 +34,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "version.h"
 
 //
 // DEFAULTS

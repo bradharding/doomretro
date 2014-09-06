@@ -27,7 +27,6 @@
 #include <Shlobj.h>
 #endif
 
-#include "config.h"
 #include "doomstat.h"
 #include "d_main.h"
 #include "i_swap.h"
@@ -36,6 +35,7 @@
 #include "m_misc.h"
 #include "m_random.h"
 #include "v_video.h"
+#include "version.h"
 #include "z_zone.h"
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];

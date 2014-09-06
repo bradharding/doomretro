@@ -25,7 +25,6 @@
 
 #include <ctype.h>
 
-#include "config.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "sounds.h"
@@ -34,6 +33,7 @@
 #include "p_local.h"
 #include "g_game.h"
 #include "d_think.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

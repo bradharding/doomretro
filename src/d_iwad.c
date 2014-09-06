@@ -28,13 +28,13 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "config.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "i_system.h"
 #include "m_argv.h"
 #include "m_config.h"
 #include "m_misc.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

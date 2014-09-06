@@ -23,7 +23,6 @@
 ========================================================================
 */
 
-#include "config.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -37,6 +36,7 @@
 #include "SDL_syswm.h"
 #include "s_sound.h"
 #include "v_video.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
