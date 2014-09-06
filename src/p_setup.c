@@ -1081,7 +1081,7 @@ void P_MapName(int episode, int map)
         case doom2:
             i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && !BTSX
+            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9)
                 && !strcasecmp(*mapnames2[i], hu_mapnames2[i]))
             {
                 mapnumonly = true;
@@ -1198,8 +1198,6 @@ void P_SetupLevel(int episode, int map)
 
     leveltime = 0;
 
-    P_MapName(gameepisode, gamemap);
-
     // e6y: speedup of level reloading
     // Most of level's structures now are allocated with PU_STATIC instead of PU_LEVEL
     samelevel = (map == current_map && episode == current_episode);
@@ -1209,6 +1207,8 @@ void P_SetupLevel(int episode, int map)
 
     if (!samelevel)
     {
+        P_MapName(gameepisode, gamemap);
+
         free(segs);
         free(nodes);
         free(subsectors);
