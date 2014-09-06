@@ -27,17 +27,24 @@
 
 #include "config.h"
 
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
 IDI_ICON1 ICON DISCARDABLE "../res/doomretro.ico"
 
 VS_VERSION_INFO VERSIONINFO
-PRODUCTVERSION PACKAGE_VERSION
-FILEVERSION    PACKAGE_VERSION
-FILEOS         VOS__WINDOWS32
-FILETYPE       VFT_APP
+    FILEVERSION         PACKAGE_VERSION
+    PRODUCTVERSION      PACKAGE_VERSION
+#ifdef _DEBUG
+    FILEFLAGS           VS_FF_DEBUG
+#else
+    FILEFLAGS           0x0L
+#endif
+    FILEOS              VOS__WINDOWS32
+    FILETYPE            VFT_APP
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904E4"
+        BLOCK "040904B0"
         BEGIN
             VALUE "FileVersion",     PACKAGE_VERSIONSTRING
             VALUE "FileDescription", PACKAGE_DESCRIPTION
@@ -50,6 +57,6 @@ BEGIN
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1252
+        VALUE "Translation", 0x409, 1200
     END
 END
