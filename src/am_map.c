@@ -1483,11 +1483,12 @@ static void AM_drawWalls(void)
                 AM_rotatePoint(&l.b.x, &l.b.y);
             }
 
-            if (special == W1_TeleportToTaggedSectorContainingTeleportLanding
+            if ((special == W1_TeleportToTaggedSectorContainingTeleportLanding
                 || special == W1_ExitLevel
                 || special == WR_TeleportToTaggedSectorContainingTeleportLanding
-                || (special >= W1_ExitLevelAndGoToSecretLevel  
+                || (special >= W1_ExitLevelAndGoToSecretLevel
                     && special <= MR_TeleportToTaggedSectorContainingTeleportLanding))
+                && ((flags & ML_TELEPORTTRIGGERED) || cheating))
             {
                 if (cheating || (mapped && !secret
                     && backsector->ceilingheight != backsector->floorheight))

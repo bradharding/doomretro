@@ -75,9 +75,17 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                 // emit sound, where?
                 S_StartSound(fog, sfx_telept);
 
-                // don't move for a bit
                 if (thing->player)
+                {
+                    int i;
+
+                    // [BH] teleport can be drawn on automap now
+                    for (i = 0; i < line->backsector->linecount; i++)
+                        line->backsector->lines[i]->flags |= ML_TELEPORTTRIGGERED;
+
+                    // don't move for a bit
                     thing->reactiontime = 18;
+                }
 
                 thing->angle = m->angle;
                 thing->momx = thing->momy = thing->momz = 0;

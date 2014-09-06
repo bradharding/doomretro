@@ -140,8 +140,11 @@ typedef struct
 
 #define ML_DRAWASWALL           512
 
-// Line will trigger sector 666 if no monsters
+// Line will trigger sector 666 if no monsters.
 #define ML_TRIGGER666           1024
+
+// Line won't be shown as teleporter in automap.
+#define ML_TELEPORTTRIGGERED    2048
 
 // Sector definition, from editing.
 typedef struct
