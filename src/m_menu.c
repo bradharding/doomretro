@@ -3196,4 +3196,6 @@ void M_Init(void)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered)
         EpiDef.numitems--;
+
+    s_DOSY = M_StringReplace(s_DOSY, "DOS", "Windows");
 }

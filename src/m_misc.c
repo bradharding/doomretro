@@ -224,60 +224,55 @@ char *M_StrCaseStr(char *haystack, char *needle)
     return NULL;
 }
 
+char *stristr(char *ch1, char *ch2)
+{
+    char        *chN1, *chN2;
+    char        *chNdx;
+    char        *chRet = NULL;
+
+    chN1 = strdup(ch1);
+    chN2 = strdup(ch2);
+    if (chN1 && chN2)
+    {
+        chNdx = chN1;
+        while (*chNdx)
+        {
+            *chNdx = (char)tolower(*chNdx);
+            chNdx++;
+        }
+        chNdx = chN2;
+        while (*chNdx)
+        {
+            *chNdx = (char)tolower(*chNdx);
+            chNdx++;
+        }
+        chNdx = strstr(chN1, chN2);
+        if (chNdx)
+            chRet = ch1 + (chNdx - chN1);
+    }
+    free(chN1);
+    free(chN2);
+
+    return chRet;
+}
+
 //
 // String replace function.
 //
 char *M_StringReplace(char *haystack, char *needle, char *replacement)
 {
-    char        *result, *p;
-    char        *dst;
-    size_t      needle_len = strlen(needle);
-    size_t      result_len, dst_len;
+    static char buffer[4096];
+    char        *p;
 
-    // Iterate through occurrences of 'needle' and calculate the size of
-    // the new string.
-    result_len = strlen(haystack) + 1;
-    p = haystack;
+    if (!(p = stristr(haystack, needle)))
+        return haystack;
 
-    for (;;)
-    {
-        p = strstr(p, needle);
-        if (p == NULL)
-            break;
+    strncpy(buffer, haystack, p - haystack);
+    buffer[p - haystack] = '\0';
 
-        p += needle_len;
-        result_len += strlen(replacement) - needle_len;
-    }
+    sprintf(buffer + (p - haystack), "%s%s", replacement, p + strlen(needle));
 
-    // Construct new string.
-
-    result = malloc(result_len);
-    if (result == NULL)
-    {
-        I_Error("M_StringReplace: Failed to allocate new string");
-        return NULL;
-    }
-
-    dst = result; dst_len = result_len;
-    p = haystack;
-
-    while (*p != '\0')
-        if (!strncmp(p, needle, needle_len))
-        {
-            M_StringCopy(dst, replacement, dst_len);
-            p += needle_len;
-            dst += strlen(replacement);
-            dst_len -= strlen(replacement);
-        }
-        else
-        {
-            *dst = *p;
-            ++dst;
-            --dst_len;
-            ++p;
-        }
-
-    return result;
+    return buffer;
 }
 
 // Safe string copy function that works like OpenBSD's strlcpy().
