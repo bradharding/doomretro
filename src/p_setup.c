@@ -1056,6 +1056,8 @@ extern char     **mapnamesn[];
 extern char     *hu_mapnames[];
 extern char     *hu_mapnames2[];
 
+extern int      dehcount;
+
 // Determine map name to use
 void P_MapName(int episode, int map)
 {
@@ -1068,7 +1070,7 @@ void P_MapName(int episode, int map)
         case doom:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", episode, map);
             i = (episode - 1) * 9 + map - 1;
-            if (W_CheckMultipleLumps(mapnum) > 1 && !strcasecmp(*mapnames[i], hu_mapnames[i]))
+            if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1081,8 +1083,7 @@ void P_MapName(int episode, int map)
         case doom2:
             i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9)
-                && !strcasecmp(*mapnames2[i], hu_mapnames2[i]))
+            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1101,8 +1102,7 @@ void P_MapName(int episode, int map)
         case pack_plut:
             i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1
-                && !strcasecmp(*mapnamesp[i], hu_mapnames2[i + 32]))
+            if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1115,8 +1115,7 @@ void P_MapName(int episode, int map)
         case pack_tnt:
             i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1
-                && !strcasecmp(*mapnamest[i], hu_mapnames2[i + 64]))
+            if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1130,25 +1129,26 @@ void P_MapName(int episode, int map)
             break;
     }
 
-    if ((pos = strchr(maptitle, ':')))
-    {
-        if (M_StringStartsWith(maptitle, "Level"))
+    if (!mapnumonly)
+        if ((pos = strchr(maptitle, ':')))
         {
-            strcpy(maptitle, pos + 1);
-            if (maptitle[0] == ' ')
-                strcpy(maptitle, &maptitle[1]);
-            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+            if (M_StringStartsWith(maptitle, "Level"))
+            {
+                strcpy(maptitle, pos + 1);
+                if (maptitle[0] == ' ')
+                    strcpy(maptitle, &maptitle[1]);
+                M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+            }
+            else
+            {
+                M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
+                strcpy(maptitle, pos + 1);
+                if (maptitle[0] == ' ')
+                    strcpy(maptitle, &maptitle[1]);
+            }
         }
         else
-        {
-            M_StringCopy(mapnumandtitle, maptitle, sizeof(mapnumandtitle));
-            strcpy(maptitle, pos + 1);
-            if (maptitle[0] == ' ')
-                strcpy(maptitle, &maptitle[1]);
-        }
-    }
-    else if (!mapnumonly)
-        M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+            M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
 }
 
 extern boolean idclev;

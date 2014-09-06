@@ -46,6 +46,8 @@ typedef struct
     long        size;
 } DEHFILE;
 
+int dehcount = 0;
+
 // killough 10/98: emulate IO whether input really comes from a file or not
 
 // haleyjd: got rid of macros for MSCV
@@ -1594,7 +1596,8 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             ProcessDehFile(nextfile, NULL, 0); // do the included file
 
             includenotext = oldnotext;
-            if (fileout) fprintf(fileout, "...continuing with %s\n", filename);
+            if (fileout)
+                fprintf(fileout, "...continuing with %s\n", filename);
             continue;
         }
 
@@ -1619,6 +1622,8 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             fclose(fileout);
         fileout = NULL;
     }
+
+    ++dehcount;
 }
 
 // ====================================================================
