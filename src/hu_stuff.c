@@ -556,7 +556,6 @@ static void HU_DrawHUD(void)
                 {
                     patch_t     *patch = keypic[plr->neededcard].patch;
 
-                    keypic_x -= 20;
                     if (!menuactive && !paused)
                     {
                         plr->neededcardtics--;
@@ -567,8 +566,7 @@ static void HU_DrawHUD(void)
                         }
                     }
                     if (showkey)
-                        hudfunc(keypic_x, HUD_KEYS_Y, 0, patch, true);
-                    keypic_x += SHORT(patch->width) + 6;
+                        hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, 0, patch, true);
                 }
             }
             else
