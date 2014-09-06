@@ -450,6 +450,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     fixed_t             tz = gxt - gyt;
 
+    unsigned int        rot = 0;
+
     // thing is behind view plane?
     if (tz < MINZ)
         return;
@@ -474,9 +476,9 @@ void R_ProjectSprite(mobj_t *thing)
     if (sprframe->rotate)
     {
         // choose a different rotation based on player view
-        angle_t         ang = R_PointToAngle(thing->x, thing->y);
-        unsigned int    rot = (ang - thing->angle + (unsigned)(ANG45 / 2) * 9) >> 29;
+        angle_t ang = R_PointToAngle(thing->x, thing->y);
 
+        rot = (ang - thing->angle + (unsigned)(ANG45 / 2) * 9) >> 29;
         lump = sprframe->lump[rot];
         flip = (boolean)sprframe->flip[rot];
     }
@@ -545,7 +547,7 @@ void R_ProjectSprite(mobj_t *thing)
     // get light level
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
-    else if (thing->frame & FF_FULLBRIGHT)
+    else if ((thing->frame & FF_FULLBRIGHT) && (rot <= 3 || rot >= 7))
         vis->colormap = colormaps;              // full bright
     else                                        // diminished light
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
