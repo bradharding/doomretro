@@ -1855,7 +1855,10 @@ void A_BrainSpit(mobj_t *mo)
     static int  easy = 0;
 
     easy ^= 1;
-    if (gameskill <= sk_easy && (!easy))
+    if (gameskill <= sk_easy && !easy)
+        return;
+
+    if (nomonsters)
         return;
 
     // shoot a cube at current target
