@@ -1081,7 +1081,7 @@ void P_MapName(int episode, int map)
         case doom2:
             i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
-            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9)
+            if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && !BTSX
                 && !strcasecmp(*mapnames2[i], hu_mapnames2[i]))
             {
                 mapnumonly = true;
