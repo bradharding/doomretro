@@ -543,12 +543,10 @@ void R_ProjectSprite(mobj_t *thing)
     // get light level
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
-    else if (((thing->frame & FF_FULLBRIGHT) && (rot <= 3 || rot >= 7))
-             || (thing->flags2 & MF2_PROJECTILEHIT))
+    else if ((thing->frame & FF_FULLBRIGHT) && (rot <= 3 || rot >= 7))
         vis->colormap = colormaps;              // full bright
     else                                        // diminished light
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
-    thing->flags2 &= ~MF2_PROJECTILEHIT;
 }
 
 //
@@ -676,8 +674,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
             vis->colormap = fixedcolormap;      // fixed color
         else
         {
-            if (flash || (state->frame & FF_FULLBRIGHT)
-                || (players[displayplayer].mo->flags2 & MF2_PROJECTILEHIT))
+            if (flash || (state->frame & FF_FULLBRIGHT))
                 vis->colormap = colormaps;      // full bright
             else
             {
@@ -689,7 +686,6 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
                     [BETWEEN(0, lightnum + 8, MAXLIGHTSCALE - 1)];
             }
         }
-        players[displayplayer].mo->flags2 &= ~MF2_PROJECTILEHIT;
     }
 
     R_DrawVisSprite(vis);

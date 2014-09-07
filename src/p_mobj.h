@@ -249,10 +249,7 @@ typedef enum
     MF2_PASSMOBJ                  = 0x00080000,
 
     // Object is a corpse and being resurrected
-    MF2_RESURRECTING              = 0x00100000,
-
-    // Object was just hit by projectile
-    MF2_PROJECTILEHIT             = 0x00200000
+    MF2_RESURRECTING              = 0x00100000
 } mobjflag2_t;
 
 // Map Object definition.
