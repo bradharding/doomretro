@@ -34,6 +34,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "SDL.h"
 #include "version.h"
 
 //
@@ -789,46 +790,46 @@ static void M_CheckDefaults(void)
     if (hud != false && hud != true)
         hud = HUD_DEFAULT;
 
-    if (key_down < 0 || key_down > 255)
+    if (!SDL_GetKeyName(key_down))
         key_down = KEYDOWN_DEFAULT;
 
-    if (key_down2 < 0 || key_down2 > 255)
+    if (!SDL_GetKeyName(key_down2))
         key_down2 = KEYDOWN2_DEFAULT;
 
-    if (key_fire < 0 || key_fire > 255)
+    if (!SDL_GetKeyName(key_fire))
         key_fire = KEYFIRE_DEFAULT;
 
-    if (key_left < 0 || key_left > 255)
+    if (!SDL_GetKeyName(key_left))
         key_left = KEYLEFT_DEFAULT;
 
-    if (key_nextweapon < 0 || key_nextweapon > 255)
+    if (!SDL_GetKeyName(key_nextweapon))
         key_nextweapon = KEYNEXTWEAPON_DEFAULT;
 
-    if (key_prevweapon < 0 || key_prevweapon > 255)
+    if (!SDL_GetKeyName(key_prevweapon))
         key_prevweapon = KEYPREVWEAPON_DEFAULT;
 
-    if (key_right < 0 || key_right > 255)
+    if (!SDL_GetKeyName(key_right))
         key_right = KEYRIGHT_DEFAULT;
 
-    if (key_speed < 0 || key_speed > 255)
+    if (!SDL_GetKeyName(key_speed))
         key_speed = KEYSPEED_DEFAULT;
 
-    if (key_strafe < 0 || key_strafe > 255)
+    if (!SDL_GetKeyName(key_strafe))
         key_strafe = KEYSTRAFE_DEFAULT;
 
-    if (key_strafeleft < 0 || key_strafeleft > 255)
+    if (!SDL_GetKeyName(key_strafeleft))
         key_strafeleft = KEYSTRAFELEFT_DEFAULT;
 
-    if (key_straferight < 0 || key_straferight > 255)
+    if (!SDL_GetKeyName(key_straferight))
         key_straferight = KEYSTRAFERIGHT_DEFAULT;
 
-    if (key_up < 0 || key_up > 255)
+    if (!SDL_GetKeyName(key_up))
         key_up = KEYUP_DEFAULT;
 
-    if (key_up2 < 0 || key_up2 > 255)
+    if (!SDL_GetKeyName(key_up2))
         key_up2 = KEYUP2_DEFAULT;
 
-    if (key_use < 0 || key_use > 255)
+    if (!SDL_GetKeyName(key_use))
         key_use = KEYUSE_DEFAULT;
 
     if (messages != false && messages != true)
