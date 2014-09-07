@@ -61,10 +61,6 @@
 #define CROSSHAIRCOLOR          WHITE
 #define MARKCOLOR               (GRAY + 4)
 #define PLAYERCOLOR             WHITE
-//#define MULTIPLAYERCOLOR1       GREEN
-//#define MULTIPLAYERCOLOR2       GRAY
-//#define MULTIPLAYERCOLOR3       (BROWN + 1)
-//#define MULTIPLAYERCOLOR4       (RED + 1)
 #define THINGCOLOR              GREEN
 #define WALLCOLOR               RED
 #define ALLMAPWALLCOLOR         (GRAY + 12)
@@ -80,7 +76,6 @@
 
 // Automap color priorities
 #define PLAYERPRIORITY          12
-//#define MULTIPLAYERPRIORITY     12
 #define THINGPRIORITY           11
 #define WALLPRIORITY            10
 #define ALLMAPWALLPRIORITY      9
@@ -97,10 +92,6 @@ byte    *priorities;
 byte    *mask;
 
 byte    *playercolor;
-//byte    *multiplayercolor1;
-//byte    *multiplayercolor2;
-//byte    *multiplayercolor3;
-//byte    *multiplayercolor4;
 byte    *thingcolor;
 byte    *wallcolor;
 byte    *allmapwallcolor;
@@ -279,6 +270,11 @@ static boolean  movement = false;
 int             keydown;
 int             direction;
 
+int             GATE1;
+int             GATE2;
+int             GATE3;
+int             GATE4;
+
 __inline static fixed_t sign(fixed_t a)
 {
     return (a > 0) - (a < 0);
@@ -451,10 +447,6 @@ void AM_Init(void)
     }
 
     *(priority + PLAYERCOLOR) = PLAYERPRIORITY;
-    //*(priority + MULTIPLAYERCOLOR1) = MULTIPLAYERPRIORITY;
-    //*(priority + MULTIPLAYERCOLOR2) = MULTIPLAYERPRIORITY;
-    //*(priority + MULTIPLAYERCOLOR3) = MULTIPLAYERPRIORITY;
-    //*(priority + MULTIPLAYERCOLOR4) = MULTIPLAYERPRIORITY;
     *(priority + THINGCOLOR) = THINGPRIORITY;
     *(priority + WALLCOLOR) = WALLPRIORITY;
     *(priority + ALLMAPWALLCOLOR) = ALLMAPWALLPRIORITY;
@@ -479,10 +471,6 @@ void AM_Init(void)
     }
 
     playercolor = priorities + (PLAYERCOLOR << 8);
-    //multiplayercolor1 = priorities + (MULTIPLAYERCOLOR1 << 8);
-    //multiplayercolor2 = priorities + (MULTIPLAYERCOLOR2 << 8);
-    //multiplayercolor3 = priorities + (MULTIPLAYERCOLOR3 << 8);
-    //multiplayercolor4 = priorities + (MULTIPLAYERCOLOR4 << 8);
     thingcolor = priorities + (THINGCOLOR << 8);
     wallcolor = priorities + (WALLCOLOR << 8);
     allmapwallcolor = priorities + (ALLMAPWALLCOLOR << 8);
@@ -494,6 +482,11 @@ void AM_Init(void)
     teleportercolor = priorities + (TELEPORTERCOLOR << 8);
     tswallcolor = priorities + (TSWALLCOLOR << 8);
     gridcolor = priorities + (GRIDCOLOR << 8);
+
+    GATE1 = R_CheckFlatNumForName("GATE1");
+    GATE2 = R_CheckFlatNumForName("GATE2");
+    GATE3 = R_CheckFlatNumForName("GATE3");
+    GATE4 = R_CheckFlatNumForName("GATE4");
 }
 
 static void AM_initVariables(void)
@@ -1446,6 +1439,11 @@ static void AM_drawGrid(void)
     }
 }
 
+boolean isteleport(int floorpic)
+{
+    return (floorpic == GATE1 || floorpic == GATE2 || floorpic == GATE3 || floorpic == GATE4);
+}
+
 //
 // Determines visible lines, draws them.
 // This is LineDef based, not LineSeg based.
@@ -1488,7 +1486,7 @@ static void AM_drawWalls(void)
                 || special == WR_TeleportToTaggedSectorContainingTeleportLanding
                 || (special >= W1_ExitLevelAndGoToSecretLevel
                     && special <= MR_TeleportToTaggedSectorContainingTeleportLanding))
-                && ((flags & ML_TELEPORTTRIGGERED) || cheating))
+                && ((flags & ML_TELEPORTTRIGGERED) || cheating || isteleport(backsector->floorpic)))
             {
                 if (cheating || (mapped && !secret
                     && backsector->ceilingheight != backsector->floorheight))
@@ -1610,92 +1608,33 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
 
 static void AM_drawPlayers(void)
 {
-    //if (!netgame)
-    //{
-        int             invisibility = plr->powers[pw_invisibility];
-        mpoint_t        pt;
+    int             invisibility = plr->powers[pw_invisibility];
+    mpoint_t        pt;
 
-        pt.x = plr->mo->x;
-        pt.y = plr->mo->y;
+    pt.x = plr->mo->x;
+    pt.y = plr->mo->y;
 
-        if (rotate)
-            AM_rotatePoint(&pt.x, &pt.y);
+    if (rotate)
+        AM_rotatePoint(&pt.x, &pt.y);
 
-        if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
-        {
-            if (invisibility > 128 || (invisibility & 8))
-                AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
-                                          plr->mo->angle, NULL, pt.x, pt.y);
-            else
-                AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
-                                     plr->mo->angle, playercolor, pt.x, pt.y);
-        }
+    if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
+    {
+        if (invisibility > 128 || (invisibility & 8))
+            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
+                                        plr->mo->angle, NULL, pt.x, pt.y);
         else
-        {
-            if (invisibility > 128 || (invisibility & 8))
-                AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                                          plr->mo->angle, NULL, pt.x, pt.y);
-            else
-                AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                                     plr->mo->angle, playercolor, pt.x, pt.y);
-        }
-    //}
-    //else
-    //{
-    //    byte *multiplayercolors[] =
-    //    {
-    //        multiplayercolor1,
-    //        multiplayercolor2,
-    //        multiplayercolor3,
-    //        multiplayercolor4
-    //    };
-
-    //    int             i;
-    //    player_t        *multiplayer;
-
-    //    for (i = 0; i < MAXPLAYERS; ++i)
-    //    {
-    //        mpoint_t pt;
-    //        int      invisibility;
-
-    //        multiplayer = &players[i];
-    //        if (!playeringame[i] || (deathmatch && multiplayer != plr))
-    //            continue;
-    //        invisibility = multiplayer->powers[pw_invisibility];
-    //        if (multiplayer == plr)
-    //        {
-    //            pt.x = plr->mo->x;
-    //            pt.y = plr->mo->y;
-
-    //            if (rotate)
-    //                AM_rotatePoint(&pt.x, &pt.y);
-
-    //            if (invisibility > 128 || (invisibility & 8))
-    //                AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-    //                                          plr->mo->angle, NULL, pt.x, pt.y);
-    //            else
-    //                AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-    //                                     plr->mo->angle, playercolor, pt.x, pt.y);
-    //        }
-    //        else
-    //        {
-    //            int invisibility = multiplayer->powers[pw_invisibility];
-
-    //            pt.x = multiplayer->mo->x;
-    //            pt.y = multiplayer->mo->y;
-
-    //            if (rotate)
-    //                AM_rotatePoint(&pt.x, &pt.y);
-
-    //            if (invisibility > 128 || (invisibility & 8))
-    //                AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-    //                                          multiplayer->mo->angle, NULL, pt.x, pt.y);
-    //            else
-    //                AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-    //                                     multiplayer->mo->angle, multiplayercolors[i], pt.x, pt.y);
-    //        }
-    //    }
-    //}
+            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
+                                    plr->mo->angle, playercolor, pt.x, pt.y);
+    }
+    else
+    {
+        if (invisibility > 128 || (invisibility & 8))
+            AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0,
+                                        plr->mo->angle, NULL, pt.x, pt.y);
+        else
+            AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
+                                    plr->mo->angle, playercolor, pt.x, pt.y);
+    }
 }
 
 static void AM_drawThings(void)

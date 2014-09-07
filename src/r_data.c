@@ -845,6 +845,21 @@ int R_FlatNumForName(char *name)
 }
 
 //
+// R_CheckFlatNumForName
+// Retrieval, get a flat number for a flat name. No error.
+//
+int R_CheckFlatNumForName(char *name)
+{
+    int  i;
+
+    for (i = firstflat; i <= lastflat; i++)
+        if (!strncasecmp(lumpinfo[i].name, name, 8))
+            return (i - firstflat);
+
+    return -1;
+}
+
+//
 // R_CheckTextureNumForName
 // Check whether texture is available.
 // Filter out NoTexture indicator.
