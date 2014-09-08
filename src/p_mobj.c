@@ -135,6 +135,9 @@ void P_XYMovement(mobj_t *mo)
     fixed_t     xmove, ymove;
     mobjtype_t  type;
     fixed_t     fac;
+    fixed_t     ptryx;
+    fixed_t     ptryy;
+    int         numsteps = 1;
 
     if (!(mo->momx | mo->momy))
     {
@@ -164,25 +167,33 @@ void P_XYMovement(mobj_t *mo)
     xmove = mo->momx = FixedMul(mo->momx, fac);
     ymove = mo->momy = FixedMul(mo->momy, fac);
 
+    // [WDJ] 3/2011 Moved out of loop and converted to stepping.
+    // Fixes mancubus fireballs which were too fast for collision tests,
+    // makes steps equal in size, and makes loop test faster and predictable.
+    // Boom bug had only the positive tests.
+    if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2 ||
+        xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
+    {
+        xmove >>= 1;
+        ymove >>= 1;
+        numsteps = 2;
+    }
+
+    if (mo->info->speed > (mo->radius * 2))     // faster than radius * 2
+    {
+        // Mancubus missiles and the like.
+        xmove >>= 1;
+        ymove >>= 1;
+        numsteps *= 2;
+    }
+
+    ptryx = mo->x;
+    ptryy = mo->y;
+
     do
     {
-        fixed_t ptryx;
-        fixed_t ptryy;
-
-        if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2 ||
-            xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
-        {
-            ptryx = mo->x + xmove / 2;
-            ptryy = mo->y + ymove / 2;
-            xmove >>= 1;
-            ymove >>= 1;
-        }
-        else
-        {
-            ptryx = mo->x + xmove;
-            ptryy = mo->y + ymove;
-            xmove = ymove = 0;
-        }
+        ptryx += xmove;
+        ptryy += ymove;
 
         if (!P_TryMove(mo, ptryx, ptryy, true))
         {
@@ -208,10 +219,9 @@ void P_XYMovement(mobj_t *mo)
                 P_ExplodeMissile(mo);
             }
             else
-                xmove = ymove = mo->momx = mo->momy = 0;
+                mo->momx = mo->momy = 0;
         }
-    }
-    while (xmove || ymove);
+    } while (--numsteps);
 
     if (mo->flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
