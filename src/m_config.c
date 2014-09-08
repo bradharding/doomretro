@@ -34,7 +34,6 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
-#include "SDL.h"
 #include "version.h"
 
 //
@@ -302,6 +301,8 @@ static const int scantokey[128] =
     0,             0,              0,             0,
     0,             0,              0,             0
 };
+
+#define INVALIDKEY      -1
 
 static alias_t alias[] =
 {
@@ -666,7 +667,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
                     // file (save the old value in untranslated)
                     intparm = ParseIntParameter(strparm, def->set);
                     defaults[i].untranslated = intparm;
-                    intparm = (intparm >= 0 && intparm < 128 ? scantokey[intparm] : 0);
+                    intparm = (intparm >= 0 && intparm < 128 ? scantokey[intparm] : INVALIDKEY);
 
                     defaults[i].original_translated = intparm;
                     *(int *)def->location = intparm;
@@ -790,46 +791,46 @@ static void M_CheckDefaults(void)
     if (hud != false && hud != true)
         hud = HUD_DEFAULT;
 
-    if (!SDL_GetKeyName(key_down))
+    if (key_down == INVALIDKEY)
         key_down = KEYDOWN_DEFAULT;
 
-    if (!SDL_GetKeyName(key_down2))
+    if (key_down2 == INVALIDKEY)
         key_down2 = KEYDOWN2_DEFAULT;
 
-    if (!SDL_GetKeyName(key_fire))
+    if (key_fire == INVALIDKEY)
         key_fire = KEYFIRE_DEFAULT;
 
-    if (!SDL_GetKeyName(key_left))
+    if (key_left == INVALIDKEY)
         key_left = KEYLEFT_DEFAULT;
 
-    if (!SDL_GetKeyName(key_nextweapon))
+    if (key_nextweapon == INVALIDKEY)
         key_nextweapon = KEYNEXTWEAPON_DEFAULT;
 
-    if (!SDL_GetKeyName(key_prevweapon))
+    if (key_prevweapon == INVALIDKEY)
         key_prevweapon = KEYPREVWEAPON_DEFAULT;
 
-    if (!SDL_GetKeyName(key_right))
+    if (key_right == INVALIDKEY)
         key_right = KEYRIGHT_DEFAULT;
 
-    if (!SDL_GetKeyName(key_speed))
+    if (key_speed == INVALIDKEY)
         key_speed = KEYSPEED_DEFAULT;
 
-    if (!SDL_GetKeyName(key_strafe))
+    if (key_strafe == INVALIDKEY)
         key_strafe = KEYSTRAFE_DEFAULT;
 
-    if (!SDL_GetKeyName(key_strafeleft))
+    if (key_strafeleft == INVALIDKEY)
         key_strafeleft = KEYSTRAFELEFT_DEFAULT;
 
-    if (!SDL_GetKeyName(key_straferight))
+    if (key_straferight == INVALIDKEY)
         key_straferight = KEYSTRAFERIGHT_DEFAULT;
 
-    if (!SDL_GetKeyName(key_up))
+    if (key_up == INVALIDKEY)
         key_up = KEYUP_DEFAULT;
 
-    if (!SDL_GetKeyName(key_up2))
+    if (key_up2 == INVALIDKEY)
         key_up2 = KEYUP2_DEFAULT;
 
-    if (!SDL_GetKeyName(key_use))
+    if (key_use == INVALIDKEY)
         key_use = KEYUSE_DEFAULT;
 
     if (messages != false && messages != true)
