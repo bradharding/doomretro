@@ -317,8 +317,9 @@ int     *mceilingclip;
 
 fixed_t spryscale;
 fixed_t sprtopscreen;
+fixed_t sprbotscreen;
 
-void R_DrawMaskedColumn(column_t *column)
+void R_DrawMaskedColumn(column_t *column, signed int baseclip)
 {
     while (column->topdelta != 0xff)
     {
@@ -335,6 +336,9 @@ void R_DrawMaskedColumn(column_t *column)
 
         dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x] + 1);
         dc_yh = MIN((topscreen + spryscale * column->length) >> FRACBITS, mfloorclip[dc_x] - 1);
+
+        if (dc_yh >= baseclip && baseclip != -1)
+            dc_yh = baseclip;
 
         dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
             FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
@@ -376,6 +380,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     column_t    *column;
     fixed_t     frac;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+    fixed_t     baseclip;
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
@@ -403,10 +408,18 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     megasphere = (vis->type == MT_MEGA);
 
+    if (vis->footclip && !vis->psprite)
+    {
+        sprbotscreen = sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale);
+        baseclip = (sprbotscreen - FixedMul(vis->footclip << FRACBITS, spryscale)) >> FRACBITS;
+    }
+    else
+        baseclip = -1;
+
     for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
     {
         column = (column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS]));
-        R_DrawMaskedColumn(column);
+        R_DrawMaskedColumn(column, baseclip);
     }
 
     colfunc = basecolfunc;
@@ -513,6 +526,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis = R_NewVisSprite();
     vis->mobjflags = thing->flags;
     vis->mobjflags2 = thing->flags2;
+    vis->psprite = false;
     vis->colfunc = thing->colfunc;
     vis->type = thing->type;
     vis->scale = xscale;
@@ -520,7 +534,14 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gy = thing->y;
     vis->gz = thing->z;
     vis->gzt = gzt;
-    vis->texturemid = vis->gzt - viewz;
+
+    // foot clipping
+    if (thing->flags2 & MF2_FEETARECLIPPED && thing->z <= thing->subsector->sector->floorheight)
+        vis->footclip = 10;
+    else
+        vis->footclip = 0;
+    vis->texturemid = vis->gzt - viewz - (vis->footclip << FRACBITS);
+
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     iscale = FixedDiv(FRACUNIT, xscale);
@@ -640,6 +661,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     vis = &avis;
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
+    vis->psprite = true;
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);

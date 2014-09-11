@@ -81,6 +81,7 @@ boolean         infight;
 mobj_t          *onmobj;
 
 extern boolean  followplayer;
+extern boolean  *isliquid;
 
 //
 // TELEPORT MOVE
@@ -731,6 +732,11 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
     thing->y = y;
 
     P_SetThingPosition(thing);
+
+    if (isliquid[thing->subsector->sector->floorpic])
+        thing->flags2 |= MF2_FEETARECLIPPED;
+    else if (thing->flags2 & MF2_FEETARECLIPPED)
+        thing->flags2 &= ~MF2_FEETARECLIPPED;
 
     // if any special lines were hit, do the effect
     if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)))
@@ -1481,6 +1487,8 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
     x2 = t1->x + (distance >> FRACBITS) * finecosine[angle];
     y2 = t1->y + (distance >> FRACBITS) * finesine[angle];
     shootz = t1->z + (t1->height >> 1) + 8 * FRACUNIT;
+    if (t1->flags2 & MF2_FEETARECLIPPED)
+        shootz -= FOOTCLIPSIZE;
     attackrange = distance;
     aimslope = slope;
 
@@ -1756,8 +1764,6 @@ boolean PIT_ChangeSector(mobj_t *thing)
     // keep checking (crush other things)
     return true;
 }
-
-extern boolean *isliquid;
 
 static void P_UpdateBloodSplat(mobj_t *splat)
 {

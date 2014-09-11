@@ -684,6 +684,12 @@ typedef struct vissprite_s
     mobjtype_t          type;
 
     void                (*colfunc)(void);
+
+    // true if psprite
+    boolean             psprite;
+
+    // foot clipping
+    fixed_t             footclip;
 } vissprite_t;
 
 //

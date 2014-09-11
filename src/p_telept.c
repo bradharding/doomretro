@@ -26,6 +26,8 @@
 #include "p_local.h"
 #include "s_sound.h"
 
+extern boolean *isliquid;
+
 //
 // TELEPORTATION
 //
@@ -88,6 +90,12 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                 }
 
                 thing->angle = m->angle;
+
+                if (isliquid[thing->subsector->sector->floorpic])
+                    thing->flags2 |= MF2_FEETARECLIPPED;
+                else if (thing->flags2 & MF2_FEETARECLIPPED)
+                    thing->flags2 &= ~MF2_FEETARECLIPPED;
+
                 thing->momx = thing->momy = thing->momz = 0;
                 return true;
             }

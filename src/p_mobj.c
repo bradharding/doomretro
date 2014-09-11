@@ -38,17 +38,19 @@
 void G_PlayerReborn(int player);
 void P_DelSeclist(msecnode_t *node);
 
-int             bloodsplats = BLOODSPLATS_DEFAULT;
-mobj_t          *bloodSplatQueue[BLOODSPLATS_MAX];
-int             bloodSplatQueueSlot;
-void            (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
+int                     bloodsplats = BLOODSPLATS_DEFAULT;
+mobj_t                  *bloodSplatQueue[BLOODSPLATS_MAX];
+int                     bloodSplatQueueSlot;
+void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
 
-boolean         smoketrails = SMOKETRAILS_DEFAULT;
+boolean                 smoketrails = SMOKETRAILS_DEFAULT;
 
-int             corpses = CORPSES_DEFAULT;
+int                     corpses = CORPSES_DEFAULT;
 
-extern msecnode_t *sector_list; // phares 3/16/98
+extern msecnode_t       *sector_list;   // phares 3/16/98
+extern boolean          *isliquid;
 
+//
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
@@ -655,6 +657,11 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
               (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
 
+    if (isliquid[mobj->subsector->sector->floorpic])
+        mobj->flags2 |= MF2_FEETARECLIPPED;
+    else if (mobj->flags2 & MF2_FEETARECLIPPED)
+        mobj->flags2 &= ~MF2_FEETARECLIPPED;
+
     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
@@ -1205,6 +1212,7 @@ void P_CheckMissileSpawn(mobj_t *th)
 //
 mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 {
+    fixed_t     z;
     mobj_t      *th;
     angle_t     an;
     int         dist;
@@ -1217,7 +1225,11 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
         dest->flags = 0;
     }
 
-    th = P_SpawnMobj(source->x, source->y, source->z + 4 * 8 * FRACUNIT, type);
+    z = source->z + 4 * 8 * FRACUNIT;
+    if (source->flags2 & MF2_FEETARECLIPPED)
+        z -= FOOTCLIPSIZE;
+
+    th = P_SpawnMobj(source->x, source->y, z, type);
 
     if (th->info->seesound)
         S_StartSound(th, th->info->seesound);
@@ -1278,6 +1290,8 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     x = source->x;
     y = source->y;
     z = source->z + 4 * 8 * FRACUNIT;
+    if (source->flags2 & MF2_FEETARECLIPPED)
+        z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(x, y, z, type);
 

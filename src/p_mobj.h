@@ -249,7 +249,13 @@ typedef enum
     MF2_PASSMOBJ                  = 0x00080000,
 
     // Object is a corpse and being resurrected
-    MF2_RESURRECTING              = 0x00100000
+    MF2_RESURRECTING              = 0x00100000,
+
+    // If feet are allowed to be clipped
+    MF2_FOOTCLIP                  = 0x00200000,
+
+    // Object's feet are now being cut
+    MF2_FEETARECLIPPED            = 0x00400000
 } mobjflag2_t;
 
 // Map Object definition.

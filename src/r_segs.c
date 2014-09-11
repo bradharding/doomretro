@@ -199,7 +199,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             // draw the texture
             col = (column_t *)((byte *)R_GetColumn(texnum, maskedtexturecol[dc_x]) - 3);
 
-            R_DrawMaskedColumn(col);
+            R_DrawMaskedColumn(col, -1);
             maskedtexturecol[dc_x] = INT_MAX;
         }
     }

@@ -38,6 +38,8 @@
 #include "d_main.h"
 #endif
 
+#define FOOTCLIPSIZE            (10 * FRACUNIT)
+
 #define FLOATSPEED              (FRACUNIT * 4)
 
 #define MAXHEALTH               100
