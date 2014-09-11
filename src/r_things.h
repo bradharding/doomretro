@@ -43,7 +43,7 @@ extern fixed_t  pspriteiscale;
 
 extern fixed_t  viewheightfrac;
 
-void R_DrawMaskedColumn(column_t *column, signed int baseclip);
+void R_DrawMaskedColumn(column_t *column, int baseclip);
 
 void R_SortVisSprites(void);
 

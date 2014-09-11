@@ -48,6 +48,7 @@ int     viewwindowy;
 byte    *ylookup[MAXHEIGHT];
 byte    *ylookup2[MAXHEIGHT];
 int     fuzztable[SCREENWIDTH * SCREENHEIGHT];
+int     fuzzclip;
 
 byte redtoblue[] =
 {
@@ -928,7 +929,7 @@ void R_DrawFuzzColumn(void)
         // bottom
         if (dc_yh == viewheight - 1)
             *dest = colormaps[5 * 256 + dest[fuzztable[fuzzpos]]];
-        else if (fuzztable[fuzzpos])
+        else if (fuzzclip == -1 && fuzztable[fuzzpos])
             *dest = colormaps[14 * 256 + dest[fuzztable[fuzzpos]]];
     }
     else
@@ -957,7 +958,7 @@ void R_DrawFuzzColumn(void)
         fuzztable[fuzzpos] = FUZZ(-1, 0);
         if (dc_yh == viewheight - 1)
             *dest = colormaps[5 * 256 + dest[fuzztable[fuzzpos]]];
-        else if (M_RandomInt(1, 100) < 25)
+        else if (fuzzclip == -1 && M_RandomInt(1, 100) < 25)
             *dest = colormaps[14 * 256 + dest[fuzztable[fuzzpos]]];
     }
 }

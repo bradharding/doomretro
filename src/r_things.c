@@ -89,6 +89,7 @@ extern int                      screensize;
 extern boolean                  inhelpscreens;
 extern int                      graphicdetail;
 extern boolean                  translucency;
+extern int                      fuzzclip;
 
 //
 // R_InstallSpriteLump
@@ -319,7 +320,7 @@ fixed_t spryscale;
 fixed_t sprtopscreen;
 fixed_t sprbotscreen;
 
-void R_DrawMaskedColumn(column_t *column, signed int baseclip)
+void R_DrawMaskedColumn(column_t *column, int baseclip)
 {
     while (column->topdelta != 0xff)
     {
@@ -339,6 +340,7 @@ void R_DrawMaskedColumn(column_t *column, signed int baseclip)
 
         if (dc_yh >= baseclip && baseclip != -1)
             dc_yh = baseclip;
+        fuzzclip = baseclip;
 
         dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
             FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
