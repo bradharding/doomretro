@@ -57,6 +57,7 @@ typedef struct
     char        endname[9];
     char        startname[9];
     int         speed;
+    boolean     isliquid;
 } animdef_t;
 
 #ifdef _MSC_VER
@@ -83,35 +84,35 @@ static size_t   maxanims;
 //
 animdef_t animdefs[] =
 {
-    { false, "NUKAGE3",  "NUKAGE1",  7 },
-    { false, "FWATER4",  "FWATER1",  7 },
-    { false, "SWATER4",  "SWATER1",  7 },
-    { false, "LAVA4",    "LAVA1",    7 },
-    { false, "BLOOD3",   "BLOOD1",   7 },
+    { false, "NUKAGE3",  "NUKAGE1",  7, true  },
+    { false, "FWATER4",  "FWATER1",  7, true  },
+    { false, "SWATER4",  "SWATER1",  7, true  },
+    { false, "LAVA4",    "LAVA1",    7, true  },
+    { false, "BLOOD3",   "BLOOD1",   7, true  },
 
     // DOOM II flat animations.
-    { false, "RROCK08",  "RROCK05",  7 },
-    { false, "SLIME04",  "SLIME01",  7 },
-    { false, "SLIME08",  "SLIME05",  7 },
-    { false, "SLIME12",  "SLIME09",  7 },
+    { false, "RROCK08",  "RROCK05",  7, false },
+    { false, "SLIME04",  "SLIME01",  7, true  },
+    { false, "SLIME08",  "SLIME05",  7, true  },
+    { false, "SLIME12",  "SLIME09",  7, false },
 
-    { true,  "BLODGR4",  "BLODGR1",  7 },
-    { true,  "SLADRIP3", "SLADRIP1", 7 },
+    { true,  "BLODGR4",  "BLODGR1",  7, false },
+    { true,  "SLADRIP3", "SLADRIP1", 7, false },
 
-    { true,  "BLODRIP4", "BLODRIP1", 7 },
-    { true,  "FIREWALL", "FIREWALA", 7 },
-    { true,  "GSTFONT3", "GSTFONT1", 7 },
-    { true,  "FIRELAVA", "FIRELAV3", 7 },
-    { true,  "FIREMAG3", "FIREMAG1", 7 },
-    { true,  "FIREBLU2", "FIREBLU1", 7 },
-    { true,  "ROCKRED3", "ROCKRED1", 7 },
+    { true,  "BLODRIP4", "BLODRIP1", 7, false },
+    { true,  "FIREWALL", "FIREWALA", 7, false },
+    { true,  "GSTFONT3", "GSTFONT1", 7, false },
+    { true,  "FIRELAVA", "FIRELAV3", 7, false },
+    { true,  "FIREMAG3", "FIREMAG1", 7, false },
+    { true,  "FIREBLU2", "FIREBLU1", 7, false },
+    { true,  "ROCKRED3", "ROCKRED1", 7, false },
 
-    { true,  "BFALL4",   "BFALL1",   7 },
-    { true,  "SFALL4",   "SFALL1",   7 },
-    { true,  "WFALL4",   "WFALL1",   7 },
-    { true,  "DBRAIN4",  "DBRAIN1",  7 },
+    { true,  "BFALL4",   "BFALL1",   7, false },
+    { true,  "SFALL4",   "SFALL1",   7, false },
+    { true,  "WFALL4",   "WFALL1",   7, false },
+    { true,  "DBRAIN4",  "DBRAIN1",  7, false },
 
-    { -1,    "",         "",         0 }
+    { -1,    "",         "",         0, false }
 };
 
 //
@@ -170,8 +171,9 @@ void P_InitPicAnims(void)
 
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
 
-            for (j = 0; j < lastanim->numpics; j++)
-                isliquid[lastanim->basepic + j] = true;
+            if (animdefs[i].isliquid)
+                for (j = 0; j < lastanim->numpics; j++)
+                    isliquid[lastanim->basepic + j] = true;
         }
 
         lastanim->istexture = animdefs[i].istexture;
