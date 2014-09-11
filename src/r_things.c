@@ -537,7 +537,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     // foot clipping
     if (thing->flags2 & MF2_FEETARECLIPPED && thing->z <= thing->subsector->sector->floorheight)
-        vis->footclip = 10;
+        vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 5, 10);
     else
         vis->footclip = 0;
     vis->texturemid = vis->gzt - viewz - (vis->footclip << FRACBITS);
