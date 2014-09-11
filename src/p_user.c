@@ -122,6 +122,13 @@ void P_CalcHeight(player_t *player)
     else
         player->viewz = player->mo->z + player->viewheight;
 
+    if (player->mo->flags2 & MF2_FEETARECLIPPED
+        && player->playerstate != PST_DEAD
+        && player->mo->z <= player->mo->floorz)
+    {
+        player->viewz -= FOOTCLIPSIZE;
+    }
+
     if (player->viewz > player->mo->ceilingz - 4 * FRACUNIT)
         player->viewz = player->mo->ceilingz - 4 * FRACUNIT;
 }
