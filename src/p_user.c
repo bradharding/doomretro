@@ -68,12 +68,11 @@ void P_Thrust(player_t *player, angle_t angle, fixed_t move)
 //
 void P_CalcHeight(player_t *player)
 {
+    mobj_t      *mo = player->mo;
+
     if (!onground)
     {
-        player->viewz = player->mo->z + VIEWHEIGHT;
-
-        if (player->viewz > player->mo->ceilingz - 4 * FRACUNIT)
-            player->viewz = player->mo->ceilingz - 4 * FRACUNIT;
+        player->viewz = MIN(player->mo->z + VIEWHEIGHT, mo->ceilingz - 4 * FRACUNIT);
         return;
     }
 
@@ -85,8 +84,7 @@ void P_CalcHeight(player_t *player)
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        bob = ((FixedMul(player->mo->momx, player->mo->momx) +
-                FixedMul(player->mo->momy, player->mo->momy)) >> 2);
+        bob = ((FixedMul(mo->momx, mo->momx) + FixedMul(mo->momy, mo->momy)) >> 2);
 
         // DHM - NERVE :: player bob reduced by 25%, MAXBOB reduced by 25% as well
         player->bob = MIN(bob * playerbob / 100, MAXBOB);
@@ -116,21 +114,21 @@ void P_CalcHeight(player_t *player)
             if (!player->deltaviewheight)
                 player->deltaviewheight = 1;
         }
-        player->viewz = player->mo->z + player->viewheight + bob;
+        player->viewz = mo->z + player->viewheight + bob;
 
     }
     else
-        player->viewz = player->mo->z + player->viewheight;
+        player->viewz = mo->z + player->viewheight;
 
     if (player->mo->flags2 & MF2_FEETARECLIPPED
         && player->playerstate != PST_DEAD
-        && player->mo->z <= player->mo->floorz)
+        && mo->z <= mo->floorz
+        && mo->floorz == mo->subsector->sector->floorheight)
     {
         player->viewz -= FOOTCLIPSIZE;
     }
 
-    if (player->viewz > player->mo->ceilingz - 4 * FRACUNIT)
-        player->viewz = player->mo->ceilingz - 4 * FRACUNIT;
+    player->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, player->viewz, mo->ceilingz - 4 * FRACUNIT);
 }
 
 //
