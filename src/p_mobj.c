@@ -127,6 +127,7 @@ void P_ExplodeMissile(mobj_t *mo)
 //
 #define STOPSPEED       0x1000
 #define FRICTION        0xe800
+#define WATERFRICTION   0xfb00
 
 boolean shootingsky = false;
 int     puffcount = 0;
@@ -281,8 +282,17 @@ void P_XYMovement(mobj_t *mo)
     }
     else
     {
-        mo->momx = FixedMul(mo->momx, FRICTION);
-        mo->momy = FixedMul(mo->momy, FRICTION);
+        if (((mo->flags & MF_CORPSE) || (mo->flags & MF_DROPPED))
+            && isliquid[mo->subsector->sector->floorpic])
+        {
+            mo->momx = FixedMul(mo->momx, WATERFRICTION);
+            mo->momy = FixedMul(mo->momy, WATERFRICTION);
+        }
+        else
+        {
+            mo->momx = FixedMul(mo->momx, FRICTION);
+            mo->momy = FixedMul(mo->momy, FRICTION);
+        }
     }
 }
 
