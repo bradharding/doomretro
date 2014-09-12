@@ -38,8 +38,8 @@
 #include "s_sound.h"
 
 // Ty 03/07/98 - add deh externals
-// Maximums and such were hardcoded values.  Need to externalize those for
-// dehacked support (and future flexibility).  Most var names came from the key
+// Maximums and such were hardcoded values. Need to externalize those for
+// dehacked support (and future flexibility). Most var names came from the key
 // strings used in dehacked.
 int initial_health = 100;
 int initial_bullets = 50;
@@ -939,6 +939,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
                 z = source->z;
             }
             dist = R_PointToDist(target->x, target->y);
+
+            if (target->flags2 & MF2_FEETARECLIPPED)
+                z += FOOTCLIPSIZE;
 
             viewx = 0;
             viewy = z;
