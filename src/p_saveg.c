@@ -35,9 +35,11 @@
 #define SAVEGAME_EOF    0x1d
 #define VERSIONSIZE     16
 
-FILE    *save_stream;
-int     savegamelength;
-boolean savegame_error;
+FILE            *save_stream;
+int             savegamelength;
+boolean         savegame_error;
+
+extern boolean  *isliquid;
 
 // Get the filename of a temporary file to write the savegame to. After
 // the file has been successfully saved, it will be renamed to the
@@ -1710,6 +1712,8 @@ void P_UnArchiveThinkers(void)
                         flags2 |= MF2_FALLING;
 
                     mobj->flags2 = flags2;
+                    if (isliquid[mobj->subsector->sector->floorpic])
+                        mobj->flags2 |= MF2_FEETARECLIPPED;
 
                     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
                 }
