@@ -657,7 +657,7 @@ boolean G_Responder(event_t *ev)
              && !keydown)
         {
             if (splashscreen)
-                pagetic = MAX(10, pagetic);
+                pagetic = MIN(10, pagetic);
             else
             {
                 keydown = ev->data1;
