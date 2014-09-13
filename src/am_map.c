@@ -176,7 +176,7 @@ mline_t playerarrow[] =
     { { -674085,       0 }, {  -973678, -299593 } }
 };
 
-#define PLAYERARROWLINES 8
+#define PLAYERARROWLINES        8
 
 mline_t cheatplayerarrow[] =
 {
@@ -201,7 +201,7 @@ mline_t cheatplayerarrow[] =
     { {  312076, -208645 }, {   394464, -171196 } }
 };
 
-#define CHEATPLAYERARROWLINES 19
+#define CHEATPLAYERARROWLINES   19
 
 mline_t thingtriangle[] =
 {
@@ -210,7 +210,7 @@ mline_t thingtriangle[] =
     { {  -32768,   45875 }, {   -32768,  -45875 } }
 };
 
-#define THINGTRIANGLELINES 3
+#define THINGTRIANGLELINES      3
 
 boolean         grid = GRID_DEFAULT;
 
@@ -219,9 +219,6 @@ boolean         automapactive = false;
 static mpoint_t m_paninc;                       // how far the window pans each tic (map coords)
 static fixed_t  mtof_zoommul;                   // how far the window zooms in each tic (map coords)
 static fixed_t  ftom_zoommul;                   // how far the window zooms in each tic (fb coords)
-
-static fixed_t  decpanx = 0;
-static fixed_t  decpany = 0;
 
 fixed_t         m_x = INT_MAX, m_y = INT_MAX;   // LL x,y where the window is on the map (map coords)
 static fixed_t  m_x2, m_y2;                     // UR x,y where the window is on the map (map coords)
@@ -275,12 +272,12 @@ int             GATE2;
 int             GATE3;
 int             GATE4;
 
-__inline static fixed_t sign(fixed_t a)
+__inline static int sign(int a)
 {
-    return (a > 0) - (a < 0);
+    return ((a > 0) - (a < 0));
 }
 
-static void AM_rotate(fixed_t* xp, fixed_t* yp, angle_t a);
+static void AM_rotate(fixed_t *xp, fixed_t *yp, angle_t a);
 
 static void AM_activateNewScale(void)
 {
@@ -408,25 +405,13 @@ static void AM_changeWindowLoc(void)
         fixed_t h = (m_h >> 1);
 
         if (m_x + w > max_x)
-        {
             m_x = max_x - w;
-            decpanx = 0;
-        }
         else if (m_x + w < min_x)
-        {
             m_x = min_x - w;
-            decpanx = 0;
-        }
         if (m_y + h > max_y)
-        {
             m_y = max_y - h;
-            decpany = 0;
-        }
         else if (m_y + h < min_y)
-        {
             m_y = min_y - h;
-            decpany = 0;
-        }
     }
 
     m_x2 = m_x + m_w;
@@ -671,7 +656,6 @@ boolean AM_Responder(event_t *ev)
                     {
                         speedtoggle = AM_getSpeedToggle();
                         m_paninc.x = FTOM(F_PANINC);
-                        decpanx = 0;
                     }
                 }
 
@@ -688,7 +672,6 @@ boolean AM_Responder(event_t *ev)
                     {
                         speedtoggle = AM_getSpeedToggle();
                         m_paninc.x = -FTOM(F_PANINC);
-                        decpanx = 0;
                     }
                 }
 
@@ -705,7 +688,6 @@ boolean AM_Responder(event_t *ev)
                     {
                         speedtoggle = AM_getSpeedToggle();
                         m_paninc.y = FTOM(F_PANINC);
-                        decpany = 0;
                     }
                 }
 
@@ -722,7 +704,6 @@ boolean AM_Responder(event_t *ev)
                     {
                         speedtoggle = AM_getSpeedToggle();
                         m_paninc.y = -FTOM(F_PANINC);
-                        decpany = 0;
                     }
                 }
 
@@ -897,49 +878,26 @@ boolean AM_Responder(event_t *ev)
                     if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANRIGHTKEY)
-                            || keystate(AM_PANRIGHTKEY2))
-                        {
+                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2))
                             m_paninc.x = FTOM(F_PANINC);
-                            decpanx = 0;
-                        }
-                        else if (m_paninc.x)
-                            decpanx = F_PANINC - 1;
                     }
                     else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANLEFTKEY)
-                            || keystate(AM_PANLEFTKEY2))
-                        {
+                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2))
                             m_paninc.x = -FTOM(F_PANINC);
-                            decpanx = 0;
-                        }
-                        else if (m_paninc.x)
-                            decpanx = F_PANINC - 1;
                     }
                     else if (key == AM_PANUPKEY || key == AM_PANUPKEY2)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANDOWNKEY)
-                            || keystate(AM_PANDOWNKEY2))
-                        {
+                        if (keystate(AM_PANDOWNKEY) || keystate(AM_PANDOWNKEY2))
                             m_paninc.y = FTOM(F_PANINC);
-                            decpany = 0;
-                        }
-                        else if (m_paninc.y)
-                            decpany = F_PANINC - 1;
                     }
                     else if (key == AM_PANDOWNKEY || key == AM_PANDOWNKEY2)
                     {
                         speedtoggle = AM_getSpeedToggle();
                         if (keystate(AM_PANUPKEY) || keystate(AM_PANUPKEY2))
-                        {
                             m_paninc.y = -FTOM(F_PANINC);
-                            decpany = 0;
-                        }
-                        else if (m_paninc.y)
-                            decpany = F_PANINC - 1;
                     }
                 }
             }
@@ -1123,14 +1081,6 @@ static void AM_doFollowPlayer(void)
     }
 }
 
-static void AM_decelerate(void)
-{
-    if (decpanx)
-        m_paninc.x = FixedMul(sign(m_paninc.x), FTOM(--decpanx));
-    if (decpany)
-        m_paninc.y = FixedMul(sign(m_paninc.y), FTOM(--decpany));
-}
-
 //
 // Updates on Game Tic
 //
@@ -1148,10 +1098,7 @@ void AM_Ticker(void)
 
     // Change x,y location
     if ((m_paninc.x || m_paninc.y) && !menuactive && !paused)
-    {
-        AM_decelerate();
         AM_changeWindowLoc();
-    }
 
     if (movement)
     {
