@@ -223,6 +223,8 @@ extern boolean  alwaysrun;
 
 extern int      st_palette;
 
+extern int      pagetic;
+
 int G_CmdChecksum(ticcmd_t *cmd)
 {
     size_t      i;
@@ -636,7 +638,6 @@ boolean G_Responder(event_t *ev)
     if (gameaction == ga_nothing && gamestate == GS_TITLESCREEN)
     {
         if (!menuactive
-            && !splashscreen
             && ((ev->type == ev_keydown
                  && ev->data1 != KEY_PAUSE
                  && ev->data1 != KEY_RSHIFT
@@ -655,13 +656,18 @@ boolean G_Responder(event_t *ev)
                           GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
              && !keydown)
         {
-            keydown = ev->data1;
-            gamepadbuttons = 0;
-            gamepadwait = I_GetTime() + 8;
-            mousewait = I_GetTime() + 5;
-            M_StartControlPanel();
-            S_StartSound(NULL, sfx_swtchn);
-            return true;
+            if (splashscreen)
+                pagetic = MAX(10, pagetic);
+            else
+            {
+                keydown = ev->data1;
+                gamepadbuttons = 0;
+                gamepadwait = I_GetTime() + 8;
+                mousewait = I_GetTime() + 5;
+                M_StartControlPanel();
+                S_StartSound(NULL, sfx_swtchn);
+                return true;
+            }
         }
         return false;
     }
