@@ -888,7 +888,7 @@ static int D_ChooseIWAD(void)
 #endif
 }
 
-void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void));
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void), int);
 
 boolean CheckPackageWadVersion(void);
 
