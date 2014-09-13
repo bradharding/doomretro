@@ -31,7 +31,7 @@
 #define PACKAGE_NAME_A          "DOOM RETRO"
 #define PACKAGE_NAME_W          L"DOOM RETRO"
 #define PACKAGE_NAME            PACKAGE_NAME_A
-#define PACKAGE_DESCRIPTION     "DOOM RETRO v1.666"
-#define PACKAGE_VERSION         1,666,0,0
-#define PACKAGE_VERSIONSTRING   "1.666"
+#define PACKAGE_DESCRIPTION     "DOOM RETRO v1.6"
+#define PACKAGE_VERSION         1,6,0,0
+#define PACKAGE_VERSIONSTRING   "1.6"
 #define PACKAGE_WAD             "DOOMRETRO.WAD"
