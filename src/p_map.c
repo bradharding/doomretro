@@ -1723,6 +1723,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
             void        (*colfunc)(void) = tl50colfunc;
             int         radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >>
                                   FRACBITS) >> 1) + 8;
+            int         max = radius << 3;
 
             if (!FREEDOOM)
             {
@@ -1738,7 +1739,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
                 }
             }
 
-            for (i = 0; i < M_RandomInt(100, 150); i++)
+            for (i = 0; i < max; i++)
             {
                 P_BloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
                     thing->y + (M_RandomInt(-radius, radius) << FRACBITS),
