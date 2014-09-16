@@ -32,9 +32,9 @@
 // CEILINGS
 //
 
-ceiling_t *activeceilingshead;
+ceiling_t       *activeceilingshead;
 
-extern boolean canmodify;
+extern boolean  canmodify;
 
 //
 // T_MoveCeiling
@@ -54,19 +54,9 @@ void T_MoveCeiling(ceiling_t *ceiling)
             res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->topheight,
                               false, 1, ceiling->direction);
 
-            if (!(leveltime & 7)
-                && ceiling->sector->ceilingheight != ceiling->topheight)
-            {
-                switch (ceiling->type)
-                {
-                    case silentCrushAndRaise:
-                        break;
-
-                    default:
-                        S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
-                        break;
-                }
-            }
+            if (!(leveltime & 7) && ceiling->sector->ceilingheight != ceiling->topheight)
+                if (ceiling->type != silentCrushAndRaise)
+                    S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
 
             if (res == pastdest)
             {
@@ -95,18 +85,9 @@ void T_MoveCeiling(ceiling_t *ceiling)
             res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->bottomheight,
                               ceiling->crush, 1, ceiling->direction);
 
-            if (!(leveltime & 7)
-                && ceiling->sector->ceilingheight != ceiling->bottomheight)
-            {
-                switch (ceiling->type)
-                {
-                    case silentCrushAndRaise:
-                        break;
-
-                    default:
-                        S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
-                }
-            }
+            if (!(leveltime & 7) && ceiling->sector->ceilingheight != ceiling->bottomheight)
+                if (ceiling->type != silentCrushAndRaise)
+                    S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
 
             if (res == pastdest)
             {

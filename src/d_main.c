@@ -103,15 +103,7 @@ boolean         forcewipe = false;
 
 boolean         splashscreen;
 
-extern int      screenwidth;
-extern int      screenheight;
-extern int      windowwidth;
-extern int      windowheight;
-extern int      pixelwidth;
-extern int      pixelheight;
 extern int      selectedexpansion;
-extern float    saturation;
-extern int      playerbob;
 
 #ifdef SDL20
 extern SDL_Window *sdl_window;
