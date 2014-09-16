@@ -3196,6 +3196,11 @@ void M_Init(void)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
     else if (gamemode == registered)
         EpiDef.numitems--;
+    else if (W_CheckMultipleLumps("M_EPI1") > 1
+        && W_CheckMultipleLumps("M_EPI2") > 1
+        && W_CheckMultipleLumps("M_EPI3") > 1
+        && W_CheckMultipleLumps("M_EPI4") <= 1)
+        EpiDef.numitems--;
 
     s_DOSY = M_StringReplace(s_DOSY, "DOS", "Windows");
 }
