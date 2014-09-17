@@ -1006,32 +1006,31 @@ void R_DrawMasked(void)
     }
 
     // draw all blood splats first, front to back
-    if (graphicdetail == HIGH)
-        for (i = 0; i < num_vissprite; i++)
+    for (i = 0; i < num_vissprite; i++)
+    {
+        vissprite_t     *spr = vissprite_ptrs[i];
+
+        if (spr->type == MT_BLOODSPLAT)
         {
-            vissprite_t     *spr = vissprite_ptrs[i];
-
-            if (spr->type == MT_BLOODSPLAT)
+            if (spr->x2 < cx)
             {
-                if (spr->x2 < cx)
-                {
-                    drawsegs_xrange = drawsegs_xranges[1].items;
-                    drawsegs_xrange_count = drawsegs_xranges[1].count;
-                }
-                else if (spr->x1 >= cx)
-                {
-                    drawsegs_xrange = drawsegs_xranges[2].items;
-                    drawsegs_xrange_count = drawsegs_xranges[2].count;
-                }
-                else
-                {
-                    drawsegs_xrange = drawsegs_xranges[0].items;
-                    drawsegs_xrange_count = drawsegs_xranges[0].count;
-                }
-
-                R_DrawSprite(spr, false);
+                drawsegs_xrange = drawsegs_xranges[1].items;
+                drawsegs_xrange_count = drawsegs_xranges[1].count;
             }
+            else if (spr->x1 >= cx)
+            {
+                drawsegs_xrange = drawsegs_xranges[2].items;
+                drawsegs_xrange_count = drawsegs_xranges[2].count;
+            }
+            else
+            {
+                drawsegs_xrange = drawsegs_xranges[0].items;
+                drawsegs_xrange_count = drawsegs_xranges[0].count;
+            }
+
+            R_DrawSprite(spr, false);
         }
+    }
 
     // draw all other vissprites, back to front
     for (i = num_vissprite; --i >= 0;)
