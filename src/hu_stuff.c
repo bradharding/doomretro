@@ -351,7 +351,7 @@ void HU_Start(void)
     HUlib_initTextLine(&w_title, HU_TITLEX, HU_TITLEY, hu_font, HU_FONTSTART);
 
     s = Z_Malloc(133, PU_STATIC, NULL);
-    strcpy(s, mapnumandtitle);
+    strcpy(s, automaptitle);
 
     len = strlen(s);
     while (M_StringWidth(s) > ORIGINALWIDTH - 6)

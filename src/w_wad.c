@@ -69,7 +69,7 @@ unsigned int    numlumps = 0;
 
 static lumpinfo_t **lumphash;
 
-static void ExtractFileBase(char *path, char *dest)
+void ExtractFileBase(char *path, char *dest)
 {
     char        *src;
     char        *filename;
@@ -133,6 +133,8 @@ wad_file_t *W_AddFile(char *filename)
 
     if (wad_file == NULL)
         return NULL;
+
+    strcpy(wad_file->path, filename);
 
     startlump = numlumps;
 

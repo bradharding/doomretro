@@ -1045,6 +1045,7 @@ void P_SetupWiggleFix(void)
 char            mapnum[6];
 char            maptitle[128];
 char            mapnumandtitle[133];
+char            automaptitle[133];
 
 extern char     **mapnames[];
 extern char     **mapnames2[];
@@ -1058,10 +1059,15 @@ extern char     *hu_mapnames2[];
 
 extern int      dehcount;
 
+extern char     *iwadfile;
+
+void ExtractFileBase(char *path, char *dest);
+
 // Determine map name to use
 void P_MapName(int episode, int map)
 {
     char        *pos;
+    char        wad[260];
     int         i;
     boolean     mapnumonly = false;
 
@@ -1075,6 +1081,8 @@ void P_MapName(int episode, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+                ExtractFileBase(lumpinfo[W_GetNumForName(mapnum)].wad_file->path, wad);
+                M_snprintf(automaptitle, 133, "%s.wad's %s", wad, mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnames[i], sizeof(maptitle));
@@ -1088,6 +1096,8 @@ void P_MapName(int episode, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+                ExtractFileBase(lumpinfo[W_GetNumForName(mapnum)].wad_file->path, wad);
+                M_snprintf(automaptitle, 133, "%s.wad's %s", wad, mapnum);
             }
             else
                 M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[i] : *mapnames2[i]),
@@ -1107,6 +1117,8 @@ void P_MapName(int episode, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+                ExtractFileBase(lumpinfo[W_GetNumForName(mapnum)].wad_file->path, wad);
+                M_snprintf(automaptitle, 133, "%s.wad's %s", wad, mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
@@ -1120,6 +1132,8 @@ void P_MapName(int episode, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
+                ExtractFileBase(lumpinfo[W_GetNumForName(mapnum)].wad_file->path, wad);
+                M_snprintf(automaptitle, 133, "%s.wad's %s", wad, mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
@@ -1130,6 +1144,7 @@ void P_MapName(int episode, int map)
     }
 
     if (!mapnumonly)
+    {
         if ((pos = strchr(maptitle, ':')))
         {
             if (M_StringStartsWith(maptitle, "Level"))
@@ -1149,6 +1164,8 @@ void P_MapName(int episode, int map)
         }
         else
             M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+        M_StringCopy(automaptitle, mapnumandtitle, sizeof(automaptitle));
+    }
 }
 
 extern boolean idclev;
