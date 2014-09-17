@@ -889,23 +889,23 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
                     if (cliptop[x] == -2)
                         cliptop[x] = ds->sprtopclip[x];
         }
+
+        // all clipping has been performed, so draw the sprite
+
+        // check for unclipped columns
+        for (x = spr->x1; x <= spr->x2; x++)
+        {
+            if (clipbot[x] == -2)
+                clipbot[x] = viewheight;
+
+            if (cliptop[x] == -2)
+                cliptop[x] = -1;
+        }
+
+        mfloorclip = clipbot;
+        mceilingclip = cliptop;
+        R_DrawVisSprite(spr);
     }
-
-    // all clipping has been performed, so draw the sprite
-
-    // check for unclipped columns
-    for (x = spr->x1; x <= spr->x2; x++)
-    {
-        if (clipbot[x] == -2)
-            clipbot[x] = viewheight;
-
-        if (cliptop[x] == -2)
-            cliptop[x] = -1;
-    }
-
-    mfloorclip = clipbot;
-    mceilingclip = cliptop;
-    R_DrawVisSprite(spr);
 }
 
 //
