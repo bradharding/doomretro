@@ -829,31 +829,29 @@ void R_SortVisSprites(void)
 //
 void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
 {
-    drawseg_t   *ds;
-    int         clipbot[MAXWIDTH];
-    int         cliptop[MAXWIDTH];
-    int         x;
-    int         r1;
-    int         r2;
-    fixed_t     scale;
-    fixed_t     lowscale;
-
     if (spr->x1 > spr->x2)
         return;
-
-    for (x = spr->x1; x <= spr->x2; x++)
-        clipbot[x] = cliptop[x] = -2;
-
-    // Scan drawsegs from end to start for obscuring segs.
-    // The first drawseg that has a greater scale
-    //  is the clip seg.
-
-    // e6y: optimization
-    if (drawsegs_xrange_size)
+    else
     {
+        drawseg_t                       *ds;
+        int                             clipbot[MAXWIDTH];
+        int                             cliptop[MAXWIDTH];
+        int                             x;
+        int                             r1;
+        int                             r2;
+        fixed_t                         scale;
+        fixed_t                         lowscale;
         const drawseg_xrange_item_t     *last = &drawsegs_xrange[drawsegs_xrange_count - 1];
         drawseg_xrange_item_t           *curr = &drawsegs_xrange[-1];
 
+        for (x = spr->x1; x <= spr->x2; x++)
+            clipbot[x] = cliptop[x] = -2;
+
+        // Scan drawsegs from end to start for obscuring segs.
+        // The first drawseg that has a greater scale
+        //  is the clip seg.
+
+        // e6y: optimization
         while (++curr <= last)
         {
             // determine if the drawseg obscures the sprite
@@ -869,48 +867,12 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
             scale = MAX(ds->scale1, ds->scale2);
 
             if (scale < spr->scale ||
-                (lowscale < spr->scale &&  !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
-            {
-                // masked mid texture?
-                if (drawmaskedtextures && ds->maskedtexturecol)
-                    R_RenderMaskedSegRange(ds, r1, r2);
-                // seg is behind sprite
-                continue;
-            }
-
-            // clip this piece of the sprite
-            // killough 3/27/98: optimized and made much shorter
-            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
-                for (x = r1; x <= r2; x++)
-                    if (clipbot[x] == -2)
-                        clipbot[x] = ds->sprbottomclip[x];
-
-            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
-                for (x = r1; x <= r2; x++)
-                    if (cliptop[x] == -2)
-                        cliptop[x] = ds->sprtopclip[x];
-        }
-    }
-    else
-    {
-        for (ds = ds_p; ds-- > drawsegs;)
-        {
-            // determine if the drawseg obscures the sprite
-            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
-                continue;           // does not cover sprite
-
-            r1 = MAX(ds->x1, spr->x1);
-            r2 = MIN(ds->x2, spr->x2);
-
-            lowscale = MIN(ds->scale1, ds->scale2);
-            scale = MAX(ds->scale1, ds->scale2);
-
-            if (scale < spr->scale ||
                 (lowscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
             {
                 // masked mid texture?
                 if (drawmaskedtextures && ds->maskedtexturecol)
                     R_RenderMaskedSegRange(ds, r1, r2);
+
                 // seg is behind sprite
                 continue;
             }
