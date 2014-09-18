@@ -902,7 +902,7 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    int i;
+    unsigned int i;
 
     if (chexdeh)
         return;
