@@ -343,6 +343,7 @@ linefix_t linefix[] =
     { doom2,            1,  26,      14,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_DONTDRAW,             DEFAULT,                                                       DEFAULT },
     { doom2,            1,  26,     761,    1, "METAL2",   "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
+    { doom2,            1,  27,     342,    0, "",         "",            "",            DEFAULT,   DEFAULT, ML_BLOCKING,             DEFAULT,                                                       DEFAULT },
     { doom2,            1,  27,     580,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 D1_OpenDoorStayOpen,                                           DEFAULT },
     { doom2,            1,  27,     581,    0, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 D1_OpenDoorStayOpen,                                           DEFAULT },
     { doom2,            1,  27,     582,    1, "ZIMMER3",  "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
