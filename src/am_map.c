@@ -880,24 +880,32 @@ boolean AM_Responder(event_t *ev)
                         speedtoggle = AM_getSpeedToggle();
                         if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2))
                             m_paninc.x = FTOM(F_PANINC);
+                        else
+                            m_paninc.x = 0;
                     }
                     else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2)
                     {
                         speedtoggle = AM_getSpeedToggle();
                         if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2))
                             m_paninc.x = -FTOM(F_PANINC);
+                        else
+                            m_paninc.x = 0;
                     }
                     else if (key == AM_PANUPKEY || key == AM_PANUPKEY2)
                     {
                         speedtoggle = AM_getSpeedToggle();
                         if (keystate(AM_PANDOWNKEY) || keystate(AM_PANDOWNKEY2))
                             m_paninc.y = FTOM(F_PANINC);
+                        else
+                            m_paninc.y = 0;
                     }
                     else if (key == AM_PANDOWNKEY || key == AM_PANDOWNKEY2)
                     {
                         speedtoggle = AM_getSpeedToggle();
                         if (keystate(AM_PANUPKEY) || keystate(AM_PANUPKEY2))
                             m_paninc.y = -FTOM(F_PANINC);
+                        else
+                            m_paninc.y = 0;
                     }
                 }
             }
