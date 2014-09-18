@@ -2598,7 +2598,8 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout
         {
             if (deh_strlookup[i].assigned)
             {
-                fprintf(fpout, "Key %s already assigned\n", key);
+                if (fpout)
+                    fprintf(fpout, "Key %s already assigned\n", key);
                 break;
             }
 
