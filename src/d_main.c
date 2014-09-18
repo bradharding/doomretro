@@ -907,7 +907,7 @@ static void D_ProcessDehInWad(void)
     if (chexdeh)
         return;
 
-    for (i = numlumps - 1; i >= 0; --i)
+    for (i = 0; i < numlumps; ++i)
         if (!strncasecmp(lumpinfo[i].name, "DEHACKED", 8))
             ProcessDehFile(NULL, "-", i);
 }

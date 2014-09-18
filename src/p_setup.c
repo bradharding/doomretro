@@ -1059,9 +1059,8 @@ extern char     *hu_mapnames2[];
 
 extern int      dehcount;
 
-extern char     *iwadfile;
-
 void ExtractFileBase(char *path, char *dest);
+char *uppercase(char *str);
 
 // Determine map name to use
 void P_MapName(int episode, int map)
@@ -1076,7 +1075,7 @@ void P_MapName(int episode, int map)
         case doom:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", episode, map);
             i = (episode - 1) * 9 + map - 1;
-            if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
+            if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
             {
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
@@ -1147,7 +1146,7 @@ void P_MapName(int episode, int map)
     {
         if ((pos = strchr(maptitle, ':')))
         {
-            if (M_StringStartsWith(maptitle, "Level"))
+            if (M_StringStartsWith(uppercase(maptitle), "LEVEL"))
             {
                 strcpy(maptitle, pos + 1);
                 if (maptitle[0] == ' ')
