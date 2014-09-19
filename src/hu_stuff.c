@@ -625,11 +625,11 @@ void HU_Erase(void)
     HUlib_eraseTextLine(&w_title);
 }
 
-extern fixed_t m_x, m_y, m_h, m_w;
-extern boolean message_dontpause;
-extern boolean blurred;
-extern boolean inhelpscreens;
-extern int direction;
+extern fixed_t  m_x, m_y, m_h, m_w;
+extern boolean  message_dontpause;
+extern boolean  blurred;
+extern boolean  inhelpscreens;
+extern int      direction;
 
 void HU_Ticker(void)
 {

@@ -82,7 +82,7 @@ mobj_t          *onmobj;
 
 extern boolean  followplayer;
 extern boolean  *isliquid;
-extern int      footclip;
+extern boolean  footclip;
 
 //
 // TELEPORT MOVE

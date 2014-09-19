@@ -47,7 +47,7 @@ boolean                 smoketrails = SMOKETRAILS_DEFAULT;
 
 int                     corpses = CORPSES_DEFAULT;
 
-int                     footclip = FOOTCLIP_DEFAULT;
+boolean                 footclip = FOOTCLIP_DEFAULT;
 
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern boolean          *isliquid;

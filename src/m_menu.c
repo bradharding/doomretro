@@ -79,8 +79,8 @@ int             screensize = SCREENSIZE_DEFAULT;
 // -1 = no quicksave slot picked!
 int             quickSaveSlot;
 
-// 1 = message to be printed
-int             messageToPrint;
+// true = message to be printed
+boolean         messageToPrint;
 // ...and here is the message string!
 char            *messageString;
 
@@ -941,9 +941,6 @@ void M_LoadSelect(int choice)
 //
 void M_LoadGame(int choice)
 {
-    //if (netgame)
-    //    return;
-
     M_SetupNextMenu(&LoadDef);
     M_ReadSaveStrings();
 }
@@ -1231,7 +1228,7 @@ void M_QuickSave(void)
 //
 void M_QuickLoadResponse(int key)
 {
-    messageToPrint = 0;
+    messageToPrint = false;
     if (key == 'y')
     {
         M_LoadSelect(quickSaveSlot);
@@ -1243,7 +1240,7 @@ char    tempstring[160];
 
 void M_QuickLoad(void)
 {
-    if (/*netgame || */quickSaveSlot < 0)
+    if (quickSaveSlot < 0)
     {
         functionkey = 0;
         return;
@@ -1433,9 +1430,6 @@ void M_DrawNewGame(void)
 
 void M_NewGame(int choice)
 {
-    //if (netgame)
-    //    return;
-
     if (chex)
         M_SetupNextMenu(&NewDef);
     else
@@ -1479,14 +1473,11 @@ void M_DrawExpansion(void)
 
 void M_VerifyNightmare(int key)
 {
+    messageToPrint = false;
     if (key != 'y')
-    {
         M_SetupNextMenu(&NewDef);
-        messageToPrint = 0;
-    }
     else
     {
-        messageToPrint = 0;
         S_StartSound(NULL, sfx_swtchx);
         I_WaitVBL(2 * TICRATE);
         quickSaveSlot = -1;
@@ -1650,7 +1641,7 @@ boolean endinggame = false;
 
 void M_EndGameResponse(int key)
 {
-    messageToPrint = 0;
+    messageToPrint = false;
     if (key != 'y')
     {
         if (functionkey == KEY_F7)
@@ -1679,7 +1670,7 @@ void M_EndGameResponse(int key)
 void M_EndGame(int choice)
 {
     choice = 0;
-    if (!usergame/* || netgame*/)
+    if (!usergame)
         return;
 
     if (M_StringEndsWith(s_ENDGAME, s_PRESSYN))
@@ -1738,7 +1729,7 @@ extern boolean  waspaused;
 
 void M_QuitResponse(int key)
 {
-    messageToPrint = 0;
+    messageToPrint = false;
     if (key != 'y')
     {
         quitting = false;
@@ -1753,7 +1744,7 @@ void M_QuitResponse(int key)
             M_SetupNextMenu(&MainDef);
         return;
     }
-    if (/*!netgame && */!nosfx && sfxVolume > 0)
+    if (!nosfx && sfxVolume > 0)
     {
         if (gamemode == commercial)
             S_StartSound(NULL, quitsounds2[M_Random() % 8]);
@@ -1928,7 +1919,7 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
 void M_StartMessage(char *string, void *routine, boolean input)
 {
     messageLastMenuActive = menuactive;
-    messageToPrint = 1;
+    messageToPrint = true;
     messageString = string;
     messageRoutine = (void (*)(int))routine;
     messageNeedsInput = input;
@@ -2347,7 +2338,7 @@ boolean M_Responder(event_t *ev)
             return false;
         }
         menuactive = messageLastMenuActive;
-        messageToPrint = 0;
+        messageToPrint = false;
         if (messageRoutine)
             messageRoutine(tolower(key));
         functionkey = 0;
@@ -2660,7 +2651,7 @@ boolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 3
                         && (!usergame || gamestate != GS_LEVEL || players[consoleplayer].health <= 0))
                         itemOn++;
-                    if (currentMenu == &OptionsDef && !itemOn && (!usergame/* || netgame*/))
+                    if (currentMenu == &OptionsDef && !itemOn && !usergame)
                         itemOn++;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
@@ -2723,7 +2714,7 @@ boolean M_Responder(event_t *ev)
                         itemOn--;
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         itemOn--;
-                    if (currentMenu == &OptionsDef && !itemOn && (!usergame/* || netgame*/))
+                    if (currentMenu == &OptionsDef && !itemOn && !usergame)
                         itemOn = currentMenu->numitems - 1;
                     if (currentMenu->menuitems[itemOn].status != -1)
                         S_StartSound(NULL, sfx_pstop);
@@ -2813,7 +2804,7 @@ boolean M_Responder(event_t *ev)
                     if ((!usergame || gamestate != GS_LEVEL) && currentMenu == &MainDef
                         && itemOn == 3)
                         return true;
-                    if ((!usergame/* || netgame*/) && currentMenu == &OptionsDef && !itemOn)
+                    if (!usergame && currentMenu == &OptionsDef && !itemOn)
                         return true;
                     if (currentMenu != &LoadDef && (currentMenu != &NewDef ||
                         (currentMenu == &NewDef && itemOn == 4)))
@@ -2870,7 +2861,7 @@ boolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
-                    if (currentMenu == &OptionsDef && !i && (!usergame/* || netgame*/))
+                    if (currentMenu == &OptionsDef && !i && !usergame)
                         return true;
                     if (currentMenu == &LoadDef && !strcasecmp(savegamestrings[i], s_EMPTYSTRING))
                         return true;
@@ -2918,7 +2909,7 @@ boolean M_Responder(event_t *ev)
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
-                    if (currentMenu == &OptionsDef && !i && (!usergame/* || netgame*/))
+                    if (currentMenu == &OptionsDef && !i && !usergame)
                         return true;
                     if (currentMenu == &LoadDef && !strcasecmp(savegamestrings[i], s_EMPTYSTRING))
                         return true;
@@ -3109,7 +3100,7 @@ void M_Drawer(void)
     {
         patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
 
-        if (currentMenu == &OptionsDef && !itemOn && (!usergame/* || netgame*/))
+        if (currentMenu == &OptionsDef && !itemOn && !usergame)
             itemOn++;
         if (M_SKULL1)
             M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET + chex, 0, patch);
@@ -3168,7 +3159,7 @@ void M_Init(void)
     itemOn = currentMenu->lastOn;
     whichSkull = 0;
     skullAnimCounter = 10;
-    messageToPrint = 0;
+    messageToPrint = false;
     messageString = NULL;
     messageLastMenuActive = menuactive;
     quickSaveSlot = -1;
@@ -3194,12 +3185,7 @@ void M_Init(void)
     }
     else if (gamemode == commercial)
         NewDef.prevMenu = (nerve ? &ExpDef : &MainDef);
-    else if (gamemode == registered)
-        EpiDef.numitems--;
-    else if (W_CheckMultipleLumps("M_EPI1") > 1
-        && W_CheckMultipleLumps("M_EPI2") > 1
-        && W_CheckMultipleLumps("M_EPI3") > 1
-        && W_CheckMultipleLumps("M_EPI4") <= 1)
+    else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
         EpiDef.numitems--;
 
     s_DOSY = M_StringReplace(s_DOSY, "DOS", "Windows");

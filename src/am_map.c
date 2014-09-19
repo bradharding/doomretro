@@ -449,7 +449,7 @@ void AM_Init(void)
     priorities = (byte *)Z_Malloc(65536, PU_STATIC, NULL);
     for (x = 0; x < 256; ++x)
     {
-        int y;
+        int     y;
 
         for (y = 0; y < 256; ++y)
             *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
@@ -494,7 +494,7 @@ static void AM_initVariables(void)
         plr = &players[consoleplayer];
     else
     {
-        int i;
+        int     i;
 
         plr = &players[0];
         for (i = 0; i < MAXPLAYERS; ++i)
@@ -546,7 +546,8 @@ void AM_Stop(void)
     stopped = true;
 }
 
-int lastlevel = -1, lastepisode = -1;
+int     lastlevel = -1;
+int     lastepisode = -1;
 
 void AM_Start(void)
 {
@@ -996,8 +997,8 @@ boolean AM_Responder(event_t *ev)
 
             if ((plr->cheats & CF_MYPOS) && !followplayer && (m_paninc.x || m_paninc.y))
             {
-                double x = m_paninc.x;
-                double y = m_paninc.y;
+                double  x = m_paninc.x;
+                double  y = m_paninc.y;
 
                 if ((m_x == min_x - (m_w >> 1) && x < 0)
                     || (m_x == max_x - (m_w >> 1) && x > 0))
@@ -1046,8 +1047,8 @@ static void AM_rotate(fixed_t *xp, fixed_t *yp, angle_t a)
 
 static void AM_rotatePoint(fixed_t *x, fixed_t *y)
 {
-    fixed_t pivotx = m_x + (m_w >> 1);
-    fixed_t pivoty = m_y + (m_h >> 1);
+    fixed_t     pivotx = m_x + (m_w >> 1);
+    fixed_t     pivoty = m_y + (m_h >> 1);
 
     *x -= pivotx;
     *y -= pivoty;
