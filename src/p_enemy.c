@@ -1202,8 +1202,8 @@ void A_VileChase(mobj_t *actor)
                 if (!P_BlockThingsIterator(bx, by, PIT_VileCheck))
                 {
                     // got one!
-                    mobj_t     *temp = actor->target;
-                    mobjinfo_t *info;
+                    mobj_t      *temp = actor->target;
+                    mobjinfo_t  *info;
 
                     actor->target = corpsehit;
                     A_FaceTarget(actor);
@@ -1223,10 +1223,10 @@ void A_VileChase(mobj_t *actor)
                     corpsehit->target = NULL;
                     corpsehit->lastenemy = NULL;
 
-                    //if (!netgame)
-                        players[0].killcount--;
-                    //else if (actor->target && actor->target->player)
-                    //    actor->target->player->killcount--;
+                    if (corpsehit->type == MT_TROOP)
+                        corpsehit->colfunc = troopcolfunc;
+
+                    players[0].killcount--;
 
                     return;
                 }

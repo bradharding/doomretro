@@ -751,6 +751,9 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     else
         target->flags &= ~MF_NOGRAVITY;
 
+    if (type == MT_TROOP)
+        target->colfunc = basecolfunc;
+
     target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->height >>= 2;
     if (type != MT_BARREL)
@@ -782,7 +785,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (target->player)
             source->player->frags[target->player - players]++;
     }
-    else if (/*!netgame && */(target->flags & MF_COUNTKILL))
+    else if (target->flags & MF_COUNTKILL)
         // count all monster deaths, even those caused by other monsters
         players[0].killcount++;
 
