@@ -57,6 +57,8 @@
 #define EXPANSION_DEFAULT               0
 #define EXPANSION_MAX                   1
 
+#define FOOTCLIP_DEFAULT                true
+
 #define FULLSCREEN_DEFAULT              true
 
 #define GAMEPADAUTOMAP_DEFAULT          GAMEPAD_BACK
