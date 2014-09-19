@@ -99,6 +99,7 @@ extern int              gametic;
 extern boolean          canmodify;
 
 void (*colfunc)(void);
+void (*troopcolfunc)(void);
 void (*wallcolfunc)(void);
 void (*fbwallcolfunc)(byte *);
 void (*basecolfunc)(void);
@@ -462,6 +463,7 @@ void R_ExecuteSetViewSize(void)
     projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH * FRACUNIT;
 
     colfunc = basecolfunc = R_DrawColumn;
+    troopcolfunc = R_DrawTroopColumn;
     fuzzcolfunc = R_DrawFuzzColumn;
 
     if (translucency)

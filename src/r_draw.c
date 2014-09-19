@@ -154,7 +154,28 @@ void R_DrawColumn(void)
     *dest = colormap[source[frac >> FRACBITS]];
 }
 
-#define HEIGHTMASK ((127 << FRACBITS) | 0xffff)
+void R_DrawTroopColumn(void)
+{
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = ylookup[dc_yl] + dc_x + viewwindowx;
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+    byte                dot;
+
+    while (--count)
+    {
+        dot = source[frac >> FRACBITS];
+        *dest = (dot == 172 || dot == 175 || dot == 179 ? 179 : colormap[dot]);
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+    dot = source[frac >> FRACBITS];
+    *dest = (dot == 172 || dot == 175 || dot == 179 ? 179 : colormap[dot]);
+}
+
+#define HEIGHTMASK      ((127 << FRACBITS) | 0xffff)
 
 void R_DrawWallColumn(void)
 {

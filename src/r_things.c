@@ -396,7 +396,9 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     if (viewplayer->fixedcolormap == INVERSECOLORMAP && translucency)
     {
-        if (colfunc == tlcolfunc)
+        if (colfunc == troopcolfunc)
+            colfunc = basecolfunc;
+        else if (colfunc == tlcolfunc)
             colfunc = tl50colfunc;
         else if (colfunc == tlredcolfunc)
             colfunc = tlred50colfunc;

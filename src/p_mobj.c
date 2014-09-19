@@ -620,6 +620,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
         if (mobj->flags & MF_SHADOW)
             mobj->colfunc = fuzzcolfunc;
+        else if (type == MT_TROOP)
+            mobj->colfunc = troopcolfunc;
         else if (mobj->flags2 & MF2_TRANSLUCENT)
             mobj->colfunc = tlcolfunc;
         else if (mobj->flags2 & MF2_TRANSLUCENT_REDONLY)
