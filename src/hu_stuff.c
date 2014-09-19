@@ -218,7 +218,7 @@ char *hu_mapnames2[] =
     THUSTR_29,
     THUSTR_30,
     THUSTR_31,
-    THUSTR_32
+    THUSTR_32,
 
     // Nerve WAD map names.
     NHUSTR_1,
