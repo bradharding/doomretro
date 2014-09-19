@@ -41,7 +41,7 @@
 //
 extern boolean  alwaysrun;
 extern int      bloodsplats;
-extern boolean  brightmaps;
+extern int      brightmaps;
 extern int      corpses;
 extern boolean  dclick_use;
 extern int      fullscreen;
@@ -436,6 +436,11 @@ static alias_t alias[] =
     { "0%",                                     0, 12 },
     { "75%",                                   75, 12 },
     { "100%",                                 100, 12 },
+    { "none",                                   0, 13 },
+    { "walls",                                  1, 13 },
+    { "sprites",                                2, 13 },
+    { "walls|sprites",                          3, 13 },
+    { "sprites|walls",                          3, 13 },
     { "",                                       0,  0 }
 };
 
@@ -706,7 +711,7 @@ static void M_CheckDefaults(void)
     if (bloodsplats < BLOODSPLATS_MIN || BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;
 
-    if (brightmaps != false && brightmaps != true)
+    if (brightmaps < BRIGHTMAPS_MIN || brightmaps > BRIGHTMAPS_MAX || (brightmaps & (brightmaps - 1)))
         brightmaps = BRIGHTMAPS_DEFAULT;
 
     if (corpses < CORPSES_MIN || corpses > CORPSES_MAX || (corpses & (corpses - 1)))

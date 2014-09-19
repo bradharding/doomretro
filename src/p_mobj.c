@@ -49,6 +49,7 @@ int                     corpses = CORPSES_DEFAULT;
 
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern boolean          *isliquid;
+extern int              brightmaps;
 
 //
 //
@@ -620,7 +621,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
         if (mobj->flags & MF_SHADOW)
             mobj->colfunc = fuzzcolfunc;
-        else if (type == MT_TROOP)
+        else if (type == MT_TROOP && (brightmaps & SPRITES))
             mobj->colfunc = troopcolfunc;
         else if (mobj->flags2 & MF2_TRANSLUCENT)
             mobj->colfunc = tlcolfunc;

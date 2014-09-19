@@ -41,6 +41,7 @@ int             savegamelength;
 boolean         savegame_error;
 
 extern boolean  *isliquid;
+extern int      brightmaps;
 
 // Get the filename of a temporary file to write the savegame to. After
 // the file has been successfully saved, it will be renamed to the
@@ -1674,7 +1675,7 @@ void P_UnArchiveThinkers(void)
 
                 if ((mobj->flags & MF_SHADOW) || (mobj->flags2 & MF2_FUZZ))
                     mobj->colfunc = fuzzcolfunc;
-                else if (mobj->type == MT_TROOP)
+                else if (mobj->type == MT_TROOP && (brightmaps & SPRITES))
                     mobj->colfunc = troopcolfunc;
                 else if (mobj->flags2 & MF2_TRANSLUCENT)
                     mobj->colfunc = tlcolfunc;
