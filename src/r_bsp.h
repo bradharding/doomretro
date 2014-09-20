@@ -32,14 +32,10 @@ extern line_t           *linedef;
 extern sector_t         *frontsector;
 extern sector_t         *backsector;
 
-extern boolean          skymap;
-
 extern drawseg_t        *drawsegs;
 extern unsigned int     maxdrawsegs;
 
 extern drawseg_t        *ds_p;
-
-typedef void (*drawfunc_t)(int start, int stop);
 
 // BSP?
 void R_ClearClipSegs(void);
