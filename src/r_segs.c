@@ -71,46 +71,83 @@ static int      *maskedtexturecol;
 
 boolean         brightmaps = BRIGHTMAPS_DEFAULT;
 
-//[kb] hack to improve rendering precision (wall wiggle)
-int             max_rwscale = 64 * FRACUNIT;
-int             heightbits = 12;
-int             heightunit;
-int             invhgtbits;
+// [kb] hack to improve rendering precision (wall wiggle)
+static int      max_rwscale = 64 * FRACUNIT;
+static int      HEIGHTBITS = 12;
+static int      HEIGHTUNIT = (1 << 12);
+static int      invhgtbits = 4;
 
-//[kb] Adjusts renderer wall/texture precision based on the maximum difference in height
+// [kb] Adjusts renderer wall/texture precision based on the maximum difference in height
 // of all adjoining sectors. P_SetupWiggleFix() passes max_diff, which is what is needed
 // to make the renderer as precise as possible without overflowing the 16.16 fixed point
 // coordinate system. As a bonus, this also allows the render to display sectors that are
 // up to 32767 units tall (or greater, maybe), improving an old bug. Doom doesn't allow
 // anything to pass through a sector any taller than 32767 units, so this limit is ok.
 // Of course, levels with sectors this large WILL suffer from some wall wiggle...
+// e6y - rewritten kb1's original code
 void R_SetWiggleHack(int max_diff)
 {
-    int max_scale;
-    int h_bits;
+    static int  max_diff_last = INT_MIN;
 
-    if (max_diff < 256)
-        max_diff = 256;
+    if (max_diff == max_diff_last)
+        return;
 
-    h_bits = 12;
-    max_scale = 0x80000 / max_diff;
+    max_diff_last = max_diff;
 
-    //[kb] scale calculation. The higher the max_scale the better, but go too far and
+    // [kb] scale calculation. The higher the max_scale the better, but go too far and
     // overflow the texture scaling variables. Attempt to get max_scale at least to
     // 1024. On the other side, h_bits is made less precise - go too far and the top
     // and bottom of textures start to wiggle. Originally set to 12, 11 and 10 seem ok.
     // Only use 9 for levels with really tall walls, because that is where height
     // precision starts to become apparent.
-    while (max_scale < 2048 && h_bits > 9)
+    if (max_diff < 256)
     {
-        max_scale <<= 1;
-        --h_bits;
+        max_rwscale = 2048 << FRACBITS;
+        HEIGHTBITS = 12;
+    }
+    else if (max_diff < 512)
+    {
+        max_rwscale = 2048 << FRACBITS;
+        HEIGHTBITS = 11;
+    }
+    else if (max_diff < 1024)
+    {
+        max_rwscale = 2048 << FRACBITS;
+        HEIGHTBITS = 10;
+    }
+    else if (max_diff < 2048)
+    {
+        max_rwscale = 2048 << FRACBITS;
+        HEIGHTBITS = 9;
+    }
+    else if (max_diff < 4096)
+    {
+        max_rwscale = 1024 << FRACBITS;
+        HEIGHTBITS = 9;
+    }
+    else if (max_diff < 8192)
+    {
+        max_rwscale = 512 << FRACBITS;
+        HEIGHTBITS = 9;
+    }
+    else if (max_diff < 16384)
+    {
+        max_rwscale = 256 << FRACBITS;
+        HEIGHTBITS = 9;
+    }
+    else if (max_diff < 32768)
+    {
+        max_rwscale = 128 << FRACBITS;
+        HEIGHTBITS = 9;
+    }
+    else
+    {
+        max_rwscale = 64 << FRACBITS;
+        HEIGHTBITS = 9;
     }
 
-    max_rwscale = max_scale << FRACBITS;
-    heightbits = h_bits;
-    heightunit = (1 << heightbits);
-    invhgtbits = 16 - heightbits;
+    HEIGHTUNIT = 1 << HEIGHTBITS;
+    invhgtbits = 16 - HEIGHTBITS;
 }
 
 //
@@ -220,8 +257,8 @@ void R_RenderSegLoop(void)
     for (; rw_x < rw_stopx; ++rw_x)
     {
         // mark floor / ceiling areas
-        int     yl = (topfrac + heightunit - 1) >> heightbits;
-        int     yh = bottomfrac >> heightbits;
+        int     yl = (topfrac + HEIGHTUNIT - 1) >> HEIGHTBITS;
+        int     yh = bottomfrac >> HEIGHTBITS;
 
         // no space above wall?
         int     bottom;
@@ -311,7 +348,7 @@ void R_RenderSegLoop(void)
             if (toptexture)
             {
                 // top wall
-                int     mid = pixhigh >> heightbits;
+                int     mid = pixhigh >> HEIGHTBITS;
 
                 pixhigh += pixhighstep;
 
@@ -350,7 +387,7 @@ void R_RenderSegLoop(void)
             if (bottomtexture)
             {
                 // bottom wall
-                int     mid = (pixlow + heightunit - 1) >> heightbits;
+                int     mid = (pixlow + HEIGHTUNIT - 1) >> HEIGHTBITS;
 
                 pixlow += pixlowstep;
 
@@ -482,6 +519,11 @@ void R_StoreWallRange(int start, int stop)
         }
     }
 
+    worldtop = frontsector->ceilingheight - viewz;
+    worldbottom = frontsector->floorheight - viewz;
+
+    R_SetWiggleHack((worldtop - worldbottom) >> 16);
+
     // calculate scale at both ends and step
     ds_p->scale1 = rw_scale = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start]);
 
@@ -495,9 +537,6 @@ void R_StoreWallRange(int start, int stop)
 
     // calculate texture boundaries
     //  and decide if floor / ceiling marks are needed
-    worldtop = frontsector->ceilingheight - viewz;
-    worldbottom = frontsector->floorheight - viewz;
-
     midtexture = toptexture = bottomtexture = maskedtexture = 0;
     ds_p->maskedtexturecol = NULL;
 
