@@ -177,15 +177,15 @@ void P_XYMovement(mobj_t *mo)
     // Fixes mancubus fireballs which were too fast for collision tests,
     // makes steps equal in size, and makes loop test faster and predictable.
     // Boom bug had only the positive tests.
-    if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2 ||
-        xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
+    if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2
+        || xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
     {
         xmove >>= 1;
         ymove >>= 1;
         numsteps = 2;
     }
 
-    if (mo->info->speed > (mo->radius * 2))     // faster than radius * 2
+    if (mo->info->speed > mo->radius * 2)       // faster than radius * 2
     {
         // Mancubus missiles and the like.
         xmove >>= 1;
@@ -278,7 +278,7 @@ void P_XYMovement(mobj_t *mo)
         && (!player || (!player->cmd.forwardmove && !player->cmd.sidemove)))
     {
         // if in a walking frame, stop moving
-        if (player && (unsigned)((player->mo->state - states) - S_PLAY_RUN1) < 4)
+        if (player && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4)
             P_SetMobjState(player->mo, S_PLAY);
 
         mo->momx = mo->momy = 0;
@@ -617,38 +617,45 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     if (type != MT_BLOOD)
     {
         int     lump = firstspritelump + sprites[mobj->sprite].spriteframes[0].lump[0];
+        int     flags2 = info->flags2;
 
         if (W_CheckMultipleLumps(lumpinfo[lump].name) == 1)
-            mobj->flags2 = info->flags2;
+            mobj->flags2 = flags2;
 
-        if (mobj->flags & MF_SHADOW)
-            mobj->colfunc = fuzzcolfunc;
-        else if (type == MT_TROOP && (brightmaps & SPRITES))
-            mobj->colfunc = troopcolfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT)
-            mobj->colfunc = tlcolfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT_REDONLY)
-            mobj->colfunc = tlredcolfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT_GREENONLY)
-            mobj->colfunc = tlgreencolfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT_BLUEONLY)
-            mobj->colfunc = tlbluecolfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT_33)
-            mobj->colfunc = tl33colfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT_50)
-            mobj->colfunc = tl50colfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-            mobj->colfunc = tlredwhitecolfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
-            mobj->colfunc = tlredtogreen33colfunc;
-        else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
-            mobj->colfunc = tlredtoblue33colfunc;
-        else if (mobj->flags2 & MF2_REDTOGREEN)
-            mobj->colfunc = redtogreencolfunc;
-        else if (mobj->flags2 & MF2_REDTOBLUE)
-            mobj->colfunc = redtobluecolfunc;
+        if (flags2)
+        {
+            if (flags2 & MF2_TRANSLUCENT)
+                mobj->colfunc = tlcolfunc;
+            else if (flags2 & MF2_TRANSLUCENT_REDONLY)
+                mobj->colfunc = tlredcolfunc;
+            else if (flags2 & MF2_TRANSLUCENT_GREENONLY)
+                mobj->colfunc = tlgreencolfunc;
+            else if (flags2 & MF2_TRANSLUCENT_BLUEONLY)
+                mobj->colfunc = tlbluecolfunc;
+            else if (flags2 & MF2_TRANSLUCENT_33)
+                mobj->colfunc = tl33colfunc;
+            else if (flags2 & MF2_TRANSLUCENT_50)
+                mobj->colfunc = tl50colfunc;
+            else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+                mobj->colfunc = tlredwhitecolfunc;
+            else if (flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+                mobj->colfunc = tlredtogreen33colfunc;
+            else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+                mobj->colfunc = tlredtoblue33colfunc;
+            else if (flags2 & MF2_REDTOGREEN)
+                mobj->colfunc = redtogreencolfunc;
+            else if (flags2 & MF2_REDTOBLUE)
+                mobj->colfunc = redtobluecolfunc;
+        }
         else
-            mobj->colfunc = basecolfunc;
+        {
+            if (type == MT_TROOP && (brightmaps & SPRITES))
+                mobj->colfunc = troopcolfunc;
+            else if (mobj->flags & MF_SHADOW)
+                mobj->colfunc = fuzzcolfunc;
+            else
+                mobj->colfunc = basecolfunc;
+        }
 
         if (bfgedition)
         {
