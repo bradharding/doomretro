@@ -165,8 +165,10 @@ extern boolean  setsizeneeded;
 extern boolean  message_on;
 extern int      graphicdetail;
 extern int      viewheight2;
+extern boolean  loadedgame;
 
 void R_ExecuteSetViewSize(void);
+void G_LoadedGameMessage(void);
 
 void D_Display(void)
 {
@@ -317,6 +319,9 @@ void D_Display(void)
         I_FinishUpdate();       // page flip or blit buffer
     }
     while (!done);
+
+    if (loadedgame)
+        G_LoadedGameMessage();
 }
 
 //

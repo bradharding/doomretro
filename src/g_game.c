@@ -219,6 +219,8 @@ static int      dclicks2;
 static int      savegameslot;
 static char     savedescription[32];
 
+boolean         loadedgame = false;
+
 extern boolean  alwaysrun;
 
 extern int      st_palette;
@@ -913,44 +915,6 @@ void G_Ticker(void)
             cmd = &players[i].cmd;
 
             memcpy(cmd, &netcmds[i][buf], sizeof(ticcmd_t));
-
-            // check for turbo cheats
-
-            // check ~ 4 seconds whether to display the turbo message.
-            // store if the turbo threshold was exceeded in any tics
-            // over the past 4 seconds.  offset the checking period
-            // for each player so messages are not displayed at the
-            // same time.
-
-            //if (netgame)
-            //{
-            //    if (cmd->forwardmove > TURBOTHRESHOLD)
-            //        turbodetected[i] = true;
-
-            //    if (!(gametic & 31) && ((gametic >> 5) % MAXPLAYERS) == i && turbodetected[i])
-            //    {
-            //        //static char turbomessage[80];
-            //        //extern char *player_names[4];
-
-            //        //sprintf(turbomessage, "%s is turbo!", player_names[i]);
-            //        //players[consoleplayer].message = turbomessage;
-            //        turbodetected[i] = false;
-            //    }
-            //}
-
-            //if (netgame && !(gametic % ticdup))
-            //{
-            //    if (gametic > BACKUPTICS
-            //        && consistency[i][buf] != cmd->consistency)
-            //    {
-            //        I_Error("Consistency failure (%i should be %i)",
-            //                cmd->consistency, consistency[i][buf]);
-            //    }
-            //    if (players[i].mo)
-            //        consistency[i][buf] = players[i].mo->x;
-            //    else
-            //        consistency[i][buf] = rndindex;
-            //}
         }
     }
 
@@ -1547,7 +1511,8 @@ void G_DoWorldDone(void)
 // G_InitFromSavegame
 // Can be called by the startup code or the menu task.
 //
-extern boolean setsizeneeded;
+extern boolean  setsizeneeded;
+
 void R_ExecuteSetViewSize(void);
 
 void G_LoadGame(char *name)
@@ -1558,7 +1523,7 @@ void G_LoadGame(char *name)
 
 void G_DoLoadGame(void)
 {
-    int savedleveltime;
+    int         savedleveltime;
 
     gameaction = ga_nothing;
 
@@ -1569,7 +1534,7 @@ void G_DoLoadGame(void)
 
     savegame_error = false;
 
-    if (!P_ReadSaveGameHeader())
+    if (!P_ReadSaveGameHeader(savedescription))
     {
         fclose(save_stream);
         return;
@@ -1607,6 +1572,19 @@ void G_DoLoadGame(void)
 
     // draw the pattern into the back screen
     R_FillBackScreen();
+
+    loadedgame = true;
+}
+
+void G_LoadedGameMessage(void)
+{
+    static char buffer[128];
+
+    M_snprintf(buffer, sizeof(buffer), s_GGLOADED, savedescription);
+    players[consoleplayer].message = buffer;
+    message_dontfuckwithme = true;
+
+    loadedgame = false;
 }
 
 //
@@ -1719,7 +1697,6 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
 
 void G_DoNewGame(void)
 {
-    //netgame = false;
     deathmatch = 0;
     playeringame[1] = playeringame[2] = playeringame[3] = 0;
 

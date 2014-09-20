@@ -1412,16 +1412,15 @@ void P_WriteSaveGameHeader(char *description)
 //
 // Read the header for a savegame
 //
-boolean P_ReadSaveGameHeader(void)
+boolean P_ReadSaveGameHeader(char *description)
 {
     int         i;
     byte        a, b, c;
     char        vcheck[VERSIONSIZE];
     char        read_vcheck[VERSIONSIZE];
 
-    // skip the description field
     for (i = 0; i < SAVESTRINGSIZE; ++i)
-        saveg_read8();
+        description[i] = saveg_read8();
 
     for (i = 0; i < VERSIONSIZE; ++i)
         read_vcheck[i] = saveg_read8();

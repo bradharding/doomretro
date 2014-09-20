@@ -90,6 +90,7 @@ PD_REDK2 = You need a red skull key to open this door.
 PD_YELLOWK = You need a yellow keycard to open this door.
 PD_YELLOWK2 = You need a yellow skull key to open this door.
 GGSAVED = "%s" saved
+GGLOADED = "%s" loaded
 GSCREENSHOT = "%s" saved
 ALWAYSRUNOFF = Always run OFF
 ALWAYSRUNON = Always run ON

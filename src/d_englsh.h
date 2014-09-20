@@ -674,6 +674,7 @@
 #define PD_BLUEK2               ""
 #define PD_REDK2                ""
 #define PD_YELLOWK2             ""
+#define GGLOADED                ""
 #define GSCREENSHOT             ""
 #define ALWAYSRUNOFF            ""
 #define ALWAYSRUNON             ""

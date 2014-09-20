@@ -100,6 +100,7 @@ extern char *s_PD_YELLOWK;
 extern char *s_PD_YELLOWK2;
 
 extern char *s_GGSAVED;
+extern char *s_GGLOADED;
 extern char *s_GSCREENSHOT;
 
 extern char *s_ALWAYSRUNOFF;

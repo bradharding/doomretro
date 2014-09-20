@@ -168,6 +168,7 @@ char *s_PD_YELLOWK = PD_YELLOWK;
 char *s_PD_YELLOWK2 = PD_YELLOWK2;
 
 char *s_GGSAVED = GGSAVED;
+char *s_GGLOADED = GGLOADED;
 char *s_GSCREENSHOT = GSCREENSHOT;
 
 char *s_ALWAYSRUNOFF = ALWAYSRUNOFF;
@@ -538,6 +539,7 @@ deh_strs deh_strlookup[] =
     { &s_PD_YELLOWK2,          "PD_YELLOWK2",          false },
 
     { &s_GGSAVED,              "GGSAVED",              false },
+    { &s_GGLOADED,             "GGLOADED",             false },
     { &s_GSCREENSHOT,          "GSCREENSHOT",          false },
 
     { &s_ALWAYSRUNOFF,         "ALWAYSRUNOFF",         false },
