@@ -44,7 +44,7 @@ char *sprnames[] = {
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
-    "MEDB", "PODS", NULL
+    "MEDB", "PODS", "SPDS", NULL
 };
 
 void A_Light0();
@@ -1449,7 +1449,42 @@ state_t states[NUMSTATES] =
     { SPR_PODS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RAISE1_DROPSHADOW
     { SPR_PODS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RAISE2_DROPSHADOW
     { SPR_PODS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RAISE3_DROPSHADOW
-    { SPR_PODS,  7,                               -1,               NULL,            S_NULL,          0,     0     }  // S_POSS_RAISE4_DROPSHADOW
+    { SPR_PODS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RAISE4_DROPSHADOW
+
+    // [BH] Shotgun Guy Drop Shadow (MT_SPOS_DROPSHADOW)
+    { SPR_SPDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_STND_DROPSHADOW
+    { SPR_SPDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_STND2_DROPSHADOW
+    { SPR_SPDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RUN1_DROPSHADOW
+    { SPR_SPDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RUN2_DROPSHADOW
+    { SPR_SPDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RUN3_DROPSHADOW
+    { SPR_SPDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RUN4_DROPSHADOW
+    { SPR_SPDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RUN5_DROPSHADOW
+    { SPR_SPDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RUN6_DROPSHADOW
+    { SPR_SPDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RUN7_DROPSHADOW
+    { SPR_SPDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RUN8_DROPSHADOW
+    { SPR_SPDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_ATK1_DROPSHADOW
+    { SPR_SPDS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_ATK2_DROPSHADOW
+    { SPR_SPDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_ATK3_DROPSHADOW
+    { SPR_SPDS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_PAIN_DROPSHADOW
+    { SPR_SPDS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_PAIN2_DROPSHADOW
+    { SPR_SPDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_DIE1_DROPSHADOW
+    { SPR_SPDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_DIE2_DROPSHADOW
+    { SPR_SPDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_DIE3_DROPSHADOW
+    { SPR_SPDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_DIE4_DROPSHADOW
+    { SPR_SPDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_DIE5_DROPSHADOW
+    { SPR_SPDS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE1_DROPSHADOW
+    { SPR_SPDS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE2_DROPSHADOW
+    { SPR_SPDS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE3_DROPSHADOW
+    { SPR_SPDS, 15,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE4_DROPSHADOW
+    { SPR_SPDS, 16,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE5_DROPSHADOW
+    { SPR_SPDS, 17,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE6_DROPSHADOW
+    { SPR_SPDS, 18,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE7_DROPSHADOW
+    { SPR_SPDS, 19,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE8_DROPSHADOW
+    { SPR_SPDS, 20,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_XDIE9_DROPSHADOW
+    { SPR_SPDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RAISE1_DROPSHADOW
+    { SPR_SPDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RAISE2_DROPSHADOW
+    { SPR_SPDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RAISE3_DROPSHADOW
+    { SPR_SPDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }  // S_SPOS_RAISE4_DROPSHADOW
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -1485,7 +1520,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP | MF_NOTDMATCH,
         /* flags2               */ MF2_PASSMOBJ,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Zombieman (MT_POSSESSED)
@@ -1516,7 +1552,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_POSS_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ MT_POSS_DROPSHADOW
     },
 
     // Shotgun Guy (MT_SHOTGUY)
@@ -1547,7 +1584,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_SPOS_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ MT_SPOS_DROPSHADOW
     },
 
     // Arch-vile (MT_VILE)
@@ -1578,7 +1616,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Arch-vile Fire (MT_FIRE)
@@ -1609,7 +1648,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Revenant (MT_UNDEAD)
@@ -1640,7 +1680,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_SKEL_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Revenant Projectile (MT_TRACER)
@@ -1671,7 +1712,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Smoke (MT_SMOKE)
@@ -1702,7 +1744,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Mancubus (MT_FATSO)
@@ -1733,7 +1776,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_FATT_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Mancubus Projectile (MT_FATSHOT)
@@ -1764,7 +1808,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Heavy Weapon Dude (MT_CHAINGUY)
@@ -1795,7 +1840,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_CPOS_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Imp (MT_TROOP)
@@ -1826,7 +1872,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_TROO_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Demon (MT_SERGEANT)
@@ -1857,7 +1904,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_SARG_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Spectre (MT_SHADOWS)
@@ -1888,7 +1936,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_SHADOW | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_SARG_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Cacodemon (MT_HEAD)
@@ -1919,7 +1968,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
         /* flags2               */ MF2_PASSMOBJ,
         /* raisestate           */ S_HEAD_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Baron of Hell (MT_BRUISER)
@@ -1950,7 +2000,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_BOSS_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Baron of Hell/Hell Knight Projectile (MT_BRUISERSHOT)
@@ -1981,7 +2032,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hell Knight (MT_KNIGHT)
@@ -2012,7 +2064,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_BOS2_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Lost Soul (MT_SKULL)
@@ -2043,7 +2096,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
         /* flags2               */ MF2_PASSMOBJ | MF2_TRANSLUCENT_REDONLY,  // [BH] apply additive translucency to flames
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Spider Mastermind (MT_SPIDER)
@@ -2074,7 +2128,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Arachnotron (MT_BABY)
@@ -2105,7 +2160,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_BSPI_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Cyberdemon (MT_CYBORG)
@@ -2136,7 +2192,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Pain Elemental (MT_PAIN)
@@ -2167,7 +2224,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_PAIN_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Wolfenstein SS (MT_WOLFSS)
@@ -2198,7 +2256,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_SSWV_RAISE1,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Commander Keen (MT_KEEN)
@@ -2229,7 +2288,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY | MF_SHOOTABLE | MF_COUNTKILL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Boss Brain (MT_BOSSBRAIN)
@@ -2260,7 +2320,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Monsters Spawner (MT_BOSSSPIT)
@@ -2291,7 +2352,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOSECTOR,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Monsters Target (MT_BOSSTARGET)
@@ -2322,7 +2384,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOSECTOR,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Boss Brain Projectile (MT_SPAWNSHOT)
@@ -2353,7 +2416,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY | MF_NOCLIP,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Boss Brain Teleport Fog (MT_SPAWNFIRE)
@@ -2384,7 +2448,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Barrel (MT_BARREL)
@@ -2415,7 +2480,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_NOBLOOD,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 3
+        /* frames               */ 3,
+        /* dropshadow           */ 0
     },
 
     // Imp Projectile (MT_TROOPSHOT)
@@ -2446,7 +2512,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Cacodemon Projectile (MT_HEADSHOT)
@@ -2477,7 +2544,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Rocket Launcher Projectile (MT_ROCKET)
@@ -2508,7 +2576,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Plasma Rifle Projectile (MT_PLASMA)
@@ -2539,7 +2608,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // BFG 9000 Projectile (MT_BFG)
@@ -2570,7 +2640,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Arachnotron Projectile (MT_ARACHPLAZ)
@@ -2601,13 +2672,14 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Bullet Puff (MT_PUFF)
     {
         /* doomednum            */ -1,
-        /* description          */ "Bullet Puff",
+        /* description          */ "",
         /* spawnstate           */ S_PUFF1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2632,7 +2704,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Blood (MT_BLOOD)
@@ -2663,7 +2736,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so blood will
         /* flags2               */ 0,                                       //  rise or fall if sector height changes
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Teleport Fog (MT_TFOG)
@@ -2694,7 +2768,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Item Fog (MT_IFOG)
@@ -2725,7 +2800,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Teleport Destination (MT_TELEPORTMAN)
@@ -2756,7 +2832,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOSECTOR,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // BFG 9000 Secondary Projectile (MT_EXTRABFG)
@@ -2787,7 +2864,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Green Armor (MT_MISC0)
@@ -2818,7 +2896,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Blue Armor (MT_MISC1)
@@ -2849,7 +2928,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Health Bonus (MT_MISC2)
@@ -2880,7 +2960,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Armor Bonus (MT_MISC3)
@@ -2911,7 +2992,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Blue Keycard (MT_MISC4)
@@ -2942,7 +3024,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Red Keycard (MT_MISC5)
@@ -2973,7 +3056,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Yellow Keycard (MT_MISC6)
@@ -3004,7 +3088,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Yellow Skull Key (MT_MISC7)
@@ -3035,7 +3120,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Red Skull Key (MT_MISC8)
@@ -3066,7 +3152,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Blue Skull Key (MT_MISC9)
@@ -3097,7 +3184,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Stimpack (MT_MISC10)
@@ -3128,7 +3216,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Medikit (MT_MISC11)
@@ -3159,7 +3248,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // SoulSphere (MT_MISC12)
@@ -3190,7 +3280,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,       // [BH] apply 33% alpha translucency
         /* raisestate           */ S_NULL,                                  //  and float bobbing z movement
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Invulnerability (MT_INV)
@@ -3221,7 +3312,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,       // [BH] apply 33% alpha translucency
         /* raisestate           */ S_NULL,                                  //  and float bobbing z movement
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Berserk (MT_MISC13)
@@ -3252,7 +3344,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Partial Invisibility (MT_INS)
@@ -3283,7 +3376,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,       // [BH] apply 33% alpha translucency
         /* raisestate           */ S_NULL,                                  //  and float bobbing z movement
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Radiation Shielding Suit (MT_MISC14)
@@ -3314,7 +3408,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ MF2_FLOATBOB,                            // [BH] apply float bobbing z movement
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Computer Area Map (MT_MISC15)
@@ -3345,7 +3440,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Light Amplification Visor (MT_MISC16)
@@ -3376,7 +3472,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to lenses
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // MegaSphere (MT_MEGA)
@@ -3407,7 +3504,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
         /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,       // [BH] apply 33% alpha translucency
         /* raisestate           */ S_NULL,                                  //  and float bobbing z movement
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Clip (MT_CLIP)
@@ -3438,7 +3536,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Box of Bullets (MT_MISC17)
@@ -3469,7 +3568,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Rocket (MT_MISC18)
@@ -3500,7 +3600,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Box of Rockets (MT_MISC19)
@@ -3531,7 +3632,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Cell (MT_MISC20)
@@ -3562,7 +3664,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Cell Pack (MT_MISC21)
@@ -3593,7 +3696,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Shotgun Shells (MT_MISC22)
@@ -3624,7 +3728,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Box of Shells (MT_MISC23)
@@ -3655,7 +3760,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Backpack (MT_MISC24)
@@ -3686,7 +3792,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // BFG 9000 (MT_MISC25)
@@ -3717,7 +3824,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Chaingun (MT_CHAINGUN)
@@ -3748,7 +3856,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Chainsaw (MT_MISC26)
@@ -3779,7 +3888,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Rocket Launcher (MT_MISC27)
@@ -3810,7 +3920,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Plasma Rifle (MT_MISC28)
@@ -3841,7 +3952,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Shotgun (MT_SHOTGUN)
@@ -3872,7 +3984,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Super Shotgun (MT_SUPERSHOTGUN)
@@ -3903,7 +4016,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPECIAL,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Tall techno floor lamp (MT_MISC29)
@@ -3934,7 +4048,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,                // [BH] apply additive translucency to light
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Short techno floor lamp (MT_MISC30)
@@ -3965,7 +4080,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,                // [BH] apply additive translucency to light
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Floor lamp (MT_MISC31)
@@ -3996,7 +4112,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to light
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Tall green column (MT_MISC32)
@@ -4027,7 +4144,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Short green column (MT_MISC33)
@@ -4058,7 +4176,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Tall red column (MT_MISC34)
@@ -4089,7 +4208,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Short red column (MT_MISC35)
@@ -4120,7 +4240,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Short red column with skull (MT_MISC36)
@@ -4151,7 +4272,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Short green column with beating heart (MT_MISC37)
@@ -4182,7 +4304,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Evil eye (MT_MISC38)
@@ -4213,7 +4336,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,               // [BH] apply additive translucency to flames
         /* raisestate           */ S_NULL,
-        /* frames               */ 3
+        /* frames               */ 3,
+        /* dropshadow           */ 0
     },
 
     // Floating skull (MT_MISC39)
@@ -4244,7 +4368,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 3
+        /* frames               */ 3,
+        /* dropshadow           */ 0
     },
 
     // Torched tree (MT_MISC40)
@@ -4275,7 +4400,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Tall blue firestick (MT_MISC41)
@@ -4306,7 +4432,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,                // [BH] apply additive translucency to flame
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Tall green firestick (MT_MISC42)
@@ -4337,7 +4464,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,               // [BH] apply additive translucency to flame
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Tall red firestick (MT_MISC43)
@@ -4368,7 +4496,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to flame
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Short blue firestick (MT_MISC44)
@@ -4399,7 +4528,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,                // [BH] apply additive translucency to flame
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Short green firestick (MT_MISC45)
@@ -4430,7 +4560,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,               // [BH] apply additive translucency to flame
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Short red firestick (MT_MISC46)
@@ -4461,7 +4592,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to flame
         /* raisestate           */ S_NULL,
-        /* frames               */ 4
+        /* frames               */ 4,
+        /* dropshadow           */ 0
     },
 
     // Stalagmite (MT_MISC47)
@@ -4492,7 +4624,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Tall techno pillar (MT_MISC48)
@@ -4523,7 +4656,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Candlestick (MT_MISC49)
@@ -4554,7 +4688,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Candelabra (MT_MISC50)
@@ -4585,7 +4720,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging victim, twitching, blocking (MT_MISC51)
@@ -4616,7 +4752,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 3
+        /* frames               */ 3,
+        /* dropshadow           */ 0
     },
 
     // Hanging victim, arms out, blocking (MT_MISC52)
@@ -4647,7 +4784,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging victim, one-legged, blocking (MT_MISC53)
@@ -4678,7 +4816,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging pair of legs, blocking (MT_MISC54)
@@ -4709,7 +4848,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging leg, blocking (MT_MISC55, MT_MISC59)
@@ -4740,7 +4880,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging victim, arms out (MT_MISC56)
@@ -4771,7 +4912,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging pair of legs (MT_MISC57)
@@ -4802,7 +4944,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging victim, one-legged (MT_MISC58)
@@ -4833,7 +4976,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging leg (MT_MISC59)
@@ -4864,7 +5008,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging victim, twitching (MT_MISC60)
@@ -4895,7 +5040,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Dead Cacodemon (MT_MISC61)
@@ -4926,7 +5072,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREBLUEBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Dead Player (MT_MISC62)
@@ -4957,7 +5104,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Dead Zombieman (MT_MISC63)
@@ -4988,7 +5136,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Dead Demon (MT_MISC64)
@@ -5019,7 +5168,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Dead Lost Soul, invisible (MT_MISC65)
@@ -5050,7 +5200,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Dead Imp (MT_MISC66)
@@ -5081,7 +5232,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Dead Shotgun Guy (MT_MISC67)
@@ -5112,7 +5264,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Bloody Mess 1 (MT_MISC68)
@@ -5143,7 +5296,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Bloody Mess 2 (MT_MISC69)
@@ -5174,7 +5328,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_CORPSE,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Skulls on a pole (MT_MISC70, MT_MISC72)
@@ -5205,7 +5360,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Pool of blood and bones (MT_MISC71)
@@ -5236,7 +5392,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Skull on a pole (MT_MISC72)
@@ -5267,7 +5424,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Pile of skulls and candles (MT_MISC73)
@@ -5298,7 +5456,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Impaled human (MT_MISC74)
@@ -5329,7 +5488,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Twitching impaled human (MT_MISC75)
@@ -5360,7 +5520,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 2
+        /* frames               */ 2,
+        /* dropshadow           */ 0
     },
 
     // Large brown tree (MT_MISC76)
@@ -5391,7 +5552,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Burning Barrel (MT_MISC77)
@@ -5422,7 +5584,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID,
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,                 // [BH] apply additive translucency to flames
         /* raisestate           */ S_NULL,
-        /* frames               */ 3
+        /* frames               */ 3,
+        /* dropshadow           */ 0
     },
 
     // Hanging victim, guts removed (MT_MISC78)
@@ -5453,7 +5616,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging victim, guts and brain removed (MT_MISC79)
@@ -5484,7 +5648,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging torso, looking down (MT_MISC80)
@@ -5515,7 +5680,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging torso, open skull (MT_MISC81)
@@ -5546,7 +5712,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging torso, looking up (MT_MISC82)
@@ -5577,7 +5744,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Hanging torso, brain removed (MT_MISC83)
@@ -5608,7 +5776,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_SOLID | MF_SPAWNCEILING | MF_NOGRAVITY,
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Pool of blood and guts (MT_MISC84)
@@ -5639,7 +5808,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
         /* flags2               */ MF2_MOREREDBLOODSPLATS,                  //  will stay on floor if sector height changes
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Pool of blood (MT_MISC85)
@@ -5670,7 +5840,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
         /* flags2               */ MF2_MOREREDBLOODSPLATS,                  //  will stay on floor if sector height changes
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Pool of brains (MT_MISC86)
@@ -5701,7 +5872,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,                                       // [BH] removed MF_NOBLOCKMAP flag so decoration
         /* flags2               */ MF2_MOREREDBLOODSPLATS,                  //  will stay on floor if sector height changes
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // [BH] Blood Splat (MT_BLOODSPLAT)
@@ -5732,7 +5904,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Smoke Trail (MT_TRAIL)
@@ -5763,7 +5936,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     },
 
     // Zombieman Drop Shadow (MT_POSS_DROPSHADOW)
@@ -5794,7 +5968,40 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags                */ 0,
         /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
         /* raisestate           */ S_NULL,
-        /* frames               */ 0
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Shotgun Guy Drop Shadow (MT_SPOS_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_SPOS_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
     }
 };
 

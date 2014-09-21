@@ -1013,9 +1013,9 @@ void P_SpawnMapThing(mapthing_t *mthing)
             else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
                 P_SpawnMoreBlood(mobj, MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
     }
-    else if (dropshadows && mobj->type == MT_POSSESSED) //if (mobj->flags & MF_SHOOTABLE)
+    else if (dropshadows && mobjinfo[i].dropshadow)
     {
-        mobj->dropshadow = P_SpawnMobj(x, y, ONFLOORZ, MT_POSS_DROPSHADOW);
+        mobj->dropshadow = P_SpawnMobj(x, y, ONFLOORZ, mobjinfo[i].dropshadow);
         mobj->dropshadow->thinker.function.acv = (actionf_v)(-1);
         mobj->dropshadow->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
         P_AddThinker(&mobj->dropshadow->thinker);
