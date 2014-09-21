@@ -1623,7 +1623,7 @@ static void AM_drawThings(void)
                     continue;
                 }
 
-                if (thing->type != MT_PLAYER && thing->type != MT_BLOODSPLAT)
+                if (thing->type != MT_PLAYER && !(thing->flags2 & MF2_DRAWFIRST))
                 {
                     int x = thing->x;
                     int y = thing->y;
@@ -1631,7 +1631,7 @@ static void AM_drawThings(void)
                     int fy;
                     int lump = sprites[thing->sprite].spriteframes[0].lump[0];
                     int w = BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
-                        96 << FRACBITS) >> 1;
+                                    96 << FRACBITS) >> 1;
 
                     if (rotate)
                         AM_rotatePoint(&x, &y);
