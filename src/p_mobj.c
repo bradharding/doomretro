@@ -71,7 +71,19 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
     statenum_t          tempstate[NUMSTATES];                   // for use with recursion
 
     if (recursion++)                                            // if recursion detected,
-        memset(seenstate = tempstate, 0, sizeof tempstate);     // clear state table
+        memset((seenstate = tempstate), 0, sizeof(tempstate));  // clear state table
+
+    if (mobj->dropshadow)
+    {
+        state_t     *dropshadowstate = &states[mobj->dropshadow->info->spawnstate
+                                               - mobj->info->spawnstate + state];
+
+        mobj->dropshadow->state = dropshadowstate;
+        mobj->dropshadow->tics = dropshadowstate->tics;
+        mobj->dropshadow->sprite = dropshadowstate->sprite;
+        mobj->dropshadow->frame = dropshadowstate->frame;
+        mobj->dropshadow->angle = mobj->angle;
+    }
 
     do
     {
@@ -375,6 +387,9 @@ void P_ZMovement(mobj_t *mo)
         mo->momz -= GRAVITY;
     }
 
+    if (mo->dropshadow)
+        mo->dropshadow->z = mo->z;
+
     if (mo->z + mo->height > mo->ceilingz)
     {
         // hit the ceiling
@@ -610,9 +625,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->tics = st->tics;
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
-
-    // NULL head of sector list
-    mobj->touching_sectorlist = NULL;
 
     if (type != MT_BLOOD)
     {
@@ -941,7 +953,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     }
 
     // check for appropriate skill level
-    if (/*!netgame && */(mthing->options & 16))
+    if (mthing->options & 16)
         return;
 
     if (gameskill == sk_baby)
@@ -1002,6 +1014,13 @@ void P_SpawnMapThing(mapthing_t *mthing)
                 P_SpawnMoreBlood(mobj, MF2_TRANSLUCENT_50, tl50colfunc);
             else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
                 P_SpawnMoreBlood(mobj, MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
+    }
+    else if (mobj->type == MT_POSSESSED) //if (mobj->flags & MF_SHOOTABLE)
+    {
+        mobj->dropshadow = P_SpawnMobj(x, y, ONFLOORZ, MT_POSS_DROPSHADOW);
+        mobj->dropshadow->thinker.function.acv = (actionf_v)(-1);
+        mobj->dropshadow->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
+        P_AddThinker(&mobj->dropshadow->thinker);
     }
 }
 

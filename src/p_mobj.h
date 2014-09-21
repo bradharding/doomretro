@@ -252,7 +252,10 @@ typedef enum
     MF2_RESURRECTING              = 0x00100000,
 
     // Object's feet are now being cut
-    MF2_FEETARECLIPPED            = 0x00200000
+    MF2_FEETARECLIPPED            = 0x00200000,
+
+    // Object drawn first
+    MF2_DRAWFIRST                 = 0x00400000
 } mobjflag2_t;
 
 // Map Object definition.
@@ -356,6 +359,8 @@ typedef struct mobj_s
     short               gear; // killough 11/98: used in torque simulation
 
     int                 bloodsplats;
+
+    struct mobj_s       *dropshadow;
 } mobj_t;
 
 #endif

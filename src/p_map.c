@@ -754,6 +754,17 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
         }
     }
 
+    if (thing->dropshadow)
+    {
+        P_UnsetThingPosition(thing->dropshadow);
+
+        thing->dropshadow->x = thing->x;
+        thing->dropshadow->y = thing->y;
+        thing->dropshadow->z = thing->z;
+
+        P_SetThingPosition(thing->dropshadow);
+    }
+
     return true;
 }
 

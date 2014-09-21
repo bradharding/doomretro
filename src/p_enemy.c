@@ -274,9 +274,9 @@ static int P_IsUnderDamage(mobj_t *actor)
     int                         dir = 0;
 
     for (seclist = actor->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        if ((cl = seclist->m_sector->specialdata) &&
-            cl->thinker.function.acp1 == T_MoveCeiling)
+        if ((cl = seclist->m_sector->specialdata) && cl->thinker.function.acp1 == T_MoveCeiling)
             dir |= cl->direction;
+
     return dir;
 }
 
@@ -371,9 +371,8 @@ static boolean P_SmartMove(mobj_t *actor)
     int         under_damage;
 
     // killough 9/12/98: Stay on a lift if target is on one
-    on_lift = (target && target->health > 0 &&
-               target->subsector->sector->tag == actor->subsector->sector->tag &&
-               P_IsOnLift(actor));
+    on_lift = (target && target->health > 0
+        && target->subsector->sector->tag == actor->subsector->sector->tag && P_IsOnLift(actor));
 
     under_damage = P_IsUnderDamage(actor);
 
@@ -381,11 +380,11 @@ static boolean P_SmartMove(mobj_t *actor)
         return false;
 
     // killough 9/9/98: avoid crushing ceilings or other damaging areas
-    if ((on_lift && P_Random() < 230 &&      // Stay on lift
-        !P_IsOnLift(actor))
-        || (!under_damage &&                 // Get away from damage
-            (under_damage = P_IsUnderDamage(actor)) &&
-            (under_damage < 0 || P_Random() < 200)))
+    if ((on_lift && P_Random() < 230         // Stay on lift
+         && !P_IsOnLift(actor))
+        || (!under_damage                    // Get away from damage
+            && (under_damage = P_IsUnderDamage(actor))
+            && (under_damage < 0 || P_Random() < 200)))
         actor->movedir = DI_NODIR;           // avoid the area (most of the time anyway)
 
     return true;
@@ -755,6 +754,9 @@ void A_Chase(mobj_t *actor)
             actor->angle += ANG90 / 2;
     }
 
+    if (actor->dropshadow)
+        actor->dropshadow->angle = actor->angle;
+
     if (!actor->target || !(actor->target->flags & MF_SHOOTABLE))
     {
         // look for a new target
@@ -797,13 +799,6 @@ void A_Chase(mobj_t *actor)
     }
 
 nomissile:
-    // possibly choose another target
-    //if (netgame && !actor->threshold && !P_CheckSight(actor, actor->target))
-    //{
-    //    if (P_LookForPlayers(actor, true))
-    //        return;     // got a new target
-    //}
-
     // chase towards player
     if (--actor->movecount < 0 || !P_SmartMove(actor))
         P_NewChaseDir(actor);
@@ -828,6 +823,9 @@ void A_FaceTarget(mobj_t *actor)
 
     if (actor->target->flags & MF_SHADOW)
         actor->angle += (P_Random() - P_Random()) << 21;
+
+    if (actor->dropshadow)
+        actor->dropshadow->angle = actor->angle;
 }
 
 //

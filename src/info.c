@@ -44,7 +44,7 @@ char *sprnames[] = {
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
-    "MEDB", NULL
+    "MEDB", "PODS", NULL
 };
 
 void A_Light0();
@@ -1414,9 +1414,43 @@ state_t states[NUMSTATES] =
     { SPR_PUFF,  0 | FF_FULLBRIGHT,                4,               NULL,            S_TRAIL2,        0,     0     }, // S_TRAIL
     { SPR_PUFF,  1,                                4,               NULL,            S_TRAIL3,        0,     0     }, // S_TRAIL2
     { SPR_PUFF,  2,                                8,               NULL,            S_TRAIL4,        0,     0     }, // S_TRAIL3
-    { SPR_PUFF,  3,                               12,               NULL,            S_NULL,          0,     0     }  // S_TRAIL4
-};
+    { SPR_PUFF,  3,                               12,               NULL,            S_NULL,          0,     0     }, // S_TRAIL4
 
+    // [BH] Zombieman Drop Shadow (MT_POSS_DROPSHADOW)
+    { SPR_PODS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_STND_DROPSHADOW
+    { SPR_PODS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_STND2_DROPSHADOW
+    { SPR_PODS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RUN1_DROPSHADOW
+    { SPR_PODS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RUN2_DROPSHADOW
+    { SPR_PODS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RUN3_DROPSHADOW
+    { SPR_PODS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RUN4_DROPSHADOW
+    { SPR_PODS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RUN5_DROPSHADOW
+    { SPR_PODS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RUN6_DROPSHADOW
+    { SPR_PODS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RUN7_DROPSHADOW
+    { SPR_PODS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RUN8_DROPSHADOW
+    { SPR_PODS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_ATK1_DROPSHADOW
+    { SPR_PODS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_ATK2_DROPSHADOW
+    { SPR_PODS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_ATK3_DROPSHADOW
+    { SPR_PODS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_PAIN_DROPSHADOW
+    { SPR_PODS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_PAIN2_DROPSHADOW
+    { SPR_PODS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_DIE1_DROPSHADOW
+    { SPR_PODS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_DIE2_DROPSHADOW
+    { SPR_PODS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_DIE3_DROPSHADOW
+    { SPR_PODS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_DIE4_DROPSHADOW
+    { SPR_PODS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_DIE5_DROPSHADOW
+    { SPR_PODS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE1_DROPSHADOW
+    { SPR_PODS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE2_DROPSHADOW
+    { SPR_PODS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE3_DROPSHADOW
+    { SPR_PODS, 15,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE4_DROPSHADOW
+    { SPR_PODS, 16,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE5_DROPSHADOW
+    { SPR_PODS, 17,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE6_DROPSHADOW
+    { SPR_PODS, 18,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE7_DROPSHADOW
+    { SPR_PODS, 19,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE8_DROPSHADOW
+    { SPR_PODS, 20,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_XDIE9_DROPSHADOW
+    { SPR_PODS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RAISE1_DROPSHADOW
+    { SPR_PODS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RAISE2_DROPSHADOW
+    { SPR_PODS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_POSS_RAISE3_DROPSHADOW
+    { SPR_PODS,  7,                               -1,               NULL,            S_NULL,          0,     0     }  // S_POSS_RAISE4_DROPSHADOW
+};
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
 //  frames to randomize start frame of certain objects when spawned on map
@@ -5695,7 +5729,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* mass                 */ 100,
         /* damage               */ 0,
         /* activesound          */ sfx_None,
-        /* flags                */ S_NULL,
+        /* flags                */ 0,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
@@ -5704,7 +5738,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     // Smoke Trail (MT_TRAIL)
     {
         /* doomednum            */ -1,
-        /* description          */ "Smoke Trail",
+        /* description          */ "",
         /* spawnstate           */ S_TRAIL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5727,7 +5761,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_NOBLOCKMAP | MF_NOGRAVITY,
-        /* flags2               */ MF2_TRANSLUCENT,                         // [BH] apply additive translucency
+        /* flags2               */ MF2_TRANSLUCENT,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0
+    },
+
+    // Zombieman Drop Shadow (MT_POSS_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_POSS_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
         /* raisestate           */ S_NULL,
         /* frames               */ 0
     }

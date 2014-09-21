@@ -206,7 +206,6 @@ void R_InitSpriteDefs(char **namelist)
 
                 // Fast portable comparison -- killough
                 // (using int pointer cast is nonportable):
-
                 if (!((lump->name[0] ^ spritename[0]) |
                       (lump->name[1] ^ spritename[1]) |
                       (lump->name[2] ^ spritename[2]) |
@@ -253,7 +252,7 @@ void R_InitSpriteDefs(char **namelist)
                     // allocate space for the frames present and copy sprtemp to it
                     sprites[i].spriteframes = Z_Malloc(maxframe * sizeof(spriteframe_t), PU_STATIC, NULL);
                     memcpy(sprites[i].spriteframes, sprtemp, maxframe * sizeof(spriteframe_t));
-                }
+            }
         }
     }
     free(hash);             // free hash table
@@ -300,7 +299,7 @@ vissprite_t *R_NewVisSprite(void)
         num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : 128);
         vissprites = realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
 
-        //e6y: set all fields to zero
+        // e6y: set all fields to zero
         memset(vissprites + num_vissprite_alloc_prev, 0,
             (num_vissprite_alloc - num_vissprite_alloc_prev) * sizeof(*vissprites));
     }
@@ -969,12 +968,12 @@ void R_DrawMasked(void)
         }
     }
 
-    // draw all blood splats first, front to back
+    // draw all blood splats and dropshadows first, front to back
     for (i = 0; i < num_vissprite; i++)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
 
-        if (spr->type == MT_BLOODSPLAT)
+        if (spr->mobjflags2 & MF2_DRAWFIRST)
         {
             if (spr->x2 < cx)
             {
@@ -1001,7 +1000,7 @@ void R_DrawMasked(void)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
 
-        if (spr->type != MT_BLOODSPLAT)
+        if (!(spr->mobjflags2 & MF2_DRAWFIRST))
         {
             if (spr->x2 < cx)
             {
