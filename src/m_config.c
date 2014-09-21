@@ -44,6 +44,7 @@ extern int      bloodsplats;
 extern int      brightmaps;
 extern int      corpses;
 extern boolean  dclick_use;
+extern boolean  dropshadows;
 extern boolean  footclip;
 extern int      fullscreen;
 extern int      gamepadautomap;
@@ -186,6 +187,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,           1),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
     CONFIG_VARIABLE_INT   (dclick_use,          dclick_use,           1),
+    CONFIG_VARIABLE_INT   (dropshadows,         dropshadows,          1),
     CONFIG_VARIABLE_INT   (footclip,            footclip,             1),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
     CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,    9),
@@ -721,6 +723,9 @@ static void M_CheckDefaults(void)
 
     if (dclick_use != false && dclick_use != true)
         dclick_use = DCLICKUSE_DEFAULT;
+
+    if (dropshadows != false && dropshadows != true)
+        dropshadows = DROPSHADOWS_DEFAULT;
 
     if (footclip != false && footclip != true)
         footclip = FOOTCLIP_DEFAULT;

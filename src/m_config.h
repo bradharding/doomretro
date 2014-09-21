@@ -49,6 +49,8 @@
 
 #define DCLICKUSE_DEFAULT               false
 
+#define DROPSHADOWS_DEFAULT             true
+
 #define EPISODE_MIN                     0
 #define EPISODE_DEFAULT                 0
 #define EPISODE_MAX                     3

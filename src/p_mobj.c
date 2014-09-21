@@ -49,6 +49,8 @@ int                     corpses = CORPSES_DEFAULT;
 
 boolean                 footclip = FOOTCLIP_DEFAULT;
 
+boolean                 dropshadows = DROPSHADOWS_DEFAULT;
+
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern boolean          *isliquid;
 extern int              brightmaps;
@@ -1015,7 +1017,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
             else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
                 P_SpawnMoreBlood(mobj, MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
     }
-    else if (mobj->type == MT_POSSESSED) //if (mobj->flags & MF_SHOOTABLE)
+    else if (dropshadows && mobj->type == MT_POSSESSED) //if (mobj->flags & MF_SHOOTABLE)
     {
         mobj->dropshadow = P_SpawnMobj(x, y, ONFLOORZ, MT_POSS_DROPSHADOW);
         mobj->dropshadow->thinker.function.acv = (actionf_v)(-1);
