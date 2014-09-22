@@ -44,7 +44,7 @@ char *sprnames[] = {
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
-    "MEDB", "PODS", "SPDS", NULL
+    "MEDB", "PODS", "SPDS", "TRDS", NULL
 };
 
 void A_Light0();
@@ -1484,7 +1484,42 @@ state_t states[NUMSTATES] =
     { SPR_SPDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RAISE1_DROPSHADOW
     { SPR_SPDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RAISE2_DROPSHADOW
     { SPR_SPDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RAISE3_DROPSHADOW
-    { SPR_SPDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }  // S_SPOS_RAISE4_DROPSHADOW
+    { SPR_SPDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SPOS_RAISE4_DROPSHADOW
+
+    // [BH] Imp Drop Shadow (MT_TROO_DROPSHADOW)
+    { SPR_TRDS,  0,                               10,               NULL,            S_NULL,          0,     0     }, // S_TROO_STND_DROPSHADOW
+    { SPR_TRDS,  1,                               10,               NULL,            S_NULL,          0,     0     }, // S_TROO_STND2_DROPSHADOW
+    { SPR_TRDS,  0,                                3,               NULL,            S_NULL,          0,     0     }, // S_TROO_RUN1_DROPSHADOW
+    { SPR_TRDS,  0,                                3,               NULL,            S_NULL,          0,     0     }, // S_TROO_RUN2_DROPSHADOW
+    { SPR_TRDS,  1,                                3,               NULL,            S_NULL,          0,     0     }, // S_TROO_RUN3_DROPSHADOW
+    { SPR_TRDS,  1,                                3,               NULL,            S_NULL,          0,     0     }, // S_TROO_RUN4_DROPSHADOW
+    { SPR_TRDS,  2,                                3,               NULL,            S_NULL,          0,     0     }, // S_TROO_RUN5_DROPSHADOW
+    { SPR_TRDS,  2,                                3,               NULL,            S_NULL,          0,     0     }, // S_TROO_RUN6_DROPSHADOW
+    { SPR_TRDS,  3,                                3,               NULL,            S_NULL,          0,     0     }, // S_TROO_RUN7_DROPSHADOW
+    { SPR_TRDS,  3,                                3,               NULL,            S_NULL,          0,     0     }, // S_TROO_RUN8_DROPSHADOW
+    { SPR_TRDS,  4,                                8,               NULL,            S_NULL,          0,     0     }, // S_TROO_ATK1_DROPSHADOW
+    { SPR_TRDS,  5,                                8,               NULL,            S_NULL,          0,     0     }, // S_TROO_ATK2_DROPSHADOW
+    { SPR_TRDS,  6,                                6,               NULL,            S_NULL,          0,     0     }, // S_TROO_ATK3_DROPSHADOW
+    { SPR_TRDS,  7,                                2,               NULL,            S_NULL,          0,     0     }, // S_TROO_PAIN_DROPSHADOW
+    { SPR_TRDS,  7,                                2,               NULL,            S_NULL,          0,     0     }, // S_TROO_PAIN2_DROPSHADOW
+    { SPR_TRDS,  8,                                8,               NULL,            S_NULL,          0,     0     }, // S_TROO_DIE1_DROPSHADOW
+    { SPR_TRDS,  9,                                8,               NULL,            S_NULL,          0,     0     }, // S_TROO_DIE2_DROPSHADOW
+    { SPR_TRDS, 10,                                6,               NULL,            S_NULL,          0,     0     }, // S_TROO_DIE3_DROPSHADOW
+    { SPR_TRDS, 11,                                6,               NULL,            S_NULL,          0,     0     }, // S_TROO_DIE4_DROPSHADOW
+    { SPR_TRDS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_TROO_DIE5_DROPSHADOW
+    { SPR_TRDS, 13,                                5,               NULL,            S_NULL,          0,     0     }, // S_TROO_XDIE1_DROPSHADOW
+    { SPR_TRDS, 14,                                5,               NULL,            S_NULL,          0,     0     }, // S_TROO_XDIE2_DROPSHADOW
+    { SPR_TRDS, 15,                                5,               NULL,            S_NULL,          0,     0     }, // S_TROO_XDIE3_DROPSHADOW
+    { SPR_TRDS, 16,                                5,               NULL,            S_NULL,          0,     0     }, // S_TROO_XDIE4_DROPSHADOW
+    { SPR_TRDS, 17,                                5,               NULL,            S_NULL,          0,     0     }, // S_TROO_XDIE5_DROPSHADOW
+    { SPR_TRDS, 18,                                5,               NULL,            S_NULL,          0,     0     }, // S_TROO_XDIE6_DROPSHADOW
+    { SPR_TRDS, 19,                                5,               NULL,            S_NULL,          0,     0     }, // S_TROO_XDIE7_DROPSHADOW
+    { SPR_TRDS, 20,                               -1,               NULL,            S_NULL,          0,     0     }, // S_TROO_XDIE8_DROPSHADOW
+    { SPR_TRDS, 12,                                8,               NULL,            S_NULL,          0,     0     }, // S_TROO_RAISE1_DROPSHADOW
+    { SPR_TRDS, 11,                                8,               NULL,            S_NULL,          0,     0     }, // S_TROO_RAISE2_DROPSHADOW
+    { SPR_TRDS, 10,                                6,               NULL,            S_NULL,          0,     0     }, // S_TROO_RAISE3_DROPSHADOW
+    { SPR_TRDS,  9,                                6,               NULL,            S_NULL,          0,     0     }, // S_TROO_RAISE4_DROPSHADOW
+    { SPR_TRDS,  8,                                6,               NULL,            S_NULL,          0,     0     }  // S_TROO_RAISE5_DROPSHADOW
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -1873,7 +1908,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_TROO_RAISE1,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_TROO_DROPSHADOW
     },
 
     // Demon (MT_SERGEANT)
@@ -5977,6 +6012,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* doomednum            */ -1,
         /* description          */ "",
         /* spawnstate           */ S_SPOS_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Imp Drop Shadow (MT_TROO_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_TROO_STND_DROPSHADOW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
         /* seesound             */ sfx_None,
