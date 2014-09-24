@@ -1164,7 +1164,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void), 
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = flags2 | (rand() & 1) * MF2_MIRRORED;
+        newsplat->flags2 = (flags2 | MF2_DRAWFIRST | (rand() & 1) * MF2_MIRRORED);
         newsplat->colfunc = colfunc;
 
         newsplat->x = x;
@@ -1199,7 +1199,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void),
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = flags2 | (rand() & 1) * MF2_MIRRORED;
+        newsplat->flags2 = (flags2 | MF2_DRAWFIRST | (rand() & 1) * MF2_MIRRORED);
         newsplat->colfunc = colfunc;
 
         newsplat->x = x;

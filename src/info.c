@@ -5989,7 +5989,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_DRAWFIRST,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
