@@ -389,9 +389,6 @@ void P_ZMovement(mobj_t *mo)
         mo->momz -= GRAVITY;
     }
 
-    if (mo->dropshadow)
-        mo->dropshadow->z = mo->z;
-
     if (mo->z + mo->height > mo->ceilingz)
     {
         // hit the ceiling
