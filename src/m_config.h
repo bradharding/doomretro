@@ -139,7 +139,7 @@
 
 #define MOUSESENSITIVITY_MIN            0
 #define MOUSESENSITIVITY_DEFAULT        16
-#define MOUSESENSITIVITY_MAX            64
+#define MOUSESENSITIVITY_MAX            128
 
 #define MOUSESTRAFE_DEFAULT             -1
 

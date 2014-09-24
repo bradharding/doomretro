@@ -860,6 +860,8 @@ static void M_CheckDefaults(void)
     if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS)
         mousebforward = MOUSEFORWARD_DEFAULT;
 
+    if (mouseSensitivity & 2)
+        ++mouseSensitivity;
     if (mouseSensitivity < MOUSESENSITIVITY_MIN || mouseSensitivity > MOUSESENSITIVITY_MAX)
         mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
     gamepadSensitivity = (!mouseSensitivity ? 0.0f :
