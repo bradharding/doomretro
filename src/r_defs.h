@@ -110,6 +110,9 @@ typedef struct
 
     int                 linecount;
     struct line_s       **lines;  // [linecount] size
+
+    int                 cachedheight;
+    int                 scaleindex;
 } sector_t;
 
 //
