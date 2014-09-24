@@ -44,7 +44,7 @@ char *sprnames[] = {
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
-    "MEDB", "PODS", "SPDS", "TRDS", "SADS", NULL
+    "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", NULL
 };
 
 void A_Light0();
@@ -1548,7 +1548,30 @@ state_t states[NUMSTATES] =
     { SPR_SADS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SARG_RAISE3_DROPSHADOW
     { SPR_SADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SARG_RAISE4_DROPSHADOW
     { SPR_SADS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SARG_RAISE5_DROPSHADOW
-    { SPR_SADS,  8,                               -1,               NULL,            S_NULL,          0,     0     }  // S_SARG_RAISE6_DROPSHADOW
+    { SPR_SADS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SARG_RAISE6_DROPSHADOW
+
+    // [BH] Cacodemon Drop Shadow (MT_HEAD_DROPSHADOW)
+    { SPR_HEDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_STND_DROPSHADOW
+    { SPR_HEDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_RUN1_DROPSHADOW
+    { SPR_HEDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_ATK1_DROPSHADOW
+    { SPR_HEDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_ATK2_DROPSHADOW
+    { SPR_HEDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_ATK3_DROPSHADOW
+    { SPR_HEDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_PAIN_DROPSHADOW
+    { SPR_HEDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_PAIN2_DROPSHADOW
+    { SPR_HEDS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_PAIN3_DROPSHADOW
+    { SPR_HEDS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_DIE1_DROPSHADOW
+    { SPR_HEDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_DIE2_DROPSHADOW
+    { SPR_HEDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_DIE3_DROPSHADOW
+    { SPR_HEDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_DIE4_DROPSHADOW
+    { SPR_HEDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_DIE5_DROPSHADOW
+    { SPR_HEDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_DIE6_DROPSHADOW
+    { SPR_HEDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_RAISE1_DROPSHADOW
+    { SPR_HEDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_RAISE2_DROPSHADOW
+    { SPR_HEDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_RAISE3_DROPSHADOW
+    { SPR_HEDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_RAISE4_DROPSHADOW
+    { SPR_HEDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEAD_RAISE5_DROPSHADOW
+    { SPR_HEDS,  6,                               -1,               NULL,            S_NULL,          0,     0     }  // S_HEAD_RAISE6_DROPSHADOW
+
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -2033,7 +2056,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_PASSMOBJ,
         /* raisestate           */ S_HEAD_RAISE1,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_HEAD_DROPSHADOW
     },
 
     // Baron of Hell (MT_BRUISER)
@@ -6105,6 +6128,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* doomednum            */ -1,
         /* description          */ "",
         /* spawnstate           */ S_SARG_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Cacodemon Drop Shadow (MT_HEAD_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_HEAD_STND_DROPSHADOW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
         /* seesound             */ sfx_None,
