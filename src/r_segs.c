@@ -89,68 +89,31 @@ static int      invhgtbits = 4;
 // anything to pass through a sector any taller than 32767 units, so this limit is ok.
 // Of course, levels with sectors this large WILL suffer from some wall wiggle...
 // e6y - rewritten kb1's original code
-void R_SetWiggleHack(int max_diff)
+void R_SetWiggleHack(int height)
 {
-    static int  max_diff_last = INT_MIN;
+    static const int MultiplyDeBruijnBitPosition[16] = {
+        0, 6, 1, 12, 7, 9, 2, 13, 5, 11, 8, 4, 10, 3, 15, 14
+    };
 
-    if (max_diff == max_diff_last)
-        return;
+    static const int pairs[16][2] = {
+        { 2048, 12 }, { 2048, 12 }, { 2048, 12 }, { 2048, 12 },
+        { 2048, 12 }, { 2048, 12 }, { 2048, 12 }, { 2048, 12 },
+        { 2048, 11 }, { 2048, 10 }, { 2048,  9 }, { 1024,  9 },
+        {  512,  9 }, {  256,  9 }, {  128,  9 }, {   64,  9 }
+    };
 
-    max_diff_last = max_diff;
+    int n;
 
-    // [kb] scale calculation. The higher the max_scale the better, but go too far and
-    // overflow the texture scaling variables. Attempt to get max_scale at least to
-    // 1024. On the other side, h_bits is made less precise - go too far and the top
-    // and bottom of textures start to wiggle. Originally set to 12, 11 and 10 seem ok.
-    // Only use 9 for levels with really tall walls, because that is where height
-    // precision starts to become apparent.
-    if (max_diff < 256)
-    {
-        max_rwscale = 2048 << FRACBITS;
-        HEIGHTBITS = 12;
-    }
-    else if (max_diff < 512)
-    {
-        max_rwscale = 2048 << FRACBITS;
-        HEIGHTBITS = 11;
-    }
-    else if (max_diff < 1024)
-    {
-        max_rwscale = 2048 << FRACBITS;
-        HEIGHTBITS = 10;
-    }
-    else if (max_diff < 2048)
-    {
-        max_rwscale = 2048 << FRACBITS;
-        HEIGHTBITS = 9;
-    }
-    else if (max_diff < 4096)
-    {
-        max_rwscale = 1024 << FRACBITS;
-        HEIGHTBITS = 9;
-    }
-    else if (max_diff < 8192)
-    {
-        max_rwscale = 512 << FRACBITS;
-        HEIGHTBITS = 9;
-    }
-    else if (max_diff < 16384)
-    {
-        max_rwscale = 256 << FRACBITS;
-        HEIGHTBITS = 9;
-    }
-    else if (max_diff < 32768)
-    {
-        max_rwscale = 128 << FRACBITS;
-        HEIGHTBITS = 9;
-    }
-    else
-    {
-        max_rwscale = 64 << FRACBITS;
-        HEIGHTBITS = 9;
-    }
+    height |= height >> 1;
+    height |= height >> 2;
+    height |= height >> 4;
+    height |= height >> 8;
 
-    HEIGHTUNIT = 1 << HEIGHTBITS;
+    n = MultiplyDeBruijnBitPosition[(unsigned int)(height * 0xe59fcb4u) >> 28];
+
+    max_rwscale = pairs[n][0] << FRACBITS;
+    HEIGHTBITS = pairs[n][1];
+    HEIGHTUNIT = (1 << HEIGHTBITS);
     invhgtbits = 16 - HEIGHTBITS;
 }
 
