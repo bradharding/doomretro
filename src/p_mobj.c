@@ -37,6 +37,7 @@
 
 void G_PlayerReborn(int player);
 void P_DelSeclist(msecnode_t *node);
+void P_SpawnDropShadow(mobj_t *actor);
 
 int                     bloodsplats = BLOODSPLATS_DEFAULT;
 mobj_t                  *bloodSplatQueue[BLOODSPLATS_MAX];
@@ -93,6 +94,8 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
+            if (mobj->dropshadow)
+                P_RemoveMobj(mobj->dropshadow);
             ret = false;
             break;                                              // killough 4/9/98
         }
@@ -695,6 +698,9 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
+    if (dropshadows && mobj->info->dropshadow)
+        P_SpawnDropShadow(mobj);
+
     return mobj;
 }
 
@@ -1010,13 +1016,6 @@ void P_SpawnMapThing(mapthing_t *mthing)
             else if (mobjinfo[i].flags2 & MF2_MOREBLUEBLOODSPLATS)
                 P_SpawnMoreBlood(mobj, MF2_TRANSLUCENT_REDTOBLUE_33, tlredtoblue33colfunc);
     }
-    else if (dropshadows && mobjinfo[i].dropshadow)
-    {
-        mobj->dropshadow = P_SpawnMobj(x, y, ONFLOORZ, mobjinfo[i].dropshadow);
-        mobj->dropshadow->thinker.function.acv = (actionf_v)(-1);
-        mobj->dropshadow->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
-        P_AddThinker(&mobj->dropshadow->thinker);
-    }
 }
 
 //
@@ -1227,6 +1226,44 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void),
 
 void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int flags2, void (*colfunc)(void), int maxheight)
 {
+}
+
+//
+// P_SpawnMobj
+//
+void P_SpawnDropShadow(mobj_t *actor)
+{
+    mobj_t      *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+    state_t     *st;
+
+    memset(mobj, 0, sizeof(*mobj));
+
+    mobj->type = actor->info->dropshadow;
+    mobj->info = &mobjinfo[mobj->type];
+    mobj->x = actor->x;
+    mobj->y = actor->y;
+    mobj->flags2 = (MF2_DRAWFIRST | MF2_TRANSLUCENT_50);
+
+    st = &states[mobj->info->spawnstate];
+
+    mobj->state = st;
+    mobj->tics = st->tics;
+    mobj->sprite = st->sprite;
+    mobj->frame = st->frame;
+
+    mobj->colfunc = tl50colfunc;
+
+    P_SetThingPosition(mobj);
+
+    mobj->dropoffz = mobj->floorz = mobj->subsector->sector->floorheight;
+    mobj->ceilingz = mobj->subsector->sector->ceilingheight;
+
+    mobj->z = mobj->floorz;
+
+    mobj->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
+    P_AddThinker(&mobj->thinker);
+
+    actor->dropshadow = mobj;
 }
 
 //
