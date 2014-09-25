@@ -75,51 +75,84 @@ static int      *maskedtexturecol;
 
 boolean         brightmaps = BRIGHTMAPS_DEFAULT;
 
-// [kb] hack to improve rendering precision (wall wiggle)
-static int      max_rwscale = 64 * FRACUNIT;
-static int      HEIGHTBITS = 12;
-static int      HEIGHTUNIT = (1 << 12);
-static int      invhgtbits = 4;
+static int	max_rwscale = 64 * FRACUNIT;
+static int	HEIGHTBITS = 12;
+static int	HEIGHTUNIT = (1 << 12);
+static int	invhgtbits = 4;
 
-// [kb] Adjusts renderer wall/texture precision based on the maximum difference in height
-// of all adjoining sectors. P_SetupWiggleFix() passes max_diff, which is what is needed
-// to make the renderer as precise as possible without overflowing the 16.16 fixed point
-// coordinate system. As a bonus, this also allows the render to display sectors that are
-// up to 32767 units tall (or greater, maybe), improving an old bug. Doom doesn't allow
-// anything to pass through a sector any taller than 32767 units, so this limit is ok.
-// Of course, levels with sectors this large WILL suffer from some wall wiggle...
-void R_SetWiggleHack(sector_t *sec)
+//
+// R_FixWiggle()
+// Dynamic wall/texture rescaler, AKA "WiggleHack II"
+//  by Kurt "kb1" Baumgardner ("kb")
+//
+//  [kb] When the rendered view is positioned, such that the viewer is
+//   looking almost parallel down a wall, the result of the scale
+//   calculation in R_ScaleFromGlobalAngle becomes very large. And, the
+//   taller the wall, the larger that value becomes. If these large
+//   values were used as-is, subsequent calculations would overflow
+//   and crash the program.
+//
+//  Therefore, vanilla Doom clamps this scale calculation, preventing it
+//   from becoming larger than 0x400000 (64*FRACUNIT). This number was
+//   chosen carefully, to allow reasonably-tight angles, with reasonably
+//   tall sectors to be rendered, within the limits of the fixed-point
+//   math system being used. When the scale gets clamped, Doom cannot
+//   properly render the wall, causing an undesirable wall-bending
+//   effect that I call "floor wiggle".
+//
+//  Modern source ports offer higher video resolutions, which worsens
+//   the issue. And, Doom is simply not adjusted for the taller walls
+//   found in many PWADs.
+//
+//  WiggleHack II attempts to correct these issues, by dynamically
+//   adjusting the fixed-point math, and the maximum scale clamp,
+//   on a wall-by-wall basis. This has 2 effects:
+//
+//  1. Floor wiggle is greatly reduced and/or eliminated.
+//  2. Overflow is not longer possible, even in levels with maximum
+//     height sectors.
+//
+//  It is not perfect across all situations. Some floor wiggle can be
+//   seen, and some texture strips may be slight misaligned in extreme
+//   cases. These effects cannot be corrected without increasing the
+//   precision of various renderer variables, and, possibly, suffering
+//   a performance penalty.
+//
+void R_FixWiggle(sector_t *sec)
 {
-    static const int scale_values[16][2] = {
-        { 2048, 12 }, { 2048, 12 }, { 2048, 12 }, { 2048, 12 },
-        { 2048, 12 }, { 2048, 12 }, { 2048, 12 }, { 2048, 12 },
-        { 2048, 11 }, { 2048, 10 }, { 2048,  9 }, { 1024,  9 },
-        {  512,  9 }, {  256,  9 }, {  128,  9 }, {   64,  9 }
+    static int  lastheight = 0;
+
+    static const struct
+    {
+        int     clamp;
+        int     heightbits;
+    } scale_values[9] = {
+            { 2048, 12 }, { 2048, 11 }, { 2048, 10 },
+            { 2048,  9 }, { 1024,  9 }, {  512,  9 },
+            {  256,  9 }, {  128,  9 }, {   64,  9 }
     };
 
-    int height = (sec->ceilingheight - sec->floorheight) >> FRACBITS;
+    int height = MAX(1, (sec->ceilingheight - sec->floorheight) >> FRACBITS);
 
-    if (height < 0)
-        height = 0;
-
-    //[kb] scale calculation. The higher the max_scale the better, but go too far and
-    // overflow the texture scaling variables. Attempt to get max_scale at least to
-    // 1024. On the other side, h_bits is made less precise - go too far and the top
-    // and bottom of textures start to wiggle. Originally set to 12, 11 and 10 seem ok.
-    // Only use 9 for levels with really tall walls, because that is where height
-    // precision starts to become apparent.
-    if (height != sec->cachedheight)
+    if (height != lastheight)
     {
-        frontsector->cachedheight = height;
-        frontsector->scaleindex = (int)(log(height | 1) * 1.44269504088896);
+        lastheight = height;
+
+        if (height != sec->cachedheight)
+        {
+            frontsector->cachedheight = height;
+            frontsector->scaleindex = 0;
+            height >>= 7;
+            while ((height >>= 1))
+                frontsector->scaleindex++;
+        }
+
+        max_rwscale = scale_values[frontsector->scaleindex].clamp << 16;
+        HEIGHTBITS = scale_values[frontsector->scaleindex].heightbits;
+        HEIGHTUNIT = 1 << HEIGHTBITS;
+        invhgtbits = 16 - HEIGHTBITS;
     }
-
-    max_rwscale = scale_values[frontsector->scaleindex][0] << 16;
-    HEIGHTBITS = scale_values[frontsector->scaleindex][1];
-    HEIGHTUNIT = 1 << HEIGHTBITS;
-    invhgtbits = 16 - HEIGHTBITS;
 }
-
 //
 // R_ScaleFromGlobalAngle
 // Returns the texture mapping scale
@@ -490,7 +523,7 @@ void R_StoreWallRange(int start, int stop)
     worldtop = frontsector->ceilingheight - viewz;
     worldbottom = frontsector->floorheight - viewz;
 
-    R_SetWiggleHack(frontsector);
+    R_FixWiggle(frontsector);
 
     // calculate scale at both ends and step
     ds_p->scale1 = rw_scale = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start]);
