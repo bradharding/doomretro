@@ -168,13 +168,11 @@ void R_FixWiggle(sector_t *sec)
 //
 static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 {
-    int         anglea = ANG90 + visangle - viewangle;
-    int         angleb = ANG90 + visangle - rw_normalangle;
-    int         den = FixedMul(rw_distance, finesine[anglea >> ANGLETOFINESHIFT]);
-    fixed_t     num = FixedMul(projectiony, finesine[angleb >> ANGLETOFINESHIFT]);
+    int         angle = ANG90 + visangle;
+    int         den = FixedMul(rw_distance, finesine[(angle - viewangle) >> ANGLETOFINESHIFT]);
+    fixed_t     num = FixedMul(projectiony, finesine[(angle - rw_normalangle) >> ANGLETOFINESHIFT]);
 
-    return (den > (num >> 16) ? ((num = FixedDiv(num, den)) > max_rwscale ? max_rwscale :
-        MAX(256, num)) : max_rwscale);
+    return (den > (num >> 16) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
 }
 
 //
