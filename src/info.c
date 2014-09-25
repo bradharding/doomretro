@@ -44,7 +44,7 @@ char *sprnames[] = {
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
-    "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", NULL
+    "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", NULL
 };
 
 void A_Light0();
@@ -1608,7 +1608,25 @@ state_t states[NUMSTATES] =
     { SPR_CPDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_CPOS_RAISE4_DROPSHADOW
     { SPR_CPDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_CPOS_RAISE5_DROPSHADOW
     { SPR_CPDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_CPOS_RAISE6_DROPSHADOW
-    { SPR_CPDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }  // S_CPOS_RAISE7_DROPSHADOW
+    { SPR_CPDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_CPOS_RAISE7_DROPSHADOW
+
+    // [BH] Lost Soul Drop Shadow (MT_SKULL_DROPSHADOW)
+    { SPR_SKDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_STND_DROPSHADOW
+    { SPR_SKDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_STND2_DROPSHADOW
+    { SPR_SKDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_RUN1_DROPSHADOW
+    { SPR_SKDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_RUN2_DROPSHADOW
+    { SPR_SKDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_ATK1_DROPSHADOW
+    { SPR_SKDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_ATK2_DROPSHADOW
+    { SPR_SKDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_ATK3_DROPSHADOW
+    { SPR_SKDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_ATK4_DROPSHADOW
+    { SPR_SKDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_PAIN_DROPSHADOW
+    { SPR_SKDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_PAIN2_DROPSHADOW
+    { SPR_SKDS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE1_DROPSHADOW
+    { SPR_SKDS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE2_DROPSHADOW
+    { SPR_SKDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE3_DROPSHADOW
+    { SPR_SKDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE4_DROPSHADOW
+    { SPR_SKDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE5_DROPSHADOW
+    { SPR_SKDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }  // S_SKULL_DIE6_DROPSHADOW
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -2221,7 +2239,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_PASSMOBJ | MF2_TRANSLUCENT_REDONLY,  // [BH] apply additive translucency to flames
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_SKULL_DROPSHADOW
     },
 
     // Spider Mastermind (MT_SPIDER)
@@ -6229,6 +6247,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* doomednum            */ -1,
         /* description          */ "",
         /* spawnstate           */ S_CPOS_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Lost Soul Drop Shadow (MT_SKULL_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_SKULL_STND_DROPSHADOW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
         /* seesound             */ sfx_None,
