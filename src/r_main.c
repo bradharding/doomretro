@@ -123,6 +123,7 @@ void (*redtogreencolfunc)(void);
 void (*tlredtoblue33colfunc)(void);
 void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
+void (*dropshadowcolfunc)(void);
 
 //
 // R_PointOnSide
@@ -465,6 +466,7 @@ void R_ExecuteSetViewSize(void)
     colfunc = basecolfunc = R_DrawColumn;
     troopcolfunc = R_DrawTroopColumn;
     fuzzcolfunc = R_DrawFuzzColumn;
+    dropshadowcolfunc = R_DrawDropShadowColumn;
 
     if (translucency)
     {

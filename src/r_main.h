@@ -108,6 +108,7 @@ extern void (*redtogreencolfunc)(void);
 extern void (*tlredtogreen33colfunc)(void);
 extern void (*psprcolfunc)(void);
 extern void (*spanfunc)(void);
+extern void (*dropshadowcolfunc)(void);
 
 //
 // Utility functions.

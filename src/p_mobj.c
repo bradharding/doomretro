@@ -1242,7 +1242,7 @@ void P_SpawnDropShadow(mobj_t *actor)
     mobj->info = &mobjinfo[mobj->type];
     mobj->x = actor->x;
     mobj->y = actor->y;
-    mobj->flags2 = (MF2_DRAWFIRST | MF2_TRANSLUCENT_50);
+    mobj->flags2 = MF2_DRAWFIRST;
 
     st = &states[mobj->info->spawnstate];
 
@@ -1251,7 +1251,7 @@ void P_SpawnDropShadow(mobj_t *actor)
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
 
-    mobj->colfunc = tl50colfunc;
+    mobj->colfunc = dropshadowcolfunc;
 
     P_SetThingPosition(mobj);
 

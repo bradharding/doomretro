@@ -43,6 +43,7 @@ extern byte             *dc_source;
 extern byte             *tinttab;
 extern byte             *tinttab33;
 extern byte             *tinttab50;
+extern byte             *tinttab60;
 extern byte             *tinttabred;
 extern byte             *tinttabredwhite;
 extern byte             *tinttabgreen;
@@ -78,6 +79,7 @@ void R_DrawRedToGreenColumn(void);
 void R_DrawTranslucentRedToGreen33Column(void);
 void R_DrawPlayerSpriteColumn(void);
 void R_DrawSuperShotgunColumn(void);
+void R_DrawDropShadowColumn(void);
 
 // The Spectre/Invisibility effect.
 void R_DrawFuzzColumn(void);
