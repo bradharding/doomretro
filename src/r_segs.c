@@ -124,19 +124,20 @@ typedef struct
     int heightbits;
 } scale_values_t;
 
-static const scale_values_t scale_values[] =
+static const scale_values_t scale_values[8] =
 {
-    { 2048 * FRACUNIT, 12 }, { 2048 * FRACUNIT, 11 }, { 2048 * FRACUNIT, 10 },
-    { 2048 * FRACUNIT,  9 }, { 1024 * FRACUNIT,  9 }, {  512 * FRACUNIT,  9 },
-    {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
+    { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 },
+    { 1024 * FRACUNIT, 11 }, {  512 * FRACUNIT, 11 },
+    {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
+    {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }
 };
 
-void R_FixWiggle(sector_t *sec)
+void R_FixWiggle(sector_t *sector)
 {
     static int  lastheight = 0;
 
     // disallow negative heights, force cache initialization
-    int         height = MAX(1, (sec->ceilingheight - sec->floorheight) >> FRACBITS);
+    int         height = MAX(1, (sector->ceilingheight - sector->floorheight) >> FRACBITS);
 
     // early out?
     if (height != lastheight)
@@ -146,25 +147,25 @@ void R_FixWiggle(sector_t *sec)
         lastheight = height;
 
         // initialize, or handle moving sector
-        if (height != sec->cachedheight)
+        if (height != sector->cachedheight)
         {
             int scaleindex = 0;
 
-            frontsector->cachedheight = height;
+            sector->cachedheight = height;
             height >>= 7;
 
             // calculate adjustment
             while ((height >>= 1))
                 scaleindex++;
 
-            frontsector->scaleindex = scaleindex;
+            sector->scaleindex = scaleindex;
         }
 
         // fine-tune renderer for this wall
-        svp = &scale_values[frontsector->scaleindex];
+        svp = &scale_values[sector->scaleindex];
         max_rwscale = svp->clamp;
         heightbits = svp->heightbits;
-        heightunit = 1 << heightbits;
+        heightunit = (1 << heightbits);
         invhgtbits = FRACBITS - heightbits;
     }
 }
