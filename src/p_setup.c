@@ -390,8 +390,6 @@ void P_LoadSectors(int lump)
         ss->lightlevel = SHORT(ms->lightlevel);
         ss->special = SHORT(ms->special);
         ss->tag = SHORT(ms->tag);
-        ss->thinglist = NULL;
-        ss->touching_thinglist = NULL;  // phares 3/14/98
 
         // Apply any level-specific fixes.
         if (canmodify)

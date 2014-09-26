@@ -75,10 +75,10 @@ static int      *maskedtexturecol;
 
 boolean         brightmaps = BRIGHTMAPS_DEFAULT;
 
-static int	max_rwscale = 64 * FRACUNIT;
-static int	HEIGHTBITS = 12;
-static int	HEIGHTUNIT = (1 << 12);
-static int	invhgtbits = 4;
+static int      max_rwscale = 64 * FRACUNIT;
+static int      heightbits = 12;
+static int      heightunit = (1 << 12);
+static int      invhgtbits = 4;
 
 //
 // R_FixWiggle()
@@ -118,45 +118,54 @@ static int	invhgtbits = 4;
 //   precision of various renderer variables, and, possibly, suffering
 //   a performance penalty.
 //
+typedef struct
+{
+    int clamp;
+    int heightbits;
+} scale_values_t;
+
+static const scale_values_t scale_values[] =
+{
+    { 2048 * FRACUNIT, 12 }, { 2048 * FRACUNIT, 11 }, { 2048 * FRACUNIT, 10 },
+    { 2048 * FRACUNIT,  9 }, { 1024 * FRACUNIT,  9 }, {  512 * FRACUNIT,  9 },
+    {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
+};
+
 void R_FixWiggle(sector_t *sec)
 {
     static int  lastheight = 0;
 
-    static const struct
-    {
-        int     clamp;
-        int     heightbits;
-    } scale_values[9] = {
-        { 2048 * FRACUNIT, 12 }, { 2048 * FRACUNIT, 11 }, { 2048 * FRACUNIT, 10 },
-        { 2048 * FRACUNIT,  9 }, { 1024 * FRACUNIT,  9 }, {  512 * FRACUNIT,  9 },
-        {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
-    };
-
     // disallow negative heights, force cache initialization
-    int height = MAX(1, (sec->ceilingheight - sec->floorheight) >> FRACBITS);
+    int         height = MAX(1, (sec->ceilingheight - sec->floorheight) >> FRACBITS);
 
     // early out?
     if (height != lastheight)
     {
+        const scale_values_t    *svp;
+
         lastheight = height;
 
         // initialize, or handle moving sector
         if (height != sec->cachedheight)
         {
+            int scaleindex = 0;
+
             frontsector->cachedheight = height;
-            frontsector->scaleindex = 0;
             height >>= 7;
 
             // calculate adjustment
             while ((height >>= 1))
-                frontsector->scaleindex++;
+                scaleindex++;
+
+            frontsector->scaleindex = scaleindex;
         }
 
         // fine-tune renderer for this wall
-        max_rwscale = scale_values[frontsector->scaleindex].clamp;
-        HEIGHTBITS = scale_values[frontsector->scaleindex].heightbits;
-        HEIGHTUNIT = 1 << HEIGHTBITS;
-        invhgtbits = 16 - HEIGHTBITS;
+        svp = &scale_values[frontsector->scaleindex];
+        max_rwscale = svp->clamp;
+        heightbits = svp->heightbits;
+        heightunit = 1 << heightbits;
+        invhgtbits = FRACBITS - heightbits;
     }
 }
 //
@@ -265,8 +274,8 @@ void R_RenderSegLoop(void)
     for (; rw_x < rw_stopx; ++rw_x)
     {
         // mark floor / ceiling areas
-        int     yl = (topfrac + HEIGHTUNIT - 1) >> HEIGHTBITS;
-        int     yh = bottomfrac >> HEIGHTBITS;
+        int     yl = (topfrac + heightunit - 1) >> heightbits;
+        int     yh = bottomfrac >> heightbits;
 
         // no space above wall?
         int     bottom;
@@ -356,7 +365,7 @@ void R_RenderSegLoop(void)
             if (toptexture)
             {
                 // top wall
-                int     mid = pixhigh >> HEIGHTBITS;
+                int     mid = pixhigh >> heightbits;
 
                 pixhigh += pixhighstep;
 
@@ -393,7 +402,7 @@ void R_RenderSegLoop(void)
             if (bottomtexture)
             {
                 // bottom wall
-                int     mid = (pixlow + HEIGHTUNIT - 1) >> HEIGHTBITS;
+                int     mid = (pixlow + heightunit - 1) >> heightbits;
 
                 pixlow += pixlowstep;
 
