@@ -44,7 +44,8 @@ char *sprnames[] = {
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
-    "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", NULL
+    "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", "PADS",
+    NULL
 };
 
 void A_Light0();
@@ -1657,7 +1658,35 @@ state_t states[NUMSTATES] =
     { SPR_BDS2, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE4_DROPSHADOW
     { SPR_BDS2, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE5_DROPSHADOW
     { SPR_BDS2,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE6_DROPSHADOW
-    { SPR_BDS2,  8,                               -1,               NULL,            S_NULL,          0,     0     }  // S_BOS2_RAISE7_DROPSHADOW
+    { SPR_BDS2,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE7_DROPSHADOW
+
+    // [BH] Pain Elemental Drop Shadow (MT_PAIN_DROPSHADOW)
+    { SPR_PADS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_STND_DROPSHADOW
+    { SPR_PADS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RUN1_DROPSHADOW
+    { SPR_PADS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RUN2_DROPSHADOW
+    { SPR_PADS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RUN3_DROPSHADOW
+    { SPR_PADS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RUN4_DROPSHADOW
+    { SPR_PADS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RUN5_DROPSHADOW
+    { SPR_PADS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RUN6_DROPSHADOW
+    { SPR_PADS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK1_DROPSHADOW
+    { SPR_PADS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK2_DROPSHADOW
+    { SPR_PADS,  5 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK3_DROPSHADOW
+    { SPR_PADS,  5 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK4_DROPSHADOW
+    { SPR_PADS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_PAIN_DROPSHADOW
+    { SPR_PADS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_PAIN2_DROPSHADOW
+    { SPR_PADS,  7 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE1_DROPSHADOW
+    { SPR_PADS,  8 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE2_DROPSHADOW
+    { SPR_PADS,  9 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE3_DROPSHADOW
+    { SPR_PADS, 10 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE4_DROPSHADOW
+    { SPR_PADS, 11 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE5_DROPSHADOW
+    { SPR_PADS, 12 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE6_DROPSHADOW
+    { SPR_PADS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE1_DROPSHADOW
+    { SPR_PADS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE2_DROPSHADOW
+    { SPR_PADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE3_DROPSHADOW
+    { SPR_PADS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE4_DROPSHADOW
+    { SPR_PADS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE5_DROPSHADOW
+    { SPR_PADS,  7,                               -1,               NULL,            S_NULL,          0,     0     }  // S_PAIN_RAISE6_DROPSHADOW
+
 
 };
 
@@ -2399,7 +2428,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_PAIN_RAISE1,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_PAIN_DROPSHADOW
     },
 
     // Wolfenstein SS (MT_WOLFSS)
@@ -6140,7 +6169,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
@@ -6172,7 +6201,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
@@ -6204,7 +6233,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
@@ -6236,7 +6265,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
@@ -6268,7 +6297,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
@@ -6300,7 +6329,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
@@ -6332,13 +6361,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
     },
 
-    // Hell Knight Drop Shadow (MT_SKULL_DROPSHADOW)
+    // Hell Knight Drop Shadow (MT_BOS2_DROPSHADOW)
     {
         /* doomednum            */ -1,
         /* description          */ "",
@@ -6364,7 +6393,39 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Pain Shadow Drop Shadow (MT_PAIN_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_PAIN_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* dropshadow           */ 0
