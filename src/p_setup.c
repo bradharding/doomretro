@@ -392,7 +392,6 @@ void P_LoadSectors(int lump)
         ss->tag = SHORT(ms->tag);
         ss->thinglist = NULL;
         ss->touching_thinglist = NULL;  // phares 3/14/98
-        ss->cachedheight = 0;           // [kb] for R_FixWiggle()
 
         // Apply any level-specific fixes.
         if (canmodify)
