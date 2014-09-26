@@ -179,18 +179,13 @@ void R_DrawDropShadowColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup[dc_yl] + dc_x + viewwindowx;
-    fixed_t             frac = dc_texturefrac;
-    const fixed_t       fracstep = dc_iscale;
-    const byte          *source = dc_source;
-    const lighttable_t  *colormap = dc_colormap;
 
     while (--count)
     {
-        *dest = tinttab60[(*dest << 8) + source[frac >> FRACBITS]];
+        *dest = tinttab60[*dest << 8];
         dest += SCREENWIDTH;
-        frac += fracstep;
     }
-    *dest = tinttab60[(*dest << 8) + source[frac >> FRACBITS]];
+    *dest = tinttab60[*dest << 8];
 }
 
 #define HEIGHTMASK      ((127 << FRACBITS) | 0xffff)
