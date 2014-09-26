@@ -45,7 +45,7 @@ char *sprnames[] = {
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
     "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", "PADS",
-    NULL
+    "BODS", NULL
 };
 
 void A_Light0();
@@ -1685,9 +1685,38 @@ state_t states[NUMSTATES] =
     { SPR_PADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE3_DROPSHADOW
     { SPR_PADS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE4_DROPSHADOW
     { SPR_PADS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE5_DROPSHADOW
-    { SPR_PADS,  7,                               -1,               NULL,            S_NULL,          0,     0     }  // S_PAIN_RAISE6_DROPSHADOW
+    { SPR_PADS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE6_DROPSHADOW
 
-
+    // [BH] Baron of Hell Drop Shadow (MT_BOSS_DROPSHADOW)
+    { SPR_BODS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_STND_DROPSHADOW
+    { SPR_BODS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_STND2_DROPSHADOW
+    { SPR_BODS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RUN1_DROPSHADOW
+    { SPR_BODS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RUN2_DROPSHADOW
+    { SPR_BODS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RUN3_DROPSHADOW
+    { SPR_BODS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RUN4_DROPSHADOW
+    { SPR_BODS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RUN5_DROPSHADOW
+    { SPR_BODS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RUN6_DROPSHADOW
+    { SPR_BODS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RUN7_DROPSHADOW
+    { SPR_BODS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RUN8_DROPSHADOW
+    { SPR_BODS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_ATK1_DROPSHADOW
+    { SPR_BODS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_ATK2_DROPSHADOW
+    { SPR_BODS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_ATK3_DROPSHADOW
+    { SPR_BODS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_PAIN_DROPSHADOW
+    { SPR_BODS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_PAIN2_DROPSHADOW
+    { SPR_BODS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_DIE1_DROPSHADOW
+    { SPR_BODS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_DIE2_DROPSHADOW
+    { SPR_BODS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_DIE3_DROPSHADOW
+    { SPR_BODS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_DIE4_DROPSHADOW
+    { SPR_BODS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_DIE5_DROPSHADOW
+    { SPR_BODS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_DIE6_DROPSHADOW
+    { SPR_BODS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_DIE7_DROPSHADOW
+    { SPR_BODS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE1_DROPSHADOW
+    { SPR_BODS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE2_DROPSHADOW
+    { SPR_BODS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE3_DROPSHADOW
+    { SPR_BODS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE4_DROPSHADOW
+    { SPR_BODS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE5_DROPSHADOW
+    { SPR_BODS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE6_DROPSHADOW
+    { SPR_BODS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE7_DROPSHADOW
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -2204,7 +2233,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_BOSS_RAISE1,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_BOSS_DROPSHADOW
     },
 
     // Baron of Hell/Hell Knight Projectile (MT_BRUISERSHOT)
@@ -6404,6 +6433,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* doomednum            */ -1,
         /* description          */ "",
         /* spawnstate           */ S_PAIN_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Baron of Hell Drop Shadow (MT_BOSS_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_BOSS_STND_DROPSHADOW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
         /* seesound             */ sfx_None,
