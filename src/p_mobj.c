@@ -461,6 +461,8 @@ void P_NightmareRespawn(mobj_t *mobj)
         mo->flags |= MF_AMBUSH;
 
     mo->flags2 &= ~MF2_MIRRORED;
+    if (mo->dropshadow)
+        mo->dropshadow->flags2 &= ~MF2_MIRRORED;
 
     mo->reactiontime = 18;
 
