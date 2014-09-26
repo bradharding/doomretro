@@ -45,7 +45,7 @@ char *sprnames[] = {
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
     "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", "PADS",
-    "BODS", NULL
+    "BODS", "SLDS", NULL
 };
 
 void A_Light0();
@@ -1670,16 +1670,16 @@ state_t states[NUMSTATES] =
     { SPR_PADS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RUN6_DROPSHADOW
     { SPR_PADS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK1_DROPSHADOW
     { SPR_PADS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK2_DROPSHADOW
-    { SPR_PADS,  5 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK3_DROPSHADOW
-    { SPR_PADS,  5 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK4_DROPSHADOW
+    { SPR_PADS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK3_DROPSHADOW
+    { SPR_PADS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_ATK4_DROPSHADOW
     { SPR_PADS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_PAIN_DROPSHADOW
     { SPR_PADS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_PAIN2_DROPSHADOW
-    { SPR_PADS,  7 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE1_DROPSHADOW
-    { SPR_PADS,  8 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE2_DROPSHADOW
-    { SPR_PADS,  9 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE3_DROPSHADOW
-    { SPR_PADS, 10 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE4_DROPSHADOW
-    { SPR_PADS, 11 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE5_DROPSHADOW
-    { SPR_PADS, 12 | FF_FULLBRIGHT,               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE6_DROPSHADOW
+    { SPR_PADS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE1_DROPSHADOW
+    { SPR_PADS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE2_DROPSHADOW
+    { SPR_PADS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE3_DROPSHADOW
+    { SPR_PADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE4_DROPSHADOW
+    { SPR_PADS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE5_DROPSHADOW
+    { SPR_PADS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_DIE6_DROPSHADOW
     { SPR_PADS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE1_DROPSHADOW
     { SPR_PADS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE2_DROPSHADOW
     { SPR_PADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PAIN_RAISE3_DROPSHADOW
@@ -1717,6 +1717,44 @@ state_t states[NUMSTATES] =
     { SPR_BODS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE5_DROPSHADOW
     { SPR_BODS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE6_DROPSHADOW
     { SPR_BODS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOSS_RAISE7_DROPSHADOW
+
+    // [BH] Revenant Drop Shadow (MT_SKEL_DROPSHADOW)
+    { SPR_SLDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_STND_DROPSHADOW
+    { SPR_SLDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_STND2_DROPSHADOW
+    { SPR_SLDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN1_DROPSHADOW
+    { SPR_SLDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN2_DROPSHADOW
+    { SPR_SLDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN3_DROPSHADOW
+    { SPR_SLDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN4_DROPSHADOW
+    { SPR_SLDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN5_DROPSHADOW
+    { SPR_SLDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN6_DROPSHADOW
+    { SPR_SLDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN7_DROPSHADOW
+    { SPR_SLDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN8_DROPSHADOW
+    { SPR_SLDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN9_DROPSHADOW
+    { SPR_SLDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN10_DROPSHADOW
+    { SPR_SLDS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN11_DROPSHADOW
+    { SPR_SLDS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RUN12_DROPSHADOW
+    { SPR_SLDS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_FIST1_DROPSHADOW
+    { SPR_SLDS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_FIST2_DROPSHADOW
+    { SPR_SLDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_FIST3_DROPSHADOW
+    { SPR_SLDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_FIST4_DROPSHADOW
+    { SPR_SLDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_MISS1_DROPSHADOW
+    { SPR_SLDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_MISS2_DROPSHADOW
+    { SPR_SLDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_MISS3_DROPSHADOW
+    { SPR_SLDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_MISS4_DROPSHADOW
+    { SPR_SLDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_PAIN_DROPSHADOW
+    { SPR_SLDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_PAIN2_DROPSHADOW
+    { SPR_SLDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_DIE1_DROPSHADOW
+    { SPR_SLDS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_DIE2_DROPSHADOW
+    { SPR_SLDS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_DIE3_DROPSHADOW
+    { SPR_SLDS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_DIE4_DROPSHADOW
+    { SPR_SLDS, 15,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_DIE5_DROPSHADOW
+    { SPR_SLDS, 16,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_DIE6_DROPSHADOW
+    { SPR_SLDS, 16,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE1_DROPSHADOW
+    { SPR_SLDS, 15,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE2_DROPSHADOW
+    { SPR_SLDS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE3_DROPSHADOW
+    { SPR_SLDS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE4_DROPSHADOW
+    { SPR_SLDS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE5_DROPSHADOW
+    { SPR_SLDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }  // S_SKEL_RAISE6_DROPSHADOW
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -1913,7 +1951,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_SKEL_RAISE1,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_SKEL_DROPSHADOW
     },
 
     // Revenant Projectile (MT_TRACER)
@@ -6465,6 +6503,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* doomednum            */ -1,
         /* description          */ "",
         /* spawnstate           */ S_BOSS_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Revenant Drop Shadow (MT_SKEL_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_SKEL_STND_DROPSHADOW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
         /* seesound             */ sfx_None,
