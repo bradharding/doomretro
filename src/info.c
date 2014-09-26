@@ -44,7 +44,7 @@ char *sprnames[] = {
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
-    "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", NULL
+    "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", NULL
 };
 
 void A_Light0();
@@ -1626,7 +1626,39 @@ state_t states[NUMSTATES] =
     { SPR_SKDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE3_DROPSHADOW
     { SPR_SKDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE4_DROPSHADOW
     { SPR_SKDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE5_DROPSHADOW
-    { SPR_SKDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }  // S_SKULL_DIE6_DROPSHADOW
+    { SPR_SKDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKULL_DIE6_DROPSHADOW
+
+    // [BH] Hell Knight Drop Shadow (MT_BOS2_DROPSHADOW)
+    { SPR_BDS2,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_STND_DROPSHADOW
+    { SPR_BDS2,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_STND2_DROPSHADOW
+    { SPR_BDS2,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RUN1_DROPSHADOW
+    { SPR_BDS2,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RUN2_DROPSHADOW
+    { SPR_BDS2,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RUN3_DROPSHADOW
+    { SPR_BDS2,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RUN4_DROPSHADOW
+    { SPR_BDS2,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RUN5_DROPSHADOW
+    { SPR_BDS2,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RUN6_DROPSHADOW
+    { SPR_BDS2,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RUN7_DROPSHADOW
+    { SPR_BDS2,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RUN8_DROPSHADOW
+    { SPR_BDS2,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_ATK1_DROPSHADOW
+    { SPR_BDS2,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_ATK2_DROPSHADOW
+    { SPR_BDS2,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_ATK3_DROPSHADOW
+    { SPR_BDS2,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_PAIN_DROPSHADOW
+    { SPR_BDS2,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_PAIN2_DROPSHADOW
+    { SPR_BDS2,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_DIE1_DROPSHADOW
+    { SPR_BDS2,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_DIE2_DROPSHADOW
+    { SPR_BDS2, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_DIE3_DROPSHADOW
+    { SPR_BDS2, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_DIE4_DROPSHADOW
+    { SPR_BDS2, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_DIE5_DROPSHADOW
+    { SPR_BDS2, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_DIE6_DROPSHADOW
+    { SPR_BDS2, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_DIE7_DROPSHADOW
+    { SPR_BDS2, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE1_DROPSHADOW
+    { SPR_BDS2, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE2_DROPSHADOW
+    { SPR_BDS2, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE3_DROPSHADOW
+    { SPR_BDS2, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE4_DROPSHADOW
+    { SPR_BDS2, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE5_DROPSHADOW
+    { SPR_BDS2,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BOS2_RAISE6_DROPSHADOW
+    { SPR_BDS2,  8,                               -1,               NULL,            S_NULL,          0,     0     }  // S_BOS2_RAISE7_DROPSHADOW
+
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -2207,7 +2239,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_BOS2_RAISE1,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_BOS2_DROPSHADOW
     },
 
     // Lost Soul (MT_SKULL)
@@ -6279,6 +6311,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* doomednum            */ -1,
         /* description          */ "",
         /* spawnstate           */ S_SKULL_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ MF2_DRAWFIRST | MF2_TRANSLUCENT_50,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Hell Knight Drop Shadow (MT_SKULL_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_BOS2_STND_DROPSHADOW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
         /* seesound             */ sfx_None,
