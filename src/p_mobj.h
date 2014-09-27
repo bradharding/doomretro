@@ -255,7 +255,10 @@ typedef enum
     MF2_FEETARECLIPPED            = 0x00200000,
 
     // Object drawn first
-    MF2_DRAWFIRST                 = 0x00400000
+    MF2_DRAWFIRST                 = 0x00400000,
+
+    // Object drawn second
+    MF2_DRAWSECOND                = 0x00800000
 } mobjflag2_t;
 
 // Map Object definition.

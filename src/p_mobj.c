@@ -1231,7 +1231,7 @@ void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int flags2, void (*colfunc)(v
 }
 
 //
-// P_SpawnMobj
+// P_SpawnDropShadow
 //
 void P_SpawnDropShadow(mobj_t *actor)
 {
@@ -1244,7 +1244,7 @@ void P_SpawnDropShadow(mobj_t *actor)
     mobj->info = &mobjinfo[mobj->type];
     mobj->x = actor->x;
     mobj->y = actor->y;
-    mobj->flags2 = MF2_DRAWFIRST;
+    mobj->flags2 = MF2_DRAWSECOND;
 
     st = &states[mobj->info->spawnstate];
 

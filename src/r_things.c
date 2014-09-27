@@ -968,7 +968,7 @@ void R_DrawMasked(void)
         }
     }
 
-    // draw all blood splats and dropshadows first, front to back
+    // draw all vissprites with flag MF2_DRAWFIRST
     for (i = 0; i < num_vissprite; i++)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
@@ -995,12 +995,39 @@ void R_DrawMasked(void)
         }
     }
 
+    // draw all vissprites with flag MF2_DRAWSECOND
+    for (i = num_vissprite; --i >= 0;)
+    {
+        vissprite_t     *spr = vissprite_ptrs[i];
+
+        if (spr->mobjflags2 & MF2_DRAWSECOND)
+        {
+            if (spr->x2 < cx)
+            {
+                drawsegs_xrange = drawsegs_xranges[1].items;
+                drawsegs_xrange_count = drawsegs_xranges[1].count;
+            }
+            else if (spr->x1 >= cx)
+            {
+                drawsegs_xrange = drawsegs_xranges[2].items;
+                drawsegs_xrange_count = drawsegs_xranges[2].count;
+            }
+            else
+            {
+                drawsegs_xrange = drawsegs_xranges[0].items;
+                drawsegs_xrange_count = drawsegs_xranges[0].count;
+            }
+
+            R_DrawSprite(spr, false);
+        }
+    }
+
     // draw all other vissprites, back to front
     for (i = num_vissprite; --i >= 0;)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
 
-        if (!(spr->mobjflags2 & MF2_DRAWFIRST))
+        if (!(spr->mobjflags2 & (MF2_DRAWFIRST | MF2_DRAWSECOND)))
         {
             if (spr->x2 < cx)
             {
