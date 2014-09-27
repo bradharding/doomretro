@@ -470,7 +470,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    if ((thing->flags & MF2_DRAWFIRST) && xscale < FRACUNIT / 3)
+    if ((thing->flags2 & (MF2_DRAWFIRST | MF2_DRAWSECOND)) && xscale < FRACUNIT / 3)
         return;
 
     gxt = -FixedMul(tr_x, viewsin);
