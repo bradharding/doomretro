@@ -108,12 +108,13 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
         for (; (state = seenstate[i]); i = state - 1)
             seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
 
-    if (mobj->shadow)
-    {
-        mobj->shadow->sprite = mobj->state->sprite2;
-        mobj->shadow->frame = mobj->frame;
-        mobj->shadow->angle = mobj->angle;
-    }
+    if (ret)
+        if (mobj->shadow)
+        {
+            mobj->shadow->sprite = mobj->state->sprite2;
+            mobj->shadow->frame = mobj->frame;
+            mobj->shadow->angle = mobj->angle;
+        }
 
     return ret;
 }
