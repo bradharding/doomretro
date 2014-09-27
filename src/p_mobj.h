@@ -363,7 +363,7 @@ typedef struct mobj_s
 
     int                 bloodsplats;
 
-    struct mobj_s       *dropshadow;
+    struct mobj_s       *shadow;
 } mobj_t;
 
 #endif

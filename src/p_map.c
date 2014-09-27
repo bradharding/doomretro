@@ -754,15 +754,15 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
         }
     }
 
-    if (thing->dropshadow)
+    if (thing->shadow)
     {
-        P_UnsetThingPosition(thing->dropshadow);
+        P_UnsetThingPosition(thing->shadow);
 
-        thing->dropshadow->x = thing->x;
-        thing->dropshadow->y = thing->y;
-        thing->dropshadow->z = thing->subsector->sector->floorheight;
+        thing->shadow->x = thing->x;
+        thing->shadow->y = thing->y;
+        thing->shadow->z = thing->subsector->sector->floorheight;
 
-        P_SetThingPosition(thing->dropshadow);
+        P_SetThingPosition(thing->shadow);
     }
 
     return true;

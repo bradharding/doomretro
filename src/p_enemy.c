@@ -754,8 +754,8 @@ void A_Chase(mobj_t *actor)
             actor->angle += ANG90 / 2;
     }
 
-    if (actor->dropshadow)
-        actor->dropshadow->angle = actor->angle;
+    if (actor->shadow)
+        actor->shadow->angle = actor->angle;
 
     if (!actor->target || !(actor->target->flags & MF_SHOOTABLE))
     {
@@ -824,8 +824,8 @@ void A_FaceTarget(mobj_t *actor)
     if (actor->target->flags & MF_SHADOW)
         actor->angle += (P_Random() - P_Random()) << 21;
 
-    if (actor->dropshadow)
-        actor->dropshadow->angle = actor->angle;
+    if (actor->shadow)
+        actor->shadow->angle = actor->angle;
 }
 
 //
@@ -1217,8 +1217,8 @@ void A_VileChase(mobj_t *actor)
                     corpsehit->radius = info->radius;
                     corpsehit->flags = info->flags;
                     corpsehit->flags2 = info->flags2;
-                    if (corpsehit->dropshadow)
-                        corpsehit->dropshadow->flags2 &= ~MF2_MIRRORED;
+                    if (corpsehit->shadow)
+                        corpsehit->shadow->flags2 &= ~MF2_MIRRORED;
                     corpsehit->health = info->spawnhealth;
                     corpsehit->target = NULL;
                     corpsehit->lastenemy = NULL;

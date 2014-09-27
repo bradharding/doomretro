@@ -49,8 +49,6 @@
 
 #define DCLICKUSE_DEFAULT               false
 
-#define DROPSHADOWS_DEFAULT             true
-
 #define EPISODE_MIN                     0
 #define EPISODE_DEFAULT                 0
 #define EPISODE_MAX                     3
@@ -186,6 +184,8 @@
 #define SFXVOLUME_MIN                   0
 #define SFXVOLUME_DEFAULT               15
 #define SFXVOLUME_MAX                   15
+
+#define SHADOWS_DEFAULT                 true
 
 #define SKILLLEVEL_MIN                  sk_baby
 #define SKILLLEVEL_DEFAULT              sk_medium

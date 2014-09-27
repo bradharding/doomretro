@@ -44,7 +44,6 @@ extern int      bloodsplats;
 extern int      brightmaps;
 extern int      corpses;
 extern boolean  dclick_use;
-extern boolean  dropshadows;
 extern boolean  footclip;
 extern int      fullscreen;
 extern int      gamepadautomap;
@@ -105,6 +104,7 @@ extern int      selectedepisode;
 extern int      selectedexpansion;
 extern int      selectedsavegame;
 extern int      selectedskilllevel;
+extern boolean  shadows;
 extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
 extern char     *version;
@@ -187,7 +187,6 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,          13),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
     CONFIG_VARIABLE_INT   (dclick_use,          dclick_use,           1),
-    CONFIG_VARIABLE_INT   (dropshadows,         dropshadows,          1),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
     CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,    9),
     CONFIG_VARIABLE_INT   (footclip,            footclip,             1),
@@ -250,6 +249,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (screenwidth,         screenwidth,          5),
     CONFIG_VARIABLE_INT   (screenheight,        screenheight,         5),
     CONFIG_VARIABLE_INT   (sfx_volume,          sfxVolume,            0),
+    CONFIG_VARIABLE_INT   (shadows,             shadows,              1),
     CONFIG_VARIABLE_INT   (skilllevel,          selectedskilllevel,  10),
     CONFIG_VARIABLE_INT   (smoketrails,         smoketrails,          1),
     CONFIG_VARIABLE_INT   (snd_maxslicetime_ms, snd_maxslicetime_ms,  0),
@@ -724,9 +724,6 @@ static void M_CheckDefaults(void)
     if (dclick_use != false && dclick_use != true)
         dclick_use = DCLICKUSE_DEFAULT;
 
-    if (dropshadows != false && dropshadows != true)
-        dropshadows = DROPSHADOWS_DEFAULT;
-
     if (footclip != false && footclip != true)
         footclip = FOOTCLIP_DEFAULT;
 
@@ -901,6 +898,16 @@ static void M_CheckDefaults(void)
     if (saturation < SATURATION_MIN || saturation > SATURATION_MAX)
         saturation = SATURATION_DEFAULT;
 
+    if (screensize < SCREENSIZE_MIN || screensize > SCREENSIZE_MAX)
+        screensize = SCREENSIZE_DEFAULT;
+
+    if (screenwidth && screenheight
+        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
+    {
+        screenwidth = SCREENWIDTH_DEFAULT;
+        screenheight = SCREENHEIGHT_DEFAULT;
+    }
+
     if ((gamemode == registered && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX - 1))
         || (gamemode == retail && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX)))
         selectedepisode = EPISODE_DEFAULT;
@@ -916,21 +923,11 @@ static void M_CheckDefaults(void)
     if (selectedskilllevel < SKILLLEVEL_MIN || selectedskilllevel > SKILLLEVEL_MAX)
         selectedskilllevel = SKILLLEVEL_DEFAULT;
 
-    if (screensize < SCREENSIZE_MIN || screensize > SCREENSIZE_MAX)
-        screensize = SCREENSIZE_DEFAULT;
-
-    if (screenwidth && screenheight
-        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
-    {
-        screenwidth = SCREENWIDTH_DEFAULT;
-        screenheight = SCREENHEIGHT_DEFAULT;
-    }
-
     if (sfxVolume < SFXVOLUME_MIN || sfxVolume > SFXVOLUME_MAX)
         sfxVolume = SFXVOLUME_DEFAULT;
 
-    if (selectedskilllevel < SKILLLEVEL_MIN || selectedskilllevel > SKILLLEVEL_MAX)
-        selectedskilllevel = SKILLLEVEL_DEFAULT;
+    if (shadows != false && shadows != true)
+        shadows = SHADOWS_DEFAULT;
 
     if (smoketrails != false && smoketrails != true)
         smoketrails = SMOKETRAILS_DEFAULT;

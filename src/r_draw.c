@@ -175,7 +175,7 @@ void R_DrawTroopColumn(void)
     *dest = colormap[source[frac >> FRACBITS]];
 }
 
-void R_DrawDropShadowColumn(void)
+void R_DrawShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl + 1;
     byte        *dest = ylookup[dc_yl] + dc_x + viewwindowx;

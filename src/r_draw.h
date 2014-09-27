@@ -79,7 +79,7 @@ void R_DrawRedToGreenColumn(void);
 void R_DrawTranslucentRedToGreen33Column(void);
 void R_DrawPlayerSpriteColumn(void);
 void R_DrawSuperShotgunColumn(void);
-void R_DrawDropShadowColumn(void);
+void R_DrawShadowColumn(void);
 
 // The Spectre/Invisibility effect.
 void R_DrawFuzzColumn(void);

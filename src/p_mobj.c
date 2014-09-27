@@ -37,7 +37,7 @@
 
 void G_PlayerReborn(int player);
 void P_DelSeclist(msecnode_t *node);
-void P_SpawnDropShadow(mobj_t *actor);
+void P_SpawnShadow(mobj_t *actor);
 
 int                     bloodsplats = BLOODSPLATS_DEFAULT;
 mobj_t                  *bloodSplatQueue[BLOODSPLATS_MAX];
@@ -50,7 +50,7 @@ int                     corpses = CORPSES_DEFAULT;
 
 boolean                 footclip = FOOTCLIP_DEFAULT;
 
-boolean                 dropshadows = DROPSHADOWS_DEFAULT;
+boolean                 shadows = SHADOWS_DEFAULT;
 
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern boolean          *isliquid;
@@ -82,8 +82,8 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
-            if (mobj->dropshadow)
-                P_RemoveMobj(mobj->dropshadow);
+            if (mobj->shadow)
+                P_RemoveMobj(mobj->shadow);
             ret = false;
             break;                                              // killough 4/9/98
         }
@@ -108,11 +108,11 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
         for (; (state = seenstate[i]); i = state - 1)
             seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
 
-    if (mobj->dropshadow)
+    if (mobj->shadow)
     {
-        mobj->dropshadow->sprite = mobj->state->sprite2;
-        mobj->dropshadow->frame = mobj->frame;
-        mobj->dropshadow->angle = mobj->angle;
+        mobj->shadow->sprite = mobj->state->sprite2;
+        mobj->shadow->frame = mobj->frame;
+        mobj->shadow->angle = mobj->angle;
     }
 
     return ret;
@@ -456,8 +456,8 @@ void P_NightmareRespawn(mobj_t *mobj)
         mo->flags |= MF_AMBUSH;
 
     mo->flags2 &= ~MF2_MIRRORED;
-    if (mo->dropshadow)
-        mo->dropshadow->flags2 &= ~MF2_MIRRORED;
+    if (mo->shadow)
+        mo->shadow->flags2 &= ~MF2_MIRRORED;
 
     mo->reactiontime = 18;
 
@@ -695,8 +695,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
-    if (dropshadows && mobj->info->dropshadow)
-        P_SpawnDropShadow(mobj);
+    if (shadows && mobj->info->shadow)
+        P_SpawnShadow(mobj);
 
     return mobj;
 }
@@ -1226,16 +1226,16 @@ void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int flags2, void (*colfunc)(v
 }
 
 //
-// P_SpawnDropShadow
+// P_SpawnShadow
 //
-void P_SpawnDropShadow(mobj_t *actor)
+void P_SpawnShadow(mobj_t *actor)
 {
     mobj_t      *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
 
     memset(mobj, 0, sizeof(*mobj));
 
-    mobj->type = MT_DROPSHADOW;
-    mobj->info = &mobjinfo[MT_DROPSHADOW];
+    mobj->type = MT_SHADOW;
+    mobj->info = &mobjinfo[MT_SHADOW];
     mobj->x = actor->x;
     mobj->y = actor->y;
     mobj->flags2 = MF2_DRAWSECOND;
@@ -1243,7 +1243,7 @@ void P_SpawnDropShadow(mobj_t *actor)
     mobj->sprite = actor->state->sprite2;
     mobj->frame = actor->state->frame;
 
-    mobj->colfunc = dropshadowcolfunc;
+    mobj->colfunc = shadowcolfunc;
 
     P_SetThingPosition(mobj);
 
@@ -1252,7 +1252,7 @@ void P_SpawnDropShadow(mobj_t *actor)
     mobj->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
     P_AddThinker(&mobj->thinker);
 
-    actor->dropshadow = mobj;
+    actor->shadow = mobj;
 }
 
 //

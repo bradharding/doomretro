@@ -1340,7 +1340,7 @@ typedef enum
     MT_MISC86,
     MT_BLOODSPLAT,
     MT_TRAIL,
-    MT_DROPSHADOW,
+    MT_SHADOW,
     NUMMOBJTYPES
 } mobjtype_t;
 
@@ -1373,7 +1373,7 @@ typedef struct
     int         flags2;
     int         raisestate;
     int         frames;
-    boolean     dropshadow;
+    boolean     shadow;
 } mobjinfo_t;
 
 extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];
