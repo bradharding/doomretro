@@ -639,7 +639,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
 
     // decide which patch to use
     state = psp->state;
-    sprdef = &sprites[state->sprite];
+    sprdef = &sprites[state->sprite1];
     sprframe = &sprdef->spriteframes[state->frame & FF_FRAMEMASK];
 
     lump = sprframe->lump[0];
@@ -693,7 +693,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         if (state == &states[S_DSGUN])
             vis->colfunc = R_DrawSuperShotgunColumn;
         else
-            vis->colfunc = (flash ? colfuncs[state->sprite] : basecolfunc);
+            vis->colfunc = (flash ? colfuncs[state->sprite1] : basecolfunc);
 
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color

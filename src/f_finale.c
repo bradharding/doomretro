@@ -668,7 +668,7 @@ void F_CastDrawer(void)
     F_CastPrint(castorder[castnum].name);
 
     // draw the current frame in the middle of the screen
-    sprdef = &sprites[caststate->sprite];
+    sprdef = &sprites[caststate->sprite1];
     sprframe = &sprdef->spriteframes[caststate->frame & FF_FRAMEMASK];
     if (sprframe->rotate)
         rot = castrot;

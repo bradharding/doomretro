@@ -1842,7 +1842,7 @@ void deh_procFrame(DEHFILE *fpin, FILE* fpout, char *line)
         {
             if (fpout)
                 fprintf(fpout, " - sprite = %ld\n", value);
-            states[indexnum].sprite = (spritenum_t)value;
+            states[indexnum].sprite1 = (spritenum_t)value;
         }
         else if (!strcasecmp(key, deh_state[1]))                // Sprite subnumber
         {

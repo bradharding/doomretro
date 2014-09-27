@@ -76,18 +76,6 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
     if (recursion++)                                            // if recursion detected,
         memset((seenstate = tempstate), 0, sizeof(tempstate));  // clear state table
 
-    if (mobj->dropshadow)
-    {
-        state_t     *dropshadowstate = &states[mobj->dropshadow->info->spawnstate
-                                               - mobj->info->spawnstate + state];
-
-        mobj->dropshadow->state = dropshadowstate;
-        mobj->dropshadow->tics = dropshadowstate->tics;
-        mobj->dropshadow->sprite = dropshadowstate->sprite;
-        mobj->dropshadow->frame = dropshadowstate->frame;
-        mobj->dropshadow->angle = mobj->angle;
-    }
-
     do
     {
         if (state == S_NULL)
@@ -103,7 +91,7 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
         st = &states[state];
         mobj->state = st;
         mobj->tics = st->tics;
-        mobj->sprite = st->sprite;
+        mobj->sprite = st->sprite1;
         mobj->frame = st->frame;
 
         // Modified handling.
@@ -119,6 +107,13 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
     if (!--recursion)
         for (; (state = seenstate[i]); i = state - 1)
             seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
+
+    if (mobj->dropshadow)
+    {
+        mobj->dropshadow->sprite = mobj->state->sprite2;
+        mobj->dropshadow->frame = mobj->frame;
+        mobj->dropshadow->angle = mobj->angle;
+    }
 
     return ret;
 }
@@ -627,7 +622,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     mobj->state = st;
     mobj->tics = st->tics;
-    mobj->sprite = st->sprite;
+    mobj->sprite = st->sprite1;
     mobj->frame = st->frame;
 
     if (type != MT_BLOOD)
@@ -1236,7 +1231,6 @@ void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int flags2, void (*colfunc)(v
 void P_SpawnDropShadow(mobj_t *actor)
 {
     mobj_t      *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
-    state_t     *st;
 
     memset(mobj, 0, sizeof(*mobj));
 
@@ -1246,21 +1240,14 @@ void P_SpawnDropShadow(mobj_t *actor)
     mobj->y = actor->y;
     mobj->flags2 = MF2_DRAWSECOND;
 
-    st = &states[mobj->info->spawnstate];
-
-    mobj->state = st;
-    mobj->tics = st->tics;
-    mobj->sprite = st->sprite;
-    mobj->frame = st->frame;
+    mobj->sprite = actor->state->sprite2;
+    mobj->frame = actor->state->frame;
 
     mobj->colfunc = dropshadowcolfunc;
 
     P_SetThingPosition(mobj);
 
-    mobj->dropoffz = mobj->floorz = mobj->subsector->sector->floorheight;
-    mobj->ceilingz = mobj->subsector->sector->ceilingheight;
-
-    mobj->z = mobj->floorz;
+    mobj->z = mobj->subsector->sector->floorheight;
 
     mobj->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
     P_AddThinker(&mobj->thinker);
