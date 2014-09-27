@@ -29,7 +29,8 @@
 #include "p_pspr.h"
 #include "r_defs.h"
 
-char *sprnames[] = {
+char *sprnames[] =
+{
     "TROO", "SHTG", "PUNG", "PISG", "PISF", "SHTF", "SHT2", "CHGG", "CHGF", "MISG",
     "MISF", "SAWG", "PLSG", "PLSF", "BFGG", "BFGF", "BLUD", "PUFF", "BAL1", "BAL2",
     "PLSS", "PLSE", "MISL", "BFS1", "BFE1", "BFE2", "TFOG", "IFOG", "PLAY", "POSS",
@@ -45,7 +46,7 @@ char *sprnames[] = {
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
     "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", "PADS",
-    "BODS", "SLDS", NULL
+    "BODS", "SLDS", "FADS", NULL
 };
 
 void A_Light0();
@@ -1754,7 +1755,53 @@ state_t states[NUMSTATES] =
     { SPR_SLDS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE3_DROPSHADOW
     { SPR_SLDS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE4_DROPSHADOW
     { SPR_SLDS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE5_DROPSHADOW
-    { SPR_SLDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }  // S_SKEL_RAISE6_DROPSHADOW
+    { SPR_SLDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_SKEL_RAISE6_DROPSHADOW
+
+    // [BH] Mancubus Drop Shadow (MT_FATT_DROPSHADOW)
+    { SPR_FADS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_STND_DROPSHADOW
+    { SPR_FADS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_STND2_DROPSHADOW
+    { SPR_FADS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN1_DROPSHADOW
+    { SPR_FADS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN2_DROPSHADOW
+    { SPR_FADS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN3_DROPSHADOW
+    { SPR_FADS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN4_DROPSHADOW
+    { SPR_FADS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN5_DROPSHADOW
+    { SPR_FADS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN6_DROPSHADOW
+    { SPR_FADS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN7_DROPSHADOW
+    { SPR_FADS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN8_DROPSHADOW
+    { SPR_FADS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN9_DROPSHADOW
+    { SPR_FADS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN10_DROPSHADOW
+    { SPR_FADS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN11_DROPSHADOW
+    { SPR_FADS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RUN12_DROPSHADOW
+    { SPR_FADS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK1_DROPSHADOW
+    { SPR_FADS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK2_DROPSHADOW
+    { SPR_FADS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK3_DROPSHADOW
+    { SPR_FADS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK4_DROPSHADOW
+    { SPR_FADS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK5_DROPSHADOW
+    { SPR_FADS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK6_DROPSHADOW
+    { SPR_FADS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK7_DROPSHADOW
+    { SPR_FADS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK8_DROPSHADOW
+    { SPR_FADS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK9_DROPSHADOW
+    { SPR_FADS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_ATK10_DROPSHADOW
+    { SPR_FADS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_PAIN_DROPSHADOW
+    { SPR_FADS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_PAIN2_DROPSHADOW
+    { SPR_FADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE1_DROPSHADOW
+    { SPR_FADS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE2_DROPSHADOW
+    { SPR_FADS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE3_DROPSHADOW
+    { SPR_FADS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE4_DROPSHADOW
+    { SPR_FADS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE5_DROPSHADOW
+    { SPR_FADS, 15,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE6_DROPSHADOW
+    { SPR_FADS, 16,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE7_DROPSHADOW
+    { SPR_FADS, 17,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE8_DROPSHADOW
+    { SPR_FADS, 18,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE9_DROPSHADOW
+    { SPR_FADS, 19,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_DIE10_DROPSHADOW
+    { SPR_FADS, 17,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE1_DROPSHADOW
+    { SPR_FADS, 16,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE2_DROPSHADOW
+    { SPR_FADS, 15,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE3_DROPSHADOW
+    { SPR_FADS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE4_DROPSHADOW
+    { SPR_FADS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE5_DROPSHADOW
+    { SPR_FADS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE6_DROPSHADOW
+    { SPR_FADS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE7_DROPSHADOW
+    { SPR_FADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }  // S_FATT_RAISE8_DROPSHADOW
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -2047,7 +2094,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_FATT_RAISE1,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_FATT_DROPSHADOW
     },
 
     // Mancubus Projectile (MT_FATSHOT)
@@ -6535,6 +6582,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* doomednum            */ -1,
         /* description          */ "",
         /* spawnstate           */ S_SKEL_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Mancubus Drop Shadow (MT_FATT_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_FATT_STND_DROPSHADOW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
         /* seesound             */ sfx_None,
