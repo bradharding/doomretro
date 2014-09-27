@@ -182,10 +182,10 @@ void R_DrawDropShadowColumn(void)
 
     while (--count)
     {
-        *dest = tinttab60[*dest << 8];
+        *dest = tinttab40[*dest];
         dest += SCREENWIDTH;
     }
-    *dest = tinttab60[*dest << 8];
+    *dest = tinttab40[*dest];
 }
 
 #define HEIGHTMASK      ((127 << FRACBITS) | 0xffff)

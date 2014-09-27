@@ -42,8 +42,8 @@ extern byte             *dc_source;
 
 extern byte             *tinttab;
 extern byte             *tinttab33;
+extern byte             *tinttab40;
 extern byte             *tinttab50;
-extern byte             *tinttab60;
 extern byte             *tinttabred;
 extern byte             *tinttabredwhite;
 extern byte             *tinttabgreen;

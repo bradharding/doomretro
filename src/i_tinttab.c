@@ -55,6 +55,7 @@ static byte filter[256] =
 byte    *tinttab;
 
 byte    *tinttab33;
+byte    *tinttab40;
 byte    *tinttab50;
 byte    *tinttab60;
 byte    *tinttab75;
@@ -156,6 +157,7 @@ void I_InitTintTables(byte *palette)
     tinttab = GenerateTintTable(palette, ADDITIVE, ALL);
 
     tinttab33 = GenerateTintTable(palette, 33, ALL);
+    tinttab40 = GenerateTintTable(palette, 40, ALL);
     tinttab50 = GenerateTintTable(palette, 50, ALL);
     tinttab60 = GenerateTintTable(palette, 60, ALL);
     tinttab75 = GenerateTintTable(palette, 75, ALL);
