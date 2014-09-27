@@ -46,7 +46,7 @@ char *sprnames[] =
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
     "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", "PADS",
-    "BODS", "SLDS", "FADS", NULL
+    "BODS", "SLDS", "FADS", "BSDS", NULL
 };
 
 void A_Light0();
@@ -1801,7 +1801,45 @@ state_t states[NUMSTATES] =
     { SPR_FADS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE5_DROPSHADOW
     { SPR_FADS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE6_DROPSHADOW
     { SPR_FADS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE7_DROPSHADOW
-    { SPR_FADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }  // S_FATT_RAISE8_DROPSHADOW
+    { SPR_FADS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_FATT_RAISE8_DROPSHADOW
+
+    // [BH] Arachnotron Drop Shadow (MT_BSPI_DROPSHADOW)
+    { SPR_BSDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_STND_DROPSHADOW
+    { SPR_BSDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_STND2_DROPSHADOW
+    { SPR_BSDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_SIGHT_DROPSHADOW
+    { SPR_BSDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN1_DROPSHADOW
+    { SPR_BSDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN2_DROPSHADOW
+    { SPR_BSDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN3_DROPSHADOW
+    { SPR_BSDS,  1,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN4_DROPSHADOW
+    { SPR_BSDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN5_DROPSHADOW
+    { SPR_BSDS,  2,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN6_DROPSHADOW
+    { SPR_BSDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN7_DROPSHADOW
+    { SPR_BSDS,  3,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN8_DROPSHADOW
+    { SPR_BSDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN9_DROPSHADOW
+    { SPR_BSDS,  4,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN10_DROPSHADOW
+    { SPR_BSDS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN11_DROPSHADOW
+    { SPR_BSDS,  5,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RUN12_DROPSHADOW
+    { SPR_BSDS,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_ATK1_DROPSHADOW
+    { SPR_BSDS,  6,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_ATK2_DROPSHADOW
+    { SPR_BSDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_ATK3_DROPSHADOW
+    { SPR_BSDS,  7,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_ATK4_DROPSHADOW
+    { SPR_BSDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_PAIN_DROPSHADOW
+    { SPR_BSDS,  8,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_PAIN2_DROPSHADOW
+    { SPR_BSDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_DIE1_DROPSHADOW
+    { SPR_BSDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_DIE2_DROPSHADOW
+    { SPR_BSDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_DIE3_DROPSHADOW
+    { SPR_BSDS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_DIE4_DROPSHADOW
+    { SPR_BSDS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_DIE5_DROPSHADOW
+    { SPR_BSDS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_DIE6_DROPSHADOW
+    { SPR_BSDS, 15,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_DIE7_DROPSHADOW
+    { SPR_BSDS, 15,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RAISE1_DROPSHADOW
+    { SPR_BSDS, 14,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RAISE2_DROPSHADOW
+    { SPR_BSDS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RAISE3_DROPSHADOW
+    { SPR_BSDS, 12,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RAISE4_DROPSHADOW
+    { SPR_BSDS, 11,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RAISE5_DROPSHADOW
+    { SPR_BSDS, 10,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RAISE6_DROPSHADOW
+    { SPR_BSDS,  9,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BSPI_RAISE7_DROPSHADOW
+
 };
 
 // [BH] reformatted, added flags2 for additional translucency flags, and added
@@ -2478,7 +2516,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_BSPI_RAISE1,
         /* frames               */ 0,
-        /* dropshadow           */ 0
+        /* dropshadow           */ MT_BSPI_DROPSHADOW
     },
 
     // Cyberdemon (MT_CYBORG)
@@ -6614,6 +6652,38 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* doomednum            */ -1,
         /* description          */ "",
         /* spawnstate           */ S_FATT_STND_DROPSHADOW,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 0 * FRACUNIT,
+        /* height               */ 0 * FRACUNIT,
+        /* projectilepassheight */ 0,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ 0,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* dropshadow           */ 0
+    },
+
+    // Arachnotron Drop Shadow (MT_BSPI_DROPSHADOW)
+    {
+        /* doomednum            */ -1,
+        /* description          */ "",
+        /* spawnstate           */ S_BSPI_STND_DROPSHADOW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
         /* seesound             */ sfx_None,
