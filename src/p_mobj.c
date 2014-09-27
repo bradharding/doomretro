@@ -1234,8 +1234,8 @@ void P_SpawnDropShadow(mobj_t *actor)
 
     memset(mobj, 0, sizeof(*mobj));
 
-    mobj->type = actor->info->dropshadow;
-    mobj->info = &mobjinfo[mobj->type];
+    mobj->type = MT_DROPSHADOW;
+    mobj->info = &mobjinfo[MT_DROPSHADOW];
     mobj->x = actor->x;
     mobj->y = actor->y;
     mobj->flags2 = MF2_DRAWSECOND;

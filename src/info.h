@@ -1340,19 +1340,7 @@ typedef enum
     MT_MISC86,
     MT_BLOODSPLAT,
     MT_TRAIL,
-    MT_POSS_DROPSHADOW,
-    MT_SPOS_DROPSHADOW,
-    MT_TROO_DROPSHADOW,
-    MT_SARG_DROPSHADOW,
-    MT_HEAD_DROPSHADOW,
-    MT_CPOS_DROPSHADOW,
-    MT_SKULL_DROPSHADOW,
-    MT_BOS2_DROPSHADOW,
-    MT_PAIN_DROPSHADOW,
-    MT_BOSS_DROPSHADOW,
-    MT_SKEL_DROPSHADOW,
-    MT_FATT_DROPSHADOW,
-    MT_BSPI_DROPSHADOW,
+    MT_DROPSHADOW,
     NUMMOBJTYPES
 } mobjtype_t;
 
@@ -1385,7 +1373,7 @@ typedef struct
     int         flags2;
     int         raisestate;
     int         frames;
-    mobjtype_t  dropshadow;
+    boolean     dropshadow;
 } mobjinfo_t;
 
 extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];
