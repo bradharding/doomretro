@@ -46,7 +46,7 @@ char *sprnames[] =
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
     "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", "PADS",
-    "BODS", "SLDS", "FADS", "BSDS", NULL
+    "BODS", "SLDS", "FADS", "BSDS", "VILS", NULL
 };
 
 void A_Light0();
@@ -423,46 +423,46 @@ state_t states[NUMSTATES] =
     { SPR_SPOS, SPR_SPDS,  7,                                5,               NULL,            S_SPOS_RUN1,     0,     0     }, // S_SPOS_RAISE5
 
     // Arch-vile (MT_VILE)
-    { SPR_VILE, SPR_VILE,  0,                               10,               A_Look,          S_VILE_STND2,    0,     0     }, // S_VILE_STND
-    { SPR_VILE, SPR_VILE,  1,                               10,               A_Look,          S_VILE_STND,     0,     0     }, // S_VILE_STND2
-    { SPR_VILE, SPR_VILE,  0,                                2,               A_VileChase,     S_VILE_RUN2,     0,     0     }, // S_VILE_RUN1
-    { SPR_VILE, SPR_VILE,  0,                                2,               A_VileChase,     S_VILE_RUN3,     0,     0     }, // S_VILE_RUN2
-    { SPR_VILE, SPR_VILE,  1,                                2,               A_VileChase,     S_VILE_RUN4,     0,     0     }, // S_VILE_RUN3
-    { SPR_VILE, SPR_VILE,  1,                                2,               A_VileChase,     S_VILE_RUN5,     0,     0     }, // S_VILE_RUN4
-    { SPR_VILE, SPR_VILE,  2,                                2,               A_VileChase,     S_VILE_RUN6,     0,     0     }, // S_VILE_RUN5
-    { SPR_VILE, SPR_VILE,  2,                                2,               A_VileChase,     S_VILE_RUN7,     0,     0     }, // S_VILE_RUN6
-    { SPR_VILE, SPR_VILE,  3,                                2,               A_VileChase,     S_VILE_RUN8,     0,     0     }, // S_VILE_RUN7
-    { SPR_VILE, SPR_VILE,  3,                                2,               A_VileChase,     S_VILE_RUN9,     0,     0     }, // S_VILE_RUN8
-    { SPR_VILE, SPR_VILE,  4,                                2,               A_VileChase,     S_VILE_RUN10,    0,     0     }, // S_VILE_RUN9
-    { SPR_VILE, SPR_VILE,  4,                                2,               A_VileChase,     S_VILE_RUN11,    0,     0     }, // S_VILE_RUN10
-    { SPR_VILE, SPR_VILE,  5,                                2,               A_VileChase,     S_VILE_RUN12,    0,     0     }, // S_VILE_RUN11
-    { SPR_VILE, SPR_VILE,  5,                                2,               A_VileChase,     S_VILE_RUN1,     0,     0     }, // S_VILE_RUN12
-    { SPR_VILE, SPR_VILE,  6 | FF_FULLBRIGHT,                0,               A_VileStart,     S_VILE_ATK2,     0,     0     }, // S_VILE_ATK1
-    { SPR_VILE, SPR_VILE,  6 | FF_FULLBRIGHT,               10,               A_FaceTarget,    S_VILE_ATK3,     0,     0     }, // S_VILE_ATK2
-    { SPR_VILE, SPR_VILE,  7 | FF_FULLBRIGHT,                8,               A_VileTarget,    S_VILE_ATK4,     0,     0     }, // S_VILE_ATK3
-    { SPR_VILE, SPR_VILE,  8 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK5,     0,     0     }, // S_VILE_ATK4
-    { SPR_VILE, SPR_VILE,  9 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK6,     0,     0     }, // S_VILE_ATK5
-    { SPR_VILE, SPR_VILE, 10 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK7,     0,     0     }, // S_VILE_ATK6
-    { SPR_VILE, SPR_VILE, 11 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK8,     0,     0     }, // S_VILE_ATK7
-    { SPR_VILE, SPR_VILE, 12 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK9,     0,     0     }, // S_VILE_ATK8
-    { SPR_VILE, SPR_VILE, 13 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK10,    0,     0     }, // S_VILE_ATK9
-    { SPR_VILE, SPR_VILE, 14 | FF_FULLBRIGHT,                8,               A_VileAttack,    S_VILE_ATK11,    0,     0     }, // S_VILE_ATK10
-    { SPR_VILE, SPR_VILE, 15 | FF_FULLBRIGHT,               20,               NULL,            S_VILE_RUN1,     0,     0     }, // S_VILE_ATK11
-    { SPR_VILE, SPR_VILE, 26 | FF_FULLBRIGHT,               10,               NULL,            S_VILE_HEAL2,    0,     0     }, // S_VILE_HEAL1
-    { SPR_VILE, SPR_VILE, 27 | FF_FULLBRIGHT,               10,               NULL,            S_VILE_HEAL3,    0,     0     }, // S_VILE_HEAL2
-    { SPR_VILE, SPR_VILE, 28 | FF_FULLBRIGHT,               10,               NULL,            S_VILE_RUN1,     0,     0     }, // S_VILE_HEAL3
-    { SPR_VILE, SPR_VILE, 16,                                5,               NULL,            S_VILE_PAIN2,    0,     0     }, // S_VILE_PAIN
-    { SPR_VILE, SPR_VILE, 16,                                5,               A_Pain,          S_VILE_RUN1,     0,     0     }, // S_VILE_PAIN2
-    { SPR_VILE, SPR_VILE, 16,                                7,               NULL,            S_VILE_DIE2,     0,     0     }, // S_VILE_DIE1
-    { SPR_VILE, SPR_VILE, 17,                                7,               A_Scream,        S_VILE_DIE3,     0,     0     }, // S_VILE_DIE2
-    { SPR_VILE, SPR_VILE, 18,                                7,               A_Fall,          S_VILE_DIE4,     0,     0     }, // S_VILE_DIE3
-    { SPR_VILE, SPR_VILE, 19,                                7,               NULL,            S_VILE_DIE5,     0,     0     }, // S_VILE_DIE4
-    { SPR_VILE, SPR_VILE, 20,                                7,               NULL,            S_VILE_DIE6,     0,     0     }, // S_VILE_DIE5
-    { SPR_VILE, SPR_VILE, 21,                                7,               NULL,            S_VILE_DIE7,     0,     0     }, // S_VILE_DIE6
-    { SPR_VILE, SPR_VILE, 22,                                7,               NULL,            S_VILE_DIE8,     0,     0     }, // S_VILE_DIE7
-    { SPR_VILE, SPR_VILE, 23,                                5,               NULL,            S_VILE_DIE9,     0,     0     }, // S_VILE_DIE8
-    { SPR_VILE, SPR_VILE, 24,                                5,               NULL,            S_VILE_DIE10,    0,     0     }, // S_VILE_DIE9
-    { SPR_VILE, SPR_VILE, 25,                               -1,               NULL,            S_NULL,          0,     0     }, // S_VILE_DIE10
+    { SPR_VILE, SPR_VILS,  0,                               10,               A_Look,          S_VILE_STND2,    0,     0     }, // S_VILE_STND
+    { SPR_VILE, SPR_VILS,  1,                               10,               A_Look,          S_VILE_STND,     0,     0     }, // S_VILE_STND2
+    { SPR_VILE, SPR_VILS,  0,                                2,               A_VileChase,     S_VILE_RUN2,     0,     0     }, // S_VILE_RUN1
+    { SPR_VILE, SPR_VILS,  0,                                2,               A_VileChase,     S_VILE_RUN3,     0,     0     }, // S_VILE_RUN2
+    { SPR_VILE, SPR_VILS,  1,                                2,               A_VileChase,     S_VILE_RUN4,     0,     0     }, // S_VILE_RUN3
+    { SPR_VILE, SPR_VILS,  1,                                2,               A_VileChase,     S_VILE_RUN5,     0,     0     }, // S_VILE_RUN4
+    { SPR_VILE, SPR_VILS,  2,                                2,               A_VileChase,     S_VILE_RUN6,     0,     0     }, // S_VILE_RUN5
+    { SPR_VILE, SPR_VILS,  2,                                2,               A_VileChase,     S_VILE_RUN7,     0,     0     }, // S_VILE_RUN6
+    { SPR_VILE, SPR_VILS,  3,                                2,               A_VileChase,     S_VILE_RUN8,     0,     0     }, // S_VILE_RUN7
+    { SPR_VILE, SPR_VILS,  3,                                2,               A_VileChase,     S_VILE_RUN9,     0,     0     }, // S_VILE_RUN8
+    { SPR_VILE, SPR_VILS,  4,                                2,               A_VileChase,     S_VILE_RUN10,    0,     0     }, // S_VILE_RUN9
+    { SPR_VILE, SPR_VILS,  4,                                2,               A_VileChase,     S_VILE_RUN11,    0,     0     }, // S_VILE_RUN10
+    { SPR_VILE, SPR_VILS,  5,                                2,               A_VileChase,     S_VILE_RUN12,    0,     0     }, // S_VILE_RUN11
+    { SPR_VILE, SPR_VILS,  5,                                2,               A_VileChase,     S_VILE_RUN1,     0,     0     }, // S_VILE_RUN12
+    { SPR_VILE, SPR_VILS,  6 | FF_FULLBRIGHT,                0,               A_VileStart,     S_VILE_ATK2,     0,     0     }, // S_VILE_ATK1
+    { SPR_VILE, SPR_VILS,  6 | FF_FULLBRIGHT,               10,               A_FaceTarget,    S_VILE_ATK3,     0,     0     }, // S_VILE_ATK2
+    { SPR_VILE, SPR_VILS,  7 | FF_FULLBRIGHT,                8,               A_VileTarget,    S_VILE_ATK4,     0,     0     }, // S_VILE_ATK3
+    { SPR_VILE, SPR_VILS,  8 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK5,     0,     0     }, // S_VILE_ATK4
+    { SPR_VILE, SPR_VILS,  9 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK6,     0,     0     }, // S_VILE_ATK5
+    { SPR_VILE, SPR_VILS, 10 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK7,     0,     0     }, // S_VILE_ATK6
+    { SPR_VILE, SPR_VILS, 11 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK8,     0,     0     }, // S_VILE_ATK7
+    { SPR_VILE, SPR_VILS, 12 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK9,     0,     0     }, // S_VILE_ATK8
+    { SPR_VILE, SPR_VILS, 13 | FF_FULLBRIGHT,                8,               A_FaceTarget,    S_VILE_ATK10,    0,     0     }, // S_VILE_ATK9
+    { SPR_VILE, SPR_VILS, 14 | FF_FULLBRIGHT,                8,               A_VileAttack,    S_VILE_ATK11,    0,     0     }, // S_VILE_ATK10
+    { SPR_VILE, SPR_VILS, 15 | FF_FULLBRIGHT,               20,               NULL,            S_VILE_RUN1,     0,     0     }, // S_VILE_ATK11
+    { SPR_VILE, SPR_VILS, 26 | FF_FULLBRIGHT,               10,               NULL,            S_VILE_HEAL2,    0,     0     }, // S_VILE_HEAL1
+    { SPR_VILE, SPR_VILS, 27 | FF_FULLBRIGHT,               10,               NULL,            S_VILE_HEAL3,    0,     0     }, // S_VILE_HEAL2
+    { SPR_VILE, SPR_VILS, 28 | FF_FULLBRIGHT,               10,               NULL,            S_VILE_RUN1,     0,     0     }, // S_VILE_HEAL3
+    { SPR_VILE, SPR_VILS, 16,                                5,               NULL,            S_VILE_PAIN2,    0,     0     }, // S_VILE_PAIN
+    { SPR_VILE, SPR_VILS, 16,                                5,               A_Pain,          S_VILE_RUN1,     0,     0     }, // S_VILE_PAIN2
+    { SPR_VILE, SPR_VILS, 16,                                7,               NULL,            S_VILE_DIE2,     0,     0     }, // S_VILE_DIE1
+    { SPR_VILE, SPR_VILS, 17,                                7,               A_Scream,        S_VILE_DIE3,     0,     0     }, // S_VILE_DIE2
+    { SPR_VILE, SPR_VILS, 18,                                7,               A_Fall,          S_VILE_DIE4,     0,     0     }, // S_VILE_DIE3
+    { SPR_VILE, SPR_VILS, 19,                                7,               NULL,            S_VILE_DIE5,     0,     0     }, // S_VILE_DIE4
+    { SPR_VILE, SPR_VILS, 20,                                7,               NULL,            S_VILE_DIE6,     0,     0     }, // S_VILE_DIE5
+    { SPR_VILE, SPR_VILS, 21,                                7,               NULL,            S_VILE_DIE7,     0,     0     }, // S_VILE_DIE6
+    { SPR_VILE, SPR_VILS, 22,                                7,               NULL,            S_VILE_DIE8,     0,     0     }, // S_VILE_DIE7
+    { SPR_VILE, SPR_VILS, 23,                                5,               NULL,            S_VILE_DIE9,     0,     0     }, // S_VILE_DIE8
+    { SPR_VILE, SPR_VILS, 24,                                5,               NULL,            S_VILE_DIE10,    0,     0     }, // S_VILE_DIE9
+    { SPR_VILE, SPR_VILS, 25,                               -1,               NULL,            S_NULL,          0,     0     }, // S_VILE_DIE10
 
     // Arch-vile Fire Attack (MT_FIRE)
     { SPR_FIRE, SPR_FIRE,  0 | FF_FULLBRIGHT,                2,               A_StartFire,     S_FIRE2,         0,     0     }, // S_FIRE1
@@ -1521,7 +1521,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false
+        /* shadow               */ true
     },
 
     // Arch-vile Fire (MT_FIRE)
