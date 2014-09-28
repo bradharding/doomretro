@@ -4977,7 +4977,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_MOREBLUEBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false
+        /* shadow               */ true
     },
 
     // Dead Player (MT_MISC62)
@@ -5041,7 +5041,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false
+        /* shadow               */ true
     },
 
     // Dead Demon (MT_MISC64)
@@ -5073,7 +5073,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false
+        /* shadow               */ true
     },
 
     // Dead Lost Soul, invisible (MT_MISC65)
@@ -5137,7 +5137,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false
+        /* shadow               */ true
     },
 
     // Dead Shotgun Guy (MT_MISC67)
@@ -5169,7 +5169,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_MOREREDBLOODSPLATS,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false
+        /* shadow               */ true
     },
 
     // Bloody Mess 1 (MT_MISC68)
