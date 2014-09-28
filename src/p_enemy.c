@@ -23,6 +23,8 @@
 ========================================================================
 */
 
+#include <ctype.h>
+
 #include "doomstat.h"
 #include "g_game.h"
 #include "m_random.h"
@@ -1202,6 +1204,7 @@ void A_VileChase(mobj_t *actor)
                     // got one!
                     mobj_t      *temp = actor->target;
                     mobjinfo_t  *info;
+                    static char message[128];
 
                     actor->target = corpsehit;
                     A_FaceTarget(actor);
@@ -1227,6 +1230,11 @@ void A_VileChase(mobj_t *actor)
                         corpsehit->colfunc = troopcolfunc;
 
                     players[0].killcount--;
+
+                    sprintf(message, "%s resurrected %s.\n", actor->info->description,
+                        corpsehit->info->description);
+                    message[0] = toupper(message[0]);
+                    printf(message);
 
                     return;
                 }
