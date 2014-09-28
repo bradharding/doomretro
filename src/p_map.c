@@ -736,9 +736,17 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
 
     if (footclip)
         if (isliquid[thing->subsector->sector->floorpic])
+        {
             thing->flags2 |= MF2_FEETARECLIPPED;
+            if (thing->shadow)
+                thing->shadow->flags2 |= MF2_FEETARECLIPPED;
+        }
         else if (thing->flags2 & MF2_FEETARECLIPPED)
+        {
             thing->flags2 &= ~MF2_FEETARECLIPPED;
+            if (thing->shadow)
+                thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
+        }
 
     // if any special lines were hit, do the effect
     if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)))

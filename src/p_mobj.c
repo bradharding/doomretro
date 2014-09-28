@@ -687,17 +687,19 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
               (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
 
-    if (footclip)
-        if (isliquid[mobj->subsector->sector->floorpic])
-            mobj->flags2 |= MF2_FEETARECLIPPED;
-        else if (mobj->flags2 & MF2_FEETARECLIPPED)
-            mobj->flags2 &= ~MF2_FEETARECLIPPED;
-
     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
     if (shadows && mobj->info->shadow)
         P_SpawnShadow(mobj);
+
+    if (footclip)
+        if (isliquid[mobj->subsector->sector->floorpic])
+        {
+            mobj->flags2 |= MF2_FEETARECLIPPED;
+            if (mobj->shadow)
+                mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
+        }
 
     return mobj;
 }
