@@ -25,7 +25,7 @@
 
 #define PACKAGE_VERSION                 1,6,0,0
 #define PACKAGE_VERSIONSTRING           "1.6"
-#define PACKAGE_DESCRIPTION             "DOOM RETRO v1.6"
+#define PACKAGE_WADVERSIONSTRING        "DOOM RETRO v1.6"
 #define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM RETRO v1.6"
 
 #define PACKAGE                         "doomretro"

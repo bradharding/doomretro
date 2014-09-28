@@ -47,7 +47,7 @@ BEGIN
         BLOCK "040904B0"
         BEGIN
             VALUE "FileVersion",     PACKAGE_VERSIONSTRING
-            VALUE "FileDescription", PACKAGE_DESCRIPTION
+            VALUE "FileDescription", PACKAGE_NAME
             VALUE "InternalName",    PACKAGE
             VALUE "CompanyName",     PACKAGE_EMAIL
             VALUE "LegalCopyright",  PACKAGE_COPYRIGHT
