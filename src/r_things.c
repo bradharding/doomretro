@@ -485,24 +485,13 @@ void R_ProjectSprite(mobj_t *thing)
     sprdef = &sprites[thing->sprite];
     sprframe = &sprdef->spriteframes[thing->frame & FF_FRAMEMASK];
 
+    // choose a different rotation based on player view
     if (sprframe->rotate)
-    {
-        // choose a different rotation based on player view
-        angle_t ang = R_PointToAngle(thing->x, thing->y);
+        rot = (R_PointToAngle(thing->x, thing->y) - thing->angle +
+            (unsigned int)(ANG45 / 2) * 9) >> 29;
 
-        rot = (ang - thing->angle + (unsigned)(ANG45 / 2) * 9) >> 29;
-        lump = sprframe->lump[rot];
-        flip = (boolean)sprframe->flip[rot];
-    }
-    else
-    {
-        // use single rotation for all views
-        lump = sprframe->lump[0];
-        flip = (boolean)sprframe->flip[0];
-    }
-
-    if (thing->flags2 & MF2_MIRRORED)
-        flip = true;
+    lump = sprframe->lump[rot];
+    flip = ((boolean)sprframe->flip[rot] || (thing->flags2 & MF2_MIRRORED));
 
     // calculate edges of the shape
     tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
@@ -521,8 +510,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     gzt = thing->z + spritetopoffset[lump];
 
-    if (thing->z > viewz + FixedDiv(centeryfrac, xscale) ||
-        gzt < viewz - FixedDiv(centeryfrac - viewheight, xscale))
+    if (thing->z > viewz + FixedDiv(centeryfrac, xscale)
+        || gzt < viewz - FixedDiv(centeryfrac - viewheight, xscale))
         return;
 
     // store information in a vissprite
@@ -835,8 +824,8 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
     else
     {
         drawseg_t                       *ds;
-        int                             clipbot[MAXWIDTH];
-        int                             cliptop[MAXWIDTH];
+        int                             clipbot[SCREENWIDTH];
+        int                             cliptop[SCREENWIDTH];
         int                             x;
         int                             r1;
         int                             r2;

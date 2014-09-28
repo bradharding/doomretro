@@ -45,8 +45,8 @@ int     viewheight;
 int     viewheight2;
 int     viewwindowx;
 int     viewwindowy;
-byte    *ylookup[MAXHEIGHT];
-byte    *ylookup2[MAXHEIGHT];
+byte    *ylookup[SCREENHEIGHT];
+byte    *ylookup2[SCREENHEIGHT];
 int     fuzztable[SCREENWIDTH * SCREENHEIGHT];
 int     fuzzclip;
 

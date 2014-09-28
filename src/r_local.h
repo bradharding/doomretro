@@ -35,9 +35,6 @@
 // Include the refresh/render data structs.
 #include "r_data.h"
 
-#define MAXWIDTH        1280
-#define MAXHEIGHT       960
-
 //
 // Separate header file for each module.
 //
