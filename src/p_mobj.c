@@ -634,43 +634,14 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
         if (W_CheckMultipleLumps(lumpinfo[lump].name) == 1)
             mobj->flags2 = flags2;
 
-        if (type == MT_TROOP && (brightmaps & SPRITES))
-            mobj->colfunc = troopcolfunc;
-        else if (flags2 & MF2_TRANSLUCENT)
-            mobj->colfunc = tlcolfunc;
-        else if (mobj->flags & MF_SHADOW)
-            mobj->colfunc = fuzzcolfunc;
-        else if (flags2 & MF2_TRANSLUCENT_REDONLY)
-            mobj->colfunc = tlredcolfunc;
-        else if (flags2 & MF2_TRANSLUCENT_GREENONLY)
-            mobj->colfunc = tlgreencolfunc;
-        else if (flags2 & MF2_TRANSLUCENT_BLUEONLY)
-            mobj->colfunc = tlbluecolfunc;
-        else if (flags2 & MF2_TRANSLUCENT_33)
-            mobj->colfunc = tl33colfunc;
-        else if (flags2 & MF2_TRANSLUCENT_50)
-            mobj->colfunc = tl50colfunc;
-        else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-            mobj->colfunc = tlredwhitecolfunc;
-        else if (flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
-            mobj->colfunc = tlredtogreen33colfunc;
-        else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
-            mobj->colfunc = tlredtoblue33colfunc;
-        else if (flags2 & MF2_REDTOGREEN)
-            mobj->colfunc = redtogreencolfunc;
-        else if (flags2 & MF2_REDTOBLUE)
-            mobj->colfunc = redtobluecolfunc;
-        else
-        {
-            mobj->colfunc = basecolfunc;
+        mobj->colfunc = info->colfunc;
 
-            if (bfgedition)
-            {
-                if (mobj->sprite == SPR_STIM)
-                    mobj->sprite = SPR_STIM_BFG;
-                else if (mobj->sprite == SPR_MEDI)
-                    mobj->sprite = SPR_MEDI_BFG;
-            }
+        if (bfgedition)
+        {
+            if (mobj->sprite == SPR_STIM)
+                mobj->sprite = SPR_STIM_BFG;
+            else if (mobj->sprite == SPR_MEDI)
+                mobj->sprite = SPR_MEDI_BFG;
         }
     }
 

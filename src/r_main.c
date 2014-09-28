@@ -97,6 +97,7 @@ extern int              automapactive;
 extern int              viewheight2;
 extern int              gametic;
 extern boolean          canmodify;
+extern boolean          brightmaps;
 
 void (*colfunc)(void);
 void (*troopcolfunc)(void);
@@ -463,6 +464,54 @@ void R_ExecuteSetViewSize(void)
     projection = centerxfrac;
     projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH * FRACUNIT;
 
+    R_InitBuffer(scaledviewwidth, viewheight);
+
+    R_InitTextureMapping();
+
+    // psprite scales
+    pspritexscale = (centerx << FRACBITS) / (ORIGINALWIDTH / 2);
+    pspriteyscale = (((SCREENHEIGHT * viewwidth) / SCREENWIDTH) << FRACBITS) / ORIGINALHEIGHT;
+    pspriteiscale = FixedDiv(FRACUNIT, pspritexscale);
+
+    // thing clipping
+    for (i = 0; i < viewwidth; i++)
+        screenheightarray[i] = viewheight;
+
+    // planes
+    for (i = 0; i < viewheight; i++)
+    {
+        dy = ABS(((i - viewheight / 2) << FRACBITS) + FRACUNIT / 2);
+        yslope[i] = FixedDiv(projectiony, dy);
+    }
+
+    for (i = 0; i < viewwidth; i++)
+    {
+        cosadj = ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]);
+        distscale[i] = FixedDiv(FRACUNIT, cosadj);
+    }
+
+    // Calculate the light levels to use
+    //  for each level / scale combination.
+    for (i = 0; i < LIGHTLEVELS; i++)
+    {
+        int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+
+        for (j = 0; j < MAXLIGHTSCALE; j++)
+        {
+            scalelight[i][j] = colormaps + 
+                BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
+
+            // [BH] calculate separate light levels to use when drawing
+            //  player's weapon, so it stays consistent regardless of view size
+            psprscalelight[i][j] = colormaps + BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
+        }
+    }
+}
+
+void R_InitColumnFunctions(void)
+{
+    int i;
+
     colfunc = basecolfunc = R_DrawColumn;
     troopcolfunc = R_DrawTroopColumn;
     fuzzcolfunc = R_DrawFuzzColumn;
@@ -508,47 +557,39 @@ void R_ExecuteSetViewSize(void)
     fbwallcolfunc = R_DrawFullbrightWallColumn;
     psprcolfunc = R_DrawPlayerSpriteColumn;
 
-    R_InitBuffer(scaledviewwidth, viewheight);
-
-    R_InitTextureMapping();
-
-    // psprite scales
-    pspritexscale = (centerx << FRACBITS) / (ORIGINALWIDTH / 2);
-    pspriteyscale = (((SCREENHEIGHT * viewwidth) / SCREENWIDTH) << FRACBITS) / ORIGINALHEIGHT;
-    pspriteiscale = FixedDiv(FRACUNIT, pspritexscale);
-
-    // thing clipping
-    for (i = 0; i < viewwidth; i++)
-        screenheightarray[i] = viewheight;
-
-    // planes
-    for (i = 0; i < viewheight; i++)
+    for (i = 0; i < NUMMOBJTYPES; i++)
     {
-        dy = ABS(((i - viewheight / 2) << FRACBITS) + FRACUNIT / 2);
-        yslope[i] = FixedDiv(projectiony, dy);
-    }
+        mobjinfo_t      *info = &mobjinfo[i];
+        int             flags2 = info->flags2;
 
-    for (i = 0; i < viewwidth; i++)
-    {
-        cosadj = ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]);
-        distscale[i] = FixedDiv(FRACUNIT, cosadj);
-    }
-
-    // Calculate the light levels to use
-    //  for each level / scale combination.
-    for (i = 0; i < LIGHTLEVELS; i++)
-    {
-        int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
-
-        for (j = 0; j < MAXLIGHTSCALE; j++)
-        {
-            scalelight[i][j] = colormaps + 
-                BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
-
-            // [BH] calculate separate light levels to use when drawing
-            //  player's weapon, so it stays consistent regardless of view size
-            psprscalelight[i][j] = colormaps + BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
-        }
+        if (i == MT_TROOP && (brightmaps & SPRITES))
+            info->colfunc = troopcolfunc;
+        else if (flags2 & MF2_TRANSLUCENT)
+            info->colfunc = tlcolfunc;
+        else if (info->flags & MF_SHADOW)
+            info->colfunc = fuzzcolfunc;
+        else if (flags2 & MF2_TRANSLUCENT_REDONLY)
+            info->colfunc = tlredcolfunc;
+        else if (flags2 & MF2_TRANSLUCENT_GREENONLY)
+            info->colfunc = tlgreencolfunc;
+        else if (flags2 & MF2_TRANSLUCENT_BLUEONLY)
+            info->colfunc = tlbluecolfunc;
+        else if (flags2 & MF2_TRANSLUCENT_33)
+            info->colfunc = tl33colfunc;
+        else if (flags2 & MF2_TRANSLUCENT_50)
+            info->colfunc = tl50colfunc;
+        else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
+            info->colfunc = tlredwhitecolfunc;
+        else if (flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
+            info->colfunc = tlredtogreen33colfunc;
+        else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
+            info->colfunc = tlredtoblue33colfunc;
+        else if (flags2 & MF2_REDTOGREEN)
+            info->colfunc = redtogreencolfunc;
+        else if (flags2 & MF2_REDTOBLUE)
+            info->colfunc = redtobluecolfunc;
+        else
+            info->colfunc = basecolfunc;
     }
 }
 
@@ -564,6 +605,7 @@ void R_Init(void)
     R_SetViewSize(screensize);
     R_InitLightTables();
     R_InitSkyMap();
+    R_InitColumnFunctions();
 }
 
 //

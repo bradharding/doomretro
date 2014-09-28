@@ -1375,6 +1375,7 @@ typedef struct
     int         raisestate;
     int         frames;
     boolean     shadow;
+    void        (*colfunc)(void);
 } mobjinfo_t;
 
 extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];
