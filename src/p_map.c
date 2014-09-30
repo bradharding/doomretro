@@ -1700,7 +1700,7 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
 static boolean crushchange;
 static boolean nofit;
 
-void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, void (*)(void), int);
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
 //
 // PIT_ChangeSector
@@ -1739,33 +1739,15 @@ boolean PIT_ChangeSector(mobj_t *thing)
     {
         if (!(flags & MF_SHADOW))
         {
-            int         i;
-            int         flags2 = MF2_TRANSLUCENT_50;
-            void        (*colfunc)(void) = tl50colfunc;
-            int         radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >>
-                                  FRACBITS) >> 1) + 8;
-            int         max = radius << 3;
-
-            if (!FREEDOOM)
-            {
-                if (type == MT_HEAD || type == MT_MISC61)
-                {
-                    flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
-                    colfunc = tlredtoblue33colfunc;
-                }
-                else if (type == MT_BRUISER || type == MT_KNIGHT)
-                {
-                    flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
-                    colfunc = tlredtogreen33colfunc;
-                }
-            }
+            int i;
+            int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >>
+                         FRACBITS) >> 1) + 8;
+            int max = radius << 3;
 
             for (i = 0; i < max; i++)
-            {
                 P_BloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                    thing->y + (M_RandomInt(-radius, radius) << FRACBITS),
-                    flags2, colfunc, thing->floorz);
-            }
+                    thing->y + (M_RandomInt(-radius, radius) << FRACBITS), thing->bloodcolor,
+                    thing->floorz);
         }
 
         S_StartSound(thing, sfx_slop);

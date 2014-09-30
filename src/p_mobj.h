@@ -52,6 +52,11 @@
 
 #define CORPSEBLOODSPLATS       256
 
+#define REDBLOOD                184
+#define GREENBLOOD              122
+#define BLUEBLOOD               204
+#define FUZZYBLOOD              -1
+
 //
 // NOTES: mobj_t
 //
@@ -235,30 +240,25 @@ typedef enum
     // Mirrored horizontally
     MF2_MIRRORED                  = 0x00004000,
 
-    // Spawn more red blood under corpse
-    MF2_MOREREDBLOODSPLATS        = 0x00008000,
-    // Spawn more blue blood under corpse
-    MF2_MOREBLUEBLOODSPLATS       = 0x00010000,
-
-    MF2_FALLING                   = 0x00020000,
+    MF2_FALLING                   = 0x00008000,
 
     // Object is resting on top of another object
-    MF2_ONMOBJ                    = 0x00040000,
+    MF2_ONMOBJ                    = 0x00010000,
 
     // Object is allowed to pass over/under other objects
-    MF2_PASSMOBJ                  = 0x00080000,
+    MF2_PASSMOBJ                  = 0x00020000,
 
     // Object is a corpse and being resurrected
-    MF2_RESURRECTING              = 0x00100000,
+    MF2_RESURRECTING              = 0x00040000,
 
     // Object's feet are now being cut
-    MF2_FEETARECLIPPED            = 0x00200000,
+    MF2_FEETARECLIPPED            = 0x00080000,
 
     // Object drawn first
-    MF2_DRAWFIRST                 = 0x00400000,
+    MF2_DRAWFIRST                 = 0x00100000,
 
     // Object drawn second
-    MF2_DRAWSECOND                = 0x00800000
+    MF2_DRAWSECOND                = 0x00200000
 } mobjflag2_t;
 
 // Map Object definition.
@@ -364,6 +364,8 @@ typedef struct mobj_s
     int                 bloodsplats;
 
     struct mobj_s       *shadow;
+
+    int                 bloodcolor;
 } mobj_t;
 
 #endif

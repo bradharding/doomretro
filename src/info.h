@@ -1375,6 +1375,7 @@ typedef struct
     int         raisestate;
     int         frames;
     boolean     shadow;
+    int         bloodcolor;
     void        (*colfunc)(void);
 } mobjinfo_t;
 

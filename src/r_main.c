@@ -125,6 +125,7 @@ void (*tlredtoblue33colfunc)(void);
 void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
 void (*shadowcolfunc)(void);
+void (*bloodsplatcolfunc)(void);
 
 //
 // R_PointOnSide
@@ -532,6 +533,7 @@ void R_InitColumnFunctions(void)
         tlblue50colfunc = R_DrawTranslucentBlue50Column;
         tlredtoblue33colfunc = R_DrawTranslucentRedToBlue33Column;
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
+        bloodsplatcolfunc = R_DrawBloodSplatColumn;
     }
     else
     {
@@ -548,6 +550,7 @@ void R_InitColumnFunctions(void)
         tlblue50colfunc = R_DrawColumn;
         tlredtoblue33colfunc = R_DrawColumn;
         tlredtogreen33colfunc = R_DrawColumn;
+        bloodsplatcolfunc = R_DrawColumn;
     }
 
     spanfunc = R_DrawSpan;

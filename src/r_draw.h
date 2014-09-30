@@ -36,6 +36,7 @@ extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
 extern boolean          dc_topsparkle;
 extern boolean          dc_bottomsparkle;
+extern fixed_t          dc_bloodcolor;
 
 // first pixel in a column
 extern byte             *dc_source;
@@ -80,6 +81,7 @@ void R_DrawTranslucentRedToGreen33Column(void);
 void R_DrawPlayerSpriteColumn(void);
 void R_DrawSuperShotgunColumn(void);
 void R_DrawShadowColumn(void);
+void R_DrawBloodSplatColumn(void);
 
 // The Spectre/Invisibility effect.
 void R_DrawFuzzColumn(void);

@@ -389,6 +389,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     dc_iscale = ABS(vis->xiscale);
     dc_texturemid = vis->texturemid;
+    dc_bloodcolor = vis->bloodcolor;
     frac = vis->startfrac;
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
@@ -526,6 +527,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gy = thing->y;
     vis->gz = thing->z;
     vis->gzt = gzt;
+    vis->bloodcolor = thing->bloodcolor;
 
     // foot clipping
     if ((thing->flags2 & MF2_FEETARECLIPPED) && thing->z <= thing->subsector->sector->floorheight)
