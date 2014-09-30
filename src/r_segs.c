@@ -83,14 +83,14 @@ static int      invhgtbits = 4;
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"
-//  by Kurt "kb1" Baumgardner ("kb")
+//  by Kurt "kb1" Baumgardner ("kb") and Andrey "Entryway" Budko ("e6y")
 //
 //  [kb] When the rendered view is positioned, such that the viewer is
 //   looking almost parallel down a wall, the result of the scale
 //   calculation in R_ScaleFromGlobalAngle becomes very large. And, the
 //   taller the wall, the larger that value becomes. If these large
-//   values were used as-is, subsequent calculations would overflow
-//   and crash the program.
+//   values were used as-is, subsequent calculations would overflow,
+//   causing full-screen HOM, and possible program crashes.
 //
 //  Therefore, vanilla Doom clamps this scale calculation, preventing it
 //   from becoming larger than 0x400000 (64*FRACUNIT). This number was
@@ -98,25 +98,26 @@ static int      invhgtbits = 4;
 //   tall sectors to be rendered, within the limits of the fixed-point
 //   math system being used. When the scale gets clamped, Doom cannot
 //   properly render the wall, causing an undesirable wall-bending
-//   effect that I call "floor wiggle".
+//   effect that I call "floor wiggle". Not a crash, but still ugly.
 //
 //  Modern source ports offer higher video resolutions, which worsens
 //   the issue. And, Doom is simply not adjusted for the taller walls
 //   found in many PWADs.
 //
-//  WiggleHack II attempts to correct these issues, by dynamically
+//  This code attempts to correct these issues, by dynamically
 //   adjusting the fixed-point math, and the maximum scale clamp,
 //   on a wall-by-wall basis. This has 2 effects:
 //
 //  1. Floor wiggle is greatly reduced and/or eliminated.
-//  2. Overflow is not longer possible, even in levels with maximum
-//     height sectors.
+//  2. Overflow is no longer possible, even in levels with maximum
+//     height sectors (65535 is the theoretical height, though Doom
+//     cannot handle sectors > 32767 units in height.
 //
-//  It is not perfect across all situations. Some floor wiggle can be
-//   seen, and some texture strips may be slight misaligned in extreme
-//   cases. These effects cannot be corrected without increasing the
-//   precision of various renderer variables, and, possibly, suffering
-//   a performance penalty.
+//  The code is not perfect across all situations. Some floor wiggle can
+//   still be seen, and some texture strips may be slightly misaligned in
+//   extreme cases. These effects cannot be corrected further, without
+//   increasing the precision of various renderer variables, and,
+//   possibly, creating a noticable performance penalty.
 //
 typedef struct
 {
