@@ -124,7 +124,7 @@ fixed_t         dc_texheight;
 fixed_t         dc_texturefrac;
 boolean         dc_topsparkle;
 boolean         dc_bottomsparkle;
-fixed_t         dc_bloodcolor;
+fixed_t         dc_blood;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
@@ -193,14 +193,14 @@ void R_DrawBloodSplatColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup[dc_yl] + dc_x + viewwindowx;
-    const fixed_t       color = dc_colormap[dc_bloodcolor] << 8;
+    const fixed_t       color = dc_colormap[dc_blood] << 8;
 
     while (--count)
     {
-        *dest = tinttab50[*dest + color];
+        *dest = tinttab66[*dest + color];
         dest += SCREENWIDTH;
     }
-    *dest = tinttab50[*dest + color];
+    *dest = tinttab66[*dest + color];
 }
 
 #define HEIGHTMASK      ((127 << FRACBITS) | 0xffff)

@@ -1746,7 +1746,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
 
             for (i = 0; i < max; i++)
                 P_BloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                    thing->y + (M_RandomInt(-radius, radius) << FRACBITS), thing->bloodcolor,
+                    thing->y + (M_RandomInt(-radius, radius) << FRACBITS), thing->blood,
                     thing->floorz);
         }
 

@@ -260,7 +260,7 @@ void P_XYMovement(mobj_t *mo)
                 break;
 
             P_BloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                mo->y + (M_RandomInt(-radius, radius) << FRACBITS), mo->bloodcolor, mo->floorz);
+                mo->y + (M_RandomInt(-radius, radius) << FRACBITS), mo->blood, mo->floorz);
         }
     }
 
@@ -330,11 +330,11 @@ void P_ZMovement(mobj_t *mo)
     {
         // [BH] remove blood the moment it hits the ground
         //  and spawn a blood splat in its place
-        if (mo->type == MT_BLOOD)
+        if (mo->flags2 & MF2_BLOOD)
         {
             P_RemoveMobj(mo);
             if (bloodsplats)
-                P_BloodSplatSpawner(mo->x, mo->y, mo->bloodcolor, mo->floorz);
+                P_BloodSplatSpawner(mo->x, mo->y, mo->blood, mo->floorz);
             return;
         }
 
@@ -607,7 +607,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->frame = st->frame;
 
     mobj->colfunc = info->colfunc;
-    mobj->bloodcolor = info->bloodcolor;
+    mobj->blood = info->blood;
 
     if (bfgedition)
     {
@@ -858,7 +858,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 
     for (i = 0; i < max; i++)
         P_BloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-            mobj->y + (M_RandomInt(-radius, radius) << FRACBITS), mobj->bloodcolor, mobj->floorz);
+            mobj->y + (M_RandomInt(-radius, radius) << FRACBITS), mobj->blood, mobj->floorz);
 }
 
 //
@@ -948,7 +948,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (!(mobj->flags & MF_SHOOTABLE) && mobj->bloodcolor && !chex && (corpses & MOREBLOOD)
+    if (!(mobj->flags & MF_SHOOTABLE) && mobj->blood && !chex && (corpses & MOREBLOOD)
         && bloodsplats)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
@@ -1014,36 +1014,10 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
     int         i;
-    int         flags2 = MF2_TRANSLUCENT_50;
     int         type = target->type;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    void        (*colfunc)(void) = tl50colfunc;
-    int         bloodcolor = target->bloodcolor;
-
-    if (!FREEDOOM)
-    {
-        if (chex)
-        {
-            flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
-            colfunc = tlredtogreen33colfunc;
-        }
-        else if (bloodcolor == BLUEBLOOD)
-        {
-            flags2 = MF2_TRANSLUCENT_REDTOBLUE_33;
-            colfunc = tlredtoblue33colfunc;
-        }
-        else if (bloodcolor == FUZZYBLOOD)
-        {
-            flags2 = MF2_FUZZ;
-            colfunc = fuzzcolfunc;
-        }
-        else if (bloodcolor == GREENBLOOD)
-        {
-            flags2 = MF2_TRANSLUCENT_REDTOGREEN_33;
-            colfunc = tlredtogreen33colfunc;
-        }
-    }
+    int         blood = target->blood;
 
     angle += ANG180;
 
@@ -1053,8 +1027,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         z = BETWEEN(minz, z + ((P_Random() - P_Random()) << 10), maxz);
 
-        th = P_SpawnMobj(x, y, z, MT_BLOOD);
-        th->bloodcolor = bloodcolor;
+        th = P_SpawnMobj(x, y, z, blood);
 
         th->tics = MAX(1, th->tics - (P_Random() & 6));
 
@@ -1065,9 +1038,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->angle = angle;
         angle += ((P_Random() - P_Random()) * 0xb60b60);
 
-        th->flags2 = (flags2 | (rand() & 1) * MF2_MIRRORED);
-
-        th->colfunc = colfunc;
+        th->flags2 |= (rand() & 1) * MF2_MIRRORED;
 
         if (damage <= 12)
             P_SetMobjState(th, th->state->nextstate);
@@ -1081,7 +1052,7 @@ extern boolean *isliquid;
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, int maxheight)
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
 {
     subsector_t *ss;
     fixed_t     height;
@@ -1104,8 +1075,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, int maxheight)
         newsplat->frame = rand() & 7;
 
         newsplat->flags2 = (MF2_DRAWFIRST | (rand() & 1) * MF2_MIRRORED);
-        newsplat->colfunc = (color == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-        newsplat->bloodcolor = color;
+        newsplat->colfunc = (blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
+        newsplat->blood = blood;
 
         newsplat->x = x;
         newsplat->y = y;
@@ -1117,7 +1088,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int color, int maxheight)
     }
 }
 
-void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int color, int maxheight)
+void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
 {
     subsector_t *ss;
     fixed_t     height;
@@ -1140,8 +1111,8 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int color, int maxheight)
         newsplat->frame = rand() & 7;
 
         newsplat->flags2 = (MF2_DRAWFIRST | (rand() & 1) * MF2_MIRRORED);
-        newsplat->colfunc = (color == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
-        newsplat->bloodcolor = color;
+        newsplat->colfunc = (blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
+        newsplat->blood = blood;
 
         newsplat->x = x;
         newsplat->y = y;
@@ -1166,7 +1137,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int color, int maxheight)
     }
 }
 
-void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int color, int maxheight)
+void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int blood, int maxheight)
 {
 }
 

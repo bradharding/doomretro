@@ -31,7 +31,6 @@
 
 typedef enum
 {
-    SPR_NULL = -1,
     SPR_TROO,
     SPR_SHTG,
     SPR_PUNG,
@@ -1339,6 +1338,9 @@ typedef enum
     MT_MISC84,
     MT_MISC85,
     MT_MISC86,
+    MT_BLUEBLOOD,
+    MT_GREENBLOOD,
+    MT_FUZZYBLOOD,
     MT_BLOODSPLAT,
     MT_TRAIL,
     MT_SHADOW,
@@ -1374,7 +1376,7 @@ typedef struct
     int         flags2;
     int         raisestate;
     int         frames;
-    int         bloodcolor;
+    int         blood;
     void        (*colfunc)(void);
 } mobjinfo_t;
 

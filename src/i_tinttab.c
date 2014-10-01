@@ -58,6 +58,7 @@ byte    *tinttab33;
 byte    *tinttab40;
 byte    *tinttab50;
 byte    *tinttab60;
+byte    *tinttab66;
 byte    *tinttab75;
 byte    *tinttab80;
 
@@ -160,6 +161,7 @@ void I_InitTintTables(byte *palette)
     tinttab40 = GenerateTintTable(palette, 40, ALL);
     tinttab50 = GenerateTintTable(palette, 50, ALL);
     tinttab60 = GenerateTintTable(palette, 60, ALL);
+    tinttab66 = GenerateTintTable(palette, 66, ALL);
     tinttab75 = GenerateTintTable(palette, 75, ALL);
     tinttab80 = GenerateTintTable(palette, 80, ALL);
 

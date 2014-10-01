@@ -36,7 +36,7 @@ extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
 extern boolean          dc_topsparkle;
 extern boolean          dc_bottomsparkle;
-extern fixed_t          dc_bloodcolor;
+extern fixed_t          dc_blood;
 
 // first pixel in a column
 extern byte             *dc_source;
@@ -45,6 +45,7 @@ extern byte             *tinttab;
 extern byte             *tinttab33;
 extern byte             *tinttab40;
 extern byte             *tinttab50;
+extern byte             *tinttab66;
 extern byte             *tinttabred;
 extern byte             *tinttabredwhite;
 extern byte             *tinttabgreen;

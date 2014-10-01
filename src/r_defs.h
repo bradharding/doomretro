@@ -694,7 +694,7 @@ typedef struct vissprite_s
     // foot clipping
     fixed_t             footclip;
 
-    fixed_t             bloodcolor;
+    fixed_t             blood;
 } vissprite_t;
 
 //

@@ -23,6 +23,11 @@
 ========================================================================
 */
 
+#define REDBLOOD                184
+#define GREENBLOOD              122
+#define BLUEBLOOD               204
+#define FUZZYBLOOD              -1
+
 #ifndef __P_MOBJ__
 #define __P_MOBJ__
 
@@ -51,11 +56,6 @@
 #define MAXGEAR                 (OVERDRIVE + 16)
 
 #define CORPSEBLOODSPLATS       256
-
-#define REDBLOOD                184
-#define GREENBLOOD              122
-#define BLUEBLOOD               204
-#define FUZZYBLOOD              -1
 
 //
 // NOTES: mobj_t
@@ -261,7 +261,10 @@ typedef enum
     MF2_DRAWSECOND                = 0x00200000,
 
     // Object has a shadow
-    MF2_SHADOW                    = 0x00400000
+    MF2_SHADOW                    = 0x00400000,
+
+    // Object is blood
+    MF2_BLOOD                     = 0x00800000
 } mobjflag2_t;
 
 // Map Object definition.
@@ -368,7 +371,7 @@ typedef struct mobj_s
 
     struct mobj_s       *shadow;
 
-    int                 bloodcolor;
+    int                 blood;
 } mobj_t;
 
 #endif
