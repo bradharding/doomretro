@@ -46,7 +46,7 @@ char *sprnames[] =
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
     "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", "PADS",
-    "BODS", "SLDS", "FADS", "BSDS", "VILS", NULL
+    "BODS", "SLDS", "FADS", "BSDS", "VILS", "BARS", "BEXS", NULL
 };
 
 void A_Light0();
@@ -1052,13 +1052,13 @@ state_t states[NUMSTATES] =
     { SPR_ARM2, SPR_ARM2,  1 | FF_FULLBRIGHT,                6,               NULL,            S_ARM2,          0,     0     }, // S_ARM2A
 
     // Barrel (MT_BARREL)
-    { SPR_BAR1, SPR_BAR1,  0,                                6,               NULL,            S_BAR3,          0,     0     }, // S_BAR2
-    { SPR_BAR1, SPR_BAR1,  1,                                6,               NULL,            S_BAR1,          0,     0     }, // S_BAR3
-    { SPR_BEXP, SPR_BEXP,  0 | FF_FULLBRIGHT,                5,               NULL,            S_BEXP2,         0,     0     }, // S_BEXP
-    { SPR_BEXP, SPR_BEXP,  1 | FF_FULLBRIGHT,                5,               A_Scream,        S_BEXP3,         0,     0     }, // S_BEXP2
-    { SPR_BEXP, SPR_BEXP,  2 | FF_FULLBRIGHT,                5,               NULL,            S_BEXP4,         0,     0     }, // S_BEXP3
-    { SPR_BEXP, SPR_BEXP,  3 | FF_FULLBRIGHT,               10,               A_Explode,       S_BEXP5,         0,     0     }, // S_BEXP4
-    { SPR_BEXP, SPR_BEXP,  4 | FF_FULLBRIGHT,               10,               NULL,            S_NULL,          0,     0     }, // S_BEXP5
+    { SPR_BAR1, SPR_BARS,  0,                                6,               NULL,            S_BAR3,          0,     0     }, // S_BAR2
+    { SPR_BAR1, SPR_BARS,  1,                                6,               NULL,            S_BAR1,          0,     0     }, // S_BAR3
+    { SPR_BEXP, SPR_BEXS,  0 | FF_FULLBRIGHT,                5,               NULL,            S_BEXP2,         0,     0     }, // S_BEXP
+    { SPR_BEXP, SPR_BEXS,  1 | FF_FULLBRIGHT,                5,               A_Scream,        S_BEXP3,         0,     0     }, // S_BEXP2
+    { SPR_BEXP, SPR_BEXS,  2 | FF_FULLBRIGHT,                5,               NULL,            S_BEXP4,         0,     0     }, // S_BEXP3
+    { SPR_BEXP, SPR_BEXS,  3 | FF_FULLBRIGHT,               10,               A_Explode,       S_BEXP5,         0,     0     }, // S_BEXP4
+    { SPR_BEXP, SPR_BEXS,  4 | FF_FULLBRIGHT,               10,               NULL,            S_NULL,          0,     0     }, // S_BEXP5
 
     // Burning Barrel (MT_MISC77)
     { SPR_FCAN, SPR_FCAN,  0 | FF_FULLBRIGHT,                4,               NULL,            S_BBAR2,         0,     0     }, // S_BBAR1
@@ -1374,7 +1374,7 @@ state_t states[NUMSTATES] =
     { SPR_TLP2, SPR_TLP2,  3 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP,     0,     0     }, // S_TECH2LAMP4
 
     // Barrel (MT_BARREL)
-    { SPR_BEXP, SPR_BEXP,  0,                                6,               NULL,            S_BAR2,          0,     0     }, // S_BAR1
+    { SPR_BEXP, SPR_BEXS,  0,                                6,               NULL,            S_BAR2,          0,     0     }, // S_BAR1
 
     // Blood Splat (MT_BLOODSPLAT)
     { SPR_BLD2, SPR_BLD2,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BLOODSPLAT
@@ -2381,7 +2381,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_NOBLOOD,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* blood                */ 0
