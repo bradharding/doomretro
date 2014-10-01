@@ -193,14 +193,14 @@ void R_DrawBloodSplatColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = ylookup[dc_yl] + dc_x + viewwindowx;
-    const fixed_t       color = dc_colormap[dc_blood] << 8;
+    const fixed_t       blood = dc_blood;
 
     while (--count)
     {
-        *dest = tinttab66[*dest + color];
+        *dest = tinttab66[*dest + blood];
         dest += SCREENWIDTH;
     }
-    *dest = tinttab66[*dest + color];
+    *dest = tinttab66[*dest + blood];
 }
 
 #define HEIGHTMASK      ((127 << FRACBITS) | 0xffff)

@@ -389,7 +389,7 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     dc_iscale = ABS(vis->xiscale);
     dc_texturemid = vis->texturemid;
-    dc_blood = vis->blood;
+    dc_blood = dc_colormap[vis->blood] << 8;
     frac = vis->startfrac;
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
