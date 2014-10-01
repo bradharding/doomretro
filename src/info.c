@@ -1837,7 +1837,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_SHADOW | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_FUZZYBLOOD
