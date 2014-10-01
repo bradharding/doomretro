@@ -82,7 +82,7 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
-            if (mobj->shadow)
+            if (mobj->flags2 & MF2_SHADOW)
                 P_RemoveMobj(mobj->shadow);
             ret = false;
             break;                                              // killough 4/9/98
@@ -109,7 +109,7 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
             seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
 
     if (ret)
-        if (mobj->shadow)
+        if (mobj->flags2 & MF2_SHADOW)
         {
             mobj->shadow->sprite = mobj->state->sprite2;
             mobj->shadow->frame = mobj->frame;
@@ -441,7 +441,7 @@ void P_NightmareRespawn(mobj_t *mobj)
         mo->flags |= MF_AMBUSH;
 
     mo->flags2 &= ~MF2_MIRRORED;
-    if (mo->shadow)
+    if (mo->flags2 & MF2_SHADOW)
         mo->shadow->flags2 &= ~MF2_MIRRORED;
 
     mo->reactiontime = 18;
@@ -579,6 +579,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->height = info->height;
     mobj->projectilepassheight = info->projectilepassheight;
     mobj->flags = info->flags;
+    mobj->flags2 = info->flags2;
 
     mobj->health = info->spawnhealth;
 
@@ -632,14 +633,14 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
-    if (shadows && mobj->info->shadow)
+    if (shadows && (mobj->flags2 & MF2_SHADOW))
         P_SpawnShadow(mobj);
 
     if (footclip)
         if (isliquid[mobj->subsector->sector->floorpic])
         {
             mobj->flags2 |= MF2_FEETARECLIPPED;
-            if (mobj->shadow)
+            if (mobj->flags2 & MF2_SHADOW)
                 mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
         }
 
@@ -1197,6 +1198,7 @@ void P_SpawnShadow(mobj_t *actor)
     P_AddThinker(&mobj->thinker);
 
     actor->shadow = mobj;
+    mobj->shadow = actor;
 }
 
 //

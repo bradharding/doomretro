@@ -1424,7 +1424,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_PASSMOBJ,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1454,10 +1453,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_posact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_POSS_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1487,10 +1485,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_posact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SPOS_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1520,10 +1517,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_vilact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1556,7 +1552,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -1586,10 +1581,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_skeact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SKEL_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1622,7 +1616,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -1655,7 +1648,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -1685,10 +1677,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_posact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_FATT_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1721,7 +1712,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -1751,10 +1741,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_posact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_CPOS_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1784,10 +1773,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_bgact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_TROO_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1817,10 +1805,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -1853,7 +1840,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ FUZZYBLOOD
     },
 
@@ -1883,10 +1869,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-        /* flags2               */ MF2_PASSMOBJ,
+        /* flags2               */ MF2_PASSMOBJ | MF2_SHADOW,
         /* raisestate           */ S_HEAD_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ BLUEBLOOD
     },
 
@@ -1916,10 +1901,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_BOSS_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ GREENBLOOD
     },
 
@@ -1952,7 +1936,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -1982,10 +1965,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_BOS2_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ GREENBLOOD
     },
 
@@ -2015,10 +1997,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 3,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-        /* flags2               */ MF2_PASSMOBJ | MF2_TRANSLUCENT_REDONLY,
+        /* flags2               */ MF2_PASSMOBJ | MF2_SHADOW | MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ 0
     },
 
@@ -2051,7 +2032,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -2081,10 +2061,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_bspact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_BSPI_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -2117,7 +2096,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -2147,10 +2125,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_FLOAT | MF_NOGRAVITY | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_PAIN_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -2183,7 +2160,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_SSWV_RAISE1,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -2216,7 +2192,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -2249,7 +2224,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2282,7 +2256,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2315,7 +2288,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2348,7 +2320,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2381,7 +2352,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2414,7 +2384,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2447,7 +2416,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2480,7 +2448,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2513,7 +2480,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2546,7 +2512,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2579,7 +2544,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2612,7 +2576,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2645,7 +2608,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2678,7 +2640,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2711,7 +2672,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2744,7 +2704,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ 0
     },
 
@@ -2777,7 +2737,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2810,7 +2769,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2843,7 +2801,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2876,7 +2833,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2909,7 +2865,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2942,7 +2897,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -2975,7 +2929,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3008,7 +2961,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3041,7 +2993,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3074,7 +3025,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3107,7 +3057,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3140,7 +3089,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3173,7 +3121,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3206,7 +3153,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3239,7 +3185,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3272,7 +3217,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3305,7 +3249,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3338,7 +3281,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3371,7 +3313,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3404,7 +3345,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3437,7 +3377,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3470,7 +3409,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3503,7 +3441,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3536,7 +3473,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3569,7 +3505,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3602,7 +3537,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3635,7 +3569,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3668,7 +3601,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3701,7 +3633,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3734,7 +3665,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3767,7 +3697,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3800,7 +3729,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3833,7 +3761,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3866,7 +3793,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3899,7 +3825,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3932,7 +3857,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3965,7 +3889,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -3998,7 +3921,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4031,7 +3953,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4064,7 +3985,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4097,7 +4017,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4130,7 +4049,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4163,7 +4081,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4196,7 +4113,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4229,7 +4145,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4262,7 +4177,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4295,7 +4209,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4328,7 +4241,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4361,7 +4273,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4394,7 +4305,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4427,7 +4337,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4460,7 +4369,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4493,7 +4401,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4526,7 +4433,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4559,7 +4465,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4592,7 +4497,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4625,7 +4529,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4658,7 +4561,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4691,7 +4593,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4724,7 +4625,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -4757,7 +4657,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -4790,7 +4689,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -4823,7 +4721,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -4856,7 +4753,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -4889,7 +4785,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -4922,7 +4817,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -4955,7 +4849,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -4988,7 +4881,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5021,7 +4913,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5054,7 +4945,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5084,10 +4974,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_CORPSE,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ BLUEBLOOD
     },
 
@@ -5120,7 +5009,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5150,10 +5038,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_CORPSE,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5183,10 +5070,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_CORPSE,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5219,7 +5105,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -5249,10 +5134,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_CORPSE,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5282,10 +5166,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_CORPSE,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ true,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5318,7 +5201,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5351,7 +5233,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5384,7 +5265,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -5417,7 +5297,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5450,7 +5329,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -5483,7 +5361,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -5516,7 +5393,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5549,7 +5425,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5582,7 +5457,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -5615,7 +5489,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* shadow               */ false,
         /* bloodcolor           */ 0
     },
 
@@ -5648,7 +5521,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5681,7 +5553,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5714,7 +5586,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5747,7 +5619,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5780,7 +5652,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5813,7 +5685,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5846,7 +5718,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5879,7 +5751,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5912,7 +5784,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ REDBLOOD
     },
 
@@ -5945,7 +5817,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ 0
     },
 
@@ -5978,7 +5850,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ 0
     },
 
@@ -6011,7 +5883,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* shadow               */ false,
+        
         /* bloodcolor           */ 0
     }
 };
