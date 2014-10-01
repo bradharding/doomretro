@@ -609,14 +609,6 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->colfunc = info->colfunc;
     mobj->blood = info->blood;
 
-    if (bfgedition)
-    {
-        if (mobj->sprite == SPR_STIM)
-            mobj->sprite = SPR_STIM_BFG;
-        else if (mobj->sprite == SPR_MEDI)
-            mobj->sprite = SPR_MEDI_BFG;
-    }
-
     // set subsector and/or block links
     P_SetThingPosition(mobj);
 

@@ -762,6 +762,12 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_BARREL].spawnstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 2;
     }
+
+    if (bfgedition)
+    {
+        states[S_STIM].sprite1 = SPR_STIM_BFG;
+        states[S_MEDI].sprite1 = SPR_MEDI_BFG;
+    }
 }
 
 //
