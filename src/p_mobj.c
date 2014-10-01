@@ -1006,22 +1006,47 @@ void P_SpawnSmokeTrail(fixed_t x, fixed_t y, fixed_t z, angle_t angle)
 void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mobj_t *target)
 {
     int         i;
-    int         type = target->type;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
     int         blood = target->blood;
+    mobjinfo_t  *info = &mobjinfo[blood];
 
     angle += ANG180;
 
     for (i = MAX(P_Random() & 10, damage >> 2); i; i--)
     {
-        mobj_t      *th;
+        mobj_t      *th = Z_Malloc(sizeof(*th), PU_LEVEL, NULL);
+        state_t     *st;
 
-        z = BETWEEN(minz, z + ((P_Random() - P_Random()) << 10), maxz);
+        memset(th, 0, sizeof(*th));
 
-        th = P_SpawnMobj(x, y, z, blood);
+        th->type = blood;
+        th->info = info;
+        th->x = x;
+        th->y = y;
+        th->flags = info->flags;
+        th->flags2 = (info->flags2 | (rand() & 1) * MF2_MIRRORED);
 
-        th->tics = MAX(1, th->tics - (P_Random() & 6));
+        st = &states[info->spawnstate];
+
+        th->state = st;
+        th->tics = MAX(1, st->tics - (P_Random() & 6));
+        th->sprite = st->sprite1;
+        th->frame = st->frame;
+
+        th->colfunc = info->colfunc;
+        th->blood = info->blood;
+
+        // set subsector and/or block links
+        P_SetThingPosition(th);
+
+        th->dropoffz = th->floorz = th->subsector->sector->floorheight;
+        th->ceilingz = th->subsector->sector->ceilingheight;
+
+        th->z = BETWEEN(minz, z + ((P_Random() - P_Random()) << 10), maxz);
+
+        th->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+        P_AddThinker(&th->thinker);
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
         th->momy = FixedMul(i * FRACUNIT / 4, finesine[angle >> ANGLETOFINESHIFT]);
@@ -1029,8 +1054,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->angle = angle;
         angle += ((P_Random() - P_Random()) * 0xb60b60);
-
-        th->flags2 |= (rand() & 1) * MF2_MIRRORED;
 
         if (damage <= 12)
             P_SetMobjState(th, th->state->nextstate);
