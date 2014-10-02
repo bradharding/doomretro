@@ -658,6 +658,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->scale = pspriteyscale;
+    vis->blood = 0;
 
     if (flip)
     {
