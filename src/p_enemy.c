@@ -1226,9 +1226,6 @@ void A_VileChase(mobj_t *actor)
                     corpsehit->target = NULL;
                     corpsehit->lastenemy = NULL;
 
-                    if (corpsehit->type == MT_TROOP)
-                        corpsehit->colfunc = troopcolfunc;
-
                     players[0].killcount--;
 
                     sprintf(message, "%s resurrected %s.\n", actor->info->description,

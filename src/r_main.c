@@ -97,10 +97,8 @@ extern int              automapactive;
 extern int              viewheight2;
 extern int              gametic;
 extern boolean          canmodify;
-extern boolean          brightmaps;
 
 void (*colfunc)(void);
-void (*troopcolfunc)(void);
 void (*wallcolfunc)(void);
 void (*fbwallcolfunc)(byte *);
 void (*basecolfunc)(void);
@@ -514,7 +512,6 @@ void R_InitColumnFunctions(void)
     int i;
 
     colfunc = basecolfunc = R_DrawColumn;
-    troopcolfunc = R_DrawTroopColumn;
     fuzzcolfunc = R_DrawFuzzColumn;
     shadowcolfunc = R_DrawShadowColumn;
 
@@ -565,9 +562,7 @@ void R_InitColumnFunctions(void)
         mobjinfo_t      *info = &mobjinfo[i];
         int             flags2 = info->flags2;
 
-        if (i == MT_TROOP && (brightmaps & SPRITES))
-            info->colfunc = troopcolfunc;
-        else if (flags2 & MF2_TRANSLUCENT)
+        if (flags2 & MF2_TRANSLUCENT)
             info->colfunc = tlcolfunc;
         else if (info->flags & MF_SHADOW)
             info->colfunc = fuzzcolfunc;

@@ -59,7 +59,6 @@ extern byte             *tinttabblue50;
 // Hook in assembler or system specific BLT
 //  here.
 void R_DrawColumn(void);
-void R_DrawTroopColumn(void);
 void R_DrawWallColumn(void);
 void R_DrawFullbrightWallColumn(byte *);
 void R_DrawSkyColumn(void);

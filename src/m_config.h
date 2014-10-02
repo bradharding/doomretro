@@ -33,11 +33,7 @@
 #define BLOODSPLATS_MAX                 UNLIMITED
 #define UNLIMITED                       32768
 
-#define BRIGHTMAPS_MIN                  0
-#define BRIGHTMAPS_DEFAULT              (WALLS | SPRITES)
-#define BRIGHTMAPS_MAX                  BRIGHTMAPS_DEFAULT
-#define WALLS                           1
-#define SPRITES                         2
+#define BRIGHTMAPS_DEFAULT              true
 
 #define CORPSES_MIN                     0
 #define CORPSES_DEFAULT                 (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)

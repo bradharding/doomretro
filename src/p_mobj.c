@@ -54,7 +54,6 @@ boolean                 shadows = SHADOWS_DEFAULT;
 
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern boolean          *isliquid;
-extern int              brightmaps;
 
 //
 //

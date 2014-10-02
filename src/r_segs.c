@@ -354,7 +354,7 @@ void R_RenderSegLoop(void)
             dc_texturemid = rw_midtexturemid;
             dc_source = R_GetColumn(midtexture, texturecolumn);
             dc_texheight = midtexheight;
-            if ((brightmaps & WALLS) && texturefullbright[midtexture] && !fixedcolormap)
+            if (brightmaps && texturefullbright[midtexture] && !fixedcolormap)
                 fbwallcolfunc(texturefullbright[midtexture]);
             else
                 wallcolfunc();
@@ -387,7 +387,7 @@ void R_RenderSegLoop(void)
                     dc_texturemid = rw_toptexturemid;
                     dc_source = R_GetColumn(toptexture, texturecolumn);
                     dc_texheight = toptexheight;
-                    if ((brightmaps & WALLS) && texturefullbright[toptexture] && !fixedcolormap)
+                    if (brightmaps && texturefullbright[toptexture] && !fixedcolormap)
                         fbwallcolfunc(texturefullbright[toptexture]);
                     else
                         wallcolfunc();
@@ -425,7 +425,7 @@ void R_RenderSegLoop(void)
                     dc_texturemid = rw_bottomtexturemid;
                     dc_source = R_GetColumn(bottomtexture, texturecolumn);
                     dc_texheight = bottomtexheight;
-                    if ((brightmaps & WALLS) && texturefullbright[bottomtexture] && !fixedcolormap)
+                    if (brightmaps && texturefullbright[bottomtexture] && !fixedcolormap)
                         fbwallcolfunc(texturefullbright[bottomtexture]);
                     else
                         wallcolfunc();

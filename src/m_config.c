@@ -184,7 +184,7 @@ static default_t doom_defaults_list[] =
 {
     CONFIG_VARIABLE_INT   (alwaysrun,           alwaysrun,            1),
     CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,          7),
-    CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,          13),
+    CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,           1),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
     CONFIG_VARIABLE_INT   (dclick_use,          dclick_use,           1),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
@@ -440,11 +440,6 @@ static alias_t alias[] =
     { "0%",                                     0, 12 },
     { "75%",                                   75, 12 },
     { "100%",                                 100, 12 },
-    { "none",                                   0, 13 },
-    { "walls",                                  1, 13 },
-    { "sprites",                                2, 13 },
-    { "walls|sprites",                          3, 13 },
-    { "sprites|walls",                          3, 13 },
     { "",                                       0,  0 }
 };
 
@@ -715,7 +710,7 @@ static void M_CheckDefaults(void)
     if (bloodsplats < BLOODSPLATS_MIN || BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;
 
-    if (brightmaps < BRIGHTMAPS_MIN || brightmaps > BRIGHTMAPS_MAX || (brightmaps & (brightmaps - 1)))
+    if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;
 
     if (corpses < CORPSES_MIN || corpses > CORPSES_MAX || (corpses & (corpses - 1)))

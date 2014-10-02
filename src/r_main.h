@@ -84,7 +84,6 @@ extern lighttable_t     *fixedcolormap;
 // Used to select shadow mode etc.
 //
 extern void (*colfunc)(void);
-extern void (*troopcolfunc)(void);
 extern void (*wallcolfunc)(void);
 extern void (*fbwallcolfunc)(byte *);
 extern void (*transcolfunc)(void);

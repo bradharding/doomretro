@@ -155,27 +155,6 @@ void R_DrawColumn(void)
     *dest = colormap[source[frac >> FRACBITS]];
 }
 
-void R_DrawTroopColumn(void)
-{
-    int32_t             count = dc_yh - dc_yl + 1;
-    int32_t             threshold = count * 71 / 100;
-    byte                *dest = ylookup[dc_yl] + dc_x + viewwindowx;
-    fixed_t             frac = dc_texturefrac;
-    const fixed_t       fracstep = dc_iscale;
-    const byte          *source = dc_source;
-    const lighttable_t  *colormap = dc_colormap;
-    byte                dot;
-
-    while (--count)
-    {
-        dot = source[frac >> FRACBITS];
-        *dest = ((dot == 172 || dot == 175 || dot == 179) && count > threshold ? 179 : colormap[dot]);
-        dest += SCREENWIDTH;
-        frac += fracstep;
-    }
-    *dest = colormap[source[frac >> FRACBITS]];
-}
-
 void R_DrawShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl + 1;
