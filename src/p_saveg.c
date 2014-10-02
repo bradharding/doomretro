@@ -41,6 +41,9 @@ int             savegamelength;
 boolean         savegame_error;
 
 extern boolean  *isliquid;
+extern boolean  shadows;
+
+void P_SpawnShadow(mobj_t *actor);
 
 // Get the filename of a temporary file to write the savegame to. After
 // the file has been successfully saved, it will be renamed to the
@@ -397,6 +400,9 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // short gear
     str->gear = saveg_read16();
+
+    // int blood
+    str->blood = saveg_read32();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -523,6 +529,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // short gear
     saveg_write16(str->gear);
+
+    // int blood
+    saveg_write32(str->blood);
 }
 
 //
@@ -1617,12 +1626,13 @@ void P_ArchiveThinkers(void)
     // save off the current thinkers
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
     {
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker
-            || th->function.acp1 == (actionf_p1)P_NullMobjThinker)
+        mobj_t  *mo = (mobj_t *)th;
+
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker || mo->type == MT_BLOODSPLAT)
         {
             saveg_write8(tc_mobj);
             saveg_write_pad();
-            saveg_write_mobj_t((mobj_t *)th);
+            saveg_write_mobj_t(mo);
 
             continue;
         }
@@ -1773,6 +1783,22 @@ void P_RestoreTargets(void)
             mo->tracer = (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer);
             mo->lastenemy = (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy);
         }
+}
+
+void P_RestoreShadows(void)
+{
+    thinker_t   *th;
+
+    if (!shadows)
+        return;
+
+    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+    {
+        mobj_t  *mo = (mobj_t *)th;
+
+        if (mo->flags2 & MF2_SHADOW)
+            P_SpawnShadow(mo);
+    }
 }
 
 //
