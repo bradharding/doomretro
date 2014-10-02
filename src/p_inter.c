@@ -770,7 +770,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             {
                 prev--;
                 target->flags2 |= MF2_MIRRORED;
-                if (target->flags2 & MF2_SHADOW)
+                if ((target->flags2 & MF2_SHADOW) && target->shadow)
                     target->shadow->flags2 |= MF2_MIRRORED;
             }
             else

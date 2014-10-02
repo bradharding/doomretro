@@ -738,13 +738,13 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
         if (isliquid[thing->subsector->sector->floorpic] && !(thing->flags2 & MF2_NOFOOTCLIP))
         {
             thing->flags2 |= MF2_FEETARECLIPPED;
-            if (thing->flags2 & MF2_SHADOW)
+            if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
                 thing->shadow->flags2 |= MF2_FEETARECLIPPED;
         }
         else if (thing->flags2 & MF2_FEETARECLIPPED)
         {
             thing->flags2 &= ~MF2_FEETARECLIPPED;
-            if (thing->flags2 & MF2_SHADOW)
+            if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
                 thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
         }
 
@@ -762,7 +762,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
         }
     }
 
-    if (thing->flags2 & MF2_SHADOW)
+    if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
     {
         P_UnsetThingPosition(thing->shadow);
 

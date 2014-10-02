@@ -81,7 +81,7 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
-            if (mobj->flags2 & MF2_SHADOW)
+            if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
                 P_RemoveMobj(mobj->shadow);
             ret = false;
             break;                                              // killough 4/9/98
@@ -108,7 +108,7 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
             seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
 
     if (ret)
-        if (mobj->flags2 & MF2_SHADOW)
+        if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
         {
             mobj->shadow->sprite = mobj->state->sprite2;
             mobj->shadow->frame = mobj->frame;
@@ -440,7 +440,7 @@ void P_NightmareRespawn(mobj_t *mobj)
         mo->flags |= MF_AMBUSH;
 
     mo->flags2 &= ~MF2_MIRRORED;
-    if (mo->flags2 & MF2_SHADOW)
+    if ((mo->flags2 & MF2_SHADOW) && mo->shadow)
         mo->shadow->flags2 &= ~MF2_MIRRORED;
 
     mo->reactiontime = 18;
@@ -631,7 +631,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
         if (isliquid[mobj->subsector->sector->floorpic] && !(mobj->flags2 & MF2_NOFOOTCLIP))
         {
             mobj->flags2 |= MF2_FEETARECLIPPED;
-            if (mobj->flags2 & MF2_SHADOW)
+            if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
                 mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
         }
 
