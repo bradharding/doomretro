@@ -1711,7 +1711,10 @@ void P_UnArchiveThinkers(void)
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
                 if (mobj->type == MT_BLOODSPLAT)
+                {
                     mobj->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
+                    mobj->colfunc = bloodsplatcolfunc;
+                }
                 else
                 {
                     int flags2 = mobj->info->flags2;
