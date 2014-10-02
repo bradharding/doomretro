@@ -1715,7 +1715,8 @@ void P_UnArchiveThinkers(void)
                         flags2 |= MF2_FALLING;
 
                     mobj->flags2 = flags2;
-                    if (isliquid[mobj->subsector->sector->floorpic])
+                    if (isliquid[mobj->subsector->sector->floorpic]
+                        && !(mobj->flags2 & MF2_NOFOOTCLIP))
                         mobj->flags2 |= MF2_FEETARECLIPPED;
 
                     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;

@@ -629,7 +629,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
         P_SpawnShadow(mobj);
 
     if (footclip)
-        if (isliquid[mobj->subsector->sector->floorpic])
+        if (isliquid[mobj->subsector->sector->floorpic] && !(mobj->flags2 & MF2_NOFOOTCLIP))
         {
             mobj->flags2 |= MF2_FEETARECLIPPED;
             if (mobj->flags2 & MF2_SHADOW)
@@ -1037,7 +1037,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->colfunc = info->colfunc;
         th->blood = info->blood;
 
-        // set subsector and/or block links
         P_SetThingPosition(th);
 
         th->dropoffz = th->floorz = th->subsector->sector->floorheight;

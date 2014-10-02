@@ -735,7 +735,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
     P_SetThingPosition(thing);
 
     if (footclip)
-        if (isliquid[thing->subsector->sector->floorpic])
+        if (isliquid[thing->subsector->sector->floorpic] && !(thing->flags2 & MF2_NOFOOTCLIP))
         {
             thing->flags2 |= MF2_FEETARECLIPPED;
             if (thing->flags2 & MF2_SHADOW)

@@ -251,20 +251,23 @@ typedef enum
     // Object is a corpse and being resurrected
     MF2_RESURRECTING              = 0x00040000,
 
-    // Object's feet are now being cut
-    MF2_FEETARECLIPPED            = 0x00080000,
+    // Object's feet won't be clipped in liquid
+    MF2_NOFOOTCLIP                = 0x00080000,
+
+    // Object's feet are now being clipped
+    MF2_FEETARECLIPPED            = 0x00100000,
 
     // Object drawn first
-    MF2_DRAWFIRST                 = 0x00100000,
+    MF2_DRAWFIRST                 = 0x00200000,
 
     // Object drawn second
-    MF2_DRAWSECOND                = 0x00200000,
+    MF2_DRAWSECOND                = 0x00400000,
 
     // Object has a shadow
-    MF2_SHADOW                    = 0x00400000,
+    MF2_SHADOW                    = 0x00800000,
 
     // Object is blood
-    MF2_BLOOD                     = 0x00800000
+    MF2_BLOOD                     = 0x01000000
 } mobjflag2_t;
 
 // Map Object definition.
