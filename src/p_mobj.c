@@ -252,6 +252,7 @@ void P_XYMovement(mobj_t *mo)
     {
         int     i;
         int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1;
+        int     blood = mobjinfo[mo->blood].blood;
 
         for (i = 0; i < ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12; i++)
         {
@@ -259,7 +260,7 @@ void P_XYMovement(mobj_t *mo)
                 break;
 
             P_BloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                mo->y + (M_RandomInt(-radius, radius) << FRACBITS), mo->blood, mo->floorz);
+                mo->y + (M_RandomInt(-radius, radius) << FRACBITS), blood, mo->floorz);
         }
     }
 
@@ -846,10 +847,11 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
     int     i;
     int     max = M_RandomInt(100, 150);
+    int     blood = mobjinfo[mobj->blood].blood;
 
     for (i = 0; i < max; i++)
         P_BloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-            mobj->y + (M_RandomInt(-radius, radius) << FRACBITS), mobj->blood, mobj->floorz);
+            mobj->y + (M_RandomInt(-radius, radius) << FRACBITS), blood, mobj->floorz);
 }
 
 //
