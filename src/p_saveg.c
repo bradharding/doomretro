@@ -1629,7 +1629,8 @@ void P_ArchiveThinkers(void)
     {
         mobj_t  *mo = (mobj_t *)th;
 
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker || mo->type == MT_BLOODSPLAT)
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker
+            || (th->function.acp1 == (actionf_p1)P_NullMobjThinker && mo->type == MT_BLOODSPLAT))
         {
             saveg_write8(tc_mobj);
             saveg_write_pad();
@@ -1648,13 +1649,10 @@ void P_ArchiveThinkers(void)
 //
 void P_UnArchiveThinkers(void)
 {
-    byte        tclass;
-    thinker_t   *currentthinker;
+    thinker_t   *currentthinker = thinkercap.next;
     thinker_t   *next;
-    mobj_t      *mobj;
 
     // remove all the current thinkers
-    currentthinker = thinkercap.next;
     while (currentthinker != &thinkercap)
     {
         next = currentthinker->next;
@@ -1671,7 +1669,9 @@ void P_UnArchiveThinkers(void)
     // read in saved thinkers
     while (1)
     {
-        tclass = saveg_read8();
+        byte    tclass = saveg_read8();
+        mobj_t  *mobj;
+
         switch (tclass)
         {
             case tc_end:
@@ -1776,17 +1776,6 @@ enum
     tc_button
 } specials_e;
 
-//
-// Things to handle:
-//
-// T_MoveCeiling, (ceiling_t: sector_t * swizzle), - active list
-// T_VerticalDoor, (vldoor_t: sector_t * swizzle),
-// T_MoveFloor, (floormove_t: sector_t * swizzle),
-// T_LightFlash, (lightflash_t: sector_t * swizzle),
-// T_StrobeFlash, (strobe_t: sector_t *),
-// T_Glow, (glow_t: sector_t *),
-// T_PlatRaise, (plat_t: sector_t *), - active list
-//
 void P_ArchiveSpecials(void)
 {
     thinker_t   *th;
