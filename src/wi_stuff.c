@@ -1014,241 +1014,6 @@ void WI_drawDeathmatchStats(void)
     }
 }
 
-static int      cnt_frags[MAXPLAYERS];
-static int      dofrags;
-static int      ng_state;
-
-//void WI_initNetgameStats(void)
-//{
-//    int i;
-//
-//    state = StatCount;
-//    acceleratestage = 0;
-//    ng_state = 1;
-//
-//    cnt_pause = TICRATE;
-//
-//    for (i = 0; i < MAXPLAYERS; i++)
-//    {
-//        if (!playeringame[i])
-//            continue;
-//
-//        cnt_kills[i] = cnt_items[i] = cnt_secret[i] = cnt_frags[i] = 0;
-//
-//        dofrags += WI_fragSum(i);
-//    }
-//
-//    dofrags = !!dofrags;
-//
-//    WI_initAnimatedBack();
-//}
-//
-//void WI_updateNetgameStats(void)
-//{
-//
-//    int         i;
-//    int         fsum;
-//
-//    boolean     stillticking;
-//
-//    WI_updateAnimatedBack();
-//
-//    if (acceleratestage && ng_state != 10)
-//    {
-//        acceleratestage = 0;
-//
-//        for (i = 0; i < MAXPLAYERS; i++)
-//        {
-//            if (!playeringame[i])
-//                continue;
-//
-//            cnt_kills[i] = (plrs[i].skills * 100) / wbs->maxkills;
-//            cnt_items[i] = (plrs[i].sitems * 100) / wbs->maxitems;
-//            cnt_secret[i] = (plrs[i].ssecret * 100) / wbs->maxsecret;
-//
-//            if (dofrags)
-//                cnt_frags[i] = WI_fragSum(i);
-//        }
-//        S_StartSound(NULL, sfx_barexp);
-//        ng_state = 10;
-//    }
-//
-//    if (ng_state == 2)
-//    {
-//        if (!(bcnt & 3))
-//            S_StartSound(NULL, sfx_pistol);
-//
-//        stillticking = false;
-//
-//        for (i = 0; i < MAXPLAYERS; i++)
-//        {
-//            if (!playeringame[i])
-//                continue;
-//
-//            cnt_kills[i] += 2;
-//
-//            if (cnt_kills[i] >= (plrs[i].skills * 100) / wbs->maxkills)
-//                cnt_kills[i] = (plrs[i].skills * 100) / wbs->maxkills;
-//            else
-//                stillticking = true;
-//        }
-//
-//        if (!stillticking)
-//        {
-//            S_StartSound(NULL, sfx_barexp);
-//            ng_state++;
-//        }
-//    }
-//    else if (ng_state == 4)
-//    {
-//        if (!(bcnt & 3))
-//            S_StartSound(NULL, sfx_pistol);
-//
-//        stillticking = false;
-//
-//        for (i = 0; i < MAXPLAYERS; i++)
-//        {
-//            if (!playeringame[i])
-//                continue;
-//
-//            cnt_items[i] += 2;
-//            if (cnt_items[i] >= (plrs[i].sitems * 100) / wbs->maxitems)
-//                cnt_items[i] = (plrs[i].sitems * 100) / wbs->maxitems;
-//            else
-//                stillticking = true;
-//        }
-//        if (!stillticking)
-//        {
-//            S_StartSound(NULL, sfx_barexp);
-//            ng_state++;
-//        }
-//    }
-//    else if (ng_state == 6)
-//    {
-//        if (!(bcnt & 3))
-//            S_StartSound(NULL, sfx_pistol);
-//
-//        stillticking = false;
-//
-//        for (i = 0; i < MAXPLAYERS; i++)
-//        {
-//            if (!playeringame[i])
-//                continue;
-//
-//            cnt_secret[i] += 2;
-//
-//            if (cnt_secret[i] >= (plrs[i].ssecret * 100) / wbs->maxsecret)
-//                cnt_secret[i] = (plrs[i].ssecret * 100) / wbs->maxsecret;
-//            else
-//                stillticking = true;
-//        }
-//
-//        if (!stillticking)
-//        {
-//            S_StartSound(NULL, sfx_barexp);
-//            ng_state += 1 + 2 * !dofrags;
-//        }
-//    }
-//    else if (ng_state == 8)
-//    {
-//        if (!(bcnt & 3))
-//            S_StartSound(NULL, sfx_pistol);
-//
-//        stillticking = false;
-//
-//        for (i = 0; i < MAXPLAYERS; i++)
-//        {
-//            if (!playeringame[i])
-//                continue;
-//
-//            cnt_frags[i] += 1;
-//
-//            if (cnt_frags[i] >= (fsum = WI_fragSum(i)))
-//                cnt_frags[i] = fsum;
-//            else
-//                stillticking = true;
-//        }
-//
-//        if (!stillticking)
-//        {
-//            S_StartSound(NULL, sfx_pldeth);
-//            ng_state++;
-//        }
-//    }
-//    else if (ng_state == 10)
-//    {
-//        if (acceleratestage)
-//        {
-//            S_StartSound(NULL, sfx_sgcock);
-//            if (gamemode == commercial)
-//                WI_initNoState();
-//            else
-//                WI_initShowNextLoc();
-//        }
-//    }
-//    else if (ng_state & 1)
-//    {
-//        if (!--cnt_pause)
-//        {
-//            ng_state++;
-//            cnt_pause = TICRATE;
-//        }
-//    }
-//}
-
-//void WI_drawNetgameStats(void)
-//{
-//    int         i;
-//    int         x;
-//    int         y;
-//    int         pwidth = SHORT(percent->width);
-//
-//    WI_slamBackground();
-//
-//    // draw animated background
-//    WI_drawAnimatedBack();
-//
-//    WI_drawLF();
-//
-//    // draw stat titles (top line)
-//    V_DrawPatch(NG_STATSX + NG_SPACINGX - SHORT(kills->width), NG_STATSY, FB, kills);
-//
-//    V_DrawPatch(NG_STATSX + 2 * NG_SPACINGX - SHORT(items->width), NG_STATSY, FB, items);
-//
-//    V_DrawPatch(NG_STATSX + 3 * NG_SPACINGX - SHORT(secret->width), NG_STATSY, FB, secret);
-//
-//    if (dofrags)
-//        V_DrawPatch(NG_STATSX + 4 * NG_SPACINGX - SHORT(frags->width), NG_STATSY, FB, frags);
-//
-//    // draw stats
-//    y = NG_STATSY + SHORT(kills->height);
-//
-//    for (i = 0; i < MAXPLAYERS; i++)
-//    {
-//        if (!playeringame[i])
-//            continue;
-//
-//        x = NG_STATSX;
-//        V_DrawPatch(x - SHORT(p[i]->width), y, FB, p[i]);
-//
-//        if (i == me)
-//            V_DrawPatch(x - SHORT(p[i]->width), y, FB, star);
-//
-//        x += NG_SPACINGX;
-//        WI_drawPercent(x - pwidth, y + 10, cnt_kills[i]);
-//        x += NG_SPACINGX;
-//        WI_drawPercent(x - pwidth, y + 10, cnt_items[i]);
-//        x += NG_SPACINGX;
-//        WI_drawPercent(x - pwidth, y + 10, cnt_secret[i]);
-//        x += NG_SPACINGX;
-//
-//        if (dofrags)
-//            WI_drawNum(x, y + 10, cnt_frags[i], -1);
-//
-//        y += WI_SPACINGY;
-//    }
-//}
-
 static int      sp_state;
 
 void WI_initStats(void)
@@ -1265,7 +1030,6 @@ void WI_initStats(void)
 
 void WI_updateStats(void)
 {
-
     WI_updateAnimatedBack();
 
     if (acceleratestage && sp_state != 10)
@@ -1372,7 +1136,6 @@ void WI_updateStats(void)
             cnt_pause = TICRATE;
         }
     }
-
 }
 
 extern void M_DrawString(int x, int y, char *str);
@@ -1474,12 +1237,7 @@ void WI_Ticker(void)
     switch (state)
     {
         case StatCount:
-            //if (deathmatch)
-            //    WI_updateDeathmatchStats();
-            //else if (netgame)
-            //    WI_updateNetgameStats();
-            //else
-                WI_updateStats();
+            WI_updateStats();
             break;
 
         case ShowNextLoc:
@@ -1580,13 +1338,7 @@ static void WI_loadUnloadData(load_callback_t callback)
 
     // french wad uses WIOBJ (?)
     if (W_CheckNumForName("WIOBJ") >= 0)
-    {
-        // "items"
-        //if (netgame && !deathmatch)
-        //    callback("WIOBJ", &items);
-        //else
-            callback("WIOSTI", &items);
-    }
+        callback("WIOSTI", &items);
     else
         callback("WIOSTI", &items);
 
@@ -1683,12 +1435,7 @@ void WI_Drawer(void)
     switch (state)
     {
         case StatCount:
-            //if (deathmatch)
-            //    WI_drawDeathmatchStats();
-            //else if (netgame)
-            //    WI_drawNetgameStats();
-            //else
-                WI_drawStats();
+            WI_drawStats();
             break;
 
         case ShowNextLoc:
@@ -1738,10 +1485,5 @@ void WI_Start(wbstartstruct_t *wbstartstruct)
     WI_initVariables(wbstartstruct);
     WI_loadData();
 
-    //if (deathmatch)
-    //    WI_initDeathmatchStats();
-    //else if (netgame)
-    //    WI_initNetgameStats();
-    //else
-        WI_initStats();
+    WI_initStats();
 }

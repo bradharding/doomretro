@@ -92,7 +92,6 @@ boolean         usergame;               // ok to save / end game
 boolean         viewactive;
 
 int             deathmatch;             // only if started as net death
-//boolean         netgame;                // only true if packets are broadcast
 boolean         playeringame[MAXPLAYERS];
 player_t        players[MAXPLAYERS];
 
@@ -1187,43 +1186,7 @@ void G_DeathMatchSpawnPlayer(int playernum)
 //
 void G_DoReborn(int playernum)
 {
-    //if (!netgame)
-        gameaction = (quickSaveSlot < 0 ? ga_loadlevel : ga_reloadgame);
-    //else
-    //{
-    //    // respawn at the start
-    //    int     i;
-
-    //    // first dissasociate the corpse
-    //    players[playernum].mo->player = NULL;
-
-    //    // spawn at random spot if in death match
-    //    if (deathmatch)
-    //    {
-    //        G_DeathMatchSpawnPlayer(playernum);
-    //        return;
-    //    }
-
-    //    if (G_CheckSpot(playernum, &playerstarts[playernum]))
-    //    {
-    //        P_SpawnPlayer(&playerstarts[playernum]);
-    //        return;
-    //    }
-
-    //    // try to spawn at one of the other players spots
-    //    for (i = 0; i < MAXPLAYERS; i++)
-    //    {
-    //        if (G_CheckSpot(playernum, &playerstarts[i]))
-    //        {
-    //            playerstarts[i].type = playernum + 1;           // fake as other player
-    //            P_SpawnPlayer(&playerstarts[i]);
-    //            playerstarts[i].type = i + 1;                   // restore
-    //            return;
-    //        }
-    //        // he's going to be inside something.  Too bad.
-    //    }
-    //    P_SpawnPlayer(&playerstarts[playernum]);
-    //}
+    gameaction = (quickSaveSlot < 0 ? ga_loadlevel : ga_reloadgame);
 }
 
 void G_ScreenShot(void)

@@ -47,8 +47,6 @@
 // Needs precompiled tables/data structures.
 #include "info.h"
 
-#define FLOATBOBCOUNT           4
-
 // killough 11/98:
 // For torque simulation:
 
