@@ -1036,14 +1036,8 @@ void WI_updateStats(void)
     {
         acceleratestage = 0;
         cnt_kills[0] = (int)(plrs[me].skills * 100) / wbs->maxkills;
-        if (cnt_kills[0] > 100)
-            cnt_kills[0] = 100;
         cnt_items[0] = (int)(plrs[me].sitems * 100) / wbs->maxitems;
-        if (cnt_items[0] > 100)
-            cnt_items[0] = 100;
         cnt_secret[0] = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
-        if (cnt_secret[0] > 100)
-            cnt_secret[0] = 100;
         cnt_time = (int)(plrs[me].stime) / TICRATE;
         cnt_par = (int)(wbs->partime) / TICRATE;
         S_StartSound(NULL, sfx_barexp);
@@ -1136,6 +1130,8 @@ void WI_updateStats(void)
             cnt_pause = TICRATE;
         }
     }
+
+    cnt_kills[0] = MIN(cnt_kills[0], 100);
 }
 
 extern void M_DrawString(int x, int y, char *str);
