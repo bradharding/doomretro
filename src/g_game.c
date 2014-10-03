@@ -1557,8 +1557,6 @@ void G_DoLoadGame(void)
 
     P_RestoreTargets();
 
-    P_RestoreShadows();
-
     P_MapEnd();
 
     if (!P_ReadSaveGameEOF())

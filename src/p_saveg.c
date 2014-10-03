@@ -41,6 +41,7 @@ int             savegamelength;
 boolean         savegame_error;
 
 extern boolean  *isliquid;
+extern boolean  footclip;
 extern boolean  shadows;
 
 void P_SpawnShadow(mobj_t *actor);
@@ -1681,33 +1682,6 @@ void P_UnArchiveThinkers(void)
                 mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
                 saveg_read_mobj_t(mobj);
 
-                if ((mobj->flags & MF_SHADOW) || (mobj->flags2 & MF2_FUZZ))
-                    mobj->colfunc = fuzzcolfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT)
-                    mobj->colfunc = tlcolfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT_REDONLY)
-                    mobj->colfunc = tlredcolfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT_GREENONLY)
-                    mobj->colfunc = tlgreencolfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT_BLUEONLY)
-                    mobj->colfunc = tlbluecolfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT_33)
-                    mobj->colfunc = tl33colfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT_50)
-                    mobj->colfunc = tl50colfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-                    mobj->colfunc = tlredwhitecolfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
-                    mobj->colfunc = tlredtogreen33colfunc;
-                else if (mobj->flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
-                    mobj->colfunc = tlredtoblue33colfunc;
-                else if (mobj->flags2 & MF2_REDTOGREEN)
-                    mobj->colfunc = redtogreencolfunc;
-                else if (mobj->flags2 & MF2_REDTOBLUE)
-                    mobj->colfunc = redtobluecolfunc;
-                else
-                    mobj->colfunc = basecolfunc;
-
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
                 if (mobj->type == MT_BLOODSPLAT)
@@ -1717,19 +1691,16 @@ void P_UnArchiveThinkers(void)
                 }
                 else
                 {
-                    int flags2 = mobj->info->flags2;
-
-                    if (mobj->flags2 & MF2_MIRRORED)
-                        flags2 |= MF2_MIRRORED;
-                    if (mobj->flags2 & MF2_FALLING)
-                        flags2 |= MF2_FALLING;
-
-                    mobj->flags2 = flags2;
-                    if (isliquid[mobj->subsector->sector->floorpic]
-                        && !(mobj->flags2 & MF2_NOFOOTCLIP))
-                        mobj->flags2 |= MF2_FEETARECLIPPED;
-
                     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+                    mobj->colfunc = mobj->info->colfunc;
+
+                    if (shadows && (mobj->flags2 & MF2_SHADOW))
+                    {
+                        P_SpawnShadow(mobj);
+
+                        if (footclip && (mobj->flags2 & MF2_FEETARECLIPPED))
+                            mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
+                    }
                 }
                 P_AddThinker(&mobj->thinker);
                 break;
@@ -1786,22 +1757,6 @@ void P_RestoreTargets(void)
             mo->tracer = (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer);
             mo->lastenemy = (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy);
         }
-}
-
-void P_RestoreShadows(void)
-{
-    thinker_t   *th;
-
-    if (!shadows)
-        return;
-
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-    {
-        mobj_t  *mo = (mobj_t *)th;
-
-        if (mo->flags2 & MF2_SHADOW)
-            P_SpawnShadow(mo);
-    }
 }
 
 //
