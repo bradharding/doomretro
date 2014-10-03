@@ -46,7 +46,7 @@ char *sprnames[] =
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
     "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", "STIB",
     "MEDB", "PODS", "SPDS", "TRDS", "SADS", "HEDS", "CPDS", "SKDS", "BDS2", "PADS",
-    "BODS", "SLDS", "FADS", "BSDS", "VILS", "BARS", "BEXS", NULL
+    "BODS", "SLDS", "FADS", "BSDS", "VILS", "BARS", "BEXS", "CYBS", NULL
 };
 
 void A_Light0();
@@ -900,33 +900,33 @@ state_t states[NUMSTATES] =
     { SPR_APBX, SPR_APBX,  4 | FF_FULLBRIGHT,                5,               NULL,            S_NULL,          0,     0     }, // S_ARACH_PLEX5
 
     // Cyberdemon (MT_CYBORG)
-    { SPR_CYBR, SPR_CYBR,  0,                               10,               A_Look,          S_CYBER_STND2,   0,     0     }, // S_CYBER_STND
-    { SPR_CYBR, SPR_CYBR,  1,                               10,               A_Look,          S_CYBER_STND,    0,     0     }, // S_CYBER_STND2
-    { SPR_CYBR, SPR_CYBR,  0,                                3,               A_Hoof,          S_CYBER_RUN2,    0,     0     }, // S_CYBER_RUN1
-    { SPR_CYBR, SPR_CYBR,  0,                                3,               A_Chase,         S_CYBER_RUN3,    0,     0     }, // S_CYBER_RUN2
-    { SPR_CYBR, SPR_CYBR,  1,                                3,               A_Chase,         S_CYBER_RUN4,    0,     0     }, // S_CYBER_RUN3
-    { SPR_CYBR, SPR_CYBR,  1,                                3,               A_Chase,         S_CYBER_RUN5,    0,     0     }, // S_CYBER_RUN4
-    { SPR_CYBR, SPR_CYBR,  2,                                3,               A_Chase,         S_CYBER_RUN6,    0,     0     }, // S_CYBER_RUN5
-    { SPR_CYBR, SPR_CYBR,  2,                                3,               A_Chase,         S_CYBER_RUN7,    0,     0     }, // S_CYBER_RUN6
-    { SPR_CYBR, SPR_CYBR,  3,                                3,               A_Metal,         S_CYBER_RUN8,    0,     0     }, // S_CYBER_RUN7
-    { SPR_CYBR, SPR_CYBR,  3,                                3,               A_Chase,         S_CYBER_RUN1,    0,     0     }, // S_CYBER_RUN8
-    { SPR_CYBR, SPR_CYBR,  4,                                6,               A_FaceTarget,    S_CYBER_ATK2,    0,     0     }, // S_CYBER_ATK1
-    { SPR_CYBR, SPR_CYBR,  5 | FF_FULLBRIGHT,               12,               A_CyberAttack,   S_CYBER_ATK3,    0,     0     }, // S_CYBER_ATK2
-    { SPR_CYBR, SPR_CYBR,  4,                               12,               A_FaceTarget,    S_CYBER_ATK4,    0,     0     }, // S_CYBER_ATK3
-    { SPR_CYBR, SPR_CYBR,  5 | FF_FULLBRIGHT,               12,               A_CyberAttack,   S_CYBER_ATK5,    0,     0     }, // S_CYBER_ATK4
-    { SPR_CYBR, SPR_CYBR,  4,                               12,               A_FaceTarget,    S_CYBER_ATK6,    0,     0     }, // S_CYBER_ATK5
-    { SPR_CYBR, SPR_CYBR,  5 | FF_FULLBRIGHT,               12,               A_CyberAttack,   S_CYBER_RUN1,    0,     0     }, // S_CYBER_ATK6
-    { SPR_CYBR, SPR_CYBR,  6,                               10,               A_Pain,          S_CYBER_RUN1,    0,     0     }, // S_CYBER_PAIN
-    { SPR_CYBR, SPR_CYBR,  7,                               10,               NULL,            S_CYBER_DIE2,    0,     0     }, // S_CYBER_DIE1
-    { SPR_CYBR, SPR_CYBR,  8,                               10,               A_Scream,        S_CYBER_DIE3,    0,     0     }, // S_CYBER_DIE2
-    { SPR_CYBR, SPR_CYBR,  9 | FF_FULLBRIGHT,               10,               NULL,            S_CYBER_DIE4,    0,     0     }, // S_CYBER_DIE3
-    { SPR_CYBR, SPR_CYBR, 10 | FF_FULLBRIGHT,               10,               NULL,            S_CYBER_DIE5,    0,     0     }, // S_CYBER_DIE4
-    { SPR_CYBR, SPR_CYBR, 11 | FF_FULLBRIGHT,               10,               NULL,            S_CYBER_DIE6,    0,     0     }, // S_CYBER_DIE5
-    { SPR_CYBR, SPR_CYBR, 12 | FF_FULLBRIGHT,               10,               A_Fall,          S_CYBER_DIE7,    0,     0     }, // S_CYBER_DIE6
-    { SPR_CYBR, SPR_CYBR, 13 | FF_FULLBRIGHT,               10,               NULL,            S_CYBER_DIE8,    0,     0     }, // S_CYBER_DIE7
-    { SPR_CYBR, SPR_CYBR, 14,                               10,               NULL,            S_CYBER_DIE9,    0,     0     }, // S_CYBER_DIE8
-    { SPR_CYBR, SPR_CYBR, 15,                               30,               NULL,            S_CYBER_DIE10,   0,     0     }, // S_CYBER_DIE9
-    { SPR_CYBR, SPR_CYBR, 15,                               -1,               A_BossDeath,     S_NULL,          0,     0     }, // S_CYBER_DIE10
+    { SPR_CYBR, SPR_CYBS,  0,                               10,               A_Look,          S_CYBER_STND2,   0,     0     }, // S_CYBER_STND
+    { SPR_CYBR, SPR_CYBS,  1,                               10,               A_Look,          S_CYBER_STND,    0,     0     }, // S_CYBER_STND2
+    { SPR_CYBR, SPR_CYBS,  0,                                3,               A_Hoof,          S_CYBER_RUN2,    0,     0     }, // S_CYBER_RUN1
+    { SPR_CYBR, SPR_CYBS,  0,                                3,               A_Chase,         S_CYBER_RUN3,    0,     0     }, // S_CYBER_RUN2
+    { SPR_CYBR, SPR_CYBS,  1,                                3,               A_Chase,         S_CYBER_RUN4,    0,     0     }, // S_CYBER_RUN3
+    { SPR_CYBR, SPR_CYBS,  1,                                3,               A_Chase,         S_CYBER_RUN5,    0,     0     }, // S_CYBER_RUN4
+    { SPR_CYBR, SPR_CYBS,  2,                                3,               A_Chase,         S_CYBER_RUN6,    0,     0     }, // S_CYBER_RUN5
+    { SPR_CYBR, SPR_CYBS,  2,                                3,               A_Chase,         S_CYBER_RUN7,    0,     0     }, // S_CYBER_RUN6
+    { SPR_CYBR, SPR_CYBS,  3,                                3,               A_Metal,         S_CYBER_RUN8,    0,     0     }, // S_CYBER_RUN7
+    { SPR_CYBR, SPR_CYBS,  3,                                3,               A_Chase,         S_CYBER_RUN1,    0,     0     }, // S_CYBER_RUN8
+    { SPR_CYBR, SPR_CYBS,  4,                                6,               A_FaceTarget,    S_CYBER_ATK2,    0,     0     }, // S_CYBER_ATK1
+    { SPR_CYBR, SPR_CYBS,  5 | FF_FULLBRIGHT,               12,               A_CyberAttack,   S_CYBER_ATK3,    0,     0     }, // S_CYBER_ATK2
+    { SPR_CYBR, SPR_CYBS,  4,                               12,               A_FaceTarget,    S_CYBER_ATK4,    0,     0     }, // S_CYBER_ATK3
+    { SPR_CYBR, SPR_CYBS,  5 | FF_FULLBRIGHT,               12,               A_CyberAttack,   S_CYBER_ATK5,    0,     0     }, // S_CYBER_ATK4
+    { SPR_CYBR, SPR_CYBS,  4,                               12,               A_FaceTarget,    S_CYBER_ATK6,    0,     0     }, // S_CYBER_ATK5
+    { SPR_CYBR, SPR_CYBS,  5 | FF_FULLBRIGHT,               12,               A_CyberAttack,   S_CYBER_RUN1,    0,     0     }, // S_CYBER_ATK6
+    { SPR_CYBR, SPR_CYBS,  6,                               10,               A_Pain,          S_CYBER_RUN1,    0,     0     }, // S_CYBER_PAIN
+    { SPR_CYBR, SPR_CYBS,  7,                               10,               NULL,            S_CYBER_DIE2,    0,     0     }, // S_CYBER_DIE1
+    { SPR_CYBR, SPR_CYBS,  8,                               10,               A_Scream,        S_CYBER_DIE3,    0,     0     }, // S_CYBER_DIE2
+    { SPR_CYBR, SPR_CYBS,  9 | FF_FULLBRIGHT,               10,               NULL,            S_CYBER_DIE4,    0,     0     }, // S_CYBER_DIE3
+    { SPR_CYBR, SPR_CYBS, 10 | FF_FULLBRIGHT,               10,               NULL,            S_CYBER_DIE5,    0,     0     }, // S_CYBER_DIE4
+    { SPR_CYBR, SPR_CYBS, 11 | FF_FULLBRIGHT,               10,               NULL,            S_CYBER_DIE6,    0,     0     }, // S_CYBER_DIE5
+    { SPR_CYBR, SPR_CYBS, 12 | FF_FULLBRIGHT,               10,               A_Fall,          S_CYBER_DIE7,    0,     0     }, // S_CYBER_DIE6
+    { SPR_CYBR, SPR_CYBS, 13 | FF_FULLBRIGHT,               10,               NULL,            S_CYBER_DIE8,    0,     0     }, // S_CYBER_DIE7
+    { SPR_CYBR, SPR_CYBS, 14,                               10,               NULL,            S_CYBER_DIE9,    0,     0     }, // S_CYBER_DIE8
+    { SPR_CYBR, SPR_CYBS, 15,                               30,               NULL,            S_CYBER_DIE10,   0,     0     }, // S_CYBER_DIE9
+    { SPR_CYBR, SPR_CYBS, 15,                               -1,               A_BossDeath,     S_NULL,          0,     0     }, // S_CYBER_DIE10
 
     // Pain Elemental (MT_PAIN)
     { SPR_PAIN, SPR_PADS,  0,                               10,               A_Look,          S_PAIN_STND,     0,     0     }, // S_PAIN_STND
@@ -2093,7 +2093,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_dmact,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD

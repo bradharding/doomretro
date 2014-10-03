@@ -188,6 +188,7 @@ typedef enum
     SPR_VILS,
     SPR_BARS,
     SPR_BEXS,
+    SPR_CYBS,
     NUMSPRITES
 } spritenum_t;
 
