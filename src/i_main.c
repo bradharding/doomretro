@@ -181,6 +181,18 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
     }
 }
 
+void I_LoadResources(void)
+{
+    HRSRC               myResource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
+    unsigned int        myResourceSize = SizeofResource(NULL, myResource);
+    HGLOBAL             myResourceData = LoadResource(NULL, myResource);
+    void                *pMyBinaryData = LockResource(myResourceData);
+    FILE                *stream = fopen(PACKAGE_WAD, "wb");
+
+    fwrite((char *)pMyBinaryData, sizeof(char), myResourceSize, stream);
+    fclose(stream);
+}
+
 #ifdef SDL20
 extern SDL_Window *sdl_window;
 #endif
@@ -285,6 +297,8 @@ int main(int argc, char **argv)
 #endif
 
     I_SetAffinityMask(hProcess);
+
+    I_LoadResources();
 
     D_DoomMain();
 

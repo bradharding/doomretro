@@ -77,6 +77,8 @@ void I_Quit(boolean shutdown)
         I_ShutdownGamepad();
     }
 
+    remove(PACKAGE_WAD);
+
 #ifdef WIN32
     done_win32();
 #endif
@@ -206,6 +208,8 @@ void I_Error(char *error, ...)
     I_ShutdownKeyboard();
 
     I_ShutdownGamepad();
+
+    remove(PACKAGE_WAD);
 
     va_start(argptr, error);
     memset(msgbuf, 0, sizeof(msgbuf));
