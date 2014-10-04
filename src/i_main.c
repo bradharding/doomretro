@@ -181,7 +181,7 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
     }
 }
 
-void I_LoadResources(void)
+void I_LoadPackageWAD(void)
 {
     HRSRC               myResource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
     unsigned int        myResourceSize = SizeofResource(NULL, myResource);
@@ -297,8 +297,6 @@ int main(int argc, char **argv)
 #endif
 
     I_SetAffinityMask(hProcess);
-
-    I_LoadResources();
 
     D_DoomMain();
 

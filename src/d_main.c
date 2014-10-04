@@ -110,6 +110,7 @@ extern SDL_Window *sdl_window;
 #endif
 
 void D_CheckNetGame(void);
+void I_LoadPackageWAD(void);
 
 //
 // EVENT HANDLING
@@ -887,7 +888,7 @@ static int D_ChooseIWAD(void)
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
-boolean CheckPackageWadVersion(void);
+boolean CheckPackageWADVersion(void);
 
 static void D_ProcessDehCommandLine(void)
 {
@@ -969,6 +970,8 @@ static void D_DoomMainSetup(void)
 
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
+
+    I_LoadPackageWAD();
 
     if (!M_FileExists(PACKAGE_WAD))
         I_Error("Can't find %s.", PACKAGE_WAD);
@@ -1075,10 +1078,10 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if (!W_MergeFile(PACKAGE_WAD))
+    if (!W_MergePackageWAD())
         I_Error("Can't find %s.", PACKAGE_WAD);
 
-    if (!CheckPackageWadVersion())
+    if (!CheckPackageWADVersion())
         I_Error("Wrong version of %s.", PACKAGE_WAD);
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);

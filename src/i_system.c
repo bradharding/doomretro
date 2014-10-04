@@ -51,6 +51,7 @@ void done_win32(void);
 #include "s_sound.h"
 #include "SDL.h"
 #include "version.h"
+#include "w_merge.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -77,7 +78,7 @@ void I_Quit(boolean shutdown)
         I_ShutdownGamepad();
     }
 
-    remove(PACKAGE_WAD);
+    W_RemovePackageWAD();
 
 #ifdef WIN32
     done_win32();
@@ -209,17 +210,13 @@ void I_Error(char *error, ...)
 
     I_ShutdownGamepad();
 
-    remove(PACKAGE_WAD);
-
     va_start(argptr, error);
     memset(msgbuf, 0, sizeof(msgbuf));
     M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
 
 #ifdef WIN32
-    MultiByteToWideChar(CP_ACP, 0,
-                        msgbuf, strlen(msgbuf) + 1,
-                        wmsgbuf, sizeof(wmsgbuf));
+    MultiByteToWideChar(CP_ACP, 0, msgbuf, strlen(msgbuf) + 1, wmsgbuf, sizeof(wmsgbuf));
 
     MessageBoxW(NULL, wmsgbuf, PACKAGE_NAME_W, MB_ICONERROR | MB_OK);
 
@@ -227,10 +224,12 @@ void I_Error(char *error, ...)
 
     SDL_Quit();
 
+    W_RemovePackageWAD();
+
 #elif defined(__MACOSX__)
     {
-        CFStringRef message;
-        int i;
+        CFStringRef     message;
+        int             i;
 
         // The CoreFoundation message box wraps text lines, so replace
         // newline characters with spaces so that multiline messages
@@ -242,19 +241,12 @@ void I_Error(char *error, ...)
 
         message = CFStringCreateWithCString(NULL, msgbuf, kCFStringEncodingUTF8);
 
-        CFUserNotificationDisplayNotice(0,
-            kCFUserNotificationCautionAlertLevel,
-            NULL,
-            NULL,
-            NULL,
-            CFSTR(PACKAGE_STRING),
-            message,
-            NULL);
+        CFUserNotificationDisplayNotice(0, kCFUserNotificationCautionAlertLevel, NULL, NULL, NULL,
+            CFSTR(PACKAGE_STRING), message, NULL);
     }
 #else
-    {
         ZenityErrorBox(msgbuf);
-    }
 #endif
+
     exit(-1);
 }

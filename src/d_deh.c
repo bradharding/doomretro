@@ -1465,7 +1465,7 @@ deh_bexptr deh_bexptrs[] =
 // to hold startup code pointers from INFO.C
 actionf_t deh_codeptr[NUMSTATES];
 
-boolean CheckPackageWadVersion(void)
+boolean CheckPackageWADVersion(void)
 {
     DEHFILE             infile, *filein = &infile;
     char                inbuffer[DEH_BUFFERMAX];

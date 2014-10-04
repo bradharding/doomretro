@@ -29,4 +29,7 @@
 // Add a new WAD and merge it into the main directory
 boolean W_MergeFile(char *filename);
 
+boolean W_MergePackageWAD(void);
+void W_RemovePackageWAD(void);
+
 #endif
