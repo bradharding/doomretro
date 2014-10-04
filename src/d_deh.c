@@ -30,6 +30,7 @@
 #include "sounds.h"
 #include "info.h"
 #include "m_cheat.h"
+#include "m_misc.h"
 #include "p_local.h"
 #include "g_game.h"
 #include "d_think.h"
@@ -46,7 +47,8 @@ typedef struct
     long        size;
 } DEHFILE;
 
-int dehcount = 0;
+boolean addtocount;
+int     dehcount = 0;
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -1524,6 +1526,8 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     }
 #endif
 
+    addtocount = false;
+
     // killough 10/98: allow DEH files to come from wad lumps
     if (filename)
     {
@@ -1549,7 +1553,6 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     }
 
     // loop until end of file
-
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
         int     i;
@@ -1626,7 +1629,8 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
         fileout = NULL;
     }
 
-    ++dehcount;
+    if (addtocount)
+        ++dehcount;
 }
 
 // ====================================================================
@@ -2638,6 +2642,9 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout
                         deh_strlookup[i].lookup, dehReformatStr(newstring));
 
             deh_strlookup[i].assigned = true;
+
+            if (M_StrCaseStr(deh_strlookup[i].lookup, "HUSTR"))
+                addtocount = true;
 
             break;
         }

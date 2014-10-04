@@ -991,9 +991,6 @@ extern char     **mapnamesp[];
 extern char     **mapnamest[];
 extern char     **mapnamesn[];
 
-extern char     *hu_mapnames[];
-extern char     *hu_mapnames2[];
-
 extern int      dehcount;
 
 void ExtractFileBase(char *path, char *dest);
