@@ -64,7 +64,9 @@ static sprite_frame_t   *sprite_frames;
 static int              num_sprite_frames;
 static int              sprite_frames_alloced;
 
-wad_file_t              *packagewad;
+wad_file_t              *tempwad;
+
+extern char *tempwadpath;
 
 // Search in a list to find a lump with a particular name
 // Linear search (slow!)
@@ -513,7 +515,7 @@ boolean W_MergePackageWAD(void)
     int old_numlumps = numlumps;
     
     // Load PWAD
-    if (!(packagewad = W_AddFile(PACKAGE_WAD)))
+    if (!(tempwad = W_AddFile(tempwadpath)))
         return false;
 
     // IWAD is at the start, PWAD was appended to the end
@@ -537,6 +539,6 @@ boolean W_MergePackageWAD(void)
 
 void W_RemovePackageWAD(void)
 {
-    W_CloseFile(packagewad);
-    remove(PACKAGE_WAD);
+    W_CloseFile(tempwad);
+    remove(tempwadpath);
 }

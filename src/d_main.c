@@ -167,6 +167,7 @@ extern boolean  message_on;
 extern int      graphicdetail;
 extern int      viewheight2;
 extern boolean  loadedgame;
+extern char     *tempwadpath;
 
 void R_ExecuteSetViewSize(void);
 void G_LoadedGameMessage(void);
@@ -973,7 +974,7 @@ static void D_DoomMainSetup(void)
 
     I_LoadPackageWAD();
 
-    if (!M_FileExists(PACKAGE_WAD))
+    if (!M_FileExists(tempwadpath))
         I_Error("Can't find %s.", PACKAGE_WAD);
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);

@@ -27,6 +27,7 @@
 
 #include "i_video.h"
 #include "m_argv.h"
+#include "m_misc.h"
 #include "version.h"
 
 #ifdef WIN32
@@ -181,15 +182,19 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
     }
 }
 
+char *tempwadpath = NULL;
+
 void I_LoadPackageWAD(void)
 {
-    HRSRC               myResource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
-    unsigned int        myResourceSize = SizeofResource(NULL, myResource);
-    HGLOBAL             myResourceData = LoadResource(NULL, myResource);
-    void                *pMyBinaryData = LockResource(myResourceData);
-    FILE                *stream = fopen(PACKAGE_WAD, "wb");
-
-    fwrite((char *)pMyBinaryData, sizeof(char), myResourceSize, stream);
+    HRSRC               resource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
+    unsigned int        resourcesize = SizeofResource(NULL, resource);
+    HGLOBAL             resourcedata = LoadResource(NULL, resource);
+    void                *binarydata = LockResource(resourcedata);
+    FILE                *stream;
+    
+    tempwadpath = M_TempFile(PACKAGE_WAD);
+    stream = fopen(tempwadpath, "wb");
+    fwrite((char *)binarydata, sizeof(char), resourcesize, stream);
     fclose(stream);
 }
 
