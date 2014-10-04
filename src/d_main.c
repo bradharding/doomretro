@@ -644,9 +644,7 @@ static int D_ChooseIWAD(void)
             }
 
             // if it's a PWAD, determine the IWAD required and try loading that as well
-            else if (!D_CheckFilename(file, PACKAGE_WAD)
-                     && W_WadType(file) == PWAD
-                     && !D_IsUnsupportedPWAD(file))
+            else if (W_WadType(file) == PWAD && !D_IsUnsupportedPWAD(file))
             {
                 int             iwadrequired = IWADRequiredByPWAD(file);
                 static char     fullpath[MAX_PATH];
@@ -828,9 +826,7 @@ static int D_ChooseIWAD(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), pwad);
 
-                    if (!D_CheckFilename(pwad, PACKAGE_WAD)
-                        && W_WadType(fullpath) == PWAD
-                        && !D_IsUnsupportedPWAD(fullpath))
+                    if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath))
                     {
                         if (!iwadfound)
                         {
