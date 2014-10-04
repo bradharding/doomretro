@@ -518,7 +518,8 @@ static void D_FirstUse(void)
                   L"In the dialog box that follows, please navigate to where an official "
                   L"release of DOOM or DOOM II has been installed and select an \u201cIWAD "
                   L"file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
-                  L"DOOM2.WAD). Additional \u201cPWAD files\u201d may also be selected by "
+                  L"DOOM2.WAD).\n\n"
+                  L"Additional \u201cPWAD files\u201d may then be selected by clicking or "
                   L"CTRL-clicking on them.";
 
     if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
