@@ -378,10 +378,9 @@ int     fuzzpos;
 //
 void R_DrawVisSprite(vissprite_t *vis)
 {
-    column_t    *column;
-    fixed_t     frac;
+    fixed_t     frac = vis->startfrac;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
-    fixed_t     baseclip;
+    fixed_t     baseclip = -1;
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
@@ -390,7 +389,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     dc_iscale = ABS(vis->xiscale);
     dc_texturemid = vis->texturemid;
     dc_blood = dc_colormap[vis->blood] << 8;
-    frac = vis->startfrac;
+    
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
@@ -415,14 +414,10 @@ void R_DrawVisSprite(vissprite_t *vis)
         sprbotscreen = sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale);
         baseclip = (sprbotscreen - FixedMul(vis->footclip << FRACBITS, spryscale)) >> FRACBITS;
     }
-    else
-        baseclip = -1;
 
     for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
-    {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS]));
-        R_DrawMaskedColumn(column, baseclip);
-    }
+        R_DrawMaskedColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])),
+            baseclip);
 
     colfunc = basecolfunc;
 }
@@ -452,9 +447,16 @@ void R_ProjectSprite(mobj_t *thing)
 
     fixed_t             iscale;
 
+    fixed_t             fx = thing->x;
+    fixed_t             fy = thing->y;
+    fixed_t             fz = thing->z;
+
+    int                 flags2 = thing->flags2;
+    int                 frame = thing->frame;
+
     // transform the origin point
-    fixed_t             tr_x = thing->x - viewx;
-    fixed_t             tr_y = thing->y - viewy;
+    fixed_t             tr_x = fx - viewx;
+    fixed_t             tr_y = fy - viewy;
 
     fixed_t             gxt = FixedMul(tr_x, viewcos);
     fixed_t             gyt = -FixedMul(tr_y, viewsin);
@@ -469,7 +471,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    if ((thing->flags2 & (MF2_DRAWFIRST | MF2_DRAWSECOND)) && xscale < FRACUNIT / 3)
+    if ((flags2 & (MF2_DRAWFIRST | MF2_DRAWSECOND)) && xscale < FRACUNIT / 3)
         return;
 
     gxt = -FixedMul(tr_x, viewsin);
@@ -482,15 +484,14 @@ void R_ProjectSprite(mobj_t *thing)
 
     // decide which patch to use for sprite relative to player
     sprdef = &sprites[thing->sprite];
-    sprframe = &sprdef->spriteframes[thing->frame & FF_FRAMEMASK];
+    sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
 
     // choose a different rotation based on player view
     if (sprframe->rotate)
-        rot = (R_PointToAngle(thing->x, thing->y) - thing->angle +
-            (unsigned int)(ANG45 / 2) * 9) >> 29;
+        rot = (R_PointToAngle(fx, fy) - thing->angle + (unsigned int)(ANG45 / 2) * 9) >> 29;
 
     lump = sprframe->lump[rot];
-    flip = ((boolean)sprframe->flip[rot] || (thing->flags2 & MF2_MIRRORED));
+    flip = ((boolean)sprframe->flip[rot] || (flags2 & MF2_MIRRORED));
 
     // calculate edges of the shape
     tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
@@ -507,28 +508,28 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = thing->z + spritetopoffset[lump];
+    gzt = fz + spritetopoffset[lump];
 
-    if (thing->z > viewz + FixedDiv(centeryfrac, xscale)
+    if (fz > viewz + FixedDiv(centeryfrac, xscale)
         || gzt < viewz - FixedDiv(centeryfrac - viewheight, xscale))
         return;
 
     // store information in a vissprite
     vis = R_NewVisSprite();
     vis->mobjflags = thing->flags;
-    vis->mobjflags2 = thing->flags2;
+    vis->mobjflags2 = flags2;
     vis->psprite = false;
     vis->colfunc = thing->colfunc;
     vis->type = thing->type;
     vis->scale = xscale;
-    vis->gx = thing->x;
-    vis->gy = thing->y;
-    vis->gz = thing->z;
+    vis->gx = fx;
+    vis->gy = fy;
+    vis->gz = fz;
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
     // foot clipping
-    if ((thing->flags2 & MF2_FEETARECLIPPED) && thing->z <= thing->subsector->sector->floorheight)
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= thing->subsector->sector->floorheight)
         vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10);
     else
         vis->footclip = 0;
@@ -556,7 +557,7 @@ void R_ProjectSprite(mobj_t *thing)
     // get light level
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
-    else if ((thing->frame & FF_FULLBRIGHT) && (rot <= 3 || rot >= 7))
+    else if ((frame & FF_FULLBRIGHT) && (rot <= 3 || rot >= 7))
         vis->colormap = colormaps;              // full bright
     else                                        // diminished light
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
@@ -569,20 +570,19 @@ void R_ProjectSprite(mobj_t *thing)
 void R_AddSprites(sector_t *sec)
 {
     mobj_t      *thing;
-    int         lightnum;
 
     // BSP is traversed by subsector.
     // A sector might have been split into several
     //  subsectors during BSP building.
     // Thus we check whether its already added.
-    if (sec->validcount == validcount)
+    if (sec->thinglist == NULL || sec->validcount == validcount)
         return;
 
     // Well, now it will be done.
     sec->validcount = validcount;
 
-    lightnum = (sec->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-    spritelights = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
+    spritelights = scalelight[BETWEEN(0, (sec->lightlevel >> LIGHTSEGSHIFT)
+        + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
 
     // Handle all things in sector.
     for (thing = sec->thinglist; thing; thing = thing->snext)
@@ -592,7 +592,7 @@ void R_AddSprites(sector_t *sec)
 //
 // R_DrawPSprite
 //
-static boolean flash;
+static boolean  flash;
 
 static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
 {
