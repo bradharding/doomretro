@@ -569,7 +569,7 @@ void R_InitColumnFunctions(void)
             info->colfunc = tlcolfunc;
         else if (info->doomednum == MegaSphere)
             info->colfunc = megaspherecolfunc;
-        else if (info->flags & MF_SHADOW)
+        else if (info->flags & MF_FUZZ)
             info->colfunc = fuzzcolfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)
             info->colfunc = tlredcolfunc;

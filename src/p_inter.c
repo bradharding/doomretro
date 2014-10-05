@@ -307,7 +307,7 @@ boolean P_GivePower(player_t *player, int power)
             P_GiveBody(player, 100);
             break;
         case pw_invisibility:
-            player->mo->flags |= MF_SHADOW;
+            player->mo->flags |= MF_FUZZ;
             break;
     }
 
@@ -733,7 +733,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     target->height >>= 2;
     if (type != MT_BARREL)
     {
-        if (!(target->flags & MF_SHADOW))
+        if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
         if ((corpses & MIRROR) && type != MT_CHAINGUY && type != MT_CYBORG)

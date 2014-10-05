@@ -610,7 +610,7 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
             }
         }
 
-        if (player->mo->flags & MF_SHADOW)
+        if (player->mo->flags & MF_FUZZ)
         {
             // player is invisible
             if (dist > 2 * MELEERANGE
@@ -823,7 +823,7 @@ void A_FaceTarget(mobj_t *actor)
     actor->angle = R_PointToAngle2(actor->x, actor->y,
                                    actor->target->x, actor->target->y);
 
-    if (actor->target->flags & MF_SHADOW)
+    if (actor->target->flags & MF_FUZZ)
         actor->angle += (P_Random() - P_Random()) << 21;
 
     if ((actor->flags2 & MF2_SHADOW) && actor->shadow)

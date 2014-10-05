@@ -160,7 +160,7 @@ typedef enum
     MF_DROPPED          = 0x00020000,
     // Use fuzzy draw (shadow demons or spectres),
     //  temporary player invisibility powerup.
-    MF_SHADOW           = 0x00040000,
+    MF_FUZZ             = 0x00040000,
     // Flag: don't bleed when shot (use puff),
     //  barrels and shootable furniture shall not bleed.
     MF_NOBLOOD          = 0x00080000,
@@ -217,43 +217,40 @@ typedef enum
     // Convert all red to blue
     MF2_REDTOBLUE                 = 0x00000800,
 
-    // Fuzz effect
-    MF2_FUZZ                      = 0x00001000,
-
     // Object bobs up and down
-    MF2_FLOATBOB                  = 0x00002000,
+    MF2_FLOATBOB                  = 0x00001000,
 
     // Mirrored horizontally
-    MF2_MIRRORED                  = 0x00004000,
+    MF2_MIRRORED                  = 0x00002000,
 
-    MF2_FALLING                   = 0x00008000,
+    MF2_FALLING                   = 0x00004000,
 
     // Object is resting on top of another object
-    MF2_ONMOBJ                    = 0x00010000,
+    MF2_ONMOBJ                    = 0x00008000,
 
     // Object is allowed to pass over/under other objects
-    MF2_PASSMOBJ                  = 0x00020000,
+    MF2_PASSMOBJ                  = 0x00010000,
 
     // Object is a corpse and being resurrected
-    MF2_RESURRECTING              = 0x00040000,
+    MF2_RESURRECTING              = 0x00020000,
 
     // Object's feet won't be clipped in liquid
-    MF2_NOFOOTCLIP                = 0x00080000,
+    MF2_NOFOOTCLIP                = 0x00040000,
 
     // Object's feet are now being clipped
-    MF2_FEETARECLIPPED            = 0x00100000,
+    MF2_FEETARECLIPPED            = 0x00080000,
 
     // Object drawn first
-    MF2_DRAWFIRST                 = 0x00200000,
+    MF2_DRAWFIRST                 = 0x00100000,
 
     // Object drawn second
-    MF2_DRAWSECOND                = 0x00400000,
+    MF2_DRAWSECOND                = 0x00200000,
 
     // Object has a shadow
-    MF2_SHADOW                    = 0x00800000,
+    MF2_SHADOW                    = 0x00400000,
 
     // Object is blood
-    MF2_BLOOD                     = 0x01000000
+    MF2_BLOOD                     = 0x00800000
 } mobjflag2_t;
 
 // Map Object definition.

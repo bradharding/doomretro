@@ -1240,7 +1240,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     an = R_PointToAngle2(source->x, source->y, dest->x, dest->y);
 
     // fuzzy player
-    if (dest->flags & MF_SHADOW)
+    if (dest->flags & MF_FUZZ)
         an += (P_Random() - P_Random()) << 20;
 
     th->angle = an;

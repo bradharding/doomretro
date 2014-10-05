@@ -1013,7 +1013,7 @@ void G_PlayerFinishLevel(int player)
 
     memset(p->powers, 0, sizeof(p->powers));
     memset(p->cards, 0, sizeof(p->cards));
-    p->mo->flags &= ~MF_SHADOW;         // cancel invisibility
+    p->mo->flags &= ~MF_FUZZ;           // cancel invisibility
     p->extralight = 0;                  // cancel gun flashes
     p->fixedcolormap = 0;               // cancel ir goggles
     p->damagecount = 0;                 // no palette changes
