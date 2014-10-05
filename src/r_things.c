@@ -95,10 +95,11 @@ extern int                      fuzzclip;
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-void R_InstallSpriteLump(int lump, unsigned int frame, unsigned int rotation, boolean flipped)
+void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int frame,
+                         unsigned int rotation, boolean flipped)
 {
     if (frame >= MAX_SPRITE_FRAMES || rotation > 8)
-        I_Error("R_InstallSpriteLump: Bad frame characters in lump %i", lump);
+        I_Error("R_InstallSpriteLump: Bad frame characters in lump %s", lump->name);
 
     if ((int)frame > maxframe)
         maxframe = frame;
@@ -112,7 +113,7 @@ void R_InstallSpriteLump(int lump, unsigned int frame, unsigned int rotation, bo
         {
             if (sprtemp[frame].lump[r] == -1)
             {
-                sprtemp[frame].lump[r] = lump - firstspritelump;
+                sprtemp[frame].lump[r] = lumpnum - firstspritelump;
                 sprtemp[frame].flip[r] = (byte)flipped;
                 sprtemp[frame].rotate = false;
             }
@@ -123,7 +124,7 @@ void R_InstallSpriteLump(int lump, unsigned int frame, unsigned int rotation, bo
     // the lump is only used for one rotation
     if (sprtemp[frame].lump[--rotation] == -1)
     {
-        sprtemp[frame].lump[rotation] = lump - firstspritelump;
+        sprtemp[frame].lump[rotation] = lumpnum - firstspritelump;
         sprtemp[frame].flip[rotation] = (byte)flipped;
         sprtemp[frame].rotate = true;
     }
@@ -156,8 +157,8 @@ void R_InstallSpriteLump(int lump, unsigned int frame, unsigned int rotation, bo
 
 void R_InitSpriteDefs(char **namelist)
 {
-    int numentries = lastspritelump - firstspritelump + 1;
-    int i;
+    size_t              numentries = lastspritelump - firstspritelump + 1;
+    unsigned int        i;
 
     struct {
         int     index;
@@ -170,9 +171,9 @@ void R_InitSpriteDefs(char **namelist)
     // count the number of sprite names
     for (i = 0; namelist[i]; i++);
 
-    numsprites = i;
+    numsprites = (signed int)i;
 
-    sprites = Z_Malloc(numsprites *sizeof(*sprites), PU_STATIC, NULL);
+    sprites = Z_Malloc(numsprites * sizeof(*sprites), PU_STATIC, NULL);
 
     // Create hash table based on just the first four letters of each sprite
     // killough 1/31/98
@@ -191,7 +192,7 @@ void R_InitSpriteDefs(char **namelist)
 
     // scan all the lump names for each of the names,
     //  noting the highest frame letter.
-    for (i = 0; i < numsprites; i++)
+    for (i = 0; i < (unsigned int)numsprites; i++)
     {
         const char      *spritename = namelist[i];
         int             j = hash[R_SpriteNameHash(spritename) % numentries].index;
@@ -202,7 +203,7 @@ void R_InitSpriteDefs(char **namelist)
             maxframe = -1;
             do
             {
-                lumpinfo_t      *lump = lumpinfo + j + firstspritelump;
+                lumpinfo_t      *lump = &lumpinfo[j + firstspritelump];
 
                 // Fast portable comparison -- killough
                 // (using int pointer cast is nonportable):
@@ -211,10 +212,10 @@ void R_InitSpriteDefs(char **namelist)
                       (lump->name[2] ^ spritename[2]) |
                       (lump->name[3] ^ spritename[3])))
                 {
-                    R_InstallSpriteLump(j + firstspritelump, lump->name[4] - 'A', 
+                    R_InstallSpriteLump(lump, j + firstspritelump, lump->name[4] - 'A', 
                         lump->name[5] - '0', false);
                     if (lump->name[6])
-                        R_InstallSpriteLump(j + firstspritelump, lump->name[6] - 'A',
+                        R_InstallSpriteLump(lump, j + firstspritelump, lump->name[6] - 'A',
                            lump->name[7] - '0', true);
                 }
             } while ((j = hash[j].next) >= 0);
@@ -229,8 +230,8 @@ void R_InitSpriteDefs(char **namelist)
                     {
                         case -1:
                             // no rotations were found for that frame at all
-                            I_Error("R_InitSprites: No patches found "
-                                "for %.8s frame %c", namelist[i], frame + 'A');
+                            I_Error("R_InitSprites: No patches found for %.8s frame %c",
+                                namelist[i], frame + 'A');
                             break;
 
                         case 0:
@@ -244,8 +245,8 @@ void R_InitSpriteDefs(char **namelist)
 
                             for (rotation = 0; rotation < 8; rotation++)
                                 if (sprtemp[frame].lump[rotation] == -1)
-                                    I_Error("R_InitSprites: Sprite %.8s frame %c "
-                                        "is missing rotations", namelist[i], frame + 'A');
+                                    I_Error("R_InitSprites: Sprite %.8s frame %c is missing rotations",
+                                        namelist[i], frame + 'A');
                             break;
                         }
                     }
@@ -369,7 +370,6 @@ void R_DrawMaskedColumn(column_t *column, int baseclip)
     }
 }
 
-boolean megasphere;
 int     fuzzpos;
 
 //
@@ -406,8 +406,6 @@ void R_DrawVisSprite(vissprite_t *vis)
         else if (colfunc == tlredwhitecolfunc)
             colfunc = tlredwhite50colfunc;
     }
-
-    megasphere = (vis->type == MT_MEGA);
 
     if (vis->footclip && !vis->psprite)
     {

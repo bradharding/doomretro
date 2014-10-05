@@ -655,8 +655,6 @@ void R_DrawTranslucent50Column(void)
     }
 }
 
-extern boolean megasphere;
-
 void R_DrawTranslucent33Column(void)
 {
     int32_t             count = dc_yh - dc_yl;
@@ -679,14 +677,45 @@ void R_DrawTranslucent33Column(void)
         while (--count)
         {
             dot = source[frac >> FRACBITS];
-            if (megasphere && (dot == 9 || dot == 159))
+            *dest = tinttab33[(*dest << 8) + colormap[dot]];
+            dest += SCREENWIDTH;
+            frac += fracstep;
+        }
+        dot = source[frac >> FRACBITS];
+        *dest = tinttab33[(*dest << 8) + colormap[dot]];
+    }
+}
+
+void R_DrawMegaSphereColumn(void)
+{
+    int32_t             count = dc_yh - dc_yl;
+    byte                *dest;
+    fixed_t             frac;
+    const fixed_t       fracstep = dc_iscale;
+
+    if (count++ < 0)
+        return;
+
+    dest = ylookup[dc_yl] + dc_x + viewwindowx;
+
+    frac = dc_texturefrac;
+
+    {
+        byte                    dot;
+        const byte              *source = dc_source;
+        const lighttable_t      *colormap = dc_colormap;
+
+        while (--count)
+        {
+            dot = source[frac >> FRACBITS];
+            if (dot == 9 || dot == 159)
                 dot = 142;
             *dest = tinttab33[(*dest << 8) + colormap[dot]];
             dest += SCREENWIDTH;
             frac += fracstep;
         }
         dot = source[frac >> FRACBITS];
-        if (megasphere && (dot == 9 || dot == 159))
+        if (dot == 9 || dot == 159)
             dot = 142;
         *dest = tinttab33[(*dest << 8) + colormap[dot]];
     }
