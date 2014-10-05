@@ -699,6 +699,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     if (special->flags & MF_COUNTITEM)
         player->itemcount++;
     P_RemoveMobj(special);
+    if (special->shadow)
+        P_RemoveMobj(special->shadow);
     P_AddBonus(player, BONUSADD);
 
     if (sound == prevsound && gametic == prevtic)
