@@ -938,6 +938,9 @@ void P_SpawnMapThing(mapthing_t *mthing)
 
     mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) : 
                                         ANG45 * (mthing->angle / 45));
+    if (mobj->flags2 & MF2_SHADOW)
+        mobj->shadow->angle = mobj->angle;
+
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
@@ -1173,7 +1176,6 @@ void P_SpawnShadow(mobj_t *actor)
 
     mobj->sprite = actor->state->sprite2;
     mobj->frame = actor->state->frame;
-    mobj->angle = actor->angle;
 
     mobj->colfunc = shadowcolfunc;
 
