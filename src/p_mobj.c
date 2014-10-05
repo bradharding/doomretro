@@ -1173,6 +1173,7 @@ void P_SpawnShadow(mobj_t *actor)
 
     mobj->sprite = actor->state->sprite2;
     mobj->frame = actor->state->frame;
+    mobj->angle = actor->angle;
 
     mobj->colfunc = shadowcolfunc;
 
