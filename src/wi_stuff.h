@@ -3,9 +3,13 @@
 
   DOOM RETRO
   The classic, refined DOOM source port. For Windows PC.
-  Copyright (C) 2013-2014 Brad Harding.
+  Copyright (C) 2013-2014 by Brad Harding. All rights reserved.
 
   This file is part of DOOM RETRO.
+
+  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
+
+  For a complete list of credits, see the accompanying AUTHORS file.
 
   DOOM RETRO is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

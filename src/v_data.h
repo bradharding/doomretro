@@ -3,7 +3,11 @@
 
   DOOM RETRO
   The classic, refined DOOM source port. For Windows PC.
-  Copyright (C) 2013-2014 Brad Harding.
+  Copyright (C) 2013-2014 by Brad Harding. All rights reserved.
+
+  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
+
+  For a complete list of credits, see the accompanying AUTHORS file.
 
   This file is part of DOOM RETRO.
 
@@ -26,15 +30,15 @@
 #ifndef __V_DATA__
 #define __V_DATA__
 
-extern char *wilv[];
-extern char *redcharset[];
-extern char *smallcharset[];
-extern int lsleft[];
-extern int lscntr[];
-extern int lsrght[];
-extern char *nmare;
-extern char *underscores1;
-extern char *underscores2;
-extern char *caret;
+extern char     *wilv[];
+extern char     *redcharset[];
+extern char     *smallcharset[];
+extern int      lsleft[];
+extern int      lscntr[];
+extern int      lsrght[];
+extern char     *nmare;
+extern char     *underscores1;
+extern char     *underscores2;
+extern char     *caret;
 
 #endif

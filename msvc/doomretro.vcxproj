@@ -528,6 +528,7 @@
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
     <None Include="..\AUTHORS" />
+    <None Include="..\res\DEHACKED" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\manifest.xml" />
   </ItemGroup>
