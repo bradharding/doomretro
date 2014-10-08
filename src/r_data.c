@@ -765,8 +765,8 @@ void R_InitSpriteLumps(void)
 
     if (bfgedition)
     {
-        states[S_STIM].sprite1 = SPR_STIM_BFG;
-        states[S_MEDI].sprite1 = SPR_MEDI_BFG;
+        states[S_STIM].sprite = SPR_STIM_BFG;
+        states[S_MEDI].sprite = SPR_MEDI_BFG;
     }
 }
 

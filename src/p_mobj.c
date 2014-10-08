@@ -90,7 +90,7 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
         st = &states[state];
         mobj->state = st;
         mobj->tics = st->tics;
-        mobj->sprite = st->sprite1;
+        mobj->sprite = st->sprite;
         mobj->frame = st->frame;
 
         // Modified handling.
@@ -110,7 +110,7 @@ boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
     if (ret)
         if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
         {
-            mobj->shadow->sprite = mobj->state->sprite2;
+            mobj->shadow->sprite = mobj->state->sprite;
             mobj->shadow->frame = mobj->frame;
             mobj->shadow->angle = mobj->angle;
         }
@@ -603,7 +603,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     mobj->state = st;
     mobj->tics = st->tics;
-    mobj->sprite = st->sprite1;
+    mobj->sprite = st->sprite;
     mobj->frame = st->frame;
 
     mobj->colfunc = info->colfunc;
@@ -1035,7 +1035,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->state = st;
         th->tics = MAX(1, st->tics - (P_Random() & 6));
-        th->sprite = st->sprite1;
+        th->sprite = st->sprite;
         th->frame = st->frame;
 
         th->colfunc = info->colfunc;
@@ -1174,7 +1174,7 @@ void P_SpawnShadow(mobj_t *actor)
     mobj->y = actor->y;
     mobj->flags2 = MF2_DRAWSECOND;
 
-    mobj->sprite = actor->state->sprite2;
+    mobj->sprite = actor->state->sprite;
     mobj->frame = actor->state->frame;
 
     mobj->colfunc = shadowcolfunc;

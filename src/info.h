@@ -172,23 +172,6 @@ typedef enum
     SPR_BLD2,
     SPR_STIM_BFG,
     SPR_MEDI_BFG,
-    SPR_PODS,
-    SPR_SPDS,
-    SPR_TRDS,
-    SPR_SADS,
-    SPR_HEDS,
-    SPR_CPDS,
-    SPR_SKDS,
-    SPR_BDS2,
-    SPR_PADS,
-    SPR_BODS,
-    SPR_SLDS,
-    SPR_FADS,
-    SPR_BSDS,
-    SPR_VILS,
-    SPR_BARS,
-    SPR_BEXS,
-    SPR_CYBS,
     NUMSPRITES
 } spritenum_t;
 
@@ -1179,8 +1162,7 @@ typedef enum
 
 typedef struct
 {
-    spritenum_t sprite1;
-    spritenum_t sprite2;
+    spritenum_t sprite;
     long        frame;
     long        tics;
     actionf_t   action;

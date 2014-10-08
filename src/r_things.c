@@ -320,26 +320,18 @@ fixed_t spryscale;
 fixed_t sprtopscreen;
 fixed_t sprbotscreen;
 
-void R_DrawMaskedColumn(column_t *column, int baseclip)
+static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
 {
     while (column->topdelta != 0xff)
     {
-        int     topscreen;
-
-        if (column->length == 0)
-        {
-            column = (column_t *)((byte *)column + 4);
-            continue;
-        }
-
         // calculate unclipped screen coordinates for post
-        topscreen = sprtopscreen + spryscale * column->topdelta + 1;
+        int     topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
         dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x] + 1);
         dc_yh = MIN((topscreen + spryscale * column->length) >> FRACBITS, mfloorclip[dc_x] - 1);
 
-        if (dc_yh >= baseclip && baseclip != -1)
-            dc_yh = baseclip;
+        if (baseclip != -1)
+            dc_yh = MIN(baseclip, dc_yh);
         fuzzclip = baseclip;
 
         dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
@@ -361,11 +353,37 @@ void R_DrawMaskedColumn(column_t *column, int baseclip)
                 dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
         }
 
-        dc_source = (byte *)column + 3;
+        if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
+        {
+            dc_source = (byte *)column + 3;
+            colfunc();
+        }
+        column = (column_t *)((byte *)column + column->length + 4);
+    }
+}
+
+static void R_DrawMaskedShadowColumn(column_t *column, int baseclip)
+{
+    int shift = ((sprtopscreen * 9 / 10) >> FRACBITS);
+
+    while (column->topdelta != 0xff)
+    {
+        // calculate unclipped screen coordinates for post
+        int     topscreen = sprtopscreen + spryscale * column->topdelta + 1;
+
+        dc_yl = MAX(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift, mceilingclip[dc_x] + 1);
+        dc_yh = MIN(((topscreen + spryscale * column->length) >> FRACBITS) / 10 + shift,
+            mfloorclip[dc_x] - 1);
+
+        if (baseclip != -1)
+            dc_yh = MIN(baseclip, dc_yh);
+        fuzzclip = baseclip;
 
         if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
+        {
+            dc_source = (byte *)column + 3;
             colfunc();
-
+        }
         column = (column_t *)((byte *)column + column->length + 4);
     }
 }
@@ -381,6 +399,9 @@ void R_DrawVisSprite(vissprite_t *vis)
     fixed_t     frac = vis->startfrac;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
     fixed_t     baseclip = -1;
+
+    void (*func)(column_t *, int) = (vis->type == MT_SHADOW ?
+        R_DrawMaskedShadowColumn : R_DrawMaskedSpriteColumn);
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
@@ -407,15 +428,14 @@ void R_DrawVisSprite(vissprite_t *vis)
             colfunc = tlredwhite50colfunc;
     }
 
-    if (vis->footclip && !vis->psprite)
+    if (vis->footclip)
     {
         sprbotscreen = sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale);
         baseclip = (sprbotscreen - FixedMul(vis->footclip << FRACBITS, spryscale)) >> FRACBITS;
     }
 
     for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
-        R_DrawMaskedColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])),
-            baseclip);
+        func((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])), baseclip);
 
     colfunc = basecolfunc;
 }
@@ -451,6 +471,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     int                 flags2 = thing->flags2;
     int                 frame = thing->frame;
+    int                 type = thing->type;
 
     // transform the origin point
     fixed_t             tr_x = fx - viewx;
@@ -506,7 +527,10 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = fz + spritetopoffset[lump];
+    if (type == MT_SHADOW)
+        gzt = fz + 3;
+    else
+        gzt = fz + spritetopoffset[lump];
 
     if (fz > viewz + FixedDiv(centeryfrac, xscale)
         || gzt < viewz - FixedDiv(centeryfrac - viewheight, xscale))
@@ -516,7 +540,6 @@ void R_ProjectSprite(mobj_t *thing)
     vis = R_NewVisSprite();
     vis->mobjflags = thing->flags;
     vis->mobjflags2 = flags2;
-    vis->psprite = false;
     vis->colfunc = thing->colfunc;
     vis->type = thing->type;
     vis->scale = xscale;
@@ -528,11 +551,10 @@ void R_ProjectSprite(mobj_t *thing)
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && fz <= thing->subsector->sector->floorheight)
-        vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10);
+        vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
     else
         vis->footclip = 0;
-    vis->texturemid = vis->gzt - viewz - (vis->footclip << FRACBITS);
-
+    vis->texturemid = gzt - viewz - vis->footclip;
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     iscale = FixedDiv(FRACUNIT, xscale);
@@ -573,7 +595,7 @@ void R_AddSprites(sector_t *sec)
     // A sector might have been split into several
     //  subsectors during BSP building.
     // Thus we check whether its already added.
-    if (sec->thinglist == NULL || sec->validcount == validcount)
+    if (!sec->thinglist || sec->validcount == validcount)
         return;
 
     // Well, now it will be done.
@@ -596,6 +618,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
 {
     fixed_t             tx;
     int                 x1, x2;
+    spritenum_t         spr;
     spritedef_t         *sprdef;
     spriteframe_t       *sprframe;
     int                 lump;
@@ -626,7 +649,8 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
 
     // decide which patch to use
     state = psp->state;
-    sprdef = &sprites[state->sprite1];
+    spr = state->sprite;
+    sprdef = &sprites[spr];
     sprframe = &sprdef->spriteframes[state->frame & FF_FRAMEMASK];
 
     lump = sprframe->lump[0];
@@ -651,12 +675,12 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     vis = &avis;
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
-    vis->psprite = true;
     vis->texturemid = (BASEYCENTER << FRACBITS) + FRACUNIT / 4 - (psp->sy - spritetopoffset[lump]);
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
     vis->scale = pspriteyscale;
     vis->blood = 0;
+    vis->footclip = 0;
 
     if (flip)
     {
@@ -681,7 +705,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         if (state == &states[S_DSGUN])
             vis->colfunc = R_DrawSuperShotgunColumn;
         else
-            vis->colfunc = (flash ? colfuncs[state->sprite1] : basecolfunc);
+            vis->colfunc = (flash ? colfuncs[spr] : basecolfunc);
 
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color

@@ -531,7 +531,8 @@ void ProcessDehFile(char *filename, char *outfilename, int lump);
 
 static void LoadChexDeh(char *path)
 {
-    char *dehpath = M_StringReplace(path, ".wad", ".deh");
+    char        *dehpath = M_StringReplace(path, ".wad", ".deh");
+
     if (M_FileExists(dehpath))
     {
         chexdeh = true;
@@ -906,7 +907,7 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    unsigned int i;
+    unsigned int        i;
 
     if (chexdeh)
         return;

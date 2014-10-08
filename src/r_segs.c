@@ -186,12 +186,58 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
     return (den > (num >> 16) ? BETWEEN(256, FixedDiv(num, den), max_rwscale) : max_rwscale);
 }
 
+static void R_DrawMaskedColumn(column_t *column)
+{
+    while (column->topdelta != 0xff)
+    {
+        int     topscreen;
+
+        if (column->length == 0)
+        {
+            column = (column_t *)((byte *)column + 4);
+            continue;
+        }
+
+        // calculate unclipped screen coordinates for post
+        topscreen = sprtopscreen + spryscale * column->topdelta + 1;
+
+        dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x] + 1);
+        dc_yh = MIN((topscreen + spryscale * column->length) >> FRACBITS, mfloorclip[dc_x] - 1);
+
+        dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
+            FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+
+        if (dc_texturefrac < 0)
+        {
+            int cnt = (FixedDiv(-dc_texturefrac, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
+
+            dc_yl += cnt;
+            dc_texturefrac += cnt * dc_iscale;
+        }
+
+        {
+            const fixed_t       endfrac = dc_texturefrac + (dc_yh - dc_yl) * dc_iscale;
+            const fixed_t       maxfrac = column->length << FRACBITS;
+
+            if (endfrac >= maxfrac)
+                dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
+        }
+
+        if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
+        {
+            dc_source = (byte *)column + 3;
+            colfunc();
+        }
+
+        column = (column_t *)((byte *)column + column->length + 4);
+    }
+}
+
 //
 // R_RenderMaskedSegRange
 //
 void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 {
-    column_t    *col;
     int         lightnum;
     int         texnum;
     fixed_t     texheight;
@@ -253,9 +299,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             dc_iscale = 0xffffffffu / (unsigned int)spryscale;
 
             // draw the texture
-            col = (column_t *)((byte *)R_GetColumn(texnum, maskedtexturecol[dc_x]) - 3);
-
-            R_DrawMaskedColumn(col, -1);
+            R_DrawMaskedColumn((column_t *)((byte *)R_GetColumn(texnum, maskedtexturecol[dc_x]) - 3));
             maskedtexturecol[dc_x] = INT_MAX;
         }
     }

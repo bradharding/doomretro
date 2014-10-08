@@ -688,9 +688,6 @@ typedef struct vissprite_s
 
     void                (*colfunc)(void);
 
-    // true if psprite
-    boolean             psprite;
-
     // foot clipping
     fixed_t             footclip;
 
