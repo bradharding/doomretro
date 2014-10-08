@@ -197,6 +197,17 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
 
     P_SetThingPosition(thing);
 
+    if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+    {
+        P_UnsetThingPosition(thing->shadow);
+
+        thing->shadow->x = thing->x;
+        thing->shadow->y = thing->y;
+        thing->shadow->z = thing->subsector->sector->floorheight;
+
+        P_SetThingPosition(thing->shadow);
+    }
+
     return true;
 }
 
