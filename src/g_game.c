@@ -1727,11 +1727,6 @@ void G_InitNew(skill_t skill, int episode, int map)
         if (episode > 1)
             episode = 1;        // only start episode 1 on shareware
     }
-    else
-    {
-        if (episode > 3)
-            episode = 3;
-    }
 
     if (map < 1)
         map = 1;
