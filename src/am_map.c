@@ -1617,6 +1617,8 @@ static void AM_drawThings(void)
 
             while (thing)
             {
+                mobjtype_t      type;
+
                 //e6y: stop if all enemies from current sector already have been drawn
                 if (pass && !enemies)
                     break;
@@ -1627,7 +1629,8 @@ static void AM_drawThings(void)
                     continue;
                 }
 
-                if (thing->type != MT_PLAYER && !(thing->flags2 & MF2_DRAWFIRST))
+                type = thing->type;
+                if (type != MT_PLAYER && type != MT_BLOODSPLAT && type != MT_SHADOW)
                 {
                     int x = thing->x;
                     int y = thing->y;
