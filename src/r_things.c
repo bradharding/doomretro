@@ -494,9 +494,6 @@ void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    if ((flags2 & (MF2_DRAWFIRST | MF2_DRAWSECOND)) && xscale < FRACUNIT / 3)
-        return;
-
     gxt = -FixedMul(tr_x, viewsin);
     gyt = FixedMul(tr_y, viewcos);
     tx = -(gyt + gxt);
