@@ -1004,7 +1004,7 @@ void R_DrawMasked(void)
     }
 
     // draw all shadows
-    if (fixedcolormap)
+    if (!fixedcolormap)
         for (i = num_vissprite; --i >= 0;)
         {
             vissprite_t     *spr = vissprite_ptrs[i];
