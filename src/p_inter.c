@@ -796,6 +796,9 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
     target->tics = MAX(1, target->tics - (P_Random() & 3));
 
+    if ((type == MT_BARREL || type == MT_PAIN || type == MT_SKULL) && target->shadow)
+        P_RemoveMobj(target->shadow);
+
     if (chex)
         return;
 
