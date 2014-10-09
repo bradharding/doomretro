@@ -376,7 +376,7 @@ static void R_DrawMaskedShadowColumn(column_t *column, int baseclip)
         int     topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
         dc_yl = MAX(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift, mceilingclip[dc_x] + 1);
-        dc_yh = MIN(((topscreen + spryscale * (column->length - (baseclip != -1 ? 10 : 0))) >> FRACBITS) / 10 + shift,
+        dc_yh = MIN(((topscreen + spryscale * column->length) >> FRACBITS) / 10 + shift,
             mfloorclip[dc_x] - 1);
 
         if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
@@ -524,7 +524,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = fz + (type == MT_SHADOW ? 3 : spritetopoffset[lump]);
+    gzt = fz + (type == MT_SHADOW ? 2 : spritetopoffset[lump]);
 
     if (fz > viewz + FixedDiv(centeryfrac, xscale)
         || gzt < viewz - FixedDiv(centeryfrac - viewheight, xscale))
@@ -544,7 +544,8 @@ void R_ProjectSprite(mobj_t *thing)
     vis->blood = thing->blood;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= thing->subsector->sector->floorheight)
+    if ((flags2 & MF2_FEETARECLIPPED) && type != MT_SHADOW
+        && fz <= thing->subsector->sector->floorheight)
         vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
     else
         vis->footclip = 0;
@@ -924,7 +925,6 @@ void R_DrawMasked(void)
     drawseg_t   *ds;
     int         i;
     int         cx = SCREENWIDTH / 2;
-    int         infrared = players[consoleplayer].powers[pw_infrared];
 
     R_SortVisSprites();
 
@@ -1004,7 +1004,7 @@ void R_DrawMasked(void)
     }
 
     // draw all shadows
-    if (!(infrared > 4 * 32 || (infrared & 8)))
+    if (fixedcolormap)
         for (i = num_vissprite; --i >= 0;)
         {
             vissprite_t     *spr = vissprite_ptrs[i];
