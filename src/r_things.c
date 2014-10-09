@@ -924,6 +924,7 @@ void R_DrawMasked(void)
     drawseg_t   *ds;
     int         i;
     int         cx = SCREENWIDTH / 2;
+    int         infrared = players[consoleplayer].powers[pw_infrared];
 
     R_SortVisSprites();
 
@@ -975,12 +976,12 @@ void R_DrawMasked(void)
         }
     }
 
-    // draw all vissprites with flag MF2_DRAWFIRST
+    // draw all blood splats
     for (i = 0; i < num_vissprite; i++)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
 
-        if (spr->mobjflags2 & MF2_DRAWFIRST)
+        if (spr->type == MT_BLOODSPLAT)
         {
             if (spr->x2 < cx)
             {
@@ -1002,39 +1003,40 @@ void R_DrawMasked(void)
         }
     }
 
-    // draw all vissprites with flag MF2_DRAWSECOND
-    for (i = num_vissprite; --i >= 0;)
-    {
-        vissprite_t     *spr = vissprite_ptrs[i];
-
-        if (spr->mobjflags2 & MF2_DRAWSECOND)
+    // draw all shadows
+    if (!(infrared > 4 * 32 || (infrared & 8)))
+        for (i = num_vissprite; --i >= 0;)
         {
-            if (spr->x2 < cx)
-            {
-                drawsegs_xrange = drawsegs_xranges[1].items;
-                drawsegs_xrange_count = drawsegs_xranges[1].count;
-            }
-            else if (spr->x1 >= cx)
-            {
-                drawsegs_xrange = drawsegs_xranges[2].items;
-                drawsegs_xrange_count = drawsegs_xranges[2].count;
-            }
-            else
-            {
-                drawsegs_xrange = drawsegs_xranges[0].items;
-                drawsegs_xrange_count = drawsegs_xranges[0].count;
-            }
+            vissprite_t     *spr = vissprite_ptrs[i];
 
-            R_DrawSprite(spr, false);
+            if (spr->type == MT_SHADOW)
+            {
+                if (spr->x2 < cx)
+                {
+                    drawsegs_xrange = drawsegs_xranges[1].items;
+                    drawsegs_xrange_count = drawsegs_xranges[1].count;
+                }
+                else if (spr->x1 >= cx)
+                {
+                    drawsegs_xrange = drawsegs_xranges[2].items;
+                    drawsegs_xrange_count = drawsegs_xranges[2].count;
+                }
+                else
+                {
+                    drawsegs_xrange = drawsegs_xranges[0].items;
+                    drawsegs_xrange_count = drawsegs_xranges[0].count;
+                }
+
+                R_DrawSprite(spr, false);
+            }
         }
-    }
 
     // draw all other vissprites, back to front
     for (i = num_vissprite; --i >= 0;)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
 
-        if (!(spr->mobjflags2 & (MF2_DRAWFIRST | MF2_DRAWSECOND)))
+        if (spr->type != MT_BLOODSPLAT && spr->type != MT_SHADOW)
         {
             if (spr->x2 < cx)
             {

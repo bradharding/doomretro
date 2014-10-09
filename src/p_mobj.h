@@ -244,17 +244,11 @@ typedef enum
     // Object's feet are now being clipped
     MF2_FEETARECLIPPED            = 0x00080000,
 
-    // Object drawn first
-    MF2_DRAWFIRST                 = 0x00100000,
-
-    // Object drawn second
-    MF2_DRAWSECOND                = 0x00200000,
-
     // Object has a shadow
-    MF2_SHADOW                    = 0x00400000,
+    MF2_SHADOW                    = 0x00100000,
 
     // Object is blood
-    MF2_BLOOD                     = 0x00800000
+    MF2_BLOOD                     = 0x00200000
 } mobjflag2_t;
 
 // Map Object definition.
