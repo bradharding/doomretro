@@ -6337,10 +6337,10 @@ offset_t sproffsets[] =
     { "MANFB7B3",   30,   13, true }, //   30,   17
     { "MANFB8B2",   27,   14, true }, //   27,   17
     { "MEDIA0",     14,   17, true }, //   13,   19
-    { "MEGAA0",     12,   35, true }, //   12,   32
-    { "MEGAB0",     12,   35, true }, //   12,   32
-    { "MEGAC0",     12,   35, true }, //   12,   32
-    { "MEGAD0",     12,   35, true }, //   12,   32
+    { "MEGAA0",     12,   40, true }, //   12,   32
+    { "MEGAB0",     12,   40, true }, //   12,   32
+    { "MEGAC0",     12,   40, true }, //   12,   32
+    { "MEGAD0",     12,   40, true }, //   12,   32
     { "MGUNA0",     27,   14, true }, //   25,   18
     { "MISFA0",   -134, -105, true }, // -136, -105
     { "MISFB0",   -123, -101, true }, // -126, -101
@@ -6391,14 +6391,14 @@ offset_t sproffsets[] =
     { "PAINK0",     47,   66, true }, //   46,   71
     { "PAINL0",     43,   66, true }, //   43,   71
     { "PAINM0",     52,   76, true }, //   49,   88
-    { "PINSA0",     12,   35, true }, //   11,   39
-    { "PINSB0",     12,   35, true }, //   11,   39
-    { "PINSC0",     12,   35, true }, //   11,   39
-    { "PINSD0",     12,   35, true }, //   11,   39
-    { "PINVA0",     12,   35, true }, //   11,   23
-    { "PINVB0",     12,   35, true }, //   11,   23
-    { "PINVC0",     12,   35, true }, //   11,   23
-    { "PINVD0",     12,   35, true }, //   11,   23
+    { "PINSA0",     12,   40, true }, //   11,   39
+    { "PINSB0",     12,   40, true }, //   11,   39
+    { "PINSC0",     12,   40, true }, //   11,   39
+    { "PINSD0",     12,   40, true }, //   11,   39
+    { "PINVA0",     12,   40, true }, //   11,   23
+    { "PINVB0",     12,   40, true }, //   11,   23
+    { "PINVC0",     12,   40, true }, //   11,   23
+    { "PINVD0",     12,   40, true }, //   11,   23
     { "PLASA0",     27,   14, true }, //   27,   19
     { "PLSEA0",     11,   12, true }, //   12,   11
     { "PLSEB0",     18,   20, true }, //   19,   18
@@ -6586,10 +6586,10 @@ offset_t sproffsets[] =
     { "SMRTB0",      8,   67, true }, //   10,   67
     { "SMRTC0",      8,   67, true }, //   10,   67
     { "SMRTD0",      8,   73, true }, //   10,   73
-    { "SOULA0",     12,   35, true }, //   14,   39
-    { "SOULB0",     12,   35, true }, //   14,   39
-    { "SOULC0",     12,   35, true }, //   14,   39
-    { "SOULD0",     12,   35, true }, //   14,   39
+    { "SOULA0",     12,   40, true }, //   14,   39
+    { "SOULB0",     12,   40, true }, //   14,   39
+    { "SOULC0",     12,   40, true }, //   14,   39
+    { "SOULD0",     12,   40, true }, //   14,   39
     { "SPIDA1D1",  103,  105, true }, //  107,  105
     { "SPIDA2A8",  116,  107, true }, //  110,  107
     { "SPIDA3A7",  106,  106, true }, //   99,  106
@@ -6655,7 +6655,7 @@ offset_t sproffsets[] =
     { "SSWVU0",     28,   20, true }, //   24,   20
     { "SSWVV0",     28,   15, true }, //   24,   15
     { "STIMA0",      7,   13, true }, //    7,   15
-    { "SUITA0",     12,   51, true }, //   11,   51
+    { "SUITA0",     12,   55, true }, //   11,   51
     { "TBLUA0",     13,   92, true }, //   14,   92
     { "TBLUB0",     13,   92, true }, //   14,   92
     { "TBLUC0",     13,   92, true }, //   14,   92
