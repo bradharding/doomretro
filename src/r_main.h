@@ -114,6 +114,7 @@ extern void (*spanfunc)(void);
 extern void (*shadowcolfunc)(void);
 extern void (*bloodsplatcolfunc)(void);
 extern void (*megaspherecolfunc)(void);
+extern void (*stimpackcolfunc)(void);
 
 //
 // Utility functions.

@@ -480,7 +480,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         // medikits, heals
         case SPR_STIM:
-        case SPR_STIM_BFG:
             if (!P_GiveBody(player, 10))
                 return;
             if (!message_dontfuckwithme)
@@ -488,7 +487,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_MEDI:
-        case SPR_MEDI_BFG:
             if (!P_GiveBody(player, 25))
                 return;
             if (!message_dontfuckwithme)
