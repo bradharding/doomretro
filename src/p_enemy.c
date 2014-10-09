@@ -1949,7 +1949,7 @@ void A_SpawnFly(mobj_t* mo)
 
             newmobj = P_SpawnMobj(targ->x, targ->y, targ->z, type);
 
-            if ((P_LookForPlayers(newmobj, true) == 0)
+            if (!(P_LookForPlayers(newmobj, true))
                 || (P_SetMobjState(newmobj, (statenum_t)newmobj->info->seestate)))
                 // telefrag anything in this spot
                 P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true); // killough 8/9/98
@@ -1959,6 +1959,8 @@ void A_SpawnFly(mobj_t* mo)
     }
 
     // remove self (i.e., cube).
+    if (mo->shadow)
+        P_RemoveMobj(mo->shadow);
     P_RemoveMobj(mo);
 }
 
