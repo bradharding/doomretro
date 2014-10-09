@@ -2801,7 +2801,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -2833,7 +2833,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -2865,7 +2865,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0
@@ -2897,7 +2897,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0
@@ -2929,7 +2929,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -2961,7 +2961,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -2993,7 +2993,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -3025,7 +3025,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -3057,7 +3057,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -3089,7 +3089,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_NOTDMATCH,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -3121,7 +3121,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3153,7 +3153,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3185,7 +3185,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
+        /* flags2               */ MF2_SHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0
@@ -3217,7 +3217,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
+        /* flags2               */ MF2_SHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0
@@ -3249,7 +3249,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3281,7 +3281,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
+        /* flags2               */ MF2_SHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0
@@ -3313,7 +3313,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ MF2_FLOATBOB,
+        /* flags2               */ MF2_SHADOW | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3345,7 +3345,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0
@@ -3377,7 +3377,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ MF2_TRANSLUCENT_REDONLY,
+        /* flags2               */ MF2_SHADOW | MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0
@@ -3409,7 +3409,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL | MF_COUNTITEM,
-        /* flags2               */ MF2_FLOATBOB,
+        /* flags2               */ MF2_SHADOW | MF2_FLOATBOB,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0
@@ -3441,7 +3441,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3473,7 +3473,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3505,7 +3505,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3537,7 +3537,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3569,7 +3569,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3601,7 +3601,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3633,7 +3633,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3665,7 +3665,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3697,7 +3697,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3729,7 +3729,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3761,7 +3761,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3793,7 +3793,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3825,7 +3825,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3857,7 +3857,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3889,7 +3889,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
@@ -3921,7 +3921,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SPECIAL,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0
