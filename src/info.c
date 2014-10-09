@@ -6654,7 +6654,7 @@ offset_t sproffsets[] =
     { "SSWVU0",     28,   20, true }, //   24,   20
     { "SSWVV0",     28,   15, true }, //   24,   15
     { "STIMA0",      7,   13, true }, //    7,   15
-    { "SUITA0",     12,   55, true }, //   11,   51
+    { "SUITA0",     12,   58, true }, //   11,   51
     { "TBLUA0",     13,   92, true }, //   14,   92
     { "TBLUB0",     13,   92, true }, //   14,   92
     { "TBLUC0",     13,   92, true }, //   14,   92
