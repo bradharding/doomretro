@@ -64,7 +64,7 @@ extern boolean          *isliquid;
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-boolean P_SetMobjState(mobj_t* mobj, statenum_t state)
+boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     state_t             *st;
 
@@ -224,7 +224,7 @@ void P_XYMovement(mobj_t *mo)
         if (!P_TryMove(mo, ptryx, ptryy, true))
         {
             // blocked move
-            if (mo->player)
+            if (player)
                 // try to slide along it
                 P_SlideMove(mo);
             else if (mo->flags & MF_MISSILE)
@@ -382,12 +382,12 @@ void P_ZMovement(mobj_t *mo)
 
     if (mo->z + mo->height > mo->ceilingz)
     {
+        if (mo->flags & MF_SKULLFLY)
+            mo->momz = -mo->momz;       // the skull slammed into something
+
         // hit the ceiling
         if (mo->momz > 0)
             mo->momz = 0;
-
-        if (mo->flags & MF_SKULLFLY)
-            mo->momz = -mo->momz;       // the skull slammed into something
 
         mo->z = mo->ceilingz - mo->height;
 
@@ -409,7 +409,7 @@ void P_NightmareRespawn(mobj_t *mobj)
     fixed_t     z;
     subsector_t *ss;
     mobj_t      *mo;
-    mapthing_t  *mthing;
+    mapthing_t  *mthing = &mobj->spawnpoint;
 
     if (!x && !y)
     {
@@ -433,11 +433,11 @@ void P_NightmareRespawn(mobj_t *mobj)
     ss = R_PointInSubsector(x, y);
 
     mo = P_SpawnMobj(x, y, ss->sector->floorheight, MT_TFOG);
+    mo->angle = ANG45 * (mthing->angle / 45);
 
     S_StartSound(mo, sfx_telept);
 
     // spawn the new monster
-    mthing = &mobj->spawnpoint;
     z = ((mobj->info->flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
     // inherit attributes from deceased one
@@ -447,10 +447,6 @@ void P_NightmareRespawn(mobj_t *mobj)
 
     if (mthing->options & MTF_AMBUSH)
         mo->flags |= MF_AMBUSH;
-
-    mo->flags2 &= ~MF2_MIRRORED;
-    if ((mo->flags2 & MF2_SHADOW) && mo->shadow)
-        mo->shadow->flags2 &= ~MF2_MIRRORED;
 
     mo->reactiontime = 18;
 
@@ -527,10 +523,10 @@ void P_MobjThinker(mobj_t *mobj)
         if (mobj->thinker.function.acv == (actionf_v)(-1))
             return;             // mobj was removed
     }
-    else if (!(mobj->momx | mobj->momy) && !mobj->player)
+    else if (!mobj->momx && !mobj->momy && !mobj->player)
     {
-        if (mobj->z > mobj->dropoffz && !(mobj->flags & MF_NOGRAVITY) &&
-            mobj->flags & (MF_CORPSE | MF_SHOOTABLE | MF_DROPPED))
+        if (mobj->z > mobj->dropoffz && !(mobj->flags & MF_NOGRAVITY)
+            && (mobj->flags & (MF_CORPSE | MF_SHOOTABLE | MF_DROPPED)))
             P_ApplyTorque(mobj);
         else
         {
@@ -686,7 +682,7 @@ void P_RemoveMobj(mobj_t *mobj)
         shootingsky = false;
     }
 
-    mobj->target = mobj->tracer = NULL;
+    mobj->target = mobj->tracer = mobj->lastenemy = NULL;
 
     // free block
     P_RemoveThinker((thinker_t *)mobj);
@@ -716,7 +712,7 @@ static int P_FindDoomedNum(unsigned int type)
         for (i = 0; i < NUMMOBJTYPES; i++)
             if (mobjinfo[i].doomednum != -1)
             {
-                unsigned int h = (unsigned int)mobjinfo[i].doomednum % NUMMOBJTYPES;
+                unsigned int    h = (unsigned int)mobjinfo[i].doomednum % NUMMOBJTYPES;
 
                 hash[i].next = hash[h].first;
                 hash[h].first = i;
@@ -786,20 +782,20 @@ void P_RespawnSpecials(void)
 extern int lastlevel;
 extern int lastepisode;
 
-void P_SpawnPlayer(mapthing_t *mthing)
+void P_SpawnPlayer(int n, const mapthing_t *mthing)
 {
     player_t    *p;
     fixed_t     x, y, z;
     mobj_t      *mobj;
 
     // not playing?
-    if (!playeringame[mthing->type - 1])
+    if (!playeringame[n])
         return;
 
-    p = &players[mthing->type - 1];
+    p = &players[n];
 
     if (p->playerstate == PST_REBORN)
-        G_PlayerReborn(mthing->type - 1);
+        G_PlayerReborn(n);
 
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
@@ -840,13 +836,10 @@ void P_SpawnPlayer(mapthing_t *mthing)
     lastlevel = -1;
     lastepisode = -1;
 
-    if (mthing->type - 1 == consoleplayer)
+    if (n == consoleplayer)
     {
-        // wake up the status bar
-        ST_Start();
-
-        // wake up the heads up text
-        HU_Start();
+        ST_Start();     // wake up the status bar
+        HU_Start();     // wake up the heads up text
     }
 }
 
@@ -892,7 +885,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
         // save spots for respawning in network games
         playerstarts[type - 1] = *mthing;
         if (!deathmatch)
-            P_SpawnPlayer(mthing);
+            P_SpawnPlayer(type - 1, &playerstarts[type - 1]);
 
         return;
     }
