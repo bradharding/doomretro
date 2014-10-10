@@ -977,7 +977,7 @@ static void D_DoomMainSetup(void)
     I_LoadPackageWAD();
 
     if (!M_FileExists(tempwadpath))
-        I_Error("Can't find %s.", PACKAGE_WAD);
+        I_Error("Resources could not be initialized.", PACKAGE_WAD);
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
 
@@ -1082,10 +1082,7 @@ static void D_DoomMainSetup(void)
     }
 
     if (!W_MergePackageWAD())
-        I_Error("Can't find %s.", PACKAGE_WAD);
-
-    if (!CheckPackageWADVersion())
-        I_Error("Wrong version of %s.", PACKAGE_WAD);
+        I_Error("Resources could not be initialized.", PACKAGE_WAD);
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
 
