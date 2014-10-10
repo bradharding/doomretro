@@ -186,22 +186,6 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
     }
 }
 
-char *tempwadpath = NULL;
-
-void I_LoadPackageWAD(void)
-{
-    HRSRC               resource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
-    unsigned int        resourcesize = SizeofResource(NULL, resource);
-    HGLOBAL             resourcedata = LoadResource(NULL, resource);
-    void                *binarydata = LockResource(resourcedata);
-    FILE                *stream;
-    
-    tempwadpath = M_TempFile(PACKAGE_WAD);
-    stream = fopen(tempwadpath, "wb");
-    fwrite((char *)binarydata, sizeof(char), resourcesize, stream);
-    fclose(stream);
-}
-
 #ifdef SDL20
 extern SDL_Window *sdl_window;
 #endif

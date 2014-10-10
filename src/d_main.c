@@ -114,7 +114,6 @@ extern SDL_Window *sdl_window;
 #endif
 
 void D_CheckNetGame(void);
-void I_LoadPackageWAD(void);
 
 //
 // EVENT HANDLING
@@ -171,7 +170,6 @@ extern boolean  message_on;
 extern int      graphicdetail;
 extern int      viewheight2;
 extern boolean  loadedgame;
-extern char     *tempwadpath;
 
 void R_ExecuteSetViewSize(void);
 void G_LoadedGameMessage(void);
@@ -974,10 +972,8 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
 
-    I_LoadPackageWAD();
-
-    if (!M_FileExists(tempwadpath))
-        I_Error("Resources could not be initialized.", PACKAGE_WAD);
+    if (!M_FileExists(PACKAGE_WAD))
+        I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
 
@@ -1081,8 +1077,11 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if (!W_MergePackageWAD())
-        I_Error("Resources could not be initialized.", PACKAGE_WAD);
+    if (!W_MergeFile(PACKAGE_WAD))
+        I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
+
+    if (!CheckPackageWADVersion())
+        I_Error("Wrong version of %s.", uppercase(PACKAGE_WAD));
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
 

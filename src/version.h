@@ -29,6 +29,7 @@
 
 #define PACKAGE_VERSION                 1,6,0,0
 #define PACKAGE_VERSIONSTRING           "1.6"
+#define PACKAGE_WADVERSIONSTRING        "DOOM RETRO v1.6"
 #define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM RETRO v1.6"
 
 #define PACKAGE                         "doomretro"
@@ -42,4 +43,3 @@
 #define PACKAGE_NAME_W                  L"DOOM RETRO"
 #define PACKAGE_NAME                    PACKAGE_NAME_A
 #define PACKAGE_WAD                     "doomretro.wad"
-#define PACKAGE_WAD_PATH                "..\\res\\doomretro.wad"

@@ -70,8 +70,6 @@ static int              sprite_frames_alloced;
 
 wad_file_t              *tempwad;
 
-extern char *tempwadpath;
-
 // Search in a list to find a lump with a particular name
 // Linear search (slow!)
 //
@@ -511,38 +509,4 @@ boolean W_MergeFile(char *filename)
     DoMerge();
 
     return true;
-}
-
-// Merge package WAD
-boolean W_MergePackageWAD(void)
-{
-    int old_numlumps = numlumps;
-    
-    // Load PWAD
-    if (!(tempwad = W_AddFile(tempwadpath)))
-        return false;
-
-    // IWAD is at the start, PWAD was appended to the end
-    iwad.lumps = lumpinfo;
-    iwad.numlumps = old_numlumps;
-
-    pwad.lumps = lumpinfo + old_numlumps;
-    pwad.numlumps = numlumps - old_numlumps;
-
-    // Setup sprite/flat lists
-    SetupLists();
-
-    // Generate list of sprites to be replaced by the PWAD
-    GenerateSpriteList();
-
-    // Perform the merge
-    DoMerge();
-
-    return true;
-}
-
-void W_RemovePackageWAD(void)
-{
-    W_CloseFile(tempwad);
-    remove(tempwadpath);
 }

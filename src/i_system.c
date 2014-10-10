@@ -82,8 +82,6 @@ void I_Quit(boolean shutdown)
         I_ShutdownGamepad();
     }
 
-    W_RemovePackageWAD();
-
 #ifdef WIN32
     done_win32();
 #endif
@@ -227,8 +225,6 @@ void I_Error(char *error, ...)
     done_win32();
 
     SDL_Quit();
-
-    W_RemovePackageWAD();
 
 #elif defined(__MACOSX__)
     {

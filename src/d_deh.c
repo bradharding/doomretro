@@ -1471,6 +1471,36 @@ deh_bexptr deh_bexptrs[] =
 // to hold startup code pointers from INFO.C
 actionf_t deh_codeptr[NUMSTATES];
 
+boolean CheckPackageWADVersion(void)
+{
+    DEHFILE             infile, *filein = &infile;
+    char                inbuffer[DEH_BUFFERMAX];
+    unsigned int        i;
+
+    for (i = 0; i < numlumps; ++i)
+    {
+        if (!strncmp(lumpinfo[i].name, "VERSION", 7))
+        {
+            infile.size = W_LumpLength(i);
+            infile.inp = infile.lump = W_CacheLumpNum(i, PU_STATIC);
+
+            while (dehfgets(inbuffer, sizeof(inbuffer), filein))
+            {
+                lfstrip(inbuffer);
+
+                if (!*inbuffer || *inbuffer == '#' || *inbuffer == ' ')
+                    continue;   // Blank line or comment line
+
+                if (!strcasecmp(inbuffer, PACKAGE_WADVERSIONSTRING))
+                    return true;
+            }
+        }
+    }
+
+    Z_ChangeTag(infile.lump, PU_CACHE);
+    return false;
+}
+
 // ====================================================================
 // ProcessDehFile
 // Purpose: Read and process a DEH or BEX file
