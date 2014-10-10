@@ -2576,18 +2576,18 @@ boolean M_Responder(event_t *ev)
                 if (++gammaindex > GAMMALEVELS - 1)
                     gammaindex = 0;
             }
-            gamma = (float)gammalevels[gammaindex];
+            gammalevel = gammalevels[gammaindex];
 
             S_StartSound(NULL, sfx_stnmov);
         }
 
         gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
-        if (gamma == 1.0f)
+        if (gammalevel == 1.0f)
             M_StringCopy(buf, s_GAMMAOFF, sizeof(buf));
         else
         {
-            M_snprintf(buf, sizeof(buf), s_GAMMALVL, gamma);
+            M_snprintf(buf, sizeof(buf), s_GAMMALVL, gammalevel);
             if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
                 buf[strlen(buf) - 1] = '\0';
         }

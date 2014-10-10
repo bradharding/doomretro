@@ -85,7 +85,7 @@ extern boolean  idmus;
 extern boolean  idbehold;
 
 extern int      gammaindex;
-extern float    gamma;
+extern float    gammalevel;
 extern float    gammalevels[GAMMALEVELS];
 
 extern boolean  blurred;

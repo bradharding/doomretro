@@ -66,7 +66,7 @@ extern int      gamepadweapon4;
 extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
-extern float    gamma;
+extern float    gammalevel;
 extern int      graphicdetail;
 extern boolean  grid;
 extern boolean  homindicator;
@@ -211,7 +211,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (gamepad_weapon5,     gamepadweapon5,       2),
     CONFIG_VARIABLE_INT   (gamepad_weapon6,     gamepadweapon6,       2),
     CONFIG_VARIABLE_INT   (gamepad_weapon7,     gamepadweapon7,       2),
-    CONFIG_VARIABLE_FLOAT (gamma,               gamma,                0),
+    CONFIG_VARIABLE_FLOAT (gamma,               gammalevel,           0),
     CONFIG_VARIABLE_INT   (graphicdetail,       graphicdetail,        6),
     CONFIG_VARIABLE_INT   (grid,                grid,                 1),
     CONFIG_VARIABLE_INT   (homindicator,        homindicator,         1),
@@ -777,11 +777,11 @@ static void M_CheckDefaults(void)
     if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y || (gamepadweapon7 & (gamepadweapon7 - 1)))
         gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
-    if (gamma < GAMMA_MIN || gamma > GAMMA_MAX)
-        gamma = GAMMA_DEFAULT;
+    if (gammalevel < GAMMA_MIN || gammalevel > GAMMA_MAX)
+        gammalevel = GAMMA_DEFAULT;
     gammaindex = 0;
     while (gammaindex < GAMMALEVELS)
-        if (gammalevels[gammaindex++] == gamma)
+        if (gammalevels[gammaindex++] == gammalevel)
             break;
     if (gammaindex == GAMMALEVELS)
     {

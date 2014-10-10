@@ -135,7 +135,7 @@ float                   gammalevels[GAMMALEVELS] =
 
 // Gamma correction level to use
 int                     gammaindex;
-float                   gamma = GAMMA_DEFAULT;
+float                   gammalevel = GAMMA_DEFAULT;
 
 float                   saturation = SATURATION_DEFAULT;
 
