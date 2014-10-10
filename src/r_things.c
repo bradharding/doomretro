@@ -322,7 +322,6 @@ int     *mceilingclip;
 
 fixed_t spryscale;
 fixed_t sprtopscreen;
-fixed_t sprbotscreen;
 
 static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
 {
@@ -357,7 +356,7 @@ static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
                 dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
         }
 
-        if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
+        if (dc_yl <= dc_yh && dc_yh < viewheight)
         {
             dc_source = (byte *)column + 3;
             colfunc();
@@ -375,11 +374,11 @@ static void R_DrawMaskedShadowColumn(column_t *column, int baseclip)
         // calculate unclipped screen coordinates for post
         int     topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
-        dc_yl = MAX(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift, mceilingclip[dc_x] + 1);
+        dc_yl = MAX(((topscreen >> FRACBITS) + 1) / 10 + shift, mceilingclip[dc_x] + 1);
         dc_yh = MIN(((topscreen + spryscale * column->length) >> FRACBITS) / 10 + shift,
             mfloorclip[dc_x] - 1);
 
-        if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
+        if (dc_yl <= dc_yh && dc_yh < viewheight)
         {
             dc_source = (byte *)column + 3;
             colfunc();
@@ -429,10 +428,8 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     if (vis->footclip)
-    {
-        sprbotscreen = sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale);
-        baseclip = (sprbotscreen - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
-    }
+        baseclip = (sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale)
+            - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
 
     for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
         func((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])), baseclip);
@@ -486,9 +483,6 @@ void R_ProjectSprite(mobj_t *thing)
 
     // thing is behind view plane?
     if (tz < MINZ)
-        return;
-
-    if (type == MT_SHADOW && (flags2 & MF2_FEETARECLIPPED))
         return;
 
     xscale = FixedDiv(projection, tz);
@@ -1011,7 +1005,7 @@ void R_DrawMasked(void)
         {
             vissprite_t     *spr = vissprite_ptrs[i];
 
-            if (spr->type == MT_SHADOW)
+            if (spr->type == MT_SHADOW && !(spr->mobjflags2 & MF2_FEETARECLIPPED))
             {
                 if (spr->x2 < cx)
                 {

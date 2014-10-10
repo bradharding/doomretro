@@ -59,6 +59,7 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
             fixed_t     oldx = thing->x;
             fixed_t     oldy = thing->y;
             fixed_t     oldz = thing->z;
+            player_t    *player = thing->player;
 
             if (P_TeleportMove(thing, m->x, m->y, m->z, false)) // killough 8/9/98
             {
@@ -67,8 +68,8 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                 thing->z = thing->floorz;
 
-                if (thing->player)
-                    thing->player->viewz = thing->z + thing->player->viewheight;
+                if (player)
+                    player->viewz = thing->z + player->viewheight;
 
                 // spawn teleport fog at source and destination
                 fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
@@ -82,7 +83,7 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                 // emit sound, where?
                 S_StartSound(fog, sfx_telept);
 
-                if (thing->player)
+                if (player)
                 {
                     int i;
 
