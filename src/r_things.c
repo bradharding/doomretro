@@ -488,6 +488,9 @@ void R_ProjectSprite(mobj_t *thing)
     if (tz < MINZ)
         return;
 
+    if (type == MT_SHADOW && (flags2 & MF2_FEETARECLIPPED))
+        return;
+
     xscale = FixedDiv(projection, tz);
 
     gxt = -FixedMul(tr_x, viewsin);
@@ -524,7 +527,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = fz + (type == MT_SHADOW ? 2 : spritetopoffset[lump]);
+    gzt = fz + (type == MT_SHADOW ? 0 : spritetopoffset[lump]);
 
     if (fz > viewz + FixedDiv(centeryfrac, xscale)
         || gzt < viewz - FixedDiv(centeryfrac - viewheight, xscale))
@@ -544,8 +547,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->blood = thing->blood;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && type != MT_SHADOW
-        && fz <= thing->subsector->sector->floorheight)
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= thing->subsector->sector->floorheight)
         vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
     else
         vis->footclip = 0;
