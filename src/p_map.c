@@ -1798,6 +1798,19 @@ static void P_UpdateBloodSplat(mobj_t *splat)
     }
 }
 
+static void P_UpdateShadow(mobj_t *shadow)
+{
+    sector_t    *sec = shadow->subsector->sector;
+
+    shadow->z = sec->floorheight;
+
+    if (isliquid[sec->floorpic])
+    {
+        P_UnsetThingPosition(shadow);
+        ((thinker_t *)shadow)->function.acv = (actionf_v)(-1);
+    }
+}
+
 //
 // P_ChangeSector
 // jff 3/19/98 added to just check monsters on the periphery
@@ -1835,6 +1848,8 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
                 n->visited = true;                              // mark thing as processed
                 if (mobj->type == MT_BLOODSPLAT)
                     P_UpdateBloodSplat(mobj);
+                else if (mobj->type == MT_SHADOW)
+                    P_UpdateShadow(mobj);
                 else if (!(mobj->flags & MF_NOBLOCKMAP))        // jff 4/7/98 don't do these
                     PIT_ChangeSector(mobj);                     // process it
                 break;                                          // exit and start over
