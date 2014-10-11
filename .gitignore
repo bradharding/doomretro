@@ -196,3 +196,5 @@ $RECYCLE.BIN/
 SDL/
 SDL2/
 savegames/
+*.lib
+*.exp
