@@ -379,7 +379,7 @@ void D_PageTicker(void)
     {
         if (--pagetic < 0)
             D_AdvanceTitle();
-        if (!TITLEPIC)
+        if (!TITLEPIC && !splashscreen)
             M_StartControlPanel();
     }
 }
@@ -1075,10 +1075,8 @@ static void D_DoomMainSetup(void)
     }
 
     if (!iwadfile && !modifiedgame)
-    {
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
-            "specifying one with the '-iwad' command line parameter.\n");
-    }
+            "specifying one with the '-iwad' command line parameter.");
 
     if (!W_MergeFile(PACKAGE_WAD))
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
