@@ -220,7 +220,7 @@ void HU_Start(void)
         godhudfunc = V_DrawYellowHUDPatch;
     }
 
-    healthpatch = W_CacheLumpNum(W_GetNumForName(bfgedition ? "MEDBA0" : "MEDIA0"), PU_CACHE);
+    healthpatch = W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE);
     berserkpatch = W_CacheLumpNum(W_GetNumForName(gamemode != shareware ? "PSTRA0" : "MEDIA0"), PU_CACHE);
     greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
     bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
