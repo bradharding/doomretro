@@ -989,10 +989,8 @@ static void D_DoomMainSetup(void)
     }
     else if (!p)
     {
-#ifdef WIN32
         if (!runcount)
             D_FirstUse();
-#endif
         do
         {
             choseniwad = D_ChooseIWAD();
