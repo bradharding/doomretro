@@ -199,7 +199,11 @@
 
 #define TRANSLUCENCY_DEFAULT            true
 
+#ifdef WIN32
 #define VIDEODRIVER_DEFAULT             "directx"
+#else
+#define VIDEODRIVER_DEFAULT             ""
+#endif
 
 #define WIDESCREEN_DEFAULT              false
 
