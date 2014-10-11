@@ -1334,13 +1334,11 @@ void I_InitGraphics(void)
 
     I_InitGammaTables();
 
-#ifdef SDL20
     if (videodriver != NULL && strlen(videodriver) > 0)
     {
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
         putenv(envstring);
     }
-#endif
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
     {
