@@ -31,6 +31,7 @@
 
 #include "doomstat.h"
 #include "g_game.h"
+#include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "s_sound.h"
@@ -231,7 +232,8 @@ static boolean P_IsOnLift(const mobj_t *actor)
     int                 l;
 
     // Short-circuit: it's on a lift which is active.
-    if (sec->specialdata && ((thinker_t *)sec->specialdata)->function.acp1 == T_PlatRaise)
+    if (sec->specialdata
+        && ((thinker_t *)sec->specialdata)->function.acp1 == (actionf_p1)T_PlatRaise)
         return true;
 
     // Check to see if it's in a sector which can be activated as a lift.
@@ -280,7 +282,8 @@ static int P_IsUnderDamage(mobj_t *actor)
     int                         dir = 0;
 
     for (seclist = actor->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-        if ((cl = seclist->m_sector->specialdata) && cl->thinker.function.acp1 == T_MoveCeiling)
+        if ((cl = seclist->m_sector->specialdata)
+            && cl->thinker.function.acp1 == (actionf_p1)T_MoveCeiling)
             dir |= cl->direction;
 
     return dir;
@@ -652,7 +655,7 @@ void A_KeenDie(mobj_t *mo)
     // to see if all Keens are dead
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
     {
-        if (th->function.acp1 != P_MobjThinker)
+        if (th->function.acp1 != (actionf_p1)P_MobjThinker)
             continue;
 
         mo2 = (mobj_t *)th;
@@ -1232,10 +1235,10 @@ void A_VileChase(mobj_t *actor)
 
                     players[0].killcount--;
 
-                    sprintf(message, "%s resurrected %s.\n", actor->info->description,
+                    M_snprintf(message, 128, "%s resurrected %s.\n", actor->info->description,
                         corpsehit->info->description);
                     message[0] = toupper(message[0]);
-                    printf(message);
+                    printf("%s", message);
 
                     return;
                 }

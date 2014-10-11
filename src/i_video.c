@@ -44,6 +44,10 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#ifndef _MSC_VER
+#define __forceinline __attribute__((always_inline))
+#endif
+
 // Window position:
 char                    *windowposition = WINDOWPOSITION_DEFAULT;
 

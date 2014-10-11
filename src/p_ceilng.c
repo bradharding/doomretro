@@ -171,7 +171,7 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
         ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
         P_AddThinker(&ceiling->thinker);
         sec->specialdata = ceiling;
-        ceiling->thinker.function.acp1 = T_MoveCeiling;
+        ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
         ceiling->sector = sec;
         ceiling->crush = false;
 

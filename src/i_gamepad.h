@@ -82,7 +82,6 @@ extern int      gamepadthumbLX;
 extern int      gamepadthumbLY;
 extern int      gamepadthumbRX;
 extern boolean  vibrate;
-extern int      gamepadvibrate;
 extern int      currentmotorspeed;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;

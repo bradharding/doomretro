@@ -36,6 +36,7 @@
 #include "dstrings.h"
 #include "i_gamepad.h"
 #include "m_config.h"
+#include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_inter.h"
@@ -806,20 +807,20 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
         if (source->player)
         {
-            sprintf(message, "You %s %s with your %s.\n",
+            M_snprintf(message, 128, "You %s %s with your %s.\n",
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 (target->player ? "yourself" : target->info->description),
                 weapondescription[source->player->readyweapon]);
         }
         else if (target->player || players[consoleplayer].health > 0)
         {
-            sprintf(message, "%s %s %s.%s\n", source->info->description,
+            M_snprintf(message, 128, "%s %s %s.%s\n", source->info->description,
                 (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
                 target->info->description, (target->player ? "\n" : ""));
             message[0] = toupper(message[0]);
         }
 
-        printf(message);
+        printf("%s", message);
     }
 
     // Drop stuff.

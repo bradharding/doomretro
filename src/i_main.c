@@ -258,9 +258,9 @@ static void I_SetAffinityMask(void)
 
 int main(int argc, char **argv)
 {
+#ifdef WIN32
     HANDLE hProcess = GetCurrentProcess();
 
-#ifdef WIN32
     hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
 
     if (GetLastError() == ERROR_ALREADY_EXISTS)
@@ -287,9 +287,11 @@ int main(int argc, char **argv)
 #ifdef WIN32
     if (!M_CheckParm("-nopriority"))
         I_SetProcessPriority(hProcess);
-#endif
 
     I_SetAffinityMask(hProcess);
+#else
+    I_SetAffinityMask();
+#endif
 
     D_DoomMain();
 

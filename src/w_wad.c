@@ -225,33 +225,35 @@ void IdentifyIWADByContents(const char *iwadname, GameMode_t *gmode, GameMission
         I_Error("Can't open IWAD: %s\n", iwadname);
 
     // read IWAD header
-    fread(&header, 1, sizeof(header), fp);
-
-    fseek(fp, LONG(header.infotableofs), SEEK_SET);
-
-    // Determine game mode from levels present
-    // Must be a full set for whichever mode is present
-    for (ud = rg = sw = cm = sc = tnt = plut = 0, header.numlumps = LONG(header.numlumps);
-         header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+    if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
-        *n == 'E' && n[2] == 'M' && !n[4] ?
-            n[1] == '4' ? ++ud : n[1] != '1' ? rg += n[1] == '3' || n[1] == '2' : ++sw :
-            *n == 'M' && n[1] == 'A' && n[2] == 'P' && !n[5] ?
-            ++cm, sc += n[3] == '3' && (n[4] == '1' || n[4] == '2') :
-            *n == 'C' && n[1] == 'A' && n[2] == 'V' && !n[7] ? ++tnt :
-            *n == 'M' && n[1] == 'C' && !n[3] && ++plut;
+
+        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+        // Determine game mode from levels present
+        // Must be a full set for whichever mode is present
+        for (ud = rg = sw = cm = sc = tnt = plut = 0, header.numlumps = LONG(header.numlumps);
+            header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        {
+            *n == 'E' && n[2] == 'M' && !n[4] ?
+                n[1] == '4' ? ++ud : n[1] != '1' ? rg += n[1] == '3' || n[1] == '2' : ++sw :
+                *n == 'M' && n[1] == 'A' && n[2] == 'P' && !n[5] ?
+                ++cm, sc += n[3] == '3' && (n[4] == '1' || n[4] == '2') :
+                *n == 'C' && n[1] == 'A' && n[2] == 'V' && !n[7] ? ++tnt :
+                *n == 'M' && n[1] == 'C' && !n[3] && ++plut;
+        }
+
+        *gmission = doom;
+        *gmode = (cm >= 30 ? (*gmission = tnt >= 4 ? pack_tnt :
+            plut >= 8 ? pack_plut : doom2,
+            commercial) :
+            ud >= 9 ? retail :
+            rg >= 18 ? registered :
+            sw >= 9 ? shareware :
+            indetermined);
     }
 
     fclose(fp);
-
-    *gmission = doom;
-    *gmode = (cm >= 30 ? (*gmission = tnt >= 4 ? pack_tnt :
-        plut >= 8 ? pack_plut : doom2,
-        commercial) :
-        ud >= 9 ? retail :
-        rg >= 18 ? registered :
-        sw >= 9 ? shareware :
-        indetermined);
 }
 
 boolean IsFreedoom(const char *iwadname)
@@ -266,20 +268,21 @@ boolean IsFreedoom(const char *iwadname)
         I_Error("Can't open IWAD: %s\n", iwadname);
 
     // read IWAD header
-    fread(&header, 1, sizeof(header), fp);
-
-    fseek(fp, LONG(header.infotableofs), SEEK_SET);
-
-    // Determine game mode from levels present
-    // Must be a full set for whichever mode is present
-    for (header.numlumps = LONG(header.numlumps);
-         header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+    if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
     {
-        if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' &&
-            n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
+        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+        // Determine game mode from levels present
+        // Must be a full set for whichever mode is present
+        for (header.numlumps = LONG(header.numlumps);
+            header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
         {
-            result = true;
-            break;
+            if (*n == 'F' && n[1] == 'R' && n[2] == 'E' && n[3] == 'E' &&
+                n[4] == 'D' && n[5] == 'O' && n[6] == 'O' && n[7] == 'M')
+            {
+                result = true;
+                break;
+            }
         }
     }
 

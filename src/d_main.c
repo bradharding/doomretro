@@ -37,6 +37,10 @@
 #include <MMSystem.h>
 #endif
 
+#ifndef MAX_PATH
+#define MAX_PATH        4096
+#endif
+
 #include "am_map.h"
 #include "d_deh.h"
 #include "d_iwad.h"

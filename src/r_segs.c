@@ -28,6 +28,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "doomstat.h"
 #include "m_config.h"

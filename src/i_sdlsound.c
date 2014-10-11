@@ -109,7 +109,7 @@ static void ExpandSoundData_SDL(byte *data, int samplerate,
     // Double up twice: 8 -> 16 bit and mono -> stereo
     expanded_length *= 4;
     destination->alen = expanded_length;
-    destination->abuf = Z_Malloc(expanded_length, PU_STATIC, &destination->abuf);
+    destination->abuf = Z_Malloc(expanded_length, PU_STATIC, (void **)&destination->abuf);
 
     // If we can, use the standard / optimized SDL conversion routines.
     if (samplerate <= mixer_freq

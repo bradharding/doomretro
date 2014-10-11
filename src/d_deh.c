@@ -1697,7 +1697,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
                 states[indexnum].action = deh_bexptrs[i].cptr;  // assign
                 if (fpout)
                     fprintf(fpout, " - applied %p from codeptr[%d] to states[%d]\n",
-                        deh_bexptrs[i].cptr, i, indexnum);
+                        (void *)deh_bexptrs[i].cptr.acp1, i, indexnum);
                 found = true;
             }
         } while (!found && (deh_bexptrs[i].lookup != NULL));
@@ -1955,7 +1955,7 @@ void deh_procPointer(DEHFILE *fpin, FILE* fpout, char *line)
             states[indexnum].action = deh_codeptr[value];
             if (fpout)
                 fprintf(fpout, " - applied %p from codeptr[%ld] to states[%d]\n",
-                    deh_codeptr[value], value, indexnum);
+                    (void *)deh_codeptr[value].acp1, value, indexnum);
             // Write BEX-oriented line to match:
             for (i = 0; i < NUMSTATES; i++)
             {
@@ -1970,7 +1970,7 @@ void deh_procPointer(DEHFILE *fpin, FILE* fpout, char *line)
         }
         else if (fpout)
             fprintf(fpout, "Invalid frame pointer index for '%s' at %ld, xref %p\n",
-                key, value, deh_codeptr[value]);
+                key, value, (void *)deh_codeptr[value].acp1);
     }
     return;
 }
