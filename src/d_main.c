@@ -1026,7 +1026,8 @@ static void D_DoomMainSetup(void)
                 {
 
                     // try the current folder first
-                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        strdup(M_ExtractFolder(file)),
                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
                     if (D_AddFile(fullpath))
@@ -1041,8 +1042,8 @@ static void D_DoomMainSetup(void)
                     else
                     {
                         // otherwise try the iwadfolder setting in doomretro.cfg
-                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
-                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                            iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                         IdentifyIWADByName(fullpath);
                         if (D_AddFile(fullpath))
                         {
@@ -1055,7 +1056,8 @@ static void D_DoomMainSetup(void)
                         else
                         {
                             // still nothing? try the DOOMWADDIR environment variable
-                            M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", getenv("DOOMWADDIR"),
+                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                                getenv("DOOMWADDIR"),
                                 (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                             IdentifyIWADByName(fullpath);
                             if (D_AddFile(fullpath))
