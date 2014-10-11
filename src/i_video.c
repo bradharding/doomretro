@@ -775,7 +775,7 @@ void I_FinishUpdate(void)
     SDL_UpdateTexture(sdl_texture, NULL, screen->pixels, screen->pitch);
     SDL_RenderClear(sdl_renderer);
     SDL_RenderCopy(sdl_renderer, sdl_texture, NULL, NULL);
-    SDL_RenderPresent(sdl_renderer); 
+    SDL_RenderPresent(sdl_renderer);
 #else
     SDL_FillRect(screen, NULL, 0);
     SDL_BlitSurface(screenbuffer, NULL, screen, &dest_rect);
@@ -966,7 +966,7 @@ static void SetVideoMode(void)
     SDL_RenderSetLogicalSize(sdl_renderer, screenbuffer->w, screenbuffer->h);
     SDL_SetRenderDrawColor(sdl_renderer, 0, 0, 0, 255);
     SDL_RenderClear(sdl_renderer);
-    SDL_RenderPresent(sdl_renderer); 
+    SDL_RenderPresent(sdl_renderer);
 #else
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 #endif
@@ -1334,7 +1334,7 @@ void I_InitGraphics(void)
 
     I_InitGammaTables();
 
-#ifdef SDL12
+#ifdef SDL20
     if (videodriver != NULL && strlen(videodriver) > 0)
     {
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
