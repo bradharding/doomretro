@@ -27,9 +27,6 @@
 #========================================================================
 #
 
-
-SHELL = /bin/bash
-
 CFLAGS = -m32 -O2 -g `sdl-config --cflags ` $(INCLUDES)
 LDFLAGS = -g `sdl-config --libs` -lSDL_mixer
 
@@ -38,7 +35,7 @@ SRCS := $(shell find . -name '*.c')
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 
 doomretro : $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@
+    $(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@

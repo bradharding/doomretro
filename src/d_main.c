@@ -379,7 +379,7 @@ void D_PageTicker(void)
     {
         if (--pagetic < 0)
             D_AdvanceTitle();
-        if (!TITLEPIC)
+        if (!TITLEPIC && !splashscreen)
             M_StartControlPanel();
     }
 }
@@ -515,24 +515,6 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
-static void D_FirstUse(void)
-{
-#ifdef WIN32
-    LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
-                  L"Please note that, as with all DOOM source ports, no actual map data is "
-                  L"distributed with " PACKAGE_NAME_W L".\n\n"
-                  L"In the dialog box that follows, please navigate to where an official "
-                  L"release of DOOM or DOOM II has been installed and select an \u201cIWAD "
-                  L"file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
-                  L"DOOM2.WAD).\n\n"
-                  L"Additional \u201cPWAD files\u201d may then be selected by clicking or "
-                  L"CTRL-clicking on them.";
-
-    if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
-        I_Quit(false);
-#endif
-}
-
 void ProcessDehFile(char *filename, char *outfilename, int lump);
 
 static void LoadChexDeh(char *path)
@@ -590,9 +572,25 @@ static boolean D_IsUnsupportedPWAD(char *filename)
     return (D_CheckFilename(filename, "VOICES.WAD"));
 }
 
+#ifdef WIN32
+static void D_FirstUse(void)
+{
+    LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
+        L"Please note that, as with all DOOM source ports, no actual map data is "
+        L"distributed with " PACKAGE_NAME_W L".\n\n"
+        L"In the dialog box that follows, please navigate to where an official "
+        L"release of DOOM or DOOM II has been installed and select an \u201cIWAD "
+        L"file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
+        L"DOOM2.WAD).\n\n"
+        L"Additional \u201cPWAD files\u201d may then be selected by clicking or "
+        L"CTRL-clicking on them.";
+
+    if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
+        I_Quit(false);
+}
+
 static int D_ChooseIWAD(void)
 {
-#ifdef WIN32
     OPENFILENAME        ofn;
     char                szFile[4096];
     int                 iwadfound = -1;
@@ -870,9 +868,9 @@ static int D_ChooseIWAD(void)
                                         iwadfound = 1;
                                 }
                             }
+                            if (!iwadfound)
+                                return 0;
                         }
-                        if (!iwadfound)
-                            return 0;
 
                         if (W_MergeFile(fullpath))
                         {
@@ -886,10 +884,8 @@ static int D_ChooseIWAD(void)
         }
     }
     return iwadfound;
-#else
-    return 0;
-#endif
 }
+#endif
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
@@ -933,7 +929,6 @@ static void D_DoomMainSetup(void)
     int         p;
     char        file[256];
     int         temp;
-    int         choseniwad;
 
     version = PACKAGE_VERSIONSTRING;
 
@@ -987,28 +982,26 @@ static void D_DoomMainSetup(void)
             if (runcount < RUNCOUNT_MAX)
                 runcount++;
     }
+#ifdef WIN32
     else if (!p)
     {
+        int     choseniwad;
+
         if (!runcount)
             D_FirstUse();
         do
         {
-            choseniwad = D_ChooseIWAD();
-
-            if (choseniwad == -1)
+            if ((choseniwad = D_ChooseIWAD()) == -1)
                 I_Quit(false);
-
-#ifdef WIN32
             else if (!choseniwad)
                 PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, SND_ALIAS_ID | SND_ASYNC);
-#endif
-
         } while (!choseniwad);
 
         if (runcount < RUNCOUNT_MAX)
             ++runcount;
     }
     M_SaveDefaults();
+#endif
 
     if (p > 0)
     {
@@ -1079,6 +1072,10 @@ static void D_DoomMainSetup(void)
             }
         }
     }
+
+    if (!iwadfile && !modifiedgame)
+        I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
+            "specifying one with the '-iwad' command line parameter.");
 
     if (!W_MergeFile(PACKAGE_WAD))
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
