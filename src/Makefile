@@ -35,7 +35,7 @@ SRCS := $(shell find . -name '*.c')
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 
 doomretro : $(OBJS)
-    $(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
