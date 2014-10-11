@@ -989,7 +989,6 @@ static void D_DoomMainSetup(void)
 
         if (!runcount)
             D_FirstUse();
-
         do
         {
             if ((choseniwad = D_ChooseIWAD()) == -1)
