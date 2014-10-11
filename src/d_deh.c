@@ -2179,6 +2179,19 @@ void deh_procSprite(DEHFILE *fpin, FILE* fpout, char *line) // Not supported
 extern int pars[5][10];
 extern int cpars[33];
 
+#ifndef WIN32
+char *strlwr(char *str)
+{
+    size_t      i;
+    size_t      len = strlen(str);
+
+    for (i = 0; i < len; ++i)
+        str[i] = tolower((unsigned char)str[i]);
+
+    return str;
+}
+#endif
+
 // ====================================================================
 // deh_procPars
 // Purpose: Handle BEX extension for PAR times
@@ -2187,17 +2200,6 @@ extern int cpars[33];
 //          line  -- current line in file to process
 // Returns: void
 //
-char *strlwr(char *str)
-{
-  size_t i;
-  size_t len = strlen(str);
-
-  for(i=0; i<len; i++)
-  str[i]=tolower((unsigned char)str[i]);
-
-  return str;
-}
-
 void deh_procPars(DEHFILE *fpin, FILE* fpout, char *line) // extension
 {
     char        key[DEH_MAXKEYLEN];
