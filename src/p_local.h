@@ -213,9 +213,10 @@ void P_SetThingPosition(mobj_t *thing);
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
 extern boolean          floatok;
-extern boolean          felldown;   // killough 11/98: indicates object pushed off ledge
+extern boolean          felldown;       // killough 11/98: indicates object pushed off ledge
 extern fixed_t          tmfloorz;
 extern fixed_t          tmceilingz;
+extern fixed_t          tmbbox[4];      // phares 3/20/98
 
 extern line_t           *ceilingline;
 extern line_t           *blockline;

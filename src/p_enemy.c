@@ -31,13 +31,13 @@
 
 #include "doomstat.h"
 #include "g_game.h"
+#include "m_bbox.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "s_sound.h"
 
-typedef enum
-{
+typedef enum {
     DI_EAST,
     DI_NORTHEAST,
     DI_NORTH,
@@ -48,31 +48,9 @@ typedef enum
     DI_SOUTHEAST,
     DI_NODIR,
     NUMDIRS
-} dirtype_t;
+} dirtype_e;
 
-//
-// P_NewChaseDir related LUT.
-//
-dirtype_t opposite[] =
-{
-    DI_WEST,
-    DI_SOUTHWEST,
-    DI_SOUTH,
-    DI_SOUTHEAST,
-    DI_EAST,
-    DI_NORTHEAST,
-    DI_NORTH,
-    DI_NORTHWEST,
-    DI_NODIR
-};
-
-dirtype_t diags[] =
-{
-    DI_NORTHWEST,
-    DI_NORTHEAST,
-    DI_SOUTHWEST,
-    DI_SOUTHEAST
-};
+typedef int dirtype_t;
 
 void A_Fall(mobj_t *actor);
 
@@ -85,12 +63,13 @@ void A_Fall(mobj_t *actor);
 //
 
 //
+// P_RecursiveSound
 // Called by P_NoiseAlert.
 // Recursively traverse adjacent sectors,
 // sound blocking lines cut off traversal.
 //
-
-void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
+// killough 5/5/98: reformatted, cleaned up
+static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
 {
     int i;
 
@@ -164,7 +143,7 @@ boolean P_CheckMeleeRange(mobj_t *actor)
 //
 // P_CheckMissileRange
 //
-boolean P_CheckMissileRange(mobj_t *actor)
+static boolean P_CheckMissileRange(mobj_t *actor)
 {
     fixed_t     dist;
 
@@ -229,7 +208,6 @@ static boolean P_IsOnLift(const mobj_t *actor)
 {
     const sector_t      *sec = actor->subsector->sector;
     line_t              line;
-    int                 l;
 
     // Short-circuit: it's on a lift which is active.
     if (sec->specialdata
@@ -238,6 +216,9 @@ static boolean P_IsOnLift(const mobj_t *actor)
 
     // Check to see if it's in a sector which can be activated as a lift.
     if ((line.tag = sec->tag))
+    {
+        int     l;
+
         for (l = -1; (l = P_FindLineFromLineTag(&line, l)) >= 0;)
             switch (lines[l].special)
             {
@@ -262,6 +243,7 @@ static boolean P_IsOnLift(const mobj_t *actor)
                 case SR_LowerFastLiftWait3SecondsRise:
                     return true;
             }
+        }
 
     return false;
 }
@@ -298,10 +280,10 @@ fixed_t         xspeed[8] = { FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000, 0, 
 fixed_t         yspeed[8] = { 0, 47000, FRACUNIT, 47000, 0, -47000, -FRACUNIT, -47000 };
 
 // 1/11/98 killough: Limit removed on special lines crossed
-extern line_t **spechit;
-extern int    numspechit;
+extern line_t   **spechit;
+extern int      numspechit;
 
-boolean P_Move(mobj_t *actor, boolean dropoff)
+static boolean P_Move(mobj_t *actor, boolean dropoff)   // killough 9/12/98
 {
     fixed_t     tryx;
     fixed_t     tryy;
@@ -362,6 +344,7 @@ boolean P_Move(mobj_t *actor, boolean dropoff)
     else
         actor->flags &= ~MF_INFLOAT;
 
+    // killough 11/98: fall more slowly, under gravity, if felldown==true
     if (!(actor->flags & MF_FLOAT) && !felldown)
         actor->z = actor->floorz;
 
@@ -410,7 +393,7 @@ static boolean P_SmartMove(mobj_t *actor)
 // If a door is in the way,
 // an OpenDoor call is made to start it opening.
 //
-boolean P_TryWalk(mobj_t *actor)
+static boolean P_TryWalk(mobj_t *actor)
 {
     if (!P_SmartMove(actor))
         return false;
@@ -419,121 +402,168 @@ boolean P_TryWalk(mobj_t *actor)
     return true;
 }
 
-void P_NewChaseDir(mobj_t *actor)
+//
+// P_DoNewChaseDir
+//
+// killough 9/8/98:
+//
+// Most of P_NewChaseDir(), except for what
+// determines the new direction to take
+//
+static void P_DoNewChaseDir(mobj_t *actor, fixed_t deltax, fixed_t deltay)
 {
-    fixed_t     deltax = actor->target->x - actor->x;
-    fixed_t     deltay = actor->target->y - actor->y;
+    dirtype_t   xdir, ydir, tdir;
+    dirtype_t   olddir = actor->movedir;
+    dirtype_t   turnaround = olddir;
 
-    dirtype_t   d[3];
+    // find reverse direction
+    if (turnaround != DI_NODIR)
+        turnaround ^= 4;
 
-    int         tdir;
-    dirtype_t   olddir = (dirtype_t)actor->movedir;
-
-    dirtype_t   turnaround = opposite[olddir];
-
-    if (deltax > 10 * FRACUNIT)
-        d[1] = DI_EAST;
-    else if (deltax < -10 * FRACUNIT)
-        d[1] = DI_WEST;
-    else
-        d[1] = DI_NODIR;
-
-    if (deltay < -10 * FRACUNIT)
-        d[2] = DI_SOUTH;
-    else if (deltay > 10 * FRACUNIT)
-        d[2] = DI_NORTH;
-    else
-        d[2] = DI_NODIR;
+    xdir = (deltax >  10 * FRACUNIT ? DI_EAST : (deltax < -10 * FRACUNIT ? DI_WEST : DI_NODIR));
+    ydir = (deltay < -10 * FRACUNIT ? DI_SOUTH : (deltay >  10 * FRACUNIT ? DI_NORTH : DI_NODIR));
 
     // try direct route
-    if (d[1] != DI_NODIR && d[2] != DI_NODIR)
-    {
-        actor->movedir = diags[((deltay < 0) << 1) + (deltax > 0)];
-        if (actor->movedir != (int)turnaround && P_TryWalk(actor))
-            return;
-    }
+    if (xdir != DI_NODIR && ydir != DI_NODIR && turnaround !=
+        (actor->movedir = deltay < 0 ? deltax > 0 ? DI_SOUTHEAST : DI_SOUTHWEST :
+        deltax > 0 ? DI_NORTHEAST : DI_NORTHWEST) && P_TryWalk(actor))
+        return;
 
     // try other directions
     if (P_Random() > 200 || ABS(deltay) > ABS(deltax))
     {
-        tdir = d[1];
-        d[1] = d[2];
-        d[2] = (dirtype_t)tdir;
+        tdir = xdir;
+        xdir = ydir;
+        ydir = tdir;
     }
 
-    if (d[1] == turnaround)
-        d[1] = DI_NODIR;
-    if (d[2] == turnaround)
-        d[2] = DI_NODIR;
+    if ((xdir == turnaround ? xdir = DI_NODIR : xdir) != DI_NODIR
+        && (actor->movedir = xdir, P_TryWalk(actor)))
+        return;         // either moved forward or attacked
 
-    if (d[1] != DI_NODIR)
-    {
-        actor->movedir = d[1];
+    if ((ydir == turnaround ? ydir = DI_NODIR : ydir) != DI_NODIR
+        && (actor->movedir = ydir, P_TryWalk(actor)))
+        return;
 
-        if (P_TryWalk(actor))
-            return;             // either moved forward or attacked
-    }
-
-    if (d[2] != DI_NODIR)
-    {
-        actor->movedir = d[2];
-
-        if (P_TryWalk(actor))
-            return;
-    }
-
-    // there is no direct path to the player,
-    // so pick another direction.
-    if (olddir != DI_NODIR)
-    {
-        actor->movedir = olddir;
-
-        if (P_TryWalk(actor))
-            return;
-    }
+    // there is no direct path to the player, so pick another direction.
+    if (olddir != DI_NODIR && (actor->movedir = olddir, P_TryWalk(actor)))
+        return;
 
     // randomly determine direction of search
     if (P_Random() & 1)
     {
         for (tdir = DI_EAST; tdir <= DI_SOUTHEAST; tdir++)
-        {
-            if (tdir != (int)turnaround)
-            {
-                actor->movedir = tdir;
-
-                if (P_TryWalk(actor))
-                    return;
-            }
-        }
+            if (tdir != turnaround && (actor->movedir = tdir, P_TryWalk(actor)))
+                return;
     }
     else
-    {
         for (tdir = DI_SOUTHEAST; tdir != DI_EAST - 1; tdir--)
-        {
-            if (tdir != turnaround)
-            {
-                actor->movedir = tdir;
+            if (tdir != turnaround && (actor->movedir = tdir, P_TryWalk(actor)))
+                return;
 
-                if (P_TryWalk(actor))
-                    return;
-            }
-        }
-    }
+    if ((actor->movedir = turnaround) != DI_NODIR && !P_TryWalk(actor))
+        actor->movedir = DI_NODIR;
+}
 
-    if (turnaround != DI_NODIR)
+//
+// killough 11/98:
+//
+// Monsters try to move away from tall dropoffs.
+//
+// In Doom, they were never allowed to hang over dropoffs,
+// and would remain stuck if involuntarily forced over one.
+// This logic, combined with p_map.c (P_TryMove), allows
+// monsters to free themselves without making them tend to
+// hang over dropoffs.
+//
+static fixed_t  dropoff_deltax;
+static fixed_t  dropoff_deltay;
+static fixed_t  floorz;
+
+static boolean PIT_AvoidDropoff(line_t *line)
+{
+    if (line->backsector                                // Ignore one-sided linedefs
+        && tmbbox[BOXRIGHT]  > line->bbox[BOXLEFT]
+        && tmbbox[BOXLEFT]   < line->bbox[BOXRIGHT]
+        && tmbbox[BOXTOP]    > line->bbox[BOXBOTTOM]    // Linedef must be contacted
+        && tmbbox[BOXBOTTOM] < line->bbox[BOXTOP]
+        && P_BoxOnLineSide(tmbbox, line) == -1)
     {
-        actor->movedir = turnaround;
+        fixed_t front = line->frontsector->floorheight;
+        fixed_t back = line->backsector->floorheight;
+        angle_t angle;
 
-        if (P_TryWalk(actor))
-            return;
+        // The monster must contact one of the two floors,
+        // and the other must be a tall dropoff (more than 24).
+        if (back == floorz && front < floorz - FRACUNIT * 24)
+            angle = R_PointToAngle2(0, 0, line->dx, line->dy);          // front side dropoff
+        else if (front == floorz && back < floorz - FRACUNIT * 24)
+            angle = R_PointToAngle2(line->dx, line->dy, 0, 0);          // back side dropoff
+        else
+            return true;
+
+        // Move away from dropoff at a standard speed.
+        // Multiple contacted linedefs are cumulative (e.g. hanging over corner)
+        dropoff_deltax -= finesine[angle >> ANGLETOFINESHIFT] * 32;
+        dropoff_deltay += finecosine[angle >> ANGLETOFINESHIFT] * 32;
+    }
+    return true;
+}
+
+//
+// Driver for above
+//
+static fixed_t P_AvoidDropoff(mobj_t *actor)
+{
+    int yh = ((tmbbox[BOXTOP] = actor->y + actor->radius) - bmaporgy) >> MAPBLOCKSHIFT;
+    int yl = ((tmbbox[BOXBOTTOM] = actor->y - actor->radius) - bmaporgy) >> MAPBLOCKSHIFT;
+    int xh = ((tmbbox[BOXRIGHT] = actor->x + actor->radius) - bmaporgx) >> MAPBLOCKSHIFT;
+    int xl = ((tmbbox[BOXLEFT] = actor->x - actor->radius) - bmaporgx) >> MAPBLOCKSHIFT;
+    int bx, by;
+
+    floorz = actor->z;                                          // remember floor height
+
+    dropoff_deltax = dropoff_deltay = 0;
+
+    // check lines
+    validcount++;
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
+            P_BlockLinesIterator(bx, by, PIT_AvoidDropoff);     // all contacted lines
+
+    return (dropoff_deltax | dropoff_deltay);                   // Non-zero if movement prescribed
+}
+
+//
+// P_NewChaseDir
+//
+// killough 9/8/98: Split into two functions
+//
+static void P_NewChaseDir(mobj_t *actor)
+{
+    mobj_t      *target = actor->target;
+    fixed_t     deltax = target->x - actor->x;
+    fixed_t     deltay = target->y - actor->y;
+
+    if (actor->floorz - actor->dropoffz > FRACUNIT * 24
+        && actor->z <= actor->floorz
+        && !(actor->flags & (MF_DROPOFF | MF_FLOAT))
+        && P_AvoidDropoff(actor))       // Move away from dropoff
+    {
+        P_DoNewChaseDir(actor, dropoff_deltax, dropoff_deltay);
+
+        // If moving away from dropoff, set movecount to 1 so that
+        // small steps are taken to get monster away from dropoff.
+        actor->movecount = 1;
+        return;
     }
 
-    actor->movedir = DI_NODIR;  // cannot move
+    P_DoNewChaseDir(actor, deltax, deltay);
 }
 
 #define MONS_LOOK_RANGE (32 * 64 * FRACUNIT)
 
-boolean P_LookForMonsters(mobj_t *actor)
+static boolean P_LookForMonsters(mobj_t *actor)
 {
     mobj_t      *mo;
     thinker_t   *think;
@@ -570,7 +600,7 @@ boolean P_LookForMonsters(mobj_t *actor)
 // If allaround is false, only look 180 degrees in front.
 // Returns true if a player is targeted.
 //
-boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
+static boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
 {
     int         c;
     int         stop;
@@ -591,7 +621,13 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
 
         if (c++ == 2 || actor->lastlook == stop)
         {
-            // done looking
+            // Use last known enemy if no players sighted -- killough 2/15/98
+            if (actor->lastenemy && actor->lastenemy->health > 0)
+            {
+                actor->target = actor->lastenemy;
+                actor->lastenemy = NULL;
+                return true;
+            }
             return false;
         }
 
@@ -634,6 +670,7 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
         }
 
         actor->target = player->mo;
+        actor->threshold = 60;
         return true;
     }
 }
@@ -646,25 +683,19 @@ boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
 void A_KeenDie(mobj_t *mo)
 {
     thinker_t   *th;
-    mobj_t      *mo2;
     line_t      junk;
 
     A_Fall(mo);
 
-    // scan the remaining thinkers
-    // to see if all Keens are dead
+    // scan the remaining thinkers to see if all Keens are dead
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-    {
-        if (th->function.acp1 != (actionf_p1)P_MobjThinker)
-            continue;
-
-        mo2 = (mobj_t *)th;
-        if (mo2 != mo && mo2->type == mo->type && mo2->health > 0)
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
         {
-            // other Keen not dead
-            return;
+            mobj_t      *mo2 = (mobj_t *)th;
+
+            if (mo2 != mo && mo2->type == mo->type && mo2->health > 0)
+                return;         // other Keen not dead
         }
-    }
 
     junk.tag = 666;
     EV_DoDoor(&junk, open);
@@ -770,7 +801,7 @@ void A_Chase(mobj_t *actor)
     {
         // look for a new target
         if (!P_LookForPlayers(actor, true))
-            P_SetMobjState(actor, (statenum_t)actor->info->spawnstate);
+            P_SetMobjState(actor, actor->info->spawnstate);
         return;
     }
 
@@ -790,6 +821,10 @@ void A_Chase(mobj_t *actor)
             S_StartSound(actor, actor->info->attacksound);
 
         P_SetMobjState(actor, (statenum_t)actor->info->meleestate);
+
+        // killough 8/98: remember an attack
+        if (!actor->info->missilestate)
+            actor->flags |= MF_JUSTHIT;
         return;
     }
 
@@ -826,9 +861,7 @@ void A_FaceTarget(mobj_t *actor)
         return;
 
     actor->flags &= ~MF_AMBUSH;
-
-    actor->angle = R_PointToAngle2(actor->x, actor->y,
-                                   actor->target->x, actor->target->y);
+    actor->angle = R_PointToAngle2(actor->x, actor->y, actor->target->x, actor->target->y);
 
     if (actor->target->flags & MF_FUZZ)
         actor->angle += (P_Random() - P_Random()) << 21;
@@ -910,12 +943,8 @@ void A_CPosRefire(mobj_t *actor)
     if (P_Random() < 40)
         return;
 
-    if (!actor->target
-        || actor->target->health <= 0
-        || !P_CheckSight(actor, actor->target))
-    {
+    if (!actor->target || actor->target->health <= 0 || !P_CheckSight(actor, actor->target))
         P_SetMobjState(actor, (statenum_t)actor->info->seestate);
-    }
 }
 
 void A_SpidRefire(mobj_t *actor)
@@ -926,12 +955,8 @@ void A_SpidRefire(mobj_t *actor)
     if (P_Random() < 10)
         return;
 
-    if (!actor->target
-        || actor->target->health <= 0
-        || !P_CheckSight(actor, actor->target))
-    {
+    if (!actor->target || actor->target->health <= 0 || !P_CheckSight(actor, actor->target))
         P_SetMobjState(actor, (statenum_t)actor->info->seestate);
-    }
 }
 
 void A_BspiAttack(mobj_t *actor)
@@ -1050,7 +1075,7 @@ void A_SkelMissile(mobj_t *actor)
     mo->tracer = actor->target;
 }
 
-#define TRACEANGLE 0xc000000;
+#define TRACEANGLE      0xc000000;
 
 void A_Tracer(mobj_t *actor)
 {
