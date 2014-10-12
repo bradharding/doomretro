@@ -518,7 +518,6 @@ void R_InitColumnFunctions(void)
 
     colfunc = basecolfunc = R_DrawColumn;
     fuzzcolfunc = R_DrawFuzzColumn;
-    shadowcolfunc = R_DrawShadowColumn;
 
     if (translucency)
     {
@@ -537,6 +536,7 @@ void R_InitColumnFunctions(void)
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
         bloodsplatcolfunc = R_DrawBloodSplatColumn;
         megaspherecolfunc = R_DrawMegaSphereColumn;
+        shadowcolfunc = R_DrawShadowColumn;
     }
     else
     {
@@ -555,6 +555,7 @@ void R_InitColumnFunctions(void)
         tlredtogreen33colfunc = R_DrawColumn;
         bloodsplatcolfunc = R_DrawColumn;
         megaspherecolfunc = R_DrawColumn;
+        shadowcolfunc = R_DrawSolidShadowColumn;
     }
 
     spanfunc = R_DrawSpan;

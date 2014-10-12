@@ -85,6 +85,7 @@ void R_DrawTranslucentRedToGreen33Column(void);
 void R_DrawPlayerSpriteColumn(void);
 void R_DrawSuperShotgunColumn(void);
 void R_DrawShadowColumn(void);
+void R_DrawSolidShadowColumn(void);
 void R_DrawBloodSplatColumn(void);
 void R_DrawMegaSphereColumn(void);
 

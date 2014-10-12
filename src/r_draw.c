@@ -192,6 +192,19 @@ void R_DrawShadowColumn(void)
     *dest = tinttab40[*dest];
 }
 
+void R_DrawSolidShadowColumn(void)
+{
+    int32_t     count = dc_yh - dc_yl + 1;
+    byte        *dest = ylookup[dc_yl] + dc_x + viewwindowx;
+
+    while (--count)
+    {
+        *dest = 0;
+        dest += SCREENWIDTH;
+    }
+    *dest = 0;
+}
+
 void R_DrawBloodSplatColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
