@@ -48,7 +48,6 @@ byte            *screens[5];
 int             pixelwidth = PIXELWIDTH_DEFAULT;
 int             pixelheight = PIXELHEIGHT_DEFAULT;
 
-extern byte     redtoyellow[];
 
 //
 // V_CopyRect
@@ -126,6 +125,38 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
                 *dest = source[srccol >> 16];
                 dest += SCREENWIDTH;
                 srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
+void V_DrawShadowPatch(int x, int y, patch_t *patch)
+{
+    int         col = 0;
+    byte        *desttop;
+    int         w;
+
+    y -= SHORT(patch->topoffset) / 10;
+    x -= SHORT(patch->leftoffset);
+
+    desttop = screens[0] + (((y + 3) * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+
+    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    {
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY / 10) >> 16;
+
+            while (count--)
+            {
+                *dest = tinttab40[*dest];
+                dest += SCREENWIDTH;
             }
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -672,7 +703,40 @@ void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch)
                 srccol += DYI;
             }
 
-            column = (column_t *)((byte *)column+ column->length + 4);
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
+void V_DrawShadowPatchFlipped(int x, int y, patch_t *patch)
+{
+    int         col = 0;
+    byte        *desttop;
+    int         w;
+
+    y -= SHORT(patch->topoffset) / 10;
+    x -= SHORT(patch->leftoffset);
+
+    desttop = screens[0] + (((y + 3) * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+
+    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    {
+        column_t        *column = (column_t *)((byte *)patch
+                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY / 10) >> 16;
+
+            while (count--)
+            {
+                *dest = tinttab40[*dest];
+                dest += SCREENWIDTH;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
         }
     }
 }

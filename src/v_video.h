@@ -36,16 +36,19 @@
 // VIDEO
 //
 
+fixed_t DX, DY, DXI, DYI;
+
 // Screen 0 is the screen updated by I_Update screen.
 // Screen 1 is an extra buffer.
-extern byte *screens[5];
+extern byte     *screens[5];
 
-extern byte *tinttab33;
-extern byte *tinttab50;
-extern byte *tinttab75;
-extern byte *tinttabred;
+extern byte     redtoyellow[];
 
-fixed_t DX, DY, DXI, DYI;
+extern byte     *tinttab33;
+extern byte     *tinttab40;
+extern byte     *tinttab50;
+extern byte     *tinttab75;
+extern byte     *tinttabred;
 
 // Allocates buffer screens, call before R_Init.
 void V_Init(void);
@@ -56,10 +59,12 @@ void V_FillRect(int scrn, int x, int y, int width, int height, byte color);
 
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch);
+void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawScaledPatch(int x, int y, int scrn, int scale, patch_t *patch);
 boolean V_EmptyPatch(patch_t *patch);
 void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag);
 void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch);
+void V_DrawShadowPatchFlipped(int x, int y, patch_t *patch);
 void V_DrawPatchCentered(int y, int scrn, patch_t *patch);
 void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch);

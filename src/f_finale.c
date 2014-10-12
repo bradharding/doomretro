@@ -72,6 +72,8 @@ void WI_checkForAccelerate(void);    // killough 3/28/98: used to
 extern int acceleratestage;          // accelerate intermission screens
 static int midstage;                 // whether we're in "mid-stage"
 
+extern boolean shadows;
+
 //
 // F_StartFinale
 //
@@ -687,6 +689,9 @@ void F_CastDrawer(void)
     {
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
+        if (shadows)
+            V_DrawShadowPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
+
         if (translucency && (castorder[castnum].type == MT_SKULL
                              || (castorder[castnum].type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
@@ -698,6 +703,9 @@ void F_CastDrawer(void)
     else
     {
         patch->leftoffset = spriteoffset[lump] >> FRACBITS;
+
+        if (shadows)
+            V_DrawShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
 
         if (translucency && (castorder[castnum].type == MT_SKULL
                              || (castorder[castnum].type == MT_PAIN && castdeath)))
