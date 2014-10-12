@@ -689,11 +689,14 @@ void F_CastDrawer(void)
     {
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
-        if (shadows)
+        if (shadows
+            && ((castorder[castnum].type != MT_SKULL && castorder[castnum].type != MT_PAIN)
+                || !castdeath))
             V_DrawShadowPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
 
-        if (translucency && (castorder[castnum].type == MT_SKULL
-                             || (castorder[castnum].type == MT_PAIN && castdeath)))
+        if (translucency
+            && (castorder[castnum].type == MT_SKULL
+                || (castorder[castnum].type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
         else if (castorder[castnum].type == MT_SHADOWS)
             V_DrawFuzzPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
@@ -704,11 +707,14 @@ void F_CastDrawer(void)
     {
         patch->leftoffset = spriteoffset[lump] >> FRACBITS;
 
-        if (shadows)
+        if (shadows
+            && ((castorder[castnum].type != MT_SKULL && castorder[castnum].type != MT_PAIN)
+                || !castdeath))
             V_DrawShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
 
-        if (translucency && (castorder[castnum].type == MT_SKULL
-                             || (castorder[castnum].type == MT_PAIN && castdeath)))
+        if (translucency
+            && (castorder[castnum].type == MT_SKULL
+                || (castorder[castnum].type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
         else if (castorder[castnum].type == MT_SHADOWS)
             V_DrawFuzzPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
