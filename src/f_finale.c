@@ -40,6 +40,7 @@
 #include "p_local.h"
 #include "s_sound.h"
 #include "SDL.h"
+#include "v_data.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -239,11 +240,31 @@ void F_Ticker(void)
     }
 }
 
+static struct
+{
+    char        char1;
+    char        char2;
+    int         adjust;
+} kern[] = {
+    { '.', '1',  -1 },
+    { '.', '7',  -1 },
+    { '.', '\"', -1 },
+    { ',', '1',  -1 },
+    { ',', '7',  -1 },
+    { ',', 'Y',  -1 },
+    { 'T', '.',  -1 },
+    { 'T', ',',  -1 },
+    { 'Y', '.',  -1 },
+    { 'Y', ',',  -1 },
+    { 'D', '\'', -1 }
+};
+
 //
 //
 // F_TextWrite
 //
 extern patch_t *hu_font[HU_FONTSIZE];
+void M_DrawSmallChar(int x, int y, int i, boolean shadow);
 
 void F_TextWrite(void)
 {
@@ -255,7 +276,6 @@ void F_TextWrite(void)
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
-    int         ay;
     int         i;
     char        letter;
     char        prev = ' ';
@@ -306,22 +326,39 @@ void F_TextWrite(void)
 
         letter = c;
         c = toupper(c) - HU_FONTSTART;
-        if (c < 0 || c > HU_FONTSIZE)
+        if (c < 0 || c >= HU_FONTSIZE)
         {
             cx += (prev == '.' || prev == '!' || prev == '?' || prev == '\"' ? 5 : 3);
+            prev = letter;
             continue;
         }
-        prev = letter;
 
-        w = SHORT(hu_font[c]->width);
-        if (cx + w > SCREENWIDTH)
-            break;
-        ay = 0;
-        if (letter == '\'' || letter == '\"')
-            ay = -1;
-        else if (letter == ',' || letter == ';')
-            ay = 1;
-        V_DrawPatchWithShadow(cx + 1, cy + ay + 1, 0, hu_font[c], false);
+        if (STCFN034)
+        {
+            w = SHORT(hu_font[c]->width);
+            V_DrawPatchWithShadow(cx + 1, cy + 1, 0, hu_font[c], false);
+        }
+        else
+        {
+            int k = 0;
+
+            if (prev == ' ')
+            {
+                if (letter == '\"')
+                    c = 64;
+                else if (letter == '\'')
+                    c = 65;
+            }
+            while (kern[k].char1)
+            {
+                if (prev == kern[k].char1 && c == kern[k].char2)
+                    cx += kern[k].adjust;
+                k++;
+            }
+            w = strlen(smallcharset[c]) / 10 - 1;
+            M_DrawSmallChar(cx + 1, cy + 1, c, true);
+        }
+        prev = letter;
         cx += w;
     }
 }
