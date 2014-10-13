@@ -1812,15 +1812,7 @@ static void P_UpdateBloodSplat(mobj_t *splat)
 
 static void P_UpdateShadow(mobj_t *shadow)
 {
-    sector_t    *sec = shadow->subsector->sector;
-
-    shadow->z = sec->floorheight;
-
-    if (isliquid[sec->floorpic])
-    {
-        P_UnsetThingPosition(shadow);
-        ((thinker_t *)shadow)->function.acv = (actionf_v)(-1);
-    }
+    shadow->z = shadow->subsector->sector->floorheight;
 }
 
 //
