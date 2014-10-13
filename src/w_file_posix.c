@@ -40,17 +40,17 @@
 
 typedef struct
 {
-    wad_file_t wad;
-    int handle;
+    wad_file_t  wad;
+    int         handle;
 } posix_wad_file_t;
 
 extern wad_file_class_t posix_wad_file;
 
-static void MapFile(posix_wad_file_t *wad, char *filename)
+static void MapFile(posix_wad_file_t *wad)
 {
-    void *result;
-    int protection;
-    int flags;
+    void        *result;
+    int         protection;
+    int         flags;
 
     // Mapped area can be read and written to.  Ideally
     // this should be read-only, as none of the Doom code should 
@@ -78,15 +78,13 @@ unsigned int GetFileLength(int handle)
    
 static wad_file_t *W_POSIX_OpenFile(char *path)
 {
-    posix_wad_file_t *result;
-    int handle;
+    posix_wad_file_t    *result;
+    int                 handle;
 
     handle = open(path, 0);
 
     if (handle < 0)
-    {
         return NULL;
-    }
 
     // Create a new posix_wad_file_t to hold the file handle.
 
@@ -97,59 +95,55 @@ static wad_file_t *W_POSIX_OpenFile(char *path)
 
     // Try to map the file into memory with mmap:
 
-    MapFile(result, path);
+    MapFile(result);
 
     return &result->wad;
 }
 
 static void W_POSIX_CloseFile(wad_file_t *wad)
 {
-    posix_wad_file_t *posix_wad;
+    posix_wad_file_t    *posix_wad;
 
     posix_wad = (posix_wad_file_t *) wad;
 
     // If mapped, unmap it.
 
     // Close the file
-  
     close(posix_wad->handle);
     Z_Free(posix_wad);
 }
 
 // Read data from the specified position in the file into the 
 // provided buffer.  Returns the number of bytes read.
-
-size_t W_POSIX_Read(wad_file_t *wad, unsigned int offset,
-                   void *buffer, size_t buffer_len)
+size_t W_POSIX_Read(wad_file_t *wad, unsigned int offset, void *buffer, size_t buffer_len)
 {
-    posix_wad_file_t *posix_wad;
-    byte *byte_buffer;
-    size_t bytes_read;
-    int result;
+    posix_wad_file_t    *posix_wad;
+    byte                *byte_buffer;
+    size_t              bytes_read;
+    int                 result;
 
     posix_wad = (posix_wad_file_t *) wad;
 
     // Jump to the specified position in the file.
-
     lseek(posix_wad->handle, offset, SEEK_SET);
 
     // Read into the buffer.
-
     bytes_read = 0;
     byte_buffer = buffer;
 
-    while (buffer_len > 0) {
+    while (buffer_len > 0)
+    {
         result = read(posix_wad->handle, byte_buffer, buffer_len);
 
-        if (result < 0) {
+        if (result < 0)
+        {
             perror("W_POSIX_Read");
             break;
-        } else if (result == 0) {
-            break;
         }
+        else if (result == 0)
+            break;
 
         // Successfully read some bytes
-
         byte_buffer += result;
         buffer_len -= result;
         bytes_read += result;
@@ -166,5 +160,4 @@ wad_file_class_t posix_wad_file =
     W_POSIX_Read,
 };
 
-
-#endif /* #ifdef HAVE_MMAP */
+#endif

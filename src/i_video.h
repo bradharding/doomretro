@@ -65,8 +65,8 @@ void I_WaitVBL(int count);
 
 void I_ReadScreen(byte *scr);
 
-void done_win32();
-void M_QuitDOOM();
+void done_win32(void);
+void M_QuitDOOM(int choice);
 void R_SetViewSize(int blocks);
 
 extern boolean  screenvisible;

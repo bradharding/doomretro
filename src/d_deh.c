@@ -1868,7 +1868,7 @@ void deh_procFrame(DEHFILE *fpin, FILE* fpout, char *line)
         {
             if (fpout)
                 fprintf(fpout, " - nextstate = %ld\n", value);
-            states[indexnum].nextstate = (statenum_t)value;
+            states[indexnum].nextstate = value;
         }
         else if (!strcasecmp(key, deh_state[4]))                // Codep frame (not set in Frame deh block)
         {

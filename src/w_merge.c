@@ -142,7 +142,7 @@ static void InitSpriteList(void)
 }
 
 // Find a sprite frame
-static sprite_frame_t *FindSpriteFrame(char *name, int frame)
+static sprite_frame_t *FindSpriteFrame(char *name, char frame)
 {
     sprite_frame_t      *result;
     int                 i;

@@ -91,7 +91,7 @@ void ExtractFileBase(char *path, char *dest)
     memset(dest, 0, 8);
 
     while (*src != '\0' && *src != '.')
-        dest[length++] = toupper((int)*src++);
+        dest[length++] = (char)toupper((int)*src++);
 }
 
 // Hash function used for lump names.

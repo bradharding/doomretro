@@ -510,7 +510,7 @@ void A_FirePistol(player_t *player, pspdef_t *psp)
     P_SetMobjState(player->mo, S_PLAY_ATK2);
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash, (statenum_t)weaponinfo[player->readyweapon].flashstate);
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 
     P_BulletSlope(player->mo);
     P_GunShot(player->mo, !player->refire);
@@ -521,14 +521,14 @@ void A_FirePistol(player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun(player_t *player, pspdef_t *psp)
 {
-    int         i;
+    int i;
 
     S_StartSound(player->mo, sfx_shotgn);
     P_SetMobjState(player->mo, S_PLAY_ATK2);
 
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
-    P_SetPsprite(player, ps_flash, (statenum_t)weaponinfo[player->readyweapon].flashstate);
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 
     P_BulletSlope(player->mo);
 
@@ -543,14 +543,14 @@ void A_FireShotgun(player_t *player, pspdef_t *psp)
 //
 void A_FireShotgun2(player_t *player, pspdef_t *psp)
 {
-    int         i;
+    int i;
 
     S_StartSound(player->mo, sfx_dshtgn);
     P_SetMobjState(player->mo, S_PLAY_ATK2);
 
     player->ammo[weaponinfo[player->readyweapon].ammo] -= 2;
 
-    P_SetPsprite(player, ps_flash, (statenum_t)weaponinfo[player->readyweapon].flashstate);
+    P_SetPsprite(player, ps_flash, weaponinfo[player->readyweapon].flashstate);
 
     P_BulletSlope(player->mo);
 
@@ -609,7 +609,7 @@ void A_Light2(player_t *player, pspdef_t *psp)
 //
 void A_BFGSpray(mobj_t *mo)
 {
-    int         i;
+    int i;
 
     // offset angles from its attack angle
     for (i = 0; i < 40; i++)
@@ -650,7 +650,7 @@ void A_BFGsound(player_t *player, pspdef_t *psp)
 //
 void P_SetupPsprites(player_t *player)
 {
-    int         i;
+    int i;
 
     // remove all psprites
     for (i = 0; i < NUMPSPRITES; i++)

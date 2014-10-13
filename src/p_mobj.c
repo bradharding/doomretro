@@ -454,7 +454,7 @@ void P_NightmareRespawn(mobj_t *mobj)
     P_RemoveMobj(mobj);
 }
 
-static void PlayerLandedOnThing(mobj_t *mo, mobj_t *onmobj)
+static void PlayerLandedOnThing(mobj_t *mo)
 {
     mo->player->deltaviewheight = mo->momz >> 3;
     if (mo->momz < -23 * FRACUNIT)
@@ -505,7 +505,7 @@ void P_MobjThinker(mobj_t *mobj)
                 if (mobj->player)
                 {
                     if (mobj->momz < -GRAVITY * 8)
-                        PlayerLandedOnThing(mobj, onmo);
+                        PlayerLandedOnThing(mobj);
                     if (onmo->z + onmo->height - mobj->z <= 24 * FRACUNIT)
                     {
                         mobj->player->viewheight -= onmo->z + onmo->height - mobj->z;

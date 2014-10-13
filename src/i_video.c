@@ -582,7 +582,7 @@ void I_GetEvent(void)
                         waspaused = true;
                     }
                     S_StartSound(NULL, sfx_swtchn);
-                    M_QuitDOOM();
+                    M_QuitDOOM(0);
                 }
                 break;
 

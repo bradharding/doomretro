@@ -761,7 +761,7 @@ seeyou:
             S_StartSound(actor, sound);
     }
 
-    P_SetMobjState(actor, (statenum_t)actor->info->seestate);
+    P_SetMobjState(actor, actor->info->seestate);
 }
 
 //
@@ -820,7 +820,7 @@ void A_Chase(mobj_t *actor)
         if (actor->info->attacksound)
             S_StartSound(actor, actor->info->attacksound);
 
-        P_SetMobjState(actor, (statenum_t)actor->info->meleestate);
+        P_SetMobjState(actor, actor->info->meleestate);
 
         // killough 8/98: remember an attack
         if (!actor->info->missilestate)
@@ -837,7 +837,7 @@ void A_Chase(mobj_t *actor)
         if (!P_CheckMissileRange(actor))
             goto nomissile;
 
-        P_SetMobjState(actor, (statenum_t)actor->info->missilestate);
+        P_SetMobjState(actor, actor->info->missilestate);
         actor->flags |= MF_JUSTATTACKED;
         return;
     }
@@ -944,7 +944,7 @@ void A_CPosRefire(mobj_t *actor)
         return;
 
     if (!actor->target || actor->target->health <= 0 || !P_CheckSight(actor, actor->target))
-        P_SetMobjState(actor, (statenum_t)actor->info->seestate);
+        P_SetMobjState(actor, actor->info->seestate);
 }
 
 void A_SpidRefire(mobj_t *actor)
@@ -956,7 +956,7 @@ void A_SpidRefire(mobj_t *actor)
         return;
 
     if (!actor->target || actor->target->health <= 0 || !P_CheckSight(actor, actor->target))
-        P_SetMobjState(actor, (statenum_t)actor->info->seestate);
+        P_SetMobjState(actor, actor->info->seestate);
 }
 
 void A_BspiAttack(mobj_t *actor)
@@ -1066,9 +1066,9 @@ void A_SkelMissile(mobj_t *actor)
         return;
 
     A_FaceTarget(actor);
-    actor->z += 16 * FRACUNIT;          // so missile spawns higher
+    actor->z += 14 * FRACUNIT;          // so missile spawns higher
     mo = P_SpawnMissile(actor, actor->target, MT_TRACER);
-    actor->z -= 16 * FRACUNIT;          // back to normal
+    actor->z -= 14 * FRACUNIT;          // back to normal
 
     mo->x += mo->momx;
     mo->y += mo->momy;
@@ -1086,7 +1086,7 @@ void A_Tracer(mobj_t *actor)
     int         speed;
 
     // spawn a puff of smoke behind the rocket
-    P_SpawnSmokeTrail(actor->x, actor->y, actor->z - 2 * FRACUNIT, actor->angle);
+    P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
 
     if ((gametic - levelstarttic) & 3)
         return;
@@ -1212,12 +1212,15 @@ void A_VileChase(mobj_t *actor)
     int xl, xh;
     int yl, yh;
     int bx, by;
+    int movedir = actor->movedir;
 
-    if (actor->movedir != DI_NODIR)
+    if (movedir != DI_NODIR)
     {
+        int     speed = actor->info->speed;
+
         // check for corpses to raise
-        viletryx = actor->x + actor->info->speed * xspeed[actor->movedir];
-        viletryy = actor->y + actor->info->speed * yspeed[actor->movedir];
+        viletryx = actor->x + speed * xspeed[movedir];
+        viletryy = actor->y + speed * yspeed[movedir];
 
         xl = (viletryx - bmaporgx - MAXRADIUS * 2) >> MAPBLOCKSHIFT;
         xh = (viletryx - bmaporgx + MAXRADIUS * 2) >> MAPBLOCKSHIFT;
@@ -1246,7 +1249,7 @@ void A_VileChase(mobj_t *actor)
                     S_StartSound(corpsehit, sfx_slop);
                     info = corpsehit->info;
 
-                    P_SetMobjState(corpsehit, (statenum_t)info->raisestate);
+                    P_SetMobjState(corpsehit, info->raisestate);
 
                     corpsehit->height = info->height;
                     corpsehit->radius = info->radius;
@@ -1303,9 +1306,9 @@ void A_FireCrackle(mobj_t *actor)
 
 void A_Fire(mobj_t *actor)
 {
-    mobj_t      *dest = actor->tracer;
-    mobj_t      *target;
-    unsigned    an;
+    mobj_t              *dest = actor->tracer;
+    mobj_t              *target;
+    unsigned int        an;
 
     if (!dest)
         return;
@@ -1386,7 +1389,7 @@ void A_VileAttack(mobj_t *actor)
 // in three different directions?
 // Doesn't look like it.
 //
-#define FATSPREAD (ANG90 / 8)
+#define FATSPREAD       (ANG90 / 8)
 
 void A_FatRaise(mobj_t *actor)
 {
@@ -1410,13 +1413,10 @@ void A_FatAttack1(mobj_t *actor)
     P_SpawnMissile(actor, target, MT_FATSHOT);
 
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
-    if (mo)
-    {
-        mo->angle += FATSPREAD;
-        an = mo->angle >> ANGLETOFINESHIFT;
-        mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-        mo->momy = FixedMul(mo->info->speed, finesine[an]);
-    }
+    mo->angle += FATSPREAD;
+    an = mo->angle >> ANGLETOFINESHIFT;
+    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
+    mo->momy = FixedMul(mo->info->speed, finesine[an]);
 }
 
 void A_FatAttack2(mobj_t *actor)
@@ -1435,13 +1435,10 @@ void A_FatAttack2(mobj_t *actor)
     P_SpawnMissile(actor, target, MT_FATSHOT);
 
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
-    if (mo)
-    {
-        mo->angle -= FATSPREAD * 2;
-        an = mo->angle >> ANGLETOFINESHIFT;
-        mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-        mo->momy = FixedMul(mo->info->speed, finesine[an]);
-    }
+    mo->angle -= FATSPREAD * 2;
+    an = mo->angle >> ANGLETOFINESHIFT;
+    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
+    mo->momy = FixedMul(mo->info->speed, finesine[an]);
 }
 
 void A_FatAttack3(mobj_t *actor)
@@ -1456,29 +1453,23 @@ void A_FatAttack3(mobj_t *actor)
     A_FaceTarget(actor);
 
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
-    if (mo)
-    {
-        mo->angle -= FATSPREAD / 2;
-        an = mo->angle >> ANGLETOFINESHIFT;
-        mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-        mo->momy = FixedMul(mo->info->speed, finesine[an]);
-    }
+    mo->angle -= FATSPREAD / 2;
+    an = mo->angle >> ANGLETOFINESHIFT;
+    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
+    mo->momy = FixedMul(mo->info->speed, finesine[an]);
 
     mo = P_SpawnMissile(actor, target, MT_FATSHOT);
-    if (mo)
-    {
-        mo->angle += FATSPREAD / 2;
-        an = mo->angle >> ANGLETOFINESHIFT;
-        mo->momx = FixedMul(mo->info->speed, finecosine[an]);
-        mo->momy = FixedMul(mo->info->speed, finesine[an]);
-    }
+    mo->angle += FATSPREAD / 2;
+    an = mo->angle >> ANGLETOFINESHIFT;
+    mo->momx = FixedMul(mo->info->speed, finecosine[an]);
+    mo->momy = FixedMul(mo->info->speed, finesine[an]);
 }
 
 //
 // SkullAttack
 // Fly at the player like a missile.
 //
-#define SKULLSPEED (20 * FRACUNIT)
+#define SKULLSPEED      (20 * FRACUNIT)
 
 void A_SkullAttack(mobj_t *actor)
 {
@@ -1508,18 +1499,12 @@ void A_SkullAttack(mobj_t *actor)
 //
 void A_PainShootSkull(mobj_t *actor, angle_t angle)
 {
-    fixed_t     x, y, z;
     mobj_t      *newmobj;
-    angle_t     an;
-    int         prestep;
-
-    an = angle >> ANGLETOFINESHIFT;
-
-    prestep = 4 * FRACUNIT + 3 * (actor->info->radius + mobjinfo[MT_SKULL].radius) / 2;
-
-    x = actor->x + FixedMul(prestep, finecosine[an]);
-    y = actor->y + FixedMul(prestep, finesine[an]);
-    z = actor->z + 8 * FRACUNIT;
+    angle_t     an = angle >> ANGLETOFINESHIFT;
+    int         prestep = 4 * FRACUNIT + 3 * (actor->info->radius + mobjinfo[MT_SKULL].radius) / 2;
+    fixed_t     x = actor->x + FixedMul(prestep, finecosine[an]);
+    fixed_t     y = actor->y + FixedMul(prestep, finesine[an]);
+    fixed_t     z = actor->z + 8 * FRACUNIT;
 
     if (P_CheckLineSide(actor, x, y))
         return;
@@ -1553,10 +1538,12 @@ void A_PainAttack(mobj_t *actor)
 
 void A_PainDie(mobj_t *actor)
 {
+    angle_t     angle = actor->angle;
+
     A_Fall(actor);
-    A_PainShootSkull(actor, actor->angle + ANG90);
-    A_PainShootSkull(actor, actor->angle + ANG180);
-    A_PainShootSkull(actor, actor->angle + ANG270);
+    A_PainShootSkull(actor, angle + ANG90);
+    A_PainShootSkull(actor, angle + ANG180);
+    A_PainShootSkull(actor, angle + ANG270);
 }
 
 void A_Scream(mobj_t *actor)
@@ -1626,7 +1613,6 @@ boolean flag667 = false;
 void A_BossDeath(mobj_t *mo)
 {
     thinker_t   *th;
-    mobj_t      *mo2;
     line_t      junk;
     int         i;
 
@@ -1703,14 +1689,13 @@ void A_BossDeath(mobj_t *mo)
     // scan the remaining thinkers to see
     // if all bosses are dead
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-    {
-        if (th->function.acp1 != (actionf_p1)P_MobjThinker)
-            continue;
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        {
+            mobj_t      *mo2 = (mobj_t *)th;
 
-        mo2 = (mobj_t *)th;
-        if (mo2 != mo && mo2->type == mo->type && mo2->health > 0)
-            return;     // other boss not dead
-    }
+            if (mo2 != mo && mo2->type == mo->type && mo2->health > 0)
+                return;     // other boss not dead
+        }
 
     // victory!
     if (gamemode == commercial)
@@ -1857,29 +1842,26 @@ static mobj_t *A_NextBrainTarget(void)
 {
     unsigned int        count = 0;
     thinker_t           *thinker;
-    mobj_t              *mo;
     mobj_t              *found = NULL;
 
     // find all the target spots
     for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
-    {
-        if (thinker->function.acp1 != (actionf_p1)P_MobjThinker)
-            continue;   // not a mobj
-
-        mo = (mobj_t *)thinker;
-
-        if (mo->type == MT_BOSSTARGET)
+        if (thinker->function.acp1 == (actionf_p1)P_MobjThinker)
         {
-            if (count == braintargeted) // This one the one that we want?
+            mobj_t      *mo = (mobj_t *)thinker;
+
+            if (mo->type == MT_BOSSTARGET)
             {
-                braintargeted++;        // Yes.
-                return mo;
+                if (count == braintargeted) // This one the one that we want?
+                {
+                    braintargeted++;        // Yes.
+                    return mo;
+                }
+                count++;
+                if (!found)                 // Remember first one in case we wrap.
+                    found = mo;
             }
-            count++;
-            if (found == NULL)          // Remember first one in case we wrap.
-                found = mo;
         }
-    }
 
     braintargeted = 1;                  // Start again.
     return found;
@@ -1978,9 +1960,9 @@ void A_SpawnFly(mobj_t* mo)
             newmobj = P_SpawnMobj(targ->x, targ->y, targ->z, type);
 
             if (!(P_LookForPlayers(newmobj, true))
-                || (P_SetMobjState(newmobj, (statenum_t)newmobj->info->seestate)))
+                || P_SetMobjState(newmobj, newmobj->info->seestate))
                 // telefrag anything in this spot
-                P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true); // killough 8/9/98
+                P_TeleportMove(newmobj, newmobj->x, newmobj->y, newmobj->z, true);
 
             totalkills++;
         }
