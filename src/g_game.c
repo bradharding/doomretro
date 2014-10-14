@@ -308,22 +308,22 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
     if (gamekeydown[key_up] || gamekeydown[key_up2])
         forward += forwardmove[speed];
-    else if (gamepadthumbLY < 0)
+    else if (gamepadthumbLY < 0 && gamepadsensitivity)
         forward += (int)(forwardmove[speed] * gamepadthumbLYup);
 
     if (gamekeydown[key_down] || gamekeydown[key_down2])
         forward -= forwardmove[speed];
-    else if (gamepadthumbLY > 0)
+    else if (gamepadthumbLY > 0 && gamepadsensitivity)
         forward -= (int)(forwardmove[speed] * gamepadthumbLYdown);
 
     if (gamekeydown[key_straferight])
         side += sidemove[speed];
-    else if (gamepadthumbLX > 0)
+    else if (gamepadthumbLX > 0 && gamepadsensitivity)
         side += (int)(sidemove[speed] * gamepadthumbLXright);
 
     if (gamekeydown[key_strafeleft])
         side -= sidemove[speed];
-    else if (gamepadthumbLX < 0)
+    else if (gamepadthumbLX < 0 && gamepadsensitivity)
         side -= (int)(sidemove[speed] * gamepadthumbLXleft);
 
     // buttons
