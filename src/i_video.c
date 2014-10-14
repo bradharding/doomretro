@@ -537,7 +537,7 @@ void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                if (mouseSensitivity || menuactive)
+                if (mousesensitivity || menuactive)
                 {
                     idclev = false;
                     idmus = false;
@@ -556,7 +556,7 @@ void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                if (mouseSensitivity || menuactive)
+                if (mousesensitivity || menuactive)
                 {
                     keydown = 0;
                     ev.type = ev_mouse;
@@ -679,7 +679,7 @@ static void I_ReadMouse(void)
 void I_StartTic(void)
 {
     I_GetEvent();
-    if (mouseSensitivity || menuactive)
+    if (mousesensitivity || menuactive)
     {
         I_ReadMouse();
         gamepadfunc();

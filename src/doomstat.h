@@ -225,8 +225,9 @@ extern boolean          precache;
 //  to force a wipe on the next draw
 extern gamestate_t      wipegamestate;
 
-extern int              mouseSensitivity;
-extern float            gamepadSensitivity;
+extern int              mousesensitivity;
+extern int              gamepadsensitivity;
+extern float            gamepadsensitivityf;
 
 // Needed to store the number of the dummy sky flat.
 // Used for rendering,

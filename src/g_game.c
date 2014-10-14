@@ -298,12 +298,12 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         if (gamekeydown[key_right])
             cmd->angleturn -= angleturn[tspeed];
         else if (gamepadthumbRX > 0)
-            cmd->angleturn -= (int)(gamepadangleturn[speed] * gamepadthumbRXright * gamepadSensitivity);
+            cmd->angleturn -= (int)(gamepadangleturn[speed] * gamepadthumbRXright * gamepadsensitivityf);
 
         if (gamekeydown[key_left])
             cmd->angleturn += angleturn[tspeed];
         else if (gamepadthumbRX < 0)
-            cmd->angleturn += (int)(gamepadangleturn[speed] * gamepadthumbRXleft * gamepadSensitivity);
+            cmd->angleturn += (int)(gamepadangleturn[speed] * gamepadthumbRXleft * gamepadsensitivityf);
     }
 
     if (gamekeydown[key_up] || gamekeydown[key_up2])
@@ -755,8 +755,8 @@ boolean G_Responder(event_t *ev)
             }
             if (!automapactive || (automapactive && followplayer))
             {
-                mousex = ev->data2 * mouseSensitivity / 10;
-                mousey = ev->data3 * mouseSensitivity / 10;
+                mousex = ev->data2 * mousesensitivity / 10;
+                mousey = ev->data3 * mousesensitivity / 10;
             }
             return true;            // eat events
 

@@ -56,6 +56,7 @@ extern boolean  gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
+extern int      gamepadsensitivity;
 extern int      gamepadspeed;
 extern int      gamepaduse;
 extern boolean  gamepadvibrate;
@@ -88,7 +89,7 @@ extern int      key_up2;
 extern int      key_use;
 extern boolean  messages;
 extern boolean  mirrorweapons;
-extern int      mouseSensitivity;
+extern int      mousesensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
 extern int      mousebfire;
@@ -201,6 +202,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (gamepad_menu,        gamepadmenu,          2),
     CONFIG_VARIABLE_INT   (gamepad_nextweapon,  gamepadnextweapon,    2),
     CONFIG_VARIABLE_INT   (gamepad_prevweapon,  gamepadprevweapon,    2),
+    CONFIG_VARIABLE_INT   (gamepad_sensitivity, gamepadsensitivity,   0),
     CONFIG_VARIABLE_INT   (gamepad_speed,       gamepadspeed,         2),
     CONFIG_VARIABLE_INT   (gamepad_use,         gamepaduse,           2),
     CONFIG_VARIABLE_INT   (gamepad_vibrate,     gamepadvibrate,       1),
@@ -236,7 +238,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_FLOAT (mouse_acceleration,  mouse_acceleration,   0),
     CONFIG_VARIABLE_INT   (mouse_fire,          mousebfire,           4),
     CONFIG_VARIABLE_INT   (mouse_forward,       mousebforward,        4),
-    CONFIG_VARIABLE_INT   (mouse_sensitivity,   mouseSensitivity,     0),
+    CONFIG_VARIABLE_INT   (mouse_sensitivity,   mousesensitivity,     0),
     CONFIG_VARIABLE_INT   (mouse_strafe,        mousebstrafe,         4),
     CONFIG_VARIABLE_INT   (mouse_threshold,     mouse_threshold,      0),
     CONFIG_VARIABLE_INT   (mouse_use,           mousebuse,            4),
@@ -747,6 +749,13 @@ static void M_CheckDefaults(void)
     if (gamepadprevweapon < 0 || gamepadprevweapon > GAMEPAD_Y || (gamepadprevweapon & (gamepadprevweapon - 1)))
         gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 
+    if (gamepadsensitivity & 1)
+        ++gamepadsensitivity;
+    if (gamepadsensitivity < GAMEPADSENSITIVITY_MIN || gamepadsensitivity > GAMEPADSENSITIVITY_MAX)
+        gamepadsensitivity = GAMEPADSENSITIVITY_DEFAULT;
+    gamepadsensitivityf = (!gamepadsensitivity ? 0.0f :
+        GAMEPADSENSITIVITY_OFFSET + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX);
+
     if (gamepadspeed < 0 || gamepadspeed > GAMEPAD_Y || (gamepadspeed & (gamepadspeed - 1)))
         gamepadspeed = GAMEPADSPEED_DEFAULT;
 
@@ -856,12 +865,10 @@ static void M_CheckDefaults(void)
     if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS)
         mousebforward = MOUSEFORWARD_DEFAULT;
 
-    if (mouseSensitivity & 2)
-        ++mouseSensitivity;
-    if (mouseSensitivity < MOUSESENSITIVITY_MIN || mouseSensitivity > MOUSESENSITIVITY_MAX)
-        mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-    gamepadSensitivity = (!mouseSensitivity ? 0.0f :
-        mouseSensitivity / (float)MOUSESENSITIVITY_MAX + GAMEPAD_SENSITIVITY_OFFSET);
+    if (mousesensitivity & 1)
+        ++mousesensitivity;
+    if (mousesensitivity < MOUSESENSITIVITY_MIN || mousesensitivity > MOUSESENSITIVITY_MAX)
+        mousesensitivity = MOUSESENSITIVITY_DEFAULT;
 
     if (mousebstrafe < -1 || mousebstrafe > MAX_MOUSE_BUTTONS)
         mousebstrafe = MOUSESTRAFE_DEFAULT;

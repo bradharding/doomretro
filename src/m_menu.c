@@ -67,11 +67,13 @@ extern boolean  splashscreen;
 
 extern boolean  skipaction;
 
+#define SENSITIVITYSLIDER_WIDTH 64
 //
 // defaulted values
 //
-int             mouseSensitivity = MOUSESENSITIVITY_DEFAULT;
-float           gamepadSensitivity;
+int             mousesensitivity = MOUSESENSITIVITY_DEFAULT;
+int             gamepadsensitivity = GAMEPADSENSITIVITY_DEFAULT;
+float           gamepadsensitivityf;
 
 // Show messages has default, false = off, true = on
 boolean         messages = MESSAGES_DEFAULT;
@@ -1616,8 +1618,12 @@ void M_DrawOptions(void)
         (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL)) + !hud),
         (fullscreen ? 7.2f : 8.0f));
 
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
-        mouseSensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
+    if (usinggamepad)
+        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
+            gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * 8.0f, 8.0f);
+    else
+        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
+            mousesensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
 }
 
 void M_Options(int choice)
@@ -1788,28 +1794,53 @@ void M_SliderSound(void)
 
 void M_ChangeSensitivity(int choice)
 {
-    switch (choice)
+    if (usinggamepad)
     {
-        case 0:
-            if (mouseSensitivity > MOUSESENSITIVITY_MIN)
-            {
-                mouseSensitivity -= 2;
-                gamepadSensitivity = (!mouseSensitivity ? 0.0f : 
-                    mouseSensitivity / (float)MOUSESENSITIVITY_MAX + GAMEPAD_SENSITIVITY_OFFSET);
-                M_SliderSound();
-                M_SaveDefaults();
-            }
-            break;
-        case 1:
-            if (mouseSensitivity < MOUSESENSITIVITY_MAX)
-            {
-                mouseSensitivity += 2;
-                gamepadSensitivity =
-                    mouseSensitivity / (float)MOUSESENSITIVITY_MAX + GAMEPAD_SENSITIVITY_OFFSET;
-                M_SliderSound();
-                M_SaveDefaults();
-            }
-            break;
+        switch (choice)
+        {
+            case 0:
+                if (gamepadsensitivity > GAMEPADSENSITIVITY_MIN)
+                {
+                    gamepadsensitivity -= 2;
+                    gamepadsensitivityf = (!gamepadsensitivity ? 0.0f : GAMEPADSENSITIVITY_OFFSET
+                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX);
+                    M_SliderSound();
+                    M_SaveDefaults();
+                }
+                break;
+            case 1:
+                if (gamepadsensitivity < MOUSESENSITIVITY_MAX)
+                {
+                    gamepadsensitivity += 2;
+                    gamepadsensitivityf = GAMEPADSENSITIVITY_OFFSET
+                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX;
+                    M_SliderSound();
+                    M_SaveDefaults();
+                }
+                break;
+        }
+    }
+    else
+    {
+        switch (choice)
+        {
+            case 0:
+                if (mousesensitivity > MOUSESENSITIVITY_MIN)
+                {
+                    mousesensitivity -= 2;
+                    M_SliderSound();
+                    M_SaveDefaults();
+                }
+                break;
+            case 1:
+                if (mousesensitivity < MOUSESENSITIVITY_MAX)
+                {
+                    mousesensitivity += 2;
+                    M_SliderSound();
+                    M_SaveDefaults();
+                }
+                break;
+        }
     }
 }
 
