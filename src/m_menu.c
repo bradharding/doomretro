@@ -2129,7 +2129,7 @@ boolean M_Responder(event_t *ev)
             if (gamepadbuttons & GAMEPAD_A)
             {
                 key = (messageToPrint && messageNeedsInput ? 'y' : KEY_ENTER);
-                gamepadwait = I_GetTime() + 8;
+                gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 5);
                 usinggamepad = true;
             }
 
@@ -2178,7 +2178,7 @@ boolean M_Responder(event_t *ev)
                     && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_LEFTARROW;
-                    gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 4);
+                    gamepadwait = I_GetTime() + 6 * !(currentMenu == &OptionsDef && itemOn == 5);
                     usinggamepad = true;
                 }
 
@@ -2188,7 +2188,7 @@ boolean M_Responder(event_t *ev)
                     && !(currentMenu == &OptionsDef && itemOn == 1))
                 {
                     key = KEY_RIGHTARROW;
-                    gamepadwait = I_GetTime() + 8 * !(currentMenu == &OptionsDef && itemOn == 4);
+                    gamepadwait = I_GetTime() + 6 * !(currentMenu == &OptionsDef && itemOn == 5);
                     usinggamepad = true;
                 }
             }
