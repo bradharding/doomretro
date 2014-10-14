@@ -749,8 +749,6 @@ static void M_CheckDefaults(void)
     if (gamepadprevweapon < 0 || gamepadprevweapon > GAMEPAD_Y || (gamepadprevweapon & (gamepadprevweapon - 1)))
         gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 
-    if (gamepadsensitivity & 1)
-        ++gamepadsensitivity;
     if (gamepadsensitivity < GAMEPADSENSITIVITY_MIN || gamepadsensitivity > GAMEPADSENSITIVITY_MAX)
         gamepadsensitivity = GAMEPADSENSITIVITY_DEFAULT;
     gamepadsensitivityf = (!gamepadsensitivity ? 0.0f :
@@ -865,8 +863,6 @@ static void M_CheckDefaults(void)
     if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS)
         mousebforward = MOUSEFORWARD_DEFAULT;
 
-    if (mousesensitivity & 1)
-        ++mousesensitivity;
     if (mousesensitivity < MOUSESENSITIVITY_MIN || mousesensitivity > MOUSESENSITIVITY_MAX)
         mousesensitivity = MOUSESENSITIVITY_DEFAULT;
 
