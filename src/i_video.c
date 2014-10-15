@@ -986,7 +986,7 @@ static void SetVideoMode(void)
 
 void ToggleWideScreen(boolean toggle)
 {
-    if ((double)screen->w / screen->h < 1.6)
+    if ((double)screen->w / screen->h < (double)16 / 10)
     {
         widescreen = returntowidescreen = false;
         return;
@@ -1005,7 +1005,6 @@ void ToggleWideScreen(boolean toggle)
             R_SetViewSize(screensize);
         }
 
-        width = screen->w;
         height = screen->h + (int)((double)screen->h * 32 / (ORIGINALHEIGHT - 32) + 1.5);
 
         blitheight = (SCREENHEIGHT - SBARHEIGHT) << FRACBITS;
@@ -1015,11 +1014,12 @@ void ToggleWideScreen(boolean toggle)
         widescreen = false;
 
         height = screen->h;
-        width = height * 4 / 3;
-        width += (width & 1);
 
         blitheight = SCREENHEIGHT << FRACBITS;
     }
+
+    width = height * 4 / 3;
+    width += (width & 1);
 
     returntowidescreen = false;
 #ifdef SDL20
