@@ -1120,6 +1120,7 @@ void M_UpdateSaveGameName(int i)
                     break;
 
                 case doom2:
+                case pack_nerve:
                     if (bfgedition)
                     {
                         for (j = 0; j < 33; j++)
@@ -1138,10 +1139,7 @@ void M_UpdateSaveGameName(int i)
                                 break;
                             }
                     }
-                    break;
-
-                case pack_nerve:
-                    for (j = 0; j < 9 * 4; j++)
+                    for (j = 0; j < 9; j++)
                         if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamesn[j])))
                         {
                             match = true;
