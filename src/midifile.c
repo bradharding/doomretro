@@ -455,9 +455,7 @@ void MIDI_FreeFile(midi_file_t *file)
     if (file->tracks != NULL)
     {
         for (i = 0; i < file->num_tracks; ++i)
-        {
             FreeTrack(&file->tracks[i]);
-        }
 
         free(file->tracks);
     }
@@ -540,16 +538,14 @@ unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter)
 {
     if (iter->position < (unsigned)iter->track->num_events)
     {
-        midi_event_t *next_event;
+        midi_event_t    *next_event;
 
         next_event = &iter->track->events[iter->position];
 
         return next_event->delta_time;
     }
     else
-    {
         return 0;
-    }
 }
 
 // Get a pointer to the next MIDI event.
@@ -568,7 +564,14 @@ int MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event)
 
 unsigned int MIDI_GetFileTimeDivision(midi_file_t *file)
 {
-    return SHORT(file->header.time_division);
+    short result = SDL_SwapBE16(file->header.time_division);
+
+    // Negative time division indicates SMPTE time and must be handled
+    // differently.
+    if (result < 0)
+        return (signed int)(-result / 256) * (signed int)(result & 0xFF);
+    else
+        return result;
 }
 
 void MIDI_RestartIterator(midi_track_iter_t *iter)
