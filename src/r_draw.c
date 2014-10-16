@@ -332,7 +332,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
         {
             while (--count)
             {
-                byte dot = source[(frac & HEIGHTMASK) >> FRACBITS];
+                byte    dot = source[(frac & HEIGHTMASK) >> FRACBITS];
 
                 *dest = (colormask[dot] ? dot : colormap[dot]);
                 dest += SCREENWIDTH;

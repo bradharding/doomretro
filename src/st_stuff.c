@@ -503,7 +503,7 @@ void ST_refreshBackground(void)
         if (STBAR || graphicdetail == LOW)
             V_DrawPatch(ST_X, 0, BG, sbar);
         else
-            V_DrawScaledPatch(ST_X, 0, BG, SCREENSCALE / 2, sbar2);
+            V_DrawBigPatch(ST_X, 0, BG, sbar2);
 
         V_CopyRect(ST_X, 0, BG, ST_WIDTH, SBARHEIGHT, ST_X, ST_Y, FG);
     }

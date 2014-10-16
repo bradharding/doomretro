@@ -48,7 +48,6 @@ byte            *screens[5];
 int             pixelwidth = PIXELWIDTH_DEFAULT;
 int             pixelheight = PIXELHEIGHT_DEFAULT;
 
-
 //
 // V_CopyRect
 //
@@ -89,37 +88,27 @@ void V_FillRect(int scrn, int x, int y, int width, int height, byte color)
 //
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[scrn] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
-            srccol = 0;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
+
             while (count--)
             {
                 *dest = source[srccol >> 16];
@@ -136,14 +125,14 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
     desttop = screens[0] + (((y + 3) * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
 
@@ -164,81 +153,22 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawScaledPatch(int x, int y, int scrn, int scale, patch_t *patch)
-{
-    int         count;
-    int         col;
-    column_t    *column;
-    byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
-
-    int         dx = ((ORIGINALWIDTH * scale) << 16) / ORIGINALWIDTH;
-    int         dxi = (ORIGINALWIDTH << 16) / (ORIGINALWIDTH * scale);
-    int         dy = ((ORIGINALHEIGHT * scale) << 16) / ORIGINALHEIGHT;
-    int         dyi = (ORIGINALHEIGHT << 16) / (ORIGINALHEIGHT * scale);
-
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-
-    stretchx = (x * dx) >> 16;
-    stretchy = (y * dy) >> 16;
-
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += dxi, desttop++)
-    {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xff)
-        {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * dy) >> 16) * SCREENWIDTH;
-            count = (column->length * dy) >> 16;
-            srccol = 0;
-            while (count--)
-            {
-                *dest = source[srccol >> 16];
-                dest += SCREENWIDTH;
-                srccol += dyi;
-            }
-
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
-}
-
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
-    byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-
-    col = 0;
-    desttop = screens[scrn] + y * SCREENWIDTH + x;
-
-    w = SHORT(patch->width);
+    int         col = 0;
+    byte        *desttop = screens[scrn] + y * SCREENWIDTH + x;
+    int         w = SHORT(patch->width);
 
     for (; col < w; col++, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + column->topdelta * SCREENWIDTH;
-            count = column->length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            int         count = column->length;
 
             while (count--)
             {
@@ -252,13 +182,12 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 boolean V_EmptyPatch(patch_t *patch)
 {
-    int         col;
-    column_t    *column;
-    int         w = SHORT(patch->width);
+    int col = 0;
+    int w = SHORT(patch->width);
 
-    for (col = 0; col < w; col++)
+    for (; col < w; col++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
@@ -277,37 +206,27 @@ extern byte *tempscreen;
 
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = tempscreen + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = tempscreen + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
-            srccol = 0;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
+
             while (count--)
             {
                 *dest = source[srccol >> 16];
@@ -321,39 +240,29 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, boolean flag)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
-            srccol = 0;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
+
             while (count--)
             {
                 byte    *shadow;
@@ -371,34 +280,28 @@ void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag)
     }
 }
 
-void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+void V_DrawHUDPatch(int x, int y, patch_t *patch, boolean invert)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
     int         w;
 
     if (!invert)
         return;
 
-    col = 0;
-    desttop = screens[scrn] + y * SCREENWIDTH + x;
-
+    desttop = screens[0] + y * SCREENWIDTH + x;
     w = SHORT(patch->width);
 
     for (; col < w; col++, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + column->topdelta * SCREENWIDTH;
-            count = column->length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            int         count = column->length;
 
             while (count--)
             {
@@ -410,35 +313,28 @@ void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
     }
 }
 
-void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+void V_DrawHUDNumberPatch(int x, int y, patch_t *patch, boolean invert)
 {
-
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
     int         w;
 
     if (!invert)
         return;
 
-    col = 0;
-    desttop = screens[scrn] + y * SCREENWIDTH + x;
-
+    desttop = screens[0] + y * SCREENWIDTH + x;
     w = SHORT(patch->width);
 
     for (; col < w; col++, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + column->topdelta * SCREENWIDTH;
-            count = column->length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            int         count = column->length;
 
             while (count--)
             {
@@ -452,34 +348,28 @@ void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert
     }
 }
 
-void V_DrawYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+void V_DrawYellowHUDPatch(int x, int y, patch_t *patch, boolean invert)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
     int         w;
 
     if (!invert)
         return;
 
-    col = 0;
-    desttop = screens[scrn] + y * SCREENWIDTH + x;
-
+    desttop = screens[0] + y * SCREENWIDTH + x;
     w = SHORT(patch->width);
 
     for (; col < w; col++, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + column->topdelta * SCREENWIDTH;
-            count = column->length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            int         count = column->length;
 
             while (count--)
             {
@@ -491,31 +381,22 @@ void V_DrawYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert
     }
 }
 
-void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, boolean invert)
 {
-    int         count;
-    int         col;
-    column_t    *column;
-    byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-
-    col = 0;
-    desttop = screens[scrn] + y * SCREENWIDTH + x;
-
-    w = SHORT(patch->width);
+    int         col = 0;
+    byte        *desttop = screens[0] + y * SCREENWIDTH + x;
+    int         w = SHORT(patch->width);
 
     for (; col < w; col++, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + column->topdelta * SCREENWIDTH;
-            count = column->length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            int         count = column->length;
 
             while (count--)
             {
@@ -527,31 +408,22 @@ void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch, boolean i
     }
 }
 
-void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, boolean invert)
 {
-    int         count;
-    int         col;
-    column_t    *column;
-    byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-
-    col = 0;
-    desttop = screens[scrn] + y * SCREENWIDTH + x;
-
-    w = SHORT(patch->width);
+    int         col = 0;
+    byte        *desttop = screens[0] + y * SCREENWIDTH + x;
+    int         w = SHORT(patch->width);
 
     for (; col < w; col++, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + column->topdelta * SCREENWIDTH;
-            count = column->length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            int         count = column->length;
 
             while (count--)
             {
@@ -568,31 +440,22 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boo
     }
 }
 
-void V_DrawTranslucentYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert)
+void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, boolean invert)
 {
-    int         count;
-    int         col;
-    column_t    *column;
-    byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-
-    col = 0;
-    desttop = screens[scrn] + y * SCREENWIDTH + x;
-
-    w = SHORT(patch->width);
+    int         col = 0;
+    byte        *desttop = screens[0] + y * SCREENWIDTH + x;
+    int         w = SHORT(patch->width);
 
     for (; col < w; col++, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + column->topdelta * SCREENWIDTH;
-            count = column->length;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            int         count = column->length;
 
             while (count--)
             {
@@ -604,39 +467,29 @@ void V_DrawTranslucentYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boo
     }
 }
 
-void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
-            srccol = 0;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
+
             while (count--)
             {
                 *dest = tinttabred[(*dest << 8) + source[srccol >> 16]];
@@ -650,7 +503,7 @@ void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
 }
 
 //
-// V_DrawPatchFlipped
+// V_DrawFlippedPatch
 //
 // The co-ordinates for this procedure are always based upon a
 // 320x200 screen and multiplies the size of the patch by the
@@ -661,44 +514,33 @@ void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch)
 //
 // This Procedure flips the patch horizontally.
 //
-void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch)
+void V_DrawFlippedPatch(int x, int y, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch
-            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+        column_t        *column = (column_t *)((byte *)patch
+                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
-            srccol = 0;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
 
             while (count--)
             {
-                *dest = source[srccol >> 16];
+                *dest = tinttabred[(*dest << 8) + source[srccol >> 16]];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
@@ -708,18 +550,18 @@ void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawShadowPatchFlipped(int x, int y, patch_t *patch)
+void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
-    int         w;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
     desttop = screens[0] + (((y + 3) * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch
                             + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
@@ -741,40 +583,29 @@ void V_DrawShadowPatchFlipped(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawTranslucentRedPatchFlipped(int x, int y, int scrn, patch_t *patch)
+void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch
-            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+        column_t        *column = (column_t *)((byte *)patch
+                            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
-            srccol = 0;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
 
             while (count--)
             {
@@ -796,42 +627,33 @@ extern int      fuzztable[SCREENWIDTH * SCREENHEIGHT];
 extern boolean  menuactive;
 extern boolean  paused;
 
-void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
+    int         w = SHORT(patch->width) << 16;
     int         _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t    *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
 
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+
             while (count--)
             {
                 if (!menuactive && !paused)
                     fuzztable[_fuzzpos] = _FUZZ(-1, 1);
-                *dest = colormaps[1536 + dest[fuzztable[_fuzzpos++]]];
+                *dest = colormaps[6 * 256 + dest[fuzztable[_fuzzpos++]]];
                 dest += SCREENWIDTH;
             }
 
@@ -840,43 +662,34 @@ void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch)
+void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
+    int         w = SHORT(patch->width) << 16;
     int         _fuzzpos = 0;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch
-            + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
+        column_t    *column = (column_t *)((byte *)patch
+                        + LONG(patch->columnofs[SHORT(patch->width) - 1 - (col >> 16)]));
 
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+
             while (count--)
             {
                 if (!menuactive && !paused)
                     fuzztable[_fuzzpos] = _FUZZ(-1, 1);
-                *dest = colormaps[1536 + dest[fuzztable[_fuzzpos++]]];
+                *dest = colormaps[6 * 256 + dest[fuzztable[_fuzzpos++]]];
                 dest += SCREENWIDTH;
             }
 
@@ -897,39 +710,29 @@ byte nogreen[256] =
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 };
 
-void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch)
+void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
-            srccol = 0;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
+
             while (count--)
             {
                 byte    src = source[srccol >> 16];
@@ -953,46 +756,35 @@ void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawPatchCentered(int y, int scrn, patch_t *patch)
+void V_DrawCenteredPatch(int y, patch_t *patch)
 {
-    V_DrawPatch((ORIGINALWIDTH - SHORT(patch->width)) / 2, y, scrn, patch);
+    V_DrawPatch((ORIGINALWIDTH - SHORT(patch->width)) / 2, y, 0, patch);
 }
 
 extern boolean translucency;
 
-void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
+void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 {
-    int         count;
-    int         col;
-    column_t    *column;
+    int         col = 0;
     byte        *desttop;
-    byte        *dest;
-    byte        *source;
-    int         w;
-    int         stretchx;
-    int         stretchy;
-    int         srccol;
+    int         w = SHORT(patch->width) << 16;
 
     y -= SHORT(patch->topoffset);
     x -= SHORT(patch->leftoffset);
 
-    stretchx = (x * DX) >> 16;
-    stretchy = (y * DY) >> 16;
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
-    col = 0;
-    desttop = screens[scrn] + stretchy * SCREENWIDTH + stretchx;
-
-    for (w = SHORT(patch->width) << 16; col < w; col += DXI, desttop++)
+    for (; col < w; col += DXI, desttop++)
     {
-        column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
 
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            source = (byte *)column + 3;
-            dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            count = (column->length * DY) >> 16;
-            srccol = 0;
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
 
             while (count--)
             {
@@ -1013,11 +805,11 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch)
 // V_DrawBlock
 // Draw a linear block of pixels into the view buffer.
 //
-void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src)
+void V_DrawBlock(int x, int y, int width, int height, byte *src)
 {
     byte        *dest;
 
-    dest = screens[scrn] + y * SCREENWIDTH + x;
+    dest = screens[0] + y * SCREENWIDTH + x;
 
     while (height--)
     {
@@ -1027,9 +819,9 @@ void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src)
     }
 }
 
-void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow)
+void V_DrawPixel(int x, int y, byte color, boolean shadow)
 {
-    byte        *dest = &screens[screen][y * SCREENSCALE * SCREENWIDTH + x * SCREENSCALE];
+    byte        *dest = &screens[0][y * SCREENSCALE * SCREENWIDTH + x * SCREENSCALE];
 
     if (color == 251)
     {
@@ -1052,7 +844,7 @@ void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow)
     }
 }
 
-void V_LowGraphicDetail(int screen, int height)
+void V_LowGraphicDetail(int height)
 {
     int x;
     int y;
@@ -1060,7 +852,7 @@ void V_LowGraphicDetail(int screen, int height)
     for (y = 0; y < height; y += pixelheight)
         for (x = 0; x < SCREENWIDTH; x += pixelwidth)
         {
-            byte        *dot = screens[screen] + y * SCREENWIDTH + x;
+            byte        *dot = screens[0] + y * SCREENWIDTH + x;
             int         xx, yy;
 
             for (yy = 0; yy < pixelheight; yy++)

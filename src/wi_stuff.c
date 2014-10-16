@@ -386,7 +386,7 @@ void WI_drawWILVchar(int x, int y, int i)
 
     for (y1 = 0; y1 < 13; y1++)
         for (x1 = 0; x1 < w; x1++)
-            V_DrawPixel(x + x1, y + y1, 0, (int)wilv[i][y1 * w + x1], true);
+            V_DrawPixel(x + x1, y + y1, (int)wilv[i][y1 * w + x1], true);
 }
 
 char            *mapname = "";
@@ -457,7 +457,7 @@ void WI_drawLF(void)
     if (W_CheckMultipleLumps(name) > 1 && !nerve)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->last]->width)) / 2 + 1, y + 1,
-                              FB, lnames[wbs->last], false);
+                              lnames[wbs->last], false);
         y += SHORT(lnames[wbs->last]->height) + 2;
     }
     else
@@ -468,7 +468,7 @@ void WI_drawLF(void)
 
     // draw "Finished!"
     
-    V_DrawPatchWithShadow(x + 1, y + 1, FB, finished, false);
+    V_DrawPatchWithShadow(x + 1, y + 1, finished, false);
 }
 
 // Draws "Entering <LevelName>"
@@ -479,7 +479,7 @@ void WI_drawEL(void)
     char        name[9];
 
     // draw "Entering"
-    V_DrawPatchWithShadow(x + 1, y + 1, FB, entering, false);
+    V_DrawPatchWithShadow(x + 1, y + 1, entering, false);
 
     // draw level
     y += 14;
@@ -489,7 +489,7 @@ void WI_drawEL(void)
         M_snprintf(name, 9, "WILV%d%d", wbs->epsd, wbs->next);
     if (W_CheckMultipleLumps(name) > 1 && !nerve)
         V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(lnames[wbs->next]->width)) / 2 + 1, y + 1,
-                              FB, lnames[wbs->next], false);
+                              lnames[wbs->next], false);
     else
         WI_drawWILV(y, nextmapname);
 }
@@ -515,9 +515,10 @@ void WI_drawOnLnode(int n, patch_t *c[])
     if (fits && i < 2)
     {
         if (c[i] == *splat)
-            V_DrawTranslucentNoGreenPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, FB, c[i]);
+            V_DrawTranslucentNoGreenPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, c[i]);
         else if (c[i] == *yah)
-            V_DrawPatchNoGreenWithShadow(lnodes[wbs->epsd][n].x + 1, lnodes[wbs->epsd][n].y + 1, FB, c[i]);
+            V_DrawNoGreenPatchWithShadow(lnodes[wbs->epsd][n].x + 1,
+                lnodes[wbs->epsd][n].y + 1, c[i]);
         else
             V_DrawPatch(lnodes[wbs->epsd][n].x, lnodes[wbs->epsd][n].y, FB, c[i]);
     }
@@ -669,7 +670,7 @@ int WI_drawNum(int x, int y, int n, int digits)
     {
         x -= fontwidth;
         x += 2 * (n % 10 == 1);
-        V_DrawPatchWithShadow(x + 1, y + 1, FB, num[n % 10], true);
+        V_DrawPatchWithShadow(x + 1, y + 1, num[n % 10], true);
         x -= 2 * (n % 10 == 1);
         n /= 10;
     }
@@ -686,7 +687,7 @@ void WI_drawPercent(int x, int y, int p)
     if (p < 0)
         return;
 
-    V_DrawPatchWithShadow(x + 1, y + 1, FB, percent, false);
+    V_DrawPatchWithShadow(x + 1, y + 1, percent, false);
     WI_drawNum(x, y, p, -1);
 }
 
@@ -716,7 +717,7 @@ void WI_drawTime(int x, int y, int t)
 
             // draw
             if (div == 60 || t / div)
-                V_DrawPatchWithShadow(x + 1, y + 1, FB, colon, true);
+                V_DrawPatchWithShadow(x + 1, y + 1, colon, true);
 
         }
         while (t / div);
@@ -725,7 +726,7 @@ void WI_drawTime(int x, int y, int t)
     }
     else
         // "sucks"
-        V_DrawPatchWithShadow(x + 13 - SHORT(sucks->width), y + 1, FB, sucks, false);
+        V_DrawPatchWithShadow(x + 13 - SHORT(sucks->width), y + 1, sucks, false);
 }
 
 void WI_unloadData(void);
@@ -1153,10 +1154,10 @@ void WI_drawStats(void)
 
     WI_drawLF();
 
-    V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 1, FB, kills, false);
+    V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 1, kills, false);
     WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY, cnt_kills[0]);
 
-    V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + lh + 1, FB, items, false);
+    V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + lh + 1, items, false);
     WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + lh, cnt_items[0]);
 
     if (totalsecret)
@@ -1164,17 +1165,17 @@ void WI_drawStats(void)
         if (!WISCRT2)
             M_DrawString(SP_STATSX, SP_STATSY + 2 * lh - 3, "secrets");
         else
-            V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, FB, sp_secret, false);
+            V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, sp_secret, false);
 
         WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret[0]);
     }
 
-    V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, FB, timepatch, false);
+    V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false);
     WI_drawTime(ORIGINALWIDTH / 2 - SP_TIMEX * 2, SP_TIMEY, cnt_time);
 
     if (canmodify || deh_pars)
     {
-        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 + 5, SP_TIMEY + 1, FB, par, false);
+        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 + 5, SP_TIMEY + 1, par, false);
         WI_drawTime(ORIGINALWIDTH - SP_TIMEX, SP_TIMEY, cnt_par);
     }
 }

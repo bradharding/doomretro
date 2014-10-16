@@ -262,7 +262,7 @@ void D_Display(void)
                 }
             }
             if (graphicdetail == LOW)
-                V_LowGraphicDetail(0, viewheight2);
+                V_LowGraphicDetail(viewheight2);
         }
         HU_Drawer();
     }
@@ -281,10 +281,10 @@ void D_Display(void)
 
             if (widescreen)
                 V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
-                    viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, 0, patch, false);
+                    viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, patch, false);
             else
                 V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
-                    (ORIGINALHEIGHT - SHORT(patch->height)) / 2, 0, patch, false);
+                    (ORIGINALHEIGHT - SHORT(patch->height)) / 2, patch, false);
         }
         else
         {

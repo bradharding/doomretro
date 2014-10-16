@@ -86,9 +86,9 @@ static patch_t          *berserkpatch;
 static patch_t          *greenarmorpatch;
 static patch_t          *bluearmorpatch;
 
-void (*hudfunc)(int, int, int, patch_t *, boolean);
-void (*hudnumfunc)(int, int, int, patch_t *, boolean);
-void (*godhudfunc)(int, int, int, patch_t *, boolean);
+void (*hudfunc)(int, int, patch_t *, boolean);
+void (*hudnumfunc)(int, int, patch_t *, boolean);
+void (*godhudfunc)(int, int, patch_t *, boolean);
 
 #define HUD_X           24 * SCREENSCALE / 2
 #define HUD_Y           311 * SCREENSCALE / 2
@@ -243,20 +243,20 @@ void HU_Start(void)
 }
 
 static void DrawHUDNumber(int x, int y, signed int val, boolean invert,
-                          void (*hudnumfunc)(int, int, int, patch_t *, boolean))
+                          void (*hudnumfunc)(int, int, patch_t *, boolean))
 {
-    int         xpos = x;
+    int         xpos = x + 8;
     int         oldval = val;
 
     if (val > 99)
-        hudnumfunc(xpos + 8, y, 0, tallnum[val / 100], invert);
+        hudnumfunc(xpos, y, tallnum[val / 100], invert);
     val %= 100;
     xpos += 14;
     if (val > 9 || oldval > 99)
-        hudnumfunc(xpos + 8, y, 0, tallnum[val / 10], invert);
+        hudnumfunc(xpos, y, tallnum[val / 10], invert);
     val %= 10;
     xpos += 14;
-    hudnumfunc(xpos + 8, y, 0, tallnum[val], invert);
+    hudnumfunc(xpos, y, tallnum[val], invert);
 }
 
 static void HU_DrawHUD(void)
@@ -290,17 +290,15 @@ static void HU_DrawHUD(void)
         if (health < 100)
             health_x -= 14;
 
-        invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN ||
-            menuactive || paused);
+        invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
+            || menuactive || paused);
         if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), 0, patch,
-                invert);
+            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
         else
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), 0, patch,
-                invert);
+            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
         DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
         if (!emptytallpercent)
-            hudnumfunc(health_x + 50, HUD_HEALTH_Y, 0, tallpercent, invert);
+            hudnumfunc(health_x + 50, HUD_HEALTH_Y, tallpercent, invert);
 
         if (health <= HUD_HEALTH_MIN && !menuactive && !paused)
         {
@@ -339,10 +337,9 @@ static void HU_DrawHUD(void)
                 ammonum_x -= 7;
             }
 
-            invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN ||
-                menuactive || paused);
-            hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, 0, ammopic[ammotype].patch,
-                invert);
+            invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN
+                || menuactive || paused);
+            hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, ammopic[ammotype].patch, invert);
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
 
             if (ammo <= HUD_AMMO_MIN && !menuactive && !paused)
@@ -399,7 +396,7 @@ static void HU_DrawHUD(void)
                         }
                     }
                     if (showkey)
-                        hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, 0, patch, true);
+                        hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
                 }
             }
             else
@@ -414,7 +411,7 @@ static void HU_DrawHUD(void)
                     patch_t     *patch = keypic[i].patch;
 
                     hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
-                        HUD_KEYS_Y, 0, patch, true);
+                        HUD_KEYS_Y, patch, true);
                 }
         }
 
@@ -428,9 +425,9 @@ static void HU_DrawHUD(void)
             else
             {
                 DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, true, hudnumfunc);
-                hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, 0, tallpercent, true);
+                hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, tallpercent, true);
             }
-            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 16), 0, patch, true);
+            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, true);
         }
     }
 }

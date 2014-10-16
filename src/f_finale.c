@@ -336,7 +336,7 @@ void F_TextWrite(void)
         if (STCFN034)
         {
             w = SHORT(hu_font[c]->width);
-            V_DrawPatchWithShadow(cx + 1, cy + 1, 0, hu_font[c], false);
+            V_DrawPatchWithShadow(cx + 1, cy + 1, hu_font[c], false);
         }
         else
         {
@@ -686,7 +686,7 @@ void F_CastPrint(char *text)
         }
 
         w = SHORT(hu_font[c]->width);
-        V_DrawPatchWithShadow(cx + 1, 181, 0, hu_font[c], false);
+        V_DrawPatchWithShadow(cx + 1, 181, hu_font[c], false);
         cx += w;
     }
 }
@@ -729,16 +729,16 @@ void F_CastDrawer(void)
         if (shadows
             && ((castorder[castnum].type != MT_SKULL && castorder[castnum].type != MT_PAIN)
                 || !castdeath))
-            V_DrawShadowPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
+            V_DrawFlippedShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
 
         if (translucency
             && (castorder[castnum].type == MT_SKULL
                 || (castorder[castnum].type == MT_PAIN && castdeath)))
-            V_DrawTranslucentRedPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
+            V_DrawFlippedTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
         else if (castorder[castnum].type == MT_SHADOWS)
-            V_DrawFuzzPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
+            V_DrawFlippedFuzzPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
         else
-            V_DrawPatchFlipped(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
+            V_DrawFlippedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
     }
     else
     {
@@ -752,9 +752,9 @@ void F_CastDrawer(void)
         if (translucency
             && (castorder[castnum].type == MT_SKULL
                 || (castorder[castnum].type == MT_PAIN && castdeath)))
-            V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
+            V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
         else if (castorder[castnum].type == MT_SHADOWS)
-            V_DrawFuzzPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
+            V_DrawFuzzPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
         else
             V_DrawPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
     }
@@ -836,7 +836,7 @@ void F_BunnyScroll(void)
     if (finalecount < 1180)
     {
         V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
-            0, W_CacheLumpName("END0", PU_CACHE), false);
+            W_CacheLumpName("END0", PU_CACHE), false);
         laststage = 0;
         return;
     }
@@ -852,7 +852,7 @@ void F_BunnyScroll(void)
 
     M_snprintf(name, 10, "END%i", stage);
     V_DrawPatchWithShadow((ORIGINALWIDTH - 13 * 8) / 2 + 1, (ORIGINALHEIGHT - 8 * 8) / 2 + 1,
-                          0, W_CacheLumpName(name, PU_CACHE), false);
+        W_CacheLumpName(name, PU_CACHE), false);
 }
 
 static void F_ArtScreenDrawer(void)

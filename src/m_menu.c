@@ -515,7 +515,7 @@ void M_DarkBackground(void)
         screens[0][i] = tinttab50[blurredscreen[i]];
 
     if (graphicdetail == LOW)
-        V_LowGraphicDetail(0, SCREENHEIGHT);
+        V_LowGraphicDetail(SCREENHEIGHT);
 }
 
 static byte blues[] =
@@ -578,10 +578,10 @@ void M_DrawChar(int x, int y, int i, boolean overlapping)
             if (dot == '\xC8')
             {
                 if (!overlapping)
-                    V_DrawPixel(x + x1, y + y1, 0, 251, true);
+                    V_DrawPixel(x + x1, y + y1, 251, true);
             }
             else
-                V_DrawPixel(x + x1, y + y1, 0, (int)dot, true);
+                V_DrawPixel(x + x1, y + y1, (int)dot, true);
         }
 }
 
@@ -744,20 +744,21 @@ void M_SplitString(char *string)
 // M_DrawPatchWithShadow
 //  draw patch with shadow on screen
 //
-void M_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch)
+void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 {
-    V_DrawPatchWithShadow(x, y, scrn, patch, false);
+    V_DrawPatchWithShadow(x, y, patch, false);
 }
 
 //
 // M_DrawCenteredPatchWithShadow
 //  draw patch with shadow horizontally centered on screen
 //
-void M_DrawCenteredPatchWithShadow(int y, int scrn, patch_t *patch)
+void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 {
     V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
-        y, scrn, patch, false);
+        y, patch, false);
 }
+
 
 //
 // M_ReadSaveStrings
@@ -865,7 +866,7 @@ void M_DrawLoad(void)
 
     M_DarkBackground();
     if (M_LOADG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_LOADG", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_LOADG", PU_CACHE));
     else
         M_DrawCenteredString(23 + OFFSET, uppercase(s_M_LOADGAME));
 
@@ -890,16 +891,16 @@ void M_DrawSaveLoadBorder(int x, int y)
     if (M_LSCNTR)
     {
         x += 3;
-        M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSLEFT", PU_CACHE));
+        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSLEFT", PU_CACHE));
 
         x += 8;
         for (i = 0; i < 24; i++)
         {
-            M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSCNTR", PU_CACHE));
+            M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSCNTR", PU_CACHE));
             x += 8;
         }
 
-        M_DrawPatchWithShadow(x, y + 11, 0, W_CacheLumpName("M_LSRGHT", PU_CACHE));
+        M_DrawPatchWithShadow(x, y + 11, W_CacheLumpName("M_LSRGHT", PU_CACHE));
     }
     else
     {
@@ -907,20 +908,20 @@ void M_DrawSaveLoadBorder(int x, int y)
 
         for (yy = 0; yy < 16; yy++)
             for (xx = 0; xx < 8; xx++)
-                V_DrawPixel(x + xx, y + yy, 0, lsleft[yy * 8 + xx], true);
+                V_DrawPixel(x + xx, y + yy, lsleft[yy * 8 + xx], true);
 
         x += 8;
         for (i = 0; i < 24; ++i)
         {
             for (yy = 0; yy < 16; yy++)
                 for (xx = 0; xx < 8; xx++)
-                    V_DrawPixel(x + xx, y + yy, 0, lscntr[yy * 8 + xx], true);
+                    V_DrawPixel(x + xx, y + yy, lscntr[yy * 8 + xx], true);
             x += 8;
         }
 
         for (yy = 0; yy < 16; yy++)
             for (xx = 0; xx < 9; xx++)
-                V_DrawPixel(x + xx, y + yy, 0, lsrght[yy * 9 + xx], true);
+                V_DrawPixel(x + xx, y + yy, lsrght[yy * 9 + xx], true);
     }
 }
 
@@ -976,7 +977,7 @@ void M_DrawSave(void)
 
     // draw menu subtitle
     if (M_SAVEG)
-        M_DrawCenteredPatchWithShadow(23 + OFFSET, 0, W_CacheLumpName("M_SAVEG", PU_CACHE));
+        M_DrawCenteredPatchWithShadow(23 + OFFSET, W_CacheLumpName("M_SAVEG", PU_CACHE));
     else
         M_DrawCenteredString(23 + OFFSET, uppercase(s_M_SAVEGAME));
 
@@ -1027,7 +1028,7 @@ void M_DrawSave(void)
             else
                 for (yy = 0; yy < 9; yy++)
                     for (xx = 0; xx < 3; xx++)
-                        V_DrawPixel(x + xx, y + yy, 0, (int)caret[yy * 3 + xx], false);
+                        V_DrawPixel(x + xx, y + yy, (int)caret[yy * 3 + xx], false);
         }
     }
 }
@@ -1296,7 +1297,7 @@ void M_DrawReadThis(void)
         if (W_CheckMultipleLumps(lumpname) > 2)
             V_DrawPatch(0, 0, 0, W_CacheLumpNum(W_GetNumForNameX(lumpname, 2), PU_CACHE));
         else
-            V_DrawPatchWithShadow(0, 0, 0, W_CacheLumpName(lumpname, PU_CACHE), false);
+            M_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname, PU_CACHE));
     }
 }
 
@@ -1308,7 +1309,7 @@ void M_DrawSound(void)
     M_DarkBackground();
     if (M_SVOL)
     {
-        M_DrawPatchWithShadow((chex ? 100 : 60), 38 + OFFSET, 0, W_CacheLumpName("M_SVOL", PU_CACHE));
+        M_DrawPatchWithShadow((chex ? 100 : 60), 38 + OFFSET, W_CacheLumpName("M_SVOL", PU_CACHE));
         SoundDef.x = (chex ? 68 : 80);
         SoundDef.y = 64;
     }
@@ -1390,7 +1391,7 @@ void M_DrawMainMenu(void)
 
     if (M_DOOM && patch->height > 125)
     {
-        M_DrawPatchWithShadow(94, 2 + OFFSET, 0, patch);
+        M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
         MainDef.x = 97;
         MainDef.y = 72;
     }
@@ -1400,11 +1401,11 @@ void M_DrawMainMenu(void)
         int     dot1 = screens[0][(y * SCREENWIDTH + 98) * 2];
         int     dot2 = screens[0][((y + 1) * SCREENWIDTH + 99) * 2];
 
-        M_DrawCenteredPatchWithShadow(y, 0, patch);
+        M_DrawCenteredPatchWithShadow(y, patch);
         if (gamemode != commercial)
         {
-            V_DrawPixel(98, y, 0, dot1, false);
-            V_DrawPixel(99, y + 1, 0, dot2, false);
+            V_DrawPixel(98, y, dot1, false);
+            V_DrawPixel(99, y + 1, dot2, false);
         }
     }
 }
@@ -1418,7 +1419,7 @@ void M_DrawNewGame(void)
 
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
+        M_DrawPatchWithShadow((chex ? 118 : 96), 14 + OFFSET, W_CacheLumpName("M_NEWG", PU_CACHE));
         NewDef.x = (chex ? 98 : 48);
         NewDef.y = 63;
     }
@@ -1427,7 +1428,7 @@ void M_DrawNewGame(void)
 
     if (M_SKILL)
     {
-        M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, 0, W_CacheLumpName("M_SKILL", PU_CACHE));
+        M_DrawPatchWithShadow((chex ? 76 : 54), 38 + OFFSET, W_CacheLumpName("M_SKILL", PU_CACHE));
         NewDef.x = (chex ? 98 : 48);
         NewDef.y = 63;
     }
@@ -1454,7 +1455,7 @@ void M_DrawEpisode(void)
 
     if (M_NEWG)
     {
-        M_DrawPatchWithShadow(96, 14 + OFFSET, 0, W_CacheLumpName("M_NEWG", PU_CACHE));
+        M_DrawPatchWithShadow(96, 14 + OFFSET, W_CacheLumpName("M_NEWG", PU_CACHE));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1463,7 +1464,7 @@ void M_DrawEpisode(void)
 
     if (M_EPISOD)
     {
-        M_DrawPatchWithShadow(54, 38 + OFFSET, 0, W_CacheLumpName("M_EPISOD", PU_CACHE));
+        M_DrawPatchWithShadow(54, 38 + OFFSET, W_CacheLumpName("M_EPISOD", PU_CACHE));
         EpiDef.x = 48;
         EpiDef.y = 63;
     }
@@ -1549,7 +1550,7 @@ void M_DrawOptions(void)
 
     if (M_OPTTTL)
     {
-        M_DrawPatchWithShadow((chex ? 126 : 108), 15 + OFFSET, 0,
+        M_DrawPatchWithShadow((chex ? 126 : 108), 15 + OFFSET,
             W_CacheLumpName("M_OPTTTL", PU_CACHE));
         OptionsDef.x = (chex ? 69 : 60);
         OptionsDef.y = 37;
@@ -1565,7 +1566,7 @@ void M_DrawOptions(void)
             patch_t     *patch2 = W_CacheLumpName("M_MSGON", PU_CACHE);
 
             M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
-                OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
+                OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, patch2);
         }
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON);
@@ -1578,7 +1579,7 @@ void M_DrawOptions(void)
             patch_t     *patch2 = W_CacheLumpName("M_MSGOFF", PU_CACHE);
 
             M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
-                OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, 0, patch2);
+                OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, patch2);
         }
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
@@ -1592,7 +1593,7 @@ void M_DrawOptions(void)
             patch_t     *patch2 = W_CacheLumpName("M_GDHIGH", PU_CACHE);
 
             M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
-                OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
+                OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, patch2);
         }
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
@@ -1605,7 +1606,7 @@ void M_DrawOptions(void)
             patch_t     *patch2 = W_CacheLumpName("M_GDLOW", PU_CACHE);
 
             M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
-                OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, 0, patch2);
+                OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, patch2);
         }
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW);
@@ -1947,17 +1948,17 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
         y -= 2;
     }
     xx = x;
-    M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName("M_THERML", PU_CACHE));
+    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERML", PU_CACHE));
     xx += 8;
     for (i = 0; i < thermWidth; i++)
     {
         V_DrawPatch(xx, y, 0, W_CacheLumpName("M_THERMM", PU_CACHE));
         xx += 8;
     }
-    M_DrawPatchWithShadow(xx, y, 0, W_CacheLumpName("M_THERMR", PU_CACHE));
+    M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR", PU_CACHE));
     V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
     for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
-        V_DrawPixel(i, y + 13, 0, 251, true);
+        V_DrawPixel(i, y + 13, 251, true);
 }
 
 void M_StartMessage(char *string, void *routine, boolean input)
@@ -2023,7 +2024,7 @@ void M_DrawSmallChar(int x, int y, int i, boolean shadow)
 
     for (y1 = 0; y1 < 10; y1++)
         for (x1 = 0; x1 < w; x1++)
-            V_DrawPixel(x + x1, y + y1, 0, (int)smallcharset[i][y1 * w + x1], shadow);
+            V_DrawPixel(x + x1, y + y1, (int)smallcharset[i][y1 * w + x1], shadow);
 }
 
 //
@@ -2066,7 +2067,7 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
             if (cx + w > ORIGINALWIDTH)
                 break;
             if (shadow)
-                V_DrawPatchWithShadow(cx, cy, 0, hu_font[c], false);
+                M_DrawPatchWithShadow(cx, cy, hu_font[c]);
             else
                 V_DrawPatch(cx, cy, 0, hu_font[c]);
         }
@@ -3031,7 +3032,7 @@ void M_DrawNightmare(void)
     {
         for (x = 0; x < 124; x++)
         {
-            V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y, 0,
+            V_DrawPixel(NewDef.x + x, NewDef.y + OFFSET + 16 * nightmare + y,
                 (int)nmare[y * 124 + x], true);
         }
     }
@@ -3115,7 +3116,7 @@ void M_Drawer(void)
             if (!strcmp(name, "M_NMARE"))
             {
                 if (M_NMARE)
-                    M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
+                    M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name, PU_CACHE));
                 else
                     M_DrawNightmare();
             }
@@ -3123,7 +3124,7 @@ void M_Drawer(void)
                 M_DrawString(x, y + OFFSET,
                     (usinggamepad ? s_M_GAMEPADSENSITIVITY : s_M_MOUSESENSITIVITY));
             else if (W_CheckMultipleLumps(name) > 1)
-                M_DrawPatchWithShadow(x, y + OFFSET, 0, W_CacheLumpName(name, PU_CACHE));
+                M_DrawPatchWithShadow(x, y + OFFSET, W_CacheLumpName(name, PU_CACHE));
             else
                 M_DrawString(x, y + OFFSET, *currentMenu->menuitems[i].text);
         }
@@ -3136,9 +3137,9 @@ void M_Drawer(void)
         patch_t *patch = W_CacheLumpName(skullName[whichSkull], PU_CACHE);
 
         if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 43, currentMenu->y + itemOn * 17 - 8 + OFFSET + chex, 0, patch);
+            M_DrawPatchWithShadow(x - 43, currentMenu->y + itemOn * 17 - 8 + OFFSET + chex, patch);
         else
-            M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, 0, patch);
+            M_DrawPatchWithShadow(x - 37, currentMenu->y + itemOn * 17 - 7 + OFFSET, patch);
     }
     else if (currentMenu != &ReadDef)
     {
@@ -3147,9 +3148,9 @@ void M_Drawer(void)
         if (currentMenu == &OptionsDef && !itemOn && !usergame)
             itemOn++;
         if (M_SKULL1)
-            M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET + chex, 0, patch);
+            M_DrawPatchWithShadow(x - 32, currentMenu->y + itemOn * 16 - 5 + OFFSET + chex, patch);
         else
-            M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, 0, patch);
+            M_DrawPatchWithShadow(x - 26, currentMenu->y + itemOn * 16 - 3 + OFFSET, patch);
     }
 }
 

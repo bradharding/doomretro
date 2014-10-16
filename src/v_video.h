@@ -60,32 +60,31 @@ void V_FillRect(int scrn, int x, int y, int width, int height, byte color);
 void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
-void V_DrawScaledPatch(int x, int y, int scrn, int scale, patch_t *patch);
 boolean V_EmptyPatch(patch_t *patch);
-void V_DrawPatchWithShadow(int x, int y, int scrn, patch_t *patch, boolean flag);
-void V_DrawPatchFlipped(int x, int y, int scrn, patch_t *patch);
-void V_DrawShadowPatchFlipped(int x, int y, patch_t *patch);
-void V_DrawPatchCentered(int y, int scrn, patch_t *patch);
-void V_DrawFuzzPatch(int x, int y, int scrn, patch_t *patch);
-void V_DrawFuzzPatchFlipped(int x, int y, int scrn, patch_t *patch);
-void V_DrawPatchNoGreenWithShadow(int x, int y, int scrn, patch_t *patch);
-void V_DrawHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
-void V_DrawHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
-void V_DrawYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
-void V_DrawTranslucentHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
-void V_DrawTranslucentHUDNumberPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
-void V_DrawTranslucentYellowHUDPatch(int x, int y, int scrn, patch_t *patch, boolean invert);
-void V_DrawTranslucentNoGreenPatch(int x, int y, int scrn, patch_t *patch);
-void V_DrawTranslucentRedPatch(int x, int y, int scrn, patch_t *patch);
-void V_DrawTranslucentRedPatchFlipped(int x, int y, int scrn, patch_t *patch);
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, boolean flag);
+void V_DrawFlippedPatch(int x, int y, patch_t *patch);
+void V_DrawFlippedShadowPatch(int x, int y, patch_t *patch);
+void V_DrawCenteredPatch(int y, patch_t *patch);
+void V_DrawFuzzPatch(int x, int y, patch_t *patch);
+void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch);
+void V_DrawNoGreenPatchWithShadow(int x, int y, patch_t *patch);
+void V_DrawHUDPatch(int x, int y, patch_t *patch, boolean invert);
+void V_DrawHUDNumberPatch(int x, int y, patch_t *patch, boolean invert);
+void V_DrawYellowHUDPatch(int x, int y, patch_t *patch, boolean invert);
+void V_DrawTranslucentHUDPatch(int x, int y, patch_t *patch, boolean invert);
+void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, boolean invert);
+void V_DrawTranslucentYellowHUDPatch(int x, int y, patch_t *patch, boolean invert);
+void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch);
+void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch);
+void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch);
 void V_DrawPatchToTempScreen(int x, int y, patch_t *patch);
 
-void V_DrawPixel(int x, int y, int screen, byte color, boolean shadow);
+void V_DrawPixel(int x, int y, byte color, boolean shadow);
 
-void V_LowGraphicDetail(int screen, int height);
+void V_LowGraphicDetail(int height);
 
 // Draw a linear block of pixels into the view buffer.
-void V_DrawBlock(int x, int y, int scrn, int width, int height, byte *src);
+void V_DrawBlock(int x, int y, int width, int height, byte *src);
 
 boolean V_ScreenShot(void);
 

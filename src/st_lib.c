@@ -407,7 +407,7 @@ void STlib_updateBigBinIcon(st_binicon_t *bi, boolean refresh)
         h = SHORT(bi->p->height);
 
         if (*bi->val)
-            V_DrawScaledPatch(bi->x, bi->y, FG, SCREENSCALE / 2, bi->p);
+            V_DrawBigPatch(bi->x, bi->y, FG, bi->p);
 
         bi->oldval = *bi->val;
     }
