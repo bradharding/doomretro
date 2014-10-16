@@ -175,18 +175,14 @@ void P_AddBonus(player_t *player, int amount)
 //
 boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
 {
-    boolean     gaveammo;
-    boolean     gaveweapon;
+    boolean     gaveammo = false;
+    boolean     gaveweapon = false;
 
     if (weaponinfo[weapon].ammo != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
         gaveammo = P_GiveAmmo(player, weaponinfo[weapon].ammo, dropped ? 1 : 2);
-    else
-        gaveammo = false;
 
-    if (player->weaponowned[weapon])
-        gaveweapon = false;
-    else
+    if (!player->weaponowned[weapon])
     {
         gaveweapon = true;
         player->weaponowned[weapon] = true;
@@ -203,10 +199,10 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
 //
 boolean P_GiveBody(player_t *player, int num)
 {
-    if (player->health >= MAXHEALTH)
+    if (player->health >= maxhealth)
         return false;
 
-    player->health = MIN(player->health + num, MAXHEALTH);
+    player->health = MIN(player->health + num, maxhealth);
     player->mo->health = player->health;
 
     return true;
@@ -684,7 +680,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         case SPR_SGN2:
             weaponowned = player->weaponowned[wp_supershotgun];
-            if (!P_GiveWeapon(player, wp_supershotgun, (special->flags & MF_DROPPED)))
+            if (!P_GiveWeapon(player, wp_supershotgun, false))
                 return;
             if (!weaponowned)
                 player->preferredshotgun = wp_supershotgun;
@@ -731,11 +727,9 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     else
         target->flags &= ~MF_NOGRAVITY;
 
-    if (type == MT_TROOP)
-        target->colfunc = basecolfunc;
-
     target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->height >>= 2;
+
     if (type != MT_BARREL)
     {
         if (!(target->flags & MF_FUZZ))
@@ -750,7 +744,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             {
                 prev--;
                 target->flags2 |= MF2_MIRRORED;
-                if ((target->flags2 & MF2_SHADOW) && target->shadow)
+                if (target->shadow)
                     target->shadow->flags2 |= MF2_MIRRORED;
             }
             else
@@ -890,8 +884,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     if (inflictor && !(target->flags & MF_NOCLIP)
         && (!source || !source->player || source->player->readyweapon != wp_chainsaw))
     {
-        unsigned ang = R_PointToAngle2(inflictor->x, inflictor->y, target->x, target->y);
-        fixed_t  thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
+        unsigned int    ang = R_PointToAngle2(inflictor->x, inflictor->y, target->x, target->y);
+        fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health
@@ -1004,14 +998,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
             // [crispy] the lethal pellet of a point-blank SSG blast
             // gets an extra damage boost for the occasional gib chance
-            if (source && source->player
-                && source->player->readyweapon == wp_supershotgun
-                && target->info->xdeathstate
-                && P_CheckMeleeRange(target)
-                && damage >= 10)
-            {
+            if (source && source->player && source->player->readyweapon == wp_supershotgun
+                && target->info->xdeathstate && P_CheckMeleeRange(target) && damage >= 10)
                 target->health -= target->info->spawnhealth;
-            }
 
             P_KillMobj(source, target);
             return;
@@ -1032,7 +1021,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
             // if not intent on another player,
             // chase after this one
             if (!target->lastenemy || target->lastenemy->health <= 0 
-                || !target->lastenemy->player)  // remember last enemy - killough
+                || target->target != source)    // remember last enemy - killough
                 target->lastenemy = target->target;
 
             target->target = source;

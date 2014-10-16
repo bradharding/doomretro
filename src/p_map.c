@@ -1629,9 +1629,9 @@ void P_UseLines(player_t *player)
 //
 // RADIUS ATTACK
 //
-mobj_t *bombsource;
-mobj_t *bombspot;
-int    bombdamage;
+mobj_t  *bombsource;
+mobj_t  *bombspot;
+int     bombdamage;
 
 //
 // PIT_RadiusAttack
