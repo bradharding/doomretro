@@ -30,6 +30,9 @@
 #ifndef __R_DRAW__
 #define __R_DRAW__
 
+#define R_ADDRESS(scrn, px, py) \
+    (screens[scrn] + (viewwindowy + (py)) * SCREENWIDTH + (viewwindowx + (px)))
+
 extern lighttable_t     *dc_colormap;
 extern int              dc_x;
 extern int              dc_yl;
