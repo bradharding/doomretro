@@ -2097,10 +2097,10 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
 //
 // M_Responder
 //
-int gamepadwait = 0;
-int mousewait = 0;
-int gamepadpress = false;
-int gammawait = 0;
+int     gamepadwait = 0;
+int     mousewait = 0;
+boolean gamepadpress = false;
+int     gammawait = 0;
 
 boolean M_Responder(event_t *ev)
 {

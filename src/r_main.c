@@ -346,9 +346,9 @@ void R_InitTextureMapping(void)
     //  viewangletox will give the next greatest x
     //  after the view angle.
 
-    const fixed_t hitan = finetangent[FINEANGLES / 4 + FIELDOFVIEW / 2];
-    const fixed_t lotan = finetangent[FINEANGLES / 4 - FIELDOFVIEW / 2];
-    const int     highend = viewwidth + 1;
+    const fixed_t       hitan = finetangent[FINEANGLES / 4 + FIELDOFVIEW / 2];
+    const fixed_t       lotan = finetangent[FINEANGLES / 4 - FIELDOFVIEW / 2];
+    const int           highend = viewwidth + 1;
 
     // Calc focallength
     //  so FIELDOFVIEW angles covers SCREENWIDTH.
@@ -454,7 +454,7 @@ void R_ExecuteSetViewSize(void)
     else
     {
         scaledviewwidth = setblocks * SCREENWIDTH / 10;
-        viewheight = ((setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7);
+        viewheight = (setblocks * (SCREENHEIGHT - SBARHEIGHT) / 10) & ~7;
         viewheight2 = SCREENHEIGHT - SBARHEIGHT;
     }
 

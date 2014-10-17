@@ -110,8 +110,6 @@ void P_Ticker(void)
     if (menuactive && players[consoleplayer].viewz != 1)
         return;
 
-    P_MapStart();
-
     if (gamestate == GS_LEVEL)
         for (i = 0; i < MAXPLAYERS; i++)
             if (playeringame[i])

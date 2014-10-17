@@ -548,13 +548,11 @@ boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
         intercept_t *scan;
 
         for (scan = intercepts; scan < intercept_p; scan++)
-        {
             if (scan->frac < dist)
             {
                 dist = scan->frac;
                 in = scan;
             }
-        }
 
         if (dist > maxfrac)
             return true;        // checked everything in range

@@ -232,25 +232,6 @@ extern int      st_palette;
 
 extern int      pagetic;
 
-int G_CmdChecksum(ticcmd_t *cmd)
-{
-    size_t      i;
-    int         sum = 0;
-
-    for (i = 0; i < sizeof(*cmd) / 4 - 1; i++)
-        sum += ((int *)cmd)[i];
-
-    return sum;
-}
-
-static boolean G_GetSpeedToggle(void)
-{
-    boolean     lt = (gamepadbuttons & gamepadspeed);
-    boolean     shift = gamekeydown[key_speed];
-
-    return ((lt ? 1 : 0) + (shift ? 1 : 0) + (alwaysrun ? 1 : 0) == 1);
-}
-
 //
 // G_BuildTiccmd
 // Builds a ticcmd from all of the available inputs.
@@ -272,7 +253,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
-    speed = G_GetSpeedToggle();
+    speed = (!!(gamepadbuttons & gamepadspeed) + !!gamekeydown[key_speed] + alwaysrun == 1);
 
     // use two stage accelerative turning
     // on the keyboard
@@ -292,18 +273,13 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     }
     else
     {
-        int tspeed = speed;
-
-        if (turnheld < SLOWTURNTICS)
-            tspeed = 2;         // slow turn
-
         if (gamekeydown[key_right])
-            cmd->angleturn -= angleturn[tspeed];
+            cmd->angleturn -= angleturn[turnheld < SLOWTURNTICS ? 2 : speed];
         else if (gamepadthumbRX > 0)
             cmd->angleturn -= (int)(gamepadangleturn[speed] * gamepadthumbRXright * gamepadsensitivityf);
 
         if (gamekeydown[key_left])
-            cmd->angleturn += angleturn[tspeed];
+            cmd->angleturn += angleturn[turnheld < SLOWTURNTICS ? 2 : speed];
         else if (gamepadthumbRX < 0)
             cmd->angleturn += (int)(gamepadangleturn[speed] * gamepadthumbRXleft * gamepadsensitivityf);
     }
@@ -333,16 +309,18 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         skipaction = false;
     else
     {
-        if (gamekeydown[key_fire] || mousebuttons[mousebfire] || (gamepadbuttons & gamepadfire))
+        if (mousebuttons[mousebfire] || gamekeydown[key_fire] || (gamepadbuttons & gamepadfire))
             cmd->buttons |= BT_ATTACK;
 
         if (gamekeydown[key_use] || mousebuttons[mousebuse] || (gamepadbuttons & gamepaduse))
+        {
             cmd->buttons |= BT_USE;
+            dclicks = 0;        // clear double clicks if hit use button
+        }
     }
 
     if (!idclev && !idmus)
-    {
-        for (i = 0; i < NUMWEAPONKEYS; i++)
+        for (i = 0; i < NUMWEAPONKEYS; ++i)
         {
             int key = *weapon_keys[i];
 
@@ -365,7 +343,6 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
                 }
             }
         }
-    }
 
     if (mousebuttons[mousebforward])
         forward += forwardmove[speed];
@@ -377,7 +354,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         {
             dclickstate = mousebuttons[mousebforward];
             if (dclickstate)
-                dclicks++;
+                ++dclicks;
             if (dclicks == 2)
             {
                 cmd->buttons |= BT_USE;
@@ -402,7 +379,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         {
             dclickstate2 = bstrafe;
             if (dclickstate2)
-                dclicks2++;
+                ++dclicks2;
             if (dclicks2 == 2)
             {
                 cmd->buttons |= BT_USE;
@@ -504,7 +481,7 @@ void G_DoLoadLevel(void)
 
     gamestate = GS_LEVEL;
 
-    for (i = 0; i < MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; ++i)
     {
         turbodetected[i] = false;
         if (playeringame[i] && players[i].playerstate == PST_DEAD)
@@ -546,14 +523,6 @@ void G_DoLoadLevel(void)
 
     if ((fullscreen && widescreen) || returntowidescreen)
         ToggleWideScreen(true);
-}
-
-static void SetMouseButtons(unsigned int buttons_mask)
-{
-    int i;
-
-    for (i = 0; i < MAX_MOUSE_BUTTONS; ++i)
-        mousebuttons[i] = ((buttons_mask & (1 << i)) != 0);
 }
 
 struct
@@ -641,6 +610,8 @@ extern boolean  splashscreen;
 //
 boolean G_Responder(event_t *ev)
 {
+    int mousebutton;
+
     // any other key pops up menu if on title screen
     if (gameaction == ga_nothing && gamestate == GS_TITLESCREEN)
     {
@@ -741,8 +712,13 @@ boolean G_Responder(event_t *ev)
             return false;           // always let key up events filter down
 
         case ev_mouse:
-            SetMouseButtons(ev->data1);
-            if (vibrate && ev->data1)
+            mousebutton = ev->data1;
+            mousebuttons[0] = mousebutton & MOUSE_LEFTBUTTON;
+            mousebuttons[1] = mousebutton & MOUSE_RIGHTBUTTON;
+            mousebuttons[2] = mousebutton & MOUSE_MIDDLEBUTTON;
+            mousebuttons[3] = mousebutton & MOUSE_WHEELUP;
+            mousebuttons[4] = mousebutton & MOUSE_WHEELDOWN;
+            if (vibrate && mousebutton)
             {
                 vibrate = false;
                 idlemotorspeed = 0;
@@ -767,11 +743,13 @@ boolean G_Responder(event_t *ev)
                 && gamepadnextweapon != GAMEPAD_LEFT_SHOULDER
                 && gamepadnextweapon != GAMEPAD_RIGHT_SHOULDER))
             {
-                if ((gamepadpress && gamepadwait < I_GetTime()) || !gamepadpress)
+                if (gamepadbuttons & gamepadnextweapon)
                 {
-                    if (gamepadbuttons & gamepadnextweapon)
+                    if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
+                    {
                         NextWeapon();
-                    gamepadpress = false;
+                        gamepadpress = false;
+                    }
                 }
                 if (gamepadbuttons & gamepadprevweapon)
                     PrevWeapon();
@@ -805,7 +783,7 @@ boolean G_CheckSaveGame(void)
 
     handle = fopen(savename, "rb");
 
-    for (i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
+    for (i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; ++i)
         saveg_read8(handle);
     episode = saveg_read8(handle);
     map = saveg_read8(handle);
@@ -833,10 +811,8 @@ void G_Ticker(void)
     int         buf;
     ticcmd_t    *cmd;
 
-    P_MapStart();
-
     // do player reborns if needed
-    for (i = 0; i < MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; ++i)
         if (playeringame[i] && players[i].playerstate == PST_REBORN)
             G_DoReborn(i);
 
@@ -886,7 +862,7 @@ void G_Ticker(void)
                     }
                     if (V_ScreenShot())
                     {
-                        static char message[512];
+                        static char     message[512];
 
                         S_StartSound(NULL, sfx_swtchx);
                         if (usergame || gamestate == GS_LEVEL)
@@ -913,7 +889,7 @@ void G_Ticker(void)
     // and build new consistency check
     buf = (gametic / ticdup) % BACKUPTICS;
 
-    for (i = 0; i < MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; ++i)
     {
         if (playeringame[i])
         {
@@ -924,7 +900,7 @@ void G_Ticker(void)
     }
 
     // check for special buttons
-    for (i = 0; i < MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; ++i)
     {
         if (playeringame[i])
         {
@@ -936,8 +912,6 @@ void G_Ticker(void)
                         paused ^= 1;
                         if (paused)
                         {
-                            S_StopSounds();
-                            S_StartSound(NULL, sfx_swtchn);
                             S_PauseSound();
 
                             if (gamepadvibrate && vibrate)
@@ -1068,7 +1042,7 @@ void G_PlayerReborn(int player)
     p->weaponowned[wp_pistol] = true;
     p->ammo[am_clip] = initial_bullets;
 
-    for (i = 0; i < NUMAMMO; i++)
+    for (i = 0; i < NUMAMMO; ++i)
         p->maxammo[i] = (gamemode == shareware && i == am_cell ? 0 : maxammo[i]);
 
     markpointnum = 0;
@@ -1093,13 +1067,14 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
     int                 i;
     fixed_t             xa;
     fixed_t             ya;
+    mobj_t              *player = players[playernum].mo;
 
     flag667 = false;
 
-    if (!players[playernum].mo)
+    if (!player)
     {
         // first spawn of level, before corpses
-        for (i = 0; i < playernum; i++)
+        for (i = 0; i < playernum; ++i)
             if (players[i].mo->x == mthing->x << FRACBITS
                 && players[i].mo->y == mthing->y << FRACBITS)
                 return false;
@@ -1109,9 +1084,9 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
 
-    players[playernum].mo->flags |=  MF_SOLID;
-    i = P_CheckPosition(players[playernum].mo, x, y);
-    players[playernum].mo->flags &= ~MF_SOLID;
+    player->flags |=  MF_SOLID;
+    i = P_CheckPosition(player, x, y);
+    player->flags &= ~MF_SOLID;
     if (!i)
         return false;
 
@@ -1172,7 +1147,7 @@ void G_DeathMatchSpawnPlayer(int playernum)
     if (selections < 4)
         I_Error("Only %i deathmatch spots, 4 required", selections);
 
-    for (j = 0; j < 20; j++)
+    for (j = 0; j < 20; ++j)
     {
         i = P_Random() % selections;
         if (G_CheckSpot(playernum, &deathmatchstarts[i]))
@@ -1223,7 +1198,7 @@ int cpars[33] =
 // [BH] No Rest For The Living Par Times
 int npars[9] =
 {
-    75, 105, 120, 105, 210, 105, 165, 105, 135
+     75, 105, 120, 105, 210, 105, 165, 105, 135
 };
 
 //
@@ -1271,7 +1246,7 @@ void G_DoCompleted(void)
         ST_doRefresh();
     }
 
-    for (i = 0; i < MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; ++i)
         if (playeringame[i])
             G_PlayerFinishLevel(i);             // take away cards and stuff
 
@@ -1301,7 +1276,7 @@ void G_DoCompleted(void)
                 gameaction = ga_victory;
                 return;
             case 9:
-                for (i = 0; i < MAXPLAYERS; i++)
+                for (i = 0; i < MAXPLAYERS; ++i)
                     players[i].didsecret = true;
                 break;
         }
@@ -1320,7 +1295,8 @@ void G_DoCompleted(void)
             {
                 case 2:
                     // [BH] exit to secret level on MAP02 of BFG Edition
-                    wminfo.next = 32;
+                    if (bfgedition)
+                        wminfo.next = 32;
                     break;
                 case 4:
                     // [BH] exit to secret level in No Rest For The Living
@@ -1349,8 +1325,11 @@ void G_DoCompleted(void)
                     break;
                 case 33:
                     // [BH] return to MAP03 after secret level in BFG Edition
-                    wminfo.next = 2;
-                    break;
+                    if (bfgedition)
+                    {
+                        wminfo.next = 2;
+                        break;
+                    }
                 default:
                    wminfo.next = gamemap;
                    break;
@@ -1412,15 +1391,14 @@ void G_DoCompleted(void)
 
     wminfo.pnum = consoleplayer;
 
-    for (i = 0; i < MAXPLAYERS; i++)
+    for (i = 0; i < MAXPLAYERS; ++i)
     {
         wminfo.plyr[i].in = playeringame[i];
         wminfo.plyr[i].skills = players[i].killcount;
         wminfo.plyr[i].sitems = players[i].itemcount;
         wminfo.plyr[i].ssecret = players[i].secretcount;
         wminfo.plyr[i].stime = leveltime;
-        memcpy(wminfo.plyr[i].frags, players[i].frags,
-               sizeof(wminfo.plyr[i].frags));
+        memcpy(wminfo.plyr[i].frags, players[i].frags, sizeof(wminfo.plyr[i].frags));
     }
 
     gamestate = GS_INTERMISSION;
@@ -1515,8 +1493,6 @@ void G_DoLoadGame(void)
     G_InitNew(gameskill, gameepisode, gamemap);
 
     leveltime = savedleveltime;
-
-    P_MapStart();
 
     // dearchive all the modifications
     P_UnArchivePlayers();
@@ -1644,7 +1620,7 @@ void G_DeferredInitNew(skill_t skill, int episode, int map)
 //
 void G_DeferredLoadLevel(skill_t skill, int episode, int map)
 {
-    int pnum, i;
+    int pnum;
 
     d_skill = skill;
     d_episode = episode;
@@ -1656,9 +1632,10 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
     for (pnum = 0; pnum < MAXPLAYERS; ++pnum)
         if (playeringame[pnum])
         {
-            player_t *player = &players[pnum];
+            int         i;
+            player_t    *player = &players[pnum];
 
-            for (i = 0; i < NUMPOWERS; i++)
+            for (i = 0; i < NUMPOWERS; ++i)
                 if (player->powers[i] > 0)
                     player->powers[i] = 0;
         }
@@ -1682,14 +1659,14 @@ void G_DoNewGame(void)
 
 void G_SetFastParms(int fast_pending)
 {
-    static int fast = 0;
-    int i;
+    static int  fast = 0;
+    int         i;
 
     if (fast != fast_pending)
     {
         if ((fast = fast_pending))
         {
-            for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+            for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
                 if (states[i].tics != 1)
                     states[i].tics >>= 1;
             mobjinfo[MT_BRUISERSHOT].speed = 20 * FRACUNIT;
@@ -1698,7 +1675,7 @@ void G_SetFastParms(int fast_pending)
         }
         else
         {
-            for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; i++)
+            for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)
                 states[i].tics <<= 1;
             mobjinfo[MT_BRUISERSHOT].speed = 15 * FRACUNIT;
             mobjinfo[MT_HEADSHOT].speed = 10 * FRACUNIT;
@@ -1746,7 +1723,7 @@ void G_InitNew(skill_t skill, int episode, int map)
     G_SetFastParms(fastparm || skill == sk_nightmare);
 
     // force players to be initialized upon first level load
-    for (i = 0; i < MAXPLAYERS ; i++)
+    for (i = 0; i < MAXPLAYERS; ++i)
         players[i].playerstate = PST_REBORN;
 
     usergame = true;            // will be set false if on title screen
@@ -1756,40 +1733,6 @@ void G_InitNew(skill_t skill, int episode, int map)
     gameepisode = episode;
     gamemap = map;
     gameskill = skill;
-
-    // [BH] Do not set the sky here.
-    // See http://doom.wikia.com/wiki/Sky_never_changes_in_Doom_II.
-
-    //if (gamemode == commercial)
-    //{
-    //    if (gamemap < 12)
-    //        skytexturename = "SKY1";
-    //    else if (gamemap < 21)
-    //        skytexturename = "SKY2";
-    //    else
-    //        skytexturename = "SKY3";
-    //}
-    //else
-    //{
-    //    switch (gameepisode)
-    //    {
-    //        default:
-    //        case 1:
-    //            skytexturename = "SKY1";
-    //            break;
-    //        case 2:g
-    //            skytexturename = "SKY2";
-    //            break;
-    //        case 3:
-    //            skytexturename = "SKY3";
-    //            break;
-    //        case 4:           // Special Edition sky
-    //            skytexturename = "SKY4";
-    //            break;
-    //    }
-    //}
-
-    //skytexture = R_TextureNumForName(skytexturename);
 
     G_DoLoadLevel();
 }

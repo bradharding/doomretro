@@ -78,6 +78,7 @@
 
 #define MOUSE_LEFTBUTTON        1
 #define MOUSE_RIGHTBUTTON       2
+#define MOUSE_MIDDLEBUTTON      4
 #define MOUSE_WHEELUP           8
 #define MOUSE_WHEELDOWN         16
 
@@ -245,7 +246,6 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage);
 
 void P_ApplyTorque(mobj_t *mo); // killough 9/12/98
 
-void P_MapStart(void);
 void P_MapEnd(void);
 
 //
