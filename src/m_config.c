@@ -866,22 +866,31 @@ static void M_CheckDefaults(void)
     if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
         mousebfire = MOUSEFIRE_DEFAULT;
 
-    if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS)
+    if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS
+        || mousebforward == mousebfire)
         mousebforward = MOUSEFORWARD_DEFAULT;
 
-    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS)
+    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS
+        || mousebprevweapon == mousebfire || mousebprevweapon == mousebforward)
         mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
 
-    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS)
+    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS
+        || mousebnextweapon == mousebfire || mousebnextweapon == mousebforward
+        || mousebnextweapon == mousebprevweapon)
         mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
 
     if (mousesensitivity < MOUSESENSITIVITY_MIN || mousesensitivity > MOUSESENSITIVITY_MAX)
         mousesensitivity = MOUSESENSITIVITY_DEFAULT;
 
-    if (mousebstrafe < -1 || mousebstrafe > MAX_MOUSE_BUTTONS)
+    if (mousebstrafe < -1 || mousebstrafe > MAX_MOUSE_BUTTONS
+        || mousebstrafe == mousebfire || mousebstrafe == mousebforward
+        || mousebstrafe == mousebprevweapon || mousebstrafe == mousebnextweapon)
         mousebstrafe = MOUSESTRAFE_DEFAULT;
 
-    if (mousebuse < -1 || mousebuse > MAX_MOUSE_BUTTONS)
+    if (mousebuse < -1 || mousebuse > MAX_MOUSE_BUTTONS
+        || mousebuse == mousebfire || mousebuse == mousebforward
+        || mousebuse == mousebprevweapon || mousebuse == mousebnextweapon
+        || mousebuse == mousebstrafe)
         mousebuse = MOUSEUSE_DEFAULT;
 
     if (musicVolume < MUSICVOLUME_MIN || musicVolume > MUSICVOLUME_MAX)
