@@ -94,14 +94,12 @@ typedef enum
     ANIM_ALWAYS,
     ANIM_RANDOM,
     ANIM_LEVEL
-
 } animenum_t;
 
 typedef struct
 {
     int                 x;
     int                 y;
-
 } point_t;
 
 //
@@ -189,7 +187,6 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
         { 140,  25 },   // location of level 7 (CJ)
         { 281, 136 }    // location of level 8 (CJ)
     }
-
 };
 
 //
@@ -197,7 +194,6 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
 // Using patches saves a lot of space,
 //  as they replace 320x200 full screen frames.
 //
-
 #define ANIM(type, period, nanims, x, y, nexttic)                  \
             { (type), (period), (nanims), { (x), (y) }, (nexttic), \
               0, { NULL, NULL, NULL }, 0, 0, 0, 0 }
@@ -379,8 +375,8 @@ void WI_slamBackground(void)
 // [BH] Draws character of "<Levelname>"
 void WI_drawWILVchar(int x, int y, int i)
 {
-    int         w;
-    int         x1, y1;
+    int w;
+    int x1, y1;
 
     w = strlen(wilv[i]) / 13;
 
@@ -392,7 +388,7 @@ void WI_drawWILVchar(int x, int y, int i)
 char            *mapname = "";
 char            *nextmapname = "";
 
-extern char *mapnames[][6];
+extern char     *mapnames[][6];
 
 int chartoi[130] =
 {
@@ -413,11 +409,11 @@ int chartoi[130] =
 
 void WI_drawWILV(int y, char *str)
 {
-    int         i;
-    int         w = 0;
-    int         x;
+    int i;
+    int w = 0;
+    int x;
 
-    for (i = 0; (unsigned)i < strlen(str); i++)
+    for (i = 0; (unsigned int)i < strlen(str); i++)
     {
         int     j = chartoi[(int)str[i]];
 
@@ -425,7 +421,7 @@ void WI_drawWILV(int y, char *str)
     }
     x = (ORIGINALWIDTH - w - 1) / 2;
 
-    for (i = 0; (unsigned)i < strlen(str); i++)
+    for (i = 0; (unsigned int)i < strlen(str); i++)
     {
         int     j = chartoi[(int)str[i]];
 
@@ -526,8 +522,7 @@ void WI_drawOnLnode(int n, patch_t *c[])
 
 void WI_initAnimatedBack(void)
 {
-    int         i;
-    anim_t      *a;
+    int i;
 
     if (gamemode == commercial)
         return;
@@ -537,7 +532,7 @@ void WI_initAnimatedBack(void)
 
     for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
-        a = &anims[wbs->epsd][i];
+        anim_t  *a = &anims[wbs->epsd][i];
 
         // init variables
         a->ctr = -1;
@@ -555,8 +550,7 @@ void WI_initAnimatedBack(void)
 
 void WI_updateAnimatedBack(void)
 {
-    int         i;
-    anim_t      *a;
+    int i;
 
     if (gamemode == commercial)
         return;
@@ -566,7 +560,7 @@ void WI_updateAnimatedBack(void)
 
     for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
-        a = &anims[wbs->epsd][i];
+        anim_t  *a = &anims[wbs->epsd][i];
 
         if (bcnt == a->nexttic)
         {
@@ -607,8 +601,7 @@ void WI_updateAnimatedBack(void)
 
 void WI_drawAnimatedBack(void)
 {
-    int         i;
-    anim_t      *a;
+    int i;
 
     if (gamemode == commercial)
         return;
@@ -618,7 +611,7 @@ void WI_drawAnimatedBack(void)
 
     for (i = 0; i < NUMANIMS[wbs->epsd]; i++)
     {
-        a = &anims[wbs->epsd][i];
+        anim_t  *a = &anims[wbs->epsd][i];
 
         if (a->ctr >= 0)
             V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[a->ctr]);
@@ -634,9 +627,9 @@ void WI_drawAnimatedBack(void)
 int WI_drawNum(int x, int y, int n, int digits)
 {
 
-    int         fontwidth = SHORT(num[0]->width);
-    int         neg;
-    int         temp;
+    int fontwidth = SHORT(num[0]->width);
+    int neg;
+    int temp;
 
     if (digits < 0)
     {
@@ -657,7 +650,7 @@ int WI_drawNum(int x, int y, int n, int digits)
         }
     }
 
-    neg = n < 0;
+    neg = (n < 0);
     if (neg)
         n = -n;
 
@@ -697,8 +690,8 @@ void WI_drawPercent(int x, int y, int p)
 //
 void WI_drawTime(int x, int y, int t)
 {
-    int         div;
-    int         n;
+    int div;
+    int n;
 
     if (t < 0)
         return;
@@ -755,6 +748,12 @@ static boolean snl_pointeron = false;
 
 void WI_initShowNextLoc(void)
 {
+    if (gamemode != commercial && gamemap == 8)
+    {
+        G_WorldDone();
+        return;
+    }
+
     state = ShowNextLoc;
     acceleratestage = 0;
     cnt = SHOWNEXTLOCDELAY * TICRATE;
@@ -774,8 +773,8 @@ void WI_updateShowNextLoc(void)
 
 void WI_drawShowNextLoc(void)
 {
-    int         i;
-    int         last;
+    int i;
+    int last;
 
     WI_slamBackground();
 
@@ -820,8 +819,8 @@ void WI_drawNoState(void)
 
 int WI_fragSum(int playernum)
 {
-    int         i;
-    int         frags = 0;
+    int i;
+    int frags = 0;
 
     for (i = 0; i < MAXPLAYERS; i++)
         if (playeringame[i] && i != playernum)
@@ -838,8 +837,7 @@ static int      dm_totals[MAXPLAYERS];
 
 void WI_initDeathmatchStats(void)
 {
-    int         i;
-    int         j;
+    int i;
 
     state = StatCount;
     acceleratestage = 0;
@@ -850,6 +848,8 @@ void WI_initDeathmatchStats(void)
     for (i = 0; i < MAXPLAYERS; i++)
         if (playeringame[i])
         {
+            int j;
+
             for (j = 0; j < MAXPLAYERS; j++)
                 if (playeringame[j])
                     dm_frags[i][j] = 0;
@@ -865,7 +865,6 @@ void WI_updateDeathmatchStats(void)
 
     int         i;
     int         j;
-
     boolean     stillticking;
 
     WI_updateAnimatedBack();
@@ -955,11 +954,11 @@ void WI_updateDeathmatchStats(void)
 void WI_drawDeathmatchStats(void)
 {
 
-    int         i;
-    int         j;
-    int         x;
-    int         y;
-    int         w;
+    int i;
+    int j;
+    int x;
+    int y;
+    int w;
 
     WI_slamBackground();
 
@@ -1035,6 +1034,9 @@ void WI_initStats(void)
 
 void WI_updateStats(void)
 {
+    //e6y
+    static boolean      play_early_explosion = true;
+
     WI_updateAnimatedBack();
 
     if (acceleratestage && sp_state != 10)
@@ -1094,7 +1096,8 @@ void WI_updateStats(void)
 
     else if (sp_state == 8)
     {
-        if (!(bcnt & 3))
+        // e6y: do not play count sound after explosion sound
+        if (!(bcnt & 3) && play_early_explosion)
             S_StartSound(NULL, sfx_pistol);
 
         cnt_time += 3;
@@ -1104,13 +1107,28 @@ void WI_updateStats(void)
 
         cnt_par += 3;
 
+        // e6y
+        // if par time is hidden (if modifiedgame is true)
+        // the game should play explosion sound immediately after
+        // the counter will reach level time instead of par time
+        if (modifiedgame && play_early_explosion)
+        {
+            if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
+            {
+                S_StartSound(0, sfx_barexp);
+                play_early_explosion = false;   // do not play it twice or more
+            }
+        }
+
         if (cnt_par >= (int)(wbs->partime) / TICRATE)
         {
             cnt_par = (int)(wbs->partime) / TICRATE;
 
             if (cnt_time >= (int)(plrs[me].stime) / TICRATE)
             {
-                S_StartSound(NULL, sfx_barexp);
+                // e6y: do not play explosion sound if it was already played
+                if (!modifiedgame)
+                    S_StartSound(NULL, sfx_barexp);
                 sp_state++;
             }
         }
@@ -1129,6 +1147,7 @@ void WI_updateStats(void)
     }
     else if (sp_state & 1)
     {
+        play_early_explosion = true;    // e6y
         if (!--cnt_pause)
         {
             sp_state++;

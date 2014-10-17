@@ -1273,8 +1273,7 @@ void G_DoCompleted(void)
                     selectedepisode = gameepisode;
                     EpiDef.lastOn = selectedepisode;
                 }
-                gameaction = ga_victory;
-                return;
+                break;
             case 9:
                 for (i = 0; i < MAXPLAYERS; ++i)
                     players[i].didsecret = true;
@@ -1442,6 +1441,8 @@ void G_WorldDone(void)
             }
         }
     }
+    else if (gamemap == 8)
+        gameaction = ga_victory;
 }
 
 void G_DoWorldDone(void)
