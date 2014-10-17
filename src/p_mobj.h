@@ -274,7 +274,7 @@ typedef struct mobj_s
     // Interaction info, by BLOCKMAP.
     // Links in blocks (if needed).
     struct mobj_s       *bnext;
-    struct mobj_s       *bprev;
+    struct mobj_s       **bprev; // killough 8/11/98: change to ptr-to-ptr
 
     struct subsector_s  *subsector;
 

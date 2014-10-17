@@ -301,8 +301,8 @@ static void saveg_read_mobj_t(mobj_t *str)
     // struct mobj_s *bnext
     str->bnext = (mobj_t *)saveg_readp();
 
-    // struct mobj_s *bprev
-    str->bprev = (mobj_t *)saveg_readp();
+    // struct mobj_s **bprev
+    str->bprev = (mobj_t **)saveg_readp();
 
     // struct subsector_s *subsector
     str->subsector = (subsector_t *)saveg_readp();

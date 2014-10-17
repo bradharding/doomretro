@@ -219,20 +219,19 @@ void P_UnsetThingPosition(mobj_t *thing)
     if (!(thing->flags & MF_NOBLOCKMAP))
     {
         // inert things don't need to be in blockmap
-        // unlink from block map
-        if (thing->bnext)
-            thing->bnext->bprev = thing->bprev;
+        //
+        // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
+        // pointers, allows head node pointers to be treated like everything else
+        //
+        // Also more robust, since it doesn't depend on current position for
+        // unlinking. Old method required computing head node based on position
+        // at time of unlinking, assuming it was the same position as during
+        // linking.
+        mobj_t  *bnext;
+        mobj_t  **bprev = thing->bprev;
 
-        if (thing->bprev)
-            thing->bprev->bnext = thing->bnext;
-        else
-        {
-            int blockx = (thing->x - bmaporgx) >> MAPBLOCKSHIFT;
-            int blocky = (thing->y - bmaporgy) >> MAPBLOCKSHIFT;
-
-            if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
-                blocklinks[blocky * bmapwidth + blockx] = thing->bnext;
-        }
+        if (bprev && (*bprev = bnext = thing->bnext))   // unlink from block map
+            bnext->bprev = bprev;
     }
 }
 
@@ -277,7 +276,7 @@ void P_SetThingPosition(mobj_t *thing)
         // added, new sector links are created.
         P_CreateSecNodeList(thing, thing->x, thing->y);
         thing->touching_sectorlist = sector_list;       // Attach to Thing's mobj_t
-        thing->old_sectorlist = NULL;                             // clear for next time
+        thing->old_sectorlist = NULL;                   // clear for next time
     }
 
     // link into blockmap
@@ -289,19 +288,21 @@ void P_SetThingPosition(mobj_t *thing)
 
         if (blockx >= 0 && blockx < bmapwidth && blocky >= 0 && blocky < bmapheight)
         {
+            // killough 8/11/98: simpler scheme using pointer-to-pointer prev
+            // pointers, allows head nodes to be treated like everything else
             mobj_t      **link = &blocklinks[blocky * bmapwidth + blockx];
+            mobj_t      *bnext = *link;
 
-            thing->bprev = NULL;
-            thing->bnext = *link;
-            if (*link)
-                (*link)->bprev = thing;
-
+            if ((thing->bnext = bnext))
+                bnext->bprev = &thing->bnext;
+            thing->bprev = link;
             *link = thing;
         }
         else
         {
             // thing is off the map
-            thing->bnext = thing->bprev = NULL;
+            thing->bnext = NULL;
+            thing->bprev = NULL;
         }
     }
 }
