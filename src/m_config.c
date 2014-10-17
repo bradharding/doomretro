@@ -94,6 +94,8 @@ extern float    mouse_acceleration;
 extern int      mouse_threshold;
 extern int      mousebfire;
 extern int      mousebforward;
+extern int      mousebprevweapon;
+extern int      mousebnextweapon;
 extern int      mousebstrafe;
 extern int      mousebuse;
 extern boolean  novert;
@@ -200,8 +202,8 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (gamepad_fire,        gamepadfire,          2),
     CONFIG_VARIABLE_INT   (gamepad_lefthanded,  gamepadlefthanded,    1),
     CONFIG_VARIABLE_INT   (gamepad_menu,        gamepadmenu,          2),
-    CONFIG_VARIABLE_INT   (gamepad_nextweapon,  gamepadnextweapon,    2),
     CONFIG_VARIABLE_INT   (gamepad_prevweapon,  gamepadprevweapon,    2),
+    CONFIG_VARIABLE_INT   (gamepad_nextweapon,  gamepadnextweapon,    2),
     CONFIG_VARIABLE_INT   (gamepad_sensitivity, gamepadsensitivity,   0),
     CONFIG_VARIABLE_INT   (gamepad_speed,       gamepadspeed,         2),
     CONFIG_VARIABLE_INT   (gamepad_use,         gamepaduse,           2),
@@ -223,8 +225,8 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_KEY   (key_down2,           key_down2,            3),
     CONFIG_VARIABLE_KEY   (key_fire,            key_fire,             3),
     CONFIG_VARIABLE_KEY   (key_left,            key_left,             3),
-    CONFIG_VARIABLE_KEY   (key_nextweapon,      key_nextweapon,       3),
     CONFIG_VARIABLE_KEY   (key_prevweapon,      key_prevweapon,       3),
+    CONFIG_VARIABLE_KEY   (key_nextweapon,      key_nextweapon,       3),
     CONFIG_VARIABLE_KEY   (key_right,           key_right,            3),
     CONFIG_VARIABLE_KEY   (key_speed,           key_speed,            3),
     CONFIG_VARIABLE_KEY   (key_strafe,          key_strafe,           3),
@@ -238,6 +240,8 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_FLOAT (mouse_acceleration,  mouse_acceleration,   0),
     CONFIG_VARIABLE_INT   (mouse_fire,          mousebfire,           4),
     CONFIG_VARIABLE_INT   (mouse_forward,       mousebforward,        4),
+    CONFIG_VARIABLE_INT   (mouse_prevweapon,    mousebprevweapon,     4),
+    CONFIG_VARIABLE_INT   (mouse_nextweapon,    mousebnextweapon,     4),
     CONFIG_VARIABLE_INT   (mouse_sensitivity,   mousesensitivity,     0),
     CONFIG_VARIABLE_INT   (mouse_strafe,        mousebstrafe,         4),
     CONFIG_VARIABLE_INT   (mouse_threshold,     mouse_threshold,      0),
@@ -364,6 +368,8 @@ static alias_t alias[] =
     { "left",                                   0,  4 },
     { "middle",                                 1,  4 },
     { "right",                                  2,  4 },
+    { "wheelup",                                3,  4 },
+    { "wheeldown",                              4,  4 },
     { "desktop",                                0,  5 },
     { "low",                                    0,  6 },
     { "high",                                   1,  6 },
@@ -862,6 +868,12 @@ static void M_CheckDefaults(void)
 
     if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS)
         mousebforward = MOUSEFORWARD_DEFAULT;
+
+    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS)
+        mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
+
+    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS)
+        mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
 
     if (mousesensitivity < MOUSESENSITIVITY_MIN || mousesensitivity > MOUSESENSITIVITY_MAX)
         mousesensitivity = MOUSESENSITIVITY_DEFAULT;

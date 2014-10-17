@@ -143,6 +143,8 @@ int             mousebfire = MOUSEFIRE_DEFAULT;
 int             mousebstrafe = MOUSESTRAFE_DEFAULT;
 int             mousebforward = MOUSEFORWARD_DEFAULT;
 int             mousebuse = MOUSEUSE_DEFAULT;
+int             mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
+int             mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
 
 int             gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
 int             gamepadfire = GAMEPADFIRE_DEFAULT;
@@ -748,9 +750,9 @@ boolean G_Responder(event_t *ev)
             }
             if (!automapactive && !menuactive && !paused)
             {
-                if (ev->data1 & MOUSE_WHEELDOWN)
+                if (mousebuttons[mousebnextweapon])
                     NextWeapon();
-                else if (ev->data1 & MOUSE_WHEELUP)
+                else if (mousebuttons[mousebprevweapon])
                     PrevWeapon();
             }
             if (!automapactive || (automapactive && followplayer))

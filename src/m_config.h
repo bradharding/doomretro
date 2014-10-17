@@ -139,6 +139,10 @@
 
 #define MOUSEFORWARD_DEFAULT            -1
 
+#define MOUSEPREVWEAPON_DEFAULT         3
+
+#define MOUSENEXTWEAPON_DEFAULT         4
+
 #define MOUSESENSITIVITY_MIN            0
 #define MOUSESENSITIVITY_DEFAULT        16
 #define MOUSESENSITIVITY_MAX            128
