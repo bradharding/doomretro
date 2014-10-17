@@ -408,7 +408,8 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     dc_iscale = ABS(vis->xiscale);
     dc_texturemid = vis->texturemid;
-    dc_blood = dc_colormap[vis->blood] << 8;
+    if (dc_colormap)
+        dc_blood = dc_colormap[vis->blood] << 8;
     
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
@@ -691,7 +692,11 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     vis->patch = lump;
 
     if (invisibility)
-        vis->colfunc = psprcolfunc;             // shadow draw
+    {
+        // shadow draw
+        vis->colfunc = psprcolfunc;
+        vis->colormap = NULL;
+    }
     else
     {
         if (state == &states[S_DSGUN])
