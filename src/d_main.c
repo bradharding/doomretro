@@ -929,6 +929,8 @@ static void D_DoomMainSetup(void)
     int         p;
     char        file[256];
     int         temp;
+    int         choseniwad = 0;
+
 
     version = PACKAGE_VERSIONSTRING;
 
@@ -985,8 +987,6 @@ static void D_DoomMainSetup(void)
 #ifdef WIN32
     else if (!p)
     {
-        int     choseniwad;
-
         if (!runcount)
             D_FirstUse();
         do
@@ -1075,9 +1075,9 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    if (!iwadfile && !modifiedgame)
+    if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
-            "specifying one with the '-iwad' command line parameter.");
+                "specifying one with the '-iwad' command-line parameter.");
 
     if (!W_MergeFile(PACKAGE_WAD))
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
