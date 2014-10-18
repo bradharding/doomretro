@@ -45,6 +45,6 @@ int M_CheckParm(char *check);
 int M_CheckParmWithArgs(char *check, int num_args);
 int M_CheckParmsWithArgs(char *check1, char *check2, int num_args);
 
-void M_FindResponseFile(void);
+boolean M_ParmExists(char *check);
 
 #endif

@@ -519,12 +519,15 @@ void ProcessDehFile(char *filename, char *outfilename, int lump);
 
 static void LoadChexDeh(char *path)
 {
-    char        *dehpath = M_StringReplace(path, ".wad", ".deh");
-
-    if (M_FileExists(dehpath))
+    if (!M_ParmExists("-nodeh"))
     {
-        chexdeh = true;
-        ProcessDehFile(dehpath, "-", 0);
+        char    *dehpath = M_StringReplace(path, ".wad", ".deh");
+
+        if (M_FileExists(dehpath))
+        {
+            chexdeh = true;
+            ProcessDehFile(dehpath, "-", 0);
+        }
     }
 }
 
@@ -911,7 +914,7 @@ static void D_ProcessDehInWad(void)
 {
     unsigned int        i;
 
-    if (chexdeh)
+    if (chexdeh || M_ParmExists("-nodeh"))
         return;
 
     for (i = 0; i < numlumps; ++i)
