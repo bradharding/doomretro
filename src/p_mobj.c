@@ -454,6 +454,8 @@ void P_NightmareRespawn(mobj_t *mobj)
 
     // remove the old monster
     P_RemoveMobj(mobj);
+    if (mobj->shadow)
+        P_RemoveMobj(mobj->shadow);
 }
 
 static void PlayerLandedOnThing(mobj_t *mo)
