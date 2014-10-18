@@ -29,7 +29,6 @@
 
 #include "doomstat.h"
 #include "p_local.h"
-#include "z_zone.h"
 
 int     leveltime;
 
@@ -65,57 +64,35 @@ void P_AddThinker(thinker_t *thinker)
 }
 
 //
-// killough 11/98:
-//
-// Make currentthinker external, so that P_RemoveThinkerDelayed
-// can adjust currentthinker when thinkers self-remove.
-
-static thinker_t        *currentthinker;
-
-void P_RemoveThinkerDelayed(thinker_t *thinker)
-{
-    // Remove from main thinker list
-    thinker_t   *next = thinker->next;
-
-    // Note that currentthinker is guaranteed to point to us,
-    // and since we're freeing our memory, we had better change that. So
-    // point it to thinker->prev, so the iterator will correctly move on to
-    // thinker->prev->next = thinker->next
-    (next->prev = currentthinker = thinker->prev)->next = next;
-
-    Z_Free(thinker);
-}
-
-//
 // P_RemoveThinker
 // Deallocation is lazy -- it will not actually be freed
 // until its thinking turn comes up.
 //
-// killough 4/25/98:
-//
-// Instead of marking the function with -1 value cast to a function pointer,
-// set the function to P_RemoveThinkerDelayed(), so that later, it will be
-// removed automatically as part of the thinker process.
-//
 void P_RemoveThinker(thinker_t *thinker)
 {
-    thinker->function.acv = (actionf_v)P_RemoveThinkerDelayed;
+    thinker->function.acv = (actionf_v)(-1);
 }
 
 //
 // P_RunThinkers
 //
-// killough 11/98:
-//
-// Rewritten to delete nodes implicitly, by making currentthinker
-// external and using P_RemoveThinkerDelayed() implicitly.
-//
 void P_RunThinkers(void)
 {
-    for (currentthinker = thinkercap.next; currentthinker != &thinkercap;
-         currentthinker = currentthinker->next)
-        if (currentthinker->function.acp1)
+    thinker_t   *currentthinker;
+
+    currentthinker = thinkercap.next;
+    while (currentthinker != &thinkercap)
+    {
+        if (currentthinker->function.acv == (actionf_v)(-1))
+        {
+            // time to remove it
+            currentthinker->next->prev = currentthinker->prev;
+            currentthinker->prev->next = currentthinker->next;
+        }
+        else if (currentthinker->function.acp1)
             currentthinker->function.acp1(currentthinker);
+        currentthinker = currentthinker->next;
+    }
 }
 
 //
