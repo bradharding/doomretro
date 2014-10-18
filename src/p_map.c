@@ -1806,7 +1806,7 @@ static void P_UpdateBloodSplat(mobj_t *splat)
     if (isliquid[sec->floorpic])
     {
         P_UnsetThingPosition(splat);
-        ((thinker_t *)splat)->function.acv = (actionf_v)(-1);
+        P_RemoveThinker((thinker_t *)splat);
     }
 }
 

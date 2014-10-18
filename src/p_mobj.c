@@ -483,7 +483,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         P_XYMovement(mobj);
 
-        if (mobj->thinker.function.acv == (actionf_v)(-1))
+        if (mobj->thinker.function.acv != P_MobjThinker)
             return;             // mobj was removed
     }
 
@@ -520,7 +520,7 @@ void P_MobjThinker(mobj_t *mobj)
         else
             P_ZMovement(mobj);
 
-        if (mobj->thinker.function.acv == (actionf_v)(-1))
+        if (mobj->thinker.function.acv != P_MobjThinker)
             return;             // mobj was removed
     }
     else if (!mobj->momx && !mobj->momy && !mobj->player)
@@ -1148,7 +1148,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
             if (oldsplat)
             {
                 P_UnsetThingPosition(oldsplat);
-                ((thinker_t *)oldsplat)->function.acv = (actionf_v)(-1);
+                P_RemoveThinker((thinker_t *)oldsplat);
             }
         }
 
