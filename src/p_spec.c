@@ -70,7 +70,8 @@ typedef struct
 
 #define MAXANIMS        32
 
-static anim_t   *lastanim, *anims;      // new structure w/o limits -- killough
+static anim_t   *lastanim;
+static anim_t   *anims;         // new structure w/o limits -- killough
 static size_t   maxanims;
 
 //
@@ -967,7 +968,10 @@ void P_PlayerInSpecialSector(player_t *player)
                 P_DamageMobj(player->mo, NULL, NULL, 20);
 
             if (player->health <= 10)
+            {
+                player->health = 0;
                 G_ExitLevel();
+            }
             break;
 
         default:
