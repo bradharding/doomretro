@@ -240,6 +240,8 @@ void P_XYMovement(mobj_t *mo)
                     // Does not handle sky floors.
                     shootingsky = true;
                     P_RemoveMobj(mo);
+                    if (mo->type == MT_ROCKET && mo->shadow)
+                        P_RemoveMobj(mo->shadow);
                     return;
                 }
                 P_ExplodeMissile(mo);
