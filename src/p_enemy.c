@@ -1516,6 +1516,8 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
     if (!P_TryMove(newmobj, newmobj->x, newmobj->y, false))
     {
         P_RemoveMobj(newmobj);
+        if (newmobj->shadow)
+            P_RemoveMobj(newmobj->shadow);
         return;
     }
 
