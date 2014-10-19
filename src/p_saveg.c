@@ -1702,6 +1702,9 @@ void P_UnArchiveThinkers(void)
                     {
                         P_SpawnShadow(mobj);
 
+                        if (mobj->flags2 & MF2_MIRRORED)
+                            mobj->shadow->flags2 |= MF2_MIRRORED;
+
                         if (footclip && (mobj->flags2 & MF2_FEETARECLIPPED))
                             mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
                     }
