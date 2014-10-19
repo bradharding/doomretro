@@ -1256,7 +1256,12 @@ static void D_DoomMainSetup(void)
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
         }
 
-        if (W_CheckNumForName(lumpname) >= 0)
+        if (BTSX)
+        {
+            if (W_CheckMultipleLumps(lumpname) > 1)
+                autostart = true;
+        }
+        else if (W_CheckNumForName(lumpname) >= 0)
             autostart = true;
     }
 
