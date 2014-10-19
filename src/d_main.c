@@ -582,9 +582,8 @@ static void D_FirstUse(void)
         L"Please note that, as with all DOOM source ports, no actual map data is "
         L"distributed with " PACKAGE_NAME_W L".\n\n"
         L"In the dialog box that follows, please navigate to where an official "
-        L"release of DOOM or DOOM II has been installed and select an \u201cIWAD "
-        L"file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
-        L"DOOM2.WAD).\n\n"
+        L"\u201cIWAD file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
+        L"DOOM2.WAD) has been installed.\n\n"
         L"Additional \u201cPWAD files\u201d may then be selected by clicking or "
         L"CTRL-clicking on them.";
 
