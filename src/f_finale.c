@@ -142,6 +142,7 @@ void F_StartFinale(void)
                         finaleflat = bgflat06;
                         finaletext = s_N1TEXT;
                     }
+                    break;
                 case 11:
                     finaleflat = bgflat11;
                     finaletext = (gamemission == pack_tnt ? s_T2TEXT :
