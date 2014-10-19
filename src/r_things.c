@@ -745,7 +745,7 @@ static void R_DrawPlayerSprites(void)
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
                 R_DrawPSprite(psp, true);
-        R_DrawFuzzColumns();
+        psprfuzzcolfunc();
     }
     else
     {

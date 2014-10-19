@@ -812,7 +812,7 @@ extern int      fuzzpos;
 
 int fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
-#define FUZZ(a, b) fuzzrange[M_RandomInt(a + 1, b + 1)]
+#define FUZZ(a, b) fuzzrange[rand() % (b - a + 1) + a]
 
 void R_DrawFuzzColumn(void)
 {
@@ -823,61 +823,73 @@ void R_DrawFuzzColumn(void)
         return;
 
     dest = R_ADDRESS(0, dc_x, dc_yl);
-    if (menuactive || paused)
+    if (count)
     {
-        if (count)
+        // top
+        if (!dc_yl)
         {
-            // top
-            if (!dc_yl)
-                *dest = colormaps[6 * 256 + dest[fuzztable[fuzzpos]]];
-            else if (fuzztable[fuzzpos])
-                *dest = colormaps[12 * 256 + dest[fuzztable[fuzzpos]]];
-            fuzzpos++;
-            dest += SCREENWIDTH;
-
-            while (--count)
-            {
-                // middle
-                *dest = colormaps[6 * 256 + dest[fuzztable[fuzzpos++]]];
-                dest += SCREENWIDTH;
-            }
+            fuzztable[fuzzpos] = FUZZ(1, 2);
+            *dest = colormaps[6 * 256 + dest[fuzztable[fuzzpos]]];
         }
+        else
+        {
+            fuzztable[fuzzpos] = FUZZ(0, 2);
+            if (!(rand() % 4))
+                *dest = colormaps[12 * 256 + dest[fuzztable[fuzzpos]]];
+        }
+        fuzzpos++;
+        dest += SCREENWIDTH;
 
-        // bottom
-        if (dc_yh == viewheight - 1)
-            *dest = colormaps[5 * 256 + dest[fuzztable[fuzzpos]]];
-        else if (fuzzclip == -1 && fuzztable[fuzzpos])
-            *dest = colormaps[14 * 256 + dest[fuzztable[fuzzpos]]];
+        while (--count)
+        {
+            // middle
+            fuzztable[fuzzpos] = FUZZ(0, 2);
+            *dest = colormaps[6 * 256 + dest[fuzztable[fuzzpos++]]];
+            dest += SCREENWIDTH;
+        }
     }
-    else
+
+    // bottom
+    fuzztable[fuzzpos] = FUZZ(0, 1);
+    if (dc_yh == viewheight - 1)
+        *dest = colormaps[5 * 256 + dest[fuzztable[fuzzpos]]];
+    else if (fuzzclip == -1 && !(rand() % 4))
+        *dest = colormaps[14 * 256 + dest[fuzztable[fuzzpos]]];
+}
+
+void R_DrawPausedFuzzColumn(void)
+{
+    byte        *dest;
+    int         count = dc_yh - dc_yl;
+
+    if (count < 0)
+        return;
+
+    dest = R_ADDRESS(0, dc_x, dc_yl);
+
+    if (count)
     {
-        if (count)
+        // top
+        if (!dc_yl)
+            *dest = colormaps[6 * 256 + dest[fuzztable[fuzzpos]]];
+        else if (fuzztable[fuzzpos])
+            *dest = colormaps[12 * 256 + dest[fuzztable[fuzzpos]]];
+        fuzzpos++;
+        dest += SCREENWIDTH;
+
+        while (--count)
         {
-            // top
-            fuzztable[fuzzpos] = (!dc_yl ? FUZZ(0, 1) : FUZZ(-1, count > 0));
-            if (!dc_yl)
-                *dest = colormaps[6 * 256 + dest[fuzztable[fuzzpos]]];
-            else if (M_RandomInt(1, 100) < 25)
-                *dest = colormaps[12 * 256 + dest[fuzztable[fuzzpos]]];
-            fuzzpos++;
+            // middle
+            *dest = colormaps[6 * 256 + dest[fuzztable[fuzzpos++]]];
             dest += SCREENWIDTH;
-
-            while (--count)
-            {
-                // middle
-                fuzztable[fuzzpos] = FUZZ(-1, 1);
-                *dest = colormaps[6 * 256 + dest[fuzztable[fuzzpos++]]];
-                dest += SCREENWIDTH;
-            }
         }
-
-        // bottom
-        fuzztable[fuzzpos] = FUZZ(-1, 0);
-        if (dc_yh == viewheight - 1)
-            *dest = colormaps[5 * 256 + dest[fuzztable[fuzzpos]]];
-        else if (fuzzclip == -1 && M_RandomInt(1, 100) < 25)
-            *dest = colormaps[14 * 256 + dest[fuzztable[fuzzpos]]];
     }
+
+    // bottom
+    if (dc_yh == viewheight - 1)
+        *dest = colormaps[5 * 256 + dest[fuzztable[fuzzpos]]];
+    else if (fuzzclip == -1 && fuzztable[fuzzpos])
+        *dest = colormaps[14 * 256 + dest[fuzztable[fuzzpos]]];
 }
 
 void R_DrawFuzzColumns(void)
@@ -891,47 +903,67 @@ void R_DrawFuzzColumns(void)
     for (x = viewwindowx; x < w; x++)
         for (y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
         {
-            src = screens[1] + y + x;
-            dest = screens[0] + y + x;
-            if (menuactive || paused)
+            int i = x + y;
+
+            src = screens[1] + i;
+            dest = screens[0] + i;
+
+            if (*src != 251)
             {
-                if (*src != 251)
-                    *dest = colormaps[6 * 256 + dest[fuzztable[x + y]]];
-            }
-            else
-            {
-                if (*src != 251)
+                if (y == 0 || *(src - SCREENWIDTH) == 251) 
                 {
-                    if (y == 0 || *(src - SCREENWIDTH) == 251) // top
+                    // top
+                    fuzztable[x + y] = FUZZ(0, 2);
+                    if (!(rand() % 4))
+                        *dest = colormaps[12 * 256 + dest[fuzztable[i]]];
+                }
+                else if (y == h - SCREENWIDTH)
+                {
+                    // bottom of view
+                    fuzztable[x + y] = FUZZ(0, 1);
+                    *dest = colormaps[5 * 256 + dest[fuzztable[i]]];
+                }
+                else if (*(src + SCREENWIDTH) == 251)
+                {
+                    // bottom of post
+                    fuzztable[x + y] = FUZZ(0, 2);
+                    if (!(rand() % 4))
+                        *dest = colormaps[12 * 256 + dest[fuzztable[i]]];
+                }
+                else
+                {
+                    // middle
+                    fuzztable[x + y] = FUZZ(0, 2);
+                    if (*(src - 1) == 251 || *(src + 1) == 251)
                     {
-                        fuzztable[x + y] = FUZZ(-1, 1);
-                        if (M_RandomInt(1, 100) < 25)
-                            *dest = colormaps[12 * 256 + dest[fuzztable[x + y]]];
+                        if (!(rand() % 4))
+                            *dest = colormaps[12 * 256 + dest[fuzztable[i]]];
                     }
-                    else if (y == h - SCREENWIDTH) // bottom of view
-                    {
-                        fuzztable[x + y] = FUZZ(-1, 0);
-                        *dest = colormaps[5 * 256 + dest[fuzztable[x + y]]];
-                    }
-                    else if (*(src + SCREENWIDTH) == 251) // bottom of post
-                    {
-                        fuzztable[x + y] = FUZZ(-1, 1);
-                        if (M_RandomInt(1, 100) < 25)
-                            *dest = colormaps[12 * 256 + dest[fuzztable[x + y]]];
-                    }
-                    else // middle
-                    {
-                        fuzztable[x + y] = FUZZ(-1, 1);
-                        if (*(src - 1) == 251 || *(src + 1) == 251)
-                        {
-                            if (M_RandomInt(1, 100) < 25)
-                                *dest = colormaps[12 * 256 + dest[fuzztable[x + y]]];
-                        }
-                        else
-                            *dest = colormaps[6 * 256 + dest[fuzztable[x + y]]];
-                    }
+                    else
+                        *dest = colormaps[6 * 256 + dest[fuzztable[i]]];
                 }
             }
+        }
+}
+
+void R_DrawPausedFuzzColumns(void)
+{
+    int         x, y;
+    int         w = viewwindowx + viewwidth;
+    int         h = (viewwindowy + viewheight) * SCREENWIDTH;
+    byte        *src = screens[1];
+    byte        *dest = screens[0];
+
+    for (x = viewwindowx; x < w; x++)
+        for (y = viewwindowy * SCREENWIDTH; y < h; y += SCREENWIDTH)
+        {
+            int i = x + y;
+
+            src = screens[1] + i;
+            dest = screens[0] + i;
+
+            if (*src != 251)
+                *dest = colormaps[6 * 256 + dest[fuzztable[i]]];
         }
 }
 

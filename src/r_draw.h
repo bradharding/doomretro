@@ -94,7 +94,9 @@ void R_DrawMegaSphereColumn(void);
 
 // The Spectre/Invisibility effect.
 void R_DrawFuzzColumn(void);
+void R_DrawPausedFuzzColumn(void);
 void R_DrawFuzzColumns(void);
+void R_DrawPausedFuzzColumns(void);
 
 void R_VideoErase(unsigned int ofs, int count);
 

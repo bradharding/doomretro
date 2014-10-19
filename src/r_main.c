@@ -34,7 +34,7 @@
 #include "d_net.h"
 #include "m_config.h"
 #include "m_menu.h"
-#include "r_local.h"
+#include "p_local.h"
 #include "r_sky.h"
 #include "v_video.h"
 
@@ -126,6 +126,7 @@ void (*redtogreencolfunc)(void);
 void (*tlredtoblue33colfunc)(void);
 void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
+void (*psprfuzzcolfunc)(void);
 void (*shadowcolfunc)(void);
 void (*bloodsplatcolfunc)(void);
 void (*megaspherecolfunc)(void);
@@ -518,6 +519,7 @@ void R_InitColumnFunctions(void)
 
     colfunc = basecolfunc = R_DrawColumn;
     fuzzcolfunc = R_DrawFuzzColumn;
+    psprfuzzcolfunc = R_DrawFuzzColumns;
 
     if (translucency)
     {
@@ -598,6 +600,21 @@ void R_InitColumnFunctions(void)
             info->colfunc = redtobluecolfunc;
         else
             info->colfunc = basecolfunc;
+    }
+}
+
+void R_SetFuzzColumnFunctions(void (*colfunc)(void))
+{
+    thinker_t   *th;
+
+    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+    {
+        mobj_t  *mo = (mobj_t *)th;
+
+        if ((th->function.acp1 == (actionf_p1)P_MobjThinker && (mo->flags & MF_FUZZ))
+            || (th->function.acp1 == (actionf_p1)P_NullMobjThinker
+                && mo->type == MT_BLOODSPLAT && mo->blood == FUZZYBLOOD))
+            mo->colfunc = colfunc;
     }
 }
 

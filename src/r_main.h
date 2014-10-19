@@ -110,6 +110,7 @@ extern void (*skycolfunc)(void);
 extern void (*redtogreencolfunc)(void);
 extern void (*tlredtogreen33colfunc)(void);
 extern void (*psprcolfunc)(void);
+extern void (*psprfuzzcolfunc)(void);
 extern void (*spanfunc)(void);
 extern void (*shadowcolfunc)(void);
 extern void (*bloodsplatcolfunc)(void);
@@ -142,5 +143,7 @@ void R_Init(void);
 
 // Called by M_Responder.
 void R_SetViewSize(int blocks);
+
+void R_SetFuzzColumnFunctions(void(*colfunc)(void));
 
 #endif
