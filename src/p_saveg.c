@@ -1791,9 +1791,9 @@ void P_ArchiveSpecials(void)
     // save off the current thinkers
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
     {
-        if (th->function.acv == (actionf_v)NULL)
+        if (!th->function.acv)
         {
-            for (ceiling = activeceilingshead; ceiling != NULL; ceiling = ceiling->next)
+            for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
                 if (ceiling == (ceiling_t *)th)
                 {
                     saveg_write8(tc_ceiling);
@@ -1803,7 +1803,7 @@ void P_ArchiveSpecials(void)
                 }
 
             // [jeff-d] save height of moving platforms
-            for (plat = activeplatshead; plat != NULL; plat = plat->next)
+            for (plat = activeplatshead; plat; plat = plat->next)
                 if (plat == (plat_t*)th)
                 {
                     saveg_write8(tc_plat);

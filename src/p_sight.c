@@ -106,18 +106,18 @@ static boolean P_CrossSubsector(int num, los_t *los)
 
         line->validcount = validcount;
 
-        if (line->bbox[BOXLEFT] > los->bbox[BOXRIGHT] ||
-            line->bbox[BOXRIGHT] < los->bbox[BOXLEFT] ||
-            line->bbox[BOXBOTTOM] > los->bbox[BOXTOP] ||
-            line->bbox[BOXTOP] < los->bbox[BOXBOTTOM])
+        if (line->bbox[BOXLEFT] > los->bbox[BOXRIGHT]
+            || line->bbox[BOXRIGHT] < los->bbox[BOXLEFT]
+            || line->bbox[BOXBOTTOM] > los->bbox[BOXTOP]
+            || line->bbox[BOXTOP] < los->bbox[BOXBOTTOM])
             continue;
 
         v1 = line->v1;
         v2 = line->v2;
 
         // line isn't crossed?
-        if (P_DivlineSide(v1->x, v1->y, &los->strace) ==
-            P_DivlineSide(v2->x, v2->y, &los->strace))
+        if (P_DivlineSide(v1->x, v1->y, &los->strace)
+            == P_DivlineSide(v2->x, v2->y, &los->strace))
             continue;
 
         divl.x = v1->x;
@@ -126,8 +126,8 @@ static boolean P_CrossSubsector(int num, los_t *los)
         divl.dy = v2->y - v1->y;
 
         // line isn't crossed?
-        if (P_DivlineSide(los->strace.x, los->strace.y, &divl) ==
-            P_DivlineSide(los->t2x, los->t2y, &divl))
+        if (P_DivlineSide(los->strace.x, los->strace.y, &divl)
+            == P_DivlineSide(los->t2x, los->t2y, &divl))
             continue;
 
         // stop because it is not two sided anyway

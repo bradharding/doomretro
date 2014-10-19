@@ -60,9 +60,7 @@ boolean onground;
 //
 void P_Thrust(player_t *player, angle_t angle, fixed_t move)
 {
-    angle >>= ANGLETOFINESHIFT;
-
-    player->mo->momx += FixedMul(move, finecosine[angle]);
+    player->mo->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
     player->mo->momy += FixedMul(move, finesine[angle]);
 }
 
@@ -158,7 +156,7 @@ void P_MovePlayer(player_t *player)
             P_Thrust(player, mo->angle - ANG90, cmd->sidemove * 2048);
     }
 
-    if ((cmd->forwardmove || cmd->sidemove) && mo->state == &states[S_PLAY])
+    if ((cmd->forwardmove || cmd->sidemove) && mo->state == states + S_PLAY)
         P_SetMobjState(mo, S_PLAY_RUN1);
 }
 
@@ -176,6 +174,7 @@ void P_DeathThink(player_t *player)
     static int          count = 0;
     static boolean      facingkiller = false;
     mobj_t              *mo = player->mo;
+    mobj_t              *attacker = player->attacker;
 
 #ifdef SDL20
     const Uint8         *keystate = SDL_GetKeyboardState(NULL);
@@ -202,9 +201,9 @@ void P_DeathThink(player_t *player)
     }
     P_CalcHeight(player);
 
-    if (player->attacker && player->attacker != mo && !facingkiller)
+    if (attacker && attacker != mo && !facingkiller)
     {
-        angle = R_PointToAngle2(mo->x, mo->y, player->attacker->x, player->attacker->y);
+        angle = R_PointToAngle2(mo->x, mo->y, attacker->x, attacker->y);
 
         delta = angle - mo->angle;
 
@@ -261,12 +260,12 @@ void P_PlayerThink(player_t *player)
         mo->flags &= ~MF_NOCLIP;
 
     // chainsaw run forward
-    if (player->mo->flags & MF_JUSTATTACKED)
+    if (mo->flags & MF_JUSTATTACKED)
     {
         cmd->angleturn = 0;
         cmd->forwardmove = 0xc800 / 512;
         cmd->sidemove = 0;
-        player->mo->flags &= ~MF_JUSTATTACKED;
+        mo->flags &= ~MF_JUSTATTACKED;
     }
 
     if (player->playerstate == PST_DEAD)
@@ -277,14 +276,14 @@ void P_PlayerThink(player_t *player)
 
     // Move around.
     // Reactiontime is used to prevent movement for a bit after a teleport.
-    if (player->mo->reactiontime)
-        player->mo->reactiontime--;
+    if (mo->reactiontime)
+        mo->reactiontime--;
     else
         P_MovePlayer(player);
 
     P_CalcHeight(player);
 
-    if (player->mo->subsector->sector->special)
+    if (mo->subsector->sector->special)
         P_PlayerInSpecialSector(player);
 
     // Check for weapon change.
@@ -306,18 +305,12 @@ void P_PlayerThink(player_t *player)
             if (player->readyweapon == wp_fist)
             {
                 if (player->weaponowned[wp_chainsaw])
-                {
-                    player->fistorchainsaw = wp_chainsaw;
-                    newweapon = wp_chainsaw;
-                }
+                    newweapon = player->fistorchainsaw = wp_chainsaw;
             }
             else if (player->readyweapon == wp_chainsaw)
             {
                 if (player->powers[pw_strength])
-                {
-                    player->fistorchainsaw = wp_fist;
-                    newweapon = wp_fist;
-                }
+                    newweapon = player->fistorchainsaw = wp_fist;
                 else
                     newweapon = wp_nochange;
             }
@@ -330,7 +323,7 @@ void P_PlayerThink(player_t *player)
                  || (newweapon == wp_shotgun && !player->ammo[am_shell])
                  || (newweapon == wp_missile && !player->ammo[am_misl])
                  || (newweapon == wp_plasma && !player->ammo[am_cell])
-                 || (newweapon == wp_bfg && player->ammo[am_cell] < 40))
+                 || (newweapon == wp_bfg && player->ammo[am_cell] < bfgcells))
             newweapon = wp_nochange;
 
         // Select the preferred shotgun.

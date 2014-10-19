@@ -37,24 +37,21 @@
 
 typedef enum {
     MODE_READ,
-    MODE_WRITE,
+    MODE_WRITE
 } memfile_mode_t;
 
 struct _MEMFILE {
-    unsigned char *buf;
-    size_t buflen;
-    size_t alloced;
-    unsigned int position;
-    memfile_mode_t mode;
+    unsigned char       *buf;
+    size_t              buflen;
+    size_t              alloced;
+    unsigned int        position;
+    memfile_mode_t      mode;
 };
 
 // Open a memory area for reading
-
 MEMFILE *mem_fopen_read(void *buf, size_t buflen)
 {
-    MEMFILE *file;
-
-    file = (MEMFILE *)Z_Malloc(sizeof(MEMFILE), PU_STATIC, 0);
+    MEMFILE     *file = (MEMFILE *)Z_Malloc(sizeof(MEMFILE), PU_STATIC, 0);
 
     file->buf = (unsigned char *) buf;
     file->buflen = buflen;
@@ -65,43 +62,32 @@ MEMFILE *mem_fopen_read(void *buf, size_t buflen)
 }
 
 // Read bytes
-
 size_t mem_fread(void *buf, size_t size, size_t nmemb, MEMFILE *stream)
 {
-    size_t items;
+    size_t      items;
 
     if (stream->mode != MODE_READ)
-    {
         return -1;
-    }
 
     // Trying to read more bytes than we have left?
-
     items = nmemb;
 
     if (items * size > stream->buflen - stream->position)
-    {
         items = (stream->buflen - stream->position) / size;
-    }
 
     // Copy bytes to buffer
-
     memcpy(buf, stream->buf + stream->position, items * size);
 
     // Update position
-
     stream->position += items * size;
 
     return items;
 }
 
 // Open a memory area for writing
-
 MEMFILE *mem_fopen_write(void)
 {
-    MEMFILE *file;
-
-    file = (MEMFILE *)Z_Malloc(sizeof(MEMFILE), PU_STATIC, 0);
+    MEMFILE     *file = (MEMFILE *)Z_Malloc(sizeof(MEMFILE), PU_STATIC, 0);
 
     file->alloced = 1024;
     file->buf = (unsigned char *)Z_Malloc(file->alloced, PU_STATIC, 0);
@@ -113,26 +99,21 @@ MEMFILE *mem_fopen_write(void)
 }
 
 // Write bytes to stream
-
 size_t mem_fwrite(const void *ptr, size_t size, size_t nmemb, MEMFILE *stream)
 {
-    size_t bytes;
+    size_t      bytes;
 
     if (stream->mode != MODE_WRITE)
-    {
         return -1;
-    }
 
     // More bytes than can fit in the buffer?
     // If so, reallocate bigger.
-
     bytes = size * nmemb;
 
     while (bytes > stream->alloced - stream->position)
     {
-        unsigned char *newbuf;
+        unsigned char   *newbuf = (unsigned char *)Z_Malloc(stream->alloced * 2, PU_STATIC, 0);
 
-        newbuf = (unsigned char *)Z_Malloc(stream->alloced * 2, PU_STATIC, 0);
         memcpy(newbuf, stream->buf, stream->alloced);
         Z_Free(stream->buf);
         stream->buf = newbuf;
@@ -140,7 +121,6 @@ size_t mem_fwrite(const void *ptr, size_t size, size_t nmemb, MEMFILE *stream)
     }
 
     // Copy into buffer
-
     memcpy(stream->buf + stream->position, ptr, bytes);
     stream->position += bytes;
 
@@ -159,9 +139,7 @@ void mem_get_buf(MEMFILE *stream, void **buf, size_t *buflen)
 void mem_fclose(MEMFILE *stream)
 {
     if (stream->mode == MODE_WRITE)
-    {
         Z_Free(stream->buf);
-    }
 
     Z_Free(stream);
 }
@@ -173,7 +151,7 @@ long mem_ftell(MEMFILE *stream)
 
 int mem_fseek(MEMFILE *stream, signed long position, mem_rel_t whence)
 {
-    unsigned int newpos;
+    unsigned int        newpos;
 
     switch (whence)
     {
@@ -198,7 +176,5 @@ int mem_fseek(MEMFILE *stream, signed long position, mem_rel_t whence)
         return 0;
     }
     else
-    {
         return -1;
-    }
 }

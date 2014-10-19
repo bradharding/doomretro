@@ -234,7 +234,7 @@ void P_ActivateInStasis(int tag)
 {
     plat_t *plat;
 
-    for (plat = activeplatshead; plat != NULL; plat = plat->next)
+    for (plat = activeplatshead; plat; plat = plat->next)
         if (plat->tag == tag && plat->status == in_stasis)
         {
             plat->status = plat->oldstatus;
@@ -246,7 +246,7 @@ int EV_StopPlat(line_t *line)
 {
     plat_t *plat;
 
-    for (plat = activeplatshead; plat != NULL; plat = plat->next)
+    for (plat = activeplatshead; plat; plat = plat->next)
         if (plat->tag == line->tag && plat->status != in_stasis)
         {
             plat->oldstatus = plat->status;
@@ -276,7 +276,7 @@ void P_RemoveActivePlat(plat_t *plat)
     plat_t *next = plat->next;
     plat_t *prev = plat->prev;
 
-    if (prev == NULL)
+    if (!prev)
         activeplatshead = next;
     else
         prev->next = next;

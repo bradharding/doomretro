@@ -408,14 +408,8 @@ static void AM_changeWindowLoc(void)
         fixed_t w = (m_w >> 1);
         fixed_t h = (m_h >> 1);
 
-        if (m_x + w > max_x)
-            m_x = max_x - w;
-        else if (m_x + w < min_x)
-            m_x = min_x - w;
-        if (m_y + h > max_y)
-            m_y = max_y - h;
-        else if (m_y + h < min_y)
-            m_y = min_y - h;
+        m_x = BETWEEN(min_x, m_x + w, max_x) - w;
+        m_y = BETWEEN(min_y, m_y + h, max_y) - h;
     }
 
     m_x2 = m_x + m_w;
@@ -1565,32 +1559,30 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
 
 static void AM_drawPlayers(void)
 {
-    int             invisibility = plr->powers[pw_invisibility];
-    mpoint_t        pt;
-
-    pt.x = plr->mo->x;
-    pt.y = plr->mo->y;
+    int         invisibility = plr->powers[pw_invisibility];
+    fixed_t     x = plr->mo->x;
+    fixed_t     y = plr->mo->y;
 
     if (rotate)
-        AM_rotatePoint(&pt.x, &pt.y);
+        AM_rotatePoint(&x, &y);
 
     if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > 128 || (invisibility & 8))
-            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
-                                        plr->mo->angle, NULL, pt.x, pt.y);
+            AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
+                0, plr->mo->angle, NULL, x, y);
         else
-            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES, 0,
-                                    plr->mo->angle, playercolor, pt.x, pt.y);
+            AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
+                0, plr->mo->angle, playercolor, x, y);
     }
     else
     {
         if (invisibility > 128 || (invisibility & 8))
-            AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                                        plr->mo->angle, NULL, pt.x, pt.y);
+            AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES,
+                0, plr->mo->angle, NULL, x, y);
         else
-            AM_drawLineCharacter(playerarrow, PLAYERARROWLINES, 0,
-                                    plr->mo->angle, playercolor, pt.x, pt.y);
+            AM_drawLineCharacter(playerarrow, PLAYERARROWLINES,
+                0, plr->mo->angle, playercolor, x, y);
     }
 }
 

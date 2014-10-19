@@ -164,7 +164,6 @@ void HU_Stop(void)
 
 void HU_Start(void)
 {
-    int         i;
     int         len;
     char        *s = "";
 
@@ -198,10 +197,6 @@ void HU_Start(void)
 
     while (*s)
         HUlib_addCharToTextLine(&w_title, *(s++));
-
-    // create the inputbuffer widgets
-    for (i = 0; i < MAXPLAYERS; i++)
-        HUlib_initIText(&w_inputbuffer[i], 0, 0, 0, 0, &always_off);
 
     headsupactive = true;
 

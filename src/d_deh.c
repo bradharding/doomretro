@@ -1522,7 +1522,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     {
         static boolean  firstfile = true;       // to allow append to output log
 
-        if (!strcmp(outfilename, "-"))
+        if (!strcasecmp(outfilename, "-"))
             fileout = stdout;
         else if (!(fileout = fopen(outfilename, firstfile ? "wt" : "at")))
             fileout = stdout;
