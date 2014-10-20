@@ -703,6 +703,8 @@ void F_CastDrawer(void)
     int                 rot = 0;
     boolean             flip;
     patch_t             *patch;
+    int                 y = ORIGINALHEIGHT - 30;
+    mobjtype_t          type = castorder[castnum].type;
 
     // erase the entire screen to a background
     V_DrawPatch(0, 0, 0, W_CacheLumpName(bgcastcall, PU_CACHE));
@@ -721,41 +723,38 @@ void F_CastDrawer(void)
 
     patch->topoffset = spritetopoffset[lump] >> FRACBITS;
 
+    if (type == MT_SKULL)
+        y -= 30;
+    else if (type == MT_PAIN || (type == MT_HEAD && !castdeath))
+        y -= 20;
+
     if (flip)
     {
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
-        if (shadows
-            && ((castorder[castnum].type != MT_SKULL && castorder[castnum].type != MT_PAIN)
-                || !castdeath))
+        if (shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
             V_DrawFlippedShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
 
-        if (translucency
-            && (castorder[castnum].type == MT_SKULL
-                || (castorder[castnum].type == MT_PAIN && castdeath)))
-            V_DrawFlippedTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
-        else if (castorder[castnum].type == MT_SHADOWS)
-            V_DrawFlippedFuzzPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
+        if (translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
+            V_DrawFlippedTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
+        else if (type == MT_SHADOWS)
+            V_DrawFlippedFuzzPatch(ORIGINALWIDTH / 2, y, patch);
         else
-            V_DrawFlippedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
+            V_DrawFlippedPatch(ORIGINALWIDTH / 2, y, patch);
     }
     else
     {
         patch->leftoffset = spriteoffset[lump] >> FRACBITS;
 
-        if (shadows
-            && ((castorder[castnum].type != MT_SKULL && castorder[castnum].type != MT_PAIN)
-                || !castdeath))
+        if (shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
             V_DrawShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
 
-        if (translucency
-            && (castorder[castnum].type == MT_SKULL
-                || (castorder[castnum].type == MT_PAIN && castdeath)))
-            V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
+        if (translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
+            V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
         else if (castorder[castnum].type == MT_SHADOWS)
-            V_DrawFuzzPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
+            V_DrawFuzzPatch(ORIGINALWIDTH / 2, y, patch);
         else
-            V_DrawPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, 0, patch);
+            V_DrawPatch(ORIGINALWIDTH / 2, y, 0, patch);
     }
 }
 
