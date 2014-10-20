@@ -540,7 +540,7 @@ void V_DrawFlippedPatch(int x, int y, patch_t *patch)
 
             while (count--)
             {
-                *dest = tinttabred[(*dest << 8) + source[srccol >> 16]];
+                *dest = source[srccol >> 16];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
