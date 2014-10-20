@@ -140,13 +140,19 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
         while (column->topdelta != 0xff)
         {
             byte        *dest = desttop + ((column->topdelta * DY / 10) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY / 10) >> 16;
+            int         count = ((column->length * DY / 10) >> 16) + 1;
 
-            while (count--)
+            if (--count)
+            {
+                *dest = tinttab25[*dest];
+                dest += SCREENWIDTH;
+            }
+            while (--count > 0)
             {
                 *dest = tinttab40[*dest];
                 dest += SCREENWIDTH;
             }
+            *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
         }
