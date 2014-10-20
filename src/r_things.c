@@ -532,7 +532,6 @@ void R_ProjectSprite(mobj_t *thing)
     vis = R_NewVisSprite();
     vis->mobjflags = thing->flags;
     vis->mobjflags2 = flags2;
-    vis->colfunc = thing->colfunc;
     vis->type = thing->type;
     vis->scale = xscale;
     vis->gx = fx;
@@ -540,6 +539,11 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gz = fz;
     vis->gzt = gzt;
     vis->blood = thing->blood;
+
+    if ((thing->flags & MF_FUZZ) && (menuactive || paused))
+        vis->colfunc = R_DrawPausedFuzzColumn;
+    else
+        vis->colfunc = thing->colfunc;
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && fz <= thing->subsector->sector->floorheight)
@@ -745,7 +749,10 @@ static void R_DrawPlayerSprites(void)
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
                 R_DrawPSprite(psp, true);
-        psprfuzzcolfunc();
+        if (menuactive || paused)
+            R_DrawPausedFuzzColumns();
+        else
+            R_DrawFuzzColumns();
     }
     else
     {

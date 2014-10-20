@@ -923,9 +923,6 @@ void G_Ticker(void)
 
                             players[consoleplayer].fixedcolormap = 0;
                             I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
-
-                            R_SetFuzzColumnFunctions(R_DrawPausedFuzzColumn);
-                            psprfuzzcolfunc = R_DrawPausedFuzzColumns;
                         }
                         else
                         {
@@ -939,10 +936,6 @@ void G_Ticker(void)
                             }
 
                             I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
-
-                            R_SetFuzzColumnFunctions(R_DrawFuzzColumn);
-                            psprfuzzcolfunc = R_DrawFuzzColumns;
-
                         }
                         break;
 

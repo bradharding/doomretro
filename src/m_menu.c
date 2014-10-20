@@ -3020,10 +3020,6 @@ void M_StartControlPanel(void)
 
     players[consoleplayer].fixedcolormap = 0;
     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
-
-    if (usergame)
-        R_SetFuzzColumnFunctions(R_DrawPausedFuzzColumn);
-    psprfuzzcolfunc = R_DrawPausedFuzzColumns;
 }
 
 //
@@ -3173,10 +3169,6 @@ void M_ClearMenus(void)
     }
 
     I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
-
-    if (usergame)
-        R_SetFuzzColumnFunctions(R_DrawFuzzColumn);
-    psprfuzzcolfunc = R_DrawFuzzColumns;
 }
 
 //

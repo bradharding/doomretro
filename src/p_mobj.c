@@ -1098,7 +1098,13 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->frame = rand() & 7;
 
         newsplat->flags2 = (rand() & 1) * MF2_MIRRORED;
-        newsplat->colfunc = (blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
+        if (blood == FUZZYBLOOD)
+        {
+            newsplat->flags = MF_FUZZ;
+            newsplat->colfunc = fuzzcolfunc;
+        }
+        else
+            newsplat->colfunc = bloodsplatcolfunc;
         newsplat->blood = blood;
 
         newsplat->x = x;
@@ -1134,7 +1140,13 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->frame = rand() & 7;
 
         newsplat->flags2 = (rand() & 1) * MF2_MIRRORED;
-        newsplat->colfunc = (blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
+        if (blood == FUZZYBLOOD)
+        {
+            newsplat->flags = MF_FUZZ;
+            newsplat->colfunc = fuzzcolfunc;
+        }
+        else
+            newsplat->colfunc = bloodsplatcolfunc;
         newsplat->blood = blood;
 
         newsplat->x = x;

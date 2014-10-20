@@ -1691,7 +1691,13 @@ void P_UnArchiveThinkers(void)
                 if (mobj->type == MT_BLOODSPLAT)
                 {
                     mobj->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
-                    mobj->colfunc = (mobj->blood == FUZZYBLOOD ? fuzzcolfunc : bloodsplatcolfunc);
+                    if (mobj->blood == FUZZYBLOOD)
+                    {
+                        mobj->flags = MF_FUZZ;
+                        mobj->colfunc = fuzzcolfunc;
+                    }
+                    else
+                        mobj->colfunc = bloodsplatcolfunc;
                 }
                 else
                 {
