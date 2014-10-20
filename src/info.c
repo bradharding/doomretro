@@ -5846,7 +5846,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* blood                */ GREENBLOOD
     },
 
-    // Fuzzy Blood (MT_MT_FUZZYBLOOD)
+    // Fuzzy Blood (MT_FUZZYBLOOD)
     {
         /* doomednum            */ -1,
         /* description          */ "",
@@ -6167,7 +6167,7 @@ offset_t sproffsets[] =
     { "CPOSF2",     31,   53, true }, //   29,   53
     { "CPOSF3",     35,   53, true }, //   31,   53
     { "CPOSF6",     16,   51, true }, //   21,   51
-    { "CPOSF7",     25,   53, true }, //   22,   53
+    { "CPOSF7",     22,   53, true }, //   25,   53
     { "CPOSF8",     23,   53, true }, //   22,   53
     { "CPOSG7",     19,   54, true }, //   20,   54
     { "CPOSH0",     21,   56, true }, //   20,   56
