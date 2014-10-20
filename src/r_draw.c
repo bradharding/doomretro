@@ -200,12 +200,17 @@ void R_DrawSolidShadowColumn(void)
     int32_t     count = dc_yh - dc_yl + 1;
     byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
 
-    while (--count)
+    if (--count)
+    {
+        *dest = 1;
+        dest += SCREENWIDTH;
+    }
+    while (--count > 0)
     {
         *dest = 0;
         dest += SCREENWIDTH;
     }
-    *dest = 0;
+    *dest = 1;
 }
 
 void R_DrawBloodSplatColumn(void)
