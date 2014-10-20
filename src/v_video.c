@@ -130,7 +130,7 @@ void V_DrawShadowPatch(int x, int y, patch_t *patch)
     y -= SHORT(patch->topoffset) / 10;
     x -= SHORT(patch->leftoffset);
 
-    desttop = screens[0] + (((y + 3) * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
 
     for (; col < w; col += DXI, desttop++)
     {

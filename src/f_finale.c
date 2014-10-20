@@ -371,49 +371,48 @@ void F_TextWrite(void)
 //
 typedef struct
 {
-    char        *name;
+    const char  **name;
     mobjtype_t  type;
 } castinfo_t;
 
-#define MAX_CASTORDER   19
+static const castinfo_t castorder[] = 
+{
+    { &s_CC_ZOMBIE,  MT_POSSESSED },
+    { &s_CC_SHOTGUN, MT_SHOTGUY   },
+    { &s_CC_HEAVY,   MT_CHAINGUY  },
+    { &s_CC_IMP,     MT_TROOP     },
+    { &s_CC_DEMON,   MT_SERGEANT  },
+    { &s_CC_SPECTRE, MT_SHADOWS   },
+    { &s_CC_LOST,    MT_SKULL     },
+    { &s_CC_CACO,    MT_HEAD      },
+    { &s_CC_HELL,    MT_KNIGHT    },
+    { &s_CC_BARON,   MT_BRUISER   },
+    { &s_CC_ARACH,   MT_BABY      },
+    { &s_CC_PAIN,    MT_PAIN      },
+    { &s_CC_REVEN,   MT_UNDEAD    },
+    { &s_CC_MANCU,   MT_FATSO     },
+    { &s_CC_ARCH,    MT_VILE      },
+    { &s_CC_SPIDER,  MT_SPIDER    },
+    { &s_CC_CYBER,   MT_CYBORG    },
+    { &s_CC_HERO,    MT_PLAYER    },
+    { NULL,          0            }
+};
 
-castinfo_t      castorder[MAX_CASTORDER];
-
-int             castnum;
-int             casttics;
-state_t         *caststate;
-int             castrot;
-boolean         castdeath;
-int             castframes;
-int             castonmelee;
-boolean         castattacking;
-boolean         firstevent;
+int     castnum;
+int     casttics;
+state_t *caststate;
+int     castrot;
+boolean castdeath;
+int     castframes;
+int     castonmelee;
+boolean castattacking;
+boolean firstevent;
 
 //
 // F_StartCast
 //
 void F_StartCast(void)
 {
-    castorder[0].name = s_CC_ZOMBIE,  castorder[0].type = MT_POSSESSED;
-    castorder[1].name = s_CC_SHOTGUN, castorder[1].type = MT_SHOTGUY;
-    castorder[2].name = s_CC_HEAVY,   castorder[2].type = MT_CHAINGUY;
-    castorder[3].name = s_CC_IMP,     castorder[3].type = MT_TROOP;
-    castorder[4].name = s_CC_DEMON,   castorder[4].type = MT_SERGEANT;
-    castorder[5].name = s_CC_SPECTRE, castorder[5].type = MT_SHADOWS;
-    castorder[6].name = s_CC_LOST,    castorder[6].type = MT_SKULL;
-    castorder[7].name = s_CC_CACO,    castorder[7].type = MT_HEAD;
-    castorder[8].name = s_CC_HELL,    castorder[8].type = MT_KNIGHT;
-    castorder[9].name = s_CC_BARON,   castorder[9].type = MT_BRUISER;
-    castorder[10].name = s_CC_ARACH,  castorder[10].type = MT_BABY;
-    castorder[11].name = s_CC_PAIN,   castorder[11].type = MT_PAIN;
-    castorder[12].name = s_CC_REVEN,  castorder[12].type = MT_UNDEAD;
-    castorder[13].name = s_CC_MANCU,  castorder[13].type = MT_FATSO;
-    castorder[14].name = s_CC_ARCH,   castorder[14].type = MT_VILE;
-    castorder[15].name = s_CC_SPIDER, castorder[15].type = MT_SPIDER;
-    castorder[16].name = s_CC_CYBER,  castorder[16].type = MT_CYBORG;
-    castorder[17].name = s_CC_HERO,   castorder[17].type = MT_PLAYER;
-    castorder[18].name = NULL,        castorder[18].type = 0;
-
     firstevent = true;
     wipegamestate = (gamestate_t)(-1);  // force a screen wipe
     castnum = 0;
@@ -433,8 +432,8 @@ void F_StartCast(void)
 //
 void F_CastTicker(void)
 {
-    int         st;
-    int         sfx;
+    int st;
+    int sfx;
 
     if (--casttics > 0)
         return;                         // not time to change state yet
@@ -582,8 +581,7 @@ boolean F_CastResponder(event_t *ev)
 
     if (ev->type == ev_mouse && (ev->data1 & MOUSE_LEFTBUTTON))
         firstevent = false;
-
-    if (firstevent)
+    else if (firstevent)
     {
         firstevent = false;
         return true;
@@ -643,9 +641,9 @@ boolean F_CastResponder(event_t *ev)
     return true;
 }
 
-void F_CastPrint(char *text)
+void F_CastPrint(const char *text)
 {
-    char        *ch;
+    const char  *ch;
     int         c;
     int         cx;
     int         w;
@@ -709,7 +707,7 @@ void F_CastDrawer(void)
     // erase the entire screen to a background
     V_DrawPatch(0, 0, 0, W_CacheLumpName(bgcastcall, PU_CACHE));
 
-    F_CastPrint(castorder[castnum].name);
+    F_CastPrint(*(castorder[castnum].name));
 
     // draw the current frame in the middle of the screen
     sprdef = &sprites[caststate->sprite];
@@ -730,7 +728,7 @@ void F_CastDrawer(void)
         if (shadows
             && ((castorder[castnum].type != MT_SKULL && castorder[castnum].type != MT_PAIN)
                 || !castdeath))
-            V_DrawFlippedShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
+            V_DrawFlippedShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
 
         if (translucency
             && (castorder[castnum].type == MT_SKULL
@@ -748,7 +746,7 @@ void F_CastDrawer(void)
         if (shadows
             && ((castorder[castnum].type != MT_SKULL && castorder[castnum].type != MT_PAIN)
                 || !castdeath))
-            V_DrawShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 30, patch);
+            V_DrawShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
 
         if (translucency
             && (castorder[castnum].type == MT_SKULL
@@ -858,7 +856,7 @@ void F_BunnyScroll(void)
 
 static void F_ArtScreenDrawer(void)
 {
-    char *lumpname;
+    char        *lumpname;
 
     if (gameepisode == 3)
         F_BunnyScroll();
