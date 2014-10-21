@@ -219,12 +219,24 @@ void R_DrawBloodSplatColumn(void)
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
     const fixed_t       blood = dc_blood;
 
-    while (--count)
+    if (--count)
+    {
+        *dest = tinttab50[*dest + blood];
+        dest += SCREENWIDTH;
+    }
+    while (--count > 0)
     {
         *dest = tinttab66[*dest + blood];
         dest += SCREENWIDTH;
     }
-    *dest = tinttab66[*dest + blood];
+    *dest = tinttab50[*dest + blood];
+
+    //while (--count)
+    //{
+    //    *dest = tinttab66[*dest + blood];
+    //    dest += SCREENWIDTH;
+    //}
+    //*dest = tinttab66[*dest + blood];
 }
 
 #define HEIGHTMASK      ((127 << FRACBITS) | 0xffff)
