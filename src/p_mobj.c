@@ -637,9 +637,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
         P_SpawnShadow(mobj);
 
     if (footclip)
-        if (isliquid[mobj->subsector->sector->floorpic] && !(mobj->flags2 & MF2_NOFOOTCLIP))
+        if (isliquid[mobj->subsector->sector->floorpic])
         {
-            mobj->flags2 |= MF2_FEETARECLIPPED;
+            if (!(mobj->flags2 & MF2_NOFOOTCLIP))
+                mobj->flags2 |= MF2_FEETARECLIPPED;
             if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
                 mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
         }
