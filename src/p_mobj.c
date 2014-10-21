@@ -976,6 +976,8 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
 
     th->angle = angle;
 
+    th->flags2 |= (rand() & 1) * MF2_MIRRORED;
+
     // don't make punches spark on the wall
     if (attackrange == MELEERANGE)
     {
