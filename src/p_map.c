@@ -197,6 +197,20 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
 
     P_SetThingPosition(thing);
 
+    if (footclip)
+        if (isliquid[thing->subsector->sector->floorpic] && !(thing->flags2 & MF2_NOFOOTCLIP))
+        {
+            thing->flags2 |= MF2_FEETARECLIPPED;
+            if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+                thing->shadow->flags2 |= MF2_FEETARECLIPPED;
+        }
+        else if (thing->flags2 & MF2_FEETARECLIPPED)
+        {
+            thing->flags2 &= ~MF2_FEETARECLIPPED;
+            if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+                thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
+        }
+
     if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
     {
         P_UnsetThingPosition(thing->shadow);
