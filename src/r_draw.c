@@ -230,13 +230,6 @@ void R_DrawBloodSplatColumn(void)
         dest += SCREENWIDTH;
     }
     *dest = tinttab50[*dest + blood];
-
-    //while (--count)
-    //{
-    //    *dest = tinttab66[*dest + blood];
-    //    dest += SCREENWIDTH;
-    //}
-    //*dest = tinttab66[*dest + blood];
 }
 
 #define HEIGHTMASK      ((127 << FRACBITS) | 0xffff)

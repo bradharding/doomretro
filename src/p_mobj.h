@@ -248,7 +248,10 @@ typedef enum
     MF2_SHADOW                    = 0x00100000,
 
     // Object is blood
-    MF2_BLOOD                     = 0x00200000
+    MF2_BLOOD                     = 0x00200000,
+
+    // Object is drawn first
+    MF2_DRAWFIRST                 = 0x00400000
 } mobjflag2_t;
 
 // Map Object definition.

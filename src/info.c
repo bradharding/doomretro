@@ -1354,7 +1354,7 @@ state_t states[NUMSTATES] =
     // Hanging torso, brain removed (MT_MISC83)
     { SPR_HDB6,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HANGTNOBRAIN
 
-    // Pool of blood (MT_MISC84)
+    // Pool of blood and guts (MT_MISC84)
     { SPR_POB1,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_COLONGIBS
 
     // Pool of blood (MT_MISC85)
@@ -5744,7 +5744,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ 0,
-        /* flags2               */ 0,
+        /* flags2               */ MF2_DRAWFIRST,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD

@@ -984,12 +984,12 @@ void R_DrawMasked(void)
         }
     }
 
-    // draw all blood splats
+    // draw all sprites with MF2_DRAWFIRST flag (blood splats and pools of blood)
     for (i = 0; i < num_vissprite; i++)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
 
-        if (spr->type == MT_BLOODSPLAT)
+        if (spr->mobjflags2 & MF2_DRAWFIRST)
         {
             if (spr->x2 < cx)
             {
@@ -1044,7 +1044,7 @@ void R_DrawMasked(void)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
 
-        if (spr->type != MT_BLOODSPLAT && spr->type != MT_SHADOW)
+        if (!(spr->mobjflags2 & MF2_DRAWFIRST) && spr->type != MT_SHADOW)
         {
             if (spr->x2 < cx)
             {
