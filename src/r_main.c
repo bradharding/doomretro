@@ -551,10 +551,10 @@ void R_InitColumnFunctions(void)
         tlgreen50colfunc = R_DrawColumn;
         tlred50colfunc = R_DrawColumn;
         tlblue50colfunc = R_DrawColumn;
-        tlredtoblue33colfunc = R_DrawColumn;
-        tlredtogreen33colfunc = R_DrawColumn;
-        bloodsplatcolfunc = R_DrawColumn;
-        megaspherecolfunc = R_DrawColumn;
+        tlredtoblue33colfunc = R_DrawRedToBlueColumn;
+        tlredtogreen33colfunc = R_DrawRedToGreenColumn;
+        bloodsplatcolfunc = R_DrawSolidBloodSplatColumn;
+        megaspherecolfunc = R_DrawSolidMegaSphereColumn;
         shadowcolfunc = R_DrawSolidShadowColumn;
     }
 

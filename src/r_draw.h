@@ -91,7 +91,9 @@ void R_DrawSuperShotgunColumn(void);
 void R_DrawShadowColumn(void);
 void R_DrawSolidShadowColumn(void);
 void R_DrawBloodSplatColumn(void);
+void R_DrawSolidBloodSplatColumn(void);
 void R_DrawMegaSphereColumn(void);
+void R_DrawSolidMegaSphereColumn(void);
 
 // The Spectre/Invisibility effect.
 void R_DrawFuzzColumn(void);

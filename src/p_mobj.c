@@ -115,7 +115,7 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
         {
             mobj->shadow->sprite = mobj->state->sprite;
-            mobj->shadow->frame = mobj->frame;
+            mobj->shadow->frame = mobj->frame & ~FF_FULLBRIGHT;
             mobj->shadow->angle = mobj->angle;
         }
 

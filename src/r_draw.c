@@ -199,10 +199,11 @@ void R_DrawSolidShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl + 1;
     byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
+    byte        edge = dc_colormap[1];
 
     if (--count)
     {
-        *dest = 1;
+        *dest = edge;
         dest += SCREENWIDTH;
     }
     while (--count > 0)
@@ -210,7 +211,7 @@ void R_DrawSolidShadowColumn(void)
         *dest = 0;
         dest += SCREENWIDTH;
     }
-    *dest = 1;
+    *dest = edge;
 }
 
 void R_DrawBloodSplatColumn(void)
@@ -230,6 +231,20 @@ void R_DrawBloodSplatColumn(void)
         dest += SCREENWIDTH;
     }
     *dest = tinttab50[*dest + blood];
+}
+
+void R_DrawSolidBloodSplatColumn(void)
+{
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
+    const fixed_t       blood = dc_blood;
+
+    while (--count > 0)
+    {
+        *dest = blood >> 8;
+        dest += SCREENWIDTH;
+    }
+    *dest = blood >> 8;
 }
 
 #define HEIGHTMASK      ((127 << FRACBITS) | 0xffff)
@@ -674,6 +689,24 @@ void R_DrawMegaSphereColumn(void)
         frac += fracstep;
     }
     *dest = tinttab33[(*dest << 8) + colormap[megasphere[source[frac >> FRACBITS]]]];
+}
+
+void R_DrawSolidMegaSphereColumn(void)
+{
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+
+    while (--count)
+    {
+        *dest = colormap[megasphere[source[frac >> FRACBITS]]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+    *dest = colormap[megasphere[source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucentRedColumn(void)
