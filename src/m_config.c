@@ -959,7 +959,7 @@ static void M_CheckDefaults(void)
         translucency = TRANSLUCENCY_DEFAULT;
 
     if (strcasecmp(videodriver, "directx") && strcasecmp(videodriver, "windib"))
-        M_StringCopy(videodriver, VIDEODRIVER_DEFAULT, 8);
+        videodriver = VIDEODRIVER_DEFAULT;
 
     if (widescreen && !fullscreen)
     {
