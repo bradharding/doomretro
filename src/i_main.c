@@ -220,38 +220,26 @@ void done_win32(void)
     I_AccessibilityShortcutKeys(true);
 }
 
-#elif defined(HAVE_SCHED_SETAFFINITY)
+#else
 
 #include <unistd.h>
 #include <sched.h>
 
 // Unix (Linux) version:
-
 static void I_SetAffinityMask(void)
 {
 #ifdef CPU_SET
-    cpu_set_t set;
+    cpu_set_t   set;
 
     CPU_ZERO(&set);
     CPU_SET(0, &set);
 
     sched_setaffinity(getpid(), sizeof(set), &set);
 #else
-    unsigned long mask = 1;
+    unsigned long       mask = 1;
 
     sched_setaffinity(getpid(), sizeof(mask), &mask);
 #endif
-}
-
-#else
-
-#warning No known way to set processor affinity on this platform.
-#warning You may experience crashes due to SDL_mixer.
-
-#include <stdio.h>
-
-static void I_SetAffinityMask(void)
-{
 }
 
 #endif

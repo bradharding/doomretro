@@ -45,7 +45,7 @@
 #include "z_zone.h"
 
 #ifndef _MSC_VER
-#define __forceinline __attribute__((always_inline))
+#define __forceinline inline __attribute__((always_inline))
 #endif
 
 // Window position:

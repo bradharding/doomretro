@@ -371,11 +371,11 @@ void F_TextWrite(void)
 //
 typedef struct
 {
-    const char  **name;
+    char        **name;
     mobjtype_t  type;
 } castinfo_t;
 
-static const castinfo_t castorder[] = 
+static castinfo_t castorder[] =
 {
     { &s_CC_ZOMBIE,  MT_POSSESSED },
     { &s_CC_SHOTGUN, MT_SHOTGUY   },
@@ -443,7 +443,7 @@ void F_CastTicker(void)
         // switch from deathstate to next monster
         castnum++;
         castdeath = false;
-        if (castorder[castnum].name == NULL)
+        if (!castorder[castnum].name)
             castnum = 0;
         if (mobjinfo[castorder[castnum].type].seesound)
             S_StartSound(NULL, mobjinfo[castorder[castnum].type].seesound);
@@ -641,7 +641,7 @@ boolean F_CastResponder(event_t *ev)
     return true;
 }
 
-void F_CastPrint(const char *text)
+void F_CastPrint(char *text)
 {
     const char  *ch;
     int         c;
