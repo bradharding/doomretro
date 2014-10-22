@@ -955,7 +955,6 @@ boolean V_ScreenShot(void)
     char        mapname[128];
     char        folder[MAX_PATH];
     int         count = 0;
-    int         width, height;
     SDL_Surface *screenshot;
 
 #ifdef WIN32
@@ -1004,23 +1003,10 @@ boolean V_ScreenShot(void)
         M_snprintf(lbmpath, sizeof(lbmpath), "%s\\%s", lbmpath, lbmname);
     } while (M_FileExists(lbmpath));
 
-    if (widescreen)
-    {
-        width = screen->w;
-        height = screen->h;
-    }
-    else
-    {
-        width = screenbuffer->w;
-        height = screenbuffer->h;
-    }
-
-    screenshot = SDL_CreateRGBSurface(screenbuffer->flags, width, height,
-                                      screenbuffer->format->BitsPerPixel,
-                                      screenbuffer->format->Rmask,
-                                      screenbuffer->format->Gmask,
-                                      screenbuffer->format->Bmask,
-                                      screenbuffer->format->Amask);
+    screenshot = SDL_CreateRGBSurface(screenbuffer->flags, screenbuffer->w,
+        (widescreen ? screen->h : screenbuffer->h), screenbuffer->format->BitsPerPixel,
+        screenbuffer->format->Rmask, screenbuffer->format->Gmask, screenbuffer->format->Bmask,
+        screenbuffer->format->Amask);
 
 #ifdef SDL20
     SDL_SetPaletteColors(screenshot->format->palette, palette, 0, 256);
