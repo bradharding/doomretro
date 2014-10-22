@@ -239,7 +239,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
             byte        *dest2 = &screens[screensize < 7 && !automapactive][dot];
 
             if (!*source)
-                *dest1 = tinttab50[*dest2];
+                *dest1 = (translucency ? tinttab50[*dest2] : 0);
             else if (*source != 251)
             {
                 byte color = *source;

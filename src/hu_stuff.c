@@ -211,7 +211,7 @@ void HU_Start(void)
     else
     {
         hudfunc = V_DrawHUDPatch;
-        hudnumfunc = V_DrawHUDNumberPatch;
+        hudnumfunc = V_DrawHUDPatch;
         godhudfunc = V_DrawYellowHUDPatch;
     }
 

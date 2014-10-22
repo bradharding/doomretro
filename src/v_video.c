@@ -48,6 +48,8 @@ byte            *screens[5];
 int             pixelwidth = PIXELWIDTH_DEFAULT;
 int             pixelheight = PIXELHEIGHT_DEFAULT;
 
+extern boolean  translucency;
+
 //
 // V_CopyRect
 //
@@ -315,7 +317,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, boolean flag)
                 dest += SCREENWIDTH;
                 shadow = dest + SCREENWIDTH + 2;
                 if (!flag || (*shadow != 47 && *shadow != 191))
-                    *shadow = tinttab50[*shadow];
+                    *shadow = (translucency ? tinttab50[*shadow] : 0);
                 srccol += DYI;
             }
 
@@ -350,41 +352,6 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, boolean invert)
             while (count--)
             {
                 *dest = *source++;
-                dest += SCREENWIDTH;
-            }
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
-}
-
-void V_DrawHUDNumberPatch(int x, int y, patch_t *patch, boolean invert)
-{
-    int         col = 0;
-    byte        *desttop;
-    int         w;
-
-    if (!invert)
-        return;
-
-    desttop = screens[0] + y * SCREENWIDTH + x;
-    w = SHORT(patch->width);
-
-    for (; col < w; col++, desttop++)
-    {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xff)
-        {
-            byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
-            int         count = column->length;
-
-            while (count--)
-            {
-                byte    dot = *source++;
-
-                *dest = (dot == 109 ? tinttab50[*dest] : dot);
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);
@@ -850,8 +817,6 @@ void V_DrawCenteredPatch(int y, patch_t *patch)
     V_DrawPatch((ORIGINALWIDTH - SHORT(patch->width)) / 2, y, 0, patch);
 }
 
-extern boolean translucency;
-
 void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
@@ -920,7 +885,8 @@ void V_DrawPixel(int x, int y, byte color, boolean shadow)
 
             for (yy = 0; yy < SCREENSCALE; ++yy)
                 for (xx = 0; xx < SCREENSCALE; ++xx)
-                    *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH + xx)];
+                    *(dest + yy * SCREENWIDTH + xx) =
+                        (translucency ? tinttab50[*(dest + yy * SCREENWIDTH + xx)] : 0);
         }
     }
     else if (color && color != 32)
