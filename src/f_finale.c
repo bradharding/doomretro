@@ -403,6 +403,7 @@ int     casttics;
 state_t *caststate;
 int     castrot;
 boolean castdeath;
+boolean castdeathflip;
 int     castframes;
 int     castonmelee;
 boolean castattacking;
@@ -420,6 +421,7 @@ void F_StartCast(void)
     casttics = caststate->tics;
     castrot = 0;
     castdeath = false;
+    castdeathflip = false;
     finalestage = F_STAGE_CAST;
     castframes = 0;
     castonmelee = 0;
@@ -443,6 +445,7 @@ void F_CastTicker(void)
         // switch from deathstate to next monster
         castnum++;
         castdeath = false;
+        castdeathflip = false;
         if (!castorder[castnum].name)
             castnum = 0;
         if (mobjinfo[castorder[castnum].type].seesound)
@@ -576,6 +579,8 @@ extern int key_fire;
 
 boolean F_CastResponder(event_t *ev)
 {
+    mobjtype_t  type;
+
     if (!ev->data1)
         return false;
 
@@ -628,15 +633,19 @@ boolean F_CastResponder(event_t *ev)
 
     S_StartSound(players[consoleplayer].mo, sfx_dshtgn);
 
+    type = castorder[castnum].type;
+    
     // go into death frame
     castdeath = true;
-    caststate = &states[mobjinfo[castorder[castnum].type].deathstate];
+    if ((corpses & MIRROR) && type != MT_CHAINGUY && type != MT_CYBORG)
+        castdeathflip = (rand() & 1);
+    caststate = &states[mobjinfo[type].deathstate];
     casttics = caststate->tics;
     castrot = 0;
     castframes = 0;
     castattacking = false;
-    if (mobjinfo[castorder[castnum].type].deathsound)
-        S_StartSound(NULL, mobjinfo[castorder[castnum].type].deathsound);
+    if (mobjinfo[type].deathsound)
+        S_StartSound(NULL, mobjinfo[type].deathsound);
 
     return true;
 }
@@ -728,7 +737,7 @@ void F_CastDrawer(void)
     else if (type == MT_PAIN || (type == MT_HEAD && !castdeath))
         y -= 20;
 
-    if (flip)
+    if (flip || castdeathflip)
     {
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
