@@ -1021,6 +1021,9 @@ void ToggleWideScreen(boolean toggle)
     width = height * 4 / 3;
     width += (width & 1);
 
+    if ((double)width / screen->w >= 0.99)
+        width = screen->w;
+
     returntowidescreen = false;
 #ifdef SDL20
     SDL_RenderSetLogicalSize(sdl_renderer, width, height);
