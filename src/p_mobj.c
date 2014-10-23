@@ -75,6 +75,7 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
     statenum_t          i = state;                              // initial state
     boolean             ret = true;                             // return value
     statenum_t          tempstate[NUMSTATES];                   // for use with recursion
+    boolean             hasshadow = ((mobj->flags2 & MF2_SHADOW) && mobj->shadow);
 
     if (recursion++)                                            // if recursion detected,
         memset((seenstate = tempstate), 0, sizeof(tempstate));  // clear state table
@@ -85,7 +86,7 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
-            if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
+            if (hasshadow)
                 P_RemoveMobj(mobj->shadow);
             ret = false;
             break;                                              // killough 4/9/98
@@ -112,7 +113,7 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
             seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
 
     if (ret)
-        if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
+        if (hasshadow)
         {
             mobj->shadow->sprite = mobj->state->sprite;
             mobj->shadow->frame = mobj->frame & ~FF_FULLBRIGHT;
@@ -152,7 +153,6 @@ void P_ExplodeMissile(mobj_t *mo)
 #define FRICTION        0xe800
 #define WATERFRICTION   0xfb00
 
-boolean shootingsky = false;
 int     puffcount = 0;
 
 void P_XYMovement(mobj_t *mo)
@@ -238,9 +238,10 @@ void P_XYMovement(mobj_t *mo)
                     // Hack to prevent missiles exploding
                     // against the sky.
                     // Does not handle sky floors.
-                    shootingsky = true;
                     P_RemoveMobj(mo);
-                    if (mo->type == MT_ROCKET && mo->shadow)
+                    if (mo->type == MT_BFG)
+                        S_StartSound(mo, mo->info->deathsound);
+                    else if (mo->type == MT_ROCKET && mo->shadow)
                         P_RemoveMobj(mo->shadow);
                     return;
                 }
@@ -257,14 +258,15 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz && !(mo->flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
-    if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD) &&
-        (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
+    if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD)
+        && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
     {
         int     i;
+        int     max = ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12;
         int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1;
         int     blood = mobjinfo[mo->blood].blood;
 
-        for (i = 0; i < ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12; i++)
+        for (i = 0; i < max; i++)
         {
             if (!--mo->bloodsplats)
                 break;
@@ -679,13 +681,6 @@ void P_RemoveMobj(mobj_t *mobj)
     
     mobj->flags |= (MF_NOSECTOR | MF_NOBLOCKMAP);
     mobj->old_sectorlist = NULL;
-
-    if (shootingsky)
-    {
-        if (mobj->type == MT_BFG)
-            S_StartSound(mobj, mobj->info->deathsound);
-        shootingsky = false;
-    }
 
     mobj->target = mobj->tracer = mobj->lastenemy = NULL;
 
