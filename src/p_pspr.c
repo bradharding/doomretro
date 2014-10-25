@@ -271,8 +271,8 @@ void A_WeaponReady(player_t *player, pspdef_t *psp)
         if (bob < FRACUNIT / 2)
             bob = 0;
 
-        psp->sx = FixedMul(bob, finecosine[angle]);
-        psp->sy = WEAPONTOP + (bob - FixedMul(bob, finecosine[angle * 2 & (FINEANGLES - 1)])) / 2;
+        psp->sx = FRACUNIT + FixedMul(bob, finecosine[angle]);
+        psp->sy = WEAPONTOP + FixedMul(bob, finesine[angle & (FINEANGLES / 2 - 1)]);
     }
 }
 
