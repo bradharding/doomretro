@@ -296,11 +296,9 @@ void P_PlayerThink(player_t *player)
     {
         // The actual changing of the weapon is done when the weapon psprite can do it
         //  (read: not in the middle of an attack).
-        newweapon = (weapontype_t)((cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT);
+        newweapon = (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT;
 
-        if (newweapon == wp_chainsaw)
-            newweapon = wp_nochange;
-        else if (newweapon == wp_fist)
+        if (newweapon == wp_fist)
         {
             if (player->readyweapon == wp_fist)
             {
@@ -310,7 +308,7 @@ void P_PlayerThink(player_t *player)
             else if (player->readyweapon == wp_chainsaw)
             {
                 if (player->powers[pw_strength])
-                    newweapon = player->fistorchainsaw = wp_fist;
+                    player->fistorchainsaw = wp_fist;
                 else
                     newweapon = wp_nochange;
             }
@@ -327,7 +325,7 @@ void P_PlayerThink(player_t *player)
             newweapon = wp_nochange;
 
         // Select the preferred shotgun.
-        if (newweapon == wp_shotgun)
+        else if (newweapon == wp_shotgun)
         {
             if ((!player->weaponowned[wp_shotgun] || player->readyweapon == wp_shotgun)
                 && player->weaponowned[wp_supershotgun]
@@ -339,15 +337,15 @@ void P_PlayerThink(player_t *player)
             newweapon = player->preferredshotgun;
         }
 
-        if (player->weaponowned[newweapon] && newweapon != player->readyweapon)
+        if (player->weaponowned[newweapon] && newweapon != player->readyweapon && newweapon != wp_nochange)
         {
             player->pendingweapon = newweapon;
             if (newweapon == wp_fist && player->powers[pw_strength])
                 S_StartSound(NULL, sfx_getpow);
-        }
 
-        if ((player->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
-            G_RemoveChoppers();
+            if ((player->cheats & CF_CHOPPERS) && newweapon != wp_chainsaw)
+                G_RemoveChoppers();
+        }
     }
 
     // check for use
