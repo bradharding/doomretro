@@ -1154,8 +1154,6 @@ void WI_updateStats(void)
             cnt_pause = TICRATE;
         }
     }
-
-    cnt_kills[0] = MIN(cnt_kills[0], 100);
 }
 
 extern void M_DrawString(int x, int y, char *str);

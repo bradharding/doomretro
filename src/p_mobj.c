@@ -449,6 +449,8 @@ void P_NightmareRespawn(mobj_t *mobj)
     mo->spawnpoint = mobj->spawnpoint;
     mo->angle = ANG45 * (mthing->angle / 45);
 
+    mo->flags &= ~MF_COUNTKILL;
+
     if (mthing->options & MTF_AMBUSH)
         mo->flags |= MF_AMBUSH;
 
@@ -553,7 +555,7 @@ void P_MobjThinker(mobj_t *mobj)
     else
     {
         // check for nightmare respawn
-        if ((mobj->flags & MF_COUNTKILL) && respawnmonsters)
+        if ((mobj->flags & MF_SHOOTABLE) && respawnmonsters)
         {
             mobj->movecount++;
 
@@ -917,7 +919,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
         return;
 
     // don't spawn any monsters if -nomonsters
-    if (nomonsters && (i == MT_SKULL || (mobjinfo[i].flags & MF_COUNTKILL)) && i != MT_KEEN)
+    if (nomonsters && (mobjinfo[i].flags & MF_COUNTKILL) && i != MT_KEEN)
         return;
 
     // spawn it

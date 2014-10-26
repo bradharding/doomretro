@@ -577,8 +577,7 @@ static boolean P_LookForMonsters(mobj_t *actor)
             continue;           // not a mobj thinker
 
         mo = (mobj_t *)think;
-        if ((!(mo->flags & MF_COUNTKILL) && mo->type != MT_SKULL)
-            || mo == actor || mo->health <= 0)
+        if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
 
         if (P_ApproxDistance(actor->x - mo->x, actor->y - mo->y) > MONS_LOOK_RANGE)
@@ -1253,7 +1252,7 @@ void A_VileChase(mobj_t *actor)
 
                     corpsehit->height = info->height;
                     corpsehit->radius = info->radius;
-                    corpsehit->flags = info->flags;
+                    corpsehit->flags = info->flags & ~MF_COUNTKILL;
                     corpsehit->flags2 = info->flags2;
                     if ((corpsehit->flags2 & MF2_SHADOW) && corpsehit->shadow)
                         corpsehit->shadow->flags2 &= ~MF2_MIRRORED;
@@ -1960,6 +1959,8 @@ void A_SpawnFly(mobj_t* mo)
                 type = MT_BRUISER;
 
             newmobj = P_SpawnMobj(targ->x, targ->y, targ->z, type);
+
+            newmobj->flags &= ~MF_COUNTKILL;
 
             if (!(P_LookForPlayers(newmobj, true))
                 || P_SetMobjState(newmobj, newmobj->info->seestate))

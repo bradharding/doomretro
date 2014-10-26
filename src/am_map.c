@@ -1611,7 +1611,7 @@ static void AM_drawThings(void)
                 //e6y: stop if all enemies from current sector already have been drawn
                 if (pass && !enemies)
                     break;
-                if (pass == ((thing->flags & (MF_COUNTKILL | MF_CORPSE)) == MF_COUNTKILL ?
+                if (pass == ((thing->flags & (MF_SHOOTABLE | MF_CORPSE)) == MF_SHOOTABLE ?
                     (!pass ? enemies++ : enemies--), 0 : 1))
                 {
                     thing = thing->snext;
