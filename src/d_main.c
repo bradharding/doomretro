@@ -1221,6 +1221,8 @@ static void D_DoomMainSetup(void)
         timelimit = 20;
 
     p = M_CheckParmWithArgs("-warp", 1);
+    if (!p)
+        p = M_CheckParmWithArgs("+map", 1);
     if (p)
     {
         static char lumpname[6];
