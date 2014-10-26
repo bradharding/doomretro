@@ -634,6 +634,10 @@ boolean G_Responder(event_t *ev)
                           GAMEPAD_DPAD_LEFT | GAMEPAD_DPAD_RIGHT))))
              && !keydown)
         {
+            keydown = ev->data1;
+            gamepadbuttons = 0;
+            gamepadwait = I_GetTime() + 8;
+            mousewait = I_GetTime() + 5;
             if (splashscreen)
             {
                 if (pagetic < 95)
@@ -641,14 +645,10 @@ boolean G_Responder(event_t *ev)
             }
             else
             {
-                keydown = ev->data1;
-                gamepadbuttons = 0;
-                gamepadwait = I_GetTime() + 8;
-                mousewait = I_GetTime() + 5;
                 M_StartControlPanel();
                 S_StartSound(NULL, sfx_swtchn);
-                return true;
             }
+            return true;
         }
         return false;
     }
@@ -980,7 +980,7 @@ void G_Ticker(void)
 
 //
 // PLAYER STRUCTURE FUNCTIONS
-// also see P_SpawnPlayer in P_Things
+// also see P_SpawnPlayer in P_Mobj.c
 //
 
 //
