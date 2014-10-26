@@ -32,6 +32,7 @@
 #include <math.h>
 
 #include "d_net.h"
+#include "doomstat.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "p_local.h"
@@ -599,6 +600,9 @@ void R_InitColumnFunctions(void)
         else
             info->colfunc = basecolfunc;
     }
+
+    if (chex)
+        mobjinfo[MT_BLOOD].blood = GREENBLOOD;
 }
 
 //
