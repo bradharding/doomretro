@@ -44,6 +44,8 @@
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 
+boolean centeredweapon = CENTEREDWEAPON_DEFAULT;
+
 //
 // P_SetPsprite
 //
@@ -165,7 +167,6 @@ boolean P_CheckAmmo(player_t *player)
 //
 void P_FireWeapon(player_t *player)
 {
-    statenum_t          newstate;
     weapontype_t        readyweapon;
 
     if (!P_CheckAmmo(player) || (automapactive && !followplayer))
@@ -174,8 +175,7 @@ void P_FireWeapon(player_t *player)
     readyweapon = player->readyweapon;
 
     P_SetMobjState(player->mo, S_PLAY_ATK1);
-    newstate = weaponinfo[readyweapon].atkstate;
-    P_SetPsprite(player, ps_weapon, newstate);
+    P_SetPsprite(player, ps_weapon, weaponinfo[readyweapon].atkstate);
 
     if (readyweapon == wp_fist && !linetarget)
         return;
@@ -184,7 +184,7 @@ void P_FireWeapon(player_t *player)
 
     if (gamepadvibrate && vibrate)
     {
-        int motorspeed = weaponinfo[readyweapon].motorspeed;
+        int     motorspeed = weaponinfo[readyweapon].motorspeed;
 
         if ((readyweapon == wp_fist && player->powers[pw_strength])
             || (readyweapon == wp_chainsaw && linetarget))
@@ -193,8 +193,11 @@ void P_FireWeapon(player_t *player)
         weaponvibrationtics = weaponinfo[readyweapon].tics;
     }
 
-    player->psprites[ps_weapon].sx = 0;
-    player->psprites[ps_weapon].sy = WEAPONTOP;
+    if (centeredweapon)
+    {
+        player->psprites[ps_weapon].sx = 0;
+        player->psprites[ps_weapon].sy = WEAPONTOP;
+    }
 }
 
 //

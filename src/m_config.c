@@ -46,6 +46,7 @@
 extern boolean  alwaysrun;
 extern int      bloodsplats;
 extern int      brightmaps;
+extern boolean  centeredweapon;
 extern int      corpses;
 extern boolean  dclick_use;
 extern boolean  footclip;
@@ -192,6 +193,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (alwaysrun,           alwaysrun,            1),
     CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,          7),
     CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,           1),
+    CONFIG_VARIABLE_INT   (centeredweapon,      centeredweapon,       1),
     CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
     CONFIG_VARIABLE_INT   (dclick_use,          dclick_use,           1),
     CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
@@ -724,6 +726,9 @@ static void M_CheckDefaults(void)
 
     if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;
+
+    if (centeredweapon != false && centeredweapon != true)
+        centeredweapon = CENTEREDWEAPON_DEFAULT;
 
     if (corpses < CORPSES_MIN || corpses > CORPSES_MAX || (corpses & (corpses - 1)))
         corpses = CORPSES_DEFAULT;

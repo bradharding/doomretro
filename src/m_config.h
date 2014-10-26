@@ -39,6 +39,8 @@
 
 #define BRIGHTMAPS_DEFAULT              true
 
+#define CENTEREDWEAPON_DEFAULT          true
+
 #define CORPSES_MIN                     0
 #define CORPSES_DEFAULT                 (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
 #define CORPSES_MAX                     CORPSES_DEFAULT
