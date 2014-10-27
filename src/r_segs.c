@@ -256,13 +256,10 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     texheight = textureheight[texnum];
 
     lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-    if (frontsector->ceilingpic != skyflatnum)
-    {
-        if (curline->v1->y == curline->v2->y)
-            lightnum -= LIGHTBRIGHT;
-        else if (curline->v1->x == curline->v2->x)
-            lightnum += LIGHTBRIGHT;
-    }
+    if (curline->v1->y == curline->v2->y)
+        lightnum -= LIGHTBRIGHT;
+    else if (curline->v1->x == curline->v2->x)
+        lightnum += LIGHTBRIGHT;
 
     walllights = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)];
 
