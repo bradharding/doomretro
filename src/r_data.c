@@ -766,6 +766,18 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_BARREL].spawnstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 2;
     }
+
+    if (chex)
+    {
+        states[S_POSS_DIE5].tics = 0;
+        states[S_POSS_XDIE9].tics = 0;
+        states[S_SPOS_DIE5].tics = 0;
+        states[S_SPOS_XDIE9].tics = 0;
+        states[S_TROO_DIE5].tics = 0;
+        states[S_TROO_XDIE8].tics = 0;
+        states[S_SARG_DIE6].tics = 0;
+        states[S_BOSS_DIE7].tics = 0;
+    }
 }
 
 //
