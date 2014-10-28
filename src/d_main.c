@@ -540,7 +540,8 @@ static boolean D_IsDOOMIWAD(char *filename)
             || D_CheckFilename(filename, "DOOM1.WAD")
             || D_CheckFilename(filename, "DOOM2.WAD")
             || D_CheckFilename(filename, "PLUTONIA.WAD")
-            || D_CheckFilename(filename, "TNT.WAD"));
+            || D_CheckFilename(filename, "TNT.WAD")
+            || (hacx = D_CheckFilename(filename, "HACX.WAD")));
 }
 
 static boolean D_IsUnsupportedIWAD(char *filename)
@@ -630,7 +631,7 @@ static int D_ChooseIWAD(void)
                 || (W_WadType(file) == IWAD
                     && !D_IsUnsupportedIWAD(file)))
             {
-                IdentifyIWADByContents(file, &gamemode, &gamemission);
+                IdentifyIWADByName(file);
                 if (D_AddFile(file))
                 {
                     iwadfound = 1;
@@ -755,7 +756,7 @@ static int D_ChooseIWAD(void)
                 {
                     if (!iwadfound)
                     {
-                        IdentifyIWADByContents(fullpath, &gamemode, &gamemission);
+                        IdentifyIWADByName(fullpath);
                         if (D_AddFile(fullpath))
                         {
                             iwadfound = 1;

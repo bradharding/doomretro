@@ -88,7 +88,6 @@ extern unsigned int W_LumpNameHash(const char *s);
 void W_ReleaseLumpNum(int lump);
 void W_ReleaseLumpName(char *name);
 
-void IdentifyIWADByContents(const char *iwadname, GameMode_t *gmode, GameMission_t *gmission);
 int IWADRequiredByPWAD(const char *pwadname);
 boolean IsFreedoom(const char *iwadname);
 

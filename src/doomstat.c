@@ -40,6 +40,7 @@ boolean         bfgedition = false;
 
 boolean         chex = false;
 boolean         chexdeh = false;
+boolean         hacx = false;
 boolean         BTSX = false;
 boolean         BTSXE1 = false;
 boolean         BTSXE2 = false;
