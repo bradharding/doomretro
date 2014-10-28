@@ -82,7 +82,6 @@ typedef enum
     pack_tnt,           // TNT mission pack
     pack_plut,          // Plutonia pack
     pack_nerve,         // No Rest for the Living
-    doom2bfg,           // DOOM 2 (BFG Edition)
     none
 } GameMission_t;
 
@@ -157,7 +156,6 @@ typedef enum
     it_blueskull,
     it_yellowskull,
     it_redskull,
-
     NUMCARDS
 } card_t;
 
@@ -175,7 +173,6 @@ typedef enum
     wp_bfg,
     wp_chainsaw,
     wp_supershotgun,
-
     NUMWEAPONS,
 
     // No pending weapon change.

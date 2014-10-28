@@ -1608,7 +1608,7 @@ static void AM_drawThings(void)
             {
                 mobjtype_t      type;
 
-                //e6y: stop if all enemies from current sector already have been drawn
+                // e6y: stop if all enemies from current sector already have been drawn
                 if (pass && !enemies)
                     break;
                 if (pass == ((thing->flags & (MF_SHOOTABLE | MF_CORPSE)) == MF_SHOOTABLE ?

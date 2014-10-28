@@ -327,17 +327,20 @@ static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
 {
     while (column->topdelta != 0xff)
     {
+        int     topdelta = column->topdelta;
+        int     length = column->length;
+
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * column->topdelta + 1;
+        int     topscreen = sprtopscreen + spryscale * topdelta + 1;
 
         dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x] + 1);
-        dc_yh = MIN((topscreen + spryscale * column->length) >> FRACBITS, mfloorclip[dc_x] - 1);
+        dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, mfloorclip[dc_x] - 1);
 
         if (baseclip != -1)
             dc_yh = MIN(baseclip, dc_yh);
         fuzzclip = baseclip;
 
-        dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
+        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) +
             FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
 
         if (dc_texturefrac < 0)
@@ -350,7 +353,7 @@ static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
 
         {
             const fixed_t       endfrac = dc_texturefrac + (dc_yh - dc_yl) * dc_iscale;
-            const fixed_t       maxfrac = column->length << FRACBITS;
+            const fixed_t       maxfrac = length << FRACBITS;
 
             if (endfrac >= maxfrac)
                 dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
@@ -361,7 +364,7 @@ static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
             dc_source = (byte *)column + 3;
             colfunc();
         }
-        column = (column_t *)((byte *)column + column->length + 4);
+        column = (column_t *)((byte *)column + length + 4);
     }
 }
 
