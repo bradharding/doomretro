@@ -1092,8 +1092,9 @@ static void D_DoomMainSetup(void)
         I_Error("Wrong version of %s.", uppercase(PACKAGE_WAD));
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
+    FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
-    if (FREEDOOM && W_CheckNumForName("FREEDM") < 0 && !modifiedgame)
+    if (FREEDOOM && !FREEDM && !modifiedgame)
         I_Error("FREEDOOM requires a BOOM-compatible source port,\n"
                 "and is therefore unable to be opened by DOOM RETRO.");
 

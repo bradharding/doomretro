@@ -600,7 +600,7 @@ void D_SetGameDescription(void)
     {
         // Doom 1. But which version?
         if (FREEDOOM)
-            gamedescription = "Ultimate FREEDOOM";
+            gamedescription = "Freedoom: Phase 1";
         else if (gamemode == retail)
         {
             // Ultimate Doom
@@ -618,7 +618,12 @@ void D_SetGameDescription(void)
     {
         // Doom 2 of some kind. But which mission?
         if (FREEDOOM)
-            gamedescription = "FREEDOOM";
+        {
+            if (FREEDM)
+                gamedescription = "FreeDM";
+            else
+                gamedescription = "Freedoom: Phase 2";
+        }
         else if (nerve)
         {
                 if (bfgedition)

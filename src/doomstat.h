@@ -92,6 +92,7 @@ extern boolean          BTSXE2B;
 
 extern boolean          DMENUPIC;
 extern boolean          FREEDOOM;
+extern boolean          FREEDM;
 extern boolean          M_DOOM;
 extern boolean          M_EPISOD;
 extern boolean          M_GDHIGH;

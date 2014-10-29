@@ -52,6 +52,7 @@ boolean         modifiedgame;
 
 boolean         DMENUPIC = false;
 boolean         FREEDOOM = false;
+boolean         FREEDM = false;
 boolean         M_DOOM = false;
 boolean         M_EPISOD = false;
 boolean         M_GDHIGH = false;

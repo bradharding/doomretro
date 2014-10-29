@@ -1465,7 +1465,7 @@ deh_bexptr deh_bexptrs[] =
   { A_BrainExplode,  "A_BrainExplode"  },
 
   // This NULL entry must be the last in the list
-  { NULL,            "A_NULL"          },       // Ty 05/16/98
+  { NULL,            "A_NULL"          }        // Ty 05/16/98
 };
 
 // to hold startup code pointers from INFO.C
