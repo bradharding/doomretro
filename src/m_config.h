@@ -210,7 +210,11 @@
 #define TRANSLUCENCY_DEFAULT            true
 
 #ifdef WIN32
+#ifdef SDL20
+#define VIDEODRIVER_DEFAULT             "windows"
+#else
 #define VIDEODRIVER_DEFAULT             "directx"
+#endif
 #else
 #define VIDEODRIVER_DEFAULT             ""
 #endif

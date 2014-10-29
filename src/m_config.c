@@ -268,7 +268,9 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_STRING(timidity_cfg_path,   timidity_cfg_path,    0),
     CONFIG_VARIABLE_INT   (translucency,        translucency,         1),
     CONFIG_VARIABLE_STRING(version,             version,              0),
+#ifdef WIN32
     CONFIG_VARIABLE_STRING(videodriver,         videodriver,          0),
+#endif
     CONFIG_VARIABLE_INT   (widescreen,          widescreen,           1),
     CONFIG_VARIABLE_STRING(windowposition,      windowposition,       0),
     CONFIG_VARIABLE_INT   (windowwidth,         windowwidth,          0),
@@ -963,8 +965,14 @@ static void M_CheckDefaults(void)
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;
 
+#ifdef WIN32
+#ifdef SDL20
+    if (strcasecmp(videodriver, "windows"))
+#else
     if (strcasecmp(videodriver, "directx") && strcasecmp(videodriver, "windib"))
+#endif
         videodriver = VIDEODRIVER_DEFAULT;
+#endif
 
     if (widescreen && !fullscreen)
     {
