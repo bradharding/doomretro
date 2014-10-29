@@ -587,7 +587,9 @@ void D_SetGameDescription(void)
 
     if (chex)
         gamedescription = "Chex Quest";
-    if (BTSXE1)
+    else if (hacx)
+        gamedescription = "HacX: Twitch 'n Kill";
+    else if (BTSXE1)
         gamedescription = "Back to Saturn X E1: Get Out Of My Stations";
     else if (BTSXE2)
         gamedescription = "Back to Saturn X E2: Tower in the Fountain of Sparks";
