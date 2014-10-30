@@ -826,7 +826,7 @@ deh_strs deh_strlookup[] =
     { &bgcastcall,             "BGCASTCALL",           false }
 };
 
-static int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
+static int deh_numstrlookup = arrlen(deh_strlookup);
 
 char *deh_newlevel = "NEWLEVEL";
 
@@ -2619,6 +2619,8 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout
 
         if (found)
         {
+            char        *t;
+
             if (deh_strlookup[i].assigned)
             {
                 if (fpout)
@@ -2626,15 +2628,15 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout
                 break;
             }
 
-            *deh_strlookup[i].ppstr = strdup(newstring);        // orphan originalstring
+            *deh_strlookup[i].ppstr = t = strdup(newstring);    // orphan originalstring
             found = true;
             // Handle embedded \n's in the incoming string, convert to 0x0a's
             {
-                char    *s, *t;
+                char    *s;
 
-                for (s = t = *deh_strlookup[i].ppstr; *s; ++s, ++t)
+                for (s = *deh_strlookup[i].ppstr; *s; ++s, ++t)
                 {
-                    if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))     //found one
+                    if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))     // found one
                         ++s, *t = '\n'; // skip one extra for second character
                     else
                         *t = *s;
