@@ -1294,7 +1294,9 @@ void M_DrawReadThis(void)
             players[consoleplayer].fixedcolormap = 0;
             M_DarkBlueBackground();
         }
-        if (W_CheckMultipleLumps(lumpname) > 2)
+        if (hacx)
+            V_DrawPatch(0, 0, 0, W_CacheLumpNum(W_GetNumForNameX("HELP", 1), PU_CACHE));
+        else if (W_CheckMultipleLumps(lumpname) > 2)
             V_DrawPatch(0, 0, 0, W_CacheLumpNum(W_GetNumForNameX(lumpname, 2), PU_CACHE));
         else
             M_DrawPatchWithShadow(0, 0, W_CacheLumpName(lumpname, PU_CACHE));
