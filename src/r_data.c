@@ -767,8 +767,7 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_BARREL].spawnstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 2;
     }
-
-    if (chex)
+    else if (chex)
     {
         states[S_POSS_DIE5].tics = 0;
         states[S_POSS_XDIE9].tics = 0;
@@ -779,6 +778,8 @@ void R_InitSpriteLumps(void)
         states[S_SARG_DIE6].tics = 0;
         states[S_BOSS_DIE7].tics = 0;
     }
+    else if (hacx)
+        mobjinfo[MT_HEAD].flags2 |= MF2_DONOTMAP;
 }
 
 //

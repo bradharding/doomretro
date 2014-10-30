@@ -1097,7 +1097,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = (MF2_DRAWFIRST | (rand() & 1) * MF2_MIRRORED);
+        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | (rand() & 1) * MF2_MIRRORED);
         if (blood == FUZZYBLOOD)
         {
             newsplat->flags = MF_FUZZ;
@@ -1139,7 +1139,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = (MF2_DRAWFIRST | (rand() & 1) * MF2_MIRRORED);
+        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | (rand() & 1) * MF2_MIRRORED);
         if (blood == FUZZYBLOOD)
         {
             newsplat->flags = MF_FUZZ;
@@ -1192,6 +1192,8 @@ void P_SpawnShadow(mobj_t *actor)
 
     mobj->sprite = actor->state->sprite;
     mobj->frame = actor->state->frame;
+
+    mobj->flags2 = MF2_DONOTMAP;
 
     mobj->colfunc = shadowcolfunc;
 

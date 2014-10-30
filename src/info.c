@@ -1423,7 +1423,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_DROPOFF | MF_PICKUP | MF_NOTDMATCH,
-        /* flags2               */ MF2_PASSMOBJ,
+        /* flags2               */ MF2_PASSMOBJ | MF2_DONOTMAP,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD

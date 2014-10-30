@@ -252,7 +252,10 @@ typedef enum
     MF2_BLOOD                     = 0x00200000,
 
     // Object is drawn first
-    MF2_DRAWFIRST                 = 0x00400000
+    MF2_DRAWFIRST                 = 0x00400000,
+
+    // Object's thing triangle is not displayed in automap
+    MF2_DONOTMAP                  = 0x00800000
 } mobjflag2_t;
 
 // Map Object definition.
