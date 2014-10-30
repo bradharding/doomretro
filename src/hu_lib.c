@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "d_deh.h"
+#include "doomstat.h"
 #include "dstrings.h"
 #include "hu_lib.h"
 #include "i_swap.h"
@@ -244,7 +245,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
             {
                 byte color = *source;
 
-                if (translucency)
+                if (translucency && !hacx)
                 {
                     color = tinttab33[(*dest2 << 8) + color];
                     if (color >= 168 && color <= 175)
