@@ -258,8 +258,8 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz && !(mo->flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
-    if ((mo->flags & MF_CORPSE) && (corpses & SLIDE) && (corpses & SMEARBLOOD)
-        && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
+    if ((mo->flags & MF_CORPSE) && !(mo->flags & MF_NOBLOOD) && (corpses & SLIDE)
+        && (corpses & SMEARBLOOD) && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
     {
         int     i;
         int     max = ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12;
@@ -947,8 +947,8 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (!(mobj->flags & MF_SHOOTABLE) && mobj->blood && !chex && (corpses & MOREBLOOD)
-        && bloodsplats)
+    if (!(mobj->flags & MF_SHOOTABLE) && !(mobj->flags & MF_NOBLOOD) && mobj->blood && !chex
+        && (corpses & MOREBLOOD) && bloodsplats)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
         P_SpawnMoreBlood(mobj);

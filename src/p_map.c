@@ -1780,7 +1780,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
     // crunch bodies to giblets
     if (thing->health <= 0 && type != MT_BARREL && type != MT_SKULL && type != MT_PAIN && !chex)
     {
-        if (!(flags & MF_FUZZ))
+        if (!(flags & MF_FUZZ) && !(flags & MF_NOBLOOD))
         {
             int i;
             int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >>
