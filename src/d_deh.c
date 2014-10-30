@@ -86,7 +86,7 @@ int dehfgetc(DEHFILE *fp)
 }
 
 // variables used in other routines
-boolean deh_pars = false; // in wi_stuff to allow pars in modified games
+boolean deh_pars = false;       // in wi_stuff to allow pars in modified games
 
 // #include "d_deh.h" -- we don't do that here but we declare the
 // variables. This externalizes everything that there is a string
@@ -1038,12 +1038,12 @@ char **mapnamesn[] =    // Nerve WAD map names.
 };
 
 // Function prototypes
-void    lfstrip(char *);        // strip the \r and/or \n off of a line
-void    rstrip(char *);         // strip trailing whitespace
-char    *ptr_lstrip(char *);    // point past leading whitespace
+void lfstrip(char *);           // strip the \r and/or \n off of a line
+void rstrip(char *);            // strip trailing whitespace
+char *ptr_lstrip(char *);       // point past leading whitespace
 boolean deh_GetData(char *, char *, long *, char **, FILE *);
 boolean deh_procStringSub(char *, char *, char *, FILE *);
-char    *dehReformatStr(char *);
+char *dehReformatStr(char *);
 
 // Prototypes for block processing functions
 // Pointers to these functions are used as the blocks are encountered.
@@ -1072,7 +1072,7 @@ typedef struct
 
 #define DEH_BUFFERMAX   1024    // input buffer area size, hardcodedfor now
 // killough 8/9/98: make DEH_BLOCKMAX self-adjusting
-#define DEH_BLOCKMAX (sizeof (deh_blocks) / sizeof (*deh_blocks))       // size of array
+#define DEH_BLOCKMAX    (sizeof (deh_blocks) / sizeof (*deh_blocks))    // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
 #define DEH_MOBJINFOMAX 27      // number of ints in the mobjinfo_t structure (!)
 
@@ -1147,48 +1147,39 @@ char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 //
 // Convert array to struct to allow multiple values, make array size variable
 
-#define DEH_MOBJFLAGMAX (sizeof (deh_mobjflags) / sizeof (*deh_mobjflags))
+#define DEH_MOBJFLAGMAX arrlen(deh_mobjflags)
 
 struct
 {
-    char *name;
-    long value;
+    char        *name;
+    long        value;
 } deh_mobjflags[] = {
-    { "SPECIAL",      0x00000001 }, // call  P_Specialthing when touched
-    { "SOLID",        0x00000002 }, // block movement
-    { "SHOOTABLE",    0x00000004 }, // can be hit
-    { "NOSECTOR",     0x00000008 }, // invisible but touchable
-    { "NOBLOCKMAP",   0x00000010 }, // inert but displayable
-    { "AMBUSH",       0x00000020 }, // deaf monster
-    { "JUSTHIT",      0x00000040 }, // will try to attack right back
-    { "JUSTATTACKED", 0x00000080 }, // take at least 1 step before attacking
-    { "SPAWNCEILING", 0x00000100 }, // initially hang from ceiling
-    { "NOGRAVITY",    0x00000200 }, // don't apply gravity during play
-    { "DROPOFF",      0x00000400 }, // can jump from high places
-    { "PICKUP",       0x00000800 }, // will pick up items
-    { "NOCLIP",       0x00001000 }, // goes through walls
-    { "SLIDE",        0x00002000 }, // keep info about sliding along walls
-    { "FLOAT",        0x00004000 }, // allow movement to any height
-    { "TELEPORT",     0x00008000 }, // don't cross lines or look at heights
-    { "MISSILE",      0x00010000 }, // don't hit same species, explode on block
-    { "DROPPED",      0x00020000 }, // dropped, not spawned (like ammo clip)
-    { "SHADOW",       0x00040000 }, // use fuzzy draw like spectres
-    { "NOBLOOD",      0x00080000 }, // puffs instead of blood when shot
-    { "CORPSE",       0x00100000 }, // so it will slide down steps when dead
-    { "INFLOAT",      0x00200000 }, // float but not to target height
-    { "COUNTKILL",    0x00400000 }, // count toward the kills total
-    { "COUNTITEM",    0x00800000 }, // count toward the items total
-    { "SKULLFLY",     0x01000000 }, // special handling for flying skulls
-    { "NOTDMATCH",    0x02000000 }, // do not spawn in deathmatch
-  
-    // killough 10/98: TRANSLATION consists of 2 bits, not 1:
-    { "TRANSLATION",  0x04000000 }, // for Boom bug-compatibility
-    { "TRANSLATION1", 0x04000000 }, // use translation table for color (players)
-    { "TRANSLATION2", 0x08000000 }, // use translation table for color (players)
-    { "UNUSED1",      0x08000000 }, // unused bit # 1 -- For Boom bug-compatibility
-    { "UNUSED2",      0x10000000 }, // unused bit # 2 -- For Boom compatibility
-    { "UNUSED3",      0x20000000 }, // unused bit # 3 -- For Boom compatibility
-    { "UNUSED4",      0x40000000 }  // unused bit # 4 -- For Boom compatibility
+    { "SPECIAL",      0x00000001 },     // call  P_Specialthing when touched
+    { "SOLID",        0x00000002 },     // block movement
+    { "SHOOTABLE",    0x00000004 },     // can be hit
+    { "NOSECTOR",     0x00000008 },     // invisible but touchable
+    { "NOBLOCKMAP",   0x00000010 },     // inert but displayable
+    { "AMBUSH",       0x00000020 },     // deaf monster
+    { "JUSTHIT",      0x00000040 },     // will try to attack right back
+    { "JUSTATTACKED", 0x00000080 },     // take at least 1 step before attacking
+    { "SPAWNCEILING", 0x00000100 },     // initially hang from ceiling
+    { "NOGRAVITY",    0x00000200 },     // don't apply gravity during play
+    { "DROPOFF",      0x00000400 },     // can jump from high places
+    { "PICKUP",       0x00000800 },     // will pick up items
+    { "NOCLIP",       0x00001000 },     // goes through walls
+    { "SLIDE",        0x00002000 },     // keep info about sliding along walls
+    { "FLOAT",        0x00004000 },     // allow movement to any height
+    { "TELEPORT",     0x00008000 },     // don't cross lines or look at heights
+    { "MISSILE",      0x00010000 },     // don't hit same species, explode on block
+    { "DROPPED",      0x00020000 },     // dropped, not spawned (like ammo clip)
+    { "SHADOW",       0x00040000 },     // use fuzzy draw like spectres
+    { "NOBLOOD",      0x00080000 },     // puffs instead of blood when shot
+    { "CORPSE",       0x00100000 },     // so it will slide down steps when dead
+    { "INFLOAT",      0x00200000 },     // float but not to target height
+    { "COUNTKILL",    0x00400000 },     // count toward the kills total
+    { "COUNTITEM",    0x00800000 },     // count toward the items total
+    { "SKULLFLY",     0x01000000 },     // special handling for flying skulls
+    { "NOTDMATCH",    0x02000000 }      // do not spawn in deathmatch
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"
@@ -1266,13 +1257,6 @@ char *deh_weapon[] =
     "Shooting frame",   // .atkstate
     "Firing frame"      // .flashstate
 };
-
-// CHEATS - Dehacked block name = "Cheat"
-// Usage: Cheat 0
-// Always uses a zero in the dehacked file, for consistency.  No meaning.
-// These are just plain funky terms compared with id's
-//
-// killough 4/18/98: integrated into main cheat table now (see st_stuff.c)
 
 // MISC - Dehacked block name = "Misc"
 // Usage: Misc 0
@@ -1515,9 +1499,10 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     static FILE *fileout = NULL;                // In case -dehout was used
     DEHFILE     infile, *filein = &infile;      // killough 10/98
     char        inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
+    const char  *file_or_lump;
 
-    // Open output file if we're writing output
 #ifdef _DEBUG
+    // Open output file if we're writing output
     if (outfilename && *outfilename && !fileout)
     {
         static boolean  firstfile = true;       // to allow append to output log
@@ -1538,16 +1523,18 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
         if (!(infile.inp = (void *)fopen(filename, "rt")))
             return;     // should be checked up front anyway
         infile.lump = NULL;
+        file_or_lump = "file";
     }
     else        // DEH file comes from lump indicated by third argument
     {
         infile.size = W_LumpLength(lumpnum);
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
-        filename = "(WAD)";
+        filename = lumpinfo[lumpnum].wad_file->path;
+        file_or_lump = "lump from";
     }
 
     if (fileout)
-        fprintf(fileout, "\nLoading DEH file %s\n\n", filename);
+        fprintf(fileout, "\nLoading DEH %s %s\n\n", file_or_lump, filename);
 
     {
         static int      i;   // killough 10/98: only run once, by keeping index static
