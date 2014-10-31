@@ -27,6 +27,7 @@
 ========================================================================
 */
 
+#include "d_deh.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -172,7 +173,7 @@ static struct
     { "ZELDOOR",  redonly        }, { "",         0              }
 };
 
-extern boolean brightmaps;
+extern boolean  brightmaps;
 
 //
 // MAPTEXTURE_T CACHING
@@ -741,7 +742,7 @@ void R_InitSpriteLumps(void)
         spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
 
         // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
-        if (!FREEDOOM && !hacx)
+        if (!FREEDOOM && !hacx && (!dehacked || BTSX))
         {
             int j = 0;
 

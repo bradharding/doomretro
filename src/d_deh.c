@@ -53,6 +53,7 @@ typedef struct
 
 boolean addtocount;
 int     dehcount = 0;
+boolean dehacked = false;
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
@@ -1501,7 +1502,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     char        inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
     const char  *file_or_lump;
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
     // Open output file if we're writing output
     if (outfilename && *outfilename && !fileout)
     {
@@ -1513,7 +1514,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             fileout = stdout;
         firstfile = false;
     }
-#endif
+//#endif
 
     addtocount = false;
 
@@ -1838,24 +1839,28 @@ void deh_procFrame(DEHFILE *fpin, FILE* fpout, char *line)
             if (fpout)
                 fprintf(fpout, " - sprite = %ld\n", value);
             states[indexnum].sprite = (spritenum_t)value;
+            dehacked = true;
         }
         else if (!strcasecmp(key, deh_state[1]))                // Sprite subnumber
         {
             if (fpout)
                 fprintf(fpout, " - frame = %ld\n", value);
             states[indexnum].frame = value;                     // long
+            dehacked = true;
         }
         else if (!strcasecmp(key, deh_state[2]))                // Duration
         {
             if (fpout)
                 fprintf(fpout, " - tics = %ld\n", value);
             states[indexnum].tics = value;                      // long
+            dehacked = true;
         }
         else if (!strcasecmp(key, deh_state[3]))                // Next frame
         {
             if (fpout)
                 fprintf(fpout, " - nextstate = %ld\n", value);
             states[indexnum].nextstate = value;
+            dehacked = true;
         }
         else if (!strcasecmp(key, deh_state[4]))                // Codep frame (not set in Frame deh block)
         {
@@ -1867,12 +1872,14 @@ void deh_procFrame(DEHFILE *fpin, FILE* fpout, char *line)
             if (fpout)
                 fprintf(fpout, " - misc1 = %ld\n", value);
             states[indexnum].misc1 = value;                     // long
+            dehacked = true;
         }
         else if (!strcasecmp(key, deh_state[6]))                // Unknown 2
         {
             if (fpout)
                 fprintf(fpout, " - misc2 = %ld\n", value);
             states[indexnum].misc2 = value;                     // long
+            dehacked = true;
         }
         else if (fpout)
             fprintf(fpout, "Invalid frame string index for '%s'\n", key);

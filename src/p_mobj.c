@@ -27,6 +27,7 @@
 ========================================================================
 */
 
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -180,7 +181,7 @@ void P_XYMovement(mobj_t *mo)
     player = mo->player;
     type = mo->type;
 
-    if (type == MT_ROCKET && smoketrails)
+    if (type == MT_ROCKET && smoketrails && !dehacked)
         if (puffcount++ > 1)
             P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
 
@@ -948,7 +949,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
         mobj->flags |= MF_AMBUSH;
 
     if (!(mobj->flags & MF_SHOOTABLE) && !(mobj->flags & MF_NOBLOOD) && mobj->blood && !chex
-        && (corpses & MOREBLOOD) && bloodsplats)
+        && (corpses & MOREBLOOD) && bloodsplats && !dehacked)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
         P_SpawnMoreBlood(mobj);
