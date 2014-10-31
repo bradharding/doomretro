@@ -1164,6 +1164,7 @@ void ToggleFullScreen(void)
             widescreen = false;
             screensize = 8;
             R_SetViewSize(screensize);
+            blitheight = SCREENHEIGHT << FRACBITS;
         }
 
         SetWindowPositionVars();
