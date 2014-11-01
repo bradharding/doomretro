@@ -1502,7 +1502,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     char        inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
     const char  *file_or_lump;
 
-//#ifdef _DEBUG
+#ifdef _DEBUG
     // Open output file if we're writing output
     if (outfilename && *outfilename && !fileout)
     {
@@ -1514,7 +1514,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             fileout = stdout;
         firstfile = false;
     }
-//#endif
+#endif
 
     addtocount = false;
 
