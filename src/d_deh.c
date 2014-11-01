@@ -1071,7 +1071,7 @@ typedef struct
     void (*const fptr)(DEHFILE *, FILE *, char *);      // handler
 } deh_block;
 
-#define DEH_BUFFERMAX   1024    // input buffer area size, hardcodedfor now
+#define DEH_BUFFERMAX   1024    // input buffer area size, hardcoded for now
 // killough 8/9/98: make DEH_BLOCKMAX self-adjusting
 #define DEH_BLOCKMAX    (sizeof (deh_blocks) / sizeof (*deh_blocks))    // size of array
 #define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
@@ -1111,7 +1111,6 @@ static boolean includenotext = false;
 char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 {
     "ID #",                     // .doomednum
-    "Description",              // .description
     "Initial frame",            // .spawnstate
     "Hit points",               // .spawnhealth
     "First moving frame",       // .seestate
@@ -1136,12 +1135,13 @@ char *deh_mobjinfo[DEH_MOBJINFOMAX] =
     "Bits",                     // .flags
     "Bits2",                    // .flags2
     "Respawn frame",            // .raisestate
-    "Frames"                    // .frames
+    "Frames",                   // .frames
+    "Blood"                     // .blood
 };
 
 // Strings that are used to indicate flags ("Bits" in mobjinfo)
 // This is an array of bit masks that are related to p_mobj.h
-// values, using the smae names without the MF_ in front.
+// values, using the same names without the MF_ in front.
 // Ty 08/27/98 new code
 //
 // killough 10/98:
@@ -1155,32 +1155,33 @@ struct
     char        *name;
     long        value;
 } deh_mobjflags[] = {
-    { "SPECIAL",      0x00000001 },     // call  P_Specialthing when touched
-    { "SOLID",        0x00000002 },     // block movement
-    { "SHOOTABLE",    0x00000004 },     // can be hit
-    { "NOSECTOR",     0x00000008 },     // invisible but touchable
-    { "NOBLOCKMAP",   0x00000010 },     // inert but displayable
-    { "AMBUSH",       0x00000020 },     // deaf monster
-    { "JUSTHIT",      0x00000040 },     // will try to attack right back
-    { "JUSTATTACKED", 0x00000080 },     // take at least 1 step before attacking
-    { "SPAWNCEILING", 0x00000100 },     // initially hang from ceiling
-    { "NOGRAVITY",    0x00000200 },     // don't apply gravity during play
-    { "DROPOFF",      0x00000400 },     // can jump from high places
-    { "PICKUP",       0x00000800 },     // will pick up items
-    { "NOCLIP",       0x00001000 },     // goes through walls
-    { "SLIDE",        0x00002000 },     // keep info about sliding along walls
-    { "FLOAT",        0x00004000 },     // allow movement to any height
-    { "TELEPORT",     0x00008000 },     // don't cross lines or look at heights
-    { "MISSILE",      0x00010000 },     // don't hit same species, explode on block
-    { "DROPPED",      0x00020000 },     // dropped, not spawned (like ammo clip)
-    { "SHADOW",       0x00040000 },     // use fuzzy draw like spectres
-    { "NOBLOOD",      0x00080000 },     // puffs instead of blood when shot
-    { "CORPSE",       0x00100000 },     // so it will slide down steps when dead
-    { "INFLOAT",      0x00200000 },     // float but not to target height
-    { "COUNTKILL",    0x00400000 },     // count toward the kills total
-    { "COUNTITEM",    0x00800000 },     // count toward the items total
-    { "SKULLFLY",     0x01000000 },     // special handling for flying skulls
-    { "NOTDMATCH",    0x02000000 }      // do not spawn in deathmatch
+    { "SPECIAL",      MF_SPECIAL      },    // call  P_Specialthing when touched
+    { "SOLID",        MF_SOLID        },    // block movement
+    { "SHOOTABLE",    MF_SHOOTABLE    },    // can be hit
+    { "NOSECTOR",     MF_NOSECTOR     },    // invisible but touchable
+    { "NOBLOCKMAP",   MF_NOBLOCKMAP   },    // inert but displayable
+    { "AMBUSH",       MF_AMBUSH       },    // deaf monster
+    { "JUSTHIT",      MF_JUSTHIT      },    // will try to attack right back
+    { "JUSTATTACKED", MF_JUSTATTACKED },    // take at least 1 step before attacking
+    { "SPAWNCEILING", MF_SPAWNCEILING },    // initially hang from ceiling
+    { "NOGRAVITY",    MF_NOGRAVITY    },    // don't apply gravity during play
+    { "DROPOFF",      MF_DROPOFF      },    // can jump from high places
+    { "PICKUP",       MF_PICKUP       },    // will pick up items
+    { "NOCLIP",       MF_NOCLIP       },    // goes through walls
+    { "SLIDE",        MF_SLIDE        },    // keep info about sliding along walls
+    { "FLOAT",        MF_FLOAT        },    // allow movement to any height
+    { "TELEPORT",     MF_TELEPORT     },    // don't cross lines or look at heights
+    { "MISSILE",      MF_MISSILE      },    // don't hit same species, explode on block
+    { "DROPPED",      MF_DROPPED      },    // dropped, not spawned (like ammo clip)
+    { "SHADOW",       MF_FUZZ         },    // use fuzzy draw like spectres
+    { "NOBLOOD",      MF_NOBLOOD      },    // puffs instead of blood when shot
+    { "CORPSE",       MF_CORPSE       },    // so it will slide down steps when dead
+    { "INFLOAT",      MF_INFLOAT      },    // float but not to target height
+    { "COUNTKILL",    MF_COUNTKILL    },    // count toward the kills total
+    { "COUNTITEM",    MF_COUNTITEM    },    // count toward the items total
+    { "SKULLFLY",     MF_SKULLFLY     },    // special handling for flying skulls
+    { "NOTDMATCH",    MF_NOTDMATCH    },    // do not spawn in deathmatch
+    { "TRANSLATION",  MF_TRANSLATION  }     // color translation
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"
@@ -1728,17 +1729,20 @@ void deh_procThing(DEHFILE *fpin, FILE* fpout, char *line)
         fprintf(fpout, "count=%d, Thing %d\n", ix, indexnum);
 
     // Note that the mobjinfo[] array is base zero, but object numbers
-    // in the dehacked file start with one.  Grumble.
+    // in the dehacked file start with one. Grumble.
     --indexnum;
 
     // now process the stuff
     // Note that for Things we can look up the key and use its offset
     // in the array of key strings as an int offset in the structure
 
-    // get a line until a blank or end of file--it's not
+    // get a line until a blank or end of file -- it's not
     // blank now because it has our incoming key in it
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
+        // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
+        int bGetData;
+
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
         lfstrip(inbuffer);      // toss the end of line
@@ -1746,7 +1750,10 @@ void deh_procThing(DEHFILE *fpin, FILE* fpout, char *line)
         // killough 11/98: really bail out on blank lines (break != continue)
         if (!*inbuffer)
             break;              // bail out with blank line between sections
-        if (!deh_GetData(inbuffer, key, &value, &strval, fpout))        // returns TRUE if ok
+
+        // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
+        bGetData = deh_GetData(inbuffer, key, &value, &strval, fpout);
+        if (!bGetData)
         {
             if (fpout)
                 fprintf(fpout, "Bad data pair in '%s'\n", inbuffer);

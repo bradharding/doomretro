@@ -1400,7 +1400,6 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
     // Player (MT_PLAYER)
     {
         /* doomednum            */ -1,
-        /* description          */ "you",
         /* spawnstate           */ S_PLAY,
         /* spawnhealth          */ 100,
         /* seestate             */ S_PLAY_RUN1,
@@ -1426,13 +1425,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_PASSMOBJ | MF2_DONOTMAP,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "you"
     },
 
     // Zombieman (MT_POSSESSED)
     {
         /* doomednum            */ Zombieman,
-        /* description          */ "a Zombieman",
         /* spawnstate           */ S_POSS_STND,
         /* spawnhealth          */ 20,
         /* seestate             */ S_POSS_RUN1,
@@ -1458,13 +1457,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_POSS_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Zombieman"
     },
 
     // Shotgun Guy (MT_SHOTGUY)
     {
         /* doomednum            */ ShotgunGuy,
-        /* description          */ "a Shotgun Guy",
         /* spawnstate           */ S_SPOS_STND,
         /* spawnhealth          */ 30,
         /* seestate             */ S_SPOS_RUN1,
@@ -1490,13 +1489,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SPOS_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Shotgun Guy"
     },
 
     // Arch-vile (MT_VILE)
     {
         /* doomednum            */ ArchVile,
-        /* description          */ "an Arch-vile",
         /* spawnstate           */ S_VILE_STND,
         /* spawnhealth          */ 700,
         /* seestate             */ S_VILE_RUN1,
@@ -1522,13 +1521,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "an Arch-vile"
     },
 
     // Arch-vile Fire (MT_FIRE)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_FIRE1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -1554,13 +1553,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Revenant (MT_UNDEAD)
     {
         /* doomednum            */ Revenant,
-        /* description          */ "a Revenant",
         /* spawnstate           */ S_SKEL_STND,
         /* spawnhealth          */ 300,
         /* seestate             */ S_SKEL_RUN1,
@@ -1586,13 +1585,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SKEL_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Revenant"
     },
 
     // Revenant Projectile (MT_TRACER)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_TRACER,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -1618,13 +1617,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Smoke (MT_SMOKE)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_SMOKE1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -1650,13 +1649,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Mancubus (MT_FATSO)
     {
         /* doomednum            */ Mancubus,
-        /* description          */ "a Mancubus",
         /* spawnstate           */ S_FATT_STND,
         /* spawnhealth          */ 600,
         /* seestate             */ S_FATT_RUN1,
@@ -1682,13 +1681,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_FATT_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Mancubus"
     },
 
     // Mancubus Projectile (MT_FATSHOT)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_FATSHOT1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -1714,13 +1713,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Heavy Weapon Dude (MT_CHAINGUY)
     {
         /* doomednum            */ HeavyWeaponDude,
-        /* description          */ "a Heavy Weapon Dude",
         /* spawnstate           */ S_CPOS_STND,
         /* spawnhealth          */ 70,
         /* seestate             */ S_CPOS_RUN1,
@@ -1746,13 +1745,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_CPOS_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Heavy Weapon Dude"
     },
 
     // Imp (MT_TROOP)
     {
         /* doomednum            */ Imp,
-        /* description          */ "an Imp",
         /* spawnstate           */ S_TROO_STND,
         /* spawnhealth          */ 60,
         /* seestate             */ S_TROO_RUN1,
@@ -1778,13 +1777,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_TROO_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "an Imp"
     },
 
     // Demon (MT_SERGEANT)
     {
         /* doomednum            */ Demon,
-        /* description          */ "a Demon",
         /* spawnstate           */ S_SARG_STND,
         /* spawnhealth          */ 150,
         /* seestate             */ S_SARG_RUN1,
@@ -1810,13 +1809,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Demon"
     },
 
     // Spectre (MT_SHADOWS)
     {
         /* doomednum            */ Spectre,
-        /* description          */ "a Spectre",
         /* spawnstate           */ S_SARG_STND,
         /* spawnhealth          */ 150,
         /* seestate             */ S_SARG_RUN1,
@@ -1842,13 +1841,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_FUZZYBLOOD
+        /* blood                */ MT_FUZZYBLOOD,
+        /* description          */ "a Spectre"
     },
 
     // Cacodemon (MT_HEAD)
     {
         /* doomednum            */ Cacodemon,
-        /* description          */ "a Cacodemon",
         /* spawnstate           */ S_HEAD_STND,
         /* spawnhealth          */ 400,
         /* seestate             */ S_HEAD_RUN1,
@@ -1874,13 +1873,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_PASSMOBJ | MF2_SHADOW,
         /* raisestate           */ S_HEAD_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLUEBLOOD
+        /* blood                */ MT_BLUEBLOOD,
+        /* description          */ "a Cacodemon"
     },
 
     // Baron of Hell (MT_BRUISER)
     {
         /* doomednum            */ BaronOfHell,
-        /* description          */ "a Baron of Hell",
         /* spawnstate           */ S_BOSS_STND,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_BOSS_RUN1,
@@ -1906,13 +1905,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_BOSS_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_GREENBLOOD
+        /* blood                */ MT_GREENBLOOD,
+        /* description          */ "a Baron of Hell"
     },
 
     // Baron of Hell and Hell Knight Projectile (MT_BRUISERSHOT)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_BRBALL1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -1938,13 +1937,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "",
     },
 
     // Hell Knight (MT_KNIGHT)
     {
         /* doomednum            */ HellKnight,
-        /* description          */ "a Hell Knight",
         /* spawnstate           */ S_BOS2_STND,
         /* spawnhealth          */ 500,
         /* seestate             */ S_BOS2_RUN1,
@@ -1970,13 +1969,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_BOS2_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_GREENBLOOD
+        /* blood                */ MT_GREENBLOOD,
+        /* description          */ "a Hell Knight"
     },
 
     // Lost Soul (MT_SKULL)
     {
         /* doomednum            */ LostSoul,
-        /* description          */ "a Lost Soul",
         /* spawnstate           */ S_SKULL_STND,
         /* spawnhealth          */ 100,
         /* seestate             */ S_SKULL_RUN1,
@@ -2002,13 +2001,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_PASSMOBJ | MF2_SHADOW | MF2_TRANSLUCENT_REDONLY | MF2_NOFOOTCLIP,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a Lost Soul"
     },
 
     // Spider Mastermind (MT_SPIDER)
     {
         /* doomednum            */ SpiderMastermind,
-        /* description          */ "a Spider Mastermind",
         /* spawnstate           */ S_SPID_STND,
         /* spawnhealth          */ 3000,
         /* seestate             */ S_SPID_RUN1,
@@ -2034,13 +2033,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Spider Mastermind"
     },
 
     // Arachnotron (MT_BABY)
     {
         /* doomednum            */ Arachnotron,
-        /* description          */ "an Arachnotron",
         /* spawnstate           */ S_BSPI_STND,
         /* spawnhealth          */ 500,
         /* seestate             */ S_BSPI_SIGHT,
@@ -2066,13 +2065,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_BSPI_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "an Arachnotron"
     },
 
     // Cyberdemon (MT_CYBORG)
     {
         /* doomednum            */ Cyberdemon,
-        /* description          */ "a Cyberdemon",
         /* spawnstate           */ S_CYBER_STND,
         /* spawnhealth          */ 4000,
         /* seestate             */ S_CYBER_RUN1,
@@ -2098,13 +2097,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Cyberdemon"
     },
 
     // Pain Elemental (MT_PAIN)
     {
         /* doomednum            */ PainElemental,
-        /* description          */ "a Pain Elemental",
         /* spawnstate           */ S_PAIN_STND,
         /* spawnhealth          */ 400,
         /* seestate             */ S_PAIN_RUN1,
@@ -2130,13 +2129,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_PAIN_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Pain Elemental"
     },
 
     // Wolfenstein SS (MT_WOLFSS)
     {
         /* doomednum            */ WolfensteinSS,
-        /* description          */ "a Wolfenstein SS",
         /* spawnstate           */ S_SSWV_STND,
         /* spawnhealth          */ 50,
         /* seestate             */ S_SSWV_RUN1,
@@ -2162,13 +2161,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_SSWV_RAISE1,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "a Wolfenstein SS"
     },
 
     // Commander Keen (MT_KEEN)
     {
         /* doomednum            */ CommanderKeen,
-        /* description          */ "Commander Keen",
         /* spawnstate           */ S_KEENSTND,
         /* spawnhealth          */ 100,
         /* seestate             */ S_NULL,
@@ -2194,13 +2193,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ "Commander Keen"
     },
 
     // Boss Brain (MT_BOSSBRAIN)
     {
         /* doomednum            */ BossBrain,
-        /* description          */ "",
         /* spawnstate           */ S_BRAIN,
         /* spawnhealth          */ 250,
         /* seestate             */ S_NULL,
@@ -2226,13 +2225,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Monsters Spawner (MT_BOSSSPIT)
     {
         /* doomednum            */ MonstersSpawner,
-        /* description          */ "",
         /* spawnstate           */ S_BRAINEYE,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_BRAINEYESEE,
@@ -2258,13 +2257,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Monsters Target (MT_BOSSTARGET)
     {
         /* doomednum            */ MonstersTarget,
-        /* description          */ "",
         /* spawnstate           */ S_NULL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2290,13 +2289,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Boss Brain Projectile (MT_SPAWNSHOT)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_SPAWN1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2322,13 +2321,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Boss Brain Teleport Fog (MT_SPAWNFIRE)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_SPAWNFIRE1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2354,13 +2353,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Barrel (MT_BARREL)
     {
         /* doomednum            */ Barrel,
-        /* description          */ "a barrel",
         /* spawnstate           */ S_BAR1,
         /* spawnhealth          */ 20,
         /* seestate             */ S_NULL,
@@ -2386,13 +2385,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a barrel"
     },
 
     // Imp Projectile (MT_TROOPSHOT)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_TBALL1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2418,13 +2417,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Cacodemon Projectile (MT_HEADSHOT)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_RBALL1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2450,13 +2449,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Rocket Launcher Projectile (MT_ROCKET)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_ROCKET,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2482,13 +2481,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Plasma Rifle Projectile (MT_PLASMA)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_PLASBALL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2514,13 +2513,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // BFG 9000 Projectile (MT_BFG)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_BFGSHOT,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2546,13 +2545,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Arachnotron Projectile (MT_ARACHPLAZ)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_ARACH_PLAZ,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2578,13 +2577,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Bullet Puff (MT_PUFF)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_PUFF1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2610,13 +2609,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Blood (MT_BLOOD)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_BLOOD1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2642,13 +2641,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_BLOOD | MF2_TRANSLUCENT_50,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ REDBLOOD
+        /* blood                */ REDBLOOD,
+        /* description          */ ""
     },
 
     // Teleport Fog (MT_TFOG)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_TFOG,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2674,13 +2673,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT | MF2_NOFOOTCLIP,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Item Fog (MT_IFOG)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_IFOG,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2706,14 +2705,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Teleport Destination (MT_TELEPORTMAN)
     {
         /* doomednum            */ TeleportDestination,
-        /* description          */ "",
         /* spawnstate           */ S_NULL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2739,13 +2737,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "",
     },
 
     // BFG 9000 Secondary Projectile (MT_EXTRABFG)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_BFGEXP,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2771,13 +2769,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Green Armor (MT_MISC0)
     {
         /* doomednum            */ GreenArmor,
-        /* description          */ "some green armor",
         /* spawnstate           */ S_ARM1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2803,13 +2801,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "some green armor"
     },
 
     // Blue Armor (MT_MISC1)
     {
         /* doomednum            */ BlueArmor,
-        /* description          */ "some blue armor",
         /* spawnstate           */ S_ARM2,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2835,13 +2833,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "some blue armor"
     },
 
     // Health Bonus (MT_MISC2)
     {
         /* doomednum            */ HealthBonus,
-        /* description          */ "a health bonus",
         /* spawnstate           */ S_BON1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2867,13 +2865,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a health bonus"
     },
 
     // Armor Bonus (MT_MISC3)
     {
         /* doomednum            */ ArmorBonus,
-        /* description          */ "an armor bonus",
         /* spawnstate           */ S_BON2,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2899,13 +2897,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "an armor bonus"
     },
 
     // Blue Keycard (MT_MISC4)
     {
         /* doomednum            */ BlueKeycard,
-        /* description          */ "a blue keycard",
         /* spawnstate           */ S_BKEY,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2931,13 +2929,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a blue keycard"
     },
 
     // Red Keycard (MT_MISC5)
     {
         /* doomednum            */ RedKeycard,
-        /* description          */ "a red keycard",
         /* spawnstate           */ S_RKEY,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2963,13 +2961,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a red keycard"
     },
 
     // Yellow Keycard (MT_MISC6)
     {
         /* doomednum            */ YellowKeycard,
-        /* description          */ "a yellow keycard",
         /* spawnstate           */ S_YKEY,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -2995,13 +2993,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a yellow keycard"
     },
 
     // Yellow Skull Key (MT_MISC7)
     {
         /* doomednum            */ YellowSkullKey,
-        /* description          */ "a yellow skull key",
         /* spawnstate           */ S_YSKULL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3027,13 +3025,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a yellow skull key"
     },
 
     // Red Skull Key (MT_MISC8)
     {
         /* doomednum            */ RedSkullKey,
-        /* description          */ "a red skull key",
         /* spawnstate           */ S_RSKULL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3059,13 +3057,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a red skull key"
     },
 
     // Blue Skull Key (MT_MISC9)
     {
         /* doomednum            */ BlueSkullKey,
-        /* description          */ "a blue skull key",
         /* spawnstate           */ S_BSKULL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3091,13 +3089,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a blue skull key"
     },
 
     // Stimpack (MT_MISC10)
     {
         /* doomednum            */ Stimpack,
-        /* description          */ "a stimpack",
         /* spawnstate           */ S_STIM,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3123,13 +3121,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a stimpack"
     },
 
     // Medikit (MT_MISC11)
     {
         /* doomednum            */ Medikit,
-        /* description          */ "a medikit",
         /* spawnstate           */ S_MEDI,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3155,13 +3153,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a medikit"
     },
 
     // SoulSphere (MT_MISC12)
     {
         /* doomednum            */ SoulSphere,
-        /* description          */ "a SoulSphere",
         /* spawnstate           */ S_SOUL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3187,13 +3185,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a SoulSphere"
     },
 
     // Invulnerability (MT_INV)
     {
         /* doomednum            */ Invulnerability,
-        /* description          */ "an invulnerability power-up",
         /* spawnstate           */ S_PINV,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3219,13 +3217,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "an invulnerability power-up"
     },
 
     // Berserk (MT_MISC13)
     {
         /* doomednum            */ Berserk,
-        /* description          */ "a berserk power-up",
         /* spawnstate           */ S_PSTR,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3251,13 +3249,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a berserk power-up"
     },
 
     // Partial Invisibility (MT_INS)
     {
         /* doomednum            */ PartialInvisibility,
-        /* description          */ "a partial invisibility power-up",
         /* spawnstate           */ S_PINS,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3283,13 +3281,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW | MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a partial invisibility power-up"
     },
 
     // Radiation Shielding Suit (MT_MISC14)
     {
         /* doomednum            */ RadiationShieldingSuit,
-        /* description          */ "a radiation shielding suit power-up",
         /* spawnstate           */ S_SUIT,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3315,13 +3313,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW | MF2_FLOATBOB | MF2_NOFOOTCLIP,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a radiation shielding suit power-up"
     },
 
     // Computer Area Map (MT_MISC15)
     {
         /* doomednum            */ ComputerAreaMap,
-        /* description          */ "a computer area map power-up",
         /* spawnstate           */ S_PMAP,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3347,13 +3345,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a computer area map power-up"
     },
 
     // Light Amplification Visor (MT_MISC16)
     {
         /* doomednum            */ LightAmplificationVisor,
-        /* description          */ "a light amplification visor power-up",
         /* spawnstate           */ S_PVIS,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3379,13 +3377,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW | MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a light amplification visor power-up"
     },
 
     // MegaSphere (MT_MEGA)
     {
         /* doomednum            */ MegaSphere,
-        /* description          */ "a MegaSphere",
         /* spawnstate           */ S_MEGA,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3411,13 +3409,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW | MF2_FLOATBOB | MF2_NOFOOTCLIP,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a MegaSphere"
     },
 
     // Clip (MT_CLIP)
     {
         /* doomednum            */ Clip,
-        /* description          */ "a clip",
         /* spawnstate           */ S_CLIP,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3443,13 +3441,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a clip"
     },
 
     // Box of Bullets (MT_MISC17)
     {
         /* doomednum            */ BoxOfBullets,
-        /* description          */ "a box of bullets",
         /* spawnstate           */ S_AMMO,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3475,13 +3473,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a box of bullets"
     },
 
     // Rocket (MT_MISC18)
     {
         /* doomednum            */ Rocket,
-        /* description          */ "a rocket",
         /* spawnstate           */ S_ROCK,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3507,13 +3505,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a rocket"
     },
 
     // Box of Rockets (MT_MISC19)
     {
         /* doomednum            */ BoxOfRockets,
-        /* description          */ "a box of rockets",
         /* spawnstate           */ S_BROK,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3539,13 +3537,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a box of rockets"
     },
 
     // Cell (MT_MISC20)
     {
         /* doomednum            */ Cell,
-        /* description          */ "a cell",
         /* spawnstate           */ S_CELL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3571,13 +3569,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a cell"
     },
 
     // Cell Pack (MT_MISC21)
     {
         /* doomednum            */ CellPack,
-        /* description          */ "a cell pack",
         /* spawnstate           */ S_CELP,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3603,13 +3601,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a cell pack"
     },
 
     // Shotgun Shells (MT_MISC22)
     {
         /* doomednum            */ ShotgunShells,
-        /* description          */ "some shotgun shells",
         /* spawnstate           */ S_SHEL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3635,13 +3633,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "some shotgun shells"
     },
 
     // Box of Shells (MT_MISC23)
     {
         /* doomednum            */ BoxOfShells,
-        /* description          */ "a box of shells",
         /* spawnstate           */ S_SBOX,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3667,13 +3665,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a box of shells"
     },
 
     // Backpack (MT_MISC24)
     {
         /* doomednum            */ Backpack,
-        /* description          */ "a backpack",
         /* spawnstate           */ S_BPAK,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3699,13 +3697,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a backpack"
     },
 
     // BFG 9000 (MT_MISC25)
     {
         /* doomednum            */ BFG9000,
-        /* description          */ "a BFG 9000",
         /* spawnstate           */ S_BFUG,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3731,13 +3729,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a BFG 9000"
     },
 
     // Chaingun (MT_CHAINGUN)
     {
         /* doomednum            */ Chaingun,
-        /* description          */ "a chaingun",
         /* spawnstate           */ S_MGUN,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3763,13 +3761,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a chaingun"
     },
 
     // Chainsaw (MT_MISC26)
     {
         /* doomednum            */ Chainsaw,
-        /* description          */ "a chainsaw",
         /* spawnstate           */ S_CSAW,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3795,13 +3793,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a chainsaw"
     },
 
     // Rocket Launcher (MT_MISC27)
     {
         /* doomednum            */ RocketLauncher,
-        /* description          */ "a rocket launcher",
         /* spawnstate           */ S_LAUN,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3827,13 +3825,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a rocket launcher"
     },
 
     // Plasma Rifle (MT_MISC28)
     {
         /* doomednum            */ PlasmaRifle,
-        /* description          */ "a plasma rifle",
         /* spawnstate           */ S_PLAS,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3859,13 +3857,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a plasma rifle"
     },
 
     // Shotgun (MT_SHOTGUN)
     {
         /* doomednum            */ Shotgun,
-        /* description          */ "a shotgun",
         /* spawnstate           */ S_SHOT,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3891,13 +3889,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a shotgun"
     },
 
     // Super Shotgun (MT_SUPERSHOTGUN)
     {
         /* doomednum            */ SuperShotgun,
-        /* description          */ "a super shotgun",
         /* spawnstate           */ S_SHOT2,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3923,13 +3921,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ "a super shotgun"
     },
 
     // Tall techno floor lamp (MT_MISC29)
     {
         /* doomednum            */ TallTechnoFloorLamp,
-        /* description          */ "",
         /* spawnstate           */ S_TECHLAMP,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3955,13 +3953,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Short techno floor lamp (MT_MISC30)
     {
         /* doomednum            */ ShortTechnoFloorLamp,
-        /* description          */ "",
         /* spawnstate           */ S_TECH2LAMP,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -3987,13 +3985,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Floor lamp (MT_MISC31)
     {
         /* doomednum            */ FloorLamp,
-        /* description          */ "",
         /* spawnstate           */ S_COLU,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4019,13 +4017,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Tall green column (MT_MISC32)
     {
         /* doomednum            */ TallGreenColumn,
-        /* description          */ "",
         /* spawnstate           */ S_TALLGRNCOL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4051,13 +4049,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Short green column (MT_MISC33)
     {
         /* doomednum            */ ShortGreenColumn,
-        /* description          */ "",
         /* spawnstate           */ S_SHRTGRNCOL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4083,13 +4081,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Tall red column (MT_MISC34)
     {
         /* doomednum            */ TallRedColumn,
-        /* description          */ "",
         /* spawnstate           */ S_TALLREDCOL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4115,13 +4113,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Short red column (MT_MISC35)
     {
         /* doomednum            */ ShortRedColumn,
-        /* description          */ "",
         /* spawnstate           */ S_SHRTREDCOL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4147,13 +4145,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Short red column with skull (MT_MISC36)
     {
         /* doomednum            */ ShortRedColumnWithSkull,
-        /* description          */ "",
         /* spawnstate           */ S_SKULLCOL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4179,13 +4177,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Short green column with beating heart (MT_MISC37)
     {
         /* doomednum            */ ShortGreenColumnWithBeatingHeart,
-        /* description          */ "",
         /* spawnstate           */ S_HEARTCOL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4211,13 +4209,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Evil eye (MT_MISC38)
     {
         /* doomednum            */ EvilEye,
-        /* description          */ "",
         /* spawnstate           */ S_EVILEYE,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4243,13 +4241,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Floating skull (MT_MISC39)
     {
         /* doomednum            */ FloatingSkull,
-        /* description          */ "",
         /* spawnstate           */ S_FLOATSKULL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4275,13 +4273,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_NOFOOTCLIP,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Torched tree (MT_MISC40)
     {
         /* doomednum            */ TorchedTree,
-        /* description          */ "",
         /* spawnstate           */ S_TORCHTREE,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4307,13 +4305,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Tall blue firestick (MT_MISC41)
     {
         /* doomednum            */ TallBlueFirestick,
-        /* description          */ "",
         /* spawnstate           */ S_BLUETORCH,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4339,13 +4337,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Tall green firestick (MT_MISC42)
     {
         /* doomednum            */ TallGreenFirestick,
-        /* description          */ "",
         /* spawnstate           */ S_GREENTORCH,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4371,13 +4369,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Tall red firestick (MT_MISC43)
     {
         /* doomednum            */ TallRedFirestick,
-        /* description          */ "",
         /* spawnstate           */ S_REDTORCH,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4403,13 +4401,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Short blue firestick (MT_MISC44)
     {
         /* doomednum            */ ShortBlueFirestick,
-        /* description          */ "",
         /* spawnstate           */ S_BTORCHSHRT,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4435,13 +4433,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_BLUEONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Short green firestick (MT_MISC45)
     {
         /* doomednum            */ ShortGreenFirestick,
-        /* description          */ "",
         /* spawnstate           */ S_GTORCHSHRT,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4467,13 +4465,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_GREENONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Short red firestick (MT_MISC46)
     {
         /* doomednum            */ ShortRedFirestick,
-        /* description          */ "",
         /* spawnstate           */ S_RTORCHSHRT,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4499,13 +4497,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Stalagmite (MT_MISC47)
     {
         /* doomednum            */ Stalagmite,
-        /* description          */ "",
         /* spawnstate           */ S_STALAGTITE,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4531,13 +4529,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Tall techno pillar (MT_MISC48)
     {
         /* doomednum            */ TallTechnoPillar,
-        /* description          */ "",
         /* spawnstate           */ S_TECHPILLAR,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4563,13 +4561,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Candlestick (MT_MISC49)
     {
         /* doomednum            */ Candlestick,
-        /* description          */ "",
         /* spawnstate           */ S_CANDLESTIK,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4595,13 +4593,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Candelabra (MT_MISC50)
     {
         /* doomednum            */ Candelabra,
-        /* description          */ "",
         /* spawnstate           */ S_CANDELABRA,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4627,13 +4625,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Hanging victim, twitching, blocking (MT_MISC51)
     {
         /* doomednum            */ HangingVictimTwitchingBlocking,
-        /* description          */ "",
         /* spawnstate           */ S_BLOODYTWITCH,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4659,13 +4657,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging victim, arms out, blocking (MT_MISC52)
     {
         /* doomednum            */ HangingVictimArmsOutBlocking,
-        /* description          */ "",
         /* spawnstate           */ S_MEAT2,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4691,13 +4689,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging victim, one-legged, blocking (MT_MISC53)
     {
         /* doomednum            */ HangingVictimOneLeggedBlocking,
-        /* description          */ "",
         /* spawnstate           */ S_MEAT3,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4723,13 +4721,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging pair of legs, blocking (MT_MISC54)
     {
         /* doomednum            */ HangingPairOfLegsBlocking,
-        /* description          */ "",
         /* spawnstate           */ S_MEAT4,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4755,13 +4753,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging leg, blocking (MT_MISC55, MT_MISC59)
     {
         /* doomednum            */ HangingLegBlocking,
-        /* description          */ "",
         /* spawnstate           */ S_MEAT5,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4787,13 +4785,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging victim, arms out (MT_MISC56)
     {
         /* doomednum            */ HangingVictimArmsOut,
-        /* description          */ "",
         /* spawnstate           */ S_MEAT2,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4819,13 +4817,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging pair of legs (MT_MISC57)
     {
         /* doomednum            */ HangingPairOfLegs,
-        /* description          */ "",
         /* spawnstate           */ S_MEAT4,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4851,13 +4849,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging victim, one-legged (MT_MISC58)
     {
         /* doomednum            */ HangingVictimOneLegged,
-        /* description          */ "",
         /* spawnstate           */ S_MEAT3,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4883,13 +4881,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging leg (MT_MISC59)
     {
         /* doomednum            */ HangingLeg,
-        /* description          */ "",
         /* spawnstate           */ S_MEAT5,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4915,13 +4913,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging victim, twitching (MT_MISC60)
     {
         /* doomednum            */ HangingVictimTwitching,
-        /* description          */ "",
         /* spawnstate           */ S_BLOODYTWITCH,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -4947,13 +4945,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Dead Cacodemon (MT_MISC61)
     {
         /* doomednum            */ DeadCacodemon,
-        /* description          */ "",
         /* spawnstate           */ S_HEAD_DIE6,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -4979,13 +4977,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLUEBLOOD
+        /* blood                */ MT_BLUEBLOOD,
+        /* description          */ ""
     },
 
     // Dead Player (MT_MISC62)
     {
         /* doomednum            */ DeadPlayer,
-        /* description          */ "",
         /* spawnstate           */ S_PLAY_DIE7,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5011,13 +5009,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Dead Zombieman (MT_MISC63)
     {
         /* doomednum            */ DeadZombieman,
-        /* description          */ "",
         /* spawnstate           */ S_POSS_DIE5,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5043,13 +5041,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Dead Demon (MT_MISC64)
     {
         /* doomednum            */ DeadDemon,
-        /* description          */ "",
         /* spawnstate           */ S_SARG_DIE6,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5075,13 +5073,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Dead Lost Soul, invisible (MT_MISC65)
     {
         /* doomednum            */ DeadLostSoulInvisible,
-        /* description          */ "",
         /* spawnstate           */ S_SKULL_DIE6,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5107,13 +5105,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Dead Imp (MT_MISC66)
     {
         /* doomednum            */ DeadImp,
-        /* description          */ "",
         /* spawnstate           */ S_TROO_DIE5,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5139,13 +5137,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Dead Shotgun Guy (MT_MISC67)
     {
         /* doomednum            */ DeadShotgunGuy,
-        /* description          */ "",
         /* spawnstate           */ S_SPOS_DIE5,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5171,13 +5169,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Bloody Mess 1 (MT_MISC68)
     {
         /* doomednum            */ BloodyMess1,
-        /* description          */ "",
         /* spawnstate           */ S_PLAY_XDIE9,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5203,13 +5201,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Bloody Mess 2 (MT_MISC69)
     {
         /* doomednum            */ BloodyMess2,
-        /* description          */ "",
         /* spawnstate           */ S_PLAY_XDIE9,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5235,13 +5233,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_SHADOW,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Skulls on a pole (MT_MISC70, MT_MISC72)
     {
         /* doomednum            */ FiveSkullsShishKebab,
-        /* description          */ "",
         /* spawnstate           */ S_HEADSONSTICK,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5267,13 +5265,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Pool of blood and bones (MT_MISC71)
     {
         /* doomednum            */ PoolOfBloodAndBones,
-        /* description          */ "",
         /* spawnstate           */ S_GIBS,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5299,13 +5297,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Skull on a pole (MT_MISC72)
     {
         /* doomednum            */ SkullOnAPole,
-        /* description          */ "",
         /* spawnstate           */ S_HEADONASTICK,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5331,13 +5329,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Pile of skulls and candles (MT_MISC73)
     {
         /* doomednum            */ PileOfSkullsAndCandles,
-        /* description          */ "",
         /* spawnstate           */ S_HEADCANDLES,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5363,13 +5361,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Impaled human (MT_MISC74)
     {
         /* doomednum            */ ImpaledHuman,
-        /* description          */ "",
         /* spawnstate           */ S_DEADSTICK,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5395,13 +5393,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Twitching impaled human (MT_MISC75)
     {
         /* doomednum            */ TwitchingImpaledHuman,
-        /* description          */ "",
         /* spawnstate           */ S_LIVESTICK,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5427,13 +5425,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Large brown tree (MT_MISC76)
     {
         /* doomednum            */ LargeBrownTree,
-        /* description          */ "",
         /* spawnstate           */ S_BIGTREE,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5459,13 +5457,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Burning Barrel (MT_MISC77)
     {
         /* doomednum            */ BurningBarrel,
-        /* description          */ "",
         /* spawnstate           */ S_BBAR1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5491,13 +5489,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT_REDONLY,
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Hanging victim, guts removed (MT_MISC78)
     {
         /* doomednum            */ HangingVictimGutsRemoved,
-        /* description          */ "",
         /* spawnstate           */ S_HANGNOGUTS,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5523,13 +5521,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging victim, guts and brain removed (MT_MISC79)
     {
         /* doomednum            */ HangingVictimGutsAndBrainRemoved,
-        /* description          */ "",
         /* spawnstate           */ S_HANGBNOBRAIN,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5555,13 +5553,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging torso, looking down (MT_MISC80)
     {
         /* doomednum            */ HangingTorsoLookingDown,
-        /* description          */ "",
         /* spawnstate           */ S_HANGTLOOKDN,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5587,13 +5585,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging torso, open skull (MT_MISC81)
     {
         /* doomednum            */ HangingTorsoOpenSkull,
-        /* description          */ "",
         /* spawnstate           */ S_HANGTSKULL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5619,13 +5617,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging torso, looking up (MT_MISC82)
     {
         /* doomednum            */ HangingTorsoLookingUp,
-        /* description          */ "",
         /* spawnstate           */ S_HANGTLOOKUP,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5651,13 +5649,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Hanging torso, brain removed (MT_MISC83)
     {
         /* doomednum            */ HangingTorsoBrainRemoved,
-        /* description          */ "",
         /* spawnstate           */ S_HANGTNOBRAIN,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5683,13 +5681,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Pool of blood and guts (MT_MISC84)
     {
         /* doomednum            */ PoolOfBloodAndGuts,
-        /* description          */ "",
         /* spawnstate           */ S_COLONGIBS,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5715,13 +5713,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Pool of blood (MT_MISC85)
     {
         /* doomednum            */ PoolOfBlood,
-        /* description          */ "",
         /* spawnstate           */ S_SMALLPOOL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5747,13 +5745,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_DRAWFIRST,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Pool of brains (MT_MISC86)
     {
         /* doomednum            */ PoolOfBrains,
-        /* description          */ "",
         /* spawnstate           */ S_BRAINSTEM,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5779,13 +5777,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ MT_BLOOD
+        /* blood                */ MT_BLOOD,
+        /* description          */ ""
     },
 
     // Blue Blood (MT_BLUEBLOOD)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_BLOOD1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5811,13 +5809,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_BLOOD | MF2_TRANSLUCENT_REDTOBLUE_33,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ BLUEBLOOD
+        /* blood                */ BLUEBLOOD,
+        /* description          */ ""
     },
 
     // Green Blood (MT_GREENBLOOD)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_BLOOD1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5843,13 +5841,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_BLOOD | MF2_TRANSLUCENT_REDTOGREEN_33,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ GREENBLOOD
+        /* blood                */ GREENBLOOD,
+        /* description          */ ""
     },
 
     // Fuzzy Blood (MT_FUZZYBLOOD)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_BLOOD1,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5875,13 +5873,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_BLOOD,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ FUZZYBLOOD
+        /* blood                */ FUZZYBLOOD,
+        /* description          */ ""
     },
 
     // Blood Splat (MT_BLOODSPLAT)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_BLOODSPLAT,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5907,13 +5905,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Smoke Trail (MT_TRAIL)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_TRAIL,
         /* spawnhealth          */ 1000,
         /* seestate             */ S_NULL,
@@ -5939,13 +5937,13 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ MF2_TRANSLUCENT,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     },
 
     // Shadow (MT_SHADOW)
     {
         /* doomednum            */ -1,
-        /* description          */ "",
         /* spawnstate           */ S_NULL,
         /* spawnhealth          */ 0,
         /* seestate             */ S_NULL,
@@ -5971,7 +5969,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
-        /* blood                */ 0
+        /* blood                */ 0,
+        /* description          */ ""
     }
 };
 

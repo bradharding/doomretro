@@ -412,7 +412,14 @@ void R_DrawVisSprite(vissprite_t *vis)
     dc_iscale = ABS(vis->xiscale);
     dc_texturemid = vis->texturemid;
     if (dc_colormap)
+    {
         dc_blood = dc_colormap[vis->blood] << 8;
+        if (vis->mobjflags & MF_TRANSLATION)
+        {
+            colfunc = transcolfunc;
+            dc_translation = translationtables - 256 + ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
+        }
+    }
     
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
@@ -709,7 +716,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         if (state == &states[S_DSGUN])
             vis->colfunc = R_DrawSuperShotgunColumn;
         else
-            vis->colfunc = (flash ? colfuncs[spr] : basecolfunc);
+            vis->colfunc = (flash && spr <= SPR_BFGF ? colfuncs[spr] : basecolfunc);
 
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color

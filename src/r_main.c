@@ -519,6 +519,7 @@ void R_InitColumnFunctions(void)
 
     colfunc = basecolfunc = R_DrawColumn;
     fuzzcolfunc = R_DrawFuzzColumn;
+    transcolfunc = R_DrawTranslatedColumn;
 
     if (translucency)
     {
@@ -617,6 +618,7 @@ void R_Init(void)
     R_SetViewSize(screensize);
     R_InitLightTables();
     R_InitSkyMap();
+    R_InitTranslationTables();
     R_InitColumnFunctions();
 }
 

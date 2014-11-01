@@ -781,6 +781,10 @@ void R_InitSpriteLumps(void)
     }
     else if (hacx)
         mobjinfo[MT_HEAD].flags2 |= MF2_DONOTMAP;
+    else if (dehacked)
+        for (i = 0; i < NUMMOBJTYPES; i++)
+            if (!(mobjinfo[i].flags2 & MF2_BLOOD))
+                mobjinfo[i].blood = MT_BLOOD;
 }
 
 //

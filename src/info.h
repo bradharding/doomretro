@@ -1337,7 +1337,6 @@ typedef enum
 typedef struct
 {
     int         doomednum;
-    char        *description;
     int         spawnstate;
     int         spawnhealth;
     int         seestate;
@@ -1364,6 +1363,7 @@ typedef struct
     int         raisestate;
     int         frames;
     int         blood;
+    char        *description;
     void        (*colfunc)(void);
 } mobjinfo_t;
 
