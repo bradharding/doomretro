@@ -248,6 +248,41 @@ boolean IsFreedoom(const char *iwadname)
     return result;
 }
 
+boolean HasDehackedLump(const char *pwadname)
+{
+    FILE        *fp = fopen(pwadname, "rb");
+    filelump_t  lump;
+    wadinfo_t   header;
+    const char  *n = lump.name;
+    int         result = false;
+
+    if (!fp)
+        return false;
+
+    // read IWAD header
+    if (fread(&header, 1, sizeof(header), fp) == sizeof(header))
+    {
+        fseek(fp, LONG(header.infotableofs), SEEK_SET);
+
+        // Determine game mode from levels present
+        // Must be a full set for whichever mode is present
+        for (header.numlumps = LONG(header.numlumps);
+            header.numlumps && fread(&lump, sizeof(lump), 1, fp); header.numlumps--)
+        {
+            if (*n == 'D' && n[1] == 'E' && n[2] == 'H' && n[3] == 'A' &&
+                n[4] == 'C' && n[5] == 'K' && n[6] == 'E' && n[7] == 'D')
+            {
+                result = true;
+                break;
+            }
+        }
+    }
+
+    fclose(fp);
+
+    return result;
+}
+
 int IWADRequiredByPWAD(const char *pwadname)
 {
     FILE        *fp = fopen(pwadname, "rb");

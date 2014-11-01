@@ -520,15 +520,16 @@ static void InitGameVersion(void)
 
 void ProcessDehFile(char *filename, char *outfilename, int lump);
 
-static void LoadChexDeh(char *path)
+static void LoadDehFile(char *path)
 {
-    if (!M_ParmExists("-nodeh"))
+    if (!M_ParmExists("-nodeh") && !HasDehackedLump(path))
     {
         char    *dehpath = M_StringReplace(path, ".wad", ".deh");
 
         if (M_FileExists(dehpath))
         {
-            chexdeh = true;
+            if (chex)
+                chexdeh = true;
             ProcessDehFile(dehpath, "-", 0);
         }
     }
@@ -562,10 +563,7 @@ static void D_CheckSupportedPWAD(char *filename)
         selectedexpansion = 1;
     }
     else if (D_CheckFilename(filename, "CHEX.WAD"))
-    {
         chex = true;
-        LoadChexDeh(filename);
-    }
     else if (D_CheckFilename(filename, "BTSX_E1.WAD"))
         BTSX = BTSXE1 = true;
     else if (D_CheckFilename(filename, "BTSX_E2A.WAD"))
@@ -678,6 +676,7 @@ static int D_ChooseIWAD(void)
                     {
                         modifiedgame = true;
                         D_CheckSupportedPWAD(file);
+                        LoadDehFile(file);
                     }
                 }
                 else
@@ -693,6 +692,7 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             D_CheckSupportedPWAD(file);
+                            LoadDehFile(file);
                         }
                     }
                     else
@@ -708,6 +708,7 @@ static int D_ChooseIWAD(void)
                             {
                                 modifiedgame = true;
                                 D_CheckSupportedPWAD(file);
+                                LoadDehFile(file);
                             }
                         }
                     }
@@ -882,6 +883,7 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             D_CheckSupportedPWAD(fullpath);
+                            LoadDehFile(fullpath);
                         }
                     }
                     pwad += lstrlen(pwad) + 1;
@@ -1021,6 +1023,7 @@ static void D_DoomMainSetup(void)
                 {
                     modifiedgame = true;
                     D_CheckSupportedPWAD(file);
+                    LoadDehFile(file);
                 }
             }
             else
@@ -1043,6 +1046,7 @@ static void D_DoomMainSetup(void)
                         {
                             modifiedgame = true;
                             D_CheckSupportedPWAD(file);
+                            LoadDehFile(file);
                         }
                     }
                     else
@@ -1057,6 +1061,7 @@ static void D_DoomMainSetup(void)
                             {
                                 modifiedgame = true;
                                 D_CheckSupportedPWAD(file);
+                                LoadDehFile(file);
                             }
                         }
                         else
@@ -1072,6 +1077,7 @@ static void D_DoomMainSetup(void)
                                 {
                                     modifiedgame = true;
                                     D_CheckSupportedPWAD(file);
+                                    LoadDehFile(file);
                                 }
                             }
                         }

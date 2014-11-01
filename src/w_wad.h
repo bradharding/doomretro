@@ -90,5 +90,6 @@ void W_ReleaseLumpName(char *name);
 
 int IWADRequiredByPWAD(const char *pwadname);
 boolean IsFreedoom(const char *iwadname);
+boolean HasDehackedLump(const char *pwadname);
 
 #endif
