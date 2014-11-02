@@ -788,6 +788,7 @@ void R_InitSpriteLumps(void)
                 mobjinfo[i].projectilepassheight = mobjinfo[i].height;
             if (!(mobjinfo[i].flags2 & MF2_BLOOD))
                 mobjinfo[i].blood = MT_BLOOD;
+            mobjinfo[i].flags2 = 0;
         }
 }
 
