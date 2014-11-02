@@ -203,7 +203,7 @@
 
 #define SMOKETRAILS_DEFAULT             true
 
-#define SND_MAXSLICETIME_MS_DEFAULT     120
+#define SND_MAXSLICETIME_MS_DEFAULT     28
 
 #define TIMIDITY_CFG_PATH_DEFAULT       ""
 
