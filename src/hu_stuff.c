@@ -52,9 +52,7 @@ char                    chat_char;
 static player_t         *plr;
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
-boolean                 chat_on;
 static boolean          always_off = false;
-static hu_itext_t       w_inputbuffer[MAXPLAYERS];
 
 boolean                 message_on;
 boolean                 message_dontfuckwithme;
@@ -115,16 +113,17 @@ void (*godhudfunc)(int, int, patch_t *, boolean);
 static struct
 {
     char        *patchname;
+    int         mobjnum;
     int         x;
     int         y;
     patch_t     *patch;
 }
 ammopic[NUMAMMO] =
 {
-    { "CLIPA0",  0,  2, NULL },
-    { "SHELA0", -5,  5, NULL },
-    { "CELLA0", -8,  2, NULL },
-    { "ROCKA0", -2, -6, NULL }
+    { "CLIPA0", MT_CLIP,    0,  2, NULL },
+    { "SHELA0", MT_MISC22, -5,  5, NULL },
+    { "CELLA0", MT_MISC20, -8,  2, NULL },
+    { "ROCKA0", MT_MISC18, -2, -6, NULL }
 };
 
 static struct
@@ -162,6 +161,14 @@ void HU_Stop(void)
     headsupactive = false;
 }
 
+patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
+{
+    if (mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
+        return W_CacheLumpNum(W_GetNumForName(ammopic[ammopicnum].patchname), PU_CACHE);
+    else
+        return NULL;
+}
+
 void HU_Start(void)
 {
     int         len;
@@ -174,7 +181,6 @@ void HU_Start(void)
     message_on = false;
     message_dontfuckwithme = false;
     message_nottobefuckedwith = false;
-    chat_on = false;
 
     // create the message widget
     HUlib_initSText(&w_message, HU_MSGX, HU_MSGY, HU_MSGHEIGHT, hu_font, HU_FONTSTART, &message_on);
@@ -220,11 +226,11 @@ void HU_Start(void)
     greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
     bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
 
-    ammopic[am_clip].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_clip].patchname), PU_CACHE);
-    ammopic[am_shell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_shell].patchname), PU_CACHE);
+    ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
+    ammopic[am_shell].patch = HU_LoadHUDAmmoPatch(am_shell);
     if (gamemode != shareware)
-        ammopic[am_cell].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_cell].patchname), PU_CACHE);
-    ammopic[am_misl].patch = W_CacheLumpNum(W_GetNumForName(ammopic[am_misl].patchname), PU_CACHE);
+        ammopic[am_cell].patch = HU_LoadHUDAmmoPatch(am_cell);
+    ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
 
     keypic[it_bluecard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_bluecard].patchname), PU_CACHE);
     keypic[it_yellowcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowcard].patchname), PU_CACHE);
@@ -334,7 +340,8 @@ static void HU_DrawHUD(void)
 
             invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN
                 || menuactive || paused);
-            hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, ammopic[ammotype].patch, invert);
+            if (ammopic[ammotype].patch)
+                hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, ammopic[ammotype].patch, invert);
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
 
             if (ammo <= HUD_AMMO_MIN && !menuactive && !paused)
