@@ -1846,28 +1846,28 @@ void deh_procFrame(DEHFILE *fpin, FILE* fpout, char *line)
             if (fpout)
                 fprintf(fpout, " - sprite = %ld\n", value);
             states[indexnum].sprite = (spritenum_t)value;
-            dehacked = true;
+            dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[1]))                // Sprite subnumber
         {
             if (fpout)
                 fprintf(fpout, " - frame = %ld\n", value);
             states[indexnum].frame = value;                     // long
-            dehacked = true;
+            dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[2]))                // Duration
         {
             if (fpout)
                 fprintf(fpout, " - tics = %ld\n", value);
             states[indexnum].tics = value;                      // long
-            dehacked = true;
+            dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[3]))                // Next frame
         {
             if (fpout)
                 fprintf(fpout, " - nextstate = %ld\n", value);
             states[indexnum].nextstate = value;
-            dehacked = true;
+            dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[4]))                // Codep frame (not set in Frame deh block)
         {
@@ -1879,14 +1879,14 @@ void deh_procFrame(DEHFILE *fpin, FILE* fpout, char *line)
             if (fpout)
                 fprintf(fpout, " - misc1 = %ld\n", value);
             states[indexnum].misc1 = value;                     // long
-            dehacked = true;
+            dehacked = !BTSX;
         }
         else if (!strcasecmp(key, deh_state[6]))                // Unknown 2
         {
             if (fpout)
                 fprintf(fpout, " - misc2 = %ld\n", value);
             states[indexnum].misc2 = value;                     // long
-            dehacked = true;
+            dehacked = !BTSX;
         }
         else if (fpout)
             fprintf(fpout, "Invalid frame string index for '%s'\n", key);
