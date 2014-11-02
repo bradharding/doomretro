@@ -117,9 +117,7 @@ static struct
     int         x;
     int         y;
     patch_t     *patch;
-}
-ammopic[NUMAMMO] =
-{
+} ammopic[NUMAMMO] = {
     { "CLIPA0", MT_CLIP,    0,  2, NULL },
     { "SHELA0", MT_MISC22, -5,  5, NULL },
     { "CELLA0", MT_MISC20, -8,  2, NULL },
@@ -129,16 +127,15 @@ ammopic[NUMAMMO] =
 static struct
 {
     char        *patchname;
+    int         mobjnum;
     patch_t     *patch;
-}
-keypic[NUMCARDS] =
-{
-    { "BKEYB0", NULL },
-    { "YKEYB0", NULL },
-    { "RKEYB0", NULL },
-    { "BSKUB0", NULL },
-    { "YSKUB0", NULL },
-    { "RSKUB0", NULL }
+} keypic[NUMCARDS] = {
+    { "BKEYB0", MT_MISC4, NULL },
+    { "RKEYB0", MT_MISC5, NULL },
+    { "YKEYB0", MT_MISC6, NULL },
+    { "YSKUB0", MT_MISC7, NULL },
+    { "RSKUB0", MT_MISC8, NULL },
+    { "BSKUB0", MT_MISC9, NULL }
 };
 
 void HU_Init(void)
@@ -165,6 +162,14 @@ patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
     if (mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
         return W_CacheLumpNum(W_GetNumForName(ammopic[ammopicnum].patchname), PU_CACHE);
+    else
+        return NULL;
+}
+
+patch_t *HU_LoadHUDKeyPatch(int keypicnum)
+{
+    if (mobjinfo[keypic[keypicnum].mobjnum].flags & MF_SPECIAL)
+        return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchname), PU_CACHE);
     else
         return NULL;
 }
@@ -232,14 +237,14 @@ void HU_Start(void)
         ammopic[am_cell].patch = HU_LoadHUDAmmoPatch(am_cell);
     ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
 
-    keypic[it_bluecard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_bluecard].patchname), PU_CACHE);
-    keypic[it_yellowcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowcard].patchname), PU_CACHE);
-    keypic[it_redcard].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_redcard].patchname), PU_CACHE);
+    keypic[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
+    keypic[it_yellowcard].patch = HU_LoadHUDKeyPatch(it_yellowcard);
+    keypic[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
     if (gamemode != shareware)
     {
-        keypic[it_blueskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_blueskull].patchname), PU_CACHE);
-        keypic[it_yellowskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_yellowskull].patchname), PU_CACHE);
-        keypic[it_redskull].patch = W_CacheLumpNum(W_GetNumForName(keypic[it_redskull].patchname), PU_CACHE);
+        keypic[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
+        keypic[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
+        keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
     }
 }
 
@@ -397,7 +402,7 @@ static void HU_DrawHUD(void)
                             keyanimcounter = HUD_KEY_TICS;
                         }
                     }
-                    if (showkey)
+                    if (showkey && patch)
                         hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
                 }
             }
@@ -412,8 +417,9 @@ static void HU_DrawHUD(void)
                 {
                     patch_t     *patch = keypic[i].patch;
 
-                    hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
-                        HUD_KEYS_Y, patch, true);
+                    if (patch)
+                        hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
+                            HUD_KEYS_Y, patch, true);
                 }
         }
 
