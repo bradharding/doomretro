@@ -196,7 +196,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     player->message = s_PD_BLUEO;
                 }
-                else
+                else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
                     if (!player->neededcardtics || player->neededcard != it_blueskull)
                     {
@@ -223,7 +223,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     player->message = s_PD_REDO;
                 }
-                else
+                else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
                     if (!player->neededcardtics || player->neededcard != it_redskull)
                     {
@@ -250,7 +250,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     }
                     player->message = s_PD_YELLOWO;
                 }
-                else
+                else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
                     if (!player->neededcardtics || player->neededcard != it_yellowskull)
                     {
@@ -375,7 +375,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     player->message = s_PD_BLUEK;
                 }
-                else
+                else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
                     if (!player->neededcardtics || player->neededcard != it_blueskull)
                     {
@@ -405,7 +405,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     player->message = s_PD_YELLOWK;
                 }
-                else
+                else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
                     if (!player->neededcardtics || player->neededcard != it_yellowskull)
                     {
@@ -435,7 +435,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     }
                     player->message = s_PD_REDK;
                 }
-                else
+                else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
                     if (!player->neededcardtics || player->neededcard != it_redskull)
                     {

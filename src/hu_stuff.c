@@ -127,15 +127,14 @@ static struct
 static struct
 {
     char        *patchname;
-    int         mobjnum;
     patch_t     *patch;
 } keypic[NUMCARDS] = {
-    { "BKEYB0", MT_MISC4, NULL },
-    { "RKEYB0", MT_MISC5, NULL },
-    { "YKEYB0", MT_MISC6, NULL },
-    { "YSKUB0", MT_MISC7, NULL },
-    { "RSKUB0", MT_MISC8, NULL },
-    { "BSKUB0", MT_MISC9, NULL }
+    { "BKEYA0", NULL },
+    { "RKEYA0", NULL },
+    { "YKEYA0", NULL },
+    { "YSKUA0", NULL },
+    { "RSKUA0", NULL },
+    { "BSKUA0", NULL }
 };
 
 void HU_Init(void)
@@ -168,10 +167,7 @@ patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 
 patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
-    if (mobjinfo[keypic[keypicnum].mobjnum].flags & MF_SPECIAL)
-        return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchname), PU_CACHE);
-    else
-        return NULL;
+    return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchname), PU_CACHE);
 }
 
 void HU_Start(void)
@@ -402,7 +398,7 @@ static void HU_DrawHUD(void)
                             keyanimcounter = HUD_KEY_TICS;
                         }
                     }
-                    if (showkey && patch)
+                    if (showkey)
                         hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
                 }
             }
@@ -417,9 +413,8 @@ static void HU_DrawHUD(void)
                 {
                     patch_t     *patch = keypic[i].patch;
 
-                    if (patch)
-                        hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
-                            HUD_KEYS_Y, patch, true);
+                    hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
+                        HUD_KEYS_Y, patch, true);
                 }
         }
 

@@ -242,7 +242,7 @@ void P_InitCards(player_t *player)
 
     for (i = 0; i < numsectors; i++)
     {
-        mobj_t *thing = sectors[i].thinglist;
+        mobj_t  *thing = sectors[i].thinglist;
 
         while (thing)
         {
@@ -270,6 +270,36 @@ void P_InitCards(player_t *player)
                     break;
             }
             thing = thing->snext;
+        }
+    }
+
+    for (i = 0; i < numlines; i++)
+    {
+        line_t  *line = &lines[i];
+
+        switch (line->special)
+        {
+            case SR_OpenFastDoorStayOpenBlueKeyRequired:
+            case S1_OpenFastDoorStayOpenBlueKeyRequired:
+            case DR_OpenDoorWait4SecondsCloseBlueKeyRequired:
+            case D1_OpenDoorStayOpenBlueKeyRequired:
+                if (player->cards[it_blueskull] == CARDNOTINMAP)
+                    player->cards[it_bluecard] = CARDNOTFOUNDYET;
+                break;
+            case SR_OpenFastDoorStayOpenRedKeyRequired:
+            case S1_OpenFastDoorStayOpenRedKeyRequired:
+            case DR_OpenDoorWait4SecondsCloseRedKeyRequired:
+            case D1_OpenDoorStayOpenRedKeyRequired:
+                if (player->cards[it_redskull] == CARDNOTINMAP)
+                    player->cards[it_redcard] = CARDNOTFOUNDYET;
+                break;
+            case SR_OpenFastDoorStayOpenYellowKeyRequired:
+            case S1_OpenFastDoorStayOpenYellowKeyRequired:
+            case DR_OpenDoorWait4SecondsCloseYellowKeyRequired:
+            case D1_OpenDoorStayOpenYellowKeyRequired:
+                if (player->cards[it_yellowskull] == CARDNOTINMAP)
+                    player->cards[it_yellowcard] = CARDNOTFOUNDYET;
+                break;
         }
     }
 }
