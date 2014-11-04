@@ -786,9 +786,13 @@ void R_InitSpriteLumps(void)
         {
             if ((mobjinfo[i].flags & MF_SHOOTABLE))
                 mobjinfo[i].projectilepassheight = mobjinfo[i].height;
-            if (!(mobjinfo[i].flags2 & MF2_BLOOD))
+            if (mobjinfo[i].flags2 & MF2_BLOOD)
+                mobjinfo[i].flags2 = MF2_BLOOD;
+            else
+            {
                 mobjinfo[i].blood = MT_BLOOD;
-            mobjinfo[i].flags2 = 0;
+                mobjinfo[i].flags2 = 0;
+            }
         }
 }
 
