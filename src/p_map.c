@@ -1742,6 +1742,19 @@ boolean PIT_ChangeSector(mobj_t *thing)
     mobjtype_t  type = thing->type;
     int         flags = thing->flags;
 
+    if (isliquid[thing->subsector->sector->floorpic])
+    {
+        thing->flags2 |= MF2_FEETARECLIPPED;
+        if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+            thing->shadow->flags2 |= MF2_FEETARECLIPPED;
+    }
+    else if (thing->flags2 & MF2_FEETARECLIPPED)
+    {
+        thing->flags2 &= ~MF2_FEETARECLIPPED;
+        if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+            thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
+    }
+
     if (P_ThingHeightClip(thing))
         return true;    // keep checking
 
