@@ -261,7 +261,7 @@ int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
 boolean         followplayer = true;            // specifies whether to follow the player around
-boolean         rotate = ROTATE_DEFAULT;
+boolean         rotatemode = ROTATEMODE_DEFAULT;
 
 static boolean  stopped = true;
 
@@ -397,17 +397,20 @@ static void AM_changeWindowLoc(void)
     fixed_t     incx = m_paninc.x;
     fixed_t     incy = m_paninc.y;
 
-    if (rotate)
+    if (rotatemode)
+    {
         AM_rotate(&incx, &incy, plr->mo->angle - ANG90);
 
-    m_x += incx;
-    m_y += incy;
-
-    if (!rotate)
+        m_x += incx;
+        m_y += incy;
+    }
+    else
     {
         fixed_t w = (m_w >> 1);
         fixed_t h = (m_h >> 1);
 
+        m_x += incx;
+        m_y += incy;
         m_x = BETWEEN(min_x, m_x + w, max_x) - w;
         m_y = BETWEEN(min_y, m_y + h, max_y) - h;
     }
@@ -816,8 +819,8 @@ boolean AM_Responder(event_t *ev)
                     if (keydown != AM_ROTATEKEY)
                     {
                         keydown = key;
-                        rotate = !rotate;
-                        plr->message = (rotate ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
+                        rotatemode = !rotatemode;
+                        plr->message = (rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
                         message_dontfuckwithme = true;
                     }
                 }
@@ -1360,7 +1363,7 @@ static void AM_drawGrid(void)
         ml.b.x = x;
         ml.a.y = m_y - exty;
         ml.b.y = ml.a.y + minlen;
-        if (rotate)
+        if (rotatemode)
         {
             AM_rotatePoint(&ml.a.x, &ml.a.y);
             AM_rotatePoint(&ml.b.x, &ml.b.y);
@@ -1381,7 +1384,7 @@ static void AM_drawGrid(void)
         ml.b.x = ml.a.x + minlen;
         ml.a.y = y;
         ml.b.y = y;
-        if (rotate)
+        if (rotatemode)
         {
             AM_rotatePoint(&ml.a.x, &ml.a.y);
             AM_rotatePoint(&ml.b.x, &ml.b.y);
@@ -1426,7 +1429,7 @@ static void AM_drawWalls(void)
             l.b.x = line.v2->x;
             l.b.y = line.v2->y;
 
-            if (rotate)
+            if (rotatemode)
             {
                 AM_rotatePoint(&l.a.x, &l.a.y);
                 AM_rotatePoint(&l.b.x, &l.b.y);
@@ -1490,7 +1493,7 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
 {
     int i;
 
-    if (rotate)
+    if (rotatemode)
         angle -= plr->mo->angle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
@@ -1526,7 +1529,7 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
 {
     int i;
 
-    if (rotate)
+    if (rotatemode)
         angle -= plr->mo->angle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
@@ -1563,7 +1566,7 @@ static void AM_drawPlayers(void)
     fixed_t     x = plr->mo->x;
     fixed_t     y = plr->mo->y;
 
-    if (rotate)
+    if (rotatemode)
         AM_rotatePoint(&x, &y);
 
     if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
@@ -1626,7 +1629,7 @@ static void AM_drawThings(void)
                     int w = BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
                                     96 << FRACBITS) >> 1;
 
-                    if (rotate)
+                    if (rotatemode)
                         AM_rotatePoint(&x, &y);
 
                     fx = CXMTOF(x);
@@ -1681,7 +1684,7 @@ static void AM_drawMarks(void)
         int     x = markpoints[i].x;
         int     y = markpoints[i].y;
 
-        if (rotate)
+        if (rotatemode)
             AM_rotatePoint(&x, &y);
 
         x = CXMTOF(x) - (MARKWIDTH >> 1) + 1;

@@ -39,7 +39,7 @@
 
 #define BRIGHTMAPS_DEFAULT              true
 
-#define CENTEREDWEAPON_DEFAULT          true
+#define CENTERWEAPON_DEFAULT            true
 
 #define CORPSES_MIN                     0
 #define CORPSES_DEFAULT                 (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
@@ -173,7 +173,7 @@
 #define PLAYERBOB_DEFAULT               75
 #define PLAYERBOB_MAX                   100
 
-#define ROTATE_DEFAULT                  true
+#define ROTATEMODE_DEFAULT              true
 
 #define RUNCOUNT_MAX                    32768
 

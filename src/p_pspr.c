@@ -44,7 +44,7 @@
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 
-boolean centeredweapon = CENTEREDWEAPON_DEFAULT;
+boolean centerweapon = CENTERWEAPON_DEFAULT;
 
 //
 // P_SetPsprite
@@ -193,7 +193,7 @@ void P_FireWeapon(player_t *player)
         weaponvibrationtics = weaponinfo[readyweapon].tics;
     }
 
-    if (centeredweapon)
+    if (centerweapon)
     {
         player->psprites[ps_weapon].sx = 0;
         player->psprites[ps_weapon].sy = WEAPONTOP;
