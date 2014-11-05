@@ -1812,7 +1812,7 @@ void M_ChangeSensitivity(int choice)
                 }
                 break;
             case 1:
-                if (gamepadsensitivity < MOUSESENSITIVITY_MAX)
+                if (gamepadsensitivity < GAMEPADSENSITIVITY_MAX)
                 {
                     if (gamepadsensitivity & 1)
                         --gamepadsensitivity;
