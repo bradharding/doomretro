@@ -130,11 +130,11 @@ static struct
     patch_t     *patch;
 } keypic[NUMCARDS] = {
     { "BKEYA0", NULL },
-    { "RKEYA0", NULL },
     { "YKEYA0", NULL },
+    { "RKEYA0", NULL },
+    { "BSKUA0", NULL },
     { "YSKUA0", NULL },
-    { "RSKUA0", NULL },
-    { "BSKUA0", NULL }
+    { "RSKUA0", NULL }
 };
 
 void HU_Init(void)
@@ -234,7 +234,7 @@ void HU_Start(void)
     ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
 
     keypic[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
-    keypic[it_yellowcard].patch = HU_LoadHUDKeyPatch(it_yellowcard);
+    keypic[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
     keypic[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
     if (gamemode != shareware)
     {
