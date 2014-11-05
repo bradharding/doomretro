@@ -201,6 +201,26 @@ void R_DrawShadowColumn(void)
     *dest = tinttab25[*dest];
 }
 
+void R_DrawSpectreShadowColumn(void)
+{
+    int32_t     count = dc_yh - dc_yl + 1;
+    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
+
+    if (--count)
+    {
+        if (rand() & 1)
+            *dest = tinttab25[*dest];
+        dest += SCREENWIDTH;
+    }
+    while (--count > 0)
+    {
+        *dest = tinttab25[*dest];
+        dest += SCREENWIDTH;
+    }
+    if (rand() & 1)
+        *dest = tinttab25[*dest];
+}
+
 void R_DrawSolidShadowColumn(void)
 {
     int32_t     count = dc_yh - dc_yl + 1;

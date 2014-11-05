@@ -127,7 +127,6 @@ void (*redtogreencolfunc)(void);
 void (*tlredtoblue33colfunc)(void);
 void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
-void (*shadowcolfunc)(void);
 void (*bloodsplatcolfunc)(void);
 void (*megaspherecolfunc)(void);
 
@@ -538,7 +537,6 @@ void R_InitColumnFunctions(void)
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
         bloodsplatcolfunc = R_DrawBloodSplatColumn;
         megaspherecolfunc = R_DrawMegaSphereColumn;
-        shadowcolfunc = R_DrawShadowColumn;
     }
     else
     {
@@ -557,7 +555,6 @@ void R_InitColumnFunctions(void)
         tlredtogreen33colfunc = R_DrawRedToGreenColumn;
         bloodsplatcolfunc = R_DrawSolidBloodSplatColumn;
         megaspherecolfunc = R_DrawSolidMegaSphereColumn;
-        shadowcolfunc = R_DrawSolidShadowColumn;
     }
 
     spanfunc = R_DrawSpan;
