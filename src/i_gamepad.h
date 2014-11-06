@@ -73,6 +73,7 @@
                                         (32767.0f - GAMEPAD_RIGHT_THUMB_DEADZONE), 3.0f)
 
 #define GAMEPADSENSITIVITY_OFFSET       0.5f
+#define GAMEPADSENSITIVITY_FACTOR       1.5f
 
 int damagevibrationtics;
 int weaponvibrationtics;

@@ -776,7 +776,7 @@ static void M_CheckDefaults(void)
     if (gamepadsensitivity < GAMEPADSENSITIVITY_MIN || gamepadsensitivity > GAMEPADSENSITIVITY_MAX)
         gamepadsensitivity = GAMEPADSENSITIVITY_DEFAULT;
     gamepadsensitivityf = (!gamepadsensitivity ? 0.0f :
-        GAMEPADSENSITIVITY_OFFSET + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX);
+        GAMEPADSENSITIVITY_OFFSET + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * GAMEPADSENSITIVITY_FACTOR);
 
     if (gamepadspeed < 0 || gamepadspeed > GAMEPAD_Y || (gamepadspeed & (gamepadspeed - 1)))
         gamepadspeed = GAMEPADSPEED_DEFAULT;

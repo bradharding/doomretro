@@ -1806,7 +1806,7 @@ void M_ChangeSensitivity(int choice)
                         ++gamepadsensitivity;
                     gamepadsensitivity -= 2;
                     gamepadsensitivityf = (!gamepadsensitivity ? 0.0f : GAMEPADSENSITIVITY_OFFSET
-                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX);
+                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * GAMEPADSENSITIVITY_FACTOR);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1818,7 +1818,7 @@ void M_ChangeSensitivity(int choice)
                         --gamepadsensitivity;
                     gamepadsensitivity += 2;
                     gamepadsensitivityf = GAMEPADSENSITIVITY_OFFSET
-                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX;
+                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * GAMEPADSENSITIVITY_FACTOR;
                     M_SliderSound();
                     M_SaveDefaults();
                 }
