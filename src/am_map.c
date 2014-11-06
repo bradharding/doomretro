@@ -114,8 +114,10 @@ byte    *gridcolor;
 #define AM_PANUPKEY2            key_up2
 #define AM_PANRIGHTKEY          key_right
 #define AM_PANRIGHTKEY2         key_straferight
+#define AM_PANRIGHTKEY3         key_straferight2
 #define AM_PANLEFTKEY           key_left
 #define AM_PANLEFTKEY2          key_strafeleft
+#define AM_PANLEFTKEY3          key_strafeleft2
 #define AM_ZOOMINKEY            KEY_EQUALS
 #define AM_ZOOMOUTKEY           KEY_MINUS
 #define AM_STARTKEY             KEY_TAB
@@ -643,7 +645,7 @@ boolean AM_Responder(event_t *ev)
                 key = ev->data1;
 
                 // pan right
-                if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2)
+                if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
                 {
                     keydown = key;
                     if (followplayer)
@@ -659,7 +661,7 @@ boolean AM_Responder(event_t *ev)
                 }
 
                 // pan left
-                else if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2)
+                else if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                 {
                     keydown = key;
                     if (followplayer)
@@ -849,10 +851,14 @@ boolean AM_Responder(event_t *ev)
                         keydown = AM_PANLEFTKEY;
                     else if (keystate(AM_PANLEFTKEY2))
                         keydown = AM_PANLEFTKEY2;
+                    else if (keystate(AM_PANLEFTKEY3))
+                        keydown = AM_PANLEFTKEY3;
                     else if (keystate(AM_PANRIGHTKEY))
                         keydown = AM_PANRIGHTKEY;
                     else if (keystate(AM_PANRIGHTKEY2))
                         keydown = AM_PANRIGHTKEY2;
+                    else if (keystate(AM_PANRIGHTKEY3))
+                        keydown = AM_PANRIGHTKEY3;
                     else if (keystate(AM_PANUPKEY))
                         keydown = AM_PANUPKEY;
                     else if (keystate(AM_PANUPKEY2))
@@ -874,18 +880,18 @@ boolean AM_Responder(event_t *ev)
                 }
                 else if (!followplayer)
                 {
-                    if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2)
+                    if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2))
+                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2) || keystate(AM_PANRIGHTKEY3))
                             m_paninc.x = FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
                     }
-                    else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2)
+                    else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2))
+                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2) || keystate(AM_PANLEFTKEY3))
                             m_paninc.x = -FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;

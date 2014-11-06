@@ -123,7 +123,11 @@
 
 #define KEYSTRAFELEFT_DEFAULT           'a'
 
+#define KEYSTRAFELEFT2_DEFAULT          ','
+
 #define KEYSTRAFERIGHT_DEFAULT          'd'
+
+#define KEYSTRAFERIGHT2_DEFAULT          '.'
 
 #define KEYUP_DEFAULT                   KEY_UPARROW
 

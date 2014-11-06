@@ -123,7 +123,9 @@ int             key_up2 = KEYUP2_DEFAULT;
 int             key_down = KEYDOWN_DEFAULT;
 int             key_down2 = KEYDOWN2_DEFAULT;
 int             key_strafeleft = KEYSTRAFELEFT_DEFAULT;
+int             key_strafeleft2 = KEYSTRAFELEFT2_DEFAULT;
 int             key_straferight = KEYSTRAFERIGHT_DEFAULT;
+int             key_straferight2 = KEYSTRAFERIGHT2_DEFAULT;
 int             key_fire = KEYFIRE_DEFAULT;
 int             key_use = KEYUSE_DEFAULT;
 int             key_strafe = KEYSTRAFE_DEFAULT;
@@ -294,12 +296,12 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
     else if (gamepadthumbLY > 0)
         forward -= (int)(forwardmove[speed] * gamepadthumbLYdown);
 
-    if (gamekeydown[key_straferight])
+    if (gamekeydown[key_straferight] || gamekeydown[key_straferight2])
         side += sidemove[speed];
     else if (gamepadthumbLX > 0)
         side += (int)(sidemove[speed] * gamepadthumbLXright);
 
-    if (gamekeydown[key_strafeleft])
+    if (gamekeydown[key_strafeleft] || gamekeydown[key_strafeleft2])
         side -= sidemove[speed];
     else if (gamepadthumbLX < 0)
         side -= (int)(sidemove[speed] * gamepadthumbLXleft);

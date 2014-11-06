@@ -84,7 +84,9 @@ extern int      key_right;
 extern int      key_speed;
 extern int      key_strafe;
 extern int      key_strafeleft;
+extern int      key_strafeleft2;
 extern int      key_straferight;
+extern int      key_straferight2;
 extern int      key_up;
 extern int      key_up2;
 extern int      key_use;
@@ -233,7 +235,9 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_KEY   (key_speed,            key_speed,            3),
     CONFIG_VARIABLE_KEY   (key_strafe,           key_strafe,           3),
     CONFIG_VARIABLE_KEY   (key_strafeleft,       key_strafeleft,       3),
+    CONFIG_VARIABLE_KEY   (key_strafeleft2,      key_strafeleft2,      3),
     CONFIG_VARIABLE_KEY   (key_straferight,      key_straferight,      3),
+    CONFIG_VARIABLE_KEY   (key_straferight2,     key_straferight2,     3),
     CONFIG_VARIABLE_KEY   (key_up,               key_up,               3),
     CONFIG_VARIABLE_KEY   (key_up2,              key_up2,              3),
     CONFIG_VARIABLE_KEY   (key_use,              key_use,              3),
@@ -897,8 +901,14 @@ static void M_CheckDefaults(void)
     if (key_strafeleft == INVALIDKEY)
         key_strafeleft = KEYSTRAFELEFT_DEFAULT;
 
+    if (key_strafeleft2 == INVALIDKEY)
+        key_strafeleft2 = KEYSTRAFELEFT2_DEFAULT;
+
     if (key_straferight == INVALIDKEY)
         key_straferight = KEYSTRAFERIGHT_DEFAULT;
+
+    if (key_straferight2 == INVALIDKEY)
+        key_straferight2 = KEYSTRAFERIGHT2_DEFAULT;
 
     if (key_up == INVALIDKEY)
         key_up = KEYUP_DEFAULT;

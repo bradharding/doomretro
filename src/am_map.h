@@ -63,8 +63,10 @@ extern int        key_down;
 extern int        key_down2;
 extern int        key_right;
 extern int        key_straferight;
+extern int        key_straferight2;
 extern int        key_left;
 extern int        key_strafeleft;
+extern int        key_strafeleft2;
 
 extern int        gamepadautomap;
 
