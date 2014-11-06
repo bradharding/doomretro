@@ -478,12 +478,6 @@ void I_GetEvent(void)
     SDL_Event           sdlevent;
     event_t             ev;
 
-#ifdef SDL20
-    SDL_Scancode        key;
-#else
-    SDLKey              key;
-#endif
-
     while (SDL_PollEvent(&sdlevent))
     {
         switch (sdlevent.type)
@@ -492,13 +486,12 @@ void I_GetEvent(void)
                 ev.type = ev_keydown;
 
 #ifdef SDL20
-                key = sdlevent.key.keysym.scancode;
+                ev.data1 = translatekey[sdlevent.key.keysym.scancode];
+                ev.data2 = sdlevent.key.keysym.scancode;
 #else
-                key = sdlevent.key.keysym.sym;
+                ev.data1 = translatekey[sdlevent.key.keysym.sym];
+                ev.data2 = tolower(sdlevent.key.keysym.unicode);
 #endif
-
-                ev.data1 = translatekey[key];
-                ev.data2 = key;
 
                 altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
 
@@ -1202,6 +1195,7 @@ void ToggleFullScreen(void)
         UpdateGrab();
 
 #ifdef SDL12
+        SDL_EnableUNICODE(1);
         SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 #endif
 
@@ -1390,7 +1384,7 @@ void I_InitGraphics(void)
 #else
     SDL_WM_SetCaption(PACKAGE_NAME, NULL);
 #endif
-
+    SDL_EnableUNICODE( 1 );
     SDL_FillRect(screenbuffer, NULL, 0);
 
     I_SetPalette(doompal);
@@ -1414,6 +1408,7 @@ void I_InitGraphics(void)
         rows[i] = *screens + i * SCREENWIDTH;
 
 #ifdef SDL12
+    SDL_EnableUNICODE(1);
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 #endif
 
