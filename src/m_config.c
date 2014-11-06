@@ -190,91 +190,91 @@ typedef struct
 
 static default_t doom_defaults_list[] =
 {
-    CONFIG_VARIABLE_INT   (alwaysrun,           alwaysrun,            1),
-    CONFIG_VARIABLE_INT   (bloodsplats,         bloodsplats,          7),
-    CONFIG_VARIABLE_INT   (brightmaps,          brightmaps,           1),
-    CONFIG_VARIABLE_INT   (centerweapon,        centerweapon,         1),
-    CONFIG_VARIABLE_INT   (corpses,             corpses,             11),
-    CONFIG_VARIABLE_INT   (dclick_use,          dclick_use,           1),
-    CONFIG_VARIABLE_INT   (episode,             selectedepisode,      8),
-    CONFIG_VARIABLE_INT   (expansion,           selectedexpansion,    9),
-    CONFIG_VARIABLE_INT   (footclip,            footclip,             1),
-    CONFIG_VARIABLE_INT   (fullscreen,          fullscreen,           1),
-    CONFIG_VARIABLE_INT   (gamepad_automap,     gamepadautomap,       2),
-    CONFIG_VARIABLE_INT   (gamepad_fire,        gamepadfire,          2),
-    CONFIG_VARIABLE_INT   (gamepad_lefthanded,  gamepadlefthanded,    1),
-    CONFIG_VARIABLE_INT   (gamepad_menu,        gamepadmenu,          2),
-    CONFIG_VARIABLE_INT   (gamepad_prevweapon,  gamepadprevweapon,    2),
-    CONFIG_VARIABLE_INT   (gamepad_nextweapon,  gamepadnextweapon,    2),
-    CONFIG_VARIABLE_INT   (gamepad_sensitivity, gamepadsensitivity,   0),
-    CONFIG_VARIABLE_INT   (gamepad_speed,       gamepadspeed,         2),
-    CONFIG_VARIABLE_INT   (gamepad_use,         gamepaduse,           2),
-    CONFIG_VARIABLE_INT   (gamepad_vibrate,     gamepadvibrate,       1),
-    CONFIG_VARIABLE_INT   (gamepad_weapon1,     gamepadweapon1,       2),
-    CONFIG_VARIABLE_INT   (gamepad_weapon2,     gamepadweapon2,       2),
-    CONFIG_VARIABLE_INT   (gamepad_weapon3,     gamepadweapon3,       2),
-    CONFIG_VARIABLE_INT   (gamepad_weapon4,     gamepadweapon4,       2),
-    CONFIG_VARIABLE_INT   (gamepad_weapon5,     gamepadweapon5,       2),
-    CONFIG_VARIABLE_INT   (gamepad_weapon6,     gamepadweapon6,       2),
-    CONFIG_VARIABLE_INT   (gamepad_weapon7,     gamepadweapon7,       2),
-    CONFIG_VARIABLE_FLOAT (gamma,               gammalevel,           0),
-    CONFIG_VARIABLE_INT   (graphicdetail,       graphicdetail,        6),
-    CONFIG_VARIABLE_INT   (grid,                grid,                 1),
-    CONFIG_VARIABLE_INT   (homindicator,        homindicator,         1),
-    CONFIG_VARIABLE_INT   (hud,                 hud,                  1),
-    CONFIG_VARIABLE_STRING(iwadfolder,          iwadfolder,           0),
-    CONFIG_VARIABLE_KEY   (key_down,            key_down,             3),
-    CONFIG_VARIABLE_KEY   (key_down2,           key_down2,            3),
-    CONFIG_VARIABLE_KEY   (key_fire,            key_fire,             3),
-    CONFIG_VARIABLE_KEY   (key_left,            key_left,             3),
-    CONFIG_VARIABLE_KEY   (key_prevweapon,      key_prevweapon,       3),
-    CONFIG_VARIABLE_KEY   (key_nextweapon,      key_nextweapon,       3),
-    CONFIG_VARIABLE_KEY   (key_right,           key_right,            3),
-    CONFIG_VARIABLE_KEY   (key_speed,           key_speed,            3),
-    CONFIG_VARIABLE_KEY   (key_strafe,          key_strafe,           3),
-    CONFIG_VARIABLE_KEY   (key_strafeleft,      key_strafeleft,       3),
-    CONFIG_VARIABLE_KEY   (key_straferight,     key_straferight,      3),
-    CONFIG_VARIABLE_KEY   (key_up,              key_up,               3),
-    CONFIG_VARIABLE_KEY   (key_up2,             key_up2,              3),
-    CONFIG_VARIABLE_KEY   (key_use,             key_use,              3),
-    CONFIG_VARIABLE_INT   (messages,            messages,             1),
-    CONFIG_VARIABLE_INT   (mirrorweapons,       mirrorweapons,        1),
-    CONFIG_VARIABLE_FLOAT (mouse_acceleration,  mouse_acceleration,   0),
-    CONFIG_VARIABLE_INT   (mouse_fire,          mousebfire,           4),
-    CONFIG_VARIABLE_INT   (mouse_forward,       mousebforward,        4),
-    CONFIG_VARIABLE_INT   (mouse_prevweapon,    mousebprevweapon,     4),
-    CONFIG_VARIABLE_INT   (mouse_nextweapon,    mousebnextweapon,     4),
-    CONFIG_VARIABLE_INT   (mouse_sensitivity,   mousesensitivity,     0),
-    CONFIG_VARIABLE_INT   (mouse_strafe,        mousebstrafe,         4),
-    CONFIG_VARIABLE_INT   (mouse_threshold,     mouse_threshold,      0),
-    CONFIG_VARIABLE_INT   (mouse_use,           mousebuse,            4),
-    CONFIG_VARIABLE_INT   (music_volume,        musicVolume,          0),
-    CONFIG_VARIABLE_INT   (novert,              novert,               1),
-    CONFIG_VARIABLE_INT   (pixelwidth,          pixelwidth,           0),
-    CONFIG_VARIABLE_INT   (pixelheight,         pixelheight,          0),
-    CONFIG_VARIABLE_INT   (playerbob,           playerbob,           12),
-    CONFIG_VARIABLE_INT   (rotatemode,          rotatemode,           1),
-    CONFIG_VARIABLE_INT   (runcount,            runcount,             0),
-    CONFIG_VARIABLE_FLOAT (saturation,          saturation,           0),
-    CONFIG_VARIABLE_INT   (savegame,            selectedsavegame,     0),
-    CONFIG_VARIABLE_INT   (screensize,          screensize,           0),
-    CONFIG_VARIABLE_INT   (screenwidth,         screenwidth,          5),
-    CONFIG_VARIABLE_INT   (screenheight,        screenheight,         5),
-    CONFIG_VARIABLE_INT   (sfx_volume,          sfxVolume,            0),
-    CONFIG_VARIABLE_INT   (shadows,             shadows,              1),
-    CONFIG_VARIABLE_INT   (skilllevel,          selectedskilllevel,  10),
-    CONFIG_VARIABLE_INT   (smoketrails,         smoketrails,          1),
-    CONFIG_VARIABLE_INT   (snd_maxslicetime_ms, snd_maxslicetime_ms,  0),
-    CONFIG_VARIABLE_STRING(timidity_cfg_path,   timidity_cfg_path,    0),
-    CONFIG_VARIABLE_INT   (translucency,        translucency,         1),
-    CONFIG_VARIABLE_STRING(version,             version,              0),
+    CONFIG_VARIABLE_INT   (alwaysrun,            alwaysrun,            1),
+    CONFIG_VARIABLE_INT   (bloodsplats,          bloodsplats,          7),
+    CONFIG_VARIABLE_INT   (brightmaps,           brightmaps,           1),
+    CONFIG_VARIABLE_INT   (centerweapon,         centerweapon,         1),
+    CONFIG_VARIABLE_INT   (corpses,              corpses,             11),
+    CONFIG_VARIABLE_INT   (dclick_use,           dclick_use,           1),
+    CONFIG_VARIABLE_INT   (episode,              selectedepisode,      8),
+    CONFIG_VARIABLE_INT   (expansion,            selectedexpansion,    9),
+    CONFIG_VARIABLE_INT   (footclip,             footclip,             1),
+    CONFIG_VARIABLE_INT   (fullscreen,           fullscreen,           1),
+    CONFIG_VARIABLE_INT   (gamepad_automap,      gamepadautomap,       2),
+    CONFIG_VARIABLE_INT   (gamepad_fire,         gamepadfire,          2),
+    CONFIG_VARIABLE_INT   (gamepad_lefthanded,   gamepadlefthanded,    1),
+    CONFIG_VARIABLE_INT   (gamepad_menu,         gamepadmenu,          2),
+    CONFIG_VARIABLE_INT   (gamepad_prevweapon,   gamepadprevweapon,    2),
+    CONFIG_VARIABLE_INT   (gamepad_nextweapon,   gamepadnextweapon,    2),
+    CONFIG_VARIABLE_INT   (gamepad_sensitivity,  gamepadsensitivity,   0),
+    CONFIG_VARIABLE_INT   (gamepad_speed,        gamepadspeed,         2),
+    CONFIG_VARIABLE_INT   (gamepad_use,          gamepaduse,           2),
+    CONFIG_VARIABLE_INT   (gamepad_vibrate,      gamepadvibrate,       1),
+    CONFIG_VARIABLE_INT   (gamepad_weapon1,      gamepadweapon1,       2),
+    CONFIG_VARIABLE_INT   (gamepad_weapon2,      gamepadweapon2,       2),
+    CONFIG_VARIABLE_INT   (gamepad_weapon3,      gamepadweapon3,       2),
+    CONFIG_VARIABLE_INT   (gamepad_weapon4,      gamepadweapon4,       2),
+    CONFIG_VARIABLE_INT   (gamepad_weapon5,      gamepadweapon5,       2),
+    CONFIG_VARIABLE_INT   (gamepad_weapon6,      gamepadweapon6,       2),
+    CONFIG_VARIABLE_INT   (gamepad_weapon7,      gamepadweapon7,       2),
+    CONFIG_VARIABLE_FLOAT (gammacorrectionlevel, gammalevel,          13),
+    CONFIG_VARIABLE_INT   (graphicdetail,        graphicdetail,        6),
+    CONFIG_VARIABLE_INT   (grid,                 grid,                 1),
+    CONFIG_VARIABLE_INT   (homindicator,         homindicator,         1),
+    CONFIG_VARIABLE_INT   (hud,                  hud,                  1),
+    CONFIG_VARIABLE_STRING(iwadfolder,           iwadfolder,           0),
+    CONFIG_VARIABLE_KEY   (key_down,             key_down,             3),
+    CONFIG_VARIABLE_KEY   (key_down2,            key_down2,            3),
+    CONFIG_VARIABLE_KEY   (key_fire,             key_fire,             3),
+    CONFIG_VARIABLE_KEY   (key_left,             key_left,             3),
+    CONFIG_VARIABLE_KEY   (key_prevweapon,       key_prevweapon,       3),
+    CONFIG_VARIABLE_KEY   (key_nextweapon,       key_nextweapon,       3),
+    CONFIG_VARIABLE_KEY   (key_right,            key_right,            3),
+    CONFIG_VARIABLE_KEY   (key_speed,            key_speed,            3),
+    CONFIG_VARIABLE_KEY   (key_strafe,           key_strafe,           3),
+    CONFIG_VARIABLE_KEY   (key_strafeleft,       key_strafeleft,       3),
+    CONFIG_VARIABLE_KEY   (key_straferight,      key_straferight,      3),
+    CONFIG_VARIABLE_KEY   (key_up,               key_up,               3),
+    CONFIG_VARIABLE_KEY   (key_up2,              key_up2,              3),
+    CONFIG_VARIABLE_KEY   (key_use,              key_use,              3),
+    CONFIG_VARIABLE_INT   (messages,             messages,             1),
+    CONFIG_VARIABLE_INT   (mirrorweapons,        mirrorweapons,        1),
+    CONFIG_VARIABLE_FLOAT (mouse_acceleration,   mouse_acceleration,   0),
+    CONFIG_VARIABLE_INT   (mouse_fire,           mousebfire,           4),
+    CONFIG_VARIABLE_INT   (mouse_forward,        mousebforward,        4),
+    CONFIG_VARIABLE_INT   (mouse_prevweapon,     mousebprevweapon,     4),
+    CONFIG_VARIABLE_INT   (mouse_nextweapon,     mousebnextweapon,     4),
+    CONFIG_VARIABLE_INT   (mouse_sensitivity,    mousesensitivity,     0),
+    CONFIG_VARIABLE_INT   (mouse_strafe,         mousebstrafe,         4),
+    CONFIG_VARIABLE_INT   (mouse_threshold,      mouse_threshold,      0),
+    CONFIG_VARIABLE_INT   (mouse_use,            mousebuse,            4),
+    CONFIG_VARIABLE_INT   (music_volume,         musicVolume,          0),
+    CONFIG_VARIABLE_INT   (novert,               novert,               1),
+    CONFIG_VARIABLE_INT   (pixelwidth,           pixelwidth,           0),
+    CONFIG_VARIABLE_INT   (pixelheight,          pixelheight,          0),
+    CONFIG_VARIABLE_INT   (playerbob,            playerbob,           12),
+    CONFIG_VARIABLE_INT   (rotatemode,           rotatemode,           1),
+    CONFIG_VARIABLE_INT   (runcount,             runcount,             0),
+    CONFIG_VARIABLE_FLOAT (saturation,           saturation,           0),
+    CONFIG_VARIABLE_INT   (savegame,             selectedsavegame,     0),
+    CONFIG_VARIABLE_INT   (screensize,           screensize,           0),
+    CONFIG_VARIABLE_INT   (screenwidth,          screenwidth,          5),
+    CONFIG_VARIABLE_INT   (screenheight,         screenheight,         5),
+    CONFIG_VARIABLE_INT   (sfx_volume,           sfxVolume,            0),
+    CONFIG_VARIABLE_INT   (shadows,              shadows,              1),
+    CONFIG_VARIABLE_INT   (skilllevel,           selectedskilllevel,  10),
+    CONFIG_VARIABLE_INT   (smoketrails,          smoketrails,          1),
+    CONFIG_VARIABLE_INT   (snd_maxslicetime_ms,  snd_maxslicetime_ms,  0),
+    CONFIG_VARIABLE_STRING(timidity_cfg_path,    timidity_cfg_path,    0),
+    CONFIG_VARIABLE_INT   (translucency,         translucency,         1),
+    CONFIG_VARIABLE_STRING(version,              version,              0),
 #ifdef WIN32
-    CONFIG_VARIABLE_STRING(videodriver,         videodriver,          0),
+    CONFIG_VARIABLE_STRING(videodriver,          videodriver,          0),
 #endif
-    CONFIG_VARIABLE_INT   (widescreen,          widescreen,           1),
-    CONFIG_VARIABLE_STRING(windowposition,      windowposition,       0),
-    CONFIG_VARIABLE_INT   (windowwidth,         windowwidth,          0),
-    CONFIG_VARIABLE_INT   (windowheight,        windowheight,         0)
+    CONFIG_VARIABLE_INT   (widescreen,           widescreen,           1),
+    CONFIG_VARIABLE_STRING(windowposition,       windowposition,       0),
+    CONFIG_VARIABLE_INT   (windowwidth,          windowwidth,          0),
+    CONFIG_VARIABLE_INT   (windowheight,         windowheight,         0)
 };
 
 static default_collection_t doom_defaults =
@@ -467,6 +467,7 @@ static alias_t alias[] =
     { "0%",                                     0, 12 },
     { "75%",                                   75, 12 },
     { "100%",                                 100, 12 },
+    { "off",                                    1, 13 },
     { "",                                       0,  0 }
 };
 
@@ -484,7 +485,6 @@ static void SaveDefaultCollection(default_collection_t *collection)
     for (i = 0; i < collection->numdefaults; i++)
     {
         int     chars_written;
-        int     v;
 
         // Print the name and line up all values at 30 characters
         chars_written = fprintf(f, "%s ", defaults[i].name);
@@ -496,11 +496,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
         switch (defaults[i].type)
         {
             case DEFAULT_KEY:
-
+            {
                 // use the untranslated version if we can, to reduce
                 // the possibility of screwing up the user's config
                 // file
-                v = *(int *)defaults[i].location;
+                int     v = *(int *)defaults[i].location;
 
                 if (defaults[i].untranslated && v == defaults[i].original_translated)
                 {
@@ -565,35 +565,54 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 }
 
                 break;
+            }
 
             case DEFAULT_INT:
-                {
-                    int         j = 0;
-                    boolean     flag = false;
+            {
+                int         j = 0;
+                boolean     flag = false;
+                int         v = *(int *)defaults[i].location;
 
-                    v = *(int *)defaults[i].location;
-                    while (alias[j].text[0])
+                while (alias[j].text[0])
+                {
+                    if (v == alias[j].value && defaults[i].set == alias[j].set)
                     {
-                        if (v == alias[j].value && defaults[i].set == alias[j].set)
-                        {
-                            fprintf(f, "%s", alias[j].text);
-                            flag = true;
-                            break;
-                        }
-                        j++;
+                        fprintf(f, "%s", alias[j].text);
+                        flag = true;
+                        break;
                     }
-                    if (!flag)
-                        fprintf(f, "%i", *(int *)defaults[i].location);
-                    break;
+                    j++;
                 }
+                if (!flag)
+                    fprintf(f, "%i", *(int *)defaults[i].location);
+                break;
+            }
 
             case DEFAULT_INT_HEX:
                 fprintf(f, "0x%x", *(int *)defaults[i].location);
                 break;
 
             case DEFAULT_FLOAT:
-                fprintf(f, "%.2f", *(float *)defaults[i].location);
+            {
+                int         j = 0;
+                boolean     flag = false;
+                float       v = *(float *)defaults[i].location;
+
+                while (alias[j].text[0])
+                {
+                    if (v == alias[j].value && defaults[i].set == alias[j].set)
+                    {
+                        fprintf(f, "%s", alias[j].text);
+                        flag = true;
+                        break;
+                    }
+                    j++;
+                }
+                if (!flag)
+                    fprintf(f, "%.2f", *(float *)defaults[i].location);
                 break;
+            }
+
 
             case DEFAULT_STRING:
                 fprintf(f, "\"%s\"", *(char **)defaults[i].location);
@@ -637,6 +656,21 @@ static int ParseIntParameter(char *strparm, int set)
         sscanf(strparm, "%i", &parm);
 
     return parm;
+}
+
+// Parses float values in the configuration file
+static float ParseFloatParameter(char *strparm, int set)
+{
+    int     i = 0;
+
+    while (alias[i].text[0])
+    {
+        if (!strcasecmp(strparm, alias[i].text) && set == alias[i].set)
+            return (float)alias[i].value;
+        i++;
+    }
+
+    return (float)atof(strparm);
 }
 
 static void LoadDefaultCollection(default_collection_t *collection)
@@ -705,7 +739,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
                     break;
 
                 case DEFAULT_FLOAT:
-                    *(float *)def->location = (float)atof(strparm);
+                    *(float *)def->location = ParseFloatParameter(strparm, def->set);
                     break;
             }
 
@@ -808,8 +842,8 @@ static void M_CheckDefaults(void)
     if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y || (gamepadweapon7 & (gamepadweapon7 - 1)))
         gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
-    if (gammalevel < GAMMA_MIN || gammalevel > GAMMA_MAX)
-        gammalevel = GAMMA_DEFAULT;
+    if (gammalevel < GAMMALEVEL_MIN || gammalevel > GAMMALEVEL_MAX)
+        gammalevel = GAMMALEVEL_DEFAULT;
     gammaindex = 0;
     while (gammaindex < GAMMALEVELS)
         if (gammalevels[gammaindex++] == gammalevel)
@@ -817,7 +851,7 @@ static void M_CheckDefaults(void)
     if (gammaindex == GAMMALEVELS)
     {
         gammaindex = 0;
-        while (gammalevels[gammaindex++] != GAMMA_DEFAULT);
+        while (gammalevels[gammaindex++] != GAMMALEVEL_DEFAULT);
     }
     --gammaindex;
 
