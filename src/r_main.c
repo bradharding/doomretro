@@ -128,7 +128,6 @@ void (*tlredtoblue33colfunc)(void);
 void (*tlredtogreen33colfunc)(void);
 void (*psprcolfunc)(void);
 void (*bloodsplatcolfunc)(void);
-void (*megaspherecolfunc)(void);
 
 //
 // R_PointOnSide
@@ -536,7 +535,6 @@ void R_InitColumnFunctions(void)
         tlredtoblue33colfunc = R_DrawTranslucentRedToBlue33Column;
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
         bloodsplatcolfunc = R_DrawBloodSplatColumn;
-        megaspherecolfunc = R_DrawMegaSphereColumn;
     }
     else
     {
@@ -554,7 +552,6 @@ void R_InitColumnFunctions(void)
         tlredtoblue33colfunc = R_DrawRedToBlueColumn;
         tlredtogreen33colfunc = R_DrawRedToGreenColumn;
         bloodsplatcolfunc = R_DrawSolidBloodSplatColumn;
-        megaspherecolfunc = R_DrawSolidMegaSphereColumn;
     }
 
     spanfunc = R_DrawSpan;
@@ -571,8 +568,8 @@ void R_InitColumnFunctions(void)
 
         if (flags2 & MF2_TRANSLUCENT)
             info->colfunc = tlcolfunc;
-        else if (info->doomednum == MegaSphere)
-            info->colfunc = megaspherecolfunc;
+        else if (info->doomednum == MegaSphere && !hacx)
+            info->colfunc = R_DrawSolidMegaSphereColumn;
         else if (info->flags & MF_FUZZ)
             info->colfunc = fuzzcolfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDONLY)

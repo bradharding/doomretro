@@ -780,7 +780,12 @@ void R_InitSpriteLumps(void)
         states[S_BOSS_DIE7].tics = 0;
     }
     else if (hacx)
+    {
         mobjinfo[MT_HEAD].flags2 |= MF2_DONOTMAP;
+        mobjinfo[MT_INV].flags2 &= ~MF2_TRANSLUCENT_33;
+        mobjinfo[MT_INS].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP);
+        mobjinfo[MT_MISC14].flags2 &= ~(MF2_FLOATBOB | MF2_NOFOOTCLIP);
+    }
     else if (dehacked)
         for (i = 0; i < NUMMOBJTYPES; i++)
         {
