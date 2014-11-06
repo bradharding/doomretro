@@ -61,7 +61,6 @@ extern boolean          idclev;
 extern boolean          idmus;
 extern boolean          idbehold;
 extern boolean          menuactive;
-extern int              gamepadsensitivity;
 
 void (*gamepadfunc)(void);
 void (*gamepadthumbsfunc)(short, short, short, short);
@@ -166,8 +165,7 @@ void I_PollDirectInputGamepad(void)
         event_t         ev;
         int             hat = SDL_JoystickGetHat(gamepad, 0);
 
-        if (gamepadsensitivity || menuactive)
-            gamepadthumbsfunc(0, 1, 2, 3);
+        gamepadthumbsfunc(0, 1, 2, 3);
 
         gamepadbuttons = (GAMEPAD_X * SDL_JoystickGetButton(gamepad, 0)
             | GAMEPAD_A * SDL_JoystickGetButton(gamepad, 1)
@@ -248,8 +246,7 @@ void I_PollXInputGamepad(void)
         pXInputGetState(0, &state);
         Gamepad = state.Gamepad;
 
-        if (gamepadsensitivity || menuactive)
-            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
+        gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
 
         gamepadbuttons = (state.Gamepad.wButtons
             | GAMEPAD_LEFT_TRIGGER * (state.Gamepad.bLeftTrigger > GAMEPAD_TRIGGER_THRESHOLD)

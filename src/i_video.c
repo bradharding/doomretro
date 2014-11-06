@@ -679,10 +679,17 @@ static void I_ReadMouse(void)
 void I_StartTic(void)
 {
     I_GetEvent();
-    if (mousesensitivity || menuactive)
+    if (menuactive)
     {
         I_ReadMouse();
         gamepadfunc();
+    }
+    else
+    {
+        if (mousesensitivity)
+            I_ReadMouse();
+        if (gamepadsensitivity)
+            gamepadfunc();
     }
 }
 
