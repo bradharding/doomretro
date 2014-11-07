@@ -88,7 +88,7 @@
 #define GAMEPADVIBRATE_DEFAULT          true
 
 #define GAMMALEVEL_MIN                  gammalevels[0]
-#define GAMMALEVEL_DEFAULT              1.00
+#define GAMMALEVEL_DEFAULT              0.75
 #define GAMMALEVEL_MAX                  gammalevels[GAMMALEVELS - 1]
 
 #define GRAPHICDETAIL_DEFAULT           HIGH
