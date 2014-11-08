@@ -27,8 +27,8 @@
 ========================================================================
 */
 
-#define PACKAGE_VERSION                 1,6,2,0
-#define PACKAGE_VERSIONSTRING           "1.6.2"
+#define PACKAGE_VERSION                 1,6,3,0
+#define PACKAGE_VERSIONSTRING           "1.6.3"
 #define PACKAGE_WADVERSIONSTRING        "DOOM RETRO v1.6"
 #define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM RETRO v1.6"
 
