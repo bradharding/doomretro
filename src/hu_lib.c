@@ -149,12 +149,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
     for (i = 0; i < l->len; i++)
     {
         c = toupper(l->l[i]);
-        if (c == '\n')          // [BH] allow multiple lines
-        {
-            x = l->x;
-            y += 9;
-        }
-        else if (c != ' ' && c >= l->sc && c <= '_')
+        if (c != '\n' && c != ' ' && c >= l->sc && c <= '_')
         {
             int j = c - '!';
             int k = 0;
