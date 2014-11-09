@@ -126,15 +126,16 @@ static struct
 
 static struct
 {
-    char        *patchname;
+    char        *patchnamea;
+    char        *patchnameb;
     patch_t     *patch;
 } keypic[NUMCARDS] = {
-    { "BKEYA0", NULL },
-    { "YKEYA0", NULL },
-    { "RKEYA0", NULL },
-    { "BSKUA0", NULL },
-    { "YSKUA0", NULL },
-    { "RSKUA0", NULL }
+    { "BKEYA0", "BKEYB0", NULL },
+    { "YKEYA0", "YKEYB0", NULL },
+    { "RKEYA0", "RKEYB0", NULL },
+    { "BSKUA0", "BSKUB0", NULL },
+    { "YSKUA0", "YSKUB0", NULL },
+    { "RSKUA0", "RSKUB0", NULL }
 };
 
 void HU_Init(void)
@@ -167,7 +168,10 @@ patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 
 patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
-    return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchname), PU_CACHE);
+    if (dehacked)
+        return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchnamea), PU_CACHE);
+    else
+        return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchnameb), PU_CACHE);
 }
 
 void HU_Start(void)
