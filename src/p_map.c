@@ -2065,8 +2065,12 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     // added or verified as needed, m_thing will be set properly. When
     // finished, delete all nodes where m_thing is still NULL. These
     // represent the sectors the Thing has vacated.
-    for (node = thing->old_sectorlist; node; node = node->m_tnext)
+    node = sector_list;
+    while (node)
+    {
         node->m_thing = NULL;
+        node = node->m_tnext;
+    }
 
     tmthing = thing;
     tmflags = thing->flags;
@@ -2085,8 +2089,6 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
     yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
     yh = (tmbbox[BOXTOP] - bmaporgy) >> MAPBLOCKSHIFT;
-
-    sector_list = thing->old_sectorlist;
 
     for (bx = xl; bx <= xh; bx++)
         for (by = yl; by <= yh; by++)

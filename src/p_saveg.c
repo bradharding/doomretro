@@ -286,8 +286,8 @@ static void saveg_read_mobj_t(mobj_t *str)
     // struct mobj_s *snext
     str->snext = (mobj_t *)saveg_readp();
 
-    // struct mobj_s *sprev
-    str->sprev = (mobj_t *)saveg_readp();
+    // struct mobj_s **sprev
+    str->sprev = (mobj_t **)saveg_readp();
 
     // angle_t angle
     str->angle = saveg_read32();
@@ -399,9 +399,6 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // struct msecnode_s *touching_sectorlist
     str->touching_sectorlist = NULL;
-
-    // struct msecnode_s *old_sectorlist
-    str->old_sectorlist = NULL;
 
     // short gear
     str->gear = saveg_read16();

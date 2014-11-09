@@ -192,13 +192,13 @@ void P_UnsetThingPosition(mobj_t *thing)
     {
         // inert things don't need to be in blockmap?
         // unlink from subsector
-        if (thing->snext)
-            thing->snext->sprev = thing->sprev;
-
-        if (thing->sprev)
-            thing->sprev->snext = thing->snext;
-        else
-            thing->subsector->sector->thinglist = thing->snext;
+        //
+        // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
+        // pointers, allows head node pointers to be treated like everything else
+        mobj_t  **sprev = thing->sprev;
+        mobj_t  *snext = thing->snext;
+        if ((*sprev = snext))                           // unlink from sector list
+            snext->sprev = sprev;
 
         // phares 3/14/98
         //
@@ -212,8 +212,8 @@ void P_UnsetThingPosition(mobj_t *thing)
         //
         // If this Thing is being removed entirely, then the calling
         // routine will clear out the nodes in sector_list.
-        thing->old_sectorlist = thing->touching_sectorlist;
-        thing->touching_sectorlist = NULL;      // to be restored by P_SetThingPosition
+        sector_list = thing->touching_sectorlist;
+        thing->touching_sectorlist = NULL;              // to be restored by P_SetThingPosition
     }
 
     if (!(thing->flags & MF_NOBLOCKMAP))
@@ -243,24 +243,22 @@ void P_UnsetThingPosition(mobj_t *thing)
 //
 void P_SetThingPosition(mobj_t *thing)
 {
-    subsector_t *ss;
-
     // link into subsector
-    ss = R_PointInSubsector(thing->x, thing->y);
-    thing->subsector = ss;
+    subsector_t *ss = thing->subsector = R_PointInSubsector(thing->x, thing->y);
 
     if (!(thing->flags & MF_NOSECTOR))
     {
         // invisible things don't go into the sector links
-        sector_t *sec = ss->sector;
 
-        thing->sprev = NULL;
-        thing->snext = sec->thinglist;
+        // killough 8/11/98: simpler scheme using pointer-to-pointer prev
+        // pointers, allows head nodes to be treated like everything else
+        mobj_t  **link = &ss->sector->thinglist;
+        mobj_t  *snext = *link;
 
-        if (sec->thinglist)
-            sec->thinglist->sprev = thing;
-
-        sec->thinglist = thing;
+        if ((thing->snext = snext))
+            snext->sprev = &thing->snext;
+        thing->sprev = link;
+        *link = thing;
 
         // phares 3/16/98
         //
@@ -276,7 +274,7 @@ void P_SetThingPosition(mobj_t *thing)
         // added, new sector links are created.
         P_CreateSecNodeList(thing, thing->x, thing->y);
         thing->touching_sectorlist = sector_list;       // Attach to Thing's mobj_t
-        thing->old_sectorlist = NULL;                   // clear for next time
+        sector_list = NULL;                             // clear for next time
     }
 
     // link into blockmap
