@@ -94,6 +94,7 @@ extern boolean                  inhelpscreens;
 extern int                      graphicdetail;
 extern boolean                  translucency;
 extern int                      fuzzclip;
+extern boolean                  dehacked;
 
 //
 // R_InstallSpriteLump
@@ -716,7 +717,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         if (state == &states[S_DSGUN])
             vis->colfunc = R_DrawSuperShotgunColumn;
         else
-            vis->colfunc = (flash && spr <= SPR_BFGF ? colfuncs[spr] : basecolfunc);
+            vis->colfunc = (flash && spr <= SPR_BFGF && !dehacked ? colfuncs[spr] : basecolfunc);
 
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color
