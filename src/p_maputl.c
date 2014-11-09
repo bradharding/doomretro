@@ -385,8 +385,6 @@ static void check_intercept(void)
 }
 
 divline_t       trace;
-boolean         earlyout;
-int             ptflags;
 
 //
 // PIT_AddLineIntercepts.
@@ -396,12 +394,10 @@ int             ptflags;
 //
 // A line is crossed if its endpoints
 // are on opposite sides of the trace.
-// Returns true if earlyout and a solid line hit.
 //
 boolean PIT_AddLineIntercepts(line_t *ld)
 {
-    int         s1;
-    int         s2;
+    int         s1, s2;
     fixed_t     frac;
     divline_t   dl;
 
@@ -428,11 +424,7 @@ boolean PIT_AddLineIntercepts(line_t *ld)
     if (frac < 0)
         return true;    // behind source
 
-    // try to early out the check
-    if (earlyout && frac < FRACUNIT && !ld->backsector)
-        return false;   // stop checking
-
-    check_intercept();
+    check_intercept();  // killough
 
     intercept_p->frac = frac;
     intercept_p->isaline = true;
@@ -447,87 +439,55 @@ boolean PIT_AddLineIntercepts(line_t *ld)
 //
 boolean PIT_AddThingIntercepts(mobj_t *thing)
 {
-    // Taken from ZDoom:
-    // [RH] Don't check a corner to corner crossection for hit.
-    // Instead, check against the actual bounding box.
+    fixed_t     x1, y1;
+    fixed_t     x2, y2;
+    int         s1, s2;
+    fixed_t     frac;
+    divline_t   dl;
+    fixed_t     radius = thing->radius;
+    fixed_t     x = thing->x;
+    fixed_t     y = thing->y;
 
-    // There's probably a smarter way to determine which two sides
-    // of the thing face the trace than by trying all four sides...
-    int         numfronts = 0;
-    divline_t   line;
-    int         i;
-
-    for (i = 0; i < 4; ++i)
+    // check a corner to corner crossection for hit
+    if ((trace.dx ^ trace.dy) > 0)
     {
-        switch (i)
-        {
-            case 0:     // Top edge
-                line.x = thing->x + thing->radius;
-                line.y = thing->y + thing->radius;
-                line.dx = -thing->radius * 2;
-                line.dy = 0;
-                break;
-
-            case 1:     // Right edge
-                line.x = thing->x + thing->radius;
-                line.y = thing->y - thing->radius;
-                line.dx = 0;
-                line.dy = thing->radius * 2;
-                break;
-
-            case 2:     // Bottom edge
-                line.x = thing->x - thing->radius;
-                line.y = thing->y - thing->radius;
-                line.dx = thing->radius * 2;
-                line.dy = 0;
-                break;
-
-            case 3:     // Left edge
-                line.x = thing->x - thing->radius;
-                line.y = thing->y + thing->radius;
-                line.dx = 0;
-                line.dy = thing->radius * -2;
-                break;
-        }
-
-        // Check if this side is facing the trace origin
-        if (P_PointOnDivlineSide(trace.x, trace.y, &line) == 0)
-        {
-            numfronts++;
-
-            // If it is, see if the trace crosses it
-            if (P_PointOnDivlineSide(line.x, line.y, &trace) !=
-                P_PointOnDivlineSide(line.x + line.dx, line.y + line.dy, &trace))
-            {
-                // It's a hit
-                fixed_t frac = P_InterceptVector(&trace, &line);
-
-                if (frac < 0)
-                    return true;        // behind source
-
-                check_intercept();
-
-                intercept_p->frac = frac;
-                intercept_p->isaline = false;
-                intercept_p->d.thing = thing;
-                intercept_p++;
-                return true;
-            }
-        }
+        x1 = x - radius;
+        y1 = y + radius;
+        x2 = x + radius;
+        y2 = y - radius;
+    }
+    else
+    {
+        x1 = x - radius;
+        y1 = y - radius;
+        x2 = x + radius;
+        y2 = y + radius;
     }
 
-    // If none of the sides were facing the trace, then the trace
-    // must have started inside the box, so add it as an intercept.
-    if (numfronts == 0)
-    {
-        check_intercept();
+    s1 = P_PointOnDivlineSide(x1, y1, &trace);
+    s2 = P_PointOnDivlineSide(x2, y2, &trace);
 
-        intercept_p->frac = 0;
-        intercept_p->isaline = false;
-        intercept_p->d.thing = thing;
-        intercept_p++;
-    }
-    return true;
+    if (s1 == s2)
+        return true;    // line isn't crossed
+
+    dl.x = x1;
+    dl.y = y1;
+    dl.dx = x2 - x1;
+    dl.dy = y2 - y1;
+
+    frac = P_InterceptVector(&trace, &dl);
+
+    if (frac < 0)
+        return true;    // behind source
+
+    check_intercept();  // killough
+
+    intercept_p->frac = frac;
+    intercept_p->isaline = false;
+    intercept_p->d.thing = thing;
+    intercept_p++;
+
+    return true;        // keep going
 }
 
 //
@@ -542,8 +502,8 @@ boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 
     while (count--)
     {
-        fixed_t     dist = INT_MAX;
-        intercept_t *scan;
+        fixed_t         dist = INT_MAX;
+        intercept_t     *scan;
 
         for (scan = intercepts; scan < intercept_p; scan++)
             if (scan->frac < dist)
@@ -582,8 +542,6 @@ boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2,
     int         mapx, mapy;
     int         mapxstep, mapystep;
     int         count;
-
-    earlyout = (flags & PT_EARLYOUT);
 
     validcount++;
     intercept_p = intercepts;
