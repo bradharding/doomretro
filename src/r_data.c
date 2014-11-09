@@ -787,6 +787,7 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_MISC14].flags2 &= ~(MF2_FLOATBOB | MF2_NOFOOTCLIP);
     }
     else if (dehacked)
+    {
         for (i = 0; i < NUMMOBJTYPES; i++)
         {
             if ((mobjinfo[i].flags & MF_SHOOTABLE))
@@ -799,6 +800,10 @@ void R_InitSpriteLumps(void)
                 mobjinfo[i].flags2 = 0;
             }
         }
+        states[S_BAR1].tics = 0;
+        mobjinfo[MT_BARREL].spawnstate = S_BAR2;
+        mobjinfo[MT_BARREL].frames = 2;
+    }
 }
 
 //
