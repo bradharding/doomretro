@@ -98,7 +98,6 @@ boolean                 translucency = TRANSLUCENCY_DEFAULT;
 
 boolean                 homindicator = HOMINDICATOR_DEFAULT;
 
-extern int              automapactive;
 extern int              viewheight2;
 extern int              gametic;
 extern boolean          canmodify;
