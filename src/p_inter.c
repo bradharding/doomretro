@@ -1038,12 +1038,12 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         if (P_Random() < target->info->painchance && !(target->flags & MF_SKULLFLY))
         {
-            target->flags |= MF_JUSTHIT;    // fight back!
+            target->flags |= MF_JUSTHIT;        // fight back!
 
             P_SetMobjState(target, target->info->painstate);
         }
 
-        target->reactiontime = 0;           // we're awake now...
+        target->reactiontime = 0;               // we're awake now...
 
         if ((!target->threshold || target->type == MT_VILE)
             && source && source != target && source->type != MT_VILE)
@@ -1051,7 +1051,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
             // if not intent on another player,
             // chase after this one
             if (!target->lastenemy || target->lastenemy->health <= 0 
-                || target->target != source)    // remember last enemy - killough
+                || !target->lastenemy->player)  // remember last enemy - killough
                 target->lastenemy = target->target;
 
             target->target = source;
