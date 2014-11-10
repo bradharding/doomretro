@@ -57,7 +57,7 @@ boolean dehacked = false;
 
 // killough 10/98: emulate IO whether input really comes from a file or not
 
-// haleyjd: got rid of macros for MSCV
+// haleyjd: got rid of macros for MSVC
 char *dehfgets(char *buf, size_t n, DEHFILE *fp)
 {
     if (!fp->lump)                              // If this is a real file,
@@ -465,9 +465,9 @@ char *bgcastcall = "BOSSBACK";
 
 typedef struct
 {
-  char          **ppstr;        // doubly indirect pointer to string
-  char          *lookup;        // pointer to lookup string name
-  boolean       assigned;       // [BH] flag indicating string has been assigned
+    char        **ppstr;        // doubly indirect pointer to string
+    char        *lookup;        // pointer to lookup string name
+    boolean     assigned;       // [BH] flag indicating string has been assigned
 } deh_strs;
 
 deh_strs deh_strlookup[] =
@@ -1147,7 +1147,6 @@ char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 // killough 10/98:
 //
 // Convert array to struct to allow multiple values, make array size variable
-
 #define DEH_MOBJFLAGMAX arrlen(deh_mobjflags)
 
 struct
@@ -1155,7 +1154,7 @@ struct
     char        *name;
     long        value;
 } deh_mobjflags[] = {
-    { "SPECIAL",      MF_SPECIAL      },    // call  P_Specialthing when touched
+    { "SPECIAL",      MF_SPECIAL      },    // call P_Specialthing when touched
     { "SOLID",        MF_SOLID        },    // block movement
     { "SHOOTABLE",    MF_SHOOTABLE    },    // can be hit
     { "NOSECTOR",     MF_NOSECTOR     },    // invisible but touchable
@@ -1370,10 +1369,10 @@ extern void A_BrainExplode();
 typedef struct
 {
     actionf_t   cptr;           // actual pointer to the subroutine
-    char        *lookup;        // mnemonic lookup string to be specified in BEX
+    const char  *lookup;        // mnemonic lookup string to be specified in BEX
 } deh_bexptr;
 
-deh_bexptr deh_bexptrs[] =
+static const deh_bexptr deh_bexptrs[] =
 {
   { A_Light0,        "A_Light0"        },
   { A_WeaponReady,   "A_WeaponReady"   },

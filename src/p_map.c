@@ -229,6 +229,34 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
 // MOVEMENT ITERATOR FUNCTIONS
 //
 
+//
+// PIT_CrossLine
+// Checks to see if a PE->LS trajectory line crosses a blocking
+// line. Returns false if it does.
+//
+// tmbbox holds the bounding box of the trajectory. If that box
+// does not touch the bounding box of the line in question,
+// then the trajectory is not blocked. If the PE is on one side
+// of the line and the LS is on the other side, then the
+// trajectory is blocked.
+//
+// Currently this assumes an infinite line, which is not quite
+// correct. A more correct solution would be to check for an
+// intersection of the trajectory and the line, but that takes
+// longer and probably really isn't worth the effort.
+//
+static boolean PIT_CrossLine(line_t *ld)
+{
+    if (!(ld->flags & ML_TWOSIDED) || (ld->flags & (ML_BLOCKING | ML_BLOCKMONSTERS)))
+        if (!(tmbbox[BOXLEFT] > ld->bbox[BOXRIGHT]
+            || tmbbox[BOXRIGHT] < ld->bbox[BOXLEFT]
+            || tmbbox[BOXTOP] < ld->bbox[BOXBOTTOM]
+            || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]))
+            if (P_PointOnLineSide(pe_x, pe_y, ld) != P_PointOnLineSide(ls_x, ls_y, ld))
+                return false;   // line blocks trajectory
+    return true;                // line doesn't block trajectory
+}
+
 // killough 8/1/98: used to test intersection between thing and line
 // assuming NO movement occurs -- used to avoid sticky situations.
 static int untouched(line_t *ld)
@@ -462,27 +490,84 @@ boolean PIT_CheckThing(mobj_t *thing)
 }
 
 //
+// P_CheckLineSide
+//
+// This routine checks for Lost Souls trying to be spawned
+// across 1-sided lines, impassible lines, or "monsters can't
+// cross" lines. Draw an imaginary line between the PE
+// and the new Lost Soul spawn spot. If that line crosses
+// a 'blocking' line, then disallow the spawn. Only search
+// lines in the blocks of the blockmap where the bounding box
+// of the trajectory line resides. Then check bounding box
+// of the trajectory vs. the bounding box of each blocking
+// line to see if the trajectory and the blocking line cross.
+// Then check the PE and LS to see if they're on different
+// sides of the blocking line. If so, return true, otherwise
+// false.
+boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
+{
+    int bx;
+    int by;
+    int xl;
+    int xh;
+    int yl;
+    int yh;
+
+    pe_x = actor->x;
+    pe_y = actor->y;
+    ls_x = x;
+    ls_y = y;
+
+    // here is the bounding box of the trajectory
+    tmbbox[BOXLEFT] = MIN(pe_x, x);
+    tmbbox[BOXRIGHT] = MAX(pe_x, x);
+    tmbbox[BOXTOP] = MAX(pe_y, y);
+    tmbbox[BOXBOTTOM] = MIN(pe_y, y);
+
+    // determine which blocks to look in for blocking lines
+    xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
+    xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
+    yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
+    yh = (tmbbox[BOXTOP] - bmaporgy) >> MAPBLOCKSHIFT;
+
+    validcount++;               // prevents checking same line twice
+    for (bx = xl; bx <= xh; bx++)
+        for (by = yl; by <= yh; by++)
+            if (!P_BlockLinesIterator(bx, by, PIT_CrossLine))
+                return true;
+    return false;
+}
+
+//
 // PIT_CheckOnmobjZ
 //
 boolean PIT_CheckOnmobjZ(mobj_t * thing)
 {
     fixed_t     blockdist;
 
-    if (!(thing->flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
-        return true;          // Can't hit thing
-    blockdist = thing->radius + tmthing->radius;
-    if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
-        return true;            // Didn't hit thing
+    if (!(thing->flags & MF_SOLID))
+        return true;
+
+    // [RH] Corpses and specials don't block moves
+    if (thing->flags & (MF_CORPSE | MF_SPECIAL))
+        return true;
+
+    // Don't clip against self
     if (thing == tmthing)
-        return true;            // Don't clip against self
+        return true;
+
+    // over / under thing
     if (tmthing->z > thing->z + thing->height)
         return true;
-    else if (tmthing->z + tmthing->height < thing->z)
-        return true;            // Under thing
-    if (thing->flags & MF_SOLID)
-        onmobj = thing;
+    else if (tmthing->z + tmthing->height <= thing->z)
+        return true;
 
-    return !(thing->flags & MF_SOLID);
+    blockdist = thing->radius + tmthing->radius;
+    if (ABS(thing->x - tmx) >= blockdist || ABS(thing->y - tmy) >= blockdist)
+        return true;        // Didn't hit thing
+
+    onmobj = thing;
+    return false;
 }
 
 //
@@ -934,81 +1019,6 @@ void P_ApplyTorque(mobj_t *mo)
         mo->gear = 0;                           // Reset it to full strength
     else if (mo->gear < MAXGEAR)                // Else if not at max gear,
         mo->gear++;                             // move up a gear
-}
-
-//
-// PIT_CrossLine
-// Checks to see if a PE->LS trajectory line crosses a blocking
-// line. Returns false if it does.
-//
-// tmbbox holds the bounding box of the trajectory. If that box
-// does not touch the bounding box of the line in question,
-// then the trajectory is not blocked. If the PE is on one side
-// of the line and the LS is on the other side, then the
-// trajectory is blocked.
-//
-// Currently this assumes an infinite line, which is not quite
-// correct. A more correct solution would be to check for an
-// intersection of the trajectory and the line, but that takes
-// longer and probably really isn't worth the effort.
-//
-static boolean PIT_CrossLine(line_t *ld)
-{
-    return (!((ld->flags ^ ML_TWOSIDED) & (ML_TWOSIDED | ML_BLOCKING | ML_BLOCKMONSTERS))
-        || tmbbox[BOXLEFT]   > ld->bbox[BOXRIGHT]
-        || tmbbox[BOXRIGHT]  < ld->bbox[BOXLEFT]
-        || tmbbox[BOXTOP]    < ld->bbox[BOXBOTTOM]
-        || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]
-        || P_PointOnLineSide(pe_x, pe_y, ld) == P_PointOnLineSide(ls_x, ls_y, ld));
-}
-
-//
-// P_CheckLineSide
-//
-// This routine checks for Lost Souls trying to be spawned
-// across 1-sided lines, impassible lines, or "monsters can't
-// cross" lines. Draw an imaginary line between the PE
-// and the new Lost Soul spawn spot. If that line crosses
-// a 'blocking' line, then disallow the spawn. Only search
-// lines in the blocks of the blockmap where the bounding box
-// of the trajectory line resides. Then check bounding box
-// of the trajectory vs. the bounding box of each blocking
-// line to see if the trajectory and the blocking line cross.
-// Then check the PE and LS to see if they're on different
-// sides of the blocking line. If so, return true, otherwise
-// false.
-boolean P_CheckLineSide(mobj_t *actor, fixed_t x, fixed_t y)
-{
-    int bx;
-    int by;
-    int xl;
-    int xh;
-    int yl;
-    int yh;
-
-    pe_x = actor->x;
-    pe_y = actor->y;
-    ls_x = x;
-    ls_y = y;
-
-    // here is the bounding box of the trajectory
-    tmbbox[BOXLEFT] = MIN(pe_x, x);
-    tmbbox[BOXRIGHT] = MAX(pe_x, x);
-    tmbbox[BOXTOP] = MAX(pe_y, y);
-    tmbbox[BOXBOTTOM] = MIN(pe_y, y);
-
-    // determine which blocks to look in for blocking lines
-    xl = (tmbbox[BOXLEFT] - bmaporgx) >> MAPBLOCKSHIFT;
-    xh = (tmbbox[BOXRIGHT] - bmaporgx) >> MAPBLOCKSHIFT;
-    yl = (tmbbox[BOXBOTTOM] - bmaporgy) >> MAPBLOCKSHIFT;
-    yh = (tmbbox[BOXTOP] - bmaporgy) >> MAPBLOCKSHIFT;
-
-    validcount++;               // prevents checking same line twice
-    for (bx = xl; bx <= xh; bx++)
-        for (by = yl; by <= yh; by++)
-            if (!P_BlockLinesIterator(bx, by, PIT_CrossLine))
-                return true;
-    return false;
 }
 
 //
