@@ -149,7 +149,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
     for (i = 0; i < l->len; i++)
     {
         c = toupper(l->l[i]);
-        if (c != '\n' && c != ' ' && c >= l->sc && c <= '_')
+        if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == '°'))
         {
             int j = c - '!';
             int k = 0;
@@ -166,6 +166,12 @@ void HUlib_drawTextLine(hu_textline_t *l)
                     j = 65;
 #endif
             }
+
+            if (l->l[i] == '°')
+                if (STCFN034)
+                    continue;
+                else
+                    j = 66;
 
             if (STCFN034)
             {
@@ -188,15 +194,16 @@ void HUlib_drawTextLine(hu_textline_t *l)
                 HU_drawChar(x, y - 1, j);
             }
             x += w;
+            tw += w;
 
             prev = c;
         }
-        else
+        else if (c == ' ')
         {
             w = (i > 0 && (l->l[i - 1] == '.' || l->l[i - 1] == '!' || l->l[i - 1] == '?') ? 5 : 3);
             x += w;
+            tw += w;
         }
-        tw += w;
     }
 
     // [BH] draw underscores for IDBEHOLD cheat message
