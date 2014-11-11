@@ -32,22 +32,22 @@
 
 #define ALWAYSRUN_DEFAULT               false
 
+#define UNLIMITED                       32768
 #define BLOODSPLATS_MIN                 0
 #define BLOODSPLATS_DEFAULT             UNLIMITED
 #define BLOODSPLATS_MAX                 UNLIMITED
-#define UNLIMITED                       32768
 
 #define BRIGHTMAPS_DEFAULT              true
 
 #define CENTERWEAPON_DEFAULT            true
 
-#define CORPSES_MIN                     0
-#define CORPSES_DEFAULT                 (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
-#define CORPSES_MAX                     CORPSES_DEFAULT
 #define MIRROR                          1
 #define SLIDE                           2
 #define SMEARBLOOD                      4
 #define MOREBLOOD                       8
+#define CORPSES_MIN                     0
+#define CORPSES_DEFAULT                 (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
+#define CORPSES_MAX                     (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
 
 #define DCLICKUSE_DEFAULT               false
 
@@ -91,9 +91,9 @@
 #define GAMMALEVEL_DEFAULT              0.75
 #define GAMMALEVEL_MAX                  gammalevels[GAMMALEVELS - 1]
 
-#define GRAPHICDETAIL_DEFAULT           HIGH
 #define LOW                             0
 #define HIGH                            1
+#define GRAPHICDETAIL_DEFAULT           HIGH
 
 #define GRID_DEFAULT                    false
 
@@ -205,7 +205,13 @@
 #define SKILLLEVEL_DEFAULT              sk_medium
 #define SKILLLEVEL_MAX                  sk_nightmare
 
-#define SMOKETRAILS_DEFAULT             true
+#define PLAYER                          1
+#define REVENANT1                       2
+#define REVENANT2                       4
+#define CYBERDEMON                      8
+#define SMOKETRAILS_MIN                 0
+#define SMOKETRAILS_DEFAULT             (PLAYER | REVENANT2 | CYBERDEMON)
+#define SMOKETRAILS_MAX                 (PLAYER | REVENANT1 | REVENANT2 | CYBERDEMON)
 
 #define SND_MAXSLICETIME_MS_DEFAULT     28
 

@@ -263,7 +263,10 @@ typedef enum
     MF2_DRAWFIRST                 = 0x00400000,
 
     // Object's thing triangle is not displayed in automap
-    MF2_DONOTMAP                  = 0x00800000
+    MF2_DONOTMAP                  = 0x00800000,
+
+    // Object has smoke trail
+    MF2_SMOKETRAIL                = 0x01000000
 } mobjflag2_t;
 
 // Map Object definition.

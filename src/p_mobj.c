@@ -49,7 +49,7 @@ mobj_t                  *bloodSplatQueue[BLOODSPLATS_MAX];
 int                     bloodSplatQueueSlot;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
-boolean                 smoketrails = SMOKETRAILS_DEFAULT;
+int                     smoketrails = SMOKETRAILS_DEFAULT;
 
 int                     corpses = CORPSES_DEFAULT;
 
@@ -181,7 +181,7 @@ void P_XYMovement(mobj_t *mo)
     player = mo->player;
     type = mo->type;
 
-    if (type == MT_ROCKET && smoketrails && !dehacked)
+    if (mo->flags2 & MF2_SMOKETRAIL)
         if (puffcount++ > 1)
             P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
 
@@ -1331,7 +1331,11 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     th->momy = FixedMul(th->info->speed, finesine[an >> ANGLETOFINESHIFT]);
     th->momz = FixedMul(th->info->speed, slope);
 
-    puffcount = 0;
+    if (type == MT_ROCKET && (smoketrails & PLAYER) && !dehacked)
+    {
+        th->flags2 &= MF2_SMOKETRAIL;
+        puffcount = 0;
+    }
 
     P_CheckMissileSpawn(th);
 }
