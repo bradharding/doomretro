@@ -604,6 +604,19 @@ void PrevWeapon(void)
         S_StartSound(NULL, sfx_getpow);
 }
 
+void ToggleAlwaysRun(void)
+{
+    alwaysrun = !alwaysrun;
+    players[consoleplayer].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
+    message_dontfuckwithme = true;
+    if (menuactive)
+    {
+        message_dontpause = true;
+        blurred = false;
+    }
+    M_SaveDefaults();
+}
+
 extern boolean  splashscreen;
 
 //
@@ -652,6 +665,12 @@ boolean G_Responder(event_t *ev)
             }
             return true;
         }
+        else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && !keydown)
+        {
+            keydown = KEY_CAPSLOCK;
+            ToggleAlwaysRun();
+            return true;
+        }
         return false;
     }
 
@@ -684,16 +703,8 @@ boolean G_Responder(event_t *ev)
             }
             else if (ev->data1 == KEY_CAPSLOCK && !keydown)
             {
-                alwaysrun = !alwaysrun;
                 keydown = KEY_CAPSLOCK;
-                players[consoleplayer].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
-                message_dontfuckwithme = true;
-                if (menuactive)
-                {
-                    message_dontpause = true;
-                    blurred = false;
-                }
-                M_SaveDefaults();
+                ToggleAlwaysRun();
             }
             else if (ev->data1 < NUMKEYS)
             {
