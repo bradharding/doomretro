@@ -48,9 +48,7 @@ typedef enum {
     DI_SOUTHEAST,
     DI_NODIR,
     NUMDIRS
-} dirtype_e;
-
-typedef int dirtype_t;
+} dirtype_t;
 
 void A_Fall(mobj_t *actor);
 
@@ -69,6 +67,7 @@ void A_Fall(mobj_t *actor);
 // sound blocking lines cut off traversal.
 //
 // killough 5/5/98: reformatted, cleaned up
+//
 static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget)
 {
     int i;
@@ -134,7 +133,7 @@ boolean P_CheckMeleeRange(mobj_t *actor)
     if (pl->z > actor->z + actor->height || actor->z > pl->z + pl->height)
         return false;
 
-    if (!P_CheckSight(actor, actor->target))
+    if (!P_CheckSight(actor, pl))
         return false;
 
     return true;
@@ -285,13 +284,25 @@ extern int      numspechit;
 
 static boolean P_Move(mobj_t *actor, boolean dropoff)   // killough 9/12/98
 {
-    fixed_t     tryx;
-    fixed_t     tryy;
-
     int         speed;
+    fixed_t     tryx, tryy;
+
+    if (!actor->subsector)
+        return false;
 
     if (actor->movedir == DI_NODIR)
         return false;
+
+    // [RH] Instead of yanking non-floating monsters to the ground,
+    // let gravity drop them down, unless they're moving down a step.
+    if (!(actor->flags & MF_NOGRAVITY) && actor->z > actor->floorz
+        && !(actor->flags2 & MF2_ONMOBJ))
+    {
+        if (actor->z > actor->floorz + 24 * FRACUNIT)
+            return false;
+        else
+            actor->z = actor->floorz;
+    }
 
     speed = actor->info->speed;
 
@@ -300,7 +311,7 @@ static boolean P_Move(mobj_t *actor, boolean dropoff)   // killough 9/12/98
 
     if (!P_TryMove(actor, tryx, tryy, dropoff))
     {
-        int good;
+        int     good;
 
         // open any specials
         if ((actor->flags & MF_FLOAT) && floatok)
@@ -343,10 +354,6 @@ static boolean P_Move(mobj_t *actor, boolean dropoff)   // killough 9/12/98
     }
     else
         actor->flags &= ~MF_INFLOAT;
-
-    // killough 11/98: fall more slowly, under gravity, if felldown==true
-    if (!(actor->flags & MF_FLOAT) && !felldown)
-        actor->z = actor->floorz;
 
     return true;
 }
@@ -710,9 +717,13 @@ void A_KeenDie(mobj_t *mo)
 //
 void A_Look(mobj_t *actor)
 {
-    mobj_t      *targ = actor->subsector->sector->soundtarget;
+    mobj_t      *targ;
+
+    if (!actor->subsector)
+        return;
 
     actor->threshold = 0;       // any shot will wake up
+    targ = actor->subsector->sector->soundtarget;
     
     if (targ && (targ->flags & MF_SHOOTABLE))
     {
