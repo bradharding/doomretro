@@ -1084,11 +1084,11 @@ void A_Tracer(mobj_t *actor)
     mobj_t      *dest;
     int         speed;
 
-    // spawn a puff of smoke behind the rocket
-    P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
-
     if ((gametic - levelstarttic) & 3)
         return;
+
+    // spawn a puff of smoke behind the rocket
+    P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
 
     // adjust direction
     dest = actor->tracer;
