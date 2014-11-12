@@ -67,7 +67,6 @@ extern boolean  splashscreen;
 
 extern boolean  skipaction;
 
-#define SENSITIVITYSLIDER_WIDTH 64
 //
 // defaulted values
 //
@@ -1318,10 +1317,10 @@ void M_DrawSound(void)
     else
         M_DrawCenteredString(38 + OFFSET, uppercase(s_M_SOUNDVOLUME));
 
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * sfx_vol + 17 + OFFSET, 16,
+    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (sfx_vol + 1) + OFFSET + !hacx, 16,
         (float)(sfxVolume * !nosfx), 8.0f);
 
-    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * music_vol + 17 + OFFSET, 16,
+    M_DrawThermo(SoundDef.x - 1, SoundDef.y + 16 * (music_vol + 1) + OFFSET + !hacx, 16,
         (float)(musicVolume * !nomusic), 8.0f);
 }
 
@@ -1564,26 +1563,16 @@ void M_DrawOptions(void)
     if (messages)
     {
         if (M_MSGON)
-        {
-            patch_t     *patch1 = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
-            patch_t     *patch2 = W_CacheLumpName("M_MSGON", PU_CACHE);
-
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
-                OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, patch2);
-        }
+            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET,
+                W_CacheLumpName("M_MSGON", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_ON);
     }
     else
     {
         if (M_MSGOFF)
-        {
-            patch_t     *patch1 = W_CacheLumpName(OptionsMenu[1].name, PU_CACHE);
-            patch_t     *patch2 = W_CacheLumpName("M_MSGOFF", PU_CACHE);
-
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
-                OptionsDef.y + SHORT(patch2->topoffset) + 16 * msgs + OFFSET, patch2);
-        }
+            M_DrawPatchWithShadow(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET,
+                W_CacheLumpName("M_MSGOFF", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
     }
@@ -1591,39 +1580,29 @@ void M_DrawOptions(void)
     if (graphicdetail == HIGH)
     {
         if (M_GDHIGH)
-        {
-            patch_t     *patch1 = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
-            patch_t     *patch2 = W_CacheLumpName("M_GDHIGH", PU_CACHE);
-
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
-                OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, patch2);
-        }
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
+                W_CacheLumpName("M_GDHIGH", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_HIGH);
     }
     else
     {
         if (M_GDLOW)
-        {
-            patch_t     *patch1 = W_CacheLumpName(OptionsMenu[2].name, PU_CACHE);
-            patch_t     *patch2 = W_CacheLumpName("M_GDLOW", PU_CACHE);
-
-            M_DrawPatchWithShadow(OptionsDef.x + SHORT(patch1->width) + 8,
-                OptionsDef.y + SHORT(patch2->topoffset) + 16 * detail + OFFSET, patch2);
-        }
+            M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
+                W_CacheLumpName("M_GDLOW", PU_CACHE));
         else
             M_DrawString(OptionsDef.x + 177, OptionsDef.y + 16 * detail + OFFSET, s_M_LOW);
     }
 
-    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * scrnsize + 17 + OFFSET, 9,
+    M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
         (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL)) + !hud),
         (fullscreen ? 7.2f : 8.0f));
 
     if (usinggamepad && !M_MSENS)
-        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
+        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + 1, 9,
             gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * 8.0f, 8.0f);
     else
-        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * mousesens + 17 + OFFSET, 9,
+        M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
             mousesensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
 }
 
@@ -1945,7 +1924,7 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
     int xx;
     int i;
 
-    if (chex)
+    if (chex || hacx)
     {
         --x;
         y -= 2;
@@ -1959,9 +1938,9 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
         xx += 8;
     }
     M_DrawPatchWithShadow(xx, y, W_CacheLumpName("M_THERMR", PU_CACHE));
-    V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
     for (i = x + 9; i < x + (thermWidth + 1) * 8 + 1; i++)
-        V_DrawPixel(i, y + 13, 251, true);
+        V_DrawPixel(i - hacx, y + (hacx ? 9 : 13), 251, true);
+    V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
 }
 
 void M_StartMessage(char *string, void *routine, boolean input)
