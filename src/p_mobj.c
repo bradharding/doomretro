@@ -1333,7 +1333,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
 
     if (type == MT_ROCKET && (smoketrails & PLAYER) && !dehacked)
     {
-        th->flags2 &= MF2_SMOKETRAIL;
+        th->flags2 |= MF2_SMOKETRAIL;
         puffcount = 0;
     }
 
