@@ -111,9 +111,11 @@ mapthing_t      playerstarts[MAXPLAYERS];
 
 boolean         canmodify;
 
-static int current_episode = -1;
-static int current_map = -1;
-static int samelevel = false;
+int             mapfixes = MAPFIXES_DEFAULT;
+
+static int      current_episode = -1;
+static int      current_map = -1;
+static int      samelevel = false;
 
 // e6y: Smart malloc
 // Used by P_SetupLevel() for smart data loading
@@ -166,8 +168,8 @@ void P_LoadVertexes(int lump)
         vertexes[i].x = SHORT(data[i].x) << FRACBITS;
         vertexes[i].y = SHORT(data[i].y) << FRACBITS;
 
-        // Apply any level-specific fixes.
-        if (canmodify)
+        // Apply any map-specific fixes.
+        if (canmodify && (mapfixes & VERTEXES))
         {
             int j = 0;
 
@@ -297,8 +299,8 @@ void P_LoadSegs(int lump)
             li->offset = (fixed_t)sqrt(dx * dx + dy * dy);
         }
 
-        // Apply any level-specific fixes.
-        if (canmodify)
+        // Apply any map-specific fixes.
+        if (canmodify && (mapfixes & LINEDEFS))
         {
             int j = 0;
 
@@ -396,7 +398,7 @@ void P_LoadSectors(int lump)
         ss->tag = SHORT(ms->tag);
 
         // Apply any level-specific fixes.
-        if (canmodify)
+        if (canmodify && (mapfixes & SECTORS))
         {
             int j = 0;
 
@@ -527,7 +529,7 @@ void P_LoadThings(int lump)
         mt.options = SHORT(mt.options);
 
         // Apply any level-specific fixes.
-        if (canmodify)
+        if (canmodify && (mapfixes & THINGS))
         {
             int j = 0;
 

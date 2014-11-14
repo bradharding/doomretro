@@ -97,6 +97,7 @@ extern int      key_weapon4;
 extern int      key_weapon5;
 extern int      key_weapon6;
 extern int      key_weapon7;
+extern int      mapfixes;
 extern boolean  messages;
 extern boolean  mirrorweapons;
 extern int      mousesensitivity;
@@ -255,6 +256,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_KEY   (key_weapon5,          key_weapon5,          3),
     CONFIG_VARIABLE_KEY   (key_weapon6,          key_weapon6,          3),
     CONFIG_VARIABLE_KEY   (key_weapon7,          key_weapon7,          3),
+    CONFIG_VARIABLE_INT   (mapfixes,             mapfixes,            15),
     CONFIG_VARIABLE_INT   (messages,             messages,             1),
     CONFIG_VARIABLE_INT   (mirrorweapons,        mirrorweapons,        1),
     CONFIG_VARIABLE_FLOAT (mouse_acceleration,   mouse_acceleration,   0),
@@ -492,6 +494,7 @@ static alias_t alias[] =
     { "100%",                                 100, 12 },
     { "off",                                    1, 13 },
     { "-",                                      0, 14 },
+    { "none",                                   0, 14 },
     { "player",                                 1, 14 },
     { "revenant1",                              2, 14 },
     { "player|revenant1",                       3, 14 },
@@ -556,6 +559,72 @@ static alias_t alias[] =
     { "cyberdemon|revenant1|revenant2|player", 15, 14 },
     { "cyberdemon|revenant2|player|revenant1", 15, 14 },
     { "cyberdemon|revenant2|revenant1|player", 15, 14 },
+    { "-",                                      0, 15 },
+    { "none",                                   0, 15 },
+    { "linedefs",                               1, 15 },
+    { "sectors",                                2, 15 },
+    { "linedefs|sectors",                       3, 15 },
+    { "sectors|linedefs",                       3, 15 },
+    { "things",                                 4, 15 },
+    { "linedefs|things",                        5, 15 },
+    { "things|linedefs",                        5, 15 },
+    { "sectors|things",                         6, 15 },
+    { "things|sectors",                         6, 15 },
+    { "linedefs|sectors|things",                7, 15 },
+    { "sectors|linedefs|things",                7, 15 },
+    { "sectors|things|linedefs",                7, 15 },
+    { "linedefs|things|sectors",                7, 15 },
+    { "things|linedefs|sectors",                7, 15 },
+    { "things|sectors|linedefs",                7, 15 },
+    { "vertexes",                               8, 15 },
+    { "linedefs|vertexes",                      9, 15 },
+    { "vertexes|linedefs",                      9, 15 },
+    { "sectors|vertexes",                      10, 15 },
+    { "vertexes|sectors",                      10, 15 },
+    { "linedefs|sectors|vertexes",             11, 15 },
+    { "sectors|linedefs|vertexes",             11, 15 },
+    { "sectors|vertexes|linedefs",             11, 15 },
+    { "linedefs|vertexes|sectors",             11, 15 },
+    { "vertexes|linedefs|sectors",             11, 15 },
+    { "vertexes|sectors|linedefs",             11, 15 },
+    { "things|vertexes",                       12, 15 },
+    { "vertexes|things",                       12, 15 },
+    { "linedefs|things|vertexes",              13, 15 },
+    { "things|linedefs|vertexes",              13, 15 },
+    { "things|vertexes|linedefs",              13, 15 },
+    { "linedefs|vertexes|things",              13, 15 },
+    { "vertexes|linedefs|things",              13, 15 },
+    { "vertexes|things|linedefs",              13, 15 },
+    { "sectors|things|vertexes",               14, 15 },
+    { "things|sectors|vertexes",               14, 15 },
+    { "things|vertexes|sectors",               14, 15 },
+    { "sectors|vertexes|things",               14, 15 },
+    { "vertexes|sectors|things",               14, 15 },
+    { "vertexes|things|sectors",               14, 15 },
+    { "linedefs|sectors|things|vertexes",      15, 15 },
+    { "linedefs|sectors|vertexes|things",      15, 15 },
+    { "linedefs|things|sectors|vertexes",      15, 15 },
+    { "linedefs|things|vertexes|sectors",      15, 15 },
+    { "linedefs|vertexes|sectors|things",      15, 15 },
+    { "linedefs|vertexes|things|sectors",      15, 15 },
+    { "sectors|linedefs|things|vertexes",      15, 15 },
+    { "sectors|linedefs|vertexes|things",      15, 15 },
+    { "sectors|things|linedefs|vertexes",      15, 15 },
+    { "sectors|things|vertexes|linedefs",      15, 15 },
+    { "sectors|vertexes|linedefs|things",      15, 15 },
+    { "sectors|vertexes|things|linedefs",      15, 15 },
+    { "things|linedefs|sectors|vertexes",      15, 15 },
+    { "things|linedefs|vertexes|sectors",      15, 15 },
+    { "things|sectors|linedefs|vertexes",      15, 15 },
+    { "things|sectors|vertexes|linedefs",      15, 15 },
+    { "things|vertexes|linedefs|sectors",      15, 15 },
+    { "things|vertexes|sectors|linedefs",      15, 15 },
+    { "vertexes|linedefs|sectors|things",      15, 15 },
+    { "vertexes|linedefs|things|sectors",      15, 15 },
+    { "vertexes|sectors|linedefs|things",      15, 15 },
+    { "vertexes|sectors|things|linedefs",      15, 15 },
+    { "vertexes|things|linedefs|sectors",      15, 15 },
+    { "vertexes|things|sectors|linedefs",      15, 15 },
     { "",                                       0,  0 }
 };
 
@@ -1023,6 +1092,9 @@ static void M_CheckDefaults(void)
 
     if (key_weapon7 == INVALIDKEY)
         key_weapon7 = KEYWEAPON7_DEFAULT;
+
+    if (mapfixes < MAPFIXES_MIN || mapfixes > MAPFIXES_MAX || (mapfixes & (mapfixes - 1)))
+        mapfixes = MAPFIXES_DEFAULT;
 
     if (messages != false && messages != true)
         messages = MESSAGES_DEFAULT;

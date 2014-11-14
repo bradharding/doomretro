@@ -149,6 +149,14 @@
 
 #define KEYWEAPON7_DEFAULT              '7'
 
+#define LINEDEFS                        1
+#define SECTORS                         2
+#define THINGS                          4
+#define VERTEXES                        8
+#define MAPFIXES_MIN                    0
+#define MAPFIXES_DEFAULT                (LINEDEFS | SECTORS | THINGS | VERTEXES)
+#define MAPFIXES_MAX                    (LINEDEFS | SECTORS | THINGS | VERTEXES)
+
 #define MESSAGES_DEFAULT                false
 
 #define MIRRORWEAPONS_DEFAULT           false
