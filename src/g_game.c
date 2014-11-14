@@ -222,7 +222,7 @@ struct
 #define NUMKEYS         256
 
 static boolean  gamekeydown[NUMKEYS];
-static int      turnheld;               // for accelerative turning
+static int      turnheld;                       // for accelerative turning
 
 static boolean  mousearray[MAX_MOUSE_BUTTONS + 1];
 static boolean  *mousebuttons = &mousearray[1]; // allow [-1]
@@ -242,7 +242,7 @@ static boolean  dclickstate2;
 static int      dclicks2;
 
 static int      savegameslot;
-static char     savedescription[32];
+static char     savedescription[64];
 
 boolean         loadedgame = false;
 
