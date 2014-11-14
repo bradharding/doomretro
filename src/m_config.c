@@ -90,6 +90,13 @@ extern int      key_straferight2;
 extern int      key_up;
 extern int      key_up2;
 extern int      key_use;
+extern int      key_weapon1;
+extern int      key_weapon2;
+extern int      key_weapon3;
+extern int      key_weapon4;
+extern int      key_weapon5;
+extern int      key_weapon6;
+extern int      key_weapon7;
 extern boolean  messages;
 extern boolean  mirrorweapons;
 extern int      mousesensitivity;
@@ -241,6 +248,13 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_KEY   (key_up,               key_up,               3),
     CONFIG_VARIABLE_KEY   (key_up2,              key_up2,              3),
     CONFIG_VARIABLE_KEY   (key_use,              key_use,              3),
+    CONFIG_VARIABLE_KEY   (key_weapon1,          key_weapon1,          3),
+    CONFIG_VARIABLE_KEY   (key_weapon2,          key_weapon2,          3),
+    CONFIG_VARIABLE_KEY   (key_weapon3,          key_weapon3,          3),
+    CONFIG_VARIABLE_KEY   (key_weapon4,          key_weapon4,          3),
+    CONFIG_VARIABLE_KEY   (key_weapon5,          key_weapon5,          3),
+    CONFIG_VARIABLE_KEY   (key_weapon6,          key_weapon6,          3),
+    CONFIG_VARIABLE_KEY   (key_weapon7,          key_weapon7,          3),
     CONFIG_VARIABLE_INT   (messages,             messages,             1),
     CONFIG_VARIABLE_INT   (mirrorweapons,        mirrorweapons,        1),
     CONFIG_VARIABLE_FLOAT (mouse_acceleration,   mouse_acceleration,   0),
@@ -988,6 +1002,27 @@ static void M_CheckDefaults(void)
 
     if (key_use == INVALIDKEY)
         key_use = KEYUSE_DEFAULT;
+
+    if (key_weapon1 == INVALIDKEY)
+        key_weapon1 = KEYWEAPON1_DEFAULT;
+
+    if (key_weapon2 == INVALIDKEY)
+        key_weapon2 = KEYWEAPON2_DEFAULT;
+
+    if (key_weapon3 == INVALIDKEY)
+        key_weapon3 = KEYWEAPON3_DEFAULT;
+
+    if (key_weapon4 == INVALIDKEY)
+        key_weapon4 = KEYWEAPON4_DEFAULT;
+
+    if (key_weapon5 == INVALIDKEY)
+        key_weapon5 = KEYWEAPON5_DEFAULT;
+
+    if (key_weapon6 == INVALIDKEY)
+        key_weapon6 = KEYWEAPON6_DEFAULT;
+
+    if (key_weapon7 == INVALIDKEY)
+        key_weapon7 = KEYWEAPON7_DEFAULT;
 
     if (messages != false && messages != true)
         messages = MESSAGES_DEFAULT;

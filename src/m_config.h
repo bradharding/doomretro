@@ -135,6 +135,20 @@
 
 #define KEYUSE_DEFAULT                  ' '
 
+#define KEYWEAPON1_DEFAULT              '1'
+
+#define KEYWEAPON2_DEFAULT              '2'
+
+#define KEYWEAPON3_DEFAULT              '3'
+
+#define KEYWEAPON4_DEFAULT              '4'
+
+#define KEYWEAPON5_DEFAULT              '5'
+
+#define KEYWEAPON6_DEFAULT              '6'
+
+#define KEYWEAPON7_DEFAULT              '7'
+
 #define MESSAGES_DEFAULT                false
 
 #define MIRRORWEAPONS_DEFAULT           false

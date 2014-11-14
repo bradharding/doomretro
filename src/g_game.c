@@ -131,13 +131,13 @@ int             key_use = KEYUSE_DEFAULT;
 int             key_strafe = KEYSTRAFE_DEFAULT;
 int             key_speed = KEYSPEED_DEFAULT;
 
-int             key_weapon1 = '1';
-int             key_weapon2 = '2';
-int             key_weapon3 = '3';
-int             key_weapon4 = '4';
-int             key_weapon5 = '5';
-int             key_weapon6 = '6';
-int             key_weapon7 = '7';
+int             key_weapon1 = KEYWEAPON1_DEFAULT;
+int             key_weapon2 = KEYWEAPON2_DEFAULT;
+int             key_weapon3 = KEYWEAPON3_DEFAULT;
+int             key_weapon4 = KEYWEAPON4_DEFAULT;
+int             key_weapon5 = KEYWEAPON5_DEFAULT;
+int             key_weapon6 = KEYWEAPON6_DEFAULT;
+int             key_weapon7 = KEYWEAPON7_DEFAULT;
 int             key_prevweapon = KEYPREVWEAPON_DEFAULT;
 int             key_nextweapon = KEYNEXTWEAPON_DEFAULT;
 
@@ -199,6 +199,24 @@ static int *gamepadweapons[] =
     &gamepadweapon7
 };
 
+struct
+{
+    weapontype_t        prev;
+    weapontype_t        next;
+    ammotype_t          ammotype;
+    int                 minammo;
+} weapons[] = {
+    { wp_bfg,          /* wp_fist         */ wp_chainsaw,     am_noammo,  0 },
+    { wp_chainsaw,     /* wp_pistol       */ wp_shotgun,      am_clip,    1 },
+    { wp_pistol,       /* wp_shotgun      */ wp_supershotgun, am_shell,   1 },
+    { wp_supershotgun, /* wp_chaingun     */ wp_missile,      am_clip,    1 },
+    { wp_chaingun,     /* wp_missile      */ wp_plasma,       am_misl,    1 },
+    { wp_missile,      /* wp_plasma       */ wp_bfg,          am_cell,    1 },
+    { wp_plasma,       /* wp_bfg          */ wp_fist,         am_cell,   40 },
+    { wp_fist,         /* wp_chainsaw     */ wp_pistol,       am_noammo,  0 },
+    { wp_shotgun,      /* wp_supershotgun */ wp_chaingun,     am_shell,   2 }
+};
+
 #define SLOWTURNTICS    6
 
 #define NUMKEYS         256
@@ -233,6 +251,65 @@ extern boolean  alwaysrun;
 extern int      st_palette;
 
 extern int      pagetic;
+
+void G_RemoveChoppers(void)
+{
+    player_t            *player = &players[consoleplayer];
+
+    player->cheats &= ~CF_CHOPPERS;
+    if (player->invulnbeforechoppers)
+        player->powers[pw_invulnerability] = player->invulnbeforechoppers;
+    else
+        player->powers[pw_invulnerability] = STARTFLASHING;
+    player->weaponowned[wp_chainsaw] = player->chainsawbeforechoppers;
+    oldweaponsowned[wp_chainsaw] = player->chainsawbeforechoppers;
+}
+
+static void G_NextWeapon(void)
+{
+    player_t            *player = &players[consoleplayer];
+    weapontype_t        i = (player->pendingweapon == wp_nochange ? player->readyweapon : player->pendingweapon);
+
+    do
+    {
+        i = weapons[i].next;
+        if (i == wp_fist && player->weaponowned[wp_chainsaw] && !player->powers[pw_strength])
+            i = wp_chainsaw;
+    }
+    while (!player->weaponowned[i] || player->ammo[weapons[i].ammotype] < weapons[i].minammo);
+
+    if (i != player->readyweapon)
+        player->pendingweapon = i;
+
+    if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
+        G_RemoveChoppers();
+
+    if (i == wp_fist && player->powers[pw_strength])
+        S_StartSound(NULL, sfx_getpow);
+}
+
+static void G_PrevWeapon(void)
+{
+    player_t            *player = &players[consoleplayer];
+    weapontype_t        i = (player->pendingweapon == wp_nochange ? player->readyweapon : player->pendingweapon);
+
+    do
+    {
+        i = weapons[i].prev;
+        if (i == wp_fist && player->weaponowned[wp_chainsaw] && !player->powers[pw_strength])
+            i = wp_bfg;
+    }
+    while (!player->weaponowned[i] || player->ammo[weapons[i].ammotype] < weapons[i].minammo);
+
+    if (i != player->readyweapon)
+        player->pendingweapon = i;
+
+    if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
+        G_RemoveChoppers();
+
+    if (i == wp_fist && player->powers[pw_strength])
+        S_StartSound(NULL, sfx_getpow);
+}
 
 //
 // G_BuildTiccmd
@@ -525,83 +602,6 @@ void G_DoLoadLevel(void)
 
     if ((fullscreen && widescreen) || returntowidescreen)
         ToggleWideScreen(true);
-}
-
-struct
-{
-    weapontype_t        prev;
-    weapontype_t        next;
-    ammotype_t          ammotype;
-    int                 minammo;
-} weapons[] = {
-    { wp_bfg,          /* wp_fist         */ wp_chainsaw,     am_noammo, 0  },
-    { wp_chainsaw,     /* wp_pistol       */ wp_shotgun,      am_clip,   1  },
-    { wp_pistol,       /* wp_shotgun      */ wp_supershotgun, am_shell,  1  },
-    { wp_supershotgun, /* wp_chaingun     */ wp_missile,      am_clip,   1  },
-    { wp_chaingun,     /* wp_missile      */ wp_plasma,       am_misl,   1  },
-    { wp_missile,      /* wp_plasma       */ wp_bfg,          am_cell,   1  },
-    { wp_plasma,       /* wp_bfg          */ wp_fist,         am_cell,   40 },
-    { wp_fist,         /* wp_chainsaw     */ wp_pistol,       am_noammo, 0  },
-    { wp_shotgun,      /* wp_supershotgun */ wp_chaingun,     am_shell,  2  }
-};
-
-void G_RemoveChoppers(void)
-{
-    player_t            *player = &players[consoleplayer];
-
-    player->cheats &= ~CF_CHOPPERS;
-    if (player->invulnbeforechoppers)
-        player->powers[pw_invulnerability] = player->invulnbeforechoppers;
-    else
-        player->powers[pw_invulnerability] = STARTFLASHING;
-    player->weaponowned[wp_chainsaw] = player->chainsawbeforechoppers;
-    oldweaponsowned[wp_chainsaw] = player->chainsawbeforechoppers;
-}
-
-static void G_NextWeapon(void)
-{
-    player_t            *player = &players[consoleplayer];
-    weapontype_t        i = (player->pendingweapon == wp_nochange ? player->readyweapon : player->pendingweapon);
-
-    do
-    {
-        i = weapons[i].next;
-        if (i == wp_fist && player->weaponowned[wp_chainsaw] && !player->powers[pw_strength])
-            i = wp_chainsaw;
-    }
-    while (!player->weaponowned[i] || player->ammo[weapons[i].ammotype] < weapons[i].minammo);
-
-    if (i != player->readyweapon)
-        player->pendingweapon = i;
-
-    if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
-        G_RemoveChoppers();
-
-    if (i == wp_fist && player->powers[pw_strength])
-        S_StartSound(NULL, sfx_getpow);
-}
-
-static void G_PrevWeapon(void)
-{
-    player_t            *player = &players[consoleplayer];
-    weapontype_t        i = (player->pendingweapon == wp_nochange ? player->readyweapon : player->pendingweapon);
-
-    do
-    {
-        i = weapons[i].prev;
-        if (i == wp_fist && player->weaponowned[wp_chainsaw] && !player->powers[pw_strength])
-            i = wp_bfg;
-    }
-    while (!player->weaponowned[i] || player->ammo[weapons[i].ammotype] < weapons[i].minammo);
-
-    if (i != player->readyweapon)
-        player->pendingweapon = i;
-
-    if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
-        G_RemoveChoppers();
-
-    if (i == wp_fist && player->powers[pw_strength])
-        S_StartSound(NULL, sfx_getpow);
 }
 
 void G_ToggleAlwaysRun(void)
