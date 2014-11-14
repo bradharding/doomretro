@@ -1259,6 +1259,30 @@ char *deh_weapon[] =
     "Firing frame"      // .flashstate
 };
 
+// CHEATS - Dehacked block name = "Cheat"
+// Usage: Cheat 0
+// Always uses a zero in the dehacked file, for consistency.  No meaning.
+// These are just plain funky terms compared with id's
+char *deh_cheat[] =
+{
+    "Change music",     // idmus
+    "Chainsaw",         // idchoppers
+    "God mode",         // iddqd
+    "Ammo & Keys",      // idkfa
+    "Ammo",             // idfa
+    "No Clipping 1",    // idspispopd
+    "No Clipping 2",    // idclip
+    "Invincibility",    // idbeholdv
+    "Berserk",          // idbeholds
+    "Invisibility",     // idbeholdi
+    "Radiation Suit",   // idbeholdr
+    "Auto-map",         // idbeholda
+    "Lite-Amp Goggles", // idbeholdl
+    "BEHOLD menu",      // idbehold
+    "Level Warp",       // idclev
+    "Player Position"   // idmypos
+};
+
 // MISC - Dehacked block name = "Misc"
 // Usage: Misc 0
 // Always uses a zero in the dehacked file, for consistency.  No meaning.
@@ -2291,9 +2315,208 @@ void deh_procPars(DEHFILE *fpin, FILE* fpout, char *line) // extension
 //          line  -- current line in file to process
 // Returns: void
 //
-void deh_procCheat(DEHFILE *fpin, FILE* fpout, char *line) // done
+void deh_procCheat(DEHFILE *fpin, FILE* fpout, char *line)
 {
-    // TODO
+    char        key[DEH_MAXKEYLEN];
+    char        inbuffer[DEH_BUFFERMAX];
+    long        value;          // All deh values are ints or longs
+    char        ch = 0;         // CPhipps - `writable' null string to initialise...
+    char        *strval = &ch;  // pointer to the value area
+    int         iy;             // array index
+    char        *p;             // utility pointer
+
+    if (fpout)
+        fprintf(fpout, "Processing Cheat: %s\n", line);
+
+    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
+    {
+        boolean     success = false;
+
+        if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
+            break;
+        lfstrip(inbuffer);
+        if (!*inbuffer)
+            break;              // killough 11/98
+        if (!deh_GetData(inbuffer, key, &value, &strval, fpout))        // returns TRUE if ok
+        {
+            if (fpout)
+                fprintf(fpout, "Bad data pair in '%s'\n", inbuffer);
+            continue;
+        }
+
+        // Otherwise we got a (perhaps valid) cheat name
+        if (!strcasecmp(key, deh_cheat[0]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_mus.sequence = strdup(p);
+            cheat_mus_xy.sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[1]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_choppers.sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[2]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_god.sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[3]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_ammo.sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[4]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_ammonokey.sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[5]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_noclip.sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[6]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_commercial_noclip.sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[7]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_powerup[0].sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[8]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_powerup[1].sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[9]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_powerup[2].sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[10]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_powerup[3].sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[11]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_powerup[4].sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[12]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_powerup[5].sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[13]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_powerup[6].sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[14]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_clev.sequence = strdup(p);
+            cheat_clev_xy.sequence = strdup(p);
+            success = true;
+        }
+        else if (!strcasecmp(key, deh_cheat[15]))
+        {
+            for (iy = 0; strval[iy]; iy++)
+                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+            p = strval;
+            while (*p == ' ')
+                ++p;
+            cheat_mypos.sequence = strdup(p);
+            success = true;
+        }
+
+        if (success && fpout)
+            fprintf(fpout, "Assigned new cheat '%s' to cheat '%s' at index %d\n",
+                p, cheat_mus.sequence, iy);
+
+        if (fpout)
+            fprintf(fpout, "- %s\n", inbuffer);
+    }
+    return;
 }
 
 // ====================================================================

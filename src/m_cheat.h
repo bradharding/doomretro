@@ -48,7 +48,7 @@
 typedef struct
 {
     // settings for this cheat
-    char        sequence[MAX_CHEAT_LEN];
+    char        *sequence;
     size_t      sequence_len;
     int         parameter_chars;
 
@@ -83,5 +83,19 @@ extern int      key_strafe;
 extern int      key_speed;
 extern int      key_prevweapon;
 extern int      key_nextweapon;
+
+extern cheatseq_t cheat_mus;
+extern cheatseq_t cheat_mus_xy;
+extern cheatseq_t cheat_god;
+extern cheatseq_t cheat_ammo;
+extern cheatseq_t cheat_ammonokey;
+extern cheatseq_t cheat_noclip;
+extern cheatseq_t cheat_commercial_noclip;
+extern cheatseq_t cheat_powerup[7];
+extern cheatseq_t cheat_choppers;
+extern cheatseq_t cheat_clev;
+extern cheatseq_t cheat_clev_xy;
+extern cheatseq_t cheat_mypos;
+extern cheatseq_t cheat_amap;
 
 #endif
