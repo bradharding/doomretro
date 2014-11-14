@@ -83,6 +83,13 @@ extern int      key_strafe;
 extern int      key_speed;
 extern int      key_prevweapon;
 extern int      key_nextweapon;
+extern int      key_weapon1;
+extern int      key_weapon2;
+extern int      key_weapon3;
+extern int      key_weapon4;
+extern int      key_weapon5;
+extern int      key_weapon6;
+extern int      key_weapon7;
 
 extern cheatseq_t cheat_mus;
 extern cheatseq_t cheat_mus_xy;

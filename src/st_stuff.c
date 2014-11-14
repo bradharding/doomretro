@@ -402,30 +402,37 @@ static boolean actionkey(char key)
         || key == key_strafe
         || key == key_speed
         || key == key_prevweapon
-        || key == key_nextweapon);
+        || key == key_nextweapon
+        || key == key_weapon1
+        || key == key_weapon2
+        || key == key_weapon3
+        || key == key_weapon4
+        || key == key_weapon5
+        || key == key_weapon6
+        || key == key_weapon7);
 }
 
 static void ST_InitCheats(void)
 {
-    cheat_mus.actionkey = (actionkey(cheat_mus.sequence[0]));
-    cheat_mus_xy.actionkey = (actionkey(cheat_mus_xy.sequence[0]));
-    cheat_god.actionkey = (actionkey(cheat_god.sequence[0]));
-    cheat_ammo.actionkey = (actionkey(cheat_ammo.sequence[0]));
-    cheat_ammonokey.actionkey = (actionkey(cheat_ammonokey.sequence[0]));
-    cheat_noclip.actionkey = (actionkey(cheat_noclip.sequence[0]));
-    cheat_commercial_noclip.actionkey = (actionkey(cheat_commercial_noclip.sequence[0]));
-    cheat_powerup[0].actionkey = (actionkey(cheat_powerup[0].sequence[0]));
-    cheat_powerup[1].actionkey = (actionkey(cheat_powerup[1].sequence[0]));
-    cheat_powerup[2].actionkey = (actionkey(cheat_powerup[2].sequence[0]));
-    cheat_powerup[3].actionkey = (actionkey(cheat_powerup[3].sequence[0]));
-    cheat_powerup[4].actionkey = (actionkey(cheat_powerup[4].sequence[0]));
-    cheat_powerup[5].actionkey = (actionkey(cheat_powerup[5].sequence[0]));
-    cheat_powerup[6].actionkey = (actionkey(cheat_powerup[6].sequence[0]));
-    cheat_choppers.actionkey = (actionkey(cheat_choppers.sequence[0]));
-    cheat_clev.actionkey = (actionkey(cheat_clev.sequence[0]));
-    cheat_clev_xy.actionkey = (actionkey(cheat_clev_xy.sequence[0]));
-    cheat_mypos.actionkey = (actionkey(cheat_mypos.sequence[0]));
-    cheat_amap.actionkey = (actionkey(cheat_amap.sequence[0]));
+    cheat_mus.actionkey = actionkey(cheat_mus.sequence[0]);
+    cheat_mus_xy.actionkey = actionkey(cheat_mus_xy.sequence[0]);
+    cheat_god.actionkey = actionkey(cheat_god.sequence[0]);
+    cheat_ammo.actionkey = actionkey(cheat_ammo.sequence[0]);
+    cheat_ammonokey.actionkey = actionkey(cheat_ammonokey.sequence[0]);
+    cheat_noclip.actionkey = actionkey(cheat_noclip.sequence[0]);
+    cheat_commercial_noclip.actionkey = actionkey(cheat_commercial_noclip.sequence[0]);
+    cheat_powerup[0].actionkey = actionkey(cheat_powerup[0].sequence[0]);
+    cheat_powerup[1].actionkey = actionkey(cheat_powerup[1].sequence[0]);
+    cheat_powerup[2].actionkey = actionkey(cheat_powerup[2].sequence[0]);
+    cheat_powerup[3].actionkey = actionkey(cheat_powerup[3].sequence[0]);
+    cheat_powerup[4].actionkey = actionkey(cheat_powerup[4].sequence[0]);
+    cheat_powerup[5].actionkey = actionkey(cheat_powerup[5].sequence[0]);
+    cheat_powerup[6].actionkey = actionkey(cheat_powerup[6].sequence[0]);
+    cheat_choppers.actionkey = actionkey(cheat_choppers.sequence[0]);
+    cheat_clev.actionkey = actionkey(cheat_clev.sequence[0]);
+    cheat_clev_xy.actionkey = actionkey(cheat_clev_xy.sequence[0]);
+    cheat_mypos.actionkey = actionkey(cheat_mypos.sequence[0]);
+    cheat_amap.actionkey = actionkey(cheat_amap.sequence[0]);
 }
 
 #define NONE                    -1
