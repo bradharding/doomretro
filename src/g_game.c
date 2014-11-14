@@ -558,10 +558,10 @@ void G_RemoveChoppers(void)
     oldweaponsowned[wp_chainsaw] = player->chainsawbeforechoppers;
 }
 
-void NextWeapon(void)
+static void G_NextWeapon(void)
 {
     player_t            *player = &players[consoleplayer];
-    weapontype_t        i = player->readyweapon;
+    weapontype_t        i = (player->pendingweapon == wp_nochange ? player->readyweapon : player->pendingweapon);
 
     do
     {
@@ -581,10 +581,10 @@ void NextWeapon(void)
         S_StartSound(NULL, sfx_getpow);
 }
 
-void PrevWeapon(void)
+static void G_PrevWeapon(void)
 {
     player_t            *player = &players[consoleplayer];
-    weapontype_t        i = player->readyweapon;
+    weapontype_t        i = (player->pendingweapon == wp_nochange ? player->readyweapon : player->pendingweapon);
 
     do
     {
@@ -604,7 +604,7 @@ void PrevWeapon(void)
         S_StartSound(NULL, sfx_getpow);
 }
 
-void ToggleAlwaysRun(void)
+void G_ToggleAlwaysRun(void)
 {
     alwaysrun = !alwaysrun;
     players[consoleplayer].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
@@ -625,6 +625,7 @@ extern boolean  splashscreen;
 //
 boolean G_Responder(event_t *ev)
 {
+    int key;
     int mousebutton;
 
     // any other key pops up menu if on title screen
@@ -668,7 +669,7 @@ boolean G_Responder(event_t *ev)
         else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && !keydown)
         {
             keydown = KEY_CAPSLOCK;
-            ToggleAlwaysRun();
+            G_ToggleAlwaysRun();
             return true;
         }
         return false;
@@ -691,24 +692,25 @@ boolean G_Responder(event_t *ev)
     switch (ev->type)
     {
         case ev_keydown:
-            if (ev->data1 == key_prevweapon && !menuactive && !paused)
-                PrevWeapon();
-            else if (ev->data1 == key_nextweapon && !menuactive && !paused)
-                NextWeapon();
-            else if (ev->data1 == KEY_PAUSE && !menuactive && !keydown)
+            key = ev->data1;
+            if (key == key_prevweapon && !menuactive && !paused)
+                G_PrevWeapon();
+            else if (key == key_nextweapon && !menuactive && !paused)
+                G_NextWeapon();
+            else if (key == KEY_PAUSE && !menuactive && !keydown)
             {
                 keydown = KEY_PAUSE;
                 sendpause = true;
                 blurred = false;
             }
-            else if (ev->data1 == KEY_CAPSLOCK && !keydown)
+            else if (key == KEY_CAPSLOCK && !keydown)
             {
                 keydown = KEY_CAPSLOCK;
-                ToggleAlwaysRun();
+                G_ToggleAlwaysRun();
             }
-            else if (ev->data1 < NUMKEYS)
+            else if (key < NUMKEYS)
             {
-                gamekeydown[ev->data1] = true;
+                gamekeydown[key] = true;
                 if (vibrate)
                 {
                     vibrate = false;
@@ -740,9 +742,9 @@ boolean G_Responder(event_t *ev)
             if (!automapactive && !menuactive && !paused)
             {
                 if (mousebuttons[mousebnextweapon])
-                    NextWeapon();
+                    G_NextWeapon();
                 else if (mousebuttons[mousebprevweapon])
-                    PrevWeapon();
+                    G_PrevWeapon();
             }
             if (!automapactive || (automapactive && followplayer))
             {
@@ -760,12 +762,12 @@ boolean G_Responder(event_t *ev)
                 {
                     if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
                     {
-                        NextWeapon();
+                        G_NextWeapon();
                         gamepadpress = false;
                     }
                 }
-                if (gamepadbuttons & gamepadprevweapon)
-                    PrevWeapon();
+                else if (gamepadbuttons & gamepadprevweapon)
+                    G_PrevWeapon();
             }
             return true;            // eat events
 
