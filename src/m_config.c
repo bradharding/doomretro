@@ -302,6 +302,8 @@ static default_collection_t doom_defaults =
     NULL
 };
 
+#define INVALIDKEY      -1
+
 static const int scantokey[128] =
 {
     0,             27,             '1',           '2',
@@ -318,15 +320,15 @@ static const int scantokey[128] =
     'z',           'x',            'c',           'v',
     'b',           'n',            'm',           ',',
     '.',           '/',            KEY_RSHIFT,    KEYP_MULTIPLY,
-    KEY_RALT,      ' ',            KEY_CAPSLOCK,  KEY_F1,
-    KEY_F2,        KEY_F3,         KEY_F4,        KEY_F5,
-    KEY_F6,        KEY_F7,         KEY_F8,        KEY_F9,
-    KEY_F10,       KEY_PAUSE,      KEY_SCRLCK,    KEY_HOME,
+    KEY_RALT,      ' ',            INVALIDKEY,    INVALIDKEY,
+    INVALIDKEY,    INVALIDKEY,     INVALIDKEY,    INVALIDKEY,
+    INVALIDKEY,    INVALIDKEY,     INVALIDKEY,    INVALIDKEY,
+    INVALIDKEY,    KEY_PAUSE,      KEY_SCRLCK,    KEY_HOME,
     KEY_UPARROW,   KEY_PGUP,       KEY_MINUS,     KEY_LEFTARROW,
     KEYP_5,        KEY_RIGHTARROW, KEYP_PLUS,     KEY_END,
     KEY_DOWNARROW, KEY_PGDN,       KEY_INS,       KEY_DEL,
-    0,             0,              0,             KEY_F11,
-    KEY_F12,       0,              0,             0,
+    0,             0,              0,             INVALIDKEY,
+    INVALIDKEY,    0,              0,             0,
     0,             0,              0,             0,
     0,             0,              0,             0,
     0,             0,              0,             0,
@@ -337,8 +339,6 @@ static const int scantokey[128] =
     0,             0,              0,             0,
     0,             0,              0,             0
 };
-
-#define INVALIDKEY      -1
 
 static alias_t alias[] =
 {
