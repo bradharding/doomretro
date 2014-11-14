@@ -242,7 +242,7 @@ static boolean  dclickstate2;
 static int      dclicks2;
 
 static int      savegameslot;
-static char     savedescription[64];
+static char     savedescription[SAVESTRINGSIZE];
 
 boolean         loadedgame = false;
 
