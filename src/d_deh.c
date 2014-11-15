@@ -1487,8 +1487,7 @@ boolean CheckPackageWADVersion(void)
     unsigned int        i;
 
     for (i = 0; i < numlumps; ++i)
-    {
-        if (!strncmp(lumpinfo[i].name, "VERSION", 7))
+        if (!strncasecmp(lumpinfo[i].name, "VERSION", 7))
         {
             infile.size = W_LumpLength(i);
             infile.inp = infile.lump = W_CacheLumpNum(i, PU_STATIC);
@@ -1504,7 +1503,6 @@ boolean CheckPackageWADVersion(void)
                     return true;
             }
         }
-    }
 
     Z_ChangeTag(infile.lump, PU_CACHE);
     return false;

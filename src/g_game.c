@@ -268,7 +268,9 @@ void G_RemoveChoppers(void)
 static void G_NextWeapon(void)
 {
     player_t            *player = &players[consoleplayer];
-    weapontype_t        i = (player->pendingweapon == wp_nochange ? player->readyweapon : player->pendingweapon);
+    weapontype_t        pendingweapon = player->pendingweapon;
+    weapontype_t        readyweapon = player->readyweapon;
+    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
@@ -278,7 +280,7 @@ static void G_NextWeapon(void)
     }
     while (!player->weaponowned[i] || player->ammo[weapons[i].ammotype] < weapons[i].minammo);
 
-    if (i != player->readyweapon)
+    if (i != readyweapon)
         player->pendingweapon = i;
 
     if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)
@@ -291,7 +293,9 @@ static void G_NextWeapon(void)
 static void G_PrevWeapon(void)
 {
     player_t            *player = &players[consoleplayer];
-    weapontype_t        i = (player->pendingweapon == wp_nochange ? player->readyweapon : player->pendingweapon);
+    weapontype_t        pendingweapon = player->pendingweapon;
+    weapontype_t        readyweapon = player->readyweapon;
+    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
 
     do
     {
@@ -301,7 +305,7 @@ static void G_PrevWeapon(void)
     }
     while (!player->weaponowned[i] || player->ammo[weapons[i].ammotype] < weapons[i].minammo);
 
-    if (i != player->readyweapon)
+    if (i != readyweapon)
         player->pendingweapon = i;
 
     if ((player->cheats & CF_CHOPPERS) && i != wp_chainsaw)

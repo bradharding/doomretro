@@ -68,14 +68,6 @@ typedef enum
     FirstPersonState
 } st_stateenum_t;
 
-// States for the chat code.
-typedef enum
-{
-    StartChatState,
-    WaitDestState,
-    GetChatState
-} st_chatstateenum_t;
-
 extern cheatseq_t cheat_mus;
 extern cheatseq_t cheat_mus_xy;
 extern cheatseq_t cheat_god;

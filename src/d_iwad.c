@@ -405,7 +405,6 @@ static void BuildIWADDirList(void)
 //
 // Searches WAD search paths for an WAD with a specific filename.
 //
-
 char *D_FindWADByName(char *name)
 {
     char        *path;

@@ -939,7 +939,6 @@ static void D_DoomMainSetup(void)
     int         temp;
     int         choseniwad = 0;
 
-
     version = PACKAGE_VERSIONSTRING;
 
     iwadfile = D_FindIWAD();
