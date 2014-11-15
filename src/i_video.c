@@ -713,20 +713,17 @@ static void UpdateGrab(void)
 
 static __forceinline void blit(fixed_t width, fixed_t height)
 {
-    fixed_t     i = 0;
     fixed_t     y = starty;
+    byte        *dest = pixels;
 
     do
     {
-        byte    *dest = pixels + i;
         byte    *src = *(rows + (y >> FRACBITS));
         fixed_t x = startx;
 
         do
             *dest++ = *(src + (x >> FRACBITS));
         while ((x += stepx) < width);
-
-        i += pitch;
     } while ((y += stepy) < height);
 }
 
