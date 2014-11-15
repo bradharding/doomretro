@@ -1093,10 +1093,11 @@ void M_UpdateSaveGameName(int i)
     {
         int     len = strlen(savegamestrings[i]);
 
-        if (len >= 3
+        if (len >= 4
             && savegamestrings[i][len - 1] == '.'
             && savegamestrings[i][len - 2] == '.'
-            && savegamestrings[i][len - 3] == '.')
+            && savegamestrings[i][len - 3] == '.'
+            && savegamestrings[i][len - 4] != '.')
             match = true;
         else
         {
