@@ -188,6 +188,8 @@ void P_LineOpening(line_t *linedef)
 //
 void P_UnsetThingPosition(mobj_t *thing)
 {
+    sector_list = NULL;
+
     if (!(thing->flags & MF_NOSECTOR))
     {
         // inert things don't need to be in blockmap?

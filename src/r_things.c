@@ -375,11 +375,13 @@ static void R_DrawMaskedShadowColumn(column_t *column, int baseclip)
 
     while (column->topdelta != 0xff)
     {
+        int     length = column->length;
+
         // calculate unclipped screen coordinates for post
         int     topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
         dc_yl = MAX(((topscreen >> FRACBITS) + 1) / 10 + shift, mceilingclip[dc_x] + 1);
-        dc_yh = MIN(((topscreen + spryscale * column->length) >> FRACBITS) / 10 + shift,
+        dc_yh = MIN(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift,
             mfloorclip[dc_x] - 1);
 
         if (dc_yl <= dc_yh && dc_yh < viewheight)
@@ -387,7 +389,7 @@ static void R_DrawMaskedShadowColumn(column_t *column, int baseclip)
             dc_source = (byte *)column + 3;
             colfunc();
         }
-        column = (column_t *)((byte *)column + column->length + 4);
+        column = (column_t *)((byte *)column + length + 4);
     }
 }
 
@@ -400,6 +402,8 @@ int     fuzzpos;
 void R_DrawVisSprite(vissprite_t *vis)
 {
     fixed_t     frac = vis->startfrac;
+    fixed_t     xiscale = vis->xiscale;
+    fixed_t     x2 = vis->x2;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
     fixed_t     baseclip = -1;
 
@@ -440,10 +444,10 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     if (vis->footclip)
-        baseclip = (sprtopscreen + FixedMul(patch->height << FRACBITS, spryscale)
+        baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
             - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
 
-    for (dc_x = vis->x1; dc_x <= vis->x2; dc_x++, frac += vis->xiscale)
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         func((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])), baseclip);
 
     colfunc = basecolfunc;

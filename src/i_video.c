@@ -718,8 +718,8 @@ static __forceinline void blit(fixed_t width, fixed_t height)
 
     do
     {
-        byte    *src = *(rows + (y >> FRACBITS));
         fixed_t x = startx;
+        byte    *src = *(rows + (y >> FRACBITS));
 
         do
             *dest++ = *(src + (x >> FRACBITS));

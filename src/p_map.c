@@ -1938,13 +1938,18 @@ static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode
 {
     msecnode_t  *node;
 
-    for (node = nextnode; node; node = node->m_tnext)
+    if (!s)
+        return NULL;
+
+    node = nextnode;
+    while (node)
     {
-        if (node->m_sector == s)        // Already have a node for this sector?
+        if (node->m_sector == s)                // Already have a node for this sector?
         {
-            node->m_thing = thing;      // Yes. Setting m_thing says 'keep it'.
+            node->m_thing = thing;              // Yes. Setting m_thing says 'keep it'.
             return nextnode;
         }
+        node = node->m_tnext;
     }
 
     // Couldn't find an existing node for this sector. Add one at the head
@@ -2051,8 +2056,7 @@ static boolean PIT_GetSectors(line_t *ld)
 
     // killough 3/27/98, 4/4/98:
     // Use sidedefs instead of 2s flag to determine two-sidedness.
-    // killough 8/1/98: avoid duplicate if same sector on both sides
-    if (ld->backsector && ld->backsector != ld->frontsector)
+    if (ld->backsector)
         sector_list = P_AddSecnode(ld->backsector, tmthing, sector_list);
 
     return true;
@@ -2067,15 +2071,15 @@ static boolean PIT_GetSectors(line_t *ld)
 void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
 {
     int         xl, xh, yl, yh, bx, by;
-    msecnode_t  *node;
+    msecnode_t  *node = sector_list;
     mobj_t      *saved_tmthing = tmthing;
     fixed_t     saved_tmx = tmx, saved_tmy = tmy;
+    fixed_t     saved_tmbbox[4] = { tmbbox[0], tmbbox[1], tmbbox[2], tmbbox[3] };
 
     // First, clear out the existing m_thing fields. As each node is
     // added or verified as needed, m_thing will be set properly. When
     // finished, delete all nodes where m_thing is still NULL. These
     // represent the sectors the Thing has vacated.
-    node = sector_list;
     while (node)
     {
         node->m_thing = NULL;
@@ -2109,7 +2113,8 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
 
     // Now delete any nodes that won't be used. These are the ones where
     // m_thing is still NULL.
-    for (node = sector_list; node;)
+    node = sector_list;
+    while (node)
     {
         if (node->m_thing == NULL)
         {
@@ -2130,13 +2135,10 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     tmthing = saved_tmthing;
     tmx = saved_tmx;
     tmy = saved_tmy;
-    if (tmthing)
-    {
-        tmbbox[BOXTOP] = tmy + tmthing->radius;
-        tmbbox[BOXBOTTOM] = tmy - tmthing->radius;
-        tmbbox[BOXRIGHT] = tmx + tmthing->radius;
-        tmbbox[BOXLEFT] = tmx - tmthing->radius;
-    }
+    tmbbox[0] = saved_tmbbox[0];
+    tmbbox[1] = saved_tmbbox[1];
+    tmbbox[2] = saved_tmbbox[2];
+    tmbbox[3] = saved_tmbbox[3];
 }
 
 void P_MapEnd(void)
