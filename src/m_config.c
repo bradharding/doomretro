@@ -934,7 +934,7 @@ static void M_CheckDefaults(void)
     if (centerweapon != false && centerweapon != true)
         centerweapon = CENTERWEAPON_DEFAULT;
 
-    if (corpses < CORPSES_MIN || corpses > CORPSES_MAX || (corpses & (corpses - 1)))
+    if (corpses < CORPSES_MIN || corpses > CORPSES_MAX)
         corpses = CORPSES_DEFAULT;
 
     if (dclick_use != false && dclick_use != true)
@@ -1093,7 +1093,7 @@ static void M_CheckDefaults(void)
     if (key_weapon7 == INVALIDKEY)
         key_weapon7 = KEYWEAPON7_DEFAULT;
 
-    if (mapfixes < MAPFIXES_MIN || mapfixes > MAPFIXES_MAX || (mapfixes & (mapfixes - 1)))
+    if (mapfixes < MAPFIXES_MIN || mapfixes > MAPFIXES_MAX)
         mapfixes = MAPFIXES_DEFAULT;
 
     if (messages != false && messages != true)
@@ -1191,7 +1191,7 @@ static void M_CheckDefaults(void)
     if (shadows != false && shadows != true)
         shadows = SHADOWS_DEFAULT;
 
-    if (smoketrails < SMOKETRAILS_MIN || smoketrails > SMOKETRAILS_MAX || (smoketrails & (smoketrails - 1)))
+    if (smoketrails < SMOKETRAILS_MIN || smoketrails > SMOKETRAILS_MAX)
         smoketrails = SMOKETRAILS_DEFAULT;
 
     if (translucency != false && translucency != true)
