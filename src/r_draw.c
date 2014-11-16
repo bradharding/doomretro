@@ -153,6 +153,7 @@ fixed_t         dc_texturefrac;
 boolean         dc_topsparkle;
 boolean         dc_bottomsparkle;
 fixed_t         dc_blood;
+byte            *dc_colormask;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
@@ -289,7 +290,6 @@ void R_DrawWallColumn(void)
         const fixed_t           texheight = dc_texheight;
         fixed_t                 heightmask = texheight - 1;
 
-
         // [SL] Properly tile textures whose heights are not a power-of-2,
         // avoiding a tutti-frutti effect. From Eternity Engine.
         if (texheight & heightmask)
@@ -389,7 +389,7 @@ void R_DrawWallColumn(void)
     }
 }
 
-void R_DrawFullbrightWallColumn(byte *colormask)
+void R_DrawFullbrightWallColumn(void)
 {
     int32_t     count = dc_yh - dc_yl + 1;
 
@@ -401,6 +401,7 @@ void R_DrawFullbrightWallColumn(byte *colormask)
         const fixed_t           fracstep = dc_iscale;
         fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
         const byte              *source = dc_source;
+        const byte              *colormask = dc_colormask;
         const lighttable_t      *colormap = dc_colormap;
         const fixed_t           texheight = dc_texheight;
         fixed_t                 heightmask = texheight - 1;

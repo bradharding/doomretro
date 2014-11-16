@@ -44,6 +44,7 @@ extern fixed_t          dc_texturefrac;
 extern boolean          dc_topsparkle;
 extern boolean          dc_bottomsparkle;
 extern fixed_t          dc_blood;
+extern byte             *dc_colormask;
 
 // first pixel in a column
 extern byte             *dc_source;
@@ -68,7 +69,7 @@ extern byte             *tinttabblue50;
 //  here.
 void R_DrawColumn(void);
 void R_DrawWallColumn(void);
-void R_DrawFullbrightWallColumn(byte *);
+void R_DrawFullbrightWallColumn(void);
 void R_DrawSkyColumn(void);
 void R_DrawFlippedSkyColumn(void);
 void R_DrawTranslucentColumn(void);

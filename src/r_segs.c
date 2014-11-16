@@ -400,8 +400,9 @@ void R_RenderSegLoop(void)
             dc_texturemid = rw_midtexturemid;
             dc_source = R_GetColumn(midtexture, texturecolumn);
             dc_texheight = midtexheight;
-            if (brightmaps && texturefullbright[midtexture] && !fixedcolormap)
-                fbwallcolfunc(texturefullbright[midtexture]);
+            dc_colormask = texturefullbright[midtexture];
+            if (dc_colormask && !fixedcolormap && brightmaps)
+                fbwallcolfunc();
             else
                 wallcolfunc();
             ceilingclip[rw_x] = viewheight;
@@ -433,8 +434,9 @@ void R_RenderSegLoop(void)
                     dc_texturemid = rw_toptexturemid;
                     dc_source = R_GetColumn(toptexture, texturecolumn);
                     dc_texheight = toptexheight;
-                    if (brightmaps && texturefullbright[toptexture] && !fixedcolormap)
-                        fbwallcolfunc(texturefullbright[toptexture]);
+                    dc_colormask = texturefullbright[toptexture];
+                    if (dc_colormask && !fixedcolormap && brightmaps)
+                        fbwallcolfunc();
                     else
                         wallcolfunc();
                     ceilingclip[rw_x] = mid;
@@ -471,8 +473,9 @@ void R_RenderSegLoop(void)
                     dc_texturemid = rw_bottomtexturemid;
                     dc_source = R_GetColumn(bottomtexture, texturecolumn);
                     dc_texheight = bottomtexheight;
-                    if (brightmaps && texturefullbright[bottomtexture] && !fixedcolormap)
-                        fbwallcolfunc(texturefullbright[bottomtexture]);
+                    dc_colormask = texturefullbright[bottomtexture];
+                    if (dc_colormask && !fixedcolormap && brightmaps)
+                        fbwallcolfunc();
                     else
                         wallcolfunc();
                     floorclip[rw_x] = mid;

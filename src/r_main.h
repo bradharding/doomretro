@@ -89,7 +89,7 @@ extern lighttable_t     *fixedcolormap;
 //
 extern void (*colfunc)(void);
 extern void (*wallcolfunc)(void);
-extern void (*fbwallcolfunc)(byte *);
+extern void (*fbwallcolfunc)(void);
 extern void (*transcolfunc)(void);
 extern void (*basecolfunc)(void);
 extern void (*fuzzcolfunc)(void);

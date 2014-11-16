@@ -37,7 +37,8 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-typedef enum {
+typedef enum
+{
     DI_EAST,
     DI_NORTHEAST,
     DI_NORTH,

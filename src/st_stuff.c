@@ -1399,8 +1399,7 @@ void ST_updateFaceWidget(void)
     if (priority < 5)
     {
         // invulnerability
-        if ((plyr->cheats & CF_GODMODE)
-            || plyr->powers[pw_invulnerability])
+        if ((plyr->cheats & CF_GODMODE) || plyr->powers[pw_invulnerability])
         {
             priority = 4;
             st_faceindex = ST_GODFACE;

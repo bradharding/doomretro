@@ -104,7 +104,7 @@ extern boolean          canmodify;
 
 void (*colfunc)(void);
 void (*wallcolfunc)(void);
-void (*fbwallcolfunc)(byte *);
+void (*fbwallcolfunc)(void);
 void (*basecolfunc)(void);
 void (*fuzzcolfunc)(void);
 void (*tlcolfunc)(void);
