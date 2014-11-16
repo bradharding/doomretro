@@ -600,17 +600,19 @@ void I_GetEvent(void)
 
 #ifdef WIN32
             case SDL_SYSWMEVENT:
-
+                if (!fullscreen)
+                {
 #ifdef SDL20
-                if (sdlevent.syswm.msg->msg.win.msg == WM_MOVE)
+                    if (sdlevent.syswm.msg->msg.win.msg == WM_MOVE)
 #else
-                if (sdlevent.syswm.msg->msg == WM_MOVE)
+                    if (sdlevent.syswm.msg->msg == WM_MOVE)
 #endif
 
-                {
-                    I_SaveWindowPosition();
-                    SetWindowPositionVars();
-                    M_SaveDefaults();
+                    {
+                        I_SaveWindowPosition();
+                        SetWindowPositionVars();
+                        M_SaveDefaults();
+                    }
                 }
                 break;
 #endif
