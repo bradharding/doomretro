@@ -1189,13 +1189,28 @@ void R_DrawSpan(void)
     const byte          *source = ds_source;
     const lighttable_t  *colormap = ds_colormap;
 
-    while (--count)
+    while (count >= 4)
     {
-        *dest++ = colormap[source[((yfrac >> 10) & 4032) | ((xfrac >> 16) & 63)]];
+        *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        xfrac += xstep;
+        yfrac += ystep;
+        *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        xfrac += xstep;
+        yfrac += ystep;
+        *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        xfrac += xstep;
+        yfrac += ystep;
+        *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
+        xfrac += xstep;
+        yfrac += ystep;
+        count -= 4;
+    }
+    while (count-- > 0)
+    {
+        *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
         xfrac += xstep;
         yfrac += ystep;
     }
-    *dest = colormap[source[((yfrac >> 10) & 4032) | ((xfrac >> 16) & 63)]];
 }
 
 //
