@@ -96,8 +96,8 @@ boolean                 window_focused;
 static SDL_Cursor       *cursors[2];
 
 // Window resize state.
-boolean                 need_resize = false;
-unsigned int            resize_h;
+static boolean          need_resize = false;
+static unsigned int     resize_h;
 
 int                     desktopwidth;
 int                     desktopheight;
@@ -594,8 +594,8 @@ void I_GetEvent(void)
                 {
                     need_resize = true;
                     resize_h = sdlevent.resize.h;
-                    break;
                 }
+                break;
 #endif
 
 #ifdef WIN32
@@ -636,7 +636,6 @@ void I_GetEvent(void)
                         {
                             need_resize = true;
                             resize_h = sdlevent.window.data2;
-                            break;
                         }
                         break;
                 }
@@ -732,7 +731,7 @@ static __forceinline void blit(fixed_t width, fixed_t height)
     } while ((y += stepy) < height);
 }
 
-SDL_Rect dest_rect;
+SDL_Rect        dest_rect;
 
 //
 // I_FinishUpdate
@@ -1229,7 +1228,7 @@ void ToggleFullScreen(void)
     M_SaveDefaults();
 }
 
-void ApplyWindowResize(int height)
+static void ApplyWindowResize(int height)
 {
     windowheight = MAX(SCREENWIDTH * 3 / 4, height);
     windowwidth = windowheight * 4 / 3;
@@ -1239,13 +1238,13 @@ void ApplyWindowResize(int height)
     SDL_SetWindowSize(sdl_window, windowwidth, windowheight);
     screen = SDL_GetWindowSurface(sdl_window);
 
-    screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
+    screenbuffer = SDL_CreateRGBSurface(0, windowwidth, windowheight, 8, 0, 0, 0, 0);
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
 #else
     screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
         SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
-    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
+    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, windowheight, 8, 0, 0, 0, 0);
 #endif
 
     pitch = screenbuffer->pitch;
