@@ -954,6 +954,22 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
+    if (mobj->type == MF_CORPSE && (corpses & MIRROR))
+    {
+        static int      prev = 0;
+        int             r = M_RandomInt(1, 10);
+
+        if (r <= 5 + prev)
+        {
+            prev--;
+            mobj->flags2 |= MF2_MIRRORED;
+            if (mobj->shadow)
+                mobj->shadow->flags2 |= MF2_MIRRORED;
+        }
+        else
+            prev++;
+    }
+
     if (!(mobj->flags & MF_SHOOTABLE) && !(mobj->flags & MF_NOBLOOD) && mobj->blood && !chex
         && (corpses & MOREBLOOD) && bloodsplats && !dehacked)
     {
