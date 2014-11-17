@@ -49,6 +49,7 @@ extern int      brightmaps;
 extern boolean  centerweapon;
 extern int      corpses;
 extern boolean  dclick_use;
+extern boolean  floatbob;
 extern boolean  footclip;
 extern int      fullscreen;
 extern int      gamepadautomap;
@@ -208,6 +209,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT   (dclick_use,           dclick_use,           1),
     CONFIG_VARIABLE_INT   (episode,              selectedepisode,      8),
     CONFIG_VARIABLE_INT   (expansion,            selectedexpansion,    9),
+    CONFIG_VARIABLE_INT   (floatbob,             floatbob,             1),
     CONFIG_VARIABLE_INT   (footclip,             footclip,             1),
     CONFIG_VARIABLE_INT   (fullscreen,           fullscreen,           1),
     CONFIG_VARIABLE_INT   (gamepad_automap,      gamepadautomap,       2),
@@ -939,6 +941,9 @@ static void M_CheckDefaults(void)
 
     if (dclick_use != false && dclick_use != true)
         dclick_use = DCLICKUSE_DEFAULT;
+
+    if (floatbob != false && floatbob != true)
+        floatbob = FLOATBOB_DEFAULT;
 
     if (footclip != false && footclip != true)
         footclip = FOOTCLIP_DEFAULT;

@@ -59,6 +59,8 @@
 #define EXPANSION_DEFAULT               0
 #define EXPANSION_MAX                   1
 
+#define FLOATBOB_DEFAULT                true
+
 #define FOOTCLIP_DEFAULT                true
 
 #define FULLSCREEN_DEFAULT              true
