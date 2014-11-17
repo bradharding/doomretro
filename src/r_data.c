@@ -86,8 +86,6 @@ lighttable_t    *colormaps;
 boolean         *lookuptextures;
 int             lookupprogress;
 
-boolean         floatbob = FLOATBOB_DEFAULT;
-
 static byte notgray[256] =
 {
     0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -806,9 +804,6 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_BARREL].spawnstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 2;
     }
-    if (!floatbob)
-        for (i = 0; i < NUMMOBJTYPES; i++)
-            mobjinfo[i].flags2 &= ~MF2_FLOATBOB;
 }
 
 //

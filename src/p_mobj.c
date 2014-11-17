@@ -49,13 +49,11 @@ mobj_t                  *bloodSplatQueue[BLOODSPLATS_MAX];
 int                     bloodSplatQueueSlot;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
-int                     smoketrails = SMOKETRAILS_DEFAULT;
-
 int                     corpses = CORPSES_DEFAULT;
-
+boolean                 floatbob = FLOATBOB_DEFAULT;
 boolean                 footclip = FOOTCLIP_DEFAULT;
-
 boolean                 shadows = SHADOWS_DEFAULT;
+int                     smoketrails = SMOKETRAILS_DEFAULT;
 
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern boolean          *isliquid;
@@ -496,7 +494,7 @@ void P_MobjThinker(mobj_t *mobj)
             return;             // mobj was removed
     }
 
-    if (mobj->flags2 & MF2_FLOATBOB)
+    if ((mobj->flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
@@ -633,7 +631,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->floorz = mobj->subsector->sector->floorheight;
     mobj->ceilingz = mobj->subsector->sector->ceilingheight;
 
-    if (mobj->flags2 & MF2_FLOATBOB)
+    if ((mobj->flags2 & MF2_FLOATBOB) && floatbob)
         mobj->floatbob = P_Random();
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
