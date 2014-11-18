@@ -924,6 +924,9 @@ void M_SaveDefaults(void)
 
 static void M_CheckDefaults(void)
 {
+    int width;
+    int height;
+
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = ALWAYSRUN_DEFAULT;
 
@@ -1229,6 +1232,15 @@ static void M_CheckDefaults(void)
         widescreen = false;
     }
 
+    width = windowheight * 4 / 3;
+    height = windowwidth * 3 / 4;
+    width += (width & 1);
+    height += (height & 1);
+    if (width != windowwidth || height != windowheight)
+        if (ABS(width - windowwidth) < ABS(height - windowheight))
+            windowheight = height;
+        else
+            windowwidth = width;
     if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
     {
         windowwidth = WINDOWWIDTH_DEFAULT;
