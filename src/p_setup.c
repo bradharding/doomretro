@@ -1163,8 +1163,6 @@ void P_SetupLevel(int episode, int map)
 
     if (!samelevel)
     {
-        P_MapName(gameepisode, gamemap);
-
         free(segs);
         free(nodes);
         free(subsectors);
@@ -1175,6 +1173,8 @@ void P_SetupLevel(int episode, int map)
         free(sectors);
         free(vertexes);
     }
+
+    P_MapName(gameepisode, gamemap);
 
     // note: most of this ordering is important
     P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
