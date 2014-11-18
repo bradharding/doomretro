@@ -323,6 +323,7 @@ void I_SaveWindowPosition(void)
 
     GetWindowRect(hwnd, &r);
     sprintf(windowposition, "%i,%i", r.left + 8, r.top + 30);
+    M_SaveDefaults();
 #endif
 }
 
