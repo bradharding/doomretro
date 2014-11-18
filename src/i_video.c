@@ -1232,8 +1232,8 @@ void I_InitKeyboard(void)
 #endif
 
     translatekey2 = Z_Malloc(arrlen(translatekey), PU_STATIC, NULL);
-    memset(translatekey2, 0, arrlen(translatekey));
-    for (i = 0; i < arrlen(translatekey); i++)
+    memset(translatekey2, 0, arrlen(translatekey2));
+    for (i = 0; i < arrlen(translatekey2); i++)
         translatekey2[translatekey[i]] = i;
 }
 
