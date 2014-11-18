@@ -113,7 +113,6 @@ static int              startx;
 static int              starty;
 static int              pitch;
 
-static int              blitwidth = SCREENWIDTH << FRACBITS;
 static int              blitheight = SCREENHEIGHT << FRACBITS;
 
 byte                    *pixels;
@@ -186,8 +185,6 @@ boolean MouseShouldBeGrabbed(void)
 // and we dont move the mouse around if we aren't focused either.
 static void UpdateFocus(void)
 {
-    static boolean      alreadypaused = false;
-
 #ifdef SDL20
     Uint32              state = SDL_GetWindowFlags(sdl_window);
 
@@ -200,21 +197,18 @@ static void UpdateFocus(void)
 #else
     Uint8               state = SDL_GetAppState();
 
+    // Should the screen be grabbed?
     screenvisible = (state & SDL_APPACTIVE);
 
+    // We should have input (keyboard) focus and be visible
+    // (not minimized)
     window_focused = ((state & SDL_APPINPUTFOCUS) && screenvisible);
 #endif
 
-    if (!window_focused && !menuactive && gamestate == GS_LEVEL)
+    if (!window_focused && !menuactive && gamestate == GS_LEVEL && !paused)
     {
-        if (paused)
-            alreadypaused = true;
-        else
-        {
-            alreadypaused = false;
-            sendpause = true;
-            blurred = false;
-        }
+        sendpause = true;
+        blurred = false;
     }
 }
 
@@ -297,98 +291,7 @@ int translatekey[] =
 #endif
 };
 
-int TranslateKey2(int key)
-{
-    switch (key)
-    {
-
-#ifdef SDL20
-        case KEY_LEFTARROW:    return SDL_SCANCODE_LEFT;
-        case KEY_RIGHTARROW:   return SDL_SCANCODE_RIGHT;
-        case KEY_DOWNARROW:    return SDL_SCANCODE_DOWN;
-        case KEY_UPARROW:      return SDL_SCANCODE_UP;
-        case KEY_ESCAPE:       return SDL_SCANCODE_ESCAPE;
-        case KEY_ENTER:        return SDL_SCANCODE_RETURN;
-        case KEY_TAB:          return SDL_SCANCODE_TAB;
-        case KEY_F1:           return SDL_SCANCODE_F1;
-        case KEY_F2:           return SDL_SCANCODE_F2;
-        case KEY_F3:           return SDL_SCANCODE_F3;
-        case KEY_F4:           return SDL_SCANCODE_F4;
-        case KEY_F5:           return SDL_SCANCODE_F5;
-        case KEY_F6:           return SDL_SCANCODE_F6;
-        case KEY_F7:           return SDL_SCANCODE_F7;
-        case KEY_F8:           return SDL_SCANCODE_F8;
-        case KEY_F9:           return SDL_SCANCODE_F9;
-        case KEY_F10:          return SDL_SCANCODE_F10;
-        case KEY_F11:          return SDL_SCANCODE_F11;
-        case KEY_F12:          return SDL_SCANCODE_F12;
-        case KEY_BACKSPACE:    return SDL_SCANCODE_BACKSPACE;
-        case KEY_DEL:          return SDL_SCANCODE_DELETE;
-        case KEY_PAUSE:        return SDL_SCANCODE_PAUSE;
-        case KEY_EQUALS:       return SDL_SCANCODE_EQUALS;
-        case KEY_MINUS:        return SDL_SCANCODE_MINUS;
-        case KEY_RSHIFT:       return SDL_SCANCODE_RSHIFT;
-        case KEY_RCTRL:        return SDL_SCANCODE_RCTRL;
-        case KEY_RALT:         return SDL_SCANCODE_RALT;
-        case KEY_CAPSLOCK:     return SDL_SCANCODE_CAPSLOCK;
-        case KEY_SCRLCK:       return SDL_SCANCODE_SCROLLLOCK;
-        case KEYP_0:           return SDL_SCANCODE_KP_0;
-        case KEYP_1:           return SDL_SCANCODE_KP_1;
-        case KEYP_3:           return SDL_SCANCODE_KP_3;
-        case KEYP_5:           return SDL_SCANCODE_KP_5;
-        case KEYP_7:           return SDL_SCANCODE_KP_7;
-        case KEYP_9:           return SDL_SCANCODE_KP_9;
-        case KEYP_PERIOD:      return SDL_SCANCODE_KP_PERIOD;
-        case KEYP_MULTIPLY:    return SDL_SCANCODE_KP_MULTIPLY;
-        case KEYP_DIVIDE:      return SDL_SCANCODE_KP_DIVIDE;
-        case KEY_INS:          return SDL_SCANCODE_INSERT;
-        case KEY_NUMLOCK:      return SDL_SCANCODE_NUMLOCKCLEAR;
-#else
-        case KEY_LEFTARROW:    return SDLK_LEFT;
-        case KEY_RIGHTARROW:   return SDLK_RIGHT;
-        case KEY_DOWNARROW:    return SDLK_DOWN;
-        case KEY_UPARROW:      return SDLK_UP;
-        case KEY_ESCAPE:       return SDLK_ESCAPE;
-        case KEY_ENTER:        return SDLK_RETURN;
-        case KEY_TAB:          return SDLK_TAB;
-        case KEY_F1:           return SDLK_F1;
-        case KEY_F2:           return SDLK_F2;
-        case KEY_F3:           return SDLK_F3;
-        case KEY_F4:           return SDLK_F4;
-        case KEY_F5:           return SDLK_F5;
-        case KEY_F6:           return SDLK_F6;
-        case KEY_F7:           return SDLK_F7;
-        case KEY_F8:           return SDLK_F8;
-        case KEY_F9:           return SDLK_F9;
-        case KEY_F10:          return SDLK_F10;
-        case KEY_F11:          return SDLK_F11;
-        case KEY_F12:          return SDLK_F12;
-        case KEY_BACKSPACE:    return SDLK_BACKSPACE;
-        case KEY_DEL:          return SDLK_DELETE;
-        case KEY_PAUSE:        return SDLK_PAUSE;
-        case KEY_EQUALS:       return SDLK_EQUALS;
-        case KEY_MINUS:        return SDLK_MINUS;
-        case KEY_RSHIFT:       return SDLK_RSHIFT;
-        case KEY_RCTRL:        return SDLK_RCTRL;
-        case KEY_RALT:         return SDLK_RALT;
-        case KEY_CAPSLOCK:     return SDLK_CAPSLOCK;
-        case KEY_SCRLCK:       return SDLK_SCROLLOCK;
-        case KEYP_0:           return SDLK_KP0;
-        case KEYP_1:           return SDLK_KP1;
-        case KEYP_3:           return SDLK_KP3;
-        case KEYP_5:           return SDLK_KP5;
-        case KEYP_7:           return SDLK_KP7;
-        case KEYP_9:           return SDLK_KP9;
-        case KEYP_PERIOD:      return SDLK_KP_PERIOD;
-        case KEYP_MULTIPLY:    return SDLK_KP_MULTIPLY;
-        case KEYP_DIVIDE:      return SDLK_KP_DIVIDE;
-        case KEY_INS:          return SDLK_INSERT;
-        case KEY_NUMLOCK:      return SDLK_NUMLOCK;
-#endif
-
-        default:               return key;
-    }
-}
+int *translatekey2;
 
 boolean keystate(int key)
 {
@@ -398,31 +301,28 @@ boolean keystate(int key)
     Uint8       *keystate = SDL_GetKeyState(NULL);
 #endif
 
-    return keystate[TranslateKey2(key)];
+    return keystate[translatekey2[key]];
 }
 
 void I_SaveWindowPosition(void)
 {
 #ifdef WIN32
-    if (!fullscreen)
-    {
-        static SDL_SysWMinfo    info;
-        HWND                    hwnd;
-        RECT                    r;
+    static SDL_SysWMinfo    info;
+    HWND                    hwnd;
+    RECT                    r;
 
-        SDL_VERSION(&info.version);
+    SDL_VERSION(&info.version);
 
 #ifdef SDL20
-        SDL_GetWindowWMInfo(sdl_window, &info);
-        hwnd = info.info.win.window;
+    SDL_GetWindowWMInfo(sdl_window, &info);
+    hwnd = info.info.win.window;
 #else
-        SDL_GetWMInfo(&info);
-        hwnd = info.window;
+    SDL_GetWMInfo(&info);
+    hwnd = info.window;
 #endif
 
-        GetWindowRect(hwnd, &r);
-        sprintf(windowposition, "%i,%i", r.left + 8, r.top + 30);
-    }
+    GetWindowRect(hwnd, &r);
+    sprintf(windowposition, "%i,%i", r.left + 8, r.top + 30);
 #endif
 }
 
@@ -712,7 +612,7 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-static __forceinline void blit(fixed_t width, fixed_t height)
+static __forceinline void blit(void)
 {
     fixed_t     i = 0;
     fixed_t     y = starty;
@@ -725,10 +625,10 @@ static __forceinline void blit(fixed_t width, fixed_t height)
 
         do
             *dest++ = *(src + (x >> FRACBITS));
-        while ((x += stepx) < width);
+        while ((x += stepx) < (SCREENWIDTH << FRACBITS));
 
         i += pitch;
-    } while ((y += stepy) < height);
+    } while ((y += stepy) < blitheight);
 }
 
 SDL_Rect        dest_rect;
@@ -769,7 +669,7 @@ void I_FinishUpdate(void)
     }
 
     // draw to screen
-    blit(blitwidth, blitheight);
+    blit();
 
 #ifdef SDL20
     SDL_BlitSurface(screenbuffer, NULL, screen, NULL);
@@ -799,20 +699,36 @@ void I_SetPalette(byte *doompalette)
 {
     int i;
 
-    for (i = 0; i < 256; ++i)
+    if (saturation == 1.0f)
     {
-        byte    r = *doompalette++;
-        byte    g = *doompalette++;
-        byte    b = *doompalette++;
-        double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
-
-        palette[i].r = gammatable[gammaindex][(byte)(p + (r - p) * saturation)];
-        palette[i].g = gammatable[gammaindex][(byte)(p + (g - p) * saturation)];
-        palette[i].b = gammatable[gammaindex][(byte)(p + (b - p) * saturation)];
+        for (i = 0; i < 256; ++i)
+        {
+            palette[i].r = gammatable[gammaindex][*doompalette++];
+            palette[i].g = gammatable[gammaindex][*doompalette++];
+            palette[i].b = gammatable[gammaindex][*doompalette++];
 
 #ifdef SDL20
-        palette[i].a = 255;
+            palette[i].a = 255;
 #endif
+        }
+    }
+    else
+    {
+        for (i = 0; i < 256; ++i)
+        {
+            byte    r = *doompalette++;
+            byte    g = *doompalette++;
+            byte    b = *doompalette++;
+            double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
+
+            palette[i].r = gammatable[gammaindex][(byte)(p + (r - p) * saturation)];
+            palette[i].g = gammatable[gammaindex][(byte)(p + (g - p) * saturation)];
+            palette[i].b = gammatable[gammaindex][(byte)(p + (b - p) * saturation)];
+
+#ifdef SDL20
+            palette[i].a = 255;
+#endif
+        }
     }
 
     palette_to_set = true;
@@ -1297,6 +1213,8 @@ boolean I_ValidScreenMode(int width, int height)
 
 void I_InitKeyboard(void)
 {
+    int i;
+
 #ifdef WIN32
     capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
 
@@ -1312,6 +1230,11 @@ void I_InitKeyboard(void)
 #else
     SDL_WM_SetCaption(gamedescription, NULL);
 #endif
+
+    translatekey2 = Z_Malloc(arrlen(translatekey), PU_STATIC, NULL);
+    memset(translatekey2, 0, arrlen(translatekey));
+    for (i = 0; i < arrlen(translatekey); i++)
+        translatekey2[translatekey[i]] = i;
 }
 
 void I_InitGraphics(void)
@@ -1385,7 +1308,6 @@ void I_InitGraphics(void)
 #else
     SDL_WM_SetCaption(PACKAGE_NAME, NULL);
 #endif
-    SDL_EnableUNICODE( 1 );
     SDL_FillRect(screenbuffer, NULL, 0);
 
     I_SetPalette(doompal);
