@@ -904,7 +904,7 @@ static void SetVideoMode(void)
 
 void ToggleWideScreen(boolean toggle)
 {
-    if ((double)screen->w / screen->h < (double)16 / 10)
+    if (fullscreen && (double)screen->w / screen->h < (double)16 / 10)
     {
         widescreen = returntowidescreen = false;
         return;
@@ -912,8 +912,8 @@ void ToggleWideScreen(boolean toggle)
 
     if (toggle)
     {
-        if (!dest_rect.x && !dest_rect.y)
-            return;
+        //if (!dest_rect.x && !dest_rect.y)
+        //    return;
 
         widescreen = true;
 
@@ -939,13 +939,16 @@ void ToggleWideScreen(boolean toggle)
     width = height * 4 / 3;
     width += (width & 1);
 
-    if ((double)width / screen->w >= 0.99)
+    if (fullscreen && (double)width / screen->w >= 0.99)
         width = screen->w;
 
     returntowidescreen = false;
 #ifdef SDL20
     SDL_RenderSetLogicalSize(sdl_renderer, width, height);
 #else
+    if (!fullscreen)
+        screen = SDL_SetVideoMode(width, screen->h, 0,
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 #endif
 

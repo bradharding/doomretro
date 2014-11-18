@@ -1882,7 +1882,7 @@ void M_SizeDisplay(int choice)
                     M_SaveDefaults();
                 }
             }
-            else if (screensize == SCREENSIZE_MAX - 1 && fullscreen)
+            else if (screensize == SCREENSIZE_MAX - 1)
             {
                 if (!widescreen)
                 {

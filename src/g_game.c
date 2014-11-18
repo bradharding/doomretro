@@ -604,7 +604,7 @@ void G_DoLoadLevel(void)
     if (automapactive)
         AM_Start();
 
-    if ((fullscreen && widescreen) || returntowidescreen)
+    if (widescreen || returntowidescreen)
         ToggleWideScreen(true);
 }
 
@@ -1536,7 +1536,7 @@ void G_DoLoadGame(void)
     if (setsizeneeded)
         R_ExecuteSetViewSize();
 
-    if (fullscreen && widescreen)
+    if (widescreen)
         ToggleWideScreen(true);
 
     // draw the pattern into the back screen
@@ -1670,7 +1670,7 @@ void G_DoNewGame(void)
     deathmatch = 0;
     playeringame[1] = playeringame[2] = playeringame[3] = 0;
 
-    if (fullscreen && widescreen)
+    if (widescreen)
         ToggleWideScreen(true);
 
     consoleplayer = 0;
