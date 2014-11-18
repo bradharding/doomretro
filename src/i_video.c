@@ -327,6 +327,22 @@ void I_SaveWindowPosition(void)
 #endif
 }
 
+void RepositionWindow(int amount)
+{
+    SDL_SysWMinfo       info;
+
+    SDL_VERSION(&info.version);
+
+    if (SDL_GetWMInfo(&info))
+    {
+        HWND    hwnd = info.window;
+        RECT    r;
+
+        GetWindowRect(hwnd, &r);
+        SetWindowPos(hwnd, NULL, r.left + amount, r.top, 0, 0, SWP_NOSIZE);
+    }
+}
+
 void I_ShutdownGraphics(void)
 {
     SetShowCursor(true);
@@ -490,13 +506,13 @@ void I_GetEvent(void)
                 palette_to_set = true;
                 break;
 
-            case SDL_VIDEORESIZE:
-                if (!fullscreen)
-                {
-                    need_resize = true;
-                    resize_h = sdlevent.resize.h;
-                }
-                break;
+//            case SDL_VIDEORESIZE:
+//                if (!fullscreen)
+//                {
+//                    need_resize = true;
+//                    resize_h = sdlevent.resize.h;
+//                }
+//                break;
 #endif
 
 #ifdef WIN32
@@ -912,9 +928,6 @@ void ToggleWideScreen(boolean toggle)
 
     if (toggle)
     {
-        //if (!dest_rect.x && !dest_rect.y)
-        //    return;
-
         widescreen = true;
 
         if (returntowidescreen && screensize == 8)
@@ -947,8 +960,13 @@ void ToggleWideScreen(boolean toggle)
     SDL_RenderSetLogicalSize(sdl_renderer, width, height);
 #else
     if (!fullscreen)
+    {
+        int     diff = (screen->w - width) / 2;
+
         screen = SDL_SetVideoMode(width, screen->h, 0,
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+        RepositionWindow(diff);
+    }
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 #endif
 
