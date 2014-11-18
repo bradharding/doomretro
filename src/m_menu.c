@@ -1592,7 +1592,7 @@ void M_DrawOptions(void)
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
         (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL)) + !hud),
-        (fullscreen ? 7.2f : 8.0f));
+        7.2f);
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + 1, 9,
