@@ -1383,19 +1383,21 @@ void A_VileTarget(mobj_t *actor)
 void A_VileAttack(mobj_t *actor)
 {
     mobj_t      *fire;
+    mobj_t      *target = actor->target;
     int         an;
 
-    if (!actor->target)
+    if (!target)
         return;
 
     A_FaceTarget(actor);
 
-    if (!P_CheckSight(actor, actor->target))
+    if (!P_CheckSight(actor, target))
         return;
 
     S_StartSound(actor, sfx_barexp);
-    P_DamageMobj(actor->target, actor, actor, 20);
-    actor->target->momz = 1000 * FRACUNIT / actor->target->info->mass;
+    P_DamageMobj(target, actor, actor, 20);
+    if (!target->player || !(target->flags & MF_NOCLIP))
+        target->momz = 1000 * FRACUNIT / target->info->mass;
 
     an = actor->angle >> ANGLETOFINESHIFT;
 
@@ -1405,8 +1407,8 @@ void A_VileAttack(mobj_t *actor)
         return;
 
     // move the fire between the vile and the player
-    fire->x = actor->target->x - FixedMul(24 * FRACUNIT, finecosine[an]);
-    fire->y = actor->target->y - FixedMul(24 * FRACUNIT, finesine[an]);
+    fire->x = target->x - FixedMul(24 * FRACUNIT, finecosine[an]);
+    fire->y = target->y - FixedMul(24 * FRACUNIT, finesine[an]);
     P_RadiusAttack(fire, actor, 70);
 }
 
