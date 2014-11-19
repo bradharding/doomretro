@@ -784,7 +784,7 @@ static void SetWindowPositionVars(void)
         putenv("SDL_VIDEO_CENTERED=1");
 }
 
-static void SetVideoMode(void)
+static void GetDesktopDimensions(void)
 {
 #ifdef SDL20
     SDL_Rect            displaybounds;
@@ -798,7 +798,10 @@ static void SetVideoMode(void)
     desktopwidth = videoinfo->current_w;
     desktopheight = videoinfo->current_h;
 #endif
+}
 
+static void SetVideoMode(void)
+{
     if (fullscreen)
     {
         width = screenwidth;
@@ -1040,6 +1043,8 @@ void ToggleFullScreen(void)
             if (!screen)
                 I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
         }
+
+        GetDesktopDimensions();
 
         if (screensize == 8)
         {
@@ -1316,6 +1321,8 @@ void I_InitGraphics(void)
             screenwidth = 0;
             screenheight = 0;
         }
+
+    GetDesktopDimensions();
 
     SetVideoMode();
 
