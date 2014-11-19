@@ -266,7 +266,10 @@ typedef enum
     MF2_DONOTMAP                  = 0x00800000,
 
     // Object has smoke trail
-    MF2_SMOKETRAIL                = 0x01000000
+    MF2_SMOKETRAIL                = 0x01000000,
+
+    // Object can be crushed into blood splats by moving sectors
+    MF2_CRUSHABLE                 = 0x02000000
 } mobjflag2_t;
 
 // Map Object definition.

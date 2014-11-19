@@ -1738,8 +1738,10 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
 //  the way it was and call P_ChangeSector again
 //  to undo the changes.
 //
-static boolean crushchange;
-static boolean nofit;
+static boolean  crushchange;
+static boolean  nofit;
+static boolean  isliquidsector;
+static fixed_t  floorheight;
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
@@ -1748,51 +1750,40 @@ void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 //
 boolean PIT_ChangeSector(mobj_t *thing)
 {
-    player_t    *player;
     mobjtype_t  type = thing->type;
     int         flags = thing->flags;
+    int         flags2 = thing->flags2;
 
-    if (isliquid[thing->subsector->sector->floorpic])
+    if (isliquidsector)
     {
         thing->flags2 |= MF2_FEETARECLIPPED;
-        if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+        if ((flags2 & MF2_SHADOW) && thing->shadow)
             thing->shadow->flags2 |= MF2_FEETARECLIPPED;
     }
-    else if (thing->flags2 & MF2_FEETARECLIPPED)
+    else if (flags2 & MF2_FEETARECLIPPED)
     {
         thing->flags2 &= ~MF2_FEETARECLIPPED;
-        if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+        if ((flags2 & MF2_SHADOW) && thing->shadow)
             thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
     }
 
     if (P_ThingHeightClip(thing))
         return true;    // keep checking
 
-    player = &players[consoleplayer];
-
-    if (type == MT_PLAYER
-        && (player->health <= 0
-            || player->powers[pw_invulnerability]
-            || (player->cheats & CF_GODMODE)))
-    {
-        nofit = true;
-        return true;
-    }
-
-    // crunch dropped items
-    if (flags & MF_DROPPED)
-    {
-        P_RemoveMobj(thing);
-        if (thing->shadow)
-            P_RemoveMobj(thing->shadow);
-
-        // keep checking
-        return true;
-    }
-
     // crunch bodies to giblets
-    if (thing->health <= 0 && type != MT_BARREL && type != MT_SKULL && type != MT_PAIN && !chex)
+    if (thing->health <= 0 && (flags2 & MF2_CRUSHABLE))
     {
+        if (type == MT_PLAYER)
+        {
+            player_t    *player = thing->player;
+
+            if (player->powers[pw_invulnerability] || (player->cheats & CF_GODMODE))
+            {
+                nofit = true;
+                return true;
+            }
+        }
+
         if (!(flags & MF_FUZZ) && !(flags & MF_NOBLOOD))
         {
             int i;
@@ -1816,6 +1807,17 @@ boolean PIT_ChangeSector(mobj_t *thing)
         return true;
     }
 
+    // crunch dropped items
+    if (flags & MF_DROPPED)
+    {
+        P_RemoveMobj(thing);
+        if (thing->shadow)
+            P_RemoveMobj(thing->shadow);
+
+        // keep checking
+        return true;
+    }
+
     if (!(flags & MF_SHOOTABLE))
         return true;    // assume it is bloody gibs or something
 
@@ -1828,7 +1830,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
     return true;
 }
 
-static void P_UpdateBloodSplat(mobj_t *splat, fixed_t floorheight, boolean isliquidsector)
+static void P_UpdateBloodSplat(mobj_t *splat)
 {
     splat->z = floorheight;
 
@@ -1839,7 +1841,7 @@ static void P_UpdateBloodSplat(mobj_t *splat, fixed_t floorheight, boolean isliq
     }
 }
 
-static void P_UpdateShadow(mobj_t *shadow, fixed_t floorheight)
+static void P_UpdateShadow(mobj_t *shadow)
 {
     shadow->z = floorheight;
 }
@@ -1854,20 +1856,20 @@ static void P_UpdateShadow(mobj_t *shadow, fixed_t floorheight)
 boolean P_ChangeSector(sector_t *sector, boolean crunch)
 {
     msecnode_t  *n;
-    fixed_t     floorheight = sector->floorheight;
-    boolean     isliquidsector = isliquid[sector->floorpic];
 
     nofit = false;
     crushchange = crunch;
+    isliquidsector = isliquid[sector->floorpic];
+    floorheight = sector->floorheight;
 
     for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
     {
         mobj_t  *mobj = n->m_thing;
 
         if (mobj->type == MT_BLOODSPLAT)
-            P_UpdateBloodSplat(mobj, floorheight, isliquidsector);
+            P_UpdateBloodSplat(mobj);
         else if (mobj->type == MT_SHADOW)
-            P_UpdateShadow(mobj, floorheight);
+            P_UpdateShadow(mobj);
         else if (!(mobj->flags & MF_NOBLOCKMAP))                // jff 4/7/98 don't do these
             PIT_ChangeSector(mobj);                             // process it
     }
