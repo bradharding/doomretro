@@ -494,7 +494,7 @@ static char *SaveGameIWADName(void)
     // Note that we match on gamemission rather than on IWAD name.
     // This ensures that doom1.wad and doom.wad saves are stored
     // in the same place.
-    if (nerve)
+    if (gamemission == pack_nerve)
         return "NERVE.WAD";
     else if (chex)
         return "CHEX.WAD";
