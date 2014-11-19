@@ -1678,6 +1678,8 @@ void M_EndGameResponse(int key)
         ToggleWideScreen(false);
         returntowidescreen = true;
     }
+    usergame = false;
+    M_UpdateWindowCaption();
     D_StartTitle(1);
 }
 
