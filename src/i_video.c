@@ -333,11 +333,21 @@ void RepositionWindow(int amount)
 
     SDL_VERSION(&info.version);
 
+#ifdef SDL20
+    if (SDL_GetWindowWMInfo(sdl_window, &info))
+#else
     if (SDL_GetWMInfo(&info))
+#endif
     {
-        HWND    hwnd = info.window;
+        HWND    hwnd;
         RECT    r;
 
+#ifdef SDL20
+        hwnd = info.info.win.window;
+#else
+        hwnd = info.window;
+#endif
+        
         GetWindowRect(hwnd, &r);
         SetWindowPos(hwnd, NULL, r.left + amount, r.top, 0, 0, SWP_NOSIZE);
     }

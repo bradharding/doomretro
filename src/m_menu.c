@@ -1469,6 +1469,10 @@ void M_DrawEpisode(void)
         M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
 }
 
+#ifdef SDL20
+extern SDL_Window *sdl_window;
+#endif
+
 void M_UpdateWindowCaption(void)
 {
     static char caption[64];
