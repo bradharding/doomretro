@@ -1469,6 +1469,30 @@ void M_DrawEpisode(void)
         M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
 }
 
+void M_UpdateWindowCaption(void)
+{
+    static char caption[64];
+
+    if (usergame)
+        return;
+
+    if (currentMenu == &ExpDef || currentMenu == &NewDef)
+    {
+        M_snprintf(caption, 64, "%s: %s", gamedescription,
+            (selectedexpansion == ex1 ? "Hell On Earth" : "No Rest For The Living"));
+        if (bfgedition)
+            M_snprintf(caption, 64, "%s (BFG Edition)", caption);
+    }
+    else
+        M_StringCopy(caption, gamedescription, 64);
+
+#ifdef SDL20
+    SDL_SetWindowTitle(sdl_window, caption);
+#else
+    SDL_WM_SetCaption(caption, NULL);
+#endif
+}
+
 void M_DrawExpansion(void)
 {
     M_DarkBackground();
@@ -2702,7 +2726,7 @@ boolean M_Responder(event_t *ev)
                 M_SaveDefaults();
             }
             keywait = I_GetTime() + 2;
-
+            M_UpdateWindowCaption();
             return false;
         }
         else if (key == KEY_UPARROW && keywait < I_GetTime())
@@ -2765,7 +2789,7 @@ boolean M_Responder(event_t *ev)
                 M_SaveDefaults();
             }
             keywait = I_GetTime() + 2;
-
+            M_UpdateWindowCaption();
             return false;
         }
 
@@ -2835,6 +2859,7 @@ boolean M_Responder(event_t *ev)
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
             }
+            M_UpdateWindowCaption();
             skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef);
             return skipaction;
         }
@@ -2866,6 +2891,7 @@ boolean M_Responder(event_t *ev)
                 if (returntowidescreen)
                     ToggleWideScreen(true);
             }
+            M_UpdateWindowCaption();
             return true;
         }
 
@@ -2916,6 +2942,7 @@ boolean M_Responder(event_t *ev)
                         SaveDef.lastOn = selectedsavegame = itemOn;
                         M_SaveDefaults();
                     }
+                    M_UpdateWindowCaption();
                     return false;
                 }
             }
@@ -2964,6 +2991,7 @@ boolean M_Responder(event_t *ev)
                         SaveDef.lastOn = selectedsavegame = itemOn;
                         M_SaveDefaults();
                     }
+                    M_UpdateWindowCaption();
                     return false;
                 }
             }
