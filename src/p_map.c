@@ -1828,22 +1828,20 @@ boolean PIT_ChangeSector(mobj_t *thing)
     return true;
 }
 
-static void P_UpdateBloodSplat(mobj_t *splat)
+static void P_UpdateBloodSplat(mobj_t *splat, fixed_t floorheight, boolean isliquidsector)
 {
-    sector_t    *sec = splat->subsector->sector;
+    splat->z = floorheight;
 
-    splat->z = sec->floorheight;
-
-    if (isliquid[sec->floorpic])
+    if (isliquidsector)
     {
         P_UnsetThingPosition(splat);
         ((thinker_t *)splat)->function.acv = (actionf_v)(-1);
     }
 }
 
-static void P_UpdateShadow(mobj_t *shadow)
+static void P_UpdateShadow(mobj_t *shadow, fixed_t floorheight)
 {
-    shadow->z = shadow->subsector->sector->floorheight;
+    shadow->z = floorheight;
 }
 
 //
@@ -1856,42 +1854,23 @@ static void P_UpdateShadow(mobj_t *shadow)
 boolean P_ChangeSector(sector_t *sector, boolean crunch)
 {
     msecnode_t  *n;
+    fixed_t     floorheight = sector->floorheight;
+    boolean     isliquidsector = isliquid[sector->floorpic];
 
     nofit = false;
     crushchange = crunch;
 
-    // killough 4/4/98: scan list front-to-back until empty or exhausted,
-    // restarting from beginning after each thing is processed. Avoids
-    // crashes, and is sure to examine all things in the sector, and only
-    // the things which are in the sector, until a steady-state is reached.
-    // Things can arbitrarily be inserted and removed and it won't mess up.
-    //
-    // killough 4/7/98: simplified to avoid using complicated counter
-
-    // Mark all things invalid
-    for (n = sector->touching_thinglist; n; n = n->m_snext)
-        n->visited = false;
-
-    do
+    for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
     {
-        for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
-        {
-            if (!n->visited)                                    // unprocessed thing found
-            {
-                mobj_t  *mobj = n->m_thing;
+        mobj_t  *mobj = n->m_thing;
 
-                n->visited = true;                              // mark thing as processed
-                if (mobj->type == MT_BLOODSPLAT)
-                    P_UpdateBloodSplat(mobj);
-                else if (mobj->type == MT_SHADOW)
-                    P_UpdateShadow(mobj);
-                else if (!(mobj->flags & MF_NOBLOCKMAP))        // jff 4/7/98 don't do these
-                    PIT_ChangeSector(mobj);                     // process it
-                break;                                          // exit and start over
-            }
-        }
+        if (mobj->type == MT_BLOODSPLAT)
+            P_UpdateBloodSplat(mobj, floorheight, isliquidsector);
+        else if (mobj->type == MT_SHADOW)
+            P_UpdateShadow(mobj, floorheight);
+        else if (!(mobj->flags & MF_NOBLOCKMAP))                // jff 4/7/98 don't do these
+            PIT_ChangeSector(mobj);                             // process it
     }
-    while (n);  // repeat from scratch until all things left are marked valid
 
     return nofit;
 }
@@ -1955,8 +1934,6 @@ static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode
     // Couldn't find an existing node for this sector. Add one at the head
     // of the list.
     node = P_GetSecnode();
-
-    node->visited = 0;                          // killough 4/4/98, 4/7/98: mark new nodes unvisited.
 
     node->m_sector = s;                         // sector
     node->m_thing = thing;                      // mobj

@@ -527,7 +527,6 @@ typedef struct msecnode_s
     struct msecnode_s   *m_tnext;       // next msecnode_t for this thing
     struct msecnode_s   *m_sprev;       // prev msecnode_t for this sector
     struct msecnode_s   *m_snext;       // next msecnode_t for this sector
-    boolean             visited;        // killough 4/4/98, 4/7/98: used in search algorithms
 } msecnode_t;
 
 //
