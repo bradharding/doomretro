@@ -309,28 +309,6 @@ boolean keystate(int key)
 void I_SaveWindowPosition(void)
 {
 #ifdef WIN32
-    static SDL_SysWMinfo    info;
-    HWND                    hwnd;
-    RECT                    r;
-
-    SDL_VERSION(&info.version);
-
-#ifdef SDL20
-    SDL_GetWindowWMInfo(sdl_window, &info);
-    hwnd = info.info.win.window;
-#else
-    SDL_GetWMInfo(&info);
-    hwnd = info.window;
-#endif
-
-    GetWindowRect(hwnd, &r);
-    sprintf(windowposition, "%i,%i", r.left + 8, r.top + 30);
-    M_SaveDefaults();
-#endif
-}
-
-void RepositionWindow(int amount)
-{
     SDL_SysWMinfo       info;
 
     SDL_VERSION(&info.version);
@@ -349,10 +327,42 @@ void RepositionWindow(int amount)
 #else
         hwnd = info.window;
 #endif
-        
+
+        GetWindowRect(hwnd, &r);
+        if (widescreen)
+            r.left += (screen->w - screenbuffer->w) / 2;
+        sprintf(windowposition, "%i,%i", r.left + 8, r.top + 30);
+        M_SaveDefaults();
+    }
+#endif
+}
+
+void RepositionWindow(int amount)
+{
+#ifdef WIN32
+    SDL_SysWMinfo       info;
+
+    SDL_VERSION(&info.version);
+
+#ifdef SDL20
+    if (SDL_GetWindowWMInfo(sdl_window, &info))
+#else
+    if (SDL_GetWMInfo(&info))
+#endif
+    {
+        HWND    hwnd;
+        RECT    r;
+
+#ifdef SDL20
+        hwnd = info.info.win.window;
+#else
+        hwnd = info.window;
+#endif
+
         GetWindowRect(hwnd, &r);
         SetWindowPos(hwnd, NULL, r.left + amount, r.top, 0, 0, SWP_NOSIZE);
     }
+#endif
 }
 
 void I_ShutdownGraphics(void)
