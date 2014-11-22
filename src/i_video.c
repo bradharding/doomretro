@@ -1062,13 +1062,12 @@ void ToggleFullScreen(void)
 
         GetDesktopDimensions();
 
-        if (screensize == 8)
+        if (widescreen)
         {
             if (gamestate != GS_LEVEL)
                 returntowidescreen = true;
             else
             {
-                dest_rect.x = 1;
                 ToggleWideScreen(true);
                 if (widescreen)
                     screensize = 7;
@@ -1108,6 +1107,7 @@ void ToggleFullScreen(void)
             windowwidth += (windowwidth & 1);
             M_SaveDefaults();
         }
+
         height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
         width = height * 4 / 3;
         width += (width & 1);
@@ -1117,14 +1117,6 @@ void ToggleFullScreen(void)
             width = windowwidth;
             height = width * 3 / 4;
             height += (height & 1);
-        }
-
-        if (widescreen)
-        {
-            widescreen = false;
-            screensize = 8;
-            R_SetViewSize(screensize);
-            blitheight = SCREENHEIGHT << FRACBITS;
         }
 
         SetWindowPositionVars();
@@ -1163,6 +1155,21 @@ void ToggleFullScreen(void)
         ev.data1 = KEY_RALT;
         ev.data2 = 0;
         D_PostEvent(&ev);
+
+        if (widescreen)
+        {
+            if (gamestate != GS_LEVEL)
+                returntowidescreen = true;
+            else
+            {
+                ToggleWideScreen(true);
+                if (widescreen)
+                    screensize = 7;
+                R_SetViewSize(screensize);
+                M_SaveDefaults();
+                return;
+            }
+        }
     }
 
 #ifdef SDL20

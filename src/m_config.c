@@ -1213,7 +1213,7 @@ static void M_CheckDefaults(void)
 
     if (!widescreen)
         hud = true;
-    if (fullscreen && screensize == SCREENSIZE_MAX)
+    if (screensize == SCREENSIZE_MAX)
     {
         widescreen = true;
         screensize = SCREENSIZE_MAX - 1;
