@@ -836,8 +836,8 @@ static void SetVideoMode(void)
         screen = SDL_GetWindowSurface(sdl_window);
         sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
 #else
-        screen = SDL_SetVideoMode(width, height, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+        screen = SDL_SetVideoMode(width, height, 0, SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF |
+            SDL_FULLSCREEN);
 #endif
 
         if (!screen)
@@ -854,8 +854,8 @@ static void SetVideoMode(void)
             screen = SDL_GetWindowSurface(sdl_window);
             sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
 #else
-            screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
-                SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+            screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0, SDL_HWSURFACE |
+                SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 #endif
 
             if (!screen)
@@ -903,8 +903,8 @@ static void SetVideoMode(void)
         screen = SDL_GetWindowSurface(sdl_window);
         sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
 #else
-        screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+        screen = SDL_SetVideoMode(windowwidth, windowheight, 0, SDL_HWSURFACE | SDL_HWPALETTE |
+            SDL_DOUBLEBUF | SDL_RESIZABLE);
 #endif
 
         widescreen = false;
@@ -942,6 +942,8 @@ void ToggleWideScreen(boolean toggle)
         return;
     }
 
+    height = screen->h;
+
     if (toggle)
     {
         widescreen = true;
@@ -952,15 +954,13 @@ void ToggleWideScreen(boolean toggle)
             R_SetViewSize(screensize);
         }
 
-        height = screen->h + (int)((double)screen->h * 32 / (ORIGINALHEIGHT - 32) + 1.5);
+        height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);
 
         blitheight = (SCREENHEIGHT - SBARHEIGHT) << FRACBITS;
     }
     else
     {
         widescreen = false;
-
-        height = screen->h;
 
         blitheight = SCREENHEIGHT << FRACBITS;
     }
@@ -980,8 +980,8 @@ void ToggleWideScreen(boolean toggle)
         int     diff = (screen->w - width) / 2;
 
         widescreenresize = true;
-        screen = SDL_SetVideoMode(width, screen->h, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+        screen = SDL_SetVideoMode(width, screen->h, 0, SDL_HWSURFACE | SDL_HWPALETTE |
+            SDL_DOUBLEBUF | SDL_RESIZABLE);
         RepositionWindow(diff);
         windowwidth = screen->w;
         windowheight = screen->h;
@@ -1032,8 +1032,8 @@ void ToggleFullScreen(void)
         screen = SDL_GetWindowSurface(sdl_window);
         sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
 #else
-        screen = SDL_SetVideoMode(width, height, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+        screen = SDL_SetVideoMode(width, height, 0, SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF |
+            SDL_FULLSCREEN);
 #endif
 
         if (!screen)
@@ -1052,8 +1052,8 @@ void ToggleFullScreen(void)
             screen = SDL_GetWindowSurface(sdl_window);
             sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
 #else
-            screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0,
-                SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+            screen = SDL_SetVideoMode(desktopwidth, desktopheight, 0, SDL_HWSURFACE |
+                SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 #endif
 
             if (!screen)
@@ -1129,8 +1129,8 @@ void ToggleFullScreen(void)
         screen = SDL_GetWindowSurface(sdl_window);
         sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_PRESENTVSYNC);
 #else
-        screen = SDL_SetVideoMode(width, height, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+        screen = SDL_SetVideoMode(width, height, 0, SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF |
+            SDL_RESIZABLE);
 #endif
 
         CreateCursors();
@@ -1196,11 +1196,12 @@ void ToggleFullScreen(void)
 
 static void ApplyWindowResize(int resize_h)
 {
-    windowheight = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
+    windowheight = height = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
     windowwidth = windowheight * screen->w / screen->h;
     windowwidth += (windowwidth & 1);
 
-    height = windowwidth * screenbuffer->h / screenbuffer->w;
+    if (widescreen)
+        height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);
 
 #ifdef SDL20
     SDL_SetWindowSize(sdl_window, windowwidth, windowheight);
@@ -1209,8 +1210,8 @@ static void ApplyWindowResize(int resize_h)
     screenbuffer = SDL_CreateRGBSurface(0, windowwidth, height, 8, 0, 0, 0, 0);
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
 #else
-    screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
-        SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
+    screen = SDL_SetVideoMode(windowwidth, windowheight, 0, SDL_HWSURFACE | SDL_HWPALETTE |
+        SDL_DOUBLEBUF | SDL_RESIZABLE);
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, height, 8, 0, 0, 0, 0);
 #endif
