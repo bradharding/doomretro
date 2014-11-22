@@ -624,7 +624,10 @@ static void UpdateGrab(void)
     boolean     grab = MouseShouldBeGrabbed();
 
     if (grab && !currently_grabbed)
+    {
         SetShowCursor(false);
+        CenterMouse();
+    }
     else if (!grab && currently_grabbed)
     {
         SetShowCursor(true);
@@ -635,7 +638,6 @@ static void UpdateGrab(void)
         SDL_WarpMouse(screen->w - 16, screen->h - 16);
 #endif
 
-        SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
     }
 
