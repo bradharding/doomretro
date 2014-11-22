@@ -84,6 +84,7 @@ int                     fullscreen = FULLSCREEN_DEFAULT;
 
 boolean                 widescreen = WIDESCREEN_DEFAULT;
 boolean                 returntowidescreen = false;
+boolean                 widescreenresize = false;
 boolean                 hud = HUD_DEFAULT;
 
 // Flag indicating whether the screen is currently visible:
@@ -97,6 +98,7 @@ static SDL_Cursor       *cursors[2];
 
 // Window resize state.
 static boolean          need_resize = false;
+static unsigned int     resize_w;
 static unsigned int     resize_h;
 
 int                     desktopwidth;
@@ -156,7 +158,7 @@ int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 int                     capslock;
 boolean                 alwaysrun = ALWAYSRUN_DEFAULT;
 
-static void ApplyWindowResize(int height);
+static void ApplyWindowResize(int resize_h);
 static void SetWindowPositionVars(void);
 
 boolean MouseShouldBeGrabbed(void)
@@ -516,13 +518,14 @@ void I_GetEvent(void)
                 palette_to_set = true;
                 break;
 
-//            case SDL_VIDEORESIZE:
-//                if (!fullscreen)
-//                {
-//                    need_resize = true;
-//                    resize_h = sdlevent.resize.h;
-//                }
-//                break;
+            case SDL_VIDEORESIZE:
+                if (!fullscreen && !widescreenresize)
+                {
+                    need_resize = true;
+                    resize_h = sdlevent.resize.h;
+                }
+                widescreenresize = false;
+                break;
 #endif
 
 #ifdef WIN32
@@ -976,9 +979,12 @@ void ToggleWideScreen(boolean toggle)
     {
         int     diff = (screen->w - width) / 2;
 
+        widescreenresize = true;
         screen = SDL_SetVideoMode(width, screen->h, 0,
             SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
         RepositionWindow(diff);
+        windowwidth = screen->w;
+        windowheight = screen->h;
     }
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 #endif
@@ -1181,30 +1187,32 @@ void ToggleFullScreen(void)
     M_SaveDefaults();
 }
 
-static void ApplyWindowResize(int height)
+static void ApplyWindowResize(int resize_h)
 {
-    windowheight = MAX(SCREENWIDTH * 3 / 4, height);
-    windowwidth = windowheight * 4 / 3;
+    windowheight = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
+    windowwidth = windowheight * screen->w / screen->h;
     windowwidth += (windowwidth & 1);
+
+    height = windowwidth * screenbuffer->h / screenbuffer->w;
 
 #ifdef SDL20
     SDL_SetWindowSize(sdl_window, windowwidth, windowheight);
     screen = SDL_GetWindowSurface(sdl_window);
 
-    screenbuffer = SDL_CreateRGBSurface(0, windowwidth, windowheight, 8, 0, 0, 0, 0);
+    screenbuffer = SDL_CreateRGBSurface(0, windowwidth, height, 8, 0, 0, 0, 0);
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
 #else
     screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
         SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
-    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, windowheight, 8, 0, 0, 0, 0);
+    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, height, 8, 0, 0, 0, 0);
 #endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
 
     stepx = (SCREENWIDTH << FRACBITS) / windowwidth;
-    stepy = (SCREENHEIGHT << FRACBITS) / windowheight;
+    stepy = (SCREENHEIGHT << FRACBITS) / height;
 
     startx = stepx - 1;
     starty = stepy - 1;

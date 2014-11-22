@@ -1224,10 +1224,8 @@ static void M_CheckDefaults(void)
         widescreen = false;
     }
     if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
-    {
-        windowwidth = WINDOWWIDTH_DEFAULT;
         windowheight = WINDOWHEIGHT_DEFAULT;
-    }
+    windowwidth = windowheight * 4 / 3;
 
     M_SaveDefaults();
 }
