@@ -67,6 +67,7 @@ GOTMAP = Computer Area Map!
 GOTVISOR = Light Amplification Visor!
 GOTCLIP = You picked up a clip.
 GOTCLIPX2 = You picked up two clips.
+GOTHALFCLIP = You picked up half a clip.
 GOTCLIPBOX = You picked up a box of bullets.
 GOTROCKET = You picked up a rocket.
 GOTROCKETX2 = You picked up two rockets.

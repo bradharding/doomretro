@@ -77,6 +77,7 @@ extern char     *s_GOTVISOR;
 
 extern char     *s_GOTCLIP;
 extern char     *s_GOTCLIPX2;
+extern char     *s_GOTHALFCLIP;
 extern char     *s_GOTCLIPBOX;
 extern char     *s_GOTROCKET;
 extern char     *s_GOTROCKETX2;

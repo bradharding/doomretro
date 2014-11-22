@@ -582,7 +582,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(ammo = P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED))))
                 return;
             if (!message_dontfuckwithme)
-                player->message = (ammo == 10 ? s_GOTCLIPX2 : s_GOTCLIP);
+                player->message = (ammo == clipammo[am_clip] ? s_GOTCLIP : (ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2));
             break;
 
         case SPR_AMMO:
@@ -596,7 +596,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(ammo = P_GiveAmmo(player, am_misl, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = (ammo == 2 ? s_GOTROCKETX2 : s_GOTROCKET);
+                player->message = (ammo == clipammo[am_misl] ? s_GOTROCKET : s_GOTROCKETX2);
             break;
 
         case SPR_BROK:
@@ -610,7 +610,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(ammo = P_GiveAmmo(player, am_cell, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = (ammo == 2 ? s_GOTCELLX2 : s_GOTCELL);
+                player->message = (ammo == clipammo[am_cell] ? s_GOTCELL : s_GOTCELLX2);
             break;
 
         case SPR_CELP:
@@ -624,7 +624,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(ammo = P_GiveAmmo(player, am_shell, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = (ammo == 8 ? s_GOTSHELLSX2 : s_GOTSHELLS);
+                player->message = (ammo == clipammo[am_shell] ? s_GOTSHELLS : s_GOTSHELLSX2);
             break;
 
         case SPR_SBOX:

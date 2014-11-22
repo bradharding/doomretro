@@ -673,6 +673,7 @@
 #define GAMMALVL                ""
 #define GAMMAOFF                ""
 #define GOTCLIPX2               ""
+#define GOTHALFCLIP             ""
 #define GOTROCKETX2             ""
 #define GOTCELLX2               ""
 #define GOTSHELLSX2             ""
