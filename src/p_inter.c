@@ -93,17 +93,17 @@ boolean obituaries = true;
 // P_GiveAmmo
 // Num is the number of clip loads,
 // not the individual count (0= 1/2 clip).
-// Returns false if the ammo can't be picked up at all
+// Returns the amount of ammo given to the player
 //
-boolean P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
+int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
 {
     int oldammo;
 
     if (ammo == am_noammo)
-        return false;
+        return 0;
 
     if (player->ammo[ammo] == player->maxammo[ammo])
-        return false;
+        return 0;
 
     if (num)
         num *= clipammo[ammo];
@@ -122,7 +122,7 @@ boolean P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
 
     // If non zero ammo, don't change up weapons, player was lower on purpose.
     if (oldammo)
-        return true;
+        return num;
 
     // We were down to zero, so select a new weapon.
     // Preferences are not user selectable.
@@ -161,7 +161,7 @@ boolean P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
         default:
             break;
     }
-    return true;
+    return num;
 }
 
 void P_AddBonus(player_t *player, int amount)
@@ -356,6 +356,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     fixed_t     delta = special->z - toucher->z;
     int         sound;
     int         weaponowned;
+    int         ammo;
     boolean     ammogiven = false;
     static int  prevsound = 0;
     static int  prevtic = 0;
@@ -578,10 +579,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         // ammo
         case SPR_CLIP:
-            if (!P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED)))
+            if (!(ammo = P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED))))
                 return;
             if (!message_dontfuckwithme)
-                player->message = s_GOTCLIP;
+                player->message = (ammo == 10 ? s_GOTCLIPX2 : s_GOTCLIP);
             break;
 
         case SPR_AMMO:
@@ -592,10 +593,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_ROCK:
-            if (!P_GiveAmmo(player, am_misl, 1))
+            if (!(ammo = P_GiveAmmo(player, am_misl, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = s_GOTROCKET;
+                player->message = (ammo == 2 ? s_GOTROCKETX2 : s_GOTROCKET);
             break;
 
         case SPR_BROK:
@@ -606,10 +607,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_CELL:
-            if (!P_GiveAmmo(player, am_cell, 1))
+            if (!(ammo = P_GiveAmmo(player, am_cell, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = s_GOTCELL;
+                player->message = (ammo == 2 ? s_GOTCELLX2 : s_GOTCELL);
             break;
 
         case SPR_CELP:
@@ -620,10 +621,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_SHEL:
-            if (!P_GiveAmmo(player, am_shell, 1))
+            if (!(ammo = P_GiveAmmo(player, am_shell, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = s_GOTSHELLS;
+                player->message = (ammo == 8 ? s_GOTSHELLSX2 : s_GOTSHELLS);
             break;
 
         case SPR_SBOX:

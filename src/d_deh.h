@@ -76,12 +76,16 @@ extern char     *s_GOTMAP;
 extern char     *s_GOTVISOR;
 
 extern char     *s_GOTCLIP;
+extern char     *s_GOTCLIPX2;
 extern char     *s_GOTCLIPBOX;
 extern char     *s_GOTROCKET;
+extern char     *s_GOTROCKETX2;
 extern char     *s_GOTROCKBOX;
 extern char     *s_GOTCELL;
+extern char     *s_GOTCELLX2;
 extern char     *s_GOTCELLBOX;
 extern char     *s_GOTSHELLS;
+extern char     *s_GOTSHELLSX2;
 extern char     *s_GOTSHELLBOX;
 extern char     *s_GOTBACKPACK;
 

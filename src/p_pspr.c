@@ -120,13 +120,13 @@ void P_BringUpWeapon(player_t *player)
 boolean P_CheckAmmo(player_t *player)
 {
     ammotype_t  ammo = weaponinfo[player->readyweapon].ammo;
-    int         count = 1;       // Regular.
+    int         count = 1;      // Regular.
 
     // Minimal amount for one shot varies.
     if (player->readyweapon == wp_bfg)
         count = bfgcells;
     else if (player->readyweapon == wp_supershotgun)
-        count = 2;      // Double barrel.
+        count = 2;              // Double barrel.
 
     // Some do not need ammunition anyway.
     // Return if current ammunition sufficient.
@@ -138,7 +138,7 @@ boolean P_CheckAmmo(player_t *player)
     if (player->weaponowned[wp_plasma] && player->ammo[am_cell])
         player->pendingweapon = wp_plasma;
     else if (player->weaponowned[wp_supershotgun] && player->ammo[am_shell] >= 2
-                && player->preferredshotgun == wp_supershotgun)
+             && player->preferredshotgun == wp_supershotgun)
         player->pendingweapon = wp_supershotgun;
     else if (player->weaponowned[wp_chaingun] && player->ammo[am_clip])
         player->pendingweapon = wp_chaingun;

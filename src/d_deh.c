@@ -143,12 +143,16 @@ char *s_GOTMAP = GOTMAP;
 char *s_GOTVISOR = GOTVISOR;
 
 char *s_GOTCLIP = GOTCLIP;
+char *s_GOTCLIPX2 = GOTCLIPX2;
 char *s_GOTCLIPBOX = GOTCLIPBOX;
 char *s_GOTROCKET = GOTROCKET;
+char *s_GOTROCKETX2 = GOTROCKETX2;
 char *s_GOTROCKBOX = GOTROCKBOX;
 char *s_GOTCELL = GOTCELL;
+char *s_GOTCELLX2 = GOTCELLX2;
 char *s_GOTCELLBOX = GOTCELLBOX;
 char *s_GOTSHELLS = GOTSHELLS;
+char *s_GOTSHELLSX2 = GOTSHELLSX2;
 char *s_GOTSHELLBOX = GOTSHELLBOX;
 char *s_GOTBACKPACK = GOTBACKPACK;
 
@@ -514,12 +518,16 @@ deh_strs deh_strlookup[] =
     { &s_GOTVISOR,             "GOTVISOR",             false },
 
     { &s_GOTCLIP,              "GOTCLIP",              false },
+    { &s_GOTCLIPX2,            "GOTCLIPX2",            false },
     { &s_GOTCLIPBOX,           "GOTCLIPBOX",           false },
     { &s_GOTROCKET,            "GOTROCKET",            false },
+    { &s_GOTROCKETX2,          "GOTROCKETX2",          false },
     { &s_GOTROCKBOX,           "GOTROCKBOX",           false },
     { &s_GOTCELL,              "GOTCELL",              false },
+    { &s_GOTCELLX2,            "GOTCELLX2",            false },
     { &s_GOTCELLBOX,           "GOTCELLBOX",           false },
     { &s_GOTSHELLS,            "GOTSHELLS",            false },
+    { &s_GOTSHELLSX2,          "GOTSHELLSX2",          false },
     { &s_GOTSHELLBOX,          "GOTSHELLBOX",          false },
     { &s_GOTBACKPACK,          "GOTBACKPACK",          false },
 
