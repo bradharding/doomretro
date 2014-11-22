@@ -122,8 +122,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return true;
         }
     }
-    else if (msg == WM_SYSCOMMAND && (wParam & 0xfff0) == SC_KEYMENU)
-        return false;
+    else if (msg == WM_SYSCOMMAND)
+    {
+        if ((wParam & 0xfff0) == SC_MAXIMIZE)
+        {
+            ToggleFullScreen();
+            return true;
+        }
+        else if ((wParam & 0xfff0) == SC_KEYMENU)
+            return false;
+    }
     else if (msg == WM_SYSKEYDOWN && wParam == VK_RETURN && !(lParam & 0x40000000))
     {
         ToggleFullScreen();
