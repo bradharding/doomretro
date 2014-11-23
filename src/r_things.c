@@ -95,6 +95,7 @@ extern int                      graphicdetail;
 extern boolean                  translucency;
 extern int                      fuzzclip;
 extern boolean                  dehacked;
+extern boolean                  shadows;
 
 //
 // R_InstallSpriteLump
@@ -1027,7 +1028,7 @@ void R_DrawMasked(void)
     }
 
     // draw all shadows
-    if (!fixedcolormap)
+    if (shadows && !fixedcolormap)
         for (i = num_vissprite; --i >= 0;)
         {
             vissprite_t     *spr = vissprite_ptrs[i];

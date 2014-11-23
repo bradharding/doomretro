@@ -640,7 +640,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
-    if (shadows && (mobj->flags2 & MF2_SHADOW))
+    if (mobj->flags2 & MF2_SHADOW)
         P_SpawnShadow(mobj);
 
     if (footclip)

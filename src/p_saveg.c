@@ -46,7 +46,6 @@ boolean         savegame_error;
 
 extern boolean  *isliquid;
 extern boolean  footclip;
-extern boolean  shadows;
 
 void P_SpawnShadow(mobj_t *actor);
 
@@ -1701,7 +1700,7 @@ void P_UnArchiveThinkers(void)
                     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
                     mobj->colfunc = mobj->info->colfunc;
 
-                    if (shadows && (mobj->flags2 & MF2_SHADOW))
+                    if (mobj->flags2 & MF2_SHADOW)
                     {
                         P_SpawnShadow(mobj);
 
