@@ -1106,6 +1106,7 @@ void ToggleFullScreen(void)
         event_t ev;
 
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
+        I_WaitVBL(1);
         putenv(envstring);
         SDL_InitSubSystem(SDL_INIT_VIDEO);
 
