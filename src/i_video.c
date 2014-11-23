@@ -1023,6 +1023,7 @@ void init_win32(LPCTSTR lpIconName);
 void ToggleFullScreen(void)
 {
     fullscreen = !fullscreen;
+    M_SaveDefaults();
     if (fullscreen)
     {
         width = screenwidth;
@@ -1202,8 +1203,6 @@ void ToggleFullScreen(void)
 
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
-
-    M_SaveDefaults();
 }
 
 static void ApplyWindowResize(int resize_h)
