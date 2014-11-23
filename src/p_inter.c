@@ -582,7 +582,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(ammo = P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED))))
                 return;
             if (!message_dontfuckwithme)
-                player->message = (ammo == clipammo[am_clip] ? s_GOTCLIP : (ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2));
+                if (ammo == clipammo[am_clip] || (deh_strlookup[p_GOTCLIP].assigned && dehacked))
+                    player->message = s_GOTCLIP;
+                else
+                    player->message = (ammo == clipammo[am_clip] / 2 ? s_GOTHALFCLIP : s_GOTCLIPX2);
             break;
 
         case SPR_AMMO:
@@ -596,7 +599,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(ammo = P_GiveAmmo(player, am_misl, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = (ammo == clipammo[am_misl] ? s_GOTROCKET : s_GOTROCKETX2);
+                if (ammo == clipammo[am_misl] || (deh_strlookup[p_GOTROCKET].assigned && dehacked))
+                    player->message = s_GOTROCKET;
+                else
+                    player->message = s_GOTROCKETX2;
             break;
 
         case SPR_BROK:
@@ -610,7 +616,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(ammo = P_GiveAmmo(player, am_cell, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = (ammo == clipammo[am_cell] ? s_GOTCELL : s_GOTCELLX2);
+                if (ammo == clipammo[am_cell] || (deh_strlookup[p_GOTCELL].assigned && dehacked))
+                    player->message = s_GOTCELL;
+                else
+                    player->message = s_GOTCELLX2;
             break;
 
         case SPR_CELP:
@@ -624,7 +633,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (!(ammo = P_GiveAmmo(player, am_shell, 1)))
                 return;
             if (!message_dontfuckwithme)
-                player->message = (ammo == clipammo[am_shell] ? s_GOTSHELLS : s_GOTSHELLSX2);
+                if (ammo == clipammo[am_shell] || (deh_strlookup[p_GOTSHELLS].assigned && dehacked))
+                    player->message = s_GOTSHELLS;
+                else
+                    player->message = s_GOTSHELLSX2;
             break;
 
         case SPR_SBOX:

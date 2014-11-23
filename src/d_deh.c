@@ -29,6 +29,7 @@
 
 #include <ctype.h>
 
+#include "d_deh.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "sounds.h"
@@ -467,13 +468,6 @@ char *bgcastcall = "BOSSBACK";
 // to a string key that is the same as the define above.  We will use
 // strdups to set these new values that we read from the file, orphaning
 // the original value set above.
-
-typedef struct
-{
-    char        **ppstr;        // doubly indirect pointer to string
-    char        *lookup;        // pointer to lookup string name
-    boolean     assigned;       // [BH] flag indicating string has been assigned
-} deh_strs;
 
 deh_strs deh_strlookup[] =
 {
@@ -2886,7 +2880,7 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout
                         newstring, (strlen(newstring) > 12 ? "..." : ""),
                         deh_strlookup[i].lookup);
 
-            if (!key)   // must have passed an old style string so showBEX
+            if (!key)   // must have passed an old style string so show BEX
                 if (fpout)
                     fprintf(fpout, "*BEX FORMAT:\n%s=%s\n*END BEX\n",
                         deh_strlookup[i].lookup, dehReformatStr(newstring));
@@ -2962,7 +2956,7 @@ void lfstrip(char *s)    // strip the \r and/or \n off of a line
 //
 void rstrip(char *s)    // strip trailing whitespace
 {
-    char        *p = s+strlen(s);       // killough 4/4/98: same here
+    char        *p = s + strlen(s);       // killough 4/4/98: same here
 
     while (p > s && isspace(*--p))      // break on first non-whitespace
         *p='\0';
