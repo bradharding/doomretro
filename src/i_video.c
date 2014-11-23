@@ -552,7 +552,6 @@ void I_GetEvent(void)
                     {
                         I_SaveWindowPosition();
                         SetWindowPositionVars();
-                        M_SaveDefaults();
                     }
                 }
                 break;
@@ -892,18 +891,15 @@ static void SetVideoMode(void)
         {
             windowheight = desktopheight;
             windowwidth = windowheight * 4 / 3;
-            windowwidth += (windowwidth & 1);
             M_SaveDefaults();
         }
         height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
         width = height * 4 / 3;
-        width += (width & 1);
 
         if (width > windowwidth)
         {
             width = windowwidth;
             height = width * 3 / 4;
-            height += (height & 1);
         }
 
         SetWindowPositionVars();
@@ -979,10 +975,14 @@ void ToggleWideScreen(boolean toggle)
     }
 
     width = height * 4 / 3;
-    width += (width & 1);
 
-    if (fullscreen && (double)width / screen->w >= 0.99)
-        width = screen->w;
+    if (fullscreen)
+    {
+        width += (width & 1);
+
+        if ((double)width / screen->w >= 0.99)
+            width = screen->w;
+    }
 
     returntowidescreen = false;
 #ifdef SDL20
@@ -1119,19 +1119,16 @@ void ToggleFullScreen(void)
         {
             windowheight = desktopheight;
             windowwidth = windowheight * 4 / 3;
-            windowwidth += (windowwidth & 1);
             M_SaveDefaults();
         }
 
         height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
         width = height * 4 / 3;
-        width += (width & 1);
 
         if (width > windowwidth)
         {
             width = windowwidth;
             height = width * 3 / 4;
-            height += (height & 1);
         }
 
         SetWindowPositionVars();
@@ -1216,7 +1213,6 @@ static void ApplyWindowResize(int resize_h)
 {
     windowheight = height = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
     windowwidth = windowheight * screen->w / screen->h;
-    windowwidth += (windowwidth & 1);
 
     if (widescreen)
         height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);
