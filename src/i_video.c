@@ -35,6 +35,7 @@
 #include "i_tinttab.h"
 #include "i_video.h"
 #include "m_config.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "SDL.h"
 #include "SDL_syswm.h"
@@ -1150,11 +1151,16 @@ void ToggleFullScreen(void)
         CreateCursors();
         SDL_SetCursor(cursors[0]);
 
+        if (menuactive && !usergame)
+            M_UpdateWindowCaption();
+        else
+        {
 #ifdef SDL20
-        SDL_SetWindowTitle(sdl_window, gamestate == GS_LEVEL ? mapnumandtitle : gamedescription);
+            SDL_SetWindowTitle(sdl_window, gamestate == GS_LEVEL ? mapnumandtitle : gamedescription);
 #else
-        SDL_WM_SetCaption(gamestate == GS_LEVEL ? mapnumandtitle : gamedescription, NULL);
+            SDL_WM_SetCaption(gamestate == GS_LEVEL ? mapnumandtitle : gamedescription, NULL);
 #endif
+        }
 
         currently_grabbed = true;
         UpdateFocus();
