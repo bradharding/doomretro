@@ -927,8 +927,7 @@ static void M_CheckDefaults(void)
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = ALWAYSRUN_DEFAULT;
 
-    if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
-        bloodsplats = BLOODSPLATS_DEFAULT;
+    bloodsplats = BETWEEN(BLOODSPLATS_MIN, bloodsplats, BLOODSPLATS_MAX);
 
     if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;
@@ -936,8 +935,7 @@ static void M_CheckDefaults(void)
     if (centerweapon != false && centerweapon != true)
         centerweapon = CENTERWEAPON_DEFAULT;
 
-    if (corpses < CORPSES_MIN || corpses > CORPSES_MAX)
-        corpses = CORPSES_DEFAULT;
+    corpses = BETWEEN(CORPSES_MIN, corpses, CORPSES_MAX);
 
     if (dclick_use != false && dclick_use != true)
         dclick_use = DCLICKUSE_DEFAULT;
@@ -951,7 +949,8 @@ static void M_CheckDefaults(void)
     if (fullscreen != false && fullscreen != true)
         fullscreen = FULLSCREEN_DEFAULT;
 
-    if (gamepadautomap < 0 || gamepadautomap > GAMEPAD_Y || (gamepadautomap & (gamepadautomap - 1)))
+    if (gamepadautomap < 0 || gamepadautomap > GAMEPAD_Y
+        || (gamepadautomap & (gamepadautomap - 1)))
         gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
 
     if (gamepadfire < 0 || gamepadfire > GAMEPAD_Y || (gamepadfire & (gamepadfire - 1)))
@@ -963,16 +962,19 @@ static void M_CheckDefaults(void)
     if (gamepadmenu < 0 || gamepadmenu > GAMEPAD_Y || (gamepadmenu & (gamepadmenu - 1)))
         gamepadmenu = GAMEPADMENU_DEFAULT;
 
-    if (gamepadnextweapon < 0 || gamepadnextweapon > GAMEPAD_Y || (gamepadnextweapon & (gamepadnextweapon - 1)))
+    if (gamepadnextweapon < 0 || gamepadnextweapon > GAMEPAD_Y
+        || (gamepadnextweapon & (gamepadnextweapon - 1)))
         gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 
-    if (gamepadprevweapon < 0 || gamepadprevweapon > GAMEPAD_Y || (gamepadprevweapon & (gamepadprevweapon - 1)))
+    if (gamepadprevweapon < 0 || gamepadprevweapon > GAMEPAD_Y
+        || (gamepadprevweapon & (gamepadprevweapon - 1)))
         gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 
-    if (gamepadsensitivity < GAMEPADSENSITIVITY_MIN || gamepadsensitivity > GAMEPADSENSITIVITY_MAX)
-        gamepadsensitivity = GAMEPADSENSITIVITY_DEFAULT;
+    gamepadsensitivity = BETWEEN(GAMEPADSENSITIVITY_MIN, gamepadsensitivity,
+        GAMEPADSENSITIVITY_MAX);
     gamepadsensitivityf = (!gamepadsensitivity ? 0.0f :
-        GAMEPADSENSITIVITY_OFFSET + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * GAMEPADSENSITIVITY_FACTOR);
+        GAMEPADSENSITIVITY_OFFSET + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX *
+        GAMEPADSENSITIVITY_FACTOR);
 
     if (gamepadspeed < 0 || gamepadspeed > GAMEPAD_Y || (gamepadspeed & (gamepadspeed - 1)))
         gamepadspeed = GAMEPADSPEED_DEFAULT;
@@ -1004,8 +1006,7 @@ static void M_CheckDefaults(void)
     if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y || (gamepadweapon7 & (gamepadweapon7 - 1)))
         gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
-    if (gammalevel < GAMMALEVEL_MIN || gammalevel > GAMMALEVEL_MAX)
-        gammalevel = GAMMALEVEL_DEFAULT;
+    gammalevel = BETWEEN(GAMMALEVEL_MIN, gammalevel, GAMMALEVEL_MAX);
     gammaindex = 0;
     while (gammaindex < GAMMALEVELS)
         if (gammalevels[gammaindex++] == gammalevel)
@@ -1098,8 +1099,7 @@ static void M_CheckDefaults(void)
     if (key_weapon7 == INVALIDKEY)
         key_weapon7 = KEYWEAPON7_DEFAULT;
 
-    if (mapfixes < MAPFIXES_MIN || mapfixes > MAPFIXES_MAX)
-        mapfixes = MAPFIXES_DEFAULT;
+    mapfixes = BETWEEN(MAPFIXES_MIN, mapfixes, MAPFIXES_MAX);
 
     if (messages != false && messages != true)
         messages = MESSAGES_DEFAULT;
@@ -1110,8 +1110,7 @@ static void M_CheckDefaults(void)
     if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
         mousebfire = MOUSEFIRE_DEFAULT;
 
-    if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS
-        || mousebforward == mousebfire)
+    if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS || mousebforward == mousebfire)
         mousebforward = MOUSEFORWARD_DEFAULT;
 
     if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS
@@ -1123,50 +1122,41 @@ static void M_CheckDefaults(void)
         || mousebnextweapon == mousebprevweapon)
         mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
 
-    if (mousesensitivity < MOUSESENSITIVITY_MIN || mousesensitivity > MOUSESENSITIVITY_MAX)
-        mousesensitivity = MOUSESENSITIVITY_DEFAULT;
+    mousesensitivity = BETWEEN(MOUSESENSITIVITY_MIN, mousesensitivity, MOUSESENSITIVITY_MAX);
 
-    if (mousebstrafe < -1 || mousebstrafe > MAX_MOUSE_BUTTONS
-        || mousebstrafe == mousebfire || mousebstrafe == mousebforward
-        || mousebstrafe == mousebprevweapon || mousebstrafe == mousebnextweapon)
+    if (mousebstrafe < -1 || mousebstrafe > MAX_MOUSE_BUTTONS || mousebstrafe == mousebfire
+        || mousebstrafe == mousebforward || mousebstrafe == mousebprevweapon
+        || mousebstrafe == mousebnextweapon)
         mousebstrafe = MOUSESTRAFE_DEFAULT;
 
-    if (mousebuse < -1 || mousebuse > MAX_MOUSE_BUTTONS
-        || mousebuse == mousebfire || mousebuse == mousebforward
-        || mousebuse == mousebprevweapon || mousebuse == mousebnextweapon
-        || mousebuse == mousebstrafe)
+    if (mousebuse < -1 || mousebuse > MAX_MOUSE_BUTTONS || mousebuse == mousebfire
+        || mousebuse == mousebforward || mousebuse == mousebprevweapon
+        || mousebuse == mousebnextweapon || mousebuse == mousebstrafe)
         mousebuse = MOUSEUSE_DEFAULT;
 
-    if (musicVolume < MUSICVOLUME_MIN || musicVolume > MUSICVOLUME_MAX)
-        musicVolume = MUSICVOLUME_DEFAULT;
+    musicVolume = BETWEEN(MUSICVOLUME_MIN, musicVolume, MUSICVOLUME_MAX);
 
     if (novert != false && novert != true)
         novert = NOVERT_DEFAULT;
 
-    if (pixelwidth < PIXELWIDTH_MIN || pixelwidth > PIXELWIDTH_MAX)
-        pixelwidth = PIXELWIDTH_DEFAULT;
+    pixelwidth = BETWEEN(PIXELWIDTH_MIN, pixelwidth, PIXELWIDTH_MAX);
     while (SCREENWIDTH % pixelwidth)
         --pixelwidth;
 
-    if (pixelheight < PIXELHEIGHT_MIN || pixelheight > PIXELHEIGHT_MAX)
-        pixelheight = PIXELHEIGHT_DEFAULT;
+    pixelheight = BETWEEN(PIXELHEIGHT_MIN, pixelheight, PIXELHEIGHT_MAX);
     while (SCREENHEIGHT % pixelheight)
         --pixelheight;
 
-    if (playerbob < PLAYERBOB_MIN || playerbob > PLAYERBOB_MAX)
-        playerbob = PLAYERBOB_DEFAULT;
+    playerbob = BETWEEN(PLAYERBOB_MIN, playerbob, PLAYERBOB_MAX);
 
     if (rotatemode != false && rotatemode != true)
         rotatemode = ROTATEMODE_DEFAULT;
 
-    if (runcount < 0 || runcount > RUNCOUNT_MAX)
-        runcount = 0;
+    runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
 
-    if (saturation < SATURATION_MIN || saturation > SATURATION_MAX)
-        saturation = SATURATION_DEFAULT;
+    saturation = BETWEEN(SATURATION_MIN, saturation, SATURATION_MAX);
 
-    if (screensize < SCREENSIZE_MIN || screensize > SCREENSIZE_MAX)
-        screensize = SCREENSIZE_DEFAULT;
+    screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
 
     if (screenwidth && screenheight
         && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
@@ -1175,29 +1165,20 @@ static void M_CheckDefaults(void)
         screenheight = SCREENHEIGHT_DEFAULT;
     }
 
-    if ((gamemode == registered && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX - 1))
-        || (gamemode == retail && (selectedepisode < EPISODE_MIN || selectedepisode > EPISODE_MAX)))
-        selectedepisode = EPISODE_DEFAULT;
+    selectedepisode = BETWEEN(EPISODE_MIN, selectedepisode, EPISODE_MAX - (gamemode == registered));
 
-    if (selectedexpansion < EXPANSION_MIN || selectedexpansion > EXPANSION_MAX)
-        selectedexpansion = EXPANSION_DEFAULT;
+    selectedexpansion = BETWEEN(EXPANSION_MIN, selectedexpansion, EXPANSION_MAX);
 
-    if (selectedsavegame < 0)
-        selectedsavegame = 0;
-    else if (selectedsavegame > 5)
-        selectedsavegame = 5;
+    selectedsavegame = BETWEEN(0, selectedsavegame, 5);
 
-    if (selectedskilllevel < SKILLLEVEL_MIN || selectedskilllevel > SKILLLEVEL_MAX)
-        selectedskilllevel = SKILLLEVEL_DEFAULT;
+    selectedskilllevel = BETWEEN(SKILLLEVEL_MIN, selectedskilllevel, SKILLLEVEL_MAX);
 
-    if (sfxVolume < SFXVOLUME_MIN || sfxVolume > SFXVOLUME_MAX)
-        sfxVolume = SFXVOLUME_DEFAULT;
+    sfxVolume = BETWEEN(SFXVOLUME_MIN, sfxVolume, SFXVOLUME_MAX);
 
     if (shadows != false && shadows != true)
         shadows = SHADOWS_DEFAULT;
 
-    if (smoketrails < SMOKETRAILS_MIN || smoketrails > SMOKETRAILS_MAX)
-        smoketrails = SMOKETRAILS_DEFAULT;
+    smoketrails = BETWEEN(SMOKETRAILS_MIN, smoketrails, SMOKETRAILS_MAX);
 
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;
