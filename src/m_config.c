@@ -927,7 +927,7 @@ static void M_CheckDefaults(void)
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = ALWAYSRUN_DEFAULT;
 
-    if (bloodsplats < BLOODSPLATS_MIN || BLOODSPLATS_MAX)
+    if (bloodsplats < BLOODSPLATS_MIN || bloodsplats > BLOODSPLATS_MAX)
         bloodsplats = BLOODSPLATS_DEFAULT;
 
     if (brightmaps != false && brightmaps != true)
