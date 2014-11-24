@@ -54,6 +54,11 @@ int BETWEEN(int a, int b, int c)
     return MAX(a, MIN(b, c));
 }
 
+float BETWEENF(float a, float b, float c)
+{
+    return ((b = (b < a ? a : b)) > c ? c : b);
+}
+
 int SIGN(int a)
 {
     return (1 | (a >> 31));

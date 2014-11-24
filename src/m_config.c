@@ -1006,7 +1006,7 @@ static void M_CheckDefaults(void)
     if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y || (gamepadweapon7 & (gamepadweapon7 - 1)))
         gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
-    gammalevel = BETWEEN(GAMMALEVEL_MIN, gammalevel, GAMMALEVEL_MAX);
+    gammalevel = BETWEENF(GAMMALEVEL_MIN, gammalevel, GAMMALEVEL_MAX);
     gammaindex = 0;
     while (gammaindex < GAMMALEVELS)
         if (gammalevels[gammaindex++] == gammalevel)
@@ -1154,7 +1154,7 @@ static void M_CheckDefaults(void)
 
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
 
-    saturation = BETWEEN(SATURATION_MIN, saturation, SATURATION_MAX);
+    saturation = BETWEENF(SATURATION_MIN, saturation, SATURATION_MAX);
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
 
