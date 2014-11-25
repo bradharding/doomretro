@@ -1750,20 +1750,19 @@ void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 //
 boolean PIT_ChangeSector(mobj_t *thing)
 {
-    mobjtype_t  type = thing->type;
-    int         flags = thing->flags;
-    int         flags2 = thing->flags2;
+    int flags = thing->flags;
+    int flags2 = thing->flags2;
 
     if (isliquidsector)
     {
         thing->flags2 |= MF2_FEETARECLIPPED;
-        if ((flags2 & MF2_SHADOW) && thing->shadow)
+        if (thing->shadow)
             thing->shadow->flags2 |= MF2_FEETARECLIPPED;
     }
     else if (flags2 & MF2_FEETARECLIPPED)
     {
         thing->flags2 &= ~MF2_FEETARECLIPPED;
-        if ((flags2 & MF2_SHADOW) && thing->shadow)
+        if (thing->shadow)
             thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
     }
 
@@ -1773,7 +1772,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
     // crunch bodies to giblets
     if (thing->health <= 0 && (flags2 & MF2_CRUSHABLE))
     {
-        if (type == MT_PLAYER)
+        if (thing->type == MT_PLAYER)
         {
             player_t    *player = thing->player;
 
