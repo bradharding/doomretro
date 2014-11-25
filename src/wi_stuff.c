@@ -463,7 +463,6 @@ void WI_drawLF(void)
     }
 
     // draw "Finished!"
-    
     V_DrawPatchWithShadow(x + 1, y + 1, finished, false);
 }
 
@@ -1408,7 +1407,7 @@ void WI_loadData(void)
 
     if (gamemode == commercial)
     {
-        NUMCMAPS = 32 + (W_CheckNumForName("MAP33") >= 0);
+        NUMCMAPS = 32 + (W_CheckNumForName("CWILV32") >= 0);
         lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMCMAPS, PU_STATIC, NULL);
     }
     else
