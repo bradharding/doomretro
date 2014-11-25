@@ -1866,12 +1866,13 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
     {
         mobj_t  *mobj = n->m_thing;
 
-        if (mobj->type == MT_BLOODSPLAT)
-            P_UpdateBloodSplat(mobj);
-        else if (mobj->type == MT_SHADOW)
-            P_UpdateShadow(mobj);
-        else if (!(mobj->flags & MF_NOBLOCKMAP))                // jff 4/7/98 don't do these
-            PIT_ChangeSector(mobj);                             // process it
+        if (mobj)
+            if (mobj->type == MT_BLOODSPLAT)
+                P_UpdateBloodSplat(mobj);
+            else if (mobj->type == MT_SHADOW)
+                P_UpdateShadow(mobj);
+            else if (!(mobj->flags & MF_NOBLOCKMAP))            // jff 4/7/98 don't do these
+                PIT_ChangeSector(mobj);                         // process it
     }
 
     return nofit;
