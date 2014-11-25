@@ -1332,7 +1332,7 @@ void M_SfxVol(int choice)
         switch (choice)
         {
             case 0:
-                if (sfxVolume > SFXVOLUME_MIN)
+                if (sfxVolume > 0)
                 {
                     S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
@@ -1340,7 +1340,7 @@ void M_SfxVol(int choice)
                 }
                 break;
             case 1:
-                if (sfxVolume < SFXVOLUME_MAX)
+                if (sfxVolume < 15)
                 {
                     S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
@@ -1358,7 +1358,7 @@ void M_MusicVol(int choice)
         switch (choice)
         {
             case 0:
-                if (musicVolume > MUSICVOLUME_MIN)
+                if (musicVolume > 0)
                 {
                     S_SetMusicVolume((int)(--musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
@@ -1366,7 +1366,7 @@ void M_MusicVol(int choice)
                 }
                 break;
             case 1:
-                if (musicVolume < MUSICVOLUME_MAX)
+                if (musicVolume < 15)
                 {
                     S_SetMusicVolume((int)(++musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);

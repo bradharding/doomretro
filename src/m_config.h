@@ -184,8 +184,8 @@
 #define MOUSEUSE_DEFAULT                -1
 
 #define MUSICVOLUME_MIN                 0
-#define MUSICVOLUME_DEFAULT             15
-#define MUSICVOLUME_MAX                 15
+#define MUSICVOLUME_DEFAULT             100
+#define MUSICVOLUME_MAX                 100
 
 #define NOVERT_DEFAULT                  true
 
@@ -220,8 +220,8 @@
 #define SCREENHEIGHT_DEFAULT            0
 
 #define SFXVOLUME_MIN                   0
-#define SFXVOLUME_DEFAULT               15
-#define SFXVOLUME_MAX                   15
+#define SFXVOLUME_DEFAULT               100
+#define SFXVOLUME_MAX                   100
 
 #define SHADOWS_DEFAULT                 true
 

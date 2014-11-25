@@ -40,6 +40,9 @@
 #include "m_misc.h"
 #include "version.h"
 
+int             musicvolume_percent;
+int             sfxvolume_percent;
+
 //
 // DEFAULTS
 //
@@ -273,7 +276,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT        (mouse_strafe,         mousebstrafe,         4),
     CONFIG_VARIABLE_INT        (mouse_threshold,      mouse_threshold,      0),
     CONFIG_VARIABLE_INT        (mouse_use,            mousebuse,            4),
-    CONFIG_VARIABLE_INT        (music_volume,         musicVolume,          0),
+    CONFIG_VARIABLE_INT_PERCENT(musicvolume,          musicvolume_percent,  0),
     CONFIG_VARIABLE_INT        (novert,               novert,               1),
     CONFIG_VARIABLE_INT        (pixelwidth,           pixelwidth,           0),
     CONFIG_VARIABLE_INT        (pixelheight,          pixelheight,          0),
@@ -285,7 +288,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT        (screensize,           screensize,           0),
     CONFIG_VARIABLE_INT        (screenwidth,          screenwidth,          5),
     CONFIG_VARIABLE_INT        (screenheight,         screenheight,         5),
-    CONFIG_VARIABLE_INT        (sfx_volume,           sfxVolume,            0),
+    CONFIG_VARIABLE_INT_PERCENT(sfxvolume,            sfxvolume_percent,    0),
     CONFIG_VARIABLE_INT        (shadows,              shadows,              1),
     CONFIG_VARIABLE_INT        (skilllevel,           selectedskilllevel,  10),
     CONFIG_VARIABLE_INT        (smoketrails,          smoketrails,         13),
@@ -1161,7 +1164,7 @@ static void M_CheckDefaults(void)
         || mousebuse == mousebnextweapon || mousebuse == mousebstrafe)
         mousebuse = MOUSEUSE_DEFAULT;
 
-    musicVolume = BETWEEN(MUSICVOLUME_MIN, musicVolume, MUSICVOLUME_MAX);
+    musicVolume = BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX) * 15 / 100;
 
     if (novert != false && novert != true)
         novert = NOVERT_DEFAULT;
@@ -1200,7 +1203,7 @@ static void M_CheckDefaults(void)
 
     selectedskilllevel = BETWEEN(SKILLLEVEL_MIN, selectedskilllevel, SKILLLEVEL_MAX);
 
-    sfxVolume = BETWEEN(SFXVOLUME_MIN, sfxVolume, SFXVOLUME_MAX);
+    sfxVolume = BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 / 100;
 
     if (shadows != false && shadows != true)
         shadows = SHADOWS_DEFAULT;
