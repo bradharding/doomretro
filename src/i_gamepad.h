@@ -72,8 +72,8 @@
 #define gamepadthumbRXright             pow((gamepadthumbRX - GAMEPAD_RIGHT_THUMB_DEADZONE) /\
                                         (32767.0f - GAMEPAD_RIGHT_THUMB_DEADZONE), 3.0f)
 
-#define GAMEPADSENSITIVITY_OFFSET       0.5f
-#define GAMEPADSENSITIVITY_FACTOR       1.5f
+#define GAMEPADSENSITIVITY_OFFSET       1.0f
+#define GAMEPADSENSITIVITY_FACTOR       3.0f
 
 int damagevibrationtics;
 int weaponvibrationtics;

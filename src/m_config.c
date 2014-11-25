@@ -889,10 +889,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
             int         intparm;
 
             if (strcmp(defname, def->name) != 0)
-            {
-                // not this one
-                continue;
-            }
+                continue;       // not this one
 
             // parameter found
             switch (def->type)
@@ -916,7 +913,6 @@ static void LoadDefaultCollection(default_collection_t *collection)
                     break;
 
                 case DEFAULT_KEY:
-
                     // translate scancodes read from config
                     // file (save the old value in untranslated)
                     intparm = ParseIntParameter(strparm, def->set);
