@@ -46,9 +46,7 @@ void G_RemoveChoppers(void);
 //
 
 // 16 pixels of bob
-// DHM - NERVE :: MAXBOB reduced 25%
-//#define MAXBOB  0x100000
-#define MAXBOB  0xC0000
+#define MAXBOB  0x100000
 
 int     playerbob = PLAYERBOB_DEFAULT;
 
@@ -88,8 +86,7 @@ void P_CalcHeight(player_t *player)
         // even if not on ground)
         bob = ((FixedMul(mo->momx, mo->momx) + FixedMul(mo->momy, mo->momy)) >> 2);
 
-        // DHM - NERVE :: player bob reduced by 25%, MAXBOB reduced by 25% as well
-        player->bob = MIN(bob * playerbob / 100, MAXBOB);
+        player->bob = MIN(bob, MAXBOB) * playerbob / 100;
 
         angle = (FINEANGLES / 20 * leveltime) & FINEMASK;
         bob = FixedMul(player->bob / 2, finesine[angle]);
