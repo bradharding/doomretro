@@ -1105,7 +1105,7 @@ void A_Tracer(mobj_t *actor)
     boolean     smoke = false;
 
     // spawn a puff of smoke behind the non-homing rocket
-    if (smoketrails & REVENANT2)
+    if (smoketrails & REVENANT1)
     {
         P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
         smoke = true;
@@ -1115,7 +1115,7 @@ void A_Tracer(mobj_t *actor)
         return;
 
     // spawn a puff of smoke behind the homing rocket
-    if ((smoketrails & REVENANT1) && !smoke)
+    if ((smoketrails & REVENANT2) && !smoke)
         P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
 
     // adjust direction
