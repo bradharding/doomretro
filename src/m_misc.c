@@ -381,3 +381,14 @@ int M_snprintf(char *buf, size_t buf_len, const char *s, ...)
     va_end(args);
     return result;
 }
+
+char *uppercase(char *str)
+{
+    char        *newstr;
+    char        *p;
+
+    p = newstr = strdup(str);
+    while (*(p++) = toupper(*p));
+
+    return newstr;
+}

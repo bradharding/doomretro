@@ -84,8 +84,6 @@ void M_DrawCenteredString(int y, char *str);
 
 void M_UpdateWindowCaption(void);
 
-char *uppercase(char *str);
-
 extern int screensize;
 
 extern int gamepadmenu;

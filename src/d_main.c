@@ -480,17 +480,6 @@ static boolean D_AddFile(char *filename)
     return (handle != NULL);
 }
 
-char *uppercase(char *str)
-{
-    char        *newstr;
-    char        *p;
-
-    p = newstr = strdup(str);
-    while (*(p++) = toupper(*p));
-
-    return newstr;
-}
-
 // Initialize the game version
 static void InitGameVersion(void)
 {
