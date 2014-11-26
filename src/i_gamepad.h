@@ -104,6 +104,8 @@ extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 
+extern int      gamepadsensitivity;
+
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);
 void I_PollDirectInputGamepad(void);

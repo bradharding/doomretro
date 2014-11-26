@@ -162,10 +162,7 @@ void I_PollDirectInputGamepad(void)
 {
     if (gamepad)
     {
-        event_t         ev;
-        int             hat = SDL_JoystickGetHat(gamepad, 0);
-
-        gamepadthumbsfunc(0, 1, 2, 3);
+        int     hat = SDL_JoystickGetHat(gamepad, 0);
 
         gamepadbuttons = (GAMEPAD_X * SDL_JoystickGetButton(gamepad, 0)
             | GAMEPAD_A * SDL_JoystickGetButton(gamepad, 1)
@@ -195,9 +192,23 @@ void I_PollDirectInputGamepad(void)
             }
         }
 
-        ev.type = ev_gamepad;
-        ev.data1 = gamepadbuttons;
-        D_PostEvent(&ev);
+        if (gamepadsensitivity || menuactive || (gamepadbuttons & gamepadmenu))
+        {
+            event_t     ev;
+
+            ev.type = ev_gamepad;
+            ev.data1 = gamepadbuttons;
+            D_PostEvent(&ev);
+
+            gamepadthumbsfunc(0, 1, 2, 3);
+        }
+        else
+        {
+            gamepadbuttons = 0;
+            gamepadthumbLX = 0;
+            gamepadthumbLY = 0;
+            gamepadthumbRX = 0;
+        }
     }
 }
 
@@ -238,7 +249,6 @@ void I_PollXInputGamepad(void)
 #ifdef WIN32
     if (gamepad)
     {
-        event_t         ev;
         XINPUT_STATE    state;
         XINPUT_GAMEPAD  Gamepad;
 
@@ -246,11 +256,9 @@ void I_PollXInputGamepad(void)
         pXInputGetState(0, &state);
         Gamepad = state.Gamepad;
 
-        gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
-
-        gamepadbuttons = (state.Gamepad.wButtons
-            | GAMEPAD_LEFT_TRIGGER * (state.Gamepad.bLeftTrigger > GAMEPAD_TRIGGER_THRESHOLD)
-            | GAMEPAD_RIGHT_TRIGGER * (state.Gamepad.bRightTrigger > GAMEPAD_TRIGGER_THRESHOLD));
+        gamepadbuttons = (Gamepad.wButtons
+            | GAMEPAD_LEFT_TRIGGER * (Gamepad.bLeftTrigger > GAMEPAD_TRIGGER_THRESHOLD)
+            | GAMEPAD_RIGHT_TRIGGER * (Gamepad.bRightTrigger > GAMEPAD_TRIGGER_THRESHOLD));
 
         if (damagevibrationtics)
             if (!--damagevibrationtics && !weaponvibrationtics)
@@ -272,9 +280,23 @@ void I_PollXInputGamepad(void)
             }
         }
 
-        ev.type = ev_gamepad;
-        ev.data1 = gamepadbuttons;
-        D_PostEvent(&ev);
+        if (gamepadsensitivity || menuactive || (gamepadbuttons & gamepadmenu))
+        {
+            event_t      ev;
+
+            ev.type = ev_gamepad;
+            ev.data1 = gamepadbuttons;
+            D_PostEvent(&ev);
+
+            gamepadthumbsfunc(Gamepad.sThumbLX, Gamepad.sThumbLY, Gamepad.sThumbRX, Gamepad.sThumbRY);
+        }
+        else
+        {
+            gamepadbuttons = 0;
+            gamepadthumbLX = 0;
+            gamepadthumbLY = 0;
+            gamepadthumbRX = 0;
+        }
     }
 #endif
 }
