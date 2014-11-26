@@ -59,18 +59,18 @@
 #define GAMEPAD_TRIGGER_THRESHOLD       0
 #endif
 
-#define gamepadthumbLXleft              (float)(-gamepadthumbLX - GAMEPAD_LEFT_THUMB_DEADZONE) /\
-                                        (32767.0f - GAMEPAD_LEFT_THUMB_DEADZONE)
-#define gamepadthumbLXright             (float)(gamepadthumbLX - GAMEPAD_LEFT_THUMB_DEADZONE) /\
-                                        (32767.0f - GAMEPAD_LEFT_THUMB_DEADZONE)
-#define gamepadthumbLYup                (float)(-gamepadthumbLY - GAMEPAD_LEFT_THUMB_DEADZONE) /\
-                                        (32767.0f - GAMEPAD_LEFT_THUMB_DEADZONE)
-#define gamepadthumbLYdown              (float)(gamepadthumbLY - GAMEPAD_LEFT_THUMB_DEADZONE) /\
-                                        (32767.0f - GAMEPAD_LEFT_THUMB_DEADZONE)
-#define gamepadthumbRXleft              pow((-gamepadthumbRX - GAMEPAD_RIGHT_THUMB_DEADZONE) /\
-                                        (32767.0f - GAMEPAD_RIGHT_THUMB_DEADZONE), 3.0f)
-#define gamepadthumbRXright             pow((gamepadthumbRX - GAMEPAD_RIGHT_THUMB_DEADZONE) /\
-                                        (32767.0f - GAMEPAD_RIGHT_THUMB_DEADZONE), 3.0f)
+#define gamepadthumbLXleft              (float)(-gamepadthumbLX - gamepadleftdeadzone) /\
+                                        (32767.0f - gamepadleftdeadzone)
+#define gamepadthumbLXright             (float)(gamepadthumbLX - gamepadleftdeadzone) /\
+                                        (32767.0f - gamepadleftdeadzone)
+#define gamepadthumbLYup                (float)(-gamepadthumbLY - gamepadleftdeadzone) /\
+                                        (32767.0f - gamepadleftdeadzone)
+#define gamepadthumbLYdown              (float)(gamepadthumbLY - gamepadleftdeadzone) /\
+                                        (32767.0f - gamepadleftdeadzone)
+#define gamepadthumbRXleft              pow((-gamepadthumbRX - gamepadrightdeadzone) /\
+                                        (32767.0f - gamepadrightdeadzone), 3.0f)
+#define gamepadthumbRXright             pow((gamepadthumbRX - gamepadrightdeadzone) /\
+                                        (32767.0f - gamepadrightdeadzone), 3.0f)
 
 #define GAMEPADSENSITIVITY_OFFSET       1.0f
 #define GAMEPADSENSITIVITY_FACTOR       3.0f
@@ -89,6 +89,8 @@ extern int      restoremotorspeed;
 
 extern int      gamepadautomap;
 extern int      gamepadfire;
+extern int      gamepadleftdeadzone;
+extern int      gamepadrightdeadzone;
 extern boolean  gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
