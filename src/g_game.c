@@ -164,7 +164,7 @@ int             gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
 boolean         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
-boolean         gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
+int             gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 
 #define MAXPLMOVE       forwardmove[1]
 

@@ -87,7 +87,11 @@
 
 #define GAMEPADLEFTHANDED_DEFAULT       false
 
-#define GAMEPADVIBRATE_DEFAULT          true
+#define DAMAGE                          1
+#define WEAPONS                         2
+#define GAMEPADVIBRATE_MIN              0
+#define GAMEPADVIBRATE_DEFAULT          (DAMAGE | WEAPONS)
+#define GAMEPADVIBRATE_MAX              (DAMAGE | WEAPONS)
 
 #define GAMMALEVEL_MIN                  gammalevels[0]
 #define GAMMALEVEL_DEFAULT              0.75

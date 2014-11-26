@@ -64,7 +64,7 @@ extern int      gamepadprevweapon;
 extern int      gamepadsensitivity;
 extern int      gamepadspeed;
 extern int      gamepaduse;
-extern boolean  gamepadvibrate;
+extern int      gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -227,7 +227,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT        (gamepad_sensitivity,  gamepadsensitivity,   0),
     CONFIG_VARIABLE_INT        (gamepad_speed,        gamepadspeed,         2),
     CONFIG_VARIABLE_INT        (gamepad_use,          gamepaduse,           2),
-    CONFIG_VARIABLE_INT        (gamepad_vibrate,      gamepadvibrate,       1),
+    CONFIG_VARIABLE_INT        (gamepad_vibrate,      gamepadvibrate,      15),
     CONFIG_VARIABLE_INT        (gamepad_weapon1,      gamepadweapon1,       2),
     CONFIG_VARIABLE_INT        (gamepad_weapon2,      gamepadweapon2,       2),
     CONFIG_VARIABLE_INT        (gamepad_weapon3,      gamepadweapon3,       2),
@@ -630,6 +630,12 @@ static alias_t alias[] =
     { "vertexes|sectors|things|linedefs",      15, 14 },
     { "vertexes|things|linedefs|sectors",      15, 14 },
     { "vertexes|things|sectors|linedefs",      15, 14 },
+    { "-",                                      0, 15 },
+    { "none",                                   0, 15 },
+    { "damage",                                 1, 15 },
+    { "weapons",                                2, 15 },
+    { "damage|weapons",                         3, 15 },
+    { "weapons|damage",                         3, 15 },
     { "",                                       0,  0 }
 };
 
@@ -1008,8 +1014,7 @@ static void M_CheckDefaults(void)
     if (gamepaduse < 0 || gamepaduse > GAMEPAD_Y || (gamepaduse & (gamepaduse - 1)))
         gamepaduse = GAMEPADUSE_DEFAULT;
 
-    if (gamepadvibrate != false && gamepadvibrate != true)
-        gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
+    gamepadvibrate = BETWEEN(GAMEPADVIBRATE_MIN, gamepadvibrate, GAMEPADVIBRATE_MAX);
 
     if (gamepadweapon1 < 0 || gamepadweapon1 > GAMEPAD_Y || (gamepadweapon1 & (gamepadweapon1 - 1)))
         gamepadweapon1 = GAMEPADWEAPON_DEFAULT;

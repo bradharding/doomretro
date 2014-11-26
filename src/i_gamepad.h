@@ -95,7 +95,7 @@ extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
 extern int      gamepadspeed;
 extern int      gamepaduse;
-extern boolean  gamepadvibrate;
+extern int      gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
