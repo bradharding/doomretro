@@ -228,7 +228,7 @@ state_t states[NUMSTATES] =
     { SPR_PLSF,  0 | FF_FULLBRIGHT,                4,               A_Light1,        S_LIGHTDONE,     0,     0     }, // S_PLASMAFLASH1
     { SPR_PLSF,  1 | FF_FULLBRIGHT,                4,               A_Light1,        S_LIGHTDONE,     0,     0     }, // S_PLASMAFLASH2
 
-    // BFG 9000
+    // BFG-9000
     { SPR_BFGG,  0,                                1,               A_WeaponReady,   S_BFG,           0,     0     }, // S_BFG
     { SPR_BFGG,  0,                                1,               A_Lower,         S_BFGDOWN,       0,     0     }, // S_BFGDOWN
     { SPR_BFGG,  0,                                1,               A_Raise,         S_BFGUP,         0,     0     }, // S_BFGUP
@@ -276,7 +276,7 @@ state_t states[NUMSTATES] =
     // Rocket Launcher Projectile (MT_ROCKET)
     { SPR_MISL,  0 | FF_FULLBRIGHT,                1,               NULL,            S_ROCKET,        0,     0     }, // S_ROCKET
 
-    // BFG 9000 Projectile (MT_BFG)
+    // BFG-9000 Projectile (MT_BFG)
     { SPR_BFS1,  0 | FF_FULLBRIGHT,                4,               NULL,            S_BFGSHOT2,      0,     0     }, // S_BFGSHOT
     { SPR_BFS1,  1 | FF_FULLBRIGHT,                4,               NULL,            S_BFGSHOT,       0,     0     }, // S_BFGSHOT2
     { SPR_BFE1,  0 | FF_FULLBRIGHT,                8,               NULL,            S_BFGLAND2,      0,     0     }, // S_BFGLAND
@@ -286,7 +286,7 @@ state_t states[NUMSTATES] =
     { SPR_BFE1,  4 | FF_FULLBRIGHT,                8,               NULL,            S_BFGLAND6,      0,     0     }, // S_BFGLAND5
     { SPR_BFE1,  5 | FF_FULLBRIGHT,                8,               NULL,            S_NULL,          0,     0     }, // S_BFGLAND6
 
-    // BFG 9000 Secondary Projectile (MT_EXTRABFG)
+    // BFG-9000 Secondary Projectile (MT_EXTRABFG)
     { SPR_BFE2,  0 | FF_FULLBRIGHT,                8,               NULL,            S_BFGEXP2,       0,     0     }, // S_BFGEXP
     { SPR_BFE2,  1 | FF_FULLBRIGHT,                8,               NULL,            S_BFGEXP3,       0,     0     }, // S_BFGEXP2
     { SPR_BFE2,  2 | FF_FULLBRIGHT,                8,               NULL,            S_BFGEXP4,       0,     0     }, // S_BFGEXP3
@@ -1184,7 +1184,7 @@ state_t states[NUMSTATES] =
     // Backpack (MT_MISC24)
     { SPR_BPAK,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BPAK
 
-    // BFG 9000 (MT_MISC25)
+    // BFG-9000 (MT_MISC25)
     { SPR_BFUG,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_BFUG
 
     // Chaingun (MT_CHAINGUN)
@@ -2517,7 +2517,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* description          */ ""
     },
 
-    // BFG 9000 Projectile (MT_BFG)
+    // BFG-9000 Projectile (MT_BFG)
     {
         /* doomednum            */ -1,
         /* spawnstate           */ S_BFGSHOT,
@@ -2741,7 +2741,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* description          */ "",
     },
 
-    // BFG 9000 Secondary Projectile (MT_EXTRABFG)
+    // BFG-9000 Secondary Projectile (MT_EXTRABFG)
     {
         /* doomednum            */ -1,
         /* spawnstate           */ S_BFGEXP,
@@ -3701,7 +3701,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* description          */ "a backpack"
     },
 
-    // BFG 9000 (MT_MISC25)
+    // BFG-9000 (MT_MISC25)
     {
         /* doomednum            */ BFG9000,
         /* spawnstate           */ S_BFUG,
@@ -3730,7 +3730,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
-        /* description          */ "a BFG 9000"
+        /* description          */ "a BFG-9000"
     },
 
     // Chaingun (MT_CHAINGUN)

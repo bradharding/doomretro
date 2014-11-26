@@ -113,7 +113,7 @@ weaponinfo_t    weaponinfo[NUMWEAPONS] =
         10
     },
     {
-        // bfg 9000
+        // BFG-9000
         am_cell,
         S_BFGUP,
         S_BFGDOWN,

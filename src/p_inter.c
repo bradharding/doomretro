@@ -76,7 +76,7 @@ char *weapondescription[] =
     "chaingun",
     "rocket launcher",
     "plasma rifle",
-    "BFG 9000",
+    "BFG-9000",
     "chainsaw",
     "super shotgun"
 };
