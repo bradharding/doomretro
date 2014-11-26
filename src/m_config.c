@@ -1231,18 +1231,16 @@ static void M_CheckDefaults(void)
         videodriver = VIDEODRIVER_DEFAULT;
 #endif
 
-    if (!widescreen)
-        hud = true;
-    if (screensize == SCREENSIZE_MAX)
-    {
-        widescreen = true;
-        screensize = SCREENSIZE_MAX - 1;
-    }
-    if (widescreen)
+    if (widescreen != false && widescreen != true)
+        widescreen = WIDESCREEN_DEFAULT;
+    if (widescreen || screensize == SCREENSIZE_MAX)
     {
         returntowidescreen = true;
         widescreen = false;
     }
+    else
+        hud = true;
+
     if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
         windowheight = WINDOWHEIGHT_DEFAULT;
     windowwidth = windowheight * 4 / 3;
