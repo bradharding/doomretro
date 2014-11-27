@@ -29,6 +29,7 @@
 
 #ifdef WIN32
 #include <ShlObj.h>
+#include <Xinput.h>
 #endif
 
 #include "doomstat.h"
@@ -40,6 +41,8 @@
 #include "m_misc.h"
 #include "version.h"
 
+float           gamepadleftdeadzone_percent = GAMEPADLEFTDEADZONE_DEFAULT;
+float           gamepadrightdeadzone_percent = GAMEPADRIGHTDEADZONE_DEFAULT;
 int             musicvolume_percent = MUSICVOLUME_DEFAULT;
 int             sfxvolume_percent = SFXVOLUME_DEFAULT;
 
@@ -150,6 +153,7 @@ typedef enum
     DEFAULT_INT_PERCENT,
     DEFAULT_STRING,
     DEFAULT_FLOAT,
+    DEFAULT_FLOAT_PERCENT,
     DEFAULT_KEY
 } default_type_t;
 
@@ -205,6 +209,8 @@ typedef struct
     CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_INT_PERCENT, set)
 #define CONFIG_VARIABLE_FLOAT(name, variable, set) \
     CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_FLOAT, set)
+#define CONFIG_VARIABLE_FLOAT_PERCENT(name, variable, set) \
+    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_FLOAT_PERCENT, set)
 #define CONFIG_VARIABLE_STRING(name, variable, set) \
     CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_STRING, set)
 
@@ -224,8 +230,8 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT        (gamepad_automap,       gamepadautomap,        2),
     CONFIG_VARIABLE_INT        (gamepad_fire,          gamepadfire,           2),
     CONFIG_VARIABLE_INT        (gamepad_followmode,    gamepadfollowmode,     2),
-    CONFIG_VARIABLE_INT        (gamepad_leftdeadzone,  gamepadleftdeadzone,   0),
-    CONFIG_VARIABLE_INT        (gamepad_rightdeadzone, gamepadrightdeadzone,  0),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gamepad_leftdeadzone,  gamepadleftdeadzone_percent,   0),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gamepad_rightdeadzone, gamepadrightdeadzone_percent,  0),
     CONFIG_VARIABLE_INT        (gamepad_lefthanded,    gamepadlefthanded,     1),
     CONFIG_VARIABLE_INT        (gamepad_menu,          gamepadmenu,           2),
     CONFIG_VARIABLE_INT        (gamepad_prevweapon,    gamepadprevweapon,     2),
@@ -645,6 +651,18 @@ static alias_t alias[] =
     { "",                                       0,  0 }
 };
 
+static char *striptrailingzero(float value)
+{
+    size_t      len;
+    static char result[100];
+    
+    M_snprintf(result, 100, "%.1f", value);
+    len = strlen(result);
+    if (len > 2 && result[len - 2] == '.' && result[len - 1] == '0')
+        result[len - 2] = '\0';
+    return result;
+}
+
 static void SaveDefaultCollection(default_collection_t *collection)
 {
     default_t   *defaults;
@@ -766,6 +784,27 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 fprintf(f, "0x%x", *(int *)defaults[i].location);
                 break;
 
+            case DEFAULT_INT_PERCENT:
+            {
+                int         j = 0;
+                boolean     flag = false;
+                int         v = *(int *)defaults[i].location;
+
+                while (alias[j].text[0])
+                {
+                    if (v == alias[j].value && defaults[i].set == alias[j].set)
+                    {
+                        fprintf(f, "%s", alias[j].text);
+                        flag = true;
+                        break;
+                    }
+                    j++;
+                }
+                if (!flag)
+                    fprintf(f, "%i%%", *(int *)defaults[i].location);
+                break;
+            }
+
             case DEFAULT_FLOAT:
             {
                 int         j = 0;
@@ -787,11 +826,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 break;
             }
 
-            case DEFAULT_INT_PERCENT:
+            case DEFAULT_FLOAT_PERCENT:
             {
                 int         j = 0;
                 boolean     flag = false;
-                int         v = *(int *)defaults[i].location;
+                float       v = *(float *)defaults[i].location;
 
                 while (alias[j].text[0])
                 {
@@ -804,7 +843,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%i%%", *(int *)defaults[i].location);
+                    fprintf(f, "%s%%", striptrailingzero(*(float *)defaults[i].location));
                 break;
             }
 
@@ -912,16 +951,16 @@ static void LoadDefaultCollection(default_collection_t *collection)
                     *(char **)def->location = s;
                     break;
 
+                case DEFAULT_INT:
+                case DEFAULT_INT_HEX:
+                    *(int *)def->location = ParseIntParameter(strparm, def->set);
+                    break;
+
                 case DEFAULT_INT_PERCENT:
                     s = strdup(strparm);
                     if (s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
                     *(int *)def->location = ParseIntParameter(s, def->set);
-                    break;
-
-                case DEFAULT_INT:
-                case DEFAULT_INT_HEX:
-                    *(int *)def->location = ParseIntParameter(strparm, def->set);
                     break;
 
                 case DEFAULT_KEY:
@@ -936,6 +975,13 @@ static void LoadDefaultCollection(default_collection_t *collection)
                     break;
 
                 case DEFAULT_FLOAT:
+                    *(float *)def->location = ParseFloatParameter(strparm, def->set);
+                    break;
+
+                case DEFAULT_FLOAT_PERCENT:
+                    s = strdup(strparm);
+                    if (s[strlen(s) - 1] == '%')
+                        s[strlen(s) - 1] = '\0';
                     *(float *)def->location = ParseFloatParameter(strparm, def->set);
                     break;
             }
@@ -998,9 +1044,11 @@ static void M_CheckDefaults(void)
         || (gamepadfollowmode & (gamepadfollowmode - 1)))
         gamepadfollowmode = GAMEPADFOLLOWMODE_DEFAULT;
 
-    gamepadleftdeadzone = BETWEEN(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone, GAMEPADLEFTDEADZONE_MAX);
+    gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone_percent,
+        GAMEPADLEFTDEADZONE_MAX) * 32767.0f / 100.0f);
 
-    gamepadrightdeadzone = BETWEEN(GAMEPADRIGHTDEADZONE_MIN, gamepadrightdeadzone, GAMEPADRIGHTDEADZONE_MAX);
+    gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN, gamepadrightdeadzone_percent,
+        GAMEPADRIGHTDEADZONE_MAX) * 32767.0f / 100.0f);
 
     if (gamepadlefthanded != false && gamepadlefthanded != true)
         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
