@@ -146,16 +146,16 @@ static int __inline clamp(int value, int deadzone)
 
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)
 {
-    gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, LX), GAMEPAD_LEFT_THUMB_DEADZONE);
-    gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, LY), GAMEPAD_LEFT_THUMB_DEADZONE);
-    gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, RX), GAMEPAD_RIGHT_THUMB_DEADZONE);
+    gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
+    gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, LY), gamepadleftdeadzone);
+    gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, RX), gamepadrightdeadzone);
 }
 
 void I_PollThumbs_DirectInput_LeftHanded(short LX, short LY, short RX, short RY)
 {
-    gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, RX), GAMEPAD_RIGHT_THUMB_DEADZONE);
-    gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, RY), GAMEPAD_RIGHT_THUMB_DEADZONE);
-    gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, LX), GAMEPAD_LEFT_THUMB_DEADZONE);
+    gamepadthumbLX = clamp(SDL_JoystickGetAxis(gamepad, RX), gamepadrightdeadzone);
+    gamepadthumbLY = clamp(SDL_JoystickGetAxis(gamepad, RY), gamepadrightdeadzone);
+    gamepadthumbRX = clamp(SDL_JoystickGetAxis(gamepad, LX), gamepadleftdeadzone);
 }
 
 void I_PollDirectInputGamepad(void)
@@ -232,16 +232,16 @@ void XInputVibration(int motorspeed)
 
 void I_PollThumbs_XInput_RightHanded(short LX, short LY, short RX, short RY)
 {
-    gamepadthumbLX = clamp(LX, GAMEPAD_LEFT_THUMB_DEADZONE);
-    gamepadthumbLY = -clamp(LY, GAMEPAD_LEFT_THUMB_DEADZONE);
-    gamepadthumbRX = clamp(RX, GAMEPAD_RIGHT_THUMB_DEADZONE);
+    gamepadthumbLX = clamp(LX, gamepadleftdeadzone);
+    gamepadthumbLY = -clamp(LY, gamepadleftdeadzone);
+    gamepadthumbRX = clamp(RX, gamepadrightdeadzone);
 }
 
 void I_PollThumbs_XInput_LeftHanded(short LX, short LY, short RX, short RY)
 {
-    gamepadthumbLX = clamp(RX, GAMEPAD_RIGHT_THUMB_DEADZONE);
-    gamepadthumbLY = -clamp(RY, GAMEPAD_RIGHT_THUMB_DEADZONE);
-    gamepadthumbRX = clamp(LX, GAMEPAD_LEFT_THUMB_DEADZONE);
+    gamepadthumbLX = clamp(RX, gamepadrightdeadzone);
+    gamepadthumbLY = -clamp(RY, gamepadrightdeadzone);
+    gamepadthumbRX = clamp(LX, gamepadleftdeadzone);
 }
 
 void I_PollXInputGamepad(void)
@@ -257,8 +257,8 @@ void I_PollXInputGamepad(void)
         Gamepad = state.Gamepad;
 
         gamepadbuttons = (Gamepad.wButtons
-            | GAMEPAD_LEFT_TRIGGER * (Gamepad.bLeftTrigger > GAMEPAD_TRIGGER_THRESHOLD)
-            | GAMEPAD_RIGHT_TRIGGER * (Gamepad.bRightTrigger > GAMEPAD_TRIGGER_THRESHOLD));
+            | GAMEPAD_LEFT_TRIGGER * (Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+            | GAMEPAD_RIGHT_TRIGGER * (Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD));
 
         if (damagevibrationtics)
             if (!--damagevibrationtics && !weaponvibrationtics)
