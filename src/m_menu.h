@@ -84,13 +84,14 @@ void M_DrawCenteredString(int y, char *str);
 
 void M_UpdateWindowCaption(void);
 
-extern int screensize;
-
-extern int gamepadmenu;
-extern boolean nomusic;
-extern boolean nosound;
-extern boolean nosfx;
-extern boolean firstevent;
-extern byte grays[256];
+extern int      screensize;
+extern int      gamepadmenu;
+extern boolean  nomusic;
+extern boolean  nosound;
+extern boolean  nosfx;
+extern boolean  firstevent;
+extern byte     grays[256];
+extern int      musicvolume_percent;
+extern int      sfxvolume_percent;
 
 #endif

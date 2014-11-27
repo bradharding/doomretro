@@ -40,8 +40,8 @@
 #include "m_misc.h"
 #include "version.h"
 
-int             musicvolume_percent;
-int             sfxvolume_percent;
+int             musicvolume_percent = MUSICVOLUME_DEFAULT;
+int             sfxvolume_percent = SFXVOLUME_DEFAULT;
 
 //
 // DEFAULTS

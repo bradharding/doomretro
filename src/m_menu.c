@@ -1336,6 +1336,7 @@ void M_SfxVol(int choice)
                 {
                     S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
+                    sfxvolume_percent = sfxVolume * 100 / 15;
                     M_SaveDefaults();
                 }
                 break;
@@ -1344,6 +1345,7 @@ void M_SfxVol(int choice)
                 {
                     S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
+                    sfxvolume_percent = sfxVolume * 100 / 15;
                     M_SaveDefaults();
                 }
                 break;
@@ -1362,6 +1364,7 @@ void M_MusicVol(int choice)
                 {
                     S_SetMusicVolume((int)(--musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
+                    musicvolume_percent = musicVolume * 100 / 15;
                     M_SaveDefaults();
                 }
                 break;
@@ -1370,6 +1373,7 @@ void M_MusicVol(int choice)
                 {
                     S_SetMusicVolume((int)(++musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
+                    musicvolume_percent = musicVolume * 100 / 15;
                     M_SaveDefaults();
                 }
                 break;
