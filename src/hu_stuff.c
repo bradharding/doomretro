@@ -45,8 +45,8 @@
 //
 // Locally used constants, shortcuts.
 //
-#define HU_TITLEX       0
-#define HU_TITLEY       ((SCREENHEIGHT - SBARHEIGHT) / 2 - SHORT(hu_font[0]->height) - 2)
+#define HU_TITLEX       (fullscreen && !widescreen ? 0 : 3)
+#define HU_TITLEY       (ORIGINALHEIGHT - 32 * (screensize < SCREENSIZE_MAX) - 9)
 
 char                    chat_char;
 static player_t         *plr;
@@ -441,12 +441,13 @@ static void HU_DrawHUD(void)
 
 void HU_Drawer(void)
 {
-    w_message.l->x = (automapactive && fullscreen && !widescreen ? 0 : 3);
+    w_message.l->x = HU_MSGX;
     w_message.l->y = HU_MSGY;
     HUlib_drawSText(&w_message);
     if (automapactive)
     {
-        w_title.x = (fullscreen && !widescreen ? 0 : 3);
+        w_title.x = HU_TITLEX;
+        w_title.y = HU_TITLEY;
         HUlib_drawTextLine(&w_title);
     }
     else if ((widescreen || screensize == SCREENSIZE_MAX) && hud)

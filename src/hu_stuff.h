@@ -43,7 +43,7 @@
 
 #define HU_BROADCAST    5
 
-#define HU_MSGX         3
+#define HU_MSGX         (automapactive && fullscreen && !widescreen ? 0 : 3)
 #define HU_MSGY         2
 #define HU_MSGWIDTH     64      // in characters
 #define HU_MSGHEIGHT    1       // in lines

@@ -130,7 +130,7 @@ byte    *gridcolor;
 #define AM_ROTATEKEY            'r'
 
 #define MAPWIDTH                SCREENWIDTH
-#define MAPHEIGHT               (SCREENHEIGHT - SBARHEIGHT)
+#define MAPHEIGHT               (unsigned int)viewheight2
 #define MAPAREA                 (MAPWIDTH * MAPHEIGHT)
 
 // scale on entry
@@ -1156,12 +1156,12 @@ static boolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
     *y0 = CYMTOF(*y0);
     if (*y0 < -1)
         outcode1 |= TOP;
-    else if (*y0 >= MAPHEIGHT)
+    else if (*y0 >= (int)MAPHEIGHT)
         outcode1 |= BOTTOM;
     *y1 = CYMTOF(*y1);
     if (*y1 < -1)
         outcode2 |= TOP;
-    else if (*y1 >= MAPHEIGHT)
+    else if (*y1 >= (int)MAPHEIGHT)
         outcode2 |= BOTTOM;
     return !(outcode1 & outcode2);
 }
@@ -1632,7 +1632,7 @@ static void AM_drawThings(void)
                     fx = CXMTOF(x);
                     fy = CYMTOF(y);
 
-                    if (fx >= -w && fx <= MAPWIDTH + w && fy >= -w && fy <= MAPHEIGHT + w)
+                    if (fx >= -w && fx <= (int)MAPWIDTH + w && fy >= -w && fy <= (int)MAPHEIGHT + w)
                         AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w, thing->angle,
                                              thingcolor, x, y);
                 }
@@ -1778,7 +1778,7 @@ static void AM_darkenEdges(void)
             *dot = *(*dot + colormap);
         }
 
-        for (y = i + 1; y < MAPHEIGHT - i - 1; ++y)
+        for (y = i + 1; y < (int)MAPHEIGHT - i - 1; ++y)
         {
             byte        *dot = *screens + y * MAPWIDTH + i;
 

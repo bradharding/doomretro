@@ -68,8 +68,6 @@ extern int        key_left;
 extern int        key_strafeleft;
 extern int        key_strafeleft2;
 
-extern int        gamepadautomap;
-
 extern byte       *tinttab60;
 extern byte       *tinttab80;
 
@@ -77,6 +75,8 @@ extern boolean    message_dontfuckwithme;
 extern boolean    idbehold;
 extern boolean    idclev;
 extern boolean    idmus;
+
+extern int        viewheight2;
 
 boolean keystate(int key);
 
