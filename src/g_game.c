@@ -129,8 +129,7 @@ int             key_straferight2 = KEYSTRAFERIGHT2_DEFAULT;
 int             key_fire = KEYFIRE_DEFAULT;
 int             key_use = KEYUSE_DEFAULT;
 int             key_strafe = KEYSTRAFE_DEFAULT;
-int             key_speed = KEYSPEED_DEFAULT;
-
+int             key_run = KEYRUN_DEFAULT;
 int             key_weapon1 = KEYWEAPON1_DEFAULT;
 int             key_weapon2 = KEYWEAPON2_DEFAULT;
 int             key_weapon3 = KEYWEAPON3_DEFAULT;
@@ -157,7 +156,7 @@ int             gamepadrightdeadzone;
 boolean         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
 int             gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 int             gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
-int             gamepadspeed = GAMEPADSPEED_DEFAULT;
+int             gamepadrun = GAMEPADRUN_DEFAULT;
 int             gamepaduse = GAMEPADUSE_DEFAULT;
 int             gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 int             gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
@@ -338,7 +337,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
-    speed = (!!(gamepadbuttons & gamepadspeed) + !!gamekeydown[key_speed] + alwaysrun == 1);
+    speed = (!!(gamepadbuttons & gamepadrun) + !!gamekeydown[key_run] + alwaysrun == 1);
 
     // use two stage accelerative turning
     // on the keyboard

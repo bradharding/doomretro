@@ -89,7 +89,7 @@
 #define GAMEPADSENSITIVITY_DEFAULT      32
 #define GAMEPADSENSITIVITY_MAX          128
 
-#define GAMEPADSPEED_DEFAULT            GAMEPAD_LEFT_TRIGGER
+#define GAMEPADRUN_DEFAULT              GAMEPAD_LEFT_TRIGGER
 
 #define GAMEPADUSE_DEFAULT              GAMEPAD_A
 
@@ -133,7 +133,7 @@
 
 #define KEYRIGHT_DEFAULT                KEY_RIGHTARROW
 
-#define KEYSPEED_DEFAULT                KEY_RSHIFT
+#define KEYRUN_DEFAULT                  KEY_RSHIFT
 
 #define KEYSTRAFE_DEFAULT               KEY_RALT
 

@@ -400,7 +400,7 @@ static boolean actionkey(char key)
         || key == key_fire
         || key == key_use
         || key == key_strafe
-        || key == key_speed
+        || key == key_run
         || key == key_prevweapon
         || key == key_nextweapon
         || key == key_weapon1
