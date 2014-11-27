@@ -266,12 +266,12 @@ void G_RemoveChoppers(void)
     oldweaponsowned[wp_chainsaw] = player->chainsawbeforechoppers;
 }
 
-static void G_NextWeapon(void)
+static void G_NextWeapon(boolean wait)
 {
     player_t            *player = &players[consoleplayer];
     weapontype_t        pendingweapon = player->pendingweapon;
     weapontype_t        readyweapon = player->readyweapon;
-    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+    weapontype_t        i = (pendingweapon == wp_nochange || wait ? readyweapon : pendingweapon);
 
     do
     {
@@ -291,12 +291,12 @@ static void G_NextWeapon(void)
         S_StartSound(NULL, sfx_getpow);
 }
 
-static void G_PrevWeapon(void)
+static void G_PrevWeapon(boolean wait)
 {
     player_t            *player = &players[consoleplayer];
     weapontype_t        pendingweapon = player->pendingweapon;
     weapontype_t        readyweapon = player->readyweapon;
-    weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
+    weapontype_t        i = (pendingweapon == wp_nochange || wait ? readyweapon : pendingweapon);
 
     do
     {
@@ -700,9 +700,9 @@ boolean G_Responder(event_t *ev)
         case ev_keydown:
             key = ev->data1;
             if (key == key_prevweapon && !menuactive && !paused)
-                G_PrevWeapon();
+                G_PrevWeapon(false);
             else if (key == key_nextweapon && !menuactive && !paused)
-                G_NextWeapon();
+                G_NextWeapon(false);
             else if (key == KEY_PAUSE && !menuactive && !keydown)
             {
                 keydown = KEY_PAUSE;
@@ -748,9 +748,9 @@ boolean G_Responder(event_t *ev)
             if (!automapactive && !menuactive && !paused)
             {
                 if (mousebuttons[mousebnextweapon])
-                    G_NextWeapon();
+                    G_NextWeapon(false);
                 else if (mousebuttons[mousebprevweapon])
-                    G_PrevWeapon();
+                    G_PrevWeapon(false);
             }
             if (!automapactive || (automapactive && followplayer))
             {
@@ -766,7 +766,7 @@ boolean G_Responder(event_t *ev)
                 {
                     if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
                     {
-                        G_NextWeapon();
+                        G_NextWeapon(true);
                         gamepadpress = false;
                     }
                 }
@@ -774,7 +774,7 @@ boolean G_Responder(event_t *ev)
                 {
                     if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
                     {
-                        G_PrevWeapon();
+                        G_PrevWeapon(true);
                         gamepadpress = false;
                     }
                 }
