@@ -150,11 +150,16 @@ int             mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
 
 int             gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
 int             gamepadfire = GAMEPADFIRE_DEFAULT;
+int             gamepadfollowmode = GAMEPADFOLLOWMODE_DEFAULT;
 int             gamepadmenu = GAMEPADMENU_DEFAULT;
+int             gamepadleftdeadzone = GAMEPADLEFTDEADZONE_DEFAULT;
+int             gamepadrightdeadzone = GAMEPADRIGHTDEADZONE_DEFAULT;
+boolean         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
 int             gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 int             gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 int             gamepadspeed = GAMEPADSPEED_DEFAULT;
 int             gamepaduse = GAMEPADUSE_DEFAULT;
+int             gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 int             gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
@@ -162,9 +167,6 @@ int             gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
-
-boolean         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
-int             gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 
 #define MAXPLMOVE       forwardmove[1]
 

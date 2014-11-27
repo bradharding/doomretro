@@ -57,6 +57,7 @@ extern boolean  footclip;
 extern int      fullscreen;
 extern int      gamepadautomap;
 extern int      gamepadfire;
+extern int      gamepadfollowmode;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
 extern boolean  gamepadlefthanded;
@@ -222,6 +223,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT        (fullscreen,            fullscreen,            1),
     CONFIG_VARIABLE_INT        (gamepad_automap,       gamepadautomap,        2),
     CONFIG_VARIABLE_INT        (gamepad_fire,          gamepadfire,           2),
+    CONFIG_VARIABLE_INT        (gamepad_followmode,    gamepadfollowmode,     2),
     CONFIG_VARIABLE_INT        (gamepad_leftdeadzone,  gamepadleftdeadzone,   0),
     CONFIG_VARIABLE_INT        (gamepad_rightdeadzone, gamepadrightdeadzone,  0),
     CONFIG_VARIABLE_INT        (gamepad_lefthanded,    gamepadlefthanded,     1),
@@ -991,6 +993,10 @@ static void M_CheckDefaults(void)
 
     if (gamepadfire < 0 || gamepadfire > GAMEPAD_Y || (gamepadfire & (gamepadfire - 1)))
         gamepadfire = GAMEPADFIRE_DEFAULT;
+
+    if (gamepadfollowmode < 0 || gamepadfollowmode > GAMEPAD_Y
+        || (gamepadfollowmode & (gamepadfollowmode - 1)))
+        gamepadfollowmode = GAMEPADFOLLOWMODE_DEFAULT;
 
     gamepadleftdeadzone = BETWEEN(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone, GAMEPADLEFTDEADZONE_MAX);
 

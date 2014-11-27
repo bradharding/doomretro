@@ -89,6 +89,7 @@ extern int      restoremotorspeed;
 
 extern int      gamepadautomap;
 extern int      gamepadfire;
+extern int      gamepadfollowmode;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
 extern boolean  gamepadlefthanded;

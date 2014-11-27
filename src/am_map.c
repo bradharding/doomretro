@@ -958,6 +958,16 @@ boolean AM_Responder(event_t *ev)
                     ftom_zoommul = M_ZOOMIN;
                 }
 
+                else if (gamepadbuttons & gamepadfollowmode)
+                {
+                    followplayer = !followplayer;
+                    if (followplayer)
+                        m_paninc.x = m_paninc.y = 0;
+                    f_oldloc.x = INT_MAX;
+                    plr->message = (followplayer ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
+                    message_dontfuckwithme = true;
+                }
+
 #ifdef WIN32
                 if (!followplayer)
                 {

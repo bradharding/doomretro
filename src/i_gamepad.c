@@ -55,9 +55,6 @@ int                     gamepadthumbLX;
 int                     gamepadthumbLY;
 int                     gamepadthumbRX;
 
-int                     gamepadleftdeadzone = GAMEPADLEFTDEADZONE_DEFAULT;
-int                     gamepadrightdeadzone = GAMEPADRIGHTDEADZONE_DEFAULT;
-
 boolean                 vibrate = false;
 
 extern boolean          idclev;
