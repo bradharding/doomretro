@@ -1045,10 +1045,10 @@ static void M_CheckDefaults(void)
         gamepadfollowmode = GAMEPADFOLLOWMODE_DEFAULT;
 
     gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone_percent,
-        GAMEPADLEFTDEADZONE_MAX) * 32767.0f / 100.0f);
+        GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
 
     gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN, gamepadrightdeadzone_percent,
-        GAMEPADRIGHTDEADZONE_MAX) * 32767.0f / 100.0f);
+        GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
 
     if (gamepadlefthanded != false && gamepadlefthanded != true)
         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;

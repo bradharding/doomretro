@@ -51,9 +51,9 @@ static XINPUTSETSTATE pXInputSetState;
 static SDL_Joystick     *gamepad = NULL;
 
 int                     gamepadbuttons = 0;
-int                     gamepadthumbLX;
-int                     gamepadthumbLY;
-int                     gamepadthumbRX;
+short                   gamepadthumbLX;
+short                   gamepadthumbLY;
+short                   gamepadthumbRX;
 
 boolean                 vibrate = false;
 
@@ -137,11 +137,9 @@ void I_ShutdownGamepad(void)
     }
 }
 
-static int __inline clamp(int value, int deadzone)
+static short __inline clamp(short value, short deadzone)
 {
-    if (value > -deadzone && value < deadzone)
-        return 0;
-    return MAX(-32767, value);
+    return (value > -deadzone && value < deadzone ? 0 : MAX(-SHRT_MAX, value));
 }
 
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)

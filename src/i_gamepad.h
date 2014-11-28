@@ -50,17 +50,17 @@
 #define GAMEPAD_Y                       0x8000
 
 #define gamepadthumbLXleft              (float)(-gamepadthumbLX - gamepadleftdeadzone) /\
-                                        (32767.0f - gamepadleftdeadzone)
+                                        ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLXright             (float)(gamepadthumbLX - gamepadleftdeadzone) /\
-                                        (32767.0f - gamepadleftdeadzone)
+                                        ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLYup                (float)(-gamepadthumbLY - gamepadleftdeadzone) /\
-                                        (32767.0f - gamepadleftdeadzone)
+                                        ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLYdown              (float)(gamepadthumbLY - gamepadleftdeadzone) /\
-                                        (32767.0f - gamepadleftdeadzone)
+                                        ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbRXleft              pow((-gamepadthumbRX - gamepadrightdeadzone) /\
-                                        (32767.0f - gamepadrightdeadzone), 3.0f)
+                                        ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
 #define gamepadthumbRXright             pow((gamepadthumbRX - gamepadrightdeadzone) /\
-                                        (32767.0f - gamepadrightdeadzone), 3.0f)
+                                        ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
 
 #define GAMEPADSENSITIVITY_OFFSET       1.0f
 #define GAMEPADSENSITIVITY_FACTOR       3.0f
@@ -69,9 +69,9 @@ int damagevibrationtics;
 int weaponvibrationtics;
 
 extern int      gamepadbuttons;
-extern int      gamepadthumbLX;
-extern int      gamepadthumbLY;
-extern int      gamepadthumbRX;
+extern short    gamepadthumbLX;
+extern short    gamepadthumbLY;
+extern short    gamepadthumbRX;
 extern boolean  vibrate;
 extern int      currentmotorspeed;
 extern int      idlemotorspeed;
