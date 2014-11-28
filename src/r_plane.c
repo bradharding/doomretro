@@ -205,7 +205,9 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 
     for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
 
-    if (x > intrh)
+    // [crispy] fix HOM if ceilingplane and floorplane are the same
+    // visplane (e.g. both skies)
+    if (!(pl == floorplane && markceiling && floorplane == ceilingplane) && x > intrh)
     {
         pl->minx = unionl;
         pl->maxx = unionh;

@@ -41,6 +41,8 @@ extern int      ceilingclip[];
 extern fixed_t  yslope[];
 extern fixed_t  distscale[];
 
+extern boolean  markceiling;
+
 void R_ClearPlanes(void);
 
 void R_DrawPlanes(void);
