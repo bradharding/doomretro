@@ -747,12 +747,12 @@ typedef struct visplane_s
     unsigned short      pad1;
     // Here lies the rub for all
     //  dynamic resize/change of resolution.
-    unsigned short      top[SCREENWIDTH];
-    unsigned short      pad2;
-    unsigned short      pad3;
+    unsigned int        top[SCREENWIDTH];
+    unsigned int        pad2;
+    unsigned int        pad3;
     // See above.
-    unsigned short      bottom[SCREENWIDTH];
-    unsigned short      pad4;
+    unsigned int        bottom[SCREENWIDTH];
+    unsigned int        pad4;
 
     struct visplane_s   *next;  // Next visplane in hash chain -- killough
 } visplane_t;

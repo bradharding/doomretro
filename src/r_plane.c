@@ -203,7 +203,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         intrh = stop;
     }
 
-    for (x = intrl; x <= intrh && pl->top[x] == SHRT_MAX; x++);
+    for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
 
     if (x > intrh)
     {
@@ -221,7 +221,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         pl = new_pl;
         pl->minx = start;
         pl->maxx = stop;
-        memset(pl->top, SHRT_MAX, sizeof(pl->top));
+        memset(pl->top, UINT_MAX, sizeof(pl->top));
     }
 
     return pl;
@@ -230,7 +230,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 //
 // R_MakeSpans
 //
-static void R_MakeSpans(int x, int t1, int b1, int t2, int b2)
+static void R_MakeSpans(int x, unsigned int t1, unsigned int b1, unsigned int t2, unsigned int b2)
 {
     for (; t1 < t2 && t1 <= b1; t1++)
         R_MapPlane(t1, spanstart[t1], x - 1);
@@ -277,7 +277,7 @@ void R_DrawPlanes(void)
                         dc_yl = pl->top[x];
                         dc_yh = pl->bottom[x];
 
-                        if (dc_yl != SHRT_MAX && dc_yl <= dc_yh)
+                        if (dc_yl != UINT_MAX && dc_yl <= dc_yh)
                         {
                             dc_x = x;
                             dc_source = R_GetColumn(skytexture,
@@ -300,7 +300,7 @@ void R_DrawPlanes(void)
 
                     planezlight = zlight[BETWEEN(0, light, LIGHTLEVELS - 1)];
 
-                    pl->top[pl->minx - 1] = pl->top[stop] = SHRT_MAX;
+                    pl->top[pl->minx - 1] = pl->top[stop] = UINT_MAX;
 
                     for (x = pl->minx; x <= stop; x++)
                         R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
