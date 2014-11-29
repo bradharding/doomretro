@@ -734,18 +734,19 @@ static int D_ChooseIWAD(void)
         // more than one file was selected
         else
         {
-            LPSTR       iwad = ofn.lpstrFile;
-            LPSTR       pwad = ofn.lpstrFile;
-            LPSTR       deh = ofn.lpstrFile;
+            LPSTR       iwadpass = ofn.lpstrFile;
+            LPSTR       pwadpass1 = ofn.lpstrFile;
+            LPSTR       pwadpass2 = ofn.lpstrFile;
+            LPSTR       dehpass = ofn.lpstrFile;
 
-            iwad += lstrlen(iwad) + 1;
+            iwadpass += lstrlen(iwadpass) + 1;
 
             // find and add IWAD first
-            while (iwad[0])
+            while (iwadpass[0])
             {
                 static char     fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), iwad);
+                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), iwadpass);
 
                 if (D_IsDOOMIWAD(fullpath)
                     || (W_WadType(fullpath) == IWAD
@@ -757,7 +758,7 @@ static int D_ChooseIWAD(void)
                         if (D_AddFile(fullpath))
                         {
                             iwadfound = 1;
-                            sharewareiwad = !strcasecmp(iwad, "DOOM1.WAD");
+                            sharewareiwad = !strcasecmp(iwadpass, "DOOM1.WAD");
                             iwadfolder = strdup(szFile);
                             break;
                         }
@@ -765,7 +766,7 @@ static int D_ChooseIWAD(void)
                 }
 
                 // if it's NERVE.WAD, try to open DOOM2.WAD with it
-                else if (!strcasecmp(iwad, "NERVE.WAD"))
+                else if (!strcasecmp(iwadpass, "NERVE.WAD"))
                 {
                     static char     fullpath2[MAX_PATH];
 
@@ -820,85 +821,110 @@ static int D_ChooseIWAD(void)
                     }
                 }
 
-                iwad += lstrlen(iwad) + 1;
+                iwadpass += lstrlen(iwadpass) + 1;
             }
 
             // merge any pwads
             if (!sharewareiwad)
             {
-                pwad += lstrlen(pwad) + 1;
-
-                while (pwad[0])
+                // if no iwad has been selected, check each pwad to determine the iwad required
+                // and then try to load it first
+                if (!iwadfound)
                 {
-                    static char     fullpath[MAX_PATH];
+                    pwadpass1 += lstrlen(pwadpass1) + 1;
 
-                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), pwad);
-
-                    if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDehFile(fullpath))
+                    while (pwadpass1[0])
                     {
-                        if (!iwadfound)
+                        static char     fullpath[MAX_PATH];
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
+                            pwadpass1);
+
+                        if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
+                            && !D_IsDehFile(fullpath))
                         {
-                            int             iwadrequired = IWADRequiredByPWAD(fullpath);
-                            static char     fullpath2[MAX_PATH];
+                            int         iwadrequired = IWADRequiredByPWAD(fullpath);
 
-                            if (iwadrequired == indetermined)
-                                return 0;
+                            if (iwadrequired != indetermined)
+                            {
+                                static char     fullpath2[MAX_PATH];
 
-                            // try the current folder first
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", strdup(M_ExtractFolder(pwad)),
-                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                            IdentifyIWADByName(fullpath2);
-                            if (D_AddFile(fullpath2))
-                            {
-                                iwadfound = 1;
-                                iwadfolder = strdup(M_ExtractFolder(pwad));
-                            }
-                            else
-                            {
-                                // otherwise try the iwadfolder setting in doomretro.cfg
-                                M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", iwadfolder,
+                                // try the current folder first
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s",
+                                    strdup(M_ExtractFolder(pwadpass1)),
                                     (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                 IdentifyIWADByName(fullpath2);
                                 if (D_AddFile(fullpath2))
+                                {
                                     iwadfound = 1;
+                                    iwadfolder = strdup(M_ExtractFolder(pwadpass1));
+                                }
                                 else
                                 {
-                                    // still nothing? try the DOOMWADDIR environment variable
-                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", getenv("DOOMWADDIR"),
+                                    // otherwise try the iwadfolder setting in doomretro.cfg
+                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", iwadfolder,
                                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                     IdentifyIWADByName(fullpath2);
                                     if (D_AddFile(fullpath2))
                                         iwadfound = 1;
+                                    else
+                                    {
+                                        // still nothing? try the DOOMWADDIR environment variable
+                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s",
+                                            getenv("DOOMWADDIR"),
+                                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                        IdentifyIWADByName(fullpath2);
+                                        if (D_AddFile(fullpath2))
+                                            iwadfound = 1;
+                                    }
                                 }
                             }
-                            if (!iwadfound)
-                                return 0;
+                        }
+                        pwadpass1 += lstrlen(pwadpass1) + 1;
+                    }
+                }
+
+                // if an iwad has now been found, make a second pass through the pwads to merge them
+                if (iwadfound)
+                {
+                    pwadpass2 += lstrlen(pwadpass2) + 1;
+
+                    while (pwadpass2[0])
+                    {
+                        static char     fullpath[MAX_PATH];
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
+                            pwadpass2);
+
+                        if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
+                            && !D_IsDehFile(fullpath))
+                        {
+                            if (W_MergeFile(fullpath))
+                            {
+                                modifiedgame = true;
+                                D_CheckSupportedPWAD(fullpath);
+                                LoadDehFile(fullpath);
+                            }
                         }
 
-                        if (W_MergeFile(fullpath))
-                        {
-                            modifiedgame = true;
-                            D_CheckSupportedPWAD(fullpath);
-                            LoadDehFile(fullpath);
-                        }
+                        pwadpass2 += lstrlen(pwadpass2) + 1;
                     }
-                    pwad += lstrlen(pwad) + 1;
                 }
             }
 
             // process any dehacked files last of all
-            deh += lstrlen(deh) + 1;
+            dehpass += lstrlen(dehpass) + 1;
 
-            while (deh[0])
+            while (dehpass[0])
             {
                 static char     fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), deh);
+                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), dehpass);
 
                 if (D_IsDehFile(fullpath))
                     LoadDehFile(fullpath);
 
-                deh += lstrlen(deh) + 1;
+                dehpass += lstrlen(dehpass) + 1;
             }
         }
     }
