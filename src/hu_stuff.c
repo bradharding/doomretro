@@ -73,6 +73,7 @@ extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
 extern boolean          emptytallpercent;
+extern int              fps;
 
 static boolean          headsupactive = false;
 
@@ -471,8 +472,6 @@ extern int      direction;
 
 void HU_Ticker(void)
 {
-    static int  lasttic = -1;
-    int         tic, fps;
     static char fps_str[8] = "";
 
     // tick down message counter if message is up
@@ -535,14 +534,6 @@ void HU_Ticker(void)
     }
     else if (devparm)
     {
-        // [BH] display and constantly update FPS for -DEVPARM
-        tic = I_GetTime();
-        fps = (lasttic == -1 ? TICRATE : TICRATE - (tic - lasttic) + 1);
-        if (fps < 1)
-            fps = 1;
-        if (fps > TICRATE)
-            fps = TICRATE;
-        lasttic = tic;
         M_snprintf(fps_str, sizeof(fps_str), "%i FPS", fps);
         HUlib_addMessageToSText(&w_message, 0, fps_str);
         message_on = true;

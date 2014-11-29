@@ -756,6 +756,9 @@ static __forceinline void blit(void)
 }
 
 SDL_Rect        dest_rect;
+int             fps = 0;
+int             fpscount = 0;
+int             fpstimer;
 
 //
 // I_FinishUpdate
@@ -806,6 +809,17 @@ void I_FinishUpdate(void)
     SDL_BlitSurface(screenbuffer, NULL, screen, &dest_rect);
     SDL_Flip(screen);
 #endif
+
+    if (devparm)
+    {
+        fpscount++;
+        if (SDL_GetTicks() - fpstimer > 1000)
+        {
+            fpstimer += 1000;
+            fps = fpscount;
+            fpscount = 0;
+        }
+    }
 }
 
 //
@@ -1362,8 +1376,6 @@ boolean I_ValidScreenMode(int width, int height)
 
 void I_InitKeyboard(void)
 {
-    int i;
-
 #ifdef WIN32
     capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
 
@@ -1485,4 +1497,7 @@ void I_InitGraphics(void)
 
     if (fullscreen)
         CenterMouse();
+
+    if (devparm)
+        fpstimer = SDL_GetTicks();
 }
