@@ -815,7 +815,7 @@ void I_FinishUpdate(void)
         fpscount++;
         if (SDL_GetTicks() - fpstimer > 1000)
         {
-            fpstimer += 1000;
+            fpstimer = SDL_GetTicks();
             fps = fpscount;
             fpscount = 0;
         }
