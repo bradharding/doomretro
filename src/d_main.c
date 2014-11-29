@@ -527,21 +527,27 @@ static void LoadDehFile(char *path)
 static boolean D_IsDOOMIWAD(char *filename)
 {
     return (D_CheckFilename(filename, "DOOM.WAD")
-            || D_CheckFilename(filename, "DOOM1.WAD")
-            || D_CheckFilename(filename, "DOOM2.WAD")
-            || D_CheckFilename(filename, "PLUTONIA.WAD")
-            || D_CheckFilename(filename, "TNT.WAD")
-            || (hacx = D_CheckFilename(filename, "HACX.WAD")));
+        || D_CheckFilename(filename, "DOOM1.WAD")
+        || D_CheckFilename(filename, "DOOM2.WAD")
+        || D_CheckFilename(filename, "PLUTONIA.WAD")
+        || D_CheckFilename(filename, "TNT.WAD")
+        || (hacx = D_CheckFilename(filename, "HACX.WAD")));
 }
 
 static boolean D_IsUnsupportedIWAD(char *filename)
 {
     return (D_CheckFilename(filename, "HERETIC1.WAD")
-            || D_CheckFilename(filename, "HERETIC.WAD")
-            || D_CheckFilename(filename, "HEXEN.WAD")
-            || D_CheckFilename(filename, "HEXDD.WAD")
-            || D_CheckFilename(filename, "STRIFE0.WAD")
-            || D_CheckFilename(filename, "STRIFE1.WAD"));
+        || D_CheckFilename(filename, "HERETIC.WAD")
+        || D_CheckFilename(filename, "HEXEN.WAD")
+        || D_CheckFilename(filename, "HEXDD.WAD")
+        || D_CheckFilename(filename, "STRIFE0.WAD")
+        || D_CheckFilename(filename, "STRIFE1.WAD"));
+}
+
+static boolean D_IsDehFile(char *filename)
+{
+    return (!strcasecmp(filename + strlen(filename) - 4, ".deh")
+        || !strcasecmp(filename + strlen(filename) - 4, ".bex"));
 }
 
 static void D_CheckSupportedPWAD(char *filename)
@@ -595,7 +601,7 @@ static int D_ChooseIWAD(void)
     ofn.lpstrFile = szFile;
     ofn.lpstrFile[0] = '\0';
     ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "IWAD/PWAD Files (*.wad)\0*.WAD\0";
+    ofn.lpstrFilter = "IWAD/PWAD Files (*.wad)\0*.WAD;*.DEH;*.BEX\0";
     ofn.nFilterIndex = 1;
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
@@ -730,6 +736,7 @@ static int D_ChooseIWAD(void)
         {
             LPSTR       iwad = ofn.lpstrFile;
             LPSTR       pwad = ofn.lpstrFile;
+            LPSTR       deh = ofn.lpstrFile;
 
             iwad += lstrlen(iwad) + 1;
 
@@ -827,7 +834,7 @@ static int D_ChooseIWAD(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), pwad);
 
-                    if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath))
+                    if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath) && !D_IsDehFile(fullpath))
                     {
                         if (!iwadfound)
                         {
@@ -877,6 +884,21 @@ static int D_ChooseIWAD(void)
                     }
                     pwad += lstrlen(pwad) + 1;
                 }
+            }
+
+            // process any dehacked files last of all
+            deh += lstrlen(deh) + 1;
+
+            while (deh[0])
+            {
+                static char     fullpath[MAX_PATH];
+
+                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), deh);
+
+                if (D_IsDehFile(fullpath))
+                    LoadDehFile(fullpath);
+
+                deh += lstrlen(deh) + 1;
             }
         }
     }
