@@ -119,12 +119,14 @@ void P_CalcHeight(player_t *player)
     else
         player->viewz = mo->z + player->viewheight;
 
-    if (player->mo->flags2 & MF2_FEETARECLIPPED
-        && player->playerstate != PST_DEAD
-        && mo->z <= mo->floorz
-        && mo->floorz == mo->subsector->sector->floorheight)
+    if (mo->flags2 & MF2_FEETARECLIPPED)
     {
-        player->viewz -= FOOTCLIPSIZE;
+        sector_t        *sec = mo->subsector->sector;
+
+        if (player->playerstate != PST_DEAD
+            && mo->z <= mo->floorz && mo->floorz == sec->floorheight
+            && sec->lines[0]->frontsector != sec->lines[0]->backsector)
+            player->viewz -= FOOTCLIPSIZE;
     }
 
     player->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, player->viewz, mo->ceilingz - 4 * FRACUNIT);
