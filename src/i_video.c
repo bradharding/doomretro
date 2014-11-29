@@ -294,7 +294,98 @@ int translatekey[] =
 #endif
 };
 
-int *translatekey2;
+int TranslateKey2(int key)
+{
+    switch (key)
+    {
+
+#ifdef SDL20
+        case KEY_LEFTARROW:    return SDL_SCANCODE_LEFT;
+        case KEY_RIGHTARROW:   return SDL_SCANCODE_RIGHT;
+        case KEY_DOWNARROW:    return SDL_SCANCODE_DOWN;
+        case KEY_UPARROW:      return SDL_SCANCODE_UP;
+        case KEY_ESCAPE:       return SDL_SCANCODE_ESCAPE;
+        case KEY_ENTER:        return SDL_SCANCODE_RETURN;
+        case KEY_TAB:          return SDL_SCANCODE_TAB;
+        case KEY_F1:           return SDL_SCANCODE_F1;
+        case KEY_F2:           return SDL_SCANCODE_F2;
+        case KEY_F3:           return SDL_SCANCODE_F3;
+        case KEY_F4:           return SDL_SCANCODE_F4;
+        case KEY_F5:           return SDL_SCANCODE_F5;
+        case KEY_F6:           return SDL_SCANCODE_F6;
+        case KEY_F7:           return SDL_SCANCODE_F7;
+        case KEY_F8:           return SDL_SCANCODE_F8;
+        case KEY_F9:           return SDL_SCANCODE_F9;
+        case KEY_F10:          return SDL_SCANCODE_F10;
+        case KEY_F11:          return SDL_SCANCODE_F11;
+        case KEY_F12:          return SDL_SCANCODE_F12;
+        case KEY_BACKSPACE:    return SDL_SCANCODE_BACKSPACE;
+        case KEY_DEL:          return SDL_SCANCODE_DELETE;
+        case KEY_PAUSE:        return SDL_SCANCODE_PAUSE;
+        case KEY_EQUALS:       return SDL_SCANCODE_EQUALS;
+        case KEY_MINUS:        return SDL_SCANCODE_MINUS;
+        case KEY_RSHIFT:       return SDL_SCANCODE_RSHIFT;
+        case KEY_RCTRL:        return SDL_SCANCODE_RCTRL;
+        case KEY_RALT:         return SDL_SCANCODE_RALT;
+        case KEY_CAPSLOCK:     return SDL_SCANCODE_CAPSLOCK;
+        case KEY_SCRLCK:       return SDL_SCANCODE_SCROLLLOCK;
+        case KEYP_0:           return SDL_SCANCODE_KP_0;
+        case KEYP_1:           return SDL_SCANCODE_KP_1;
+        case KEYP_3:           return SDL_SCANCODE_KP_3;
+        case KEYP_5:           return SDL_SCANCODE_KP_5;
+        case KEYP_7:           return SDL_SCANCODE_KP_7;
+        case KEYP_9:           return SDL_SCANCODE_KP_9;
+        case KEYP_PERIOD:      return SDL_SCANCODE_KP_PERIOD;
+        case KEYP_MULTIPLY:    return SDL_SCANCODE_KP_MULTIPLY;
+        case KEYP_DIVIDE:      return SDL_SCANCODE_KP_DIVIDE;
+        case KEY_INS:          return SDL_SCANCODE_INSERT;
+        case KEY_NUMLOCK:      return SDL_SCANCODE_NUMLOCKCLEAR;
+#else
+        case KEY_LEFTARROW:    return SDLK_LEFT;
+        case KEY_RIGHTARROW:   return SDLK_RIGHT;
+        case KEY_DOWNARROW:    return SDLK_DOWN;
+        case KEY_UPARROW:      return SDLK_UP;
+        case KEY_ESCAPE:       return SDLK_ESCAPE;
+        case KEY_ENTER:        return SDLK_RETURN;
+        case KEY_TAB:          return SDLK_TAB;
+        case KEY_F1:           return SDLK_F1;
+        case KEY_F2:           return SDLK_F2;
+        case KEY_F3:           return SDLK_F3;
+        case KEY_F4:           return SDLK_F4;
+        case KEY_F5:           return SDLK_F5;
+        case KEY_F6:           return SDLK_F6;
+        case KEY_F7:           return SDLK_F7;
+        case KEY_F8:           return SDLK_F8;
+        case KEY_F9:           return SDLK_F9;
+        case KEY_F10:          return SDLK_F10;
+        case KEY_F11:          return SDLK_F11;
+        case KEY_F12:          return SDLK_F12;
+        case KEY_BACKSPACE:    return SDLK_BACKSPACE;
+        case KEY_DEL:          return SDLK_DELETE;
+        case KEY_PAUSE:        return SDLK_PAUSE;
+        case KEY_EQUALS:       return SDLK_EQUALS;
+        case KEY_MINUS:        return SDLK_MINUS;
+        case KEY_RSHIFT:       return SDLK_RSHIFT;
+        case KEY_RCTRL:        return SDLK_RCTRL;
+        case KEY_RALT:         return SDLK_RALT;
+        case KEY_CAPSLOCK:     return SDLK_CAPSLOCK;
+        case KEY_SCRLCK:       return SDLK_SCROLLOCK;
+        case KEYP_0:           return SDLK_KP0;
+        case KEYP_1:           return SDLK_KP1;
+        case KEYP_3:           return SDLK_KP3;
+        case KEYP_5:           return SDLK_KP5;
+        case KEYP_7:           return SDLK_KP7;
+        case KEYP_9:           return SDLK_KP9;
+        case KEYP_PERIOD:      return SDLK_KP_PERIOD;
+        case KEYP_MULTIPLY:    return SDLK_KP_MULTIPLY;
+        case KEYP_DIVIDE:      return SDLK_KP_DIVIDE;
+        case KEY_INS:          return SDLK_INSERT;
+        case KEY_NUMLOCK:      return SDLK_NUMLOCK;
+#endif
+
+        default:               return key;
+    }
+}
 
 boolean keystate(int key)
 {
@@ -304,7 +395,7 @@ boolean keystate(int key)
     Uint8       *keystate = SDL_GetKeyState(NULL);
 #endif
 
-    return keystate[translatekey2[key]];
+    return keystate[TranslateKey2(key)];
 }
 
 void I_SaveWindowPosition(void)
@@ -1288,11 +1379,6 @@ void I_InitKeyboard(void)
 #else
     SDL_WM_SetCaption(gamedescription, NULL);
 #endif
-
-    translatekey2 = Z_Malloc(arrlen(translatekey), PU_STATIC, NULL);
-    memset(translatekey2, 0, arrlen(translatekey2));
-    for (i = 0; i < arrlen(translatekey2); i++)
-        translatekey2[translatekey[i]] = i;
 }
 
 void I_InitGraphics(void)
