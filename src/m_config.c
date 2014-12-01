@@ -59,8 +59,15 @@ extern boolean  floatbob;
 extern boolean  footclip;
 extern int      fullscreen;
 extern int      gamepadautomap;
+extern int      gamepadautomapclearmark;
+extern int      gamepadautomapfollowmode;
+extern int      gamepadautomapgrid;
+extern int      gamepadautomapmark;
+extern int      gamepadautomapmaxzoom;
+extern int      gamepadautomaprotatemode;
+extern int      gamepadautomapzoomin;
+extern int      gamepadautomapzoomout;
 extern int      gamepadfire;
-extern int      gamepadfollowmode;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
 extern boolean  gamepadlefthanded;
@@ -84,6 +91,15 @@ extern boolean  grid;
 extern boolean  homindicator;
 extern int      hud;
 extern char     *iwadfolder;
+extern int      key_automap;
+extern int      key_automap_clearmark;
+extern int      key_automap_followmode;
+extern int      key_automap_grid;
+extern int      key_automap_mark;
+extern int      key_automap_maxzoom;
+extern int      key_automap_rotatemode;
+extern int      key_automap_zoomin;
+extern int      key_automap_zoomout;
 extern int      key_down;
 extern int      key_down2;
 extern int      key_fire;
@@ -216,105 +232,121 @@ typedef struct
 
 static default_t doom_defaults_list[] =
 {
-    CONFIG_VARIABLE_INT          (alwaysrun,             alwaysrun,                     1),
-    CONFIG_VARIABLE_INT          (bloodsplats,           bloodsplats,                   7),
-    CONFIG_VARIABLE_INT          (brightmaps,            brightmaps,                    1),
-    CONFIG_VARIABLE_INT          (centerweapon,          centerweapon,                  1),
-    CONFIG_VARIABLE_INT          (corpses,               corpses,                      11),
-    CONFIG_VARIABLE_INT          (dclick_use,            dclick_use,                    1),
-    CONFIG_VARIABLE_INT          (episode,               selectedepisode,               8),
-    CONFIG_VARIABLE_INT          (expansion,             selectedexpansion,             9),
-    CONFIG_VARIABLE_INT          (floatbob,              floatbob,                      1),
-    CONFIG_VARIABLE_INT          (footclip,              footclip,                      1),
-    CONFIG_VARIABLE_INT          (fullscreen,            fullscreen,                    1),
-    CONFIG_VARIABLE_INT          (gamepad_automap,       gamepadautomap,                2),
-    CONFIG_VARIABLE_INT          (gamepad_fire,          gamepadfire,                   2),
-    CONFIG_VARIABLE_INT          (gamepad_followmode,    gamepadfollowmode,             2),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gamepad_leftdeadzone,  gamepadleftdeadzone_percent,   0),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gamepad_rightdeadzone, gamepadrightdeadzone_percent,  0),
-    CONFIG_VARIABLE_INT          (gamepad_lefthanded,    gamepadlefthanded,             1),
-    CONFIG_VARIABLE_INT          (gamepad_menu,          gamepadmenu,                   2),
-    CONFIG_VARIABLE_INT          (gamepad_prevweapon,    gamepadprevweapon,             2),
-    CONFIG_VARIABLE_INT          (gamepad_nextweapon,    gamepadnextweapon,             2),
-    CONFIG_VARIABLE_INT          (gamepad_run,           gamepadrun,                    2),
-    CONFIG_VARIABLE_INT          (gamepad_sensitivity,   gamepadsensitivity,            0),
-    CONFIG_VARIABLE_INT          (gamepad_use,           gamepaduse,                    2),
-    CONFIG_VARIABLE_INT          (gamepad_vibrate,       gamepadvibrate,               15),
-    CONFIG_VARIABLE_INT          (gamepad_weapon1,       gamepadweapon1,                2),
-    CONFIG_VARIABLE_INT          (gamepad_weapon2,       gamepadweapon2,                2),
-    CONFIG_VARIABLE_INT          (gamepad_weapon3,       gamepadweapon3,                2),
-    CONFIG_VARIABLE_INT          (gamepad_weapon4,       gamepadweapon4,                2),
-    CONFIG_VARIABLE_INT          (gamepad_weapon5,       gamepadweapon5,                2),
-    CONFIG_VARIABLE_INT          (gamepad_weapon6,       gamepadweapon6,                2),
-    CONFIG_VARIABLE_INT          (gamepad_weapon7,       gamepadweapon7,                2),
-    CONFIG_VARIABLE_FLOAT        (gammacorrectionlevel,  gammalevel,                   12),
-    CONFIG_VARIABLE_INT          (graphicdetail,         graphicdetail,                 6),
-    CONFIG_VARIABLE_INT          (grid,                  grid,                          1),
-    CONFIG_VARIABLE_INT          (homindicator,          homindicator,                  1),
-    CONFIG_VARIABLE_INT          (hud,                   hud,                           1),
-    CONFIG_VARIABLE_STRING       (iwadfolder,            iwadfolder,                    0),
-    CONFIG_VARIABLE_KEY          (key_down,              key_down,                      3),
-    CONFIG_VARIABLE_KEY          (key_down2,             key_down2,                     3),
-    CONFIG_VARIABLE_KEY          (key_fire,              key_fire,                      3),
-    CONFIG_VARIABLE_KEY          (key_left,              key_left,                      3),
-    CONFIG_VARIABLE_KEY          (key_prevweapon,        key_prevweapon,                3),
-    CONFIG_VARIABLE_KEY          (key_nextweapon,        key_nextweapon,                3),
-    CONFIG_VARIABLE_KEY          (key_right,             key_right,                     3),
-    CONFIG_VARIABLE_KEY          (key_run,               key_run,                       3),
-    CONFIG_VARIABLE_KEY          (key_strafe,            key_strafe,                    3),
-    CONFIG_VARIABLE_KEY          (key_strafeleft,        key_strafeleft,                3),
-    CONFIG_VARIABLE_KEY          (key_strafeleft2,       key_strafeleft2,               3),
-    CONFIG_VARIABLE_KEY          (key_straferight,       key_straferight,               3),
-    CONFIG_VARIABLE_KEY          (key_straferight2,      key_straferight2,              3),
-    CONFIG_VARIABLE_KEY          (key_up,                key_up,                        3),
-    CONFIG_VARIABLE_KEY          (key_up2,               key_up2,                       3),
-    CONFIG_VARIABLE_KEY          (key_use,               key_use,                       3),
-    CONFIG_VARIABLE_KEY          (key_weapon1,           key_weapon1,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon2,           key_weapon2,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon3,           key_weapon3,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon4,           key_weapon4,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon5,           key_weapon5,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon6,           key_weapon6,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon7,           key_weapon7,                   3),
-    CONFIG_VARIABLE_INT          (mapfixes,              mapfixes,                     14),
-    CONFIG_VARIABLE_INT          (messages,              messages,                      1),
-    CONFIG_VARIABLE_INT          (mirrorweapons,         mirrorweapons,                 1),
-    CONFIG_VARIABLE_FLOAT        (mouse_acceleration,    mouse_acceleration,            0),
-    CONFIG_VARIABLE_INT          (mouse_fire,            mousebfire,                    4),
-    CONFIG_VARIABLE_INT          (mouse_forward,         mousebforward,                 4),
-    CONFIG_VARIABLE_INT          (mouse_prevweapon,      mousebprevweapon,              4),
-    CONFIG_VARIABLE_INT          (mouse_nextweapon,      mousebnextweapon,              4),
-    CONFIG_VARIABLE_INT          (mouse_sensitivity,     mousesensitivity,              0),
-    CONFIG_VARIABLE_INT          (mouse_strafe,          mousebstrafe,                  4),
-    CONFIG_VARIABLE_INT          (mouse_threshold,       mouse_threshold,               0),
-    CONFIG_VARIABLE_INT          (mouse_use,             mousebuse,                     4),
-    CONFIG_VARIABLE_INT_PERCENT  (musicvolume,           musicvolume_percent,           0),
-    CONFIG_VARIABLE_INT          (novert,                novert,                        1),
-    CONFIG_VARIABLE_INT          (pixelwidth,            pixelwidth,                    0),
-    CONFIG_VARIABLE_INT          (pixelheight,           pixelheight,                   0),
-    CONFIG_VARIABLE_INT_PERCENT  (playerbob,             playerbob,                     0),
-    CONFIG_VARIABLE_INT          (rotatemode,            rotatemode,                    1),
-    CONFIG_VARIABLE_INT          (runcount,              runcount,                      0),
-    CONFIG_VARIABLE_FLOAT        (saturation,            saturation,                    0),
-    CONFIG_VARIABLE_INT          (savegame,              selectedsavegame,              0),
-    CONFIG_VARIABLE_INT          (screensize,            screensize,                    0),
-    CONFIG_VARIABLE_INT          (screenwidth,           screenwidth,                   5),
-    CONFIG_VARIABLE_INT          (screenheight,          screenheight,                  5),
-    CONFIG_VARIABLE_INT_PERCENT  (sfxvolume,             sfxvolume_percent,             0),
-    CONFIG_VARIABLE_INT          (shadows,               shadows,                       1),
-    CONFIG_VARIABLE_INT          (skilllevel,            selectedskilllevel,           10),
-    CONFIG_VARIABLE_INT          (smoketrails,           smoketrails,                  13),
-    CONFIG_VARIABLE_INT          (snd_maxslicetime_ms,   snd_maxslicetime_ms,           0),
-    CONFIG_VARIABLE_STRING       (timidity_cfg_path,     timidity_cfg_path,             0),
-    CONFIG_VARIABLE_INT          (translucency,          translucency,                  1),
-    CONFIG_VARIABLE_STRING       (version,               version,                       0),
+    CONFIG_VARIABLE_INT          (alwaysrun,                  alwaysrun,                     1),
+    CONFIG_VARIABLE_INT          (bloodsplats,                bloodsplats,                   7),
+    CONFIG_VARIABLE_INT          (brightmaps,                 brightmaps,                    1),
+    CONFIG_VARIABLE_INT          (centerweapon,               centerweapon,                  1),
+    CONFIG_VARIABLE_INT          (corpses,                    corpses,                      11),
+    CONFIG_VARIABLE_INT          (dclick_use,                 dclick_use,                    1),
+    CONFIG_VARIABLE_INT          (episode,                    selectedepisode,               8),
+    CONFIG_VARIABLE_INT          (expansion,                  selectedexpansion,             9),
+    CONFIG_VARIABLE_INT          (floatbob,                   floatbob,                      1),
+    CONFIG_VARIABLE_INT          (footclip,                   footclip,                      1),
+    CONFIG_VARIABLE_INT          (fullscreen,                 fullscreen,                    1),
+    CONFIG_VARIABLE_INT          (gamepad_automap,            gamepadautomap,                2),
+    CONFIG_VARIABLE_INT          (gamepad_automap_clearmark,  gamepadautomapclearmark,       2),
+    CONFIG_VARIABLE_INT          (gamepad_automap_followmode, gamepadautomapfollowmode,      2),
+    CONFIG_VARIABLE_INT          (gamepad_automap_grid,       gamepadautomapgrid,            2),
+    CONFIG_VARIABLE_INT          (gamepad_automap_mark,       gamepadautomapmark,            2),
+    CONFIG_VARIABLE_INT          (gamepad_automap_maxzoom,    gamepadautomapmaxzoom,         2),
+    CONFIG_VARIABLE_INT          (gamepad_automap_rotatemode, gamepadautomaprotatemode,      2),
+    CONFIG_VARIABLE_INT          (gamepad_automap_zoomin,     gamepadautomapzoomin,          2),
+    CONFIG_VARIABLE_INT          (gamepad_automap_zoomout,    gamepadautomapzoomout,         2),
+    CONFIG_VARIABLE_INT          (gamepad_fire,               gamepadfire,                   2),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gamepad_leftdeadzone,       gamepadleftdeadzone_percent,   0),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gamepad_rightdeadzone,      gamepadrightdeadzone_percent,  0),
+    CONFIG_VARIABLE_INT          (gamepad_lefthanded,         gamepadlefthanded,             1),
+    CONFIG_VARIABLE_INT          (gamepad_menu,               gamepadmenu,                   2),
+    CONFIG_VARIABLE_INT          (gamepad_prevweapon,         gamepadprevweapon,             2),
+    CONFIG_VARIABLE_INT          (gamepad_nextweapon,         gamepadnextweapon,             2),
+    CONFIG_VARIABLE_INT          (gamepad_run,                gamepadrun,                    2),
+    CONFIG_VARIABLE_INT          (gamepad_sensitivity,        gamepadsensitivity,            0),
+    CONFIG_VARIABLE_INT          (gamepad_use,                gamepaduse,                    2),
+    CONFIG_VARIABLE_INT          (gamepad_vibrate,            gamepadvibrate,               15),
+    CONFIG_VARIABLE_INT          (gamepad_weapon1,            gamepadweapon1,                2),
+    CONFIG_VARIABLE_INT          (gamepad_weapon2,            gamepadweapon2,                2),
+    CONFIG_VARIABLE_INT          (gamepad_weapon3,            gamepadweapon3,                2),
+    CONFIG_VARIABLE_INT          (gamepad_weapon4,            gamepadweapon4,                2),
+    CONFIG_VARIABLE_INT          (gamepad_weapon5,            gamepadweapon5,                2),
+    CONFIG_VARIABLE_INT          (gamepad_weapon6,            gamepadweapon6,                2),
+    CONFIG_VARIABLE_INT          (gamepad_weapon7,            gamepadweapon7,                2),
+    CONFIG_VARIABLE_FLOAT        (gammacorrectionlevel,       gammalevel,                   12),
+    CONFIG_VARIABLE_INT          (graphicdetail,              graphicdetail,                 6),
+    CONFIG_VARIABLE_INT          (grid,                       grid,                          1),
+    CONFIG_VARIABLE_INT          (homindicator,               homindicator,                  1),
+    CONFIG_VARIABLE_INT          (hud,                        hud,                           1),
+    CONFIG_VARIABLE_STRING       (iwadfolder,                 iwadfolder,                    0),
+    CONFIG_VARIABLE_KEY          (key_automap,                key_automap,                   2),
+    CONFIG_VARIABLE_KEY          (key_automap_clearmark,      key_automap_clearmark,         2),
+    CONFIG_VARIABLE_KEY          (key_automap_followmode,     key_automap_followmode,        2),
+    CONFIG_VARIABLE_KEY          (key_automap_grid,           key_automap_grid,              2),
+    CONFIG_VARIABLE_KEY          (key_automap_mark,           key_automap_mark,              2),
+    CONFIG_VARIABLE_KEY          (key_automap_maxzoom,        key_automap_maxzoom,           2),
+    CONFIG_VARIABLE_KEY          (key_automap_rotatemode,     key_automap_rotatemode,        2),
+    CONFIG_VARIABLE_KEY          (key_automap_zoomin,         key_automap_zoomin,            2),
+    CONFIG_VARIABLE_KEY          (key_automap_zoomout,        key_automap_zoomout,           2),
+    CONFIG_VARIABLE_KEY          (key_down,                   key_down,                      3),
+    CONFIG_VARIABLE_KEY          (key_down2,                  key_down2,                     3),
+    CONFIG_VARIABLE_KEY          (key_fire,                   key_fire,                      3),
+    CONFIG_VARIABLE_KEY          (key_left,                   key_left,                      3),
+    CONFIG_VARIABLE_KEY          (key_prevweapon,             key_prevweapon,                3),
+    CONFIG_VARIABLE_KEY          (key_nextweapon,             key_nextweapon,                3),
+    CONFIG_VARIABLE_KEY          (key_right,                  key_right,                     3),
+    CONFIG_VARIABLE_KEY          (key_run,                    key_run,                       3),
+    CONFIG_VARIABLE_KEY          (key_strafe,                 key_strafe,                    3),
+    CONFIG_VARIABLE_KEY          (key_strafeleft,             key_strafeleft,                3),
+    CONFIG_VARIABLE_KEY          (key_strafeleft2,            key_strafeleft2,               3),
+    CONFIG_VARIABLE_KEY          (key_straferight,            key_straferight,               3),
+    CONFIG_VARIABLE_KEY          (key_straferight2,           key_straferight2,              3),
+    CONFIG_VARIABLE_KEY          (key_up,                     key_up,                        3),
+    CONFIG_VARIABLE_KEY          (key_up2,                    key_up2,                       3),
+    CONFIG_VARIABLE_KEY          (key_use,                    key_use,                       3),
+    CONFIG_VARIABLE_KEY          (key_weapon1,                key_weapon1,                   3),
+    CONFIG_VARIABLE_KEY          (key_weapon2,                key_weapon2,                   3),
+    CONFIG_VARIABLE_KEY          (key_weapon3,                key_weapon3,                   3),
+    CONFIG_VARIABLE_KEY          (key_weapon4,                key_weapon4,                   3),
+    CONFIG_VARIABLE_KEY          (key_weapon5,                key_weapon5,                   3),
+    CONFIG_VARIABLE_KEY          (key_weapon6,                key_weapon6,                   3),
+    CONFIG_VARIABLE_KEY          (key_weapon7,                key_weapon7,                   3),
+    CONFIG_VARIABLE_INT          (mapfixes,                   mapfixes,                     14),
+    CONFIG_VARIABLE_INT          (messages,                   messages,                      1),
+    CONFIG_VARIABLE_INT          (mirrorweapons,              mirrorweapons,                 1),
+    CONFIG_VARIABLE_FLOAT        (mouse_acceleration,         mouse_acceleration,            0),
+    CONFIG_VARIABLE_INT          (mouse_fire,                 mousebfire,                    4),
+    CONFIG_VARIABLE_INT          (mouse_forward,              mousebforward,                 4),
+    CONFIG_VARIABLE_INT          (mouse_prevweapon,           mousebprevweapon,              4),
+    CONFIG_VARIABLE_INT          (mouse_nextweapon,           mousebnextweapon,              4),
+    CONFIG_VARIABLE_INT          (mouse_sensitivity,          mousesensitivity,              0),
+    CONFIG_VARIABLE_INT          (mouse_strafe,               mousebstrafe,                  4),
+    CONFIG_VARIABLE_INT          (mouse_threshold,            mouse_threshold,               0),
+    CONFIG_VARIABLE_INT          (mouse_use,                  mousebuse,                     4),
+    CONFIG_VARIABLE_INT_PERCENT  (musicvolume,                musicvolume_percent,           0),
+    CONFIG_VARIABLE_INT          (novert,                     novert,                        1),
+    CONFIG_VARIABLE_INT          (pixelwidth,                 pixelwidth,                    0),
+    CONFIG_VARIABLE_INT          (pixelheight,                pixelheight,                   0),
+    CONFIG_VARIABLE_INT_PERCENT  (playerbob,                  playerbob,                     0),
+    CONFIG_VARIABLE_INT          (rotatemode,                 rotatemode,                    1),
+    CONFIG_VARIABLE_INT          (runcount,                   runcount,                      0),
+    CONFIG_VARIABLE_FLOAT        (saturation,                 saturation,                    0),
+    CONFIG_VARIABLE_INT          (savegame,                   selectedsavegame,              0),
+    CONFIG_VARIABLE_INT          (screensize,                 screensize,                    0),
+    CONFIG_VARIABLE_INT          (screenwidth,                screenwidth,                   5),
+    CONFIG_VARIABLE_INT          (screenheight,               screenheight,                  5),
+    CONFIG_VARIABLE_INT_PERCENT  (sfxvolume,                  sfxvolume_percent,             0),
+    CONFIG_VARIABLE_INT          (shadows,                    shadows,                       1),
+    CONFIG_VARIABLE_INT          (skilllevel,                 selectedskilllevel,           10),
+    CONFIG_VARIABLE_INT          (smoketrails,                smoketrails,                  13),
+    CONFIG_VARIABLE_INT          (snd_maxslicetime_ms,        snd_maxslicetime_ms,           0),
+    CONFIG_VARIABLE_STRING       (timidity_cfg_path,          timidity_cfg_path,             0),
+    CONFIG_VARIABLE_INT          (translucency,               translucency,                  1),
+    CONFIG_VARIABLE_STRING       (version,                    version,                       0),
 #ifdef WIN32
-    CONFIG_VARIABLE_STRING       (videodriver,           videodriver,                   0),
+    CONFIG_VARIABLE_STRING       (videodriver,                videodriver,                   0),
 #endif
-    CONFIG_VARIABLE_INT          (widescreen,            widescreen,                    1),
-    CONFIG_VARIABLE_STRING       (windowposition,        windowposition,                0),
-    CONFIG_VARIABLE_INT          (windowwidth,           windowwidth,                   0),
-    CONFIG_VARIABLE_INT          (windowheight,          windowheight,                  0)
+    CONFIG_VARIABLE_INT          (widescreen,                 widescreen,                    1),
+    CONFIG_VARIABLE_STRING       (windowposition,             windowposition,                0),
+    CONFIG_VARIABLE_INT          (windowwidth,                windowwidth,                   0),
+    CONFIG_VARIABLE_INT          (windowheight,               windowheight,                  0)
 };
 
 static default_collection_t doom_defaults =
@@ -399,6 +431,7 @@ static alias_t alias[] =
     { "-",                                      0,  3 },
     { "none",                                   0,  3 },
     { "backspace",                             14,  3 },
+    { "tab",                                   15,  3 },
     { "enter",                                 28,  3 },
     { "ctrl",                                  29,  3 },
     { "shift",                                 42,  3 },
@@ -1037,12 +1070,40 @@ static void M_CheckDefaults(void)
         || (gamepadautomap & (gamepadautomap - 1)))
         gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
 
+    if (gamepadautomapclearmark < 0 || gamepadautomapclearmark > GAMEPAD_Y
+        || (gamepadautomapclearmark & (gamepadautomapclearmark - 1)))
+        gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
+
+    if (gamepadautomapfollowmode < 0 || gamepadautomapfollowmode > GAMEPAD_Y
+        || (gamepadautomapfollowmode & (gamepadautomapfollowmode - 1)))
+        gamepadautomapfollowmode = GAMEPADAUTOMAPFOLLOWMODE_DEFAULT;
+
+    if (gamepadautomapgrid < 0 || gamepadautomapgrid > GAMEPAD_Y
+        || (gamepadautomapgrid & (gamepadautomapgrid - 1)))
+        gamepadautomapgrid = GAMEPADAUTOMAPGRID_DEFAULT;
+
+    if (gamepadautomapmark < 0 || gamepadautomapmark > GAMEPAD_Y
+        || (gamepadautomapmark & (gamepadautomapmark - 1)))
+        gamepadautomapmark = GAMEPADAUTOMAPMARK_DEFAULT;
+
+    if (gamepadautomapmaxzoom < 0 || gamepadautomapmaxzoom > GAMEPAD_Y
+        || (gamepadautomapmaxzoom & (gamepadautomapmaxzoom - 1)))
+        gamepadautomapmaxzoom = GAMEPADAUTOMAPMAXZOOM_DEFAULT;
+
+    if (gamepadautomaprotatemode < 0 || gamepadautomaprotatemode > GAMEPAD_Y
+        || (gamepadautomaprotatemode & (gamepadautomaprotatemode - 1)))
+        gamepadautomaprotatemode = GAMEPADAUTOMAPROTATEMODE_DEFAULT;
+
+    if (gamepadautomapzoomin < 0 || gamepadautomapzoomin > GAMEPAD_Y
+        || (gamepadautomapzoomin & (gamepadautomapzoomin - 1)))
+        gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
+
+    if (gamepadautomapzoomout < 0 || gamepadautomapzoomout > GAMEPAD_Y
+        || (gamepadautomapzoomout & (gamepadautomapzoomout - 1)))
+        gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
+
     if (gamepadfire < 0 || gamepadfire > GAMEPAD_Y || (gamepadfire & (gamepadfire - 1)))
         gamepadfire = GAMEPADFIRE_DEFAULT;
-
-    if (gamepadfollowmode < 0 || gamepadfollowmode > GAMEPAD_Y
-        || (gamepadfollowmode & (gamepadfollowmode - 1)))
-        gamepadfollowmode = GAMEPADFOLLOWMODE_DEFAULT;
 
     gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone_percent,
         GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
@@ -1122,6 +1183,33 @@ static void M_CheckDefaults(void)
 
     if (hud != false && hud != true)
         hud = HUD_DEFAULT;
+
+    if (key_automap == INVALIDKEY)
+        key_automap = KEYAUTOMAP_DEFAULT;
+
+    if (key_automap_clearmark == INVALIDKEY)
+        key_automap_clearmark = KEYAUTOMAPCLEARMARK_DEFAULT;
+
+    if (key_automap_followmode == INVALIDKEY)
+        key_automap_followmode = KEYAUTOMAPFOLLOWMODE_DEFAULT;
+
+    if (key_automap_grid == INVALIDKEY)
+        key_automap_grid = KEYAUTOMAPGRID_DEFAULT;
+
+    if (key_automap_mark == INVALIDKEY)
+        key_automap_mark = KEYAUTOMAPMARK_DEFAULT;
+
+    if (key_automap_maxzoom == INVALIDKEY)
+        key_automap_maxzoom = KEYAUTOMAPMAXZOOM_DEFAULT;
+
+    if (key_automap_rotatemode == INVALIDKEY)
+        key_automap_rotatemode = KEYAUTOMAPROTATEMODE_DEFAULT;
+
+    if (key_automap_zoomin == INVALIDKEY)
+        key_automap_zoomin = KEYAUTOMAPZOOMIN_DEFAULT;
+
+    if (key_automap_zoomout == INVALIDKEY)
+        key_automap_zoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
 
     if (key_down == INVALIDKEY)
         key_down = KEYDOWN_DEFAULT;

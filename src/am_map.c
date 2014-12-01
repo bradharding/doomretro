@@ -118,16 +118,16 @@ byte    *gridcolor;
 #define AM_PANLEFTKEY           key_left
 #define AM_PANLEFTKEY2          key_strafeleft
 #define AM_PANLEFTKEY3          key_strafeleft2
-#define AM_ZOOMINKEY            KEY_EQUALS
-#define AM_ZOOMOUTKEY           KEY_MINUS
-#define AM_STARTKEY             KEY_TAB
-#define AM_ENDKEY               KEY_TAB
-#define AM_GOBIGKEY             '0'
-#define AM_FOLLOWKEY            'f'
-#define AM_GRIDKEY              'g'
-#define AM_MARKKEY              'm'
-#define AM_CLEARMARKKEY         'c'
-#define AM_ROTATEKEY            'r'
+#define AM_ZOOMINKEY            key_automap_zoomin
+#define AM_ZOOMOUTKEY           key_automap_zoomout
+#define AM_STARTKEY             key_automap
+#define AM_ENDKEY               key_automap
+#define AM_GOBIGKEY             key_automap_maxzoom
+#define AM_FOLLOWKEY            key_automap_followmode
+#define AM_GRIDKEY              key_automap_grid
+#define AM_MARKKEY              key_automap_mark
+#define AM_CLEARMARKKEY         key_automap_clearmark
+#define AM_ROTATEKEY            key_automap_rotatemode
 
 #define MAPWIDTH                SCREENWIDTH
 #define MAPHEIGHT               (unsigned int)viewheight2
@@ -322,33 +322,6 @@ static void AM_restoreScaleAndLoc(void)
     // Change the scaling multipliers
     scale_mtof = FixedDiv(MAPWIDTH << FRACBITS, m_w);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
-}
-
-//
-// adds a marker at the current location
-//
-static void AM_addMark(void)
-{
-    int         i;
-    int         x = m_x + (m_w >> 1);
-    int         y = m_y + (m_h >> 1);
-    static char message[32];
-
-    for (i = 0; i < markpointnum; ++i)
-        if (markpoints[i].x == x && markpoints[i].y == y)
-            return;
-
-    if (markpointnum >= markpointnum_max)
-    {
-        markpointnum_max = (markpointnum_max ? markpointnum_max << 1 : 16);
-        markpoints = (mpoint_t *)realloc(markpoints, markpointnum_max * sizeof(*markpoints));
-    }
-
-    markpoints[markpointnum].x = x;
-    markpoints[markpointnum].y = y;
-    M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT, ++markpointnum);
-    plr->message = message;
-    message_dontfuckwithme = true;
 }
 
 //
@@ -593,9 +566,115 @@ SDL_Keymod      modstate;
 SDLMod          modstate;
 #endif
 
+boolean         speedtoggle;
+
 static boolean AM_getSpeedToggle(void)
 {
     return (!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER) + !!(modstate & KMOD_SHIFT) == 1);
+}
+
+static void AM_toggleZoomOut(void)
+{
+    speedtoggle = AM_getSpeedToggle();
+    mtof_zoommul = M_ZOOMOUT;
+    ftom_zoommul = M_ZOOMIN;
+}
+
+static void AM_toggleZoomIn(void)
+{
+    speedtoggle = AM_getSpeedToggle();
+    mtof_zoommul = M_ZOOMIN;
+    ftom_zoommul = M_ZOOMOUT;
+    bigstate = false;
+}
+
+static void AM_toggleMaxZoom(void)
+{
+    if (bigstate)
+    {
+        bigstate = false;
+        AM_restoreScaleAndLoc();
+    }
+    else if (scale_mtof != min_scale_mtof)
+    {
+        bigstate = true;
+        AM_saveScaleAndLoc();
+        AM_minOutWindowScale();
+    }
+}
+
+static void AM_toggleFollowMode(void)
+{
+    followplayer = !followplayer;
+    if (followplayer)
+        m_paninc.x = m_paninc.y = 0;
+    f_oldloc.x = INT_MAX;
+    plr->message = (followplayer ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
+    message_dontfuckwithme = true;
+}
+
+static void AM_toggleGrid(void)
+{
+    grid = !grid;
+    plr->message = (grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
+    message_dontfuckwithme = true;
+}
+
+//
+// adds a marker at the current location
+//
+static void AM_addMark(void)
+{
+    int         i;
+    int         x = m_x + (m_w >> 1);
+    int         y = m_y + (m_h >> 1);
+    static char message[32];
+
+    for (i = 0; i < markpointnum; ++i)
+        if (markpoints[i].x == x && markpoints[i].y == y)
+            return;
+
+    if (markpointnum >= markpointnum_max)
+    {
+        markpointnum_max = (markpointnum_max ? markpointnum_max << 1 : 16);
+        markpoints = (mpoint_t *)realloc(markpoints, markpointnum_max * sizeof(*markpoints));
+    }
+
+    markpoints[markpointnum].x = x;
+    markpoints[markpointnum].y = y;
+    M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT, ++markpointnum);
+    plr->message = message;
+    message_dontfuckwithme = true;
+}
+
+int     markpress = 0;
+
+static void AM_clearMarks(void)
+{
+    if (markpointnum)
+    {
+        if (++markpress == 5)
+        {
+            // clear all marks
+            plr->message = (markpointnum == 1 ? s_AMSTR_MARKCLEARED : s_AMSTR_MARKSCLEARED);
+            message_dontfuckwithme = true;
+            markpointnum = 0;
+        }
+        else if (markpress == 1)
+        {
+            // clear one mark
+            plr->message = s_AMSTR_MARKCLEARED;
+            message_dontfuckwithme = true;
+            markpointnum--;
+        }
+    }
+}
+
+static void AM_toggleRotateMode(void)
+{
+    rotatemode = !rotatemode;
+    plr->message = (rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
+    message_dontfuckwithme = true;
 }
 
 //
@@ -606,8 +685,6 @@ boolean AM_Responder(event_t *ev)
     int                 key;
     int                 rc = false;
     static boolean      backbuttondown = false;
-    boolean             speedtoggle;
-    static int          markpress = 0;
 
     direction = 0;
     modstate = SDL_GetModState();
@@ -709,19 +786,14 @@ boolean AM_Responder(event_t *ev)
                 else if (key == AM_ZOOMOUTKEY && !movement)
                 {
                     keydown = key;
-                    speedtoggle = AM_getSpeedToggle();
-                    mtof_zoommul = M_ZOOMOUT;
-                    ftom_zoommul = M_ZOOMIN;
+                    AM_toggleZoomOut();
                 }
 
                 // zoom in
                 else if (key == AM_ZOOMINKEY && !movement)
                 {
                     keydown = key;
-                    speedtoggle = AM_getSpeedToggle();
-                    mtof_zoommul = M_ZOOMIN;
-                    ftom_zoommul = M_ZOOMOUT;
-                    bigstate = false;
+                    AM_toggleZoomIn();
                 }
 
                 // leave automap
@@ -738,17 +810,7 @@ boolean AM_Responder(event_t *ev)
                     if (keydown != AM_GOBIGKEY)
                     {
                         keydown = key;
-                        if (bigstate)
-                        {
-                            bigstate = false;
-                            AM_restoreScaleAndLoc();
-                        }
-                        else if (scale_mtof != min_scale_mtof)
-                        {
-                            bigstate = true;
-                            AM_saveScaleAndLoc();
-                            AM_minOutWindowScale();
-                        }
+                        AM_toggleMaxZoom();
                     }
                 }
 
@@ -758,12 +820,7 @@ boolean AM_Responder(event_t *ev)
                     if (keydown != AM_FOLLOWKEY)
                     {
                         keydown = key;
-                        followplayer = !followplayer;
-                        if (followplayer)
-                            m_paninc.x = m_paninc.y = 0;
-                        f_oldloc.x = INT_MAX;
-                        plr->message = (followplayer ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
-                        message_dontfuckwithme = true;
+                        AM_toggleFollowMode();
                     }
                 }
 
@@ -773,15 +830,12 @@ boolean AM_Responder(event_t *ev)
                     if (keydown != AM_GRIDKEY)
                     {
                         keydown = key;
-                        grid = !grid;
-                        plr->message = (grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
-                        message_dontfuckwithme = true;
+                        AM_toggleGrid();
                     }
                 }
 
                 // mark spot
-                else if (key == AM_MARKKEY
-                         && plr->health)
+                else if (key == AM_MARKKEY && plr->health)
                 {
                     if (keydown != AM_MARKKEY)
                     {
@@ -792,25 +846,7 @@ boolean AM_Responder(event_t *ev)
 
                 // clear mark(s)
                 else if (key == AM_CLEARMARKKEY)
-                {
-                    if (markpointnum)
-                    {
-                        if (++markpress == 5)
-                        {
-                            // clear all marks
-                            plr->message = (markpointnum == 1 ? s_AMSTR_MARKCLEARED : s_AMSTR_MARKSCLEARED);
-                            message_dontfuckwithme = true;
-                            markpointnum = 0;
-                        }
-                        else if (markpress == 1)
-                        {
-                            // clear one mark
-                            plr->message = s_AMSTR_MARKCLEARED;
-                            message_dontfuckwithme = true;
-                            markpointnum--;
-                        }
-                    }
-                }
+                    AM_clearMarks();
 
                 // toggle rotate mode
                 else if (key == AM_ROTATEKEY)
@@ -818,9 +854,7 @@ boolean AM_Responder(event_t *ev)
                     if (keydown != AM_ROTATEKEY)
                     {
                         keydown = key;
-                        rotatemode = !rotatemode;
-                        plr->message = (rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
-                        message_dontfuckwithme = true;
+                        AM_toggleRotateMode();
                     }
                 }
                 else
@@ -833,9 +867,7 @@ boolean AM_Responder(event_t *ev)
                 if (key == AM_CLEARMARKKEY)
                     markpress = 0;
                 keydown = 0;
-                if ((key == AM_ZOOMOUTKEY
-                     || key == AM_ZOOMINKEY)
-                    && !movement)
+                if ((key == AM_ZOOMOUTKEY || key == AM_ZOOMINKEY) && !movement)
                 {
                     mtof_zoommul = FRACUNIT;
                     ftom_zoommul = FRACUNIT;
@@ -922,6 +954,7 @@ boolean AM_Responder(event_t *ev)
                     ftom_zoommul = M_ZOOMOUT - 2000;
                     bigstate = false;
                 }
+
                 // zoom out
                 else if (ev->data1 & MOUSE_WHEELDOWN)
                 {
@@ -940,35 +973,40 @@ boolean AM_Responder(event_t *ev)
                     AM_Stop();
                 }
 
-                if ((gamepadbuttons & GAMEPAD_RIGHT_SHOULDER)
-                    && !(gamepadbuttons & GAMEPAD_LEFT_SHOULDER))
-                {
-                    movement = true;
-                    speedtoggle = AM_getSpeedToggle();
-                    mtof_zoommul = M_ZOOMIN;
-                    ftom_zoommul = M_ZOOMOUT;
-                    bigstate = false;
-                }
-                else if ((gamepadbuttons & GAMEPAD_LEFT_SHOULDER)
-                         && !(gamepadbuttons & GAMEPAD_RIGHT_SHOULDER))
-                {
-                    movement = true;
-                    speedtoggle = AM_getSpeedToggle();
-                    mtof_zoommul = M_ZOOMOUT;
-                    ftom_zoommul = M_ZOOMIN;
-                }
+                // zoom out
+                else if ((gamepadbuttons & gamepadautomapzoomout)
+                         && !(gamepadbuttons & gamepadautomapzoomin))
+                    AM_toggleZoomOut();
 
-                else if (gamepadbuttons & gamepadfollowmode)
-                {
-                    followplayer = !followplayer;
-                    if (followplayer)
-                        m_paninc.x = m_paninc.y = 0;
-                    f_oldloc.x = INT_MAX;
-                    plr->message = (followplayer ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
-                    message_dontfuckwithme = true;
-                }
+                // zoom in
+                else if ((gamepadbuttons & gamepadautomapzoomin)
+                         && !(gamepadbuttons & gamepadautomapzoomout))
+                    AM_toggleZoomIn();
 
-#ifdef WIN32
+                // toggle maximum zoom
+                else if ((gamepadbuttons & gamepadautomapmaxzoom) && !idclev && !idmus)
+                    AM_toggleMaxZoom();
+
+                // toggle follow mode
+                else if (gamepadbuttons & gamepadautomapfollowmode)
+                    AM_toggleFollowMode();
+
+                // toggle grid
+                else if (gamepadbuttons & gamepadautomapgrid)
+                    AM_toggleGrid();
+
+                // mark spot
+                else if ((gamepadbuttons & gamepadautomapmark) && plr->health)
+                    AM_addMark();
+
+                // clear mark(s)
+                else if (gamepadbuttons & gamepadautomapclearmark)
+                    AM_clearMarks();
+
+                // toggle rotate mode
+                else if (gamepadbuttons & gamepadautomaprotatemode)
+                    AM_toggleRotateMode();
+
                 if (!followplayer)
                 {
                     // pan right
@@ -1003,7 +1041,6 @@ boolean AM_Responder(event_t *ev)
                         m_paninc.y = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLYdown * 1.2f)));
                     }
                 }
-#endif
             }
 
             if ((plr->cheats & CF_MYPOS) && !followplayer && (m_paninc.x || m_paninc.y))

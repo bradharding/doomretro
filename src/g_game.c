@@ -116,6 +116,15 @@ byte            consistency[MAXPLAYERS][BACKUPTICS];
 //
 // controls (have defaults)
 //
+int             key_automap = KEYAUTOMAP_DEFAULT;
+int             key_automap_clearmark = KEYAUTOMAPCLEARMARK_DEFAULT;
+int             key_automap_followmode = KEYAUTOMAPFOLLOWMODE_DEFAULT;
+int             key_automap_grid = KEYAUTOMAPGRID_DEFAULT;
+int             key_automap_mark = KEYAUTOMAPMARK_DEFAULT;
+int             key_automap_maxzoom = KEYAUTOMAPMAXZOOM_DEFAULT;
+int             key_automap_rotatemode = KEYAUTOMAPROTATEMODE_DEFAULT;
+int             key_automap_zoomin = KEYAUTOMAPZOOMIN_DEFAULT;
+int             key_automap_zoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
 int             key_right = KEYRIGHT_DEFAULT;
 int             key_left = KEYLEFT_DEFAULT;
 int             key_up = KEYUP_DEFAULT;
@@ -148,8 +157,15 @@ int             mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
 int             mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
 
 int             gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
+int             gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
+int             gamepadautomapfollowmode = GAMEPADAUTOMAPFOLLOWMODE_DEFAULT;
+int             gamepadautomapgrid = GAMEPADAUTOMAPGRID_DEFAULT;
+int             gamepadautomapmark = GAMEPADAUTOMAPMARK_DEFAULT;
+int             gamepadautomapmaxzoom = GAMEPADAUTOMAPMAXZOOM_DEFAULT;
+int             gamepadautomaprotatemode = GAMEPADAUTOMAPROTATEMODE_DEFAULT;
+int             gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
+int             gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
 int             gamepadfire = GAMEPADFIRE_DEFAULT;
-int             gamepadfollowmode = GAMEPADFOLLOWMODE_DEFAULT;
 int             gamepadmenu = GAMEPADMENU_DEFAULT;
 int             gamepadleftdeadzone;
 int             gamepadrightdeadzone;

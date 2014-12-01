@@ -30,250 +30,282 @@
 #ifndef __M_CONFIG__
 #define __M_CONFIG__
 
-#define ALWAYSRUN_DEFAULT               false
+#define ALWAYSRUN_DEFAULT                       false
 
-#define UNLIMITED                       32768
-#define BLOODSPLATS_MIN                 0
-#define BLOODSPLATS_DEFAULT             UNLIMITED
-#define BLOODSPLATS_MAX                 UNLIMITED
+#define UNLIMITED                               32768
+#define BLOODSPLATS_MIN                         0
+#define BLOODSPLATS_DEFAULT                     UNLIMITED
+#define BLOODSPLATS_MAX                         UNLIMITED
 
-#define BRIGHTMAPS_DEFAULT              true
+#define BRIGHTMAPS_DEFAULT                      true
 
-#define CENTERWEAPON_DEFAULT            true
+#define CENTERWEAPON_DEFAULT                    true
 
-#define MIRROR                          1
-#define SLIDE                           2
-#define SMEARBLOOD                      4
-#define MOREBLOOD                       8
-#define CORPSES_MIN                     0
-#define CORPSES_DEFAULT                 (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
-#define CORPSES_MAX                     (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
+#define MIRROR                                  1
+#define SLIDE                                   2
+#define SMEARBLOOD                              4
+#define MOREBLOOD                               8
+#define CORPSES_MIN                             0
+#define CORPSES_DEFAULT                         (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
+#define CORPSES_MAX                             (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
 
-#define DCLICKUSE_DEFAULT               false
+#define DCLICKUSE_DEFAULT                       false
 
-#define EPISODE_MIN                     0
-#define EPISODE_DEFAULT                 0
-#define EPISODE_MAX                     3
+#define EPISODE_MIN                             0
+#define EPISODE_DEFAULT                         0
+#define EPISODE_MAX                             3
 
-#define EXPANSION_MIN                   0
-#define EXPANSION_DEFAULT               0
-#define EXPANSION_MAX                   1
+#define EXPANSION_MIN                           0
+#define EXPANSION_DEFAULT                       0
+#define EXPANSION_MAX                           1
 
-#define FLOATBOB_DEFAULT                true
+#define FLOATBOB_DEFAULT                        true
 
-#define FOOTCLIP_DEFAULT                true
+#define FOOTCLIP_DEFAULT                        true
 
-#define FULLSCREEN_DEFAULT              true
+#define FULLSCREEN_DEFAULT                      true
 
-#define GAMEPADAUTOMAP_DEFAULT          GAMEPAD_BACK
+#define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
 
-#define GAMEPADFIRE_DEFAULT             GAMEPAD_RIGHT_TRIGGER
+#define GAMEPADAUTOMAPCLEARMARK_DEFAULT         0
 
-#define GAMEPADFOLLOWMODE_DEFAULT       0
+#define GAMEPADAUTOMAPFOLLOWMODE_DEFAULT        0
 
-#define GAMEPADLEFTDEADZONE_MIN         0.0f
-#define GAMEPADLEFTDEADZONE_DEFAULT     XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f
-#define GAMEPADLEFTDEADZONE_MAX         (float)SHRT_MAX
+#define GAMEPADAUTOMAPGRID_DEFAULT              0
 
-#define GAMEPADRIGHTDEADZONE_MIN        0.0f
-#define GAMEPADRIGHTDEADZONE_DEFAULT    XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f
-#define GAMEPADRIGHTDEADZONE_MAX        (float)SHRT_MAX
+#define GAMEPADAUTOMAPMARK_DEFAULT              0
 
-#define GAMEPADMENU_DEFAULT             GAMEPAD_START
+#define GAMEPADAUTOMAPMAXZOOM_DEFAULT           0
 
-#define GAMEPADNEXTWEAPON_DEFAULT       GAMEPAD_B
+#define GAMEPADAUTOMAPROTATEMODE_DEFAULT        0
 
-#define GAMEPADPREVWEAPON_DEFAULT       GAMEPAD_Y
+#define GAMEPADAUTOMAPZOOMIN_DEFAULT            GAMEPAD_RIGHT_SHOULDER
 
-#define GAMEPADSENSITIVITY_MIN          0
-#define GAMEPADSENSITIVITY_DEFAULT      32
-#define GAMEPADSENSITIVITY_MAX          128
+#define GAMEPADAUTOMAPZOOMOUT_DEFAULT           GAMEPAD_LEFT_SHOULDER
 
-#define GAMEPADRUN_DEFAULT              GAMEPAD_LEFT_TRIGGER
+#define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
 
-#define GAMEPADUSE_DEFAULT              GAMEPAD_A
+#define GAMEPADLEFTDEADZONE_MIN                 0.0f
+#define GAMEPADLEFTDEADZONE_DEFAULT             XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f
+#define GAMEPADLEFTDEADZONE_MAX                 (float)SHRT_MAX
 
-#define GAMEPADWEAPON_DEFAULT           0
+#define GAMEPADRIGHTDEADZONE_MIN                0.0f
+#define GAMEPADRIGHTDEADZONE_DEFAULT            XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f
+#define GAMEPADRIGHTDEADZONE_MAX                (float)SHRT_MAX
 
-#define GAMEPADLEFTHANDED_DEFAULT       false
+#define GAMEPADMENU_DEFAULT                     GAMEPAD_START
 
-#define DAMAGE                          1
-#define WEAPONS                         2
-#define GAMEPADVIBRATE_MIN              0
-#define GAMEPADVIBRATE_DEFAULT          (DAMAGE | WEAPONS)
-#define GAMEPADVIBRATE_MAX              (DAMAGE | WEAPONS)
+#define GAMEPADNEXTWEAPON_DEFAULT               GAMEPAD_B
 
-#define GAMMALEVEL_MIN                  gammalevels[0]
-#define GAMMALEVEL_DEFAULT              0.75
-#define GAMMALEVEL_MAX                  gammalevels[GAMMALEVELS - 1]
+#define GAMEPADPREVWEAPON_DEFAULT               GAMEPAD_Y
 
-#define LOW                             0
-#define HIGH                            1
-#define GRAPHICDETAIL_DEFAULT           HIGH
+#define GAMEPADSENSITIVITY_MIN                  0
+#define GAMEPADSENSITIVITY_DEFAULT              32
+#define GAMEPADSENSITIVITY_MAX                  128
 
-#define GRID_DEFAULT                    false
+#define GAMEPADRUN_DEFAULT                      GAMEPAD_LEFT_TRIGGER
 
-#define HOMINDICATOR_DEFAULT            false
+#define GAMEPADUSE_DEFAULT                      GAMEPAD_A
 
-#define HUD_DEFAULT                     true
+#define GAMEPADWEAPON_DEFAULT                   0
 
-#define IWADFOLDER_DEFAULT              "."
+#define GAMEPADLEFTHANDED_DEFAULT               false
 
-#define KEYDOWN_DEFAULT                 KEY_DOWNARROW
+#define DAMAGE                                  1
+#define WEAPONS                                 2
+#define GAMEPADVIBRATE_MIN                      0
+#define GAMEPADVIBRATE_DEFAULT                  (DAMAGE | WEAPONS)
+#define GAMEPADVIBRATE_MAX                      (DAMAGE | WEAPONS)
 
-#define KEYDOWN2_DEFAULT                's'
+#define GAMMALEVEL_MIN                          gammalevels[0]
+#define GAMMALEVEL_DEFAULT                      0.75
+#define GAMMALEVEL_MAX                          gammalevels[GAMMALEVELS - 1]
 
-#define KEYFIRE_DEFAULT                 KEY_RCTRL
+#define LOW                                     0
+#define HIGH                                    1
+#define GRAPHICDETAIL_DEFAULT                   HIGH
 
-#define KEYLEFT_DEFAULT                 KEY_LEFTARROW
+#define GRID_DEFAULT                            false
 
-#define KEYNEXTWEAPON_DEFAULT           0
+#define HOMINDICATOR_DEFAULT                    false
 
-#define KEYPREVWEAPON_DEFAULT           0
+#define HUD_DEFAULT                             true
 
-#define KEYRIGHT_DEFAULT                KEY_RIGHTARROW
+#define IWADFOLDER_DEFAULT                      "."
 
-#define KEYRUN_DEFAULT                  KEY_RSHIFT
+#define KEYAUTOMAP_DEFAULT                      KEY_TAB
 
-#define KEYSTRAFE_DEFAULT               KEY_RALT
+#define KEYAUTOMAPCLEARMARK_DEFAULT             'c'
 
-#define KEYSTRAFELEFT_DEFAULT           'a'
+#define KEYAUTOMAPFOLLOWMODE_DEFAULT            'f'
 
-#define KEYSTRAFELEFT2_DEFAULT          ','
+#define KEYAUTOMAPGRID_DEFAULT                  'g'
 
-#define KEYSTRAFERIGHT_DEFAULT          'd'
+#define KEYAUTOMAPMARK_DEFAULT                  'm'
 
-#define KEYSTRAFERIGHT2_DEFAULT          '.'
+#define KEYAUTOMAPMAXZOOM_DEFAULT               '0'
 
-#define KEYUP_DEFAULT                   KEY_UPARROW
+#define KEYAUTOMAPROTATEMODE_DEFAULT            'r'
 
-#define KEYUP2_DEFAULT                  'w'
+#define KEYAUTOMAPZOOMIN_DEFAULT                KEY_EQUALS
 
-#define KEYUSE_DEFAULT                  ' '
+#define KEYAUTOMAPZOOMOUT_DEFAULT               KEY_MINUS
 
-#define KEYWEAPON1_DEFAULT              '1'
+#define KEYDOWN_DEFAULT                         KEY_DOWNARROW
 
-#define KEYWEAPON2_DEFAULT              '2'
+#define KEYDOWN2_DEFAULT                        's'
 
-#define KEYWEAPON3_DEFAULT              '3'
+#define KEYFIRE_DEFAULT                         KEY_RCTRL
 
-#define KEYWEAPON4_DEFAULT              '4'
+#define KEYLEFT_DEFAULT                         KEY_LEFTARROW
 
-#define KEYWEAPON5_DEFAULT              '5'
+#define KEYNEXTWEAPON_DEFAULT                   0
 
-#define KEYWEAPON6_DEFAULT              '6'
+#define KEYPREVWEAPON_DEFAULT                   0
 
-#define KEYWEAPON7_DEFAULT              '7'
+#define KEYRIGHT_DEFAULT                        KEY_RIGHTARROW
 
-#define LINEDEFS                        1
-#define SECTORS                         2
-#define THINGS                          4
-#define VERTEXES                        8
-#define MAPFIXES_MIN                    0
-#define MAPFIXES_DEFAULT                (LINEDEFS | SECTORS | THINGS | VERTEXES)
-#define MAPFIXES_MAX                    (LINEDEFS | SECTORS | THINGS | VERTEXES)
+#define KEYRUN_DEFAULT                          KEY_RSHIFT
 
-#define MESSAGES_DEFAULT                false
+#define KEYSTRAFE_DEFAULT                       KEY_RALT
 
-#define MIRRORWEAPONS_DEFAULT           false
+#define KEYSTRAFELEFT_DEFAULT                   'a'
 
-#define MOUSEACCELERATION_DEFAULT       2.0
+#define KEYSTRAFELEFT2_DEFAULT                  ','
 
-#define MOUSEFIRE_DEFAULT               0
+#define KEYSTRAFERIGHT_DEFAULT                  'd'
 
-#define MOUSEFORWARD_DEFAULT            -1
+#define KEYSTRAFERIGHT2_DEFAULT                  '.'
 
-#define MOUSEPREVWEAPON_DEFAULT         3
+#define KEYUP_DEFAULT                           KEY_UPARROW
 
-#define MOUSENEXTWEAPON_DEFAULT         4
+#define KEYUP2_DEFAULT                          'w'
 
-#define MOUSESENSITIVITY_MIN            0
-#define MOUSESENSITIVITY_DEFAULT        16
-#define MOUSESENSITIVITY_MAX            128
+#define KEYUSE_DEFAULT                          ' '
 
-#define MOUSESTRAFE_DEFAULT             -1
+#define KEYWEAPON1_DEFAULT                      '1'
 
-#define MOUSETHRESHOLD_DEFAULT          10
+#define KEYWEAPON2_DEFAULT                      '2'
 
-#define MOUSEUSE_DEFAULT                -1
+#define KEYWEAPON3_DEFAULT                      '3'
 
-#define MUSICVOLUME_MIN                 0
-#define MUSICVOLUME_DEFAULT             100
-#define MUSICVOLUME_MAX                 100
+#define KEYWEAPON4_DEFAULT                      '4'
 
-#define NOVERT_DEFAULT                  true
+#define KEYWEAPON5_DEFAULT                      '5'
 
-#define PIXELWIDTH_MIN                  2
-#define PIXELWIDTH_DEFAULT              2
-#define PIXELWIDTH_MAX                  SCREENWIDTH
+#define KEYWEAPON6_DEFAULT                      '6'
 
-#define PIXELHEIGHT_MIN                 2
-#define PIXELHEIGHT_DEFAULT             2
-#define PIXELHEIGHT_MAX                 SCREENHEIGHT
+#define KEYWEAPON7_DEFAULT                      '7'
 
-#define PLAYERBOB_MIN                   0
-#define PLAYERBOB_DEFAULT               75
-#define PLAYERBOB_MAX                   100
+#define LINEDEFS                                1
+#define SECTORS                                 2
+#define THINGS                                  4
+#define VERTEXES                                8
+#define MAPFIXES_MIN                            0
+#define MAPFIXES_DEFAULT                        (LINEDEFS | SECTORS | THINGS | VERTEXES)
+#define MAPFIXES_MAX                            (LINEDEFS | SECTORS | THINGS | VERTEXES)
 
-#define ROTATEMODE_DEFAULT              true
+#define MESSAGES_DEFAULT                        false
 
-#define RUNCOUNT_MAX                    32768
+#define MIRRORWEAPONS_DEFAULT                   false
 
-#define SATURATION_MIN                  0.0
-#define SATURATION_DEFAULT              1.0
-#define SATURATION_MAX                  1.0
+#define MOUSEACCELERATION_DEFAULT               2.0
 
-#define SAVEGAME_DEFAULT                0
+#define MOUSEFIRE_DEFAULT                       0
 
-#define SCREENSIZE_MIN                  0
-#define SCREENSIZE_DEFAULT              7
-#define SCREENSIZE_MAX                  8
+#define MOUSEFORWARD_DEFAULT                    -1
 
-#define SCREENWIDTH_DEFAULT             0
+#define MOUSEPREVWEAPON_DEFAULT                 3
 
-#define SCREENHEIGHT_DEFAULT            0
+#define MOUSENEXTWEAPON_DEFAULT                 4
 
-#define SFXVOLUME_MIN                   0
-#define SFXVOLUME_DEFAULT               100
-#define SFXVOLUME_MAX                   100
+#define MOUSESENSITIVITY_MIN                    0
+#define MOUSESENSITIVITY_DEFAULT                16
+#define MOUSESENSITIVITY_MAX                    128
 
-#define SHADOWS_DEFAULT                 true
+#define MOUSESTRAFE_DEFAULT                     -1
 
-#define SKILLLEVEL_MIN                  sk_baby
-#define SKILLLEVEL_DEFAULT              sk_medium
-#define SKILLLEVEL_MAX                  sk_nightmare
+#define MOUSETHRESHOLD_DEFAULT                  10
 
-#define PLAYER                          1
-#define REVENANT1                       2
-#define REVENANT2                       4
-#define CYBERDEMON                      8
-#define SMOKETRAILS_MIN                 0
-#define SMOKETRAILS_DEFAULT             (PLAYER | REVENANT2 | CYBERDEMON)
-#define SMOKETRAILS_MAX                 (PLAYER | REVENANT1 | REVENANT2 | CYBERDEMON)
+#define MOUSEUSE_DEFAULT                        -1
 
-#define SND_MAXSLICETIME_MS_DEFAULT     28
+#define MUSICVOLUME_MIN                         0
+#define MUSICVOLUME_DEFAULT                     100
+#define MUSICVOLUME_MAX                         100
 
-#define TIMIDITY_CFG_PATH_DEFAULT       ""
+#define NOVERT_DEFAULT                          true
 
-#define TRANSLUCENCY_DEFAULT            true
+#define PIXELWIDTH_MIN                          2
+#define PIXELWIDTH_DEFAULT                      2
+#define PIXELWIDTH_MAX                          SCREENWIDTH
+
+#define PIXELHEIGHT_MIN                         2
+#define PIXELHEIGHT_DEFAULT                     2
+#define PIXELHEIGHT_MAX                         SCREENHEIGHT
+
+#define PLAYERBOB_MIN                           0
+#define PLAYERBOB_DEFAULT                       75
+#define PLAYERBOB_MAX                           100
+
+#define ROTATEMODE_DEFAULT                      true
+
+#define RUNCOUNT_MAX                            32768
+
+#define SATURATION_MIN                          0.0
+#define SATURATION_DEFAULT                      1.0
+#define SATURATION_MAX                          1.0
+
+#define SAVEGAME_DEFAULT                        0
+
+#define SCREENSIZE_MIN                          0
+#define SCREENSIZE_DEFAULT                      7
+#define SCREENSIZE_MAX                          8
+
+#define SCREENWIDTH_DEFAULT                     0
+
+#define SCREENHEIGHT_DEFAULT                    0
+
+#define SFXVOLUME_MIN                           0
+#define SFXVOLUME_DEFAULT                       100
+#define SFXVOLUME_MAX                           100
+
+#define SHADOWS_DEFAULT                         true
+
+#define SKILLLEVEL_MIN                          sk_baby
+#define SKILLLEVEL_DEFAULT                      sk_medium
+#define SKILLLEVEL_MAX                          sk_nightmare
+
+#define PLAYER                                  1
+#define REVENANT1                               2
+#define REVENANT2                               4
+#define CYBERDEMON                              8
+#define SMOKETRAILS_MIN                         0
+#define SMOKETRAILS_DEFAULT                     (PLAYER | REVENANT2 | CYBERDEMON)
+#define SMOKETRAILS_MAX                         (PLAYER | REVENANT1 | REVENANT2 | CYBERDEMON)
+
+#define SND_MAXSLICETIME_MS_DEFAULT             28
+
+#define TIMIDITY_CFG_PATH_DEFAULT               ""
+
+#define TRANSLUCENCY_DEFAULT                    true
 
 #ifdef WIN32
 #ifdef SDL20
-#define VIDEODRIVER_DEFAULT             "windows"
+#define VIDEODRIVER_DEFAULT                     "windows"
 #else
-#define VIDEODRIVER_DEFAULT             "directx"
+#define VIDEODRIVER_DEFAULT                     "directx"
 #endif
 #else
-#define VIDEODRIVER_DEFAULT             ""
+#define VIDEODRIVER_DEFAULT                     ""
 #endif
 
-#define WIDESCREEN_DEFAULT              false
+#define WIDESCREEN_DEFAULT                      false
 
-#define WINDOWPOSITION_DEFAULT          ""
+#define WINDOWPOSITION_DEFAULT                  ""
 
-#define WINDOWWIDTH_DEFAULT             SCREENWIDTH
+#define WINDOWWIDTH_DEFAULT                     SCREENWIDTH
 
-#define WINDOWHEIGHT_DEFAULT            (SCREENWIDTH * 3 / 4)
+#define WINDOWHEIGHT_DEFAULT                    (SCREENWIDTH * 3 / 4)
 
 void M_LoadDefaults(void);
 void M_SaveDefaults(void);
