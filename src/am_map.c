@@ -1230,18 +1230,20 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
 
     if (!dy)
     {
-        // horizontal line
-        int     sx = SIGN(dx);
+        if (dx)
+        {
+            // horizontal line
+            int     sx = SIGN(dx);
 
-        x0 = BETWEEN(-1, x0, MAPWIDTH - 1);
-        x1 = BETWEEN(-1, x1, MAPWIDTH - 1);
+            x0 = BETWEEN(-1, x0, MAPWIDTH - 1);
+            x1 = BETWEEN(-1, x1, MAPWIDTH - 1);
 
-        y0 *= MAPWIDTH;
+            y0 *= MAPWIDTH;
 
-        putdot(x0, y0, color);
-        while (x0 != x1)
-            putdot(x0 += sx, y0, color);
-
+            putdot(x0, y0, color);
+            while (x0 != x1)
+                putdot(x0 += sx, y0, color);
+        }
         return;
     }
     else if (!dx)
