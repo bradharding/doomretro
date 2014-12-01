@@ -656,7 +656,7 @@ static void AM_clearMarks(void)
         if (++markpress == 5)
         {
             // clear all marks
-            plr->message = (markpointnum == 1 ? s_AMSTR_MARKCLEARED : s_AMSTR_MARKSCLEARED);
+            plr->message = s_AMSTR_MARKSCLEARED;
             message_dontfuckwithme = true;
             markpointnum = 0;
         }
