@@ -219,7 +219,7 @@ static boolean LoadSoundLump(int sound, int *lumpnum, int *samplerate,
     // seems to vary slightly depending on the sample rate.  This needs
     // further investigation to better understand the correct
     // behavior.
-    if (*length > (unsigned)lumplen - 8 || *length <= 48)
+    if (*length > (unsigned int)lumplen - 8 || *length <= 48)
     {
         W_ReleaseLumpNum(*lumpnum);
         return false;

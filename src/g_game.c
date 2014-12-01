@@ -1121,7 +1121,7 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
 
     // spawn a teleport fog
     ss = R_PointInSubsector(x, y);
-    an = (ANG45 * ((signed)mthing->angle / 45)) >> ANGLETOFINESHIFT;
+    an = (ANG45 * ((signed int)mthing->angle / 45)) >> ANGLETOFINESHIFT;
     xa = finecosine[an];
     ya = finesine[an];
 

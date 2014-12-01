@@ -408,7 +408,7 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
 
     // cph - replaced old code, which was unclear and badly commented
     // Much more efficient code now
-    if ((signed)angle1 < (signed)angle2) 
+    if ((signed int)angle1 < (signed int)angle2) 
     {
         // Either angle1 or angle2 is behind us, so it doesn't matter if we
         // change it to the corect sign
@@ -418,13 +418,13 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
             angle2 = INT_MIN;
     }
 
-    if ((signed)angle2 >= (signed)clipangle)
+    if ((signed int)angle2 >= (signed int)clipangle)
         return false;                   // Both off left edge
-    if ((signed)angle1 <= -(signed)clipangle)
+    if ((signed int)angle1 <= -(signed int)clipangle)
         return false;                   // Both off right edge
-    if ((signed)angle1 >= (signed)clipangle)
+    if ((signed int)angle1 >= (signed int)clipangle)
         angle1 = clipangle;             // Clip at left edge
-    if ((signed)angle2 <= -(signed)clipangle)
+    if ((signed int)angle2 <= -(signed int)clipangle)
         angle2 = 0 - clipangle;         // Clip at right edge
 
     // Find the first clippost

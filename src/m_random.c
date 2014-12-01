@@ -90,5 +90,5 @@ void M_ClearRandom(void)
 
     rndindex = time(NULL) & 0xff;
 
-    srand((unsigned)SEED);
+    srand((unsigned int)SEED);
 }

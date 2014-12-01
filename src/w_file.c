@@ -67,10 +67,9 @@ wad_file_t *W_OpenFile(char *path)
         return stdc_wad_file.OpenFile(path);
 
     // Try all classes in order until we find one that works
-
     result = NULL;
 
-    for (i = 0; i<arrlen(wad_file_classes); ++i)
+    for (i = 0; i < arrlen(wad_file_classes); ++i)
     {
         result = wad_file_classes[i]->OpenFile(path);
 

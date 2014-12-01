@@ -1706,11 +1706,11 @@ static void AM_drawMarks(void)
             {
                 int fx = x + j % MARKWIDTH;
 
-                if ((unsigned)fx < MAPWIDTH)
+                if ((unsigned int)fx < MAPWIDTH)
                 {
                     int fy = y + j / MARKWIDTH;
 
-                    if ((unsigned)fy < MAPHEIGHT)
+                    if ((unsigned int)fy < MAPHEIGHT)
                     {
                         char src = marknums[digit][j];
                         byte *dest = *screens + fy * MAPWIDTH + fx;

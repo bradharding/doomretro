@@ -122,17 +122,16 @@ unsigned int W_LumpNameHash(const char *s)
 //  for the lump name.
 wad_file_t *W_AddFile(char *filename)
 {
-    wadinfo_t header;
-    lumpinfo_t *lump_p;
-    unsigned int i;
-    wad_file_t *wad_file;
-    int length;
-    int startlump;
-    filelump_t *fileinfo;
-    filelump_t *filerover;
+    wadinfo_t           header;
+    lumpinfo_t          *lump_p;
+    unsigned int        i;
+    wad_file_t          *wad_file;
+    int                 length;
+    int                 startlump;
+    filelump_t          *fileinfo;
+    filelump_t          *filerover;
 
     // open the file and add to directory
-
     wad_file = W_OpenFile(filename);
 
     if (wad_file == NULL)
@@ -150,7 +149,7 @@ wad_file_t *W_AddFile(char *filename)
         // parsing code expects a little-endian directory, so will swap
         // them back.  Effectively we're constructing a "fake WAD directory"
         // here, as it would appear on disk.
-        fileinfo = (filelump_t *)Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
+        fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
         fileinfo->filepos = LONG(0);
         fileinfo->size = LONG(wad_file->length);
 
@@ -174,7 +173,7 @@ wad_file_t *W_AddFile(char *filename)
         header.numlumps = LONG(header.numlumps);
         header.infotableofs = LONG(header.infotableofs);
         length = header.numlumps * sizeof(filelump_t);
-        fileinfo = (filelump_t *)Z_Malloc(length, PU_STATIC, 0);
+        fileinfo = Z_Malloc(length, PU_STATIC, 0);
 
         W_Read(wad_file, header.infotableofs, fileinfo, length);
         numlumps += header.numlumps;
@@ -510,7 +509,7 @@ void *W_CacheLumpNum(int lumpnum, int tag)
     byte        *result;
     lumpinfo_t  *lump;
 
-    if ((unsigned)lumpnum >= numlumps)
+    if ((unsigned int)lumpnum >= numlumps)
         I_Error("W_CacheLumpNum: %i >= numlumps", lumpnum);
 
     lump = &lumpinfo[lumpnum];
@@ -563,7 +562,7 @@ void W_ReleaseLumpNum(int lumpnum)
 {
     lumpinfo_t  *lump;
 
-    if ((unsigned)lumpnum >= numlumps)
+    if ((unsigned int)lumpnum >= numlumps)
         I_Error("W_ReleaseLumpNum: %i >= numlumps", lumpnum);
 
     lump = &lumpinfo[lumpnum];

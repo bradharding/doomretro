@@ -395,7 +395,7 @@ static void FreeTrack(midi_track_t *track)
 {
     unsigned int        i;
 
-    for (i = 0; i < (unsigned)track->num_events; ++i)
+    for (i = 0; i < (unsigned int)track->num_events; ++i)
         FreeEvent(&track->events[i]);
 
     free(track->events);
@@ -536,7 +536,7 @@ void MIDI_FreeIterator(midi_track_iter_t *iter)
 // Get the time until the next MIDI event in a track.
 unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter)
 {
-    if (iter->position < (unsigned)iter->track->num_events)
+    if (iter->position < (unsigned int)iter->track->num_events)
     {
         midi_event_t    *next_event;
 
@@ -551,7 +551,7 @@ unsigned int MIDI_GetDeltaTime(midi_track_iter_t *iter)
 // Get a pointer to the next MIDI event.
 int MIDI_GetNextEvent(midi_track_iter_t *iter, midi_event_t **event)
 {
-    if (iter->position < (unsigned)iter->track->num_events)
+    if (iter->position < (unsigned int)iter->track->num_events)
     {
         *event = &iter->track->events[iter->position];
         ++iter->position;

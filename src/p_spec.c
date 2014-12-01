@@ -337,7 +337,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
 int P_FindSectorFromLineTag(const line_t *line, int start)
 {
     start = (start >= 0 ? sectors[start].nexttag :
-        sectors[(unsigned)line->tag % (unsigned)numsectors].firsttag);
+        sectors[(unsigned int)line->tag % (unsigned int)numsectors].firsttag);
     while (start >= 0 && sectors[start].tag != line->tag)
         start = sectors[start].nexttag;
     return start;
@@ -347,7 +347,7 @@ int P_FindSectorFromLineTag(const line_t *line, int start)
 int P_FindLineFromLineTag(const line_t *line, int start)
 {
     start = (start >= 0 ? lines[start].nexttag :
-        lines[(unsigned)line->tag % (unsigned)numlines].firsttag);
+        lines[(unsigned int)line->tag % (unsigned int)numlines].firsttag);
     while (start >= 0 && lines[start].tag != line->tag)
         start = lines[start].nexttag;
     return start;
@@ -362,7 +362,7 @@ static void P_InitTagLists(void)
         sectors[i].firsttag = -1;
     for (i = numsectors; --i >= 0;)     // Proceed from last to first sector
     {                                   // so that lower sectors appear first
-        int     j = (unsigned)sectors[i].tag % (unsigned)numsectors; // Hash func
+        int     j = (unsigned int)sectors[i].tag % (unsigned int)numsectors;    // Hash func
 
         sectors[i].nexttag = sectors[j].firsttag;     // Prepend sector to chain
         sectors[j].firsttag = i;
@@ -373,7 +373,7 @@ static void P_InitTagLists(void)
         lines[i].firsttag = -1;
     for (i = numlines; --i >= 0;)       // Proceed from last to first linedef
     {                                   // so that lower linedefs appear first
-        int     j = (unsigned)lines[i].tag % (unsigned)numlines;    // Hash func
+        int     j = (unsigned int)lines[i].tag % (unsigned int)numlines;        // Hash func
 
         lines[i].nexttag = lines[j].firsttag;   // Prepend linedef to chain
         lines[j].firsttag = i;
