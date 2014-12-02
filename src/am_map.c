@@ -1305,10 +1305,10 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         dx = ABS(dx);
         dy = ABS(dy);
         y0 *= MAPWIDTH;
+        putdot(x0, y0, color);
         if (dx == dy)
         {
             // diagonal line
-            putdot(x0, y0, color);
             while (x0 != x1)
                 putdot(x0 += sx, y0 += sy, color);
 
@@ -1316,7 +1316,6 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
         }
         else
         {
-            putdot(x0, y0, color);
             if (dx > dy)
             {
                 // x-major line
