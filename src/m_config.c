@@ -276,15 +276,15 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (homindicator,               homindicator,                  1),
     CONFIG_VARIABLE_INT          (hud,                        hud,                           1),
     CONFIG_VARIABLE_STRING       (iwadfolder,                 iwadfolder,                    0),
-    CONFIG_VARIABLE_KEY          (key_automap,                key_automap,                   2),
-    CONFIG_VARIABLE_KEY          (key_automap_clearmark,      key_automap_clearmark,         2),
-    CONFIG_VARIABLE_KEY          (key_automap_followmode,     key_automap_followmode,        2),
-    CONFIG_VARIABLE_KEY          (key_automap_grid,           key_automap_grid,              2),
-    CONFIG_VARIABLE_KEY          (key_automap_mark,           key_automap_mark,              2),
-    CONFIG_VARIABLE_KEY          (key_automap_maxzoom,        key_automap_maxzoom,           2),
-    CONFIG_VARIABLE_KEY          (key_automap_rotatemode,     key_automap_rotatemode,        2),
-    CONFIG_VARIABLE_KEY          (key_automap_zoomin,         key_automap_zoomin,            2),
-    CONFIG_VARIABLE_KEY          (key_automap_zoomout,        key_automap_zoomout,           2),
+    CONFIG_VARIABLE_KEY          (key_automap,                key_automap,                   3),
+    CONFIG_VARIABLE_KEY          (key_automap_clearmark,      key_automap_clearmark,         3),
+    CONFIG_VARIABLE_KEY          (key_automap_followmode,     key_automap_followmode,        3),
+    CONFIG_VARIABLE_KEY          (key_automap_grid,           key_automap_grid,              3),
+    CONFIG_VARIABLE_KEY          (key_automap_mark,           key_automap_mark,              3),
+    CONFIG_VARIABLE_KEY          (key_automap_maxzoom,        key_automap_maxzoom,           3),
+    CONFIG_VARIABLE_KEY          (key_automap_rotatemode,     key_automap_rotatemode,        3),
+    CONFIG_VARIABLE_KEY          (key_automap_zoomin,         key_automap_zoomin,            3),
+    CONFIG_VARIABLE_KEY          (key_automap_zoomout,        key_automap_zoomout,           3),
     CONFIG_VARIABLE_KEY          (key_down,                   key_down,                      3),
     CONFIG_VARIABLE_KEY          (key_down2,                  key_down2,                     3),
     CONFIG_VARIABLE_KEY          (key_fire,                   key_fire,                      3),
@@ -430,6 +430,7 @@ static alias_t alias[] =
     { "Y",                                  32768,  2 },
     { "-",                                      0,  3 },
     { "none",                                   0,  3 },
+    { "\'+\'",                                 13,  3 },
     { "backspace",                             14,  3 },
     { "tab",                                   15,  3 },
     { "enter",                                 28,  3 },
@@ -894,27 +895,20 @@ static void SaveDefaultCollection(default_collection_t *collection)
 // Parses integer values in the configuration file
 static int ParseIntParameter(char *strparm, int set)
 {
-    int         parm;
+    int parm;
+    int i = 0;
+
+    while (alias[i].text[0])
+    {
+        if (!strcasecmp(strparm, alias[i].text) && set == alias[i].set)
+            return alias[i].value;
+        i++;
+    }
 
     if (strparm[0] == '\'' && strparm[2] == '\'')
-    {
-        int     s;
-
-        for (s = 0; s < 128; ++s)
-            if (tolower(strparm[1]) == scantokey[s])
-                return s;
-    }
-    else
-    {
-        int     i = 0;
-
-        while (alias[i].text[0])
-        {
-            if (!strcasecmp(strparm, alias[i].text) && set == alias[i].set)
-                return alias[i].value;
-            i++;
-        }
-    }
+        for (i = 0; i < 128; ++i)
+            if (tolower(strparm[1]) == scantokey[i])
+                return i;
 
     if (strparm[0] == '0' && strparm[1] == 'x')
         sscanf(strparm + 2, "%x", &parm);
