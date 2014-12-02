@@ -129,10 +129,6 @@ byte    *gridcolor;
 #define AM_CLEARMARKKEY         key_automap_clearmark
 #define AM_ROTATEKEY            key_automap_rotatemode
 
-#define MAPWIDTH                SCREENWIDTH
-#define MAPHEIGHT               (unsigned int)viewheight2
-#define MAPAREA                 (MAPWIDTH * MAPHEIGHT)
-
 // scale on entry
 #define INITSCALEMTOF           (0.2 * FRACUNIT)
 // how much the automap moves window per tic in map coordinates
@@ -150,7 +146,7 @@ byte    *gridcolor;
 #define MTOF(x)                 (fixed_t)((((int64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 // translates between frame-buffer and map coordinates
 #define CXMTOF(x)               MTOF(x - m_x)
-#define CYMTOF(y)               (MAPHEIGHT - MTOF(y - m_y))
+#define CYMTOF(y)               (mapheight - MTOF(y - m_y))
 
 typedef struct
 {
@@ -219,6 +215,11 @@ boolean         grid = GRID_DEFAULT;
 
 boolean         automapactive = false;
 
+static unsigned int     mapwidth;
+static unsigned int     mapheight;
+static unsigned int     maparea;
+static unsigned int     mapbottom;
+
 static mpoint_t m_paninc;                       // how far the window pans each tic (map coords)
 static fixed_t  mtof_zoommul;                   // how far the window zooms in each tic (map coords)
 static fixed_t  ftom_zoommul;                   // how far the window zooms in each tic (fb coords)
@@ -286,8 +287,8 @@ static void AM_activateNewScale(void)
 {
     m_x += (m_w >> 1);
     m_y += (m_h >> 1);
-    m_w = FTOM(MAPWIDTH);
-    m_h = FTOM(MAPHEIGHT);
+    m_w = FTOM(mapwidth);
+    m_h = FTOM(mapheight);
     m_x -= (m_w >> 1);
     m_y -= (m_h >> 1);
     m_x2 = m_x + m_w;
@@ -320,7 +321,7 @@ static void AM_restoreScaleAndLoc(void)
     m_y2 = m_y + m_h;
 
     // Change the scaling multipliers
-    scale_mtof = FixedDiv(MAPWIDTH << FRACBITS, m_w);
+    scale_mtof = FixedDiv(mapwidth << FRACBITS, m_w);
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 }
 
@@ -357,11 +358,11 @@ static void AM_findMinMaxBoundaries(void)
     min_y -= FRACUNIT * 24;
     max_y += FRACUNIT * 24;
 
-    a = FixedDiv(MAPWIDTH << FRACBITS, max_x - min_x);
-    b = FixedDiv(MAPHEIGHT << FRACBITS, max_y - min_y);
+    a = FixedDiv(mapwidth << FRACBITS, max_x - min_x);
+    b = FixedDiv(mapheight << FRACBITS, max_y - min_y);
 
     min_scale_mtof = MIN(a, b);
-    max_scale_mtof = FixedDiv(MAPHEIGHT << FRACBITS, PLAYERRADIUS << 1);
+    max_scale_mtof = FixedDiv(mapheight << FRACBITS, PLAYERRADIUS << 1);
 }
 
 static void AM_changeWindowLoc(void)
@@ -451,7 +452,7 @@ static void AM_initVariables(void)
 {
     automapactive = true;
 
-    area = *screens + MAPAREA;
+    area = *screens + maparea;
 
     f_oldloc.x = INT_MAX;
 
@@ -459,8 +460,8 @@ static void AM_initVariables(void)
     ftom_zoommul = FRACUNIT;
     mtof_zoommul = FRACUNIT;
 
-    m_w = FTOM(MAPWIDTH);
-    m_h = FTOM(MAPHEIGHT);
+    m_w = FTOM(mapwidth);
+    m_h = FTOM(mapheight);
 
     // find player to center on initially
     if (playeringame[consoleplayer])
@@ -527,6 +528,11 @@ void AM_Start(void)
     if (!stopped)
         AM_Stop();
     stopped = false;
+
+    mapwidth = SCREENWIDTH;
+    mapheight = (unsigned int)viewheight2;
+    maparea = mapwidth * mapheight;
+    mapbottom = maparea - mapwidth;
 
     if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm)
         HU_clearMessages();
@@ -1156,7 +1162,7 @@ void AM_Ticker(void)
 //
 static void AM_clearFB(void)
 {
-    memset(*screens, BACKGROUNDCOLOR, MAPAREA);
+    memset(*screens, BACKGROUNDCOLOR, maparea);
 }
 
 //
@@ -1181,24 +1187,24 @@ static boolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
     *x0 = CXMTOF(*x0);
     if (*x0 < -1)
         outcode1 = LEFT;
-    else if (*x0 >= MAPWIDTH)
+    else if (*x0 >= (int)mapwidth)
         outcode1 = RIGHT;
     *x1 = CXMTOF(*x1);
     if (*x1 < -1)
         outcode2 = LEFT;
-    else if (*x1 >= MAPWIDTH)
+    else if (*x1 >= (int)mapwidth)
         outcode2 = RIGHT;
     if (outcode1 & outcode2)
         return false;
     *y0 = CYMTOF(*y0);
     if (*y0 < -1)
         outcode1 |= TOP;
-    else if (*y0 >= (int)MAPHEIGHT)
+    else if (*y0 >= (int)mapheight)
         outcode1 |= BOTTOM;
     *y1 = CYMTOF(*y1);
     if (*y1 < -1)
         outcode2 |= TOP;
-    else if (*y1 >= (int)MAPHEIGHT)
+    else if (*y1 >= (int)mapheight)
         outcode2 |= BOTTOM;
     return !(outcode1 & outcode2);
 }
@@ -1210,44 +1216,44 @@ static __inline void _PUTDOT(byte *dot, byte *color)
 
 static __inline void PUTDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < MAPWIDTH && y < MAPAREA)
+    if (x < mapwidth && y < maparea)
         _PUTDOT(*screens + y + x, color);
 }
 
 static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < MAPWIDTH)
+    if (x < mapwidth)
     {
         byte    *dot = *screens + y + x;
-        boolean top = (y < MAPAREA);
-        boolean bottom = (y + MAPWIDTH < MAPAREA);
+        boolean top = (y < maparea);
+        boolean bottom = (y < mapbottom);
 
         if (top)
             _PUTDOT(dot, color);
         if (bottom)
-            _PUTDOT(dot + MAPWIDTH, color);
-        if (x + 1 < MAPWIDTH)
+            _PUTDOT(dot + mapwidth, color);
+        if (x + 1 < mapwidth)
         {
             if (top)
                 _PUTDOT(dot + 1, color);
             if (bottom)
-                _PUTDOT(dot + MAPWIDTH + 1, color);
+                _PUTDOT(dot + mapwidth + 1, color);
         }
     }
-    else if (++x < MAPWIDTH)
+    else if (++x < mapwidth)
     {
         byte    *dot = *screens + y + x;
 
-        if (y < MAPAREA)
+        if (y < maparea)
             _PUTDOT(dot, color);
-        if (y + MAPWIDTH < MAPAREA)
-            _PUTDOT(dot + MAPWIDTH, color);
+        if (y < mapbottom)
+            _PUTDOT(dot + mapwidth, color);
     }
 }
 
 static __inline void PUTTRANSDOT(unsigned int x, unsigned int y, byte *color)
 {
-    if (x < MAPWIDTH && y < MAPAREA)
+    if (x < mapwidth && y < maparea)
     {
         byte    *dot = *screens + y + x;
 
@@ -1272,47 +1278,42 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
             // horizontal line
             int     sx = SIGN(dx);
 
-            x0 = BETWEEN(-1, x0, MAPWIDTH - 1);
-            x1 = BETWEEN(-1, x1, MAPWIDTH - 1);
+            x0 = BETWEEN(-1, x0, mapwidth - 1);
+            x1 = BETWEEN(-1, x1, mapwidth - 1);
 
-            y0 *= MAPWIDTH;
+            y0 *= mapwidth;
 
             putdot(x0, y0, color);
             while (x0 != x1)
                 putdot(x0 += sx, y0, color);
         }
-        return;
     }
     else if (!dx)
     {
         // vertical line
-        int     sy = SIGN(dy) * MAPWIDTH;
+        int     sy = SIGN(dy) * mapwidth;
 
-        y0 = BETWEEN(-MAPWIDTH, y0 * MAPWIDTH, MAPAREA - MAPWIDTH);
-        y1 = BETWEEN(-MAPWIDTH, y1 * MAPWIDTH, MAPAREA - MAPWIDTH);
+        y0 = BETWEEN(-(int)mapwidth, y0 * mapwidth, mapbottom);
+        y1 = BETWEEN(-(int)mapwidth, y1 * mapwidth, mapbottom);
 
         putdot(x0, y0, color);
         while (y0 != y1)
             putdot(x0, y0 += sy, color);
-
-        return;
     }
     else
     {
         int     sx = SIGN(dx);
-        int     sy = SIGN(dy) * MAPWIDTH;
+        int     sy = SIGN(dy) * mapwidth;
 
         dx = ABS(dx);
         dy = ABS(dy);
-        y0 *= MAPWIDTH;
+        y0 *= mapwidth;
         putdot(x0, y0, color);
         if (dx == dy)
         {
             // diagonal line
             while (x0 != x1)
                 putdot(x0 += sx, y0 += sy, color);
-
-            return;
         }
         else
         {
@@ -1329,7 +1330,6 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
                     putdot(x0 += sx, y0 += (sy & mask), color);
                     error += dy - (dx & mask);
                 }
-                return;
             }
             else
             {
@@ -1337,7 +1337,7 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
                 int     error = (dx <<= 1) - dy;
 
                 dy <<= 1;
-                y1 *= MAPWIDTH;
+                y1 *= mapwidth;
                 while (y0 != y1)
                 {
                     int mask = ~(error >> 31);
@@ -1345,7 +1345,6 @@ static void AM_drawFline(int x0, int y0, int x1, int y1, byte *color,
                     putdot(x0 += (sx & mask), y0 += sy, color);
                     error += dx - (dy & mask);
                 }
-                return;
             }
         }
     }
@@ -1670,7 +1669,7 @@ static void AM_drawThings(void)
                     fx = CXMTOF(x);
                     fy = CYMTOF(y);
 
-                    if (fx >= -w && fx <= (int)MAPWIDTH + w && fy >= -w && fy <= (int)MAPHEIGHT + w)
+                    if (fx >= -w && fx <= (int)mapwidth + w && fy >= -w && fy <= (int)mapwidth + w)
                         AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w, thing->angle,
                                              thingcolor, x, y);
                 }
@@ -1742,14 +1741,14 @@ static void AM_drawMarks(void)
             {
                 int fx = x + j % MARKWIDTH;
 
-                if ((unsigned int)fx < MAPWIDTH)
+                if ((unsigned int)fx < mapwidth)
                 {
                     int fy = y + j / MARKWIDTH;
 
-                    if ((unsigned int)fy < MAPHEIGHT)
+                    if ((unsigned int)fy < mapheight)
                     {
                         char src = marknums[digit][j];
-                        byte *dest = *screens + fy * MAPWIDTH + fx;
+                        byte *dest = *screens + fy * mapwidth + fx;
 
                         if (src == '2')
                             *dest = MARKCOLOR;
@@ -1767,12 +1766,12 @@ static void AM_drawMarks(void)
 
 static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
 {
-    byte        *dest = *screens + ((y << 1) - 1) * MAPWIDTH + (x << 1) - 1;
+    byte        *dest = *screens + ((y << 1) - 1) * mapwidth + (x << 1) - 1;
 
     *dest = *(*dest + color);
     ++dest;
     *dest = *(*dest + color);
-    dest += MAPWIDTH;
+    dest += mapwidth;
     *dest = *(*dest + color);
     --dest;
     *dest = *(*dest + color);
@@ -1807,21 +1806,21 @@ static void AM_darkenEdges(void)
         byte    *colormap = colormaps + (DARKLEVELS - i) * 1024;
         int     x, y;
 
-        for (x = i; x < MAPWIDTH - i; ++x)
+        for (x = i; x < (int)mapwidth - i; ++x)
         {
-            byte        *dot = *screens + i * MAPWIDTH + x;
+            byte        *dot = *screens + i * mapwidth + x;
 
             *dot = *(*dot + colormap);
-            dot = *screens + (MAPHEIGHT - i - 1) * MAPWIDTH + x;
+            dot = *screens + (mapheight - i - 1) * mapwidth + x;
             *dot = *(*dot + colormap);
         }
 
-        for (y = i + 1; y < (int)MAPHEIGHT - i - 1; ++y)
+        for (y = i + 1; y < (int)mapheight - i - 1; ++y)
         {
-            byte        *dot = *screens + y * MAPWIDTH + i;
+            byte        *dot = *screens + y * mapwidth + i;
 
             *dot = *(*dot + colormap);
-            dot = *screens + (y + 1) * MAPWIDTH - i - 1;
+            dot = *screens + (y + 1) * mapwidth - i - 1;
             *dot = *(*dot + colormap);
         }
     }
