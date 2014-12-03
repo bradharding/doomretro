@@ -1479,6 +1479,8 @@ void I_InitGraphics(void)
     SDL_SetColors(screenbuffer, palette, 0, 256);
 #endif
 
+    if (!fullscreen)
+        currently_grabbed = true;
     UpdateFocus();
     UpdateGrab();
 
