@@ -1052,17 +1052,19 @@ extern char     **mapnamesp[];
 extern char     **mapnamest[];
 extern char     **mapnamesn[];
 
-char *RemoveMapNum(char str[133])
+char *RemoveMapNum(const char *str)
 {
     char        *pos;
+    char        *mapname = strdup(str);
 
-    if ((pos = strchr(str, ':')))
+    if ((pos = strchr(mapname, ':')) != NULL)
     {
-        strcpy(str, pos + 1);
-        if (str[0] == ' ')
-            strcpy(str, &str[1]);
+        pos++;
+        if (pos[0] == ' ')
+            pos++;
+        strcpy(mapname, pos);
     }
-    return str;
+    return mapname;
 }
 
 void M_UpdateSaveGameName(int i)
