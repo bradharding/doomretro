@@ -1483,7 +1483,7 @@ void M_UpdateWindowCaption(void)
 {
     static char caption[64];
 
-    if (usergame)
+    if (usergame || !nerve)
         return;
 
     if (currentMenu == &ExpDef || currentMenu == &NewDef)
