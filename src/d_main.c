@@ -562,9 +562,9 @@ static void D_CheckSupportedPWAD(char *filename)
     else if (D_CheckFilename(filename, "BTSX_E1.WAD"))
         BTSX = BTSXE1 = true;
     else if (D_CheckFilename(filename, "BTSX_E2A.WAD"))
-        BTSX = BTSXE2A = true;
+        BTSX = BTSXE2 = BTSXE2A = true;
     else if (D_CheckFilename(filename, "BTSX_E2B.WAD"))
-        BTSX = BTSXE2B = true;
+        BTSX = BTSXE2 = BTSXE2B = true;
 }
 
 static boolean D_IsUnsupportedPWAD(char *filename)
