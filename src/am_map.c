@@ -668,10 +668,12 @@ static void AM_clearMarks(void)
         }
         else if (markpress == 1)
         {
+            static char message[32];
+
             // clear one mark
-            plr->message = s_AMSTR_MARKCLEARED;
+            M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, markpointnum--);
+            plr->message = message;
             message_dontfuckwithme = true;
-            markpointnum--;
         }
     }
 }
@@ -1747,8 +1749,8 @@ static void AM_drawMarks(void)
 
                     if ((unsigned int)fy < mapheight)
                     {
-                        char src = marknums[digit][j];
-                        byte *dest = *screens + fy * mapwidth + fx;
+                        char    src = marknums[digit][j];
+                        byte    *dest = *screens + fy * mapwidth + fx;
 
                         if (src == '2')
                             *dest = MARKCOLOR;
