@@ -600,12 +600,7 @@ void D_SetGameDescription(void)
         if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
         else if (gamemode == retail)
-        {
-            // Ultimate Doom
             gamedescription = s_CAPTION_ULTIMATE;
-            if (bfgedition)
-                gamedescription = M_StringJoin(gamedescription, " (", s_CAPTION_BFGEDITION, ")", NULL);
-        }
         else if (gamemode == registered)
             gamedescription = s_CAPTION_REGISTERED;
         else if (gamemode == shareware)
@@ -622,17 +617,9 @@ void D_SetGameDescription(void)
                 gamedescription = s_CAPTION_FREEDOOM2;
         }
         else if (nerve)
-        {
             gamedescription = s_CAPTION_DOOM2;
-            if (bfgedition)
-                gamedescription = M_StringJoin(gamedescription, " (", s_CAPTION_BFGEDITION, ")", NULL);
-        }
         else if (gamemission == doom2)
-        {
             gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH);
-            if (bfgedition)
-                gamedescription = M_StringJoin(gamedescription, " (", s_CAPTION_BFGEDITION, ")", NULL);
-        }
         else if (gamemission == pack_plut)
             gamedescription = s_CAPTION_PLUTONIA;
         else if (gamemission == pack_tnt)

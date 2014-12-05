@@ -82,7 +82,7 @@ void M_StartControlPanel(void);
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *str);
 
-void M_UpdateWindowCaption(void);
+void M_SetWindowCaption(void);
 
 extern int      screensize;
 extern int      gamepadmenu;

@@ -1244,16 +1244,7 @@ void ToggleFullScreen(void)
         CreateCursors();
         SDL_SetCursor(cursors[0]);
 
-        if (menuactive && !usergame)
-            M_UpdateWindowCaption();
-        else
-        {
-#ifdef SDL20
-            SDL_SetWindowTitle(sdl_window, gamestate == GS_LEVEL ? mapnumandtitle : gamedescription);
-#else
-            SDL_WM_SetCaption(gamestate == GS_LEVEL ? mapnumandtitle : gamedescription, NULL);
-#endif
-        }
+        M_SetWindowCaption();
 
         currently_grabbed = true;
         UpdateFocus();
@@ -1384,12 +1375,6 @@ void I_InitKeyboard(void)
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
     }
-#endif
-
-#ifdef SDL20
-    SDL_SetWindowTitle(sdl_window, gamedescription);
-#else
-    SDL_WM_SetCaption(gamedescription, NULL);
 #endif
 }
 

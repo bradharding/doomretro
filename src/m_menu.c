@@ -1477,22 +1477,22 @@ void M_DrawEpisode(void)
 extern SDL_Window *sdl_window;
 #endif
 
-void M_UpdateWindowCaption(void)
+void M_SetWindowCaption(void)
 {
-    static char caption[64];
+    static char caption[128];
 
-    if (usergame || !nerve)
-        return;
-
-    if (currentMenu == &ExpDef || currentMenu == &NewDef)
-    {
-        M_snprintf(caption, 64, "%s: %s", gamedescription,
-            (selectedexpansion == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
-        if (bfgedition)
-            M_snprintf(caption, 64, "%s (%s)", caption, s_CAPTION_BFGEDITION);
-    }
+    if (usergame)
+        M_StringCopy(caption, mapnumandtitle, sizeof(caption));
     else
-        M_StringCopy(caption, gamedescription, 64);
+    {
+        if (nerve && (currentMenu == &ExpDef || currentMenu == &NewDef))
+            M_snprintf(caption, sizeof(caption), "%s: %s", gamedescription,
+            (selectedexpansion == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
+        else
+            M_StringCopy(caption, gamedescription, sizeof(caption));
+        if (bfgedition)
+            M_snprintf(caption, sizeof(caption), "%s (%s)", caption, s_CAPTION_BFGEDITION);
+    }
 
 #ifdef SDL20
     SDL_SetWindowTitle(sdl_window, caption);
@@ -1687,7 +1687,7 @@ void M_EndGameResponse(int key)
         returntowidescreen = true;
     }
     usergame = false;
-    M_UpdateWindowCaption();
+    M_SetWindowCaption();
     D_StartTitle(1);
 }
 
@@ -2736,7 +2736,7 @@ boolean M_Responder(event_t *ev)
                 M_SaveDefaults();
             }
             keywait = I_GetTime() + 2;
-            M_UpdateWindowCaption();
+            M_SetWindowCaption();
             return false;
         }
         else if (key == KEY_UPARROW && keywait < I_GetTime())
@@ -2799,7 +2799,7 @@ boolean M_Responder(event_t *ev)
                 M_SaveDefaults();
             }
             keywait = I_GetTime() + 2;
-            M_UpdateWindowCaption();
+            M_SetWindowCaption();
             return false;
         }
 
@@ -2869,7 +2869,7 @@ boolean M_Responder(event_t *ev)
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }
             }
-            M_UpdateWindowCaption();
+            M_SetWindowCaption();
             skipaction = (currentMenu == &LoadDef || currentMenu == &SaveDef);
             return skipaction;
         }
@@ -2901,7 +2901,7 @@ boolean M_Responder(event_t *ev)
                 if (returntowidescreen)
                     ToggleWideScreen(true);
             }
-            M_UpdateWindowCaption();
+            M_SetWindowCaption();
             return true;
         }
 
@@ -2952,7 +2952,7 @@ boolean M_Responder(event_t *ev)
                         SaveDef.lastOn = selectedsavegame = itemOn;
                         M_SaveDefaults();
                     }
-                    M_UpdateWindowCaption();
+                    M_SetWindowCaption();
                     return false;
                 }
             }
@@ -3001,7 +3001,7 @@ boolean M_Responder(event_t *ev)
                         SaveDef.lastOn = selectedsavegame = itemOn;
                         M_SaveDefaults();
                     }
-                    M_UpdateWindowCaption();
+                    M_SetWindowCaption();
                     return false;
                 }
             }
