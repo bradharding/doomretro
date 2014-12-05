@@ -1487,9 +1487,9 @@ void M_UpdateWindowCaption(void)
     if (currentMenu == &ExpDef || currentMenu == &NewDef)
     {
         M_snprintf(caption, 64, "%s: %s", gamedescription,
-            (selectedexpansion == ex1 ? "Hell On Earth" : "No Rest For The Living"));
+            (selectedexpansion == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
         if (bfgedition)
-            M_snprintf(caption, 64, "%s (BFG Edition)", caption);
+            M_snprintf(caption, 64, "%s (%s)", caption, s_CAPTION_BFGEDITION);
     }
     else
         M_StringCopy(caption, gamedescription, 64);

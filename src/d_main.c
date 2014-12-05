@@ -1178,10 +1178,10 @@ static void D_DoomMainSetup(void)
 
     D_IdentifyVersion();
     InitGameVersion();
+    D_ProcessDehInWad();
     D_SetGameDescription();
     D_SetSaveGameDir();
 
-    D_ProcessDehInWad();
 
     // Check for -file in shareware
     if (modifiedgame)

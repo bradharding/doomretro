@@ -32,6 +32,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "d_deh.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "i_system.h"
@@ -586,30 +587,29 @@ void D_SetGameDescription(void)
     gamedescription = PACKAGE_NAME;
 
     if (chex)
-        gamedescription = "Chex Quest";
+        gamedescription = s_CAPTION_CHEX;
     else if (hacx)
-        gamedescription = "HacX: Twitch 'n Kill";
+        gamedescription = s_CAPTION_HACX;
     else if (BTSXE1)
-        gamedescription = "Back to Saturn X E1: Get Out Of My Stations";
+        gamedescription = s_CAPTION_BTSXE1;
     else if (BTSXE2)
-        gamedescription = "Back to Saturn X E2: Tower in the Fountain of Sparks";
+        gamedescription = s_CAPTION_BTSXE2;
     else if (gamemission == doom)
     {
         // Doom 1. But which version?
         if (FREEDOOM)
-            gamedescription = "Freedoom: Phase 1";
+            gamedescription = s_CAPTION_FREEDOOM1;
         else if (gamemode == retail)
         {
             // Ultimate Doom
+            gamedescription = s_CAPTION_ULTIMATE;
             if (bfgedition)
-                gamedescription = "The Ultimate DOOM (BFG Edition)";
-            else
-                gamedescription = "The Ultimate DOOM";
+                gamedescription = M_StringJoin(gamedescription, " (", s_CAPTION_BFGEDITION, ")", NULL);
         }
         else if (gamemode == registered)
-            gamedescription = "DOOM Registered";
+            gamedescription = s_CAPTION_REGISTERED;
         else if (gamemode == shareware)
-            gamedescription = "DOOM Shareware";
+            gamedescription = s_CAPTION_SHAREWARE;
     }
     else
     {
@@ -617,27 +617,25 @@ void D_SetGameDescription(void)
         if (FREEDOOM)
         {
             if (FREEDM)
-                gamedescription = "FreeDM";
+                gamedescription = s_CAPTION_FREEDM;
             else
-                gamedescription = "Freedoom: Phase 2";
+                gamedescription = s_CAPTION_FREEDOOM2;
         }
         else if (nerve)
         {
-                if (bfgedition)
-                    gamedescription = "DOOM II (BFG Edition)";
-                else
-                    gamedescription = "DOOM II";
+            gamedescription = s_CAPTION_DOOM2;
+            if (bfgedition)
+                gamedescription = M_StringJoin(gamedescription, " (", s_CAPTION_BFGEDITION, ")", NULL);
         }
         else if (gamemission == doom2)
         {
+            gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH);
             if (bfgedition)
-                gamedescription = "DOOM II: Hell On Earth (BFG Edition)";
-            else
-                gamedescription = "DOOM II: Hell On Earth";
+                gamedescription = M_StringJoin(gamedescription, " (", s_CAPTION_BFGEDITION, ")", NULL);
         }
         else if (gamemission == pack_plut)
-            gamedescription = "Final DOOM: The Plutonia Experiment";
+            gamedescription = s_CAPTION_PLUTONIA;
         else if (gamemission == pack_tnt)
-            gamedescription = "Final DOOM: TNT - Evilution";
+            gamedescription = s_CAPTION_TNT;
     }
 }

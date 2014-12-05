@@ -449,6 +449,23 @@ char *s_M_SFXVOLUME = M_SFXVOLUME;
 char *s_M_MUSICVOLUME = M_MUSICVOLUME;
 char *s_M_PAUSED = M_PAUSED;
 
+char *s_CAPTION_SHAREWARE = CAPTION_SHAREWARE;
+char *s_CAPTION_REGISTERED = CAPTION_REGISTERED;
+char *s_CAPTION_ULTIMATE = CAPTION_ULTIMATE;
+char *s_CAPTION_DOOM2 = CAPTION_DOOM2;
+char *s_CAPTION_HELLONEARTH = CAPTION_HELLONEARTH;
+char *s_CAPTION_NERVE = CAPTION_NERVE;
+char *s_CAPTION_BFGEDITION = CAPTION_BFGEDITION;
+char *s_CAPTION_PLUTONIA = CAPTION_PLUTONIA;
+char *s_CAPTION_TNT = CAPTION_TNT;
+char *s_CAPTION_CHEX = CAPTION_CHEX;
+char *s_CAPTION_HACX = CAPTION_HACX;
+char *s_CAPTION_FREEDOOM1 = CAPTION_FREEDOOM1;
+char *s_CAPTION_FREEDOOM2 = CAPTION_FREEDOOM2;
+char *s_CAPTION_FREEDM = CAPTION_FREEDM;
+char *s_CAPTION_BTSXE1 = CAPTION_BTSXE1;
+char *s_CAPTION_BTSXE2 = CAPTION_BTSXE2;
+
 char *bgflatE1 = "FLOOR4_8";
 char *bgflatE2 = "SFLR6_1";
 char *bgflatE3 = "MFLR8_4";
@@ -817,7 +834,22 @@ deh_strs deh_strlookup[] =
     { &s_M_SFXVOLUME,          "M_SFXVOLUME",          false },
     { &s_M_MUSICVOLUME,        "M_MUSICVOLUME",        false },
     { &s_M_PAUSED,             "M_PAUSED",             false },
-
+    { &s_CAPTION_SHAREWARE,    "CAPTION_SHAREWARE",    false },
+    { &s_CAPTION_REGISTERED,   "CAPTION_REGISTERED",   false },
+    { &s_CAPTION_ULTIMATE,     "CAPTION_ULTIMATE",     false },
+    { &s_CAPTION_DOOM2,        "CAPTION_DOOM2",        false },
+    { &s_CAPTION_HELLONEARTH,  "CAPTION_HELLONEARTH",  false },
+    { &s_CAPTION_NERVE,        "CAPTION_NERVE",        false },
+    { &s_CAPTION_BFGEDITION,   "CAPTION_BFGEDITION",   false },
+    { &s_CAPTION_PLUTONIA,     "CAPTION_PLUTONIA",     false },
+    { &s_CAPTION_TNT,          "CAPTION_TNT",          false },
+    { &s_CAPTION_CHEX,         "CAPTION_CHEX",         false },
+    { &s_CAPTION_HACX,         "CAPTION_HACX",         false },
+    { &s_CAPTION_FREEDOOM1,    "CAPTION_FREEDOOM1",    false },
+    { &s_CAPTION_FREEDOOM2,    "CAPTION_FREEDOOM2",    false },
+    { &s_CAPTION_FREEDM,       "CAPTION_FREEDM",       false },
+    { &s_CAPTION_BTSXE1,       "CAPTION_BTSXE1",       false },
+    { &s_CAPTION_BTSXE2,       "CAPTION_BTSXE2",       false },
     { &bgflatE1,               "BGFLATE1",             false },
     { &bgflatE2,               "BGFLATE2",             false },
     { &bgflatE3,               "BGFLATE3",             false },

@@ -402,6 +402,23 @@ extern char     *s_M_SFXVOLUME;
 extern char     *s_M_MUSICVOLUME;
 extern char     *s_M_PAUSED;
 
+extern char     *s_CAPTION_SHAREWARE;
+extern char     *s_CAPTION_REGISTERED;
+extern char     *s_CAPTION_ULTIMATE;
+extern char     *s_CAPTION_DOOM2;
+extern char     *s_CAPTION_HELLONEARTH;
+extern char     *s_CAPTION_NERVE;
+extern char     *s_CAPTION_BFGEDITION;
+extern char     *s_CAPTION_PLUTONIA;
+extern char     *s_CAPTION_TNT;
+extern char     *s_CAPTION_CHEX;
+extern char     *s_CAPTION_HACX;
+extern char     *s_CAPTION_FREEDOOM1;
+extern char     *s_CAPTION_FREEDOOM2;
+extern char     *s_CAPTION_FREEDM;
+extern char     *s_CAPTION_BTSXE1;
+extern char     *s_CAPTION_BTSXE2;
+
 extern char     *bgflatE1;
 extern char     *bgflatE2;
 extern char     *bgflatE3;
