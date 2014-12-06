@@ -597,7 +597,7 @@ void I_GetEvent(void)
                 break;
 
             case SDL_QUIT:
-                if (!quitting)
+                if (!quitting && !splashscreen)
                 {
                     keydown = 0;
                     if (paused)
