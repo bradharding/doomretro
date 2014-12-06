@@ -139,7 +139,7 @@ void I_ShutdownGamepad(void)
 
 static short __inline clamp(short value, short deadzone)
 {
-    return (value > -deadzone && value < deadzone ? 0 : MAX(-SHRT_MAX, value));
+    return (ABS(value) < deadzone ? 0 : MAX(-SHRT_MAX, value));
 }
 
 void I_PollThumbs_DirectInput_RightHanded(short LX, short LY, short RX, short RY)
