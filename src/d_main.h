@@ -58,4 +58,6 @@ void D_AdvanceTitle(void);
 void D_DoAdvanceTitle(void);
 void D_StartTitle(int page);
 
+void I_StartLoadingDialog(void);
+
 #endif

@@ -529,6 +529,8 @@
     <None Include="..\.gitignore" />
     <None Include="..\AUTHORS" />
     <None Include="..\res\DEHACKED" />
+    <None Include="..\res\doomretro.ico" />
+    <None Include="..\res\loading.bmp" />
     <None Include="..\res\VERSION" />
     <None Include="..\src\Makefile" />
     <None Include="..\src\manifest.xml" />
