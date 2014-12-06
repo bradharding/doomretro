@@ -619,7 +619,7 @@ void D_SetGameDescription(void)
         else if (nerve)
             gamedescription = s_CAPTION_DOOM2;
         else if (gamemission == doom2)
-            gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH);
+            gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH, NULL);
         else if (gamemission == pack_plut)
             gamedescription = s_CAPTION_PLUTONIA;
         else if (gamemission == pack_tnt)
