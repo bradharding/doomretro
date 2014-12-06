@@ -185,7 +185,7 @@ static boolean P_CrossBSPNode(int bspnum, los_t *los)
             bspnum = bsp->children[side];               // doesn't touch the other side
         else                                            // the partition plane is crossed here
             if (!P_CrossBSPNode(bsp->children[side], los))
-                return 0;                               // cross the starting side
+                return false;                           // cross the starting side
             else
                 bspnum = bsp->children[side ^ 1];       // cross the ending side
     }

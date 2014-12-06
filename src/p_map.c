@@ -1271,20 +1271,20 @@ stairstep:
 //
 // P_LineAttack
 //
-mobj_t         *linetarget;    // who got hit (or NULL)
-mobj_t         *shootthing;
+mobj_t          *linetarget;    // who got hit (or NULL)
+mobj_t          *shootthing;
 
 // height if not aiming up or down
-fixed_t        shootz;
+fixed_t         shootz;
 
-int            la_damage;
-fixed_t        attackrange;
+int             la_damage;
+fixed_t         attackrange;
 
-fixed_t        aimslope;
+fixed_t         aimslope;
 
 // slopes to top and bottom of target
-static fixed_t topslope;
-static fixed_t bottomslope;
+static fixed_t  topslope;
+static fixed_t  bottomslope;
 
 //
 // PTR_AimTraverse
@@ -1292,16 +1292,15 @@ static fixed_t bottomslope;
 //
 boolean PTR_AimTraverse(intercept_t *in)
 {
-    line_t  *li;
-    mobj_t  *th;
-    fixed_t slope;
-    fixed_t thingtopslope;
-    fixed_t thingbottomslope;
-    fixed_t dist;
+    mobj_t      *th;
+    fixed_t     slope;
+    fixed_t     thingtopslope;
+    fixed_t     thingbottomslope;
+    fixed_t     dist;
 
     if (in->isaline)
     {
-        li = in->d.line;
+        line_t  *li = in->d.line;
 
         if (!(li->flags & ML_TWOSIDED))
             return false;               // stop
@@ -1374,21 +1373,19 @@ boolean PTR_AimTraverse(intercept_t *in)
 //
 boolean PTR_ShootTraverse(intercept_t *in)
 {
-    fixed_t x;
-    fixed_t y;
-    fixed_t z;
-    fixed_t frac;
-
-    mobj_t  *th;
-
-    fixed_t slope;
-    fixed_t dist;
-    fixed_t thingtopslope;
-    fixed_t thingbottomslope;
+    fixed_t     x;
+    fixed_t     y;
+    fixed_t     z;
+    fixed_t     frac;
+    mobj_t      *th;
+    fixed_t     slope;
+    fixed_t     dist;
+    fixed_t     thingtopslope;
+    fixed_t     thingbottomslope;
 
     if (in->isaline)
     {
-        line_t *li = in->d.line;
+        line_t  *li = in->d.line;
 
         if (li->special)
             P_ShootSpecialLine(shootthing, li);
@@ -1506,7 +1503,7 @@ hitline:
 //
 fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance)
 {
-    fixed_t x2, y2;
+    fixed_t     x2, y2;
 
     if (!t1)
         return 0;
@@ -1540,7 +1537,7 @@ fixed_t P_AimLineAttack(mobj_t *t1, angle_t angle, fixed_t distance)
 //
 void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, int damage)
 {
-    fixed_t x2, y2;
+    fixed_t     x2, y2;
 
     shootangle = angle;
     angle >>= ANGLETOFINESHIFT;
@@ -1564,7 +1561,7 @@ static mobj_t *usething;
 
 static boolean PTR_UseTraverse(intercept_t *in)
 {
-    int  side;
+    int side;
 
     if (!in->d.line->special)
     {
