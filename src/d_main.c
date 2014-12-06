@@ -1173,7 +1173,6 @@ static void D_DoomMainSetup(void)
 
     I_InitTimer();
     I_InitGamepad();
-    I_InitGraphics();
 
     // Generate the WAD hash table. Speed things up a bit.
     W_GenerateHashTable();
@@ -1183,7 +1182,6 @@ static void D_DoomMainSetup(void)
     D_ProcessDehInWad();
     D_SetGameDescription();
     D_SetSaveGameDir();
-
 
     // Check for -file in shareware
     if (modifiedgame)
@@ -1367,6 +1365,8 @@ static void D_DoomMainSetup(void)
         else
             D_StartTitle((boolean)M_CheckParm("-nosplash"));    // start up intro loop
     }
+
+    I_InitGraphics();
 }
 
 //
