@@ -59,6 +59,8 @@ void done_win32(void);
 #include "w_wad.h"
 #include "z_zone.h"
 
+void I_StopLoadingDialog(void);
+
 //
 // I_Quit
 //
@@ -197,6 +199,8 @@ void I_Error(char *error, ...)
         exit(-1);
     else
         already_quitting = true;
+
+    I_StopLoadingDialog();
 
     // Shutdown. Here might be other errors.
     S_Shutdown();
