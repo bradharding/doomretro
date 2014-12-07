@@ -239,18 +239,9 @@ void I_StartLoadingDialog(void)
         RECT    rect;
 
         if (GetWindowRect(hwnd_dialog, &rect))
-        {
-            LONG        lExStyle = GetWindowLong(hwnd_dialog, GWL_EXSTYLE);
-
             if (rect.left > rect.top * 2)
                 SetWindowPos(hwnd_dialog, 0, (rect.left / 2) - ((rect.right - rect.left) / 2),
                     rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-
-            lExStyle &= ~(WS_EX_DLGMODALFRAME | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE);
-            SetWindowLong(hwnd_dialog, GWL_EXSTYLE, lExStyle);
-            SetWindowPos(hwnd_dialog, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE
-                | SWP_NOZORDER | SWP_NOOWNERZORDER);
-        }
 
         ShowWindow(hwnd_dialog, SW_SHOWDEFAULT);
         UpdateWindow(hwnd_dialog);
