@@ -33,8 +33,9 @@
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
-#include "z_zone.h"
+#include "m_misc.h"
 #include "w_wad.h"
+#include "z_zone.h"
 
 #ifdef _MSC_VER
 #pragma pack(push)
@@ -65,7 +66,6 @@ typedef struct
 //
 
 // Location of each lump on disk.
-
 lumpinfo_t      *lumpinfo;
 unsigned int    numlumps = 0;
 
@@ -108,6 +108,39 @@ unsigned int W_LumpNameHash(const char *s)
     return result;
 }
 
+// Increase the size of the lumpinfo[] array to the specified size.
+static void ExtendLumpInfo(int newnumlumps)
+{
+    lumpinfo_t          *newlumpinfo;
+    unsigned int        i;
+
+    newlumpinfo = calloc(newnumlumps, sizeof(lumpinfo_t));
+
+    if (newlumpinfo == NULL)
+        I_Error("Couldn't realloc lumpinfo");
+
+    // Copy over lumpinfo_t structures from the old array. If any of
+    // these lumps have been cached, we need to update the user
+    // pointers to the new location.
+    for (i = 0; i < numlumps && i < (unsigned int)newnumlumps; ++i)
+    {
+        memcpy(&newlumpinfo[i], &lumpinfo[i], sizeof(lumpinfo_t));
+
+        if (newlumpinfo[i].cache != NULL)
+            Z_ChangeUser(newlumpinfo[i].cache, &newlumpinfo[i].cache);
+
+        // We shouldn't be generating a hash table until after all WADs have
+        // been loaded, but just in case...
+        if (lumpinfo[i].next != NULL)
+            newlumpinfo[i].next = &newlumpinfo[lumpinfo[i].next - lumpinfo];
+    }
+
+    // All done.
+    free(lumpinfo);
+    lumpinfo = newlumpinfo;
+    numlumps = newnumlumps;
+}
+
 //
 // LUMP BASED ROUTINES.
 //
@@ -130,6 +163,7 @@ wad_file_t *W_AddFile(char *filename)
     int                 startlump;
     filelump_t          *fileinfo;
     filelump_t          *filerover;
+    int                 newnumlumps;
 
     // open the file and add to directory
     wad_file = W_OpenFile(filename);
@@ -137,9 +171,11 @@ wad_file_t *W_AddFile(char *filename)
     if (wad_file == NULL)
         return NULL;
 
-    strcpy(wad_file->path, filename);
+    M_StringCopy(wad_file->path, filename, sizeof(wad_file->path));
+    
+    wad_file->freedoom = IsFreedoom(filename);
 
-    startlump = numlumps;
+    newnumlumps = numlumps;
 
     if (strcasecmp(filename + strlen(filename) - 3, "wad"))
     {
@@ -149,14 +185,14 @@ wad_file_t *W_AddFile(char *filename)
         // parsing code expects a little-endian directory, so will swap
         // them back.  Effectively we're constructing a "fake WAD directory"
         // here, as it would appear on disk.
-        fileinfo = (filelump_t *)Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
+        fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
         fileinfo->filepos = LONG(0);
         fileinfo->size = LONG(wad_file->length);
 
         // Name the lump after the base of the filename (without the
         // extension).
         ExtractFileBase(filename, fileinfo->name);
-        numlumps++;
+        newnumlumps++;
     }
     else
     {
@@ -168,22 +204,18 @@ wad_file_t *W_AddFile(char *filename)
             strncmp(header.identification, "PWAD", 4))
             I_Error("Wad file %s doesn't have IWAD or PWAD id\n", filename);
 
-        wad_file->freedoom = IsFreedoom(filename);
-
         header.numlumps = LONG(header.numlumps);
         header.infotableofs = LONG(header.infotableofs);
         length = header.numlumps * sizeof(filelump_t);
-        fileinfo = (filelump_t *)Z_Malloc(length, PU_STATIC, 0);
+        fileinfo = Z_Malloc(length, PU_STATIC, 0);
 
         W_Read(wad_file, header.infotableofs, fileinfo, length);
-        numlumps += header.numlumps;
+        newnumlumps += header.numlumps;
     }
 
-    // Fill in lumpinfo
-    lumpinfo = (lumpinfo_t *)realloc(lumpinfo, numlumps * sizeof(lumpinfo_t));
-
-    if (lumpinfo == NULL)
-        I_Error("Couldn't realloc lumpinfo");
+    // Increase size of numlumps array to accomodate the new file.
+    startlump = numlumps;
+    ExtendLumpInfo(newnumlumps);
 
     lump_p = &lumpinfo[startlump];
 

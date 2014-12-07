@@ -60,5 +60,6 @@ void *Z_Malloc(size_t size, int32_t tag, void **ptr);
 void Z_Free(void *ptr);
 void Z_FreeTags(int32_t lowtag, int32_t hightag);
 void Z_ChangeTag(void *ptr, int32_t tag);
+void Z_ChangeUser(void *ptr, void **user);
 
 #endif
