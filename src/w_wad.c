@@ -149,7 +149,7 @@ wad_file_t *W_AddFile(char *filename)
         // parsing code expects a little-endian directory, so will swap
         // them back.  Effectively we're constructing a "fake WAD directory"
         // here, as it would appear on disk.
-        fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
+        fileinfo = (filelump_t *)Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
         fileinfo->filepos = LONG(0);
         fileinfo->size = LONG(wad_file->length);
 
@@ -173,7 +173,7 @@ wad_file_t *W_AddFile(char *filename)
         header.numlumps = LONG(header.numlumps);
         header.infotableofs = LONG(header.infotableofs);
         length = header.numlumps * sizeof(filelump_t);
-        fileinfo = Z_Malloc(length, PU_STATIC, 0);
+        fileinfo = (filelump_t *)Z_Malloc(length, PU_STATIC, 0);
 
         W_Read(wad_file, header.infotableofs, fileinfo, length);
         numlumps += header.numlumps;
