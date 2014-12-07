@@ -435,7 +435,6 @@ void D_DoAdvanceTitle(void)
             break;
 
         case 1:
-
             if (flag)
             {
                 flag = false;
@@ -446,6 +445,7 @@ void D_DoAdvanceTitle(void)
             pagetic = 20 * TICRATE;
             I_SetPalette(playpal);
             splashscreen = false;
+            M_SetWindowCaption();
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
             break;
 
@@ -1339,7 +1339,6 @@ static void D_DoomMainSetup(void)
 
     AM_Init();
 
-    M_SetWindowCaption();
 
     if (startloadgame >= 0)
     {
