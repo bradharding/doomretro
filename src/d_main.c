@@ -440,19 +440,20 @@ void D_DoAdvanceTitle(void)
                 I_InitKeyboard();
             }
 
+            if (pagelump == creditlump)
+                forcewipe = true;
             pagelump = titlelump;
             pagetic = 20 * TICRATE;
             I_SetPalette(playpal);
             splashscreen = false;
             M_SetWindowCaption();
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
-            forcewipe = true;
             break;
 
         case 2:
+            forcewipe = true;
             pagelump = creditlump;
             pagetic = 10 * TICRATE;
-            forcewipe = true;
             break;
     }
 

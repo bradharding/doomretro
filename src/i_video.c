@@ -744,7 +744,7 @@ static __forceinline void blit(void)
     do
     {
         byte    *dest = pixels + i;
-        byte    *src = *(rows + (y >> FRACBITS));
+        byte    *src = *screens + (y >> FRACBITS) * SCREENWIDTH;
         fixed_t x = startx;
 
         do
