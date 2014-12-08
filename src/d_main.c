@@ -446,6 +446,7 @@ void D_DoAdvanceTitle(void)
             splashscreen = false;
             M_SetWindowCaption();
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
+            forcewipe = true;
             break;
 
         case 2:
