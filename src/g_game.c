@@ -1250,7 +1250,6 @@ int npars[9] =
 // G_DoCompleted
 //
 boolean         secretexit;
-extern char     *pagename;
 
 void G_ExitLevel(void)
 {

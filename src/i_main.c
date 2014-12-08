@@ -228,32 +228,6 @@ void done_win32(void)
     I_AccessibilityShortcutKeys(true);
 }
 
-HWND    hwnd_dialog;
-
-void I_StartLoadingDialog(void)
-{
-    hwnd_dialog = CreateDialog(GetModuleHandle(NULL), "IDD_DIALOG1", NULL, NULL);
-
-    if (hwnd_dialog)
-    {
-        RECT    rect;
-
-        if (GetWindowRect(hwnd_dialog, &rect))
-            if (rect.left > rect.top * 2)
-                SetWindowPos(hwnd_dialog, 0, (rect.left / 2) - ((rect.right - rect.left) / 2),
-                    rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-
-        ShowWindow(hwnd_dialog, SW_SHOWDEFAULT);
-        UpdateWindow(hwnd_dialog);
-        SetForegroundWindow(hwnd_dialog);
-    }
-}
-
-void I_StopLoadingDialog(void)
-{
-    DestroyWindow(hwnd_dialog);
-}
-
 #else
 
 #include <unistd.h>

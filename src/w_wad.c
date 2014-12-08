@@ -611,10 +611,9 @@ void W_ReleaseLumpName(char *name)
 // Generate a hash table for fast lookups
 void W_GenerateHashTable(void)
 {
-    unsigned int i;
+    unsigned int        i;
 
     // Free the old hash table, if there is one
-
     if (lumphash != NULL)
         Z_Free(lumphash);
 
@@ -626,7 +625,7 @@ void W_GenerateHashTable(void)
 
         for (i = 0; i < numlumps; ++i)
         {
-            unsigned int hash;
+            unsigned int        hash;
 
             hash = W_LumpNameHash(lumpinfo[i].name) % numlumps;
 

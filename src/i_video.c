@@ -1114,7 +1114,6 @@ void ToggleWideScreen(boolean toggle)
 }
 
 #ifdef WIN32
-void I_StopLoadingDialog(void);
 void init_win32(LPCTSTR lpIconName);
 #endif
 
@@ -1438,10 +1437,6 @@ void I_InitGraphics(void)
         }
 
     GetDesktopDimensions();
-
-#ifdef WIN32
-    I_StopLoadingDialog();
-#endif
 
     SetVideoMode();
 

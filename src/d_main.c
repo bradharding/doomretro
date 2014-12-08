@@ -89,7 +89,7 @@ char            *version;
 char            *savegamedir;
 
 // location of IWAD and WAD files
-char            *iwadfile;
+char            *iwadfile = "";
 
 char            *iwadfolder = IWADFOLDER_DEFAULT;
 
@@ -107,6 +107,7 @@ boolean         autostart;
 int             startloadgame;
 
 boolean         advancetitle;
+boolean         wipe = true;
 boolean         forcewipe = false;
 
 boolean         splashscreen;
@@ -140,8 +141,6 @@ void D_PostEvent(event_t *ev)
     events[eventhead++] = *ev;
     eventhead &= MAXEVENTS - 1;
 }
-
-boolean wipe = true;
 
 //
 // D_ProcessEvents
@@ -184,7 +183,7 @@ void D_Display(void)
     static boolean      menuactivestate = false;
     static boolean      pausedstate = false;
     static gamestate_t  oldgamestate = (gamestate_t)(-1);
-    static int          borderdrawcount;
+    static int          borderdrawcount = 0;
     int                 nowtime;
     int                 tics;
     int                 wipestart;
@@ -347,7 +346,8 @@ void D_DoomLoop(void)
     {
         TryRunTics(); // will run at least one tic
 
-        S_UpdateSounds(players[consoleplayer].mo); // move positional sounds
+        if (players[displayplayer].mo)
+            S_UpdateSounds(players[displayplayer].mo);  // move positional sounds
 
         // Update display, next frame, with current state.
         if (screenvisible)
@@ -360,7 +360,6 @@ void D_DoomLoop(void)
 //
 int             titlesequence;
 int             pagetic;
-static char     *pagename;
 static patch_t  *pagelump;
 static patch_t  *splshttl;
 static patch_t  *splshtxt;
@@ -473,11 +472,7 @@ void D_StartTitle(int page)
 
 static boolean D_AddFile(char *filename)
 {
-    wad_file_t  *handle;
-
-    handle = W_AddFile(filename);
-
-    return (handle != NULL);
+    return (W_AddFile(filename) != NULL);
 }
 
 // Initialize the game version
@@ -1122,8 +1117,6 @@ static void D_DoomMainSetup(void)
             }
         }
     }
-
-    I_StartLoadingDialog();
 
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
