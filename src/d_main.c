@@ -1120,6 +1120,8 @@ static void D_DoomMainSetup(void)
         }
     }
 
+    I_InitGraphics();
+
     if (!iwadfile && !modifiedgame && !choseniwad)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
                 "specifying one with the '-iwad' command-line parameter.");
@@ -1359,8 +1361,6 @@ static void D_DoomMainSetup(void)
         else
             D_StartTitle((boolean)M_CheckParm("-nosplash"));    // start up intro loop
     }
-
-    I_InitGraphics();
 }
 
 //

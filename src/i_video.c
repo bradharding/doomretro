@@ -120,8 +120,6 @@ static int              blitheight = SCREENHEIGHT << FRACBITS;
 
 byte                    *pixels;
 
-byte                    *rows[SCREENHEIGHT];
-
 boolean                 keys[UCHAR_MAX];
 
 byte                    gammatable[GAMMALEVELS][256];
@@ -1451,7 +1449,6 @@ void I_InitGraphics(void)
 #else
     SDL_WM_SetCaption(PACKAGE_NAME, NULL);
 #endif
-    SDL_FillRect(screenbuffer, NULL, 0);
 
     I_SetPalette(doompal);
 
@@ -1471,9 +1468,7 @@ void I_InitGraphics(void)
 
     screens[0] = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
-
-    for (i = 0; i < SCREENHEIGHT; i++)
-        rows[i] = *screens + i * SCREENWIDTH;
+    I_FinishUpdate();
 
 #ifdef SDL12
     SDL_EnableUNICODE(1);
