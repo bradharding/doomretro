@@ -291,7 +291,7 @@ boolean M_StringCopy(char *dest, char *src, size_t dest_size)
 // Returns true if 's' begins with the specified prefix.
 boolean M_StringStartsWith(char *s, char *prefix)
 {
-    return (strlen(s) > strlen(prefix) && strcasecmp(s, prefix) == 0);
+    return (strlen(s) > strlen(prefix) && strncmp(s, prefix, strlen(prefix)) == 0);
 }
 
 // Returns true if 's' ends with the specified suffix.
