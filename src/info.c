@@ -1391,8 +1391,8 @@ state_t states[NUMSTATES] =
     // Smoke Trail (MT_TRAIL)
     { SPR_PUFF,  0 | FF_FULLBRIGHT,                4,               NULL,            S_TRAIL2,        0,     0     }, // S_TRAIL
     { SPR_PUFF,  1,                                4,               NULL,            S_TRAIL3,        0,     0     }, // S_TRAIL2
-    { SPR_PUFF,  2,                                8,               NULL,            S_TRAIL4,        0,     0     }, // S_TRAIL3
-    { SPR_PUFF,  3,                               12,               NULL,            S_NULL,          0,     0     }  // S_TRAIL4
+    { SPR_PUFF,  2,                               10,               NULL,            S_TRAIL4,        0,     0     }, // S_TRAIL3
+    { SPR_PUFF,  3,                               14,               NULL,            S_NULL,          0,     0     }  // S_TRAIL4
 };
 
 mobjinfo_t mobjinfo[NUMMOBJTYPES] =
