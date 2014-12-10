@@ -49,6 +49,14 @@
 #define GAMEPAD_X                       0x4000
 #define GAMEPAD_Y                       0x8000
 
+#ifdef WIN32
+#define GAMEPAD_LEFT_THUMB_DEADZONE     XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
+#define GAMEPAD_RIGHT_THUMB_DEADZONE    XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
+#else
+#define GAMEPAD_LEFT_THUMB_DEADZONE     7849
+#define GAMEPAD_RIGHT_THUMB_DEADZONE    8689
+#endif
+
 #define gamepadthumbLXleft              (float)(-gamepadthumbLX - gamepadleftdeadzone) /\
                                         ((float)SHRT_MAX - gamepadleftdeadzone)
 #define gamepadthumbLXright             (float)(gamepadthumbLX - gamepadleftdeadzone) /\
