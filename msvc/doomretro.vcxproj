@@ -528,6 +528,8 @@
     <None Include="..\.gitattributes" />
     <None Include="..\.gitignore" />
     <None Include="..\AUTHORS" />
+    <None Include="..\LICENSE" />
+    <None Include="..\README.md" />
     <None Include="..\res\DEHACKED" />
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\VERSION" />
