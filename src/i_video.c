@@ -767,6 +767,25 @@ int             fps = 0;
 int             fpscount = 0;
 int             fpstimer;
 
+int UpperBlit(SDL_Surface *src, SDL_Surface *dst, SDL_Rect *dstrect)
+{
+    int         w = src->w;
+    int         h = src->h;
+    SDL_Rect    *clip = &dst->clip_rect;
+    int         dy = dstrect->y + h - clip->y - clip->h;
+    SDL_Rect    sr;
+
+    if (dy > 0)
+        h -= dy;
+
+    sr.x = 0;
+    sr.y = 0;
+    sr.w = dstrect->w = w;
+    sr.h = dstrect->h = h;
+
+    return SDL_LowerBlit(src, &sr, dst, dstrect);
+}
+
 //
 // I_FinishUpdate
 //
@@ -813,7 +832,7 @@ void I_FinishUpdate(void)
     SDL_RenderPresent(sdl_renderer);
 #else
     SDL_FillRect(screen, NULL, 0);
-    SDL_BlitSurface(screenbuffer, NULL, screen, &dest_rect);
+    UpperBlit(screenbuffer, screen, &dest_rect);
     SDL_Flip(screen);
 #endif
 
