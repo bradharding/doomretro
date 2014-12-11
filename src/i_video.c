@@ -769,21 +769,12 @@ int             fpstimer;
 
 int UpperBlit(SDL_Surface *src, SDL_Surface *dst, SDL_Rect *dstrect)
 {
-    int         w = src->w;
-    int         h = src->h;
-    SDL_Rect    *clip = &dst->clip_rect;
-    int         dy = dstrect->y + h - clip->y - clip->h;
-    SDL_Rect    sr;
+    SDL_Rect    srcrect = { 0, 0, src->w, dst->clip_rect.h };
 
-    if (dy > 0)
-        h -= dy;
+    dstrect->w = srcrect.w;
+    dstrect->h = srcrect.h;
 
-    sr.x = 0;
-    sr.y = 0;
-    sr.w = dstrect->w = w;
-    sr.h = dstrect->h = h;
-
-    return SDL_LowerBlit(src, &sr, dst, dstrect);
+    return SDL_LowerBlit(src, &srcrect, dst, dstrect);
 }
 
 //
