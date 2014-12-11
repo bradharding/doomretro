@@ -1318,7 +1318,8 @@ static void M_CheckDefaults(void)
         || mousebuse == mousebnextweapon || mousebuse == mousebstrafe)
         mousebuse = MOUSEUSE_DEFAULT;
 
-    musicVolume = BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX) * 15 / 100;
+    musicVolume = (int)(BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX)
+        * 15.0f / 100.0f + 0.5f);
 
     if (novert != false && novert != true)
         novert = NOVERT_DEFAULT;
