@@ -767,21 +767,13 @@ int             fps = 0;
 int             fpscount = 0;
 int             fpstimer;
 
-int UpperBlit(SDL_Surface *src, SDL_Surface *dst, SDL_Rect *dstrect)
-{
-    SDL_Rect    srcrect = { 0, 0, src->w, dst->clip_rect.h };
-
-    dstrect->w = srcrect.w;
-    dstrect->h = srcrect.h;
-
-    return SDL_LowerBlit(src, &srcrect, dst, dstrect);
-}
-
 //
 // I_FinishUpdate
 //
 void I_FinishUpdate(void)
 {
+    SDL_Rect    src_rect;
+
     if (need_resize)
     {
         ApplyWindowResize(resize_h);
@@ -823,7 +815,14 @@ void I_FinishUpdate(void)
     SDL_RenderPresent(sdl_renderer);
 #else
     SDL_FillRect(screen, NULL, 0);
-    UpperBlit(screenbuffer, screen, &dest_rect);
+
+    src_rect.x = 0;
+    src_rect.y = 0;
+    src_rect.w = dest_rect.w = screenbuffer->w;
+    src_rect.h = dest_rect.h = screen->clip_rect.h;
+
+    SDL_LowerBlit(screenbuffer, &src_rect, screen, &dest_rect);
+
     SDL_Flip(screen);
 #endif
 
