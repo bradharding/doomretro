@@ -1318,8 +1318,7 @@ static void M_CheckDefaults(void)
         || mousebuse == mousebnextweapon || mousebuse == mousebstrafe)
         mousebuse = MOUSEUSE_DEFAULT;
 
-    musicVolume = (int)(BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX)
-        * 15.0f / 100.0f + 0.5f);
+    musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX) * 15 + 50) / 100;
 
     if (novert != false && novert != true)
         novert = NOVERT_DEFAULT;
@@ -1358,7 +1357,7 @@ static void M_CheckDefaults(void)
 
     selectedskilllevel = BETWEEN(SKILLLEVEL_MIN, selectedskilllevel, SKILLLEVEL_MAX);
 
-    sfxVolume = BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 / 100;
+    sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
 
     if (shadows != false && shadows != true)
         shadows = SHADOWS_DEFAULT;
