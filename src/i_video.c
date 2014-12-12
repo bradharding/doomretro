@@ -1043,12 +1043,14 @@ static void SetVideoMode(void)
     startx = stepx - 1;
     starty = stepy - 1;
 
+#ifdef SDL12
     src_rect.w = screenbuffer->w;
     src_rect.h = screen->clip_rect.h;
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
     dest_rect.w = screenbuffer->w;
     dest_rect.h = screen->clip_rect.h;
+#endif
 }
 
 void ToggleWideScreen(boolean toggle)
@@ -1119,12 +1121,14 @@ void ToggleWideScreen(boolean toggle)
     startx = stepx - 1;
     starty = stepy - 1;
 
+#ifdef SDL12
     src_rect.w = screenbuffer->w;
     src_rect.h = screen->clip_rect.h;
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (widescreen ? 0 : (screen->h - screenbuffer->h) / 2);
     dest_rect.w = screenbuffer->w;
     dest_rect.h = screen->clip_rect.h;
+#endif
 
     palette_to_set = true;
 }
@@ -1308,12 +1312,14 @@ void ToggleFullScreen(void)
     startx = stepx - 1;
     starty = stepy - 1;
 
+#ifdef SDL12
     src_rect.w = screenbuffer->w;
     src_rect.h = screen->clip_rect.h;
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
     dest_rect.w = screenbuffer->w;
     dest_rect.h = screen->clip_rect.h;
+#endif
 }
 
 static void ApplyWindowResize(int resize_h)
@@ -1346,12 +1352,14 @@ static void ApplyWindowResize(int resize_h)
     startx = stepx - 1;
     starty = stepy - 1;
 
+#ifdef SDL12
     src_rect.w = screenbuffer->w;
     src_rect.h = screen->clip_rect.h;
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
     dest_rect.w = screenbuffer->w;
     dest_rect.h = screen->clip_rect.h;
+#endif
 
     M_SaveDefaults();
 }
