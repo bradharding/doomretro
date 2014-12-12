@@ -256,17 +256,12 @@ void R_DrawBloodSplatColumn(void)
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
     const fixed_t       blood = dc_blood;
 
-    if (--count)
-    {
-        *dest = tinttab50[*dest + blood];
-        dest += SCREENWIDTH;
-    }
     while (--count > 0)
     {
         *dest = tinttab66[*dest + blood];
         dest += SCREENWIDTH;
     }
-    *dest = tinttab50[*dest + blood];
+    *dest = tinttab66[*dest + blood];
 }
 
 void R_DrawSolidBloodSplatColumn(void)
