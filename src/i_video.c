@@ -762,7 +762,8 @@ static __forceinline void blit(void)
     } while ((y += stepy) < blitheight);
 }
 
-SDL_Rect        dest_rect;
+SDL_Rect        src_rect = { 0, 0, 0, 0 };
+SDL_Rect        dest_rect = { 0, 0, 0, 0 };
 int             fps = 0;
 int             fpscount = 0;
 int             fpstimer;
@@ -772,8 +773,6 @@ int             fpstimer;
 //
 void I_FinishUpdate(void)
 {
-    SDL_Rect    src_rect;
-
     if (need_resize)
     {
         ApplyWindowResize(resize_h);
@@ -815,14 +814,7 @@ void I_FinishUpdate(void)
     SDL_RenderPresent(sdl_renderer);
 #else
     SDL_FillRect(screen, NULL, 0);
-
-    src_rect.x = 0;
-    src_rect.y = 0;
-    src_rect.w = dest_rect.w = screenbuffer->w;
-    src_rect.h = dest_rect.h = screen->clip_rect.h;
-
     SDL_LowerBlit(screenbuffer, &src_rect, screen, &dest_rect);
-
     SDL_Flip(screen);
 #endif
 
@@ -1051,8 +1043,12 @@ static void SetVideoMode(void)
     startx = stepx - 1;
     starty = stepy - 1;
 
+    src_rect.w = screenbuffer->w;
+    src_rect.h = screen->clip_rect.h;
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
+    dest_rect.w = screenbuffer->w;
+    dest_rect.h = screen->clip_rect.h;
 }
 
 void ToggleWideScreen(boolean toggle)
@@ -1123,8 +1119,12 @@ void ToggleWideScreen(boolean toggle)
     startx = stepx - 1;
     starty = stepy - 1;
 
+    src_rect.w = screenbuffer->w;
+    src_rect.h = screen->clip_rect.h;
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (widescreen ? 0 : (screen->h - screenbuffer->h) / 2);
+    dest_rect.w = screenbuffer->w;
+    dest_rect.h = screen->clip_rect.h;
 
     palette_to_set = true;
 }
@@ -1308,8 +1308,12 @@ void ToggleFullScreen(void)
     startx = stepx - 1;
     starty = stepy - 1;
 
+    src_rect.w = screenbuffer->w;
+    src_rect.h = screen->clip_rect.h;
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
+    dest_rect.w = screenbuffer->w;
+    dest_rect.h = screen->clip_rect.h;
 }
 
 static void ApplyWindowResize(int resize_h)
@@ -1342,8 +1346,12 @@ static void ApplyWindowResize(int resize_h)
     startx = stepx - 1;
     starty = stepy - 1;
 
+    src_rect.w = screenbuffer->w;
+    src_rect.h = screen->clip_rect.h;
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
+    dest_rect.w = screenbuffer->w;
+    dest_rect.h = screen->clip_rect.h;
 
     M_SaveDefaults();
 }
