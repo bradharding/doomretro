@@ -453,8 +453,11 @@ void D_DoAdvanceTitle(void)
                 forcewipe = true;
             pagelump = titlelump;
             pagetic = 20 * TICRATE;
-            I_SetPalette(playpal);
-            splashscreen = false;
+            if (splashscreen)
+            {
+                I_SetPalette(playpal);
+                splashscreen = false;
+            }
             M_SetWindowCaption();
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);
             break;
