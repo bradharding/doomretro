@@ -129,6 +129,8 @@ static int              blitheight = SCREENHEIGHT << FRACBITS;
 
 byte                    *pixels;
 
+byte                    *rows[SCREENHEIGHT];
+
 boolean                 keys[UCHAR_MAX];
 
 byte                    gammatable[GAMMALEVELS][256];
@@ -751,7 +753,7 @@ static __forceinline void blit(void)
     do
     {
         byte    *dest = pixels + i;
-        byte    *src = *screens + (y >> FRACBITS) * SCREENWIDTH;
+        byte    *src = *(rows + (y >> FRACBITS));
         fixed_t x = startx;
 
         do
@@ -764,6 +766,7 @@ static __forceinline void blit(void)
 
 SDL_Rect        src_rect = { 0, 0, 0, 0 };
 SDL_Rect        dest_rect = { 0, 0, 0, 0 };
+
 int             fps = 0;
 int             fpscount = 0;
 int             fpstimer;
@@ -1502,6 +1505,10 @@ void I_InitGraphics(void)
 
     screens[0] = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
+
+    for (i = 0; i < SCREENHEIGHT; i++)
+        rows[i] = *screens + i * SCREENWIDTH;
+
     I_FinishUpdate();
 
 #ifdef SDL12
