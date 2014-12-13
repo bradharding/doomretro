@@ -89,10 +89,10 @@ static boolean          headsupactive = false;
 byte                    *tempscreen;
 int                     hud_y;
 
-static patch_t          *healthpatch;
-static patch_t          *berserkpatch;
-static patch_t          *greenarmorpatch;
-static patch_t          *bluearmorpatch;
+static patch_t          *healthpatch = NULL;
+static patch_t          *berserkpatch = NULL;
+static patch_t          *greenarmorpatch = NULL;
+static patch_t          *bluearmorpatch = NULL;
 
 void (*hudfunc)(int, int, patch_t *, boolean);
 void (*hudnumfunc)(int, int, patch_t *, boolean);
@@ -170,7 +170,8 @@ void HU_Stop(void)
 
 patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
-    if (mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
+    if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
+        && W_CheckNumForName(ammopic[ammopicnum].patchname) >= 0)
         return W_CacheLumpNum(W_GetNumForName(ammopic[ammopicnum].patchname), PU_CACHE);
     else
         return NULL;
@@ -178,10 +179,12 @@ patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 
 patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
-    if (dehacked)
+    if (dehacked && W_CheckNumForName(keypic[keypicnum].patchnamea) >= 0)
         return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchnamea), PU_CACHE);
-    else
+    else if (W_CheckNumForName(keypic[keypicnum].patchnameb) >= 0)
         return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchnameb), PU_CACHE);
+    else
+        return NULL;
 }
 
 void HU_Start(void)
@@ -236,10 +239,16 @@ void HU_Start(void)
         godhudfunc = V_DrawYellowHUDPatch;
     }
 
-    healthpatch = W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE);
-    berserkpatch = W_CacheLumpNum(W_GetNumForName(gamemode != shareware ? "PSTRA0" : "MEDIA0"), PU_CACHE);
-    greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
-    bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
+    if (W_CheckNumForName("MEDIA0"))
+        healthpatch = W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE);
+    if (gamemode != shareware && W_CheckNumForName("PSTRA0"))
+        berserkpatch = W_CacheLumpNum(W_GetNumForName("PSTRA0"), PU_CACHE);
+    else
+        berserkpatch = healthpatch;
+    if (W_CheckNumForName("ARM1A0"))
+        greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
+    if (W_CheckNumForName("ARM2A0"))
+        bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
 
     ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
     ammopic[am_shell].patch = HU_LoadHUDAmmoPatch(am_shell);
@@ -308,10 +317,13 @@ static void HU_DrawHUD(void)
 
         invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
             || menuactive || paused);
-        if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-            godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
-        else
-            hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
+        if (patch)
+            if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
+                godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
+                    invert);
+            else
+                hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
+                    invert);
         DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
         if (!emptytallpercent)
             hudnumfunc(health_x + 50, HUD_HEALTH_Y, tallpercent, invert);
@@ -403,17 +415,20 @@ static void HU_DrawHUD(void)
                 {
                     patch_t     *patch = keypic[plr->neededcard].patch;
 
-                    if (!menuactive && !paused)
+                    if (patch)
                     {
-                        plr->neededcardtics--;
-                        if (!--keyanimcounter)
+                        if (!menuactive && !paused)
                         {
-                            showkey = !showkey;
-                            keyanimcounter = HUD_KEY_TICS;
+                            plr->neededcardtics--;
+                            if (!--keyanimcounter)
+                            {
+                                showkey = !showkey;
+                                keyanimcounter = HUD_KEY_TICS;
+                            }
                         }
+                        if (showkey)
+                            hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
                     }
-                    if (showkey)
-                        hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
                 }
             }
             else
@@ -427,8 +442,9 @@ static void HU_DrawHUD(void)
                 {
                     patch_t     *patch = keypic[i].patch;
 
-                    hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
-                        HUD_KEYS_Y, patch, true);
+                    if (patch)
+                        hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
+                            HUD_KEYS_Y, patch, true);
                 }
         }
 
@@ -444,7 +460,8 @@ static void HU_DrawHUD(void)
                 DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, true, hudnumfunc);
                 hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, tallpercent, true);
             }
-            hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, true);
+            if (patch)
+                hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, true);
         }
     }
 }
