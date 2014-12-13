@@ -252,7 +252,7 @@ static void I_SetAffinityMask(void)
     CPU_SET(0, &set);
 
     sched_setaffinity(getpid(), sizeof(set), &set);
-#else
+#elif defined(__GLIBC__) || defined(__MACOSX__)
     unsigned long       mask = 1;
 
     sched_setaffinity(getpid(), sizeof(mask), &mask);

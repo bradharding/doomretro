@@ -36,7 +36,9 @@
 #========================================================================
 #
 
-CFLAGS = -m32 -O2 -g `sdl-config --cflags ` $(INCLUDES)
+MACHINE = -m32
+OPTIMIZE = -O2
+CFLAGS = $(MACHINE) $(OPTIMIZE) -g `sdl-config --cflags ` $(INCLUDES)
 LDFLAGS = -g `sdl-config --libs` -lSDL_mixer
 
 SRCS := $(shell find . -name '*.c')
