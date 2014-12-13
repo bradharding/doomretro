@@ -2883,7 +2883,7 @@ boolean M_Responder(event_t *ev)
             return skipaction;
         }
 
-        else if (key == KEY_ESCAPE && !keydown)
+        else if ((key == KEY_ESCAPE || key == KEY_BACKSPACE) && !keydown)
         {
             // Deactivate menu or go back to previous menu
             keydown = key;
