@@ -747,6 +747,7 @@ static int D_ChooseIWAD(void)
             LPSTR       pwadpass1 = ofn.lpstrFile;
             LPSTR       pwadpass2 = ofn.lpstrFile;
             LPSTR       dehpass = ofn.lpstrFile;
+            boolean     isDOOM2 = false;
 
             iwadpass += lstrlen(iwadpass) + 1;
 
@@ -768,6 +769,7 @@ static int D_ChooseIWAD(void)
                         {
                             iwadfound = 1;
                             sharewareiwad = !strcasecmp(iwadpass, "DOOM1.WAD");
+                            isDOOM2 = !strcasecmp(iwadpass, "DOOM2.WAD");
                             iwadfolder = strdup(szFile);
                             break;
                         }
@@ -896,6 +898,8 @@ static int D_ChooseIWAD(void)
                 // if an iwad has now been found, make a second pass through the pwads to merge them
                 if (iwadfound)
                 {
+                    boolean     mapspresent = false;
+
                     pwadpass2 += lstrlen(pwadpass2) + 1;
 
                     while (pwadpass2[0])
@@ -914,9 +918,26 @@ static int D_ChooseIWAD(void)
                                 D_CheckSupportedPWAD(fullpath);
                                 LoadDehFile(fullpath);
                             }
+                            if (IWADRequiredByPWAD(fullpath) != indetermined)
+                                mapspresent = true;
                         }
 
                         pwadpass2 += lstrlen(pwadpass2) + 1;
+                    }
+
+                    // try to autoload NERVE.WAD if DOOM2.WAD is the iwad and none of the pwads
+                    // have maps present
+                    if (isDOOM2 && !mapspresent)
+                    {
+                        static char     fullpath[MAX_PATH];
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), "NERVE.WAD");
+                        if (W_MergeFile(fullpath))
+                        {
+                            modifiedgame = true;
+                            nerve = true;
+                            selectedexpansion = 0;
+                        }
                     }
                 }
             }
