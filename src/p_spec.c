@@ -914,7 +914,8 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         case G1_OpenDoorStayOpen:
             EV_DoDoor(line, open);
             P_ChangeSwitchTexture(line, 1);
-            line->special = -G1_OpenDoorStayOpen;
+            if (canmodify && gamemission == doom2 && gamemap == 18)
+                line->special = -G1_OpenDoorStayOpen;
             break;
 
         case G1_RaiseFloorToNextFloorChangeFloorTextureAndType:
