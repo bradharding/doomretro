@@ -44,7 +44,7 @@
 #include "tables.h"
 
 #define REDBLOOD                182
-#define GREENBLOOD              122
+#define GREENBLOOD              123
 #define BLUEBLOOD               204
 #define FUZZYBLOOD              -1
 
