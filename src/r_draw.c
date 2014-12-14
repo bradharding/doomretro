@@ -252,10 +252,10 @@ void R_DrawBloodSplatColumn(void)
 
     while (--count > 0)
     {
-        *dest = tinttab66[*dest + blood];
+        *dest = tinttab75[*dest + blood];
         dest += SCREENWIDTH;
     }
-    *dest = tinttab66[*dest + blood];
+    *dest = tinttab75[*dest + blood];
 }
 
 void R_DrawSolidBloodSplatColumn(void)
