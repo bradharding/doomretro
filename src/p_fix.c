@@ -923,6 +923,7 @@ thingfix_t thingfix[] =
     { doom,             4,   1,     2, Player3Start,               416,     224,     414,     224, DEFAULT,  DEFAULT                          },
     { doom,             4,   1,     3, Player4Start,                32,     224,      34,     224, DEFAULT,  DEFAULT                          },
 
+    { doom,             4,   3,    69, Imp,                       -608,   -1696,    -640,   -1696, DEFAULT,  DEFAULT                          },
     { doom,             4,   3,   232, Rocket,                    1296,    1008,  REMOVE,  REMOVE, DEFAULT,  DEFAULT                          },
 
     { doom,             4,   4,   106, Spectre,                    320,    -160,     328,    -128, DEFAULT,  DEFAULT                          },
