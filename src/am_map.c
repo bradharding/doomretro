@@ -993,12 +993,18 @@ boolean AM_Responder(event_t *ev)
                 // zoom out
                 else if ((gamepadbuttons & gamepadautomapzoomout)
                          && !(gamepadbuttons & gamepadautomapzoomin))
+                {
+                    movement = true;
                     AM_toggleZoomOut();
+                }
 
                 // zoom in
                 else if ((gamepadbuttons & gamepadautomapzoomin)
                          && !(gamepadbuttons & gamepadautomapzoomout))
+                {
+                    movement = true;
                     AM_toggleZoomIn();
+                }
 
                 // toggle maximum zoom
                 else if ((gamepadbuttons & gamepadautomapmaxzoom) && !idclev && !idmus)
