@@ -132,6 +132,7 @@ extern fixed_t          ds_ystep;
 
 // start of a 64*64 tile image
 extern byte             *ds_source;
+extern byte             *ds_colormask;
 
 extern byte             *translationtables;
 extern byte             *dc_translation;
@@ -139,6 +140,7 @@ extern byte             *dc_translation;
 // Span blitting for rows, floor/ceiling.
 // No Spectre effect needed.
 void R_DrawSpan(void);
+void R_DrawFullbrightSpan(void);
 
 void R_InitBuffer(int width, int height);
 

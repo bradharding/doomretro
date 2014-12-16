@@ -52,6 +52,8 @@ extern fixed_t  distscale[];
 
 extern boolean  markceiling;
 
+extern boolean  brightmaps;
+
 void R_ClearPlanes(void);
 
 void R_DrawPlanes(void);

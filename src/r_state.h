@@ -72,6 +72,8 @@ extern int              firstflat;
 extern int              *flattranslation;
 extern int              *texturetranslation;
 
+extern byte             **flatfullbright;
+
 // Sprite....
 extern int              firstspritelump;
 extern int              lastspritelump;

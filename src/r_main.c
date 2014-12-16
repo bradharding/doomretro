@@ -130,6 +130,7 @@ void (*tlblue50colfunc)(void);
 void (*redtobluecolfunc)(void);
 void (*transcolfunc)(void);
 void (*spanfunc)(void);
+void (*fbspanfunc)(void);
 void (*skycolfunc)(void);
 void (*redtogreencolfunc)(void);
 void (*tlredtoblue33colfunc)(void);
@@ -563,6 +564,7 @@ void R_InitColumnFunctions(void)
     }
 
     spanfunc = R_DrawSpan;
+    fbspanfunc = R_DrawFullbrightSpan;
     redtobluecolfunc = R_DrawRedToBlueColumn;
     redtogreencolfunc = R_DrawRedToGreenColumn;
     wallcolfunc = R_DrawWallColumn;
