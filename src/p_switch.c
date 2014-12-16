@@ -44,7 +44,7 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-int                     switchlist[(MAXSWITCHES * 2) + 1];
+int                     switchlist[MAXSWITCHES * 2 + 1];
 
 extern int              numtextures;
 extern texture_t        **textures;

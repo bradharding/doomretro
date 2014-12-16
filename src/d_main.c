@@ -1001,10 +1001,8 @@ static void D_ProcessDehInWad(void)
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
-    int         p;
-    char        file[256];
-    int         temp;
-    int         choseniwad = 0;
+    int p;
+    int choseniwad = 0;
 
     version = PACKAGE_VERSIONSTRING;
 
@@ -1247,7 +1245,8 @@ static void D_DoomMainSetup(void)
     p = M_CheckParmWithArgs("-skill", 1);
     if (p)
     {
-        temp = myargv[p + 1][0] - '1';
+        int     temp = myargv[p + 1][0] - '1';
+
         if (temp >= sk_baby && temp <= sk_nightmare)
         {
             startskill = (skill_t)temp;
@@ -1258,7 +1257,8 @@ static void D_DoomMainSetup(void)
     p = M_CheckParmWithArgs("-episode", 1);
     if (p)
     {
-        temp = myargv[p + 1][0] - '0';
+        int     temp = myargv[p + 1][0] - '0';
+
         if ((gamemode == shareware && temp == 1)
             || (temp >= 1
                 && ((gamemode == registered && temp <= 3)
@@ -1273,7 +1273,8 @@ static void D_DoomMainSetup(void)
     p = M_CheckParmWithArgs("-expansion", 1);
     if (p)
     {
-        temp = myargv[p + 1][0] - '0';
+        int     temp = myargv[p + 1][0] - '0';
+
         if (gamemode == commercial && temp <= (nerve ? 2 : 1))
         {
             gamemission = (temp == 1 ? doom2 : pack_nerve);
@@ -1373,8 +1374,7 @@ static void D_DoomMainSetup(void)
     if (startloadgame >= 0)
     {
         I_InitKeyboard();
-        M_StringCopy(file, P_SaveGameFile(startloadgame), sizeof(file));
-        G_LoadGame(file);
+        G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
     splshttl = W_CacheLumpName("SPLSHTTL", PU_CACHE);

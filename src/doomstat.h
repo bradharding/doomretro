@@ -246,8 +246,6 @@ extern float            gamepadsensitivityf;
 extern int              skyflatnum;
 
 // Netgame stuff (buffers and pointers, i.e. indices).
-extern int              rndindex;
-
 extern int              maketic;
 extern int              nettics[MAXPLAYERS];
 
