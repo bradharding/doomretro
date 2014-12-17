@@ -41,9 +41,15 @@
 #include "m_misc.h"
 #include "mus2mid.h"
 #include "SDL.h"
-#include "SDL_mixer.h"
+
 #include "s_sound.h"
 #include "z_zone.h"
+
+#ifdef __MACOSX__
+#include "SDL/SDL_mixer.h"
+#else
+#include "SDL_mixer.h"
+#endif
 
 static boolean  music_initialized = false;
 
