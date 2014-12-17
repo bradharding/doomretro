@@ -51,7 +51,10 @@
 
 #include "d_main.h"
 #include "m_argv.h"
+
+#ifdef WIN32
 #include "SDL_syswm.h"
+#endif
 
 void I_SetProcessPriority(HANDLE hProcess)
 {

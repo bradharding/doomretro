@@ -47,12 +47,15 @@
 #include "m_menu.h"
 #include "m_misc.h"
 #include "SDL.h"
-#include "SDL_syswm.h"
 #include "s_sound.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
+
+#ifdef WIN32
+#include "SDL_syswm.h"
+#endif
 
 #ifndef _MSC_VER
 #define __forceinline inline __attribute__((always_inline))

@@ -68,6 +68,10 @@ void done_win32(void);
 #include "w_wad.h"
 #include "z_zone.h"
 
+#ifdef __MACOSX__
+#include <CoreFoundation/CFUserNotification.h>
+#endif
+
 //
 // I_Quit
 //
