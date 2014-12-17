@@ -53,25 +53,6 @@
 #include "m_argv.h"
 #include "SDL_syswm.h"
 
-typedef BOOL (WINAPI *SetAffinityFunc)(HANDLE hProcess, DWORD mask);
-
-static void I_SetAffinityMask(HANDLE hProcess)
-{
-    HMODULE             kernel32_dll;
-    SetAffinityFunc     SetAffinity;
-
-    // Find the kernel interface DLL.
-    kernel32_dll = LoadLibrary("kernel32.dll");
-
-    if (kernel32_dll == NULL)
-        return;
-
-    SetAffinity = (SetAffinityFunc)GetProcAddress(kernel32_dll, "SetProcessAffinityMask");
-
-    if (SetAffinity != NULL)
-        SetAffinity(hProcess, 1);
-}
-
 void I_SetProcessPriority(HANDLE hProcess)
 {
     SetPriorityClass(hProcess, ABOVE_NORMAL_PRIORITY_CLASS);
@@ -236,29 +217,6 @@ void done_win32(void)
     CloseHandle(hInstanceMutex);
     I_AccessibilityShortcutKeys(true);
 }
-
-#else
-
-#include <unistd.h>
-#include <sched.h>
-
-// Unix (Linux) version:
-static void I_SetAffinityMask(void)
-{
-#ifdef CPU_SET
-    cpu_set_t   set;
-
-    CPU_ZERO(&set);
-    CPU_SET(0, &set);
-
-    sched_setaffinity(getpid(), sizeof(set), &set);
-#elif defined(__GLIBC__) || defined(__MACOSX__)
-    unsigned long       mask = 1;
-
-    sched_setaffinity(getpid(), sizeof(mask), &mask);
-#endif
-}
-
 #endif
 
 int main(int argc, char **argv)
@@ -292,10 +250,6 @@ int main(int argc, char **argv)
 #ifdef WIN32
     if (!M_CheckParm("-nopriority"))
         I_SetProcessPriority(hProcess);
-
-    I_SetAffinityMask(hProcess);
-#else
-    I_SetAffinityMask();
 #endif
 
     D_DoomMain();
