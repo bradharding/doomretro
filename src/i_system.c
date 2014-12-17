@@ -259,7 +259,7 @@ void I_Error(char *error, ...)
                                         NULL,
                                         NULL,
                                         NULL,
-                                        CFSTR(PACKAGE_STRING),
+                                        CFSTR("Doom Retro"),
                                         message,
                                         NULL);
     }
