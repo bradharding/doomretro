@@ -75,7 +75,7 @@ void done_win32(void);
 //
 // I_Quit
 //
-void I_Quit(boolean shutdown)
+void I_Quit (boolean shutdown)
 {
     if (shutdown)
     {
@@ -254,11 +254,19 @@ void I_Error(char *error, ...)
 
         message = CFStringCreateWithCString(NULL, msgbuf, kCFStringEncodingUTF8);
 
-        CFUserNotificationDisplayNotice(0, kCFUserNotificationCautionAlertLevel, NULL, NULL, NULL,
-            CFSTR(PACKAGE_STRING), message, NULL);
+        CFUserNotificationDisplayNotice(0,
+                                        kCFUserNotificationCautionAlertLevel,
+                                        NULL,
+                                        NULL,
+                                        NULL,
+                                        CFSTR("Doom Retro"),
+                                        message,
+                                        NULL);
     }
 #else
+    {
         ZenityErrorBox(msgbuf);
+    }
 #endif
 
     exit(-1);

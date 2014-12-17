@@ -54,7 +54,9 @@ void I_StartTic(void);
 
 // Called by M_Responder when quit is selected.
 // Clean exit, displays sell blurb.
-void I_Quit(boolean shutdown);
+#ifdef WIN32
+void I_Quit (boolean shutdown);
+#endif
 
 void I_Error(char *error, ...);
 
