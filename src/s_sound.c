@@ -460,6 +460,7 @@ void S_StartSound(void *origin_p, int sfx_id)
 {
     sfxinfo_t   *sfx;
     mobj_t      *origin;
+    mobj_t      *player = players[displayplayer].mo;
     int         sep;
     int         priority;
     int         cnum;
@@ -490,13 +491,12 @@ void S_StartSound(void *origin_p, int sfx_id)
 
     // Check to see if it is audible,
     //  and if not, modify the params
-    if (!origin || origin == players[displayplayer].mo)
+    if (!origin || origin == player)
         sep = NORM_SEP;
-    else if (!S_AdjustSoundParams(players[displayplayer].mo, origin, &volume, &sep))
+    else if (!S_AdjustSoundParams(player, origin, &volume, &sep))
         return;
-    else if (origin->x == players[displayplayer].mo->x
-             && origin->y == players[displayplayer].mo->y)
-             sep = NORM_SEP;
+    else if (origin->x == player->x && origin->y == player->y)
+        sep = NORM_SEP;
 
     // kill old sound
     for (cnum = 0; cnum < numChannels; cnum++)
