@@ -631,7 +631,7 @@ void G_DoLoadLevel(void)
         AM_Start();
 
     if (widescreen || returntowidescreen)
-        ToggleWideScreen(true);
+        ToggleWidescreen(true);
 }
 
 void G_ToggleAlwaysRun(void)
@@ -1294,7 +1294,7 @@ void G_DoCompleted(void)
 
     if (widescreen)
     {
-        ToggleWideScreen(false);
+        ToggleWidescreen(false);
         returntowidescreen = true;
         ST_doRefresh();
     }
@@ -1567,7 +1567,7 @@ void G_DoLoadGame(void)
         R_ExecuteSetViewSize();
 
     if (widescreen)
-        ToggleWideScreen(true);
+        ToggleWidescreen(true);
 
     // draw the pattern into the back screen
     R_FillBackScreen();
@@ -1701,7 +1701,7 @@ void G_DoNewGame(void)
     playeringame[1] = playeringame[2] = playeringame[3] = 0;
 
     if (widescreen)
-        ToggleWideScreen(true);
+        ToggleWidescreen(true);
 
     consoleplayer = 0;
     st_facecount = ST_STRAIGHTFACECOUNT;

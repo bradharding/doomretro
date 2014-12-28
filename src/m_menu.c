@@ -1692,7 +1692,7 @@ void M_EndGameResponse(int key)
     endinggame = true;
     if (widescreen)
     {
-        ToggleWideScreen(false);
+        ToggleWidescreen(false);
         returntowidescreen = true;
     }
     usergame = false;
@@ -1903,7 +1903,7 @@ void M_SizeDisplay(int choice)
                 if (!hud)
                     hud = true;
                 else
-                    ToggleWideScreen(false);
+                    ToggleWidescreen(false);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1936,7 +1936,7 @@ void M_SizeDisplay(int choice)
                     }
                     else
                     {
-                        ToggleWideScreen(true);
+                        ToggleWidescreen(true);
                         if (!widescreen)
                             R_SetViewSize(++screensize);
                     }
@@ -2453,7 +2453,7 @@ boolean M_Responder(event_t *ev)
                 {
                     R_SetViewSize(screensize);
                     if (returntowidescreen)
-                        ToggleWideScreen(true);
+                        ToggleWidescreen(true);
                 }
             }
             else
@@ -2466,7 +2466,7 @@ boolean M_Responder(event_t *ev)
                 inhelpscreens = true;
                 if (widescreen)
                 {
-                    ToggleWideScreen(false);
+                    ToggleWidescreen(false);
                     returntowidescreen = true;
                 }
                 if (!automapactive)
@@ -2855,7 +2855,7 @@ boolean M_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_swtchx);
                 R_SetViewSize(screensize);
                 if (returntowidescreen)
-                    ToggleWideScreen(true);
+                    ToggleWidescreen(true);
                 return true;
             }
             if (currentMenu->menuitems[itemOn].routine &&
@@ -2908,7 +2908,7 @@ boolean M_Responder(event_t *ev)
             {
                 R_SetViewSize(screensize);
                 if (returntowidescreen)
-                    ToggleWideScreen(true);
+                    ToggleWidescreen(true);
             }
             M_SetWindowCaption();
             return true;

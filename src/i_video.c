@@ -691,8 +691,7 @@ void I_GetEvent(void)
 
 static void I_ReadMouse(void)
 {
-    int         x;
-    int         y;
+    int         x, y;
     event_t     ev;
 
     ev.type = ev_mouse;
@@ -744,7 +743,7 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-static __forceinline void blit(void)
+static __forceinline void StretchBlit(void)
 {
     fixed_t     i = 0;
     fixed_t     y = starty;
@@ -803,7 +802,7 @@ void I_FinishUpdate(void)
     }
 
     // draw to screen
-    blit();
+    StretchBlit();
 
 #ifdef WIN32
     SDL_FillRect(screen, NULL, 0);
@@ -1032,7 +1031,7 @@ static void SetVideoMode(void)
     dest_rect.h = screen->clip_rect.h;
 }
 
-void ToggleWideScreen(boolean toggle)
+void ToggleWidescreen(boolean toggle)
 {
     if (fullscreen && (double)screen->w / screen->h < (double)16 / 10)
     {
@@ -1119,7 +1118,7 @@ void ToggleWideScreen(boolean toggle)
 }
 
 #ifdef WIN32
-void init_win32(LPCTSTR lpIconName);
+void I_InitWindows32(void);
 #endif
 
 void ToggleFullScreen(void)
@@ -1179,7 +1178,7 @@ void ToggleFullScreen(void)
                 returntowidescreen = true;
             else
             {
-                ToggleWideScreen(true);
+                ToggleWidescreen(true);
                 if (widescreen)
                     screensize = 7;
                 R_SetViewSize(screensize);
@@ -1209,7 +1208,7 @@ void ToggleFullScreen(void)
         SDL_InitSubSystem(SDL_INIT_VIDEO);
 
 #ifdef WIN32
-        init_win32("IDI_ICON1");
+        I_InitWindows32();
 #endif
 
         if (windowheight > desktopheight)
@@ -1265,7 +1264,7 @@ void ToggleFullScreen(void)
                 returntowidescreen = true;
             else
             {
-                ToggleWideScreen(true);
+                ToggleWidescreen(true);
                 if (widescreen)
                     screensize = 7;
                 R_SetViewSize(screensize);
@@ -1442,7 +1441,7 @@ void I_InitGraphics(void)
     SetVideoMode();
 
 #ifdef WIN32
-    init_win32("IDI_ICON1");
+    I_InitWindows32();
 #endif
 
     SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);

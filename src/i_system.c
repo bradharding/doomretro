@@ -44,8 +44,9 @@
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
-void done_win32(void);
 #include <windows.h>
+
+void I_ShutdownWindows32(void);
 #else
 #include <unistd.h>
 #endif
@@ -96,7 +97,7 @@ void I_Quit(boolean shutdown)
     }
 
 #ifdef WIN32
-    done_win32();
+    I_ShutdownWindows32();
 #endif
 
     SDL_Quit();
@@ -114,7 +115,6 @@ void I_WaitVBL(int count)
 #define ZENITY_BINARY "/usr/bin/zenity"
 
 // returns non-zero if zenity is available
-
 static int ZenityAvailable(void)
 {
     return system(ZENITY_BINARY " --help >/dev/null 2>&1") == 0;
@@ -122,11 +122,10 @@ static int ZenityAvailable(void)
 
 // Escape special characters in the given string so that they can be
 // safely enclosed in shell quotes.
-
 static char *EscapeShellString(char *string)
 {
-    char *result;
-    char *r, *s;
+    char        *result;
+    char        *r, *s;
 
     // In the worst case, every character might be escaped.
     result = malloc(strlen(string) * 2 + 3);
@@ -145,7 +144,6 @@ static char *EscapeShellString(char *string)
         //   of $, `, \, and, when history expansion is enabled, !."
         //
         // Therefore, escape these characters by prefixing with a backslash.
-
         if (strchr("$`\\!", *s) != NULL)
         {
             *r = '\\';
@@ -165,18 +163,15 @@ static char *EscapeShellString(char *string)
 }
 
 // Open a native error box with a message using zenity
-
 static int ZenityErrorBox(char *message)
 {
-    int result;
-    char *escaped_message;
-    char *errorboxpath;
-    static size_t errorboxpath_size;
+    int                 result;
+    char                *escaped_message;
+    char                *errorboxpath;
+    static size_t       errorboxpath_size;
 
     if (!ZenityAvailable())
-    {
         return 0;
-    }
 
     escaped_message = EscapeShellString(message);
 
@@ -235,7 +230,7 @@ void I_Error(char *error, ...)
 
     MessageBoxW(NULL, wmsgbuf, PACKAGE_NAME_W, MB_ICONERROR | MB_OK);
 
-    done_win32();
+    I_ShutdownWindows32();
 
     SDL_Quit();
 
