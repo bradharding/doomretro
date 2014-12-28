@@ -188,7 +188,7 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
 }
 
 #ifdef SDL20
-extern SDL_Window *sdl_window;
+extern SDL_Window       *window;
 #endif
 
 void init_win32(LPCTSTR lpIconName)
@@ -199,7 +199,7 @@ void init_win32(LPCTSTR lpIconName)
     SDL_VERSION(&info.version);
 
 #ifdef SDL20
-    SDL_GetWindowWMInfo(sdl_window, &info);
+    SDL_GetWindowWMInfo(window, &info);
     hwnd = info.info.win.window;
 #else
     SDL_GetWMInfo(&info);

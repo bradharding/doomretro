@@ -1483,7 +1483,7 @@ void M_DrawEpisode(void)
 }
 
 #ifdef SDL20
-extern SDL_Window *sdl_window;
+extern SDL_Window       *window;
 #endif
 
 void M_SetWindowCaption(void)
@@ -1504,7 +1504,7 @@ void M_SetWindowCaption(void)
     }
 
 #ifdef SDL20
-    SDL_SetWindowTitle(sdl_window, caption);
+    SDL_SetWindowTitle(window, caption);
 #else
     SDL_WM_SetCaption(caption, NULL);
 #endif

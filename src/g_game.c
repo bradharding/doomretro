@@ -536,7 +536,7 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
 }
 
 #ifdef SDL20
-extern SDL_Window *sdl_window;
+extern SDL_Window       *window;
 #endif
 
 //
@@ -622,7 +622,7 @@ void G_DoLoadLevel(void)
     memset(mousearray, 0, sizeof(mousearray));
 
 #ifdef SDL20
-    SDL_SetWindowTitle(sdl_window, mapnumandtitle);
+    SDL_SetWindowTitle(window, mapnumandtitle);
 #else
     SDL_WM_SetCaption(mapnumandtitle, NULL);
 #endif
