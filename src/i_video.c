@@ -817,7 +817,6 @@ void I_FinishUpdate(void)
     SDL_RenderCopy(sdl_renderer, sdl_texture, NULL, NULL);
     SDL_RenderPresent(sdl_renderer);
 #else
-    SDL_FillRect(screen, NULL, 0);
     SDL_LowerBlit(screenbuffer, &src_rect, screen, &dest_rect);
     SDL_Flip(screen);
 #endif
