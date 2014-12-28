@@ -1067,9 +1067,13 @@ void ToggleWideScreen(boolean toggle)
 
         if ((double)width / screen->w >= 0.99)
             width = screen->w;
+
+        if (!widescreen)
+            SDL_FillRect(screen, NULL, 0);
     }
 
     returntowidescreen = false;
+
     if (!fullscreen)
     {
         int     diff = (screen->w - width) / 2;
@@ -1090,6 +1094,7 @@ void ToggleWideScreen(boolean toggle)
         windowwidth = screen->w;
         windowheight = screen->h;
     }
+
     SDL_FreeSurface(screenbuffer);
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 
