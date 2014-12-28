@@ -1113,6 +1113,7 @@ void ToggleWideScreen(boolean toggle)
         windowwidth = screen->w;
         windowheight = screen->h;
     }
+    SDL_FreeSurface(screenbuffer);
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 #endif
 
@@ -1300,6 +1301,8 @@ void ToggleFullScreen(void)
         }
     }
 
+    SDL_FreeSurface(screenbuffer);
+
 #ifdef SDL20
     screenbuffer = SDL_CreateRGBSurface(0, width, height, 8, 0, 0, 0, 0);
     sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, screenbuffer);
@@ -1333,6 +1336,8 @@ static void ApplyWindowResize(int resize_h)
 
     if (widescreen)
         height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);
+
+    SDL_FreeSurface(screenbuffer);
 
 #ifdef SDL20
     SDL_SetWindowSize(sdl_window, windowwidth, windowheight);
