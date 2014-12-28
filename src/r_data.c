@@ -943,7 +943,7 @@ int R_FlatNumForName(char *name)
     i = W_RangeCheckNumForName(firstflat, lastflat, name);
 
     if (i == -1)
-        I_Error("R_FlatNumForName: %.8s not found", name);
+        return 0;
     return (i - firstflat);
 }
 
