@@ -805,6 +805,10 @@ void I_FinishUpdate(void)
     // draw to screen
     blit();
 
+#ifdef WIN32
+    SDL_FillRect(screen, NULL, 0);
+#endif
+
     SDL_LowerBlit(screenbuffer, &src_rect, screen, &dest_rect);
 
 #ifdef SDL20
@@ -1067,9 +1071,6 @@ void ToggleWideScreen(boolean toggle)
 
         if ((double)width / screen->w >= 0.99)
             width = screen->w;
-
-        if (!widescreen)
-            SDL_FillRect(screen, NULL, 0);
     }
 
     returntowidescreen = false;
