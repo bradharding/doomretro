@@ -48,6 +48,8 @@ boolean         nerve = false;
 boolean         bfgedition = false;
 
 boolean         mergedsprites = false;
+boolean         mergedcacodemon = false;
+boolean         mergednoble = false;
 
 boolean         chex = false;
 boolean         chexdeh = false;

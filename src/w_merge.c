@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "info.h"
 #include "i_system.h"
+#include "m_misc.h"
 #include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -312,10 +313,14 @@ static void GenerateSpriteList(void)
             else
                 stimpack = true;
         }
+        else if (M_StringStartsWith(lump->name, "HEAD"))
+            mergedcacodemon = true;
+        else if (M_StringStartsWith(lump->name, "BOSS") || M_StringStartsWith(lump->name, "BOS2"))
+            mergednoble = true;
+
+        mergedsprites = true;
 
         AddSpriteLump(lump);
-        
-        mergedsprites = true;
     }
 }
 
