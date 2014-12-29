@@ -807,9 +807,9 @@ void R_InitSpriteLumps(void)
         {
             int j = 0;
 
-            if (!mergedsprites || BTSX)
+            while (sproffsets[j].name[0])
             {
-                while (sproffsets[j].name[0])
+                if (sproffsets[j].canmodify || BTSX)
                 {
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
                     {
@@ -817,8 +817,8 @@ void R_InitSpriteLumps(void)
                         spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
                         break;
                     }
-                    j++;
                 }
+                j++;
             }
         }
     }
@@ -858,9 +858,6 @@ void R_InitSpriteLumps(void)
             else
                 mobjinfo[i].flags2 = 0;
         }
-        states[S_BAR1].tics = 0;
-        mobjinfo[MT_BARREL].spawnstate = S_BAR2;
-        mobjinfo[MT_BARREL].frames = 2;
     }
 
     if (!BTSX)

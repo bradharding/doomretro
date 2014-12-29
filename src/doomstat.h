@@ -90,7 +90,6 @@ extern int              gamemap;
 extern boolean          nerve;
 extern boolean          bfgedition;
 
-extern boolean          mergedsprites;
 extern boolean          mergedcacodemon;
 extern boolean          mergednoble;
 
