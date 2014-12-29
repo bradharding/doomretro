@@ -318,7 +318,8 @@ static void GenerateSpriteList(void)
         else if (M_StringStartsWith(lump->name, "BOSS") || M_StringStartsWith(lump->name, "BOS2"))
             mergednoble = true;
 
-        mergedsprites = true;
+        if (strcasecmp(lump->wad_file->path, PACKAGE_WAD))
+            mergedsprites = true;
 
         AddSpriteLump(lump);
     }
