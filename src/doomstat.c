@@ -47,6 +47,8 @@ char            *gamedescription;
 boolean         nerve = false;
 boolean         bfgedition = false;
 
+boolean         mergedsprites = false;
+
 boolean         chex = false;
 boolean         chexdeh = false;
 boolean         hacx = false;

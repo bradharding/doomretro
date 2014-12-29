@@ -314,17 +314,8 @@ static void GenerateSpriteList(void)
         }
 
         AddSpriteLump(lump);
-        if (i < iwad_sprites.numlumps && lump->size != iwad_sprites.lumps[i].size)
-        {
-            int j = 0;
-
-            while (sproffsets[j].name[0])
-            {
-                if (!strcasecmp(sproffsets[j].name, lump->name))
-                    sproffsets[j].canmodify = false;
-                j++;
-            }
-        }
+        
+        mergedsprites = true;
     }
 }
 

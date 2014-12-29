@@ -807,9 +807,9 @@ void R_InitSpriteLumps(void)
         {
             int j = 0;
 
-            while (sproffsets[j].name[0])
+            if (!mergedsprites || BTSX)
             {
-                if (sproffsets[j].canmodify || BTSX)
+                while (sproffsets[j].name[0])
                 {
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
                     {
@@ -817,8 +817,8 @@ void R_InitSpriteLumps(void)
                         spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
                         break;
                     }
+                    j++;
                 }
-                j++;
             }
         }
     }
