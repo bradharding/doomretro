@@ -827,7 +827,7 @@ void R_InitSpriteLumps(void)
     {
         states[S_BAR1].tics = 0;
         mobjinfo[MT_BARREL].spawnstate = S_BAR2;
-        mobjinfo[MT_BARREL].frames = 2;
+        mobjinfo[MT_BARREL].frames = 0;
     }
     else if (chex)
     {
