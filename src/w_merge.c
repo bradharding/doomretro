@@ -297,50 +297,51 @@ static void GenerateSpriteList(void)
     {
         lumpinfo_t      *lump = &pwad_sprites.lumps[i];
 
-        printf("%s\n", lump->name);
-
-        if (M_StringStartsWith(lump->name, "HEAD"))
-            mergedcacodemon = true;
-        else if (M_StringStartsWith(lump->name, "BOSS") || M_StringStartsWith(lump->name, "BOS2"))
-            mergednoble = true;
-        else if (M_StringStartsWith(lump->name, "BAR1") || M_StringStartsWith(lump->name, "BEXP"))
+        if (!BTSX)
         {
-            states[S_BAR1].tics = 0;
-            mobjinfo[MT_BARREL].spawnstate = S_BAR2;
-            mobjinfo[MT_BARREL].frames = 0;
-        }
-
-        if (i < iwad_sprites.numlumps)
-        {
-            int j = 0;
-
-            while (sproffsets[j].name[0])
+            if (M_StringStartsWith(lump->name, "HEAD"))
+                mergedcacodemon = true;
+            else if (M_StringStartsWith(lump->name, "BOSS") || M_StringStartsWith(lump->name, "BOS2"))
+                mergednoble = true;
+            else if (M_StringStartsWith(lump->name, "BAR1") || M_StringStartsWith(lump->name, "BEXP"))
             {
-                if (!strcasecmp(sproffsets[j].name, lump->name) && sproffsets[j].canmodify)
+                states[S_BAR1].tics = 0;
+                mobjinfo[MT_BARREL].spawnstate = S_BAR2;
+                mobjinfo[MT_BARREL].frames = 0;
+            }
+
+            if (i < iwad_sprites.numlumps)
+            {
+                int j = 0;
+
+                while (sproffsets[j].name[0])
                 {
-                    int         k = 0;
-                    char        name1[9];
-
-                    sproffsets[j].canmodify = false;
-
-                    M_StringCopy(name1, sproffsets[j].name, 9);
-                    name1[4] = '\0';
-
-                    while (sproffsets[k].name[0])
+                    if (!strcasecmp(sproffsets[j].name, lump->name) && sproffsets[j].canmodify)
                     {
-                        char    name2[9];
+                        int         k = 0;
+                        char        name1[9];
 
-                        M_StringCopy(name2, sproffsets[k].name, 9);
-                        name2[4] = '\0';
+                        sproffsets[j].canmodify = false;
 
-                        if (!strcasecmp(name1, name2) ||
-                            (!strcasecmp(name1, "BAR1") && !strcasecmp(name2, "BEXP")))
-                            sproffsets[k].canmodify = false;
+                        M_StringCopy(name1, sproffsets[j].name, 9);
+                        name1[4] = '\0';
 
-                        k++;
+                        while (sproffsets[k].name[0])
+                        {
+                            char    name2[9];
+
+                            M_StringCopy(name2, sproffsets[k].name, 9);
+                            name2[4] = '\0';
+
+                            if (!strcasecmp(name1, name2) ||
+                                (!strcasecmp(name1, "BAR1") && !strcasecmp(name2, "BEXP")))
+                                sproffsets[k].canmodify = false;
+
+                            k++;
+                        }
                     }
+                    j++;
                 }
-                j++;
             }
         }
 

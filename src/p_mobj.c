@@ -630,6 +630,12 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
 
+    if (!sproffsets[sprites[mobj->sprite].spriteframes[0].lump[0]].canmodify)
+    {
+        mobj->projectilepassheight = mobj->height;
+        mobj->flags2 = 0;
+    }
+
     mobj->colfunc = info->colfunc;
     mobj->blood = info->blood;
 

@@ -809,7 +809,7 @@ void R_InitSpriteLumps(void)
 
             while (sproffsets[j].name[0])
             {
-                if (sproffsets[j].canmodify || BTSX)
+                if (sproffsets[j].canmodify)
                 {
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
                     {
@@ -846,18 +846,6 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_INV].flags2 &= ~MF2_TRANSLUCENT_33;
         mobjinfo[MT_INS].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP);
         mobjinfo[MT_MISC14].flags2 &= ~(MF2_FLOATBOB | MF2_NOFOOTCLIP);
-    }
-    else if (dehacked)
-    {
-        for (i = 0; i < NUMMOBJTYPES; i++)
-        {
-            if ((mobjinfo[i].flags & MF_SHOOTABLE))
-                mobjinfo[i].projectilepassheight = mobjinfo[i].height;
-            if (mobjinfo[i].flags2 & MF2_BLOOD)
-                mobjinfo[i].flags2 = MF2_BLOOD;
-            else
-                mobjinfo[i].flags2 = 0;
-        }
     }
 
     if (!BTSX)
