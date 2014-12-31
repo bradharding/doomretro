@@ -756,15 +756,15 @@ void R_InitFlats(void)
         flattranslation[i] = i;
 
     // [BH] Initialize partially fullbright flats.
+    memset(flatfullbright, 0, numflats * sizeof(*flatfullbright));
     if (brightmaps)
     {
-        memset(flatfullbright, 0, numflats * sizeof(*flatfullbright));
         i = 0;
         while (fullbright[i].colormask)
         {
             if (fullbright[i].flat)
             {
-                int num = R_CheckFlatNumForName(fullbright[i].flat);
+                int      num = R_CheckFlatNumForName(fullbright[i].flat);
 
                 if (num != -1)
                     flatfullbright[num] = fullbright[i].colormask;
