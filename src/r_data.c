@@ -718,9 +718,9 @@ static void R_InitTextures(void)
     GenerateTextureHashTable();
 
     // [BH] Initialize partially fullbright textures.
+    memset(texturefullbright, 0, numtextures * sizeof(*texturefullbright));
     if (brightmaps)
     {
-        memset(texturefullbright, 0, numtextures * sizeof(*texturefullbright));
         i = 0;
         while (fullbright[i].colormask)
         {
