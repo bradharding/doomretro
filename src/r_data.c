@@ -803,7 +803,7 @@ void R_InitSpriteLumps(void)
         spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
 
         // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
-        if (!FREEDOOM && !hacx && !dehacked)
+        if (!FREEDOOM && !hacx)
         {
             int j = 0;
 
