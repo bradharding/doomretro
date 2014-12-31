@@ -2874,10 +2874,9 @@ void deh_procStrings(DEHFILE *fpin, FILE* fpout, char *line)
 //
 boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout)
 {
-    boolean     found;  // loop exit flag
-    int         i;      // looper
+    boolean     found = false;  // loop exit flag
+    int         i;              // looper
 
-    found = false;
     for (i = 0; i < deh_numstrlookup; i++)
     {
         found = (lookfor ? !strcasecmp(*deh_strlookup[i].ppstr, lookfor) :
@@ -2896,14 +2895,18 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout
 
             *deh_strlookup[i].ppstr = t = strdup(newstring);    // orphan originalstring
             found = true;
+
             // Handle embedded \n's in the incoming string, convert to 0x0a's
             {
-                char    *s;
+                const char      *s;
 
                 for (s = *deh_strlookup[i].ppstr; *s; ++s, ++t)
                 {
                     if (*s == '\\' && (s[1] == 'n' || s[1] == 'N'))     // found one
-                        ++s, *t = '\n'; // skip one extra for second character
+                    {
+                        ++s;
+                        *t = '\n';      // skip one extra for second character
+                    }
                     else
                         *t = *s;
                 }
