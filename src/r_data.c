@@ -757,21 +757,21 @@ void R_InitFlats(void)
 
     // [BH] Initialize partially fullbright flats.
     memset(flatfullbright, 0, numflats * sizeof(*flatfullbright));
-    if (brightmaps)
-    {
-        i = 0;
-        while (fullbright[i].colormask)
-        {
-            if (fullbright[i].flat)
-            {
-                int      num = R_CheckFlatNumForName(fullbright[i].flat);
+    //if (brightmaps)
+    //{
+    //    i = 0;
+    //    while (fullbright[i].colormask)
+    //    {
+    //        if (fullbright[i].flat)
+    //        {
+    //            int      num = R_CheckFlatNumForName(fullbright[i].flat);
 
-                if (num != -1)
-                    flatfullbright[num] = fullbright[i].colormask;
-                i++;
-            }
-        }
-    }
+    //            if (num != -1)
+    //                flatfullbright[num] = fullbright[i].colormask;
+    //            i++;
+    //        }
+    //    }
+    //}
 }
 
 //
