@@ -1923,12 +1923,8 @@ static void P_PutSecnode(msecnode_t *node)
 // killough 11/98: reformatted
 static msecnode_t *P_AddSecnode(sector_t *s, mobj_t *thing, msecnode_t *nextnode)
 {
-    msecnode_t  *node;
+    msecnode_t  *node = nextnode;
 
-    if (!s)
-        return NULL;
-
-    node = nextnode;
     while (node)
     {
         if (node->m_sector == s)                // Already have a node for this sector?
@@ -2041,7 +2037,8 @@ static boolean PIT_GetSectors(line_t *ld)
 
     // killough 3/27/98, 4/4/98:
     // Use sidedefs instead of 2s flag to determine two-sidedness.
-    if (ld->backsector)
+    // killough 8/1/98: avoid duplicate if same sector on both sides
+    if (ld->backsector && ld->backsector != ld->frontsector)
         sector_list = P_AddSecnode(ld->backsector, tmthing, sector_list);
 
     return true;
@@ -2059,7 +2056,6 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     msecnode_t  *node = sector_list;
     mobj_t      *saved_tmthing = tmthing;
     fixed_t     saved_tmx = tmx, saved_tmy = tmy;
-    fixed_t     saved_tmbbox[4] = { tmbbox[0], tmbbox[1], tmbbox[2], tmbbox[3] };
 
     // First, clear out the existing m_thing fields. As each node is
     // added or verified as needed, m_thing will be set properly. When
@@ -2120,10 +2116,13 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     tmthing = saved_tmthing;
     tmx = saved_tmx;
     tmy = saved_tmy;
-    tmbbox[0] = saved_tmbbox[0];
-    tmbbox[1] = saved_tmbbox[1];
-    tmbbox[2] = saved_tmbbox[2];
-    tmbbox[3] = saved_tmbbox[3];
+    if (tmthing)
+    {
+        tmbbox[BOXTOP] = tmy + tmthing->radius;
+        tmbbox[BOXBOTTOM] = tmy - tmthing->radius;
+        tmbbox[BOXRIGHT] = tmx + tmthing->radius;
+        tmbbox[BOXLEFT] = tmx - tmthing->radius;
+    }
 }
 
 void P_MapEnd(void)
