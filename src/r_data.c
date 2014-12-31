@@ -784,6 +784,9 @@ void R_InitSpriteLumps(void)
 {
     int i;
 
+    for (i = 0; i < NUMMOBJTYPES; i++)
+        mobjinfo[i].canmodify = true;
+
     firstspritelump = W_GetNumForName("S_START") + 1;
     lastspritelump = W_GetNumForName("S_END") - 1;
 
@@ -818,6 +821,8 @@ void R_InitSpriteLumps(void)
                         break;
                     }
                 }
+                else if (!BTSX)
+                    mobjinfo[sproffsets[j].type].canmodify = false;
                 j++;
             }
         }

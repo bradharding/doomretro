@@ -1229,13 +1229,13 @@ state_t states[NUMSTATES] =
     { SPR_PLAY, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_DEADTORSO
     { SPR_PLAY, 18,                               -1,               NULL,            S_NULL,          0,     0     }, // S_DEADBOTTOM
 
-    // Five skulls shishkebab
+    // Five skulls shishkebab (MT_MISC70)
     { SPR_POL2,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEADSONSTICK
 
     // Pool of blood and flesh (MT_MISC71)
     { SPR_POL5,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_GIBS
 
-    // Skull on a pole (MT_MISC70 and MT_MISC72)
+    // Skull on a pole (MT_MISC72)
     { SPR_POL4,  0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_HEADONASTICK
 
     // Pile of skulls and candles (MT_MISC73)
@@ -5246,7 +5246,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* description          */ ""
     },
 
-    // Skulls on a pole (MT_MISC70, MT_MISC72)
+    // Skulls on a pole (MT_MISC70)
     {
         /* doomednum            */ FiveSkullsShishKebab,
         /* spawnstate           */ S_HEADSONSTICK,
@@ -5988,850 +5988,850 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
 //  by Revenant100, and then further refined by me.
 offset_t sproffsets[] =
 {
-    { "AMMOA0",     14,   14, true }, //   12,   16
-    { "APBXA0",     12,   12, true }, //   12,   15
-    { "APBXB0",     19,   17, true }, //   19,   18
-    { "APBXC0",     16,   15, true }, //   17,   17
-    { "APBXD0",     10,   11, true }, //   10,   13
-    { "APBXE0",      3,    4, true }, //    4,    6
-    { "APLSA0",      7,   10, true }, //    7,   10
-    { "APLSB0",      6,    9, true }, //    6,    8
-    { "ARM1A0",     15,   15, true }, //   15,   17
-    { "ARM1B0",     15,   15, true }, //   15,   17
-    { "ARM2A0",     15,   15, true }, //   15,   17
-    { "ARM2B0",     15,   15, true }, //   15,   17
-    { "BAL2A0",      8,    8, true }, //    7,    8
-    { "BAL2B0",      8,    7, true }, //    7,    7
-    { "BAL2C0",     23,   25, true }, //   23,   24
-    { "BAL2D0",     25,   23, true }, //   25,   21
-    { "BAL2E0",     26,   25, true }, //   26,   23
-    { "BAL7C0",     17,   17, true }, //   20,    5
-    { "BAL7D0",     21,   18, true }, //   23,    6
-    { "BAL7E0",     22,   21, true }, //   23,    8
-    { "BAR1A0",     11,   29, true }, //   10,   28
-    { "BAR1B0",     11,   29, true }, //   10,   28
-    { "BEXPA0",     11,   29, true }, //   10,   28
-    { "BEXPB0",     11,   28, true }, //   10,   27
-    { "BEXPC0",     20,   33, true }, //   19,   32
-    { "BEXPD0",     28,   47, true }, //   27,   46
-    { "BEXPE0",     30,   50, true }, //   29,   49
-    { "BFE1A0",     30,   25, true }, //   30,   27
-    { "BFE1B0",     41,   36, true }, //   40,   36
-    { "BFE1C0",     72,   59, true }, //   71,   58
-    { "BFE1D0",     67,   14, true }, //   68,   14
-    { "BFE2A0",     32,   25, true }, //   32,   24
-    { "BFE2B0",     19,   23, true }, //   18,   22
-    { "BFE2C0",     16,   17, true }, //   19,   17
-    { "BFE2D0",      6,    5, true }, //    5,    4
-    { "BFGFA0",   -119,  -98, true }, // -125,  -98
-    { "BFGFB0",    -91,  -77, true }, //  -97,  -77
-    { "BFGGA0",    -75, -116, true }, //  -81, -116
-    { "BFGGB0",    -75, -116, true }, //  -81, -116
-    { "BFGGC0",    -82, -117, true }, //  -88, -117
-    { "BFS1A0",     22,   23, true }, //   24,   37
-    { "BFS1B0",     22,   23, true }, //   24,   37
-    { "BFUGA0",     31,   34, true }, //   31,   38
-    { "BKEYA0",      7,   14, true }, //    7,   19
-    { "BKEYB0",      7,   14, true }, //    7,   19
-    { "BLUDC0",      6,    6, true }, //    7,    6
-    { "BON1A0",      7,   16, true }, //    7,   14
-    { "BON1B0",      7,   16, true }, //    7,   14
-    { "BON1C0",      7,   16, true }, //    7,   14
-    { "BON1D0",      7,   16, true }, //    7,   14
-    { "BON2A0",      8,   13, true }, //    7,   13
-    { "BON2B0",      8,   13, true }, //    7,   13
-    { "BON2C0",      8,   13, true }, //    7,   13
-    { "BON2D0",      8,   13, true }, //    7,   13
-    { "BOS2E1",     39,   66, true }, //   30,   65
-    { "BOS2E2",     13,   68, true }, //   12,   67
-    { "BOS2E5",     19,   69, true }, //   28,   69
-    { "BOS2E6",     19,   73, true }, //   22,   73
-    { "BOS2E7",     21,   73, true }, //   20,   73
-    { "BOS2E8",     34,   74, true }, //   30,   74
-    { "BOS2F1",     43,   66, true }, //   34,   65
-    { "BOS2F2",     38,   66, true }, //   29,   65
-    { "BOS2F5",     22,   62, true }, //   28,   62
-    { "BOS2F6",     17,   63, true }, //   29,   63
-    { "BOS2F7",     22,   64, true }, //   21,   64
-    { "BOS2F8",     22,   65, true }, //   26,   65
-    { "BOS2G1",     21,   60, true }, //   14,   59
-    { "BOS2G2",     22,   60, true }, //   29,   59
-    { "BOS2G3",     24,   58, true }, //   26,   58
-    { "BOS2G4",     24,   56, true }, //   25,   56
-    { "BOS2G5",     37,   55, true }, //   30,   55
-    { "BOS2G6",     32,   55, true }, //   24,   55
-    { "BOS2G7",     19,   57, true }, //   22,   57
-    { "BOS2G8",     22,   55, true }, //   28,   56
-    { "BOS2H3",     21,   67, true }, //   25,   67
-    { "BOS2H4",     24,   64, true }, //   26,   64
-    { "BOS2H5",     22,   62, true }, //   23,   63
-    { "BOS2H6",     19,   63, true }, //   15,   62
-    { "BOS2H7",     21,   66, true }, //   17,   66
-    { "BOS2H8",     19,   67, true }, //   18,   68
-    { "BOS2I0",     21,   69, true }, //   20,   69
-    { "BOS2J0",     27,   60, true }, //   26,   60
-    { "BOS2K0",     27,   50, true }, //   26,   50
-    { "BOS2L0",     30,   32, true }, //   29,   32
-    { "BOS2M0",     31,   26, true }, //   30,   26
-    { "BOS2N0",     31,   26, true }, //   30,   26
-    { "BOS2O0",     31,   26, true }, //   30,   26
-    { "BOSFA0",     17,   35, true }, //   15,   35
-    { "BOSFB0",     16,   37, true }, //   16,   35
-    { "BOSFD0",     18,   37, true }, //   17,   37
-    { "BOSSE1",     39,   66, true }, //   30,   65
-    { "BOSSE2",     13,   68, true }, //   12,   67
-    { "BOSSE5",     19,   69, true }, //   26,   69
-    { "BOSSE6",     19,   73, true }, //   22,   73
-    { "BOSSE7",     21,   73, true }, //   20,   73
-    { "BOSSE8",     34,   74, true }, //   30,   74
-    { "BOSSF1",     43,   66, true }, //   34,   65
-    { "BOSSF2",     38,   66, true }, //   29,   65
-    { "BOSSF5",     22,   62, true }, //   29,   62
-    { "BOSSF6",     17,   63, true }, //   29,   63
-    { "BOSSF7",     22,   64, true }, //   21,   64
-    { "BOSSF8",     22,   65, true }, //   26,   65
-    { "BOSSG1",     21,   60, true }, //   14,   59
-    { "BOSSG2",     20,   59, true }, //   29,   59
-    { "BOSSG3",     24,   58, true }, //   26,   58
-    { "BOSSG4",     24,   56, true }, //   25,   56
-    { "BOSSG5",     37,   55, true }, //   30,   55
-    { "BOSSG6",     32,   55, true }, //   24,   55
-    { "BOSSG7",     19,   57, true }, //   22,   57
-    { "BOSSG8",     22,   55, true }, //   28,   56
-    { "BOSSH3",     21,   67, true }, //   25,   67
-    { "BOSSH4",     24,   64, true }, //   26,   64
-    { "BOSSH5",     22,   62, true }, //   23,   63
-    { "BOSSH6",     15,   62, true }, //   19,   63
-    { "BOSSH7",     21,   66, true }, //   17,   66
-    { "BOSSH8",     19,   67, true }, //   18,   68
-    { "BOSSI0",     21,   69, true }, //   20,   69
-    { "BOSSJ0",     27,   60, true }, //   26,   60
-    { "BOSSK0",     27,   50, true }, //   26,   50
-    { "BOSSL0",     30,   32, true }, //   29,   32
-    { "BOSSM0",     31,   26, true }, //   30,   26
-    { "BOSSN0",     31,   26, true }, //   30,   26
-    { "BOSSO0",     31,   26, true }, //   30,   26
-    { "BPAKA0",     11,   27, true }, //    8,   25
-    { "BROKA0",     27,   19, true }, //   27,   20
-    { "BRS1A0",     14,    6, true }, //   13,    3
-    { "BSKUA0",      7,   14, true }, //    7,   18
-    { "BSKUB0",      7,   14, true }, //    7,   18
-    { "BSPIA2A8",   58,   51, true }, //   59,   51
-    { "BSPIA4A6",   57,   51, true }, //   57,   52
-    { "BSPIA5D5",   54,   48, true }, //   53,   47
-    { "BSPIB2B8",   67,   50, true }, //   65,   50
-    { "BSPIB3B7",   55,   48, true }, //   55,   46
-    { "BSPIB4B6",   56,   49, true }, //   57,   45
-    { "BSPIC4C6",   58,   50, true }, //   59,   51
-    { "BSPIC5F5",   53,   48, true }, //   52,   47
-    { "BSPID2D8",   53,   50, true }, //   51,   51
-    { "BSPIE2E8",   52,   50, true }, //   51,   45
-    { "BSPIE4E6",   65,   49, true }, //   65,   50
-    { "BSPIF2F8",   53,   50, true }, //   54,   52
-    { "BSPIF3F7",   63,   48, true }, //   62,   48
-    { "BSPIF4F6",   59,   51, true }, //   55,   51
-    { "BSPIG1",     50,   49, true }, //   50,   48
-    { "BSPIG2G8",   62,   50, true }, //   61,   50
-    { "BSPIG3G7",   55,   50, true }, //   56,   50
-    { "BSPIG4G6",   61,   51, true }, //   62,   52
-    { "BSPIG5",     55,   49, true }, //   56,   49
-    { "BSPIH1",     50,   49, true }, //   50,   48
-    { "BSPIH2H8",   62,   50, true }, //   61,   50
-    { "BSPIH3H7",   55,   50, true }, //   56,   50
-    { "BSPIH4H6",   61,   51, true }, //   62,   52
-    { "BSPIH5",     55,   49, true }, //   56,   49
-    { "BSPIJ0",     47,   50, true }, //   50,   50
-    { "BSPIK0",     47,   53, true }, //   50,   53
-    { "BSPIL0",     44,   48, true }, //   47,   48
-    { "BSPIM0",     42,   42, true }, //   45,   42
-    { "BSPIN0",     42,   40, true }, //   45,   40
-    { "BSPIO0",     42,   28, true }, //   45,   28
-    { "BSPIP0",     42,   26, true }, //   45,   26
-    { "CANDA0",      8,   14, true }, //    8,   15
-    { "CBRAA0",     14,   58, true }, //   15,   57
-    { "CELLA0",      8,   10, true }, //    8,   12
-    { "CELPA0",     16,   19, true }, //   15,   20
-    { "CEYEA0",     22,   59, true }, //   21,   56
-    { "CEYEB0",     22,   58, true }, //   21,   55
-    { "CEYEC0",     22,   59, true }, //   21,   56
-    { "CHGFA0",   -116,  -98, true }, // -118,  -98
-    { "CHGFB0",   -118,  -97, true }, // -120,  -97
-    { "CHGGA0",   -102, -117, true }, // -104, -117
-    { "CHGGB0",   -102, -119, true }, // -104, -119
-    { "CLIPA0",      4,    9, true }, //    2,   11
-    { "COL1A0",     17,   50, true }, //   16,   48
-    { "COL2A0",     17,   37, true }, //   16,   35
-    { "COL3A0",     17,   50, true }, //   16,   48
-    { "COL4A0",     17,   37, true }, //   17,   35
-    { "COL5A0",     17,   42, true }, //   16,   40
-    { "COL5B0",     17,   43, true }, //   16,   41
-    { "COL6A0",     17,   46, true }, //   17,   44
-    { "COLUA0",     11,   46, true }, //    9,   43
-    { "CPOSE2",     26,   53, true }, //   25,   53
-    { "CPOSE3",     31,   53, true }, //   27,   53
-    { "CPOSE6",     17,   51, true }, //   18,   51
-    { "CPOSE7",     22,   53, true }, //   25,   53
-    { "CPOSE8",     23,   53, true }, //   18,   53
-    { "CPOSF2",     31,   53, true }, //   29,   53
-    { "CPOSF3",     35,   53, true }, //   31,   53
-    { "CPOSF6",     16,   51, true }, //   21,   51
-    { "CPOSF7",     22,   53, true }, //   25,   53
-    { "CPOSF8",     23,   53, true }, //   22,   53
-    { "CPOSG7",     19,   54, true }, //   20,   54
-    { "CPOSH0",     21,   56, true }, //   20,   56
-    { "CPOSI0",     24,   59, true }, //   23,   59
-    { "CPOSJ0",     29,   54, true }, //   28,   54
-    { "CPOSK0",     30,   44, true }, //   31,   44
-    { "CPOSL0",     32,   32, true }, //   31,   32
-    { "CPOSM0",     33,   20, true }, //   32,   20
-    { "CPOSN0",     33,   16, true }, //   32,   16
-    { "CPOSP0",     28,   55, true }, //   28,   56
-    { "CPOSQ0",     34,   45, true }, //   30,   45
-    { "CPOSR0",     40,   36, true }, //   32,   36
-    { "CPOSS0",     40,   27, true }, //   32,   27
-    { "CPOST0",     40,   15, true }, //   32,   15
-    { "CSAWA0",     31,   22, true }, //   31,   23
-    { "CYBRE3",     56,  105, true }, //   52,  105
-    { "CYBRE4",     51,  104, true }, //   50,  104
-    { "CYBRE6",     40,  105, true }, //   39,  105
-    { "CYBRE7",     39,  105, true }, //   46,  105
-    { "CYBRF3",     72,  105, true }, //   60,  105
-    { "CYBRF4",     64,  104, true }, //   59,  104
-    { "CYBRF6",     40,  105, true }, //   47,  105
-    { "CYBRF7",     39,  105, true }, //   54,  105
-    { "CYBRF8",     55,  105, true }, //   63,  105
-    { "CYBRG1",     45,  105, true }, //   61,  105
-    { "CYBRG2",     38,  106, true }, //   46,  106
-    { "CYBRG4",     71,  105, true }, //   58,  105
-    { "CYBRG5",     62,  104, true }, //   54,  104
-    { "CYBRG6",     43,  105, true }, //   46,  105
-    { "CYBRG7",     40,  105, true }, //   47,  105
-    { "CYBRH0",     45,  106, true }, //   60,  106
-    { "CYBRI0",     43,  108, true }, //   55,  108
-    { "CYBRJ0",     45,  111, true }, //   49,  111
-    { "CYBRK0",     51,  112, true }, //   56,  112
-    { "CYBRL0",     55,  119, true }, //   62,  119
-    { "CYBRM0",     62,  126, true }, //   67,  126
-    { "CYBRN0",     65,  129, true }, //   70,  129
-    { "CYBRO0",     64,  129, true }, //   69,  129
-    { "CYBRP0",     55,   25, true }, //   60,   25
-    { "ELECA0",     19,  125, true }, //   19,  123
-    { "FATBA1",      9,    8, true }, //    9,   11
-    { "FATBA2A8",   18,    7, true }, //   18,   10
-    { "FATBA3A7",   22,    6, true }, //   22,    9
-    { "FATBA4A6",   18,    6, true }, //   18,    9
-    { "FATBA5",      9,    8, true }, //    9,   11
-    { "FATBB1",      9,    8, true }, //    9,   11
-    { "FATBB2B8",   18,    7, true }, //   18,   10
-    { "FATBB3B7",   22,    6, true }, //   21,    9
-    { "FATBB4B6",   18,    6, true }, //   18,    9
-    { "FATBB5",      9,    8, true }, //    9,   11
-    { "FATTA1",     40,   60, true }, //   39,   60
-    { "FATTA2A8",   51,   61, true }, //   39,   61
-    { "FATTA3A7",   41,   60, true }, //   38,   60
-    { "FATTA5",     35,   59, true }, //   39,   59
-    { "FATTB1",     43,   64, true }, //   43,   65
-    { "FATTB2B8",   43,   64, true }, //   43,   65
-    { "FATTB3B7",   41,   61, true }, //   43,   61
-    { "FATTB5",     45,   58, true }, //   43,   58
-    { "FATTC5",     37,   59, true }, //   36,   58
-    { "FATTD1",     33,   60, true }, //   38,   60
-    { "FATTE1",     45,   64, true }, //   43,   65
-    { "FATTE2E8",   43,   62, true }, //   43,   61
-    { "FATTE3E7",   41,   62, true }, //   43,   62
-    { "FATTF1",     39,   65, true }, //   42,   65
-    { "FATTF3F7",   41,   61, true }, //   43,   61
-    { "FATTF4F6",   34,   59, true }, //   43,   59
-    { "FATTG1",     44,   61, true }, //   42,   60
-    { "FATTG2G8",   54,   59, true }, //   51,   59
-    { "FATTG5",     41,   61, true }, //   42,   61
-    { "FATTH1",     43,   61, true }, //   42,   60
-    { "FATTH2H8",   53,   59, true }, //   50,   59
-    { "FATTH4H6",   32,   61, true }, //   42,   61
-    { "FATTH5",     43,   60, true }, //   42,   60
-    { "FATTI1",     44,   64, true }, //   42,   63
-    { "FATTI2I8",   54,   64, true }, //   51,   64
-    { "FATTJ1",     35,   59, true }, //   32,   62
-    { "FATTJ2",     36,   60, true }, //   47,   62
-    { "FATTJ3",     40,   58, true }, //   39,   59
-    { "FATTJ4",     30,   59, true }, //   30,   61
-    { "FATTJ5",     42,   59, true }, //   32,   59
-    { "FATTJ6",     31,   59, true }, //   29,   61
-    { "FATTJ7",     35,   58, true }, //   37,   59
-    { "FATTJ8",     52,   60, true }, //   46,   62
-    { "FATTK0",     51,   73, true }, //   50,   73
-    { "FATTL0",     51,   75, true }, //   50,   75
-    { "FATTM0",     46,   66, true }, //   45,   66
-    { "FATTN0",     38,   51, true }, //   37,   53
-    { "FATTO0",     37,   41, true }, //   35,   41
-    { "FATTP0",     38,   40, true }, //   36,   40
-    { "FATTQ0",     38,   39, true }, //   36,   39
-    { "FATTR0",     38,   39, true }, //   36,   39
-    { "FATTS0",     38,   38, true }, //   36,   38
-    { "FATTT0",     38,   36, true }, //   36,   36
-    { "FBXPA0",     17,   17, true }, //   19,   32
-    { "FBXPB0",     20,   17, true }, //   19,   31
-    { "FBXPC0",     22,   20, true }, //   22,   35
-    { "FCANA0",     12,   51, true }, //   19,   49
-    { "FCANB0",     12,   51, true }, //   19,   49
-    { "FCANC0",     12,   49, true }, //   19,   47
-    { "GOR1A0",     11,   67, true }, //   17,   67
-    { "GOR1B0",     12,   67, true }, //   18,   67
-    { "GOR1C0",     11,   67, true }, //   17,   67
-    { "GOR2A0",     20,   83, true }, //   22,   83
-    { "GOR3A0",     17,   83, true }, //   19,   83
-    { "GOR4A0",      8,   67, true }, //    6,   67
-    { "GOR5A0",      5,   51, true }, //    6,   51
-    { "HDB1A0",     11,   83, true }, //   10,   83
-    { "HDB2A0",     11,   83, true }, //   10,   83
-    { "HDB3A0",     11,   59, true }, //   10,   59
-    { "HDB4A0",     11,   59, true }, //   10,   59
-    { "HDB5A0",     11,   59, true }, //   10,   59
-    { "HDB6A0",     11,   59, true }, //   10,   59
-    { "HEADA3A7",   29,   66, true }, //   27,   68
-    { "HEADA4A6",   29,   68, true }, //   32,   68
-    { "HEADA5",     31,   67, true }, //   28,   66
-    { "HEADB1",     31,   66, true }, //   31,   70
-    { "HEADB2B8",   26,   66, true }, //   29,   69
-    { "HEADB3B7",   29,   66, true }, //   30,   68
-    { "HEADB4B6",   29,   66, true }, //   32,   67
-    { "HEADB5",     31,   67, true }, //   32,   68
-    { "HEADC1",     31,   67, true }, //   31,   71
-    { "HEADC2C8",   26,   68, true }, //   29,   72
-    { "HEADC3C7",   29,   66, true }, //   30,   68
-    { "HEADC4C6",   29,   67, true }, //   32,   67
-    { "HEADC5",     31,   68, true }, //   32,   68
-    { "HEADD1",     31,   68, true }, //   31,   72
-    { "HEADD2D8",   26,   69, true }, //   29,   72
-    { "HEADD3D7",   29,   70, true }, //   30,   72
-    { "HEADD4D6",   29,   69, true }, //   32,   70
-    { "HEADD5",     31,   68, true }, //   32,   68
-    { "HEADE2E8",   28,   65, true }, //   30,   67
-    { "HEADE3E7",   29,   67, true }, //   29,   68
-    { "HEADE4E6",   30,   69, true }, //   31,   69
-    { "HEADE5",     31,   69, true }, //   30,   68
-    { "HEADF2F8",   28,   64, true }, //   31,   66
-    { "HEADF3F7",   30,   67, true }, //   31,   67
-    { "HEADF4F6",   30,   69, true }, //   31,   69
-    { "HEADF5",     31,   69, true }, //   30,   68
-    { "HEADK0",     37,   61, true }, //   35,   63
-    { "HEADL0",     39,   41, true }, //   37,   47
-    { "IFOGA0",     19,   33, true }, //   18,   33
-    { "IFOGB0",     16,   27, true }, //   16,   26
-    { "IFOGC0",      8,   20, true }, //    6,   15
-    { "IFOGD0",      4,   13, true }, //    2,   10
-    { "IFOGE0",      1,   11, true }, //    0,    7
-    { "KEENA0",      7,   67, true }, //    6,   67
-    { "KEENB0",     10,   67, true }, //    8,   67
-    { "KEENC0",     11,   67, true }, //    9,   67
-    { "KEEND0",     13,   67, true }, //   11,   67
-    { "KEENE0",     14,   67, true }, //   13,   67
-    { "KEENF0",     14,   67, true }, //   13,   67
-    { "KEENG0",     15,   67, true }, //   14,   67
-    { "KEENH0",     18,   67, true }, //   17,   67
-    { "KEENI0",     18,   67, true }, //   17,   67
-    { "KEENJ0",     18,   67, true }, //   17,   67
-    { "KEENK0",     18,   67, true }, //   17,   67
-    { "KEENL0",     18,   67, true }, //   17,   67
-    { "KEENM0",      9,   67, true }, //    8,   67
-    { "LAUNA0",     31,   14, true }, //   31,   18
-    { "MANFA1",     17,   19, true }, //   19,   17
-    { "MANFA6A4",   25,   14, true }, //   25,   19
-    { "MANFA7A3",   34,   11, true }, //   34,   16
-    { "MANFA8A2",   33,   12, true }, //   33,   17
-    { "MANFB1",     17,   19, true }, //   19,   17
-    { "MANFB6B4",   18,   15, true }, //   18,   19
-    { "MANFB7B3",   30,   13, true }, //   30,   17
-    { "MANFB8B2",   27,   14, true }, //   27,   17
-    { "MEDIA0",     14,   17, true }, //   13,   19
-    { "MEGAA0",     12,   40, true }, //   12,   32
-    { "MEGAB0",     12,   40, true }, //   12,   32
-    { "MEGAC0",     12,   40, true }, //   12,   32
-    { "MEGAD0",     12,   40, true }, //   12,   32
-    { "MGUNA0",     27,   14, true }, //   25,   18
-    { "MISFA0",   -134, -105, true }, // -136, -105
-    { "MISFB0",   -123, -101, true }, // -126, -101
-    { "MISFC0",   -114,  -94, true }, // -117,  -94
-    { "MISFD0",   -109,  -81, true }, // -112,  -81
-    { "MISGA0",   -117, -121, true }, // -119, -121
-    { "MISGB0",   -109, -125, true }, // -112, -125
-    { "MISLA1",      7,    8, true }, //    7,   13
-    { "MISLA5",      7,    8, true }, //    7,   13
-    { "MISLA6A4",   12,    8, true }, //   12,   13
-    { "MISLA7A3",   25,    8, true }, //   25,   13
-    { "MISLA8A2",   16,    8, true }, //   16,   13
-    { "MISLC0",     44,   36, true }, //   42,   34
-    { "MISLD0",     52,   46, true }, //   50,   43
-    { "PAINA2A8",   30,   58, true }, //   34,   58
-    { "PAINA3A7",   37,   58, true }, //   35,   60
-    { "PAINA4A6",   32,   59, true }, //   35,   59
-    { "PAINA5",     36,   59, true }, //   37,   58
-    { "PAINB2B8",   34,   58, true }, //   38,   58
-    { "PAINB3B7",   37,   58, true }, //   35,   60
-    { "PAINB4B6",   32,   59, true }, //   35,   59
-    { "PAINB5",     37,   59, true }, //   38,   58
-    { "PAINC2C8",   35,   58, true }, //   39,   58
-    { "PAINC3C7",   37,   58, true }, //   35,   60
-    { "PAINC4C6",   32,   59, true }, //   35,   59
-    { "PAINC5",     38,   59, true }, //   36,   58
-    { "PAIND1",     44,   61, true }, //   44,   62
-    { "PAIND2D8",   41,   59, true }, //   40,   61
-    { "PAIND3D7",   38,   59, true }, //   35,   61
-    { "PAIND4D6",   36,   59, true }, //   35,   59
-    { "PAIND5",     36,   59, true }, //   37,   58
-    { "PAINE2E8",   42,   60, true }, //   41,   62
-    { "PAINE3E7",   37,   59, true }, //   34,   61
-    { "PAINE4E6",   36,   60, true }, //   35,   60
-    { "PAINE5",     35,   60, true }, //   36,   59
-    { "PAINF2F8",   47,   61, true }, //   38,   62
-    { "PAINF3F7",   33,   61, true }, //   30,   63
-    { "PAINF4F6",   41,   61, true }, //   36,   69
-    { "PAINF5",     36,   62, true }, //   37,   68
-    { "PAING1",     42,   61, true }, //   38,   60
-    { "PAING2G8",   31,   59, true }, //   35,   60
-    { "PAING3G7",   36,   59, true }, //   34,   62
-    { "PAING4G6",   41,   59, true }, //   36,   59
-    { "PAING5",     45,   58, true }, //   47,   57
-    { "PAINH0",     42,   61, true }, //   41,   57
-    { "PAINI0",     38,   58, true }, //   36,   54
-    { "PAINJ0",     41,   57, true }, //   39,   54
-    { "PAINK0",     47,   66, true }, //   46,   71
-    { "PAINL0",     43,   66, true }, //   43,   71
-    { "PAINM0",     52,   76, true }, //   49,   88
-    { "PINSA0",     12,   40, true }, //   11,   39
-    { "PINSB0",     12,   40, true }, //   11,   39
-    { "PINSC0",     12,   40, true }, //   11,   39
-    { "PINSD0",     12,   40, true }, //   11,   39
-    { "PINVA0",     12,   40, true }, //   11,   23
-    { "PINVB0",     12,   40, true }, //   11,   23
-    { "PINVC0",     12,   40, true }, //   11,   23
-    { "PINVD0",     12,   40, true }, //   11,   23
-    { "PLASA0",     27,   14, true }, //   27,   19
-    { "PLSEA0",     11,   12, true }, //   12,   11
-    { "PLSEB0",     18,   20, true }, //   19,   18
-    { "PLSEC0",     19,   18, true }, //   17,   18
-    { "PLSED0",     15,   16, true }, //   13,   13
-    { "PLSEE0",      3,    3, true }, //    0,    2
-    { "PLSFA0",   -119,  -93, true }, // -123,  -93
-    { "PLSFB0",   -118,  -95, true }, // -122,  -95
-    { "PLSGA0",   -119, -107, true }, // -123, -107
-    { "PLSGB0",    -60,  -57, true }, //  -64,  -57
-    { "PMAPA0",     14,   25, true }, //   13,   23
-    { "PMAPB0",     14,   25, true }, //   13,   23
-    { "PMAPC0",     14,   25, true }, //   13,   23
-    { "PMAPD0",     14,   25, true }, //   13,   23
-    { "POB1A0",     20,    5, true }, //   16,    2
-    { "POB2A0",     16,    1, true }, //   14,   -2
-    { "POL1A0",     23,   64, true }, //   22,   62
-    { "POL2A0",     19,   62, true }, //   19,   62
-    { "POL3A0",     19,   41, true }, //   19,   38
-    { "POL3B0",     19,   41, true }, //   19,   38
-    { "POL4A0",     19,   54, true }, //   19,   51
-    { "POL5A0",     27,    6, true }, //   27,    5
-    { "POL6A0",     17,   65, true }, //   17,   62
-    { "POL6B0",     19,   65, true }, //   19,   62
-    { "POSSC4C6",   22,   51, true }, //   20,   51
-    { "POSSD4D6",   24,   52, true }, //   22,   52
-    { "POSSE1",     13,   50, true }, //   12,   50
-    { "POSSE2E8",   25,   50, true }, //   21,   50
-    { "POSSE3E7",   28,   50, true }, //   26,   50
-    { "POSSE5",     11,   47, true }, //   12,   46
-    { "POSSF1",     14,   50, true }, //   13,   50
-    { "POSSF2F8",   27,   50, true }, //   23,   50
-    { "POSSF3F7",   29,   50, true }, //   27,   50
-    { "POSSF5",     10,   47, true }, //   11,   46
-    { "POSSG2G8",   19,   53, true }, //   16,   53
-    { "POSSG3G7",   22,   53, true }, //   21,   53
-    { "POSSG4G6",   21,   50, true }, //   20,   50
-    { "POSSG5",     16,   49, true }, //   17,   49
-    { "POSSO0",     21,   58, true }, //   25,   58
-    { "POSSQ0",     23,   47, true }, //   27,   47
-    { "PSTRA0",     14,   17, true }, //   12,   15
-    { "PVISA0",     14,   11, true }, //   13,    9
-    { "PVISB0",     14,   11, true }, //   13,    9
-    { "RKEYA0",      7,   14, true }, //    8,   19
-    { "RKEYB0",      7,   14, true }, //    8,   19
-    { "ROCKA0",      6,   25, true }, //    6,   27
-    { "RSKUA0",      7,   14, true }, //    7,   18
-    { "RSKUB0",      7,   14, true }, //    7,   18
-    { "SARGA3A7",   28,   49, true }, //   28,   48
-    { "SARGB3B7",   28,   52, true }, //   28,   51
-    { "SARGB5",     20,   51, true }, //   20,   48
-    { "SARGC3C7",   29,   49, true }, //   29,   48
-    { "SARGD3D7",   29,   54, true }, //   29,   53
-    { "SARGD5",     20,   51, true }, //   20,   48
-    { "SARGE3",     31,   48, true }, //   23,   48
-    { "SARGE6",     23,   47, true }, //   25,   47
-    { "SARGE7",     30,   46, true }, //   33,   46
-    { "SARGF3",     38,   48, true }, //   30,   48
-    { "SARGF6",     23,   47, true }, //   25,   47
-    { "SARGF7",     30,   47, true }, //   34,   47
-    { "SARGG3",     41,   50, true }, //   33,   50
-    { "SARGG6",     24,   47, true }, //   26,   47
-    { "SARGG7",     30,   48, true }, //   34,   48
-    { "SARGH2",     25,   48, true }, //   27,   48
-    { "SARGH3",     30,   48, true }, //   29,   46
-    { "SARGH4",     24,   45, true }, //   23,   44
-    { "SARGH6",     21,   45, true }, //   20,   45
-    { "SARGH7",     29,   46, true }, //   25,   46
-    { "SARGH8",     29,   47, true }, //   30,   47
-    { "SARGK0",     21,   55, true }, //   21,   57
-    { "SARGL0",     30,   52, true }, //   29,   55
-    { "SARGM0",     31,   36, true }, //   33,   41
-    { "SARGN0",     31,   22, true }, //   33,   27
-    { "SAWGA0",    -81, -113, true }, //  -75, -113
-    { "SAWGB0",    -81, -113, true }, //  -75, -113
-    { "SAWGC0",    -72,  -79, true }, //  -68,  -79
-    { "SAWGD0",    -73,  -79, true }, //  -67,  -79
-    { "SBOXA0",     16,   10, true }, //   16,   12
-    { "SGN2A0",     27,   12, true }, //   27,   15
-    { "SHELA0",      7,    5, true }, //    5,    7
-    { "SHOTA0",     31,   10, true }, //   31,   17
-    { "SHT2A0",   -130, -113, true }, // -134, -113
-    { "SHT2B0",    -97,  -65, true }, // -100,  -65
-    { "SHT2C0",    -23,  -38, true }, //  -25,  -38
-    { "SHT2D0",   -117,  -88, true }, // -118,  -88
-    { "SHT2E0",      4, -105, true }, //    0, -105
-    { "SHT2F0",   -101, -117, true }, // -105, -117
-    { "SHT2G0",   -116,  -88, true }, // -118,  -88
-    { "SHT2H0",   -120,  -83, true }, // -123,  -83
-    { "SHT2I0",   -133,  -99, true }, // -137,  -99
-    { "SHT2J0",   -127,  -90, true }, // -131,  -90
-    { "SHTFA0",   -138,  -95, true }, // -141,  -95
-    { "SHTFB0",   -133,  -86, true }, // -136,  -86
-    { "SHTGA0",   -118, -108, true }, // -121, -108
-    { "SHTGB0",    -40,  -47, true }, //  -43,  -47
-    { "SHTGC0",    -27,  -17, true }, //  -30,  -17
-    { "SHTGD0",    -26,  -37, true }, //  -29,  -37
-    { "SKELA5D5",   19,   71, true }, //   13,   71
-    { "SKELB1E1",   26,   81, true }, //   27,   81
-    { "SKELB5E5",   25,   74, true }, //   19,   74
-    { "SKELC1F1",   27,   83, true }, //   30,   83
-    { "SKELC5F5",   34,   81, true }, //   28,   81
-    { "SKELG1",     29,   68, true }, //   25,   67
-    { "SKELG2",      5,   69, true }, //   25,   69
-    { "SKELG3",     16,   69, true }, //   33,   68
-    { "SKELG4",     12,   70, true }, //   37,   72
-    { "SKELG5",     20,   71, true }, //   31,   72
-    { "SKELG6",     41,   68, true }, //   26,   70
-    { "SKELG7",     54,   67, true }, //   36,   67
-    { "SKELG8",     60,   68, true }, //   37,   68
-    { "SKELH1",     39,   78, true }, //   30,   78
-    { "SKELH2",     41,   78, true }, //   35,   78
-    { "SKELH3",     34,   77, true }, //   30,   77
-    { "SKELH4",     22,   76, true }, //   20,   76
-    { "SKELH5",     18,   76, true }, //   24,   76
-    { "SKELH6",     25,   73, true }, //   37,   72
-    { "SKELH7",     29,   74, true }, //   36,   74
-    { "SKELH8",     19,   76, true }, //   23,   76
-    { "SKELI1",     17,   61, true }, //   20,   61
-    { "SKELI2",     29,   63, true }, //   31,   62
-    { "SKELI3",     45,   61, true }, //   36,   60
-    { "SKELI4",     42,   60, true }, //   29,   60
-    { "SKELI5",     23,   61, true }, //   14,   60
-    { "SKELI6",     24,   59, true }, //   28,   59
-    { "SKELI7",     32,   59, true }, //   39,   59
-    { "SKELI8",     17,   61, true }, //   29,   61
-    { "SKELJ1",     23,   67, true }, //   25,   67
-    { "SKELK1",     25,   76, true }, //   27,   76
-    { "SKELK2",     16,   75, true }, //   23,   75
-    { "SKELK3",     17,   74, true }, //   23,   74
-    { "SKELK4",     14,   74, true }, //   20,   75
-    { "SKELK5",     23,   76, true }, //   27,   75
-    { "SKELK6",     31,   75, true }, //   27,   75
-    { "SKELK7",     31,   73, true }, //   18,   75
-    { "SKELK8",     30,   75, true }, //   17,   75
-    { "SKELL2",     12,   67, true }, //   18,   67
-    { "SKELL3",     16,   67, true }, //   24,   67
-    { "SKELL4",     30,   68, true }, //   34,   68
-    { "SKELL5",     29,   69, true }, //   32,   69
-    { "SKELL6",     26,   68, true }, //   21,   68
-    { "SKELL7",     39,   68, true }, //   25,   68
-    { "SKELL8",     38,   69, true }, //   33,   69
-    { "SKELM0",     30,   74, true }, //   27,   74
-    { "SKELN0",     30,   68, true }, //   38,   65
-    { "SKELO0",     27,   51, true }, //   28,   51
-    { "SKELP0",     23,   33, true }, //   28,   33
-    { "SKELQ0",     29,   17, true }, //   40,   19
-    { "SKULA1",     22,   50, true }, //   20,   50
-    { "SKULA5",     22,   49, true }, //   21,   48
-    { "SKULA6A4",   13,   56, true }, //   13,   53
-    { "SKULA7A3",   14,   57, true }, //   14,   54
-    { "SKULA8A2",   15,   50, true }, //   15,   47
-    { "SKULB1",     22,   49, true }, //   20,   49
-    { "SKULB5",     22,   49, true }, //   21,   48
-    { "SKULB6B4",   13,   56, true }, //   13,   53
-    { "SKULB7B3",   14,   57, true }, //   14,   54
-    { "SKULB8B2",   15,   56, true }, //   15,   53
-    { "SKULC1",     22,   47, true }, //   23,   47
-    { "SKULC5",     22,   31, true }, //   20,   30
-    { "SKULC7C3",   33,   37, true }, //   33,   36
-    { "SKULC8C2",   32,   38, true }, //   32,   37
-    { "SKULD1",     22,   46, true }, //   23,   46
-    { "SKULD5",     22,   32, true }, //   20,   31
-    { "SKULD7D3",   33,   37, true }, //   33,   36
-    { "SKULD8D2",   25,   38, true }, //   25,   37
-    { "SKULE1",     15,   53, true }, //   14,   53
-    { "SKULE6E4",   11,   54, true }, //   11,   53
-    { "SKULE7E3",   15,   55, true }, //   15,   54
-    { "SKULE8E2",   15,   55, true }, //   15,   54
-    { "SKULF0",     15,   53, true }, //   17,   53
-    { "SKULG0",     17,   53, true }, //   15,   53
-    { "SKULH0",     23,   48, true }, //   24,   48
-    { "SKULI0",     35,   52, true }, //   35,   58
-    { "SKULJ0",     44,   59, true }, //   45,   75
-    { "SKULK0",     51,   67, true }, //   49,   85
-    { "SMBTA0",      8,   72, true }, //   10,   72
-    { "SMBTB0",      8,   67, true }, //   10,   67
-    { "SMBTC0",      8,   67, true }, //   10,   67
-    { "SMBTD0",      8,   73, true }, //   10,   73
-    { "SMGTA0",      8,   72, true }, //   10,   72
-    { "SMGTB0",      8,   67, true }, //   10,   67
-    { "SMGTC0",      8,   67, true }, //   10,   67
-    { "SMGTD0",      8,   73, true }, //   10,   73
-    { "SMRTA0",      8,   72, true }, //   10,   72
-    { "SMRTB0",      8,   67, true }, //   10,   67
-    { "SMRTC0",      8,   67, true }, //   10,   67
-    { "SMRTD0",      8,   73, true }, //   10,   73
-    { "SOULA0",     12,   40, true }, //   14,   39
-    { "SOULB0",     12,   40, true }, //   14,   39
-    { "SOULC0",     12,   40, true }, //   14,   39
-    { "SOULD0",     12,   40, true }, //   14,   39
-    { "SPIDA1D1",  103,  105, true }, //  107,  105
-    { "SPIDA2A8",  116,  107, true }, //  110,  107
-    { "SPIDA3A7",  106,  106, true }, //   99,  106
-    { "SPIDA4A6",  113,  107, true }, //  111,  111
-    { "SPIDB1E1",  125,  104, true }, //  130,  104
-    { "SPIDB2B8",  134,  106, true }, //  130,  106
-    { "SPIDB3B7",  108,  102, true }, //  101,   99
-    { "SPIDB4B6",  112,  105, true }, //  110,   99
-    { "SPIDC1F1",  102,  103, true }, //  108,  103
-    { "SPIDC3C7",  107,  105, true }, //  103,  105
-    { "SPIDC4C6",  115,  107, true }, //  114,  110
-    { "SPIDD2D8",  105,  104, true }, //  113,  107
-    { "SPIDD3D7",  104,  103, true }, //   99,  103
-    { "SPIDD4D6",  111,  104, true }, //  107,  106
-    { "SPIDE2E8",  103,  103, true }, //  113,   94
-    { "SPIDE3E7",  127,  101, true }, //  122,  101
-    { "SPIDE4E6",  131,  105, true }, //  128,  106
-    { "SPIDF2F8",  105,  104, true }, //  114,  109
-    { "SPIDF3F7",  126,  101, true }, //  122,  102
-    { "SPIDF4F6",  117,  105, true }, //  114,  106
-    { "SPIDG1",    101,  102, true }, //   95,  101
-    { "SPIDG3G7",  111,  108, true }, //  113,  108
-    { "SPIDG4G6",  123,  109, true }, //  120,  112
-    { "SPIDG5",    109,  104, true }, //  106,  105
-    { "SPIDH1",    101,  102, true }, //   95,  101
-    { "SPIDH2H8",  123,  107, true }, //  123,  108
-    { "SPIDH3H7",  111,  108, true }, //  113,  108
-    { "SPIDH4H6",  123,  109, true }, //  120,  112
-    { "SPIDH5",    109,  104, true }, //  106,  105
-    { "SPIDI1",     95,  101, true }, //  102,  102
-    { "SPIDI3",    118,  100, true }, //  122,  100
-    { "SPIDI5",    105,  100, true }, //   95,  100
-    { "SPIDI6",    117,  105, true }, //  106,  107
-    { "SPIDI7",     96,  102, true }, //   88,  102
-    { "SPIDI8",    120,  103, true }, //  115,  105
-    { "SPOSE1",     13,   50, true }, //   12,   50
-    { "SPOSE2E8",   21,   50, true }, //   17,   50
-    { "SPOSE3E7",   19,   50, true }, //   19,   49
-    { "SPOSE5",     11,   47, true }, //   12,   46
-    { "SPOSF1",     14,   50, true }, //   13,   50
-    { "SPOSF2F8",   25,   50, true }, //   21,   50
-    { "SPOSF3F7",   26,   50, true }, //   24,   49
-    { "SPOSF5",     10,   47, true }, //   11,   46
-    { "SPOSG2G8",   16,   52, true }, //   13,   51
-    { "SPOSG3G7",   22,   52, true }, //   21,   50
-    { "SPOSG4G6",   21,   49, true }, //   20,   50
-    { "SPOSG5",     16,   49, true }, //   17,   49
-    { "SPOSO0",     21,   58, true }, //   25,   58
-    { "SPOSQ0",     23,   47, true }, //   27,   47
-    { "SSWVB3",     18,   51, true }, //   14,   51
-    { "SSWVB4",     16,   51, true }, //   12,   51
-    { "SSWVC7",     19,   49, true }, //   15,   49
-    { "SSWVC8",     15,   48, true }, //   11,   48
-    { "SSWVD3",     19,   51, true }, //   15,   51
-    { "SSWVD4",     16,   51, true }, //   12,   51
-    { "SSWVI0",     14,   49, true }, //   18,   49
-    { "SSWVJ0",     11,   41, true }, //   15,   41
-    { "SSWVN0",     19,   54, true }, //   15,   54
-    { "SSWVP0",     25,   56, true }, //   25,   57
-    { "SSWVQ0",     28,   50, true }, //   24,   51
-    { "SSWVS0",     28,   37, true }, //   24,   37
-    { "SSWVT0",     28,   30, true }, //   24,   30
-    { "SSWVU0",     28,   20, true }, //   24,   20
-    { "SSWVV0",     28,   15, true }, //   24,   15
-    { "STIMA0",      7,   13, true }, //    7,   15
-    { "SUITA0",     12,   58, true }, //   11,   51
-    { "TBLUA0",     13,   92, true }, //   14,   92
-    { "TBLUB0",     13,   92, true }, //   14,   92
-    { "TBLUC0",     13,   92, true }, //   14,   92
-    { "TBLUD0",     13,   93, true }, //   14,   93
-    { "TFOGA0",     19,   58, true }, //   21,   56
-    { "TFOGI0",      6,   32, true }, //    6,   28
-    { "TFOGJ0",      8,   34, true }, //    8,   30
-    { "TGRNA0",     13,   92, true }, //   14,   92
-    { "TGRNB0",     13,   87, true }, //   14,   87
-    { "TGRNC0",     13,   87, true }, //   14,   87
-    { "TGRND0",     13,   93, true }, //   14,   93
-    { "TLMPA0",     11,   78, true }, //   11,   77
-    { "TLMPB0",     11,   78, true }, //   11,   77
-    { "TLMPC0",     11,   78, true }, //   11,   77
-    { "TLMPD0",     11,   78, true }, //   11,   77
-    { "TLP2A0",     10,   58, true }, //   10,   57
-    { "TLP2B0",     10,   58, true }, //   10,   57
-    { "TLP2C0",     10,   58, true }, //   10,   57
-    { "TLP2D0",     10,   58, true }, //   10,   57
-    { "TRE1A0",     28,   65, true }, //   25,   65
-    { "TRE2A0",     62,  120, true }, //   63,  120
-    { "TREDA0",     13,   92, true }, //   14,   92
-    { "TREDB0",     13,   87, true }, //   14,   87
-    { "TREDC0",     13,   87, true }, //   14,   87
-    { "TREDD0",     13,   93, true }, //   14,   93
-    { "TROOA1",     21,   52, true }, //   19,   52
-    { "TROOA2A8",   24,   50, true }, //   17,   50
-    { "TROOA3A7",   21,   47, true }, //   15,   44
-    { "TROOA4A6",   17,   47, true }, //   20,   42
-    { "TROOA5",     18,   46, true }, //   21,   44
-    { "TROOB1",     19,   51, true }, //   17,   51
-    { "TROOB2B8",   21,   52, true }, //   13,   52
-    { "TROOB3B7",   22,   48, true }, //   16,   46
-    { "TROOB4B6",   18,   45, true }, //   19,   42
-    { "TROOB5",     17,   43, true }, //   20,   41
-    { "TROOC1",     19,   55, true }, //   17,   55
-    { "TROOC2C8",   21,   53, true }, //   14,   53
-    { "TROOC3C7",   19,   50, true }, //   13,   48
-    { "TROOC4C6",   14,   49, true }, //   12,   46
-    { "TROOC5",     18,   46, true }, //   22,   44
-    { "TROOD1",     18,   52, true }, //   16,   52
-    { "TROOD2D8",   24,   50, true }, //   17,   50
-    { "TROOD3D7",   22,   45, true }, //   19,   43
-    { "TROOD4D6",   17,   44, true }, //   17,   41
-    { "TROOD5",     18,   43, true }, //   21,   41
-    { "TROOE1",     33,   55, true }, //   30,   55
-    { "TROOE2E8",   14,   51, true }, //   11,   51
-    { "TROOE3E7",   20,   46, true }, //   23,   44
-    { "TROOE4E6",   13,   45, true }, //   20,   42
-    { "TROOE5",     12,   45, true }, //   17,   43
-    { "TROOF1",     21,   50, true }, //   18,   50
-    { "TROOF2F8",   28,   49, true }, //   25,   49
-    { "TROOF3F7",   27,   46, true }, //   18,   44
-    { "TROOF4F6",   23,   45, true }, //   16,   42
-    { "TROOF5",     18,   43, true }, //   12,   41
-    { "TROOG1",      8,   50, true }, //    5,   50
-    { "TROOG2G8",   32,   50, true }, //   25,   50
-    { "TROOG3G7",   47,   48, true }, //   27,   46
-    { "TROOG4G6",   33,   45, true }, //   23,   42
-    { "TROOG5",     22,   46, true }, //   16,   44
-    { "TROOH1",     21,   50, true }, //   18,   50
-    { "TROOH2H8",   12,   51, true }, //    6,   51
-    { "TROOH3H7",   15,   54, true }, //   12,   52
-    { "TROOH4H6",   15,   53, true }, //    9,   51
-    { "TROOH5",     17,   52, true }, //   21,   52
-    { "TROOM0",     27,   16, true }, //   29,   19
-    { "TROOO0",     28,   56, true }, //   20,   56
-    { "TROOP0",     28,   56, true }, //   24,   56
-    { "TROOQ0",     28,   56, true }, //   24,   56
-    { "TROOR0",     28,   39, true }, //   24,   39
-    { "VILEA3D7",   44,   68, true }, //   41,   68
-    { "VILEA4D6",   35,   67, true }, //   31,   67
-    { "VILEA5D5",   15,   65, true }, //   11,   65
-    { "VILEA6D4",   32,   66, true }, //   30,   66
-    { "VILEA7D3",   37,   67, true }, //   36,   67
-    { "VILEA8D2",   31,   70, true }, //   35,   70
-    { "VILEB4E6",   18,   67, true }, //   22,   67
-    { "VILEB5E5",   23,   67, true }, //   18,   67
-    { "VILEB6E4",   27,   67, true }, //   25,   67
-    { "VILEB7E3",   34,   70, true }, //   31,   70
-    { "VILEB8E2",   25,   72, true }, //   23,   72
-    { "VILEC4F6",   31,   71, true }, //   26,   71
-    { "VILEC6F4",   25,   70, true }, //   22,   70
-    { "VILEC7F3",   24,   72, true }, //   21,   72
-    { "VILEC8F2",   21,   74, true }, //   25,   74
-    { "VILEG2",      3,   91, true }, //   27,   91
-    { "VILEG3",     24,   97, true }, //   36,   97
-    { "VILEG4",     36,   97, true }, //   39,   97
-    { "VILEG5",     44,   99, true }, //   40,   99
-    { "VILEG6",     54,   99, true }, //   30,   99
-    { "VILEG7",     40,   98, true }, //   28,   98
-    { "VILEH2",      4,   93, true }, //   28,   93
-    { "VILEH3",     24,   99, true }, //   36,   99
-    { "VILEH4",     36,   99, true }, //   43,   99
-    { "VILEH5",     45,   99, true }, //   41,   99
-    { "VILEH6",     55,   99, true }, //   31,   99
-    { "VILEH7",     41,   99, true }, //   29,   99
-    { "VILEI2",      4,   94, true }, //   28,   94
-    { "VILEI3",     24,   99, true }, //   36,   99
-    { "VILEI4",     36,   99, true }, //   43,   99
-    { "VILEI5",     45,  101, true }, //   41,  101
-    { "VILEI6",     56,   99, true }, //   32,   99
-    { "VILEI7",     42,   99, true }, //   30,   99
-    { "VILEJ6",     22,   85, true }, //   18,   85
-    { "VILEJ8",     30,   78, true }, //   34,   78
-    { "VILEK7",     31,   59, true }, //   27,   59
-    { "VILEL3",     24,   58, true }, //   28,   58
-    { "VILEL5",     23,   57, true }, //   27,   57
-    { "VILEL7",     31,   56, true }, //   27,   56
-    { "VILEM3",     24,   58, true }, //   28,   58
-    { "VILEM5",     23,   57, true }, //   27,   57
-    { "VILEM6",     19,   57, true }, //   15,   57
-    { "VILEM7",     31,   56, true }, //   27,   56
-    { "VILEN2",     57,   65, true }, //   35,   65
-    { "VILEN3",     67,   64, true }, //   51,   64
-    { "VILEN4",     52,   61, true }, //   43,   61
-    { "VILEN5",     23,   64, true }, //   27,   64
-    { "VILEN6",     15,   63, true }, //   26,   63
-    { "VILEN7",     30,   63, true }, //   45,   63
-    { "VILEN8",     31,   63, true }, //   48,   63
-    { "VILEO2",     56,   71, true }, //   34,   71
-    { "VILEO3",     67,   65, true }, //   51,   65
-    { "VILEO4",     52,   62, true }, //   43,   62
-    { "VILEO5",     23,   64, true }, //   27,   64
-    { "VILEO6",     15,   63, true }, //   26,   63
-    { "VILEO7",     30,   63, true }, //   45,   63
-    { "VILEO8",     31,   66, true }, //   48,   66
-    { "VILEP2",     56,   83, true }, //   34,   83
-    { "VILEP3",     67,   85, true }, //   51,   85
-    { "VILEP4",     51,   77, true }, //   42,   77
-    { "VILEP5",     23,   77, true }, //   27,   77
-    { "VILEP6",     15,   77, true }, //   26,   77
-    { "VILEP7",     30,   76, true }, //   45,   76
-    { "VILEP8",     31,   79, true }, //   48,   79
-    { "VILEQ2",     20,   69, true }, //   22,   69
-    { "VILEQ3",     36,   67, true }, //   32,   67
-    { "VILEQ4",     29,   69, true }, //   27,   69
-    { "VILEQ7",     29,   68, true }, //   30,   68
-    { "VILEQ8",     31,   66, true }, //   33,   66
-    { "VILES0",     21,   71, true }, //   23,   71
-    { "VILET0",     26,   66, true }, //   27,   66
-    { "VILEU0",     31,   54, true }, //   35,   54
-    { "VILE[1",     50,   68, true }, //   53,   68
-    { "VILE[2",     53,   69, true }, //   49,   69
-    { "VILE[3",     31,   72, true }, //   26,   72
-    { "VILE[4",     49,   71, true }, //   37,   71
-    { "VILE[5",     52,   71, true }, //   44,   71
-    { "VILE[6",     32,   71, true }, //   43,   73
-    { "VILE[7",     19,   70, true }, //   30,   73
-    { "VILE[8",     29,   69, true }, //   36,   73
-    { "VILE\\1",    50,   69, true }, //   53,   69
-    { "VILE\\2",    53,   70, true }, //   49,   70
-    { "VILE\\3",    31,   73, true }, //   26,   73
-    { "VILE\\4",    49,   71, true }, //   37,   71
-    { "VILE\\5",    52,   72, true }, //   44,   72
-    { "VILE\\6",    32,   72, true }, //   43,   74
-    { "VILE\\7",    19,   69, true }, //   30,   72
-    { "VILE\\8",    29,   69, true }, //   32,   73
-    { "VILE]1",     50,   68, true }, //   53,   68
-    { "VILE]2",     53,   69, true }, //   49,   69
-    { "VILE]3",     31,   71, true }, //   26,   71
-    { "VILE]4",     49,   70, true }, //   37,   70
-    { "VILE]5",     52,   70, true }, //   44,   70
-    { "VILE]6",     32,   70, true }, //   43,   72
-    { "VILE]7",     19,   71, true }, //   30,   74
-    { "VILE]8",     29,   67, true }, //   32,   71
-    { "YKEYA0",      7,   14, true }, //    8,   19
-    { "YKEYB0",      7,   14, true }, //    8,   19
-    { "YSKUA0",      7,   14, true }, //    7,   18
-    { "YSKUB0",      7,   14, true }, //    7,   18
-    { "",            0,    0, true }
+    { "AMMOA0",     14,   14, MT_MISC17,       true }, //   12,   16
+    { "APBXA0",     12,   12, MT_ARACHPLAZ,    true }, //   12,   15
+    { "APBXB0",     19,   17, MT_ARACHPLAZ,    true }, //   19,   18
+    { "APBXC0",     16,   15, MT_ARACHPLAZ,    true }, //   17,   17
+    { "APBXD0",     10,   11, MT_ARACHPLAZ,    true }, //   10,   13
+    { "APBXE0",      3,    4, MT_ARACHPLAZ,    true }, //    4,    6
+    { "APLSA0",      7,   10, MT_ARACHPLAZ,    true }, //    7,   10
+    { "APLSB0",      6,    9, MT_ARACHPLAZ,    true }, //    6,    8
+    { "ARM1A0",     15,   15, MT_MISC0,        true }, //   15,   17
+    { "ARM1B0",     15,   15, MT_MISC0,        true }, //   15,   17
+    { "ARM2A0",     15,   15, MT_MISC1,        true }, //   15,   17
+    { "ARM2B0",     15,   15, MT_MISC1,        true }, //   15,   17
+    { "BAL2A0",      8,    8, MT_HEADSHOT,     true }, //    7,    8
+    { "BAL2B0",      8,    7, MT_HEADSHOT,     true }, //    7,    7
+    { "BAL2C0",     23,   25, MT_HEADSHOT,     true }, //   23,   24
+    { "BAL2D0",     25,   23, MT_HEADSHOT,     true }, //   25,   21
+    { "BAL2E0",     26,   25, MT_HEADSHOT,     true }, //   26,   23
+    { "BAL7C0",     17,   17, MT_BRUISERSHOT,  true }, //   20,    5
+    { "BAL7D0",     21,   18, MT_BRUISERSHOT,  true }, //   23,    6
+    { "BAL7E0",     22,   21, MT_BRUISERSHOT,  true }, //   23,    8
+    { "BAR1A0",     11,   29, MT_BARREL,       true }, //   10,   28
+    { "BAR1B0",     11,   29, MT_BARREL,       true }, //   10,   28
+    { "BEXPA0",     11,   29, MT_BARREL,       true }, //   10,   28
+    { "BEXPB0",     11,   28, MT_BARREL,       true }, //   10,   27
+    { "BEXPC0",     20,   33, MT_BARREL,       true }, //   19,   32
+    { "BEXPD0",     28,   47, MT_BARREL,       true }, //   27,   46
+    { "BEXPE0",     30,   50, MT_BARREL,       true }, //   29,   49
+    { "BFE1A0",     30,   25, MT_BFG,          true }, //   30,   27
+    { "BFE1B0",     41,   36, MT_BFG,          true }, //   40,   36
+    { "BFE1C0",     72,   59, MT_BFG,          true }, //   71,   58
+    { "BFE1D0",     67,   14, MT_BFG,          true }, //   68,   14
+    { "BFE2A0",     32,   25, MT_EXTRABFG,     true }, //   32,   24
+    { "BFE2B0",     19,   23, MT_EXTRABFG,     true }, //   18,   22
+    { "BFE2C0",     16,   17, MT_EXTRABFG,     true }, //   19,   17
+    { "BFE2D0",      6,    5, MT_EXTRABFG,     true }, //    5,    4
+    { "BFGFA0",   -119,  -98, NOTYPE,          true }, // -125,  -98
+    { "BFGFB0",    -91,  -77, NOTYPE,          true }, //  -97,  -77
+    { "BFGGA0",    -75, -116, NOTYPE,          true }, //  -81, -116
+    { "BFGGB0",    -75, -116, NOTYPE,          true }, //  -81, -116
+    { "BFGGC0",    -82, -117, NOTYPE,          true }, //  -88, -117
+    { "BFS1A0",     22,   23, MT_BFG,          true }, //   24,   37
+    { "BFS1B0",     22,   23, MT_BFG,          true }, //   24,   37
+    { "BFUGA0",     31,   34, MT_MISC25,       true }, //   31,   38
+    { "BKEYA0",      7,   14, MT_MISC4,        true }, //    7,   19
+    { "BKEYB0",      7,   14, MT_MISC4,        true }, //    7,   19
+    { "BLUDC0",      6,    6, MT_BLOOD,        true }, //    7,    6
+    { "BON1A0",      7,   16, MT_MISC2,        true }, //    7,   14
+    { "BON1B0",      7,   16, MT_MISC2,        true }, //    7,   14
+    { "BON1C0",      7,   16, MT_MISC2,        true }, //    7,   14
+    { "BON1D0",      7,   16, MT_MISC2,        true }, //    7,   14
+    { "BON2A0",      8,   13, MT_MISC3,        true }, //    7,   13
+    { "BON2B0",      8,   13, MT_MISC3,        true }, //    7,   13
+    { "BON2C0",      8,   13, MT_MISC3,        true }, //    7,   13
+    { "BON2D0",      8,   13, MT_MISC3,        true }, //    7,   13
+    { "BOS2E1",     39,   66, MT_KNIGHT,       true }, //   30,   65
+    { "BOS2E2",     13,   68, MT_KNIGHT,       true }, //   12,   67
+    { "BOS2E5",     19,   69, MT_KNIGHT,       true }, //   28,   69
+    { "BOS2E6",     19,   73, MT_KNIGHT,       true }, //   22,   73
+    { "BOS2E7",     21,   73, MT_KNIGHT,       true }, //   20,   73
+    { "BOS2E8",     34,   74, MT_KNIGHT,       true }, //   30,   74
+    { "BOS2F1",     43,   66, MT_KNIGHT,       true }, //   34,   65
+    { "BOS2F2",     38,   66, MT_KNIGHT,       true }, //   29,   65
+    { "BOS2F5",     22,   62, MT_KNIGHT,       true }, //   28,   62
+    { "BOS2F6",     17,   63, MT_KNIGHT,       true }, //   29,   63
+    { "BOS2F7",     22,   64, MT_KNIGHT,       true }, //   21,   64
+    { "BOS2F8",     22,   65, MT_KNIGHT,       true }, //   26,   65
+    { "BOS2G1",     21,   60, MT_KNIGHT,       true }, //   14,   59
+    { "BOS2G2",     22,   60, MT_KNIGHT,       true }, //   29,   59
+    { "BOS2G3",     24,   58, MT_KNIGHT,       true }, //   26,   58
+    { "BOS2G4",     24,   56, MT_KNIGHT,       true }, //   25,   56
+    { "BOS2G5",     37,   55, MT_KNIGHT,       true }, //   30,   55
+    { "BOS2G6",     32,   55, MT_KNIGHT,       true }, //   24,   55
+    { "BOS2G7",     19,   57, MT_KNIGHT,       true }, //   22,   57
+    { "BOS2G8",     22,   55, MT_KNIGHT,       true }, //   28,   56
+    { "BOS2H3",     21,   67, MT_KNIGHT,       true }, //   25,   67
+    { "BOS2H4",     24,   64, MT_KNIGHT,       true }, //   26,   64
+    { "BOS2H5",     22,   62, MT_KNIGHT,       true }, //   23,   63
+    { "BOS2H6",     19,   63, MT_KNIGHT,       true }, //   15,   62
+    { "BOS2H7",     21,   66, MT_KNIGHT,       true }, //   17,   66
+    { "BOS2H8",     19,   67, MT_KNIGHT,       true }, //   18,   68
+    { "BOS2I0",     21,   69, MT_KNIGHT,       true }, //   20,   69
+    { "BOS2J0",     27,   60, MT_KNIGHT,       true }, //   26,   60
+    { "BOS2K0",     27,   50, MT_KNIGHT,       true }, //   26,   50
+    { "BOS2L0",     30,   32, MT_KNIGHT,       true }, //   29,   32
+    { "BOS2M0",     31,   26, MT_KNIGHT,       true }, //   30,   26
+    { "BOS2N0",     31,   26, MT_KNIGHT,       true }, //   30,   26
+    { "BOS2O0",     31,   26, MT_KNIGHT,       true }, //   30,   26
+    { "BOSFA0",     17,   35, MT_SPAWNSHOT,    true }, //   15,   35
+    { "BOSFB0",     16,   37, MT_SPAWNSHOT,    true }, //   16,   35
+    { "BOSFD0",     18,   37, MT_SPAWNSHOT,    true }, //   17,   37
+    { "BOSSE1",     39,   66, MT_BRUISER,      true }, //   30,   65
+    { "BOSSE2",     13,   68, MT_BRUISER,      true }, //   12,   67
+    { "BOSSE5",     19,   69, MT_BRUISER,      true }, //   26,   69
+    { "BOSSE6",     19,   73, MT_BRUISER,      true }, //   22,   73
+    { "BOSSE7",     21,   73, MT_BRUISER,      true }, //   20,   73
+    { "BOSSE8",     34,   74, MT_BRUISER,      true }, //   30,   74
+    { "BOSSF1",     43,   66, MT_BRUISER,      true }, //   34,   65
+    { "BOSSF2",     38,   66, MT_BRUISER,      true }, //   29,   65
+    { "BOSSF5",     22,   62, MT_BRUISER,      true }, //   29,   62
+    { "BOSSF6",     17,   63, MT_BRUISER,      true }, //   29,   63
+    { "BOSSF7",     22,   64, MT_BRUISER,      true }, //   21,   64
+    { "BOSSF8",     22,   65, MT_BRUISER,      true }, //   26,   65
+    { "BOSSG1",     21,   60, MT_BRUISER,      true }, //   14,   59
+    { "BOSSG2",     20,   59, MT_BRUISER,      true }, //   29,   59
+    { "BOSSG3",     24,   58, MT_BRUISER,      true }, //   26,   58
+    { "BOSSG4",     24,   56, MT_BRUISER,      true }, //   25,   56
+    { "BOSSG5",     37,   55, MT_BRUISER,      true }, //   30,   55
+    { "BOSSG6",     32,   55, MT_BRUISER,      true }, //   24,   55
+    { "BOSSG7",     19,   57, MT_BRUISER,      true }, //   22,   57
+    { "BOSSG8",     22,   55, MT_BRUISER,      true }, //   28,   56
+    { "BOSSH3",     21,   67, MT_BRUISER,      true }, //   25,   67
+    { "BOSSH4",     24,   64, MT_BRUISER,      true }, //   26,   64
+    { "BOSSH5",     22,   62, MT_BRUISER,      true }, //   23,   63
+    { "BOSSH6",     15,   62, MT_BRUISER,      true }, //   19,   63
+    { "BOSSH7",     21,   66, MT_BRUISER,      true }, //   17,   66
+    { "BOSSH8",     19,   67, MT_BRUISER,      true }, //   18,   68
+    { "BOSSI0",     21,   69, MT_BRUISER,      true }, //   20,   69
+    { "BOSSJ0",     27,   60, MT_BRUISER,      true }, //   26,   60
+    { "BOSSK0",     27,   50, MT_BRUISER,      true }, //   26,   50
+    { "BOSSL0",     30,   32, MT_BRUISER,      true }, //   29,   32
+    { "BOSSM0",     31,   26, MT_BRUISER,      true }, //   30,   26
+    { "BOSSN0",     31,   26, MT_BRUISER,      true }, //   30,   26
+    { "BOSSO0",     31,   26, MT_BRUISER,      true }, //   30,   26
+    { "BPAKA0",     11,   27, MT_MISC24,       true }, //    8,   25
+    { "BROKA0",     27,   19, MT_MISC19,       true }, //   27,   20
+    { "BRS1A0",     14,    6, MT_MISC86,       true }, //   13,    3
+    { "BSKUA0",      7,   14, MT_MISC9,        true }, //    7,   18
+    { "BSKUB0",      7,   14, MT_MISC9,        true }, //    7,   18
+    { "BSPIA2A8",   58,   51, MT_BABY,         true }, //   59,   51
+    { "BSPIA4A6",   57,   51, MT_BABY,         true }, //   57,   52
+    { "BSPIA5D5",   54,   48, MT_BABY,         true }, //   53,   47
+    { "BSPIB2B8",   67,   50, MT_BABY,         true }, //   65,   50
+    { "BSPIB3B7",   55,   48, MT_BABY,         true }, //   55,   46
+    { "BSPIB4B6",   56,   49, MT_BABY,         true }, //   57,   45
+    { "BSPIC4C6",   58,   50, MT_BABY,         true }, //   59,   51
+    { "BSPIC5F5",   53,   48, MT_BABY,         true }, //   52,   47
+    { "BSPID2D8",   53,   50, MT_BABY,         true }, //   51,   51
+    { "BSPIE2E8",   52,   50, MT_BABY,         true }, //   51,   45
+    { "BSPIE4E6",   65,   49, MT_BABY,         true }, //   65,   50
+    { "BSPIF2F8",   53,   50, MT_BABY,         true }, //   54,   52
+    { "BSPIF3F7",   63,   48, MT_BABY,         true }, //   62,   48
+    { "BSPIF4F6",   59,   51, MT_BABY,         true }, //   55,   51
+    { "BSPIG1",     50,   49, MT_BABY,         true }, //   50,   48
+    { "BSPIG2G8",   62,   50, MT_BABY,         true }, //   61,   50
+    { "BSPIG3G7",   55,   50, MT_BABY,         true }, //   56,   50
+    { "BSPIG4G6",   61,   51, MT_BABY,         true }, //   62,   52
+    { "BSPIG5",     55,   49, MT_BABY,         true }, //   56,   49
+    { "BSPIH1",     50,   49, MT_BABY,         true }, //   50,   48
+    { "BSPIH2H8",   62,   50, MT_BABY,         true }, //   61,   50
+    { "BSPIH3H7",   55,   50, MT_BABY,         true }, //   56,   50
+    { "BSPIH4H6",   61,   51, MT_BABY,         true }, //   62,   52
+    { "BSPIH5",     55,   49, MT_BABY,         true }, //   56,   49
+    { "BSPIJ0",     47,   50, MT_BABY,         true }, //   50,   50
+    { "BSPIK0",     47,   53, MT_BABY,         true }, //   50,   53
+    { "BSPIL0",     44,   48, MT_BABY,         true }, //   47,   48
+    { "BSPIM0",     42,   42, MT_BABY,         true }, //   45,   42
+    { "BSPIN0",     42,   40, MT_BABY,         true }, //   45,   40
+    { "BSPIO0",     42,   28, MT_BABY,         true }, //   45,   28
+    { "BSPIP0",     42,   26, MT_BABY,         true }, //   45,   26
+    { "CANDA0",      8,   14, MT_MISC49,       true }, //    8,   15
+    { "CBRAA0",     14,   58, MT_MISC50,       true }, //   15,   57
+    { "CELLA0",      8,   10, MT_MISC20,       true }, //    8,   12
+    { "CELPA0",     16,   19, MT_MISC21,       true }, //   15,   20
+    { "CEYEA0",     22,   59, MT_MISC38,       true }, //   21,   56
+    { "CEYEB0",     22,   58, MT_MISC38,       true }, //   21,   55
+    { "CEYEC0",     22,   59, MT_MISC38,       true }, //   21,   56
+    { "CHGFA0",   -116,  -98, NOTYPE,          true }, // -118,  -98
+    { "CHGFB0",   -118,  -97, NOTYPE,          true }, // -120,  -97
+    { "CHGGA0",   -102, -117, NOTYPE,          true }, // -104, -117
+    { "CHGGB0",   -102, -119, NOTYPE,          true }, // -104, -119
+    { "CLIPA0",      4,    9, MT_CLIP,         true }, //    2,   11
+    { "COL1A0",     17,   50, MT_MISC32,       true }, //   16,   48
+    { "COL2A0",     17,   37, MT_MISC33,       true }, //   16,   35
+    { "COL3A0",     17,   50, MT_MISC34,       true }, //   16,   48
+    { "COL4A0",     17,   37, MT_MISC35,       true }, //   17,   35
+    { "COL5A0",     17,   42, MT_MISC37,       true }, //   16,   40
+    { "COL5B0",     17,   43, MT_MISC37,       true }, //   16,   41
+    { "COL6A0",     17,   46, MT_MISC36,       true }, //   17,   44
+    { "COLUA0",     11,   46, MT_MISC31,       true }, //    9,   43
+    { "CPOSE2",     26,   53, MT_CHAINGUY,     true }, //   25,   53
+    { "CPOSE3",     31,   53, MT_CHAINGUY,     true }, //   27,   53
+    { "CPOSE6",     17,   51, MT_CHAINGUY,     true }, //   18,   51
+    { "CPOSE7",     22,   53, MT_CHAINGUY,     true }, //   25,   53
+    { "CPOSE8",     23,   53, MT_CHAINGUY,     true }, //   18,   53
+    { "CPOSF2",     31,   53, MT_CHAINGUY,     true }, //   29,   53
+    { "CPOSF3",     35,   53, MT_CHAINGUY,     true }, //   31,   53
+    { "CPOSF6",     16,   51, MT_CHAINGUY,     true }, //   21,   51
+    { "CPOSF7",     22,   53, MT_CHAINGUY,     true }, //   25,   53
+    { "CPOSF8",     23,   53, MT_CHAINGUY,     true }, //   22,   53
+    { "CPOSG7",     19,   54, MT_CHAINGUY,     true }, //   20,   54
+    { "CPOSH0",     21,   56, MT_CHAINGUY,     true }, //   20,   56
+    { "CPOSI0",     24,   59, MT_CHAINGUY,     true }, //   23,   59
+    { "CPOSJ0",     29,   54, MT_CHAINGUY,     true }, //   28,   54
+    { "CPOSK0",     30,   44, MT_CHAINGUY,     true }, //   31,   44
+    { "CPOSL0",     32,   32, MT_CHAINGUY,     true }, //   31,   32
+    { "CPOSM0",     33,   20, MT_CHAINGUY,     true }, //   32,   20
+    { "CPOSN0",     33,   16, MT_CHAINGUY,     true }, //   32,   16
+    { "CPOSP0",     28,   55, MT_CHAINGUY,     true }, //   28,   56
+    { "CPOSQ0",     34,   45, MT_CHAINGUY,     true }, //   30,   45
+    { "CPOSR0",     40,   36, MT_CHAINGUY,     true }, //   32,   36
+    { "CPOSS0",     40,   27, MT_CHAINGUY,     true }, //   32,   27
+    { "CPOST0",     40,   15, MT_CHAINGUY,     true }, //   32,   15
+    { "CSAWA0",     31,   22, MT_MISC26,       true }, //   31,   23
+    { "CYBRE3",     56,  105, MT_CYBORG,       true }, //   52,  105
+    { "CYBRE4",     51,  104, MT_CYBORG,       true }, //   50,  104
+    { "CYBRE6",     40,  105, MT_CYBORG,       true }, //   39,  105
+    { "CYBRE7",     39,  105, MT_CYBORG,       true }, //   46,  105
+    { "CYBRF3",     72,  105, MT_CYBORG,       true }, //   60,  105
+    { "CYBRF4",     64,  104, MT_CYBORG,       true }, //   59,  104
+    { "CYBRF6",     40,  105, MT_CYBORG,       true }, //   47,  105
+    { "CYBRF7",     39,  105, MT_CYBORG,       true }, //   54,  105
+    { "CYBRF8",     55,  105, MT_CYBORG,       true }, //   63,  105
+    { "CYBRG1",     45,  105, MT_CYBORG,       true }, //   61,  105
+    { "CYBRG2",     38,  106, MT_CYBORG,       true }, //   46,  106
+    { "CYBRG4",     71,  105, MT_CYBORG,       true }, //   58,  105
+    { "CYBRG5",     62,  104, MT_CYBORG,       true }, //   54,  104
+    { "CYBRG6",     43,  105, MT_CYBORG,       true }, //   46,  105
+    { "CYBRG7",     40,  105, MT_CYBORG,       true }, //   47,  105
+    { "CYBRH0",     45,  106, MT_CYBORG,       true }, //   60,  106
+    { "CYBRI0",     43,  108, MT_CYBORG,       true }, //   55,  108
+    { "CYBRJ0",     45,  111, MT_CYBORG,       true }, //   49,  111
+    { "CYBRK0",     51,  112, MT_CYBORG,       true }, //   56,  112
+    { "CYBRL0",     55,  119, MT_CYBORG,       true }, //   62,  119
+    { "CYBRM0",     62,  126, MT_CYBORG,       true }, //   67,  126
+    { "CYBRN0",     65,  129, MT_CYBORG,       true }, //   70,  129
+    { "CYBRO0",     64,  129, MT_CYBORG,       true }, //   69,  129
+    { "CYBRP0",     55,   25, MT_CYBORG,       true }, //   60,   25
+    { "ELECA0",     19,  125, MT_MISC48,       true }, //   19,  123
+    { "FATBA1",      9,    8, MT_TRACER,       true }, //    9,   11
+    { "FATBA2A8",   18,    7, MT_TRACER,       true }, //   18,   10
+    { "FATBA3A7",   22,    6, MT_TRACER,       true }, //   22,    9
+    { "FATBA4A6",   18,    6, MT_TRACER,       true }, //   18,    9
+    { "FATBA5",      9,    8, MT_TRACER,       true }, //    9,   11
+    { "FATBB1",      9,    8, MT_TRACER,       true }, //    9,   11
+    { "FATBB2B8",   18,    7, MT_TRACER,       true }, //   18,   10
+    { "FATBB3B7",   22,    6, MT_TRACER,       true }, //   21,    9
+    { "FATBB4B6",   18,    6, MT_TRACER,       true }, //   18,    9
+    { "FATBB5",      9,    8, MT_TRACER,       true }, //    9,   11
+    { "FATTA1",     40,   60, MT_FATSO,        true }, //   39,   60
+    { "FATTA2A8",   51,   61, MT_FATSO,        true }, //   39,   61
+    { "FATTA3A7",   41,   60, MT_FATSO,        true }, //   38,   60
+    { "FATTA5",     35,   59, MT_FATSO,        true }, //   39,   59
+    { "FATTB1",     43,   64, MT_FATSO,        true }, //   43,   65
+    { "FATTB2B8",   43,   64, MT_FATSO,        true }, //   43,   65
+    { "FATTB3B7",   41,   61, MT_FATSO,        true }, //   43,   61
+    { "FATTB5",     45,   58, MT_FATSO,        true }, //   43,   58
+    { "FATTC5",     37,   59, MT_FATSO,        true }, //   36,   58
+    { "FATTD1",     33,   60, MT_FATSO,        true }, //   38,   60
+    { "FATTE1",     45,   64, MT_FATSO,        true }, //   43,   65
+    { "FATTE2E8",   43,   62, MT_FATSO,        true }, //   43,   61
+    { "FATTE3E7",   41,   62, MT_FATSO,        true }, //   43,   62
+    { "FATTF1",     39,   65, MT_FATSO,        true }, //   42,   65
+    { "FATTF3F7",   41,   61, MT_FATSO,        true }, //   43,   61
+    { "FATTF4F6",   34,   59, MT_FATSO,        true }, //   43,   59
+    { "FATTG1",     44,   61, MT_FATSO,        true }, //   42,   60
+    { "FATTG2G8",   54,   59, MT_FATSO,        true }, //   51,   59
+    { "FATTG5",     41,   61, MT_FATSO,        true }, //   42,   61
+    { "FATTH1",     43,   61, MT_FATSO,        true }, //   42,   60
+    { "FATTH2H8",   53,   59, MT_FATSO,        true }, //   50,   59
+    { "FATTH4H6",   32,   61, MT_FATSO,        true }, //   42,   61
+    { "FATTH5",     43,   60, MT_FATSO,        true }, //   42,   60
+    { "FATTI1",     44,   64, MT_FATSO,        true }, //   42,   63
+    { "FATTI2I8",   54,   64, MT_FATSO,        true }, //   51,   64
+    { "FATTJ1",     35,   59, MT_FATSO,        true }, //   32,   62
+    { "FATTJ2",     36,   60, MT_FATSO,        true }, //   47,   62
+    { "FATTJ3",     40,   58, MT_FATSO,        true }, //   39,   59
+    { "FATTJ4",     30,   59, MT_FATSO,        true }, //   30,   61
+    { "FATTJ5",     42,   59, MT_FATSO,        true }, //   32,   59
+    { "FATTJ6",     31,   59, MT_FATSO,        true }, //   29,   61
+    { "FATTJ7",     35,   58, MT_FATSO,        true }, //   37,   59
+    { "FATTJ8",     52,   60, MT_FATSO,        true }, //   46,   62
+    { "FATTK0",     51,   73, MT_FATSO,        true }, //   50,   73
+    { "FATTL0",     51,   75, MT_FATSO,        true }, //   50,   75
+    { "FATTM0",     46,   66, MT_FATSO,        true }, //   45,   66
+    { "FATTN0",     38,   51, MT_FATSO,        true }, //   37,   53
+    { "FATTO0",     37,   41, MT_FATSO,        true }, //   35,   41
+    { "FATTP0",     38,   40, MT_FATSO,        true }, //   36,   40
+    { "FATTQ0",     38,   39, MT_FATSO,        true }, //   36,   39
+    { "FATTR0",     38,   39, MT_FATSO,        true }, //   36,   39
+    { "FATTS0",     38,   38, MT_FATSO,        true }, //   36,   38
+    { "FATTT0",     38,   36, MT_FATSO,        true }, //   36,   36
+    { "FBXPA0",     17,   17, MT_TRACER,       true }, //   19,   32
+    { "FBXPB0",     20,   17, MT_TRACER,       true }, //   19,   31
+    { "FBXPC0",     22,   20, MT_TRACER,       true }, //   22,   35
+    { "FCANA0",     12,   51, MT_MISC77,       true }, //   19,   49
+    { "FCANB0",     12,   51, MT_MISC77,       true }, //   19,   49
+    { "FCANC0",     12,   49, MT_MISC77,       true }, //   19,   47
+    { "GOR1A0",     11,   67, MT_MISC51,       true }, //   17,   67
+    { "GOR1B0",     12,   67, MT_MISC51,       true }, //   18,   67
+    { "GOR1C0",     11,   67, MT_MISC51,       true }, //   17,   67
+    { "GOR2A0",     20,   83, MT_MISC52,       true }, //   22,   83
+    { "GOR3A0",     17,   83, MT_MISC53,       true }, //   19,   83
+    { "GOR4A0",      8,   67, MT_MISC54,       true }, //    6,   67
+    { "GOR5A0",      5,   51, MT_MISC55,       true }, //    6,   51
+    { "HDB1A0",     11,   83, MT_MISC78,       true }, //   10,   83
+    { "HDB2A0",     11,   83, MT_MISC79,       true }, //   10,   83
+    { "HDB3A0",     11,   59, MT_MISC80,       true }, //   10,   59
+    { "HDB4A0",     11,   59, MT_MISC81,       true }, //   10,   59
+    { "HDB5A0",     11,   59, MT_MISC82,       true }, //   10,   59
+    { "HDB6A0",     11,   59, MT_MISC83,       true }, //   10,   59
+    { "HEADA3A7",   29,   66, MT_HEAD,         true }, //   27,   68
+    { "HEADA4A6",   29,   68, MT_HEAD,         true }, //   32,   68
+    { "HEADA5",     31,   67, MT_HEAD,         true }, //   28,   66
+    { "HEADB1",     31,   66, MT_HEAD,         true }, //   31,   70
+    { "HEADB2B8",   26,   66, MT_HEAD,         true }, //   29,   69
+    { "HEADB3B7",   29,   66, MT_HEAD,         true }, //   30,   68
+    { "HEADB4B6",   29,   66, MT_HEAD,         true }, //   32,   67
+    { "HEADB5",     31,   67, MT_HEAD,         true }, //   32,   68
+    { "HEADC1",     31,   67, MT_HEAD,         true }, //   31,   71
+    { "HEADC2C8",   26,   68, MT_HEAD,         true }, //   29,   72
+    { "HEADC3C7",   29,   66, MT_HEAD,         true }, //   30,   68
+    { "HEADC4C6",   29,   67, MT_HEAD,         true }, //   32,   67
+    { "HEADC5",     31,   68, MT_HEAD,         true }, //   32,   68
+    { "HEADD1",     31,   68, MT_HEAD,         true }, //   31,   72
+    { "HEADD2D8",   26,   69, MT_HEAD,         true }, //   29,   72
+    { "HEADD3D7",   29,   70, MT_HEAD,         true }, //   30,   72
+    { "HEADD4D6",   29,   69, MT_HEAD,         true }, //   32,   70
+    { "HEADD5",     31,   68, MT_HEAD,         true }, //   32,   68
+    { "HEADE2E8",   28,   65, MT_HEAD,         true }, //   30,   67
+    { "HEADE3E7",   29,   67, MT_HEAD,         true }, //   29,   68
+    { "HEADE4E6",   30,   69, MT_HEAD,         true }, //   31,   69
+    { "HEADE5",     31,   69, MT_HEAD,         true }, //   30,   68
+    { "HEADF2F8",   28,   64, MT_HEAD,         true }, //   31,   66
+    { "HEADF3F7",   30,   67, MT_HEAD,         true }, //   31,   67
+    { "HEADF4F6",   30,   69, MT_HEAD,         true }, //   31,   69
+    { "HEADF5",     31,   69, MT_HEAD,         true }, //   30,   68
+    { "HEADK0",     37,   61, MT_HEAD,         true }, //   35,   63
+    { "HEADL0",     39,   41, MT_HEAD,         true }, //   37,   47
+    { "IFOGA0",     19,   33, MT_IFOG,         true }, //   18,   33
+    { "IFOGB0",     16,   27, MT_IFOG,         true }, //   16,   26
+    { "IFOGC0",      8,   20, MT_IFOG,         true }, //    6,   15
+    { "IFOGD0",      4,   13, MT_IFOG,         true }, //    2,   10
+    { "IFOGE0",      1,   11, MT_IFOG,         true }, //    0,    7
+    { "KEENA0",      7,   67, MT_KEEN,         true }, //    6,   67
+    { "KEENB0",     10,   67, MT_KEEN,         true }, //    8,   67
+    { "KEENC0",     11,   67, MT_KEEN,         true }, //    9,   67
+    { "KEEND0",     13,   67, MT_KEEN,         true }, //   11,   67
+    { "KEENE0",     14,   67, MT_KEEN,         true }, //   13,   67
+    { "KEENF0",     14,   67, MT_KEEN,         true }, //   13,   67
+    { "KEENG0",     15,   67, MT_KEEN,         true }, //   14,   67
+    { "KEENH0",     18,   67, MT_KEEN,         true }, //   17,   67
+    { "KEENI0",     18,   67, MT_KEEN,         true }, //   17,   67
+    { "KEENJ0",     18,   67, MT_KEEN,         true }, //   17,   67
+    { "KEENK0",     18,   67, MT_KEEN,         true }, //   17,   67
+    { "KEENL0",     18,   67, MT_KEEN,         true }, //   17,   67
+    { "KEENM0",      9,   67, MT_KEEN,         true }, //    8,   67
+    { "LAUNA0",     31,   14, MT_MISC27,       true }, //   31,   18
+    { "MANFA1",     17,   19, MT_FATSHOT,      true }, //   19,   17
+    { "MANFA6A4",   25,   14, MT_FATSHOT,      true }, //   25,   19
+    { "MANFA7A3",   34,   11, MT_FATSHOT,      true }, //   34,   16
+    { "MANFA8A2",   33,   12, MT_FATSHOT,      true }, //   33,   17
+    { "MANFB1",     17,   19, MT_FATSHOT,      true }, //   19,   17
+    { "MANFB6B4",   18,   15, MT_FATSHOT,      true }, //   18,   19
+    { "MANFB7B3",   30,   13, MT_FATSHOT,      true }, //   30,   17
+    { "MANFB8B2",   27,   14, MT_FATSHOT,      true }, //   27,   17
+    { "MEDIA0",     14,   17, MT_MISC11,       true }, //   13,   19
+    { "MEGAA0",     12,   40, MT_MEGA,         true }, //   12,   32
+    { "MEGAB0",     12,   40, MT_MEGA,         true }, //   12,   32
+    { "MEGAC0",     12,   40, MT_MEGA,         true }, //   12,   32
+    { "MEGAD0",     12,   40, MT_MEGA,         true }, //   12,   32
+    { "MGUNA0",     27,   14, MT_CHAINGUN,     true }, //   25,   18
+    { "MISFA0",   -134, -105, NOTYPE,          true }, // -136, -105
+    { "MISFB0",   -123, -101, NOTYPE,          true }, // -126, -101
+    { "MISFC0",   -114,  -94, NOTYPE,          true }, // -117,  -94
+    { "MISFD0",   -109,  -81, NOTYPE,          true }, // -112,  -81
+    { "MISGA0",   -117, -121, NOTYPE,          true }, // -119, -121
+    { "MISGB0",   -109, -125, NOTYPE,          true }, // -112, -125
+    { "MISLA1",      7,    8, MT_ROCKET,       true }, //    7,   13
+    { "MISLA5",      7,    8, MT_ROCKET,       true }, //    7,   13
+    { "MISLA6A4",   12,    8, MT_ROCKET,       true }, //   12,   13
+    { "MISLA7A3",   25,    8, MT_ROCKET,       true }, //   25,   13
+    { "MISLA8A2",   16,    8, MT_ROCKET,       true }, //   16,   13
+    { "MISLC0",     44,   36, MT_ROCKET,       true }, //   42,   34
+    { "MISLD0",     52,   46, MT_ROCKET,       true }, //   50,   43
+    { "PAINA2A8",   30,   58, MT_PAIN,         true }, //   34,   58
+    { "PAINA3A7",   37,   58, MT_PAIN,         true }, //   35,   60
+    { "PAINA4A6",   32,   59, MT_PAIN,         true }, //   35,   59
+    { "PAINA5",     36,   59, MT_PAIN,         true }, //   37,   58
+    { "PAINB2B8",   34,   58, MT_PAIN,         true }, //   38,   58
+    { "PAINB3B7",   37,   58, MT_PAIN,         true }, //   35,   60
+    { "PAINB4B6",   32,   59, MT_PAIN,         true }, //   35,   59
+    { "PAINB5",     37,   59, MT_PAIN,         true }, //   38,   58
+    { "PAINC2C8",   35,   58, MT_PAIN,         true }, //   39,   58
+    { "PAINC3C7",   37,   58, MT_PAIN,         true }, //   35,   60
+    { "PAINC4C6",   32,   59, MT_PAIN,         true }, //   35,   59
+    { "PAINC5",     38,   59, MT_PAIN,         true }, //   36,   58
+    { "PAIND1",     44,   61, MT_PAIN,         true }, //   44,   62
+    { "PAIND2D8",   41,   59, MT_PAIN,         true }, //   40,   61
+    { "PAIND3D7",   38,   59, MT_PAIN,         true }, //   35,   61
+    { "PAIND4D6",   36,   59, MT_PAIN,         true }, //   35,   59
+    { "PAIND5",     36,   59, MT_PAIN,         true }, //   37,   58
+    { "PAINE2E8",   42,   60, MT_PAIN,         true }, //   41,   62
+    { "PAINE3E7",   37,   59, MT_PAIN,         true }, //   34,   61
+    { "PAINE4E6",   36,   60, MT_PAIN,         true }, //   35,   60
+    { "PAINE5",     35,   60, MT_PAIN,         true }, //   36,   59
+    { "PAINF2F8",   47,   61, MT_PAIN,         true }, //   38,   62
+    { "PAINF3F7",   33,   61, MT_PAIN,         true }, //   30,   63
+    { "PAINF4F6",   41,   61, MT_PAIN,         true }, //   36,   69
+    { "PAINF5",     36,   62, MT_PAIN,         true }, //   37,   68
+    { "PAING1",     42,   61, MT_PAIN,         true }, //   38,   60
+    { "PAING2G8",   31,   59, MT_PAIN,         true }, //   35,   60
+    { "PAING3G7",   36,   59, MT_PAIN,         true }, //   34,   62
+    { "PAING4G6",   41,   59, MT_PAIN,         true }, //   36,   59
+    { "PAING5",     45,   58, MT_PAIN,         true }, //   47,   57
+    { "PAINH0",     42,   61, MT_PAIN,         true }, //   41,   57
+    { "PAINI0",     38,   58, MT_PAIN,         true }, //   36,   54
+    { "PAINJ0",     41,   57, MT_PAIN,         true }, //   39,   54
+    { "PAINK0",     47,   66, MT_PAIN,         true }, //   46,   71
+    { "PAINL0",     43,   66, MT_PAIN,         true }, //   43,   71
+    { "PAINM0",     52,   76, MT_PAIN,         true }, //   49,   88
+    { "PINSA0",     12,   40, MT_INS,          true }, //   11,   39
+    { "PINSB0",     12,   40, MT_INS,          true }, //   11,   39
+    { "PINSC0",     12,   40, MT_INS,          true }, //   11,   39
+    { "PINSD0",     12,   40, MT_INS,          true }, //   11,   39
+    { "PINVA0",     12,   40, MT_INV,          true }, //   11,   23
+    { "PINVB0",     12,   40, MT_INV,          true }, //   11,   23
+    { "PINVC0",     12,   40, MT_INV,          true }, //   11,   23
+    { "PINVD0",     12,   40, MT_INV,          true }, //   11,   23
+    { "PLASA0",     27,   14, MT_MISC28,       true }, //   27,   19
+    { "PLSEA0",     11,   12, MT_PLASMA,       true }, //   12,   11
+    { "PLSEB0",     18,   20, MT_PLASMA,       true }, //   19,   18
+    { "PLSEC0",     19,   18, MT_PLASMA,       true }, //   17,   18
+    { "PLSED0",     15,   16, MT_PLASMA,       true }, //   13,   13
+    { "PLSEE0",      3,    3, MT_PLASMA,       true }, //    0,    2
+    { "PLSFA0",   -119,  -93, NOTYPE,          true }, // -123,  -93
+    { "PLSFB0",   -118,  -95, NOTYPE,          true }, // -122,  -95
+    { "PLSGA0",   -119, -107, NOTYPE,          true }, // -123, -107
+    { "PLSGB0",    -60,  -57, NOTYPE,          true }, //  -64,  -57
+    { "PMAPA0",     14,   25, MT_MISC15,       true }, //   13,   23
+    { "PMAPB0",     14,   25, MT_MISC15,       true }, //   13,   23
+    { "PMAPC0",     14,   25, MT_MISC15,       true }, //   13,   23
+    { "PMAPD0",     14,   25, MT_MISC15,       true }, //   13,   23
+    { "POB1A0",     20,    5, MT_MISC84,       true }, //   16,    2
+    { "POB2A0",     16,    1, MT_MISC85,       true }, //   14,   -2
+    { "POL1A0",     23,   64, MT_MISC74,       true }, //   22,   62
+    { "POL2A0",     19,   62, MT_MISC70,       true }, //   19,   62
+    { "POL3A0",     19,   41, MT_MISC73,       true }, //   19,   38
+    { "POL3B0",     19,   41, MT_MISC73,       true }, //   19,   38
+    { "POL4A0",     19,   54, MT_MISC72,       true }, //   19,   51
+    { "POL5A0",     27,    6, MT_MISC71,       true }, //   27,    5
+    { "POL6A0",     17,   65, MT_MISC75,       true }, //   17,   62
+    { "POL6B0",     19,   65, MT_MISC75,       true }, //   19,   62
+    { "POSSC4C6",   22,   51, MT_POSSESSED,    true }, //   20,   51
+    { "POSSD4D6",   24,   52, MT_POSSESSED,    true }, //   22,   52
+    { "POSSE1",     13,   50, MT_POSSESSED,    true }, //   12,   50
+    { "POSSE2E8",   25,   50, MT_POSSESSED,    true }, //   21,   50
+    { "POSSE3E7",   28,   50, MT_POSSESSED,    true }, //   26,   50
+    { "POSSE5",     11,   47, MT_POSSESSED,    true }, //   12,   46
+    { "POSSF1",     14,   50, MT_POSSESSED,    true }, //   13,   50
+    { "POSSF2F8",   27,   50, MT_POSSESSED,    true }, //   23,   50
+    { "POSSF3F7",   29,   50, MT_POSSESSED,    true }, //   27,   50
+    { "POSSF5",     10,   47, MT_POSSESSED,    true }, //   11,   46
+    { "POSSG2G8",   19,   53, MT_POSSESSED,    true }, //   16,   53
+    { "POSSG3G7",   22,   53, MT_POSSESSED,    true }, //   21,   53
+    { "POSSG4G6",   21,   50, MT_POSSESSED,    true }, //   20,   50
+    { "POSSG5",     16,   49, MT_POSSESSED,    true }, //   17,   49
+    { "POSSO0",     21,   58, MT_POSSESSED,    true }, //   25,   58
+    { "POSSQ0",     23,   47, MT_POSSESSED,    true }, //   27,   47
+    { "PSTRA0",     14,   17, MT_MISC13,       true }, //   12,   15
+    { "PVISA0",     14,   11, MT_MISC16,       true }, //   13,    9
+    { "PVISB0",     14,   11, MT_MISC16,       true }, //   13,    9
+    { "RKEYA0",      7,   14, MT_MISC5,        true }, //    8,   19
+    { "RKEYB0",      7,   14, MT_MISC5,        true }, //    8,   19
+    { "ROCKA0",      6,   25, MT_MISC18,       true }, //    6,   27
+    { "RSKUA0",      7,   14, MT_MISC8,        true }, //    7,   18
+    { "RSKUB0",      7,   14, MT_MISC8,        true }, //    7,   18
+    { "SARGA3A7",   28,   49, MT_SERGEANT,     true }, //   28,   48
+    { "SARGB3B7",   28,   52, MT_SERGEANT,     true }, //   28,   51
+    { "SARGB5",     20,   51, MT_SERGEANT,     true }, //   20,   48
+    { "SARGC3C7",   29,   49, MT_SERGEANT,     true }, //   29,   48
+    { "SARGD3D7",   29,   54, MT_SERGEANT,     true }, //   29,   53
+    { "SARGD5",     20,   51, MT_SERGEANT,     true }, //   20,   48
+    { "SARGE3",     31,   48, MT_SERGEANT,     true }, //   23,   48
+    { "SARGE6",     23,   47, MT_SERGEANT,     true }, //   25,   47
+    { "SARGE7",     30,   46, MT_SERGEANT,     true }, //   33,   46
+    { "SARGF3",     38,   48, MT_SERGEANT,     true }, //   30,   48
+    { "SARGF6",     23,   47, MT_SERGEANT,     true }, //   25,   47
+    { "SARGF7",     30,   47, MT_SERGEANT,     true }, //   34,   47
+    { "SARGG3",     41,   50, MT_SERGEANT,     true }, //   33,   50
+    { "SARGG6",     24,   47, MT_SERGEANT,     true }, //   26,   47
+    { "SARGG7",     30,   48, MT_SERGEANT,     true }, //   34,   48
+    { "SARGH2",     25,   48, MT_SERGEANT,     true }, //   27,   48
+    { "SARGH3",     30,   48, MT_SERGEANT,     true }, //   29,   46
+    { "SARGH4",     24,   45, MT_SERGEANT,     true }, //   23,   44
+    { "SARGH6",     21,   45, MT_SERGEANT,     true }, //   20,   45
+    { "SARGH7",     29,   46, MT_SERGEANT,     true }, //   25,   46
+    { "SARGH8",     29,   47, MT_SERGEANT,     true }, //   30,   47
+    { "SARGK0",     21,   55, MT_SERGEANT,     true }, //   21,   57
+    { "SARGL0",     30,   52, MT_SERGEANT,     true }, //   29,   55
+    { "SARGM0",     31,   36, MT_SERGEANT,     true }, //   33,   41
+    { "SARGN0",     31,   22, MT_SERGEANT,     true }, //   33,   27
+    { "SAWGA0",    -81, -113, NOTYPE,          true }, //  -75, -113
+    { "SAWGB0",    -81, -113, NOTYPE,          true }, //  -75, -113
+    { "SAWGC0",    -72,  -79, NOTYPE,          true }, //  -68,  -79
+    { "SAWGD0",    -73,  -79, NOTYPE,          true }, //  -67,  -79
+    { "SBOXA0",     16,   10, MT_MISC23,       true }, //   16,   12
+    { "SGN2A0",     27,   12, MT_SUPERSHOTGUN, true }, //   27,   15
+    { "SHELA0",      7,    5, MT_MISC22,       true }, //    5,    7
+    { "SHOTA0",     31,   10, MT_SHOTGUN,      true }, //   31,   17
+    { "SHT2A0",   -130, -113, NOTYPE,          true }, // -134, -113
+    { "SHT2B0",    -97,  -65, NOTYPE,          true }, // -100,  -65
+    { "SHT2C0",    -23,  -38, NOTYPE,          true }, //  -25,  -38
+    { "SHT2D0",   -117,  -88, NOTYPE,          true }, // -118,  -88
+    { "SHT2E0",      4, -105, NOTYPE,          true }, //    0, -105
+    { "SHT2F0",   -101, -117, NOTYPE,          true }, // -105, -117
+    { "SHT2G0",   -116,  -88, NOTYPE,          true }, // -118,  -88
+    { "SHT2H0",   -120,  -83, NOTYPE,          true }, // -123,  -83
+    { "SHT2I0",   -133,  -99, NOTYPE,          true }, // -137,  -99
+    { "SHT2J0",   -127,  -90, NOTYPE,          true }, // -131,  -90
+    { "SHTFA0",   -138,  -95, NOTYPE,          true }, // -141,  -95
+    { "SHTFB0",   -133,  -86, NOTYPE,          true }, // -136,  -86
+    { "SHTGA0",   -118, -108, NOTYPE,          true }, // -121, -108
+    { "SHTGB0",    -40,  -47, NOTYPE,          true }, //  -43,  -47
+    { "SHTGC0",    -27,  -17, NOTYPE,          true }, //  -30,  -17
+    { "SHTGD0",    -26,  -37, NOTYPE,          true }, //  -29,  -37
+    { "SKELA5D5",   19,   71, MT_UNDEAD,       true }, //   13,   71
+    { "SKELB1E1",   26,   81, MT_UNDEAD,       true }, //   27,   81
+    { "SKELB5E5",   25,   74, MT_UNDEAD,       true }, //   19,   74
+    { "SKELC1F1",   27,   83, MT_UNDEAD,       true }, //   30,   83
+    { "SKELC5F5",   34,   81, MT_UNDEAD,       true }, //   28,   81
+    { "SKELG1",     29,   68, MT_UNDEAD,       true }, //   25,   67
+    { "SKELG2",      5,   69, MT_UNDEAD,       true }, //   25,   69
+    { "SKELG3",     16,   69, MT_UNDEAD,       true }, //   33,   68
+    { "SKELG4",     12,   70, MT_UNDEAD,       true }, //   37,   72
+    { "SKELG5",     20,   71, MT_UNDEAD,       true }, //   31,   72
+    { "SKELG6",     41,   68, MT_UNDEAD,       true }, //   26,   70
+    { "SKELG7",     54,   67, MT_UNDEAD,       true }, //   36,   67
+    { "SKELG8",     60,   68, MT_UNDEAD,       true }, //   37,   68
+    { "SKELH1",     39,   78, MT_UNDEAD,       true }, //   30,   78
+    { "SKELH2",     41,   78, MT_UNDEAD,       true }, //   35,   78
+    { "SKELH3",     34,   77, MT_UNDEAD,       true }, //   30,   77
+    { "SKELH4",     22,   76, MT_UNDEAD,       true }, //   20,   76
+    { "SKELH5",     18,   76, MT_UNDEAD,       true }, //   24,   76
+    { "SKELH6",     25,   73, MT_UNDEAD,       true }, //   37,   72
+    { "SKELH7",     29,   74, MT_UNDEAD,       true }, //   36,   74
+    { "SKELH8",     19,   76, MT_UNDEAD,       true }, //   23,   76
+    { "SKELI1",     17,   61, MT_UNDEAD,       true }, //   20,   61
+    { "SKELI2",     29,   63, MT_UNDEAD,       true }, //   31,   62
+    { "SKELI3",     45,   61, MT_UNDEAD,       true }, //   36,   60
+    { "SKELI4",     42,   60, MT_UNDEAD,       true }, //   29,   60
+    { "SKELI5",     23,   61, MT_UNDEAD,       true }, //   14,   60
+    { "SKELI6",     24,   59, MT_UNDEAD,       true }, //   28,   59
+    { "SKELI7",     32,   59, MT_UNDEAD,       true }, //   39,   59
+    { "SKELI8",     17,   61, MT_UNDEAD,       true }, //   29,   61
+    { "SKELJ1",     23,   67, MT_UNDEAD,       true }, //   25,   67
+    { "SKELK1",     25,   76, MT_UNDEAD,       true }, //   27,   76
+    { "SKELK2",     16,   75, MT_UNDEAD,       true }, //   23,   75
+    { "SKELK3",     17,   74, MT_UNDEAD,       true }, //   23,   74
+    { "SKELK4",     14,   74, MT_UNDEAD,       true }, //   20,   75
+    { "SKELK5",     23,   76, MT_UNDEAD,       true }, //   27,   75
+    { "SKELK6",     31,   75, MT_UNDEAD,       true }, //   27,   75
+    { "SKELK7",     31,   73, MT_UNDEAD,       true }, //   18,   75
+    { "SKELK8",     30,   75, MT_UNDEAD,       true }, //   17,   75
+    { "SKELL2",     12,   67, MT_UNDEAD,       true }, //   18,   67
+    { "SKELL3",     16,   67, MT_UNDEAD,       true }, //   24,   67
+    { "SKELL4",     30,   68, MT_UNDEAD,       true }, //   34,   68
+    { "SKELL5",     29,   69, MT_UNDEAD,       true }, //   32,   69
+    { "SKELL6",     26,   68, MT_UNDEAD,       true }, //   21,   68
+    { "SKELL7",     39,   68, MT_UNDEAD,       true }, //   25,   68
+    { "SKELL8",     38,   69, MT_UNDEAD,       true }, //   33,   69
+    { "SKELM0",     30,   74, MT_UNDEAD,       true }, //   27,   74
+    { "SKELN0",     30,   68, MT_UNDEAD,       true }, //   38,   65
+    { "SKELO0",     27,   51, MT_UNDEAD,       true }, //   28,   51
+    { "SKELP0",     23,   33, MT_UNDEAD,       true }, //   28,   33
+    { "SKELQ0",     29,   17, MT_UNDEAD,       true }, //   40,   19
+    { "SKULA1",     22,   50, MT_SKULL,        true }, //   20,   50
+    { "SKULA5",     22,   49, MT_SKULL,        true }, //   21,   48
+    { "SKULA6A4",   13,   56, MT_SKULL,        true }, //   13,   53
+    { "SKULA7A3",   14,   57, MT_SKULL,        true }, //   14,   54
+    { "SKULA8A2",   15,   50, MT_SKULL,        true }, //   15,   47
+    { "SKULB1",     22,   49, MT_SKULL,        true }, //   20,   49
+    { "SKULB5",     22,   49, MT_SKULL,        true }, //   21,   48
+    { "SKULB6B4",   13,   56, MT_SKULL,        true }, //   13,   53
+    { "SKULB7B3",   14,   57, MT_SKULL,        true }, //   14,   54
+    { "SKULB8B2",   15,   56, MT_SKULL,        true }, //   15,   53
+    { "SKULC1",     22,   47, MT_SKULL,        true }, //   23,   47
+    { "SKULC5",     22,   31, MT_SKULL,        true }, //   20,   30
+    { "SKULC7C3",   33,   37, MT_SKULL,        true }, //   33,   36
+    { "SKULC8C2",   32,   38, MT_SKULL,        true }, //   32,   37
+    { "SKULD1",     22,   46, MT_SKULL,        true }, //   23,   46
+    { "SKULD5",     22,   32, MT_SKULL,        true }, //   20,   31
+    { "SKULD7D3",   33,   37, MT_SKULL,        true }, //   33,   36
+    { "SKULD8D2",   25,   38, MT_SKULL,        true }, //   25,   37
+    { "SKULE1",     15,   53, MT_SKULL,        true }, //   14,   53
+    { "SKULE6E4",   11,   54, MT_SKULL,        true }, //   11,   53
+    { "SKULE7E3",   15,   55, MT_SKULL,        true }, //   15,   54
+    { "SKULE8E2",   15,   55, MT_SKULL,        true }, //   15,   54
+    { "SKULF0",     15,   53, MT_SKULL,        true }, //   17,   53
+    { "SKULG0",     17,   53, MT_SKULL,        true }, //   15,   53
+    { "SKULH0",     23,   48, MT_SKULL,        true }, //   24,   48
+    { "SKULI0",     35,   52, MT_SKULL,        true }, //   35,   58
+    { "SKULJ0",     44,   59, MT_SKULL,        true }, //   45,   75
+    { "SKULK0",     51,   67, MT_SKULL,        true }, //   49,   85
+    { "SMBTA0",      8,   72, MT_MISC44,       true }, //   10,   72
+    { "SMBTB0",      8,   67, MT_MISC44,       true }, //   10,   67
+    { "SMBTC0",      8,   67, MT_MISC44,       true }, //   10,   67
+    { "SMBTD0",      8,   73, MT_MISC44,       true }, //   10,   73
+    { "SMGTA0",      8,   72, MT_MISC45,       true }, //   10,   72
+    { "SMGTB0",      8,   67, MT_MISC45,       true }, //   10,   67
+    { "SMGTC0",      8,   67, MT_MISC45,       true }, //   10,   67
+    { "SMGTD0",      8,   73, MT_MISC45,       true }, //   10,   73
+    { "SMRTA0",      8,   72, MT_MISC46,       true }, //   10,   72
+    { "SMRTB0",      8,   67, MT_MISC46,       true }, //   10,   67
+    { "SMRTC0",      8,   67, MT_MISC46,       true }, //   10,   67
+    { "SMRTD0",      8,   73, MT_MISC46,       true }, //   10,   73
+    { "SOULA0",     12,   40, MT_MISC12,       true }, //   14,   39
+    { "SOULB0",     12,   40, MT_MISC12,       true }, //   14,   39
+    { "SOULC0",     12,   40, MT_MISC12,       true }, //   14,   39
+    { "SOULD0",     12,   40, MT_MISC12,       true }, //   14,   39
+    { "SPIDA1D1",  103,  105, MT_SPIDER,       true }, //  107,  105
+    { "SPIDA2A8",  116,  107, MT_SPIDER,       true }, //  110,  107
+    { "SPIDA3A7",  106,  106, MT_SPIDER,       true }, //   99,  106
+    { "SPIDA4A6",  113,  107, MT_SPIDER,       true }, //  111,  111
+    { "SPIDB1E1",  125,  104, MT_SPIDER,       true }, //  130,  104
+    { "SPIDB2B8",  134,  106, MT_SPIDER,       true }, //  130,  106
+    { "SPIDB3B7",  108,  102, MT_SPIDER,       true }, //  101,   99
+    { "SPIDB4B6",  112,  105, MT_SPIDER,       true }, //  110,   99
+    { "SPIDC1F1",  102,  103, MT_SPIDER,       true }, //  108,  103
+    { "SPIDC3C7",  107,  105, MT_SPIDER,       true }, //  103,  105
+    { "SPIDC4C6",  115,  107, MT_SPIDER,       true }, //  114,  110
+    { "SPIDD2D8",  105,  104, MT_SPIDER,       true }, //  113,  107
+    { "SPIDD3D7",  104,  103, MT_SPIDER,       true }, //   99,  103
+    { "SPIDD4D6",  111,  104, MT_SPIDER,       true }, //  107,  106
+    { "SPIDE2E8",  103,  103, MT_SPIDER,       true }, //  113,   94
+    { "SPIDE3E7",  127,  101, MT_SPIDER,       true }, //  122,  101
+    { "SPIDE4E6",  131,  105, MT_SPIDER,       true }, //  128,  106
+    { "SPIDF2F8",  105,  104, MT_SPIDER,       true }, //  114,  109
+    { "SPIDF3F7",  126,  101, MT_SPIDER,       true }, //  122,  102
+    { "SPIDF4F6",  117,  105, MT_SPIDER,       true }, //  114,  106
+    { "SPIDG1",    101,  102, MT_SPIDER,       true }, //   95,  101
+    { "SPIDG3G7",  111,  108, MT_SPIDER,       true }, //  113,  108
+    { "SPIDG4G6",  123,  109, MT_SPIDER,       true }, //  120,  112
+    { "SPIDG5",    109,  104, MT_SPIDER,       true }, //  106,  105
+    { "SPIDH1",    101,  102, MT_SPIDER,       true }, //   95,  101
+    { "SPIDH2H8",  123,  107, MT_SPIDER,       true }, //  123,  108
+    { "SPIDH3H7",  111,  108, MT_SPIDER,       true }, //  113,  108
+    { "SPIDH4H6",  123,  109, MT_SPIDER,       true }, //  120,  112
+    { "SPIDH5",    109,  104, MT_SPIDER,       true }, //  106,  105
+    { "SPIDI1",     95,  101, MT_SPIDER,       true }, //  102,  102
+    { "SPIDI3",    118,  100, MT_SPIDER,       true }, //  122,  100
+    { "SPIDI5",    105,  100, MT_SPIDER,       true }, //   95,  100
+    { "SPIDI6",    117,  105, MT_SPIDER,       true }, //  106,  107
+    { "SPIDI7",     96,  102, MT_SPIDER,       true }, //   88,  102
+    { "SPIDI8",    120,  103, MT_SPIDER,       true }, //  115,  105
+    { "SPOSE1",     13,   50, MT_SHOTGUY,      true }, //   12,   50
+    { "SPOSE2E8",   21,   50, MT_SHOTGUY,      true }, //   17,   50
+    { "SPOSE3E7",   19,   50, MT_SHOTGUY,      true }, //   19,   49
+    { "SPOSE5",     11,   47, MT_SHOTGUY,      true }, //   12,   46
+    { "SPOSF1",     14,   50, MT_SHOTGUY,      true }, //   13,   50
+    { "SPOSF2F8",   25,   50, MT_SHOTGUY,      true }, //   21,   50
+    { "SPOSF3F7",   26,   50, MT_SHOTGUY,      true }, //   24,   49
+    { "SPOSF5",     10,   47, MT_SHOTGUY,      true }, //   11,   46
+    { "SPOSG2G8",   16,   52, MT_SHOTGUY,      true }, //   13,   51
+    { "SPOSG3G7",   22,   52, MT_SHOTGUY,      true }, //   21,   50
+    { "SPOSG4G6",   21,   49, MT_SHOTGUY,      true }, //   20,   50
+    { "SPOSG5",     16,   49, MT_SHOTGUY,      true }, //   17,   49
+    { "SPOSO0",     21,   58, MT_SHOTGUY,      true }, //   25,   58
+    { "SPOSQ0",     23,   47, MT_SHOTGUY,      true }, //   27,   47
+    { "SSWVB3",     18,   51, MT_WOLFSS,       true }, //   14,   51
+    { "SSWVB4",     16,   51, MT_WOLFSS,       true }, //   12,   51
+    { "SSWVC7",     19,   49, MT_WOLFSS,       true }, //   15,   49
+    { "SSWVC8",     15,   48, MT_WOLFSS,       true }, //   11,   48
+    { "SSWVD3",     19,   51, MT_WOLFSS,       true }, //   15,   51
+    { "SSWVD4",     16,   51, MT_WOLFSS,       true }, //   12,   51
+    { "SSWVI0",     14,   49, MT_WOLFSS,       true }, //   18,   49
+    { "SSWVJ0",     11,   41, MT_WOLFSS,       true }, //   15,   41
+    { "SSWVN0",     19,   54, MT_WOLFSS,       true }, //   15,   54
+    { "SSWVP0",     25,   56, MT_WOLFSS,       true }, //   25,   57
+    { "SSWVQ0",     28,   50, MT_WOLFSS,       true }, //   24,   51
+    { "SSWVS0",     28,   37, MT_WOLFSS,       true }, //   24,   37
+    { "SSWVT0",     28,   30, MT_WOLFSS,       true }, //   24,   30
+    { "SSWVU0",     28,   20, MT_WOLFSS,       true }, //   24,   20
+    { "SSWVV0",     28,   15, MT_WOLFSS,       true }, //   24,   15
+    { "STIMA0",      7,   13, MT_MISC10,       true }, //    7,   15
+    { "SUITA0",     12,   58, MT_MISC14,       true }, //   11,   51
+    { "TBLUA0",     13,   92, MT_MISC41,       true }, //   14,   92
+    { "TBLUB0",     13,   92, MT_MISC41,       true }, //   14,   92
+    { "TBLUC0",     13,   92, MT_MISC41,       true }, //   14,   92
+    { "TBLUD0",     13,   93, MT_MISC41,       true }, //   14,   93
+    { "TFOGA0",     19,   58, MT_TFOG,         true }, //   21,   56
+    { "TFOGI0",      6,   32, MT_TFOG,         true }, //    6,   28
+    { "TFOGJ0",      8,   34, MT_TFOG,         true }, //    8,   30
+    { "TGRNA0",     13,   92, MT_MISC42,       true }, //   14,   92
+    { "TGRNB0",     13,   87, MT_MISC42,       true }, //   14,   87
+    { "TGRNC0",     13,   87, MT_MISC42,       true }, //   14,   87
+    { "TGRND0",     13,   93, MT_MISC42,       true }, //   14,   93
+    { "TLMPA0",     11,   78, MT_MISC29,       true }, //   11,   77
+    { "TLMPB0",     11,   78, MT_MISC29,       true }, //   11,   77
+    { "TLMPC0",     11,   78, MT_MISC29,       true }, //   11,   77
+    { "TLMPD0",     11,   78, MT_MISC29,       true }, //   11,   77
+    { "TLP2A0",     10,   58, MT_MISC30,       true }, //   10,   57
+    { "TLP2B0",     10,   58, MT_MISC30,       true }, //   10,   57
+    { "TLP2C0",     10,   58, MT_MISC30,       true }, //   10,   57
+    { "TLP2D0",     10,   58, MT_MISC30,       true }, //   10,   57
+    { "TRE1A0",     28,   65, MT_MISC40,       true }, //   25,   65
+    { "TRE2A0",     62,  120, MT_MISC76,       true }, //   63,  120
+    { "TREDA0",     13,   92, MT_MISC43,       true }, //   14,   92
+    { "TREDB0",     13,   87, MT_MISC43,       true }, //   14,   87
+    { "TREDC0",     13,   87, MT_MISC43,       true }, //   14,   87
+    { "TREDD0",     13,   93, MT_MISC43,       true }, //   14,   93
+    { "TROOA1",     21,   52, MT_TROOP,        true }, //   19,   52
+    { "TROOA2A8",   24,   50, MT_TROOP,        true }, //   17,   50
+    { "TROOA3A7",   21,   47, MT_TROOP,        true }, //   15,   44
+    { "TROOA4A6",   17,   47, MT_TROOP,        true }, //   20,   42
+    { "TROOA5",     18,   46, MT_TROOP,        true }, //   21,   44
+    { "TROOB1",     19,   51, MT_TROOP,        true }, //   17,   51
+    { "TROOB2B8",   21,   52, MT_TROOP,        true }, //   13,   52
+    { "TROOB3B7",   22,   48, MT_TROOP,        true }, //   16,   46
+    { "TROOB4B6",   18,   45, MT_TROOP,        true }, //   19,   42
+    { "TROOB5",     17,   43, MT_TROOP,        true }, //   20,   41
+    { "TROOC1",     19,   55, MT_TROOP,        true }, //   17,   55
+    { "TROOC2C8",   21,   53, MT_TROOP,        true }, //   14,   53
+    { "TROOC3C7",   19,   50, MT_TROOP,        true }, //   13,   48
+    { "TROOC4C6",   14,   49, MT_TROOP,        true }, //   12,   46
+    { "TROOC5",     18,   46, MT_TROOP,        true }, //   22,   44
+    { "TROOD1",     18,   52, MT_TROOP,        true }, //   16,   52
+    { "TROOD2D8",   24,   50, MT_TROOP,        true }, //   17,   50
+    { "TROOD3D7",   22,   45, MT_TROOP,        true }, //   19,   43
+    { "TROOD4D6",   17,   44, MT_TROOP,        true }, //   17,   41
+    { "TROOD5",     18,   43, MT_TROOP,        true }, //   21,   41
+    { "TROOE1",     33,   55, MT_TROOP,        true }, //   30,   55
+    { "TROOE2E8",   14,   51, MT_TROOP,        true }, //   11,   51
+    { "TROOE3E7",   20,   46, MT_TROOP,        true }, //   23,   44
+    { "TROOE4E6",   13,   45, MT_TROOP,        true }, //   20,   42
+    { "TROOE5",     12,   45, MT_TROOP,        true }, //   17,   43
+    { "TROOF1",     21,   50, MT_TROOP,        true }, //   18,   50
+    { "TROOF2F8",   28,   49, MT_TROOP,        true }, //   25,   49
+    { "TROOF3F7",   27,   46, MT_TROOP,        true }, //   18,   44
+    { "TROOF4F6",   23,   45, MT_TROOP,        true }, //   16,   42
+    { "TROOF5",     18,   43, MT_TROOP,        true }, //   12,   41
+    { "TROOG1",      8,   50, MT_TROOP,        true }, //    5,   50
+    { "TROOG2G8",   32,   50, MT_TROOP,        true }, //   25,   50
+    { "TROOG3G7",   47,   48, MT_TROOP,        true }, //   27,   46
+    { "TROOG4G6",   33,   45, MT_TROOP,        true }, //   23,   42
+    { "TROOG5",     22,   46, MT_TROOP,        true }, //   16,   44
+    { "TROOH1",     21,   50, MT_TROOP,        true }, //   18,   50
+    { "TROOH2H8",   12,   51, MT_TROOP,        true }, //    6,   51
+    { "TROOH3H7",   15,   54, MT_TROOP,        true }, //   12,   52
+    { "TROOH4H6",   15,   53, MT_TROOP,        true }, //    9,   51
+    { "TROOH5",     17,   52, MT_TROOP,        true }, //   21,   52
+    { "TROOM0",     27,   16, MT_TROOP,        true }, //   29,   19
+    { "TROOO0",     28,   56, MT_TROOP,        true }, //   20,   56
+    { "TROOP0",     28,   56, MT_TROOP,        true }, //   24,   56
+    { "TROOQ0",     28,   56, MT_TROOP,        true }, //   24,   56
+    { "TROOR0",     28,   39, MT_TROOP,        true }, //   24,   39
+    { "VILEA3D7",   44,   68, MT_VILE,         true }, //   41,   68
+    { "VILEA4D6",   35,   67, MT_VILE,         true }, //   31,   67
+    { "VILEA5D5",   15,   65, MT_VILE,         true }, //   11,   65
+    { "VILEA6D4",   32,   66, MT_VILE,         true }, //   30,   66
+    { "VILEA7D3",   37,   67, MT_VILE,         true }, //   36,   67
+    { "VILEA8D2",   31,   70, MT_VILE,         true }, //   35,   70
+    { "VILEB4E6",   18,   67, MT_VILE,         true }, //   22,   67
+    { "VILEB5E5",   23,   67, MT_VILE,         true }, //   18,   67
+    { "VILEB6E4",   27,   67, MT_VILE,         true }, //   25,   67
+    { "VILEB7E3",   34,   70, MT_VILE,         true }, //   31,   70
+    { "VILEB8E2",   25,   72, MT_VILE,         true }, //   23,   72
+    { "VILEC4F6",   31,   71, MT_VILE,         true }, //   26,   71
+    { "VILEC6F4",   25,   70, MT_VILE,         true }, //   22,   70
+    { "VILEC7F3",   24,   72, MT_VILE,         true }, //   21,   72
+    { "VILEC8F2",   21,   74, MT_VILE,         true }, //   25,   74
+    { "VILEG2",      3,   91, MT_VILE,         true }, //   27,   91
+    { "VILEG3",     24,   97, MT_VILE,         true }, //   36,   97
+    { "VILEG4",     36,   97, MT_VILE,         true }, //   39,   97
+    { "VILEG5",     44,   99, MT_VILE,         true }, //   40,   99
+    { "VILEG6",     54,   99, MT_VILE,         true }, //   30,   99
+    { "VILEG7",     40,   98, MT_VILE,         true }, //   28,   98
+    { "VILEH2",      4,   93, MT_VILE,         true }, //   28,   93
+    { "VILEH3",     24,   99, MT_VILE,         true }, //   36,   99
+    { "VILEH4",     36,   99, MT_VILE,         true }, //   43,   99
+    { "VILEH5",     45,   99, MT_VILE,         true }, //   41,   99
+    { "VILEH6",     55,   99, MT_VILE,         true }, //   31,   99
+    { "VILEH7",     41,   99, MT_VILE,         true }, //   29,   99
+    { "VILEI2",      4,   94, MT_VILE,         true }, //   28,   94
+    { "VILEI3",     24,   99, MT_VILE,         true }, //   36,   99
+    { "VILEI4",     36,   99, MT_VILE,         true }, //   43,   99
+    { "VILEI5",     45,  101, MT_VILE,         true }, //   41,  101
+    { "VILEI6",     56,   99, MT_VILE,         true }, //   32,   99
+    { "VILEI7",     42,   99, MT_VILE,         true }, //   30,   99
+    { "VILEJ6",     22,   85, MT_VILE,         true }, //   18,   85
+    { "VILEJ8",     30,   78, MT_VILE,         true }, //   34,   78
+    { "VILEK7",     31,   59, MT_VILE,         true }, //   27,   59
+    { "VILEL3",     24,   58, MT_VILE,         true }, //   28,   58
+    { "VILEL5",     23,   57, MT_VILE,         true }, //   27,   57
+    { "VILEL7",     31,   56, MT_VILE,         true }, //   27,   56
+    { "VILEM3",     24,   58, MT_VILE,         true }, //   28,   58
+    { "VILEM5",     23,   57, MT_VILE,         true }, //   27,   57
+    { "VILEM6",     19,   57, MT_VILE,         true }, //   15,   57
+    { "VILEM7",     31,   56, MT_VILE,         true }, //   27,   56
+    { "VILEN2",     57,   65, MT_VILE,         true }, //   35,   65
+    { "VILEN3",     67,   64, MT_VILE,         true }, //   51,   64
+    { "VILEN4",     52,   61, MT_VILE,         true }, //   43,   61
+    { "VILEN5",     23,   64, MT_VILE,         true }, //   27,   64
+    { "VILEN6",     15,   63, MT_VILE,         true }, //   26,   63
+    { "VILEN7",     30,   63, MT_VILE,         true }, //   45,   63
+    { "VILEN8",     31,   63, MT_VILE,         true }, //   48,   63
+    { "VILEO2",     56,   71, MT_VILE,         true }, //   34,   71
+    { "VILEO3",     67,   65, MT_VILE,         true }, //   51,   65
+    { "VILEO4",     52,   62, MT_VILE,         true }, //   43,   62
+    { "VILEO5",     23,   64, MT_VILE,         true }, //   27,   64
+    { "VILEO6",     15,   63, MT_VILE,         true }, //   26,   63
+    { "VILEO7",     30,   63, MT_VILE,         true }, //   45,   63
+    { "VILEO8",     31,   66, MT_VILE,         true }, //   48,   66
+    { "VILEP2",     56,   83, MT_VILE,         true }, //   34,   83
+    { "VILEP3",     67,   85, MT_VILE,         true }, //   51,   85
+    { "VILEP4",     51,   77, MT_VILE,         true }, //   42,   77
+    { "VILEP5",     23,   77, MT_VILE,         true }, //   27,   77
+    { "VILEP6",     15,   77, MT_VILE,         true }, //   26,   77
+    { "VILEP7",     30,   76, MT_VILE,         true }, //   45,   76
+    { "VILEP8",     31,   79, MT_VILE,         true }, //   48,   79
+    { "VILEQ2",     20,   69, MT_VILE,         true }, //   22,   69
+    { "VILEQ3",     36,   67, MT_VILE,         true }, //   32,   67
+    { "VILEQ4",     29,   69, MT_VILE,         true }, //   27,   69
+    { "VILEQ7",     29,   68, MT_VILE,         true }, //   30,   68
+    { "VILEQ8",     31,   66, MT_VILE,         true }, //   33,   66
+    { "VILES0",     21,   71, MT_VILE,         true }, //   23,   71
+    { "VILET0",     26,   66, MT_VILE,         true }, //   27,   66
+    { "VILEU0",     31,   54, MT_VILE,         true }, //   35,   54
+    { "VILE[1",     50,   68, MT_VILE,         true }, //   53,   68
+    { "VILE[2",     53,   69, MT_VILE,         true }, //   49,   69
+    { "VILE[3",     31,   72, MT_VILE,         true }, //   26,   72
+    { "VILE[4",     49,   71, MT_VILE,         true }, //   37,   71
+    { "VILE[5",     52,   71, MT_VILE,         true }, //   44,   71
+    { "VILE[6",     32,   71, MT_VILE,         true }, //   43,   73
+    { "VILE[7",     19,   70, MT_VILE,         true }, //   30,   73
+    { "VILE[8",     29,   69, MT_VILE,         true }, //   36,   73
+    { "VILE\\1",    50,   69, MT_VILE,         true }, //   53,   69
+    { "VILE\\2",    53,   70, MT_VILE,         true }, //   49,   70
+    { "VILE\\3",    31,   73, MT_VILE,         true }, //   26,   73
+    { "VILE\\4",    49,   71, MT_VILE,         true }, //   37,   71
+    { "VILE\\5",    52,   72, MT_VILE,         true }, //   44,   72
+    { "VILE\\6",    32,   72, MT_VILE,         true }, //   43,   74
+    { "VILE\\7",    19,   69, MT_VILE,         true }, //   30,   72
+    { "VILE\\8",    29,   69, MT_VILE,         true }, //   32,   73
+    { "VILE]1",     50,   68, MT_VILE,         true }, //   53,   68
+    { "VILE]2",     53,   69, MT_VILE,         true }, //   49,   69
+    { "VILE]3",     31,   71, MT_VILE,         true }, //   26,   71
+    { "VILE]4",     49,   70, MT_VILE,         true }, //   37,   70
+    { "VILE]5",     52,   70, MT_VILE,         true }, //   44,   70
+    { "VILE]6",     32,   70, MT_VILE,         true }, //   43,   72
+    { "VILE]7",     19,   71, MT_VILE,         true }, //   30,   74
+    { "VILE]8",     29,   67, MT_VILE,         true }, //   32,   71
+    { "YKEYA0",      7,   14, MT_MISC6,        true }, //    8,   19
+    { "YKEYB0",      7,   14, MT_MISC6,        true }, //    8,   19
+    { "YSKUA0",      7,   14, MT_MISC7,        true }, //    7,   18
+    { "YSKUB0",      7,   14, MT_MISC7,        true }, //    7,   18
+    { "",            0,    0, NOTYPE,          true }
 };
