@@ -753,7 +753,12 @@ void F_CastDrawer(void)
         if (shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
         {
             if (translucency)
-                V_DrawFlippedShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+            {
+                if (type == MT_SHADOWS)
+                    V_DrawFlippedSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                else
+                    V_DrawFlippedShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+            }
             else
                 V_DrawFlippedSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
         }
@@ -772,14 +777,19 @@ void F_CastDrawer(void)
         if (shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
         {
             if (translucency)
-                V_DrawShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+            {
+                if (type == MT_SHADOWS)
+                    V_DrawSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+                else
+                    V_DrawShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
+            }
             else
                 V_DrawSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
         }
 
         if (translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
-        else if (castorder[castnum].type == MT_SHADOWS)
+        else if (type == MT_SHADOWS)
             V_DrawFuzzPatch(ORIGINALWIDTH / 2, y, patch);
         else
             V_DrawPatch(ORIGINALWIDTH / 2, y, 0, patch);
