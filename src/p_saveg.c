@@ -47,7 +47,7 @@
 #include "z_zone.h"
 
 #define SAVEGAME_EOF    0x1d
-#define VERSIONSIZE     16
+#define VERSIONSIZE     24
 
 FILE            *save_stream;
 int             savegamelength;
@@ -411,6 +411,9 @@ static void saveg_read_mobj_t(mobj_t *str)
     // short gear
     str->gear = saveg_read16();
 
+    // int bloodsplats
+    str->bloodsplats = saveg_read32();
+
     // int blood
     str->blood = saveg_read32();
 }
@@ -539,6 +542,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // short gear
     saveg_write16(str->gear);
+
+    // int bloodsplats
+    saveg_write32(str->bloodsplats);
 
     // int blood
     saveg_write32(str->blood);
