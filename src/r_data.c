@@ -812,7 +812,7 @@ void R_InitSpriteLumps(void)
 
             while (sproffsets[j].name[0])
             {
-                if (sproffsets[j].canmodify)
+                if (sproffsets[j].canmodify || BTSX)
                 {
                     if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
                     {
@@ -821,7 +821,7 @@ void R_InitSpriteLumps(void)
                         break;
                     }
                 }
-                else if (!BTSX)
+                else
                     mobjinfo[sproffsets[j].type].canmodify = false;
                 j++;
             }
