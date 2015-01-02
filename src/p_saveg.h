@@ -44,7 +44,7 @@
 // maximum size of a savegame description
 #define SAVESTRINGSIZE          256
 #define SAVESTRINGPIXELWIDTH    186
-#define VERSIONSIZE             16
+#define VERSIONSIZE             24
 
 // temporary filename to use while saving.
 char *P_TempSaveGameFile(void);

@@ -47,7 +47,6 @@
 #include "z_zone.h"
 
 #define SAVEGAME_EOF    0x1d
-#define VERSIONSIZE     24
 
 FILE            *save_stream;
 int             savegamelength;
