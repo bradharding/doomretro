@@ -150,7 +150,7 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
     int         bx;
     int         by;
     subsector_t *newsubsec;
-    fixed_t     tmradius = tmthing->radius;
+    fixed_t     radius = thing->radius;
 
     // killough 8/9/98: make telefragging more consistent
     telefrag = (thing->player || boss);
@@ -162,10 +162,10 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
     tmy = y;
     tmz = z;
 
-    tmbbox[BOXTOP] = y + tmradius;
-    tmbbox[BOXBOTTOM] = y - tmradius;
-    tmbbox[BOXRIGHT] = x + tmradius;
-    tmbbox[BOXLEFT] = x - tmradius;
+    tmbbox[BOXTOP] = y + radius;
+    tmbbox[BOXBOTTOM] = y - radius;
+    tmbbox[BOXRIGHT] = x + radius;
+    tmbbox[BOXLEFT] = x - radius;
 
     newsubsec = R_PointInSubsector(x, y);
     ceilingline = NULL;
