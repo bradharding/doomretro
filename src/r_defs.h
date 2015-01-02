@@ -700,6 +700,8 @@ typedef struct vissprite_s
     fixed_t             footclip;
 
     fixed_t             blood;
+
+    boolean             drawn;
 } vissprite_t;
 
 //

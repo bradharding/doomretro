@@ -60,26 +60,6 @@ fixed_t                         pspriteiscale;
 
 static lighttable_t             **spritelights;         // killough 1/25/98 made static
 
-typedef struct drawseg_xrange_item_s
-{
-    short                       x1, x2;
-    drawseg_t                   *user;
-} drawseg_xrange_item_t;
-
-typedef struct drawsegs_xrange_s
-{
-    drawseg_xrange_item_t       *items;
-    int                         count;
-} drawsegs_xrange_t;
-
-#define DS_RANGES_COUNT         3
-
-static drawsegs_xrange_t        drawsegs_xranges[DS_RANGES_COUNT];
-
-static drawseg_xrange_item_t    *drawsegs_xrange;
-static unsigned int             drawsegs_xrange_size = 0;
-static int                      drawsegs_xrange_count = 0;
-
 // constant arrays
 //  used for psprite clipping and initializing clipping
 int                             negonearray[SCREENWIDTH];
@@ -617,7 +597,7 @@ void R_AddSprites(sector_t *sec)
     // A sector might have been split into several
     //  subsectors during BSP building.
     // Thus we check whether its already added.
-    if (!sec->thinglist || sec->validcount == validcount)
+    if (sec->validcount == validcount)
         return;
 
     // Well, now it will be done.
@@ -845,7 +825,7 @@ void R_SortVisSprites(void)
 {
     if (num_vissprite)
     {
-        int     i = num_vissprite;
+        int     i;
 
         // If we need to allocate more pointers for the vissprites,
         // allocate as many as were allocated for sprites -- killough
@@ -857,8 +837,22 @@ void R_SortVisSprites(void)
                 * sizeof(*vissprite_ptrs));
         }
 
-        while (--i >= 0)
-            vissprite_ptrs[i] = vissprites + i;
+        for (i = num_vissprite; --i >= 0;)
+        {
+            vissprite_t     *spr = vissprites + i;
+
+            spr->drawn = false;
+            vissprite_ptrs[i] = spr;
+        }
+
+        if (!shadows || fixedcolormap)
+            for (i = num_vissprite; --i >= 0;)
+            {
+                vissprite_t     *spr = vissprites + i;
+
+                if (spr->type == MT_SHADOW)
+                   spr->drawn = true;
+            }
 
         // killough 9/22/98: replace qsort with merge sort, since the keys
         // are roughly in order to begin with, due to BSP rendering.
@@ -869,7 +863,7 @@ void R_SortVisSprites(void)
 //
 // R_DrawSprite
 //
-void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
+void R_DrawFirstSprite(vissprite_t *spr)
 {
     if (spr->x1 > spr->x2)
         return;
@@ -883,8 +877,6 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
         int                             r2;
         fixed_t                         scale;
         fixed_t                         lowscale;
-        const drawseg_xrange_item_t     *last = &drawsegs_xrange[drawsegs_xrange_count - 1];
-        drawseg_xrange_item_t           *curr = &drawsegs_xrange[-1];
 
         for (x = spr->x1; x <= spr->x2; x++)
             clipbot[x] = cliptop[x] = -2;
@@ -892,15 +884,82 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
         // Scan drawsegs from end to start for obscuring segs.
         // The first drawseg that has a greater scale
         //  is the clip seg.
-
-        // e6y: optimization
-        while (++curr <= last)
+        for (ds = ds_p - 1; ds >= drawsegs; ds--)
         {
             // determine if the drawseg obscures the sprite
-            if (curr->x1 > spr->x2 || curr->x2 < spr->x1)
+            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
                 continue;           // does not cover sprite
 
-            ds = curr->user;
+            r1 = MAX(ds->x1, spr->x1);
+            r2 = MIN(ds->x2, spr->x2);
+
+            lowscale = MIN(ds->scale1, ds->scale2);
+            scale = MAX(ds->scale1, ds->scale2);
+
+            if (scale < spr->scale ||
+                (lowscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            {
+                // seg is behind sprite
+                continue;
+            }
+
+            // clip this piece of the sprite
+            // killough 3/27/98: optimized and made much shorter
+            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+                for (x = r1; x <= r2; x++)
+                    if (clipbot[x] == -2)
+                        clipbot[x] = ds->sprbottomclip[x];
+
+            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+                for (x = r1; x <= r2; x++)
+                    if (cliptop[x] == -2)
+                        cliptop[x] = ds->sprtopclip[x];
+        }
+
+        // all clipping has been performed, so draw the sprite
+
+        // check for unclipped columns
+        for (x = spr->x1; x <= spr->x2; x++)
+        {
+            if (clipbot[x] == -2)
+                clipbot[x] = viewheight;
+
+            if (cliptop[x] == -2)
+                cliptop[x] = -1;
+        }
+
+        mfloorclip = clipbot;
+        mceilingclip = cliptop;
+        R_DrawVisSprite(spr);
+    }
+}
+
+void R_DrawSprite(vissprite_t *spr)
+{
+    if (spr->x1 > spr->x2)
+        return;
+    else
+    {
+        drawseg_t                       *ds;
+        int                             clipbot[SCREENWIDTH];
+        int                             cliptop[SCREENWIDTH];
+        int                             x;
+        int                             r1;
+        int                             r2;
+        fixed_t                         scale;
+        fixed_t                         lowscale;
+
+        for (x = spr->x1; x <= spr->x2; x++)
+            clipbot[x] = cliptop[x] = -2;
+
+        // Scan drawsegs from end to start for obscuring segs.
+        // The first drawseg that has a greater scale
+        //  is the clip seg.
+        for (ds = ds_p - 1; ds >= drawsegs; ds--)
+        {
+            // determine if the drawseg obscures the sprite
+            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
+                continue;           // does not cover sprite
 
             r1 = MAX(ds->x1, spr->x1);
             r2 = MIN(ds->x2, spr->x2);
@@ -912,7 +971,7 @@ void R_DrawSprite(vissprite_t *spr, boolean drawmaskedtextures)
                 (lowscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
             {
                 // masked mid texture?
-                if (drawmaskedtextures && ds->maskedtexturecol)
+                if (ds->maskedtexturecol)
                     R_RenderMaskedSegRange(ds, r1, r2);
 
                 // seg is behind sprite
@@ -957,57 +1016,8 @@ void R_DrawMasked(void)
 {
     drawseg_t   *ds;
     int         i;
-    int         cx = SCREENWIDTH / 2;
 
     R_SortVisSprites();
-
-    // e6y
-    // Reducing of cache misses in the following R_DrawSprite()
-    // Makes sense for scenes with huge amount of drawsegs.
-    // ~12% of speed improvement on epic.wad map05
-    for (i = 0; i < DS_RANGES_COUNT; i++)
-        drawsegs_xranges[i].count = 0;
-
-    if (num_vissprite > 0)
-    {
-        int     i;
-
-        if (drawsegs_xrange_size < maxdrawsegs)
-        {
-            drawsegs_xrange_size = 2 * maxdrawsegs;
-            for (i = 0; i < DS_RANGES_COUNT; i++)
-            {
-                drawsegs_xranges[i].items = realloc(
-                    drawsegs_xranges[i].items,
-                    drawsegs_xrange_size * sizeof(drawsegs_xranges[i].items[0]));
-            }
-        }
-        for (ds = ds_p; ds-- > drawsegs;)
-        {
-            if (ds->silhouette || ds->maskedtexturecol)
-            {
-                drawsegs_xranges[0].items[drawsegs_xranges[0].count].x1 = ds->x1;
-                drawsegs_xranges[0].items[drawsegs_xranges[0].count].x2 = ds->x2;
-                drawsegs_xranges[0].items[drawsegs_xranges[0].count].user = ds;
-
-                // e6y: ~13% of speed improvement on sunder.wad map10
-                if (ds->x1 < cx)
-                {
-                    drawsegs_xranges[1].items[drawsegs_xranges[1].count] =
-                        drawsegs_xranges[0].items[drawsegs_xranges[0].count];
-                    drawsegs_xranges[1].count++;
-                }
-                if (ds->x2 >= cx)
-                {
-                    drawsegs_xranges[2].items[drawsegs_xranges[2].count] =
-                        drawsegs_xranges[0].items[drawsegs_xranges[0].count];
-                    drawsegs_xranges[2].count++;
-                }
-
-                drawsegs_xranges[0].count++;
-            }
-        }
-    }
 
     // draw all sprites with MF2_DRAWFIRST flag (blood splats and pools of blood)
     for (i = 0; i < num_vissprite; i++)
@@ -1016,79 +1026,31 @@ void R_DrawMasked(void)
 
         if (spr->mobjflags2 & MF2_DRAWFIRST)
         {
-            if (spr->x2 < cx)
-            {
-                drawsegs_xrange = drawsegs_xranges[1].items;
-                drawsegs_xrange_count = drawsegs_xranges[1].count;
-            }
-            else if (spr->x1 >= cx)
-            {
-                drawsegs_xrange = drawsegs_xranges[2].items;
-                drawsegs_xrange_count = drawsegs_xranges[2].count;
-            }
-            else
-            {
-                drawsegs_xrange = drawsegs_xranges[0].items;
-                drawsegs_xrange_count = drawsegs_xranges[0].count;
-            }
-
-            R_DrawSprite(spr, false);
+            spr->drawn = true;
+            R_DrawFirstSprite(spr);
         }
     }
 
     // draw all shadows
-    if (shadows && !fixedcolormap)
-        for (i = num_vissprite; --i >= 0;)
+    for (i = num_vissprite; --i >= 0;)
+    {
+        vissprite_t     *spr = vissprite_ptrs[i];
+
+        if (spr->type == MT_SHADOW)
         {
-            vissprite_t     *spr = vissprite_ptrs[i];
-
-            if (spr->type == MT_SHADOW && !(spr->mobjflags2 & MF2_FEETARECLIPPED))
-            {
-                if (spr->x2 < cx)
-                {
-                    drawsegs_xrange = drawsegs_xranges[1].items;
-                    drawsegs_xrange_count = drawsegs_xranges[1].count;
-                }
-                else if (spr->x1 >= cx)
-                {
-                    drawsegs_xrange = drawsegs_xranges[2].items;
-                    drawsegs_xrange_count = drawsegs_xranges[2].count;
-                }
-                else
-                {
-                    drawsegs_xrange = drawsegs_xranges[0].items;
-                    drawsegs_xrange_count = drawsegs_xranges[0].count;
-                }
-
-                R_DrawSprite(spr, false);
-            }
+            spr->drawn = true;
+            if (!(spr->mobjflags2 & MF2_FEETARECLIPPED))
+                R_DrawFirstSprite(spr);
         }
+    }
 
     // draw all other vissprites, back to front
     for (i = num_vissprite; --i >= 0;)
     {
         vissprite_t     *spr = vissprite_ptrs[i];
 
-        if (!(spr->mobjflags2 & MF2_DRAWFIRST) && spr->type != MT_SHADOW)
-        {
-            if (spr->x2 < cx)
-            {
-                drawsegs_xrange = drawsegs_xranges[1].items;
-                drawsegs_xrange_count = drawsegs_xranges[1].count;
-            }
-            else if (spr->x1 >= cx)
-            {
-                drawsegs_xrange = drawsegs_xranges[2].items;
-                drawsegs_xrange_count = drawsegs_xranges[2].count;
-            }
-            else
-            {
-                drawsegs_xrange = drawsegs_xranges[0].items;
-                drawsegs_xrange_count = drawsegs_xranges[0].count;
-            }
-
-            R_DrawSprite(spr, true);
-        }
+        if (!spr->drawn)
+            R_DrawSprite(spr);
     }
 
     // render any remaining masked mid textures
