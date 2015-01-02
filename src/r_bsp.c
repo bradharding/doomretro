@@ -272,10 +272,6 @@ static void R_AddLine(seg_t *line)
 
     curline = line;
 
-    // skip this line if it's not facing the camera
-    if (R_PointOnSegSide(viewx, viewy, line) != 0)
-        return;
-
     angle1 = R_PointToAngle(line->v1->x, line->v1->y);
     angle2 = R_PointToAngle(line->v2->x, line->v2->y);
 

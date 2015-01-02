@@ -44,8 +44,8 @@
 #include "r_local.h"
 
 // killough 1/6/98: replaced globals with statics where appropriate
-static boolean  segtextured;    // True if any of the segs textures might be visible.
-static boolean  markfloor;      // False if the back side is the same plane.
+static boolean  segtextured;            // True if any of the segs textures might be visible.
+static boolean  markfloor;              // False if the back side is the same plane.
 boolean         markceiling;
 static boolean  maskedtexture;
 static int      toptexture;
@@ -56,7 +56,7 @@ static fixed_t  toptexheight;
 static fixed_t  midtexheight;
 static fixed_t  bottomtexheight;
 
-angle_t         rw_normalangle; // angle to line origin
+angle_t         rw_normalangle;         // angle to line origin
 int             rw_angle1;
 fixed_t         rw_distance;
 lighttable_t    **walllights;
@@ -85,7 +85,7 @@ static fixed_t  topfrac;
 static fixed_t  topstep;
 static fixed_t  bottomfrac;
 static fixed_t  bottomstep;
-static int      *maskedtexturecol;
+static int      *maskedtexturecol;      // dropoff overflow
 
 boolean         brightmaps = BRIGHTMAPS_DEFAULT;
 
@@ -301,7 +301,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             int64_t     t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
 
             if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
-                continue;        // skip if the texture is out of screen's range
+                continue;                       // skip if the texture is out of screen's range
 
             if (!fixedcolormap)
                 dc_colormap = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
@@ -311,7 +311,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
             // draw the texture
             R_DrawMaskedColumn((column_t *)((byte *)R_GetColumn(texnum, maskedtexturecol[dc_x]) - 3));
-            maskedtexturecol[dc_x] = INT_MAX;
+            maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
     }
 }
@@ -358,7 +358,7 @@ void R_RenderSegLoop(void)
                 ceilingplane->top[rw_x] = top;
                 ceilingplane->bottom[rw_x] = bottom;
             }
-
+            // SoM: this should be set here
             ceilingclip[rw_x] = bottom;
         }
 
@@ -378,7 +378,7 @@ void R_RenderSegLoop(void)
                 floorplane->top[rw_x] = top;
                 floorplane->bottom[rw_x] = bottom;
             }
-
+            // SoM: This should be set here to prevent overdraw
             floorclip[rw_x] = top;
         }
 
@@ -561,7 +561,7 @@ void R_StoreWallRange(int start, int stop)
         extern int      *openings;
         extern size_t   maxopenings;
         size_t          pos = lastopening - openings;
-        size_t          need = (rw_stopx - start) * 4 + pos;
+        size_t          need = (rw_stopx - start) * sizeof(*lastopening) + pos;
 
         if (need > maxopenings)
         {
