@@ -466,7 +466,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = s_GOTYELWCARD;
                 P_GiveCard(player, it_yellowcard);
-                P_AddBonus(player, BONUSADD);
                 break;
             }
             return;
@@ -477,7 +476,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = s_GOTREDCARD;
                 P_GiveCard(player, it_redcard);
-                P_AddBonus(player, BONUSADD);
                 break;
             }
             return;
@@ -488,7 +486,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = s_GOTBLUESKUL;
                 P_GiveCard(player, it_blueskull);
-                P_AddBonus(player, BONUSADD);
                 break;
             }
             return;
@@ -499,7 +496,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = s_GOTYELWSKUL;
                 P_GiveCard(player, it_yellowskull);
-                P_AddBonus(player, BONUSADD);
                 break;
             }
             return;
@@ -510,7 +506,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (!message_dontfuckwithme)
                     player->message = s_GOTREDSKULL;
                 P_GiveCard(player, it_redskull);
-                P_AddBonus(player, BONUSADD);
                 break;
             }
             return;
