@@ -1370,7 +1370,6 @@ static void D_DoomMainSetup(void)
 
     AM_Init();
 
-
     if (startloadgame >= 0)
     {
         I_InitKeyboard();
