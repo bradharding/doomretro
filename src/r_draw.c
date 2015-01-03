@@ -218,7 +218,7 @@ void R_DrawSpectreShadowColumn(void)
 
     if (--count)
     {
-        if (rand() & 1)
+        if (!(rand() % 4))
             *dest = tinttab25[*dest];
         dest += SCREENWIDTH;
     }
@@ -227,7 +227,7 @@ void R_DrawSpectreShadowColumn(void)
         *dest = tinttab25[*dest];
         dest += SCREENWIDTH;
     }
-    if (rand() & 1)
+    if (!(rand() % 4))
         *dest = tinttab25[*dest];
 }
 

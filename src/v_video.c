@@ -231,7 +231,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                if (rand() & 1)
+                if (!(rand() % 4))
                     *dest = tinttab25[*dest];
                 dest += SCREENWIDTH;
             }
@@ -240,7 +240,7 @@ void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch)
                 *dest = tinttab25[*dest];
                 dest += SCREENWIDTH;
             }
-            if (rand() & 1)
+            if (!(rand() % 4))
                 *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
@@ -712,7 +712,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
 
             if (--count)
             {
-                if (rand() & 1)
+                if (!(rand() % 4))
                     *dest = tinttab25[*dest];
                 dest += SCREENWIDTH;
             }
@@ -721,7 +721,7 @@ void V_DrawFlippedSpectreShadowPatch(int x, int y, patch_t *patch)
                 *dest = tinttab25[*dest];
                 dest += SCREENWIDTH;
             }
-            if (rand() & 1)
+            if (!(rand() % 4))
                 *dest = tinttab25[*dest];
 
             column = (column_t *)((byte *)column + column->length + 4);
