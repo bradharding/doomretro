@@ -1186,7 +1186,11 @@ void P_SetupLevel(int episode, int map)
     P_MapName(gameepisode, gamemap);
 
     // note: most of this ordering is important
-    P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
+    if (!samelevel)
+        P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
+    else
+        memset(blocklinks, 0, bmapwidth * bmapheight * sizeof(*blocklinks));
+
     P_LoadVertexes(lumpnum + ML_VERTEXES);
     P_LoadSectors(lumpnum + ML_SECTORS);
     P_LoadSideDefs(lumpnum + ML_SIDEDEFS);
