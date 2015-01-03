@@ -869,14 +869,14 @@ void R_DrawFirstSprite(vissprite_t *spr)
         return;
     else
     {
-        drawseg_t                       *ds;
-        int                             clipbot[SCREENWIDTH];
-        int                             cliptop[SCREENWIDTH];
-        int                             x;
-        int                             r1;
-        int                             r2;
-        fixed_t                         scale;
-        fixed_t                         lowscale;
+        drawseg_t       *ds;
+        int             clipbot[SCREENWIDTH];
+        int             cliptop[SCREENWIDTH];
+        int             x;
+        int             r1;
+        int             r2;
+        fixed_t         scale;
+        fixed_t         lowscale;
 
         for (x = spr->x1; x <= spr->x2; x++)
             clipbot[x] = cliptop[x] = -2;
@@ -890,18 +890,16 @@ void R_DrawFirstSprite(vissprite_t *spr)
             if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
                 continue;           // does not cover sprite
 
-            r1 = MAX(ds->x1, spr->x1);
-            r2 = MIN(ds->x2, spr->x2);
-
             lowscale = MIN(ds->scale1, ds->scale2);
             scale = MAX(ds->scale1, ds->scale2);
 
-            if (scale < spr->scale ||
-                (lowscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
-            {
+            if (scale < spr->scale || (lowscale < spr->scale &&
+                !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
                 // seg is behind sprite
                 continue;
-            }
+
+            r1 = MAX(ds->x1, spr->x1);
+            r2 = MIN(ds->x2, spr->x2);
 
             // clip this piece of the sprite
             // killough 3/27/98: optimized and made much shorter
@@ -953,30 +951,33 @@ void R_DrawSprite(vissprite_t *spr)
             clipbot[x] = cliptop[x] = -2;
 
         // Scan drawsegs from end to start for obscuring segs.
-        // The first drawseg that has a greater scale
-        //  is the clip seg.
+        // The first drawseg that has a greater scale is the clip seg.
         for (ds = ds_p - 1; ds >= drawsegs; ds--)
         {
             // determine if the drawseg obscures the sprite
             if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
                 continue;           // does not cover sprite
 
-            r1 = MAX(ds->x1, spr->x1);
-            r2 = MIN(ds->x2, spr->x2);
-
             lowscale = MIN(ds->scale1, ds->scale2);
             scale = MAX(ds->scale1, ds->scale2);
 
-            if (scale < spr->scale ||
-                (lowscale < spr->scale && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            if (scale < spr->scale || (lowscale < spr->scale &&
+                !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
             {
                 // masked mid texture?
                 if (ds->maskedtexturecol)
+                {
+                    r1 = MAX(ds->x1, spr->x1);
+                    r2 = MIN(ds->x2, spr->x2);
                     R_RenderMaskedSegRange(ds, r1, r2);
+                }
 
                 // seg is behind sprite
                 continue;
             }
+
+            r1 = MAX(ds->x1, spr->x1);
+            r2 = MIN(ds->x2, spr->x2);
 
             // clip this piece of the sprite
             // killough 3/27/98: optimized and made much shorter
