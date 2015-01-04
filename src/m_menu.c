@@ -3162,12 +3162,7 @@ void M_Drawer(void)
             int old = itemOn;
 
             while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING))
-            {
-                if (itemOn + 1 > currentMenu->numitems - 1)
-                    itemOn = 0;
-                else
-                    ++itemOn;
-            }
+                itemOn = (!itemOn ? currentMenu->numitems - 1 : itemOn - 1);
             if (itemOn != old)
             {
                 SaveDef.lastOn = selectedsavegame = itemOn;
