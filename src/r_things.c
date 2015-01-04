@@ -529,8 +529,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     gzt = fz + (type == MT_SHADOW ? 0 : spritetopoffset[lump]);
 
-    if (fz > viewz + FixedDiv(centeryfrac, xscale)
-        || gzt < viewz - FixedDiv(centeryfrac - viewheight, xscale))
+    if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
+        || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
         return;
 
     // store information in a vissprite
