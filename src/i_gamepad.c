@@ -71,7 +71,11 @@ extern boolean          idmus;
 extern boolean          idbehold;
 extern boolean          menuactive;
 
-void (*gamepadfunc)(void);
+#ifdef WIN32
+HMODULE                 pXInputDLL;
+#endif
+
+void(*gamepadfunc)(void);
 void (*gamepadthumbsfunc)(short, short, short, short);
 
 void I_InitGamepad(void)
@@ -102,16 +106,12 @@ void I_InitGamepad(void)
         else
         {
 #ifdef WIN32
-            HMODULE     pXInputDLL;
-
             if (!(pXInputDLL = LoadLibrary("XInput1_4.dll")))
                 if (!(pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
                     pXInputDLL = LoadLibrary("XInput1_3.dll");
 
             if (pXInputDLL)
             {
-                M_SaveDefaults();
-
                 pXInputGetState = (XINPUTGETSTATE)GetProcAddress(pXInputDLL, "XInputGetState");
                 pXInputSetState = (XINPUTSETSTATE)GetProcAddress(pXInputDLL, "XInputSetState");
 
@@ -128,6 +128,8 @@ void I_InitGamepad(void)
                             I_PollThumbs_XInput_RightHanded);
                     }
                 }
+                else
+                    FreeLibrary(pXInputDLL);
             }
 #endif
 
@@ -138,6 +140,9 @@ void I_InitGamepad(void)
 
 void I_ShutdownGamepad(void)
 {
+    if (pXInputDLL)
+        FreeLibrary(pXInputDLL);
+
     if (gamepad)
     {
         SDL_JoystickClose(gamepad);
