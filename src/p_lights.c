@@ -121,7 +121,7 @@ void P_SpawnLightFlash(sector_t *sector)
     flash->maxlight = sector->lightlevel;
 
     flash->minlight = P_FindMinSurroundingLight(sector, sector->lightlevel);
-    flash->maxtime = 64;
+    flash->maxtime = 63;
     flash->mintime = 7;
     flash->count = (P_Random() & flash->maxtime) + 1;
 }
