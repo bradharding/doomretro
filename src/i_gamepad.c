@@ -140,8 +140,10 @@ void I_InitGamepad(void)
 
 void I_ShutdownGamepad(void)
 {
+#ifdef WIN32
     if (pXInputDLL)
         FreeLibrary(pXInputDLL);
+#endif
 
     if (gamepad)
     {
