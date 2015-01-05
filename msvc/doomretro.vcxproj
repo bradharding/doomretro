@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug (SDL2)|Win32">
@@ -534,6 +534,7 @@
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\VERSION" />
     <None Include="..\src\Makefile" />
+    <None Include="..\src\Makefile.rpi" />
     <None Include="..\src\manifest.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
