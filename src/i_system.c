@@ -250,10 +250,10 @@ void I_Error(char *error, ...)
         message = CFStringCreateWithCString(NULL, msgbuf, kCFStringEncodingUTF8);
 
         CFUserNotificationDisplayNotice(0, kCFUserNotificationCautionAlertLevel, NULL, NULL, NULL,
-            CFSTR(PACKAGE_STRING), message, NULL);
+            CFSTR(PACKAGE_NAME), message, NULL);
     }
 #else
-        ZenityErrorBox(msgbuf);
+    ZenityErrorBox(msgbuf);
 #endif
 
     exit(-1);
