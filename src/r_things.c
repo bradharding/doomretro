@@ -290,14 +290,8 @@ vissprite_t *R_NewVisSprite(void)
 {
     if (num_vissprite >= num_vissprite_alloc)           // killough
     {
-        size_t  num_vissprite_alloc_prev = num_vissprite_alloc;
-
         num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : 128);
         vissprites = realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
-
-        // e6y: set all fields to zero
-        memset(vissprites + num_vissprite_alloc_prev, 0,
-            (num_vissprite_alloc - num_vissprite_alloc_prev) * sizeof(*vissprites));
     }
     return (vissprites + num_vissprite++);
 }
@@ -329,7 +323,6 @@ static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
 
         if (baseclip != -1)
             dc_yh = MIN(baseclip, dc_yh);
-        fuzzclip = baseclip;
 
         dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) +
             FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
@@ -370,7 +363,7 @@ static void R_DrawMaskedShadowColumn(column_t *column, int baseclip)
         // calculate unclipped screen coordinates for post
         int     topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
-        dc_yl = MAX(((topscreen >> FRACBITS) + 1) / 10 + shift, mceilingclip[dc_x] + 1);
+        dc_yl = MAX(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift, mceilingclip[dc_x] + 1);
         dc_yh = MIN(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift,
             mfloorclip[dc_x] - 1);
 
@@ -402,9 +395,8 @@ void R_DrawVisSprite(vissprite_t *vis)
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
-    fuzzpos = 0;
 
-    dc_iscale = ABS(vis->xiscale);
+    dc_iscale = ABS(xiscale);
     dc_texturemid = vis->texturemid;
     if (dc_colormap)
     {
@@ -437,6 +429,9 @@ void R_DrawVisSprite(vissprite_t *vis)
         baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
             - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
 
+    fuzzpos = 0;
+    fuzzclip = baseclip;
+
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         func((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])), baseclip);
 
@@ -465,8 +460,6 @@ void R_ProjectSprite(mobj_t *thing)
     boolean             flip;
 
     vissprite_t         *vis;
-
-    fixed_t             iscale;
 
     fixed_t             fx = thing->x;
     fixed_t             fy = thing->y;
@@ -559,17 +552,16 @@ void R_ProjectSprite(mobj_t *thing)
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
-    iscale = FixedDiv(FRACUNIT, xscale);
 
     if (flip)
     {
         vis->startfrac = spritewidth[lump] - 1;
-        vis->xiscale = -iscale;
+        vis->xiscale = -FixedDiv(FRACUNIT, xscale);
     }
     else
     {
         vis->startfrac = 0;
-        vis->xiscale = iscale;
+        vis->xiscale = FixedDiv(FRACUNIT, xscale);
     }
 
     if (vis->x1 > x1)

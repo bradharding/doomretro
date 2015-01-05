@@ -401,19 +401,22 @@ void R_RenderSegLoop(void)
         // draw the wall tiers
         if (midtexture)
         {
-            // single sided line
-            dc_yl = yl;
-            dc_yh = yh;
-            dc_topsparkle = false;
-            dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
-            dc_texturemid = rw_midtexturemid;
-            dc_source = R_GetColumn(midtexture, texturecolumn);
-            dc_texheight = midtexheight;
-            dc_colormask = texturefullbright[midtexture];
-            if (dc_colormask && !fixedcolormap && brightmaps)
-                fbwallcolfunc();
-            else
-                wallcolfunc();
+            if (yl < viewheight && yh >= 0 && yh >= yl)
+            {
+                // single sided line
+                dc_yl = yl;
+                dc_yh = yh;
+                dc_topsparkle = false;
+                dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
+                dc_texturemid = rw_midtexturemid;
+                dc_source = R_GetColumn(midtexture, texturecolumn);
+                dc_texheight = midtexheight;
+                dc_colormask = texturefullbright[midtexture];
+                if (dc_colormask && !fixedcolormap && brightmaps)
+                    fbwallcolfunc();
+                else
+                    wallcolfunc();
+            }
             ceilingclip[rw_x] = viewheight;
             floorclip[rw_x] = -1;
         }
@@ -436,18 +439,21 @@ void R_RenderSegLoop(void)
 
                 if (mid >= yl)
                 {
-                    dc_yl = yl;
-                    dc_yh = mid;
-                    dc_topsparkle = false;
-                    dc_bottomsparkle = (dc_bottomsparkle && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
-                    dc_texturemid = rw_toptexturemid;
-                    dc_source = R_GetColumn(toptexture, texturecolumn);
-                    dc_texheight = toptexheight;
-                    dc_colormask = texturefullbright[toptexture];
-                    if (dc_colormask && !fixedcolormap && brightmaps)
-                        fbwallcolfunc();
-                    else
-                        wallcolfunc();
+                    if (yl < viewheight && mid >= 0)
+                    {
+                        dc_yl = yl;
+                        dc_yh = mid;
+                        dc_topsparkle = false;
+                        dc_bottomsparkle = (dc_bottomsparkle && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
+                        dc_texturemid = rw_toptexturemid;
+                        dc_source = R_GetColumn(toptexture, texturecolumn);
+                        dc_texheight = toptexheight;
+                        dc_colormask = texturefullbright[toptexture];
+                        if (dc_colormask && !fixedcolormap && brightmaps)
+                            fbwallcolfunc();
+                        else
+                            wallcolfunc();
+                    }
                     ceilingclip[rw_x] = mid;
                 }
                 else
@@ -475,18 +481,21 @@ void R_RenderSegLoop(void)
 
                 if (mid <= yh)
                 {
-                    dc_yl = mid;
-                    dc_yh = yh;
-                    dc_topsparkle = (dc_topsparkle && dc_yh > dc_yl && rw_distance < (128 << FRACBITS));
-                    dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
-                    dc_texturemid = rw_bottomtexturemid;
-                    dc_source = R_GetColumn(bottomtexture, texturecolumn);
-                    dc_texheight = bottomtexheight;
-                    dc_colormask = texturefullbright[bottomtexture];
-                    if (dc_colormask && !fixedcolormap && brightmaps)
-                        fbwallcolfunc();
-                    else
-                        wallcolfunc();
+                    if (mid < viewheight && yh >= 0)
+                    {
+                        dc_yl = mid;
+                        dc_yh = yh;
+                        dc_topsparkle = (dc_topsparkle && dc_yh > dc_yl && rw_distance < (128 << FRACBITS));
+                        dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
+                        dc_texturemid = rw_bottomtexturemid;
+                        dc_source = R_GetColumn(bottomtexture, texturecolumn);
+                        dc_texheight = bottomtexheight;
+                        dc_colormask = texturefullbright[bottomtexture];
+                        if (dc_colormask && !fixedcolormap && brightmaps)
+                            fbwallcolfunc();
+                        else
+                            wallcolfunc();
+                    }
                     floorclip[rw_x] = mid;
                 }
                 else
@@ -607,7 +616,10 @@ void R_StoreWallRange(int start, int stop)
         ds_p->scalestep = rw_scalestep = (ds_p->scale2 - rw_scale) / (stop - start);
     }
     else
+    {
         ds_p->scale2 = ds_p->scale1;
+        ds_p->scalestep = 0;
+    }
 
     // calculate texture boundaries
     //  and decide if floor / ceiling marks are needed
@@ -872,14 +884,14 @@ void R_StoreWallRange(int start, int stop)
     // save sprite clipping info
     if (((ds_p->silhouette & SIL_TOP) || maskedtexture) && !ds_p->sprtopclip)
     {
-        memcpy(lastopening, ceilingclip + start, sizeof(*lastopening) * (rw_stopx - start));
+        memcpy(lastopening, &ceilingclip[start], sizeof(*lastopening) * (rw_stopx - start));
         ds_p->sprtopclip = lastopening - start;
         lastopening += rw_stopx - start;
     }
 
     if (((ds_p->silhouette & SIL_BOTTOM) || maskedtexture) && !ds_p->sprbottomclip)
     {
-        memcpy(lastopening, floorclip + start, sizeof(*lastopening) * (rw_stopx - start));
+        memcpy(lastopening, &floorclip[start], sizeof(*lastopening) * (rw_stopx - start));
         ds_p->sprbottomclip = lastopening - start;
         lastopening += rw_stopx - start;
     }
@@ -887,12 +899,12 @@ void R_StoreWallRange(int start, int stop)
     if (maskedtexture && !(ds_p->silhouette & SIL_TOP))
     {
         ds_p->silhouette |= SIL_TOP;
-        ds_p->tsilheight = INT_MIN;
+        ds_p->tsilheight = (sidedef->midtexture ? INT_MIN : INT_MAX);
     }
     if (maskedtexture && !(ds_p->silhouette & SIL_BOTTOM))
     {
         ds_p->silhouette |= SIL_BOTTOM;
-        ds_p->bsilheight = INT_MAX;
+        ds_p->bsilheight = (sidedef->midtexture ? INT_MAX : INT_MIN);
     }
     ++ds_p;
 }
