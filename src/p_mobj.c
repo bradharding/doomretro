@@ -354,7 +354,8 @@ void P_ZMovement(mobj_t *mo)
         {
             P_RemoveMobj(mo);
             if (bloodsplats)
-                P_BloodSplatSpawner(mo->x, mo->y, mo->blood, mo->floorz);
+                P_BloodSplatSpawner(mo->x + (((rand() & 15) - 5) << FRACBITS),
+                    mo->y + (((rand() & 15) - 5) << FRACBITS), mo->blood, mo->floorz);
             return;
         }
 
@@ -1113,16 +1114,10 @@ extern boolean *isliquid;
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
 {
-    subsector_t *ss;
-    fixed_t     height;
+    sector_t    *sec = R_PointInSubsector(x, y)->sector;
+    fixed_t     height = sec->floorheight;
 
-    x += ((rand() % 16 - 5) << FRACBITS);
-    y += ((rand() % 16 - 5) << FRACBITS);
-
-    ss = R_PointInSubsector(x, y);
-    height = ss->sector->floorheight;
-
-    if (!isliquid[ss->sector->floorpic] && height <= maxheight)
+    if (!isliquid[sec->floorpic] && height <= maxheight)
     {
         mobj_t  *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
@@ -1155,16 +1150,10 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
 
 void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
 {
-    subsector_t *ss;
-    fixed_t     height;
+    sector_t    *sec = R_PointInSubsector(x, y)->sector;
+    fixed_t     height = sec->floorheight;
 
-    x += ((rand() % 16 - 5) << FRACBITS);
-    y += ((rand() % 16 - 5) << FRACBITS);
-
-    ss = R_PointInSubsector(x, y);
-    height = ss->sector->floorheight;
-
-    if (!isliquid[ss->sector->floorpic] && height <= maxheight)
+    if (!isliquid[sec->floorpic] && height <= maxheight)
     {
         mobj_t  *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
