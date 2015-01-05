@@ -1059,7 +1059,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     angle += ANG180;
 
-    for (i = MAX(P_Random() & 10, damage >> 2); i; i--)
+    for (i = MAX(P_Random() % 10, damage >> 2); i; i--)
     {
         mobj_t      *th = Z_Malloc(sizeof(*th), PU_LEVEL, NULL);
         state_t     *st;
@@ -1076,7 +1076,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         st = &states[info->spawnstate];
 
         th->state = st;
-        th->tics = MAX(1, st->tics - (P_Random() & 6));
+        th->tics = MAX(1, st->tics - (P_Random() & 3));
         th->sprite = st->sprite;
         th->frame = st->frame;
 
