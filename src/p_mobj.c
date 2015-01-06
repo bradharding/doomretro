@@ -871,11 +871,18 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
     int     i;
     int     max = M_RandomInt(100, 150);
+    int     shiftx = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+    int     shifty = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
     int     blood = mobjinfo[mobj->blood].blood;
 
     for (i = 0; i < max; i++)
-        P_BloodSplatSpawner(mobj->x + (M_RandomInt(-radius, radius) << FRACBITS),
-            mobj->y + (M_RandomInt(-radius, radius) << FRACBITS), blood, mobj->floorz);
+    {
+        int angle = M_RandomInt(0, FINEANGLES - 1);
+        int x = mobj->x + shiftx + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
+        int y = mobj->y + shifty + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+
+        P_BloodSplatSpawner(x, y, blood, mobj->floorz);
+    }
 }
 
 //
