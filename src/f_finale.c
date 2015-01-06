@@ -266,7 +266,8 @@ static struct
     { 'T', ',',  -1 },
     { 'Y', '.',  -1 },
     { 'Y', ',',  -1 },
-    { 'D', '\'', -1 }
+    { 'D', '\'', -1 },
+    { 0,   0,     0 }
 };
 
 //
@@ -647,7 +648,7 @@ boolean F_CastResponder(event_t *ev)
     // go into death frame
     castdeath = true;
     if ((corpses & MIRROR) && type != MT_CHAINGUY && type != MT_CYBORG)
-        castdeathflip = (rand() & 1);
+        castdeathflip = rand() & 1;
     caststate = &states[mobjinfo[type].deathstate];
     casttics = caststate->tics;
     castrot = 0;

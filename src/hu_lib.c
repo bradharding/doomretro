@@ -139,7 +139,8 @@ static struct
     { 'Y', '.',  -1 },
     { 'Y', ',',  -1 },
     { 'D', '\'', -1 },
-    { '3', '\"', -1 }
+    { '3', '\"', -1 },
+    { 0,   0,     0 }
 };
 
 void HUlib_drawTextLine(hu_textline_t *l)
