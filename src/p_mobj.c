@@ -868,18 +868,18 @@ void P_SpawnPlayer(int n, const mapthing_t *mthing)
 
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    int     radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 8;
-    int     i;
-    int     max = M_RandomInt(100, 150);
-    int     shiftx = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-    int     shifty = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-    int     blood = mobjinfo[mobj->blood].blood;
+    int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+    int i;
+    int max = M_RandomInt(50, 100) + radius;
+    int shiftx = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+    int shifty = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+    int blood = mobjinfo[mobj->blood].blood;
 
     for (i = 0; i < max; i++)
     {
-        int angle = M_RandomInt(0, FINEANGLES - 1);
-        int x = mobj->x + shiftx + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
-        int y = mobj->y + shifty + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+        int     angle = M_RandomInt(0, FINEANGLES - 1);
+        int     x = mobj->x + shiftx + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
+        int     y = mobj->y + shifty + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
 
         P_BloodSplatSpawner(x, y, blood, mobj->floorz);
     }
