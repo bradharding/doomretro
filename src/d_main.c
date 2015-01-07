@@ -383,7 +383,7 @@ static byte     *playpal;
 //
 void D_PageTicker(void)
 {
-    if (!menuactive)
+    if (!menuactive && !startingnewgame)
     {
         if (--pagetic < 0)
             D_AdvanceTitle();
