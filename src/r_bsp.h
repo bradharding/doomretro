@@ -55,6 +55,6 @@ void R_ClearClipSegs(void);
 void R_ClearDrawSegs(void);
 
 void R_RenderBSPNode(int bspnum);
-int R_DoorClosed(void);
+boolean R_DoorClosed(void);
 
 #endif

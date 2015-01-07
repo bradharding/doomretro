@@ -50,7 +50,7 @@ line_t          *linedef;
 sector_t        *frontsector;
 sector_t        *backsector;
 
-int             doorclosed;
+boolean         doorclosed;
 
 drawseg_t       *drawsegs;
 unsigned int    maxdrawsegs;
@@ -239,7 +239,7 @@ void R_ClearClipSegs(void)
 //
 // It assumes that Doom has already ruled out a door being closed because
 // of front-back closure (e.g. front floor is taller than back ceiling).
-int R_DoorClosed(void)
+boolean R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
@@ -325,7 +325,7 @@ static void R_AddLine(seg_t *line)
 
     backsector = line->backsector;
 
-    doorclosed = 0;
+    doorclosed = false;
 
     // Single sided line?
     if (!backsector)
