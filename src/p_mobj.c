@@ -354,8 +354,8 @@ void P_ZMovement(mobj_t *mo)
         {
             P_RemoveMobj(mo);
             if (bloodsplats)
-                P_BloodSplatSpawner(mo->x + (((rand() & 10) - 5) << FRACBITS),
-                    mo->y + (((rand() & 10) - 5) << FRACBITS), mo->blood, mo->floorz);
+                P_BloodSplatSpawner(mo->x + (M_RandomInt(-5, 5) << FRACBITS),
+                    mo->y + (M_RandomInt(-5, 5) << FRACBITS), mo->blood, mo->floorz);
             return;
         }
 
