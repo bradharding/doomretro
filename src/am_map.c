@@ -151,7 +151,7 @@ byte    *gridcolor;
 #define M_ZOOMOUT               ((int)((float)FRACUNIT / (1.00f + F_PANINC / 200.0f)))
 
 // translates between frame-buffer and map distances
-#define FTOM(x)                 (fixed_t)(((int64_t)((x) << 16) * scale_ftom) >> FRACBITS)
+#define FTOM(x)                 (fixed_t)(((int64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
 #define MTOF(x)                 (fixed_t)((((int64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 // translates between frame-buffer and map coordinates
 #define CXMTOF(x)               MTOF(x - m_x)
@@ -1071,11 +1071,9 @@ boolean AM_Responder(event_t *ev)
                 double  x = m_paninc.x;
                 double  y = m_paninc.y;
 
-                if ((m_x == min_x - (m_w >> 1) && x < 0)
-                    || (m_x == max_x - (m_w >> 1) && x > 0))
+                if ((m_x == min_x - (m_w >> 1) && x < 0) || (m_x == max_x - (m_w >> 1) && x > 0))
                     x = 0;
-                if ((m_y == min_y - (m_h >> 1) && y < 0)
-                    || (m_y == max_y - (m_h >> 1) && y > 0))
+                if ((m_y == min_y - (m_h >> 1) && y < 0) || (m_y == max_y - (m_h >> 1) && y > 0))
                     y = 0;
                 direction = (int)(atan2(y, x) * 180.0 / M_PI);
                 if (direction < 0)
