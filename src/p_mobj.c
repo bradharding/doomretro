@@ -487,7 +487,19 @@ fixed_t floatbobdiffs[64] =
     -25695, -25695, -25447, -24955, -24222, -23256, -22066, -20663,
     -19062, -17277, -15325, -13226, -11000,  -8667,  -6251,  -3775,
      -1262,   1262,   3775,   6251,   8667,  10999,  13226,  15325,
-     17276,  19062,  20663,  22066,  23256,  24222,  24955,  25448
+     17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
+};
+
+fixed_t smallfloatbobdiffs[64] =
+{
+      3211,   3211,   3180,   3119,   3027,   2907,   2758,   2582,
+      2382,   2159,   1915,   1653,   1374,   1083,    781,    471,
+       157,   -157,   -471,   -781,  -1083,  -1374,  -1653,  -1915,
+     -2159,  -2382,  -2582,  -2758,  -2907,  -3027,  -3119,  -3180,
+     -3211,  -3211,  -3180,  -3119,  -3027,  -2907,  -2758,  -2582,
+     -2382,  -2159,  -1915,  -1653,  -1374,  -1083,   -781,   -471,
+      -157,    157,    471,    781,   1083,   1374,   1653,   1915,
+      2159,   2382,   2582,   2758,   2907,   3027,   3119,   3180
 };
 
 //
@@ -504,6 +516,9 @@ void P_MobjThinker(mobj_t *mobj)
             return;             // mobj was removed
     }
 
+    if ((mobj->flags2 & MF2_FEETARECLIPPED) && !mobj->player && floatbob)
+        mobj->z += smallfloatbobdiffs[(mobj->floatbob + leveltime) & 63];
+    else
     if ((mobj->flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)
@@ -1135,7 +1150,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | (rand() & 1) * MF2_MIRRORED);
+        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | MF2_NOFOOTCLIP |
+            (rand() & 1) * MF2_MIRRORED);
         if (blood == FUZZYBLOOD)
         {
             newsplat->flags = MF_FUZZ;
@@ -1171,7 +1187,8 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | (rand() & 1) * MF2_MIRRORED);
+        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | MF2_NOFOOTCLIP |
+            (rand() & 1) * MF2_MIRRORED);
         if (blood == FUZZYBLOOD)
         {
             newsplat->flags = MF_FUZZ;

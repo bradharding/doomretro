@@ -544,7 +544,7 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= thing->subsector->sector->floorheight)
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= thing->subsector->sector->floorheight + FRACUNIT)
         vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
     else
         vis->footclip = 0;
