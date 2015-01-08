@@ -507,6 +507,9 @@ fixed_t smallfloatbobdiffs[64] =
 //
 void P_MobjThinker(mobj_t *mobj)
 {
+    int         flags2 = mobj->flags2;
+    player_t    *player = mobj->player;
+
     // momentum movement
     if (mobj->momx || mobj->momy || (mobj->flags & MF_SKULLFLY))
     {
@@ -516,14 +519,14 @@ void P_MobjThinker(mobj_t *mobj)
             return;             // mobj was removed
     }
 
-    if ((mobj->flags2 & MF2_FEETARECLIPPED) && !mobj->player && floatbob)
+    if ((flags2 & MF2_FEETARECLIPPED) && !player
+        && mobj->z <= mobj->subsector->sector->floorheight + FRACUNIT && floatbob)
         mobj->z += smallfloatbobdiffs[(mobj->floatbob + leveltime) & 63];
-    else
-    if ((mobj->flags2 & MF2_FLOATBOB) && floatbob)
+    else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
-        if (mobj->flags2 & MF2_PASSMOBJ)
+        if (flags2 & MF2_PASSMOBJ)
         {
             mobj_t *onmo;
 
@@ -534,14 +537,14 @@ void P_MobjThinker(mobj_t *mobj)
             }
             else
             {
-                if (mobj->player)
+                if (player)
                 {
                     if (mobj->momz < -GRAVITY * 8)
                         PlayerLandedOnThing(mobj);
                     if (onmo->z + onmo->height - mobj->z <= 24 * FRACUNIT)
                     {
-                        mobj->player->viewheight -= onmo->z + onmo->height - mobj->z;
-                        mobj->player->deltaviewheight = (VIEWHEIGHT - mobj->player->viewheight) >> 3;
+                        player->viewheight -= onmo->z + onmo->height - mobj->z;
+                        player->deltaviewheight = (VIEWHEIGHT - player->viewheight) >> 3;
                         mobj->z = onmo->z + onmo->height;
                         mobj->flags2 |= MF2_ONMOBJ;
                     }
