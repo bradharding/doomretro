@@ -54,7 +54,7 @@
 #define OVERDRIVE               6
 #define MAXGEAR                 (OVERDRIVE + 16)
 
-#define CORPSEBLOODSPLATS       256
+#define CORPSEBLOODSPLATS       512
 
 //
 // NOTES: mobj_t
