@@ -899,6 +899,9 @@ void P_SpawnMoreBlood(mobj_t *mobj)
         int     x = mobj->x + shiftx + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
         int     y = mobj->y + shifty + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
 
+        if (!--mobj->bloodsplats)
+            break;
+
         P_BloodSplatSpawner(x, y, blood, mobj->floorz);
     }
 }
