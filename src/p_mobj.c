@@ -519,7 +519,7 @@ void P_MobjThinker(mobj_t *mobj)
             return;             // mobj was removed
     }
 
-    if ((flags2 & MF2_FEETARECLIPPED) && !player
+    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB) && !player
         && mobj->z <= mobj->subsector->sector->floorheight + FRACUNIT && floatbob)
         mobj->z += smallfloatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)

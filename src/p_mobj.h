@@ -258,27 +258,30 @@ typedef enum
     // Object's feet won't be clipped in liquid
     MF2_NOFOOTCLIP                = 0x00040000,
 
+    // Object won't bob in liquid
+    MF2_NOFLOATBOB                = 0x00080000,
+
     // Object's feet are now being clipped
     // (when applied to object's shadow, shadow isn't drawn)
-    MF2_FEETARECLIPPED            = 0x00080000,
+    MF2_FEETARECLIPPED            = 0x00100000,
 
     // Object has a shadow
-    MF2_SHADOW                    = 0x00100000,
+    MF2_SHADOW                    = 0x00200000,
 
     // Object is blood
-    MF2_BLOOD                     = 0x00200000,
+    MF2_BLOOD                     = 0x00400000,
 
     // Object is drawn first
-    MF2_DRAWFIRST                 = 0x00400000,
+    MF2_DRAWFIRST                 = 0x00800000,
 
     // Object's thing triangle is not displayed in automap
-    MF2_DONOTMAP                  = 0x00800000,
+    MF2_DONOTMAP                  = 0x01000000,
 
     // Object has smoke trail
-    MF2_SMOKETRAIL                = 0x01000000,
+    MF2_SMOKETRAIL                = 0x02000000,
 
     // Object can be crushed into blood splats by moving sectors
-    MF2_CRUSHABLE                 = 0x02000000
+    MF2_CRUSHABLE                 = 0x04000000
 } mobjflag2_t;
 
 // Map Object definition.
