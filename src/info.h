@@ -1363,6 +1363,7 @@ typedef struct
     int         raisestate;
     int         frames;
     int         blood;
+    int         shadowoffset;
     char        *description;
     void        (*colfunc)(void);
     boolean     canmodify;

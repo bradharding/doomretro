@@ -1435,6 +1435,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "you"
     },
 
@@ -1467,6 +1468,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_POSS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Zombieman"
     },
 
@@ -1499,6 +1501,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SPOS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Shotgun Guy"
     },
 
@@ -1531,6 +1534,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "an Arch-vile"
     },
 
@@ -1563,6 +1567,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -1595,6 +1600,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SKEL_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Revenant"
     },
 
@@ -1627,6 +1633,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -1659,6 +1666,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -1691,6 +1699,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_FATT_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Mancubus"
     },
 
@@ -1723,6 +1732,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -1755,6 +1765,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_CPOS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Heavy Weapon Dude"
     },
 
@@ -1787,6 +1798,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_TROO_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "an Imp"
     },
 
@@ -1819,6 +1831,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Demon"
     },
 
@@ -1851,6 +1864,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_FUZZYBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Spectre"
     },
 
@@ -1883,6 +1897,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_HEAD_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLUEBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Cacodemon"
     },
 
@@ -1915,6 +1930,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_BOSS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_GREENBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Baron of Hell"
     },
 
@@ -1947,6 +1963,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "",
     },
 
@@ -1979,6 +1996,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_BOS2_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_GREENBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Hell Knight"
     },
 
@@ -2011,6 +2029,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a Lost Soul"
     },
 
@@ -2043,6 +2062,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Spider Mastermind"
     },
 
@@ -2075,6 +2095,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_BSPI_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "an Arachnotron"
     },
 
@@ -2107,6 +2128,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Cyberdemon"
     },
 
@@ -2139,6 +2161,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_PAIN_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Pain Elemental"
     },
 
@@ -2171,6 +2194,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SSWV_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "a Wolfenstein SS"
     },
 
@@ -2203,6 +2227,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ "Commander Keen"
     },
 
@@ -2235,6 +2260,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2267,6 +2293,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2299,6 +2326,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2331,6 +2359,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2363,6 +2392,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2395,6 +2425,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a barrel"
     },
 
@@ -2427,6 +2458,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2459,6 +2491,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2491,6 +2524,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2523,6 +2557,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2555,6 +2590,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2587,6 +2623,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2619,6 +2656,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2651,6 +2689,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ REDBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2683,6 +2722,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2715,6 +2755,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2747,6 +2788,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "",
     },
 
@@ -2779,6 +2821,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -2811,6 +2854,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "some green armor"
     },
 
@@ -2843,6 +2887,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "some blue armor"
     },
 
@@ -2875,6 +2920,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a health bonus"
     },
 
@@ -2907,6 +2953,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "an armor bonus"
     },
 
@@ -2939,6 +2986,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a blue keycard"
     },
 
@@ -2971,6 +3019,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a red keycard"
     },
 
@@ -3003,6 +3052,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a yellow keycard"
     },
 
@@ -3035,6 +3085,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a yellow skull key"
     },
 
@@ -3067,6 +3118,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a red skull key"
     },
 
@@ -3099,6 +3151,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a blue skull key"
     },
 
@@ -3131,6 +3184,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a stimpack"
     },
 
@@ -3163,6 +3217,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a medikit"
     },
 
@@ -3195,6 +3250,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a SoulSphere"
     },
 
@@ -3227,6 +3283,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "an invulnerability power-up"
     },
 
@@ -3259,6 +3316,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a berserk power-up"
     },
 
@@ -3291,6 +3349,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a partial invisibility power-up"
     },
 
@@ -3323,6 +3382,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a radiation shielding suit power-up"
     },
 
@@ -3355,6 +3415,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a computer area map power-up"
     },
 
@@ -3387,6 +3448,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a light amplification visor power-up"
     },
 
@@ -3419,6 +3481,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a MegaSphere"
     },
 
@@ -3451,6 +3514,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a clip"
     },
 
@@ -3483,6 +3547,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a box of bullets"
     },
 
@@ -3515,6 +3580,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a rocket"
     },
 
@@ -3547,6 +3613,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a box of rockets"
     },
 
@@ -3579,6 +3646,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a cell"
     },
 
@@ -3611,6 +3679,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a cell pack"
     },
 
@@ -3643,6 +3712,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "some shotgun shells"
     },
 
@@ -3675,6 +3745,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a box of shells"
     },
 
@@ -3707,6 +3778,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a backpack"
     },
 
@@ -3739,6 +3811,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a BFG-9000"
     },
 
@@ -3771,6 +3844,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a chaingun"
     },
 
@@ -3803,6 +3877,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a chainsaw"
     },
 
@@ -3835,6 +3910,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a rocket launcher"
     },
 
@@ -3867,6 +3943,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a plasma rifle"
     },
 
@@ -3899,6 +3976,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a shotgun"
     },
 
@@ -3931,6 +4009,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ "a super shotgun"
     },
 
@@ -3963,6 +4042,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -3995,6 +4075,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4027,6 +4108,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4059,6 +4141,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4091,6 +4174,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4123,6 +4207,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4155,6 +4240,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4187,6 +4273,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4219,6 +4306,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4251,6 +4339,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4283,6 +4372,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4315,6 +4405,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4347,6 +4438,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4379,6 +4471,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4411,6 +4504,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4443,6 +4537,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4475,6 +4570,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4507,6 +4603,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 4,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4539,6 +4636,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4571,6 +4669,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4603,6 +4702,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4635,6 +4735,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4667,6 +4768,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4699,6 +4801,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4731,6 +4834,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4763,6 +4867,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4795,6 +4900,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4827,6 +4933,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4859,6 +4966,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4891,6 +4999,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4923,6 +5032,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4955,6 +5065,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -4987,6 +5098,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLUEBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5019,6 +5131,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5051,6 +5164,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5083,6 +5197,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5115,6 +5230,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5147,6 +5263,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5179,6 +5296,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5211,6 +5329,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5243,6 +5362,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5275,6 +5395,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5307,6 +5428,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5339,6 +5461,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5371,6 +5494,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5403,6 +5527,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5435,6 +5560,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 2,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5467,6 +5593,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5499,6 +5626,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 3,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5531,6 +5659,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5563,6 +5692,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5595,6 +5725,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5627,6 +5758,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5659,6 +5791,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5691,6 +5824,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5723,6 +5857,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5755,6 +5890,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5787,6 +5923,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5819,6 +5956,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ BLUEBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5851,6 +5989,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ GREENBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5883,6 +6022,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ FUZZYBLOOD,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5915,6 +6055,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5947,6 +6088,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     },
 
@@ -5979,6 +6121,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ 0,
+        /* shadowoffset         */ 0,
         /* description          */ ""
     }
 };

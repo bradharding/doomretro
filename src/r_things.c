@@ -520,7 +520,13 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = fz + (type == MT_SHADOW ? 0 : spritetopoffset[lump]);
+    if (type == MT_SHADOW)
+    {
+        fz += thing->shadow->info->shadowoffset;
+        gzt = fz;
+    }
+    else
+        gzt = fz + spritetopoffset[lump];
 
     if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
         || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
