@@ -1058,6 +1058,7 @@ boolean P_ThingHeightClip(mobj_t *thing)
 {
     boolean     onfloor = (thing->z == thing->floorz);
     fixed_t     oldfloorz = thing->floorz; // haleyjd
+    int         flags2 = thing->flags2;
 
     P_CheckPosition(thing, thing->x, thing->y);
 
@@ -1067,7 +1068,7 @@ boolean P_ThingHeightClip(mobj_t *thing)
     thing->dropoffz = tmdropoffz;         // killough 11/98: remember dropoffs
 
     // haleyjd 09/19/06: floatbobbers require special treatment here now
-    if (thing->flags2 & MF2_FLOATBOB)
+    if (flags2 & MF2_FLOATBOB || ((flags2 & MF2_FEETARECLIPPED) && !thing->player))
     {
         if (thing->floorz > oldfloorz || !(thing->flags & MF_NOGRAVITY))
             thing->z = thing->z - oldfloorz + thing->floorz;
@@ -1081,7 +1082,7 @@ boolean P_ThingHeightClip(mobj_t *thing)
         thing->z = thing->floorz;
 
         // killough 11/98: Possibly upset balance of objects hanging off ledges
-        if ((thing->flags2 & MF2_FALLING) && thing->gear >= MAXGEAR)
+        if ((flags2 & MF2_FALLING) && thing->gear >= MAXGEAR)
             thing->gear = 0;
     }
     else
