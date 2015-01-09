@@ -1784,7 +1784,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
     int flags = thing->flags;
     int flags2 = thing->flags2;
 
-    if (isliquidsector)
+    if (isliquidsector && !(thing->flags2 & MF2_NOFOOTCLIP))
     {
         thing->flags2 |= MF2_FEETARECLIPPED;
         if (thing->shadow)
