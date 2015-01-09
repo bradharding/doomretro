@@ -667,7 +667,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->floorz = mobj->subsector->sector->floorheight;
     mobj->ceilingz = mobj->subsector->sector->ceilingheight;
 
-    if ((mobj->flags2 & MF2_FLOATBOB) && floatbob)
+    if (floatbob)
         mobj->floatbob = P_Random();
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
