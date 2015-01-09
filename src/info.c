@@ -1468,7 +1468,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_POSS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 2 * FRACUNIT,
+        /* shadowoffset         */ 0,
         /* description          */ "a Zombieman"
     },
 
@@ -1501,7 +1501,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SPOS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 2 * FRACUNIT,
+        /* shadowoffset         */ 0,
         /* description          */ "a Shotgun Guy"
     },
 
@@ -1765,7 +1765,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_CPOS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 2 * FRACUNIT,
+        /* shadowoffset         */ 0,
         /* description          */ "a Heavy Weapon Dude"
     },
 
@@ -6695,7 +6695,7 @@ offset_t sproffsets[] =
     { "SKELN0",     30,   68, MT_UNDEAD,       true }, //   38,   65
     { "SKELO0",     27,   51, MT_UNDEAD,       true }, //   28,   51
     { "SKELP0",     23,   33, MT_UNDEAD,       true }, //   28,   33
-    { "SKELQ0",     29,   17, MT_UNDEAD,       true }, //   40,   19
+    { "SKELQ0",     29,   15, MT_UNDEAD,       true }, //   40,   19
     { "SKULA1",     22,   50, MT_SKULL,        true }, //   20,   50
     { "SKULA5",     22,   49, MT_SKULL,        true }, //   21,   48
     { "SKULA6A4",   13,   56, MT_SKULL,        true }, //   13,   53

@@ -465,6 +465,7 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             fy = thing->y;
     fixed_t             fz = thing->z;
 
+    int                 flags = thing->flags;
     int                 flags2 = thing->flags2;
     int                 frame = thing->frame;
     int                 type = thing->type;
@@ -513,8 +514,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (x1 > viewwidth)
         return;
 
-    tx += spritewidth[lump];
-    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS) - 1;
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], xscale)) >> FRACBITS) - 1;
 
     // off the left side
     if (x2 < 0)
@@ -522,7 +522,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     if (type == MT_SHADOW)
     {
-        fz += thing->shadow->info->shadowoffset + FRACUNIT;
+        fz += thing->shadow->info->shadowoffset;
         gzt = fz;
     }
     else
@@ -534,9 +534,9 @@ void R_ProjectSprite(mobj_t *thing)
 
     // store information in a vissprite
     vis = R_NewVisSprite();
-    vis->mobjflags = thing->flags;
+    vis->mobjflags = flags;
     vis->mobjflags2 = flags2;
-    vis->type = thing->type;
+    vis->type = type;
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
@@ -544,7 +544,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
-    if ((thing->flags & MF_FUZZ) && (menuactive || paused))
+    if ((flags & MF_FUZZ) && (menuactive || paused))
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = thing->colfunc;
