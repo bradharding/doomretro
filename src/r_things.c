@@ -522,7 +522,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     if (type == MT_SHADOW)
     {
-        fz += thing->shadow->info->shadowoffset;
+        fz += thing->shadow->info->shadowoffset + FRACUNIT;
         gzt = fz;
     }
     else
