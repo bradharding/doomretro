@@ -478,7 +478,7 @@ static void PlayerLandedOnThing(mobj_t *mo)
         P_NoiseAlert(mo, mo);
 }
 
-fixed_t floatbobdiffs[64] =
+static fixed_t floatbobdiffs[64] =
 {
      25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
      19062,  17277,  15325,  13226,  10999,   8667,   6251,   3775,
@@ -490,7 +490,7 @@ fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-fixed_t smallfloatbobdiffs[64] =
+static fixed_t smallfloatbobdiffs[64] =
 {
       3211,   3211,   3180,   3119,   3027,   2907,   2758,   2582,
       2382,   2159,   1915,   1653,   1374,   1083,    781,    471,
@@ -507,11 +507,12 @@ fixed_t smallfloatbobdiffs[64] =
 //
 void P_MobjThinker(mobj_t *mobj)
 {
+    int         flags = mobj->flags;
     int         flags2 = mobj->flags2;
     player_t    *player = mobj->player;
 
     // momentum movement
-    if (mobj->momx || mobj->momy || (mobj->flags & MF_SKULLFLY))
+    if (mobj->momx || mobj->momy || (flags & MF_SKULLFLY))
     {
         P_XYMovement(mobj);
 
@@ -519,7 +520,8 @@ void P_MobjThinker(mobj_t *mobj)
             return;             // mobj was removed
     }
 
-    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB) && !player
+    if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
+        && !(flags & MF_SHOOTABLE) && !player
         && mobj->z <= mobj->subsector->sector->floorheight + FRACUNIT && floatbob)
         mobj->z += smallfloatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
@@ -558,13 +560,13 @@ void P_MobjThinker(mobj_t *mobj)
         if (mobj->thinker.function.acv == (actionf_v)(-1))
             return;             // mobj was removed
     }
-    else if (!mobj->momx && !mobj->momy && !mobj->player)
+    else if (!mobj->momx && !mobj->momy && !player)
     {
         // killough 9/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off
         // [RH] Be more restrictive to avoid pushing monsters/players down steps
-        if (!(mobj->flags & MF_NOGRAVITY) && !(mobj->flags2 & MF2_FLOATBOB)
-            && mobj->z > mobj->dropoffz && (mobj->health <= 0 || ((mobj->flags & MF_COUNTKILL)
+        if (!(flags & MF_NOGRAVITY) && !(flags2 & MF2_FLOATBOB)
+            && mobj->z > mobj->dropoffz && (mobj->health <= 0 || ((flags & MF_COUNTKILL)
             && mobj->z - mobj->dropoffz > 24 * FRACUNIT)))
             P_ApplyTorque(mobj);
         else
@@ -586,7 +588,7 @@ void P_MobjThinker(mobj_t *mobj)
     else
     {
         // check for nightmare respawn
-        if ((mobj->flags & MF_SHOOTABLE) && respawnmonsters)
+        if ((flags & MF_SHOOTABLE) && respawnmonsters)
         {
             mobj->movecount++;
 
