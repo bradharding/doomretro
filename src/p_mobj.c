@@ -172,10 +172,12 @@ void P_XYMovement(mobj_t *mo)
     fixed_t     ptryx;
     fixed_t     ptryy;
     int         numsteps = 1;
+    int         flags = mo->flags;
+    int         flags2 = mo->flags2;
 
     if (!(mo->momx | mo->momy))
     {
-        if (mo->flags & MF_SKULLFLY)
+        if (flags & MF_SKULLFLY)
         {
             // the skull slammed into something
             mo->flags &= ~MF_SKULLFLY;
@@ -188,7 +190,7 @@ void P_XYMovement(mobj_t *mo)
     player = mo->player;
     type = mo->type;
 
-    if (mo->flags2 & MF2_SMOKETRAIL)
+    if (flags2 & MF2_SMOKETRAIL)
         if (puffcount++ > 1)
             P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
 
@@ -235,7 +237,7 @@ void P_XYMovement(mobj_t *mo)
             if (player)
                 // try to slide along it
                 P_SlideMove(mo);
-            else if (mo->flags & MF_MISSILE)
+            else if (flags & MF_MISSILE)
             {
                 // explode a missile
                 if (ceilingline
@@ -260,13 +262,13 @@ void P_XYMovement(mobj_t *mo)
         }
     } while (--numsteps);
 
-    if (mo->flags & (MF_MISSILE | MF_SKULLFLY))
+    if (flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
 
-    if (mo->z > mo->floorz && !(mo->flags2 & MF2_ONMOBJ))
+    if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
-    if ((mo->flags & MF_CORPSE) && !(mo->flags & MF_NOBLOOD) && (corpses & SLIDE)
+    if ((flags & MF_CORPSE) && !(flags & MF_NOBLOOD) && (corpses & SLIDE)
         && (corpses & SMEARBLOOD) && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
     {
         int     i;
@@ -284,7 +286,7 @@ void P_XYMovement(mobj_t *mo)
         }
     }
 
-    if (((mo->flags & MF_CORPSE) || (mo->flags2 & MF2_FALLING))
+    if (((flags & MF_CORPSE) || (flags2 & MF2_FALLING))
         && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4
             || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
         && mo->floorz != mo->subsector->sector->floorheight)
@@ -302,8 +304,7 @@ void P_XYMovement(mobj_t *mo)
     }
     else
     {
-        if (((mo->flags & MF_CORPSE) || (mo->flags & MF_DROPPED))
-            && isliquid[mo->subsector->sector->floorpic])
+        if (flags2 & MF2_FEETARECLIPPED)
         {
             mo->momx = FixedMul(mo->momx, WATERFRICTION);
             mo->momy = FixedMul(mo->momy, WATERFRICTION);
@@ -1136,8 +1137,6 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
             P_SetMobjState(th, th->state->nextstate);
     }
 }
-
-extern boolean *isliquid;
 
 //
 // P_SpawnBloodSplat

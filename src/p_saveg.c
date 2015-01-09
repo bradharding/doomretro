@@ -52,7 +52,6 @@ FILE            *save_stream;
 int             savegamelength;
 boolean         savegame_error;
 
-extern boolean  *isliquid;
 extern boolean  footclip;
 
 void P_SpawnShadow(mobj_t *actor);
