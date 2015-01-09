@@ -1468,7 +1468,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_POSS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 2 * FRACUNIT,
         /* description          */ "a Zombieman"
     },
 
@@ -1501,7 +1501,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SPOS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 2 * FRACUNIT,
         /* description          */ "a Shotgun Guy"
     },
 
@@ -1534,7 +1534,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 4 * FRACUNIT,
         /* description          */ "an Arch-vile"
     },
 
@@ -1600,7 +1600,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SKEL_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 2 * FRACUNIT,
         /* description          */ "a Revenant"
     },
 
@@ -1765,7 +1765,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_CPOS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 2 * FRACUNIT,
         /* description          */ "a Heavy Weapon Dude"
     },
 
@@ -1831,7 +1831,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 2 * FRACUNIT,
         /* description          */ "a Demon"
     },
 
@@ -1864,7 +1864,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_SARG_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_FUZZYBLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 2 * FRACUNIT,
         /* description          */ "a Spectre"
     },
 
@@ -1930,7 +1930,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_BOSS_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_GREENBLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 4 * FRACUNIT,
         /* description          */ "a Baron of Hell"
     },
 
@@ -1996,7 +1996,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_BOS2_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_GREENBLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 4 * FRACUNIT,
         /* description          */ "a Hell Knight"
     },
 
@@ -2062,7 +2062,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 12 * FRACUNIT,
         /* description          */ "a Spider Mastermind"
     },
 
@@ -2095,7 +2095,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* raisestate           */ S_BSPI_RAISE1,
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
-        /* shadowoffset         */ 0,
+        /* shadowoffset         */ 4 * FRACUNIT,
         /* description          */ "an Arachnotron"
     },
 
