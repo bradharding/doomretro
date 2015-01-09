@@ -304,7 +304,7 @@ void P_XYMovement(mobj_t *mo)
     }
     else
     {
-        if (flags2 & MF2_FEETARECLIPPED)
+        if ((flags2 & MF2_FEETARECLIPPED) && !player)
         {
             mo->momx = FixedMul(mo->momx, WATERFRICTION);
             mo->momy = FixedMul(mo->momy, WATERFRICTION);
