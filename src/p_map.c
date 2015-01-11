@@ -1816,15 +1816,22 @@ boolean PIT_ChangeSector(mobj_t *thing)
 
         if (!(flags & MF_FUZZ) && !(flags & MF_NOBLOOD))
         {
+            int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]]
+                         >> FRACBITS) >> 1) + 12;
             int i;
-            int radius = ((spritewidth[sprites[thing->sprite].spriteframes[0].lump[0]] >>
-                         FRACBITS) >> 1) + 8;
-            int max = radius << 3;
+            int max = M_RandomInt(50, 100) + radius;
+            int blood = thing->blood;
 
             for (i = 0; i < max; i++)
-                P_BloodSplatSpawner(thing->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                    thing->y + (M_RandomInt(-radius, radius) << FRACBITS), thing->blood,
-                    thing->floorz);
+            {
+                int     angle = M_RandomInt(0, FINEANGLES - 1);
+                int     x = thing->x + FixedMul(M_RandomInt(0, radius) << FRACBITS,
+                            finecosine[angle]);
+                int     y = thing->y + FixedMul(M_RandomInt(0, radius) << FRACBITS,
+                            finesine[angle]);
+
+                P_BloodSplatSpawner(x, y, blood, thing->floorz);
+            }
         }
 
         S_StartSound(thing, sfx_slop);
