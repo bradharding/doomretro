@@ -37,6 +37,7 @@
 */
 
 #include "doomstat.h"
+#include "m_random.h"
 #include "p_fix.h"
 #include "p_local.h"
 #include "s_sound.h"
@@ -522,4 +523,30 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
         } while (ok);
     }
     return rtn;
+}
+
+extern boolean  *isliquid;
+extern fixed_t  smallfloatbobdiffs[64];
+
+void T_FloatBobPlane(floormove_t *floor)
+{
+    floor->sector->floorheight += smallfloatbobdiffs[leveltime & 63];
+}
+
+void P_InitFloatBobPlanes(void)
+{
+    int         i;
+    sector_t    *sec;
+
+    for (i = 0, sec = sectors; i < numsectors; i++, sec++)
+    {
+        if (isliquid[sec->floorpic])
+        {
+            floormove_t *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+
+            P_AddThinker(&floor->thinker);
+            floor->thinker.function.acp1 = (actionf_p1)T_FloatBobPlane;
+            floor->sector = sec;
+        }
+    }
 }

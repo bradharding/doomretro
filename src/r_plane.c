@@ -54,7 +54,8 @@ visplane_t              *ceilingplane;
 // killough -- hash function for visplanes
 // Empirically verified to be fairly uniform:
 #define visplane_hash(picnum, lightlevel, height) \
-    (((unsigned int)(picnum) * 3 + (unsigned int)(lightlevel) + (unsigned int)(height) * 7) & (MAXVISPLANES - 1))
+    (((unsigned int)(picnum) * 3 + (unsigned int)(lightlevel) + \
+    (unsigned int)(height) * 7) & (MAXVISPLANES - 1))
 
 size_t                 maxopenings;
 int                    *openings;                       // dropoff overflow

@@ -491,7 +491,7 @@ static fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-static fixed_t smallfloatbobdiffs[64] =
+fixed_t smallfloatbobdiffs[64] =
 {
       3211,   3211,   3180,   3119,   3027,   2907,   2758,   2582,
       2382,   2159,   1915,   1653,   1374,   1083,    781,    471,
@@ -894,7 +894,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     int max = M_RandomInt(50, 100) + radius;
     int shiftx = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
     int shifty = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-    int blood = mobjinfo[mobj->blood].blood;
+    int blood = mobj->blood;
 
     for (i = 0; i < max; i++)
     {

@@ -1214,6 +1214,7 @@ void P_SetupLevel(int episode, int map)
     P_LoadThings(lumpnum + ML_THINGS);
 
     P_InitCards(&players[0]);
+    P_InitFloatBobPlanes();
 
     // if deathmatch, randomly spawn the active players
     if (deathmatch)
