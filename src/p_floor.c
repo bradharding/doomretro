@@ -530,23 +530,36 @@ extern fixed_t  smallfloatbobdiffs[64];
 
 void T_FloatBobPlane(floormove_t *floor)
 {
-    floor->sector->floorheight += smallfloatbobdiffs[leveltime & 63];
+    floor->sector->floatbob += smallfloatbobdiffs[leveltime & 63];
 }
 
 void P_InitFloatBobPlanes(void)
 {
     int         i;
-    sector_t    *sec;
+    sector_t    *sector;
 
-    for (i = 0, sec = sectors; i < numsectors; i++, sec++)
+    for (i = 0, sector = sectors; i < numsectors; i++, sector++)
     {
-        if (isliquid[sec->floorpic])
+        if (isliquid[sector->floorpic])
         {
             floormove_t *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+            int         j;
 
             P_AddThinker(&floor->thinker);
             floor->thinker.function.acp1 = (actionf_p1)T_FloatBobPlane;
-            floor->sector = sec;
+            floor->sector = sector;
+
+            for (j = 0; j < sector->linecount; j++)
+            {
+                sector_t       *adjacent = getNextSector(sector->lines[j], sector);
+                
+                if (adjacent && isliquid[adjacent->floorpic]
+                    && sector->floorheight == adjacent->floorheight)
+                {
+                    sides[(sector->lines[j])->sidenum[0]].bottomtexture = 0;
+                    sides[(sector->lines[j])->sidenum[1]].bottomtexture = 0;
+                }
+            }
         }
     }
 }

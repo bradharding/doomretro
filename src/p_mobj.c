@@ -265,7 +265,7 @@ void P_XYMovement(mobj_t *mo)
     if (flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
 
-    if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
+    if (mo->z > mo->floorz + FRACUNIT / 2 && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
     if ((flags & MF_CORPSE) && !(flags & MF_NOBLOOD) && (corpses & SLIDE)
@@ -524,7 +524,7 @@ void P_MobjThinker(mobj_t *mobj)
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
         && !(flags & MF_SHOOTABLE) && !player
         && mobj->z <= mobj->subsector->sector->floorheight + FRACUNIT && floatbob)
-        mobj->z += smallfloatbobdiffs[(mobj->floatbob + leveltime) & 63];
+        mobj->z += smallfloatbobdiffs[leveltime & 63];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)

@@ -94,7 +94,6 @@ static int      heightbits = 12;
 static int      heightunit = (1 << 12);
 static int      invhgtbits = 4;
 
-extern boolean  *isliquid;
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"
@@ -604,7 +603,7 @@ void R_StoreWallRange(int start, int stop)
     }
 
     worldtop = frontsector->ceilingheight - viewz;
-    worldbottom = frontsector->floorheight - viewz;
+    worldbottom = frontsector->floorheight - viewz + frontsector->floatbob;
 
     R_FixWiggle(frontsector);
 
@@ -758,7 +757,7 @@ void R_StoreWallRange(int start, int stop)
             bottomtexture = texturetranslation[sidedef->bottomtexture];
             bottomtexheight = textureheight[bottomtexture] >> FRACBITS;
 
-            if ((linedef->flags & ML_DONTPEGBOTTOM) || isliquid[frontsector->floorpic])
+            if (linedef->flags & ML_DONTPEGBOTTOM)
                 // bottom of texture at bottom, top of texture at top
                 rw_bottomtexturemid = worldtop;
             else        // top of texture at top
