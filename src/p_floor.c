@@ -557,6 +557,7 @@ void P_InitAnimatedLiquids(void)
 {
     int         i;
     sector_t    *sector;
+    thinker_t   *th;
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
     {
@@ -585,8 +586,6 @@ void P_InitAnimatedLiquids(void)
                 floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
                 floor->sector = sector;
 
-                sector->floorheight += FRACUNIT;
-
                 for (j = 0; j < sector->linecount; j++)
                 {
                     sector_t       *adjacent = getNextSector(sector->lines[j], sector);
@@ -603,4 +602,8 @@ void P_InitAnimatedLiquids(void)
             }
         }
     }
+
+    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+        if (th->function.acp1 == (actionf_p1)T_AnimateLiquid)
+            ((sector_t *)th)->floorheight++;
 }
