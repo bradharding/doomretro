@@ -885,7 +885,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     int max = M_RandomInt(50, 100) + radius;
     int shiftx = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
     int shifty = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-    int blood = mobj->blood;
+    int blood = mobjinfo[mobj->blood].blood;
 
     for (i = 0; i < max; i++)
     {
