@@ -590,7 +590,8 @@ void P_InitFloatBobPlanes(void)
 
                     if (adjacent)
                         if (isliquid[adjacent->floorpic]
-                            && sector->floorheight == adjacent->floorheight)
+                            && sector->floorheight == adjacent->floorheight
+                            && !sector->tag && !adjacent->tag)
                         {
                             sides[(sector->lines[j])->sidenum[0]].bottomtexture = 0;
                             sides[(sector->lines[j])->sidenum[1]].bottomtexture = 0;
