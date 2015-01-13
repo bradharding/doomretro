@@ -910,26 +910,32 @@ boolean P_CheckMeleeRange(mobj_t *actor);
 //
 void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 {
-    player_t    *player;
+    player_t    *splayer = NULL;
+    player_t    *tplayer;
+    int         flags = target->flags;
+    int         type = target->type;
 
-    if (!(target->flags & MF_SHOOTABLE) && (!(target->flags & MF_CORPSE) || !(corpses & SLIDE)))
+    if (!(flags & MF_SHOOTABLE) && (!(flags & MF_CORPSE) || !(corpses & SLIDE)))
         return;
 
-    if (target->type == MT_BARREL && (target->flags & MF_CORPSE))
+    if (type == MT_BARREL && (flags & MF_CORPSE))
         return;
 
-    if (target->flags & MF_SKULLFLY)
+    if (flags & MF_SKULLFLY)
         target->momx = target->momy = target->momz = 0;
 
-    player = target->player;
-    if (player && gameskill == sk_baby)
+    if (source)
+        splayer = source->player;
+
+    tplayer = target->player;
+
+    if (tplayer && gameskill == sk_baby)
         damage >>= (damage > 1);
 
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
     // thus kick away unless using the chainsaw.
-    if (inflictor && !(target->flags & MF_NOCLIP)
-        && (!source || !source->player || source->player->readyweapon != wp_chainsaw))
+    if (inflictor && !(flags & MF_NOCLIP) && (!splayer || splayer->readyweapon != wp_chainsaw))
     {
         unsigned int    ang = R_PointToAngle2(inflictor->x, inflictor->y, target->x, target->y);
         fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
@@ -982,11 +988,11 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     }
 
     // player specific
-    if (player)
+    if (tplayer)
     {
         int     damagecount;
 
-        if (player->health <= 0)
+        if (tplayer->health <= 0)
             return;
 
         // end of game hell hack
@@ -995,65 +1001,62 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         // Below certain threshold,
         // ignore damage in GOD mode, or with INVUL power.
-        if ((player->cheats & CF_GODMODE) || (damage < 1000 && player->powers[pw_invulnerability]))
+        if ((tplayer->cheats & CF_GODMODE) || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
-        if (player->armortype)
+        if (tplayer->armortype)
         {
-            int saved = damage / (player->armortype == 1 ? 3 : 2);
+            int saved = damage / (tplayer->armortype == 1 ? 3 : 2);
 
-            if (player->armorpoints <= saved)
+            if (tplayer->armorpoints <= saved)
             {
                 // armor is used up
-                saved = player->armorpoints;
-                player->armortype = 0;
+                saved = tplayer->armorpoints;
+                tplayer->armortype = 0;
             }
-            player->armorpoints -= saved;
+            tplayer->armorpoints -= saved;
             damage -= saved;
         }
-        player->health -= damage;                       // mirror mobj health here for Dave
-        if (player->health < 0)
-            player->health = 0;
+        tplayer->health = MAX(0, tplayer->health - damage);     // mirror mobj health here for Dave
 
-        player->attacker = source;
-        damagecount = player->damagecount + damage;     // add damage after armor / invuln
+        tplayer->attacker = source;
+        damagecount = tplayer->damagecount + damage;            // add damage after armor / invuln
 
-        if (damage > 0 && damagecount < 2)              // damagecount gets decremented before
-             damagecount = 2;                           // being used so needs to be at least 2
-        if (damagecount > 100)
-            damagecount = 100;                          // teleport stomp does 10k points...
+        if (damage > 0 && damagecount < 2)                      // damagecount gets decremented before
+             damagecount = 2;                                   // being used so needs to be at least 2
+        damagecount = MIN(damagecount, 100);                    // teleport stomp does 10k points...
 
-        player->damagecount = damagecount;
+        tplayer->damagecount = damagecount;
 
-        if ((gamepadvibrate & DAMAGE) && vibrate && player == &players[consoleplayer])
+        if ((gamepadvibrate & DAMAGE) && vibrate && tplayer == &players[consoleplayer])
         {
-            XInputVibration(30000 + (100 - MIN(player->health, 100)) / 100 * 30000);
+            XInputVibration(30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000);
             damagevibrationtics += BETWEEN(12, damage, 100);
         }
     }
 
     // do the damage
-    if (!(target->flags & MF_CORPSE))
+    if (!(flags & MF_CORPSE))
     {
         target->health -= damage;
         if (target->health <= 0)
         {
-            if (target->type == MT_BARREL || target->type == MT_PAIN || target->type == MT_SKULL)
+            if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
                 target->colfunc = tlredcolfunc;
-            else if (target->type == MT_BRUISER || target->type == MT_KNIGHT)
+            else if (type == MT_BRUISER || type == MT_KNIGHT)
                 target->colfunc = redtogreencolfunc;
 
             // [crispy] the lethal pellet of a point-blank SSG blast
             // gets an extra damage boost for the occasional gib chance
-            if (source && source->player && source->player->readyweapon == wp_supershotgun
-                && target->info->xdeathstate && P_CheckMeleeRange(target) && damage >= 10)
+            if (splayer && splayer->readyweapon == wp_supershotgun && target->info->xdeathstate
+                && P_CheckMeleeRange(target) && damage >= 10)
                 target->health -= target->info->spawnhealth;
 
             P_KillMobj(source, target);
             return;
         }
 
-        if (P_Random() < target->info->painchance && !(target->flags & MF_SKULLFLY))
+        if (P_Random() < target->info->painchance && !(flags & MF_SKULLFLY))
         {
             target->flags |= MF_JUSTHIT;        // fight back!
 
@@ -1062,18 +1065,18 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         target->reactiontime = 0;               // we're awake now...
 
-        if ((!target->threshold || target->type == MT_VILE)
-            && source && source != target && source->type != MT_VILE)
+        if ((!target->threshold || type == MT_VILE)
+            && source && source != target && type != MT_VILE)
         {
             // if not intent on another player,
             // chase after this one
-            if (!target->lastenemy || target->lastenemy->health <= 0 
-                || !target->lastenemy->player)  // remember last enemy - killough
-                target->lastenemy = target->target;
+            if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
+                target->lastenemy = target->target;     // remember last enemy - killough
 
             target->target = source;
             target->threshold = BASETHRESHOLD;
-            if (target->state == &states[target->info->spawnstate] && target->info->seestate != S_NULL)
+            if (target->state == &states[target->info->spawnstate]
+                && target->info->seestate != S_NULL)
                 P_SetMobjState(target, target->info->seestate);
         }
     }
