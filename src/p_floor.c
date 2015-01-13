@@ -585,6 +585,8 @@ void P_InitAnimatedLiquids(void)
                 floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
                 floor->sector = sector;
 
+                sector->floorheight += FRACUNIT;
+
                 for (j = 0; j < sector->linecount; j++)
                 {
                     sector_t       *adjacent = getNextSector(sector->lines[j], sector);
