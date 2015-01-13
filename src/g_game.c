@@ -1556,6 +1556,8 @@ void G_DoLoadGame(void)
 
     P_RestoreTargets();
 
+    P_InitAnimatedLiquids();
+
     P_MapEnd();
 
     if (!P_ReadSaveGameEOF())

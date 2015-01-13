@@ -309,6 +309,6 @@ extern int clipammo[];
 //
 // P_FLOOR
 //
-void P_InitFloatBobPlanes(void);
+void P_InitAnimatedLiquids(void);
 
 #endif

@@ -127,7 +127,7 @@ typedef struct
     int                 cachedheight;
     int                 scaleindex;
 
-    int                 floatbob;
+    int                 animate;
 } sector_t;
 
 //

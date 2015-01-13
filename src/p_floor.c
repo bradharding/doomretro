@@ -527,7 +527,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
 
 extern boolean  *isliquid;
 
-fixed_t liquidfloatbobdiffs[128] =
+fixed_t animatedliquid[128] =
 {
       3211,  3211,  3211,  3211,  3180,  3180,  3119,  3119,
       3027,  3027,  2907,  2907,  2758,  2758,  2582,  2582,
@@ -548,12 +548,12 @@ fixed_t liquidfloatbobdiffs[128] =
 };
 
 
-void T_FloatBobPlane(floormove_t *floor)
+void T_AnimateLiquid(floormove_t *floor)
 {
-    floor->sector->floatbob += liquidfloatbobdiffs[leveltime & 127];
+    floor->sector->animate += animatedliquid[leveltime & 127];
 }
 
-void P_InitFloatBobPlanes(void)
+void P_InitAnimatedLiquids(void)
 {
     int         i;
     sector_t    *sector;
@@ -581,7 +581,7 @@ void P_InitFloatBobPlanes(void)
                 floormove_t     *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
 
                 P_AddThinker(&floor->thinker);
-                floor->thinker.function.acp1 = (actionf_p1)T_FloatBobPlane;
+                floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
                 floor->sector = sector;
 
                 for (j = 0; j < sector->linecount; j++)

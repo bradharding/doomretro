@@ -492,7 +492,7 @@ static fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-extern fixed_t liquidfloatbobdiffs[128];
+extern fixed_t animatedliquid[128];
 
 //
 // P_MobjThinker
@@ -515,7 +515,7 @@ void P_MobjThinker(mobj_t *mobj)
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
         && !(flags & MF_SHOOTABLE) && !player
         && mobj->z <= mobj->subsector->sector->floorheight + FRACUNIT && floatbob)
-        mobj->z += liquidfloatbobdiffs[(mobj->floatbob + leveltime) & 127];
+        mobj->z += animatedliquid[(mobj->floatbob + leveltime) & 127];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)
