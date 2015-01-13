@@ -265,7 +265,7 @@ void P_XYMovement(mobj_t *mo)
     if (flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
 
-    if (mo->z > mo->floorz + FRACUNIT / 2 && !(flags2 & MF2_ONMOBJ))
+    if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
     if ((flags & MF_CORPSE) && !(flags & MF_NOBLOOD) && (corpses & SLIDE)
@@ -323,6 +323,7 @@ void P_XYMovement(mobj_t *mo)
 void P_ZMovement(mobj_t *mo)
 {
     player_t    *player = mo->player;
+    int         flags = mo->flags;
 
     // check for smooth step up
     if (player && mo->z < mo->floorz)
@@ -334,10 +335,10 @@ void P_ZMovement(mobj_t *mo)
     // adjust height
     mo->z += mo->momz;
 
-    if ((mo->flags & MF_FLOAT) && mo->target)
+    if ((flags & MF_FLOAT) && mo->target)
     {
         // float down towards target if too close
-        if (!(mo->flags & MF_SKULLFLY) && !(mo->flags & MF_INFLOAT))
+        if (!(flags & MF_SKULLFLY) && !(flags & MF_INFLOAT))
         {
             fixed_t     delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
@@ -361,7 +362,7 @@ void P_ZMovement(mobj_t *mo)
         }
 
         // hit the floor
-        if (mo->flags & MF_SKULLFLY)
+        if (flags & MF_SKULLFLY)
             mo->momz = -mo->momz;       // the skull slammed into something
 
         if (mo->momz < 0)
@@ -381,13 +382,13 @@ void P_ZMovement(mobj_t *mo)
         }
         mo->z = mo->floorz;
 
-        if ((mo->flags & MF_MISSILE) && !(mo->flags & MF_NOCLIP))
+        if ((flags & MF_MISSILE) && !(flags & MF_NOCLIP))
         {
             P_ExplodeMissile(mo);
             return;
         }
     }
-    else if (!(mo->flags & MF_NOGRAVITY))
+    else if (!(flags & MF_NOGRAVITY))
     {
         if (!mo->momz)
             mo->momz = -GRAVITY;
@@ -396,7 +397,7 @@ void P_ZMovement(mobj_t *mo)
 
     if (mo->z + mo->height > mo->ceilingz)
     {
-        if (mo->flags & MF_SKULLFLY)
+        if (flags & MF_SKULLFLY)
             mo->momz = -mo->momz;       // the skull slammed into something
 
         // hit the ceiling
@@ -405,7 +406,7 @@ void P_ZMovement(mobj_t *mo)
 
         mo->z = mo->ceilingz - mo->height;
 
-        if ((mo->flags & MF_MISSILE) && !(mo->flags & MF_NOCLIP))
+        if ((flags & MF_MISSILE) && !(flags & MF_NOCLIP))
         {
             P_ExplodeMissile(mo);
             return;
@@ -491,17 +492,7 @@ static fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-fixed_t smallfloatbobdiffs[64] =
-{
-      3211,   3211,   3180,   3119,   3027,   2907,   2758,   2582,
-      2382,   2159,   1915,   1653,   1374,   1083,    781,    471,
-       157,   -157,   -471,   -781,  -1083,  -1374,  -1653,  -1915,
-     -2159,  -2382,  -2582,  -2758,  -2907,  -3027,  -3119,  -3180,
-     -3211,  -3211,  -3180,  -3119,  -3027,  -2907,  -2758,  -2582,
-     -2382,  -2159,  -1915,  -1653,  -1374,  -1083,   -781,   -471,
-      -157,    157,    471,    781,   1083,   1374,   1653,   1915,
-      2159,   2382,   2582,   2758,   2907,   3027,   3119,   3180
-};
+extern fixed_t liquidfloatbobdiffs[128];
 
 //
 // P_MobjThinker
@@ -524,7 +515,7 @@ void P_MobjThinker(mobj_t *mobj)
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
         && !(flags & MF_SHOOTABLE) && !player
         && mobj->z <= mobj->subsector->sector->floorheight + FRACUNIT && floatbob)
-        mobj->z += smallfloatbobdiffs[leveltime & 63];
+        mobj->z += liquidfloatbobdiffs[(mobj->floatbob + leveltime) & 127];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)

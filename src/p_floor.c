@@ -526,11 +526,31 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
 }
 
 extern boolean  *isliquid;
-extern fixed_t  smallfloatbobdiffs[64];
+
+fixed_t liquidfloatbobdiffs[128] =
+{
+      3211,  3211,  3211,  3211,  3180,  3180,  3119,  3119,
+      3027,  3027,  2907,  2907,  2758,  2758,  2582,  2582,
+      2382,  2382,  2159,  2159,  1915,  1915,  1653,  1653,
+      1374,  1374,  1083,  1083,   781,   781,   471,   471,
+       157,   157,  -157,  -157,  -471,  -471,  -781,  -781,
+     -1083, -1083, -1374, -1374, -1653, -1653, -1915, -1915,
+     -2159, -2159, -2382, -2382, -2582, -2582, -2758, -2758,
+     -2907, -2907, -3027, -3027, -3119, -3119, -3180, -3180,
+     -3211, -3211, -3211, -3211, -3180, -3180, -3119, -3119,
+     -3027, -3027, -2907, -2907, -2758, -2758, -2582, -2582,
+     -2382, -2382, -2159, -2159, -1915, -1915, -1653, -1653,
+     -1374, -1374, -1083, -1083,  -781,  -781,  -471,  -471,
+     -157,   -157,   157,   157,   471,   471,   781,   781,
+      1083,  1083,  1374,  1374,  1653,  1653,  1915,  1915,
+      2159,  2159,  2382,  2382,  2582,  2582,  2758,  2758,
+      2907,  2907,  3027,  3027,  3119,  3119,  3180,  3180
+};
+
 
 void T_FloatBobPlane(floormove_t *floor)
 {
-    floor->sector->floatbob += smallfloatbobdiffs[leveltime & 63];
+    floor->sector->floatbob += liquidfloatbobdiffs[leveltime & 127];
 }
 
 void P_InitFloatBobPlanes(void)
@@ -542,22 +562,39 @@ void P_InitFloatBobPlanes(void)
     {
         if (isliquid[sector->floorpic])
         {
-            floormove_t *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
             int         j;
-
-            P_AddThinker(&floor->thinker);
-            floor->thinker.function.acp1 = (actionf_p1)T_FloatBobPlane;
-            floor->sector = sector;
+            boolean     contained = true;
 
             for (j = 0; j < sector->linecount; j++)
             {
                 sector_t       *adjacent = getNextSector(sector->lines[j], sector);
                 
-                if (adjacent && isliquid[adjacent->floorpic]
-                    && sector->floorheight == adjacent->floorheight)
+                if (adjacent)
+                    if (sector->floorheight > adjacent->floorheight
+                        || (isliquid[adjacent->floorpic]
+                            && sector->floorheight != adjacent->floorheight))
+                        contained = false;
+            }
+
+            if (contained)
+            {
+                floormove_t     *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+
+                P_AddThinker(&floor->thinker);
+                floor->thinker.function.acp1 = (actionf_p1)T_FloatBobPlane;
+                floor->sector = sector;
+
+                for (j = 0; j < sector->linecount; j++)
                 {
-                    sides[(sector->lines[j])->sidenum[0]].bottomtexture = 0;
-                    sides[(sector->lines[j])->sidenum[1]].bottomtexture = 0;
+                    sector_t       *adjacent = getNextSector(sector->lines[j], sector);
+
+                    if (adjacent)
+                        if (isliquid[adjacent->floorpic]
+                            && sector->floorheight == adjacent->floorheight)
+                        {
+                            sides[(sector->lines[j])->sidenum[0]].bottomtexture = 0;
+                            sides[(sector->lines[j])->sidenum[1]].bottomtexture = 0;
+                        }
                 }
             }
         }
