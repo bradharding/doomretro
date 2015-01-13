@@ -572,7 +572,8 @@ void P_InitAnimatedLiquids(void)
                 if (adjacent)
                     if (sector->floorheight > adjacent->floorheight
                         || (isliquid[adjacent->floorpic]
-                            && sector->floorheight != adjacent->floorheight))
+                            && sector->floorheight != adjacent->floorheight
+                            && adjacent->floorheight != adjacent->ceilingheight))
                         contained = false;
             }
 
