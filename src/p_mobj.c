@@ -380,8 +380,7 @@ void P_ZMovement(mobj_t *mo)
             }
             mo->momz = 0;
         }
-        if (player || !(mo->flags2 & MF2_FEETARECLIPPED))
-            mo->z = mo->floorz;
+        mo->z = mo->floorz;
 
         if ((flags & MF_MISSILE) && !(flags & MF_NOCLIP))
         {
@@ -514,8 +513,8 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
-        && mobj->z <= mobj->subsector->sector->floorheight && floatbob)
-        mobj->z += animatedliquid[leveltime & 127];
+        && mobj->z <= mobj->subsector->sector->floorheight && !mobj->momz && floatbob)
+        mobj->z += animatedliquid[(mobj->floatbob + leveltime) & 127];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)
