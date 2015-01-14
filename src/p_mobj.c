@@ -380,7 +380,8 @@ void P_ZMovement(mobj_t *mo)
             }
             mo->momz = 0;
         }
-        mo->z = mo->floorz;
+        if (player || !(mo->flags2 & MF2_FEETARECLIPPED))
+            mo->z = mo->floorz;
 
         if ((flags & MF_MISSILE) && !(flags & MF_NOCLIP))
         {
