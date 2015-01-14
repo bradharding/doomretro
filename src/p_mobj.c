@@ -513,9 +513,8 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
-        && !(flags & MF_SHOOTABLE) && !player
-        && mobj->z <= mobj->subsector->sector->floorheight + FRACUNIT && floatbob)
-        mobj->z += animatedliquid[(mobj->floatbob + leveltime) & 127];
+        && mobj->z <= mobj->subsector->sector->floorheight && floatbob)
+        mobj->z += animatedliquid[leveltime & 127];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)

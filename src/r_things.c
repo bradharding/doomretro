@@ -82,7 +82,6 @@ extern int                      screensize;
 extern boolean                  inhelpscreens;
 extern int                      graphicdetail;
 extern boolean                  translucency;
-extern int                      fuzzclip;
 extern boolean                  dehacked;
 extern boolean                  shadows;
 
@@ -308,7 +307,7 @@ int     *mceilingclip;
 fixed_t spryscale;
 fixed_t sprtopscreen;
 
-static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
+static void R_DrawMaskedSpriteColumn(column_t *column)
 {
     while (column->topdelta != 0xff)
     {
@@ -321,8 +320,8 @@ static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
         dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x] + 1);
         dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, mfloorclip[dc_x] - 1);
 
-        if (baseclip != -1)
-            dc_yh = MIN(baseclip, dc_yh);
+        if (dc_baseclip != -1)
+            dc_yh = MIN(dc_baseclip, dc_yh);
 
         dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) +
             FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
@@ -352,7 +351,7 @@ static void R_DrawMaskedSpriteColumn(column_t *column, int baseclip)
     }
 }
 
-static void R_DrawMaskedShadowColumn(column_t *column, int baseclip)
+static void R_DrawMaskedShadowColumn(column_t *column)
 {
     int shift = ((sprtopscreen * 9 / 10) >> FRACBITS);
 
@@ -388,10 +387,9 @@ void R_DrawVisSprite(vissprite_t *vis)
     fixed_t     xiscale = vis->xiscale;
     fixed_t     x2 = vis->x2;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
-    fixed_t     baseclip = -1;
 
-    void (*func)(column_t *, int) = (vis->type == MT_SHADOW ?
-        R_DrawMaskedShadowColumn : R_DrawMaskedSpriteColumn);
+    void (*func)(column_t *) = (vis->type == MT_SHADOW ? R_DrawMaskedShadowColumn :
+        R_DrawMaskedSpriteColumn);
 
     dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
@@ -404,7 +402,8 @@ void R_DrawVisSprite(vissprite_t *vis)
         if (vis->mobjflags & MF_TRANSLATION)
         {
             colfunc = transcolfunc;
-            dc_translation = translationtables - 256 + ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
+            dc_translation = translationtables - 256
+                + ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
         }
     }
     
@@ -426,14 +425,15 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     if (vis->footclip)
-        baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
+        dc_baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
             - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
+    else
+        dc_baseclip = -1;
 
     fuzzpos = 0;
-    fuzzclip = baseclip;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        func((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])), baseclip);
+        func((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
 
     colfunc = basecolfunc;
 }

@@ -828,6 +828,8 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (target->player == &players[consoleplayer] && automapactive)
             AM_Stop();          // don't die in auto map, switch view prior to dying
     }
+    else
+        target->flags2 &= ~MF2_NOFLOATBOB;
 
     if ((gibbed = (target->health < -target->info->spawnhealth && target->info->xdeathstate)))
         P_SetMobjState(target, target->info->xdeathstate);

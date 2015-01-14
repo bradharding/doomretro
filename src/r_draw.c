@@ -59,7 +59,6 @@ int     viewheight2;
 int     viewwindowx;
 int     viewwindowy;
 int     fuzztable[SCREENWIDTH * SCREENHEIGHT];
-int     fuzzclip;
 
 // Color tables for different players,
 //  translate a limited part to another
@@ -163,6 +162,7 @@ boolean         dc_topsparkle;
 boolean         dc_bottomsparkle;
 fixed_t         dc_blood;
 byte            *dc_colormask;
+int             dc_baseclip;
 
 // first pixel in a column (possibly virtual)
 byte            *dc_source;
@@ -963,7 +963,7 @@ void R_DrawFuzzColumn(void)
     // bottom
     if (dc_yh == viewheight - 1)
         *dest = colormaps[5 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(0, 1))]];
-    else if (fuzzclip == -1 && !(rand() % 4))
+    else if (dc_baseclip == -1 && !(rand() % 4))
         *dest = colormaps[14 * 256 + dest[(fuzztable[fuzzpos] = FUZZ(0, 1))]];
 }
 
