@@ -43,6 +43,95 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
+extern boolean  *isliquid;
+
+fixed_t animatedliquid[128] =
+{
+    3211, 3211, 3211, 3211, 3180, 3180, 3119, 3119,
+    3027, 3027, 2907, 2907, 2758, 2758, 2582, 2582,
+    2382, 2382, 2159, 2159, 1915, 1915, 1653, 1653,
+    1374, 1374, 1083, 1083, 781, 781, 471, 471,
+    157, 157, -157, -157, -471, -471, -781, -781,
+    -1083, -1083, -1374, -1374, -1653, -1653, -1915, -1915,
+    -2159, -2159, -2382, -2382, -2582, -2582, -2758, -2758,
+    -2907, -2907, -3027, -3027, -3119, -3119, -3180, -3180,
+    -3211, -3211, -3211, -3211, -3180, -3180, -3119, -3119,
+    -3027, -3027, -2907, -2907, -2758, -2758, -2582, -2582,
+    -2382, -2382, -2159, -2159, -1915, -1915, -1653, -1653,
+    -1374, -1374, -1083, -1083, -781, -781, -471, -471,
+    -157, -157, 157, 157, 471, 471, 781, 781,
+    1083, 1083, 1374, 1374, 1653, 1653, 1915, 1915,
+    2159, 2159, 2382, 2382, 2582, 2582, 2758, 2758,
+    2907, 2907, 3027, 3027, 3119, 3119, 3180, 3180
+};
+
+
+void T_AnimateLiquid(floormove_t *floor)
+{
+    sector_t    *sector = floor->sector;
+
+    if (isliquid[sector->floorpic])
+        sector->animate += animatedliquid[leveltime & 127];
+    else
+        sector->animate = 0;
+}
+
+void P_StartAnimatedLiquid(sector_t *sector, boolean force)
+{
+    int         j;
+    boolean     contained = true;
+
+    for (j = 0; j < sector->linecount; j++)
+    {
+        sector_t       *adjacent = getNextSector(sector->lines[j], sector);
+
+        if (adjacent)
+            if (sector->floorheight > adjacent->floorheight
+                || (isliquid[adjacent->floorpic]
+                && sector->floorheight != adjacent->floorheight
+                && adjacent->floorheight != adjacent->ceilingheight))
+                contained = false;
+    }
+
+    if (contained)
+    {
+        floormove_t     *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+
+        P_AddThinker(&floor->thinker);
+        floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
+        floor->sector = sector;
+
+        for (j = 0; j < sector->linecount; j++)
+        {
+            sector_t       *adjacent = getNextSector(sector->lines[j], sector);
+
+            if (adjacent)
+                if (isliquid[adjacent->floorpic]
+                    && ((sector->floorheight == adjacent->floorheight
+                    && !sector->tag && !adjacent->tag) || force))
+                {
+                    sides[(sector->lines[j])->sidenum[0]].bottomtexture = 0;
+                    sides[(sector->lines[j])->sidenum[1]].bottomtexture = 0;
+                }
+        }
+    }
+}
+
+void P_InitAnimatedLiquids(void)
+{
+    int         i;
+    sector_t    *sector;
+    thinker_t   *th;
+
+    for (i = 0, sector = sectors; i < numsectors; i++, sector++)
+        if (isliquid[sector->floorpic])
+            P_StartAnimatedLiquid(sector, false);
+
+    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+        if (th->function.acp1 == (actionf_p1)T_AnimateLiquid)
+            ((floormove_t *)th)->sector->floorheight += FRACUNIT;
+}
+
 //
 // FLOORS
 //
@@ -196,6 +285,8 @@ void T_MoveFloor(floormove_t *floor)
                 case donutRaise:
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
+                    if (isliquid[sec->floorpic])
+                        P_StartAnimatedLiquid(sec, true);
                 default:
                     break;
             }
@@ -207,6 +298,8 @@ void T_MoveFloor(floormove_t *floor)
                 case lowerAndChange:
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
+                    if (isliquid[sec->floorpic])
+                        P_StartAnimatedLiquid(sec, true);
                 default:
                     break;
             }
@@ -518,92 +611,4 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
         } while (ok);
     }
     return rtn;
-}
-
-extern boolean  *isliquid;
-
-fixed_t animatedliquid[128] =
-{
-      3211,  3211,  3211,  3211,  3180,  3180,  3119,  3119,
-      3027,  3027,  2907,  2907,  2758,  2758,  2582,  2582,
-      2382,  2382,  2159,  2159,  1915,  1915,  1653,  1653,
-      1374,  1374,  1083,  1083,   781,   781,   471,   471,
-       157,   157,  -157,  -157,  -471,  -471,  -781,  -781,
-     -1083, -1083, -1374, -1374, -1653, -1653, -1915, -1915,
-     -2159, -2159, -2382, -2382, -2582, -2582, -2758, -2758,
-     -2907, -2907, -3027, -3027, -3119, -3119, -3180, -3180,
-     -3211, -3211, -3211, -3211, -3180, -3180, -3119, -3119,
-     -3027, -3027, -2907, -2907, -2758, -2758, -2582, -2582,
-     -2382, -2382, -2159, -2159, -1915, -1915, -1653, -1653,
-     -1374, -1374, -1083, -1083,  -781,  -781,  -471,  -471,
-     -157,   -157,   157,   157,   471,   471,   781,   781,
-      1083,  1083,  1374,  1374,  1653,  1653,  1915,  1915,
-      2159,  2159,  2382,  2382,  2582,  2582,  2758,  2758,
-      2907,  2907,  3027,  3027,  3119,  3119,  3180,  3180
-};
-
-
-void T_AnimateLiquid(floormove_t *floor)
-{
-    sector_t    *sector = floor->sector;
-
-    if (isliquid[sector->floorpic])
-        sector->animate += animatedliquid[leveltime & 127];
-    else
-        sector->animate = 0;
-}
-
-void P_InitAnimatedLiquids(void)
-{
-    int         i;
-    sector_t    *sector;
-    thinker_t   *th;
-
-    for (i = 0, sector = sectors; i < numsectors; i++, sector++)
-    {
-        if (isliquid[sector->floorpic])
-        {
-            int         j;
-            boolean     contained = true;
-
-            for (j = 0; j < sector->linecount; j++)
-            {
-                sector_t       *adjacent = getNextSector(sector->lines[j], sector);
-                
-                if (adjacent)
-                    if (sector->floorheight > adjacent->floorheight
-                        || (isliquid[adjacent->floorpic]
-                            && sector->floorheight != adjacent->floorheight
-                            && adjacent->floorheight != adjacent->ceilingheight))
-                        contained = false;
-            }
-
-            if (contained)
-            {
-                floormove_t     *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-
-                P_AddThinker(&floor->thinker);
-                floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
-                floor->sector = sector;
-
-                for (j = 0; j < sector->linecount; j++)
-                {
-                    sector_t       *adjacent = getNextSector(sector->lines[j], sector);
-
-                    if (adjacent)
-                        if (isliquid[adjacent->floorpic]
-                            && sector->floorheight == adjacent->floorheight
-                            && !sector->tag && !adjacent->tag)
-                        {
-                            sides[(sector->lines[j])->sidenum[0]].bottomtexture = 0;
-                            sides[(sector->lines[j])->sidenum[1]].bottomtexture = 0;
-                        }
-                }
-            }
-        }
-    }
-
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function.acp1 == (actionf_p1)T_AnimateLiquid)
-            ((floormove_t *)th)->sector->floorheight += FRACUNIT;
 }
