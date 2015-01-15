@@ -339,22 +339,17 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                 {
                     if (twoSided(secnum, i))
                     {
-                        side_t *side = getSide(secnum, i, 0);
-                        if (side->bottomtexture > 0
-                            && textureheight[side->bottomtexture] < minsize)
-                        {
+                        side_t  *side = getSide(secnum, i, 0);
+
+                        if (side->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
-                        }
                         side = getSide(secnum, i, 1);
-                        if (side->bottomtexture > 0
-                            && textureheight[side->bottomtexture] < minsize)
-                        {
+                        if (side->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
-                        }
                     }
                 }
-                floor->floordestheight =
-                    (floor->sector->floorheight >> FRACBITS) + (minsize >> FRACBITS);
+                floor->floordestheight = (floor->sector->floorheight >> FRACBITS)
+                    + (minsize >> FRACBITS);
 
                 if (floor->floordestheight > 32000)
                     floor->floordestheight = 32000;
@@ -550,7 +545,12 @@ fixed_t animatedliquid[128] =
 
 void T_AnimateLiquid(floormove_t *floor)
 {
-    floor->sector->animate += animatedliquid[leveltime & 127];
+    sector_t    *sector = floor->sector;
+
+    if (isliquid[sector->floorpic])
+        sector->animate += animatedliquid[leveltime & 127];
+    else
+        sector->animate = 0;
 }
 
 void P_InitAnimatedLiquids(void)

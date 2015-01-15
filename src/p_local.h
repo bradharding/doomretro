@@ -306,9 +306,4 @@ extern int clipammo[];
 //
 #include "p_spec.h"
 
-//
-// P_FLOOR
-//
-void P_InitAnimatedLiquids(void);
-
 #endif

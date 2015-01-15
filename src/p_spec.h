@@ -431,6 +431,8 @@ boolean EV_DoFloor(line_t *line, floor_e floortype);
 
 void T_MoveFloor(floormove_t *floor);
 
+void P_InitAnimatedLiquids(void);
+
 //
 // P_TELEPT
 //
