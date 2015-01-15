@@ -306,6 +306,7 @@ int     *mceilingclip;
 
 fixed_t spryscale;
 fixed_t sprtopscreen;
+fixed_t shift;
 
 static void R_DrawMaskedSpriteColumn(column_t *column)
 {
@@ -323,8 +324,8 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
         if (dc_baseclip != -1)
             dc_yh = MIN(dc_baseclip, dc_yh);
 
-        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) +
-            FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+            + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
 
         if (dc_texturefrac < 0)
         {
@@ -353,8 +354,6 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
 
 static void R_DrawMaskedShadowColumn(column_t *column)
 {
-    int shift = ((sprtopscreen * 9 / 10) >> FRACBITS);
-
     while (column->topdelta != 0xff)
     {
         int     length = column->length;
@@ -388,54 +387,69 @@ void R_DrawVisSprite(vissprite_t *vis)
     fixed_t     x2 = vis->x2;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
 
-    void (*func)(column_t *) = (vis->type == MT_SHADOW ? R_DrawMaskedShadowColumn :
-        R_DrawMaskedSpriteColumn);
-
-    dc_colormap = vis->colormap;
-    colfunc = vis->colfunc;
-
-    dc_iscale = ABS(xiscale);
-    dc_texturemid = vis->texturemid;
-    if (dc_colormap)
+    if (vis->type == MT_SHADOW)
     {
-        dc_blood = dc_colormap[vis->blood] << 8;
-        if (vis->mobjflags & MF_TRANSLATION)
-        {
-            colfunc = transcolfunc;
-            dc_translation = translationtables - 256
-                + ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
-        }
-    }
-    
-    spryscale = vis->scale;
-    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+        colfunc = vis->colfunc;
 
-    if (viewplayer->fixedcolormap == INVERSECOLORMAP && translucency)
-    {
-        if (colfunc == tlcolfunc)
-            colfunc = tl50colfunc;
-        else if (colfunc == tlredcolfunc)
-            colfunc = tlred50colfunc;
-        else if (colfunc == tlgreencolfunc)
-            colfunc = tlgreen50colfunc;
-        else if (colfunc == tlbluecolfunc)
-            colfunc = tlblue50colfunc;
-        else if (colfunc == tlredwhitecolfunc)
-            colfunc = tlredwhite50colfunc;
-    }
+        spryscale = vis->scale;
+        sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
+        shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
-    if (vis->footclip)
-        dc_baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
-            - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
+        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
+            R_DrawMaskedShadowColumn((column_t *)((byte *)patch
+                + LONG(patch->columnofs[frac >> FRACBITS])));
+
+        colfunc = basecolfunc;
+    }
     else
-        dc_baseclip = -1;
+    {
+        dc_colormap = vis->colormap;
+        colfunc = vis->colfunc;
 
-    fuzzpos = 0;
+        dc_iscale = ABS(xiscale);
+        dc_texturemid = vis->texturemid;
+        if (dc_colormap)
+        {
+            dc_blood = dc_colormap[vis->blood] << 8;
+            if (vis->mobjflags & MF_TRANSLATION)
+            {
+                colfunc = transcolfunc;
+                dc_translation = translationtables - 256
+                    + ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
+            }
+        }
 
-    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        func((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
+        spryscale = vis->scale;
+        sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-    colfunc = basecolfunc;
+        if (viewplayer->fixedcolormap == INVERSECOLORMAP && translucency)
+        {
+            if (colfunc == tlcolfunc)
+                colfunc = tl50colfunc;
+            else if (colfunc == tlredcolfunc)
+                colfunc = tlred50colfunc;
+            else if (colfunc == tlgreencolfunc)
+                colfunc = tlgreen50colfunc;
+            else if (colfunc == tlbluecolfunc)
+                colfunc = tlblue50colfunc;
+            else if (colfunc == tlredwhitecolfunc)
+                colfunc = tlredwhite50colfunc;
+        }
+
+        if (vis->footclip)
+            dc_baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
+                - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
+        else
+            dc_baseclip = -1;
+
+        fuzzpos = 0;
+
+        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
+            R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
+                + LONG(patch->columnofs[frac >> FRACBITS])));
+
+        colfunc = basecolfunc;
+    }
 }
 
 //
