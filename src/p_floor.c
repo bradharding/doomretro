@@ -605,5 +605,5 @@ void P_InitAnimatedLiquids(void)
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function.acp1 == (actionf_p1)T_AnimateLiquid)
-            ((sector_t *)th)->floorheight++;
+            ((floormove_t *)th)->sector->floorheight += FRACUNIT;
 }
