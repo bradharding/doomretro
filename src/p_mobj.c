@@ -713,7 +713,7 @@ void P_RemoveMobj(mobj_t *mobj)
         P_DelSeclist(sector_list);
         sector_list = NULL;
     }
-    
+
     mobj->flags |= (MF_NOSECTOR | MF_NOBLOCKMAP);
 
     mobj->target = mobj->tracer = mobj->lastenemy = NULL;

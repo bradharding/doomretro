@@ -801,7 +801,6 @@ void P_LoadBlockMap(int lump)
 
     // clear out mobj chains
     blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
-    memset(blocklinks, 0, sizeof(*blocklinks) * bmapwidth * bmapheight);
 }
 
 //

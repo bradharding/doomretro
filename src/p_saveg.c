@@ -1775,7 +1775,7 @@ void P_RestoreTargets(void)
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function.acp1 == (actionf_p1)P_MobjThinker)
         {
-            mobj_t      *mo = (mobj_t*)th;
+            mobj_t      *mo = (mobj_t *)th;
 
             mo->target = (mobj_t *)P_IndexToThinker((uintptr_t)mo->target);
             mo->tracer = (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer);
