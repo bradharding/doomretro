@@ -78,8 +78,14 @@ void T_AnimateLiquid(floormove_t *floor)
 
 void P_StartAnimatedLiquid(sector_t *sector, boolean force)
 {
+    thinker_t   *th;
     int         j;
     boolean     contained = true;
+
+    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+        if (th->function.acp1 == (actionf_p1)T_AnimateLiquid
+            && ((floormove_t *)th)->sector == sector)
+            return;
 
     for (j = 0; j < sector->linecount; j++)
     {
@@ -88,8 +94,8 @@ void P_StartAnimatedLiquid(sector_t *sector, boolean force)
         if (adjacent)
             if (sector->floorheight > adjacent->floorheight
                 || (isliquid[adjacent->floorpic]
-                && sector->floorheight != adjacent->floorheight
-                && adjacent->floorheight != adjacent->ceilingheight))
+                    && sector->floorheight != adjacent->floorheight
+                    && adjacent->floorheight != adjacent->ceilingheight))
                 contained = false;
     }
 
