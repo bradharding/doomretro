@@ -84,6 +84,7 @@ extern int                      graphicdetail;
 extern boolean                  translucency;
 extern boolean                  dehacked;
 extern boolean                  shadows;
+extern boolean                  *isliquid;
 
 //
 // R_InstallSpriteLump
@@ -735,7 +736,13 @@ void R_AddSprites(sector_t *sec)
 
     // Handle all things in sector.
     for (thing = sec->thinglist; thing; thing = thing->snext)
-        (thing->type == MT_SHADOW ? R_ProjectShadowSprite(thing) : R_ProjectSprite(thing));
+        if (thing->type == MT_SHADOW)
+        {
+            if (shadows && !fixedcolormap && !isliquid[sec->floorpic])
+                R_ProjectShadowSprite(thing);
+        }
+        else
+            R_ProjectSprite(thing);
 }
 
 //
@@ -972,14 +979,14 @@ void R_SortVisSprites(void)
             vissprite_ptrs[i] = spr;
         }
 
-        if (!shadows || fixedcolormap)
-            for (i = num_vissprite; --i >= 0;)
-            {
-                vissprite_t     *spr = vissprites + i;
+        //if (!shadows || fixedcolormap)
+        //    for (i = num_vissprite; --i >= 0;)
+        //    {
+        //        vissprite_t     *spr = vissprites + i;
 
-                if (spr->type == MT_SHADOW)
-                   spr->drawn = true;
-            }
+        //        if (spr->type == MT_SHADOW)
+        //           spr->drawn = true;
+        //    }
 
         // killough 9/22/98: replace qsort with merge sort, since the keys
         // are roughly in order to begin with, due to BSP rendering.
@@ -1167,8 +1174,7 @@ void R_DrawMasked(void)
         if (spr->type == MT_SHADOW)
         {
             spr->drawn = true;
-            if (!(spr->mobjflags2 & MF2_FEETARECLIPPED))
-                R_DrawFirstSprite(spr);
+            R_DrawFirstSprite(spr);
         }
     }
 
