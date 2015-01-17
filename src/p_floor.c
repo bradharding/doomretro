@@ -73,7 +73,7 @@ void T_AnimateLiquid(floormove_t *floor)
     if (isliquid[sector->floorpic])
         sector->animate += animatedliquid[leveltime & 127];
     else
-        sector->animate = 0;
+        sector->animate = INT_MAX;
 }
 
 void P_StartAnimatedLiquid(sector_t *sector, boolean force)
@@ -132,6 +132,8 @@ void P_InitAnimatedLiquids(void)
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
         if (isliquid[sector->floorpic])
             P_StartAnimatedLiquid(sector, false);
+        else
+            sector->animate = INT_MAX;
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function.acp1 == (actionf_p1)T_AnimateLiquid)

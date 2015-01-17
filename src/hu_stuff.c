@@ -539,10 +539,15 @@ void HU_Ticker(void)
 
         if (automapactive && !followplayer)
         {
+            sector_t    *sector = R_PointInSubsector(m_x + (m_w >> 1), m_y + (m_h >> 1))->sector;
+
             angle = direction;
             x = (m_x + (m_w >> 1)) / FRACUNIT;
             y = (m_y + (m_h >> 1)) / FRACUNIT;
-            z = R_PointInSubsector(m_x + (m_w >> 1), m_y + (m_h >> 1))->sector->floorheight / FRACUNIT;
+            z = sector->floorheight / FRACUNIT;
+
+            if (sector->animate != INT_MAX)
+                --z;
         }
         else
         {
@@ -552,6 +557,9 @@ void HU_Ticker(void)
             x = plr->mo->x / FRACUNIT;
             y = plr->mo->y / FRACUNIT;
             z = plr->mo->z / FRACUNIT;
+
+            if (plr->mo->subsector->sector->animate != INT_MAX)
+                --z;
         }
 
         M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, angle, x, y, z);

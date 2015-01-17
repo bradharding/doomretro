@@ -603,7 +603,10 @@ void R_StoreWallRange(int start, int stop)
     }
 
     worldtop = frontsector->ceilingheight - viewz;
-    worldbottom = frontsector->floorheight - viewz + frontsector->animate;
+    worldbottom = frontsector->floorheight - viewz;
+
+    if (frontsector->animate != INT_MAX)
+        worldbottom += frontsector->animate;
 
     R_FixWiggle(frontsector);
 
