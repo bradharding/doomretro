@@ -388,69 +388,72 @@ void R_DrawVisSprite(vissprite_t *vis)
     fixed_t     x2 = vis->x2;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
 
-    if (vis->type == MT_SHADOW)
+    dc_colormap = vis->colormap;
+    colfunc = vis->colfunc;
+
+    dc_iscale = ABS(xiscale);
+    dc_texturemid = vis->texturemid;
+    if (dc_colormap)
     {
-        colfunc = vis->colfunc;
-
-        spryscale = vis->scale;
-        sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
-        shift = (sprtopscreen * 9 / 10) >> FRACBITS;
-
-        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-            R_DrawMaskedShadowColumn((column_t *)((byte *)patch
-                + LONG(patch->columnofs[frac >> FRACBITS])));
-
-        colfunc = basecolfunc;
+        dc_blood = dc_colormap[vis->blood] << 8;
+        if (vis->mobjflags & MF_TRANSLATION)
+        {
+            colfunc = transcolfunc;
+            dc_translation = translationtables - 256
+                + ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
+        }
     }
+
+    spryscale = vis->scale;
+    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+
+    if (viewplayer->fixedcolormap == INVERSECOLORMAP && translucency)
+    {
+        if (colfunc == tlcolfunc)
+            colfunc = tl50colfunc;
+        else if (colfunc == tlredcolfunc)
+            colfunc = tlred50colfunc;
+        else if (colfunc == tlgreencolfunc)
+            colfunc = tlgreen50colfunc;
+        else if (colfunc == tlbluecolfunc)
+            colfunc = tlblue50colfunc;
+        else if (colfunc == tlredwhitecolfunc)
+            colfunc = tlredwhite50colfunc;
+    }
+
+    if (vis->footclip)
+        dc_baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
+            - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
     else
-    {
-        dc_colormap = vis->colormap;
-        colfunc = vis->colfunc;
+        dc_baseclip = -1;
 
-        dc_iscale = ABS(xiscale);
-        dc_texturemid = vis->texturemid;
-        if (dc_colormap)
-        {
-            dc_blood = dc_colormap[vis->blood] << 8;
-            if (vis->mobjflags & MF_TRANSLATION)
-            {
-                colfunc = transcolfunc;
-                dc_translation = translationtables - 256
-                    + ((vis->mobjflags & MF_TRANSLATION) >> (MF_TRANSSHIFT - 8));
-            }
-        }
+    fuzzpos = 0;
 
-        spryscale = vis->scale;
-        sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
+        R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
+            + LONG(patch->columnofs[frac >> FRACBITS])));
 
-        if (viewplayer->fixedcolormap == INVERSECOLORMAP && translucency)
-        {
-            if (colfunc == tlcolfunc)
-                colfunc = tl50colfunc;
-            else if (colfunc == tlredcolfunc)
-                colfunc = tlred50colfunc;
-            else if (colfunc == tlgreencolfunc)
-                colfunc = tlgreen50colfunc;
-            else if (colfunc == tlbluecolfunc)
-                colfunc = tlblue50colfunc;
-            else if (colfunc == tlredwhitecolfunc)
-                colfunc = tlredwhite50colfunc;
-        }
+    colfunc = basecolfunc;
+}
 
-        if (vis->footclip)
-            dc_baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
-                - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
-        else
-            dc_baseclip = -1;
+void R_DrawShadowVisSprite(vissprite_t *vis)
+{
+    fixed_t     frac = vis->startfrac;
+    fixed_t     xiscale = vis->xiscale;
+    fixed_t     x2 = vis->x2;
+    patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
 
-        fuzzpos = 0;
+    colfunc = vis->colfunc;
 
-        for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-            R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
-                + LONG(patch->columnofs[frac >> FRACBITS])));
+    spryscale = vis->scale;
+    sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
+    shift = (sprtopscreen * 9 / 10) >> FRACBITS;
 
-        colfunc = basecolfunc;
-    }
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
+        R_DrawMaskedShadowColumn((column_t *)((byte *)patch
+        + LONG(patch->columnofs[frac >> FRACBITS])));
+
+    colfunc = basecolfunc;
 }
 
 //
@@ -519,7 +522,7 @@ void R_ProjectSprite(mobj_t *thing)
         rot = (R_PointToAngle(fx, fy) - thing->angle + (unsigned int)(ANG45 / 2) * 9) >> 29;
 
     lump = sprframe->lump[rot];
-    flip = ((boolean)sprframe->flip[rot] || (flags2 & MF2_MIRRORED));
+    flip = (!!sprframe->flip[rot] || (flags2 & MF2_MIRRORED));
 
     // calculate edges of the shape
     tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
@@ -598,9 +601,8 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
-void R_ProjectShadowSprite(mobj_t *thing)
+void R_ProjectShadow(mobj_t *thing)
 {
-    fixed_t             gzt;
     fixed_t             tx;
 
     fixed_t             xscale;
@@ -621,7 +623,6 @@ void R_ProjectShadowSprite(mobj_t *thing)
     fixed_t             fz = thing->z + thing->shadow->info->shadowoffset;
 
     int                 flags2 = thing->flags2;
-    int                 frame = thing->frame;
 
     // transform the origin point
     fixed_t             tr_x = fx - viewx;
@@ -650,14 +651,14 @@ void R_ProjectShadowSprite(mobj_t *thing)
 
     // decide which patch to use for sprite relative to player
     sprdef = &sprites[thing->sprite];
-    sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
+    sprframe = &sprdef->spriteframes[thing->frame & FF_FRAMEMASK];
 
     // choose a different rotation based on player view
     if (sprframe->rotate)
         rot = (R_PointToAngle(fx, fy) - thing->angle + (unsigned int)(ANG45 / 2) * 9) >> 29;
 
     lump = sprframe->lump[rot];
-    flip = ((boolean)sprframe->flip[rot] || (flags2 & MF2_MIRRORED));
+    flip = (!!sprframe->flip[rot] || (thing->flags2 & MF2_MIRRORED));
 
     // calculate edges of the shape
     tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
@@ -673,26 +674,22 @@ void R_ProjectShadowSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = fz;
-
     if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
-        || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
+        || fz < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
         return;
 
     // store information in a vissprite
     vis = R_NewVisSprite();
-    vis->mobjflags = thing->flags;
-    vis->mobjflags2 = flags2;
-    vis->type = thing->type;
+    vis->mobjflags = 0;
+    vis->mobjflags2 = 0;
+    vis->type = MT_SHADOW;
     vis->scale = xscale;
     vis->gx = fx;
     vis->gy = fy;
     vis->gz = fz;
-    vis->gzt = gzt;
-    vis->blood = thing->blood;
+    vis->gzt = fz;
     vis->colfunc = thing->colfunc;
-    vis->footclip = 0;
-    vis->texturemid = gzt - viewz - vis->footclip;
+    vis->texturemid = fz - viewz;
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
@@ -735,14 +732,20 @@ void R_AddSprites(sector_t *sec)
         + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
 
     // Handle all things in sector.
-    for (thing = sec->thinglist; thing; thing = thing->snext)
-        if (thing->type == MT_SHADOW)
-        {
-            if (shadows && !fixedcolormap && !isliquid[sec->floorpic])
-                R_ProjectShadowSprite(thing);
-        }
-        else
-            R_ProjectSprite(thing);
+    if (fixedcolormap || isliquid[sec->floorpic] || !shadows)
+    {
+        for (thing = sec->thinglist; thing; thing = thing->snext)
+            if (thing->type != MT_SHADOW)
+                R_ProjectSprite(thing);
+    }
+    else
+    {
+        for (thing = sec->thinglist; thing; thing = thing->snext)
+            if (thing->type == MT_SHADOW)
+                R_ProjectShadow(thing);
+            else
+                R_ProjectSprite(thing);
+    }
 }
 
 //
@@ -979,15 +982,6 @@ void R_SortVisSprites(void)
             vissprite_ptrs[i] = spr;
         }
 
-        //if (!shadows || fixedcolormap)
-        //    for (i = num_vissprite; --i >= 0;)
-        //    {
-        //        vissprite_t     *spr = vissprites + i;
-
-        //        if (spr->type == MT_SHADOW)
-        //           spr->drawn = true;
-        //    }
-
         // killough 9/22/98: replace qsort with merge sort, since the keys
         // are roughly in order to begin with, due to BSP rendering.
         msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
@@ -995,9 +989,9 @@ void R_SortVisSprites(void)
 }
 
 //
-// R_DrawSprite
+// R_DrawBloodSprite
 //
-void R_DrawFirstSprite(vissprite_t *spr)
+void R_DrawBloodSprite(vissprite_t *spr)
 {
     if (spr->x1 > spr->x2)
         return;
@@ -1063,6 +1057,78 @@ void R_DrawFirstSprite(vissprite_t *spr)
         mfloorclip = clipbot;
         mceilingclip = cliptop;
         R_DrawVisSprite(spr);
+    }
+}
+
+//
+// R_DrawShadowSprite
+//
+void R_DrawShadowSprite(vissprite_t *spr)
+{
+    if (spr->x1 > spr->x2)
+        return;
+    else
+    {
+        drawseg_t       *ds;
+        int             clipbot[SCREENWIDTH];
+        int             cliptop[SCREENWIDTH];
+        int             x;
+        int             r1;
+        int             r2;
+        fixed_t         scale;
+        fixed_t         lowscale;
+
+        for (x = spr->x1; x <= spr->x2; x++)
+            clipbot[x] = cliptop[x] = -2;
+
+        // Scan drawsegs from end to start for obscuring segs.
+        // The first drawseg that has a greater scale
+        //  is the clip seg.
+        for (ds = ds_p - 1; ds >= drawsegs; ds--)
+        {
+            // determine if the drawseg obscures the sprite
+            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
+                continue;           // does not cover sprite
+
+            lowscale = MIN(ds->scale1, ds->scale2);
+            scale = MAX(ds->scale1, ds->scale2);
+
+            if (scale < spr->scale || (lowscale < spr->scale &&
+                !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+                // seg is behind sprite
+                continue;
+
+            r1 = MAX(ds->x1, spr->x1);
+            r2 = MIN(ds->x2, spr->x2);
+
+            // clip this piece of the sprite
+            // killough 3/27/98: optimized and made much shorter
+            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+                for (x = r1; x <= r2; x++)
+                    if (clipbot[x] == -2)
+                        clipbot[x] = ds->sprbottomclip[x];
+
+            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+                for (x = r1; x <= r2; x++)
+                    if (cliptop[x] == -2)
+                        cliptop[x] = ds->sprtopclip[x];
+        }
+
+        // all clipping has been performed, so draw the sprite
+
+        // check for unclipped columns
+        for (x = spr->x1; x <= spr->x2; x++)
+        {
+            if (clipbot[x] == -2)
+                clipbot[x] = viewheight;
+
+            if (cliptop[x] == -2)
+                cliptop[x] = -1;
+        }
+
+        mfloorclip = clipbot;
+        mceilingclip = cliptop;
+        R_DrawShadowVisSprite(spr);
     }
 }
 
@@ -1162,7 +1228,7 @@ void R_DrawMasked(void)
         if (spr->mobjflags2 & MF2_DRAWFIRST)
         {
             spr->drawn = true;
-            R_DrawFirstSprite(spr);
+            R_DrawBloodSprite(spr);
         }
     }
 
@@ -1174,7 +1240,7 @@ void R_DrawMasked(void)
         if (spr->type == MT_SHADOW)
         {
             spr->drawn = true;
-            R_DrawFirstSprite(spr);
+            R_DrawShadowSprite(spr);
         }
     }
 
