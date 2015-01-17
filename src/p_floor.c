@@ -43,8 +43,6 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-extern boolean  *isliquid;
-
 fixed_t animatedliquid[128] =
 {
      3211,  3211,  3211,  3211,  3180,  3180,  3119,  3119,
@@ -65,6 +63,8 @@ fixed_t animatedliquid[128] =
      2907,  2907,  3027,  3027,  3119,  3119,  3180,  3180
 };
 
+extern boolean  *isliquid;
+extern boolean  canmodify;
 
 void T_AnimateLiquid(floormove_t *floor)
 {
@@ -94,7 +94,7 @@ void P_StartAnimatedLiquid(sector_t *sector, boolean force)
         if (adjacent)
             if (sector->floorheight > adjacent->floorheight
                 || (isliquid[adjacent->floorpic]
-                    && sector->floorheight != adjacent->floorheight
+                    && sector->floorheight > adjacent->floorheight
                     && adjacent->floorheight != adjacent->ceilingheight))
                 contained = false;
     }
@@ -182,7 +182,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
 
                 case 1:
                     // UP
-                    destheight = (dest < sector->ceilingheight ? dest : sector->ceilingheight);
+                    destheight = MIN(dest, sector->ceilingheight);
                     if (sector->floorheight + speed > destheight)
                     {
                         lastpos = sector->floorheight;
@@ -216,7 +216,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
             {
                 case -1:
                     // DOWN
-                    destheight = (dest > sector->floorheight ? dest : sector->floorheight);
+                    destheight = MAX(dest, sector->ceilingheight);
                     if (sector->ceilingheight - speed < destheight)
                     {
                         lastpos = sector->ceilingheight;
@@ -294,7 +294,10 @@ void T_MoveFloor(floormove_t *floor)
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
                     if (isliquid[sec->floorpic])
+                    {
+                        P_ChangeSector(sec, false);
                         P_StartAnimatedLiquid(sec, true);
+                    }
                 default:
                     break;
             }
@@ -322,8 +325,6 @@ void T_MoveFloor(floormove_t *floor)
     }
 }
 
-extern boolean canmodify;
-
 //
 // HANDLE FLOOR TYPES
 //
@@ -336,7 +337,7 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sector_t *sec = &sectors[secnum];
+        sector_t        *sec = &sectors[secnum];
 
         // ALREADY MOVING? IF SO, KEEP GOING...
         if (sec->specialdata)
@@ -382,10 +383,8 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
-                floor->floordestheight = P_FindLowestCeilingSurrounding(sec);
-                if (floor->floordestheight > sec->ceilingheight)
-                    floor->floordestheight = sec->ceilingheight;
-                floor->floordestheight -= (8 * FRACUNIT) * (floortype == raiseFloorCrush);
+                floor->floordestheight = MIN(P_FindLowestCeilingSurrounding(sec),
+                    sec->ceilingheight) - 8 * FRACUNIT * (floortype == raiseFloorCrush);
                 break;
 
             case raiseFloorTurbo:
@@ -406,21 +405,21 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
-                floor->floordestheight = floor->sector->floorheight + 24 * FRACUNIT;
+                floor->floordestheight = sec->floorheight + 24 * FRACUNIT;
                 break;
 
             case raiseFloor512:
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
-                floor->floordestheight = floor->sector->floorheight + 512 * FRACUNIT;
+                floor->floordestheight = sec->floorheight + 512 * FRACUNIT;
                 break;
 
             case raiseFloor24AndChange:
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
-                floor->floordestheight = floor->sector->floorheight + 24 * FRACUNIT;
+                floor->floordestheight = sec->floorheight + 24 * FRACUNIT;
 
                 if (E2M2)
                     sec->floorpic = R_FlatNumForName("FLOOR5_4");
@@ -434,7 +433,7 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
 
             case raiseToTexture:
             {
-                int minsize = 32000 << FRACBITS;
+                int     minsize = 32000 << FRACBITS;
 
                 floor->direction = 1;
                 floor->sector = sec;
@@ -452,12 +451,8 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                             minsize = textureheight[side->bottomtexture];
                     }
                 }
-                floor->floordestheight = (floor->sector->floorheight >> FRACBITS)
-                    + (minsize >> FRACBITS);
-
-                if (floor->floordestheight > 32000)
-                    floor->floordestheight = 32000;
-                floor->floordestheight <<= FRACBITS;
+                floor->floordestheight = MIN((sec->floorheight >> FRACBITS)
+                    + (minsize >> FRACBITS), 32000) << FRACBITS;
             }
             break;
 
@@ -502,7 +497,7 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                 break;
         }
 
-        floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
+        floor->stopsound = (sec->floorheight != floor->floordestheight);
 
         for (i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
@@ -569,7 +564,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
         floor->texture = 0;
         floor->crush = crushing;
         floor->type = buildStair;
-        floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
+        floor->stopsound = (sec->floorheight != floor->floordestheight);
 
         texture = sec->floorpic;
 
@@ -615,7 +610,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
                 floor->sector = sec;
                 floor->speed = speed;
                 floor->floordestheight = height;
-                floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
+                floor->stopsound = (sec->floorheight != floor->floordestheight);
                 ok = 1;
                 break;
             }
