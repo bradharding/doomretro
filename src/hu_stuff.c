@@ -551,6 +551,8 @@ void HU_Ticker(void)
         }
         else
         {
+            sector_t    *sector = plr->mo->subsector->sector;
+
             angle = (int)((double)plr->mo->angle * (90.0f / ANG90));
             if (angle == 360)
                 angle = 0;
@@ -558,7 +560,7 @@ void HU_Ticker(void)
             y = plr->mo->y / FRACUNIT;
             z = plr->mo->z / FRACUNIT;
 
-            if (plr->mo->subsector->sector->animate != INT_MAX)
+            if (sector->animate != INT_MAX && plr->mo->floorz == sector->floorheight)
                 --z;
         }
 
