@@ -41,6 +41,8 @@
 
 #define ALWAYSRUN_DEFAULT                       false
 
+#define ANIMATEDLIQUID_DEFAULT                  true
+
 #define UNLIMITED                               32768
 #define BLOODSPLATS_MIN                         0
 #define BLOODSPLATS_DEFAULT                     UNLIMITED

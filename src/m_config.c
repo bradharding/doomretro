@@ -59,6 +59,7 @@ int             sfxvolume_percent = SFXVOLUME_DEFAULT;
 // DEFAULTS
 //
 extern boolean  alwaysrun;
+extern boolean  animatedliquid;
 extern int      bloodsplats;
 extern int      brightmaps;
 extern boolean  centerweapon;
@@ -242,6 +243,7 @@ typedef struct
 static default_t doom_defaults_list[] =
 {
     CONFIG_VARIABLE_INT          (alwaysrun,                  alwaysrun,                     1),
+    CONFIG_VARIABLE_INT          (animatedliquid,             animatedliquid,                1),
     CONFIG_VARIABLE_INT          (bloodsplats,                bloodsplats,                   7),
     CONFIG_VARIABLE_INT          (brightmaps,                 brightmaps,                    1),
     CONFIG_VARIABLE_INT          (centerweapon,               centerweapon,                  1),
@@ -1046,6 +1048,9 @@ static void M_CheckDefaults(void)
 {
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = ALWAYSRUN_DEFAULT;
+
+    if (animatedliquid != false && animatedliquid != true)
+        animatedliquid = ANIMATEDLIQUID_DEFAULT;
 
     bloodsplats = BETWEEN(BLOODSPLATS_MIN, bloodsplats, BLOODSPLATS_MAX);
 

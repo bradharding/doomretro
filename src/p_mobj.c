@@ -64,6 +64,20 @@ boolean                 footclip = FOOTCLIP_DEFAULT;
 boolean                 shadows = SHADOWS_DEFAULT;
 int                     smoketrails = SMOKETRAILS_DEFAULT;
 
+static fixed_t floatbobdiffs[64] =
+{
+     25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
+     19062,  17277,  15325,  13226,  10999,   8667,   6251,   3775,
+      1262,  -1262,  -3775,  -6251,  -8667, -10999, -13226, -15325,
+    -17277, -19062, -20663, -22066, -23256, -24222, -24955, -25447,
+    -25695, -25695, -25447, -24955, -24222, -23256, -22066, -20663,
+    -19062, -17277, -15325, -13226, -11000,  -8667,  -6251,  -3775,
+     -1262,   1262,   3775,   6251,   8667,  10999,  13226,  15325,
+     17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
+};
+
+extern boolean          animatedliquid;
+extern fixed_t          animatedliquiddiffs[128];
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern boolean          *isliquid;
 
@@ -480,20 +494,6 @@ static void PlayerLandedOnThing(mobj_t *mo)
         P_NoiseAlert(mo, mo);
 }
 
-static fixed_t floatbobdiffs[64] =
-{
-     25695,  25695,  25447,  24955,  24222,  23256,  22066,  20663,
-     19062,  17277,  15325,  13226,  10999,   8667,   6251,   3775,
-      1262,  -1262,  -3775,  -6251,  -8667, -10999, -13226, -15325,
-    -17277, -19062, -20663, -22066, -23256, -24222, -24955, -25447,
-    -25695, -25695, -25447, -24955, -24222, -23256, -22066, -20663,
-    -19062, -17277, -15325, -13226, -11000,  -8667,  -6251,  -3775,
-     -1262,   1262,   3775,   6251,   8667,  10999,  13226,  15325,
-     17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
-};
-
-extern fixed_t animatedliquid[128];
-
 //
 // P_MobjThinker
 //
@@ -513,8 +513,8 @@ void P_MobjThinker(mobj_t *mobj)
     }
 
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
-        && mobj->z <= mobj->subsector->sector->floorheight && !mobj->momz && floatbob)
-        mobj->z += animatedliquid[(mobj->floatbob + leveltime) & 127];
+        && mobj->z <= mobj->subsector->sector->floorheight && !mobj->momz && animatedliquid)
+        mobj->z += animatedliquiddiffs[(mobj->floatbob + leveltime) & 127];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)

@@ -43,7 +43,9 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-fixed_t animatedliquid[128] =
+boolean animatedliquid = ANIMATEDLIQUID_DEFAULT;
+
+fixed_t animatedliquiddiffs[128] =
 {
      3211,  3211,  3211,  3211,  3180,  3180,  3119,  3119,
      3027,  3027,  2907,  2907,  2758,  2758,  2582,  2582,
@@ -71,7 +73,7 @@ void T_AnimateLiquid(floormove_t *floor)
     sector_t    *sector = floor->sector;
 
     if (isliquid[sector->floorpic])
-        sector->animate += animatedliquid[leveltime & 127];
+        sector->animate += animatedliquiddiffs[leveltime & 127];
     else
         sector->animate = INT_MAX;
 }
@@ -128,6 +130,9 @@ void P_InitAnimatedLiquids(void)
     int         i;
     sector_t    *sector;
     thinker_t   *th;
+
+    if (!animatedliquid)
+        return;
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
         if (isliquid[sector->floorpic])
@@ -296,7 +301,8 @@ void T_MoveFloor(floormove_t *floor)
                     if (isliquid[sec->floorpic])
                     {
                         P_ChangeSector(sec, false);
-                        P_StartAnimatedLiquid(sec, true);
+                        if (animatedliquid)
+                            P_StartAnimatedLiquid(sec, true);
                     }
                 default:
                     break;
@@ -312,7 +318,8 @@ void T_MoveFloor(floormove_t *floor)
                     if (isliquid[sec->floorpic])
                     {
                         P_ChangeSector(sec, false);
-                        P_StartAnimatedLiquid(sec, true);
+                        if (animatedliquid)
+                            P_StartAnimatedLiquid(sec, true);
                     }
                 default:
                     break;
