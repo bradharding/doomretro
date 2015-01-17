@@ -597,6 +597,121 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
+void R_ProjectShadowSprite(mobj_t *thing)
+{
+    fixed_t             gzt;
+    fixed_t             tx;
+
+    fixed_t             xscale;
+
+    int                 x1;
+    int                 x2;
+
+    spritedef_t         *sprdef;
+    spriteframe_t       *sprframe;
+    int                 lump;
+
+    boolean             flip;
+
+    vissprite_t         *vis;
+
+    fixed_t             fx = thing->x;
+    fixed_t             fy = thing->y;
+    fixed_t             fz = thing->z + thing->shadow->info->shadowoffset;
+
+    int                 flags2 = thing->flags2;
+    int                 frame = thing->frame;
+
+    // transform the origin point
+    fixed_t             tr_x = fx - viewx;
+    fixed_t             tr_y = fy - viewy;
+
+    fixed_t             gxt = FixedMul(tr_x, viewcos);
+    fixed_t             gyt = -FixedMul(tr_y, viewsin);
+
+    fixed_t             tz = gxt - gyt;
+
+    unsigned int        rot = 0;
+
+    // thing is behind view plane?
+    if (tz < MINZ)
+        return;
+
+    xscale = FixedDiv(projection, tz);
+
+    gxt = -FixedMul(tr_x, viewsin);
+    gyt = FixedMul(tr_y, viewcos);
+    tx = -(gyt + gxt);
+
+    // too far off the side?
+    if (ABS(tx) > (tz << 2))
+        return;
+
+    // decide which patch to use for sprite relative to player
+    sprdef = &sprites[thing->sprite];
+    sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
+
+    // choose a different rotation based on player view
+    if (sprframe->rotate)
+        rot = (R_PointToAngle(fx, fy) - thing->angle + (unsigned int)(ANG45 / 2) * 9) >> 29;
+
+    lump = sprframe->lump[rot];
+    flip = ((boolean)sprframe->flip[rot] || (flags2 & MF2_MIRRORED));
+
+    // calculate edges of the shape
+    tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
+    x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
+
+    // off the right side?
+    if (x1 > viewwidth)
+        return;
+
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], xscale)) >> FRACBITS) - 1;
+
+    // off the left side
+    if (x2 < 0)
+        return;
+
+    gzt = fz;
+
+    if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
+        || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
+        return;
+
+    // store information in a vissprite
+    vis = R_NewVisSprite();
+    vis->mobjflags = thing->flags;
+    vis->mobjflags2 = flags2;
+    vis->type = thing->type;
+    vis->scale = xscale;
+    vis->gx = fx;
+    vis->gy = fy;
+    vis->gz = fz;
+    vis->gzt = gzt;
+    vis->blood = thing->blood;
+    vis->colfunc = thing->colfunc;
+    vis->footclip = 0;
+    vis->texturemid = gzt - viewz - vis->footclip;
+
+    vis->x1 = MAX(0, x1);
+    vis->x2 = MIN(x2, viewwidth - 1);
+
+    if (flip)
+    {
+        vis->startfrac = spritewidth[lump] - 1;
+        vis->xiscale = -FixedDiv(FRACUNIT, xscale);
+    }
+    else
+    {
+        vis->startfrac = 0;
+        vis->xiscale = FixedDiv(FRACUNIT, xscale);
+    }
+
+    if (vis->x1 > x1)
+        vis->startfrac += vis->xiscale * (vis->x1 - x1);
+    vis->patch = lump;
+}
+
 //
 // R_AddSprites
 // During BSP traversal, this adds sprites by sector.
@@ -620,7 +735,7 @@ void R_AddSprites(sector_t *sec)
 
     // Handle all things in sector.
     for (thing = sec->thinglist; thing; thing = thing->snext)
-        R_ProjectSprite(thing);
+        (thing->type == MT_SHADOW ? R_ProjectShadowSprite(thing) : R_ProjectSprite(thing));
 }
 
 //
