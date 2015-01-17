@@ -61,9 +61,6 @@ extern fixed_t          projectiony;
 
 extern int              validcount;
 
-extern int              linecount;
-extern int              loopcount;
-
 //
 // Lighting LUT.
 // Used for z-depth cuing per column/row,
@@ -77,8 +74,8 @@ extern int              loopcount;
 
 #define MAXLIGHTSCALE           48
 #define LIGHTSCALESHIFT         13
-#define MAXLIGHTZ               128
-#define LIGHTZSHIFT             20
+#define MAXLIGHTZ               2048
+#define LIGHTZSHIFT             16
 
 extern lighttable_t     *scalelight[LIGHTLEVELS][MAXLIGHTSCALE];
 extern lighttable_t     *psprscalelight[LIGHTLEVELS][MAXLIGHTSCALE];
