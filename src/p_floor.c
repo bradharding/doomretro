@@ -220,7 +220,7 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
             {
                 case -1:
                     // DOWN
-                    destheight = MAX(dest, sector->ceilingheight);
+                    destheight = MAX(dest, sector->floorheight);
                     if (sector->ceilingheight - speed < destheight)
                     {
                         lastpos = sector->ceilingheight;
