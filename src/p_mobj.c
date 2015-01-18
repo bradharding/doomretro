@@ -978,7 +978,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if (mobj->type == MF_CORPSE && (corpses & MIRROR))
+    if ((mobj->flags & MF_CORPSE) && (corpses & MIRROR))
     {
         static int      prev = 0;
         int             r = M_RandomInt(1, 10);
