@@ -991,18 +991,20 @@ void V_DrawPixel(int x, int y, byte color, boolean shadow)
 
 void V_LowGraphicDetail(int height)
 {
-    int x;
-    int y;
+    int x, y;
+    int h = pixelheight * SCREENWIDTH;
 
-    for (y = 0; y < height; y += pixelheight)
+    height *= SCREENWIDTH;
+
+    for (y = 0; y < height; y += h)
         for (x = 0; x < SCREENWIDTH; x += pixelwidth)
         {
-            byte        *dot = screens[0] + y * SCREENWIDTH + x;
+            byte        *dot = screens[0] + y + x;
             int         xx, yy;
 
-            for (yy = 0; yy < pixelheight; yy++)
+            for (yy = 0; yy < h; yy += SCREENWIDTH)
                 for (xx = 0; xx < pixelwidth; xx++)
-                    *(dot + yy * SCREENWIDTH + xx) = *dot;
+                    *(dot + yy + xx) = *dot;
         }
 }
 
