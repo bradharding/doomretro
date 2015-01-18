@@ -79,7 +79,6 @@ static fixed_t floatbobdiffs[64] =
 extern boolean          animatedliquid;
 extern fixed_t          animatedliquiddiffs[128];
 extern msecnode_t       *sector_list;   // phares 3/16/98
-extern boolean          *isliquid;
 
 //
 //
@@ -182,12 +181,9 @@ void P_XYMovement(mobj_t *mo)
     player_t    *player;
     fixed_t     xmove, ymove;
     mobjtype_t  type;
-    fixed_t     fac;
-    fixed_t     ptryx;
-    fixed_t     ptryy;
-    int         numsteps = 1;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
+
 
     if (!(mo->momx | mo->momy))
     {
@@ -208,43 +204,36 @@ void P_XYMovement(mobj_t *mo)
         if (puffcount++ > 1)
             P_SpawnSmokeTrail(mo->x, mo->y, mo->z, mo->angle);
 
-    // preserve the direction instead of clamping x and y independently.
-    xmove = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
-    ymove = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
+    mo->momx = BETWEEN(-MAXMOVE, mo->momx, MAXMOVE);
+    mo->momy = BETWEEN(-MAXMOVE, mo->momy, MAXMOVE);
 
-    fac = MIN(FixedDiv(xmove, mo->momx), FixedDiv(ymove, mo->momy));
-
-    xmove = mo->momx = FixedMul(mo->momx, fac);
-    ymove = mo->momy = FixedMul(mo->momy, fac);
-
-    // [WDJ] 3/2011 Moved out of loop and converted to stepping.
-    // Fixes mancubus fireballs which were too fast for collision tests,
-    // makes steps equal in size, and makes loop test faster and predictable.
-    // Boom bug had only the positive tests.
-    if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2
-        || xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
-    {
-        xmove >>= 1;
-        ymove >>= 1;
-        numsteps = 2;
-    }
-
-    if (mo->info->speed > mo->radius * 2)       // faster than radius * 2
-    {
-        // Mancubus missiles and the like.
-        xmove >>= 1;
-        ymove >>= 1;
-        numsteps *= 2;
-    }
-
-    ptryx = mo->x;
-    ptryy = mo->y;
+    xmove = mo->momx;
+    ymove = mo->momy;
 
     do
     {
-        ptryx += xmove;
-        ptryy += ymove;
+        fixed_t ptryx, ptryy;
 
+        // killough 8/9/98: fix bug in original Doom source:
+        // Large negative displacements were never considered.
+        // This explains the tendency for Mancubus fireballs
+        // to pass through walls.
+        if (xmove > MAXMOVE / 2 || ymove > MAXMOVE / 2
+            || xmove < -MAXMOVE / 2 || ymove < -MAXMOVE / 2)
+        {
+            ptryx = mo->x + xmove / 2;
+            ptryy = mo->y + ymove / 2;
+            xmove >>= 1;
+            ymove >>= 1;
+        }
+        else
+        {
+            ptryx = mo->x + xmove;
+            ptryy = mo->y + ymove;
+            xmove = ymove = 0;
+        }
+
+        // killough 3/15/98: Allow objects to drop off
         if (!P_TryMove(mo, ptryx, ptryy, true))
         {
             // blocked move
@@ -263,9 +252,9 @@ void P_XYMovement(mobj_t *mo)
                     // against the sky.
                     // Does not handle sky floors.
                     P_RemoveMobj(mo);
-                    if (mo->type == MT_BFG)
+                    if (type == MT_BFG)
                         S_StartSound(mo, mo->info->deathsound);
-                    else if (mo->type == MT_ROCKET && mo->shadow)
+                    else if (type == MT_ROCKET && mo->shadow)
                         P_RemoveMobj(mo->shadow);
                     return;
                 }
@@ -274,7 +263,7 @@ void P_XYMovement(mobj_t *mo)
             else
                 mo->momx = mo->momy = 0;
         }
-    } while (--numsteps);
+    } while (xmove | ymove);
 
     if (flags & (MF_MISSILE | MF_SKULLFLY))
         return;         // no friction for missiles or lost souls ever
