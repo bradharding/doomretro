@@ -503,10 +503,10 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                 break;
         }
 
-        floor->stopsound = (sec->floorheight != floor->floordestheight);
+        floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
 
-        for (i = 0; i < sec->linecount; i++)
-            sec->lines[i]->flags &= ~ML_SECRET;
+        for (i = 0; i < floor->sector->linecount; i++)
+            floor->sector->lines[i]->flags &= ~ML_SECRET;
     }
     return rtn;
 }
