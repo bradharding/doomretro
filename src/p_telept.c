@@ -39,7 +39,6 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-extern boolean  *isliquid;
 extern boolean  footclip;
 
 //

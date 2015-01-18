@@ -201,7 +201,7 @@ void P_UnsetThingPosition(mobj_t *thing)
     {
         // invisible things don't need to be in sector list
         // unlink from subsector
-        //
+
         // killough 8/11/98: simpler scheme using pointers-to-pointers for prev
         // pointers, allows head node pointers to be treated like everything else
         mobj_t  **sprev = thing->sprev;

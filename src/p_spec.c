@@ -458,12 +458,12 @@ boolean P_CheckTag(line_t *line)
         case MR_TeleportToTaggedSectorContainingTeleportLanding:
         case SR_LightsTo255:
         case SR_LightsTo0:
-            return 1;   // zero tag allowed
+            return true;        // zero tag allowed
 
         default:
             break;
     }
-    return false;       // zero tag not allowed
+    return false;               // zero tag not allowed
 }
 
 //

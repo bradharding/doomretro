@@ -78,13 +78,10 @@ int                             numsprites;
 static spriteframe_t            sprtemp[MAX_SPRITE_FRAMES];
 static int                      maxframe;
 
-extern int                      screensize;
 extern boolean                  inhelpscreens;
-extern int                      graphicdetail;
 extern boolean                  translucency;
 extern boolean                  dehacked;
 extern boolean                  shadows;
-extern boolean                  *isliquid;
 
 //
 // R_InstallSpriteLump
@@ -621,8 +618,6 @@ void R_ProjectShadow(mobj_t *thing)
     fixed_t             fx = thing->x;
     fixed_t             fy = thing->y;
     fixed_t             fz = thing->z + thing->shadow->info->shadowoffset;
-
-    int                 flags2 = thing->flags2;
 
     // transform the origin point
     fixed_t             tr_x = fx - viewx;

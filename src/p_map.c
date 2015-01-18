@@ -92,7 +92,6 @@ boolean         infight;
 mobj_t          *onmobj;
 
 extern boolean  followplayer;
-extern boolean  *isliquid;
 extern boolean  footclip;
 
 //
@@ -1904,12 +1903,16 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
         mobj_t  *mobj = n->m_thing;
 
         if (mobj)
-            if (mobj->type == MT_BLOODSPLAT)
+        {
+            mobjtype_t  type = mobj->type;
+
+            if (type == MT_BLOODSPLAT)
                 P_UpdateBloodSplat(mobj);
-            else if (mobj->type == MT_SHADOW)
+            else if (type == MT_SHADOW)
                 P_UpdateShadow(mobj);
             else if (!(mobj->flags & MF_NOBLOCKMAP))            // jff 4/7/98 don't do these
                 PIT_ChangeSector(mobj);                         // process it
+        }
     }
 
     return nofit;
@@ -2088,6 +2091,7 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     msecnode_t  *node = sector_list;
     mobj_t      *saved_tmthing = tmthing;
     fixed_t     saved_tmx = tmx, saved_tmy = tmy;
+    fixed_t     radius = thing->radius;
 
     // First, clear out the existing m_thing fields. As each node is
     // added or verified as needed, m_thing will be set properly. When
@@ -2104,10 +2108,10 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     tmx = x;
     tmy = y;
 
-    tmbbox[BOXTOP] = y + tmthing->radius;
-    tmbbox[BOXBOTTOM] = y - tmthing->radius;
-    tmbbox[BOXRIGHT] = x + tmthing->radius;
-    tmbbox[BOXLEFT] = x - tmthing->radius;
+    tmbbox[BOXTOP] = y + radius;
+    tmbbox[BOXBOTTOM] = y - radius;
+    tmbbox[BOXRIGHT] = x + radius;
+    tmbbox[BOXLEFT] = x - radius;
 
     validcount++;       // used to make sure we only process a line once
 

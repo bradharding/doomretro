@@ -65,7 +65,6 @@ fixed_t animatedliquiddiffs[128] =
      2907,  2907,  3027,  3027,  3119,  3119,  3180,  3180
 };
 
-extern boolean  *isliquid;
 extern boolean  canmodify;
 
 void T_AnimateLiquid(floormove_t *floor)

@@ -42,8 +42,9 @@
 //
 // End-level timer (-TIMER option)
 //
-extern  boolean levelTimer;
-extern  int     levelTimeCount;
+extern boolean  levelTimer;
+extern int      levelTimeCount;
+extern boolean  *isliquid;
 
 // Define values for map objects
 #define MO_TELEPORTMAN          14
