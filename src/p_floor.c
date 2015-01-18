@@ -137,7 +137,7 @@ void P_InitAnimatedLiquids(void)
         if (isliquid[sector->floorpic])
             P_StartAnimatedLiquid(sector, false);
         else
-            sector->animate = INT_MAX;
+            sector->animate = 0;
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function.acp1 == (actionf_p1)T_AnimateLiquid)
