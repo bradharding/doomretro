@@ -293,12 +293,13 @@ static struct
     char                *name;
     GameMission_t       mission;
 } iwads[] = {
-    { "DOOM2.WAD",    doom2     },
-    { "PLUTONIA.WAD", pack_plut },
-    { "TNT.WAD",      pack_tnt  },
-    { "DOOM.WAD",     doom      },
-    { "DOOM1.WAD",    doom      },
-    { "HACX.WAD",     doom2     }
+    { "DOOM2.WAD",    doom2      },
+    { "DOOM2.WAD",    pack_nerve },
+    { "PLUTONIA.WAD", pack_plut  },
+    { "TNT.WAD",      pack_tnt   },
+    { "DOOM.WAD",     doom       },
+    { "DOOM1.WAD",    doom       },
+    { "HACX.WAD",     doom2      }
 };
 
 // Returns true if the specified path is a path to a file
