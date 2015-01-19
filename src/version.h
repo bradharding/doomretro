@@ -36,10 +36,10 @@
 ========================================================================
 */
 
-#define PACKAGE_VERSION                 1,6,5,0
-#define PACKAGE_VERSIONSTRING           "1.6.5"
-#define PACKAGE_WADVERSIONSTRING        "DOOM RETRO v1.6.5"
-#define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM RETRO v1.6.5"
+#define PACKAGE_VERSION                 1,6,6,0
+#define PACKAGE_VERSIONSTRING           "1.6.6"
+#define PACKAGE_WADVERSIONSTRING        "DOOM RETRO v1.6.6"
+#define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM RETRO v1.6.6"
 
 #define PACKAGE                         "doomretro"
 #define PACKAGE_CONFIG                  "doomretro.cfg"
