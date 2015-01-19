@@ -973,10 +973,18 @@ void V_DrawPixel(int x, int y, byte color, boolean shadow)
         {
             int xx, yy;
 
-            for (yy = 0; yy < SCREENSCALE; ++yy)
-                for (xx = 0; xx < SCREENSCALE; ++xx)
-                    *(dest + yy * SCREENWIDTH + xx) =
-                        (translucency ? tinttab50[*(dest + yy * SCREENWIDTH + xx)] : 0);
+            if (translucency)
+            {
+                for (yy = 0; yy < SCREENSCALE; ++yy)
+                    for (xx = 0; xx < SCREENSCALE; ++xx)
+                        *(dest + yy * SCREENWIDTH + xx) = tinttab50[*(dest + yy * SCREENWIDTH + xx)];
+            }
+            else
+            {
+                for (yy = 0; yy < SCREENSCALE; ++yy)
+                    for (xx = 0; xx < SCREENSCALE; ++xx)
+                        *(dest + yy * SCREENWIDTH + xx) = 0;
+            }
         }
     }
     else if (color && color != 32)
