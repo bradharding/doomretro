@@ -47,9 +47,6 @@
 #define LOWERSPEED              6 * FRACUNIT
 #define RAISESPEED              6 * FRACUNIT
 
-#define WEAPONBOTTOM            128 * FRACUNIT
-#define WEAPONTOP               32 * FRACUNIT
-
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 

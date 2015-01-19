@@ -93,6 +93,9 @@
 
 #define NEEDEDCARDTICS          85
 
+#define WEAPONBOTTOM            128 * FRACUNIT
+#define WEAPONTOP               32 * FRACUNIT
+
 //
 // P_TICK
 //

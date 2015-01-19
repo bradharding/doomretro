@@ -101,6 +101,9 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     // don't move for a bit
                     thing->reactiontime = 18;
+
+                    player->psprites[ps_weapon].sx = 0;
+                    player->psprites[ps_weapon].sy = WEAPONTOP;
                 }
 
                 thing->angle = m->angle;
@@ -112,6 +115,7 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
                         thing->flags2 &= ~MF2_FEETARECLIPPED;
 
                 thing->momx = thing->momy = thing->momz = 0;
+
                 return true;
             }
         }
