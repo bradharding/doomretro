@@ -71,7 +71,7 @@ void T_AnimateLiquid(floormove_t *floor)
 {
     sector_t    *sector = floor->sector;
 
-    if (isliquid[sector->floorpic])
+    if (isliquid[sector->floorpic] && sector->ceilingheight != sector->floorheight)
         sector->animate += animatedliquiddiffs[leveltime & 127];
     else
         sector->animate = INT_MAX;
@@ -95,7 +95,7 @@ void P_StartAnimatedLiquid(sector_t *sector, boolean force)
         if (adjacent)
             if (sector->floorheight > adjacent->floorheight
                 || (isliquid[adjacent->floorpic]
-                    && sector->floorheight > adjacent->floorheight
+                    && sector->floorheight == sector->ceilingheight
                     && adjacent->floorheight != adjacent->ceilingheight))
                 contained = false;
     }
@@ -107,7 +107,6 @@ void P_StartAnimatedLiquid(sector_t *sector, boolean force)
         P_AddThinker(&floor->thinker);
         floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
         floor->sector = sector;
-
         for (j = 0; j < sector->linecount; j++)
         {
             sector_t       *adjacent = getNextSector(sector->lines[j], sector);

@@ -434,6 +434,8 @@ void T_MoveFloor(floormove_t *floor);
 
 void P_InitAnimatedLiquids(void);
 
+void P_StartAnimatedLiquid(sector_t *sector, boolean force);
+
 //
 // P_TELEPT
 //

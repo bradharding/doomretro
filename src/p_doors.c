@@ -42,6 +42,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
+extern boolean  animatedliquid;
 //
 // VERTICAL DOORS
 //
@@ -302,6 +303,12 @@ int EV_DoDoor(line_t *line, vldoor_e type)
         door->type = type;
         door->topwait = VDOORWAIT;
         door->speed = VDOORSPEED;
+
+        if (isliquid[sec->floorpic] && animatedliquid)
+        {
+            sec->floorheight += FRACUNIT;
+            P_StartAnimatedLiquid(sec, true);
+        }
 
         for (i = 0; i < door->sector->linecount; i++)
             door->sector->lines[i]->flags &= ~ML_SECRET;
