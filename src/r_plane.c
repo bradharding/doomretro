@@ -38,6 +38,7 @@
 
 #include "doomstat.h"
 #include "i_system.h"
+#include "p_local.h"
 #include "r_local.h"
 #include "r_sky.h"
 #include "w_wad.h"
@@ -77,6 +78,8 @@ static fixed_t          planeheight;
 
 fixed_t                 yslope[SCREENHEIGHT];
 fixed_t                 distscale[SCREENWIDTH];
+
+extern fixed_t          animatedliquiddiffs[128];
 
 //
 // R_MapPlane
@@ -313,6 +316,9 @@ void R_DrawPlanes(void)
                     ds_colormask = flatfullbright[lumpnum - firstflat];
 
                     planeheight = ABS(pl->height - viewz);
+
+                    if (isliquid[pl->picnum] && pl->sector)
+                        planeheight -= pl->sector->animate;
 
                     planezlight = zlight[BETWEEN(0, light, LIGHTLEVELS - 1)];
 

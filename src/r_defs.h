@@ -768,6 +768,8 @@ typedef struct visplane_s
     unsigned int        pad4;
 
     struct visplane_s   *next;  // Next visplane in hash chain -- killough
+
+    sector_t            *sector;
 } visplane_t;
 
 #endif

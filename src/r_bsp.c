@@ -476,8 +476,11 @@ static void R_Subsector(int num)
     frontsector = sub->sector;
 
     if (frontsector->floorheight < viewz)
+    {
         floorplane = R_FindPlane(frontsector->floorheight, frontsector->floorpic,
             frontsector->lightlevel);
+        floorplane->sector = frontsector;
+    }
     else
         floorplane = NULL;
 
