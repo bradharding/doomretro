@@ -414,7 +414,7 @@ void R_InitLightTables(void)
     //  for each level / distance combination.
     for (i = 0; i < LIGHTLEVELS; i++)
     {
-        int j, startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        int j, startmap = ((LIGHTLEVELS - 1 - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (j = 0; j < MAXLIGHTZ; j++)
         {
@@ -506,7 +506,7 @@ void R_ExecuteSetViewSize(void)
     //  for each level / scale combination.
     for (i = 0; i < LIGHTLEVELS; i++)
     {
-        int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        int startmap = ((LIGHTLEVELS - 1 - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (j = 0; j < MAXLIGHTSCALE; j++)
         {

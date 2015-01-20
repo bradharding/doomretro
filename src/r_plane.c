@@ -304,7 +304,7 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    int light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
+                    int light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight;
                     int stop = pl->maxx + 1;
                     int lumpnum = firstflat + flattranslation[pl->picnum];
                     int x;
