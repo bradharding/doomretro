@@ -236,6 +236,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         new_pl->height = pl->height;
         new_pl->picnum = pl->picnum;
         new_pl->lightlevel = pl->lightlevel;
+        new_pl->sector = pl->sector;
         pl = new_pl;
         pl->minx = start;
         pl->maxx = stop;
