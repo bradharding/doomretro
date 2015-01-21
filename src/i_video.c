@@ -1471,6 +1471,9 @@ void I_InitGraphics(void)
     for (i = 0; i < SCREENHEIGHT; i++)
         rows[i] = *screens + i * SCREENWIDTH;
 
+    if (devparm)
+        fpstimer = SDL_GetTicks();
+
     I_FinishUpdate();
 
 #ifdef SDL12
@@ -1482,7 +1485,4 @@ void I_InitGraphics(void)
 
     if (fullscreen)
         CenterMouse();
-
-    if (devparm)
-        fpstimer = SDL_GetTicks();
 }
