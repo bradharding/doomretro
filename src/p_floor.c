@@ -77,7 +77,7 @@ void T_AnimateLiquid(floormove_t *floor)
         sector->animate = INT_MAX;
 }
 
-void P_StartAnimatedLiquid(sector_t *sector, boolean force)
+void P_StartAnimatedLiquid(sector_t *sector)
 {
     thinker_t   *th;
     int         j;
@@ -93,10 +93,9 @@ void P_StartAnimatedLiquid(sector_t *sector, boolean force)
         sector_t       *adjacent = getNextSector(sector->lines[j], sector);
 
         if (adjacent)
-            if (sector->floorheight > adjacent->floorheight
-                || (isliquid[adjacent->floorpic]
-                    && sector->floorheight == sector->ceilingheight
-                    && adjacent->floorheight != adjacent->ceilingheight))
+            if (isliquid[adjacent->floorpic]
+                && sector->floorheight == sector->ceilingheight
+                && adjacent->floorheight != adjacent->ceilingheight)
                 contained = false;
     }
 
@@ -112,9 +111,7 @@ void P_StartAnimatedLiquid(sector_t *sector, boolean force)
             sector_t       *adjacent = getNextSector(sector->lines[j], sector);
 
             if (adjacent)
-                if (isliquid[adjacent->floorpic]
-                    && ((sector->floorheight == adjacent->floorheight
-                    && !sector->tag && !adjacent->tag) || force))
+                if (isliquid[adjacent->floorpic] && sector->floorheight == adjacent->floorheight)
                 {
                     sides[(sector->lines[j])->sidenum[0]].bottomtexture = 0;
                     sides[(sector->lines[j])->sidenum[1]].bottomtexture = 0;
@@ -134,7 +131,7 @@ void P_InitAnimatedLiquids(void)
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
         if (isliquid[sector->floorpic])
-            P_StartAnimatedLiquid(sector, false);
+            P_StartAnimatedLiquid(sector);
         else
             sector->animate = 0;
 
@@ -300,7 +297,7 @@ void T_MoveFloor(floormove_t *floor)
                     {
                         P_ChangeSector(sec, false);
                         if (animatedliquid)
-                            P_StartAnimatedLiquid(sec, true);
+                            P_StartAnimatedLiquid(sec);
                     }
                 default:
                     break;
@@ -317,7 +314,7 @@ void T_MoveFloor(floormove_t *floor)
                     {
                         P_ChangeSector(sec, false);
                         if (animatedliquid)
-                            P_StartAnimatedLiquid(sec, true);
+                            P_StartAnimatedLiquid(sec);
                     }
                 default:
                     break;
