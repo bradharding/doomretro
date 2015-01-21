@@ -232,8 +232,6 @@ void I_Error(char *error, ...)
 
     I_ShutdownWindows32();
 
-    SDL_Quit();
-
 #elif defined(__MACOSX__)
     {
         CFStringRef     message;
@@ -255,6 +253,8 @@ void I_Error(char *error, ...)
 #else
     ZenityErrorBox(msgbuf);
 #endif
+
+    SDL_Quit();
 
     exit(-1);
 }
