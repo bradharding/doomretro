@@ -496,6 +496,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     unsigned int        rot = 0;
 
+    sector_t            *sector = thing->subsector->sector;
+
     // thing is behind view plane?
     if (tz < MINZ)
         return;
@@ -565,11 +567,23 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= thing->subsector->sector->floorheight + FRACUNIT)
-        vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= sector->floorheight + FRACUNIT)
+    {
+        fixed_t footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
+
+        vis->texturemid = gzt - viewz - footclip;
+
+        if (flags2 & MF2_NOFLOATBOB)
+            footclip += sector->animate;
+
+        vis->footclip = footclip;
+    }
     else
+    {
         vis->footclip = 0;
-    vis->texturemid = gzt - viewz - vis->footclip;
+
+        vis->texturemid = gzt - viewz - vis->footclip;
+    }
 
     vis->x1 = MAX(0, x1);
     vis->x2 = MIN(x2, viewwidth - 1);
