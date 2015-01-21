@@ -191,7 +191,6 @@ void P_InitPicAnims(void)
         }
 
         lastanim->istexture = animdefs[i].istexture;
-        
 
         lastanim->speed = animdefs[i].speed;
         lastanim++;

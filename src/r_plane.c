@@ -79,6 +79,7 @@ static fixed_t          planeheight;
 fixed_t                 yslope[SCREENHEIGHT];
 fixed_t                 distscale[SCREENWIDTH];
 
+extern boolean          animatedliquid;
 extern fixed_t          animatedliquiddiffs[128];
 
 //
@@ -318,7 +319,7 @@ void R_DrawPlanes(void)
 
                     planeheight = ABS(pl->height - viewz);
 
-                    if (isliquid[pl->picnum] && pl->sector)
+                    if (isliquid[pl->picnum] && pl->sector && animatedliquid)
                         planeheight -= pl->sector->animate;
 
                     planezlight = zlight[BETWEEN(0, light, LIGHTLEVELS - 1)];
