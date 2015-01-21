@@ -304,12 +304,6 @@ int EV_DoDoor(line_t *line, vldoor_e type)
         door->topwait = VDOORWAIT;
         door->speed = VDOORSPEED;
 
-        if (isliquid[sec->floorpic] && animatedliquid)
-        {
-            sec->floorheight += FRACUNIT;
-            P_StartAnimatedLiquid(sec);
-        }
-
         for (i = 0; i < door->sector->linecount; i++)
             door->sector->lines[i]->flags &= ~ML_SECRET;
 
