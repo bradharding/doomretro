@@ -195,6 +195,14 @@ void P_InitPicAnims(void)
         lastanim->speed = animdefs[i].speed;
         lastanim++;
     }
+
+    if (BTSX)
+    {
+        int     SHNPRT02 = R_FlatNumForName("SHNPRT02");
+
+        for (i = 0; i < 13; ++i)
+            isliquid[SHNPRT02 + i] = false;
+    }
 }
 
 //
