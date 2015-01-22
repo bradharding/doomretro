@@ -110,7 +110,6 @@ void P_InitAnimatedLiquids(void)
 {
     int         i;
     sector_t    *sector;
-    thinker_t   *th;
 
     if (!animatedliquid)
         return;
@@ -120,10 +119,6 @@ void P_InitAnimatedLiquids(void)
             P_StartAnimatedLiquid(sector);
         else
             sector->animate = 0;
-
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function.acp1 == (actionf_p1)T_AnimateLiquid)
-            ((floormove_t *)th)->sector->floorheight += FRACUNIT;
 }
 
 //
