@@ -545,23 +545,15 @@ void HU_Ticker(void)
             x = (m_x + (m_w >> 1)) / FRACUNIT;
             y = (m_y + (m_h >> 1)) / FRACUNIT;
             z = sector->floorheight / FRACUNIT;
-
-            if (sector->animate != INT_MAX)
-                --z;
         }
         else
         {
-            sector_t    *sector = plr->mo->subsector->sector;
-
             angle = (int)((double)plr->mo->angle * (90.0f / ANG90));
             if (angle == 360)
                 angle = 0;
             x = plr->mo->x / FRACUNIT;
             y = plr->mo->y / FRACUNIT;
             z = plr->mo->z / FRACUNIT;
-
-            if (sector->animate != INT_MAX && plr->mo->floorz == sector->floorheight)
-                --z;
         }
 
         M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, angle, x, y, z);
