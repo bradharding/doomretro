@@ -39,7 +39,6 @@
 #ifndef __I_SYSTEM__
 #define __I_SYSTEM__
 
-#include "d_ticcmd.h"
 #include "d_event.h"
 
 // Called by DoomMain.
@@ -57,9 +56,5 @@ void I_StartTic(void);
 void I_Quit(boolean shutdown);
 
 void I_Error(char *error, ...);
-
-extern boolean widescreen;
-extern boolean hud;
-extern boolean returntowidescreen;
 
 #endif

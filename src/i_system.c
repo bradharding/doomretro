@@ -56,7 +56,6 @@ void I_ShutdownWindows32(void);
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_gamepad.h"
-#include "i_system.h"
 #include "i_timer.h"
 #include "i_video.h"
 #include "m_argv.h"
@@ -72,6 +71,10 @@ void I_ShutdownWindows32(void);
 #ifdef __MACOSX__
 #include <CoreFoundation/CFUserNotification.h>
 #endif
+
+extern boolean widescreen;
+extern boolean hud;
+extern boolean returntowidescreen;
 
 //
 // I_Quit

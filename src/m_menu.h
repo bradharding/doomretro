@@ -102,5 +102,8 @@ extern boolean  firstevent;
 extern byte     grays[256];
 extern int      musicvolume_percent;
 extern int      sfxvolume_percent;
+extern boolean  widescreen;
+extern boolean  hud;
+extern boolean  returntowidescreen;
 
 #endif
