@@ -1068,7 +1068,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
         target->reactiontime = 0;               // we're awake now...
 
         if ((!target->threshold || type == MT_VILE)
-            && source && source != target && type != MT_VILE)
+            && source && source != target && source->type != MT_VILE)
         {
             // if not intent on another player,
             // chase after this one
