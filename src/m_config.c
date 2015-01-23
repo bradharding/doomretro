@@ -99,7 +99,7 @@ extern float    gammalevel;
 extern int      graphicdetail;
 extern boolean  grid;
 extern boolean  homindicator;
-extern int      hud;
+extern boolean  hud;
 extern char     *iwadfolder;
 extern int      key_automap;
 extern int      key_automap_clearmark;
