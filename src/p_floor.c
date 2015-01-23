@@ -87,8 +87,6 @@ static void P_StartAnimatedLiquid(sector_t *sector)
     thinker_t       *th;
     floormove_t     *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
 
-    int         j;
-
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function.acp1 == (actionf_p1)T_AnimateLiquid
             && ((floormove_t *)th)->sector == sector)
@@ -97,18 +95,6 @@ static void P_StartAnimatedLiquid(sector_t *sector)
     P_AddThinker(&floor->thinker);
     floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
     floor->sector = sector;
-
-    for (j = 0; j < sector->linecount; j++)
-    {
-        sector_t       *adjacent = getNextSector(sector->lines[j], sector);
-
-        if (adjacent)
-            if (isliquid[adjacent->floorpic] && sector->floorheight == adjacent->floorheight)
-            {
-                sides[(sector->lines[j])->sidenum[0]].bottomtexture = 0;
-                sides[(sector->lines[j])->sidenum[1]].bottomtexture = 0;
-            }
-    }
 }
 
 void P_InitAnimatedLiquids(void)
