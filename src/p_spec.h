@@ -44,6 +44,7 @@
 //
 extern boolean  levelTimer;
 extern int      levelTimeCount;
+
 extern boolean  *isliquid;
 
 // Define values for map objects
