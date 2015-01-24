@@ -68,13 +68,13 @@ extern int              validcount;
 //
 
 // Lighting constants.
-#define LIGHTLEVELS             128
-#define LIGHTSEGSHIFT           1
-
-#define MAXLIGHTSCALE           0x180
-#define LIGHTSCALESHIFT         12
-#define MAXLIGHTZ               1024
-#define LIGHTZSHIFT             17
+#define LIGHTLEVELS             32
+#define LIGHTSEGSHIFT           3
+#define LIGHTBRIGHT             2
+#define MAXLIGHTSCALE           48
+#define LIGHTSCALESHIFT         13
+#define MAXLIGHTZ               2048
+#define LIGHTZSHIFT             16
 
 extern lighttable_t     *scalelight[LIGHTLEVELS][MAXLIGHTSCALE];
 extern lighttable_t     *psprscalelight[LIGHTLEVELS][MAXLIGHTSCALE];

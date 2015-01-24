@@ -737,8 +737,8 @@ void R_AddSprites(sector_t *sec)
     // Well, now it will be done.
     sec->validcount = validcount;
 
-    spritelights = scalelight[BETWEEN(0, (sec->lightlevel >> LIGHTSEGSHIFT) + extralight,
-        LIGHTLEVELS - 1)];
+    spritelights = scalelight[BETWEEN(0, (sec->lightlevel >> LIGHTSEGSHIFT)
+        + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
 
     // Handle all things in sector.
     if (fixedcolormap || isliquid[sec->floorpic] || !shadows)
@@ -869,7 +869,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
             {
                 // local light
                 int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
-                    + extralight;
+                    + extralight * LIGHTBRIGHT;
 
                 vis->colormap = psprscalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)]
                     [BETWEEN(0, lightnum + 8, MAXLIGHTSCALE - 1)];
