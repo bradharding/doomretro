@@ -498,12 +498,11 @@ extern int      direction;
 
 void HU_Ticker(void)
 {
-    static char fps_str[8] = "";
+    boolean     idmypos = players[consoleplayer].cheats & CF_MYPOS;
 
     // tick down message counter if message is up
     if (((!menuactive && !paused) || inhelpscreens || message_dontpause) &&
-        !idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm && message_counter &&
-        !--message_counter)
+        !idbehold && !idmypos && !devparm && message_counter && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
@@ -525,7 +524,7 @@ void HU_Ticker(void)
         HUlib_addMessageToSText(&w_message, 0, s_STSTR_BEHOLD);
         message_on = true;
     }
-    else if (players[consoleplayer].cheats & CF_MYPOS)
+    else if (idmypos)
     {
         // [BH] display and constantly update message for IDMYPOS cheat
         char    buffer[80];
@@ -562,9 +561,17 @@ void HU_Ticker(void)
     }
     else if (devparm)
     {
+        static char     fps_str[8] = "";
+        static int      prev_fps = 0;
+
         M_snprintf(fps_str, sizeof(fps_str), "%i FPS", fps);
         HUlib_addMessageToSText(&w_message, 0, fps_str);
         message_on = true;
+
+        if ((menuactive || paused) && fps != prev_fps)
+            blurred = false;
+
+        prev_fps = fps;
     }
     else
     {
