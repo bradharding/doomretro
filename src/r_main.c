@@ -612,7 +612,7 @@ void R_SetupFrame(player_t *player)
     viewx = player->mo->x;
     viewy = player->mo->y;
     viewangle = player->mo->angle;
-    extralight = player->extralight;
+    extralight = player->extralight << 1;
 
     viewz = player->viewz;
 
