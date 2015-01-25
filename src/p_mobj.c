@@ -281,11 +281,16 @@ void P_XYMovement(mobj_t *mo)
 
         for (i = 0; i < max; i++)
         {
+            int x, y;
+
             if (!--mo->bloodsplats)
                 break;
 
-            P_BloodSplatSpawner(mo->x + (M_RandomInt(-radius, radius) << FRACBITS),
-                mo->y + (M_RandomInt(-radius, radius) << FRACBITS), blood, mo->floorz);
+            x = mo->x + (M_RandomInt(-radius, radius) << FRACBITS);
+            y = mo->y + (M_RandomInt(-radius, radius) << FRACBITS);
+
+            if (mo->floorz == R_PointInSubsector(x, y)->sector->floorheight)
+                P_BloodSplatSpawner(x, y, blood, mo->floorz);
         }
     }
 
