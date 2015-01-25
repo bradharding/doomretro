@@ -762,8 +762,8 @@ static __forceinline void StretchBlit(void)
     } while ((y += stepy) < blitheight);
 }
 
-SDL_Rect        src_rect = { 0, 0, 0, 0 };
-SDL_Rect        dest_rect = { 0, 0, 0, 0 };
+SDL_Rect        src_rect;
+SDL_Rect        dest_rect;
 
 int             fps = 0;
 int             fpscount = 0;
@@ -967,7 +967,7 @@ static void SetVideoMode(void)
 #endif
 
             if (!screen)
-                I_Error("SetVideoMode: %s\n", SDL_GetError());
+                I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 5, SDL_GetError());
         }
 
         height = screen->h;
@@ -1010,7 +1010,7 @@ static void SetVideoMode(void)
 #endif
 
         if (!screen)
-            I_Error("SetVideoMode: %s\n", SDL_GetError());
+            I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 5, SDL_GetError());
 
         widescreen = false;
     }
@@ -1018,7 +1018,7 @@ static void SetVideoMode(void)
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 
     if (!screenbuffer)
-        I_Error("SetVideoMode: %s\n", SDL_GetError());
+        I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1029,8 +1029,11 @@ static void SetVideoMode(void)
     startx = stepx - 1;
     starty = stepy - 1;
 
+    src_rect.x = 0;
+    src_rect.y = 0;
     src_rect.w = screenbuffer->w;
     src_rect.h = screen->clip_rect.h;
+
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
     dest_rect.w = screenbuffer->w;
@@ -1097,7 +1100,7 @@ void ToggleWidescreen(boolean toggle)
 #endif
 
         if (!screen)
-            I_Error("ToggleWidescreen: %s\n", SDL_GetError());
+            I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
 
         RepositionWindow(diff);
         windowwidth = screen->w;
@@ -1108,7 +1111,7 @@ void ToggleWidescreen(boolean toggle)
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 
     if (!screenbuffer)
-        I_Error("ToggleWidescreen: %s\n", SDL_GetError());
+        I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1119,8 +1122,11 @@ void ToggleWidescreen(boolean toggle)
     startx = stepx - 1;
     starty = stepy - 1;
 
+    src_rect.x = 0;
+    src_rect.y = 0;
     src_rect.w = screenbuffer->w;
     src_rect.h = screen->clip_rect.h;
+
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (widescreen ? 0 : (screen->h - screenbuffer->h) / 2);
     dest_rect.w = screenbuffer->w;
@@ -1179,7 +1185,7 @@ void ToggleFullscreen(void)
 #endif
 
             if (!screen)
-                I_Error("ToggleFullscreen: %s\n", SDL_GetError());
+                I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
         }
 
         GetDesktopDimensions();
@@ -1252,7 +1258,7 @@ void ToggleFullscreen(void)
 #endif
 
         if (!screen)
-            I_Error("ToggleFullscreen: %s\n", SDL_GetError());
+            I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
 
         CreateCursors();
         SDL_SetCursor(cursors[0]);
@@ -1293,7 +1299,7 @@ void ToggleFullscreen(void)
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 
     if (!screenbuffer)
-        I_Error("ToggleFullscreen: %s\n", SDL_GetError());
+        I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1304,8 +1310,11 @@ void ToggleFullscreen(void)
     startx = stepx - 1;
     starty = stepy - 1;
 
+    src_rect.x = 0;
+    src_rect.y = 0;
     src_rect.w = screenbuffer->w;
     src_rect.h = screen->clip_rect.h;
+
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (screen->h - screenbuffer->h) / 2;
     dest_rect.w = screenbuffer->w;
@@ -1329,13 +1338,13 @@ static void ApplyWindowResize(int resize_h)
 #endif
 
     if (!screen)
-        I_Error("ApplyWindowResize: %s\n", SDL_GetError());
+        I_Error("ApplyWindowResize, line %i: %s\n", __LINE__ - 5, SDL_GetError());
 
     SDL_FreeSurface(screenbuffer);
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, height, 8, 0, 0, 0, 0);
 
     if (!screenbuffer)
-        I_Error("ApplyWindowResize: %s\n", SDL_GetError());
+        I_Error("ApplyWindowResize, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1346,8 +1355,11 @@ static void ApplyWindowResize(int resize_h)
     startx = stepx - 1;
     starty = stepy - 1;
 
+    src_rect.x = 0;
+    src_rect.y = 0;
     src_rect.w = screenbuffer->w;
     src_rect.h = screen->clip_rect.h;
+
     dest_rect.x = (screen->w - screenbuffer->w) / 2;
     dest_rect.y = (widescreen ? 0 : (screen->h - screenbuffer->h) / 2);
     dest_rect.w = screenbuffer->w;
@@ -1447,7 +1459,7 @@ void I_InitGraphics(void)
 
         if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 #endif
-            I_Error("Failed to initialize video: %s", SDL_GetError());
+            I_Error("I_InitGraphics, line %i: %s\n", __LINE__ - 2, SDL_GetError());
     }
 
     CreateCursors();
