@@ -102,7 +102,7 @@ HICON           icon;
 HWND            hwnd;
 
 boolean MouseShouldBeGrabbed(void);
-void ToggleFullScreen(void);
+void ToggleFullscreen(void);
 void I_InitGamepad(void);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -119,7 +119,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
         if ((wParam & 0xfff0) == SC_MAXIMIZE)
         {
-            ToggleFullScreen();
+            ToggleFullscreen();
             return true;
         }
         else if ((wParam & 0xfff0) == SC_KEYMENU)
@@ -127,7 +127,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     else if (msg == WM_SYSKEYDOWN && wParam == VK_RETURN && !(lParam & 0x40000000))
     {
-        ToggleFullScreen();
+        ToggleFullscreen();
         return true;
     }
     else if (msg == WM_DEVICECHANGE)

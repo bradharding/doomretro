@@ -967,7 +967,7 @@ static void SetVideoMode(void)
 #endif
 
             if (!screen)
-                I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
+                I_Error("SetVideoMode: %s\n", SDL_GetError());
         }
 
         height = screen->h;
@@ -1009,10 +1009,16 @@ static void SetVideoMode(void)
             SDL_DOUBLEBUF | SDL_RESIZABLE);
 #endif
 
+        if (!screen)
+            I_Error("SetVideoMode: %s\n", SDL_GetError());
+
         widescreen = false;
     }
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
+
+    if (!screenbuffer)
+        I_Error("SetVideoMode: %s\n", SDL_GetError());
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1090,6 +1096,9 @@ void ToggleWidescreen(boolean toggle)
             SDL_DOUBLEBUF | SDL_RESIZABLE);
 #endif
 
+        if (!screen)
+            I_Error("ToggleWidescreen: %s\n", SDL_GetError());
+
         RepositionWindow(diff);
         windowwidth = screen->w;
         windowheight = screen->h;
@@ -1097,6 +1106,9 @@ void ToggleWidescreen(boolean toggle)
 
     SDL_FreeSurface(screenbuffer);
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
+
+    if (!screenbuffer)
+        I_Error("ToggleWidescreen: %s\n", SDL_GetError());
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1121,7 +1133,7 @@ void ToggleWidescreen(boolean toggle)
 void I_InitWindows32(void);
 #endif
 
-void ToggleFullScreen(void)
+void ToggleFullscreen(void)
 {
     fullscreen = !fullscreen;
     M_SaveDefaults();
@@ -1167,7 +1179,7 @@ void ToggleFullScreen(void)
 #endif
 
             if (!screen)
-                I_Error("Error setting video mode %ix%i: %s\n", width, height, SDL_GetError());
+                I_Error("ToggleFullscreen: %s\n", SDL_GetError());
         }
 
         GetDesktopDimensions();
@@ -1239,6 +1251,9 @@ void ToggleFullScreen(void)
             SDL_RESIZABLE);
 #endif
 
+        if (!screen)
+            I_Error("ToggleFullscreen: %s\n", SDL_GetError());
+
         CreateCursors();
         SDL_SetCursor(cursors[0]);
 
@@ -1277,6 +1292,9 @@ void ToggleFullScreen(void)
     SDL_FreeSurface(screenbuffer);
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 
+    if (!screenbuffer)
+        I_Error("ToggleFullscreen: %s\n", SDL_GetError());
+
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
 
@@ -1310,8 +1328,14 @@ static void ApplyWindowResize(int resize_h)
         SDL_DOUBLEBUF | SDL_RESIZABLE);
 #endif
 
+    if (!screen)
+        I_Error("ApplyWindowResize: %s\n", SDL_GetError());
+
     SDL_FreeSurface(screenbuffer);
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, height, 8, 0, 0, 0, 0);
+
+    if (!screenbuffer)
+        I_Error("ApplyWindowResize: %s\n", SDL_GetError());
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
