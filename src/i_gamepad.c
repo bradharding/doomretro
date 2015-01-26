@@ -75,7 +75,7 @@ extern boolean          menuactive;
 HMODULE                 pXInputDLL;
 #endif
 
-void(*gamepadfunc)(void);
+void (*gamepadfunc)(void);
 void (*gamepadthumbsfunc)(short, short, short, short);
 
 void I_InitGamepad(void)

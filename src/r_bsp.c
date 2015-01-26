@@ -325,11 +325,11 @@ static void R_AddLine(seg_t *line)
 
     backsector = line->backsector;
 
-    doorclosed = false;
-
     // Single sided line?
     if (!backsector)
         goto clipsolid;
+
+    doorclosed = false;
 
     // Closed door.
     if (backsector->ceilingheight <= frontsector->floorheight
