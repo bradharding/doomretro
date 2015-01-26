@@ -927,6 +927,34 @@ static void GetDesktopDimensions(void)
 #endif
 }
 
+static void SetupScreen(void)
+{
+    int w = screenbuffer->w;
+    int h = screenbuffer->h;
+    int dy;
+
+    dest_rect.x = (screen->w - w) / 2;
+    dest_rect.y = (widescreen ? 0 : (screen->h - h) / 2);
+
+    dy = dest_rect.y + h - screen->clip_rect.y - screen->clip_rect.h;
+    if (dy > 0)
+        h -= dy;
+
+    src_rect.x = 0;
+    src_rect.y = 0;
+    src_rect.w = dest_rect.w = w;
+    src_rect.h = dest_rect.h = h;
+
+    pitch = screenbuffer->pitch;
+    pixels = (byte *)screenbuffer->pixels;
+
+    stepx = (SCREENWIDTH << FRACBITS) / width;
+    stepy = (SCREENHEIGHT << FRACBITS) / height;
+
+    startx = stepx - 1;
+    starty = stepy - 1;
+}
+
 static void SetVideoMode(void)
 {
     if (fullscreen)
@@ -1020,24 +1048,7 @@ static void SetVideoMode(void)
     if (!screenbuffer)
         I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / width;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
-
-    src_rect.x = 0;
-    src_rect.y = 0;
-    src_rect.w = screenbuffer->w;
-    src_rect.h = screen->clip_rect.h;
-
-    dest_rect.x = (screen->w - screenbuffer->w) / 2;
-    dest_rect.y = (screen->h - screenbuffer->h) / 2;
-    dest_rect.w = screenbuffer->w;
-    dest_rect.h = screen->clip_rect.h;
+    SetupScreen();
 }
 
 void ToggleWidescreen(boolean toggle)
@@ -1113,24 +1124,7 @@ void ToggleWidescreen(boolean toggle)
     if (!screenbuffer)
         I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / width;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
-
-    src_rect.x = 0;
-    src_rect.y = 0;
-    src_rect.w = screenbuffer->w;
-    src_rect.h = screen->clip_rect.h;
-
-    dest_rect.x = (screen->w - screenbuffer->w) / 2;
-    dest_rect.y = (widescreen ? 0 : (screen->h - screenbuffer->h) / 2);
-    dest_rect.w = screenbuffer->w;
-    dest_rect.h = screen->clip_rect.h;
+    SetupScreen();
 
     palette_to_set = true;
 }
@@ -1301,24 +1295,7 @@ void ToggleFullscreen(void)
     if (!screenbuffer)
         I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / width;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
-
-    src_rect.x = 0;
-    src_rect.y = 0;
-    src_rect.w = screenbuffer->w;
-    src_rect.h = screen->clip_rect.h;
-
-    dest_rect.x = (screen->w - screenbuffer->w) / 2;
-    dest_rect.y = (screen->h - screenbuffer->h) / 2;
-    dest_rect.w = screenbuffer->w;
-    dest_rect.h = screen->clip_rect.h;
+    SetupScreen();
 }
 
 static void ApplyWindowResize(int resize_h)
@@ -1346,24 +1323,7 @@ static void ApplyWindowResize(int resize_h)
     if (!screenbuffer)
         I_Error("ApplyWindowResize, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / windowwidth;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
-
-    src_rect.x = 0;
-    src_rect.y = 0;
-    src_rect.w = screenbuffer->w;
-    src_rect.h = screen->clip_rect.h;
-
-    dest_rect.x = (screen->w - screenbuffer->w) / 2;
-    dest_rect.y = (widescreen ? 0 : (screen->h - screenbuffer->h) / 2);
-    dest_rect.w = screenbuffer->w;
-    dest_rect.h = screen->clip_rect.h;
+    SetupScreen();
 
     M_SaveDefaults();
 }
