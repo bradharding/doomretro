@@ -556,9 +556,72 @@ void R_StoreWallRange(int start, int stop)
     if (ABS(offsetangle) > ANG90)
         offsetangle = ANG90;
 
-    hyp = (viewx == curline->v1->x && viewy == curline->v1->y ? 0 :
-        R_PointToDist(curline->v1->x, curline->v1->y));
-    rw_distance = FixedMul(hyp, finecosine[offsetangle >> ANGLETOFINESHIFT]);
+    {
+        hyp = R_PointToDist(curline->v1->x, curline->v1->y);
+
+        // if wall is horizontal or vertical, finding the distance
+        // to it is trivial
+        if (curline->angle == 0 || curline->angle == ANG180)
+            rw_distance = R_PointToDist(viewx, curline->v1->y);
+        else if (curline->angle == ANG90 || curline->angle == ANG270)
+            rw_distance = R_PointToDist(curline->v1->x, viewy);
+        // use old code for short walls and for walls that
+        // arent too oblique-- fixes weird Map06 slime trail
+        // these is pretty arbitrary values though
+        else
+        {
+            fixed_t     sineval = finecosine[offsetangle >> ANGLETOFINESHIFT];
+
+            if (hyp < 1024 << FRACBITS && sineval > 2000)
+                rw_distance = FixedMul(hyp, sineval);
+            else
+            {
+                fixed_t dx, dy, a, c, ac;
+                fixed_t rwd_x_offset, rwd_y_offset;
+                char    scaling_fudge;
+                fixed_t recentered_v1x, recentered_v1y, recentered_v2x, recentered_v2y;
+
+                // recenter world on player at (0,0)
+                recentered_v1x = curline->v1->x - viewx;
+                recentered_v1y = curline->v1->y - viewy;
+                recentered_v2x = curline->v2->x - viewx;
+                recentered_v2y = curline->v2->y - viewy;
+
+                // resize world if it's too big so that the FixedMul later
+                // doesn't overflow
+                scaling_fudge = 0;
+                while (ABS(recentered_v1x) >= 128 << FRACBITS
+                    || ABS(recentered_v1y) >= 128 << FRACBITS
+                    || ABS(recentered_v2x) >= 128 << FRACBITS
+                    || ABS(recentered_v2y) >= 128 << FRACBITS)
+                {
+                    recentered_v1x = recentered_v1x >> 1;
+                    recentered_v1y = recentered_v1y >> 1;
+                    recentered_v2x = recentered_v2x >> 1;
+                    recentered_v2y = recentered_v2y >> 1;
+                    ++scaling_fudge;
+                }
+
+                dx = recentered_v2x - recentered_v1x;
+                dy = recentered_v2y - recentered_v1y;
+
+                // so now we should have a world centered on the player at (0,0)
+                // and the vertices of the line are all within 128 units
+                // we are using an imaginary perpendicular line going from
+                // (0,0) to (-dy, dx) for calculations
+                a = FixedMul(recentered_v1x, recentered_v2y) - FixedMul(recentered_v1y, recentered_v2x);
+                c = FixedMul(dx, dx) + FixedMul(dy, dy);
+                if (!c)
+                    c = 1; // just in case
+                ac = FixedDiv(a, c);
+
+                rwd_x_offset = FixedMul(ac, -dy) << scaling_fudge;
+                rwd_y_offset = FixedMul(ac, dx) << scaling_fudge;
+
+                rw_distance = R_PointToDist(viewx + rwd_x_offset, viewy + rwd_y_offset);
+            }
+        }
+    }
 
     ds_p->x1 = rw_x = start;
     ds_p->x2 = stop;
