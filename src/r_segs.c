@@ -556,6 +556,8 @@ void R_StoreWallRange(int start, int stop)
     if (ABS(offsetangle) > ANG90)
         offsetangle = ANG90;
 
+    // [Linguica] Fix long wall error
+    // See http://www.doomworld.com/vb/post/1340126
     {
         hyp = R_PointToDist(curline->v1->x, curline->v1->y);
 
