@@ -2034,7 +2034,19 @@ void P_UnArchiveSpecials(void)
 //
 void P_ArchiveMap(void)
 {
-    saveg_write16(automapactive);
+    saveg_write32(automapactive);
+    saveg_write32(markpointnum);
+
+    if (markpointnum)
+    {
+        int     i;
+
+        for (i = 0; i < markpointnum; ++i)
+        {
+            saveg_write32(markpoints[i].x);
+            saveg_write32(markpoints[i].y);
+        }
+    }
 }
 
 //
@@ -2042,8 +2054,26 @@ void P_ArchiveMap(void)
 //
 void P_UnArchiveMap(void)
 {
-    automapactive = saveg_read16();
+    automapactive = saveg_read32();
+    markpointnum = saveg_read32();
 
     if (automapactive)
         AM_Start();
+
+    if (markpointnum)
+    {
+        int     i;
+
+        while (markpointnum >= markpointnum_max)
+        {
+            markpointnum_max = (markpointnum_max ? markpointnum_max << 1 : 16);
+            markpoints = (mpoint_t *)realloc(markpoints, markpointnum_max * sizeof(*markpoints));
+        }
+
+        for (i = 0; i < markpointnum; ++i)
+        {
+            markpoints[i].x = saveg_read32();
+            markpoints[i].y = saveg_read32();
+        }
+    }
 }

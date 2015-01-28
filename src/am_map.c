@@ -159,11 +159,6 @@ byte    *gridcolor;
 
 typedef struct
 {
-    fixed_t     x, y;
-} mpoint_t;
-
-typedef struct
-{
     mpoint_t    a, b;
 } mline_t;
 

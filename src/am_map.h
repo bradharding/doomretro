@@ -41,10 +41,16 @@
 
 #include "d_event.h"
 #include "m_cheat.h"
+#include "m_fixed.h"
 
 // Used by ST StatusBar stuff.
 #define AM_MSGENTERED   1
 #define AM_MSGEXITED    0
+
+typedef struct
+{
+    fixed_t     x, y;
+} mpoint_t;
 
 // Called by main loop.
 boolean AM_Responder(event_t *ev);
@@ -106,6 +112,10 @@ extern boolean  idclev;
 extern boolean  idmus;
 
 extern int      viewheight2;
+
+extern mpoint_t *markpoints;
+extern int      markpointnum;
+extern int      markpointnum_max;
 
 boolean keystate(int key);
 
