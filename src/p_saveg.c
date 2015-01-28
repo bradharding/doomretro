@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "am_map.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -2026,4 +2027,23 @@ void P_UnArchiveSpecials(void)
                 I_Error("P_UnarchiveSpecials: unknown tclass %i in savegame", tclass);
         }
     }
+}
+
+//
+// P_ArchiveMap
+//
+void P_ArchiveMap(void)
+{
+    saveg_write16(automapactive);
+}
+
+//
+// P_UnArchiveMap
+//
+void P_UnArchiveMap(void)
+{
+    automapactive = saveg_read16();
+
+    if (automapactive)
+        AM_Start();
 }

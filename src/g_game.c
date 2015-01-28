@@ -1553,6 +1553,7 @@ void G_DoLoadGame(void)
     P_UnArchiveWorld();
     P_UnArchiveThinkers();
     P_UnArchiveSpecials();
+    P_UnArchiveMap();
 
     P_RestoreTargets();
 
@@ -1626,6 +1627,7 @@ void G_DoSaveGame(void)
     P_ArchiveWorld();
     P_ArchiveThinkers();
     P_ArchiveSpecials();
+    P_ArchiveMap();
 
     P_WriteSaveGameEOF();
 
