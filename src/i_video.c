@@ -766,8 +766,9 @@ SDL_Rect        src_rect;
 SDL_Rect        dest_rect;
 
 int             fps = 0;
-int             fpscount = 0;
-int             fpstimer;
+int             frames = 0;
+int             starttime;
+int             currenttime;
 
 //
 // I_FinishUpdate
@@ -818,12 +819,13 @@ void I_FinishUpdate(void)
 
     if (devparm)
     {
-        fpscount++;
-        if (SDL_GetTicks() - fpstimer > 1000)
+        ++frames;
+        currenttime = SDL_GetTicks();
+        if (currenttime - starttime >= 1000)
         {
-            fpstimer = SDL_GetTicks();
-            fps = fpscount;
-            fpscount = 0;
+            fps = frames;
+            frames = 0;
+            starttime = currenttime;
         }
     }
 }
@@ -1468,7 +1470,7 @@ void I_InitGraphics(void)
         rows[i] = *screens + i * SCREENWIDTH;
 
     if (devparm)
-        fpstimer = SDL_GetTicks();
+        starttime = SDL_GetTicks();
 
     I_FinishUpdate();
 
