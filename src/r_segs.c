@@ -298,19 +298,23 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
         // calculate lighting
         if (maskedtexturecol[dc_x] != INT_MAX)
         {
-            int64_t     t = ((int64_t)centeryfrac << FRACBITS) - (int64_t)dc_texturemid * spryscale;
+            int64_t     t = ((int64_t)centeryfrac << FRACBITS)
+                            - (int64_t)dc_texturemid * spryscale;
 
-            if (t + (int64_t)texheight * spryscale < 0 || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
+            if (t + (int64_t)texheight * spryscale < 0
+                || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
                 continue;                       // skip if the texture is out of screen's range
 
             if (!fixedcolormap)
-                dc_colormap = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+                dc_colormap = walllights[BETWEEN(0, spryscale >> LIGHTSCALESHIFT,
+                    MAXLIGHTSCALE - 1)];
 
             sprtopscreen = (long)(t >> FRACBITS);
             dc_iscale = 0xffffffffu / (unsigned int)spryscale;
 
             // draw the texture
-            R_DrawMaskedColumn((column_t *)((byte *)R_GetColumn(texnum, maskedtexturecol[dc_x]) - 3));
+            R_DrawMaskedColumn((column_t *)((byte *)R_GetColumn(texnum,
+                maskedtexturecol[dc_x]) - 3));
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
     }
@@ -386,14 +390,16 @@ void R_RenderSegLoop(void)
         if (segtextured)
         {
             // calculate texture offset and lighting
-            angle_t     angle = ((rw_centerangle + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT) & 0x1fff;
+            angle_t     angle = ((rw_centerangle
+                                + xtoviewangle[rw_x]) >> ANGLETOFINESHIFT) & 0x1fff;
 
             texturecolumn = (rw_offset - FixedMul(finetangent[angle], rw_distance)) >> FRACBITS;
 
             if (fixedcolormap)
                 dc_colormap = fixedcolormap;
             else
-                dc_colormap = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+                dc_colormap = walllights[BETWEEN(0, rw_scale >> LIGHTSCALESHIFT,
+                    MAXLIGHTSCALE - 1)];
             dc_x = rw_x;
             dc_iscale = 0xffffffffu / (unsigned int)rw_scale;
         }
@@ -406,12 +412,19 @@ void R_RenderSegLoop(void)
                 // single sided line
                 dc_yl = yl;
                 dc_yh = yh;
+
+                // [BH] for "sparkle" hack
                 dc_topsparkle = false;
-                dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
+                dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl
+                    && rw_distance < (512 << FRACBITS));
+
                 dc_texturemid = rw_midtexturemid;
                 dc_source = R_GetColumn(midtexture, texturecolumn);
                 dc_texheight = midtexheight;
+
+                // [BH] apply brightmap
                 dc_colormask = texturefullbright[midtexture];
+
                 if (dc_colormask && !fixedcolormap && brightmaps)
                     fbwallcolfunc();
                 else
@@ -443,12 +456,19 @@ void R_RenderSegLoop(void)
                     {
                         dc_yl = yl;
                         dc_yh = mid;
+
+                        // [BH] for "sparkle" hack
                         dc_topsparkle = false;
-                        dc_bottomsparkle = (dc_bottomsparkle && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
+                        dc_bottomsparkle = (dc_bottomsparkle && dc_yh > dc_yl
+                            && rw_distance < (512 << FRACBITS));
+
                         dc_texturemid = rw_toptexturemid;
                         dc_source = R_GetColumn(toptexture, texturecolumn);
                         dc_texheight = toptexheight;
+
+                        // [BH] apply brightmap
                         dc_colormask = texturefullbright[toptexture];
+
                         if (dc_colormask && !fixedcolormap && brightmaps)
                             fbwallcolfunc();
                         else
@@ -485,12 +505,20 @@ void R_RenderSegLoop(void)
                     {
                         dc_yl = mid;
                         dc_yh = yh;
-                        dc_topsparkle = (dc_topsparkle && dc_yh > dc_yl && rw_distance < (128 << FRACBITS));
-                        dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl && rw_distance < (512 << FRACBITS));
+
+                        // [BH] for "sparkle" hack
+                        dc_topsparkle = (dc_topsparkle && dc_yh > dc_yl
+                            && rw_distance < (128 << FRACBITS));
+                        dc_bottomsparkle = (!bottomclipped && dc_yh > dc_yl
+                            && rw_distance < (512 << FRACBITS));
+
                         dc_texturemid = rw_bottomtexturemid;
                         dc_source = R_GetColumn(bottomtexture, texturecolumn);
                         dc_texheight = bottomtexheight;
+
+                        // [BH] apply brightmap
                         dc_colormask = texturefullbright[bottomtexture];
+
                         if (dc_colormask && !fixedcolormap && brightmaps)
                             fbwallcolfunc();
                         else
@@ -526,9 +554,7 @@ void R_StoreWallRange(int start, int stop)
 {
     fixed_t     hyp;
     angle_t     offsetangle;
-    int         lightnum;
 
-    sidedef = curline->sidedef;
     linedef = curline->linedef;
 
     // mark the segment as visible for automap
@@ -538,14 +564,16 @@ void R_StoreWallRange(int start, int stop)
     if (automapactive)
         return;
 
+    sidedef = curline->sidedef;
+
     // killough 1/98 -- fix 2s line HOM
     if (ds_p == drawsegs + maxdrawsegs)
     {
-        unsigned int    pos = ds_p - drawsegs;                          // jff 8/9/98 fix from ZDOOM1.14a
+        unsigned int    pos = ds_p - drawsegs;                  // jff 8/9/98 fix from ZDOOM1.14a
         unsigned int    newmax = (maxdrawsegs ? maxdrawsegs * 2 : 128); // killough
 
         drawsegs = realloc(drawsegs, newmax * sizeof(*drawsegs));
-        ds_p = drawsegs + pos;                                          // jff 8/9/98 fix from ZDOOM1.14a
+        ds_p = drawsegs + pos;                                  // jff 8/9/98 fix from ZDOOM1.14a
         maxdrawsegs = newmax;
     }
 
@@ -561,66 +589,41 @@ void R_StoreWallRange(int start, int stop)
     {
         hyp = R_PointToDist(curline->v1->x, curline->v1->y);
 
-        // if wall is horizontal or vertical, finding the distance
-        // to it is trivial
-        if (curline->angle == 0 || curline->angle == ANG180)
-            rw_distance = R_PointToDist(viewx, curline->v1->y);
-        else if (curline->angle == ANG90 || curline->angle == ANG270)
-            rw_distance = R_PointToDist(curline->v1->x, viewy);
-        // use old code for short walls and for walls that
-        // arent too oblique-- fixes weird Map06 slime trail
-        // these is pretty arbitrary values though
+        // if wall is horizontal or vertical, finding the distance to it is trivial
+        if (!curline->linedef->dy)
+            rw_distance = ABS(viewy - curline->v1->y);
+        else if (!curline->linedef->dx)
+            rw_distance = ABS(viewx - curline->v1->x);
+        // use old code for short walls and for walls that aren't too oblique
         else
         {
-            fixed_t     sineval = finecosine[offsetangle >> ANGLETOFINESHIFT];
+            fixed_t             sineval = finecosine[offsetangle >> ANGLETOFINESHIFT];
 
-            if (hyp < 1024 << FRACBITS && sineval > 2000)
+            if (hyp < (1024 << FRACBITS) && sineval > 2000)
                 rw_distance = FixedMul(hyp, sineval);
             else
             {
-                fixed_t dx, dy, a, c, ac;
-                fixed_t rwd_x_offset, rwd_y_offset;
-                char    scaling_fudge;
-                fixed_t recentered_v1x, recentered_v1y, recentered_v2x, recentered_v2y;
+                fixed_t         rwd_x_offset, rwd_y_offset;
+                fixed_t         recentered_v1x = (curline->v1->x - viewx) >> 11;
+                fixed_t         recentered_v1y = (curline->v1->y - viewy) >> 11;
+                fixed_t         recentered_v2x = (curline->v2->x - viewx) >> 11;
+                fixed_t         recentered_v2y = (curline->v2->y - viewy) >> 11;
+                fixed_t         dx = recentered_v2x - recentered_v1x;
+                fixed_t         dy = recentered_v2y - recentered_v1y;
+                int64_t         a = (int64_t)recentered_v1x * recentered_v2y
+                                    - (int64_t)recentered_v1y * recentered_v2x;
+                int64_t         c = (int64_t)dx * dx + (int64_t)dy * dy;
 
-                // recenter world on player at (0,0)
-                recentered_v1x = curline->v1->x - viewx;
-                recentered_v1y = curline->v1->y - viewy;
-                recentered_v2x = curline->v2->x - viewx;
-                recentered_v2y = curline->v2->y - viewy;
-
-                // resize world if it's too big so that the FixedMul later
-                // doesn't overflow
-                scaling_fudge = 0;
-                while (ABS(recentered_v1x) >= 128 << FRACBITS
-                    || ABS(recentered_v1y) >= 128 << FRACBITS
-                    || ABS(recentered_v2x) >= 128 << FRACBITS
-                    || ABS(recentered_v2y) >= 128 << FRACBITS)
-                {
-                    recentered_v1x = recentered_v1x >> 1;
-                    recentered_v1y = recentered_v1y >> 1;
-                    recentered_v2x = recentered_v2x >> 1;
-                    recentered_v2y = recentered_v2y >> 1;
-                    ++scaling_fudge;
-                }
-
-                dx = recentered_v2x - recentered_v1x;
-                dy = recentered_v2y - recentered_v1y;
-
-                // so now we should have a world centered on the player at (0,0)
-                // and the vertices of the line are all within 128 units
-                // we are using an imaginary perpendicular line going from
-                // (0,0) to (-dy, dx) for calculations
-                a = FixedMul(recentered_v1x, recentered_v2y) - FixedMul(recentered_v1y, recentered_v2x);
-                c = FixedMul(dx, dx) + FixedMul(dy, dy);
                 if (!c)
-                    c = 1; // just in case
-                ac = FixedDiv(a, c);
+                    c = 1;
 
-                rwd_x_offset = FixedMul(ac, -dy) << scaling_fudge;
-                rwd_y_offset = FixedMul(ac, dx) << scaling_fudge;
+                rwd_x_offset = ((fixed_t)(a * -dy / c)) << 11;
+                rwd_y_offset = ((fixed_t)(a * dx / c)) << 11;
 
-                rw_distance = R_PointToDist(viewx + rwd_x_offset, viewy + rwd_y_offset);
+                if (!rwd_x_offset && !rwd_y_offset)
+                    rw_distance = 0;
+                else
+                    rw_distance = R_PointToDist(viewx + rwd_x_offset, viewy + rwd_y_offset);
             }
         }
     }
@@ -632,7 +635,7 @@ void R_StoreWallRange(int start, int stop)
 
     // killough 1/6/98, 2/1/98: remove limit on openings
     {
-        extern int      *openings;
+        extern int      *openings;              // dropoff overflow
         extern size_t   maxopenings;
         size_t          pos = lastopening - openings;
         size_t          need = (rw_stopx - start) * sizeof(*lastopening) + pos;
@@ -670,6 +673,7 @@ void R_StoreWallRange(int start, int stop)
     worldtop = frontsector->ceilingheight - viewz;
     worldbottom = frontsector->floorheight - viewz;
 
+    // [BH] animate liquid sectors
     if (frontsector->animate != INT_MAX)
         worldbottom += frontsector->animate + FRACUNIT;
 
@@ -705,7 +709,8 @@ void R_StoreWallRange(int start, int stop)
 
         if (linedef->flags & ML_DONTPEGBOTTOM)
             // bottom of texture at bottom
-            rw_midtexturemid = frontsector->floorheight + textureheight[sidedef->midtexture] - viewz;
+            rw_midtexturemid = frontsector->floorheight
+                + textureheight[sidedef->midtexture] - viewz;
         else
             // top of texture at top
             rw_midtexturemid = worldtop;
@@ -817,7 +822,8 @@ void R_StoreWallRange(int start, int stop)
                 rw_toptexturemid = worldtop;
             else
                 // bottom of texture
-                rw_toptexturemid = backsector->ceilingheight + textureheight[sidedef->toptexture] - viewz;
+                rw_toptexturemid = backsector->ceilingheight
+                    + textureheight[sidedef->toptexture] - viewz;
         }
         if (worldlow > worldbottom)
         {
@@ -877,7 +883,7 @@ void R_StoreWallRange(int start, int stop)
         //  for horizontal / vertical / diagonal
         if (!fixedcolormap)
         {
-            lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
+            int lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
 
             if (frontsector->ceilingpic != skyflatnum)
             {
