@@ -275,10 +275,7 @@ static boolean  movement = false;
 int             keydown;
 int             direction;
 
-int             GATE1;
-int             GATE2;
-int             GATE3;
-int             GATE4;
+int             teleporters[24];
 
 __inline static int sign(int a)
 {
@@ -400,6 +397,7 @@ void AM_Init(void)
 {
     byte        *priority;
     int         x;
+    int         i;
 
     priority = (byte *)Z_Malloc(256, PU_STATIC, NULL);
     mask = (byte *)Z_Malloc(256, PU_STATIC, NULL);
@@ -446,10 +444,42 @@ void AM_Init(void)
     tswallcolor = priorities + (TSWALLCOLOR << 8);
     gridcolor = priorities + (GRIDCOLOR << 8);
 
-    GATE1 = R_CheckFlatNumForName("GATE1");
-    GATE2 = R_CheckFlatNumForName("GATE2");
-    GATE3 = R_CheckFlatNumForName("GATE3");
-    GATE4 = R_CheckFlatNumForName("GATE4");
+    for (i = 0; i < arrlen(teleporters); ++i)
+        teleporters[i] = -1;
+
+    if (BTSX)
+    {
+        teleporters[0] = R_CheckFlatNumForName("SLIME09");
+        teleporters[1] = R_CheckFlatNumForName("SLIME12");
+        teleporters[2] = R_CheckFlatNumForName("TELEPRT1");
+        teleporters[3] = R_CheckFlatNumForName("TELEPRT2");
+        teleporters[4] = R_CheckFlatNumForName("TELEPRT3");
+        teleporters[5] = R_CheckFlatNumForName("TELEPRT4");
+        teleporters[6] = R_CheckFlatNumForName("TELEPRT5");
+        teleporters[7] = R_CheckFlatNumForName("TELEPRT6");
+        teleporters[8] = R_CheckFlatNumForName("SLIME05");
+        teleporters[9] = R_CheckFlatNumForName("SHNPRT02");
+        teleporters[10] = R_CheckFlatNumForName("SHNPRT03");
+        teleporters[11] = R_CheckFlatNumForName("SHNPRT04");
+        teleporters[12] = R_CheckFlatNumForName("SHNPRT05");
+        teleporters[13] = R_CheckFlatNumForName("SHNPRT06");
+        teleporters[14] = R_CheckFlatNumForName("SHNPRT07");
+        teleporters[15] = R_CheckFlatNumForName("SHNPRT08");
+        teleporters[16] = R_CheckFlatNumForName("SHNPRT09");
+        teleporters[17] = R_CheckFlatNumForName("SHNPRT10");
+        teleporters[18] = R_CheckFlatNumForName("SHNPRT11");
+        teleporters[19] = R_CheckFlatNumForName("SHNPRT12");
+        teleporters[20] = R_CheckFlatNumForName("SHNPRT13");
+        teleporters[21] = R_CheckFlatNumForName("SHNPRT14");
+        teleporters[22] = R_CheckFlatNumForName("SLIME08");
+    }
+    else
+    {
+        teleporters[0] = R_CheckFlatNumForName("GATE1");
+        teleporters[1] = R_CheckFlatNumForName("GATE2");
+        teleporters[2] = R_CheckFlatNumForName("GATE3");
+        teleporters[3] = R_CheckFlatNumForName("GATE4");
+    }
 }
 
 static void AM_initVariables(void)
@@ -1439,7 +1469,13 @@ static void AM_drawGrid(void)
 
 boolean isteleport(int floorpic)
 {
-    return (floorpic == GATE1 || floorpic == GATE2 || floorpic == GATE3 || floorpic == GATE4);
+    int i;
+
+    for (i = 0; i < arrlen(teleporters); ++i)
+        if (floorpic == teleporters[i])
+            return true;
+
+    return false;
 }
 
 //
