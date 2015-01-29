@@ -100,6 +100,9 @@ void NetUpdate(void)
 
     lasttime = nowtime;
 
+    if (newtics <= 0)   // nothing new to update
+        return;
+
     if (skiptics <= newtics)
     {
         newtics -= skiptics;
@@ -128,7 +131,7 @@ void NetUpdate(void)
             break;
 
         memset(&cmd, 0, sizeof(ticcmd_t));
-        G_BuildTiccmd(&cmd, maketic);
+        G_BuildTiccmd(&cmd);
 
         netcmds[consoleplayer][maketic % BACKUPTICS] = cmd;
 
@@ -153,8 +156,7 @@ void D_StartGameLoop(void)
 //
 void D_CheckNetGame(void)
 {
-    int         i;
-    int         num_players;
+    int i;
 
     // default values for single player
     consoleplayer = 0;
@@ -168,35 +170,11 @@ void D_CheckNetGame(void)
     }
 
     playeringame[0] = true;
-
-    num_players = 0;
-
-    for (i = 0; i < MAXPLAYERS; ++i)
-        if (playeringame[i])
-            ++num_players;
-}
-
-// Returns true if there are currently any players in the game.
-static boolean PlayersInGame(void)
-{
-    int i;
-
-    for (i = 0; i < MAXPLAYERS; ++i)
-        if (playeringame[i])
-            return true;
-
-    return false;
 }
 
 //
 // TryRunTics
 //
-int     oldnettics;
-int     frametics[4];
-int     frameon;
-int     frameskip[4];
-int     oldnettics;
-
 extern boolean advancetitle;
 
 void TryRunTics(void)
@@ -214,9 +192,6 @@ void TryRunTics(void)
     realtics = entertic - oldentertics;
     oldentertics = entertic;
 
-    // get available tics
-    NetUpdate();
-
     lowtic = maketic;
 
     availabletics = lowtic - gametic / ticdup;
@@ -232,45 +207,8 @@ void TryRunTics(void)
     if (counts < 1)
         counts = 1;
 
-    frameon++;
-
-    {
-        int keyplayer = -1;
-
-        // ideally maketic should be 1 - 3 tics above lowtic
-        // if we are consistantly slower, speed up time
-        for (i = 0; i < MAXPLAYERS; i++)
-            if (playeringame[i])
-            {
-                keyplayer = i;
-                break;
-            }
-
-        if (keyplayer < 0)
-            return;     // If there are no players, we can never advance anyway
-
-        if (consoleplayer == keyplayer)
-        {
-            // the key player does not adapt
-        }
-        else
-        {
-            if (maketic <= nettics[keyplayer])
-                lasttime--;
-
-            frameskip[frameon & 3] = (oldnettics > nettics[keyplayer]);
-            oldnettics = maketic;
-
-            if (frameskip[0] && frameskip[1] && frameskip[2] && frameskip[3])
-                skiptics = 1;
-        }
-    }
-
-    if (counts < 1)
-        counts = 1;
-
     // wait for new tics if needed
-    while (!PlayersInGame() || lowtic < gametic / ticdup + counts)
+    while (lowtic < gametic / ticdup + counts)
     {
         NetUpdate();
 
@@ -289,11 +227,6 @@ void TryRunTics(void)
     {
         for (i = 0; i < ticdup; i++)
         {
-            // check that there are players in the game.  if not, we cannot
-            // run a tic.
-            if (!PlayersInGame())
-                return;
-
             if (advancetitle)
                 D_DoAdvanceTitle();
 
@@ -315,6 +248,5 @@ void TryRunTics(void)
                 }
             }
         }
-        NetUpdate();   // check for new console commands
     }
 }

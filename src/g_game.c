@@ -345,7 +345,7 @@ static void G_PrevWeapon(void)
 // G_BuildTiccmd
 // Builds a ticcmd from all of the available inputs.
 //
-void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
+void G_BuildTiccmd(ticcmd_t *cmd)
 {
     int         i;
     boolean     strafe;
