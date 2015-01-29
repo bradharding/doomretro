@@ -552,7 +552,6 @@ void R_RenderSegLoop(void)
 //
 void R_StoreWallRange(int start, int stop)
 {
-    fixed_t     hyp;
     angle_t     offsetangle;
 
     linedef = curline->linedef;
@@ -584,49 +583,16 @@ void R_StoreWallRange(int start, int stop)
     if (ABS(offsetangle) > ANG90)
         offsetangle = ANG90;
 
-    // [Linguica] Fix long wall error
+    // Fix long wall error
+    // by Linguica and entryway
     // See http://www.doomworld.com/vb/post/1340126
-    {
-        hyp = R_PointToDist(curline->v1->x, curline->v1->y);
-
-        // if wall is horizontal or vertical, finding the distance to it is trivial
-        if (!curline->linedef->dy)
-            rw_distance = ABS(viewy - curline->v1->y);
-        else if (!curline->linedef->dx)
-            rw_distance = ABS(viewx - curline->v1->x);
-        // use old code for short walls and for walls that aren't too oblique
-        else
-        {
-            fixed_t             sineval = finecosine[offsetangle >> ANGLETOFINESHIFT];
-
-            if (hyp < (1024 << FRACBITS) && sineval > 2000)
-                rw_distance = FixedMul(hyp, sineval);
-            else
-            {
-                fixed_t         rwd_x_offset, rwd_y_offset;
-                fixed_t         recentered_v1x = (curline->v1->x - viewx) >> 11;
-                fixed_t         recentered_v1y = (curline->v1->y - viewy) >> 11;
-                fixed_t         recentered_v2x = (curline->v2->x - viewx) >> 11;
-                fixed_t         recentered_v2y = (curline->v2->y - viewy) >> 11;
-                fixed_t         dx = recentered_v2x - recentered_v1x;
-                fixed_t         dy = recentered_v2y - recentered_v1y;
-                int64_t         a = (int64_t)recentered_v1x * recentered_v2y
-                                    - (int64_t)recentered_v1y * recentered_v2x;
-                int64_t         c = (int64_t)dx * dx + (int64_t)dy * dy;
-
-                if (!c)
-                    c = 1;
-
-                rwd_x_offset = ((fixed_t)(a * -dy / c)) << 11;
-                rwd_y_offset = ((fixed_t)(a * dx / c)) << 11;
-
-                if (!rwd_x_offset && !rwd_y_offset)
-                    rw_distance = 0;
-                else
-                    rw_distance = R_PointToDist(viewx + rwd_x_offset, viewy + rwd_y_offset);
-            }
-        }
-    }
+    if (!curline->dy)
+        rw_distance = ABS(viewy - curline->v1->y);
+    else if (!curline->dx)
+        rw_distance = ABS(viewx - curline->v1->x);
+    else
+        rw_distance = ABS((fixed_t)((curline->dy * (viewx - curline->v1->x)
+            - curline->dx * (viewy - curline->v1->y)) * curline->inv_length));
 
     ds_p->x1 = rw_x = start;
     ds_p->x2 = stop;
@@ -872,7 +838,8 @@ void R_StoreWallRange(int start, int stop)
 
     if (segtextured)
     {
-        rw_offset = FixedMul(hyp, -finesine[offsetangle >> ANGLETOFINESHIFT]);
+        rw_offset = FixedMul(R_PointToDist(curline->v1->x, curline->v1->y),
+            -finesine[offsetangle >> ANGLETOFINESHIFT]);
 
         rw_offset += sidedef->textureoffset + curline->offset;
 

@@ -308,6 +308,17 @@ void P_LoadSegs(int lump)
             li->offset = (fixed_t)sqrt(dx * dx + dy * dy);
         }
 
+        // precalc values for use later in long wall error fix in R_StoreWallRange()
+        {
+            seg_t   *li = segs + i;
+            double  dx = li->v2->x - li->v1->x;
+            double  dy = li->v2->y - li->v1->y;
+
+            li->dx = dx;
+            li->dy = dy;
+            li->inv_length = 1 / sqrt(dx * dx + dy * dy);
+        }
+    
         // Apply any map-specific fixes.
         if (canmodify && (mapfixes & LINEDEFS))
         {
