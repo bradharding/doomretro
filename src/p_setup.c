@@ -308,17 +308,6 @@ void P_LoadSegs(int lump)
             li->offset = (fixed_t)sqrt(dx * dx + dy * dy);
         }
 
-        // precalc values for use later in long wall error fix in R_StoreWallRange()
-        {
-            seg_t   *li = segs + i;
-            double  dx = li->v2->x - li->v1->x;
-            double  dy = li->v2->y - li->v1->y;
-
-            li->dx = dx;
-            li->dy = dy;
-            li->inv_length = 1 / sqrt(dx * dx + dy * dy);
-        }
-    
         // Apply any map-specific fixes.
         if (canmodify && (mapfixes & LINEDEFS))
         {
@@ -992,7 +981,7 @@ static void P_RemoveSlimeTrails(void)               // killough 10/98
                         int64_t dy2 = (l->dy >> FRACBITS) * (l->dy >> FRACBITS);
                         int64_t dxy = (l->dx >> FRACBITS) * (l->dy >> FRACBITS);
                         int64_t s = dx2 + dy2;
-                        int x0 = v->x, y0 = v->y, x1 = l->v1->x, y1 = l->v1->y;
+                        int     x0 = v->x, y0 = v->y, x1 = l->v1->x, y1 = l->v1->y;
 
                         v->x = (int)((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) / s);
                         v->y = (int)((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) / s);
@@ -1002,6 +991,21 @@ static void P_RemoveSlimeTrails(void)               // killough 10/98
         }
     }
     free(hit);
+}
+
+// precalc values for use later in long wall error fix in R_StoreWallRange()
+static void P_CalcSegsLength(void)
+{
+    int i;
+
+    for (i = 0; i < numsegs; i++)
+    {
+        seg_t   *li = segs + i;
+        fixed_t dx = li->v2->x - li->v1->x;
+        fixed_t dy = li->v2->y - li->v1->y;
+
+        li->length = (fixed_t)sqrt((double)dx * dx + (double)dy * dy);
+    }
 }
 
 char            mapnum[6];
@@ -1215,6 +1219,8 @@ void P_SetupLevel(int episode, int map)
     P_GroupLines();
 
     P_RemoveSlimeTrails();
+
+    P_CalcSegsLength();
 
     deathmatch_p = deathmatchstarts;
 

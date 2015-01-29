@@ -548,13 +548,11 @@ typedef struct
     vertex_t            *v1;
     vertex_t            *v2;
 
-    double              dx;
-    double              dy;
-    double              inv_length;
-
     fixed_t             offset;
 
     angle_t             angle;
+
+    fixed_t             length;
 
     side_t              *sidedef;
     line_t              *linedef;
