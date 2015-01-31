@@ -956,25 +956,26 @@ static void P_GroupLines(void)
 // Firelines (TM) is a Rezistered Trademark of MBF Productions
 //
 
-static void P_RemoveSlimeTrails(void)               // killough 10/98
+static void P_RemoveSlimeTrails(void)                   // killough 10/98
 {
-    byte *hit = (byte *)calloc(1, numvertexes);     // Hitlist for vertices
-    int i;
+    byte        *hit = (byte *)calloc(1, numvertexes);  // Hitlist for vertices
+    int         i;
 
-    for (i = 0; i < numsegs; i++)                   // Go through each seg
+    for (i = 0; i < numsegs; i++)                       // Go through each seg
     {
-        const line_t *l = segs[i].linedef;          // The parent linedef
+        const line_t    *l = segs[i].linedef;              // The parent linedef
 
-        if (l->dx && l->dy)                         // We can ignore orthogonal lines
+        if (l->dx && l->dy)                             // We can ignore orthogonal lines
         {
-            vertex_t *v = segs[i].v1;
+            vertex_t    *v = segs[i].v1;
 
             do
-                if (!hit[v - vertexes])             // If we haven't processed vertex
+            {
+                if (!hit[v - vertexes])                 // If we haven't processed vertex
                 {
-                    hit[v - vertexes] = 1;          // Mark this vertex as processed
+                    hit[v - vertexes] = 1;              // Mark this vertex as processed
 
-                    if (v != l->v1 && v != l->v2)   // Exclude endpoints of linedefs
+                    if (v != l->v1 && v != l->v2)       // Exclude endpoints of linedefs
                     {
                         // Project the vertex back onto the parent linedef
                         int64_t dx2 = (l->dx >> FRACBITS) * (l->dx >> FRACBITS);
@@ -987,7 +988,8 @@ static void P_RemoveSlimeTrails(void)               // killough 10/98
                         v->y = (int)((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) / s);
                     }
                 }  // Obsfucated C contest entry:   :)
-            while ((v != segs[i].v2) && (v = segs[i].v2));
+            }
+            while (v != segs[i].v2 && (v = segs[i].v2));
         }
     }
     free(hit);

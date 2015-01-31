@@ -925,14 +925,14 @@ void R_StoreWallRange(int start, int stop)
     // save sprite clipping info
     if (((ds_p->silhouette & SIL_TOP) || maskedtexture) && !ds_p->sprtopclip)
     {
-        memcpy(lastopening, &ceilingclip[start], sizeof(*lastopening) * (rw_stopx - start));
+        memcpy(lastopening, ceilingclip + start, sizeof(*lastopening) * (rw_stopx - start));
         ds_p->sprtopclip = lastopening - start;
         lastopening += rw_stopx - start;
     }
 
     if (((ds_p->silhouette & SIL_BOTTOM) || maskedtexture) && !ds_p->sprbottomclip)
     {
-        memcpy(lastopening, &floorclip[start], sizeof(*lastopening) * (rw_stopx - start));
+        memcpy(lastopening, floorclip + start, sizeof(*lastopening) * (rw_stopx - start));
         ds_p->sprbottomclip = lastopening - start;
         lastopening += rw_stopx - start;
     }

@@ -547,10 +547,10 @@ void ST_AutomapEvent(int type)
     }
 }
 
-extern char cheatkey;
-extern int selectedepisode;
-extern menu_t EpiDef;
-extern int cardsfound;
+extern char     cheatkey;
+extern int      selectedepisode;
+extern menu_t   EpiDef;
+extern int      cardsfound;
 
 // Respond to keyboard input events,
 //  intercept cheats.
