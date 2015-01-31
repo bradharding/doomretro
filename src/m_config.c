@@ -151,7 +151,6 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern boolean  rotatemode;
 extern int      runcount;
-extern float    saturation;
 extern int      screenheight;
 extern int      screenwidth;
 extern int      selectedepisode;
@@ -338,7 +337,6 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT_PERCENT  (playerbob,                  playerbob,                     0),
     CONFIG_VARIABLE_INT          (rotatemode,                 rotatemode,                    1),
     CONFIG_VARIABLE_INT          (runcount,                   runcount,                      0),
-    CONFIG_VARIABLE_FLOAT        (saturation,                 saturation,                    0),
     CONFIG_VARIABLE_INT          (savegame,                   selectedsavegame,              0),
     CONFIG_VARIABLE_INT          (screensize,                 screensize,                    0),
     CONFIG_VARIABLE_INT          (screenwidth,                screenwidth,                   5),
@@ -719,10 +717,8 @@ static void SaveDefaultCollection(default_collection_t *collection)
 
     fprintf(f, "#\n"
                "# DOOM RETRO Configuration File\n"
-               "#\n"
-               "# Visit http://wiki.doomretro.com for information on changing these settings.\n"
-               "#\n"
-               "\n");
+               "# Go to http://wiki.doomretro.com for information on changing these settings.\n"
+               "#\n");
 
     defaults = collection->defaults;
 
@@ -1349,8 +1345,6 @@ static void M_CheckDefaults(void)
         rotatemode = ROTATEMODE_DEFAULT;
 
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
-
-    saturation = BETWEENF(SATURATION_MIN, saturation, SATURATION_MAX);
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
 

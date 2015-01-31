@@ -262,10 +262,6 @@
 
 #define RUNCOUNT_MAX                            32768
 
-#define SATURATION_MIN                          0.0
-#define SATURATION_DEFAULT                      1.0
-#define SATURATION_MAX                          1.0
-
 #define SAVEGAME_DEFAULT                        0
 
 #define SCREENSIZE_MIN                          0

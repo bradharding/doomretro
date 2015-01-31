@@ -153,8 +153,6 @@ float                   gammalevels[GAMMALEVELS] =
 int                     gammaindex;
 float                   gammalevel = GAMMALEVEL_DEFAULT;
 
-float                   saturation = SATURATION_DEFAULT;
-
 // Mouse acceleration
 //
 // This emulates some of the behavior of DOS mouse drivers by increasing
@@ -845,36 +843,15 @@ void I_SetPalette(byte *doompalette)
 {
     int i;
 
-    if (saturation == 1.0f)
+    for (i = 0; i < 256; ++i)
     {
-        for (i = 0; i < 256; ++i)
-        {
-            palette[i].r = gammatable[gammaindex][*doompalette++];
-            palette[i].g = gammatable[gammaindex][*doompalette++];
-            palette[i].b = gammatable[gammaindex][*doompalette++];
+        palette[i].r = gammatable[gammaindex][*doompalette++];
+        palette[i].g = gammatable[gammaindex][*doompalette++];
+        palette[i].b = gammatable[gammaindex][*doompalette++];
 
 #ifdef SDL20
-            palette[i].a = 255;
+        palette[i].a = 255;
 #endif
-        }
-    }
-    else
-    {
-        for (i = 0; i < 256; ++i)
-        {
-            byte    r = *doompalette++;
-            byte    g = *doompalette++;
-            byte    b = *doompalette++;
-            double  p = sqrt(r * r * 0.299 + g * g * 0.587 + b * b * 0.114);
-
-            palette[i].r = gammatable[gammaindex][(byte)(p + (r - p) * saturation)];
-            palette[i].g = gammatable[gammaindex][(byte)(p + (g - p) * saturation)];
-            palette[i].b = gammatable[gammaindex][(byte)(p + (b - p) * saturation)];
-
-#ifdef SDL20
-            palette[i].a = 255;
-#endif
-        }
     }
 
     palette_to_set = true;
