@@ -545,26 +545,6 @@ void R_RenderSegLoop(void)
     }
 }
 
-fixed_t R_DistToSeg(seg_t *seg)
-{
-    // if wall is horizontal or vertical, finding the distance to it is trivial
-    if (seg->v1->y == seg->v2->y)
-        return ABS(viewy - seg->v1->y);
-    else if (seg->v1->x == seg->v2->x)
-        return ABS(viewx - seg->v1->x);
-    else
-    {
-        // to avoid possibility of int64 overflow in dist calculation
-        int64_t dx = (seg->v2->x - seg->v1->x) >> 1;
-        int64_t dy = (seg->v2->y - seg->v1->y) >> 1;
-        int64_t dx1 = (viewx - seg->v1->x) >> 1;
-        int64_t dy1 = (viewy - seg->v1->y) >> 1;
-        int64_t dist = (dy * dx1 - dx * dy1) / (seg->length >> 1);
-
-        return (fixed_t)(dist << 1);
-  }
-}
-
 //
 // R_StoreWallRange
 // A wall segment will be drawn
@@ -572,6 +552,8 @@ fixed_t R_DistToSeg(seg_t *seg)
 //
 void R_StoreWallRange(int start, int stop)
 {
+    const int   shift_bits = 1;
+    int64_t     dx, dy, dx1, dy1, len;
     angle_t     offsetangle;
 
     linedef = curline->linedef;
@@ -603,10 +585,15 @@ void R_StoreWallRange(int start, int stop)
     if (ABS(offsetangle) > ANG90)
         offsetangle = ANG90;
 
-    // Fix long wall error
-    // by Linguica and entryway
-    // See http://www.doomworld.com/vb/post/1340126
-    rw_distance = R_DistToSeg(curline);
+    // [Linguica] Fix long wall error
+    // shift right to avoid possibility of int64 overflow in rw_distance calculation
+    dx = (curline->v2->x - curline->v1->x) >> shift_bits;
+    dy = (curline->v2->y - curline->v1->y) >> shift_bits;
+    dx1 = (viewx - curline->v1->x) >> shift_bits;
+    dy1 = (viewy - curline->v1->y) >> shift_bits;
+    len = curline->length >> shift_bits;
+
+    rw_distance = (fixed_t)(((dy * dx1 - dx * dy1) / len) << shift_bits);
 
     ds_p->x1 = rw_x = start;
     ds_p->x2 = stop;
@@ -852,10 +839,7 @@ void R_StoreWallRange(int start, int stop)
 
     if (segtextured)
     {
-        fixed_t hyp = (viewx == curline->v1->x && viewy == curline->v1->y) ? 0 :
-                      R_PointToDist(curline->v1->x, curline->v1->y);
-
-        rw_offset = FixedMul(hyp, -finesine[offsetangle >> ANGLETOFINESHIFT]);
+        rw_offset = (fixed_t)(((dx * dx1 + dy * dy1) / len) << shift_bits);
 
         rw_offset += sidedef->textureoffset + curline->offset;
 
