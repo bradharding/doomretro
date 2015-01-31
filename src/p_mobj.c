@@ -79,6 +79,7 @@ static fixed_t floatbobdiffs[64] =
 extern boolean          animatedliquid;
 extern fixed_t          animatedliquiddiffs[128];
 extern msecnode_t       *sector_list;   // phares 3/16/98
+extern boolean          mirrorweapons;
 
 //
 //
@@ -998,6 +999,9 @@ void P_SpawnMapThing(mapthing_t *mthing)
         else
             prev++;
     }
+    else if (mirrorweapons && (mobj->flags & MF_PICKUP)
+        && !(mobj->flags2 & MF2_FLOATBOB) && (rand() & 1))
+        mobj->flags2 |= MF2_MIRRORED;
 
     if (!(mobj->flags & MF_SHOOTABLE) && !(mobj->flags & MF_NOBLOOD) && mobj->blood && !chex
         && (corpses & MOREBLOOD) && bloodsplats && !dehacked)
