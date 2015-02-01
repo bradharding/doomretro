@@ -68,8 +68,7 @@ void HU_Erase(void);
 
 void HU_clearMessages(void);
 
-extern char mapnumandtitle[133];
-extern char automaptitle[133];
-extern int fullscreen;
+extern char     automaptitle[133];
+extern boolean  fullscreen;
 
 #endif
