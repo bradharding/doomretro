@@ -98,8 +98,6 @@ boolean                 returntowidescreen = false;
 boolean                 widescreenresize = false;
 boolean                 hud = HUD_DEFAULT;
 
-boolean                 scanlines = SCANLINES_DEFAULT;
-
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
 boolean                 screenvisible;
@@ -762,27 +760,6 @@ static __forceinline void StretchBlit(void)
     } while ((y += stepy) < blitheight);
 }
 
-static __forceinline void Scanlines(void)
-{
-    fixed_t     i = 0;
-    fixed_t     y = starty;
-
-    do
-    {
-        byte    *dest = pixels + i;
-        fixed_t x = startx;
-
-        do
-        {
-            *dest = tinttab50[*dest];
-            dest++;
-        }
-        while ((x += stepx) < (SCREENWIDTH << FRACBITS));
-
-        i += pitch * 2;
-    } while ((y += (stepy << 1)) < blitheight);
-}
-
 SDL_Rect        src_rect = { 0, 0, 0, 0 };
 SDL_Rect        dest_rect = { 0, 0, 0, 0 };
 
@@ -825,9 +802,6 @@ void I_FinishUpdate(void)
 
     // draw to screen
     StretchBlit();
-
-    if (scanlines)
-        Scanlines();
 
 #ifdef WIN32
     SDL_FillRect(screen, NULL, 0);

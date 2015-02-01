@@ -264,8 +264,6 @@
 
 #define SAVEGAME_DEFAULT                        0
 
-#define SCANLINES_DEFAULT                       false
-
 #define SCREENSIZE_MIN                          0
 #define SCREENSIZE_DEFAULT                      7
 #define SCREENSIZE_MAX                          8
