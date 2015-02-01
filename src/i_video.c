@@ -91,12 +91,14 @@ int                     windowwidth = WINDOWWIDTH_DEFAULT;
 int                     windowheight = WINDOWHEIGHT_DEFAULT;
 
 // Run in full screen mode?
-int                     fullscreen = FULLSCREEN_DEFAULT;
+boolean                 fullscreen = FULLSCREEN_DEFAULT;
 
 boolean                 widescreen = WIDESCREEN_DEFAULT;
 boolean                 returntowidescreen = false;
 boolean                 widescreenresize = false;
 boolean                 hud = HUD_DEFAULT;
+
+boolean                 scanlines = SCANLINES_DEFAULT;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
@@ -760,8 +762,29 @@ static __forceinline void StretchBlit(void)
     } while ((y += stepy) < blitheight);
 }
 
-SDL_Rect        src_rect;
-SDL_Rect        dest_rect;
+static __forceinline void Scanlines(void)
+{
+    fixed_t     i = 0;
+    fixed_t     y = starty;
+
+    do
+    {
+        byte    *dest = pixels + i;
+        fixed_t x = startx;
+
+        do
+        {
+            *dest = tinttab50[*dest];
+            dest++;
+        }
+        while ((x += stepx) < (SCREENWIDTH << FRACBITS));
+
+        i += pitch * 2;
+    } while ((y += (stepy << 1)) < blitheight);
+}
+
+SDL_Rect        src_rect = { 0, 0, 0, 0 };
+SDL_Rect        dest_rect = { 0, 0, 0, 0 };
 
 int             fps = 0;
 int             frames = 0;
@@ -802,6 +825,9 @@ void I_FinishUpdate(void)
 
     // draw to screen
     StretchBlit();
+
+    if (scanlines)
+        Scanlines();
 
 #ifdef WIN32
     SDL_FillRect(screen, NULL, 0);
@@ -919,8 +945,6 @@ static void SetupScreenRects(void)
     if (dy > 0)
         h -= dy;
 
-    src_rect.x = 0;
-    src_rect.y = 0;
     src_rect.w = dest_rect.w = w;
     src_rect.h = dest_rect.h = h;
 }
@@ -1032,7 +1056,7 @@ static void SetVideoMode(void)
 
 void ToggleWidescreen(boolean toggle)
 {
-    if (fullscreen && (double)screen->w / screen->h < (double)16 / 10)
+    if (fullscreen && (double)screenwidth / screenheight < (double)16 / 10)
     {
         widescreen = returntowidescreen = false;
         return;
@@ -1170,8 +1194,6 @@ void ToggleFullscreen(void)
                 I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
         }
 
-        GetDesktopDimensions();
-
         if (widescreen)
         {
             if (gamestate != GS_LEVEL)
@@ -1183,7 +1205,8 @@ void ToggleFullscreen(void)
                     screensize = 7;
                 R_SetViewSize(screensize);
                 M_SaveDefaults();
-                return;
+                if (widescreen)
+                    return;
             }
         }
 
@@ -1298,7 +1321,7 @@ void ToggleFullscreen(void)
 static void ApplyWindowResize(int resize_h)
 {
     windowheight = height = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
-    windowwidth = windowheight * screen->w / screen->h;
+    windowwidth = windowheight * 4 / 3;
 
     if (widescreen)
         height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);

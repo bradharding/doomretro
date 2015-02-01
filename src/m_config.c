@@ -67,7 +67,7 @@ extern int      corpses;
 extern boolean  dclick_use;
 extern boolean  floatbob;
 extern boolean  footclip;
-extern int      fullscreen;
+extern boolean  fullscreen;
 extern int      gamepadautomap;
 extern int      gamepadautomapclearmark;
 extern int      gamepadautomapfollowmode;
@@ -151,6 +151,7 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern boolean  rotatemode;
 extern int      runcount;
+extern boolean  scanlines;
 extern int      screenheight;
 extern int      screenwidth;
 extern int      selectedepisode;
@@ -338,6 +339,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (rotatemode,                 rotatemode,                    1),
     CONFIG_VARIABLE_INT          (runcount,                   runcount,                      0),
     CONFIG_VARIABLE_INT          (savegame,                   selectedsavegame,              0),
+    CONFIG_VARIABLE_INT          (scanlines,                  scanlines,                     1),
     CONFIG_VARIABLE_INT          (screensize,                 screensize,                    0),
     CONFIG_VARIABLE_INT          (screenwidth,                screenwidth,                   5),
     CONFIG_VARIABLE_INT          (screenheight,               screenheight,                  5),
@@ -1345,6 +1347,9 @@ static void M_CheckDefaults(void)
         rotatemode = ROTATEMODE_DEFAULT;
 
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
+
+    if (scanlines != false && scanlines != true)
+        scanlines = SCANLINES_DEFAULT;
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
 
