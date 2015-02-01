@@ -1197,17 +1197,6 @@ void ToggleFullscreen(void)
     }
     else
     {
-        event_t ev;
-
-        SDL_QuitSubSystem(SDL_INIT_VIDEO);
-        I_WaitVBL(1);
-        putenv(envstring);
-        SDL_InitSubSystem(SDL_INIT_VIDEO);
-
-#ifdef WIN32
-        I_InitWindows32();
-#endif
-
         if (windowheight > desktopheight)
         {
             windowheight = desktopheight;
@@ -1238,25 +1227,6 @@ void ToggleFullscreen(void)
 
         if (!screen)
             I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
-
-        CreateCursors();
-        SDL_SetCursor(cursors[0]);
-
-        M_SetWindowCaption();
-
-        currently_grabbed = true;
-        UpdateFocus();
-        UpdateGrab();
-
-#ifdef SDL12
-        SDL_EnableUNICODE(1);
-        SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-#endif
-
-        ev.type = ev_keyup;
-        ev.data1 = KEY_RALT;
-        ev.data2 = 0;
-        D_PostEvent(&ev);
 
         if (widescreen)
         {
