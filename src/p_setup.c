@@ -452,6 +452,17 @@ void P_LoadNodes(int lump)
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
+    // [crispy] warn about unsupported nodes
+    if (!data || !numnodes)
+    {
+        if (numsubsectors > 1)
+            I_Error("P_LoadNodes: No nodes in map");
+    }
+    else if (!memcmp(data, "xNd4\0\0\0\0", 8))
+        I_Error("P_LoadNodes: DeePBSP nodes are not supported");
+    else if (!memcmp(data, "XNOD", 4) ||!memcmp(data, "ZNOD", 4))
+        I_Error("P_LoadNodes: ZDBSP nodes are not supported");
+
     for (i = 0; i < numnodes; i++)
     {
         node_t          *no = nodes + i;
