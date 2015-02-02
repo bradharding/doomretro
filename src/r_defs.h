@@ -747,6 +747,12 @@ typedef struct
     spriteframe_t       *spriteframes;
 } spritedef_t;
 
+typedef enum
+{
+    CeilingPlane,
+    FloorPlane
+} planetype_t;
+
 //
 // Now what is a visplane, anyway?
 //
@@ -772,6 +778,8 @@ typedef struct visplane_s
     struct visplane_s   *next;  // Next visplane in hash chain -- killough
 
     sector_t            *sector;
+
+    planetype_t         type;
 } visplane_t;
 
 #endif

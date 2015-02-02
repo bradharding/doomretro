@@ -907,7 +907,10 @@ void R_StoreWallRange(int start, int stop)
     if (markceiling)
     {
         if (ceilingplane)
+        {
             ceilingplane = R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1);
+            ceilingplane->type = CeilingPlane;
+        }
         else
             markceiling = false;
     }
@@ -915,7 +918,10 @@ void R_StoreWallRange(int start, int stop)
     if (markfloor)
     {
         if (floorplane)
+        {
             floorplane = R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
+            floorplane->type = FloorPlane;
+        }
         else
             markfloor = false;
     }
