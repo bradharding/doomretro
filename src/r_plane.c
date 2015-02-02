@@ -319,7 +319,7 @@ void R_DrawPlanes(void)
 
                     planeheight = ABS(pl->height - viewz);
 
-                    if (pl->type == FloorPlane && isliquid[pl->picnum] && pl->sector && animatedliquid)
+                    if (isliquid[pl->picnum] && pl->sector && pl->sector->animate != INT_MAX && animatedliquid)
                         planeheight -= pl->sector->animate;
 
                     planezlight = zlight[BETWEEN(0, light, LIGHTLEVELS - 1)];
