@@ -42,4 +42,6 @@
 extern int      consoleheight;
 extern int      consoledirection;
 
+void C_Init(void);
+
 #endif

@@ -47,15 +47,22 @@
 int             consoleheight = 0;
 int             consoledirection = 1;
 
+byte            *background;
+patch_t         *border;
+
 extern byte     *tinttab75;
+
+void C_Init(void)
+{
+    background = W_CacheLumpName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), PU_CACHE);
+    border = W_CacheLumpName("BRDR_B", PU_CACHE);
+}
 
 void C_DrawBackground(int height)
 {
-    byte        *src = W_CacheLumpName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), PU_CACHE);
     byte        *dest = screens[0];
     int         x, y;
     int         offset = CONSOLEHEIGHT - height;
-    patch_t     *border = W_CacheLumpName("BRDR_B", PU_CACHE);
 
     for (y = offset; y < height + offset; y += 2)
         for (x = 0; x < SCREENWIDTH / 32; x += 2)
@@ -65,7 +72,7 @@ void C_DrawBackground(int height)
             for (i = 0; i < 64; i++)
             {
                 int     j = i * 2;
-                int     dot = *(src + (((y / 2) & 63) << 6) + i) << 8;
+                int     dot = *(background + (((y / 2) & 63) << 6) + i) << 8;
 
                 *(dest + j) = tinttab75[dot + *(dest + j)];
                 ++j;

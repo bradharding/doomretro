@@ -51,6 +51,7 @@
 #endif
 
 #include "am_map.h"
+#include "c_console.h"
 #include "d_deh.h"
 #include "d_iwad.h"
 #include "d_main.h"
@@ -1368,6 +1369,8 @@ static void D_DoomMainSetup(void)
     ST_Init();
 
     AM_Init();
+
+    C_Init();
 
     if (startloadgame >= 0)
     {
