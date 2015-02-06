@@ -83,6 +83,9 @@ void C_DrawBackground(int height)
 
     for (x = 0; x < ORIGINALWIDTH; x += 8)
         V_DrawTranslucentPatch(x, height / 2, 0, border);
+
+    for (x = 0; x < ORIGINALWIDTH; ++x)
+        V_DrawPixel(x, height / 2 + 3, 251, true);
 }
 
 void C_Drawer(void)
