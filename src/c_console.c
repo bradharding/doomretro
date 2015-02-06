@@ -70,16 +70,22 @@ byte            *background;
 patch_t         *border;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 
-char            consoletext[255][512];
+char            **consolestring = NULL;
 char            consoleinput[255] = "";
+int             consolestrings = 0;
 
 patch_t         *caret;
 int             caretpos = 0;
 static boolean  showcaret = true;
 static int      carettics = 0;
 
-
 extern byte     *tinttab75;
+
+void C_AddConsoleString(char *string)
+{
+    consolestring = (char **)realloc(consolestring, (consolestrings + 1) * sizeof(char *));
+    consolestring[consolestrings++] = strdup(string);
+}
 
 void C_Init(void)
 {
@@ -170,6 +176,7 @@ void C_Drawer(void)
     else
     {
         int     i;
+        int     start;
         char    *left = Z_Malloc(512, PU_STATIC, NULL);
         char    *right = Z_Malloc(512, PU_STATIC, NULL);
 
@@ -183,13 +190,24 @@ void C_Drawer(void)
         C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_VERSIONSTRING) - CONSOLETEXTX,
             CONSOLEHEIGHT - 15, PACKAGE_VERSIONSTRING);
 
-        // draw text to left of caret
+        // draw console text
+        start = MAX(0, consolestrings - 10);
+        for (i = start; i < consolestrings; ++i)
+        {
+            int pos = i - start;
+
+            if (consolestrings < 10)
+                pos += 10 - consolestrings;
+            C_DrawText(CONSOLETEXTX, CONSOLETEXTY + CONSOLELINEHEIGHT * pos, consolestring[i]);
+        }
+
+        // draw input text to left of caret
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
         C_DrawText(CONSOLETEXTX, CONSOLEHEIGHT - 15, left);
 
-        // draw text to right of caret
+        // draw input text to right of caret
         for (i = 0; (unsigned int)i < strlen(consoleinput) - caretpos; ++i)
             right[i] = consoleinput[i + caretpos];
         right[i] = 0;

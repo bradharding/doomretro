@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -579,7 +580,7 @@ void HU_Ticker(void)
         if ((plr->message && !message_nottobefuckedwith)
             || (plr->message && message_dontfuckwithme))
         {
-            printf("%s\n", plr->message);
+            C_AddConsoleString(plr->message);
             if (messages || message_dontfuckwithme)
             {
                 char    *s = Z_Malloc(133, PU_STATIC, NULL);

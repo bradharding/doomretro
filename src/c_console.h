@@ -45,6 +45,7 @@
 extern int      consoleheight;
 extern int      consoledirection;
 
+void C_AddConsoleString(char *string);
 void C_Init(void);
 void C_Drawer(void);
 boolean C_Responder(event_t *ev);
