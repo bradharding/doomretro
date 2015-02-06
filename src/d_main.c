@@ -188,7 +188,6 @@ extern boolean  loadedgame;
 
 void R_ExecuteSetViewSize(void);
 void G_LoadedGameMessage(void);
-void C_Drawer(void);
 
 void D_Display(void)
 {
@@ -307,7 +306,8 @@ void D_Display(void)
         }
     }
 
-    C_Drawer();
+    if (!wipe)
+        C_Drawer();
 
     // menus go directly to the screen
     M_Drawer();                 // menu is drawn even on top of everything
@@ -337,6 +337,9 @@ void D_Display(void)
         wipestart = nowtime;
         done = wipe_ScreenWipe(tics);
         blurred = false;
+
+        C_Drawer();
+
         M_Drawer();             // menu is drawn even on top of wipes
         I_FinishUpdate();       // page flip or blit buffer
     }

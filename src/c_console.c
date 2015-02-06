@@ -196,7 +196,6 @@ void C_Drawer(void)
         C_DrawText(CONSOLETEXTX + C_TextWidth(left) + 3, CONSOLEHEIGHT - 15, right);
 
         // draw caret
-        if (carettics++ == CARETTICS)
         if (!menuactive && carettics++ == CARETTICS)
         {
             carettics = 0;
