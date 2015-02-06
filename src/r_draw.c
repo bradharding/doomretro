@@ -1311,12 +1311,6 @@ void R_FillBackScreen(void)
                 j++;
                 if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
                     *(dest + j) = dot;
-                j += SCREENWIDTH;
-                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-                    *(dest + j) = dot;
-                j--;
-                if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
-                    *(dest + j) = dot;
             }
             dest += 128;
         }
