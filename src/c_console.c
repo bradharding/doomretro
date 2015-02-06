@@ -197,6 +197,7 @@ void C_Drawer(void)
 
         // draw caret
         if (carettics++ == CARETTICS)
+        if (!menuactive && carettics++ == CARETTICS)
         {
             carettics = 0;
             showcaret = !showcaret;
