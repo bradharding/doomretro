@@ -37,28 +37,46 @@
 */
 
 #include "doomstat.h"
+#include "i_swap.h"
+#include "m_misc.h"
 #include "v_video.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define CONSOLESPEED    8
-#define CONSOLEHEIGHT   ((SCREENHEIGHT - SBARHEIGHT) / 2)
+#define CONSOLESPEED            8
+#define CONSOLEHEIGHT           ((SCREENHEIGHT - SBARHEIGHT) / 2)
+
+#define CONSOLEFONTSTART        '!'
+#define CONSOLEFONTEND          '~'
+#define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
 int             consoleheight = 0;
 int             consoledirection = 1;
 
 byte            *background;
 patch_t         *border;
+patch_t         *consolefont[CONSOLEFONTSIZE];
 
 extern byte     *tinttab75;
 
 void C_Init(void)
 {
+    int         i;
+    int         j = CONSOLEFONTSTART;
+    char        buffer[9];
+
     background = W_CacheLumpName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), PU_CACHE);
     border = W_CacheLumpName("BRDR_B", PU_CACHE);
+
+    for (i = 0; i < CONSOLEFONTSIZE; i++)
+    {
+        M_snprintf(buffer, 9, "DRFON%03d", j++);
+        consolefont[i] = W_CacheLumpName(buffer, PU_STATIC);
+    }
 }
 
-void C_DrawBackground(int height)
+static void C_DrawBackground(int height)
 {
     byte        *dest = screens[0];
     int         x, y;
@@ -88,6 +106,26 @@ void C_DrawBackground(int height)
         V_DrawPixel(x, height / 2 + 3, 251, true);
 }
 
+static void C_DrawText(int x, int y, char *text)
+{
+    int i;
+
+    for (i = 0; (unsigned int)i < strlen(text); ++i)
+    {
+        int     c = text[i] - CONSOLEFONTSTART;
+
+        if (c < 0 || c >= CONSOLEFONTSIZE)
+            x += 4;
+        else
+        {
+            patch_t     *patch = consolefont[c];
+
+            V_DrawBigPatch(x, y - (CONSOLEHEIGHT - consoleheight), 0, patch);
+            x += SHORT(patch->width);
+        }
+    }
+}
+
 void C_Drawer(void)
 {
     if (!consoleheight)
@@ -96,4 +134,6 @@ void C_Drawer(void)
     consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
 
     C_DrawBackground(consoleheight);
+
+    C_DrawText(SCREENWIDTH - 100, CONSOLEHEIGHT - 15, PACKAGE_VERSIONSTRING);
 }

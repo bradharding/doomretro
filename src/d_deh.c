@@ -1544,7 +1544,7 @@ boolean CheckPackageWADVersion(void)
                 if (!*inbuffer || *inbuffer == '#' || *inbuffer == ' ')
                     continue;   // Blank line or comment line
 
-                if (!strcasecmp(inbuffer, PACKAGE_WADVERSIONSTRING))
+                if (!strcasecmp(inbuffer, PACKAGE_VERSIONSTRING))
                     return true;
             }
         }
