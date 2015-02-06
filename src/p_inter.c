@@ -844,28 +844,6 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     if (chex)
         return;
 
-    if (source)
-    {
-        static char     message[128];
-
-        if (source->player)
-        {
-            M_snprintf(message, 128, "You %s %s with your %s.\n",
-                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                (target->player ? "yourself" : target->info->description),
-                weapondescription[source->player->readyweapon]);
-        }
-        else if (target->player || players[consoleplayer].health > 0)
-        {
-            M_snprintf(message, 128, "%s %s %s.%s\n", source->info->description,
-                (type == MT_BARREL ? "exploded" : (gibbed ? "gibbed" : "killed")),
-                target->info->description, (target->player ? "\n" : ""));
-            message[0] = toupper(message[0]);
-        }
-
-        printf("%s", message);
-    }
-
     // Drop stuff.
     // This determines the kind of object spawned during the death frame of a thing.
     switch (type)

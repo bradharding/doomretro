@@ -1275,7 +1275,6 @@ void A_VileChase(mobj_t *actor)
                     // got one!
                     mobj_t      *temp = actor->target;
                     mobjinfo_t  *info;
-                    static char message[128];
 
                     actor->target = corpsehit;
                     A_FaceTarget(actor);
@@ -1298,11 +1297,6 @@ void A_VileChase(mobj_t *actor)
                     corpsehit->lastenemy = NULL;
 
                     players[0].killcount--;
-
-                    M_snprintf(message, 128, "%s resurrected %s.\n", actor->info->description,
-                        corpsehit->info->description);
-                    message[0] = toupper(message[0]);
-                    printf("%s", message);
 
                     return;
                 }
