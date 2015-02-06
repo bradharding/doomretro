@@ -2446,7 +2446,7 @@ boolean M_Responder(event_t *ev)
             keydown = key;
             if (consoleheight && consoledirection == 1)
                 consoledirection = -1;
-            else if ((modstate & KMOD_CTRL) && (modstate & KMOD_ALT))
+            else/* if ((modstate & KMOD_CTRL) && (modstate & KMOD_ALT))*/
                 consoleheight = consoledirection = 1;
             return false;
         }

@@ -132,6 +132,41 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
+void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch)
+{
+    int         col = 0;
+    byte        *desttop;
+    int         w = SHORT(patch->width) << 16;
+
+    y -= SHORT(patch->topoffset);
+    x -= SHORT(patch->leftoffset);
+
+    desttop = screens[scrn] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
+
+    for (; col < w; col += DXI, desttop++)
+    {
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
+            int         count = (column->length * DY) >> 16;
+            int         srccol = 0;
+
+            while (count--)
+            {
+                *dest = tinttab25[(*dest << 8) + source[srccol >> 16]];
+                dest += SCREENWIDTH;
+                srccol += DYI;
+            }
+
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawShadowPatch(int x, int y, patch_t *patch)
 {
     int         col = 0;

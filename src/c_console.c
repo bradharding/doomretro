@@ -41,17 +41,21 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#define CONSOLESPEED    8
+#define CONSOLEHEIGHT   ((SCREENHEIGHT - SBARHEIGHT) / 2)
+
 int             consoleheight = 0;
 int             consoledirection = 1;
 
-extern byte     *tinttab66;
+extern byte     *tinttab75;
 
 void C_DrawBackground(int height)
 {
     byte        *src = W_CacheLumpName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), PU_CACHE);
     byte        *dest = screens[0];
     int         x, y;
-    int         offset = (SCREENHEIGHT - SBARHEIGHT) / 2 - height;
+    int         offset = CONSOLEHEIGHT - height;
+    patch_t     *border = W_CacheLumpName("BRDR_B", PU_CACHE);
 
     for (y = offset; y < height + offset; y += 2)
         for (x = 0; x < SCREENWIDTH / 32; x += 2)
@@ -61,18 +65,17 @@ void C_DrawBackground(int height)
             for (i = 0; i < 64; i++)
             {
                 int     j = i * 2;
-                int    dot = *(src + (((y / 2) & 63) << 6) + i) << 8;
+                int     dot = *(src + (((y / 2) & 63) << 6) + i) << 8;
 
-                *(dest + j) = tinttab66[dot + *(dest + j)];
+                *(dest + j) = tinttab75[dot + *(dest + j)];
                 ++j;
-                *(dest + j) = tinttab66[dot + *(dest + j)];
-                j += SCREENWIDTH;
-                *(dest + j) = tinttab66[dot + *(dest + j)];
-                --j;
-                *(dest + j) = tinttab66[dot + *(dest + j)];
+                *(dest + j) = tinttab75[dot + *(dest + j)];
             }
             dest += 128;
         }
+
+    for (x = 0; x < ORIGINALWIDTH; x += 8)
+        V_DrawTranslucentPatch(x, height / 2, 0, border);
 }
 
 void C_Drawer(void)
@@ -80,7 +83,7 @@ void C_Drawer(void)
     if (!consoleheight)
         return;
 
-    consoleheight = BETWEEN(0, consoleheight + 8 * consoledirection, (SCREENHEIGHT - SBARHEIGHT) / 2);
+    consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
 
     C_DrawBackground(consoleheight);
 }
