@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "i_swap.h"
 #include "m_misc.h"
+#include "SDL.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -52,12 +53,31 @@
 #define CONSOLEFONTEND          '~'
 #define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
+#define CONSOLETEXTX            10
+#define CONSOLETEXTY            8
+#define CONSOLELINEHEIGHT       14
+
+#define CONSOLEINPUTPIXELWIDTH  500
+
+#define SPACE                   3
+
+#define CARETTICS               20
+
 int             consoleheight = 0;
 int             consoledirection = 1;
 
 byte            *background;
 patch_t         *border;
 patch_t         *consolefont[CONSOLEFONTSIZE];
+
+char            consoletext[255][512];
+char            consoleinput[255] = "";
+
+patch_t         *caret;
+int             caretpos = 0;
+static boolean  showcaret = true;
+static int      carettics = 0;
+
 
 extern byte     *tinttab75;
 
@@ -75,6 +95,8 @@ void C_Init(void)
         M_snprintf(buffer, 9, "DRFON%03d", j++);
         consolefont[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
+
+    caret = consolefont['|' - CONSOLEFONTSTART];
 }
 
 static void C_DrawBackground(int height)
@@ -107,16 +129,30 @@ static void C_DrawBackground(int height)
         V_DrawPixel(x, height / 2 + 3, 251, true);
 }
 
+static int C_TextWidth(char *text)
+{
+    size_t      i;
+    int         w = 0;
+
+    for (i = 0; i < strlen(text); ++i)
+    {
+        int     c = text[i] - CONSOLEFONTSTART;
+
+        w += (c < 0 || c >= CONSOLEFONTSIZE ? SPACE : SHORT(consolefont[c]->width));
+    }
+    return w;
+}
+
 static void C_DrawText(int x, int y, char *text)
 {
-    int i;
+    size_t      i;
 
-    for (i = 0; (unsigned int)i < strlen(text); ++i)
+    for (i = 0; i < strlen(text); ++i)
     {
         int     c = text[i] - CONSOLEFONTSTART;
 
         if (c < 0 || c >= CONSOLEFONTSIZE)
-            x += 4;
+            x += SPACE;
         else
         {
             patch_t     *patch = consolefont[c];
@@ -131,12 +167,43 @@ void C_Drawer(void)
 {
     if (!consoleheight)
         return;
+    else
+    {
+        int     i;
+        char    *left = Z_Malloc(512, PU_STATIC, NULL);
+        char    *right = Z_Malloc(512, PU_STATIC, NULL);
 
-    consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
+        // adjust height
+        consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
 
-    C_DrawBackground(consoleheight);
+        // draw tiled background and bottom edge
+        C_DrawBackground(consoleheight);
 
-    C_DrawText(SCREENWIDTH - 100, CONSOLEHEIGHT - 15, PACKAGE_VERSIONSTRING);
+        // draw title and version
+        C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_VERSIONSTRING) - CONSOLETEXTX,
+            CONSOLEHEIGHT - 15, PACKAGE_VERSIONSTRING);
+
+        // draw text to left of caret
+        for (i = 0; i < caretpos; ++i)
+            left[i] = consoleinput[i];
+        left[i] = 0;
+        C_DrawText(CONSOLETEXTX, CONSOLEHEIGHT - 15, left);
+
+        // draw text to right of caret
+        for (i = 0; (unsigned int)i < strlen(consoleinput) - caretpos; ++i)
+            right[i] = consoleinput[i + caretpos];
+        right[i] = 0;
+        C_DrawText(CONSOLETEXTX + C_TextWidth(left) + 3, CONSOLEHEIGHT - 15, right);
+
+        // draw caret
+        if (carettics++ == CARETTICS)
+        {
+            carettics = 0;
+            showcaret = !showcaret;
+        }
+        if (showcaret)
+            V_DrawBigPatch(CONSOLETEXTX + C_TextWidth(left), consoleheight - 15, 0, caret);
+    }
 }
 
 boolean C_Responder(event_t *ev)
@@ -144,5 +211,107 @@ boolean C_Responder(event_t *ev)
     if (!consoleheight)
         return false;
 
+    if (ev->type == ev_keydown)
+    {
+        int             key = ev->data1;
+        int             ch = ev->data2;
+        size_t          i;
+
+#ifdef SDL20
+        SDL_Keymod      modstate = SDL_GetModState();
+#else
+        SDLMod          modstate = SDL_GetModState();
+#endif
+
+        switch (key)
+        {
+            // delete character left of caret
+            case KEY_BACKSPACE:
+                if (caretpos > 0)
+                {
+                    for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); ++i)
+                        consoleinput[i] = consoleinput[i + 1];
+                    --caretpos;
+                    carettics = 0;
+                    showcaret = true;
+                }
+                break;
+
+            // delete character right of caret
+            case KEY_DEL:
+                if ((unsigned int)caretpos < strlen(consoleinput))
+                {
+                    for (i = caretpos; (unsigned int)i < strlen(consoleinput); ++i)
+                        consoleinput[i] = consoleinput[i + 1];
+                    carettics = 0;
+                    showcaret = true;
+                }
+                break;
+
+            // cancel
+            case KEY_ESCAPE:
+                break;
+
+            // confirm
+            case KEY_ENTER:
+                break;
+
+            // move caret left
+            case KEY_LEFTARROW:
+                if (caretpos > 0)
+                {
+                    --caretpos;
+                    carettics = 0;
+                    showcaret = true;
+                }
+                break;
+
+            // move caret right
+            case KEY_RIGHTARROW:
+                if ((unsigned int)caretpos < strlen(consoleinput))
+                {
+                    ++caretpos;
+                    carettics = 0;
+                    showcaret = true;
+                }
+                break;
+
+            // move caret to start
+            case KEY_HOME:
+                if (caretpos > 0)
+                {
+                    caretpos = 0;
+                    carettics = 0;
+                    showcaret = true;
+                }
+                break;
+
+            // move caret to end
+            case KEY_END:
+                if ((unsigned int)caretpos < strlen(consoleinput))
+                {
+                    caretpos = strlen(consoleinput);
+                    carettics = 0;
+                    showcaret = true;
+                }
+                break;
+
+            default:
+                if (modstate & KMOD_SHIFT)
+                    ch = toupper(ch);
+                if (ch >= ' ' && ch < '~' && ch != '`'
+                    && C_TextWidth(consoleinput) + (ch == ' ' ? SPACE :
+                    consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
+                    && !(modstate & (KMOD_ALT | KMOD_CTRL)))
+                {
+                    consoleinput[strlen(consoleinput) + 1] = '\0';
+                    for (i = strlen(consoleinput); i > (unsigned int)caretpos; --i)
+                        consoleinput[i] = consoleinput[i - 1];
+                    consoleinput[caretpos++] = ch;
+                    carettics = 0;
+                    showcaret = true;
+                }
+        }
+    }
     return true;
 }

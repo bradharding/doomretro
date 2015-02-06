@@ -960,8 +960,8 @@ void M_LoadGame(int choice)
 
 #define CARETTICS       20
 
-boolean showcaret = true;
-int     carettics = 0;
+static boolean  showcaret = true;
+static int      carettics = 0;
 
 //
 //  M_SaveGame & Cie.
