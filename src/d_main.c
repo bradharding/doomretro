@@ -166,6 +166,8 @@ void D_ProcessEvents(void)
             continue;
         if (M_Responder(ev))
             continue;           // menu ate the event
+        if (C_Responder(ev))
+            continue;           // console ate the event
         G_Responder(ev);
     }
 }

@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "d_event.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "m_misc.h"
@@ -136,4 +137,12 @@ void C_Drawer(void)
     C_DrawBackground(consoleheight);
 
     C_DrawText(SCREENWIDTH - 100, CONSOLEHEIGHT - 15, PACKAGE_VERSIONSTRING);
+}
+
+boolean C_Responder(event_t *ev)
+{
+    if (!consoleheight)
+        return false;
+
+    return true;
 }

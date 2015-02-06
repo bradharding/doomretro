@@ -39,9 +39,13 @@
 #ifndef __C_CONSOLE__
 #define __C_CONSOLE__
 
+#include "doomtype.h"
+#include "d_event.h"
+
 extern int      consoleheight;
 extern int      consoledirection;
 
 void C_Init(void);
+boolean C_Responder(event_t *ev);
 
 #endif
