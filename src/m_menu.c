@@ -2680,17 +2680,22 @@ boolean M_Responder(event_t *ev)
     {
         if (key == KEY_ESCAPE && !keydown && !splashscreen)
         {
-            keydown = key;
-            if (paused)
-            {
-                paused = false;
-                S_ResumeSound();
-                S_StartSound(NULL, sfx_swtchx);
-            }
+            if (consoleheight && consoledirection == 1)
+                consoledirection = -1;
             else
             {
-                M_StartControlPanel();
-                S_StartSound(NULL, sfx_swtchn);
+                keydown = key;
+                if (paused)
+                {
+                    paused = false;
+                    S_ResumeSound();
+                    S_StartSound(NULL, sfx_swtchx);
+                }
+                else
+                {
+                    M_StartControlPanel();
+                    S_StartSound(NULL, sfx_swtchn);
+                }
             }
         }
         return false;

@@ -214,7 +214,7 @@ void C_Drawer(void)
         C_DrawText(CONSOLETEXTX + C_TextWidth(left) + 3, CONSOLEHEIGHT - 15, right);
 
         // draw caret
-        if (!menuactive && carettics++ == CARETTICS)
+        if (carettics++ == CARETTICS)
         {
             carettics = 0;
             showcaret = !showcaret;
@@ -264,10 +264,6 @@ boolean C_Responder(event_t *ev)
                     carettics = 0;
                     showcaret = true;
                 }
-                break;
-
-            // cancel
-            case KEY_ESCAPE:
                 break;
 
             // confirm
