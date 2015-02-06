@@ -2441,12 +2441,12 @@ boolean M_Responder(event_t *ev)
         }
 
         // Console
-        else if ((modstate & KMOD_CTRL) && (modstate & KMOD_ALT) && key == KEY_TILDE)
+        else if (key == KEY_TILDE && !keydown)
         {
             keydown = key;
             if (consoleheight && consoledirection == 1)
                 consoledirection = -1;
-            else
+            else if ((modstate & KMOD_CTRL) && (modstate & KMOD_ALT))
                 consoleheight = consoledirection = 1;
             return false;
         }
