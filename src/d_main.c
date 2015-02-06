@@ -185,6 +185,7 @@ extern boolean  loadedgame;
 
 void R_ExecuteSetViewSize(void);
 void G_LoadedGameMessage(void);
+void C_Drawer(void);
 
 void D_Display(void)
 {
@@ -302,6 +303,8 @@ void D_Display(void)
                 M_DrawCenteredString((ORIGINALHEIGHT - 16) / 2, s_M_PAUSED);
         }
     }
+
+    C_Drawer();
 
     // menus go directly to the screen
     M_Drawer();                 // menu is drawn even on top of everything

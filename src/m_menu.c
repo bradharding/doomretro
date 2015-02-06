@@ -40,6 +40,7 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -2436,6 +2437,17 @@ boolean M_Responder(event_t *ev)
             if (automapactive || !viewactive || inhelpscreens)
                 return false;
             M_SizeDisplay(1);
+            return false;
+        }
+
+        // Console
+        else if ((modstate & KMOD_CTRL) && (modstate & KMOD_ALT) && key == KEY_TILDE)
+        {
+            keydown = key;
+            if (consoleheight && consoledirection == 1)
+                consoledirection = -1;
+            else
+                consoleheight = consoledirection = 1;
             return false;
         }
 
