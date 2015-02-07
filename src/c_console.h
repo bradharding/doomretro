@@ -45,6 +45,8 @@
 extern int      consoleheight;
 extern int      consoledirection;
 
+extern char     consolecheat[255];
+
 void C_AddConsoleString(char *string);
 void C_AddConsoleDivider(void);
 void C_Init(void);

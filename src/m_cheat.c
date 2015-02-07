@@ -39,6 +39,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "c_console.h"
 #include "doomtype.h"
 #include "doomdef.h"
 #include "m_cheat.h"
@@ -55,6 +56,12 @@ char    cheatkey = '\0';
 
 int cht_CheckCheat(cheatseq_t *cht, char key)
 {
+    if (consolecheat[0] && !strcasecmp(consolecheat, cht->sequence))
+    {
+        consolecheat[0] = 0;
+        return true;
+    }
+
     // [BH] you have two seconds to enter each character of a cheat sequence
     if (!idbehold)
     {

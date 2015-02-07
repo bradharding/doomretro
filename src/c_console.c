@@ -40,6 +40,7 @@
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "m_cheat.h"
 #include "m_misc.h"
 #include "SDL.h"
 #include "v_video.h"
@@ -61,7 +62,7 @@
 #define CONSOLEINPUTPIXELWIDTH  500
 
 #define SPACEWIDTH              3
-#define DIVIDER                 "==="
+#define DIVIDER                 "~~~"
 
 #define CARETTICS               20
 
@@ -81,19 +82,40 @@ int             caretpos = 0;
 static boolean  showcaret = true;
 static int      carettics = 0;
 
+char            consolecheat[255] = "";
+
+void C_CmdList(void);
 void C_Quit(void);
 
 typedef struct
 {
     char        *command;
+    boolean     cheat;
 
     void(*func)(void);
 } consolecommand_t;
 
 consolecommand_t consolecommands[] =
 {
-    { "quit", C_Quit },
-    { "",     NULL   }
+    { "cmdlist",    false, C_CmdList },
+    { "idbeholda",  true,  NULL      },
+    { "idbeholdl",  true,  NULL      },
+    { "idbeholdi",  true,  NULL      },
+    { "idbeholdr",  true,  NULL      },
+    { "idbeholds",  true,  NULL      },
+    { "idbeholdv",  true,  NULL      },
+    { "idchoppers", true,  NULL      },
+  //{ "idclev",     true,  NULL      },
+    { "idclip",     true,  NULL      },
+    { "iddqd",      true,  NULL      },
+    { "iddt",       true,  NULL      },
+    { "idfa",       true,  NULL      },
+    { "idkfa",      true,  NULL      },
+  //{ "idmus",      true,  NULL      },
+    { "idmypos",    true,  NULL      },
+    { "idspispopd", true,  NULL      },
+    { "quit",       false, C_Quit    },
+    { "",           false, NULL      }
 };
 
 extern byte     *tinttab75;
@@ -181,7 +203,7 @@ static int C_TextWidth(char *text)
 static void C_DrawText(int x, int y, char *text)
 {
     if (!strcasecmp(text, DIVIDER))
-        C_DrawDivider(y - (CONSOLEHEIGHT - consoleheight));
+        C_DrawDivider(y + 4 - (CONSOLEHEIGHT - consoleheight));
     else
     {
         size_t      i;
@@ -311,12 +333,15 @@ boolean C_Responder(event_t *ev)
 
                     // process input
                     i = 0;
-                    while (consolecommands[i].func)
+                    while (consolecommands[i].command[0])
                     {
                         if (!strcasecmp(consoleinput, consolecommands[i].command))
                         {
                             validcommand = true;
-                            consolecommands[i].func();
+                            if (consolecommands[i].cheat)
+                                M_StringCopy(consolecheat, consoleinput, 255);
+                            else
+                                consolecommands[i].func();
                             break;
                         }
                         ++i;
@@ -334,6 +359,8 @@ boolean C_Responder(event_t *ev)
                     // clear input
                     consoleinput[0] = 0;
                     caretpos = 0;
+
+                    return !consolecheat[0];
                 }
                 break;
 
@@ -395,6 +422,23 @@ boolean C_Responder(event_t *ev)
         }
     }
     return true;
+}
+
+void C_CmdList(void)
+{
+    int i = 0;
+
+    while (consolecommands[i].command[0])
+    {
+        if (!consolecommands[i].cheat)
+        {
+            static char     buffer[1024];
+
+            M_snprintf(buffer, 1024, "    %s", consolecommands[i].command);
+            C_AddConsoleString(buffer);
+        }
+        ++i;
+    }
 }
 
 void C_Quit(void)

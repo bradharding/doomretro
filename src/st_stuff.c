@@ -37,6 +37,7 @@
 */
 
 #include "am_map.h"
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -563,7 +564,7 @@ boolean ST_Responder(event_t *ev)
     mobj_t      *thing;
 
     // if a user keypress...
-    if (ev->type == ev_keydown)
+    if (ev->type == ev_keydown || consolecheat[0])
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
