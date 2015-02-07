@@ -52,34 +52,46 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+boolean C_Cheat(char *);
+
 void C_CmdList(void);
 void C_Map(void);
 void C_Quit(void);
 
 consolecommand_t consolecommands[] =
 {
-    { "cmdlist",    false, C_CmdList, 0 },
-    { "idbeholda",  true,  NULL,      0 },
-    { "idbeholdl",  true,  NULL,      0 },
-    { "idbeholdi",  true,  NULL,      0 },
-    { "idbeholdr",  true,  NULL,      0 },
-    { "idbeholds",  true,  NULL,      0 },
-    { "idbeholdv",  true,  NULL,      0 },
-    { "idchoppers", true,  NULL,      0 },
-    { "idclev",     true,  NULL,      1 },
-    { "idclip",     true,  NULL,      0 },
-    { "iddqd",      true,  NULL,      0 },
-    { "iddt",       true,  NULL,      0 },
-    { "idfa",       true,  NULL,      0 },
-    { "idkfa",      true,  NULL,      0 },
-    { "idmus",      true,  NULL,      1 },
-    { "idmypos",    true,  NULL,      0 },
-    { "idspispopd", true,  NULL,      0 },
-    { "map",        false, C_Map,     1 },
-    { "quit",       false, C_Quit,    0 },
-    { "",           false, NULL,      0 }
+    { "cmdlist",    false, NULL,    C_CmdList, 0 },
+    { "idbeholda",  true,  C_Cheat, NULL,      0 },
+    { "idbeholdl",  true,  C_Cheat, NULL,      0 },
+    { "idbeholdi",  true,  C_Cheat, NULL,      0 },
+    { "idbeholdr",  true,  C_Cheat, NULL,      0 },
+    { "idbeholds",  true,  C_Cheat, NULL,      0 },
+    { "idbeholdv",  true,  C_Cheat, NULL,      0 },
+    { "idchoppers", true,  C_Cheat, NULL,      0 },
+    { "idclev",     true,  C_Cheat, NULL,      1 },
+    { "idclip",     true,  C_Cheat, NULL,      0 },
+    { "iddqd",      true,  C_Cheat, NULL,      0 },
+    { "iddt",       true,  C_Cheat, NULL,      0 },
+    { "idfa",       true,  C_Cheat, NULL,      0 },
+    { "idkfa",      true,  C_Cheat, NULL,      0 },
+    { "idmus",      true,  C_Cheat, NULL,      1 },
+    { "idmypos",    true,  C_Cheat, NULL,      0 },
+    { "idspispopd", true,  C_Cheat, NULL,      0 },
+    { "map",        false, NULL,    C_Map,     1 },
+    { "quit",       false, NULL,    C_Quit,    0 },
+    { "",           false, NULL,    NULL,      0 }
 };
 
+boolean C_Cheat(char *command)
+{
+    if (!usergame)
+        return false;
+    if (!strcasecmp(command, "idclip") && gamemode != commercial)
+        return false;
+    if (!strcasecmp(command, "idspispopd") && gamemode == commercial)
+        return false;
+    return true;
+}
 
 void C_CmdList(void)
 {

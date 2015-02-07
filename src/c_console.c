@@ -304,7 +304,7 @@ boolean C_Responder(event_t *ev)
                             char        command[255];
                             char        parm[255];
 
-                            if (consolecommands[i].cheat && usergame)
+                            if (consolecommands[i].cheat)
                             {
                                 int     length = strlen(consoleinput);
 
@@ -318,7 +318,8 @@ boolean C_Responder(event_t *ev)
                                     M_StringCopy(command, consoleinput, 255);
                                     command[length - 2] = 0;
 
-                                    if (!strcasecmp(command, consolecommands[i].command))
+                                    if (!strcasecmp(command, consolecommands[i].command)
+                                        && consolecommands[i].condition(command))
                                     {
                                         validcommand = true;
                                         C_AddConsoleString(consoleinput);
@@ -341,11 +342,12 @@ boolean C_Responder(event_t *ev)
                                 }
                             }
                         }
-                        else if (!strcasecmp(consoleinput, consolecommands[i].command))
+                        else if (!strcasecmp(consoleinput, consolecommands[i].command)
+                            && consolecommands[i].condition(consoleinput))
                         {
                             validcommand = true;
                             C_AddConsoleString(consoleinput);
-                            if (consolecommands[i].cheat && usergame)
+                            if (consolecommands[i].cheat)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
                                 consolecommands[i].func();

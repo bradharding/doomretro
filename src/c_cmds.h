@@ -44,9 +44,8 @@ typedef struct
 {
     char        *command;
     boolean     cheat;
-
-    void(*func)(void);
-
+    boolean     (*condition)(char *command);
+    void        (*func)(void);
     int         parms;
 } consolecommand_t;
 
