@@ -38,9 +38,11 @@
 
 #include "d_event.h"
 #include "doomstat.h"
+#include "g_game.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_cheat.h"
+#include "m_menu.h"
 #include "m_misc.h"
 #include "SDL.h"
 #include "v_video.h"
@@ -83,8 +85,10 @@ static boolean  showcaret = true;
 static int      carettics = 0;
 
 char            consolecheat[255] = "";
+char            consolecommandparm[255] = "";
 
 void C_CmdList(void);
+void C_Map(void);
 void C_Quit(void);
 
 typedef struct
@@ -93,29 +97,32 @@ typedef struct
     boolean     cheat;
 
     void(*func)(void);
+
+    int         parms;
 } consolecommand_t;
 
 consolecommand_t consolecommands[] =
 {
-    { "cmdlist",    false, C_CmdList },
-    { "idbeholda",  true,  NULL      },
-    { "idbeholdl",  true,  NULL      },
-    { "idbeholdi",  true,  NULL      },
-    { "idbeholdr",  true,  NULL      },
-    { "idbeholds",  true,  NULL      },
-    { "idbeholdv",  true,  NULL      },
-    { "idchoppers", true,  NULL      },
-  //{ "idclev",     true,  NULL      },
-    { "idclip",     true,  NULL      },
-    { "iddqd",      true,  NULL      },
-    { "iddt",       true,  NULL      },
-    { "idfa",       true,  NULL      },
-    { "idkfa",      true,  NULL      },
-  //{ "idmus",      true,  NULL      },
-    { "idmypos",    true,  NULL      },
-    { "idspispopd", true,  NULL      },
-    { "quit",       false, C_Quit    },
-    { "",           false, NULL      }
+    { "cmdlist",    false, C_CmdList, 0 },
+    { "idbeholda",  true,  NULL,      0 },
+    { "idbeholdl",  true,  NULL,      0 },
+    { "idbeholdi",  true,  NULL,      0 },
+    { "idbeholdr",  true,  NULL,      0 },
+    { "idbeholds",  true,  NULL,      0 },
+    { "idbeholdv",  true,  NULL,      0 },
+    { "idchoppers", true,  NULL,      0 },
+  //{ "idclev",     true,  NULL,      1 },
+    { "idclip",     true,  NULL,      0 },
+    { "iddqd",      true,  NULL,      0 },
+    { "iddt",       true,  NULL,      0 },
+    { "idfa",       true,  NULL,      0 },
+    { "idkfa",      true,  NULL,      0 },
+  //{ "idmus",      true,  NULL,      1 },
+    { "idmypos",    true,  NULL,      0 },
+    { "idspispopd", true,  NULL,      0 },
+    { "map",        false, C_Map,     1 },
+    { "quit",       false, C_Quit,    0 },
+    { "",           false, NULL,      0 }
 };
 
 extern byte     *tinttab75;
@@ -335,7 +342,22 @@ boolean C_Responder(event_t *ev)
                     i = 0;
                     while (consolecommands[i].command[0])
                     {
-                        if (!strcasecmp(consoleinput, consolecommands[i].command))
+                        if (consolecommands[i].parms)
+                        {
+                            char        command[255];
+                            char        parm[255];
+
+                            sscanf(consoleinput, "%s %s", command, parm);
+                            if (!strcasecmp(command, consolecommands[i].command))
+                            {
+                                validcommand = true;
+                                M_StringCopy(consolecommandparm, parm, 255);
+                                consolecommands[i].func();
+                                consolecommandparm[0] = 0;
+                                break;
+                            }
+                        }
+                        else if (!strcasecmp(consoleinput, consolecommands[i].command))
                         {
                             validcommand = true;
                             if (consolecommands[i].cheat)
@@ -438,6 +460,40 @@ void C_CmdList(void)
             C_AddConsoleString(buffer);
         }
         ++i;
+    }
+}
+
+extern boolean samelevel;
+extern int      selectedepisode;
+extern menu_t   EpiDef;
+
+void C_Map(void)
+{
+    int epsd = 0;
+    int map = 0;
+
+    if (gamemode == commercial)
+    {
+        epsd = 1;
+        sscanf(uppercase(consolecommandparm), "MAP%i", &map);
+    }
+    else
+        sscanf(uppercase(consolecommandparm), "E%iM%i", &epsd, &map);
+
+    if (W_CheckNumForName(consolecommandparm) >= 0)
+    {
+        samelevel = (gameepisode == epsd && gamemap == map);
+        gameepisode = epsd;
+        if (gamemission == doom && epsd <= 4)
+        {
+            selectedepisode = gameepisode - 1;
+            EpiDef.lastOn = selectedepisode;
+        }
+        gamemap = map;
+        if (usergame)
+            G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
+        else
+            G_DeferredInitNew(gameskill, gameepisode, gamemap);
     }
 }
 
