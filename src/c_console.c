@@ -301,8 +301,7 @@ boolean C_Responder(event_t *ev)
                     {
                         if (consolecommands[i].parms)
                         {
-                            char        command[255];
-                            char        parm[255];
+                            char        command[255] = "";
 
                             if (consolecommands[i].cheat)
                             {
@@ -319,6 +318,7 @@ boolean C_Responder(event_t *ev)
                                     command[length - 2] = 0;
 
                                     if (!strcasecmp(command, consolecommands[i].command)
+                                        && length == strlen(command) + 2
                                         && consolecommands[i].condition(command))
                                     {
                                         validcommand = true;
@@ -330,8 +330,10 @@ boolean C_Responder(event_t *ev)
                             }
                             else
                             {
+                                char    parm[255] = "";
+
                                 sscanf(consoleinput, "%s %s", command, parm);
-                                if (!strcasecmp(command, consolecommands[i].command))
+                                if (!strcasecmp(command, consolecommands[i].command) && parm[0])
                                 {
                                     validcommand = true;
                                     C_AddConsoleString(consoleinput);
