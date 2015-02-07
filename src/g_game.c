@@ -42,6 +42,7 @@
 #endif
 
 #include "am_map.h"
+#include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -626,6 +627,9 @@ void G_DoLoadLevel(void)
 #else
     SDL_WM_SetCaption(mapnumandtitle, NULL);
 #endif
+
+    C_AddConsoleDivider();
+    C_AddConsoleString(mapnumandtitle);
 
     if (automapactive)
         AM_Start();

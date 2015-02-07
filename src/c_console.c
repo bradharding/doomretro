@@ -59,7 +59,8 @@
 
 #define CONSOLEINPUTPIXELWIDTH  500
 
-#define SPACE                   3
+#define SPACEWIDTH              3
+#define DIVIDER                 "==="
 
 #define CARETTICS               20
 
@@ -67,7 +68,7 @@ int             consoleheight = 0;
 int             consoledirection = 1;
 
 byte            *background;
-patch_t         *border;
+patch_t         *divider;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 
 char            **consolestring = NULL;
@@ -87,6 +88,19 @@ void C_AddConsoleString(char *string)
     consolestring[consolestrings++] = strdup(string);
 }
 
+void C_AddConsoleDivider(void)
+{
+    C_AddConsoleString(DIVIDER);
+}
+
+static void C_DrawDivider(int y)
+{
+    int x;
+
+    for (x = 0; x < ORIGINALWIDTH; x += 8)
+        V_DrawTranslucentPatch(x, y / 2, 0, divider);
+}
+
 void C_Init(void)
 {
     int         i;
@@ -94,7 +108,7 @@ void C_Init(void)
     char        buffer[9];
 
     background = W_CacheLumpName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), PU_CACHE);
-    border = W_CacheLumpName("BRDR_B", PU_CACHE);
+    divider = W_CacheLumpName("BRDR_B", PU_CACHE);
 
     for (i = 0; i < CONSOLEFONTSIZE; i++)
     {
@@ -128,8 +142,7 @@ static void C_DrawBackground(int height)
             dest += 128;
         }
 
-    for (x = 0; x < ORIGINALWIDTH; x += 8)
-        V_DrawTranslucentPatch(x, height / 2, 0, border);
+    C_DrawDivider(height);
 
     for (x = 0; x < ORIGINALWIDTH; ++x)
         V_DrawPixel(x, height / 2 + 3, 251, true);
@@ -144,27 +157,32 @@ static int C_TextWidth(char *text)
     {
         int     c = text[i] - CONSOLEFONTSTART;
 
-        w += (c < 0 || c >= CONSOLEFONTSIZE ? SPACE : SHORT(consolefont[c]->width));
+        w += (c < 0 || c >= CONSOLEFONTSIZE ? SPACEWIDTH : SHORT(consolefont[c]->width));
     }
     return w;
 }
 
 static void C_DrawText(int x, int y, char *text)
 {
-    size_t      i;
-
-    for (i = 0; i < strlen(text); ++i)
+    if (!strcasecmp(text, DIVIDER))
+        C_DrawDivider(y - (CONSOLEHEIGHT - consoleheight));
+    else
     {
-        int     c = text[i] - CONSOLEFONTSTART;
+        size_t      i;
 
-        if (c < 0 || c >= CONSOLEFONTSIZE)
-            x += SPACE;
-        else
+        for (i = 0; i < strlen(text); ++i)
         {
-            patch_t     *patch = consolefont[c];
+            int     c = text[i] - CONSOLEFONTSTART;
 
-            V_DrawBigPatch(x, y - (CONSOLEHEIGHT - consoleheight), 0, patch);
-            x += SHORT(patch->width);
+            if (c < 0 || c >= CONSOLEFONTSIZE)
+                x += SPACEWIDTH;
+            else
+            {
+                patch_t     *patch = consolefont[c];
+
+                V_DrawBigPatch(x, y - (CONSOLEHEIGHT - consoleheight), 0, patch);
+                x += SHORT(patch->width);
+            }
         }
     }
 }
@@ -317,7 +335,7 @@ boolean C_Responder(event_t *ev)
                 if (modstate & KMOD_SHIFT)
                     ch = toupper(ch);
                 if (ch >= ' ' && ch < '~' && ch != '`'
-                    && C_TextWidth(consoleinput) + (ch == ' ' ? SPACE :
+                    && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
                     consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
                     && !(modstate & (KMOD_ALT | KMOD_CTRL)))
                 {
