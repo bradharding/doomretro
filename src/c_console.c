@@ -85,6 +85,7 @@ static boolean  showcaret = true;
 static int      carettics = 0;
 
 char            consolecheat[255] = "";
+char            consolecheatparm[3] = "";
 char            consolecommandparm[255] = "";
 
 void C_CmdList(void);
@@ -111,13 +112,13 @@ consolecommand_t consolecommands[] =
     { "idbeholds",  true,  NULL,      0 },
     { "idbeholdv",  true,  NULL,      0 },
     { "idchoppers", true,  NULL,      0 },
-  //{ "idclev",     true,  NULL,      1 },
+    { "idclev",     true,  NULL,      1 },
     { "idclip",     true,  NULL,      0 },
     { "iddqd",      true,  NULL,      0 },
     { "iddt",       true,  NULL,      0 },
     { "idfa",       true,  NULL,      0 },
     { "idkfa",      true,  NULL,      0 },
-  //{ "idmus",      true,  NULL,      1 },
+    { "idmus",      true,  NULL,      1 },
     { "idmypos",    true,  NULL,      0 },
     { "idspispopd", true,  NULL,      0 },
     { "map",        false, C_Map,     1 },
@@ -335,9 +336,6 @@ boolean C_Responder(event_t *ev)
                 {
                     boolean     validcommand = false;
 
-                    // add input to output
-                    C_AddConsoleString(consoleinput);
-
                     // process input
                     i = 0;
                     while (consolecommands[i].command[0])
@@ -347,19 +345,46 @@ boolean C_Responder(event_t *ev)
                             char        command[255];
                             char        parm[255];
 
-                            sscanf(consoleinput, "%s %s", command, parm);
-                            if (!strcasecmp(command, consolecommands[i].command))
+                            if (consolecommands[i].cheat)
                             {
-                                validcommand = true;
-                                M_StringCopy(consolecommandparm, parm, 255);
-                                consolecommands[i].func();
-                                consolecommandparm[0] = 0;
-                                break;
+                                int     length = strlen(consoleinput);
+
+                                if (isdigit(consoleinput[length - 2])
+                                    && isdigit(consoleinput[length - 1]))
+                                {
+                                    consolecheatparm[0] = consoleinput[length - 2];
+                                    consolecheatparm[1] = consoleinput[length - 1];
+                                    consolecheatparm[2] = 0;
+
+                                    M_StringCopy(command, consoleinput, 255);
+                                    command[length - 2] = 0;
+
+                                    if (!strcasecmp(command, consolecommands[i].command))
+                                    {
+                                        validcommand = true;
+                                        C_AddConsoleString(consoleinput);
+                                        M_StringCopy(consolecheat, command, 255);
+                                        break;
+                                    }
+                                }
+                            }
+                            {
+                                sscanf(consoleinput, "%s %s", command, parm);
+                                if (!strcasecmp(command, consolecommands[i].command))
+                                {
+                                    validcommand = true;
+                                    C_AddConsoleString(consoleinput);
+                                    M_StringCopy(consolecommandparm, parm, 255);
+                                    consolecommands[i].func();
+                                    consolecommandparm[0] = 0;
+                                    break;
+                                }
                             }
                         }
                         else if (!strcasecmp(consoleinput, consolecommands[i].command))
                         {
                             validcommand = true;
+                            C_AddConsoleString(consoleinput);
                             if (consolecommands[i].cheat)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
@@ -369,18 +394,12 @@ boolean C_Responder(event_t *ev)
                         ++i;
                     }
 
-                    // display error if invalid
-                    if (!validcommand)
+                    if (validcommand)
                     {
-                        static char     error[1024];
-
-                        M_snprintf(error, 1024, "Unknown command \"%s\"", consoleinput);
-                        C_AddConsoleString(error);
+                        // clear input
+                        consoleinput[0] = 0;
+                        caretpos = 0;
                     }
-
-                    // clear input
-                    consoleinput[0] = 0;
-                    caretpos = 0;
 
                     return !consolecheat[0];
                 }

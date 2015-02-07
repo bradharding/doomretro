@@ -59,6 +59,13 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     if (consolecheat[0] && !strcasecmp(consolecheat, cht->sequence))
     {
         consolecheat[0] = 0;
+        if (consolecheatparm)
+        {
+            cht->parameter_buf[0] = consolecheatparm[0];
+            cht->parameter_buf[1] = consolecheatparm[1];
+            cht->param_chars_read = 2;
+            consolecheatparm[0] = 0;
+        }
         return true;
     }
 
