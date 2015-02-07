@@ -257,13 +257,9 @@ void C_Drawer(void)
         // draw console text
         start = MAX(0, consolestrings - 10);
         for (i = start; i < consolestrings; ++i)
-        {
-            int pos = i - start;
-
-            if (consolestrings < 10)
-                pos += 10 - consolestrings;
-            C_DrawText(CONSOLETEXTX, CONSOLETEXTY + CONSOLELINEHEIGHT * pos, consolestring[i]);
-        }
+            C_DrawText(CONSOLETEXTX, 
+                CONSOLETEXTY + CONSOLELINEHEIGHT * (i - start + MAX(0, 10 - consolestrings)),
+                consolestring[i]);
 
         // draw input text to left of caret
         for (i = 0; i < caretpos; ++i)
@@ -345,7 +341,7 @@ boolean C_Responder(event_t *ev)
                             char        command[255];
                             char        parm[255];
 
-                            if (consolecommands[i].cheat)
+                            if (consolecommands[i].cheat && usergame)
                             {
                                 int     length = strlen(consoleinput);
 
@@ -368,6 +364,7 @@ boolean C_Responder(event_t *ev)
                                     }
                                 }
                             }
+                            else
                             {
                                 sscanf(consoleinput, "%s %s", command, parm);
                                 if (!strcasecmp(command, consolecommands[i].command))
@@ -385,7 +382,7 @@ boolean C_Responder(event_t *ev)
                         {
                             validcommand = true;
                             C_AddConsoleString(consoleinput);
-                            if (consolecommands[i].cheat)
+                            if (consolecommands[i].cheat && usergame)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
                                 consolecommands[i].func();
@@ -482,7 +479,7 @@ void C_CmdList(void)
     }
 }
 
-extern boolean samelevel;
+extern boolean  samelevel;
 extern int      selectedepisode;
 extern menu_t   EpiDef;
 
