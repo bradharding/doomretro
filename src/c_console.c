@@ -268,6 +268,9 @@ boolean C_Responder(event_t *ev)
 
             // confirm
             case KEY_ENTER:
+                C_AddConsoleString(consoleinput);
+                consoleinput[0] = 0;
+                caretpos = 0;
                 break;
 
             // move caret left
