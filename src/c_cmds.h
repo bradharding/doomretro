@@ -35,24 +35,21 @@
 
 ========================================================================
 */
-
-#ifndef __C_CONSOLE__
-#define __C_CONSOLE__
+#ifndef __C_CMDS__
+#define __C_CMDS__
 
 #include "doomtype.h"
-#include "d_event.h"
 
-extern int      consoleheight;
-extern int      consoledirection;
+typedef struct
+{
+    char        *command;
+    boolean     cheat;
 
-extern char     consolecheat[255];
-extern char     consolecheatparm[3];
-extern char     consolecommandparm[255];
+    void(*func)(void);
 
-void C_AddConsoleString(char *string);
-void C_AddConsoleDivider(void);
-void C_Init(void);
-void C_Drawer(void);
-boolean C_Responder(event_t *ev);
+    int         parms;
+} consolecommand_t;
+
+extern consolecommand_t consolecommands[];
 
 #endif

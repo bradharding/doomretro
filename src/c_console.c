@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_cmds.h"
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -87,44 +88,6 @@ static int      carettics = 0;
 char            consolecheat[255] = "";
 char            consolecheatparm[3] = "";
 char            consolecommandparm[255] = "";
-
-void C_CmdList(void);
-void C_Map(void);
-void C_Quit(void);
-
-typedef struct
-{
-    char        *command;
-    boolean     cheat;
-
-    void(*func)(void);
-
-    int         parms;
-} consolecommand_t;
-
-consolecommand_t consolecommands[] =
-{
-    { "cmdlist",    false, C_CmdList, 0 },
-    { "idbeholda",  true,  NULL,      0 },
-    { "idbeholdl",  true,  NULL,      0 },
-    { "idbeholdi",  true,  NULL,      0 },
-    { "idbeholdr",  true,  NULL,      0 },
-    { "idbeholds",  true,  NULL,      0 },
-    { "idbeholdv",  true,  NULL,      0 },
-    { "idchoppers", true,  NULL,      0 },
-    { "idclev",     true,  NULL,      1 },
-    { "idclip",     true,  NULL,      0 },
-    { "iddqd",      true,  NULL,      0 },
-    { "iddt",       true,  NULL,      0 },
-    { "idfa",       true,  NULL,      0 },
-    { "idkfa",      true,  NULL,      0 },
-    { "idmus",      true,  NULL,      1 },
-    { "idmypos",    true,  NULL,      0 },
-    { "idspispopd", true,  NULL,      0 },
-    { "map",        false, C_Map,     1 },
-    { "quit",       false, C_Quit,    0 },
-    { "",           false, NULL,      0 }
-};
 
 extern byte     *tinttab75;
 
@@ -477,43 +440,4 @@ void C_CmdList(void)
         }
         ++i;
     }
-}
-
-extern boolean  samelevel;
-extern int      selectedepisode;
-extern menu_t   EpiDef;
-
-void C_Map(void)
-{
-    int epsd = 0;
-    int map = 0;
-
-    if (gamemode == commercial)
-    {
-        epsd = 1;
-        sscanf(uppercase(consolecommandparm), "MAP%i", &map);
-    }
-    else
-        sscanf(uppercase(consolecommandparm), "E%iM%i", &epsd, &map);
-
-    if (W_CheckNumForName(consolecommandparm) >= 0)
-    {
-        samelevel = (gameepisode == epsd && gamemap == map);
-        gameepisode = epsd;
-        if (gamemission == doom && epsd <= 4)
-        {
-            selectedepisode = gameepisode - 1;
-            EpiDef.lastOn = selectedepisode;
-        }
-        gamemap = map;
-        if (usergame)
-            G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
-        else
-            G_DeferredInitNew(gameskill, gameepisode, gamemap);
-    }
-}
-
-void C_Quit(void)
-{
-    I_Quit(true);
 }
