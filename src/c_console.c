@@ -39,6 +39,7 @@
 #include "d_event.h"
 #include "doomstat.h"
 #include "i_swap.h"
+#include "i_system.h"
 #include "m_misc.h"
 #include "SDL.h"
 #include "v_video.h"
@@ -79,6 +80,21 @@ patch_t         *caret;
 int             caretpos = 0;
 static boolean  showcaret = true;
 static int      carettics = 0;
+
+void C_Quit(void);
+
+typedef struct
+{
+    char        *command;
+
+    void(*func)(void);
+} consolecommand_t;
+
+consolecommand_t consolecommands[] =
+{
+    { "quit", C_Quit },
+    { "",     NULL   }
+};
 
 extern byte     *tinttab75;
 
@@ -284,11 +300,38 @@ boolean C_Responder(event_t *ev)
                 }
                 break;
 
-            // confirm
+            // confirm input
             case KEY_ENTER:
                 if (strlen(consoleinput))
                 {
+                    boolean     validcommand = false;
+
+                    // add input to output
                     C_AddConsoleString(consoleinput);
+
+                    // process input
+                    i = 0;
+                    while (consolecommands[i].func)
+                    {
+                        if (!strcasecmp(consoleinput, consolecommands[i].command))
+                        {
+                            validcommand = true;
+                            consolecommands[i].func();
+                            break;
+                        }
+                        ++i;
+                    }
+
+                    // display error if invalid
+                    if (!validcommand)
+                    {
+                        static char     error[1024];
+
+                        M_snprintf(error, 1024, "Unknown command \"%s\"", consoleinput);
+                        C_AddConsoleString(error);
+                    }
+
+                    // clear input
                     consoleinput[0] = 0;
                     caretpos = 0;
                 }
@@ -352,4 +395,9 @@ boolean C_Responder(event_t *ev)
         }
     }
     return true;
+}
+
+void C_Quit(void)
+{
+    I_Quit(true);
 }
