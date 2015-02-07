@@ -424,20 +424,3 @@ boolean C_Responder(event_t *ev)
     }
     return true;
 }
-
-void C_CmdList(void)
-{
-    int i = 0;
-
-    while (consolecommands[i].command[0])
-    {
-        if (!consolecommands[i].cheat)
-        {
-            static char     buffer[1024];
-
-            M_snprintf(buffer, 1024, "    %s", consolecommands[i].command);
-            C_AddConsoleString(buffer);
-        }
-        ++i;
-    }
-}
