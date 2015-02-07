@@ -685,10 +685,10 @@ static int D_ChooseIWAD(void)
                 {
                     iwadfound = 1;
                     iwadfolder = strdup(M_ExtractFolder(file));
+                    D_CheckSupportedPWAD(file);
                     if (W_MergeFile(file))
                     {
                         modifiedgame = true;
-                        D_CheckSupportedPWAD(file);
                         LoadDehFile(file);
                     }
                 }
@@ -701,10 +701,10 @@ static int D_ChooseIWAD(void)
                     if (D_AddFile(fullpath))
                     {
                         iwadfound = 1;
+                        D_CheckSupportedPWAD(file);
                         if (W_MergeFile(file))
                         {
                             modifiedgame = true;
-                            D_CheckSupportedPWAD(file);
                             LoadDehFile(file);
                         }
                     }
@@ -717,10 +717,10 @@ static int D_ChooseIWAD(void)
                         if (D_AddFile(fullpath))
                         {
                             iwadfound = 1;
+                            D_CheckSupportedPWAD(file);
                             if (W_MergeFile(file))
                             {
                                 modifiedgame = true;
-                                D_CheckSupportedPWAD(file);
                                 LoadDehFile(file);
                             }
                         }
@@ -921,10 +921,10 @@ static int D_ChooseIWAD(void)
                         if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
                             && !D_IsDehFile(fullpath))
                         {
+                            D_CheckSupportedPWAD(fullpath);
                             if (W_MergeFile(fullpath))
                             {
                                 modifiedgame = true;
-                                D_CheckSupportedPWAD(fullpath);
                                 LoadDehFile(fullpath);
                             }
                             if (IWADRequiredByPWAD(fullpath) != indetermined)
@@ -1088,10 +1088,10 @@ static void D_DoomMainSetup(void)
 
             if (iwadfile)
             {
+                D_CheckSupportedPWAD(file);
                 if (W_MergeFile(file))
                 {
                     modifiedgame = true;
-                    D_CheckSupportedPWAD(file);
                     LoadDehFile(file);
                 }
             }
@@ -1111,10 +1111,10 @@ static void D_DoomMainSetup(void)
                     if (D_AddFile(fullpath))
                     {
                         iwadfolder = strdup(M_ExtractFolder(file));
+                        D_CheckSupportedPWAD(file);
                         if (W_MergeFile(file))
                         {
                             modifiedgame = true;
-                            D_CheckSupportedPWAD(file);
                             LoadDehFile(file);
                         }
                     }
@@ -1126,10 +1126,10 @@ static void D_DoomMainSetup(void)
                         IdentifyIWADByName(fullpath);
                         if (D_AddFile(fullpath))
                         {
+                            D_CheckSupportedPWAD(file);
                             if (W_MergeFile(file))
                             {
                                 modifiedgame = true;
-                                D_CheckSupportedPWAD(file);
                                 LoadDehFile(file);
                             }
                         }
@@ -1142,10 +1142,10 @@ static void D_DoomMainSetup(void)
                             IdentifyIWADByName(fullpath);
                             if (D_AddFile(fullpath))
                             {
+                                D_CheckSupportedPWAD(file);
                                 if (W_MergeFile(file))
                                 {
                                     modifiedgame = true;
-                                    D_CheckSupportedPWAD(file);
                                     LoadDehFile(file);
                                 }
                             }

@@ -283,7 +283,7 @@ static void AddSpriteLump(lumpinfo_t *lump)
 // Generate the list.  Run at the start, before merging
 static void GenerateSpriteList(void)
 {
-    int                 i;
+    int i;
 
     InitSpriteList();
 
@@ -301,7 +301,8 @@ static void GenerateSpriteList(void)
             mergedcacodemon = true;
         else if (M_StringStartsWith(lump->name, "BOSS") || M_StringStartsWith(lump->name, "BOS2"))
             mergednoble = true;
-        else if (M_StringStartsWith(lump->name, "BAR1") || M_StringStartsWith(lump->name, "BEXP"))
+        else if (!BTSX && (M_StringStartsWith(lump->name, "BAR1")
+            || M_StringStartsWith(lump->name, "BEXP")))
         {
             states[S_BAR1].tics = 0;
             mobjinfo[MT_BARREL].spawnstate = S_BAR2;
