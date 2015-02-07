@@ -569,7 +569,7 @@ boolean ST_Responder(event_t *ev)
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
             // [BH]
-            if (cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
+            if (!consolecheat[0] && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
 
             // 'dqd' cheat for toggleable god mode
@@ -1167,7 +1167,7 @@ boolean ST_Responder(event_t *ev)
         // 'clev' change-level cheat
         if (!menuactive && !paused)
         {
-            if (cht_CheckCheat(&cheat_clev, ev->data2))
+            if (!consolecheat[0] && cht_CheckCheat(&cheat_clev, ev->data2))
                 idclev = true;
             if (cht_CheckCheat(&cheat_clev_xy, ev->data2))
             {
