@@ -53,6 +53,7 @@
 #include "z_zone.h"
 
 boolean C_Cheat(char *);
+boolean C_NULL(char *);
 
 void C_CmdList(void);
 void C_Map(void);
@@ -60,7 +61,7 @@ void C_Quit(void);
 
 consolecommand_t consolecommands[] =
 {
-    { "cmdlist",    false, NULL,    C_CmdList, 0 },
+    { "cmdlist",    false, C_NULL,  C_CmdList, 0 },
     { "idbeholda",  true,  C_Cheat, NULL,      0 },
     { "idbeholdl",  true,  C_Cheat, NULL,      0 },
     { "idbeholdi",  true,  C_Cheat, NULL,      0 },
@@ -77,9 +78,9 @@ consolecommand_t consolecommands[] =
     { "idmus",      true,  C_Cheat, NULL,      1 },
     { "idmypos",    true,  C_Cheat, NULL,      0 },
     { "idspispopd", true,  C_Cheat, NULL,      0 },
-    { "map",        false, NULL,    C_Map,     1 },
-    { "quit",       false, NULL,    C_Quit,    0 },
-    { "",           false, NULL,    NULL,      0 }
+    { "map",        false, C_NULL,  C_Map,     1 },
+    { "quit",       false, C_NULL,  C_Quit,    0 },
+    { "",           false, C_NULL,  NULL,      0 }
 };
 
 boolean C_Cheat(char *command)
@@ -90,6 +91,11 @@ boolean C_Cheat(char *command)
         return false;
     if (!strcasecmp(command, "idspispopd") && gamemode == commercial)
         return false;
+    return true;
+}
+
+boolean C_NULL(char *command)
+{
     return true;
 }
 
