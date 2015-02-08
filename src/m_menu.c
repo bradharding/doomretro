@@ -663,7 +663,10 @@ void M_DrawString(int x, int y, char *str)
         while (kern[k].char1)
         {
             if (prev == kern[k].char1 && str[i] == kern[k].char2)
+            {
                 x += kern[k].adjust;
+                break;
+            }
             ++k;
         }
 

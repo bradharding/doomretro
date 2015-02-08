@@ -161,16 +161,47 @@ static void C_DrawBackground(int height)
         V_DrawPixel(x, height / 2 + 3, 251, true);
 }
 
+static struct
+{
+    char        char1;
+    char        char2;
+    int         adjust;
+} kern[] = {
+    { '0', 'j', -2 }, { '1', 'j', -2 }, { '2', 'j', -2 }, { '3', 'j', -2 },
+    { '4', 'j', -2 }, { '5', 'j', -2 }, { '6', 'j', -2 }, { '7', 'j', -2 },
+    { '8', 'j', -2 }, { '9', 'j', -2 }, { 'a', 'j', -2 }, { 'b', 'j', -2 },
+    { 'c', 'j', -2 }, { 'd', 'j', -2 }, { 'e', 'j', -2 }, { 'f', 'j', -2 },
+    { 'h', 'j', -2 }, { 'i', 'j', -2 }, { 'k', 'j', -2 }, { 'l', 'j', -2 },
+    { 'm', 'j', -2 }, { 'n', 'j', -2 }, { 'o', 'j', -2 }, { 'p', 'j', -2 },
+    { 'r', 'a', -1 }, { 'r', 'j', -2 }, { 'r', '.', -1 }, { 's', 'j', -2 },
+    { 't', 'j', -2 }, { 'u', 'j', -2 }, { 'v', 'j', -2 }, { 'w', 'j', -2 },
+    { 'x', 'j', -2 }, { 'z', 'j', -2 }, {  0 ,  0 ,  0 }
+};
+
 static int C_TextWidth(char *text)
 {
     size_t      i;
+    char        prev = ' ';
     int         w = 0;
 
     for (i = 0; i < strlen(text); ++i)
     {
-        int     c = text[i] - CONSOLEFONTSTART;
+        char    letter = text[i];
+        int     c = letter - CONSOLEFONTSTART;
+        int     j = 0;
 
         w += (c < 0 || c >= CONSOLEFONTSIZE ? SPACEWIDTH : SHORT(consolefont[c]->width));
+
+        while (kern[j].char1)
+        {
+            if (prev == kern[j].char1 && letter == kern[j].char2)
+            {
+                w += kern[j].adjust;
+                break;
+            }
+            ++j;
+        }
+        prev = letter;
     }
     return w;
 }
@@ -197,6 +228,7 @@ static void C_DrawText(int x, int y, char *text)
             else
             {
                 patch_t     *patch = consolefont[c];
+                int         k = 0;
 
                 if (prev == ' ')
                 {
@@ -205,7 +237,17 @@ static void C_DrawText(int x, int y, char *text)
                     else if (letter == '\"')
                         patch = ldquote;
                 }
-                
+
+                while (kern[k].char1)
+                {
+                    if (prev == kern[k].char1 && letter == kern[k].char2)
+                    {
+                        x += kern[k].adjust;
+                        break;
+                    }
+                    ++k;
+                }
+
                 V_DrawBigPatch(x, y - (CONSOLEHEIGHT - consoleheight), 0, patch);
                 x += SHORT(patch->width);
                 prev = letter;

@@ -363,7 +363,10 @@ void F_TextWrite(void)
             while (kern[k].char1)
             {
                 if (prev == kern[k].char1 && c == kern[k].char2)
+                {
                     cx += kern[k].adjust;
+                    break;
+                }
                 k++;
             }
             w = strlen(smallcharset[c]) / 10 - 1;

@@ -196,7 +196,10 @@ void HUlib_drawTextLine(hu_textline_t *l)
                 while (kern[k].char1)
                 {
                     if (prev == kern[k].char1 && c == kern[k].char2)
+                    {
                         x += kern[k].adjust;
+                        break;
+                    }
                     k++;
                 }
 
