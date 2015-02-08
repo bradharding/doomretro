@@ -416,7 +416,7 @@ typedef enum
     YellowSkullKey                                     =   39,
     BlueSkullKey                                       =   40,
     EvilEye                                            =   41,
-    FloatingSkull                                      =   42,
+    FloatingSkullRock                                  =   42,
     TorchedTree                                        =   43,
     TallBlueFirestick                                  =   44,
     TallGreenFirestick                                 =   45,

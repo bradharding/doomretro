@@ -723,7 +723,7 @@ void P_RemoveMobj(mobj_t *mobj)
 // Finds a mobj type with a matching doomednum
 // killough 8/24/98: rewrote to use hashing
 //
-static int P_FindDoomedNum(unsigned int type)
+int P_FindDoomedNum(unsigned int type)
 {
     static struct
     {

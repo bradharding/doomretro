@@ -303,7 +303,7 @@ boolean C_Responder(event_t *ev)
                         {
                             char        command[255] = "";
 
-                            if (consolecommands[i].cheat)
+                            if (consolecommands[i].condition == C_CheatCondition)
                             {
                                 int     length = strlen(consoleinput);
 
@@ -333,7 +333,8 @@ boolean C_Responder(event_t *ev)
                                 char    parm[255] = "";
 
                                 sscanf(consoleinput, "%s %s", command, parm);
-                                if (!strcasecmp(command, consolecommands[i].command) && parm[0])
+                                if (!strcasecmp(command, consolecommands[i].command) && parm[0]
+                                    && consolecommands[i].condition(command))
                                 {
                                     validcommand = true;
                                     C_AddConsoleString(consoleinput);
@@ -349,7 +350,7 @@ boolean C_Responder(event_t *ev)
                         {
                             validcommand = true;
                             C_AddConsoleString(consoleinput);
-                            if (consolecommands[i].cheat)
+                            if (consolecommands[i].condition == C_CheatCondition)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
                                 consolecommands[i].func();

@@ -46,44 +46,48 @@
 #include "m_cheat.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "p_local.h"
 #include "SDL.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
-boolean C_Cheat(char *);
-boolean C_NULL(char *);
+boolean C_CheatCondition(char *);
+boolean C_GameCondition(char *);
+boolean C_NoCondition(char *);
 
 void C_CmdList(void);
 void C_Map(void);
 void C_Quit(void);
+void C_Summon(void);
 
 consolecommand_t consolecommands[] =
 {
-    { "cmdlist",    false, C_NULL,  C_CmdList, 0 },
-    { "idbeholda",  true,  C_Cheat, NULL,      0 },
-    { "idbeholdl",  true,  C_Cheat, NULL,      0 },
-    { "idbeholdi",  true,  C_Cheat, NULL,      0 },
-    { "idbeholdr",  true,  C_Cheat, NULL,      0 },
-    { "idbeholds",  true,  C_Cheat, NULL,      0 },
-    { "idbeholdv",  true,  C_Cheat, NULL,      0 },
-    { "idchoppers", true,  C_Cheat, NULL,      0 },
-    { "idclev",     true,  C_Cheat, NULL,      1 },
-    { "idclip",     true,  C_Cheat, NULL,      0 },
-    { "iddqd",      true,  C_Cheat, NULL,      0 },
-    { "iddt",       true,  C_Cheat, NULL,      0 },
-    { "idfa",       true,  C_Cheat, NULL,      0 },
-    { "idkfa",      true,  C_Cheat, NULL,      0 },
-    { "idmus",      true,  C_Cheat, NULL,      1 },
-    { "idmypos",    true,  C_Cheat, NULL,      0 },
-    { "idspispopd", true,  C_Cheat, NULL,      0 },
-    { "map",        false, C_NULL,  C_Map,     1 },
-    { "quit",       false, C_NULL,  C_Quit,    0 },
-    { "",           false, C_NULL,  NULL,      0 }
+    { "cmdlist",    C_NoCondition,    C_CmdList, 0 },
+    { "idbeholda",  C_CheatCondition, NULL,      0 },
+    { "idbeholdl",  C_CheatCondition, NULL,      0 },
+    { "idbeholdi",  C_CheatCondition, NULL,      0 },
+    { "idbeholdr",  C_CheatCondition, NULL,      0 },
+    { "idbeholds",  C_CheatCondition, NULL,      0 },
+    { "idbeholdv",  C_CheatCondition, NULL,      0 },
+    { "idchoppers", C_CheatCondition, NULL,      0 },
+    { "idclev",     C_CheatCondition, NULL,      1 },
+    { "idclip",     C_CheatCondition, NULL,      0 },
+    { "iddqd",      C_CheatCondition, NULL,      0 },
+    { "iddt",       C_CheatCondition, NULL,      0 },
+    { "idfa",       C_CheatCondition, NULL,      0 },
+    { "idkfa",      C_CheatCondition, NULL,      0 },
+    { "idmus",      C_CheatCondition, NULL,      1 },
+    { "idmypos",    C_CheatCondition, NULL,      0 },
+    { "idspispopd", C_CheatCondition, NULL,      0 },
+    { "map",        C_NoCondition,    C_Map,     1 },
+    { "quit",       C_NoCondition,    C_Quit,    0 },
+    { "summon",     C_GameCondition,  C_Summon,  1 },
+    { "",           C_NoCondition,    NULL,      0 }
 };
 
-boolean C_Cheat(char *command)
+boolean C_CheatCondition(char *command)
 {
     if (!usergame)
         return false;
@@ -94,7 +98,12 @@ boolean C_Cheat(char *command)
     return true;
 }
 
-boolean C_NULL(char *command)
+boolean C_GameCondition(char *command)
+{
+    return usergame;
+}
+
+boolean C_NoCondition(char *command)
 {
     return true;
 }
@@ -105,7 +114,7 @@ void C_CmdList(void)
 
     while (consolecommands[i].command[0])
     {
-        if (!consolecommands[i].cheat)
+        if (consolecommands[i].condition != C_CheatCondition)
         {
             static char     buffer[1024];
 
@@ -153,4 +162,50 @@ void C_Map(void)
 void C_Quit(void)
 {
     I_Quit(true);
+}
+
+void C_Summon(void)
+{
+    int i;
+
+    for (i = 0; i < NUMMOBJTYPES; i++)
+        if (!strcasecmp(mobjinfo[i].summon, consolecommandparm))
+        {
+            boolean     spawn = true;
+            int         type = mobjinfo[i].doomednum;
+
+            if (gamemode != commercial)
+            {
+                switch (type)
+                {
+                    case Arachnotron:
+                    case ArchVile:
+                    case BossBrain:
+                    case MonstersSpawner:
+                    case HellKnight:
+                    case Mancubus:
+                    case PainElemental:
+                    case HeavyWeaponDude:
+                    case Revenant:
+                    case WolfensteinSS:
+                        spawn = false;
+                        break;
+                }
+            }
+            else if (type == WolfensteinSS && bfgedition)
+                type = Zombieman;
+
+            if (spawn)
+            {
+                mobj_t  *player = players[displayplayer].mo;
+                fixed_t x = player->x;
+                fixed_t y = player->y;
+                angle_t angle = player->angle >> ANGLETOFINESHIFT;
+                mobj_t  *thing = P_SpawnMobj(x + 100 * finecosine[angle],
+                            y + 100 * finesine[angle], ONFLOORZ, P_FindDoomedNum(type));
+
+                thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+            }
+            break;
+        }
 }
