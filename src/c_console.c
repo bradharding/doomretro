@@ -75,6 +75,8 @@ int             consoledirection = 1;
 byte            *background;
 patch_t         *divider;
 patch_t         *consolefont[CONSOLEFONTSIZE];
+patch_t         *lsquote;
+patch_t         *ldquote;
 
 char            **consolestring = NULL;
 char            consoleinput[255] = "";
@@ -124,6 +126,8 @@ void C_Init(void)
         M_snprintf(buffer, 9, "DRFON%03d", j++);
         consolefont[i] = W_CacheLumpName(buffer, PU_STATIC);
     }
+    lsquote = W_CacheLumpName("DRFON145", PU_STATIC);
+    ldquote = W_CacheLumpName("DRFON147", PU_STATIC);
 
     caret = consolefont['|' - CONSOLEFONTSTART];
 }
@@ -178,10 +182,13 @@ static void C_DrawText(int x, int y, char *text)
     else
     {
         size_t      i;
+        
+        char        prev = ' ';
 
         for (i = 0; i < strlen(text); ++i)
         {
-            int     c = text[i] - CONSOLEFONTSTART;
+            char    letter = text[i];
+            int     c = letter - CONSOLEFONTSTART;
 
             if (c < 0 || c >= CONSOLEFONTSIZE)
                 x += SPACEWIDTH;
@@ -189,8 +196,17 @@ static void C_DrawText(int x, int y, char *text)
             {
                 patch_t     *patch = consolefont[c];
 
+                if (prev == ' ')
+                {
+                    if (letter == '\'')
+                        patch = lsquote;
+                    else if (letter == '\"')
+                        patch = ldquote;
+                }
+                
                 V_DrawBigPatch(x, y - (CONSOLEHEIGHT - consoleheight), 0, patch);
                 x += SHORT(patch->width);
+                prev = letter;
             }
         }
     }
