@@ -43,6 +43,7 @@
 #include "doomtype.h"
 #include "doomdef.h"
 #include "m_cheat.h"
+#include "m_misc.h"
 
 //
 // CHEAT SEQUENCE PACKAGE
@@ -112,8 +113,21 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     if (cht->chars_read >= strlen(cht->sequence)
         && cht->param_chars_read >= cht->parameter_chars)
     {
-        cht->chars_read = cht->param_chars_read = cht->timeout = 0;
+        if (cht != &cheat_clev && cht != &cheat_mus)
+        {
+            if (cht->param_chars_read)
+            {
+                static char buffer[64];
 
+                M_snprintf(buffer, 64, "%s%c%c", cht->sequence, cht->parameter_buf[0],
+                    cht->parameter_buf[1]);
+                C_AddConsoleString(buffer);
+            }
+            else
+                C_AddConsoleString(cht->sequence);
+        }
+
+        cht->chars_read = cht->param_chars_read = cht->timeout = 0;
         return true;
     }
 
