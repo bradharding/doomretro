@@ -89,7 +89,7 @@ consolecommand_t consolecommands[] =
 
 boolean C_CheatCondition(char *command)
 {
-    if (!usergame)
+    if (gamestate != GS_LEVEL)
         return false;
     if (!strcasecmp(command, "idclip") && gamemode != commercial)
         return false;
@@ -100,7 +100,7 @@ boolean C_CheatCondition(char *command)
 
 boolean C_GameCondition(char *command)
 {
-    return usergame;
+    return (gamestate == GS_LEVEL);
 }
 
 boolean C_NoCondition(char *command)
@@ -152,7 +152,7 @@ void C_Map(void)
             EpiDef.lastOn = selectedepisode;
         }
         gamemap = map;
-        if (usergame)
+        if (gamestate == GS_LEVEL)
             G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
         else
             G_DeferredInitNew(gameskill, gameepisode, gamemap);
