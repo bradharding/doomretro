@@ -1059,7 +1059,7 @@ void A_CyberAttack(mobj_t *actor)
     mo = P_SpawnMissile(actor, actor->target, MT_ROCKET);
 
     if (smoketrails & CYBERDEMON)
-        mo->flags2 &= MF2_SMOKETRAIL;
+        mo->flags2 |= MF2_SMOKETRAIL;
 }
 
 void A_BruisAttack(mobj_t *actor)
