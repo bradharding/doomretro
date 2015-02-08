@@ -54,8 +54,9 @@
 #include "z_zone.h"
 
 boolean C_CheatCondition(char *);
-boolean C_SummonCondition(char *);
+boolean C_MapCondition(char *);
 boolean C_NoCondition(char *);
+boolean C_SummonCondition(char *);
 
 void C_CmdList(void);
 void C_Map(void);
@@ -81,7 +82,7 @@ consolecommand_t consolecommands[] =
     { "idmus",      C_CheatCondition,  NULL,      1, ""                                    },
     { "idmypos",    C_CheatCondition,  NULL,      0, ""                                    },
     { "idspispopd", C_CheatCondition,  NULL,      0, ""                                    },
-    { "map",        C_NoCondition,     C_Map,     1, "Warp to a map."                      },
+    { "map",        C_MapCondition,    C_Map,     1, "Warp to a map."                      },
     { "quit",       C_NoCondition,     C_Quit,    0, "Quit DOOM RETRO."                    },
     { "summon",     C_SummonCondition, C_Summon,  1, "Summon a mobj."                      },
     { "",           C_NoCondition,     NULL,      0, ""                                    }
@@ -103,7 +104,32 @@ boolean C_NoCondition(char *command)
     return true;
 }
 
-static int      summontype = NUMMOBJTYPES;
+static int      mapcommandepisode;
+static int      mapcommandmap;
+
+boolean C_MapCondition(char *command)
+{
+    mapcommandepisode = 0;
+    mapcommandmap = 0;
+
+    if (gamemode == commercial)
+    {
+        mapcommandepisode = 1;
+        sscanf(uppercase(consolecommandparm), "MAP%i", &mapcommandmap);
+        if (!mapcommandmap)
+            return false;
+    }
+    else
+    {
+        sscanf(uppercase(consolecommandparm), "E%iM%i", &mapcommandepisode, &mapcommandmap);
+        if (!mapcommandepisode || !mapcommandmap)
+            return false;
+    }
+
+    return (W_CheckNumForName(consolecommandparm) >= 0);
+}
+
+static int      summoncommandtype = NUMMOBJTYPES;
 
 boolean C_SummonCondition(char *command)
 {
@@ -116,10 +142,10 @@ boolean C_SummonCondition(char *command)
             {
                 boolean     summon = true;
 
-                summontype = mobjinfo[i].doomednum;
+                summoncommandtype = mobjinfo[i].doomednum;
                 if (gamemode != commercial)
                 {
-                    switch (summontype)
+                    switch (summoncommandtype)
                     {
                         case Arachnotron:
                         case ArchVile:
@@ -135,8 +161,8 @@ boolean C_SummonCondition(char *command)
                             break;
                     }
                 }
-                else if (summontype == WolfensteinSS && bfgedition)
-                    summontype = Zombieman;
+                else if (summoncommandtype == WolfensteinSS && bfgedition)
+                    summoncommandtype = Zombieman;
 
                 return summon;
             }
@@ -168,32 +194,18 @@ extern menu_t   EpiDef;
 
 void C_Map(void)
 {
-    int epsd = 0;
-    int map = 0;
-
-    if (gamemode == commercial)
+    samelevel = (gameepisode == mapcommandepisode && gamemap == mapcommandmap);
+    gameepisode = mapcommandepisode;
+    if (gamemission == doom && gameepisode <= 4)
     {
-        epsd = 1;
-        sscanf(uppercase(consolecommandparm), "MAP%i", &map);
+        selectedepisode = gameepisode - 1;
+        EpiDef.lastOn = selectedepisode;
     }
+    gamemap = mapcommandmap;
+    if (gamestate == GS_LEVEL)
+        G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
     else
-        sscanf(uppercase(consolecommandparm), "E%iM%i", &epsd, &map);
-
-    if (W_CheckNumForName(consolecommandparm) >= 0)
-    {
-        samelevel = (gameepisode == epsd && gamemap == map);
-        gameepisode = epsd;
-        if (gamemission == doom && epsd <= 4)
-        {
-            selectedepisode = gameepisode - 1;
-            EpiDef.lastOn = selectedepisode;
-        }
-        gamemap = map;
-        if (gamestate == GS_LEVEL)
-            G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
-        else
-            G_DeferredInitNew(gameskill, gameepisode, gamemap);
-    }
+        G_DeferredInitNew(gameskill, gameepisode, gamemap);
 }
 
 void C_Quit(void)
@@ -208,7 +220,7 @@ void C_Summon(void)
     fixed_t     y = player->y;
     angle_t     angle = player->angle >> ANGLETOFINESHIFT;
     mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
-                    ONFLOORZ, P_FindDoomedNum(summontype));
+                    ONFLOORZ, P_FindDoomedNum(summoncommandtype));
 
     thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 }
