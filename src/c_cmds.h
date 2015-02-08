@@ -46,6 +46,7 @@ typedef struct
     boolean     (*condition)(char *command);
     void        (*func)(void);
     int         parms;
+    char        *description;
 } consolecommand_t;
 
 extern consolecommand_t consolecommands[];

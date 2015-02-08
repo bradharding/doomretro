@@ -182,15 +182,17 @@ static void C_DrawText(int x, int y, char *text)
     else
     {
         size_t      i;
-        
         char        prev = ' ';
+        int         tabs = 0;
 
         for (i = 0; i < strlen(text); ++i)
         {
             char    letter = text[i];
             int     c = letter - CONSOLEFONTSTART;
 
-            if (c < 0 || c >= CONSOLEFONTSIZE)
+            if (letter == '\t')
+                x = MAX(x, ++tabs * 100);
+            else if (c < 0 || c >= CONSOLEFONTSIZE)
                 x += SPACEWIDTH;
             else
             {

@@ -64,27 +64,27 @@ void C_Summon(void);
 
 consolecommand_t consolecommands[] =
 {
-    { "cmdlist",    C_NoCondition,    C_CmdList, 0 },
-    { "idbeholda",  C_CheatCondition, NULL,      0 },
-    { "idbeholdl",  C_CheatCondition, NULL,      0 },
-    { "idbeholdi",  C_CheatCondition, NULL,      0 },
-    { "idbeholdr",  C_CheatCondition, NULL,      0 },
-    { "idbeholds",  C_CheatCondition, NULL,      0 },
-    { "idbeholdv",  C_CheatCondition, NULL,      0 },
-    { "idchoppers", C_CheatCondition, NULL,      0 },
-    { "idclev",     C_CheatCondition, NULL,      1 },
-    { "idclip",     C_CheatCondition, NULL,      0 },
-    { "iddqd",      C_CheatCondition, NULL,      0 },
-    { "iddt",       C_CheatCondition, NULL,      0 },
-    { "idfa",       C_CheatCondition, NULL,      0 },
-    { "idkfa",      C_CheatCondition, NULL,      0 },
-    { "idmus",      C_CheatCondition, NULL,      1 },
-    { "idmypos",    C_CheatCondition, NULL,      0 },
-    { "idspispopd", C_CheatCondition, NULL,      0 },
-    { "map",        C_NoCondition,    C_Map,     1 },
-    { "quit",       C_NoCondition,    C_Quit,    0 },
-    { "summon",     C_GameCondition,  C_Summon,  1 },
-    { "",           C_NoCondition,    NULL,      0 }
+    { "cmdlist",    C_NoCondition,    C_CmdList, 0, "Display a list of console commands." },
+    { "idbeholda",  C_CheatCondition, NULL,      0, ""                                    },
+    { "idbeholdl",  C_CheatCondition, NULL,      0, ""                                    },
+    { "idbeholdi",  C_CheatCondition, NULL,      0, ""                                    },
+    { "idbeholdr",  C_CheatCondition, NULL,      0, ""                                    },
+    { "idbeholds",  C_CheatCondition, NULL,      0, ""                                    },
+    { "idbeholdv",  C_CheatCondition, NULL,      0, ""                                    },
+    { "idchoppers", C_CheatCondition, NULL,      0, ""                                    },
+    { "idclev",     C_CheatCondition, NULL,      1, ""                                    },
+    { "idclip",     C_CheatCondition, NULL,      0, ""                                    },
+    { "iddqd",      C_CheatCondition, NULL,      0, ""                                    },
+    { "iddt",       C_CheatCondition, NULL,      0, ""                                    },
+    { "idfa",       C_CheatCondition, NULL,      0, ""                                    },
+    { "idkfa",      C_CheatCondition, NULL,      0, ""                                    },
+    { "idmus",      C_CheatCondition, NULL,      1, ""                                    },
+    { "idmypos",    C_CheatCondition, NULL,      0, ""                                    },
+    { "idspispopd", C_CheatCondition, NULL,      0, ""                                    },
+    { "map",        C_NoCondition,    C_Map,     1, "Warp to a map."                      },
+    { "quit",       C_NoCondition,    C_Quit,    0, "Quit DOOM RETRO."                    },
+    { "summon",     C_GameCondition,  C_Summon,  1, "Summon a mobj."                      },
+    { "",           C_NoCondition,    NULL,      0, ""                                    }
 };
 
 boolean C_CheatCondition(char *command)
@@ -118,7 +118,8 @@ void C_CmdList(void)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, 1024, "    %s", consolecommands[i].command);
+            M_snprintf(buffer, 1024, "    %s\t%s", consolecommands[i].command,
+                consolecommands[i].description);
             C_AddConsoleString(buffer);
         }
         ++i;
