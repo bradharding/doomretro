@@ -390,15 +390,13 @@ boolean C_Responder(event_t *ev)
                             }
                             else
                             {
-                                char    parm[255] = "";
-
-                                sscanf(consoleinput, "%s %s", command, parm);
-                                if (!strcasecmp(command, consolecommands[i].command) && parm[0]
+                                sscanf(consoleinput, "%s %s", command, consolecommandparm);
+                                if (!strcasecmp(command, consolecommands[i].command)
+                                    && consolecommandparm[0]
                                     && consolecommands[i].condition(command))
                                 {
                                     validcommand = true;
                                     C_AddConsoleString(consoleinput);
-                                    M_StringCopy(consolecommandparm, parm, 255);
                                     consolecommands[i].func();
                                     consolecommandparm[0] = 0;
                                     break;

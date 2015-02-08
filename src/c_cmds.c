@@ -54,7 +54,7 @@
 #include "z_zone.h"
 
 boolean C_CheatCondition(char *);
-boolean C_GameCondition(char *);
+boolean C_SummonCondition(char *);
 boolean C_NoCondition(char *);
 
 void C_CmdList(void);
@@ -64,27 +64,27 @@ void C_Summon(void);
 
 consolecommand_t consolecommands[] =
 {
-    { "cmdlist",    C_NoCondition,    C_CmdList, 0, "Display a list of console commands." },
-    { "idbeholda",  C_CheatCondition, NULL,      0, ""                                    },
-    { "idbeholdl",  C_CheatCondition, NULL,      0, ""                                    },
-    { "idbeholdi",  C_CheatCondition, NULL,      0, ""                                    },
-    { "idbeholdr",  C_CheatCondition, NULL,      0, ""                                    },
-    { "idbeholds",  C_CheatCondition, NULL,      0, ""                                    },
-    { "idbeholdv",  C_CheatCondition, NULL,      0, ""                                    },
-    { "idchoppers", C_CheatCondition, NULL,      0, ""                                    },
-    { "idclev",     C_CheatCondition, NULL,      1, ""                                    },
-    { "idclip",     C_CheatCondition, NULL,      0, ""                                    },
-    { "iddqd",      C_CheatCondition, NULL,      0, ""                                    },
-    { "iddt",       C_CheatCondition, NULL,      0, ""                                    },
-    { "idfa",       C_CheatCondition, NULL,      0, ""                                    },
-    { "idkfa",      C_CheatCondition, NULL,      0, ""                                    },
-    { "idmus",      C_CheatCondition, NULL,      1, ""                                    },
-    { "idmypos",    C_CheatCondition, NULL,      0, ""                                    },
-    { "idspispopd", C_CheatCondition, NULL,      0, ""                                    },
-    { "map",        C_NoCondition,    C_Map,     1, "Warp to a map."                      },
-    { "quit",       C_NoCondition,    C_Quit,    0, "Quit DOOM RETRO."                    },
-    { "summon",     C_GameCondition,  C_Summon,  1, "Summon a mobj."                      },
-    { "",           C_NoCondition,    NULL,      0, ""                                    }
+    { "cmdlist",    C_NoCondition,     C_CmdList, 0, "Display a list of console commands." },
+    { "idbeholda",  C_CheatCondition,  NULL,      0, ""                                    },
+    { "idbeholdl",  C_CheatCondition,  NULL,      0, ""                                    },
+    { "idbeholdi",  C_CheatCondition,  NULL,      0, ""                                    },
+    { "idbeholdr",  C_CheatCondition,  NULL,      0, ""                                    },
+    { "idbeholds",  C_CheatCondition,  NULL,      0, ""                                    },
+    { "idbeholdv",  C_CheatCondition,  NULL,      0, ""                                    },
+    { "idchoppers", C_CheatCondition,  NULL,      0, ""                                    },
+    { "idclev",     C_CheatCondition,  NULL,      1, ""                                    },
+    { "idclip",     C_CheatCondition,  NULL,      0, ""                                    },
+    { "iddqd",      C_CheatCondition,  NULL,      0, ""                                    },
+    { "iddt",       C_CheatCondition,  NULL,      0, ""                                    },
+    { "idfa",       C_CheatCondition,  NULL,      0, ""                                    },
+    { "idkfa",      C_CheatCondition,  NULL,      0, ""                                    },
+    { "idmus",      C_CheatCondition,  NULL,      1, ""                                    },
+    { "idmypos",    C_CheatCondition,  NULL,      0, ""                                    },
+    { "idspispopd", C_CheatCondition,  NULL,      0, ""                                    },
+    { "map",        C_NoCondition,     C_Map,     1, "Warp to a map."                      },
+    { "quit",       C_NoCondition,     C_Quit,    0, "Quit DOOM RETRO."                    },
+    { "summon",     C_SummonCondition, C_Summon,  1, "Summon a mobj."                      },
+    { "",           C_NoCondition,     NULL,      0, ""                                    }
 };
 
 boolean C_CheatCondition(char *command)
@@ -98,14 +98,50 @@ boolean C_CheatCondition(char *command)
     return true;
 }
 
-boolean C_GameCondition(char *command)
-{
-    return (gamestate == GS_LEVEL);
-}
-
 boolean C_NoCondition(char *command)
 {
     return true;
+}
+
+static int      summontype = NUMMOBJTYPES;
+
+boolean C_SummonCondition(char *command)
+{
+    if (gamestate == GS_LEVEL)
+    {
+        int i;
+
+        for (i = 0; i < NUMMOBJTYPES; i++)
+            if (!strcasecmp(mobjinfo[i].summon, consolecommandparm))
+            {
+                boolean     summon = true;
+
+                summontype = mobjinfo[i].doomednum;
+                if (gamemode != commercial)
+                {
+                    switch (summontype)
+                    {
+                        case Arachnotron:
+                        case ArchVile:
+                        case BossBrain:
+                        case MonstersSpawner:
+                        case HellKnight:
+                        case Mancubus:
+                        case PainElemental:
+                        case HeavyWeaponDude:
+                        case Revenant:
+                        case WolfensteinSS:
+                            summon = false;
+                            break;
+                    }
+                }
+                else if (summontype == WolfensteinSS && bfgedition)
+                    summontype = Zombieman;
+
+                return summon;
+            }
+    }
+    return false;
 }
 
 void C_CmdList(void)
@@ -167,46 +203,12 @@ void C_Quit(void)
 
 void C_Summon(void)
 {
-    int i;
+    mobj_t      *player = players[displayplayer].mo;
+    fixed_t     x = player->x;
+    fixed_t     y = player->y;
+    angle_t     angle = player->angle >> ANGLETOFINESHIFT;
+    mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
+                    ONFLOORZ, P_FindDoomedNum(summontype));
 
-    for (i = 0; i < NUMMOBJTYPES; i++)
-        if (!strcasecmp(mobjinfo[i].summon, consolecommandparm))
-        {
-            boolean     spawn = true;
-            int         type = mobjinfo[i].doomednum;
-
-            if (gamemode != commercial)
-            {
-                switch (type)
-                {
-                    case Arachnotron:
-                    case ArchVile:
-                    case BossBrain:
-                    case MonstersSpawner:
-                    case HellKnight:
-                    case Mancubus:
-                    case PainElemental:
-                    case HeavyWeaponDude:
-                    case Revenant:
-                    case WolfensteinSS:
-                        spawn = false;
-                        break;
-                }
-            }
-            else if (type == WolfensteinSS && bfgedition)
-                type = Zombieman;
-
-            if (spawn)
-            {
-                mobj_t  *player = players[displayplayer].mo;
-                fixed_t x = player->x;
-                fixed_t y = player->y;
-                angle_t angle = player->angle >> ANGLETOFINESHIFT;
-                mobj_t  *thing = P_SpawnMobj(x + 100 * finecosine[angle],
-                            y + 100 * finesine[angle], ONFLOORZ, P_FindDoomedNum(type));
-
-                thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
-            }
-            break;
-        }
+    thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 }
