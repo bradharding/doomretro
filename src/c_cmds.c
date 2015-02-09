@@ -54,11 +54,13 @@
 #include "z_zone.h"
 
 boolean C_CheatCondition(char *);
+boolean C_GameCondition(char *);
 boolean C_MapCondition(char *);
 boolean C_NoCondition(char *);
 boolean C_SummonCondition(char *);
 
 void C_CmdList(void);
+void C_God(void);
 void C_Map(void);
 void C_Quit(void);
 void C_Summon(void);
@@ -66,6 +68,7 @@ void C_Summon(void);
 consolecommand_t consolecommands[] =
 {
     { "cmdlist",    C_NoCondition,     C_CmdList, 0, "Display a list of console commands." },
+    { "god",        C_GameCondition,   C_God,     0, "Toggle degreelessness mode on/off."  },
     { "idbeholda",  C_CheatCondition,  NULL,      0, ""                                    },
     { "idbeholdl",  C_CheatCondition,  NULL,      0, ""                                    },
     { "idbeholdi",  C_CheatCondition,  NULL,      0, ""                                    },
@@ -99,9 +102,9 @@ boolean C_CheatCondition(char *command)
     return true;
 }
 
-boolean C_NoCondition(char *command)
+boolean C_GameCondition(char *command)
 {
-    return true;
+    return (gamestate == GS_LEVEL);
 }
 
 static int      mapcommandepisode;
@@ -129,6 +132,11 @@ boolean C_MapCondition(char *command)
     return (W_CheckNumForName(consolecommandparm) >= 0);
 }
 
+boolean C_NoCondition(char *command)
+{
+    return true;
+}
+
 static int      summoncommandtype = NUMMOBJTYPES;
 
 boolean C_SummonCondition(char *command)
@@ -150,7 +158,6 @@ boolean C_SummonCondition(char *command)
                         case Arachnotron:
                         case ArchVile:
                         case BossBrain:
-                        case MonstersSpawner:
                         case HellKnight:
                         case Mancubus:
                         case PainElemental:
@@ -187,6 +194,11 @@ void C_CmdList(void)
         }
         ++i;
     }
+}
+
+void C_God(void)
+{
+    M_StringCopy(consolecheat, "iddqd", sizeof(consolecheat));
 }
 
 extern boolean  samelevel;
