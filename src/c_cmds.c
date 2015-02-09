@@ -62,6 +62,7 @@ boolean C_SummonCondition(char *);
 void C_CmdList(void);
 void C_God(void);
 void C_Map(void);
+void C_NoClip(void);
 void C_Quit(void);
 void C_Summon(void);
 
@@ -86,6 +87,7 @@ consolecommand_t consolecommands[] =
     { "idmypos",    C_CheatCondition,  NULL,      0, ""                                    },
     { "idspispopd", C_CheatCondition,  NULL,      0, ""                                    },
     { "map",        C_MapCondition,    C_Map,     1, "Warp to a map."                      },
+    { "noclip",     C_GameCondition,   C_NoClip,  0, "Toggle no clipping mode on/off."     },
     { "quit",       C_NoCondition,     C_Quit,    0, "Quit DOOM RETRO."                    },
     { "summon",     C_SummonCondition, C_Summon,  1, "Summon a monster or map decoration." },
     { "",           C_NoCondition,     NULL,      0, ""                                    }
@@ -219,6 +221,12 @@ void C_Map(void)
         G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
     else
         G_DeferredInitNew(gameskill, gameepisode, gamemap);
+}
+
+void C_NoClip(void)
+{
+    M_StringCopy(consolecheat, (gamemode == commercial ? "idclip" : "idspispopd"),
+        sizeof(consolecheat));
 }
 
 void C_Quit(void)
