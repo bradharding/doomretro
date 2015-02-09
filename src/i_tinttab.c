@@ -48,7 +48,7 @@
 #define G               4
 #define B               8
 
-static byte filter[256] =
+static byte cfilter[256] =
 {
     0,0,0,0,R|B,0,0,0,0,0,0,0,0,0,0,0,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,
     R,R,R,R,R,R,R,R,R,R,R,R,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,0,0,0,0,0,0,0,0,0,
@@ -119,7 +119,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
 
     for (foreground = 0; foreground < 256; ++foreground)
     {
-        if ((filter[foreground] & colors) || colors == ALL)
+        if ((cfilter[foreground] & colors) || colors == ALL)
         {
             for (background = 0; background < 256; ++background)
             {
@@ -129,7 +129,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
 
                 if (percent == ADDITIVE)
                 {
-                    if ((filter[background] & BLUES) && !(filter[foreground] & WHITES))
+                    if ((cfilter[background] & BLUES) && !(cfilter[foreground] & WHITES))
                     {
                         r = ((int)color1[0] * 25 + (int)color2[0] * 75) / 100;
                         g = ((int)color1[1] * 25 + (int)color2[1] * 75) / 100;
@@ -144,7 +144,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
                 }
                 else
                 {
-                    int percentage = ((filter[background] & BLUES) ? MIN(percent + percent / 8, 100) : percent);
+                    int percentage = ((cfilter[background] & BLUES) ? MIN(percent + percent / 8, 100) : percent);
 
                     r = ((int)color1[0] * percentage + (int)color2[0] * (100 - percentage)) / 100;
                     g = ((int)color1[1] * percentage + (int)color2[1] * (100 - percentage)) / 100;

@@ -530,7 +530,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         // TRIGGERS.
         // All from here to RETRIGGERS.
         case W1_OpenDoorStayOpen:
-            if (EV_DoDoor(line, open))
+            if (EV_DoDoor(line, doorOpen))
             {
                 line->special = 0;
 
@@ -547,7 +547,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
                         case 4:
                             junk.tag = 666;
-                            EV_DoDoor(&junk, blazeOpen);
+                            EV_DoDoor(&junk, doorBlazeOpen);
                             break;
                     }
                     line->flags &= ~ML_TRIGGER666;
@@ -556,12 +556,12 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_CloseDoor:
-            if (EV_DoDoor(line, close))
+            if (EV_DoDoor(line, doorClose))
                 line->special = 0;
             break;
 
         case W1_OpenDoorWait4SecondsClose:
-            if (EV_DoDoor(line, normal))
+            if (EV_DoDoor(line, doorNormal))
                 line->special = 0;
             break;
 
@@ -601,7 +601,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_CloseDoorWait30SecondsOpen:
-            if (EV_DoDoor(line, close30ThenOpen))
+            if (EV_DoDoor(line, doorClose30ThenOpen))
                 line->special = 0;
             break;
 
@@ -711,17 +711,17 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_OpenFastDoorWait4SecondsClose:
-            if (EV_DoDoor (line, blazeRaise))
+            if (EV_DoDoor (line, doorBlazeRaise))
                 line->special = 0;
             break;
 
         case W1_OpenFastDoorStayOpen:
-            if (EV_DoDoor (line, blazeOpen))
+            if (EV_DoDoor (line, doorBlazeOpen))
                 line->special = 0;
             break;
 
         case W1_CloseFastDoor:
-            if (EV_DoDoor (line, blazeClose))
+            if (EV_DoDoor (line, doorBlazeClose))
                 line->special = 0;
             break;
 
@@ -769,11 +769,11 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_CloseDoor:
-            EV_DoDoor(line, close);
+            EV_DoDoor(line, doorClose);
             break;
 
         case WR_CloseDoorWait30SecondsOpen:
-            EV_DoDoor(line, close30ThenOpen);
+            EV_DoDoor(line, doorClose30ThenOpen);
             break;
 
         case WR_StartFastCrusher:
@@ -805,7 +805,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_OpenDoorStayOpen:
-            EV_DoDoor(line, open);
+            EV_DoDoor(line, doorOpen);
             break;
 
         case WR_StartUpDownMovingFloor:
@@ -821,7 +821,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_OpenDoorWait4SecondsClose:
-            EV_DoDoor(line, normal);
+            EV_DoDoor(line, doorNormal);
             break;
 
         case WR_SetFloorToLowestNeighbouringCeiling:
@@ -857,15 +857,15 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case WR_OpenFastDoorWait4SecondsClose:
-            EV_DoDoor(line, blazeRaise);
+            EV_DoDoor(line, doorBlazeRaise);
             break;
 
         case WR_OpenFastDoorStayOpen:
-            EV_DoDoor(line, blazeOpen);
+            EV_DoDoor(line, doorBlazeOpen);
             break;
 
         case WR_CloseFastDoor:
-            EV_DoDoor(line, blazeClose);
+            EV_DoDoor(line, doorBlazeClose);
             break;
 
         case WR_LowerFastLiftWait3SecondsRise:
@@ -919,7 +919,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             break;
 
         case G1_OpenDoorStayOpen:
-            EV_DoDoor(line, open);
+            EV_DoDoor(line, doorOpen);
             P_ChangeSwitchTexture(line, 1);
             if (canmodify && gamemission == doom2 && gamemap == 18)
                 line->special = -G1_OpenDoorStayOpen;

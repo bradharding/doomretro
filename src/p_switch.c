@@ -293,7 +293,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_OpenDoorWait4SecondsClose:
-            if (EV_DoDoor(line, normal))
+            if (EV_DoDoor(line, doorNormal))
                 P_ChangeSwitchTexture(line, 0);
             break;
 
@@ -313,7 +313,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_CloseDoor:
-            if (EV_DoDoor(line, close))
+            if (EV_DoDoor(line, doorClose))
                 P_ChangeSwitchTexture(line, 0);
             break;
 
@@ -343,22 +343,22 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case S1_OpenDoorStayOpen:
-            if (EV_DoDoor(line, open))
+            if (EV_DoDoor(line, doorOpen))
                 P_ChangeSwitchTexture(line, 0);
             break;
 
         case S1_OpenFastDoorWait4SecondsClose:
-            if (EV_DoDoor(line, blazeRaise))
+            if (EV_DoDoor(line, doorBlazeRaise))
                 P_ChangeSwitchTexture(line, 0);
             break;
 
         case S1_OpenFastDoorStayOpen:
-            if (EV_DoDoor(line, blazeOpen))
+            if (EV_DoDoor(line, doorBlazeOpen))
                 P_ChangeSwitchTexture(line, 0);
             break;
 
         case S1_CloseFastDoor:
-            if (EV_DoDoor(line, blazeClose))
+            if (EV_DoDoor(line, doorBlazeClose))
                 P_ChangeSwitchTexture(line, 0);
             break;
 
@@ -380,7 +380,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case S1_OpenFastDoorStayOpenBlueKeyRequired:
         case S1_OpenFastDoorStayOpenRedKeyRequired:
         case S1_OpenFastDoorStayOpenYellowKeyRequired:
-            if (EV_DoLockedDoor(line, blazeOpen, thing))
+            if (EV_DoLockedDoor(line, doorBlazeOpen, thing))
                 P_ChangeSwitchTexture(line, 0);
             break;
 
@@ -391,7 +391,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
         // BUTTONS
         case SR_LowerCeilingToFloorCloseDoor:
-            if (EV_DoDoor(line, close))
+            if (EV_DoDoor(line, doorClose))
                 P_ChangeSwitchTexture(line, 1);
             break;
 
@@ -411,7 +411,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_OpenDoorStayOpen:
-            if (EV_DoDoor(line, open))
+            if (EV_DoDoor(line, doorOpen))
                 P_ChangeSwitchTexture(line, 1);
             break;
 
@@ -421,7 +421,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_OpenDoorWait4SecondsClose:
-            if (EV_DoDoor(line, normal))
+            if (EV_DoDoor(line, doorNormal))
                 P_ChangeSwitchTexture(line, 1);
             else if (thing->player)
                 S_StartSound(thing, sfx_oof);
@@ -463,17 +463,17 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             break;
 
         case SR_OpenFastDoorWait4SecondsClose:
-            if (EV_DoDoor(line, blazeRaise))
+            if (EV_DoDoor(line, doorBlazeRaise))
                 P_ChangeSwitchTexture(line, 1);
             break;
 
         case SR_OpenFastDoorStayOpen:
-            if (EV_DoDoor(line, blazeOpen))
+            if (EV_DoDoor(line, doorBlazeOpen))
                 P_ChangeSwitchTexture(line, 1);
             break;
 
         case SR_CloseFastDoor:
-            if (EV_DoDoor(line, blazeClose))
+            if (EV_DoDoor(line, doorBlazeClose))
                 P_ChangeSwitchTexture(line, 1);
             break;
 
@@ -490,7 +490,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         case SR_OpenFastDoorStayOpenBlueKeyRequired:
         case SR_OpenFastDoorStayOpenRedKeyRequired:
         case SR_OpenFastDoorStayOpenYellowKeyRequired:
-            if (EV_DoLockedDoor(line, blazeOpen, thing))
+            if (EV_DoLockedDoor(line, doorBlazeOpen, thing))
                 P_ChangeSwitchTexture(line, 1);
             break;
 
