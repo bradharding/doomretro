@@ -84,7 +84,7 @@ consolecommand_t consolecommands[] =
     { "idspispopd", C_CheatCondition,  NULL,      0, ""                                    },
     { "map",        C_MapCondition,    C_Map,     1, "Warp to a map."                      },
     { "quit",       C_NoCondition,     C_Quit,    0, "Quit DOOM RETRO."                    },
-    { "summon",     C_SummonCondition, C_Summon,  1, "Summon a mobj."                      },
+    { "summon",     C_SummonCondition, C_Summon,  1, "Summon a monster or map decoration." },
     { "",           C_NoCondition,     NULL,      0, ""                                    }
 };
 
@@ -173,6 +173,7 @@ boolean C_SummonCondition(char *command)
 void C_CmdList(void)
 {
     int i = 0;
+    int count = 1;
 
     while (consolecommands[i].command[0])
     {
@@ -180,7 +181,7 @@ void C_CmdList(void)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, 1024, "    %s\t%s", consolecommands[i].command,
+            M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecommands[i].command,
                 consolecommands[i].description);
             C_AddConsoleString(buffer);
         }

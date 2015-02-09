@@ -225,7 +225,7 @@ static void C_DrawText(int x, int y, char *text)
             int     c = letter - CONSOLEFONTSTART;
 
             if (letter == '\t')
-                x = MAX(x, ++tabs * 100);
+                x = MAX(x, (++tabs == 1 ? 30 : tabs * 50));
             else if (c < 0 || c >= CONSOLEFONTSIZE)
                 x += SPACEWIDTH;
             else
