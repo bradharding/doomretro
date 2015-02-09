@@ -198,3 +198,16 @@ SDL2/
 savegames/
 *.lib
 *.exp
+
+
+# =========================
+# OSX detritus
+# =========================
+
+# Xcode user option files
+
+*.DS_Store
+*.xcuserstate
+xcuserdata/
+project.xcworkspace/
+
