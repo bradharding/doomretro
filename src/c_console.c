@@ -91,6 +91,9 @@ char            consolecheat[255] = "";
 char            consolecheatparm[3] = "";
 char            consolecommandparm[255] = "";
 
+static int      autocomplete = -1;
+static char     autocompletetext[255] = "";
+
 extern byte     *tinttab75;
 
 void C_AddConsoleString(char *string)
@@ -351,7 +354,7 @@ boolean C_Responder(event_t *ev)
 
             // confirm input
             case KEY_ENTER:
-                if (strlen(consoleinput))
+                if (consoleinput[0])
                 {
                     boolean     validcommand = false;
 
@@ -468,6 +471,40 @@ boolean C_Responder(event_t *ev)
                 }
                 break;
 
+            // autocomplete
+            case KEY_TAB:
+                if (consoleinput[0])
+                {
+                    if (autocomplete == -1)
+                    {
+                        autocomplete = 0;
+                        M_StringCopy(autocompletetext, consoleinput, 255);
+                    }
+
+                    while (consolecommands[autocomplete].command[0])
+                    {
+                        if (M_StringStartsWith(consolecommands[autocomplete].command, autocompletetext)
+                            && consolecommands[autocomplete].condition != C_CheatCondition)
+                        {
+                            M_StringCopy(consoleinput, consolecommands[autocomplete].command, 255);
+                            if (consolecommands[autocomplete].parms)
+                            {
+                                int     length = strlen(consoleinput);
+
+                                consoleinput[length] = ' ';
+                                consoleinput[length + 1] = 0;
+                            }
+                            ++autocomplete;
+                            break;
+                        }
+                        ++autocomplete;
+                    }
+                    caretpos = strlen(consoleinput);
+                    carettics = 0;
+                    showcaret = true;
+                }
+                break;
+
             default:
                 if (modstate & KMOD_SHIFT)
                     ch = toupper(ch);
@@ -484,6 +521,9 @@ boolean C_Responder(event_t *ev)
                     showcaret = true;
                 }
         }
+
+        if (autocomplete != -1 && key != KEY_TAB)
+            autocomplete = -1;
     }
     return true;
 }
