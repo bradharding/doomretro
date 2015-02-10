@@ -605,14 +605,22 @@ static void D_FirstUse(void)
     if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
         I_Quit(false);
 }
+#endif
+
+#ifdef __APPLE__
+#import <Cocoa/Cocoa.h>
+#endif
 
 static int D_ChooseIWAD(void)
 {
+    int                 iwadfound = -1;
+    bool             sharewareiwad = false;
+    bool             fileopenedok = false;
+
+#ifdef WIN32
     OPENFILENAME        ofn;
     char                szFile[4096];
-    int                 iwadfound = -1;
-    boolean             sharewareiwad = false;
-
+    
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = NULL;
@@ -627,15 +635,40 @@ static int D_ChooseIWAD(void)
     ofn.Flags = (OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_ALLOWMULTISELECT
                  | OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER);
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
+    
+    fileopenedok = GetOpenFileName(&ofn);
+#elif defined __APPLE__
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseFiles:YES];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowsMultipleSelection:YES];
+    [panel setTitle:@"Where's all the data?"];
+    
+    NSInteger clicked = [panel runModal];
+    fileopenedok = clicked == NSFileHandlingPanelOKButton;
+#endif
 
-    if (GetOpenFileName(&ofn))
+    if (fileopenedok)
     {
         iwadfound = 0;
 
         // only one file was selected
-        if (!ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1])
+        bool onlyoneselected;
+#ifdef WIN32
+        onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
+#elif defined __APPLE__
+        NSArray *urls = [panel URLs];
+        onlyoneselected = [urls count] == 1;
+#endif
+        if (onlyoneselected)
         {
-            LPSTR       file = ofn.lpstrFile;
+            char* file;
+#ifdef WIN32
+            file = (char*)ofn.lpstrFile;
+#elif defined __APPLE__
+            NSURL *url = [urls objectAtIndex:0];
+            file = (char*)[url fileSystemRepresentation];
+#endif
 
             // check if it's a valid and supported IWAD
             if (D_IsDOOMIWAD(file)
@@ -652,9 +685,13 @@ static int D_ChooseIWAD(void)
                     if (D_CheckFilename(file, "DOOM2.WAD"))
                     {
                         static char     fullpath[MAX_PATH];
-
+#ifdef WIN32
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
                             "NERVE.WAD");
+#else
+                        M_snprintf(fullpath, sizeof(fullpath), "%s/%s", strdup(M_ExtractFolder(file)),
+                                   "NERVE.WAD");
+#endif
                         if (W_MergeFile(fullpath))
                         {
                             modifiedgame = true;
@@ -678,8 +715,13 @@ static int D_ChooseIWAD(void)
                         return 0;
 
                 // try the current folder first
+#ifdef WIN32
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#else
+                M_snprintf(fullpath, sizeof(fullpath), "%s/%s", strdup(M_ExtractFolder(file)),
+                           (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#endif
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
                 {
@@ -695,8 +737,13 @@ static int D_ChooseIWAD(void)
                 else
                 {
                     // otherwise try the iwadfolder setting in doomretro.cfg
+#ifdef WIN32
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#else
+                    M_snprintf(fullpath, sizeof(fullpath), "%s/%s", iwadfolder,
+                               (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#endif
                     IdentifyIWADByName(fullpath);
                     if (D_AddFile(fullpath))
                     {
@@ -711,8 +758,13 @@ static int D_ChooseIWAD(void)
                     else
                     {
                         // still nothing? try the DOOMWADDIR environment variable
+#ifdef WIN32
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", getenv("DOOMWADDIR"),
                             (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#else
+                        M_snprintf(fullpath, sizeof(fullpath), "%s/%s", getenv("DOOMWADDIR"),
+                                   (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#endif
                         IdentifyIWADByName(fullpath);
                         if (D_AddFile(fullpath))
                         {
@@ -733,17 +785,25 @@ static int D_ChooseIWAD(void)
                 if (BTSXE2A && !BTSXE2B)
                 {
                     static char     fullpath[MAX_PATH];
-
+#ifdef WIN32
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
                         "BTSX_E2B.WAD");
+#else
+                    M_snprintf(fullpath, sizeof(fullpath), "%s/%s", strdup(M_ExtractFolder(file)),
+                               "BTSX_E2B.WAD");
+#endif
                     return W_MergeFile(fullpath);
                 }
                 else if (!BTSXE2A && BTSXE2B)
                 {
                     static char     fullpath[MAX_PATH];
-
+#ifdef WIN32
                     M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
                         "BTSX_E2A.WAD");
+#else
+                    M_snprintf(fullpath, sizeof(fullpath), "%s/%s", strdup(M_ExtractFolder(file)),
+                               "BTSX_E2A.WAD");
+#endif
                     return W_MergeFile(fullpath);
                 }
             }
@@ -752,20 +812,30 @@ static int D_ChooseIWAD(void)
         // more than one file was selected
         else
         {
+#ifdef WIN32
             LPSTR       iwadpass = ofn.lpstrFile;
             LPSTR       pwadpass1 = ofn.lpstrFile;
             LPSTR       pwadpass2 = ofn.lpstrFile;
             LPSTR       dehpass = ofn.lpstrFile;
-            boolean     isDOOM2 = false;
-
+            
             iwadpass += lstrlen(iwadpass) + 1;
+#endif
+            bool     isDOOM2 = false;
 
             // find and add IWAD first
+#ifdef WIN32
             while (iwadpass[0])
             {
                 static char     fullpath[MAX_PATH];
-
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), iwadpass);
+                
+#elif defined __APPLE__
+            for (NSURL* url in urls)
+            {
+                char* fullpath = (char*)[url fileSystemRepresentation];
+                char* iwadpass = (char*)[[url lastPathComponent] UTF8String];
+                char* szFile = (char*)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
+#endif
 
                 if (D_IsDOOMIWAD(fullpath)
                     || (W_WadType(fullpath) == IWAD
@@ -791,7 +861,11 @@ static int D_ChooseIWAD(void)
                     static char     fullpath2[MAX_PATH];
 
                     // try the current folder first
+#ifdef WIN32
                     M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", strdup(szFile));
+#else
+                    M_snprintf(fullpath2, sizeof(fullpath2), "%s/DOOM2.WAD", strdup(szFile));
+#endif
                     IdentifyIWADByName(fullpath2);
                     if (D_AddFile(fullpath2))
                     {
@@ -807,7 +881,11 @@ static int D_ChooseIWAD(void)
                     else
                     {
                         // otherwise try the iwadfolder setting in doomretro.cfg
+#ifdef WIN32
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", iwadfolder);
+#else
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s/DOOM2.WAD", iwadfolder);
+#endif
                         IdentifyIWADByName(fullpath2);
                         if (D_AddFile(fullpath2))
                         {
@@ -823,8 +901,13 @@ static int D_ChooseIWAD(void)
                         else
                         {
                             // still nothing? try the DOOMWADDIR environment variable
+#ifdef WIN32
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD",
                                 getenv("DOOMWADDIR"));
+#else
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s/DOOM2.WAD",
+                                       getenv("DOOMWADDIR"));
+#endif
                             IdentifyIWADByName(fullpath2);
                             if (D_AddFile(fullpath2))
                             {
@@ -840,8 +923,9 @@ static int D_ChooseIWAD(void)
                         }
                     }
                 }
-
+#ifdef WIN32
                 iwadpass += lstrlen(iwadpass) + 1;
+#endif
             }
 
             // merge any pwads
@@ -851,14 +935,22 @@ static int D_ChooseIWAD(void)
                 // and then try to load it first
                 if (!iwadfound)
                 {
+#ifdef WIN32
                     pwadpass1 += lstrlen(pwadpass1) + 1;
-
+                    
                     while (pwadpass1[0])
                     {
                         static char     fullpath[MAX_PATH];
-
+                        
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
-                            pwadpass1);
+                                   pwadpass1);
+                        
+#elif defined __APPLE__
+                    for (NSURL* url in urls)
+                    {
+                        char* fullpath = (char*)[url fileSystemRepresentation];
+                        char* pwadpass1 = (char*)[[url lastPathComponent] UTF8String];
+#endif
 
                         if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
                             && !D_IsDehFile(fullpath))
@@ -870,9 +962,16 @@ static int D_ChooseIWAD(void)
                                 static char     fullpath2[MAX_PATH];
 
                                 // try the current folder first
+#ifdef WIN32
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s",
                                     strdup(M_ExtractFolder(pwadpass1)),
                                     (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#else
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s/%s",
+                                           strdup(M_ExtractFolder(pwadpass1)),
+                                           (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#endif
+                                
                                 IdentifyIWADByName(fullpath2);
                                 if (D_AddFile(fullpath2))
                                 {
@@ -882,17 +981,26 @@ static int D_ChooseIWAD(void)
                                 else
                                 {
                                     // otherwise try the iwadfolder setting in doomretro.cfg
+#ifdef WIN32
                                     M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", iwadfolder,
                                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#else
+                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s/%s", iwadfolder,
+                                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#endif
                                     IdentifyIWADByName(fullpath2);
                                     if (D_AddFile(fullpath2))
                                         iwadfound = 1;
                                     else
                                     {
                                         // still nothing? try the DOOMWADDIR environment variable
-                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s",
-                                            getenv("DOOMWADDIR"),
+#ifdef WIN32
+                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", getenv("DOOMWADDIR"),
                                             (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#else
+                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s/%s", getenv("DOOMWADDIR"),
+                                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+#endif
                                         IdentifyIWADByName(fullpath2);
                                         if (D_AddFile(fullpath2))
                                             iwadfound = 1;
@@ -900,24 +1008,30 @@ static int D_ChooseIWAD(void)
                                 }
                             }
                         }
+#ifdef WIN32
                         pwadpass1 += lstrlen(pwadpass1) + 1;
+#endif
                     }
                 }
 
                 // if an iwad has now been found, make a second pass through the pwads to merge them
                 if (iwadfound)
                 {
-                    boolean     mapspresent = false;
-
+                    bool     mapspresent = false;
+#ifdef WIN32
                     pwadpass2 += lstrlen(pwadpass2) + 1;
 
                     while (pwadpass2[0])
                     {
                         static char     fullpath[MAX_PATH];
-
+                        
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
-                            pwadpass2);
-
+                                   pwadpass2);
+#elif defined __APPLE__
+                    for (NSURL* url in urls)
+                    {
+                        char* fullpath = (char*)[url fileSystemRepresentation];
+#endif
                         if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
                             && !D_IsDehFile(fullpath))
                         {
@@ -930,17 +1044,23 @@ static int D_ChooseIWAD(void)
                             if (IWADRequiredByPWAD(fullpath) != indetermined)
                                 mapspresent = true;
                         }
-
+#ifdef WIN32
                         pwadpass2 += lstrlen(pwadpass2) + 1;
+#endif
                     }
 
                     // try to autoload NERVE.WAD if DOOM2.WAD is the iwad and none of the pwads
                     // have maps present
                     if (isDOOM2 && !mapspresent)
                     {
+#ifdef WIN32
                         static char     fullpath[MAX_PATH];
-
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), "NERVE.WAD");
+#else
+                        
+                        char* fullpath = strcat(iwadfolder, "/NERVE.WAD");
+                        //char* fullpath = (char*)[url fileSystemRepresentation];
+#endif
                         if (W_MergeFile(fullpath))
                         {
                             modifiedgame = true;
@@ -951,25 +1071,32 @@ static int D_ChooseIWAD(void)
                 }
             }
 
+#ifdef WIN32
+                    
             // process any dehacked files last of all
             dehpass += lstrlen(dehpass) + 1;
 
             while (dehpass[0])
             {
                 static char     fullpath[MAX_PATH];
-
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), dehpass);
+                
+#elif defined __APPLE__
+            for (NSURL* url in urls)
+            {
+                char* fullpath = (char*)[url fileSystemRepresentation];
+#endif
 
                 if (D_IsDehFile(fullpath))
                     LoadDehFile(fullpath);
-
+#ifdef WIN32
                 dehpass += lstrlen(dehpass) + 1;
+#endif
             }
         }
     }
     return iwadfound;
 }
-#endif
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
@@ -1061,24 +1188,26 @@ static void D_DoomMainSetup(void)
             if (runcount < RUNCOUNT_MAX)
                 runcount++;
     }
-#ifdef WIN32
     else if (!p)
     {
+#ifdef WIN32
         if (!runcount)
             D_FirstUse();
+#endif
         do
         {
             if ((choseniwad = D_ChooseIWAD()) == -1)
                 I_Quit(false);
+#ifdef WIN32
             else if (!choseniwad)
                 PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, SND_ALIAS_ID | SND_ASYNC);
+#endif
         } while (!choseniwad);
 
         if (runcount < RUNCOUNT_MAX)
             ++runcount;
     }
     M_SaveDefaults();
-#endif
 
     if (p > 0)
     {

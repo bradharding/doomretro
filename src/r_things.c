@@ -760,7 +760,7 @@ void R_AddSprites(sector_t *sec)
 //
 // R_DrawPSprite
 //
-static boolean  flash;
+static boolean  bflash;
 
 static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
 {
@@ -857,13 +857,13 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         if (state == &states[S_DSGUN])
             vis->colfunc = R_DrawSuperShotgunColumn;
         else
-            vis->colfunc = (flash && spr <= SPR_BFGF && !dehacked ? colfuncs[spr] : basecolfunc);
+            vis->colfunc = (bflash && spr <= SPR_BFGF && !dehacked ? colfuncs[spr] : basecolfunc);
 
         if (fixedcolormap)
             vis->colormap = fixedcolormap;      // fixed color
         else
         {
-            if (flash || (state->frame & FF_FULLBRIGHT))
+            if (bflash || (state->frame & FF_FULLBRIGHT))
                 vis->colormap = colormaps;      // full bright
             else
             {
@@ -907,10 +907,10 @@ static void R_DrawPlayerSprites(void)
     }
     else
     {
-        flash = false;
+        bflash = false;
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state && (psp->state->frame & FF_FULLBRIGHT))
-                flash = true;
+                bflash = true;
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
                 R_DrawPSprite(psp, false);

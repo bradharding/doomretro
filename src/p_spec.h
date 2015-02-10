@@ -268,14 +268,14 @@ void P_ActivateInStasis(int tag);
 //
 typedef enum
 {
-    normal,
-    close30ThenOpen,
-    close,
-    open,
-    raiseIn5Mins,
-    blazeRaise,
-    blazeOpen,
-    blazeClose
+    doorNormal,
+    doorClose30ThenOpen,
+    doorClose,
+    doorOpen,
+    doorRaiseIn5Mins,
+    doorBlazeRaise,
+    doorBlazeOpen,
+    doorBlazeClose
 } vldoor_e;
 
 typedef struct

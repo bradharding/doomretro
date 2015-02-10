@@ -211,7 +211,7 @@ boolean P_BlockThingsIterator(int x, int y, boolean(*func)(mobj_t *));
 #define PT_ADDTHINGS    2
 #define PT_EARLYOUT     4
 
-extern divline_t        trace;
+extern divline_t        dlTrace;
 
 boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags,
                        boolean (*trav)(intercept_t *));

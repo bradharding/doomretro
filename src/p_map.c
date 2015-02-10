@@ -1452,8 +1452,8 @@ boolean PTR_ShootTraverse(intercept_t *in)
 hitline:
         // position a bit closer
         frac = in->frac - FixedDiv(4 * FRACUNIT, attackrange);
-        x = trace.x + FixedMul(trace.dx, frac);
-        y = trace.y + FixedMul(trace.dy, frac);
+        x = dlTrace.x + FixedMul(dlTrace.dx, frac);
+        y = dlTrace.y + FixedMul(dlTrace.dy, frac);
         z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
 
         if (li->frontsector->ceilingpic == skyflatnum)
@@ -1499,8 +1499,8 @@ hitline:
     // position a bit closer
     frac = in->frac - FixedDiv(10 * FRACUNIT, attackrange);
 
-    x = trace.x + FixedMul(trace.dx, frac);
-    y = trace.y + FixedMul(trace.dy, frac);
+    x = dlTrace.x + FixedMul(dlTrace.dx, frac);
+    y = dlTrace.y + FixedMul(dlTrace.dy, frac);
     z = shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
 
     // Spawn bullet puffs or blood spots,
