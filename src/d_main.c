@@ -650,24 +650,27 @@ static int D_ChooseIWAD(void)
 
     if (fileopenedok)
     {
+        bool onlyoneselected;
+
         iwadfound = 0;
 
         // only one file was selected
-        bool onlyoneselected;
 #ifdef WIN32
         onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
 #elif defined __APPLE__
         NSArray *urls = [panel URLs];
+
         onlyoneselected = [urls count] == 1;
 #endif
         if (onlyoneselected)
         {
-            char* file;
+            char        *file;
 #ifdef WIN32
             file = (char*)ofn.lpstrFile;
 #elif defined __APPLE__
-            NSURL *url = [urls objectAtIndex:0];
-            file = (char*)[url fileSystemRepresentation];
+            NSURL       *url = [urls objectAtIndex:0];
+
+            file = (char *)[url fileSystemRepresentation];
 #endif
 
             // check if it's a valid and supported IWAD
@@ -685,13 +688,9 @@ static int D_ChooseIWAD(void)
                     if (D_CheckFilename(file, "DOOM2.WAD"))
                     {
                         static char     fullpath[MAX_PATH];
-#ifdef WIN32
-                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
-                            "NERVE.WAD");
-#else
-                        M_snprintf(fullpath, sizeof(fullpath), "%s/%s", strdup(M_ExtractFolder(file)),
-                                   "NERVE.WAD");
-#endif
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                            strdup(M_ExtractFolder(file)), "NERVE.WAD");
                         if (W_MergeFile(fullpath))
                         {
                             modifiedgame = true;
@@ -715,13 +714,8 @@ static int D_ChooseIWAD(void)
                         return 0;
 
                 // try the current folder first
-#ifdef WIN32
-                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
-                           (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#else
-                M_snprintf(fullpath, sizeof(fullpath), "%s/%s", strdup(M_ExtractFolder(file)),
-                           (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#endif
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                    strdup(M_ExtractFolder(file)), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath))
                 {
@@ -737,13 +731,8 @@ static int D_ChooseIWAD(void)
                 else
                 {
                     // otherwise try the iwadfolder setting in doomretro.cfg
-#ifdef WIN32
-                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", iwadfolder,
-                               (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#else
-                    M_snprintf(fullpath, sizeof(fullpath), "%s/%s", iwadfolder,
-                               (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#endif
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
+                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
                     if (D_AddFile(fullpath))
                     {
@@ -758,13 +747,8 @@ static int D_ChooseIWAD(void)
                     else
                     {
                         // still nothing? try the DOOMWADDIR environment variable
-#ifdef WIN32
-                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", getenv("DOOMWADDIR"),
-                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#else
-                        M_snprintf(fullpath, sizeof(fullpath), "%s/%s", getenv("DOOMWADDIR"),
-                                   (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#endif
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                            getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                         IdentifyIWADByName(fullpath);
                         if (D_AddFile(fullpath))
                         {
@@ -785,25 +769,17 @@ static int D_ChooseIWAD(void)
                 if (BTSXE2A && !BTSXE2B)
                 {
                     static char     fullpath[MAX_PATH];
-#ifdef WIN32
-                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
-                        "BTSX_E2B.WAD");
-#else
-                    M_snprintf(fullpath, sizeof(fullpath), "%s/%s", strdup(M_ExtractFolder(file)),
-                               "BTSX_E2B.WAD");
-#endif
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        strdup(M_ExtractFolder(file)), "BTSX_E2B.WAD");
                     return W_MergeFile(fullpath);
                 }
                 else if (!BTSXE2A && BTSXE2B)
                 {
                     static char     fullpath[MAX_PATH];
-#ifdef WIN32
-                    M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(M_ExtractFolder(file)),
-                        "BTSX_E2A.WAD");
-#else
-                    M_snprintf(fullpath, sizeof(fullpath), "%s/%s", strdup(M_ExtractFolder(file)),
-                               "BTSX_E2A.WAD");
-#endif
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        strdup(M_ExtractFolder(file)), "BTSX_E2A.WAD");
                     return W_MergeFile(fullpath);
                 }
             }
@@ -812,6 +788,8 @@ static int D_ChooseIWAD(void)
         // more than one file was selected
         else
         {
+            bool        isDOOM2 = false;
+
 #ifdef WIN32
             LPSTR       iwadpass = ofn.lpstrFile;
             LPSTR       pwadpass1 = ofn.lpstrFile;
@@ -819,22 +797,20 @@ static int D_ChooseIWAD(void)
             LPSTR       dehpass = ofn.lpstrFile;
             
             iwadpass += lstrlen(iwadpass) + 1;
-#endif
-            bool     isDOOM2 = false;
 
             // find and add IWAD first
-#ifdef WIN32
             while (iwadpass[0])
             {
                 static char     fullpath[MAX_PATH];
+
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), iwadpass);
                 
 #elif defined __APPLE__
             for (NSURL* url in urls)
             {
-                char* fullpath = (char*)[url fileSystemRepresentation];
-                char* iwadpass = (char*)[[url lastPathComponent] UTF8String];
-                char* szFile = (char*)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
+                char    *fullpath = (char *)[url fileSystemRepresentation];
+                char    *iwadpass = (char *)[[url lastPathComponent] UTF8String];
+                char    *szFile = (char *)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
 #endif
 
                 if (D_IsDOOMIWAD(fullpath)
@@ -861,11 +837,8 @@ static int D_ChooseIWAD(void)
                     static char     fullpath2[MAX_PATH];
 
                     // try the current folder first
-#ifdef WIN32
-                    M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", strdup(szFile));
-#else
-                    M_snprintf(fullpath2, sizeof(fullpath2), "%s/DOOM2.WAD", strdup(szFile));
-#endif
+                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                        strdup(szFile));
                     IdentifyIWADByName(fullpath2);
                     if (D_AddFile(fullpath2))
                     {
@@ -881,11 +854,8 @@ static int D_ChooseIWAD(void)
                     else
                     {
                         // otherwise try the iwadfolder setting in doomretro.cfg
-#ifdef WIN32
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD", iwadfolder);
-#else
-                        M_snprintf(fullpath2, sizeof(fullpath2), "%s/DOOM2.WAD", iwadfolder);
-#endif
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                            iwadfolder);
                         IdentifyIWADByName(fullpath2);
                         if (D_AddFile(fullpath2))
                         {
@@ -901,13 +871,8 @@ static int D_ChooseIWAD(void)
                         else
                         {
                             // still nothing? try the DOOMWADDIR environment variable
-#ifdef WIN32
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s\\DOOM2.WAD",
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
                                 getenv("DOOMWADDIR"));
-#else
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s/DOOM2.WAD",
-                                       getenv("DOOMWADDIR"));
-#endif
                             IdentifyIWADByName(fullpath2);
                             if (D_AddFile(fullpath2))
                             {
@@ -944,12 +909,11 @@ static int D_ChooseIWAD(void)
                         
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
                                    pwadpass1);
-                        
 #elif defined __APPLE__
                     for (NSURL* url in urls)
                     {
-                        char* fullpath = (char*)[url fileSystemRepresentation];
-                        char* pwadpass1 = (char*)[[url lastPathComponent] UTF8String];
+                        char    *fullpath = (char *)[url fileSystemRepresentation];
+                        char    *pwadpass1 = (char *)[[url lastPathComponent] UTF8String];
 #endif
 
                         if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
@@ -962,16 +926,9 @@ static int D_ChooseIWAD(void)
                                 static char     fullpath2[MAX_PATH];
 
                                 // try the current folder first
-#ifdef WIN32
-                                M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s",
+                                M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                     strdup(M_ExtractFolder(pwadpass1)),
                                     (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#else
-                                M_snprintf(fullpath2, sizeof(fullpath2), "%s/%s",
-                                           strdup(M_ExtractFolder(pwadpass1)),
-                                           (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#endif
-                                
                                 IdentifyIWADByName(fullpath2);
                                 if (D_AddFile(fullpath2))
                                 {
@@ -981,26 +938,16 @@ static int D_ChooseIWAD(void)
                                 else
                                 {
                                     // otherwise try the iwadfolder setting in doomretro.cfg
-#ifdef WIN32
-                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", iwadfolder,
-                                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#else
-                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s/%s", iwadfolder,
-                                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#endif
+                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
+                                        iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                     IdentifyIWADByName(fullpath2);
                                     if (D_AddFile(fullpath2))
                                         iwadfound = 1;
                                     else
                                     {
                                         // still nothing? try the DOOMWADDIR environment variable
-#ifdef WIN32
-                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s\\%s", getenv("DOOMWADDIR"),
-                                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#else
-                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s/%s", getenv("DOOMWADDIR"),
-                                            (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-#endif
+                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
+                                            getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                         IdentifyIWADByName(fullpath2);
                                         if (D_AddFile(fullpath2))
                                             iwadfound = 1;
@@ -1028,9 +975,9 @@ static int D_ChooseIWAD(void)
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
                                    pwadpass2);
 #elif defined __APPLE__
-                    for (NSURL* url in urls)
+                    for (NSURL *url in urls)
                     {
-                        char* fullpath = (char*)[url fileSystemRepresentation];
+                        char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
                         if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
                             && !D_IsDehFile(fullpath))
@@ -1053,14 +1000,10 @@ static int D_ChooseIWAD(void)
                     // have maps present
                     if (isDOOM2 && !mapspresent)
                     {
-#ifdef WIN32
                         static char     fullpath[MAX_PATH];
-                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), "NERVE.WAD");
-#else
-                        
-                        char* fullpath = strcat(iwadfolder, "/NERVE.WAD");
-                        //char* fullpath = (char*)[url fileSystemRepresentation];
-#endif
+
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                            strdup(szFile), "NERVE.WAD");
                         if (W_MergeFile(fullpath))
                         {
                             modifiedgame = true;
@@ -1072,7 +1015,6 @@ static int D_ChooseIWAD(void)
             }
 
 #ifdef WIN32
-                    
             // process any dehacked files last of all
             dehpass += lstrlen(dehpass) + 1;
 
@@ -1082,9 +1024,9 @@ static int D_ChooseIWAD(void)
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), dehpass);
                 
 #elif defined __APPLE__
-            for (NSURL* url in urls)
+            for (NSURL *url in urls)
             {
-                char* fullpath = (char*)[url fileSystemRepresentation];
+                char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
 
                 if (D_IsDehFile(fullpath))
