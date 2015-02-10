@@ -507,8 +507,15 @@ deh_strs deh_strlookup[] =
     { &s_MSGOFF,               "MSGOFF",               false },
     { &s_MSGON,                "MSGON",                false },
     { &s_ENDGAME,              "ENDGAME",              false },
+
+#ifndef WIN32
     { &s_DOSY,                 "DOSY",                 false },
     { &s_DOSA,                 "DOSA",                 false },
+#else
+    { &s_DOSY,                 "OTHERY",               false },
+    { &s_DOSA,                 "OTHERA",               false },
+#endif
+
     { &s_DETAILHI,             "DETAILHI",             false },
     { &s_DETAILLO,             "DETAILLO",             false },
     { &s_GAMMALVL,             "GAMMALVL",             false },
