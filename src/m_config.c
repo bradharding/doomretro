@@ -1073,7 +1073,6 @@ static void M_CheckDefaults(void)
 
     if (fullscreen != false && fullscreen != true)
         fullscreen = FULLSCREEN_DEFAULT;
-    fullscreen = false;
 
     if (gamepadautomap < 0 || gamepadautomap > GAMEPAD_Y
         || (gamepadautomap & (gamepadautomap - 1)))
