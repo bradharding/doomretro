@@ -596,7 +596,7 @@ static boolean D_IsUnsupportedPWAD(char *filename)
 
 static void D_FirstUse(void)
 {
-    #ifdef WIN32
+#ifdef WIN32
     LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
         L"Please note that, as with all DOOM source ports, no actual map data is "
         L"distributed with " PACKAGE_NAME_W L".\n\n"
@@ -608,9 +608,10 @@ static void D_FirstUse(void)
 
     if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
         I_Quit(false);
-    
+
 #elif defined __MACOSX__
-    NSMutableString *msg = [[NSMutableString alloc]init];
+    NSMutableString     *msg = [[NSMutableString alloc]init];
+
     [msg appendString:@"Thank you for downloading "];
     [msg appendString:@PACKAGE_NAME];
     [msg appendString:@"!\n\n"];
@@ -625,9 +626,9 @@ static void D_FirstUse(void)
     [msg appendString:@"DOOM2.WAD) has been installed.\n\n"];
     [msg appendString:@"Additional \"PWAD files\" may then be selected by clicking or "];
     [msg appendString:@"CMD-clicking on them."];
-    
-    NSAlert *alert = [[NSAlert alloc] init];
-    
+
+    NSAlert     *alert = [[NSAlert alloc] init];
+
     [alert setMessageText:msg];
     [alert addButtonWithTitle:@"OK"];
     [alert runModal];
@@ -637,8 +638,8 @@ static void D_FirstUse(void)
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;
-    bool             sharewareiwad = false;
-    bool             fileopenedok = false;
+    bool                sharewareiwad = false;
+    bool                fileopenedok = false;
 
 #ifdef WIN32
     OPENFILENAME        ofn;
@@ -660,20 +661,23 @@ static int D_ChooseIWAD(void)
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
     
     fileopenedok = GetOpenFileName(&ofn);
+
 #elif defined __MACOSX__
     NSOpenPanel *panel = [NSOpenPanel openPanel];
+
     [panel setCanChooseFiles:YES];
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:YES];
-    [panel setTitle:@"Where's all the data?"];
-    
-    NSInteger clicked = [panel runModal];
+    [panel setTitle:@"Where's All the Data?"];
+
+    NSInteger   clicked = [panel runModal];
+
     fileopenedok = clicked == NSFileHandlingPanelOKButton;
 #endif
 
     if (fileopenedok)
     {
-        bool onlyoneselected;
+        boolean onlyoneselected;
 
         iwadfound = 0;
 
@@ -829,13 +833,13 @@ static int D_ChooseIWAD(void)
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), iwadpass);
                 
 #elif defined __MACOSX__
-            char    *szFile;
-                
+            char        *szFile;
+
             for (NSURL* url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
                 char    *iwadpass = (char *)[[url lastPathComponent] UTF8String];
-                
+
                 szFile = (char *)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
 #endif
 
