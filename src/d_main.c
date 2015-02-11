@@ -806,11 +806,14 @@ static int D_ChooseIWAD(void)
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), iwadpass);
                 
 #elif defined __APPLE__
+            char    *szFile;
+                
             for (NSURL* url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
                 char    *iwadpass = (char *)[[url lastPathComponent] UTF8String];
-                char    *szFile = (char *)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
+                
+                szFile = (char *)[[url URLByDeletingLastPathComponent] fileSystemRepresentation];
 #endif
 
                 if (D_IsDOOMIWAD(fullpath)
