@@ -37,6 +37,7 @@
 */
 
 #include "c_cmds.h"
+#include "c_console.h"
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -78,7 +79,7 @@ patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
 patch_t         *ldquote;
 
-char            **consolestring = NULL;
+console_t       *console;
 char            consoleinput[255] = "";
 int             consolestrings = 0;
 
@@ -94,17 +95,21 @@ char            consolecommandparm[255] = "";
 static int      autocomplete = -1;
 static char     autocompletetext[255] = "";
 
+static int      history = -1;
+
 extern byte     *tinttab75;
 
-void C_AddConsoleString(char *string)
+void C_AddConsoleString(char *string, stringtype_t type)
 {
-    consolestring = (char **)realloc(consolestring, (consolestrings + 1) * sizeof(char *));
-    consolestring[consolestrings++] = strdup(string);
+    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console[consolestrings].string = strdup(string);
+    console[consolestrings].type = type;
+    ++consolestrings;
 }
 
 void C_AddConsoleDivider(void)
 {
-    C_AddConsoleString(DIVIDER);
+    C_AddConsoleString(DIVIDER, output);
 }
 
 static void C_DrawDivider(int y)
@@ -285,7 +290,7 @@ void C_Drawer(void)
         for (i = start; i < consolestrings; ++i)
             C_DrawText(CONSOLETEXTX, 
                 CONSOLETEXTY + CONSOLELINEHEIGHT * (i - start + MAX(0, 10 - consolestrings)),
-                consolestring[i]);
+                console[i].string);
 
         // draw input text to left of caret
         for (i = 0; i < caretpos; ++i)
@@ -317,9 +322,9 @@ boolean C_Responder(event_t *ev)
 
     if (ev->type == ev_keydown)
     {
-        int             key = ev->data1;
-        int             ch = ev->data2;
-        size_t          i;
+        int     key = ev->data1;
+        int     ch = ev->data2;
+        int     i;
 
 #ifdef SDL20
         SDL_Keymod      modstate = SDL_GetModState();
@@ -385,7 +390,7 @@ boolean C_Responder(event_t *ev)
                                         && consolecommands[i].condition(command))
                                     {
                                         validcommand = true;
-                                        C_AddConsoleString(consoleinput);
+                                        C_AddConsoleString(consoleinput, input);
                                         M_StringCopy(consolecheat, command, 255);
                                         break;
                                     }
@@ -399,7 +404,7 @@ boolean C_Responder(event_t *ev)
                                     && consolecommands[i].condition(command))
                                 {
                                     validcommand = true;
-                                    C_AddConsoleString(consoleinput);
+                                    C_AddConsoleString(consoleinput, input);
                                     consolecommands[i].func();
                                     consolecommandparm[0] = 0;
                                     break;
@@ -410,7 +415,7 @@ boolean C_Responder(event_t *ev)
                             && consolecommands[i].condition(consoleinput))
                         {
                             validcommand = true;
-                            C_AddConsoleString(consoleinput);
+                            C_AddConsoleString(consoleinput, input);
                             if (consolecommands[i].condition == C_CheatCondition)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
@@ -505,6 +510,48 @@ boolean C_Responder(event_t *ev)
                 }
                 break;
 
+            // previous input
+            case KEY_UPARROW:
+                for (i = (history == -1 ? consolestrings - 2 : history - 1); i >= 0; --i)
+                {
+                    if (console[i].type == input)
+                    {
+                        history = i;
+                        M_StringCopy(consoleinput, console[i].string, 255);
+                        caretpos = strlen(consoleinput);
+                        carettics = 0;
+                        showcaret = true;
+                        break;
+                    }
+                }
+                break;
+
+            // next input
+            case KEY_DOWNARROW:
+                if (history != -1)
+                {
+                    for (i = history + 1; i < consolestrings; ++i)
+                        if (console[i].type == input)
+                        {
+                            history = i;
+                            M_StringCopy(consoleinput, console[i].string, 255);
+                            caretpos = strlen(consoleinput);
+                            carettics = 0;
+                            showcaret = true;
+                            break;
+                        }
+                    if (i == consolestrings)
+                    {
+                        history = -1;
+                        consoleinput[0] = 0;
+                        caretpos = 0;
+                        carettics = 0;
+                        showcaret = true;
+                        break;
+                    }
+                }
+                break;
+
             default:
                 if (modstate & KMOD_SHIFT)
                     ch = toupper(ch);
@@ -514,7 +561,7 @@ boolean C_Responder(event_t *ev)
                     && !(modstate & (KMOD_ALT | KMOD_CTRL)))
                 {
                     consoleinput[strlen(consoleinput) + 1] = '\0';
-                    for (i = strlen(consoleinput); i > (unsigned int)caretpos; --i)
+                    for (i = strlen(consoleinput); i > caretpos; --i)
                         consoleinput[i] = consoleinput[i - 1];
                     consoleinput[caretpos++] = ch;
                     carettics = 0;
@@ -524,6 +571,9 @@ boolean C_Responder(event_t *ev)
 
         if (autocomplete != -1 && key != KEY_TAB)
             autocomplete = -1;
+
+        if (history != -1 && key != KEY_UPARROW && key != KEY_DOWNARROW)
+            history = -1;
     }
     return true;
 }

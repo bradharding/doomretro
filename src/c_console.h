@@ -42,6 +42,19 @@
 #include "doomtype.h"
 #include "d_event.h"
 
+typedef enum
+{
+    input,
+    output,
+    title
+} stringtype_t;
+
+typedef struct
+{
+    char                *string;
+    stringtype_t        type;
+} console_t;
+
 extern int      consoleheight;
 extern int      consoledirection;
 
@@ -49,7 +62,7 @@ extern char     consolecheat[255];
 extern char     consolecheatparm[3];
 extern char     consolecommandparm[255];
 
-void C_AddConsoleString(char *string);
+void C_AddConsoleString(char *string, stringtype_t type);
 void C_AddConsoleDivider(void);
 void C_Init(void);
 void C_Drawer(void);

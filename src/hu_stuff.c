@@ -580,7 +580,7 @@ void HU_Ticker(void)
         if ((plr->message && !message_nottobefuckedwith)
             || (plr->message && message_dontfuckwithme))
         {
-            C_AddConsoleString(plr->message);
+            C_AddConsoleString(plr->message, output);
             if (messages || message_dontfuckwithme)
             {
                 char    *s = Z_Malloc(133, PU_STATIC, NULL);
