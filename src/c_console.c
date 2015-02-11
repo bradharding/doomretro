@@ -446,6 +446,10 @@ boolean C_Responder(event_t *ev)
                         showcaret = true;
                     }
 
+                    autocomplete = -1;
+                    inputhistory = -1;
+                    outputhistory = -1;
+
                     return !consolecheat[0];
                 }
                 break;
