@@ -590,9 +590,13 @@ static boolean D_IsUnsupportedPWAD(char *filename)
     return (D_CheckFilename(filename, "VOICES.WAD"));
 }
 
-#ifdef WIN32
+#ifdef __MACOSX__
+#import <Cocoa/Cocoa.h>
+#endif
+
 static void D_FirstUse(void)
 {
+    #ifdef WIN32
     LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
         L"Please note that, as with all DOOM source ports, no actual map data is "
         L"distributed with " PACKAGE_NAME_W L".\n\n"
@@ -604,12 +608,31 @@ static void D_FirstUse(void)
 
     if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
         I_Quit(false);
+    
+#elif defined __MACOSX__
+    NSMutableString *msg = [[NSMutableString alloc]init];
+    [msg appendString:@"Thank you for downloading "];
+    [msg appendString:@PACKAGE_NAME];
+    [msg appendString:@"!\n\n"];
+    [msg appendString:@"Please note that, as with all DOOM source ports, no actual map data is "];
+    [msg appendString:@"distributed with "];
+    [msg appendString:@PACKAGE_NAME];
+    [msg appendString:@"!\n\n"];
+    [msg appendString:@"In the dialog box that follows, please navigate to where an official "];
+    [msg appendString:@"\"IWAD file\" that"];
+    [msg appendString:@PACKAGE_NAME];
+    [msg appendString:@"requires (such as DOOM.WAD or "];
+    [msg appendString:@"DOOM2.WAD) has been installed.\n\n"];
+    [msg appendString:@"Additional \"PWAD files\" may then be selected by clicking or "];
+    [msg appendString:@"CMD-clicking on them."];
+    
+    NSAlert *alert = [[NSAlert alloc] init];
+    
+    [alert setMessageText:msg];
+    [alert addButtonWithTitle:@"OK"];
+    [alert runModal];
+#endif
 }
-#endif
-
-#ifdef __APPLE__
-#import <Cocoa/Cocoa.h>
-#endif
 
 static int D_ChooseIWAD(void)
 {
@@ -637,7 +660,7 @@ static int D_ChooseIWAD(void)
     ofn.lpstrTitle = "Where\u2019s All the Data?\0";
     
     fileopenedok = GetOpenFileName(&ofn);
-#elif defined __APPLE__
+#elif defined __MACOSX__
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setCanChooseFiles:YES];
     [panel setCanChooseDirectories:NO];
@@ -657,7 +680,7 @@ static int D_ChooseIWAD(void)
         // only one file was selected
 #ifdef WIN32
         onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
-#elif defined __APPLE__
+#elif defined __MACOSX__
         NSArray *urls = [panel URLs];
 
         onlyoneselected = [urls count] == 1;
@@ -667,7 +690,7 @@ static int D_ChooseIWAD(void)
             char        *file;
 #ifdef WIN32
             file = (char*)ofn.lpstrFile;
-#elif defined __APPLE__
+#elif defined __MACOSX__
             NSURL       *url = [urls objectAtIndex:0];
 
             file = (char *)[url fileSystemRepresentation];
@@ -805,7 +828,7 @@ static int D_ChooseIWAD(void)
 
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), iwadpass);
                 
-#elif defined __APPLE__
+#elif defined __MACOSX__
             char    *szFile;
                 
             for (NSURL* url in urls)
@@ -912,7 +935,7 @@ static int D_ChooseIWAD(void)
                         
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
                                    pwadpass1);
-#elif defined __APPLE__
+#elif defined __MACOSX__
                     for (NSURL* url in urls)
                     {
                         char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -977,7 +1000,7 @@ static int D_ChooseIWAD(void)
                         
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
                                    pwadpass2);
-#elif defined __APPLE__
+#elif defined __MACOSX__
                     for (NSURL *url in urls)
                     {
                         char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1026,7 +1049,7 @@ static int D_ChooseIWAD(void)
                 static char     fullpath[MAX_PATH];
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), dehpass);
                 
-#elif defined __APPLE__
+#elif defined __MACOSX__
             for (NSURL *url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1135,10 +1158,8 @@ static void D_DoomMainSetup(void)
     }
     else if (!p)
     {
-#ifdef WIN32
         if (!runcount)
             D_FirstUse();
-#endif
         do
         {
             if ((choseniwad = D_ChooseIWAD()) == -1)
