@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <ctype.h>
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_event.h"
@@ -43,6 +45,7 @@
 #include "g_game.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "i_video.h"
 #include "m_cheat.h"
 #include "m_menu.h"
 #include "m_misc.h"
