@@ -715,11 +715,6 @@ static void SaveDefaultCollection(default_collection_t *collection)
     if (!f)
         return; // can't write the file, but don't complain
 
-    fprintf(f, "#\n"
-               "# DOOM RETRO Configuration File\n"
-               "# Go to http://wiki.doomretro.com for information on changing these settings.\n"
-               "#\n");
-
     defaults = collection->defaults;
 
     for (i = 0; i < collection->numdefaults; i++)
