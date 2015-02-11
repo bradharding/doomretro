@@ -594,6 +594,7 @@ static boolean D_IsUnsupportedPWAD(char *filename)
 #import <Cocoa/Cocoa.h>
 #endif
 
+#if defined WIN32 || __MACOSX__
 static void D_FirstUse(void)
 {
 #ifdef WIN32
@@ -1069,6 +1070,7 @@ static int D_ChooseIWAD(void)
     }
     return iwadfound;
 }
+#endif
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
@@ -1160,6 +1162,7 @@ static void D_DoomMainSetup(void)
             if (runcount < RUNCOUNT_MAX)
                 runcount++;
     }
+#if defined WIN32 || __MACOSX__
     else if (!p)
     {
         if (!runcount)
@@ -1178,6 +1181,7 @@ static void D_DoomMainSetup(void)
             ++runcount;
     }
     M_SaveDefaults();
+#endif
 
     if (p > 0)
     {
