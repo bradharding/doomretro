@@ -95,7 +95,9 @@ char            consolecommandparm[255] = "";
 static int      autocomplete = -1;
 static char     autocompletetext[255] = "";
 
-static int      history = -1;
+static int      inputhistory = -1;
+
+static int      outputhistory = -1;
 
 extern byte     *tinttab75;
 
@@ -272,6 +274,7 @@ void C_Drawer(void)
     {
         int     i;
         int     start;
+        int     end;
         char    *left = Z_Malloc(512, PU_STATIC, NULL);
         char    *right = Z_Malloc(512, PU_STATIC, NULL);
 
@@ -286,8 +289,17 @@ void C_Drawer(void)
             CONSOLEHEIGHT - 15, PACKAGE_VERSIONSTRING);
 
         // draw console text
-        start = MAX(0, consolestrings - 10);
-        for (i = start; i < consolestrings; ++i)
+        if (outputhistory == -1)
+        {
+            start = MAX(0, consolestrings - 10);
+            end = consolestrings;
+        }
+        else
+        {
+            start = outputhistory;
+            end = outputhistory + 10;
+        }
+        for (i = start; i < end; ++i)
             C_DrawText(CONSOLETEXTX, 
                 CONSOLETEXTY + CONSOLELINEHEIGHT * (i - start + MAX(0, 10 - consolestrings)),
                 console[i].string);
@@ -430,6 +442,8 @@ boolean C_Responder(event_t *ev)
                         // clear input
                         consoleinput[0] = 0;
                         caretpos = 0;
+                        carettics = 0;
+                        showcaret = true;
                     }
 
                     return !consolecheat[0];
@@ -512,11 +526,11 @@ boolean C_Responder(event_t *ev)
 
             // previous input
             case KEY_UPARROW:
-                for (i = (history == -1 ? consolestrings - 2 : history - 1); i >= 0; --i)
+                for (i = (inputhistory == -1 ? consolestrings - 2 : inputhistory - 1); i >= 0; --i)
                 {
                     if (console[i].type == input)
                     {
-                        history = i;
+                        inputhistory = i;
                         M_StringCopy(consoleinput, console[i].string, 255);
                         caretpos = strlen(consoleinput);
                         carettics = 0;
@@ -528,27 +542,39 @@ boolean C_Responder(event_t *ev)
 
             // next input
             case KEY_DOWNARROW:
-                if (history != -1)
+                if (inputhistory != -1)
                 {
-                    for (i = history + 1; i < consolestrings; ++i)
+                    for (i = inputhistory + 1; i < consolestrings; ++i)
                         if (console[i].type == input)
                         {
-                            history = i;
+                            inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, 255);
-                            caretpos = strlen(consoleinput);
-                            carettics = 0;
-                            showcaret = true;
                             break;
                         }
                     if (i == consolestrings)
                     {
-                        history = -1;
+                        inputhistory = -1;
                         consoleinput[0] = 0;
-                        caretpos = 0;
-                        carettics = 0;
-                        showcaret = true;
-                        break;
                     }
+                    caretpos = strlen(consoleinput);
+                    carettics = 0;
+                    showcaret = true;
+                }
+                break;
+
+            // scroll output up
+            case KEY_PGUP:
+                if (consolestrings > 10)
+                    outputhistory = (outputhistory == -1 ? consolestrings - 11 : MAX(0, outputhistory - 1));
+                break;
+
+            // scroll output down
+            case KEY_PGDN:
+                if (outputhistory != -1)
+                {
+                    ++outputhistory;
+                    if (outputhistory + 10 == consolestrings)
+                        outputhistory = -1;
                 }
                 break;
 
@@ -572,8 +598,11 @@ boolean C_Responder(event_t *ev)
         if (autocomplete != -1 && key != KEY_TAB)
             autocomplete = -1;
 
-        if (history != -1 && key != KEY_UPARROW && key != KEY_DOWNARROW)
-            history = -1;
+        if (inputhistory != -1 && key != KEY_UPARROW && key != KEY_DOWNARROW)
+            inputhistory = -1;
+
+        if (outputhistory != -1 && key != KEY_PGUP && key != KEY_PGDN)
+            outputhistory = -1;
     }
     return true;
 }
