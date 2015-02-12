@@ -47,6 +47,14 @@
 // Use builtin bool type with C++.
 typedef bool boolean;
 
+#elif defined __MACOSX__
+
+typedef enum
+{
+    false,
+    true
+} boolean;
+
 #else
 
 typedef enum
