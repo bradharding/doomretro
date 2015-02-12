@@ -44,6 +44,7 @@
 #include "i_swap.h"
 #include "i_system.h"
 #include "m_cheat.h"
+#include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
 #include "p_local.h"
@@ -60,6 +61,7 @@ boolean C_NoCondition(char *);
 boolean C_SummonCondition(char *);
 
 void C_CmdList(void);
+void C_CvarList(void);
 void C_God(void);
 void C_Map(void);
 void C_NoClip(void);
@@ -68,29 +70,30 @@ void C_Summon(void);
 
 consolecommand_t consolecommands[] =
 {
-    { "cmdlist",    C_NoCondition,     C_CmdList, 0, "Display a list of console commands." },
-    { "god",        C_GameCondition,   C_God,     0, "Toggle degreelessness mode on/off."  },
-    { "idbeholda",  C_CheatCondition,  NULL,      0, ""                                    },
-    { "idbeholdl",  C_CheatCondition,  NULL,      0, ""                                    },
-    { "idbeholdi",  C_CheatCondition,  NULL,      0, ""                                    },
-    { "idbeholdr",  C_CheatCondition,  NULL,      0, ""                                    },
-    { "idbeholds",  C_CheatCondition,  NULL,      0, ""                                    },
-    { "idbeholdv",  C_CheatCondition,  NULL,      0, ""                                    },
-    { "idchoppers", C_CheatCondition,  NULL,      0, ""                                    },
-    { "idclev",     C_CheatCondition,  NULL,      1, ""                                    },
-    { "idclip",     C_CheatCondition,  NULL,      0, ""                                    },
-    { "iddqd",      C_CheatCondition,  NULL,      0, ""                                    },
-    { "iddt",       C_CheatCondition,  NULL,      0, ""                                    },
-    { "idfa",       C_CheatCondition,  NULL,      0, ""                                    },
-    { "idkfa",      C_CheatCondition,  NULL,      0, ""                                    },
-    { "idmus",      C_CheatCondition,  NULL,      1, ""                                    },
-    { "idmypos",    C_CheatCondition,  NULL,      0, ""                                    },
-    { "idspispopd", C_CheatCondition,  NULL,      0, ""                                    },
-    { "map",        C_MapCondition,    C_Map,     1, "Warp to a map."                      },
-    { "noclip",     C_GameCondition,   C_NoClip,  0, "Toggle no clipping mode on/off."     },
-    { "quit",       C_NoCondition,     C_Quit,    0, "Quit DOOM RETRO."                    },
-    { "summon",     C_SummonCondition, C_Summon,  1, "Summon a monster or map decoration." },
-    { "",           C_NoCondition,     NULL,      0, ""                                    }
+    { "cmdlist",    C_NoCondition,     C_CmdList,  0, "Display a list of console commands."  },
+    { "cvarlist",   C_NoCondition,     C_CvarList, 0, "Display a list of console variables." },
+    { "god",        C_GameCondition,   C_God,      0, "Toggle degreelessness mode on/off."   },
+    { "idbeholda",  C_CheatCondition,  NULL,       0, ""                                     },
+    { "idbeholdl",  C_CheatCondition,  NULL,       0, ""                                     },
+    { "idbeholdi",  C_CheatCondition,  NULL,       0, ""                                     },
+    { "idbeholdr",  C_CheatCondition,  NULL,       0, ""                                     },
+    { "idbeholds",  C_CheatCondition,  NULL,       0, ""                                     },
+    { "idbeholdv",  C_CheatCondition,  NULL,       0, ""                                     },
+    { "idchoppers", C_CheatCondition,  NULL,       0, ""                                     },
+    { "idclev",     C_CheatCondition,  NULL,       1, ""                                     },
+    { "idclip",     C_CheatCondition,  NULL,       0, ""                                     },
+    { "iddqd",      C_CheatCondition,  NULL,       0, ""                                     },
+    { "iddt",       C_CheatCondition,  NULL,       0, ""                                     },
+    { "idfa",       C_CheatCondition,  NULL,       0, ""                                     },
+    { "idkfa",      C_CheatCondition,  NULL,       0, ""                                     },
+    { "idmus",      C_CheatCondition,  NULL,       1, ""                                     },
+    { "idmypos",    C_CheatCondition,  NULL,       0, ""                                     },
+    { "idspispopd", C_CheatCondition,  NULL,       0, ""                                     },
+    { "map",        C_MapCondition,    C_Map,      1, "Warp to a map."                       },
+    { "noclip",     C_GameCondition,   C_NoClip,   0, "Toggle no clipping mode on/off."      },
+    { "quit",       C_NoCondition,     C_Quit,     0, "Quit DOOM RETRO."                     },
+    { "summon",     C_SummonCondition, C_Summon,   1, "Summon a monster or map decoration."  },
+    { "",           C_NoCondition,     NULL,       0, ""                                     }
 };
 
 boolean C_CheatCondition(char *command)
@@ -189,6 +192,21 @@ boolean C_SummonCondition(char *command)
             }
     }
     return false;
+}
+
+void C_CvarList(void)
+{
+    int i = 0;
+    int count = 1;
+
+    while (i < doom_defaults.numdefaults)
+    {
+        static char     buffer[1024];
+
+        M_snprintf(buffer, 1024, "%i\t%s", count++, doom_defaults.defaults[i].name);
+        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+        ++i;
+    }
 }
 
 void C_CmdList(void)
