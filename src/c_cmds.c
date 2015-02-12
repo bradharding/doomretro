@@ -119,6 +119,9 @@ static int      mapcommandmap;
 
 boolean C_MapCondition(char *command)
 {
+    if (!consolecommandparm[0])
+        return false;
+
     mapcommandepisode = 0;
     mapcommandmap = 0;
 
@@ -160,6 +163,9 @@ static int      summoncommandtype = NUMMOBJTYPES;
 
 boolean C_SummonCondition(char *command)
 {
+    if (!consolecommandparm[0])
+        return false;
+
     if (gamestate == GS_LEVEL)
     {
         int i;
