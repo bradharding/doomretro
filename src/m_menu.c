@@ -2450,7 +2450,10 @@ boolean M_Responder(event_t *ev)
             if (consoleheight && consoledirection == 1)
                 consoledirection = -1;
             else/* if ((modstate & KMOD_CTRL) && (modstate & KMOD_ALT))*/
-                consoleheight = consoledirection = 1;
+            {
+                consoleheight = MAX(1, consoleheight);
+                consoledirection = 1;
+            }
             return false;
         }
 
