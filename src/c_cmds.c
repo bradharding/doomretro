@@ -205,6 +205,7 @@ void C_God(void)
 
 extern boolean  samelevel;
 extern int      selectedepisode;
+extern int      selectedskilllevel;
 extern menu_t   EpiDef;
 
 void C_Map(void)
@@ -218,9 +219,11 @@ void C_Map(void)
     }
     gamemap = mapcommandmap;
     if (gamestate == GS_LEVEL)
-        G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
+        G_DeferredLoadLevel(gamestate == GS_LEVEL ? gameskill : selectedskilllevel, gameepisode,
+            gamemap);
     else
-        G_DeferredInitNew(gameskill, gameepisode, gamemap);
+        G_DeferredInitNew(gamestate == GS_LEVEL ? gameskill : selectedskilllevel, gameepisode,
+            gamemap);
 }
 
 void C_NoClip(void)
