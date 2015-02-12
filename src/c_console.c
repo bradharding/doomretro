@@ -122,7 +122,7 @@ static void C_DrawDivider(int y)
     int x;
 
     for (x = 0; x < ORIGINALWIDTH; x += 8)
-        V_DrawTranslucentPatch(x, y / 2, 0, divider);
+        V_DrawTranslucentConsolePatch(x, y / 2, divider);
 }
 
 void C_Init(void)
@@ -150,6 +150,7 @@ static void C_DrawBackground(int height)
     byte        *dest = screens[0];
     int         x, y;
     int         offset = CONSOLEHEIGHT - height;
+    int         top = offset;
 
     for (y = offset; y < height + offset; y += 2)
         for (x = 0; x < SCREENWIDTH / 32; x += 2)
@@ -159,19 +160,26 @@ static void C_DrawBackground(int height)
             for (i = 0; i < 64; i++)
             {
                 int     j = i * 2;
-                int     dot = *(background + (((y / 2) & 63) << 6) + i) << 8;
 
-                *(dest + j) = tinttab75[dot + *(dest + j)];
-                ++j;
-                *(dest + j) = tinttab75[dot + *(dest + j)];
+                if (top >= CONSOLETOP * SCREENWIDTH)
+                {
+                    int     dot = *(background + (((y / 2) & 63) << 6) + i) << 8;
+
+                    *(dest + j) = tinttab75[dot + *(dest + j)];
+                    ++j;
+                    *(dest + j) = tinttab75[dot + *(dest + j)];
+                }
             }
             dest += 128;
+            top += 128;
         }
 
     C_DrawDivider(height);
 
-    for (x = 0; x < ORIGINALWIDTH; ++x)
-        V_DrawPixel(x, height / 2 + 3, 251, true);
+    y = height / 2 + 3;
+    if (y >= CONSOLETOP)
+        for (x = 0; x < ORIGINALWIDTH; ++x)
+            V_DrawPixel(x, y, 251, true);
 }
 
 static struct
@@ -261,7 +269,7 @@ static void C_DrawText(int x, int y, char *text)
                     ++k;
                 }
 
-                V_DrawBigPatch(x, y - (CONSOLEHEIGHT - consoleheight), 0, patch);
+                V_DrawConsolePatch(x, y - (CONSOLEHEIGHT - consoleheight), patch);
                 x += SHORT(patch->width);
                 prev = letter;
             }
@@ -326,7 +334,7 @@ void C_Drawer(void)
             showcaret = !showcaret;
         }
         if (showcaret)
-            V_DrawBigPatch(CONSOLETEXTX + C_TextWidth(left), consoleheight - 15, 0, caret);
+            V_DrawConsolePatch(CONSOLETEXTX + C_TextWidth(left), consoleheight - 15, caret);
     }
 }
 

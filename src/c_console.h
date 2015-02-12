@@ -42,6 +42,8 @@
 #include "doomtype.h"
 #include "d_event.h"
 
+#define CONSOLETOP      0
+
 typedef enum
 {
     input,
