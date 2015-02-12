@@ -1010,8 +1010,7 @@ static void SetVideoMode(void)
         SetWindowPositionVars();
 
 #ifdef SDL20
-        window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
-            SDL_WINDOWPOS_UNDEFINED, windowwidth, windowheight, SDL_WINDOW_RESIZABLE);
+        SDL_CreateWindowAndRenderer(windowwidth, windowheight, SDL_WINDOW_RESIZABLE, &window, &renderer);
         screen = SDL_GetWindowSurface(window);
 #else
         screen = SDL_SetVideoMode(windowwidth, windowheight, 0, SDL_HWSURFACE | SDL_HWPALETTE |
