@@ -60,6 +60,7 @@ boolean C_MapCondition(char *);
 boolean C_NoCondition(char *);
 boolean C_SummonCondition(char *);
 
+void C_Clear(void);
 void C_CmdList(void);
 void C_CvarList(void);
 void C_God(void);
@@ -70,6 +71,7 @@ void C_Summon(void);
 
 consolecommand_t consolecommands[] =
 {
+    { "clear",      C_NoCondition,     C_Clear,    0, "Clear the console."                   },
     { "cmdlist",    C_NoCondition,     C_CmdList,  0, "Display a list of console commands."  },
     { "cvarlist",   C_NoCondition,     C_CvarList, 0, "Display a list of console variables." },
     { "god",        C_GameCondition,   C_God,      0, "Toggle degreelessness mode on/off."   },
@@ -192,6 +194,13 @@ boolean C_SummonCondition(char *command)
             }
     }
     return false;
+}
+
+extern int      consolestrings;
+
+void C_Clear(void)
+{
+    consolestrings = 0;
 }
 
 void C_CvarList(void)
