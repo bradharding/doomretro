@@ -515,6 +515,8 @@ static void CenterMouse(void)
 boolean altdown = false;
 boolean waspaused = false;
 
+boolean noinput = true;
+
 void I_GetEvent(void)
 {
     SDL_Event           sdlevent;
@@ -525,6 +527,9 @@ void I_GetEvent(void)
         switch (sdlevent.type)
         {
             case SDL_KEYDOWN:
+                if (noinput)
+                    return;
+
                 ev.type = ev_keydown;
 
 #ifdef SDL20

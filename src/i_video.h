@@ -97,5 +97,6 @@ extern float    gammalevels[GAMMALEVELS];
 
 extern boolean  blurred;
 extern boolean  splashscreen;
+extern boolean  noinput;
 
 #endif

@@ -443,6 +443,7 @@ void D_DoAdvanceTitle(void)
     gameaction = ga_nothing;
     gamestate = GS_TITLESCREEN;
     blurred = false;
+    noinput = false;
 
     switch (titlesequence)
     {
