@@ -123,6 +123,8 @@ boolean C_MapCondition(char *command)
         sscanf(uppercase(consolecommandparm), "MAP%i", &mapcommandmap);
         if (!mapcommandmap)
             return false;
+        if (gamestate != GS_LEVEL && gamemission == pack_nerve)
+            gamemission = doom2;
     }
     else
     {
