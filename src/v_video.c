@@ -311,7 +311,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawConsolePatch(int x, int y, patch_t *patch)
+void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -331,7 +331,10 @@ void V_DrawConsolePatch(int x, int y, patch_t *patch)
             while (count--)
             {
                 if (y + column->topdelta + column->length - count > CONSOLETOP)
-                    *dest = *source++;
+                {
+                    *dest = (*source == 160 ? color : *source);
+                    *source++;
+                }
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);

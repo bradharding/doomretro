@@ -42,7 +42,14 @@
 #include "doomtype.h"
 #include "d_event.h"
 
-#define CONSOLETOP      0
+#define CONSOLETOP                        0
+
+#define CONSOLECARETCOLOR               160
+#define CONSOLEINPUTCOLOR               160
+#define CONSOLEINPUTTOOUTPUTCOLOR       160
+#define CONSOLEMAPTITLECOLOR            160
+#define CONSOLEOUTPUTCOLOR              160
+#define CONSOLETITLECOLOR               160
 
 typedef enum
 {
@@ -55,6 +62,7 @@ typedef struct
 {
     char                *string;
     stringtype_t        type;
+    byte                color;
 } console_t;
 
 extern int      consoleheight;
@@ -64,7 +72,7 @@ extern char     consolecheat[255];
 extern char     consolecheatparm[3];
 extern char     consolecommandparm[255];
 
-void C_AddConsoleString(char *string, stringtype_t type);
+void C_AddConsoleString(char *string, stringtype_t type, byte color);
 void C_AddConsoleDivider(void);
 void C_Init(void);
 void C_Drawer(void);

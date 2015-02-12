@@ -192,7 +192,7 @@ void C_CmdList(void)
 
             M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecommands[i].command,
                 consolecommands[i].description);
-            C_AddConsoleString(buffer, output);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
     }

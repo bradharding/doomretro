@@ -768,8 +768,10 @@ static __forceinline void StretchBlit(void)
     } while ((y += stepy) < blitheight);
 }
 
+#ifndef SDL20
 SDL_Rect        src_rect = { 0, 0, 0, 0 };
 SDL_Rect        dest_rect = { 0, 0, 0, 0 };
+#endif
 
 int             fps = 0;
 int             frames = 0;
@@ -915,6 +917,7 @@ static void GetDesktopDimensions(void)
 #endif
 }
 
+#ifndef SDL20
 static void SetupScreenRects(void)
 {
     int w = screenbuffer->w;
@@ -934,6 +937,7 @@ static void SetupScreenRects(void)
     src_rect.w = dest_rect.w = w;
     src_rect.h = dest_rect.h = h;
 }
+#endif
 
 static void SetVideoMode(void)
 {
@@ -1032,7 +1036,8 @@ static void SetVideoMode(void)
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     rgbabuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
     SDL_FillRect(rgbabuffer, NULL, 0);
-    texture = SDL_CreateTextureFromSurface(renderer, rgbabuffer);
+    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
+        SCREENWIDTH, SCREENHEIGHT);
 #else
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 #endif
@@ -1040,7 +1045,9 @@ static void SetVideoMode(void)
     if (!screenbuffer)
         I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
+#ifndef SDL20
     SetupScreenRects();
+#endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1125,7 +1132,9 @@ void ToggleWidescreen(boolean toggle)
     if (!screenbuffer)
         I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
+#ifndef SDL20
     SetupScreenRects();
+#endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1270,7 +1279,9 @@ void ToggleFullscreen(void)
     if (!screenbuffer)
         I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
+#ifndef SDL20
     SetupScreenRects();
+#endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1307,7 +1318,9 @@ static void ApplyWindowResize(int resize_h)
     if (!screenbuffer)
         I_Error("ApplyWindowResize, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
+#ifndef SDL20
     SetupScreenRects();
+#endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
