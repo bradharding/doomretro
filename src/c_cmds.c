@@ -119,9 +119,19 @@ boolean C_MapCondition(char *command)
 
     if (gamemode == commercial)
     {
-        mapcommandepisode = 1;
-        sscanf(uppercase(consolecommandparm), "MAP%i", &mapcommandmap);
+        if (BTSX)
+        {
+            sscanf(uppercase(consolecommandparm), "E%iM%02i", &mapcommandepisode, &mapcommandmap);
+            if (mapcommandmap && ((mapcommandepisode == 1 && BTSXE1) || (mapcommandepisode == 2 && BTSXE2)))
+            {
+                M_snprintf(consolecommandparm, sizeof(consolecommandparm), "MAP%02i", mapcommandmap);
+                return (W_CheckMultipleLumps(consolecommandparm) == 2);
+            }
+        }
+        sscanf(uppercase(consolecommandparm), "MAP%02i", &mapcommandmap);
         if (!mapcommandmap)
+            return false;
+        if (BTSX && (W_CheckMultipleLumps(consolecommandparm) == 1))
             return false;
         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
             gamemission = doom2;
