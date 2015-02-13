@@ -619,9 +619,9 @@ static void D_FirstUse(void)
     [msg appendString:@PACKAGE_NAME];
     [msg appendString:@"!\n\n"];
     [msg appendString:@"In the dialog box that follows, please navigate to where an official "];
-    [msg appendString:@"\"IWAD file\" that"];
+    [msg appendString:@"\"IWAD file\" that "];
     [msg appendString:@PACKAGE_NAME];
-    [msg appendString:@"requires (such as DOOM.WAD or "];
+    [msg appendString:@" requires (such as DOOM.WAD or "];
     [msg appendString:@"DOOM2.WAD) has been installed.\n\n"];
     [msg appendString:@"Additional \"PWAD files\" may then be selected by clicking or "];
     [msg appendString:@"CMD-clicking on them."];
@@ -1145,7 +1145,13 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
 
+#ifdef WIN32
     if (!M_FileExists(PACKAGE_WAD))
+#elif defined __MACOSX__
+    NSString *packageWadFullpath =
+        [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@PACKAGE_WAD];
+    if (!M_FileExists((char*)[packageWadFullpath UTF8String]))
+#endif
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
@@ -1257,7 +1263,11 @@ static void D_DoomMainSetup(void)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
                 "specifying one with the '-iwad' command-line parameter.");
 
+#ifdef WIN32
     if (!W_MergeFile(PACKAGE_WAD))
+#elif defined __MACOSX__
+    if (!W_MergeFile((char*)[packageWadFullpath UTF8String]))
+#endif
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 
     if (!CheckPackageWADVersion())
