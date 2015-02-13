@@ -298,8 +298,8 @@ void C_Drawer(void)
         C_DrawBackground(consoleheight);
 
         // draw title and version
-        C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_VERSIONSTRING) - CONSOLETEXTX,
-            CONSOLEHEIGHT - 15, PACKAGE_VERSIONSTRING, CONSOLETITLECOLOR);
+        C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX,
+            CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, CONSOLETITLECOLOR);
 
         // draw console text
         if (outputhistory == -1)
