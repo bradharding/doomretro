@@ -1436,7 +1436,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Zombieman (MT_POSSESSED)
@@ -1469,7 +1470,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "zombieman"
+        /* name                 */ "zombieman",
+        /* plural               */ "zombiemen"
     },
 
     // Shotgun Guy (MT_SHOTGUY)
@@ -1502,7 +1504,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "shotgunguy"
+        /* name                 */ "shotgunguy",
+        /* plural               */ "shotgunguys"
     },
 
     // Arch-vile (MT_VILE)
@@ -1535,7 +1538,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
-        /* summon               */ "archvile"
+        /* name                 */ "archvile",
+        /* plural               */ "archviles"
     },
 
     // Arch-vile Fire (MT_FIRE)
@@ -1568,7 +1572,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Revenant (MT_UNDEAD)
@@ -1601,7 +1606,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
-        /* summon               */ "revenant"
+        /* name                 */ "revenant",
+        /* plural               */ "revenants"
     },
 
     // Revenant Projectile (MT_TRACER)
@@ -1634,7 +1640,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Smoke (MT_SMOKE)
@@ -1667,7 +1674,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Mancubus (MT_FATSO)
@@ -1700,7 +1708,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "mancubus"
+        /* name                 */ "mancubus",
+        /* plural               */ "mancubi"
     },
 
     // Mancubus Projectile (MT_FATSHOT)
@@ -1733,7 +1742,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Heavy Weapon Dude (MT_CHAINGUY)
@@ -1766,7 +1776,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "heavyweapondude"
+        /* name                 */ "heavyweapondude",
+        /* plural               */ "heavyweapondudes"
     },
 
     // Imp (MT_TROOP)
@@ -1799,7 +1810,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "imp"
+        /* name                 */ "imp",
+        /* plural               */ "imps"
     },
 
     // Demon (MT_SERGEANT)
@@ -1832,7 +1844,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
-        /* summon               */ "demon"
+        /* name                 */ "demon",
+        /* plural               */ "demons"
     },
 
     // Spectre (MT_SHADOWS)
@@ -1865,7 +1878,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_FUZZYBLOOD,
         /* shadowoffset         */ 2 * FRACUNIT,
-        /* summon               */ "spectre"
+        /* name                 */ "spectre",
+        /* plural               */ "spectres"
     },
 
     // Cacodemon (MT_HEAD)
@@ -1898,7 +1912,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLUEBLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "cacodemon"
+        /* name                 */ "cacodemon",
+        /* plural               */ "cacodemons"
     },
 
     // Baron of Hell (MT_BRUISER)
@@ -1931,7 +1946,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_GREENBLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
-        /* summon               */ "baronofhell"
+        /* name                 */ "baronofhell",
+        /* plural               */ "baronsofhell"
     },
 
     // Baron of Hell and Hell Knight Projectile (MT_BRUISERSHOT)
@@ -1964,7 +1980,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "",
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Hell Knight (MT_KNIGHT)
@@ -1997,7 +2014,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_GREENBLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
-        /* summon               */ "hellknight"
+        /* name                 */ "hellknight",
+        /* plural               */ "hellknights"
     },
 
     // Lost Soul (MT_SKULL)
@@ -2030,7 +2048,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "lostsoul"
+        /* name                 */ "lostsoul",
+        /* plural               */ "lostsouls"
     },
 
     // Spider Mastermind (MT_SPIDER)
@@ -2063,7 +2082,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 12 * FRACUNIT,
-        /* summon               */ "spidermastermind"
+        /* name                 */ "spidermastermind",
+        /* plural               */ "spidermasterminds"
     },
 
     // Arachnotron (MT_BABY)
@@ -2096,7 +2116,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 4 * FRACUNIT,
-        /* summon               */ "arachnotron"
+        /* name                 */ "arachnotron",
+        /* plural               */ "arachnotrons"
     },
 
     // Cyberdemon (MT_CYBORG)
@@ -2129,7 +2150,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "cyberdemon"
+        /* name                 */ "cyberdemon",
+        /* plural               */ "cyberdemons"
     },
 
     // Pain Elemental (MT_PAIN)
@@ -2162,7 +2184,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "painelemental"
+        /* name                 */ "painelemental",
+        /* plural               */ "painelementals"
     },
 
     // Wolfenstein SS (MT_WOLFSS)
@@ -2195,7 +2218,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "wolfensteinss"
+        /* name                 */ "wolfensteinss",
+        /* plural               */ "wolfensteinss"
     },
 
     // Commander Keen (MT_KEEN)
@@ -2228,7 +2252,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "commanderkeen"
+        /* name                 */ "commanderkeen",
+        /* plural               */ "commanderkeens"
     },
 
     // Boss Brain (MT_BOSSBRAIN)
@@ -2261,7 +2286,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Monsters Spawner (MT_BOSSSPIT)
@@ -2294,7 +2320,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Monsters Target (MT_BOSSTARGET)
@@ -2327,7 +2354,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Boss Brain Projectile (MT_SPAWNSHOT)
@@ -2360,7 +2388,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Boss Brain Teleport Fog (MT_SPAWNFIRE)
@@ -2393,7 +2422,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Barrel (MT_BARREL)
@@ -2426,7 +2456,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 3,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "barrel"
+        /* name                 */ "barrel",
+        /* plural               */ "barrels"
     },
 
     // Imp Projectile (MT_TROOPSHOT)
@@ -2459,7 +2490,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Cacodemon Projectile (MT_HEADSHOT)
@@ -2492,7 +2524,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Rocket Launcher Projectile (MT_ROCKET)
@@ -2525,7 +2558,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Plasma Rifle Projectile (MT_PLASMA)
@@ -2558,7 +2592,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // BFG-9000 Projectile (MT_BFG)
@@ -2591,7 +2626,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Arachnotron Projectile (MT_ARACHPLAZ)
@@ -2624,7 +2660,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Bullet Puff (MT_PUFF)
@@ -2657,7 +2694,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Blood (MT_BLOOD)
@@ -2690,7 +2728,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ REDBLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Teleport Fog (MT_TFOG)
@@ -2723,7 +2762,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Item Fog (MT_IFOG)
@@ -2756,7 +2796,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Teleport Destination (MT_TELEPORTMAN)
@@ -2789,7 +2830,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "",
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // BFG-9000 Secondary Projectile (MT_EXTRABFG)
@@ -2822,7 +2864,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Green Armor (MT_MISC0)
@@ -2855,7 +2898,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "greenarmor"
+        /* name                 */ "greenarmor",
+        /* plural               */ ""
     },
 
     // Blue Armor (MT_MISC1)
@@ -2888,7 +2932,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "bluearmor"
+        /* name                 */ "bluearmor",
+        /* plural               */ ""
     },
 
     // Health Bonus (MT_MISC2)
@@ -2921,7 +2966,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "healthbonus"
+        /* name                 */ "healthbonus",
+        /* plural               */ ""
     },
 
     // Armor Bonus (MT_MISC3)
@@ -2954,7 +3000,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "armorbonus"
+        /* name                 */ "armorbonus",
+        /* plural               */ ""
     },
 
     // Blue Keycard (MT_MISC4)
@@ -2987,7 +3034,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "bluekeycard"
+        /* name                 */ "bluekeycard",
+        /* plural               */ ""
     },
 
     // Red Keycard (MT_MISC5)
@@ -3020,7 +3068,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "redkeycard"
+        /* name                 */ "redkeycard",
+        /* plural               */ ""
     },
 
     // Yellow Keycard (MT_MISC6)
@@ -3053,7 +3102,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "yellowkeycard"
+        /* name                 */ "yellowkeycard",
+        /* plural               */ ""
     },
 
     // Yellow Skull Key (MT_MISC7)
@@ -3086,7 +3136,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "yellowskullkey"
+        /* name                 */ "yellowskullkey",
+        /* plural               */ ""
     },
 
     // Red Skull Key (MT_MISC8)
@@ -3119,7 +3170,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "redskullkey"
+        /* name                 */ "redskullkey",
+        /* plural               */ ""
     },
 
     // Blue Skull Key (MT_MISC9)
@@ -3152,7 +3204,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "blueskullkey"
+        /* name                 */ "blueskullkey",
+        /* plural               */ ""
     },
 
     // Stimpack (MT_MISC10)
@@ -3185,7 +3238,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "stimpack"
+        /* name                 */ "stimpack",
+        /* plural               */ ""
     },
 
     // Medikit (MT_MISC11)
@@ -3218,7 +3272,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "medikit"
+        /* name                 */ "medikit",
+        /* plural               */ ""
     },
 
     // SoulSphere (MT_MISC12)
@@ -3251,7 +3306,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "soulsphere"
+        /* name                 */ "soulsphere",
+        /* plural               */ ""
     },
 
     // Invulnerability (MT_INV)
@@ -3284,7 +3340,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "invulnerability"
+        /* name                 */ "invulnerability",
+        /* plural               */ ""
     },
 
     // Berserk (MT_MISC13)
@@ -3317,7 +3374,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "berserk"
+        /* name                 */ "berserk",
+        /* plural               */ ""
     },
 
     // Partial Invisibility (MT_INS)
@@ -3350,7 +3408,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "partialinvisibility"
+        /* name                 */ "partialinvisibility",
+        /* plural               */ ""
     },
 
     // Radiation Shielding Suit (MT_MISC14)
@@ -3383,7 +3442,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "radiationshieldingsuit"
+        /* name                 */ "radiationshieldingsuit",
+        /* plural               */ ""
     },
 
     // Computer Area Map (MT_MISC15)
@@ -3416,7 +3476,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "computerareamap"
+        /* name                 */ "computerareamap",
+        /* plural               */ ""
     },
 
     // Light Amplification Visor (MT_MISC16)
@@ -3449,7 +3510,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "lightamplificationvisor"
+        /* name                 */ "lightamplificationvisor",
+        /* plural               */ ""
     },
 
     // MegaSphere (MT_MEGA)
@@ -3482,7 +3544,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "megasphere"
+        /* name                 */ "megasphere",
+        /* plural               */ ""
     },
 
     // Clip (MT_CLIP)
@@ -3515,7 +3578,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "clip"
+        /* name                 */ "clip",
+        /* plural               */ ""
     },
 
     // Box of Bullets (MT_MISC17)
@@ -3548,7 +3612,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "boxofbullets"
+        /* name                 */ "boxofbullets",
+        /* plural               */ ""
     },
 
     // Rocket (MT_MISC18)
@@ -3581,7 +3646,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "rocket"
+        /* name                 */ "rocket",
+        /* plural               */ ""
     },
 
     // Box of Rockets (MT_MISC19)
@@ -3614,7 +3680,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "boxofrockets"
+        /* name                 */ "boxofrockets",
+        /* plural               */ ""
     },
 
     // Cell (MT_MISC20)
@@ -3647,7 +3714,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "cell"
+        /* name                 */ "cell",
+        /* plural               */ ""
     },
 
     // Cell Pack (MT_MISC21)
@@ -3680,7 +3748,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "cellpack"
+        /* name                 */ "cellpack",
+        /* plural               */ ""
     },
 
     // Shotgun Shells (MT_MISC22)
@@ -3713,7 +3782,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "someshotgunshells"
+        /* name                 */ "someshotgunshells",
+        /* plural               */ ""
     },
 
     // Box of Shells (MT_MISC23)
@@ -3746,7 +3816,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "boxofshells"
+        /* name                 */ "boxofshells",
+        /* plural               */ ""
     },
 
     // Backpack (MT_MISC24)
@@ -3779,7 +3850,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "backpack"
+        /* name                 */ "backpack",
+        /* plural               */ ""
     },
 
     // BFG-9000 (MT_MISC25)
@@ -3812,7 +3884,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "bfg9000"
+        /* name                 */ "bfg9000",
+        /* plural               */ ""
     },
 
     // Chaingun (MT_CHAINGUN)
@@ -3845,7 +3918,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "chaingun"
+        /* name                 */ "chaingun",
+        /* plural               */ ""
     },
 
     // Chainsaw (MT_MISC26)
@@ -3878,7 +3952,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "chainsaw"
+        /* name                 */ "chainsaw",
+        /* plural               */ ""
     },
 
     // Rocket Launcher (MT_MISC27)
@@ -3911,7 +3986,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "rocketlauncher"
+        /* name                 */ "rocketlauncher",
+        /* plural               */ ""
     },
 
     // Plasma Rifle (MT_MISC28)
@@ -3944,7 +4020,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "plasmarifle"
+        /* name                 */ "plasmarifle",
+        /* plural               */ ""
     },
 
     // Shotgun (MT_SHOTGUN)
@@ -3977,7 +4054,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shotgun"
+        /* name                 */ "shotgun",
+        /* plural               */ ""
     },
 
     // Super Shotgun (MT_SUPERSHOTGUN)
@@ -4010,7 +4088,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "supershotgun"
+        /* name                 */ "supershotgun",
+        /* plural               */ ""
     },
 
     // Tall techno floor lamp (MT_MISC29)
@@ -4043,7 +4122,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "talltechnofloorlamp"
+        /* name                 */ "talltechnofloorlamp",
+        /* plural               */ ""
     },
 
     // Short techno floor lamp (MT_MISC30)
@@ -4076,7 +4156,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shorttechnofloorlamp"
+        /* name                 */ "shorttechnofloorlamp",
+        /* plural               */ ""
     },
 
     // Floor lamp (MT_MISC31)
@@ -4109,7 +4190,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "floorlamp"
+        /* name                 */ "floorlamp",
+        /* plural               */ ""
     },
 
     // Tall green column (MT_MISC32)
@@ -4142,7 +4224,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "tallgreencolumn"
+        /* name                 */ "tallgreencolumn",
+        /* plural               */ ""
     },
 
     // Short green column (MT_MISC33)
@@ -4175,7 +4258,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shortgreencolumn"
+        /* name                 */ "shortgreencolumn",
+        /* plural               */ ""
     },
 
     // Tall red column (MT_MISC34)
@@ -4208,7 +4292,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "tallredcolumn"
+        /* name                 */ "tallredcolumn",
+        /* plural               */ ""
     },
 
     // Short red column (MT_MISC35)
@@ -4241,7 +4326,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shortredcolumn"
+        /* name                 */ "shortredcolumn",
+        /* plural               */ ""
     },
 
     // Short red column with skull (MT_MISC36)
@@ -4274,7 +4360,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shortredcolumnwithskull"
+        /* name                 */ "shortredcolumnwithskull",
+        /* plural               */ ""
     },
 
     // Short green column with beating heart (MT_MISC37)
@@ -4307,7 +4394,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shortgreencolumnwithbeatingheart"
+        /* name                 */ "shortgreencolumnwithbeatingheart",
+        /* plural               */ ""
     },
 
     // Evil eye (MT_MISC38)
@@ -4340,7 +4428,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 3,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "evileye"
+        /* name                 */ "evileye",
+        /* plural               */ ""
     },
 
     // Floating skull rock (MT_MISC39)
@@ -4373,7 +4462,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 3,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "floatingskullrock"
+        /* name                 */ "floatingskullrock",
+        /* plural               */ ""
     },
 
     // Torched tree (MT_MISC40)
@@ -4406,7 +4496,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "torchedtree"
+        /* name                 */ "torchedtree",
+        /* plural               */ ""
     },
 
     // Tall blue firestick (MT_MISC41)
@@ -4439,7 +4530,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "tallbluefirestick"
+        /* name                 */ "tallbluefirestick",
+        /* plural               */ ""
     },
 
     // Tall green firestick (MT_MISC42)
@@ -4472,7 +4564,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "tallgreenfirestick"
+        /* name                 */ "tallgreenfirestick",
+        /* plural               */ ""
     },
 
     // Tall red firestick (MT_MISC43)
@@ -4505,7 +4598,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "tallredfirestick"
+        /* name                 */ "tallredfirestick",
+        /* plural               */ ""
     },
 
     // Short blue firestick (MT_MISC44)
@@ -4538,7 +4632,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shortbluefirestick"
+        /* name                 */ "shortbluefirestick",
+        /* plural               */ ""
     },
 
     // Short green firestick (MT_MISC45)
@@ -4571,7 +4666,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shortgreenfirestick"
+        /* name                 */ "shortgreenfirestick",
+        /* plural               */ ""
     },
 
     // Short red firestick (MT_MISC46)
@@ -4604,7 +4700,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 4,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "shortredfirestick"
+        /* name                 */ "shortredfirestick",
+        /* plural               */ ""
     },
 
     // Stalagmite (MT_MISC47)
@@ -4637,7 +4734,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "stalagmite"
+        /* name                 */ "stalagmite",
+        /* plural               */ ""
     },
 
     // Tall techno pillar (MT_MISC48)
@@ -4670,7 +4768,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "talltechnopillar"
+        /* name                 */ "talltechnopillar",
+        /* plural               */ ""
     },
 
     // Candlestick (MT_MISC49)
@@ -4703,7 +4802,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "candlestick"
+        /* name                 */ "candlestick",
+        /* plural               */ ""
     },
 
     // Candelabra (MT_MISC50)
@@ -4736,7 +4836,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "candelabra"
+        /* name                 */ "candelabra",
+        /* plural               */ ""
     },
 
     // Hanging victim, twitching, blocking (MT_MISC51)
@@ -4769,7 +4870,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 3,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingvictimtwitchingblocking"
+        /* name                 */ "hangingvictimtwitchingblocking",
+        /* plural               */ ""
     },
 
     // Hanging victim, arms out, blocking (MT_MISC52)
@@ -4802,7 +4904,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Hanging victim, one-legged, blocking (MT_MISC53)
@@ -4835,7 +4938,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingvictimarmsoutblocking"
+        /* name                 */ "hangingvictimarmsoutblocking",
+        /* plural               */ ""
     },
 
     // Hanging pair of legs, blocking (MT_MISC54)
@@ -4868,7 +4972,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingpairoflegsblocking"
+        /* name                 */ "hangingpairoflegsblocking",
+        /* plural               */ ""
     },
 
     // Hanging leg, blocking (MT_MISC55, MT_MISC59)
@@ -4901,7 +5006,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hanginglegblocking"
+        /* name                 */ "hanginglegblocking",
+        /* plural               */ ""
     },
 
     // Hanging victim, arms out (MT_MISC56)
@@ -4934,7 +5040,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingvictimarmsout"
+        /* name                 */ "hangingvictimarmsout",
+        /* plural               */ ""
     },
 
     // Hanging pair of legs (MT_MISC57)
@@ -4967,7 +5074,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingpairoflegs"
+        /* name                 */ "hangingpairoflegs",
+        /* plural               */ ""
     },
 
     // Hanging victim, one-legged (MT_MISC58)
@@ -5000,7 +5108,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingvictimonelegged"
+        /* name                 */ "hangingvictimonelegged",
+        /* plural               */ ""
     },
 
     // Hanging leg (MT_MISC59)
@@ -5033,7 +5142,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingleg"
+        /* name                 */ "hangingleg",
+        /* plural               */ ""
     },
 
     // Hanging victim, twitching (MT_MISC60)
@@ -5066,7 +5176,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingvictimtwitching"
+        /* name                 */ "hangingvictimtwitching",
+        /* plural               */ ""
     },
 
     // Dead Cacodemon (MT_MISC61)
@@ -5099,7 +5210,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLUEBLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "deadcacodemon"
+        /* name                 */ "deadcacodemon",
+        /* plural               */ ""
     },
 
     // Dead Player (MT_MISC62)
@@ -5132,7 +5244,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "deadplayer"
+        /* name                 */ "deadplayer",
+        /* plural               */ ""
     },
 
     // Dead Zombieman (MT_MISC63)
@@ -5165,7 +5278,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "deadzombieman"
+        /* name                 */ "deadzombieman",
+        /* plural               */ ""
     },
 
     // Dead Demon (MT_MISC64)
@@ -5198,7 +5312,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "deaddemon"
+        /* name                 */ "deaddemon",
+        /* plural               */ ""
     },
 
     // Dead Lost Soul, invisible (MT_MISC65)
@@ -5231,7 +5346,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Dead Imp (MT_MISC66)
@@ -5264,7 +5380,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "deadimp"
+        /* name                 */ "deadimp",
+        /* plural               */ ""
     },
 
     // Dead Shotgun Guy (MT_MISC67)
@@ -5297,7 +5414,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "deadshotgunguy"
+        /* name                 */ "deadshotgunguy",
+        /* plural               */ ""
     },
 
     // Bloody mess 1 (MT_MISC68)
@@ -5330,7 +5448,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "bloodymess1"
+        /* name                 */ "bloodymess1",
+        /* plural               */ ""
     },
 
     // Bloody mess 2 (MT_MISC69)
@@ -5363,7 +5482,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "bloodymess2"
+        /* name                 */ "bloodymess2",
+        /* plural               */ ""
     },
 
     // Skulls on a pole (MT_MISC70)
@@ -5396,7 +5516,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "fiveskullsshishkebab"
+        /* name                 */ "fiveskullsshishkebab",
+        /* plural               */ ""
     },
 
     // Pool of blood and bones (MT_MISC71)
@@ -5429,7 +5550,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "poolofbloodandbones"
+        /* name                 */ "poolofbloodandbones",
+        /* plural               */ ""
     },
 
     // Skull on a pole (MT_MISC72)
@@ -5462,7 +5584,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "skullonapole"
+        /* name                 */ "skullonapole",
+        /* plural               */ ""
     },
 
     // Pile of skulls and candles (MT_MISC73)
@@ -5495,7 +5618,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "pileofskullsandcandles"
+        /* name                 */ "pileofskullsandcandles",
+        /* plural               */ ""
     },
 
     // Impaled human (MT_MISC74)
@@ -5528,7 +5652,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "impaledhuman"
+        /* name                 */ "impaledhuman",
+        /* plural               */ ""
     },
 
     // Twitching impaled human (MT_MISC75)
@@ -5561,7 +5686,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 2,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "twitchingimpaledhuman"
+        /* name                 */ "twitchingimpaledhuman",
+        /* plural               */ ""
     },
 
     // Large brown tree (MT_MISC76)
@@ -5594,7 +5720,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "largebrowntree"
+        /* name                 */ "largebrowntree",
+        /* plural               */ ""
     },
 
     // Burning Barrel (MT_MISC77)
@@ -5627,7 +5754,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 3,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ "burningbarrel"
+        /* name                 */ "burningbarrel",
+        /* plural               */ ""
     },
 
     // Hanging victim, guts removed (MT_MISC78)
@@ -5660,7 +5788,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingvictimgutsremoved"
+        /* name                 */ "hangingvictimgutsremoved",
+        /* plural               */ ""
     },
 
     // Hanging victim, guts and brain removed (MT_MISC79)
@@ -5693,7 +5822,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingvictimgutsandbrainremoved"
+        /* name                 */ "hangingvictimgutsandbrainremoved",
+        /* plural               */ ""
     },
 
     // Hanging torso, looking down (MT_MISC80)
@@ -5726,7 +5856,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingtorsolookingdown"
+        /* name                 */ "hangingtorsolookingdown",
+        /* plural               */ ""
     },
 
     // Hanging torso, open skull (MT_MISC81)
@@ -5759,7 +5890,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingtorsoopenskull"
+        /* name                 */ "hangingtorsoopenskull",
+        /* plural               */ ""
     },
 
     // Hanging torso, looking up (MT_MISC82)
@@ -5792,7 +5924,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingtorsolookingup"
+        /* name                 */ "hangingtorsolookingup",
+        /* plural               */ ""
     },
 
     // Hanging torso, brain removed (MT_MISC83)
@@ -5825,7 +5958,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "hangingtorsobrainremoved"
+        /* name                 */ "hangingtorsobrainremoved",
+        /* plural               */ ""
     },
 
     // Pool of blood and guts (MT_MISC84)
@@ -5858,7 +5992,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "poolofbloodandguts"
+        /* name                 */ "poolofbloodandguts",
+        /* plural               */ ""
     },
 
     // Pool of blood (MT_MISC85)
@@ -5891,7 +6026,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "poolofblood"
+        /* name                 */ "poolofblood",
+        /* plural               */ ""
     },
 
     // Pool of brains (MT_MISC86)
@@ -5924,7 +6060,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ "poolofbrains"
+        /* name                 */ "poolofbrains",
+        /* plural               */ ""
     },
 
     // Blue Blood (MT_BLUEBLOOD)
@@ -5957,7 +6094,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ BLUEBLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Green Blood (MT_GREENBLOOD)
@@ -5990,7 +6128,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ GREENBLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Fuzzy Blood (MT_FUZZYBLOOD)
@@ -6023,7 +6162,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ FUZZYBLOOD,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Blood Splat (MT_BLOODSPLAT)
@@ -6056,7 +6196,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Smoke Trail (MT_TRAIL)
@@ -6089,7 +6230,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     },
 
     // Shadow (MT_SHADOW)
@@ -6122,7 +6264,8 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* summon               */ ""
+        /* name                 */ "",
+        /* plural               */ ""
     }
 };
 

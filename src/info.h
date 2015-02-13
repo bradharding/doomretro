@@ -1364,7 +1364,8 @@ typedef struct
     int         frames;
     int         blood;
     int         shadowoffset;
-    char        *summon;
+    char        *name;
+    char        *plural;
     void        (*colfunc)(void);
     boolean     canmodify;
 } mobjinfo_t;

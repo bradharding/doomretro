@@ -174,7 +174,7 @@ boolean C_SummonCondition(char *command)
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(consolecommandparm, mobjinfo[i].summon))
+            if (!strcasecmp(consolecommandparm, mobjinfo[i].name))
             {
                 boolean     summon = true;
 
@@ -262,11 +262,12 @@ void C_Kill(void)
     }
     else
     {
-        int             i;
+        int             i, j;
         int             kills = 0;
         static char     buffer[1024];
 
-        if (!strcasecmp(consolecommandparm, "all") || !strcasecmp(consolecommandparm, "monsters"))
+        if (!strcasecmp(consolecommandparm, "all")
+            || !strcasecmp(consolecommandparm, "monsters"))
         {
             for (i = 0; i < numsectors; ++i)
             {
@@ -282,7 +283,7 @@ void C_Kill(void)
                             P_SetMobjState(thing, S_PAIN_DIE6);
                             kills++;
                         }
-                        else if ((thing->flags & MF_COUNTKILL) || thing->type == MT_SKULL)
+                        else if (thing->flags & MF_SHOOTABLE)
                         {
                             P_DamageMobj(thing, NULL, NULL, thing->health);
                             kills++;
@@ -295,7 +296,8 @@ void C_Kill(void)
         else
         {
             for (i = 0; i < NUMMOBJTYPES; i++)
-                if (!strcasecmp(consolecommandparm, mobjinfo[i].summon))
+                if (!strcasecmp(consolecommandparm, mobjinfo[i].name)
+                    || !strcasecmp(consolecommandparm, mobjinfo[i].plural))
                 {
                     boolean     kill = true;
                     int         type = mobjinfo[i].doomednum;
@@ -323,9 +325,9 @@ void C_Kill(void)
                     if (kill)
                     {
                         type = P_FindDoomedNum(type);
-                        for (i = 0; i < numsectors; ++i)
+                        for (j = 0; j < numsectors; ++j)
                         {
-                            mobj_t      *thing = sectors[i].thinglist;
+                            mobj_t      *thing = sectors[j].thinglist;
 
                             while (thing)
                             {
@@ -338,7 +340,7 @@ void C_Kill(void)
                                             P_SetMobjState(thing, S_PAIN_DIE6);
                                             kills++;
                                         }
-                                        else if ((thing->flags & MF_COUNTKILL) || thing->type == MT_SKULL)
+                                        else if (thing->flags & MF_SHOOTABLE)
                                         {
                                             P_DamageMobj(thing, NULL, NULL, thing->health);
                                             kills++;
@@ -351,7 +353,6 @@ void C_Kill(void)
                     break;
                 }
         }
-
         M_snprintf(buffer, sizeof(buffer), "%i monster%s killed.", kills, kills == 1 ? "" : "s");
         C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
     }
