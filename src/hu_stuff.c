@@ -574,38 +574,36 @@ void HU_Ticker(void)
 
         prev_fps = fps;
     }
-    else
+
+    // display message if necessary
+    if ((plr->message && !message_nottobefuckedwith)
+        || (plr->message && message_dontfuckwithme))
     {
-        // display message if necessary
-        if ((plr->message && !message_nottobefuckedwith)
-            || (plr->message && message_dontfuckwithme))
+        C_AddConsoleString(plr->message, output, CONSOLEOUTPUTCOLOR);
+        if (!idbehold && !idmypos && !devparm && (messages || message_dontfuckwithme))
         {
-            C_AddConsoleString(plr->message, output, CONSOLEOUTPUTCOLOR);
-            if (messages || message_dontfuckwithme)
+            char    *s = Z_Malloc(133, PU_STATIC, NULL);
+            int     len;
+
+            strcpy(s, plr->message);
+
+            len = strlen(s);
+            while (M_StringWidth(s) > ORIGINALWIDTH - 6)
             {
-                char    *s = Z_Malloc(133, PU_STATIC, NULL);
-                int     len;
-
-                strcpy(s, plr->message);
-
-                len = strlen(s);
-                while (M_StringWidth(s) > ORIGINALWIDTH - 6)
-                {
-                    s[len - 1] = '.';
-                    s[len] = '.';
-                    s[len + 1] = '.';
-                    s[len + 2] = '\0';
-                    --len;
-                }
-
-                HUlib_addMessageToSText(&w_message, 0, s);
-                message_on = true;
-                message_counter = HU_MSGTIMEOUT;
-                message_nottobefuckedwith = message_dontfuckwithme;
-                message_dontfuckwithme = 0;
+                s[len - 1] = '.';
+                s[len] = '.';
+                s[len + 1] = '.';
+                s[len + 2] = '\0';
+                --len;
             }
-            plr->message = 0;
+
+            HUlib_addMessageToSText(&w_message, 0, s);
+            message_on = true;
+            message_counter = HU_MSGTIMEOUT;
+            message_nottobefuckedwith = message_dontfuckwithme;
+            message_dontfuckwithme = 0;
         }
+        plr->message = 0;
     }
 }
 
