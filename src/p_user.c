@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "d_event.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
@@ -232,6 +233,9 @@ void P_DeathThink(player_t *player)
     }
     else if (player->damagecount > 0)
         player->damagecount--;
+
+    if (consoleheight)
+        return;
 
     if (((player->cmd.buttons & BT_USE)
         || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)

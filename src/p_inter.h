@@ -43,6 +43,7 @@ void P_GiveCard(player_t *player, card_t card);
 boolean P_GivePower(player_t *player, int power);
 void P_AddBonus(player_t *player, int amount);
 void G_RemoveChoppers(void);
+void P_KillMobj(mobj_t *source, mobj_t *target);
 
 extern boolean message_dontfuckwithme;
 extern boolean oldweaponsowned[NUMWEAPONS];

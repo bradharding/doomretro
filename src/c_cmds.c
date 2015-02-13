@@ -47,6 +47,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "p_inter.h"
 #include "p_local.h"
 #include "SDL.h"
 #include "v_video.h"
@@ -64,6 +65,7 @@ void C_Clear(void);
 void C_CmdList(void);
 void C_CvarList(void);
 void C_God(void);
+void C_Kill(void);
 void C_Map(void);
 void C_NoClip(void);
 void C_Quit(void);
@@ -91,6 +93,7 @@ consolecommand_t consolecommands[] =
     { "idmus",      C_CheatCondition,  NULL,       1, ""                                     },
     { "idmypos",    C_CheatCondition,  NULL,       0, ""                                     },
     { "idspispopd", C_CheatCondition,  NULL,       0, ""                                     },
+    { "kill",       C_GameCondition,   C_Kill,     1, "Kill the player or monsters."         },
     { "map",        C_MapCondition,    C_Map,      1, "Warp to a map."                       },
     { "noclip",     C_GameCondition,   C_NoClip,   0, "Toggle no clipping mode on/off."      },
     { "quit",       C_NoCondition,     C_Quit,     0, "Quit DOOM RETRO."                     },
@@ -171,7 +174,7 @@ boolean C_SummonCondition(char *command)
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(mobjinfo[i].summon, consolecommandparm))
+            if (!strcasecmp(consolecommandparm, mobjinfo[i].summon))
             {
                 boolean     summon = true;
 
@@ -246,6 +249,112 @@ void C_CmdList(void)
 void C_God(void)
 {
     M_StringCopy(consolecheat, "iddqd", sizeof(consolecheat));
+}
+
+void A_Fall(mobj_t *actor);
+
+void C_Kill(void)
+{
+    if (!consolecommandparm[0])
+    {
+        P_KillMobj(NULL, players[displayplayer].mo);
+        C_AddConsoleString("Player killed.", output, CONSOLEOUTPUTCOLOR);
+    }
+    else
+    {
+        int             i;
+        int             kills = 0;
+        static char     buffer[1024];
+
+        if (!strcasecmp(consolecommandparm, "all") || !strcasecmp(consolecommandparm, "monsters"))
+        {
+            for (i = 0; i < numsectors; ++i)
+            {
+                mobj_t      *thing = sectors[i].thinglist;
+
+                while (thing)
+                {
+                    if (thing->health > 0)
+                    {
+                        if (thing->type == MT_PAIN)
+                        {
+                            A_Fall(thing);
+                            P_SetMobjState(thing, S_PAIN_DIE6);
+                            kills++;
+                        }
+                        else if ((thing->flags & MF_COUNTKILL) || thing->type == MT_SKULL)
+                        {
+                            P_DamageMobj(thing, NULL, NULL, thing->health);
+                            kills++;
+                        }
+                    }
+                    thing = thing->snext;
+                }
+            }
+        }
+        else
+        {
+            for (i = 0; i < NUMMOBJTYPES; i++)
+                if (!strcasecmp(consolecommandparm, mobjinfo[i].summon))
+                {
+                    boolean     kill = true;
+                    int         type = mobjinfo[i].doomednum;
+
+                    if (gamemode != commercial)
+                    {
+                        switch (summoncommandtype)
+                        {
+                            case Arachnotron:
+                            case ArchVile:
+                            case BossBrain:
+                            case HellKnight:
+                            case Mancubus:
+                            case PainElemental:
+                            case HeavyWeaponDude:
+                            case Revenant:
+                            case WolfensteinSS:
+                                kill = false;
+                                break;
+                        }
+                    }
+                    else if (type == WolfensteinSS && bfgedition)
+                        type = Zombieman;
+
+                    if (kill)
+                    {
+                        type = P_FindDoomedNum(type);
+                        for (i = 0; i < numsectors; ++i)
+                        {
+                            mobj_t      *thing = sectors[i].thinglist;
+
+                            while (thing)
+                            {
+                                if (thing->health > 0)
+                                {
+                                    if (type == thing->type)
+                                        if (type == MT_PAIN)
+                                        {
+                                            A_Fall(thing);
+                                            P_SetMobjState(thing, S_PAIN_DIE6);
+                                            kills++;
+                                        }
+                                        else if ((thing->flags & MF_COUNTKILL) || thing->type == MT_SKULL)
+                                        {
+                                            P_DamageMobj(thing, NULL, NULL, thing->health);
+                                            kills++;
+                                        }
+                                }
+                                thing = thing->snext;
+                            }
+                        }
+                    }
+                    break;
+                }
+        }
+
+        M_snprintf(buffer, sizeof(buffer), "%i monster%s killed.", kills, kills == 1 ? "" : "s");
+        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+    }
 }
 
 extern boolean  samelevel;
