@@ -922,13 +922,9 @@ static void SetupScreenRects(void)
 {
     int w = screenbuffer->w;
     int h = screenbuffer->h;
-    int dx, dy;
+    int dy;
 
     dest_rect.x = (screen->w - w) / 2;
-    dx = dest_rect.x + w - screen->clip_rect.x - screen->clip_rect.w;
-    if (dx > 0)
-        w -= dx;
-
     dest_rect.y = (widescreen ? 0 : (screen->h - h) / 2);
     dy = dest_rect.y + h - screen->clip_rect.y - screen->clip_rect.h;
     if (dy > 0)

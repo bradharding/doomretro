@@ -300,7 +300,7 @@
 #ifdef SDL20
 #define VIDEODRIVER_DEFAULT                     "windows"
 #else
-#define VIDEODRIVER_DEFAULT                     "directx"
+#define VIDEODRIVER_DEFAULT                     "windib"
 #endif
 #else
 #define VIDEODRIVER_DEFAULT                     ""
