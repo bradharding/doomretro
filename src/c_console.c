@@ -510,6 +510,7 @@ boolean C_Responder(event_t *ev)
                 }
                 break;
 
+#ifndef SDL20
             // autocomplete
             case KEY_TAB:
                 if (consoleinput[0])
@@ -543,6 +544,7 @@ boolean C_Responder(event_t *ev)
                     showcaret = true;
                 }
                 break;
+#endif
 
             // previous input
             case KEY_UPARROW:
@@ -598,6 +600,7 @@ boolean C_Responder(event_t *ev)
                 }
                 break;
 
+#ifndef SDL20
             default:
                 if (modstate & KMOD_SHIFT)
                     ch = toupper(ch);
@@ -613,8 +616,8 @@ boolean C_Responder(event_t *ev)
                     carettics = 0;
                     showcaret = true;
                 }
+#endif
         }
-
         if (autocomplete != -1 && key != KEY_TAB)
             autocomplete = -1;
 
@@ -624,5 +627,69 @@ boolean C_Responder(event_t *ev)
         if (outputhistory != -1 && key != KEY_PGUP && key != KEY_PGDN)
             outputhistory = -1;
     }
+#ifdef SDL20
+    else if (ev->type == ev_textinput)
+    {
+        SDL_Keymod      modstate = SDL_GetModState();
+        int             ch = ev->data1;
+        int             i;
+
+        // autocomplete
+        if (ch == '\t')
+        {
+            if (consoleinput[0])
+            {
+                if (autocomplete == -1)
+                {
+                    autocomplete = 0;
+                    M_StringCopy(autocompletetext, consoleinput, 255);
+                }
+
+                while (consolecommands[autocomplete].command[0])
+                {
+                    if (M_StringStartsWith(consolecommands[autocomplete].command, autocompletetext)
+                        && consolecommands[autocomplete].condition != C_CheatCondition)
+                    {
+                        M_StringCopy(consoleinput, consolecommands[autocomplete].command, 255);
+                        if (consolecommands[autocomplete].parms)
+                        {
+                            int     length = strlen(consoleinput);
+
+                            consoleinput[length] = ' ';
+                            consoleinput[length + 1] = 0;
+                        }
+                        ++autocomplete;
+                        break;
+                    }
+                    ++autocomplete;
+                }
+                caretpos = strlen(consoleinput);
+                carettics = 0;
+                showcaret = true;
+            }
+        }
+        else
+        {
+            if (modstate & KMOD_SHIFT)
+                ch = toupper(ch);
+            if (ch >= ' ' && ch < '~' && ch != '`'
+                && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
+                consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
+                && !(modstate & (KMOD_ALT | KMOD_CTRL)))
+            {
+                consoleinput[strlen(consoleinput) + 1] = '\0';
+                for (i = strlen(consoleinput); i > caretpos; --i)
+                    consoleinput[i] = consoleinput[i - 1];
+                consoleinput[caretpos++] = ch;
+                carettics = 0;
+                showcaret = true;
+            }
+            autocomplete = -1;
+        }
+        inputhistory = -1;
+        outputhistory = -1;
+    }
+#endif
+
     return true;
 }

@@ -526,6 +526,16 @@ void I_GetEvent(void)
     {
         switch (sdlevent.type)
         {
+#ifdef SDL20
+            case SDL_TEXTINPUT:
+                ev.type = ev_textinput;
+                ev.data1 = sdlevent.text.text[0];
+
+                if (ev.data1)
+                    D_PostEvent(&ev);
+                break;
+#endif
+
             case SDL_KEYDOWN:
                 if (noinput)
                     return;
