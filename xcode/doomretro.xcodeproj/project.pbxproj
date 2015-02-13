@@ -109,7 +109,7 @@
 		AB558ECC1A8B0C4C005AA830 /* c_cmds.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = c_cmds.c; path = ../src/c_cmds.c; sourceTree = SOURCE_ROOT; };
 		AB558ECD1A8B0C4C005AA830 /* c_cmds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = c_cmds.h; path = ../src/c_cmds.h; sourceTree = SOURCE_ROOT; };
 		AB558ECE1A8B0C4C005AA830 /* c_console.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = c_console.c; path = ../src/c_console.c; sourceTree = SOURCE_ROOT; };
-		AB6C2B8F1A788E18001CADB5 /* doomretro_x86_64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doomretro_x86_64; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB6C2B8F1A788E18001CADB5 /* doomretro_x86_64 */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.bundle"; path = doomretro_x86_64; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB6C2B991A78939E001CADB5 /* am_map.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = am_map.c; path = ../src/am_map.c; sourceTree = SOURCE_ROOT; };
 		AB6C2B9A1A78939E001CADB5 /* am_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = am_map.h; path = ../src/am_map.h; sourceTree = SOURCE_ROOT; };
 		AB6C2B9B1A78939E001CADB5 /* d_deh.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = d_deh.c; path = ../src/d_deh.c; sourceTree = SOURCE_ROOT; };
