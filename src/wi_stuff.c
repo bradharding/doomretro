@@ -1215,17 +1215,10 @@ void WI_checkForAccelerate(void)
     {
         if (playeringame[i] && !menuactive)
         {
-
-#ifdef SDL20
             const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
-            if ((player->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER])
-#else
-            Uint8       *keystate = SDL_GetKeyState(NULL);
-
-            if ((player->cmd.buttons & BT_ATTACK) || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER])
-#endif
-
+            if ((player->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN]
+                || keystate[SDL_SCANCODE_KP_ENTER])
             {
                 if (!player->attackdown)
                     acceleratestage = 1;

@@ -348,15 +348,10 @@ boolean C_Responder(event_t *ev)
 
     if (ev->type == ev_keydown)
     {
-        int     key = ev->data1;
-        int     ch = ev->data2;
-        int     i;
-
-#ifdef SDL20
+        int             key = ev->data1;
+        int             ch = ev->data2;
+        int             i;
         SDL_Keymod      modstate = SDL_GetModState();
-#else
-        SDLMod          modstate = SDL_GetModState();
-#endif
 
         switch (key)
         {

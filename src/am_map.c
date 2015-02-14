@@ -600,11 +600,7 @@ static void AM_maxOutWindowScale(void)
     AM_activateNewScale();
 }
 
-#ifdef SDL20
 SDL_Keymod      modstate;
-#else
-SDLMod          modstate;
-#endif
 
 boolean         speedtoggle;
 

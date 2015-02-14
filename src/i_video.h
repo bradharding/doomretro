@@ -42,10 +42,6 @@
 #include "doomtype.h"
 #include "SDL.h"
 
-#if (SDL_MAJOR_VERSION == 2 && SDL_MINOR_VERSION == 0)
-#define SDL20
-#endif
-
 #define MAX_MOUSE_BUTTONS       8
 
 #define GAMMALEVELS             31

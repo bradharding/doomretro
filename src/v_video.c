@@ -1211,11 +1211,7 @@ boolean V_ScreenShot(void)
         screenbuffer->format->Rmask, screenbuffer->format->Gmask, screenbuffer->format->Bmask,
         screenbuffer->format->Amask);
 
-#ifdef SDL20
     SDL_SetPaletteColors(screenshot->format->palette, palette, 0, 256);
-#else
-    SDL_SetColors(screenshot, palette, 0, 256);
-#endif
 
     SDL_BlitSurface(screenbuffer, NULL, screenshot, NULL);
 

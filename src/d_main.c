@@ -94,40 +94,37 @@
 //
 void D_DoomLoop(void);
 
-char            *version;
+char                    *version;
 
 // Location where savegames are stored
-char            *savegamedir;
+char                    *savegamedir;
 
 // location of IWAD and WAD files
-char            *iwadfile = "";
+char                    *iwadfile = "";
 
-char            *iwadfolder = IWADFOLDER_DEFAULT;
+char                    *iwadfolder = IWADFOLDER_DEFAULT;
 
-boolean         devparm;        // started game with -devparm
-boolean         nomonsters;     // checkparm of -nomonsters
-boolean         respawnparm;    // checkparm of -respawn
-boolean         fastparm;       // checkparm of -fast
+boolean                 devparm;        // started game with -devparm
+boolean                 nomonsters;     // checkparm of -nomonsters
+boolean                 respawnparm;    // checkparm of -respawn
+boolean                 fastparm;       // checkparm of -fast
 
-int             runcount = 0;
+int                     runcount = 0;
 
-skill_t         startskill;
-int             startepisode;
-int             startmap;
-boolean         autostart;
-int             startloadgame;
+skill_t                 startskill;
+int                     startepisode;
+int                     startmap;
+boolean                 autostart;
+int                     startloadgame;
 
-boolean         advancetitle;
-boolean         wipe = true;
-boolean         forcewipe = false;
+boolean                 advancetitle;
+boolean                 wipe = true;
+boolean                 forcewipe = false;
 
-boolean         splashscreen;
+boolean                 splashscreen;
 
-extern int      selectedexpansion;
-
-#ifdef SDL20
-extern SDL_Window *sdl_window;
-#endif
+extern int              selectedexpansion;
+extern SDL_Window       *sdl_window;
 
 void D_CheckNetGame(void);
 
@@ -139,9 +136,9 @@ void D_CheckNetGame(void);
 //
 #define MAXEVENTS       64
 
-static event_t  events[MAXEVENTS];
-static int      eventhead;
-static int      eventtail;
+static event_t          events[MAXEVENTS];
+static int              eventhead;
+static int              eventtail;
 
 //
 // D_PostEvent
@@ -596,10 +593,8 @@ static boolean D_IsUnsupportedPWAD(char *filename)
 #import <Cocoa/Cocoa.h>
 #endif
 
-#if defined WIN32 || __MACOSX__
 static void D_FirstUse(void)
 {
-#ifdef SDL20
     char *message = "Thank you for downloading " PACKAGE_NAME "!\n\n"
         "Please note that, as with all DOOM source ports, no actual map data is\n"
         "distributed with " PACKAGE_NAME ".\n\n"
@@ -643,46 +638,9 @@ static void D_FirstUse(void)
         if (buttons[buttonid].buttonid == 1)
             I_Quit(false);
     }
-#elif defined WIN32
-
-    LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
-        L"Please note that, as with all DOOM source ports, no actual map data is "
-        L"distributed with " PACKAGE_NAME_W L".\n\n"
-        L"In the dialog box that follows, please navigate to where an official "
-        L"\u201cIWAD file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
-        L"DOOM2.WAD) has been installed.\n\n"
-        L"Additional \u201cPWAD files\u201d may then be selected by clicking or "
-        L"CTRL-clicking on them.";
-
-    if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
-        I_Quit(false);
-
-#elif defined __MACOSX__
-    NSMutableString     *msg = [[NSMutableString alloc]init];
-
-    [msg appendString:@"Thank you for downloading "];
-    [msg appendString:@PACKAGE_NAME];
-    [msg appendString:@"!\n\n"];
-    [msg appendString:@"Please note that, as with all DOOM source ports, no actual map data is "];
-    [msg appendString:@"distributed with "];
-    [msg appendString:@PACKAGE_NAME];
-    [msg appendString:@"!\n\n"];
-    [msg appendString:@"In the dialog box that follows, please navigate to where an official "];
-    [msg appendString:@"\"IWAD file\" that "];
-    [msg appendString:@PACKAGE_NAME];
-    [msg appendString:@" requires (such as DOOM.WAD or "];
-    [msg appendString:@"DOOM2.WAD) has been installed.\n\n"];
-    [msg appendString:@"Additional \"PWAD files\" may then be selected by clicking or "];
-    [msg appendString:@"CMD-clicking on them."];
-
-    NSAlert     *alert = [[NSAlert alloc] init];
-
-    [alert setMessageText:msg];
-    [alert addButtonWithTitle:@"OK"];
-    [alert runModal];
-#endif
 }
 
+#if defined WIN32 || __MACOSX__
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;

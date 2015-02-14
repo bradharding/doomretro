@@ -1486,9 +1486,7 @@ void M_DrawEpisode(void)
         M_DrawCenteredString(44 + OFFSET, s_M_WHICHEPISODE);
 }
 
-#ifdef SDL20
 extern SDL_Window       *window;
-#endif
 
 void M_SetWindowCaption(void)
 {
@@ -1507,11 +1505,7 @@ void M_SetWindowCaption(void)
             M_snprintf(caption, sizeof(caption), "%s (%s)", caption, s_CAPTION_BFGEDITION);
     }
 
-#ifdef SDL20
     SDL_SetWindowTitle(window, caption);
-#else
-    SDL_WM_SetCaption(caption, NULL);
-#endif
 }
 
 void M_DrawExpansion(void)
@@ -2135,11 +2129,7 @@ boolean M_Responder(event_t *ev)
     int         i;
     static int  keywait = 0;
     char        *tempstring = "";
-#ifdef SDL20
     SDL_Keymod  modstate = SDL_GetModState();
-#else
-    SDLMod      modstate = SDL_GetModState();
-#endif
 
     if (startingnewgame || wipe)
         return false;

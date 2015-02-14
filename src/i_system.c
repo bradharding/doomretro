@@ -68,13 +68,9 @@ void I_ShutdownWindows32(void);
 #include "w_wad.h"
 #include "z_zone.h"
 
-#ifdef __MACOSX__
-#include <CoreFoundation/CFUserNotification.h>
-#endif
-
-extern boolean widescreen;
-extern boolean hud;
-extern boolean returntowidescreen;
+extern boolean  widescreen;
+extern boolean  hud;
+extern boolean  returntowidescreen;
 
 //
 // I_Quit
@@ -113,86 +109,6 @@ void I_WaitVBL(int count)
     I_Sleep((count * 1000) / 70);
 }
 
-#if !defined(WIN32) && !defined(__MACOSX__)
-
-#define ZENITY_BINARY "/usr/bin/zenity"
-
-// returns non-zero if zenity is available
-static int ZenityAvailable(void)
-{
-    return system(ZENITY_BINARY " --help >/dev/null 2>&1") == 0;
-}
-
-// Escape special characters in the given string so that they can be
-// safely enclosed in shell quotes.
-static char *EscapeShellString(char *string)
-{
-    char        *result;
-    char        *r, *s;
-
-    // In the worst case, every character might be escaped.
-    result = malloc(strlen(string) * 2 + 3);
-    r = result;
-
-    // Enclosing quotes.
-    *r = '"';
-    ++r;
-
-    for (s = string; *s != '\0'; ++s)
-    {
-        // From the bash manual:
-        //
-        //  "Enclosing characters in double quotes preserves the literal
-        //   value of all characters within the quotes, with the exception
-        //   of $, `, \, and, when history expansion is enabled, !."
-        //
-        // Therefore, escape these characters by prefixing with a backslash.
-        if (strchr("$`\\!", *s) != NULL)
-        {
-            *r = '\\';
-            ++r;
-        }
-
-        *r = *s;
-        ++r;
-    }
-
-    // Enclosing quotes.
-    *r = '"';
-    ++r;
-    *r = '\0';
-
-    return result;
-}
-
-// Open a native error box with a message using zenity
-static int ZenityErrorBox(char *message)
-{
-    int                 result;
-    char                *escaped_message;
-    char                *errorboxpath;
-    static size_t       errorboxpath_size;
-
-    if (!ZenityAvailable())
-        return 0;
-
-    escaped_message = EscapeShellString(message);
-
-    errorboxpath_size = strlen(ZENITY_BINARY) + strlen(escaped_message) + 19;
-    errorboxpath = malloc(errorboxpath_size);
-    M_snprintf(errorboxpath, errorboxpath_size, "%s --error --text=%s",
-        ZENITY_BINARY, escaped_message);
-
-    result = system(errorboxpath);
-
-    free(errorboxpath);
-    free(escaped_message);
-
-    return result;
-}
-
-#endif
-
 //
 // I_Error
 //
@@ -202,12 +118,6 @@ void I_Error(char *error, ...)
 {
     va_list     argptr;
     char        msgbuf[512];
-
-#ifndef SDL20
-#ifdef WIN32
-    wchar_t     wmsgbuf[512];
-#endif
-#endif
 
     if (already_quitting)
         exit(-1);
@@ -233,38 +143,7 @@ void I_Error(char *error, ...)
     M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
 
-#ifdef SDL20
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, PACKAGE_NAME, msgbuf, NULL);
-#else
-#ifdef WIN32
-    MultiByteToWideChar(CP_ACP, 0, msgbuf, strlen(msgbuf) + 1, wmsgbuf, sizeof(wmsgbuf));
-
-    MessageBoxW(NULL, wmsgbuf, PACKAGE_NAME_W, MB_ICONERROR | MB_OK);
-
-    I_ShutdownWindows32();
-
-#elif defined(__MACOSX__)
-    {
-        CFStringRef     message;
-        int             i;
-
-        // The CoreFoundation message box wraps text lines, so replace
-        // newline characters with spaces so that multiline messages
-        // are continuous.
-
-        for (i = 0; msgbuf[i] != '\0'; ++i)
-            if (msgbuf[i] == '\n')
-                msgbuf[i] = ' ';
-
-        message = CFStringCreateWithCString(NULL, msgbuf, kCFStringEncodingUTF8);
-
-        CFUserNotificationDisplayNotice(0, kCFUserNotificationCautionAlertLevel, NULL, NULL, NULL,
-            CFSTR(PACKAGE_NAME), message, NULL);
-    }
-#else
-    ZenityErrorBox(msgbuf);
-#endif
-#endif
 
     SDL_Quit();
 

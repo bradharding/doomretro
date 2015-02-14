@@ -536,9 +536,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 }
 
-#ifdef SDL20
 extern SDL_Window       *window;
-#endif
 
 //
 // G_DoLoadLevel
@@ -622,11 +620,7 @@ void G_DoLoadLevel(void)
     sendpause = sendsave = paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
-#ifdef SDL20
     SDL_SetWindowTitle(window, mapnumandtitle);
-#else
-    SDL_WM_SetCaption(mapnumandtitle, NULL);
-#endif
 
     C_AddConsoleDivider();
     C_AddConsoleString(mapnumandtitle, title, CONSOLEMAPTITLECOLOR);

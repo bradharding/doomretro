@@ -264,9 +264,7 @@
 
 #define SAVEGAME_DEFAULT                        0
 
-#ifdef SDL20
 #define SCALEQUALITY_DEFAULT                    "nearest"
-#endif
 
 #define SCREENSIZE_MIN                          0
 #define SCREENSIZE_DEFAULT                      7
@@ -301,11 +299,7 @@
 #define TRANSLUCENCY_DEFAULT                    true
 
 #ifdef WIN32
-#ifdef SDL20
 #define VIDEODRIVER_DEFAULT                     "windows"
-#else
-#define VIDEODRIVER_DEFAULT                     "directx"
-#endif
 #else
 #define VIDEODRIVER_DEFAULT                     ""
 #endif
