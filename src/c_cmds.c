@@ -186,7 +186,8 @@ boolean C_SummonCondition(char *cmd)
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(consolecmdparm, mobjinfo[i].name))
+            if (!strcasecmp(consolecmdparm, mobjinfo[i].name1)
+                || (mobjinfo[i].name2[0] && !strcasecmp(consolecmdparm, mobjinfo[i].name2)))
             {
                 boolean     summon = true;
 
@@ -312,8 +313,10 @@ void C_Kill(void)
         else
         {
             for (i = 0; i < NUMMOBJTYPES; i++)
-                if (!strcasecmp(consolecmdparm, mobjinfo[i].name)
-                    || !strcasecmp(consolecmdparm, mobjinfo[i].plural))
+                if (!strcasecmp(consolecmdparm, mobjinfo[i].name1)
+                    || !strcasecmp(consolecmdparm, mobjinfo[i].plural1)
+                    || (mobjinfo[i].name2[0] && !strcasecmp(consolecmdparm, mobjinfo[i].name2))
+                    || (mobjinfo[i].plural2[0] && !strcasecmp(consolecmdparm, mobjinfo[i].plural2)))
                 {
                     boolean     kill = true;
                     int         type = mobjinfo[i].doomednum;
