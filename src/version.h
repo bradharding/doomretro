@@ -46,7 +46,6 @@
 #define PACKAGE_EMAIL                   "brad@doomretro.com"
 #define PACKAGE_ICON_PATH               "..\\res\\doomretro.ico"
 #define PACKAGE_MUTEX                   "DOOMRETRO-CC4F1071-8B24-4E91-A207-D792F39636CD"
-#define PACKAGE_NAME_A                  "DOOM RETRO"
-#define PACKAGE_NAME_W                  L"DOOM RETRO"
-#define PACKAGE_NAME                    PACKAGE_NAME_A
+#define PACKAGE_NAME                    "DOOM RETRO"
 #define PACKAGE_WAD                     "doomretro.wad"
+#define PACKAGE_WIKI_URL                "http:\\\\wiki.doomretro.com"

@@ -44,6 +44,7 @@
 #include <windows.h>
 #include <Commdlg.h>
 #include <MMSystem.h>
+#include <ShellAPI.h>
 #endif
 
 #ifndef MAX_PATH
@@ -598,7 +599,52 @@ static boolean D_IsUnsupportedPWAD(char *filename)
 #if defined WIN32 || __MACOSX__
 static void D_FirstUse(void)
 {
+#ifdef SDL20
+    char *message = "Thank you for downloading " PACKAGE_NAME "!\n\n"
+        "Please note that, as with all DOOM source ports, no actual map data is\n"
+        "distributed with " PACKAGE_NAME ".\n\n"
+        "In the dialog box that follows, please navigate to where an official\n"
+        "\xe2\x80\x9cIWAD file\xe2\x80\x9d that " PACKAGE_NAME " requires (such as DOOM.WAD or\n"
+        "DOOM2.WAD) has been installed.\n\n"
+        "Additional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be selected by clicking or\n"
+        "CTRL-clicking on them.";
+
+    const SDL_MessageBoxButtonData buttons[] = 
+    {
 #ifdef WIN32
+        {                                       0, 0, "&Wiki"   },
+#endif
+        { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "&Cancel" },
+        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 2, "&OK"     }
+    };
+
+    const SDL_MessageBoxData messageboxdata =
+    {
+        SDL_MESSAGEBOX_INFORMATION,
+        NULL,
+        PACKAGE_NAME,
+        message,
+        SDL_arraysize(buttons),
+        buttons,
+        NULL
+    };
+    int buttonid;
+
+    if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
+    {
+#ifdef WIN32
+        if (buttons[buttonid].buttonid == 0)
+        {
+            ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_URL, NULL, NULL, SW_SHOWNORMAL);
+            I_Quit(false);
+        }
+        else
+#endif
+        if (buttons[buttonid].buttonid == 1)
+            I_Quit(false);
+    }
+#elif defined WIN32
+
     LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
         L"Please note that, as with all DOOM source ports, no actual map data is "
         L"distributed with " PACKAGE_NAME_W L".\n\n"
