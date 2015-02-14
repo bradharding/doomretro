@@ -595,14 +595,12 @@ static boolean D_IsUnsupportedPWAD(char *filename)
 
 static void D_FirstUse(void)
 {
-    char *message = "Thank you for downloading " PACKAGE_NAME "!\n\n"
-        "Please note that, as with all DOOM source ports, no actual map data is\n"
-        "distributed with " PACKAGE_NAME ".\n\n"
-        "In the dialog box that follows, please navigate to where an official\n"
-        "\xe2\x80\x9cIWAD file\xe2\x80\x9d that " PACKAGE_NAME " requires (such as DOOM.WAD or\n"
-        "DOOM2.WAD) has been installed.\n\n"
-        "Additional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be selected by clicking or\n"
-        "CTRL-clicking on them.";
+    char *message = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with "
+        "all DOOM source ports, no actual map data is included\nwith " PACKAGE_NAME ".\n\nIn the "
+        "dialog box that follows, please navigate to where an official \xe2\x80\x9cIWAD file"
+        "\xe2\x80\x9d that\n" PACKAGE_NAME " requires (such as DOOM.WAD or DOOM2.WAD) has been "
+        "installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be selected by "
+        "clicking or CTRL-clicking on them.";
 
     const SDL_MessageBoxButtonData buttons[] = 
     {
