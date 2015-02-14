@@ -228,6 +228,9 @@ void I_Error(char *error, ...)
     M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
 
+#ifdef SDL20
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, PACKAGE_NAME, msgbuf, NULL);
+#else
 #ifdef WIN32
     MultiByteToWideChar(CP_ACP, 0, msgbuf, strlen(msgbuf) + 1, wmsgbuf, sizeof(wmsgbuf));
 
@@ -255,6 +258,7 @@ void I_Error(char *error, ...)
     }
 #else
     ZenityErrorBox(msgbuf);
+#endif
 #endif
 
     SDL_Quit();
