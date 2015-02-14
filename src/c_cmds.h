@@ -42,14 +42,14 @@
 
 typedef struct
 {
-    char        *command;
-    boolean     (*condition)(char *command);
-    void        (*func)(void);
-    int         parms;
-    char        *description;
-} consolecommand_t;
+    char                *cmd;
+    boolean             (*condition)(char *cmd);
+    void                (*func)(void);
+    int                 parms;
+    char                *description;
+} consolecmd_t;
 
-extern consolecommand_t consolecommands[];
+extern consolecmd_t     consolecmds[];
 
 boolean C_CheatCondition(char *);
 

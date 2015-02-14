@@ -70,7 +70,7 @@ extern int      consoledirection;
 
 extern char     consolecheat[255];
 extern char     consolecheatparm[3];
-extern char     consolecommandparm[255];
+extern char     consolecmdparm[255];
 
 void C_AddConsoleString(char *string, stringtype_t type, byte color);
 void C_AddConsoleDivider(void);

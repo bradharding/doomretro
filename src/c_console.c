@@ -93,7 +93,7 @@ static int      carettics = 0;
 
 char            consolecheat[255] = "";
 char            consolecheatparm[3] = "";
-char            consolecommandparm[255] = "";
+char            consolecmdparm[255] = "";
 
 static int      autocomplete = -1;
 static char     autocompletetext[255] = "";
@@ -387,17 +387,17 @@ boolean C_Responder(event_t *ev)
             case KEY_ENTER:
                 if (consoleinput[0])
                 {
-                    boolean     validcommand = false;
+                    boolean     validcmd = false;
 
-                    // process input
+                    // process cmd
                     i = 0;
-                    while (consolecommands[i].command[0])
+                    while (consolecmds[i].cmd[0])
                     {
-                        if (consolecommands[i].parms)
+                        if (consolecmds[i].parms)
                         {
-                            char        command[255] = "";
+                            char        cmd[255] = "";
 
-                            if (consolecommands[i].condition == C_CheatCondition)
+                            if (consolecmds[i].condition == C_CheatCondition)
                             {
                                 int     length = strlen(consoleinput);
 
@@ -408,52 +408,52 @@ boolean C_Responder(event_t *ev)
                                     consolecheatparm[1] = consoleinput[length - 1];
                                     consolecheatparm[2] = 0;
 
-                                    M_StringCopy(command, consoleinput, 255);
-                                    command[length - 2] = 0;
+                                    M_StringCopy(cmd, consoleinput, 255);
+                                    cmd[length - 2] = 0;
 
-                                    if (!strcasecmp(command, consolecommands[i].command)
-                                        && length == strlen(command) + 2
-                                        && consolecommands[i].condition(command))
+                                    if (!strcasecmp(cmd, consolecmds[i].cmd)
+                                        && length == strlen(cmd) + 2
+                                        && consolecmds[i].condition(cmd))
                                     {
-                                        validcommand = true;
+                                        validcmd = true;
                                         C_AddConsoleString(consoleinput, input,
                                             CONSOLEINPUTTOOUTPUTCOLOR);
-                                        M_StringCopy(consolecheat, command, 255);
+                                        M_StringCopy(consolecheat, cmd, 255);
                                         break;
                                     }
                                 }
                             }
                             else
                             {
-                                sscanf(consoleinput, "%s %s", command, consolecommandparm);
-                                if (!strcasecmp(command, consolecommands[i].command)
-                                    && consolecommands[i].condition(command))
+                                sscanf(consoleinput, "%s %s", cmd, consolecmdparm);
+                                if (!strcasecmp(cmd, consolecmds[i].cmd)
+                                    && consolecmds[i].condition(cmd))
                                 {
-                                    validcommand = true;
+                                    validcmd = true;
                                     C_AddConsoleString(consoleinput, input,
                                         CONSOLEINPUTTOOUTPUTCOLOR);
-                                    consolecommands[i].func();
-                                    consolecommandparm[0] = 0;
+                                    consolecmds[i].func();
+                                    consolecmdparm[0] = 0;
                                     break;
                                 }
                             }
                         }
-                        else if (!strcasecmp(consoleinput, consolecommands[i].command)
-                            && consolecommands[i].condition(consoleinput))
+                        else if (!strcasecmp(consoleinput, consolecmds[i].cmd)
+                            && consolecmds[i].condition(consoleinput))
                         {
-                            validcommand = true;
+                            validcmd = true;
                             C_AddConsoleString(consoleinput, input,
                                 CONSOLEINPUTTOOUTPUTCOLOR);
-                            if (consolecommands[i].condition == C_CheatCondition)
+                            if (consolecmds[i].condition == C_CheatCondition)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
-                                consolecommands[i].func();
+                                consolecmds[i].func();
                             break;
                         }
                         ++i;
                     }
 
-                    if (validcommand)
+                    if (validcmd)
                     {
                         // clear input
                         consoleinput[0] = 0;
@@ -520,13 +520,13 @@ boolean C_Responder(event_t *ev)
                         M_StringCopy(autocompletetext, consoleinput, 255);
                     }
 
-                    while (consolecommands[autocomplete].command[0])
+                    while (consolecmds[autocomplete].cmd[0])
                     {
-                        if (M_StringStartsWith(consolecommands[autocomplete].command, autocompletetext)
-                            && consolecommands[autocomplete].condition != C_CheatCondition)
+                        if (M_StringStartsWith(consolecmds[autocomplete].cmd, autocompletetext)
+                            && consolecmds[autocomplete].condition != C_CheatCondition)
                         {
-                            M_StringCopy(consoleinput, consolecommands[autocomplete].command, 255);
-                            if (consolecommands[autocomplete].parms)
+                            M_StringCopy(consoleinput, consolecmds[autocomplete].cmd, 255);
+                            if (consolecmds[autocomplete].parms)
                             {
                                 int     length = strlen(consoleinput);
 

@@ -71,7 +71,7 @@ void C_NoClip(void);
 void C_Quit(void);
 void C_Summon(void);
 
-consolecommand_t consolecommands[] =
+consolecmd_t consolecmds[] =
 {
     { "clear",      C_NoCondition,     C_Clear,    0, "Clear the console."                   },
     { "cmdlist",    C_NoCondition,     C_CmdList,  0, "Display a list of console commands."  },
@@ -101,72 +101,72 @@ consolecommand_t consolecommands[] =
     { "",           C_NoCondition,     NULL,       0, ""                                     }
 };
 
-boolean C_CheatCondition(char *command)
+boolean C_CheatCondition(char *cmd)
 {
     if (gamestate != GS_LEVEL)
         return false;
-    if (!strcasecmp(command, "idclip") && gamemode != commercial)
+    if (!strcasecmp(cmd, "idclip") && gamemode != commercial)
         return false;
-    if (!strcasecmp(command, "idspispopd") && gamemode == commercial)
+    if (!strcasecmp(cmd, "idspispopd") && gamemode == commercial)
         return false;
     return true;
 }
 
-boolean C_GameCondition(char *command)
+boolean C_GameCondition(char *cmd)
 {
     return (gamestate == GS_LEVEL);
 }
 
-static int      mapcommandepisode;
-static int      mapcommandmap;
+static int      mapcmdepisode;
+static int      mapcmdmap;
 
-boolean C_MapCondition(char *command)
+boolean C_MapCondition(char *cmd)
 {
-    if (!consolecommandparm[0])
+    if (!consolecmdparm[0])
         return false;
 
-    mapcommandepisode = 0;
-    mapcommandmap = 0;
+    mapcmdepisode = 0;
+    mapcmdmap = 0;
 
     if (gamemode == commercial)
     {
         if (BTSX)
         {
-            sscanf(uppercase(consolecommandparm), "E%iM%02i", &mapcommandepisode, &mapcommandmap);
-            if (mapcommandmap && ((mapcommandepisode == 1 && BTSXE1) || (mapcommandepisode == 2 && BTSXE2)))
+            sscanf(uppercase(consolecmdparm), "E%iM%02i", &mapcmdepisode, &mapcmdmap);
+            if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
             {
-                M_snprintf(consolecommandparm, sizeof(consolecommandparm), "MAP%02i", mapcommandmap);
-                return (W_CheckMultipleLumps(consolecommandparm) == 2);
+                M_snprintf(consolecmdparm, sizeof(consolecmdparm), "MAP%02i", mapcmdmap);
+                return (W_CheckMultipleLumps(consolecmdparm) == 2);
             }
         }
-        sscanf(uppercase(consolecommandparm), "MAP%02i", &mapcommandmap);
-        if (!mapcommandmap)
+        sscanf(uppercase(consolecmdparm), "MAP%02i", &mapcmdmap);
+        if (!mapcmdmap)
             return false;
-        if (BTSX && (W_CheckMultipleLumps(consolecommandparm) == 1))
+        if (BTSX && (W_CheckMultipleLumps(consolecmdparm) == 1))
             return false;
         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
             gamemission = doom2;
     }
     else
     {
-        sscanf(uppercase(consolecommandparm), "E%iM%i", &mapcommandepisode, &mapcommandmap);
-        if (!mapcommandepisode || !mapcommandmap)
+        sscanf(uppercase(consolecmdparm), "E%iM%i", &mapcmdepisode, &mapcmdmap);
+        if (!mapcmdepisode || !mapcmdmap)
             return false;
     }
 
-    return (W_CheckNumForName(consolecommandparm) >= 0);
+    return (W_CheckNumForName(consolecmdparm) >= 0);
 }
 
-boolean C_NoCondition(char *command)
+boolean C_NoCondition(char *cmd)
 {
     return true;
 }
 
-static int      summoncommandtype = NUMMOBJTYPES;
+static int      summoncmdtype = NUMMOBJTYPES;
 
-boolean C_SummonCondition(char *command)
+boolean C_SummonCondition(char *cmd)
 {
-    if (!consolecommandparm[0])
+    if (!consolecmdparm[0])
         return false;
 
     if (gamestate == GS_LEVEL)
@@ -174,14 +174,14 @@ boolean C_SummonCondition(char *command)
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(consolecommandparm, mobjinfo[i].name))
+            if (!strcasecmp(consolecmdparm, mobjinfo[i].name))
             {
                 boolean     summon = true;
 
-                summoncommandtype = mobjinfo[i].doomednum;
+                summoncmdtype = mobjinfo[i].doomednum;
                 if (gamemode != commercial)
                 {
-                    switch (summoncommandtype)
+                    switch (summoncmdtype)
                     {
                         case Arachnotron:
                         case ArchVile:
@@ -196,8 +196,8 @@ boolean C_SummonCondition(char *command)
                             break;
                     }
                 }
-                else if (summoncommandtype == WolfensteinSS && bfgedition)
-                    summoncommandtype = Zombieman;
+                else if (summoncmdtype == WolfensteinSS && bfgedition)
+                    summoncmdtype = Zombieman;
 
                 return summon;
             }
@@ -232,14 +232,14 @@ void C_CmdList(void)
     int i = 0;
     int count = 1;
 
-    while (consolecommands[i].command[0])
+    while (consolecmds[i].cmd[0])
     {
-        if (consolecommands[i].condition != C_CheatCondition)
+        if (consolecmds[i].condition != C_CheatCondition)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecommands[i].command,
-                consolecommands[i].description);
+            M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecmds[i].cmd,
+                consolecmds[i].description);
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
@@ -255,7 +255,7 @@ void A_Fall(mobj_t *actor);
 
 void C_Kill(void)
 {
-    if (!consolecommandparm[0])
+    if (!consolecmdparm[0])
     {
         P_KillMobj(NULL, players[displayplayer].mo);
         C_AddConsoleString("Player killed.", output, CONSOLEOUTPUTCOLOR);
@@ -266,8 +266,8 @@ void C_Kill(void)
         int             kills = 0;
         static char     buffer[1024];
 
-        if (!strcasecmp(consolecommandparm, "all")
-            || !strcasecmp(consolecommandparm, "monsters"))
+        if (!strcasecmp(consolecmdparm, "all")
+            || !strcasecmp(consolecmdparm, "monsters"))
         {
             for (i = 0; i < numsectors; ++i)
             {
@@ -296,15 +296,15 @@ void C_Kill(void)
         else
         {
             for (i = 0; i < NUMMOBJTYPES; i++)
-                if (!strcasecmp(consolecommandparm, mobjinfo[i].name)
-                    || !strcasecmp(consolecommandparm, mobjinfo[i].plural))
+                if (!strcasecmp(consolecmdparm, mobjinfo[i].name)
+                    || !strcasecmp(consolecmdparm, mobjinfo[i].plural))
                 {
                     boolean     kill = true;
                     int         type = mobjinfo[i].doomednum;
 
                     if (gamemode != commercial)
                     {
-                        switch (summoncommandtype)
+                        switch (summoncmdtype)
                         {
                             case Arachnotron:
                             case ArchVile:
@@ -365,14 +365,14 @@ extern menu_t   EpiDef;
 
 void C_Map(void)
 {
-    samelevel = (gameepisode == mapcommandepisode && gamemap == mapcommandmap);
-    gameepisode = mapcommandepisode;
+    samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
+    gameepisode = mapcmdepisode;
     if (gamemission == doom && gameepisode <= 4)
     {
         selectedepisode = gameepisode - 1;
         EpiDef.lastOn = selectedepisode;
     }
-    gamemap = mapcommandmap;
+    gamemap = mapcmdmap;
     if (gamestate == GS_LEVEL)
         G_DeferredLoadLevel(gamestate == GS_LEVEL ? gameskill : selectedskilllevel, gameepisode,
             gamemap);
@@ -399,7 +399,7 @@ void C_Summon(void)
     fixed_t     y = player->y;
     angle_t     angle = player->angle >> ANGLETOFINESHIFT;
     mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
-                    ONFLOORZ, P_FindDoomedNum(summoncommandtype));
+        ONFLOORZ, P_FindDoomedNum(summoncmdtype));
 
     thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
 }
