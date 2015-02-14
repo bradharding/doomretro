@@ -752,6 +752,7 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
+#ifndef SDL20
 static __forceinline void StretchBlit(void)
 {
     fixed_t     i = 0;
@@ -770,11 +771,10 @@ static __forceinline void StretchBlit(void)
         i += pitch;
     } while ((y += stepy) < blitheight);
 }
+#endif
 
-#ifndef SDL20
 SDL_Rect        src_rect = { 0, 0, 0, 0 };
 SDL_Rect        dest_rect = { 0, 0, 0, 0 };
-#endif
 
 int             fps = 0;
 int             frames = 0;
@@ -816,7 +816,7 @@ void I_FinishUpdate(void)
 #ifdef SDL20
     SDL_BlitSurface(screenbuffer, NULL, rgbabuffer, NULL);
     SDL_UpdateTexture(texture, NULL, rgbabuffer->pixels, SCREENWIDTH * sizeof(Uint32));
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 #else
     StretchBlit();
@@ -920,7 +920,13 @@ static void GetDesktopDimensions(void)
 #endif
 }
 
-#ifndef SDL20
+#ifdef SDL20
+static void SetupScreenRects(void)
+{
+    src_rect.w = SCREENWIDTH;
+    src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
+}
+#else
 static void SetupScreenRects(void)
 {
     int w = screenbuffer->w;
@@ -938,7 +944,7 @@ static void SetupScreenRects(void)
         h -= dy;
 
     src_rect.w = dest_rect.w = w;
-    src_rect.h = dest_rect.h = h;
+    src_rect.h = dest_rect.h = h - 64;
 }
 #endif
 
@@ -1048,9 +1054,7 @@ static void SetVideoMode(void)
     if (!screenbuffer)
         I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
-#ifndef SDL20
     SetupScreenRects();
-#endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1129,15 +1133,19 @@ void ToggleWidescreen(boolean toggle)
         windowheight = screen->h;
     }
 
+#ifdef SDL20
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+    SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, widescreen ? SCREENHEIGHT : SCREENWIDTH * 3 / 4);
+#else
     SDL_FreeSurface(screenbuffer);
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
+#endif
 
     if (!screenbuffer)
         I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
-#ifndef SDL20
     SetupScreenRects();
-#endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1282,9 +1290,7 @@ void ToggleFullscreen(void)
     if (!screenbuffer)
         I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
-#ifndef SDL20
     SetupScreenRects();
-#endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
@@ -1321,9 +1327,7 @@ static void ApplyWindowResize(int resize_h)
     if (!screenbuffer)
         I_Error("ApplyWindowResize, line %i: %s\n", __LINE__ - 3, SDL_GetError());
 
-#ifndef SDL20
     SetupScreenRects();
-#endif
 
     pitch = screenbuffer->pitch;
     pixels = (byte *)screenbuffer->pixels;
