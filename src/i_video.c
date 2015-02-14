@@ -539,7 +539,6 @@ void I_GetEvent(void)
                 ev.data2 = sdlevent.key.keysym.sym;
                 if (ev.data2 < SDLK_SPACE || ev.data2 > SDLK_z)
                     ev.data2 = 0;
-
 #else
                 ev.data1 = translatekey[sdlevent.key.keysym.sym];
                 ev.data2 = tolower(sdlevent.key.keysym.unicode);

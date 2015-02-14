@@ -715,6 +715,8 @@
 #define STSTR_BEHOLDOFF         ""
 #define STSTR_CLEVSAME          ""
 #define STSTR_MYPOS             ""
+#define STSTR_NTON              ""
+#define STSTR_NTOFF             ""
 #define N1TEXT                  ""
 #define CC_SPECTRE              ""
 #define M_NEWGAME               ""

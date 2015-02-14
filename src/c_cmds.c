@@ -38,6 +38,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -70,6 +71,7 @@ void C_Kill(void);
 void C_Map(void);
 void C_Messages(void);
 void C_NoClip(void);
+void C_NoTarget(void);
 void C_Quit(void);
 void C_Summon(void);
 
@@ -99,6 +101,7 @@ consolecmd_t consolecmds[] =
     { "map",        C_MapCondition,    C_Map,      1, CT_CMD,   "Warp to a map."                       },
     { "messages",   C_OnOffCondition,  C_Messages, 1, CT_CVAR,  "Toggle messages on/off."              },
     { "noclip",     C_GameCondition,   C_NoClip,   0, CT_CMD,   "Toggle no clipping mode on/off."      },
+    { "notarget",   C_GameCondition,   C_NoTarget, 0, CT_CMD,   "Toggle no target mode on/off."        },
     { "quit",       C_NoCondition,     C_Quit,     0, CT_CMD,   "Quit DOOM RETRO."                     },
     { "summon",     C_SummonCondition, C_Summon,   1, CT_CMD,   "Summon a monster or map decoration."  },
     { "",           C_NoCondition,     NULL,       0, 0,        ""                                     }
@@ -411,6 +414,13 @@ void C_NoClip(void)
 {
     M_StringCopy(consolecheat, (gamemode == commercial ? "idclip" : "idspispopd"),
         sizeof(consolecheat));
+}
+
+void C_NoTarget(void)
+{
+    players[displayplayer].cheats ^= CF_NOTARGET;
+    C_AddConsoleString(players[displayplayer].cheats & CF_NOTARGET ? s_STSTR_NTON : s_STSTR_NTOFF,
+        output, CONSOLEOUTPUTCOLOR);
 }
 
 void C_Quit(void)

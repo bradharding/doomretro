@@ -651,6 +651,9 @@ static boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
 
         player = &players[actor->lastlook];
 
+        if (player->cheats & CF_NOTARGET)
+            return false;
+
         if (player->health <= 0)
             continue;           // dead
 
