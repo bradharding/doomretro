@@ -397,7 +397,7 @@ boolean C_Responder(event_t *ev)
                         {
                             char        cmd[255] = "";
 
-                            if (consolecmds[i].condition == C_CheatCondition)
+                            if (consolecmds[i].type == CT_CHEAT)
                             {
                                 int     length = strlen(consoleinput);
 
@@ -444,7 +444,7 @@ boolean C_Responder(event_t *ev)
                             validcmd = true;
                             C_AddConsoleString(consoleinput, input,
                                 CONSOLEINPUTTOOUTPUTCOLOR);
-                            if (consolecmds[i].condition == C_CheatCondition)
+                            if (consolecmds[i].type == CT_CHEAT)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
                                 consolecmds[i].func();
@@ -523,7 +523,7 @@ boolean C_Responder(event_t *ev)
                     while (consolecmds[autocomplete].cmd[0])
                     {
                         if (M_StringStartsWith(consolecmds[autocomplete].cmd, autocompletetext)
-                            && consolecmds[autocomplete].condition != C_CheatCondition)
+                            && consolecmds[autocomplete].type != CT_CHEAT)
                         {
                             M_StringCopy(consoleinput, consolecmds[autocomplete].cmd, 255);
                             if (consolecmds[autocomplete].parms)

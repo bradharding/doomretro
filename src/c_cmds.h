@@ -40,17 +40,23 @@
 
 #include "doomtype.h"
 
+typedef enum
+{
+    CT_CMD = 1,
+    CT_CVAR,
+    CT_CHEAT
+} cmdtype_t;
+
 typedef struct
 {
     char                *cmd;
     boolean             (*condition)(char *cmd);
     void                (*func)(void);
     int                 parms;
+    cmdtype_t           type;
     char                *description;
 } consolecmd_t;
 
 extern consolecmd_t     consolecmds[];
-
-boolean C_CheatCondition(char *);
 
 #endif

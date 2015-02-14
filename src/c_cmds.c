@@ -59,6 +59,7 @@ boolean C_CheatCondition(char *);
 boolean C_GameCondition(char *);
 boolean C_MapCondition(char *);
 boolean C_NoCondition(char *);
+boolean C_OnOffCondition(char *);
 boolean C_SummonCondition(char *);
 
 void C_Clear(void);
@@ -67,38 +68,40 @@ void C_CvarList(void);
 void C_God(void);
 void C_Kill(void);
 void C_Map(void);
+void C_Messages(void);
 void C_NoClip(void);
 void C_Quit(void);
 void C_Summon(void);
 
 consolecmd_t consolecmds[] =
 {
-    { "clear",      C_NoCondition,     C_Clear,    0, "Clear the console."                   },
-    { "cmdlist",    C_NoCondition,     C_CmdList,  0, "Display a list of console commands."  },
-    { "cvarlist",   C_NoCondition,     C_CvarList, 0, "Display a list of console variables." },
-    { "god",        C_GameCondition,   C_God,      0, "Toggle degreelessness mode on/off."   },
-    { "idbeholda",  C_CheatCondition,  NULL,       0, ""                                     },
-    { "idbeholdl",  C_CheatCondition,  NULL,       0, ""                                     },
-    { "idbeholdi",  C_CheatCondition,  NULL,       0, ""                                     },
-    { "idbeholdr",  C_CheatCondition,  NULL,       0, ""                                     },
-    { "idbeholds",  C_CheatCondition,  NULL,       0, ""                                     },
-    { "idbeholdv",  C_CheatCondition,  NULL,       0, ""                                     },
-    { "idchoppers", C_CheatCondition,  NULL,       0, ""                                     },
-    { "idclev",     C_CheatCondition,  NULL,       1, ""                                     },
-    { "idclip",     C_CheatCondition,  NULL,       0, ""                                     },
-    { "iddqd",      C_CheatCondition,  NULL,       0, ""                                     },
-    { "iddt",       C_CheatCondition,  NULL,       0, ""                                     },
-    { "idfa",       C_CheatCondition,  NULL,       0, ""                                     },
-    { "idkfa",      C_CheatCondition,  NULL,       0, ""                                     },
-    { "idmus",      C_CheatCondition,  NULL,       1, ""                                     },
-    { "idmypos",    C_CheatCondition,  NULL,       0, ""                                     },
-    { "idspispopd", C_CheatCondition,  NULL,       0, ""                                     },
-    { "kill",       C_GameCondition,   C_Kill,     1, "Kill the player or monsters."         },
-    { "map",        C_MapCondition,    C_Map,      1, "Warp to a map."                       },
-    { "noclip",     C_GameCondition,   C_NoClip,   0, "Toggle no clipping mode on/off."      },
-    { "quit",       C_NoCondition,     C_Quit,     0, "Quit DOOM RETRO."                     },
-    { "summon",     C_SummonCondition, C_Summon,   1, "Summon a monster or map decoration."  },
-    { "",           C_NoCondition,     NULL,       0, ""                                     }
+    { "clear",      C_NoCondition,     C_Clear,    0, CT_CMD,   "Clear the console."                   },
+    { "cmdlist",    C_NoCondition,     C_CmdList,  0, CT_CMD,   "Display a list of console commands."  },
+    { "cvarlist",   C_NoCondition,     C_CvarList, 0, CT_CMD,   "Display a list of console variables." },
+    { "god",        C_GameCondition,   C_God,      0, CT_CMD,   "Toggle degreelessness mode on/off."   },
+    { "idbeholda",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idbeholdl",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idbeholdi",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idbeholdr",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idbeholds",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idbeholdv",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idchoppers", C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idclev",     C_CheatCondition,  NULL,       1, CT_CHEAT, ""                                     },
+    { "idclip",     C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "iddqd",      C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "iddt",       C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idfa",       C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idkfa",      C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idmus",      C_CheatCondition,  NULL,       1, CT_CHEAT, ""                                     },
+    { "idmypos",    C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "idspispopd", C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
+    { "kill",       C_GameCondition,   C_Kill,     1, CT_CMD,   "Kill the player or monsters."         },
+    { "map",        C_MapCondition,    C_Map,      1, CT_CMD,   "Warp to a map."                       },
+    { "messages",   C_OnOffCondition,  C_Messages, 1, CT_CVAR,  "Toggle messages on/off."              },
+    { "noclip",     C_GameCondition,   C_NoClip,   0, CT_CMD,   "Toggle no clipping mode on/off."      },
+    { "quit",       C_NoCondition,     C_Quit,     0, CT_CMD,   "Quit DOOM RETRO."                     },
+    { "summon",     C_SummonCondition, C_Summon,   1, CT_CMD,   "Summon a monster or map decoration."  },
+    { "",           C_NoCondition,     NULL,       0, 0,        ""                                     }
 };
 
 boolean C_CheatCondition(char *cmd)
@@ -162,6 +165,12 @@ boolean C_NoCondition(char *cmd)
     return true;
 }
 
+boolean C_OnOffCondition(char *cmd)
+{
+    return (!consolecmdparm[0] || !strcasecmp(consolecmdparm, "on")
+        || !strcasecmp(consolecmdparm, "off"));
+}
+
 static int      summoncmdtype = NUMMOBJTYPES;
 
 boolean C_SummonCondition(char *cmd)
@@ -212,21 +221,6 @@ void C_Clear(void)
     consolestrings = 0;
 }
 
-void C_CvarList(void)
-{
-    int i = 0;
-    int count = 1;
-
-    while (i < doom_defaults.numdefaults)
-    {
-        static char     buffer[1024];
-
-        M_snprintf(buffer, 1024, "%i\t%s", count++, doom_defaults.defaults[i].name);
-        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
-        ++i;
-    }
-}
-
 void C_CmdList(void)
 {
     int i = 0;
@@ -234,7 +228,26 @@ void C_CmdList(void)
 
     while (consolecmds[i].cmd[0])
     {
-        if (consolecmds[i].condition != C_CheatCondition)
+        if (consolecmds[i].type == CT_CMD)
+        {
+            static char     buffer[1024];
+
+            M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecmds[i].cmd,
+                consolecmds[i].description);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+        }
+        ++i;
+    }
+}
+
+void C_CvarList(void)
+{
+    int i = 0;
+    int count = 1;
+
+    while (consolecmds[i].cmd[0])
+    {
+        if (consolecmds[i].type == CT_CVAR)
         {
             static char     buffer[1024];
 
@@ -379,6 +392,19 @@ void C_Map(void)
     else
         G_DeferredInitNew(gamestate == GS_LEVEL ? gameskill : selectedskilllevel, gameepisode,
             gamemap);
+}
+
+extern boolean  messages;
+
+void C_Messages(void)
+{
+    if (!strcasecmp(consolecmdparm, "on"))
+        messages = true;
+    else if (!strcasecmp(consolecmdparm, "off"))
+        messages = false;
+    C_AddConsoleString(messages ? "\"messages\" are \"on\"" : "\"messages\" are \"off\"", output,
+        CONSOLEOUTPUTCOLOR);
+    M_SaveDefaults();
 }
 
 void C_NoClip(void)
