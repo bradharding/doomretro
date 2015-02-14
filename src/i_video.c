@@ -101,6 +101,8 @@ boolean                 returntowidescreen = false;
 boolean                 widescreenresize = false;
 boolean                 hud = HUD_DEFAULT;
 
+char                    *scalequality = SCALEQUALITY_DEFAULT;
+
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
 boolean                 screenvisible;
@@ -951,7 +953,7 @@ static void SetupScreenRects(void)
 static void SetVideoMode(void)
 {
 #ifdef SDL20
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, scalequality);
 #endif
 
     if (fullscreen)

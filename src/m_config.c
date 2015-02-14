@@ -151,6 +151,9 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern boolean  rotatemode;
 extern int      runcount;
+#ifdef SDL20
+extern char     *scalequality;
+#endif
 extern int      screenheight;
 extern int      screenwidth;
 extern int      selectedepisode;
@@ -295,6 +298,9 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (rotatemode,                 rotatemode,                    1),
     CONFIG_VARIABLE_INT          (runcount,                   runcount,                      0),
     CONFIG_VARIABLE_INT          (savegame,                   selectedsavegame,              0),
+#ifdef SDL20
+    CONFIG_VARIABLE_STRING       (scalequality,               scalequality,                  0),
+#endif
     CONFIG_VARIABLE_INT          (screensize,                 screensize,                    0),
     CONFIG_VARIABLE_INT          (screenwidth,                screenwidth,                   5),
     CONFIG_VARIABLE_INT          (screenheight,               screenheight,                  5),

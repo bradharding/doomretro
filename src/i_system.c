@@ -202,7 +202,12 @@ void I_Error(char *error, ...)
 {
     va_list     argptr;
     char        msgbuf[512];
+
+#ifndef SDL20
+#ifdef WIN32
     wchar_t     wmsgbuf[512];
+#endif
+#endif
 
     if (already_quitting)
         exit(-1);

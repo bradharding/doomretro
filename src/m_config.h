@@ -264,6 +264,10 @@
 
 #define SAVEGAME_DEFAULT                        0
 
+#ifdef SDL20
+#define SCALEQUALITY_DEFAULT                    "nearest"
+#endif
+
 #define SCREENSIZE_MIN                          0
 #define SCREENSIZE_DEFAULT                      7
 #define SCREENSIZE_MAX                          8
