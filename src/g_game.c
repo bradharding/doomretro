@@ -670,8 +670,7 @@ boolean G_Responder(event_t *ev)
                  && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
                  || (ev->type == ev_mouse
                      && mousewait < I_GetTime()
-                     && ev->data1
-                     && !(ev->data1 & (MOUSE_WHEELUP | MOUSE_WHEELDOWN)))
+                     && ev->data1)
                  || (ev->type == ev_gamepad
                      && gamepadwait < I_GetTime()
                      && gamepadbuttons
@@ -760,8 +759,6 @@ boolean G_Responder(event_t *ev)
             mousebuttons[0] = mousebutton & MOUSE_LEFTBUTTON;
             mousebuttons[1] = mousebutton & MOUSE_RIGHTBUTTON;
             mousebuttons[2] = mousebutton & MOUSE_MIDDLEBUTTON;
-            mousebuttons[3] = mousebutton & MOUSE_WHEELUP;
-            mousebuttons[4] = mousebutton & MOUSE_WHEELDOWN;
             if (vibrate && mousebutton)
             {
                 vibrate = false;
@@ -781,6 +778,22 @@ boolean G_Responder(event_t *ev)
                 mousey = ev->data3 * mousesensitivity / 10;
             }
             return true;            // eat events
+
+        case ev_mousewheel:
+            if (vibrate)
+            {
+                vibrate = false;
+                idlemotorspeed = 0;
+                XInputVibration(idlemotorspeed);
+            }
+            if (!automapactive && !menuactive && !paused)
+            {
+                if (mousebnextweapon == MOUSE_WHEELUP && ev->data1 > 0)
+                    G_NextWeapon();
+                else if (mousebprevweapon == MOUSE_WHEELDOWN && ev->data1 < 0)
+                    G_PrevWeapon();
+            }
+            return true;
 
         case ev_gamepad:
             if (!automapactive && !menuactive && !paused)

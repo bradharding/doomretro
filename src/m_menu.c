@@ -2234,11 +2234,13 @@ boolean M_Responder(event_t *ev)
             mousewait = I_GetTime() + 5;
             usinggamepad = false;
         }
-
-        else if (!messageToPrint)
+    }
+    else if (ev->type == ev_mousewheel)
+    {
+        if (!messageToPrint)
         {
             // select previous menu item
-            if (ev->data1 & MOUSE_WHEELUP)
+            if (ev->data1 > 0)
             {
                 key = KEY_UPARROW;
                 mousewait = I_GetTime() + 3;
@@ -2246,7 +2248,7 @@ boolean M_Responder(event_t *ev)
             }
 
             // select next menu item
-            else if (ev->data1 & MOUSE_WHEELDOWN)
+            else if (ev->data1 < 0)
             {
                 key = KEY_DOWNARROW;
                 mousewait = I_GetTime() + 3;

@@ -488,6 +488,18 @@ void I_GetEvent(void)
                 }
                 break;
 
+            case SDL_MOUSEWHEEL:
+                if (mousesensitivity || menuactive)
+                {
+                    keydown = 0;
+                    ev.type = ev_mousewheel;
+                    ev.data1 = sdlevent.wheel.y;
+                    ev.data2 = 0;
+                    ev.data3 = 0;
+                    D_PostEvent(&ev);
+                }
+                break;
+
             case SDL_JOYBUTTONUP:
                 keydown = 0;
                 break;

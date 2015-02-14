@@ -48,6 +48,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "p_local.h"
 #include "version.h"
 
 float           gamepadleftdeadzone_percent = GAMEPADLEFTDEADZONE_DEFAULT;
@@ -417,10 +418,18 @@ static alias_t alias[] =
     { "-",                                     -1,  4 },
     { "none",                                  -1,  4 },
     { "left",                                   0,  4 },
+    { "mouse1",                                 0,  4 },
     { "middle",                                 1,  4 },
+    { "mouse2",                                 1,  4 },
     { "right",                                  2,  4 },
-    { "wheelup",                                3,  4 },
-    { "wheeldown",                              4,  4 },
+    { "mouse3",                                 2,  4 },
+    { "mouse4",                                 3,  4 },
+    { "mouse5",                                 4,  4 },
+    { "mouse6",                                 5,  4 },
+    { "mouse7",                                 6,  4 },
+    { "mouse8",                                 7,  4 },
+    { "wheelup",                                8,  4 },
+    { "wheeldown",                              9,  4 },
     { "desktop",                                0,  5 },
     { "low",                                    0,  6 },
     { "high",                                   1,  6 },
@@ -1257,11 +1266,11 @@ static void M_CheckDefaults(void)
     if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS || mousebforward == mousebfire)
         mousebforward = MOUSEFORWARD_DEFAULT;
 
-    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS
+    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS + 2
         || mousebprevweapon == mousebfire || mousebprevweapon == mousebforward)
         mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
 
-    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS
+    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS + 2
         || mousebnextweapon == mousebfire || mousebnextweapon == mousebforward
         || mousebnextweapon == mousebprevweapon)
         mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
