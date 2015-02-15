@@ -386,7 +386,7 @@ void C_Kill(char *cmd, char *parm)
                             P_SetMobjState(thing, S_PAIN_DIE6);
                             kills++;
                         }
-                        else if ((thing->flags & MF_SHOOTABLE) && thing->type != MT_PLAYER)
+                        else if (thing->flags & MF_COUNTKILL)
                         {
                             P_DamageMobj(thing, NULL, NULL, thing->health);
                             kills++;
@@ -415,7 +415,7 @@ void C_Kill(char *cmd, char *parm)
                                 P_SetMobjState(thing, S_PAIN_DIE6);
                                 kills++;
                             }
-                            else if (thing->flags & MF_SHOOTABLE)
+                            else if (thing->flags & MF_COUNTKILL)
                             {
                                 P_DamageMobj(thing, NULL, NULL, thing->health);
                                 kills++;
