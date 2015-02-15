@@ -95,7 +95,6 @@ boolean                 fullscreen = FULLSCREEN_DEFAULT;
 
 boolean                 widescreen = WIDESCREEN_DEFAULT;
 boolean                 returntowidescreen = false;
-boolean                 widescreenresize = false;
 boolean                 hud = HUD_DEFAULT;
 
 char                    *scalequality = SCALEQUALITY_DEFAULT;
@@ -127,8 +126,6 @@ static int              stepy;
 static int              startx;
 static int              starty;
 static int              pitch;
-
-static int              blitheight = SCREENHEIGHT << FRACBITS;
 
 byte                    *pixels;
 
@@ -839,7 +836,8 @@ void ToggleWidescreen(boolean toggle)
         return;
     }
 
-    height = screen->h;
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
 
     if (toggle)
     {
@@ -851,65 +849,20 @@ void ToggleWidescreen(boolean toggle)
             R_SetViewSize(screensize);
         }
 
-        height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);
+        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
 
-        blitheight = (SCREENHEIGHT - SBARHEIGHT) << FRACBITS;
+        src_rect.h = SCREENHEIGHT - SBARHEIGHT;
     }
     else
     {
         widescreen = false;
 
-        blitheight = SCREENHEIGHT << FRACBITS;
-    }
+        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
-    width = height * 4 / 3;
-
-    if (fullscreen)
-    {
-        width += (width & 1);
-
-        if ((double)width / screen->w >= 0.99)
-            width = screen->w;
+        src_rect.h = SCREENHEIGHT;
     }
 
     returntowidescreen = false;
-
-    if (!fullscreen)
-    {
-        int     diff = (screen->w - width) / 2;
-
-        widescreenresize = true;
-
-        SDL_DestroyWindow(window);
-        window = SDL_CreateWindow(gamedescription, SDL_WINDOWPOS_UNDEFINED,
-            SDL_WINDOWPOS_UNDEFINED, width, screen->h, SDL_WINDOW_RESIZABLE);
-        screen = SDL_GetWindowSurface(window);
-
-        if (!screen)
-            I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
-
-        RepositionWindow(diff);
-        windowwidth = screen->w;
-        windowheight = screen->h;
-    }
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, widescreen ? SCREENHEIGHT : SCREENWIDTH * 3 / 4);
-
-    if (!screenbuffer)
-        I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
-
-    SetupScreenRects();
-
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / width;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
 
     palette_to_set = true;
 }
