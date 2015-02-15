@@ -252,7 +252,7 @@ static void C_DrawText(int x, int y, char *text, byte color)
                 patch_t     *patch = consolefont[c];
                 int         k = 0;
 
-                if (prev == ' ')
+                if (prev == ' ' || prev == '\t')
                 {
                     if (letter == '\'')
                         patch = lsquote;
@@ -272,8 +272,8 @@ static void C_DrawText(int x, int y, char *text, byte color)
 
                 V_DrawConsoleChar(x, y - (CONSOLEHEIGHT - consoleheight), patch, color);
                 x += SHORT(patch->width);
-                prev = letter;
             }
+            prev = letter;
         }
     }
 }
