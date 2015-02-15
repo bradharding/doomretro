@@ -87,6 +87,7 @@ void M_Init(void);
 // Called by intro code to force menu up upon a keypress,
 // does nothing if menu is already up.
 void M_StartControlPanel(void);
+void M_ShowHelp(void);
 
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *str);

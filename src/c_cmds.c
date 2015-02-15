@@ -71,6 +71,7 @@ void C_Clear(char *, char *);
 void C_CmdList(char *, char *);
 void C_CvarList(char *, char *);
 void C_God(char *, char *);
+void C_Help(char *, char *);
 void C_Kill(char *, char *);
 void C_Map(char *, char *);
 void C_NoClip(char *, char *);
@@ -112,6 +113,7 @@ consolecmd_t consolecmds[] =
     { "fullscreen",     C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &fullscreen,     ""                                     },
     { "god",            C_GameCondition,    C_God,       0, CT_CMD,   CF_NONE,    NULL,            "Toggle degreelessness mode on/off."   },
     { "grid",           C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &grid,           ""                                     },
+    { "help",           C_NoCondition,      C_Help,      0, CT_CMD,   CF_NONE,    NULL,            "Display the help screen."             },
     { "homindicator",   C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &homindicator,   ""                                     },
     { "hud",            C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &hud,            ""                                     },
     { "idbeholda",      C_CheatCondition,   NULL,        0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
@@ -146,13 +148,9 @@ consolecmd_t consolecmds[] =
     { "",               C_NoCondition,      NULL,        0, 0,        CF_NONE,    NULL,            ""                                     }
 };
 
-boolean C_BooleanCondition(char *cmd, char *parm)
-{
-    return (!parm[0] || !strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
-        || !strcasecmp(parm, "true") || !strcasecmp(parm, "1") || !strcasecmp(parm, "off")
-        || !strcasecmp(parm, "no") || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"));
-}
-
+//
+// All cheat cmds
+//
 boolean C_CheatCondition(char *cmd, char *parm)
 {
     if (gamestate != GS_LEVEL)
@@ -164,12 +162,153 @@ boolean C_CheatCondition(char *cmd, char *parm)
     return true;
 }
 
+//
+// Cmd is only valid when game is running
+//
 boolean C_GameCondition(char *cmd, char *parm)
 {
     return (gamestate == GS_LEVEL);
 }
 
+//
+// Cmd is always valid
+//
+boolean C_NoCondition(char *cmd, char *parm)
+{
+    return true;
+}
+
+//
+// ALWAYSRUN cvar
+//
+void C_AlwaysRun(char *cmd, char *parm)
+{
+    C_Boolean(cmd, parm);
+    I_InitKeyboard();
+}
+
+//
+// All boolean cvars
+//
+boolean C_BooleanCondition(char *cmd, char *parm)
+{
+    return (!parm[0] || !strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
+        || !strcasecmp(parm, "true") || !strcasecmp(parm, "1") || !strcasecmp(parm, "off")
+        || !strcasecmp(parm, "no") || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"));
+}
+
+void C_Boolean(char *cmd, char *parm)
+{
+    int i = 0;
+
+    while (consolecmds[i].cmd[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].cmd) && consolecmds[i].type == CT_CVAR)
+        {
+            static char     buffer[1024];
+
+            if (parm[0])
+            {
+                if (!strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
+                    || !strcasecmp(parm, "true") || !strcasecmp(parm, "1"))
+                    *(boolean *)consolecmds[i].value = true;
+                else if (!strcasecmp(parm, "off") || !strcasecmp(parm, "no")
+                    || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"))
+                    *(boolean *)consolecmds[i].value = false;
+
+                M_SaveDefaults();
+
+                M_snprintf(buffer, sizeof(buffer), "\"%s\" is \"%s\"", cmd, parm);
+            }
+            else
+                M_snprintf(buffer, sizeof(buffer), "\"%s\" is \"%s\"", cmd,
+                (*(boolean *)consolecmds[i].value ? "on" : "off"));
+
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+        }
+        ++i;
+    }
+}
+
+//
+// CLEAR cmd
+//
+extern int      consolestrings;
+
+void C_Clear(char *cmd, char *parm)
+{
+    consolestrings = 0;
+}
+
+//
+// CMDLIST cmd
+//
+void C_CmdList(char *cmd, char *parm)
+{
+    int i = 0;
+    int count = 1;
+
+    while (consolecmds[i].cmd[0])
+    {
+        if (consolecmds[i].type == CT_CMD)
+        {
+            static char     buffer[1024];
+
+            M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecmds[i].cmd,
+                consolecmds[i].description);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+        }
+        ++i;
+    }
+}
+
+//
+// CVARLIST cmd
+//
+void C_CvarList(char *cmd, char *parm)
+{
+    int i = 0;
+    int count = 1;
+
+    while (consolecmds[i].cmd[0])
+    {
+        if (consolecmds[i].type == CT_CVAR)
+        {
+            static char     buffer[1024];
+
+            if (consolecmds[i].flags & CF_BOOLEAN)
+                M_snprintf(buffer, sizeof(buffer), "%i\t\"%s\" is \"%s\"", count++,
+                    consolecmds[i].cmd, (*(boolean *)consolecmds[i].value ? "on" : "off"));
+
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+        }
+        ++i;
+    }
+}
+
+//
+// GOD cmd
+//
+void C_God(char *cmd, char *parm)
+{
+    M_StringCopy(consolecheat, "iddqd", sizeof(consolecheat));
+}
+
+//
+// HELP cmd
+//
+void C_Help(char *cmd, char *parm)
+{
+    consoleheight = 0;
+    M_ShowHelp();
+}
+
+//
+// KILL cmd
+//
 static int      killcmdtype = NUMMOBJTYPES;
+
+void A_Fall(mobj_t *actor);
 
 boolean C_KillCondition(char *cmd, char *parm)
 {
@@ -217,188 +356,6 @@ boolean C_KillCondition(char *cmd, char *parm)
     }
     return false;
 }
-
-static int      mapcmdepisode;
-static int      mapcmdmap;
-
-boolean C_MapCondition(char *cmd, char *parm)
-{
-    if (!parm[0])
-        return false;
-
-    mapcmdepisode = 0;
-    mapcmdmap = 0;
-
-    if (gamemode == commercial)
-    {
-        if (BTSX)
-        {
-            sscanf(uppercase(parm), "E%iM%02i", &mapcmdepisode, &mapcmdmap);
-            if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
-            {
-                M_snprintf(parm, sizeof(parm), "MAP%02i", mapcmdmap);
-                return (W_CheckMultipleLumps(parm) == 2);
-            }
-        }
-        sscanf(uppercase(parm), "MAP%02i", &mapcmdmap);
-        if (!mapcmdmap)
-            return false;
-        if (BTSX && (W_CheckMultipleLumps(parm) == 1))
-            return false;
-        if (gamestate != GS_LEVEL && gamemission == pack_nerve)
-            gamemission = doom2;
-    }
-    else
-    {
-        sscanf(uppercase(parm), "E%iM%i", &mapcmdepisode, &mapcmdmap);
-        if (!mapcmdepisode || !mapcmdmap)
-            return false;
-    }
-
-    return (W_CheckNumForName(parm) >= 0);
-}
-
-boolean C_NoCondition(char *cmd, char *parm)
-{
-    return true;
-}
-
-static int      summoncmdtype = NUMMOBJTYPES;
-
-boolean C_SummonCondition(char *cmd, char *parm)
-{
-    if (!parm[0])
-        return false;
-
-    if (gamestate == GS_LEVEL)
-    {
-        int i;
-
-        for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(parm, mobjinfo[i].name1)
-                || (mobjinfo[i].name2[0] && !strcasecmp(parm, mobjinfo[i].name2)))
-            {
-                boolean     summon = true;
-
-                summoncmdtype = mobjinfo[i].doomednum;
-                if (gamemode != commercial)
-                {
-                    switch (summoncmdtype)
-                    {
-                        case Arachnotron:
-                        case ArchVile:
-                        case BossBrain:
-                        case HellKnight:
-                        case Mancubus:
-                        case PainElemental:
-                        case HeavyWeaponDude:
-                        case Revenant:
-                        case WolfensteinSS:
-                            summon = false;
-                            break;
-                    }
-                }
-                else if (summoncmdtype == WolfensteinSS && bfgedition)
-                    summoncmdtype = Zombieman;
-
-                return summon;
-            }
-    }
-    return false;
-}
-
-void C_AlwaysRun(char *cmd, char *parm)
-{
-    C_Boolean(cmd, parm);
-    I_InitKeyboard();
-}
-
-void C_Boolean(char *cmd, char *parm)
-{
-    int i = 0;
-
-    while (consolecmds[i].cmd[0])
-    {
-        if (!strcasecmp(cmd, consolecmds[i].cmd) && consolecmds[i].type == CT_CVAR)
-        {
-            static char     buffer[1024];
-
-            if (parm[0])
-            {
-                if (!strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
-                    || !strcasecmp(parm, "true") || !strcasecmp(parm, "1"))
-                    *(boolean *)consolecmds[i].value = true;
-                else if (!strcasecmp(parm, "off") || !strcasecmp(parm, "no")
-                    || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"))
-                    *(boolean *)consolecmds[i].value = false;
-
-                M_SaveDefaults();
-
-                M_snprintf(buffer, sizeof(buffer), "\"%s\" is \"%s\"", cmd, parm);
-            }
-            else
-                M_snprintf(buffer, sizeof(buffer), "\"%s\" is \"%s\"", cmd,
-                (*(boolean *)consolecmds[i].value ? "on" : "off"));
-
-            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
-        }
-        ++i;
-    }
-}
-
-extern int      consolestrings;
-
-void C_Clear(char *cmd, char *parm)
-{
-    consolestrings = 0;
-}
-
-void C_CmdList(char *cmd, char *parm)
-{
-    int i = 0;
-    int count = 1;
-
-    while (consolecmds[i].cmd[0])
-    {
-        if (consolecmds[i].type == CT_CMD)
-        {
-            static char     buffer[1024];
-
-            M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecmds[i].cmd,
-                consolecmds[i].description);
-            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
-        }
-        ++i;
-    }
-}
-
-void C_CvarList(char *cmd, char *parm)
-{
-    int i = 0;
-    int count = 1;
-
-    while (consolecmds[i].cmd[0])
-    {
-        if (consolecmds[i].type == CT_CVAR)
-        {
-            static char     buffer[1024];
-
-            if (consolecmds[i].flags & CF_BOOLEAN)
-                M_snprintf(buffer, sizeof(buffer), "%i\t\"%s\" is \"%s\"", count++,
-                    consolecmds[i].cmd, (*(boolean *)consolecmds[i].value ? "on" : "off"));
-
-            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
-        }
-        ++i;
-    }
-}
-
-void C_God(char *cmd, char *parm)
-{
-    M_StringCopy(consolecheat, "iddqd", sizeof(consolecheat));
-}
-
-void A_Fall(mobj_t *actor);
 
 void C_Kill(char *cmd, char *parm)
 {
@@ -473,10 +430,53 @@ void C_Kill(char *cmd, char *parm)
     }
 }
 
+//
+// MAP cmd
+//
+static int      mapcmdepisode;
+static int      mapcmdmap;
+
 extern boolean  samelevel;
 extern int      selectedepisode;
 extern int      selectedskilllevel;
 extern menu_t   EpiDef;
+
+boolean C_MapCondition(char *cmd, char *parm)
+{
+    if (!parm[0])
+        return false;
+
+    mapcmdepisode = 0;
+    mapcmdmap = 0;
+
+    if (gamemode == commercial)
+    {
+        if (BTSX)
+        {
+            sscanf(uppercase(parm), "E%iM%02i", &mapcmdepisode, &mapcmdmap);
+            if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
+            {
+                M_snprintf(parm, sizeof(parm), "MAP%02i", mapcmdmap);
+                return (W_CheckMultipleLumps(parm) == 2);
+            }
+        }
+        sscanf(uppercase(parm), "MAP%02i", &mapcmdmap);
+        if (!mapcmdmap)
+            return false;
+        if (BTSX && (W_CheckMultipleLumps(parm) == 1))
+            return false;
+        if (gamestate != GS_LEVEL && gamemission == pack_nerve)
+            gamemission = doom2;
+    }
+    else
+    {
+        sscanf(uppercase(parm), "E%iM%i", &mapcmdepisode, &mapcmdmap);
+        if (!mapcmdepisode || !mapcmdmap)
+            return false;
+    }
+
+    return (W_CheckNumForName(parm) >= 0);
+}
 
 void C_Map(char *cmd, char *parm)
 {
@@ -496,12 +496,18 @@ void C_Map(char *cmd, char *parm)
             gamemap);
 }
 
+//
+// NOCLIP cmd
+//
 void C_NoClip(char *cmd, char *parm)
 {
     M_StringCopy(consolecheat, (gamemode == commercial ? "idclip" : "idspispopd"),
         sizeof(consolecheat));
 }
 
+//
+// NOTARGET cmd
+//
 void C_NoTarget(char *cmd, char *parm)
 {
     players[displayplayer].cheats ^= CF_NOTARGET;
@@ -509,9 +515,59 @@ void C_NoTarget(char *cmd, char *parm)
         output, CONSOLEOUTPUTCOLOR);
 }
 
+//
+// QUIT cmd
+//
 void C_Quit(char *cmd, char *parm)
 {
     I_Quit(true);
+}
+
+//
+// SUMMON cmd
+//
+static int      summoncmdtype = NUMMOBJTYPES;
+
+boolean C_SummonCondition(char *cmd, char *parm)
+{
+    if (!parm[0])
+        return false;
+
+    if (gamestate == GS_LEVEL)
+    {
+        int i;
+
+        for (i = 0; i < NUMMOBJTYPES; i++)
+            if (!strcasecmp(parm, mobjinfo[i].name1)
+                || (mobjinfo[i].name2[0] && !strcasecmp(parm, mobjinfo[i].name2)))
+            {
+                boolean     summon = true;
+
+                summoncmdtype = mobjinfo[i].doomednum;
+                if (gamemode != commercial)
+                {
+                    switch (summoncmdtype)
+                    {
+                        case Arachnotron:
+                        case ArchVile:
+                        case BossBrain:
+                        case HellKnight:
+                        case Mancubus:
+                        case PainElemental:
+                        case HeavyWeaponDude:
+                        case Revenant:
+                        case WolfensteinSS:
+                            summon = false;
+                            break;
+                    }
+                }
+                else if (summoncmdtype == WolfensteinSS && bfgedition)
+                    summoncmdtype = Zombieman;
+
+                return summon;
+            }
+    }
+    return false;
 }
 
 void C_Summon(char *cmd, char *parm)

@@ -2109,6 +2109,23 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
     }
 }
 
+void M_ShowHelp(void)
+{
+    functionkey = KEY_F1;
+    M_StartControlPanel();
+    currentMenu = &ReadDef;
+    itemOn = 0;
+    S_StartSound(NULL, sfx_swtchn);
+    inhelpscreens = true;
+    if (widescreen)
+    {
+        ToggleWidescreen(false);
+        returntowidescreen = true;
+    }
+    if (!automapactive)
+        R_SetViewSize(8);
+}
+
 //
 // CONTROL PANEL
 //
@@ -2468,19 +2485,7 @@ boolean M_Responder(event_t *ev)
             }
             else
             {
-                functionkey = KEY_F1;
-                M_StartControlPanel();
-                currentMenu = &ReadDef;
-                itemOn = 0;
-                S_StartSound(NULL, sfx_swtchn);
-                inhelpscreens = true;
-                if (widescreen)
-                {
-                    ToggleWidescreen(false);
-                    returntowidescreen = true;
-                }
-                if (!automapactive)
-                    R_SetViewSize(8);
+                M_ShowHelp();
             }
             return false;
         }
