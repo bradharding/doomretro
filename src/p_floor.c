@@ -71,7 +71,8 @@ static void T_AnimateLiquid(floormove_t *floor)
 {
     sector_t    *sector = floor->sector;
 
-    if (isliquid[sector->floorpic] && sector->ceilingheight != sector->floorheight)
+    if (animatedliquid && isliquid[sector->floorpic]
+        && sector->ceilingheight != sector->floorheight)
     {
         if (sector->animate == INT_MAX)
             sector->animate = animatedliquiddiffs[leveltime & 127];
@@ -101,9 +102,6 @@ void P_InitAnimatedLiquids(void)
 {
     int         i;
     sector_t    *sector;
-
-    if (!animatedliquid)
-        return;
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
         if (isliquid[sector->floorpic])
