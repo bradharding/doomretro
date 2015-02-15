@@ -72,6 +72,7 @@ void C_CmdList(char *, char *);
 void C_CvarList(char *, char *);
 void C_God(char *, char *);
 void C_Help(char *, char *);
+void C_Hud(char *, char *);
 void C_Kill(char *, char *);
 void C_Map(char *, char *);
 void C_NoClip(char *, char *);
@@ -115,7 +116,7 @@ consolecmd_t consolecmds[] =
     { "grid",           C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &grid,           ""                                     },
     { "help",           C_NoCondition,      C_Help,      0, CT_CMD,   CF_NONE,    NULL,            "Display the help screen."             },
     { "homindicator",   C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &homindicator,   ""                                     },
-    { "hud",            C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &hud,            ""                                     },
+    { "hud",            C_BooleanCondition, C_Hud,       1, CT_CVAR,  CF_BOOLEAN, &hud,            ""                                     },
     { "idbeholda",      C_CheatCondition,   NULL,        0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
     { "idbeholdl",      C_CheatCondition,   NULL,        0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
     { "idbeholdi",      C_CheatCondition,   NULL,        0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
@@ -301,6 +302,15 @@ void C_Help(char *cmd, char *parm)
 {
     consoleheight = 0;
     M_ShowHelp();
+}
+
+//
+// HUD cvar
+//
+void C_Hud(char *cmd, char *parm)
+{
+    if (widescreen || screensize == 8)
+        C_Boolean(cmd, parm);
 }
 
 //
