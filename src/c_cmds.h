@@ -50,8 +50,8 @@ typedef enum
 typedef struct
 {
     char                *cmd;
-    boolean             (*condition)(char *cmd);
-    void                (*func)(void);
+    boolean             (*condition)(char *cmd, char *parm);
+    void                (*func)(char *cmd, char *parm);
     int                 parms;
     cmdtype_t           type;
     char                *description;

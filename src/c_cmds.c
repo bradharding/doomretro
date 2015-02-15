@@ -56,58 +56,75 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-boolean C_CheatCondition(char *);
-boolean C_GameCondition(char *);
-boolean C_MapCondition(char *);
-boolean C_NoCondition(char *);
-boolean C_OnOffCondition(char *);
-boolean C_SummonCondition(char *);
+boolean C_BooleanCondition(char *, char *);
+boolean C_CheatCondition(char *, char *);
+boolean C_GameCondition(char *, char *);
+boolean C_MapCondition(char *, char *);
+boolean C_NoCondition(char *, char *);
+boolean C_SummonCondition(char *, char *);
 
-void C_Clear(void);
-void C_CmdList(void);
-void C_CvarList(void);
-void C_God(void);
-void C_Kill(void);
-void C_Map(void);
-void C_Messages(void);
-void C_NoClip(void);
-void C_NoTarget(void);
-void C_Quit(void);
-void C_Summon(void);
+void C_Clear(char *, char *);
+void C_CmdList(char *, char *);
+void C_BooleanCvar(char *, char *);
+void C_CvarList(char *, char *);
+void C_God(char *, char *);
+void C_Kill(char *, char *);
+void C_Map(char *, char *);
+void C_NoClip(char *, char *);
+void C_NoTarget(char *, char *);
+void C_Quit(char *, char *);
+void C_Summon(char *, char *);
 
 consolecmd_t consolecmds[] =
 {
-    { "clear",      C_NoCondition,     C_Clear,    0, CT_CMD,   "Clear the console."                   },
-    { "cmdlist",    C_NoCondition,     C_CmdList,  0, CT_CMD,   "Display a list of console commands."  },
-    { "cvarlist",   C_NoCondition,     C_CvarList, 0, CT_CMD,   "Display a list of console variables." },
-    { "god",        C_GameCondition,   C_God,      0, CT_CMD,   "Toggle degreelessness mode on/off."   },
-    { "idbeholda",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idbeholdl",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idbeholdi",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idbeholdr",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idbeholds",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idbeholdv",  C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idchoppers", C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idclev",     C_CheatCondition,  NULL,       1, CT_CHEAT, ""                                     },
-    { "idclip",     C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "iddqd",      C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "iddt",       C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idfa",       C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idkfa",      C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idmus",      C_CheatCondition,  NULL,       1, CT_CHEAT, ""                                     },
-    { "idmypos",    C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "idspispopd", C_CheatCondition,  NULL,       0, CT_CHEAT, ""                                     },
-    { "kill",       C_GameCondition,   C_Kill,     1, CT_CMD,   "Kill the player or monsters."         },
-    { "map",        C_MapCondition,    C_Map,      1, CT_CMD,   "Warp to a map."                       },
-    { "messages",   C_OnOffCondition,  C_Messages, 1, CT_CVAR,  "Toggle messages on/off."              },
-    { "noclip",     C_GameCondition,   C_NoClip,   0, CT_CMD,   "Toggle no clipping mode on/off."      },
-    { "notarget",   C_GameCondition,   C_NoTarget, 0, CT_CMD,   "Toggle no target mode on/off."        },
-    { "quit",       C_NoCondition,     C_Quit,     0, CT_CMD,   "Quit DOOM RETRO."                     },
-    { "summon",     C_SummonCondition, C_Summon,   1, CT_CMD,   "Summon a monster or map decoration."  },
-    { "",           C_NoCondition,     NULL,       0, 0,        ""                                     }
+    { "alwaysrun",      C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "animatedliquid", C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "brightmaps",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "centerweapon",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "clear",          C_NoCondition,      C_Clear,       0, CT_CMD,   "Clear the console."                   },
+    { "cmdlist",        C_NoCondition,      C_CmdList,     0, CT_CMD,   "Display a list of console commands."  },
+    { "cvarlist",       C_NoCondition,      C_CvarList,    0, CT_CMD,   "Display a list of console variables." },
+    { "dclick_use",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "floatbob",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "footclip",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "fullscreen",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "god",            C_GameCondition,    C_God,         0, CT_CMD,   "Toggle degreelessness mode on/off."   },
+    { "grid",           C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "homindicator",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "hud",            C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "idbeholda",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idbeholdl",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idbeholdi",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idbeholdr",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idbeholds",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idbeholdv",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idchoppers",     C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idclev",         C_CheatCondition,   NULL,          1, CT_CHEAT, ""                                     },
+    { "idclip",         C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "iddqd",          C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "iddt",           C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idfa",           C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idkfa",          C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idmus",          C_CheatCondition,   NULL,          1, CT_CHEAT, ""                                     },
+    { "idmypos",        C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "idspispopd",     C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
+    { "kill",           C_GameCondition,    C_Kill,        1, CT_CMD,   "Kill the player or monsters."         },
+    { "map",            C_MapCondition,     C_Map,         1, CT_CMD,   "Warp to a map."                       },
+    { "messages",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "mirrorweapons",  C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "noclip",         C_GameCondition,    C_NoClip,      0, CT_CMD,   "Toggle no clipping mode on/off."      },
+    { "notarget",       C_GameCondition,    C_NoTarget,    0, CT_CMD,   "Toggle no target mode on/off."        },
+    { "novert",         C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "quit",           C_NoCondition,      C_Quit,        0, CT_CMD,   "Quit DOOM RETRO."                     },
+    { "rotatemode",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "shadows",        C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "summon",         C_SummonCondition,  C_Summon,      1, CT_CMD,   "Summon a monster or map decoration."  },
+    { "translucency",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "widescreen",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
+    { "",               C_NoCondition,      NULL,          0, 0,        ""                                     }
 };
 
-boolean C_CheatCondition(char *cmd)
+boolean C_CheatCondition(char *cmd, char *parm)
 {
     if (gamestate != GS_LEVEL)
         return false;
@@ -118,7 +135,7 @@ boolean C_CheatCondition(char *cmd)
     return true;
 }
 
-boolean C_GameCondition(char *cmd)
+boolean C_GameCondition(char *cmd, char *parm)
 {
     return (gamestate == GS_LEVEL);
 }
@@ -126,9 +143,9 @@ boolean C_GameCondition(char *cmd)
 static int      mapcmdepisode;
 static int      mapcmdmap;
 
-boolean C_MapCondition(char *cmd)
+boolean C_MapCondition(char *cmd, char *parm)
 {
-    if (!consolecmdparm[0])
+    if (!parm[0])
         return false;
 
     mapcmdepisode = 0;
@@ -138,47 +155,48 @@ boolean C_MapCondition(char *cmd)
     {
         if (BTSX)
         {
-            sscanf(uppercase(consolecmdparm), "E%iM%02i", &mapcmdepisode, &mapcmdmap);
+            sscanf(uppercase(parm), "E%iM%02i", &mapcmdepisode, &mapcmdmap);
             if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
             {
-                M_snprintf(consolecmdparm, sizeof(consolecmdparm), "MAP%02i", mapcmdmap);
-                return (W_CheckMultipleLumps(consolecmdparm) == 2);
+                M_snprintf(parm, sizeof(parm), "MAP%02i", mapcmdmap);
+                return (W_CheckMultipleLumps(parm) == 2);
             }
         }
-        sscanf(uppercase(consolecmdparm), "MAP%02i", &mapcmdmap);
+        sscanf(uppercase(parm), "MAP%02i", &mapcmdmap);
         if (!mapcmdmap)
             return false;
-        if (BTSX && (W_CheckMultipleLumps(consolecmdparm) == 1))
+        if (BTSX && (W_CheckMultipleLumps(parm) == 1))
             return false;
         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
             gamemission = doom2;
     }
     else
     {
-        sscanf(uppercase(consolecmdparm), "E%iM%i", &mapcmdepisode, &mapcmdmap);
+        sscanf(uppercase(parm), "E%iM%i", &mapcmdepisode, &mapcmdmap);
         if (!mapcmdepisode || !mapcmdmap)
             return false;
     }
 
-    return (W_CheckNumForName(consolecmdparm) >= 0);
+    return (W_CheckNumForName(parm) >= 0);
 }
 
-boolean C_NoCondition(char *cmd)
+boolean C_NoCondition(char *cmd, char *parm)
 {
     return true;
 }
 
-boolean C_OnOffCondition(char *cmd)
+boolean C_BooleanCondition(char *cmd, char *parm)
 {
-    return (!consolecmdparm[0] || !strcasecmp(consolecmdparm, "on")
-        || !strcasecmp(consolecmdparm, "off"));
+    return (!parm[0] || !strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
+        || !strcasecmp(parm, "true") || !strcasecmp(parm, "1") || !strcasecmp(parm, "off")
+        || !strcasecmp(parm, "no") || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"));
 }
 
 static int      summoncmdtype = NUMMOBJTYPES;
 
-boolean C_SummonCondition(char *cmd)
+boolean C_SummonCondition(char *cmd, char *parm)
 {
-    if (!consolecmdparm[0])
+    if (!parm[0])
         return false;
 
     if (gamestate == GS_LEVEL)
@@ -186,8 +204,8 @@ boolean C_SummonCondition(char *cmd)
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(consolecmdparm, mobjinfo[i].name1)
-                || (mobjinfo[i].name2[0] && !strcasecmp(consolecmdparm, mobjinfo[i].name2)))
+            if (!strcasecmp(parm, mobjinfo[i].name1)
+                || (mobjinfo[i].name2[0] && !strcasecmp(parm, mobjinfo[i].name2)))
             {
                 boolean     summon = true;
 
@@ -220,12 +238,12 @@ boolean C_SummonCondition(char *cmd)
 
 extern int      consolestrings;
 
-void C_Clear(void)
+void C_Clear(char *cmd, char *parm)
 {
     consolestrings = 0;
 }
 
-void C_CmdList(void)
+void C_CmdList(char *cmd, char *parm)
 {
     int i = 0;
     int count = 1;
@@ -244,7 +262,7 @@ void C_CmdList(void)
     }
 }
 
-void C_CvarList(void)
+void C_CvarList(char *cmd, char *parm)
 {
     int i = 0;
     int count = 1;
@@ -263,16 +281,16 @@ void C_CvarList(void)
     }
 }
 
-void C_God(void)
+void C_God(char *cmd, char *parm)
 {
     M_StringCopy(consolecheat, "iddqd", sizeof(consolecheat));
 }
 
 void A_Fall(mobj_t *actor);
 
-void C_Kill(void)
+void C_Kill(char *cmd, char *parm)
 {
-    if (!consolecmdparm[0])
+    if (!parm[0])
     {
         P_KillMobj(NULL, players[displayplayer].mo);
         C_AddConsoleString("Player killed.", output, CONSOLEOUTPUTCOLOR);
@@ -283,8 +301,7 @@ void C_Kill(void)
         int             kills = 0;
         static char     buffer[1024];
 
-        if (!strcasecmp(consolecmdparm, "all")
-            || !strcasecmp(consolecmdparm, "monsters"))
+        if (!strcasecmp(parm, "all") || !strcasecmp(parm, "monsters"))
         {
             for (i = 0; i < numsectors; ++i)
             {
@@ -313,10 +330,10 @@ void C_Kill(void)
         else
         {
             for (i = 0; i < NUMMOBJTYPES; i++)
-                if (!strcasecmp(consolecmdparm, mobjinfo[i].name1)
-                    || !strcasecmp(consolecmdparm, mobjinfo[i].plural1)
-                    || (mobjinfo[i].name2[0] && !strcasecmp(consolecmdparm, mobjinfo[i].name2))
-                    || (mobjinfo[i].plural2[0] && !strcasecmp(consolecmdparm, mobjinfo[i].plural2)))
+                if (!strcasecmp(parm, mobjinfo[i].name1)
+                    || !strcasecmp(parm, mobjinfo[i].plural1)
+                    || (mobjinfo[i].name2[0] && !strcasecmp(parm, mobjinfo[i].name2))
+                    || (mobjinfo[i].plural2[0] && !strcasecmp(parm, mobjinfo[i].plural2)))
                 {
                     boolean     kill = true;
                     int         type = mobjinfo[i].doomednum;
@@ -382,7 +399,7 @@ extern int      selectedepisode;
 extern int      selectedskilllevel;
 extern menu_t   EpiDef;
 
-void C_Map(void)
+void C_Map(char *cmd, char *parm)
 {
     samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
     gameepisode = mapcmdepisode;
@@ -400,38 +417,102 @@ void C_Map(void)
             gamemap);
 }
 
-extern boolean  messages;
-
-void C_Messages(void)
+void SetBooleanCvar(char *cmd, char *parm, boolean *cvar)
 {
-    if (!strcasecmp(consolecmdparm, "on"))
-        messages = true;
-    else if (!strcasecmp(consolecmdparm, "off"))
-        messages = false;
-    C_AddConsoleString(messages ? "\"messages\" are \"on\"" : "\"messages\" are \"off\"", output,
-        CONSOLEOUTPUTCOLOR);
+    static char     buffer[1024];
+
+    if (!strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
+        || !strcasecmp(parm, "true") || !strcasecmp(parm, "1"))
+        *cvar = true;
+    else if (!strcasecmp(parm, "off") || !strcasecmp(parm, "no")
+        || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"))
+        *cvar = false;
+
+    M_snprintf(buffer, sizeof(buffer), "\"%s\" is \"%s\"", cmd,
+        (parm[0] ? parm : (*cvar ? "on" : "off")));
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+
     M_SaveDefaults();
 }
 
-void C_NoClip(void)
+extern boolean  alwaysrun;
+extern boolean  animatedliquid;
+extern boolean  brightmaps;
+extern boolean  centerweapon;
+extern boolean  dclick_use;
+extern boolean  floatbob;
+extern boolean  footclip;
+extern boolean  fullscreen;
+extern boolean  grid;
+extern boolean  homindicator;
+extern boolean  hud;
+extern boolean  messages;
+extern boolean  mirrorweapons;
+extern boolean  novert;
+extern boolean  rotatemode;
+extern boolean  shadows;
+extern boolean  translucency;
+extern boolean  widescreen;
+
+void C_BooleanCvar(char *cmd, char *parm)
+{
+    if (!strcasecmp(cmd, "alwaysrun"))
+        SetBooleanCvar(cmd, parm, &alwaysrun);
+    else if (!strcasecmp(cmd, "animatedliquid"))
+        SetBooleanCvar(cmd, parm, &animatedliquid);
+    else if (!strcasecmp(cmd, "brightmaps"))
+        SetBooleanCvar(cmd, parm, &brightmaps);
+    else if (!strcasecmp(cmd, "centerweapon"))
+        SetBooleanCvar(cmd, parm, &centerweapon);
+    else if (!strcasecmp(cmd, "dclick_use"))
+        SetBooleanCvar(cmd, parm, &dclick_use);
+    else if (!strcasecmp(cmd, "floatbob"))
+        SetBooleanCvar(cmd, parm, &floatbob);
+    else if (!strcasecmp(cmd, "footclip"))
+        SetBooleanCvar(cmd, parm, &footclip);
+    else if (!strcasecmp(cmd, "fullscreen"))
+        SetBooleanCvar(cmd, parm, &fullscreen);
+    else if (!strcasecmp(cmd, "grid"))
+        SetBooleanCvar(cmd, parm, &grid);
+    else if (!strcasecmp(cmd, "homindicator"))
+        SetBooleanCvar(cmd, parm, &homindicator);
+    else if (!strcasecmp(cmd, "hud"))
+        SetBooleanCvar(cmd, parm, &hud);
+    else if (!strcasecmp(cmd, "messages"))
+        SetBooleanCvar(cmd, parm, &messages);
+    else if (!strcasecmp(cmd, "mirrorweapons"))
+        SetBooleanCvar(cmd, parm, &mirrorweapons);
+    else if (!strcasecmp(cmd, "novert"))
+        SetBooleanCvar(cmd, parm, &novert);
+    else if (!strcasecmp(cmd, "rotatemode"))
+        SetBooleanCvar(cmd, parm, &rotatemode);
+    else if (!strcasecmp(cmd, "shadows"))
+        SetBooleanCvar(cmd, parm, &shadows);
+    else if (!strcasecmp(cmd, "translucency"))
+        SetBooleanCvar(cmd, parm, &translucency);
+    else if (!strcasecmp(cmd, "widescreen"))
+        SetBooleanCvar(cmd, parm, &widescreen);
+}
+
+void C_NoClip(char *cmd, char *parm)
 {
     M_StringCopy(consolecheat, (gamemode == commercial ? "idclip" : "idspispopd"),
         sizeof(consolecheat));
 }
 
-void C_NoTarget(void)
+void C_NoTarget(char *cmd, char *parm)
 {
     players[displayplayer].cheats ^= CF_NOTARGET;
     C_AddConsoleString(players[displayplayer].cheats & CF_NOTARGET ? s_STSTR_NTON : s_STSTR_NTOFF,
         output, CONSOLEOUTPUTCOLOR);
 }
 
-void C_Quit(void)
+void C_Quit(char *cmd, char *parm)
 {
     I_Quit(true);
 }
 
-void C_Summon(void)
+void C_Summon(char *cmd, char *parm)
 {
     mobj_t      *player = players[displayplayer].mo;
     fixed_t     x = player->x;

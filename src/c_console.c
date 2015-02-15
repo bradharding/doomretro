@@ -93,7 +93,6 @@ static int      carettics = 0;
 
 char            consolecheat[255] = "";
 char            consolecheatparm[3] = "";
-char            consolecmdparm[255] = "";
 
 static int      autocomplete = -1;
 static char     autocompletetext[255] = "";
@@ -391,6 +390,7 @@ boolean C_Responder(event_t *ev)
                         if (consolecmds[i].parms)
                         {
                             char        cmd[255] = "";
+                            char        parm[255] = "";
 
                             if (consolecmds[i].type == CT_CHEAT)
                             {
@@ -408,7 +408,7 @@ boolean C_Responder(event_t *ev)
 
                                     if (!strcasecmp(cmd, consolecmds[i].cmd)
                                         && length == strlen(cmd) + 2
-                                        && consolecmds[i].condition(cmd))
+                                        && consolecmds[i].condition(cmd, consolecheatparm))
                                     {
                                         validcmd = true;
                                         C_AddConsoleString(consoleinput, input,
@@ -420,21 +420,20 @@ boolean C_Responder(event_t *ev)
                             }
                             else
                             {
-                                sscanf(consoleinput, "%s %s", cmd, consolecmdparm);
+                                sscanf(consoleinput, "%s %s", cmd, parm);
                                 if (!strcasecmp(cmd, consolecmds[i].cmd)
-                                    && consolecmds[i].condition(cmd))
+                                    && consolecmds[i].condition(cmd, parm))
                                 {
                                     validcmd = true;
                                     C_AddConsoleString(consoleinput, input,
                                         CONSOLEINPUTTOOUTPUTCOLOR);
-                                    consolecmds[i].func();
-                                    consolecmdparm[0] = 0;
+                                    consolecmds[i].func(cmd, parm);
                                     break;
                                 }
                             }
                         }
                         else if (!strcasecmp(consoleinput, consolecmds[i].cmd)
-                            && consolecmds[i].condition(consoleinput))
+                            && consolecmds[i].condition(consoleinput, ""))
                         {
                             validcmd = true;
                             C_AddConsoleString(consoleinput, input,
@@ -442,7 +441,7 @@ boolean C_Responder(event_t *ev)
                             if (consolecmds[i].type == CT_CHEAT)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
-                                consolecmds[i].func();
+                                consolecmds[i].func(consoleinput, "");
                             break;
                         }
                         ++i;
