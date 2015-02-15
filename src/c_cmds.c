@@ -60,6 +60,7 @@
 boolean C_BooleanCondition(char *, char *);
 boolean C_CheatCondition(char *, char *);
 boolean C_GameCondition(char *, char *);
+boolean C_KillCondition(char *, char *);
 boolean C_MapCondition(char *, char *);
 boolean C_NoCondition(char *, char *);
 boolean C_SummonCondition(char *, char *);
@@ -129,7 +130,7 @@ consolecmd_t consolecmds[] =
     { "idmus",          C_CheatCondition,   NULL,        1, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
     { "idmypos",        C_CheatCondition,   NULL,        0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
     { "idspispopd",     C_CheatCondition,   NULL,        0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
-    { "kill",           C_GameCondition,    C_Kill,      1, CT_CMD,   CF_NONE,    NULL,            "Kill the player or monsters."         },
+    { "kill",           C_KillCondition,    C_Kill,      1, CT_CMD,   CF_NONE,    NULL,            "Kill the player or monsters."         },
     { "map",            C_MapCondition,     C_Map,       1, CT_CMD,   CF_NONE,    NULL,            "Warp to a map."                       },
     { "messages",       C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &messages,       ""                                     },
     { "mirrorweapons",  C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &mirrorweapons,  ""                                     },
@@ -166,6 +167,55 @@ boolean C_CheatCondition(char *cmd, char *parm)
 boolean C_GameCondition(char *cmd, char *parm)
 {
     return (gamestate == GS_LEVEL);
+}
+
+static int      killcmdtype = NUMMOBJTYPES;
+
+boolean C_KillCondition(char *cmd, char *parm)
+{
+    if (gamestate == GS_LEVEL)
+    {
+        int i;
+
+        if (!parm[0] || !strcasecmp(parm, "all") || !strcasecmp(parm, "monsters"))
+            return true;
+
+        for (i = 0; i < NUMMOBJTYPES; i++)
+            if (!strcasecmp(parm, mobjinfo[i].name1)
+                || !strcasecmp(parm, mobjinfo[i].plural1)
+                || (mobjinfo[i].name2[0] && !strcasecmp(parm, mobjinfo[i].name2))
+                || (mobjinfo[i].plural2[0] && !strcasecmp(parm, mobjinfo[i].plural2)))
+            {
+                boolean     kill = true;
+
+                killcmdtype = mobjinfo[i].doomednum;
+                if (gamemode != commercial)
+                {
+                    switch (killcmdtype)
+                    {
+                        case Arachnotron:
+                        case ArchVile:
+                        case BossBrain:
+                        case HellKnight:
+                        case Mancubus:
+                        case PainElemental:
+                        case HeavyWeaponDude:
+                        case Revenant:
+                        case WolfensteinSS:
+                            kill = false;
+                            break;
+                    }
+                }
+                else if (killcmdtype == WolfensteinSS && bfgedition)
+                    killcmdtype = Zombieman;
+
+                if (!(mobjinfo[i].flags & MF_SHOOTABLE))
+                    kill = false;
+
+                return kill;
+            }
+    }
+    return false;
 }
 
 static int      mapcmdepisode;
@@ -379,7 +429,7 @@ void C_Kill(char *cmd, char *parm)
                             P_SetMobjState(thing, S_PAIN_DIE6);
                             kills++;
                         }
-                        else if (thing->flags & MF_SHOOTABLE)
+                        else if ((thing->flags & MF_SHOOTABLE) && thing->type != MT_PLAYER)
                         {
                             P_DamageMobj(thing, NULL, NULL, thing->health);
                             kills++;
@@ -391,65 +441,32 @@ void C_Kill(char *cmd, char *parm)
         }
         else
         {
-            for (i = 0; i < NUMMOBJTYPES; i++)
-                if (!strcasecmp(parm, mobjinfo[i].name1)
-                    || !strcasecmp(parm, mobjinfo[i].plural1)
-                    || (mobjinfo[i].name2[0] && !strcasecmp(parm, mobjinfo[i].name2))
-                    || (mobjinfo[i].plural2[0] && !strcasecmp(parm, mobjinfo[i].plural2)))
+            int type = P_FindDoomedNum(P_FindDoomedNum(killcmdtype));
+
+            for (j = 0; j < numsectors; ++j)
+            {
+                mobj_t      *thing = sectors[j].thinglist;
+
+                while (thing)
                 {
-                    boolean     kill = true;
-                    int         type = mobjinfo[i].doomednum;
-
-                    if (gamemode != commercial)
+                    if (thing->health > 0)
                     {
-                        switch (summoncmdtype)
-                        {
-                            case Arachnotron:
-                            case ArchVile:
-                            case BossBrain:
-                            case HellKnight:
-                            case Mancubus:
-                            case PainElemental:
-                            case HeavyWeaponDude:
-                            case Revenant:
-                            case WolfensteinSS:
-                                kill = false;
-                                break;
-                        }
-                    }
-                    else if (type == WolfensteinSS && bfgedition)
-                        type = Zombieman;
-
-                    if (kill)
-                    {
-                        type = P_FindDoomedNum(type);
-                        for (j = 0; j < numsectors; ++j)
-                        {
-                            mobj_t      *thing = sectors[j].thinglist;
-
-                            while (thing)
+                        if (type == thing->type)
+                            if (type == MT_PAIN)
                             {
-                                if (thing->health > 0)
-                                {
-                                    if (type == thing->type)
-                                        if (type == MT_PAIN)
-                                        {
-                                            A_Fall(thing);
-                                            P_SetMobjState(thing, S_PAIN_DIE6);
-                                            kills++;
-                                        }
-                                        else if (thing->flags & MF_SHOOTABLE)
-                                        {
-                                            P_DamageMobj(thing, NULL, NULL, thing->health);
-                                            kills++;
-                                        }
-                                }
-                                thing = thing->snext;
+                                A_Fall(thing);
+                                P_SetMobjState(thing, S_PAIN_DIE6);
+                                kills++;
                             }
-                        }
+                            else if (thing->flags & MF_SHOOTABLE)
+                            {
+                                P_DamageMobj(thing, NULL, NULL, thing->health);
+                                kills++;
+                            }
                     }
-                    break;
+                    thing = thing->snext;
                 }
+            }
         }
         M_snprintf(buffer, sizeof(buffer), "%i monster%s killed.", kills, kills == 1 ? "" : "s");
         C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
