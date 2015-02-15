@@ -2122,7 +2122,7 @@ void M_ShowHelp(void)
         ToggleWidescreen(false);
         returntowidescreen = true;
     }
-    if (!automapactive)
+    if (!automapactive && gamestate == GS_LEVEL)
         R_SetViewSize(8);
 }
 
@@ -2479,14 +2479,12 @@ boolean M_Responder(event_t *ev)
                 if (inhelpscreens)
                 {
                     R_SetViewSize(screensize);
-                    if (returntowidescreen)
+                    if (returntowidescreen && gamestate == GS_LEVEL)
                         ToggleWidescreen(true);
                 }
             }
             else
-            {
                 M_ShowHelp();
-            }
             return false;
         }
 
@@ -2927,7 +2925,7 @@ boolean M_Responder(event_t *ev)
             if (inhelpscreens)
             {
                 R_SetViewSize(screensize);
-                if (returntowidescreen)
+                if (returntowidescreen && gamestate == GS_LEVEL)
                     ToggleWidescreen(true);
             }
             M_SetWindowCaption();
