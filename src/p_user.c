@@ -48,6 +48,7 @@
 extern boolean  followplayer;
 extern boolean  oldweaponsowned[];
 extern boolean  skipaction;
+extern boolean  footclip;
 
 void G_RemoveChoppers(void);
 
@@ -129,7 +130,7 @@ void P_CalcHeight(player_t *player)
     else
         player->viewz = mo->z + player->viewheight;
 
-    if (mo->flags2 & MF2_FEETARECLIPPED)
+    if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
     {
         sector_t        *sec = mo->subsector->sector;
 

@@ -78,6 +78,8 @@ int                             numsprites;
 static spriteframe_t            sprtemp[MAX_SPRITE_FRAMES];
 static int                      maxframe;
 
+boolean                         footclip = FOOTCLIP_DEFAULT;
+
 extern boolean                  inhelpscreens;
 extern boolean                  translucency;
 extern boolean                  dehacked;
@@ -567,16 +569,16 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= sector->floorheight + FRACUNIT)
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= sector->floorheight + FRACUNIT && footclip)
     {
-        fixed_t footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
+        fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
 
-        vis->texturemid = gzt - viewz - footclip;
+        vis->texturemid = gzt - viewz - clipfeet;
 
         if (flags2 & MF2_NOFLOATBOB)
-            footclip += sector->animate;
+            clipfeet += sector->animate;
 
-        vis->footclip = footclip;
+        vis->footclip = clipfeet;
     }
     else
     {

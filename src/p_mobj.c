@@ -60,7 +60,6 @@ void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
 int                     corpses = CORPSES_DEFAULT;
 boolean                 floatbob = FLOATBOB_DEFAULT;
-boolean                 footclip = FOOTCLIP_DEFAULT;
 boolean                 shadows = SHADOWS_DEFAULT;
 int                     smoketrails = SMOKETRAILS_DEFAULT;
 
@@ -665,14 +664,13 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     if (mobj->flags2 & MF2_SHADOW)
         P_SpawnShadow(mobj);
 
-    if (footclip)
-        if (isliquid[mobj->subsector->sector->floorpic])
-        {
-            if (!(mobj->flags2 & MF2_NOFOOTCLIP))
-                mobj->flags2 |= MF2_FEETARECLIPPED;
-            if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
-                mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
-        }
+    if (isliquid[mobj->subsector->sector->floorpic])
+    {
+        if (!(mobj->flags2 & MF2_NOFOOTCLIP))
+            mobj->flags2 |= MF2_FEETARECLIPPED;
+        if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
+            mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
+    }
 
     return mobj;
 }

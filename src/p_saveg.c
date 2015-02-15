@@ -53,8 +53,6 @@ FILE            *save_stream;
 int             savegamelength;
 boolean         savegame_error;
 
-extern boolean  footclip;
-
 void P_SpawnShadow(mobj_t *actor);
 
 // Get the filename of a temporary file to write the savegame to. After
@@ -1723,7 +1721,7 @@ void P_UnArchiveThinkers(void)
                         if (mobj->flags2 & MF2_MIRRORED)
                             mobj->shadow->flags2 |= MF2_MIRRORED;
 
-                        if (footclip && (mobj->flags2 & MF2_FEETARECLIPPED))
+                        if (mobj->flags2 & MF2_FEETARECLIPPED)
                             mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
                     }
                 }
