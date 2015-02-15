@@ -103,6 +103,12 @@ static int      outputhistory = -1;
 
 extern byte     *tinttab75;
 
+char *upper =
+{
+    "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+,_>?)!@#$%^&*(:"
+    ":<+>?\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\\}^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+};
+
 void C_AddConsoleString(char *string, stringtype_t type, byte color)
 {
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
@@ -593,8 +599,9 @@ boolean C_Responder(event_t *ev)
                 break;
 
             default:
+            {
                 if (modstate & KMOD_SHIFT)
-                    ch = toupper(ch);
+                    ch = upper[ch];
                 if (ch >= ' ' && ch < '~' && ch != '`'
                     && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
                     consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
@@ -607,6 +614,7 @@ boolean C_Responder(event_t *ev)
                     carettics = 0;
                     showcaret = true;
                 }
+            }
         }
         if (autocomplete != -1 && key != KEY_TAB)
             autocomplete = -1;
