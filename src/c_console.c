@@ -617,6 +617,26 @@ boolean C_Responder(event_t *ev)
         if (outputhistory != -1 && key != KEY_PGUP && key != KEY_PGDN)
             outputhistory = -1;
     }
+    else if (ev->type == ev_mousewheel)
+    {
+        // scroll output up
+        if (ev->data1 > 0)
+        {
+            if (consolestrings > 10)
+                outputhistory = (outputhistory == -1 ? consolestrings - 11 : MAX(0, outputhistory - 1));
+        }
+
+        // scroll output down
+        else if (ev->data1 < 0)
+        {
+            if (outputhistory != -1)
+            {
+                ++outputhistory;
+                if (outputhistory + 10 == consolestrings)
+                    outputhistory = -1;
+            }
+        }
+    }
 
     return true;
 }
