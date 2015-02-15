@@ -63,9 +63,9 @@ boolean C_MapCondition(char *, char *);
 boolean C_NoCondition(char *, char *);
 boolean C_SummonCondition(char *, char *);
 
+void C_BooleanCvar(char *, char *);
 void C_Clear(char *, char *);
 void C_CmdList(char *, char *);
-void C_BooleanCvar(char *, char *);
 void C_CvarList(char *, char *);
 void C_God(char *, char *);
 void C_Kill(char *, char *);
@@ -75,53 +75,72 @@ void C_NoTarget(char *, char *);
 void C_Quit(char *, char *);
 void C_Summon(char *, char *);
 
+extern boolean  alwaysrun;
+extern boolean  animatedliquid;
+extern boolean  brightmaps;
+extern boolean  centerweapon;
+extern boolean  dclick_use;
+extern boolean  floatbob;
+extern boolean  footclip;
+extern boolean  fullscreen;
+extern boolean  grid;
+extern boolean  homindicator;
+extern boolean  hud;
+extern boolean  messages;
+extern boolean  mirrorweapons;
+extern boolean  novert;
+extern boolean  rotatemode;
+extern boolean  shadows;
+extern boolean  translucency;
+extern boolean  widescreen;
+
 consolecmd_t consolecmds[] =
 {
-    { "alwaysrun",      C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "animatedliquid", C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "brightmaps",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "centerweapon",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "clear",          C_NoCondition,      C_Clear,       0, CT_CMD,   "Clear the console."                   },
-    { "cmdlist",        C_NoCondition,      C_CmdList,     0, CT_CMD,   "Display a list of console commands."  },
-    { "cvarlist",       C_NoCondition,      C_CvarList,    0, CT_CMD,   "Display a list of console variables." },
-    { "dclick_use",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "floatbob",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "footclip",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "fullscreen",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "god",            C_GameCondition,    C_God,         0, CT_CMD,   "Toggle degreelessness mode on/off."   },
-    { "grid",           C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "homindicator",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "hud",            C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "idbeholda",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idbeholdl",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idbeholdi",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idbeholdr",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idbeholds",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idbeholdv",      C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idchoppers",     C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idclev",         C_CheatCondition,   NULL,          1, CT_CHEAT, ""                                     },
-    { "idclip",         C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "iddqd",          C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "iddt",           C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idfa",           C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idkfa",          C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idmus",          C_CheatCondition,   NULL,          1, CT_CHEAT, ""                                     },
-    { "idmypos",        C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "idspispopd",     C_CheatCondition,   NULL,          0, CT_CHEAT, ""                                     },
-    { "kill",           C_GameCondition,    C_Kill,        1, CT_CMD,   "Kill the player or monsters."         },
-    { "map",            C_MapCondition,     C_Map,         1, CT_CMD,   "Warp to a map."                       },
-    { "messages",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "mirrorweapons",  C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "noclip",         C_GameCondition,    C_NoClip,      0, CT_CMD,   "Toggle no clipping mode on/off."      },
-    { "notarget",       C_GameCondition,    C_NoTarget,    0, CT_CMD,   "Toggle no target mode on/off."        },
-    { "novert",         C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "quit",           C_NoCondition,      C_Quit,        0, CT_CMD,   "Quit DOOM RETRO."                     },
-    { "rotatemode",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "shadows",        C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "summon",         C_SummonCondition,  C_Summon,      1, CT_CMD,   "Summon a monster or map decoration."  },
-    { "translucency",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "widescreen",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  ""                                     },
-    { "",               C_NoCondition,      NULL,          0, 0,        ""                                     }
+    { "alwaysrun",      C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &alwaysrun,      ""                                     },
+    { "animatedliquid", C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &animatedliquid, ""                                     },
+    { "brightmaps",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &brightmaps,     ""                                     },
+    { "centerweapon",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &centerweapon,   ""                                     },
+    { "clear",          C_NoCondition,      C_Clear,       0, CT_CMD,   CF_NONE,    NULL,            "Clear the console."                   },
+    { "cmdlist",        C_NoCondition,      C_CmdList,     0, CT_CMD,   CF_NONE,    NULL,            "Display a list of console commands."  },
+    { "cvarlist",       C_NoCondition,      C_CvarList,    0, CT_CMD,   CF_NONE,    NULL,            "Display a list of console variables." },
+    { "dclick_use",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &dclick_use,     ""                                     },
+    { "floatbob",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &floatbob,       ""                                     },
+    { "footclip",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &footclip,       ""                                     },
+    { "fullscreen",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &fullscreen,     ""                                     },
+    { "god",            C_GameCondition,    C_God,         0, CT_CMD,   CF_NONE,    NULL,            "Toggle degreelessness mode on/off."   },
+    { "grid",           C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &grid,           ""                                     },
+    { "homindicator",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &homindicator,   ""                                     },
+    { "hud",            C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &hud,            ""                                     },
+    { "idbeholda",      C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idbeholdl",      C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idbeholdi",      C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idbeholdr",      C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idbeholds",      C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idbeholdv",      C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idchoppers",     C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idclev",         C_CheatCondition,   NULL,          1, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idclip",         C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "iddqd",          C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "iddt",           C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idfa",           C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idkfa",          C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idmus",          C_CheatCondition,   NULL,          1, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idmypos",        C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "idspispopd",     C_CheatCondition,   NULL,          0, CT_CHEAT, CF_NONE,    NULL,            ""                                     },
+    { "kill",           C_GameCondition,    C_Kill,        1, CT_CMD,   CF_NONE,    NULL,            "Kill the player or monsters."         },
+    { "map",            C_MapCondition,     C_Map,         1, CT_CMD,   CF_NONE,    NULL,            "Warp to a map."                       },
+    { "messages",       C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &messages,       ""                                     },
+    { "mirrorweapons",  C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &mirrorweapons,  ""                                     },
+    { "noclip",         C_GameCondition,    C_NoClip,      0, CT_CMD,   CF_NONE,    NULL,            "Toggle no clipping mode on/off."      },
+    { "notarget",       C_GameCondition,    C_NoTarget,    0, CT_CMD,   CF_NONE,    NULL,            "Toggle no target mode on/off."        },
+    { "novert",         C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &novert,         ""                                     },
+    { "quit",           C_NoCondition,      C_Quit,        0, CT_CMD,   CF_NONE,    NULL,            "Quit DOOM RETRO."                     },
+    { "rotatemode",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &rotatemode,     ""                                     },
+    { "shadows",        C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &shadows,        ""                                     },
+    { "summon",         C_SummonCondition,  C_Summon,      1, CT_CMD,   CF_NONE,    NULL,            "Summon a monster or map decoration."  },
+    { "translucency",   C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &translucency,   ""                                     },
+    { "widescreen",     C_BooleanCondition, C_BooleanCvar, 1, CT_CVAR,  CF_BOOLEAN, &widescreen,     ""                                     },
+    { "",               C_NoCondition,      NULL,          0, 0,        CF_NONE,    NULL,            ""                                     }
 };
 
 boolean C_CheatCondition(char *cmd, char *parm)
@@ -273,8 +292,10 @@ void C_CvarList(char *cmd, char *parm)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecmds[i].cmd,
-                consolecmds[i].description);
+            if (consolecmds[i].flags & CF_BOOLEAN)
+                M_snprintf(buffer, sizeof(buffer), "%i\t\"%s\" is \"%s\"", count++,
+                    consolecmds[i].cmd, (*(boolean *)consolecmds[i].value ? "on" : "off"));
+
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
@@ -417,81 +438,37 @@ void C_Map(char *cmd, char *parm)
             gamemap);
 }
 
-void SetBooleanCvar(char *cmd, char *parm, boolean *cvar)
-{
-    static char     buffer[1024];
-
-    if (!strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
-        || !strcasecmp(parm, "true") || !strcasecmp(parm, "1"))
-        *cvar = true;
-    else if (!strcasecmp(parm, "off") || !strcasecmp(parm, "no")
-        || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"))
-        *cvar = false;
-
-    M_snprintf(buffer, sizeof(buffer), "\"%s\" is \"%s\"", cmd,
-        (parm[0] ? parm : (*cvar ? "on" : "off")));
-    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
-
-    M_SaveDefaults();
-}
-
-extern boolean  alwaysrun;
-extern boolean  animatedliquid;
-extern boolean  brightmaps;
-extern boolean  centerweapon;
-extern boolean  dclick_use;
-extern boolean  floatbob;
-extern boolean  footclip;
-extern boolean  fullscreen;
-extern boolean  grid;
-extern boolean  homindicator;
-extern boolean  hud;
-extern boolean  messages;
-extern boolean  mirrorweapons;
-extern boolean  novert;
-extern boolean  rotatemode;
-extern boolean  shadows;
-extern boolean  translucency;
-extern boolean  widescreen;
-
 void C_BooleanCvar(char *cmd, char *parm)
 {
-    if (!strcasecmp(cmd, "alwaysrun"))
-        SetBooleanCvar(cmd, parm, &alwaysrun);
-    else if (!strcasecmp(cmd, "animatedliquid"))
-        SetBooleanCvar(cmd, parm, &animatedliquid);
-    else if (!strcasecmp(cmd, "brightmaps"))
-        SetBooleanCvar(cmd, parm, &brightmaps);
-    else if (!strcasecmp(cmd, "centerweapon"))
-        SetBooleanCvar(cmd, parm, &centerweapon);
-    else if (!strcasecmp(cmd, "dclick_use"))
-        SetBooleanCvar(cmd, parm, &dclick_use);
-    else if (!strcasecmp(cmd, "floatbob"))
-        SetBooleanCvar(cmd, parm, &floatbob);
-    else if (!strcasecmp(cmd, "footclip"))
-        SetBooleanCvar(cmd, parm, &footclip);
-    else if (!strcasecmp(cmd, "fullscreen"))
-        SetBooleanCvar(cmd, parm, &fullscreen);
-    else if (!strcasecmp(cmd, "grid"))
-        SetBooleanCvar(cmd, parm, &grid);
-    else if (!strcasecmp(cmd, "homindicator"))
-        SetBooleanCvar(cmd, parm, &homindicator);
-    else if (!strcasecmp(cmd, "hud"))
-        SetBooleanCvar(cmd, parm, &hud);
-    else if (!strcasecmp(cmd, "messages"))
-        SetBooleanCvar(cmd, parm, &messages);
-    else if (!strcasecmp(cmd, "mirrorweapons"))
-        SetBooleanCvar(cmd, parm, &mirrorweapons);
-    else if (!strcasecmp(cmd, "novert"))
-        SetBooleanCvar(cmd, parm, &novert);
-    else if (!strcasecmp(cmd, "rotatemode"))
-        SetBooleanCvar(cmd, parm, &rotatemode);
-    else if (!strcasecmp(cmd, "shadows"))
-        SetBooleanCvar(cmd, parm, &shadows);
-    else if (!strcasecmp(cmd, "translucency"))
-        SetBooleanCvar(cmd, parm, &translucency);
-    else if (!strcasecmp(cmd, "widescreen"))
-        SetBooleanCvar(cmd, parm, &widescreen);
+    int i = 0;
+
+    while (consolecmds[i].cmd[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].cmd) && consolecmds[i].type == CT_CVAR)
+        {
+            static char     buffer[1024];
+
+            if (parm[0])
+            {
+                if (!strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
+                    || !strcasecmp(parm, "true") || !strcasecmp(parm, "1"))
+                    *(boolean *)consolecmds[i].value = true;
+                else if (!strcasecmp(parm, "off") || !strcasecmp(parm, "no")
+                    || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"))
+                    *(boolean *)consolecmds[i].value = false;
+
+                M_SaveDefaults();
+
+                M_snprintf(buffer, sizeof(buffer), "\"%s\" is \"%s\"", cmd, parm);
+            }
+            else
+                M_snprintf(buffer, sizeof(buffer), "\"%s\" is \"%s\"", cmd,
+                    (*(boolean *)consolecmds[i].value ? "on" : "off"));
+
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+        }
+        ++i;
+    }
 }
 
 void C_NoClip(char *cmd, char *parm)

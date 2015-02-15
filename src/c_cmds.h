@@ -42,10 +42,16 @@
 
 typedef enum
 {
-    CT_CMD = 1,
-    CT_CVAR,
-    CT_CHEAT
+    CT_CMD   = 1,
+    CT_CVAR  = 2,
+    CT_CHEAT = 3
 } cmdtype_t;
+
+typedef enum
+{
+    CF_NONE    = 0,
+    CF_BOOLEAN = 1
+} cmdflags_t;
 
 typedef struct
 {
@@ -54,6 +60,8 @@ typedef struct
     void                (*func)(char *cmd, char *parm);
     int                 parms;
     cmdtype_t           type;
+    cmdflags_t          flags;
+    void                *value;
     char                *description;
 } consolecmd_t;
 
