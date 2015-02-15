@@ -109,15 +109,16 @@ long M_FileLength(FILE *handle)
 
 char *M_ExtractFolder(char *path)
 {
-    char        *pos;
     char        *folder = (char *)malloc(strlen(path));
+    char        *pos = strstr(path, DIR_SEPARATOR_S);
 
-    strcpy(folder, path);
-
-    pos = strrchr(folder, '\\');
     if (pos)
-        *pos = '\0';
+    {
+        int     len = pos - path;
 
+        M_StringCopy(folder, path, len);
+        folder[len] = '\0';
+    }
     return folder;
 }
 
