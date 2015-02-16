@@ -257,6 +257,8 @@ static int C_TextWidth(char *text)
     return w;
 }
 
+static char     prevletter;
+
 static void C_DrawText(int x, int y, char *text, byte color)
 {
     if (!strcasecmp(text, DIVIDER))
@@ -264,7 +266,6 @@ static void C_DrawText(int x, int y, char *text, byte color)
     else
     {
         size_t      i;
-        char        prev = ' ';
         int         tabs = 0;
 
         for (i = 0; i < strlen(text); ++i)
@@ -281,7 +282,7 @@ static void C_DrawText(int x, int y, char *text, byte color)
                 patch_t     *patch = consolefont[c];
                 int         k = 0;
 
-                if (prev == ' ' || prev == '\t')
+                if (prevletter == ' ' || prevletter == '\t')
                 {
                     if (letter == '\'')
                         patch = lsquote;
@@ -291,7 +292,7 @@ static void C_DrawText(int x, int y, char *text, byte color)
 
                 while (kern[k].char1)
                 {
-                    if (prev == kern[k].char1 && letter == kern[k].char2)
+                    if (prevletter == kern[k].char1 && letter == kern[k].char2)
                     {
                         x += kern[k].adjust;
                         break;
@@ -302,7 +303,7 @@ static void C_DrawText(int x, int y, char *text, byte color)
                 V_DrawConsoleChar(x, y - (CONSOLEHEIGHT - consoleheight), patch, color);
                 x += SHORT(patch->width);
             }
-            prev = letter;
+            prevletter = letter;
         }
     }
 }
@@ -346,6 +347,7 @@ void C_Drawer(void)
                 console[i].string, console[i].color);
 
         // draw input text to left of caret
+        prevletter = ' ';
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
