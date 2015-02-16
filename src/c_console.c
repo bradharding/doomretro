@@ -121,7 +121,8 @@ void C_AddConsoleString(char *string, stringtype_t type, byte color)
 
 void C_AddConsoleDivider(void)
 {
-    C_AddConsoleString(DIVIDER, output, 0);
+    if (!consolestrings || strcasecmp(console[consolestrings - 1].string, DIVIDER))
+        C_AddConsoleString(DIVIDER, output, 0);
 }
 
 static void C_DrawDivider(int y)
