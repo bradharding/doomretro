@@ -42,6 +42,7 @@
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "hu_stuff.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_video.h"
@@ -79,6 +80,7 @@ void C_Map(char *, char *);
 void C_NoClip(char *, char *);
 void C_NoTarget(char *, char *);
 void C_Quit(char *, char *);
+void C_ShowFPS(char *, char *);
 void C_String(char *, char *);
 void C_Summon(char *, char *);
 
@@ -151,6 +153,7 @@ consolecmd_t consolecmds[] =
     { "rotatemode",        C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &rotatemode,        ""                                     },
     { "scalequality",      C_NoCondition,      C_String,    1, CT_CVAR,  CF_STRING,  &scalequality,      ""                                     },
     { "shadows",           C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &shadows,           ""                                     },
+    { "showfps",           C_BooleanCondition, C_ShowFPS,   1, CT_CVAR,  CF_BOOLEAN, &showfps,           ""                                     },
     { "summon",            C_SummonCondition,  C_Summon,    1, CT_CMD,   CF_NONE,    NULL,               "Summon a monster or map decoration."  },
     { "timidity_cfg_path", C_NoCondition,      C_String,    1, CT_CVAR,  CF_STRING,  &timidity_cfg_path, ""                                     },
     { "translucency",      C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &translucency,      ""                                     },
@@ -553,6 +556,33 @@ void C_NoTarget(char *cmd, char *parm)
 void C_Quit(char *cmd, char *parm)
 {
     I_Quit(true);
+}
+
+//
+// SHOWFPS cvar
+//
+void C_ShowFPS(char *cmd, char *parm)
+{
+    static char buffer[1024];
+
+    if (parm[0])
+    {
+        if (!strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
+            || !strcasecmp(parm, "true") || !strcasecmp(parm, "1"))
+            showfps = true;
+        else if (!strcasecmp(parm, "off") || !strcasecmp(parm, "no")
+            || !strcasecmp(parm, "false") || !strcasecmp(parm, "0"))
+        {
+            showfps = false;
+            HU_clearMessages();
+        }
+
+        M_snprintf(buffer, sizeof(buffer), "\"showfps\" is \"%s\"", parm);
+    }
+    else
+        M_snprintf(buffer, sizeof(buffer), "\"showfps\" is \"%s\"", (showfps ? "on" : "off"));
+
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //

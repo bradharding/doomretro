@@ -95,4 +95,6 @@ extern boolean  blurred;
 extern boolean  splashscreen;
 extern boolean  noinput;
 
+extern boolean showfps;
+
 #endif

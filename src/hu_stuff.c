@@ -45,6 +45,7 @@
 #include "m_misc.h"
 #include "i_swap.h"
 #include "i_timer.h"
+#include "i_video.h"
 #include "m_config.h"
 #include "r_main.h"
 #include "s_sound.h"
@@ -503,7 +504,7 @@ void HU_Ticker(void)
 
     // tick down message counter if message is up
     if (((!menuactive && !paused) || inhelpscreens || message_dontpause) &&
-        !idbehold && !idmypos && !devparm && message_counter && !--message_counter)
+        !idbehold && !idmypos && !showfps && message_counter && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
@@ -560,7 +561,7 @@ void HU_Ticker(void)
         HUlib_addMessageToSText(&w_message, 0, buffer);
         message_on = true;
     }
-    else if (devparm)
+    else if (showfps)
     {
         static char     fps_str[8] = "";
         static int      prev_fps = 0;
@@ -580,7 +581,7 @@ void HU_Ticker(void)
         || (plr->message && message_dontfuckwithme))
     {
         C_AddConsoleString(plr->message, output, CONSOLEOUTPUTCOLOR);
-        if (!idbehold && !idmypos && !devparm && (messages || message_dontfuckwithme))
+        if (!idbehold && !idmypos && !showfps && (messages || message_dontfuckwithme))
         {
             char    *s = Z_Malloc(133, PU_STATIC, NULL);
             int     len;

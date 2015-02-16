@@ -549,7 +549,7 @@ static void AM_LevelInit(void)
 void AM_Stop(void)
 {
     automapactive = false;
-    if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm)
+    if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !showfps)
         HU_clearMessages();
     ST_AutomapEvent(AM_MSGEXITED);
     stopped = true;
@@ -569,7 +569,7 @@ void AM_Start(void)
     maparea = mapwidth * mapheight;
     mapbottom = maparea - mapwidth;
 
-    if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !devparm)
+    if (!idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !showfps)
         HU_clearMessages();
 
     if (lastlevel != gamemap || lastepisode != gameepisode)

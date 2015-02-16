@@ -102,7 +102,6 @@ char                    *iwadfile = "";
 
 char                    *iwadfolder = IWADFOLDER_DEFAULT;
 
-boolean                 devparm;        // started game with -devparm
 boolean                 nomonsters;     // checkparm of -nomonsters
 boolean                 respawnparm;    // checkparm of -respawn
 boolean                 fastparm;       // checkparm of -fast
@@ -1123,7 +1122,6 @@ static void D_DoomMainSetup(void)
     nomonsters = M_CheckParm("-nomonsters");
     respawnparm = M_CheckParm("-respawn");
     fastparm = M_CheckParm("-fast");
-    devparm = M_CheckParm("-devparm");
 
     // turbo option
     p = M_CheckParm("-turbo");

@@ -152,6 +152,14 @@ float                   gammalevels[GAMMALEVELS] =
 int                     gammaindex;
 float                   gammalevel = GAMMALEVEL_DEFAULT;
 
+SDL_Rect                src_rect = { 0, 0, 0, 0 };
+
+boolean                 showfps = false;
+int                     fps = 0;
+int                     frames = 0;
+int                     starttime;
+int                     currenttime;
+
 // Mouse acceleration
 //
 // This emulates some of the behavior of DOS mouse drivers by increasing
@@ -605,13 +613,6 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-SDL_Rect        src_rect = { 0, 0, 0, 0 };
-
-int             fps = 0;
-int             frames = 0;
-int             starttime;
-int             currenttime;
-
 //
 // I_FinishUpdate
 //
@@ -643,7 +644,7 @@ void I_FinishUpdate(void)
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 
-    if (devparm)
+    if (showfps)
     {
         ++frames;
         currenttime = SDL_GetTicks();
@@ -1150,7 +1151,7 @@ void I_InitGraphics(void)
     for (i = 0; i < SCREENHEIGHT; i++)
         rows[i] = *screens + i * SCREENWIDTH;
 
-    if (devparm)
+    if (showfps)
         starttime = SDL_GetTicks();
 
     I_FinishUpdate();
