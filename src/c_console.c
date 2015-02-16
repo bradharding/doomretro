@@ -308,7 +308,7 @@ static void C_DrawText(int x, int y, char *text, byte color)
 
 void C_Drawer(void)
 {
-    if (!consoleactive)
+    if (!consoleheight)
         return;
     else
     {
