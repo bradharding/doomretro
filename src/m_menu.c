@@ -1694,6 +1694,7 @@ void M_EndGameResponse(int key)
         returntowidescreen = true;
     }
     usergame = false;
+    C_AddConsoleDivider();
     M_SetWindowCaption();
     D_StartTitle(1);
 }
