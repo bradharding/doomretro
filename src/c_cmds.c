@@ -72,6 +72,7 @@ void C_Boolean(char *, char *);
 void C_Clear(char *, char *);
 void C_CmdList(char *, char *);
 void C_CvarList(char *, char *);
+void C_EndGame(char *, char *);
 void C_God(char *, char *);
 void C_Help(char *, char *);
 void C_Hud(char *, char *);
@@ -122,6 +123,7 @@ consolecmd_t consolecmds[] =
     { "corpses_smearblood", C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &corpses_smearblood, ""                                     },
     { "cvarlist",           C_NoCondition,      C_CvarList,  0, CT_CMD,   CF_NONE,    NULL,                "Display a list of console variables." },
     { "dclick_use",         C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &dclick_use,         ""                                     },
+    { "endgame",            C_GameCondition,    C_EndGame,   0, CT_CMD,   CF_NONE,    NULL,                "End a game."                          },
     { "floatbob",           C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &floatbob,           ""                                     },
     { "footclip",           C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &footclip,           ""                                     },
     { "fullscreen",         C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &fullscreen,         ""                                     },
@@ -307,6 +309,14 @@ void C_CvarList(char *cmd, char *parm)
         }
         ++i;
     }
+}
+
+//
+// ENDGAME cmd
+//
+void C_EndGame(char *cmd, char *parm)
+{
+    M_EndingGame();
 }
 
 //

@@ -1668,6 +1668,20 @@ void M_ChangeMessages(int choice)
 //
 boolean endinggame = false;
 
+void M_EndingGame(void)
+{
+    endinggame = true;
+    if (widescreen)
+    {
+        ToggleWidescreen(false);
+        returntowidescreen = true;
+    }
+    usergame = false;
+    C_AddConsoleDivider();
+    M_SetWindowCaption();
+    D_StartTitle(1);
+}
+
 void M_EndGameResponse(int key)
 {
     messageToPrint = false;
@@ -1687,16 +1701,7 @@ void M_EndGameResponse(int key)
     S_StartSound(NULL, sfx_swtchx);
     I_WaitVBL(2 * TICRATE);
     MainDef.lastOn = 0;
-    endinggame = true;
-    if (widescreen)
-    {
-        ToggleWidescreen(false);
-        returntowidescreen = true;
-    }
-    usergame = false;
-    C_AddConsoleDivider();
-    M_SetWindowCaption();
-    D_StartTitle(1);
+    M_EndingGame();
 }
 
 void M_EndGame(int choice)
