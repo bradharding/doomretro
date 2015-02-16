@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -212,7 +213,7 @@ static void UpdateFocus(void)
     // (not minimized)
     window_focused = ((state & SDL_WINDOW_INPUT_FOCUS) && screenvisible);
 
-    if (!window_focused && !menuactive && gamestate == GS_LEVEL && !paused)
+    if (!window_focused && !menuactive && gamestate == GS_LEVEL && !paused && !consoleactive)
     {
         sendpause = true;
         blurred = false;
