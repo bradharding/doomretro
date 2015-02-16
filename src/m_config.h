@@ -304,6 +304,8 @@
 #define VIDEODRIVER_DEFAULT                     ""
 #endif
 
+#define VSYNC_DEFAULT                           true
+
 #define WIDESCREEN_DEFAULT                      false
 
 #define WINDOWPOSITION_DEFAULT                  ""

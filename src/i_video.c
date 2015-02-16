@@ -72,6 +72,8 @@ static SDL_Renderer     *renderer;
 static SDL_Surface      *rgbabuffer = NULL;
 static SDL_Texture      *texture = NULL; 
 
+boolean                 vsync = VSYNC_DEFAULT;
+
 // palette
 SDL_Color               palette[256];
 static boolean          palette_to_set;
@@ -734,6 +736,11 @@ static void SetupScreenRects(void)
 
 static void SetVideoMode(void)
 {
+    int flags = (SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+
+    if (vsync)
+        flags |= SDL_RENDERER_PRESENTVSYNC;
+
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, scalequality);
 
     if (fullscreen)
@@ -749,23 +756,13 @@ static void SetVideoMode(void)
             M_SaveDefaults();
         }
 
-        SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_FULLSCREEN_DESKTOP, &window,
-            &renderer);
+        window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+            width, height, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        renderer = SDL_CreateRenderer(window, -1, flags);
         screen = SDL_GetWindowSurface(window);
 
         if (!screen)
-        {
-            screenwidth = 0;
-            screenheight = 0;
-            M_SaveDefaults();
-
-            SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_FULLSCREEN_DESKTOP, &window,
-                &renderer);
-            screen = SDL_GetWindowSurface(window);
-
-            if (!screen)
-                I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 5, SDL_GetError());
-        }
+            I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 5, SDL_GetError());
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 

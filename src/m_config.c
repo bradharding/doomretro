@@ -168,6 +168,7 @@ extern int      snd_maxslicetime_ms;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
+extern boolean  vsync;
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
@@ -314,6 +315,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_STRING       (timidity_cfg_path,          timidity_cfg_path,             0),
     CONFIG_VARIABLE_INT          (translucency,               translucency,                  1),
     CONFIG_VARIABLE_STRING       (videodriver,                videodriver,                   0),
+    CONFIG_VARIABLE_INT          (vsync,                      vsync,                         1),
     CONFIG_VARIABLE_INT          (widescreen,                 widescreen,                    1),
     CONFIG_VARIABLE_STRING       (windowposition,             windowposition,                0),
     CONFIG_VARIABLE_INT          (windowwidth,                windowwidth,                   0),
@@ -1282,6 +1284,9 @@ static void M_CheckDefaults(void)
 
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;
+
+    if (vsync != false && vsync != true)
+        vsync = VSYNC_DEFAULT;
 
     if (widescreen != false && widescreen != true)
         widescreen = WIDESCREEN_DEFAULT;
