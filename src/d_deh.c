@@ -367,6 +367,8 @@ char *s_STSTR_CLEVSAME = STSTR_CLEVSAME;
 char *s_STSTR_MYPOS = STSTR_MYPOS;
 char *s_STSTR_NTON = STSTR_NTON;
 char *s_STSTR_NTOFF = STSTR_NTOFF;
+char *s_STSTR_GODON = STSTR_GODON;
+char *s_STSTR_GODOFF = STSTR_GODOFF;
 
 char *s_E1TEXT = E1TEXT;
 char *s_E2TEXT = E2TEXT;
@@ -762,6 +764,8 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_MYPOS,          "STSTR_MYPOS",          false },
     { &s_STSTR_NTON,           "STSTR_NTON",           false },
     { &s_STSTR_NTOFF,          "STSTR_NTOFF",          false },
+    { &s_STSTR_GODON,          "STSTR_GODON",          false },
+    { &s_STSTR_GODOFF,         "STSTR_GODOFF",         false },
 
     { &s_E1TEXT,               "E1TEXT",               false },
     { &s_E2TEXT,               "E2TEXT",               false },

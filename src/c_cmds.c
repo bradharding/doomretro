@@ -60,6 +60,7 @@
 boolean C_BooleanCondition(char *, char *);
 boolean C_CheatCondition(char *, char *);
 boolean C_GameCondition(char *, char *);
+boolean C_GodCondition(char *, char *);
 boolean C_KillCondition(char *, char *);
 boolean C_MapCondition(char *, char *);
 boolean C_NoCondition(char *, char *);
@@ -117,7 +118,7 @@ consolecmd_t consolecmds[] =
     { "floatbob",          C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &floatbob,          ""                                     },
     { "footclip",          C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &footclip,          ""                                     },
     { "fullscreen",        C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &fullscreen,        ""                                     },
-    { "god",               C_GameCondition,    C_God,       0, CT_CMD,   CF_NONE,    NULL,               "Toggle degreelessness mode on/off."   },
+    { "god",               C_GodCondition,     C_God,       0, CT_CMD,   CF_NONE,    NULL,               "Toggle god mode on/off."              },
     { "grid",              C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &grid,              ""                                     },
     { "help",              C_NoCondition,      C_Help,      0, CT_CMD,   CF_NONE,    NULL,               "Display the help screen."             },
     { "homindicator",      C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &homindicator,      ""                                     },
@@ -302,9 +303,18 @@ void C_CvarList(char *cmd, char *parm)
 //
 // GOD cmd
 //
+boolean C_GodCondition(char *cmd, char *parm)
+{
+    return (gamestate == GS_LEVEL && players[displayplayer].playerstate == PST_LIVE);
+}
+
 void C_God(char *cmd, char *parm)
 {
-    M_StringCopy(consolecheat, "iddqd", sizeof(consolecheat));
+    player_t      *player = &players[displayplayer];
+
+    player->cheats ^= CF_GODMODE;
+    C_AddConsoleString(((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF), output,
+        CONSOLEOUTPUTCOLOR);
 }
 
 //

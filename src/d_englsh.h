@@ -717,6 +717,8 @@
 #define STSTR_MYPOS             ""
 #define STSTR_NTON              ""
 #define STSTR_NTOFF             ""
+#define STSTR_GODON             ""
+#define STSTR_GODOFF            ""
 #define N1TEXT                  ""
 #define CC_SPECTRE              ""
 #define M_NEWGAME               ""
