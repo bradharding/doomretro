@@ -65,6 +65,7 @@ typedef struct
     byte                color;
 } console_t;
 
+extern boolean  consoleactive;
 extern int      consoleheight;
 extern int      consoledirection;
 

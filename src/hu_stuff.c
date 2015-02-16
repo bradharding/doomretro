@@ -317,7 +317,7 @@ static void HU_DrawHUD(void)
             health_x -= 14;
 
         invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
-            || menuactive || paused);
+            || menuactive || paused || consoleactive);
         if (patch)
             if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
                 godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
@@ -329,7 +329,7 @@ static void HU_DrawHUD(void)
         if (!emptytallpercent)
             hudnumfunc(health_x + 50, HUD_HEALTH_Y, tallpercent, invert);
 
-        if (health <= HUD_HEALTH_MIN && !menuactive && !paused)
+        if (health <= HUD_HEALTH_MIN && !menuactive && !paused && !consoleactive)
         {
             if (!--healthanimtics)
             {
@@ -367,12 +367,12 @@ static void HU_DrawHUD(void)
             }
 
             invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN
-                || menuactive || paused);
+                || menuactive || paused || consoleactive);
             if (ammopic[ammotype].patch)
                 hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, ammopic[ammotype].patch, invert);
             DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
 
-            if (ammo <= HUD_AMMO_MIN && !menuactive && !paused)
+            if (ammo <= HUD_AMMO_MIN && !menuactive && !paused && !consoleactive)
             {
                 if (!--ammoanimtics)
                 {
@@ -418,7 +418,7 @@ static void HU_DrawHUD(void)
 
                     if (patch)
                     {
-                        if (!menuactive && !paused)
+                        if (!menuactive && !paused && !consoleactive)
                         {
                             plr->neededcardtics--;
                             if (!--keyanimcounter)

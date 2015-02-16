@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -563,7 +564,7 @@ void R_ProjectSprite(mobj_t *thing)
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
-    if ((flags & MF_FUZZ) && (menuactive || paused))
+    if ((flags & MF_FUZZ) && (menuactive || paused || consoleactive))
         vis->colfunc = R_DrawPausedFuzzColumn;
     else
         vis->colfunc = thing->colfunc;
@@ -902,7 +903,7 @@ static void R_DrawPlayerSprites(void)
         for (i = 0, psp = viewplayer->psprites; i < NUMPSPRITES; i++, psp++)
             if (psp->state)
                 R_DrawPSprite(psp, true);
-        if (menuactive || paused)
+        if (menuactive || paused || consoleactive)
             R_DrawPausedFuzzColumns();
         else
             R_DrawFuzzColumns();

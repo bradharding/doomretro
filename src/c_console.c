@@ -73,6 +73,7 @@
 
 #define CARETTICS               20
 
+boolean         consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = 1;
 
@@ -307,7 +308,7 @@ static void C_DrawText(int x, int y, char *text, byte color)
 
 void C_Drawer(void)
 {
-    if (!consoleheight)
+    if (!consoleactive)
         return;
     else
     {
@@ -319,6 +320,8 @@ void C_Drawer(void)
 
         // adjust height
         consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
+
+        consoleactive = (consoleheight >= CONSOLEHEIGHT / 2);
 
         // draw tiled background and bottom edge
         C_DrawBackground(consoleheight);

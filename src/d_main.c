@@ -260,7 +260,7 @@ void D_Display(void)
             if (scaledviewwidth != SCREENWIDTH)
             {
                 if (menuactive || menuactivestate || !viewactivestate
-                    || paused || pausedstate || message_on)
+                    || paused || pausedstate || message_on || consoleactive)
                     borderdrawcount = 3;
                 if (borderdrawcount)
                 {

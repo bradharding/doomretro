@@ -46,6 +46,7 @@
 #endif
 
 #include "am_map.h"
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -1180,7 +1181,7 @@ void AM_Ticker(void)
         AM_changeWindowScale();
 
     // Change x,y location
-    if ((m_paninc.x || m_paninc.y) && !menuactive && !paused)
+    if ((m_paninc.x || m_paninc.y) && !menuactive && !paused && !consoleactive)
         AM_changeWindowLoc();
 
     if (movement)

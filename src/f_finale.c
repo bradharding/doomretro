@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -215,7 +216,7 @@ static float TextSpeed(void)
 //
 void F_Ticker(void)
 {
-    if (menuactive || paused)
+    if (menuactive || paused || consoleactive)
         return;
 
     WI_checkForAccelerate();
@@ -605,7 +606,7 @@ boolean F_CastResponder(event_t *ev)
         return true;
     }
 
-    if (menuactive || paused)
+    if (menuactive || paused || consoleactive)
         return false;
 
     if (ev->type == ev_keydown && ev->data1 != key_use && ev->data1 != key_fire

@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "p_local.h"
 
@@ -113,6 +114,9 @@ void P_Ticker(void)
 
     // run the tic
     if (paused)
+        return;
+
+    if (consoleactive)
         return;
 
     // pause if in menu and at least one tic has been run
