@@ -151,6 +151,17 @@ void C_Init(void)
     caret = consolefont['|' - CONSOLEFONTSTART];
 }
 
+static void C_StripQuotes(char *string)
+{
+    size_t len = strlen(string);
+
+    if (len >= 2 && string[0] == '\"' && string[len - 1] == '\"')
+    {
+        len -= 2;
+        memmove(string, string + 1, len);
+        string[len] = '\0';
+    }
+}
 static void C_DrawBackground(int height)
 {
     byte        *dest = screens[0];
@@ -427,6 +438,7 @@ boolean C_Responder(event_t *ev)
                             else
                             {
                                 sscanf(consoleinput, "%s %s", cmd, parm);
+                                C_StripQuotes(parm);
                                 if (!strcasecmp(cmd, consolecmds[i].cmd)
                                     && consolecmds[i].condition(cmd, parm))
                                 {
