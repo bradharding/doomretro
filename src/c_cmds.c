@@ -104,8 +104,9 @@ extern char     *scalequality;
 extern boolean  shadows;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
-extern boolean  widescreen;
 extern char     *videodriver;
+extern boolean  widescreen;
+extern char     *windowposition;
 
 consolecmd_t consolecmds[] =
 {
@@ -159,6 +160,7 @@ consolecmd_t consolecmds[] =
     { "translucency",      C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &translucency,      ""                                     },
     { "videodriver",       C_NoCondition,      C_String,    1, CT_CVAR,  CF_STRING,  &videodriver,       ""                                     },
     { "widescreen",        C_BooleanCondition, C_Boolean,   1, CT_CVAR,  CF_BOOLEAN, &widescreen,        ""                                     },
+    { "windowposition",    C_NoCondition,      C_String,    1, CT_CVAR,  CF_STRING,  &windowposition,    ""                                     },
     { "",                  C_NoCondition,      NULL,        0, 0,        CF_NONE,    NULL,               ""                                     }
 };
 
