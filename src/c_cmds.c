@@ -524,10 +524,10 @@ void C_Map(char *cmd, char *parm)
     }
     gamemap = mapcmdmap;
     if (gamestate == GS_LEVEL)
-        G_DeferredLoadLevel(gamestate == GS_LEVEL ? gameskill : selectedskilllevel, gameepisode,
+        G_DeferredLoadLevel((gamestate == GS_LEVEL ? gameskill : selectedskilllevel), gameepisode,
             gamemap);
     else
-        G_DeferredInitNew(gamestate == GS_LEVEL ? gameskill : selectedskilllevel, gameepisode,
+        G_DeferredInitNew((gamestate == GS_LEVEL ? gameskill : selectedskilllevel), gameepisode,
             gamemap);
 }
 

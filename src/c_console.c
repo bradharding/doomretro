@@ -313,6 +313,7 @@ void C_Drawer(void)
     if (consoleheight)
     {
         int     i;
+        int     x = CONSOLETEXTX;
         int     start;
         int     end;
         char    *left = Z_Malloc(512, PU_STATIC, NULL);
@@ -327,6 +328,7 @@ void C_Drawer(void)
         C_DrawBackground(consoleheight);
 
         // draw title and version
+        prevletter = ' ';
         C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX,
             CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, CONSOLETITLECOLOR);
 
@@ -342,16 +344,19 @@ void C_Drawer(void)
             end = outputhistory + 10;
         }
         for (i = start; i < end; ++i)
-            C_DrawText(CONSOLETEXTX, 
+        {
+            prevletter = ' ';
+            C_DrawText(CONSOLETEXTX,
                 CONSOLETEXTY + CONSOLELINEHEIGHT * (i - start + MAX(0, 10 - consolestrings)),
                 console[i].string, console[i].color);
+        }
 
         // draw input text to left of caret
         prevletter = ' ';
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
-        C_DrawText(CONSOLETEXTX, CONSOLEHEIGHT - 15, left, CONSOLEINPUTCOLOR);
+        C_DrawText(x, CONSOLEHEIGHT - 15, left, CONSOLEINPUTCOLOR);
 
         // draw caret
         if (carettics++ == CARETTICS)
@@ -359,15 +364,16 @@ void C_Drawer(void)
             carettics = 0;
             showcaret = !showcaret;
         }
+        x += C_TextWidth(left);
         if (showcaret)
-            V_DrawConsoleChar(CONSOLETEXTX + C_TextWidth(left), consoleheight - 15, caret,
-                CONSOLECARETCOLOR);
+            V_DrawConsoleChar(x, consoleheight - 15, caret, CONSOLECARETCOLOR);
 
         // draw input text to right of caret
         for (i = 0; (unsigned int)i < strlen(consoleinput) - caretpos; ++i)
             right[i] = consoleinput[i + caretpos];
         right[i] = 0;
-        C_DrawText(CONSOLETEXTX + C_TextWidth(left) + 3, CONSOLEHEIGHT - 15, right, CONSOLEINPUTCOLOR);
+        if (right[0])
+            C_DrawText(x + 3, CONSOLEHEIGHT - 15, right, CONSOLEINPUTCOLOR);
     }
 
     if (showfps)
