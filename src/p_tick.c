@@ -116,11 +116,8 @@ void P_Ticker(void)
     if (paused)
         return;
 
-    if (consoleactive)
-        return;
-
     // pause if in menu and at least one tic has been run
-    if (menuactive && players[consoleplayer].viewz != 1)
+    if ((menuactive || consoleactive) && players[consoleplayer].viewz != 1)
         return;
 
     if (gamestate == GS_LEVEL)

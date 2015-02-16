@@ -56,7 +56,6 @@
 #include "z_zone.h"
 
 #define CONSOLESPEED            12
-#define CONSOLEHEIGHT           ((SCREENHEIGHT - SBARHEIGHT) / 2)
 
 #define CONSOLEFONTSTART        '!'
 #define CONSOLEFONTEND          '~'
@@ -75,7 +74,7 @@
 
 boolean         consoleactive = false;
 int             consoleheight = 0;
-int             consoledirection = 1;
+int             consoledirection = -1;
 
 byte            *background;
 patch_t         *divider;
@@ -413,7 +412,7 @@ void C_Drawer(void)
 
 boolean C_Responder(event_t *ev)
 {
-    if (consoleheight != CONSOLEHEIGHT)
+    if (consoleheight < CONSOLEHEIGHT)
         return false;
 
     if (ev->type == ev_keydown)
@@ -662,6 +661,12 @@ boolean C_Responder(event_t *ev)
                     if (outputhistory + 10 == consolestrings)
                         outputhistory = -1;
                 }
+                break;
+
+            // close console:
+            case KEY_ESCAPE:
+            case KEY_TILDE:
+                consoledirection = -1;
                 break;
 
             default:

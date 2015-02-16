@@ -42,7 +42,9 @@
 #include "doomtype.h"
 #include "d_event.h"
 
-#define CONSOLETOP                        0
+#define CONSOLEHEIGHT                   ((SCREENHEIGHT - SBARHEIGHT) / 2)
+
+#define CONSOLETOP                      0
 
 #define CONSOLECARETCOLOR               160
 #define CONSOLEFPSCOLOR                 160

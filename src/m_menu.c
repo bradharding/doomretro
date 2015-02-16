@@ -2456,14 +2456,12 @@ boolean M_Responder(event_t *ev)
         else if (key == KEY_TILDE && !keydown)
         {
             keydown = key;
-            if (consoleheight && consoledirection == 1)
-                consoledirection = -1;
-            else/* if ((modstate & KMOD_CTRL) && (modstate & KMOD_ALT))*/
+            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)
             {
                 consoleheight = MAX(1, consoleheight);
                 consoledirection = 1;
+                return true;
             }
-            return false;
         }
 
         // Help key
@@ -2681,22 +2679,17 @@ boolean M_Responder(event_t *ev)
     {
         if (key == KEY_ESCAPE && !keydown && !splashscreen)
         {
-            if (consoleheight && consoledirection == 1)
-                consoledirection = -1;
+            keydown = key;
+            if (paused)
+            {
+                paused = false;
+                S_ResumeSound();
+                S_StartSound(NULL, sfx_swtchx);
+            }
             else
             {
-                keydown = key;
-                if (paused)
-                {
-                    paused = false;
-                    S_ResumeSound();
-                    S_StartSound(NULL, sfx_swtchx);
-                }
-                else
-                {
-                    M_StartControlPanel();
-                    S_StartSound(NULL, sfx_swtchn);
-                }
+                M_StartControlPanel();
+                S_StartSound(NULL, sfx_swtchn);
             }
         }
         return false;

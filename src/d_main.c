@@ -159,10 +159,10 @@ void D_ProcessEvents(void)
 
         if (wipe && ev->type == ev_mouse)
             continue;
-        if (M_Responder(ev))
-            continue;           // menu ate the event
         if (C_Responder(ev))
             continue;           // console ate the event
+        if (M_Responder(ev))
+            continue;           // menu ate the event
         G_Responder(ev);
     }
 }
