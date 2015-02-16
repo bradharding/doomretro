@@ -45,7 +45,6 @@
 #include "m_misc.h"
 #include "i_swap.h"
 #include "i_timer.h"
-#include "i_video.h"
 #include "m_config.h"
 #include "r_main.h"
 #include "s_sound.h"
@@ -84,7 +83,6 @@ extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
 extern boolean          emptytallpercent;
-extern int              fps;
 
 static boolean          headsupactive = false;
 
@@ -504,7 +502,7 @@ void HU_Ticker(void)
 
     // tick down message counter if message is up
     if (((!menuactive && !paused) || inhelpscreens || message_dontpause) &&
-        !idbehold && !idmypos && !showfps && message_counter && !--message_counter)
+        !idbehold && !idmypos && message_counter && !--message_counter)
     {
         message_on = false;
         message_nottobefuckedwith = false;
@@ -561,27 +559,13 @@ void HU_Ticker(void)
         HUlib_addMessageToSText(&w_message, 0, buffer);
         message_on = true;
     }
-    else if (showfps)
-    {
-        static char     fps_str[8] = "";
-        static int      prev_fps = 0;
-
-        M_snprintf(fps_str, sizeof(fps_str), "%i FPS", fps);
-        HUlib_addMessageToSText(&w_message, 0, fps_str);
-        message_on = true;
-
-        if ((menuactive || paused) && fps != prev_fps)
-            blurred = false;
-
-        prev_fps = fps;
-    }
 
     // display message if necessary
     if ((plr->message && !message_nottobefuckedwith)
         || (plr->message && message_dontfuckwithme))
     {
         C_AddConsoleString(plr->message, output, CONSOLEOUTPUTCOLOR);
-        if (!idbehold && !idmypos && !showfps && (messages || message_dontfuckwithme))
+        if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
         {
             char    *s = Z_Malloc(133, PU_STATIC, NULL);
             int     len;

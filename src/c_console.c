@@ -103,6 +103,7 @@ static int      inputhistory = -1;
 static int      outputhistory = -1;
 
 extern byte     *tinttab75;
+extern int      fps;
 
 char *upper =
 {
@@ -308,9 +309,7 @@ static void C_DrawText(int x, int y, char *text, byte color)
 
 void C_Drawer(void)
 {
-    if (!consoleheight)
-        return;
-    else
+    if (consoleheight)
     {
         int     i;
         int     start;
@@ -367,6 +366,40 @@ void C_Drawer(void)
             right[i] = consoleinput[i + caretpos];
         right[i] = 0;
         C_DrawText(CONSOLETEXTX + C_TextWidth(left) + 3, CONSOLEHEIGHT - 15, right, CONSOLEINPUTCOLOR);
+    }
+
+    if (showfps)
+    {
+        static char buffer[16];
+        size_t      i;
+        int         w = 0;
+        int         x = SCREENWIDTH - CONSOLETEXTX;
+        int         y = CONSOLETEXTY;
+        static int  prevfps = 0;
+
+        M_snprintf(buffer, 16, "%i FPS", fps);
+
+        for (i = 0; i < strlen(buffer); ++i)
+            w += (buffer[i] == ' ' ? SPACEWIDTH :
+            SHORT(consolefont[buffer[i] - CONSOLEFONTSTART]->width));
+
+        x -= w;
+
+        for (i = 0; i < strlen(buffer); ++i)
+            if (buffer[i] == ' ')
+                x += SPACEWIDTH;
+            else
+            {
+                patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
+
+                V_DrawConsoleChar(x, y, patch, CONSOLEFPSCOLOR);
+                x += SHORT(patch->width);
+            }
+
+        if ((menuactive || paused) && fps != prevfps)
+            blurred = false;
+
+        prevfps = fps;
     }
 }
 

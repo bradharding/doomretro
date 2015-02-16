@@ -45,6 +45,7 @@
 #define CONSOLETOP                        0
 
 #define CONSOLECARETCOLOR               160
+#define CONSOLEFPSCOLOR                 160
 #define CONSOLEINPUTCOLOR               160
 #define CONSOLEINPUTTOOUTPUTCOLOR       160
 #define CONSOLEMAPTITLECOLOR            160
