@@ -1005,10 +1005,11 @@ void P_SpawnMapThing(mapthing_t *mthing)
         mobj->flags2 |= MF2_MIRRORED;
 
     if (!(mobj->flags & MF_SHOOTABLE) && !(mobj->flags & MF_NOBLOOD) && mobj->blood && !chex
-        && corpses_moreblood && bloodsplats && !dehacked)
+        && bloodsplats && !dehacked)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
-        P_SpawnMoreBlood(mobj);
+        if (corpses_moreblood)
+            P_SpawnMoreBlood(mobj);
     }
 }
 
