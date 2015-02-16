@@ -52,13 +52,13 @@
 
 #define CENTERWEAPON_DEFAULT                    true
 
-#define MIRROR                                  1
-#define SLIDE                                   2
-#define SMEARBLOOD                              4
-#define MOREBLOOD                               8
-#define CORPSES_MIN                             0
-#define CORPSES_DEFAULT                         (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
-#define CORPSES_MAX                             (MIRROR | SLIDE | SMEARBLOOD | MOREBLOOD)
+#define CORPSES_MIRROR_DEFAULT                  true
+
+#define CORPSES_MOREBLOOD_DEFAULT               true
+
+#define CORPSES_SLIDE_DEFAULT                   true
+
+#define CORPSES_SMEARBLOOD_DEFAULT              true
 
 #define DCLICKUSE_DEFAULT                       false
 

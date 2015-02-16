@@ -139,7 +139,10 @@ extern mobj_t           *bloodSplatQueue[BLOODSPLATS_MAX];
 extern int              bloodSplatQueueSlot;
 extern int              bloodsplats;
 
-extern int              corpses;
+extern boolean          corpses_mirror;
+extern boolean          corpses_moreblood;
+extern boolean          corpses_slide;
+extern boolean          corpses_smearblood;
 
 void P_InitCards(player_t *player);
 

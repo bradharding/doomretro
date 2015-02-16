@@ -58,7 +58,10 @@ mobj_t                  *bloodSplatQueue[BLOODSPLATS_MAX];
 int                     bloodSplatQueueSlot;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
-int                     corpses = CORPSES_DEFAULT;
+boolean                 corpses_mirror = CORPSES_MIRROR_DEFAULT;
+boolean                 corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
+boolean                 corpses_slide = CORPSES_SLIDE_DEFAULT;
+boolean                 corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
 boolean                 floatbob = FLOATBOB_DEFAULT;
 boolean                 shadows = SHADOWS_DEFAULT;
 int                     smoketrails = SMOKETRAILS_DEFAULT;
@@ -271,8 +274,8 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
-    if ((flags & MF_CORPSE) && !(flags & MF_NOBLOOD) && (corpses & SLIDE)
-        && (corpses & SMEARBLOOD) && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
+    if ((flags & MF_CORPSE) && !(flags & MF_NOBLOOD) && corpses_slide && corpses_smearblood
+        && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
     {
         int     i;
         int     max = ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12;
@@ -982,7 +985,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mthing->options & MTF_AMBUSH)
         mobj->flags |= MF_AMBUSH;
 
-    if ((mobj->flags & MF_CORPSE) && (corpses & MIRROR))
+    if ((mobj->flags & MF_CORPSE) && corpses_mirror)
     {
         static int      prev = 0;
         int             r = M_RandomInt(1, 10);
@@ -1002,7 +1005,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
         mobj->flags2 |= MF2_MIRRORED;
 
     if (!(mobj->flags & MF_SHOOTABLE) && !(mobj->flags & MF_NOBLOOD) && mobj->blood && !chex
-        && (corpses & MOREBLOOD) && bloodsplats && !dehacked)
+        && corpses_moreblood && bloodsplats && !dehacked)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
         P_SpawnMoreBlood(mobj);

@@ -782,7 +782,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if ((corpses & MIRROR) && type != MT_CHAINGUY && type != MT_CYBORG)
+        if (corpses_mirror && type != MT_CHAINGUY && type != MT_CYBORG)
         {
             static int prev = 0;
             int        r = M_RandomInt(1, 10);
@@ -899,7 +899,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     int         flags = target->flags;
     int         type = target->type;
 
-    if (!(flags & MF_SHOOTABLE) && (!(flags & MF_CORPSE) || !(corpses & SLIDE)))
+    if (!(flags & MF_SHOOTABLE) && (!(flags & MF_CORPSE) || !corpses_slide))
         return;
 
     if (type == MT_BARREL && (flags & MF_CORPSE))

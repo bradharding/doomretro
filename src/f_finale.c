@@ -651,7 +651,7 @@ boolean F_CastResponder(event_t *ev)
     
     // go into death frame
     castdeath = true;
-    if ((corpses & MIRROR) && type != MT_CHAINGUY && type != MT_CYBORG)
+    if (corpses_mirror && type != MT_CHAINGUY && type != MT_CYBORG)
         castdeathflip = rand() & 1;
     caststate = &states[mobjinfo[type].deathstate];
     casttics = caststate->tics;

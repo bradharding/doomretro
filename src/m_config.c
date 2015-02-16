@@ -64,7 +64,10 @@ extern boolean  animatedliquid;
 extern int      bloodsplats;
 extern int      brightmaps;
 extern boolean  centerweapon;
-extern int      corpses;
+extern boolean  corpses_mirror;
+extern boolean  corpses_moreblood;
+extern boolean  corpses_slide;
+extern boolean  corpses_smearblood;
 extern boolean  dclick_use;
 extern boolean  floatbob;
 extern boolean  footclip;
@@ -204,7 +207,10 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (bloodsplats,                bloodsplats,                   7),
     CONFIG_VARIABLE_INT          (brightmaps,                 brightmaps,                    1),
     CONFIG_VARIABLE_INT          (centerweapon,               centerweapon,                  1),
-    CONFIG_VARIABLE_INT          (corpses,                    corpses,                      11),
+    CONFIG_VARIABLE_INT          (corpses_mirror,             corpses_mirror,                1),
+    CONFIG_VARIABLE_INT          (corpses_moreblood,          corpses_moreblood,             1),
+    CONFIG_VARIABLE_INT          (corpses_slide,              corpses_slide,                 1),
+    CONFIG_VARIABLE_INT          (corpses_smearblood,         corpses_smearblood,            1),
     CONFIG_VARIABLE_INT          (dclick_use,                 dclick_use,                    1),
     CONFIG_VARIABLE_INT          (episode,                    selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,                  selectedexpansion,             9),
@@ -451,71 +457,6 @@ static alias_t alias[] =
     { "\"Hurt me plenty.\"",                    2, 10 },
     { "\"Ultra-Violence.\"",                    3, 10 },
     { "\"Nightmare!\"",                         4, 10 },
-    { "-",                                      0, 11 },
-    { "mirror",                                 1, 11 },
-    { "slide",                                  2, 11 },
-    { "mirror|slide",                           3, 11 },
-    { "slide|mirror",                           3, 11 },
-    { "smearblood",                             4, 11 },
-    { "mirror|smearblood",                      5, 11 },
-    { "smearblood|mirror",                      5, 11 },
-    { "slide|smearblood",                       6, 11 },
-    { "smearblood|slide",                       6, 11 },
-    { "mirror|slide|smearblood",                7, 11 },
-    { "slide|mirror|smearblood",                7, 11 },
-    { "slide|smearblood|mirror",                7, 11 },
-    { "mirror|smearblood|slide",                7, 11 },
-    { "smearblood|mirror|slide",                7, 11 },
-    { "smearblood|slide|mirror",                7, 11 },
-    { "moreblood",                              8, 11 },
-    { "mirror|moreblood",                       9, 11 },
-    { "moreblood|mirror",                       9, 11 },
-    { "slide|moreblood",                       10, 11 },
-    { "moreblood|slide",                       10, 11 },
-    { "mirror|slide|moreblood",                11, 11 },
-    { "slide|mirror|moreblood",                11, 11 },
-    { "slide|moreblood|mirror",                11, 11 },
-    { "mirror|moreblood|slide",                11, 11 },
-    { "moreblood|mirror|slide",                11, 11 },
-    { "moreblood|slide|mirror",                11, 11 },
-    { "smearblood|moreblood",                  12, 11 },
-    { "moreblood|smearblood",                  12, 11 },
-    { "mirror|smearblood|moreblood",           13, 11 },
-    { "smearblood|mirror|moreblood",           13, 11 },
-    { "smearblood|moreblood|mirror",           13, 11 },
-    { "mirror|moreblood|smearblood",           13, 11 },
-    { "moreblood|mirror|smearblood",           13, 11 },
-    { "moreblood|smearblood|mirror",           13, 11 },
-    { "slide|smearblood|moreblood",            14, 11 },
-    { "smearblood|slide|moreblood",            14, 11 },
-    { "smearblood|moreblood|slide",            14, 11 },
-    { "slide|moreblood|smearblood",            14, 11 },
-    { "moreblood|slide|smearblood",            14, 11 },
-    { "moreblood|smearblood|slide",            14, 11 },
-    { "mirror|slide|smearblood|moreblood",     15, 11 },
-    { "mirror|slide|moreblood|smearblood",     15, 11 },
-    { "mirror|smearblood|slide|moreblood",     15, 11 },
-    { "mirror|smearblood|moreblood|slide",     15, 11 },
-    { "mirror|moreblood|slide|smearblood",     15, 11 },
-    { "mirror|moreblood|smearblood|slide",     15, 11 },
-    { "slide|mirror|smearblood|moreblood",     15, 11 },
-    { "slide|mirror|moreblood|smearblood",     15, 11 },
-    { "slide|smearblood|mirror|moreblood",     15, 11 },
-    { "slide|smearblood|moreblood|mirror",     15, 11 },
-    { "slide|moreblood|mirror|smearblood",     15, 11 },
-    { "slide|moreblood|smearblood|mirror",     15, 11 },
-    { "smearblood|mirror|slide|moreblood",     15, 11 },
-    { "smearblood|mirror|moreblood|slide",     15, 11 },
-    { "smearblood|slide|mirror|moreblood",     15, 11 },
-    { "smearblood|slide|moreblood|mirror",     15, 11 },
-    { "smearblood|moreblood|mirror|slide",     15, 11 },
-    { "smearblood|moreblood|slide|mirror",     15, 11 },
-    { "moreblood|mirror|slide|smearblood",     15, 11 },
-    { "moreblood|mirror|smearblood|slide",     15, 11 },
-    { "moreblood|slide|mirror|smearblood",     15, 11 },
-    { "moreblood|slide|smearblood|mirror",     15, 11 },
-    { "moreblood|smearblood|mirror|slide",     15, 11 },
-    { "moreblood|smearblood|slide|mirror",     15, 11 },
     { "off",                                    1, 12 },
     { "-",                                      0, 13 },
     { "none",                                   0, 13 },
@@ -1022,7 +963,17 @@ static void M_CheckDefaults(void)
     if (centerweapon != false && centerweapon != true)
         centerweapon = CENTERWEAPON_DEFAULT;
 
-    corpses = BETWEEN(CORPSES_MIN, corpses, CORPSES_MAX);
+    if (corpses_mirror != false && corpses_mirror != true)
+        corpses_mirror = CORPSES_MIRROR_DEFAULT;
+
+    if (corpses_moreblood != false && corpses_moreblood != true)
+        corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
+
+    if (corpses_slide != false && corpses_slide != true)
+        corpses_slide = CORPSES_SLIDE_DEFAULT;
+
+    if (corpses_smearblood != false && corpses_smearblood != true)
+        corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
 
     if (dclick_use != false && dclick_use != true)
         dclick_use = DCLICKUSE_DEFAULT;
