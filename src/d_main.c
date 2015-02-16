@@ -737,10 +737,7 @@ static int D_ChooseIWAD(void)
                 static char     fullpath[MAX_PATH];
 
                 if (iwadrequired == indetermined)
-                    if (D_CheckFilename(file, "BTSX_E2B.WAD"))
-                        iwadrequired = doom2;
-                    else
-                        return 0;
+                    iwadrequired = doom2;
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
@@ -953,38 +950,37 @@ static int D_ChooseIWAD(void)
                             && !D_IsDehFile(fullpath))
                         {
                             int         iwadrequired = IWADRequiredByPWAD(fullpath);
+                            static char fullpath2[MAX_PATH];
 
-                            if (iwadrequired != indetermined)
+                            if (iwadrequired == indetermined)
+                                iwadrequired = doom2;
+
+                            // try the current folder first
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
+                                strdup(M_ExtractFolder(pwadpass1)),
+                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                            IdentifyIWADByName(fullpath2);
+                            if (D_AddFile(fullpath2))
                             {
-                                static char     fullpath2[MAX_PATH];
-
-                                // try the current folder first
+                                iwadfound = 1;
+                                iwadfolder = strdup(M_ExtractFolder(pwadpass1));
+                            }
+                            else
+                            {
+                                // otherwise try the iwadfolder setting in doomretro.cfg
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                    strdup(M_ExtractFolder(pwadpass1)),
-                                    (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                    iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                 IdentifyIWADByName(fullpath2);
                                 if (D_AddFile(fullpath2))
-                                {
                                     iwadfound = 1;
-                                    iwadfolder = strdup(M_ExtractFolder(pwadpass1));
-                                }
                                 else
                                 {
-                                    // otherwise try the iwadfolder setting in doomretro.cfg
+                                    // still nothing? try the DOOMWADDIR environment variable
                                     M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                        iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                        getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                     IdentifyIWADByName(fullpath2);
                                     if (D_AddFile(fullpath2))
                                         iwadfound = 1;
-                                    else
-                                    {
-                                        // still nothing? try the DOOMWADDIR environment variable
-                                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                            getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                                        IdentifyIWADByName(fullpath2);
-                                        if (D_AddFile(fullpath2))
-                                            iwadfound = 1;
-                                    }
                                 }
                             }
                         }
