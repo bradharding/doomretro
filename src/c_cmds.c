@@ -124,7 +124,7 @@ consolecmd_t consolecmds[] =
 {
     { "alwaysrun",          C_BooleanCondition,       C_AlwaysRun,     1, CT_CVAR,  CF_BOOLEAN,               &alwaysrun,          ""                                     },
     { "animatedliquid",     C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &animatedliquid,     ""                                     },
-    { "bloodsplats",        C_BloodSplatsCondition,   C_BloodSplats,   1, CT_CVAR,  CF_BOOLEAN,               &bloodsplats,        ""                                     },
+    { "bloodsplats",        C_BloodSplatsCondition,   C_BloodSplats,   1, CT_CVAR,  CF_INTEGER,               &bloodsplats,        ""                                     },
     { "brightmaps",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &brightmaps,         ""                                     },
     { "centerweapon",       C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &centerweapon,       ""                                     },
     { "clear",              C_NoCondition,            C_Clear,         0, CT_CMD,   CF_NONE,                  NULL,                "Clear the console."                   },
@@ -274,6 +274,8 @@ void C_Boolean(char *cmd, char *parm)
 //
 // BLOODSPLATS cvar
 //
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
+
 boolean C_BloodSplatsCondition(char *cmd, char *parm)
 {
     int integer = 0;
@@ -290,7 +292,7 @@ void C_BloodSplats(char *cmd, char *parm)
     {
         if (!strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
             || !strcasecmp(parm, "true") || !strcasecmp(parm, "unlimited"))
-            bloodsplats = 32768;
+            bloodsplats = UNLIMITED;
         else if (!strcasecmp(parm, "off") || !strcasecmp(parm, "no")
             || !strcasecmp(parm, "false") || !strcasecmp(parm, "none"))
             bloodsplats = 0;
@@ -298,6 +300,9 @@ void C_BloodSplats(char *cmd, char *parm)
             sscanf(parm, "%i", &bloodsplats);
 
         M_SaveDefaults();
+
+        P_BloodSplatSpawner = ((bloodsplats == UNLIMITED ? P_SpawnBloodSplat :
+            (bloodsplats ? P_SpawnBloodSplat2 : P_NullBloodSplatSpawner)));
 
         M_snprintf(buffer, sizeof(buffer), "\"bloodsplats\" is \"%s\"", parm);
     }
