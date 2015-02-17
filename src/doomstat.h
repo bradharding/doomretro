@@ -169,7 +169,7 @@ extern int              snd_SfxDevice;
 extern boolean          statusbaractive;
 
 extern boolean          automapactive;  // In AutoMap mode?
-extern boolean          followplayer;   // Following player in AutoMap mode?
+extern boolean          followmode;     // Following player in AutoMap mode?
 extern boolean          menuactive;     // Menu overlayed?
 extern boolean          paused;         // Game Pause?
 

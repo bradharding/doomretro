@@ -265,7 +265,7 @@ mpoint_t        *markpoints = NULL;             // where the points are
 int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
-boolean         followplayer = true;            // specifies whether to follow the player around
+boolean         followmode = true;              // specifies whether to follow the player around
 boolean         rotatemode = ROTATEMODE_DEFAULT;
 
 static boolean  stopped = true;
@@ -309,7 +309,7 @@ static void AM_restoreScaleAndLoc(void)
 {
     m_w = old_m_w;
     m_h = old_m_h;
-    if (followplayer)
+    if (followmode)
     {
         m_x = FTOM(MTOF(plr->mo->x)) - (m_w >> 1);
         m_y = FTOM(MTOF(plr->mo->y)) - (m_h >> 1);
@@ -514,7 +514,7 @@ static void AM_initVariables(void)
             }
     }
 
-    if (m_x == INT_MAX || followplayer)
+    if (m_x == INT_MAX || followmode)
     {
         m_x = FTOM(MTOF(plr->mo->x)) - (m_w >> 1);
         m_y = FTOM(MTOF(plr->mo->y)) - (m_h >> 1);
@@ -532,7 +532,7 @@ static void AM_initVariables(void)
 //
 static void AM_LevelInit(void)
 {
-    followplayer = true;
+    followmode = true;
     bigstate = false;
 
     AM_findMinMaxBoundaries();
@@ -642,11 +642,11 @@ static void AM_toggleMaxZoom(void)
 
 static void AM_toggleFollowMode(void)
 {
-    followplayer = !followplayer;
-    if (followplayer)
+    followmode = !followmode;
+    if (followmode)
         m_paninc.x = m_paninc.y = 0;
     f_oldloc.x = INT_MAX;
-    plr->message = (followplayer ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
+    plr->message = (followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
     message_dontfuckwithme = true;
 }
 
@@ -761,7 +761,7 @@ boolean AM_Responder(event_t *ev)
                 if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
                 {
                     keydown = key;
-                    if (followplayer)
+                    if (followmode)
                     {
                         m_paninc.x = 0;
                         rc = false;
@@ -777,7 +777,7 @@ boolean AM_Responder(event_t *ev)
                 else if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                 {
                     keydown = key;
-                    if (followplayer)
+                    if (followmode)
                     {
                         m_paninc.x = 0;
                         rc = false;
@@ -793,7 +793,7 @@ boolean AM_Responder(event_t *ev)
                 else if (key == AM_PANUPKEY || key == AM_PANUPKEY2)
                 {
                     keydown = key;
-                    if (followplayer)
+                    if (followmode)
                     {
                         m_paninc.y = 0;
                         rc = false;
@@ -809,7 +809,7 @@ boolean AM_Responder(event_t *ev)
                 else if (key == AM_PANDOWNKEY || key == AM_PANDOWNKEY2)
                 {
                     keydown = key;
-                    if (followplayer)
+                    if (followmode)
                     {
                         m_paninc.y = 0;
                         rc = false;
@@ -946,7 +946,7 @@ boolean AM_Responder(event_t *ev)
                         D_PostEvent(&event);
                     }
                 }
-                else if (!followplayer)
+                else if (!followmode)
                 {
                     if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                     {
@@ -1052,7 +1052,7 @@ boolean AM_Responder(event_t *ev)
                 else if (gamepadbuttons & gamepadautomaprotatemode)
                     AM_toggleRotateMode();
 
-                if (!followplayer)
+                if (!followmode)
                 {
                     // pan right
                     if (gamepadthumbLX > 0)
@@ -1088,7 +1088,7 @@ boolean AM_Responder(event_t *ev)
                 }
             }
 
-            if ((plr->cheats & CF_MYPOS) && !followplayer && (m_paninc.x || m_paninc.y))
+            if ((plr->cheats & CF_MYPOS) && !followmode && (m_paninc.x || m_paninc.y))
             {
                 double  x = m_paninc.x;
                 double  y = m_paninc.y;
@@ -1173,7 +1173,7 @@ void AM_Ticker(void)
     if (!automapactive)
         return;
 
-    if (followplayer)
+    if (followmode)
         AM_doFollowPlayer();
 
     // Change the zoom if necessary
@@ -1881,6 +1881,6 @@ void AM_Drawer(void)
         AM_drawMarks();
     AM_drawPlayers();
     AM_darkenEdges();
-    if (!followplayer)
+    if (!followmode)
         AM_drawCrosshair();
 }

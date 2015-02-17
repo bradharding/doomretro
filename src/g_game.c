@@ -358,7 +358,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     memset(cmd, 0, sizeof(ticcmd_t));
     cmd->consistency = consistency[consoleplayer][maketic % BACKUPTICS];
 
-    if (automapactive && !followplayer)
+    if (automapactive && !followmode)
         return;
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
@@ -772,7 +772,7 @@ boolean G_Responder(event_t *ev)
                 else if (mousebuttons[mousebprevweapon])
                     G_PrevWeapon();
             }
-            if (!automapactive || (automapactive && followplayer))
+            if (!automapactive || (automapactive && followmode))
             {
                 mousex = ev->data2 * mousesensitivity / 10;
                 mousey = ev->data3 * mousesensitivity / 10;

@@ -536,7 +536,7 @@ void HU_Ticker(void)
         else if (message_counter > 132)
             message_counter--;
 
-        if (automapactive && !followplayer)
+        if (automapactive && !followmode)
         {
             sector_t    *sector = R_PointInSubsector(m_x + (m_w >> 1), m_y + (m_h >> 1))->sector;
 

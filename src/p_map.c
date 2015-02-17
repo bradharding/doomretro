@@ -91,7 +91,7 @@ boolean         infight;
 
 mobj_t          *onmobj;
 
-extern boolean  followplayer;
+extern boolean  followmode;
 
 //
 // TELEPORT MOVE
@@ -1651,7 +1651,7 @@ void P_UseLines(player_t *player)
     fixed_t x1, y1;
     fixed_t x2, y2;
 
-    if (automapactive && !followplayer)
+    if (automapactive && !followmode)
         return;
 
     usething = player->mo;

@@ -175,7 +175,7 @@ void P_FireWeapon(player_t *player)
 {
     weapontype_t        readyweapon;
 
-    if (!P_CheckAmmo(player) || (automapactive && !followplayer))
+    if (!P_CheckAmmo(player) || (automapactive && !followmode))
         return;
 
     readyweapon = player->readyweapon;

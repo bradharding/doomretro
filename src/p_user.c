@@ -45,7 +45,7 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-extern boolean  followplayer;
+extern boolean  followmode;
 extern boolean  oldweaponsowned[];
 extern boolean  skipaction;
 extern boolean  footclip;
@@ -294,7 +294,7 @@ void P_PlayerThink(player_t *player)
     if (cmd->buttons & BT_SPECIAL)
         cmd->buttons = 0;
 
-    if ((cmd->buttons & BT_CHANGE) && (!automapactive || (automapactive && followplayer)))
+    if ((cmd->buttons & BT_CHANGE) && (!automapactive || (automapactive && followmode)))
     {
         // The actual changing of the weapon is done when the weapon psprite can do it
         //  (read: not in the middle of an attack).
