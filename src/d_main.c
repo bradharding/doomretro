@@ -597,7 +597,11 @@ static void D_FirstUse(void)
         "dialog box that follows, please navigate to where an official \xe2\x80\x9cIWAD file"
         "\xe2\x80\x9d that\n" PACKAGE_NAME " requires (such as DOOM.WAD or DOOM2.WAD) has been "
         "installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be selected by "
+#ifdef __MACOSX__
+        "clicking or CMD-clicking on them.";
+#else
         "clicking or CTRL-clicking on them.";
+#endif
 
     const SDL_MessageBoxButtonData buttons[] = 
     {
