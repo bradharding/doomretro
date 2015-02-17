@@ -835,6 +835,7 @@ void ToggleWidescreen(boolean toggle)
         return;
     }
 
+    SDL_FillRect(screenbuffer, NULL, 0);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
