@@ -68,7 +68,7 @@ char                    *windowposition = WINDOWPOSITION_DEFAULT;
 SDL_Surface             *screen = NULL;
 SDL_Surface             *screenbuffer = NULL;
 SDL_Window              *window = NULL;
-static SDL_Renderer     *renderer;
+SDL_Renderer            *renderer;
 static SDL_Surface      *rgbabuffer = NULL;
 static SDL_Texture      *texture = NULL; 
 

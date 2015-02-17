@@ -1146,19 +1146,19 @@ char                    lbmpath[MAX_PATH];
 extern boolean          widescreen;
 extern boolean          inhelpscreens;
 extern char             maptitle[128];
-extern SDL_Surface      *screen;
-extern SDL_Surface      *screenbuffer;
-extern SDL_Color        palette[256];
+extern SDL_Window       *window;
+extern SDL_Renderer     *renderer;
 extern boolean          splashscreen;
 extern int              titlesequence;
 
 boolean V_ScreenShot(void)
 {
-    boolean     result;
+    boolean     result = false;
     char        mapname[128];
     char        folder[MAX_PATH];
     int         count = 0;
-    SDL_Surface *screenshot;
+    SDL_Surface *screenshot = NULL;
+    SDL_Surface *surface = NULL;
 
 #ifdef WIN32
     HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
@@ -1206,18 +1206,33 @@ boolean V_ScreenShot(void)
         M_snprintf(lbmpath, sizeof(lbmpath), "%s\\%s", lbmpath, lbmname);
     } while (M_FileExists(lbmpath));
 
-    screenshot = SDL_CreateRGBSurface(screenbuffer->flags, screenbuffer->w,
-        (widescreen ? screen->h : screenbuffer->h), screenbuffer->format->BitsPerPixel,
-        screenbuffer->format->Rmask, screenbuffer->format->Gmask, screenbuffer->format->Bmask,
-        screenbuffer->format->Amask);
+    surface = SDL_GetWindowSurface(window);
+    if (surface)
+    {
+        unsigned char   *pixels = malloc(surface->w * surface->h * surface->format->BytesPerPixel);
 
-    SDL_SetPaletteColors(screenshot->format->palette, palette, 0, 256);
+        if (pixels)
+        {
+            if (!SDL_RenderReadPixels(renderer, &surface->clip_rect, surface->format->format,
+                pixels, surface->w * surface->format->BytesPerPixel))
+            {
+                screenshot = SDL_CreateRGBSurfaceFrom(pixels, surface->w, surface->h,
+                    surface->format->BitsPerPixel, surface->w * surface->format->BytesPerPixel,
+                    surface->format->Rmask, surface->format->Gmask, surface->format->Bmask,
+                    surface->format->Amask);
 
-    SDL_BlitSurface(screenbuffer, NULL, screenshot, NULL);
-
-    result = !SDL_SaveBMP(screenshot, lbmpath);
-
-    SDL_FreeSurface(screenshot);
+                if (screenshot)
+                {
+                    result = !SDL_SaveBMP(screenshot, lbmpath);
+                    SDL_FreeSurface(screenshot);
+                    screenshot = NULL;
+                    free(pixels);
+                    SDL_FreeSurface(surface);
+                    surface = NULL;
+                }
+            }
+        }
+    }
 
     return result;
 }
