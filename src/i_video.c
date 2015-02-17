@@ -372,6 +372,9 @@ void I_ShutdownGraphics(void)
 {
     SetShowCursor(true);
 
+    SDL_FreeSurface(screenbuffer);
+    SDL_FreeSurface(rgbabuffer);
+
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
