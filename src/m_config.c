@@ -69,6 +69,10 @@ extern boolean  corpses_moreblood;
 extern boolean  corpses_slide;
 extern boolean  corpses_smearblood;
 extern boolean  dclick_use;
+extern boolean  fixlinedefs;
+extern boolean  fixsectors;
+extern boolean  fixthings;
+extern boolean  fixvertexes;
 extern boolean  floatbob;
 extern boolean  footclip;
 extern boolean  fullscreen;
@@ -137,7 +141,6 @@ extern int      key_weapon4;
 extern int      key_weapon5;
 extern int      key_weapon6;
 extern int      key_weapon7;
-extern int      mapfixes;
 extern boolean  messages;
 extern boolean  mirrorweapons;
 extern int      mousesensitivity;
@@ -215,6 +218,10 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (dclick_use,                 dclick_use,                    1),
     CONFIG_VARIABLE_INT          (episode,                    selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,                  selectedexpansion,             9),
+    CONFIG_VARIABLE_INT          (fixlinedefs,                fixlinedefs,                   1),
+    CONFIG_VARIABLE_INT          (fixsectors,                 fixsectors,                    1),
+    CONFIG_VARIABLE_INT          (fixthings,                  fixthings,                     1),
+    CONFIG_VARIABLE_INT          (fixvertexes,                fixvertexes,                   1),
     CONFIG_VARIABLE_INT          (floatbob,                   floatbob,                      1),
     CONFIG_VARIABLE_INT          (footclip,                   footclip,                      1),
     CONFIG_VARIABLE_INT          (fullscreen,                 fullscreen,                    1),
@@ -283,7 +290,6 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_KEY          (key_weapon5,                key_weapon5,                   3),
     CONFIG_VARIABLE_KEY          (key_weapon6,                key_weapon6,                   3),
     CONFIG_VARIABLE_KEY          (key_weapon7,                key_weapon7,                   3),
-    CONFIG_VARIABLE_INT          (mapfixes,                   mapfixes,                     14),
     CONFIG_VARIABLE_INT          (messages,                   messages,                      1),
     CONFIG_VARIABLE_INT          (mirrorweapons,              mirrorweapons,                 1),
     CONFIG_VARIABLE_FLOAT        (mouse_acceleration,         mouse_acceleration,            0),
@@ -526,72 +532,6 @@ static alias_t alias[] =
     { "cyberdemon|revenant1|revenant2|player", 15, 13 },
     { "cyberdemon|revenant2|player|revenant1", 15, 13 },
     { "cyberdemon|revenant2|revenant1|player", 15, 13 },
-    { "-",                                      0, 14 },
-    { "none",                                   0, 14 },
-    { "linedefs",                               1, 14 },
-    { "sectors",                                2, 14 },
-    { "linedefs|sectors",                       3, 14 },
-    { "sectors|linedefs",                       3, 14 },
-    { "things",                                 4, 14 },
-    { "linedefs|things",                        5, 14 },
-    { "things|linedefs",                        5, 14 },
-    { "sectors|things",                         6, 14 },
-    { "things|sectors",                         6, 14 },
-    { "linedefs|sectors|things",                7, 14 },
-    { "sectors|linedefs|things",                7, 14 },
-    { "sectors|things|linedefs",                7, 14 },
-    { "linedefs|things|sectors",                7, 14 },
-    { "things|linedefs|sectors",                7, 14 },
-    { "things|sectors|linedefs",                7, 14 },
-    { "vertexes",                               8, 14 },
-    { "linedefs|vertexes",                      9, 14 },
-    { "vertexes|linedefs",                      9, 14 },
-    { "sectors|vertexes",                      10, 14 },
-    { "vertexes|sectors",                      10, 14 },
-    { "linedefs|sectors|vertexes",             11, 14 },
-    { "sectors|linedefs|vertexes",             11, 14 },
-    { "sectors|vertexes|linedefs",             11, 14 },
-    { "linedefs|vertexes|sectors",             11, 14 },
-    { "vertexes|linedefs|sectors",             11, 14 },
-    { "vertexes|sectors|linedefs",             11, 14 },
-    { "things|vertexes",                       12, 14 },
-    { "vertexes|things",                       12, 14 },
-    { "linedefs|things|vertexes",              13, 14 },
-    { "things|linedefs|vertexes",              13, 14 },
-    { "things|vertexes|linedefs",              13, 14 },
-    { "linedefs|vertexes|things",              13, 14 },
-    { "vertexes|linedefs|things",              13, 14 },
-    { "vertexes|things|linedefs",              13, 14 },
-    { "sectors|things|vertexes",               14, 14 },
-    { "things|sectors|vertexes",               14, 14 },
-    { "things|vertexes|sectors",               14, 14 },
-    { "sectors|vertexes|things",               14, 14 },
-    { "vertexes|sectors|things",               14, 14 },
-    { "vertexes|things|sectors",               14, 14 },
-    { "linedefs|sectors|things|vertexes",      15, 14 },
-    { "linedefs|sectors|vertexes|things",      15, 14 },
-    { "linedefs|things|sectors|vertexes",      15, 14 },
-    { "linedefs|things|vertexes|sectors",      15, 14 },
-    { "linedefs|vertexes|sectors|things",      15, 14 },
-    { "linedefs|vertexes|things|sectors",      15, 14 },
-    { "sectors|linedefs|things|vertexes",      15, 14 },
-    { "sectors|linedefs|vertexes|things",      15, 14 },
-    { "sectors|things|linedefs|vertexes",      15, 14 },
-    { "sectors|things|vertexes|linedefs",      15, 14 },
-    { "sectors|vertexes|linedefs|things",      15, 14 },
-    { "sectors|vertexes|things|linedefs",      15, 14 },
-    { "things|linedefs|sectors|vertexes",      15, 14 },
-    { "things|linedefs|vertexes|sectors",      15, 14 },
-    { "things|sectors|linedefs|vertexes",      15, 14 },
-    { "things|sectors|vertexes|linedefs",      15, 14 },
-    { "things|vertexes|linedefs|sectors",      15, 14 },
-    { "things|vertexes|sectors|linedefs",      15, 14 },
-    { "vertexes|linedefs|sectors|things",      15, 14 },
-    { "vertexes|linedefs|things|sectors",      15, 14 },
-    { "vertexes|sectors|linedefs|things",      15, 14 },
-    { "vertexes|sectors|things|linedefs",      15, 14 },
-    { "vertexes|things|linedefs|sectors",      15, 14 },
-    { "vertexes|things|sectors|linedefs",      15, 14 },
     { "-",                                      0, 15 },
     { "none",                                   0, 15 },
     { "damage",                                 1, 15 },
@@ -980,6 +920,18 @@ static void M_CheckDefaults(void)
     if (dclick_use != false && dclick_use != true)
         dclick_use = DCLICKUSE_DEFAULT;
 
+    if (fixlinedefs != false && fixlinedefs != true)
+        fixlinedefs = FIXLINEDEFS_DEFAULT;
+
+    if (fixsectors != false && fixsectors != true)
+        fixsectors = FIXSECTORS_DEFAULT;
+
+    if (fixthings != false && fixthings != true)
+        fixthings = FIXTHINGS_DEFAULT;
+
+    if (fixvertexes != false && fixvertexes != true)
+        fixvertexes = FIXVERTEXES_DEFAULT;
+
     if (floatbob != false && floatbob != true)
         floatbob = FLOATBOB_DEFAULT;
 
@@ -1202,8 +1154,6 @@ static void M_CheckDefaults(void)
 
     if (key_weapon7 == INVALIDKEY)
         key_weapon7 = KEYWEAPON7_DEFAULT;
-
-    mapfixes = BETWEEN(MAPFIXES_MIN, mapfixes, MAPFIXES_MAX);
 
     if (messages != false && messages != true)
         messages = MESSAGES_DEFAULT;
