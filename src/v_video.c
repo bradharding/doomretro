@@ -1201,9 +1201,9 @@ boolean V_ScreenShot(void)
         else
             M_snprintf(lbmname, sizeof(lbmname), "%s (%i).bmp", mapname, count);
         count++;
-        M_snprintf(lbmpath, sizeof(lbmpath), "%s\\" PACKAGE_NAME, folder);
+        M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S PACKAGE_NAME, folder);
         M_MakeDirectory(lbmpath);
-        M_snprintf(lbmpath, sizeof(lbmpath), "%s\\%s", lbmpath, lbmname);
+        M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", lbmpath, lbmname);
     } while (M_FileExists(lbmpath));
 
     surface = SDL_GetWindowSurface(window);
