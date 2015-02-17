@@ -58,9 +58,11 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+boolean C_BloodSplatsCondition(char *, char *);
 boolean C_BooleanCondition(char *, char *);
 boolean C_CheatCondition(char *, char *);
 boolean C_GameCondition(char *, char *);
+boolean C_GiveCondition(char *, char *);
 boolean C_GodCondition(char *, char *);
 boolean C_GraphicDetailCondition(char *, char *);
 boolean C_KillCondition(char *, char *);
@@ -69,12 +71,14 @@ boolean C_NoCondition(char *, char *);
 boolean C_SummonCondition(char *, char *);
 
 void C_AlwaysRun(char *, char *);
+void C_BloodSplats(char *, char *);
 void C_Boolean(char *, char *);
 void C_Clear(char *, char *);
 void C_CmdList(char *, char *);
 void C_CvarList(char *, char *);
 void C_EndGame(char *, char *);
 void C_God(char *, char *);
+void C_Give(char *, char *);
 void C_GraphicDetail(char *, char *);
 void C_Help(char *, char *);
 void C_Hud(char *, char *);
@@ -89,6 +93,7 @@ void C_Summon(char *, char *);
 
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
+extern int      bloodsplats;
 extern boolean  brightmaps;
 extern boolean  centerweapon;
 extern boolean  dclick_use;
@@ -119,6 +124,7 @@ consolecmd_t consolecmds[] =
 {
     { "alwaysrun",          C_BooleanCondition,       C_AlwaysRun,     1, CT_CVAR,  CF_BOOLEAN,               &alwaysrun,          ""                                     },
     { "animatedliquid",     C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &animatedliquid,     ""                                     },
+    { "bloodsplats",        C_BloodSplatsCondition,   C_BloodSplats,   1, CT_CVAR,  CF_BOOLEAN,               &bloodsplats,        ""                                     },
     { "brightmaps",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &brightmaps,         ""                                     },
     { "centerweapon",       C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &centerweapon,       ""                                     },
     { "clear",              C_NoCondition,            C_Clear,         0, CT_CMD,   CF_NONE,                  NULL,                "Clear the console."                   },
@@ -263,6 +269,49 @@ void C_Boolean(char *cmd, char *parm)
         }
         ++i;
     }
+}
+
+//
+// BLOODSPLATS cvar
+//
+boolean C_BloodSplatsCondition(char *cmd, char *parm)
+{
+    int integer = 0;
+
+    return (C_BooleanCondition(cmd, parm) || !strcasecmp(parm, "unlimited")
+        || !strcasecmp(parm, "none") || sscanf(parm, "%i", &integer));
+}
+
+void C_BloodSplats(char *cmd, char *parm)
+{
+    static char buffer[1024];
+
+    if (parm[0])
+    {
+        if (!strcasecmp(parm, "on") || !strcasecmp(parm, "yes")
+            || !strcasecmp(parm, "true") || !strcasecmp(parm, "unlimited"))
+            bloodsplats = 32768;
+        else if (!strcasecmp(parm, "off") || !strcasecmp(parm, "no")
+            || !strcasecmp(parm, "false") || !strcasecmp(parm, "none"))
+            bloodsplats = 0;
+        else
+            sscanf(parm, "%i", &bloodsplats);
+
+        M_SaveDefaults();
+
+        M_snprintf(buffer, sizeof(buffer), "\"bloodsplats\" is \"%s\"", parm);
+    }
+    else
+    {
+        if (bloodsplats == 32768)
+            M_StringCopy(buffer, "\"bloodsplats\" is \"unlimited\"", sizeof(buffer));
+        else if (!bloodsplats)
+            M_StringCopy(buffer, "\"bloodsplats\" is \"none\"", sizeof(buffer));
+        else
+            M_snprintf(buffer, sizeof(buffer), "\"bloodsplats\" is \"%i\"", bloodsplats);
+    }
+
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //
