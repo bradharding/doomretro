@@ -208,13 +208,7 @@
 
 #define KEYWEAPON7_DEFAULT                      '7'
 
-#define FIXLINEDEFS_DEFAULT                     true
-
-#define FIXSECTORS_DEFAULT                      true
-
-#define FIXTHINGS_DEFAULT                       true
-
-#define FIXVERTEXES_DEFAULT                     true
+#define MAPFIXES_DEFAULT                        true
 
 #define MESSAGES_DEFAULT                        false
 

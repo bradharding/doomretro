@@ -100,10 +100,7 @@ extern boolean  grid;
 extern boolean  homindicator;
 extern boolean  hud;
 extern char     *iwadfolder;
-extern boolean  fixlinedefs;
-extern boolean  fixsectors;
-extern boolean  fixthings;
-extern boolean  fixvertexes;
+extern boolean  mapfixes;
 extern boolean  messages;
 extern boolean  mirrorweapons;
 extern boolean  novert;
@@ -133,10 +130,6 @@ consolecmd_t consolecmds[] =
     { "cvarlist",           C_NoCondition,            C_CvarList,      0, CT_CMD,   CF_NONE,                  NULL,                "Display a list of console variables." },
     { "dclick_use",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &dclick_use,         ""                                     },
     { "endgame",            C_GameCondition,          C_EndGame,       0, CT_CMD,   CF_NONE,                  NULL,                "End a game."                          },
-    { "fixlinedefs",        C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &fixlinedefs,        ""                                     },
-    { "fixsectors",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &fixsectors,         ""                                     },
-    { "fixthings",          C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &fixthings,          ""                                     },
-    { "fixvertexes",        C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &fixvertexes,        ""                                     },
     { "floatbob",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &floatbob,           ""                                     },
     { "followmode",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN | CF_NOTSAVED, &followmode,         ""                                     },
     { "footclip",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &footclip,           ""                                     },
@@ -166,6 +159,7 @@ consolecmd_t consolecmds[] =
     { "iwadfolder",         C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &iwadfolder,         ""                                     },
     { "kill",               C_KillCondition,          C_Kill,          1, CT_CMD,   CF_NONE,                  NULL,                "Kill the player or monsters."         },
     { "map",                C_MapCondition,           C_Map,           1, CT_CMD,   CF_NONE,                  NULL,                "Warp to a map."                       },
+    { "mapfixes",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &mapfixes,           ""                                     },
     { "messages",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &messages,           ""                                     },
     { "mirrorweapons",      C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &mirrorweapons,      ""                                     },
     { "noclip",             C_GameCondition,          C_NoClip,        0, CT_CMD,   CF_NONE,                  NULL,                "Toggle no clipping mode on/off."      },

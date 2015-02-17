@@ -120,10 +120,7 @@ mapthing_t      playerstarts[MAXPLAYERS];
 
 boolean         canmodify;
 
-boolean         fixlinedefs = FIXLINEDEFS_DEFAULT;
-boolean         fixsectors = FIXSECTORS_DEFAULT;
-boolean         fixthings = FIXTHINGS_DEFAULT;
-boolean         fixvertexes = FIXVERTEXES_DEFAULT;
+boolean         mapfixes = MAPFIXES_DEFAULT;
 
 static int      current_episode = -1;
 static int      current_map = -1;
@@ -181,7 +178,7 @@ void P_LoadVertexes(int lump)
         vertexes[i].y = SHORT(data[i].y) << FRACBITS;
 
         // Apply any map-specific fixes.
-        if (canmodify && fixvertexes)
+        if (canmodify && mapfixes)
         {
             int j = 0;
 
@@ -312,7 +309,7 @@ void P_LoadSegs(int lump)
         }
 
         // Apply any map-specific fixes.
-        if (canmodify && fixlinedefs)
+        if (canmodify && mapfixes)
         {
             int j = 0;
 
@@ -410,7 +407,7 @@ void P_LoadSectors(int lump)
         ss->tag = SHORT(ms->tag);
 
         // Apply any level-specific fixes.
-        if (canmodify && fixsectors)
+        if (canmodify && mapfixes)
         {
             int j = 0;
 
@@ -552,7 +549,7 @@ void P_LoadThings(int lump)
         mt.options = SHORT(mt.options);
 
         // Apply any level-specific fixes.
-        if (canmodify && fixthings)
+        if (canmodify && mapfixes)
         {
             int j = 0;
 
