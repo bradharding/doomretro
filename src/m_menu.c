@@ -2702,7 +2702,7 @@ boolean M_Responder(event_t *ev)
     }
     if (!paused)
     {
-        if (key == KEY_DOWNARROW && keywait < I_GetTime())
+        if (key == KEY_DOWNARROW && keywait < I_GetTime() && !inhelpscreens)
         {
             // Move down to next item
             if (currentMenu == &LoadDef)
@@ -2765,7 +2765,7 @@ boolean M_Responder(event_t *ev)
             M_SetWindowCaption();
             return false;
         }
-        else if (key == KEY_UPARROW && keywait < I_GetTime())
+        else if (key == KEY_UPARROW && keywait < I_GetTime() && !inhelpscreens)
         {
             // Move back up to previous item
             if (currentMenu == &LoadDef)
@@ -2829,8 +2829,8 @@ boolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_LEFTARROW
-                 || (key == KEY_MINUS && !(currentMenu == &OptionsDef && itemOn == 1)))
+        else if (key == KEY_LEFTARROW || (key == KEY_MINUS && !(currentMenu == &OptionsDef
+            && itemOn == 1)) && !inhelpscreens)
         {
             // Slide slider left
             if (currentMenu->menuitems[itemOn].routine
@@ -2845,8 +2845,8 @@ boolean M_Responder(event_t *ev)
             return false;
         }
 
-        else if (key == KEY_RIGHTARROW
-                 || (key == KEY_EQUALS && !(currentMenu == &OptionsDef && itemOn == 1)))
+        else if (key == KEY_RIGHTARROW || (key == KEY_EQUALS && !(currentMenu == &OptionsDef
+            && itemOn == 1)) && !inhelpscreens)
         {
             // Slide slider right
             if (currentMenu->menuitems[itemOn].routine
