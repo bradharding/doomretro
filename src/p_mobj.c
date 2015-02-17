@@ -64,7 +64,7 @@ boolean                 corpses_slide = CORPSES_SLIDE_DEFAULT;
 boolean                 corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
 boolean                 floatbob = FLOATBOB_DEFAULT;
 boolean                 shadows = SHADOWS_DEFAULT;
-int                     smoketrails = SMOKETRAILS_DEFAULT;
+boolean                 smoketrails = SMOKETRAILS_DEFAULT;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -1370,7 +1370,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     th->momy = FixedMul(th->info->speed, finesine[an >> ANGLETOFINESHIFT]);
     th->momz = FixedMul(th->info->speed, slope);
 
-    if (type == MT_ROCKET && (smoketrails & PLAYER) && !dehacked)
+    if (type == MT_ROCKET && smoketrails && !dehacked)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         puffcount = 0;

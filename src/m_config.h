@@ -284,13 +284,7 @@
 #define SKILLLEVEL_DEFAULT                      sk_medium
 #define SKILLLEVEL_MAX                          sk_nightmare
 
-#define PLAYER                                  1
-#define REVENANT1                               2
-#define REVENANT2                               4
-#define CYBERDEMON                              8
-#define SMOKETRAILS_MIN                         0
-#define SMOKETRAILS_DEFAULT                     (PLAYER | REVENANT2 | CYBERDEMON)
-#define SMOKETRAILS_MAX                         (PLAYER | REVENANT1 | REVENANT2 | CYBERDEMON)
+#define SMOKETRAILS_DEFAULT                     true
 
 #define SND_MAXSLICETIME_MS_DEFAULT             28
 

@@ -110,6 +110,7 @@ extern boolean  novert;
 extern boolean  rotatemode;
 extern char     *scalequality;
 extern boolean  shadows;
+extern boolean  smoketrails;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
@@ -175,6 +176,7 @@ consolecmd_t consolecmds[] =
     { "scalequality",       C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &scalequality,       ""                                     },
     { "shadows",            C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &shadows,            ""                                     },
     { "showfps",            C_BooleanCondition,       C_ShowFPS,       1, CT_CVAR,  CF_BOOLEAN,               &showfps,            ""                                     },
+    { "smoketrails",        C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &smoketrails,        ""                                     },
     { "summon",             C_SummonCondition,        C_Summon,        1, CT_CMD,   CF_NONE,                  NULL,                "Summon a monster or map decoration."  },
     { "timidity_cfg_path",  C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &timidity_cfg_path,  ""                                     },
     { "translucency",       C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &translucency,       ""                                     },

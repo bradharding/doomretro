@@ -62,7 +62,7 @@ typedef enum
 
 void A_Fall(mobj_t *actor);
 
-extern int      smoketrails;
+extern boolean  smoketrails;
 
 //
 // ENEMY THINKING
@@ -1061,7 +1061,7 @@ void A_CyberAttack(mobj_t *actor)
     A_FaceTarget(actor);
     mo = P_SpawnMissile(actor, actor->target, MT_ROCKET);
 
-    if (smoketrails & CYBERDEMON)
+    if (smoketrails)
         mo->flags2 |= MF2_SMOKETRAIL;
 }
 
@@ -1114,21 +1114,12 @@ void A_Tracer(mobj_t *actor)
     fixed_t     slope;
     mobj_t      *dest;
     int         speed;
-    boolean     smoke = false;
-
-    // spawn a puff of smoke behind the non-homing rocket
-    if (smoketrails & REVENANT1)
-    {
-        P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
-        smoke = true;
-    }
 
     if ((gametic - levelstarttic) & 3)
         return;
 
     // spawn a puff of smoke behind the homing rocket
-    if ((smoketrails & REVENANT2) && !smoke)
-        P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
+    P_SpawnSmokeTrail(actor->x, actor->y, actor->z, actor->angle);
 
     // adjust direction
     dest = actor->tracer;

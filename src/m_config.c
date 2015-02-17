@@ -166,7 +166,7 @@ extern int      selectedexpansion;
 extern int      selectedsavegame;
 extern int      selectedskilllevel;
 extern boolean  shadows;
-extern int      smoketrails;
+extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
@@ -316,7 +316,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT_PERCENT  (sfxvolume,                  sfxvolume_percent,             0),
     CONFIG_VARIABLE_INT          (shadows,                    shadows,                       1),
     CONFIG_VARIABLE_INT          (skilllevel,                 selectedskilllevel,           10),
-    CONFIG_VARIABLE_INT          (smoketrails,                smoketrails,                  13),
+    CONFIG_VARIABLE_INT          (smoketrails,                smoketrails,                   1),
     CONFIG_VARIABLE_INT          (snd_maxslicetime_ms,        snd_maxslicetime_ms,           0),
     CONFIG_VARIABLE_STRING       (timidity_cfg_path,          timidity_cfg_path,             0),
     CONFIG_VARIABLE_INT          (translucency,               translucency,                  1),
@@ -466,72 +466,6 @@ static alias_t alias[] =
     { "\"Ultra-Violence.\"",                    3, 10 },
     { "\"Nightmare!\"",                         4, 10 },
     { "off",                                    1, 12 },
-    { "-",                                      0, 13 },
-    { "none",                                   0, 13 },
-    { "player",                                 1, 13 },
-    { "revenant1",                              2, 13 },
-    { "player|revenant1",                       3, 13 },
-    { "revenant1|player",                       3, 13 },
-    { "revenant2",                              4, 13 },
-    { "player|revenant2",                       5, 13 },
-    { "revenant2|player",                       5, 13 },
-    { "revenant1|revenant2",                    6, 13 },
-    { "revenant2|revenant1",                    6, 13 },
-    { "player|revenant1|revenant2",             7, 13 },
-    { "revenant1|player|revenant2",             7, 13 },
-    { "revenant1|revenant2|player",             7, 13 },
-    { "player|revenant2|revenant1",             7, 13 },
-    { "revenant2|player|revenant1",             7, 13 },
-    { "revenant2|revenant1|player",             7, 13 },
-    { "cyberdemon",                             8, 13 },
-    { "player|cyberdemon",                      9, 13 },
-    { "cyberdemon|player",                      9, 13 },
-    { "revenant1|cyberdemon",                  10, 13 },
-    { "cyberdemon|revenant1",                  10, 13 },
-    { "player|revenant1|cyberdemon",           11, 13 },
-    { "revenant1|player|cyberdemon",           11, 13 },
-    { "revenant1|cyberdemon|player",           11, 13 },
-    { "player|cyberdemon|revenant1",           11, 13 },
-    { "cyberdemon|player|revenant1",           11, 13 },
-    { "cyberdemon|revenant1|player",           11, 13 },
-    { "revenant2|cyberdemon",                  12, 13 },
-    { "cyberdemon|revenant2",                  12, 13 },
-    { "player|revenant2|cyberdemon",           13, 13 },
-    { "revenant2|player|cyberdemon",           13, 13 },
-    { "revenant2|cyberdemon|player",           13, 13 },
-    { "player|cyberdemon|revenant2",           13, 13 },
-    { "cyberdemon|player|revenant2",           13, 13 },
-    { "cyberdemon|revenant2|player",           13, 13 },
-    { "revenant1|revenant2|cyberdemon",        14, 13 },
-    { "revenant2|revenant1|cyberdemon",        14, 13 },
-    { "revenant2|cyberdemon|revenant1",        14, 13 },
-    { "revenant1|cyberdemon|revenant2",        14, 13 },
-    { "cyberdemon|revenant1|revenant2",        14, 13 },
-    { "cyberdemon|revenant2|revenant1",        14, 13 },
-    { "player|revenant1|revenant2|cyberdemon", 15, 13 },
-    { "player|revenant1|cyberdemon|revenant2", 15, 13 },
-    { "player|revenant2|revenant1|cyberdemon", 15, 13 },
-    { "player|revenant2|cyberdemon|revenant1", 15, 13 },
-    { "player|cyberdemon|revenant1|revenant2", 15, 13 },
-    { "player|cyberdemon|revenant2|revenant1", 15, 13 },
-    { "revenant1|player|revenant2|cyberdemon", 15, 13 },
-    { "revenant1|player|cyberdemon|revenant2", 15, 13 },
-    { "revenant1|revenant2|player|cyberdemon", 15, 13 },
-    { "revenant1|revenant2|cyberdemon|player", 15, 13 },
-    { "revenant1|cyberdemon|player|revenant2", 15, 13 },
-    { "revenant1|cyberdemon|revenant2|player", 15, 13 },
-    { "revenant2|player|revenant1|cyberdemon", 15, 13 },
-    { "revenant2|player|cyberdemon|revenant1", 15, 13 },
-    { "revenant2|revenant1|player|cyberdemon", 15, 13 },
-    { "revenant2|revenant1|cyberdemon|player", 15, 13 },
-    { "revenant2|cyberdemon|player|revenant1", 15, 13 },
-    { "revenant2|cyberdemon|revenant1|player", 15, 13 },
-    { "cyberdemon|player|revenant1|revenant2", 15, 13 },
-    { "cyberdemon|player|revenant2|revenant1", 15, 13 },
-    { "cyberdemon|revenant1|player|revenant2", 15, 13 },
-    { "cyberdemon|revenant1|revenant2|player", 15, 13 },
-    { "cyberdemon|revenant2|player|revenant1", 15, 13 },
-    { "cyberdemon|revenant2|revenant1|player", 15, 13 },
     { "-",                                      0, 15 },
     { "none",                                   0, 15 },
     { "damage",                                 1, 15 },
@@ -1230,7 +1164,8 @@ static void M_CheckDefaults(void)
     if (shadows != false && shadows != true)
         shadows = SHADOWS_DEFAULT;
 
-    smoketrails = BETWEEN(SMOKETRAILS_MIN, smoketrails, SMOKETRAILS_MAX);
+    if (smoketrails != false && smoketrails != true)
+        smoketrails = SMOKETRAILS_DEFAULT;
 
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;
