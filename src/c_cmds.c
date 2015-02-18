@@ -397,15 +397,7 @@ boolean C_BindCondition(char *cmd, char *parm1, char *parm2)
     return true;
 }
 
-void C_DisplayBind(char *control, char *action)
-{
-    static char buffer[1024];
-
-    M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", control, action);
-    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
-}
-
-void C_DisplayBinds(char *action, int value, controltype_t type)
+void C_DisplayBinds(char *action, int value, controltype_t type, int count)
 {
     int         control = 0;
     static char buffer[1024];
@@ -414,7 +406,8 @@ void C_DisplayBinds(char *action, int value, controltype_t type)
     {
         if (controls[control].type == type && controls[control].value == value)
         {
-            M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control, action);
+            M_snprintf(buffer, sizeof(buffer), "%i\t%s\t%s", count,
+                controls[control].control, action);
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
             break;
         }
@@ -427,17 +420,18 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
     if (!parm1[0])
     {
         int     action = 0;
+        int     count = 1;
 
         while (actions[action].action[0])
         {
             if (actions[action].keyboard1)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1, keyboard);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1, keyboard, count++);
             if (actions[action].keyboard2)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2, keyboard);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2, keyboard, count++);
             if (actions[action].mouse)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse, mouse);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse, mouse, count++);
             if (actions[action].gamepad)
-                C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad, gamepad);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad, gamepad, count++);
             ++action;
         }
     }
