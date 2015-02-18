@@ -153,11 +153,12 @@ void C_Init(void)
     caret = consolefont['|' - CONSOLEFONTSTART];
 }
 
-static void C_StripQuotes(char *string)
+void C_StripQuotes(char *string)
 {
     size_t len = strlen(string);
 
-    if (len >= 2 && string[0] == '\"' && string[len - 1] == '\"')
+    if (len >= 2 && ((string[0] == '\"' && string[len - 1] == '\"')
+        || (string[0] == '\'' && string[len - 1] == '\'')))
     {
         len -= 2;
         memmove(string, string + 1, len);
@@ -458,7 +459,7 @@ boolean C_Responder(event_t *ev)
                     i = 0;
                     while (consolecmds[i].cmd[0])
                     {
-                        if (consolecmds[i].parms)
+                        if (consolecmds[i].parms == 1)
                         {
                             char        cmd[255] = "";
                             char        parm[255] = "";
@@ -479,7 +480,7 @@ boolean C_Responder(event_t *ev)
 
                                     if (!strcasecmp(cmd, consolecmds[i].cmd)
                                         && length == strlen(cmd) + 2
-                                        && consolecmds[i].condition(cmd, consolecheatparm))
+                                        && consolecmds[i].condition(cmd, consolecheatparm, ""))
                                     {
                                         validcmd = true;
                                         C_AddConsoleString(consoleinput, input,
@@ -494,18 +495,37 @@ boolean C_Responder(event_t *ev)
                                 sscanf(consoleinput, "%s %s", cmd, parm);
                                 C_StripQuotes(parm);
                                 if (!strcasecmp(cmd, consolecmds[i].cmd)
-                                    && consolecmds[i].condition(cmd, parm))
+                                    && consolecmds[i].condition(cmd, parm, ""))
                                 {
                                     validcmd = true;
                                     C_AddConsoleString(consoleinput, input,
                                         CONSOLEINPUTTOOUTPUTCOLOR);
-                                    consolecmds[i].func(cmd, parm);
+                                    consolecmds[i].func(cmd, parm, "");
                                     break;
                                 }
                             }
                         }
+                        else if (consolecmds[i].parms == 2)
+                        {
+                            char        cmd[255] = "";
+                            char        parm1[255] = "";
+                            char        parm2[255] = "";
+
+                            sscanf(consoleinput, "%s %s %s", cmd, parm1, parm2);
+                            C_StripQuotes(parm1);
+                            C_StripQuotes(parm2);
+                            if (!strcasecmp(cmd, consolecmds[i].cmd)
+                                && consolecmds[i].condition(cmd, parm1, parm2))
+                            {
+                                validcmd = true;
+                                C_AddConsoleString(consoleinput, input,
+                                    CONSOLEINPUTTOOUTPUTCOLOR);
+                                consolecmds[i].func(cmd, parm1, parm2);
+                                break;
+                            }
+                        }
                         else if (!strcasecmp(consoleinput, consolecmds[i].cmd)
-                            && consolecmds[i].condition(consoleinput, ""))
+                            && consolecmds[i].condition(consoleinput, "", ""))
                         {
                             validcmd = true;
                             C_AddConsoleString(consoleinput, input,
@@ -513,7 +533,7 @@ boolean C_Responder(event_t *ev)
                             if (consolecmds[i].type == CT_CHEAT)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
-                                consolecmds[i].func(consoleinput, "");
+                                consolecmds[i].func(consoleinput, "", "");
                             break;
                         }
                         ++i;

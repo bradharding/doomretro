@@ -42,6 +42,34 @@
 
 typedef enum
 {
+    keyboard = 1,
+    mouse    = 2,
+    gamepad  = 3,
+    invalid  = 4
+} controltype_t;
+
+typedef struct
+{
+    char                *control;
+    controltype_t       type;
+    int                 value;
+} control_t;
+
+extern control_t     controls[];
+
+typedef struct
+{
+    char                *action;
+    void                *keyboard1;
+    void                *keyboard2;
+    void                *mouse;
+    void                *gamepad;
+} action_t;
+
+extern action_t         actions[];
+
+typedef enum
+{
     CT_CMD   = 1,
     CT_CVAR  = 2,
     CT_CHEAT = 3
@@ -49,23 +77,19 @@ typedef enum
 
 typedef enum
 {
-    CF_NONE          =   0,
-    CF_BOOLEAN       =   1,
-    CF_INTEGER       =   2,
-    CF_KEY           =   4,
-    CF_FLOAT         =   8,
-    CF_INT_PERCENT   =  16,
-    CF_FLOAT_PERCENT =  32,
-    CF_STRING        =  64,
-    CF_READONLY      = 128,
-    CF_NOTSAVED      = 256
+    CF_NONE          =  0,
+    CF_BOOLEAN       =  1,
+    CF_INTEGER       =  2,
+    CF_STRING        =  4,
+    CF_READONLY      =  8,
+    CF_NOTSAVED      = 16
 } cmdflags_t;
 
 typedef struct
 {
     char                *cmd;
-    boolean             (*condition)(char *cmd, char *parm);
-    void                (*func)(char *cmd, char *parm);
+    boolean             (*condition)(char *cmd, char *parm1, char *parm2);
+    void                (*func)(char *cmd, char *parm1, char *parm2);
     int                 parms;
     cmdtype_t           type;
     cmdflags_t          flags;
