@@ -397,16 +397,45 @@ boolean C_BindCondition(char *cmd, char *parm1, char *parm2)
     return true;
 }
 
+void C_DisplayBind(char *action, int value, controltype_t type)
+{
+    int         control = 0;
+    static char buffer[1024];
+
+    while (controls[control].type)
+    {
+        if (controls[control].type == type && controls[control].value == value)
+        {
+            M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control, action);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+            break;
+        }
+        ++control;
+    }
+}
+
 void C_Bind(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
     {
-        // TODO: output all binds
+        int     action = 0;
+
+        while (actions[action].action[0])
+        {
+            if (actions[action].keyboard1)
+                C_DisplayBind(actions[action].action, *(int *)actions[action].keyboard1, keyboard);
+            if (actions[action].keyboard2)
+                C_DisplayBind(actions[action].action, *(int *)actions[action].keyboard2, keyboard);
+            if (actions[action].mouse)
+                C_DisplayBind(actions[action].action, *(int *)actions[action].mouse, mouse);
+            if (actions[action].gamepad)
+                C_DisplayBind(actions[action].action, *(int *)actions[action].gamepad, gamepad);
+            ++action;
+        }
     }
     else
     {
-        int control = 0;
-        int action = 0;
+        int     control = 0;
 
         C_StripQuotes(parm1);
 
@@ -419,6 +448,8 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
 
         if (controls[control].control[0])
         {
+            int action = 0;
+
             while (actions[action].action[0])
             {
                 if (!strcasecmp(parm2, actions[action].action))
@@ -440,6 +471,8 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                         *(int *)actions[action].gamepad = controls[control].value;
                         break;
                 }
+
+                M_SaveDefaults();
             }
         }
     }
