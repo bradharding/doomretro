@@ -153,6 +153,13 @@ void C_Init(void)
     caret = consolefont['|' - CONSOLEFONTSTART];
 }
 
+void C_HideConsole(void)
+{
+    consoleheight = 0;
+    consoledirection = -1;
+    consoleactive = false;
+}
+
 static void C_StripQuotes(char *string)
 {
     size_t len = strlen(string);

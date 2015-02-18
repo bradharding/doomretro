@@ -731,7 +731,7 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
 //
 void C_Help(char *cmd, char *parm1, char *parm2)
 {
-    consoleheight = 0;
+    C_HideConsole();
     M_ShowHelp();
 }
 
