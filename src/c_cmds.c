@@ -208,8 +208,8 @@ control_t controls[] =
     { "LS",            gamepad,  256        }, { "leftbutton",    gamepad,  256           }, { "LB",            gamepad,  256            },
     { "rightshoulder", gamepad,  512        }, { "RS",            gamepad,  512           }, { "rightbutton",   gamepad,  512            },
     { "RB",            gamepad,  512        }, { "lefttrigger",   gamepad,  1024          }, { "LT",            gamepad,  1024           },
-    { "righttrigger",  gamepad,  2048       }, { "RT",            gamepad,  2048          }, { "A",             gamepad,  4096           },
-    { "B",             gamepad,  8192       }, { "X",             gamepad,  16384         }, { "Y",             gamepad,  32768          },
+    { "righttrigger",  gamepad,  2048       }, { "RT",            gamepad,  2048          }, { "buttona",       gamepad,  4096           },
+    { "buttonb",       gamepad,  8192       }, { "buttonx",       gamepad,  16384         }, { "buttony",       gamepad,  32768          },
     { "",              0,        0          }
 };
 
