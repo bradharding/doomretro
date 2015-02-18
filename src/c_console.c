@@ -401,7 +401,8 @@ void C_Drawer(void)
             {
                 patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
 
-                V_DrawConsoleChar(x, y, patch, CONSOLEFPSCOLOR);
+                V_DrawConsoleChar(x, y, patch,
+                    fps < TICRATE ? CONSOLELOWFPSCOLOR : CONSOLEHIGHFPSCOLOR);
                 x += SHORT(patch->width);
             }
 
