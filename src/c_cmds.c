@@ -664,10 +664,13 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
             static char     buffer[1024];
 
             if (consolecmds[i].flags & CF_BOOLEAN)
-                M_snprintf(buffer, sizeof(buffer), "%i\t\"%s\" is \"%s\"", count++,
+                M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%s", count++,
                     consolecmds[i].cmd, (*(boolean *)consolecmds[i].value ? "on" : "off"));
+            else if (consolecmds[i].flags & CF_INTEGER)
+                M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%i", count++,
+                consolecmds[i].cmd, *(int *)consolecmds[i].value);
             else if (consolecmds[i].flags & CF_STRING)
-                M_snprintf(buffer, sizeof(buffer), "%i\t\"%s\" is \"%s\"", count++,
+                M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t\"%s\"", count++,
                     consolecmds[i].cmd, *(char **)consolecmds[i].value);
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
