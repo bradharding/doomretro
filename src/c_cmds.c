@@ -397,7 +397,15 @@ boolean C_BindCondition(char *cmd, char *parm1, char *parm2)
     return true;
 }
 
-void C_DisplayBind(char *action, int value, controltype_t type)
+void C_DisplayBind(char *control, char *action)
+{
+    static char buffer[1024];
+
+    M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", control, action);
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+}
+
+void C_DisplayBinds(char *action, int value, controltype_t type)
 {
     int         control = 0;
     static char buffer[1024];
@@ -423,21 +431,19 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
         while (actions[action].action[0])
         {
             if (actions[action].keyboard1)
-                C_DisplayBind(actions[action].action, *(int *)actions[action].keyboard1, keyboard);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1, keyboard);
             if (actions[action].keyboard2)
-                C_DisplayBind(actions[action].action, *(int *)actions[action].keyboard2, keyboard);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2, keyboard);
             if (actions[action].mouse)
-                C_DisplayBind(actions[action].action, *(int *)actions[action].mouse, mouse);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].mouse, mouse);
             if (actions[action].gamepad)
-                C_DisplayBind(actions[action].action, *(int *)actions[action].gamepad, gamepad);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].gamepad, gamepad);
             ++action;
         }
     }
     else
     {
         int     control = 0;
-
-        C_StripQuotes(parm1);
 
         while (controls[control].type)
         {
@@ -448,31 +454,71 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
 
         if (controls[control].control[0])
         {
-            int action = 0;
+            int         action = 0;
+            static char buffer[1024];
 
-            while (actions[action].action[0])
+            if (!parm2[0])
             {
-                if (!strcasecmp(parm2, actions[action].action))
-                    break;
-                ++action;
-            }
+                int     action = 0;
 
-            if (actions[action].action[0])
-            {
-                switch (controls[control].type)
+                while (actions[action].action[0])
                 {
-                    case keyboard:
-                        *(int *)actions[action].keyboard1 = controls[control].value;
+                    if (controls[control].type == keyboard && actions[action].keyboard1
+                        && controls[control].value == *(int *)actions[action].keyboard1)
+                    {
+                        M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control, actions[action].action);
+                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+                    }
+                    else if (controls[control].type == keyboard && actions[action].keyboard2
+                        && controls[control].value == *(int *)actions[action].keyboard2)
+                    {
+                        M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control, actions[action].action);
+                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+                    }
+                    else if (controls[control].type == mouse && actions[action].mouse
+                        && controls[control].value == *(int *)actions[action].mouse)
+                    {
+                        M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control, actions[action].action);
+                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+                    }
+                    else if (controls[control].type == gamepad && actions[action].gamepad
+                        && controls[control].value == *(int *)actions[action].gamepad)
+                    {
+                        M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control, actions[action].action);
+                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+                    }
+                    ++action;
+                }
+            }
+            else
+            {
+                while (actions[action].action[0])
+                {
+                    if (!strcasecmp(parm2, actions[action].action))
                         break;
-                    case mouse:
-                        *(int *)actions[action].mouse = controls[control].value;
-                        break;
-                    case gamepad:
-                        *(int *)actions[action].gamepad = controls[control].value;
-                        break;
+                    ++action;
                 }
 
-                M_SaveDefaults();
+                if (actions[action].action[0])
+                {
+                    switch (controls[control].type)
+                    {
+                        case keyboard:
+                            *(int *)actions[action].keyboard1 = controls[control].value;
+                            break;
+                        case mouse:
+                            *(int *)actions[action].mouse = controls[control].value;
+                            break;
+                        case gamepad:
+                            *(int *)actions[action].gamepad = controls[control].value;
+                            break;
+                    }
+
+                    M_SaveDefaults();
+
+                    M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", parm1, parm2);
+                    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+                }
             }
         }
     }

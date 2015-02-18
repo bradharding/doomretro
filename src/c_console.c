@@ -153,7 +153,7 @@ void C_Init(void)
     caret = consolefont['|' - CONSOLEFONTSTART];
 }
 
-void C_StripQuotes(char *string)
+static void C_StripQuotes(char *string)
 {
     size_t len = strlen(string);
 

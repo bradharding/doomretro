@@ -78,7 +78,6 @@ extern char     consolecmdparm[255];
 
 void C_AddConsoleString(char *string, stringtype_t type, byte color);
 void C_AddConsoleDivider(void);
-void C_StripQuotes(char *string);
 void C_Init(void);
 void C_Drawer(void);
 boolean C_Responder(event_t *ev);
