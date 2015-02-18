@@ -646,7 +646,9 @@ void I_FinishUpdate(void)
     }
 
     SDL_BlitSurface(screenbuffer, NULL, rgbabuffer, NULL);
-    SDL_UpdateTexture(texture, NULL, rgbabuffer->pixels, SCREENWIDTH * sizeof(Uint32));
+    SDL_LockTexture(texture, NULL, &pixels, &pitch);
+    memcpy(pixels, rgbabuffer->pixels, SCREENHEIGHT * pitch);
+    SDL_UnlockTexture(texture);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 
