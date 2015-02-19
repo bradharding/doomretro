@@ -43,6 +43,7 @@
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_video.h"
@@ -328,11 +329,24 @@ void C_Drawer(void)
         int     end;
         char    *left = Z_Malloc(512, PU_STATIC, NULL);
         char    *right = Z_Malloc(512, PU_STATIC, NULL);
+        boolean prevconsoleactive = consoleactive;
 
         // adjust height
         consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
 
         consoleactive = (consoleheight >= CONSOLEHEIGHT / 2);
+
+        if (consoleactive != prevconsoleactive && gamepadvibrate && vibrate)
+        {
+            if (consoleactive)
+            {
+                restoremotorspeed = idlemotorspeed;
+                idlemotorspeed = 0;
+            }
+            else
+                idlemotorspeed = restoremotorspeed;
+            XInputVibration(idlemotorspeed);
+        }
 
         // draw tiled background and bottom edge
         C_DrawBackground(consoleheight);
