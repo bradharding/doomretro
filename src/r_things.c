@@ -306,8 +306,8 @@ int     *mfloorclip;
 int     *mceilingclip;
 
 fixed_t spryscale;
-fixed_t sprtopscreen;
-fixed_t shift;
+int64_t sprtopscreen;
+int64_t shift;
 
 static void R_DrawMaskedSpriteColumn(column_t *column)
 {
@@ -317,10 +317,10 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * topdelta + 1;
+        int64_t topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((topscreen + FRACUNIT) >> FRACBITS, mceilingclip[dc_x] + 1);
-        dc_yh = MIN((topscreen + spryscale * length) >> FRACBITS, mfloorclip[dc_x] - 1);
+        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), mceilingclip[dc_x] + 1);
+        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), mfloorclip[dc_x] - 1);
 
         if (dc_baseclip != -1)
             dc_yh = MIN(dc_baseclip, dc_yh);
@@ -360,10 +360,10 @@ static void R_DrawMaskedShadowColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int     topscreen = sprtopscreen + spryscale * column->topdelta + 1;
+        int64_t topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
-        dc_yl = MAX(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift, mceilingclip[dc_x] + 1);
-        dc_yh = MIN(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift,
+        dc_yl = MAX((int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift), mceilingclip[dc_x] + 1);
+        dc_yh = MIN((int)(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift),
             mfloorclip[dc_x] - 1);
 
         if (dc_yl <= dc_yh && dc_yh < viewheight)
@@ -422,7 +422,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     }
 
     if (vis->footclip)
-        dc_baseclip = (sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
+        dc_baseclip = ((int)sprtopscreen + FixedMul(SHORT(patch->height) << FRACBITS, spryscale)
             - FixedMul(vis->footclip, spryscale)) >> FRACBITS;
     else
         dc_baseclip = -1;
