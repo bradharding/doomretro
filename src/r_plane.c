@@ -95,15 +95,16 @@ extern fixed_t          animatedliquiddiffs[128];
 //
 static void R_MapPlane(int y, int x1, int x2)
 {
+    // [crispy] visplanes with the same flats now match up far better than before
+    // adapted from prboom-plus/src/r_plane.c:191-239, translated to fixed-point math
     fixed_t     distance = FixedMul(planeheight, yslope[y]);
-    float       slope = (float)(planeheight / 65535.0f / ABS(centery - y));
-    float       realy = (float)distance / 65536.0f;
+    int         dy = ABS(centery - y);
 
-    ds_xstep = (fixed_t)(viewsin * slope);
-    ds_ystep = (fixed_t)(viewcos * slope);
+    ds_xstep = FixedMul(viewsin, planeheight) / dy;
+    ds_ystep = FixedMul(viewcos, planeheight) / dy;
 
-    ds_xfrac = viewx + (int)(viewcos * realy) + (x1 - centerx) * ds_xstep;
-    ds_yfrac = -viewy - (int)(viewsin * realy) + (x1 - centerx) * ds_ystep;
+    ds_xfrac = viewx + FixedMul(viewcos, distance) + (x1 - centerx) * ds_xstep;
+    ds_yfrac = -viewy - FixedMul(viewsin, distance) + (x1 - centerx) * ds_ystep;
 
     if (fixedcolormap)
         ds_colormap = fixedcolormap;
