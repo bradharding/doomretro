@@ -188,7 +188,7 @@ void P_FireWeapon(player_t *player)
 
     P_NoiseAlert(player->mo, player->mo);
 
-    if ((gamepadvibrate & WEAPONS) && vibrate)
+    if (gamepadvibrate && vibrate)
     {
         int     motorspeed = weaponinfo[readyweapon].motorspeed;
 
@@ -238,7 +238,7 @@ void A_WeaponReady(player_t *player, pspdef_t *psp)
     //  if player is dead, put the weapon away
     if (pendingweapon != wp_nochange || !player->health)
     {
-        if ((gamepadvibrate & WEAPONS) && vibrate)
+        if (gamepadvibrate && vibrate)
         {
             if (pendingweapon == wp_chainsaw)
             {

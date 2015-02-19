@@ -91,7 +91,7 @@ extern int      gamepadprevweapon;
 extern int      gamepadrun;
 extern int      gamepadsensitivity;
 extern int      gamepaduse;
-extern int      gamepadvibrate;
+extern boolean  gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -942,7 +942,8 @@ static void M_CheckDefaults(void)
     if (gamepaduse < 0 || gamepaduse > GAMEPAD_Y || (gamepaduse & (gamepaduse - 1)))
         gamepaduse = GAMEPADUSE_DEFAULT;
 
-    gamepadvibrate = BETWEEN(GAMEPADVIBRATE_MIN, gamepadvibrate, GAMEPADVIBRATE_MAX);
+    if (gamepadvibrate != false && gamepadvibrate != true)
+        gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 
     if (gamepadweapon1 < 0 || gamepadweapon1 > GAMEPAD_Y || (gamepadweapon1 & (gamepadweapon1 - 1)))
         gamepadweapon1 = GAMEPADWEAPON_DEFAULT;

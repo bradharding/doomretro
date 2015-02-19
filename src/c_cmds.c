@@ -90,7 +90,7 @@ extern int      gamepadprevweapon;
 extern int      gamepadrun;
 extern int      gamepadsensitivity;
 extern int      gamepaduse;
-extern int      gamepadvibrate;
+extern boolean  gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -273,6 +273,7 @@ void C_CmdList(char *, char *, char *);
 void C_CvarList(char *, char *, char *);
 void C_EndGame(char *, char *, char *);
 void C_Gamma(char *, char *, char *);
+void C_GamepadVibrate(char *, char *, char *);
 void C_God(char *, char *, char *);
 void C_Give(char *, char *, char *);
 void C_GraphicDetail(char *, char *, char *);
@@ -352,6 +353,8 @@ consolecmd_t consolecmds[] =
     { "followmode",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN | CF_NOTSAVED, &followmode,         1, ""                                     },
     { "footclip",             C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &footclip,           1, ""                                     },
     { "fullscreen",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &fullscreen,         1, ""                                     },
+    { "gamepad_lefthanded",   C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &gamepadlefthanded,  1, ""                                     },
+    { "gamepad_vibrate",      C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &gamepadvibrate,     1, ""                                     },
     { "gammacorrectionlevel", C_GammaCondition,         C_Gamma,         1, CT_CVAR,  CF_BOOLEAN,               &graphicdetail,      4, ""                                     },
     { "god",                  C_GodCondition,           C_God,           0, CT_CMD,   CF_NONE,                  NULL,                0, "Toggle god mode on/off."              },
     { "graphicdetail",        C_GraphicDetailCondition, C_GraphicDetail, 1, CT_CVAR,  CF_BOOLEAN,               &graphicdetail,      3, ""                                     },

@@ -1012,7 +1012,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         tplayer->damagecount = damagecount;
 
-        if ((gamepadvibrate & DAMAGE) && vibrate && tplayer == &players[consoleplayer])
+        if (gamepadvibrate && vibrate && tplayer == &players[consoleplayer])
         {
             XInputVibration(30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000);
             damagevibrationtics += BETWEEN(12, damage, 100);
