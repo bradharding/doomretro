@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __D_TICCMD__
+#if !defined(__D_TICCMD__)
 #define __D_TICCMD__
 
 #include "doomtype.h"

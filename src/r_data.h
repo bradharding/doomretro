@@ -36,13 +36,13 @@
 ========================================================================
 */
 
-#ifndef __R_DATA__
+#if !defined(__R_DATA__)
 #define __R_DATA__
 
 #include "r_defs.h"
 #include "r_state.h"
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(push)
 #pragma pack(1)
 #endif
@@ -80,7 +80,7 @@ typedef struct
     mappatch_t  patches[1];
 } PACKEDATTR maptexture_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(pop)
 #endif
 

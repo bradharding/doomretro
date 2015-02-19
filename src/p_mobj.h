@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __P_MOBJ__
+#if !defined(__P_MOBJ__)
 #define __P_MOBJ__
 
 #include "doomdata.h"

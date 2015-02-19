@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __G_GAME__
+#if !defined(__G_GAME__)
 #define __G_GAME__
 
 #include "doomdef.h"

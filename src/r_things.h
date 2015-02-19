@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __R_THINGS__
+#if !defined(__R_THINGS__)
 #define __R_THINGS__
 
 // Constant arrays used for psprite clipping

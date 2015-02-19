@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __R_DEFS__
+#if !defined(__R_DEFS__)
 #define __R_DEFS__
 
 #include "p_mobj.h"
@@ -582,7 +582,7 @@ typedef struct
     int                 children[2];
 } node_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(push)
 #pragma pack(1)
 #endif
@@ -594,7 +594,7 @@ typedef struct
     byte               length;          // length data bytes follows
 } PACKEDATTR post_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(pop)
 #endif
 
@@ -638,7 +638,7 @@ typedef struct drawseg_s
     int                 *maskedtexturecol;
 } drawseg_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(push)
 #pragma pack(1)
 #endif
@@ -658,7 +658,7 @@ typedef struct
     // the [0] is &columnofs[width]
 } PACKEDATTR patch_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(pop)
 #endif
 

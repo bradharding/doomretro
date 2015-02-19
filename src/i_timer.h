@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __I_TIMER__
+#if !defined(__I_TIMER__)
 #define __I_TIMER__
 
 // Called by D_DoomLoop,

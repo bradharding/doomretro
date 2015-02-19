@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __INFO__
+#if !defined(__INFO__)
 #define __INFO__
 
 #include "doomtype.h"

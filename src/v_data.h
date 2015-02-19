@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __V_DATA__
+#if !defined(__V_DATA__)
 #define __V_DATA__
 
 extern char     *wilv[];

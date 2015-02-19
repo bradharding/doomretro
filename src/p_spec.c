@@ -57,7 +57,7 @@ typedef struct
     int         speed;
 } anim_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(push, 1)
 #endif
 
@@ -73,7 +73,7 @@ typedef struct
     boolean     isliquid;
 } animdef_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(pop)
 #endif
 

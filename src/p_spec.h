@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __P_SPEC__
+#if !defined(__P_SPEC__)
 #define __P_SPEC__
 
 //
@@ -165,7 +165,7 @@ void T_FireFlicker(fireflicker_t *flick);
 // P_SWITCH
 //
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(push, 1)
 #endif
 
@@ -176,7 +176,7 @@ typedef struct
     short       episode;
 } switchlist_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(pop)
 #endif
 

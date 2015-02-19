@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#ifndef MUS2MID_H
-#define MUS2MID_H
+#if !defined(__MUS2MID__)
+#define __MUS2MID__
 
 #include "doomtype.h"
 #include "memio.h"

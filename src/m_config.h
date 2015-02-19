@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __M_CONFIG__
+#if !defined(__M_CONFIG__)
 #define __M_CONFIG__
 
 #define ALWAYSRUN_DEFAULT                       false
@@ -220,9 +220,17 @@
 
 #define MOUSEFORWARD_DEFAULT                    -1
 
-#define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELDOWN
+#if defined(SDL20)
+#define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
+#else
+#define MOUSEPREVWEAPON_DEFAULT                 3
+#endif
 
-#define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELUP
+#if defined(SDL20)
+#define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
+#else
+#define MOUSENEXTWEAPON_DEFAULT                 4
+#endif
 
 #define MOUSESENSITIVITY_MIN                    0
 #define MOUSESENSITIVITY_DEFAULT                16
@@ -258,7 +266,9 @@
 
 #define SAVEGAME_DEFAULT                        0
 
+#if defined(SDL20)
 #define SCALEQUALITY_DEFAULT                    "nearest"
+#endif
 
 #define SCREENSIZE_MIN                          0
 #define SCREENSIZE_DEFAULT                      7
@@ -286,13 +296,15 @@
 
 #define TRANSLUCENCY_DEFAULT                    true
 
-#ifdef WIN32
+#if defined(WIN32)
 #define VIDEODRIVER_DEFAULT                     "windows"
 #else
 #define VIDEODRIVER_DEFAULT                     ""
 #endif
 
+#if defined(SDL20)
 #define VSYNC_DEFAULT                           true
+#endif
 
 #define WIDESCREEN_DEFAULT                      false
 

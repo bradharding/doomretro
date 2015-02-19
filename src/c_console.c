@@ -49,6 +49,7 @@
 #include "m_cheat.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "p_local.h"
 #include "SDL.h"
 #include "v_video.h"
 #include "version.h"
@@ -431,7 +432,12 @@ boolean C_Responder(event_t *ev)
         int             key = ev->data1;
         int             ch = ev->data2;
         int             i;
+
+#if defined(SDL20)
         SDL_Keymod      modstate = SDL_GetModState();
+#else
+        SDLMod          modstate = SDL_GetModState();
+#endif
 
         switch (key)
         {
@@ -726,6 +732,7 @@ boolean C_Responder(event_t *ev)
         if (outputhistory != -1 && key != KEY_PGUP && key != KEY_PGDN)
             outputhistory = -1;
     }
+#if defined(SDL20)
     else if (ev->type == ev_mousewheel)
     {
         // scroll output up
@@ -746,6 +753,27 @@ boolean C_Responder(event_t *ev)
             }
         }
     }
+#else
+    else if (ev->type == ev_mouse)
+    {
+        // scroll output up
+        if (ev->data1 == MOUSE_WHEELUP)
+        {
+            if (consolestrings > 10)
+                outputhistory = (outputhistory == -1 ? consolestrings - 11 : MAX(0, outputhistory - 1));
+        }
 
+        // scroll output down
+        else if (ev->data1 == MOUSE_WHEELDOWN)
+        {
+            if (outputhistory != -1)
+            {
+                ++outputhistory;
+                if (outputhistory + 10 == consolestrings)
+                    outputhistory = -1;
+            }
+        }
+    }
+#endif
     return true;
 }

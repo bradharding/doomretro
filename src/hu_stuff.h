@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#ifndef __HU_STUFF_H__
-#define __HU_STUFF_H__
+#if !defined(__HU_STUFF__)
+#define __HU_STUFF__
 
 #include "d_event.h"
 

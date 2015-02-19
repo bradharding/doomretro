@@ -36,10 +36,11 @@
 ========================================================================
 */
 
-#ifndef __D_EVENT__
+#if !defined(__D_EVENT__)
 #define __D_EVENT__
 
 #include "doomtype.h"
+#include "i_video.h"
 
 //
 // Event handling.
@@ -51,7 +52,9 @@ typedef enum
     ev_keydown,
     ev_keyup,
     ev_mouse,
+#if defined(SDL20)
     ev_mousewheel,
+#endif
     ev_gamepad
 } evtype_t;
 

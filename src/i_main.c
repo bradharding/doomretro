@@ -43,8 +43,7 @@
 #include "m_misc.h"
 #include "version.h"
 
-#ifdef WIN32
-
+#if defined(WIN32)
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
@@ -185,7 +184,9 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
     }
 }
 
+#if defined(SDL20)
 extern SDL_Window       *window;
+#endif
 
 void I_InitWindows32(void)
 {
@@ -194,8 +195,13 @@ void I_InitWindows32(void)
 
     SDL_VERSION(&info.version);
 
+#if defined(SDL20)
     SDL_GetWindowWMInfo(window, &info);
     hwnd = info.info.win.window;
+#else
+    SDL_GetWMInfo(&info);
+    hwnd = info.window;
+#endif
 
     icon = LoadIcon(handle, "IDI_ICON1");
     SetClassLongPtr(hwnd, GCLP_HICON, (LONG)icon);
@@ -215,7 +221,7 @@ void I_ShutdownWindows32(void)
 
 int main(int argc, char **argv)
 {
-#ifdef WIN32
+#if defined(WIN32)
     HANDLE hProcess = GetCurrentProcess();
 
     hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
@@ -241,7 +247,7 @@ int main(int argc, char **argv)
     myargc = argc;
     myargv = argv;
 
-#ifdef WIN32
+#if defined(WIN32)
     if (!M_CheckParm("-nopriority"))
         I_SetProcessPriority(hProcess);
 #endif

@@ -36,11 +36,12 @@
 ========================================================================
 */
 
-#ifdef WIN32
+#if defined(WIN32)
 
 #include <stdio.h>
 
 #define WIN32_LEAN_AND_MEAN
+
 #include <windows.h>
 
 #include "i_system.h"
@@ -48,8 +49,7 @@
 #include "z_zone.h"
 
 // This constant doesn't exist in VC6:
-
-#ifndef INVALID_SET_FILE_POINTER
+#if !defined(INVALID_SET_FILE_POINTER)
 #define INVALID_SET_FILE_POINTER        0xffffffff
 #endif
 

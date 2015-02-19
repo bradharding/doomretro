@@ -172,7 +172,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
                     j = 64;
                 else if (c == '\'')
                     j = 65;
-#ifdef WIN32
+#if defined(WIN32)
                 else if (c == '\u2019')
                     j = 65;
 #endif

@@ -71,8 +71,7 @@ static void AddIWADDir(char *dir)
     }
 }
 
-#ifdef WIN32
-
+#if defined(WIN32)
 // This is Windows-specific code that automatically finds the location
 // of installed IWAD files.  The registry is inspected to find special
 // keys installed by the Windows installers for various CD versions
@@ -401,7 +400,7 @@ static void BuildIWADDirList(void)
     // Add dirs from DOOMWADPATH
     AddDoomWadPath();
 
-#ifdef WIN32
+#if defined(WIN32)
     // Search the registry and find where IWADs have been installed.
     CheckUninstallStrings();
     CheckCollectorsEdition();

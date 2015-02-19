@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __D_ITEMS__
+#if !defined(__D_ITEMS__)
 #define __D_ITEMS__
 
 #include "doomdef.h"

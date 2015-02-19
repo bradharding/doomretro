@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __R_MAIN__
+#if !defined(__R_MAIN__)
 #define __R_MAIN__
 
 #include "d_player.h"

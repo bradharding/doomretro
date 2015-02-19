@@ -36,18 +36,18 @@
 ========================================================================
 */
 
-#ifndef __DOOMTYPE__
+#if !defined(__DOOMTYPE__)
 #define __DOOMTYPE__
 
 #include <inttypes.h>
 #include <limits.h>
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 
 // Use builtin bool type with C++.
 typedef bool boolean;
 
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
 
 typedef enum
 {
@@ -69,7 +69,7 @@ typedef enum
 
 typedef uint8_t byte;
 
-#ifdef WIN32
+#if defined(WIN32)
 
 #define DIR_SEPARATOR   '\\'
 #define DIR_SEPARATOR_S "\\"

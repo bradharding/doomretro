@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __I_TINTTAB__
+#if !defined(__I_TINTTAB__)
 #define __I_TINTTAB__
 
 void I_InitTintTables(byte *palette);

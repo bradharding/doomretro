@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __V_VIDEO__
+#if !defined(__V_VIDEO__)
 #define __V_VIDEO__
 
 #include "r_data.h"

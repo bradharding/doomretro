@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __P_SAVEG__
+#if !defined(__P_SAVEG__)
 #define __P_SAVEG__
 
 #include <stdio.h>

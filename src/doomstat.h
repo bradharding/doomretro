@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __D_STATE__
+#if !defined(__D_STATE__)
 #define __D_STATE__
 
 // We need globally shared data structures,

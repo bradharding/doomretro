@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __C_CONSOLE__
+#if !defined(__C_CONSOLE__)
 #define __C_CONSOLE__
 
 #include "doomtype.h"

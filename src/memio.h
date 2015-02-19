@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef MEMIO_H
+#if !defined(MEMIO_H)
 #define MEMIO_H
 
 #include <stdio.h>

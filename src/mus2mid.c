@@ -70,7 +70,7 @@ typedef enum
     midi_pitchwheel = 0xe0
 } midievent;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(push)
 #pragma pack(1)
 #endif
@@ -86,7 +86,7 @@ typedef struct
     unsigned short      instrumentcount;
 } PACKEDATTR musheader;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(pop)
 #endif
 

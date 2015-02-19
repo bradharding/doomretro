@@ -50,7 +50,7 @@
 #define TRACK_CHUNK_ID  "MTrk"
 #define MAX_BUFFER_SIZE 0x10000
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(push)
 #pragma pack(1)
 #endif
@@ -69,7 +69,7 @@ typedef struct
     unsigned short      time_division;
 } PACKEDATTR midi_header_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(pop)
 #endif
 

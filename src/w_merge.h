@@ -36,8 +36,8 @@
 ========================================================================
 */
 
-#ifndef W_MERGE_H
-#define W_MERGE_H
+#if !defined(__W_MERGE__)
+#define __W_MERGE__
 
 // Add a new WAD and merge it into the main directory
 boolean W_MergeFile(char *filename);

@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __R_DRAW__
+#if !defined(__R_DRAW__)
 #define __R_DRAW__
 
 #define R_ADDRESS(scrn, px, py) \

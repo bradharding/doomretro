@@ -44,20 +44,20 @@
 
 extern wad_file_class_t stdc_wad_file;
 
-#ifdef WIN32
+#if defined(WIN32)
 extern wad_file_class_t win32_wad_file;
 #endif
 
-#ifdef HAVE_MMAP
+#if defined(HAVE_MMAP)
 extern wad_file_class_t posix_wad_file;
 #endif 
 
 static wad_file_class_t *wad_file_classes[] =
 {
-#ifdef WIN32
+#if defined(WIN32)
     &win32_wad_file,
 #endif
-#ifdef HAVE_MMAP
+#if defined(HAVE_MMAP)
     &posix_wad_file,
 #endif
     &stdc_wad_file,

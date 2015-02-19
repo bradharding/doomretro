@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __DSTRINGS__
+#if !defined(__DSTRINGS__)
 #define __DSTRINGS__
 
 // All important printed strings.

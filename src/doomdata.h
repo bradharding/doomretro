@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __DOOMDATA__
+#if !defined(__DOOMDATA__)
 #define __DOOMDATA__
 
 // The most basic types we use, portability.
@@ -68,7 +68,7 @@ enum
     ML_BLOCKMAP         // LUT, motion clipping, walls/grid element
 };
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(push)
 #pragma pack(1)
 #endif
@@ -225,7 +225,7 @@ typedef struct
     short               options;
 } PACKEDATTR mapthing_t;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #pragma pack(pop)
 #endif
 

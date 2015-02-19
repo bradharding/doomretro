@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __M_CHEAT__
+#if !defined(__M_CHEAT__)
 #define __M_CHEAT__
 
 #include <stdlib.h>

@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifdef WIN32
+#if defined(WIN32)
 #pragma comment(lib, "winmm.lib")
 
 #define WIN32_LEAN_AND_MEAN
@@ -47,7 +47,7 @@
 #include <ShellAPI.h>
 #endif
 
-#ifndef MAX_PATH
+#if !defined(MAX_PATH)
 #define MAX_PATH        4096
 #endif
 
@@ -121,7 +121,10 @@ boolean                 forcewipe = false;
 boolean                 splashscreen;
 
 extern int              selectedexpansion;
+
+#if defined(SDL20)
 extern SDL_Window       *sdl_window;
+#endif
 
 void D_CheckNetGame(void);
 
@@ -586,18 +589,19 @@ static boolean D_IsUnsupportedPWAD(char *filename)
     return (D_CheckFilename(filename, "VOICES.WAD"));
 }
 
-#ifdef __MACOSX__
+#if defined(__MACOSX__)
 #import <Cocoa/Cocoa.h>
 #endif
 
 static void D_FirstUse(void)
 {
+#if defined(SDL20)
     char *message = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with "
         "all DOOM source ports, no actual map data is included\nwith " PACKAGE_NAME ".\n\nIn the "
         "dialog box that follows, please navigate to where an official \xe2\x80\x9cIWAD file"
         "\xe2\x80\x9d that\n" PACKAGE_NAME " requires (such as DOOM.WAD or DOOM2.WAD) has been "
         "installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be selected by "
-#ifdef __MACOSX__
+#if defined(__MACOSX__)
         "clicking or CMD-clicking on them.";
 #else
         "clicking or CTRL-clicking on them.";
@@ -605,7 +609,7 @@ static void D_FirstUse(void)
 
     const SDL_MessageBoxButtonData buttons[] = 
     {
-#ifdef WIN32
+#if defined(WIN32)
         {                                       0, 0, "&Wiki"   },
 #endif
         { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 1, "&Cancel" },
@@ -626,7 +630,7 @@ static void D_FirstUse(void)
 
     if (SDL_ShowMessageBox(&messageboxdata, &buttonid) >= 0)
     {
-#ifdef WIN32
+#if defined(WIN32)
         if (buttons[buttonid].buttonid == 0)
         {
             ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_URL, NULL, NULL, SW_SHOWNORMAL);
@@ -637,16 +641,54 @@ static void D_FirstUse(void)
         if (buttons[buttonid].buttonid == 1)
             I_Quit(false);
     }
+
+#elif defined(WIN32)
+    LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
+        L"Please note that, as with all DOOM source ports, no actual map data is "
+        L"distributed with " PACKAGE_NAME_W L".\n\n"
+        L"In the dialog box that follows, please navigate to where an official "
+        L"\u201cIWAD file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
+        L"DOOM2.WAD) has been installed.\n\n"
+        L"Additional \u201cPWAD files\u201d may then be selected by clicking or "
+        L"CTRL-clicking on them.";
+
+    if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
+        I_Quit(false);
+
+#elif defined(__MACOSX__)
+    NSMutableString     *msg = [[NSMutableString alloc]init];
+
+    [msg appendString:@"Thank you for downloading "];
+    [msg appendString:@PACKAGE_NAME];
+    [msg appendString:@"!\n\n"];
+    [msg appendString:@"Please note that, as with all DOOM source ports, no actual map data is "];
+    [msg appendString:@"distributed with "];
+    [msg appendString:@PACKAGE_NAME];
+    [msg appendString:@"!\n\n"];
+    [msg appendString:@"In the dialog box that follows, please navigate to where an official "];
+    [msg appendString:@"\"IWAD file\" that "];
+    [msg appendString:@PACKAGE_NAME];
+    [msg appendString:@" requires (such as DOOM.WAD or "];
+    [msg appendString:@"DOOM2.WAD) has been installed.\n\n"];
+    [msg appendString:@"Additional \"PWAD files\" may then be selected by clicking or "];
+    [msg appendString:@"CMD-clicking on them."];
+
+    NSAlert     *alert = [[NSAlert alloc] init];
+
+    [alert setMessageText:msg];
+    [alert addButtonWithTitle:@"OK"];
+    [alert runModal];
+#endif
 }
 
-#if defined WIN32 || __MACOSX__
+#if defined(WIN32) || defined(__MACOSX__)
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;
-    bool                sharewareiwad = false;
-    bool                fileopenedok = false;
+    boolean             sharewareiwad = false;
+    boolean             fileopenedok = false;
 
-#ifdef WIN32
+#if defined(WIN32)
     OPENFILENAME        ofn;
     char                szFile[4096];
     
@@ -667,7 +709,7 @@ static int D_ChooseIWAD(void)
     
     fileopenedok = GetOpenFileName(&ofn);
 
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
     NSOpenPanel *panel = [NSOpenPanel openPanel];
 
     [panel setCanChooseFiles:YES];
@@ -687,7 +729,7 @@ static int D_ChooseIWAD(void)
         iwadfound = 0;
 
         // only one file was selected
-#ifdef WIN32
+#if defined(WIN32)
         onlyoneselected = !ofn.lpstrFile[lstrlen(ofn.lpstrFile) + 1];
 #elif defined __MACOSX__
         NSArray *urls = [panel URLs];
@@ -697,9 +739,9 @@ static int D_ChooseIWAD(void)
         if (onlyoneselected)
         {
             char        *file;
-#ifdef WIN32
+#if defined(WIN32)
             file = (char*)ofn.lpstrFile;
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
             NSURL       *url = [urls objectAtIndex:0];
 
             file = (char *)[url fileSystemRepresentation];
@@ -819,7 +861,7 @@ static int D_ChooseIWAD(void)
         {
             bool        isDOOM2 = false;
 
-#ifdef WIN32
+#if defined(WIN32)
             LPSTR       iwadpass = ofn.lpstrFile;
             LPSTR       pwadpass1 = ofn.lpstrFile;
             LPSTR       pwadpass2 = ofn.lpstrFile;
@@ -835,7 +877,7 @@ static int D_ChooseIWAD(void)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
                     iwadpass);
 
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
             char        *szFile;
 
             for (NSURL* url in urls)
@@ -921,7 +963,7 @@ static int D_ChooseIWAD(void)
                         }
                     }
                 }
-#ifdef WIN32
+#if defined(WIN32)
                 iwadpass += lstrlen(iwadpass) + 1;
 #endif
             }
@@ -933,7 +975,7 @@ static int D_ChooseIWAD(void)
                 // and then try to load it first
                 if (!iwadfound)
                 {
-#ifdef WIN32
+#if defined(WIN32)
                     pwadpass1 += lstrlen(pwadpass1) + 1;
                     
                     while (pwadpass1[0])
@@ -942,7 +984,7 @@ static int D_ChooseIWAD(void)
                         
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
                                    pwadpass1);
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
                     for (NSURL* url in urls)
                     {
                         char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -987,7 +1029,7 @@ static int D_ChooseIWAD(void)
                                 }
                             }
                         }
-#ifdef WIN32
+#if defined(WIN32)
                         pwadpass1 += lstrlen(pwadpass1) + 1;
 #endif
                     }
@@ -997,7 +1039,7 @@ static int D_ChooseIWAD(void)
                 if (iwadfound)
                 {
                     bool     mapspresent = false;
-#ifdef WIN32
+#if defined(WIN32)
                     pwadpass2 += lstrlen(pwadpass2) + 1;
 
                     while (pwadpass2[0])
@@ -1006,7 +1048,7 @@ static int D_ChooseIWAD(void)
                         
                         M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
                                    pwadpass2);
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
                     for (NSURL *url in urls)
                     {
                         char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1023,7 +1065,7 @@ static int D_ChooseIWAD(void)
                             if (IWADRequiredByPWAD(fullpath) != indetermined)
                                 mapspresent = true;
                         }
-#ifdef WIN32
+#if defined(WIN32)
                         pwadpass2 += lstrlen(pwadpass2) + 1;
 #endif
                     }
@@ -1046,7 +1088,7 @@ static int D_ChooseIWAD(void)
                 }
             }
 
-#ifdef WIN32
+#if defined(WIN32)
             // process any dehacked files last of all
             dehpass += lstrlen(dehpass) + 1;
 
@@ -1055,7 +1097,7 @@ static int D_ChooseIWAD(void)
                 static char     fullpath[MAX_PATH];
                 M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), dehpass);
                 
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
             for (NSURL *url in urls)
             {
                 char    *fullpath = (char *)[url fileSystemRepresentation];
@@ -1063,7 +1105,7 @@ static int D_ChooseIWAD(void)
 
                 if (D_IsDehFile(fullpath))
                     LoadDehFile(fullpath);
-#ifdef WIN32
+#if defined(WIN32)
                 dehpass += lstrlen(dehpass) + 1;
 #endif
             }
@@ -1149,12 +1191,13 @@ static void D_DoomMainSetup(void)
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
 
-#ifdef WIN32
+#if defined(WIN32)
     if (!M_FileExists(PACKAGE_WAD))
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
     NSString *packageWadFullpath =
         [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@PACKAGE_WAD];
-    if (!M_FileExists((char*)[packageWadFullpath UTF8String]))
+
+    if (!M_FileExists((char *)[packageWadFullpath UTF8String]))
 #endif
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 
@@ -1166,26 +1209,27 @@ static void D_DoomMainSetup(void)
             if (runcount < RUNCOUNT_MAX)
                 runcount++;
     }
-#if defined WIN32 || __MACOSX__
     else if (!p)
     {
         if (!runcount)
             D_FirstUse();
+
+#if defined(WIN32) || defined(__MACOSX__)
         do
         {
             if ((choseniwad = D_ChooseIWAD()) == -1)
                 I_Quit(false);
-#ifdef WIN32
+#if defined(WIN32)
             else if (!choseniwad)
                 PlaySound((LPCTSTR)SND_ALIAS_SYSTEMHAND, NULL, SND_ALIAS_ID | SND_ASYNC);
 #endif
         } while (!choseniwad);
+#endif
 
         if (runcount < RUNCOUNT_MAX)
             ++runcount;
     }
     M_SaveDefaults();
-#endif
 
     if (p > 0)
     {
@@ -1269,9 +1313,9 @@ static void D_DoomMainSetup(void)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
                 "specifying one with the '-iwad' command-line parameter.");
 
-#ifdef WIN32
+#if defined(WIN32)
     if (!W_MergeFile(PACKAGE_WAD))
-#elif defined __MACOSX__
+#elif defined(__MACOSX__)
     if (!W_MergeFile((char*)[packageWadFullpath UTF8String]))
 #endif
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));

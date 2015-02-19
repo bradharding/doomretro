@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __WI_STUFF__
+#if !defined(__WI_STUFF__)
 #define __WI_STUFF__
 
 #include "doomdef.h"

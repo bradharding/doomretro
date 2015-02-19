@@ -36,20 +36,20 @@
 ========================================================================
 */
 
-#ifndef __DOOMDEF__
+#if !defined(__DOOMDEF__)
 #define __DOOMDEF__
 
 #include <stdio.h>
 
 #include "doomkeys.h"
 
-#ifdef WIN32
-#define snprintf _snprintf
-#if _MSC_VER < 1400
-#define vsnprintf _vsnprintf
+#if defined(WIN32)
+#define snprintf        _snprintf
+#if (_MSC_VER < 1400)
+#define vsnprintf       _vsnprintf
 #endif
-#define strcasecmp stricmp
-#define strncasecmp strnicmp
+#define strcasecmp      stricmp
+#define strncasecmp     strnicmp
 #else
 #include <strings.h>
 #endif
@@ -62,8 +62,8 @@
 // structures where alignment is important, particularly data read/written
 // to disk.
 //
-#ifdef __GNUC__
-#define PACKEDATTR __attribute__((packed))
+#if defined(__GNUC__)
+#define PACKEDATTR      __attribute__((packed))
 #else
 #define PACKEDATTR
 #endif

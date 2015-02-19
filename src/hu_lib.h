@@ -36,15 +36,13 @@
 ========================================================================
 */
 
-#ifndef __HULIB__
+#if !defined(__HULIB__)
 #define __HULIB__
 
 // We are referring to patches.
 #include "r_defs.h"
 
 // font stuff
-#define HU_CHARERASE            KEY_BACKSPACE
-
 #define HU_MAXLINES             4
 #define HU_MAXLINELENGTH        512
 

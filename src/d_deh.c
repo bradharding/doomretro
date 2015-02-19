@@ -512,7 +512,7 @@ deh_strs deh_strlookup[] =
     { &s_MSGON,                "MSGON",                false },
     { &s_ENDGAME,              "ENDGAME",              false },
 
-#ifdef WIN32
+#if defined(WIN32)
     { &s_DOSY,                 "DOSY",                 false },
     { &s_DOSA,                 "DOSA",                 false },
 #else
@@ -1584,7 +1584,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     char        inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
     const char  *file_or_lump;
 
-#ifdef _DEBUG
+#if defined(_DEBUG)
     // Open output file if we're writing output
     if (outfilename && *outfilename && !fileout)
     {
@@ -2261,7 +2261,7 @@ void deh_procSprite(DEHFILE *fpin, FILE* fpout, char *line) // Not supported
 extern int pars[5][10];
 extern int cpars[33];
 
-#ifndef WIN32
+#if !defined(WIN32)
 char *strlwr(char *str)
 {
     size_t      i;

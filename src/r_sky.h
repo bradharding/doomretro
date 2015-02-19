@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __R_SKY__
+#if !defined(__R_SKY__)
 #define __R_SKY__
 
 // SKY, store the number for name.

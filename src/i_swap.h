@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __I_SWAP__
+#if !defined(__I_SWAP__)
 #define __I_SWAP__
 
 #include "SDL_endian.h"

@@ -154,7 +154,6 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern boolean  rotatemode;
 extern int      runcount;
-extern char     *scalequality;
 extern int      screenheight;
 extern int      screenwidth;
 extern int      selectedepisode;
@@ -167,11 +166,15 @@ extern int      snd_maxslicetime_ms;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
-extern boolean  vsync;
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
 extern int      windowwidth;
+
+#if defined(SDL20)
+extern char     *scalequality;
+extern boolean  vsync;
+#endif
 
 control_t controls[] =
 {
@@ -336,7 +339,9 @@ consolecmd_t consolecmds[] =
     { "novert",             C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &novert,             ""                                     },
     { "quit",               C_NoCondition,            C_Quit,          0, CT_CMD,   CF_NONE,                  NULL,                "Quit DOOM RETRO."                     },
     { "rotatemode",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &rotatemode,         ""                                     },
+#if defined(SDL20)
     { "scalequality",       C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &scalequality,       ""                                     },
+#endif
     { "shadows",            C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &shadows,            ""                                     },
     { "showfps",            C_BooleanCondition,       C_ShowFPS,       1, CT_CVAR,  CF_BOOLEAN,               &showfps,            ""                                     },
     { "smoketrails",        C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &smoketrails,        ""                                     },
@@ -344,7 +349,9 @@ consolecmd_t consolecmds[] =
     { "timidity_cfg_path",  C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &timidity_cfg_path,  ""                                     },
     { "translucency",       C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &translucency,       ""                                     },
     { "videodriver",        C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &videodriver,        ""                                     },
+#if defined(SDL20)
     { "vsync",              C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &vsync,              ""                                     },
+#endif
     { "widescreen",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &widescreen,         ""                                     },
     { "windowposition",     C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &windowposition,     ""                                     },
     { "",                   C_NoCondition,            NULL,            0, 0,        CF_NONE,                  NULL,                ""                                     }

@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __R_LOCAL__
+#if !defined(__R_LOCAL__)
 #define __R_LOCAL__
 
 // Binary Angles, sine/cosine/atan lookups.

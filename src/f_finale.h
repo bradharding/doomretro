@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __F_FINALE__
+#if !defined(__F_FINALE__)
 #define __F_FINALE__
 
 #include "doomtype.h"

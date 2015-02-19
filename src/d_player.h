@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __D_PLAYER__
+#if !defined(__D_PLAYER__)
 #define __D_PLAYER__
 
 // The player data structure depends on a number

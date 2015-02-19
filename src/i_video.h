@@ -36,11 +36,15 @@
 ========================================================================
 */
 
-#ifndef __I_VIDEO__
+#if !defined(__I_VIDEO__)
 #define __I_VIDEO__
 
 #include "doomtype.h"
 #include "SDL.h"
+
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+#define SDL20
+#endif
 
 #define MAX_MOUSE_BUTTONS       8
 

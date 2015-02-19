@@ -39,11 +39,11 @@
 #include <errno.h>
 #include <stdarg.h>
 
-#ifdef WIN32
+#if defined(WIN32)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <io.h>
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #include <direct.h>
 #endif
 #else
@@ -61,7 +61,7 @@
 //
 void M_MakeDirectory(char *path)
 {
-#ifdef WIN32
+#if defined(WIN32)
     mkdir(path);
 #else
     mkdir(path, 0755);
@@ -179,8 +179,7 @@ char *M_TempFile(char *s)
 {
     char *tempdir;
 
-#ifdef WIN32
-
+#if defined(WIN32)
     // Check the TEMP environment variable to find the location.
     tempdir = getenv("TEMP");
 

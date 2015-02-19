@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __P_SETUP__
+#if !defined(__P_SETUP__)
 #define __P_SETUP__
 
 void P_SetupLevel(int episode, int map);

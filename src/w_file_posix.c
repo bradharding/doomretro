@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifdef HAVE_MMAP
+#if defined(HAVE_MMAP)
 
 #include <errno.h>
 #include <fcntl.h>

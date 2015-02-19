@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __R_STATE__
+#if !defined(__R_STATE__)
 #define __R_STATE__
 
 // Need data structure definitions.

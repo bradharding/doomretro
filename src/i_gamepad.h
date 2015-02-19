@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __I_GAMEPAD__
+#if !defined(__I_GAMEPAD__)
 #define __I_GAMEPAD__
 
 #include <math.h>
@@ -58,7 +58,7 @@
 #define GAMEPAD_X                       0x4000
 #define GAMEPAD_Y                       0x8000
 
-#ifdef WIN32
+#if defined(WIN32)
 #define GAMEPAD_LEFT_THUMB_DEADZONE     XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
 #define GAMEPAD_RIGHT_THUMB_DEADZONE    XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
 #else

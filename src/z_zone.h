@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __Z_ZONE__
+#if !defined(__Z_ZONE__)
 #define __Z_ZONE__
 
 // Include system definitions so that prototypes become

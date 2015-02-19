@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __P_INTER__
+#if !defined(__P_INTER__)
 #define __P_INTER__
 
 void P_GiveCard(player_t *player, card_t card);

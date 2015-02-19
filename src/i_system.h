@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __I_SYSTEM__
+#if !defined(__I_SYSTEM__)
 #define __I_SYSTEM__
 
 #include "d_event.h"

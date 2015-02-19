@@ -40,7 +40,7 @@
 
 #include <math.h>
 
-#ifdef WIN32
+#if defined(WIN32)
 #include <Windows.h>
 #include <Xinput.h>
 #endif
@@ -601,7 +601,11 @@ static void AM_maxOutWindowScale(void)
     AM_activateNewScale();
 }
 
+#if defined(SDL20)
 SDL_Keymod      modstate;
+#else
+SDLMod          modstate;
+#endif
 
 boolean         speedtoggle;
 

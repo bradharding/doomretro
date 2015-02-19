@@ -36,20 +36,12 @@
 ========================================================================
 */
 
-#ifndef __P_LOCAL__
+#if !defined(__P_LOCAL__)
 #define __P_LOCAL__
 
-#ifndef __R_LOCAL__
-#include "r_local.h"
-#endif
-
-#ifndef __M_CONFIG__
-#include "m_config.h"
-#endif
-
-#ifndef __D_MAIN__
 #include "d_main.h"
-#endif
+#include "m_config.h"
+#include "r_local.h"
 
 #define FOOTCLIPSIZE            (10 * FRACUNIT)
 
@@ -88,9 +80,13 @@
 #define MOUSE_LEFTBUTTON        1
 #define MOUSE_RIGHTBUTTON       2
 #define MOUSE_MIDDLEBUTTON      4
-
-#define MOUSE_WHEELUP           MAX_MOUSE_BUTTONS
-#define MOUSE_WHEELDOWN         (MAX_MOUSE_BUTTONS + 1)
+#if defined(SDL20)
+#define MOUSE_WHEELUP           8
+#define MOUSE_WHEELDOWN         9
+#else
+#define MOUSE_WHEELUP           8
+#define MOUSE_WHEELDOWN         16
+#endif
 
 #define NEEDEDCARDTICS          85
 

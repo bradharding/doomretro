@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifndef __TABLES__
+#if !defined(__TABLES__)
 #define __TABLES__
 
 #include "m_fixed.h"

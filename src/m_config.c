@@ -36,7 +36,7 @@
 ========================================================================
 */
 
-#ifdef WIN32
+#if defined(WIN32)
 #include <ShlObj.h>
 #include <Xinput.h>
 #endif
@@ -155,7 +155,9 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern boolean  rotatemode;
 extern int      runcount;
+#if defined(SDL20)
 extern char     *scalequality;
+#endif
 extern int      screenheight;
 extern int      screenwidth;
 extern int      selectedepisode;
@@ -168,7 +170,9 @@ extern int      snd_maxslicetime_ms;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
+#if defined(SDL20)
 extern boolean  vsync;
+#endif
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
@@ -303,7 +307,9 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (rotatemode,                 rotatemode,                    1),
     CONFIG_VARIABLE_INT          (runcount,                   runcount,                      0),
     CONFIG_VARIABLE_INT          (savegame,                   selectedsavegame,              0),
+#if defined(SDL20)
     CONFIG_VARIABLE_STRING       (scalequality,               scalequality,                  0),
+#endif
     CONFIG_VARIABLE_INT          (screensize,                 screensize,                    0),
     CONFIG_VARIABLE_INT          (screenwidth,                screenwidth,                   5),
     CONFIG_VARIABLE_INT          (screenheight,               screenheight,                  5),
@@ -315,7 +321,9 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_STRING       (timidity_cfg_path,          timidity_cfg_path,             0),
     CONFIG_VARIABLE_INT          (translucency,               translucency,                  1),
     CONFIG_VARIABLE_STRING       (videodriver,                videodriver,                   0),
+#if defined(SDL20)
     CONFIG_VARIABLE_INT          (vsync,                      vsync,                         1),
+#endif
     CONFIG_VARIABLE_INT          (widescreen,                 widescreen,                    1),
     CONFIG_VARIABLE_STRING       (windowposition,             windowposition,                0),
     CONFIG_VARIABLE_INT          (windowwidth,                windowwidth,                   0),
@@ -429,13 +437,19 @@ static alias_t alias[] =
     { "mouse2",                                 1,  4 },
     { "right",                                  2,  4 },
     { "mouse3",                                 2,  4 },
+#if !defined(SDL20)
+    { "wheelup",                                3,  4 },
+    { "wheeldown",                              4,  4 },
+#endif
     { "mouse4",                                 3,  4 },
     { "mouse5",                                 4,  4 },
     { "mouse6",                                 5,  4 },
     { "mouse7",                                 6,  4 },
     { "mouse8",                                 7,  4 },
+#if defined(SDL20)
     { "wheelup",                                8,  4 },
     { "wheeldown",                              9,  4 },
+#endif
     { "desktop",                                0,  5 },
     { "low",                                    0,  6 },
     { "high",                                   1,  6 },
@@ -1086,11 +1100,19 @@ static void M_CheckDefaults(void)
     if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS || mousebforward == mousebfire)
         mousebforward = MOUSEFORWARD_DEFAULT;
 
+#if defined(SDL20)
     if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS + 2
+#else
+    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS
+#endif
         || mousebprevweapon == mousebfire || mousebprevweapon == mousebforward)
         mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
 
+#if defined(SDL20)
     if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS + 2
+#else
+    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS
+#endif
         || mousebnextweapon == mousebfire || mousebnextweapon == mousebforward
         || mousebnextweapon == mousebprevweapon)
         mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
@@ -1155,8 +1177,10 @@ static void M_CheckDefaults(void)
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;
 
+#if defined(SDL20)
     if (vsync != false && vsync != true)
         vsync = VSYNC_DEFAULT;
+#endif
 
     if (widescreen != false && widescreen != true)
         widescreen = WIDESCREEN_DEFAULT;
