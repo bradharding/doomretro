@@ -69,6 +69,15 @@ typedef struct
 
 extern action_t         actions[];
 
+typedef struct
+{
+    char                *text;
+    int                 value;
+    int                 set;
+} alias_t;
+
+extern alias_t          aliases[];
+
 typedef enum
 {
     CT_CMD   = 1,
@@ -95,6 +104,7 @@ typedef struct
     cmdtype_t           type;
     cmdflags_t          flags;
     void                *value;
+    int                 set;
     char                *description;
 } consolecmd_t;
 
