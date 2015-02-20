@@ -413,7 +413,7 @@ void C_Drawer(void)
 
         for (i = 0; i < strlen(buffer); ++i)
             w += (buffer[i] == ' ' ? SPACEWIDTH :
-            SHORT(consolefont[buffer[i] - CONSOLEFONTSTART]->width));
+                SHORT(consolefont[buffer[i] - CONSOLEFONTSTART]->width));
 
         x -= w;
 

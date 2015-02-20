@@ -42,7 +42,6 @@
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
-#include "hu_stuff.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_video.h"
@@ -1093,8 +1092,7 @@ void C_ShowFPS(char *cmd, char *parm1, char *parm2)
 
         if (value == 0 || value == 1)
         {
-            showfps = false;
-            HU_clearMessages();
+            showfps = !!value;
 
             M_snprintf(buffer, sizeof(buffer), "showfps is now %s.", parm1);
         }
