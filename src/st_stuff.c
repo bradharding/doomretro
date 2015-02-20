@@ -1791,7 +1791,7 @@ void ST_createWidgets(void)
                            ST_ARMSX + (i % 3) * ST_ARMSXSPACE,
                            ST_ARMSY + i / 3 * ST_ARMSYSPACE,
                            arms[i],
-                           (i == 1 ? (int *)&plyr->shotguns : (int *)&plyr->weaponowned[i + 1]),
+                           (i == 1 ? &plyr->shotguns : &plyr->weaponowned[i + 1]),
                            &st_armson);
     }
 
