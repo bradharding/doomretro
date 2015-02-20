@@ -98,8 +98,12 @@ static void R_MapPlane(int y, int x1, int x2)
     // [crispy] visplanes with the same flats now match up far better than before
     // adapted from prboom-plus/src/r_plane.c:191-239, translated to fixed-point math
     fixed_t     distance = FixedMul(planeheight, yslope[y]);
-    int         dy = ABS(centery - y);
+    int         dy;
 
+    if (y == centery)
+        return;
+
+    dy = ABS(centery - y);
     ds_xstep = FixedMul(viewsin, planeheight) / dy;
     ds_ystep = FixedMul(viewcos, planeheight) / dy;
 
