@@ -51,6 +51,7 @@
 #include "m_misc.h"
 #include "p_inter.h"
 #include "p_local.h"
+#include "s_sound.h"
 #include "SDL.h"
 #include "v_video.h"
 #include "version.h"
@@ -260,6 +261,7 @@ boolean C_KillCondition(char *, char *, char *);
 boolean C_MapCondition(char *, char *, char *);
 boolean C_NoCondition(char *, char *, char *);
 boolean C_SummonCondition(char *, char *, char *);
+boolean C_VolumeCondition(char *, char *, char *);
 
 void C_AlwaysRun(char *, char *, char *);
 void C_Bind(char *, char *, char *);
@@ -285,6 +287,7 @@ void C_Quit(char *, char *, char *);
 void C_ShowFPS(char *, char *, char *);
 void C_String(char *, char *, char *);
 void C_Summon(char *, char *, char *);
+void C_Volume(char *, char *, char *);
 
 alias_t aliases[] =
 {
@@ -384,6 +387,7 @@ consolecmd_t consolecmds[] =
     { "mapfixes",              C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &mapfixes,                     1, ""                                     },
     { "messages",              C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &messages,                     1, ""                                     },
     { "mirrorweapons",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &mirrorweapons,                1, ""                                     },
+    { "musicvolume",           C_VolumeCondition,        C_Volume,        1, CT_CVAR,  CF_INTEGER_PERCENT,       &musicvolume_percent,          0, ""                                     },
     { "noclip",                C_GameCondition,          C_NoClip,        0, CT_CMD,   CF_NONE,                  NULL,                          0, "Toggle no clipping mode on/off."      },
     { "notarget",              C_GameCondition,          C_NoTarget,      0, CT_CMD,   CF_NONE,                  NULL,                          0, "Toggle no target mode on/off."        },
     { "novert",                C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &novert,                       1, ""                                     },
@@ -392,6 +396,7 @@ consolecmd_t consolecmds[] =
 #if defined(SDL20)
     { "scalequality",          C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &scalequality,                 0, ""                                     },
 #endif
+    { "sfxvolume",             C_VolumeCondition,        C_Volume,        1, CT_CVAR,  CF_INTEGER_PERCENT,       &sfxvolume_percent,            0, ""                                     },
     { "shadows",               C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &shadows,                      1, ""                                     },
     { "showfps",               C_BooleanCondition,       C_ShowFPS,       1, CT_CVAR,  CF_BOOLEAN,               &showfps,                      1, ""                                     },
     { "smoketrails",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &smoketrails,                  1, ""                                     },
@@ -784,6 +789,8 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
                 GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
         }
 
+        M_SaveDefaults();
+
         M_snprintf(buffer, sizeof(buffer), "%s is now %s%%.", cmd, striptrailingzero(value));
     }
     else
@@ -1112,6 +1119,64 @@ void C_Map(char *cmd, char *parm1, char *parm2)
     else
         G_DeferredInitNew((gamestate == GS_LEVEL ? gameskill : selectedskilllevel), gameepisode,
             gamemap);
+}
+
+//
+// MUSICVOLUME and SFXVOLUME cvars
+//
+boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
+{
+    int value;
+
+    if (!parm1[0])
+        return true;
+    if (parm1[strlen(parm1) - 1] == '%')
+        parm1[strlen(parm1) - 1] = 0;
+    return sscanf(parm1, "%i", &value);
+}
+
+void C_Volume(char *cmd, char *parm1, char *parm2)
+{
+    static char buffer[1024];
+
+    if (parm1[0])
+    {
+        int     value = 0;
+
+        if (parm1[strlen(parm1) - 1] == '%')
+            parm1[strlen(parm1) - 1] = 0;
+        sscanf(parm1, "%i", &value);
+
+        if (!strcasecmp(cmd, "musicvolume"))
+        {
+            musicvolume_percent = value;
+            musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX) * 15 + 50) / 100;
+            S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
+        }
+        else
+        {
+            sfxvolume_percent = value;
+            sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
+            S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
+        }
+
+        M_SaveDefaults();
+
+        M_snprintf(buffer, sizeof(buffer), "%s is now %i%%.", cmd, value);
+    }
+    else
+    {
+        int     value = 0;
+
+        if (!strcasecmp(cmd, "musicvolume"))
+            value = musicvolume_percent;
+        else
+            value = sfxvolume_percent;
+
+        M_snprintf(buffer, sizeof(buffer), "%s is %i%%.", cmd, value);
+    }
+
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //

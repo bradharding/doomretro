@@ -474,12 +474,6 @@ static alias_t alias[] =
     { "\"Ultra-Violence.\"",                    3, 10 },
     { "\"Nightmare!\"",                         4, 10 },
     { "off",                                    1, 12 },
-    { "-",                                      0, 15 },
-    { "none",                                   0, 15 },
-    { "damage",                                 1, 15 },
-    { "weapons",                                2, 15 },
-    { "damage|weapons",                         3, 15 },
-    { "weapons|damage",                         3, 15 },
     { "",                                       0,  0 }
 };
 
