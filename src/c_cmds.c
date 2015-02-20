@@ -954,7 +954,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
         }
         else
         {
-            int type = P_FindDoomedNum(P_FindDoomedNum(killcmdtype));
+            int type = P_FindDoomedNum(killcmdtype);
 
             for (j = 0; j < numsectors; ++j)
             {
