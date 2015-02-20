@@ -419,6 +419,8 @@ boolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
 {
     if (gamestate != GS_LEVEL)
         return false;
+    if (!strcasecmp(cmd, "iddt") && !automapactive)
+        return false;
     if (!strcasecmp(cmd, "idclip") && gamemode != commercial)
         return false;
     if (!strcasecmp(cmd, "idspispopd") && gamemode == commercial)
