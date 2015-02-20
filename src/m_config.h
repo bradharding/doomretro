@@ -357,5 +357,6 @@ extern default_collection_t doom_defaults;
 
 void M_LoadDefaults(void);
 void M_SaveDefaults(void);
+char *striptrailingzero(float value);
 
 #endif

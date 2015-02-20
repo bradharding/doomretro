@@ -81,7 +81,9 @@ extern int      gamepadautomapzoomin;
 extern int      gamepadautomapzoomout;
 extern int      gamepadfire;
 extern int      gamepadleftdeadzone;
+extern float    gamepadleftdeadzone_percent;
 extern int      gamepadrightdeadzone;
+extern float    gamepadrightdeadzone_percent;
 extern boolean  gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
@@ -253,6 +255,7 @@ boolean C_BindCondition(char *, char *, char *);
 boolean C_BloodSplatsCondition(char *, char *, char *);
 boolean C_BooleanCondition(char *, char *, char *);
 boolean C_CheatCondition(char *, char *, char *);
+boolean C_DeadZoneCondition(char *, char *, char *);
 boolean C_GameCondition(char *, char *, char *);
 boolean C_GammaCondition(char *, char *, char *);
 boolean C_GiveCondition(char *, char *, char *);
@@ -270,6 +273,7 @@ void C_Boolean(char *, char *, char *);
 void C_Clear(char *, char *, char *);
 void C_CmdList(char *, char *, char *);
 void C_CvarList(char *, char *, char *);
+void C_DeadZone(char *, char *, char *);
 void C_EndGame(char *, char *, char *);
 void C_Gamma(char *, char *, char *);
 void C_GamepadVibrate(char *, char *, char *);
@@ -333,77 +337,79 @@ char *C_LookupAliasFromValue(int value, int set)
 
 consolecmd_t consolecmds[] =
 {
-    { "alwaysrun",            C_BooleanCondition,       C_AlwaysRun,     1, CT_CVAR,  CF_BOOLEAN,               &alwaysrun,          1, ""                                     },
-    { "animatedliquid",       C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &animatedliquid,     1, ""                                     },
-    { "bind",                 C_BindCondition,          C_Bind,          2, CT_CMD,   CF_NONE,                  NULL,                0, "Bind an action to a control."         },
-    { "bloodsplats",          C_BloodSplatsCondition,   C_BloodSplats,   1, CT_CVAR,  CF_INTEGER,               &bloodsplats,        2, ""                                     },
-    { "brightmaps",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &brightmaps,         1, ""                                     },
-    { "centerweapon",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &centerweapon,       1, ""                                     },
-    { "clear",                C_NoCondition,            C_Clear,         0, CT_CMD,   CF_NONE,                  NULL,                0, "Clear the console."                   },
-    { "cmdlist",              C_NoCondition,            C_CmdList,       0, CT_CMD,   CF_NONE,                  NULL,                0, "Display a list of console commands."  },
-    { "corpses_mirror",       C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &corpses_mirror,     1, ""                                     },
-    { "corpses_moreblood",    C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &corpses_moreblood,  1, ""                                     },
-    { "corpses_slide",        C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &corpses_slide,      1, ""                                     },
-    { "corpses_smearblood",   C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &corpses_smearblood, 1, ""                                     },
-    { "cvarlist",             C_NoCondition,            C_CvarList,      0, CT_CMD,   CF_NONE,                  NULL,                0, "Display a list of console variables." },
-    { "dclick_use",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &dclick_use,         1, ""                                     },
-    { "endgame",              C_GameCondition,          C_EndGame,       0, CT_CMD,   CF_NONE,                  NULL,                0, "End a game."                          },
-    { "floatbob",             C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &floatbob,           1, ""                                     },
-    { "followmode",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN | CF_NOTSAVED, &followmode,         1, ""                                     },
-    { "footclip",             C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &footclip,           1, ""                                     },
-    { "fullscreen",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &fullscreen,         1, ""                                     },
-    { "gamepad_lefthanded",   C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &gamepadlefthanded,  1, ""                                     },
-    { "gamepad_vibrate",      C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &gamepadvibrate,     1, ""                                     },
-    { "gammacorrectionlevel", C_GammaCondition,         C_Gamma,         1, CT_CVAR,  CF_BOOLEAN,               &graphicdetail,      4, ""                                     },
-    { "god",                  C_GodCondition,           C_God,           0, CT_CMD,   CF_NONE,                  NULL,                0, "Toggle god mode on/off."              },
-    { "graphicdetail",        C_GraphicDetailCondition, C_GraphicDetail, 1, CT_CVAR,  CF_BOOLEAN,               &graphicdetail,      3, ""                                     },
-    { "grid",                 C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &grid,               1, ""                                     },
-    { "help",                 C_NoCondition,            C_Help,          0, CT_CMD,   CF_NONE,                  NULL,                0, "Display the help screen."             },
-    { "homindicator",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &homindicator,       1, ""                                     },
-    { "hud",                  C_BooleanCondition,       C_Hud,           1, CT_CVAR,  CF_BOOLEAN,               &hud,                1, ""                                     },
-    { "idbeholda",            C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idbeholdl",            C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idbeholdi",            C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idbeholdr",            C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idbeholds",            C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idbeholdv",            C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idchoppers",           C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idclev",               C_CheatCondition,         NULL,            1, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idclip",               C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "iddqd",                C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "iddt",                 C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idfa",                 C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idkfa",                C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idmus",                C_CheatCondition,         NULL,            1, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idmypos",              C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "idspispopd",           C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                0, ""                                     },
-    { "iwadfolder",           C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &iwadfolder,         0, ""                                     },
-    { "kill",                 C_KillCondition,          C_Kill,          1, CT_CMD,   CF_NONE,                  NULL,                0, "Kill the player or monsters."         },
-    { "map",                  C_MapCondition,           C_Map,           1, CT_CMD,   CF_NONE,                  NULL,                0, "Warp to a map."                       },
-    { "mapfixes",             C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &mapfixes,           1, ""                                     },
-    { "messages",             C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &messages,           1, ""                                     },
-    { "mirrorweapons",        C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &mirrorweapons,      1, ""                                     },
-    { "noclip",               C_GameCondition,          C_NoClip,        0, CT_CMD,   CF_NONE,                  NULL,                0, "Toggle no clipping mode on/off."      },
-    { "notarget",             C_GameCondition,          C_NoTarget,      0, CT_CMD,   CF_NONE,                  NULL,                0, "Toggle no target mode on/off."        },
-    { "novert",               C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &novert,             1, ""                                     },
-    { "quit",                 C_NoCondition,            C_Quit,          0, CT_CMD,   CF_NONE,                  NULL,                0, "Quit DOOM RETRO."                     },
-    { "rotatemode",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &rotatemode,         1, ""                                     },
+    { "alwaysrun",             C_BooleanCondition,       C_AlwaysRun,     1, CT_CVAR,  CF_BOOLEAN,               &alwaysrun,                    1, ""                                     },
+    { "animatedliquid",        C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &animatedliquid,               1, ""                                     },
+    { "bind",                  C_BindCondition,          C_Bind,          2, CT_CMD,   CF_NONE,                  NULL,                          0, "Bind an action to a control."         },
+    { "bloodsplats",           C_BloodSplatsCondition,   C_BloodSplats,   1, CT_CVAR,  CF_INTEGER,               &bloodsplats,                  2, ""                                     },
+    { "brightmaps",            C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &brightmaps,                   1, ""                                     },
+    { "centerweapon",          C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &centerweapon,                 1, ""                                     },
+    { "clear",                 C_NoCondition,            C_Clear,         0, CT_CMD,   CF_NONE,                  NULL,                          0, "Clear the console."                   },
+    { "cmdlist",               C_NoCondition,            C_CmdList,       0, CT_CMD,   CF_NONE,                  NULL,                          0, "Display a list of console commands."  },
+    { "corpses_mirror",        C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &corpses_mirror,               1, ""                                     },
+    { "corpses_moreblood",     C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &corpses_moreblood,            1, ""                                     },
+    { "corpses_slide",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &corpses_slide,                1, ""                                     },
+    { "corpses_smearblood",    C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &corpses_smearblood,           1, ""                                     },
+    { "cvarlist",              C_NoCondition,            C_CvarList,      0, CT_CMD,   CF_NONE,                  NULL,                          0, "Display a list of console variables." },
+    { "dclick_use",            C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &dclick_use,                   1, ""                                     },
+    { "endgame",               C_GameCondition,          C_EndGame,       0, CT_CMD,   CF_NONE,                  NULL,                          0, "End a game."                          },
+    { "floatbob",              C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &floatbob,                     1, ""                                     },
+    { "followmode",            C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN | CF_NOTSAVED, &followmode,                   1, ""                                     },
+    { "footclip",              C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &footclip,                     1, ""                                     },
+    { "fullscreen",            C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &fullscreen,                   1, ""                                     },
+    { "gamepad_leftdeadzone",  C_DeadZoneCondition,      C_DeadZone,      1, CT_CVAR,  CF_FLOAT_PERCENT,         &gamepadleftdeadzone_percent,  0, ""                                     },
+    { "gamepad_lefthanded",    C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &gamepadlefthanded,            1, ""                                     },
+    { "gamepad_rightdeadzone", C_DeadZoneCondition,      C_DeadZone,      1, CT_CVAR,  CF_FLOAT_PERCENT,         &gamepadrightdeadzone_percent, 0, ""                                     },
+    { "gamepad_vibrate",       C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &gamepadvibrate,               1, ""                                     },
+    { "gammacorrectionlevel",  C_GammaCondition,         C_Gamma,         1, CT_CVAR,  CF_INTEGER,               &gammaindex,                   4, ""                                     },
+    { "god",                   C_GodCondition,           C_God,           0, CT_CMD,   CF_NONE,                  NULL,                          0, "Toggle god mode on/off."              },
+    { "graphicdetail",         C_GraphicDetailCondition, C_GraphicDetail, 1, CT_CVAR,  CF_BOOLEAN,               &graphicdetail,                3, ""                                     },
+    { "grid",                  C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &grid,                         1, ""                                     },
+    { "help",                  C_NoCondition,            C_Help,          0, CT_CMD,   CF_NONE,                  NULL,                          0, "Display the help screen."             },
+    { "homindicator",          C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &homindicator,                 1, ""                                     },
+    { "hud",                   C_BooleanCondition,       C_Hud,           1, CT_CVAR,  CF_BOOLEAN,               &hud,                          1, ""                                     },
+    { "idbeholda",             C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idbeholdl",             C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idbeholdi",             C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idbeholdr",             C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idbeholds",             C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idbeholdv",             C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idchoppers",            C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idclev",                C_CheatCondition,         NULL,            1, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idclip",                C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "iddqd",                 C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "iddt",                  C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idfa",                  C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idkfa",                 C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idmus",                 C_CheatCondition,         NULL,            1, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idmypos",               C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "idspispopd",            C_CheatCondition,         NULL,            0, CT_CHEAT, CF_NONE,                  NULL,                          0, ""                                     },
+    { "iwadfolder",            C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &iwadfolder,                   0, ""                                     },
+    { "kill",                  C_KillCondition,          C_Kill,          1, CT_CMD,   CF_NONE,                  NULL,                          0, "Kill the player or monsters."         },
+    { "map",                   C_MapCondition,           C_Map,           1, CT_CMD,   CF_NONE,                  NULL,                          0, "Warp to a map."                       },
+    { "mapfixes",              C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &mapfixes,                     1, ""                                     },
+    { "messages",              C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &messages,                     1, ""                                     },
+    { "mirrorweapons",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &mirrorweapons,                1, ""                                     },
+    { "noclip",                C_GameCondition,          C_NoClip,        0, CT_CMD,   CF_NONE,                  NULL,                          0, "Toggle no clipping mode on/off."      },
+    { "notarget",              C_GameCondition,          C_NoTarget,      0, CT_CMD,   CF_NONE,                  NULL,                          0, "Toggle no target mode on/off."        },
+    { "novert",                C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &novert,                       1, ""                                     },
+    { "quit",                  C_NoCondition,            C_Quit,          0, CT_CMD,   CF_NONE,                  NULL,                          0, "Quit DOOM RETRO."                     },
+    { "rotatemode",            C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &rotatemode,                   1, ""                                     },
 #if defined(SDL20)
-    { "scalequality",         C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &scalequality,       0, ""                                     },
+    { "scalequality",          C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &scalequality,                 0, ""                                     },
 #endif
-    { "shadows",              C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &shadows,            1, ""                                     },
-    { "showfps",              C_BooleanCondition,       C_ShowFPS,       1, CT_CVAR,  CF_BOOLEAN,               &showfps,            1, ""                                     },
-    { "smoketrails",          C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &smoketrails,        1, ""                                     },
-    { "summon",               C_SummonCondition,        C_Summon,        1, CT_CMD,   CF_NONE,                  NULL,                0, "Summon a monster or map decoration."  },
-    { "timidity_cfg_path",    C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &timidity_cfg_path,  0, ""                                     },
-    { "translucency",         C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &translucency,       1, ""                                     },
-    { "videodriver",          C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &videodriver,        0, ""                                     },
+    { "shadows",               C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &shadows,                      1, ""                                     },
+    { "showfps",               C_BooleanCondition,       C_ShowFPS,       1, CT_CVAR,  CF_BOOLEAN,               &showfps,                      1, ""                                     },
+    { "smoketrails",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &smoketrails,                  1, ""                                     },
+    { "summon",                C_SummonCondition,        C_Summon,        1, CT_CMD,   CF_NONE,                  NULL,                          0, "Summon a monster or map decoration."  },
+    { "timidity_cfg_path",     C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &timidity_cfg_path,            0, ""                                     },
+    { "translucency",          C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &translucency,                 1, ""                                     },
+    { "videodriver",           C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &videodriver,                  0, ""                                     },
 #if defined(SDL20)
-    { "vsync",                C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &vsync,              1, ""                                     },
+    { "vsync",                 C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &vsync,                        1, ""                                     },
 #endif
-    { "widescreen",           C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &widescreen,         1, ""                                     },
-    { "windowposition",       C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &windowposition,     0, ""                                     },
-    { "",                     C_NoCondition,            NULL,            0, 0,        CF_NONE,                  NULL,                0, ""                                     }
+    { "widescreen",            C_BooleanCondition,       C_Boolean,       1, CT_CVAR,  CF_BOOLEAN,               &widescreen,                   1, ""                                     },
+    { "windowposition",        C_NoCondition,            C_String,        1, CT_CVAR,  CF_STRING,                &windowposition,               0, ""                                     },
+    { "",                      C_NoCondition,            NULL,            0, 0,        CF_NONE,                  NULL,                          0, ""                                     }
 };
 
 //
@@ -628,9 +634,9 @@ void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
 boolean C_BloodSplatsCondition(char *cmd, char *parm1, char *parm2)
 {
-    int integer = 0;
+    int value = 0;
 
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 2) >= 0 || sscanf(parm1, "%i", &integer));
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, 2) >= 0 || sscanf(parm1, "%i", &value));
 }
 
 void C_BloodSplats(char *cmd, char *parm1, char *parm2)
@@ -733,10 +739,69 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
             else if (consolecmds[i].flags & CF_STRING)
                 M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t\"%s\"", count++, consolecmds[i].cmd,
                     *(char **)consolecmds[i].value);
+            else if (consolecmds[i].flags & CF_FLOAT_PERCENT)
+                M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%s%%", count++, consolecmds[i].cmd,
+                    striptrailingzero(*(float *)consolecmds[i].value));
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
     }
+}
+
+//
+// GAMEPAD_LEFTDEADZONE and GAMEPAD_RIGHTDEADZONE cvars
+//
+boolean C_DeadZoneCondition(char *cmd, char *parm1, char *parm2)
+{
+    float value;
+
+    if (!parm1[0])
+        return true;
+    if (parm1[strlen(parm1) - 1] == '%')
+        parm1[strlen(parm1) - 1] = 0;
+    return sscanf(parm1, "%f", &value);
+}
+
+void C_DeadZone(char *cmd, char *parm1, char *parm2)
+{
+    static char buffer[1024];
+
+    if (parm1[0])
+    {
+        float   value = 0;
+
+        if (parm1[strlen(parm1) - 1] == '%')
+            parm1[strlen(parm1) - 1] = 0;
+        sscanf(parm1, "%f", &value);
+
+        if (!strcasecmp(cmd, "gamepad_leftdeadzone"))
+        {
+            gamepadleftdeadzone_percent = value;
+            gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone_percent,
+                GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
+        }
+        else
+        {
+            gamepadrightdeadzone_percent = value;
+            gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN, gamepadrightdeadzone_percent,
+                GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
+        }
+
+        M_snprintf(buffer, sizeof(buffer), "%s is now %s%%.", cmd, striptrailingzero(value));
+    }
+    else
+    {
+        float   value = 0;
+
+        if (!strcasecmp(cmd, "gamepad_leftdeadzone"))
+            value = gamepadleftdeadzone_percent;
+        else
+            value = gamepadrightdeadzone_percent;
+
+        M_snprintf(buffer, sizeof(buffer), "%s is %s%%.", cmd, striptrailingzero(value));
+    }
+
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //

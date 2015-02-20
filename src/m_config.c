@@ -483,7 +483,7 @@ static alias_t alias[] =
     { "",                                       0,  0 }
 };
 
-static char *striptrailingzero(float value)
+char *striptrailingzero(float value)
 {
     size_t      len;
     static char result[100];

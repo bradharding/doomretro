@@ -91,8 +91,10 @@ typedef enum
     CF_BOOLEAN       =  1,
     CF_INTEGER       =  2,
     CF_STRING        =  4,
-    CF_READONLY      =  8,
-    CF_NOTSAVED      = 16
+    CF_FLOAT         =  8,
+    CF_FLOAT_PERCENT = 16,
+    CF_READONLY      = 32,
+    CF_NOTSAVED      = 64
 } cmdflags_t;
 
 typedef struct
