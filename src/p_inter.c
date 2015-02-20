@@ -583,7 +583,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         // ammo
         case SPR_CLIP:
-            if (!(ammo = P_GiveAmmo(player, am_clip, !(special->flags & MF_DROPPED))))
+            if (!(ammo = P_GiveAmmo(player, am_clip, (special->flags & MF_DROPPED) == 0)))
                 return;
             if (!message_dontfuckwithme)
                 if (ammo == clipammo[am_clip] || (deh_strlookup[p_GOTCLIP].assigned && dehacked))
@@ -680,7 +680,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_MGUN:
-            if (!P_GiveWeapon(player, wp_chaingun, (special->flags & MF_DROPPED)))
+            if (!P_GiveWeapon(player, wp_chaingun, (special->flags & MF_DROPPED) != 0))
                 return;
             if (!message_dontfuckwithme)
                 player->message = s_GOTCHAINGUN;
@@ -714,7 +714,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         case SPR_SHOT:
             weaponowned = player->weaponowned[wp_shotgun];
-            if (!P_GiveWeapon(player, wp_shotgun, (special->flags & MF_DROPPED)))
+            if (!P_GiveWeapon(player, wp_shotgun, (special->flags & MF_DROPPED) != 0))
                 return;
             if (!weaponowned)
                 player->preferredshotgun = wp_shotgun;
@@ -727,7 +727,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         case SPR_SGN2:
             weaponowned = player->weaponowned[wp_supershotgun];
-            if (!P_GiveWeapon(player, wp_supershotgun, false))
+            if (!P_GiveWeapon(player, wp_supershotgun, (special->flags & MF_DROPPED) != 0))
                 return;
             if (!weaponowned)
                 player->preferredshotgun = wp_supershotgun;

@@ -483,7 +483,7 @@ boolean PIT_CheckThing(mobj_t *thing)
     // check for special pickup
     if (flags & MF_SPECIAL)
     {
-        boolean solid = (flags & MF_SOLID);
+        boolean solid = ((flags & MF_SOLID) != 0);
 
         if (tmflags & MF_PICKUP)
             P_TouchSpecialThing(thing, tmthing);                // can remove thing
