@@ -128,18 +128,18 @@ int                     desktopheight;
 char                    *videodriver = VIDEODRIVER_DEFAULT;
 char                    envstring[255];
 
+#if !defined(SDL20)
 static int              width;
 static int              height;
 static int              stepx;
 static int              stepy;
 static int              startx;
 static int              starty;
-static int              pitch;
 
-#if !defined(SDL20)
 static int              blitheight = SCREENHEIGHT << FRACBITS;
 #endif
 
+static int              pitch;
 byte                    *pixels;
 
 byte                    *rows[SCREENHEIGHT];

@@ -193,10 +193,11 @@ static void C_DrawBackground(int height)
 
                 if (top >= CONSOLETOP * SCREENWIDTH)
                 {
-                    int     dot = *(background + (((y / 2) & 63) << 6) + i) << 8;
+                    int     dot = *(background + (((y / 2) & 63) << 6) + i);
 
                     if (translucency)
                     {
+                        dot <<= 8;
                         *(dest + j) = tinttab75[dot + *(dest + j)];
                         ++j;
                         *(dest + j) = tinttab75[dot + *(dest + j)];
