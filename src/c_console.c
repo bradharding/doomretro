@@ -103,6 +103,7 @@ static int      inputhistory = -1;
 
 static int      outputhistory = -1;
 
+extern boolean  translucency;
 extern byte     *tinttab75;
 extern int      fps;
 
@@ -194,9 +195,18 @@ static void C_DrawBackground(int height)
                 {
                     int     dot = *(background + (((y / 2) & 63) << 6) + i) << 8;
 
-                    *(dest + j) = tinttab75[dot + *(dest + j)];
-                    ++j;
-                    *(dest + j) = tinttab75[dot + *(dest + j)];
+                    if (translucency)
+                    {
+                        *(dest + j) = tinttab75[dot + *(dest + j)];
+                        ++j;
+                        *(dest + j) = tinttab75[dot + *(dest + j)];
+                    }
+                    else
+                    {
+                        *(dest + j) = dot;
+                        ++j;
+                        *(dest + j) = dot;
+                    }
                 }
             }
             dest += 128;
