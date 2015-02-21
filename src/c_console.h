@@ -46,14 +46,15 @@
 
 #define CONSOLETOP                      0
 
-#define CONSOLECARETCOLOR               160
+#define CONSOLECARETCOLOR               (BTSX ? 80 : 160)
 #define CONSOLELOWFPSCOLOR              180
 #define CONSOLEHIGHFPSCOLOR             116
-#define CONSOLEINPUTCOLOR               160
-#define CONSOLEINPUTTOOUTPUTCOLOR       160
-#define CONSOLEMAPTITLECOLOR            160
-#define CONSOLEOUTPUTCOLOR              160
-#define CONSOLETITLECOLOR               160
+#define CONSOLEINPUTCOLOR               (BTSX ? 80 : 160)
+#define CONSOLEINPUTTOOUTPUTCOLOR       (BTSX ? 80 : 160)
+#define CONSOLEMAPTITLECOLOR            (BTSX ? 80 : 160)
+#define CONSOLEPLAYERMESSAGECOLOR       (BTSXE1 ? 196 : (BTSXE2 ? 215 : 180))
+#define CONSOLEOUTPUTCOLOR              (BTSX ? 80 : 160)
+#define CONSOLETITLECOLOR               (BTSX ? 80 : 160)
 
 typedef enum
 {
