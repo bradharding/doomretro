@@ -2317,13 +2317,40 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
 
         if (value >= SCREENSIZE_MIN && value <= SCREENSIZE_MAX)
         {
+            if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            {
+                if (value == SCREENSIZE_MAX)
+                    --value;
+                else if (value <= SCREENSIZE_MAX - 1)
+                {
+                    hud = true;
+                    ToggleWidescreen(false);
+                }
+            }
+            else
+            {
+                if (value >= SCREENSIZE_MAX - 1)
+                {
+                    if (gamestate != GS_LEVEL)
+                    {
+                        returntowidescreen = true;
+                        hud = true;
+                    }
+                    else
+                    {
+                        ToggleWidescreen(true);
+                        if (widescreen)
+                            value = SCREENSIZE_MAX - 1;
+                    }
+                }
+            }
             screensize = value;
 
             M_SaveDefaults();
 
             R_SetViewSize(screensize);
 
-            M_snprintf(buffer, sizeof(buffer), "screensize is now %s.", parm1);
+            M_snprintf(buffer, sizeof(buffer), "screensize is now %i.", screensize);
         }
     }
     else
