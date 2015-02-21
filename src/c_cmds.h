@@ -108,6 +108,10 @@ typedef struct
     cmdflags_t          flags;
     void                *variable;
     int                 aliases;
+    int                 minimumvalue;
+    int                 maximumvalue;
+    int                 defaultvalue;
+    char                *format;
     char                *description;
 } consolecmd_t;
 

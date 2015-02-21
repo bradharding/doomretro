@@ -36,12 +36,20 @@
 ========================================================================
 */
 
+#if defined(WIN32)
+#define WIN32_LEAN_AND_MEAN
+
+#include <Windows.h>
+#include <XInput.h>
+#endif
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
 #include "i_video.h"
@@ -284,6 +292,7 @@ void C_Map(char *, char *, char *);
 void C_NoClip(char *, char *, char *);
 void C_NoTarget(char *, char *, char *);
 void C_Quit(char *, char *, char *);
+void C_ScreenSize(char *, char *, char *);
 void C_ShowFPS(char *, char *, char *);
 void C_String(char *, char *, char *);
 void C_Summon(char *, char *, char *);
@@ -344,7 +353,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &alwaysrun,
         /* aliases     */ 1,
-        /* description */ ""     
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ ALWAYSRUN_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
     },
 
     {
@@ -356,7 +369,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &animatedliquid,
         /* aliases     */ 1,
-        /* description */ ""     
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ ANIMATEDLIQUID_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
     },
 
     {
@@ -368,7 +385,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "bind [~control~ [~+action~]]\t\tBind an action to a control."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "bind [~control~ [+~action~]]",
+        /* description */ "Bind an action to a control."
     },
 
     {
@@ -380,6 +401,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_INTEGER,
         /* variable    */ &bloodsplats,
         /* aliases     */ 2,
+        /* minimum     */ BLOODSPLATS_MIN,
+        /* maximum     */ BLOODSPLATS_MAX,
+        /* default     */ BLOODSPLATS_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -392,6 +417,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &brightmaps,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ BRIGHTMAPS_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -404,6 +433,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &centerweapon,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ CENTERWEAPON_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -416,7 +449,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "clear\t\tClear the console."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "clear",
+        /* description */ "Clear the console."
     },
 
     {
@@ -428,7 +465,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "cmdlist\t\tDisplay a list of console commands."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "cmdlist",
+        /* description */ "Display a list of console commands."
     },
 
     {
@@ -440,6 +481,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &corpses_mirror,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ CORPSES_MIRROR_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -452,6 +497,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &corpses_moreblood,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ CORPSES_MOREBLOOD_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -464,6 +513,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &corpses_slide,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ CORPSES_SLIDE_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -476,6 +529,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &corpses_smearblood,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ CORPSES_SMEARBLOOD_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -488,7 +545,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "cvarlist\t\tDisplay a list of console variables."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "cvarlist",
+        /* description */ "Display a list of console variables."
     },
 
     {
@@ -500,6 +561,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &dclick_use,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ DCLICKUSE_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -512,7 +577,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "endgame\t\tEnd a game."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "endgame",
+        /* description */ "End a game."
     },
 
     {
@@ -524,6 +593,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &floatbob,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ FLOATBOB_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -536,6 +609,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN | CF_NOTSAVED,
         /* variable    */ &followmode,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -548,6 +625,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &footclip,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ FOOTCLIP_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -560,6 +641,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &fullscreen,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ FULLSCREEN_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -572,6 +657,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_FLOAT_PERCENT,
         /* variable    */ &gamepadleftdeadzone_percent,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -584,6 +673,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &gamepadlefthanded,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ GAMEPADLEFTHANDED_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -596,6 +689,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_FLOAT_PERCENT,
         /* variable    */ &gamepadrightdeadzone_percent,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -608,6 +705,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &gamepadvibrate,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ GAMEPADVIBRATE_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -620,6 +721,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_INTEGER,
         /* variable    */ &gammaindex,
         /* aliases     */ 4,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -632,7 +737,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "god\t\tToggle god mode on/off."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "god",
+        /* description */ "Toggle god mode on/off."
     },
 
     {
@@ -644,6 +753,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &graphicdetail,
         /* aliases     */ 3,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ GRAPHICDETAIL_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -656,6 +769,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &grid,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ GRID_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -668,7 +785,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "help\t\tDisplay the help screen."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "help",
+        /* description */ "Display the help screen."
     },
 
     {
@@ -680,6 +801,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &homindicator,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ HOMINDICATOR_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -692,6 +817,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &hud,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ HUD_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -704,6 +833,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -716,6 +849,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -728,6 +865,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -740,6 +881,9 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
         /* description */ ""
     },
 
@@ -752,6 +896,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -764,6 +912,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -776,6 +928,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -788,6 +944,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -800,6 +960,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -812,6 +976,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -824,6 +992,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -836,6 +1008,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -848,6 +1024,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -860,6 +1040,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -872,6 +1056,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -884,6 +1072,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -896,6 +1088,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_STRING,
         /* variable    */ &iwadfolder,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -908,7 +1104,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "kill all|monsters|~type~\t\tKill the player, all monsters or a type of monster."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "kill all|monsters|~type~",
+        /* description */ "Kill the player, all monsters or a type of monster."
     },
 
     {
@@ -920,7 +1120,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "map E~x~M~y~|MAP~xy~\t\tWarp to a map."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "map E~x~M~y~|MAP~xy~",
+        /* description */ "Warp to a map."
     },
 
     {
@@ -932,6 +1136,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &mapfixes,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ MAPFIXES_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -944,6 +1152,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &messages,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ MESSAGES_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -956,6 +1168,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &mirrorweapons,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ MIRRORWEAPONS_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -968,6 +1184,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_INTEGER_PERCENT,
         /* variable    */ &musicvolume_percent,
         /* aliases     */ 0,
+        /* minimum     */ MUSICVOLUME_MIN,
+        /* maximum     */ MUSICVOLUME_MAX,
+        /* default     */ MUSICVOLUME_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -980,7 +1200,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "noclip\t\tToggle no clipping mode on/off."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "noclip",
+        /* description */ "Toggle no clipping mode on/off."
     },
 
     {
@@ -992,7 +1216,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "notarget\t\tToggle no target mode on/off."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "notarget",
+        /* description */ "Toggle no target mode on/off."
     },
 
     {
@@ -1004,6 +1232,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &novert,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ NOVERT_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1016,7 +1248,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "quit\t\tQuit DOOM RETRO."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "quit",
+        /* description */ "Quit DOOM RETRO."
     },
 
     {
@@ -1028,6 +1264,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &rotatemode,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ ROTATEMODE_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1041,6 +1281,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_STRING,
         /* variable    */ &scalequality,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 #endif
@@ -1054,6 +1298,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_INTEGER_PERCENT,
         /* variable    */ &sfxvolume_percent,
         /* aliases     */ 0,
+        /* minimum     */ SFXVOLUME_MIN,
+        /* maximum     */ SFXVOLUME_MAX,
+        /* default     */ SFXVOLUME_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1066,6 +1314,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &shadows,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ SHADOWS_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1075,9 +1327,13 @@ consolecmd_t consolecmds[] =
         /* function    */ C_ShowFPS,
         /* parameters  */ 1,
         /* type        */ CT_CVAR,
-        /* flags       */ CF_BOOLEAN,
+        /* flags       */ CF_BOOLEAN | CF_NOTSAVED,
         /* variable    */ &showfps,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ false,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1090,6 +1346,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &smoketrails,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ SMOKETRAILS_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1102,7 +1362,11 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "summon ~type~\t\tSummon a monster or object."
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "summon ~type~",
+        /* description */ "Summon a monster or object."
     },
 
     {
@@ -1114,6 +1378,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_STRING,
         /* variable    */ &timidity_cfg_path,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1126,6 +1394,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &translucency,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ TRANSLUCENCY_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1138,10 +1410,14 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_STRING,
         /* variable    */ &videodriver,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
-    #if defined(SDL20)
+#if defined(SDL20)
     {
         /* name        */ "vsync",
         /* condition   */ C_BooleanCondition,
@@ -1151,6 +1427,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &vsync,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ VSYNC_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 #endif
@@ -1164,6 +1444,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_BOOLEAN,
         /* variable    */ &widescreen,
         /* aliases     */ 1,
+        /* minimum     */ false,
+        /* maximum     */ true,
+        /* default     */ TRANSLUCENCY_DEFAULT,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1176,6 +1460,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_STRING,
         /* variable    */ &windowposition,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     },
 
@@ -1188,6 +1476,10 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
         /* description */ ""
     }
 };
@@ -1481,7 +1773,8 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, 1024, "%i\t%s", count++, consolecmds[i].description);
+            M_snprintf(buffer, 1024, "%i\t%s\t\t%s", count++, consolecmds[i].format,
+                consolecmds[i].description);
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
@@ -1988,6 +2281,14 @@ void C_NoTarget(char *cmd, char *parm1, char *parm2)
 void C_Quit(char *cmd, char *parm1, char *parm2)
 {
     I_Quit(true);
+}
+
+//
+// SCREENSIZE cvar
+//
+void C_ScreenSize(char *cmd, char *parm1, char *parm2)
+{
+
 }
 
 //
