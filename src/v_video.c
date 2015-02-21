@@ -333,7 +333,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics
                 if (y + column->topdelta + column->length - count > CONSOLETOP)
                 {
                     if (italics)
-                        *(dest + MAX(3 , w / 2) - (column->topdelta + column->length - count) / 3 - 1)
+                        *(dest + MAX(3, w / 2) - (column->topdelta + column->length - count) / 3 - 1)
                             = (*source == 160 ? color : *source);
                     else
                         *dest = (*source == 160 ? color : *source);

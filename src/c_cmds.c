@@ -1789,7 +1789,7 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, 1024, "%i\t%s\t\t%s", count++, consolecmds[i].format,
+            M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%s", count++, consolecmds[i].format,
                 consolecmds[i].description);
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
@@ -2143,7 +2143,10 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                 }
             }
         }
-        M_snprintf(buffer, sizeof(buffer), "%i monster%s killed.", kills, kills == 1 ? "" : "s");
+        if (!kills)
+            M_StringCopy(buffer, "No monsters killed.", sizeof(buffer));
+        else
+           M_snprintf(buffer, sizeof(buffer), "%i monster%s killed.", kills, kills == 1 ? "" : "s");
         C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
     }
 }
