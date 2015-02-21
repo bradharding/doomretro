@@ -738,6 +738,11 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
                     M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%i", count++, consolecmds[i].cmd,
                         *(int *)consolecmds[i].value);
             }
+            else if (consolecmds[i].flags & CF_INTEGER_PERCENT)
+            {
+                M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%i%%", count++, consolecmds[i].cmd,
+                    *(int *)consolecmds[i].value);
+            }
             else if (consolecmds[i].flags & CF_STRING)
                 M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t\"%s\"", count++, consolecmds[i].cmd,
                     *(char **)consolecmds[i].value);
