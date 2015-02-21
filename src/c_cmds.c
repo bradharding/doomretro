@@ -1141,7 +1141,7 @@ consolecmd_t consolecmds[] =
         /* minimum     */ 0,
         /* maximum     */ 0,
         /* default     */ 0,
-        /* format      */ "kill all|monsters|~type~",
+        /* format      */ "[kill all|monsters|~type~]",
         /* description */ "Kill the player, all monsters or a type of monster."
     },
 
