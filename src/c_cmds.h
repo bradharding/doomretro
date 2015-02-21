@@ -100,14 +100,14 @@ typedef enum
 
 typedef struct
 {
-    char                *cmd;
+    char                *name;
     boolean             (*condition)(char *cmd, char *parm1, char *parm2);
-    void                (*func)(char *cmd, char *parm1, char *parm2);
-    int                 parms;
+    void                (*function)(char *cmd, char *parm1, char *parm2);
+    int                 parameters;
     cmdtype_t           type;
     cmdflags_t          flags;
-    void                *value;
-    int                 set;
+    void                *variable;
+    int                 aliases;
     char                *description;
 } consolecmd_t;
 
