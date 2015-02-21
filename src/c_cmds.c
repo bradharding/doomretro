@@ -1290,6 +1290,22 @@ consolecmd_t consolecmds[] =
 #endif
 
     {
+        /* name        */ "screensize",
+        /* condition   */ C_NoCondition,
+        /* function    */ C_ScreenSize,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &screensize,
+        /* aliases     */ 1,
+        /* minimum     */ SCREENSIZE_MIN,
+        /* maximum     */ SCREENSIZE_MAX,
+        /* default     */ SCREENSIZE_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
         /* name        */ "sfxvolume",
         /* condition   */ C_VolumeCondition,
         /* function    */ C_Volume,
@@ -2288,7 +2304,29 @@ void C_Quit(char *cmd, char *parm1, char *parm2)
 //
 void C_ScreenSize(char *cmd, char *parm1, char *parm2)
 {
+    static char buffer[1024];
 
+    if (parm1[0])
+    {
+        int     value = -1;
+
+        sscanf(parm1, "%i", &value);
+
+        if (value >= SCREENSIZE_MIN && value <= SCREENSIZE_MAX)
+        {
+            screensize = value;
+
+            M_SaveDefaults();
+
+            R_SetViewSize(screensize);
+
+            M_snprintf(buffer, sizeof(buffer), "screensize is now %s.", parm1);
+        }
+    }
+    else
+        M_snprintf(buffer, sizeof(buffer), "screensize is %i.", screensize);
+
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //
