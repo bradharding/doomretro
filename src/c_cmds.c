@@ -288,6 +288,7 @@ void C_Give(char *, char *, char *);
 void C_GraphicDetail(char *, char *, char *);
 void C_Help(char *, char *, char *);
 void C_Hud(char *, char *, char *);
+void C_Integer(char *, char *, char *);
 void C_Kill(char *, char *, char *);
 void C_Map(char *, char *, char *);
 void C_NoClip(char *, char *, char *);
@@ -583,6 +584,38 @@ consolecmd_t consolecmds[] =
         /* default     */ 0,
         /* format      */ "endgame",
         /* description */ "End a game."
+    },
+
+    {
+        /* name        */ "episode",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &selectedepisode,
+        /* aliases     */ 1,
+        /* minimum     */ EPISODE_MIN,
+        /* maximum     */ EPISODE_MAX,
+        /* default     */ EPISODE_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
+        /* name        */ "expansion",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &selectedexpansion,
+        /* aliases     */ 1,
+        /* minimum     */ EXPANSION_MIN,
+        /* maximum     */ EXPANSION_MAX,
+        /* default     */ EXPANSION_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
     },
 
     {
@@ -1355,6 +1388,22 @@ consolecmd_t consolecmds[] =
     },
 
     {
+        /* name        */ "skilllevel",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &selectedskilllevel,
+        /* aliases     */ 1,
+        /* minimum     */ SKILLLEVEL_MIN,
+        /* maximum     */ SKILLLEVEL_MAX,
+        /* default     */ SKILLLEVEL_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
         /* name        */ "smoketrails",
         /* condition   */ C_BooleanCondition,
         /* function    */ C_Boolean,
@@ -2059,6 +2108,43 @@ boolean C_IntegerCondition(char *cmd, char *parm1, char *parm2)
         ++i;
     }
     return false;
+}
+
+void C_Integer(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    while (consolecmds[i].name[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_INTEGER))
+        {
+            static char buffer[1024];
+
+            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            {
+                int     value = -1;
+
+                sscanf(parm1, "%i", &value);
+
+                if (value != -1)
+                {
+                    *(int *)consolecmds[i].variable = value;
+
+                    if (!(consolecmds[i].flags & CF_NOTSAVED))
+                        M_SaveDefaults();
+
+                    M_snprintf(buffer, sizeof(buffer), "%s is now %i.", cmd, value);
+                }
+            }
+            else
+                M_snprintf(buffer, sizeof(buffer), "%s is %i.", cmd,
+                    *(int *)consolecmds[i].variable);
+
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+        }
+        ++i;
+    }
 }
 
 //
