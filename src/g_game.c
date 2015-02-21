@@ -957,6 +957,8 @@ void G_Ticker(void)
                                 blurred = false;
                             }
                         }
+                        else
+                            C_AddConsoleString(message, output, CONSOLEPLAYERMESSAGECOLOR);
                     }
                     gameaction = ga_nothing;
                 }
