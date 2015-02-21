@@ -68,8 +68,7 @@ typedef struct
 {
     char                *string;
     stringtype_t        type;
-    byte                color1;
-    byte                color2;
+    byte                color;
 } console_t;
 
 extern boolean  consoleactive;
@@ -80,7 +79,7 @@ extern char     consolecheat[255];
 extern char     consolecheatparm[3];
 extern char     consolecmdparm[255];
 
-void C_AddConsoleString(char *string, stringtype_t type, byte color1, byte color2);
+void C_AddConsoleString(char *string, stringtype_t type, byte color);
 void C_AddConsoleDivider(void);
 void C_Init(void);
 void C_HideConsole(void);

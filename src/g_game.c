@@ -629,7 +629,7 @@ void G_DoLoadLevel(void)
 #endif
 
     C_AddConsoleDivider();
-    C_AddConsoleString(mapnumandtitle, title, CONSOLEMAPTITLECOLOR, CONSOLEMAPTITLECOLOR);
+    C_AddConsoleString(mapnumandtitle, title, CONSOLEMAPTITLECOLOR);
 
     if (automapactive)
         AM_Start();

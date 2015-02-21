@@ -311,7 +311,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
-void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color)
+void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -332,7 +332,11 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color)
             {
                 if (y + column->topdelta + column->length - count > CONSOLETOP)
                 {
-                    *dest = (*source == 160 ? color : *source);
+                    if (italics)
+                        *(dest + MAX(3 , w / 2) - (column->topdelta + column->length - count) / 3 - 1)
+                            = (*source == 160 ? color : *source);
+                    else
+                        *dest = (*source == 160 ? color : *source);
                     *source++;
                 }
                 dest += SCREENWIDTH;

@@ -368,7 +368,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Bind an action to a control."
+        /* description */ "bind [~control~ [~+action~]]\t\tBind an action to a control."
     },
 
     {
@@ -416,7 +416,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Clear the console."
+        /* description */ "clear\t\tClear the console."
     },
 
     {
@@ -428,7 +428,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Display a list of console commands."
+        /* description */ "cmdlist\t\tDisplay a list of console commands."
     },
 
     {
@@ -488,7 +488,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Display a list of console variables."
+        /* description */ "cvarlist\t\tDisplay a list of console variables."
     },
 
     {
@@ -512,7 +512,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "End a game."
+        /* description */ "endgame\t\tEnd a game."
     },
 
     {
@@ -632,7 +632,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Toggle god mode on/off."
+        /* description */ "god\t\tToggle god mode on/off."
     },
 
     {
@@ -668,7 +668,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Display the help screen."
+        /* description */ "help\t\tDisplay the help screen."
     },
 
     {
@@ -908,7 +908,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Kill the player or monsters."
+        /* description */ "kill all|monsters|~type~\t\tKill the player, all monsters or a type of monster."
     },
 
     {
@@ -920,7 +920,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Warp to a map."
+        /* description */ "map E~x~M~y~|MAP~xy~\t\tWarp to a map."
     },
 
     {
@@ -980,7 +980,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Toggle no clipping mode on/off."
+        /* description */ "noclip\t\tToggle no clipping mode on/off."
     },
 
     {
@@ -992,7 +992,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Toggle no target mode on/off."
+        /* description */ "notarget\t\tToggle no target mode on/off."
     },
 
     {
@@ -1016,7 +1016,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Quit DOOM RETRO."
+        /* description */ "quit\t\tQuit DOOM RETRO."
     },
 
     {
@@ -1102,7 +1102,7 @@ consolecmd_t consolecmds[] =
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
         /* aliases     */ 0,
-        /* description */ "Summon a monster or map decoration."
+        /* description */ "summon ~type~\t\tSummon a monster or object."
     },
 
     {
@@ -1252,7 +1252,7 @@ void C_DisplayBinds(char *action, int value, controltype_t type, int count)
         {
             M_snprintf(buffer, sizeof(buffer), "%i\t%s\t%s", count,
                 controls[control].control, action);
-            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
             break;
         }
         ++control;
@@ -1306,28 +1306,28 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                     {
                         M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control,
                             actions[action].action);
-                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
                     }
                     else if (controls[control].type == keyboard && actions[action].keyboard2
                         && controls[control].value == *(int *)actions[action].keyboard2)
                     {
                         M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control,
                             actions[action].action);
-                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
                     }
                     else if (controls[control].type == mouse && actions[action].mouse
                         && controls[control].value == *(int *)actions[action].mouse)
                     {
                         M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control,
                             actions[action].action);
-                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
                     }
                     else if (controls[control].type == gamepad && actions[action].gamepad
                         && controls[control].value == *(int *)actions[action].gamepad)
                     {
                         M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", controls[control].control,
                             actions[action].action);
-                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+                        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
                     }
                     ++action;
                 }
@@ -1359,7 +1359,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                     M_SaveDefaults();
 
                     M_snprintf(buffer, sizeof(buffer), "%s \"%s\"", parm1, parm2);
-                    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+                    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
                 }
             }
         }
@@ -1403,7 +1403,7 @@ void C_Boolean(char *cmd, char *parm1, char *parm2)
                 M_snprintf(buffer, sizeof(buffer), "%s is %s.", cmd,
                     (*(boolean *)consolecmds[i].variable ? "on" : "off"));
 
-            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
     }
@@ -1454,7 +1454,7 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
             M_snprintf(buffer, sizeof(buffer), "bloodsplats is %i.", bloodsplats);
     }
 
-    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //
@@ -1481,9 +1481,8 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
         {
             static char     buffer[1024];
 
-            M_snprintf(buffer, 1024, "%i\t%s\t%s", count++, consolecmds[i].name,
-                consolecmds[i].description);
-            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+            M_snprintf(buffer, 1024, "%i\t%s", count++, consolecmds[i].description);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
     }
@@ -1529,7 +1528,7 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
             else if (consolecmds[i].flags & CF_FLOAT_PERCENT)
                 M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%s%%", count++, consolecmds[i].name,
                 striptrailingzero(*(float *)consolecmds[i].variable));
-            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
     }
@@ -1590,7 +1589,7 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
         M_snprintf(buffer, sizeof(buffer), "%s is %s%%.", cmd, striptrailingzero(value));
     }
 
-    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //
@@ -1643,7 +1642,7 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
                 gammalevels[gammaindex]);
     }
 
-    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //
@@ -1660,7 +1659,7 @@ void C_God(char *cmd, char *parm1, char *parm2)
 
     player->cheats ^= CF_GODMODE;
     C_AddConsoleString(((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF), output,
-        CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+        CONSOLEOUTPUTCOLOR);
 }
 
 //
@@ -1692,7 +1691,7 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         M_snprintf(buffer, sizeof(buffer), "graphicdetail is %s.",
             C_LookupAliasFromValue(graphicdetail, 3));
 
-    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //
@@ -1772,7 +1771,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
     if (!parm1[0])
     {
         P_KillMobj(NULL, players[displayplayer].mo);
-        C_AddConsoleString("Player killed.", output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+        C_AddConsoleString("Player killed.", output, CONSOLEOUTPUTCOLOR);
     }
     else
     {
@@ -1836,7 +1835,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
             }
         }
         M_snprintf(buffer, sizeof(buffer), "%i monster%s killed.", kills, kills == 1 ? "" : "s");
-        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
     }
 }
 
@@ -1961,7 +1960,7 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
         M_snprintf(buffer, sizeof(buffer), "%s is %i%%.", cmd, value);
     }
 
-    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //
@@ -1980,7 +1979,7 @@ void C_NoTarget(char *cmd, char *parm1, char *parm2)
 {
     players[displayplayer].cheats ^= CF_NOTARGET;
     C_AddConsoleString(players[displayplayer].cheats & CF_NOTARGET ? s_STSTR_NTON : s_STSTR_NTOFF,
-        output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+        output, CONSOLEOUTPUTCOLOR);
 }
 
 //
@@ -2012,7 +2011,7 @@ void C_ShowFPS(char *cmd, char *parm1, char *parm2)
     else
         M_snprintf(buffer, sizeof(buffer), "showfps is %s.", (showfps ? "on" : "off"));
 
-    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+    C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
 }
 
 //
@@ -2041,7 +2040,7 @@ void C_String(char *cmd, char *parm1, char *parm2)
                 M_snprintf(buffer, sizeof(buffer), "%s is \"%s\".", cmd,
                     *(char **)consolecmds[i].variable);
 
-            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR, CONSOLEOUTPUTCOLOR);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
     }
