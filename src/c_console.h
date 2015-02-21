@@ -39,6 +39,7 @@
 #if !defined(__C_CONSOLE__)
 #define __C_CONSOLE__
 
+#include "doomstat.h"
 #include "doomtype.h"
 #include "d_event.h"
 
@@ -67,7 +68,8 @@ typedef struct
 {
     char                *string;
     stringtype_t        type;
-    byte                color;
+    byte                color1;
+    byte                color2;
 } console_t;
 
 extern boolean  consoleactive;
@@ -78,7 +80,7 @@ extern char     consolecheat[255];
 extern char     consolecheatparm[3];
 extern char     consolecmdparm[255];
 
-void C_AddConsoleString(char *string, stringtype_t type, byte color);
+void C_AddConsoleString(char *string, stringtype_t type, byte color1, byte color2);
 void C_AddConsoleDivider(void);
 void C_Init(void);
 void C_HideConsole(void);
