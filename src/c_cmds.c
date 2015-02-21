@@ -265,6 +265,7 @@ boolean C_GammaCondition(char *, char *, char *);
 boolean C_GiveCondition(char *, char *, char *);
 boolean C_GodCondition(char *, char *, char *);
 boolean C_GraphicDetailCondition(char *, char *, char *);
+boolean C_IntegerCondition(char *, char *, char *);
 boolean C_KillCondition(char *, char *, char *);
 boolean C_MapCondition(char *, char *, char *);
 boolean C_NoCondition(char *, char *, char *);
@@ -1291,7 +1292,7 @@ consolecmd_t consolecmds[] =
 
     {
         /* name        */ "screensize",
-        /* condition   */ C_NoCondition,
+        /* condition   */ C_IntegerCondition,
         /* function    */ C_ScreenSize,
         /* parameters  */ 1,
         /* type        */ CT_CVAR,
@@ -1501,7 +1502,7 @@ consolecmd_t consolecmds[] =
 };
 
 //
-// All cheat cmds
+// Cheat cmds
 //
 boolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
 {
@@ -1691,7 +1692,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
 }
 
 //
-// All boolean cvars
+// Boolean cvars
 //
 boolean C_BooleanCondition(char *cmd, char *parm1, char *parm2)
 {
@@ -2038,6 +2039,29 @@ void C_Hud(char *cmd, char *parm1, char *parm2)
 }
 
 //
+// Integer cvars
+//
+boolean C_IntegerCondition(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    while (consolecmds[i].name[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_INTEGER))
+        {
+            int value = -1;
+            
+            sscanf(parm1, "%i", &value);
+
+            return (value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
+        }
+        ++i;
+    }
+    return false;
+}
+
+//
 // KILL cmd
 //
 static int      killcmdtype = NUMMOBJTYPES;
@@ -2238,13 +2262,17 @@ void C_Map(char *cmd, char *parm1, char *parm2)
 //
 boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 {
-    int value;
+    int value = -1;
 
     if (!parm1[0])
         return true;
     if (parm1[strlen(parm1) - 1] == '%')
         parm1[strlen(parm1) - 1] = 0;
-    return sscanf(parm1, "%i", &value);
+
+    sscanf(parm1, "%i", &value);
+
+    return ((!strcasecmp(cmd, "musicvolume") && value >= MUSICVOLUME_MIN && value <= MUSICVOLUME_MAX)
+        || (!strcasecmp(cmd, "sfxvolume") && value >= SFXVOLUME_MIN && value <= SFXVOLUME_MAX));
 }
 
 void C_Volume(char *cmd, char *parm1, char *parm2)
@@ -2400,7 +2428,7 @@ void C_ShowFPS(char *cmd, char *parm1, char *parm2)
 }
 
 //
-// All string cvars
+// String cvars
 //
 void C_String(char *cmd, char *parm1, char *parm2)
 {
