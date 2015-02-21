@@ -1654,7 +1654,23 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                     switch (controls[control].type)
                     {
                         case keyboard:
-                            *(int *)actions[action].keyboard1 = controls[control].value;
+                            if (controls[control].value != *(int *)actions[action].keyboard1
+                                && controls[control].value != *(int *)actions[action].keyboard2)
+                            {
+                                if (*(int *)actions[action].keyboard1)
+                                {
+                                    if (actions[action].keyboard2)
+                                    {
+                                        if (*(int *)actions[action].keyboard2)
+                                            *(int *)actions[action].keyboard1 = *(int *)actions[action].keyboard2;
+                                        *(int *)actions[action].keyboard2 = controls[control].value;
+                                    }
+                                    else
+                                        *(int *)actions[action].keyboard1 = controls[control].value;
+                                }
+                                else
+                                    *(int *)actions[action].keyboard1 = controls[control].value;
+                            }
                             break;
                         case mouse:
                             *(int *)actions[action].mouse = controls[control].value;
