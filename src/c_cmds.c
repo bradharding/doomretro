@@ -2604,6 +2604,9 @@ static int      summoncmdtype = NUMMOBJTYPES;
 
 boolean C_SummonCondition(char *cmd, char *parm1, char *parm2)
 {
+    if (!parm1[0])
+        return true;
+
     if (gamestate == GS_LEVEL)
     {
         int i;

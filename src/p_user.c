@@ -126,19 +126,17 @@ void P_CalcHeight(player_t *player)
         }
         player->viewz = mo->z + player->viewheight + bob;
 
+        if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
+        {
+            sector_t        *sec = mo->subsector->sector;
+
+            if (mo->z <= mo->floorz && mo->floorz == sec->floorheight
+                && sec->lines[0]->frontsector != sec->lines[0]->backsector)
+                player->viewz -= FOOTCLIPSIZE;
+        }
     }
     else
         player->viewz = mo->z + player->viewheight;
-
-    if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
-    {
-        sector_t        *sec = mo->subsector->sector;
-
-        if (player->playerstate != PST_DEAD
-            && mo->z <= mo->floorz && mo->floorz == sec->floorheight
-            && sec->lines[0]->frontsector != sec->lines[0]->backsector)
-            player->viewz -= FOOTCLIPSIZE;
-    }
 
     player->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, player->viewz, mo->ceilingz - 4 * FRACUNIT);
 }
