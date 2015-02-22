@@ -117,14 +117,11 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
         {
             if (cht->param_chars_read)
             {
-                static char buffer[64];
-
-                M_snprintf(buffer, 64, "%s%c%c", cht->sequence, cht->parameter_buf[0],
-                    cht->parameter_buf[1]);
-                C_AddConsoleString(buffer, input, CONSOLEINPUTTOOUTPUTCOLOR);
+                C_AddConsoleString(input, CONSOLEINPUTTOOUTPUTCOLOR, "%s%c%c", cht->sequence,
+                    cht->parameter_buf[0], cht->parameter_buf[1]);
             }
             else
-                C_AddConsoleString(cht->sequence, input, CONSOLEINPUTTOOUTPUTCOLOR);
+                C_AddConsoleString(input, CONSOLEINPUTTOOUTPUTCOLOR, cht->sequence);
         }
 
         cht->chars_read = cht->param_chars_read = cht->timeout = 0;
