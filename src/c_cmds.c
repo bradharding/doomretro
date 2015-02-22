@@ -1893,7 +1893,7 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
 
     if (parm1[0])
     {
-        if (W_CheckNumForName(parm1) >= 0)
+        if (R_CheckFlatNumForName(parm1) >= 0)
         {
             conback = strdup(parm1);
             consolebackground = W_CacheLumpName(parm1, PU_CACHE);

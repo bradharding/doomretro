@@ -145,8 +145,11 @@ void C_Init(void)
     int         j = CONSOLEFONTSTART;
     char        buffer[9];
 
-    if (!conback[0] || W_CheckNumForName(conback) < 0)
+    if (!conback[0] || R_CheckFlatNumForName(conback) < 0)
+    {
         conback = (gamemode == commercial ? "GRNROCK" : "FLOOR7_2");
+        M_SaveDefaults();
+    }
     consolebackground = W_CacheLumpName(conback, PU_CACHE);
 
     divider = W_CacheLumpName("BRDR_B", PU_CACHE);
