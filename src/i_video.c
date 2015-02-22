@@ -971,6 +971,8 @@ static void SetVideoMode(void)
 {
 #if defined(SDL20)
     int flags = SDL_RENDERER_TARGETTEXTURE;
+    int width;
+    int height;
 
     if (vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
@@ -979,8 +981,22 @@ static void SetVideoMode(void)
 
     if (fullscreen)
     {
-        window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-            0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        width = screenwidth;
+        height = screenheight;
+        if (!width || !height)
+        {
+            screenwidth = 0;
+            screenheight = 0;
+            M_SaveDefaults();
+        }
+
+        if (!width && !height)
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        else
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                width, height, SDL_WINDOW_FULLSCREEN);
+
         renderer = SDL_CreateRenderer(window, -1, flags);
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
