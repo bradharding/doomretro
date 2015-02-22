@@ -66,6 +66,9 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#define MAPCMDFORMAT    "map E~x~M~y~|MAP~xy~"
+#define SUMMONCMDFORMAT "summon ~type~"
+
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
@@ -1141,7 +1144,7 @@ consolecmd_t consolecmds[] =
         /* minimum     */ 0,
         /* maximum     */ 0,
         /* default     */ 0,
-        /* format      */ "[kill all|monsters|~type~]",
+        /* format      */ "kill [all|monsters|~type~]",
         /* description */ "Kill the player, all monsters or a type of monster."
     },
 
@@ -1157,7 +1160,7 @@ consolecmd_t consolecmds[] =
         /* minimum     */ 0,
         /* maximum     */ 0,
         /* default     */ 0,
-        /* format      */ "map E~x~M~y~|MAP~xy~",
+        /* format      */ MAPCMDFORMAT,
         /* description */ "Warp to a map."
     },
 
@@ -1431,7 +1434,7 @@ consolecmd_t consolecmds[] =
         /* minimum     */ 0,
         /* maximum     */ 0,
         /* default     */ 0,
-        /* format      */ "summon ~type~",
+        /* format      */ SUMMONCMDFORMAT,
         /* description */ "Summon a monster or object."
     },
 
@@ -2290,9 +2293,6 @@ extern menu_t   EpiDef;
 
 boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
 {
-    if (!parm1[0])
-        return false;
-
     mapcmdepisode = 0;
     mapcmdmap = 0;
 
@@ -2327,6 +2327,12 @@ boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
 
 void C_Map(char *cmd, char *parm1, char *parm2)
 {
+    if (!parm1[0])
+    {
+        C_AddConsoleString(MAPCMDFORMAT, output, CONSOLEOUTPUTCOLOR);
+        return;
+    }
+
     samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
     gameepisode = mapcmdepisode;
     if (gamemission == doom && gameepisode <= 4)
@@ -2552,9 +2558,6 @@ static int      summoncmdtype = NUMMOBJTYPES;
 
 boolean C_SummonCondition(char *cmd, char *parm1, char *parm2)
 {
-    if (!parm1[0])
-        return false;
-
     if (gamestate == GS_LEVEL)
     {
         int i;
@@ -2594,12 +2597,20 @@ boolean C_SummonCondition(char *cmd, char *parm1, char *parm2)
 
 void C_Summon(char *cmd, char *parm1, char *parm2)
 {
-    mobj_t      *player = players[displayplayer].mo;
-    fixed_t     x = player->x;
-    fixed_t     y = player->y;
-    angle_t     angle = player->angle >> ANGLETOFINESHIFT;
-    mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
-        ONFLOORZ, P_FindDoomedNum(summoncmdtype));
+    if (!parm1[0])
+    {
+        C_AddConsoleString(SUMMONCMDFORMAT, output, CONSOLEOUTPUTCOLOR);
+        return;
+    }
+    else
+    {
+        mobj_t      *player = players[displayplayer].mo;
+        fixed_t     x = player->x;
+        fixed_t     y = player->y;
+        angle_t     angle = player->angle >> ANGLETOFINESHIFT;
+        mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
+            ONFLOORZ, P_FindDoomedNum(summoncmdtype));
 
-    thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+        thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+    }
 }
