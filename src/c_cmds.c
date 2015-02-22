@@ -319,7 +319,7 @@ alias_t aliases[] =
     { "1.35",         17, 4 }, { "1.4",          18, 4 }, { "1.45",         19, 4 }, { "1.5",          20, 4 },
     { "1.55",         21, 4 }, { "1.6",          22, 4 }, { "1.65",         23, 4 }, { "1.7",          24, 4 },
     { "1.75",         25, 4 }, { "1.8",          26, 4 }, { "1.85",         27, 4 }, { "1.9",          28, 4 },
-    { "1.95",         29, 4 }, { "2.0",          30, 4 }, { "",              0, 0 }
+    { "1.95",         29, 4 }, { "2.0",          30, 4 }, { "desktop",       0, 5 }, { "",              0, 0 }
 };
 
 int C_LookupValueFromAlias(char *text, int set)
@@ -1345,6 +1345,38 @@ consolecmd_t consolecmds[] =
 #endif
 
     {
+        /* name        */ "screenwidth",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &screenwidth,
+        /* aliases     */ 5,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ SCREENWIDTH_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
+        /* name        */ "screenheight",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &screenheight,
+        /* aliases     */ 5,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ SCREENHEIGHT_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
         /* name        */ "screensize",
         /* condition   */ C_IntegerCondition,
         /* function    */ C_ScreenSize,
@@ -1352,7 +1384,7 @@ consolecmd_t consolecmds[] =
         /* type        */ CT_CVAR,
         /* flags       */ CF_INTEGER,
         /* variable    */ &screensize,
-        /* aliases     */ 1,
+        /* aliases     */ 0,
         /* minimum     */ SCREENSIZE_MIN,
         /* maximum     */ SCREENSIZE_MAX,
         /* default     */ SCREENSIZE_DEFAULT,
@@ -1824,7 +1856,7 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
     {
         int     value = C_LookupValueFromAlias(parm1, 2);
 
-        if (value == -1)
+        if (value < 0)
             sscanf(parm1, "%i", &value);
 
         if (value >= 0)
@@ -2169,23 +2201,32 @@ void C_Integer(char *cmd, char *parm1, char *parm2)
 
             if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
             {
-                int     value = -1;
+                int     value = C_LookupValueFromAlias(parm1, 1);
 
-                sscanf(parm1, "%i", &value);
+                if (value < 0)
+                    sscanf(parm1, "%i", &value);
 
-                if (value != -1)
+                if (value >= 0)
                 {
                     *(int *)consolecmds[i].variable = value;
 
                     if (!(consolecmds[i].flags & CF_NOTSAVED))
                         M_SaveDefaults();
 
-                    M_snprintf(buffer, sizeof(buffer), "%s is now %i.", cmd, value);
+                    M_snprintf(buffer, sizeof(buffer), "%s is now %s.", cmd, parm1);
                 }
             }
             else
-                M_snprintf(buffer, sizeof(buffer), "%s is %i.", cmd,
-                    *(int *)consolecmds[i].variable);
+            {
+                char    *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
+                                 consolecmds[i].aliases);
+
+                if (alias)
+                    M_snprintf(buffer, sizeof(buffer), "%s is %s.", parm1, alias);
+                else
+                    M_snprintf(buffer, sizeof(buffer), "%s is %i.", cmd,
+                        *(int *)consolecmds[i].variable);
+            }
 
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
