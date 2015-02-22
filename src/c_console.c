@@ -79,7 +79,9 @@ boolean         consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
 
-byte            *background;
+char            *conback = "";
+
+byte            *consolebackground;
 patch_t         *divider;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
@@ -143,7 +145,10 @@ void C_Init(void)
     int         j = CONSOLEFONTSTART;
     char        buffer[9];
 
-    background = W_CacheLumpName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), PU_CACHE);
+    if (!conback[0] || W_CheckNumForName(conback) < 0)
+        conback = (gamemode == commercial ? "GRNROCK" : "FLOOR7_2");
+    consolebackground = W_CacheLumpName(conback, PU_CACHE);
+
     divider = W_CacheLumpName("BRDR_B", PU_CACHE);
 
     for (i = 0; i < CONSOLEFONTSIZE; i++)
@@ -194,7 +199,7 @@ static void C_DrawBackground(int height)
 
                 if (top >= CONSOLETOP * SCREENWIDTH)
                 {
-                    int     dot = *(background + (((y / 2) & 63) << 6) + i);
+                    int     dot = *(consolebackground + (((y / 2) & 63) << 6) + i);
 
                     if (translucency)
                     {

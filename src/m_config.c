@@ -64,6 +64,7 @@ extern boolean  animatedliquid;
 extern int      bloodsplats;
 extern int      brightmaps;
 extern boolean  centerweapon;
+extern char     *conback;
 extern boolean  corpses_mirror;
 extern boolean  corpses_moreblood;
 extern boolean  corpses_slide;
@@ -212,6 +213,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (bloodsplats,                bloodsplats,                   7),
     CONFIG_VARIABLE_INT          (brightmaps,                 brightmaps,                    1),
     CONFIG_VARIABLE_INT          (centerweapon,               centerweapon,                  1),
+    CONFIG_VARIABLE_STRING       (conback,                    conback,                       0),
     CONFIG_VARIABLE_INT          (corpses_mirror,             corpses_mirror,                1),
     CONFIG_VARIABLE_INT          (corpses_moreblood,          corpses_moreblood,             1),
     CONFIG_VARIABLE_INT          (corpses_slide,              corpses_slide,                 1),

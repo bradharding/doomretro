@@ -74,6 +74,7 @@ extern boolean  animatedliquid;
 extern int      bloodsplats;
 extern int      brightmaps;
 extern boolean  centerweapon;
+extern char     *conback;
 extern boolean  corpses_mirror;
 extern boolean  corpses_moreblood;
 extern boolean  corpses_slide;
@@ -281,6 +282,7 @@ void C_BloodSplats(char *, char *, char *);
 void C_Boolean(char *, char *, char *);
 void C_Clear(char *, char *, char *);
 void C_CmdList(char *, char *, char *);
+void C_ConBack(char *, char *, char *);
 void C_CvarList(char *, char *, char *);
 void C_DeadZone(char *, char *, char *);
 void C_EndGame(char *, char *, char *);
@@ -475,6 +477,22 @@ consolecmd_t consolecmds[] =
         /* default     */ 0,
         /* format      */ "cmdlist",
         /* description */ "Display a list of console commands."
+    },
+
+    {
+        /* name        */ "conback",
+        /* condition   */ C_NoCondition,
+        /* function    */ C_ConBack,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_STRING,
+        /* variable    */ &conback,
+        /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
+        /* description */ ""
     },
 
     {
@@ -1867,6 +1885,31 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
 }
 
 //
+// CONBACK cvar
+//
+void C_ConBack(char *cmd, char *parm1, char *parm2)
+{
+    static char buffer[1024];
+
+    if (parm1[0])
+    {
+        if (W_CheckNumForName(parm1) >= 0)
+        {
+            conback = strdup(parm1);
+            consolebackground = W_CacheLumpName(parm1, PU_CACHE);
+            M_SaveDefaults();
+            M_snprintf(buffer, sizeof(buffer), "conback is now \"%s\".", conback);
+            C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+        }
+    }
+    else
+    {
+        M_snprintf(buffer, sizeof(buffer), "conback is \"%s\".", conback);
+        C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
+    }
+}
+
+//
 // CVARLIST cmd
 //
 void C_CvarList(char *cmd, char *parm1, char *parm2)
@@ -1886,14 +1929,14 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
             else if (consolecmds[i].flags & CF_INTEGER)
             {
                 char *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
-                    consolecmds[i].aliases);
+                              consolecmds[i].aliases);
 
                 if (alias)
                     M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%s", count++, consolecmds[i].name,
                         alias);
                 else
                     M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%i", count++, consolecmds[i].name,
-                    *(int *)consolecmds[i].variable);
+                        *(int *)consolecmds[i].variable);
             }
             else if (consolecmds[i].flags & CF_INTEGER_PERCENT)
             {
@@ -1902,10 +1945,10 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
             }
             else if (consolecmds[i].flags & CF_STRING)
                 M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t\"%s\"", count++, consolecmds[i].name,
-                *(char **)consolecmds[i].variable);
+                    *(char **)consolecmds[i].variable);
             else if (consolecmds[i].flags & CF_FLOAT_PERCENT)
                 M_snprintf(buffer, sizeof(buffer), "%i\t%s\t\t%s%%", count++, consolecmds[i].name,
-                striptrailingzero(*(float *)consolecmds[i].variable));
+                    striptrailingzero(*(float *)consolecmds[i].variable));
             C_AddConsoleString(buffer, output, CONSOLEOUTPUTCOLOR);
         }
         ++i;
@@ -2293,6 +2336,9 @@ extern menu_t   EpiDef;
 
 boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
 {
+    if (!parm1[0])
+        return true;
+
     mapcmdepisode = 0;
     mapcmdmap = 0;
 

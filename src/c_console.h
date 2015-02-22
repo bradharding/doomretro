@@ -79,6 +79,8 @@ extern char     consolecheat[255];
 extern char     consolecheatparm[3];
 extern char     consolecmdparm[255];
 
+extern byte     *consolebackground;
+
 void C_AddConsoleString(char *string, stringtype_t type, byte color);
 void C_AddConsoleDivider(void);
 void C_Init(void);
