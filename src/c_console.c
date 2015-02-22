@@ -116,7 +116,7 @@ char *upper =
     ":<+>?\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\\}^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 };
 
-void C_AddConsoleString(stringtype_t type, byte color, char *string, ...)
+void C_Print(stringtype_t type, byte color, char *string, ...)
 {
     va_list     argptr;
     char        buffer[1024];
@@ -136,7 +136,7 @@ void C_AddConsoleString(stringtype_t type, byte color, char *string, ...)
 void C_AddConsoleDivider(void)
 {
     if (!consolestrings || strcasecmp(console[consolestrings - 1].string, DIVIDER))
-        C_AddConsoleString(output, 0, DIVIDER);
+        C_Print(output, 0, DIVIDER);
 }
 
 static void C_DrawDivider(int y)
@@ -153,7 +153,8 @@ void C_Init(void)
     int         j = CONSOLEFONTSTART;
     char        buffer[9];
 
-    if (!conback[0] || R_CheckFlatNumForName(conback) < 0)
+    if (!conback[0] || (gamemode == commercial && !strcasecmp(conback, "FLOOR7_2"))
+        || R_CheckFlatNumForName(conback) < 0)
     {
         conback = (gamemode == commercial ? "GRNROCK" : "FLOOR7_2");
         M_SaveDefaults();
@@ -556,8 +557,7 @@ boolean C_Responder(event_t *ev)
                                         && consolecmds[i].condition(cmd, consolecheatparm, ""))
                                     {
                                         validcmd = true;
-                                        C_AddConsoleString(input, CONSOLEINPUTTOOUTPUTCOLOR,
-                                            consoleinput);
+                                        C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, consoleinput);
                                         M_StringCopy(consolecheat, cmd, 255);
                                         break;
                                     }
@@ -571,8 +571,7 @@ boolean C_Responder(event_t *ev)
                                     && consolecmds[i].condition(cmd, parm, ""))
                                 {
                                     validcmd = true;
-                                    C_AddConsoleString(input, CONSOLEINPUTTOOUTPUTCOLOR,
-                                        consoleinput);
+                                    C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, consoleinput);
                                     consolecmds[i].function(cmd, parm, "");
                                     break;
                                 }
@@ -591,8 +590,7 @@ boolean C_Responder(event_t *ev)
                                 && consolecmds[i].condition(cmd, parm1, parm2))
                             {
                                 validcmd = true;
-                                C_AddConsoleString(input, CONSOLEINPUTTOOUTPUTCOLOR,
-                                    consoleinput);
+                                C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, consoleinput);
                                 consolecmds[i].function(cmd, parm1, parm2);
                                 break;
                             }
@@ -601,8 +599,7 @@ boolean C_Responder(event_t *ev)
                             && consolecmds[i].condition(consoleinput, "", ""))
                         {
                             validcmd = true;
-                            C_AddConsoleString(input, CONSOLEINPUTTOOUTPUTCOLOR,
-                                consoleinput);
+                            C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, consoleinput);
                             if (consolecmds[i].type == CT_CHEAT)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
