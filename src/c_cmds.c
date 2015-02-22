@@ -752,6 +752,22 @@ consolecmd_t consolecmds[] =
     },
 
     {
+        /* name        */ "gamepad_sensitivity",
+        /* condition   */ C_NoCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &gamepadsensitivity,
+        /* aliases     */ 0,
+        /* minimum     */ GAMEPADSENSITIVITY_MIN,
+        /* maximum     */ GAMEPADSENSITIVITY_MAX,
+        /* default     */ GAMEPADSENSITIVITY_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
         /* name        */ "gamepad_vibrate",
         /* condition   */ C_BooleanCondition,
         /* function    */ C_Boolean,
@@ -1226,6 +1242,22 @@ consolecmd_t consolecmds[] =
         /* minimum     */ false,
         /* maximum     */ true,
         /* default     */ MIRRORWEAPONS_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
+        /* name        */ "mouse_sensitivity",
+        /* condition   */ C_NoCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &mousesensitivity,
+        /* aliases     */ 0,
+        /* minimum     */ MOUSESENSITIVITY_MIN,
+        /* maximum     */ MOUSESENSITIVITY_MAX,
+        /* default     */ MOUSESENSITIVITY_DEFAULT,
         /* format      */ "",
         /* description */ ""
     },
