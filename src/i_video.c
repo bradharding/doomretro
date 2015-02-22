@@ -842,6 +842,7 @@ void I_FinishUpdate(void)
     SDL_LockTexture(texture, NULL, &pixels, &pitch);
     memcpy(pixels, rgbabuffer->pixels, SCREENHEIGHT * pitch);
     SDL_UnlockTexture(texture);
+    SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 #else
@@ -971,8 +972,6 @@ static void SetVideoMode(void)
 {
 #if defined(SDL20)
     int flags = SDL_RENDERER_TARGETTEXTURE;
-    int width;
-    int height;
 
     if (vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
@@ -981,21 +980,19 @@ static void SetVideoMode(void)
 
     if (fullscreen)
     {
-        width = screenwidth;
-        height = screenheight;
-        if (!width || !height)
+        if (!screenwidth || !screenheight)
         {
             screenwidth = 0;
             screenheight = 0;
             M_SaveDefaults();
         }
 
-        if (!width && !height)
+        if (!screenwidth && !screenheight)
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
         else
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                width, height, SDL_WINDOW_FULLSCREEN);
+                screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
 
         renderer = SDL_CreateRenderer(window, -1, flags);
 
@@ -1026,6 +1023,9 @@ static void SetVideoMode(void)
 
     SetupScreenRects();
 #else
+    int width;
+    int height;
+
     if (fullscreen)
     {
         width = screenwidth;
@@ -1419,7 +1419,9 @@ void I_InitGraphics(void)
     SDL_Event   dummy;
     byte        *doompal = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
+#if !defined(SDL20)
     putenv("SDL_DISABLE_LOCK_KEYS=1");
+#endif
 
     while (i < UCHAR_MAX)
         keys[i++] = true;
