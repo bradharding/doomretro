@@ -251,8 +251,9 @@ wad_file_t *W_AddFile(char *filename)
         lumphash = NULL;
     }
 
-    C_Print(output, CONSOLEOUTPUTCOLOR, "Added %s lumps from %s.",
-        commify(numlumps - startlump), uppercase(filename));
+    header.identification[4] = 0;
+    C_Print(output, CONSOLEOUTPUTCOLOR, "Added %s lumps from the %s %s.",
+        commify(numlumps - startlump), header.identification, uppercase(filename));
 
     return wad_file;
 }
