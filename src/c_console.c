@@ -193,6 +193,7 @@ static void C_StripQuotes(char *string)
         string[len] = '\0';
     }
 }
+
 static void C_DrawBackground(int height)
 {
     byte        *dest = screens[0];
@@ -831,4 +832,34 @@ boolean C_Responder(event_t *ev)
     }
 #endif
     return true;
+}
+
+void C_PrintCompileDate(void)
+{
+    int                 day, year, hour, minute, second;
+    static const char   mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+    static const char   *months[] =
+    {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+    static char         month[4];
+
+    sscanf(__DATE__, "%s %d %d", month, &day, &year);
+    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
+    C_Print(output, CONSOLEOUTPUTCOLOR, "DOOMRETRO.EXE was built on %s %i, %i at %i:%02i%s.",
+        months[(strstr(mths, month) - mths) / 3], day, year, hour, minute,
+        (hour < 12 ? "am" : "pm"));
+}
+
+void C_PrintSDLVersion(void)
+{
+    C_Print(output, CONSOLEOUTPUTCOLOR, "Using version %i.%i.%i of %s.",
+        SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL,
+#if defined(SDL20)
+        "SDL2.DLL"
+#else
+        "SDL.DLL"
+#endif
+        );
 }

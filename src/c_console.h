@@ -87,5 +87,7 @@ void C_Init(void);
 void C_HideConsole(void);
 void C_Drawer(void);
 boolean C_Responder(event_t *ev);
+void C_PrintCompileDate(void);
+void C_PrintSDLVersion(void);
 
 #endif

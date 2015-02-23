@@ -38,6 +38,7 @@
 
 #include <ctype.h>
 
+#include "c_console.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -249,6 +250,9 @@ wad_file_t *W_AddFile(char *filename)
         Z_Free(lumphash);
         lumphash = NULL;
     }
+
+    C_Print(output, CONSOLEOUTPUTCOLOR, "Added %s lumps from %s.",
+        commify(numlumps - startlump), uppercase(filename));
 
     return wad_file;
 }

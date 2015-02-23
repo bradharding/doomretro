@@ -400,3 +400,27 @@ char *uppercase(char *str)
 
     return newstr;
 }
+
+char *commify(double value)
+{
+    static char result[64];
+    char        *pt;
+    int         n;
+
+    snprintf(result, sizeof(result), "%.0f", value);
+    for (pt = result; *pt && *pt != '.'; pt++);
+    n = result + sizeof(result) - pt;
+    do
+    {
+        pt -= 3;
+        if (pt > result)
+        {
+            memmove(pt + 1, pt, n);
+            *pt = ',';
+            n += 4;
+        }
+        else
+            break;
+    } while (1);
+    return result;
+}

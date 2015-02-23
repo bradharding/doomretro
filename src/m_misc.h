@@ -50,7 +50,7 @@ void M_MakeDirectory(char *dir);
 char *M_TempFile(char *s);
 boolean M_FileExists(char *file);
 long M_FileLength(FILE *handle);
-char *M_ExtractFolder(char *str);
+char *M_ExtractFolder(char *path);
 boolean M_StrToInt(const char *str, int *result);
 char *M_StrCaseStr(char *haystack, char *needle);
 boolean M_StringCopy(char *dest, char *src, size_t dest_size);
@@ -61,5 +61,6 @@ boolean M_StringEndsWith(char *s, char *suffix);
 int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 char *uppercase(char *str);
+char *commify(double value);
 
 #endif

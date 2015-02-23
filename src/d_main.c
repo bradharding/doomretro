@@ -1157,6 +1157,10 @@ static void D_DoomMainSetup(void)
     int p;
     int choseniwad = 0;
 
+    C_PrintCompileDate();
+
+    C_PrintSDLVersion();
+
     iwadfile = D_FindIWAD();
 
     iwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
