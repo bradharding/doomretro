@@ -118,17 +118,17 @@ char *upper =
     ":<+>?\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\\}^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 };
 
-byte consolecaretcolor = 160;
-byte consolelowfpscolor = 180;
+byte consolecaretcolor = 227;
 byte consolehighfpscolor = 116;
-byte consoleinputcolor = 160;
-byte consoleinputtooutputcolor = 160;
-byte consolemaptitlecolor = 160;
-byte consoleplayermessagecolor = 160;
-byte consoleoutputcolor = 160;
-byte consoletitlecolor = 160;
+byte consoleinputcolor = 227;
+byte consoleinputtooutputcolor = 227;
+byte consolelowfpscolor = 180;
+byte consolemaptitlecolor = 227;
+byte consoleplayermessagecolor = 180;
+byte consoleoutputcolor = 227;
+byte consoletitlecolor = 227;
 
-byte consolecolors[3];
+byte consolecolors[4];
 
 void C_Print(stringtype_t type, char *string, ...)
 {
@@ -190,7 +190,7 @@ void C_PlayerMessage(char *string, ...)
     {
         console = realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
-        console[consolestrings].type = output;
+        console[consolestrings].type = playermessage;
         ++consolestrings;
     }
 }
@@ -236,9 +236,10 @@ void C_Init(void)
 
     caret = consolefont['|' - CONSOLEFONTSTART];
 
-    consolecolors[0] = consoleinputtooutputcolor;
-    consolecolors[1] = consoleoutputcolor;
-    consolecolors[2] = consoletitlecolor;
+    consolecolors[input] = consoleinputtooutputcolor;
+    consolecolors[output] = consoleoutputcolor;
+    consolecolors[title] = consoletitlecolor;
+    consolecolors[playermessage] = consoleplayermessagecolor;
 }
 
 void C_HideConsole(void)
@@ -946,14 +947,17 @@ void C_PrintSDLVersions(void)
 void C_SetBTSXColorScheme(void)
 {
     consolecaretcolor = 80;
+    consolehighfpscolor = 116;
     consoleinputcolor = 80;
     consoleinputtooutputcolor = 80;
+    consolelowfpscolor = 180;
     consolemaptitlecolor = 80;
     consoleplayermessagecolor = (BTSXE1 ? 196 : 215);
     consoleoutputcolor = 80;
     consoletitlecolor = 80;
 
-    consolecolors[0] = consoleinputtooutputcolor;
-    consolecolors[1] = consoleoutputcolor;
-    consolecolors[2] = consoletitlecolor;
+    consolecolors[input] = consoleinputtooutputcolor;
+    consolecolors[output] = consoleoutputcolor;
+    consolecolors[title] = consoletitlecolor;
+    consolecolors[playermessage] = consoleplayermessagecolor;
 }
