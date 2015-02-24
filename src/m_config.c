@@ -1209,13 +1209,24 @@ void M_LoadDefaults(void)
     i = M_CheckParmWithArgs("-config", 1);
 
     if (i)
+    {
+        C_Output("Found -CONFIG on command-line.");
+
         doom_defaults.filename = myargv[i + 1];
+
+        if (LoadDefaultCollection(&doom_defaults))
+            C_Output("Loaded CVARs from %s.", uppercase(myargv[i + 1]));
+        else
+            C_Output("%s not found. Using defaults for all CVARs.", uppercase(myargv[i + 1]));
+    }
     else
+    {
         doom_defaults.filename = PACKAGE_CONFIG;
 
-    if (LoadDefaultCollection(&doom_defaults))
-        C_Output("Loaded CVARs from " PACKAGE_CONFIG ".");
-    else
-        C_Output(PACKAGE_CONFIG " not found. Using defaults for all CVARs.");
+        if (LoadDefaultCollection(&doom_defaults))
+            C_Output("Loaded CVARs from %s.", uppercase(PACKAGE_CONFIG));
+        else
+            C_Output("%s not found. Using defaults for all CVARs.", uppercase(PACKAGE_CONFIG));
+    }
     M_CheckDefaults();
 }
