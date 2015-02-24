@@ -41,6 +41,7 @@
 #include <Xinput.h>
 #endif
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
 #include "i_video.h"
@@ -727,7 +728,7 @@ static float ParseFloatParameter(char *strparm, int set)
     return (float)atof(strparm);
 }
 
-static void LoadDefaultCollection(default_collection_t *collection)
+static boolean LoadDefaultCollection(default_collection_t *collection)
 {
     default_t   *defaults = collection->defaults;
     int         i;
@@ -740,7 +741,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
 
     if (!f)
         // File not opened, but don't complain
-        return;
+        return false;
 
     while (!feof(f))
     {
@@ -813,6 +814,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
     }
 
     fclose(f);
+    return true;
 }
 
 //
@@ -1211,6 +1213,9 @@ void M_LoadDefaults(void)
     else
         doom_defaults.filename = PACKAGE_CONFIG;
 
-    LoadDefaultCollection(&doom_defaults);
+    if (LoadDefaultCollection(&doom_defaults))
+        C_Output("Loaded CVARs from " PACKAGE_CONFIG ".");
+    else
+        C_Output(PACKAGE_CONFIG " not found. Using defaults for all CVARs.");
     M_CheckDefaults();
 }
