@@ -81,6 +81,7 @@ int             consoleheight = 0;
 int             consoledirection = -1;
 
 char            *conback = "";
+boolean         defaultconback;
 
 byte            *consolebackground;
 patch_t         *divider;
@@ -205,8 +206,9 @@ static void C_DrawDivider(int y)
 {
     int x;
 
-    for (x = 0; x < ORIGINALWIDTH; x += 8)
-        V_DrawTranslucentConsolePatch(x, y / 2, divider);
+    if (defaultconback)
+        for (x = 0; x < ORIGINALWIDTH; x += 8)
+            V_DrawTranslucentConsolePatch(x, y / 2, divider);
 }
 
 void C_Init(void)
@@ -222,6 +224,9 @@ void C_Init(void)
         M_SaveDefaults();
     }
     consolebackground = W_CacheLumpName(conback, PU_CACHE);
+
+    defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
+        || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
 
     divider = W_CacheLumpName("BRDR_B", PU_CACHE);
 

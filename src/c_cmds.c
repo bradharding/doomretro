@@ -1918,6 +1918,8 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
         {
             conback = strdup(parm1);
             consolebackground = W_CacheLumpName(parm1, PU_CACHE);
+            defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
+                || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
             M_SaveDefaults();
             C_Output("conback is now \"%s\".", conback);
         }

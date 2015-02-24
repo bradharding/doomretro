@@ -79,6 +79,7 @@ extern char     consolecheat[255];
 extern char     consolecheatparm[3];
 extern char     consolecmdparm[255];
 
+extern boolean  defaultconback;
 extern byte     *consolebackground;
 
 void C_Print(stringtype_t type, char *string, ...);
