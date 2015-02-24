@@ -1315,6 +1315,9 @@ static void D_DoomMainSetup(void)
         I_Error("Game mode indeterminate. No IWAD file was found. Try\n"
                 "specifying one with the '-iwad' command-line parameter.");
 
+    if (BTSX)
+        C_SetConsoleOutputColor();
+
 #if defined(WIN32)
     if (!W_MergeFile(PACKAGE_WAD))
 #elif defined(__MACOSX__)

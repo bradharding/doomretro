@@ -929,3 +929,12 @@ void C_PrintSDLVersions(void)
 #endif
         );
 }
+
+void C_SetConsoleOutputColor(void)
+{
+    int i;
+
+    for (i = 0; i < consolestrings; i++)
+        if (console[i].type == output)
+            console[i].color = CONSOLEOUTPUTCOLOR;
+}
