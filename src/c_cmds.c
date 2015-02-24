@@ -1692,8 +1692,7 @@ void C_DisplayBinds(char *action, int value, controltype_t type, int count)
     {
         if (controls[control].type == type && controls[control].value == value)
         {
-            C_Print(output, CONSOLEOUTPUTCOLOR, "%i\t%s\t%s", count, controls[control].control,
-                action);
+            C_Output("%i\t%s\t%s", count, controls[control].control, action);
             break;
         }
         ++control;
@@ -1745,20 +1744,16 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                 {
                     if (controls[control].type == keyboard && actions[action].keyboard1
                         && controls[control].value == *(int *)actions[action].keyboard1)
-                        C_Print(output, CONSOLEOUTPUTCOLOR, "%s \"%s\"", controls[control].control,
-                            actions[action].action);
+                        C_Output("%s \"%s\"", controls[control].control, actions[action].action);
                     else if (controls[control].type == keyboard && actions[action].keyboard2
                         && controls[control].value == *(int *)actions[action].keyboard2)
-                        C_Print(output, CONSOLEOUTPUTCOLOR, "%s \"%s\"", controls[control].control,
-                            actions[action].action);
+                        C_Output("%s \"%s\"", controls[control].control, actions[action].action);
                     else if (controls[control].type == mouse && actions[action].mouse
                         && controls[control].value == *(int *)actions[action].mouse)
-                        C_Print(output, CONSOLEOUTPUTCOLOR, "%s \"%s\"", controls[control].control,
-                            actions[action].action);
+                        C_Output("%s \"%s\"", controls[control].control, actions[action].action);
                     else if (controls[control].type == gamepad && actions[action].gamepad
                         && controls[control].value == *(int *)actions[action].gamepad)
-                        C_Print(output, CONSOLEOUTPUTCOLOR, "%s \"%s\"", controls[control].control,
-                            actions[action].action);
+                        C_Output("%s \"%s\"", controls[control].control, actions[action].action);
                     ++action;
                 }
             }
@@ -1803,7 +1798,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                             break;
                     }
                     M_SaveDefaults();
-                    C_Print(output, CONSOLEOUTPUTCOLOR, "%s \"%s\"", parm1, parm2);
+                    C_Output("%s \"%s\"", parm1, parm2);
                 }
             }
         }
@@ -1836,12 +1831,11 @@ void C_Boolean(char *cmd, char *parm1, char *parm2)
                     *(boolean *)consolecmds[i].variable = !!value;
                     if (!(consolecmds[i].flags & CF_NOTSAVED))
                         M_SaveDefaults();
-                    C_Print(output, CONSOLEOUTPUTCOLOR, "%s is now %s.", cmd, parm1);
+                    C_Output("%s is now %s.", cmd, parm1);
                 }
             }
             else
-                C_Print(output, CONSOLEOUTPUTCOLOR, "%s is %s.", cmd,
-                    (*(boolean *)consolecmds[i].variable ? "on" : "off"));
+                C_Output("%s is %s.", cmd, (*(boolean *)consolecmds[i].variable ? "on" : "off"));
         }
         ++i;
     }
@@ -1873,7 +1867,7 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
             P_BloodSplatSpawner = ((bloodsplats == UNLIMITED ? P_SpawnBloodSplat :
                 (bloodsplats ? P_SpawnBloodSplat2 : P_NullBloodSplatSpawner)));
-            C_Print(output, CONSOLEOUTPUTCOLOR, "bloodsplats is now %s.", parm1);
+            C_Output("bloodsplats is now %s.", parm1);
         }
     }
     else
@@ -1881,9 +1875,9 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
         char    *alias = C_LookupAliasFromValue(bloodsplats, 2);
 
         if (alias)
-            C_Print(output, CONSOLEOUTPUTCOLOR, "bloodsplats is %s.", alias);
+            C_Output("bloodsplats is %s.", alias);
         else
-            C_Print(output, CONSOLEOUTPUTCOLOR, "bloodsplats is %i.", bloodsplats);
+            C_Output("bloodsplats is %i.", bloodsplats);
     }
 }
 
@@ -1908,8 +1902,7 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
     while (consolecmds[i].name[0])
     {
         if (consolecmds[i].type == CT_CMD)
-            C_Print(output, CONSOLEOUTPUTCOLOR, "%i\t%s\t\t%s", count++, consolecmds[i].format,
-                 consolecmds[i].description);
+            C_Output("%i\t%s\t\t%s", count++, consolecmds[i].format, consolecmds[i].description);
         ++i;
     }
 }
@@ -1926,11 +1919,11 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
             conback = strdup(parm1);
             consolebackground = W_CacheLumpName(parm1, PU_CACHE);
             M_SaveDefaults();
-            C_Print(output, CONSOLEOUTPUTCOLOR, "conback is now \"%s\".", conback);
+            C_Output("conback is now \"%s\".", conback);
         }
     }
     else
-        C_Print(output, CONSOLEOUTPUTCOLOR, "conback is \"%s\".", conback);
+        C_Output("conback is \"%s\".", conback);
 }
 
 //
@@ -1946,7 +1939,7 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
         if (consolecmds[i].type == CT_CVAR)
         {
             if (consolecmds[i].flags & CF_BOOLEAN)
-                C_Print(output, CONSOLEOUTPUTCOLOR, "%i\t%s\t\t%s", count++, consolecmds[i].name,
+                C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
                     C_LookupAliasFromValue(*(boolean *)consolecmds[i].variable,
                     consolecmds[i].aliases));
             else if (consolecmds[i].flags & CF_INTEGER)
@@ -1955,20 +1948,19 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
                               consolecmds[i].aliases);
 
                 if (alias)
-                    C_Print(output, CONSOLEOUTPUTCOLOR, "%i\t%s\t\t%s", count++,
-                        consolecmds[i].name, alias);
+                    C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name, alias);
                 else
-                    C_Print(output, CONSOLEOUTPUTCOLOR, "%i\t%s\t\t%i", count++,
-                        consolecmds[i].name, *(int *)consolecmds[i].variable);
+                    C_Output("%i\t%s\t\t%i", count++, consolecmds[i].name,
+                        *(int *)consolecmds[i].variable);
             }
             else if (consolecmds[i].flags & CF_INTEGER_PERCENT)
-                C_Print(output, CONSOLEOUTPUTCOLOR, "%i\t%s\t\t%i%%", count++,
-                    consolecmds[i].name, *(int *)consolecmds[i].variable);
+                C_Output("%i\t%s\t\t%i%%", count++, consolecmds[i].name,
+                    *(int *)consolecmds[i].variable);
             else if (consolecmds[i].flags & CF_STRING)
-                C_Print(output, CONSOLEOUTPUTCOLOR, "%i\t%s\t\t\"%s\"", count++,
-                    consolecmds[i].name, *(char **)consolecmds[i].variable);
+                C_Output("%i\t%s\t\t\"%s\"", count++, consolecmds[i].name,
+                    *(char **)consolecmds[i].variable);
             else if (consolecmds[i].flags & CF_FLOAT_PERCENT)
-                C_Print(output, CONSOLEOUTPUTCOLOR, "%i\t%s\t\t%s%%", count++, consolecmds[i].name,
+                C_Output("%i\t%s\t\t%s%%", count++, consolecmds[i].name,
                     striptrailingzero(*(float *)consolecmds[i].variable));
         }
         ++i;
@@ -2015,7 +2007,7 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
         }
 
         M_SaveDefaults();
-        C_Print(output, CONSOLEOUTPUTCOLOR, "%s is now %s%%.", cmd, striptrailingzero(value));
+        C_Output("%s is now %s%%.", cmd, striptrailingzero(value));
     }
     else
     {
@@ -2026,7 +2018,7 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
         else
             value = gamepadrightdeadzone_percent;
 
-        C_Print(output, CONSOLEOUTPUTCOLOR, "%s is %s%%.", cmd, striptrailingzero(value));
+        C_Output("%s is %s%%.", cmd, striptrailingzero(value));
     }
 }
 
@@ -2063,19 +2055,17 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
 
             if (gammaindex == 10)
-                C_Print(output, CONSOLEOUTPUTCOLOR, "\"gammacorrectionlevel\" is now off.");
+                C_Output("\"gammacorrectionlevel\" is now off.");
             else
-                C_Print(output, CONSOLEOUTPUTCOLOR, "\"gammacorrectionlevel\" is now %.2f.",
-                    gammalevels[gammaindex]);
+                C_Output("\"gammacorrectionlevel\" is now %.2f.", gammalevels[gammaindex]);
         }
     }
     else
     {
         if (gammaindex == 10)
-            C_Print(output, CONSOLEOUTPUTCOLOR, "\"gammacorrectionlevel\" is off.");
+            C_Output("\"gammacorrectionlevel\" is off.");
         else
-            C_Print(output, CONSOLEOUTPUTCOLOR, "\"gammacorrectionlevel\" is %.2f.",
-                gammalevels[gammaindex]);
+            C_Output("\"gammacorrectionlevel\" is %.2f.", gammalevels[gammaindex]);
     }
 }
 
@@ -2092,8 +2082,7 @@ void C_God(char *cmd, char *parm1, char *parm2)
     player_t      *player = &players[displayplayer];
 
     player->cheats ^= CF_GODMODE;
-    C_Print(output, CONSOLEOUTPUTCOLOR,
-        ((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF));
+    C_Output((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF);
 }
 
 //
@@ -2114,12 +2103,11 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         {
             graphicdetail = !!value;
             M_SaveDefaults();
-            C_Print(output, CONSOLEOUTPUTCOLOR, "graphicdetail is now %s.", parm1);
+            C_Output("graphicdetail is now %s.", parm1);
         }
     }
     else
-        C_Print(output, CONSOLEOUTPUTCOLOR, "graphicdetail is %s.",
-            C_LookupAliasFromValue(graphicdetail, 3));
+        C_Output("graphicdetail is %s.", C_LookupAliasFromValue(graphicdetail, 3));
 }
 
 //
@@ -2184,7 +2172,7 @@ void C_Integer(char *cmd, char *parm1, char *parm2)
                     *(int *)consolecmds[i].variable = value;
                     if (!(consolecmds[i].flags & CF_NOTSAVED))
                         M_SaveDefaults();
-                    C_Print(output, CONSOLEOUTPUTCOLOR, "%s is now %s.", cmd, parm1);
+                    C_Output("%s is now %s.", cmd, parm1);
                 }
             }
             else
@@ -2193,10 +2181,9 @@ void C_Integer(char *cmd, char *parm1, char *parm2)
                                  consolecmds[i].aliases);
 
                 if (alias)
-                    C_Print(output, CONSOLEOUTPUTCOLOR, "%s is %s.", parm1, alias);
+                    C_Output("%s is %s.", parm1, alias);
                 else
-                    C_Print(output, CONSOLEOUTPUTCOLOR, "%s is %i.", cmd,
-                        *(int *)consolecmds[i].variable);
+                    C_Output("%s is %i.", cmd, *(int *)consolecmds[i].variable);
             }
         }
         ++i;
@@ -2262,7 +2249,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
     if (!parm1[0])
     {
         P_KillMobj(NULL, players[displayplayer].mo);
-        C_Print(output, CONSOLEOUTPUTCOLOR, "Player killed.");
+        C_Output("Player killed.");
     }
     else
     {
@@ -2325,10 +2312,9 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
             }
         }
         if (!kills)
-            C_Print(output, CONSOLEOUTPUTCOLOR, "No monsters killed.");
+            C_Output("No monsters killed.");
         else
-            C_Print(output, CONSOLEOUTPUTCOLOR, "%i monster%s killed.", kills,
-                kills == 1 ? "" : "s");
+            C_Output("%i monster%s killed.", kills, (kills == 1 ? "" : "s"));
     }
 }
 
@@ -2384,7 +2370,7 @@ void C_Map(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
     {
-        C_Print(output, CONSOLEOUTPUTCOLOR, MAPCMDFORMAT);
+        C_Output(MAPCMDFORMAT);
         return;
     }
 
@@ -2447,7 +2433,7 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
         }
 
         M_SaveDefaults();
-        C_Print(output, CONSOLEOUTPUTCOLOR, "%s is now %i%%.", cmd, value);
+        C_Output("%s is now %i%%.", cmd, value);
     }
     else
     {
@@ -2456,7 +2442,7 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
         else
             value = sfxvolume_percent;
 
-        C_Print(output, CONSOLEOUTPUTCOLOR, "%s is %i%%.", cmd, value);
+        C_Output("%s is %i%%.", cmd, value);
     }
 }
 
@@ -2475,8 +2461,7 @@ void C_NoClip(char *cmd, char *parm1, char *parm2)
 void C_NoTarget(char *cmd, char *parm1, char *parm2)
 {
     players[displayplayer].cheats ^= CF_NOTARGET;
-    C_Print(output, CONSOLEOUTPUTCOLOR,
-        ((players[displayplayer].cheats & CF_NOTARGET) ? s_STSTR_NTON : s_STSTR_NTOFF));
+    C_Output((players[displayplayer].cheats & CF_NOTARGET) ? s_STSTR_NTON : s_STSTR_NTOFF);
 }
 
 //
@@ -2530,11 +2515,11 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
             screensize = value;
             M_SaveDefaults();
             R_SetViewSize(screensize);
-            C_Print(output, CONSOLEOUTPUTCOLOR, "screensize is now %i.", screensize);
+            C_Output("screensize is now %i.", screensize);
         }
     }
     else
-        C_Print(output, CONSOLEOUTPUTCOLOR, "screensize is %i.", screensize);
+        C_Output("screensize is %i.", screensize);
 }
 
 //
@@ -2549,11 +2534,11 @@ void C_ShowFPS(char *cmd, char *parm1, char *parm2)
         if (value == 0 || value == 1)
         {
             showfps = !!value;
-            C_Print(output, CONSOLEOUTPUTCOLOR, "showfps is now %s.", parm1);
+            C_Output("showfps is now %s.", parm1);
         }
     }
     else
-        C_Print(output, CONSOLEOUTPUTCOLOR, "showfps is %s.", (showfps ? "on" : "off"));
+        C_Output("showfps is %s.", (showfps ? "on" : "off"));
 }
 
 //
@@ -2572,11 +2557,10 @@ void C_String(char *cmd, char *parm1, char *parm2)
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
                 M_SaveDefaults();
-                C_Print(output, CONSOLEOUTPUTCOLOR, "%s is now \"%s\".", cmd, parm1);
+                C_Output("%s is now \"%s\".", cmd, parm1);
             }
             else
-                C_Print(output, CONSOLEOUTPUTCOLOR, "%s is \"%s\".", cmd,
-                    *(char **)consolecmds[i].variable);
+                C_Output("%s is \"%s\".", cmd, *(char **)consolecmds[i].variable);
         }
         ++i;
     }
@@ -2633,7 +2617,7 @@ void C_Summon(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
     {
-        C_Print(output, CONSOLEOUTPUTCOLOR, SUMMONCMDFORMAT);
+        C_Output(SUMMONCMDFORMAT);
         return;
     }
     else

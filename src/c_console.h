@@ -82,6 +82,7 @@ extern char     consolecmdparm[255];
 extern byte     *consolebackground;
 
 void C_Print(stringtype_t type, byte color, char *string, ...);
+void C_Output(char *string, ...);
 void C_AddConsoleDivider(void);
 void C_Init(void);
 void C_HideConsole(void);

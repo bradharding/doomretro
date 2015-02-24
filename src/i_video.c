@@ -988,11 +988,17 @@ static void SetVideoMode(void)
         }
 
         if (!screenwidth && !screenheight)
+        {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
+            C_Output("Using desktop resolution of %ix%i.", desktopwidth, desktopheight);
+        }
         else
+        {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
+            C_Output("Using resolution of %ix%i.", screenwidth, screenheight);
+        }
 
         renderer = SDL_CreateRenderer(window, -1, flags);
 

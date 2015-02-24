@@ -86,6 +86,7 @@ patch_t         *divider;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
 patch_t         *ldquote;
+patch_t         *multiply;
 
 console_t       *console;
 char            consoleinput[255] = "";
@@ -133,6 +134,23 @@ void C_Print(stringtype_t type, byte color, char *string, ...)
     ++consolestrings;
 }
 
+void C_Output(char *string, ...)
+{
+    va_list     argptr;
+    char        buffer[1024];
+
+    va_start(argptr, string);
+    memset(buffer, 0, sizeof(buffer));
+    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    va_end(argptr);
+
+    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console[consolestrings].string = strdup(buffer);
+    console[consolestrings].type = output;
+    console[consolestrings].color = CONSOLEOUTPUTCOLOR;
+    ++consolestrings;
+}
+
 void C_AddConsoleDivider(void)
 {
     if (!consolestrings || strcasecmp(console[consolestrings - 1].string, DIVIDER))
@@ -170,6 +188,7 @@ void C_Init(void)
     }
     lsquote = W_CacheLumpName("DRFON145", PU_STATIC);
     ldquote = W_CacheLumpName("DRFON147", PU_STATIC);
+    multiply = W_CacheLumpName("DRFON215", PU_STATIC);
 
     caret = consolefont['|' - CONSOLEFONTSTART];
 }
@@ -319,6 +338,7 @@ static void C_DrawText(int x, int y, char *text, byte color)
         {
             char    letter = text[i];
             int     c = letter - CONSOLEFONTSTART;
+            char    nextletter = text[i + 1];
 
             if (letter == ITALICS)
             {
@@ -337,7 +357,9 @@ static void C_DrawText(int x, int y, char *text, byte color)
                     patch_t     *patch = consolefont[c];
                     int         k = 0;
 
-                    if (prevletter == ' ' || prevletter == '\t')
+                    if (isdigit(prevletter) && letter == 'x' && isdigit(nextletter))
+                        patch = multiply;
+                    else if (prevletter == ' ' || prevletter == '\t')
                     {
                         if (letter == '\'')
                             patch = lsquote;
@@ -847,14 +869,14 @@ void C_PrintCompileDate(void)
 
     sscanf(__DATE__, "%s %d %d", month, &day, &year);
     sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
-    C_Print(output, CONSOLEOUTPUTCOLOR, "DOOMRETRO.EXE was built on %s %i, %i at %i:%02i%s.",
+    C_Output("DOOMRETRO.EXE was built on %s %i, %i at %i:%02i%s.",
         months[(strstr(mths, month) - mths) / 3], day, year, hour, minute,
         (hour < 12 ? "am" : "pm"));
 }
 
 void C_PrintSDLVersion(void)
 {
-    C_Print(output, CONSOLEOUTPUTCOLOR, "Using version %i.%i.%i of %s.",
+    C_Output("Using version %i.%i.%i of %s.",
         SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL,
 #if defined(SDL20)
         "SDL2.DLL"
