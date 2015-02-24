@@ -52,6 +52,7 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "SDL.h"
+#include "SDL_mixer.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -908,7 +909,7 @@ void C_PrintCompileDate(void)
         (hour < 12 ? "am" : "pm"));
 }
 
-void C_PrintSDLVersion(void)
+void C_PrintSDLVersions(void)
 {
     C_Output("Using version %i.%i.%i of %s.",
         SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL,
@@ -916,6 +917,15 @@ void C_PrintSDLVersion(void)
         "SDL2.DLL"
 #else
         "SDL.DLL"
+#endif
+        );
+
+    C_Output("Using version %i.%i.%i of %s.",
+        SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
+#if defined(SDL20)
+        "SDL2_MIXER.DLL"
+#else
+        "SDL_MIXER.DLL"
 #endif
         );
 }

@@ -1159,7 +1159,7 @@ static void D_DoomMainSetup(void)
 
     C_PrintCompileDate();
 
-    C_PrintSDLVersion();
+    C_PrintSDLVersions();
 
     iwadfile = D_FindIWAD();
 
