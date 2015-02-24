@@ -424,3 +424,29 @@ char *commify(double value)
     } while (1);
     return result;
 }
+
+boolean wildcard(char *input, char *pattern)
+{
+    int i, z;
+
+    if (pattern[0] == '\0')
+        return true;
+
+    for (i = 0; pattern[i] != '\0'; i++)
+    {
+        if (pattern[i] == '\0')
+            return false;
+        else if (pattern[i] == '?')
+            continue;
+        else if (pattern[i] == '*')
+        {
+            for (z = i; input[z] != '\0'; z++)
+                if (wildcard(input + z, pattern + i + 1))
+                    return true;
+            return false;
+        }
+        else if (pattern[i] != input[i])
+            return false;
+    }
+    return true;
+}

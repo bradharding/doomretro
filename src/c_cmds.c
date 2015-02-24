@@ -467,7 +467,7 @@ consolecmd_t consolecmds[] =
         /* name        */ "cmdlist",
         /* condition   */ C_NoCondition,
         /* function    */ C_CmdList,
-        /* parameters  */ 0,
+        /* parameters  */ 1,
         /* type        */ CT_CMD,
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
@@ -475,7 +475,7 @@ consolecmd_t consolecmds[] =
         /* minimum     */ 0,
         /* maximum     */ 0,
         /* default     */ 0,
-        /* format      */ "cmdlist",
+        /* format      */ "cmdlist [~pattern~]",
         /* description */ "Display a list of console commands."
     },
 
@@ -563,7 +563,7 @@ consolecmd_t consolecmds[] =
         /* name        */ "cvarlist",
         /* condition   */ C_NoCondition,
         /* function    */ C_CvarList,
-        /* parameters  */ 0,
+        /* parameters  */ 1,
         /* type        */ CT_CMD,
         /* flags       */ CF_NONE,
         /* variable    */ NULL,
@@ -571,7 +571,7 @@ consolecmd_t consolecmds[] =
         /* minimum     */ 0,
         /* maximum     */ 0,
         /* default     */ 0,
-        /* format      */ "cvarlist",
+        /* format      */ "cvarlist [~pattern~]",
         /* description */ "Display a list of console variables."
     },
 
@@ -1901,7 +1901,7 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
 
     while (consolecmds[i].name[0])
     {
-        if (consolecmds[i].type == CT_CMD)
+        if (consolecmds[i].type == CT_CMD && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
             C_Output("%i\t%s\t\t%s", count++, consolecmds[i].format, consolecmds[i].description);
         ++i;
     }
@@ -1938,7 +1938,7 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
 
     while (consolecmds[i].name[0])
     {
-        if (consolecmds[i].type == CT_CVAR)
+        if (consolecmds[i].type == CT_CVAR && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
         {
             if (consolecmds[i].flags & CF_BOOLEAN)
                 C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,

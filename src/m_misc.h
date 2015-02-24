@@ -62,5 +62,6 @@ int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 char *uppercase(char *str);
 char *commify(double value);
+boolean wildcard(char *input, char *pattern);
 
 #endif
