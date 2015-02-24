@@ -1367,8 +1367,6 @@ static void D_DoomMainSetup(void)
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
 
-    I_InitTimer();
-    I_InitGamepad();
 
     // Generate the WAD hash table. Speed things up a bit.
     W_GenerateHashTable();
@@ -1378,6 +1376,9 @@ static void D_DoomMainSetup(void)
     D_ProcessDehInWad();
     D_SetGameDescription();
     D_SetSaveGameDir();
+
+    I_InitTimer();
+    I_InitGamepad();
 
     I_InitGraphics();
 

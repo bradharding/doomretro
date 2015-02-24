@@ -49,6 +49,7 @@ static XINPUTGETSTATE pXInputGetState;
 static XINPUTSETSTATE pXInputSetState;
 #endif
 
+#include "c_console.h"
 #include "d_main.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
@@ -106,9 +107,14 @@ void I_InitGamepad(void)
         else
         {
 #if defined(WIN32)
-            if (!(pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                if (!(pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                    pXInputDLL = LoadLibrary("XInput1_3.dll");
+            char *XInputDLL = malloc(16 * sizeof(char));
+
+            if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
+                XInputDLL = "XINPUT1_4.DLL";
+            else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
+                XInputDLL = "XINPUT9_1_0.DLL";
+            else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
+                XInputDLL = "XINPUT1_3.DLL";
 
             if (pXInputDLL)
             {
@@ -126,12 +132,15 @@ void I_InitGamepad(void)
                         gamepadfunc = I_PollXInputGamepad;
                         gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_XInput_LeftHanded :
                             I_PollThumbs_XInput_RightHanded);
+                        C_Output("XInput gamepad detected. Using %s.", XInputDLL);
                     }
                 }
                 else
                     FreeLibrary(pXInputDLL);
             }
+            else
 #endif
+                C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 
             SDL_JoystickEventState(SDL_ENABLE);
         }
