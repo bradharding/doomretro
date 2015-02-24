@@ -905,8 +905,8 @@ void C_PrintCompileDate(void)
     sscanf(__DATE__, "%s %d %d", month, &day, &year);
     sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
     C_Output("DOOMRETRO.EXE was built on %s %i, %i at %i:%02i%s.",
-        months[(strstr(mths, month) - mths) / 3], day, year, hour, minute,
-        (hour < 12 ? "am" : "pm"));
+        months[(strstr(mths, month) - mths) / 3], day, year,
+        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 }
 
 void C_PrintSDLVersions(void)
