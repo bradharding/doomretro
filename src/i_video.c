@@ -1024,11 +1024,11 @@ static void SetVideoMode(void)
     C_Output("Vsync is %s.", (vsync ? "enabled" : "disabled"));
 
     if (!strcasecmp(scalequality, "nearest"))
-        C_Output("Scaling the screen using nearest-neighbor interpolation.");
+        C_Output("Scaling screen using nearest-neighbor interpolation.");
     else if (!strcasecmp(scalequality, "linear"))
-        C_Output("Scaling the screen using linear filtering.");
+        C_Output("Scaling screen using linear filtering.");
     else if (!strcasecmp(scalequality, "best"))
-        C_Output("Scaling the screen using anisotropic filtering.");
+        C_Output("Scaling screen using anisotropic filtering.");
 
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     rgbabuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);

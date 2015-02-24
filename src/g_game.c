@@ -629,7 +629,7 @@ void G_DoLoadLevel(void)
 #endif
 
     C_AddConsoleDivider();
-    C_Print(title, CONSOLEMAPTITLECOLOR, mapnumandtitle);
+    C_Print(title, mapnumandtitle);
 
     if (automapactive)
         AM_Start();
@@ -958,7 +958,7 @@ void G_Ticker(void)
                             }
                         }
                         else
-                            C_Print(output, CONSOLEPLAYERMESSAGECOLOR, message);
+                            C_PlayerMessage(message);
                     }
                     gameaction = ga_nothing;
                 }

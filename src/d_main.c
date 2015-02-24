@@ -1316,7 +1316,7 @@ static void D_DoomMainSetup(void)
                 "specifying one with the '-iwad' command-line parameter.");
 
     if (BTSX)
-        C_SetConsoleOutputColor();
+        C_SetBTSXColorScheme();
 
 #if defined(WIN32)
     if (!W_MergeFile(PACKAGE_WAD))

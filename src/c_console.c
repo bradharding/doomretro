@@ -118,7 +118,19 @@ char *upper =
     ":<+>?\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\\}^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 };
 
-void C_Print(stringtype_t type, byte color, char *string, ...)
+byte consolecaretcolor = 160;
+byte consolelowfpscolor = 180;
+byte consolehighfpscolor = 116;
+byte consoleinputcolor = 160;
+byte consoleinputtooutputcolor = 160;
+byte consolemaptitlecolor = 160;
+byte consoleplayermessagecolor = 160;
+byte consoleoutputcolor = 160;
+byte consoletitlecolor = 160;
+
+byte consolecolors[3];
+
+void C_Print(stringtype_t type, char *string, ...)
 {
     va_list     argptr;
     char        buffer[1024];
@@ -131,7 +143,6 @@ void C_Print(stringtype_t type, byte color, char *string, ...)
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = type;
-    console[consolestrings].color = color;
     ++consolestrings;
 }
 
@@ -148,7 +159,6 @@ void C_Output(char *string, ...)
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = output;
-    console[consolestrings].color = CONSOLEOUTPUTCOLOR;
     ++consolestrings;
 }
 
@@ -181,7 +191,6 @@ void C_PlayerMessage(char *string, ...)
         console = realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
         console[consolestrings].type = output;
-        console[consolestrings].color = CONSOLEPLAYERMESSAGECOLOR;
         ++consolestrings;
     }
 }
@@ -189,7 +198,7 @@ void C_PlayerMessage(char *string, ...)
 void C_AddConsoleDivider(void)
 {
     if (!consolestrings || strcasecmp(console[consolestrings - 1].string, DIVIDER))
-        C_Print(output, 0, DIVIDER);
+        C_Print(output, DIVIDER);
 }
 
 static void C_DrawDivider(int y)
@@ -226,6 +235,10 @@ void C_Init(void)
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
 
     caret = consolefont['|' - CONSOLEFONTSTART];
+
+    consolecolors[0] = consoleinputtooutputcolor;
+    consolecolors[1] = consoleoutputcolor;
+    consolecolors[2] = consoletitlecolor;
 }
 
 void C_HideConsole(void)
@@ -457,7 +470,7 @@ void C_Drawer(void)
         // draw title and version
         prevletter = ' ';
         C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX,
-            CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, CONSOLETITLECOLOR);
+            CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, consoletitlecolor);
 
         // draw console text
         if (outputhistory == -1)
@@ -475,7 +488,7 @@ void C_Drawer(void)
             prevletter = ' ';
             C_DrawText(CONSOLETEXTX,
                 CONSOLETEXTY + CONSOLELINEHEIGHT * (i - start + MAX(0, 10 - consolestrings)),
-                console[i].string, console[i].color);
+                console[i].string, consolecolors[console[i].type]);
         }
 
         // draw input text to left of caret
@@ -483,7 +496,7 @@ void C_Drawer(void)
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
-        C_DrawText(x, CONSOLEHEIGHT - 15, left, CONSOLEINPUTCOLOR);
+        C_DrawText(x, CONSOLEHEIGHT - 15, left, consoleinputcolor);
 
         // draw caret
         if (carettics++ == CARETTICS)
@@ -493,14 +506,14 @@ void C_Drawer(void)
         }
         x += C_TextWidth(left);
         if (showcaret)
-            V_DrawConsoleChar(x, consoleheight - 15, caret, CONSOLECARETCOLOR, false);
+            V_DrawConsoleChar(x, consoleheight - 15, caret, consolecaretcolor, false);
 
         // draw input text to right of caret
         for (i = 0; (unsigned int)i < strlen(consoleinput) - caretpos; ++i)
             right[i] = consoleinput[i + caretpos];
         right[i] = 0;
         if (right[0])
-            C_DrawText(x + 3, CONSOLEHEIGHT - 15, right, CONSOLEINPUTCOLOR);
+            C_DrawText(x + 3, CONSOLEHEIGHT - 15, right, consoleinputcolor);
     }
 
     if (showfps)
@@ -528,7 +541,7 @@ void C_Drawer(void)
                 patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
 
                 V_DrawConsoleChar(x, y, patch,
-                    fps < TICRATE ? CONSOLELOWFPSCOLOR : CONSOLEHIGHFPSCOLOR, false);
+                    fps < TICRATE ? consolelowfpscolor : consolehighfpscolor, false);
                 x += SHORT(patch->width);
             }
 
@@ -615,7 +628,7 @@ boolean C_Responder(event_t *ev)
                                         && consolecmds[i].condition(cmd, consolecheatparm, ""))
                                     {
                                         validcmd = true;
-                                        C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, consoleinput);
+                                        C_Print(input, consoleinput);
                                         M_StringCopy(consolecheat, cmd, 255);
                                         break;
                                     }
@@ -629,7 +642,7 @@ boolean C_Responder(event_t *ev)
                                     && consolecmds[i].condition(cmd, parm, ""))
                                 {
                                     validcmd = true;
-                                    C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, consoleinput);
+                                    C_Print(input, consoleinput);
                                     consolecmds[i].function(cmd, parm, "");
                                     break;
                                 }
@@ -648,7 +661,7 @@ boolean C_Responder(event_t *ev)
                                 && consolecmds[i].condition(cmd, parm1, parm2))
                             {
                                 validcmd = true;
-                                C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, consoleinput);
+                                C_Print(input, consoleinput);
                                 consolecmds[i].function(cmd, parm1, parm2);
                                 break;
                             }
@@ -657,7 +670,7 @@ boolean C_Responder(event_t *ev)
                             && consolecmds[i].condition(consoleinput, "", ""))
                         {
                             validcmd = true;
-                            C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, consoleinput);
+                            C_Print(input, consoleinput);
                             if (consolecmds[i].type == CT_CHEAT)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
@@ -930,11 +943,17 @@ void C_PrintSDLVersions(void)
         );
 }
 
-void C_SetConsoleOutputColor(void)
+void C_SetBTSXColorScheme(void)
 {
-    int i;
+    consolecaretcolor = 80;
+    consoleinputcolor = 80;
+    consoleinputtooutputcolor = 80;
+    consolemaptitlecolor = 80;
+    consoleplayermessagecolor = (BTSXE1 ? 196 : 215);
+    consoleoutputcolor = 80;
+    consoletitlecolor = 80;
 
-    for (i = 0; i < consolestrings; i++)
-        if (console[i].type == output)
-            console[i].color = CONSOLEOUTPUTCOLOR;
+    consolecolors[0] = consoleinputtooutputcolor;
+    consolecolors[1] = consoleoutputcolor;
+    consolecolors[2] = consoletitlecolor;
 }

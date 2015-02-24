@@ -47,15 +47,15 @@
 
 #define CONSOLETOP                      0
 
-#define CONSOLECARETCOLOR               (BTSX ? 80 : 160)
-#define CONSOLELOWFPSCOLOR              180
-#define CONSOLEHIGHFPSCOLOR             116
-#define CONSOLEINPUTCOLOR               (BTSX ? 80 : 160)
-#define CONSOLEINPUTTOOUTPUTCOLOR       (BTSX ? 80 : 160)
-#define CONSOLEMAPTITLECOLOR            (BTSX ? 80 : 160)
-#define CONSOLEPLAYERMESSAGECOLOR       (BTSXE1 ? 196 : (BTSXE2 ? 215 : 180))
-#define CONSOLEOUTPUTCOLOR              (BTSX ? 80 : 160)
-#define CONSOLETITLECOLOR               (BTSX ? 80 : 160)
+extern byte consolecaretcolor;
+extern byte consolelowfpscolor;
+extern byte consolehighfpscolor;
+extern byte consoleinputcolor;
+extern byte consoleinputtooutputcolor;
+extern byte consolemaptitlecolor;
+extern byte consoleplayermessagecolor;
+extern byte consoleoutputcolor;
+extern byte consoletitlecolor;
 
 typedef enum
 {
@@ -68,7 +68,6 @@ typedef struct
 {
     char                *string;
     stringtype_t        type;
-    byte                color;
 } console_t;
 
 extern boolean  consoleactive;
@@ -81,7 +80,7 @@ extern char     consolecmdparm[255];
 
 extern byte     *consolebackground;
 
-void C_Print(stringtype_t type, byte color, char *string, ...);
+void C_Print(stringtype_t type, char *string, ...);
 void C_Output(char *string, ...);
 void C_PlayerMessage(char *string, ...);
 void C_AddConsoleDivider(void);
@@ -91,6 +90,6 @@ void C_Drawer(void);
 boolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
-void C_SetConsoleOutputColor(void);
+void C_SetBTSXColorScheme(void);
 
 #endif

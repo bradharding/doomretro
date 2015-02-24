@@ -116,12 +116,9 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
         if (cht != &cheat_clev && cht != &cheat_mus)
         {
             if (cht->param_chars_read)
-            {
-                C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, "%s%c%c", cht->sequence,
-                    cht->parameter_buf[0], cht->parameter_buf[1]);
-            }
+                C_Print(input, "%s%c%c", cht->sequence, cht->parameter_buf[0], cht->parameter_buf[1]);
             else
-                C_Print(input, CONSOLEINPUTTOOUTPUTCOLOR, cht->sequence);
+                C_Print(input, cht->sequence);
         }
 
         cht->chars_read = cht->param_chars_read = cht->timeout = 0;
