@@ -601,11 +601,13 @@ static void D_FirstUse(void)
         "dialog box that follows, please navigate to where an official \xe2\x80\x9cIWAD file"
         "\xe2\x80\x9d that\n" PACKAGE_NAME " requires (such as DOOM.WAD or DOOM2.WAD) has been "
         "installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be selected by "
+        "clicking or "
 #if defined(__MACOSX__)
-        "clicking or CMD-clicking on them.";
+        "CMD"
 #else
-        "clicking or CTRL-clicking on them.";
+        "CTRL"
 #endif
+        "-clicking on them.\nGo to the DOOM RETRO Wiki for more information.";
 
     const SDL_MessageBoxButtonData buttons[] = 
     {
@@ -650,7 +652,7 @@ static void D_FirstUse(void)
         L"\u201cIWAD file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
         L"DOOM2.WAD) has been installed.\n\n"
         L"Additional \u201cPWAD files\u201d may then be selected by clicking or "
-        L"CTRL-clicking on them.";
+        L"CTRL-clicking on them. Go to the DOOM RETRO Wiki for more information.";
 
     if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
         I_Quit(false);
@@ -671,7 +673,8 @@ static void D_FirstUse(void)
     [msg appendString:@" requires (such as DOOM.WAD or "];
     [msg appendString:@"DOOM2.WAD) has been installed.\n\n"];
     [msg appendString:@"Additional \"PWAD files\" may then be selected by clicking or "];
-    [msg appendString:@"CMD-clicking on them."];
+    [msg appendString:@"CMD-clicking on them. "];
+    [msg appendString:@"CMD-clicking on them. Go to the DOOM RETRO Wiki for more information."];
 
     NSAlert     *alert = [[NSAlert alloc] init];
 
