@@ -37,6 +37,7 @@
 */
 
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
 #include "hu_stuff.h"
@@ -1425,6 +1426,9 @@ void I_InitKeyboard(void)
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
     }
+
+    if (alwaysrun)
+        C_Output(s_ALWAYSRUNON);
 #endif
 }
 

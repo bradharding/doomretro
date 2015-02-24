@@ -1608,7 +1608,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             return;     // should be checked up front anyway
         infile.lump = NULL;
         file_or_lump = "file";
-        C_Output("Added %s file %s.", (M_StringEndsWith(filename, "BEX") ? "BEX" : "DEH"),
+        C_Output("Parsed %s file %s.", (M_StringEndsWith(filename, "BEX") ? "BEX" : "DEH"),
             uppercase(filename));
     }
     else        // DEH file comes from lump indicated by third argument
@@ -1617,7 +1617,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
         filename = lumpinfo[lumpnum].wad_file->path;
         file_or_lump = "lump from";
-        C_Output("Added DEHACKED lump from %s.", uppercase(filename));
+        C_Output("Parsed DEHACKED lump from %s.", uppercase(filename));
     }
 
     if (fileout)
