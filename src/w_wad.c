@@ -252,7 +252,7 @@ wad_file_t *W_AddFile(char *filename)
     }
 
     header.identification[4] = 0;
-    C_Output("Added %s lumps from %s %s.",
+    C_Output("Added %s lumps from %s file %s.",
         commify(numlumps - startlump), header.identification, uppercase(filename));
 
     return wad_file;

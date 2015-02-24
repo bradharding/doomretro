@@ -1331,8 +1331,6 @@ static void D_DoomMainSetup(void)
     if (!CheckPackageWADVersion())
         I_Error("Wrong version of %s.", uppercase(PACKAGE_WAD));
 
-    I_InitGraphics();
-
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
 
@@ -1380,6 +1378,8 @@ static void D_DoomMainSetup(void)
     D_ProcessDehInWad();
     D_SetGameDescription();
     D_SetSaveGameDir();
+
+    I_InitGraphics();
 
     // Check for -file in shareware
     if (modifiedgame)
