@@ -151,6 +151,40 @@ void C_Output(char *string, ...)
     ++consolestrings;
 }
 
+void C_PlayerMessage(char *string, ...)
+{
+    va_list     argptr;
+    char        buffer[1024];
+
+    va_start(argptr, string);
+    memset(buffer, 0, sizeof(buffer));
+    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    va_end(argptr);
+
+    if (consolestrings && !strcasecmp(console[consolestrings - 1].string, buffer))
+    {
+        M_snprintf(buffer, sizeof(buffer), "%s (2)", console[consolestrings - 1].string);
+        console[consolestrings - 1].string = strdup(buffer);
+    }
+    else if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, buffer))
+    {
+        char *count = strrchr(console[consolestrings - 1].string, '(') + 1;
+
+        count[strlen(count) - 1] = 0;
+
+        M_snprintf(buffer, sizeof(buffer), "%s (%i)", buffer, atoi(count) + 1);
+        console[consolestrings - 1].string = strdup(buffer);
+    }
+    else
+    {
+        console = realloc(console, (consolestrings + 1) * sizeof(*console));
+        console[consolestrings].string = strdup(buffer);
+        console[consolestrings].type = output;
+        console[consolestrings].color = CONSOLEPLAYERMESSAGECOLOR;
+        ++consolestrings;
+    }
+}
+
 void C_AddConsoleDivider(void)
 {
     if (!consolestrings || strcasecmp(console[consolestrings - 1].string, DIVIDER))
