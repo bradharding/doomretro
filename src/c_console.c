@@ -560,7 +560,8 @@ void C_Drawer(void)
 
 boolean C_Responder(event_t *ev)
 {
-    if (consoleheight < CONSOLEHEIGHT)
+    if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) ||
+        (!consoleheight && consoledirection == -1))
         return false;
 
     if (ev->type == ev_keydown)
