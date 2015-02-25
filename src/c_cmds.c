@@ -2137,6 +2137,9 @@ boolean C_IntegerCondition(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
 
+    if (!parm1[0])
+        return true;
+
     while (consolecmds[i].name[0])
     {
         if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
