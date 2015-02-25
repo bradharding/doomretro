@@ -1965,11 +1965,8 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
                 char *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                               consolecmds[i].aliases);
 
-                if (alias)
-                    C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name, alias);
-                else
-                    C_Output("%i\t%s\t\t%i", count++, consolecmds[i].name,
-                        *(int *)consolecmds[i].variable);
+                C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
+                    (alias ? alias : commify(*(int *)consolecmds[i].variable)));
             }
             else if (consolecmds[i].flags & CF_INTEGER_PERCENT)
                 C_Output("%i\t%s\t\t%i%%", count++, consolecmds[i].name,
@@ -2201,10 +2198,8 @@ void C_Integer(char *cmd, char *parm1, char *parm2)
                 char    *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                                  consolecmds[i].aliases);
 
-                if (alias)
-                    C_Output("%s is %s.", parm1, alias);
-                else
-                    C_Output("%s is %i.", cmd, *(int *)consolecmds[i].variable);
+                C_Output("%s is %s.", cmd,
+                    (alias ? alias : commify(*(int *)consolecmds[i].variable)));
             }
         }
         ++i;
