@@ -1358,6 +1358,22 @@ consolecmd_t consolecmds[] =
         /* description */ ""
     },
 
+    {
+        /* name        */ "runcount",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER | CF_READONLY,
+        /* variable    */ &runcount,
+        /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
+        /* description */ ""
+    },
+
 #if defined(SDL20)
     {
         /* name        */ "scalequality",
