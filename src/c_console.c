@@ -958,7 +958,7 @@ void C_SetBTSXColorScheme(void)
     consoleinputtooutputcolor = 80;
     consolelowfpscolor = -180;
     consolemaptitlecolor = 80;
-    consoleplayermessagecolor = (BTSXE1 ? 196 : 215);
+    consoleplayermessagecolor = (BTSXE1 ? 196 : 214);
     consoleoutputcolor = 80;
     consoletitlecolor = 80;
 
