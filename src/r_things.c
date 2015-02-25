@@ -507,6 +507,9 @@ void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
+    if (type == MT_BLOODSPLAT && xscale < FRACUNIT / 3)
+        return;
+
     gxt = -FixedMul(tr_x, viewsin);
     gyt = FixedMul(tr_y, viewcos);
     tx = -(gyt + gxt);
@@ -540,13 +543,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    if (type == MT_SHADOW)
-    {
-        fz += thing->shadow->info->shadowoffset;
-        gzt = fz;
-    }
-    else
-        gzt = fz + spritetopoffset[lump];
+    gzt = fz + spritetopoffset[lump];
 
     if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
         || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
@@ -652,6 +649,9 @@ void R_ProjectShadow(mobj_t *thing)
         return;
 
     xscale = FixedDiv(projection, tz);
+
+    if (xscale < FRACUNIT / 3)
+        return;
 
     gxt = -FixedMul(tr_x, viewsin);
     gyt = FixedMul(tr_y, viewcos);
