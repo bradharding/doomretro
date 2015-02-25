@@ -180,7 +180,7 @@ void C_PlayerMessage(char *string, ...)
     }
     else if (consolestrings && M_StringStartsWith(console[consolestrings - 1].string, buffer))
     {
-        char *count = strrchr(console[consolestrings - 1].string, '(') + 1;
+        char    *count = strrchr(console[consolestrings - 1].string, '(') + 1;
 
         count[strlen(count) - 1] = 0;
 
@@ -274,7 +274,7 @@ static void C_DrawBackground(int height)
     int         offset = CONSOLEHEIGHT - height;
     int         top = offset;
 
-    for (y = offset; y < height + offset; y += 2)
+    for (y = offset; y < height + offset + 5; y += 2)
         for (x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             int i;
