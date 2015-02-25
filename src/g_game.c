@@ -946,9 +946,9 @@ void G_Ticker(void)
                         static char     message[512];
 
                         S_StartSound(NULL, sfx_swtchx);
+                        M_snprintf(message, sizeof(message), s_GSCREENSHOT, lbmname);
                         if (usergame || gamestate == GS_LEVEL)
                         {
-                            M_snprintf(message, sizeof(message), s_GSCREENSHOT, lbmname);
                             players[consoleplayer].message = message;
                             message_dontfuckwithme = true;
                             if (menuactive)
