@@ -167,11 +167,19 @@ void C_PlayerMessage(char *string, ...)
 {
     va_list     argptr;
     char        buffer[1024];
+    int         len;
 
     va_start(argptr, string);
     memset(buffer, 0, sizeof(buffer));
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
+
+    len = strlen(buffer);
+    if (buffer[len - 1] != '.')
+    {
+        buffer[len] = '.';
+        buffer[len + 1] = 0;
+    }
 
     if (consolestrings && !strcasecmp(console[consolestrings - 1].string, buffer))
     {
