@@ -1566,6 +1566,8 @@ static void D_DoomMainSetup(void)
         else
             D_StartTitle((boolean)M_CheckParm("-nosplash"));    // start up intro loop
     }
+
+    C_AddConsoleDivider();
 }
 
 //
