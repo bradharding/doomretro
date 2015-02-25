@@ -1393,22 +1393,6 @@ consolecmd_t consolecmds[] =
 #endif
 
     {
-        /* name        */ "screenwidth",
-        /* condition   */ C_IntegerCondition,
-        /* function    */ C_Integer,
-        /* parameters  */ 1,
-        /* type        */ CT_CVAR,
-        /* flags       */ CF_INTEGER,
-        /* variable    */ &screenwidth,
-        /* aliases     */ 5,
-        /* minimum     */ 0,
-        /* maximum     */ 0,
-        /* default     */ SCREENWIDTH_DEFAULT,
-        /* format      */ "",
-        /* description */ ""
-    },
-
-    {
         /* name        */ "screenheight",
         /* condition   */ C_IntegerCondition,
         /* function    */ C_Integer,
@@ -1418,7 +1402,7 @@ consolecmd_t consolecmds[] =
         /* variable    */ &screenheight,
         /* aliases     */ 5,
         /* minimum     */ 0,
-        /* maximum     */ 0,
+        /* maximum     */ INT_MAX,
         /* default     */ SCREENHEIGHT_DEFAULT,
         /* format      */ "",
         /* description */ ""
@@ -1436,6 +1420,22 @@ consolecmd_t consolecmds[] =
         /* minimum     */ SCREENSIZE_MIN,
         /* maximum     */ SCREENSIZE_MAX,
         /* default     */ SCREENSIZE_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
+        /* name        */ "screenwidth",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &screenwidth,
+        /* aliases     */ 5,
+        /* minimum     */ 0,
+        /* maximum     */ INT_MAX,
+        /* default     */ SCREENWIDTH_DEFAULT,
         /* format      */ "",
         /* description */ ""
     },
@@ -1619,6 +1619,22 @@ consolecmd_t consolecmds[] =
     },
 
     {
+        /* name        */ "windowheight",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &windowheight,
+        /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ INT_MAX,
+        /* default     */ WINDOWHEIGHT_DEFAULT,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
         /* name        */ "windowposition",
         /* condition   */ C_NoCondition,
         /* function    */ C_String,
@@ -1630,6 +1646,22 @@ consolecmd_t consolecmds[] =
         /* minimum     */ 0,
         /* maximum     */ 0,
         /* default     */ 0,
+        /* format      */ "",
+        /* description */ ""
+    },
+
+    {
+        /* name        */ "windowwidth",
+        /* condition   */ C_IntegerCondition,
+        /* function    */ C_Integer,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_INTEGER,
+        /* variable    */ &windowwidth,
+        /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ INT_MAX,
+        /* default     */ WINDOWHEIGHT_DEFAULT,
         /* format      */ "",
         /* description */ ""
     },
