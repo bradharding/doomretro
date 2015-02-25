@@ -576,7 +576,7 @@ void R_ProjectSprite(mobj_t *thing)
 
         vis->texturemid = gzt - viewz - clipfeet;
 
-        if (flags2 & MF2_NOFLOATBOB)
+        if ((flags2 & MF2_NOFLOATBOB) && sector->animate != INT_MAX)
             clipfeet += sector->animate;
 
         vis->footclip = clipfeet;
@@ -585,7 +585,7 @@ void R_ProjectSprite(mobj_t *thing)
     {
         vis->footclip = 0;
 
-        vis->texturemid = gzt - viewz - vis->footclip;
+        vis->texturemid = gzt - viewz;
     }
 
     vis->x1 = MAX(0, x1);

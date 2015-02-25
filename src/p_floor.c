@@ -266,8 +266,7 @@ void T_MoveFloor(floormove_t *floor)
                     if (isliquid[sec->floorpic])
                     {
                         P_ChangeSector(sec, false);
-                        if (animatedliquid)
-                            P_StartAnimatedLiquid(sec);
+                        P_StartAnimatedLiquid(sec);
                     }
                 default:
                     break;
@@ -283,8 +282,7 @@ void T_MoveFloor(floormove_t *floor)
                     if (isliquid[sec->floorpic])
                     {
                         P_ChangeSector(sec, false);
-                        if (animatedliquid)
-                            P_StartAnimatedLiquid(sec);
+                        P_StartAnimatedLiquid(sec);
                     }
                 default:
                     break;
