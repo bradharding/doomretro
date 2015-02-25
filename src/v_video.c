@@ -311,6 +311,8 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
+int italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
+
 void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, boolean italics)
 {
     int         col = 0;
@@ -333,7 +335,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, boolean italics)
                 if (y + column->topdelta + column->length - count > CONSOLETOP)
                 {
                     if (italics)
-                        *(dest + MAX(3, w / 2) - (column->topdelta + column->length - count) / 3 - 1)
+                        *(dest + italicize[column->topdelta + column->length - count])
                             = (*source == 160 ? color : *source);
                     else
                         *dest = (*source == 160 ? (color >= 0 ? color : tinttab25[(*dest << 8) - color]) : *source);
