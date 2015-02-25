@@ -47,16 +47,6 @@
 
 #define CONSOLETOP                      0
 
-extern byte consolecaretcolor;
-extern byte consolelowfpscolor;
-extern byte consolehighfpscolor;
-extern byte consoleinputcolor;
-extern byte consoleinputtooutputcolor;
-extern byte consolemaptitlecolor;
-extern byte consoleplayermessagecolor;
-extern byte consoleoutputcolor;
-extern byte consoletitlecolor;
-
 typedef enum
 {
     input,
@@ -81,6 +71,16 @@ extern char     consolecmdparm[255];
 
 extern boolean  defaultconback;
 extern byte     *consolebackground;
+
+extern int      consolecaretcolor;
+extern int      consolelowfpscolor;
+extern int      consolehighfpscolor;
+extern int      consoleinputcolor;
+extern int      consoleinputtooutputcolor;
+extern int      consolemaptitlecolor;
+extern int      consoleplayermessagecolor;
+extern int      consoleoutputcolor;
+extern int      consoletitlecolor;
 
 void C_Print(stringtype_t type, char *string, ...);
 void C_Output(char *string, ...);

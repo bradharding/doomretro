@@ -119,17 +119,17 @@ char *upper =
     ":<+>?\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\\}^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 };
 
-byte consolecaretcolor = 227;
-byte consolehighfpscolor = 116;
-byte consoleinputcolor = 227;
-byte consoleinputtooutputcolor = 227;
-byte consolelowfpscolor = 180;
-byte consolemaptitlecolor = 227;
-byte consoleplayermessagecolor = 180;
-byte consoleoutputcolor = 227;
-byte consoletitlecolor = 227;
+int     consolecaretcolor = 227;
+int     consolehighfpscolor = -116;
+int     consoleinputcolor = 227;
+int     consoleinputtooutputcolor = 227;
+int     consolelowfpscolor = -180;
+int     consolemaptitlecolor = 227;
+int     consoleplayermessagecolor = 180;
+int     consoleoutputcolor = 227;
+int     consoletitlecolor = 227;
 
-byte consolecolors[4];
+int consolecolors[4];
 
 void C_Print(stringtype_t type, char *string, ...)
 {
@@ -952,10 +952,10 @@ void C_PrintSDLVersions(void)
 void C_SetBTSXColorScheme(void)
 {
     consolecaretcolor = 80;
-    consolehighfpscolor = 116;
+    consolehighfpscolor = -116;
     consoleinputcolor = 80;
     consoleinputtooutputcolor = 80;
-    consolelowfpscolor = 180;
+    consolelowfpscolor = -180;
     consolemaptitlecolor = 80;
     consoleplayermessagecolor = (BTSXE1 ? 196 : 215);
     consoleoutputcolor = 80;
