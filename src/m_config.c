@@ -1210,7 +1210,7 @@ void M_LoadDefaults(void)
 
     if (i)
     {
-        C_Output("Found -CONFIG on command-line.");
+        C_Output("Found -CONFIG parameter on command-line.");
 
         doom_defaults.filename = myargv[i + 1];
 

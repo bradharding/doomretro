@@ -1172,9 +1172,14 @@ static void D_DoomMainSetup(void)
 
     D_ProcessDehCommandLine();
 
-    nomonsters = M_CheckParm("-nomonsters");
-    respawnparm = M_CheckParm("-respawn");
-    fastparm = M_CheckParm("-fast");
+    if (nomonsters = M_CheckParm("-nomonsters"))
+        C_Output("Found -NOMONSTERS parameter on command-line. No monsters will be spawned.");
+
+    if (respawnparm = M_CheckParm("-respawn"))
+        C_Output("Found -RESPAWN parameter on command-line. Items will respawn.");
+
+    if (fastparm = M_CheckParm("-fast"))
+        C_Output("Found -FAST parameter on command-line. Monsters will be faster.");
 
     // turbo option
     p = M_CheckParm("-turbo");
@@ -1190,6 +1195,7 @@ static void D_DoomMainSetup(void)
         forwardmove[1] *= scale / 100;
         sidemove[0] *= scale / 100;
         sidemove[1] *= scale / 100;
+        C_Output("Found -TURBO parameter on command-line. Player will be %i%% faster.", scale);
     }
 
     // init subsystems
