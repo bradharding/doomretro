@@ -1854,42 +1854,6 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
 }
 
 //
-// Boolean cvars
-//
-boolean C_BooleanCondition(char *cmd, char *parm1, char *parm2)
-{
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 1) >= 0);
-}
-
-void C_Boolean(char *cmd, char *parm1, char *parm2)
-{
-    int i = 0;
-
-    while (consolecmds[i].name[0])
-    {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_BOOLEAN))
-        {
-            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
-            {
-                int     value = C_LookupValueFromAlias(parm1, 1);
-
-                if (value == 0 || value == 1)
-                {
-                    *(boolean *)consolecmds[i].variable = !!value;
-                    if (!(consolecmds[i].flags & CF_NOTSAVED))
-                        M_SaveDefaults();
-                    C_Output("%s is now %s.", cmd, parm1);
-                }
-            }
-            else
-                C_Output("%s is %s.", cmd, (*(boolean *)consolecmds[i].variable ? "on" : "off"));
-        }
-        ++i;
-    }
-}
-
-//
 // BLOODSPLATS cvar
 //
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
@@ -1922,10 +1886,43 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
     {
         char    *alias = C_LookupAliasFromValue(bloodsplats, 2);
 
-        if (alias)
-            C_Output("bloodsplats is %s.", alias);
-        else
-            C_Output("bloodsplats is %i.", bloodsplats);
+        C_Output("bloodsplats is %s.", (alias ? alias : commify(bloodsplats)));
+    }
+}
+
+//
+// Boolean cvars
+//
+boolean C_BooleanCondition(char *cmd, char *parm1, char *parm2)
+{
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, 1) >= 0);
+}
+
+void C_Boolean(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    while (consolecmds[i].name[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_BOOLEAN))
+        {
+            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            {
+                int     value = C_LookupValueFromAlias(parm1, 1);
+
+                if (value == 0 || value == 1)
+                {
+                    *(boolean *)consolecmds[i].variable = !!value;
+                    if (!(consolecmds[i].flags & CF_NOTSAVED))
+                        M_SaveDefaults();
+                    C_Output("%s is now %s.", cmd, parm1);
+                }
+            }
+            else
+                C_Output("%s is %s.", cmd, (*(boolean *)consolecmds[i].variable ? "on" : "off"));
+        }
+        ++i;
     }
 }
 
@@ -2590,31 +2587,6 @@ void C_ShowFPS(char *cmd, char *parm1, char *parm2)
 }
 
 //
-// String cvars
-//
-void C_String(char *cmd, char *parm1, char *parm2)
-{
-    int i = 0;
-
-    while (consolecmds[i].name[0])
-    {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_STRING))
-        {
-            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
-            {
-                *(char **)consolecmds[i].variable = strdup(parm1);
-                M_SaveDefaults();
-                C_Output("%s is now \"%s\".", cmd, parm1);
-            }
-            else
-                C_Output("%s is \"%s\".", cmd, *(char **)consolecmds[i].variable);
-        }
-        ++i;
-    }
-}
-
-//
 // SPAWN cmd
 //
 static int      spawntype = NUMMOBJTYPES;
@@ -2678,5 +2650,30 @@ void C_Spawn(char *cmd, char *parm1, char *parm2)
             ONFLOORZ, P_FindDoomedNum(spawntype));
 
         thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+    }
+}
+
+//
+// String cvars
+//
+void C_String(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    while (consolecmds[i].name[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_STRING))
+        {
+            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            {
+                *(char **)consolecmds[i].variable = strdup(parm1);
+                M_SaveDefaults();
+                C_Output("%s is now \"%s\".", cmd, parm1);
+            }
+            else
+                C_Output("%s is \"%s\".", cmd, *(char **)consolecmds[i].variable);
+        }
+        ++i;
     }
 }
