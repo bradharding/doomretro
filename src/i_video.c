@@ -177,7 +177,7 @@ SDL_Rect                dest_rect = { 0, 0, 0, 0 };
 
 boolean                 showfps = false;
 int                     fps = 0;
-int                     frames = 0;
+int                     frames = -1;
 int                     starttime;
 int                     currenttime;
 

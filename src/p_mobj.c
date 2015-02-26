@@ -977,7 +977,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mobj->flags & MF_COUNTITEM)
         totalitems++;
 
-    mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) : 
+    mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) :
                                         ANG45 * (mthing->angle / 45));
     if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
         mobj->shadow->angle = mobj->angle;

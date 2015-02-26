@@ -530,32 +530,31 @@ void C_Drawer(void)
             C_DrawText(x + 3, CONSOLEHEIGHT - 15, right, consoleinputcolor);
     }
 
-    if (showfps)
+    if (showfps && fps)
     {
         static char buffer[16];
         size_t      i;
-        int         w = 0;
+        size_t      len;
         int         x = SCREENWIDTH - CONSOLETEXTX;
-        int         y = CONSOLETEXTY;
+        int         color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
         static int  prevfps = 0;
 
         M_snprintf(buffer, 16, "%i FPS", fps);
 
-        for (i = 0; i < strlen(buffer); ++i)
-            w += (buffer[i] == ' ' ? SPACEWIDTH :
+        len = strlen(buffer);
+
+        for (i = 0; i < len; ++i)
+            x -= (buffer[i] == ' ' ? SPACEWIDTH :
                 SHORT(consolefont[buffer[i] - CONSOLEFONTSTART]->width));
 
-        x -= w;
-
-        for (i = 0; i < strlen(buffer); ++i)
+        for (i = 0; i < len; ++i)
             if (buffer[i] == ' ')
                 x += SPACEWIDTH;
             else
             {
                 patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
 
-                V_DrawConsoleChar(x, y, patch,
-                    fps < TICRATE ? consolelowfpscolor : consolehighfpscolor, false);
+                V_DrawConsoleChar(x, CONSOLETEXTY, patch, color, false);
                 x += SHORT(patch->width);
             }
 
