@@ -580,6 +580,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
                 floor->sector = sec;
                 floor->speed = speed;
                 floor->floordestheight = height;
+                floor->crush = (type != build8);
                 floor->stopsound = (sec->floorheight != floor->floordestheight);
                 ok = 1;
                 break;
