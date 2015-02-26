@@ -175,7 +175,7 @@ void C_PlayerMessage(char *string, ...)
     va_end(argptr);
 
     len = strlen(buffer);
-    if (buffer[len - 1] != '.')
+    if (buffer[len - 1] != '.' && buffer[len - 1] != '!')
     {
         buffer[len] = '.';
         buffer[len + 1] = 0;
