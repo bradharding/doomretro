@@ -1217,7 +1217,8 @@ void M_LoadDefaults(void)
         if (LoadDefaultCollection(&doom_defaults))
             C_Output("Loaded CVARs from %s.", uppercase(myargv[i + 1]));
         else
-            C_Output("%s not found. Using defaults for all CVARs.", uppercase(myargv[i + 1]));
+            C_Output("%s not found. Using defaults for all CVARs.",
+                uppercase(myargv[i + 1]), uppercase(myargv[i + 1]));
     }
     else
     {
@@ -1226,7 +1227,8 @@ void M_LoadDefaults(void)
         if (LoadDefaultCollection(&doom_defaults))
             C_Output("Loaded CVARs from %s.", uppercase(PACKAGE_CONFIG));
         else
-            C_Output("%s not found. Using defaults for all CVARs.", uppercase(PACKAGE_CONFIG));
+            C_Output("%s not found. Using defaults for all CVARs and creating %s.",
+                uppercase(PACKAGE_CONFIG), uppercase(PACKAGE_CONFIG));
     }
     M_CheckDefaults();
 }
