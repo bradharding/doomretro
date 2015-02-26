@@ -101,6 +101,9 @@ int                     screenheight = SCREENHEIGHT_DEFAULT;
 int                     windowwidth = WINDOWWIDTH_DEFAULT;
 int                     windowheight = WINDOWHEIGHT_DEFAULT;
 
+int                     windowx = SDL_WINDOWPOS_CENTERED;
+int                     windowy = SDL_WINDOWPOS_CENTERED;
+
 // Run in full screen mode?
 boolean                 fullscreen = FULLSCREEN_DEFAULT;
 
@@ -925,6 +928,8 @@ static void SetWindowPositionVars(void)
             y = 0;
         else if (y > desktopheight)
             y = desktopheight - 16;
+        windowx = x;
+        windowy = y;
         sprintf(buf, "SDL_VIDEO_WINDOW_POS=%i,%i", x, y);
         putenv(buf);
     }
@@ -992,18 +997,14 @@ static void SetVideoMode(void)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
-            C_Output("Using desktop resolution of %ix%i.", desktopwidth, desktopheight);
+            C_Output("Staying at desktop resolution of %ix%i.", desktopwidth, desktopheight);
         }
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
-            C_Output("Using resolution of %ix%i.", screenwidth, screenheight);
+            C_Output("Switched to screen resolution of %ix%i.", screenwidth, screenheight);
         }
-
-        renderer = SDL_CreateRenderer(window, -1, flags);
-
-        SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
     }
     else
     {
@@ -1016,11 +1017,19 @@ static void SetVideoMode(void)
 
         SetWindowPositionVars();
 
-        SDL_CreateWindowAndRenderer(windowwidth, windowheight, SDL_WINDOW_RESIZABLE, &window,
-            &renderer);
-
-        widescreen = false;
+        window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
+            SDL_WINDOW_RESIZABLE);
+        if (windowx != SDL_WINDOWPOS_CENTERED && windowy != SDL_WINDOWPOS_CENTERED)
+            C_Output("Created resziable window with dimensions of %ix%i at (%i,%i).",
+                windowwidth, windowheight, windowx, windowy);
+        else
+            C_Output("Created resziable window with dimensions of %ix%i.",
+                windowwidth, windowheight);
     }
+
+    renderer = SDL_CreateRenderer(window, -1, flags);
+
+    SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
     C_Output("Vsync is %s.", (vsync ? "enabled" : "disabled"));
 
