@@ -921,7 +921,7 @@ boolean C_Responder(event_t *ev)
 
 void C_PrintCompileDate(void)
 {
-    int                 day, year, hour, minute, second;
+    int                 day, year, hour, minute;
     static const char   mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
     static const char   *months[] =
     {
@@ -931,9 +931,9 @@ void C_PrintCompileDate(void)
     static char         month[4];
 
     sscanf(__DATE__, "%s %d %d", month, &day, &year);
-    sscanf(__TIME__, "%d:%d:%d", &hour, &minute, &second);
-    C_Output("DOOMRETRO.EXE was built on %s %i, %i at %i:%02i%s.",
-        months[(strstr(mths, month) - mths) / 3], day, year,
+    sscanf(__TIME__, "%d:%d:%*d", &hour, &minute);
+    C_Output("%s was built on %s %i, %i at %i:%02i%s.",
+        uppercase(PACKAGE_EXE), months[(strstr(mths, month) - mths) / 3], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 }
 
