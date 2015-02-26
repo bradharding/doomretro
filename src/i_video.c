@@ -489,6 +489,9 @@ void I_ShutdownGraphics(void)
 
 #if defined(SDL20)
     SDL_FreeSurface(rgbabuffer);
+    SDL_DestroyTexture(texture);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 #endif
 
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
