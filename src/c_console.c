@@ -385,7 +385,7 @@ static int C_TextWidth(char *text)
 
 static char     prevletter;
 
-static void C_DrawText(int x, int y, char *text, byte color)
+static void C_DrawText(int x, int y, char *text, int color)
 {
     boolean     italics = false;
 

@@ -67,7 +67,7 @@
 #include "z_zone.h"
 
 #define MAPCMDFORMAT    "map E~x~M~y~|MAP~xy~"
-#define SUMMONCMDFORMAT "summon ~type~"
+#define SPAWNCMDFORMAT  "spawn ~type~"
 
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
@@ -273,7 +273,7 @@ boolean C_IntegerCondition(char *, char *, char *);
 boolean C_KillCondition(char *, char *, char *);
 boolean C_MapCondition(char *, char *, char *);
 boolean C_NoCondition(char *, char *, char *);
-boolean C_SummonCondition(char *, char *, char *);
+boolean C_SpawnCondition(char *, char *, char *);
 boolean C_VolumeCondition(char *, char *, char *);
 
 void C_AlwaysRun(char *, char *, char *);
@@ -301,8 +301,8 @@ void C_NoTarget(char *, char *, char *);
 void C_Quit(char *, char *, char *);
 void C_ScreenSize(char *, char *, char *);
 void C_ShowFPS(char *, char *, char *);
+void C_Spawn(char *, char *, char *);
 void C_String(char *, char *, char *);
-void C_Summon(char *, char *, char *);
 void C_Volume(char *, char *, char *);
 
 alias_t aliases[] =
@@ -1521,9 +1521,9 @@ consolecmd_t consolecmds[] =
     },
 
     {
-        /* name        */ "summon",
-        /* condition   */ C_SummonCondition,
-        /* function    */ C_Summon,
+        /* name        */ "spawn",
+        /* condition   */ C_SpawnCondition,
+        /* function    */ C_Spawn,
         /* parameters  */ 1,
         /* type        */ CT_CMD,
         /* flags       */ CF_NONE,
@@ -1532,8 +1532,8 @@ consolecmd_t consolecmds[] =
         /* minimum     */ 0,
         /* maximum     */ 0,
         /* default     */ 0,
-        /* format      */ SUMMONCMDFORMAT,
-        /* description */ "Summon a monster or object."
+        /* format      */ SPAWNCMDFORMAT,
+        /* description */ "Spawn a monster or object."
     },
 
     {
@@ -2615,11 +2615,11 @@ void C_String(char *cmd, char *parm1, char *parm2)
 }
 
 //
-// SUMMON cmd
+// SPAWN cmd
 //
-static int      summoncmdtype = NUMMOBJTYPES;
+static int      spawntype = NUMMOBJTYPES;
 
-boolean C_SummonCondition(char *cmd, char *parm1, char *parm2)
+boolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
         return true;
@@ -2632,12 +2632,12 @@ boolean C_SummonCondition(char *cmd, char *parm1, char *parm2)
             if (!strcasecmp(parm1, mobjinfo[i].name1)
                 || (mobjinfo[i].name2[0] && !strcasecmp(parm1, mobjinfo[i].name2)))
             {
-                boolean     summon = true;
+                boolean     spawn = true;
 
-                summoncmdtype = mobjinfo[i].doomednum;
+                spawntype = mobjinfo[i].doomednum;
                 if (gamemode != commercial)
                 {
-                    switch (summoncmdtype)
+                    switch (spawntype)
                     {
                         case Arachnotron:
                         case ArchVile:
@@ -2648,24 +2648,24 @@ boolean C_SummonCondition(char *cmd, char *parm1, char *parm2)
                         case HeavyWeaponDude:
                         case Revenant:
                         case WolfensteinSS:
-                            summon = false;
+                            spawn = false;
                             break;
                     }
                 }
-                else if (summoncmdtype == WolfensteinSS && bfgedition)
-                    summoncmdtype = Zombieman;
+                else if (spawntype == WolfensteinSS && bfgedition)
+                    spawntype = Zombieman;
 
-                return summon;
+                return spawn;
             }
     }
     return false;
 }
 
-void C_Summon(char *cmd, char *parm1, char *parm2)
+void C_Spawn(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
     {
-        C_Output(SUMMONCMDFORMAT);
+        C_Output(SPAWNCMDFORMAT);
         return;
     }
     else
@@ -2675,7 +2675,7 @@ void C_Summon(char *cmd, char *parm1, char *parm2)
         fixed_t     y = player->y;
         angle_t     angle = player->angle >> ANGLETOFINESHIFT;
         mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
-            ONFLOORZ, P_FindDoomedNum(summoncmdtype));
+            ONFLOORZ, P_FindDoomedNum(spawntype));
 
         thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
     }
