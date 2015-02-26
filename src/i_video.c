@@ -977,6 +977,9 @@ static void SetupScreenRects(void)
 static void SetVideoMode(void)
 {
 #if defined(SDL20)
+    SDL_RendererInfo    rendererinfo;
+    char                *renderername;
+
     int flags = SDL_RENDERER_TARGETTEXTURE;
 
     if (vsync)
@@ -1031,14 +1034,27 @@ static void SetVideoMode(void)
 
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
-    C_Output("Vsync is %s.", (vsync ? "enabled" : "disabled"));
+    SDL_GetRendererInfo(renderer, &rendererinfo);
+    if (!strcasecmp(rendererinfo.name, "direct3d"))
+        renderername = "Direct3D";
+    else if (!strcasecmp(rendererinfo.name, "opengl"))
+        renderername = "OpenGL";
+    else if (!strcasecmp(rendererinfo.name, "opengles2"))
+        renderername = "OpenGL ES 2";
+    else if (!strcasecmp(rendererinfo.name, "opengles"))
+        renderername = "OpenGL ES";
+    else if (!strcasecmp(rendererinfo.name, "software"))
+        renderername = "software";
 
     if (!strcasecmp(scalequality, "nearest"))
-        C_Output("Scaling screen using nearest-neighbor interpolation.");
+        C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);
     else if (!strcasecmp(scalequality, "linear"))
-        C_Output("Scaling screen using linear filtering.");
+        C_Output("Scaling screen using linear filtering in %s.", renderername);
     else if (!strcasecmp(scalequality, "best"))
-        C_Output("Scaling screen using anisotropic filtering.");
+        C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
+
+    C_Output("Vsync is %s.",
+        ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
 
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     rgbabuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
