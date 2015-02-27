@@ -263,6 +263,8 @@
 #define SAVEGAME_DEFAULT                        0
 
 #if defined(SDL20)
+#define SCALEDRIVER_DEFAULT                     "opengl"
+
 #define SCALEQUALITY_DEFAULT                    "nearest"
 #endif
 

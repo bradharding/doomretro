@@ -158,6 +158,7 @@ extern int      playerbob;
 extern boolean  rotatemode;
 extern int      runcount;
 #if defined(SDL20)
+extern char     *scaledriver;
 extern char     *scalequality;
 #endif
 extern int      screenheight;
@@ -311,6 +312,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (runcount,                   runcount,                      0),
     CONFIG_VARIABLE_INT          (savegame,                   selectedsavegame,              0),
 #if defined(SDL20)
+    CONFIG_VARIABLE_STRING       (scaledriver,                scaledriver,                   0),
     CONFIG_VARIABLE_STRING       (scalequality,               scalequality,                  0),
 #endif
     CONFIG_VARIABLE_INT          (screensize,                 screensize,                    0),

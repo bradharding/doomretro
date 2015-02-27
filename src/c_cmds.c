@@ -186,6 +186,7 @@ extern char     *windowposition;
 extern int      windowwidth;
 
 #if defined(SDL20)
+extern char     *scaledriver;
 extern char     *scalequality;
 extern boolean  vsync;
 #endif
@@ -1375,6 +1376,22 @@ consolecmd_t consolecmds[] =
     },
 
 #if defined(SDL20)
+    {
+        /* name        */ "scaledriver",
+        /* condition   */ C_NoCondition,
+        /* function    */ C_String,
+        /* parameters  */ 1,
+        /* type        */ CT_CVAR,
+        /* flags       */ CF_STRING,
+        /* variable    */ &scaledriver,
+        /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "",
+        /* description */ ""
+    },
+
     {
         /* name        */ "scalequality",
         /* condition   */ C_NoCondition,

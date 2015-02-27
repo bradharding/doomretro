@@ -78,6 +78,7 @@ SDL_Renderer            *renderer;
 static SDL_Surface      *rgbabuffer = NULL;
 static SDL_Texture      *texture = NULL; 
 
+char                    *scaledriver = SCALEDRIVER_DEFAULT;
 char                    *scalequality = SCALEQUALITY_DEFAULT;
 boolean                 vsync = VSYNC_DEFAULT;
 #endif
@@ -989,6 +990,8 @@ static void SetVideoMode(void)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, scalequality);
+
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, scaledriver);
 
     if (fullscreen)
     {
