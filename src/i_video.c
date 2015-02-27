@@ -1454,9 +1454,6 @@ void I_InitKeyboard(void)
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
     }
-
-    if (alwaysrun)
-        C_Output(s_ALWAYSRUNON);
 #endif
 }
 

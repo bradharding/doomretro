@@ -121,6 +121,7 @@ boolean                 forcewipe = false;
 boolean                 splashscreen;
 
 extern int              selectedexpansion;
+extern boolean          alwaysrun;
 
 #if defined(SDL20)
 extern SDL_Window       *sdl_window;
@@ -455,6 +456,8 @@ void D_DoAdvanceTitle(void)
             {
                 flag = false;
                 I_InitKeyboard();
+                if (alwaysrun)
+                    C_PlayerMessage(s_ALWAYSRUNON);
             }
 
             if (pagelump == creditlump)
@@ -1552,6 +1555,8 @@ static void D_DoomMainSetup(void)
     if (startloadgame >= 0)
     {
         I_InitKeyboard();
+        if (alwaysrun)
+            C_PlayerMessage(s_ALWAYSRUNON);
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
@@ -1567,6 +1572,8 @@ static void D_DoomMainSetup(void)
         if (autostart)
         {
             I_InitKeyboard();
+            if (alwaysrun)
+                C_PlayerMessage(s_ALWAYSRUNON);
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else

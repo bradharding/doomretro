@@ -642,6 +642,8 @@ void G_ToggleAlwaysRun(void)
 {
     alwaysrun = !alwaysrun;
     players[consoleplayer].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
+    if (gamestate == GS_TITLESCREEN)
+        C_PlayerMessage(alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
     message_dontfuckwithme = true;
     if (menuactive)
     {
