@@ -84,7 +84,7 @@ char            *conback = "";
 boolean         defaultconback;
 
 byte            *consolebackground;
-patch_t         *divider;
+patch_t         *consolebottom;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
 patch_t         *ldquote;
@@ -128,6 +128,7 @@ int     consolemaptitlecolor = 227;
 int     consoleplayermessagecolor = 180;
 int     consoleoutputcolor = 227;
 int     consoletitlecolor = 227;
+int     consoledividercolor = 227;
 
 int consolecolors[4];
 
@@ -212,11 +213,15 @@ void C_AddConsoleDivider(void)
 
 static void C_DrawDivider(int y)
 {
-    int x;
+    int i;
 
-    if (defaultconback)
-        for (x = 0; x < ORIGINALWIDTH; x += 8)
-            V_DrawTranslucentConsolePatch(x, y / 2, divider);
+    y *= SCREENWIDTH;
+    if (y > 0)
+        for (i = y + CONSOLETEXTX; i <= y + SCREENWIDTH - CONSOLETEXTX; ++i)
+            screens[0][i] = consoledividercolor;
+    if ((y += SCREENWIDTH) > 0)
+        for (i = y + CONSOLETEXTX; i <= y + SCREENWIDTH - CONSOLETEXTX; ++i)
+            screens[0][i] = consoledividercolor;
 }
 
 void C_Init(void)
@@ -232,11 +237,10 @@ void C_Init(void)
         M_SaveDefaults();
     }
     consolebackground = W_CacheLumpName(conback, PU_CACHE);
+    consolebottom = W_CacheLumpName("BRDR_B", PU_CACHE);
 
     defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
         || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
-
-    divider = W_CacheLumpName("BRDR_B", PU_CACHE);
 
     for (i = 0; i < CONSOLEFONTSIZE; i++)
     {
@@ -279,10 +283,10 @@ static void C_DrawBackground(int height)
 {
     byte        *dest = screens[0];
     int         x, y;
-    int         offset = CONSOLEHEIGHT - height;
+    int         offset = CONSOLEHEIGHT - height + 5 * !defaultconback;
     int         top = offset;
 
-    for (y = offset; y < height + offset + 5; y += 2)
+    for (y = offset; y < height + offset; y += 2)
         for (x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             int i;
@@ -314,7 +318,9 @@ static void C_DrawBackground(int height)
             top += 128;
         }
 
-    C_DrawDivider(height);
+    if (defaultconback)
+        for (x = 0; x < ORIGINALWIDTH; x += 8)
+            V_DrawTranslucentConsolePatch(x, height / 2, consolebottom);
 
     y = height / 2 + 3;
     if (y >= CONSOLETOP)
@@ -390,7 +396,7 @@ static void C_DrawText(int x, int y, char *text, int color)
     boolean     italics = false;
 
     if (!strcasecmp(text, DIVIDER))
-        C_DrawDivider(y + 4 - (CONSOLEHEIGHT - consoleheight));
+        C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
     else
     {
         size_t      i;
@@ -968,6 +974,7 @@ void C_SetBTSXColorScheme(void)
     consoleplayermessagecolor = (BTSXE1 ? 196 : 214);
     consoleoutputcolor = 80;
     consoletitlecolor = 80;
+    consoledividercolor = 80;
 
     consolecolors[input] = consoleinputtooutputcolor;
     consolecolors[output] = consoleoutputcolor;
