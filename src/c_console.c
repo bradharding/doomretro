@@ -921,21 +921,36 @@ boolean C_Responder(event_t *ev)
     return true;
 }
 
+int dayofweek(int day, int month, int year)
+{
+    int adjustment = (14 - month) / 12;
+    int m = month + 12 * adjustment - 2;
+    int y = year - adjustment;
+
+    return (day + (13 * m - 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7;
+}
+
 void C_PrintCompileDate(void)
 {
-    int                 day, year, hour, minute;
+    int                 day, month, year, hour, minute;
+    static const char   *days[] =
+    {
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    };
     static const char   mths[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
     static const char   *months[] =
     {
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     };
-    static char         month[4];
+    static char         mth[4];
 
-    sscanf(__DATE__, "%s %d %d", month, &day, &year);
+    sscanf(__DATE__, "%s %d %d", mth, &day, &year);
     sscanf(__TIME__, "%d:%d:%*d", &hour, &minute);
-    C_Output("%s was built on %s %i, %i at %i:%02i%s.",
-        uppercase(PACKAGE_EXE), months[(strstr(mths, month) - mths) / 3], day, year,
+    month = (strstr(mths, mth) - mths) / 3;
+
+    C_Output("%s was built on %s, %s %i, %i at %i:%02i%s.",
+        uppercase(PACKAGE_EXE), days[dayofweek(day, month + 1, year)], months[month], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 }
 
