@@ -217,10 +217,10 @@ static void C_DrawDivider(int y)
 
     y *= SCREENWIDTH;
     if (y > CONSOLETOP)
-        for (i = y + CONSOLETEXTX; i <= y + SCREENWIDTH - CONSOLETEXTX; ++i)
+        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
             screens[0][i] = consoledividercolor;
     if ((y += SCREENWIDTH) > CONSOLETOP)
-        for (i = y + CONSOLETEXTX; i <= y + SCREENWIDTH - CONSOLETEXTX; ++i)
+        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
             screens[0][i] = consoledividercolor;
 }
 
@@ -489,7 +489,7 @@ void C_Drawer(void)
 
         // draw title and version
         prevletter = ' ';
-        C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX,
+        C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX + 1,
             CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, consoletitlecolor);
 
         // draw console text
@@ -541,17 +541,14 @@ void C_Drawer(void)
         static char buffer[16];
         size_t      i;
         size_t      len;
-        int         x = SCREENWIDTH - CONSOLETEXTX;
+        int         x;
         int         color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
         static int  prevfps = 0;
 
         M_snprintf(buffer, 16, "%i FPS", fps);
 
+        x = SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1;
         len = strlen(buffer);
-
-        for (i = 0; i < len; ++i)
-            x -= (buffer[i] == ' ' ? SPACEWIDTH :
-                SHORT(consolefont[buffer[i] - CONSOLEFONTSTART]->width));
 
         for (i = 0; i < len; ++i)
             if (buffer[i] == ' ')
