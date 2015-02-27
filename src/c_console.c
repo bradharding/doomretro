@@ -216,10 +216,10 @@ static void C_DrawDivider(int y)
     int i;
 
     y *= SCREENWIDTH;
-    if (y > 0)
+    if (y > CONSOLETOP)
         for (i = y + CONSOLETEXTX; i <= y + SCREENWIDTH - CONSOLETEXTX; ++i)
             screens[0][i] = consoledividercolor;
-    if ((y += SCREENWIDTH) > 0)
+    if ((y += SCREENWIDTH) > CONSOLETOP)
         for (i = y + CONSOLETEXTX; i <= y + SCREENWIDTH - CONSOLETEXTX; ++i)
             screens[0][i] = consoledividercolor;
 }
@@ -322,10 +322,10 @@ static void C_DrawBackground(int height)
         for (x = 0; x < ORIGINALWIDTH; x += 8)
             V_DrawTranslucentConsolePatch(x, height / 2, consolebottom);
 
-    y = height / 2 + 3;
-    if (y >= CONSOLETOP)
-        for (x = 0; x < ORIGINALWIDTH; ++x)
-            V_DrawPixel(x, y, 251, true);
+    y = height + 6;
+    if (y > CONSOLETOP)
+        for (x = y * SCREENWIDTH; x < (y + 1) * SCREENWIDTH; ++x)
+            screens[0][x] = tinttab25[screens[0][x]];
 }
 
 static struct
