@@ -2473,14 +2473,18 @@ boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
     {
         if (BTSX)
         {
-            sscanf(uppercase(parm1), "E%iM%02i", &mapcmdepisode, &mapcmdmap);
+            sscanf(uppercase(parm1), "E%iM0%i", &mapcmdepisode, &mapcmdmap);
+            if (!mapcmdmap)
+                sscanf(uppercase(parm1), "E%iM0%i", &mapcmdepisode, &mapcmdmap);
             if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
             {
                 M_snprintf(parm1, sizeof(parm1), "MAP%02i", mapcmdmap);
                 return (W_CheckMultipleLumps(parm1) == 2);
             }
         }
-        sscanf(uppercase(parm1), "MAP%02i", &mapcmdmap);
+        sscanf(uppercase(parm1), "MAP0%i", &mapcmdmap);
+        if (!mapcmdmap)
+            sscanf(uppercase(parm1), "MAP%i", &mapcmdmap);
         if (!mapcmdmap)
             return false;
         if (BTSX && (W_CheckMultipleLumps(parm1) == 1))
@@ -2505,7 +2509,6 @@ void C_Map(char *cmd, char *parm1, char *parm2)
         C_Output(MAPCMDFORMAT);
         return;
     }
-
     samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
     gameepisode = mapcmdepisode;
     if (gamemission == doom && gameepisode <= 4)
