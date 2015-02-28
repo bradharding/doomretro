@@ -1159,15 +1159,12 @@ static void D_ProcessDehInWad(void)
 //  line of execution so its stack space can be freed
 static void D_DoomMainSetup(void)
 {
-    int p;
-    int choseniwad = 0;
+    int         p;
+    int         choseniwad = 0;
+    static char lumpname[6];
+
 
     C_PrintCompileDate();
-
-    if (runcount < 2)
-        C_Output(PACKAGE_NAME" has been run %s.", (runcount == 0 ? "once" : "twice"));
-    else
-        C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount + 1));
 
     C_PrintSDLVersions();
 
@@ -1210,6 +1207,11 @@ static void D_DoomMainSetup(void)
 
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
+
+    if (runcount < 2)
+        C_Output(PACKAGE_NAME" has been run %s.", (runcount == 0 ? "once" : "twice"));
+    else
+        C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount + 1));
 
 #if defined(WIN32)
     if (!M_FileExists(PACKAGE_WAD))
@@ -1433,8 +1435,19 @@ static void D_DoomMainSetup(void)
 
         if (temp >= sk_baby && temp <= sk_nightmare)
         {
-            startskill = (skill_t)temp;
-            autostart = true;
+            char *skilllevels[] =
+            {
+                { "I\'m too young to die" },
+                { "Hey, not too rough"    },
+                { "Hurt me plenty"        },
+                { "Ultra-Violence"        },
+                { "Nightmare"             }
+            };
+
+            selectedskilllevel = startskill = (skill_t)temp;
+            M_SaveDefaults();
+            C_Output("Found -SKILL parameter on command-line. Skill level is now \"%s\".",
+                skilllevels[startskill]);
         }
     }
 
@@ -1448,9 +1461,25 @@ static void D_DoomMainSetup(void)
                 && ((gamemode == registered && temp <= 3)
                     || (gamemode == retail && temp <= 4))))
         {
+            char *episodes[] =
+            {
+                { "Knee-Deep in the Dead" },
+                { "The Shores of Hell"    },
+                { "Inferno"               },
+                { "Thy Flesh Consumed"    }
+            };
+
             startepisode = temp;
+            selectedepisode = temp - 1;
+            M_SaveDefaults();
             startmap = 1;
+            if (gamemode == commercial)
+                M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
+            else
+                M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
+            C_Output("Found -EPISODE parameter on command-line. Episode is now \"%s\".",
+                episodes[selectedepisode]);
         }
     }
 
@@ -1461,11 +1490,21 @@ static void D_DoomMainSetup(void)
 
         if (gamemode == commercial && temp <= (nerve ? 2 : 1))
         {
+            char *expansions[] =
+            {
+                { "Hell on Earth"          },
+                { "No Rest for the Living" }
+            };
+
             gamemission = (temp == 1 ? doom2 : pack_nerve);
             selectedexpansion = temp - 1;
+            M_SaveDefaults();
             startepisode = 1;
             startmap = 1;
+            M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
+            C_Output("Found -EXPANSION parameter on command-line. Expansion is now \"%s\".",
+                expansions[selectedexpansion]);
         }
     }
 
@@ -1480,12 +1519,16 @@ static void D_DoomMainSetup(void)
         timelimit = 20;
 
     p = M_CheckParmWithArgs("-warp", 1);
-    if (!p)
+    if (p)
+        C_Output("Found -WARP parameter on command-line.");
+    else
+    {
         p = M_CheckParmWithArgs("+map", 1);
+        if (p)
+            C_Output("Found +MAP parameter on command-line.");
+    }
     if (p)
     {
-        static char lumpname[6];
-
         if (gamemode == commercial)
         {
             if (strlen(myargv[p + 1]) == 5 &&
@@ -1578,6 +1621,7 @@ static void D_DoomMainSetup(void)
             I_InitKeyboard();
             if (alwaysrun)
                 C_PlayerMessage(s_ALWAYSRUNON);
+            C_Output("Warping to %s...", lumpname);
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else

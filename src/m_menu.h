@@ -107,5 +107,9 @@ extern int      sfxvolume_percent;
 extern boolean  widescreen;
 extern boolean  hud;
 extern boolean  returntowidescreen;
+extern int      selectedepisode;
+extern int      selectedexpansion;
+extern int      selectedsavegame;
+extern int      selectedskilllevel;
 
 #endif
