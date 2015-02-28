@@ -1164,6 +1164,11 @@ static void D_DoomMainSetup(void)
 
     C_PrintCompileDate();
 
+    if (runcount < 2)
+        C_Output(PACKAGE_NAME" has been run %s.", (runcount == 0 ? "once" : "twice"));
+    else
+        C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount + 1));
+
     C_PrintSDLVersions();
 
     iwadfile = D_FindIWAD();
@@ -1245,11 +1250,6 @@ static void D_DoomMainSetup(void)
             ++runcount;
     }
     M_SaveDefaults();
-
-    if (runcount <= 2)
-        C_Output(PACKAGE_NAME" has been run %s.", (runcount == 1 ? "once" : "twice"));
-    else
-        C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount), runcount);
 
     if (p > 0)
     {
