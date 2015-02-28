@@ -641,9 +641,8 @@ static void D_FirstUse(void)
             ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_URL, NULL, NULL, SW_SHOWNORMAL);
             I_Quit(false);
         }
-        else
 #endif
-        if (buttons[buttonid].buttonid == 1)
+        else if (buttons[buttonid].buttonid == 1)
             I_Quit(false);
     }
 
@@ -1246,6 +1245,11 @@ static void D_DoomMainSetup(void)
             ++runcount;
     }
     M_SaveDefaults();
+
+    if (runcount <= 2)
+        C_Output(PACKAGE_NAME" has been run %s.", (runcount == 1 ? "once" : "twice"));
+    else
+        C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount), runcount);
 
     if (p > 0)
     {
