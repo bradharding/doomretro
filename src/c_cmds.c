@@ -1826,16 +1826,20 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                 {
                     if (controls[control].type == keyboard && actions[action].keyboard1
                         && controls[control].value == *(int *)actions[action].keyboard1)
-                        C_Output("%s \"%s\"", controls[control].control, actions[action].action);
+                        C_Output("The %s control is bound to the \"%s\" action.",
+                            controls[control].control, actions[action].action);
                     else if (controls[control].type == keyboard && actions[action].keyboard2
                         && controls[control].value == *(int *)actions[action].keyboard2)
-                        C_Output("%s \"%s\"", controls[control].control, actions[action].action);
+                        C_Output("The %s control is bound to the \"%s\" action.",
+                            controls[control].control, actions[action].action);
                     else if (controls[control].type == mouse && actions[action].mouse
                         && controls[control].value == *(int *)actions[action].mouse)
-                        C_Output("%s \"%s\"", controls[control].control, actions[action].action);
+                        C_Output("The %s control is bound to the \"%s\" action.",
+                            controls[control].control, actions[action].action);
                     else if (controls[control].type == gamepad && actions[action].gamepad
                         && controls[control].value == *(int *)actions[action].gamepad)
-                        C_Output("%s \"%s\"", controls[control].control, actions[action].action);
+                        C_Output("The %s control is bound to the \"%s\" action.",
+                            controls[control].control, actions[action].action);
                     ++action;
                 }
             }
@@ -1880,7 +1884,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                             break;
                     }
                     M_SaveDefaults();
-                    C_Output("%s \"%s\"", parm1, parm2);
+                    C_Output("The %s control is now bound to the \"%s\" action.", parm1, parm2);
                 }
             }
         }
@@ -1911,16 +1915,41 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
         {
             bloodsplats = value;
             M_SaveDefaults();
-            P_BloodSplatSpawner = ((bloodsplats == UNLIMITED ? P_SpawnBloodSplat :
-                (bloodsplats ? P_SpawnBloodSplat2 : P_NullBloodSplatSpawner)));
-            C_Output("bloodsplats is now %s.", parm1);
+
+            if (!bloodsplats)
+            {
+                P_BloodSplatSpawner = P_NullBloodSplatSpawner;
+                C_Output("Blood splats are now off.");
+            }
+            if (bloodsplats == UNLIMITED)
+            {
+                P_BloodSplatSpawner = P_SpawnBloodSplat;
+                C_Output("There can now be an unlimited number of blood splats.");
+            }
+            else
+            {
+                P_BloodSplatSpawner = P_SpawnBloodSplat2;
+                C_Output("There can now be a maximum of %s blood splats.", commify(bloodsplats));
+            }
         }
     }
     else
     {
-        char    *alias = C_LookupAliasFromValue(bloodsplats, 2);
-
-        C_Output("bloodsplats is %s.", (alias ? alias : commify(bloodsplats)));
+        if (!bloodsplats)
+        {
+            P_BloodSplatSpawner = P_NullBloodSplatSpawner;
+            C_Output("Blood splats are off.");
+        }
+        if (bloodsplats == UNLIMITED)
+        {
+            P_BloodSplatSpawner = P_SpawnBloodSplat;
+            C_Output("There can be an unlimited number of blood splats.");
+        }
+        else
+        {
+            P_BloodSplatSpawner = P_SpawnBloodSplat2;
+            C_Output("There can be a maximum of %s blood splats.", commify(bloodsplats));
+        }
     }
 }
 

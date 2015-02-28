@@ -789,7 +789,7 @@ boolean C_Responder(event_t *ev)
 
             // previous input
             case KEY_UPARROW:
-                for (i = (inputhistory == -1 ? consolestrings - 1 : inputhistory - 1); i >= 0; --i)
+                for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; --i)
                 {
                     if (console[i].type == input)
                     {
