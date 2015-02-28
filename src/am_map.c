@@ -986,6 +986,29 @@ boolean AM_Responder(event_t *ev)
                     }
                 }
             }
+#if defined(SDL20)
+            else if (ev->type == ev_mousewheel)
+            {
+                // zoom in
+                if (ev->data1 > 0)
+                {
+                    movement = true;
+                    speedtoggle = AM_getSpeedToggle();
+                    mtof_zoommul = M_ZOOMIN + 2000;
+                    ftom_zoommul = M_ZOOMOUT - 2000;
+                    bigstate = false;
+                }
+
+                // zoom out
+                else if (ev->data1 < 0)
+                {
+                    movement = true;
+                    speedtoggle = AM_getSpeedToggle();
+                    mtof_zoommul = M_ZOOMOUT - 2000;
+                    ftom_zoommul = M_ZOOMIN + 2000;
+                }
+            }
+#else
             else if (ev->type == ev_mouse)
             {
                 // zoom in
@@ -1007,6 +1030,7 @@ boolean AM_Responder(event_t *ev)
                     ftom_zoommul = M_ZOOMIN + 2000;
                 }
             }
+#endif
             else if (ev->type == ev_gamepad)
             {
                 if ((gamepadbuttons & gamepadautomap) && !backbuttondown)
