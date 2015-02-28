@@ -1059,7 +1059,7 @@ static void SetVideoMode(void)
     else if (!strcasecmp(scalequality, "best"))
         C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
 
-    C_Output("Vsync has been %s.",
+    C_Output("Vsync is %s.",
         ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
 
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
