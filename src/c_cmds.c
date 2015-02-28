@@ -2033,6 +2033,8 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
             C_Output("The console's background is now using the \"%s\" flat.", conback);
         }
+        else
+            C_Output("\"%s\" is not a valid flat.", parm1);
     }
     else
         C_Output("The console's background is using the \"%s\" flat.", conback);
