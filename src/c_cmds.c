@@ -284,6 +284,7 @@ void C_Boolean(char *, char *, char *);
 void C_Clear(char *, char *, char *);
 void C_CmdList(char *, char *, char *);
 void C_ConBack(char *, char *, char *);
+void C_ConDump(char *, char *, char *);
 void C_CvarList(char *, char *, char *);
 void C_DeadZone(char *, char *, char *);
 void C_EndGame(char *, char *, char *);
@@ -494,6 +495,22 @@ consolecmd_t consolecmds[] =
         /* default     */ 0,
         /* format      */ "",
         /* description */ ""
+    },
+
+    {
+        /* name        */ "condump",
+        /* condition   */ C_NoCondition,
+        /* function    */ C_ConDump,
+        /* parameters  */ 1,
+        /* type        */ CT_CMD,
+        /* flags       */ CF_NONE,
+        /* variable    */ NULL,
+        /* aliases     */ 0,
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "condump [~filename~]",
+        /* description */ "Dump console to file."
     },
 
     {
@@ -1988,6 +2005,20 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output("conback is \"%s\".", conback);
+}
+
+//
+// CONDUMP cmd
+//
+void C_ConDump(char *cmd, char *parm1, char *parm2)
+{
+    FILE        *file = fopen((parm1[0] ? parm1 : "condump.txt"), "wt");
+    int         i;
+
+    for (i = 0; i < consolestrings - 1; ++i)
+        fprintf(file, "%s\n", console[i].string);
+    fclose(file);
+    C_Output("Dumped console to %s.", (parm1[0] ? uppercase(parm1) : "CONDUMP.TXT"));
 }
 
 //

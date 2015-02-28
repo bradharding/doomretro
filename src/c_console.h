@@ -61,6 +61,8 @@ typedef struct
     stringtype_t        type;
 } console_t;
 
+console_t       *console;
+
 extern boolean  consoleactive;
 extern int      consoleheight;
 extern int      consoledirection;

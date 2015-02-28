@@ -90,7 +90,6 @@ patch_t         *lsquote;
 patch_t         *ldquote;
 patch_t         *multiply;
 
-console_t       *console;
 char            consoleinput[255] = "";
 int             consolestrings = 0;
 
