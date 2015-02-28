@@ -1032,7 +1032,7 @@ static void SetVideoMode(void)
             C_Output("Created resziable window with dimensions of %ix%i at (%i,%i).",
                 windowwidth, windowheight, windowx, windowy);
         else
-            C_Output("Created resziable window with dimensions of %ix%i.",
+            C_Output("Created resziable window with dimensions of %ix%i in center of screen.",
                 windowwidth, windowheight);
     }
 
@@ -1059,7 +1059,7 @@ static void SetVideoMode(void)
     else if (!strcasecmp(scalequality, "best"))
         C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
 
-    C_Output("Vsync is %s.",
+    C_Output("Vsync has been %s.",
         ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
 
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
