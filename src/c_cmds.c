@@ -510,7 +510,7 @@ consolecmd_t consolecmds[] =
         /* maximum     */ 0,
         /* default     */ 0,
         /* format      */ "condump [~filename~]",
-        /* description */ "Dump console to file."
+        /* description */ "Dump the console to a file."
     },
 
     {
@@ -2000,11 +2000,11 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
             defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
                 || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
             M_SaveDefaults();
-            C_Output("conback is now \"%s\".", conback);
+            C_Output("The console's background is now using the \"%s\" flat.", conback);
         }
     }
     else
-        C_Output("conback is \"%s\".", conback);
+        C_Output("The console's background is using the \"%s\" flat.", conback);
 }
 
 //
@@ -2018,7 +2018,7 @@ void C_ConDump(char *cmd, char *parm1, char *parm2)
     for (i = 0; i < consolestrings - 1; ++i)
         fprintf(file, "%s\n", console[i].string);
     fclose(file);
-    C_Output("Dumped console to %s.", (parm1[0] ? uppercase(parm1) : "CONDUMP.TXT"));
+    C_Output("Dumped the console to the %s.", (parm1[0] ? uppercase(parm1) : "CONDUMP.TXT"));
 }
 
 //
@@ -2083,34 +2083,40 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%f", &value);
 
-        if (!strcasecmp(cmd, "gamepad_leftdeadzone"))
+        if (value >= 0.0f && value <= 100.0f)
         {
-            gamepadleftdeadzone_percent = value;
-            gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN,
-                gamepadleftdeadzone_percent,
-                GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
-        }
-        else
-        {
-            gamepadrightdeadzone_percent = value;
-            gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN,
-                gamepadrightdeadzone_percent,
-                GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
-        }
+            if (!strcasecmp(cmd, "gamepad_leftdeadzone"))
+            {
+                gamepadleftdeadzone_percent = value;
+                gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN,
+                    gamepadleftdeadzone_percent,
+                    GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
+                C_Output("The dead zone of the gamepad's left thumbstick is now %s%%.",
+                    striptrailingzero(value));
+            }
+            else
+            {
+                gamepadrightdeadzone_percent = value;
+                gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN,
+                    gamepadrightdeadzone_percent,
+                    GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
+                C_Output("The dead zone of the gamepad's right thumbstick is now %s%%.",
+                    striptrailingzero(value));
+            }
 
-        M_SaveDefaults();
-        C_Output("%s is now %s%%.", cmd, striptrailingzero(value));
+            M_SaveDefaults();
+        }
     }
     else
     {
         float   value = 0;
 
         if (!strcasecmp(cmd, "gamepad_leftdeadzone"))
-            value = gamepadleftdeadzone_percent;
+            C_Output("The dead zone of the gamepad's left thumbstick is %s%%.",
+                striptrailingzero(gamepadleftdeadzone_percent));
         else
-            value = gamepadrightdeadzone_percent;
-
-        C_Output("%s is %s%%.", cmd, striptrailingzero(value));
+            C_Output("The dead zone of the gamepad's right thumbstick is %s%%.",
+                striptrailingzero(gamepadrightdeadzone_percent));
     }
 }
 
@@ -2147,17 +2153,17 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
 
             if (gammaindex == 10)
-                C_Output("\"gammacorrectionlevel\" is now off.");
+                C_Output("Gamma correction is now off.");
             else
-                C_Output("\"gammacorrectionlevel\" is now %.2f.", gammalevels[gammaindex]);
+                C_Output("The gamma correction level is now %.2f.", gammalevels[gammaindex]);
         }
     }
     else
     {
         if (gammaindex == 10)
-            C_Output("\"gammacorrectionlevel\" is off.");
+            C_Output("Gamma correction is off.");
         else
-            C_Output("\"gammacorrectionlevel\" is %.2f.", gammalevels[gammaindex]);
+            C_Output("The gamma correction level is %.2f.", gammalevels[gammaindex]);
     }
 }
 
@@ -2195,11 +2201,11 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         {
             graphicdetail = !!value;
             M_SaveDefaults();
-            C_Output("graphicdetail is now %s.", parm1);
+            C_Output("The graphic detail is now %s.", parm1);
         }
     }
     else
-        C_Output("graphicdetail is %s.", C_LookupAliasFromValue(graphicdetail, 3));
+        C_Output("The graphic detail is %s.", C_LookupAliasFromValue(graphicdetail, 3));
 }
 
 //
@@ -2517,25 +2523,24 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
             musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent,
                 MUSICVOLUME_MAX) * 15 + 50) / 100;
             S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
+            C_Output("The music volume is now %i%%.", value);
         }
         else
         {
             sfxvolume_percent = value;
             sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
             S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
+            C_Output("The SFX volume is now %i%%.", value);
         }
 
         M_SaveDefaults();
-        C_Output("%s is now %i%%.", cmd, value);
     }
     else
     {
         if (!strcasecmp(cmd, "musicvolume"))
-            value = musicvolume_percent;
+            C_Output("The music volume is %i%%.", musicvolume_percent);
         else
-            value = sfxvolume_percent;
-
-        C_Output("%s is %i%%.", cmd, value);
+            C_Output("The music volume is %i%%.", sfxvolume_percent);
     }
 }
 
@@ -2608,11 +2613,11 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
             screensize = value;
             M_SaveDefaults();
             R_SetViewSize(screensize);
-            C_Output("screensize is now %i.", screensize);
+            C_Output("The screen size is now %i.", screensize);
         }
     }
     else
-        C_Output("screensize is %i.", screensize);
+        C_Output("The screen size is %i.", screensize);
 }
 
 //
