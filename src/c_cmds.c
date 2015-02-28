@@ -1511,15 +1511,15 @@ consolecmd_t consolecmds[] =
         /* condition   */ C_BooleanCondition,
         /* function    */ C_ShowFPS,
         /* parameters  */ 1,
-        /* type        */ CT_CVAR,
-        /* flags       */ CF_BOOLEAN | CF_NOTSAVED,
+        /* type        */ CT_CMD,
+        /* flags       */ CF_NONE,
         /* variable    */ &showfps,
         /* aliases     */ 1,
-        /* minimum     */ false,
-        /* maximum     */ true,
-        /* default     */ false,
-        /* format      */ "",
-        /* description */ ""
+        /* minimum     */ 0,
+        /* maximum     */ 0,
+        /* default     */ 0,
+        /* format      */ "showfps [on|off]",
+        /* description */ "Show average FPS."
     },
 
     {
@@ -2621,7 +2621,7 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
 }
 
 //
-// SHOWFPS cvar
+// SHOWFPS cmd
 //
 void C_ShowFPS(char *cmd, char *parm1, char *parm2)
 {
@@ -2630,13 +2630,10 @@ void C_ShowFPS(char *cmd, char *parm1, char *parm2)
         int     value = C_LookupValueFromAlias(parm1, 1);
 
         if (value == 0 || value == 1)
-        {
             showfps = !!value;
-            C_Output("showfps is now %s.", parm1);
-        }
     }
     else
-        C_Output("showfps is %s.", (showfps ? "on" : "off"));
+        showfps = !showfps;
 }
 
 //
