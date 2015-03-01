@@ -264,6 +264,7 @@ boolean C_BindCondition(char *, char *, char *);
 boolean C_BloodSplatsCondition(char *, char *, char *);
 boolean C_BooleanCondition(char *, char *, char *);
 boolean C_CheatCondition(char *, char *, char *);
+boolean C_ConBackCondition(char *, char *, char *);
 boolean C_DeadZoneCondition(char *, char *, char *);
 boolean C_GameCondition(char *, char *, char *);
 boolean C_GammaCondition(char *, char *, char *);
@@ -483,7 +484,7 @@ consolecmd_t consolecmds[] =
 
     {
         /* name        */ "conback",
-        /* condition   */ C_NoCondition,
+        /* condition   */ C_ConBackCondition,
         /* function    */ C_ConBack,
         /* parameters  */ 1,
         /* type        */ CT_CVAR,
@@ -2020,21 +2021,21 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
 //
 // CONBACK cvar
 //
+boolean C_ConBackCondition(char *cmd, char *parm1, char *parm2)
+{
+    return (!parm1[0] || R_CheckFlatNumForName(parm1) >= 0);
+}
+
 void C_ConBack(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        if (R_CheckFlatNumForName(parm1) >= 0)
-        {
-            conback = strdup(parm1);
-            consolebackground = W_CacheLumpName(parm1, PU_CACHE);
-            defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
-                || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
-            M_SaveDefaults();
-            C_Output("The console's background is now using the \"%s\" flat.", uppercase(conback));
-        }
-        else
-            C_Output("\"%s\" is not a valid flat.", uppercase(parm1));
+        conback = strdup(parm1);
+        consolebackground = W_CacheLumpName(parm1, PU_CACHE);
+        defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
+            || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
+        M_SaveDefaults();
+        C_Output("The console's background is now using the \"%s\" flat.", uppercase(conback));
     }
     else
         C_Output("The console's background is using the %s flat.", uppercase(conback));
