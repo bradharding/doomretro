@@ -876,6 +876,8 @@ boolean C_Responder(event_t *ev)
         if (outputhistory != -1 && key != KEY_PGUP && key != KEY_PGDN)
             outputhistory = -1;
     }
+    else if (ev->type == ev_keyup)
+        return false;
 #if defined(SDL20)
     else if (ev->type == ev_mousewheel)
     {
