@@ -2000,6 +2000,7 @@ extern int      consolestrings;
 void C_Clear(char *cmd, char *parm1, char *parm2)
 {
     consolestrings = 0;
+    C_Output("");
 }
 
 //
@@ -2046,13 +2047,16 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
 //
 void C_ConDump(char *cmd, char *parm1, char *parm2)
 {
-    FILE        *file = fopen((parm1[0] ? parm1 : "condump.txt"), "wt");
-    int         i;
+    if (consolestrings)
+    {
+        FILE        *file = fopen((parm1[0] ? parm1 : "condump.txt"), "wt");
+        int         i;
 
-    for (i = 0; i < consolestrings - 1; ++i)
-        fprintf(file, "%s\n", console[i].string);
-    fclose(file);
-    C_Output("Dumped the console to the %s.", (parm1[0] ? uppercase(parm1) : "CONDUMP.TXT"));
+        for (i = 1; i < consolestrings - 1; ++i)
+            fprintf(file, "%s\n", console[i].string);
+        fclose(file);
+        C_Output("Dumped the console to the %s.", (parm1[0] ? uppercase(parm1) : "CONDUMP.TXT"));
+    }
 }
 
 //
