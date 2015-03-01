@@ -2031,13 +2031,13 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
             defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
                 || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
             M_SaveDefaults();
-            C_Output("The console's background is now using the \"%s\" flat.", conback);
+            C_Output("The console's background is now using the \"%s\" flat.", uppercase(conback));
         }
         else
-            C_Output("\"%s\" is not a valid flat.", parm1);
+            C_Output("\"%s\" is not a valid flat.", uppercase(parm1));
     }
     else
-        C_Output("The console's background is using the \"%s\" flat.", conback);
+        C_Output("The console's background is using the %s flat.", uppercase(conback));
 }
 
 //

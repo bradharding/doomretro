@@ -564,7 +564,6 @@ void HU_Ticker(void)
     if ((plr->message && !message_nottobefuckedwith)
         || (plr->message && message_dontfuckwithme))
     {
-        C_PlayerMessage(plr->message);
         if (!idbehold && !idmypos && (messages || message_dontfuckwithme))
         {
             char    *s = Z_Malloc(133, PU_STATIC, NULL);
@@ -590,6 +589,13 @@ void HU_Ticker(void)
         }
         plr->message = 0;
     }
+}
+
+void HU_PlayerMessage(char *message)
+{
+    if (plr)
+        plr->message = message;
+    C_PlayerMessage(message);
 }
 
 void HU_clearMessages(void)

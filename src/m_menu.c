@@ -1664,7 +1664,7 @@ void M_ChangeMessages(int choice)
     messages = !messages;
     if (menuactive)
         message_dontpause = true;
-    players[consoleplayer].message = (messages ? s_MSGON : s_MSGOFF);
+    HU_PlayerMessage(messages ? s_MSGON : s_MSGOFF);
     message_dontfuckwithme = true;
     M_SaveDefaults();
 }
@@ -1891,6 +1891,7 @@ void M_ChangeDetail(int choice)
         players[consoleplayer].message = (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
         message_dontfuckwithme = true;
     }
+    C_PlayerMessage(graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
     M_SaveDefaults();
 }
 
@@ -2702,7 +2703,7 @@ boolean M_Responder(event_t *ev)
             if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
                 buf[strlen(buf) - 1] = '\0';
         }
-        players[consoleplayer].message = buf;
+        HU_PlayerMessage(buf);
 
         message_dontpause = true;
         message_dontfuckwithme = true;

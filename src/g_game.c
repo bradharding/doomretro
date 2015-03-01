@@ -641,9 +641,7 @@ void G_DoLoadLevel(void)
 void G_ToggleAlwaysRun(void)
 {
     alwaysrun = !alwaysrun;
-    players[consoleplayer].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
-    if (gamestate == GS_TITLESCREEN)
-        C_PlayerMessage(alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
+    HU_PlayerMessage(alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
     message_dontfuckwithme = true;
     if (menuactive)
     {
@@ -949,18 +947,13 @@ void G_Ticker(void)
 
                         S_StartSound(NULL, sfx_swtchx);
                         M_snprintf(message, sizeof(message), s_GSCREENSHOT, lbmname);
-                        if (usergame || gamestate == GS_LEVEL)
+                        HU_PlayerMessage(message);
+                        message_dontfuckwithme = true;
+                        if (menuactive)
                         {
-                            players[consoleplayer].message = message;
-                            message_dontfuckwithme = true;
-                            if (menuactive)
-                            {
-                                message_dontpause = true;
-                                blurred = false;
-                            }
+                            message_dontpause = true;
+                            blurred = false;
                         }
-                        else
-                            C_PlayerMessage(message);
                     }
                     gameaction = ga_nothing;
                 }
@@ -1614,7 +1607,7 @@ void G_LoadedGameMessage(void)
     static char buffer[128];
 
     M_snprintf(buffer, sizeof(buffer), s_GGLOADED, savedescription);
-    players[consoleplayer].message = buffer;
+    HU_PlayerMessage(buffer);
     message_dontfuckwithme = true;
 
     loadedgame = false;
@@ -1672,7 +1665,7 @@ void G_DoSaveGame(void)
 
     // [BH] use the save description in the message displayed
     M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
-    players[consoleplayer].message = buffer;
+    HU_PlayerMessage(buffer);
     message_dontfuckwithme = true;
     S_StartSound(NULL, sfx_swtchx);
 

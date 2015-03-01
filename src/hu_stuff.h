@@ -66,6 +66,8 @@ void HU_Ticker(void);
 void HU_Drawer(void);
 void HU_Erase(void);
 
+void HU_PlayerMessage(char *message);
+
 void HU_clearMessages(void);
 
 extern char     automaptitle[133];

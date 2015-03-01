@@ -618,7 +618,7 @@ boolean ST_Responder(event_t *ev)
                     oldhealth = plyr->health;
                     P_GiveBody(plyr, 100);
 
-                    plyr->message = s_STSTR_DQDON;
+                    HU_PlayerMessage(s_STSTR_DQDON);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -628,7 +628,7 @@ boolean ST_Responder(event_t *ev)
                 }
                 else
                 {
-                    plyr->message = s_STSTR_DQDOFF;
+                    HU_PlayerMessage(s_STSTR_DQDOFF);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -761,7 +761,7 @@ boolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus(plyr, BONUSADD);
 
-                    plyr->message = s_STSTR_FAADDED;
+                    HU_PlayerMessage(s_STSTR_FAADDED);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -891,7 +891,7 @@ boolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus(plyr, BONUSADD);
 
-                    plyr->message = s_STSTR_KFAADDED;
+                    HU_PlayerMessage(s_STSTR_KFAADDED);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -936,7 +936,7 @@ boolean ST_Responder(event_t *ev)
                             S_ChangeMusic(musnum, 1, true);
 
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS, S_music[musnum].name);
-                            plyr->message = msg;
+                            HU_PlayerMessage(msg);
 
                             // [BH] always display message
                             message_dontfuckwithme = true;
@@ -958,7 +958,7 @@ boolean ST_Responder(event_t *ev)
             {
                 plyr->cheats ^= CF_NOCLIP;
 
-                plyr->message = (plyr->cheats & CF_NOCLIP ? s_STSTR_NCON : s_STSTR_NCOFF);
+                HU_PlayerMessage((plyr->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF);
 
                 // [BH] always display message
                 message_dontfuckwithme = true;
@@ -1008,7 +1008,7 @@ boolean ST_Responder(event_t *ev)
                               }
                         }
 
-                        plyr->message = s_STSTR_BEHOLDON;
+                        HU_PlayerMessage(s_STSTR_BEHOLDON);
                     }
                     else
                     {
@@ -1036,7 +1036,7 @@ boolean ST_Responder(event_t *ev)
                             plyr->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        plyr->message = s_STSTR_BEHOLDOFF;
+                        HU_PlayerMessage(s_STSTR_BEHOLDOFF);
                     }
 
                     // [BH] reset all cheat sequences
@@ -1111,7 +1111,7 @@ boolean ST_Responder(event_t *ev)
                     P_GivePower(plyr, pw_invulnerability);
                     plyr->powers[pw_invulnerability] = -1;
 
-                    plyr->message = s_STSTR_CHOPPERS;
+                    HU_PlayerMessage(s_STSTR_CHOPPERS);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;
@@ -1212,7 +1212,7 @@ boolean ST_Responder(event_t *ev)
                         M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
                     else
                         M_snprintf(message, sizeof(message), s_STSTR_CLEV, lump);
-                    plyr->message = message;
+                    HU_PlayerMessage(message);
 
                     // [BH] always display message
                     message_dontfuckwithme = true;

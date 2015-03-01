@@ -650,14 +650,14 @@ static void AM_toggleFollowMode(void)
     if (followmode)
         m_paninc.x = m_paninc.y = 0;
     f_oldloc.x = INT_MAX;
-    plr->message = (followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
+    HU_PlayerMessage(followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
     message_dontfuckwithme = true;
 }
 
 static void AM_toggleGrid(void)
 {
     grid = !grid;
-    plr->message = (grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
+    HU_PlayerMessage(grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
     message_dontfuckwithme = true;
 }
 
@@ -684,7 +684,7 @@ static void AM_addMark(void)
     markpoints[markpointnum].x = x;
     markpoints[markpointnum].y = y;
     M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT, ++markpointnum);
-    plr->message = message;
+    HU_PlayerMessage(message);
     message_dontfuckwithme = true;
 }
 
@@ -697,7 +697,7 @@ static void AM_clearMarks(void)
         if (++markpress == 5)
         {
             // clear all marks
-            plr->message = s_AMSTR_MARKSCLEARED;
+            HU_PlayerMessage(s_AMSTR_MARKSCLEARED);
             message_dontfuckwithme = true;
             markpointnum = 0;
         }
@@ -707,7 +707,7 @@ static void AM_clearMarks(void)
 
             // clear one mark
             M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, markpointnum--);
-            plr->message = message;
+            HU_PlayerMessage(message);
             message_dontfuckwithme = true;
         }
     }
@@ -716,7 +716,7 @@ static void AM_clearMarks(void)
 static void AM_toggleRotateMode(void)
 {
     rotatemode = !rotatemode;
-    plr->message = (rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
+    HU_PlayerMessage(rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
     message_dontfuckwithme = true;
 }
 
