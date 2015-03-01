@@ -66,6 +66,7 @@
 
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
+#define CONSOLELINES            11
 #define CONSOLELINEHEIGHT       14
 
 #define CONSOLEINPUTPIXELWIDTH  500
@@ -496,19 +497,19 @@ void C_Drawer(void)
         // draw console text
         if (outputhistory == -1)
         {
-            start = MAX(0, consolestrings - 10);
+            start = MAX(0, consolestrings - CONSOLELINES);
             end = consolestrings;
         }
         else
         {
             start = outputhistory;
-            end = outputhistory + 10;
+            end = outputhistory + CONSOLELINES;
         }
         for (i = start; i < end; ++i)
         {
             prevletter = ' ';
-            C_DrawText(CONSOLETEXTX,
-                CONSOLETEXTY + CONSOLELINEHEIGHT * (i - start + MAX(0, 10 - consolestrings)),
+            C_DrawText(CONSOLETEXTX, -CONSOLELINEHEIGHT / 2 + 1
+                + CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings)),
                 console[i].string, consolecolors[console[i].type]);
         }
 
@@ -829,8 +830,9 @@ boolean C_Responder(event_t *ev)
 
             // scroll output up
             case KEY_PGUP:
-                if (consolestrings > 10)
-                    outputhistory = (outputhistory == -1 ? consolestrings - 11 : MAX(0, outputhistory - 1));
+                if (consolestrings > CONSOLELINES)
+                    outputhistory = (outputhistory == -1 ? consolestrings - (CONSOLELINES + 1)
+                        : MAX(0, outputhistory - 1));
                 break;
 
             // scroll output down
@@ -838,7 +840,7 @@ boolean C_Responder(event_t *ev)
                 if (outputhistory != -1)
                 {
                     ++outputhistory;
-                    if (outputhistory + 10 == consolestrings)
+                    if (outputhistory + CONSOLELINES == consolestrings)
                         outputhistory = -1;
                 }
                 break;
@@ -952,6 +954,7 @@ void C_PrintCompileDate(void)
     sscanf(__TIME__, "%d:%d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
+    C_Output("");
     C_Output("%s was built on %s, %s %i, %i at %i:%02i%s.",
         uppercase(PACKAGE_EXE), days[dayofweek(day, month + 1, year)], months[month], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
