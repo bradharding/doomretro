@@ -2518,6 +2518,7 @@ void C_Map(char *cmd, char *parm1, char *parm2)
         EpiDef.lastOn = selectedepisode;
     }
     gamemap = mapcmdmap;
+    C_Output("Warping to %s...", uppercase(parm1));
     if (gamestate == GS_LEVEL)
         G_DeferredLoadLevel((gamestate == GS_LEVEL ? gameskill : selectedskilllevel), gameepisode,
             gamemap);
