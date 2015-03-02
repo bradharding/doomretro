@@ -77,13 +77,13 @@ static int      worldtop;
 static int      worldbottom;
 static int      worldhigh;
 static int      worldlow;
-static fixed_t  pixhigh;
-static fixed_t  pixlow;
+static int64_t  pixhigh;
+static int64_t  pixlow;
 static fixed_t  pixhighstep;
 static fixed_t  pixlowstep;
-static fixed_t  topfrac;
+static int64_t  topfrac;
 static fixed_t  topstep;
-static fixed_t  bottomfrac;
+static int64_t  bottomfrac;
 static fixed_t  bottomstep;
 static int      *maskedtexturecol;      // dropoff overflow
 
@@ -335,8 +335,8 @@ void R_RenderSegLoop(void)
     for (; rw_x < rw_stopx; ++rw_x)
     {
         // mark floor / ceiling areas
-        int     yl = (topfrac + heightunit - 1) >> heightbits;
-        int     yh = bottomfrac >> heightbits;
+        int     yl = (int)((topfrac + heightunit - 1) >> heightbits);
+        int     yh = (int)(bottomfrac >> heightbits);
 
         // no space above wall?
         int     bottom;
@@ -439,7 +439,7 @@ void R_RenderSegLoop(void)
             if (toptexture)
             {
                 // top wall
-                int     mid = pixhigh >> heightbits;
+                int     mid = (int)(pixhigh >> heightbits);
 
                 pixhigh += pixhighstep;
 
@@ -487,7 +487,7 @@ void R_RenderSegLoop(void)
             if (bottomtexture)
             {
                 // bottom wall
-                int     mid = (pixlow + heightunit - 1) >> heightbits;
+                int     mid = (int)((pixlow + heightunit - 1) >> heightbits);
 
                 pixlow += pixlowstep;
 
@@ -880,10 +880,10 @@ void R_StoreWallRange(int start, int stop)
     worldbottom >>= invhgtbits;
 
     topstep = -FixedMul(rw_scalestep, worldtop);
-    topfrac = (centeryfrac >> invhgtbits) - FixedMul(worldtop, rw_scale);
+    topfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldtop * rw_scale) >> FRACBITS);
 
     bottomstep = -FixedMul(rw_scalestep, worldbottom);
-    bottomfrac = (centeryfrac >> invhgtbits) - FixedMul(worldbottom, rw_scale);
+    bottomfrac = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldbottom * rw_scale) >> FRACBITS);
 
     if (backsector)
     {
@@ -892,13 +892,13 @@ void R_StoreWallRange(int start, int stop)
 
         if (worldhigh < worldtop)
         {
-            pixhigh = (centeryfrac >> invhgtbits) - FixedMul(worldhigh, rw_scale);
+            pixhigh = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldhigh * rw_scale) >> FRACBITS);
             pixhighstep = -FixedMul(rw_scalestep, worldhigh);
         }
 
         if (worldlow > worldbottom)
         {
-            pixlow = (centeryfrac >> invhgtbits) - FixedMul(worldlow, rw_scale);
+            pixlow = ((int64_t)centeryfrac >> invhgtbits) - (((int64_t)worldlow * rw_scale) >> FRACBITS);
             pixlowstep = -FixedMul(rw_scalestep, worldlow);
         }
     }
