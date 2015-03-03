@@ -955,8 +955,15 @@ void C_PrintCompileDate(void)
     month = (strstr(mths, mth) - mths) / 3;
 
     C_Output("");
-    C_Output("%s was built on %s, %s %i, %i at %i:%02i%s.",
-        uppercase(PACKAGE_EXE), days[dayofweek(day, month + 1, year)], months[month], day, year,
+    C_Output("This 32-bit %s binary of %s was built on %s, %s %i, %i at %i:%02i%s.",
+#if defined(WIN32)
+        "Windows",
+#elif defined(__MACOSX__)
+        "OS X",
+#else
+        "Linux",
+#endif
+        PACKAGE_NAME, days[dayofweek(day, month + 1, year)], months[month], day, year,
         (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 }
 
