@@ -216,10 +216,10 @@ static void C_DrawDivider(int y)
     int i;
 
     y *= SCREENWIDTH;
-    if (y > CONSOLETOP)
+    if (y >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
             screens[0][i] = consoledividercolor;
-    if ((y += SCREENWIDTH) > CONSOLETOP)
+    if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
             screens[0][i] = consoledividercolor;
 }
