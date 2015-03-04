@@ -272,9 +272,13 @@
 #define SCREENSIZE_DEFAULT                      7
 #define SCREENSIZE_MAX                          8
 
+#define SCREENWIDTH_MIN                         0
 #define SCREENWIDTH_DEFAULT                     0
+#define SCREENWIDTH_MAX                         INT_MAX
 
+#define SCREENHEIGHT_MIN                        0
 #define SCREENHEIGHT_DEFAULT                    0
+#define SCREENHEIGHT_MAX                        INT_MAX
 
 #define SFXVOLUME_MIN                           0
 #define SFXVOLUME_DEFAULT                       100
@@ -308,9 +312,13 @@
 
 #define WINDOWPOSITION_DEFAULT                  ""
 
+#define WINDOWWIDTH_MIN                         ORIGINALWIDTH
 #define WINDOWWIDTH_DEFAULT                     SCREENWIDTH
+#define WINDOWWIDTH_MAX                         INT_MAX
 
+#define WINDOWHEIGHT_MIN                        (ORIGINALWIDTH * 3 / 4)
 #define WINDOWHEIGHT_DEFAULT                    (SCREENWIDTH * 3 / 4)
+#define WINDOWHEIGHT_MAX                        INT_MAX
 
 typedef enum
 {
