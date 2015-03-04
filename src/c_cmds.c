@@ -421,7 +421,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (gamepad_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, 0, GAMEPADSENSITIVITY),
     CVAR_BOOL (gamepad_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE),
     CVAR_INT  (gammacorrectionlevel, C_GammaCondition, C_Gamma, CF_NONE, gammaindex, 4, NONE),
-    CMD       (god, C_GodCondition, C_God, 0, "", "Toggle god mode on/off."),
+    CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggle god mode on/off."),
     CVAR_BOOL (graphicdetail, C_GraphicDetailCondition, C_GraphicDetail, graphicdetail, GRAPHICDETAIL),
     CVAR_BOOL (grid, C_BoolCondition, C_Bool, grid, GRID),
     CMD       (help, C_NoCondition, C_Help, 0, "", "Display the help screen."),
@@ -451,8 +451,8 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS),
     CVAR_INT  (mouse_sensitivity, C_NoCondition, C_Int, CF_NONE, mousesensitivity, 0, MOUSESENSITIVITY),
     CVAR_INT  (musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME),
-    CMD       (noclip, C_GameCondition, C_NoClip, 0, "", "Toggle no clipping mode on/off."),
-    CMD       (notarget, C_GameCondition, C_NoClip, 0, "", "Toggle no target mode on/off."),
+    CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggle no clipping mode on/off."),
+    CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggle no target mode on/off."),
     CVAR_BOOL (novert, C_BoolCondition, C_Bool, novert, NOVERT),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quit "PACKAGE_NAME),
     CVAR_BOOL (rotatemode, C_BoolCondition, C_Bool, rotatemode, ROTATEMODE),
@@ -982,9 +982,20 @@ boolean C_GodCondition(char *cmd, char *parm1, char *parm2)
 
 void C_God(char *cmd, char *parm1, char *parm2)
 {
-    player_t      *player = &players[displayplayer];
+    player_t    *player = &players[displayplayer];
 
-    player->cheats ^= CF_GODMODE;
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0)
+            player->cheats &= ~CF_GODMODE;
+        else if (value == 1)
+            player->cheats |= CF_GODMODE;
+    }
+    else
+        player->cheats ^= CF_GODMODE;
+
     C_Output((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF);
 }
 
@@ -1358,8 +1369,21 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
 //
 void C_NoClip(char *cmd, char *parm1, char *parm2)
 {
-    M_StringCopy(consolecheat, (gamemode == commercial ? "idclip" : "idspispopd"),
-        sizeof(consolecheat));
+    player_t    *player = &players[displayplayer];
+
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0)
+            player->cheats &= ~CF_NOCLIP;
+        else if (value == 1)
+            player->cheats |= CF_NOCLIP;
+    }
+    else
+        player->cheats ^= CF_NOCLIP;
+
+    C_Output((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF);
 }
 
 //
@@ -1367,8 +1391,21 @@ void C_NoClip(char *cmd, char *parm1, char *parm2)
 //
 void C_NoTarget(char *cmd, char *parm1, char *parm2)
 {
-    players[displayplayer].cheats ^= CF_NOTARGET;
-    C_Output((players[displayplayer].cheats & CF_NOTARGET) ? s_STSTR_NTON : s_STSTR_NTOFF);
+    player_t    *player = &players[displayplayer];
+
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0)
+            player->cheats &= ~CF_NOTARGET;
+        else if (value == 1)
+            player->cheats |= CF_NOTARGET;
+    }
+    else
+        player->cheats ^= CF_NOTARGET;
+
+    C_Output((player->cheats & CF_NOTARGET) ? s_STSTR_NTON : s_STSTR_NTOFF);
 }
 
 //
