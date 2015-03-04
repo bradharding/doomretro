@@ -760,6 +760,8 @@ boolean C_Responder(event_t *ev)
             case KEY_TAB:
                 if (consoleinput[0])
                 {
+                    int start = autocomplete;
+
                     if (autocomplete == -1)
                     {
                         autocomplete = 0;
@@ -780,13 +782,39 @@ boolean C_Responder(event_t *ev)
                                 consoleinput[length + 1] = 0;
                             }
                             ++autocomplete;
-                            break;
+                            caretpos = strlen(consoleinput);
+                            carettics = 0;
+                            showcaret = true;
+                            return true;
                         }
                         ++autocomplete;
                     }
-                    caretpos = strlen(consoleinput);
-                    carettics = 0;
-                    showcaret = true;
+
+                    if (start != -1)
+                    {
+                        autocomplete = 0;
+                        while (autocomplete != start)
+                        {
+                            if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
+                                && consolecmds[autocomplete].type != CT_CHEAT)
+                            {
+                                M_StringCopy(consoleinput, consolecmds[autocomplete].name, 255);
+                                if (consolecmds[autocomplete].parameters)
+                                {
+                                    int     length = strlen(consoleinput);
+
+                                    consoleinput[length] = ' ';
+                                    consoleinput[length + 1] = 0;
+                                }
+                                ++autocomplete;
+                                caretpos = strlen(consoleinput);
+                                carettics = 0;
+                                showcaret = true;
+                                return true;
+                            }
+                            ++autocomplete;
+                        }
+                    }
                 }
                 break;
 
