@@ -163,7 +163,7 @@ static void ExtendLumpInfo(int newnumlumps)
 //  with multiple lumps.
 // Other files are single lumps with the base filename
 //  for the lump name.
-wad_file_t *W_AddFile(char *filename)
+wad_file_t *W_AddFile(char *filename, boolean automatic)
 {
     wadinfo_t           header;
     lumpinfo_t          *lump_p;
@@ -252,7 +252,8 @@ wad_file_t *W_AddFile(char *filename)
     }
 
     header.identification[4] = 0;
-    C_Output("Added %s lumps from %s file %s.",
+    C_Output("%s %s lumps from %s file %s.",
+        (automatic ? "Automatically added" : "Added"),
         commify(numlumps - startlump), header.identification, uppercase(filename));
 
     return wad_file;

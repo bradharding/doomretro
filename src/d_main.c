@@ -495,9 +495,9 @@ void D_StartTitle(int page)
     D_AdvanceTitle();
 }
 
-static boolean D_AddFile(char *filename)
+static boolean D_AddFile(char *filename, boolean automatic)
 {
-    return (W_AddFile(filename) != NULL);
+    return (W_AddFile(filename, automatic) != NULL);
 }
 
 // Initialize the game version
@@ -758,7 +758,7 @@ static int D_ChooseIWAD(void)
                     && !D_IsUnsupportedIWAD(file)))
             {
                 IdentifyIWADByName(file);
-                if (D_AddFile(file))
+                if (D_AddFile(file, false))
                 {
                     iwadfound = 1;
                     iwadfolder = strdup(M_ExtractFolder(file));
@@ -770,7 +770,7 @@ static int D_ChooseIWAD(void)
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                             strdup(M_ExtractFolder(file)), "NERVE.WAD");
-                        if (W_MergeFile(fullpath))
+                        if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
                             nerve = true;
@@ -793,12 +793,12 @@ static int D_ChooseIWAD(void)
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                     strdup(M_ExtractFolder(file)), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                 IdentifyIWADByName(fullpath);
-                if (D_AddFile(fullpath))
+                if (D_AddFile(fullpath, true))
                 {
                     iwadfound = 1;
                     iwadfolder = strdup(M_ExtractFolder(file));
                     D_CheckSupportedPWAD(file);
-                    if (W_MergeFile(file))
+                    if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
                         LoadDehFile(file);
@@ -810,11 +810,11 @@ static int D_ChooseIWAD(void)
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
-                    if (D_AddFile(fullpath))
+                    if (D_AddFile(fullpath, true))
                     {
                         iwadfound = 1;
                         D_CheckSupportedPWAD(file);
-                        if (W_MergeFile(file))
+                        if (W_MergeFile(file, false))
                         {
                             modifiedgame = true;
                             LoadDehFile(file);
@@ -826,11 +826,11 @@ static int D_ChooseIWAD(void)
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                             getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                         IdentifyIWADByName(fullpath);
-                        if (D_AddFile(fullpath))
+                        if (D_AddFile(fullpath, true))
                         {
                             iwadfound = 1;
                             D_CheckSupportedPWAD(file);
-                            if (W_MergeFile(file))
+                            if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
                                 LoadDehFile(file);
@@ -848,7 +848,7 @@ static int D_ChooseIWAD(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         strdup(M_ExtractFolder(file)), "BTSX_E2B.WAD");
-                    return W_MergeFile(fullpath);
+                    return W_MergeFile(fullpath, true);
                 }
                 else if (!BTSXE2A && BTSXE2B)
                 {
@@ -856,7 +856,7 @@ static int D_ChooseIWAD(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         strdup(M_ExtractFolder(file)), "BTSX_E2A.WAD");
-                    return W_MergeFile(fullpath);
+                    return W_MergeFile(fullpath, true);
                 }
             }
         }
@@ -900,7 +900,7 @@ static int D_ChooseIWAD(void)
                     if (!iwadfound)
                     {
                         IdentifyIWADByName(fullpath);
-                        if (D_AddFile(fullpath))
+                        if (D_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
                             sharewareiwad = !strcasecmp(iwadpass, "DOOM1.WAD");
@@ -920,10 +920,10 @@ static int D_ChooseIWAD(void)
                     M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
                         strdup(szFile));
                     IdentifyIWADByName(fullpath2);
-                    if (D_AddFile(fullpath2))
+                    if (D_AddFile(fullpath2, true))
                     {
                         iwadfound = 1;
-                        if (W_MergeFile(fullpath))
+                        if (W_MergeFile(fullpath, false))
                         {
                             modifiedgame = true;
                             nerve = true;
@@ -937,10 +937,10 @@ static int D_ChooseIWAD(void)
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
                             iwadfolder);
                         IdentifyIWADByName(fullpath2);
-                        if (D_AddFile(fullpath2))
+                        if (D_AddFile(fullpath2, true))
                         {
                             iwadfound = 1;
-                            if (W_MergeFile(fullpath))
+                            if (W_MergeFile(fullpath, false))
                             {
                                 modifiedgame = true;
                                 nerve = true;
@@ -954,10 +954,10 @@ static int D_ChooseIWAD(void)
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
                                 getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
-                            if (D_AddFile(fullpath2))
+                            if (D_AddFile(fullpath2, true))
                             {
                                 iwadfound = 1;
-                                if (W_MergeFile(fullpath))
+                                if (W_MergeFile(fullpath, false))
                                 {
                                     modifiedgame = true;
                                     nerve = true;
@@ -1010,7 +1010,7 @@ static int D_ChooseIWAD(void)
                                 strdup(M_ExtractFolder(pwadpass1)),
                                 (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                             IdentifyIWADByName(fullpath2);
-                            if (D_AddFile(fullpath2))
+                            if (D_AddFile(fullpath2, true))
                             {
                                 iwadfound = 1;
                                 iwadfolder = strdup(M_ExtractFolder(pwadpass1));
@@ -1021,7 +1021,7 @@ static int D_ChooseIWAD(void)
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                     iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                 IdentifyIWADByName(fullpath2);
-                                if (D_AddFile(fullpath2))
+                                if (D_AddFile(fullpath2, true))
                                     iwadfound = 1;
                                 else
                                 {
@@ -1029,7 +1029,7 @@ static int D_ChooseIWAD(void)
                                     M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                         getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                     IdentifyIWADByName(fullpath2);
-                                    if (D_AddFile(fullpath2))
+                                    if (D_AddFile(fullpath2, true))
                                         iwadfound = 1;
                                 }
                             }
@@ -1062,7 +1062,7 @@ static int D_ChooseIWAD(void)
                             && !D_IsDehFile(fullpath))
                         {
                             D_CheckSupportedPWAD(fullpath);
-                            if (W_MergeFile(fullpath))
+                            if (W_MergeFile(fullpath, false))
                             {
                                 modifiedgame = true;
                                 LoadDehFile(fullpath);
@@ -1083,7 +1083,7 @@ static int D_ChooseIWAD(void)
 
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                             strdup(szFile), "NERVE.WAD");
-                        if (W_MergeFile(fullpath))
+                        if (W_MergeFile(fullpath, true))
                         {
                             modifiedgame = true;
                             nerve = true;
@@ -1227,7 +1227,7 @@ static void D_DoomMainSetup(void)
 
     if (iwadfile)
     {
-        if (D_AddFile(iwadfile))
+        if (D_AddFile(iwadfile, false))
             if (runcount < RUNCOUNT_MAX)
                 runcount++;
     }
@@ -1262,7 +1262,7 @@ static void D_DoomMainSetup(void)
             if (iwadfile)
             {
                 D_CheckSupportedPWAD(file);
-                if (W_MergeFile(file))
+                if (W_MergeFile(file, false))
                 {
                     modifiedgame = true;
                     LoadDehFile(file);
@@ -1281,11 +1281,11 @@ static void D_DoomMainSetup(void)
                         strdup(M_ExtractFolder(file)),
                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
-                    if (D_AddFile(fullpath))
+                    if (D_AddFile(fullpath, true))
                     {
                         iwadfolder = strdup(M_ExtractFolder(file));
                         D_CheckSupportedPWAD(file);
-                        if (W_MergeFile(file))
+                        if (W_MergeFile(file, false))
                         {
                             modifiedgame = true;
                             LoadDehFile(file);
@@ -1297,10 +1297,10 @@ static void D_DoomMainSetup(void)
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                             iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                         IdentifyIWADByName(fullpath);
-                        if (D_AddFile(fullpath))
+                        if (D_AddFile(fullpath, true))
                         {
                             D_CheckSupportedPWAD(file);
-                            if (W_MergeFile(file))
+                            if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
                                 LoadDehFile(file);
@@ -1313,10 +1313,10 @@ static void D_DoomMainSetup(void)
                                 getenv("DOOMWADDIR"),
                                 (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                             IdentifyIWADByName(fullpath);
-                            if (D_AddFile(fullpath))
+                            if (D_AddFile(fullpath, true))
                             {
                                 D_CheckSupportedPWAD(file);
-                                if (W_MergeFile(file))
+                                if (W_MergeFile(file, false))
                                 {
                                     modifiedgame = true;
                                     LoadDehFile(file);
@@ -1337,7 +1337,7 @@ static void D_DoomMainSetup(void)
         C_SetBTSXColorScheme();
 
 #if defined(WIN32)
-    if (!W_MergeFile(PACKAGE_WAD))
+    if (!W_MergeFile(PACKAGE_WAD, true))
 #elif defined(__MACOSX__)
     if (!W_MergeFile((char*)[packageWadFullpath UTF8String]))
 #endif

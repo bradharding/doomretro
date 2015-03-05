@@ -510,14 +510,14 @@ static void DoMerge(void)
 }
 
 // Merge in a file by name
-boolean W_MergeFile(char *filename)
+boolean W_MergeFile(char *filename, boolean automatic)
 {
     int old_numlumps;
 
     old_numlumps = numlumps;
 
     // Load PWAD
-    if (W_AddFile(filename) == NULL)
+    if (W_AddFile(filename, automatic) == NULL)
         return false;
 
     // IWAD is at the start, PWAD was appended to the end

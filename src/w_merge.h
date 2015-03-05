@@ -40,7 +40,7 @@
 #define __W_MERGE__
 
 // Add a new WAD and merge it into the main directory
-boolean W_MergeFile(char *filename);
+boolean W_MergeFile(char *filename, boolean automatic);
 
 boolean W_MergePackageWAD(void);
 void W_RemovePackageWAD(void);
