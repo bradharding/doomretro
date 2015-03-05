@@ -183,13 +183,6 @@ extern int      windowwidth;
 
 extern boolean  returntowidescreen;
 
-typedef struct
-{
-    char                *text;
-    int                 value;
-    int                 set;
-} alias_t;
-
 #define CONFIG_VARIABLE_GENERIC(name, variable, type, set) \
     { #name, &variable, type, 0, 0, set }
 
@@ -245,7 +238,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (gamepad_run,                gamepadrun,                    2),
     CONFIG_VARIABLE_INT          (gamepad_sensitivity,        gamepadsensitivity,            0),
     CONFIG_VARIABLE_INT          (gamepad_use,                gamepaduse,                    2),
-    CONFIG_VARIABLE_INT          (gamepad_vibrate,            gamepadvibrate,               15),
+    CONFIG_VARIABLE_INT          (gamepad_vibrate,            gamepadvibrate,                1),
     CONFIG_VARIABLE_INT          (gamepad_weapon1,            gamepadweapon1,                2),
     CONFIG_VARIABLE_INT          (gamepad_weapon2,            gamepadweapon2,                2),
     CONFIG_VARIABLE_INT          (gamepad_weapon3,            gamepadweapon3,                2),
@@ -253,7 +246,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (gamepad_weapon5,            gamepadweapon5,                2),
     CONFIG_VARIABLE_INT          (gamepad_weapon6,            gamepadweapon6,                2),
     CONFIG_VARIABLE_INT          (gamepad_weapon7,            gamepadweapon7,                2),
-    CONFIG_VARIABLE_FLOAT        (gammacorrectionlevel,       gammalevel,                   12),
+    CONFIG_VARIABLE_FLOAT        (gammacorrectionlevel,       gammalevel,                   11),
     CONFIG_VARIABLE_INT          (graphicdetail,              graphicdetail,                 6),
     CONFIG_VARIABLE_INT          (grid,                       grid,                          1),
     CONFIG_VARIABLE_INT          (homindicator,               homindicator,                  1),
@@ -380,106 +373,76 @@ static const int scantokey[128] =
     0,             0,              0,             0
 };
 
-static alias_t alias[] =
+alias_t aliases[] =
 {
-    { "off",                                    0,  1 },
-    { "on",                                     1,  1 },
-    { "no",                                     0,  1 },
-    { "yes",                                    1,  1 },
-    { "false",                                  0,  1 },
-    { "true",                                   1,  1 },
-    { "-",                                      0,  2 },
-    { "none",                                   0,  2 },
-    { "dpadup",                                 1,  2 },
-    { "dpaddown",                               2,  2 },
-    { "dpadleft",                               4,  2 },
-    { "dpadright",                              8,  2 },
-    { "start",                                 16,  2 },
-    { "back",                                  32,  2 },
-    { "leftthumb",                             64,  2 },
-    { "rightthumb",                           128,  2 },
-    { "leftshoulder",                         256,  2 },
-    { "LS",                                   256,  2 },
-    { "leftbutton",                           256,  2 },
-    { "LB",                                   256,  2 },
-    { "rightshoulder",                        512,  2 },
-    { "RS",                                   512,  2 },
-    { "rightbutton",                          512,  2 },
-    { "RB",                                   512,  2 },
-    { "lefttrigger",                         1024,  2 },
-    { "LT",                                  1024,  2 },
-    { "righttrigger",                        2048,  2 },
-    { "RT",                                  2048,  2 },
-    { "A",                                   4096,  2 },
-    { "B",                                   8192,  2 },
-    { "X",                                  16384,  2 },
-    { "Y",                                  32768,  2 },
-    { "-",                                      0,  3 },
-    { "none",                                   0,  3 },
-    { "\'+\'",                                 13,  3 },
-    { "backspace",                             14,  3 },
-    { "tab",                                   15,  3 },
-    { "enter",                                 28,  3 },
-    { "ctrl",                                  29,  3 },
-    { "shift",                                 42,  3 },
-    { "alt",                                   56,  3 },
-    { "space",                                 57,  3 },
-    { "home",                                  71,  3 },
-    { "up",                                    72,  3 },
-    { "pageup",                                73,  3 },
-    { "left",                                  75,  3 },
-    { "right",                                 77,  3 },
-    { "end",                                   79,  3 },
-    { "down",                                  80,  3 },
-    { "pagedown",                              81,  3 },
-    { "insert",                                82,  3 },
-    { "del",                                   83,  3 },
-    { "-",                                     -1,  4 },
-    { "none",                                  -1,  4 },
-    { "left",                                   0,  4 },
-    { "mouse1",                                 0,  4 },
-    { "middle",                                 1,  4 },
-    { "mouse2",                                 1,  4 },
-    { "right",                                  2,  4 },
-    { "mouse3",                                 2,  4 },
+    { "off",                            0,  1 }, { "on",                             1,  1 },
+    { "0",                              0,  1 }, { "1",                              1,  1 },
+    { "no",                             0,  1 }, { "yes",                            1,  1 },
+    { "false",                          0,  1 }, { "true",                           1,  1 },
+    { "-",                              0,  2 }, { "none",                           0,  2 },
+    { "dpadup",                         1,  2 }, { "dpaddown",                       2,  2 },
+    { "dpadleft",                       4,  2 }, { "dpadright",                      8,  2 },
+    { "start",                         16,  2 }, { "back",                          32,  2 },
+    { "leftthumb",                     64,  2 }, { "rightthumb",                   128,  2 },
+    { "leftshoulder",                 256,  2 }, { "LS",                           256,  2 },
+    { "leftbutton",                   256,  2 }, { "LB",                           256,  2 },
+    { "rightshoulder",                512,  2 }, { "RS",                           512,  2 },
+    { "rightbutton",                  512,  2 }, { "RB",                           512,  2 },
+    { "lefttrigger",                 1024,  2 }, { "LT",                          1024,  2 },
+    { "righttrigger",                2048,  2 }, { "RT",                          2048,  2 },
+    { "gamepad1",                    4096,  2 }, { "gamepad2",                    8192,  2 },
+    { "gamepad3",                   16384,  2 }, { "gamepad4",                   32768,  2 },
+    { "-",                              0,  3 }, { "none",                           0,  3 },
+    { "\'+\'",                         13,  3 }, { "backspace",                     14,  3 },
+    { "tab",                           15,  3 }, { "enter",                         28,  3 },
+    { "ctrl",                          29,  3 }, { "shift",                         42,  3 },
+    { "alt",                           56,  3 }, { "space",                         57,  3 },
+    { "home",                          71,  3 }, { "up",                            72,  3 },
+    { "pageup",                        73,  3 }, { "left",                          75,  3 },
+    { "right",                         77,  3 }, { "end",                           79,  3 },
+    { "down",                          80,  3 }, { "pagedown",                      81,  3 },
+    { "insert",                        82,  3 }, { "del",                           83,  3 },
+    { "-",                             -1,  4 }, { "none",                          -1,  4 },
+    { "left",                           0,  4 }, { "mouse1",                         0,  4 },
+    { "middle",                         1,  4 }, { "mouse2",                         1,  4 },
+    { "right",                          2,  4 }, { "mouse3",                         2,  4 },
 #if !defined(SDL20)
-    { "wheelup",                                3,  4 },
-    { "wheeldown",                              4,  4 },
+    { "wheelup",                        3,  4 }, { "wheeldown",                      4,  4 },
 #endif
-    { "mouse4",                                 3,  4 },
-    { "mouse5",                                 4,  4 },
-    { "mouse6",                                 5,  4 },
-    { "mouse7",                                 6,  4 },
-    { "mouse8",                                 7,  4 },
+    { "mouse4",                         3,  4 }, { "mouse5",                         4,  4 },
+    { "mouse6",                         5,  4 }, { "mouse7",                         6,  4 },
+    { "mouse8",                         7,  4 },
 #if defined(SDL20)
-    { "wheelup",                                8,  4 },
-    { "wheeldown",                              9,  4 },
+    { "wheelup",                        8,  4 }, { "wheeldown",                      9,  4 },
 #endif
-    { "desktop",                                0,  5 },
-    { "low",                                    0,  6 },
-    { "high",                                   1,  6 },
-    { "-",                                      0,  7 },
-    { "none",                                   0,  7 },
-    { "off",                                    0,  7 },
-    { "no",                                     0,  7 },
-    { "false",                                  0,  7 },
-    { "unlimited",                          32768,  7 },
-    { "on",                                 32768,  7 },
-    { "yes",                                32768,  7 },
-    { "true",                               32768,  7 },
-    { "\"Knee-Deep in the Dead\"",              0,  8 },
-    { "\"The Shores of Hell\"",                 1,  8 },
-    { "\"Inferno\"",                            2,  8 },
-    { "\"Thy Flesh Consumed\"",                 3,  8 },
-    { "\"Hell on Earth\"",                      0,  9 },
-    { "\"No Rest for the Living\"",             1,  9 },
-    { "\"I\'m too young to die.\"",             0, 10 },
-    { "\"Hey, not too rough.\"",                1, 10 },
-    { "\"Hurt me plenty.\"",                    2, 10 },
-    { "\"Ultra-Violence.\"",                    3, 10 },
-    { "\"Nightmare!\"",                         4, 10 },
-    { "off",                                    1, 12 },
-    { "",                                       0,  0 }
+    { "desktop",                        0,  5 }, { "low",                            0,  6 },
+    { "high",                           1,  6 }, { "-",                              0,  7 },
+    { "none",                           0,  7 }, { "off",                            0,  7 },
+    { "no",                             0,  7 }, { "false",                          0,  7 },
+    { "unlimited",                  32768,  7 }, { "on",                         32768,  7 },
+    { "yes",                        32768,  7 }, { "true",                       32768,  7 },
+    { "\"Knee-Deep in the Dead\"",      0,  8 }, { "\"The Shores of Hell\"",         1,  8 },
+    { "\"Inferno\"",                    2,  8 }, { "\"Thy Flesh Consumed\"",         3,  8 },
+    { "\"Hell on Earth\"",              0,  9 }, { "\"No Rest for the Living\"",     1,  9 },
+    { "\"I\'m too young to die.\"",     0, 10 }, { "\"Hey, not too rough.\"",        1, 10 },
+    { "\"Hurt me plenty.\"",            2, 10 }, { "\"Ultra-Violence.\"",            3, 10 },
+    { "\"Nightmare!\"",                 4, 10 }, { "0.5",                            0, 11 },
+    { "0.55",                           1, 11 }, { "0.6",                            2, 11 },
+    { "0.65",                           3, 11 }, { "0.7",                            4, 11 },
+    { "0.75",                           5, 11 }, { "0.8",                            6, 11 },
+    { "0.85",                           7, 11 }, { "0.9",                            8, 11 },
+    { "0.95",                           9, 11 }, { "off",                           10, 11 },
+    { "1.0",                           10, 11 }, { "1.05",                          11, 11 },
+    { "1.1",                           12, 11 }, { "1.15",                          13, 11 },
+    { "1.2",                           14, 11 }, { "1.25",                          15, 11 },
+    { "1.3",                           16, 11 }, { "1.35",                          17, 11 },
+    { "1.4",                           18, 11 }, { "1.45",                          19, 11 },
+    { "1.5",                           20, 11 }, { "1.55",                          21, 11 },
+    { "1.6",                           22, 11 }, { "1.65",                          23, 11 },
+    { "1.7",                           24, 11 }, { "1.75",                          25, 11 },
+    { "1.8",                           26, 11 }, { "1.85",                          27, 11 },
+    { "1.9",                           28, 11 }, { "1.95",                          29, 11 },
+    { "2.0",                           30, 11 }, { "",                               0,  0 }
 };
 
 char *striptrailingzero(float value)
@@ -533,11 +496,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     boolean     flag = false;
 
                     v = defaults[i].untranslated;
-                    while (alias[j].text[0])
+                    while (aliases[j].text[0])
                     {
-                        if (v == alias[j].value && defaults[i].set == alias[j].set)
+                        if (v == aliases[j].value && defaults[i].set == aliases[j].set)
                         {
-                            fprintf(f, "%s", alias[j].text);
+                            fprintf(f, "%s", aliases[j].text);
                             flag = true;
                             break;
                         }
@@ -565,11 +528,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
                             boolean     flag = false;
 
                             v = s;
-                            while (alias[j].text[0])
+                            while (aliases[j].text[0])
                             {
-                                if (v == alias[j].value && defaults[i].set == alias[j].set)
+                                if (v == aliases[j].value && defaults[i].set == aliases[j].set)
                                 {
-                                    fprintf(f, "%s", alias[j].text);
+                                    fprintf(f, "%s", aliases[j].text);
                                     flag = true;
                                     break;
                                 }
@@ -596,11 +559,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 boolean     flag = false;
                 int         v = *(int *)defaults[i].location;
 
-                while (alias[j].text[0])
+                while (aliases[j].text[0])
                 {
-                    if (v == alias[j].value && defaults[i].set == alias[j].set)
+                    if (v == aliases[j].value && defaults[i].set == aliases[j].set)
                     {
-                        fprintf(f, "%s", alias[j].text);
+                        fprintf(f, "%s", aliases[j].text);
                         flag = true;
                         break;
                     }
@@ -621,11 +584,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 boolean     flag = false;
                 int         v = *(int *)defaults[i].location;
 
-                while (alias[j].text[0])
+                while (aliases[j].text[0])
                 {
-                    if (v == alias[j].value && defaults[i].set == alias[j].set)
+                    if (v == aliases[j].value && defaults[i].set == aliases[j].set)
                     {
-                        fprintf(f, "%s", alias[j].text);
+                        fprintf(f, "%s", aliases[j].text);
                         flag = true;
                         break;
                     }
@@ -642,11 +605,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 boolean     flag = false;
                 float       v = *(float *)defaults[i].location;
 
-                while (alias[j].text[0])
+                while (aliases[j].text[0])
                 {
-                    if (v == alias[j].value && defaults[i].set == alias[j].set)
+                    if (v == aliases[j].value && defaults[i].set == aliases[j].set)
                     {
-                        fprintf(f, "%s", alias[j].text);
+                        fprintf(f, "%s", aliases[j].text);
                         flag = true;
                         break;
                     }
@@ -663,11 +626,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
                 boolean     flag = false;
                 float       v = *(float *)defaults[i].location;
 
-                while (alias[j].text[0])
+                while (aliases[j].text[0])
                 {
-                    if (v == alias[j].value && defaults[i].set == alias[j].set)
+                    if (v == aliases[j].value && defaults[i].set == aliases[j].set)
                     {
-                        fprintf(f, "%s", alias[j].text);
+                        fprintf(f, "%s", aliases[j].text);
                         flag = true;
                         break;
                     }
@@ -695,10 +658,10 @@ static int ParseIntParameter(char *strparm, int set)
     int parm;
     int i = 0;
 
-    while (alias[i].text[0])
+    while (aliases[i].text[0])
     {
-        if (!strcasecmp(strparm, alias[i].text) && set == alias[i].set)
-            return alias[i].value;
+        if (!strcasecmp(strparm, aliases[i].text) && set == aliases[i].set)
+            return aliases[i].value;
         i++;
     }
 
@@ -720,10 +683,10 @@ static float ParseFloatParameter(char *strparm, int set)
 {
     int     i = 0;
 
-    while (alias[i].text[0])
+    while (aliases[i].text[0])
     {
-        if (!strcasecmp(strparm, alias[i].text) && set == alias[i].set)
-            return (float)alias[i].value;
+        if (!strcasecmp(strparm, aliases[i].text) && set == aliases[i].set)
+            return (float)aliases[i].value;
         i++;
     }
 

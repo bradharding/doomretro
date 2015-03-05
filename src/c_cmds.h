@@ -56,7 +56,7 @@ typedef struct
     int                 value;
 } control_t;
 
-extern control_t     controls[];
+extern control_t        controls[];
 
 typedef struct
 {
@@ -68,15 +68,6 @@ typedef struct
 } action_t;
 
 extern action_t         actions[];
-
-typedef struct
-{
-    char                *text;
-    int                 value;
-    int                 set;
-} alias_t;
-
-extern alias_t          aliases[];
 
 typedef enum
 {

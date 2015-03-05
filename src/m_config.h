@@ -365,6 +365,15 @@ typedef struct
 
 extern default_collection_t doom_defaults;
 
+typedef struct
+{
+    char                *text;
+    int                 value;
+    int                 set;
+} alias_t;
+
+extern alias_t          aliases[];
+
 void M_LoadDefaults(void);
 void M_SaveDefaults(void);
 char *striptrailingzero(float value);

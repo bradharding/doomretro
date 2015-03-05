@@ -328,28 +328,6 @@ void C_Spawn(char *, char *, char *);
 void C_Str(char *, char *, char *);
 void C_Volume(char *, char *, char *);
 
-alias_t aliases[] =
-{
-    { "off",           0, 1 }, { "on",            1, 1 }, { "0",             0, 1 },
-    { "1",             1, 1 }, { "no",            0, 1 }, { "yes",           1, 1 },
-    { "false",         0, 1 }, { "true",          1, 1 }, { "none",          0, 2 },
-    { "off",           0, 2 }, { "no",            0, 2 }, { "false",         0, 2 },
-    { "unlimited", 32768, 2 }, { "on",        32768, 2 }, { "yes",       32768, 2 },
-    { "true",      32768, 2 }, { "low",           0, 3 }, { "high",          1, 3 },
-    { "0.5",           0, 4 }, { "0.55",          1, 4 }, { "0.6",           2, 4 },
-    { "0.65",          3, 4 }, { "0.7",           4, 4 }, { "0.75",          5, 4 },
-    { "0.8",           6, 4 }, { "0.85",          7, 4 }, { "0.9",           8, 4 },
-    { "0.95",          9, 4 }, { "off",          10, 4 }, { "1.0",          10, 4 },
-    { "1.05",         11, 4 }, { "1.1",          12, 4 }, { "1.15",         13, 4 },
-    { "1.2",          14, 4 }, { "1.25",         15, 4 }, { "1.3",          16, 4 },
-    { "1.35",         17, 4 }, { "1.4",          18, 4 }, { "1.45",         19, 4 },
-    { "1.5",          20, 4 }, { "1.55",         21, 4 }, { "1.6",          22, 4 },
-    { "1.65",         23, 4 }, { "1.7",          24, 4 }, { "1.75",         25, 4 },
-    { "1.8",          26, 4 }, { "1.85",         27, 4 }, { "1.9",          28, 4 },
-    { "1.95",         29, 4 }, { "2.0",          30, 4 }, { "desktop",       0, 5 },
-    { "",              0, 0 }
-};
-
 int C_LookupValueFromAlias(char *text, int set)
 {
     int i = 0;
@@ -397,7 +375,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN),
     CVAR_BOOL (animatedliquid, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID),
     CMD       (bind, C_BindCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
-    CVAR_INT  (bloodsplats, C_BloodSplatsCondition, C_BloodSplats, CF_NONE, bloodsplats, 2, BLOODSPLATS),
+    CVAR_INT  (bloodsplats, C_BloodSplatsCondition, C_BloodSplats, CF_NONE, bloodsplats, 7, BLOODSPLATS),
     CVAR_BOOL (brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS),
     CVAR_BOOL (centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
@@ -422,7 +400,7 @@ consolecmd_t consolecmds[] =
     CVAR_FLOAT(gamepad_rightdeadzone, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadrightdeadzone_percent),
     CVAR_INT  (gamepad_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, 0, GAMEPADSENSITIVITY),
     CVAR_BOOL (gamepad_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE),
-    CVAR_INT  (gammacorrectionlevel, C_GammaCondition, C_Gamma, CF_NONE, gammaindex, 4, NONE),
+    CVAR_INT  (gammacorrectionlevel, C_GammaCondition, C_Gamma, CF_NONE, gammaindex, 11, NONE),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggle god mode on/off."),
     CVAR_BOOL (graphicdetail, C_GraphicDetailCondition, C_GraphicDetail, graphicdetail, GRAPHICDETAIL),
     CVAR_BOOL (grid, C_BoolCondition, C_Bool, grid, GRID),
@@ -463,9 +441,9 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (scaledriver, C_NoCondition, C_Str, scaledriver),
     CVAR_STR  (scalequality, C_NoCondition, C_Str, scalequality),
 #endif
-    CVAR_INT  (screenheight, C_IntCondition, C_Int, CF_NONE, screenheight, 0, SCREENHEIGHT),
+    CVAR_INT  (screenheight, C_IntCondition, C_Int, CF_NONE, screenheight, 5, SCREENHEIGHT),
     CVAR_INT  (screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE),
-    CVAR_INT  (screenwidth, C_IntCondition, C_Int, CF_NONE, screenwidth, 0, SCREENWIDTH),
+    CVAR_INT  (screenwidth, C_IntCondition, C_Int, CF_NONE, screenwidth, 5, SCREENWIDTH),
     CVAR_INT  (sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME),
     CVAR_BOOL (shadows, C_BoolCondition, C_Bool, shadows, SHADOWS),
     CMD       (showfps, C_BoolCondition, C_ShowFPS, 1, "[on|off]", "Toggle the display of the average number of frames per second on/off."),
@@ -671,14 +649,15 @@ boolean C_BloodSplatsCondition(char *cmd, char *parm1, char *parm2)
 {
     int value = 0;
 
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 2) >= 0 || sscanf(parm1, "%i", &value));
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, 7) >= 0
+        || sscanf(parm1, "%i", &value));
 }
 
 void C_BloodSplats(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     value = C_LookupValueFromAlias(parm1, 2);
+        int     value = C_LookupValueFromAlias(parm1, 7);
 
         if (value < 0)
             sscanf(parm1, "%i", &value);
@@ -941,14 +920,14 @@ extern int      st_palette;
 
 boolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
 {
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 4) >= 0);
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, 11) >= 0);
 }
 
 void C_Gamma(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int value = C_LookupValueFromAlias(parm1, 4);
+        int value = C_LookupValueFromAlias(parm1, 11);
 
         if (value != -1)
         {
@@ -1005,14 +984,14 @@ void C_God(char *cmd, char *parm1, char *parm2)
 //
 boolean C_GraphicDetailCondition(char *cmd, char *parm1, char *parm2)
 {
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 3) >= 0);
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, 6) >= 0);
 }
 
 void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int value = C_LookupValueFromAlias(parm1, 3);
+        int value = C_LookupValueFromAlias(parm1, 6);
 
         if (value == 0 || value == 1)
         {
@@ -1080,7 +1059,7 @@ void C_Int(char *cmd, char *parm1, char *parm2)
         {
             if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
             {
-                int     value = C_LookupValueFromAlias(parm1, 1);
+                int     value = C_LookupValueFromAlias(parm1, consolecmds[i].aliases);
 
                 if (value < 0)
                     sscanf(parm1, "%i", &value);
