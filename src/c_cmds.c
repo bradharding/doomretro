@@ -390,6 +390,8 @@ char *C_LookupAliasFromValue(int value, int set)
 #define CVAR_STR(name, cond, func, var) \
     { #name, cond, func, 1, CT_CVAR, CF_STRING, &var, 0, 0, 0, 0, "", "" }
 
+int numconsolecmds;
+
 consolecmd_t consolecmds[] =
 {
     CVAR_BOOL (alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN),
@@ -477,9 +479,9 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vsync, C_BoolCondition, C_Bool, vsync, VSYNC),
 #endif
     CVAR_BOOL (widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN),
-    CVAR_INT(windowheight, C_IntCondition, C_Int, CF_NONE, windowheight, 0, WINDOWHEIGHT),
-    CVAR_STR(windowposition, C_NoCondition, C_Str, windowposition),
-    CVAR_INT(windowwidth, C_IntCondition, C_Int, CF_NONE, windowwidth, 0, WINDOWWIDTH),
+    CVAR_INT  (windowheight, C_IntCondition, C_Int, CF_NONE, windowheight, 0, WINDOWHEIGHT),
+    CVAR_STR  (windowposition, C_NoCondition, C_Str, windowposition),
+    CVAR_INT  (windowwidth, C_IntCondition, C_Int, CF_NONE, windowwidth, 0, WINDOWWIDTH),
 
     { "", C_NoCondition, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
 };
@@ -746,8 +748,7 @@ void C_Bool(char *cmd, char *parm1, char *parm2)
                 if (value == 0 || value == 1)
                 {
                     *(boolean *)consolecmds[i].variable = !!value;
-                    if (!(consolecmds[i].flags & CF_NOTSAVED))
-                        M_SaveDefaults();
+                    M_SaveDefaults();
                     C_Output("%s is now %s.", cmd, parm1);
                 }
             }
@@ -1087,8 +1088,7 @@ void C_Int(char *cmd, char *parm1, char *parm2)
                 if (value >= 0)
                 {
                     *(int *)consolecmds[i].variable = value;
-                    if (!(consolecmds[i].flags & CF_NOTSAVED))
-                        M_SaveDefaults();
+                    M_SaveDefaults();
                     C_Output("%s is now %s.", cmd, parm1);
                 }
             }

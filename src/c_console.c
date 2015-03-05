@@ -230,6 +230,8 @@ void C_Init(void)
     int         j = CONSOLEFONTSTART;
     char        buffer[9];
 
+    while (consolecmds[numconsolecmds++].name[0]);
+
     if (!conback[0] || (gamemode == commercial && !strcasecmp(conback, "FLOOR7_2"))
         || R_CheckFlatNumForName(conback) < 0)
     {
@@ -760,20 +762,21 @@ boolean C_Responder(event_t *ev)
             case KEY_TAB:
                 if (consoleinput[0])
                 {
+                    int direction = ((modstate & KMOD_SHIFT) ? -1 : 1);
                     int start = autocomplete;
 
                     if (autocomplete == -1)
-                    {
-                        autocomplete = 0;
-                        M_StringCopy(autocompletetext, consoleinput, 255);
-                    }
+                        M_StringCopy(autocompletetext, consoleinput, sizeof(autocompletetext));
 
-                    while (consolecmds[autocomplete].name[0])
+                    while ((direction == -1 && autocomplete > 0)
+                        || (direction == 1 && autocomplete < numconsolecmds - 1))
                     {
+                        autocomplete += direction;
                         if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
                             && consolecmds[autocomplete].type != CT_CHEAT)
                         {
-                            M_StringCopy(consoleinput, consolecmds[autocomplete].name, 255);
+                            M_StringCopy(consoleinput, consolecmds[autocomplete].name,
+                                sizeof(consoleinput));
                             if (consolecmds[autocomplete].parameters)
                             {
                                 int     length = strlen(consoleinput);
@@ -781,40 +784,13 @@ boolean C_Responder(event_t *ev)
                                 consoleinput[length] = ' ';
                                 consoleinput[length + 1] = 0;
                             }
-                            ++autocomplete;
                             caretpos = strlen(consoleinput);
                             carettics = 0;
                             showcaret = true;
                             return true;
                         }
-                        ++autocomplete;
                     }
-
-                    if (start != -1)
-                    {
-                        autocomplete = 0;
-                        while (autocomplete != start)
-                        {
-                            if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
-                                && consolecmds[autocomplete].type != CT_CHEAT)
-                            {
-                                M_StringCopy(consoleinput, consolecmds[autocomplete].name, 255);
-                                if (consolecmds[autocomplete].parameters)
-                                {
-                                    int     length = strlen(consoleinput);
-
-                                    consoleinput[length] = ' ';
-                                    consoleinput[length + 1] = 0;
-                                }
-                                ++autocomplete;
-                                caretpos = strlen(consoleinput);
-                                carettics = 0;
-                                showcaret = true;
-                                return true;
-                            }
-                            ++autocomplete;
-                        }
-                    }
+                    autocomplete = start;
                 }
                 break;
 
@@ -897,7 +873,7 @@ boolean C_Responder(event_t *ev)
                 }
             }
         }
-        if (autocomplete != -1 && key != KEY_TAB)
+        if (autocomplete != -1 && key != KEY_TAB && key != KEY_RSHIFT)
             autocomplete = -1;
 
         if (inputhistory != -1 && key != KEY_UPARROW && key != KEY_DOWNARROW)

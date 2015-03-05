@@ -93,8 +93,7 @@ typedef enum
     CF_STRING          =  4,
     CF_FLOAT           =  8,
     CF_PERCENT         = 16,
-    CF_READONLY        = 32,
-    CF_NOTSAVED        = 64
+    CF_READONLY        = 32
 } cmdflags_t;
 
 typedef struct
@@ -115,5 +114,6 @@ typedef struct
 } consolecmd_t;
 
 extern consolecmd_t     consolecmds[];
+extern int              numconsolecmds;
 
 #endif
