@@ -1317,11 +1317,13 @@ boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
         {
             sscanf(uppercase(parm1), "E%iM0%i", &mapcmdepisode, &mapcmdmap);
             if (!mapcmdmap)
-                sscanf(uppercase(parm1), "E%iM0%i", &mapcmdepisode, &mapcmdmap);
+                sscanf(uppercase(parm1), "E%iM%i", &mapcmdepisode, &mapcmdmap);
             if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
             {
-                M_snprintf(parm1, sizeof(parm1), "MAP%02i", mapcmdmap);
-                return (W_CheckMultipleLumps(parm1) == 2);
+                static char     lump[6];
+
+                M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
+                return (W_CheckMultipleLumps(lump) == 2);
             }
         }
         sscanf(uppercase(parm1), "MAP0%i", &mapcmdmap);
