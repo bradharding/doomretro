@@ -323,6 +323,7 @@ void C_Kill(char *, char *, char *);
 void C_Map(char *, char *, char *);
 void C_NoClip(char *, char *, char *);
 void C_NoTarget(char *, char *, char *);
+void C_PixelSize(char *, char *, char *);
 void C_Quit(char *, char *, char *);
 void C_ScreenSize(char *, char *, char *);
 void C_ShowFPS(char *, char *, char *);
@@ -1451,6 +1452,38 @@ void C_NoTarget(char *cmd, char *parm1, char *parm2)
         player->cheats ^= CF_NOTARGET;
 
     C_Output((player->cheats & CF_NOTARGET) ? s_STSTR_NTON : s_STSTR_NTOFF);
+}
+
+void C_PixelSize(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     value = -1;
+
+        sscanf(parm1, "%i", &value);
+
+        if (value >= 0)
+        {
+            if (!strcasecmp(cmd, "r_lowpixelwidth"))
+            {
+                pixelwidth = BETWEEN(PIXELWIDTH_MIN, pixelwidth, PIXELWIDTH_MAX);
+                while (SCREENWIDTH % pixelwidth)
+                    --pixelwidth;
+            }
+            else
+            {
+                pixelheight = BETWEEN(PIXELHEIGHT_MIN, pixelheight, PIXELHEIGHT_MAX);
+                while (SCREENHEIGHT % pixelheight)
+                    --pixelheight;
+            }
+            M_SaveDefaults();
+            C_Output("The size of pixels when graphic detail is low is now %ix%i.",
+                pixelwidth, pixelheight);
+        }
+    }
+    else
+        C_Output("The size of pixels when graphic detail is low is %ix%i.",
+        pixelwidth, pixelheight);
 }
 
 //
