@@ -104,8 +104,10 @@ int                     windowwidth;
 int                     windowheight;
 char                    *windowsize = WINDOWSIZE_DEFAULT;
 
+#if defined(SDL20)
 int                     windowx = SDL_WINDOWPOS_CENTERED;
 int                     windowy = SDL_WINDOWPOS_CENTERED;
+#endif
 
 // Run in full screen mode?
 boolean                 fullscreen = FULLSCREEN_DEFAULT;
@@ -934,8 +936,10 @@ static void SetWindowPositionVars(void)
             y = 0;
         else if (y > desktopheight)
             y = desktopheight - 16;
+#if defined(SDL20)
         windowx = x;
         windowy = y;
+#endif
         sprintf(buf, "SDL_VIDEO_WINDOW_POS=%i,%i", x, y);
         putenv(buf);
     }
