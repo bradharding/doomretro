@@ -55,8 +55,9 @@
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
-int             pixelwidth = PIXELWIDTH_DEFAULT;
-int             pixelheight = PIXELHEIGHT_DEFAULT;
+int             pixelwidth;
+int             pixelheight;
+char            *pixelsize = PIXELSIZE_DEFAULT;
 
 extern boolean  translucency;
 

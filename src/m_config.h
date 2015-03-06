@@ -256,6 +256,8 @@
 #define PIXELHEIGHT_DEFAULT                     2
 #define PIXELHEIGHT_MAX                         SCREENHEIGHT
 
+#define PIXELSIZE_DEFAULT                       "2x2"
+
 #define PLAYERBOB_MIN                           0
 #define PLAYERBOB_DEFAULT                       75
 #define PLAYERBOB_MAX                           100
@@ -283,6 +285,8 @@
 #define SCREENHEIGHT_MIN                        0
 #define SCREENHEIGHT_DEFAULT                    0
 #define SCREENHEIGHT_MAX                        INT_MAX
+
+#define SCREENRESOLUTION_DEFAULT                "desktop"
 
 #define SFXVOLUME_MIN                           0
 #define SFXVOLUME_DEFAULT                       100
@@ -325,6 +329,8 @@
 #define WINDOWHEIGHT_MIN                        (ORIGINALWIDTH * 3 / 4)
 #define WINDOWHEIGHT_DEFAULT                    (SCREENWIDTH * 3 / 4)
 #define WINDOWHEIGHT_MAX                        INT_MAX
+
+#define WINDOWSIZE_DEFAULT                      "640x480"
 
 typedef enum
 {

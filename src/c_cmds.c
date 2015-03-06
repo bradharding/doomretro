@@ -168,11 +168,13 @@ extern int      mousebstrafe;
 extern int      mousebuse;
 extern boolean  novert;
 extern int      pixelheight;
+extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
 extern boolean  rotatemode;
 extern int      runcount;
 extern int      screenheight;
+extern char     *screenresolution;
 extern int      screenwidth;
 extern int      selectedepisode;
 extern int      selectedexpansion;
@@ -187,6 +189,7 @@ extern char     *videodriver;
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
+extern char     *windowsize;
 extern int      windowwidth;
 
 #if defined(SDL20)
@@ -324,11 +327,14 @@ void C_Map(char *, char *, char *);
 void C_NoClip(char *, char *, char *);
 void C_NoTarget(char *, char *, char *);
 void C_PixelSize(char *, char *, char *);
+void C_Position(char *, char *, char *);
 void C_Quit(char *, char *, char *);
 void C_ScreenSize(char *, char *, char *);
+void C_ScreenResolution(char *, char *, char *);
 void C_ShowFPS(char *, char *, char *);
 void C_Spawn(char *, char *, char *);
 void C_Str(char *, char *, char *);
+void C_WindowSize(char *, char *, char *);
 void C_Volume(char *, char *, char *);
 
 int C_LookupValueFromAlias(char *text, int set)
@@ -368,6 +374,10 @@ char *C_LookupAliasFromValue(int value, int set)
     { #name, cond, func, 1, CT_CVAR, CF_INTEGER | flags, &var, aliases, val##_MIN, val##_MAX, val##_DEFAULT, "", "" }
 #define CVAR_FLOAT(name, cond, func, flags, var) \
     { #name, cond, func, 1, CT_CVAR, CF_FLOAT | flags, &var, 0, 0, 0, 0, "", "" }
+#define CVAR_POS(name, cond, func, var) \
+    { #name, cond, func, 1, CT_CVAR, CF_POSITION, &var, 0, 0, 0, 0, "", "" }
+#define CVAR_SIZE(name, cond, func, var) \
+    { #name, cond, func, 1, CT_CVAR, CF_SIZE, &var, 0, 0, 0, 0, "", "" }
 #define CVAR_STR(name, cond, func, var) \
     { #name, cond, func, 1, CT_CVAR, CF_STRING, &var, 0, 0, 0, 0, "", "" }
 
@@ -441,10 +451,10 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD),
     CVAR_BOOL (r_liquid_animatedheight, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID),
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP),
-    CVAR_INT  (r_lowpixelheight, C_NoCondition, C_PixelSize, CF_NONE, pixelheight, 0, PIXELHEIGHT),
-    CVAR_INT  (r_lowpixelwidth, C_NoCondition, C_PixelSize, CF_NONE, pixelwidth, 0, PIXELWIDTH),
+    CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize),
     CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS),
+    CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS),
     CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE),
@@ -463,17 +473,14 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_Str, scaledriver),
     CVAR_STR  (vid_scalequality, C_NoCondition, C_Str, scalequality),
 #endif
-    CVAR_INT  (vid_screenheight, C_IntCondition, C_Int, CF_NONE, screenheight, 5, SCREENHEIGHT),
-    CVAR_INT  (vid_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE),
-    CVAR_INT  (vid_screenwidth, C_IntCondition, C_Int, CF_NONE, screenwidth, 5, SCREENWIDTH),
+    CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution),
     CVAR_STR  (vid_videodriver, C_NoCondition, C_Str, videodriver),
 #if defined(SDL20)
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Bool, vsync, VSYNC),
 #endif
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN),
-    CVAR_INT  (vid_windowheight, C_IntCondition, C_Int, CF_NONE, windowheight, 0, WINDOWHEIGHT),
-    CVAR_STR  (vid_windowposition, C_NoCondition, C_Str, windowposition),
-    CVAR_INT  (vid_windowwidth, C_IntCondition, C_Int, CF_NONE, windowwidth, 0, WINDOWWIDTH),
+    CVAR_POS  (vid_windowposition, C_NoCondition, C_Position, windowposition),
+    CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, windowsize),
 
     { "", C_NoCondition, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
 };
@@ -853,6 +860,12 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
             else if (consolecmds[i].flags & CF_STRING)
                 C_Output("%i\t%s\t\t\"%s\"", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable);
+            else if (consolecmds[i].flags & CF_POSITION)
+                C_Output("%i\t%s\t\t(%s)", count++, consolecmds[i].name,
+                *(char **)consolecmds[i].variable);
+            else if (consolecmds[i].flags & CF_SIZE)
+                C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
+                *(char **)consolecmds[i].variable);
         }
         ++i;
     }
@@ -1458,24 +1471,21 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     value = -1;
+        int     width = -1;
+        int     height = -1;
 
-        sscanf(parm1, "%i", &value);
+        sscanf(parm1, "%ix%i", &width, &height);
 
-        if (value >= 0)
+        if (width >= 0 && height >= 0)
         {
-            if (!strcasecmp(cmd, "r_lowpixelwidth"))
-            {
-                pixelwidth = BETWEEN(PIXELWIDTH_MIN, pixelwidth, PIXELWIDTH_MAX);
-                while (SCREENWIDTH % pixelwidth)
-                    --pixelwidth;
-            }
-            else
-            {
-                pixelheight = BETWEEN(PIXELHEIGHT_MIN, pixelheight, PIXELHEIGHT_MAX);
-                while (SCREENHEIGHT % pixelheight)
-                    --pixelheight;
-            }
+            pixelwidth = BETWEEN(PIXELWIDTH_MIN, width, PIXELWIDTH_MAX);
+            while (SCREENWIDTH % pixelwidth)
+                --pixelwidth;
+
+            pixelheight = BETWEEN(PIXELHEIGHT_MIN, height, PIXELHEIGHT_MAX);
+            while (SCREENHEIGHT % pixelheight)
+                --pixelheight;
+
             M_SaveDefaults();
             C_Output("The size of pixels when graphic detail is low is now %ix%i.",
                 pixelwidth, pixelheight);
@@ -1483,7 +1493,29 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output("The size of pixels when graphic detail is low is %ix%i.",
-        pixelwidth, pixelheight);
+            pixelwidth, pixelheight);
+}
+
+void C_Position(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    while (consolecmds[i].name[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_POSITION))
+        {
+            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            {
+                *(char **)consolecmds[i].variable = strdup(parm1);
+                M_SaveDefaults();
+                C_Output("%s is now (%s).", cmd, parm1);
+            }
+            else
+                C_Output("%s is (%s).", cmd, *(char **)consolecmds[i].variable);
+        }
+        ++i;
+    }
 }
 
 //
@@ -1651,3 +1683,66 @@ void C_Str(char *cmd, char *parm1, char *parm2)
         ++i;
     }
 }
+
+extern int      desktopwidth;
+extern int      desktopheight;
+
+void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        if (!strcasecmp(parm1, "desktop"))
+        {
+            screenwidth = 0;
+            screenheight = 0;
+
+            M_SaveDefaults();
+            C_Output("The screen resolution is now the desktop resolution of %ix%i.",
+                desktopwidth, desktopheight);
+        }
+        else
+        {
+            int     width = -1;
+            int     height = -1;
+
+            sscanf(parm1, "%ix%i", &width, &height);
+
+            if (width >= 0 && height >= 0)
+            {
+                screenwidth = width;
+                screenheight = height;
+
+                M_SaveDefaults();
+                C_Output("The screen resolution is now %ix%i.", screenwidth, screenheight);
+            }
+        }
+    }
+    else if (!screenwidth || !screenheight)
+        C_Output("The screen resolution is the desktop resolution of %ix%i.",
+            desktopwidth, desktopheight);
+    else
+        C_Output("The screen resolution is %ix%i.", screenwidth, screenheight);
+}
+
+void C_WindowSize(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     width = -1;
+        int     height = -1;
+
+        sscanf(parm1, "%ix%i", &width, &height);
+
+        if (width >= 0 && height >= 0)
+        {
+            windowwidth = width;
+            windowheight = height;
+
+            M_SaveDefaults();
+            C_Output("The window size is now %ix%i.", windowwidth, windowheight);
+        }
+    }
+    else
+        C_Output("The window size is %ix%i.", windowwidth, windowheight);
+}
+

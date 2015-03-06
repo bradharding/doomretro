@@ -95,12 +95,14 @@ boolean                 novert = NOVERT_DEFAULT;
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
 // Fullscreen width and height
-int                     screenwidth = SCREENWIDTH_DEFAULT;
-int                     screenheight = SCREENHEIGHT_DEFAULT;
+int                     screenwidth;
+int                     screenheight;
+char                    *screenresolution = SCREENRESOLUTION_DEFAULT;
 
 // Window width and height
-int                     windowwidth = WINDOWWIDTH_DEFAULT;
-int                     windowheight = WINDOWHEIGHT_DEFAULT;
+int                     windowwidth;
+int                     windowheight;
+char                    *windowsize = WINDOWSIZE_DEFAULT;
 
 int                     windowx = SDL_WINDOWPOS_CENTERED;
 int                     windowy = SDL_WINDOWPOS_CENTERED;

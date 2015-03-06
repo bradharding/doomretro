@@ -78,13 +78,15 @@ typedef enum
 
 typedef enum
 {
-    CF_NONE            =  0,
-    CF_BOOLEAN         =  1,
-    CF_INTEGER         =  2,
-    CF_STRING          =  4,
-    CF_FLOAT           =  8,
-    CF_PERCENT         = 16,
-    CF_READONLY        = 32
+    CF_NONE            =   0,
+    CF_BOOLEAN         =   1,
+    CF_INTEGER         =   2,
+    CF_STRING          =   4,
+    CF_FLOAT           =   8,
+    CF_SIZE            =  16,
+    CF_POSITION        =  32,
+    CF_PERCENT         =  64,
+    CF_READONLY        = 128
 } cmdflags_t;
 
 typedef struct

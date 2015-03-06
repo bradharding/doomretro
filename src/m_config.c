@@ -153,6 +153,7 @@ extern int      mousebstrafe;
 extern int      mousebuse;
 extern boolean  novert;
 extern int      pixelheight;
+extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
 extern boolean  rotatemode;
@@ -162,6 +163,7 @@ extern char     *scaledriver;
 extern char     *scalequality;
 #endif
 extern int      screenheight;
+extern char     *screenresolution;
 extern int      screenwidth;
 extern int      selectedepisode;
 extern int      selectedexpansion;
@@ -179,6 +181,7 @@ extern boolean  vsync;
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
+extern char     *windowsize;
 extern int      windowwidth;
 
 extern boolean  returntowidescreen;
@@ -304,6 +307,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (r_rockettrails,          smoketrails,                   1),
     CONFIG_VARIABLE_INT          (r_shadows,               shadows,                       1),
     CONFIG_VARIABLE_INT          (r_translucency,          translucency,                  1),
+    CONFIG_VARIABLE_INT          (r_viewsize,              screensize,                    0),
     CONFIG_VARIABLE_INT          (savegame,                selectedsavegame,              0),
     CONFIG_VARIABLE_INT          (skilllevel,              selectedskilllevel,           10),
     CONFIG_VARIABLE_INT          (snd_maxslicetime,        snd_maxslicetime_ms,           0),
@@ -315,7 +319,6 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_STRING       (vid_scaledriver,         scaledriver,                   0),
     CONFIG_VARIABLE_STRING       (vid_scalequality,        scalequality,                  0),
 #endif
-    CONFIG_VARIABLE_INT          (vid_screensize,          screensize,                    0),
     CONFIG_VARIABLE_INT          (vid_screenheight,        screenheight,                  5),
     CONFIG_VARIABLE_INT          (vid_screenwidth,         screenwidth,                   5),
     CONFIG_VARIABLE_STRING       (vid_videodriver,         videodriver,                   0),
@@ -1098,6 +1101,8 @@ static void M_CheckDefaults(void)
     if (novert != false && novert != true)
         novert = NOVERT_DEFAULT;
 
+    sscanf(pixelsize, "%ix%i", &pixelwidth, &pixelheight);
+
     pixelwidth = BETWEEN(PIXELWIDTH_MIN, pixelwidth, PIXELWIDTH_MAX);
     while (SCREENWIDTH % pixelwidth)
         --pixelwidth;
@@ -1115,11 +1120,20 @@ static void M_CheckDefaults(void)
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
 
-    if (screenwidth && screenheight
-        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
+    if (!strcasecmp(screenresolution, "desktop"))
     {
-        screenwidth = SCREENWIDTH_DEFAULT;
-        screenheight = SCREENHEIGHT_DEFAULT;
+        screenwidth = 0;
+        screenheight = 0;
+    }
+    else
+    {
+        sscanf(screenresolution, "%ix%i", &screenwidth, &screenheight);
+        if (screenwidth && screenheight
+            && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
+        {
+            screenwidth = SCREENWIDTH_DEFAULT;
+            screenheight = SCREENHEIGHT_DEFAULT;
+        }
     }
 
     selectedepisode = BETWEEN(EPISODE_MIN, selectedepisode, EPISODE_MAX - (gamemode == registered));
@@ -1156,6 +1170,7 @@ static void M_CheckDefaults(void)
     else
         hud = true;
 
+    sscanf(windowsize, "%ix%i", &windowwidth, &windowheight);
     if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
         windowheight = WINDOWHEIGHT_DEFAULT;
     windowwidth = windowheight * 4 / 3;
