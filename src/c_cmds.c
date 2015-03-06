@@ -1007,6 +1007,8 @@ boolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
 
 void C_Gamma(char *cmd, char *parm1, char *parm2)
 {
+    static char buffer[128];
+
     if (parm1[0])
     {
         int value = C_LookupValueFromAlias(parm1, 11);
@@ -1022,7 +1024,13 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
             if (gammaindex == 10)
                 C_Output("Gamma correction is now off.");
             else
-                C_Output("The gamma correction level is now %.2f.", gammalevels[gammaindex]);
+            {
+                M_snprintf(buffer, sizeof(buffer), "The gamma correction level is now %.2f",
+                    gammalevels[gammaindex]);
+                if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
+                    buffer[strlen(buffer) - 1] = '\0';
+                C_Output(buffer);
+            }
         }
     }
     else
@@ -1030,7 +1038,13 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
         if (gammaindex == 10)
             C_Output("Gamma correction is off.");
         else
-            C_Output("The gamma correction level is %.2f.", gammalevels[gammaindex]);
+        {
+            M_snprintf(buffer, sizeof(buffer), "The gamma correction level is %.2f",
+                gammalevels[gammaindex]);
+            if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
+                buffer[strlen(buffer) - 1] = '\0';
+            C_Output(buffer);
+        }
     }
 }
 
