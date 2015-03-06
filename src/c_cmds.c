@@ -440,8 +440,8 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD),
     CVAR_BOOL (r_liquid_animatedheight, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID),
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP),
-    CVAR_INT  (r_lowpixelheight, C_NoCondition, C_Int, CF_NONE, pixelheight, 0, PIXELHEIGHT),
-    CVAR_INT  (r_lowpixelwidth, C_NoCondition, C_Int, CF_NONE, pixelwidth, 0, PIXELWIDTH),
+    CVAR_INT  (r_lowpixelheight, C_NoCondition, C_PixelSize, CF_NONE, pixelheight, 0, PIXELHEIGHT),
+    CVAR_INT  (r_lowpixelwidth, C_NoCondition, C_PixelSize, CF_NONE, pixelwidth, 0, PIXELWIDTH),
     CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS),
@@ -883,7 +883,7 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
 
         if (value >= 0.0f && value <= 100.0f)
         {
-            if (!strcasecmp(cmd, "gamepad_leftdeadzone"))
+            if (!strcasecmp(cmd, "gp_deadzone_left"))
             {
                 gamepadleftdeadzone_percent = value;
                 gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN,
@@ -909,7 +909,7 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
     {
         float   value = 0;
 
-        if (!strcasecmp(cmd, "gamepad_leftdeadzone"))
+        if (!strcasecmp(cmd, "gp_deadzone_left"))
             C_Output("The dead zone of the gamepad's left thumbstick is %s%%.",
                 striptrailingzero(gamepadleftdeadzone_percent));
         else
@@ -1368,8 +1368,8 @@ boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 
     sscanf(parm1, "%i", &value);
 
-    return ((!strcasecmp(cmd, "musicvolume") && value >= MUSICVOLUME_MIN && value <= MUSICVOLUME_MAX)
-        || (!strcasecmp(cmd, "sfxvolume") && value >= SFXVOLUME_MIN && value <= SFXVOLUME_MAX));
+    return ((!strcasecmp(cmd, "snd_musicvolume") && value >= MUSICVOLUME_MIN && value <= MUSICVOLUME_MAX)
+        || (!strcasecmp(cmd, "snd_sfxvolume") && value >= SFXVOLUME_MIN && value <= SFXVOLUME_MAX));
 }
 
 void C_Volume(char *cmd, char *parm1, char *parm2)
@@ -1382,7 +1382,7 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%i", &value);
 
-        if (!strcasecmp(cmd, "musicvolume"))
+        if (!strcasecmp(cmd, "snd_musicvolume"))
         {
             musicvolume_percent = value;
             musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent,
@@ -1402,7 +1402,7 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
     }
     else
     {
-        if (!strcasecmp(cmd, "musicvolume"))
+        if (!strcasecmp(cmd, "snd_musicvolume"))
             C_Output("The music volume is %i%%.", musicvolume_percent);
         else
             C_Output("The music volume is %i%%.", sfxvolume_percent);

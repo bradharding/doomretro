@@ -91,8 +91,6 @@ boolean         infight;
 
 mobj_t          *onmobj;
 
-extern boolean  followmode;
-
 //
 // TELEPORT MOVE
 //

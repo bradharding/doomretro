@@ -45,7 +45,6 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-extern boolean  followmode;
 extern boolean  oldweaponsowned[];
 extern boolean  skipaction;
 extern boolean  footclip;
