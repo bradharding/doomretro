@@ -1038,6 +1038,21 @@ static void SetVideoMode(void)
                 windowwidth, windowheight);
     }
 
+    C_Output("Using 256-color palette from PLAYPAL lump.");
+
+    if (gammaindex == 10)
+        C_Output("Gamma correction is off.");
+    else
+    {
+        static char     buffer[128];
+
+        M_snprintf(buffer, sizeof(buffer), "Gamma correction level is %.2f.",
+            gammalevels[gammaindex]);
+        if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
+            buffer[strlen(buffer) - 1] = '\0';
+        C_Output(buffer);
+    }
+
     renderer = SDL_CreateRenderer(window, -1, flags);
 
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
