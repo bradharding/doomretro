@@ -1664,7 +1664,7 @@ void M_ChangeMessages(int choice)
     messages = !messages;
     if (menuactive)
         message_dontpause = true;
-    HU_PlayerMessage(messages ? s_MSGON : s_MSGOFF);
+    HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false);
     message_dontfuckwithme = true;
     M_SaveDefaults();
 }
@@ -2703,7 +2703,7 @@ boolean M_Responder(event_t *ev)
             if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
                 buf[strlen(buf) - 1] = '\0';
         }
-        HU_PlayerMessage(buf);
+        HU_PlayerMessage(buf, false);
 
         message_dontpause = true;
         message_dontfuckwithme = true;

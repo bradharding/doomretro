@@ -66,7 +66,7 @@ void HU_Ticker(void);
 void HU_Drawer(void);
 void HU_Erase(void);
 
-void HU_PlayerMessage(char *message);
+void HU_PlayerMessage(char *message, boolean ingame);
 
 void HU_clearMessages(void);
 

@@ -591,11 +591,17 @@ void HU_Ticker(void)
     }
 }
 
-void HU_PlayerMessage(char *message)
+void HU_PlayerMessage(char *message, boolean ingame)
 {
+    char        lastchar = message[strlen(message) - 1];
+
     if (plr)
         plr->message = message;
-    C_PlayerMessage(message);
+
+    if (ingame)
+        C_PlayerMessage("%s%s", message, (lastchar == '.' || lastchar == '!' ? "" : "."));
+    else
+        C_Output("%s%s", message, (lastchar == '.' || lastchar == '!' ? "" : "."));
 }
 
 void HU_clearMessages(void)

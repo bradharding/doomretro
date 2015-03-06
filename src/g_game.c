@@ -641,7 +641,7 @@ void G_DoLoadLevel(void)
 void G_ToggleAlwaysRun(void)
 {
     alwaysrun = !alwaysrun;
-    HU_PlayerMessage(alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
+    HU_PlayerMessage((alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF), false);
     message_dontfuckwithme = true;
     if (menuactive)
     {
@@ -948,7 +948,7 @@ void G_Ticker(void)
 
                         S_StartSound(NULL, sfx_swtchx);
                         M_snprintf(message, sizeof(message), s_GSCREENSHOT, lbmname);
-                        HU_PlayerMessage(message);
+                        HU_PlayerMessage(message, false);
                         message_dontfuckwithme = true;
                         if (menuactive)
                         {
@@ -1608,7 +1608,7 @@ void G_LoadedGameMessage(void)
     static char buffer[128];
 
     M_snprintf(buffer, sizeof(buffer), s_GGLOADED, savedescription);
-    HU_PlayerMessage(buffer);
+    HU_PlayerMessage(buffer, false);
     message_dontfuckwithme = true;
 
     loadedgame = false;
@@ -1666,7 +1666,7 @@ void G_DoSaveGame(void)
 
     // [BH] use the save description in the message displayed
     M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
-    HU_PlayerMessage(buffer);
+    HU_PlayerMessage(buffer, false);
     message_dontfuckwithme = true;
     S_StartSound(NULL, sfx_swtchx);
 
