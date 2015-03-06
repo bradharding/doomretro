@@ -1188,6 +1188,7 @@ void ToggleWidescreen(boolean toggle)
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
         src_rect.h = SCREENHEIGHT - SBARHEIGHT;
+        C_Output("Toggled widescreen mode on.");
     }
     else
     {
@@ -1195,6 +1196,7 @@ void ToggleWidescreen(boolean toggle)
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
+        C_Output("Toggled widescreen mode off.");
     }
 
     returntowidescreen = false;
@@ -1289,11 +1291,15 @@ void ToggleFullscreen(void)
     M_SaveDefaults();
 #if defined(SDL20)
     if (fullscreen)
-       SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    {
+        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        C_Output("Switched to fullscreen.");
+    }
     else
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
         SDL_SetWindowSize(window, windowwidth, windowheight);
+        C_Output("Switched to windowed mode.");
     }
 #else
     if (fullscreen)
