@@ -1285,11 +1285,17 @@ void I_InitWindows32(void);
 
 void ToggleFullscreen(void)
 {
-#if defined(SDL20)
-    // TODO
-#else
     fullscreen = !fullscreen;
     M_SaveDefaults();
+#if defined(SDL20)
+    if (fullscreen)
+       SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    else
+    {
+        SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
+        SDL_SetWindowSize(window, windowwidth, windowheight);
+    }
+#else
     if (fullscreen)
     {
         width = screenwidth;
