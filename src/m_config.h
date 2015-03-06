@@ -210,7 +210,9 @@
 
 #define MIRRORWEAPONS_DEFAULT                   false
 
+#define MOUSEACCELERATION_MIN                   0
 #define MOUSEACCELERATION_DEFAULT               2.0
+#define MOUSEACCELERATION_MAX                   INT_MAX
 
 #define MOUSEFIRE_DEFAULT                       0
 
@@ -234,7 +236,9 @@
 
 #define MOUSESTRAFE_DEFAULT                     -1
 
+#define MOUSETHRESHOLD_MIN                      0
 #define MOUSETHRESHOLD_DEFAULT                  10
+#define MOUSETHRESHOLD_MAX                      INT_MAX
 
 #define MOUSEUSE_DEFAULT                        -1
 
@@ -292,7 +296,9 @@
 
 #define SMOKETRAILS_DEFAULT                     true
 
+#define SND_MAXSLICETIME_MS_MIN                 0
 #define SND_MAXSLICETIME_MS_DEFAULT             28
+#define SND_MAXSLICETIME_MS_MAX                 INT_MAX
 
 #define TIMIDITY_CFG_PATH_DEFAULT               ""
 

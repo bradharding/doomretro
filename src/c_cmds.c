@@ -286,6 +286,7 @@ boolean C_BoolCondition(char *, char *, char *);
 boolean C_CheatCondition(char *, char *, char *);
 boolean C_ConBackCondition(char *, char *, char *);
 boolean C_DeadZoneCondition(char *, char *, char *);
+boolean C_FloatCondition(char *, char *, char *);
 boolean C_GameCondition(char *, char *, char *);
 boolean C_GammaCondition(char *, char *, char *);
 boolean C_GiveCondition(char *, char *, char *);
@@ -309,6 +310,7 @@ void C_ConDump(char *, char *, char *);
 void C_CvarList(char *, char *, char *);
 void C_DeadZone(char *, char *, char *);
 void C_EndGame(char *, char *, char *);
+void C_Float(char *, char *, char *);
 void C_Gamma(char *, char *, char *);
 void C_GamepadVibrate(char *, char *, char *);
 void C_God(char *, char *, char *);
@@ -411,9 +413,11 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (iwadfolder, C_NoCondition, C_Str, iwadfolder),
     CMD       (kill, C_KillCondition, C_Kill, 1, "[all|monsters|~type~]", "Kill the player, all monsters or a type of monster."),
     CVAR_INT  (levelstarttic, C_NoCondition, C_Int, CF_READONLY, levelstarttic, 0, NONE),
+    CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration),
     CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE),
     CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT),
-    CVAR_INT  (m_sensitivity, C_NoCondition, C_Int, CF_NONE, mousesensitivity, 0, MOUSESENSITIVITY),
+    CVAR_INT  (m_sensitivity, C_IntCondition, C_Int, CF_NONE, mousesensitivity, 0, MOUSESENSITIVITY),
+    CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, mouse_threshold, 0, MOUSETHRESHOLD),
     CMD       (map, C_MapCondition, C_Map, 1, MAPCMDFORMAT, "Warp to a map."),
     CVAR_BOOL (mapfixes, C_BoolCondition, C_Bool, mapfixes, MAPFIXES),
     CVAR_BOOL (messages, C_BoolCondition, C_Bool, messages, MESSAGES),
@@ -421,6 +425,7 @@ consolecmd_t consolecmds[] =
     CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggle no target mode on/off."),
     CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN),
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON),
+    CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, 0, PLAYERBOB),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quit "PACKAGE_NAME),
     CVAR_INT  (r_bloodsplats, C_BloodSplatsCondition, C_BloodSplats, CF_NONE, bloodsplats, 7, BLOODSPLATS),
     CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS),
@@ -435,6 +440,8 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD),
     CVAR_BOOL (r_liquid_animatedheight, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID),
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP),
+    CVAR_INT  (r_lowpixelheight, C_NoCondition, C_Int, CF_NONE, pixelheight, 0, PIXELHEIGHT),
+    CVAR_INT  (r_lowpixelwidth, C_NoCondition, C_Int, CF_NONE, pixelwidth, 0, PIXELWIDTH),
     CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS),
@@ -442,6 +449,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE),
     CMD       (showfps, C_BoolCondition, C_ShowFPS, 1, "[on|off]", "Toggle the display of the average number of frames per second on/off."),
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL),
+    CVAR_INT  (snd_maxslicetime, C_NoCondition, C_Int, CF_READONLY, snd_maxslicetime_ms, 0, SND_MAXSLICETIME_MS),
     CVAR_INT  (snd_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME),
     CVAR_INT  (snd_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME),
     CVAR_STR  (snd_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path),
@@ -916,6 +924,61 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
 void C_EndGame(char *cmd, char *parm1, char *parm2)
 {
     M_EndingGame();
+}
+
+//
+// All float cvars
+//
+boolean C_FloatCondition(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    if (!parm1[0])
+        return true;
+
+    while (consolecmds[i].name[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_FLOAT))
+        {
+            int value = -1;
+
+            sscanf(parm1, "%f", &value);
+
+            return (value >= 0);
+        }
+        ++i;
+    }
+    return false;
+}
+
+void C_Float(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    while (consolecmds[i].name[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_FLOAT))
+        {
+            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            {
+                float     value = -1;
+
+                sscanf(parm1, "%f", &value);
+
+                if (value >= 0)
+                {
+                    *(float *)consolecmds[i].variable = value;
+                    M_SaveDefaults();
+                    C_Output("%s is %.2f.", cmd, value);
+                }
+            }
+            else
+                C_Output("%s is %.2f.", cmd, *(float *)consolecmds[i].variable);
+        }
+        ++i;
+    }
 }
 
 //
