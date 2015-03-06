@@ -313,6 +313,7 @@ void C_ConDump(char *, char *, char *);
 void C_CvarList(char *, char *, char *);
 void C_DeadZone(char *, char *, char *);
 void C_EndGame(char *, char *, char *);
+void C_ExitMap(char *, char *, char *);
 void C_Float(char *, char *, char *);
 void C_Gamma(char *, char *, char *);
 void C_GamepadVibrate(char *, char *, char *);
@@ -396,6 +397,7 @@ consolecmd_t consolecmds[] =
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~pattern~]", "Display a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "End a game."),
     CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, 0, EPISODE),
+    CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exit the current map."),
     CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, 0, EXPANSION),
     CVAR_INT  (gametic, C_NoCondition, C_Int, CF_READONLY, gametic, 0, NONE),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggle god mode on/off."),
@@ -938,6 +940,14 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
 void C_EndGame(char *cmd, char *parm1, char *parm2)
 {
     M_EndingGame();
+}
+
+//
+// EXITMAP cmd
+//
+void C_ExitMap(char *cmd, char *parm1, char *parm2)
+{
+    G_ExitLevel();
 }
 
 //
