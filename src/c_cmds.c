@@ -1069,7 +1069,7 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output("The graphic detail is %s.", C_LookupAliasFromValue(graphicdetail, 3));
+        C_Output("The graphic detail is %s.", C_LookupAliasFromValue(graphicdetail, 6));
 }
 
 //
@@ -1287,8 +1287,6 @@ static int      mapcmdepisode;
 static int      mapcmdmap;
 
 extern boolean  samelevel;
-extern int      selectedepisode;
-extern int      selectedskilllevel;
 extern menu_t   EpiDef;
 
 boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
