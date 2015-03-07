@@ -439,7 +439,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN),
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON),
     CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, 0, PLAYERBOB),
-    CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quit "PACKAGE_NAME),
+    CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quit "PACKAGE_NAME"."),
     CVAR_INT  (r_bloodsplats, C_BloodSplatsCondition, C_BloodSplats, CF_NONE, bloodsplats, 7, BLOODSPLATS),
     CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS),
     CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, corpses_mirror, CORPSES_MIRROR),
