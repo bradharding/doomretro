@@ -1058,10 +1058,10 @@ static void SetVideoMode(void)
         window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
             SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
         if (windowx != SDL_WINDOWPOS_CENTERED && windowy != SDL_WINDOWPOS_CENTERED)
-            C_Output("Created resziable window with dimensions of %ix%i at (%i,%i).",
+            C_Output("Created resizable window with dimensions of %ix%i at (%i,%i).",
                 windowwidth, windowheight, windowx, windowy);
         else
-            C_Output("Created resziable window with dimensions of %ix%i in center of screen.",
+            C_Output("Created resizable window with dimensions of %ix%i in center of screen.",
                 windowwidth, windowheight);
     }
 
