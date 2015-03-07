@@ -142,6 +142,7 @@ extern int      key_weapon7;
 extern boolean  mapfixes;
 extern boolean  messages;
 extern boolean  mirrorweapons;
+extern int      monitor;
 extern int      mousesensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
@@ -316,6 +317,7 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_STRING       (snd_timiditycfgpath,     timidity_cfg_path,             0),
     CONFIG_VARIABLE_INT          (vid_fullscreen,          fullscreen,                    1),
 #if defined(SDL20)
+    CONFIG_VARIABLE_INT          (vid_monitor,             monitor,                       0),
     CONFIG_VARIABLE_STRING       (vid_scaledriver,         scaledriver,                   0),
     CONFIG_VARIABLE_STRING       (vid_scalequality,        scalequality,                  0),
 #endif

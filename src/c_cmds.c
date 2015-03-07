@@ -157,6 +157,9 @@ extern int      key_weapon7;
 extern boolean  mapfixes;
 extern boolean  messages;
 extern boolean  mirrorweapons;
+#if defined(SDL20)
+extern int      monitor;
+#endif
 extern int      mousesensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
@@ -472,6 +475,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE),
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Bool, fullscreen, FULLSCREEN),
 #if defined(SDL20)
+    CVAR_INT  (vid_monitor, C_NoCondition, C_Int, CF_NONE, monitor, 0, MONITOR),
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_Str, scaledriver),
     CVAR_STR  (vid_scalequality, C_NoCondition, C_Str, scalequality),
 #endif

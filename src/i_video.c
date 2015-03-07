@@ -78,6 +78,7 @@ SDL_Renderer            *renderer;
 static SDL_Surface      *rgbabuffer = NULL;
 static SDL_Texture      *texture = NULL; 
 
+int                     monitor = MONITOR_DEFAULT;
 char                    *scaledriver = SCALEDRIVER_DEFAULT;
 char                    *scalequality = SCALEQUALITY_DEFAULT;
 boolean                 vsync = VSYNC_DEFAULT;
@@ -1008,10 +1009,15 @@ static char *aspectratio(int width, int height)
 static void SetVideoMode(void)
 {
 #if defined(SDL20)
+    int                 i;
+    int                 nummonitors = SDL_GetNumVideoDisplays();
+    SDL_Rect            *monitors = (SDL_Rect *)Z_Malloc(nummonitors, PU_STATIC, NULL);
     SDL_RendererInfo    rendererinfo;
     char                *renderername;
+    int                 flags = SDL_RENDERER_TARGETTEXTURE;
 
-    int flags = SDL_RENDERER_TARGETTEXTURE;
+    for (i = 0; i < nummonitors; ++i)
+        SDL_GetDisplayBounds(i, &monitors[i]);
 
     if (vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
@@ -1043,6 +1049,8 @@ static void SetVideoMode(void)
             C_Output("Switched to screen resolution of %ix%i with %s aspect ratio.",
                 screenwidth, screenheight, aspectratio(screenwidth, screenheight));
         }
+
+        SDL_SetWindowPosition(window, monitors[monitor].x, monitors[monitor].y);
     }
     else
     {
@@ -1058,11 +1066,18 @@ static void SetVideoMode(void)
         window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
             SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
         if (windowx != SDL_WINDOWPOS_CENTERED && windowy != SDL_WINDOWPOS_CENTERED)
+        {
             C_Output("Created resizable window with dimensions of %ix%i at (%i,%i).",
                 windowwidth, windowheight, windowx, windowy);
+            SDL_SetWindowPosition(window, monitors[monitor].x + windowx, monitors[monitor].y + windowy);
+        }
         else
+        {
             C_Output("Created resizable window with dimensions of %ix%i in center of screen.",
                 windowwidth, windowheight);
+            SDL_SetWindowPosition(window, monitors[monitor].x + (monitors[monitor].w - windowwidth) / 2,
+                monitors[monitor].y + (monitors[monitor].h - windowheight) / 2);
+        }
     }
 
     C_Output("Using 256-color palette from PLAYPAL lump.");
@@ -1534,8 +1549,6 @@ void I_InitGraphics(void)
     keys['r'] = keys['R'] = false;
     keys['a'] = keys['A'] = false;
     keys['l'] = keys['L'] = false;
-
-    windowposition = (char *)malloc(10);
 
     I_InitTintTables(doompal);
 
