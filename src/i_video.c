@@ -1029,14 +1029,14 @@ static void SetVideoMode(void)
         if (!screenwidth && !screenheight)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL);
             C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio.",
                 desktopwidth, desktopheight, aspectratio(desktopwidth, desktopheight));
         }
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
+                screenwidth, screenheight, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
             C_Output("Switched to screen resolution of %ix%i with %s aspect ratio.",
                 screenwidth, screenheight, aspectratio(screenwidth, screenheight));
         }
@@ -1053,7 +1053,7 @@ static void SetVideoMode(void)
         SetWindowPositionVars();
 
         window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
-            SDL_WINDOW_RESIZABLE);
+            SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
         if (windowx != SDL_WINDOWPOS_CENTERED && windowy != SDL_WINDOWPOS_CENTERED)
             C_Output("Created resziable window with dimensions of %ix%i at (%i,%i).",
                 windowwidth, windowheight, windowx, windowy);
