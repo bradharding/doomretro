@@ -1069,6 +1069,9 @@ static void SetVideoMode(void)
         {
             C_Output("Created resizable window with dimensions of %ix%i at (%i,%i).",
                 windowwidth, windowheight, windowx, windowy);
+            windowx = MIN(monitors[monitor].w - windowwidth, windowx);
+            windowy = MIN(monitors[monitor].h - windowheight, windowy);
+            M_SaveDefaults();
             SDL_SetWindowPosition(window, monitors[monitor].x + windowx, monitors[monitor].y + windowy);
         }
         else
