@@ -546,16 +546,21 @@ boolean C_BindCondition(char *cmd, char *parm1, char *parm2)
 
 void C_DisplayBinds(char *action, int value, controltype_t type, int count)
 {
-    int control = 0;
+    int i = 0;
 
-    while (controls[control].type)
+    while (controls[i].type)
     {
-        if (controls[control].type == type && controls[control].value == value)
+        if (controls[i].type == type && controls[i].value == value)
         {
-            C_Output("%i\t%s\t%s", count, controls[control].control, action);
+            char *control = controls[i].control;
+
+            if (strlen(control) == 1)
+                C_Output("%i\t\'%s\'\t%s", count, (control[0] == '=' ? "+" : control), action);
+            else
+                C_Output("%i\t%s\t%s", count, control, action);
             break;
         }
-        ++control;
+        ++i;
     }
 }
 
@@ -585,16 +590,16 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
     }
     else
     {
-        int     control = 0;
+        int     i = 0;
 
-        while (controls[control].type)
+        while (controls[i].type)
         {
-            if (!strcasecmp(parm1, controls[control].control))
+            if (!strcasecmp(parm1, controls[i].control))
                 break;
-            ++control;
+            ++i;
         }
 
-        if (controls[control].control[0])
+        if (controls[i].control[0])
         {
             int action = 0;
 
@@ -602,22 +607,38 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
             {
                 while (actions[action].action[0])
                 {
-                    if (controls[control].type == keyboard && actions[action].keyboard1
-                        && controls[control].value == *(int *)actions[action].keyboard1)
-                        C_Output("The %s key on the keyboard is bound to the %s action.",
-                            controls[control].control, actions[action].action);
-                    else if (controls[control].type == keyboard && actions[action].keyboard2
-                        && controls[control].value == *(int *)actions[action].keyboard2)
-                        C_Output("The %s key on the keyboard is bound to the %s action.",
-                            controls[control].control, actions[action].action);
-                    else if (controls[control].type == mouse && actions[action].mouse
-                        && controls[control].value == *(int *)actions[action].mouse)
+                    if (controls[i].type == keyboard && actions[action].keyboard1
+                        && controls[i].value == *(int *)actions[action].keyboard1)
+                    {
+                        char *control = controls[i].control;
+
+                        if (strlen(control) == 1)
+                            C_Output("The \'%s\' key on the keyboard is bound to the %s action.",
+                                (control[0] == '=' ? "+" : control), actions[action].action);
+                        else
+                            C_Output("The %s key on the keyboard is bound to the %s action.",
+                                control, actions[action].action);
+                    }
+                    else if (controls[i].type == keyboard && actions[action].keyboard2
+                        && controls[i].value == *(int *)actions[action].keyboard2)
+                    {
+                        char *control = controls[i].control;
+
+                        if (strlen(control) == 1)
+                            C_Output("The \'%s\' key on the keyboard is bound to the %s action.",
+                            (control[0] == '=' ? "+" : control), actions[action].action);
+                        else
+                            C_Output("The %s key on the keyboard is bound to the %s action.",
+                            control, actions[action].action);
+                    }
+                    else if (controls[i].type == mouse && actions[action].mouse
+                        && controls[i].value == *(int *)actions[action].mouse)
                         C_Output("The %s control on the mouse is bound to the %s action.",
-                            controls[control].control, actions[action].action);
-                    else if (controls[control].type == gamepad && actions[action].gamepad
-                        && controls[control].value == *(int *)actions[action].gamepad)
+                            controls[i].control, actions[action].action);
+                    else if (controls[i].type == gamepad && actions[action].gamepad
+                        && controls[i].value == *(int *)actions[action].gamepad)
                         C_Output("The %s control on the gamepad is bound to the %s action.",
-                            controls[control].control, actions[action].action);
+                            controls[i].control, actions[action].action);
                     ++action;
                 }
             }
@@ -632,11 +653,11 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
 
                 if (actions[action].action[0])
                 {
-                    switch (controls[control].type)
+                    switch (controls[i].type)
                     {
                         case keyboard:
-                            if (controls[control].value != *(int *)actions[action].keyboard1
-                                && controls[control].value != *(int *)actions[action].keyboard2)
+                            if (controls[i].value != *(int *)actions[action].keyboard1
+                                && controls[i].value != *(int *)actions[action].keyboard2)
                             {
                                 if (*(int *)actions[action].keyboard1)
                                 {
@@ -645,22 +666,27 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                                         if (*(int *)actions[action].keyboard2)
                                             *(int *)actions[action].keyboard1
                                                 = *(int *)actions[action].keyboard2;
-                                        *(int *)actions[action].keyboard2 = controls[control].value;
+                                        *(int *)actions[action].keyboard2 = controls[i].value;
                                     }
                                     else
-                                        *(int *)actions[action].keyboard1 = controls[control].value;
+                                        *(int *)actions[action].keyboard1 = controls[i].value;
                                 }
                                 else
-                                    *(int *)actions[action].keyboard1 = controls[control].value;
-                                C_Output("The %s key on the keyboard is now bound to the %s action.", parm1, parm2);
+                                    *(int *)actions[action].keyboard1 = controls[i].value;
+                                if (strlen(parm1) == 1)
+                                    C_Output("The \'%s\' key on the keyboard is now bound to the %s action.",
+                                        (parm1[0] == '=' ? "+" : parm1), parm2);
+                                else
+                                    C_Output("The %s key on the keyboard is now bound to the %s action.",
+                                        parm1, parm2);
                             }
                             break;
                         case mouse:
-                            *(int *)actions[action].mouse = controls[control].value;
+                            *(int *)actions[action].mouse = controls[i].value;
                             C_Output("The %s control on the mouse is now bound to the %s action.", parm1, parm2);
                             break;
                         case gamepad:
-                            *(int *)actions[action].gamepad = controls[control].value;
+                            *(int *)actions[action].gamepad = controls[i].value;
                             C_Output("The %s control on the gamepad is now bound to the %s action.", parm1, parm2);
                             break;
                     }
