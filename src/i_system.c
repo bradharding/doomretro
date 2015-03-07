@@ -85,7 +85,9 @@ void I_Quit(boolean shutdown)
     {
         S_Shutdown();
 
+#if !defined(SDL20)
         I_SaveWindowPosition();
+#endif
 
         if (returntowidescreen)
             widescreen = true;
@@ -214,7 +216,9 @@ void I_Error(char *error, ...)
     // Shutdown. Here might be other errors.
     S_Shutdown();
 
+#if !defined(SDL20)
     I_SaveWindowPosition();
+#endif
 
     if (returntowidescreen)
         widescreen = true;

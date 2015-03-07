@@ -437,6 +437,7 @@ boolean keystate(int key)
     return keystate[TranslateKey2(key)];
 }
 
+#if !defined(SDL20)
 void I_SaveWindowPosition(void)
 {
 #if defined(WIN32)
@@ -444,15 +445,9 @@ void I_SaveWindowPosition(void)
 
     SDL_VERSION(&info.version);
 
-#if defined(SDL20)
-    if (SDL_GetWindowWMInfo(window, &info))
-    {
-        HWND    hwnd = info.info.win.window;
-#else
     if (SDL_GetWMInfo(&info))
     {
         HWND    hwnd = info.window;
-#endif
         RECT    r;
 
         GetWindowRect(hwnd, &r);
@@ -461,6 +456,7 @@ void I_SaveWindowPosition(void)
     }
 #endif
 }
+#endif
 
 void RepositionWindow(int amount)
 {
@@ -693,20 +689,18 @@ void I_GetEvent(void)
 #endif
 
 #if defined(WIN32)
+#if !defined(SDL20)
             case SDL_SYSWMEVENT:
                 if (!fullscreen)
                 {
-#if defined(SDL20)
-                    if (sdlevent.syswm.msg->msg.win.msg == WM_MOVE)
-#else
                     if (sdlevent.syswm.msg->msg == WM_MOVE)
-#endif
                     {
                         I_SaveWindowPosition();
                         SetWindowPositionVars();
                     }
                 }
                 break;
+#endif
 #endif
 
 #if defined(SDL20)
@@ -728,6 +722,15 @@ void I_GetEvent(void)
                         {
                             need_resize = true;
                             resize_h = sdlevent.window.data2;
+                        }
+                        break;
+
+                    case SDL_WINDOWEVENT_MOVED:
+                        if (!fullscreen)
+                        {
+                            M_snprintf(windowposition, 10, "%i,%i",
+                                sdlevent.window.data1, sdlevent.window.data2);
+                            M_SaveDefaults();
                         }
                         break;
                 }
@@ -1531,6 +1534,8 @@ void I_InitGraphics(void)
     keys['r'] = keys['R'] = false;
     keys['a'] = keys['A'] = false;
     keys['l'] = keys['L'] = false;
+
+    windowposition = (char *)malloc(10);
 
     I_InitTintTables(doompal);
 
