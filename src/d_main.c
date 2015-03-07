@@ -263,7 +263,7 @@ void D_Display(void)
             if (scaledviewwidth != SCREENWIDTH)
             {
                 if (menuactive || menuactivestate || !viewactivestate
-                    || paused || pausedstate || message_on || consoleactive)
+                    || paused || pausedstate || message_on || consoleheight > CONSOLETOP)
                     borderdrawcount = 3;
                 if (borderdrawcount)
                 {
