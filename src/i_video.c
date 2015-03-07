@@ -781,10 +781,10 @@ static void UpdateGrab(void)
     else if (!grab && currently_grabbed)
     {
 #if defined(SDL20)
-        int w, h;
+        int width, height;
 
-        SDL_GetWindowSize(window, &w, &h);
-        SDL_WarpMouseInWindow(window, w / 2 - 16, h / 2 - 16);
+        SDL_GetWindowSize(window, &width, &height);
+        SDL_WarpMouseInWindow(window, width - 16, height - 16);
 #else
         SDL_WarpMouse(screen->w - 16, screen->h - 16);
 #endif
