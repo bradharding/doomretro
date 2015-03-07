@@ -1018,7 +1018,7 @@ static void SetVideoMode(void)
 
     for (i = 0; i < nummonitors; ++i)
         SDL_GetDisplayBounds(i, &monitors[i]);
-    if (monitor > nummonitors)
+    if (monitor < 1 || monitor > nummonitors)
         monitor = MONITOR_DEFAULT;
 
     if (vsync)
@@ -1041,15 +1041,15 @@ static void SetVideoMode(void)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL);
-            C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio.",
-                desktopwidth, desktopheight, aspectratio(desktopwidth, desktopheight));
+            C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
+                desktopwidth, desktopheight, aspectratio(desktopwidth, desktopheight), monitor, nummonitors);
         }
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 screenwidth, screenheight, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_OPENGL);
-            C_Output("Switched to screen resolution of %ix%i with %s aspect ratio.",
-                screenwidth, screenheight, aspectratio(screenwidth, screenheight));
+            C_Output("Switched to screen resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
+                screenwidth, screenheight, aspectratio(screenwidth, screenheight), monitor, nummonitors);
         }
 
         SDL_SetWindowPosition(window, monitors[monitor - 1].x, monitors[monitor - 1].y);
@@ -1069,8 +1069,8 @@ static void SetVideoMode(void)
             SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
         if (windowx != SDL_WINDOWPOS_CENTERED && windowy != SDL_WINDOWPOS_CENTERED)
         {
-            C_Output("Created resizable window with dimensions of %ix%i at (%i,%i).",
-                windowwidth, windowheight, windowx, windowy);
+            C_Output("Created resizable window with dimensions of %ix%i at (%i,%i) on monitor %i of %i.",
+                windowwidth, windowheight, windowx, windowy, monitor, nummonitors);
             windowx = MIN(monitors[monitor - 1].w - windowwidth, windowx);
             windowy = MIN(monitors[monitor - 1].h - windowheight, windowy);
             M_SaveDefaults();
@@ -1078,8 +1078,8 @@ static void SetVideoMode(void)
         }
         else
         {
-            C_Output("Created resizable window with dimensions of %ix%i in center of screen.",
-                windowwidth, windowheight);
+            C_Output("Created resizable window with dimensions of %ix%i in center of screen on monitor %i of %i.",
+                windowwidth, windowheight, monitor, nummonitors);
             SDL_SetWindowPosition(window,
                 monitors[monitor - 1].x + (monitors[monitor - 1].w - windowwidth) / 2,
                 monitors[monitor - 1].y + (monitors[monitor - 1].h - windowheight) / 2);
