@@ -1905,7 +1905,7 @@ void M_SizeDisplay(int choice)
                 if (!hud)
                 {
                     hud = true;
-                    C_Output("Toggle HUD on.");
+                    C_Output("Toggled HUD on.");
                 }
                 else
                 {
@@ -1920,10 +1920,14 @@ void M_SizeDisplay(int choice)
                 if (!hud)
                 {
                     hud = true;
-                    C_Output("Toggle HUD on.");
+                    C_Output("Toggled HUD on.");
                 }
                 else
+                {
+                    if (widescreen)
+                        C_Output("Toggled widescreen mode off.");
                     ToggleWidescreen(false);
+                }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1942,7 +1946,7 @@ void M_SizeDisplay(int choice)
                 if (hud)
                 {
                     hud = false;
-                    C_Output("Toggle HUD off.");
+                    C_Output("Toggled HUD off.");
                     S_StartSound(NULL, sfx_stnmov);
                     M_SaveDefaults();
                 }
@@ -1959,7 +1963,9 @@ void M_SizeDisplay(int choice)
                     else
                     {
                         ToggleWidescreen(true);
-                        if (!widescreen)
+                        if (widescreen)
+                            C_Output("Toggled widescreen mode on.");
+                        else
                         {
                             R_SetViewSize(++screensize);
                             C_Output("The screen size has been set to %i.", screensize);

@@ -1208,7 +1208,6 @@ void ToggleWidescreen(boolean toggle)
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
         src_rect.h = SCREENHEIGHT - SBARHEIGHT;
-        C_Output("Toggled widescreen mode on.");
     }
     else
     {
@@ -1216,7 +1215,6 @@ void ToggleWidescreen(boolean toggle)
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
-        C_Output("Toggled widescreen mode off.");
     }
 
     returntowidescreen = false;
