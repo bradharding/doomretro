@@ -146,6 +146,7 @@ void C_Print(stringtype_t type, char *string, ...)
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = type;
     ++consolestrings;
+    outputhistory = -1;
 }
 
 void C_Output(char *string, ...)
@@ -162,6 +163,7 @@ void C_Output(char *string, ...)
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = output;
     ++consolestrings;
+    outputhistory = -1;
 }
 
 void C_PlayerMessage(char *string, ...)
@@ -195,6 +197,7 @@ void C_PlayerMessage(char *string, ...)
         console[consolestrings].type = playermessage;
         ++consolestrings;
     }
+    outputhistory = -1;
 }
 
 void C_AddConsoleDivider(void)
