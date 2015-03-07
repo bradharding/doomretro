@@ -450,3 +450,8 @@ boolean wildcard(char *input, char *pattern)
     }
     return true;
 }
+
+int gcd(int a, int b)
+{
+    return (!b ? a : gcd(b, a % b));
+}

@@ -984,6 +984,24 @@ static void SetupScreenRects(void)
 #endif
 }
 
+static char *aspectratio(int width, int height)
+{
+    int         hcf = gcd(width, height);
+
+    width /= hcf;
+    height /= hcf;
+
+    if (width == 8 && height == 5)
+        return "16:10";
+    else
+    {
+        char    *ratio = (char *)malloc(8);
+
+        M_snprintf(ratio, sizeof(ratio), "%i:%i", width, height);
+        return ratio;
+    }
+}
+
 static void SetVideoMode(void)
 {
 #if defined(SDL20)
@@ -1012,13 +1030,15 @@ static void SetVideoMode(void)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
-            C_Output("Staying at desktop resolution of %ix%i.", desktopwidth, desktopheight);
+            C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio.",
+                desktopwidth, desktopheight, aspectratio(desktopwidth, desktopheight));
         }
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
-            C_Output("Switched to screen resolution of %ix%i.", screenwidth, screenheight);
+            C_Output("Switched to screen resolution of %ix%i with %s aspect ratio.",
+                screenwidth, screenheight, aspectratio(screenwidth, screenheight));
         }
     }
     else
