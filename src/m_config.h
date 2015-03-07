@@ -211,8 +211,8 @@
 #define MIRRORWEAPONS_DEFAULT                   false
 
 #if defined(SDL20)
-#define MONITOR_MIN                             0
-#define MONITOR_DEFAULT                         0
+#define MONITOR_MIN                             1
+#define MONITOR_DEFAULT                         1
 #define MONITOR_MAX                             INT_MAX
 #endif
 
