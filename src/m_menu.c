@@ -1903,16 +1903,25 @@ void M_SizeDisplay(int choice)
             if (screensize == SCREENSIZE_MAX)
             {
                 if (!hud)
+                {
                     hud = true;
+                    C_Output("Toggle HUD on.");
+                }
                 else
+                {
                     R_SetViewSize(--screensize);
+                    C_Output("The screen size has been set to %i.", screensize);
+                }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
             else if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 if (!hud)
+                {
                     hud = true;
+                    C_Output("Toggle HUD on.");
+                }
                 else
                     ToggleWidescreen(false);
                 S_StartSound(NULL, sfx_stnmov);
@@ -1921,6 +1930,7 @@ void M_SizeDisplay(int choice)
             else if (screensize > SCREENSIZE_MIN)
             {
                 R_SetViewSize(--screensize);
+                C_Output("The screen size has been set to %i.", screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1932,6 +1942,7 @@ void M_SizeDisplay(int choice)
                 if (hud)
                 {
                     hud = false;
+                    C_Output("Toggle HUD off.");
                     S_StartSound(NULL, sfx_stnmov);
                     M_SaveDefaults();
                 }
@@ -1949,7 +1960,10 @@ void M_SizeDisplay(int choice)
                     {
                         ToggleWidescreen(true);
                         if (!widescreen)
+                        {
                             R_SetViewSize(++screensize);
+                            C_Output("The screen size has been set to %i.", screensize);
+                        }
                     }
                 }
                 S_StartSound(NULL, sfx_stnmov);
@@ -1958,6 +1972,7 @@ void M_SizeDisplay(int choice)
             else if (screensize < SCREENSIZE_MAX)
             {
                 R_SetViewSize(++screensize);
+                C_Output("The screen size has been set to %i.", screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
