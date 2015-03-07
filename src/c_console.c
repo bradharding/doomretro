@@ -862,17 +862,12 @@ boolean C_Responder(event_t *ev)
                     consoleinput[caretpos++] = ch;
                     carettics = 0;
                     showcaret = true;
+                    autocomplete = -1;
+                    inputhistory = -1;
+                    outputhistory = -1;
                 }
             }
         }
-        if (autocomplete != -1 && key != KEY_TAB && key != KEY_RSHIFT)
-            autocomplete = -1;
-
-        if (inputhistory != -1 && key != KEY_UPARROW && key != KEY_DOWNARROW)
-            inputhistory = -1;
-
-        if (outputhistory != -1 && key != KEY_PGUP && key != KEY_PGDN)
-            outputhistory = -1;
     }
     else if (ev->type == ev_keyup)
         return false;
