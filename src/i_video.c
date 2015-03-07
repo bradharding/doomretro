@@ -731,6 +731,7 @@ void I_GetEvent(void)
                         {
                             M_snprintf(windowposition, 10, "%i,%i",
                                 sdlevent.window.data1, sdlevent.window.data2);
+                            monitor = SDL_GetWindowDisplayIndex(window) + 1;
                             M_SaveDefaults();
                         }
                         break;
