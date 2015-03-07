@@ -338,8 +338,9 @@ void C_ScreenResolution(char *, char *, char *);
 void C_ShowFPS(char *, char *, char *);
 void C_Spawn(char *, char *, char *);
 void C_Str(char *, char *, char *);
-void C_WindowSize(char *, char *, char *);
+void C_Time(char *, char *, char *);
 void C_Volume(char *, char *, char *);
+void C_WindowSize(char *, char *, char *);
 
 int C_LookupValueFromAlias(char *text, int set)
 {
@@ -384,6 +385,8 @@ char *C_LookupAliasFromValue(int value, int set)
     { #name, cond, func, 1, CT_CVAR, CF_SIZE, &var, 0, 0, 0, 0, "", "" }
 #define CVAR_STR(name, cond, func, var) \
     { #name, cond, func, 1, CT_CVAR, CF_STRING, &var, 0, 0, 0, 0, "", "" }
+#define CVAR_TIME(name, cond, func, var) \
+    { #name, cond, func, 1, CT_CVAR, CF_TIME | CF_READONLY, &var, 0, 0, 0, 0, "", "" }
 
 int numconsolecmds;
 
@@ -402,7 +405,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, 0, EPISODE),
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exit the current map."),
     CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, 0, EXPANSION),
-    CVAR_INT  (gametic, C_NoCondition, C_Int, CF_READONLY, gametic, 0, NONE),
+    CVAR_TIME (gametime, C_NoCondition, C_Time, gametic),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggle god mode on/off."),
     CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadleftdeadzone_percent),
     CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadrightdeadzone_percent),
@@ -436,6 +439,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, mouse_threshold, 0, MOUSETHRESHOLD),
     CMD       (map, C_MapCondition, C_Map, 1, MAPCMDFORMAT, "Warp to a map."),
     CVAR_BOOL (mapfixes, C_BoolCondition, C_Bool, mapfixes, MAPFIXES),
+    CVAR_TIME (maptime, C_NoCondition, C_Time, leveltime),
     CVAR_BOOL (messages, C_BoolCondition, C_Bool, messages, MESSAGES),
     CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggle no clipping mode on/off."),
     CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggle no target mode on/off."),
@@ -872,6 +876,14 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
             else if (consolecmds[i].flags & CF_SIZE)
                 C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
                 *(char **)consolecmds[i].variable);
+            else if (consolecmds[i].flags & CF_TIME)
+            {
+                int tics = *(int *)consolecmds[i].variable / TICRATE;
+
+                C_Output("%i\t%s\t\t%02i:%02i:%02i", count++, consolecmds[i].name,
+                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
+            }
+
         }
         ++i;
     }
@@ -1752,6 +1764,24 @@ void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
             desktopwidth, desktopheight);
     else
         C_Output("The screen resolution is %ix%i.", screenwidth, screenheight);
+}
+
+void C_Time(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    while (consolecmds[i].name[0])
+    {
+        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
+            && (consolecmds[i].flags & CF_TIME))
+        {
+            int tics = *(int *)consolecmds[i].variable / TICRATE;
+
+            C_Output("%s is %02i:%02i:%02i.", cmd,
+                tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
+        }
+        ++i;
+    }
 }
 
 void C_WindowSize(char *cmd, char *parm1, char *parm2)
