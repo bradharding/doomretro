@@ -723,7 +723,7 @@ void I_GetEvent(void)
                         palette_to_set = true;
                         break;
 
-                    case SDL_WINDOWEVENT_RESIZED:
+                    case SDL_WINDOWEVENT_SIZE_CHANGED:
                         if (!fullscreen)
                         {
                             need_resize = true;
@@ -1430,7 +1430,9 @@ void ToggleFullscreen(void)
 static void ApplyWindowResize(int resize_h)
 {
 #if defined(SDL20)
-    // TODO
+    windowheight = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
+    windowwidth = windowheight * 4 / 3;
+    SDL_SetWindowSize(window, windowwidth, windowheight);
 #else
     windowheight = height = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
     windowwidth = windowheight * 4 / 3;
