@@ -1136,8 +1136,16 @@ static void SetVideoMode(void)
     else if (!strcasecmp(scalequality, "best"))
         C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
 
-    C_Output("Vsync is %s.",
-        ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
+    if (vsync && !(rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC))
+    {
+        if (!strcasecmp(rendererinfo.name, "software"))
+            C_Output("Vertical sync can't be enabled in software.");
+        else
+            C_Output("Vertical sync can't be enabled. Please check your video card's settings.");
+    }
+    else
+        C_Output("Vertical sync is %s.",
+            ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
 
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     rgbabuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
