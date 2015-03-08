@@ -47,10 +47,14 @@
 
 #define CONSOLETOP                      0
 
+#define DIVIDERSTRING                   "--------------------------------------------------" \
+                                        "--------------------------------------------------"
+
 typedef enum
 {
     input,
     output,
+    divider,
     title,
     playermessage,
     fpswarning

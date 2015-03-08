@@ -130,7 +130,7 @@ int     consoleoutputcolor = 227;
 int     consoletitlecolor = 227;
 int     consoledividercolor = 227;
 
-int consolecolors[4];
+int consolecolors[5];
 
 void C_Print(stringtype_t type, char *string, ...)
 {
@@ -203,7 +203,7 @@ void C_PlayerMessage(char *string, ...)
 void C_AddConsoleDivider(void)
 {
     if (!consolestrings || strcasecmp(console[consolestrings - 1].string, DIVIDER))
-        C_Print(output, DIVIDER);
+        C_Print(divider, DIVIDER);
 }
 
 static void C_DrawDivider(int y)
@@ -252,6 +252,7 @@ void C_Init(void)
 
     consolecolors[input] = consoleinputtooutputcolor;
     consolecolors[output] = consoleoutputcolor;
+    consolecolors[divider] = consoledividercolor;
     consolecolors[title] = consoletitlecolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
 }
@@ -393,63 +394,57 @@ static char     prevletter;
 static void C_DrawText(int x, int y, char *text, int color)
 {
     boolean     italics = false;
+    size_t      i;
+    int         tabs = 0;
 
-    if (!strcasecmp(text, DIVIDER))
-        C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
-    else
+    for (i = 0; i < strlen(text); ++i)
     {
-        size_t      i;
-        int         tabs = 0;
+        char    letter = text[i];
+        int     c = letter - CONSOLEFONTSTART;
+        char    nextletter = text[i + 1];
 
-        for (i = 0; i < strlen(text); ++i)
+        if (letter == ITALICS)
         {
-            char    letter = text[i];
-            int     c = letter - CONSOLEFONTSTART;
-            char    nextletter = text[i + 1];
-
-            if (letter == ITALICS)
-            {
-                italics = !italics;
-                if (!italics)
-                    ++x;
-            }
+            italics = !italics;
+            if (!italics)
+                ++x;
+        }
+        else
+        {
+            if (letter == '\t')
+                x = MAX(x, (++tabs == 1 ? 40 : tabs * 65));
+            else if (c < 0 || c >= CONSOLEFONTSIZE)
+                x += SPACEWIDTH;
             else
             {
-                if (letter == '\t')
-                    x = MAX(x, (++tabs == 1 ? 40 : tabs * 65));
-                else if (c < 0 || c >= CONSOLEFONTSIZE)
-                    x += SPACEWIDTH;
-                else
-                {
-                    patch_t     *patch = consolefont[c];
-                    int         k = 0;
+                patch_t     *patch = consolefont[c];
+                int         k = 0;
 
-                    if (isdigit(prevletter) && letter == 'x' && isdigit(nextletter))
-                        patch = multiply;
-                    else if (prevletter == ' ' || prevletter == '\t')
+                if (isdigit(prevletter) && letter == 'x' && isdigit(nextletter))
+                    patch = multiply;
+                else if (prevletter == ' ' || prevletter == '\t')
+                {
+                    if (letter == '\'')
+                        patch = lsquote;
+                    else if (letter == '\"')
+                        patch = ldquote;
+                }
+
+                if (!italics)
+                    while (kern[k].char1)
                     {
-                        if (letter == '\'')
-                            patch = lsquote;
-                        else if (letter == '\"')
-                            patch = ldquote;
+                        if (prevletter == kern[k].char1 && letter == kern[k].char2)
+                        {
+                            x += kern[k].adjust;
+                            break;
+                        }
+                        ++k;
                     }
 
-                    if (!italics)
-                        while (kern[k].char1)
-                        {
-                            if (prevletter == kern[k].char1 && letter == kern[k].char2)
-                            {
-                                x += kern[k].adjust;
-                                break;
-                            }
-                            ++k;
-                        }
-
-                    V_DrawConsoleChar(x, y - (CONSOLEHEIGHT - consoleheight), patch, color, italics);
-                    x += SHORT(patch->width);
-                }
-                prevletter = letter;
+                V_DrawConsoleChar(x, y - (CONSOLEHEIGHT - consoleheight), patch, color, italics);
+                x += SHORT(patch->width);
             }
+            prevletter = letter;
         }
     }
 }
@@ -504,10 +499,14 @@ void C_Drawer(void)
         }
         for (i = start; i < end; ++i)
         {
+            int y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
+                    - CONSOLELINEHEIGHT / 2 + 1;
+
             prevletter = ' ';
-            C_DrawText(CONSOLETEXTX, -CONSOLELINEHEIGHT / 2 + 1
-                + CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings)),
-                console[i].string, consolecolors[console[i].type]);
+            if (console[i].type == divider)
+                C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
+            else
+                C_DrawText(CONSOLETEXTX, y, console[i].string, consolecolors[console[i].type]);
         }
 
         // draw input text to left of caret
@@ -1000,6 +999,7 @@ void C_SetBTSXColorScheme(void)
 
     consolecolors[input] = consoleinputtooutputcolor;
     consolecolors[output] = consoleoutputcolor;
+    consolecolors[divider] = consoledividercolor;
     consolecolors[title] = consoletitlecolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
 }

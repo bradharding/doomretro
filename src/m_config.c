@@ -142,7 +142,9 @@ extern int      key_weapon7;
 extern boolean  mapfixes;
 extern boolean  messages;
 extern boolean  mirrorweapons;
+#if defined(SDL20)
 extern int      monitor;
+#endif
 extern int      mousesensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
@@ -1063,6 +1065,9 @@ static void M_CheckDefaults(void)
     if (mirrorweapons != false && mirrorweapons != true)
         mirrorweapons = MIRRORWEAPONS_DEFAULT;
 
+    if (monitor < 1 || monitor > MONITOR_MAX)
+        monitor = MONITOR_DEFAULT;
+
     if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
         mousebfire = MOUSEFIRE_DEFAULT;
 
@@ -1121,6 +1126,12 @@ static void M_CheckDefaults(void)
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
+
+#if defined(SDL20)
+    if (strcasecmp(scalequality, "nearest") && strcasecmp(scalequality, "linear")
+        && strcasecmp(scalequality, "best"))
+        scalequality = SCALEQUALITY_DEFAULT;
+#endif
 
     if (!strcasecmp(screenresolution, "desktop"))
     {

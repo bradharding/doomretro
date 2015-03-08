@@ -857,9 +857,9 @@ void C_ConDump(char *cmd, char *parm1, char *parm2)
         int         i;
 
         for (i = 1; i < consolestrings - 1; ++i)
-            fprintf(file, "%s\n", console[i].string);
+            fprintf(file, "%s\n", (console[i].type == divider ? DIVIDERSTRING : console[i].string));
         fclose(file);
-        C_Output("Dumped the console to the %s.", (parm1[0] ? uppercase(parm1) : "CONDUMP.TXT"));
+        C_Output("Dumped the console to the file %s.", (parm1[0] ? uppercase(parm1) : "CONDUMP.TXT"));
     }
 }
 
