@@ -828,6 +828,8 @@ static __forceinline void StretchBlit(void)
 //
 void I_FinishUpdate(void)
 {
+    static int tic = 0;
+
     if (need_resize)
     {
         ApplyWindowResize(resize_h);
@@ -843,47 +845,51 @@ void I_FinishUpdate(void)
     if (!screenvisible)
         return;
 
-    if (palette_to_set)
+    if (tic != gametic || wipe)
     {
+        if (palette_to_set)
+        {
 #if defined(SDL20)
-        SDL_SetPaletteColors(screenbuffer->format->palette, palette, 0, 256);
+            SDL_SetPaletteColors(screenbuffer->format->palette, palette, 0, 256);
 #else
-        SDL_SetColors(screenbuffer, palette, 0, 256);
+            SDL_SetColors(screenbuffer, palette, 0, 256);
 #endif
 
-        palette_to_set = false;
-    }
+            palette_to_set = false;
+        }
 
 #if defined(SDL20)
-    SDL_BlitSurface(screenbuffer, NULL, rgbabuffer, NULL);
-    SDL_LockTexture(texture, NULL, &pixels, &pitch);
-    memcpy(pixels, rgbabuffer->pixels, SCREENHEIGHT * pitch);
-    SDL_UnlockTexture(texture);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-    SDL_RenderPresent(renderer);
+        SDL_BlitSurface(screenbuffer, NULL, rgbabuffer, NULL);
+        SDL_LockTexture(texture, NULL, &pixels, &pitch);
+        memcpy(pixels, rgbabuffer->pixels, SCREENHEIGHT * pitch);
+        SDL_UnlockTexture(texture);
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+        SDL_RenderPresent(renderer);
 #else
-    StretchBlit();
+        StretchBlit();
 
 #if defined(WIN32)
-    SDL_FillRect(screen, NULL, 0);
+        SDL_FillRect(screen, NULL, 0);
 #endif
 
-    SDL_LowerBlit(screenbuffer, &src_rect, screen, &dest_rect);
-    SDL_Flip(screen);
+        SDL_LowerBlit(screenbuffer, &src_rect, screen, &dest_rect);
+        SDL_Flip(screen);
 #endif
 
-    if (showfps)
-    {
-        ++frames;
-        currenttime = SDL_GetTicks();
-        if (currenttime - starttime >= 1000)
+        if (showfps)
         {
-            fps = frames;
-            frames = 0;
-            starttime = currenttime;
+            ++frames;
+            currenttime = SDL_GetTicks();
+            if (currenttime - starttime >= 1000)
+            {
+                fps = MIN(frames, TICRATE);
+                frames = 0;
+                starttime = currenttime;
+            }
         }
     }
+    tic = gametic;
 }
 
 //

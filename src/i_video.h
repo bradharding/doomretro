@@ -100,5 +100,6 @@ extern boolean  splashscreen;
 extern boolean  noinput;
 
 extern boolean showfps;
+extern boolean wipe;
 
 #endif
