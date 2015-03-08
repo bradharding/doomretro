@@ -52,7 +52,8 @@ typedef enum
     input,
     output,
     title,
-    playermessage
+    playermessage,
+    fpswarning
 } stringtype_t;
 
 typedef struct

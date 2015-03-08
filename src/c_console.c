@@ -563,6 +563,9 @@ void C_Drawer(void)
         if ((menuactive || paused) && fps != prevfps)
             blurred = false;
 
+        if (fps < TICRATE && console[consolestrings - 1].type != fpswarning)
+            C_Print(fpswarning, "The average FPS has dropped below %i.", TICRATE);
+
         prevfps = fps;
     }
 }
