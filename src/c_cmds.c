@@ -1356,7 +1356,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
         if (!kills)
             C_Output("No monsters killed.");
         else
-            C_Output("%i monster%s killed.", kills, (kills == 1 ? "" : "s"));
+            C_Output("%s monster%s killed.", commify(kills), (kills == 1 ? "" : "s"));
     }
 }
 
