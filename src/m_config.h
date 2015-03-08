@@ -321,7 +321,7 @@
 #endif
 
 #if defined(SDL20)
-#define VSYNC_DEFAULT                           false
+#define VSYNC_DEFAULT                           true
 #endif
 
 #define WIDESCREEN_DEFAULT                      false
