@@ -828,7 +828,7 @@ static __forceinline void StretchBlit(void)
 //
 void I_FinishUpdate(void)
 {
-    static int tic = 0;
+    static int  tic = 0;
 
     if (need_resize)
     {
@@ -934,7 +934,9 @@ static void CreateCursors(void)
 
 static void SetWindowPositionVars(void)
 {
+#if !defined(SDL20)
     char        buf[64];
+#endif
     int         x, y;
 
     if (sscanf(windowposition, "%i,%i", &x, &y) == 2)
@@ -950,12 +952,15 @@ static void SetWindowPositionVars(void)
 #if defined(SDL20)
         windowx = x;
         windowy = y;
-#endif
+#else
         sprintf(buf, "SDL_VIDEO_WINDOW_POS=%i,%i", x, y);
         putenv(buf);
+#endif
     }
+#if !defined(SDL20)
     else
         putenv("SDL_VIDEO_CENTERED=1");
+#endif
 }
 
 static void GetDesktopDimensions(void)
