@@ -89,6 +89,7 @@ void M_Init(void);
 void M_StartControlPanel(void);
 void M_ShowHelp(void);
 void M_EndingGame(void);
+void M_ChangeGamma(boolean shift);
 
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *str);

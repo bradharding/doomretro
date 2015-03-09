@@ -851,6 +851,10 @@ boolean C_Responder(event_t *ev)
                 consoledirection = -1;
                 break;
 
+            case KEY_F11:
+                M_ChangeGamma(modstate & KMOD_SHIFT);
+                break;
+
             default:
             {
                 if (modstate & KMOD_SHIFT)

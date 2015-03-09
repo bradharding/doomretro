@@ -2160,6 +2160,49 @@ void M_ShowHelp(void)
         R_SetViewSize(8);
 }
 
+void M_ChangeGamma(boolean shift)
+{
+    static char buf[128];
+    static int  gammawait = 0;
+
+    if (gammawait >= I_GetTime() || gamestate != GS_LEVEL || inhelpscreens)
+    {
+        if (shift)
+        {
+            if (--gammaindex < 0)
+                gammaindex = GAMMALEVELS - 1;
+        }
+        else
+        {
+            if (++gammaindex > GAMMALEVELS - 1)
+                gammaindex = 0;
+        }
+        gammalevel = gammalevels[gammaindex];
+
+        S_StartSound(NULL, sfx_stnmov);
+    }
+
+    gammawait = I_GetTime() + HU_MSGTIMEOUT;
+
+    if (gammalevel == 1.0f)
+        M_StringCopy(buf, s_GAMMAOFF, sizeof(buf));
+    else
+    {
+        M_snprintf(buf, sizeof(buf), s_GAMMALVL, gammalevel);
+        if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
+            buf[strlen(buf) - 1] = '\0';
+    }
+    HU_PlayerMessage(buf, false);
+
+    message_dontpause = true;
+    message_dontfuckwithme = true;
+
+    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+
+    M_SaveDefaults();
+
+}
+
 //
 // CONTROL PANEL
 //
@@ -2170,7 +2213,6 @@ void M_ShowHelp(void)
 int     gamepadwait = 0;
 int     mousewait = 0;
 boolean gamepadpress = false;
-int     gammawait = 0;
 
 boolean M_Responder(event_t *ev)
 {
@@ -2695,44 +2737,7 @@ boolean M_Responder(event_t *ev)
     // gamma toggle
     if (key == KEY_F11)
     {
-        static char buf[128];
-
-        if (gammawait >= I_GetTime() || gamestate != GS_LEVEL || inhelpscreens)
-        {
-            if (modstate & KMOD_SHIFT)
-            {
-                if (--gammaindex < 0)
-                    gammaindex = GAMMALEVELS - 1;
-            }
-            else
-            {
-                if (++gammaindex > GAMMALEVELS - 1)
-                    gammaindex = 0;
-            }
-            gammalevel = gammalevels[gammaindex];
-
-            S_StartSound(NULL, sfx_stnmov);
-        }
-
-        gammawait = I_GetTime() + HU_MSGTIMEOUT;
-
-        if (gammalevel == 1.0f)
-            M_StringCopy(buf, s_GAMMAOFF, sizeof(buf));
-        else
-        {
-            M_snprintf(buf, sizeof(buf), s_GAMMALVL, gammalevel);
-            if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
-                buf[strlen(buf) - 1] = '\0';
-        }
-        HU_PlayerMessage(buf, false);
-
-        message_dontpause = true;
-        message_dontfuckwithme = true;
-
-        I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
-
-        M_SaveDefaults();
-
+        M_ChangeGamma(modstate & KMOD_SHIFT);
         return false;
     }
 
