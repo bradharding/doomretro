@@ -125,7 +125,7 @@ int     consoleinputcolor = 227;
 int     consoleinputtooutputcolor = 227;
 int     consolelowfpscolor = -180;
 int     consolemaptitlecolor = 227;
-int     consoleplayermessagecolor = 180;
+int     consoleplayermessagecolor = 174;
 int     consoleoutputcolor = 227;
 int     consoletitlecolor = 227;
 int     consoledividercolor = 227;
@@ -571,8 +571,7 @@ void C_Drawer(void)
 
 boolean C_Responder(event_t *ev)
 {
-    if ((consoleheight < CONSOLEHEIGHT && consoledirection == -1) ||
-        (!consoleheight && consoledirection == -1))
+    if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)
         return false;
 
     if (ev->type == ev_keydown)
@@ -846,7 +845,7 @@ boolean C_Responder(event_t *ev)
                 }
                 break;
 
-            // close console:
+            // close console
             case KEY_ESCAPE:
             case KEY_TILDE:
                 consoledirection = -1;

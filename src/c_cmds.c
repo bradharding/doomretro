@@ -843,7 +843,7 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
         C_Output("The console's background is now using the \"%s\" flat.", uppercase(conback));
     }
     else
-        C_Output("The console's background is using the %s flat.", uppercase(conback));
+        C_Output("The console's background is using the \"%s\" flat.", uppercase(conback));
 }
 
 //
