@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "m_argv.h"
 #include "m_misc.h"
@@ -147,6 +148,9 @@ static void InitSfxModule(void)
 
     sound_module = NULL;
 
+    C_Output("SFX playing at a sample rate of %.1fkHz on %i channels.",
+        snd_samplerate / 1000.0f, numChannels);
+
     for (i = 0; sound_modules[i] != NULL; ++i)
     {
         // Is the sfx device in the list of devices supported by
@@ -172,6 +176,8 @@ static void InitMusicModule(void)
 
     music_module = NULL;
 
+    C_Output("Using General MIDI for music.");
+
     for (i = 0; music_modules[i] != NULL; ++i)
     {
         // Is the music device in the list of devices supported
@@ -190,9 +196,9 @@ static void InitMusicModule(void)
     }
 }
 
-boolean nosound;
-boolean nosfx;
-boolean nomusic;
+boolean nosound = false;
+boolean nosfx = false;
+boolean nomusic = false;
 
 //
 // Initializes sound stuff, including volume
@@ -201,9 +207,23 @@ boolean nomusic;
 //
 void S_Init(int sfxVolume, int musicVolume)
 {
-    nosound = (M_CheckParm("-nosound") > 0);
-    nosfx = (nosound || M_CheckParm("-nosfx") > 0);
-    nomusic = (nosound || M_CheckParm("-nomusic") > 0);
+    if (M_CheckParm("-nosound") > 0)
+    {
+        C_Output("Found -NOSOUND parameter on command-line. Music and SFX have been disabled.");
+        nosound = true;
+        nomusic = true;
+        nosfx = true;
+    }
+    if (M_CheckParm("-nomusic") > 0)
+    {
+        C_Output("Found -NOMUSIC parameter on command-line. Music has been disabled.");
+        nomusic = true;
+    }
+    if (M_CheckParm("-nosfx") > 0)
+    {
+        C_Output("Found -NOSFX parameter on command-line. SFX have been disabled.");
+        nosfx = true;
+    }
 
     // Initialize the sound and music subsystems.
     if (!nosound)
