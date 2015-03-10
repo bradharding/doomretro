@@ -833,23 +833,20 @@ void I_FinishUpdate(void)
 {
     static int  tic = 0;
 
-    if (need_resize)
-    {
-        ApplyWindowResize(resize_h);
-        need_resize = false;
-        palette_to_set = true;
-    }
-
-    UpdateGrab();
-
-    // Don't update the screen if the window isn't visible.
-    // Not doing this breaks under Windows when we alt-tab away
-    // while fullscreen.
-    if (!screenvisible)
-        return;
-
     if (tic != gametic || wipe)
     {
+        if (need_resize)
+        {
+            ApplyWindowResize(resize_h);
+            need_resize = false;
+            palette_to_set = true;
+        }
+
+        UpdateGrab();
+
+        if (!screenvisible)
+            return;
+
         if (palette_to_set)
         {
 #if defined(SDL20)
