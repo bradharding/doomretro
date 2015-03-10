@@ -79,6 +79,8 @@ static SDL_Surface      *rgbabuffer = NULL;
 static SDL_Texture      *texture = NULL; 
 
 int                     monitor = MONITOR_DEFAULT;
+int                     nummonitors;
+SDL_Rect                *monitors;
 char                    *scaledriver = SCALEDRIVER_DEFAULT;
 char                    *scalequality = SCALEQUALITY_DEFAULT;
 boolean                 vsync = VSYNC_DEFAULT;
@@ -106,8 +108,8 @@ int                     windowheight;
 char                    *windowsize = WINDOWSIZE_DEFAULT;
 
 #if defined(SDL20)
-int                     windowx = SDL_WINDOWPOS_CENTERED;
-int                     windowy = SDL_WINDOWPOS_CENTERED;
+int                     windowx = 0;
+int                     windowy = 0;
 #endif
 
 // Run in full screen mode?
@@ -1020,12 +1022,23 @@ static char *aspectratio(int width, int height)
     }
 }
 
+static void PositionOnCurrentMonitor(void)
+{
+    if (fullscreen)
+        SDL_SetWindowPosition(window, monitors[monitor - 1].x, monitors[monitor - 1].y);
+    else if (!windowx && !windowy)
+        SDL_SetWindowPosition(window,
+            monitors[monitor - 1].x + (monitors[monitor - 1].w - windowwidth) / 2,
+            monitors[monitor - 1].y + (monitors[monitor - 1].h - windowheight) / 2);
+    else
+        SDL_SetWindowPosition(window,
+            monitors[monitor - 1].x + windowx, monitors[monitor - 1].y + windowy);
+}
+
 static void SetVideoMode(void)
 {
 #if defined(SDL20)
     int                 i;
-    int                 nummonitors = SDL_GetNumVideoDisplays();
-    SDL_Rect            *monitors = (SDL_Rect *)Z_Malloc(nummonitors, PU_STATIC, NULL);
     SDL_RendererInfo    rendererinfo;
     char                *renderername;
     int                 flags = SDL_RENDERER_TARGETTEXTURE;
@@ -1065,8 +1078,6 @@ static void SetVideoMode(void)
             C_Output("Switched to screen resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
                 screenwidth, screenheight, aspectratio(screenwidth, screenheight), monitor, nummonitors);
         }
-
-        SDL_SetWindowPosition(window, monitors[monitor - 1].x, monitors[monitor - 1].y);
     }
     else
     {
@@ -1079,26 +1090,26 @@ static void SetVideoMode(void)
 
         SetWindowPositionVars();
 
-        window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
-            SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
-        if (windowx != SDL_WINDOWPOS_CENTERED && windowy != SDL_WINDOWPOS_CENTERED)
+        if (!windowx && !windowy)
         {
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                windowwidth, windowheight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+            C_Output("Created resizable window with dimensions of %ix%i in center of screen on monitor %i of %i.",
+                windowwidth, windowheight, monitor, nummonitors);
+        }
+        else
+        {
+            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
+                SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
             C_Output("Created resizable window with dimensions of %ix%i at (%i,%i) on monitor %i of %i.",
                 windowwidth, windowheight, windowx, windowy, monitor, nummonitors);
             windowx = MIN(monitors[monitor - 1].w - windowwidth, windowx);
             windowy = MIN(monitors[monitor - 1].h - windowheight, windowy);
             M_SaveDefaults();
-            SDL_SetWindowPosition(window, monitors[monitor - 1].x + windowx, monitors[monitor - 1].y + windowy);
-        }
-        else
-        {
-            C_Output("Created resizable window with dimensions of %ix%i in center of screen on monitor %i of %i.",
-                windowwidth, windowheight, monitor, nummonitors);
-            SDL_SetWindowPosition(window,
-                monitors[monitor - 1].x + (monitors[monitor - 1].w - windowwidth) / 2,
-                monitors[monitor - 1].y + (monitors[monitor - 1].h - windowheight) / 2);
         }
     }
+
+    PositionOnCurrentMonitor();
 
     C_Output("Using 256-color palette from PLAYPAL lump.");
 
@@ -1363,8 +1374,8 @@ void ToggleFullscreen(void)
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
         SDL_SetWindowSize(window, windowwidth, windowheight);
-        C_Output("Switched to windowed mode.");
     }
+    PositionOnCurrentMonitor();
 #else
     if (fullscreen)
     {
@@ -1620,6 +1631,11 @@ void I_InitGraphics(void)
         }
 
     GetDesktopDimensions();
+
+#if defined(SDL20)
+    nummonitors = SDL_GetNumVideoDisplays();
+    monitors = (SDL_Rect *)Z_Malloc(nummonitors, PU_STATIC, NULL);
+#endif
 
     SetVideoMode();
 
