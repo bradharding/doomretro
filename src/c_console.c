@@ -255,6 +255,7 @@ void C_Init(void)
     consolecolors[divider] = consoledividercolor;
     consolecolors[title] = consoletitlecolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
+    consolecolors[fpswarning] = consoleoutputcolor;
 }
 
 void C_HideConsole(void)
@@ -1005,4 +1006,5 @@ void C_SetBTSXColorScheme(void)
     consolecolors[divider] = consoledividercolor;
     consolecolors[title] = consoletitlecolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
+    consolecolors[fpswarning] = consoleoutputcolor;
 }
