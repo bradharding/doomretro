@@ -331,7 +331,6 @@ void C_Map(char *, char *, char *);
 void C_NoClip(char *, char *, char *);
 void C_NoTarget(char *, char *, char *);
 void C_PixelSize(char *, char *, char *);
-void C_Position(char *, char *, char *);
 void C_Quit(char *, char *, char *);
 void C_ScreenSize(char *, char *, char *);
 void C_ScreenResolution(char *, char *, char *);
@@ -340,6 +339,7 @@ void C_Spawn(char *, char *, char *);
 void C_Str(char *, char *, char *);
 void C_Time(char *, char *, char *);
 void C_Volume(char *, char *, char *);
+void C_WindowPosition(char *, char *, char *);
 void C_WindowSize(char *, char *, char *);
 
 int C_LookupValueFromAlias(char *text, int set)
@@ -489,7 +489,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Bool, vsync, VSYNC),
 #endif
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN),
-    CVAR_POS  (vid_windowposition, C_NoCondition, C_Position, windowposition),
+    CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition),
     CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, windowsize),
 
     { "", C_NoCondition, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
@@ -897,11 +897,16 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
                 C_Output("%i\t%s\t\t\"%s\"", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable);
             else if (consolecmds[i].flags & CF_POSITION)
-                C_Output("%i\t%s\t\t(%s)", count++, consolecmds[i].name,
-                *(char **)consolecmds[i].variable);
+            {
+                if (*(char **)consolecmds[i].variable)
+                    C_Output("%i\t%s\t\t(%s)", count++, consolecmds[i].name,
+                        *(char **)consolecmds[i].variable);
+                else
+                    C_Output("%i\t%s\t\tcentered", count++, consolecmds[i].name);
+            }
             else if (consolecmds[i].flags & CF_SIZE)
                 C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
-                *(char **)consolecmds[i].variable);
+                    *(char **)consolecmds[i].variable);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int tics = *(int *)consolecmds[i].variable / TICRATE;
@@ -1564,28 +1569,6 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
             pixelwidth, pixelheight);
 }
 
-void C_Position(char *cmd, char *parm1, char *parm2)
-{
-    int i = 0;
-
-    while (consolecmds[i].name[0])
-    {
-        if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_POSITION))
-        {
-            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
-            {
-                *(char **)consolecmds[i].variable = strdup(parm1);
-                M_SaveDefaults();
-                C_Output("%s is now (%s).", cmd, parm1);
-            }
-            else
-                C_Output("%s is (%s).", cmd, *(char **)consolecmds[i].variable);
-        }
-        ++i;
-    }
-}
-
 //
 // QUIT cmd
 //
@@ -1810,6 +1793,30 @@ void C_Time(char *cmd, char *parm1, char *parm2)
     }
 }
 
+void C_WindowPosition(char *cmd, char *parm1, char *parm2)
+{
+    int i = 0;
+
+    if (parm1[0])
+    {
+        if (!strcasecmp(parm1, "centered"))
+        {
+            windowposition = "";
+            C_Output("The window is now centered on screen.");
+        }
+        else
+        {
+            windowposition = strdup(parm1);
+            C_Output("The window is now positioned at (%s).", parm1);
+        }
+        M_SaveDefaults();
+    }
+    else if (windowposition[0])
+        C_Output("The window is centered on screen.");
+    else
+        C_Output("The window is now positioned at (%s).", windowposition);
+}
+
 void C_WindowSize(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
@@ -1825,10 +1832,9 @@ void C_WindowSize(char *cmd, char *parm1, char *parm2)
             windowheight = height;
 
             M_SaveDefaults();
-            C_Output("The window size is now %ix%i.", windowwidth, windowheight);
+            C_Output("The size of the window is now %ix%i.", windowwidth, windowheight);
         }
     }
     else
-        C_Output("The window size is %ix%i.", windowwidth, windowheight);
+        C_Output("The size of the window is %ix%i.", windowwidth, windowheight);
 }
-
