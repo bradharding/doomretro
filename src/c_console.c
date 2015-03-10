@@ -130,7 +130,7 @@ int     consoleoutputcolor = 227;
 int     consoletitlecolor = 227;
 int     consoledividercolor = 227;
 
-int consolecolors[5];
+int consolecolors[STRINGTYPES];
 
 void C_Print(stringtype_t type, char *string, ...)
 {

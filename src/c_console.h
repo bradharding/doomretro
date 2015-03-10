@@ -57,7 +57,8 @@ typedef enum
     divider,
     title,
     playermessage,
-    fpswarning
+    fpswarning,
+    STRINGTYPES
 } stringtype_t;
 
 typedef struct
