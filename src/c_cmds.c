@@ -454,7 +454,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_corpses_slide, C_BoolCondition, C_Bool, corpses_slide, CORPSES_SLIDE),
     CVAR_BOOL (r_corpses_smearblood, C_BoolCondition, C_Bool, corpses_smearblood, CORPSES_SMEARBLOOD),
     CVAR_BOOL (r_detail, C_GraphicDetailCondition, C_GraphicDetail, graphicdetail, GRAPHICDETAIL),
-    CVAR_INT  (r_gamma, C_GammaCondition, C_Gamma, CF_NONE, gammaindex, 11, NONE),
+    CVAR_INT  (r_gamma, C_GammaCondition, C_Gamma, CF_FLOAT, gammalevel, 11, NONE),
     CVAR_BOOL (r_floatbob, C_BoolCondition, C_Bool, floatbob, FLOATBOB),
     CVAR_BOOL (r_homindicator, C_BoolCondition, C_Bool, homindicator, HOMINDICATOR),
     CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD),
@@ -1059,7 +1059,14 @@ extern int      st_palette;
 
 boolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
 {
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 11) >= 0);
+    int value = -1;
+
+    if (!parm1[0] || !strcasecmp(parm1, "off"))
+        return true;
+
+    sscanf(parm1, "%f", &value);
+
+    return (value >= 0);
 }
 
 void C_Gamma(char *cmd, char *parm1, char *parm2)
@@ -1068,22 +1075,36 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
 
     if (parm1[0])
     {
-        int value = C_LookupValueFromAlias(parm1, 11);
+        float   value = -1;
 
-        if (value != -1)
+        if (!strcasecmp(parm1, "off"))
+            gammalevel = 1.0f;
+        else
+            sscanf(parm1, "%f", &value);
+
+        if (value >= 0.0f)
         {
-            gammaindex = value;
+            gammalevel = BETWEENF(GAMMALEVEL_MIN, value, GAMMALEVEL_MAX);
+            gammaindex = 0;
+            while (gammaindex < GAMMALEVELS)
+                if (gammalevels[gammaindex++] == gammalevel)
+                    break;
+            if (gammaindex == GAMMALEVELS)
+            {
+                gammaindex = 0;
+                while (gammalevels[gammaindex++] != GAMMALEVEL_DEFAULT);
+            }
+            --gammaindex;
 
             I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
-
             M_SaveDefaults();
 
-            if (gammaindex == 10)
+            if (gammalevel == 1.0f)
                 C_Output("Gamma correction is now off.");
             else
             {
-                M_snprintf(buffer, sizeof(buffer), "The gamma correction level is now %.2f",
-                    gammalevels[gammaindex]);
+                M_snprintf(buffer, sizeof(buffer), "The gamma correction level is now %.2f.",
+                    gammalevel);
                 if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
                     buffer[strlen(buffer) - 1] = '\0';
                 C_Output(buffer);
@@ -1092,12 +1113,12 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
     }
     else
     {
-        if (gammaindex == 10)
+        if (gammalevel == 1.0f)
             C_Output("Gamma correction is off.");
         else
         {
-            M_snprintf(buffer, sizeof(buffer), "The gamma correction level is %.2f",
-                gammalevels[gammaindex]);
+            M_snprintf(buffer, sizeof(buffer), "The gamma correction level is %.2f.",
+                gammalevel);
             if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
                 buffer[strlen(buffer) - 1] = '\0';
             C_Output(buffer);

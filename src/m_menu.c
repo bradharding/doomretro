@@ -2198,9 +2198,7 @@ void M_ChangeGamma(boolean shift)
     message_dontfuckwithme = true;
 
     I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
-
     M_SaveDefaults();
-
 }
 
 //
