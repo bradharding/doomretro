@@ -207,7 +207,7 @@ extern boolean  returntowidescreen;
 #define CONFIG_VARIABLE_STRING(name, variable, set) \
     CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_STRING, set)
 
-static default_t doom_defaults_list[] =
+static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_grid,                 grid,                          1),
     CONFIG_VARIABLE_INT          (am_rotatemode,           rotatemode,                    1),
@@ -335,13 +335,6 @@ static default_t doom_defaults_list[] =
     CONFIG_VARIABLE_INT          (vid_windowwidth,         windowwidth,                   0)
 };
 
-default_collection_t doom_defaults =
-{
-    doom_defaults_list,
-    arrlen(doom_defaults_list),
-    NULL
-};
-
 #define INVALIDKEY      -1
 
 static const int scantokey[128] =
@@ -464,48 +457,45 @@ char *striptrailingzero(float value)
     return result;
 }
 
-static void SaveDefaultCollection(default_collection_t *collection)
+static void SaveDefaultCollection(void)
 {
-    default_t   *defaults;
     int         i;
-    FILE        *f = fopen(collection->filename, "w");
+    FILE        *f = fopen(PACKAGE_CONFIG, "w");
 
     if (!f)
         return; // can't write the file, but don't complain
 
-    defaults = collection->defaults;
-
-    for (i = 0; i < collection->numdefaults; i++)
+    for (i = 0; i < arrlen(cvars); i++)
     {
         int     chars_written;
 
         // Print the name and line up all values at 30 characters
-        chars_written = fprintf(f, "%s ", defaults[i].name);
+        chars_written = fprintf(f, "%s ", cvars[i].name);
 
         for (; chars_written < 30; ++chars_written)
             fprintf(f, " ");
 
         // Print the value
-        switch (defaults[i].type)
+        switch (cvars[i].type)
         {
             case DEFAULT_KEY:
             {
                 // use the untranslated version if we can, to reduce
                 // the possibility of screwing up the user's config
                 // file
-                int     v = *(int *)defaults[i].location;
+                int     v = *(int *)cvars[i].location;
 
-                if (defaults[i].untranslated && v == defaults[i].original_translated)
+                if (cvars[i].untranslated && v == cvars[i].original_translated)
                 {
                     // Has not been changed since the last time we
                     // read the config file.
                     int         j = 0;
                     boolean     flag = false;
 
-                    v = defaults[i].untranslated;
+                    v = cvars[i].untranslated;
                     while (aliases[j].text[0])
                     {
-                        if (v == aliases[j].value && defaults[i].set == aliases[j].set)
+                        if (v == aliases[j].value && cvars[i].set == aliases[j].set)
                         {
                             fprintf(f, "%s", aliases[j].text);
                             flag = true;
@@ -537,7 +527,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                             v = s;
                             while (aliases[j].text[0])
                             {
-                                if (v == aliases[j].value && defaults[i].set == aliases[j].set)
+                                if (v == aliases[j].value && cvars[i].set == aliases[j].set)
                                 {
                                     fprintf(f, "%s", aliases[j].text);
                                     flag = true;
@@ -564,11 +554,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
             {
                 int         j = 0;
                 boolean     flag = false;
-                int         v = *(int *)defaults[i].location;
+                int         v = *(int *)cvars[i].location;
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && defaults[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
                     {
                         fprintf(f, "%s", aliases[j].text);
                         flag = true;
@@ -577,23 +567,23 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%i", *(int *)defaults[i].location);
+                    fprintf(f, "%i", *(int *)cvars[i].location);
                 break;
             }
 
             case DEFAULT_INT_HEX:
-                fprintf(f, "0x%x", *(int *)defaults[i].location);
+                fprintf(f, "0x%x", *(int *)cvars[i].location);
                 break;
 
             case DEFAULT_INT_PERCENT:
             {
                 int         j = 0;
                 boolean     flag = false;
-                int         v = *(int *)defaults[i].location;
+                int         v = *(int *)cvars[i].location;
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && defaults[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
                     {
                         fprintf(f, "%s", aliases[j].text);
                         flag = true;
@@ -602,7 +592,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%i%%", *(int *)defaults[i].location);
+                    fprintf(f, "%i%%", *(int *)cvars[i].location);
                 break;
             }
 
@@ -610,11 +600,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
             {
                 int         j = 0;
                 boolean     flag = false;
-                float       v = *(float *)defaults[i].location;
+                float       v = *(float *)cvars[i].location;
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && defaults[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
                     {
                         fprintf(f, "%s", aliases[j].text);
                         flag = true;
@@ -623,7 +613,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%.2f", *(float *)defaults[i].location);
+                    fprintf(f, "%.2f", *(float *)cvars[i].location);
                 break;
             }
 
@@ -631,11 +621,11 @@ static void SaveDefaultCollection(default_collection_t *collection)
             {
                 int         j = 0;
                 boolean     flag = false;
-                float       v = *(float *)defaults[i].location;
+                float       v = *(float *)cvars[i].location;
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && defaults[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
                     {
                         fprintf(f, "%s", aliases[j].text);
                         flag = true;
@@ -644,12 +634,12 @@ static void SaveDefaultCollection(default_collection_t *collection)
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%s%%", striptrailingzero(*(float *)defaults[i].location));
+                    fprintf(f, "%s%%", striptrailingzero(*(float *)cvars[i].location));
                 break;
             }
 
             case DEFAULT_STRING:
-                fprintf(f, "\"%s\"", *(char **)defaults[i].location);
+                fprintf(f, "\"%s\"", *(char **)cvars[i].location);
                 break;
         }
 
@@ -700,16 +690,15 @@ static float ParseFloatParameter(char *strparm, int set)
     return (float)atof(strparm);
 }
 
-static boolean LoadDefaultCollection(default_collection_t *collection)
+static boolean LoadDefaultCollection(void)
 {
-    default_t   *defaults = collection->defaults;
     int         i;
     FILE        *f;
     char        defname[80];
     char        strparm[100];
 
     // read the file in, overriding any set defaults
-    f = fopen(collection->filename, "r");
+    f = fopen(PACKAGE_CONFIG, "r");
 
     if (!f)
         // File not opened, but don't complain
@@ -727,56 +716,55 @@ static boolean LoadDefaultCollection(default_collection_t *collection)
             strparm[strlen(strparm) - 1] = '\0';
 
         // Find the setting in the list
-        for (i = 0; i < collection->numdefaults; ++i)
+        for (i = 0; i < arrlen(cvars); ++i)
         {
-            default_t   *def = &collection->defaults[i];
             char        *s;
             int         intparm;
 
-            if (strcmp(defname, def->name) != 0)
+            if (strcmp(defname, cvars[i].name) != 0)
                 continue;       // not this one
 
             // parameter found
-            switch (def->type)
+            switch (cvars[i].type)
             {
                 case DEFAULT_STRING:
                     s = strdup(strparm + 1);
                     s[strlen(s) - 1] = '\0';
-                    *(char **)def->location = s;
+                    *(char **)cvars[i].location = s;
                     break;
 
                 case DEFAULT_INT:
                 case DEFAULT_INT_HEX:
-                    *(int *)def->location = ParseIntParameter(strparm, def->set);
+                    *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].set);
                     break;
 
                 case DEFAULT_INT_PERCENT:
                     s = strdup(strparm);
                     if (s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
-                    *(int *)def->location = ParseIntParameter(s, def->set);
+                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].set);
                     break;
 
                 case DEFAULT_KEY:
                     // translate scancodes read from config
                     // file (save the old value in untranslated)
-                    intparm = ParseIntParameter(strparm, def->set);
-                    defaults[i].untranslated = intparm;
+                    intparm = ParseIntParameter(strparm, cvars[i].set);
+                    cvars[i].untranslated = intparm;
                     intparm = (intparm >= 0 && intparm < 128 ? scantokey[intparm] : INVALIDKEY);
 
-                    defaults[i].original_translated = intparm;
-                    *(int *)def->location = intparm;
+                    cvars[i].original_translated = intparm;
+                    *(int *)cvars[i].location = intparm;
                     break;
 
                 case DEFAULT_FLOAT:
-                    *(float *)def->location = ParseFloatParameter(strparm, def->set);
+                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].set);
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
                     s = strdup(strparm);
                     if (s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
-                    *(float *)def->location = ParseFloatParameter(strparm, def->set);
+                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].set);
                     break;
             }
 
@@ -796,7 +784,7 @@ void M_SaveDefaults(void)
 {
     if (returntowidescreen)
         widescreen = true;
-    SaveDefaultCollection(&doom_defaults);
+    SaveDefaultCollection();
     if (returntowidescreen)
         widescreen = false;
 }
@@ -1196,32 +1184,10 @@ static void M_CheckDefaults(void)
 //
 void M_LoadDefaults(void)
 {
-    int i;
-
-    // check for a custom default file
-    i = M_CheckParmWithArgs("-config", 1);
-
-    if (i)
-    {
-        C_Output("Found -CONFIG parameter on command-line.");
-
-        doom_defaults.filename = myargv[i + 1];
-
-        if (LoadDefaultCollection(&doom_defaults))
-            C_Output("Loaded CVARs from %s.", uppercase(myargv[i + 1]));
-        else
-            C_Output("%s not found. Using defaults for all CVARs.",
-                uppercase(myargv[i + 1]), uppercase(myargv[i + 1]));
-    }
+    if (LoadDefaultCollection())
+        C_Output("Loaded CVARs from %s.", uppercase(PACKAGE_CONFIG));
     else
-    {
-        doom_defaults.filename = PACKAGE_CONFIG;
-
-        if (LoadDefaultCollection(&doom_defaults))
-            C_Output("Loaded CVARs from %s.", uppercase(PACKAGE_CONFIG));
-        else
-            C_Output("%s not found. Using defaults for all CVARs and creating %s.",
-                uppercase(PACKAGE_CONFIG), uppercase(PACKAGE_CONFIG));
-    }
+        C_Output("%s not found. Using defaults for all CVARs and creating %s.",
+            uppercase(PACKAGE_CONFIG), uppercase(PACKAGE_CONFIG));
     M_CheckDefaults();
 }

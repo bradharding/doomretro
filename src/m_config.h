@@ -376,15 +376,6 @@ typedef struct
 
 typedef struct
 {
-    default_t           *defaults;
-    int                 numdefaults;
-    char                *filename;
-} default_collection_t;
-
-extern default_collection_t doom_defaults;
-
-typedef struct
-{
     char                *text;
     int                 value;
     int                 set;
