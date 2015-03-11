@@ -1051,7 +1051,7 @@ static int D_ChooseIWAD(void)
                     {
                         static char     fullpath[MAX_PATH];
                         
-                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
                                    pwadpass2);
 #elif defined(__MACOSX__)
                     for (NSURL *url in urls)
@@ -1100,8 +1100,9 @@ static int D_ChooseIWAD(void)
             while (dehpass[0])
             {
                 static char     fullpath[MAX_PATH];
-                M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile), dehpass);
-                
+
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile), dehpass);
+
 #elif defined(__MACOSX__)
             for (NSURL *url in urls)
             {
@@ -1381,7 +1382,6 @@ static void D_DoomMainSetup(void)
     WISCRT2 = (W_CheckMultipleLumps("WISCRT2") > 1);
 
     bfgedition = (DMENUPIC && W_CheckNumForName("M_ACPT") >= 0);
-
 
     // Generate the WAD hash table. Speed things up a bit.
     W_GenerateHashTable();
