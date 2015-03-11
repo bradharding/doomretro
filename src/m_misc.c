@@ -56,6 +56,10 @@
 #include "i_system.h"
 #include "z_zone.h"
 
+#if !defined(MAX_PATH)
+#define MAX_PATH        4096
+#endif
+
 //
 // Create a directory
 //

@@ -36,9 +36,6 @@
 ========================================================================
 */
 
-#if !defined(__VERSION__)
-#define __VERSION__
-
 #define PACKAGE_VERSION                 1,7,0,0
 #define PACKAGE_VERSIONSTRING           "1.7"
 #define PACKAGE_NAMEANDVERSIONSTRING    "DOOM RETRO v1.7"
@@ -54,5 +51,3 @@
 #define PACKAGE_NAME                    PACKAGE_NAME_A
 #define PACKAGE_WAD                     "doomretro.wad"
 #define PACKAGE_WIKI_URL                "http:\\\\wiki.doomretro.com"
-
-#endif
