@@ -800,30 +800,33 @@ void R_InitSpriteLumps(void)
     {
         patch_t *patch = W_CacheLumpNum(firstspritelump + i, PU_CACHE);
 
-        spritewidth[i] = SHORT(patch->width) << FRACBITS;
-        spriteheight[i] = SHORT(patch->height) << FRACBITS;
-        spriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
-        spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
-
-        // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
-        if (!FREEDOOM && !hacx)
+        if (patch)
         {
-            int j = 0;
+            spritewidth[i] = SHORT(patch->width) << FRACBITS;
+            spriteheight[i] = SHORT(patch->height) << FRACBITS;
+            spriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
+            spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
 
-            while (sproffsets[j].name[0])
+            // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
+            if (!FREEDOOM && !hacx)
             {
-                if (sproffsets[j].canmodify || BTSX)
+                int j = 0;
+
+                while (sproffsets[j].name[0])
                 {
-                    if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
+                    if (sproffsets[j].canmodify || BTSX)
                     {
-                        spriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
-                        spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
-                        break;
+                        if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
+                        {
+                            spriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
+                            spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
+                            break;
+                        }
                     }
+                    else
+                        mobjinfo[sproffsets[j].type].canmodify = false;
+                    j++;
                 }
-                else
-                    mobjinfo[sproffsets[j].type].canmodify = false;
-                j++;
             }
         }
     }
