@@ -1448,7 +1448,7 @@ void ST_updateWidgets(void)
 
     // refresh everything if this is him coming back to life
     // [BH] but only if not paused and no menu
-    if (!paused && !menuactive)
+    if (!paused && !menuactive && !consoleactive)
         ST_updateFaceWidget();
 
     // used by the w_armsbg widget

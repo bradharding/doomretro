@@ -248,7 +248,7 @@ struct
 
 #define NUMKEYS         256
 
-static boolean  gamekeydown[NUMKEYS];
+boolean         gamekeydown[NUMKEYS];
 static int      turnheld;                       // for accelerative turning
 
 static boolean  mousearray[MAX_MOUSE_BUTTONS + 1];

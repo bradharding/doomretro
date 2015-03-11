@@ -570,10 +570,29 @@ void C_Drawer(void)
     }
 }
 
+extern boolean         gamekeydown[256];
+extern boolean         skipaction;
+
+static void C_ResetAttack(void)
+{
+    player_t    *player = &players[displayplayer];
+
+    if (player)
+    {
+        player->attackdown = false;
+        player->cmd.buttons &= ~BT_ATTACK;
+        gamekeydown[KEY_RCTRL] = false;
+        skipaction = true;
+    }
+}
+
+
 boolean C_Responder(event_t *ev)
 {
     if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)
         return false;
+
+    C_ResetAttack();
 
     if (ev->type == ev_keydown)
     {
