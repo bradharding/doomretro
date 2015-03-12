@@ -900,11 +900,11 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
                     *(char **)consolecmds[i].variable);
             else if (consolecmds[i].flags & CF_POSITION)
             {
-                if (*(char **)consolecmds[i].variable)
+                if ((*(char **)consolecmds[i].variable)[0])
                     C_Output("%i\t%s\t\t(%s)", count++, consolecmds[i].name,
                         *(char **)consolecmds[i].variable);
                 else
-                    C_Output("%i\t%s\t\tcentered", count++, consolecmds[i].name);
+                    C_Output("%i\t%s\t\tcenter", count++, consolecmds[i].name);
             }
             else if (consolecmds[i].flags & CF_SIZE)
                 C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
@@ -1822,7 +1822,7 @@ void C_WindowPosition(char *cmd, char *parm1, char *parm2)
 
     if (parm1[0])
     {
-        if (!strcasecmp(parm1, "centered"))
+        if (!strcasecmp(parm1, "center"))
         {
             windowposition = "";
             C_Output("The window is now centered on screen.");
