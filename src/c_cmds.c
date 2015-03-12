@@ -186,6 +186,7 @@ extern int      selectedskilllevel;
 extern boolean  shadows;
 extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
+extern boolean  spritefixes;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
@@ -474,6 +475,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (snd_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME),
     CVAR_STR  (snd_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or object."),
+    CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES),
     CVAR_INT  (totalitems, C_NoCondition, C_Int, CF_READONLY, totalitems, 0, NONE),
     CVAR_INT  (totalkills, C_NoCondition, C_Int, CF_READONLY, totalkills, 0, NONE),
     CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE),

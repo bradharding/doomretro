@@ -91,6 +91,8 @@ fixed_t         *spriteheight;
 fixed_t         *spriteoffset;
 fixed_t         *spritetopoffset;
 
+boolean         spritefixes = SPRITEFIXES_DEFAULT;
+
 lighttable_t    *colormaps;
 
 boolean         *lookuptextures;
@@ -808,7 +810,7 @@ void R_InitSpriteLumps(void)
             spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
 
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
-            if (!FREEDOOM && !hacx)
+            if (spritefixes && !FREEDOOM && !hacx)
             {
                 int j = 0;
 

@@ -175,6 +175,7 @@ extern int      selectedskilllevel;
 extern boolean  shadows;
 extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
+extern boolean  spritefixes;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 extern char     *videodriver;
@@ -317,6 +318,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (snd_musicvolume,         musicvolume_percent,           0),
     CONFIG_VARIABLE_INT_PERCENT  (snd_sfxvolume,           sfxvolume_percent,             0),
     CONFIG_VARIABLE_STRING       (snd_timiditycfgpath,     timidity_cfg_path,             0),
+    CONFIG_VARIABLE_INT          (spritefixes,             spritefixes,                   1),
     CONFIG_VARIABLE_INT          (vid_fullscreen,          fullscreen,                    1),
 #if defined(SDL20)
     CONFIG_VARIABLE_INT          (vid_monitor,             monitor,                       0),
@@ -1137,6 +1139,9 @@ static void M_CheckDefaults(void)
 
     if (smoketrails != false && smoketrails != true)
         smoketrails = SMOKETRAILS_DEFAULT;
+
+    if (spritefixes != false && spritefixes != true)
+        spritefixes = SPRITEFIXES_DEFAULT;
 
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;

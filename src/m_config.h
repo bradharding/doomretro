@@ -310,6 +310,8 @@
 #define SND_MAXSLICETIME_MS_DEFAULT             28
 #define SND_MAXSLICETIME_MS_MAX                 INT_MAX
 
+#define SPRITEFIXES_DEFAULT                     true
+
 #define TIMIDITY_CFG_PATH_DEFAULT               ""
 
 #define TRANSLUCENCY_DEFAULT                    true
