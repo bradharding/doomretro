@@ -1733,7 +1733,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
     strncpy(inbuffer, line, DEH_BUFFERMAX);
 
     // for this one, we just read 'em until we hit a blank line
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -1743,7 +1743,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
 
         // killough 8/98: allow hex numbers in input:
         if ((3 != sscanf(inbuffer, "%s %i = %s", key, &indexnum, mnemonic))
-            || (strcasecmp(key, "FRAME"))) // NOTE: different format from normal
+            || strcasecmp(key, "FRAME"))        // NOTE: different format from normal
         {
             if (fpout)
                 fprintf(fpout, "Invalid BEX codepointer line - must start with 'FRAME': '%s'\n",
@@ -1763,10 +1763,9 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
         strcat(key, ptr_lstrip(mnemonic));
 
         found = false;
-        i = -1; // incremented to start at zero at the top of the loop
-        do      // Ty 05/16/98 - fix loop logic to look for null ending entry
+        i = 0;  // incremented to start at zero at the top of the loop
+        while (!found && deh_bexptrs[i].lookup != NULL)
         {
-            ++i;
             if (!strcasecmp(key, deh_bexptrs[i].lookup))
             {   // Ty 06/01/98  - add  to states[].action for new djgcc version
                 states[indexnum].action = deh_bexptrs[i].cptr;  // assign
@@ -1775,7 +1774,8 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
                         (void *)deh_bexptrs[i].cptr.acp1, i, indexnum);
                 found = true;
             }
-        } while (!found && (deh_bexptrs[i].lookup != NULL));
+            ++i;
+        }
 
         if (!found)
             if (fpout)
