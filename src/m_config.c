@@ -63,7 +63,7 @@ int             sfxvolume_percent = SFXVOLUME_DEFAULT;
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
-extern int      brightmaps;
+extern boolean  brightmaps;
 extern boolean  centerweapon;
 extern char     *conback;
 extern boolean  corpses_mirror;
@@ -1040,8 +1040,10 @@ static void M_CheckDefaults(void)
     if (mirrorweapons != false && mirrorweapons != true)
         mirrorweapons = MIRRORWEAPONS_DEFAULT;
 
+#if defined(SDL20)
     if (monitor < 1 || monitor > MONITOR_MAX)
         monitor = MONITOR_DEFAULT;
+#endif
 
     if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
         mousebfire = MOUSEFIRE_DEFAULT;

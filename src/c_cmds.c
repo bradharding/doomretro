@@ -76,7 +76,7 @@
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
-extern int      brightmaps;
+extern boolean  brightmaps;
 extern boolean  centerweapon;
 extern char     *conback;
 extern boolean  corpses_mirror;

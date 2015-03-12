@@ -1239,9 +1239,9 @@ static void D_DoomMainSetup(void)
     else
         C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount + 1));
 
-#if defined(WIN32)
+#if !defined(__MACOSX__)
     if (!M_FileExists(PACKAGE_WAD))
-#elif defined(__MACOSX__)
+#else
     NSString *packageWadFullpath =
         [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@PACKAGE_WAD];
 
@@ -1362,9 +1362,9 @@ static void D_DoomMainSetup(void)
     if (BTSX)
         C_SetBTSXColorScheme();
 
-#if defined(WIN32)
+#if !defined(__MACOSX__)
     if (!W_MergeFile(PACKAGE_WAD, true))
-#elif defined(__MACOSX__)
+#else
     if (!W_MergeFile((char*)[packageWadFullpath UTF8String]))
 #endif
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));

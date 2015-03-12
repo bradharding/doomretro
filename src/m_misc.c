@@ -400,7 +400,7 @@ char *uppercase(char *str)
     char        *p;
 
     p = newstr = strdup(str);
-    while (*(p++) = toupper(*p));
+    while (*p = toupper(*p)) p++;
 
     return newstr;
 }
