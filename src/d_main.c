@@ -978,33 +978,30 @@ static int D_ChooseIWAD(void)
             {
                 // if no iwad has been selected, check each pwad to determine the iwad required
                 // and then try to load it first
-                if (!iwadfound)
-                {
 #if defined(WIN32)
-                    pwadpass1 += lstrlen(pwadpass1) + 1;
+                pwadpass1 += lstrlen(pwadpass1) + 1;
                     
-                    while (pwadpass1[0])
-                    {
-                        static char     fullpath[MAX_PATH];
+                while (!iwadfound && pwadpass1[0])
+                {
+                    static char     fullpath[MAX_PATH];
                         
-                        M_snprintf(fullpath, sizeof(fullpath), "%s\\%s", strdup(szFile),
-                                   pwadpass1);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
+                                pwadpass1);
 #elif defined(__MACOSX__)
-                    for (NSURL* url in urls)
-                    {
-                        char    *fullpath = (char *)[url fileSystemRepresentation];
-                        char    *pwadpass1 = (char *)[[url lastPathComponent] UTF8String];
+                for (NSURL* url in urls)
+                {
+                    char    *fullpath = (char *)[url fileSystemRepresentation];
+                    char    *pwadpass1 = (char *)[[url lastPathComponent] UTF8String];
 #endif
 
-                        if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
-                            && !D_IsDehFile(fullpath))
+                    if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
+                        && !D_IsDehFile(fullpath))
+                    {
+                        int         iwadrequired = IWADRequiredByPWAD(fullpath);
+                        static char fullpath2[MAX_PATH];
+
+                        if (iwadrequired != indetermined)
                         {
-                            int         iwadrequired = IWADRequiredByPWAD(fullpath);
-                            static char fullpath2[MAX_PATH];
-
-                            if (iwadrequired == indetermined)
-                                iwadrequired = doom2;
-
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                 strdup(M_ExtractFolder(pwadpass1)),
@@ -1034,9 +1031,38 @@ static int D_ChooseIWAD(void)
                                 }
                             }
                         }
+                    }
 #if defined(WIN32)
-                        pwadpass1 += lstrlen(pwadpass1) + 1;
+                    pwadpass1 += lstrlen(pwadpass1) + 1;
 #endif
+                }
+
+                // if still no iwad found, then try DOOM2.WAD
+                if (!iwadfound)
+                {
+                    // try the current folder first
+                    IdentifyIWADByName("DOOM2.WAD");
+                    if (D_AddFile("DOOM2.WAD", true))
+                        iwadfound = 1;
+                    else
+                    {
+                        static char fullpath2[MAX_PATH];
+
+                        // otherwise try the iwadfolder setting in doomretro.cfg
+                        M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                            iwadfolder);
+                        IdentifyIWADByName(fullpath2);
+                        if (D_AddFile(fullpath2, true))
+                            iwadfound = 1;
+                        else
+                        {
+                            // still nothing? try the DOOMWADDIR environment variable
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
+                                getenv("DOOMWADDIR"));
+                            IdentifyIWADByName(fullpath2);
+                            if (D_AddFile(fullpath2, true))
+                                iwadfound = 1;
+                        }
                     }
                 }
 
@@ -1163,7 +1189,6 @@ static void D_DoomMainSetup(void)
     int         p;
     int         choseniwad = 0;
     static char lumpname[6];
-
 
     C_PrintCompileDate();
 
