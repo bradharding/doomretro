@@ -1022,6 +1022,7 @@ static char *aspectratio(int width, int height)
     }
 }
 
+#if defined(SDL20)
 static void PositionOnCurrentMonitor(void)
 {
     if (fullscreen)
@@ -1034,6 +1035,7 @@ static void PositionOnCurrentMonitor(void)
         SDL_SetWindowPosition(window,
             monitors[monitor - 1].x + windowx, monitors[monitor - 1].y + windowy);
 }
+#endif
 
 static void SetVideoMode(void)
 {
