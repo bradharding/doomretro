@@ -669,7 +669,6 @@ boolean G_Responder(event_t *ev)
             && ((ev->type == ev_keydown
                  && ev->data1 != KEY_PAUSE
                  && ev->data1 != KEY_RSHIFT
-                 && ev->data1 != KEY_RCTRL
                  && ev->data1 != KEY_RALT
                  && ev->data1 != KEY_CAPSLOCK
                  && ev->data1 != KEY_NUMLOCK
