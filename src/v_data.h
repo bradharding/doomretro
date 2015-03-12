@@ -48,6 +48,6 @@ extern int      lsrght[];
 extern char     *nmare;
 extern char     *underscores1;
 extern char     *underscores2;
-extern char     *caret;
+extern char     *savecaret;
 
 #endif

@@ -1031,11 +1031,11 @@ void M_DrawSave(void)
             y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
 
             if (STCFN121)
-                V_DrawPatch(x, y, 0, pipe);
+                V_DrawPatch(x, y + 1, 0, pipe);
             else
                 for (yy = 0; yy < 9; ++yy)
                     for (xx = 0; xx < 3; ++xx)
-                        V_DrawPixel(x + xx, y + yy, (int)caret[yy * 3 + xx], false);
+                        V_DrawPixel(x + xx, y + yy, (int)savecaret[yy * 3 + xx], false);
         }
     }
 }
