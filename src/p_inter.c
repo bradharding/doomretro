@@ -722,7 +722,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 //
 void P_KillMobj(mobj_t *source, mobj_t *target)
 {
-    boolean     gibbed;
     mobjtype_t  item;
     mobjtype_t  type = target->type;
     mobj_t      *mo;
@@ -791,7 +790,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     else
         target->flags2 &= ~MF2_NOFLOATBOB;
 
-    if ((gibbed = (target->health < -target->info->spawnhealth && target->info->xdeathstate)))
+    if (target->health < -target->info->spawnhealth && target->info->xdeathstate)
         P_SetMobjState(target, target->info->xdeathstate);
     else
         P_SetMobjState(target, target->info->deathstate);
