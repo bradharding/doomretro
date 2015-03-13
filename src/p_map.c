@@ -1816,7 +1816,7 @@ boolean PIT_ChangeSector(mobj_t *thing)
                          >> FRACBITS) >> 1) + 12;
             int i;
             int max = M_RandomInt(50, 100) + radius;
-            int blood = thing->blood;
+            int blood = mobjinfo[thing->blood].blood;
 
             for (i = 0; i < max; i++)
             {
