@@ -1134,9 +1134,10 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
 {
     sector_t    *sec = R_PointInSubsector(x, y)->sector;
+    short       floorpic = sec->floorpic;
     fixed_t     height = sec->floorheight;
 
-    if (!isliquid[sec->floorpic] && height <= maxheight)
+    if (!isliquid[floorpic] && height <= maxheight && floorpic != skyflatnum)
     {
         mobj_t  *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
@@ -1171,9 +1172,10 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
 void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
 {
     sector_t    *sec = R_PointInSubsector(x, y)->sector;
+    short       floorpic = sec->floorpic;
     fixed_t     height = sec->floorheight;
 
-    if (!isliquid[sec->floorpic] && height <= maxheight)
+    if (!isliquid[floorpic] && height <= maxheight && floorpic != skyflatnum)
     {
         mobj_t  *newsplat = (mobj_t *)Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
