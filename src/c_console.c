@@ -861,7 +861,7 @@ boolean C_Responder(event_t *ev)
 
             default:
             {
-                if (modstate & KMOD_SHIFT)
+                if (modstate & (KMOD_SHIFT | KMOD_CAPS))
                     ch = upper[ch];
                 if (ch >= ' ' && ch < '~' && ch != '`'
                     && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
