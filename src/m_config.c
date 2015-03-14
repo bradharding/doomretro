@@ -437,10 +437,10 @@ char *striptrailingzero(float value)
     size_t      len;
     static char result[100];
     
-    M_snprintf(result, 100, "%.1f", value);
+    M_snprintf(result, 100, "%.2f", value);
     len = strlen(result);
-    if (len > 2 && result[len - 2] == '.' && result[len - 1] == '0')
-        result[len - 2] = '\0';
+    if (len >= 4 && result[len - 2] == '0' && result[len - 1] == '0')
+        result[len - 1] = '\0';
     return result;
 }
 

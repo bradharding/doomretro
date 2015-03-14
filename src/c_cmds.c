@@ -455,7 +455,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_corpses_smearblood, C_BoolCondition, C_Bool, corpses_smearblood, CORPSES_SMEARBLOOD),
     CVAR_BOOL (r_detail, C_GraphicDetailCondition, C_GraphicDetail, graphicdetail, GRAPHICDETAIL),
     CVAR_BOOL (r_floatbob, C_BoolCondition, C_Bool, floatbob, FLOATBOB),
-    CVAR_INT  (r_gamma, C_GammaCondition, C_Gamma, CF_FLOAT, gammalevel, 11, NONE),
+    CVAR_FLOAT(r_gamma, C_GammaCondition, C_Gamma, CF_NONE, gammalevel),
     CVAR_BOOL (r_homindicator, C_BoolCondition, C_Bool, homindicator, HOMINDICATOR),
     CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD),
     CVAR_BOOL (r_liquid_animatedheight, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID),
@@ -891,9 +891,10 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
                 C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
                     (alias ? alias : commify(*(int *)consolecmds[i].variable)));
             }
-            else if ((consolecmds[i].flags & CF_FLOAT) && (consolecmds[i].flags & CF_PERCENT))
-                C_Output("%i\t%s\t\t%s%%", count++, consolecmds[i].name,
-                    striptrailingzero(*(float *)consolecmds[i].variable));
+            else if (consolecmds[i].flags & CF_FLOAT)
+                C_Output("%i\t%s\t\t%s%s", count++, consolecmds[i].name,
+                    striptrailingzero(*(float *)consolecmds[i].variable),
+                    ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""));
             else if (consolecmds[i].flags & CF_STRING)
                 C_Output("%i\t%s\t\t\"%s\"", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable);
