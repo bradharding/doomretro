@@ -727,37 +727,28 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
             if (!bloodsplats)
             {
                 P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-                C_Output("Blood splats are now off.");
+                C_Output("%s off", cmd);
             }
-            if (bloodsplats == UNLIMITED)
+            else if (bloodsplats == UNLIMITED)
             {
                 P_BloodSplatSpawner = P_SpawnBloodSplat;
-                C_Output("There can now be an unlimited number of blood splats.");
+                C_Output("%s unlimited", cmd);
             }
             else
             {
                 P_BloodSplatSpawner = P_SpawnBloodSplat2;
-                C_Output("There can now be a maximum of %s blood splats.", commify(bloodsplats));
+                C_Output("%s %s", cmd, commify(bloodsplats));
             }
         }
     }
     else
     {
         if (!bloodsplats)
-        {
-            P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-            C_Output("Blood splats are off.");
-        }
-        if (bloodsplats == UNLIMITED)
-        {
-            P_BloodSplatSpawner = P_SpawnBloodSplat;
-            C_Output("There can be an unlimited number of blood splats.");
-        }
+            C_Output("%s off", cmd);
+        else if (bloodsplats == UNLIMITED)
+            C_Output("%s unlimited", cmd);
         else
-        {
-            P_BloodSplatSpawner = P_SpawnBloodSplat2;
-            C_Output("There can be a maximum of %s blood splats.", commify(bloodsplats));
-        }
+            C_Output("%s %s", cmd, commify(bloodsplats));
     }
 }
 
@@ -786,11 +777,11 @@ void C_Bool(char *cmd, char *parm1, char *parm2)
                 {
                     *(boolean *)consolecmds[i].variable = !!value;
                     M_SaveDefaults();
-                    C_Output("%s is now %s.", cmd, parm1);
+                    C_Output("%s %s.", cmd, parm1);
                 }
             }
             else
-                C_Output("%s is %s.", cmd, (*(boolean *)consolecmds[i].variable ? "on" : "off"));
+                C_Output("%s %s.", cmd, (*(boolean *)consolecmds[i].variable ? "on" : "off"));
         }
         ++i;
     }
@@ -841,10 +832,8 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
         defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
             || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
         M_SaveDefaults();
-        C_Output("The console's background is now using the \"%s\" flat.", uppercase(conback));
     }
-    else
-        C_Output("The console's background is using the \"%s\" flat.", uppercase(conback));
+    C_Output("%s \"%s\"", cmd, uppercase(conback));
 }
 
 //
@@ -954,8 +943,6 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
                 gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN,
                     gamepadleftdeadzone_percent,
                     GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
-                C_Output("The dead zone of the gamepad's left thumbstick is now %s%%.",
-                    striptrailingzero(value));
             }
             else
             {
@@ -963,24 +950,15 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
                 gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN,
                     gamepadrightdeadzone_percent,
                     GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
-                C_Output("The dead zone of the gamepad's right thumbstick is now %s%%.",
-                    striptrailingzero(value));
             }
-
+            C_Output("%s %s%%.", cmd, striptrailingzero(value));
             M_SaveDefaults();
         }
     }
+    else if (!strcasecmp(cmd, "gp_deadzone_left"))
+        C_Output("%s %s%%.", cmd, striptrailingzero(gamepadleftdeadzone_percent));
     else
-    {
-        float   value = 0;
-
-        if (!strcasecmp(cmd, "gp_deadzone_left"))
-            C_Output("The dead zone of the gamepad's left thumbstick is %s%%.",
-                striptrailingzero(gamepadleftdeadzone_percent));
-        else
-            C_Output("The dead zone of the gamepad's right thumbstick is %s%%.",
-                striptrailingzero(gamepadrightdeadzone_percent));
-    }
+        C_Output("%s %s%%.", cmd, striptrailingzero(gamepadrightdeadzone_percent));
 }
 
 //
@@ -1044,11 +1022,11 @@ void C_Float(char *cmd, char *parm1, char *parm2)
                 {
                     *(float *)consolecmds[i].variable = value;
                     M_SaveDefaults();
-                    C_Output("%s is %.2f.", cmd, value);
+                    C_Output("%s %s", cmd, striptrailingzero(value));
                 }
             }
             else
-                C_Output("%s is %.2f.", cmd, *(float *)consolecmds[i].variable);
+                C_Output("%s %s", cmd, striptrailingzero(*(float *)consolecmds[i].variable));
         }
         ++i;
     }
@@ -1073,8 +1051,6 @@ boolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
 
 void C_Gamma(char *cmd, char *parm1, char *parm2)
 {
-    static char buffer[128];
-
     if (parm1[0])
     {
         float   value = -1;
@@ -1100,32 +1076,13 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
 
             I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
             M_SaveDefaults();
+        }
+    }
 
-            if (gammalevel == 1.0f)
-                C_Output("Gamma correction is now off.");
-            else
-            {
-                M_snprintf(buffer, sizeof(buffer), "The gamma correction level is now %.2f.",
-                    gammalevel);
-                if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
-                    buffer[strlen(buffer) - 1] = '\0';
-                C_Output(buffer);
-            }
-        }
-    }
+    if (gammalevel == 1.0f)
+        C_Output("%s off", cmd);
     else
-    {
-        if (gammalevel == 1.0f)
-            C_Output("Gamma correction is off.");
-        else
-        {
-            M_snprintf(buffer, sizeof(buffer), "The gamma correction level is %.2f.",
-                gammalevel);
-            if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
-                buffer[strlen(buffer) - 1] = '\0';
-            C_Output(buffer);
-        }
-    }
+        C_Output("%s %s", cmd, striptrailingzero(gammalevel));
 }
 
 //
@@ -1173,11 +1130,11 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         {
             graphicdetail = !!value;
             M_SaveDefaults();
-            C_Output("The graphic detail is now %s.", parm1);
+            C_Output("%s %s", cmd, parm1);
         }
     }
     else
-        C_Output("The graphic detail is %s.", C_LookupAliasFromValue(graphicdetail, 6));
+        C_Output("%s %s", cmd, C_LookupAliasFromValue(graphicdetail, 6));
 }
 
 //
@@ -1244,7 +1201,7 @@ void C_Int(char *cmd, char *parm1, char *parm2)
                 {
                     *(int *)consolecmds[i].variable = value;
                     M_SaveDefaults();
-                    C_Output("%s is now %s.", cmd, parm1);
+                    C_Output("%s %s", cmd, parm1);
                 }
             }
             else
@@ -1252,8 +1209,7 @@ void C_Int(char *cmd, char *parm1, char *parm2)
                 char    *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                                  consolecmds[i].aliases);
 
-                C_Output("%s is %s.", cmd,
-                    (alias ? alias : commify(*(int *)consolecmds[i].variable)));
+                C_Output("%s %s", cmd, (alias ? alias : commify(*(int *)consolecmds[i].variable)));
             }
         }
         ++i;
@@ -1498,14 +1454,14 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
             musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent,
                 MUSICVOLUME_MAX) * 15 + 50) / 100;
             S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
-            C_Output("The music volume is now %i%%.", value);
+            C_Output("%s %i%%", cmd, value);
         }
         else
         {
             sfxvolume_percent = value;
             sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
             S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
-            C_Output("The SFX volume is now %i%%.", value);
+            C_Output("%s %i%%", cmd, value);
         }
 
         M_SaveDefaults();
@@ -1513,9 +1469,9 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
     else
     {
         if (!strcasecmp(cmd, "snd_musicvolume"))
-            C_Output("The music volume is %i%%.", musicvolume_percent);
+            C_Output("%s %i%%", cmd, musicvolume_percent);
         else
-            C_Output("The music volume is %i%%.", sfxvolume_percent);
+            C_Output("%s %i%%", cmd, sfxvolume_percent);
     }
 }
 
@@ -1583,13 +1539,9 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
                 --pixelheight;
 
             M_SaveDefaults();
-            C_Output("The size of pixels when graphic detail is low is now %ix%i.",
-                pixelwidth, pixelheight);
         }
     }
-    else
-        C_Output("The size of pixels when graphic detail is low is %ix%i.",
-            pixelwidth, pixelheight);
+    C_Output("%s %ix%i", cmd, pixelwidth, pixelheight);
 }
 
 //
@@ -1643,11 +1595,9 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
             screensize = value;
             M_SaveDefaults();
             R_SetViewSize(screensize);
-            C_Output("The screen size is now %i.", screensize);
         }
     }
-    else
-        C_Output("The screen size is %i.", screensize);
+    C_Output("%s %i", cmd, screensize);
 }
 
 //
@@ -1749,10 +1699,11 @@ void C_Str(char *cmd, char *parm1, char *parm2)
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
                 M_SaveDefaults();
-                C_Output("%s is now \"%s\".", cmd, parm1);
+                C_Output("%s \"%s\"", cmd, parm1);
             }
             else
-                C_Output("%s is \"%s\".", cmd, *(char **)consolecmds[i].variable);
+                C_Output("%s \"%s\"", cmd, *(char **)consolecmds[i].variable);
+            break;
         }
         ++i;
     }
@@ -1771,8 +1722,6 @@ void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
             screenheight = 0;
 
             M_SaveDefaults();
-            C_Output("The screen resolution is now the desktop resolution of %ix%i.",
-                desktopwidth, desktopheight);
         }
         else
         {
@@ -1787,15 +1736,13 @@ void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
                 screenheight = height;
 
                 M_SaveDefaults();
-                C_Output("The screen resolution is now %ix%i.", screenwidth, screenheight);
             }
         }
     }
-    else if (!screenwidth || !screenheight)
-        C_Output("The screen resolution is the desktop resolution of %ix%i.",
-            desktopwidth, desktopheight);
+    if (!screenwidth || !screenheight)
+        C_Output("%s desktop", cmd);
     else
-        C_Output("The screen resolution is %ix%i.", screenwidth, screenheight);
+        C_Output("%s %ix%i", cmd, screenwidth, screenheight);
 }
 
 void C_Time(char *cmd, char *parm1, char *parm2)
@@ -1809,7 +1756,7 @@ void C_Time(char *cmd, char *parm1, char *parm2)
         {
             int tics = *(int *)consolecmds[i].variable / TICRATE;
 
-            C_Output("%s is %02i:%02i:%02i.", cmd,
+            C_Output("%s %02i:%02i:%02i", cmd,
                 tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
         }
         ++i;
@@ -1823,21 +1770,15 @@ void C_WindowPosition(char *cmd, char *parm1, char *parm2)
     if (parm1[0])
     {
         if (!strcasecmp(parm1, "center"))
-        {
             windowposition = "";
-            C_Output("The window is now centered on screen.");
-        }
         else
-        {
             windowposition = strdup(parm1);
-            C_Output("The window is now positioned at (%s).", parm1);
-        }
         M_SaveDefaults();
     }
-    else if (windowposition[0])
-        C_Output("The window is centered on screen.");
+    if (!windowposition[0])
+        C_Output("%s center", cmd);
     else
-        C_Output("The window is now positioned at (%s).", windowposition);
+        C_Output("%s (%s)", cmd, windowposition);
 }
 
 void C_WindowSize(char *cmd, char *parm1, char *parm2)
@@ -1855,9 +1796,7 @@ void C_WindowSize(char *cmd, char *parm1, char *parm2)
             windowheight = height;
 
             M_SaveDefaults();
-            C_Output("The size of the window is now %ix%i.", windowwidth, windowheight);
         }
     }
-    else
-        C_Output("The size of the window is %ix%i.", windowwidth, windowheight);
+    C_Output("%s %ix%i", cmd, windowwidth, windowheight);
 }
