@@ -1812,12 +1812,15 @@ void P_ArchiveSpecials(void)
     {
         if (!th->function.acv)
         {
+            boolean     done_one = false;
+
             for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
                 if (ceiling == (ceiling_t *)th)
                 {
                     saveg_write8(tc_ceiling);
                     saveg_write_pad();
                     saveg_write_ceiling_t((ceiling_t *)th);
+                    done_one = true;
                     break;
                 }
 
@@ -1828,8 +1831,12 @@ void P_ArchiveSpecials(void)
                     saveg_write8(tc_plat);
                     saveg_write_pad();
                     saveg_write_plat_t((plat_t *)th);
+                    done_one = true;
                     break;
                 }
+
+            if (done_one)
+                continue;
         }
 
         if (th->function.acp1 == (actionf_p1)T_MoveCeiling)
