@@ -601,6 +601,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj_t      *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
     state_t     *st;
     mobjinfo_t  *info = &mobjinfo[type];
+    sector_t    *sector;
 
     memset(mobj, 0, sizeof(*mobj));
 
@@ -651,9 +652,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     // set subsector and/or block links
     P_SetThingPosition(mobj);
 
+    sector = mobj->subsector->sector;
     mobj->dropoffz =           // killough 11/98: for tracking dropoffs
-    mobj->floorz = mobj->subsector->sector->floorheight;
-    mobj->ceilingz = mobj->subsector->sector->ceilingheight;
+    mobj->floorz =sector->floorheight;
+    mobj->ceilingz = sector->ceilingheight;
 
     if (floatbob)
         mobj->floatbob = P_Random();
@@ -667,13 +669,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     if (mobj->flags2 & MF2_SHADOW)
         P_SpawnShadow(mobj);
 
-    if (isliquid[mobj->subsector->sector->floorpic])
-    {
-        if (!(mobj->flags2 & MF2_NOFOOTCLIP))
-            mobj->flags2 |= MF2_FEETARECLIPPED;
-        if ((mobj->flags2 & MF2_SHADOW) && mobj->shadow)
-            mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
-    }
+    if (!(mobj->flags2 & MF2_NOFOOTCLIP) && isliquid[sector->floorpic])
+        mobj->flags2 |= MF2_FEETARECLIPPED;
 
     return mobj;
 }

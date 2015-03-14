@@ -145,7 +145,7 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
     int         yh;
     int         bx;
     int         by;
-    subsector_t *newsubsec;
+    sector_t    *newsec;
     fixed_t     radius = thing->radius;
 
     // killough 8/9/98: make telefragging more consistent
@@ -163,15 +163,15 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
     tmbbox[BOXRIGHT] = x + radius;
     tmbbox[BOXLEFT] = x - radius;
 
-    newsubsec = R_PointInSubsector(x, y);
+    newsec = R_PointInSubsector(x, y)->sector;
     ceilingline = NULL;
 
     // The base floor/ceiling is from the subsector
     // that contains the point.
     // Any contacted lines the step closer together
     // will adjust them.
-    tmfloorz = tmdropoffz = newsubsec->sector->floorheight;
-    tmceilingz = newsubsec->sector->ceilingheight;
+    tmfloorz = tmdropoffz = newsec->floorheight;
+    tmceilingz = newsec->ceilingheight;
 
     validcount++;
     numspechit = 0;
@@ -200,19 +200,10 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
 
     P_SetThingPosition(thing);
 
-    if (!(thing->flags2 & MF2_NOFOOTCLIP))
-        if (isliquid[thing->subsector->sector->floorpic])
-        {
-            thing->flags2 |= MF2_FEETARECLIPPED;
-            if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
-                thing->shadow->flags2 |= MF2_FEETARECLIPPED;
-        }
-        else if (thing->flags2 & MF2_FEETARECLIPPED)
-        {
-            thing->flags2 &= ~MF2_FEETARECLIPPED;
-            if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
-                thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
-        }
+    if (!(thing->flags2 & MF2_NOFOOTCLIP) && isliquid[newsec->floorpic])
+        thing->flags2 |= MF2_FEETARECLIPPED;
+    else
+        thing->flags2 &= ~MF2_FEETARECLIPPED;
 
     if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
     {
@@ -220,7 +211,7 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
 
         thing->shadow->x = thing->x;
         thing->shadow->y = thing->y;
-        thing->shadow->z = thing->subsector->sector->floorheight;
+        thing->shadow->z = newsec->floorheight;
 
         P_SetThingPosition(thing->shadow);
     }
@@ -807,6 +798,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
 {
     fixed_t     oldx;
     fixed_t     oldy;
+    sector_t    *newsec;
 
     felldown = false;           // killough 11/98
     floatok = false;
@@ -876,19 +868,12 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
 
     P_SetThingPosition(thing);
 
-    if (!(thing->flags2 & MF2_NOFOOTCLIP))
-        if (isliquid[thing->subsector->sector->floorpic])
-        {
-            thing->flags2 |= MF2_FEETARECLIPPED;
-            if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
-                thing->shadow->flags2 |= MF2_FEETARECLIPPED;
-        }
-        else if (thing->flags2 & MF2_FEETARECLIPPED)
-        {
-            thing->flags2 &= ~MF2_FEETARECLIPPED;
-            if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
-                thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
-        }
+    newsec = thing->subsector->sector;
+
+    if (!(thing->flags2 & MF2_NOFOOTCLIP) && isliquid[newsec->floorpic])
+        thing->flags2 |= MF2_FEETARECLIPPED;
+    else
+        thing->flags2 &= ~MF2_FEETARECLIPPED;
 
     // if any special lines were hit, do the effect
     if (!(thing->flags & (MF_TELEPORT | MF_NOCLIP)))
@@ -910,7 +895,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
 
         thing->shadow->x = thing->x;
         thing->shadow->y = thing->y;
-        thing->shadow->z = thing->subsector->sector->floorheight;
+        thing->shadow->z = newsec->floorheight;
 
         P_SetThingPosition(thing->shadow);
     }
@@ -1781,17 +1766,9 @@ boolean PIT_ChangeSector(mobj_t *thing)
     int flags2 = thing->flags2;
 
     if (isliquidsector && !(flags2 & MF2_NOFOOTCLIP))
-    {
         thing->flags2 |= MF2_FEETARECLIPPED;
-        if (thing->shadow)
-            thing->shadow->flags2 |= MF2_FEETARECLIPPED;
-    }
-    else if (flags2 & MF2_FEETARECLIPPED)
-    {
+    else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
-        if (thing->shadow)
-            thing->shadow->flags2 &= ~MF2_FEETARECLIPPED;
-    }
 
     if (P_ThingHeightClip(thing))
         return true;    // keep checking
