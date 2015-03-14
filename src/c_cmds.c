@@ -1537,7 +1537,7 @@ void C_NoClip(char *cmd, char *parm1, char *parm2)
     else
         player->cheats ^= CF_NOCLIP;
 
-    C_Output((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF);
+    C_Output("%s.", ((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF));
 }
 
 //
