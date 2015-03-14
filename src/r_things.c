@@ -729,6 +729,7 @@ void R_ProjectShadow(mobj_t *thing)
 void R_AddSprites(sector_t *sec)
 {
     mobj_t      *thing;
+    short       floorpic = sec->floorpic;
 
     // BSP is traversed by subsector.
     // A sector might have been split into several
@@ -744,7 +745,7 @@ void R_AddSprites(sector_t *sec)
         + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
 
     // Handle all things in sector.
-    if (fixedcolormap || isliquid[sec->floorpic] || !shadows)
+    if (fixedcolormap || isliquid[floorpic] || floorpic == skyflatnum || !shadows)
     {
         for (thing = sec->thinglist; thing; thing = thing->snext)
             if (thing->type != MT_SHADOW)
