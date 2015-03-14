@@ -507,9 +507,6 @@ void R_ProjectSprite(mobj_t *thing)
 
     xscale = FixedDiv(projection, tz);
 
-    if (type == MT_BLOODSPLAT && xscale < FRACUNIT / 3)
-        return;
-
     gxt = -FixedMul(tr_x, viewsin);
     gyt = FixedMul(tr_y, viewcos);
     tx = -(gyt + gxt);
@@ -612,6 +609,126 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
 
+void R_ProjectBloodSplat(mobj_t *thing)
+{
+    fixed_t             gzt;
+    fixed_t             tx;
+
+    fixed_t             xscale;
+
+    int                 x1;
+    int                 x2;
+
+    spritedef_t         *sprdef;
+    spriteframe_t       *sprframe;
+    int                 lump;
+
+    vissprite_t         *vis;
+
+    fixed_t             fx = thing->x;
+    fixed_t             fy = thing->y;
+    fixed_t             fz = thing->z;
+
+    int                 flags = thing->flags;
+    int                 flags2 = thing->flags2;
+
+    boolean             flip = (flags2 & MF2_MIRRORED);
+
+    // transform the origin point
+    fixed_t             tr_x = fx - viewx;
+    fixed_t             tr_y = fy - viewy;
+
+    fixed_t             gxt = FixedMul(tr_x, viewcos);
+    fixed_t             gyt = -FixedMul(tr_y, viewsin);
+
+    fixed_t             tz = gxt - gyt;
+
+    sector_t            *sector = thing->subsector->sector;
+
+    // thing is behind view plane?
+    if (tz < MINZ)
+        return;
+
+    xscale = FixedDiv(projection, tz);
+
+    if (xscale < FRACUNIT / 3)
+        return;
+
+    gxt = -FixedMul(tr_x, viewsin);
+    gyt = FixedMul(tr_y, viewcos);
+    tx = -(gyt + gxt);
+
+    // too far off the side?
+    if (ABS(tx) > (tz << 2))
+        return;
+
+    // decide which patch to use for sprite relative to player
+    sprdef = &sprites[SPR_BLD2];
+    sprframe = &sprdef->spriteframes[thing->frame & FF_FRAMEMASK];
+
+    lump = sprframe->lump[0];
+
+    // calculate edges of the shape
+    tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
+    x1 = (centerxfrac + FRACUNIT / 2 + FixedMul(tx, xscale)) >> FRACBITS;
+
+    // off the right side?
+    if (x1 > viewwidth)
+        return;
+
+    x2 = ((centerxfrac + FRACUNIT / 2 + FixedMul(tx + spritewidth[lump], xscale)) >> FRACBITS) - 1;
+
+    // off the left side
+    if (x2 < 0)
+        return;
+
+    gzt = fz + spritetopoffset[lump];
+
+    // store information in a vissprite
+    vis = R_NewVisSprite();
+    vis->mobjflags = flags;
+    vis->mobjflags2 = flags2;
+    vis->type = MT_BLOODSPLAT;
+    vis->scale = xscale;
+    vis->gx = fx;
+    vis->gy = fy;
+    vis->gz = fz;
+    vis->gzt = gzt;
+    vis->blood = thing->blood;
+
+    if ((flags & MF_FUZZ) && (menuactive || paused || consoleactive))
+        vis->colfunc = R_DrawPausedFuzzColumn;
+    else
+        vis->colfunc = thing->colfunc;
+
+    vis->footclip = 0;
+    vis->texturemid = gzt - viewz;
+
+    vis->x1 = MAX(0, x1);
+    vis->x2 = MIN(x2, viewwidth - 1);
+
+    if (flip)
+    {
+        vis->startfrac = spritewidth[lump] - 1;
+        vis->xiscale = -FixedDiv(FRACUNIT, xscale);
+    }
+    else
+    {
+        vis->startfrac = 0;
+        vis->xiscale = FixedDiv(FRACUNIT, xscale);
+    }
+
+    if (vis->x1 > x1)
+        vis->startfrac += vis->xiscale * (vis->x1 - x1);
+    vis->patch = lump;
+
+    // get light level
+    if (fixedcolormap)
+        vis->colormap = fixedcolormap;          // fixed map
+    else                                        // diminished light
+        vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
+}
+
 void R_ProjectShadow(mobj_t *thing)
 {
     fixed_t             tx;
@@ -686,10 +803,6 @@ void R_ProjectShadow(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
-        || fz < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
-        return;
-
     // store information in a vissprite
     vis = R_NewVisSprite();
     vis->mobjflags = 0;
@@ -748,16 +861,28 @@ void R_AddSprites(sector_t *sec)
     if (fixedcolormap || isliquid[floorpic] || floorpic == skyflatnum || !shadows)
     {
         for (thing = sec->thinglist; thing; thing = thing->snext)
-            if (thing->type != MT_SHADOW)
+        {
+            mobjtype_t  type = thing->type;
+
+            if (type == MT_BLOODSPLAT)
+                R_ProjectBloodSplat(thing);
+            else if (type != MT_SHADOW)
                 R_ProjectSprite(thing);
+        }
     }
     else
     {
         for (thing = sec->thinglist; thing; thing = thing->snext)
-            if (thing->type == MT_SHADOW)
+        {
+            mobjtype_t  type = thing->type;
+
+            if (type == MT_BLOODSPLAT)
+                R_ProjectBloodSplat(thing); 
+            else if (type == MT_SHADOW)
                 R_ProjectShadow(thing);
             else
                 R_ProjectSprite(thing);
+        }
     }
 }
 
