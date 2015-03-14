@@ -467,7 +467,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS),
     CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE),
-    CVAR_INT  (s_maxslicetime, C_NoCondition, C_Int, CF_READONLY, snd_maxslicetime_ms, 0, SND_MAXSLICETIME_MS),
+    CVAR_INT  (s_maxslicetime, C_NoCondition, C_Int, CF_NONE, snd_maxslicetime_ms, 0, SND_MAXSLICETIME_MS),
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME),
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path),
