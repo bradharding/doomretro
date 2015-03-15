@@ -282,8 +282,11 @@ void P_AddActivePlat(plat_t *plat)
 
 void P_RemoveActivePlat(plat_t *plat)
 {
-    plat_t *next = plat->next;
-    plat_t *prev = plat->prev;
+    plat_t      *next = plat->next;
+    plat_t      *prev = plat->prev;
+
+    if (next)
+        next->prev = prev;
 
     if (!prev)
         activeplatshead = next;

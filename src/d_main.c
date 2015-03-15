@@ -48,7 +48,7 @@
 #endif
 
 #if !defined(MAX_PATH)
-#define MAX_PATH        4096
+#define MAX_PATH        260
 #endif
 
 #include "am_map.h"
