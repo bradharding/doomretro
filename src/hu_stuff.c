@@ -68,7 +68,9 @@ boolean                 message_on;
 boolean                 message_dontfuckwithme;
 static boolean          message_nottobefuckedwith;
 
+#define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
 boolean                 idbehold = false;
+boolean                 s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
 int                     message_counter;
@@ -265,6 +267,8 @@ void HU_Start(void)
         keypic[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
         keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
     }
+
+    s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 }
 
 static void DrawHUDNumber(int x, int y, signed int val, boolean invert,

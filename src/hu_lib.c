@@ -221,7 +221,7 @@ void HUlib_drawTextLine(hu_textline_t *l)
     }
 
     // [BH] draw underscores for IDBEHOLD cheat message
-    if (idbehold && !STCFN034 && s_STSTR_BEHOLD == STSTR_BEHOLD)
+    if (idbehold && !STCFN034 && s_STSTR_BEHOLD2)
     {
         int     x1, y1;
         int     x2, y2;

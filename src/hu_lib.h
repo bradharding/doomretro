@@ -140,6 +140,7 @@ void HUlib_eraseSText(hu_stext_t *s);
 
 extern boolean  STCFN034;
 extern boolean  idbehold;
+extern boolean  s_STSTR_BEHOLD2;
 extern byte     *tempscreen;
 extern byte     *tinttab33;
 extern byte     *tinttab50;
