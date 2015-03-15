@@ -260,6 +260,9 @@ void S_Init(int sfxVolume, int musicVolume)
             InitMusicModule();
             S_SetMusicVolume(musicVolume);
 
+            // [BH] hack to fix sound if SDL previously crashed. set volume again.
+            S_SetMusicVolume(musicVolume);
+
             // no sounds are playing, and they are not mus_paused
             mus_paused = false;
         }
