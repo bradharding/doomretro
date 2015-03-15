@@ -1629,6 +1629,7 @@ static void D_DoomMainSetup(void)
         I_InitKeyboard();
         if (alwaysrun)
             C_PlayerMessage(s_ALWAYSRUNON);
+        noinput = false;
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
@@ -1647,6 +1648,7 @@ static void D_DoomMainSetup(void)
             if (alwaysrun)
                 C_PlayerMessage(s_ALWAYSRUNON);
             C_Output("Warping to %s...", lumpname);
+            noinput = false;
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else
