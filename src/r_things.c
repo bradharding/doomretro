@@ -443,13 +443,11 @@ void R_DrawBloodSplatVisSprite(vissprite_t *vis)
     fixed_t     x2 = vis->x2;
     patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
 
-    dc_colormap = vis->colormap;
     colfunc = vis->colfunc;
 
     dc_iscale = ABS(xiscale);
     dc_texturemid = vis->texturemid;
-    if (dc_colormap)
-        dc_blood = dc_colormap[vis->blood] << 8;
+    dc_blood = vis->colormap[vis->blood] << 8;
 
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
