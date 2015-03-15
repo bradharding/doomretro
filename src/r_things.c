@@ -436,6 +436,34 @@ void R_DrawVisSprite(vissprite_t *vis)
     colfunc = basecolfunc;
 }
 
+void R_DrawBloodSplatVisSprite(vissprite_t *vis)
+{
+    fixed_t     frac = vis->startfrac;
+    fixed_t     xiscale = vis->xiscale;
+    fixed_t     x2 = vis->x2;
+    patch_t     *patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+
+    dc_colormap = vis->colormap;
+    colfunc = vis->colfunc;
+
+    dc_iscale = ABS(xiscale);
+    dc_texturemid = vis->texturemid;
+    if (dc_colormap)
+        dc_blood = dc_colormap[vis->blood] << 8;
+
+    spryscale = vis->scale;
+    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+
+    dc_baseclip = -1;
+    fuzzpos = 0;
+
+    for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
+        R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
+            + LONG(patch->columnofs[frac >> FRACBITS])));
+
+    colfunc = basecolfunc;
+}
+
 void R_DrawShadowVisSprite(vissprite_t *vis)
 {
     fixed_t     frac = vis->startfrac;
@@ -451,7 +479,7 @@ void R_DrawShadowVisSprite(vissprite_t *vis)
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
         R_DrawMaskedShadowColumn((column_t *)((byte *)patch
-        + LONG(patch->columnofs[frac >> FRACBITS])));
+            + LONG(patch->columnofs[frac >> FRACBITS])));
 
     colfunc = basecolfunc;
 }
@@ -1129,7 +1157,7 @@ void R_SortVisSprites(void)
 //
 // R_DrawBloodSprite
 //
-void R_DrawBloodSprite(vissprite_t *spr)
+void R_DrawBloodSplatSprite(vissprite_t *spr)
 {
     if (spr->x1 > spr->x2)
         return;
@@ -1194,7 +1222,7 @@ void R_DrawBloodSprite(vissprite_t *spr)
 
         mfloorclip = clipbot;
         mceilingclip = cliptop;
-        R_DrawVisSprite(spr);
+        R_DrawBloodSplatVisSprite(spr);
     }
 }
 
@@ -1366,7 +1394,7 @@ void R_DrawMasked(void)
         if (spr->mobjflags2 & MF2_DRAWFIRST)
         {
             spr->drawn = true;
-            R_DrawBloodSprite(spr);
+            R_DrawBloodSplatSprite(spr);
         }
     }
 
