@@ -80,7 +80,6 @@ lumpinfo_t      *lumpinfo;
 unsigned int    numlumps = 0;
 
 // Hash table for fast lookups
-
 static lumpinfo_t **lumphash;
 
 void ExtractFileBase(char *path, char *dest)
@@ -92,7 +91,7 @@ void ExtractFileBase(char *path, char *dest)
     src = path + strlen(path) - 1;
 
     // back up until a \ or the start
-    while (src != path && *(src - 1) != DIR_SEPARATOR)
+    while (src != path && *(src - 1) != '\\' && *(src - 1) != '/')
         src--;
 
     // copy up to eight characters
