@@ -387,6 +387,6 @@ extern alias_t          aliases[];
 
 void M_LoadDefaults(void);
 void M_SaveDefaults(void);
-char *striptrailingzero(float value);
+char *striptrailingzero(float value, int precision);
 
 #endif

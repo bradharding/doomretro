@@ -432,14 +432,14 @@ alias_t aliases[] =
     { "",                               0,  0 }
 };
 
-char *striptrailingzero(float value)
+char *striptrailingzero(float value, int precision)
 {
     size_t      len;
     static char result[100];
-    
-    M_snprintf(result, 100, "%.2f", value);
+
+    M_snprintf(result, sizeof(result), "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
     len = strlen(result);
-    if (len >= 4 && result[len - 2] == '0' && result[len - 1] == '0')
+    if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
         result[len - 1] = '\0';
     return result;
 }
@@ -600,7 +600,7 @@ static void SaveDefaultCollection(void)
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%.2f", *(float *)cvars[i].location);
+                    fprintf(f, "%s", striptrailingzero(*(float *)cvars[i].location, 2));
                 break;
             }
 
@@ -621,7 +621,7 @@ static void SaveDefaultCollection(void)
                     j++;
                 }
                 if (!flag)
-                    fprintf(f, "%s%%", striptrailingzero(*(float *)cvars[i].location));
+                    fprintf(f, "%s%%", striptrailingzero(*(float *)cvars[i].location, 1));
                 break;
             }
 

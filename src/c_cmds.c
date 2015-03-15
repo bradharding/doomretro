@@ -882,7 +882,8 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
             }
             else if (consolecmds[i].flags & CF_FLOAT)
                 C_Output("%i\t%s\t\t%s%s", count++, consolecmds[i].name,
-                    striptrailingzero(*(float *)consolecmds[i].variable),
+                    striptrailingzero(*(float *)consolecmds[i].variable,
+                    ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
                     ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""));
             else if (consolecmds[i].flags & CF_STRING)
                 C_Output("%i\t%s\t\t\"%s\"", count++, consolecmds[i].name,
@@ -951,14 +952,14 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
                     gamepadrightdeadzone_percent,
                     GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
             }
-            C_Output("%s %s%%.", cmd, striptrailingzero(value));
+            C_Output("%s %s%%.", cmd, striptrailingzero(value, 1));
             M_SaveDefaults();
         }
     }
     else if (!strcasecmp(cmd, "gp_deadzone_left"))
-        C_Output("%s %s%%.", cmd, striptrailingzero(gamepadleftdeadzone_percent));
+        C_Output("%s %s%%.", cmd, striptrailingzero(gamepadleftdeadzone_percent, 1));
     else
-        C_Output("%s %s%%.", cmd, striptrailingzero(gamepadrightdeadzone_percent));
+        C_Output("%s %s%%.", cmd, striptrailingzero(gamepadrightdeadzone_percent, 1));
 }
 
 //
@@ -1022,11 +1023,11 @@ void C_Float(char *cmd, char *parm1, char *parm2)
                 {
                     *(float *)consolecmds[i].variable = value;
                     M_SaveDefaults();
-                    C_Output("%s %s", cmd, striptrailingzero(value));
+                    C_Output("%s %s", cmd, striptrailingzero(value, 2));
                 }
             }
             else
-                C_Output("%s %s", cmd, striptrailingzero(*(float *)consolecmds[i].variable));
+                C_Output("%s %s", cmd, striptrailingzero(*(float *)consolecmds[i].variable, 2));
         }
         ++i;
     }
@@ -1082,7 +1083,7 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
     if (gammalevel == 1.0f)
         C_Output("%s off", cmd);
     else
-        C_Output("%s %s", cmd, striptrailingzero(gammalevel));
+        C_Output("%s %s", cmd, striptrailingzero(gammalevel, 2));
 }
 
 //
