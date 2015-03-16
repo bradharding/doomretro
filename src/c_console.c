@@ -665,8 +665,7 @@ boolean C_Responder(event_t *ev)
                                     && consolecmds[i].condition(cmd, parm, ""))
                                 {
                                     validcmd = true;
-                                    if (consolecmds[i].type == CT_CMD)
-                                        C_Print(input, consoleinput);
+                                    C_Print(input, consoleinput);
                                     consolecmds[i].function(cmd, parm, "");
                                     break;
                                 }
@@ -694,8 +693,7 @@ boolean C_Responder(event_t *ev)
                             && consolecmds[i].condition(consoleinput, "", ""))
                         {
                             validcmd = true;
-                            if (consolecmds[i].type != CT_CVAR)
-                                C_Print(input, consoleinput);
+                            C_Print(input, consoleinput);
                             if (consolecmds[i].type == CT_CHEAT)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
