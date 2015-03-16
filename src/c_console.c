@@ -77,6 +77,8 @@
 
 #define CARETTICS               20
 
+int             key_console = KEYCONSOLE_DEFAULT;
+
 boolean         consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;

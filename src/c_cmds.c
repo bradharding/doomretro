@@ -131,6 +131,7 @@ extern int      key_automap_maxzoom;
 extern int      key_automap_rotatemode;
 extern int      key_automap_zoomin;
 extern int      key_automap_zoomout;
+extern int      key_console;
 extern int      key_down;
 extern int      key_down2;
 extern int      key_fire;
@@ -204,53 +205,54 @@ extern boolean  vsync;
 
 control_t controls[] =
 {
-    { "1",             keyboard, '1'            }, { "2",             keyboard, '2'            },
-    { "3",             keyboard, '3'            }, { "4",             keyboard, '4'            },
-    { "5",             keyboard, '5'            }, { "6",             keyboard, '6'            },
-    { "7",             keyboard, '7'            }, { "8",             keyboard, '8'            },
-    { "9",             keyboard, '9'            }, { "0",             keyboard, '0'            },
-    { "-",             keyboard, KEY_MINUS      }, { "=",             keyboard, KEY_EQUALS     },
-    { "+",             keyboard, KEY_EQUALS     }, { "backspace",     keyboard, KEY_BACKSPACE  },
-    { "tab",           keyboard, KEY_TAB        }, { "q",             keyboard, 'q'            },
-    { "w",             keyboard, 'w'            }, { "e",             keyboard, 'e'            },
-    { "r",             keyboard, 'r'            }, { "t",             keyboard, 't'            },
-    { "y",             keyboard, 'y'            }, { "u",             keyboard, 'u'            },
-    { "i",             keyboard, 'i'            }, { "o",             keyboard, 'o'            },
-    { "p",             keyboard, 'p'            }, { "[",             keyboard, '['            },
-    { "]",             keyboard, ']'            }, { "enter",         keyboard, KEY_ENTER      },
-    { "ctrl",          keyboard, KEY_RCTRL      }, { "a",             keyboard, 'a'            },
-    { "s",             keyboard, 's'            }, { "d",             keyboard, 'd'            },
-    { "f",             keyboard, 'f'            }, { "g",             keyboard, 'g'            },
-    { "h",             keyboard, 'h'            }, { "j",             keyboard, 'j'            },
-    { "k",             keyboard, 'k'            }, { "l",             keyboard, 'l'            },
-    { ";",             keyboard, ';'            }, { "\'",            keyboard, '\''           },
-    { "shift",         keyboard, KEY_RSHIFT     }, { "\\",            keyboard, '\\'           },
-    { "z",             keyboard, 'z'            }, { "x",             keyboard, 'x'            },
-    { "c",             keyboard, 'c'            }, { "v",             keyboard, 'v'            },
-    { "b",             keyboard, 'b'            }, { "n",             keyboard, 'n'            },
-    { "m",             keyboard, 'm'            }, { ",",             keyboard, ','            },
-    { ".",             keyboard, '.'            }, { "/",             keyboard, '/'            },
-    { "alt",           keyboard, KEY_RALT       }, { "space",         keyboard, ' '            },
-    { "numlock",       keyboard, KEY_NUMLOCK    }, { "scrolllock",    keyboard, KEY_SCRLCK     },
-    { "home",          keyboard, KEY_HOME       }, { "up",            keyboard, KEY_UPARROW    },
-    { "pageup",        keyboard, KEY_PGUP       }, { "left",          keyboard, KEY_LEFTARROW  },
-    { "right",         keyboard, KEY_RIGHTARROW }, { "end",           keyboard, KEY_END        },
-    { "down",          keyboard, KEY_DOWNARROW  }, { "pagedown",      keyboard, KEY_PGDN       },
-    { "insert",        keyboard, KEY_INS        }, { "delete",        keyboard, KEY_DEL        },
-    { "mouse1",        mouse,    0              }, { "mouse2",        mouse,    1              },
-    { "mouse3",        mouse,    2              }, { "mouse4",        mouse,    3              },
-    { "mouse5",        mouse,    4              }, { "mouse6",        mouse,    5              },
-    { "mouse7",        mouse,    6              }, { "mouse8",        mouse,    7              },
-    { "wheelup",       mouse,    8              }, { "wheeldown",     mouse,    9              },
-    { "dpadup",        gamepad,  1              }, { "dpaddown",      gamepad,  2              },
-    { "dpadleft",      gamepad,  4              }, { "dpadright",     gamepad,  8              },
-    { "start",         gamepad,  16             }, { "back",          gamepad,  32             },
-    { "leftthumb",     gamepad,  64             }, { "rightthumb",    gamepad,  128            },
-    { "leftshoulder",  gamepad,  256            }, { "rightshoulder", gamepad,  512            },
-    { "lefttrigger",   gamepad,  1024           }, { "righttrigger",  gamepad,  2048           },
-    { "gamepad1",      gamepad,  4096           }, { "gamepad2",      gamepad,  8192           },
-    { "gamepad3",      gamepad,  16384          }, { "gamepad4",      gamepad,  32768          },
-    { "",              0,        0              }
+    { "1",              keyboard,         '1'            }, { "2",              keyboard,         '2'            },
+    { "3",              keyboard,         '3'            }, { "4",              keyboard,         '4'            },
+    { "5",              keyboard,         '5'            }, { "6",              keyboard,         '6'            },
+    { "7",              keyboard,         '7'            }, { "8",              keyboard,         '8'            },
+    { "9",              keyboard,         '9'            }, { "0",              keyboard,         '0'            },
+    { "-",              keyboard,         KEY_MINUS      }, { "=",              keyboard,         KEY_EQUALS     },
+    { "+",              keyboard,         KEY_EQUALS     }, { "backspace",      keyboard,         KEY_BACKSPACE  },
+    { "tab",            keyboard,         KEY_TAB        }, { "q",              keyboard,         'q'            },
+    { "w",              keyboard,         'w'            }, { "e",              keyboard,         'e'            },
+    { "r",              keyboard,         'r'            }, { "t",              keyboard,         't'            },
+    { "y",              keyboard,         'y'            }, { "u",              keyboard,         'u'            },
+    { "i",              keyboard,         'i'            }, { "o",              keyboard,         'o'            },
+    { "p",              keyboard,         'p'            }, { "[",              keyboard,         '['            },
+    { "]",              keyboard,         ']'            }, { "enter",          keyboard,         KEY_ENTER      },
+    { "ctrl",           keyboard,         KEY_RCTRL      }, { "a",              keyboard,         'a'            },
+    { "s",              keyboard,         's'            }, { "d",              keyboard,         'd'            },
+    { "f",              keyboard,         'f'            }, { "g",              keyboard,         'g'            },
+    { "h",              keyboard,         'h'            }, { "j",              keyboard,         'j'            },
+    { "k",              keyboard,         'k'            }, { "l",              keyboard,         'l'            },
+    { ";",              keyboard,         ';'            }, { "\'",             keyboard,         '\''           },
+    { "shift",          keyboard,         KEY_RSHIFT     }, { "\\",             keyboard,         '\\'           },
+    { "z",              keyboard,         'z'            }, { "x",              keyboard,         'x'            },
+    { "c",              keyboard,         'c'            }, { "v",              keyboard,         'v'            },
+    { "b",              keyboard,         'b'            }, { "n",              keyboard,         'n'            },
+    { "m",              keyboard,         'm'            }, { ",",              keyboard,         ','            },
+    { ".",              keyboard,         '.'            }, { "/",              keyboard,         '/'            },
+    { "alt",            keyboard,         KEY_RALT       }, { "space",          keyboard,         ' '            },
+    { "numlock",        keyboard,         KEY_NUMLOCK    }, { "scrolllock",     keyboard,         KEY_SCRLCK     },
+    { "home",           keyboard,         KEY_HOME       }, { "up",             keyboard,         KEY_UPARROW    },
+    { "pageup",         keyboard,         KEY_PGUP       }, { "left",           keyboard,         KEY_LEFTARROW  },
+    { "right",          keyboard,         KEY_RIGHTARROW }, { "end",            keyboard,         KEY_END        },
+    { "down",           keyboard,         KEY_DOWNARROW  }, { "pagedown",       keyboard,         KEY_PGDN       },
+    { "insert",         keyboard,         KEY_INS        }, { "delete",         keyboard,         KEY_DEL        },
+    { "mouse1",         mouse,            0              }, { "mouse2",         mouse,            1              },
+    { "mouse3",         mouse,            2              }, { "mouse4",         mouse,            3              },
+    { "mouse5",         mouse,            4              }, { "mouse6",         mouse,            5              },
+    { "mouse7",         mouse,            6              }, { "mouse8",         mouse,            7              },
+    { "wheelup",        mouse,            8              }, { "wheeldown",      mouse,            9              },
+    { "dpadup",         gamepad,          1              }, { "dpaddown",       gamepad,          2              },
+    { "dpadleft",       gamepad,          4              }, { "dpadright",      gamepad,          8              },
+    { "start",          gamepad,          16             }, { "back",           gamepad,          32             },
+    { "leftthumb",      gamepad,          64             }, { "rightthumb",     gamepad,          128            },
+    { "leftshoulder",   gamepad,          256            }, { "rightshoulder",  gamepad,          512            },
+    { "lefttrigger",    gamepad,          1024           }, { "righttrigger",   gamepad,          2048           },
+    { "gamepad1",       gamepad,          4096           }, { "gamepad2",       gamepad,          8192           },
+    { "gamepad3",       gamepad,          16384          }, { "gamepad4",       gamepad,          32768          },
+    { "tilde",          keyboard_console, 0              }, { "ctrl-alt-tilde", keyboard_console, 1              },
+    { "",               0,                0              }
 };
 
 action_t actions[] = 
@@ -258,6 +260,7 @@ action_t actions[] =
     { "+automap",     &key_automap,            NULL,              NULL,              &gamepadautomap           },
     { "+back",        &key_down,               &key_down2,        NULL,              NULL                      },
     { "+clearmark",   &key_automap_clearmark,  NULL,              NULL,              &gamepadautomapclearmark  },
+    { "+console",     &key_console,            NULL,              NULL,              NULL                      },
     { "+fire",        &key_fire,               NULL,              &mousebfire,       &gamepadfire              },
     { "+followmode",  &key_automap_followmode, NULL,              NULL,              &gamepadautomapfollowmode },
     { "+forward",     &key_up,                 &key_up2,          &mousebforward,    NULL                      },
@@ -575,8 +578,12 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
         while (actions[action].action[0])
         {
             if (actions[action].keyboard1)
+            {
                 C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1, keyboard,
                     count++);
+                C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard1,
+                    keyboard_console, count++);
+            }
             if (actions[action].keyboard2)
                 C_DisplayBinds(actions[action].action, *(int *)actions[action].keyboard2, keyboard,
                     count++);
@@ -640,6 +647,10 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                         && controls[i].value == *(int *)actions[action].gamepad)
                         C_Output("The %s control on the gamepad is bound to the %s action.",
                             controls[i].control, actions[action].action);
+                    else if (controls[i].type == keyboard_console && actions[action].keyboard1
+                        && controls[i].value == *(int *)actions[action].keyboard1)
+                        C_Output("The %s key on the keyboard is bound to the %s action.",
+                            controls[i].control, actions[action].action);
                     ++action;
                 }
             }
@@ -689,6 +700,10 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                         case gamepad:
                             *(int *)actions[action].gamepad = controls[i].value;
                             C_Output("The %s control on the gamepad is now bound to the %s action.", parm1, parm2);
+                            break;
+                        case keyboard_console:
+                            *(int *)actions[action].keyboard1 = controls[i].value;
+                            C_Output("The %s key on the keyboard is now bound to the %s action.", parm1, parm2);
                             break;
                     }
                     M_SaveDefaults();

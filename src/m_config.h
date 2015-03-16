@@ -158,6 +158,10 @@
 
 #define KEYAUTOMAPZOOMOUT_DEFAULT               KEY_MINUS
 
+#define TILDE                                   0
+#define CTRLALTTILDE                            1
+#define KEYCONSOLE_DEFAULT                      CTRLALTTILDE
+
 #define KEYDOWN_DEFAULT                         KEY_DOWNARROW
 
 #define KEYDOWN2_DEFAULT                        's'
