@@ -862,9 +862,11 @@ void I_FinishUpdate(void)
 
 #if defined(SDL20)
         SDL_LowerBlit(screenbuffer, &screenbuffer_rect, rgbabuffer, &rgbabuffer_rect);
-        SDL_LockTexture(texture, NULL, &pixels, &pitch);
-        memcpy(pixels, rgbabuffer->pixels, SCREENHEIGHT * pitch);
-        SDL_UnlockTexture(texture);
+        if (!SDL_LockTexture(texture, NULL, &pixels, &pitch))
+        {
+            memcpy(pixels, rgbabuffer->pixels, SCREENHEIGHT * pitch);
+            SDL_UnlockTexture(texture);
+        }
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, &src_rect, NULL);
         SDL_RenderPresent(renderer);
