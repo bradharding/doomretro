@@ -401,6 +401,7 @@ consolecmd_t consolecmds[] =
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~pattern~]", "Display a list of console commands."),
     CVAR_BOOL (com_allowconsole, C_BoolCondition, C_Bool, allowconsole, ALLOWCONSOLE),
+    CVAR_BOOL (com_showfps, C_BoolCondition, C_ShowFPS, showfps, NONE),
     CVAR_STR  (conback, C_ConBackCondition, C_ConBack, conback),
     CMD       (condump, C_NoCondition, C_ConDump, 1, "[~filename~]", "Dump the console to a file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~pattern~]", "Display a list of console variables."),
@@ -473,7 +474,6 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME),
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path),
-    CMD       (showfps, C_BoolCondition, C_ShowFPS, 1, "[on|off]", "Toggle the display of the average frames per second on/off."),
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or object."),
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES),
@@ -779,11 +779,11 @@ void C_Bool(char *cmd, char *parm1, char *parm2)
                 {
                     *(boolean *)consolecmds[i].variable = !!value;
                     M_SaveDefaults();
-                    C_Output("%s %s.", cmd, parm1);
+                    C_Output("%s %s", cmd, parm1);
                 }
             }
             else
-                C_Output("%s %s.", cmd, (*(boolean *)consolecmds[i].variable ? "on" : "off"));
+                C_Output("%s %s", cmd, (*(boolean *)consolecmds[i].variable ? "on" : "off"));
         }
         ++i;
     }
@@ -959,9 +959,9 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
         }
     }
     else if (!strcasecmp(cmd, "gp_deadzone_left"))
-        C_Output("%s %s%%.", cmd, striptrailingzero(gamepadleftdeadzone_percent, 1));
+        C_Output("%s %s%%", cmd, striptrailingzero(gamepadleftdeadzone_percent, 1));
     else
-        C_Output("%s %s%%.", cmd, striptrailingzero(gamepadrightdeadzone_percent, 1));
+        C_Output("%s %s%%", cmd, striptrailingzero(gamepadrightdeadzone_percent, 1));
 }
 
 //
@@ -1616,7 +1616,7 @@ void C_ShowFPS(char *cmd, char *parm1, char *parm2)
             showfps = !!value;
     }
     else
-        showfps = !showfps;
+        C_Output("%s %s", cmd, (showfps ? "on" : "off"));
 }
 
 //
