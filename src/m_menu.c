@@ -2556,7 +2556,7 @@ boolean M_Responder(event_t *ev)
 
         // Console
         else if (key == KEY_TILDE && (((modstate & KMOD_CTRL) && (modstate & KMOD_ALT))
-            || !key_console) && !keydown)
+            || allowconsole) && !keydown)
         {
             keydown = key;
             if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)

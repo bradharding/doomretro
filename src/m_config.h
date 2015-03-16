@@ -39,6 +39,8 @@
 #if !defined(__M_CONFIG__)
 #define __M_CONFIG__
 
+#define ALLOWCONSOLE_DEFAULT                    false
+
 #define ALWAYSRUN_DEFAULT                       false
 
 #define ANIMATEDLIQUID_DEFAULT                  true
@@ -157,10 +159,6 @@
 #define KEYAUTOMAPZOOMIN_DEFAULT                KEY_EQUALS
 
 #define KEYAUTOMAPZOOMOUT_DEFAULT               KEY_MINUS
-
-#define TILDE                                   0
-#define CTRLALTTILDE                            1
-#define KEYCONSOLE_DEFAULT                      CTRLALTTILDE
 
 #define KEYDOWN_DEFAULT                         KEY_DOWNARROW
 

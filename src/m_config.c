@@ -60,6 +60,7 @@ int             sfxvolume_percent = SFXVOLUME_DEFAULT;
 //
 // DEFAULTS
 //
+extern boolean  allowconsole;
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
@@ -116,7 +117,6 @@ extern int      key_automap_maxzoom;
 extern int      key_automap_rotatemode;
 extern int      key_automap_zoomin;
 extern int      key_automap_zoomout;
-extern int      key_console;
 extern int      key_down;
 extern int      key_down2;
 extern int      key_fire;
@@ -213,6 +213,7 @@ static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_grid,                 grid,                          1),
     CONFIG_VARIABLE_INT          (am_rotatemode,           rotatemode,                    1),
+    CONFIG_VARIABLE_INT          (com_allowconsole,        allowconsole,                  1),
     CONFIG_VARIABLE_STRING       (conback,                 conback,                       0),
     CONFIG_VARIABLE_INT          (episode,                 selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,             9),
@@ -253,7 +254,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_KEY          (key_automap_rotatemode,  key_automap_rotatemode,        3),
     CONFIG_VARIABLE_KEY          (key_automap_zoomin,      key_automap_zoomin,            3),
     CONFIG_VARIABLE_KEY          (key_automap_zoomout,     key_automap_zoomout,           3),
-    CONFIG_VARIABLE_KEY          (key_console,             key_console,                  12),
     CONFIG_VARIABLE_KEY          (key_down,                key_down,                      3),
     CONFIG_VARIABLE_KEY          (key_down2,               key_down2,                     3),
     CONFIG_VARIABLE_KEY          (key_fire,                key_fire,                      3),
@@ -431,7 +431,6 @@ alias_t aliases[] =
     { "\"I\'m too young to die.\"",     0, 10 }, { "\"Hey, not too rough.\"",        1, 10 },
     { "\"Hurt me plenty.\"",            2, 10 }, { "\"Ultra-Violence.\"",            3, 10 },
     { "\"Nightmare!\"",                 4, 10 }, { "off",                            1, 11 },
-    { "tilde",                          0, 12 }, { "ctrl-alt-tilde",                 1, 12 },
     { "",                               0,  0 }
 };
 
@@ -781,6 +780,9 @@ void M_SaveDefaults(void)
 
 static void M_CheckDefaults(void)
 {
+    if (allowconsole != false && allowconsole != true)
+        allowconsole = ALLOWCONSOLE_DEFAULT;
+
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = ALWAYSRUN_DEFAULT;
 
@@ -964,9 +966,6 @@ static void M_CheckDefaults(void)
 
     if (key_automap_zoomout == INVALIDKEY)
         key_automap_zoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
-
-    if (key_console != TILDE && key_console != CTRLALTTILDE)
-        key_console = KEYCONSOLE_DEFAULT;
 
     if (key_down == INVALIDKEY)
         key_down = KEYDOWN_DEFAULT;

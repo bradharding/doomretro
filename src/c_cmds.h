@@ -43,11 +43,10 @@
 
 typedef enum
 {
-    keyboard         = 1,
-    keyboard_console = 2,
-    mouse            = 3,
-    gamepad          = 4,
-    invalid          = 5
+    keyboard = 1,
+    mouse    = 2,
+    gamepad  = 3,
+    invalid  = 4
 } controltype_t;
 
 typedef struct
