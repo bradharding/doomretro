@@ -100,7 +100,7 @@ void (*hudfunc)(int, int, patch_t *, boolean);
 void (*hudnumfunc)(int, int, patch_t *, boolean);
 void (*godhudfunc)(int, int, patch_t *, boolean);
 
-#define HUD_X           24 * SCREENSCALE / 2
+#define HUD_X           10 * SCREENSCALE / 2
 #define HUD_Y           311 * SCREENSCALE / 2
 
 #define HUD_HEALTH_X    HUD_X
@@ -108,15 +108,15 @@ void (*godhudfunc)(int, int, patch_t *, boolean);
 #define HUD_HEALTH_MIN  20
 #define HUD_HEALTH_TICS 20
 
-#define HUD_AMMO_X      (HUD_HEALTH_X + 96 * SCREENSCALE / 2)
+#define HUD_AMMO_X      (HUD_HEALTH_X + 108 * SCREENSCALE / 2)
 #define HUD_AMMO_Y      HUD_HEALTH_Y
 #define HUD_AMMO_MIN    20
 #define HUD_AMMO_TICS   20
 
-#define HUD_KEYS_X      (HUD_HEALTH_X + 479 * SCREENSCALE / 2)
+#define HUD_KEYS_X      (HUD_HEALTH_X + 484 * SCREENSCALE / 2)
 #define HUD_KEYS_Y      HUD_HEALTH_Y
 
-#define HUD_ARMOR_X     (HUD_HEALTH_X + 506 * SCREENSCALE / 2)
+#define HUD_ARMOR_X     (SCREENWIDTH - 10 * SCREENSCALE / 2)
 #define HUD_ARMOR_Y     HUD_HEALTH_Y
 
 #define HUD_MIN_TICS    6
@@ -130,10 +130,10 @@ static struct
     int         y;
     patch_t     *patch;
 } ammopic[NUMAMMO] = {
-    { "CLIPA0", MT_CLIP,    0,  2, NULL },
-    { "SHELA0", MT_MISC22, -5,  5, NULL },
-    { "CELLA0", MT_MISC20, -8,  2, NULL },
-    { "ROCKA0", MT_MISC18, -2, -6, NULL }
+    { "CLIPA0", MT_CLIP,   8,  2, NULL },
+    { "SHELA0", MT_MISC22, 5,  5, NULL },
+    { "CELLA0", MT_MISC20, 0,  2, NULL },
+    { "ROCKA0", MT_MISC18, 8, -6, NULL }
 };
 
 static struct
@@ -271,21 +271,44 @@ void HU_Start(void)
     s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 }
 
-static void DrawHUDNumber(int x, int y, signed int val, boolean invert,
+static void DrawHUDNumber(int x, int y, int *xpos, int val, boolean invert,
                           void (*hudnumfunc)(int, int, patch_t *, boolean))
 {
-    int         xpos = x + 8;
     int         oldval = val;
+    patch_t     *patch;
 
     if (val > 99)
-        hudnumfunc(xpos, y, tallnum[val / 100], invert);
+    {
+        patch = tallnum[val / 100];
+        hudnumfunc(*xpos, y, patch, invert);
+        *xpos += SHORT(patch->width);
+    }
     val %= 100;
-    xpos += 14;
     if (val > 9 || oldval > 99)
-        hudnumfunc(xpos, y, tallnum[val / 10], invert);
+    {
+        patch = tallnum[val / 10];
+        hudnumfunc(*xpos, y, patch, invert);
+        *xpos += SHORT(patch->width);
+    }
     val %= 10;
-    xpos += 14;
-    hudnumfunc(xpos, y, tallnum[val], invert);
+    patch = tallnum[val];
+    hudnumfunc(*xpos, y, patch, invert);
+    *xpos += SHORT(patch->width);
+}
+
+static int HUDNumberWidth(int val)
+{
+    int oldval = val;
+    int width = 0;
+
+    if (val > 99)
+        width += SHORT(tallnum[val / 100]->width);
+    val %= 100;
+    if (val > 9 || oldval > 99)
+        width += SHORT(tallnum[val / 10]->width);
+    val %= 10;
+    width += SHORT(tallnum[val]->width);
+    return width;
 }
 
 static void HU_DrawHUD(void)
@@ -297,7 +320,7 @@ static void HU_DrawHUD(void)
         int             ammotype = weaponinfo[plr->readyweapon].ammo;
         int             ammo = plr->ammo[ammotype];
         int             armor = plr->armorpoints;
-        int             health_x = HUD_HEALTH_X + 12;
+        int             health_x = HUD_HEALTH_X;
         int             keys = 0;
         int             i = 0;
         static int      healthanimtics = 1;
@@ -314,23 +337,19 @@ static void HU_DrawHUD(void)
         else
             patch = healthpatch;
 
-        if (health < 10)
-            health_x -= 14;
-        if (health < 100)
-            health_x -= 14;
-
         invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
             || menuactive || paused || consoleactive);
         if (patch)
+        {
             if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-                godhudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
-                    invert);
+                godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
             else
-                hudfunc(HUD_HEALTH_X - 14, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
-                    invert);
-        DrawHUDNumber(health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
+                hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
+            health_x += patch->width + 8;
+        }
+        DrawHUDNumber(health_x, HUD_HEALTH_Y, &health_x, health, invert, hudnumfunc);
         if (!emptytallpercent)
-            hudnumfunc(health_x + 50, HUD_HEALTH_Y, tallpercent, invert);
+            hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, invert);
 
         if (health <= HUD_HEALTH_MIN && !menuactive && !paused && !consoleactive)
         {
@@ -355,25 +374,17 @@ static void HU_DrawHUD(void)
 
         if (ammo && ammotype != am_noammo)
         {
-            int ammopic_x = HUD_AMMO_X + ammopic[ammotype].x;
-            int ammonum_x = HUD_AMMO_X + 8;
-
-            if (ammo < 100)
-            {
-                ammopic_x += 7;
-                ammonum_x -= 7;
-            }
-            if (ammo < 10)
-            {
-                ammopic_x += 7;
-                ammonum_x -= 7;
-            }
+            int ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
 
             invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN
                 || menuactive || paused || consoleactive);
-            if (ammopic[ammotype].patch)
-                hudfunc(ammopic_x, HUD_AMMO_Y + ammopic[ammotype].y, ammopic[ammotype].patch, invert);
-            DrawHUDNumber(ammonum_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
+            patch = ammopic[ammotype].patch;
+            if (patch)
+            {
+                hudfunc(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y, patch, invert);
+                ammo_x += patch->width + 8;
+            }
+            DrawHUDNumber(ammo_x, HUD_AMMO_Y, &ammo_x, ammo, invert, hudnumfunc);
 
             if (ammo <= HUD_AMMO_MIN && !menuactive && !paused && !consoleactive)
             {
@@ -402,7 +413,7 @@ static void HU_DrawHUD(void)
             static boolean      showkey = true;
 
             if (!armor)
-                keypic_x += 111;
+                keypic_x += 123;
             else
             {
                 if (emptytallpercent)
@@ -455,17 +466,26 @@ static void HU_DrawHUD(void)
         if (armor)
         {
             patch_t     *patch = (plr->armortype == 1 ? greenarmorpatch : bluearmorpatch);
+            int         armor_x = HUD_ARMOR_X;
 
+            if (patch)
+            {
+                armor_x -= SHORT(patch->width);
+                hudfunc(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, true);
+                armor_x -= 7;
+            }
             if (emptytallpercent)
-                DrawHUDNumber(HUD_ARMOR_X + SHORT(tallpercent->width), HUD_ARMOR_Y, armor, true,
-                    hudnumfunc);
+            {
+                armor_x -= HUDNumberWidth(armor);
+                DrawHUDNumber(armor_x, HUD_ARMOR_Y, &armor_x, armor, true, hudnumfunc);
+            }
             else
             {
-                DrawHUDNumber(HUD_ARMOR_X, HUD_ARMOR_Y, armor, true, hudnumfunc);
-                hudnumfunc(HUD_ARMOR_X + 50, HUD_ARMOR_Y, tallpercent, true);
+                armor_x -= SHORT(tallpercent->width);
+                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, true);
+                armor_x -= HUDNumberWidth(armor);
+                DrawHUDNumber(armor_x, HUD_ARMOR_Y, &armor_x, armor, true, hudnumfunc);
             }
-            if (patch)
-                hudfunc(HUD_ARMOR_X + 70, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, true);
         }
     }
 }
