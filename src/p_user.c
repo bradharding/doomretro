@@ -127,10 +127,14 @@ void P_CalcHeight(player_t *player)
 
         if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
         {
-            sector_t        *sec = mo->subsector->sector;
+            boolean                     liquid = true;
+            const struct msecnode_s     *seclist;
 
-            if (mo->z <= mo->floorz && mo->floorz == sec->floorheight
-                && sec->lines[0]->frontsector != sec->lines[0]->backsector)
+            for (seclist = player->mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+                if (!isliquid[seclist->m_sector->floorpic])
+                    liquid = false;
+
+            if (liquid)
                 player->viewz -= FOOTCLIPSIZE;
         }
     }
