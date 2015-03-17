@@ -478,9 +478,34 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
 //
 // BUILD A STAIRCASE!
 //
+
+// cph 2001/09/21 - compatibility nightmares again
+// There are three different ways this function has, during its history, stepped
+// through all the stairs to be triggered by the single switch
+// - original Doom used a linear P_FindSectorFromLineTag, but failed to preserve
+// the index of the previous sector found, so instead it would restart its
+// linear search from the last sector of the previous staircase
+// - MBF/PrBoom with comp_stairs fail to emulate this, because their
+// P_FindSectorFromLineTag is a chained hash table implementation. Instead they
+// start following the hash chain from the last sector of the previous
+// staircase, which will (probably) have the wrong tag, so they miss any further
+// stairs
+// - Boom fixed the bug, and MBF/PrBoom without comp_stairs work right
+//
+static int P_FindSectorFromLineTagWithLowerBound(line_t *l, int start, int min)
+{
+  do
+  {
+      start = P_FindSectorFromLineTag(l, start);
+  } while (start >= 0 && start <= min);
+
+  return start;
+}
+
 boolean EV_BuildStairs(line_t *line, stair_e type)
 {
-    int         secnum = -1;
+    int         ssec = -1;
+    int         minssec = -1;
     int         height;
     int         i;
     int         newsecnum;
@@ -488,6 +513,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
     int         ok;
     boolean     rtn = false;
 
+    int         secnum = -1;
     sector_t    *sec;
     sector_t    *tsec;
 
@@ -498,8 +524,9 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
 
     boolean     crushing = false;
 
-    while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
+    while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
+        secnum = ssec;
         sec = &sectors[secnum];
 
         // ALREADY MOVING?  IF SO, KEEP GOING...
