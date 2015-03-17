@@ -434,7 +434,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT (idmypos, 0),
     CMD_CHEAT (idspispopd, 0),
     CVAR_STR  (iwadfolder, C_NoCondition, C_Str, iwadfolder),
-    CMD       (kill, C_KillCondition, C_Kill, 1, "[all|monsters|~type~]", "Kill the player, all monsters or a type of monster."),
+    CMD       (kill, C_KillCondition, C_Kill, 1, "[monsters|~type~]", "Kill the player, all monsters or a type of monster."),
     CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration),
     CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE),
     CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT),
@@ -1232,7 +1232,7 @@ boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
     {
         int i;
 
-        if (!parm1[0] || !strcasecmp(parm1, "all") || !strcasecmp(parm1, "monsters"))
+        if (!parm1[0] || !strcasecmp(parm1, "monsters"))
             return true;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
@@ -1285,7 +1285,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
         int             i, j;
         int             kills = 0;
 
-        if (!strcasecmp(parm1, "all") || !strcasecmp(parm1, "monsters"))
+        if (!strcasecmp(parm1, "monsters"))
         {
             for (i = 0; i < numsectors; ++i)
             {
