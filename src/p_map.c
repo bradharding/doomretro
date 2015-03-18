@@ -616,7 +616,7 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     int          bx;
     int          by;
     subsector_t  *newsubsec;
-    fixed_t      radius = thing->radius;
+    fixed_t      radius = MAX(20 * FRACUNIT, thing->radius);
 
     tmthing = thing;
 
