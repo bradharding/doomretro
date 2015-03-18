@@ -592,7 +592,7 @@ void P_MobjThinker(mobj_t *mobj)
 void P_NullMobjThinker(mobj_t *mobj)
 {
 }
-#include "i_system.h"
+
 //
 // P_SpawnMobj
 //

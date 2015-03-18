@@ -315,7 +315,7 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
 
         // new floor thinker
         rtn = true;
-        floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+        floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
         sec->specialdata = floor;
         floor->thinker.function.acp1 = (actionf_p1)T_MoveFloor;
@@ -506,28 +506,19 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
 {
     int         ssec = -1;
     int         minssec = -1;
-    int         height;
-    int         i;
-    int         newsecnum;
-    int         texture;
-    int         ok;
     boolean     rtn = false;
-
-    int         secnum = -1;
-    sector_t    *sec;
-    sector_t    *tsec;
-
-    floormove_t *floor;
-
-    fixed_t     stairsize = 0;
-    fixed_t     speed = 0;
-
-    boolean     crushing = false;
 
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
-        secnum = ssec;
-        sec = &sectors[secnum];
+        int             secnum = ssec;
+        sector_t        *sec = &sectors[secnum];
+        floormove_t     *floor;
+        fixed_t         stairsize = 0;
+        fixed_t         speed = 0;
+        boolean         crushing = false;
+        boolean         ok;
+        int             height;
+        int             texture;
 
         // ALREADY MOVING?  IF SO, KEEP GOING...
         if (sec->specialdata)
@@ -535,7 +526,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
 
         // new floor thinker
         rtn = true;
-        floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+        floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
         sec->specialdata = floor;
         floor->thinker.function.acp1 = (actionf_p1)T_MoveFloor;
@@ -570,19 +561,25 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
         // 2. Other side is the next sector to raise
         do
         {
-            ok = 0;
-            for (i = 0; i < sec->linecount; i++)
+            int i;
+
+            ok = false;
+            for (i = 0; i < sec->linecount; ++i)
             {
-                if (!((sec->lines[i])->flags & ML_TWOSIDED))
+                line_t          *line = sec->lines[i];
+                sector_t        *tsec;
+                int             newsecnum;
+
+                if (!(line->flags & ML_TWOSIDED))
                     continue;
 
-                tsec = (sec->lines[i])->frontsector;
+                tsec = line->frontsector;
                 newsecnum = tsec - sectors;
 
                 if (secnum != newsecnum)
                     continue;
 
-                tsec = (sec->lines[i])->backsector;
+                tsec = line->backsector;
                 if (!tsec)
                     continue;
                 newsecnum = tsec - sectors;
@@ -597,7 +594,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
 
                 sec = tsec;
                 secnum = newsecnum;
-                floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+                floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
 
                 P_AddThinker(&floor->thinker);
 
@@ -610,7 +607,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
                 floor->type = buildStair;
                 floor->crush = (type != build8);
                 floor->stopsound = (sec->floorheight != floor->floordestheight);
-                ok = 1;
+                ok = true;
                 break;
             }
         } while (ok);
