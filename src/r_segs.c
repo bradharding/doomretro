@@ -642,7 +642,7 @@ void R_StoreWallRange(int start, int stop)
 
     // [BH] animate liquid sectors
     if (frontsector->animate != INT_MAX)
-        worldbottom += frontsector->animate + FRACUNIT;
+        worldbottom += frontsector->animate + 2 * FRACUNIT;
 
     R_FixWiggle(frontsector);
 
