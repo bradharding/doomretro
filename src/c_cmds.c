@@ -727,20 +727,11 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
 
             if (!bloodsplats)
-            {
                 P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-                C_Output("%s off", cmd);
-            }
             else if (bloodsplats == UNLIMITED)
-            {
                 P_BloodSplatSpawner = P_SpawnBloodSplat;
-                C_Output("%s unlimited", cmd);
-            }
             else
-            {
                 P_BloodSplatSpawner = P_SpawnBloodSplat2;
-                C_Output("%s %s", cmd, commify(bloodsplats));
-            }
         }
     }
     else
@@ -779,7 +770,6 @@ void C_Bool(char *cmd, char *parm1, char *parm2)
                 {
                     *(boolean *)consolecmds[i].variable = !!value;
                     M_SaveDefaults();
-                    C_Output("%s %s", cmd, parm1);
                 }
             }
             else
@@ -835,7 +825,8 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
             || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
         M_SaveDefaults();
     }
-    C_Output("%s \"%s\"", cmd, uppercase(conback));
+    else
+        C_Output("%s \"%s\"", cmd, uppercase(conback));
 }
 
 //
@@ -954,7 +945,6 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
                     gamepadrightdeadzone_percent,
                     GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
             }
-            C_Output("%s %s%%.", cmd, striptrailingzero(value, 1));
             M_SaveDefaults();
         }
     }
@@ -1025,7 +1015,6 @@ void C_Float(char *cmd, char *parm1, char *parm2)
                 {
                     *(float *)consolecmds[i].variable = value;
                     M_SaveDefaults();
-                    C_Output("%s %s", cmd, striptrailingzero(value, 2));
                 }
             }
             else
@@ -1081,8 +1070,7 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
         }
     }
-
-    if (gammalevel == 1.0f)
+    else if (gammalevel == 1.0f)
         C_Output("%s off", cmd);
     else
         C_Output("%s %s", cmd, striptrailingzero(gammalevel, 2));
@@ -1133,7 +1121,6 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         {
             graphicdetail = !!value;
             M_SaveDefaults();
-            C_Output("%s %s", cmd, parm1);
         }
     }
     else
@@ -1204,7 +1191,6 @@ void C_Int(char *cmd, char *parm1, char *parm2)
                 {
                     *(int *)consolecmds[i].variable = value;
                     M_SaveDefaults();
-                    C_Output("%s %s", cmd, parm1);
                 }
             }
             else
@@ -1443,10 +1429,10 @@ boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 
 void C_Volume(char *cmd, char *parm1, char *parm2)
 {
-    int value = 0;
-
     if (parm1[0])
     {
+        int value = 0;
+
         if (parm1[strlen(parm1) - 1] == '%')
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%i", &value);
@@ -1457,25 +1443,20 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
             musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent,
                 MUSICVOLUME_MAX) * 15 + 50) / 100;
             S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
-            C_Output("%s %i%%", cmd, value);
         }
         else
         {
             sfxvolume_percent = value;
             sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
             S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
-            C_Output("%s %i%%", cmd, value);
         }
 
         M_SaveDefaults();
     }
+    else if (!strcasecmp(cmd, "snd_musicvolume"))
+        C_Output("%s %i%%", cmd, musicvolume_percent);
     else
-    {
-        if (!strcasecmp(cmd, "snd_musicvolume"))
-            C_Output("%s %i%%", cmd, musicvolume_percent);
-        else
-            C_Output("%s %i%%", cmd, sfxvolume_percent);
-    }
+        C_Output("%s %i%%", cmd, sfxvolume_percent);
 }
 
 //
@@ -1544,7 +1525,8 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
         }
     }
-    C_Output("%s %ix%i", cmd, pixelwidth, pixelheight);
+    else
+        C_Output("%s %ix%i", cmd, pixelwidth, pixelheight);
 }
 
 //
@@ -1600,7 +1582,8 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
             R_SetViewSize(screensize);
         }
     }
-    C_Output("%s %i", cmd, screensize);
+    else
+        C_Output("%s %i", cmd, screensize);
 }
 
 //
@@ -1702,7 +1685,6 @@ void C_Str(char *cmd, char *parm1, char *parm2)
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
                 M_SaveDefaults();
-                C_Output("%s \"%s\"", cmd, parm1);
             }
             else
                 C_Output("%s \"%s\"", cmd, *(char **)consolecmds[i].variable);
@@ -1768,8 +1750,6 @@ void C_Time(char *cmd, char *parm1, char *parm2)
 
 void C_WindowPosition(char *cmd, char *parm1, char *parm2)
 {
-    int i = 0;
-
     if (parm1[0])
     {
         if (!strcasecmp(parm1, "center"))
@@ -1778,7 +1758,7 @@ void C_WindowPosition(char *cmd, char *parm1, char *parm2)
             windowposition = strdup(parm1);
         M_SaveDefaults();
     }
-    if (!windowposition[0])
+    else if (!windowposition[0])
         C_Output("%s center", cmd);
     else
         C_Output("%s (%s)", cmd, windowposition);
@@ -1801,5 +1781,6 @@ void C_WindowSize(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
         }
     }
-    C_Output("%s %ix%i", cmd, windowwidth, windowheight);
+    else
+        C_Output("%s %ix%i", cmd, windowwidth, windowheight);
 }
