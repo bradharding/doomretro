@@ -753,6 +753,10 @@ void R_StoreWallRange(int start, int stop)
         worldhigh = backsector->ceilingheight - viewz;
         worldlow = backsector->floorheight - viewz;
 
+        // [BH] animate liquid sectors
+        if (backsector->animate != INT_MAX)
+            worldlow += backsector->animate + 2 * FRACUNIT;
+
         // hack to allow height changes in outdoor areas
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
