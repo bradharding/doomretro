@@ -754,7 +754,7 @@ void R_StoreWallRange(int start, int stop)
         worldlow = backsector->floorheight - viewz;
 
         // [BH] animate liquid sectors
-        if (backsector->animate != INT_MAX)
+        if (backsector->animate != INT_MAX && backsector->floorheight > frontsector->floorheight)
             worldlow += backsector->animate + 2 * FRACUNIT;
 
         // hack to allow height changes in outdoor areas
