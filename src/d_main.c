@@ -1241,25 +1241,13 @@ static void D_DoomMainSetup(void)
 
 #if !defined(__MACOSX__)
     if (!M_FileExists(PACKAGE_WAD))
-    {
-        static char     fullpath[MAX_PATH];
-
-        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder, PACKAGE_WAD);
-        if (!M_FileExists(fullpath))
-        {
-            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", getenv("DOOMWADDIR"),
-                PACKAGE_WAD);
-            if (!M_FileExists(fullpath))
-                I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
-        }
-    }
 #else
     NSString *packageWadFullpath =
         [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@PACKAGE_WAD];
 
     if (!M_FileExists((char *)[packageWadFullpath UTF8String]))
-        I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 #endif
+        I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
 
@@ -1376,22 +1364,10 @@ static void D_DoomMainSetup(void)
 
 #if !defined(__MACOSX__)
     if (!W_MergeFile(PACKAGE_WAD, true))
-    {
-        static char     fullpath[MAX_PATH];
-
-        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder, PACKAGE_WAD);
-        if (!W_MergeFile(fullpath, true))
-        {
-            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", getenv("DOOMWADDIR"),
-                PACKAGE_WAD);
-            if (!W_MergeFile(fullpath, true))
-                I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
-        }
-    }
 #else
     if (!W_MergeFile((char*)[packageWadFullpath UTF8String]))
-        I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 #endif
+        I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 
     if (!CheckPackageWADVersion())
         I_Error("Wrong version of %s.", uppercase(PACKAGE_WAD));
