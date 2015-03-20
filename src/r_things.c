@@ -353,6 +353,27 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
     }
 }
 
+static void R_DrawMaskedBloodSplatColumn(column_t *column)
+{
+    while (column->topdelta != 0xff)
+    {
+        int     length = column->length;
+
+        // calculate unclipped screen coordinates for post
+        int64_t topscreen = sprtopscreen + spryscale * column->topdelta + 1;
+
+        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), mceilingclip[dc_x] + 1);
+        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), mfloorclip[dc_x] - 1);
+
+        if (dc_yl <= dc_yh && dc_yh < viewheight)
+        {
+            dc_source = (byte *)column + 3;
+            colfunc();
+        }
+        column = (column_t *)((byte *)column + length + 4);
+    }
+}
+
 static void R_DrawMaskedShadowColumn(column_t *column)
 {
     while (column->topdelta != 0xff)
@@ -452,11 +473,10 @@ void R_DrawBloodSplatVisSprite(vissprite_t *vis)
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-    dc_baseclip = -1;
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
+        R_DrawMaskedBloodSplatColumn((column_t *)((byte *)patch
             + LONG(patch->columnofs[frac >> FRACBITS])));
 
     colfunc = basecolfunc;
