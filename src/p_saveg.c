@@ -411,6 +411,9 @@ static void saveg_read_mobj_t(mobj_t *str)
     // int bloodsplats
     str->bloodsplats = saveg_read32();
 
+    // struct mobj_s *shadow
+    str->shadow = NULL;
+
     // int blood
     str->blood = saveg_read32();
 }
