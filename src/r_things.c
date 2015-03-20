@@ -665,8 +665,6 @@ void R_ProjectBloodSplat(mobj_t *thing)
     int                 x1;
     int                 x2;
 
-    spritedef_t         *sprdef;
-    spriteframe_t       *sprframe;
     int                 lump;
 
     vissprite_t         *vis;
@@ -689,8 +687,6 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     fixed_t             tz = gxt - gyt;
 
-    sector_t            *sector = thing->subsector->sector;
-
     // thing is behind view plane?
     if (tz < MINZ)
         return;
@@ -709,10 +705,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
         return;
 
     // decide which patch to use for sprite relative to player
-    sprdef = &sprites[SPR_BLD2];
-    sprframe = &sprdef->spriteframes[thing->frame];
-
-    lump = sprframe->lump[0];
+    lump = sprites[SPR_BLD2].spriteframes[thing->frame].lump[0];
 
     // calculate edges of the shape
     tx -= (flip ? spritewidth[lump] - spriteoffset[lump] : spriteoffset[lump]);
