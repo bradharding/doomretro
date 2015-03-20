@@ -1809,9 +1809,9 @@ boolean PIT_ChangeSector(mobj_t *thing)
 
         S_StartSound(thing, sfx_slop);
 
-        P_RemoveMobj(thing);
         if (thing->shadow)
-            P_RemoveMobj(thing->shadow);
+            P_RemoveMobjShadow(thing);
+        P_RemoveMobj(thing);
 
         // keep checking
         return true;
@@ -1820,9 +1820,9 @@ boolean PIT_ChangeSector(mobj_t *thing)
     // crunch dropped items
     if (flags & MF_DROPPED)
     {
-        P_RemoveMobj(thing);
         if (thing->shadow)
-            P_RemoveMobj(thing->shadow);
+            P_RemoveMobjShadow(thing);
+        P_RemoveMobj(thing);
 
         // keep checking
         return true;

@@ -704,9 +704,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
     if (special->flags & MF_COUNTITEM)
         player->itemcount++;
-    P_RemoveMobj(special);
     if (special->shadow)
-        P_RemoveMobj(special->shadow);
+        P_RemoveMobjShadow(special);
+    P_RemoveMobj(special);
     P_AddBonus(player, BONUSADD);
 
     if (sound == prevsound && gametic == prevtic)
@@ -798,7 +798,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     target->tics = MAX(1, target->tics - (P_Random() & 3));
 
     if ((type == MT_BARREL || type == MT_PAIN || type == MT_SKULL) && target->shadow)
-        P_RemoveMobj(target->shadow);
+        P_RemoveMobjShadow(target);
 
     if (chex)
         return;

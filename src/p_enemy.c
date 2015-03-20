@@ -1543,9 +1543,9 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
 
     if (!P_TryMove(newmobj, newmobj->x, newmobj->y, false))
     {
-        P_RemoveMobj(newmobj);
         if (newmobj->shadow)
-            P_RemoveMobj(newmobj->shadow);
+            P_RemoveMobjShadow(newmobj);
+        P_RemoveMobj(newmobj);
         return;
     }
 
@@ -2002,7 +2002,7 @@ void A_SpawnFly(mobj_t* mo)
 
     // remove self (i.e., cube).
     if (mo->shadow)
-        P_RemoveMobj(mo->shadow);
+        P_RemoveMobjShadow(mo);
     P_RemoveMobj(mo);
 }
 

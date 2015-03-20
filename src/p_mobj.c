@@ -109,9 +109,9 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         if (state == S_NULL)
         {
             mobj->state = (state_t *)S_NULL;
-            P_RemoveMobj(mobj);
             if (shadow)
-                P_RemoveMobj(shadow);
+                P_RemoveMobjShadow(mobj);
+            P_RemoveMobj(mobj);
             ret = false;
             break;                                              // killough 4/9/98
         }
@@ -163,7 +163,7 @@ void P_ExplodeMissile(mobj_t *mo)
     {
         mo->colfunc = tlcolfunc;
         if (mo->shadow)
-            P_RemoveMobj(mo->shadow);
+            P_RemoveMobjShadow(mo);
     }
 
     S_StartSound(mo, mo->info->deathsound);
@@ -253,11 +253,11 @@ void P_XYMovement(mobj_t *mo)
                     // Hack to prevent missiles exploding
                     // against the sky.
                     // Does not handle sky floors.
-                    P_RemoveMobj(mo);
                     if (type == MT_BFG)
                         S_StartSound(mo, mo->info->deathsound);
                     else if (type == MT_ROCKET && mo->shadow)
-                        P_RemoveMobj(mo->shadow);
+                        P_RemoveMobjShadow(mo);
+                    P_RemoveMobj(mo);
                     return;
                 }
                 P_ExplodeMissile(mo);
@@ -478,9 +478,9 @@ void P_NightmareRespawn(mobj_t *mobj)
     mo->reactiontime = 18;
 
     // remove the old monster
-    P_RemoveMobj(mobj);
     if (mobj->shadow)
-        P_RemoveMobj(mobj->shadow);
+        P_RemoveMobjShadow(mobj);
+    P_RemoveMobj(mobj);
 }
 
 static void PlayerLandedOnThing(mobj_t *mo)
@@ -705,6 +705,21 @@ void P_RemoveMobj(mobj_t *mobj)
 
     // free block
     P_RemoveThinker((thinker_t *)mobj);
+}
+
+void P_RemoveMobjShadow(mobj_t *mobj)
+{
+    // unlink from sector and block lists
+    P_UnsetThingPosition(mobj->shadow);
+
+    // Delete all nodes on the current sector_list
+    if (sector_list)
+    {
+        P_DelSeclist(sector_list);
+        sector_list = NULL;
+    }
+
+    mobj->shadow = NULL;
 }
 
 //
