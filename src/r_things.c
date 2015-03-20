@@ -1392,7 +1392,10 @@ void R_DrawMasked(void)
         if (spr->mobjflags2 & MF2_DRAWFIRST)
         {
             spr->drawn = true;
-            R_DrawBloodSplatSprite(spr);
+            if (spr->type == MT_BLOODSPLAT)
+                R_DrawBloodSplatSprite(spr);
+            else
+                R_DrawSprite(spr);
         }
     }
 
