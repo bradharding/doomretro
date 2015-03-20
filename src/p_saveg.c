@@ -1636,21 +1636,21 @@ typedef enum
 //
 void P_ArchiveThinkers(void)
 {
-    thinker_t   *th;
+    int i;
 
-    // save off the current thinkers
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+    for (i = 0; i < numsectors; ++i)
     {
-        mobj_t  *mo = (mobj_t *)th;
+        mobj_t   *mo = sectors[i].thinglist;
 
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker
-            || (th->function.acp1 == (actionf_p1)P_NullMobjThinker && mo->type == MT_BLOODSPLAT))
+        while (mo)
         {
-            saveg_write8(tc_mobj);
-            saveg_write_pad();
-            saveg_write_mobj_t(mo);
-
-            continue;
+            if (mo->type != MT_SHADOW)
+            {
+                saveg_write8(tc_mobj);
+                saveg_write_pad();
+                saveg_write_mobj_t(mo);
+            }
+            mo = mo->snext;
         }
     }
 
@@ -1663,24 +1663,21 @@ void P_ArchiveThinkers(void)
 //
 void P_UnArchiveThinkers(void)
 {
-    thinker_t   *currentthinker = thinkercap.next;
-    thinker_t   *next;
+    int i;
 
-    // remove all the current thinkers
-    while (currentthinker != &thinkercap)
+    // remove all the current mobjs
+    for (i = 0; i < numsectors; ++i)
     {
-        next = currentthinker->next;
+        mobj_t   *mo = sectors[i].thinglist;
 
-        if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker
-            || currentthinker->function.acp1 == (actionf_p1)P_NullMobjThinker)
-            P_RemoveMobj((mobj_t *)currentthinker);
-        Z_Free(currentthinker);
-
-        currentthinker = next;
+        while (mo)
+        {
+            P_RemoveMobj(mo);
+            mo = mo->snext;
+        }
     }
-    P_InitThinkers();
 
-    // read in saved thinkers
+    // read in saved mobjs
     while (1)
     {
         byte    tclass = saveg_read8();
@@ -1700,7 +1697,6 @@ void P_UnArchiveThinkers(void)
                 mobj->info = &mobjinfo[mobj->type];
                 if (mobj->type == MT_BLOODSPLAT)
                 {
-                    mobj->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
                     if (mobj->blood == FUZZYBLOOD)
                     {
                         mobj->flags = MF_FUZZ;
@@ -1720,9 +1716,6 @@ void P_UnArchiveThinkers(void)
 
                         if (mobj->flags2 & MF2_MIRRORED)
                             mobj->shadow->flags2 |= MF2_MIRRORED;
-
-                        if (mobj->flags2 & MF2_FEETARECLIPPED)
-                            mobj->shadow->flags2 |= MF2_FEETARECLIPPED;
                     }
                 }
                 P_AddThinker(&mobj->thinker);

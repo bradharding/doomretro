@@ -587,13 +587,6 @@ void P_MobjThinker(mobj_t *mobj)
 }
 
 //
-// P_NullMobjThinker
-//
-void P_NullMobjThinker(mobj_t *mobj)
-{
-}
-
-//
 // P_SpawnMobj
 //
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
@@ -1160,9 +1153,6 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->y = y;
         P_SetThingPosition(newsplat);
         newsplat->z = height;
-
-        newsplat->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
-        P_AddThinker(&newsplat->thinker);
     }
 }
 
@@ -1199,18 +1189,12 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         P_SetThingPosition(newsplat);
         newsplat->z = height;
 
-        newsplat->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
-        P_AddThinker(&newsplat->thinker);
-
         if (bloodSplatQueueSlot > bloodsplats)
         {
             mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
 
             if (oldsplat)
-            {
                 P_UnsetThingPosition(oldsplat);
-                ((thinker_t *)oldsplat)->function.acv = (actionf_v)(-1);
-            }
         }
 
         bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
@@ -1245,9 +1229,6 @@ void P_SpawnShadow(mobj_t *actor)
     P_SetThingPosition(mobj);
 
     mobj->z = mobj->subsector->sector->floorheight;
-
-    mobj->thinker.function.acp1 = (actionf_p1)P_NullMobjThinker;
-    P_AddThinker(&mobj->thinker);
 
     actor->shadow = mobj;
     mobj->shadow = actor;
