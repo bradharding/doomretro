@@ -466,12 +466,10 @@ void R_DrawBloodSplatVisSprite(vissprite_t *vis)
 
     colfunc = vis->colfunc;
 
-    dc_iscale = ABS(xiscale);
-    dc_texturemid = vis->texturemid;
     dc_blood = vis->colormap[vis->blood] << 8;
 
     spryscale = vis->scale;
-    sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
+    sprtopscreen = centeryfrac - FixedMul(vis->texturemid, spryscale);
 
     fuzzpos = 0;
 
@@ -740,7 +738,6 @@ void R_ProjectBloodSplat(mobj_t *thing)
     else
         vis->colfunc = thing->colfunc;
 
-    vis->footclip = 0;
     vis->texturemid = gzt - viewz;
 
     vis->x1 = MAX(0, x1);

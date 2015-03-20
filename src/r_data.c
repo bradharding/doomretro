@@ -270,7 +270,9 @@ static void R_GenerateComposite(int texnum)
     int                 i = texture->patchcount;
 
     // killough 4/9/98: marks to identify transparent regions in merged textures
-    byte                *marks = calloc(texture->width, texture->height), *source;
+    byte                *marks = calloc(texture->width, texture->height);
+    byte                *source;
+
     boolean             tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
 
     for (; --i >= 0; patch++)
