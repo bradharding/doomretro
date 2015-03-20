@@ -1055,9 +1055,9 @@ static void SetVideoMode(void)
     if (vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, scalequality);
+    SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, scalequality, SDL_HINT_OVERRIDE);
 
-    SDL_SetHint(SDL_HINT_RENDER_DRIVER, scaledriver);
+    SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
     if (fullscreen)
     {
