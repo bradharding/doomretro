@@ -99,7 +99,7 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
     statenum_t          i = state;                              // initial state
     boolean             ret = true;                             // return value
     statenum_t          tempstate[NUMSTATES];                   // for use with recursion
-    boolean             hasshadow = ((mobj->flags2 & MF2_SHADOW) && mobj->shadow);
+    mobj_t              *shadow = mobj->shadow;
 
     if (recursion++)                                            // if recursion detected,
         memset((seenstate = tempstate), 0, sizeof(tempstate));  // clear state table
@@ -110,8 +110,8 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         {
             mobj->state = (state_t *)S_NULL;
             P_RemoveMobj(mobj);
-            if (hasshadow)
-                P_RemoveMobj(mobj->shadow);
+            if (shadow)
+                P_RemoveMobj(shadow);
             ret = false;
             break;                                              // killough 4/9/98
         }
@@ -136,13 +136,12 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         for (; (state = seenstate[i]); i = state - 1)
             seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
 
-    if (ret)
-        if (hasshadow)
-        {
-            mobj->shadow->sprite = mobj->state->sprite;
-            mobj->shadow->frame = mobj->frame & ~FF_FULLBRIGHT;
-            mobj->shadow->angle = mobj->angle;
-        }
+    if (ret && shadow)
+    {
+        shadow->sprite = mobj->state->sprite;
+        shadow->frame = mobj->frame;
+        shadow->angle = mobj->angle;
+    }
 
     return ret;
 }
@@ -1138,8 +1137,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | MF2_NOFOOTCLIP |
-            (rand() & 1) * MF2_MIRRORED);
+        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | (rand() & 1) * MF2_MIRRORED);
         if (blood == FUZZYBLOOD)
         {
             newsplat->flags = MF_FUZZ;
@@ -1173,8 +1171,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
-        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | MF2_NOFOOTCLIP |
-            (rand() & 1) * MF2_MIRRORED);
+        newsplat->flags2 = (MF2_DRAWFIRST | MF2_DONOTMAP | (rand() & 1) * MF2_MIRRORED);
         if (blood == FUZZYBLOOD)
         {
             newsplat->flags = MF_FUZZ;
@@ -1262,6 +1259,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     mobj_t      *th;
     angle_t     an;
     int         dist;
+    int         speed;
 
     if (!dest)
     {
@@ -1289,10 +1287,11 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
 
     th->angle = an;
     an >>= ANGLETOFINESHIFT;
-    th->momx = FixedMul(th->info->speed, finecosine[an]);
-    th->momy = FixedMul(th->info->speed, finesine[an]);
+    speed = th->info->speed;
+    th->momx = FixedMul(speed, finecosine[an]);
+    th->momy = FixedMul(speed, finesine[an]);
 
-    dist = MAX(1, P_ApproxDistance(dest->x - source->x, dest->y - source->y) / th->info->speed);
+    dist = MAX(1, P_ApproxDistance(dest->x - source->x, dest->y - source->y) / speed);
 
     th->momz = (dest->z - source->z) / dist;
     P_CheckMissileSpawn(th);

@@ -206,6 +206,7 @@ void P_UnsetThingPosition(mobj_t *thing)
         // pointers, allows head node pointers to be treated like everything else
         mobj_t  **sprev = thing->sprev;
         mobj_t  *snext = thing->snext;
+
         if ((*sprev = snext))                           // unlink from sector list
             snext->sprev = sprev;
 

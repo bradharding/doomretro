@@ -690,7 +690,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     // decide which patch to use for sprite relative to player
     sprdef = &sprites[SPR_BLD2];
-    sprframe = &sprdef->spriteframes[thing->frame & FF_FRAMEMASK];
+    sprframe = &sprdef->spriteframes[thing->frame];
 
     lump = sprframe->lump[0];
 
