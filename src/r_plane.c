@@ -120,10 +120,7 @@ static void R_MapPlane(int y, int x1, int x2)
     ds_x1 = x1;
     ds_x2 = x2;
 
-    if (ds_colormask && !fixedcolormap && brightmaps)
-        fbspanfunc();
-    else
-        spanfunc();
+    spanfunc();
 }
 
 //
@@ -321,7 +318,6 @@ void R_DrawPlanes(void)
                     int x;
 
                     ds_source = W_CacheLumpNum(lumpnum, PU_STATIC);
-                    ds_colormask = flatfullbright[lumpnum - firstflat];
 
                     planeheight = ABS(pl->height - viewz);
 

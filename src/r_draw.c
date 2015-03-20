@@ -1175,7 +1175,6 @@ fixed_t         ds_ystep;
 
 // start of a 64*64 tile image
 byte            *ds_source;
-byte            *ds_colormask;
 
 //
 // Draws the actual span.
@@ -1210,48 +1209,6 @@ void R_DrawSpan(void)
     while (count-- > 0)
     {
         *dest++ = colormap[source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)]];
-        xfrac += xstep;
-        yfrac += ystep;
-    }
-}
-
-void R_DrawFullbrightSpan(void)
-{
-    unsigned int        count = ds_x2 - ds_x1 + 1;
-    byte                *dest = R_ADDRESS(0, ds_x1, ds_y);
-    fixed_t             xfrac = ds_xfrac;
-    fixed_t             yfrac = ds_yfrac;
-    const fixed_t       xstep = ds_xstep;
-    const fixed_t       ystep = ds_ystep;
-    const byte          *source = ds_source;
-    const byte          *colormask = ds_colormask;
-    const lighttable_t  *colormap = ds_colormap;
-    byte                dot;
-
-    while (count >= 4)
-    {
-        dot = source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)];
-        *dest++ = (colormask[dot] ? dot : colormap[dot]);
-        xfrac += xstep;
-        yfrac += ystep;
-        dot = source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)];
-        *dest++ = (colormask[dot] ? dot : colormap[dot]);
-        xfrac += xstep;
-        yfrac += ystep;
-        dot = source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)];
-        *dest++ = (colormask[dot] ? dot : colormap[dot]);
-        xfrac += xstep;
-        yfrac += ystep;
-        dot = source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)];
-        *dest++ = (colormask[dot] ? dot : colormap[dot]);
-        xfrac += xstep;
-        yfrac += ystep;
-        count -= 4;
-    }
-    while (count-- > 0)
-    {
-        dot = source[((xfrac >> 16) & 63) | ((yfrac >> 10) & 4032)];
-        *dest++ = (colormask[dot] ? dot : colormap[dot]);
         xfrac += xstep;
         yfrac += ystep;
     }

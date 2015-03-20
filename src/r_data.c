@@ -83,7 +83,6 @@ byte            **texturecomposite;
 // for global animation
 int             *flattranslation;
 int             *texturetranslation;
-byte            **flatfullbright;
 
 // needed for pre rendering
 fixed_t         *spritewidth;
@@ -173,44 +172,28 @@ static byte whiteonly[256] =
 static struct
 {
     char        texture[9];
-    char        flat[9];
     byte        *colormask;
 } fullbright[] = {
-
-    // textures
-    { "COMP2",    "",         notgrayorbrown }, { "COMPSTA1", "",         notgray        },
-    { "COMPSTA2", "",         notgray        }, { "COMPUTE1", "",         notgrayorbrown },
-    { "COMPUTE2", "",         notgrayorbrown }, { "COMPUTE3", "",         notgrayorbrown },
-    { "EXITSIGN", "",         notgray        }, { "EXITSTON", "",         notgray        },
-    { "PLANET1",  "",         notgray        }, { "SILVER2",  "",         notgray        },
-    { "SILVER3",  "",         notgrayorbrown }, { "SLADSKUL", "",         redonly        },
-    { "SW1BRCOM", "",         redonly        }, { "SW1BRIK",  "",         redonly        },
-    { "SW1BRN1",  "",         redonly        }, { "SW1COMM",  "",         redonly        },
-    { "SW1DIRT",  "",         redonly        }, { "SW1MET2",  "",         redonly        },
-    { "SW1STARG", "",         redonly        }, { "SW1STON1", "",         redonly        },
-    { "SW1STON2", "",         redonly        }, { "SW1STONE", "",         redonly        },
-    { "SW1STRTN", "",         redonly        }, { "SW2BLUE",  "",         redonly        },
-    { "SW2BRCOM", "",         greenonly2     }, { "SW2BRIK",  "",         greenonly1     },
-    { "SW2BRN1",  "",         greenonly1     }, { "SW2BRN2",  "",         notgray        },
-    { "SW2BRNGN", "",         notgray        }, { "SW2COMM",  "",         greenonly1     },
-    { "SW2COMP",  "",         redonly        }, { "SW2DIRT",  "",         greenonly1     },
-    { "SW2EXIT",  "",         notgray        }, { "SW2GRAY",  "",         notgray        },
-    { "SW2GRAY1", "",         notgray        }, { "SW2GSTON", "",         redonly        },
-    { "SW2MARB",  "",         greenonly1     }, { "SW2MET2",  "",         greenonly1     },
-    { "SW2METAL", "",         greenonly1     }, { "SW2MOD1",  "",         notgrayorbrown },
-    { "SW2PANEL", "",         redonly        }, { "SW2ROCK",  "",         redonly        },
-    { "SW2SLAD",  "",         redonly        }, { "SW2STARG", "",         greenonly1     },
-    { "SW2STON1", "",         greenonly1     }, { "SW2STON2", "",         greenonly1     },
-    { "SW2STON6", "",         redonly        }, { "SW2STONE", "",         greenonly1     },
-    { "SW2STRTN", "",         greenonly1     }, { "SW2TEK",   "",         greenonly1     },
-    { "SW2VINE",  "",         greenonly1     }, { "SW2WDMET", "",         redonly        },
-    { "SW2WOOD",  "",         redonly        }, { "SW2ZIM",   "",         redonly        },
-    { "WOOD4",    "",         redonly        }, { "WOODGARG", "",         redonly        },
-    { "WOODSKUL", "",         redonly        }, { "ZELDOOR",  "",         redonly        },
-
-    // flats
-    { "",         "CEIL1_2",  whiteonly      }, { "",         "CEIL1_3",  whiteonly      },
-    { "",         "",         0              }
+    { "COMP2",    notgrayorbrown }, { "COMPSTA1", notgray        }, { "COMPSTA2", notgray        },
+    { "COMPUTE1", notgrayorbrown }, { "COMPUTE2", notgrayorbrown }, { "COMPUTE3", notgrayorbrown },
+    { "EXITSIGN", notgray        }, { "EXITSTON", notgray        }, { "PLANET1",  notgray        },
+    { "SILVER2",  notgray        }, { "SILVER3",  notgrayorbrown }, { "SLADSKUL", redonly        },
+    { "SW1BRCOM", redonly        }, { "SW1BRIK",  redonly        }, { "SW1BRN1",  redonly        },
+    { "SW1COMM",  redonly        }, { "SW1DIRT",  redonly        }, { "SW1MET2",  redonly        },
+    { "SW1STARG", redonly        }, { "SW1STON1", redonly        }, { "SW1STON2", redonly        },
+    { "SW1STONE", redonly        }, { "SW1STRTN", redonly        }, { "SW2BLUE",  redonly        },
+    { "SW2BRCOM", greenonly2     }, { "SW2BRIK",  greenonly1     }, { "SW2BRN1",  greenonly1     },
+    { "SW2BRN2",  notgray        }, { "SW2BRNGN", notgray        }, { "SW2COMM",  greenonly1     },
+    { "SW2COMP",  redonly        }, { "SW2DIRT",  greenonly1     }, { "SW2EXIT",  notgray        },
+    { "SW2GRAY",  notgray        }, { "SW2GRAY1", notgray        }, { "SW2GSTON", redonly        },
+    { "SW2MARB",  greenonly1     }, { "SW2MET2",  greenonly1     }, { "SW2METAL", greenonly1     },
+    { "SW2MOD1",  notgrayorbrown }, { "SW2PANEL", redonly        }, { "SW2ROCK",  redonly        },
+    { "SW2SLAD",  redonly        }, { "SW2STARG", greenonly1     }, { "SW2STON1", greenonly1     },
+    { "SW2STON2", greenonly1     }, { "SW2STON6", redonly        }, { "SW2STONE", greenonly1     },
+    { "SW2STRTN", greenonly1     }, { "SW2TEK",   greenonly1     }, { "SW2VINE",  greenonly1     },
+    { "SW2WDMET", redonly        }, { "SW2WOOD",  redonly        }, { "SW2ZIM",   redonly        },
+    { "WOOD4",    redonly        }, { "WOODGARG", redonly        }, { "WOODSKUL", redonly        },
+    { "ZELDOOR",  redonly        }, { "",         0              }
 };
 
 extern boolean  brightmaps;
@@ -749,31 +732,11 @@ void R_InitFlats(void)
     lastflat = W_GetNumForName("F_END") - 1;
     numflats = lastflat - firstflat + 1;
 
-    flatfullbright = Z_Malloc(numflats * sizeof(*flatfullbright), PU_STATIC, 0);
-
     // Create translation table for global animation.
     flattranslation = Z_Malloc((numflats + 1) * sizeof(*flattranslation), PU_STATIC, 0);
 
     for (i = 0; i < numflats; i++)
         flattranslation[i] = i;
-
-    // [BH] Initialize partially fullbright flats.
-    memset(flatfullbright, 0, numflats * sizeof(*flatfullbright));
-    //if (brightmaps)
-    //{
-    //    i = 0;
-    //    while (fullbright[i].colormask)
-    //    {
-    //        if (fullbright[i].flat)
-    //        {
-    //            int      num = R_CheckFlatNumForName(fullbright[i].flat);
-
-    //            if (num != -1)
-    //                flatfullbright[num] = fullbright[i].colormask;
-    //            i++;
-    //        }
-    //    }
-    //}
 }
 
 //
