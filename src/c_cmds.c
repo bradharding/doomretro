@@ -616,11 +616,10 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                         char *control = controls[i].control;
 
                         if (strlen(control) == 1)
-                            C_Output("The \'%s\' key on the keyboard is bound to the %s action.",
-                                (control[0] == '=' ? "+" : control), actions[action].action);
+                            C_Output("\'%s\' %s", (control[0] == '=' ? "+" : control),
+                                actions[action].action);
                         else
-                            C_Output("The %s key on the keyboard is bound to the %s action.",
-                                control, actions[action].action);
+                            C_Output("%s %s", control, actions[action].action);
                     }
                     else if (controls[i].type == keyboard && actions[action].keyboard2
                         && controls[i].value == *(int *)actions[action].keyboard2)
@@ -628,20 +627,17 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                         char *control = controls[i].control;
 
                         if (strlen(control) == 1)
-                            C_Output("The \'%s\' key on the keyboard is bound to the %s action.",
-                            (control[0] == '=' ? "+" : control), actions[action].action);
+                            C_Output("\'%s\' %s", (control[0] == '=' ? "+" : control),
+                                actions[action].action);
                         else
-                            C_Output("The %s key on the keyboard is bound to the %s action.",
-                            control, actions[action].action);
+                            C_Output("%s %s", control, actions[action].action);
                     }
                     else if (controls[i].type == mouse && actions[action].mouse
                         && controls[i].value == *(int *)actions[action].mouse)
-                        C_Output("The %s control on the mouse is bound to the %s action.",
-                            controls[i].control, actions[action].action);
+                        C_Output("%s %s", controls[i].control, actions[action].action);
                     else if (controls[i].type == gamepad && actions[action].gamepad
                         && controls[i].value == *(int *)actions[action].gamepad)
-                        C_Output("The %s control on the gamepad is bound to the %s action.",
-                            controls[i].control, actions[action].action);
+                        C_Output("%s %s", controls[i].control, actions[action].action);
                     ++action;
                 }
             }
@@ -676,21 +672,13 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                                 }
                                 else
                                     *(int *)actions[action].keyboard1 = controls[i].value;
-                                if (strlen(parm1) == 1)
-                                    C_Output("The \'%s\' key on the keyboard is now bound to the %s action.",
-                                        (parm1[0] == '=' ? "+" : parm1), parm2);
-                                else
-                                    C_Output("The %s key on the keyboard is now bound to the %s action.",
-                                        parm1, parm2);
                             }
                             break;
                         case mouse:
                             *(int *)actions[action].mouse = controls[i].value;
-                            C_Output("The %s control on the mouse is now bound to the %s action.", parm1, parm2);
                             break;
                         case gamepad:
                             *(int *)actions[action].gamepad = controls[i].value;
-                            C_Output("The %s control on the gamepad is now bound to the %s action.", parm1, parm2);
                             break;
                     }
                     M_SaveDefaults();
