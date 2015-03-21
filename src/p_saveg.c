@@ -598,7 +598,7 @@ static void saveg_read_pspdef_t(pspdef_t *str)
 
     // state_t *state
     state = saveg_read32();
-    str->state = (state > 0 ? & states[state] : NULL);
+    str->state = (state > 0 ? &states[state] : NULL);
 
     // int tics
     str->tics = saveg_read32();
@@ -1679,6 +1679,8 @@ void P_UnArchiveThinkers(void)
             mo = mo->snext;
         }
     }
+
+    P_InitThinkers();
 
     // read in saved mobjs
     while (1)
