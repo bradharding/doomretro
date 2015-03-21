@@ -1582,6 +1582,10 @@ void I_InitGraphics(void)
     SDL_Event   dummy;
     byte        *doompal = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
+#if defined(_MSC_VER) && defined(_DEBUG)
+    SDL_InitSubSystem(SDL_INIT_NOPARACHUTE);
+#endif
+
 #if !defined(SDL20)
     putenv("SDL_DISABLE_LOCK_KEYS=1");
 #endif
