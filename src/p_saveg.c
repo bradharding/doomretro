@@ -1631,7 +1631,8 @@ void P_UnArchiveWorld(void)
 typedef enum
 {
     tc_end,
-    tc_mobj
+    tc_mobj,
+    tc_bloodsplat
 } thinkerclass_t;
 
 //
@@ -1660,7 +1661,7 @@ void P_ArchiveThinkers(void)
         {
             if (mo->type == MT_BLOODSPLAT)
             {
-                saveg_write8(tc_mobj);
+                saveg_write8(tc_bloodsplat);
                 saveg_write_pad();
                 saveg_write_mobj_t(mo);
             }
@@ -1725,30 +1726,35 @@ void P_UnArchiveThinkers(void)
 
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
-                if (mobj->type == MT_BLOODSPLAT)
+
+                mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+                mobj->colfunc = mobj->info->colfunc;
+
+                if (mobj->flags2 & MF2_SHADOW)
                 {
-                    if (mobj->blood == FUZZYBLOOD)
-                    {
-                        mobj->flags = MF_FUZZ;
-                        mobj->colfunc = fuzzcolfunc;
-                    }
-                    else
-                        mobj->colfunc = bloodsplatcolfunc;
+                    P_SpawnShadow(mobj);
+
+                    if (mobj->flags2 & MF2_MIRRORED)
+                        mobj->shadow->flags2 |= MF2_MIRRORED;
+                }
+                P_AddThinker(&mobj->thinker);
+                break;
+
+            case tc_bloodsplat:
+                saveg_read_pad();
+                mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+                saveg_read_mobj_t(mobj);
+
+                P_SetThingPosition(mobj);
+                mobj->info = &mobjinfo[mobj->type];
+
+                if (mobj->blood == FUZZYBLOOD)
+                {
+                    mobj->flags = MF_FUZZ;
+                    mobj->colfunc = fuzzcolfunc;
                 }
                 else
-                {
-                    mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
-                    mobj->colfunc = mobj->info->colfunc;
-
-                    if (mobj->flags2 & MF2_SHADOW)
-                    {
-                        P_SpawnShadow(mobj);
-
-                        if (mobj->flags2 & MF2_MIRRORED)
-                            mobj->shadow->flags2 |= MF2_MIRRORED;
-                    }
-                    P_AddThinker(&mobj->thinker);
-                }
+                    mobj->colfunc = bloodsplatcolfunc;
                 break;
 
             default:
