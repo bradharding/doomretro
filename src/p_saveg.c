@@ -1722,8 +1722,8 @@ void P_UnArchiveThinkers(void)
                         if (mobj->flags2 & MF2_MIRRORED)
                             mobj->shadow->flags2 |= MF2_MIRRORED;
                     }
+                    P_AddThinker(&mobj->thinker);
                 }
-                P_AddThinker(&mobj->thinker);
                 break;
 
             default:
