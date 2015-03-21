@@ -1004,8 +1004,7 @@ static int D_ChooseIWAD(void)
                         {
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                strdup(M_ExtractFolder(pwadpass1)),
-                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                strdup(szFile), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                             IdentifyIWADByName(fullpath2);
                             if (D_AddFile(fullpath2, true))
                             {
