@@ -1639,15 +1639,26 @@ typedef enum
 //
 void P_ArchiveThinkers(void)
 {
-    int i;
+    thinker_t   *th;
+    int         i;
 
+    // save off the current thinkers
+    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        {
+            saveg_write8(tc_mobj);
+            saveg_write_pad();
+            saveg_write_mobj_t((mobj_t *)th);
+        }
+
+    // save off the bloodsplats
     for (i = 0; i < numsectors; ++i)
     {
         mobj_t   *mo = sectors[i].thinglist;
 
         while (mo)
         {
-            if (mo->type != MT_SHADOW)
+            if (mo->type == MT_BLOODSPLAT)
             {
                 saveg_write8(tc_mobj);
                 saveg_write_pad();
@@ -1666,9 +1677,25 @@ void P_ArchiveThinkers(void)
 //
 void P_UnArchiveThinkers(void)
 {
+    thinker_t   *currentthinker = thinkercap.next;
+    thinker_t   *next;
     int i;
 
-    // remove all the current mobjs
+    // remove all the current thinkers
+    while (currentthinker != &thinkercap)
+    {
+        next = currentthinker->next;
+
+        if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
+            P_RemoveMobj((mobj_t *)currentthinker);
+        Z_Free(currentthinker);
+
+        currentthinker = next;
+    }
+
+    P_InitThinkers();
+
+    // remove the remaining bloodsplats and shadows
     for (i = 0; i < numsectors; ++i)
     {
         mobj_t   *mo = sectors[i].thinglist;
@@ -1680,9 +1707,7 @@ void P_UnArchiveThinkers(void)
         }
     }
 
-    P_InitThinkers();
-
-    // read in saved mobjs
+    // read in saved thinkers
     while (1)
     {
         byte    tclass = saveg_read8();
