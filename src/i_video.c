@@ -1073,14 +1073,16 @@ static void SetVideoMode(void)
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
             C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
-                desktopwidth, desktopheight, aspectratio(desktopwidth, desktopheight), monitor, nummonitors);
+                monitors[monitor - 1].w, monitors[monitor - 1].h, aspectratio(monitors[monitor - 1].w,
+                monitors[monitor - 1].h), monitor, nummonitors);
         }
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
             C_Output("Switched to screen resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
-                screenwidth, screenheight, aspectratio(screenwidth, screenheight), monitor, nummonitors);
+                monitors[monitor - 1].w, monitors[monitor - 1].h, aspectratio(monitors[monitor - 1].w,
+                monitors[monitor - 1].h), monitor, nummonitors);
         }
     }
     else
