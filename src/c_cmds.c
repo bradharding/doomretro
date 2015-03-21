@@ -612,32 +612,16 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                 {
                     if (controls[i].type == keyboard && actions[action].keyboard1
                         && controls[i].value == *(int *)actions[action].keyboard1)
-                    {
-                        char *control = controls[i].control;
-
-                        if (strlen(control) == 1)
-                            C_Output("\'%s\' %s", (control[0] == '=' ? "+" : control),
-                                actions[action].action);
-                        else
-                            C_Output("%s %s", control, actions[action].action);
-                    }
+                            C_Output(actions[action].action);
                     else if (controls[i].type == keyboard && actions[action].keyboard2
                         && controls[i].value == *(int *)actions[action].keyboard2)
-                    {
-                        char *control = controls[i].control;
-
-                        if (strlen(control) == 1)
-                            C_Output("\'%s\' %s", (control[0] == '=' ? "+" : control),
-                                actions[action].action);
-                        else
-                            C_Output("%s %s", control, actions[action].action);
-                    }
+                        C_Output(actions[action].action);
                     else if (controls[i].type == mouse && actions[action].mouse
                         && controls[i].value == *(int *)actions[action].mouse)
-                        C_Output("%s %s", controls[i].control, actions[action].action);
+                        C_Output(actions[action].action);
                     else if (controls[i].type == gamepad && actions[action].gamepad
                         && controls[i].value == *(int *)actions[action].gamepad)
-                        C_Output("%s %s", controls[i].control, actions[action].action);
+                        C_Output(actions[action].action);
                     ++action;
                 }
             }
@@ -723,14 +707,8 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-    {
-        if (!bloodsplats)
-            C_Output("%s off", cmd);
-        else if (bloodsplats == UNLIMITED)
-            C_Output("%s unlimited", cmd);
-        else
-            C_Output("%s %s", cmd, commify(bloodsplats));
-    }
+        C_Output(!bloodsplats ? "off" : (bloodsplats == UNLIMITED ? "unlimited" :
+            commify(bloodsplats)));
 }
 
 //
@@ -761,7 +739,7 @@ void C_Bool(char *cmd, char *parm1, char *parm2)
                 }
             }
             else
-                C_Output("%s %s", cmd, (*(boolean *)consolecmds[i].variable ? "on" : "off"));
+                C_Output(*(boolean *)consolecmds[i].variable ? "on" : "off");
         }
         ++i;
     }
@@ -814,7 +792,7 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
         M_SaveDefaults();
     }
     else
-        C_Output("%s \"%s\"", cmd, uppercase(conback));
+        C_Output("\"%s\"", uppercase(conback));
 }
 
 //
@@ -1006,7 +984,7 @@ void C_Float(char *cmd, char *parm1, char *parm2)
                 }
             }
             else
-                C_Output("%s %s", cmd, striptrailingzero(*(float *)consolecmds[i].variable, 2));
+                C_Output(striptrailingzero(*(float *)consolecmds[i].variable, 2));
         }
         ++i;
     }
@@ -1058,10 +1036,8 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
             M_SaveDefaults();
         }
     }
-    else if (gammalevel == 1.0f)
-        C_Output("%s off", cmd);
     else
-        C_Output("%s %s", cmd, striptrailingzero(gammalevel, 2));
+        C_Output(gammalevel == 1.0f ? "off" : striptrailingzero(gammalevel, 2));
 }
 
 //
@@ -1112,7 +1088,7 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output("%s %s", cmd, C_LookupAliasFromValue(graphicdetail, 6));
+        C_Output(C_LookupAliasFromValue(graphicdetail, 6));
 }
 
 //
@@ -1186,7 +1162,7 @@ void C_Int(char *cmd, char *parm1, char *parm2)
                 char    *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                                  consolecmds[i].aliases);
 
-                C_Output("%s %s", cmd, (alias ? alias : commify(*(int *)consolecmds[i].variable)));
+                C_Output(alias ? alias : commify(*(int *)consolecmds[i].variable));
             }
         }
         ++i;
@@ -1441,10 +1417,8 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
 
         M_SaveDefaults();
     }
-    else if (!strcasecmp(cmd, "snd_musicvolume"))
-        C_Output("%s %i%%", cmd, musicvolume_percent);
     else
-        C_Output("%s %i%%", cmd, sfxvolume_percent);
+        C_Output("%i%%", (!strcasecmp(cmd, "snd_musicvolume") ? musicvolume_percent : sfxvolume_percent));
 }
 
 //
@@ -1514,7 +1488,7 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output("%s %ix%i", cmd, pixelwidth, pixelheight);
+        C_Output("%ix%i", pixelwidth, pixelheight);
 }
 
 //
@@ -1571,11 +1545,11 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output("%s %i", cmd, screensize);
+        C_Output("%i", screensize);
 }
 
 //
-// SHOWFPS cmd
+// SHOWFPS cvar
 //
 void C_ShowFPS(char *cmd, char *parm1, char *parm2)
 {
@@ -1587,7 +1561,7 @@ void C_ShowFPS(char *cmd, char *parm1, char *parm2)
             showfps = !!value;
     }
     else
-        C_Output("%s %s", cmd, (showfps ? "on" : "off"));
+        C_Output(showfps ? "on" : "off");
 }
 
 //
@@ -1675,7 +1649,7 @@ void C_Str(char *cmd, char *parm1, char *parm2)
                 M_SaveDefaults();
             }
             else
-                C_Output("%s \"%s\"", cmd, *(char **)consolecmds[i].variable);
+                C_Output("\"%s\"", *(char **)consolecmds[i].variable);
             break;
         }
         ++i;
@@ -1713,9 +1687,9 @@ void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
         }
     }
     if (!screenwidth || !screenheight)
-        C_Output("%s desktop", cmd);
+        C_Output("desktop");
     else
-        C_Output("%s %ix%i", cmd, screenwidth, screenheight);
+        C_Output("%ix%i", screenwidth, screenheight);
 }
 
 void C_Time(char *cmd, char *parm1, char *parm2)
@@ -1729,8 +1703,7 @@ void C_Time(char *cmd, char *parm1, char *parm2)
         {
             int tics = *(int *)consolecmds[i].variable / TICRATE;
 
-            C_Output("%s %02i:%02i:%02i", cmd,
-                tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
+            C_Output("%02i:%02i:%02i", tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
         }
         ++i;
     }
@@ -1747,9 +1720,9 @@ void C_WindowPosition(char *cmd, char *parm1, char *parm2)
         M_SaveDefaults();
     }
     else if (!windowposition[0])
-        C_Output("%s center", cmd);
+        C_Output("center");
     else
-        C_Output("%s (%s)", cmd, windowposition);
+        C_Output("(%s)", windowposition);
 }
 
 void C_WindowSize(char *cmd, char *parm1, char *parm2)
@@ -1770,5 +1743,5 @@ void C_WindowSize(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output("%s %ix%i", cmd, windowwidth, windowheight);
+        C_Output("%ix%i", windowwidth, windowheight);
 }
