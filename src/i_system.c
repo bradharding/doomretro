@@ -95,9 +95,10 @@ void I_PrintWindowsVersion(void)
         if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
         {
             name = (info.dwMinorVersion < 10 ? "95" : (info.dwMinorVersion < 90 ? "98" : "Me"));
-            C_Output("Running on Microsoft Windows %s %lu.%lu.%lu %ws.",
+            C_Output("Running on Microsoft Windows %s %lu.%lu.%lu%s%ws.",
                 name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber & 0xffff,
-                info.szCSDVersion);
+                (wcslen(info.szCSDVersion) ? " " : ""),
+                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""));
         }
         else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
@@ -127,7 +128,8 @@ void I_PrintWindowsVersion(void)
 
             C_Output("Running on Microsoft Windows %s (NT %lu.%lu) Build %lu %ws.",
                 name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber,
-                info.szCSDVersion);
+                (wcslen(info.szCSDVersion) ? " " : ""),
+                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""));
         }
     }
 }
