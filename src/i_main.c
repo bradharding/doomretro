@@ -250,6 +250,8 @@ int main(int argc, char **argv)
 #if defined(WIN32)
     if (!M_CheckParm("-nopriority"))
         I_SetProcessPriority(hProcess);
+
+    SetProcessDPIAware();
 #endif
 
     D_DoomMain();
