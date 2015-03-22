@@ -55,6 +55,7 @@ void I_ShutdownWindows32(void);
 #include <CoreFoundation/CFUserNotification.h>
 #endif
 
+#include "c_console.h"
 #include "d_net.h"
 #include "doomdef.h"
 #include "doomstat.h"
@@ -75,6 +76,54 @@ void I_ShutdownWindows32(void);
 extern boolean  widescreen;
 extern boolean  hud;
 extern boolean  returntowidescreen;
+
+#if defined(WIN32)
+void I_PrintWindowsVersion(void)
+{
+    OSVERSIONINFOEX     info;
+    const char          *name;
+
+    info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+    if (!GetVersionEx((OSVERSIONINFO *)&info))
+    {
+        info.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+        GetVersionEx((OSVERSIONINFO *)&info);
+    }
+
+    if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
+    {
+        name = (info.dwMinorVersion < 10 ? "95" : (info.dwMinorVersion < 90 ? "98" : "Me"));
+        C_Output("Running on Microsoft Windows %s %lu.%lu.%lu %s.",
+            name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber & 0xffff,
+            info.szCSDVersion);
+    }
+    else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
+    {
+        name = "NT";
+        if (info.dwMajorVersion == 5)
+        {
+            if (info.dwMinorVersion == 0)
+                name = "2000";
+            else if (info.dwMinorVersion == 1)
+                name = "XP";
+            else if (info.dwMinorVersion == 2)
+                name = "Server 2003";
+        }
+        else if (info.dwMajorVersion == 6)
+        {
+            if (info.dwMinorVersion == 0)
+                name = (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008");
+            else if (info.dwMinorVersion == 1)
+                name = (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2");
+            else if (info.dwMinorVersion == 2)
+                name = (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012");
+        }
+        C_Output("Running on Microsoft Windows %s (NT %lu.%lu) Build %lu %s.",
+            name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber,
+            info.szCSDVersion);
+    }
+}
+#endif
 
 //
 // I_Quit

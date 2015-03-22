@@ -1191,6 +1191,10 @@ static void D_DoomMainSetup(void)
 
     C_PrintCompileDate();
 
+#if defined(WIN32)
+    I_PrintWindowsVersion();
+#endif
+
     C_PrintSDLVersions();
 
     iwadfile = D_FindIWAD();

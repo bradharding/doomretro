@@ -57,4 +57,6 @@ void I_Quit(boolean shutdown);
 
 void I_Error(char *error, ...);
 
+void I_PrintWindowsVersion(void);
+
 #endif
