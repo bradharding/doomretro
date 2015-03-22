@@ -882,9 +882,15 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
     int i;
     int max = M_RandomInt(50, 100) + radius;
-    int shiftx = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-    int shifty = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+    int shiftx = 0;
+    int shifty = 0;
     int blood = mobjinfo[mobj->blood].blood;
+
+    if (!(mobj->flags & MF_SPAWNCEILING))
+    {
+        shiftx = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+        shifty = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+    }
 
     for (i = 0; i < max; i++)
     {
