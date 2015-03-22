@@ -58,6 +58,17 @@ void I_SetProcessPriority(HANDLE hProcess)
     SetPriorityClass(hProcess, ABOVE_NORMAL_PRIORITY_CLASS);
 }
 
+void I_SetProcessDPIAware(void)
+{
+    typedef BOOL(*SETPROCESSDPIAWARE)();
+
+    SETPROCESSDPIAWARE pSetProcessDPIAware =
+        (SETPROCESSDPIAWARE)GetProcAddress(LoadLibrary("user32.dll"), "SetProcessDPIAware");
+
+    if (pSetProcessDPIAware)
+        pSetProcessDPIAware();
+}
+
 extern int      fullscreen;
 extern boolean  window_focused;
 HHOOK           g_hKeyboardHook;
@@ -251,7 +262,7 @@ int main(int argc, char **argv)
     if (!M_CheckParm("-nopriority"))
         I_SetProcessPriority(hProcess);
 
-    SetProcessDPIAware();
+    I_SetProcessDPIAware();
 #endif
 
     D_DoomMain();
