@@ -117,7 +117,12 @@ void I_PrintWindowsVersion(void)
                 name = (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2");
             else if (info.dwMinorVersion == 2)
                 name = (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012");
+            else if (info.dwMinorVersion == 3)
+                name = "8.1";
         }
+        else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
+            name = "10";
+
         C_Output("Running on Microsoft Windows %s (NT %lu.%lu) Build %lu %s.",
             name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber,
             info.szCSDVersion);
