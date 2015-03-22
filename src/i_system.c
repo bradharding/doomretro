@@ -82,7 +82,7 @@ typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 
 void I_PrintWindowsVersion(void)
 {
-    PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+    PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"), "RtlGetVersion");
     OSVERSIONINFOEXW    info;
     const char          *name;
 
@@ -126,7 +126,7 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
                 name = "10";
 
-            C_Output("Running on Microsoft Windows %s (NT %lu.%lu) Build %lu %ws.",
+            C_Output("Running on Microsoft Windows %s (NT %lu.%lu) Build %lu%s%ws.",
                 name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber,
                 (wcslen(info.szCSDVersion) ? " " : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""));

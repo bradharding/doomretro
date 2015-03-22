@@ -1008,18 +1008,20 @@ static void SetupScreenRects(void)
 
 static char *aspectratio(int width, int height)
 {
-    int         hcf = gcd(width, height);
+    int hcf = gcd(width, height);
+    int a = width / hcf;
+    int b = height / hcf;
 
-    width /= hcf;
-    height /= hcf;
-
-    if (width == 8 && height == 5)
+    if (a == 8 && b == 5)
         return "16:10";
     else
     {
-        char    *ratio = (char *)malloc(8);
+        static char     ratio[10];
 
-        M_snprintf(ratio, sizeof(ratio), "%i:%i", width, height);
+        if (a == width && b == height)
+            M_snprintf(ratio, sizeof(ratio), "%.2f", (float)a / b);
+        else
+            M_snprintf(ratio, sizeof(ratio), "%i:%i", a, b);
         return ratio;
     }
 }
