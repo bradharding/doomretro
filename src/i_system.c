@@ -78,54 +78,57 @@ extern boolean  hud;
 extern boolean  returntowidescreen;
 
 #if defined(WIN32)
+typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
+
 void I_PrintWindowsVersion(void)
 {
-    OSVERSIONINFOEX     info;
+    PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandleA("ntdll.dll"), "RtlGetVersion");
+    OSVERSIONINFOEXW    info;
     const char          *name;
 
-    info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-    if (!GetVersionEx((OSVERSIONINFO *)&info))
+    if (pRtlGetVersion)
     {
-        info.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-        GetVersionEx((OSVERSIONINFO *)&info);
-    }
+        ZeroMemory(&info, sizeof(&info));
+        info.dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
 
-    if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
-    {
-        name = (info.dwMinorVersion < 10 ? "95" : (info.dwMinorVersion < 90 ? "98" : "Me"));
-        C_Output("Running on Microsoft Windows %s %lu.%lu.%lu %s.",
-            name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber & 0xffff,
-            info.szCSDVersion);
-    }
-    else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
-    {
-        name = "NT";
-        if (info.dwMajorVersion == 5)
+        pRtlGetVersion((PRTL_OSVERSIONINFOEXW)&info);
+        if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
         {
-            if (info.dwMinorVersion == 0)
-                name = "2000";
-            else if (info.dwMinorVersion == 1)
-                name = "XP";
-            else if (info.dwMinorVersion == 2)
-                name = "Server 2003";
+            name = (info.dwMinorVersion < 10 ? "95" : (info.dwMinorVersion < 90 ? "98" : "Me"));
+            C_Output("Running on Microsoft Windows %s %lu.%lu.%lu %ws.",
+                name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber & 0xffff,
+                info.szCSDVersion);
         }
-        else if (info.dwMajorVersion == 6)
+        else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
-            if (info.dwMinorVersion == 0)
-                name = (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008");
-            else if (info.dwMinorVersion == 1)
-                name = (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2");
-            else if (info.dwMinorVersion == 2)
-                name = (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012");
-            else if (info.dwMinorVersion == 3)
-                name = "8.1";
-        }
-        else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
-            name = "10";
+            name = "NT";
+            if (info.dwMajorVersion == 5)
+            {
+                if (info.dwMinorVersion == 0)
+                    name = "2000";
+                else if (info.dwMinorVersion == 1)
+                    name = "XP";
+                else if (info.dwMinorVersion == 2)
+                    name = "Server 2003";
+            }
+            else if (info.dwMajorVersion == 6)
+            {
+                if (info.dwMinorVersion == 0)
+                    name = (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008");
+                else if (info.dwMinorVersion == 1)
+                    name = (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2");
+                else if (info.dwMinorVersion == 2)
+                    name = (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012");
+                else if (info.dwMinorVersion == 3)
+                    name = "8.1";
+            }
+            else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
+                name = "10";
 
-        C_Output("Running on Microsoft Windows %s (NT %lu.%lu) Build %lu %s.",
-            name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber,
-            info.szCSDVersion);
+            C_Output("Running on Microsoft Windows %s (NT %lu.%lu) Build %lu %ws.",
+                name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber,
+                info.szCSDVersion);
+        }
     }
 }
 #endif
