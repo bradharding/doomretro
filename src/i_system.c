@@ -79,56 +79,90 @@ extern boolean  returntowidescreen;
 
 #if defined(WIN32)
 typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
+typedef BOOL(WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+
+#define PRODUCT_PROFESSIONAL    0x00000030
 
 void I_PrintWindowsVersion(void)
 {
     PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"), "RtlGetVersion");
+    PGETPRODUCTINFO     pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetProductInfo");
     OSVERSIONINFOEXW    info;
-    const char          *name;
+    const char          *infoname;
+    DWORD               type;
+    const char          *typename = "";
 
-    if (pRtlGetVersion)
+    if (pRtlGetVersion && pGetProductInfo)
     {
         ZeroMemory(&info, sizeof(&info));
         info.dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
 
         pRtlGetVersion((PRTL_OSVERSIONINFOEXW)&info);
+
+        pGetProductInfo(info.dwMajorVersion, info.dwMinorVersion, 0, 0, &type);
+        switch (type)
+        {
+            case PRODUCT_ULTIMATE:                     typename = "Ultimate";                      break;
+            case PRODUCT_PROFESSIONAL:                 typename = "Professional";                  break;
+            case PRODUCT_HOME_PREMIUM:                 typename = "Home Premium";                  break;
+            case PRODUCT_HOME_BASIC:                   typename = "Home Basic";                    break;
+            case PRODUCT_ENTERPRISE:                   typename = "Enterprise";                    break;
+            case PRODUCT_BUSINESS:                     typename = "Business";                      break;
+            case PRODUCT_STARTER:                      typename = "Starter";                       break;
+            case PRODUCT_CLUSTER_SERVER:               typename = "Cluster Server";                break;
+            case PRODUCT_DATACENTER_SERVER:
+            case PRODUCT_DATACENTER_SERVER_CORE:       typename = "Datacenter Edition";            break;
+            case PRODUCT_ENTERPRISE_SERVER:
+            case PRODUCT_ENTERPRISE_SERVER_CORE:
+            case PRODUCT_ENTERPRISE_SERVER_IA64:       typename = "Enterprise";                    break;
+            case PRODUCT_SMALLBUSINESS_SERVER:         typename = "Small Business Server";         break;
+            case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM: typename = "Small Business Server Premium"; break;
+            case PRODUCT_STANDARD_SERVER:
+            case PRODUCT_STANDARD_SERVER_CORE:         typename = "Standard";                      break;
+            case PRODUCT_WEB_SERVER:                   typename = "Web Server";                    break;
+        }
+
         if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
         {
-            name = (info.dwMinorVersion < 10 ? "95" : (info.dwMinorVersion < 90 ? "98" : "Me"));
-            C_Output("Running on Microsoft Windows %s %lu.%lu.%lu%s%ws.",
-                name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber & 0xffff,
-                (wcslen(info.szCSDVersion) ? " " : ""),
-                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""));
+            infoname = (info.dwMinorVersion < 10 ? "95" : (info.dwMinorVersion < 90 ? "98" : "Me"));
+
+            C_Output("Running on Microsoft Windows %s%s%s%s%ws%s.",
+                infoname, (strlen(typename) ? " " : ""), (strlen(typename) ? typename : ""),
+                (wcslen(info.szCSDVersion) ? " (" : ""),
+                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""),
+                (wcslen(info.szCSDVersion) ? ")" : ""));
         }
         else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
-            name = "NT";
+            infoname = "NT";
             if (info.dwMajorVersion == 5)
             {
                 if (info.dwMinorVersion == 0)
-                    name = "2000";
+                    infoname = "2000";
                 else if (info.dwMinorVersion == 1)
-                    name = "XP";
+                    infoname = "XP";
                 else if (info.dwMinorVersion == 2)
-                    name = "Server 2003";
+                    infoname = "Server 2003";
             }
             else if (info.dwMajorVersion == 6)
             {
                 if (info.dwMinorVersion == 0)
-                    name = (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008");
+                    infoname = (info.wProductType == VER_NT_WORKSTATION ? "Vista" : "Server 2008");
                 else if (info.dwMinorVersion == 1)
-                    name = (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2");
+                    infoname = (info.wProductType == VER_NT_WORKSTATION ? "7" : "Server 2008 R2");
                 else if (info.dwMinorVersion == 2)
-                    name = (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012");
+                    infoname = (info.wProductType == VER_NT_WORKSTATION ? "8" : "Server 2012");
                 else if (info.dwMinorVersion == 3)
-                    name = "8.1";
+                    infoname = "8.1";
             }
             else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
-                name = "10";
+                infoname = "10";
 
-            C_Output("Running on Microsoft Windows %s Build %lu%s%ws.",
-                name, info.dwBuildNumber, (wcslen(info.szCSDVersion) ? " " : ""),
-                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""));
+            C_Output("Running on Microsoft Windows %s%s%s%s%ws%s.",
+                infoname, (strlen(typename) ? " " : ""), (strlen(typename) ? typename : ""),
+                (wcslen(info.szCSDVersion) ? " (" : ""),
+                (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""),
+                (wcslen(info.szCSDVersion) ? ")" : ""));
         }
     }
 }
