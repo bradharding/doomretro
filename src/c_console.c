@@ -402,8 +402,18 @@ static void C_DrawText(int x, int y, char *text, int color)
     boolean     italics = false;
     size_t      i;
     int         tabs = 0;
+    size_t      len = strlen(text);
 
-    for (i = 0; i < strlen(text); ++i)
+    while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 2)
+    {
+        text[len - 1] = '.';
+        text[len] = '.';
+        text[len + 1] = '.';
+        text[len + 2] = '\0';
+        --len;
+    }
+
+    for (i = 0; i < len; ++i)
     {
         char    letter = text[i];
         int     c = letter - CONSOLEFONTSTART;
