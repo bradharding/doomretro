@@ -126,9 +126,8 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
                 name = "10";
 
-            C_Output("Running on Microsoft Windows %s (NT %lu.%lu) Build %lu%s%ws.",
-                name, info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber,
-                (wcslen(info.szCSDVersion) ? " " : ""),
+            C_Output("Running on Microsoft Windows %s Build %lu%s%ws.",
+                name, info.dwBuildNumber, (wcslen(info.szCSDVersion) ? " " : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""));
         }
     }
