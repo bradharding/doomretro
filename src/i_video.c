@@ -75,7 +75,7 @@ SDL_Surface             *screenbuffer = NULL;
 #if defined(SDL20)
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
-static SDL_Surface      *rgbabuffer = NULL;
+static SDL_Surface      *rgbbuffer = NULL;
 static SDL_Texture      *texture = NULL; 
 
 int                     monitor = MONITOR_DEFAULT;
@@ -149,10 +149,10 @@ static int              startx;
 static int              starty;
 
 static int              blitheight = SCREENHEIGHT << FRACBITS;
-#endif
 
 static int              pitch;
 byte                    *pixels;
+#endif
 
 byte                    *rows[SCREENHEIGHT];
 
@@ -181,7 +181,7 @@ SDL_Rect                src_rect = { 0, 0, 0, 0 };
 
 #if defined(SDL20)
 SDL_Rect                screenbuffer_rect;
-SDL_Rect                rgbabuffer_rect;
+SDL_Rect                rgbbuffer_rect;
 #else
 SDL_Rect                dest_rect = { 0, 0, 0, 0 };
 #endif
@@ -495,7 +495,7 @@ void I_ShutdownGraphics(void)
     SDL_FreeSurface(screenbuffer);
 
 #if defined(SDL20)
-    SDL_FreeSurface(rgbabuffer);
+    SDL_FreeSurface(rgbbuffer);
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -861,16 +861,11 @@ void I_FinishUpdate(void)
         }
 
 #if defined(SDL20)
-        SDL_LowerBlit(screenbuffer, &screenbuffer_rect, rgbabuffer, &rgbabuffer_rect);
-        if (!SDL_LockTexture(texture, NULL, &pixels, &pitch))
-        {
-            memcpy(pixels, rgbabuffer->pixels, SCREENHEIGHT * pitch);
-            SDL_UnlockTexture(texture);
-
-            SDL_RenderClear(renderer);
-            SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-            SDL_RenderPresent(renderer);
-        }
+        SDL_LowerBlit(screenbuffer, &screenbuffer_rect, rgbbuffer, &rgbbuffer_rect);
+        SDL_UpdateTexture(texture, NULL, rgbbuffer->pixels, SCREENWIDTH * sizeof(Uint32));
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+        SDL_RenderPresent(renderer);
 #else
         StretchBlit();
 
@@ -986,7 +981,7 @@ static void SetupScreenRects(void)
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
     screenbuffer_rect = screenbuffer->clip_rect;
-    rgbabuffer_rect = rgbabuffer->clip_rect;
+    rgbbuffer_rect = rgbbuffer->clip_rect;
 #else
     int w = screenbuffer->w;
     int h = screenbuffer->h;
@@ -1138,10 +1133,6 @@ static void SetVideoMode(void)
         renderername = "Direct3D";
     else if (!strcasecmp(rendererinfo.name, "opengl"))
         renderername = "OpenGL";
-    else if (!strcasecmp(rendererinfo.name, "opengles2"))
-        renderername = "OpenGL ES 2";
-    else if (!strcasecmp(rendererinfo.name, "opengles"))
-        renderername = "OpenGL ES";
     else if (!strcasecmp(rendererinfo.name, "software"))
         renderername = "software";
 
@@ -1164,8 +1155,8 @@ static void SetVideoMode(void)
             ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
 
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
-    rgbabuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
-    SDL_FillRect(rgbabuffer, NULL, 0);
+    rgbbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
+    SDL_FillRect(rgbbuffer, NULL, 0);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT);
 
