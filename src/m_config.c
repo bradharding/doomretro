@@ -186,7 +186,6 @@ extern boolean  vsync;
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
-extern char     *windowsize;
 extern int      windowwidth;
 
 extern boolean  returntowidescreen;
@@ -1172,7 +1171,6 @@ static void M_CheckDefaults(void)
     else
         hud = true;
 
-    sscanf(windowsize, "%ix%i", &windowwidth, &windowheight);
     if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
         windowheight = WINDOWHEIGHT_DEFAULT;
     windowwidth = windowheight * 4 / 3;
