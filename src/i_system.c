@@ -322,6 +322,12 @@ void I_Error(char *error, ...)
     I_ShutdownGamepad();
 
     va_start(argptr, error);
+    vfprintf(stderr, error, argptr);
+    fprintf(stderr, "\n\n");
+    va_end(argptr);
+    fflush(stderr);
+
+    va_start(argptr, error);
     memset(msgbuf, 0, sizeof(msgbuf));
     M_vsnprintf(msgbuf, sizeof(msgbuf) - 1, error, argptr);
     va_end(argptr);
