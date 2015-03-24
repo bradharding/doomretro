@@ -866,10 +866,11 @@ void I_FinishUpdate(void)
         {
             memcpy(pixels, rgbabuffer->pixels, SCREENHEIGHT * pitch);
             SDL_UnlockTexture(texture);
+
+            SDL_RenderClear(renderer);
+            SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+            SDL_RenderPresent(renderer);
         }
-        SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-        SDL_RenderPresent(renderer);
 #else
         StretchBlit();
 
