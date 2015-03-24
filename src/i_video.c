@@ -916,10 +916,6 @@ void I_SetPalette(byte *doompalette)
         palette[i].r = gammatable[gammaindex][*doompalette++];
         palette[i].g = gammatable[gammaindex][*doompalette++];
         palette[i].b = gammatable[gammaindex][*doompalette++];
-
-#if defined(SDL20)
-        palette[i].a = 255;
-#endif
     }
 
     palette_to_set = true;
@@ -1009,19 +1005,17 @@ static void SetupScreenRects(void)
 static char *aspectratio(int width, int height)
 {
     int hcf = gcd(width, height);
-    int a = width / hcf;
-    int b = height / hcf;
 
-    if (a == 8 && b == 5)
+    width /= hcf;
+    height /= hcf;
+
+    if (width == 8 && height == 5)
         return "16:10";
     else
     {
         static char     ratio[10];
 
-        if (a == width && b == height)
-            M_snprintf(ratio, sizeof(ratio), "%.2f", (float)a / b);
-        else
-            M_snprintf(ratio, sizeof(ratio), "%i:%i", a, b);
+        M_snprintf(ratio, sizeof(ratio), "%i:%i", width, height);
         return ratio;
     }
 }
@@ -1171,7 +1165,7 @@ static void SetVideoMode(void)
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     rgbabuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
     SDL_FillRect(rgbabuffer, NULL, 0);
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
+    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT);
 
     SetupScreenRects();
