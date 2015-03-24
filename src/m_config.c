@@ -1107,13 +1107,17 @@ static void M_CheckDefaults(void)
 
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
 
-    screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
-
 #if defined(SDL20)
+    if (strcasecmp(scaledriver, "opengl") && strcasecmp(scaledriver, "direct3d")
+        && strcasecmp(scaledriver, "software"))
+        scaledriver = SCALEDRIVER_DEFAULT;
+
     if (strcasecmp(scalequality, "nearest") && strcasecmp(scalequality, "linear")
         && strcasecmp(scalequality, "best"))
         scalequality = SCALEQUALITY_DEFAULT;
 #endif
+
+    screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
 
     if (!strcasecmp(screenresolution, "desktop"))
     {
