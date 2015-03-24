@@ -112,6 +112,9 @@ int                     windowx = 0;
 int                     windowy = 0;
 #endif
 
+int                     centerx;
+int                     centery;
+
 // Run in full screen mode?
 boolean                 fullscreen = FULLSCREEN_DEFAULT;
 
@@ -531,12 +534,9 @@ static void CenterMouse(void)
 {
     // Warp to the screen center
 #if defined(SDL20)
-    int w, h;
-
-    SDL_GetWindowSize(window, &w, &h);
-    SDL_WarpMouseInWindow(window, w / 2, h / 2);
+    SDL_WarpMouseInWindow(window, centerx, centery);
 #else
-    SDL_WarpMouse(screen->w / 2, screen->h / 2);
+    SDL_WarpMouse(window, centerx, centery);
 #endif
 
     // Clear any relative movement caused by warping
@@ -755,12 +755,17 @@ static void I_ReadMouse(void)
     int         x, y;
     event_t     ev;
 
-    ev.type = ev_mouse;
-    ev.data1 = SDL_GetRelativeMouseState(&x, &y);
-    ev.data2 = AccelerateMouse(x);
-    ev.data3 = (novert ? 0 : -AccelerateMouse(y));
+    SDL_GetRelativeMouseState(&x, &y);
 
-    D_PostEvent(&ev);
+    if (x || y)
+    {
+        ev.type = ev_mouse;
+        ev.data1 = mouse_button_state;
+        ev.data2 = AccelerateMouse(x);
+        ev.data3 = (novert ? 0 : -AccelerateMouse(y));
+
+        D_PostEvent(&ev);
+    }
 
     if (MouseShouldBeGrabbed())
         CenterMouse();
@@ -1107,6 +1112,10 @@ static void SetVideoMode(void)
         }
     }
 
+    SDL_GetWindowSize(window, &centerx, &centery);
+    centerx /= 2;
+    centery /= 2;
+
     PositionOnCurrentMonitor();
 
     C_Output("Using 256-color palette from PLAYPAL lump.");
@@ -1222,6 +1231,9 @@ static void SetVideoMode(void)
 
         widescreen = false;
     }
+
+    centerx = screen->w / 2;
+    centery = screen->h / 2;
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 
@@ -1363,11 +1375,18 @@ void ToggleFullscreen(void)
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         C_Output("Switched to fullscreen.");
+
+        SDL_GetWindowSize(window, &centerx, &centery);
+        centerx /= 2;
+        centery /= 2;
     }
     else
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
         SDL_SetWindowSize(window, windowwidth, windowheight);
+
+        centerx = windowwidth / 2;
+        centery = windowheight / 2;
     }
     PositionOnCurrentMonitor();
 #else
@@ -1516,6 +1535,9 @@ static void ApplyWindowResize(int resize_h)
 
     M_SaveDefaults();
 #endif
+
+    centerx = windowwidth / 2;
+    centery = windowheight / 2;
 }
 
 void I_InitGammaTables(void)
