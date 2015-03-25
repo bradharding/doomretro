@@ -1497,7 +1497,7 @@ void ToggleFullscreen(void)
 static void ApplyWindowResize(int resize_h)
 {
 #if defined(SDL20)
-    windowheight = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
+    windowheight = MAX(ORIGINALWIDTH * 3 / 4, MIN(resize_h, desktopheight));
     windowwidth = windowheight * 4 / 3;
     SDL_SetWindowSize(window, windowwidth, windowheight);
 #else
