@@ -801,7 +801,6 @@ static void UpdateGrab(void)
 #else
         SDL_WarpMouse(displaywidth - 16, displayheight - 16);
 #endif
-
         SetShowCursor(true);
 
         SDL_GetRelativeMouseState(NULL, NULL);
@@ -1110,9 +1109,9 @@ static void SetVideoMode(void)
         }
     }
 
-    SDL_GetWindowSize(window, &displaywidth, &displaywidth);
+    SDL_GetWindowSize(window, &displaywidth, &displayheight);
     displaycenterx = displaywidth / 2;
-    displaycentery = displaywidth / 2;
+    displaycentery = displayheight / 2;
 
     PositionOnCurrentMonitor();
 
@@ -1381,9 +1380,9 @@ void ToggleFullscreen(void)
         C_Output("Switched to window.");
     }
 
-    SDL_GetWindowSize(window, &displaywidth, &displaywidth);
+    SDL_GetWindowSize(window, &displaywidth, &displayheight);
     displaycenterx = displaywidth / 2;
-    displaycentery = displaywidth / 2;
+    displaycentery = displayheight / 2;
 
     PositionOnCurrentMonitor();
 #else
@@ -1533,9 +1532,9 @@ void ApplyWindowResize(int resize_h)
     M_SaveDefaults();
 #endif
 
-    SDL_GetWindowSize(window, &displaywidth, &displaywidth);
+    SDL_GetWindowSize(window, &displaywidth, &displayheight);
     displaycenterx = displaywidth / 2;
-    displaycentery = displaywidth / 2;
+    displaycentery = displayheight / 2;
 }
 
 void I_InitGammaTables(void)
