@@ -112,8 +112,10 @@ int                     windowx = 0;
 int                     windowy = 0;
 #endif
 
-int                     centerx;
-int                     centery;
+int                     displaywidth;
+int                     displayheight;
+int                     displaycenterx;
+int                     displaycentery;
 
 // Run in full screen mode?
 boolean                 fullscreen = FULLSCREEN_DEFAULT;
@@ -534,9 +536,9 @@ static void CenterMouse(void)
 {
     // Warp to the screen center
 #if defined(SDL20)
-    SDL_WarpMouseInWindow(window, centerx, centery);
+    SDL_WarpMouseInWindow(window, displaycenterx, displaycentery);
 #else
-    SDL_WarpMouse(window, centerx, centery);
+    SDL_WarpMouse(window, displaycenterx, displaycentery);
 #endif
 
     // Clear any relative movement caused by warping
@@ -796,12 +798,9 @@ static void UpdateGrab(void)
     else if (!grab && currently_grabbed)
     {
 #if defined(SDL20)
-        int width, height;
-
-        SDL_GetWindowSize(window, &width, &height);
-        SDL_WarpMouseInWindow(window, width - 16, height - 16);
+        SDL_WarpMouseInWindow(window, displaywidth - 16, displayheight - 16);
 #else
-        SDL_WarpMouse(screen->w - 16, screen->h - 16);
+        SDL_WarpMouse(displaywidth - 16, displayheight - 16);
 #endif
 
         SetShowCursor(true);
@@ -1112,9 +1111,9 @@ static void SetVideoMode(void)
         }
     }
 
-    SDL_GetWindowSize(window, &centerx, &centery);
-    centerx /= 2;
-    centery /= 2;
+    SDL_GetWindowSize(window, &displaywidth, &displaywidth);
+    displaycenterx = displaywidth / 2;
+    displaycentery = displaywidth / 2;
 
     PositionOnCurrentMonitor();
 
@@ -1375,19 +1374,17 @@ void ToggleFullscreen(void)
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         C_Output("Switched to fullscreen.");
-
-        SDL_GetWindowSize(window, &centerx, &centery);
-        centerx /= 2;
-        centery /= 2;
     }
     else
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
         SDL_SetWindowSize(window, windowwidth, windowheight);
-
-        centerx = windowwidth / 2;
-        centery = windowheight / 2;
     }
+
+    SDL_GetWindowSize(window, &displaywidth, &displaywidth);
+    displaycenterx = displaywidth / 2;
+    displaycentery = displaywidth / 2;
+
     PositionOnCurrentMonitor();
 #else
     if (fullscreen)
@@ -1536,8 +1533,9 @@ static void ApplyWindowResize(int resize_h)
     M_SaveDefaults();
 #endif
 
-    centerx = windowwidth / 2;
-    centery = windowheight / 2;
+    SDL_GetWindowSize(window, &displaywidth, &displaywidth);
+    displaycenterx = displaywidth / 2;
+    displaycentery = displaywidth / 2;
 }
 
 void I_InitGammaTables(void)
