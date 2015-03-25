@@ -67,6 +67,8 @@ void I_SetPalette(byte *palette);
 
 void I_FinishUpdate(void);
 
+void ApplyWindowResize(int resize_h);
+
 // Wait for vertical retrace or pause a bit.
 void I_WaitVBL(int count);
 

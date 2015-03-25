@@ -211,7 +211,6 @@ int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 int                     capslock;
 boolean                 alwaysrun = ALWAYSRUN_DEFAULT;
 
-static void ApplyWindowResize(int resize_h);
 static void SetWindowPositionVars(void);
 
 boolean MouseShouldBeGrabbed(void)
@@ -1494,7 +1493,7 @@ void ToggleFullscreen(void)
 #endif
 }
 
-static void ApplyWindowResize(int resize_h)
+void ApplyWindowResize(int resize_h)
 {
 #if defined(SDL20)
     windowheight = MAX(ORIGINALWIDTH * 3 / 4, MIN(resize_h, desktopheight));
