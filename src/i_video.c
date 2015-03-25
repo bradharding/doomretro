@@ -797,9 +797,10 @@ static void UpdateGrab(void)
     else if (!grab && currently_grabbed)
     {
 #if defined(SDL20)
-        SDL_WarpMouseInWindow(window, displaywidth - 16, displayheight - 16);
+        SDL_WarpMouseInWindow(window,
+            displaywidth - 10 * displaywidth / SCREENWIDTH, displayheight - 16);
 #else
-        SDL_WarpMouse(displaywidth - 16, displayheight - 16);
+        SDL_WarpMouse(displaywidth - 10 * displaywidth / SCREENWIDTH, displayheight - 16);
 #endif
         SetShowCursor(true);
 
