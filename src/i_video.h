@@ -68,6 +68,7 @@ void I_SetPalette(byte *palette);
 void I_FinishUpdate(void);
 
 void ApplyWindowResize(int resize_h);
+void ToggleFullscreen(void);
 
 // Wait for vertical retrace or pause a bit.
 void I_WaitVBL(int count);

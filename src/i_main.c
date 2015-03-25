@@ -110,7 +110,6 @@ HICON           icon;
 HWND            hwnd;
 
 boolean MouseShouldBeGrabbed(void);
-void ToggleFullscreen(void);
 void I_InitGamepad(void);
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

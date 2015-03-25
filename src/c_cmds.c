@@ -320,6 +320,7 @@ void C_DeadZone(char *, char *, char *);
 void C_EndGame(char *, char *, char *);
 void C_ExitMap(char *, char *, char *);
 void C_Float(char *, char *, char *);
+void C_Fullscreen(char *, char *, char *);
 void C_Gamma(char *, char *, char *);
 void C_GamepadVibrate(char *, char *, char *);
 void C_God(char *, char *, char *);
@@ -480,7 +481,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (totalitems, C_NoCondition, C_Int, CF_READONLY, totalitems, 0, NONE),
     CVAR_INT  (totalkills, C_NoCondition, C_Int, CF_READONLY, totalkills, 0, NONE),
     CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE),
-    CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Bool, fullscreen, FULLSCREEN),
+    CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN),
 #if defined(SDL20)
     CVAR_INT  (vid_monitor, C_NoCondition, C_Int, CF_NONE, monitor, 0, MONITOR),
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_Str, scaledriver),
@@ -988,6 +989,19 @@ void C_Float(char *cmd, char *parm1, char *parm2)
         }
         ++i;
     }
+}
+
+void C_Fullscreen(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if ((value == 0 || value == 1) && value != fullscreen)
+            ToggleFullscreen();
+    }
+    else
+        C_Output(fullscreen ? "on" : "off");
 }
 
 //
