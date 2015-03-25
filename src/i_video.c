@@ -1066,7 +1066,7 @@ static void SetVideoMode(void)
         if (!screenwidth && !screenheight)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
                 monitors[monitor - 1].w, monitors[monitor - 1].h, aspectratio(monitors[monitor - 1].w,
                 monitors[monitor - 1].h), monitor, nummonitors);
@@ -1074,7 +1074,7 @@ static void SetVideoMode(void)
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                screenwidth, screenheight, SDL_WINDOW_FULLSCREEN);
+                screenwidth, screenheight, (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             C_Output("Switched to screen resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
                 monitors[monitor - 1].w, monitors[monitor - 1].h, aspectratio(monitors[monitor - 1].w,
                 monitors[monitor - 1].h), monitor, nummonitors);
@@ -1094,14 +1094,14 @@ static void SetVideoMode(void)
         if (!windowx && !windowy)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                windowwidth, windowheight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+                windowwidth, windowheight, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             C_Output("Created resizable window with dimensions of %ix%i in center of screen on monitor %i of %i.",
                 windowwidth, windowheight, monitor, nummonitors);
         }
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
-                SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             C_Output("Created resizable window with dimensions of %ix%i at (%i,%i) on monitor %i of %i.",
                 windowwidth, windowheight, windowx, windowy, monitor, nummonitors);
             windowx = MIN(monitors[monitor - 1].w - windowwidth, windowx);
@@ -1376,7 +1376,7 @@ void ToggleFullscreen(void)
     }
     else
     {
-        SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
+        SDL_SetWindowFullscreen(window, SDL_FALSE);
         SDL_SetWindowSize(window, windowwidth, windowheight);
         C_Output("Switched to window.");
     }
