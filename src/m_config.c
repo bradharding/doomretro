@@ -1171,7 +1171,7 @@ static void M_CheckDefaults(void)
     else
         hud = true;
 
-    if (windowwidth < SCREENWIDTH || windowheight < SCREENWIDTH * 3 / 4)
+    if (windowwidth < ORIGINALWIDTH || windowheight < ORIGINALWIDTH * 3 / 4)
         windowheight = WINDOWHEIGHT_DEFAULT;
     windowwidth = windowheight * 4 / 3;
 
