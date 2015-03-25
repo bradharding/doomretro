@@ -1378,6 +1378,7 @@ void ToggleFullscreen(void)
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_RESIZABLE);
         SDL_SetWindowSize(window, windowwidth, windowheight);
+        C_Output("Switched to window.");
     }
 
     SDL_GetWindowSize(window, &displaywidth, &displaywidth);
