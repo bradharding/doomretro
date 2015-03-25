@@ -321,7 +321,8 @@ void IdentifyIWADByName(char *name)
     char        *p;
 
     // Trim down the name to just the filename, ignoring the path.
-    p = strrchr(name, DIR_SEPARATOR);
+    if (!(p = strrchr(name, '\\')))
+        p = strrchr(name, '/');
     if (p != NULL)
         name = p + 1;
     gamemission = none;
