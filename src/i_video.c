@@ -542,7 +542,7 @@ static void CenterMouse(void)
 #if defined(SDL20)
     SDL_WarpMouseInWindow(window, displaycenterx, displaycentery);
 #else
-    SDL_WarpMouse(window, displaycenterx, displaycentery);
+    SDL_WarpMouse(displaycenterx, displaycentery);
 #endif
 
     // Clear any relative movement caused by warping
@@ -1244,8 +1244,8 @@ static void SetVideoMode(boolean output)
         widescreen = false;
     }
 
-    centerx = screen->w / 2;
-    centery = screen->h / 2;
+    displaycenterx = screen->w / 2;
+    displaycentery = screen->h / 2;
 
     screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
 
@@ -1555,7 +1555,8 @@ void ApplyWindowResize(int resize_h)
     M_SaveDefaults();
 #endif
 
-    SDL_GetWindowSize(window, &displaywidth, &displayheight);
+    displaywidth = windowwidth;
+    displayheight = windowheight;
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
 }
