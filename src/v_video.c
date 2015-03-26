@@ -351,7 +351,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, boolean italics)
     }
 }
 
-void V_DrawTranslucentGrayConsolePatch(int x, int y, patch_t *patch)
+void V_DrawTranslucentConsolePatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
@@ -377,7 +377,7 @@ void V_DrawTranslucentGrayConsolePatch(int x, int y, patch_t *patch)
             while (count--)
             {
                 if ((((y + column->topdelta + column->length) * DY) >> 16) - count > CONSOLETOP)
-                    *dest = grays[tinttab25[(*dest << 8) + source[srccol >> 16]]];
+                    *dest = tinttab25[(*dest << 8) + source[srccol >> 16]];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
