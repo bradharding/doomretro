@@ -204,6 +204,8 @@ extern gamestate_t      gamestate;
 
 extern int              gametic;
 
+extern boolean          capfps;
+
 // Bookkeeping on players - state.
 extern player_t         players[MAXPLAYERS];
 

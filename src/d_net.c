@@ -100,8 +100,8 @@ void NetUpdate(void)
 
     lasttime = nowtime;
 
-    if (newtics <= 0)   // nothing new to update
-        return;
+    //if (newtics <= 0)   // nothing new to update
+    //    return;
 
     if (skiptics <= newtics)
     {
@@ -192,6 +192,9 @@ void TryRunTics(void)
     realtics = entertic - oldentertics;
     oldentertics = entertic;
 
+    // get available tics
+    NetUpdate();
+
     lowtic = maketic;
 
     availabletics = lowtic - gametic / ticdup;
@@ -203,6 +206,9 @@ void TryRunTics(void)
         counts = realtics;
     else
         counts = availabletics;
+
+    if (!counts && gamestate == GS_LEVEL)
+        return;
 
     if (counts < 1)
         counts = 1;

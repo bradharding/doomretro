@@ -843,7 +843,7 @@ void I_FinishUpdate(void)
 {
     static int  tic = 0;
 
-    if (tic != gametic || wipe)
+    if (!capfps || tic != gametic || wipe)
     {
         if (need_resize)
         {
@@ -891,7 +891,7 @@ void I_FinishUpdate(void)
             currenttime = SDL_GetTicks();
             if (currenttime - starttime >= 1000)
             {
-                fps = MIN(frames, TICRATE);
+                fps = frames;
                 frames = 0;
                 starttime = currenttime;
             }
