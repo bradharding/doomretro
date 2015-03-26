@@ -286,10 +286,10 @@ static void C_DrawBackground(int height)
 {
     byte        *dest = screens[0];
     int         x, y;
-    int         offset = CONSOLEHEIGHT - height + 5 * !defaultconback;
+    int         offset = CONSOLEHEIGHT - height;
     int         top = offset;
 
-    for (y = offset; y < height + offset; y += 2)
+    for (y = offset; y < height + offset + 5 * !defaultconback; y += 2)
         for (x = 0; x < SCREENWIDTH / 32; x += 2)
         {
             int i;
