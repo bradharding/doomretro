@@ -337,9 +337,11 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, boolean italics)
                 {
                     if (italics)
                         *(dest + italicize[column->topdelta + column->length - count])
-                            = (*source == 160 ? color : *source);
+                            = (*source == 160 ? (color >= 0 ? color :
+                            tinttab25[(*dest << 8) - color]) : *source);
                     else
-                        *dest = (*source == 160 ? (color >= 0 ? color : tinttab25[(*dest << 8) - color]) : *source);
+                        *dest = (*source == 160 ? (color >= 0 ? color :
+                            tinttab25[(*dest << 8) - color]) : *source);
                     *source++;
                 }
                 dest += SCREENWIDTH;
