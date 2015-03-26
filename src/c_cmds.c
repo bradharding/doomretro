@@ -1517,6 +1517,7 @@ void C_Quit(char *cmd, char *parm1, char *parm2)
     I_Quit(true);
 }
 
+#if defined(SDL20)
 void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
@@ -1548,6 +1549,7 @@ void C_ScaleQuality(char *cmd, char *parm1, char *parm2)
     else
         C_Output("\"%s\"", scalequality);
 }
+#endif
 
 //
 // SCREENSIZE cvar
