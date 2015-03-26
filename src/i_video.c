@@ -195,9 +195,6 @@ SDL_Rect                dest_rect = { 0, 0, 0, 0 };
 
 boolean                 showfps = false;
 int                     fps = 0;
-int                     frames = -1;
-int                     starttime;
-int                     currenttime;
 
 // Mouse acceleration
 //
@@ -845,6 +842,11 @@ void I_FinishUpdate(void)
 
     if (!capfps || tic != gametic || wipe)
     {
+        static int      frames = -1;
+        static int      starttime = 0;
+        static int      currenttime;
+        static int      milliseconds;
+
         if (need_resize)
         {
             ApplyWindowResize(resize_h);
@@ -889,9 +891,10 @@ void I_FinishUpdate(void)
         {
             ++frames;
             currenttime = SDL_GetTicks();
-            if (currenttime - starttime >= 1000)
+            milliseconds = currenttime - starttime;
+            if (milliseconds >= 100)
             {
-                fps = frames;
+                fps = frames * 1000 / milliseconds;
                 frames = 0;
                 starttime = currenttime;
             }
@@ -1714,9 +1717,6 @@ void I_InitGraphics(void)
 
     for (i = 0; i < SCREENHEIGHT; i++)
         rows[i] = *screens + i * SCREENWIDTH;
-
-    if (showfps)
-        starttime = SDL_GetTicks();
 
     I_FinishUpdate();
 
