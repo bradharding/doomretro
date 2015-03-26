@@ -335,6 +335,8 @@ void C_NoClip(char *, char *, char *);
 void C_NoTarget(char *, char *, char *);
 void C_PixelSize(char *, char *, char *);
 void C_Quit(char *, char *, char *);
+void C_ScaleDriver(char *, char *, char *);
+void C_ScaleQuality(char *, char *, char *);
 void C_ScreenSize(char *, char *, char *);
 void C_ScreenResolution(char *, char *, char *);
 void C_ShowFPS(char *, char *, char *);
@@ -484,8 +486,8 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN),
 #if defined(SDL20)
     CVAR_INT  (vid_monitor, C_NoCondition, C_Int, CF_NONE, monitor, 0, MONITOR),
-    CVAR_STR  (vid_scaledriver, C_NoCondition, C_Str, scaledriver),
-    CVAR_STR  (vid_scalequality, C_NoCondition, C_Str, scalequality),
+    CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver),
+    CVAR_STR  (vid_scalequality, C_NoCondition, C_ScaleQuality, scalequality),
 #endif
     CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution),
     CVAR_STR  (vid_videodriver, C_NoCondition, C_Str, videodriver),
@@ -1511,6 +1513,38 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
 void C_Quit(char *cmd, char *parm1, char *parm2)
 {
     I_Quit(true);
+}
+
+void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        if (!strcasecmp(parm1, "direct3d") || !strcasecmp(parm1, "opengl")
+            || !strcasecmp(parm1, "software"))
+        {
+            scaledriver = strdup(parm1);
+            M_SaveDefaults();
+            I_RestartGraphics();
+        }
+    }
+    else
+        C_Output("\"%s\"", scaledriver);
+}
+
+void C_ScaleQuality(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        if (!strcasecmp(parm1, "nearest") || !strcasecmp(parm1, "linear")
+            || !strcasecmp(parm1, "best"))
+        {
+            scalequality = strdup(parm1);
+            M_SaveDefaults();
+            I_RestartGraphics();
+        }
+    }
+    else
+        C_Output("\"%s\"", scalequality);
 }
 
 //

@@ -492,10 +492,8 @@ void RepositionWindow(int amount)
 #endif
 }
 
-void I_ShutdownGraphics(void)
+static void FreeSurfaces(void)
 {
-    SetShowCursor(true);
-
     SDL_FreeSurface(screenbuffer);
 
 #if defined(SDL20)
@@ -504,7 +502,12 @@ void I_ShutdownGraphics(void)
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 #endif
+}
 
+void I_ShutdownGraphics(void)
+{
+    SetShowCursor(true);
+    FreeSurfaces();
     SDL_QuitSubSystem(SDL_INIT_VIDEO);
 }
 
@@ -1358,6 +1361,14 @@ void ToggleWidescreen(boolean toggle)
 
     palette_to_set = true;
 #endif
+}
+
+void I_RestartGraphics(void)
+{
+    FreeSurfaces();
+    SetVideoMode();
+    if (widescreen)
+        ToggleWidescreen(true);
 }
 
 #if defined(WIN32)
