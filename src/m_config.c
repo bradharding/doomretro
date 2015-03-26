@@ -65,6 +65,7 @@ extern boolean  alwaysrun;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
 extern boolean  brightmaps;
+extern boolean  capfps;
 extern boolean  centerweapon;
 extern char     *conback;
 extern boolean  corpses_mirror;
@@ -320,6 +321,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (savegame,                selectedsavegame,              0),
     CONFIG_VARIABLE_INT          (skilllevel,              selectedskilllevel,           10),
     CONFIG_VARIABLE_INT          (spritefixes,             spritefixes,                   1),
+    CONFIG_VARIABLE_INT          (vid_capfps,              capfps,                        1),
     CONFIG_VARIABLE_INT          (vid_fullscreen,          fullscreen,                    1),
 #if defined(SDL20)
     CONFIG_VARIABLE_INT          (vid_monitor,             monitor,                       0),
@@ -792,6 +794,9 @@ static void M_CheckDefaults(void)
 
     if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;
+
+    if (capfps != false && capfps != true)
+        capfps = CAPFPS_DEFAULT;
 
     if (centerweapon != false && centerweapon != true)
         centerweapon = CENTERWEAPON_DEFAULT;

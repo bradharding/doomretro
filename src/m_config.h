@@ -52,6 +52,8 @@
 
 #define BRIGHTMAPS_DEFAULT                      true
 
+#define CAPFPS_DEFAULT                          false
+
 #define CENTERWEAPON_DEFAULT                    true
 
 #define CORPSES_MIRROR_DEFAULT                  true

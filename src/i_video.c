@@ -125,6 +125,8 @@ boolean                 returntowidescreen = false;
 boolean                 widescreenresize = false;
 boolean                 hud = HUD_DEFAULT;
 
+boolean                 capfps = CAPFPS_DEFAULT;
+
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
 boolean                 screenvisible;

@@ -78,6 +78,7 @@ extern boolean  alwaysrun;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
 extern boolean  brightmaps;
+extern boolean  capfps;
 extern boolean  centerweapon;
 extern char     *conback;
 extern boolean  corpses_mirror;
@@ -483,6 +484,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (totalitems, C_NoCondition, C_Int, CF_READONLY, totalitems, 0, NONE, "The total number of items in the current map."),
     CVAR_INT  (totalkills, C_NoCondition, C_Int, CF_READONLY, totalkills, 0, NONE, "The total number of monsters to kill in the current map."),
     CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE, "The total number of secrets in the current map."),
+    CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capped framerate."),
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggle between fullscreen and a window."),
 #if defined(SDL20)
     CVAR_INT  (vid_monitor, C_NoCondition, C_Int, CF_NONE, monitor, 0, MONITOR, "The monitor used to display the game."),
