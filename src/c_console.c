@@ -121,16 +121,16 @@ char *upper =
     ":<+>?\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\\}^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 };
 
-int     consolecaretcolor = 227;
+int     consolecaretcolor = 80;
 int     consolehighfpscolor = -116;
-int     consoleinputcolor = 227;
-int     consoleinputtooutputcolor = 227;
+int     consoleinputcolor = 80;
+int     consoleinputtooutputcolor = 80;
 int     consolelowfpscolor = -180;
-int     consolemaptitlecolor = 227;
-int     consoleplayermessagecolor = 174;
-int     consoleoutputcolor = 227;
-int     consoletitlecolor = 227;
-int     consoledividercolor = 227;
+int     consolemaptitlecolor = -80;
+int     consoleplayermessagecolor = -174;
+int     consoleoutputcolor = -80;
+int     consoletitlecolor = -80;
+int     consoledividercolor = -80;
 
 int consolecolors[STRINGTYPES];
 
@@ -215,10 +215,12 @@ static void C_DrawDivider(int y)
     y *= SCREENWIDTH;
     if (y >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
-            screens[0][i] = consoledividercolor;
+            screens[0][i] = (consoledividercolor >= 0 ? consoledividercolor :
+                tinttab25[(screens[0][i] << 8) - consoledividercolor]);
     if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
-            screens[0][i] = consoledividercolor;
+            screens[0][i] = (consoledividercolor >= 0 ? consoledividercolor :
+                tinttab25[(screens[0][i] << 8) - consoledividercolor]);
 }
 
 void C_Init(void)
@@ -303,15 +305,15 @@ static void C_DrawBackground(int height)
                     if (translucency)
                     {
                         dot <<= 8;
-                        *(dest + j) = tinttab75[dot + *(dest + j)];
+                        *(dest + j) = grays[tinttab75[dot + *(dest + j)]];
                         ++j;
-                        *(dest + j) = tinttab75[dot + *(dest + j)];
+                        *(dest + j) = grays[tinttab75[dot + *(dest + j)]];
                     }
                     else
                     {
-                        *(dest + j) = dot;
+                        *(dest + j) = grays[dot];
                         ++j;
-                        *(dest + j) = dot;
+                        *(dest + j) = grays[dot];
                     }
                 }
             }
@@ -321,7 +323,7 @@ static void C_DrawBackground(int height)
 
     if (defaultconback)
         for (x = 0; x < ORIGINALWIDTH; x += 8)
-            V_DrawTranslucentConsolePatch(x, height / 2, consolebottom);
+            V_DrawTranslucentGrayConsolePatch(x, height / 2, consolebottom);
 
     y = height + 6;
     if (y > CONSOLETOP)
@@ -1006,16 +1008,16 @@ void C_PrintSDLVersions(void)
 
 void C_SetBTSXColorScheme(void)
 {
-    consolecaretcolor = 80;
+    consolecaretcolor = -80;
     consolehighfpscolor = -116;
     consoleinputcolor = 80;
     consoleinputtooutputcolor = 80;
     consolelowfpscolor = -180;
-    consolemaptitlecolor = 80;
+    consolemaptitlecolor = -80;
     consoleplayermessagecolor = (BTSXE1 ? 196 : 214);
-    consoleoutputcolor = 80;
-    consoletitlecolor = 80;
-    consoledividercolor = 80;
+    consoleoutputcolor = -80;
+    consoletitlecolor = -80;
+    consoledividercolor = -80;
 
     consolecolors[input] = consoleinputtooutputcolor;
     consolecolors[output] = consoleoutputcolor;

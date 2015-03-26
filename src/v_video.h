@@ -49,9 +49,10 @@ fixed_t DX, DY, DXI, DYI;
 
 // Screen 0 is the screen updated by I_Update screen.
 // Screen 1 is an extra buffer.
-extern byte     *screens[5];
+extern byte     *screens[2];
 
 extern byte     redtoyellow[];
+extern byte     grays[256];
 
 extern byte     *tinttab25;
 extern byte     *tinttab33;
@@ -71,7 +72,7 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch);
 void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, boolean italics);
-void V_DrawTranslucentConsolePatch(int x, int y, patch_t *patch);
+void V_DrawTranslucentGrayConsolePatch(int x, int y, patch_t *patch);
 void V_DrawShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSolidShadowPatch(int x, int y, patch_t *patch);
 void V_DrawSpectreShadowPatch(int x, int y, patch_t *patch);

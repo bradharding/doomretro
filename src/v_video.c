@@ -53,7 +53,7 @@
 #include "z_zone.h"
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
-byte            *screens[5];
+byte            *screens[2];
 
 int             pixelwidth;
 int             pixelheight;
@@ -349,7 +349,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, boolean italics)
     }
 }
 
-void V_DrawTranslucentConsolePatch(int x, int y, patch_t *patch)
+void V_DrawTranslucentGrayConsolePatch(int x, int y, patch_t *patch)
 {
     int         col = 0;
     byte        *desttop;
@@ -375,7 +375,7 @@ void V_DrawTranslucentConsolePatch(int x, int y, patch_t *patch)
             while (count--)
             {
                 if ((((y + column->topdelta + column->length) * DY) >> 16) - count > CONSOLETOP)
-                    *dest = tinttab25[(*dest << 8) + source[srccol >> 16]];
+                    *dest = grays[tinttab25[(*dest << 8) + source[srccol >> 16]]];
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
