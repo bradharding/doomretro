@@ -1037,7 +1037,7 @@ static void PositionOnCurrentMonitor(void)
 }
 #endif
 
-static void SetVideoMode(void)
+static void SetVideoMode(boolean output)
 {
 #if defined(SDL20)
     int                 i;
@@ -1070,17 +1070,19 @@ static void SetVideoMode(void)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
-            C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
-                monitors[monitor - 1].w, monitors[monitor - 1].h, aspectratio(monitors[monitor - 1].w,
-                monitors[monitor - 1].h), monitor, nummonitors);
+            if (output)
+                C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
+                    monitors[monitor - 1].w, monitors[monitor - 1].h, aspectratio(monitors[monitor - 1].w,
+                    monitors[monitor - 1].h), monitor, nummonitors);
         }
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 screenwidth, screenheight, (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
-            C_Output("Switched to screen resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
-                monitors[monitor - 1].w, monitors[monitor - 1].h, aspectratio(monitors[monitor - 1].w,
-                monitors[monitor - 1].h), monitor, nummonitors);
+            if (output)
+                    C_Output("Switched to screen resolution of %ix%i with %s aspect ratio on monitor %i of %i.",
+                        monitors[monitor - 1].w, monitors[monitor - 1].h, aspectratio(monitors[monitor - 1].w,
+                        monitors[monitor - 1].h), monitor, nummonitors);
         }
     }
     else
@@ -1098,15 +1100,17 @@ static void SetVideoMode(void)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                 windowwidth, windowheight, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
-            C_Output("Created resizable window with dimensions of %ix%i in center of screen on monitor %i of %i.",
-                windowwidth, windowheight, monitor, nummonitors);
+            if (output)
+                C_Output("Created resizable window with dimensions of %ix%i in center of screen on monitor %i of %i.",
+                    windowwidth, windowheight, monitor, nummonitors);
         }
         else
         {
             window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
-            C_Output("Created resizable window with dimensions of %ix%i at (%i,%i) on monitor %i of %i.",
-                windowwidth, windowheight, windowx, windowy, monitor, nummonitors);
+            if (output)
+                C_Output("Created resizable window with dimensions of %ix%i at (%i,%i) on monitor %i of %i.",
+                    windowwidth, windowheight, windowx, windowy, monitor, nummonitors);
             windowx = MIN(monitors[monitor - 1].w - windowwidth, windowx);
             windowy = MIN(monitors[monitor - 1].h - windowheight, windowy);
             M_SaveDefaults();
@@ -1119,51 +1123,56 @@ static void SetVideoMode(void)
 
     PositionOnCurrentMonitor();
 
-    C_Output("Using 256-color palette from PLAYPAL lump.");
-
-    if (gammaindex == 10)
-        C_Output("Gamma correction is off.");
-    else
+    if (output)
     {
-        static char     buffer[128];
+        C_Output("Using 256-color palette from PLAYPAL lump.");
 
-        M_snprintf(buffer, sizeof(buffer), "Gamma correction level is %.2f.",
-            gammalevels[gammaindex]);
-        if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
-            buffer[strlen(buffer) - 1] = '\0';
-        C_Output(buffer);
+        if (gammaindex == 10)
+            C_Output("Gamma correction is off.");
+        else
+        {
+            static char     buffer[128];
+
+            M_snprintf(buffer, sizeof(buffer), "Gamma correction level is %.2f.",
+                gammalevels[gammaindex]);
+            if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
+                buffer[strlen(buffer) - 1] = '\0';
+            C_Output(buffer);
+        }
     }
 
     renderer = SDL_CreateRenderer(window, -1, flags);
 
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
-    SDL_GetRendererInfo(renderer, &rendererinfo);
-    if (!strcasecmp(rendererinfo.name, "direct3d"))
-        renderername = "Direct3D";
-    else if (!strcasecmp(rendererinfo.name, "opengl"))
-        renderername = "OpenGL";
-    else if (!strcasecmp(rendererinfo.name, "software"))
-        renderername = "software";
-
-    if (!strcasecmp(scalequality, "nearest"))
-        C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);
-    else if (!strcasecmp(scalequality, "linear"))
-        C_Output("Scaling screen using linear filtering in %s.", renderername);
-    else if (!strcasecmp(scalequality, "best"))
-        C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
-
-    if (vsync && !(rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC))
+    if (output)
     {
-        if (!strcasecmp(rendererinfo.name, "software"))
-            C_Output("Vertical sync can't be enabled in software.");
-        else
-            C_Output("Vertical sync can't be enabled. Please check your video card's settings.");
-    }
-    else
-        C_Output("Vertical sync is %s.",
-            ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
+        SDL_GetRendererInfo(renderer, &rendererinfo);
+        if (!strcasecmp(rendererinfo.name, "direct3d"))
+            renderername = "Direct3D";
+        else if (!strcasecmp(rendererinfo.name, "opengl"))
+            renderername = "OpenGL";
+        else if (!strcasecmp(rendererinfo.name, "software"))
+            renderername = "software";
 
+        if (!strcasecmp(scalequality, "nearest"))
+            C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);
+        else if (!strcasecmp(scalequality, "linear"))
+            C_Output("Scaling screen using linear filtering in %s.", renderername);
+        else if (!strcasecmp(scalequality, "best"))
+            C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
+
+        if (vsync && !(rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC))
+        {
+            if (!strcasecmp(rendererinfo.name, "software"))
+                C_Output("Vertical sync can't be enabled in software.");
+            else
+                C_Output("Vertical sync can't be enabled. Please check your video card's settings.");
+        }
+        else
+            C_Output("Vertical sync is %s.",
+                ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
+    }
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     rgbbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
     SDL_FillRect(rgbbuffer, NULL, 0);
@@ -1366,7 +1375,7 @@ void ToggleWidescreen(boolean toggle)
 void I_RestartGraphics(void)
 {
     FreeSurfaces();
-    SetVideoMode();
+    SetVideoMode(false);
     if (widescreen)
         ToggleWidescreen(true);
 }
@@ -1666,7 +1675,7 @@ void I_InitGraphics(void)
     monitors = (SDL_Rect *)Z_Malloc(nummonitors, PU_STATIC, NULL);
 #endif
 
-    SetVideoMode();
+    SetVideoMode(true);
 
 #if defined(WIN32)
     I_InitWindows32();
