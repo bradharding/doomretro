@@ -400,6 +400,8 @@ static int C_TextWidth(char *text)
 
 static char     prevletter;
 
+static int      tabstops[] = { 40, 130, 192, 262 };
+
 static void C_DrawText(int x, int y, char *text, int color)
 {
     boolean     italics = false;
@@ -422,7 +424,7 @@ static void C_DrawText(int x, int y, char *text, int color)
         int     c = letter - CONSOLEFONTSTART;
         char    nextletter = text[i + 1];
 
-        if (letter == ITALICS)
+        if (letter == ITALICS && prevletter != ITALICS)
         {
             italics = !italics;
             if (!italics)
@@ -430,8 +432,10 @@ static void C_DrawText(int x, int y, char *text, int color)
         }
         else
         {
+            if (letter == ITALICS)
+                italics = false;
             if (letter == '\t')
-                x = MAX(x, (++tabs == 1 ? 40 : tabs * 65));
+                x = MAX(x, tabstops[tabs++]);
             else if (c < 0 || c >= CONSOLEFONTSIZE)
                 x += SPACEWIDTH;
             else
@@ -463,8 +467,8 @@ static void C_DrawText(int x, int y, char *text, int color)
                 V_DrawConsoleChar(x, y - (CONSOLEHEIGHT - consoleheight), patch, color, italics);
                 x += SHORT(patch->width);
             }
-            prevletter = letter;
         }
+        prevletter = letter;
     }
 }
 

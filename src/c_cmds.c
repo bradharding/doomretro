@@ -378,47 +378,47 @@ char *C_LookupAliasFromValue(int value, int set)
     { #name, cond, func, parms, CT_CMD, CF_NONE, NULL, 0, 0, 0, 0, form, desc }
 #define CMD_CHEAT(name, parms) \
     { #name, C_CheatCondition, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
-#define CVAR_BOOL(name, cond, func, var, val) \
-    { #name, cond, func, 1, CT_CVAR, CF_BOOLEAN, &var, 1, false, true, val##_DEFAULT, "", "" }
-#define CVAR_INT(name, cond, func, flags, var, aliases, val) \
-    { #name, cond, func, 1, CT_CVAR, CF_INTEGER | flags, &var, aliases, val##_MIN, val##_MAX, val##_DEFAULT, "", "" }
-#define CVAR_FLOAT(name, cond, func, flags, var) \
-    { #name, cond, func, 1, CT_CVAR, CF_FLOAT | flags, &var, 0, 0, 0, 0, "", "" }
-#define CVAR_POS(name, cond, func, var) \
-    { #name, cond, func, 1, CT_CVAR, CF_POSITION, &var, 0, 0, 0, 0, "", "" }
-#define CVAR_SIZE(name, cond, func, var) \
-    { #name, cond, func, 1, CT_CVAR, CF_SIZE, &var, 0, 0, 0, 0, "", "" }
-#define CVAR_STR(name, cond, func, var) \
-    { #name, cond, func, 1, CT_CVAR, CF_STRING, &var, 0, 0, 0, 0, "", "" }
-#define CVAR_TIME(name, cond, func, var) \
-    { #name, cond, func, 1, CT_CVAR, CF_TIME | CF_READONLY, &var, 0, 0, 0, 0, "", "" }
+#define CVAR_BOOL(name, cond, func, var, val, desc) \
+    { #name, cond, func, 1, CT_CVAR, CF_BOOLEAN, &var, 1, false, true, val##_DEFAULT, "", desc }
+#define CVAR_INT(name, cond, func, flags, var, aliases, val, desc) \
+    { #name, cond, func, 1, CT_CVAR, CF_INTEGER | flags, &var, aliases, val##_MIN, val##_MAX, val##_DEFAULT, "", desc }
+#define CVAR_FLOAT(name, cond, func, flags, var, desc) \
+    { #name, cond, func, 1, CT_CVAR, CF_FLOAT | flags, &var, 0, 0, 0, 0, "", desc }
+#define CVAR_POS(name, cond, func, var, desc) \
+    { #name, cond, func, 1, CT_CVAR, CF_POSITION, &var, 0, 0, 0, 0, "", desc }
+#define CVAR_SIZE(name, cond, func, var, desc) \
+    { #name, cond, func, 1, CT_CVAR, CF_SIZE, &var, 0, 0, 0, 0, "", desc }
+#define CVAR_STR(name, cond, func, var, desc) \
+    { #name, cond, func, 1, CT_CVAR, CF_STRING, &var, 0, 0, 0, 0, "", desc }
+#define CVAR_TIME(name, cond, func, var, desc) \
+    { #name, cond, func, 1, CT_CVAR, CF_TIME | CF_READONLY, &var, 0, 0, 0, 0, "", desc }
 
 int numconsolecmds;
 
 consolecmd_t consolecmds[] =
 {
-    CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, followmode, NONE),
-    CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, grid, GRID),
-    CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, rotatemode, ROTATEMODE),
+    CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, followmode, NONE, "Toggle follow mode in the automap."),
+    CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, grid, GRID, "Toggle the grid in the automap."),
+    CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, rotatemode, ROTATEMODE, "Toggle rotate mode in the automap."),
     CMD       (bind, C_BindCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
-    CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~pattern~]", "Display a list of console commands."),
-    CVAR_BOOL (com_allowconsole, C_BoolCondition, C_Bool, allowconsole, ALLOWCONSOLE),
-    CVAR_BOOL (com_showfps, C_BoolCondition, C_ShowFPS, showfps, NONE),
-    CVAR_STR  (conback, C_ConBackCondition, C_ConBack, conback),
+    CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),
+    CVAR_BOOL (com_allowconsole, C_BoolCondition, C_Bool, allowconsole, ALLOWCONSOLE, "Toggle allowing the console to be opened with only the ~~ key."),
+    CVAR_BOOL (com_showfps, C_BoolCondition, C_ShowFPS, showfps, NONE, "Toggle showing the average frames per second."),
+    CVAR_STR  (conback, C_ConBackCondition, C_ConBack, conback, "The flat used for the console's background."),
     CMD       (condump, C_NoCondition, C_ConDump, 1, "[~filename~]", "Dump the console to a file."),
-    CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~pattern~]", "Display a list of console variables."),
+    CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Display a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "End a game."),
-    CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, 0, EPISODE),
+    CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, 0, EPISODE, "The currently selected episode in the menu."),
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exit the current map."),
-    CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, 0, EXPANSION),
-    CVAR_TIME (gametime, C_NoCondition, C_Time, gametic),
+    CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, 0, EXPANSION, "The currently selected expansion in the menu."),
+    CVAR_TIME (gametime, C_NoCondition, C_Time, gametic, "The amount of time since "PACKAGE_NAME" started."),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggle god mode on/off."),
-    CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadleftdeadzone_percent),
-    CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadrightdeadzone_percent),
-    CVAR_INT  (gp_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, 0, GAMEPADSENSITIVITY),
-    CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED),
-    CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE),
+    CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadleftdeadzone_percent, "The dead zone of the gamepad's left thumbstick."),
+    CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadrightdeadzone_percent, "The dead zone of the gamepad's right thumbstick."),
+    CVAR_INT  (gp_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, 0, GAMEPADSENSITIVITY, "The gamepad's sensitivity."),
+    CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED, "Toggle whether the left and right thumbsticks are swapped."),
+    CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE, "Toggle whether the gamepad vibrates."),
     CMD       (help, C_NoCondition, C_Help, 0, "", "Display the help screen."),
     CMD_CHEAT (idbeholda, 0),
     CMD_CHEAT (idbeholdl, 0),
@@ -436,67 +436,67 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT (idmus, 1),
     CMD_CHEAT (idmypos, 0),
     CMD_CHEAT (idspispopd, 0),
-    CVAR_STR  (iwadfolder, C_NoCondition, C_Str, iwadfolder),
+    CVAR_STR  (iwadfolder, C_NoCondition, C_Str, iwadfolder, "The folder where an IWAD file was last found."),
     CMD       (kill, C_KillCondition, C_Kill, 1, "[monsters|~type~]", "Kill the player, all monsters or a type of monster."),
-    CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration),
-    CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE),
-    CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT),
-    CVAR_INT  (m_sensitivity, C_IntCondition, C_Int, CF_NONE, mousesensitivity, 0, MOUSESENSITIVITY),
-    CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, mouse_threshold, 0, MOUSETHRESHOLD),
+    CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration, "The mouse's acceleration."),
+    CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE, "Toggle double-clicking a mouse button for the +use action."),
+    CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT, "Toggle vertical movement of the mouse."),
+    CVAR_INT  (m_sensitivity, C_IntCondition, C_Int, CF_NONE, mousesensitivity, 0, MOUSESENSITIVITY, "The mouse's sensitivity."),
+    CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, mouse_threshold, 0, MOUSETHRESHOLD, "The mouse's threshold."),
     CMD       (map, C_MapCondition, C_Map, 1, MAPCMDFORMAT, "Warp to a map."),
-    CVAR_BOOL (mapfixes, C_BoolCondition, C_Bool, mapfixes, MAPFIXES),
-    CVAR_TIME (maptime, C_NoCondition, C_Time, leveltime),
-    CVAR_BOOL (messages, C_BoolCondition, C_Bool, messages, MESSAGES),
-    CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggle no clipping mode on/off."),
-    CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggle no target mode on/off."),
-    CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN),
-    CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON),
-    CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, 0, PLAYERBOB),
+    CVAR_BOOL (mapfixes, C_BoolCondition, C_Bool, mapfixes, MAPFIXES, "Toggle whether map fixes are applied when a map is loaded."),
+    CVAR_TIME (maptime, C_NoCondition, C_Time, leveltime, "The time spent in the current or last map."),
+    CVAR_BOOL (messages, C_BoolCondition, C_Bool, messages, MESSAGES, "Toggle messages."),
+    CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggle no clipping mode."),
+    CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggle no target mode."),
+    CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN, "Toggle always run."),
+    CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON, "Toggle centering of weapon when firing."),
+    CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, 0, PLAYERBOB, "The amount the player bobs when walking."),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quit "PACKAGE_NAME"."),
-    CVAR_INT  (r_bloodsplats, C_BloodSplatsCondition, C_BloodSplats, CF_NONE, bloodsplats, 7, BLOODSPLATS),
-    CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS),
-    CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, corpses_mirror, CORPSES_MIRROR),
-    CVAR_BOOL (r_corpses_moreblood, C_BoolCondition, C_Bool, corpses_moreblood, CORPSES_MOREBLOOD),
-    CVAR_BOOL (r_corpses_slide, C_BoolCondition, C_Bool, corpses_slide, CORPSES_SLIDE),
-    CVAR_BOOL (r_corpses_smearblood, C_BoolCondition, C_Bool, corpses_smearblood, CORPSES_SMEARBLOOD),
-    CVAR_BOOL (r_detail, C_GraphicDetailCondition, C_GraphicDetail, graphicdetail, GRAPHICDETAIL),
-    CVAR_BOOL (r_floatbob, C_BoolCondition, C_Bool, floatbob, FLOATBOB),
-    CVAR_FLOAT(r_gamma, C_GammaCondition, C_Gamma, CF_NONE, gammalevel),
-    CVAR_BOOL (r_homindicator, C_BoolCondition, C_Bool, homindicator, HOMINDICATOR),
-    CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD),
-    CVAR_BOOL (r_liquid_animatedheight, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID),
-    CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP),
-    CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize),
-    CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS),
-    CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS),
-    CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE),
-    CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS),
-    CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY),
-    CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE),
-    CVAR_INT  (s_maxslicetime, C_NoCondition, C_Int, CF_NONE, snd_maxslicetime_ms, 0, SND_MAXSLICETIME_MS),
-    CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME),
-    CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME),
-    CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path),
-    CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL),
+    CVAR_INT  (r_bloodsplats, C_BloodSplatsCondition, C_BloodSplats, CF_NONE, bloodsplats, 7, BLOODSPLATS, "The amount of blood splats in a map."),
+    CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS, "Toggle brightmaps on certain wall textures."),
+    CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, corpses_mirror, CORPSES_MIRROR, "Toggle corpses being randomly mirrored."),
+    CVAR_BOOL (r_corpses_moreblood, C_BoolCondition, C_Bool, corpses_moreblood, CORPSES_MOREBLOOD, "Toggle blood splats around corpses when a map starts."),
+    CVAR_BOOL (r_corpses_slide, C_BoolCondition, C_Bool, corpses_slide, CORPSES_SLIDE, "Toggle corpses react to explosions from rockets and barrels."),
+    CVAR_BOOL (r_corpses_smearblood, C_BoolCondition, C_Bool, corpses_smearblood, CORPSES_SMEARBLOOD, "Toggle corpses producing blood splats as they slide."),
+    CVAR_BOOL (r_detail, C_GraphicDetailCondition, C_GraphicDetail, graphicdetail, GRAPHICDETAIL, "Toggle the graphic detail."),
+    CVAR_BOOL (r_floatbob, C_BoolCondition, C_Bool, floatbob, FLOATBOB, "Toggle powerups bobbing up and down."),
+    CVAR_FLOAT(r_gamma, C_GammaCondition, C_Gamma, CF_NONE, gammalevel, "The gamma correction level."),
+    CVAR_BOOL (r_homindicator, C_BoolCondition, C_Bool, homindicator, HOMINDICATOR, "Toggle the \"Hall of Mirrors\" indicator."),
+    CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD, "Toggle the heads up display."),
+    CVAR_BOOL (r_liquid_animatedheight, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID, "Toggle vertically animated liquid sectors."),
+    CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP, "Toggle the bottom of sprites clipped in liquid sectors."),
+    CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize, "The size of pixels when the graphic detail is low."),
+    CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS, "Toggle weapons dropped by monsters being randomly mirrored."),
+    CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS, "Toggle rocket trails behind player and Cyberdemon rockets."),
+    CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE, "The screen size."),
+    CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS, "Toggle monsters and most items casting shadows."),
+    CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY, "Toggle translucency in sprites."),
+    CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE, "The number of times "PACKAGE_NAME" has been run."),
+    CVAR_INT  (s_maxslicetime, C_NoCondition, C_Int, CF_NONE, snd_maxslicetime_ms, 0, SND_MAXSLICETIME_MS, "The maximum slice time of sound effects."),
+    CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME, "The music volume."),
+    CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME, "The sound effects volume."),
+    CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
+    CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or object."),
-    CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES),
-    CVAR_INT  (totalitems, C_NoCondition, C_Int, CF_READONLY, totalitems, 0, NONE),
-    CVAR_INT  (totalkills, C_NoCondition, C_Int, CF_READONLY, totalkills, 0, NONE),
-    CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE),
-    CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN),
+    CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggle whether sprite fixes are applied when a map is loaded."),
+    CVAR_INT  (totalitems, C_NoCondition, C_Int, CF_READONLY, totalitems, 0, NONE, "The total number of items in the current map."),
+    CVAR_INT  (totalkills, C_NoCondition, C_Int, CF_READONLY, totalkills, 0, NONE, "The total number of monsters to kill in the current map."),
+    CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE, "The total number of secrets in the current map."),
+    CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggle between fullscreen and a window."),
 #if defined(SDL20)
-    CVAR_INT  (vid_monitor, C_NoCondition, C_Int, CF_NONE, monitor, 0, MONITOR),
-    CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver),
-    CVAR_STR  (vid_scalequality, C_NoCondition, C_ScaleQuality, scalequality),
+    CVAR_INT  (vid_monitor, C_NoCondition, C_Int, CF_NONE, monitor, 0, MONITOR, "The monitor used to display the game."),
+    CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver to use to scale the display."),
+    CVAR_STR  (vid_scalequality, C_NoCondition, C_ScaleQuality, scalequality, "The filter used to scale the display."),
 #endif
-    CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution),
-    CVAR_STR  (vid_videodriver, C_NoCondition, C_Str, videodriver),
+    CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
+    CVAR_STR  (vid_videodriver, C_NoCondition, C_Str, videodriver, "The video driver used to display the game."),
 #if defined(SDL20)
-    CVAR_BOOL (vid_vsync, C_BoolCondition, C_Bool, vsync, VSYNC),
+    CVAR_BOOL (vid_vsync, C_BoolCondition, C_Bool, vsync, VSYNC, "Toggle wait for vertical sync."),
 #endif
-    CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN),
-    CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition),
-    CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, windowsize),
+    CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN, "Toggle widescreen mode."),
+    CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),
+    CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, windowsize, "The size of the window on the desktop."),
 
     { "", C_NoCondition, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
 };
@@ -828,45 +828,45 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
         if (consolecmds[i].type == CT_CVAR && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
         {
             if (consolecmds[i].flags & CF_BOOLEAN)
-                C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
+                C_Output("%i\t%s\t\t%s\t%s", count++, consolecmds[i].name,
                     C_LookupAliasFromValue(*(boolean *)consolecmds[i].variable,
-                    consolecmds[i].aliases));
+                    consolecmds[i].aliases), consolecmds[i].description);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
-                C_Output("%i\t%s\t\t%i%%", count++, consolecmds[i].name,
-                    *(int *)consolecmds[i].variable);
+                C_Output("%i\t%s\t\t%i%%\t%s", count++, consolecmds[i].name,
+                    *(int *)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_INTEGER)
             {
                 char *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                               consolecmds[i].aliases);
 
-                C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
-                    (alias ? alias : commify(*(int *)consolecmds[i].variable)));
+                C_Output("%i\t%s\t\t%s\t%s", count++, consolecmds[i].name,
+                    (alias ? alias : commify(*(int *)consolecmds[i].variable)), consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_FLOAT)
-                C_Output("%i\t%s\t\t%s%s", count++, consolecmds[i].name,
+                C_Output("%i\t%s\t\t%s%s\t%s", count++, consolecmds[i].name,
                     striptrailingzero(*(float *)consolecmds[i].variable,
                     ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
-                    ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""));
+                    ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), consolecmds[i].description);
             else if (consolecmds[i].flags & CF_STRING)
-                C_Output("%i\t%s\t\t\"%s\"", count++, consolecmds[i].name,
-                    *(char **)consolecmds[i].variable);
+                C_Output("%i\t%s\t\t\"%s\"\t%s", count++, consolecmds[i].name,
+                    *(char **)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_POSITION)
             {
                 if ((*(char **)consolecmds[i].variable)[0])
-                    C_Output("%i\t%s\t\t(%s)", count++, consolecmds[i].name,
-                        *(char **)consolecmds[i].variable);
+                    C_Output("%i\t%s\t\t(%s)\t%s", count++, consolecmds[i].name,
+                        *(char **)consolecmds[i].variable, consolecmds[i].description);
                 else
-                    C_Output("%i\t%s\t\tcenter", count++, consolecmds[i].name);
+                    C_Output("%i\t%s\t\tcenter\t%s", count++, consolecmds[i].name, consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_SIZE)
-                C_Output("%i\t%s\t\t%s", count++, consolecmds[i].name,
-                    *(char **)consolecmds[i].variable);
+                C_Output("%i\t%s\t\t%s\t%s", count++, consolecmds[i].name,
+                    *(char **)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int tics = *(int *)consolecmds[i].variable / TICRATE;
 
-                C_Output("%i\t%s\t\t%02i:%02i:%02i", count++, consolecmds[i].name,
-                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
+                C_Output("%i\t%s\t\t%02i:%02i:%02i\t%s", count++, consolecmds[i].name,
+                    tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60, consolecmds[i].description);
             }
 
         }
