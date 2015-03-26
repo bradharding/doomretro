@@ -266,6 +266,13 @@ void P_PlayerThink(player_t *player)
     mobj_t              *mo = player->mo;
     weapontype_t        newweapon;
 
+    // [AM] Store starting position for player interpolation.
+    mo->oldx = mo->x;
+    mo->oldy = mo->y;
+    mo->oldz = mo->z;
+    mo->oldangle = mo->angle;
+    player->oldviewz = player->viewz;
+
     if (player->cheats & CF_NOCLIP)
         mo->flags |= MF_NOCLIP;
     else

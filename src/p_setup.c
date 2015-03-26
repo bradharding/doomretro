@@ -406,6 +406,15 @@ void P_LoadSectors(int lump)
         ss->special = SHORT(ms->special);
         ss->tag = SHORT(ms->tag);
 
+        // [AM] Sector interpolation.  Even if we're
+        //      not running uncapped, the renderer still
+        //      uses this data.
+        ss->oldfloorheight = ss->floorheight;
+        ss->interpfloorheight = ss->floorheight;
+        ss->oldceilingheight = ss->ceilingheight;
+        ss->interpceilingheight = ss->ceilingheight;
+        ss->oldgametic = 0;
+
         // Apply any level-specific fixes.
         if (canmodify && mapfixes)
         {

@@ -185,6 +185,10 @@ typedef struct player_s
     int                 invulnbeforechoppers;
     int                 chainsawbeforechoppers;
     weapontype_t        weaponbeforechoppers;
+
+    // [AM] Previous position of viewz before think.
+    //      Used to interpolate between camera positions.
+    angle_t             oldviewz;
 } player_t;
 
 //

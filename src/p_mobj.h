@@ -388,6 +388,13 @@ typedef struct mobj_s
     struct mobj_s       *shadow;
 
     int                 blood;
+
+    // [AM] Previous position of mobj before think.
+    //      Used to interpolate between positions.
+    fixed_t             oldx;
+    fixed_t             oldy;
+    fixed_t             oldz;
+    angle_t             oldangle;
 } mobj_t;
 
 #endif

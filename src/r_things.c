@@ -519,27 +519,54 @@ void R_ProjectSprite(mobj_t *thing)
 
     vissprite_t         *vis;
 
-    fixed_t             fx = thing->x;
-    fixed_t             fy = thing->y;
-    fixed_t             fz = thing->z;
-
     int                 flags = thing->flags;
     int                 flags2 = thing->flags2;
     int                 frame = thing->frame;
     int                 type = thing->type;
 
     // transform the origin point
-    fixed_t             tr_x = fx - viewx;
-    fixed_t             tr_y = fy - viewy;
+    fixed_t             tr_x;
+    fixed_t             tr_y;
 
-    fixed_t             gxt = FixedMul(tr_x, viewcos);
-    fixed_t             gyt = -FixedMul(tr_y, viewsin);
+    fixed_t             gxt;
+    fixed_t             gyt;
 
-    fixed_t             tz = gxt - gyt;
+    fixed_t             tz;
 
     unsigned int        rot = 0;
 
     sector_t            *sector = thing->subsector->sector;
+
+    fixed_t             interpx;
+    fixed_t             interpy;
+    fixed_t             interpz;
+    fixed_t             interpangle;
+
+    if (!capfps &&
+        // Don't interpolate during a paused state
+        !paused && !menuactive)
+    {
+        // [AM] Interpolate between current and last position.
+        interpx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
+        interpy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
+        interpz = thing->oldz + FixedMul(thing->z - thing->oldz, fractionaltic);
+        interpangle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
+    }
+    else
+    {
+        interpx = thing->x;
+        interpy = thing->y;
+        interpz = thing->z;
+        interpangle = thing->angle;
+    }
+
+    tr_x = interpx - viewx;
+    tr_y = interpy - viewy;
+
+    gxt = FixedMul(tr_x, viewcos);
+    gyt = -FixedMul(tr_y, viewsin);
+
+    tz = gxt - gyt;
 
     // thing is behind view plane?
     if (tz < MINZ)
@@ -561,7 +588,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     // choose a different rotation based on player view
     if (sprframe->rotate)
-        rot = (R_PointToAngle(fx, fy) - thing->angle + (unsigned int)(ANG45 / 2) * 9) >> 29;
+        rot = (R_PointToAngle(interpx, interpy) - interpangle + (unsigned int)(ANG45 / 2) * 9) >> 29;
 
     lump = sprframe->lump[rot];
     flip = (!!sprframe->flip[rot] || (flags2 & MF2_MIRRORED));
@@ -580,9 +607,9 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = fz + spritetopoffset[lump];
+    gzt = interpz + spritetopoffset[lump];
 
-    if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
+    if (interpz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
         || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
         return;
 
@@ -592,9 +619,9 @@ void R_ProjectSprite(mobj_t *thing)
     vis->mobjflags2 = flags2;
     vis->type = type;
     vis->scale = xscale;
-    vis->gx = fx;
-    vis->gy = fy;
-    vis->gz = fz;
+    vis->gx = interpx;
+    vis->gy = interpy;
+    vis->gz = interpz;
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
@@ -604,7 +631,7 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && fz <= sector->floorheight + FRACUNIT && footclip)
+    if ((flags2 & MF2_FEETARECLIPPED) && interpz <= sector->interpfloorheight + FRACUNIT && footclip)
     {
         fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
 

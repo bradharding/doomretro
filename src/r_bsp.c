@@ -243,17 +243,35 @@ boolean R_DoorClosed(void)
 {
     return
         // if door is closed because back is shut:
-        (backsector->ceilingheight <= backsector->floorheight
+        (backsector->interpceilingheight <= backsector->interpfloorheight
 
         // preserve a kind of transparent door/lift special effect:
-        && (backsector->ceilingheight >= frontsector->ceilingheight 
+        && (backsector->interpceilingheight >= frontsector->interpceilingheight
             || curline->sidedef->toptexture)
-        && (backsector->floorheight <= frontsector->floorheight
+        && (backsector->interpfloorheight <= frontsector->interpfloorheight
             || curline->sidedef->bottomtexture)
 
         // properly render skies (consider door "open" if both ceilings are sky):
         && (backsector->ceilingpic != skyflatnum
             || frontsector->ceilingpic != skyflatnum));
+}
+
+// [AM] Interpolate the passed sector, if prudent.
+void R_MaybeInterpolateSector(sector_t* sector)
+{
+    if (!capfps &&
+        // Only if we moved the sector last tic.
+        sector->oldgametic == gametic - 1)
+    {
+        // Interpolate between current and last floor/ceiling position.
+        sector->interpfloorheight = sector->oldfloorheight + FixedMul(sector->floorheight - sector->oldfloorheight, fractionaltic);
+        sector->interpceilingheight = sector->oldceilingheight + FixedMul(sector->ceilingheight - sector->oldceilingheight, fractionaltic);
+    }
+    else
+    {
+        sector->interpfloorheight = sector->floorheight;
+        sector->interpceilingheight = sector->ceilingheight;
+    }
 }
 
 //
@@ -329,19 +347,24 @@ static void R_AddLine(seg_t *line)
     if (!backsector)
         goto clipsolid;
 
+    // [AM] Interpolate sector movement before
+    //      running clipping tests.  Frontsector
+    //      should already be interpolated.
+    R_MaybeInterpolateSector(backsector);
+
     doorclosed = false;
 
     // Closed door.
-    if (backsector->ceilingheight <= frontsector->floorheight
-        || backsector->floorheight >= frontsector->ceilingheight)
+    if (backsector->interpceilingheight <= frontsector->interpfloorheight
+        || backsector->interpfloorheight >= frontsector->interpceilingheight)
         goto clipsolid;
 
     if ((doorclosed = R_DoorClosed()))
         goto clipsolid;
 
     // Window.
-    if (backsector->ceilingheight != frontsector->ceilingheight
-        || backsector->floorheight != frontsector->floorheight)
+    if (backsector->interpceilingheight != frontsector->interpceilingheight
+        || backsector->interpfloorheight != frontsector->interpfloorheight)
         goto clippass;
 
     // Reject empty lines used for triggers
@@ -475,17 +498,21 @@ static void R_Subsector(int num)
 
     frontsector = sub->sector;
 
-    if (frontsector->floorheight < viewz)
+    // [AM] Interpolate sector movement.  Usually only needed
+    //      when you're standing inside the sector.
+    R_MaybeInterpolateSector(frontsector);
+
+    if (frontsector->interpfloorheight < viewz)
     {
-        floorplane = R_FindPlane(frontsector->floorheight, frontsector->floorpic,
+        floorplane = R_FindPlane(frontsector->interpfloorheight, frontsector->floorpic,
             frontsector->lightlevel);
         floorplane->sector = frontsector;
     }
     else
         floorplane = NULL;
 
-    if (frontsector->ceilingheight > viewz || frontsector->ceilingpic == skyflatnum)
-        ceilingplane = R_FindPlane(frontsector->ceilingheight, frontsector->ceilingpic,
+    if (frontsector->interpceilingheight > viewz || frontsector->ceilingpic == skyflatnum)
+        ceilingplane = R_FindPlane(frontsector->interpceilingheight, frontsector->ceilingpic,
             frontsector->lightlevel);
     else
         ceilingplane = NULL;

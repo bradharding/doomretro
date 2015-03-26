@@ -152,7 +152,7 @@ void R_FixWiggle(sector_t *sector)
     static int  lastheight = 0;
 
     // disallow negative heights, force cache initialization
-    int         height = MAX(1, (sector->ceilingheight - sector->floorheight) >> FRACBITS);
+    int         height = MAX(1, (sector->interpceilingheight - sector->interpfloorheight) >> FRACBITS);
 
     // early out?
     if (height != lastheight)
@@ -281,10 +281,10 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
     // find positioning
     if (curline->linedef->flags & ML_DONTPEGBOTTOM)
-        dc_texturemid = MAX(frontsector->floorheight, backsector->floorheight) +
+        dc_texturemid = MAX(frontsector->interpfloorheight, backsector->interpfloorheight) +
             texheight - viewz + curline->sidedef->rowoffset;
     else
-        dc_texturemid = MIN(frontsector->ceilingheight, backsector->ceilingheight) -
+        dc_texturemid = MIN(frontsector->interpceilingheight, backsector->interpceilingheight) -
             viewz + curline->sidedef->rowoffset;
 
     dc_texheight = 0;
@@ -637,8 +637,8 @@ void R_StoreWallRange(int start, int stop)
         }
     }
 
-    worldtop = frontsector->ceilingheight - viewz;
-    worldbottom = frontsector->floorheight - viewz;
+    worldtop = frontsector->interpceilingheight - viewz;
+    worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
     if (frontsector->animate != INT_MAX)
@@ -676,7 +676,7 @@ void R_StoreWallRange(int start, int stop)
 
         if (linedef->flags & ML_DONTPEGBOTTOM)
             // bottom of texture at bottom
-            rw_midtexturemid = frontsector->floorheight
+            rw_midtexturemid = frontsector->interpfloorheight
                 + textureheight[sidedef->midtexture] - viewz;
         else
             // top of texture at top
@@ -704,23 +704,23 @@ void R_StoreWallRange(int start, int stop)
         ds_p->sprtopclip = ds_p->sprbottomclip = NULL;
         ds_p->silhouette = 0;
 
-        if (frontsector->floorheight > backsector->floorheight)
+        if (frontsector->interpfloorheight > backsector->interpfloorheight)
         {
             ds_p->silhouette = SIL_BOTTOM;
-            ds_p->bsilheight = frontsector->floorheight;
+            ds_p->bsilheight = frontsector->interpfloorheight;
         }
-        else if (backsector->floorheight > viewz)
+        else if (backsector->interpfloorheight > viewz)
         {
             ds_p->silhouette = SIL_BOTTOM;
             ds_p->bsilheight = INT_MAX;
         }
 
-        if (frontsector->ceilingheight < backsector->ceilingheight)
+        if (frontsector->interpceilingheight < backsector->interpceilingheight)
         {
             ds_p->silhouette |= SIL_TOP;
-            ds_p->tsilheight = frontsector->ceilingheight;
+            ds_p->tsilheight = frontsector->interpceilingheight;
         }
-        else if (backsector->ceilingheight < viewz)
+        else if (backsector->interpceilingheight < viewz)
         {
             ds_p->silhouette |= SIL_TOP;
             ds_p->tsilheight = INT_MIN;
@@ -736,13 +736,13 @@ void R_StoreWallRange(int start, int stop)
         {
             extern boolean doorclosed;
 
-            if (doorclosed || backsector->ceilingheight <= frontsector->floorheight)
+            if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
             {
                 ds_p->sprbottomclip = negonearray;
                 ds_p->bsilheight = INT_MAX;
                 ds_p->silhouette |= SIL_BOTTOM;
             }
-            if (doorclosed || backsector->floorheight >= frontsector->ceilingheight)
+            if (doorclosed || backsector->interpfloorheight >= frontsector->interpceilingheight)
             {
                 ds_p->sprtopclip = screenheightarray;
                 ds_p->tsilheight = INT_MIN;
@@ -750,11 +750,11 @@ void R_StoreWallRange(int start, int stop)
             }
         }
 
-        worldhigh = backsector->ceilingheight - viewz;
-        worldlow = backsector->floorheight - viewz;
+        worldhigh = backsector->interpceilingheight - viewz;
+        worldlow = backsector->interpfloorheight - viewz;
 
         // [BH] animate liquid sectors
-        if (backsector->animate != INT_MAX && backsector->floorheight > frontsector->floorheight)
+        if (backsector->animate != INT_MAX && backsector->interpfloorheight > frontsector->interpfloorheight)
             worldlow += backsector->animate + 2 * FRACUNIT;
 
         // hack to allow height changes in outdoor areas
@@ -777,8 +777,8 @@ void R_StoreWallRange(int start, int stop)
             // same plane on both sides
             markceiling = false;
 
-        if (backsector->ceilingheight <= frontsector->floorheight
-            || backsector->floorheight >= frontsector->ceilingheight)
+        if (backsector->interpceilingheight <= frontsector->interpfloorheight
+            || backsector->interpfloorheight >= frontsector->interpceilingheight)
             // closed door
             markceiling = markfloor = true;
 
@@ -793,7 +793,7 @@ void R_StoreWallRange(int start, int stop)
                 rw_toptexturemid = worldtop;
             else
                 // bottom of texture
-                rw_toptexturemid = backsector->ceilingheight
+                rw_toptexturemid = backsector->interpceilingheight
                     + textureheight[sidedef->toptexture] - viewz;
         }
         if (worldlow > worldbottom)
@@ -871,11 +871,11 @@ void R_StoreWallRange(int start, int stop)
     // if a floor / ceiling plane is on the wrong side
     //  of the view plane, it is definitely invisible
     //  and doesn't need to be marked.
-    if (frontsector->floorheight >= viewz)
+    if (frontsector->interpfloorheight >= viewz)
         // above view plane
         markfloor = false;
 
-    if (frontsector->ceilingheight <= viewz && frontsector->ceilingpic != skyflatnum)
+    if (frontsector->interpceilingheight <= viewz && frontsector->ceilingpic != skyflatnum)
         // below view plane
         markceiling = false;
 

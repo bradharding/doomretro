@@ -68,13 +68,13 @@ extern int              validcount;
 //
 
 // Lighting constants.
-#define LIGHTLEVELS             128
-#define LIGHTSEGSHIFT           1
-#define LIGHTBRIGHT             2
-#define MAXLIGHTSCALE           384
-#define LIGHTSCALESHIFT         12
-#define MAXLIGHTZ               1024
-#define LIGHTZSHIFT             17
+#define LIGHTLEVELS     128
+#define LIGHTSEGSHIFT   1
+#define LIGHTBRIGHT     2
+#define MAXLIGHTSCALE   384
+#define LIGHTSCALESHIFT 12
+#define MAXLIGHTZ       1024
+#define LIGHTZSHIFT     17
 
 extern lighttable_t     *scalelight[LIGHTLEVELS][MAXLIGHTSCALE];
 extern lighttable_t     *psprscalelight[LIGHTLEVELS][MAXLIGHTSCALE];
@@ -86,7 +86,11 @@ extern lighttable_t     *fixedcolormap;
 
 // Number of diminishing brightness levels.
 // There a 0-31, i.e. 32 LUT in the COLORMAP lump.
-#define NUMCOLORMAPS            32
+#define NUMCOLORMAPS    32
+
+// [AM] Fractional part of the current tic, in the half-open
+//      range of [0.0, 1.0).  Used for interpolation.
+extern fixed_t          fractionaltic;
 
 //
 // Function pointers to switch refresh/drawing functions.
@@ -131,6 +135,9 @@ angle_t R_PointToAngle2(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2);
 fixed_t R_PointToDist(fixed_t x, fixed_t y);
 
 subsector_t *R_PointInSubsector(fixed_t x, fixed_t y);
+
+// [AM] Interpolate between two angles.
+angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale);
 
 //
 // REFRESH - the actual rendering functions.

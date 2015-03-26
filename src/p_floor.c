@@ -123,6 +123,11 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
     fixed_t     lastpos;
     fixed_t     destheight;
 
+    // [AM] Store old sector heights for interpolation.
+    sector->oldfloorheight = sector->floorheight;
+    sector->oldceilingheight = sector->ceilingheight;
+    sector->oldgametic = gametic;
+
     switch (floorOrCeiling)
     {
         case 0:

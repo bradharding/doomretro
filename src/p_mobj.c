@@ -499,6 +499,16 @@ void P_MobjThinker(mobj_t *mobj)
     int         flags2 = mobj->flags2;
     player_t    *player = mobj->player;
 
+    // [AM] Store starting position for interpolation...unless
+    //      we're an active player - that's done in the player thinker.
+    if (!(mobj->player != NULL && mobj == mobj->player->mo))
+    {
+        mobj->oldx = mobj->x;
+        mobj->oldy = mobj->y;
+        mobj->oldz = mobj->z;
+        mobj->oldangle = mobj->angle;
+    }
+
     // momentum movement
     if (mobj->momx || mobj->momy || (flags & MF_SKULLFLY))
     {
@@ -654,6 +664,11 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
               (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
+
+    mobj->oldx = mobj->x;
+    mobj->oldy = mobj->y;
+    mobj->oldz = mobj->z;
+    mobj->oldangle = mobj->angle;
 
     mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
     P_AddThinker(&mobj->thinker);

@@ -207,7 +207,7 @@ void TryRunTics(void)
     else
         counts = availabletics;
 
-    if (!counts && gamestate == GS_LEVEL)
+    if (!counts)
         return;
 
     if (counts < 1)

@@ -42,6 +42,7 @@
 
 #include "d_net.h"
 #include "doomstat.h"
+#include "i_timer.h"
 #include "m_config.h"
 #include "m_menu.h"
 #include "p_local.h"
@@ -76,6 +77,10 @@ fixed_t                 viewcos;
 fixed_t                 viewsin;
 
 player_t                *viewplayer;
+
+// [AM] Fractional part of the current tic, in the half-open
+//      range of [0.0, 1.0).  Used for interpolation.
+fixed_t                 fractionaltic;
 
 //
 // precalculated math tables
@@ -269,6 +274,27 @@ fixed_t R_PointToDist(fixed_t x, fixed_t y)
 
     return (dx ? FixedDiv(dx, finesine[(tantoangle[FixedDiv(dy, dx) >> DBITS]
         + ANG90) >> ANGLETOFINESHIFT]) : 0);
+}
+
+// [AM] Interpolate between two angles.
+angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
+{
+    if (nangle == oangle)
+        return nangle;
+    else if (nangle > oangle)
+    {
+        if (nangle - oangle < ANG270)
+            return oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale));
+        else // Wrapped around
+            return oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale));
+    }
+    else // nangle < oangle
+    {
+        if (oangle - nangle < ANG270)
+            return oangle - (angle_t)((oangle - nangle) * FIXED2DOUBLE(scale));
+        else // Wrapped around
+            return oangle + (angle_t)((nangle - oangle) * FIXED2DOUBLE(scale));
+    }
 }
 
 //
@@ -616,12 +642,37 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 void R_SetupFrame(player_t *player)
 {
     viewplayer = player;
-    viewx = player->mo->x;
-    viewy = player->mo->y;
-    viewangle = player->mo->angle;
-    extralight = player->extralight << 1;
 
-    viewz = player->viewz;
+    // [AM] Interpolate the player camera if the feature is enabled.
+
+    // Figure out how far into the current tic we're in as a fixed_t
+    if (!capfps)
+        fractionaltic = I_GetTimeMS() * TICRATE % 1000 * FRACUNIT / 1000;
+
+    if (!capfps &&
+        // Don't interpolate on the first tic of a level
+        leveltime > 1 &&
+        // Don't interpolate if the player has teleported
+        abs(player->mo->x - player->mo->oldx) <= MAXMOVE &&
+        abs(player->mo->y - player->mo->oldy) <= MAXMOVE &&
+        // Don't interpolate during a paused state
+        !paused && !menuactive)
+    {
+        // Interpolate player camera from their old position to their current one.
+        viewx = player->mo->oldx + FixedMul(player->mo->x - player->mo->oldx, fractionaltic);
+        viewy = player->mo->oldy + FixedMul(player->mo->y - player->mo->oldy, fractionaltic);
+        viewz = player->oldviewz + FixedMul(player->viewz - player->oldviewz, fractionaltic);
+        viewangle = R_InterpolateAngle(player->mo->oldangle, player->mo->angle, fractionaltic);
+    }
+    else
+    {
+        viewx = player->mo->x;
+        viewy = player->mo->y;
+        viewz = player->viewz;
+        viewangle = player->mo->angle;
+    }
+
+    extralight = player->extralight << 1;
 
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];

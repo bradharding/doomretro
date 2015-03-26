@@ -415,7 +415,7 @@ void D_PageDrawer(void)
         V_DrawBigPatch((SCREENWIDTH - splshtxt->width) / 2,
             SCREENHEIGHT - splshtxt->height - 2, 0, splshtxt);
     }
-    else
+    else if (pagelump)
         V_DrawPatch(0, 0, 0, pagelump);
 }
 
