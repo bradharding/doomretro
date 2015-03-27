@@ -1156,7 +1156,7 @@ void M_UpdateSaveGameName(int i)
                     break;
 
                 case pack_plut:
-                    for (j = 0; j < 9 * 4; ++j)
+                    for (j = 0; j < 32; ++j)
                         if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamesp[j])))
                         {
                             match = true;
@@ -1165,7 +1165,7 @@ void M_UpdateSaveGameName(int i)
                     break;
 
                 case pack_tnt:
-                    for (j = 0; j < 9 * 4; ++j)
+                    for (j = 0; j < 32; ++j)
                         if (!strcasecmp(savegamestrings[i], RemoveMapNum(*mapnamest[j])))
                         {
                             match = true;
