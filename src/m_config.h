@@ -66,6 +66,12 @@
 
 #define DCLICKUSE_DEFAULT                       false
 
+#if defined(SDL20)
+#define DISPLAY_MIN                             1
+#define DISPLAY_DEFAULT                         1
+#define DISPLAY_MAX                             INT_MAX
+#endif
+
 #define EPISODE_MIN                             0
 #define EPISODE_DEFAULT                         0
 #define EPISODE_MAX                             3
@@ -213,12 +219,6 @@
 #define MESSAGES_DEFAULT                        false
 
 #define MIRRORWEAPONS_DEFAULT                   false
-
-#if defined(SDL20)
-#define MONITOR_MIN                             1
-#define MONITOR_DEFAULT                         1
-#define MONITOR_MAX                             INT_MAX
-#endif
 
 #define MOUSEACCELERATION_MIN                   0
 #define MOUSEACCELERATION_DEFAULT               2.0

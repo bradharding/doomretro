@@ -145,7 +145,7 @@ extern boolean  mapfixes;
 extern boolean  messages;
 extern boolean  mirrorweapons;
 #if defined(SDL20)
-extern int      monitor;
+extern int      display;
 #endif
 extern int      mousesensitivity;
 extern float    mouse_acceleration;
@@ -322,9 +322,11 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (skilllevel,              selectedskilllevel,           10),
     CONFIG_VARIABLE_INT          (spritefixes,             spritefixes,                   1),
     CONFIG_VARIABLE_INT          (vid_capfps,              capfps,                        1),
+#if defined(SDL20)
+    CONFIG_VARIABLE_INT          (vid_display,             display,                       0),
+#endif
     CONFIG_VARIABLE_INT          (vid_fullscreen,          fullscreen,                    1),
 #if defined(SDL20)
-    CONFIG_VARIABLE_INT          (vid_monitor,             monitor,                       0),
     CONFIG_VARIABLE_STRING       (vid_scaledriver,         scaledriver,                   0),
     CONFIG_VARIABLE_STRING       (vid_scalequality,        scalequality,                  0),
 #endif
@@ -1050,8 +1052,8 @@ static void M_CheckDefaults(void)
         mirrorweapons = MIRRORWEAPONS_DEFAULT;
 
 #if defined(SDL20)
-    if (monitor < 1 || monitor > MONITOR_MAX)
-        monitor = MONITOR_DEFAULT;
+    if (display < 1 || display > DISPLAY_MAX)
+        display = DISPLAY_DEFAULT;
 #endif
 
     if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)

@@ -86,6 +86,9 @@ extern boolean  corpses_moreblood;
 extern boolean  corpses_slide;
 extern boolean  corpses_smearblood;
 extern boolean  dclick_use;
+#if defined(SDL20)
+extern int      display;
+#endif
 extern boolean  floatbob;
 extern boolean  footclip;
 extern boolean  fullscreen;
@@ -159,9 +162,6 @@ extern int      key_weapon7;
 extern boolean  mapfixes;
 extern boolean  messages;
 extern boolean  mirrorweapons;
-#if defined(SDL20)
-extern int      monitor;
-#endif
 extern int      mousesensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
@@ -486,14 +486,16 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (totalkills, C_NoCondition, C_Int, CF_READONLY, totalkills, 0, NONE, "The total number of monsters to kill in the current map."),
     CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE, "The total number of secrets in the current map."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capped framerate."),
-    CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggle between fullscreen and a window."),
 #if defined(SDL20)
-    CVAR_INT  (vid_monitor, C_NoCondition, C_Int, CF_NONE, monitor, 0, MONITOR, "The monitor used to display the game."),
+    CVAR_INT(vid_display, C_NoCondition, C_Int, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
+#endif
+    CVAR_BOOL(vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggle between fullscreen and a window."),
+#if defined(SDL20)
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver to use to scale the display."),
     CVAR_STR  (vid_scalequality, C_NoCondition, C_ScaleQuality, scalequality, "The filter used to scale the display."),
 #endif
     CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
-    CVAR_STR  (vid_videodriver, C_NoCondition, C_Str, videodriver, "The video driver used to display the game."),
+    CVAR_STR  (vid_videodriver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
 #if defined(SDL20)
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggle vertical synchronization."),
 #endif
