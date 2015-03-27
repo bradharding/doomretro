@@ -1065,6 +1065,45 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         }
     }
 
+    // e6y: interpolation for weapon bobbing
+    if (!capfps)
+    {
+        typedef struct interpolate_s
+        {
+            int x1;
+            int x1_prev;
+            int texturemid;
+            int texturemid_prev;
+            int lump;
+        } psp_interpolate_t;
+
+        static psp_interpolate_t psp_inter;
+
+        if (realframe)
+        {
+            psp_inter.x1 = psp_inter.x1_prev;
+            psp_inter.texturemid = psp_inter.texturemid_prev;
+        }
+
+        psp_inter.x1_prev = vis->x1;
+        psp_inter.texturemid_prev = vis->texturemid;
+
+        if (lump == psp_inter.lump)
+        {
+            int deltax = vis->x2 - vis->x1;
+
+            vis->x1 = psp_inter.x1 + FixedMul(fractionaltic, vis->x1 - psp_inter.x1);
+            vis->x2 = vis->x1 + deltax;
+            vis->texturemid = psp_inter.texturemid + FixedMul(fractionaltic, vis->texturemid - psp_inter.texturemid);
+        }
+        else
+        {
+            psp_inter.x1 = vis->x1;
+            psp_inter.texturemid = vis->texturemid;
+            psp_inter.lump = lump;
+        }
+    }
+
     R_DrawVisSprite(vis);
 }
 

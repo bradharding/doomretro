@@ -40,7 +40,6 @@
 #include "i_timer.h"
 #include "SDL.h"
 
-
 //
 // I_GetTime
 // returns time in 1/35th second tics

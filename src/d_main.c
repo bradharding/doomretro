@@ -123,6 +123,8 @@ boolean                 splashscreen;
 extern int              selectedexpansion;
 extern boolean          alwaysrun;
 
+boolean                 realframe;
+
 #if defined(SDL20)
 extern SDL_Window       *sdl_window;
 #endif
@@ -195,10 +197,15 @@ void D_Display(void)
     static boolean      pausedstate = false;
     static gamestate_t  oldgamestate = (gamestate_t)(-1);
     static int          borderdrawcount = 0;
+    static int          saved_gametic = -1;
     int                 nowtime;
     int                 tics;
     int                 wipestart;
     boolean             done;
+
+    realframe = (capfps || gametic > saved_gametic);
+    if (realframe)
+        saved_gametic = gametic;
 
     // change the view size if needed
     if (setsizeneeded)
