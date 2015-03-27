@@ -1104,7 +1104,7 @@ static void SetVideoMode(boolean output)
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                 windowwidth, windowheight, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
-                C_Output("Created resizable window with dimensions of %ix%i in center of screen on monitor %i of %i.",
+                C_Output("Created resizable window with dimensions %ix%i centered on monitor %i of %i.",
                     windowwidth, windowheight, monitor, nummonitors);
         }
         else
@@ -1112,7 +1112,7 @@ static void SetVideoMode(boolean output)
             window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
-                C_Output("Created resizable window with dimensions of %ix%i at (%i,%i) on monitor %i of %i.",
+                C_Output("Created resizable window with dimensions %ix%i at (%i,%i) on monitor %i of %i.",
                     windowwidth, windowheight, windowx, windowy, monitor, nummonitors);
             windowx = MIN(monitors[monitor - 1].w - windowwidth, windowx);
             windowy = MIN(monitors[monitor - 1].h - windowheight, windowy);
@@ -1169,7 +1169,7 @@ static void SetVideoMode(boolean output)
                     if (!strcasecmp(rendererinfo.name, "software"))
                         C_Output("Vertical synchronization can't be enabled in software.");
                     else
-                        C_Output("Vertical synchronization can't be enabled. Overridden by video card settings.");
+                        C_Output("Vertical synchronization can't be enabled.");
                 }
                 C_Output("The framerate is uncapped.");
             }
@@ -1285,7 +1285,6 @@ void ToggleWidescreen(boolean toggle)
 #if defined(SDL20)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-    SDL_FillRect(screenbuffer, NULL, 0);
 
     if (toggle)
     {
@@ -1298,7 +1297,7 @@ void ToggleWidescreen(boolean toggle)
         }
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
-        src_rect.h = SCREENHEIGHT - SBARHEIGHT;
+        src_rect.h = SCREENHEIGHT - SBARHEIGHT - strcasecmp(scalequality, "nearest");
     }
     else
     {
