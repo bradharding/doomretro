@@ -40,6 +40,7 @@
 
 #include <math.h>
 
+#include "c_console.h"
 #include "d_net.h"
 #include "doomstat.h"
 #include "i_timer.h"
@@ -656,7 +657,7 @@ void R_SetupFrame(player_t *player)
         abs(player->mo->x - player->mo->oldx) <= MAXMOVE &&
         abs(player->mo->y - player->mo->oldy) <= MAXMOVE &&
         // Don't interpolate during a paused state
-        !paused && !menuactive)
+        !paused && !menuactive && !consoleactive)
     {
         // Interpolate player camera from their old position to their current one.
         viewx = player->mo->oldx + FixedMul(player->mo->x - player->mo->oldx, fractionaltic);
