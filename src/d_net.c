@@ -207,7 +207,7 @@ void TryRunTics(void)
     else
         counts = availabletics;
 
-    if (!counts)
+    if (!capfps && !counts)
         return;
 
     if (counts < 1)
