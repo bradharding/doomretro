@@ -259,7 +259,6 @@ void C_Init(void)
     consolecolors[divider] = consoledividercolor;
     consolecolors[title] = consoletitlecolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
-    consolecolors[fpswarning] = consoleoutputcolor;
 }
 
 void C_HideConsole(void)
@@ -584,9 +583,6 @@ void C_Drawer(void)
 
         if ((menuactive || paused) && fps != prevfps)
             blurred = false;
-
-        if (fps < TICRATE && console[consolestrings - 1].type != fpswarning)
-            C_Print(fpswarning, "The average FPS has dropped below %i.", TICRATE);
 
         prevfps = fps;
     }
@@ -1028,5 +1024,4 @@ void C_SetBTSXColorScheme(void)
     consolecolors[divider] = consoledividercolor;
     consolecolors[title] = consoletitlecolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
-    consolecolors[fpswarning] = consoleoutputcolor;
 }

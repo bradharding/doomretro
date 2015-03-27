@@ -57,7 +57,6 @@ typedef enum
     divider,
     title,
     playermessage,
-    fpswarning,
     STRINGTYPES
 } stringtype_t;
 
