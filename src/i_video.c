@@ -1046,8 +1046,6 @@ static void SetVideoMode(boolean output)
 {
 #if defined(SDL20)
     int                 i;
-    SDL_RendererInfo    rendererinfo;
-    char                *renderername;
     int                 flags = SDL_RENDERER_TARGETTEXTURE;
 
     for (i = 0; i < nummonitors; ++i)
@@ -1128,30 +1126,15 @@ static void SetVideoMode(boolean output)
 
     PositionOnCurrentMonitor();
 
-    if (output)
-    {
-        C_Output("Using 256-color palette from PLAYPAL lump.");
-
-        if (gammaindex == 10)
-            C_Output("Gamma correction is off.");
-        else
-        {
-            static char     buffer[128];
-
-            M_snprintf(buffer, sizeof(buffer), "Gamma correction level is %.2f.",
-                gammalevels[gammaindex]);
-            if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
-                buffer[strlen(buffer) - 1] = '\0';
-            C_Output(buffer);
-        }
-    }
-
     renderer = SDL_CreateRenderer(window, -1, flags);
 
     SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
 
     if (output)
     {
+        SDL_RendererInfo        rendererinfo;
+        char                    *renderername;
+
         SDL_GetRendererInfo(renderer, &rendererinfo);
         if (!strcasecmp(rendererinfo.name, "direct3d"))
             renderername = "Direct3D";
@@ -1167,16 +1150,43 @@ static void SetVideoMode(boolean output)
         else if (!strcasecmp(scalequality, "best"))
             C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
 
-        if (vsync && !(rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC))
-        {
-            if (!strcasecmp(rendererinfo.name, "software"))
-                C_Output("Vertical sync can't be enabled in software.");
-            else
-                C_Output("Vertical sync can't be enabled. Please check your video card's settings.");
-        }
+        if (capfps)
+            C_Output("The framerate is capped to %i FPS.", TICRATE);
         else
-            C_Output("Vertical sync is %s.",
-                ((rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC) ? "enabled" : "disabled"));
+        {
+            if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
+            {
+                SDL_DisplayMode displaymode;
+
+                SDL_GetWindowDisplayMode(window, &displaymode);
+            }
+            else
+            {
+                if (vsync)
+                {
+                    if (!strcasecmp(rendererinfo.name, "software"))
+                        C_Output("Vertical synchronization can't be enabled in software.");
+                    else
+                        C_Output("Vertical synchronization can't be enabled. Overridden by video card settings.");
+                }
+                C_Output("The framerate is uncapped.");
+            }
+        }
+
+        C_Output("Using 256-color palette from PLAYPAL lump.");
+
+        if (gammaindex == 10)
+            C_Output("Gamma correction is off.");
+        else
+        {
+            static char     buffer[128];
+
+            M_snprintf(buffer, sizeof(buffer), "Gamma correction level is %.2f.",
+                gammalevels[gammaindex]);
+            if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
+                buffer[strlen(buffer) - 1] = '\0';
+            C_Output(buffer);
+        }
     }
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
     rgbbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0, 0, 0, 0);
