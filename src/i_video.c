@@ -1159,6 +1159,8 @@ static void SetVideoMode(boolean output)
                 SDL_DisplayMode displaymode;
 
                 SDL_GetWindowDisplayMode(window, &displaymode);
+                C_Output("The framerate is capped to monitor's refresh rate of %iHz.",
+                    displaymode.refresh_rate);
             }
             else
             {
@@ -1283,6 +1285,7 @@ void ToggleWidescreen(boolean toggle)
 #if defined(SDL20)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
+    SDL_FillRect(screenbuffer, NULL, 0);
 
     if (toggle)
     {
