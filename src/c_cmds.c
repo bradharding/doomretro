@@ -345,6 +345,7 @@ void C_Spawn(char *, char *, char *);
 void C_Str(char *, char *, char *);
 void C_Time(char *, char *, char *);
 void C_Volume(char *, char *, char *);
+void C_Vsync(char *, char *, char *);
 void C_WindowPosition(char *, char *, char *);
 void C_WindowSize(char *, char *, char *);
 
@@ -494,7 +495,7 @@ consolecmd_t consolecmds[] =
     CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
     CVAR_STR  (vid_videodriver, C_NoCondition, C_Str, videodriver, "The video driver used to display the game."),
 #if defined(SDL20)
-    CVAR_BOOL (vid_vsync, C_BoolCondition, C_Bool, vsync, VSYNC, "Toggle wait for vertical sync."),
+    CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggle vertical synchronization."),
 #endif
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN, "Toggle widescreen mode."),
     CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),
@@ -1760,6 +1761,25 @@ void C_Time(char *cmd, char *parm1, char *parm2)
         ++i;
     }
 }
+
+#if defined(SDL20)
+void C_Vsync(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if (value == 0 || value == 1)
+        {
+            vsync = !!value;
+            M_SaveDefaults();
+            I_RestartGraphics();
+        }
+    }
+    else
+        C_Output(vsync ? "on" : "off");
+}
+#endif
 
 void C_WindowPosition(char *cmd, char *parm1, char *parm2)
 {
