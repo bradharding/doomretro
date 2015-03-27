@@ -1060,7 +1060,9 @@ static void SetVideoMode(boolean output)
 
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
-    C_Output("Using display %i of %i called \"%s\".", display, numdisplays, SDL_GetDisplayName(display - 1));
+    if (output)
+        C_Output("Using display %i of %i called \"%s\".",
+            display, numdisplays, SDL_GetDisplayName(display - 1));
 
     if (fullscreen)
     {
