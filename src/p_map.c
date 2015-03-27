@@ -1870,7 +1870,7 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
     nofit = false;
     crushchange = crunch;
     isliquidsector = isliquid[sector->floorpic];
-    floorheight = sector->floorheight;
+    floorheight = sector->interpfloorheight;
 
     for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
     {
