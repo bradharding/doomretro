@@ -46,6 +46,7 @@
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
+#include "i_timer.h"
 #include "i_video.h"
 #include "m_cheat.h"
 #include "m_menu.h"
@@ -58,7 +59,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define CONSOLESPEED            12
+#define CONSOLESPEED            16
 
 #define CONSOLEFONTSTART        '!'
 #define CONSOLEFONTEND          '~'
@@ -75,13 +76,14 @@
 #define DIVIDER                 "~~~"
 #define ITALICS                 '~'
 
-#define CARETTICS               20
+#define CARETWAIT               10
 
 boolean         allowconsole = ALLOWCONSOLE_DEFAULT;
 
 boolean         consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
+static int      consolewait = 0;
 
 char            *conback = "";
 boolean         defaultconback;
@@ -99,7 +101,7 @@ int             consolestrings = 0;
 patch_t         *caret;
 int             caretpos = 0;
 static boolean  showcaret = true;
-static int      carettics = 0;
+static int      caretwait = 0;
 
 char            consolecheat[255] = "";
 char            consolecheatparm[3] = "";
@@ -483,8 +485,11 @@ void C_Drawer(void)
         char    *right = Z_Malloc(512, PU_STATIC, NULL);
         boolean prevconsoleactive = consoleactive;
 
-        // adjust height
-        consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
+        if (consolewait < I_GetTime())
+        {
+            consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
+            consolewait = I_GetTime();
+        }
 
         consoleactive = (consoleheight >= CONSOLEHEIGHT / 2);
 
@@ -539,10 +544,10 @@ void C_Drawer(void)
         C_DrawText(x, CONSOLEHEIGHT - 15, left, consoleinputcolor);
 
         // draw caret
-        if (carettics++ == CARETTICS)
+        if (caretwait < I_GetTime())
         {
-            carettics = 0;
             showcaret = !showcaret;
+            caretwait = I_GetTime() + CARETWAIT;
         }
         x += C_TextWidth(left);
         if (showcaret)
@@ -614,7 +619,7 @@ boolean C_Responder(event_t *ev)
                     for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
                     --caretpos;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -625,7 +630,7 @@ boolean C_Responder(event_t *ev)
                 {
                     for (i = caretpos; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -721,7 +726,7 @@ boolean C_Responder(event_t *ev)
                         // clear input
                         consoleinput[0] = 0;
                         caretpos = 0;
-                        carettics = 0;
+                        caretwait = I_GetTime() + CARETWAIT;
                         showcaret = true;
                     }
 
@@ -738,7 +743,7 @@ boolean C_Responder(event_t *ev)
                 if (caretpos > 0)
                 {
                     --caretpos;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -748,7 +753,7 @@ boolean C_Responder(event_t *ev)
                 if ((unsigned int)caretpos < strlen(consoleinput))
                 {
                     ++caretpos;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -758,7 +763,7 @@ boolean C_Responder(event_t *ev)
                 if (caretpos > 0)
                 {
                     caretpos = 0;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -768,7 +773,7 @@ boolean C_Responder(event_t *ev)
                 if ((unsigned int)caretpos < strlen(consoleinput))
                 {
                     caretpos = strlen(consoleinput);
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -800,7 +805,7 @@ boolean C_Responder(event_t *ev)
                                 consoleinput[length + 1] = 0;
                             }
                             caretpos = strlen(consoleinput);
-                            carettics = 0;
+                            caretwait = I_GetTime() + CARETWAIT;
                             showcaret = true;
                             return true;
                         }
@@ -818,7 +823,7 @@ boolean C_Responder(event_t *ev)
                         inputhistory = i;
                         M_StringCopy(consoleinput, console[i].string, 255);
                         caretpos = strlen(consoleinput);
-                        carettics = 0;
+                        caretwait = I_GetTime() + CARETWAIT;
                         showcaret = true;
                         break;
                     }
@@ -842,7 +847,7 @@ boolean C_Responder(event_t *ev)
                         consoleinput[0] = 0;
                     }
                     caretpos = strlen(consoleinput);
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -887,7 +892,7 @@ boolean C_Responder(event_t *ev)
                     for (i = strlen(consoleinput); i > caretpos; --i)
                         consoleinput[i] = consoleinput[i - 1];
                     consoleinput[caretpos++] = ch;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                     autocomplete = -1;
                     inputhistory = -1;
