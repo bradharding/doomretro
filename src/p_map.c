@@ -195,8 +195,9 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
     thing->ceilingz = tmceilingz;
     thing->dropoffz = tmdropoffz;        // killough 11/98
 
-    thing->x = x;
-    thing->y = y;
+    thing->x = thing->oldx = x;
+    thing->y = thing->oldy = y;
+    thing->z = thing->oldz = z;
 
     P_SetThingPosition(thing);
 
