@@ -295,9 +295,14 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
 // Returns true if the string was not truncated.
 boolean M_StringCopy(char *dest, char *src, size_t dest_size)
 {
-    strncpy(dest, src, dest_size);
-    dest[dest_size - 1] = '\0';
-    return strlen(dest) == strlen(src);
+    if (dest_size >= 1)
+    {
+        dest[dest_size - 1] = '\0';
+        strncpy(dest, src, dest_size - 1);
+        return (src[strlen(dest)] == '\0');
+    }
+    else
+        return false;
 }
 
 // Returns true if 's' begins with the specified prefix.
