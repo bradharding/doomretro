@@ -692,7 +692,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     fixed_t             fx = thing->x;
     fixed_t             fy = thing->y;
-    fixed_t             fz = thing->z;
+    fixed_t             fz = thing->subsector->sector->interpfloorheight;
 
     int                 flags = thing->flags;
     int                 flags2 = thing->flags2;

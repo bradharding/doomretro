@@ -1752,7 +1752,6 @@ void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage)
 static boolean  crushchange;
 static boolean  nofit;
 static boolean  isliquidsector;
-static fixed_t  floorheight;
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
@@ -1839,17 +1838,6 @@ boolean PIT_ChangeSector(mobj_t *thing)
     return true;
 }
 
-static void P_UpdateBloodSplat(mobj_t *splat)
-{
-    splat->z = floorheight;
-
-    if (isliquidsector)
-    {
-        P_UnsetThingPosition(splat);
-        ((thinker_t *)splat)->function.acv = (actionf_v)(-1);
-    }
-}
-
 //
 // P_ChangeSector
 // jff 3/19/98 added to just check monsters on the periphery
@@ -1864,7 +1852,6 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
     nofit = false;
     crushchange = crunch;
     isliquidsector = isliquid[sector->floorpic];
-    floorheight = sector->interpfloorheight;
 
     for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
     {
@@ -1874,8 +1861,11 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
         {
             mobjtype_t  type = mobj->type;
 
-            if (type == MT_BLOODSPLAT)
-                P_UpdateBloodSplat(mobj);
+            if (type == MT_BLOODSPLAT && isliquidsector)
+            {
+                P_UnsetThingPosition(mobj);
+                ((thinker_t *)mobj)->function.acv = (actionf_v)(-1);
+            }
             else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
                 PIT_ChangeSector(mobj);                         // process it
         }
