@@ -1301,7 +1301,7 @@ void ToggleWidescreen(boolean toggle)
         }
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
-        src_rect.h = SCREENHEIGHT - SBARHEIGHT - strcasecmp(scalequality, "nearest");
+        src_rect.h = SCREENHEIGHT - SBARHEIGHT - !!strcasecmp(scalequality, "nearest");
     }
     else
     {
