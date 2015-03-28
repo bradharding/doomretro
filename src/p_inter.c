@@ -321,7 +321,7 @@ void P_GiveCard(player_t *player, card_t card)
 {
     player->cards[card] = ++cardsfound;
     if (card == player->neededcard)
-        player->neededcard = player->neededcardtics = 0;
+        player->neededcard = player->neededcardflash = 0;
 }
 
 //

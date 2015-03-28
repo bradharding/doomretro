@@ -122,7 +122,7 @@ typedef struct player_s
     int                 powers[NUMPOWERS];
     int                 cards[NUMCARDS];
     int                 neededcard;
-    int                 neededcardtics;
+    int                 neededcardflash;
     boolean             backpack;
 
     // Frags, kills of other players.

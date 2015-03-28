@@ -88,7 +88,7 @@
 #define MOUSE_WHEELDOWN         16
 #endif
 
-#define NEEDEDCARDTICS          85
+#define NEEDEDCARDFLASH         6
 
 #define WEAPONBOTTOM            128 * FRACUNIT
 #define WEAPONTOP               32 * FRACUNIT

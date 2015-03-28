@@ -682,8 +682,8 @@ static void saveg_read_player_t(player_t *str)
     // int neededcard
     str->neededcard = saveg_read32();
 
-    // int neededcardtics
-    str->neededcardtics = saveg_read32();
+    // int neededcardflash
+    str->neededcardflash = saveg_read32();
 
     // boolean backpack
     str->backpack = saveg_read32();
@@ -825,8 +825,8 @@ static void saveg_write_player_t(player_t *str)
     // int neededcard
     saveg_write32(str->neededcard);
 
-    // int neededcardtics
-    saveg_write32(str->neededcardtics);
+    // int neededcardflash
+    saveg_write32(str->neededcardflash);
 
     // boolean backpack
     saveg_write32(str->backpack);

@@ -106,12 +106,12 @@ void (*godhudfunc)(int, int, patch_t *, boolean);
 #define HUD_HEALTH_X    HUD_X
 #define HUD_HEALTH_Y    hud_y
 #define HUD_HEALTH_MIN  20
-#define HUD_HEALTH_TICS 20
+#define HUD_HEALTH_WAIT 8
 
 #define HUD_AMMO_X      (HUD_HEALTH_X + 108 * SCREENSCALE / 2)
 #define HUD_AMMO_Y      HUD_HEALTH_Y
 #define HUD_AMMO_MIN    20
-#define HUD_AMMO_TICS   20
+#define HUD_AMMO_WAIT   8
 
 #define HUD_KEYS_X      (HUD_HEALTH_X + 484 * SCREENSCALE / 2)
 #define HUD_KEYS_Y      HUD_HEALTH_Y
@@ -119,8 +119,7 @@ void (*godhudfunc)(int, int, patch_t *, boolean);
 #define HUD_ARMOR_X     (SCREENWIDTH - 10 * SCREENSCALE / 2)
 #define HUD_ARMOR_Y     HUD_HEALTH_Y
 
-#define HUD_MIN_TICS    6
-#define HUD_KEY_TICS    12
+#define HUD_KEY_WAIT    8
 
 static struct
 {
@@ -323,8 +322,8 @@ static void HU_DrawHUD(void)
         int             health_x = HUD_HEALTH_X;
         int             keys = 0;
         int             i = 0;
-        static int      healthanimtics = 1;
-        static int      ammoanimtics = 1;
+        static int      healthwait = 0;
+        static int      ammowait = 0;
         boolean         invert;
         int             invulnerability = plr->powers[pw_invulnerability];
         static boolean  healthanim = false;
@@ -353,17 +352,16 @@ static void HU_DrawHUD(void)
 
         if (health <= HUD_HEALTH_MIN && !menuactive && !paused && !consoleactive)
         {
-            if (!--healthanimtics)
+            if (healthwait < I_GetTime())
             {
                 healthanim = !healthanim;
-                healthanimtics = MAX(HUD_MIN_TICS,
-                    (int)(HUD_HEALTH_TICS * (float)health / HUD_HEALTH_MIN));
+                healthwait = I_GetTime() + (int)(HUD_HEALTH_WAIT * (float)health / HUD_HEALTH_MIN) + 4;
             }
         }
         else
         {
             healthanim = false;
-            healthanimtics = 1;
+            healthwait = 0;
         }
 
         if (plr->pendingweapon != wp_nochange)
@@ -388,17 +386,16 @@ static void HU_DrawHUD(void)
 
             if (ammo <= HUD_AMMO_MIN && !menuactive && !paused && !consoleactive)
             {
-                if (!--ammoanimtics)
+                if (ammowait < I_GetTime())
                 {
                     ammoanim = !ammoanim;
-                    ammoanimtics = MAX(HUD_MIN_TICS,
-                        (int)(HUD_AMMO_TICS * (float)ammo / HUD_AMMO_MIN));
+                    ammowait = I_GetTime() + (int)(HUD_AMMO_WAIT * (float)ammo / HUD_AMMO_MIN) + 4;
                 }
             }
             else
             {
                 ammoanim = false;
-                ammoanimtics = 1;
+                ammowait = 0;
             }
         }
 
@@ -406,11 +403,11 @@ static void HU_DrawHUD(void)
             if (plr->cards[i++] > 0)
                 keys++;
 
-        if (keys || plr->neededcardtics)
+        if (keys || plr->neededcardflash)
         {
             int                 keypic_x = HUD_KEYS_X - 20 * (keys - 1);
-            static int          keyanimcounter = HUD_KEY_TICS;
-            static boolean      showkey = true;
+            static int          keywait = 0;
+            static boolean      showkey = false;
 
             if (!armor)
                 keypic_x += 123;
@@ -424,32 +421,29 @@ static void HU_DrawHUD(void)
                     keypic_x += 12;
             }
 
-            if (plr->neededcardtics)
+            if (plr->neededcardflash)
             {
-                if (gametic)
-                {
-                    patch_t     *patch = keypic[plr->neededcard].patch;
+                patch_t     *patch = keypic[plr->neededcard].patch;
 
-                    if (patch)
+                if (patch)
+                {
+                    if (!menuactive && !paused && !consoleactive)
                     {
-                        if (!menuactive && !paused && !consoleactive)
+                        if (keywait < I_GetTime())
                         {
-                            plr->neededcardtics--;
-                            if (!--keyanimcounter)
-                            {
-                                showkey = !showkey;
-                                keyanimcounter = HUD_KEY_TICS;
-                            }
+                            showkey = !showkey;
+                            keywait = I_GetTime() + HUD_KEY_WAIT;
+                            plr->neededcardflash--;
                         }
-                        if (showkey)
-                            hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
                     }
+                    if (showkey)
+                        hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
                 }
             }
             else
             {
-                showkey = true;
-                keyanimcounter = HUD_KEY_TICS;
+                showkey = false;
+                keywait = 0;
             }
 
             for (i = 0; i < NUMCARDS; i++)

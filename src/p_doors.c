@@ -200,19 +200,19 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_bluecard)
+                    if (!player->neededcardflash || player->neededcard != it_bluecard)
                     {
                         player->neededcard = it_bluecard;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_BLUEO, true);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_blueskull)
+                    if (!player->neededcardflash || player->neededcard != it_blueskull)
                     {
                         player->neededcard = it_blueskull;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_BLUEO2, true);
                 }
@@ -227,19 +227,19 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_redcard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_redcard)
+                    if (!player->neededcardflash || player->neededcard != it_redcard)
                     {
                         player->neededcard = it_redcard;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_REDO, true);
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_redskull)
+                    if (!player->neededcardflash || player->neededcard != it_redskull)
                     {
                         player->neededcard = it_redskull;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_REDO2, true);
                 }
@@ -254,19 +254,19 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             {
                 if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_yellowcard)
+                    if (!player->neededcardflash || player->neededcard != it_yellowcard)
                     {
                         player->neededcard = it_yellowcard;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_YELLOWO, true);
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_yellowskull)
+                    if (!player->neededcardflash || player->neededcard != it_yellowskull)
                     {
                         player->neededcard = it_yellowskull;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_YELLOWO2, true);
                 }
@@ -379,19 +379,19 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_bluecard)
+                    if (!player->neededcardflash || player->neededcard != it_bluecard)
                     {
                         player->neededcard = it_bluecard;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_BLUEK, true);
                 }
                 else if (player->cards[it_blueskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_blueskull)
+                    if (!player->neededcardflash || player->neededcard != it_blueskull)
                     {
                         player->neededcard = it_blueskull;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_BLUEK2, true);
                 }
@@ -409,19 +409,19 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_yellowcard)
+                    if (!player->neededcardflash || player->neededcard != it_yellowcard)
                     {
                         player->neededcard = it_yellowcard;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_YELLOWK, true);
                 }
                 else if (player->cards[it_yellowskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_yellowskull)
+                    if (!player->neededcardflash || player->neededcard != it_yellowskull)
                     {
                         player->neededcard = it_yellowskull;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_YELLOWK2, true);
                 }
@@ -439,19 +439,19 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             {
                 if (player->cards[it_redcard] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_redcard)
+                    if (!player->neededcardflash || player->neededcard != it_redcard)
                     {
                         player->neededcard = it_redcard;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_REDK, true);
                 }
                 else if (player->cards[it_redskull] == CARDNOTFOUNDYET)
                 {
-                    if (!player->neededcardtics || player->neededcard != it_redskull)
+                    if (!player->neededcardflash || player->neededcard != it_redskull)
                     {
                         player->neededcard = it_redskull;
-                        player->neededcardtics = NEEDEDCARDTICS;
+                        player->neededcardflash = NEEDEDCARDFLASH;
                     }
                     HU_PlayerMessage(s_PD_REDK2, true);
                 }
