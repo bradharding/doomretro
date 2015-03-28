@@ -122,7 +122,11 @@ boolean                 fullscreen = FULLSCREEN_DEFAULT;
 
 boolean                 widescreen = WIDESCREEN_DEFAULT;
 boolean                 returntowidescreen = false;
+
+#if !defined(SDL20)
 boolean                 widescreenresize = false;
+#endif
+
 boolean                 hud = HUD_DEFAULT;
 
 boolean                 capfps = CAPFPS_DEFAULT;
@@ -136,10 +140,11 @@ boolean                 window_focused;
 // Empty mouse cursor
 static SDL_Cursor       *cursors[2];
 
+#if !defined(SDL20)
 // Window resize state.
 static boolean          need_resize = false;
-static unsigned int     resize_w;
 static unsigned int     resize_h;
+#endif
 
 int                     desktopwidth;
 int                     desktopheight;
@@ -729,8 +734,14 @@ void I_GetEvent(void)
                     case SDL_WINDOWEVENT_SIZE_CHANGED:
                         if (!fullscreen)
                         {
-                            need_resize = true;
-                            resize_h = sdlevent.window.data2;
+                            windowwidth = sdlevent.window.data1;
+                            windowheight = sdlevent.window.data2;
+                            M_SaveDefaults();
+
+                            displaywidth = windowwidth;
+                            displayheight = windowheight;
+                            displaycenterx = displaywidth / 2;
+                            displaycentery = displayheight / 2;
                         }
                         break;
 
@@ -847,12 +858,14 @@ void I_FinishUpdate(void)
         static int      currenttime;
         static int      milliseconds;
 
+#if !defined(SDL20)
         if (need_resize)
         {
             ApplyWindowResize(resize_h);
             need_resize = false;
             palette_to_set = true;
         }
+#endif
 
         UpdateGrab();
 
@@ -1535,13 +1548,9 @@ void ToggleFullscreen(void)
 #endif
 }
 
+#if !defined(SDL20)
 void ApplyWindowResize(int resize_h)
 {
-#if defined(SDL20)
-    windowheight = MAX(ORIGINALWIDTH * 3 / 4, MIN(resize_h, desktopheight));
-    windowwidth = windowheight * 4 / 3;
-    SDL_SetWindowSize(window, windowwidth, windowheight);
-#else
     windowheight = height = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
     windowwidth = windowheight * 4 / 3;
 
@@ -1572,13 +1581,13 @@ void ApplyWindowResize(int resize_h)
     starty = stepy - 1;
 
     M_SaveDefaults();
-#endif
 
     displaywidth = windowwidth;
     displayheight = windowheight;
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
 }
+#endif
 
 void I_InitGammaTables(void)
 {

@@ -68,7 +68,10 @@ void I_SetPalette(byte *palette);
 
 void I_FinishUpdate(void);
 
+#if !defined(SDL20)
 void ApplyWindowResize(int resize_h);
+#endif
+
 void ToggleFullscreen(void);
 
 // Wait for vertical retrace or pause a bit.

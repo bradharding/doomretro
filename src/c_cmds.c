@@ -1799,6 +1799,8 @@ void C_WindowPosition(char *cmd, char *parm1, char *parm2)
         C_Output("(%s)", windowposition);
 }
 
+extern SDL_Window       *window;
+
 void C_WindowSize(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
@@ -1817,7 +1819,11 @@ void C_WindowSize(char *cmd, char *parm1, char *parm2)
             windowheight = height;
 
             if (!fullscreen)
+#if defined(SDL20)
+                SDL_SetWindowSize(window, windowwidth, windowheight);
+#else
                 ApplyWindowResize(windowheight);
+#endif
 
             M_SaveDefaults();
         }
