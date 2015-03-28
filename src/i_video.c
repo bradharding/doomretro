@@ -647,7 +647,7 @@ void I_GetEvent(void)
 
 #if defined(SDL20)
             case SDL_MOUSEWHEEL:
-                if (mousesensitivity || menuactive)
+                if (mousesensitivity || menuactive || consoleactive)
                 {
                     keydown = 0;
                     ev.type = ev_mousewheel;
