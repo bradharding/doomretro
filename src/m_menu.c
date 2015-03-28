@@ -961,10 +961,10 @@ void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-#define CARETTICS       20
+#define CARETWAIT       10
 
 static boolean  showcaret = true;
-static int      carettics = 0;
+static int      caretwait = 0;
 
 //
 //  M_SaveGame & Cie.
@@ -1020,10 +1020,10 @@ void M_DrawSave(void)
     // draw text caret
     if (saveStringEnter)
     {
-        if (carettics++ == CARETTICS)
+        if (caretwait < I_GetTime())
         {
-            carettics = 0;
             showcaret = !showcaret;
+            caretwait = I_GetTime() + CARETWAIT;
         }
         if (showcaret)
         {
@@ -2402,7 +2402,7 @@ boolean M_Responder(event_t *ev)
                     for (i = saveCharIndex - 1; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i + 1];
                     saveCharIndex--;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -2414,7 +2414,7 @@ boolean M_Responder(event_t *ev)
                 {
                     for (i = saveCharIndex; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i + 1];
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -2425,7 +2425,7 @@ boolean M_Responder(event_t *ev)
                 {
                     keydown = key;
                     saveStringEnter = 0;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                     M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, SAVESTRINGSIZE);
                     S_StartSound(NULL, sfx_swtchx);
@@ -2443,7 +2443,7 @@ boolean M_Responder(event_t *ev)
                     if (savegamestrings[saveSlot][0] && !allspaces)
                     {
                         saveStringEnter = 0;
-                        carettics = 0;
+                        caretwait = I_GetTime() + CARETWAIT;
                         showcaret = true;
                         M_DoSave(saveSlot);
                     }
@@ -2455,7 +2455,7 @@ boolean M_Responder(event_t *ev)
                 if (saveCharIndex > 0)
                 {
                     saveCharIndex--;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -2465,7 +2465,7 @@ boolean M_Responder(event_t *ev)
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
                     saveCharIndex++;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -2475,7 +2475,7 @@ boolean M_Responder(event_t *ev)
                 if (saveCharIndex > 0)
                 {
                     saveCharIndex = 0;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -2485,7 +2485,7 @@ boolean M_Responder(event_t *ev)
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
                     saveCharIndex = strlen(savegamestrings[saveSlot]);
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
                 break;
@@ -2501,7 +2501,7 @@ boolean M_Responder(event_t *ev)
                     for (i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; --i)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
                     savegamestrings[saveSlot][saveCharIndex++] = ch;
-                    carettics = 0;
+                    caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
         }
