@@ -1261,8 +1261,6 @@ void P_SpawnShadow(mobj_t *actor)
 
     P_SetThingPosition(mobj);
 
-    mobj->z = mobj->subsector->sector->floorheight;
-
     actor->shadow = mobj;
     mobj->shadow = actor;
 }

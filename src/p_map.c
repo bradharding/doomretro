@@ -212,7 +212,6 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
 
         thing->shadow->x = thing->x;
         thing->shadow->y = thing->y;
-        thing->shadow->z = newsec->floorheight;
 
         P_SetThingPosition(thing->shadow);
     }
@@ -896,7 +895,6 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
 
         thing->shadow->x = thing->x;
         thing->shadow->y = thing->y;
-        thing->shadow->z = newsec->floorheight;
 
         P_SetThingPosition(thing->shadow);
     }
@@ -1852,11 +1850,6 @@ static void P_UpdateBloodSplat(mobj_t *splat)
     }
 }
 
-static void P_UpdateShadow(mobj_t *shadow)
-{
-    shadow->z = floorheight;
-}
-
 //
 // P_ChangeSector
 // jff 3/19/98 added to just check monsters on the periphery
@@ -1883,9 +1876,7 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
 
             if (type == MT_BLOODSPLAT)
                 P_UpdateBloodSplat(mobj);
-            else if (type == MT_SHADOW)
-                P_UpdateShadow(mobj);
-            else if (!(mobj->flags & MF_NOBLOCKMAP))            // jff 4/7/98 don't do these
+            else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
                 PIT_ChangeSector(mobj);                         // process it
         }
     }

@@ -807,7 +807,8 @@ void R_ProjectShadow(mobj_t *thing)
 
     fixed_t             fx = thing->x;
     fixed_t             fy = thing->y;
-    fixed_t             fz = thing->z + thing->shadow->info->shadowoffset;
+    fixed_t             fz = thing->subsector->sector->interpfloorheight
+                             + thing->shadow->info->shadowoffset;
 
     // transform the origin point
     fixed_t             tr_x = fx - viewx;
