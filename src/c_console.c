@@ -330,6 +330,9 @@ static void C_DrawBackground(int height)
     if (y > CONSOLETOP)
         for (x = y * SCREENWIDTH; x < (y + 1) * SCREENWIDTH; ++x)
             screens[0][x] = tinttab25[screens[0][x]];
+    if (++y > CONSOLETOP)
+        for (x = y * SCREENWIDTH; x < (y + 1) * SCREENWIDTH; ++x)
+            screens[0][x] = tinttab25[screens[0][x]];
 }
 
 static struct
