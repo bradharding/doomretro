@@ -499,10 +499,14 @@ void P_MobjThinker(mobj_t *mobj)
     int         flags2 = mobj->flags2;
     player_t    *player = mobj->player;
 
-    // [AM] Store starting position for interpolation...unless
-    //      we're an active player - that's done in the player thinker.
+    // [AM] Handle interpolation unless we're an active player.
     if (!(mobj->player != NULL && mobj == mobj->player->mo))
     {
+        // Assume we can interpolate at the beginning
+        // of the tic.
+        mobj->interp = true;
+
+        // Store starting position for mobj interpolation.
         mobj->oldx = mobj->x;
         mobj->oldy = mobj->y;
         mobj->oldz = mobj->z;
@@ -665,6 +669,10 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
               (z == ONCEILINGZ ? mobj->ceilingz - mobj->height : z));
 
+    // [AM] Do not interpolate on spawn.
+    mobj->interp = false;
+
+    // [AM] Just in case interpolation is attempted...
     mobj->oldx = mobj->x;
     mobj->oldy = mobj->y;
     mobj->oldz = mobj->z;

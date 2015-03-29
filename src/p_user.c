@@ -266,6 +266,10 @@ void P_PlayerThink(player_t *player)
     mobj_t              *mo = player->mo;
     weapontype_t        newweapon;
 
+    // [AM] Assume we can interpolate at the beginning
+    //      of the tic.
+    mo->interp = true;
+
     // [AM] Store starting position for player interpolation.
     mo->oldx = mo->x;
     mo->oldy = mo->y;

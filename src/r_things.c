@@ -542,11 +542,14 @@ void R_ProjectSprite(mobj_t *thing)
     fixed_t             interpz;
     fixed_t             interpangle;
 
-    if (!capfps &&
-        // Don't interpolate during a paused state
-        !paused && !menuactive && !consoleactive)
+    // [AM] Interpolate between current and last position, if prudent.
+    if (!capfps
+        // Don't interpolate if the mobj did something 
+        // that would necessitate turning it off for a tic.
+        && thing->interp
+        // Don't interpolate during a paused state.
+        && !paused && !menuactive && !consoleactive)
     {
-        // [AM] Interpolate between current and last position.
         interpx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
         interpy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
         interpz = thing->oldz + FixedMul(thing->z - thing->oldz, fractionaltic);

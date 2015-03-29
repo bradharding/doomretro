@@ -650,14 +650,15 @@ void R_SetupFrame(player_t *player)
     if (!capfps)
         fractionaltic = I_GetTimeMS() * TICRATE % 1000 * FRACUNIT / 1000;
 
-    if (!capfps &&
-        // Don't interpolate on the first tic of a level
-        leveltime > 1 &&
-        // Don't interpolate if the player has teleported
-        abs(player->mo->x - player->mo->oldx) <= MAXMOVE &&
-        abs(player->mo->y - player->mo->oldy) <= MAXMOVE &&
+    if (!capfps
+        // Don't interpolate on the first tic of a level, otherwise
+        // oldviewz might be garbage.
+        && leveltime > 1
+        // Don't interpolate if the player did something 
+        // that would necessitate turning it off for a tic.
+        && player->mo->interp
         // Don't interpolate during a paused state
-        !paused && !menuactive && !consoleactive)
+        && !paused && !menuactive && !consoleactive)
     {
         // Interpolate player camera from their old position to their current one.
         viewx = player->mo->oldx + FixedMul(player->mo->x - player->mo->oldx, fractionaltic);
