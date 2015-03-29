@@ -206,7 +206,7 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
     else
         thing->flags2 &= ~MF2_FEETARECLIPPED;
 
-    if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+    if (thing->shadow)
     {
         P_UnsetThingPosition(thing->shadow);
 
@@ -889,7 +889,7 @@ boolean P_TryMove(mobj_t *thing, fixed_t x, fixed_t y, boolean dropoff)
         }
     }
 
-    if ((thing->flags2 & MF2_SHADOW) && thing->shadow)
+    if (thing->shadow)
     {
         P_UnsetThingPosition(thing->shadow);
 
