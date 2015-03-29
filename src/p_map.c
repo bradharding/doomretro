@@ -1853,23 +1853,37 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
     crushchange = crunch;
     isliquidsector = isliquid[sector->floorpic];
 
-    for (n = sector->touching_thinglist; n; n = n->m_snext)     // go through list
-    {
-        mobj_t  *mobj = n->m_thing;
-
-        if (mobj)
+    if (isliquidsector)
+        for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
         {
-            mobjtype_t  type = mobj->type;
+            mobj_t  *mobj = n->m_thing;
 
-            if (type == MT_BLOODSPLAT && isliquidsector)
+            if (mobj)
             {
-                P_UnsetThingPosition(mobj);
-                ((thinker_t *)mobj)->function.acv = (actionf_v)(-1);
+                mobjtype_t  type = mobj->type;
+
+                if (type == MT_BLOODSPLAT)
+                {
+                    P_UnsetThingPosition(mobj);
+                    ((thinker_t *)mobj)->function.acv = (actionf_v)(-1);
+                }
+                else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
+                    PIT_ChangeSector(mobj);                     // process it
             }
-            else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                PIT_ChangeSector(mobj);                         // process it
         }
-    }
+    else
+        for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
+        {
+            mobj_t  *mobj = n->m_thing;
+
+            if (mobj)
+            {
+                mobjtype_t  type = mobj->type;
+
+                if (type != MT_BLOODSPLAT && type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
+                    PIT_ChangeSector(mobj);                     // process it
+            }
+        }
 
     return nofit;
 }
@@ -1881,7 +1895,7 @@ msecnode_t      *headsecnode = NULL;
 
 void P_FreeSecNodeList(void)
 {
-    headsecnode = NULL; // this is all thats needed to fix the bug
+    headsecnode = NULL; // this is all that's needed to fix the bug
 }
 
 // P_GetSecnode() retrieves a node from the freelist. The calling routine
