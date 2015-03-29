@@ -289,7 +289,6 @@ action_t actions[] =
     { "",             NULL,                    NULL,              NULL,              NULL                      }
 };
 
-boolean C_BindCondition(char *, char *, char *);
 boolean C_BloodSplatsCondition(char *, char *, char *);
 boolean C_BoolCondition(char *, char *, char *);
 boolean C_CheatCondition(char *, char *, char *);
@@ -344,6 +343,7 @@ void C_ShowFPS(char *, char *, char *);
 void C_Spawn(char *, char *, char *);
 void C_Str(char *, char *, char *);
 void C_Time(char *, char *, char *);
+void C_UnBind(char *, char *, char *);
 void C_Volume(char *, char *, char *);
 void C_Vsync(char *, char *, char *);
 void C_WindowPosition(char *, char *, char *);
@@ -402,7 +402,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, followmode, NONE, "Toggle follow mode in the automap."),
     CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, grid, GRID, "Toggle the grid in the automap."),
     CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, rotatemode, ROTATEMODE, "Toggle rotate mode in the automap."),
-    CMD       (bind, C_BindCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
+    CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),
     CVAR_BOOL (com_allowconsole, C_BoolCondition, C_Bool, allowconsole, ALLOWCONSOLE, "Toggle allowing the console to be opened with only the ~~ key."),
@@ -485,6 +485,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (totalitems, C_NoCondition, C_Int, CF_READONLY, totalitems, 0, NONE, "The total number of items in the current map."),
     CVAR_INT  (totalkills, C_NoCondition, C_Int, CF_READONLY, totalkills, 0, NONE, "The total number of monsters to kill in the current map."),
     CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE, "The total number of secrets in the current map."),
+    CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbind an action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capped framerate."),
 #if defined(SDL20)
     CVAR_INT(vid_display, C_NoCondition, C_Int, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
@@ -550,11 +551,6 @@ void C_AlwaysRun(char *cmd, char *parm1, char *parm2)
 //
 // BIND cmd
 //
-boolean C_BindCondition(char *cmd, char *parm1, char *parm2)
-{
-    return true;
-}
-
 void C_DisplayBinds(char *action, int value, controltype_t type, int count)
 {
     int i = 0;
@@ -630,6 +626,46 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                     else if (controls[i].type == gamepad && actions[action].gamepad
                         && controls[i].value == *(int *)actions[action].gamepad)
                         C_Output(actions[action].action);
+                    ++action;
+                }
+            }
+            else if (!strcasecmp(parm2, "none"))
+            {
+                while (actions[action].action[0])
+                {
+                    switch (controls[i].type)
+                    {
+                        case keyboard:
+                            if (actions[action].keyboard1
+                                && controls[i].value == *(int *)actions[action].keyboard1)
+                            {
+                                *(int *)actions[action].keyboard1 = 0;
+                                M_SaveDefaults();
+                            }
+                            if (actions[action].keyboard2
+                                && controls[i].value == *(int *)actions[action].keyboard2)
+                            {
+                                *(int *)actions[action].keyboard2 = 0;
+                                M_SaveDefaults();
+                            }
+                            break;
+                        case mouse:
+                            if (actions[action].mouse
+                                && controls[i].value == *(int *)actions[action].mouse)
+                            {
+                                *(int *)actions[action].mouse = 0;
+                                M_SaveDefaults();
+                            }
+                            break;
+                        case gamepad:
+                            if (actions[action].gamepad
+                                && controls[i].value == *(int *)actions[action].gamepad)
+                            {
+                                *(int *)actions[action].gamepad = 0;
+                                M_SaveDefaults();
+                            }
+                            break;
+                    }
                     ++action;
                 }
             }
@@ -1762,6 +1798,11 @@ void C_Time(char *cmd, char *parm1, char *parm2)
         }
         ++i;
     }
+}
+
+void C_UnBind(char *cmd, char *parm1, char *parm2)
+{
+    C_Bind(cmd, parm1, "none");
 }
 
 #if defined(SDL20)
