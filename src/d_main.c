@@ -384,6 +384,7 @@ void D_DoomLoop(void)
 //
 int             titlesequence;
 int             pagetic;
+static int      pagewait = 0;
 static patch_t  *pagelump;
 static patch_t  *splshttl;
 static patch_t  *splshtxt;
@@ -400,7 +401,13 @@ void D_PageTicker(void)
 {
     if (!menuactive && !startingnewgame && !consoleheight)
     {
-        if (--pagetic < 0)
+        if (pagewait < I_GetTime())
+        {
+            --pagetic;
+            pagewait = I_GetTime();
+        }
+
+        if (pagetic < 0)
             D_AdvanceTitle();
         if (!TITLEPIC && !splashscreen)
             M_StartControlPanel();
