@@ -412,6 +412,7 @@ consolecmd_t consolecmds[] =
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Display a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "End a game."),
     CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, 0, EPISODE, "The currently selected episode in the menu."),
+    CMD       (exit, C_NoCondition, C_Quit, 0, "", ""),
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exit the current map."),
     CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, 0, EXPANSION, "The currently selected expansion in the menu."),
     CVAR_TIME (gametime, C_NoCondition, C_Time, gametic, "The amount of time since "PACKAGE_NAME" started."),
@@ -810,7 +811,8 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
 
     while (consolecmds[i].name[0])
     {
-        if (consolecmds[i].type == CT_CMD && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
+        if (consolecmds[i].type == CT_CMD && consolecmds[i].description[0]
+            && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
             C_Output("%i\t%s %s\t\t%s", count++, consolecmds[i].name, consolecmds[i].format,
                 consolecmds[i].description);
         ++i;
