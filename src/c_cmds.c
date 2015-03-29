@@ -1525,8 +1525,8 @@ void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        if (!strcasecmp(parm1, "direct3d") || !strcasecmp(parm1, "opengl")
-            || !strcasecmp(parm1, "software"))
+        if ((!strcasecmp(parm1, "direct3d") || !strcasecmp(parm1, "opengl")
+            || !strcasecmp(parm1, "software")) && strcasecmp(parm1, scaledriver))
         {
             scaledriver = strdup(parm1);
             M_SaveDefaults();
@@ -1541,8 +1541,8 @@ void C_ScaleQuality(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        if (!strcasecmp(parm1, "nearest") || !strcasecmp(parm1, "linear")
-            || !strcasecmp(parm1, "best"))
+        if ((!strcasecmp(parm1, "nearest") || !strcasecmp(parm1, "linear")
+            || !strcasecmp(parm1, "best")) && strcasecmp(parm1, scalequality))
         {
             scalequality = strdup(parm1);
             M_SaveDefaults();
@@ -1771,7 +1771,7 @@ void C_Vsync(char *cmd, char *parm1, char *parm2)
     {
         int     value = C_LookupValueFromAlias(parm1, 1);
 
-        if (value == 0 || value == 1)
+        if ((value == 0 || value == 1) && value != vsync)
         {
             vsync = !!value;
             M_SaveDefaults();
