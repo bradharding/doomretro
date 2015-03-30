@@ -1842,7 +1842,9 @@ void C_WindowPosition(char *cmd, char *parm1, char *parm2)
         C_Output("(%s)", windowposition);
 }
 
+#if defined(SDL20)
 extern SDL_Window       *window;
+#endif
 
 void C_WindowSize(char *cmd, char *parm1, char *parm2)
 {
