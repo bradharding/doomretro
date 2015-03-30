@@ -572,6 +572,9 @@ void C_Drawer(void)
         right[i] = 0;
         if (right[0])
             C_DrawText(x + 3, CONSOLEHEIGHT - 15, right, consoleinputcolor);
+
+        Z_Free(left);
+        Z_Free(right);
     }
 
     if (showfps && fps)
