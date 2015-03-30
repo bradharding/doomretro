@@ -198,6 +198,10 @@ extern char     *windowposition;
 extern char     *windowsize;
 extern int      windowwidth;
 
+#if defined(WIN32)
+extern boolean  showmemory;
+#endif
+
 #if defined(SDL20)
 extern char     *scaledriver;
 extern char     *scalequality;
@@ -406,7 +410,10 @@ consolecmd_t consolecmds[] =
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),
     CVAR_BOOL (com_allowconsole, C_BoolCondition, C_Bool, allowconsole, ALLOWCONSOLE, "Toggle allowing the console to be opened with only the ~~ key."),
-    CVAR_BOOL (com_showfps, C_BoolCondition, C_ShowFPS, showfps, NONE, "Toggle showing the average frames per second."),
+    CVAR_BOOL (com_showfps, C_BoolCondition, C_Bool, showfps, NONE, "Toggle showing the average frames per second."),
+#if defined(WIN32)
+    CVAR_BOOL(com_showmemoryusage, C_BoolCondition, C_Bool, showmemory, NONE, "Toggle showing the memory usage."),
+#endif
     CVAR_STR  (conback, C_ConBackCondition, C_ConBack, conback, "The flat used for the console's background."),
     CMD       (condump, C_NoCondition, C_ConDump, 1, "[~filename~]", "Dump the console to a file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Display a list of console variables."),
@@ -1639,22 +1646,6 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output("%i", screensize);
-}
-
-//
-// SHOWFPS cvar
-//
-void C_ShowFPS(char *cmd, char *parm1, char *parm2)
-{
-    if (parm1[0])
-    {
-        int     value = C_LookupValueFromAlias(parm1, 1);
-
-        if (value == 0 || value == 1)
-            showfps = !!value;
-    }
-    else
-        C_Output(showfps ? "on" : "off");
 }
 
 //

@@ -38,6 +38,11 @@
 
 #include <ctype.h>
 
+#if defined(WIN32)
+#include <windows.h>
+#include <psapi.h>
+#endif
+
 #include "c_cmds.h"
 #include "c_console.h"
 #include "d_event.h"
@@ -58,6 +63,10 @@
 #include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
+
+#if defined(WIN32)
+#pragma comment(lib, "psapi.lib")
+#endif
 
 #define CONSOLESPEED            16
 
@@ -112,6 +121,10 @@ static char     autocompletetext[255] = "";
 static int      inputhistory = -1;
 
 static int      outputhistory = -1;
+
+#if defined(WIN32)
+boolean         showmemory = false;
+#endif
 
 extern boolean  translucency;
 extern byte     *tinttab75;
@@ -591,6 +604,41 @@ void C_Drawer(void)
 
         prevfps = fps;
     }
+#if defined(WIN32)
+    else if (showmemory)
+    {
+        HANDLE                  hProcess = GetCurrentProcess();
+        PROCESS_MEMORY_COUNTERS pmc;
+
+        if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
+        {
+            static char buffer[16];
+            size_t      i;
+            size_t      len;
+            int         x;
+
+            M_snprintf(buffer, 16, "%sKB", commify(pmc.WorkingSetSize / 1024.0));
+
+            x = SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1;
+            len = strlen(buffer);
+
+            for (i = 0; i < len; ++i)
+                if (buffer[i] == ' ')
+                    x += SPACEWIDTH;
+                else
+                {
+                    patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
+
+                    V_DrawConsoleChar(x, CONSOLETEXTY, patch, -consoleoutputcolor, false);
+                    x += SHORT(patch->width);
+                }
+
+            blurred = false;
+        }
+
+        CloseHandle(hProcess);
+    }
+#endif
 }
 
 boolean C_Responder(event_t *ev)
