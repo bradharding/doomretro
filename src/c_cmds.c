@@ -1760,12 +1760,12 @@ void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
 
             sscanf(parm1, "%ix%i", &width, &height);
 
-            if (width >= 0 && height >= 0)
+            if (width >= 0 && height >= 0 && (width != screenwidth || height != screenheight))
             {
                 screenwidth = width;
                 screenheight = height;
-
                 M_SaveDefaults();
+                I_RestartGraphics();
             }
         }
     }
