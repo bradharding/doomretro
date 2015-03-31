@@ -39,6 +39,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "p_local.h"
+#include "z_zone.h"
 
 int     leveltime;
 
@@ -98,6 +99,7 @@ void P_RunThinkers(void)
             // time to remove it
             currentthinker->next->prev = currentthinker->prev;
             currentthinker->prev->next = currentthinker->next;
+            Z_Free(currentthinker);
         }
         else if (currentthinker->function.acp1)
             currentthinker->function.acp1(currentthinker);
