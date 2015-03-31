@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
@@ -1213,7 +1214,7 @@ void WI_checkForAccelerate(void)
     // check for button presses to skip delays
     for (i = 0, player = players; i < MAXPLAYERS; i++, player++)
     {
-        if (playeringame[i] && !menuactive)
+        if (playeringame[i] && !menuactive && !paused && !consoleactive)
         {
 #if defined(SDL20)
             const Uint8 *keystate = SDL_GetKeyboardState(NULL);
@@ -1248,7 +1249,7 @@ void WI_checkForAccelerate(void)
 // Updates stuff each tick
 void WI_Ticker(void)
 {
-    if (menuactive || paused)
+    if (menuactive || paused || consoleactive)
         return;
 
     // counter for general background animation
@@ -1256,7 +1257,7 @@ void WI_Ticker(void)
 
     if (bcnt == 1)
         // intermission music
-        S_ChangeMusic(gamemode == commercial ? mus_dm2int : mus_inter, true, false);
+        S_ChangeMusic((gamemode == commercial ? mus_dm2int : mus_inter), true, false);
 
     WI_checkForAccelerate();
 
