@@ -64,5 +64,6 @@ char *uppercase(char *str);
 char *commify(double value);
 boolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
+char *removespaces(char *str);
 
 #endif

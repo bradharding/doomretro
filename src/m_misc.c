@@ -464,3 +464,20 @@ int gcd(int a, int b)
 {
     return (!b ? a : gcd(b, a % b));
 }
+char *removespaces(char *input)
+{
+    char        *output = input;
+    size_t      i;
+    size_t      j;
+
+    for (i = 0, j = 0; i < strlen(input); i++, j++)
+    {
+        if (input[i] != ' ')
+            output[j] = input[i];
+        else
+            j--;
+    }
+    output[j] = '\0';
+
+    return output;
+}

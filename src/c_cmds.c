@@ -1251,10 +1251,10 @@ boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
             return true;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(parm1, mobjinfo[i].name1)
-                || !strcasecmp(parm1, mobjinfo[i].plural1)
-                || (mobjinfo[i].name2[0] && !strcasecmp(parm1, mobjinfo[i].name2))
-                || (mobjinfo[i].plural2[0] && !strcasecmp(parm1, mobjinfo[i].plural2)))
+            if (!strcasecmp(parm1, removespaces(mobjinfo[i].name1))
+                || !strcasecmp(parm1, removespaces(mobjinfo[i].plural1))
+                || (mobjinfo[i].name2[0] && !strcasecmp(parm1, removespaces(mobjinfo[i].name2)))
+                || (mobjinfo[i].plural2[0] && !strcasecmp(parm1, removespaces(mobjinfo[i].plural2))))
             {
                 boolean     kill = true;
 
@@ -1662,8 +1662,8 @@ boolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
         int i;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
-            if (!strcasecmp(parm1, mobjinfo[i].name1)
-                || (mobjinfo[i].name2[0] && !strcasecmp(parm1, mobjinfo[i].name2)))
+            if (!strcasecmp(parm1, removespaces(mobjinfo[i].name1))
+                || (mobjinfo[i].name2[0] && !strcasecmp(parm1, removespaces(mobjinfo[i].name2))))
             {
                 boolean     spawn = true;
 

@@ -139,12 +139,10 @@ static boolean ReadVariableLength(unsigned int *result, FILE *stream)
             return false;
 
         // Insert the bottom seven bits from this byte.
-
         *result <<= 7;
         *result |= b & 0x7f;
 
         // If the top bit is not set, this is the end.
-
         if ((b & 0x80) == 0)
             return true;
     }
@@ -153,7 +151,6 @@ static boolean ReadVariableLength(unsigned int *result, FILE *stream)
 }
 
 // Read a byte sequence into the data buffer.
-
 static void *ReadByteSequence(unsigned int num_bytes, FILE *stream)
 {
     unsigned int        i;
@@ -232,19 +229,16 @@ static boolean ReadMetaEvent(midi_event_t *event, FILE *stream)
     event->event_type = MIDI_EVENT_META;
 
     // Read meta event type:
-
     if (!ReadByte(&b, stream))
         return false;
 
     event->data.meta.type = b;
 
     // Read length of meta event data:
-
     if (!ReadVariableLength(&event->data.meta.length, stream))
         return false;
 
     // Read the byte sequence:
-
     event->data.meta.data = (byte *)ReadByteSequence(event->data.meta.length, stream);
 
     if (event->data.meta.data == NULL)
@@ -337,7 +331,6 @@ static void FreeEvent(midi_event_t *event)
 }
 
 // Read and check the track chunk header
-
 static boolean ReadTrackHeader(midi_track_t *track, FILE *stream)
 {
     size_t              records_read;
@@ -415,7 +408,6 @@ static boolean ReadAllTracks(midi_file_t *file, FILE *stream)
     unsigned int        i;
 
     // Allocate list of tracks and read each track:
-
     file->tracks = (midi_track_t *)malloc(sizeof(midi_track_t) * file->num_tracks);
 
     if (file->tracks == NULL)
@@ -424,7 +416,6 @@ static boolean ReadAllTracks(midi_file_t *file, FILE *stream)
     memset(file->tracks, 0, sizeof(midi_track_t) * file->num_tracks);
 
     // Read each track:
-
     for (i = 0; i < file->num_tracks; ++i)
         if (!ReadTrack(&file->tracks[i], stream))
             return false;
@@ -433,7 +424,6 @@ static boolean ReadAllTracks(midi_file_t *file, FILE *stream)
 }
 
 // Read and check the header chunk.
-
 static boolean ReadFileHeader(midi_file_t *file, FILE *stream)
 {
     size_t              records_read;
