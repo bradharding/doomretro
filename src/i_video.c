@@ -856,7 +856,6 @@ void I_FinishUpdate(void)
         static int      frames = -1;
         static int      starttime = 0;
         static int      currenttime;
-        static int      milliseconds;
 
 #if !defined(SDL20)
         if (need_resize)
@@ -904,10 +903,9 @@ void I_FinishUpdate(void)
         {
             ++frames;
             currenttime = SDL_GetTicks();
-            milliseconds = currenttime - starttime;
-            if (milliseconds >= 100)
+            if (currenttime - starttime >= 1000)
             {
-                fps = frames * 1000 / milliseconds;
+                fps = frames;
                 frames = 0;
                 starttime = currenttime;
             }
