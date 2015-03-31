@@ -937,7 +937,7 @@ void G_Ticker(void)
                 if (gametic)
                 {
                     if ((usergame || gamestate == GS_LEVEL)
-                        && !idbehold && !(players[consoleplayer].cheats & CF_MYPOS) && !showfps)
+                        && !idbehold && !(players[consoleplayer].cheats & CF_MYPOS))
                     {
                         HU_clearMessages();
                         D_Display();

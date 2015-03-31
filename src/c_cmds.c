@@ -343,7 +343,6 @@ void C_ScaleDriver(char *, char *, char *);
 void C_ScaleQuality(char *, char *, char *);
 void C_ScreenSize(char *, char *, char *);
 void C_ScreenResolution(char *, char *, char *);
-void C_ShowFPS(char *, char *, char *);
 void C_Spawn(char *, char *, char *);
 void C_Str(char *, char *, char *);
 void C_Time(char *, char *, char *);

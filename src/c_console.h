@@ -91,6 +91,8 @@ extern int      consoleplayermessagecolor;
 extern int      consoleoutputcolor;
 extern int      consoletitlecolor;
 
+extern boolean  showmemory;
+
 void C_Print(stringtype_t type, char *string, ...);
 void C_Output(char *string, ...);
 void C_PlayerMessage(char *string, ...);
