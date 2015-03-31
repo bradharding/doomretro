@@ -1816,14 +1816,24 @@ void C_Vsync(char *cmd, char *parm1, char *parm2)
 }
 #endif
 
+#if defined(SDL20)
+extern SDL_Window       *window;
+#endif
+
 void C_WindowPosition(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        if (!strcasecmp(parm1, "center"))
-            windowposition = "";
-        else
-            windowposition = strdup(parm1);
+        windowposition = (!strcasecmp(parm1, "center") ? "" : strdup(parm1));
+ 
+        if (!fullscreen)
+        {
+            SetWindowPositionVars();
+#if defined(SDL20)
+            SDL_SetWindowPosition(window, windowx, windowy);
+#endif
+        }
+
         M_SaveDefaults();
     }
     else if (!windowposition[0])
@@ -1831,10 +1841,6 @@ void C_WindowPosition(char *cmd, char *parm1, char *parm2)
     else
         C_Output("(%s)", windowposition);
 }
-
-#if defined(SDL20)
-extern SDL_Window       *window;
-#endif
 
 void C_WindowSize(char *cmd, char *parm1, char *parm2)
 {

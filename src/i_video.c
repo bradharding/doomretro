@@ -215,7 +215,7 @@ int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 int                     capslock;
 boolean                 alwaysrun = ALWAYSRUN_DEFAULT;
 
-static void SetWindowPositionVars(void);
+void SetWindowPositionVars(void);
 
 boolean MouseShouldBeGrabbed(void)
 {
@@ -950,7 +950,7 @@ static void CreateCursors(void)
     cursors[0] = SDL_CreateCursor(&empty_cursor_data, &empty_cursor_data, 1, 1, 0, 0);
 }
 
-static void SetWindowPositionVars(void)
+void SetWindowPositionVars(void)
 {
 #if !defined(SDL20)
     char        buf[64];

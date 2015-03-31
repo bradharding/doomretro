@@ -60,6 +60,7 @@ void I_RestartGraphics(void);
 
 void I_ShutdownGraphics(void);
 void I_SaveWindowPosition(void);
+void SetWindowPositionVars(void);
 
 void I_ShutdownKeyboard(void);
 
@@ -108,5 +109,10 @@ extern boolean  noinput;
 
 extern boolean  showfps;
 extern boolean  wipe;
+
+#if defined(SDL20)
+extern int      windowx;
+extern int      windowy;
+#endif
 
 #endif
