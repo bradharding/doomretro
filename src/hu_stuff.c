@@ -604,6 +604,8 @@ void HU_Ticker(void)
             message_counter = HU_MSGTIMEOUT;
             message_nottobefuckedwith = message_dontfuckwithme;
             message_dontfuckwithme = 0;
+
+            Z_Free(s);
         }
         plr->message = 0;
     }

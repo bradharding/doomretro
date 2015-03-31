@@ -53,7 +53,7 @@
 #include "z_zone.h"
 
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
-byte            *screens[2];
+byte            *screens[5];
 
 int             pixelwidth;
 int             pixelheight;

@@ -1038,6 +1038,9 @@ void M_DrawSave(void)
                         V_DrawPixel(x + xx, y + yy, (int)savecaret[yy * 3 + xx], false);
         }
     }
+
+    Z_Free(left);
+    Z_Free(right);
 }
 
 //
