@@ -142,6 +142,7 @@ int             consoleinputcolor = 227;
 int             consoleinputtooutputcolor = 227;
 int             consolelowfpscolor = -180;
 int             consolemaptitlecolor = 227;
+int             consolememorycolor = -80;
 int             consoleplayermessagecolor = 174;
 int             consoleoutputcolor = 227;
 int             consoletitlecolor = 227;
@@ -632,7 +633,7 @@ void C_Drawer(void)
                 {
                     patch_t *patch = consolefont[buffer[i] - CONSOLEFONTSTART];
 
-                    V_DrawConsoleChar(x, CONSOLETEXTY, patch, -consoleoutputcolor, false);
+                    V_DrawConsoleChar(x, CONSOLETEXTY, patch, consolememorycolor, false);
                     x += SHORT(patch->width);
                 }
 
@@ -1070,6 +1071,7 @@ void C_SetBTSXColorScheme(void)
     consoleinputtooutputcolor = 80;
     consolelowfpscolor = -180;
     consolemaptitlecolor = 80;
+    consolememorycolor = -80;
     consoleplayermessagecolor = (BTSXE1 ? 196 : 214);
     consoleoutputcolor = 80;
     consoletitlecolor = 80;
