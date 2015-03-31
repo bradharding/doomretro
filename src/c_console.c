@@ -845,7 +845,8 @@ boolean C_Responder(event_t *ev)
                     {
                         autocomplete += direction;
                         if (M_StringStartsWith(consolecmds[autocomplete].name, autocompletetext)
-                            && consolecmds[autocomplete].type != CT_CHEAT)
+                            && consolecmds[autocomplete].type != CT_CHEAT
+                            && consolecmds[autocomplete].description[0])
                         {
                             M_StringCopy(consoleinput, consolecmds[autocomplete].name,
                                 sizeof(consoleinput));
