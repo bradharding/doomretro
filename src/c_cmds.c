@@ -346,6 +346,9 @@ void C_ScreenResolution(char *, char *, char *);
 void C_Spawn(char *, char *, char *);
 void C_Str(char *, char *, char *);
 void C_Time(char *, char *, char *);
+void C_TotalItems(char *, char *, char *);
+void C_TotalKills(char *, char *, char *);
+void C_TotalSecrets(char *, char *, char *);
 void C_UnBind(char *, char *, char *);
 void C_Volume(char *, char *, char *);
 void C_Vsync(char *, char *, char *);
@@ -489,9 +492,9 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or object."),
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggle whether sprite fixes are applied when a map is loaded."),
-    CVAR_INT  (totalitems, C_NoCondition, C_Int, CF_READONLY, totalitems, 0, NONE, "The total number of items in the current map."),
-    CVAR_INT  (totalkills, C_NoCondition, C_Int, CF_READONLY, totalkills, 0, NONE, "The total number of monsters to kill in the current map."),
-    CVAR_INT  (totalsecrets, C_NoCondition, C_Int, CF_READONLY, totalsecret, 0, NONE, "The total number of secrets in the current map."),
+    CVAR_INT  (totalitems, C_NoCondition, C_TotalItems, CF_READONLY, totalitems, 0, NONE, "The total number of items in the current map."),
+    CVAR_INT  (totalkills, C_NoCondition, C_TotalKills, CF_READONLY, totalkills, 0, NONE, "The total number of monsters to kill in the current map."),
+    CVAR_INT  (totalsecrets, C_NoCondition, C_TotalSecrets, CF_READONLY, totalsecret, 0, NONE, "The total number of secrets in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbind an action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capped framerate."),
 #if defined(SDL20)
@@ -1790,6 +1793,33 @@ void C_Time(char *cmd, char *parm1, char *parm2)
         }
         ++i;
     }
+}
+
+void C_TotalItems(char *cmd, char *parm1, char *parm2)
+{
+    if (!totalitems)
+        C_Output("0 of 0 (0%)");
+    else
+        C_Output("%i of %i (%i%%)", players[consoleplayer].itemcount, totalitems,
+            players[consoleplayer].itemcount * 100 / totalitems);
+}
+
+void C_TotalKills(char *cmd, char *parm1, char *parm2)
+{
+    if (!totalkills)
+        C_Output("0 of 0 (0%)");
+    else
+        C_Output("%i of %i (%i%%)", players[consoleplayer].killcount, totalkills,
+            players[consoleplayer].killcount * 100 / totalkills);
+}
+
+void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
+{
+    if (!totalsecret)
+        C_Output("0 of 0 (0%)");
+    else
+        C_Output("%i of %i (%i%%)", players[consoleplayer].secretcount, totalsecret,
+            players[consoleplayer].secretcount * 100 / totalsecret);
 }
 
 void C_UnBind(char *cmd, char *parm1, char *parm2)
