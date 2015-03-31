@@ -989,9 +989,14 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (deathmatch && (mobjinfo[i].flags & MF_NOTDMATCH))
         return;
 
-    // don't spawn any monsters if -nomonsters
-    if (nomonsters && (mobjinfo[i].flags & MF_COUNTKILL) && i != MT_KEEN)
-        return;
+    if (mobjinfo[i].flags & MF_COUNTKILL)
+    {
+        totalkills++;
+
+        // don't spawn any monsters if -nomonsters
+        if (nomonsters && i != MT_KEEN)
+            return;
+    }
 
     // spawn it
     x = mthing->x << FRACBITS;
@@ -1003,9 +1008,6 @@ void P_SpawnMapThing(mapthing_t *mthing)
 
     if (mobj->tics > 0)
         mobj->tics = 1 + (P_Random() % mobj->tics);
-
-    if (mobj->flags & MF_COUNTKILL)
-        totalkills++;
 
     if (mobj->flags & MF_COUNTITEM)
         totalitems++;
