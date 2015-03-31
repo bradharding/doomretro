@@ -1769,7 +1769,7 @@ void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
             }
         }
     }
-    if (!screenwidth || !screenheight)
+    else if (!screenwidth || !screenheight)
         C_Output("desktop");
     else
         C_Output("%ix%i", screenwidth, screenheight);
