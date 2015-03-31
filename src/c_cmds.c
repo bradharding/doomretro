@@ -73,6 +73,8 @@
 #define NONE_MAX        0
 #define NONE_DEFAULT    0
 
+int             totalmapped = 0;
+
 extern boolean  allowconsole;
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
@@ -348,6 +350,7 @@ void C_Str(char *, char *, char *);
 void C_Time(char *, char *, char *);
 void C_TotalItems(char *, char *, char *);
 void C_TotalKills(char *, char *, char *);
+void C_TotalMapped(char *, char *, char *);
 void C_TotalSecrets(char *, char *, char *);
 void C_UnBind(char *, char *, char *);
 void C_Volume(char *, char *, char *);
@@ -492,15 +495,16 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or object."),
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggle whether sprite fixes are applied when a map is loaded."),
-    CVAR_INT  (totalitems, C_NoCondition, C_TotalItems, CF_READONLY, totalitems, 0, NONE, "The total number of items in the current map."),
-    CVAR_INT  (totalkills, C_NoCondition, C_TotalKills, CF_READONLY, totalkills, 0, NONE, "The total number of monsters to kill in the current map."),
-    CVAR_INT  (totalsecrets, C_NoCondition, C_TotalSecrets, CF_READONLY, totalsecret, 0, NONE, "The total number of secrets in the current map."),
-    CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbind an action from a control."),
+    CVAR_INT  (totalitems, C_NoCondition, C_TotalItems, CF_READONLY, totalitems, 0, NONE, "The number of items in the current map."),
+    CVAR_INT  (totalkills, C_NoCondition, C_TotalKills, CF_READONLY, totalkills, 0, NONE, "The number of monsters to kill in the current map."),
+    CVAR_INT  (totalmapped, C_NoCondition, C_TotalMapped, CF_READONLY, totalmapped, 0, NONE, "The amount of the current map that has been mapped."),
+    CVAR_INT  (totalsecrets, C_NoCondition, C_TotalSecrets, CF_READONLY, totalsecret, 0, NONE, "The number of secrets in the current map."),
+    CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbind the action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capped framerate."),
 #if defined(SDL20)
-    CVAR_INT(vid_display, C_NoCondition, C_Int, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
+    CVAR_INT  (vid_display, C_NoCondition, C_Int, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
 #endif
-    CVAR_BOOL(vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggle between fullscreen and a window."),
+    CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggle between fullscreen and a window."),
 #if defined(SDL20)
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver to use to scale the display."),
     CVAR_STR  (vid_scalequality, C_NoCondition, C_ScaleQuality, scalequality, "The filter used to scale the display."),
@@ -1811,6 +1815,21 @@ void C_TotalKills(char *cmd, char *parm1, char *parm2)
     else
         C_Output("%i of %i (%i%%)", players[consoleplayer].killcount, totalkills,
             players[consoleplayer].killcount * 100 / totalkills);
+}
+
+void C_TotalMapped(char *cmd, char *parm1, char *parm2)
+{
+    if (gamestate == GS_LEVEL)
+    {
+        int i = 0;
+
+        totalmapped = 0;
+        while (i < numlines)
+            totalmapped += !!(lines[i++].flags & ML_MAPPED);
+        C_Output("%i%%", totalmapped * 100 / numlines);
+    }
+    else
+        C_Output("0%");
 }
 
 void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
