@@ -495,6 +495,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or object."),
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggle whether sprite fixes are applied when a map is loaded."),
+    CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
     CMD       (totalitems, C_NoCondition, C_TotalItems, 0, "", "Show the number of items in the current map."),
     CMD       (totalkills, C_NoCondition, C_TotalKills, 0, "", "Show the number of monsters to kill in the current map."),
     CMD       (totalmapped, C_NoCondition, C_TotalMapped, 0, "", "Show the amount of the current map that has been mapped."),
