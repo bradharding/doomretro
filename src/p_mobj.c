@@ -1178,7 +1178,6 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         memset(newsplat, 0, sizeof(*newsplat));
 
         newsplat->type = MT_BLOODSPLAT;
-        newsplat->state = &states[S_BLOODSPLAT];
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
@@ -1210,7 +1209,6 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         memset(newsplat, 0, sizeof(*newsplat));
 
         newsplat->type = MT_BLOODSPLAT;
-        newsplat->state = &states[S_BLOODSPLAT];
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
 
