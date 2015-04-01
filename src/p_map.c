@@ -1866,10 +1866,7 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
                 mobjtype_t  type = mobj->type;
 
                 if (type == MT_BLOODSPLAT)
-                {
                     P_UnsetThingPosition(mobj);
-                    ((thinker_t *)mobj)->function.acv = (actionf_v)(-1);
-                }
                 else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
                     PIT_ChangeSector(mobj);                     // process it
             }
