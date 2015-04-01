@@ -91,7 +91,9 @@ extern int      consoleplayermessagecolor;
 extern int      consoleoutputcolor;
 extern int      consoletitlecolor;
 
+#if defined(WIN32)
 extern boolean  showmemory;
+#endif
 
 void C_Print(stringtype_t type, char *string, ...);
 void C_Output(char *string, ...);
