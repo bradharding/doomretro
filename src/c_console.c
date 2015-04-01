@@ -1031,7 +1031,8 @@ void C_PrintCompileDate(void)
     month = (strstr(mths, mth) - mths) / 3;
 
     C_Output("");
-    C_Output("This 32-bit %s binary of %s was built on %s, %s %i, %i at %i:%02i%s.",
+    C_Output("This %i-bit %s binary of %s was built on %s, %s %i, %i at %i:%02i%s.",
+        (sizeof(intptr_t) == 4 ? 32 : 64),
 #if defined(WIN32)
         "Windows",
 #elif defined(__MACOSX__)
