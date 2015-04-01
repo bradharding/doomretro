@@ -125,6 +125,8 @@ extern boolean          alwaysrun;
 
 boolean                 realframe;
 
+int                     startuptimer;
+
 #if defined(SDL20)
 extern SDL_Window       *sdl_window;
 #endif
@@ -749,6 +751,7 @@ static int D_ChooseIWAD(void)
         boolean onlyoneselected;
 
         iwadfound = 0;
+        startuptimer = I_GetTimeMS();
 
         // only one file was selected
 #if defined(WIN32)
@@ -1250,6 +1253,7 @@ static void D_DoomMainSetup(void)
 
     // init subsystems
     V_Init();
+    I_InitTimer();
 
     // Load configuration files before initialising other subsystems.
     M_LoadDefaults();
@@ -1437,7 +1441,6 @@ static void D_DoomMainSetup(void)
     D_SetGameDescription();
     D_SetSaveGameDir();
 
-    I_InitTimer();
     I_InitGamepad();
 
     I_InitGraphics();
@@ -1674,6 +1677,13 @@ static void D_DoomMainSetup(void)
         else
             D_StartTitle((boolean)M_CheckParm("-nosplash"));    // start up intro loop
     }
+
+    startuptimer = I_GetTimeMS() - startuptimer;
+    C_Output("Startup took %02i:%02i:%02i.%i to complete.",
+        (startuptimer / (1000 * 60 * 60)) % 24,
+        (startuptimer / (1000 * 60)) % 60,
+        (startuptimer / 1000) % 60,
+        startuptimer % 1000);
 }
 
 //
