@@ -706,6 +706,8 @@ void R_RenderPlayerView(player_t *player)
     // Clear buffers.
     R_ClearClipSegs();
     R_ClearDrawSegs();
+    R_ClearPlanes();
+    R_ClearSprites();
 
     if (automapactive)
     {
@@ -714,10 +716,6 @@ void R_RenderPlayerView(player_t *player)
     }
     else
     {
-        // Clear buffers.
-        R_ClearPlanes();
-        R_ClearSprites();
-
         V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
             homindicator && (gametic % 20) < 9 && !(player->cheats & CF_NOCLIP) ? 176 : 0);
 
