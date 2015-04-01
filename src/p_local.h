@@ -218,6 +218,7 @@ boolean P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags
 
 void P_UnsetThingPosition(mobj_t *thing);
 void P_SetThingPosition(mobj_t *thing);
+void P_SetBloodSplatPosition(mobj_t *splat);
 
 //
 // P_MAP

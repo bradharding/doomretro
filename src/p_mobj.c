@@ -1168,7 +1168,8 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
 {
-    sector_t    *sec = R_PointInSubsector(x, y)->sector;
+    subsector_t *subsec = R_PointInSubsector(x, y);
+    sector_t    *sec = subsec->sector;
     short       floorpic = sec->floorpic;
 
     if (!isliquid[floorpic] && sec->floorheight <= maxheight && floorpic != skyflatnum)
@@ -1193,13 +1194,15 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
 
         newsplat->x = x;
         newsplat->y = y;
-        P_SetThingPosition(newsplat);
+        newsplat->subsector = subsec;
+        P_SetBloodSplatPosition(newsplat);
     }
 }
 
 void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
 {
-    sector_t    *sec = R_PointInSubsector(x, y)->sector;
+    subsector_t *subsec = R_PointInSubsector(x, y);
+    sector_t    *sec = subsec->sector;
     short       floorpic = sec->floorpic;
 
     if (!isliquid[floorpic] && sec->floorheight <= maxheight && floorpic != skyflatnum)
@@ -1224,11 +1227,12 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
 
         newsplat->x = x;
         newsplat->y = y;
-        P_SetThingPosition(newsplat);
+        newsplat->subsector = subsec;
+        P_SetBloodSplatPosition(newsplat);
 
         if (bloodSplatQueueSlot > bloodsplats)
         {
-            mobj_t *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
+            mobj_t      *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
 
             if (oldsplat)
                 P_UnsetThingPosition(oldsplat);
