@@ -537,34 +537,22 @@ boolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
     return true;
 }
 
-//
-// Cmd is only valid when game is running
-//
 boolean C_GameCondition(char *cmd, char *parm1, char *parm2)
 {
     return (gamestate == GS_LEVEL);
 }
 
-//
-// Cmd is always valid
-//
 boolean C_NoCondition(char *cmd, char *parm1, char *parm2)
 {
     return true;
 }
 
-//
-// ALWAYSRUN cvar
-//
 void C_AlwaysRun(char *cmd, char *parm1, char *parm2)
 {
     C_Bool(cmd, parm1, "");
     I_InitKeyboard();
 }
 
-//
-// BIND cmd
-//
 void C_DisplayBinds(char *action, int value, controltype_t type, int count)
 {
     int i = 0;
@@ -730,9 +718,6 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
     }
 }
 
-//
-// BLOODSPLATS cvar
-//
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
 boolean C_BloodSplatsCondition(char *cmd, char *parm1, char *parm2)
@@ -769,9 +754,6 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
             commify(bloodsplats)));
 }
 
-//
-// Boolean cvars
-//
 boolean C_BoolCondition(char *cmd, char *parm1, char *parm2)
 {
     return (!parm1[0] || C_LookupValueFromAlias(parm1, 1) >= 0);
@@ -803,9 +785,6 @@ void C_Bool(char *cmd, char *parm1, char *parm2)
     }
 }
 
-//
-// CLEAR cmd
-//
 extern int      consolestrings;
 
 void C_Clear(char *cmd, char *parm1, char *parm2)
@@ -814,9 +793,6 @@ void C_Clear(char *cmd, char *parm1, char *parm2)
     C_Output("");
 }
 
-//
-// CMDLIST cmd
-//
 void C_CmdList(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
@@ -832,9 +808,6 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
     }
 }
 
-//
-// CONBACK cvar
-//
 boolean C_ConBackCondition(char *cmd, char *parm1, char *parm2)
 {
     return (!parm1[0] || R_CheckFlatNumForName(parm1) >= 0);
@@ -854,9 +827,6 @@ void C_ConBack(char *cmd, char *parm1, char *parm2)
         C_Output("\"%s\"", uppercase(conback));
 }
 
-//
-// CONDUMP cmd
-//
 void C_ConDump(char *cmd, char *parm1, char *parm2)
 {
     if (consolestrings)
@@ -871,9 +841,6 @@ void C_ConDump(char *cmd, char *parm1, char *parm2)
     }
 }
 
-//
-// CVARLIST cmd
-//
 void C_CvarList(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
@@ -930,9 +897,6 @@ void C_CvarList(char *cmd, char *parm1, char *parm2)
     }
 }
 
-//
-// GAMEPAD_LEFTDEADZONE and GAMEPAD_RIGHTDEADZONE cvars
-//
 boolean C_DeadZoneCondition(char *cmd, char *parm1, char *parm2)
 {
     float value;
@@ -979,25 +943,16 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
         C_Output("%s %s%%", cmd, striptrailingzero(gamepadrightdeadzone_percent, 1));
 }
 
-//
-// ENDGAME cmd
-//
 void C_EndGame(char *cmd, char *parm1, char *parm2)
 {
     M_EndingGame();
 }
 
-//
-// EXITMAP cmd
-//
 void C_ExitMap(char *cmd, char *parm1, char *parm2)
 {
     G_ExitLevel();
 }
 
-//
-// All float cvars
-//
 boolean C_FloatCondition(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
@@ -1062,9 +1017,6 @@ void C_Fullscreen(char *cmd, char *parm1, char *parm2)
         C_Output(fullscreen ? "on" : "off");
 }
 
-//
-// GAMMACORRECTIONLEVEL cvar
-//
 extern int      st_palette;
 
 boolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
@@ -1112,9 +1064,6 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
         C_Output(gammalevel == 1.0f ? "off" : striptrailingzero(gammalevel, 2));
 }
 
-//
-// GOD cmd
-//
 boolean C_GodCondition(char *cmd, char *parm1, char *parm2)
 {
     return (gamestate == GS_LEVEL && players[displayplayer].playerstate == PST_LIVE);
@@ -1139,9 +1088,6 @@ void C_God(char *cmd, char *parm1, char *parm2)
     C_Output((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF);
 }
 
-//
-// GRAPHICDETAIL cvar
-//
 boolean C_GraphicDetailCondition(char *cmd, char *parm1, char *parm2)
 {
     return (!parm1[0] || C_LookupValueFromAlias(parm1, 6) >= 0);
@@ -1163,27 +1109,18 @@ void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         C_Output(C_LookupAliasFromValue(graphicdetail, 6));
 }
 
-//
-// HELP cmd
-//
 void C_Help(char *cmd, char *parm1, char *parm2)
 {
     C_HideConsole();
     M_ShowHelp();
 }
 
-//
-// HUD cvar
-//
 void C_Hud(char *cmd, char *parm1, char *parm2)
 {
     if (widescreen || screensize == 8)
         C_Bool(cmd, parm1, "");
 }
 
-//
-// Integer cvars
-//
 boolean C_IntCondition(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
@@ -1241,9 +1178,6 @@ void C_Int(char *cmd, char *parm1, char *parm2)
     }
 }
 
-//
-// KILL cmd
-//
 static int      killcmdtype = NUMMOBJTYPES;
 
 void A_Fall(mobj_t *actor);
@@ -1369,9 +1303,6 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
     }
 }
 
-//
-// MAP cmd
-//
 static int      mapcmdepisode;
 static int      mapcmdmap;
 
@@ -1445,57 +1376,6 @@ void C_Map(char *cmd, char *parm1, char *parm2)
             gamemap);
 }
 
-//
-// MUSICVOLUME and SFXVOLUME cvars
-//
-boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
-{
-    int value = -1;
-
-    if (!parm1[0])
-        return true;
-    if (parm1[strlen(parm1) - 1] == '%')
-        parm1[strlen(parm1) - 1] = 0;
-
-    sscanf(parm1, "%i", &value);
-
-    return ((!strcasecmp(cmd, "snd_musicvolume") && value >= MUSICVOLUME_MIN && value <= MUSICVOLUME_MAX)
-        || (!strcasecmp(cmd, "snd_sfxvolume") && value >= SFXVOLUME_MIN && value <= SFXVOLUME_MAX));
-}
-
-void C_Volume(char *cmd, char *parm1, char *parm2)
-{
-    if (parm1[0])
-    {
-        int value = 0;
-
-        if (parm1[strlen(parm1) - 1] == '%')
-            parm1[strlen(parm1) - 1] = 0;
-        sscanf(parm1, "%i", &value);
-
-        if (!strcasecmp(cmd, "snd_musicvolume"))
-        {
-            musicvolume_percent = value;
-            musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent,
-                MUSICVOLUME_MAX) * 15 + 50) / 100;
-            S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
-        }
-        else
-        {
-            sfxvolume_percent = value;
-            sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
-            S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
-        }
-
-        M_SaveDefaults();
-    }
-    else
-        C_Output("%i%%", (!strcasecmp(cmd, "snd_musicvolume") ? musicvolume_percent : sfxvolume_percent));
-}
-
-//
-// NOCLIP cmd
-//
 void C_NoClip(char *cmd, char *parm1, char *parm2)
 {
     player_t    *player = &players[displayplayer];
@@ -1515,9 +1395,6 @@ void C_NoClip(char *cmd, char *parm1, char *parm2)
     C_Output("%s.", ((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF));
 }
 
-//
-// NOTARGET cmd
-//
 void C_NoTarget(char *cmd, char *parm1, char *parm2)
 {
     player_t    *player = &players[displayplayer];
@@ -1563,9 +1440,6 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
         C_Output("%ix%i", pixelwidth, pixelheight);
 }
 
-//
-// QUIT cmd
-//
 void C_Quit(char *cmd, char *parm1, char *parm2)
 {
     I_Quit(true);
@@ -1605,9 +1479,42 @@ void C_ScaleQuality(char *cmd, char *parm1, char *parm2)
 }
 #endif
 
-//
-// SCREENSIZE cvar
-//
+extern int      desktopwidth;
+extern int      desktopheight;
+
+void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        if (!strcasecmp(parm1, "desktop"))
+        {
+            screenwidth = 0;
+            screenheight = 0;
+
+            M_SaveDefaults();
+        }
+        else
+        {
+            int     width = -1;
+            int     height = -1;
+
+            sscanf(parm1, "%ix%i", &width, &height);
+
+            if (width >= 0 && height >= 0 && (width != screenwidth || height != screenheight))
+            {
+                screenwidth = width;
+                screenheight = height;
+                M_SaveDefaults();
+                I_RestartGraphics();
+            }
+        }
+    }
+    else if (!screenwidth || !screenheight)
+        C_Output("desktop");
+    else
+        C_Output("%ix%i", screenwidth, screenheight);
+}
+
 void C_ScreenSize(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
@@ -1654,9 +1561,6 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
         C_Output("%i", screensize);
 }
 
-//
-// SPAWN cmd
-//
 static int      spawntype = NUMMOBJTYPES;
 
 boolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
@@ -1721,9 +1625,6 @@ void C_Spawn(char *cmd, char *parm1, char *parm2)
     }
 }
 
-//
-// String cvars
-//
 void C_Str(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
@@ -1744,42 +1645,6 @@ void C_Str(char *cmd, char *parm1, char *parm2)
         }
         ++i;
     }
-}
-
-extern int      desktopwidth;
-extern int      desktopheight;
-
-void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
-{
-    if (parm1[0])
-    {
-        if (!strcasecmp(parm1, "desktop"))
-        {
-            screenwidth = 0;
-            screenheight = 0;
-
-            M_SaveDefaults();
-        }
-        else
-        {
-            int     width = -1;
-            int     height = -1;
-
-            sscanf(parm1, "%ix%i", &width, &height);
-
-            if (width >= 0 && height >= 0 && (width != screenwidth || height != screenheight))
-            {
-                screenwidth = width;
-                screenheight = height;
-                M_SaveDefaults();
-                I_RestartGraphics();
-            }
-        }
-    }
-    else if (!screenwidth || !screenheight)
-        C_Output("desktop");
-    else
-        C_Output("%ix%i", screenwidth, screenheight);
 }
 
 void C_Time(char *cmd, char *parm1, char *parm2)
@@ -1844,6 +1709,51 @@ void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
 void C_UnBind(char *cmd, char *parm1, char *parm2)
 {
     C_Bind(cmd, parm1, "none");
+}
+
+boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
+{
+    int value = -1;
+
+    if (!parm1[0])
+        return true;
+    if (parm1[strlen(parm1) - 1] == '%')
+        parm1[strlen(parm1) - 1] = 0;
+
+    sscanf(parm1, "%i", &value);
+
+    return ((!strcasecmp(cmd, "snd_musicvolume") && value >= MUSICVOLUME_MIN && value <= MUSICVOLUME_MAX)
+        || (!strcasecmp(cmd, "snd_sfxvolume") && value >= SFXVOLUME_MIN && value <= SFXVOLUME_MAX));
+}
+
+void C_Volume(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int value = 0;
+
+        if (parm1[strlen(parm1) - 1] == '%')
+            parm1[strlen(parm1) - 1] = 0;
+        sscanf(parm1, "%i", &value);
+
+        if (!strcasecmp(cmd, "snd_musicvolume"))
+        {
+            musicvolume_percent = value;
+            musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent,
+                MUSICVOLUME_MAX) * 15 + 50) / 100;
+            S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
+        }
+        else
+        {
+            sfxvolume_percent = value;
+            sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
+            S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
+        }
+
+        M_SaveDefaults();
+    }
+    else
+        C_Output("%i%%", (!strcasecmp(cmd, "snd_musicvolume") ? musicvolume_percent : sfxvolume_percent));
 }
 
 #if defined(SDL20)

@@ -230,7 +230,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
 
     if (sec)
     {
-        int i;
+        int     i;
 
         for (i = 0; i < sec->linecount; i++)
             sec->lines[i]->flags &= ~ML_SECRET;
@@ -241,7 +241,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
 
 void P_ActivateInStasis(int tag)
 {
-    plat_t *plat;
+    plat_t     *plat;
 
     for (plat = activeplatshead; plat; plat = plat->next)
         if (plat->tag == tag && plat->status == in_stasis)
@@ -253,7 +253,7 @@ void P_ActivateInStasis(int tag)
 
 int EV_StopPlat(line_t *line)
 {
-    plat_t *plat;
+    plat_t      *plat;
 
     for (plat = activeplatshead; plat; plat = plat->next)
         if (plat->tag == line->tag && plat->status != in_stasis)
@@ -270,7 +270,7 @@ int EV_StopPlat(line_t *line)
 
 void P_AddActivePlat(plat_t *plat)
 {
-    plat_t *next = activeplatshead;
+    plat_t      *next = activeplatshead;
 
     if (next)
         next->prev = plat;
