@@ -1004,8 +1004,6 @@ void P_PlayerInSpecialSector(player_t *player)
 
 short   numlinespecials;
 line_t  *linespeciallist[MAXLINEANIMS];
-boolean levelTimer;
-int     levelTimeCount;
 
 void P_UpdateSpecials(void)
 {
@@ -1013,10 +1011,6 @@ void P_UpdateSpecials(void)
     int         pic;
     int         i;
     line_t      *line;
-
-    // LEVEL TIMER
-    if (levelTimer && --levelTimeCount)
-        G_ExitLevel();
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim = anims; anim < lastanim; anim++)
@@ -1160,22 +1154,10 @@ int EV_DoDonut(line_t *line)
 // After the map has been loaded, scan for specials
 //  that spawn thinkers
 //
-
-// Parses command line parameters.
 void P_SpawnSpecials(void)
 {
     sector_t    *sector;
     int         i;
-
-    // See if -TIMER was specified.
-
-    if (timelimit > 0 && deathmatch)
-    {
-        levelTimer = true;
-        levelTimeCount = timelimit * 60 * TICRATE;
-    }
-    else
-        levelTimer = false;
 
     // Init special SECTORs.
     sector = sectors;

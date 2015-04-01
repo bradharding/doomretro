@@ -129,9 +129,6 @@ extern boolean          STYSNUM0;
 extern boolean          TITLEPIC;
 extern boolean          WISCRT2;
 
-// If non-zero, exit the level after this number of minutes
-extern int              timelimit;
-
 // Nightmare mode flag, single player.
 extern boolean          respawnmonsters;
 

@@ -39,12 +39,6 @@
 #if !defined(__P_SPEC__)
 #define __P_SPEC__
 
-//
-// End-level timer (-TIMER option)
-//
-extern boolean  levelTimer;
-extern int      levelTimeCount;
-
 extern boolean  *isliquid;
 
 // Define values for map objects

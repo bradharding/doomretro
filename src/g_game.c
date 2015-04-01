@@ -94,10 +94,6 @@ boolean         respawnmonsters;
 int             gameepisode;
 int             gamemap;
 
-// If non-zero, exit the level after this number of minutes.
-
-int             timelimit;
-
 boolean         paused;
 boolean         sendpause;              // send a pause event next tic
 boolean         sendsave;               // send a save event next tic
@@ -355,11 +351,11 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     int         forward = 0;
     int         side = 0;
 
-    memset(cmd, 0, sizeof(ticcmd_t));
-    cmd->consistency = consistency[consoleplayer][maketic % BACKUPTICS];
-
     if (automapactive && !followmode)
         return;
+
+    memset(cmd, 0, sizeof(ticcmd_t));
+    cmd->consistency = consistency[consoleplayer][maketic % BACKUPTICS];
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 

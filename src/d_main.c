@@ -1556,16 +1556,6 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    timelimit = 0;
-
-    p = M_CheckParmWithArgs("-timer", 1);
-    if (p)
-        timelimit = atoi(myargv[p + 1]);
-
-    p = M_CheckParm("-avg");
-    if (p)
-        timelimit = 20;
-
     p = M_CheckParmWithArgs("-warp", 1);
     if (p)
         C_Output("Found -WARP parameter on command-line.");
@@ -1679,7 +1669,7 @@ static void D_DoomMainSetup(void)
     }
 
     startuptimer = I_GetTimeMS() - startuptimer;
-    C_Output("Startup took %02i:%02i:%02i.%i to complete.",
+    C_Output("Startup took %02i:%02i:%02i.%03i to complete.",
         (startuptimer / (1000 * 60 * 60)) % 24,
         (startuptimer / (1000 * 60)) % 60,
         (startuptimer / 1000) % 60,
