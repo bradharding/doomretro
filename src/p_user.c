@@ -257,6 +257,42 @@ void P_DeathThink(player_t *player)
         count++;
 }
 
+void P_ResurrectPlayer(player_t *player)
+{
+    fixed_t     x, y;
+    int         angle;
+    mobj_t      *thing;
+
+    // remove player's corpse
+    P_RemoveMobj(player->mo);
+
+    // spawn a teleport fog
+    x = player->mo->x;
+    y = player->mo->y;
+    angle = player->mo->angle >> ANGLETOFINESHIFT;
+    thing = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle],
+        ONFLOORZ, MT_TFOG);
+    thing->angle = player->mo->angle;
+    S_StartSound(thing, sfx_telept);
+
+    // telefrag anything in this spot
+    P_TeleportMove(thing, thing->x, thing->y, thing->z, true);
+
+    // respawn the player.
+    thing = P_SpawnMobj(x, y, ONFLOORZ, MT_PLAYER);
+    thing->angle = player->mo->angle;
+    thing->player = player;
+    thing->health = 100;
+    thing->reactiontime = 18;
+    player->mo = thing;
+    player->playerstate = PST_LIVE;
+    player->viewheight = VIEWHEIGHT;
+    player->health = 100;
+    infight = false;
+    P_SetupPsprites(player);
+    P_MapEnd();
+}
+
 //
 // P_PlayerThink
 //

@@ -115,6 +115,7 @@ void P_DropWeapon(player_t *player);
 // P_USER
 //
 void P_PlayerThink(player_t *player);
+void P_ResurrectPlayer(player_t *player);
 
 //
 // P_MOBJ

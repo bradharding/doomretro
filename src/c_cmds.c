@@ -311,6 +311,7 @@ boolean C_KillCondition(char *, char *, char *);
 boolean C_MapCondition(char *, char *, char *);
 boolean C_NoCondition(char *, char *, char *);
 boolean C_SpawnCondition(char *, char *, char *);
+boolean C_ResurrectCondition(char *, char *, char *);
 boolean C_VolumeCondition(char *, char *, char *);
 
 void C_AlwaysRun(char *, char *, char *);
@@ -341,6 +342,7 @@ void C_NoClip(char *, char *, char *);
 void C_NoTarget(char *, char *, char *);
 void C_PixelSize(char *, char *, char *);
 void C_Quit(char *, char *, char *);
+void C_Resurrect(char *, char *, char *);
 void C_ScaleDriver(char *, char *, char *);
 void C_ScaleQuality(char *, char *, char *);
 void C_ScreenSize(char *, char *, char *);
@@ -487,6 +489,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE, "The screen size."),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS, "Toggle monsters and most items casting shadows."),
     CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY, "Toggle translucency in sprites."),
+    CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrect the player."),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE, "The number of times "PACKAGE_NAME" has been run."),
     CVAR_INT  (s_maxslicetime, C_NoCondition, C_Int, CF_NONE, snd_maxslicetime_ms, 0, SND_MAXSLICETIME_MS, "The maximum slice time of sound effects."),
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME, "The music volume."),
@@ -1444,6 +1447,16 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
 void C_Quit(char *cmd, char *parm1, char *parm2)
 {
     I_Quit(true);
+}
+
+boolean C_ResurrectCondition(char *cmd, char *parm1, char *parm2)
+{
+    return (gamestate == GS_LEVEL && players[displayplayer].playerstate == PST_DEAD);
+}
+
+void C_Resurrect(char *cmd, char *parm1, char *parm2)
+{
+    P_ResurrectPlayer(&players[displayplayer]);
 }
 
 #if defined(SDL20)

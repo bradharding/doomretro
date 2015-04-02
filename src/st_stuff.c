@@ -577,38 +577,7 @@ boolean ST_Responder(event_t *ev)
             {
                 // [BH] if player is dead, resurrect them first
                 if (!plyr->health)
-                {
-                    // remove player's corpse
-                    P_RemoveMobj(plyr->mo);
-
-                    // spawn a teleport fog
-                    x = plyr->mo->x;
-                    y = plyr->mo->y;
-                    angle = plyr->mo->angle >> ANGLETOFINESHIFT;
-                    thing = P_SpawnMobj(x + 20 * finecosine[angle], y + 20 * finesine[angle],
-                                        ONFLOORZ, MT_TFOG);
-                    thing->angle = plyr->mo->angle;
-                    S_StartSound(thing, sfx_telept);
-
-                    // telefrag anything in this spot
-                    P_TeleportMove(thing, thing->x, thing->y, thing->z, true);
-
-                    // respawn the player.
-                    thing = P_SpawnMobj(x, y, ONFLOORZ, MT_PLAYER);
-                    thing->angle = plyr->mo->angle;
-                    thing->player = plyr;
-                    thing->health = 100;
-                    thing->reactiontime = 18;
-                    plyr->mo = thing;
-                    plyr->playerstate = PST_LIVE;
-                    plyr->viewheight = VIEWHEIGHT;
-                    plyr->health = 0;
-                    infight = false;
-                    P_SetupPsprites(plyr);
-                    P_MapEnd();
-                    ST_Start();
-                    HU_Start();
-                }
+                    P_ResurrectPlayer(plyr);
 
                 plyr->cheats ^= CF_GODMODE;
                 if (plyr->cheats & CF_GODMODE)
