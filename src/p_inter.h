@@ -42,7 +42,11 @@
 boolean P_GiveBody(player_t *player, int num);
 boolean P_GiveArmor(player_t *player, int armortype);
 void P_GiveCard(player_t *player, card_t card);
+boolean P_GiveAllCards(player_t *player);
 boolean P_GivePower(player_t *player, int power);
+boolean P_GiveAllWeapons(player_t *player);
+void P_GiveBackpack(player_t *player);
+boolean P_GiveFullAmmo(player_t *player);
 void P_AddBonus(player_t *player, int amount);
 void G_RemoveChoppers(void);
 void P_KillMobj(mobj_t *source, mobj_t *target);

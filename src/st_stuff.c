@@ -634,81 +634,12 @@ boolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] note if any weapons given that player didn't have already
-                if (!oldweaponsowned[wp_shotgun])
-                {
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_shotgun] = true;
-                    oldweaponsowned[wp_shotgun] = true;
-                }
-                if (!oldweaponsowned[wp_chaingun])
-                {
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_chaingun] = true;
-                    oldweaponsowned[wp_chaingun] = true;
-                }
-                if (!oldweaponsowned[wp_missile])
-                {
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_missile] = true;
-                    oldweaponsowned[wp_missile] = true;
-                }
-                if (gamemode != shareware)
-                {
-                    if (!oldweaponsowned[wp_plasma])
-                    {
-                        weaponsgiven = true;
-                        plyr->weaponowned[wp_plasma] = true;
-                        oldweaponsowned[wp_plasma] = true;
-                    }
-                    if (!oldweaponsowned[wp_bfg])
-                    {
-                        weaponsgiven = true;
-                        plyr->weaponowned[wp_bfg] = true;
-                        oldweaponsowned[wp_bfg] = true;
-                    }
-                }
-                if (!oldweaponsowned[wp_chainsaw])
-                {
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_chainsaw] = true;
-                    oldweaponsowned[wp_chainsaw] = true;
-                    plyr->fistorchainsaw = wp_chainsaw;
-
-                    // [BH] if fist is current weapon, switch to new chainsaw
-                    if (plyr->readyweapon == wp_fist)
-                        plyr->pendingweapon = wp_chainsaw;
-                }
-                if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
-                {
-                    plyr->preferredshotgun = wp_supershotgun;
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_supershotgun] = true;
-                    oldweaponsowned[wp_supershotgun] = true;
-
-                    // [BH] if shotgun is current weapon, switch to new super shotgun
-                    if (plyr->readyweapon == wp_shotgun)
-                        plyr->pendingweapon = wp_supershotgun;
-                }
-                plyr->shotguns = (plyr->weaponowned[wp_shotgun]
-                                  || plyr->weaponowned[wp_supershotgun]);
+                weaponsgiven = P_GiveAllWeapons(plyr);
 
                 // [BH] give player a backpack if they don't have one
-                if (!plyr->backpack)
-                {
-                    for (i = 0; i < NUMAMMO; i++)
-                        plyr->maxammo[i] *= 2;
-                    plyr->backpack = true;
-                }
+                P_GiveBackpack(plyr);
 
-                for (i = 0; i < NUMAMMO; i++)
-                {
-                    // [BH] note if any ammo given
-                    if (plyr->ammo[i] < plyr->maxammo[i])
-                    {
-                        plyr->ammo[i] = plyr->maxammo[i];
-                        ammogiven = true;
-                    }
-                }
+                ammogiven = P_GiveFullAmmo(plyr);
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven
@@ -754,92 +685,16 @@ boolean ST_Responder(event_t *ev)
                 }
 
                 // [BH] note if any weapons given that player didn't have already
-                if (!oldweaponsowned[wp_shotgun])
-                {
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_shotgun] = true;
-                    oldweaponsowned[wp_shotgun] = true;
-                }
-                if (!oldweaponsowned[wp_chaingun])
-                {
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_chaingun] = true;
-                    oldweaponsowned[wp_chaingun] = true;
-                }
-                if (!oldweaponsowned[wp_missile])
-                {
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_missile] = true;
-                    oldweaponsowned[wp_missile] = true;
-                }
-                if (gamemode != shareware)
-                {
-                    if (!oldweaponsowned[wp_plasma])
-                    {
-                        weaponsgiven = true;
-                        plyr->weaponowned[wp_plasma] = true;
-                        oldweaponsowned[wp_plasma] = true;
-                    }
-                    if (!oldweaponsowned[wp_bfg])
-                    {
-                        weaponsgiven = true;
-                        plyr->weaponowned[wp_bfg] = true;
-                        oldweaponsowned[wp_bfg] = true;
-                    }
-                }
-                if (!oldweaponsowned[wp_chainsaw])
-                {
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_chainsaw] = true;
-                    oldweaponsowned[wp_chainsaw] = true;
-                    plyr->fistorchainsaw = wp_chainsaw;
-
-                    // [BH] if fist is current weapon, switch to new chainsaw
-                    if (plyr->readyweapon == wp_fist)
-                        plyr->pendingweapon = wp_chainsaw;
-                }
-                if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
-                {
-                    plyr->preferredshotgun = wp_supershotgun;
-                    weaponsgiven = true;
-                    plyr->weaponowned[wp_supershotgun] = true;
-                    oldweaponsowned[wp_supershotgun] = true;
-
-                    // [BH] if shotgun is current weapon, switch to new super shotgun
-                    if (plyr->readyweapon == wp_shotgun)
-                        plyr->pendingweapon = wp_supershotgun;
-                }
-                plyr->shotguns = (plyr->weaponowned[wp_shotgun]
-                                  || plyr->weaponowned[wp_supershotgun]);
+                weaponsgiven = P_GiveAllWeapons(plyr);
 
                 // [BH] give player a backpack if they don't have one
-                if (!plyr->backpack)
-                {
-                    for (i = 0; i < NUMAMMO; i++)
-                        plyr->maxammo[i] *= 2;
-                    plyr->backpack = true;
-                }
+                P_GiveBackpack(plyr);
 
-                for (i = 0; i < NUMAMMO; i++)
-                {
-                    // [BH] note if any ammo given
-                    if (plyr->ammo[i] < plyr->maxammo[i])
-                    {
-                        plyr->ammo[i] = plyr->maxammo[i];
-                        ammogiven = true;
-                    }
-                }
+                ammogiven = P_GiveFullAmmo(plyr);
 
                 // [BH] only give the player the keycards or skull keys from the
                 //  current level, and note if any keys given
-                cardsfound = 0;
-                for (i = NUMCARDS - 1; i >= 0; i--)
-                    if (plyr->cards[i] != CARDNOTINMAP)
-                    {
-                        if (plyr->cards[i] == CARDNOTFOUNDYET)
-                            keysgiven = true;
-                        P_GiveCard(plyr, i);
-                    }
+                keysgiven = P_GiveAllCards(plyr);
 
                 // [BH] show evil grin if player was given any new weapons
                 if (weaponsgiven && !(plyr->cheats & CF_GODMODE)

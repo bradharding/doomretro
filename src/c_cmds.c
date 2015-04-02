@@ -1095,99 +1095,32 @@ boolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
 void C_Give(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
-        C_Output("give "GIVECMDFORMAT);
+        C_Output("%s %s", cmd, GIVECMDFORMAT);
     else
     {
         player_t    *player = &players[displayplayer];
-        int         i;
 
         if (!strcasecmp(parm1, "all"))
         {
-            if (!player->backpack)
-            {
-                for (i = 0; i < NUMAMMO; i++)
-                    player->maxammo[i] *= 2;
-                player->backpack = true;
-            }
-            P_GiveBody(player, 200);
-            player->weaponowned[wp_shotgun] = oldweaponsowned[wp_shotgun] = true;
-            player->weaponowned[wp_chaingun] = oldweaponsowned[wp_chaingun] = true;
-            player->weaponowned[wp_missile] = oldweaponsowned[wp_missile] = true;
-            if (gamemode != shareware)
-            {
-                player->weaponowned[wp_plasma] = oldweaponsowned[wp_plasma] = true;
-                player->weaponowned[wp_bfg] = oldweaponsowned[wp_bfg] = true;
-            }
-            player->weaponowned[wp_chainsaw] = oldweaponsowned[wp_chainsaw] = true;
-            player->fistorchainsaw = wp_chainsaw;
-            if (player->readyweapon == wp_fist)
-                player->pendingweapon = wp_chainsaw;
-            if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
-            {
-                player->preferredshotgun = wp_supershotgun;
-                player->weaponowned[wp_supershotgun] = oldweaponsowned[wp_supershotgun] = true;
-                if (player->readyweapon == wp_shotgun)
-                    player->pendingweapon = wp_supershotgun;
-            }
-            player->shotguns = (player->weaponowned[wp_shotgun]
-                || player->weaponowned[wp_supershotgun]);
-            for (i = 0; i < NUMAMMO; i++)
-                player->ammo[i] = player->maxammo[i];
+            P_GiveBackpack(player);
+            P_GiveBody(player, mega_health);
+            P_GiveAllWeapons(player);
+            P_GiveFullAmmo(player);
             P_GiveArmor(player, blue_armor_class);
-            cardsfound = 0;
-            for (i = NUMCARDS - 1; i >= 0; i--)
-                if (player->cards[i] != CARDNOTINMAP)
-                    P_GiveCard(player, i);
+            P_GiveAllCards(player);
         }
         else if (!strcasecmp(parm1, "backpack"))
-        {
-            if (!player->backpack)
-            {
-                for (i = 0; i < NUMAMMO; i++)
-                    player->maxammo[i] *= 2;
-                player->backpack = true;
-            }
-        }
+            P_GiveBackpack(player);
         else if (!strcasecmp(parm1, "health"))
-            P_GiveBody(player, 200);
+            P_GiveBody(player, mega_health);
         else if (!strcasecmp(parm1, "weapons"))
-        {
-            player->weaponowned[wp_shotgun] = oldweaponsowned[wp_shotgun] = true;
-            player->weaponowned[wp_chaingun] = oldweaponsowned[wp_chaingun] = true;
-            player->weaponowned[wp_missile] = oldweaponsowned[wp_missile] = true;
-            if (gamemode != shareware)
-            {
-                player->weaponowned[wp_plasma] = oldweaponsowned[wp_plasma] = true;
-                player->weaponowned[wp_bfg] = oldweaponsowned[wp_bfg] = true;
-            }
-            player->weaponowned[wp_chainsaw] = oldweaponsowned[wp_chainsaw] = true;
-            player->fistorchainsaw = wp_chainsaw;
-            if (player->readyweapon == wp_fist)
-                player->pendingweapon = wp_chainsaw;
-            if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
-            {
-                player->preferredshotgun = wp_supershotgun;
-                player->weaponowned[wp_supershotgun] = oldweaponsowned[wp_supershotgun] = true;
-                if (player->readyweapon == wp_shotgun)
-                    player->pendingweapon = wp_supershotgun;
-            }
-            player->shotguns = (player->weaponowned[wp_shotgun]
-                || player->weaponowned[wp_supershotgun]);
-        }
+            P_GiveAllWeapons(player);
         else if (!strcasecmp(parm1, "ammo"))
-        {
-            for (i = 0; i < NUMAMMO; i++)
-                player->ammo[i] = player->maxammo[i];
-        }
+            P_GiveFullAmmo(player);
         else if (!strcasecmp(parm1, "armor"))
             P_GiveArmor(player, blue_armor_class);
         else if (!strcasecmp(parm1, "keys"))
-        {
-            cardsfound = 0;
-            for (i = NUMCARDS - 1; i >= 0; i--)
-                if (player->cards[i] != CARDNOTINMAP)
-                    P_GiveCard(player, i);
-        }
+            P_GiveAllCards(player);
     }
 }
 

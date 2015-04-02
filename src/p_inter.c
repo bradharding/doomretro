@@ -174,6 +174,32 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     return num;
 }
 
+void P_GiveBackpack(player_t *player)
+{
+    int i;
+
+    if (!player->backpack)
+    {
+        for (i = 0; i < NUMAMMO; i++)
+            player->maxammo[i] *= 2;
+        player->backpack = true;
+    }
+}
+
+boolean P_GiveFullAmmo(player_t *player)
+{
+    int         i;
+    boolean     result = false;
+
+    for (i = 0; i < NUMAMMO; i++)
+        if (player->ammo[i] < player->maxammo[i])
+        {
+            player->ammo[i] = player->maxammo[i];
+            result = true;
+        }
+    return result;
+}
+
 void P_AddBonus(player_t *player, int amount)
 {
     player->bonuscount = MIN(player->bonuscount + amount, 3 * TICRATE);
@@ -201,6 +227,69 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
     }
 
     return (gaveweapon || gaveammo);
+}
+
+boolean P_GiveAllWeapons(player_t *player)
+{
+    boolean result = false;
+
+    if (!oldweaponsowned[wp_shotgun])
+    {
+        result = true;
+        player->weaponowned[wp_shotgun] = true;
+        oldweaponsowned[wp_shotgun] = true;
+    }
+    if (!oldweaponsowned[wp_chaingun])
+    {
+        result = true;
+        player->weaponowned[wp_chaingun] = true;
+        oldweaponsowned[wp_chaingun] = true;
+    }
+    if (!oldweaponsowned[wp_missile])
+    {
+        result = true;
+        player->weaponowned[wp_missile] = true;
+        oldweaponsowned[wp_missile] = true;
+    }
+    if (gamemode != shareware)
+    {
+        if (!oldweaponsowned[wp_plasma])
+        {
+            result = true;
+            player->weaponowned[wp_plasma] = true;
+            oldweaponsowned[wp_plasma] = true;
+        }
+        if (!oldweaponsowned[wp_bfg])
+        {
+            result = true;
+            player->weaponowned[wp_bfg] = true;
+            oldweaponsowned[wp_bfg] = true;
+        }
+    }
+    if (!oldweaponsowned[wp_chainsaw])
+    {
+        result = true;
+        player->weaponowned[wp_chainsaw] = true;
+        oldweaponsowned[wp_chainsaw] = true;
+        player->fistorchainsaw = wp_chainsaw;
+
+        if (player->readyweapon == wp_fist)
+            player->pendingweapon = wp_chainsaw;
+    }
+    if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
+    {
+        player->preferredshotgun = wp_supershotgun;
+        result = true;
+        player->weaponowned[wp_supershotgun] = true;
+        oldweaponsowned[wp_supershotgun] = true;
+
+        if (player->readyweapon == wp_shotgun)
+            player->pendingweapon = wp_supershotgun;
+    }
+    player->shotguns = (player->weaponowned[wp_shotgun]
+        || player->weaponowned[wp_supershotgun]);
+
+    return result;
 }
 
 //
@@ -322,6 +411,23 @@ void P_GiveCard(player_t *player, card_t card)
     player->cards[card] = ++cardsfound;
     if (card == player->neededcard)
         player->neededcard = player->neededcardflash = 0;
+}
+
+boolean P_GiveAllCards(player_t *player)
+{
+    int         i;
+    boolean     result = false;
+
+    cardsfound = 0;
+    for (i = NUMCARDS - 1; i >= 0; i--)
+        if (player->cards[i] != CARDNOTINMAP)
+        {
+            if (player->cards[i] == CARDNOTFOUNDYET)
+                result = true;
+            P_GiveCard(player, i);
+        }
+
+    return result;
 }
 
 //
