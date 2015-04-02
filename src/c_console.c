@@ -522,9 +522,9 @@ void C_Drawer(void)
             consolewait = I_GetTime();
         }
 
-        consoleactive = (consoleheight >= CONSOLEHEIGHT / 2);
+        consoleactive = true;
 
-        if (consoleactive != prevconsoleactive && gamepadvibrate && vibrate)
+        if (!prevconsoleactive && gamepadvibrate && vibrate)
         {
             if (consoleactive)
             {
@@ -594,6 +594,8 @@ void C_Drawer(void)
         Z_Free(left);
         Z_Free(right);
     }
+    else
+        consoleactive = false;
 
     if (showfps && fps)
     {
