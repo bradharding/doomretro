@@ -1669,11 +1669,11 @@ static void D_DoomMainSetup(void)
     }
 
     startuptimer = I_GetTimeMS() - startuptimer;
-    C_Output("Startup took %02i:%02i:%02i.%03i to complete.",
+    C_Output("Startup took %02i:%02i:%02i.%i to complete.",
         (startuptimer / (1000 * 60 * 60)) % 24,
         (startuptimer / (1000 * 60)) % 60,
         (startuptimer / 1000) % 60,
-        startuptimer % 1000);
+        (startuptimer % 1000) / 10);
 }
 
 //
