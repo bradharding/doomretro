@@ -66,8 +66,9 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#define GIVECMDFORMAT  "~items~"
 #define MAPCMDFORMAT    "E~x~M~y~|MAP~xy~"
-#define SPAWNCMDFORMAT  "~type~"
+#define SPAWNCMDFORMAT  "~monster~|~item~"
 
 #define NONE_MIN        0
 #define NONE_MAX        0
@@ -430,6 +431,7 @@ consolecmd_t consolecmds[] =
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exit the current map."),
     CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, 0, EXPANSION, "The currently selected expansion in the menu."),
     CVAR_TIME (gametime, C_NoCondition, C_Time, gametic, "The amount of time since "PACKAGE_NAME" started."),
+    CMD       (give, C_GiveCondition, C_Give, 1, GIVECMDFORMAT, "Give items to the player."),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggle god mode on/off."),
     CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadleftdeadzone_percent, "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadrightdeadzone_percent, "The dead zone of the gamepad's right thumbstick."),
@@ -496,7 +498,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
-    CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or object."),
+    CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or item."),
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggle whether sprite fixes are applied when a map is loaded."),
     CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
     CMD       (totalitems, C_NoCondition, C_TotalItems, 0, "", "Show the number of items in the current map."),
@@ -1066,6 +1068,127 @@ void C_Gamma(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output(gammalevel == 1.0f ? "off" : striptrailingzero(gammalevel, 2));
+}
+
+extern int      cardsfound;
+
+boolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
+{
+    if (gamestate != GS_LEVEL)
+        return false;
+
+    if (!parm1[0])
+        return true;
+
+    if (!strcasecmp(parm1, "all")
+        || !strcasecmp(parm1, "backpack")
+        || !strcasecmp(parm1, "health")
+        || !strcasecmp(parm1, "weapons")
+        || !strcasecmp(parm1, "ammo")
+        || !strcasecmp(parm1, "armor")
+        || !strcasecmp(parm1, "keys"))
+        return true;
+    
+    return false;
+}
+
+void C_Give(char *cmd, char *parm1, char *parm2)
+{
+    if (!parm1[0])
+        C_Output("give "GIVECMDFORMAT);
+    else
+    {
+        player_t    *player = &players[displayplayer];
+        int         i;
+
+        if (!strcasecmp(parm1, "all"))
+        {
+            if (!player->backpack)
+            {
+                for (i = 0; i < NUMAMMO; i++)
+                    player->maxammo[i] *= 2;
+                player->backpack = true;
+            }
+            P_GiveBody(player, 200);
+            player->weaponowned[wp_shotgun] = oldweaponsowned[wp_shotgun] = true;
+            player->weaponowned[wp_chaingun] = oldweaponsowned[wp_chaingun] = true;
+            player->weaponowned[wp_missile] = oldweaponsowned[wp_missile] = true;
+            if (gamemode != shareware)
+            {
+                player->weaponowned[wp_plasma] = oldweaponsowned[wp_plasma] = true;
+                player->weaponowned[wp_bfg] = oldweaponsowned[wp_bfg] = true;
+            }
+            player->weaponowned[wp_chainsaw] = oldweaponsowned[wp_chainsaw] = true;
+            player->fistorchainsaw = wp_chainsaw;
+            if (player->readyweapon == wp_fist)
+                player->pendingweapon = wp_chainsaw;
+            if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
+            {
+                player->preferredshotgun = wp_supershotgun;
+                player->weaponowned[wp_supershotgun] = oldweaponsowned[wp_supershotgun] = true;
+                if (player->readyweapon == wp_shotgun)
+                    player->pendingweapon = wp_supershotgun;
+            }
+            player->shotguns = (player->weaponowned[wp_shotgun]
+                || player->weaponowned[wp_supershotgun]);
+            for (i = 0; i < NUMAMMO; i++)
+                player->ammo[i] = player->maxammo[i];
+            P_GiveArmor(player, blue_armor_class);
+            cardsfound = 0;
+            for (i = NUMCARDS - 1; i >= 0; i--)
+                if (player->cards[i] != CARDNOTINMAP)
+                    P_GiveCard(player, i);
+        }
+        else if (!strcasecmp(parm1, "backpack"))
+        {
+            if (!player->backpack)
+            {
+                for (i = 0; i < NUMAMMO; i++)
+                    player->maxammo[i] *= 2;
+                player->backpack = true;
+            }
+        }
+        else if (!strcasecmp(parm1, "health"))
+            P_GiveBody(player, 200);
+        else if (!strcasecmp(parm1, "weapons"))
+        {
+            player->weaponowned[wp_shotgun] = oldweaponsowned[wp_shotgun] = true;
+            player->weaponowned[wp_chaingun] = oldweaponsowned[wp_chaingun] = true;
+            player->weaponowned[wp_missile] = oldweaponsowned[wp_missile] = true;
+            if (gamemode != shareware)
+            {
+                player->weaponowned[wp_plasma] = oldweaponsowned[wp_plasma] = true;
+                player->weaponowned[wp_bfg] = oldweaponsowned[wp_bfg] = true;
+            }
+            player->weaponowned[wp_chainsaw] = oldweaponsowned[wp_chainsaw] = true;
+            player->fistorchainsaw = wp_chainsaw;
+            if (player->readyweapon == wp_fist)
+                player->pendingweapon = wp_chainsaw;
+            if (gamemode == commercial && !oldweaponsowned[wp_supershotgun])
+            {
+                player->preferredshotgun = wp_supershotgun;
+                player->weaponowned[wp_supershotgun] = oldweaponsowned[wp_supershotgun] = true;
+                if (player->readyweapon == wp_shotgun)
+                    player->pendingweapon = wp_supershotgun;
+            }
+            player->shotguns = (player->weaponowned[wp_shotgun]
+                || player->weaponowned[wp_supershotgun]);
+        }
+        else if (!strcasecmp(parm1, "ammo"))
+        {
+            for (i = 0; i < NUMAMMO; i++)
+                player->ammo[i] = player->maxammo[i];
+        }
+        else if (!strcasecmp(parm1, "armor"))
+            P_GiveArmor(player, blue_armor_class);
+        else if (!strcasecmp(parm1, "keys"))
+        {
+            cardsfound = 0;
+            for (i = NUMCARDS - 1; i >= 0; i--)
+                if (player->cards[i] != CARDNOTINMAP)
+                    P_GiveCard(player, i);
+        }
+    }
 }
 
 boolean C_GodCondition(char *cmd, char *parm1, char *parm2)

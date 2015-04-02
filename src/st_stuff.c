@@ -507,7 +507,6 @@ int mus[IDMUS_MAX][6] =
 // STATUS BAR CODE
 //
 void ST_Stop(void);
-boolean P_GiveBody(player_t *player, int num);
 int ST_calcPainOffset(void);
 void P_KillMobj(mobj_t *source, mobj_t *target);
 
@@ -558,10 +557,6 @@ extern int      cardsfound;
 boolean ST_Responder(event_t *ev)
 {
     int         i;
-    angle_t     angle;
-    fixed_t     x;
-    fixed_t     y;
-    mobj_t      *thing;
 
     // if a user keypress...
     if (ev->type == ev_keydown || consolecheat[0])
