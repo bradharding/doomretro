@@ -1229,7 +1229,7 @@ static void D_DoomMainSetup(void)
         C_Output("Found -NOMONSTERS parameter on command-line. No monsters will be spawned.");
 
     if (respawnparm = M_CheckParm("-respawn"))
-        C_Output("Found -RESPAWN parameter on command-line. Items will respawn.");
+        C_Output("Found -RESPAWN parameter on command-line. Pickups will respawn.");
 
     if (fastparm = M_CheckParm("-fast"))
         C_Output("Found -FAST parameter on command-line. Monsters will be faster.");

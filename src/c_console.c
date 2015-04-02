@@ -1031,8 +1031,8 @@ void C_PrintCompileDate(void)
 #else
         "Linux",
 #endif
-        PACKAGE_NAME, days[dayofweek(day, month + 1, year)], months[month], day, year,
-        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
+        PACKAGE_NAMEANDVERSIONSTRING, days[dayofweek(day, month + 1, year)], months[month], day,
+        year, (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 }
 
 void C_PrintSDLVersions(void)
