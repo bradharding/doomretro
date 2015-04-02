@@ -1746,7 +1746,7 @@ void C_Spawn(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
     {
-        C_Output("spawn "SPAWNCMDFORMAT);
+        C_Output("%s %s", cmd, SPAWNCMDFORMAT);
         return;
     }
     else
