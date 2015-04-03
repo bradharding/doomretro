@@ -39,6 +39,10 @@
 #if !defined(__D_THINK__)
 #define __D_THINK__
 
+#if defined __GNUG__
+#pragma interface
+#endif
+
 //
 // Experimental stuff.
 // To compile this as "ANSI C with classes"
@@ -67,6 +71,14 @@ typedef struct thinker_s
     struct thinker_s    *prev;
     struct thinker_s    *next;
     think_t             function;
+
+    // Next, previous thinkers in same class
+    struct thinker_s    *cprev;
+    struct thinker_s    *cnext;
+
+    // killough 11/98: count of how many other objects reference
+    // this one using pointers. Used for garbage collection.
+    unsigned            references;
 } thinker_t;
 
 #endif

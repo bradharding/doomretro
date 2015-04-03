@@ -44,6 +44,7 @@
 #include "m_misc.h"
 #include "p_local.h"
 #include "p_saveg.h"
+#include "p_tick.h"
 #include "version.h"
 #include "z_zone.h"
 

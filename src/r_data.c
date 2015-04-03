@@ -42,6 +42,7 @@
 #include "i_system.h"
 #include "m_misc.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "r_sky.h"
 #include "w_wad.h"
 #include "z_zone.h"
