@@ -1357,6 +1357,8 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                             else if (thing->flags & MF_COUNTKILL)
                             {
                                 P_DamageMobj(thing, NULL, NULL, thing->health);
+                                thing->momx += FRACUNIT * M_RandomInt(-1, 1);
+                                thing->momy += FRACUNIT * M_RandomInt(-1, 1);
                                 kills++;
                             }
                     }
