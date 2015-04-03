@@ -206,7 +206,7 @@ extern boolean  showmemory;
 
 #if defined(SDL20)
 extern char     *scaledriver;
-extern char     *scalequality;
+extern char     *scalefilter;
 extern boolean  vsync;
 #endif
 
@@ -348,7 +348,7 @@ void C_PixelSize(char *, char *, char *);
 void C_Quit(char *, char *, char *);
 void C_Resurrect(char *, char *, char *);
 void C_ScaleDriver(char *, char *, char *);
-void C_ScaleQuality(char *, char *, char *);
+void C_ScaleFilter(char *, char *, char *);
 void C_ScreenSize(char *, char *, char *);
 void C_ScreenResolution(char *, char *, char *);
 void C_Spawn(char *, char *, char *);
@@ -516,7 +516,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggle between fullscreen and a window."),
 #if defined(SDL20)
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver used to scale the display."),
-    CVAR_STR  (vid_scalequality, C_NoCondition, C_ScaleQuality, scalequality, "The filter used to scale the display."),
+    CVAR_STR  (vid_scalefilter, C_NoCondition, C_ScaleFilter, scalefilter, "The filter used to scale the display."),
 #endif
     CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
 #if !defined(WIN32) || !defined(SDL20)
@@ -1537,20 +1537,20 @@ void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
         C_Output("\"%s\"", scaledriver);
 }
 
-void C_ScaleQuality(char *cmd, char *parm1, char *parm2)
+void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
         if ((!strcasecmp(parm1, "nearest") || !strcasecmp(parm1, "linear")
-            || !strcasecmp(parm1, "best")) && strcasecmp(parm1, scalequality))
+            || !strcasecmp(parm1, "best")) && strcasecmp(parm1, scalefilter))
         {
-            scalequality = strdup(parm1);
+            scalefilter = strdup(parm1);
             M_SaveDefaults();
             I_RestartGraphics();
         }
     }
     else
-        C_Output("\"%s\"", scalequality);
+        C_Output("\"%s\"", scalefilter);
 }
 #endif
 

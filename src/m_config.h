@@ -281,7 +281,7 @@
 #if defined(SDL20)
 #define SCALEDRIVER_DEFAULT                     "opengl"
 
-#define SCALEQUALITY_DEFAULT                    "nearest"
+#define SCALEFILTER_DEFAULT                     "nearest"
 #endif
 
 #define SCREENSIZE_MIN                          0

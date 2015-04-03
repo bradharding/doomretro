@@ -82,7 +82,7 @@ int                     display = DISPLAY_DEFAULT;
 int                     numdisplays;
 SDL_Rect                *displays;
 char                    *scaledriver = SCALEDRIVER_DEFAULT;
-char                    *scalequality = SCALEQUALITY_DEFAULT;
+char                    *scalefilter = SCALEFILTER_DEFAULT;
 boolean                 vsync = VSYNC_DEFAULT;
 #endif
 
@@ -1067,7 +1067,7 @@ static void SetVideoMode(boolean output)
     if (vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
-    SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, scalequality, SDL_HINT_OVERRIDE);
+    SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, scalefilter, SDL_HINT_OVERRIDE);
 
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
@@ -1158,11 +1158,11 @@ static void SetVideoMode(boolean output)
         else if (!strcasecmp(rendererinfo.name, "software"))
             renderername = "software";
 
-        if (!strcasecmp(scalequality, "nearest"))
+        if (!strcasecmp(scalefilter, "nearest"))
             C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);
-        else if (!strcasecmp(scalequality, "linear"))
+        else if (!strcasecmp(scalefilter, "linear"))
             C_Output("Scaling screen using linear filtering in %s.", renderername);
-        else if (!strcasecmp(scalequality, "best"))
+        else if (!strcasecmp(scalefilter, "best"))
             C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
 
         if (capfps)
@@ -1312,7 +1312,7 @@ void ToggleWidescreen(boolean toggle)
         }
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
-        src_rect.h = SCREENHEIGHT - SBARHEIGHT - !!strcasecmp(scalequality, "nearest");
+        src_rect.h = SCREENHEIGHT - SBARHEIGHT - !!strcasecmp(scalefilter, "nearest");
     }
     else
     {

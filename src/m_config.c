@@ -165,7 +165,7 @@ extern boolean  rotatemode;
 extern int      runcount;
 #if defined(SDL20)
 extern char     *scaledriver;
-extern char     *scalequality;
+extern char     *scalefilter;
 #endif
 extern int      screenheight;
 extern char     *screenresolution;
@@ -330,7 +330,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (vid_fullscreen,          fullscreen,                    1),
 #if defined(SDL20)
     CONFIG_VARIABLE_STRING       (vid_scaledriver,         scaledriver,                   0),
-    CONFIG_VARIABLE_STRING       (vid_scalequality,        scalequality,                  0),
+    CONFIG_VARIABLE_STRING       (vid_scalefilter,         scalefilter,                   0),
 #endif
     CONFIG_VARIABLE_INT          (vid_screenheight,        screenheight,                  5),
     CONFIG_VARIABLE_INT          (vid_screenwidth,         screenwidth,                   5),
@@ -1122,9 +1122,9 @@ static void M_CheckDefaults(void)
         && strcasecmp(scaledriver, "software"))
         scaledriver = SCALEDRIVER_DEFAULT;
 
-    if (strcasecmp(scalequality, "nearest") && strcasecmp(scalequality, "linear")
-        && strcasecmp(scalequality, "best"))
-        scalequality = SCALEQUALITY_DEFAULT;
+    if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear")
+        && strcasecmp(scalefilter, "best"))
+        scalefilter = SCALEFILTER_DEFAULT;
 #endif
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
