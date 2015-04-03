@@ -194,7 +194,6 @@ extern int      snd_maxslicetime_ms;
 extern boolean  spritefixes;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
-extern char     *videodriver;
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
@@ -209,6 +208,10 @@ extern boolean  showmemory;
 extern char     *scaledriver;
 extern char     *scalequality;
 extern boolean  vsync;
+#endif
+
+#if !defined(WIN32) || !defined(SDL20)
+extern char     *videodriver;
 #endif
 
 control_t controls[] =
@@ -516,7 +519,9 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (vid_scalequality, C_NoCondition, C_ScaleQuality, scalequality, "The filter used to scale the display."),
 #endif
     CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
-    CVAR_STR  (vid_videodriver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
+#if !defined(WIN32) || !defined(SDL20)
+    CVAR_STR(vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
+#endif
 #if defined(SDL20)
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggle vertical synchronization."),
 #endif

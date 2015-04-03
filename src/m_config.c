@@ -180,7 +180,9 @@ extern int      snd_maxslicetime_ms;
 extern boolean  spritefixes;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
+#if !defined(WIN32) || !defined(SDL20)
 extern char     *videodriver;
+#endif
 #if defined(SDL20)
 extern boolean  vsync;
 #endif
@@ -332,7 +334,9 @@ static default_t cvars[] =
 #endif
     CONFIG_VARIABLE_INT          (vid_screenheight,        screenheight,                  5),
     CONFIG_VARIABLE_INT          (vid_screenwidth,         screenwidth,                   5),
+#if !defined(WIN32) || !defined(SDL20)
     CONFIG_VARIABLE_STRING       (vid_videodriver,         videodriver,                   0),
+#endif
 #if defined(SDL20)
     CONFIG_VARIABLE_INT          (vid_vsync,               vsync,                         1),
 #endif
