@@ -439,8 +439,8 @@ consolecmd_t consolecmds[] =
     CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadleftdeadzone_percent, "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadrightdeadzone_percent, "The dead zone of the gamepad's right thumbstick."),
     CVAR_INT  (gp_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, 0, GAMEPADSENSITIVITY, "The gamepad's sensitivity."),
-    CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED, "Toggle whether the left and right thumbsticks are swapped."),
-    CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE, "Toggle whether the gamepad vibrates."),
+    CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED, "Toggle swapping the gamepad's left and right thumbsticks."),
+    CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE, "Toggle whether XInput gamepads vibrate."),
     CMD       (help, C_NoCondition, C_Help, 0, "", "Display the help screen."),
     CMD_CHEAT (idbeholda, 0),
     CMD_CHEAT (idbeholdl, 0),
@@ -1325,6 +1325,9 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                         else if (thing->flags & MF_COUNTKILL)
                         {
                             P_DamageMobj(thing, NULL, NULL, thing->health);
+                            if (corpses_moreblood && thing->type != MT_SKULL
+                                && !(thing->flags & MF_NOBLOOD) && thing->blood && !chex && bloodsplats && !dehacked)
+                                P_SpawnMoreBlood(thing);
                             kills++;
                         }
                     }
