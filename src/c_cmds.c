@@ -57,6 +57,7 @@
 #include "m_config.h"
 #include "m_menu.h"
 #include "m_misc.h"
+#include "m_random.h"
 #include "p_inter.h"
 #include "p_local.h"
 #include "s_sound.h"
@@ -1325,9 +1326,8 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                         else if (thing->flags & MF_COUNTKILL)
                         {
                             P_DamageMobj(thing, NULL, NULL, thing->health);
-                            if (corpses_moreblood && thing->type != MT_SKULL
-                                && !(thing->flags & MF_NOBLOOD) && thing->blood && !chex && bloodsplats && !dehacked)
-                                P_SpawnMoreBlood(thing);
+                            thing->momx += FRACUNIT * M_RandomInt(-1, 1);
+                            thing->momy += FRACUNIT * M_RandomInt(-1, 1);
                             kills++;
                         }
                     }
