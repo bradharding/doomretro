@@ -1254,7 +1254,7 @@ boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
     {
         int i;
 
-        if (!parm1[0] || !strcasecmp(parm1, "monsters"))
+        if (!parm1[0] || !strcasecmp(parm1, "monsters") || !strcasecmp(parm1, "all"))
             return true;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
@@ -1307,7 +1307,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
         int             i, j;
         int             kills = 0;
 
-        if (!strcasecmp(parm1, "monsters"))
+        if (!strcasecmp(parm1, "monsters") || !strcasecmp(parm1, "all"))
         {
             for (i = 0; i < numsectors; ++i)
             {
