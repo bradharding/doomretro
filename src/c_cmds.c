@@ -1317,13 +1317,15 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                 {
                     if (thing->health > 0)
                     {
-                        if (thing->type == MT_PAIN)
+                        mobjtype_t      type = thing->type;
+
+                        if (type == MT_PAIN)
                         {
                             A_Fall(thing);
                             P_SetMobjState(thing, S_PAIN_DIE6);
                             kills++;
                         }
-                        else if ((thing->flags & MF_SHOOTABLE) && thing->type != MT_PLAYER)
+                        else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER && type != MT_BARREL)
                         {
                             P_DamageMobj(thing, NULL, NULL, thing->health);
                             thing->momx += FRACUNIT * M_RandomInt(-1, 1);
