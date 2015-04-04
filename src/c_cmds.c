@@ -1334,6 +1334,11 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                     thing = thing->snext;
                 }
             }
+
+            if (!kills)
+                C_Output("No monsters killed.");
+            else
+                C_Output("%s monster%s killed.", commify(kills), (kills == 1 ? "" : "s"));
         }
         else
         {
@@ -1365,11 +1370,15 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                     thing = thing->snext;
                 }
             }
+
+            if (!kills)
+                C_Output("No %s %s.", mobjinfo[type].plural1,
+                    (type == MT_BARREL ? "exploded" : "killed"));
+            else
+                C_Output("%s %s %s.", commify(kills),
+                    (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
+                    (type == MT_BARREL ? "exploded" : "killed"));
         }
-        if (!kills)
-            C_Output("No monsters killed.");
-        else
-            C_Output("%s monster%s killed.", commify(kills), (kills == 1 ? "" : "s"));
     }
 }
 
