@@ -386,7 +386,7 @@ static struct
 static int C_TextWidth(char *text)
 {
     size_t      i;
-    char        prev = ' ';
+    char        prevletter = '\0';
     int         w = 0;
 
     for (i = 0; i < strlen(text); ++i)
@@ -399,19 +399,17 @@ static int C_TextWidth(char *text)
 
         while (kern[j].char1)
         {
-            if (prev == kern[j].char1 && letter == kern[j].char2)
+            if (prevletter == kern[j].char1 && letter == kern[j].char2)
             {
                 w += kern[j].adjust;
                 break;
             }
             ++j;
         }
-        prev = letter;
+        prevletter = letter;
     }
     return w;
 }
-
-static char     prevletter;
 
 static int      tabstops[] = { 40, 130, 192, 262 };
 
@@ -421,6 +419,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color)
     size_t      i;
     int         tabs = 0;
     size_t      len = strlen(text);
+    char        prevletter = '\0';
 
     while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 2)
     {
@@ -445,6 +444,9 @@ static void C_DrawConsoleText(int x, int y, char *text, int color)
         }
         else
         {
+            patch_t     *patch = NULL;
+            int         k = 0;
+
             if (letter == ITALICS)
                 italics = false;
             if (letter == '\t')
@@ -452,31 +454,31 @@ static void C_DrawConsoleText(int x, int y, char *text, int color)
             else if (c < 0 || c >= CONSOLEFONTSIZE)
                 x += SPACEWIDTH;
             else
-            {
-                patch_t     *patch = consolefont[c];
-                int         k = 0;
+                patch = consolefont[c];
 
-                if (isdigit(prevletter) && letter == 'x' && isdigit(nextletter))
-                    patch = multiply;
-                else if (prevletter == ' ' || prevletter == '\t')
+            if (isdigit(prevletter) && letter == 'x' && isdigit(nextletter))
+                patch = multiply;
+            else if (prevletter == ' ' || prevletter == '\t')
+            {
+                if (letter == '\'')
+                    patch = lsquote;
+                else if (letter == '\"')
+                    patch = ldquote;
+            }
+
+            if (!italics)
+                while (kern[k].char1)
                 {
-                    if (letter == '\'')
-                        patch = lsquote;
-                    else if (letter == '\"')
-                        patch = ldquote;
+                    if (prevletter == kern[k].char1 && letter == kern[k].char2)
+                    {
+                        x += kern[k].adjust;
+                        break;
+                    }
+                    ++k;
                 }
 
-                if (!italics)
-                    while (kern[k].char1)
-                    {
-                        if (prevletter == kern[k].char1 && letter == kern[k].char2)
-                        {
-                            x += kern[k].adjust;
-                            break;
-                        }
-                        ++k;
-                    }
-
+            if (patch)
+            {
                 V_DrawConsoleChar(x, y - (CONSOLEHEIGHT - consoleheight), patch, color, italics);
                 x += SHORT(patch->width);
             }
@@ -538,7 +540,6 @@ void C_Drawer(void)
         C_DrawBackground(consoleheight);
 
         // draw title and version
-        prevletter = ' ';
         C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX + 1,
             CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, consoletitlecolor);
 
@@ -558,7 +559,6 @@ void C_Drawer(void)
             int y = CONSOLELINEHEIGHT * (i - start + MAX(0, CONSOLELINES - consolestrings))
                     - CONSOLELINEHEIGHT / 2 + 1;
 
-            prevletter = ' ';
             if (console[i].type == divider)
                 C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
             else
@@ -566,7 +566,6 @@ void C_Drawer(void)
         }
 
         // draw input text to left of caret
-        prevletter = ' ';
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
