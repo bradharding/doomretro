@@ -1323,7 +1323,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                             P_SetMobjState(thing, S_PAIN_DIE6);
                             kills++;
                         }
-                        else if (thing->flags & MF_COUNTKILL)
+                        else if ((thing->flags & MF_SHOOTABLE) && thing->type != MT_PLAYER)
                         {
                             P_DamageMobj(thing, NULL, NULL, thing->health);
                             thing->momx += FRACUNIT * M_RandomInt(-1, 1);
@@ -1354,7 +1354,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
                                 P_SetMobjState(thing, S_PAIN_DIE6);
                                 kills++;
                             }
-                            else if (thing->flags & MF_COUNTKILL)
+                            else if (thing->flags & MF_SHOOTABLE)
                             {
                                 P_DamageMobj(thing, NULL, NULL, thing->health);
                                 thing->momx += FRACUNIT * M_RandomInt(-1, 1);
