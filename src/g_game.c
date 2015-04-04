@@ -540,8 +540,6 @@ extern SDL_Window       *window;
 //
 void G_DoLoadLevel(void)
 {
-    int         i;
-
     // Set the sky map.
     // First thing, we have a dummy sky texture name,
     //  a flat. The data is in the WAD only because
@@ -586,12 +584,9 @@ void G_DoLoadLevel(void)
 
     gamestate = GS_LEVEL;
 
-    for (i = 0; i < MAXPLAYERS; ++i)
-    {
-        turbodetected[i] = false;
-        if (playeringame[i] && players[i].playerstate == PST_DEAD)
-            players[i].playerstate = PST_REBORN;
-    }
+    turbodetected[0] = false;
+    if (players[0].playerstate == PST_DEAD)
+        players[0].playerstate = PST_REBORN;
 
     M_ClearRandom();
 
@@ -883,14 +878,12 @@ void D_Display(void);
 //
 void G_Ticker(void)
 {
-    int         i;
     int         buf;
     ticcmd_t    *cmd;
 
-    // do player reborns if needed
-    for (i = 0; i < MAXPLAYERS; ++i)
-        if (playeringame[i] && players[i].playerstate == PST_REBORN)
-            G_DoReborn(i);
+    // do player reborn if needed
+    if (players[0].playerstate == PST_REBORN)
+        G_DoReborn(0);
 
     P_MapEnd();
 
@@ -961,63 +954,49 @@ void G_Ticker(void)
     // get commands, check consistency,
     // and build new consistency check
     buf = (gametic / ticdup) % BACKUPTICS;
-
-    for (i = 0; i < MAXPLAYERS; ++i)
-    {
-        if (playeringame[i])
-        {
-            cmd = &players[i].cmd;
-
-            memcpy(cmd, &netcmds[i][buf], sizeof(ticcmd_t));
-        }
-    }
+    cmd = &players[0].cmd;
+    memcpy(cmd, &netcmds[0][buf], sizeof(ticcmd_t));
 
     // check for special buttons
-    for (i = 0; i < MAXPLAYERS; ++i)
+    if (players[0].cmd.buttons & BT_SPECIAL)
     {
-        if (playeringame[i])
+        switch (players[0].cmd.buttons & BT_SPECIALMASK)
         {
-            if (players[i].cmd.buttons & BT_SPECIAL)
-            {
-                switch (players[i].cmd.buttons & BT_SPECIALMASK)
+            case BTS_PAUSE:
+                paused ^= 1;
+                if (paused)
                 {
-                    case BTS_PAUSE:
-                        paused ^= 1;
-                        if (paused)
-                        {
-                            S_PauseSound();
+                    S_PauseSound();
 
-                            if (gamepadvibrate && vibrate)
-                            {
-                                restoremotorspeed = idlemotorspeed;
-                                idlemotorspeed = 0;
-                                XInputVibration(idlemotorspeed);
-                            }
+                    if (gamepadvibrate && vibrate)
+                    {
+                        restoremotorspeed = idlemotorspeed;
+                        idlemotorspeed = 0;
+                        XInputVibration(idlemotorspeed);
+                    }
 
-                            players[consoleplayer].fixedcolormap = 0;
-                            I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
-                        }
-                        else
-                        {
-                            S_ResumeSound();
-                            S_StartSound(NULL, sfx_swtchx);
-
-                            if (gamepadvibrate && vibrate)
-                            {
-                                idlemotorspeed = restoremotorspeed;
-                                XInputVibration(idlemotorspeed);
-                            }
-
-                            I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
-                        }
-                        break;
-
-                    case BTS_SAVEGAME:
-                        savegameslot = (players[i].cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
-                        gameaction = ga_savegame;
-                        break;
+                    players[0].fixedcolormap = 0;
+                    I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
                 }
-            }
+                else
+                {
+                    S_ResumeSound();
+                    S_StartSound(NULL, sfx_swtchx);
+
+                    if (gamepadvibrate && vibrate)
+                    {
+                        idlemotorspeed = restoremotorspeed;
+                        XInputVibration(idlemotorspeed);
+                    }
+
+                    I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
+                }
+                break;
+
+            case BTS_SAVEGAME:
+                savegameslot = (players[0].cmd.buttons & BTS_SAVEMASK) >> BTS_SAVESHIFT;
+                gameaction = ga_savegame;
+                break;
         }
     }
 
@@ -1271,7 +1250,6 @@ void ST_doRefresh(void);
 
 void G_DoCompleted(void)
 {
-    int         i;
     char        lump[5];
 
     gameaction = ga_nothing;
@@ -1286,9 +1264,7 @@ void G_DoCompleted(void)
         ST_doRefresh();
     }
 
-    for (i = 0; i < MAXPLAYERS; ++i)
-        if (playeringame[i])
-            G_PlayerFinishLevel(i);             // take away cards and stuff
+    G_PlayerFinishLevel(0);     // take away cards and stuff
 
     if (automapactive)
         AM_Stop();
@@ -1315,8 +1291,7 @@ void G_DoCompleted(void)
                 }
                 break;
             case 9:
-                for (i = 0; i < MAXPLAYERS; ++i)
-                    players[i].didsecret = true;
+                players[0].didsecret = true;
                 break;
         }
     }
@@ -1429,14 +1404,11 @@ void G_DoCompleted(void)
 
     wminfo.pnum = consoleplayer;
 
-    for (i = 0; i < MAXPLAYERS; ++i)
-    {
-        wminfo.plyr[i].in = playeringame[i];
-        wminfo.plyr[i].skills = players[i].killcount;
-        wminfo.plyr[i].sitems = players[i].itemcount;
-        wminfo.plyr[i].ssecret = players[i].secretcount;
-        wminfo.plyr[i].stime = leveltime;
-    }
+    wminfo.plyr[0].in = playeringame[0];
+    wminfo.plyr[0].skills = players[0].killcount;
+    wminfo.plyr[0].sitems = players[0].itemcount;
+    wminfo.plyr[0].ssecret = players[0].secretcount;
+    wminfo.plyr[0].stime = leveltime;
 
     gamestate = GS_INTERMISSION;
     viewactive = false;
@@ -1663,7 +1635,8 @@ void G_DeferredInitNew(skill_t skill, int episode, int map)
 //
 void G_DeferredLoadLevel(skill_t skill, int episode, int map)
 {
-    int pnum;
+    int         i;
+    player_t    *player = &players[0];
 
     d_skill = skill;
     d_episode = episode;
@@ -1672,16 +1645,9 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
     markpointnum = 0;
     infight = false;
 
-    for (pnum = 0; pnum < MAXPLAYERS; ++pnum)
-        if (playeringame[pnum])
-        {
-            int         i;
-            player_t    *player = &players[pnum];
-
-            for (i = 0; i < NUMPOWERS; ++i)
-                if (player->powers[i] > 0)
-                    player->powers[i] = 0;
-        }
+    for (i = 0; i < NUMPOWERS; ++i)
+        if (player->powers[i] > 0)
+            player->powers[i] = 0;
 }
 
 void G_DoNewGame(void)
@@ -1728,8 +1694,6 @@ void G_SetFastParms(int fast_pending)
 
 void G_InitNew(skill_t skill, int episode, int map)
 {
-    int         i;
-
     if (paused)
     {
         paused = false;
@@ -1764,9 +1728,8 @@ void G_InitNew(skill_t skill, int episode, int map)
     // [BH] Fix demon speed bug. See doomwiki.org/wiki/Demon_speed_bug.
     G_SetFastParms(fastparm || skill == sk_nightmare);
 
-    // force players to be initialized upon first level load
-    for (i = 0; i < MAXPLAYERS; ++i)
-        players[i].playerstate = PST_REBORN;
+    // force player to be initialized upon first level load
+    players[0].playerstate = PST_REBORN;
 
     usergame = true;            // will be set false if on title screen
     paused = false;

@@ -78,15 +78,14 @@ void P_InitThinkers(void)
 //
 void P_UpdateThinker(thinker_t *thinker)
 {
-    register thinker_t *th;
-    // find the class the thinker belongs to
+    thinker_t   *th;
 
-    int class =
-        (thinker->function.acp1 == (actionf_p1)P_RemoveThinkerDelayed ? th_delete :
+    // find the class the thinker belongs to
+    int class = (thinker->function.acp1 == (actionf_p1)P_RemoveThinkerDelayed ? th_delete :
         (thinker->function.acp1 == (actionf_p1)P_MobjThinker ? th_mobj : th_misc));
 
     // Remove from current thread, if in one
-    if ((th = thinker->cnext) != NULL)
+    if ((th = thinker->cnext))
         (th->cprev = thinker->cprev)->cnext = th;
 
     // Add to appropriate thread
@@ -107,9 +106,6 @@ void P_AddThinker(thinker_t *thinker)
     thinker->next = &thinkercap;
     thinker->prev = thinkercap.prev;
     thinkercap.prev = thinker;
-
-    // killough 11/98: init reference counter to 0
-    thinker->references = 0;
 
     // killough 8/29/98: set sentinel pointers, and then add to appropriate list
     thinker->cnext = thinker->cprev = NULL;
@@ -136,23 +132,20 @@ static thinker_t        *currentthinker;
 //
 void P_RemoveThinkerDelayed(thinker_t *thinker)
 {
-    if (!thinker->references)
-    {
-        thinker_t *next = thinker->next;
-        thinker_t *th = thinker->cnext;
+    thinker_t   *next = thinker->next;
+    thinker_t   *th = thinker->cnext;
 
-        // Remove from main thinker list
-        // Note that currentthinker is guaranteed to point to us,
-        // and since we're freeing our memory, we had better change that. So
-        // point it to thinker->prev, so the iterator will correctly move on to
-        // thinker->prev->next = thinker->next 
-        (next->prev = currentthinker = thinker->prev)->next = next;
+    // Remove from main thinker list
+    // Note that currentthinker is guaranteed to point to us,
+    // and since we're freeing our memory, we had better change that. So
+    // point it to thinker->prev, so the iterator will correctly move on to
+    // thinker->prev->next = thinker->next 
+    (next->prev = currentthinker = thinker->prev)->next = next;
 
-        // Remove from current thinker class list 
-        (th->cprev = thinker->cprev)->cnext = th;
+    // Remove from current thinker class list 
+    (th->cprev = thinker->cprev)->cnext = th;
 
-        Z_Free(thinker);
-    }
+    Z_Free(thinker);
 }
 
 //
@@ -197,12 +190,13 @@ void P_RemoveThinker(thinker_t *thinker)
 //
 static void P_RunThinkers(void)
 {
-    for (currentthinker = thinkercap.next;
-        currentthinker != &thinkercap;
-        currentthinker = currentthinker->next)
+    currentthinker = thinkercap.next;
+
+    while (currentthinker != &thinkercap)
     {
         if (currentthinker->function.acp1)
             currentthinker->function.acp1(currentthinker);
+        currentthinker = currentthinker->next;
     }
 }
 
@@ -212,17 +206,10 @@ static void P_RunThinkers(void)
 void P_Ticker(void)
 {
     // pause if in menu and at least one tic has been run
-    if ((paused || menuactive || consoleactive) && players[consoleplayer].viewz != 1)
+    if ((paused || menuactive || consoleactive) && players[0].viewz != 1)
         return;
 
-    if (gamestate == GS_LEVEL)
-    {
-        int i;
-
-        for (i = 0; i < MAXPLAYERS; i++)
-            if (playeringame[i])
-                P_PlayerThink(&players[i]);
-    }
+    P_PlayerThink(&players[0]);
 
     P_RunThinkers();
     P_UpdateSpecials();

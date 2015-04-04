@@ -621,8 +621,6 @@ static boolean P_LookForMonsters(mobj_t *actor)
 //
 static boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
 {
-    int         c;
-    int         stop;
     player_t    *player;
     angle_t     an;
     fixed_t     dist;
@@ -630,71 +628,66 @@ static boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
     if (infight)
         // player is dead, look for monsters
         return P_LookForMonsters(actor);
-    c = 0;
-    stop = (actor->lastlook - 1) % (MAXPLAYERS - 1);
 
-    for (; ; actor->lastlook = (actor->lastlook + 1) & (MAXPLAYERS - 1))
+    player = &players[0];
+
+    if (player->cheats & CF_NOTARGET)
+        return false;
+
+    if (player->health <= 0 || !P_CheckSight(actor, player->mo))
     {
-        if (!playeringame[actor->lastlook])
-            continue;
-
-        if (c++ == 2 || actor->lastlook == stop)
+        // Use last known enemy if no players sighted -- killough 2/15/98
+        if (actor->lastenemy && actor->lastenemy->health > 0)
         {
-            // Use last known enemy if no players sighted -- killough 2/15/98
-            if (actor->lastenemy && actor->lastenemy->health > 0)
-            {
-                actor->target = actor->lastenemy;
-                actor->lastenemy = NULL;
-                return true;
-            }
-            return false;
+            actor->target = actor->lastenemy;
+            actor->lastenemy = NULL;
+            return true;
         }
-
-        player = &players[actor->lastlook];
-
-        if (player->cheats & CF_NOTARGET)
-            return false;
-
-        if (player->health <= 0)
-            continue;           // dead
-
-        if (!P_CheckSight(actor, player->mo))
-            continue;           // out of sight
-
-        dist = P_ApproxDistance(player->mo->x - actor->x, player->mo->y - actor->y);
-
-        if (!allaround)
-        {
-            an = R_PointToAngle2(actor->x, actor->y, player->mo->x, player->mo->y) - actor->angle;
-
-            if (an > ANG90 && an < ANG270)
-            {
-                // if real close, react anyway
-                if (dist > MELEERANGE)
-                    continue;   // behind back
-            }
-        }
-
-        if (player->mo->flags & MF_FUZZ)
-        {
-            // player is invisible
-            if (dist > 2 * MELEERANGE
-                && P_ApproxDistance(player->mo->momx, player->mo->momy) < 5 * FRACUNIT)
-            {
-                // player is sneaking - can't detect
-                return false;
-            }
-            if (P_Random() < 225)
-            {
-                // player isn't sneaking, but still didn't detect
-                return false;
-            }
-        }
-
-        actor->target = player->mo;
-        actor->threshold = 60;
-        return true;
+        return false;
     }
+
+    dist = P_ApproxDistance(player->mo->x - actor->x, player->mo->y - actor->y);
+
+    if (!allaround)
+    {
+        an = R_PointToAngle2(actor->x, actor->y, player->mo->x, player->mo->y) - actor->angle;
+
+        if (an > ANG90 && an < ANG270)
+        {
+            // if real close, react anyway
+            if (dist > MELEERANGE)
+            {
+                // Use last known enemy if no players sighted -- killough 2/15/98
+                if (actor->lastenemy && actor->lastenemy->health > 0)
+                {
+                    actor->target = actor->lastenemy;
+                    actor->lastenemy = NULL;
+                    return true;
+                }
+                return false;
+            }
+        }
+    }
+
+    if (player->mo->flags & MF_FUZZ)
+    {
+        // player is invisible
+        if (dist > 2 * MELEERANGE
+            && P_ApproxDistance(player->mo->momx, player->mo->momy) < 5 * FRACUNIT)
+        {
+            // player is sneaking - can't detect
+            return false;
+        }
+        if (P_Random() < 225)
+        {
+            // player isn't sneaking, but still didn't detect
+            return false;
+        }
+    }
+
+    actor->target = player->mo;
+    actor->threshold = 60;
+    return true;
 }
 
 //
@@ -1709,12 +1702,7 @@ void A_BossDeath(mobj_t *mo)
         }
     }
 
-    // make sure there is a player alive for victory
-    for (i = 0; i < MAXPLAYERS; i++)
-        if (playeringame[i] && players[i].health > 0)
-            break;
-
-    if (i == MAXPLAYERS)
+    if (!players[0].health)
         return;         // no one left alive, so do not end game
 
     // scan the remaining thinkers to see

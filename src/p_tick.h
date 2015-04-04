@@ -59,7 +59,8 @@ typedef enum
     th_all = NUMTHCLASS,        // For P_NextThinker, indicates "any class"
 } th_class;
 
-extern thinker_t thinkerclasscap[];
-#define thinkercap thinkerclasscap[th_all]
+extern thinker_t        thinkerclasscap[];
+
+#define thinkercap      thinkerclasscap[th_all]
 
 #endif

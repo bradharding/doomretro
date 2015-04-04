@@ -498,21 +498,7 @@ static void AM_initVariables(void)
     m_w = FTOM(mapwidth);
     m_h = FTOM(mapheight);
 
-    // find player to center on initially
-    if (playeringame[consoleplayer])
-        plr = &players[consoleplayer];
-    else
-    {
-        int     i;
-
-        plr = &players[0];
-        for (i = 0; i < MAXPLAYERS; ++i)
-            if (playeringame[i])
-            {
-                plr = &players[i];
-                break;
-            }
-    }
+    plr = &players[0];
 
     if (m_x == INT_MAX || followmode)
     {
