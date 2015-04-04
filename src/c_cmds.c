@@ -1577,15 +1577,19 @@ void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
         {
             int     width = -1;
             int     height = -1;
+            char    *left = strtok(parm1, "x");
+            char    *right = strtok(NULL, "x");
 
-            sscanf(parm1, "%ix%i", &width, &height);
+            sscanf(left, "%i", &width);
+            sscanf(right, "%i", &height);
 
             if (width >= 0 && height >= 0 && (width != screenwidth || height != screenheight))
             {
                 screenwidth = width;
                 screenheight = height;
                 M_SaveDefaults();
-                I_RestartGraphics();
+                if (fullscreen)
+                    I_RestartGraphics();
             }
         }
     }
