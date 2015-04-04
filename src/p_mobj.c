@@ -693,25 +693,8 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
 //
 // P_RemoveMobj
 //
-static mapthing_t       itemrespawnqueue[ITEMQUEUESIZE];
-static int              itemrespawntime[ITEMQUEUESIZE];
-int                     iqueuehead;
-int                     iqueuetail;
-
 void P_RemoveMobj(mobj_t *mobj)
 {
-    if ((mobj->flags & MF_SPECIAL) && !(mobj->flags & MF_DROPPED)
-        && mobj->type != MT_INV && mobj->type != MT_INS)
-    {
-        itemrespawnqueue[iqueuehead] = mobj->spawnpoint;
-        itemrespawntime[iqueuehead] = leveltime;
-        iqueuehead = (iqueuehead + 1) & (ITEMQUEUESIZE - 1);
-
-        // lose one off the end?
-        if (iqueuehead == iqueuetail)
-            iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
-    }
-
     // unlink from sector and block lists
     P_UnsetThingPosition(mobj);
 
@@ -780,50 +763,6 @@ int P_FindDoomedNum(unsigned int type)
     while ((i < NUMMOBJTYPES) && ((unsigned int)mobjinfo[i].doomednum != type))
         i = hash[i].next;
     return i;
-}
-
-//
-// P_RespawnSpecials
-//
-void P_RespawnSpecials(void)
-{
-    fixed_t     x, y, z;
-    subsector_t *ss;
-    mobj_t      *mo;
-    mapthing_t  *mthing;
-    int         i;
-
-    // nothing left to respawn?
-    if (iqueuehead == iqueuetail)
-        return;
-
-    // wait at least 30 seconds
-    if (leveltime - itemrespawntime[iqueuetail] < 30 * TICRATE)
-        return;
-
-    mthing = &itemrespawnqueue[iqueuetail];
-
-    x = mthing->x << FRACBITS;
-    y = mthing->y << FRACBITS;
-
-    // spawn a teleport fog at the new spot
-    ss = R_PointInSubsector(x, y);
-    mo = P_SpawnMobj(x, y, ss->sector->floorheight, MT_IFOG);
-    mo->angle = mthing->angle;
-    S_StartSound(mo, sfx_itmbk);
-
-    // killough 8/23/98: use table for faster lookup
-    i = P_FindDoomedNum(mthing->type);
-
-    // spawn it
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
-
-    mo = P_SpawnMobj(x, y, z, (mobjtype_t)P_FindDoomedNum(mthing->type));
-    mo->spawnpoint = *mthing;
-    mo->angle = ANG45 * (mthing->angle / 45);
-
-    // pull it from the queue
-    iqueuetail = (iqueuetail + 1) & (ITEMQUEUESIZE - 1);
 }
 
 //

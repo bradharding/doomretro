@@ -129,9 +129,6 @@ void P_ResurrectPlayer(player_t *player);
 #define CARDNOTFOUNDYET         -1
 #define CARDNOTINMAP            0
 
-extern int              iqueuehead;
-extern int              iqueuetail;
-
 extern mobj_t           *bloodSplatQueue[BLOODSPLATS_MAX];
 extern int              bloodSplatQueueSlot;
 extern int              bloodsplats;
@@ -142,8 +139,6 @@ extern boolean          corpses_slide;
 extern boolean          corpses_smearblood;
 
 void P_InitCards(player_t *player);
-
-void P_RespawnSpecials(void);
 
 mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
 int P_FindDoomedNum(unsigned int type);

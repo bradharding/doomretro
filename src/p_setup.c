@@ -1248,9 +1248,6 @@ void P_SetupLevel(int episode, int map)
     P_InitCards(&players[0]);
     P_InitAnimatedLiquids();
 
-    // clear special respawning queue
-    iqueuehead = iqueuetail = 0;
-
     // set up world state
     P_SpawnSpecials();
 
