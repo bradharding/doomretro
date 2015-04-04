@@ -60,7 +60,6 @@ int             sfxvolume_percent = SFXVOLUME_DEFAULT;
 //
 // DEFAULTS
 //
-extern boolean  allowconsole;
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
@@ -215,7 +214,6 @@ static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_grid,                 grid,                          1),
     CONFIG_VARIABLE_INT          (am_rotatemode,           rotatemode,                    1),
-    CONFIG_VARIABLE_INT          (com_allowconsole,        allowconsole,                  1),
     CONFIG_VARIABLE_STRING       (conback,                 conback,                       0),
     CONFIG_VARIABLE_INT          (episode,                 selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,             9),
@@ -787,9 +785,6 @@ void M_SaveDefaults(void)
 
 static void M_CheckDefaults(void)
 {
-    if (allowconsole != false && allowconsole != true)
-        allowconsole = ALLOWCONSOLE_DEFAULT;
-
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = ALWAYSRUN_DEFAULT;
 

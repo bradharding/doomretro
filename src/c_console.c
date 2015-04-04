@@ -87,8 +87,6 @@
 
 #define CARETWAIT               10
 
-boolean         allowconsole = ALLOWCONSOLE_DEFAULT;
-
 boolean         consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;

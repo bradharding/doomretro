@@ -39,8 +39,6 @@
 #if !defined(__M_CONFIG__)
 #define __M_CONFIG__
 
-#define ALLOWCONSOLE_DEFAULT                    false
-
 #define ALWAYSRUN_DEFAULT                       false
 
 #define ANIMATEDLIQUID_DEFAULT                  true

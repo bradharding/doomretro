@@ -68,8 +68,6 @@ typedef struct
 
 console_t       *console;
 
-extern boolean  allowconsole;
-
 extern boolean  consoleactive;
 extern int      consoleheight;
 extern int      consoledirection;

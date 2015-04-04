@@ -77,7 +77,6 @@
 
 int             totalmapped = 0;
 
-extern boolean  allowconsole;
 extern boolean  alwaysrun;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
@@ -421,7 +420,6 @@ consolecmd_t consolecmds[] =
     CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),
-    CVAR_BOOL (com_allowconsole, C_BoolCondition, C_Bool, allowconsole, ALLOWCONSOLE, "Toggle allowing the console to be opened with only the ~~ key."),
     CVAR_BOOL (com_showfps, C_BoolCondition, C_Bool, showfps, NONE, "Toggle showing the average frames per second."),
 #if defined(WIN32)
     CVAR_BOOL(com_showmemoryusage, C_BoolCondition, C_Bool, showmemory, NONE, "Toggle showing the memory usage."),
