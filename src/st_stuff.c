@@ -1410,9 +1410,8 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
         arms[i][1] = shortnum[i + 2];
     }
 
-    // face backgrounds for different color players
-    M_snprintf(namebuf, 9, "STFB%d", consoleplayer);
-    callback(namebuf, &faceback);
+    // face background
+    callback("STFB0", &faceback);
 
     // status bar background bits
     callback("STBAR", &sbar);
@@ -1484,14 +1483,11 @@ void ST_initData(void)
     int    i;
 
     st_firsttime = true;
-    plyr = &players[consoleplayer];
+    plyr = &players[0];
 
-    //st_chatstate = StartChatState;
     st_gamestate = FirstPersonState;
 
     st_statusbaron = true;
-    //st_oldchat = st_chat = false;
-    //st_cursoron = false;
 
     st_faceindex = 0;
     st_palette = -1;

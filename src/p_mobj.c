@@ -780,10 +780,6 @@ void P_SpawnPlayer(int n, const mapthing_t *mthing)
     fixed_t     x, y, z;
     mobj_t      *mobj;
 
-    // not playing?
-    if (!playeringame[n])
-        return;
-
     p = &players[n];
 
     if (p->playerstate == PST_REBORN)
@@ -819,7 +815,7 @@ void P_SpawnPlayer(int n, const mapthing_t *mthing)
     lastlevel = -1;
     lastepisode = -1;
 
-    if (n == consoleplayer)
+    if (n == 0)
     {
         ST_Start();     // wake up the status bar
         HU_Start();     // wake up the heads up text
@@ -991,7 +987,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
             {
                 int motorspeed = weaponinfo[wp_fist].motorspeed;
 
-                if (players[consoleplayer].powers[pw_strength])
+                if (players[0].powers[pw_strength])
                     motorspeed *= 2;
                 XInputVibration(motorspeed);
                 weaponvibrationtics = weaponinfo[wp_fist].tics;

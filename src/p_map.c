@@ -1501,7 +1501,7 @@ hitline:
             P_SpawnBlood(x, y, z, shootangle, la_damage, th);
         else
         {
-            player_t *player = &players[consoleplayer];
+            player_t *player = &players[0];
 
             if (!player->powers[pw_invulnerability] && !(player->cheats & CF_GODMODE))
                 P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);

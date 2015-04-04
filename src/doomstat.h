@@ -168,10 +168,6 @@ extern boolean          paused;         // Game Pause?
 
 extern boolean          viewactive;
 
-// Player taking events, and displaying.
-extern int              consoleplayer;
-extern int              displayplayer;
-
 // -------------------------------------
 // Scores, rating.
 // Statistics on a given map, for intermission.
@@ -202,9 +198,6 @@ extern boolean          realframe;
 
 // Bookkeeping on players - state.
 extern player_t         players[MAXPLAYERS];
-
-// Alive? Disconnected?
-extern boolean          playeringame[MAXPLAYERS];
 
 // Player spawn spots.
 extern mapthing_t       playerstarts[MAXPLAYERS];

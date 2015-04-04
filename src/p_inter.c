@@ -884,7 +884,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         target->player->playerstate = PST_DEAD;
         P_DropWeapon(target->player);
 
-        if (target->player == &players[consoleplayer] && automapactive)
+        if (target->player == &players[0] && automapactive)
             AM_Stop();          // don't die in auto map, switch view prior to dying
     }
     else
@@ -1071,7 +1071,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
         tplayer->damagecount = damagecount;
 
-        if (gamepadvibrate && vibrate && tplayer == &players[consoleplayer])
+        if (gamepadvibrate && vibrate && tplayer == &players[0])
         {
             XInputVibration(30000 + (100 - MIN(tplayer->health, 100)) / 100 * 30000);
             damagevibrationtics += BETWEEN(12, damage, 100);

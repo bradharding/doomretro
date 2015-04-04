@@ -196,7 +196,7 @@ void HU_Start(void)
     if (headsupactive)
         HU_Stop();
 
-    plr = &players[consoleplayer];
+    plr = &players[0];
     message_on = false;
     message_dontfuckwithme = false;
     message_nottobefuckedwith = false;
@@ -516,7 +516,7 @@ extern int      direction;
 
 void HU_Ticker(void)
 {
-    boolean     idmypos = players[consoleplayer].cheats & CF_MYPOS;
+    boolean     idmypos = (players[0].cheats & CF_MYPOS);
 
     // tick down message counter if message is up
     if (((!menuactive && !paused) || inhelpscreens || message_dontpause) &&

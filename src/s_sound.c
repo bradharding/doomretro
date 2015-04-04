@@ -480,7 +480,7 @@ void S_StartSound(void *origin_p, int sfx_id)
 {
     sfxinfo_t   *sfx;
     mobj_t      *origin;
-    mobj_t      *player = players[displayplayer].mo;
+    mobj_t      *player = players[0].mo;
     int         sep;
     int         priority;
     int         cnum;

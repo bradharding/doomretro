@@ -1638,7 +1638,6 @@ void A_BossDeath(mobj_t *mo)
 {
     thinker_t   *th;
     line_t      junk;
-    int         i;
 
     if (gamemode == commercial)
     {

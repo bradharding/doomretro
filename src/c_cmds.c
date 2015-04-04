@@ -1104,7 +1104,7 @@ void C_Give(char *cmd, char *parm1, char *parm2)
         C_Output("%s %s", cmd, GIVECMDFORMAT);
     else
     {
-        player_t    *player = &players[displayplayer];
+        player_t    *player = &players[0];
 
         if (!strcasecmp(parm1, "all"))
         {
@@ -1132,12 +1132,12 @@ void C_Give(char *cmd, char *parm1, char *parm2)
 
 boolean C_GodCondition(char *cmd, char *parm1, char *parm2)
 {
-    return (gamestate == GS_LEVEL && players[displayplayer].playerstate == PST_LIVE);
+    return (gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
 
 void C_God(char *cmd, char *parm1, char *parm2)
 {
-    player_t    *player = &players[displayplayer];
+    player_t    *player = &players[0];
 
     if (parm1[0])
     {
@@ -1299,7 +1299,7 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
     {
-        P_KillMobj(NULL, players[displayplayer].mo);
+        P_KillMobj(NULL, players[0].mo);
         C_Output("Player killed.");
     }
     else
@@ -1450,7 +1450,7 @@ void C_Map(char *cmd, char *parm1, char *parm2)
 
 void C_NoClip(char *cmd, char *parm1, char *parm2)
 {
-    player_t    *player = &players[displayplayer];
+    player_t    *player = &players[0];
 
     if (parm1[0])
     {
@@ -1469,7 +1469,7 @@ void C_NoClip(char *cmd, char *parm1, char *parm2)
 
 void C_NoTarget(char *cmd, char *parm1, char *parm2)
 {
-    player_t    *player = &players[displayplayer];
+    player_t    *player = &players[0];
 
     if (parm1[0])
     {
@@ -1519,12 +1519,12 @@ void C_Quit(char *cmd, char *parm1, char *parm2)
 
 boolean C_ResurrectCondition(char *cmd, char *parm1, char *parm2)
 {
-    return (gamestate == GS_LEVEL && players[displayplayer].playerstate == PST_DEAD);
+    return (gamestate == GS_LEVEL && players[0].playerstate == PST_DEAD);
 }
 
 void C_Resurrect(char *cmd, char *parm1, char *parm2)
 {
-    P_ResurrectPlayer(&players[displayplayer]);
+    P_ResurrectPlayer(&players[0]);
 }
 
 #if defined(SDL20)
@@ -1700,12 +1700,12 @@ void C_Spawn(char *cmd, char *parm1, char *parm2)
     }
     else
     {
-        mobj_t      *player = players[displayplayer].mo;
+        mobj_t      *player = players[0].mo;
         fixed_t     x = player->x;
         fixed_t     y = player->y;
         angle_t     angle = player->angle >> ANGLETOFINESHIFT;
         mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
-            ONFLOORZ, P_FindDoomedNum(spawntype));
+                        ONFLOORZ, P_FindDoomedNum(spawntype));
 
         thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
     }
@@ -1755,8 +1755,8 @@ void C_TotalItems(char *cmd, char *parm1, char *parm2)
     if (!totalitems)
         C_Output("0 of 0 (0%)");
     else
-        C_Output("%i of %i (%i%%)", players[consoleplayer].itemcount, totalitems,
-            players[consoleplayer].itemcount * 100 / totalitems);
+        C_Output("%i of %i (%i%%)", players[0].itemcount, totalitems,
+            players[0].itemcount * 100 / totalitems);
 }
 
 void C_TotalKills(char *cmd, char *parm1, char *parm2)
@@ -1764,8 +1764,8 @@ void C_TotalKills(char *cmd, char *parm1, char *parm2)
     if (!totalkills)
         C_Output("0 of 0 (0%)");
     else
-        C_Output("%i of %i (%i%%)", players[consoleplayer].killcount, totalkills,
-            players[consoleplayer].killcount * 100 / totalkills);
+        C_Output("%i of %i (%i%%)", players[0].killcount, totalkills,
+            players[0].killcount * 100 / totalkills);
 }
 
 void C_TotalMapped(char *cmd, char *parm1, char *parm2)
@@ -1793,8 +1793,8 @@ void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
     if (!totalsecret)
         C_Output("0 of 0 (0%)");
     else
-        C_Output("%i of %i (%i%%)", players[consoleplayer].secretcount, totalsecret,
-            players[consoleplayer].secretcount * 100 / totalsecret);
+        C_Output("%i of %i (%i%%)", players[0].secretcount, totalsecret,
+            players[0].secretcount * 100 / totalsecret);
 }
 
 void C_UnBind(char *cmd, char *parm1, char *parm2)

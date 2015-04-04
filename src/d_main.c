@@ -254,7 +254,7 @@ void D_Display(void)
         ST_Drawer(viewheight == SCREENHEIGHT, true);
 
         // draw the view directly
-        R_RenderPlayerView(&players[displayplayer]);
+        R_RenderPlayerView(&players[0]);
 
         if (automapactive)
             AM_Drawer();
@@ -375,8 +375,8 @@ void D_DoomLoop(void)
     {
         TryRunTics(); // will run at least one tic
 
-        if (players[displayplayer].mo)
-            S_UpdateSounds(players[displayplayer].mo);  // move positional sounds
+        if (players[0].mo)
+            S_UpdateSounds(players[0].mo);  // move positional sounds
 
         // Update display, next frame, with current state.
         if (screenvisible)
@@ -454,7 +454,7 @@ void D_DoAdvanceTitle(void)
 {
     static boolean      flag = true;
 
-    players[consoleplayer].playerstate = PST_LIVE;      // not reborn
+    players[0].playerstate = PST_LIVE;      // not reborn
     advancetitle = false;
     usergame = false;                                   // no save / end game here
     paused = false;

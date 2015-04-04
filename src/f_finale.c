@@ -645,7 +645,7 @@ boolean F_CastResponder(event_t *ev)
         }
     }
 
-    S_StartSound(players[consoleplayer].mo, sfx_dshtgn);
+    S_StartSound(NULL, sfx_dshtgn);
 
     type = castorder[castnum].type;
     

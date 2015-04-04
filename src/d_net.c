@@ -119,7 +119,7 @@ void NetUpdate(void)
 
     for (i = 0; i < newtics; i++)
     {
-        ticcmd_t cmd;
+        ticcmd_t        cmd;
 
         I_StartTic();
         D_ProcessEvents();
@@ -133,10 +133,10 @@ void NetUpdate(void)
         memset(&cmd, 0, sizeof(ticcmd_t));
         G_BuildTiccmd(&cmd);
 
-        netcmds[consoleplayer][maketic % BACKUPTICS] = cmd;
+        netcmds[0][maketic % BACKUPTICS] = cmd;
 
         ++maketic;
-        nettics[consoleplayer] = maketic;
+        nettics[0] = maketic;
     }
 }
 
@@ -156,20 +156,11 @@ void D_StartGameLoop(void)
 //
 void D_CheckNetGame(void)
 {
-    int i;
-
     // default values for single player
-    consoleplayer = 0;
     ticdup = 1;
     extratics = 1;
 
-    for (i = 0; i < MAXPLAYERS; i++)
-    {
-        playeringame[i] = false;
-        nettics[i] = 0;
-    }
-
-    playeringame[0] = true;
+    nettics[0] = 0;
 }
 
 //

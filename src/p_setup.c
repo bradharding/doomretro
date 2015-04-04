@@ -1167,7 +1167,7 @@ void P_SetupLevel(int episode, int map)
 
     // Initial height of PointOfView
     // will be set by player think.
-    players[consoleplayer].viewz = 1;
+    players[0].viewz = 1;
 
     idclev = false;
 

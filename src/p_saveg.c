@@ -1418,9 +1418,6 @@ void P_WriteSaveGameHeader(char *description)
     saveg_write8(gamemap);
     saveg_write8(gamemission);
 
-    for (i = 0; i < MAXPLAYERS; i++)
-        saveg_write8(playeringame[i]);
-
     saveg_write8((leveltime >> 16) & 0xff);
     saveg_write8((leveltime >> 8) & 0xff);
     saveg_write8(leveltime & 0xff);
@@ -1453,9 +1450,6 @@ boolean P_ReadSaveGameHeader(char *description)
 
     saveg_read8();
 
-    for (i = 0; i < MAXPLAYERS; i++)
-        playeringame[i] = saveg_read8();
-
     // get the times
     a = saveg_read8();
     b = saveg_read8();
@@ -1486,17 +1480,9 @@ void P_WriteSaveGameEOF(void)
 //
 void P_ArchivePlayers(void)
 {
-    int i;
+    saveg_write_pad();
 
-    for (i = 0; i < MAXPLAYERS; i++)
-    {
-        if (!playeringame[i])
-            continue;
-
-        saveg_write_pad();
-
-        saveg_write_player_t(&players[i]);
-    }
+    saveg_write_player_t(&players[0]);
 }
 
 //
@@ -1504,24 +1490,16 @@ void P_ArchivePlayers(void)
 //
 void P_UnArchivePlayers(void)
 {
-    int i;
+    saveg_read_pad();
 
-    for (i = 0; i < MAXPLAYERS; i++)
-    {
-        if (!playeringame[i])
-            continue;
+    P_InitCards(&players[0]);
 
-        saveg_read_pad();
+    saveg_read_player_t(&players[0]);
 
-        P_InitCards(&players[i]);
-
-        saveg_read_player_t(&players[i]);
-
-        // will be set when unarc thinker
-        players[i].mo = NULL;
-        players[i].message = NULL;
-        players[i].attacker = NULL;
-    }
+    // will be set when unarc thinker
+    players[0].mo = NULL;
+    players[0].message = NULL;
+    players[0].attacker = NULL;
 }
 
 //

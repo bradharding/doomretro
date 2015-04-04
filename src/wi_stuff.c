@@ -283,9 +283,9 @@ static int              bcnt;
 // signals to refresh everything for one frame
 static int              firstrefresh;
 
-static int              cnt_kills[MAXPLAYERS];
-static int              cnt_items[MAXPLAYERS];
-static int              cnt_secret[MAXPLAYERS];
+static int              cnt_kills;
+static int              cnt_items;
+static int              cnt_secret;
 static int              cnt_time;
 static int              cnt_par;
 static int              cnt_pause;
@@ -796,7 +796,7 @@ void WI_initStats(void)
     state = StatCount;
     acceleratestage = 0;
     sp_state = 1;
-    cnt_kills[0] = cnt_items[0] = cnt_secret[0] = -1;
+    cnt_kills = cnt_items = cnt_secret = -1;
     cnt_time = cnt_par = -1;
     cnt_pause = TICRATE;
 
@@ -813,9 +813,9 @@ void WI_updateStats(void)
     if (acceleratestage && sp_state != 10)
     {
         acceleratestage = 0;
-        cnt_kills[0] = (int)(plrs[me].skills * 100) / wbs->maxkills;
-        cnt_items[0] = (int)(plrs[me].sitems * 100) / wbs->maxitems;
-        cnt_secret[0] = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
+        cnt_kills = (int)(plrs[me].skills * 100) / wbs->maxkills;
+        cnt_items = (int)(plrs[me].sitems * 100) / wbs->maxitems;
+        cnt_secret = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
         cnt_time = (int)(plrs[me].stime) / TICRATE;
         cnt_par = (int)(wbs->partime) / TICRATE;
         S_StartSound(NULL, sfx_barexp);
@@ -824,42 +824,42 @@ void WI_updateStats(void)
 
     if (sp_state == 2)
     {
-        cnt_kills[0] += 2;
+        cnt_kills += 2;
 
         if (!(bcnt & 3))
             S_StartSound(NULL, sfx_pistol);
 
-        if (cnt_kills[0] >= (int)(plrs[me].skills * 100) / wbs->maxkills)
+        if (cnt_kills >= (int)(plrs[me].skills * 100) / wbs->maxkills)
         {
-            cnt_kills[0] = (int)(plrs[me].skills * 100) / wbs->maxkills;
+            cnt_kills = (int)(plrs[me].skills * 100) / wbs->maxkills;
             S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
     }
     else if (sp_state == 4)
     {
-        cnt_items[0] += 2;
+        cnt_items += 2;
 
         if (!(bcnt & 3))
             S_StartSound(NULL, sfx_pistol);
 
-        if (cnt_items[0] >= (int)(plrs[me].sitems * 100) / wbs->maxitems)
+        if (cnt_items >= (int)(plrs[me].sitems * 100) / wbs->maxitems)
         {
-            cnt_items[0] = (int)(plrs[me].sitems * 100) / wbs->maxitems;
+            cnt_items = (int)(plrs[me].sitems * 100) / wbs->maxitems;
             S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
     }
     else if (sp_state == 6)
     {
-        cnt_secret[0] += 2;
+        cnt_secret += 2;
 
         if (!(bcnt & 3))
             S_StartSound(NULL, sfx_pistol);
 
-        if (cnt_secret[0] >= (int)(plrs[me].ssecret * 100) / wbs->maxsecret)
+        if (cnt_secret >= (int)(plrs[me].ssecret * 100) / wbs->maxsecret)
         {
-            cnt_secret[0] = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
+            cnt_secret = (int)(plrs[me].ssecret * 100) / wbs->maxsecret;
             S_StartSound(NULL, sfx_barexp);
             sp_state++;
         }
@@ -943,10 +943,10 @@ void WI_drawStats(void)
     WI_drawLF();
 
     V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 1, kills, false);
-    WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY, cnt_kills[0]);
+    WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY, cnt_kills);
 
     V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + lh + 1, items, false);
-    WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + lh, cnt_items[0]);
+    WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + lh, cnt_items);
 
     if (totalsecret)
     {
@@ -955,7 +955,7 @@ void WI_drawStats(void)
         else
             V_DrawPatchWithShadow(SP_STATSX + 1, SP_STATSY + 2 * lh + 1, sp_secret, false);
 
-        WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret[0]);
+        WI_drawPercent(ORIGINALWIDTH - SP_STATSX - 14, SP_STATSY + 2 * lh, cnt_secret);
     }
 
     V_DrawPatchWithShadow(SP_TIMEX + 1, SP_TIMEY + 1, timepatch, false);
@@ -970,41 +970,36 @@ void WI_drawStats(void)
 
 void WI_checkForAccelerate(void)
 {
-    int         i;
-    player_t    *player;
-
-    // check for button presses to skip delays
-    for (i = 0, player = players; i < MAXPLAYERS; i++, player++)
+    if (!menuactive && !paused && !consoleactive)
     {
-        if (playeringame[i] && !menuactive && !paused && !consoleactive)
-        {
+        player_t        *player = &players[0];
+
 #if defined(SDL20)
-            const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+        const Uint8     *keystate = SDL_GetKeyboardState(NULL);
 
-            if ((player->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN]
-                || keystate[SDL_SCANCODE_KP_ENTER])
+        if ((player->cmd.buttons & BT_ATTACK) || keystate[SDL_SCANCODE_RETURN]
+            || keystate[SDL_SCANCODE_KP_ENTER])
 #else
-            Uint8       *keystate = SDL_GetKeyState(NULL);
+        Uint8           *keystate = SDL_GetKeyState(NULL);
 
-            if ((player->cmd.buttons & BT_ATTACK) || keystate[SDLK_RETURN]
-                || keystate[SDLK_KP_ENTER])
+        if ((player->cmd.buttons & BT_ATTACK) || keystate[SDLK_RETURN]
+            || keystate[SDLK_KP_ENTER])
 #endif
-            {
-                if (!player->attackdown)
-                    acceleratestage = 1;
-                player->attackdown = true;
-            }
-            else
-                player->attackdown = false;
-            if (player->cmd.buttons & BT_USE)
-            {
-                if (!player->usedown)
-                    acceleratestage = 1;
-                player->usedown = true;
-            }
-            else
-                player->usedown = false;
+        {
+            if (!player->attackdown)
+                acceleratestage = 1;
+            player->attackdown = true;
         }
+        else
+            player->attackdown = false;
+        if (player->cmd.buttons & BT_USE)
+        {
+            if (!player->usedown)
+                acceleratestage = 1;
+            player->usedown = true;
+        }
+        else
+            player->usedown = false;
     }
 }
 

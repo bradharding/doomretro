@@ -101,13 +101,10 @@ boolean         usergame;               // ok to save / end game
 
 boolean         viewactive;
 
-boolean         playeringame[MAXPLAYERS];
 player_t        players[MAXPLAYERS];
 
 boolean         turbodetected[MAXPLAYERS];
 
-int             consoleplayer;          // player taking events and displaying
-int             displayplayer;          // view being displayed
 int             gametic;
 int             levelstarttic;          // gametic at level start
 int             totalkills, totalitems, totalsecret;    // for intermission
@@ -276,7 +273,7 @@ extern int      pagetic;
 
 void G_RemoveChoppers(void)
 {
-    player_t            *player = &players[consoleplayer];
+    player_t            *player = &players[0];
 
     player->cheats &= ~CF_CHOPPERS;
     if (player->invulnbeforechoppers)
@@ -289,7 +286,7 @@ void G_RemoveChoppers(void)
 
 static void G_NextWeapon(void)
 {
-    player_t            *player = &players[consoleplayer];
+    player_t            *player = &players[0];
     weapontype_t        pendingweapon = player->pendingweapon;
     weapontype_t        readyweapon = player->readyweapon;
     weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
@@ -314,7 +311,7 @@ static void G_NextWeapon(void)
 
 static void G_PrevWeapon(void)
 {
-    player_t            *player = &players[consoleplayer];
+    player_t            *player = &players[0];
     weapontype_t        pendingweapon = player->pendingweapon;
     weapontype_t        readyweapon = player->readyweapon;
     weapontype_t        i = (pendingweapon == wp_nochange ? readyweapon : pendingweapon);
@@ -354,7 +351,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
         return;
 
     memset(cmd, 0, sizeof(ticcmd_t));
-    cmd->consistency = consistency[consoleplayer][maketic % BACKUPTICS];
+    cmd->consistency = consistency[0][maketic % BACKUPTICS];
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
@@ -438,9 +435,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
             }
             else if (gamepadbuttons & *gamepadweapons[i])
             {
-                if (players[consoleplayer].readyweapon != i
-                    || (i == wp_fist && players[consoleplayer].weaponowned[wp_chainsaw])
-                    || (i == wp_shotgun && players[consoleplayer].weaponowned[wp_supershotgun]))
+                if (players[0].readyweapon != i
+                    || (i == wp_fist && players[0].weaponowned[wp_chainsaw])
+                    || (i == wp_shotgun && players[0].weaponowned[wp_supershotgun]))
                 {
                     cmd->buttons |= BT_CHANGE;
                     cmd->buttons |= i << BT_WEAPONSHIFT;
@@ -601,7 +598,6 @@ void G_DoLoadLevel(void)
     skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 &&
         (gamemode != commercial || gamemap < 21) ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
 
-    displayplayer = consoleplayer;              // view the guy you are playing
     gameaction = ga_nothing;
 
     // clear cmd building stuff
@@ -924,7 +920,7 @@ void G_Ticker(void)
                 if (gametic)
                 {
                     if ((usergame || gamestate == GS_LEVEL)
-                        && !idbehold && !(players[consoleplayer].cheats & CF_MYPOS))
+                        && !idbehold && !(players[0].cheats & CF_MYPOS))
                     {
                         HU_clearMessages();
                         D_Display();
@@ -1176,7 +1172,7 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
     mo = P_SpawnMobj(x + 20 * xa, y + 20 * ya, ss->sector->floorheight, MT_TFOG);
     mo->angle = mthing->angle;
 
-    if (players[consoleplayer].viewz != 1)
+    if (players[0].viewz != 1)
         S_StartSound(mo, sfx_telept);           // don't start sound on first frame
 
     return true;
@@ -1255,7 +1251,7 @@ void G_DoCompleted(void)
     gameaction = ga_nothing;
 
     // [BH] allow the exit switch to turn on before the screen wipes
-    R_RenderPlayerView(&players[displayplayer]);
+    R_RenderPlayerView(&players[0]);
 
     if (widescreen)
     {
@@ -1296,7 +1292,7 @@ void G_DoCompleted(void)
         }
     }
 
-    wminfo.didsecret = players[consoleplayer].didsecret;
+    wminfo.didsecret = players[0].didsecret;
     wminfo.epsd = gameepisode - 1;
     wminfo.last = gamemap - 1;
 
@@ -1402,9 +1398,8 @@ void G_DoCompleted(void)
     else
         wminfo.partime = TICRATE * pars[gameepisode][gamemap];
 
-    wminfo.pnum = consoleplayer;
+    wminfo.pnum = 0;
 
-    wminfo.plyr[0].in = playeringame[0];
     wminfo.plyr[0].skills = players[0].killcount;
     wminfo.plyr[0].sitems = players[0].itemcount;
     wminfo.plyr[0].ssecret = players[0].secretcount;
@@ -1425,7 +1420,7 @@ void G_WorldDone(void)
     gameaction = ga_worlddone;
 
     if (secretexit)
-        players[consoleplayer].didsecret = true;
+        players[0].didsecret = true;
 
     if (gamemode == commercial)
     {
@@ -1611,8 +1606,7 @@ void G_DoSaveGame(void)
 
 //
 // G_InitNew
-// Can be called by the startup code or the menu task,
-// consoleplayer, displayplayer, playeringame[] should be set.
+// Can be called by the startup code or the menu task.
 //
 skill_t         d_skill;
 int             d_episode;
@@ -1652,12 +1646,9 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
 
 void G_DoNewGame(void)
 {
-    playeringame[1] = playeringame[2] = playeringame[3] = 0;
-
     if (widescreen)
         ToggleWidescreen(true);
 
-    consoleplayer = 0;
     st_facecount = ST_STRAIGHTFACECOUNT;
     G_InitNew(d_skill, d_episode, d_map);
     gameaction = ga_nothing;

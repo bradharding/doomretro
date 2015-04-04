@@ -1302,7 +1302,7 @@ void M_DrawReadThis(void)
             V_FillRect(0, 0, 0, SCREENWIDTH, SCREENHEIGHT, 245);
         else
         {
-            players[consoleplayer].fixedcolormap = 0;
+            players[0].fixedcolormap = 0;
             M_DarkBlueBackground();
         }
         if (hacx)
@@ -1891,7 +1891,7 @@ void M_ChangeDetail(int choice)
     graphicdetail = !graphicdetail;
     if (!menuactive)
     {
-        players[consoleplayer].message = (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
+        players[0].message = (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
         message_dontfuckwithme = true;
     }
     C_Output(graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
@@ -2595,7 +2595,7 @@ boolean M_Responder(event_t *ev)
         // Save
         else if (key == KEY_F2 && (!functionkey || functionkey == KEY_F2)
                  && (viewactive || automapactive) && !keydown
-                 && players[consoleplayer].health > 0)
+                 && players[0].health > 0)
         {
             keydown = key;
             if (functionkey == KEY_F2)
@@ -2683,7 +2683,7 @@ boolean M_Responder(event_t *ev)
         // Quicksave
         else if (key == KEY_F6 && (!functionkey || functionkey == KEY_F6)
                  && (viewactive || automapactive) && !keydown
-                 && players[consoleplayer].health > 0)
+                 && players[0].health > 0)
         {
             keydown = key;
             if (quickSaveSlot >= 0)
@@ -2795,7 +2795,7 @@ boolean M_Responder(event_t *ev)
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         ++itemOn;
                     if (currentMenu == &MainDef && itemOn == 3
-                        && (!usergame || gamestate != GS_LEVEL || players[consoleplayer].health <= 0))
+                        && (!usergame || gamestate != GS_LEVEL || !players[0].health))
                         ++itemOn;
                     if (currentMenu == &OptionsDef && !itemOn && !usergame)
                         ++itemOn;
@@ -2856,7 +2856,7 @@ boolean M_Responder(event_t *ev)
                     else
                         --itemOn;
                     if (currentMenu == &MainDef && itemOn == 3
-                        && (!usergame || gamestate != GS_LEVEL || players[consoleplayer].health <= 0))
+                        && (!usergame || gamestate != GS_LEVEL || !players[0].health))
                         --itemOn;
                     if (currentMenu == &MainDef && itemOn == 2 && !savegames)
                         --itemOn;
@@ -3005,7 +3005,7 @@ boolean M_Responder(event_t *ev)
                 {
                     if (currentMenu == &MainDef && i == 3
                         && (!usergame || gamestate != GS_LEVEL
-                            || players[consoleplayer].health <= 0))
+                            || !players[0].health))
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
@@ -3054,7 +3054,7 @@ boolean M_Responder(event_t *ev)
                 {
                     if (currentMenu == &MainDef && i == 3
                         && (!usergame || gamestate != GS_LEVEL
-                            || players[consoleplayer].health <= 0))
+                            || !players[0].health))
                         return true;
                     if (currentMenu == &MainDef && i == 2 && !savegames)
                         return true;
@@ -3122,7 +3122,7 @@ void M_StartControlPanel(void)
         XInputVibration(idlemotorspeed);
     }
 
-    players[consoleplayer].fixedcolormap = 0;
+    players[0].fixedcolormap = 0;
     I_SetPalette(W_CacheLumpName("PLAYPAL", PU_CACHE));
 }
 
