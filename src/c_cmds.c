@@ -1772,15 +1772,20 @@ void C_TotalMapped(char *cmd, char *parm1, char *parm2)
 {
     if (gamestate == GS_LEVEL)
     {
-        int i = 0;
+        if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
+            C_Output("100%%");
+        else
+        {
+            int i = 0;
 
-        totalmapped = 0;
-        while (i < numlines)
-            totalmapped += !!(lines[i++].flags & ML_MAPPED);
-        C_Output("%i%%", totalmapped * 100 / numlines);
+            totalmapped = 0;
+            while (i < numlines)
+                totalmapped += !!(lines[i++].flags & ML_MAPPED);
+            C_Output("%i%%", totalmapped * 100 / numlines);
+        }
     }
     else
-        C_Output("0%");
+        C_Output("0%%");
 }
 
 void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
