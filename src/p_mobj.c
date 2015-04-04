@@ -774,16 +774,16 @@ int P_FindDoomedNum(unsigned int type)
 extern int lastlevel;
 extern int lastepisode;
 
-void P_SpawnPlayer(int n, const mapthing_t *mthing)
+void P_SpawnPlayer(const mapthing_t *mthing)
 {
     player_t    *p;
     fixed_t     x, y, z;
     mobj_t      *mobj;
 
-    p = &players[n];
+    p = &players[0];
 
     if (p->playerstate == PST_REBORN)
-        G_PlayerReborn(n);
+        G_PlayerReborn(0);
 
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
@@ -815,11 +815,8 @@ void P_SpawnPlayer(int n, const mapthing_t *mthing)
     lastlevel = -1;
     lastepisode = -1;
 
-    if (n == 0)
-    {
-        ST_Start();     // wake up the status bar
-        HU_Start();     // wake up the heads up text
-    }
+    ST_Start(); // wake up the status bar
+    HU_Start(); // wake up the heads up text
 }
 
 void P_SpawnMoreBlood(mobj_t *mobj)
@@ -864,14 +861,13 @@ void P_SpawnMapThing(mapthing_t *mthing)
     short       type = mthing->type;
 
     // check for players specially
-    if (type >= Player1Start && type <= Player4Start)
+    if (type == Player1Start)
     {
-        // save spots for respawning in network games
-        playerstarts[type - 1] = *mthing;
-        P_SpawnPlayer(type - 1, &playerstarts[type - 1]);
-
+        P_SpawnPlayer(mthing);
         return;
     }
+    else if (type >= Player2Start && type <= Player4Start)
+        return;
 
     // check for appropriate skill level
     if (mthing->options & 16)
