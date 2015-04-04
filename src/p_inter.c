@@ -869,9 +869,6 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         // count for intermission
         if (target->flags & MF_COUNTKILL)
             source->player->killcount++;
-
-        if (target->player)
-            source->player->frags[target->player - players]++;
     }
     else if (target->flags & MF_COUNTKILL)
         // count all monster deaths, even those caused by other monsters
@@ -883,9 +880,6 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     if (target->player)
     {
         // count environment kills against you
-        if (!source)
-            target->player->frags[target->player - players]++;
-
         target->flags &= ~MF_SOLID;
         target->player->playerstate = PST_DEAD;
         P_DropWeapon(target->player);

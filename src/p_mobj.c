@@ -793,10 +793,6 @@ void P_RespawnSpecials(void)
     mapthing_t  *mthing;
     int         i;
 
-    // only respawn items in deathmatch
-    if (deathmatch != 2)
-        return;
-
     // nothing left to respawn?
     if (iqueuehead == iqueuetail)
         return;
@@ -881,15 +877,6 @@ void P_SpawnPlayer(int n, const mapthing_t *mthing)
     // setup gun psprite
     P_SetupPsprites(p);
 
-    // give all cards in deathmatch mode
-    if (deathmatch)
-    {
-        int     i;
-
-        for (i = 0; i < NUMCARDS; i++)
-            p->cards[i] = true;
-    }
-
     lastlevel = -1;
     lastepisode = -1;
 
@@ -941,24 +928,12 @@ void P_SpawnMapThing(mapthing_t *mthing)
     fixed_t     x, y, z;
     short       type = mthing->type;
 
-    // count deathmatch start positions
-    if (type == PlayerDeathmatchStart)
-    {
-        if (deathmatch_p < &deathmatchstarts[10])
-        {
-            memcpy(deathmatch_p, mthing, sizeof(*mthing));
-            deathmatch_p++;
-        }
-        return;
-    }
-
     // check for players specially
     if (type >= Player1Start && type <= Player4Start)
     {
         // save spots for respawning in network games
         playerstarts[type - 1] = *mthing;
-        if (!deathmatch)
-            P_SpawnPlayer(type - 1, &playerstarts[type - 1]);
+        P_SpawnPlayer(type - 1, &playerstarts[type - 1]);
 
         return;
     }
@@ -983,10 +958,6 @@ void P_SpawnMapThing(mapthing_t *mthing)
     i = P_FindDoomedNum(type);
 
     if (i == NUMMOBJTYPES)
-        return;
-
-    // don't spawn keycards and players in deathmatch
-    if (deathmatch && (mobjinfo[i].flags & MF_NOTDMATCH))
         return;
 
     if (mobjinfo[i].flags & MF_COUNTKILL)

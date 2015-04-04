@@ -101,7 +101,6 @@ boolean         usergame;               // ok to save / end game
 
 boolean         viewactive;
 
-int             deathmatch;             // only if started as net death
 boolean         playeringame[MAXPLAYERS];
 player_t        players[MAXPLAYERS];
 
@@ -592,7 +591,6 @@ void G_DoLoadLevel(void)
         turbodetected[i] = false;
         if (playeringame[i] && players[i].playerstate == PST_DEAD)
             players[i].playerstate = PST_REBORN;
-        memset(players[i].frags, 0, sizeof(players[i].frags));
     }
 
     M_ClearRandom();
@@ -1088,12 +1086,10 @@ void G_PlayerReborn(int player)
 {
     player_t    *p;
     int         i;
-    int         frags[MAXPLAYERS];
     int         killcount;
     int         itemcount;
     int         secretcount;
 
-    memcpy(frags, players[player].frags, sizeof(frags));
     killcount = players[player].killcount;
     itemcount = players[player].itemcount;
     secretcount = players[player].secretcount;
@@ -1101,7 +1097,6 @@ void G_PlayerReborn(int player)
     p = &players[player];
     memset(p, 0, sizeof(*p));
 
-    memcpy(players[player].frags, frags, sizeof(players[player].frags));
     players[player].killcount = killcount;
     players[player].itemcount = itemcount;
     players[player].secretcount = secretcount;
@@ -1206,35 +1201,6 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
         S_StartSound(mo, sfx_telept);           // don't start sound on first frame
 
     return true;
-}
-
-//
-// G_DeathMatchSpawnPlayer
-// Spawns a player at one of the random death match spots
-// called at level load and each death
-//
-void G_DeathMatchSpawnPlayer(int playernum)
-{
-    int         i, j;
-    int         selections;
-
-    selections = deathmatch_p - deathmatchstarts;
-    if (selections < 4)
-        I_Error("Only %i deathmatch spots, 4 required", selections);
-
-    for (j = 0; j < 20; ++j)
-    {
-        i = P_Random() % selections;
-        if (G_CheckSpot(playernum, &deathmatchstarts[i]))
-        {
-            deathmatchstarts[i].type = playernum + 1;
-            P_SpawnPlayer(&deathmatchstarts[i]);
-            return;
-        }
-    }
-
-    // no good spot, so the player will probably get stuck
-    P_SpawnPlayer(&playerstarts[playernum]);
 }
 
 //
@@ -1439,7 +1405,6 @@ void G_DoCompleted(void)
     wminfo.maxkills = totalkills;
     wminfo.maxitems = totalitems;
     wminfo.maxsecret = totalsecret;
-    wminfo.maxfrags = 0;
 
     // [BH] have no par time if this level is from a PWAD
     if (gamemode == commercial)
@@ -1471,7 +1436,6 @@ void G_DoCompleted(void)
         wminfo.plyr[i].sitems = players[i].itemcount;
         wminfo.plyr[i].ssecret = players[i].secretcount;
         wminfo.plyr[i].stime = leveltime;
-        memcpy(wminfo.plyr[i].frags, players[i].frags, sizeof(wminfo.plyr[i].frags));
     }
 
     gamestate = GS_INTERMISSION;
@@ -1722,7 +1686,6 @@ void G_DeferredLoadLevel(skill_t skill, int episode, int map)
 
 void G_DoNewGame(void)
 {
-    deathmatch = 0;
     playeringame[1] = playeringame[2] = playeringame[3] = 0;
 
     if (widescreen)

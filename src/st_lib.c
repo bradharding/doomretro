@@ -47,7 +47,6 @@
 extern int graphicdetail;
 
 //
-// Hack display negative frags.
 //  Loads and store the stminus lump.
 //
 patch_t *sttminus;

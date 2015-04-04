@@ -131,13 +131,7 @@
 #define ST_ARMSXSPACE           12
 #define ST_ARMSYSPACE           10
 
-// Frags pos.
-//#define ST_FRAGSX               138
-//#define ST_FRAGSY               172
-//#define ST_FRAGSWIDTH           2
-
 // ARMOR number pos.
-
 #define ST_ARMORWIDTH           3
 #define ST_ARMORX               220
 #define ST_ARMORY               172
@@ -261,24 +255,6 @@ static st_stateenum_t           st_gamestate;
 // whether left-side main status bar is active
 static boolean                  st_statusbaron;
 
-// whether status bar chat is active
-//static boolean                  st_chat;
-
-// value of st_chat before message popped up
-//static boolean                  st_oldchat;
-
-// whether chat window has the cursor on
-//static boolean                  st_cursoron;
-
-// !deathmatch
-//static boolean                  st_notdeathmatch;
-
-// !deathmatch && st_statusbaron
-static boolean                  st_armson;
-
-// !deathmatch
-//static boolean                  st_fragson;
-
 // main bar left
 static patch_t                  *sbar;
 static patch_t                  *sbar2;
@@ -313,9 +289,6 @@ static int                      armsnum;
 // ready-weapon widget
 static st_number_t              w_ready;
 
-// in deathmatch only, summary of frags stats
-//static st_number_t              w_frags;
-
 // health widget
 static st_percent_t             w_health;
 
@@ -340,9 +313,6 @@ static st_number_t              w_ammo[4];
 
 // max ammo widgets
 static st_number_t              w_maxammo[4];
-
-// number of frags so far in deathmatch
-//static int                      st_fragscount;
 
 // used to use appopriately pained face
 static int                      st_oldhealth = -1;
@@ -1269,23 +1239,6 @@ void ST_updateWidgets(void)
     // [BH] but only if not paused and no menu
     if (!paused && !menuactive && !consoleactive)
         ST_updateFaceWidget();
-
-    // used by the w_armsbg widget
-    //st_notdeathmatch = !deathmatch;
-
-    // used by w_arms[] widgets
-    st_armson = (st_statusbaron && !deathmatch);
-
-    // used by w_frags widget
-    //st_fragson = (deathmatch && st_statusbaron);
-    //st_fragscount = 0;
-
-    //for (i = 0; i < MAXPLAYERS; i++)
-    //    st_fragscount += (i != consoleplayer ? plyr->frags[i] : -plyr->frags[i]);
-
-    // get rid of chat window if up because of message
-    //if (!--st_msgcounter)
-    //    st_chat = st_oldchat;
 }
 
 void ST_Ticker(void)
@@ -1343,12 +1296,6 @@ void ST_drawWidgets(boolean refresh)
 {
     int i;
 
-    // used by w_arms[] widgets
-    st_armson = (st_statusbaron && !deathmatch);
-
-    // used by w_frags widget
-    //st_fragson = (deathmatch && st_statusbaron);
-
     STlib_updateNum(&w_ready);
 
     for (i = 0; i < 4; i++)
@@ -1377,8 +1324,6 @@ void ST_drawWidgets(boolean refresh)
 
     for (i = 0; i < 3; i++)
         STlib_updateMultIcon(&w_keyboxes[i], refresh);
-
-    //STlib_updateNum(&w_frags);
 }
 
 void ST_doRefresh(void)
@@ -1592,14 +1537,14 @@ void ST_createWidgets(void)
                       ST_ARMSBGX,
                       ST_ARMSBGY,
                       armsbg,
-                      &st_statusbaron/*&st_notdeathmatch*/,
+                      &st_statusbaron,
                       &st_statusbaron);
 
     STlib_initBinIcon(&w_armsbg2,
                       ST_ARMSBGX * 2,
                       ST_ARMSBGY * 2,
                       armsbg2,
-                      &st_statusbaron/*&st_notdeathmatch*/,
+                      &st_statusbaron,
                       &st_statusbaron);
 
     // weapons owned
@@ -1611,17 +1556,8 @@ void ST_createWidgets(void)
                            ST_ARMSY + i / 3 * ST_ARMSYSPACE,
                            arms[i],
                            (i == 1 ? &plyr->shotguns : &plyr->weaponowned[i + 1]),
-                           &st_armson);
+                           &st_statusbaron);
     }
-
-    // frags sum
-    //STlib_initNum(&w_frags,
-    //              ST_FRAGSX,
-    //              ST_FRAGSY,
-    //              tallnum,
-    //              &st_fragscount,
-    //              &st_fragson,
-    //              ST_FRAGSWIDTH);
 
     // faces
     STlib_initMultIcon(&w_faces,

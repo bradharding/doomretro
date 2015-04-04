@@ -79,26 +79,6 @@ extern boolean deh_pars;
 #define SP_TIMEX                16
 #define SP_TIMEY                (ORIGINALHEIGHT - 32)
 
-// NET GAME STUFF
-#define NG_STATSY               50
-#define NG_STATSX               (32 + SHORT(star->width) / 2 + 32 * !dofrags)
-
-#define NG_SPACINGX             64
-
-
-// DEATHMATCH STUFF
-#define DM_MATRIXX              42
-#define DM_MATRIXY              68
-
-#define DM_SPACINGX             40
-
-#define DM_TOTALSX              269
-
-#define DM_KILLERSX             10
-#define DM_KILLERSY             100
-#define DM_VICTIMSX             5
-#define DM_VICTIMSY             50
-
 typedef enum
 {
     ANIM_ALWAYS,
@@ -272,7 +252,6 @@ static anim_t *anims[NUMEPISODES] =
 #define SP_KILLS                0
 #define SP_ITEMS                2
 #define SP_SECRET               4
-#define SP_FRAGS                6
 #define SP_TIME                 8
 #define SP_PAR                  ST_TIME
 
@@ -343,31 +322,15 @@ static patch_t          *entering;
 // "secret"
 static patch_t          *sp_secret;
 
-// "Kills", "Scrt", "Items", "Frags"
+// "Kills", "Scrt", "Items"
 static patch_t          *kills;
 static patch_t          *secret;
 static patch_t          *items;
-static patch_t          *frags;
 
 // Time sucks.
 static patch_t          *timepatch;
 static patch_t          *par;
 static patch_t          *sucks;
-
-// "killers", "victims"
-static patch_t          *killers;
-static patch_t          *victims;
-
-// "Total", your face, your dead face
-static patch_t          *total;
-static patch_t          *star;
-static patch_t          *bstar;
-
-// "red P[1..MAXPLAYERS]"
-static patch_t          *p[MAXPLAYERS];
-
-// "gray P[1..MAXPLAYERS]"
-static patch_t          *bp[MAXPLAYERS];
 
 // Name graphics of each level (centered)
 static patch_t          **lnames;
@@ -826,207 +789,6 @@ void WI_drawNoState(void)
     WI_drawShowNextLoc();
 }
 
-int WI_fragSum(int playernum)
-{
-    int i;
-    int frags = 0;
-
-    for (i = 0; i < MAXPLAYERS; i++)
-        if (playeringame[i] && i != playernum)
-            frags += plrs[playernum].frags[i];
-
-    frags -= plrs[playernum].frags[playernum];
-
-    return frags;
-}
-
-static int      dm_state;
-static int      dm_frags[MAXPLAYERS][MAXPLAYERS];
-static int      dm_totals[MAXPLAYERS];
-
-void WI_initDeathmatchStats(void)
-{
-    int i;
-
-    state = StatCount;
-    acceleratestage = 0;
-    dm_state = 1;
-
-    cnt_pause = TICRATE;
-
-    for (i = 0; i < MAXPLAYERS; i++)
-        if (playeringame[i])
-        {
-            int j;
-
-            for (j = 0; j < MAXPLAYERS; j++)
-                if (playeringame[j])
-                    dm_frags[i][j] = 0;
-
-            dm_totals[i] = 0;
-        }
-
-    WI_initAnimatedBack();
-}
-
-void WI_updateDeathmatchStats(void)
-{
-
-    int         i;
-    int         j;
-    boolean     stillticking;
-
-    WI_updateAnimatedBack();
-
-    if (acceleratestage && dm_state != 4)
-    {
-        acceleratestage = 0;
-
-        for (i = 0; i < MAXPLAYERS; i++)
-            if (playeringame[i])
-            {
-                for (j = 0; j < MAXPLAYERS; j++)
-                    if (playeringame[j])
-                        dm_frags[i][j] = plrs[i].frags[j];
-
-                dm_totals[i] = WI_fragSum(i);
-            }
-
-        S_StartSound(NULL, sfx_barexp);
-        dm_state = 4;
-    }
-
-    if (dm_state == 2)
-    {
-        if (!(bcnt & 3))
-            S_StartSound(NULL, sfx_pistol);
-
-        stillticking = false;
-
-        for (i = 0; i < MAXPLAYERS; i++)
-            if (playeringame[i])
-            {
-                for (j = 0; j < MAXPLAYERS; j++)
-                    if (playeringame[j] && dm_frags[i][j] != plrs[i].frags[j])
-                    {
-                        if (plrs[i].frags[j] < 0)
-                            dm_frags[i][j]--;
-                        else
-                            dm_frags[i][j]++;
-
-                        if (dm_frags[i][j] > 99)
-                            dm_frags[i][j] = 99;
-
-                        if (dm_frags[i][j] < -99)
-                            dm_frags[i][j] = -99;
-
-                        stillticking = true;
-                    }
-                dm_totals[i] = WI_fragSum(i);
-
-                if (dm_totals[i] > 99)
-                    dm_totals[i] = 99;
-
-                if (dm_totals[i] < -99)
-                    dm_totals[i] = -99;
-            }
-
-        if (!stillticking)
-        {
-            S_StartSound(NULL, sfx_barexp);
-            dm_state++;
-        }
-
-    }
-    else if (dm_state == 4)
-    {
-        if (acceleratestage)
-        {
-            S_StartSound(NULL, sfx_slop);
-
-            if (gamemode == commercial)
-                WI_initNoState();
-            else
-                WI_initShowNextLoc();
-        }
-    }
-    else if (dm_state & 1)
-    {
-        if (!--cnt_pause)
-        {
-            dm_state++;
-            cnt_pause = TICRATE;
-        }
-    }
-}
-
-void WI_drawDeathmatchStats(void)
-{
-
-    int i;
-    int j;
-    int x;
-    int y;
-    int w;
-
-    WI_slamBackground();
-
-    // draw animated background
-    WI_drawAnimatedBack();
-    WI_drawLF();
-
-    // draw stat titles (top line)
-    V_DrawPatch(DM_TOTALSX - SHORT(total->width) / 2, DM_MATRIXY - WI_SPACINGY + 10, FB, total);
-
-    V_DrawPatch(DM_KILLERSX, DM_KILLERSY, FB, killers);
-    V_DrawPatch(DM_VICTIMSX, DM_VICTIMSY, FB, victims);
-
-    // draw P?
-    x = DM_MATRIXX + DM_SPACINGX;
-    y = DM_MATRIXY;
-
-    for (i = 0; i < MAXPLAYERS; i++)
-    {
-        if (playeringame[i])
-        {
-            V_DrawPatch(x - SHORT(p[i]->width) / 2, DM_MATRIXY - WI_SPACINGY, FB, p[i]);
-
-            V_DrawPatch(DM_MATRIXX - SHORT(p[i]->width) / 2, y, FB, p[i]);
-
-            if (i == me)
-            {
-                V_DrawPatch(x - SHORT(p[i]->width) / 2, DM_MATRIXY - WI_SPACINGY, FB, bstar);
-
-                V_DrawPatch(DM_MATRIXX - SHORT(p[i]->width) / 2, y, FB, star);
-            }
-        }
-        x += DM_SPACINGX;
-        y += WI_SPACINGY;
-    }
-
-    // draw stats
-    y = DM_MATRIXY + 10;
-    w = SHORT(num[0]->width);
-
-    for (i = 0; i < MAXPLAYERS; i++)
-    {
-        x = DM_MATRIXX + DM_SPACINGX;
-
-        if (playeringame[i])
-        {
-            for (j = 0; j < MAXPLAYERS; j++)
-            {
-                if (playeringame[j])
-                    WI_drawNum(x + w, y, dm_frags[i][j], 2);
-
-                x += DM_SPACINGX;
-            }
-            WI_drawNum(DM_TOTALSX + w, y, dm_totals[i], 2);
-        }
-        y += WI_SPACINGY;
-    }
-}
-
 static int      sp_state;
 
 void WI_initStats(void)
@@ -1369,9 +1131,6 @@ static void WI_loadUnloadData(load_callback_t callback)
     else
         callback("WIOSTI", &items);
 
-    // "frgs"
-    callback("WIFRGS", &frags);
-
     // ":"
     callback("WICOLON", &colon);
 
@@ -1383,26 +1142,6 @@ static void WI_loadUnloadData(load_callback_t callback)
 
     // "par"
     callback("WIPAR", &par);
-
-    // "killers" (vertical)
-    callback("WIKILRS", &killers);
-
-    // "victims" (horiz)
-    callback("WIVCTMS", &victims);
-
-    // "total"
-    callback("WIMSTT", &total);
-
-    for (i = 0; i < MAXPLAYERS; i++)
-    {
-        // "1,2,3,4"
-        M_snprintf(name, 9, "STPB%d", i);
-        callback(name, &p[i]);
-
-        // "1,2,3,4"
-        M_snprintf(name, 9, "WIBP%d", i + 1);
-        callback(name, &bp[i]);
-    }
 }
 
 static void WI_loadCallback(char *name, patch_t **variable)
@@ -1427,12 +1166,6 @@ void WI_loadData(void)
 
     // These two graphics are special cased because we're sharing
     // them with the status bar code
-
-    // your face
-    star = (patch_t *)W_CacheLumpName("STFST01", PU_STATIC);
-
-    // dead face
-    bstar = (patch_t *)W_CacheLumpName("STFDEAD0", PU_STATIC);
 
     // Background image
     if (gamemode == commercial || (gamemode == retail && wbs->epsd == 3))

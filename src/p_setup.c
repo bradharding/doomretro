@@ -112,10 +112,6 @@ byte            *rejectmatrix;
 int             rejectmatrixsize;
 
 // Maintain single and multi player starting spots.
-#define MAX_DEATHMATCH_STARTS   10
-
-mapthing_t      deathmatchstarts[MAX_DEATHMATCH_STARTS];
-mapthing_t      *deathmatch_p;
 mapthing_t      playerstarts[MAXPLAYERS];
 
 boolean         canmodify;
@@ -1164,7 +1160,7 @@ void P_SetupLevel(int episode, int map)
     char lumpname[6];
     int  lumpnum;
 
-    totalkills = totalitems = totalsecret = wminfo.maxfrags = 0;
+    totalkills = totalitems = totalsecret = 0;
     wminfo.partime = 0;
     for (i = 0; i < MAXPLAYERS; i++)
         players[i].killcount = players[i].secretcount = players[i].itemcount = 0;
@@ -1244,8 +1240,6 @@ void P_SetupLevel(int episode, int map)
 
     P_CalcSegsLength();
 
-    deathmatch_p = deathmatchstarts;
-
     bloodSplatQueueSlot = 0;
     memset(bloodSplatQueue, 0, sizeof(mobj_t *) * bloodsplats);
 
@@ -1253,17 +1247,6 @@ void P_SetupLevel(int episode, int map)
 
     P_InitCards(&players[0]);
     P_InitAnimatedLiquids();
-
-    // if deathmatch, randomly spawn the active players
-    if (deathmatch)
-    {
-        for (i = 0; i < MAXPLAYERS; i++)
-            if (playeringame[i])
-            {
-                players[i].mo = NULL;
-                G_DeathMatchSpawnPlayer(i);
-            }
-    }
 
     // clear special respawning queue
     iqueuehead = iqueuetail = 0;
