@@ -460,7 +460,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT (idmypos, 0),
     CMD_CHEAT (idspispopd, 0),
     CVAR_STR  (iwadfolder, C_NoCondition, C_Str, iwadfolder, "The folder where an IWAD file was last found."),
-    CMD       (kill, C_KillCondition, C_Kill, 1, "[monsters|~type~]", "Kill the player, all monsters or a type of monster."),
+    CMD       (kill, C_KillCondition, C_Kill, 1, "[all|~type~]", "Kill the player, all monsters or a type of monster."),
     CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration, "The amount the mouse accelerates."),
     CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE, "Toggle double-clicking a mouse button for the +use action."),
     CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT, "Toggle no vertical movement of the mouse."),
