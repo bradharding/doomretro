@@ -42,13 +42,19 @@
 //
 // P_CheckSight
 //
+
+// killough 4/19/98:
+// Convert LOS info to struct for reentrancy and efficiency of data locality
 typedef struct los_s
 {
     fixed_t     sightzstart, t2x, t2y;  // eye z of looker
     divline_t   strace;                 // from t1 to t2
     fixed_t     topslope, bottomslope;  // slopes to top and bottom of target
     fixed_t     bbox[4];
+    fixed_t     maxz, minz;             // cph - z optimisations for 2sided lines
 } los_t;
+
+static los_t    los; // cph - made static
 
 //
 // P_DivlineSide
@@ -85,7 +91,7 @@ static fixed_t P_InterceptVector2(const divline_t *v2, const divline_t *v1)
 // Returns true
 //  if strace crosses the given subsector successfully.
 //
-static boolean P_CrossSubsector(int num, los_t *los)
+static boolean P_CrossSubsector(int num)
 {
     seg_t       *seg;
     int         count;
@@ -97,7 +103,6 @@ static boolean P_CrossSubsector(int num, los_t *los)
     divline_t   divl;
     vertex_t    *v1;
     vertex_t    *v2;
-    fixed_t     frac;
 
     sub = &subsectors[num];
 
@@ -109,25 +114,25 @@ static boolean P_CrossSubsector(int num, los_t *los)
     {
         line_t  *line = seg->linedef;
 
-        // already checked other side?
-        if (line->validcount == validcount)
+        if (line->bbox[BOXLEFT] > los.bbox[BOXRIGHT]
+            || line->bbox[BOXRIGHT] < los.bbox[BOXLEFT]
+            || line->bbox[BOXBOTTOM] > los.bbox[BOXTOP]
+            || line->bbox[BOXTOP] < los.bbox[BOXBOTTOM])
+        {
+            line->validcount = validcount;
             continue;
-
-        line->validcount = validcount;
-
-        if (line->bbox[BOXLEFT] > los->bbox[BOXRIGHT]
-            || line->bbox[BOXRIGHT] < los->bbox[BOXLEFT]
-            || line->bbox[BOXBOTTOM] > los->bbox[BOXTOP]
-            || line->bbox[BOXTOP] < los->bbox[BOXBOTTOM])
-            continue;
+        }
 
         v1 = line->v1;
         v2 = line->v2;
 
         // line isn't crossed?
-        if (P_DivlineSide(v1->x, v1->y, &los->strace)
-            == P_DivlineSide(v2->x, v2->y, &los->strace))
+        if (P_DivlineSide(v1->x, v1->y, &los.strace)
+            == P_DivlineSide(v2->x, v2->y, &los.strace))
+        {
+            line->validcount = validcount;
             continue;
+        }
 
         divl.x = v1->x;
         divl.y = v1->y;
@@ -135,43 +140,62 @@ static boolean P_CrossSubsector(int num, los_t *los)
         divl.dy = v2->y - v1->y;
 
         // line isn't crossed?
-        if (P_DivlineSide(los->strace.x, los->strace.y, &divl)
-            == P_DivlineSide(los->t2x, los->t2y, &divl))
+        if (P_DivlineSide(los.strace.x, los.strace.y, &divl)
+            == P_DivlineSide(los.t2x, los.t2y, &divl))
+        {
+            line->validcount = validcount;
+            continue;
+        }
+
+        // already checked other side?
+        if (line->validcount == validcount)
             continue;
 
-        // stop because it is not two sided anyway
-        if (!(line->flags & ML_TWOSIDED))
+        line->validcount = validcount;
+
+        // cph - do what we can before forced to check intersection
+        if (line->flags & ML_TWOSIDED)
+        {
+            // crosses a two sided line
+            front = seg->frontsector;
+            back = seg->backsector;
+
+            // no wall to block sight with?
+            if (front->floorheight == back->floorheight
+                && front->ceilingheight == back->ceilingheight)
+                continue;
+
+            // possible occluder
+            // because of ceiling height differences
+            opentop = MIN(front->ceilingheight, back->ceilingheight);
+
+            // because of floor height differences
+            openbottom = MAX(front->floorheight, back->floorheight);
+
+            // cph - reject if does not intrude in the z-space of the possible LOS
+            if (opentop >= los.maxz && openbottom <= los.minz)
+                continue;
+        }
+
+        // cph - if bottom >= top or top < minz or bottom > maxz then it must be
+        // solid wrt this LOS
+        if (!(line->flags & ML_TWOSIDED) || openbottom >= opentop
+            || opentop < los.minz || openbottom > los.maxz)
             return false;
 
-        // crosses a two sided line
-        front = seg->frontsector;
-        back = seg->backsector;
+        { 
+            // crosses a two sided line
+            fixed_t     frac = P_InterceptVector2(&los.strace, &divl);
 
-        // no wall to block sight with?
-        if (front->floorheight == back->floorheight && front->ceilingheight == back->ceilingheight)
-            continue;
+            if (front->floorheight != back->floorheight)
+                los.bottomslope = MAX(los.bottomslope, FixedDiv(openbottom - los.sightzstart, frac));
 
-        // possible occluder
-        // because of ceiling height differences
-        opentop = MIN(front->ceilingheight, back->ceilingheight);
+            if (front->ceilingheight != back->ceilingheight)
+                los.topslope = MIN(los.topslope, FixedDiv(opentop - los.sightzstart, frac));
 
-        // because of ceiling height differences
-        openbottom = MAX(front->floorheight, back->floorheight);
-
-        // quick test for totally closed doors
-        if (openbottom >= opentop)
-            return false;               // stop
-
-        frac = P_InterceptVector2(&los->strace, &divl);
-
-        if (front->floorheight != back->floorheight)
-            los->bottomslope = MAX(FixedDiv(openbottom - los->sightzstart, frac), los->bottomslope);
-
-        if (front->ceilingheight != back->ceilingheight)
-            los->topslope = MIN(FixedDiv(opentop - los->sightzstart, frac), los->topslope);
-
-        if (los->topslope <= los->bottomslope)
-            return false;               // stop
+            if (los.topslope <= los.bottomslope)
+                return false;               // stop
+        }
     }
 
     // passed the subsector ok
@@ -183,22 +207,23 @@ static boolean P_CrossSubsector(int num, los_t *los)
 // Returns true
 //  if strace crosses the given node successfully.
 //
-static boolean P_CrossBSPNode(int bspnum, los_t *los)
+static boolean P_CrossBSPNode(int bspnum)
 {
     while (!(bspnum & NF_SUBSECTOR))
     {
         const node_t    *bsp = nodes + bspnum;
-        int             side = P_DivlineSide(los->strace.x, los->strace.y, (divline_t *)bsp) & 1;
+        int             side1 = (P_DivlineSide(los.strace.x, los.strace.y, (divline_t *)bsp) & 1);
+        int             side2 = P_DivlineSide(los.t2x, los.t2y, (divline_t *)bsp);
 
-        if (side == P_DivlineSide(los->t2x, los->t2y, (divline_t *)bsp))
-            bspnum = bsp->children[side];               // doesn't touch the other side
+        if (side1 == side2)
+            bspnum = bsp->children[side1];              // doesn't touch the other side
         else                                            // the partition plane is crossed here
-            if (!P_CrossBSPNode(bsp->children[side], los))
+            if (!P_CrossBSPNode(bsp->children[side1]))
                 return false;                           // cross the starting side
             else
-                bspnum = bsp->children[side ^ 1];       // cross the ending side
+                bspnum = bsp->children[side1 ^ 1];      // cross the ending side
     }
-    return P_CrossSubsector((bspnum == -1 ? 0 : bspnum & ~NF_SUBSECTOR), los);
+    return P_CrossSubsector((bspnum == -1 ? 0 : (bspnum & ~NF_SUBSECTOR)));
 }
 
 //
@@ -212,28 +237,26 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
     const sector_t      *s1 = t1->subsector->sector;
     const sector_t      *s2 = t2->subsector->sector;
     int                 pnum = (s1 - sectors) * numsectors + (s2 - sectors);
-    los_t               los;
-
-    if (!t1 || !t2)
-        return false;
 
     // First check for trivial rejection.
     // Determine subsector entries in REJECT table.
     // Check in REJECT table.
-    if ((pnum >> 3) < rejectmatrixsize && (rejectmatrix[pnum >> 3] & (1 << (pnum & 7))))
+    if (rejectmatrix[pnum >> 3] & (1 << (pnum & 7)))
         return false;
+
+    // killough 11/98: shortcut for melee situations
+    // same subsector? obviously visible
+    if (t1->subsector == t2->subsector)
+        return true;
 
     // An unobstructed LOS is possible.
     // Now look from eyes of t1 to any part of t2.
 
-    if (t1->subsector == t2->subsector)
-        return true;
-
     validcount++;
 
     los.sightzstart = t1->z + t1->height - (t1->height >> 2);
-    los.topslope = t2->z + t2->height - los.sightzstart;
     los.bottomslope = t2->z - los.sightzstart;
+    los.topslope = los.bottomslope + t2->height;
 
     los.strace.x = t1->x;
     los.strace.y = t1->y;
@@ -247,6 +270,23 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
     los.bbox[BOXTOP] = MAX(t1->y, t2->y);
     los.bbox[BOXBOTTOM] = MIN(t1->y, t2->y);
 
+    // cph - calculate min and max z of the potential line of sight
+    if (los.sightzstart < t2->z)
+    {
+        los.maxz = t2->z + t2->height;
+        los.minz = los.sightzstart;
+    }
+    else if (los.sightzstart > t2->z + t2->height)
+    {
+        los.maxz = los.sightzstart;
+        los.minz = t2->z;
+    }
+    else
+    {
+        los.maxz = t2->z + t2->height;
+        los.minz = t2->z;
+    }
+
     // the head node is the last node output
-    return P_CrossBSPNode(numnodes - 1, &los);
+    return P_CrossBSPNode(numnodes - 1);
 }
