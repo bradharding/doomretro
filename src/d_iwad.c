@@ -41,6 +41,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomdef.h"
 #include "doomstat.h"
@@ -635,4 +636,10 @@ void D_SetGameDescription(void)
         else if (gamemission == pack_tnt)
             gamedescription = s_CAPTION_TNT;
     }
+
+    if (nerve)
+        C_Output("Game identified as \"%s: %s\" and \"%s: %s\".",
+            s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
+    else
+        C_Output("Game identified as \"%s\".", gamedescription);
 }
