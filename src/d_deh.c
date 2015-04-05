@@ -1634,7 +1634,10 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     // loop until end of file
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
-        int     i;
+        boolean         match;
+        int             i;
+        static unsigned last_i = DEH_BLOCKMAX - 1;
+        static long     filepos = 0;
 
         lfstrip(inbuffer);
         if (fileout)
@@ -1686,14 +1689,30 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             continue;
         }
 
-        for (i = 0; i < DEH_BLOCKMAX; i++)
+        for (match = 0, i = 0; i < DEH_BLOCKMAX; i++)
             if (!strncasecmp(inbuffer, deh_blocks[i].key, strlen(deh_blocks[i].key)))
             {
-                if (fileout)
-                    fprintf(fileout, "Processing function [%d] for %s\n", i, deh_blocks[i].key);
-                deh_blocks[i].fptr(filein, fileout, inbuffer);  // call function
+                if (i < DEH_BLOCKMAX - 1)
+                    match = 1;
                 break;          // we got one, that's enough for this block
             }
+
+        if (match)              // inbuffer matches a valid block code name
+            last_i = i;
+        else if (last_i >= 10 && last_i < DEH_BLOCKMAX - 1)     // restrict to BEX style lumps
+        {
+            // process that same line again with the last valid block code handler
+            i = last_i;
+            if (!filein->lump)
+                fseek((FILE *)filein->inp, filepos, SEEK_SET);
+        }
+
+        if (fileout)
+            fprintf(fileout,"Processing function [%d] for %s\n", i, deh_blocks[i].key);
+        deh_blocks[i].fptr(filein, fileout, inbuffer);  // call function
+
+        if (!filein->lump)                              // back up line start
+            filepos = ftell((FILE *)filein->inp);
     }
 
     if (infile.lump)
@@ -2835,7 +2854,7 @@ void deh_procStrings(DEHFILE *fpin, FILE* fpout, char *line)
         if (*inbuffer == '#')
             continue;                   // skip comment lines
         lfstrip(inbuffer);
-        if (!*inbuffer)
+        if (!*inbuffer && !*holdstring)
             break;                      // killough 11/98
         if (!*holdstring)               // first one--get the key
         {
