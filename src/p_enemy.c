@@ -272,14 +272,16 @@ static boolean P_IsOnLift(const mobj_t *actor)
 static int P_IsUnderDamage(mobj_t *actor)
 {
     const struct msecnode_s     *seclist;
-    const ceiling_t             *cl;    // Crushing ceiling
     int                         dir = 0;
 
     for (seclist = actor->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+    {
+        const ceiling_t          *cl;    // Crushing ceiling
+
         if ((cl = seclist->m_sector->specialdata)
             && cl->thinker.function.acp1 == (actionf_p1)T_MoveCeiling)
             dir |= cl->direction;
-
+    }
     return dir;
 }
 
@@ -1233,13 +1235,13 @@ boolean PIT_VileCheck(mobj_t *thing)
 //
 void A_VileChase(mobj_t *actor)
 {
-    int xl, xh;
-    int yl, yh;
-    int bx, by;
     int movedir = actor->movedir;
 
     if (movedir != DI_NODIR)
     {
+        int     xl, xh;
+        int     yl, yh;
+        int     bx, by;
         int     speed = actor->info->speed;
 
         // check for corpses to raise

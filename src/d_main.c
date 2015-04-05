@@ -709,7 +709,6 @@ static void D_FirstUse(void)
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;
-    boolean             sharewareiwad = false;
     boolean             fileopenedok = false;
 
 #if defined(WIN32)
@@ -749,6 +748,7 @@ static int D_ChooseIWAD(void)
     if (fileopenedok)
     {
         boolean onlyoneselected;
+        boolean sharewareiwad = false;
 
         iwadfound = 0;
         startuptimer = I_GetTimeMS();
@@ -1017,11 +1017,12 @@ static int D_ChooseIWAD(void)
                     if (W_WadType(fullpath) == PWAD && !D_IsUnsupportedPWAD(fullpath)
                         && !D_IsDehFile(fullpath))
                     {
-                        int         iwadrequired = IWADRequiredByPWAD(fullpath);
-                        static char fullpath2[MAX_PATH];
+                        int     iwadrequired = IWADRequiredByPWAD(fullpath);
 
                         if (iwadrequired != indetermined)
                         {
+                            static char fullpath2[MAX_PATH];
+
                             // try the current folder first
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                 strdup(szFile), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
@@ -1321,10 +1322,10 @@ static void D_DoomMainSetup(void)
             else
             {
                 int             iwadrequired = IWADRequiredByPWAD(myargv[p]);
-                static char     fullpath[MAX_PATH];
 
                 if (iwadrequired != indetermined)
                 {
+                    static char fullpath[MAX_PATH];
 
                     // try the current folder first
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
@@ -1448,16 +1449,6 @@ static void D_DoomMainSetup(void)
     // Check for -file in shareware
     if (modifiedgame)
     {
-        // These are the lumps that will be checked in IWAD,
-        // if any one is not present, execution will be aborted.
-        char name[23][9] =
-        {
-            "E2M1", "E2M2", "E2M3", "E2M4", "E2M5", "E2M6", "E2M7", "E2M8", "E2M9",
-            "E3M1", "E3M3", "E3M3", "E3M4", "E3M5", "E3M6", "E3M7", "E3M8", "E3M9",
-            "DPHOOF", "BFGGA0", "HEADA1", "CYBRA1", "SPIDA1D1"
-        };
-        int i;
-
         if (gamemode == shareware)
             I_Error("You cannot use -FILE with the shareware version.\n"
                     "Please purchase the full version.");
@@ -1465,9 +1456,21 @@ static void D_DoomMainSetup(void)
         // Check for fake IWAD with right name,
         // but w/o all the lumps of the registered version.
         if (gamemode == registered)
+        {
+            // These are the lumps that will be checked in IWAD,
+            // if any one is not present, execution will be aborted.
+            char name[23][9] =
+            {
+                "E2M1", "E2M2", "E2M3", "E2M4", "E2M5", "E2M6", "E2M7", "E2M8", "E2M9",
+                "E3M1", "E3M3", "E3M3", "E3M4", "E3M5", "E3M6", "E3M7", "E3M8", "E3M9",
+                "DPHOOF", "BFGGA0", "HEADA1", "CYBRA1", "SPIDA1D1"
+            };
+            int i;
+
             for (i = 0; i < 23; ++i)
                 if (W_CheckNumForName(name[i]) < 0)
                     I_Error("This is not the registered version.");
+        }
     }
 
     // get skill / episode / map from parms

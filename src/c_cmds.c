@@ -380,7 +380,6 @@ int C_LookupValueFromAlias(char *text, int set)
 char *C_LookupAliasFromValue(int value, int set)
 {
     int         i = 0;
-    static char buffer[1024];
 
     while (aliases[i].text[0])
     {
@@ -735,7 +734,7 @@ boolean C_BloodSplatsCondition(char *cmd, char *parm1, char *parm2)
     int value = 0;
 
     return (!parm1[0] || C_LookupValueFromAlias(parm1, 7) >= 0
-        || sscanf(parm1, "%i", &value));
+        || sscanf(parm1, "%10i", &value));
 }
 
 void C_BloodSplats(char *cmd, char *parm1, char *parm2)
@@ -745,7 +744,7 @@ void C_BloodSplats(char *cmd, char *parm1, char *parm2)
         int     value = C_LookupValueFromAlias(parm1, 7);
 
         if (value < 0)
-            sscanf(parm1, "%i", &value);
+            sscanf(parm1, "%10i", &value);
         if (value >= 0)
         {
             bloodsplats = value;
@@ -915,7 +914,7 @@ boolean C_DeadZoneCondition(char *cmd, char *parm1, char *parm2)
         return true;
     if (parm1[strlen(parm1) - 1] == '%')
         parm1[strlen(parm1) - 1] = 0;
-    return sscanf(parm1, "%f", &value);
+    return sscanf(parm1, "%10f", &value);
 }
 
 void C_DeadZone(char *cmd, char *parm1, char *parm2)
@@ -926,7 +925,7 @@ void C_DeadZone(char *cmd, char *parm1, char *parm2)
 
         if (parm1[strlen(parm1) - 1] == '%')
             parm1[strlen(parm1) - 1] = 0;
-        sscanf(parm1, "%f", &value);
+        sscanf(parm1, "%10f", &value);
 
         if (value >= 0.0f && value <= 100.0f)
         {
@@ -975,11 +974,11 @@ boolean C_FloatCondition(char *cmd, char *parm1, char *parm2)
         if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_FLOAT))
         {
-            int value = -1;
+            float       value = -1.0f;
 
-            sscanf(parm1, "%f", &value);
+            sscanf(parm1, "%10f", &value);
 
-            return (value >= 0);
+            return (value >= 0.0f);
         }
         ++i;
     }
@@ -997,11 +996,11 @@ void C_Float(char *cmd, char *parm1, char *parm2)
         {
             if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
             {
-                float     value = -1;
+                float     value = -1.0f;
 
-                sscanf(parm1, "%f", &value);
+                sscanf(parm1, "%10f", &value);
 
-                if (value >= 0)
+                if (value >= 0.0f)
                 {
                     *(float *)consolecmds[i].variable = value;
                     M_SaveDefaults();
@@ -1031,26 +1030,26 @@ extern int      st_palette;
 
 boolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
 {
-    int value = -1;
+    float       value = -1.0f;
 
     if (!parm1[0] || !strcasecmp(parm1, "off"))
         return true;
 
-    sscanf(parm1, "%f", &value);
+    sscanf(parm1, "%10f", &value);
 
-    return (value >= 0);
+    return (value >= 0.0f);
 }
 
 void C_Gamma(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        float   value = -1;
+        float   value = -1.0f;
 
         if (!strcasecmp(parm1, "off"))
             gammalevel = 1.0f;
         else
-            sscanf(parm1, "%f", &value);
+            sscanf(parm1, "%10f", &value);
 
         if (value >= 0.0f)
         {
@@ -1199,7 +1198,7 @@ boolean C_IntCondition(char *cmd, char *parm1, char *parm2)
         {
             int value = -1;
             
-            sscanf(parm1, "%i", &value);
+            sscanf(parm1, "%10i", &value);
 
             return (value >= consolecmds[i].minimumvalue && value <= consolecmds[i].maximumvalue);
         }
@@ -1222,7 +1221,7 @@ void C_Int(char *cmd, char *parm1, char *parm2)
                 int     value = C_LookupValueFromAlias(parm1, consolecmds[i].aliases);
 
                 if (value < 0)
-                    sscanf(parm1, "%i", &value);
+                    sscanf(parm1, "%10i", &value);
 
                 if (value >= 0)
                 {
@@ -1302,8 +1301,8 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
     }
     else
     {
-        int             i, j;
-        int             kills = 0;
+        int     i;
+        int     kills = 0;
 
         if (!strcasecmp(parm1, "monsters") || !strcasecmp(parm1, "all"))
         {
@@ -1344,9 +1343,9 @@ void C_Kill(char *cmd, char *parm1, char *parm2)
         {
             int type = P_FindDoomedNum(killcmdtype);
 
-            for (j = 0; j < numsectors; ++j)
+            for (i = 0; i < numsectors; ++i)
             {
-                mobj_t      *thing = sectors[j].thinglist;
+                mobj_t      *thing = sectors[i].thinglist;
 
                 while (thing)
                 {
@@ -1400,9 +1399,9 @@ boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
     {
         if (BTSX)
         {
-            sscanf(uppercase(parm1), "E%iM0%i", &mapcmdepisode, &mapcmdmap);
+            sscanf(uppercase(parm1), "E%1iM0%1i", &mapcmdepisode, &mapcmdmap);
             if (!mapcmdmap)
-                sscanf(uppercase(parm1), "E%iM%i", &mapcmdepisode, &mapcmdmap);
+                sscanf(uppercase(parm1), "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
             if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
             {
                 static char     lump[6];
@@ -1411,9 +1410,9 @@ boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
                 return (W_CheckMultipleLumps(lump) == 2);
             }
         }
-        sscanf(uppercase(parm1), "MAP0%i", &mapcmdmap);
+        sscanf(uppercase(parm1), "MAP0%1i", &mapcmdmap);
         if (!mapcmdmap)
-            sscanf(uppercase(parm1), "MAP%i", &mapcmdmap);
+            sscanf(uppercase(parm1), "MAP%2i", &mapcmdmap);
         if (!mapcmdmap)
             return false;
         if (BTSX && (W_CheckMultipleLumps(parm1) == 1))
@@ -1423,7 +1422,7 @@ boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
     }
     else
     {
-        sscanf(uppercase(parm1), "E%iM%i", &mapcmdepisode, &mapcmdmap);
+        sscanf(uppercase(parm1), "E%1iM%1i", &mapcmdepisode, &mapcmdmap);
         if (!mapcmdepisode || !mapcmdmap)
             return false;
     }
@@ -1500,7 +1499,7 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
         int     width = -1;
         int     height = -1;
 
-        sscanf(parm1, "%ix%i", &width, &height);
+        sscanf(parm1, "%10ix%10i", &width, &height);
 
         if (width >= 0 && height >= 0)
         {
@@ -1516,7 +1515,7 @@ void C_PixelSize(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output("%ix%i", pixelwidth, pixelheight);
+        C_Output("%10ix%10i", pixelwidth, pixelheight);
 }
 
 void C_Quit(char *cmd, char *parm1, char *parm2)
@@ -1589,8 +1588,8 @@ void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
             char    *left = strtok(parm1, "x");
             char    *right = strtok(NULL, "x");
 
-            sscanf(left, "%i", &width);
-            sscanf(right, "%i", &height);
+            sscanf(left, "%10i", &width);
+            sscanf(right, "%10i", &height);
 
             if (width >= 0 && height >= 0 && (width != screenwidth || height != screenheight))
             {
@@ -1614,7 +1613,7 @@ void C_ScreenSize(char *cmd, char *parm1, char *parm2)
     {
         int     value = -1;
 
-        sscanf(parm1, "%i", &value);
+        sscanf(parm1, "%10i", &value);
 
         if (value >= SCREENSIZE_MIN && value <= SCREENSIZE_MAX)
         {
@@ -1818,7 +1817,7 @@ boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
     if (parm1[strlen(parm1) - 1] == '%')
         parm1[strlen(parm1) - 1] = 0;
 
-    sscanf(parm1, "%i", &value);
+    sscanf(parm1, "%10i", &value);
 
     return ((!strcasecmp(cmd, "snd_musicvolume") && value >= MUSICVOLUME_MIN && value <= MUSICVOLUME_MAX)
         || (!strcasecmp(cmd, "snd_sfxvolume") && value >= SFXVOLUME_MIN && value <= SFXVOLUME_MAX));
@@ -1832,7 +1831,7 @@ void C_Volume(char *cmd, char *parm1, char *parm2)
 
         if (parm1[strlen(parm1) - 1] == '%')
             parm1[strlen(parm1) - 1] = 0;
-        sscanf(parm1, "%i", &value);
+        sscanf(parm1, "%10i", &value);
 
         if (!strcasecmp(cmd, "snd_musicvolume"))
         {
@@ -1908,8 +1907,8 @@ void C_WindowSize(char *cmd, char *parm1, char *parm2)
         char    *left = strtok(parm1, "x");
         char    *right = strtok(NULL, "x");
 
-        sscanf(left, "%i", &width);
-        sscanf(right, "%i", &height);
+        sscanf(left, "%10i", &width);
+        sscanf(right, "%10i", &height);
 
         if (width >= 0 && height >= 0)
         {

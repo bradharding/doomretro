@@ -175,8 +175,6 @@ void P_InitPicAnims(void)
         }
         else
         {
-            int j;
-
             if (W_CheckNumForName(startname) == -1)
                 continue;
 
@@ -186,8 +184,12 @@ void P_InitPicAnims(void)
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
 
             if (animdefs[i].isliquid)
+            {
+                int     j;
+
                 for (j = 0; j < lastanim->numpics; j++)
                     isliquid[lastanim->basepic + j] = true;
+            }
         }
 
         lastanim->istexture = animdefs[i].istexture;
@@ -480,11 +482,11 @@ boolean P_CheckTag(line_t *line)
 //
 void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 {
-    int ok;
-
     // Triggers that other things can activate
     if (!thing->player)
     {
+        boolean ok = false;
+
         // Things that should NOT trigger specials...
         switch (thing->type)
         {
@@ -505,7 +507,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 break;
         }
 
-        ok = 0;
         switch (line->special)
         {
             case W1_TeleportToTaggedSectorContainingTeleportLanding:
@@ -515,7 +516,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case W1_OpenDoorWait4SecondsClose:
             case W1_LowerLiftWait3SecondsRise:
             case WR_LowerLiftWait3SecondsRise:
-                ok = 1;
+                ok = true;
                 break;
         }
         if (!ok)
@@ -896,12 +897,12 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     // Impacts that other things can activate.
     if (!thing->player)
     {
-        int     ok = 0;
+        boolean ok = false;
 
         switch (line->special)
         {
             case G1_OpenDoorStayOpen:
-                ok = 1;
+                ok = true;
                 break;
         }
         if (!ok)
@@ -1010,7 +1011,6 @@ void P_UpdateSpecials(void)
     anim_t      *anim;
     int         pic;
     int         i;
-    line_t      *line;
 
     // ANIMATE FLATS AND TEXTURES GLOBALLY
     for (anim = anims; anim < lastanim; anim++)
@@ -1028,7 +1028,8 @@ void P_UpdateSpecials(void)
     // ANIMATE LINE SPECIALS
     for (i = 0; i < numlinespecials; i++)
     {
-        line = linespeciallist[i];
+        line_t  *line = linespeciallist[i];
+
         switch (line->special)
         {
             case MovingWallTextureToLeft:

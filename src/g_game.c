@@ -340,9 +340,7 @@ static void G_PrevWeapon(void)
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
-    int         i;
     boolean     strafe;
-    boolean     bstrafe;
     int         run;
     int         forward = 0;
     int         side = 0;
@@ -422,6 +420,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 
     if (!idclev && !idmus)
+    {
+        int     i;
+
         for (i = 0; i < NUMWEAPONKEYS; ++i)
         {
             int key = *weapon_keys[i];
@@ -445,12 +446,15 @@ void G_BuildTiccmd(ticcmd_t *cmd)
                 }
             }
         }
+    }
 
     if (mousebuttons[mousebforward])
         forward += forwardmove[run];
 
     if (dclick_use)
     {
+        boolean bstrafe;
+
         // forward double click
         if (mousebuttons[mousebforward] != dclickstate && dclicktime > 1)
         {

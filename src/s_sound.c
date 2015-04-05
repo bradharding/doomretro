@@ -482,7 +482,6 @@ void S_StartSound(void *origin_p, int sfx_id)
     mobj_t      *origin;
     mobj_t      *player = players[0].mo;
     int         sep;
-    int         priority;
     int         cnum;
     int         volume;
 
@@ -497,7 +496,6 @@ void S_StartSound(void *origin_p, int sfx_id)
     // Initialize sound parameters
     if (sfx->link)
     {
-        priority = sfx->priority;
         volume += sfx->volume;
 
         if (volume < 1)
@@ -506,8 +504,6 @@ void S_StartSound(void *origin_p, int sfx_id)
         if (volume > snd_SfxVolume)
             volume = snd_SfxVolume;
     }
-    else
-        priority = NORM_PRIORITY;
 
     // Check to see if it is audible,
     //  and if not, modify the params
@@ -654,7 +650,6 @@ void S_StartMusic(int m_id)
 void S_ChangeMusic(int musicnum, int looping, int cheating)
 {
     musicinfo_t *music;
-    char        namebuf[9];
     void        *handle;
 
     if (nomusic)
@@ -671,6 +666,8 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
     // get lumpnum if neccessary
     if (!music->lumpnum)
     {
+        char    namebuf[9];
+
         M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
         music->lumpnum = W_GetNumForName(namebuf);
     }

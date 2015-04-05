@@ -65,7 +65,6 @@ static char     *temp_timidity_cfg = NULL;
 static boolean WriteWrapperTimidityConfig(char *write_path)
 {
     char        *p;
-    char        *path;
     FILE        *fstream;
 
     if (!strcmp(timidity_cfg_path, ""))
@@ -79,7 +78,8 @@ static boolean WriteWrapperTimidityConfig(char *write_path)
     p = strrchr(timidity_cfg_path, DIR_SEPARATOR);
     if (p != NULL)
     {
-        path = strdup(timidity_cfg_path);
+        char    *path = strdup(timidity_cfg_path);
+
         path[p - timidity_cfg_path] = '\0';
         fprintf(fstream, "dir %s\n", path);
         free(path);
@@ -93,7 +93,6 @@ static boolean WriteWrapperTimidityConfig(char *write_path)
 
 void I_InitTimidityConfig(void)
 {
-    char        *env_string;
     boolean     success;
 
     temp_timidity_cfg = M_TempFile("timidity.cfg");
@@ -104,7 +103,8 @@ void I_InitTimidityConfig(void)
     // config file.
     if (success)
     {
-        env_string = M_StringJoin("TIMIDITY_CFG=", temp_timidity_cfg, NULL);
+        char    *env_string = M_StringJoin("TIMIDITY_CFG=", temp_timidity_cfg, NULL);
+
         putenv(env_string);
     }
     else

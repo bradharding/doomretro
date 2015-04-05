@@ -55,7 +55,7 @@
 typedef struct
 {
     // Should be "IWAD" or "PWAD".
-    char        identification[4];
+    char        identification[5];
     int         numlumps;
     int         infotableofs;
 } PACKEDATTR wadinfo_t;
@@ -168,7 +168,6 @@ wad_file_t *W_AddFile(char *filename, boolean automatic)
     lumpinfo_t          *lump_p;
     unsigned int        i;
     wad_file_t          *wad_file;
-    int                 length;
     int                 startlump;
     filelump_t          *fileinfo;
     filelump_t          *filerover;
@@ -205,6 +204,8 @@ wad_file_t *W_AddFile(char *filename, boolean automatic)
     }
     else
     {
+        int     length;
+
         // WAD file
         W_Read(wad_file, 0, &header, sizeof(header));
 
@@ -395,7 +396,6 @@ int W_NumLumps(void)
 int W_CheckNumForName(char *name)
 {
     lumpinfo_t  *lump_p;
-    int         i;
 
     // Do we have a hash table yet?
     if (lumphash != NULL)
@@ -412,7 +412,8 @@ int W_CheckNumForName(char *name)
     else
     {
         // We don't have a hash table generate yet. Linear search :-(
-        //
+        int     i;
+
         // scan backwards so patch lump files take precedence
         for (i = numlumps - 1; i >= 0; --i)
             if (!strncasecmp(lumpinfo[i].name, name, 8))
@@ -625,8 +626,6 @@ void W_ReleaseLumpName(char *name)
 // Generate a hash table for fast lookups
 void W_GenerateHashTable(void)
 {
-    unsigned int        i;
-
     // Free the old hash table, if there is one
     if (lumphash != NULL)
         Z_Free(lumphash);
@@ -634,6 +633,8 @@ void W_GenerateHashTable(void)
     // Generate hash table
     if (numlumps > 0)
     {
+        unsigned int    i;
+
         lumphash = (lumpinfo_t **)Z_Malloc(sizeof(lumpinfo_t *) * numlumps, PU_STATIC, NULL);
         memset(lumphash, 0, sizeof(lumpinfo_t *) * numlumps);
 

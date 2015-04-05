@@ -209,7 +209,6 @@ static void CheckUninstallStrings(void)
     for (i = 0; i < arrlen(uninstall_values); ++i)
     {
         char            *val = GetRegistryString(&uninstall_values[i]);
-        char            *path;
         char            *unstr;
 
         if (val == NULL)
@@ -221,6 +220,8 @@ static void CheckUninstallStrings(void)
             free(val);
         else
         {
+            char            *path;
+
             path = unstr + strlen(UNINSTALLER_STRING);
 
             AddIWADDir(path);
@@ -232,7 +233,6 @@ static void CheckUninstallStrings(void)
 static void CheckCollectorsEdition(void)
 {
     char                *install_path;
-    char                *subpath;
     unsigned int        i;
 
     install_path = GetRegistryString(&collectors_edition_value);
@@ -242,6 +242,8 @@ static void CheckCollectorsEdition(void)
 
     for (i = 0; i < arrlen(collectors_edition_subdirs); ++i)
     {
+        char                *subpath;
+
         subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
                                collectors_edition_subdirs[i], NULL);
 
@@ -255,7 +257,6 @@ static void CheckCollectorsEdition(void)
 static void CheckSteamEdition(void)
 {
     char        *install_path = GetRegistryString(&steam_install_location);
-    char        *subpath;
     size_t      i;
 
     if (install_path == NULL)
@@ -263,6 +264,8 @@ static void CheckSteamEdition(void)
 
     for (i = 0; i < arrlen(steam_install_subdirs); ++i)
     {
+        char        *subpath;
+
         subpath = M_StringJoin(install_path, DIR_SEPARATOR_S,
                                steam_install_subdirs[i], NULL);
 
@@ -419,7 +422,6 @@ static void BuildIWADDirList(void)
 //
 char *D_FindWADByName(char *name)
 {
-    char        *path;
     int         i;
 
     // Absolute path?
@@ -431,6 +433,8 @@ char *D_FindWADByName(char *name)
     // Search through all IWAD paths for a file with the given name.
     for (i = 0; i < num_iwad_dirs; ++i)
     {
+        char        *path;
+
         // As a special case, if this is in DOOMWADDIR or DOOMWADPATH,
         // the "directory" may actually refer directly to an IWAD
         // file.
@@ -472,11 +476,12 @@ char *D_TryFindWADByName(char *filename)
 char *D_FindIWAD(void)
 {
     char        *result = NULL;
-    char        *iwadfile;
     int         iwadparm = M_CheckParmWithArgs("-iwad", 1);
 
     if (iwadparm)
     {
+        char        *iwadfile;
+
         // Search through IWAD dirs for an IWAD with the given name.
         iwadfile = myargv[iwadparm + 1];
 

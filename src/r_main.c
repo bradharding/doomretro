@@ -326,15 +326,14 @@ static void R_InitTables(void)
 static void R_InitPointToAngle(void)
 {
     int         i;
-    long        t;
-    float       f;
 
     // slope (tangent) to angle lookup
     for (i = 0; i <= SLOPERANGE; i++)
     {
+        float   f = atanf((float)i / SLOPERANGE) / ((float)M_PI * 2);
+        long    t = (long)(0xffffffff * f);
+
         // this used to have PI (as defined above) written out longhand
-        f = atanf((float)i / SLOPERANGE) / ((float)M_PI * 2);
-        t = (long)(0xffffffff * f);
         tantoangle[i] = t;
     }
 }
@@ -445,10 +444,8 @@ void R_SetViewSize(int blocks)
 //
 void R_ExecuteSetViewSize(void)
 {
-    fixed_t     cosadj;
-    fixed_t     dy;
-    int         i;
-    int         j;
+    int i;
+    int j;
 
     setsizeneeded = false;
 
@@ -491,13 +488,15 @@ void R_ExecuteSetViewSize(void)
     // planes
     for (i = 0; i < viewheight; i++)
     {
-        dy = ABS(((i - viewheight / 2) << FRACBITS) + FRACUNIT / 2);
+        fixed_t dy = ABS(((i - viewheight / 2) << FRACBITS) + FRACUNIT / 2);
+
         yslope[i] = FixedDiv(projectiony, dy);
     }
 
     for (i = 0; i < viewwidth; i++)
     {
-        cosadj = ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]);
+        fixed_t cosadj = ABS(finecosine[xtoviewangle[i] >> ANGLETOFINESHIFT]);
+
         distscale[i] = FixedDiv(FRACUNIT, cosadj);
     }
 

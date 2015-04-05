@@ -483,9 +483,7 @@ byte *R_GetColumn(int tex, int col)
 
 static void GenerateTextureHashTable(void)
 {
-    texture_t   **rover;
     int         i;
-    int         key;
 
     textures_hashtable = (texture_t **)Z_Malloc(sizeof(texture_t *) * numtextures, PU_STATIC, 0);
 
@@ -494,6 +492,9 @@ static void GenerateTextureHashTable(void)
     // Add all textures to hash table
     for (i = 0; i < numtextures; ++i)
     {
+        texture_t       **rover;
+        int             key;
+
         // Store index
         textures[i]->index = i;
 
@@ -556,15 +557,12 @@ static void R_InitTextures(void)
 {
     maptexture_t *mtexture;
     texture_t    *texture;
-    mappatch_t   *mpatch;
-    texpatch_t   *patch;
 
     int          i;
     int          j;
 
     int          *maptex;
     int          *maptex2;
-    int          *maptex1;
 
     char         name[9];
     char         *names;
@@ -572,9 +570,7 @@ static void R_InitTextures(void)
 
     int          *patchlookup;
 
-    int          totalwidth;
     int          nummappatches;
-    int          offset;
     int          maxoff;
     int          maxoff2;
     int          numtextures1;
@@ -599,7 +595,7 @@ static void R_InitTextures(void)
     // Load the map texture definitions from textures.lmp.
     // The data is contained in one or two lumps,
     //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
-    maptex = maptex1 = W_CacheLumpName("TEXTURE1", PU_STATIC);
+    maptex = W_CacheLumpName("TEXTURE1", PU_STATIC);
     numtextures1 = LONG(*maptex);
     maxoff = W_LumpLength(W_GetNumForName("TEXTURE1"));
     directory = maptex + 1;
@@ -627,10 +623,12 @@ static void R_InitTextures(void)
     textureheight = Z_Malloc(numtextures * sizeof(*textureheight), PU_STATIC, 0);
     texturefullbright = Z_Malloc(numtextures * sizeof(*texturefullbright), PU_STATIC, 0);
 
-    totalwidth = 0;
-
     for (i = 0; i < numtextures; i++, directory++)
     {
+        mappatch_t      *mpatch;
+        texpatch_t      *patch;
+        int             offset;
+
         if (i == numtextures1)
         {
             // Start looking in second texture file.
@@ -673,8 +671,6 @@ static void R_InitTextures(void)
 
         texturewidthmask[i] = j - 1;
         textureheight[i] = texture->height << FRACBITS;
-
-        totalwidth += texture->width;
 
         R_DoomTextureHacks(texture);
     }
@@ -863,27 +859,24 @@ void R_InitColormaps(void)
     // offending code from dcolor.c, corrected it, put it here, and now colormap
     // 32 is manually calculated rather than grabbing it from the colormap lump.
     // The resulting differences are minor.
+    if (!COLORMAP)
     {
         int     i;
-        float   red, green, blue, gray;
         byte    *palsrc, *palette;
 
         palsrc = palette = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
         for (i = 0; i < 255; i++)
         {
-            red = *palsrc++ / 256.0f;
-            green = *palsrc++ / 256.0f;
-            blue = *palsrc++ / 256.0f;
+            float       red = *palsrc++ / 256.0f;
+            float       green = *palsrc++ / 256.0f;
+            float       blue = *palsrc++ / 256.0f;
+            float       gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
 
-            gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
             grays[i] = FindNearestColor(palette, (int)(gray * 255.0f),
-                                        (int)(gray * 255.0f), (int)(gray * 255.0f));
-            if (!COLORMAP)
-            {
-                gray = (1.0f - gray) * 255.0f;
-                colormaps[32 * 256 + i] = FindNearestColor(palette, (int)gray, (int)gray, (int)gray);
-            }
+                (int)(gray * 255.0f), (int)(gray * 255.0f));
+            gray = (1.0f - gray) * 255.0f;
+            colormaps[32 * 256 + i] = FindNearestColor(palette, (int)gray, (int)gray, (int)gray);
         }
     }
 }

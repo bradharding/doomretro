@@ -967,26 +967,6 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     vissprite_t         avis;
     state_t             *state;
 
-    void (*colfuncs[])(void) =
-    {
-        /* n/a      */ NULL,
-        /* SPR_SHTG */ basecolfunc,
-        /* SPR_PUNG */ basecolfunc,
-        /* SPR_PISG */ basecolfunc,
-        /* SPR_PISF */ tlcolfunc,
-        /* SPR_SHTF */ tlcolfunc,
-        /* SPR_SHT2 */ tlredwhitecolfunc,
-        /* SPR_CHGG */ basecolfunc,
-        /* SPR_CHGF */ tlcolfunc,
-        /* SPR_MISG */ basecolfunc,
-        /* SPR_MISF */ tlcolfunc,
-        /* SPR_SAWG */ basecolfunc,
-        /* SPR_PLSG */ basecolfunc,
-        /* SPR_PLSF */ tlcolfunc,
-        /* SPR_BFGG */ basecolfunc,
-        /* SPR_BFGF */ tlcolfunc
-    };
-
     // decide which patch to use
     state = psp->state;
     spr = state->sprite;
@@ -1046,6 +1026,26 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     }
     else
     {
+        void(*colfuncs[])(void) =
+        {
+            /* n/a      */ NULL,
+            /* SPR_SHTG */ basecolfunc,
+            /* SPR_PUNG */ basecolfunc,
+            /* SPR_PISG */ basecolfunc,
+            /* SPR_PISF */ tlcolfunc,
+            /* SPR_SHTF */ tlcolfunc,
+            /* SPR_SHT2 */ tlredwhitecolfunc,
+            /* SPR_CHGG */ basecolfunc,
+            /* SPR_CHGF */ tlcolfunc,
+            /* SPR_MISG */ basecolfunc,
+            /* SPR_MISF */ tlcolfunc,
+            /* SPR_SAWG */ basecolfunc,
+            /* SPR_PLSG */ basecolfunc,
+            /* SPR_PLSF */ tlcolfunc,
+            /* SPR_BFGG */ basecolfunc,
+            /* SPR_BFGF */ tlcolfunc
+        };
+
         if (state == &states[S_DSGUN])
             vis->colfunc = R_DrawSuperShotgunColumn;
         else

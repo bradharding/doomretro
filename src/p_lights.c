@@ -183,11 +183,11 @@ void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
 int EV_StartLightStrobing(line_t *line)
 {
     int         secnum = -1;
-    sector_t    *sec;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sector_t        *sec = &sectors[secnum];
+
         if (sec->specialdata)
             continue;
 
@@ -236,14 +236,17 @@ int EV_LightTurnOn(line_t *line, int bright)
     {
         sector_t        *temp;
         sector_t        *sector = sectors + i;
-        int             j;
         int             tbright = bright;       // jff 5/17/98 search for maximum PER sector
 
         // bright = 0 means to search for highest light level surrounding sector
         if (!bright)
+        {
+            int j;
+
             for (j = 0; j < sector->linecount; j++)
                 if ((temp = getNextSector(sector->lines[j], sector)) && temp->lightlevel > tbright)
                     tbright = temp->lightlevel;
+        }
         sector->lightlevel = tbright;
     }
     return 1;

@@ -1310,7 +1310,6 @@ static fixed_t  bottomslope;
 boolean PTR_AimTraverse(intercept_t *in)
 {
     mobj_t      *th;
-    fixed_t     slope;
     fixed_t     thingtopslope;
     fixed_t     thingbottomslope;
     fixed_t     dist;
@@ -1318,6 +1317,7 @@ boolean PTR_AimTraverse(intercept_t *in)
     if (in->isaline)
     {
         line_t  *li = in->d.line;
+        fixed_t slope;
 
         if (!(li->flags & ML_TWOSIDED))
             return false;               // stop
@@ -1668,7 +1668,7 @@ int     bombdamage;
 //
 boolean PIT_RadiusAttack(mobj_t *thing)
 {
-    fixed_t     dx, dy, dz;
+    fixed_t     dx, dy;
     fixed_t     dist;
 
     if (!(thing->flags & MF_SHOOTABLE) && !(thing->flags & MF_CORPSE))
@@ -1695,7 +1695,8 @@ boolean PIT_RadiusAttack(mobj_t *thing)
     }
     else
     {
-        dz = ABS(thing->z + (thing->height >> 1) - bombspot->z);
+        fixed_t dz = ABS(thing->z + (thing->height >> 1) - bombspot->z);
+
         dist = MAX(0, MAX(dist, dz) >> FRACBITS);
 
         if (dist >= bombdamage)

@@ -662,9 +662,9 @@ static int ParseIntParameter(char *strparm, int set)
                 return i;
 
     if (strparm[0] == '0' && strparm[1] == 'x')
-        sscanf(strparm + 2, "%x", &parm);
+        sscanf(strparm + 2, "%10x", &parm);
     else
-        sscanf(strparm, "%i", &parm);
+        sscanf(strparm, "%10i", &parm);
 
     return parm;
 }
@@ -1095,8 +1095,6 @@ static void M_CheckDefaults(void)
     if (novert != false && novert != true)
         novert = NOVERT_DEFAULT;
 
-    sscanf(pixelsize, "%ix%i", &pixelwidth, &pixelheight);
-
     pixelwidth = BETWEEN(PIXELWIDTH_MIN, pixelwidth, PIXELWIDTH_MAX);
     while (SCREENWIDTH % pixelwidth)
         --pixelwidth;
@@ -1124,20 +1122,11 @@ static void M_CheckDefaults(void)
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
 
-    if (!strcasecmp(screenresolution, "desktop"))
+    if (screenwidth && screenheight
+        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
     {
-        screenwidth = 0;
-        screenheight = 0;
-    }
-    else
-    {
-        sscanf(screenresolution, "%ix%i", &screenwidth, &screenheight);
-        if (screenwidth && screenheight
-            && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
-        {
-            screenwidth = SCREENWIDTH_DEFAULT;
-            screenheight = SCREENHEIGHT_DEFAULT;
-        }
+        screenwidth = SCREENWIDTH_DEFAULT;
+        screenheight = SCREENHEIGHT_DEFAULT;
     }
 
     selectedepisode = BETWEEN(EPISODE_MIN, selectedepisode, EPISODE_MAX - (gamemode == registered));

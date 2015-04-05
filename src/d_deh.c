@@ -1745,15 +1745,16 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
     char        inbuffer[DEH_BUFFERMAX];
     int         indexnum;
     char        mnemonic[DEH_MAXKEYLEN];        // to hold the codepointer mnemonic
-    int         i;                              // looper
-    boolean     found;                          // know if we found this one during lookup or not
 
     // Ty 05/16/98 - initialize it to something, dummy!
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // for this one, we just read 'em until we hit a blank line
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
+        int     i = 0;                          // looper
+        boolean found = false;                  // know if we found this one during lookup or not
+
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
         lfstrip(inbuffer);
@@ -1761,7 +1762,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
             break;      // killough 11/98: really exit on blank line
 
         // killough 8/98: allow hex numbers in input:
-        if ((3 != sscanf(inbuffer, "%s %i = %s", key, &indexnum, mnemonic))
+        if ((3 != sscanf(inbuffer, "%32s %10i = %32s", key, &indexnum, mnemonic))
             || strcasecmp(key, "FRAME"))        // NOTE: different format from normal
         {
             if (fpout)
@@ -1781,8 +1782,6 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
         strcpy(key, "A_");      // reusing the key area to prefix the mnemonic
         strcat(key, ptr_lstrip(mnemonic));
 
-        found = false;
-        i = 0;  // incremented to start at zero at the top of the loop
         while (!found && deh_bexptrs[i].lookup != NULL)
         {
             if (!strcasecmp(key, deh_bexptrs[i].lookup))
@@ -1824,12 +1823,12 @@ void deh_procThing(DEHFILE *fpin, FILE* fpout, char *line)
     int         *pix;           // Ptr to int, since all Thing structure entries are ints
     char        *strval;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
     if (fpout)
         fprintf(fpout, "Thing line: '%s'\n", inbuffer);
 
     // killough 8/98: allow hex numbers in input:
-    ix = sscanf(inbuffer, "%s %i", key, &indexnum);
+    ix = sscanf(inbuffer, "%32s %10i", key, &indexnum);
     if (fpout)
         fprintf(fpout, "count=%d, Thing %d\n", ix, indexnum);
 
@@ -1923,10 +1922,10 @@ void deh_procFrame(DEHFILE *fpin, FILE* fpout, char *line)
     long        value;  // All deh values are ints or longs
     int         indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    sscanf(inbuffer, "%32s %10i", key, &indexnum);
     if (fpout)
         fprintf(fpout, "Processing Frame at index %d: %s\n", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMSTATES)
@@ -2015,11 +2014,11 @@ void deh_procPointer(DEHFILE *fpin, FILE* fpout, char *line)
     int         indexnum;
     int         i;      // looper
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
     // NOTE: different format from normal
 
     // killough 8/98: allow hex numbers in input, fix error case:
-    if (sscanf(inbuffer, "%*s %*i (%s %i)", key, &indexnum) != 2)
+    if (sscanf(inbuffer, "%*s %*i (%32s %10i)", key, &indexnum) != 2)
     {
         if (fpout)
             fprintf(fpout, "Bad data pair in '%s'\n", inbuffer);
@@ -2062,8 +2061,9 @@ void deh_procPointer(DEHFILE *fpin, FILE* fpout, char *line)
             if (fpout)
                 fprintf(fpout, " - applied %p from codeptr[%ld] to states[%d]\n",
                     (void *)deh_codeptr[value].acp1, value, indexnum);
+
             // Write BEX-oriented line to match:
-            for (i = 0; i < NUMSTATES; i++)
+            for (i = 0; i < sizeof(deh_bexptrs) / sizeof(*deh_bexptrs); i++)
             {
                 if (deh_bexptrs[i].cptr.acp1 == deh_codeptr[value].acp1)
                 {
@@ -2096,10 +2096,10 @@ void deh_procSounds(DEHFILE *fpin, FILE* fpout, char *line)
     long        value;  // All deh values are ints or longs
     int         indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    sscanf(inbuffer, "%32s %10i", key, &indexnum);
     if (fpout)
         fprintf(fpout, "Processing Sounds at index %d: %s\n", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMSFX)
@@ -2158,10 +2158,10 @@ void deh_procAmmo(DEHFILE *fpin, FILE* fpout, char *line)
     long        value;  // All deh values are ints or longs
     int         indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    sscanf(inbuffer, "%32s %10i", key, &indexnum);
     if (fpout)
         fprintf(fpout, "Processing Ammo at index %d: %s\n", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMAMMO)
@@ -2206,10 +2206,10 @@ void deh_procWeapon(DEHFILE *fpin, FILE* fpout, char *line)
     long        value;      // All deh values are ints or longs
     int         indexnum;
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    sscanf(inbuffer, "%32s %10i", key, &indexnum);
     if (fpout)
         fprintf(fpout, "Processing Weapon at index %d: %s\n", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMWEAPONS)
@@ -2263,10 +2263,10 @@ void deh_procSprite(DEHFILE *fpin, FILE* fpout, char *line) // Not supported
 
     // Too little is known about what this is supposed to do, and
     // there are better ways of handling sprite renaming.  Not supported.
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    sscanf(inbuffer, "%32s %10i", key, &indexnum);
     if (fpout)
         fprintf(fpout, "Ignoring Sprite offset change at index %d: %s\n", indexnum, key);
     while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
@@ -2323,10 +2323,10 @@ void deh_procPars(DEHFILE *fpin, FILE* fpout, char *line) // extension
     // of parameters on the line determines which group of par values
     // is being changed.  Error checking is done based on current fixed
     // array sizes of[4][10] and [32]
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%s %i", key, &indexnum);
+    sscanf(inbuffer, "%32s %10i", key, &indexnum);
     if (fpout)
         fprintf(fpout, "Processing Par value at index %d: %s\n", indexnum, key);
 
@@ -2337,9 +2337,9 @@ void deh_procPars(DEHFILE *fpin, FILE* fpout, char *line) // extension
         lfstrip(strlwr(inbuffer));              // lowercase it
         if (!*inbuffer)
             break;                              // killough 11/98
-        if (3 != sscanf(inbuffer, "par %i %i %i", &episode, &level, &partime))
+        if (3 != sscanf(inbuffer, "par %10i %10i %10i", &episode, &level, &partime))
         { // not 3
-            if (2 != sscanf(inbuffer, "par %i %i", &level, &partime))
+            if (2 != sscanf(inbuffer, "par %10i %10i", &level, &partime))
             { // not 2
                 if (fpout)
                     fprintf(fpout, "Invalid par time setting string: %s\n", inbuffer);
@@ -2410,7 +2410,7 @@ void deh_procCheat(DEHFILE *fpin, FILE* fpout, char *line)
     if (fpout)
         fprintf(fpout, "Processing Cheat: %s\n", line);
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
     while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         boolean     success = false;
@@ -2615,7 +2615,7 @@ void deh_procMisc(DEHFILE *fpin, FILE* fpout, char *line)
     char        inbuffer[DEH_BUFFERMAX];
     long        value;  // All deh values are ints or longs
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
     while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
@@ -2698,14 +2698,14 @@ void deh_procText(DEHFILE *fpin, FILE* fpout, char *line)
         if (fpout)
             fprintf(fpout, "Skipped text block because of notext directive\n");
         strcpy(inbuffer, line);
-        while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+        while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
             dehfgets(inbuffer, sizeof(inbuffer), fpin); // skip block
         // Ty 05/17/98 - don't care if this fails
         return;                                 // ************** Early return
     }
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(line, "%s %i %i", key, &fromlen, &tolen);
+    sscanf(line, "%32s %10i %10i", key, &fromlen, &tolen);
     if (fpout)
         fprintf(fpout, "Processing Text (key=%s, from=%d, to=%d)\n", key, fromlen, tolen);
 
@@ -2738,7 +2738,7 @@ void deh_procText(DEHFILE *fpin, FILE* fpout, char *line)
                 // use strdup unless we redeclare sprnames and change all else
                 sprnames[i] = strdup(sprnames[i]);
 
-                strncpy(sprnames[i], &inbuffer[fromlen], tolen);
+                M_StringCopy(sprnames[i], &inbuffer[fromlen], tolen);
                 found = true;
                 break;          // only one will match--quit early
             }
@@ -2812,7 +2812,7 @@ void deh_procError(DEHFILE *fpin, FILE* fpout, char *line)
 {
     char        inbuffer[DEH_BUFFERMAX];
 
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
     if (fpout)
         fprintf(fpout, "Unmatched Block: '%s'\n", inbuffer);
     return;
@@ -2844,7 +2844,7 @@ void deh_procStrings(DEHFILE *fpin, FILE* fpout, char *line)
         holdstring = malloc(maxstrlen * sizeof(*holdstring));
 
     *holdstring = '\0';                 // empty string to start with
-    strncpy(inbuffer, line, DEH_BUFFERMAX);
+    M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
     // Ty 04/24/98 - have to allow inbuffer to start with a blank for
     // the continuations of C1TEXT etc.
     while (!dehfeof(fpin) && *inbuffer)

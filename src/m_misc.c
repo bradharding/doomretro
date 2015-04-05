@@ -199,10 +199,10 @@ char *M_TempFile(char *s)
 
 boolean M_StrToInt(const char *str, int *result)
 {
-    return (sscanf(str, " 0x%x", result) == 1
-            || sscanf(str, " 0X%x", result) == 1
-            || sscanf(str, " 0%o", result) == 1
-            || sscanf(str, " %d", result) == 1);
+    return (sscanf(str, " 0x%2x", result) == 1
+            || sscanf(str, " 0X%2x", result) == 1
+            || sscanf(str, " 0%3o", result) == 1
+            || sscanf(str, " %10d", result) == 1);
 }
 
 void M_ForceUppercase(char *text)
@@ -243,14 +243,14 @@ char *M_StrCaseStr(char *haystack, char *needle)
 char *stristr(char *ch1, char *ch2)
 {
     char        *chN1, *chN2;
-    char        *chNdx;
     char        *chRet = NULL;
 
     chN1 = strdup(ch1);
     chN2 = strdup(ch2);
     if (chN1 && chN2)
     {
-        chNdx = chN1;
+        char    *chNdx = chN1;
+
         while (*chNdx)
         {
             *chNdx = (char)tolower(*chNdx);

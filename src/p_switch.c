@@ -60,7 +60,6 @@ void P_InitSwitchList(void)
     int         count = 0;
     int         *ptr_B;
     texture_t   **ptr_1;
-    texture_t   *ptr_2;
     char        sw2name[9];
 
     sw2name[8] = 0;
@@ -70,7 +69,8 @@ void P_InitSwitchList(void)
 
     do
     {
-        ptr_2 = *ptr_1++;
+        texture_t       *ptr_2 = *ptr_1++;
+
         if (!strncasecmp(ptr_2->name, "SW1", 3))
         {
             int j;

@@ -1928,7 +1928,6 @@ void P_StartButton(line_t *line, bwhere_e w, int texture, int time);
 //
 void P_UnArchiveSpecials(void)
 {
-    byte                tclass;
     ceiling_t           *ceiling;
     vldoor_t            *door;
     floormove_t         *floor;
@@ -1942,7 +1941,7 @@ void P_UnArchiveSpecials(void)
     // read in saved thinkers
     while (1)
     {
-        tclass = saveg_read8();
+        byte            tclass = saveg_read8();
 
         switch (tclass)
         {

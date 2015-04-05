@@ -790,8 +790,8 @@ void P_SpawnPlayer(const mapthing_t *mthing)
     z = ONFLOORZ;
     mobj = P_SpawnMobj(x, y, z, MT_PLAYER);
 
-    mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) : 
-                                        ANG45 * (mthing->angle / 45));
+    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) : 
+        ANG45 * (mthing->angle / 45));
     mobj->player = p;
     mobj->health = p->health;
 
@@ -914,8 +914,8 @@ void P_SpawnMapThing(mapthing_t *mthing)
     if (mobj->flags & MF_COUNTITEM)
         totalitems++;
 
-    mobj->angle = (mthing->angle % 45 ? mthing->angle * (ANG45 / 45) :
-                                        ANG45 * (mthing->angle / 45));
+    mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) :
+        ANG45 * (mthing->angle / 45));
     if (mobj->shadow)
         mobj->shadow->angle = mobj->angle;
 

@@ -150,7 +150,6 @@ void HUlib_drawTextLine(hu_textline_t *l)
     int                 tw = 0;
     int                 x, y;
     int                 xx, yy;
-    unsigned char       c;
     static char         prev = '\0';
 
     // draw the new stuff
@@ -159,11 +158,11 @@ void HUlib_drawTextLine(hu_textline_t *l)
     memset(tempscreen, 251, SCREENWIDTH * SCREENHEIGHT);
     for (i = 0; i < l->len; i++)
     {
-        c = toupper(l->l[i]);
+        unsigned char   c = toupper(l->l[i]);
+
         if (c != '\n' && c != ' ' && ((c >= l->sc && c <= '_') || l->l[i] == '°'))
         {
             int j = c - '!';
-            int k = 0;
 
             // [BH] have matching curly single and double quotes
             if (!i || (i > 0 && l->l[i - 1] == ' '))
@@ -192,6 +191,8 @@ void HUlib_drawTextLine(hu_textline_t *l)
             }
             else
             {
+                int     k = 0;
+
                 // [BH] apply kerning to certain character pairs
                 while (kern[k].char1)
                 {
@@ -275,16 +276,15 @@ void HUlib_drawTextLine(hu_textline_t *l)
 // sorta called by HU_Erase and just better darn get things straight
 void HUlib_eraseTextLine(hu_textline_t *l)
 {
-    int lh;
-    int y;
-    int yoffset;
-
     // Only erases when NOT in automap and the screen is reduced,
     // and the text must either need updating or refreshing
     // (because of a recent change back from the automap)
     if (!automapactive && viewwindowx && l->needsupdate)
     {
-        lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
+        int     y;
+        int     yoffset;
+        int     lh = (SHORT(l->f[0]->height) + 4) * SCREENSCALE;
+
         for (y = l->y, yoffset = y * SCREENWIDTH; y < l->y + lh; y++, yoffset += SCREENWIDTH)
         {
             if (y < viewwindowy || y >= viewwindowy + viewheight)
@@ -340,8 +340,7 @@ void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg)
 
 void HUlib_drawSText(hu_stext_t *s)
 {
-    int                 i, idx;
-    hu_textline_t       *l;
+    int i;
 
     if (!*s->on)
         return; // if not on, don't draw
@@ -349,7 +348,9 @@ void HUlib_drawSText(hu_stext_t *s)
     // draw everything
     for (i = 0; i < s->h; i++)
     {
-        idx = s->cl - i;
+        int             idx = s->cl - i;
+        hu_textline_t   *l;
+
         if (idx < 0)
             idx += s->h;        // handle queue of lines
 

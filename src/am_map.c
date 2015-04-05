@@ -711,15 +711,16 @@ static void AM_toggleRotateMode(void)
 //
 boolean AM_Responder(event_t *ev)
 {
-    int                 key;
     int                 rc = false;
-    static boolean      backbuttondown = false;
 
     direction = 0;
     modstate = SDL_GetModState();
 
     if (!menuactive && !paused)
     {
+        int             key;
+        static boolean  backbuttondown = false;
+
         if (!(gamepadbuttons & gamepadautomap))
             backbuttondown = false;
 

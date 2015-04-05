@@ -526,14 +526,13 @@ extern int      cardsfound;
 //  intercept cheats.
 boolean ST_Responder(event_t *ev)
 {
-    int         i;
-
     // if a user keypress...
     if (ev->type == ev_keydown || consolecheat[0])
     {
         if (!menuactive && !paused)     // [BH] no cheats when in menu or paused
         {
-            // [BH]
+            int i;
+
             if (!consolecheat[0] && cht_CheckCheat(&cheat_mus, ev->data2) && !nomusic && musicVolume)
                 idmus = true;
 
@@ -1057,9 +1056,7 @@ void ST_updateFaceWidget(void)
     int         i;
     angle_t     badguyangle;
     angle_t     diffang;
-    static int  lastattackdown = -1;
     static int  priority = 0;
-    boolean     doevilgrin;
 
     if (priority < 10)
     {
@@ -1077,7 +1074,7 @@ void ST_updateFaceWidget(void)
         if (plyr->bonuscount)
         {
             // picking up bonus
-            doevilgrin = false;
+            boolean     doevilgrin = false;
 
             for (i = 0; i < NUMWEAPONS; i++)
             {
@@ -1177,6 +1174,8 @@ void ST_updateFaceWidget(void)
 
     if (priority < 6)
     {
+        static int  lastattackdown = -1;
+
         if (plyr->attackdown
             // [BH] no rampage face when invulnerable
             && !(plyr->cheats & CF_GODMODE) && !plyr->powers[pw_invulnerability])

@@ -323,11 +323,9 @@ static void HU_DrawHUD(void)
         int             keys = 0;
         int             i = 0;
         static int      healthwait = 0;
-        static int      ammowait = 0;
         boolean         invert;
         int             invulnerability = plr->powers[pw_invulnerability];
         static boolean  healthanim = false;
-        static boolean  ammoanim = false;
         patch_t         *patch;
 
         if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
@@ -372,7 +370,9 @@ static void HU_DrawHUD(void)
 
         if (ammo && ammotype != am_noammo)
         {
-            int ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
+            int                 ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
+            static int          ammowait = 0;
+            static boolean      ammoanim = false;
 
             invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN
                 || menuactive || paused || consoleactive);

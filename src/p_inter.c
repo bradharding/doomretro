@@ -176,10 +176,10 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
 
 void P_GiveBackpack(player_t *player)
 {
-    int i;
-
     if (!player->backpack)
     {
+        int     i;
+
         for (i = 0; i < NUMAMMO; i++)
             player->maxammo[i] *= 2;
         player->backpack = true;

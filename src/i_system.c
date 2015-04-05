@@ -88,12 +88,13 @@ void I_PrintWindowsVersion(void)
     PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"), "RtlGetVersion");
     PGETPRODUCTINFO     pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetProductInfo");
     OSVERSIONINFOEXW    info;
-    const char          *infoname;
     DWORD               type;
-    const char          *typename = "";
 
     if (pRtlGetVersion && pGetProductInfo)
     {
+        const char      *infoname;
+        const char      *typename = "";
+
         ZeroMemory(&info, sizeof(&info));
         info.dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
 

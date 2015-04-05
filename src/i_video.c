@@ -853,10 +853,6 @@ void I_FinishUpdate(void)
 
     if (!capfps || tic != gametic || wipe)
     {
-        static int      frames = -1;
-        static int      starttime = 0;
-        static int      currenttime;
-
 #if !defined(SDL20)
         if (need_resize)
         {
@@ -901,6 +897,10 @@ void I_FinishUpdate(void)
 
         if (showfps)
         {
+            static int  frames = -1;
+            static int  starttime = 0;
+            static int  currenttime;
+
             ++frames;
             currenttime = SDL_GetTicks();
             if (currenttime - starttime >= 1000)
@@ -952,13 +952,14 @@ static void CreateCursors(void)
 
 void SetWindowPositionVars(void)
 {
-#if !defined(SDL20)
-    char        buf[64];
-#endif
     int         x, y;
 
-    if (sscanf(windowposition, "%i,%i", &x, &y) == 2)
+    if (sscanf(windowposition, "%10i,%10i", &x, &y) == 2)
     {
+#if !defined(SDL20)
+        char    buf[64];
+#endif
+
         if (x < 0)
             x = 0;
         else if (x > desktopwidth)

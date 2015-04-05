@@ -490,7 +490,7 @@ static void blurscreen(int x1, int y1, int x2, int y2, int i)
 //
 void M_DarkBackground(void)
 {
-    int i, j;
+    int i;
 
     height = (SCREENHEIGHT - widescreen * SBARHEIGHT) * SCREENWIDTH;
 
@@ -509,6 +509,9 @@ void M_DarkBackground(void)
         blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
 
         if (fullscreen && !widescreen)
+        {
+            int j;
+
             for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
             {
                 blurredscreen[i] = tinttab50[blurredscreen[i]];
@@ -516,8 +519,9 @@ void M_DarkBackground(void)
                 blurredscreen[j] = tinttab50[blurredscreen[j]];
                 blurredscreen[j - 1] = tinttab50[blurredscreen[j] + (blurredscreen[j - 1] << 8)];
             }
+        }
 
-            blurred = true;
+        blurred = true;
     }
 
     for (i = 0; i < height; ++i)
@@ -773,13 +777,12 @@ void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 //
 void M_ReadSaveStrings(void)
 {
-    FILE        *handle;
     int         i;
     char        name[256];
 
     for (i = 0; i < load_end; i++)
     {
-        size_t  read;
+        FILE    *handle;
 
         M_StringCopy(name, P_SaveGameFile(i), sizeof(name));
 
@@ -791,7 +794,7 @@ void M_ReadSaveStrings(void)
             continue;
         }
         savegames = true;
-        read = fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle);
+        fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle);
         fclose(handle);
         LoadMenu[i].status = 1;
     }
@@ -813,7 +816,6 @@ boolean M_CheckSaveGame(int choice)
 {
     FILE        *handle;
     int         episode;
-    int         map;
     int         mission;
     int         i;
 
@@ -822,7 +824,7 @@ boolean M_CheckSaveGame(int choice)
     for (i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
         saveg_read8(handle);
     episode = saveg_read8(handle);
-    map = saveg_read8(handle);
+    saveg_read8(handle);
     mission = saveg_read8(handle);
 
     fclose(handle);
@@ -975,8 +977,6 @@ void M_DrawSave(void)
     char        *right = Z_Malloc(256, PU_STATIC, NULL);
     int         i;
     int         j;
-    int         x, y;
-    int         xx, yy;
     patch_t     *pipe = W_CacheLumpName("STCFN121", PU_CACHE);
 
     // darken background
@@ -991,8 +991,9 @@ void M_DrawSave(void)
     // draw each save game slot
     for (i = 0; i < load_end; ++i)
     {
+        int     y = LoadDef.y + i * LINEHEIGHT + OFFSET;
+
         // draw save game slot background
-        y = LoadDef.y + i * LINEHEIGHT + OFFSET;
         M_DrawSaveLoadBorder(LoadDef.x - 11, y - 4);
 
         // draw save game description
@@ -1027,15 +1028,19 @@ void M_DrawSave(void)
         }
         if (showcaret)
         {
-            x = LoadDef.x - 2 + M_StringWidth(left);
-            y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
+            int x = LoadDef.x - 2 + M_StringWidth(left);
+            int y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
 
             if (STCFN121)
                 V_DrawPatch(x, y, 0, pipe);
             else
+            {
+                int     xx, yy;
+
                 for (yy = 0; yy < 9; ++yy)
                     for (xx = 0; xx < 3; ++xx)
                         V_DrawPixel(x + xx, y + yy, (int)savecaret[yy * 3 + xx], false);
+            }
         }
     }
 
@@ -1662,7 +1667,6 @@ boolean message_dontpause = false;
 
 void M_ChangeMessages(int choice)
 {
-    choice = 0;
     blurred = false;
     messages = !messages;
     if (menuactive)
@@ -1715,7 +1719,6 @@ void M_EndGameResponse(int key)
 
 void M_EndGame(int choice)
 {
-    choice = 0;
     if (!usergame)
         return;
 
@@ -1738,7 +1741,6 @@ void M_ReadThis(int choice)
 
 void M_FinishReadThis(int choice)
 {
-    choice = 0;
     M_SetupNextMenu(&MainDef);
 }
 
@@ -1886,7 +1888,6 @@ void M_ChangeSensitivity(int choice)
 
 void M_ChangeDetail(int choice)
 {
-    choice = 0;
     blurred = false;
     graphicdetail = !graphicdetail;
     if (!menuactive)
@@ -2092,13 +2093,13 @@ void M_WriteText(int x, int y, char *string, boolean shadow)
     char        *ch = string;
     char        letter;
     char        prev = ' ';
-    int         c;
     int         cx = x;
     int         cy = y;
 
     while (1)
     {
-        c = *ch++;
+        int     c = *ch++;
+
         if (!c)
             break;
         if (c == '\n')
@@ -2222,7 +2223,6 @@ boolean M_Responder(event_t *ev)
     int         key = -1;
     int         i;
     static int  keywait = 0;
-    char        *tempstring = "";
 
 #if defined(SDL20)
     SDL_Keymod  modstate = SDL_GetModState();
@@ -2393,8 +2393,6 @@ boolean M_Responder(event_t *ev)
     // Save Game string input
     if (saveStringEnter)
     {
-        boolean allspaces = true;
-
         switch (key)
         {
             // delete character left of caret
@@ -2439,6 +2437,8 @@ boolean M_Responder(event_t *ev)
             case KEY_ENTER:
                 if (!keydown)
                 {
+                    boolean     allspaces = true;
+
                     keydown = key;
                     for (i = 0; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)
                         if (savegamestrings[saveSlot][i] != ' ')
@@ -3148,16 +3148,15 @@ void M_Drawer(void)
     static short        x, y;
     unsigned int        i;
     unsigned int        max;
-    char                string[80];
-    char                *name;
-    int                 start;
 
     // Horiz. & Vertically center string and print it.
     if (messageToPrint)
     {
+        char    string[80];
+        int     start = 0;
+
         M_DarkBackground();
 
-        start = 0;
         if (widescreen)
             y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
         else
@@ -3209,7 +3208,7 @@ void M_Drawer(void)
 
     for (i = 0; i < max; ++i)
     {
-        name = currentMenu->menuitems[i].name;
+        char    *name = currentMenu->menuitems[i].name;
 
         if (name[0])
         {

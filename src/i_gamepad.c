@@ -142,6 +142,8 @@ void I_InitGamepad(void)
 #endif
                 C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 
+            free(XInputDLL);
+
             SDL_JoystickEventState(SDL_ENABLE);
         }
     }

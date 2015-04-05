@@ -342,13 +342,9 @@ void R_RenderSegLoop(void)
         int     bottom;
         int     top = ceilingclip[rw_x] + 1;
         boolean bottomclipped = false;
-        boolean topclipped = false;
 
         if (yl < top)
-        {
             yl = top;
-            topclipped = true;
-        }
 
         if (markceiling)
         {
@@ -554,7 +550,6 @@ void R_StoreWallRange(int start, int stop)
 {
     const int   shift_bits = 1;
     int64_t     dx, dy, dx1, dy1, len;
-    angle_t     offsetangle;
 
     linedef = curline->linedef;
 
@@ -580,10 +575,6 @@ void R_StoreWallRange(int start, int stop)
 
     // calculate rw_distance for scale calculation
     rw_normalangle = curline->angle + ANG90;
-    offsetangle = rw_normalangle - rw_angle1;
-
-    if (ABS(offsetangle) > ANG90)
-        offsetangle = ANG90;
 
     // [Linguica] Fix long wall error
     // shift right to avoid possibility of int64 overflow in rw_distance calculation

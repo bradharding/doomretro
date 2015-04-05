@@ -810,8 +810,6 @@ void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
     byte        *source;
     byte        *dest;
     byte        *desttop;
-    int         count;
-    fixed_t     frac;
 
     column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
@@ -820,10 +818,12 @@ void F_DrawPatchCol(int x, patch_t *patch, int col, fixed_t fracstep)
     // step through the posts in a column
     while (column->topdelta != 0xff)
     {
+        int         count = (column->length << FRACBITS) / fracstep;
+        fixed_t     frac = 0;
+
         source = (byte *)column + 3;
         dest = desttop + column->topdelta * SCREENWIDTH;
-        count = (column->length << FRACBITS) / fracstep;
-        frac = 0;
+
         while (count--)
         {
             *dest = source[frac >> FRACBITS];
@@ -898,12 +898,12 @@ void F_BunnyScroll(void)
 
 static void F_ArtScreenDrawer(void)
 {
-    char        *lumpname;
-
     if (gameepisode == 3)
         F_BunnyScroll();
     else
     {
+        char    *lumpname;
+
         switch (gameepisode)
         {
             case 1:

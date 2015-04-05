@@ -594,7 +594,6 @@ void R_DrawFlippedSkyColumn(void)
     byte                *dest;
     fixed_t             frac;
     const fixed_t       fracstep = dc_iscale;
-    fixed_t             i;
 
     if (count++ < 0)
         return;
@@ -604,6 +603,7 @@ void R_DrawFlippedSkyColumn(void)
     frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
     {
+        fixed_t                 i;
         const byte              *source = dc_source;
         const lighttable_t      *colormap = dc_colormap;
 

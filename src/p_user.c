@@ -300,7 +300,6 @@ void P_PlayerThink(player_t *player)
 {
     ticcmd_t            *cmd = &player->cmd;
     mobj_t              *mo = player->mo;
-    weapontype_t        newweapon;
 
     // [AM] Assume we can interpolate at the beginning
     //      of the tic.
@@ -355,7 +354,7 @@ void P_PlayerThink(player_t *player)
     {
         // The actual changing of the weapon is done when the weapon psprite can do it
         //  (read: not in the middle of an attack).
-        newweapon = (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT;
+        weapontype_t    newweapon = (cmd->buttons & BT_WEAPONMASK) >> BT_WEAPONSHIFT;
 
         if (newweapon == wp_fist)
         {

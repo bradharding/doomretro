@@ -601,7 +601,6 @@ int WI_drawNum(int x, int y, int n, int digits)
 
     int fontwidth = SHORT(num[0]->width);
     int neg;
-    int temp;
 
     if (digits < 0)
     {
@@ -610,9 +609,10 @@ int WI_drawNum(int x, int y, int n, int digits)
             digits = 1;
         else
         {
+            int temp = n;
+
             // figure out # of digits in #
             digits = 0;
-            temp = n;
 
             while (temp)
             {
@@ -662,9 +662,6 @@ void WI_drawPercent(int x, int y, int p)
 //
 void WI_drawTime(int x, int y, int t)
 {
-    int div;
-    int n;
-
     if (t < 0)
         return;
 
@@ -672,12 +669,11 @@ void WI_drawTime(int x, int y, int t)
 
     if (t <= 61 * 59)
     {
-        div = 1;
+        int     div = 1;
 
         do
         {
-            n = (t / div) % 60;
-            x = WI_drawNum(x, y, n, 2) - SHORT(colon->width);
+            x = WI_drawNum(x, y, (t / div) % 60, 2) - SHORT(colon->width);
             div *= 60;
 
             // draw
@@ -745,9 +741,6 @@ void WI_updateShowNextLoc(void)
 
 void WI_drawShowNextLoc(void)
 {
-    int i;
-    int last;
-
     WI_slamBackground();
 
     // draw animated background
@@ -755,6 +748,9 @@ void WI_drawShowNextLoc(void)
 
     if (gamemode != commercial)
     {
+        int     i;
+        int     last;
+
         if (wbs->epsd > 2)
         {
             WI_drawEL();
@@ -1041,7 +1037,6 @@ typedef void (*load_callback_t)(char *lumpname, patch_t **variable);
 static void WI_loadUnloadData(load_callback_t callback)
 {
     int         i;
-    int         j;
     char        name[9];
     anim_t      *a;
 
@@ -1072,6 +1067,8 @@ static void WI_loadUnloadData(load_callback_t callback)
 
         if (wbs->epsd < 3)
         {
+            int j;
+
             for (j = 0; j < NUMANIMS[wbs->epsd]; j++)
             {
                 a = &anims[wbs->epsd][j];

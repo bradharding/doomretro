@@ -352,7 +352,6 @@ static boolean ReadTrackHeader(midi_track_t *track, FILE *stream)
 static boolean ReadTrack(midi_track_t *track, FILE *stream)
 {
     midi_event_t        *new_events;
-    midi_event_t        *event;
     unsigned int        last_event_type;
 
     track->num_events = 0;
@@ -367,6 +366,8 @@ static boolean ReadTrack(midi_track_t *track, FILE *stream)
 
     for (;;)
     {
+        midi_event_t    *event;
+
         // Resize the track slightly larger to hold another event:
         new_events = (midi_event_t *)realloc(track->events,
                                              sizeof(midi_event_t) * (track->num_events + 1));
@@ -449,10 +450,10 @@ static boolean ReadFileHeader(midi_file_t *file, FILE *stream)
 
 void MIDI_FreeFile(midi_file_t *file)
 {
-    unsigned int        i;
-
     if (file->tracks != NULL)
     {
+        unsigned int    i;
+
         for (i = 0; i < file->num_tracks; ++i)
             FreeTrack(&file->tracks[i]);
 

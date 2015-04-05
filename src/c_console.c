@@ -445,7 +445,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color)
         else
         {
             patch_t     *patch = NULL;
-            int         k = 0;
 
             if (letter == ITALICS)
                 italics = false;
@@ -467,6 +466,9 @@ static void C_DrawConsoleText(int x, int y, char *text, int color)
             }
 
             if (!italics)
+            {
+                int     k = 0;
+
                 while (kern[k].char1)
                 {
                     if (prevletter == kern[k].char1 && letter == kern[k].char2)
@@ -476,6 +478,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color)
                     }
                     ++k;
                 }
+            }
 
             if (patch)
             {
@@ -688,7 +691,6 @@ boolean C_Responder(event_t *ev)
                         if (consolecmds[i].parameters == 1)
                         {
                             char        cmd[255] = "";
-                            char        parm[255] = "";
 
                             if (consolecmds[i].type == CT_CHEAT)
                             {
@@ -717,7 +719,9 @@ boolean C_Responder(event_t *ev)
                             }
                             else
                             {
-                                sscanf(consoleinput, "%s %s", cmd, parm);
+                                char    parm[255] = "";
+
+                                sscanf(consoleinput, "%255s %255s", cmd, parm);
                                 C_StripQuotes(parm);
                                 if (!strcasecmp(cmd, consolecmds[i].name)
                                     && consolecmds[i].condition(cmd, parm, ""))
@@ -735,7 +739,7 @@ boolean C_Responder(event_t *ev)
                             char        parm1[255] = "";
                             char        parm2[255] = "";
 
-                            sscanf(consoleinput, "%s %s %s", cmd, parm1, parm2);
+                            sscanf(consoleinput, "%255s %255s %255s", cmd, parm1, parm2);
                             C_StripQuotes(parm1);
                             C_StripQuotes(parm2);
                             if (!strcasecmp(cmd, consolecmds[i].name)
@@ -1013,8 +1017,8 @@ void C_PrintCompileDate(void)
     };
     static char         mth[4];
 
-    sscanf(__DATE__, "%s %d %d", mth, &day, &year);
-    sscanf(__TIME__, "%d:%d:%*d", &hour, &minute);
+    sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year);
+    sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);
     month = (strstr(mths, mth) - mths) / 3;
 
     C_Output("");

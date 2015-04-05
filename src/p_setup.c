@@ -1046,16 +1046,13 @@ char *uppercase(char *str);
 // Determine map name to use
 void P_MapName(int episode, int map)
 {
-    char        *pos;
     char        wad[256];
-    int         i;
     boolean     mapnumonly = false;
 
     switch (gamemission)
     {
         case doom:
             M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", episode, map);
-            i = (episode - 1) * 9 + map - 1;
             if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
             {
                 mapnumonly = true;
@@ -1065,11 +1062,10 @@ void P_MapName(int episode, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s.wad's %s", wad, mapnum);
             }
             else
-                M_StringCopy(maptitle, *mapnames[i], sizeof(maptitle));
+                M_StringCopy(maptitle, *mapnames[(episode - 1) * 9 + map - 1], sizeof(maptitle));
             break;
 
         case doom2:
-            i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
             if (W_CheckMultipleLumps(mapnum) > 1 && (!nerve || map > 9) && dehcount == 1)
             {
@@ -1080,7 +1076,7 @@ void P_MapName(int episode, int map)
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s.wad's %s", wad, mapnum);
             }
             else
-                M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[i] : *mapnames2[i]),
+                M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]),
                     sizeof(maptitle));
             break;
 
@@ -1090,7 +1086,6 @@ void P_MapName(int episode, int map)
             break;
 
         case pack_plut:
-            i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
             if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
@@ -1105,7 +1100,6 @@ void P_MapName(int episode, int map)
             break;
 
         case pack_tnt:
-            i = map - 1;
             M_snprintf(mapnum, sizeof(mapnum), "MAP%02i", map);
             if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1)
             {
@@ -1125,6 +1119,8 @@ void P_MapName(int episode, int map)
 
     if (!mapnumonly)
     {
+        char    *pos;
+
         if ((pos = strchr(maptitle, ':')))
         {
             if (M_StringStartsWith(uppercase(maptitle), "LEVEL"))
