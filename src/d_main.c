@@ -748,7 +748,6 @@ static int D_ChooseIWAD(void)
     if (fileopenedok)
     {
         boolean onlyoneselected;
-        boolean sharewareiwad = false;
 
         iwadfound = 0;
         startuptimer = I_GetTimeMS();
@@ -885,6 +884,7 @@ static int D_ChooseIWAD(void)
         else
         {
             bool        isDOOM2 = false;
+            boolean     sharewareiwad = false;
 
 #if defined(WIN32)
             LPSTR       iwadpass = ofn.lpstrFile;

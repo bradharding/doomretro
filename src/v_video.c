@@ -342,7 +342,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, boolean italics)
                     else
                         *dest = (*source == 160 ? (color >= 0 ? color :
                             tinttab25[(*dest << 8) - color]) : *source);
-                    (*source)++;
+                    *source++;
                 }
                 dest += SCREENWIDTH;
             }

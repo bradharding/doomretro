@@ -1663,10 +1663,11 @@ void G_DoNewGame(void)
 void G_SetFastParms(int fast_pending)
 {
     static int  fast = 0;
-    int         i;
 
     if (fast != fast_pending)
     {
+        int     i;
+
         if ((fast = fast_pending))
         {
             for (i = S_SARG_RUN1; i <= S_SARG_PAIN2; ++i)

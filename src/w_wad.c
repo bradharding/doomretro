@@ -55,7 +55,7 @@
 typedef struct
 {
     // Should be "IWAD" or "PWAD".
-    char        identification[5];
+    char        identification[4];
     int         numlumps;
     int         infotableofs;
 } PACKEDATTR wadinfo_t;
@@ -172,6 +172,7 @@ wad_file_t *W_AddFile(char *filename, boolean automatic)
     filelump_t          *fileinfo;
     filelump_t          *filerover;
     int                 newnumlumps;
+    char                id[5];
 
     // open the file and add to directory
     wad_file = W_OpenFile(filename);
@@ -251,10 +252,10 @@ wad_file_t *W_AddFile(char *filename, boolean automatic)
         lumphash = NULL;
     }
 
-    header.identification[4] = 0;
+    M_StringCopy(id, header.identification, 5);
     C_Output("%s %s lumps from %s file %s.",
         (automatic ? "Automatically added" : "Added"),
-        commify(numlumps - startlump), header.identification, uppercase(filename));
+        commify(numlumps - startlump), id, uppercase(filename));
 
     return wad_file;
 }

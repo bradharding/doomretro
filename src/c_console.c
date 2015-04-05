@@ -690,7 +690,7 @@ boolean C_Responder(event_t *ev)
                     {
                         if (consolecmds[i].parameters == 1)
                         {
-                            char        cmd[255] = "";
+                            char        cmd[256] = "";
 
                             if (consolecmds[i].type == CT_CHEAT)
                             {
@@ -719,7 +719,7 @@ boolean C_Responder(event_t *ev)
                             }
                             else
                             {
-                                char    parm[255] = "";
+                                char    parm[256] = "";
 
                                 sscanf(consoleinput, "%255s %255s", cmd, parm);
                                 C_StripQuotes(parm);
@@ -735,9 +735,9 @@ boolean C_Responder(event_t *ev)
                         }
                         else if (consolecmds[i].parameters == 2)
                         {
-                            char        cmd[255] = "";
-                            char        parm1[255] = "";
-                            char        parm2[255] = "";
+                            char        cmd[256] = "";
+                            char        parm1[256] = "";
+                            char        parm2[256] = "";
 
                             sscanf(consoleinput, "%255s %255s %255s", cmd, parm1, parm2);
                             C_StripQuotes(parm1);
