@@ -1092,7 +1092,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         psp_inter.x1_prev = vis->x1;
         psp_inter.texturemid_prev = vis->texturemid;
 
-        if (lump == psp_inter.lump && psp->sy >= WEAPONBOTTOM)
+        if (lump == psp_inter.lump)
         {
             int deltax = vis->x2 - vis->x1;
 
