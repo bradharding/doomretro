@@ -1659,8 +1659,12 @@ void P_UnArchiveThinkers(void)
         next = currentthinker->next;
 
         if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
+        {
             P_RemoveMobj((mobj_t *)currentthinker);
-        Z_Free(currentthinker);
+            P_RemoveThinkerDelayed(currentthinker);     // fix mobj leak
+        }
+        else
+            Z_Free(currentthinker);
 
         currentthinker = next;
     }
