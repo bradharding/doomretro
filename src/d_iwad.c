@@ -638,8 +638,20 @@ void D_SetGameDescription(void)
     }
 
     if (nerve)
-        C_Output("Game identified as \"%s: %s\" and \"%s: %s\".",
-            s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
+    {
+        if (bfgedition)
+            C_Output("Game identified as \"%s: %s (%s)\" and \"%s: %s (%s)\".",
+                s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_BFGEDITION,
+                s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
+        else
+            C_Output("Game identified as \"%s: %s\" and \"%s: %s\".",
+                s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
+    }
     else
-        C_Output("Game identified as \"%s\".", gamedescription);
+    {
+        if (bfgedition)
+            C_Output("Game identified as \"%s (%s)\".", gamedescription, s_CAPTION_BFGEDITION);
+        else
+            C_Output("Game identified as \"%s\".", gamedescription);
+    }
 }
