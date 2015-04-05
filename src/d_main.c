@@ -414,8 +414,6 @@ void D_PageTicker(void)
 
         if (pagetic < 0)
             D_AdvanceTitle();
-        if (!TITLEPIC && !splashscreen)
-            M_StartControlPanel();
     }
 }
 
@@ -487,6 +485,8 @@ void D_DoAdvanceTitle(void)
             {
                 I_SetPalette(playpal);
                 splashscreen = false;
+                if (!TITLEPIC)
+                    M_StartControlPanel();
             }
             M_SetWindowCaption();
             S_StartMusic(gamemode == commercial ? mus_dm2ttl : mus_intro);

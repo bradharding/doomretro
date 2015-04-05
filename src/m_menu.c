@@ -2974,7 +2974,7 @@ boolean M_Responder(event_t *ev)
                 itemOn = currentMenu->lastOn;
                 S_StartSound(NULL, sfx_swtchn);
             }
-            else if (TITLEPIC || usergame || gamestate == GS_LEVEL)
+            else
             {
                 functionkey = 0;
                 M_ClearMenus();
