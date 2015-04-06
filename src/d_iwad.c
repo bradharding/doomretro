@@ -645,18 +645,18 @@ void D_SetGameDescription(void)
     if (nerve)
     {
         if (bfgedition)
-            C_Output("Game identified as \"%s: %s (%s)\" and \"%s: %s (%s)\".",
+            C_Output("Playing \"%s: %s (%s)\" and \"%s: %s (%s)\".",
                 s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_BFGEDITION,
                 s_CAPTION_DOOM2, s_CAPTION_NERVE, s_CAPTION_BFGEDITION);
         else
-            C_Output("Game identified as \"%s: %s\" and \"%s: %s\".",
+            C_Output("Playing \"%s: %s\" and \"%s: %s\".",
                 s_CAPTION_DOOM2, s_CAPTION_HELLONEARTH, s_CAPTION_DOOM2, s_CAPTION_NERVE);
     }
     else
     {
         if (bfgedition)
-            C_Output("Game identified as \"%s (%s)\".", gamedescription, s_CAPTION_BFGEDITION);
+            C_Output("Playing \"%s (%s)\".", gamedescription, s_CAPTION_BFGEDITION);
         else
-            C_Output("Game identified as \"%s\".", gamedescription);
+            C_Output("Playing \"%s\".", gamedescription);
     }
 }
