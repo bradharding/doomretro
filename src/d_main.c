@@ -1278,6 +1278,7 @@ static void D_DoomMainSetup(void)
 
     if (iwadfile)
     {
+        startuptimer = I_GetTimeMS();
         if (D_AddFile(iwadfile, false))
             if (runcount < RUNCOUNT_MAX)
                 runcount++;
