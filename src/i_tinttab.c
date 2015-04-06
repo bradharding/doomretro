@@ -36,8 +36,6 @@
 ========================================================================
 */
 
-#include <math.h>
-
 #include "m_fixed.h"
 #include "z_zone.h"
 
@@ -88,23 +86,22 @@ byte    *tinttabblue50;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
-    double      best_difference = LONG_MAX;
+    double      best_difference = 257 * 257 + 257 * 257 + 257 * 257;
     int         best_color = 0;
     int         i;
 
     for (i = 0; i < 256; ++i)
     {
-        long    rmean = ((long)red + *palette) >> 1;
-        long    r = (long)red - *palette++;
-        long    g = (long)green - *palette++;
-        long    b = (long)blue - *palette++;
-        double  difference = sqrt((double)((((512 + rmean) * r * r) >> 8) +
-            4 * g * g + (((767 - rmean) * b * b) >> 8)));
+        int     r = red - *palette++;
+        int     g = green - *palette++;
+        int     b = blue - *palette++;
+        int     difference = r * r + g * g + b * b;
 
-        if (!difference)
-            return i;
-        else if (difference < best_difference)
+        if (difference < best_difference)
         {
+            if (!difference)
+                return i;
+
             best_color = i;
             best_difference = difference;
         }
