@@ -81,6 +81,7 @@ typedef struct
     // Events in this track:
     midi_event_t        *events;
     int                 num_events;
+    unsigned int        num_event_mem;  // NSM track size of structure
 } midi_track_t;
 
 struct midi_track_iter_s
@@ -155,6 +156,10 @@ static void *ReadByteSequence(unsigned int num_bytes, FILE *stream)
 {
     unsigned int        i;
     byte                *result;
+
+    // events can be length 0. malloc(0) is not portable (can return NULL)
+    if (!num_bytes)
+        return malloc(4);
 
     // Allocate a buffer:
     result = (byte *)malloc(num_bytes + 1);
@@ -257,9 +262,9 @@ static boolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FIL
     if (!ReadByte(&event_type, stream))
         return false;
 
-    // All event types have their top bit set.  Therefore, if
+    // All event types have their top bit set. Therefore, if
     // the top bit is not set, it is because we are using the "same
-    // as previous event type" shortcut to save a byte.  Skip back
+    // as previous event type" shortcut to save a byte. Skip back
     // a byte so that we read this byte again.
     if ((event_type & 0x80) == 0)
     {
@@ -351,11 +356,12 @@ static boolean ReadTrackHeader(midi_track_t *track, FILE *stream)
 
 static boolean ReadTrack(midi_track_t *track, FILE *stream)
 {
-    midi_event_t        *new_events;
+    midi_event_t        *new_events = NULL;
     unsigned int        last_event_type;
 
     track->num_events = 0;
     track->events = NULL;
+    track->num_event_mem = 0;   // NSM
 
     // Read the header:
     if (!ReadTrackHeader(track, stream))
@@ -369,8 +375,13 @@ static boolean ReadTrack(midi_track_t *track, FILE *stream)
         midi_event_t    *event;
 
         // Resize the track slightly larger to hold another event:
-        new_events = (midi_event_t *)realloc(track->events,
-                                             sizeof(midi_event_t) * (track->num_events + 1));
+        if (track->num_events == track->num_event_mem)
+        {
+            // depending on the state of the heap and the malloc implementation, realloc()
+            // one more event at a time can be VERY slow.  10sec+ in MSVC
+            track->num_event_mem += 100;
+            new_events = realloc(track->events, sizeof(midi_event_t) * track->num_event_mem);
+        }
 
         if (new_events == NULL)
             return false;
@@ -409,7 +420,7 @@ static boolean ReadAllTracks(midi_file_t *file, FILE *stream)
     unsigned int        i;
 
     // Allocate list of tracks and read each track:
-    file->tracks = (midi_track_t *)malloc(sizeof(midi_track_t) * file->num_tracks);
+    file->tracks = malloc(sizeof(midi_track_t) * file->num_tracks);
 
     if (file->tracks == NULL)
         return false;
@@ -468,7 +479,7 @@ midi_file_t *MIDI_LoadFile(char *filename)
     midi_file_t *file;
     FILE        *stream;
 
-    file = (midi_file_t *)malloc(sizeof(midi_file_t));
+    file = malloc(sizeof(midi_file_t));
 
     if (file == NULL)
         return NULL;
@@ -521,7 +532,7 @@ midi_track_iter_t *MIDI_IterateTrack(midi_file_t *file, unsigned int track)
 
     assert(track < file->num_tracks);
 
-    iter = (midi_track_iter_t *)malloc(sizeof(*iter));
+    iter = malloc(sizeof(*iter));
     iter->track = &file->tracks[track];
     iter->position = 0;
 
