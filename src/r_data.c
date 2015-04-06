@@ -842,12 +842,13 @@ byte grays[256];
 
 void R_InitColormaps(void)
 {
-    int         lump;
+    int         lump = W_GetNumForName("COLORMAP");
     boolean     COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    int         i;
+    byte        *palsrc, *palette;
 
     // Load in the light tables,
     //  256 byte align tables.
-    lump = W_GetNumForName("COLORMAP");
     colormaps = (lighttable_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     // [BH] There's a typo in dcolors.c, the source code of the utility Id
@@ -859,22 +860,20 @@ void R_InitColormaps(void)
     // offending code from dcolor.c, corrected it, put it here, and now colormap
     // 32 is manually calculated rather than grabbing it from the colormap lump.
     // The resulting differences are minor.
-    if (!COLORMAP)
+    palsrc = palette = W_CacheLumpName("PLAYPAL", PU_CACHE);
+
+    for (i = 0; i < 255; i++)
     {
-        int     i;
-        byte    *palsrc, *palette;
+        float       red = *palsrc++ / 256.0f;
+        float       green = *palsrc++ / 256.0f;
+        float       blue = *palsrc++ / 256.0f;
+        float       gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
 
-        palsrc = palette = W_CacheLumpName("PLAYPAL", PU_CACHE);
+        grays[i] = FindNearestColor(palette, (int)(gray * 255.0f),
+            (int)(gray * 255.0f), (int)(gray * 255.0f));
 
-        for (i = 0; i < 255; i++)
+        if (!COLORMAP)
         {
-            float       red = *palsrc++ / 256.0f;
-            float       green = *palsrc++ / 256.0f;
-            float       blue = *palsrc++ / 256.0f;
-            float       gray = red * 0.299f + green * 0.587f + blue * 0.114f/*0.144f*/;
-
-            grays[i] = FindNearestColor(palette, (int)(gray * 255.0f),
-                (int)(gray * 255.0f), (int)(gray * 255.0f));
             gray = (1.0f - gray) * 255.0f;
             colormaps[32 * 256 + i] = FindNearestColor(palette, (int)gray, (int)gray, (int)gray);
         }
