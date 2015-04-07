@@ -134,17 +134,20 @@ char *upper =
     ":<+>?\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\\}^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 };
 
-int             consolecaretcolor = 227;
+byte            *c_tempscreen;
+byte            *c_blurredscreen;
+
+int             consolecaretcolor = 4;
 int             consolehighfpscolor = -116;
-int             consoleinputcolor = 227;
-int             consoleinputtooutputcolor = 227;
+int             consoleinputcolor = 4;
+int             consoleinputtooutputcolor = 4;
 int             consolelowfpscolor = -180;
-int             consolemaptitlecolor = 227;
-int             consolememorycolor = -80;
-int             consoleplayermessagecolor = 174;
-int             consoleoutputcolor = 227;
-int             consoletitlecolor = 227;
-int             consoledividercolor = 227;
+int             consolemaptitlecolor = 84;
+int             consolememorycolor = -84;
+int             consoleplayermessagecolor = 180;
+int             consoleoutputcolor = 84;
+int             consoletitlecolor = 84;
+int             consoledividercolor = 84;
 
 int             consolecolors[STRINGTYPES];
 
@@ -273,6 +276,9 @@ void C_Init(void)
     consolecolors[divider] = consoledividercolor;
     consolecolors[title] = consoletitlecolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
+
+    c_tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    c_blurredscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 }
 
 void C_HideConsole(void)
@@ -295,53 +301,47 @@ static void C_StripQuotes(char *string)
     }
 }
 
+static void c_blurscreen(int x1, int y1, int x2, int y2, int i)
+{
+    int x, y;
+
+    memcpy(c_tempscreen, c_blurredscreen, SCREENWIDTH * SCREENHEIGHT);
+
+    for (y = y1; y < y2; y += SCREENWIDTH)
+        for (x = y + x1; x < y + x2; ++x)
+            c_blurredscreen[x] = tinttab50[c_tempscreen[x] + (c_tempscreen[x + i] << 8)];
+}
+
 static void C_DrawBackground(int height)
 {
-    byte        *dest = screens[0];
-    int         x, y;
-    int         offset = CONSOLEHEIGHT - height;
-    int         top = offset;
+    static boolean      blurred = false;
+    int                 i;
 
-    for (y = offset; y < height + offset + 5 * !defaultconback; y += 2)
-        for (x = 0; x < SCREENWIDTH / 32; x += 2)
-        {
-            int i;
+    height = (height + 5) * SCREENWIDTH;
 
-            for (i = 0; i < 64; i++)
-            {
-                int     j = i * 2;
+    if (!blurred)
+    {
+        for (i = 0; i < height; ++i)
+            c_blurredscreen[i] = screens[0][i];
 
-                if (top >= CONSOLETOP * SCREENWIDTH)
-                {
-                    int     dot = *(consolebackground + (((y / 2) & 63) << 6) + i);
+        c_blurscreen(0, 0, SCREENWIDTH - 1, height, 1);
+        c_blurscreen(1, 0, SCREENWIDTH, height, -1);
+        c_blurscreen(0, 0, SCREENWIDTH - 1, height - SCREENWIDTH, SCREENWIDTH + 1);
+        c_blurscreen(1, SCREENWIDTH, SCREENWIDTH, height, -(SCREENWIDTH + 1));
+        c_blurscreen(0, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH);
+        c_blurscreen(0, SCREENWIDTH, SCREENWIDTH, height, -SCREENWIDTH);
+        c_blurscreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
+        c_blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
+    }
 
-                    if (translucency)
-                    {
-                        dot <<= 8;
-                        *(dest + j) = tinttab75[dot + *(dest + j)];
-                        ++j;
-                        *(dest + j) = tinttab75[dot + *(dest + j)];
-                    }
-                    else
-                    {
-                        *(dest + j) = dot;
-                        ++j;
-                        *(dest + j) = dot;
-                    }
-                }
-            }
-            dest += 128;
-            top += 128;
-        }
+    blurred = (consoleheight == CONSOLEHEIGHT);
 
-    if (defaultconback)
-        for (x = 0; x < ORIGINALWIDTH; x += 8)
-            V_DrawTranslucentConsolePatch(x, height / 2, consolebottom);
+    for (i = 0; i < height; ++i)
+        screens[0][i] = tinttab50[c_blurredscreen[i]];
 
-    y = height + 6;
-    if (y > CONSOLETOP)
-        for (x = y * SCREENWIDTH; x < (y + 1) * SCREENWIDTH; ++x)
-            screens[0][x] = tinttab25[screens[0][x]];
+    for (i = height - SCREENWIDTH * 2; i < height; ++i)
+        screens[0][i] = (consoledividercolor >= 0 ? consoledividercolor :
+            tinttab25[(screens[0][i] << 8) - consoledividercolor]);
 }
 
 static struct
@@ -1058,21 +1058,6 @@ void C_PrintSDLVersions(void)
 
 void C_SetBTSXColorScheme(void)
 {
-    consolecaretcolor = 80;
-    consolehighfpscolor = -116;
-    consoleinputcolor = 80;
-    consoleinputtooutputcolor = 80;
-    consolelowfpscolor = -180;
-    consolemaptitlecolor = 80;
-    consolememorycolor = -80;
     consoleplayermessagecolor = (BTSXE1 ? 196 : 214);
-    consoleoutputcolor = 80;
-    consoletitlecolor = 80;
-    consoledividercolor = 80;
-
-    consolecolors[input] = consoleinputtooutputcolor;
-    consolecolors[output] = consoleoutputcolor;
-    consolecolors[divider] = consoledividercolor;
-    consolecolors[title] = consoletitlecolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
 }
