@@ -55,6 +55,7 @@ static XINPUTSETSTATE pXInputSetState;
 #include "i_gamepad.h"
 #include "m_config.h"
 #include "m_fixed.h"
+#include "m_misc.h"
 #include "SDL.h"
 #include "SDL_joystick.h"
 
@@ -107,14 +108,14 @@ void I_InitGamepad(void)
         else
         {
 #if defined(WIN32)
-            char *XInputDLL = malloc(16 * sizeof(char));
+            char        *XInputDLL = malloc(16);
 
             if ((pXInputDLL = LoadLibrary("XInput1_4.dll")))
-                XInputDLL = "XINPUT1_4.DLL";
+                M_StringCopy(XInputDLL, "XINPUT1_4.DLL", 16);
             else if ((pXInputDLL = LoadLibrary("XInput9_1_0.dll")))
-                XInputDLL = "XINPUT9_1_0.DLL";
+                M_StringCopy(XInputDLL, "XINPUT9_1_0.DLL", 16);
             else if ((pXInputDLL = LoadLibrary("XInput1_3.dll")))
-                XInputDLL = "XINPUT1_3.DLL";
+                M_StringCopy(XInputDLL, "XINPUT1_3.DLL", 16);
 
             if (pXInputDLL)
             {
@@ -142,7 +143,6 @@ void I_InitGamepad(void)
                 C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 
             free(XInputDLL);
-            XInputDLL = NULL;
 #else
             C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 #endif

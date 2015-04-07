@@ -342,7 +342,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color, boolean italics)
                     else
                         *dest = (*source == 160 ? (color >= 0 ? color :
                             tinttab25[(*dest << 8) - color]) : *source);
-                    *source++;
+                    *(source++);
                 }
                 dest += SCREENWIDTH;
             }
@@ -1174,7 +1174,10 @@ boolean V_ScreenShot(void)
     char        folder[MAX_PATH] = "";
     int         count = 0;
     SDL_Surface *screenshot = NULL;
-    SDL_Surface *surface = NULL;
+
+#if defined(SDL20)
+    SDL_Surface *surface;
+#endif
 
 #if defined(WIN32)
     HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);

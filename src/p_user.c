@@ -395,7 +395,7 @@ void P_PlayerThink(player_t *player)
             newweapon = player->preferredshotgun;
         }
 
-        if (player->weaponowned[newweapon] && newweapon != player->readyweapon && newweapon != wp_nochange)
+        if (newweapon != wp_nochange && newweapon != player->readyweapon && player->weaponowned[newweapon])
         {
             player->pendingweapon = newweapon;
             if (newweapon == wp_fist && player->powers[pw_strength])

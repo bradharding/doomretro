@@ -1117,11 +1117,8 @@ static void WI_loadUnloadData(load_callback_t callback)
     // "secret"
     callback("WISCRT2", &sp_secret);
 
-    // french wad uses WIOBJ (?)
-    if (W_CheckNumForName("WIOBJ") >= 0)
-        callback("WIOSTI", &items);
-    else
-        callback("WIOSTI", &items);
+    // "items"
+    callback("WIOSTI", &items);
 
     // ":"
     callback("WICOLON", &colon);

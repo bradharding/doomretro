@@ -698,7 +698,7 @@ static boolean LoadDefaultCollection(void)
 
     while (!feof(f))
     {
-        if (fscanf(f, "%79s %[^\n]\n", defname, strparm) != 2)
+        if (fscanf(f, "%79s %256[^\n]\n", defname, strparm) != 2)
             // This line doesn't match
             continue;
 

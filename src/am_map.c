@@ -718,7 +718,6 @@ boolean AM_Responder(event_t *ev)
 
     if (!menuactive && !paused)
     {
-        int             key;
         static boolean  backbuttondown = false;
 
         if (!(gamepadbuttons & gamepadautomap))
@@ -743,6 +742,8 @@ boolean AM_Responder(event_t *ev)
         }
         else
         {
+            int key;
+
             if (ev->type == ev_keydown)
             {
                 rc = true;
