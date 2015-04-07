@@ -395,7 +395,7 @@ static int C_TextWidth(char *text)
 
 static int      tabstops[] = { 40, 130, 192, 262 };
 
-static void C_DrawConsoleText(int x, int y, char *text, int color, int translucency)
+static void C_DrawText(int x, int y, char *text, int color, int translucency)
 {
     boolean     italics = false;
     size_t      i;
@@ -473,23 +473,6 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
     }
 }
 
-static void C_DrawText(int x, int y, char *text, int color, int translucency)
-{
-    size_t i;
-    size_t len = strlen(text);
-
-    for (i = 0; i < len; ++i)
-        if (text[i] == ' ')
-            x += SPACEWIDTH;
-        else
-        {
-            patch_t *patch = consolefont[text[i] - CONSOLEFONTSTART];
-
-            V_DrawConsoleChar(x, y, patch, color, false, translucency);
-            x += SHORT(patch->width);
-        }
-}
-
 void C_Drawer(void)
 {
     if (consoleheight)
@@ -526,7 +509,7 @@ void C_Drawer(void)
         C_DrawBackground(consoleheight);
 
         // draw branding
-        C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX + 1,
+        C_DrawText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX + 1,
             CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, consolebrandingcolor, 1);
 
         // draw console text
@@ -551,7 +534,7 @@ void C_Drawer(void)
             {
                 int     color = consolecolors[console[i].type];
 
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, ABS(color), 2 * (color < 0));
+                C_DrawText(CONSOLETEXTX, y, console[i].string, ABS(color), 2 * (color < 0));
             }
         }
 
@@ -559,7 +542,7 @@ void C_Drawer(void)
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, ABS(consoleinputcolor),
+        C_DrawText(x, CONSOLEHEIGHT - 15, left, ABS(consoleinputcolor),
             2 * (consoleinputcolor < 0));
 
         // draw caret
@@ -578,7 +561,7 @@ void C_Drawer(void)
             right[i] = consoleinput[i + caretpos];
         right[i] = 0;
         if (right[0])
-            C_DrawConsoleText(x + 3, CONSOLEHEIGHT - 15, right, ABS(consoleinputcolor),
+            C_DrawText(x + 3, CONSOLEHEIGHT - 15, right, ABS(consoleinputcolor),
                 2 * (consoleinputcolor < 0));
 
         Z_Free(left);
@@ -614,7 +597,7 @@ void C_Drawer(void)
         {
             static char buffer[16];
 
-            M_snprintf(buffer, 16, "%sKB", commify(pmc.WorkingSetSize / 1024.0));
+            M_snprintf(buffer, 16, "%s KB", commify(pmc.WorkingSetSize / 1024.0));
 
             C_DrawText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1,
                 CONSOLETEXTY + (showfps && fps ? CONSOLELINEHEIGHT : 0), buffer,
