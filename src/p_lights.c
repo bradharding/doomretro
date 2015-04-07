@@ -39,6 +39,7 @@
 #include "z_zone.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_tick.h"
 
 //
 // FIRELIGHT FLICKER

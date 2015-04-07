@@ -50,6 +50,7 @@
 #include "m_random.h"
 #include "p_local.h"
 #include "p_inter.h"
+#include "p_tick.h"
 #include "s_sound.h"
 
 // Ty 03/07/98 - add deh externals
@@ -841,6 +842,9 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
     target->flags |= (MF_CORPSE | MF_DROPOFF);
     target->height >>= 2;
+
+    // killough 8/29/98: remove from threaded list
+    P_UpdateThinker(&target->thinker);
 
     if (type != MT_BARREL)
     {

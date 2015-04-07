@@ -46,6 +46,7 @@
 #include "m_misc.h"
 #include "p_fix.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "s_sound.h"
 #include "w_wad.h"
 #include "z_zone.h"

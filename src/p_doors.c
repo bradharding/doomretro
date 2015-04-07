@@ -40,6 +40,7 @@
 #include "dstrings.h"
 #include "hu_stuff.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "s_sound.h"
 #include "z_zone.h"
 

@@ -40,6 +40,7 @@
 #include "z_zone.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "s_sound.h"
 #include "doomstat.h"
 

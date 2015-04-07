@@ -40,6 +40,7 @@
 #include "g_game.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "s_sound.h"
 #include "w_wad.h"
 #include "z_zone.h"

@@ -94,17 +94,6 @@
 #define WEAPONTOP               32 * FRACUNIT
 
 //
-// P_TICK
-//
-
-// both the head and tail of the thinker list
-extern thinker_t        thinkercap;
-
-void P_InitThinkers(void);
-void P_AddThinker(thinker_t *thinker);
-void P_RemoveThinker(thinker_t *thinker);
-
-//
 // P_PSPR
 //
 void P_SetupPsprites(player_t *player);

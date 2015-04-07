@@ -44,6 +44,7 @@
 #include "m_config.h"
 #include "m_random.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "s_sound.h"
 #include "st_stuff.h"
 #include "w_wad.h"
