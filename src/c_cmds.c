@@ -83,7 +83,6 @@ extern int      bloodsplats;
 extern boolean  brightmaps;
 extern boolean  capfps;
 extern boolean  centerweapon;
-extern char     *conback;
 extern boolean  corpses_mirror;
 extern boolean  corpses_moreblood;
 extern boolean  corpses_slide;
@@ -302,7 +301,6 @@ action_t actions[] =
 boolean C_BloodSplatsCondition(char *, char *, char *);
 boolean C_BoolCondition(char *, char *, char *);
 boolean C_CheatCondition(char *, char *, char *);
-boolean C_ConBackCondition(char *, char *, char *);
 boolean C_DeadZoneCondition(char *, char *, char *);
 boolean C_FloatCondition(char *, char *, char *);
 boolean C_GameCondition(char *, char *, char *);
@@ -324,7 +322,6 @@ void C_BloodSplats(char *, char *, char *);
 void C_Bool(char *, char *, char *);
 void C_Clear(char *, char *, char *);
 void C_CmdList(char *, char *, char *);
-void C_ConBack(char *, char *, char *);
 void C_ConDump(char *, char *, char *);
 void C_CvarList(char *, char *, char *);
 void C_DeadZone(char *, char *, char *);
@@ -423,7 +420,6 @@ consolecmd_t consolecmds[] =
 #if defined(WIN32)
     CVAR_BOOL(com_showmemoryusage, C_BoolCondition, C_Bool, showmemory, NONE, "Toggle showing the memory usage."),
 #endif
-    CVAR_STR  (conback, C_ConBackCondition, C_ConBack, conback, "The flat used for the console's background."),
     CMD       (condump, C_NoCondition, C_ConDump, 1, "[~filename~.txt]", "Dump the console to a file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Display a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "End a game."),
@@ -815,25 +811,6 @@ void C_CmdList(char *cmd, char *parm1, char *parm2)
                 consolecmds[i].description);
         ++i;
     }
-}
-
-boolean C_ConBackCondition(char *cmd, char *parm1, char *parm2)
-{
-    return (!parm1[0] || R_CheckFlatNumForName(parm1) >= 0);
-}
-
-void C_ConBack(char *cmd, char *parm1, char *parm2)
-{
-    if (parm1[0])
-    {
-        conback = strdup(parm1);
-        consolebackground = W_CacheLumpName(parm1, PU_CACHE);
-        defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
-            || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
-        M_SaveDefaults();
-    }
-    else
-        C_Output("\"%s\"", uppercase(conback));
 }
 
 void C_ConDump(char *cmd, char *parm1, char *parm2)

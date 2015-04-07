@@ -92,11 +92,6 @@ int             consoleheight = 0;
 int             consoledirection = -1;
 static int      consolewait = 0;
 
-char            *conback = "";
-boolean         defaultconback;
-
-byte            *consolebackground;
-patch_t         *consolebottom;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
 patch_t         *ldquote;
@@ -247,18 +242,6 @@ void C_Init(void)
     char        buffer[9];
 
     while (consolecmds[numconsolecmds++].name[0]);
-
-    if (!conback[0] || (gamemode == commercial && !strcasecmp(conback, "FLOOR7_2"))
-        || R_CheckFlatNumForName(conback) < 0)
-    {
-        conback = (gamemode == commercial ? "GRNROCK" : "FLOOR7_2");
-        M_SaveDefaults();
-    }
-    consolebackground = W_CacheLumpName(conback, PU_CACHE);
-    consolebottom = W_CacheLumpName("BRDR_B", PU_CACHE);
-
-    defaultconback = ((gamemode == commercial && !strcasecmp(conback, "GRNROCK"))
-        || (gamemode != commercial && !strcasecmp(conback, "FLOOR7_2")));
 
     for (i = 0; i < CONSOLEFONTSIZE; i++)
     {

@@ -66,7 +66,6 @@ extern int      bloodsplats;
 extern boolean  brightmaps;
 extern boolean  capfps;
 extern boolean  centerweapon;
-extern char     *conback;
 extern boolean  corpses_mirror;
 extern boolean  corpses_moreblood;
 extern boolean  corpses_slide;
@@ -214,7 +213,6 @@ static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_grid,                 grid,                          1),
     CONFIG_VARIABLE_INT          (am_rotatemode,           rotatemode,                    1),
-    CONFIG_VARIABLE_STRING       (conback,                 conback,                       0),
     CONFIG_VARIABLE_INT          (episode,                 selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,             9),
     CONFIG_VARIABLE_INT          (gp_automap,              gamepadautomap,                2),

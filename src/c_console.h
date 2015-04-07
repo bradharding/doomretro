@@ -76,9 +76,6 @@ extern char     consolecheat[255];
 extern char     consolecheatparm[3];
 extern char     consolecmdparm[255];
 
-extern boolean  defaultconback;
-extern byte     *consolebackground;
-
 extern int      consolecaretcolor;
 extern int      consolelowfpscolor;
 extern int      consolehighfpscolor;
