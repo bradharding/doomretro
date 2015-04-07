@@ -137,12 +137,12 @@ int             consolehighfpscolor = 116;
 int             consoleinputcolor = 4;
 int             consoleinputtooutputcolor = 4;
 int             consolelowfpscolor = -180;
-int             consoletitlecolor = 84;
-int             consolememorycolor = 84;
+int             consoletitlecolor = 88;
+int             consolememorycolor = 88;
 int             consoleplayermessagecolor = 161;
-int             consoleoutputcolor = 84;
+int             consoleoutputcolor = 88;
 int             consolebrandingcolor = 100;
-int             consoledividercolor = 84;
+int             consoledividercolor = 88;
 
 int             consolecolors[STRINGTYPES];
 
@@ -321,6 +321,9 @@ static void C_DrawBackground(int height)
 
     for (i = 0; i < height; ++i)
         screens[0][i] = tinttab50[c_blurredscreen[i]];
+
+    for (i = height - SCREENWIDTH * 3; i < height - SCREENWIDTH * 2; ++i)
+        screens[0][i] = tinttab25[((consolebrandingcolor + 5) << 8) + screens[0][i]];
 
     for (i = height - SCREENWIDTH * 2; i < height; ++i)
         screens[0][i] = tinttab25[(consolebrandingcolor << 8) + screens[0][i]];
