@@ -77,21 +77,31 @@ typedef enum
     FirstPersonState
 } st_stateenum_t;
 
-extern cheatseq_t cheat_mus;
-extern cheatseq_t cheat_mus_xy;
-extern cheatseq_t cheat_god;
-extern cheatseq_t cheat_ammo;
-extern cheatseq_t cheat_ammonokey;
-extern cheatseq_t cheat_noclip;
-extern cheatseq_t cheat_commercial_noclip;
-extern cheatseq_t cheat_powerup[7];
-extern cheatseq_t cheat_choppers;
-extern cheatseq_t cheat_clev;
-extern cheatseq_t cheat_clev_xy;
-extern cheatseq_t cheat_mypos;
-extern cheatseq_t cheat_amap;
+extern cheatseq_t       cheat_mus;
+extern cheatseq_t       cheat_mus_xy;
+extern cheatseq_t       cheat_god;
+extern cheatseq_t       cheat_ammo;
+extern cheatseq_t       cheat_ammonokey;
+extern cheatseq_t       cheat_noclip;
+extern cheatseq_t       cheat_commercial_noclip;
+extern cheatseq_t       cheat_powerup[7];
+extern cheatseq_t       cheat_choppers;
+extern cheatseq_t       cheat_clev;
+extern cheatseq_t       cheat_clev_xy;
+extern cheatseq_t       cheat_mypos;
+extern cheatseq_t       cheat_amap;
 
-extern boolean widescreen;
-extern boolean returntowidescreen;
+extern boolean          widescreen;
+extern boolean          returntowidescreen;
+
+extern patch_t          *grnrock;
+extern patch_t          *brdr_t;
+extern patch_t          *brdr_b;
+extern patch_t          *brdr_l;
+extern patch_t          *brdr_r;
+extern patch_t          *brdr_tl;
+extern patch_t          *brdr_tr;
+extern patch_t          *brdr_bl;
+extern patch_t          *brdr_br;
 
 #endif

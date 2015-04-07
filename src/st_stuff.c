@@ -314,6 +314,16 @@ static st_number_t              w_ammo[4];
 // max ammo widgets
 static st_number_t              w_maxammo[4];
 
+patch_t                         *grnrock;
+patch_t                         *brdr_t;
+patch_t                         *brdr_b;
+patch_t                         *brdr_l;
+patch_t                         *brdr_r;
+patch_t                         *brdr_tl;
+patch_t                         *brdr_tr;
+patch_t                         *brdr_bl;
+patch_t                         *brdr_br;
+
 // used to use appopriately pained face
 static int                      st_oldhealth = -1;
 
@@ -350,7 +360,7 @@ cheatseq_t cheat_ammonokey = CHEAT("idfa", 0);
 cheatseq_t cheat_noclip = CHEAT("idspispopd", 0);
 cheatseq_t cheat_commercial_noclip = CHEAT("idclip", 0);
 
-cheatseq_t cheat_powerup[7] =
+cheatseq_t             cheat_powerup[7] =
 {
     CHEAT("idbeholdv", 0),
     CHEAT("idbeholds", 0),
@@ -1438,6 +1448,17 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     }
     callback("STFGOD0", &faces[facenum++]);
     callback("STFDEAD0", &faces[facenum++]);
+
+    // back screen
+    callback((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), &grnrock);
+    callback("BRDR_T", &brdr_t);
+    callback("BRDR_B", &brdr_b);
+    callback("BRDR_L", &brdr_l);
+    callback("BRDR_R", &brdr_r);
+    callback("BRDR_TL", &brdr_tl);
+    callback("BRDR_TR", &brdr_tr);
+    callback("BRDR_BL", &brdr_bl);
+    callback("BRDR_BR", &brdr_br);
 }
 
 static void ST_loadCallback(char *lumpname, patch_t **variable)

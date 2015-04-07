@@ -39,6 +39,7 @@
 #include "doomstat.h"
 #include "m_random.h"
 #include "r_local.h"
+#include "st_stuff.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "z_zone.h"
@@ -1247,12 +1248,11 @@ void R_FillBackScreen(void)
     int         height;
     int         windowx;
     int         windowy;
-    patch_t     *patch;
 
     if (scaledviewwidth == SCREENWIDTH)
         return;
 
-    src = W_CacheLumpName((gamemode == commercial ? "GRNROCK" : "FLOOR7_2"), PU_CACHE);
+    src = (byte *)grnrock;
     dest = screens[1];
 
     for (y = 0; y < SCREENHEIGHT; y += 2)
@@ -1278,29 +1278,25 @@ void R_FillBackScreen(void)
     windowx = viewwindowx / 2;
     windowy = viewwindowy / 2;
 
-    patch = W_CacheLumpName("brdr_t", PU_CACHE);
     for (x = 0; x < width; x += 8)
-        V_DrawPatch(windowx + x, windowy - 8, 1, patch);
+        V_DrawPatch(windowx + x, windowy - 8, 1, brdr_t);
 
-    patch = W_CacheLumpName("brdr_b", PU_CACHE);
     for (x = 0; x < width; x += 8)
-        V_DrawPatch (windowx + x, windowy + height, 1, patch);
+        V_DrawPatch(windowx + x, windowy + height, 1, brdr_b);
 
-    patch = W_CacheLumpName("brdr_l", PU_CACHE);
     for (y = 0; y < height - 8; y += 8)
-        V_DrawPatch(windowx - 8, windowy + y, 1, patch);
-    V_DrawPatch(windowx - 8, windowy + y - 2 * (screensize >= 2), 1, patch);
+        V_DrawPatch(windowx - 8, windowy + y, 1, brdr_l);
+    V_DrawPatch(windowx - 8, windowy + y - 2 * (screensize >= 2), 1, brdr_l);
 
-    patch = W_CacheLumpName("brdr_r", PU_CACHE);
     for (y = 0; y < height - 8; y += 8)
-        V_DrawPatch(windowx + width, windowy + y, 1, patch);
-    V_DrawPatch(windowx + width, windowy + y - 2 * (screensize >= 2), 1, patch);
+        V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
+    V_DrawPatch(windowx + width, windowy + y - 2 * (screensize >= 2), 1, brdr_r);
 
     // Draw beveled edge.
-    V_DrawPatch(windowx - 8, windowy - 8, 1, W_CacheLumpName("brdr_tl", PU_CACHE));
-    V_DrawPatch(windowx + width, windowy - 8, 1, W_CacheLumpName("brdr_tr", PU_CACHE));
-    V_DrawPatch(windowx - 8, windowy + height, 1, W_CacheLumpName("brdr_bl", PU_CACHE));
-    V_DrawPatch(windowx + width, windowy + height, 1, W_CacheLumpName("brdr_br", PU_CACHE));
+    V_DrawPatch(windowx - 8, windowy - 8, 1, brdr_tl);
+    V_DrawPatch(windowx + width, windowy - 8, 1, brdr_tr);
+    V_DrawPatch(windowx - 8, windowy + height, 1, brdr_bl);
+    V_DrawPatch(windowx + width, windowy + height, 1, brdr_br);
 }
 
 //
