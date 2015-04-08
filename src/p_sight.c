@@ -241,7 +241,7 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
     // First check for trivial rejection.
     // Determine subsector entries in REJECT table.
     // Check in REJECT table.
-    if (rejectmatrix[pnum >> 3] & (1 << (pnum & 7)))
+    if ((pnum >> 3) < rejectmatrixsize && (rejectmatrix[pnum >> 3] & (1 << (pnum & 7))))
         return false;
 
     // killough 11/98: shortcut for melee situations
