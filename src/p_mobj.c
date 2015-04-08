@@ -139,7 +139,7 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 
     if (ret && shadow)
     {
-        shadow->sprite = mobj->state->sprite;
+        shadow->sprite = mobj->sprite;
         shadow->frame = mobj->frame;
         shadow->angle = mobj->angle;
     }

@@ -227,12 +227,10 @@ static void C_DrawDivider(int y)
     y *= SCREENWIDTH;
     if (y >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
-            screens[0][i] = (consoledividercolor >= 0 ? consoledividercolor :
-                tinttab25[(screens[0][i] << 8) - consoledividercolor]);
+            screens[0][i] = consoledividercolor;
     if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
-            screens[0][i] = (consoledividercolor >= 0 ? consoledividercolor :
-                tinttab25[(screens[0][i] << 8) - consoledividercolor]);
+            screens[0][i] = consoledividercolor;
 }
 
 void C_Init(void)

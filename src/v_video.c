@@ -1205,9 +1205,9 @@ boolean V_ScreenShot(void)
             break;
     }
 
-    if (sscanf(mapname, "The %[^\n]", mapname))
+    if (sscanf(mapname, "The %124[^\n]", mapname))
         M_snprintf(mapname, sizeof(mapname), "%s, The", mapname);
-    else if (sscanf(mapname, "A %[^\n]", mapname))
+    else if (sscanf(mapname, "A %126[^\n]", mapname))
         M_snprintf(mapname, sizeof(mapname), "%s, A", mapname);
 
     do
