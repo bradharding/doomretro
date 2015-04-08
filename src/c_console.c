@@ -317,7 +317,7 @@ static void C_DrawBackground(int height)
         c_blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
     }
 
-    blurred = (consoleheight == CONSOLEHEIGHT);
+    blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
 
     for (i = 0; i < height; ++i)
         screens[0][i] = tinttab50[c_blurredscreen[i]];
