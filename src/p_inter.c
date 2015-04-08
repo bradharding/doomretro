@@ -40,6 +40,7 @@
 #include <stdlib.h>
 
 #include "am_map.h"
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -203,7 +204,8 @@ boolean P_GiveFullAmmo(player_t *player)
 
 void P_AddBonus(player_t *player, int amount)
 {
-    player->bonuscount = MIN(player->bonuscount + amount, 3 * TICRATE);
+    if (!consoleactive)
+        player->bonuscount = MIN(player->bonuscount + amount, 3 * TICRATE);
 }
 
 //

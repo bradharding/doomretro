@@ -615,7 +615,7 @@ void HU_PlayerMessage(char *message, boolean ingame)
 {
     char        lastchar = message[strlen(message) - 1];
 
-    if (plr)
+    if (plr && !consoleactive)
         plr->message = message;
 
     if (ingame)
