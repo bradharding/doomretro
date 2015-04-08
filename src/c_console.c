@@ -286,7 +286,7 @@ static void c_blurscreen(int x1, int y1, int x2, int y2, int i)
 {
     int x, y;
 
-    memcpy(c_tempscreen, c_blurredscreen, SCREENWIDTH * SCREENHEIGHT);
+    memcpy(c_tempscreen, c_blurredscreen, SCREENWIDTH * (CONSOLEHEIGHT + 5));
 
     for (y = y1; y < y2; y += SCREENWIDTH)
         for (x = y + x1; x < y + x2; ++x)

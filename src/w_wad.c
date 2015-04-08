@@ -172,7 +172,6 @@ wad_file_t *W_AddFile(char *filename, boolean automatic)
     filelump_t          *fileinfo;
     filelump_t          *filerover;
     int                 newnumlumps;
-    char                id[5];
 
     // open the file and add to directory
     wad_file = W_OpenFile(filename);
@@ -252,10 +251,9 @@ wad_file_t *W_AddFile(char *filename, boolean automatic)
         lumphash = NULL;
     }
 
-    M_StringCopy(id, header.identification, 5);
-    C_Output("%s %s lumps from %s file %s.",
-        (automatic ? "Automatically added" : "Added"),
-        commify(numlumps - startlump), id, uppercase(filename));
+    C_Output("%s %s lumps from %.4s file %s.",
+        (automatic ? "Automatically added" : "Added"), commify(numlumps - startlump),
+        header.identification, uppercase(filename));
 
     return wad_file;
 }

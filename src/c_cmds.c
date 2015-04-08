@@ -67,9 +67,9 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-#define GIVECMDFORMAT  "~items~"
+#define GIVECMDFORMAT   "~items~"
 #define MAPCMDFORMAT    "E~x~M~y~|MAP~xy~"
-#define SPAWNCMDFORMAT  "~monster~|~pickup~"
+#define SPAWNCMDFORMAT  "~monster~|~item~"
 
 #define NONE_MIN        0
 #define NONE_MAX        0
