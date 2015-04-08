@@ -62,6 +62,8 @@ typedef struct
 {
     fixed_t             x;
     fixed_t             y;
+    angle_t             viewangle;      // e6y: precalculated angle for clipping
+    int                 angletime;      // e6y: recalculation time for view angle 
 } vertex_t;
 
 // Forward of LineDefs, for Sectors.

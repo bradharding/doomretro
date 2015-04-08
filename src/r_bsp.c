@@ -298,8 +298,8 @@ static void R_AddLine(seg_t *line)
 
     curline = line;
 
-    angle1 = R_PointToAngle(line->v1->x, line->v1->y);
-    angle2 = R_PointToAngle(line->v2->x, line->v2->y);
+    angle1 = R_GetVertexViewAngle(line->v1);
+    angle2 = R_GetVertexViewAngle(line->v2);
 
     // Clip to view edges.
     span = angle1 - angle2;

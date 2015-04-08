@@ -113,6 +113,8 @@ boolean                 translucency = TRANSLUCENCY_DEFAULT;
 
 boolean                 homindicator = HOMINDICATOR_DEFAULT;
 
+int                     r_frame_count;
+
 extern int              viewheight2;
 extern int              gametic;
 extern boolean          canmodify;
@@ -336,6 +338,17 @@ static void R_InitPointToAngle(void)
         // this used to have PI (as defined above) written out longhand
         tantoangle[i] = t;
     }
+}
+
+// e6y: caching
+angle_t R_GetVertexViewAngle(vertex_t *v)
+{
+    if (v->angletime != r_frame_count)
+    {
+        v->angletime = r_frame_count;
+        v->viewangle = R_PointToAngle(v->x, v->y);
+    }
+    return v->viewangle;
 }
 
 //
@@ -700,6 +713,8 @@ void R_SetupFrame(player_t *player)
 //
 void R_RenderPlayerView(player_t *player)
 {
+    r_frame_count++;
+
     R_SetupFrame(player);
 
     // Clear buffers.
