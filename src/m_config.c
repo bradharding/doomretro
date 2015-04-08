@@ -1114,7 +1114,7 @@ static void M_CheckDefaults(void)
         scaledriver = SCALEDRIVER_DEFAULT;
 
     if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear")
-        && strcasecmp(scalefilter, "best"))
+        && strcasecmp(scalefilter, "anisotropic"))
         scalefilter = SCALEFILTER_DEFAULT;
 #endif
 

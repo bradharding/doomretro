@@ -1068,6 +1068,13 @@ static void SetVideoMode(boolean output)
     if (vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
+    if (!strcasecmp(scalefilter, "linear"))
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "linear", SDL_HINT_OVERRIDE);
+    else if (!strcasecmp(scalefilter, "anisotropic"))
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "best", SDL_HINT_OVERRIDE);
+    else
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "nearest", SDL_HINT_OVERRIDE);
+
     SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, scalefilter, SDL_HINT_OVERRIDE);
 
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
@@ -1163,7 +1170,7 @@ static void SetVideoMode(boolean output)
             C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);
         else if (!strcasecmp(scalefilter, "linear"))
             C_Output("Scaling screen using linear filtering in %s.", renderername);
-        else if (!strcasecmp(scalefilter, "best"))
+        else if (!strcasecmp(scalefilter, "anisotropic"))
             C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
 
         if (capfps)
