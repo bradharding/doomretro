@@ -636,14 +636,16 @@ static void AM_toggleFollowMode(void)
     if (followmode)
         m_paninc.x = m_paninc.y = 0;
     f_oldloc.x = INT_MAX;
-    HU_PlayerMessage((followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF), false);
+    plr->message = (followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
+    C_Input("am_followmode", (followmode ? "on" : "off"));
     message_dontfuckwithme = true;
 }
 
 static void AM_toggleGrid(void)
 {
     grid = !grid;
-    HU_PlayerMessage((grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF), false);
+    plr->message = (grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
+    C_Input("am_grid", (grid ? "on" : "off"));
     message_dontfuckwithme = true;
 }
 
@@ -702,7 +704,8 @@ static void AM_clearMarks(void)
 static void AM_toggleRotateMode(void)
 {
     rotatemode = !rotatemode;
-    HU_PlayerMessage((rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF), false);
+    plr->message = (rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
+    C_Input("am_rotatemode", (rotatemode ? "on" : "off"));
     message_dontfuckwithme = true;
 }
 

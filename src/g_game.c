@@ -630,7 +630,8 @@ void G_DoLoadLevel(void)
 void G_ToggleAlwaysRun(void)
 {
     alwaysrun = !alwaysrun;
-    HU_PlayerMessage((alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF), false);
+    players[0].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
+    C_Input("pm_alwaysrun %s", (alwaysrun ? "on" : "off"));
     message_dontfuckwithme = true;
     if (menuactive)
     {

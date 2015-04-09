@@ -164,6 +164,23 @@ void C_Print(stringtype_t type, char *string, ...)
     outputhistory = -1;
 }
 
+void C_Input(char *string, ...)
+{
+    va_list     argptr;
+    char        buffer[1024];
+
+    va_start(argptr, string);
+    memset(buffer, 0, sizeof(buffer));
+    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    va_end(argptr);
+
+    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console[consolestrings].string = strdup(buffer);
+    console[consolestrings].type = input;
+    ++consolestrings;
+    outputhistory = -1;
+}
+
 void C_Output(char *string, ...)
 {
     va_list     argptr;
@@ -738,7 +755,7 @@ boolean C_Responder(event_t *ev)
                                         && consolecmds[i].condition(cmd, consolecheatparm, ""))
                                     {
                                         validcmd = true;
-                                        C_Print(input, consoleinput);
+                                        C_Input(consoleinput);
                                         M_StringCopy(consolecheat, cmd, 255);
                                         break;
                                     }
@@ -754,7 +771,7 @@ boolean C_Responder(event_t *ev)
                                     && consolecmds[i].condition(cmd, parm, ""))
                                 {
                                     validcmd = true;
-                                    C_Print(input, consoleinput);
+                                    C_Input(consoleinput);
                                     consolecmds[i].function(cmd, parm, "");
                                     break;
                                 }
@@ -773,7 +790,7 @@ boolean C_Responder(event_t *ev)
                                 && consolecmds[i].condition(cmd, parm1, parm2))
                             {
                                 validcmd = true;
-                                C_Print(input, consoleinput);
+                                C_Input(consoleinput);
                                 consolecmds[i].function(cmd, parm1, parm2);
                                 break;
                             }
@@ -782,7 +799,7 @@ boolean C_Responder(event_t *ev)
                             && consolecmds[i].condition(consoleinput, "", ""))
                         {
                             validcmd = true;
-                            C_Print(input, consoleinput);
+                            C_Input(consoleinput);
                             if (consolecmds[i].type == CT_CHEAT)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else

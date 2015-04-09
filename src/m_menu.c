@@ -1358,7 +1358,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     sfxvolume_percent = sfxVolume * 100 / 15;
-                    C_Output("set snd_sfxvolume %i%%", sfxvolume_percent);
+                    C_Input("snd_sfxvolume %i%%", sfxvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1368,7 +1368,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     sfxvolume_percent = sfxVolume * 100 / 15;
-                    C_Output("set snd_sfxvolume %i%%", sfxvolume_percent);
+                    C_Input("snd_sfxvolume %i%%", sfxvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1388,7 +1388,7 @@ void M_MusicVol(int choice)
                     S_SetMusicVolume((int)(--musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     musicvolume_percent = musicVolume * 100 / 15;
-                    C_Output("set snd_musicvolume %i%%", musicvolume_percent);
+                    C_Input("snd_musicvolume %i%%", musicvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1398,7 +1398,7 @@ void M_MusicVol(int choice)
                     S_SetMusicVolume((int)(++musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     musicvolume_percent = musicVolume * 100 / 15;
-                    C_Output("set snd_musicvolume %i%%", musicvolume_percent);
+                    C_Input("snd_musicvolume %i%%", musicvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1676,7 +1676,7 @@ void M_ChangeMessages(int choice)
     if (menuactive)
         message_dontpause = true;
     players[0].message = (messages ? s_MSGON : s_MSGOFF);
-    C_Output("set messages %s", (messages ? "on" : "off"));
+    C_Input("set messages %s", (messages ? "on" : "off"));
     message_dontfuckwithme = true;
     M_SaveDefaults();
 }
@@ -1856,7 +1856,7 @@ void M_ChangeSensitivity(int choice)
                     gamepadsensitivityf = (!gamepadsensitivity ? 0.0f : GAMEPADSENSITIVITY_OFFSET
                         + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX
                         * GAMEPADSENSITIVITY_FACTOR);
-                    C_Output("set gp_sensitivity %i", gamepadsensitivity);
+                    C_Input("gp_sensitivity %i", gamepadsensitivity);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1870,7 +1870,7 @@ void M_ChangeSensitivity(int choice)
                     gamepadsensitivityf = GAMEPADSENSITIVITY_OFFSET
                         + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX
                         * GAMEPADSENSITIVITY_FACTOR;
-                    C_Output("set gp_sensitivity %i", gamepadsensitivity);
+                    C_Input("gp_sensitivity %i", gamepadsensitivity);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1887,7 +1887,7 @@ void M_ChangeSensitivity(int choice)
                     if (mousesensitivity & 1)
                         ++mousesensitivity;
                     mousesensitivity -= 2;
-                    C_Output("set m_sensitivity %i", mousesensitivity);
+                    C_Input("m_sensitivity %i", mousesensitivity);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1898,7 +1898,7 @@ void M_ChangeSensitivity(int choice)
                     if (mousesensitivity & 1)
                         --mousesensitivity;
                     mousesensitivity += 2;
-                    C_Output("set m_sensitivity %i", mousesensitivity);
+                    C_Input("m_sensitivity %i", mousesensitivity);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1916,7 +1916,7 @@ void M_ChangeDetail(int choice)
         players[0].message = (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
         message_dontfuckwithme = true;
     }
-    C_Output("set r_graphicdetail %s", (graphicdetail == HIGH ? "high" : "low"));
+    C_Input("r_graphicdetail %s", (graphicdetail == HIGH ? "high" : "low"));
     M_SaveDefaults();
 }
 
@@ -1930,12 +1930,12 @@ void M_SizeDisplay(int choice)
                 if (!hud)
                 {
                     hud = true;
-                    C_Output("set r_hud on");
+                    C_Input("r_hud on");
                 }
                 else
                 {
                     R_SetViewSize(--screensize);
-                    C_Output("set r_screensize %i", screensize);
+                    C_Input("r_screensize %i", screensize);
                 }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
@@ -1945,12 +1945,12 @@ void M_SizeDisplay(int choice)
                 if (!hud)
                 {
                     hud = true;
-                    C_Output("set r_hud on");
+                    C_Input("r_hud on");
                 }
                 else
                 {
                     if (widescreen)
-                        C_Output("set vid_widescreenoff");
+                        C_Input("vid_widescreen off");
                     ToggleWidescreen(false);
                 }
                 S_StartSound(NULL, sfx_stnmov);
@@ -1959,7 +1959,7 @@ void M_SizeDisplay(int choice)
             else if (screensize > SCREENSIZE_MIN)
             {
                 R_SetViewSize(--screensize);
-                C_Output("set r_screensize %i", screensize);
+                C_Input("r_screensize %i", screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1971,7 +1971,7 @@ void M_SizeDisplay(int choice)
                 if (hud)
                 {
                     hud = false;
-                    C_Output("set r_hud off");
+                    C_Input("r_hud off");
                     S_StartSound(NULL, sfx_stnmov);
                     M_SaveDefaults();
                 }
@@ -1989,11 +1989,11 @@ void M_SizeDisplay(int choice)
                     {
                         ToggleWidescreen(true);
                         if (widescreen)
-                            C_Output("set vid_widescreen on");
+                            C_Input("vid_widescreen on");
                         else
                         {
                             R_SetViewSize(++screensize);
-                            C_Output("set r_screensize %i", screensize);
+                            C_Input("r_screensize %i", screensize);
                         }
                     }
                 }
@@ -2003,7 +2003,7 @@ void M_SizeDisplay(int choice)
             else if (screensize < SCREENSIZE_MAX)
             {
                 R_SetViewSize(++screensize);
-                C_Output("set r_screensize %i", screensize);
+                C_Input("r_screensize %i", screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -2187,7 +2187,6 @@ void M_ShowHelp(void)
 
 void M_ChangeGamma(boolean shift)
 {
-    static char buf[128];
     static int  gammawait = 0;
 
     if (gammawait >= I_GetTime() || gamestate != GS_LEVEL || inhelpscreens)
@@ -2205,19 +2204,33 @@ void M_ChangeGamma(boolean shift)
         gammalevel = gammalevels[gammaindex];
 
         S_StartSound(NULL, sfx_stnmov);
+
+        if (gammalevel == 1.0f)
+            C_Input("r_gamma off");
+        else
+        {
+            static char buf[128];
+
+            M_snprintf(buf, sizeof(buf), "r_gamma %.2f", gammalevel);
+            if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
+                buf[strlen(buf) - 1] = '\0';
+            C_Input(buf);
+        }
     }
 
     gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
     if (gammalevel == 1.0f)
-        M_StringCopy(buf, s_GAMMAOFF, sizeof(buf));
+        players[0].message = s_GAMMAOFF;
     else
     {
+        static char buf[128];
+
         M_snprintf(buf, sizeof(buf), s_GAMMALVL, gammalevel);
         if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
             buf[strlen(buf) - 1] = '\0';
+        players[0].message = buf;
     }
-    HU_PlayerMessage(buf, false);
 
     message_dontpause = true;
     message_dontfuckwithme = true;
