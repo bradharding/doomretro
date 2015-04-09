@@ -559,63 +559,60 @@ boolean noinput = true;
 
 void I_GetEvent(void)
 {
-    SDL_Event           sdlevent;
-    event_t             ev;
+    event_t     event;
+    SDL_Event   SDLEvent;
+    SDL_Event   *Event = &SDLEvent;
 
-    while (SDL_PollEvent(&sdlevent))
+    while (SDL_PollEvent(Event))
     {
-        switch (sdlevent.type)
+        switch (Event->type)
         {
             case SDL_KEYDOWN:
                 if (noinput)
                     return;
 
-                ev.type = ev_keydown;
+                event.type = ev_keydown;
 
 #if defined(SDL20)
-                ev.data1 = translatekey[sdlevent.key.keysym.scancode];
-                ev.data2 = sdlevent.key.keysym.sym;
-                if (ev.data2 < SDLK_SPACE || ev.data2 > SDLK_z)
-                    ev.data2 = 0;
+                event.data1 = translatekey[Event->key.keysym.scancode];
+                event.data2 = Event->key.keysym.sym;
+                if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
+                    event.data2 = 0;
 #else
-                ev.data1 = translatekey[sdlevent.key.keysym.sym];
-                ev.data2 = tolower(sdlevent.key.keysym.unicode);
+                event.data1 = translatekey[Event->key.keysym.sym];
+                event.data2 = tolower(Event->key.keysym.unicode);
 #endif
 
-                altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
+                altdown = (Event->key.keysym.mod & KMOD_ALT);
 
-                if (altdown && ev.data1 == KEY_TAB)
-                    ev.data1 = ev.data2 = 0;
+                if (altdown && event.data1 == KEY_TAB)
+                    event.data1 = event.data2 = 0;
 
-                if (!isdigit(ev.data2))
+                if (!isdigit(event.data2))
                     idclev = idmus = false;
 
-                if (idbehold && keys[ev.data2])
+                if (idbehold && keys[event.data2])
                 {
                     HU_clearMessages();
                     idbehold = false;
                 }
 
-                if (ev.data1)
-                    D_PostEvent(&ev);
+                D_PostEvent(&event);
                 break;
 
             case SDL_KEYUP:
-                ev.type = ev_keyup;
+                event.type = ev_keyup;
 
 #if defined(SDL20)
-                ev.data1 = translatekey[sdlevent.key.keysym.scancode];
+                event.data1 = translatekey[Event->key.keysym.scancode];
 #else
-                ev.data1 = translatekey[sdlevent.key.keysym.sym];
+                event.data1 = translatekey[Event->key.keysym.sym];
 #endif
 
-                ev.data2 = 0;
-
-                altdown = (sdlevent.key.keysym.mod & KMOD_ALT);
+                altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
 
-                if (ev.data1)
-                    D_PostEvent(&ev);
+                D_PostEvent(&event);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
@@ -628,12 +625,12 @@ void I_GetEvent(void)
                         HU_clearMessages();
                         idbehold = false;
                     }
-                    ev.type = ev_mouse;
-                    mouse_button_state |= buttons[sdlevent.button.button];
-                    ev.data1 = mouse_button_state;
-                    ev.data2 = 0;
-                    ev.data3 = 0;
-                    D_PostEvent(&ev);
+                    event.type = ev_mouse;
+                    mouse_button_state |= buttons[Event->button.button];
+                    event.data1 = mouse_button_state;
+                    event.data2 = 0;
+                    event.data3 = 0;
+                    D_PostEvent(&event);
                 }
                 break;
 
@@ -641,12 +638,12 @@ void I_GetEvent(void)
                 if (mousesensitivity || menuactive)
                 {
                     keydown = 0;
-                    ev.type = ev_mouse;
-                    mouse_button_state &= ~buttons[sdlevent.button.button];
-                    ev.data1 = mouse_button_state;
-                    ev.data2 = 0;
-                    ev.data3 = 0;
-                    D_PostEvent(&ev);
+                    event.type = ev_mouse;
+                    mouse_button_state &= ~buttons[Event->button.button];
+                    event.data1 = mouse_button_state;
+                    event.data2 = 0;
+                    event.data3 = 0;
+                    D_PostEvent(&event);
                 }
                 break;
 
@@ -655,11 +652,11 @@ void I_GetEvent(void)
                 if (mousesensitivity || menuactive || consoleactive)
                 {
                     keydown = 0;
-                    ev.type = ev_mousewheel;
-                    ev.data1 = sdlevent.wheel.y;
-                    ev.data2 = 0;
-                    ev.data3 = 0;
-                    D_PostEvent(&ev);
+                    event.type = ev_mousewheel;
+                    event.data1 = Event->wheel.y;
+                    event.data2 = 0;
+                    event.data3 = 0;
+                    D_PostEvent(&event);
                 }
                 break;
 #endif
@@ -696,7 +693,7 @@ void I_GetEvent(void)
                 if (!fullscreen && !widescreenresize)
                 {
                     need_resize = true;
-                    resize_h = sdlevent.resize.h;
+                    resize_h = Event->resize.h;
                 }
                 widescreenresize = false;
                 break;
@@ -707,7 +704,7 @@ void I_GetEvent(void)
             case SDL_SYSWMEVENT:
                 if (!fullscreen)
                 {
-                    if (sdlevent.syswm.msg->msg == WM_MOVE)
+                    if (Event->syswm.msg->msg == WM_MOVE)
                     {
                         I_SaveWindowPosition();
                         SetWindowPositionVars();
@@ -719,7 +716,7 @@ void I_GetEvent(void)
 
 #if defined(SDL20)
             case SDL_WINDOWEVENT:
-                switch (sdlevent.window.event)
+                switch (Event->window.event)
                 {
                     case SDL_WINDOWEVENT_FOCUS_GAINED:
                     case SDL_WINDOWEVENT_FOCUS_LOST:
@@ -734,8 +731,8 @@ void I_GetEvent(void)
                     case SDL_WINDOWEVENT_SIZE_CHANGED:
                         if (!fullscreen)
                         {
-                            windowwidth = sdlevent.window.data1;
-                            windowheight = sdlevent.window.data2;
+                            windowwidth = Event->window.data1;
+                            windowheight = Event->window.data2;
                             M_SaveDefaults();
 
                             displaywidth = windowwidth;
@@ -749,7 +746,7 @@ void I_GetEvent(void)
                         if (!fullscreen)
                         {
                             M_snprintf(windowposition, 10, "%i,%i",
-                                sdlevent.window.data1, sdlevent.window.data2);
+                                Event->window.data1, Event->window.data2);
                             display = SDL_GetWindowDisplayIndex(window) + 1;
                             M_SaveDefaults();
                         }
