@@ -1905,7 +1905,7 @@ void M_ChangeDetail(int choice)
         players[0].message = (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
         message_dontfuckwithme = true;
     }
-    C_Output(graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
+    C_Output("%s.", (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO));
     M_SaveDefaults();
 }
 
