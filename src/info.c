@@ -2336,9 +2336,9 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "icon of sin",
         /* plural1              */ "",
-        /* name2                */ "",
+        /* name2                */ "boss brain",
         /* plural2              */ ""
     },
 
