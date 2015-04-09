@@ -1358,6 +1358,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     sfxvolume_percent = sfxVolume * 100 / 15;
+                    C_Output("set snd_sfxvolume %i%%", sfxvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1367,6 +1368,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     sfxvolume_percent = sfxVolume * 100 / 15;
+                    C_Output("set snd_sfxvolume %i%%", sfxvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1386,6 +1388,7 @@ void M_MusicVol(int choice)
                     S_SetMusicVolume((int)(--musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     musicvolume_percent = musicVolume * 100 / 15;
+                    C_Output("set snd_musicvolume %i%%", musicvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1395,6 +1398,7 @@ void M_MusicVol(int choice)
                     S_SetMusicVolume((int)(++musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     musicvolume_percent = musicVolume * 100 / 15;
+                    C_Output("set snd_musicvolume %i%%", musicvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1671,7 +1675,8 @@ void M_ChangeMessages(int choice)
     messages = !messages;
     if (menuactive)
         message_dontpause = true;
-    HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false);
+    players[0].message = (messages ? s_MSGON : s_MSGOFF);
+    C_Output("set messages %s", (messages ? "on" : "off"));
     message_dontfuckwithme = true;
     M_SaveDefaults();
 }
@@ -1849,7 +1854,9 @@ void M_ChangeSensitivity(int choice)
                         ++gamepadsensitivity;
                     gamepadsensitivity -= 2;
                     gamepadsensitivityf = (!gamepadsensitivity ? 0.0f : GAMEPADSENSITIVITY_OFFSET
-                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * GAMEPADSENSITIVITY_FACTOR);
+                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX
+                        * GAMEPADSENSITIVITY_FACTOR);
+                    C_Output("set gp_sensitivity %i", gamepadsensitivity);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1861,7 +1868,9 @@ void M_ChangeSensitivity(int choice)
                         --gamepadsensitivity;
                     gamepadsensitivity += 2;
                     gamepadsensitivityf = GAMEPADSENSITIVITY_OFFSET
-                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * GAMEPADSENSITIVITY_FACTOR;
+                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX
+                        * GAMEPADSENSITIVITY_FACTOR;
+                    C_Output("set gp_sensitivity %i", gamepadsensitivity);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1878,6 +1887,7 @@ void M_ChangeSensitivity(int choice)
                     if (mousesensitivity & 1)
                         ++mousesensitivity;
                     mousesensitivity -= 2;
+                    C_Output("set m_sensitivity %i", mousesensitivity);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1888,6 +1898,7 @@ void M_ChangeSensitivity(int choice)
                     if (mousesensitivity & 1)
                         --mousesensitivity;
                     mousesensitivity += 2;
+                    C_Output("set m_sensitivity %i", mousesensitivity);
                     M_SliderSound();
                     M_SaveDefaults();
                 }
@@ -1905,7 +1916,7 @@ void M_ChangeDetail(int choice)
         players[0].message = (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
         message_dontfuckwithme = true;
     }
-    C_Output("%s.", (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO));
+    C_Output("set r_graphicdetail %s", (graphicdetail == HIGH ? "high" : "low"));
     M_SaveDefaults();
 }
 
@@ -1919,12 +1930,12 @@ void M_SizeDisplay(int choice)
                 if (!hud)
                 {
                     hud = true;
-                    C_Output("Toggled HUD on.");
+                    C_Output("set r_hud on");
                 }
                 else
                 {
                     R_SetViewSize(--screensize);
-                    C_Output("The screen size has been set to %i.", screensize);
+                    C_Output("set r_screensize %i", screensize);
                 }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
@@ -1934,12 +1945,12 @@ void M_SizeDisplay(int choice)
                 if (!hud)
                 {
                     hud = true;
-                    C_Output("Toggled HUD on.");
+                    C_Output("set r_hud on");
                 }
                 else
                 {
                     if (widescreen)
-                        C_Output("Toggled widescreen mode off.");
+                        C_Output("set vid_widescreenoff");
                     ToggleWidescreen(false);
                 }
                 S_StartSound(NULL, sfx_stnmov);
@@ -1948,7 +1959,7 @@ void M_SizeDisplay(int choice)
             else if (screensize > SCREENSIZE_MIN)
             {
                 R_SetViewSize(--screensize);
-                C_Output("The screen size has been set to %i.", screensize);
+                C_Output("set r_screensize %i", screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
@@ -1960,7 +1971,7 @@ void M_SizeDisplay(int choice)
                 if (hud)
                 {
                     hud = false;
-                    C_Output("Toggled HUD off.");
+                    C_Output("set r_hud off");
                     S_StartSound(NULL, sfx_stnmov);
                     M_SaveDefaults();
                 }
@@ -1978,11 +1989,11 @@ void M_SizeDisplay(int choice)
                     {
                         ToggleWidescreen(true);
                         if (widescreen)
-                            C_Output("Toggled widescreen mode on.");
+                            C_Output("set vid_widescreen on");
                         else
                         {
                             R_SetViewSize(++screensize);
-                            C_Output("The screen size has been set to %i.", screensize);
+                            C_Output("set r_screensize %i", screensize);
                         }
                     }
                 }
@@ -1992,7 +2003,7 @@ void M_SizeDisplay(int choice)
             else if (screensize < SCREENSIZE_MAX)
             {
                 R_SetViewSize(++screensize);
-                C_Output("The screen size has been set to %i.", screensize);
+                C_Output("set r_screensize %i", screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveDefaults();
             }
