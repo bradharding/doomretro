@@ -372,6 +372,17 @@ static boolean I_SDL_SoundIsPlaying(int handle)
     return Mix_Playing(handle);
 }
 
+boolean I_AnySoundStillPlaying(void)
+{
+    boolean     result = false;
+    int         i;
+
+    for (i = 0; i < NUM_CHANNELS; i++)
+        result |= Mix_Playing(i);
+
+    return result;
+}
+
 static void I_SDL_ShutdownSound(void)
 {
     if (!sound_initialized)

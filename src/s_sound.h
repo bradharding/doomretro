@@ -185,4 +185,6 @@ void S_SetSfxVolume(int volume);
 
 void I_InitTimidityConfig(void);
 
+boolean I_AnySoundStillPlaying(void);
+
 #endif
