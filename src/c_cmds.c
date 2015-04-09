@@ -1739,7 +1739,7 @@ void C_TotalItems(char *cmd, char *parm1, char *parm2)
     if (!totalitems)
         C_Output("0 of 0 (0%)");
     else
-        C_Output("%i of %i (%i%%)", players[0].itemcount, totalitems,
+        C_Output("%s of %s (%i%%)", commify(players[0].itemcount), commify(totalitems),
             players[0].itemcount * 100 / totalitems);
 }
 
@@ -1748,7 +1748,7 @@ void C_TotalKills(char *cmd, char *parm1, char *parm2)
     if (!totalkills)
         C_Output("0 of 0 (0%)");
     else
-        C_Output("%i of %i (%i%%)", players[0].killcount, totalkills,
+        C_Output("%s of %s (%i%%)", commify(players[0].killcount), commify(totalkills),
             players[0].killcount * 100 / totalkills);
 }
 
@@ -1777,7 +1777,7 @@ void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
     if (!totalsecret)
         C_Output("0 of 0 (0%)");
     else
-        C_Output("%i of %i (%i%%)", players[0].secretcount, totalsecret,
+        C_Output("%s of %s (%i%%)", commify(players[0].secretcount), commify(totalsecret),
             players[0].secretcount * 100 / totalsecret);
 }
 
