@@ -645,6 +645,10 @@ void P_LoadLineDefs(int lump)
         ld->dx = v2->x - v1->x;
         ld->dy = v2->y - v1->y;
 
+        // [crispy] warn about unknown linedef types
+        if ((unsigned short)ld->special > 141)
+            C_Warning("P_LoadLineDefs: Linedef %i has unknown special %i.", i, ld->special);
+
         if (!ld->dx)
             ld->slopetype = ST_VERTICAL;
         else if (!ld->dy)
