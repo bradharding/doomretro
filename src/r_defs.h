@@ -371,7 +371,8 @@ typedef enum
     SR_LightsTo255                                                = 138,
     SR_LightsTo0                                                  = 139,
     S1_RaiseFloorBy512Units                                       = 140,
-    W1_StartSlowQuietCrusher                                      = 141
+    W1_StartSlowQuietCrusher                                      = 141,
+    UNKNOWNSPECIAL                                                = 142
 } linespecial_t;
 
 typedef enum
