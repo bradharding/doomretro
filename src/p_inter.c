@@ -310,6 +310,15 @@ boolean P_GiveBody(player_t *player, int num)
     return true;
 }
 
+void P_GiveMegaHealth(player_t *player)
+{
+    if (!(player->cheats & CF_GODMODE))
+    {
+        player->health = mega_health;
+        player->mo->health = player->health;
+    }
+}
+
 //
 // P_GiveArmor
 // Returns false if the armor is worse
@@ -541,11 +550,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_MEGA:
-            if (!(player->cheats & CF_GODMODE))
-            {
-                player->health = mega_health;
-                player->mo->health = player->health;
-            }
+            P_GiveMegaHealth(player);
             P_GiveArmor(player, 2);
             HU_PlayerMessage(s_GOTMSPHERE, true);
             sound = sfx_getpow;

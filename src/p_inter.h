@@ -40,6 +40,7 @@
 #define __P_INTER__
 
 boolean P_GiveBody(player_t *player, int num);
+void P_GiveMegaHealth(player_t *player);
 boolean P_GiveArmor(player_t *player, int armortype);
 void P_GiveCard(player_t *player, card_t card);
 boolean P_GiveAllCards(player_t *player);
