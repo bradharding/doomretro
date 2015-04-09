@@ -451,7 +451,11 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
             if (letter == ITALICS)
                 italics = false;
             if (letter == '\t')
-                x = MAX(x, tabstops[tabs++]);
+            {
+                int tab = tabstops[tabs++];
+
+                x = (x > tab ? x + SPACEWIDTH : tab);
+            }
             else if (c < 0 || c >= CONSOLEFONTSIZE)
                 x += SPACEWIDTH;
             else
