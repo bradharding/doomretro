@@ -38,6 +38,7 @@
 
 #include <math.h>
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "i_swap.h"
@@ -229,7 +230,7 @@ void P_LoadSegs(int lump)
         linedef = (unsigned short)SHORT(ml->linedef);
 
         if (linedef < 0 || linedef >= numlines)
-            I_Error("P_LoadSegs: invalid linedef %d", linedef);
+            I_Error("P_LoadSegs: invalid linedef %i", linedef);
 
         ldef = &lines[linedef];
         li->linedef = ldef;
@@ -238,7 +239,11 @@ void P_LoadSegs(int lump)
 
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
+        {
+            C_Warning("P_LoadSegs: Seg %i contains wrong side index %i. It has been replaced with 1.",
+                i, side);
             side = 1;
+        }
 
         li->sidedef = &sides[ldef->sidenum[side]];
 
@@ -248,7 +253,10 @@ void P_LoadSegs(int lump)
         if (ldef->sidenum[side] != NO_INDEX)
             li->frontsector = sides[ldef->sidenum[side]].sector;
         else
+        {
+            C_Warning("P_LoadSegs: The front of seg %i has no sidedef.", i);
             li->frontsector = 0;
+        }
 
         if (ldef-> flags & ML_TWOSIDED)
         {
@@ -273,6 +281,12 @@ void P_LoadSegs(int lump)
         // http://www.doomworld.com/idgames/index.php?id=12647
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
+            char buffer[] = "P_LoadSegs: Seg %i references non-existent vertex %i.";
+
+            if (v1 >= numvertexes)
+                C_Warning(buffer, i, v1);
+            if (v2 >= numvertexes)
+                C_Warning(buffer, i, v2);
 
             if (li->sidedef == &sides[li->linedef->sidenum[0]])
             {
@@ -461,7 +475,9 @@ void P_LoadNodes(int lump)
     // [crispy] warn about unsupported nodes
     if (!data || !numnodes)
     {
-        if (numsubsectors > 1)
+        if (numsubsectors == 1)
+            C_Warning("P_LoadNodes: This map has no nodes and only one subsector.");
+        else
             I_Error("P_LoadNodes: No nodes in map");
     }
     else if (!memcmp(data, "xNd4\0\0\0\0", 8))
@@ -495,7 +511,11 @@ void P_LoadNodes(int lump)
 
                 // haleyjd 11/06/10: check for invalid subsector reference
                 if (no->children[j] >= numsubsectors)
+                {
+                    C_Warning("P_LoadNodes: BSP tree references invalid subsector %i.",
+                        no->children[j]);
                     no->children[j] = 0;
+                }
 
                 no->children[j] |= NF_SUBSECTOR;
             }
@@ -672,15 +692,24 @@ void P_LoadLineDefs(int lump)
             int j;
 
             for (j = 0; j < 2; j++)
-                if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides) 
+                if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
+                {
                     ld->sidenum[j] = NO_INDEX;
+                    C_Warning("P_LoadLineDefs: Linedef %i has out-of-range sidedef number.", i);
+                }
 
             // killough 11/98: fix common wad errors (missing sidedefs):
             if (ld->sidenum[0] == NO_INDEX)
+            {
                 ld->sidenum[0] = 0;  // Substitute dummy sidedef for missing right side
+                C_Warning("P_LoadLineDefs: Linedef %i is missing first sidedef.", i);
+            }
 
             if (ld->sidenum[1] == NO_INDEX && (ld->flags & ML_TWOSIDED))
+            {
                 ld->flags &= ~ML_TWOSIDED;  // Clear 2s flag for missing left side
+                C_Warning("P_LoadLineDefs: Linedef %i has two-sided flag set but no second sidedef.", i);
+            }
         }
 
         ld->frontsector = (ld->sidenum[0] == NO_INDEX ? 0 : sides[ld->sidenum[0]].sector);
@@ -734,11 +763,11 @@ void P_LoadSideDefs(int lump)
 //
 void P_LoadBlockMap(int lump)
 {
-    unsigned int        count = W_LumpLength(lump) / 2;                    // number of 16 bit blockmap entries
+    unsigned int        count = W_LumpLength(lump) / 2; // number of 16 bit blockmap entries
     uint16_t            *wadblockmaplump = W_CacheLumpNum(lump, PU_LEVEL); // blockmap lump temp
-    uint32_t            firstlist, lastlist;  // blockmap block list bounds
+    uint32_t            firstlist, lastlist;            // blockmap block list bounds
     uint32_t            overflow_corr = 0;
-    uint32_t            prev_bme = 0;  // for detecting overflow wrap
+    uint32_t            prev_bme = 0;                   // for detecting overflow wrap
     unsigned int        i;
 
     // [WDJ] when zennode has not been run, this code will corrupt Zone memory.

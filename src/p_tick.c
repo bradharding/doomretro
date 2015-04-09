@@ -206,7 +206,7 @@ static void P_RunThinkers(void)
 void P_Ticker(void)
 {
     // pause if in menu and at least one tic has been run
-    if ((paused || menuactive || consoleactive) && players[0].viewz != 1)
+    if (paused || menuactive || consoleactive)
         return;
 
     P_PlayerThink(&players[0]);

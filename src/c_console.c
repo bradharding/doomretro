@@ -142,6 +142,7 @@ int             consolememorycolor = 88;
 int             consoleplayermessagecolor = 161;
 int             consoleoutputcolor = 88;
 int             consolebrandingcolor = 100;
+int             consolewarningcolor = 180;
 int             consoledividercolor = 88;
 
 int             consolecolors[STRINGTYPES];
@@ -176,6 +177,23 @@ void C_Output(char *string, ...)
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = output;
+    ++consolestrings;
+    outputhistory = -1;
+}
+
+void C_Warning(char *string, ...)
+{
+    va_list     argptr;
+    char        buffer[1024];
+
+    va_start(argptr, string);
+    memset(buffer, 0, sizeof(buffer));
+    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    va_end(argptr);
+
+    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console[consolestrings].string = M_StringJoin("WARNING! ", buffer, NULL);
+    console[consolestrings].type = warning;
     ++consolestrings;
     outputhistory = -1;
 }
@@ -256,6 +274,7 @@ void C_Init(void)
     consolecolors[output] = consoleoutputcolor;
     consolecolors[divider] = consoledividercolor;
     consolecolors[title] = consoletitlecolor;
+    consolecolors[warning] = consolewarningcolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
 
     c_tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
@@ -568,19 +587,14 @@ void C_Drawer(void)
             if (console[i].type == divider)
                 C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
             else
-            {
-                int     color = consolecolors[console[i].type];
-
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, ABS(color), 2 * (color < 0));
-            }
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[console[i].type], 0);
         }
 
         // draw input text to left of caret
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, ABS(consoleinputcolor),
-            2 * (consoleinputcolor < 0));
+        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, ABS(consoleinputcolor), 0);
 
         // draw caret
         if (caretwait < I_GetTime())
@@ -590,16 +604,14 @@ void C_Drawer(void)
         }
         x += C_TextWidth(left);
         if (showcaret)
-            V_DrawConsoleChar(x, consoleheight - 15, caret, ABS(consolecaretcolor), false,
-                2 * (consolecaretcolor < 0));
+            V_DrawConsoleChar(x, consoleheight - 15, caret, ABS(consolecaretcolor), false, 0);
 
         // draw input text to right of caret
         for (i = 0; (unsigned int)i < strlen(consoleinput) - caretpos; ++i)
             right[i] = consoleinput[i + caretpos];
         right[i] = 0;
         if (right[0])
-            C_DrawConsoleText(x + 3, CONSOLEHEIGHT - 15, right, ABS(consoleinputcolor),
-                2 * (consoleinputcolor < 0));
+            C_DrawConsoleText(x + 3, CONSOLEHEIGHT - 15, right, ABS(consoleinputcolor), 0);
 
         Z_Free(left);
         Z_Free(right);

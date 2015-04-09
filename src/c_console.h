@@ -56,6 +56,7 @@ typedef enum
     output,
     divider,
     title,
+    warning,
     playermessage,
     STRINGTYPES
 } stringtype_t;
@@ -92,6 +93,7 @@ extern boolean  showmemory;
 
 void C_Print(stringtype_t type, char *string, ...);
 void C_Output(char *string, ...);
+void C_Warning(char *string, ...);
 void C_PlayerMessage(char *string, ...);
 void C_AddConsoleDivider(void);
 void C_Init(void);
