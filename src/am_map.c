@@ -640,7 +640,7 @@ static void AM_toggleFollowMode(void)
         m_paninc.x = m_paninc.y = 0;
     f_oldloc.x = INT_MAX;
     plr->message = (followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
-    C_Input("am_followmode", (followmode ? "on" : "off"));
+    C_Input("am_followmode %s", (followmode ? "on" : "off"));
     message_dontfuckwithme = true;
 }
 
@@ -648,7 +648,7 @@ static void AM_toggleGrid(void)
 {
     grid = !grid;
     plr->message = (grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
-    C_Input("am_grid", (grid ? "on" : "off"));
+    C_Input("am_grid %s", (grid ? "on" : "off"));
     message_dontfuckwithme = true;
 }
 
@@ -708,7 +708,7 @@ static void AM_toggleRotateMode(void)
 {
     rotatemode = !rotatemode;
     plr->message = (rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
-    C_Input("am_rotatemode", (rotatemode ? "on" : "off"));
+    C_Input("am_rotatemode %s", (rotatemode ? "on" : "off"));
     message_dontfuckwithme = true;
 }
 
@@ -1872,9 +1872,6 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
-    float angle;
-
-    angle = (float)(ANG90 - viewangle) / (float)(1u << 31) * (float)M_PI;
     am_frame.sin = finesine[(ANG90 - viewangle) >> ANGLETOFINESHIFT];
     am_frame.cos = finecosine[(ANG90 - viewangle) >> ANGLETOFINESHIFT];
 
@@ -1883,8 +1880,8 @@ static void AM_setFrameVariables(void)
 
     if (rotatemode)
     {
-        float dx = (float)(m_x2 - am_frame.centerx);
-        float dy = (float)(m_y2 - am_frame.centery);
+        float   dx = (float)(m_x2 - am_frame.centerx);
+        float   dy = (float)(m_y2 - am_frame.centery);
         fixed_t r = (fixed_t)sqrt(dx * dx + dy * dy);
 
         am_frame.bbox[BOXLEFT] = am_frame.centerx - r;
