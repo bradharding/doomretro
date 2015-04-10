@@ -103,7 +103,7 @@ int P_BoxOnLineSide(fixed_t *tmbox, line_t *ld)
 // Returns 0 or 1.
 // killough 5/3/98: reformatted, cleaned up
 //
-int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
+static int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 {
     return (!line->dx ? x <= line->x ? line->dy > 0 : line->dy < 0 :
         !line->dy ? y <= line->y ? line->dx < 0 : line->dx > 0 :
@@ -114,7 +114,7 @@ int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t *line)
 //
 // P_MakeDivline
 //
-void P_MakeDivline(line_t *li, divline_t *dl)
+static void P_MakeDivline(line_t *li, divline_t *dl)
 {
     dl->x = li->v1->x;
     dl->y = li->v1->y;
@@ -129,7 +129,7 @@ void P_MakeDivline(line_t *li, divline_t *dl)
 // This is only called by the addthings
 // and addlines traversers.
 //
-fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
+static fixed_t P_InterceptVector(divline_t *v2, divline_t *v1)
 {
     int64_t     den = (int64_t)v1->dy * v2->dx - (int64_t)v1->dx * v2->dy;
 
@@ -315,6 +315,9 @@ void P_SetThingPosition(mobj_t *thing)
     }
 }
 
+//
+// P_SetBloodSplatPosition
+//
 void P_SetBloodSplatPosition(mobj_t *splat)
 {
     mobj_t      **link = &splat->subsector->sector->thinglist;
@@ -440,7 +443,7 @@ divline_t       dlTrace;
 // A line is crossed if its endpoints
 // are on opposite sides of the trace.
 //
-boolean PIT_AddLineIntercepts(line_t *ld)
+static boolean PIT_AddLineIntercepts(line_t *ld)
 {
     int         s1;
     int         s2;
@@ -483,7 +486,7 @@ boolean PIT_AddLineIntercepts(line_t *ld)
 //
 // PIT_AddThingIntercepts
 //
-boolean PIT_AddThingIntercepts(mobj_t *thing)
+static boolean PIT_AddThingIntercepts(mobj_t *thing)
 {
     fixed_t     x1, y1;
     fixed_t     x2, y2;
@@ -542,7 +545,7 @@ boolean PIT_AddThingIntercepts(mobj_t *thing)
 // Returns true if the traverser function returns true
 // for all lines.
 //
-boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
+static boolean P_TraverseIntercepts(traverser_t func, fixed_t maxfrac)
 {
     int         count = intercept_p - intercepts;
     intercept_t *in = NULL;
