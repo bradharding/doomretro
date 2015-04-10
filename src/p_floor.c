@@ -87,12 +87,14 @@ static void T_AnimateLiquid(floormove_t *floor)
 static void P_StartAnimatedLiquid(sector_t *sector)
 {
     thinker_t       *th;
-    floormove_t     *floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+    floormove_t     *floor;
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function.acp1 == (actionf_p1)T_AnimateLiquid
             && ((floormove_t *)th)->sector == sector)
             return;
+
+    floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
 
     P_AddThinker(&floor->thinker);
     floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
