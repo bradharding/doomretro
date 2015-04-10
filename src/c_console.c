@@ -68,7 +68,7 @@
 #pragma comment(lib, "psapi.lib")
 #endif
 
-#define CONSOLESPEED            16
+#define CONSOLESPEED            (CONSOLEHEIGHT / 12)
 
 #define CONSOLEFONTSTART        '!'
 #define CONSOLEFONTEND          '~'
