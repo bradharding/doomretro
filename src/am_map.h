@@ -122,4 +122,16 @@ extern int      markpointnum_max;
 
 boolean keystate(int key);
 
+typedef struct am_frame_s
+{
+    fixed_t centerx;
+    fixed_t centery;
+    fixed_t sin;
+    fixed_t cos;
+
+    fixed_t bbox[4];
+} am_frame_t;
+
+extern am_frame_t am_frame;
+
 #endif

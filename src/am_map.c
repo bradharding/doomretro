@@ -53,6 +53,7 @@
 #include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_video.h"
+#include "m_bbox.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "p_local.h"
@@ -140,7 +141,7 @@ byte    *gridcolor;
 #define AM_ROTATEKEY            key_automap_rotatemode
 
 // scale on entry
-// [BH] changed to scale of E1M1: Hangar so each map zoom level is consistent
+// [BH] changed to initial zoom level of E1M1: Hangar so each map zoom level is consistent
 #define INITSCALEMTOF           125114
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
@@ -280,6 +281,8 @@ int             keydown;
 int             direction;
 
 int             teleporters[24];
+
+am_frame_t      am_frame;
 
 __inline static int sign(int a)
 {
@@ -1141,14 +1144,14 @@ static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
 
 static void AM_rotatePoint(fixed_t *x, fixed_t *y)
 {
-    fixed_t     pivotx = m_x + (m_w >> 1);
-    fixed_t     pivoty = m_y + (m_h >> 1);
+    fixed_t     temp;
 
-    *x -= pivotx;
-    *y -= pivoty;
-    AM_rotate(x, y, ANG90 - plr->mo->angle);
-    *x += pivotx;
-    *y += pivoty;
+    *x -= am_frame.centerx;
+    *y -= am_frame.centery;
+
+    temp = FixedMul(*x, am_frame.cos) - FixedMul(*y, am_frame.sin) + am_frame.centerx;
+    *y = FixedMul(*x, am_frame.sin) + FixedMul(*y, am_frame.cos) + am_frame.centery;
+    *x = temp;
 }
 
 //
@@ -1507,68 +1510,78 @@ static void AM_drawWalls(void)
     while (i < numlines)
     {
         line_t  line = lines[i++];
-        short   flags = line.flags;
 
-        if ((flags & ML_DONTDRAW) && !cheating)
+        if ((line.bbox[BOXLEFT] >> FRACTOMAPBITS) > am_frame.bbox[BOXRIGHT]
+            || (line.bbox[BOXRIGHT] >> FRACTOMAPBITS) < am_frame.bbox[BOXLEFT]
+            || (line.bbox[BOXBOTTOM] >> FRACTOMAPBITS) > am_frame.bbox[BOXTOP]
+            || (line.bbox[BOXTOP] >> FRACTOMAPBITS) < am_frame.bbox[BOXBOTTOM])
             continue;
         else
         {
-            sector_t            *backsector = line.backsector;
-            sector_t            *frontsector = line.frontsector;
-            short               mapped = (flags & ML_MAPPED);
-            short               secret = (flags & ML_SECRET);
-            short               special = line.special;
-            static mline_t      l;
+            short       flags = line.flags;
 
-            l.a.x = line.v1->x >> FRACTOMAPBITS;
-            l.a.y = line.v1->y >> FRACTOMAPBITS;
-            l.b.x = line.v2->x >> FRACTOMAPBITS;
-            l.b.y = line.v2->y >> FRACTOMAPBITS;
-
-            if (rotatemode)
+            if ((flags & ML_DONTDRAW) && !cheating)
+                continue;
+            else
             {
-                AM_rotatePoint(&l.a.x, &l.a.y);
-                AM_rotatePoint(&l.b.x, &l.b.y);
-            }
+                sector_t            *backsector = line.backsector;
+                sector_t            *frontsector = line.frontsector;
+                short               mapped = (flags & ML_MAPPED);
+                short               secret = (flags & ML_SECRET);
+                short               special = line.special;
+                static mline_t      l;
 
-            if ((special == W1_TeleportToTaggedSectorContainingTeleportLanding
-                || special == W1_ExitLevel
-                || special == WR_TeleportToTaggedSectorContainingTeleportLanding
-                || (special >= W1_ExitLevelAndGoToSecretLevel
+                l.a.x = line.v1->x >> FRACTOMAPBITS;
+                l.a.y = line.v1->y >> FRACTOMAPBITS;
+                l.b.x = line.v2->x >> FRACTOMAPBITS;
+                l.b.y = line.v2->y >> FRACTOMAPBITS;
+
+                if (rotatemode)
+                {
+                    AM_rotatePoint(&l.a.x, &l.a.y);
+                    AM_rotatePoint(&l.b.x, &l.b.y);
+                }
+
+                if ((special == W1_TeleportToTaggedSectorContainingTeleportLanding
+                    || special == W1_ExitLevel
+                    || special == WR_TeleportToTaggedSectorContainingTeleportLanding
+                    || (special >= W1_ExitLevelAndGoToSecretLevel
                     && special <= MR_TeleportToTaggedSectorContainingTeleportLanding))
-                && ((flags & ML_TELEPORTTRIGGERED) || cheating || isteleport(backsector->floorpic)))
-            {
-                if (cheating || (mapped && !secret
-                    && backsector->ceilingheight != backsector->floorheight))
+                    && ((flags & ML_TELEPORTTRIGGERED) || cheating
+                    || isteleport(backsector->floorpic)))
                 {
-                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, teleportercolor);
-                    continue;
+                    if (cheating || (mapped && !secret
+                        && backsector->ceilingheight != backsector->floorheight))
+                    {
+                        AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, teleportercolor);
+                        continue;
+                    }
+                    else if (allmap)
+                    {
+                        AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
+                        continue;
+                    }
                 }
-                else if (allmap)
+                if (!backsector || (secret && !cheating))
+                    AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor :
+                    (allmap ? allmapwallcolor : maskcolor)));
+                else if (backsector->floorheight != frontsector->floorheight)
                 {
-                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
-                    continue;
+                    if (mapped || cheating)
+                        AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, fdwallcolor);
+                    else if (allmap)
+                        AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
                 }
+                else if (backsector->ceilingheight != frontsector->ceilingheight)
+                {
+                    if (mapped || cheating)
+                        AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, cdwallcolor);
+                    else if (allmap)
+                        AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapcdwallcolor);
+                }
+                else if (cheating)
+                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, tswallcolor);
             }
-            if (!backsector || (secret && !cheating))
-                AM_drawBigMline(l.a.x, l.a.y, l.b.x, l.b.y, (mapped || cheating ? wallcolor : 
-                                (allmap ? allmapwallcolor : maskcolor)));
-            else if (backsector->floorheight != frontsector->floorheight)
-            {
-                if (mapped || cheating)
-                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, fdwallcolor);
-                else if (allmap)
-                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapfdwallcolor);
-            }
-            else if (backsector->ceilingheight != frontsector->ceilingheight)
-            {
-                if (mapped || cheating)
-                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, cdwallcolor);
-                else if (allmap)
-                    AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, allmapcdwallcolor);
-            }
-            else if (cheating)
-                AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, tswallcolor);
         }
     }
 
@@ -1857,8 +1870,40 @@ static void AM_drawCrosshair(void)
     AM_DrawScaledPixel(CENTERX, CENTERY + 2, color);
 }
 
+static void AM_setFrameVariables(void)
+{
+    float angle;
+
+    angle = (float)(ANG90 - viewangle) / (float)(1u << 31) * (float)M_PI;
+    am_frame.sin = finesine[(ANG90 - viewangle) >> ANGLETOFINESHIFT];
+    am_frame.cos = finecosine[(ANG90 - viewangle) >> ANGLETOFINESHIFT];
+
+    am_frame.centerx = m_x + m_w / 2;
+    am_frame.centery = m_y + m_h / 2;
+
+    if (rotatemode)
+    {
+        float dx = (float)(m_x2 - am_frame.centerx);
+        float dy = (float)(m_y2 - am_frame.centery);
+        fixed_t r = (fixed_t)sqrt(dx * dx + dy * dy);
+
+        am_frame.bbox[BOXLEFT] = am_frame.centerx - r;
+        am_frame.bbox[BOXRIGHT] = am_frame.centerx + r;
+        am_frame.bbox[BOXBOTTOM] = am_frame.centery - r;
+        am_frame.bbox[BOXTOP] = am_frame.centery + r;
+    }
+    else
+    {
+        am_frame.bbox[BOXLEFT] = m_x;
+        am_frame.bbox[BOXRIGHT] = m_x2;
+        am_frame.bbox[BOXBOTTOM] = m_y;
+        am_frame.bbox[BOXTOP] = m_y2;
+    }
+}
+
 void AM_Drawer(void)
 {
+    AM_setFrameVariables();
     AM_clearFB();
     AM_drawWalls();
     if (grid)
