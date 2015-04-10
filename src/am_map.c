@@ -162,6 +162,8 @@ byte    *gridcolor;
 #define CXMTOF(x)               MTOF(x - m_x)
 #define CYMTOF(y)               (mapheight - MTOF(y - m_y))
 
+#define GRIDSIZE                (128 << MAPBITS)
+
 typedef struct
 {
     mpoint_t    a, b;
@@ -1445,12 +1447,12 @@ static void AM_drawGrid(void)
 
     // Figure out start of vertical gridlines
     start = m_x - extx;
-    if ((start - (bmaporgx >> FRACTOMAPBITS)) % MAPBLOCKSIZE)
-        start += MAPBLOCKSIZE - ((start - (bmaporgx >> FRACTOMAPBITS)) % MAPBLOCKSIZE);
+    if ((start - (bmaporgx >> FRACTOMAPBITS)) % GRIDSIZE)
+        start += GRIDSIZE - ((start - (bmaporgx >> FRACTOMAPBITS)) % GRIDSIZE);
     end = m_x + minlen - extx;
 
     // draw vertical gridlines
-    for (x = start; x < end; x += MAPBLOCKSIZE)
+    for (x = start; x < end; x += GRIDSIZE)
     {
         ml.a.x = x;
         ml.b.x = x;
@@ -1466,12 +1468,12 @@ static void AM_drawGrid(void)
 
     // Figure out start of horizontal gridlines
     start = m_y - exty;
-    if ((start - (bmaporgy >> FRACTOMAPBITS)) % MAPBLOCKSIZE)
-        start += MAPBLOCKSIZE - ((start - (bmaporgy >> FRACTOMAPBITS)) % MAPBLOCKSIZE);
+    if ((start - (bmaporgy >> FRACTOMAPBITS)) % GRIDSIZE)
+        start += GRIDSIZE - ((start - (bmaporgy >> FRACTOMAPBITS)) % GRIDSIZE);
     end = m_y + minlen - exty;
 
     // draw horizontal gridlines
-    for (y = start; y < end; y += MAPBLOCKSIZE)
+    for (y = start; y < end; y += GRIDSIZE)
     {
         ml.a.x = m_x - extx;
         ml.b.x = ml.a.x + minlen;
