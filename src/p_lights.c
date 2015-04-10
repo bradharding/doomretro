@@ -63,12 +63,13 @@ void T_FireFlicker(fireflicker_t *flick)
 //
 void P_SpawnFireFlicker(sector_t *sector)
 {
-    fireflicker_t       *flick = (fireflicker_t *)Z_Malloc(sizeof(*flick), PU_LEVSPEC, 0);
+    fireflicker_t       *flick = Z_Malloc(sizeof(*flick), PU_LEVSPEC, 0);
 
     // Note that we are resetting sector attributes.
     // Nothing special about it during gameplay.
     sector->special = 0;
 
+    memset(flick, 0, sizeof(*flick));
     P_AddThinker(&flick->thinker);
 
     flick->thinker.function.acp1 = (actionf_p1)T_FireFlicker;
@@ -110,11 +111,12 @@ void T_LightFlash(lightflash_t *flash)
 //
 void P_SpawnLightFlash(sector_t *sector)
 {
-    lightflash_t        *flash = (lightflash_t *)Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
+    lightflash_t        *flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
 
     // nothing special about it during gameplay
     sector->special = 0;
 
+    memset(flash, 0, sizeof(*flash));
     P_AddThinker(&flash->thinker);
 
     flash->thinker.function.acp1 = (actionf_p1)T_LightFlash;
@@ -158,8 +160,9 @@ void T_StrobeFlash(strobe_t *flash)
 //
 void P_SpawnStrobeFlash(sector_t *sector, int fastOrSlow, int inSync)
 {
-    strobe_t    *flash = (strobe_t *)Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
+    strobe_t    *flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
 
+    memset(flash, 0, sizeof(*flash));
     P_AddThinker(&flash->thinker);
 
     flash->sector = sector;
@@ -284,8 +287,9 @@ void T_Glow(glow_t *g)
 
 void P_SpawnGlowingLight(sector_t *sector)
 {
-    glow_t *glow = (glow_t *)Z_Malloc(sizeof(*glow), PU_LEVSPEC, 0);
+    glow_t *glow = Z_Malloc(sizeof(*glow), PU_LEVSPEC, 0);
 
+    memset(glow, 0, sizeof(*glow));
     P_AddThinker(&glow->thinker);
 
     glow->sector = sector;
