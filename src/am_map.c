@@ -140,7 +140,8 @@ byte    *gridcolor;
 #define AM_ROTATEKEY            key_automap_rotatemode
 
 // scale on entry
-#define INITSCALEMTOF           (0.2 * FRACUNIT)
+// [BH] changed to scale of E1M1: Hangar so each map zoom level is consistent
+#define INITSCALEMTOF           125114
 // how much the automap moves window per tic in map coordinates
 // moves 140 pixels in 1 second
 #define F_PANINC                (8 << speedtoggle)
@@ -257,7 +258,7 @@ static fixed_t  old_m_x, old_m_y;
 static mpoint_t f_oldloc;
 
 // used by MTOF to scale from map-to-frame-buffer coords
-static fixed_t  scale_mtof = (fixed_t)INITSCALEMTOF;
+static fixed_t  scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
 static fixed_t  scale_ftom;
 
@@ -519,7 +520,7 @@ static void AM_LevelInit(void)
     bigstate = false;
 
     AM_findMinMaxBoundaries();
-    scale_mtof = FixedDiv(min_scale_mtof, (int)(0.7 * FRACUNIT));
+    scale_mtof = FixedDiv(INITSCALEMTOF, (int)(0.7 * FRACUNIT));
     if (scale_mtof > max_scale_mtof)
         scale_mtof = min_scale_mtof;
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
