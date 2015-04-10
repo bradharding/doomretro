@@ -43,6 +43,9 @@
 #include "m_cheat.h"
 #include "m_fixed.h"
 
+#define MAPBITS         12
+#define FRACTOMAPBITS   (FRACBITS - MAPBITS)
+
 // Used by ST StatusBar stuff.
 #define AM_MSGENTERED   1
 #define AM_MSGEXITED    0

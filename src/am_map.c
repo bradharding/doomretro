@@ -151,6 +151,8 @@ byte    *gridcolor;
 // pulls out to 0.5x in 1 second
 #define M_ZOOMOUT               ((int)((float)FRACUNIT / (1.00f + F_PANINC / 200.0f)))
 
+#define PLAYERRADIUS            (16 * (1 << MAPBITS))
+
 // translates between frame-buffer and map distances
 #define FTOM(x)                 (fixed_t)(((int64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
 #define MTOF(x)                 (fixed_t)((((int64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
@@ -170,48 +172,48 @@ typedef struct
 //
 mline_t playerarrow[] =
 {
-    { { -973678,       0 }, {  -674085,       0 } }, //  -
-    { { -674085,       0 }, {  1273270,       0 } }, //  -------
-    { { 1273270,       0 }, {   674084,  299593 } }, //  ------>
-    { { 1273270,       0 }, {   674084, -299593 } },
-    { { -973678,       0 }, { -1273271,  299593 } }, // >------>
-    { { -973678,       0 }, { -1273271, -299593 } },
-    { { -674085,       0 }, {  -973678,  299593 } }, // >>----->
-    { { -674085,       0 }, {  -973678, -299593 } }
+    { { -57275,      0 }, { -39652,      0 } }, //  -
+    { { -39652,      0 }, {  74898,      0 } }, //  -------
+    { {  74898,      0 }, {  39652,  17623 } }, //  ------>
+    { {  74898,      0 }, {  39652, -17623 } },
+    { { -57275,      0 }, { -74898,  17623 } }, // >------>
+    { { -57275,      0 }, { -74898, -17623 } },
+    { { -39652,      0 }, { -57275,  17623 } }, // >>----->
+    { { -39652,      0 }, { -57275, -17623 } }
 };
 
 #define PLAYERARROWLINES        8
 
 mline_t cheatplayerarrow[] =
 {
-    { { -973678,       0 }, {  -674085,       0 } }, //  -
-    { { -674085,       0 }, {  -524288,       0 } }, //  --
-    { { -524288,       0 }, {  -124831,       0 } }, //  ---
-    { { -124831,       0 }, {  1273270,       0 } }, //  -------
-    { { 1273270,       0 }, {   674084,  199729 } }, //  ------>
-    { { 1273270,       0 }, {   674084, -199729 } },
-    { { -973678,       0 }, { -1273271,  199729 } }, // >------>
-    { { -973678,       0 }, { -1273271, -199729 } },
-    { { -674085,       0 }, {  -973678,  199729 } }, // >>----->
-    { { -674085,       0 }, {  -973678, -199729 } },
-    { { -524288,       0 }, {  -524288, -199729 } }, // >>-d--->
-    { { -524288, -199729 }, {  -324559, -199729 } },
-    { { -324559, -199729 }, {  -324559,  299593 } },
-    { { -124831,       0 }, {  -124831, -199729 } }, // >>-dd-->
-    { { -124831, -199729 }, {    74898, -199729 } },
-    { {   74898, -199729 }, {    74898,  299593 } },
-    { {  274627,  299593 }, {   274627, -171196 } }, // >>-ddt->
-    { {  274627, -171196 }, {   312076, -208645 } },
-    { {  312076, -208645 }, {   394464, -171196 } }
+    { { -57275,      0 }, { -39652,      0 } }, //  -
+    { { -39652,      0 }, { -30840,      0 } }, //  --
+    { { -30840,      0 }, {  -7343,      0 } }, //  ---
+    { {  -7343,      0 }, {  74898,      0 } }, //  -------
+    { {  74898,      0 }, {  39652,  11748 } }, //  ------>
+    { {  74898,      0 }, {  39652, -11748 } },
+    { { -57275,      0 }, { -74898,  11748 } }, // >------>
+    { { -57275,      0 }, { -74898, -11748 } },
+    { { -39652,      0 }, { -57275,  11748 } }, // >>----->
+    { { -39652,      0 }, { -57275, -11748 } },
+    { { -30840,      0 }, { -30840, -11748 } }, // >>-d--->
+    { { -30840, -11748 }, { -19091, -11748 } },
+    { { -19091, -11748 }, { -19091,  17623 } },
+    { {  -7343,      0 }, {  -7343, -11748 } }, // >>-dd-->
+    { {  -7343, -11748 }, {   4405, -11748 } },
+    { {   4405, -11748 }, {   4405,  17623 } },
+    { {  16154,  17623 }, {  16154, -10070 } }, // >>-ddt->
+    { {  16154, -10070 }, {  18357, -12273 } },
+    { {  18357, -12273 }, {  23203, -10070 } }
 };
 
 #define CHEATPLAYERARROWLINES   19
 
 mline_t thingtriangle[] =
 {
-    { {  -32768,  -45875 }, {    65536,       0 } },
-    { {   65536,       0 }, {   -32768,   45875 } },
-    { {  -32768,   45875 }, {   -32768,  -45875 } }
+    { { -32768, -45875 }, {  65536,     0 } },
+    { {  65536,      0 }, { -32768, 45875 } },
+    { { -32768,  45875 }, { -32768,-45875 } }
 };
 
 #define THINGTRIANGLELINES      3
@@ -287,12 +289,12 @@ static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
 static void AM_activateNewScale(void)
 {
-    m_x += (m_w >> 1);
-    m_y += (m_h >> 1);
+    m_x += m_w  / 2;
+    m_y += m_h  / 2;
     m_w = FTOM(mapwidth);
     m_h = FTOM(mapheight);
-    m_x -= (m_w >> 1);
-    m_y -= (m_h >> 1);
+    m_x -= m_w / 2;
+    m_y -= m_h / 2;
     m_x2 = m_x + m_w;
     m_y2 = m_y + m_h;
 }
@@ -311,8 +313,8 @@ static void AM_restoreScaleAndLoc(void)
     m_h = old_m_h;
     if (followmode)
     {
-        m_x = FTOM(MTOF(plr->mo->x)) - (m_w >> 1);
-        m_y = FTOM(MTOF(plr->mo->y)) - (m_h >> 1);
+        m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
     }
     else
     {
@@ -355,16 +357,11 @@ static void AM_findMinMaxBoundaries(void)
             max_y = y;
     }
 
-    min_x -= FRACUNIT * 24;
-    max_x += FRACUNIT * 24;
-    min_y -= FRACUNIT * 24;
-    max_y += FRACUNIT * 24;
-
-    a = FixedDiv(mapwidth << FRACBITS, max_x - min_x);
-    b = FixedDiv(mapheight << FRACBITS, max_y - min_y);
+    a = FixedDiv(mapwidth << FRACBITS, (max_x >>= FRACTOMAPBITS) - (min_x >>= FRACTOMAPBITS));
+    b = FixedDiv(mapheight << FRACBITS, (max_y >>= FRACTOMAPBITS) - (min_y >>= FRACTOMAPBITS));
 
     min_scale_mtof = MIN(a, b);
-    max_scale_mtof = FixedDiv(mapheight << FRACBITS, PLAYERRADIUS << 1);
+    max_scale_mtof = FixedDiv(mapheight << FRACBITS, 2 * PLAYERRADIUS);
 }
 
 static void AM_changeWindowLoc(void)
@@ -374,15 +371,15 @@ static void AM_changeWindowLoc(void)
 
     if (rotatemode)
     {
-        AM_rotate(&incx, &incy, plr->mo->angle - ANG90);
+        AM_rotate(&incx, &incy, viewangle - ANG90);
 
         m_x += incx;
         m_y += incy;
     }
     else
     {
-        fixed_t w = (m_w >> 1);
-        fixed_t h = (m_h >> 1);
+        fixed_t w = m_w / 2;
+        fixed_t h = m_h / 2;
 
         m_x += incx;
         m_y += incy;
@@ -502,8 +499,8 @@ static void AM_initVariables(void)
 
     if (m_x == INT_MAX || followmode)
     {
-        m_x = FTOM(MTOF(plr->mo->x)) - (m_w >> 1);
-        m_y = FTOM(MTOF(plr->mo->y)) - (m_h >> 1);
+        m_x = (plr->mo->x >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (plr->mo->y >> FRACTOMAPBITS) - m_h / 2;
         m_x2 = m_x + m_w;
         m_y2 = m_y + m_h;
     }
@@ -522,7 +519,9 @@ static void AM_LevelInit(void)
     bigstate = false;
 
     AM_findMinMaxBoundaries();
-    scale_mtof = 0x2ba0;
+    scale_mtof = FixedDiv(min_scale_mtof, (int)(0.7 * FRACUNIT));
+    if (scale_mtof > max_scale_mtof)
+        scale_mtof = min_scale_mtof;
     scale_ftom = FixedDiv(FRACUNIT, scale_mtof);
 
     // for saving & restoring
@@ -1175,8 +1174,8 @@ static void AM_doFollowPlayer(void)
 
     if (f_oldloc.x != x || f_oldloc.y != y)
     {
-        m_x = FTOM(MTOF(x)) - (m_w >> 1);
-        m_y = FTOM(MTOF(y)) - (m_h >> 1);
+        m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
         m_x2 = m_x + m_w;
         m_y2 = m_y + m_h;
         f_oldloc.x = x;
@@ -1442,8 +1441,8 @@ static void AM_drawGrid(void)
 
     // Figure out start of vertical gridlines
     start = m_x - extx;
-    if ((start - bmaporgx) % MAPBLOCKSIZE)
-        start += MAPBLOCKSIZE - ((start - bmaporgx) % MAPBLOCKSIZE);
+    if ((start - (bmaporgx >> FRACTOMAPBITS)) % MAPBLOCKSIZE)
+        start += MAPBLOCKSIZE - ((start - (bmaporgx >> FRACTOMAPBITS)) % MAPBLOCKSIZE);
     end = m_x + minlen - extx;
 
     // draw vertical gridlines
@@ -1463,8 +1462,8 @@ static void AM_drawGrid(void)
 
     // Figure out start of horizontal gridlines
     start = m_y - exty;
-    if ((start - bmaporgy) % MAPBLOCKSIZE)
-        start += MAPBLOCKSIZE - ((start - bmaporgy) % MAPBLOCKSIZE);
+    if ((start - (bmaporgy >> FRACTOMAPBITS)) % MAPBLOCKSIZE)
+        start += MAPBLOCKSIZE - ((start - (bmaporgy >> FRACTOMAPBITS)) % MAPBLOCKSIZE);
     end = m_y + minlen - exty;
 
     // draw horizontal gridlines
@@ -1520,10 +1519,10 @@ static void AM_drawWalls(void)
             short               special = line.special;
             static mline_t      l;
 
-            l.a.x = line.v1->x;
-            l.a.y = line.v1->y;
-            l.b.x = line.v2->x;
-            l.b.y = line.v2->y;
+            l.a.x = line.v1->x >> FRACTOMAPBITS;
+            l.a.y = line.v1->y >> FRACTOMAPBITS;
+            l.b.x = line.v2->x >> FRACTOMAPBITS;
+            l.b.y = line.v2->y >> FRACTOMAPBITS;
 
             if (rotatemode)
             {
@@ -1626,7 +1625,7 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
     int i;
 
     if (rotatemode)
-        angle -= plr->mo->angle - ANG90;
+        angle -= viewangle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
     {
@@ -1659,8 +1658,8 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
 static void AM_drawPlayers(void)
 {
     int         invisibility = plr->powers[pw_invisibility];
-    fixed_t     x = plr->mo->x;
-    fixed_t     y = plr->mo->y;
+    fixed_t     x = viewx >> FRACTOMAPBITS;
+    fixed_t     y = viewy >> FRACTOMAPBITS;
 
     if (rotatemode)
         AM_rotatePoint(&x, &y);
@@ -1717,13 +1716,13 @@ static void AM_drawThings(void)
 
                 if (!(thing->flags2 & MF2_DONOTMAP))
                 {
-                    int x = thing->x;
-                    int y = thing->y;
+                    int x = thing->x >> FRACTOMAPBITS;
+                    int y = thing->y >> FRACTOMAPBITS;
                     int fx;
                     int fy;
                     int lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                    int w = BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
-                                    96 << FRACBITS) >> 1;
+                    int w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
+                        96 << FRACBITS) >> FRACTOMAPBITS) / 2;
 
                     if (rotatemode)
                         AM_rotatePoint(&x, &y);
