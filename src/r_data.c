@@ -971,10 +971,6 @@ int R_TextureNumForName(char *name)
 // R_PrecacheLevel
 // Preloads all relevant graphics for the level.
 //
-int flatmemory;
-int texturememory;
-int spritememory;
-
 void R_PrecacheLevel(void)
 {
     char          *flatpresent;
@@ -984,7 +980,6 @@ void R_PrecacheLevel(void)
     int           i;
     int           j;
     int           k;
-    int           lump;
 
     texture_t     *texture;
     thinker_t     *th;
@@ -1000,17 +995,9 @@ void R_PrecacheLevel(void)
         flatpresent[sectors[i].ceilingpic] = 1;
     }
 
-    flatmemory = 0;
-
     for (i = 0; i < numflats; i++)
-    {
         if (flatpresent[i])
-        {
-            lump = firstflat + i;
-            flatmemory += lumpinfo[lump].size;
-            W_CacheLumpNum(lump, PU_CACHE);
-        }
-    }
+            W_CacheLumpNum(firstflat + i, PU_CACHE);
 
     Z_Free(flatpresent);
 
@@ -1033,7 +1020,6 @@ void R_PrecacheLevel(void)
     //  name.
     texturepresent[skytexture] = 1;
 
-    texturememory = 0;
     for (i = 0; i < numtextures; i++)
     {
         if (!texturepresent[i])
@@ -1042,11 +1028,7 @@ void R_PrecacheLevel(void)
         texture = textures[i];
 
         for (j = 0; j < texture->patchcount; j++)
-        {
-            lump = texture->patches[j].patch;
-            texturememory += lumpinfo[lump].size;
-            W_CacheLumpNum(lump, PU_CACHE);
-        }
+            W_CacheLumpNum(texture->patches[j].patch, PU_CACHE);
     }
 
     Z_Free(texturepresent);
@@ -1056,12 +1038,9 @@ void R_PrecacheLevel(void)
     memset(spritepresent, 0, numsprites);
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-    {
         if (th->function.acp1 == (actionf_p1)P_MobjThinker)
             spritepresent[((mobj_t *)th)->sprite] = 1;
-    }
 
-    spritememory = 0;
     for (i = 0; i < numsprites; i++)
     {
         if (!spritepresent[i])
@@ -1071,11 +1050,7 @@ void R_PrecacheLevel(void)
         {
             sf = &sprites[i].spriteframes[j];
             for (k = 0; k < 8; k++)
-            {
-                lump = firstspritelump + sf->lump[k];
-                spritememory += lumpinfo[lump].size;
-                W_CacheLumpNum(lump, PU_CACHE);
-            }
+                W_CacheLumpNum(firstspritelump + sf->lump[k], PU_CACHE);
         }
     }
 

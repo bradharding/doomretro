@@ -295,7 +295,7 @@ typedef struct
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);
 
-int EV_DoDoor(line_t *line, vldoor_e type);
+boolean EV_DoDoor(line_t *line, vldoor_e type);
 
 int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing);
 
@@ -342,13 +342,13 @@ typedef struct ceiling_s
 
 extern ceiling_t        *activeceilingshead;
 
-int EV_DoCeiling(line_t *line, ceiling_e type);
+boolean EV_DoCeiling(line_t *line, ceiling_e type);
 
 void T_MoveCeiling(ceiling_t *ceiling);
 void P_AddActiveCeiling(ceiling_t *c);
 void P_RemoveActiveCeiling(ceiling_t *c);
 int EV_CeilingCrushStop(line_t *line);
-int P_ActivateInStasisCeiling(line_t *line);
+boolean P_ActivateInStasisCeiling(line_t *line);
 
 //
 // P_FLOOR

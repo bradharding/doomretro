@@ -45,6 +45,7 @@
 #include "z_zone.h"
 
 extern boolean  animatedliquid;
+
 //
 // VERTICAL DOORS
 //
@@ -61,7 +62,6 @@ void T_VerticalDoor(vldoor_t *door)
         case 0:
             // WAITING
             if (!--door->topcountdown)
-            {
                 switch (door->type)
                 {
                     case doorBlazeRaise:
@@ -82,13 +82,11 @@ void T_VerticalDoor(vldoor_t *door)
                     default:
                         break;
                 }
-            }
             break;
 
         case 2:
             //  INITIAL WAIT
             if (!--door->topcountdown)
-            {
                 switch (door->type)
                 {
                     case doorRaiseIn5Mins:
@@ -100,15 +98,13 @@ void T_VerticalDoor(vldoor_t *door)
                     default:
                         break;
                 }
-            }
             break;
 
         case -1:
             // DOWN
-            res = T_MovePlane(door->sector, door->speed, door->sector->floorheight,
-                              false, 1, door->direction);
+            res = T_MovePlane(door->sector, door->speed, door->sector->floorheight, false, 1,
+                door->direction);
             if (res == pastdest)
-            {
                 switch (door->type)
                 {
                     case doorBlazeRaise:
@@ -131,9 +127,7 @@ void T_VerticalDoor(vldoor_t *door)
                     default:
                         break;
                 }
-            }
             else if (res == crushed)
-            {
                 switch (door->type)
                 {
                     case doorBlazeClose:
@@ -150,13 +144,12 @@ void T_VerticalDoor(vldoor_t *door)
                         S_StartSound(&door->sector->soundorg, sfx_doropn);
                         break;
                 }
-            }
             break;
 
         case 1:
             // UP
-            res = T_MovePlane(door->sector, door->speed, door->topheight,
-                              false, 1, door->direction);
+            res = T_MovePlane(door->sector, door->speed, door->topheight, false, 1,
+                door->direction);
             if (res == pastdest)
             {
                 switch (door->type)
@@ -186,12 +179,12 @@ void T_VerticalDoor(vldoor_t *door)
 // EV_DoLockedDoor
 // Move a locked door up/down
 //
-int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
+boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 {
     player_t    *player = thing->player;
 
     if (!player)
-        return 0;
+        return false;
 
     switch (line->special)
     {
@@ -218,7 +211,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     HU_PlayerMessage(s_PD_BLUEO2, true);
                 }
                 S_StartSound(player->mo, sfx_noway);
-                return 0;
+                return false;
             }
             break;
 
@@ -245,7 +238,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     HU_PlayerMessage(s_PD_REDO2, true);
                 }
                 S_StartSound(player->mo, sfx_noway);
-                return 0;
+                return false;
             }
             break;
 
@@ -272,7 +265,7 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                     HU_PlayerMessage(s_PD_YELLOWO2, true);
                 }
                 S_StartSound(player->mo, sfx_noway);
-                return 0;
+                return false;
             }
             break;
     }
@@ -280,10 +273,10 @@ int EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
     return EV_DoDoor(line, type);
 }
 
-int EV_DoDoor(line_t *line, vldoor_e type)
+boolean EV_DoDoor(line_t *line, vldoor_e type)
 {
     int         secnum = -1;
-    int         rtn = 0;
+    boolean     rtn = false;
     int         i;
     sector_t    *sec;
     vldoor_t    *door;
@@ -295,7 +288,7 @@ int EV_DoDoor(line_t *line, vldoor_e type)
             continue;
 
         // new door thinker
-        rtn = 1;
+        rtn = true;
         door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
         memset(door, 0, sizeof(*door));
         P_AddThinker(&door->thinker);

@@ -151,10 +151,10 @@ void T_MoveCeiling(ceiling_t *ceiling)
 // EV_DoCeiling
 // Move a ceiling up/down and all around!
 //
-int EV_DoCeiling(line_t *line, ceiling_e type)
+boolean EV_DoCeiling(line_t *line, ceiling_e type)
 {
     int         secnum = -1;
-    int         rtn = 0;
+    boolean     rtn = false;
     sector_t    *sec;
     ceiling_t   *ceiling;
 
@@ -177,7 +177,7 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
             continue;
 
         // new door thinker
-        rtn = 1;
+        rtn = true;
         ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
         memset(ceiling, 0, sizeof(*ceiling));
         P_AddThinker(&ceiling->thinker);
@@ -204,8 +204,7 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
             case lowerAndCrush:
             case lowerToFloor:
                 ceiling->bottomheight = sec->floorheight;
-                if (type != lowerToFloor
-                    && !(gamemission == doom2 && gamemap == 4 && canmodify))
+                if (type != lowerToFloor && !(gamemission == doom2 && gamemap == 4 && canmodify))
                     ceiling->bottomheight += 8 * FRACUNIT;
                 ceiling->direction = -1;
                 ceiling->speed = CEILSPEED;
@@ -226,11 +225,12 @@ int EV_DoCeiling(line_t *line, ceiling_e type)
 }
 
 //
+// P_AddActiveCeiling
 // Add an active ceiling
 //
 void P_AddActiveCeiling(ceiling_t *c)
 {
-    ceiling_t *next = activeceilingshead;
+    ceiling_t   *next = activeceilingshead;
 
     if (next)
         next->prev = c;
@@ -240,17 +240,18 @@ void P_AddActiveCeiling(ceiling_t *c)
 }
 
 //
+// P_RemoveActiveCeiling
 // Remove a ceiling's thinker
 //
 void P_RemoveActiveCeiling(ceiling_t *c)
 {
-    ceiling_t *next = c->next;
-    ceiling_t *prev = c->prev;
+    ceiling_t   *next = c->next;
+    ceiling_t   *prev = c->prev;
 
     if (next)
         next->prev = prev;
 
-    if (prev == NULL)
+    if (!prev)
         activeceilingshead = next;
     else
         prev->next = next;
@@ -260,22 +261,21 @@ void P_RemoveActiveCeiling(ceiling_t *c)
 }
 
 //
+// P_ActivateInStasisCeiling
 // Restart a ceiling that's in-stasis
 //
-int P_ActivateInStasisCeiling(line_t *line)
+boolean P_ActivateInStasisCeiling(line_t *line)
 {
-    int         rtn = 0;
+    boolean     rtn = false;
     ceiling_t   *ceiling;
 
-    for (ceiling = activeceilingshead; ceiling != NULL; ceiling = ceiling->next)
-    {
-        if (ceiling->tag == line->tag
-            && ceiling->thinker.function.acp1 == (actionf_p1)NULL)
+    for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
+        if (ceiling->tag == line->tag && ceiling->thinker.function.acp1 == (actionf_p1)NULL)
         {
             ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
-            rtn = 1;
+            rtn = true;
         }
-    }
+
     return rtn;
 }
 
@@ -283,19 +283,17 @@ int P_ActivateInStasisCeiling(line_t *line)
 // EV_CeilingCrushStop
 // Stop a ceiling from crushing!
 //
-int EV_CeilingCrushStop(line_t *line)
+boolean EV_CeilingCrushStop(line_t *line)
 {
-    int         rtn = 0;
+    boolean     rtn = false;
     ceiling_t   *ceiling;
 
-    for (ceiling = activeceilingshead; ceiling != NULL; ceiling = ceiling->next)
-    {
-        if (ceiling->tag == line->tag
-            && ceiling->thinker.function.acp1 != (actionf_p1)NULL)
+    for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
+        if (ceiling->tag == line->tag && ceiling->thinker.function.acp1 != (actionf_p1)NULL)
         {
             ceiling->thinker.function.acp1 = (actionf_p1)NULL;
-            rtn = 1;
+            rtn = true;
         }
-    }
+
     return rtn;
 }
