@@ -180,6 +180,10 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern boolean  rotatemode;
 extern int      runcount;
+#if defined(SDL20)
+extern char     *scaledriver;
+extern char     *scalefilter;
+#endif
 extern int      screenheight;
 extern char     *screenresolution;
 extern int      screenwidth;
@@ -188,30 +192,25 @@ extern int      selectedexpansion;
 extern int      selectedsavegame;
 extern int      selectedskilllevel;
 extern boolean  shadows;
+#if defined(WIN32)
+extern boolean  showmemory;
+#endif
 extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
 extern boolean  spritefixes;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
+#if !defined(WIN32) || !defined(SDL20)
+extern char     *videodriver;
+#endif
+#if defined(SDL20)
+extern boolean  vsync;
+#endif
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
 extern char     *windowsize;
 extern int      windowwidth;
-
-#if defined(WIN32)
-extern boolean  showmemory;
-#endif
-
-#if defined(SDL20)
-extern char     *scaledriver;
-extern char     *scalefilter;
-extern boolean  vsync;
-#endif
-
-#if !defined(WIN32) || !defined(SDL20)
-extern char     *videodriver;
-#endif
 
 static control_t controls[] =
 {
@@ -518,7 +517,7 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
 #if !defined(WIN32) || !defined(SDL20)
-    CVAR_STR(vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
+    CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
 #endif
 #if defined(SDL20)
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggle vertical synchronization."),

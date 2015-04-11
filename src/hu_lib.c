@@ -52,7 +52,7 @@ extern boolean  automapactive;
 extern boolean  widescreen;
 extern boolean  translucency;
 
-void HUlib_clearTextLine(hu_textline_t *t)
+static void HUlib_clearTextLine(hu_textline_t *t)
 {
     t->len = 0;
     t->l[0] = 0;
@@ -81,18 +81,6 @@ boolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
     }
 }
 
-boolean HUlib_delCharFromTextLine(hu_textline_t *t)
-{
-    if (!t->len)
-        return false;
-    else
-    {
-        t->l[--t->len] = 0;
-        t->needsupdate = 4;
-        return true;
-    }
-}
-
 static void HU_drawDot(int x, int y, char src)
 {
     byte        *dest = &tempscreen[y * SCREENWIDTH + x];
@@ -104,7 +92,7 @@ static void HU_drawDot(int x, int y, char src)
 }
 
 // [BH] draw an individual character to temporary buffer
-void HU_drawChar(int x, int y, int i)
+static void HU_drawChar(int x, int y, int i)
 {
     int w = strlen(smallcharset[i]) / 10;
     int x1, y1;
@@ -313,7 +301,7 @@ void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int sta
         HUlib_initTextLine(&s->l[i], x, y - i * (SHORT(font[0]->height) + 1), font, startchar);
 }
 
-void HUlib_addLineToSText(hu_stext_t *s)
+static void HUlib_addLineToSText(hu_stext_t *s)
 {
     int i;
 

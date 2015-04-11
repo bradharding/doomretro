@@ -969,24 +969,21 @@ boolean C_Responder(event_t *ev)
                 break;
 
             default:
-                if (key)
+                if (modstate & (KMOD_SHIFT | KMOD_CAPS))
+                    ch = upper[ch];
+                if (ch >= ' ' && ch < '~' && ch != '`'
+                    && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
+                    consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
+                    && !(modstate & (KMOD_ALT | KMOD_CTRL)))
                 {
-                    if (modstate & (KMOD_SHIFT | KMOD_CAPS))
-                        ch = upper[ch];
-                    if (ch >= ' ' && ch < '~' && ch != '`'
-                        && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
-                        consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
-                        && !(modstate & (KMOD_ALT | KMOD_CTRL)))
-                    {
-                        consoleinput[strlen(consoleinput) + 1] = '\0';
-                        for (i = strlen(consoleinput); i > caretpos; --i)
-                            consoleinput[i] = consoleinput[i - 1];
-                        consoleinput[caretpos++] = ch;
-                        caretwait = I_GetTime() + CARETWAIT;
-                        showcaret = true;
-                        autocomplete = -1;
-                        inputhistory = -1;
-                    }
+                    consoleinput[strlen(consoleinput) + 1] = '\0';
+                    for (i = strlen(consoleinput); i > caretpos; --i)
+                        consoleinput[i] = consoleinput[i - 1];
+                    consoleinput[caretpos++] = ch;
+                    caretwait = I_GetTime() + CARETWAIT;
+                    showcaret = true;
+                    autocomplete = -1;
+                    inputhistory = -1;
                 }
         }
     }
@@ -1038,7 +1035,7 @@ boolean C_Responder(event_t *ev)
     return true;
 }
 
-int dayofweek(int day, int month, int year)
+static int dayofweek(int day, int month, int year)
 {
     int adjustment = (14 - month) / 12;
     int m = month + 12 * adjustment - 2;

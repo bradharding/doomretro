@@ -145,21 +145,9 @@ extern boolean          respawnmonsters;
 extern int              sfxVolume;
 extern int              musicVolume;
 
-// Current music/sfx card - index useless
-//  w/o a reference LUT in a sound module.
-// Ideally, this would use indices found
-//  in: /usr/include/linux/soundcard.h
-extern int              snd_MusicDevice;
-extern int              snd_SfxDevice;
-
 // -------------------------
 // Status flags for refresh.
 //
-
-// Depending on view size - no status bar?
-// Note that there is no way to disable the
-//  status bar explicitely.
-extern boolean          statusbaractive;
 
 extern boolean          automapactive;  // In AutoMap mode?
 extern boolean          followmode;     // Following player in AutoMap mode?
