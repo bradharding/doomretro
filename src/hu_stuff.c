@@ -624,11 +624,17 @@ void HU_PlayerMessage(char *message, boolean ingame)
         C_Output("%s%s", message, (lastchar == '.' || lastchar == '!' ? "" : "."));
 }
 
+boolean message_clearable = false;
+
 void HU_clearMessages(void)
 {
+    if (idbehold || (plr->cheats & CF_MYPOS) || !message_clearable)
+        return;
+
     plr->message = 0;
     message_counter = 0;
     message_on = false;
     message_nottobefuckedwith = false;
     message_dontpause = false;
+    message_clearable = false;
 }

@@ -110,6 +110,7 @@ extern byte     *tinttab60;
 extern byte     *tinttab80;
 
 extern boolean  message_dontfuckwithme;
+extern boolean  message_clearable;
 extern boolean  idbehold;
 extern boolean  idclev;
 extern boolean  idmus;

@@ -535,8 +535,7 @@ static void AM_LevelInit(void)
 void AM_Stop(void)
 {
     automapactive = false;
-    if (!idbehold && !(players[0].cheats & CF_MYPOS))
-        HU_clearMessages();
+    HU_clearMessages();
     ST_AutomapEvent(AM_MSGEXITED);
     stopped = true;
 }
@@ -554,9 +553,6 @@ void AM_Start(void)
     mapheight = (unsigned int)viewheight2;
     maparea = mapwidth * mapheight;
     mapbottom = maparea - mapwidth;
-
-    if (!idbehold && !(players[0].cheats & CF_MYPOS))
-        HU_clearMessages();
 
     if (lastlevel != gamemap || lastepisode != gameepisode)
     {
@@ -638,6 +634,7 @@ static void AM_toggleFollowMode(void)
     plr->message = (followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
     C_Input("am_followmode %s", (followmode ? "on" : "off"));
     message_dontfuckwithme = true;
+    message_clearable = true;
 }
 
 static void AM_toggleGrid(void)
@@ -646,6 +643,7 @@ static void AM_toggleGrid(void)
     plr->message = (grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
     C_Input("am_grid %s", (grid ? "on" : "off"));
     message_dontfuckwithme = true;
+    message_clearable = true;
 }
 
 //
@@ -673,6 +671,7 @@ static void AM_addMark(void)
     M_snprintf(message, sizeof(message), s_AMSTR_MARKEDSPOT, ++markpointnum);
     HU_PlayerMessage(message, false);
     message_dontfuckwithme = true;
+    message_clearable = true;
 }
 
 int     markpress = 0;
@@ -696,6 +695,7 @@ static void AM_clearMarks(void)
             M_snprintf(message, sizeof(message), s_AMSTR_MARKCLEARED, markpointnum--);
             HU_PlayerMessage(message, false);
             message_dontfuckwithme = true;
+            message_clearable = true;
         }
     }
 }
@@ -706,6 +706,7 @@ static void AM_toggleRotateMode(void)
     plr->message = (rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
     C_Input("am_rotatemode %s", (rotatemode ? "on" : "off"));
     message_dontfuckwithme = true;
+    message_clearable = true;
 }
 
 //
