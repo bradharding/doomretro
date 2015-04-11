@@ -693,7 +693,6 @@ static void D_FirstUse(void)
     [msg appendString:@" requires (such as DOOM.WAD or "];
     [msg appendString:@"DOOM2.WAD) has been installed.\n\n"];
     [msg appendString:@"Additional \"PWAD files\" may then be selected by clicking or "];
-    [msg appendString:@"CMD-clicking on them. "];
     [msg appendString:@"CMD-clicking on them. Go to the DOOM RETRO Wiki for more information."];
 
     NSAlert     *alert = [[NSAlert alloc] init];
@@ -713,7 +712,7 @@ static int D_ChooseIWAD(void)
 #if defined(WIN32)
     OPENFILENAME        ofn;
     char                szFile[4096];
-    
+
     ZeroMemory(&ofn, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = NULL;
