@@ -257,9 +257,6 @@ static fixed_t  max_scale_mtof;                 // used to tell when to stop zoo
 static fixed_t  old_m_w, old_m_h;
 static fixed_t  old_m_x, old_m_y;
 
-// old location used by the Follower routine
-static mpoint_t f_oldloc;
-
 // used by MTOF to scale from map-to-frame-buffer coords
 static fixed_t  scale_mtof;
 // used by FTOM to scale from frame-buffer-to-map coords (=1/scale_mtof)
@@ -492,8 +489,6 @@ static void AM_initVariables(void)
 
     area = *screens + maparea;
 
-    f_oldloc.x = INT_MAX;
-
     m_paninc.x = m_paninc.y = 0;
     ftom_zoommul = FRACUNIT;
     mtof_zoommul = FRACUNIT;
@@ -640,7 +635,6 @@ static void AM_toggleFollowMode(void)
     followmode = !followmode;
     if (followmode)
         m_paninc.x = m_paninc.y = 0;
-    f_oldloc.x = INT_MAX;
     plr->message = (followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
     C_Input("am_followmode %s", (followmode ? "on" : "off"));
     message_dontfuckwithme = true;
@@ -1144,16 +1138,17 @@ static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle)
     *x = temp;
 }
 
-static void AM_rotatePoint(fixed_t *x, fixed_t *y)
+static void AM_rotatePoint(mpoint_t *point)
 {
     fixed_t     temp;
 
-    *x -= am_frame.centerx;
-    *y -= am_frame.centery;
+    point->x -= am_frame.centerx;
+    point->y -= am_frame.centery;
 
-    temp = FixedMul(*x, am_frame.cos) - FixedMul(*y, am_frame.sin) + am_frame.centerx;
-    *y = FixedMul(*x, am_frame.sin) + FixedMul(*y, am_frame.cos) + am_frame.centery;
-    *x = temp;
+    temp = FixedMul(point->x, am_frame.cos) - FixedMul(point->y, am_frame.sin) + am_frame.centerx;
+    point->y = FixedMul(point->x, am_frame.sin) + FixedMul(point->y, am_frame.cos)
+        + am_frame.centery;
+    point->x = temp;
 }
 
 //
@@ -1175,18 +1170,10 @@ static void AM_changeWindowScale(void)
 
 static void AM_doFollowPlayer(void)
 {
-    fixed_t     x = plr->mo->x;
-    fixed_t     y = plr->mo->y;
-
-    if (f_oldloc.x != x || f_oldloc.y != y)
-    {
-        m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
-        m_x2 = m_x + m_w;
-        m_y2 = m_y + m_h;
-        f_oldloc.x = x;
-        f_oldloc.y = y;
-    }
+    m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
+    m_x2 = m_x + m_w;
+    m_y2 = m_y + m_h;
 }
 
 //
@@ -1460,8 +1447,8 @@ static void AM_drawGrid(void)
         ml.b.y = ml.a.y + minlen;
         if (rotatemode)
         {
-            AM_rotatePoint(&ml.a.x, &ml.a.y);
-            AM_rotatePoint(&ml.b.x, &ml.b.y);
+            AM_rotatePoint(&ml.a);
+            AM_rotatePoint(&ml.b);
         }
         AM_drawMline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor);
     }
@@ -1481,8 +1468,8 @@ static void AM_drawGrid(void)
         ml.b.y = y;
         if (rotatemode)
         {
-            AM_rotatePoint(&ml.a.x, &ml.a.y);
-            AM_rotatePoint(&ml.b.x, &ml.b.y);
+            AM_rotatePoint(&ml.a);
+            AM_rotatePoint(&ml.b);
         }
         AM_drawMline(ml.a.x, ml.a.y, ml.b.x, ml.b.y, gridcolor);
     }
@@ -1540,8 +1527,8 @@ static void AM_drawWalls(void)
 
                 if (rotatemode)
                 {
-                    AM_rotatePoint(&l.a.x, &l.a.y);
-                    AM_rotatePoint(&l.b.x, &l.b.y);
+                    AM_rotatePoint(&l.a);
+                    AM_rotatePoint(&l.b);
                 }
 
                 if ((special == W1_TeleportToTaggedSectorContainingTeleportLanding
@@ -1605,7 +1592,7 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
     int i;
 
     if (rotatemode)
-        angle -= plr->mo->angle - ANG90;
+        angle -= viewangle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
     {
@@ -1674,29 +1661,31 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
 static void AM_drawPlayers(void)
 {
     int         invisibility = plr->powers[pw_invisibility];
-    fixed_t     x = viewx >> FRACTOMAPBITS;
-    fixed_t     y = viewy >> FRACTOMAPBITS;
+    mpoint_t    point;
+
+    point.x = viewx >> FRACTOMAPBITS;
+    point.y = viewy >> FRACTOMAPBITS;
 
     if (rotatemode)
-        AM_rotatePoint(&x, &y);
+        AM_rotatePoint(&point);
 
     if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
     {
         if (invisibility > 128 || (invisibility & 8))
             AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                0, plr->mo->angle, NULL, x, y);
+                0, viewangle, NULL, point.x, point.y);
         else
             AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                0, plr->mo->angle, playercolor, x, y);
+                0, viewangle, playercolor, point.x, point.y);
     }
     else
     {
         if (invisibility > 128 || (invisibility & 8))
             AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES,
-                0, plr->mo->angle, NULL, x, y);
+                0, viewangle, NULL, point.x, point.y);
         else
             AM_drawLineCharacter(playerarrow, PLAYERARROWLINES,
-                0, plr->mo->angle, playercolor, x, y);
+                0, viewangle, playercolor, point.x, point.y);
     }
 }
 
@@ -1732,23 +1721,25 @@ static void AM_drawThings(void)
 
                 if (!(thing->flags2 & MF2_DONOTMAP))
                 {
-                    int x = thing->x >> FRACTOMAPBITS;
-                    int y = thing->y >> FRACTOMAPBITS;
-                    int fx;
-                    int fy;
-                    int lump = sprites[thing->sprite].spriteframes[0].lump[0];
-                    int w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump], spriteheight[lump]),
-                        96 << FRACBITS) >> FRACTOMAPBITS) / 2;
+                    mpoint_t    point;
+                    int         fx;
+                    int         fy;
+                    int         lump = sprites[thing->sprite].spriteframes[0].lump[0];
+                    int         w = (BETWEEN(24 << FRACBITS, MIN(spritewidth[lump],
+                                    spriteheight[lump]), 96 << FRACBITS) >> FRACTOMAPBITS) / 2;
+
+                    point.x = thing->x >> FRACTOMAPBITS;
+                    point.y = thing->y >> FRACTOMAPBITS;
 
                     if (rotatemode)
-                        AM_rotatePoint(&x, &y);
+                        AM_rotatePoint(&point);
 
-                    fx = CXMTOF(x);
-                    fy = CYMTOF(y);
+                    fx = CXMTOF(point.x);
+                    fy = CYMTOF(point.y);
 
                     if (fx >= -w && fx <= (int)mapwidth + w && fy >= -w && fy <= (int)mapwidth + w)
                         AM_drawLineCharacter(thingtriangle, THINGTRIANGLELINES, w, thing->angle,
-                                             thingcolor, x, y);
+                            thingcolor, point.x, point.y);
                 }
                 thing = thing->snext;
             }
@@ -1789,17 +1780,20 @@ static void AM_drawMarks(void)
 
     for (i = 0; i < markpointnum; ++i)
     {
-        int     number = i + 1;
-        int     temp = number;
-        int     digits = 1;
-        int     x = markpoints[i].x;
-        int     y = markpoints[i].y;
+        int             number = i + 1;
+        int             temp = number;
+        int             digits = 1;
+        int             x, y;
+        mpoint_t        point;
+
+        point.x = markpoints[i].x;
+        point.y = markpoints[i].y;
 
         if (rotatemode)
-            AM_rotatePoint(&x, &y);
+            AM_rotatePoint(&point);
 
-        x = CXMTOF(x) - (MARKWIDTH >> 1) + 1;
-        y = CYMTOF(y) - (MARKHEIGHT >> 1) - 1;
+        x = CXMTOF(point.x) - (MARKWIDTH >> 1) + 1;
+        y = CYMTOF(point.y) - (MARKHEIGHT >> 1) - 1;
 
         while (temp /= 10)
             ++digits;
