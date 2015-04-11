@@ -143,7 +143,7 @@ int             consoleplayermessagecolor = 161;
 int             consoleoutputcolor = 88;
 int             consolebrandingcolor = 100;
 int             consolewarningcolor = 180;
-int             consoledividercolor = 88;
+int             consoledividercolor = 100;
 
 int             consolecolors[STRINGTYPES];
 
