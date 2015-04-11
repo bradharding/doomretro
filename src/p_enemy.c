@@ -1288,6 +1288,9 @@ void A_VileChase(mobj_t *actor)
 
                     players[0].killcount--;
 
+                    // killough 8/29/98: add to appropriate thread
+                    P_UpdateThinker(&corpsehit->thinker);
+
                     return;
                 }
             }
