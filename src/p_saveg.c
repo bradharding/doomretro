@@ -1645,6 +1645,19 @@ void P_ArchiveThinkers(void)
 }
 
 //
+// killough 11/98
+//
+// Same as P_SetTarget() in p_tick.c, except that the target is nullified
+// first, so that no old target's reference count is decreased (when loading
+// savegames, old targets are indices, not really pointers to targets).
+//
+static void P_SetNewTarget(mobj_t **mop, mobj_t *targ)
+{
+    *mop = NULL;
+    P_SetTarget(mop, targ);
+}
+
+//
 // P_UnArchiveThinkers
 //
 void P_UnArchiveThinkers(void)
@@ -1780,9 +1793,9 @@ void P_RestoreTargets(void)
         {
             mobj_t      *mo = (mobj_t *)th;
 
-            mo->target = (mobj_t *)P_IndexToThinker((uintptr_t)mo->target);
-            mo->tracer = (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer);
-            mo->lastenemy = (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy);
+            P_SetNewTarget(&mo->target, (mobj_t *)P_IndexToThinker((uintptr_t)mo->target));
+            P_SetNewTarget(&mo->tracer, (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer));
+            P_SetNewTarget(&mo->lastenemy, (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy));
         }
 }
 

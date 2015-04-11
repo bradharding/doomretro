@@ -107,6 +107,8 @@ void P_AddThinker(thinker_t *thinker)
     thinker->prev = thinkercap.prev;
     thinkercap.prev = thinker;
 
+    thinker->references = 0;    // killough 11/98: init reference counter to 0
+
     // killough 8/29/98: set sentinel pointers, and then add to appropriate list
     thinker->cnext = thinker->cprev = NULL;
     P_UpdateThinker(thinker);
@@ -132,20 +134,23 @@ static thinker_t        *currentthinker;
 //
 void P_RemoveThinkerDelayed(thinker_t *thinker)
 {
-    thinker_t   *next = thinker->next;
-    thinker_t   *th = thinker->cnext;
+    if (!thinker->references)
+    {
+        thinker_t   *next = thinker->next;
+        thinker_t   *th = thinker->cnext;
 
-    // Remove from main thinker list
-    // Note that currentthinker is guaranteed to point to us,
-    // and since we're freeing our memory, we had better change that. So
-    // point it to thinker->prev, so the iterator will correctly move on to
-    // thinker->prev->next = thinker->next 
-    (next->prev = currentthinker = thinker->prev)->next = next;
+        // Remove from main thinker list
+        // Note that currentthinker is guaranteed to point to us,
+        // and since we're freeing our memory, we had better change that. So
+        // point it to thinker->prev, so the iterator will correctly move on to
+        // thinker->prev->next = thinker->next 
+        (next->prev = currentthinker = thinker->prev)->next = next;
 
-    // Remove from current thinker class list 
-    (th->cprev = thinker->cprev)->cnext = th;
+        // Remove from current thinker class list 
+        (th->cprev = thinker->cprev)->cnext = th;
 
-    Z_Free(thinker);
+        Z_Free(thinker);
+    }
 }
 
 //
@@ -164,6 +169,25 @@ void P_RemoveThinker(thinker_t *thinker)
     thinker->function.acp1 = (actionf_p1)P_RemoveThinkerDelayed;
 
     P_UpdateThinker(thinker);
+}
+
+//
+// P_SetTarget
+//
+// This function is used to keep track of pointer references to mobj thinkers.
+// In Doom, objects such as lost souls could sometimes be removed despite
+// their still being referenced. In Boom, 'target' mobj fields were tested
+// during each gametic, and any objects pointed to by them would be prevented
+// from being removed. But this was incomplete, and was slow (every mobj was
+// checked during every gametic). Now, we keep a count of the number of
+// references, and delay removal until the count is 0.
+//
+void P_SetTarget(mobj_t **mop, mobj_t *targ)
+{
+    if (*mop)           // If there was a target already, decrease its refcount
+        (*mop)->thinker.references--;
+    if ((*mop = targ))  // Set new target and if non-NULL, increase its counter
+        targ->thinker.references++;
 }
 
 //

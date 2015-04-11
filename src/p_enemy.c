@@ -91,7 +91,7 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 
     sec->validcount = validcount;
     sec->soundtraversed = soundblocks + 1;
-    sec->soundtarget = soundtarget;
+    P_SetTarget(&sec->soundtarget, soundtarget);
 
     for (i = 0; i < sec->linecount; i++)
     {
@@ -609,8 +609,8 @@ static boolean P_LookForMonsters(mobj_t *actor)
             continue;           // out of sight
 
         // Found a target monster
-        actor->lastenemy = actor->target;
-        actor->target = mo;
+        P_SetTarget(&actor->lastenemy, actor->target);
+        P_SetTarget(&actor->target, mo);
         return true;
     }
     return false;
@@ -624,6 +624,7 @@ static boolean P_LookForMonsters(mobj_t *actor)
 static boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
 {
     player_t    *player;
+    mobj_t      *mo;
     angle_t     an;
     fixed_t     dist;
 
@@ -632,27 +633,28 @@ static boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
         return P_LookForMonsters(actor);
 
     player = &players[0];
+    mo = player->mo;
 
     if (player->cheats & CF_NOTARGET)
         return false;
 
-    if (player->health <= 0 || !P_CheckSight(actor, player->mo))
+    if (player->health <= 0 || !P_CheckSight(actor, mo))
     {
         // Use last known enemy if no players sighted -- killough 2/15/98
         if (actor->lastenemy && actor->lastenemy->health > 0)
         {
-            actor->target = actor->lastenemy;
-            actor->lastenemy = NULL;
+            P_SetTarget(&actor->target, actor->lastenemy);
+            P_SetTarget(&actor->lastenemy, NULL);
             return true;
         }
         return false;
     }
 
-    dist = P_ApproxDistance(player->mo->x - actor->x, player->mo->y - actor->y);
+    dist = P_ApproxDistance(mo->x - actor->x, mo->y - actor->y);
 
     if (!allaround)
     {
-        an = R_PointToAngle2(actor->x, actor->y, player->mo->x, player->mo->y) - actor->angle;
+        an = R_PointToAngle2(actor->x, actor->y, mo->x, mo->y) - actor->angle;
 
         if (an > ANG90 && an < ANG270)
         {
@@ -662,8 +664,8 @@ static boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
                 // Use last known enemy if no players sighted -- killough 2/15/98
                 if (actor->lastenemy && actor->lastenemy->health > 0)
                 {
-                    actor->target = actor->lastenemy;
-                    actor->lastenemy = NULL;
+                    P_SetTarget(&actor->target, actor->lastenemy);
+                    P_SetTarget(&actor->lastenemy, NULL);
                     return true;
                 }
                 return false;
@@ -671,23 +673,16 @@ static boolean P_LookForPlayers(mobj_t *actor, boolean allaround)
         }
     }
 
-    if (player->mo->flags & MF_FUZZ)
+    if (mo->flags & MF_FUZZ)
     {
         // player is invisible
-        if (dist > 2 * MELEERANGE
-            && P_ApproxDistance(player->mo->momx, player->mo->momy) < 5 * FRACUNIT)
-        {
-            // player is sneaking - can't detect
-            return false;
-        }
+        if (dist > 2 * MELEERANGE && P_ApproxDistance(mo->momx, mo->momy) < 5 * FRACUNIT)
+            return false;       // player is sneaking - can't detect
         if (P_Random() < 225)
-        {
-            // player isn't sneaking, but still didn't detect
-            return false;
-        }
+            return false;       // player isn't sneaking, but still didn't detect
     }
 
-    actor->target = player->mo;
+    P_SetTarget(&actor->target, mo);
     actor->threshold = 60;
     return true;
 }
@@ -738,7 +733,7 @@ void A_Look(mobj_t *actor)
     
     if (targ && (targ->flags & MF_SHOOTABLE))
     {
-        actor->target = targ;
+        P_SetTarget(&actor->target, targ);
 
         if (actor->flags & MF_AMBUSH)
         {
@@ -1098,7 +1093,7 @@ void A_SkelMissile(mobj_t *actor)
 
     mo->x += mo->momx;
     mo->y += mo->momy;
-    mo->tracer = actor->target;
+    P_SetTarget(&mo->tracer, actor->target);
 }
 
 #define TRACEANGLE      0xc000000;
@@ -1283,8 +1278,8 @@ void A_VileChase(mobj_t *actor)
                     if (corpsehit->shadow)
                         corpsehit->shadow->flags2 &= ~MF2_MIRRORED;
                     corpsehit->health = info->spawnhealth;
-                    corpsehit->target = NULL;
-                    corpsehit->lastenemy = NULL;
+                    P_SetTarget(&corpsehit->target, NULL);
+                    P_SetTarget(&corpsehit->lastenemy, NULL);
 
                     players[0].killcount--;
 
@@ -1369,9 +1364,9 @@ void A_VileTarget(mobj_t *actor)
 
     fog = P_SpawnMobj(actor->target->x, actor->target->y, actor->target->z, MT_FIRE);
 
-    actor->tracer = fog;
-    fog->target = actor;
-    fog->tracer = actor->target;
+    P_SetTarget(&actor->tracer, fog);
+    P_SetTarget(&fog->target, actor);
+    P_SetTarget(&fog->tracer, actor->target);
     A_Fire(fog);
 }
 
@@ -1548,7 +1543,7 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
         return;
     }
 
-    newmobj->target = actor->target;
+    P_SetTarget(&newmobj->target, actor->target);
     A_SkullAttack(newmobj);
 }
 
@@ -1913,7 +1908,7 @@ void A_BrainSpit(mobj_t *mo)
 
         // spawn brain missile
         newmobj = P_SpawnMissile(mo, targ, MT_SPAWNSHOT);
-        newmobj->target = targ;
+        P_SetTarget(&newmobj->target, targ);
         dist = P_ApproxDistance(targ->x - (mo->x + mo->momx), targ->y - (mo->y + mo->momy));
 
         // Use the reactiontime to hold the distance (squared)

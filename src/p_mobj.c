@@ -708,7 +708,9 @@ void P_RemoveMobj(mobj_t *mobj)
 
     mobj->flags |= (MF_NOSECTOR | MF_NOBLOCKMAP);
 
-    mobj->target = mobj->tracer = mobj->lastenemy = NULL;
+    P_SetTarget(&mobj->target, NULL);
+    P_SetTarget(&mobj->tracer, NULL);
+    P_SetTarget(&mobj->lastenemy, NULL);
 
     // free block
     P_RemoveThinker((thinker_t *)mobj);
@@ -1223,7 +1225,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     if (th->info->seesound)
         S_StartSound(th, th->info->seesound);
 
-    th->target = source;        // where it came from
+    P_SetTarget(&th->target, source);   // where it came from
     an = R_PointToAngle2(source->x, source->y, dest->x, dest->y);
 
     // fuzzy player
@@ -1288,7 +1290,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     if (th->info->seesound)
         S_StartSound(th, th->info->seesound);
 
-    th->target = source;
+    P_SetTarget(&th->target, source);
     th->angle = an;
     th->momx = FixedMul(th->info->speed, finecosine[an >> ANGLETOFINESHIFT]);
     th->momy = FixedMul(th->info->speed, finesine[an >> ANGLETOFINESHIFT]);
