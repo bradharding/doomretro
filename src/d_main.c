@@ -103,7 +103,6 @@ char                    *iwadfile = "";
 char                    *iwadfolder = IWADFOLDER_DEFAULT;
 
 boolean                 nomonsters;     // checkparm of -nomonsters
-boolean                 respawnparm;    // checkparm of -respawn
 boolean                 fastparm;       // checkparm of -fast
 
 int                     runcount = 0;
@@ -1228,9 +1227,6 @@ static void D_DoomMainSetup(void)
 
     if (nomonsters = M_CheckParm("-nomonsters"))
         C_Output("Found -NOMONSTERS parameter on command-line. No monsters will be spawned.");
-
-    if (respawnparm = M_CheckParm("-respawn"))
-        C_Output("Found -RESPAWN parameter on command-line. Pickups will respawn.");
 
     if (fastparm = M_CheckParm("-fast"))
         C_Output("Found -FAST parameter on command-line. Monsters will be faster.");

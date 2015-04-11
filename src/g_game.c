@@ -576,7 +576,7 @@ void G_DoLoadLevel(void)
         }
     }
 
-    respawnmonsters = (gameskill == sk_nightmare || respawnparm);
+    respawnmonsters = (gameskill == sk_nightmare);
 
     levelstarttic = gametic;                    // for time calculation
 
@@ -1720,7 +1720,7 @@ void G_InitNew(skill_t skill, int episode, int map)
     if (map > 9 && gamemode != commercial)
         map = 9;
 
-    respawnmonsters = (skill == sk_nightmare || respawnparm);
+    respawnmonsters = (skill == sk_nightmare);
 
     // [BH] Fix demon speed bug. See doomwiki.org/wiki/Demon_speed_bug.
     G_SetFastParms(fastparm || skill == sk_nightmare);
