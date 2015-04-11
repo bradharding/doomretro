@@ -965,7 +965,7 @@ void M_LoadGame(int choice)
 
 #define CARETWAIT       10
 
-static boolean  showcaret = true;
+static boolean  showcaret = false;
 static int      caretwait = 0;
 
 //
@@ -2460,8 +2460,8 @@ boolean M_Responder(event_t *ev)
                 {
                     keydown = key;
                     saveStringEnter = 0;
-                    caretwait = I_GetTime() + CARETWAIT;
-                    showcaret = true;
+                    caretwait = 0;
+                    showcaret = false;
                     M_StringCopy(&savegamestrings[saveSlot][0], saveOldString, SAVESTRINGSIZE);
                     S_StartSound(NULL, sfx_swtchx);
                 }
