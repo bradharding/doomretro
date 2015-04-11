@@ -480,7 +480,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
 
             if (isdigit(prevletter) && letter == 'x' && isdigit(nextletter))
                 patch = multiply;
-            else if (prevletter == ' ' || prevletter == '\t')
+            else if (prevletter == ' ' || prevletter == '\t' || !i)
             {
                 if (letter == '\'')
                     patch = lsquote;
