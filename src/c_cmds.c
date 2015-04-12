@@ -78,6 +78,8 @@
 static int      totalmapped = 0;
 
 extern boolean  alwaysrun;
+extern boolean  am_grid;
+extern boolean  am_rotatemode;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
 extern boolean  brightmaps;
@@ -125,7 +127,6 @@ extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 extern float    gammalevel;
 extern int      graphicdetail;
-extern boolean  grid;
 extern boolean  homindicator;
 extern boolean  hud;
 extern char     *iwadfolder;
@@ -178,7 +179,6 @@ extern int      pixelheight;
 extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
-extern boolean  rotatemode;
 extern int      runcount;
 #if defined(SDL20)
 extern char     *scaledriver;
@@ -413,9 +413,9 @@ int     numconsolecmds;
 
 consolecmd_t consolecmds[] =
 {
-    CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, followmode, NONE, "Toggle follow mode in the automap."),
-    CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, grid, GRID, "Toggle the grid in the automap."),
-    CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, rotatemode, ROTATEMODE, "Toggle rotate mode in the automap."),
+    CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, am_followmode, NONE, "Toggle follow mode in the automap."),
+    CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, am_grid, GRID, "Toggle the grid in the automap."),
+    CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, am_rotatemode, ROTATEMODE, "Toggle rotate mode in the automap."),
     CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),

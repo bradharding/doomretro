@@ -345,7 +345,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     int         forward = 0;
     int         side = 0;
 
-    if (automapactive && !followmode)
+    if (automapactive && !am_followmode)
         return;
 
     memset(cmd, 0, sizeof(ticcmd_t));
@@ -777,7 +777,7 @@ boolean G_Responder(event_t *ev)
                 else if (mousebuttons[mousebprevweapon])
                     G_PrevWeapon();
             }
-            if (!automapactive || (automapactive && followmode))
+            if (!automapactive || (automapactive && am_followmode))
             {
                 mousex = ev->data2 * mousesensitivity / 10;
                 mousey = ev->data3 * mousesensitivity / 10;

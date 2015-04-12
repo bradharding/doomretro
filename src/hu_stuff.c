@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
@@ -546,15 +547,13 @@ void HU_Ticker(void)
     {
         // [BH] display and constantly update message for IDMYPOS cheat
         char    buffer[80];
-        int     angle;
-        int     x, y, z;
 
         if (!message_counter)
             message_counter = HU_MSGTIMEOUT;
         else if (message_counter > 132)
             message_counter--;
 
-        if (automapactive && !followmode)
+        if (automapactive && !am_followmode)
         {
             sector_t    *sector = R_PointInSubsector(m_x + (m_w >> 1), m_y + (m_h >> 1))->sector;
 

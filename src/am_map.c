@@ -222,7 +222,7 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-boolean         grid = GRID_DEFAULT;
+boolean         am_grid = GRID_DEFAULT;
 
 boolean         automapactive = false;
 
@@ -268,8 +268,8 @@ mpoint_t        *markpoints = NULL;             // where the points are
 int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
-boolean         followmode = true;              // specifies whether to follow the player around
-boolean         rotatemode = ROTATEMODE_DEFAULT;
+boolean         am_followmode = true;           // specifies whether to follow the player around
+boolean         am_rotatemode = ROTATEMODE_DEFAULT;
 
 static boolean  stopped = true;
 
@@ -292,8 +292,8 @@ static void AM_rotate(fixed_t *x, fixed_t *y, angle_t angle);
 
 static void AM_activateNewScale(void)
 {
-    m_x += m_w  / 2;
-    m_y += m_h  / 2;
+    m_x += m_w / 2;
+    m_y += m_h / 2;
     m_w = FTOM(mapwidth);
     m_h = FTOM(mapheight);
     m_x -= m_w / 2;
@@ -314,7 +314,7 @@ static void AM_restoreScaleAndLoc(void)
 {
     m_w = old_m_w;
     m_h = old_m_h;
-    if (followmode)
+    if (am_followmode)
     {
         m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
         m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
@@ -372,7 +372,7 @@ static void AM_changeWindowLoc(void)
     fixed_t     incx = m_paninc.x;
     fixed_t     incy = m_paninc.y;
 
-    if (rotatemode)
+    if (am_rotatemode)
     {
         AM_rotate(&incx, &incy, viewangle - ANG90);
 
@@ -498,7 +498,7 @@ static void AM_initVariables(void)
 
     plr = &players[0];
 
-    if (m_x == INT_MAX || followmode)
+    if (m_x == INT_MAX || am_followmode)
     {
         m_x = (plr->mo->x >> FRACTOMAPBITS) - m_w / 2;
         m_y = (plr->mo->y >> FRACTOMAPBITS) - m_h / 2;
@@ -516,7 +516,7 @@ static void AM_initVariables(void)
 //
 static void AM_LevelInit(void)
 {
-    followmode = true;
+    am_followmode = true;
     bigstate = false;
 
     AM_findMinMaxBoundaries();
@@ -628,20 +628,20 @@ static void AM_toggleMaxZoom(void)
 
 static void AM_toggleFollowMode(void)
 {
-    followmode = !followmode;
-    if (followmode)
+    am_followmode = !am_followmode;
+    if (am_followmode)
         m_paninc.x = m_paninc.y = 0;
-    plr->message = (followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
-    C_Input("am_followmode %s", (followmode ? "on" : "off"));
+    plr->message = (am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
+    C_Input("am_followmode %s", (am_followmode ? "on" : "off"));
     message_dontfuckwithme = true;
     message_clearable = true;
 }
 
 static void AM_toggleGrid(void)
 {
-    grid = !grid;
-    plr->message = (grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
-    C_Input("am_grid %s", (grid ? "on" : "off"));
+    am_grid = !am_grid;
+    plr->message = (am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
+    C_Input("am_grid %s", (am_grid ? "on" : "off"));
     message_dontfuckwithme = true;
     message_clearable = true;
 }
@@ -652,8 +652,8 @@ static void AM_toggleGrid(void)
 static void AM_addMark(void)
 {
     int         i;
-    int         x = m_x + (m_w >> 1);
-    int         y = m_y + (m_h >> 1);
+    int         x = m_x + m_w / 2;
+    int         y = m_y + m_h / 2;
     static char message[32];
 
     for (i = 0; i < markpointnum; ++i)
@@ -702,9 +702,9 @@ static void AM_clearMarks(void)
 
 static void AM_toggleRotateMode(void)
 {
-    rotatemode = !rotatemode;
-    plr->message = (rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
-    C_Input("am_rotatemode %s", (rotatemode ? "on" : "off"));
+    am_rotatemode = !am_rotatemode;
+    plr->message = (am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
+    C_Input("am_rotatemode %s", (am_rotatemode ? "on" : "off"));
     message_dontfuckwithme = true;
     message_clearable = true;
 }
@@ -756,7 +756,7 @@ boolean AM_Responder(event_t *ev)
                 if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
                 {
                     keydown = key;
-                    if (followmode)
+                    if (am_followmode)
                     {
                         m_paninc.x = 0;
                         rc = false;
@@ -772,7 +772,7 @@ boolean AM_Responder(event_t *ev)
                 else if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                 {
                     keydown = key;
-                    if (followmode)
+                    if (am_followmode)
                     {
                         m_paninc.x = 0;
                         rc = false;
@@ -788,7 +788,7 @@ boolean AM_Responder(event_t *ev)
                 else if (key == AM_PANUPKEY || key == AM_PANUPKEY2)
                 {
                     keydown = key;
-                    if (followmode)
+                    if (am_followmode)
                     {
                         m_paninc.y = 0;
                         rc = false;
@@ -804,7 +804,7 @@ boolean AM_Responder(event_t *ev)
                 else if (key == AM_PANDOWNKEY || key == AM_PANDOWNKEY2)
                 {
                     keydown = key;
-                    if (followmode)
+                    if (am_followmode)
                     {
                         m_paninc.y = 0;
                         rc = false;
@@ -941,7 +941,7 @@ boolean AM_Responder(event_t *ev)
                         D_PostEvent(&event);
                     }
                 }
-                else if (!followmode)
+                else if (!am_followmode)
                 {
                     if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                     {
@@ -1071,7 +1071,7 @@ boolean AM_Responder(event_t *ev)
                 else if (gamepadbuttons & gamepadautomaprotatemode)
                     AM_toggleRotateMode();
 
-                if (!followmode)
+                if (!am_followmode)
                 {
                     // pan right
                     if (gamepadthumbLX > 0)
@@ -1107,14 +1107,14 @@ boolean AM_Responder(event_t *ev)
                 }
             }
 
-            if ((plr->cheats & CF_MYPOS) && !followmode && (m_paninc.x || m_paninc.y))
+            if ((plr->cheats & CF_MYPOS) && !am_followmode && (m_paninc.x || m_paninc.y))
             {
                 double  x = m_paninc.x;
                 double  y = m_paninc.y;
 
-                if ((m_x == min_x - (m_w >> 1) && x < 0) || (m_x == max_x - (m_w >> 1) && x > 0))
+                if ((m_x == min_x - m_w / 2 && x < 0) || (m_x == max_x - m_w / 2 && x > 0))
                     x = 0;
-                if ((m_y == min_y - (m_h >> 1) && y < 0) || (m_y == max_y - (m_h >> 1) && y > 0))
+                if ((m_y == min_y - m_h / 2 && y < 0) || (m_y == max_y - m_h / 2 && y > 0))
                     y = 0;
                 direction = (int)(atan2(y, x) * 180.0 / M_PI);
                 if (direction < 0)
@@ -1185,7 +1185,7 @@ void AM_Ticker(void)
     if (!automapactive)
         return;
 
-    if (followmode)
+    if (am_followmode)
         AM_doFollowPlayer();
 
     // Change the zoom if necessary
@@ -1430,8 +1430,8 @@ static void AM_drawGrid(void)
     mline_t     ml;
 
     fixed_t     minlen = (fixed_t)(sqrt((double)m_w * (double)m_w + (double)m_h * (double)m_h));
-    fixed_t     extx = (minlen - m_w) >> 1;
-    fixed_t     exty = (minlen - m_h) >> 1;
+    fixed_t     extx = (minlen - m_w) / 2;
+    fixed_t     exty = (minlen - m_h) / 2;
 
     // Figure out start of vertical gridlines
     start = m_x - extx;
@@ -1446,7 +1446,7 @@ static void AM_drawGrid(void)
         ml.b.x = x;
         ml.a.y = m_y - exty;
         ml.b.y = ml.a.y + minlen;
-        if (rotatemode)
+        if (am_rotatemode)
         {
             AM_rotatePoint(&ml.a);
             AM_rotatePoint(&ml.b);
@@ -1467,7 +1467,7 @@ static void AM_drawGrid(void)
         ml.b.x = ml.a.x + minlen;
         ml.a.y = y;
         ml.b.y = y;
-        if (rotatemode)
+        if (am_rotatemode)
         {
             AM_rotatePoint(&ml.a);
             AM_rotatePoint(&ml.b);
@@ -1526,7 +1526,7 @@ static void AM_drawWalls(void)
                 l.b.x = line.v2->x >> FRACTOMAPBITS;
                 l.b.y = line.v2->y >> FRACTOMAPBITS;
 
-                if (rotatemode)
+                if (am_rotatemode)
                 {
                     AM_rotatePoint(&l.a);
                     AM_rotatePoint(&l.b);
@@ -1592,7 +1592,7 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
 {
     int i;
 
-    if (rotatemode)
+    if (am_rotatemode)
         angle -= viewangle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
@@ -1628,7 +1628,7 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
 {
     int i;
 
-    if (rotatemode)
+    if (am_rotatemode)
         angle -= viewangle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
@@ -1667,7 +1667,7 @@ static void AM_drawPlayers(void)
     point.x = viewx >> FRACTOMAPBITS;
     point.y = viewy >> FRACTOMAPBITS;
 
-    if (rotatemode)
+    if (am_rotatemode)
         AM_rotatePoint(&point);
 
     if (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS))
@@ -1732,7 +1732,7 @@ static void AM_drawThings(void)
                     point.x = thing->x >> FRACTOMAPBITS;
                     point.y = thing->y >> FRACTOMAPBITS;
 
-                    if (rotatemode)
+                    if (am_rotatemode)
                         AM_rotatePoint(&point);
 
                     fx = CXMTOF(point.x);
@@ -1790,15 +1790,15 @@ static void AM_drawMarks(void)
         point.x = markpoints[i].x;
         point.y = markpoints[i].y;
 
-        if (rotatemode)
+        if (am_rotatemode)
             AM_rotatePoint(&point);
 
-        x = CXMTOF(point.x) - (MARKWIDTH >> 1) + 1;
-        y = CYMTOF(point.y) - (MARKHEIGHT >> 1) - 1;
+        x = CXMTOF(point.x) - MARKWIDTH / 2 + 1;
+        y = CYMTOF(point.y) - MARKHEIGHT / 2 - 1;
 
         while (temp /= 10)
             ++digits;
-        x += (digits - 1) * (MARKWIDTH >> 1);
+        x += (digits - 1) * MARKWIDTH / 2;
         x -= (number > 1 && number % 10 == 1);
         x -= (number / 10 == 1);
 
@@ -1838,7 +1838,7 @@ static void AM_drawMarks(void)
 
 static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
 {
-    byte        *dest = *screens + ((y << 1) - 1) * mapwidth + (x << 1) - 1;
+    byte        *dest = *screens + (y / 2 - 1) * mapwidth + x / 2 - 1;
 
     *dest = *(*dest + color);
     ++dest;
@@ -1849,8 +1849,8 @@ static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
     *dest = *(*dest + color);
 }
 
-#define CENTERX         (ORIGINALWIDTH >> 1)
-#define CENTERY         ((ORIGINALHEIGHT - 32) >> 1)
+#define CENTERX         ORIGINALWIDTH / 2
+#define CENTERY         (ORIGINALHEIGHT - 32) / 2
 
 static void AM_drawCrosshair(void)
 {
@@ -1869,13 +1869,15 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
-    am_frame.sin = finesine[(ANG90 - viewangle) >> ANGLETOFINESHIFT];
-    am_frame.cos = finecosine[(ANG90 - viewangle) >> ANGLETOFINESHIFT];
+    int angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
+
+    am_frame.sin = finesine[angle];
+    am_frame.cos = finecosine[angle];
 
     am_frame.centerx = m_x + m_w / 2;
     am_frame.centery = m_y + m_h / 2;
 
-    if (rotatemode)
+    if (am_rotatemode)
     {
         float   dx = (float)(m_x2 - am_frame.centerx);
         float   dy = (float)(m_y2 - am_frame.centery);
@@ -1900,13 +1902,13 @@ void AM_Drawer(void)
     AM_setFrameVariables();
     AM_clearFB();
     AM_drawWalls();
-    if (grid)
+    if (am_grid)
         AM_drawGrid();
     if (plr->cheats & CF_ALLMAP_THINGS)
         AM_drawThings();
     if (markpointnum)
         AM_drawMarks();
     AM_drawPlayers();
-    if (!followmode)
+    if (!am_followmode)
         AM_drawCrosshair();
 }

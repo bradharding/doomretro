@@ -1636,7 +1636,7 @@ void P_UseLines(player_t *player)
     fixed_t x1, y1;
     fixed_t x2, y2;
 
-    if (automapactive && !followmode)
+    if (automapactive && !am_followmode)
         return;
 
     usething = player->mo;

@@ -61,6 +61,8 @@ int             sfxvolume_percent = SFXVOLUME_DEFAULT;
 // DEFAULTS
 //
 extern boolean  alwaysrun;
+extern boolean  am_grid;
+extern boolean  am_rotatemode;
 extern boolean  animatedliquid;
 extern int      bloodsplats;
 extern boolean  brightmaps;
@@ -103,7 +105,6 @@ extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 extern float    gammalevel;
 extern int      graphicdetail;
-extern boolean  grid;
 extern boolean  homindicator;
 extern boolean  hud;
 extern char     *iwadfolder;
@@ -159,7 +160,6 @@ extern int      pixelheight;
 extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
-extern boolean  rotatemode;
 extern int      runcount;
 #if defined(SDL20)
 extern char     *scaledriver;
@@ -211,8 +211,8 @@ extern boolean  returntowidescreen;
 
 static default_t cvars[] =
 {
-    CONFIG_VARIABLE_INT          (am_grid,                 grid,                          1),
-    CONFIG_VARIABLE_INT          (am_rotatemode,           rotatemode,                    1),
+    CONFIG_VARIABLE_INT          (am_grid,                 am_grid,                       1),
+    CONFIG_VARIABLE_INT          (am_rotatemode,           am_rotatemode,                 1),
     CONFIG_VARIABLE_INT          (episode,                 selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,             9),
     CONFIG_VARIABLE_INT          (gp_automap,              gamepadautomap,                2),
@@ -934,8 +934,8 @@ static void M_CheckDefaults(void)
     if (graphicdetail != LOW && graphicdetail != HIGH)
         graphicdetail = GRAPHICDETAIL_DEFAULT;
 
-    if (grid != false && grid != true)
-        grid = GRID_DEFAULT;
+    if (am_grid != false && am_grid != true)
+        am_grid = GRID_DEFAULT;
 
     if (homindicator != false && homindicator != true)
         homindicator = HOMINDICATOR_DEFAULT;
@@ -1103,8 +1103,8 @@ static void M_CheckDefaults(void)
 
     playerbob = BETWEEN(PLAYERBOB_MIN, playerbob, PLAYERBOB_MAX);
 
-    if (rotatemode != false && rotatemode != true)
-        rotatemode = ROTATEMODE_DEFAULT;
+    if (am_rotatemode != false && am_rotatemode != true)
+        am_rotatemode = ROTATEMODE_DEFAULT;
 
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
 
