@@ -812,9 +812,9 @@ static void UpdateGrab(void)
 #else
         SDL_WarpMouse(displaywidth - 10 * displaywidth / SCREENWIDTH, displayheight - 16);
 #endif
-        SetShowCursor(true);
-
+        SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
+        SetShowCursor(true);
     }
 
     currently_grabbed = grab;
