@@ -391,8 +391,9 @@ int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args)
 // Safe, portable snprintf().
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...)
 {
-    va_list args;
-    int result;
+    va_list     args;
+    int         result;
+
     va_start(args, s);
     result = M_vsnprintf(buf, buf_len, s, args);
     va_end(args);
@@ -412,26 +413,30 @@ char *uppercase(char *str)
 
 char *commify(double value)
 {
-    static char result[64];
-    char        *pt;
-    int         n;
+    char result[64];
 
-    snprintf(result, sizeof(result), "%.0f", value);
-    for (pt = result; *pt && *pt != '.'; pt++);
-    n = result + sizeof(result) - pt;
-    do
+    M_snprintf(result, sizeof(result), "%.0f", value);
+    if (ABS(value) >= 1000)
     {
-        pt -= 3;
-        if (pt > result)
+        char        *pt;
+        int         n;
+
+        for (pt = result; *pt && *pt != '.'; pt++);
+        n = result + sizeof(result) - pt;
+        do
         {
-            memmove(pt + 1, pt, n);
-            *pt = ',';
-            n += 4;
-        }
-        else
-            break;
-    } while (1);
-    return result;
+            pt -= 3;
+            if (pt > result)
+            {
+                memmove(pt + 1, pt, n);
+                *pt = ',';
+                n += 4;
+            }
+            else
+                break;
+        } while (1);
+    }
+    return strdup(result);
 }
 
 boolean wildcard(char *input, char *pattern)
