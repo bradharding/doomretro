@@ -262,11 +262,39 @@ static void C_DrawDivider(int y)
 
     y *= SCREENWIDTH;
     if (y >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
+        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX * 2; ++i)
             screens[0][i] = consoledividercolor;
     if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX; ++i)
+        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX * 2; ++i)
             screens[0][i] = consoledividercolor;
+}
+
+static void C_DrawScrollbar(void)
+{
+    int x, y;
+    int start;
+    int end;
+
+    for (y = CONSOLETEXTY + 1; y < CONSOLEHEIGHT - 23; ++y)
+        if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
+            for (x = SCREENWIDTH - CONSOLETEXTX - 3; x < SCREENWIDTH - CONSOLETEXTX; ++x)
+                screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consoledividercolor;
+
+    if (outputhistory == -1)
+    {
+        start = MAX(0, consolestrings - CONSOLELINES);
+        end = consolestrings;
+    }
+    else
+    {
+        start = outputhistory;
+        end = outputhistory + CONSOLELINES;
+    }
+
+    for (y = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * start / consolestrings; y < (CONSOLEHEIGHT - 23) * end / consolestrings; ++y)
+        if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
+            for (x = SCREENWIDTH - CONSOLETEXTX - 3; x < SCREENWIDTH - CONSOLETEXTX; ++x)
+                screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consoleinputcolor;
 }
 
 void C_Init(void)
@@ -637,6 +665,9 @@ void C_Drawer(void)
 
         Z_Free(left);
         Z_Free(right);
+
+        // draw the scrollbar
+        C_DrawScrollbar();
     }
     else
         consoleactive = false;
