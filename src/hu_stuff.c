@@ -555,12 +555,12 @@ void HU_Ticker(void)
 
         if (automapactive && !am_followmode)
         {
-            int         x = m_x + m_w / 2;
-            int         y = m_y + m_h / 2;
+            int         x = (m_x + m_w / 2) >> MAPBITS;
+            int         y = (m_y + m_h / 2) >> MAPBITS;
             sector_t    *sector = R_PointInSubsector(x, y)->sector;
 
-            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x / FRACUNIT,
-                y / FRACUNIT, sector->floorheight / FRACUNIT);
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x, y,
+                sector->floorheight / FRACUNIT);
         }
         else
         {
