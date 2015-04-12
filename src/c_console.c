@@ -144,6 +144,7 @@ int             consoleoutputcolor = 88;
 int             consolebrandingcolor = 100;
 int             consolewarningcolor = 180;
 int             consoledividercolor = 100;
+int             consoletintcolor = 5;
 
 int             consolecolors[STRINGTYPES];
 
@@ -354,7 +355,7 @@ static void C_DrawBackground(int height)
     blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
 
     for (i = 0; i < height; ++i)
-        screens[0][i] = tinttab50[c_blurredscreen[i]];
+        screens[0][i] = tinttab50[c_blurredscreen[i] + (consoletintcolor << 8)];
 
     for (i = height - SCREENWIDTH * 3; i < height - SCREENWIDTH * 2; ++i)
         screens[0][i] = tinttab25[((consolebrandingcolor + 5) << 8) + screens[0][i]];
