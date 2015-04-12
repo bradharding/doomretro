@@ -1675,8 +1675,8 @@ void M_ChangeMessages(int choice)
     messages = !messages;
     if (menuactive)
         message_dontpause = true;
-    players[0].message = (messages ? s_MSGON : s_MSGOFF);
-    C_Input("set messages %s", (messages ? "on" : "off"));
+    C_Input("messages %s", (messages ? "on" : "off"));
+    HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false);
     message_dontfuckwithme = true;
     M_SaveDefaults();
 }
@@ -1911,12 +1911,14 @@ void M_ChangeDetail(int choice)
 {
     blurred = false;
     graphicdetail = !graphicdetail;
+    C_Input("r_graphicdetail %s", (graphicdetail == HIGH ? "high" : "low"));
     if (!menuactive)
     {
-        players[0].message = (graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
+        HU_PlayerMessage((graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO), false);
         message_dontfuckwithme = true;
     }
-    C_Input("r_graphicdetail %s", (graphicdetail == HIGH ? "high" : "low"));
+    else
+        C_Output(graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
     M_SaveDefaults();
 }
 
@@ -2221,7 +2223,7 @@ void M_ChangeGamma(boolean shift)
     gammawait = I_GetTime() + HU_MSGTIMEOUT;
 
     if (gammalevel == 1.0f)
-        players[0].message = s_GAMMAOFF;
+        HU_PlayerMessage(s_GAMMAOFF, false);
     else
     {
         static char buf[128];
@@ -2229,7 +2231,7 @@ void M_ChangeGamma(boolean shift)
         M_snprintf(buf, sizeof(buf), s_GAMMALVL, gammalevel);
         if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
             buf[strlen(buf) - 1] = '\0';
-        players[0].message = buf;
+        HU_PlayerMessage(buf, false);
     }
 
     message_dontpause = true;

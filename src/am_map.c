@@ -400,8 +400,8 @@ void AM_Init(void)
     int         x;
     int         i;
 
-    priority = (byte *)Z_Malloc(256, PU_STATIC, NULL);
-    mask = (byte *)Z_Malloc(256, PU_STATIC, NULL);
+    priority = Z_Malloc(256, PU_STATIC, NULL);
+    mask = Z_Malloc(256, PU_STATIC, NULL);
     for (x = 0; x < 256; ++x)
     {
         *(priority + x) = 0;
@@ -423,7 +423,7 @@ void AM_Init(void)
 
     *(mask + MASKCOLOR) = BACKGROUNDCOLOR;
 
-    priorities = (byte *)Z_Malloc(65536, PU_STATIC, NULL);
+    priorities = Z_Malloc(65536, PU_STATIC, NULL);
     for (x = 0; x < 256; ++x)
     {
         int     y;
@@ -631,8 +631,8 @@ static void AM_toggleFollowMode(void)
     am_followmode = !am_followmode;
     if (am_followmode)
         m_paninc.x = m_paninc.y = 0;
-    plr->message = (am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF);
     C_Input("am_followmode %s", (am_followmode ? "on" : "off"));
+    HU_PlayerMessage((am_followmode ? s_AMSTR_FOLLOWON : s_AMSTR_FOLLOWOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
 }
@@ -640,8 +640,8 @@ static void AM_toggleFollowMode(void)
 static void AM_toggleGrid(void)
 {
     am_grid = !am_grid;
-    plr->message = (am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF);
     C_Input("am_grid %s", (am_grid ? "on" : "off"));
+    HU_PlayerMessage((am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
 }
@@ -703,8 +703,8 @@ static void AM_clearMarks(void)
 static void AM_toggleRotateMode(void)
 {
     am_rotatemode = !am_rotatemode;
-    plr->message = (am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF);
     C_Input("am_rotatemode %s", (am_rotatemode ? "on" : "off"));
+    HU_PlayerMessage((am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
 }
