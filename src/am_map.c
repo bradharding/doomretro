@@ -1838,7 +1838,7 @@ static void AM_drawMarks(void)
 
 static __inline void AM_DrawScaledPixel(int x, int y, byte *color)
 {
-    byte        *dest = *screens + (y / 2 - 1) * mapwidth + x / 2 - 1;
+    byte        *dest = *screens + (y * 2 - 1) * mapwidth + x * 2 - 1;
 
     *dest = *(*dest + color);
     ++dest;
