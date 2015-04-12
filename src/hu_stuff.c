@@ -555,24 +555,21 @@ void HU_Ticker(void)
 
         if (automapactive && !am_followmode)
         {
-            sector_t    *sector = R_PointInSubsector(m_x + (m_w >> 1), m_y + (m_h >> 1))->sector;
+            int         x = m_x + m_w / 2;
+            int         y = m_y + m_h / 2;
+            sector_t    *sector = R_PointInSubsector(x, y)->sector;
 
-            angle = direction;
-            x = (m_x + (m_w >> 1)) / FRACUNIT;
-            y = (m_y + (m_h >> 1)) / FRACUNIT;
-            z = sector->floorheight / FRACUNIT;
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, direction, x / FRACUNIT,
+                y / FRACUNIT, sector->floorheight / FRACUNIT);
         }
         else
         {
-            angle = (int)((double)plr->mo->angle * (90.0f / ANG90));
-            if (angle == 360)
-                angle = 0;
-            x = plr->mo->x / FRACUNIT;
-            y = plr->mo->y / FRACUNIT;
-            z = plr->mo->z / FRACUNIT;
+            int         angle = (int)((double)viewangle * (90.0f / ANG90));
+
+            M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, (angle == 360 ? 0 : angle),
+                viewx / FRACUNIT, viewy / FRACUNIT, plr->mo->z / FRACUNIT);
         }
 
-        M_snprintf(buffer, sizeof(buffer), s_STSTR_MYPOS, angle, x, y, z);
         HUlib_addMessageToSText(&w_message, 0, buffer);
         message_on = true;
     }
