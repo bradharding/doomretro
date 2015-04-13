@@ -56,8 +56,6 @@ typedef struct
     int                 value;
 } control_t;
 
-extern control_t        controls[];
-
 typedef struct
 {
     char                *action;
@@ -66,8 +64,6 @@ typedef struct
     void                *mouse;
     void                *gamepad;
 } action_t;
-
-extern action_t         actions[];
 
 typedef enum
 {
