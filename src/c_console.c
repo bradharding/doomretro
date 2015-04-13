@@ -145,6 +145,8 @@ int             consolebrandingcolor = 100;
 int             consolewarningcolor = 180;
 int             consoledividercolor = 100;
 int             consoletintcolor = 5;
+int             consolescrollbartrackcolor = 100;
+int             consolescrollbarfacecolor = 88;
 
 int             consolecolors[STRINGTYPES];
 
@@ -278,7 +280,7 @@ static void C_DrawScrollbar(void)
     for (y = CONSOLETEXTY + 1; y < CONSOLEHEIGHT - 23; ++y)
         if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
             for (x = SCREENWIDTH - CONSOLETEXTX - 3; x < SCREENWIDTH - CONSOLETEXTX; ++x)
-                screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consoledividercolor;
+                screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consolescrollbartrackcolor;
 
     if (outputhistory == -1)
     {
@@ -294,7 +296,7 @@ static void C_DrawScrollbar(void)
     for (y = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * start / consolestrings; y < (CONSOLEHEIGHT - 23) * end / consolestrings; ++y)
         if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
             for (x = SCREENWIDTH - CONSOLETEXTX - 3; x < SCREENWIDTH - CONSOLETEXTX; ++x)
-                screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consoleinputcolor;
+                screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consolescrollbarfacecolor;
 }
 
 void C_Init(void)
