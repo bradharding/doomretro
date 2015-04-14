@@ -301,8 +301,6 @@ static void C_DrawScrollbar(void)
         facelength = MAX(2, (CONSOLEHEIGHT - 23) * CONSOLELINES / consolestrings - CONSOLETEXTY + 1);
     }
     facestart = MIN(facestart, trackstart + tracklength - facelength);
-    //if (facestart + facelength > trackstart + tracklength)
-    //    facestart = trackstart + tracklength - facelength;
 
     for (y = facestart; y < facestart + facelength; ++y)
         if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
@@ -482,7 +480,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
     size_t      len = strlen(text);
     char        prevletter = '\0';
 
-    while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 2)
+    while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH)
     {
         text[len - 1] = '.';
         text[len] = '.';
