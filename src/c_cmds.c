@@ -486,7 +486,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_liquid_animatedheight, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID, "Toggle vertically animated liquid sectors."),
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP, "Toggle the bottom of sprites being clipped in liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize, "The size of pixels when the graphic detail is low."),
-    CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS, "Toggle weapons dropped by monsters being randomly mirrored."),
+    CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS, "Toggle randomly mirroring weapons dropped by monsters."),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS, "Toggle rocket trails behind player and Cyberdemon rockets."),
     CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE, "The screen size."),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS, "Toggle sprites casting shadows."),
