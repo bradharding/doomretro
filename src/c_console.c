@@ -81,6 +81,8 @@
 
 #define CONSOLEINPUTPIXELWIDTH  500
 
+#define CONSOLESCROLLBARWIDTH   3
+
 #define SPACEWIDTH              3
 #define DIVIDER                 "~~~"
 #define ITALICS                 '~'
@@ -264,10 +266,10 @@ static void C_DrawDivider(int y)
 
     y *= SCREENWIDTH;
     if (y >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX * 2; ++i)
+        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH; ++i)
             screens[0][i] = consoledividercolor;
     if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX * 2; ++i)
+        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH; ++i)
             screens[0][i] = consoledividercolor;
 }
 
@@ -279,7 +281,7 @@ static void C_DrawScrollbar(void)
 
     for (y = CONSOLETEXTY + 1; y < CONSOLEHEIGHT - 23; ++y)
         if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
-            for (x = SCREENWIDTH - CONSOLETEXTX - 3; x < SCREENWIDTH - CONSOLETEXTX; ++x)
+            for (x = SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH; x < SCREENWIDTH - CONSOLETEXTX; ++x)
                 screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consolescrollbartrackcolor;
 
     if (outputhistory == -1)
@@ -295,7 +297,7 @@ static void C_DrawScrollbar(void)
 
     for (y = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * start / consolestrings; y < (CONSOLEHEIGHT - 23) * end / consolestrings; ++y)
         if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
-            for (x = SCREENWIDTH - CONSOLETEXTX - 3; x < SCREENWIDTH - CONSOLETEXTX; ++x)
+            for (x = SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH; x < SCREENWIDTH - CONSOLETEXTX; ++x)
                 screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consolescrollbarfacecolor;
 }
 
