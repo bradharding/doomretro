@@ -276,26 +276,35 @@ static void C_DrawDivider(int y)
 static void C_DrawScrollbar(void)
 {
     int x, y;
-    int start;
-    int end;
+    int trackstart;
+    int tracklength;
+    int facestart;
+    int facelength;
 
-    for (y = CONSOLETEXTY + 1; y < CONSOLEHEIGHT - 23; ++y)
+    // Draw scrollbar track
+    trackstart = CONSOLETEXTY + 1;
+    tracklength = CONSOLEHEIGHT - 23 - trackstart;
+    for (y = trackstart; y < trackstart + tracklength; ++y)
         if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
             for (x = SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH; x < SCREENWIDTH - CONSOLETEXTX; ++x)
                 screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consolescrollbartrackcolor;
 
+    // Draw scrollbar face
     if (outputhistory == -1)
     {
-        start = MAX(0, consolestrings - CONSOLELINES);
-        end = consolestrings;
+        facestart = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
+        facelength = MAX(2, CONSOLEHEIGHT - 23 - facestart);
     }
     else
     {
-        start = outputhistory;
-        end = outputhistory + CONSOLELINES;
+        facestart = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * outputhistory / consolestrings;
+        facelength = MAX(2, (CONSOLEHEIGHT - 23) * CONSOLELINES / consolestrings - CONSOLETEXTY + 1);
     }
+    facestart = MIN(facestart, trackstart + tracklength - facelength);
+    //if (facestart + facelength > trackstart + tracklength)
+    //    facestart = trackstart + tracklength - facelength;
 
-    for (y = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * start / consolestrings; y < (CONSOLEHEIGHT - 23) * end / consolestrings; ++y)
+    for (y = facestart; y < facestart + facelength; ++y)
         if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
             for (x = SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH; x < SCREENWIDTH - CONSOLETEXTX; ++x)
                 screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consolescrollbarfacecolor;
