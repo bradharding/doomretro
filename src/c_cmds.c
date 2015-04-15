@@ -1809,8 +1809,8 @@ static boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 
     sscanf(parm1, "%10i", &value);
 
-    return ((!strcasecmp(cmd, "snd_musicvolume") && value >= MUSICVOLUME_MIN
-        && value <= MUSICVOLUME_MAX) || (!strcasecmp(cmd, "snd_sfxvolume")
+    return ((!strcasecmp(cmd, "s_musicvolume") && value >= MUSICVOLUME_MIN
+        && value <= MUSICVOLUME_MAX) || (!strcasecmp(cmd, "s_sfxvolume")
         && value >= SFXVOLUME_MIN && value <= SFXVOLUME_MAX));
 }
 
@@ -1824,7 +1824,7 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%10i", &value);
 
-        if (!strcasecmp(cmd, "snd_musicvolume"))
+        if (!strcasecmp(cmd, "s_musicvolume"))
         {
             musicvolume_percent = value;
             musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent,
@@ -1842,7 +1842,7 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output("%i%%",
-            (!strcasecmp(cmd, "snd_musicvolume") ? musicvolume_percent : sfxvolume_percent));
+            (!strcasecmp(cmd, "s_musicvolume") ? musicvolume_percent : sfxvolume_percent));
 }
 
 #if defined(SDL20)
