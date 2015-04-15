@@ -316,8 +316,8 @@ static void AM_restoreScaleAndLoc(void)
     m_h = old_m_h;
     if (am_followmode)
     {
-        m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
-        m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
+        m_x = (plr->mo->x >> FRACTOMAPBITS) - m_w / 2;
+        m_y = (plr->mo->y >> FRACTOMAPBITS) - m_h / 2;
     }
     else
     {
@@ -374,7 +374,7 @@ static void AM_changeWindowLoc(void)
 
     if (am_rotatemode)
     {
-        AM_rotate(&incx, &incy, viewangle - ANG90);
+        AM_rotate(&incx, &incy, plr->mo->angle - ANG90);
 
         m_x += incx;
         m_y += incy;
@@ -1173,8 +1173,8 @@ static void AM_changeWindowScale(void)
 
 static void AM_doFollowPlayer(void)
 {
-    m_x = (viewx >> FRACTOMAPBITS) - m_w / 2;
-    m_y = (viewy >> FRACTOMAPBITS) - m_h / 2;
+    m_x = (plr->mo->x >> FRACTOMAPBITS) - m_w / 2;
+    m_y = (plr->mo->y >> FRACTOMAPBITS) - m_h / 2;
     m_x2 = m_x + m_w;
     m_y2 = m_y + m_h;
 }
@@ -1595,7 +1595,7 @@ static void AM_drawLineCharacter(mline_t *lineguy, int lineguylines, fixed_t sca
     int i;
 
     if (am_rotatemode)
-        angle -= viewangle - ANG90;
+        angle -= plr->mo->angle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
     {
@@ -1631,7 +1631,7 @@ static void AM_drawTransLineCharacter(mline_t *lineguy, int lineguylines, fixed_
     int i;
 
     if (am_rotatemode)
-        angle -= viewangle - ANG90;
+        angle -= plr->mo->angle - ANG90;
 
     for (i = 0; i < lineguylines; ++i)
     {
@@ -1666,8 +1666,8 @@ static void AM_drawPlayers(void)
     int         invisibility = plr->powers[pw_invisibility];
     mpoint_t    point;
 
-    point.x = viewx >> FRACTOMAPBITS;
-    point.y = viewy >> FRACTOMAPBITS;
+    point.x = plr->mo->x >> FRACTOMAPBITS;
+    point.y = plr->mo->y >> FRACTOMAPBITS;
 
     if (am_rotatemode)
         AM_rotatePoint(&point);
@@ -1676,19 +1676,19 @@ static void AM_drawPlayers(void)
     {
         if (invisibility > 128 || (invisibility & 8))
             AM_drawTransLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                0, viewangle, NULL, point.x, point.y);
+                0, plr->mo->angle, NULL, point.x, point.y);
         else
             AM_drawLineCharacter(cheatplayerarrow, CHEATPLAYERARROWLINES,
-                0, viewangle, playercolor, point.x, point.y);
+                0, plr->mo->angle, playercolor, point.x, point.y);
     }
     else
     {
         if (invisibility > 128 || (invisibility & 8))
             AM_drawTransLineCharacter(playerarrow, PLAYERARROWLINES,
-                0, viewangle, NULL, point.x, point.y);
+                0, plr->mo->angle, NULL, point.x, point.y);
         else
             AM_drawLineCharacter(playerarrow, PLAYERARROWLINES,
-                0, viewangle, playercolor, point.x, point.y);
+                0, plr->mo->angle, playercolor, point.x, point.y);
     }
 }
 
@@ -1871,7 +1871,7 @@ static void AM_drawCrosshair(void)
 
 static void AM_setFrameVariables(void)
 {
-    int angle = (ANG90 - viewangle) >> ANGLETOFINESHIFT;
+    int angle = (ANG90 - plr->mo->angle) >> ANGLETOFINESHIFT;
 
     am_frame.sin = finesine[angle];
     am_frame.cos = finecosine[angle];
