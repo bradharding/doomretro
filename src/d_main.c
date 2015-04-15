@@ -551,7 +551,7 @@ static void LoadDehFile(char *path)
 {
     if (!M_ParmExists("-nodeh") && !HasDehackedLump(path))
     {
-        char    *dehpath = M_StringReplace(path, ".wad", ".deh");
+        char    *dehpath = M_StringReplace(path, ".wad", ".bex");
 
         if (M_FileExists(dehpath))
         {
@@ -561,7 +561,7 @@ static void LoadDehFile(char *path)
         }
         else
         {
-            char    *dehpath = M_StringReplace(path, ".wad", ".bex");
+            char    *dehpath = M_StringReplace(path, ".wad", ".deh");
 
             if (M_FileExists(dehpath))
                 ProcessDehFile(dehpath, "-", 0);
