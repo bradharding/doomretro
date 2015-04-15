@@ -76,6 +76,8 @@ extern char     *s_MSGON;
 extern char     *s_ENDGAME;
 extern char     *s_DOSY;
 extern char     *s_DOSA;
+extern char     *s_OTHERY;
+extern char     *s_OTHERA;
 extern char     *s_DETAILHI;
 extern char     *s_DETAILLO;
 extern char     *s_GAMMALVL;

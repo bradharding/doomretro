@@ -3381,5 +3381,8 @@ void M_Init(void)
     else if (gamemode == registered || W_CheckNumForName("E4M1") < 0)
         EpiDef.numitems--;
 
-    s_DOSY = M_StringReplace(s_DOSY, "DOS", "Windows");
+#if !defined(WIN32)
+    s_DOSY = s_OTHERY;
+    s_DOSA = s_OTHERA;
+#endif
 }

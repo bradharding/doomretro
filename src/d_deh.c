@@ -127,6 +127,8 @@ char *s_MSGON = MSGON;
 char *s_ENDGAME = ENDGAME;
 char *s_DOSY = DOSY;
 char *s_DOSA = DOSA;
+char *s_OTHERY = OTHERY;
+char *s_OTHERA = OTHERA;
 char *s_DETAILHI = DETAILHI;
 char *s_DETAILLO = DETAILLO;
 char *s_GAMMALVL = GAMMALVL;
@@ -515,15 +517,10 @@ deh_strs deh_strlookup[] =
     { &s_MSGOFF,               "MSGOFF",               false },
     { &s_MSGON,                "MSGON",                false },
     { &s_ENDGAME,              "ENDGAME",              false },
-
-#if defined(WIN32)
     { &s_DOSY,                 "DOSY",                 false },
     { &s_DOSA,                 "DOSA",                 false },
-#else
-    { &s_DOSY,                 "OTHERY",               false },
-    { &s_DOSA,                 "OTHERA",               false },
-#endif
-
+    { &s_OTHERY,               "OTHERY",               false },
+    { &s_OTHERA,               "OTHERA",               false },
     { &s_DETAILHI,             "DETAILHI",             false },
     { &s_DETAILLO,             "DETAILLO",             false },
     { &s_GAMMALVL,             "GAMMALVL",             false },

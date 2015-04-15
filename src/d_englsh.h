@@ -679,6 +679,8 @@
 //
 #define PRESSA                  ""
 #define DOSA                    ""
+#define OTHERY                  ""
+#define OTHERA                  ""
 #define GAMMALVL                ""
 #define GAMMAOFF                ""
 #define GOTCLIPX2               ""
