@@ -1740,19 +1740,21 @@ static void C_Time(char *cmd, char *parm1, char *parm2)
 static void C_TotalItems(char *cmd, char *parm1, char *parm2)
 {
     if (!totalitems)
-        C_Output("0 of 0 (0%)");
+        C_Output("0 of 0 (0%) items picked up.");
     else
-        C_Output("%s of %s (%i%%)", commify(players[0].itemcount), commify(totalitems),
-            players[0].itemcount * 100 / totalitems);
+        C_Output("%s of %s (%i%%) item%s picked up.", commify(players[0].itemcount),
+            commify(totalitems), players[0].itemcount * 100 / totalitems,
+            (totalitems == 1 ? "" : "s"));
 }
 
 static void C_TotalKills(char *cmd, char *parm1, char *parm2)
 {
     if (!totalkills)
-        C_Output("0 of 0 (0%)");
+        C_Output("0 of 0 (0%) monsters killed.");
     else
-        C_Output("%s of %s (%i%%)", commify(players[0].killcount), commify(totalkills),
-            players[0].killcount * 100 / totalkills);
+        C_Output("%s of %s (%i%%) monster%s killed.", commify(players[0].killcount),
+            commify(totalkills), players[0].killcount * 100 / totalkills,
+            (totalkills == 1 ? "" : "s"));
 }
 
 static void C_TotalMapped(char *cmd, char *parm1, char *parm2)
@@ -1760,7 +1762,7 @@ static void C_TotalMapped(char *cmd, char *parm1, char *parm2)
     if (gamestate == GS_LEVEL)
     {
         if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
-            C_Output("100%%");
+            C_Output("100%% mapped.");
         else
         {
             int i = 0;
@@ -1768,20 +1770,21 @@ static void C_TotalMapped(char *cmd, char *parm1, char *parm2)
             totalmapped = 0;
             while (i < numlines)
                 totalmapped += !!(lines[i++].flags & ML_MAPPED);
-            C_Output("%i%%", totalmapped * 100 / numlines);
+            C_Output("%i%% mapped.", totalmapped * 100 / numlines);
         }
     }
     else
-        C_Output("0%%");
+        C_Output("0%% mapped.");
 }
 
 static void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
 {
     if (!totalsecret)
-        C_Output("0 of 0 (0%)");
+        C_Output("0 of 0 (0%) secrets revealed.");
     else
-        C_Output("%s of %s (%i%%)", commify(players[0].secretcount), commify(totalsecret),
-            players[0].secretcount * 100 / totalsecret);
+        C_Output("%s of %s (%i%%) secret%s revealed.", commify(players[0].secretcount),
+            commify(totalsecret), players[0].secretcount * 100 / totalsecret,
+            (totalsecret == 1 ? "" : "s"));
 }
 
 static void C_UnBind(char *cmd, char *parm1, char *parm2)
