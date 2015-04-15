@@ -1430,11 +1430,9 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
     gamemap = mapcmdmap;
     C_Output("Warping to %s...", uppercase(parm1));
     if (gamestate == GS_LEVEL)
-        G_DeferredLoadLevel((gamestate == GS_LEVEL ? gameskill : selectedskilllevel), gameepisode,
-            gamemap);
+        G_DeferredLoadLevel(selectedskilllevel, gameepisode, gamemap);
     else
-        G_DeferredInitNew((gamestate == GS_LEVEL ? gameskill : selectedskilllevel), gameepisode,
-            gamemap);
+        G_DeferredInitNew(selectedskilllevel, gameepisode, gamemap);
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
