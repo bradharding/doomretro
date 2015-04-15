@@ -1693,8 +1693,14 @@ static void C_Spawn(char *cmd, char *parm1, char *parm2)
         angle_t     angle = player->angle >> ANGLETOFINESHIFT;
         mobj_t      *thing = P_SpawnMobj(x + 100 * finecosine[angle], y + 100 * finesine[angle],
                         ONFLOORZ, P_FindDoomedNum(spawntype));
+        int         flags = thing->flags;
 
         thing->angle = R_PointToAngle2(thing->x, thing->y, x, y);
+
+        if (flags & MF_COUNTKILL)
+            ++totalkills;
+        else if (flags & MF_COUNTITEM)
+            ++totalitems;
     }
 }
 
