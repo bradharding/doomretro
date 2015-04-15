@@ -559,6 +559,13 @@ static void LoadDehFile(char *path)
                 chexdeh = true;
             ProcessDehFile(dehpath, "-", 0);
         }
+        else
+        {
+            char    *dehpath = M_StringReplace(path, ".wad", ".bex");
+
+            if (M_FileExists(dehpath))
+                ProcessDehFile(dehpath, "-", 0);
+        }
     }
 }
 
