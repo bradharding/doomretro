@@ -614,7 +614,7 @@ void C_Drawer(void)
             consolewait = I_GetTime();
         }
 
-        consoleactive = true;
+        consoleactive = (consoledirection == 1);
 
         if (!prevconsoleactive && gamepadvibrate && vibrate)
         {
