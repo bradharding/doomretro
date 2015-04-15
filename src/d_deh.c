@@ -76,7 +76,10 @@ char *dehfgets(char *buf, size_t n, DEHFILE *fp)
     if (!n || !*fp->inp || fp->size <= 0)       // If no more characters
         return NULL;
     if (n == 1)
-        fp->size--, *buf = *fp->inp++;
+    {
+        fp->size--;
+        *buf = *fp->inp++;
+    }
     else
     {                                           // copy buffer
         char    *p = buf;
@@ -1608,8 +1611,9 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             return;     // should be checked up front anyway
         infile.lump = NULL;
         file_or_lump = "file";
-        C_Output("Parsed %s file %s.",
-            (M_StringEndsWith(filename, "BEX") ? "BEX" : "DEH"), uppercase(filename));
+        C_Output("Parsed DeHackEd%s file %s.",
+            (M_StringEndsWith(filename, "BEX") ? " with BOOM extensions" : ""),
+            uppercase(filename));
     }
     else        // DEH file comes from lump indicated by third argument
     {
