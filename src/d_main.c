@@ -1262,7 +1262,7 @@ static void D_DoomMainSetup(void)
     M_LoadDefaults();
 
     if (runcount < 2)
-        C_Output(PACKAGE_NAME" has been run %s.", (runcount == 0 ? "once" : "twice"));
+        C_Output(PACKAGE_NAME" has been run %s.", (!runcount ? "once" : "twice"));
     else
         C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount + 1));
 
@@ -1311,20 +1311,17 @@ static void D_DoomMainSetup(void)
     {
         for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
         {
-            char *file = uppercase(D_TryFindWADByName(myargv[p]));
+            char        *file = uppercase(D_TryFindWADByName(myargv[p]));
 
             if (iwadfile)
             {
                 D_CheckSupportedPWAD(file);
                 if (W_MergeFile(file, false))
-                {
                     modifiedgame = true;
-                    LoadDehFile(file);
-                }
             }
             else
             {
-                int             iwadrequired = IWADRequiredByPWAD(myargv[p]);
+                int     iwadrequired = IWADRequiredByPWAD(myargv[p]);
 
                 if (iwadrequired != indetermined)
                 {
@@ -1340,10 +1337,7 @@ static void D_DoomMainSetup(void)
                         iwadfolder = strdup(M_ExtractFolder(file));
                         D_CheckSupportedPWAD(file);
                         if (W_MergeFile(file, false))
-                        {
                             modifiedgame = true;
-                            LoadDehFile(file);
-                        }
                     }
                     else
                     {
@@ -1355,10 +1349,7 @@ static void D_DoomMainSetup(void)
                         {
                             D_CheckSupportedPWAD(file);
                             if (W_MergeFile(file, false))
-                            {
                                 modifiedgame = true;
-                                LoadDehFile(file);
-                            }
                         }
                         else
                         {
@@ -1371,10 +1362,7 @@ static void D_DoomMainSetup(void)
                             {
                                 D_CheckSupportedPWAD(file);
                                 if (W_MergeFile(file, false))
-                                {
                                     modifiedgame = true;
-                                    LoadDehFile(file);
-                                }
                             }
                         }
                     }
