@@ -52,6 +52,7 @@
 #endif
 
 #include "doomdef.h"
+#include "m_fixed.h"
 #include "m_misc.h"
 #include "i_system.h"
 #include "z_zone.h"
@@ -411,11 +412,11 @@ char *uppercase(char *str)
     return newstr;
 }
 
-char *commify(double value)
+char *commify(int value)
 {
     char result[64];
 
-    M_snprintf(result, sizeof(result), "%.0f", value);
+    M_snprintf(result, sizeof(result), "%i", value);
     if (ABS(value) >= 1000)
     {
         char        *pt;

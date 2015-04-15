@@ -61,7 +61,7 @@ boolean M_StringEndsWith(char *s, char *suffix);
 int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 char *uppercase(char *str);
-char *commify(double value);
+char *commify(int value);
 boolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 char *removespaces(const char *input);

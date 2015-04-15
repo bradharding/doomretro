@@ -716,7 +716,7 @@ void C_Drawer(void)
         {
             static char buffer[16];
 
-            M_snprintf(buffer, 16, "%s KB", commify(pmc.WorkingSetSize / 1024.0));
+            M_snprintf(buffer, 16, "%s KB", commify(pmc.WorkingSetSize / 1024));
 
             C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY
                 + (showfps && fps ? CONSOLELINEHEIGHT : 0), buffer, consolememorycolor);
