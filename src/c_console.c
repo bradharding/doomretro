@@ -217,7 +217,7 @@ void C_Warning(char *string, ...)
     va_end(argptr);
 
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
-    console[consolestrings].string = M_StringJoin("WARNING! ", buffer, NULL);
+    console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = warning;
     ++consolestrings;
     outputhistory = -1;
