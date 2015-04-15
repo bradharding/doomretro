@@ -82,6 +82,9 @@
 #define CONSOLEINPUTPIXELWIDTH  500
 
 #define CONSOLESCROLLBARWIDTH   3
+#define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
+
+#define CONSOLEDIVIDERWIDTH     (SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH)
 
 #define SPACEWIDTH              3
 #define DIVIDER                 "~~~"
@@ -266,10 +269,10 @@ static void C_DrawDivider(int y)
 
     y *= SCREENWIDTH;
     if (y >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH; ++i)
+        for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
             screens[0][i] = consoledividercolor;
     if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
-        for (i = y + CONSOLETEXTX; i < y + SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH; ++i)
+        for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
             screens[0][i] = consoledividercolor;
 }
 
@@ -280,32 +283,35 @@ static void C_DrawScrollbar(void)
     int tracklength;
     int facestart;
     int facelength;
+    int offset = (CONSOLEHEIGHT - consoleheight);
 
     // Draw scrollbar track
     trackstart = CONSOLETEXTY + 1;
     tracklength = CONSOLEHEIGHT - 23 - trackstart;
     for (y = trackstart; y < trackstart + tracklength; ++y)
-        if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
-            for (x = SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH; x < SCREENWIDTH - CONSOLETEXTX; ++x)
-                screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consolescrollbartrackcolor;
+        if (y - offset >= CONSOLETOP)
+            for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
+                screens[0][(y - offset) * SCREENWIDTH + x] = consolescrollbartrackcolor;
 
     // Draw scrollbar face
     if (outputhistory == -1)
     {
-        facestart = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
+        facestart = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23)
+            * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
         facelength = MAX(2, CONSOLEHEIGHT - 23 - facestart);
     }
     else
     {
         facestart = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * outputhistory / consolestrings;
-        facelength = MAX(2, (CONSOLEHEIGHT - 23) * CONSOLELINES / consolestrings - CONSOLETEXTY + 1);
+        facelength = MAX(2, (CONSOLEHEIGHT - 23)
+            * CONSOLELINES / consolestrings - CONSOLETEXTY + 1);
     }
     facestart = MIN(facestart, trackstart + tracklength - facelength);
 
     for (y = facestart; y < facestart + facelength; ++y)
-        if (y - (CONSOLEHEIGHT - consoleheight) >= CONSOLETOP)
-            for (x = SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH; x < SCREENWIDTH - CONSOLETEXTX; ++x)
-                screens[0][(y - (CONSOLEHEIGHT - consoleheight)) * SCREENWIDTH + x] = consolescrollbarfacecolor;
+        if (y - offset >= CONSOLETOP)
+            for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
+                screens[0][(y - offset) * SCREENWIDTH + x] = consolescrollbarfacecolor;
 }
 
 void C_Init(void)
