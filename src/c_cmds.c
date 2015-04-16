@@ -520,7 +520,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
 #endif
 #if defined(SDL20)
-    CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggle vertical synchronization."),
+    CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggle vertical synchronization with display's refresh rate."),
 #endif
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN, "Toggle widescreen mode."),
     CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),

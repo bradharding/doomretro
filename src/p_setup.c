@@ -1187,14 +1187,12 @@ extern boolean oldweaponsowned[];
 //
 void P_SetupLevel(int episode, int map)
 {
-    int  i;
     char lumpname[6];
     int  lumpnum;
 
     totalkills = totalitems = totalsecret = 0;
     wminfo.partime = 0;
-    for (i = 0; i < MAXPLAYERS; i++)
-        players[i].killcount = players[i].secretcount = players[i].itemcount = 0;
+    players[0].killcount = players[0].secretcount = players[0].itemcount = 0;
 
     // Initial height of PointOfView
     // will be set by player think.

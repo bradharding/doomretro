@@ -879,7 +879,6 @@ void D_Display(void);
 //
 void G_Ticker(void)
 {
-    int         buf;
     ticcmd_t    *cmd;
 
     // do player reborn if needed
@@ -954,9 +953,8 @@ void G_Ticker(void)
 
     // get commands, check consistency,
     // and build new consistency check
-    buf = (gametic / ticdup) % BACKUPTICS;
     cmd = &players[0].cmd;
-    memcpy(cmd, &netcmds[0][buf], sizeof(ticcmd_t));
+    memcpy(cmd, &netcmds[(gametic / ticdup) % BACKUPTICS], sizeof(ticcmd_t));
 
     // check for special buttons
     if (players[0].cmd.buttons & BT_SPECIAL)

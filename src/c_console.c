@@ -700,7 +700,7 @@ void C_Drawer(void)
         C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
             buffer, color);
 
-        if ((menuactive || paused) && fps != prevfps)
+        if (fps != prevfps)
             blurred = false;
 
         prevfps = fps;

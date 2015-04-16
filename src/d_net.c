@@ -53,13 +53,11 @@
 //
 // gametic is the tic about to (or currently being) run
 // maketic is the tick that hasn't had control made for it yet
-// nettics[] has the maketics for all players
 //
-// a gametic cannot be run until nettics[] > gametic for all players
+// a gametic cannot be run until nettics > gametic for all players
 //
 
-ticcmd_t        netcmds[MAXPLAYERS][BACKUPTICS];
-int             nettics[MAXPLAYERS];
+ticcmd_t        netcmds[BACKUPTICS];
 
 int             maketic;
 
@@ -133,10 +131,9 @@ void NetUpdate(void)
         memset(&cmd, 0, sizeof(ticcmd_t));
         G_BuildTiccmd(&cmd);
 
-        netcmds[0][maketic % BACKUPTICS] = cmd;
+        netcmds[maketic % BACKUPTICS] = cmd;
 
         ++maketic;
-        nettics[0] = maketic;
     }
 }
 
@@ -159,8 +156,6 @@ void D_CheckNetGame(void)
     // default values for single player
     ticdup = 1;
     extratics = 1;
-
-    nettics[0] = 0;
 }
 
 //
@@ -233,16 +228,10 @@ void TryRunTics(void)
             // modify command for duplicated tics
             if (i != ticdup - 1)
             {
-                int     buf = (gametic / ticdup) % BACKUPTICS;
-                int     j;
+                ticcmd_t    *cmd = &netcmds[(gametic / ticdup) % BACKUPTICS];
 
-                for (j = 0; j < MAXPLAYERS; j++)
-                {
-                    ticcmd_t    *cmd = &netcmds[j][buf];
-
-                    if (cmd->buttons & BT_SPECIAL)
-                        cmd->buttons = 0;
-                }
+                if (cmd->buttons & BT_SPECIAL)
+                    cmd->buttons = 0;
             }
         }
     }

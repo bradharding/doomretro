@@ -221,9 +221,8 @@ extern int              skyflatnum;
 
 // Netgame stuff (buffers and pointers, i.e. indices).
 extern int              maketic;
-extern int              nettics[MAXPLAYERS];
 
-extern ticcmd_t         netcmds[MAXPLAYERS][BACKUPTICS];
+extern ticcmd_t         netcmds[BACKUPTICS];
 extern int              ticdup;
 
 #endif
