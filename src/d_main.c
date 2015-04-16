@@ -547,24 +547,45 @@ static void InitGameVersion(void)
 
 void ProcessDehFile(char *filename, char *outfilename, int lump);
 
+#define MAXDEHFILES 16
+
+static char     dehfiles[MAXDEHFILES][MAX_PATH];
+static int      dehfilecount = 0;
+
+boolean DehFileProcessed(char *path)
+{
+    int i;
+
+    for (i = 0; i < dehfilecount; ++i)
+        if (!strcasecmp(path, dehfiles[i]))
+            return true;
+    return false;
+}
+
 static void LoadDehFile(char *path)
 {
     if (!M_ParmExists("-nodeh") && !HasDehackedLump(path))
     {
-        char    *dehpath = M_StringReplace(path, ".wad", ".bex");
+        char            *dehpath = M_StringReplace(path, ".wad", ".bex");
 
-        if (M_FileExists(dehpath))
+        if (M_FileExists(dehpath) && !DehFileProcessed(dehpath))
         {
             if (chex)
                 chexdeh = true;
             ProcessDehFile(dehpath, "-", 0);
+            if (dehfilecount < MAXDEHFILES)
+                M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
         }
         else
         {
             char    *dehpath = M_StringReplace(path, ".wad", ".deh");
 
-            if (M_FileExists(dehpath))
+            if (M_FileExists(dehpath) && !DehFileProcessed(dehpath))
+            {
                 ProcessDehFile(dehpath, "-", 0);
+                if (dehfilecount < MAXDEHFILES)
+                    M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
+            }
         }
     }
 }
@@ -1102,8 +1123,8 @@ static int D_ChooseIWAD(void)
                     {
                         static char     fullpath[MAX_PATH];
                         
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
-                                   pwadpass2);
+                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                            strdup(szFile), pwadpass2);
 #elif defined(__MACOSX__)
                     for (NSURL *url in urls)
                     {
@@ -1152,7 +1173,8 @@ static int D_ChooseIWAD(void)
             {
                 static char     fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile), dehpass);
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
+                    dehpass);
 
 #elif defined(__MACOSX__)
             for (NSURL *url in urls)
