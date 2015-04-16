@@ -365,6 +365,7 @@ char *s_STSTR_FAADDED = STSTR_FAADDED;
 char *s_STSTR_NCON = STSTR_NCON;
 char *s_STSTR_NCOFF = STSTR_NCOFF;
 char *s_STSTR_BEHOLD = STSTR_BEHOLD;
+char *s_STSTR_BEHOLDX = "";
 char *s_STSTR_BEHOLDON = STSTR_BEHOLDON;
 char *s_STSTR_BEHOLDOFF = STSTR_BEHOLDOFF;
 char *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
@@ -775,6 +776,7 @@ deh_strs deh_strlookup[] =
     { &s_STSTR_NCON,           "STSTR_NCON",           false },
     { &s_STSTR_NCOFF,          "STSTR_NCOFF",          false },
     { &s_STSTR_BEHOLD,         "STSTR_BEHOLD",         false },
+    { &s_STSTR_BEHOLDX,        "STSTR_BEHOLDX",        false },
     { &s_STSTR_BEHOLDON,       "STSTR_BEHOLDON",       false },
     { &s_STSTR_BEHOLDOFF,      "STSTR_BEHOLDOFF",      false },
     { &s_STSTR_CHOPPERS,       "STSTR_CHOPPERS",       false },

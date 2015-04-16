@@ -314,6 +314,7 @@ extern char     *s_STSTR_FAADDED;
 extern char     *s_STSTR_NCON;
 extern char     *s_STSTR_NCOFF;
 extern char     *s_STSTR_BEHOLD;
+extern char     *s_STSTR_BEHOLDX;
 extern char     *s_STSTR_BEHOLDON;
 extern char     *s_STSTR_BEHOLDOFF;
 extern char     *s_STSTR_CHOPPERS;

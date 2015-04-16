@@ -806,7 +806,8 @@ boolean ST_Responder(event_t *ev)
                               }
                         }
 
-                        HU_PlayerMessage(s_STSTR_BEHOLDON, false);
+                        HU_PlayerMessage((*s_STSTR_BEHOLDX ? s_STSTR_BEHOLDX : s_STSTR_BEHOLDON),
+                            false);
                     }
                     else
                     {
@@ -834,7 +835,8 @@ boolean ST_Responder(event_t *ev)
                             plyr->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        HU_PlayerMessage(s_STSTR_BEHOLDOFF, false);
+                        HU_PlayerMessage((*s_STSTR_BEHOLDX ? s_STSTR_BEHOLDX : s_STSTR_BEHOLDOFF),
+                            false);
                     }
 
                     // [BH] reset all cheat sequences
