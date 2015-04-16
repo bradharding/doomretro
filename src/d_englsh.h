@@ -673,6 +673,49 @@
 #define CC_CYBER                "THE CYBERDEMON"
 #define CC_HERO                 "OUR HERO"
 
+// [BH] Banner strings. Here to avoid errors in DeHackEd parsing. Otherwise ignored.
+#define BANNER1                 "                         " \
+                                "DOOM 2: Hell on Earth v%i.%i" \
+                                "                           "
+#define BANNER2                 "                            " \
+                                "DOOM Shareware Startup v%i.%i" \
+                                "                           "
+#define BANNER3                 "                            " \
+                                "DOOM Registered Startup v%i.%i" \
+                                "                           "
+#define BANNER4                 "                          " \
+                                "DOOM System Startup v%i.%i" \
+                                "                          "
+#define BANNER5                 "                         " \
+                                "The Ultimate DOOM Startup v%i.%i" \
+                                "                        "
+#define BANNER6                 "                     " \
+                                "DOOM 2: TNT - Evilution v%i.%i" \
+                                "                           "
+#define BANNER7                 "                   " \
+                                "DOOM 2: Plutonia Experiment v%i.%i" \
+                                "                           "
+
+// [BH] Copyright strings. Here to avoid errors in DeHackEd parsing. Otherwise ignored.
+#define COPYRIGHT1 \
+    "===========================================================================\n" \
+    "ATTENTION:  This version of DOOM has been modified.  If you would like to\n" \
+    "get a copy of the original game, call 1-800-IDGAMES or see the readme file.\n" \
+    "        You will not receive technical support for modified games.\n" \
+    "                      press enter to continue\n" \
+    "===========================================================================\n"
+
+#define COPYRIGHT2 \
+    "===========================================================================\n" \
+    "                 Commercial product - do not distribute!\n" \
+    "         Please report software piracy to the SPA: 1-800-388-PIR8\n" \
+    "===========================================================================\n"
+
+#define COPYRIGHT3 \
+    "===========================================================================\n" \
+    "                                Shareware!\n" \
+    "===========================================================================\n"
+
 //
 // [BH] New strings
 // These strings are set in the DEHACKED lump in the accompanying doomretro.wad file

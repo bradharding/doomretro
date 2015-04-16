@@ -53,6 +53,8 @@
 extern  boolean         nomonsters;     // checkparm of -nomonsters
 extern  boolean         fastparm;       // checkparm of -fast
 
+extern  boolean         devparm;        // DEBUG: launched with -devparm
+
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
 //

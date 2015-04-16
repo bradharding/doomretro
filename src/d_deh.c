@@ -497,6 +497,18 @@ char *bgflat15 = "RROCK13";
 char *bgflat31 = "RROCK19";
 char *bgcastcall = "BOSSBACK";
 
+char *s_BANNER1 = BANNER1;
+char *s_BANNER2 = BANNER2;
+char *s_BANNER3 = BANNER3;
+char *s_BANNER4 = BANNER4;
+char *s_BANNER5 = BANNER5;
+char *s_BANNER6 = BANNER6;
+char *s_BANNER7 = BANNER7;
+
+char *s_COPYRIGHT1 = COPYRIGHT1;
+char *s_COPYRIGHT2 = COPYRIGHT2;
+char *s_COPYRIGHT3 = COPYRIGHT3;
+
 // end d_deh.h variable declarations
 // ====================================================================
 
@@ -875,6 +887,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_FREEDM,       "CAPTION_FREEDM",       false },
     { &s_CAPTION_BTSXE1,       "CAPTION_BTSXE1",       false },
     { &s_CAPTION_BTSXE2,       "CAPTION_BTSXE2",       false },
+
     { &bgflatE1,               "BGFLATE1",             false },
     { &bgflatE2,               "BGFLATE2",             false },
     { &bgflatE3,               "BGFLATE3",             false },
@@ -885,7 +898,19 @@ deh_strs deh_strlookup[] =
     { &bgflat20,               "BGFLAT20",             false },
     { &bgflat30,               "BGFLAT30",             false },
     { &bgflat31,               "BGFLAT31",             false },
-    { &bgcastcall,             "BGCASTCALL",           false }
+    { &bgcastcall,             "BGCASTCALL",           false },
+
+    { &s_BANNER1,              "BANNER1",              false },
+    { &s_BANNER2,              "BANNER2",              false },
+    { &s_BANNER3,              "BANNER3",              false },
+    { &s_BANNER4,              "BANNER4",              false },
+    { &s_BANNER5,              "BANNER5",              false },
+    { &s_BANNER6,              "BANNER6",              false },
+    { &s_BANNER7,              "BANNER7",              false },
+
+    { &s_COPYRIGHT1,           "COPYRIGHT1",           false },
+    { &s_COPYRIGHT2,           "COPYRIGHT2",           false },
+    { &s_COPYRIGHT3,           "COPYRIGHT3",           false }
 };
 
 static int deh_numstrlookup = arrlen(deh_strlookup);
