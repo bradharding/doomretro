@@ -102,6 +102,7 @@ char                    *iwadfile = "";
 
 char                    *iwadfolder = IWADFOLDER_DEFAULT;
 
+boolean                 devparm;        // started game with -devparm
 boolean                 nomonsters;     // checkparm of -nomonsters
 boolean                 fastparm;       // checkparm of -fast
 
@@ -1258,6 +1259,8 @@ static void D_DoomMainSetup(void)
 
     if (fastparm = M_CheckParm("-fast"))
         C_Output("Found -FAST parameter on command-line. Monsters will be faster.");
+
+    devparm = M_CheckParm("-devparm");
 
     // turbo option
     p = M_CheckParm("-turbo");
