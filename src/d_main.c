@@ -1693,6 +1693,23 @@ static void D_DoomMainSetup(void)
         (startuptimer / (1000 * 60)) % 60,
         (startuptimer / 1000) % 60,
         (startuptimer % 1000) / 10);
+
+    // Ty 04/08/98 - Add 5 lines of misc. data, only if nonblank
+    // The expectation is that these will be set in a .bex file
+    if (*startup1 || *startup2 || *startup3 || *startup4 || *startup5)
+    {
+        C_AddConsoleDivider();
+        if (*startup1)
+            C_Output(startup1);
+        if (*startup2)
+            C_Output(startup2);
+        if (*startup3)
+            C_Output(startup3);
+        if (*startup4)
+            C_Output(startup4);
+        if (*startup5)
+            C_Output(startup5);
+    }
 }
 
 //

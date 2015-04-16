@@ -497,6 +497,12 @@ char *bgflat15 = "RROCK13";
 char *bgflat31 = "RROCK19";
 char *bgcastcall = "BOSSBACK";
 
+char *startup1 = "";    // blank lines are default and are not printed
+char *startup2 = "";
+char *startup3 = "";
+char *startup4 = "";
+char *startup5 = "";
+
 char *s_BANNER1 = BANNER1;
 char *s_BANNER2 = BANNER2;
 char *s_BANNER3 = BANNER3;
@@ -899,6 +905,14 @@ deh_strs deh_strlookup[] =
     { &bgflat30,               "BGFLAT30",             false },
     { &bgflat31,               "BGFLAT31",             false },
     { &bgcastcall,             "BGCASTCALL",           false },
+
+    // Ty 04/08/98 - added 5 general purpose startup announcement
+    // strings for hacker use.  See m_menu.c
+    { &startup1,               "STARTUP1",             false },
+    { &startup2,               "STARTUP2",             false },
+    { &startup3,               "STARTUP3",             false },
+    { &startup4,               "STARTUP4",             false },
+    { &startup5,               "STARTUP5",             false },
 
     { &s_BANNER1,              "BANNER1",              false },
     { &s_BANNER2,              "BANNER2",              false },

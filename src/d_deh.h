@@ -446,4 +446,10 @@ extern char     *bgflat15;
 extern char     *bgflat31;
 extern char     *bgcastcall;
 
+extern char     *startup1;
+extern char     *startup2;
+extern char     *startup3;
+extern char     *startup4;
+extern char     *startup5;
+
 #endif
