@@ -2975,7 +2975,7 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout
         }
     }
     if (!found)
-        C_Warning("Couldn't find \"%.12s\".", (key ? key : lookfor));
+        C_Warning("Couldn't find \"%s\".", (key ? key : lookfor));
 
     return found;
 }
