@@ -485,3 +485,23 @@ char *removespaces(const char *input)
 
     return output;
 }
+
+char *M_ExtractFilename(char *path)
+{
+    int     ch = '\\';
+    size_t  len;
+    char   *pdest;
+    char   *inpfile = NULL;
+
+    pdest = strrchr(path, ch);
+
+    if (pdest == NULL)
+        pdest = path;
+    else
+        pdest++;
+
+    len = strlen(pdest);
+    inpfile = malloc(len + 1);
+    strncpy(inpfile, pdest, len + 1);
+    return inpfile;
+}

@@ -1081,7 +1081,6 @@ char *uppercase(char *str);
 // Determine map name to use
 void P_MapName(int episode, int map)
 {
-    char        wad[256];
     boolean     mapnumonly = false;
 
     switch (gamemission)
@@ -1093,8 +1092,8 @@ void P_MapName(int episode, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                ExtractFileBase(lumpinfo[W_GetNumForName(mapnum)].wad_file->path, wad);
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s.wad's %s", wad, mapnum);
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s's %s",
+                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnames[(episode - 1) * 9 + map - 1], sizeof(maptitle));
@@ -1107,8 +1106,8 @@ void P_MapName(int episode, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                ExtractFileBase(lumpinfo[W_GetNumForName(mapnum)].wad_file->path, wad);
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s.wad's %s", wad, mapnum);
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s's %s",
+                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]),
@@ -1127,8 +1126,8 @@ void P_MapName(int episode, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                ExtractFileBase(lumpinfo[W_GetNumForName(mapnum)].wad_file->path, wad);
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s.wad's %s", wad, mapnum);
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s's %s",
+                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
@@ -1141,8 +1140,8 @@ void P_MapName(int episode, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                ExtractFileBase(lumpinfo[W_GetNumForName(mapnum)].wad_file->path, wad);
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s.wad's %s", wad, mapnum);
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s's %s",
+                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));
