@@ -1273,7 +1273,7 @@ void A_VileChase(mobj_t *actor)
 
                     corpsehit->height = info->height;
                     corpsehit->radius = info->radius;
-                    corpsehit->flags = info->flags & ~MF_COUNTKILL;
+                    corpsehit->flags = info->flags;
                     corpsehit->flags2 = info->flags2;
                     if (corpsehit->shadow)
                         corpsehit->shadow->flags2 &= ~MF2_MIRRORED;
