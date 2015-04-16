@@ -1536,7 +1536,7 @@ static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
     if (parm1[0])
     {
         if ((!strcasecmp(parm1, "nearest") || !strcasecmp(parm1, "linear")
-            || !strcasecmp(parm1, "best")) && strcasecmp(parm1, scalefilter))
+            || !strcasecmp(parm1, "anisotropic")) && strcasecmp(parm1, scalefilter))
         {
             scalefilter = strdup(parm1);
             M_SaveDefaults();
