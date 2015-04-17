@@ -1746,7 +1746,7 @@ static void C_Time(char *cmd, char *parm1, char *parm2)
 static void C_TotalItems(char *cmd, char *parm1, char *parm2)
 {
     if (!totalitems)
-        C_Output("0 of 0 (0%) items picked up.");
+        C_Output("0 of 0 (0%%) items picked up.");
     else
         C_Output("%s of %s (%i%%) item%s picked up.", commify(players[0].itemcount),
             commify(totalitems), players[0].itemcount * 100 / totalitems,
@@ -1756,7 +1756,7 @@ static void C_TotalItems(char *cmd, char *parm1, char *parm2)
 static void C_TotalKills(char *cmd, char *parm1, char *parm2)
 {
     if (!totalkills)
-        C_Output("0 of 0 (0%) monsters killed.");
+        C_Output("0 of 0 (0%%) monsters killed.");
     else
         C_Output("%s of %s (%i%%) monster%s killed.", commify(players[0].killcount),
             commify(totalkills), players[0].killcount * 100 / totalkills,
@@ -1786,7 +1786,7 @@ static void C_TotalMapped(char *cmd, char *parm1, char *parm2)
 static void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
 {
     if (!totalsecret)
-        C_Output("0 of 0 (0%) secrets revealed.");
+        C_Output("0 of 0 (0%%) secrets revealed.");
     else
         C_Output("%s of %s (%i%%) secret%s revealed.", commify(players[0].secretcount),
             commify(totalsecret), players[0].secretcount * 100 / totalsecret,
