@@ -632,6 +632,10 @@ static void D_CheckSupportedPWAD(char *filename)
         BTSX = BTSXE2 = BTSXE2A = true;
     else if (D_CheckFilename(filename, "BTSX_E2B.WAD"))
         BTSX = BTSXE2 = BTSXE2B = true;
+    else if (D_CheckFilename(filename, "BTSX_E3A.WAD"))
+        BTSX = BTSXE3 = BTSXE3A = true;
+    else if (D_CheckFilename(filename, "BTSX_E3B.WAD"))
+        BTSX = BTSXE3 = BTSXE3B = true;
 }
 
 static boolean D_IsUnsupportedPWAD(char *filename)
@@ -902,6 +906,22 @@ static int D_ChooseIWAD(void)
 
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
                         strdup(M_ExtractFolder(file)), "BTSX_E2A.WAD");
+                    return W_MergeFile(fullpath, true);
+                }
+                else if (BTSXE3A && !BTSXE3B)
+                {
+                    static char     fullpath[MAX_PATH];
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        strdup(M_ExtractFolder(file)), "BTSX_E3B.WAD");
+                    return W_MergeFile(fullpath, true);
+                }
+                else if (!BTSXE3A && BTSXE3B)
+                {
+                    static char     fullpath[MAX_PATH];
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
+                        strdup(M_ExtractFolder(file)), "BTSX_E3A.WAD");
                     return W_MergeFile(fullpath, true);
                 }
             }

@@ -815,5 +815,6 @@
 #define CAPTION_FREEDM          ""
 #define CAPTION_BTSXE1          ""
 #define CAPTION_BTSXE2          ""
+#define CAPTION_BTSXE3          ""
 
 #endif

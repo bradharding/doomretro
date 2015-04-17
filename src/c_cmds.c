@@ -1404,7 +1404,8 @@ static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
             sscanf(uppercase(parm1), "E%1iM0%1i", &mapcmdepisode, &mapcmdmap);
             if (!mapcmdmap)
                 sscanf(uppercase(parm1), "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
-            if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)))
+            if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
+                || (mapcmdepisode == 3 && BTSXE3)))
             {
                 static char     lump[6];
 

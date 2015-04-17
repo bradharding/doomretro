@@ -434,6 +434,7 @@ extern char     *s_CAPTION_FREEDOOM2;
 extern char     *s_CAPTION_FREEDM;
 extern char     *s_CAPTION_BTSXE1;
 extern char     *s_CAPTION_BTSXE2;
+extern char     *s_CAPTION_BTSXE3;
 
 extern char     *bgflatE1;
 extern char     *bgflatE2;

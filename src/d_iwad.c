@@ -517,6 +517,8 @@ static char *SaveGameIWADName(void)
         return "BTSX_E1.WAD";
     else if (BTSXE2)
         return "BTSX_E2A.WAD";
+    else if (BTSXE3)
+        return "BTSX_E3A.WAD";
     else
         for (i = 0; i < arrlen(iwads); ++i)
             if (gamemission == iwads[i].mission)
@@ -610,6 +612,8 @@ void D_SetGameDescription(void)
         gamedescription = s_CAPTION_BTSXE1;
     else if (BTSXE2)
         gamedescription = s_CAPTION_BTSXE2;
+    else if (BTSXE3)
+        gamedescription = s_CAPTION_BTSXE3;
     else if (gamemission == doom)
     {
         // Doom 1. But which version?

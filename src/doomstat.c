@@ -58,6 +58,9 @@ boolean         BTSXE1 = false;
 boolean         BTSXE2 = false;
 boolean         BTSXE2A = false;
 boolean         BTSXE2B = false;
+boolean         BTSXE3 = false;
+boolean         BTSXE3A = false;
+boolean         BTSXE3B = false;
 
 // Set if homebrew PWAD stuff has been added.
 boolean         modifiedgame;
