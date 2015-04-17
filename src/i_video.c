@@ -850,7 +850,9 @@ void I_FinishUpdate(void)
 
     if (!capfps || tic != gametic || wipe)
     {
-#if !defined(SDL20)
+#if defined(SDL20)
+        static int      pitch = SCREENWIDTH * sizeof(Uint32);
+#else
         if (need_resize)
         {
             ApplyWindowResize(resize_h);
@@ -877,7 +879,7 @@ void I_FinishUpdate(void)
 
 #if defined(SDL20)
         SDL_LowerBlit(screenbuffer, &screenbuffer_rect, rgbbuffer, &rgbbuffer_rect);
-        SDL_UpdateTexture(texture, NULL, rgbbuffer->pixels, SCREENWIDTH * sizeof(Uint32));
+        SDL_UpdateTexture(texture, NULL, rgbbuffer->pixels, pitch);
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, &src_rect, NULL);
         SDL_RenderPresent(renderer);
