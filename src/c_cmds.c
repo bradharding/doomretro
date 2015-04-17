@@ -817,13 +817,32 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
 {
     if (consolestrings)
     {
-        FILE        *file = fopen((parm1[0] ? parm1 : "condump.txt"), "wt");
-        int         i;
+        char    filename[MAX_PATH] = "condump.txt";
+        FILE    *file;
+        int     i;
+
+        if (!parm1[0])
+        {
+            int         count = 0;
+
+            do
+            {
+                if (count++)
+                    M_snprintf(filename, sizeof(filename), "condump (%i).txt", count);
+            } while (M_FileExists(filename));
+        }
+        else
+            M_StringCopy(filename, sizeof(filename), parm1);
+
+        file = fopen(filename, "wt");
 
         for (i = 1; i < consolestrings - 1; ++i)
-            fprintf(file, "%s\n", (console[i].type == divider ? DIVIDERSTRING : console[i].string));
+            fprintf(file, "%s\n",
+                (console[i].type == divider ? DIVIDERSTRING : console[i].string));
+
         fclose(file);
-        C_Output("Dumped the console to the file %s.", (parm1[0] ? uppercase(parm1) : "CONDUMP.TXT"));
+
+        C_Output("Dumped the console to the file %s.", uppercase(filename));
     }
 }
 
