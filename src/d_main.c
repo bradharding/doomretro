@@ -1700,15 +1700,35 @@ static void D_DoomMainSetup(void)
     {
         C_AddConsoleDivider();
         if (*startup1)
+        {
+            if (startup1[strlen(startup1) - 1] == '\n')
+                startup1[strlen(startup1) - 1] = '\0';
             C_Output(startup1);
+        }
         if (*startup2)
+        {
+            if (startup2[strlen(startup2) - 1] == '\n')
+                startup2[strlen(startup2) - 1] = '\0';
             C_Output(startup2);
+        }
         if (*startup3)
+        {
+            if (startup3[strlen(startup3) - 1] == '\n')
+                startup3[strlen(startup3) - 1] = '\0';
             C_Output(startup3);
+        }
         if (*startup4)
+        {
+            if (startup4[strlen(startup4) - 1] == '\n')
+                startup4[strlen(startup4) - 1] = '\0';
             C_Output(startup4);
+        }
         if (*startup5)
+        {
+            if (startup5[strlen(startup5) - 1] == '\n')
+                startup5[strlen(startup5) - 1] = '\0';
             C_Output(startup5);
+        }
     }
 }
 
