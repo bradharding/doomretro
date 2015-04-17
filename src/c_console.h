@@ -43,12 +43,11 @@
 #include "doomtype.h"
 #include "d_event.h"
 
-#define CONSOLEHEIGHT                   ((SCREENHEIGHT - SBARHEIGHT) / 2)
+#define CONSOLEHEIGHT   ((SCREENHEIGHT - SBARHEIGHT) / 2)
 
-#define CONSOLETOP                      0
+#define CONSOLETOP      0
 
-#define DIVIDERSTRING                   "--------------------------------------------------" \
-                                        "--------------------------------------------------"
+#define DIVIDERSTRING   "==========================================================================="
 
 typedef enum
 {
