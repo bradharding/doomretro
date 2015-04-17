@@ -832,7 +832,7 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
             } while (M_FileExists(filename));
         }
         else
-            M_StringCopy(filename, sizeof(filename), parm1);
+            M_StringCopy(filename, parm1, sizeof(filename));
 
         file = fopen(filename, "wt");
 
