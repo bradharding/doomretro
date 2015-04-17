@@ -823,13 +823,10 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
 
         if (!parm1[0])
         {
-            int         count = 0;
+            int count = 0;
 
-            do
-            {
-                if (count++)
-                    M_snprintf(filename, sizeof(filename), "condump (%i).txt", count);
-            } while (M_FileExists(filename));
+            while (M_FileExists(filename))
+                M_snprintf(filename, sizeof(filename), "condump (%i).txt", ++count);
         }
         else
             M_StringCopy(filename, parm1, sizeof(filename));
