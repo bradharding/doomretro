@@ -102,6 +102,5 @@ void C_Drawer(void);
 boolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
-void C_SetBTSXColorScheme(void);
 
 #endif

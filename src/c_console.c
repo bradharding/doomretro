@@ -333,6 +333,13 @@ void C_Init(void)
 
     caret = consolefont['|' - CONSOLEFONTSTART];
 
+    if (BTSXE1)
+        consoleplayermessagecolor = 196;
+    else if (BTSXE2)
+        consoleplayermessagecolor = 214;
+    else if (chex)
+        consoleplayermessagecolor = 114;
+
     consolecolors[input] = consoleinputtooutputcolor;
     consolecolors[output] = consoleoutputcolor;
     consolecolors[divider] = consoledividercolor;
@@ -1145,10 +1152,4 @@ void C_PrintSDLVersions(void)
         "SDL_MIXER.DLL"
 #endif
         );
-}
-
-void C_SetBTSXColorScheme(void)
-{
-    consoleplayermessagecolor = (BTSXE1 ? 196 : 214);
-    consolecolors[playermessage] = consoleplayermessagecolor;
 }
