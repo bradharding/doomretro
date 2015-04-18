@@ -698,44 +698,48 @@ void C_Drawer(void)
     else
         consoleactive = false;
 
-    if (showfps && fps)
+    if (!wipe)
     {
-        static char     buffer[16];
-        int             color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
-        static int      prevfps = 0;
-
-        M_snprintf(buffer, 16, "%i FPS", fps);
-
-        C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
-            buffer, color);
-
-        if (fps != prevfps)
-            blurred = false;
-
-        prevfps = fps;
-    }
-
-#if defined(WIN32)
-    if (showmemory)
-    {
-        HANDLE                  hProcess = GetCurrentProcess();
-        PROCESS_MEMORY_COUNTERS pmc;
-
-        if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
+        if (showfps && fps)
         {
-            static char buffer[16];
+            static char     buffer[16];
+            int             color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
+            static int      prevfps = 0;
 
-            M_snprintf(buffer, 16, "%s KB", commify(pmc.WorkingSetSize / 1024));
+            M_snprintf(buffer, 16, "%i FPS", fps);
 
-            C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY
-                + (showfps && fps ? CONSOLELINEHEIGHT : 0), buffer, consolememorycolor);
+            C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
+                buffer, color);
 
-            blurred = false;
+            if (fps != prevfps)
+                blurred = false;
+
+            prevfps = fps;
         }
 
-        CloseHandle(hProcess);
-    }
+#if defined(WIN32)
+        if (showmemory)
+        {
+            HANDLE                  hProcess = GetCurrentProcess();
+            PROCESS_MEMORY_COUNTERS pmc;
+
+            if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
+            {
+                static char buffer[16];
+
+                M_snprintf(buffer, 16, "%s KB", commify(pmc.WorkingSetSize / 1024));
+
+                C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1,
+                    CONSOLETEXTY + (showfps && fps ? CONSOLELINEHEIGHT : 0), buffer,
+                    consolememorycolor);
+
+                blurred = false;
+            }
+
+            CloseHandle(hProcess);
+        }
 #endif
+    }
 }
 
 boolean C_Responder(event_t *ev)
