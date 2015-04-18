@@ -1075,9 +1075,6 @@ extern char     **mapnamesn[];
 
 extern int      dehcount;
 
-void ExtractFileBase(char *path, char *dest);
-char *uppercase(char *str);
-
 // Determine map name to use
 void P_MapName(int episode, int map)
 {

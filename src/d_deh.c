@@ -61,6 +61,7 @@ typedef struct
 {
     byte        *inp, *lump;    // Pointer to string or FILE
     long        size;
+    FILE        *f;
 } DEHFILE;
 
 boolean addtocount;
@@ -73,7 +74,7 @@ boolean dehacked = false;
 char *dehfgets(char *buf, size_t n, DEHFILE *fp)
 {
     if (!fp->lump)                              // If this is a real file,
-        return fgets(buf, n, (FILE *)fp->inp);  // return regular fgets
+        return fgets(buf, n, fp->f);            // return regular fgets
     if (!n || !*fp->inp || fp->size <= 0)       // If no more characters
         return NULL;
     if (n == 1)
@@ -93,12 +94,12 @@ char *dehfgets(char *buf, size_t n, DEHFILE *fp)
 
 int dehfeof(DEHFILE *fp)
 {
-    return (!fp->lump ? feof((FILE *)fp->inp) : !*fp->inp || fp->size <= 0);
+    return (!fp->lump ? feof(fp->f) : !*fp->inp || fp->size <= 0);
 }
 
 int dehfgetc(DEHFILE *fp)
 {
-    return (!fp->lump ? fgetc((FILE *)fp->inp) : (fp->size > 0 ? fp->size--, *fp->inp++ : EOF));
+    return (!fp->lump ? fgetc(fp->f) : fp->size > 0 ? fp->size--, *fp->inp++ : EOF);
 }
 
 // variables used in other routines
@@ -114,450 +115,450 @@ boolean deh_pars = false;       // in wi_stuff to allow pars in modified games
 // ====================================================================
 // Any of these can be changed using the bex extensions
 
-char *s_D_DEVSTR = D_DEVSTR;
-char *s_D_CDROM = D_CDROM;
+char    *s_D_DEVSTR = D_DEVSTR;
+char    *s_D_CDROM = D_CDROM;
 
-char *s_PRESSKEY = PRESSKEY;
-char *s_PRESSYN = PRESSYN;
-char *s_PRESSA = "";
-char *s_QUITMSG = QUITMSG;
-char *s_LOADNET = LOADNET;
-char *s_QLOADNET = QLOADNET;
-char *s_QSAVESPOT = QSAVESPOT;
-char *s_SAVEDEAD = SAVEDEAD;
-char *s_QSPROMPT = QSPROMPT;
-char *s_QLPROMPT = QLPROMPT;
-char *s_NEWGAME = NEWGAME;
-char *s_NIGHTMARE = NIGHTMARE;
-char *s_SWSTRING = SWSTRING;
-char *s_MSGOFF = MSGOFF;
-char *s_MSGON = MSGON;
-char *s_NETEND = NETEND;
-char *s_ENDGAME = ENDGAME;
-char *s_DOSY = DOSY;
-char *s_DOSA = "";
-char *s_OTHERY = "";
-char *s_OTHERA = "";
-char *s_DETAILHI = DETAILHI;
-char *s_DETAILLO = DETAILLO;
-char *s_GAMMALVL0 = GAMMALVL0;
-char *s_GAMMALVL1 = GAMMALVL1;
-char *s_GAMMALVL2 = GAMMALVL2;
-char *s_GAMMALVL3 = GAMMALVL3;
-char *s_GAMMALVL4 = GAMMALVL4;
-char *s_GAMMALVL = "";
-char *s_GAMMAOFF = "";
-char *s_EMPTYSTRING = EMPTYSTRING;
+char    *s_PRESSKEY = PRESSKEY;
+char    *s_PRESSYN = PRESSYN;
+char    *s_PRESSA = "";
+char    *s_QUITMSG = QUITMSG;
+char    *s_LOADNET = LOADNET;
+char    *s_QLOADNET = QLOADNET;
+char    *s_QSAVESPOT = QSAVESPOT;
+char    *s_SAVEDEAD = SAVEDEAD;
+char    *s_QSPROMPT = QSPROMPT;
+char    *s_QLPROMPT = QLPROMPT;
+char    *s_NEWGAME = NEWGAME;
+char    *s_NIGHTMARE = NIGHTMARE;
+char    *s_SWSTRING = SWSTRING;
+char    *s_MSGOFF = MSGOFF;
+char    *s_MSGON = MSGON;
+char    *s_NETEND = NETEND;
+char    *s_ENDGAME = ENDGAME;
+char    *s_DOSY = DOSY;
+char    *s_DOSA = "";
+char    *s_OTHERY = "";
+char    *s_OTHERA = "";
+char    *s_DETAILHI = DETAILHI;
+char    *s_DETAILLO = DETAILLO;
+char    *s_GAMMALVL0 = GAMMALVL0;
+char    *s_GAMMALVL1 = GAMMALVL1;
+char    *s_GAMMALVL2 = GAMMALVL2;
+char    *s_GAMMALVL3 = GAMMALVL3;
+char    *s_GAMMALVL4 = GAMMALVL4;
+char    *s_GAMMALVL = "";
+char    *s_GAMMAOFF = "";
+char    *s_EMPTYSTRING = EMPTYSTRING;
 
-char *s_GOTARMOR = GOTARMOR;
-char *s_GOTMEGA = GOTMEGA;
-char *s_GOTHTHBONUS = GOTHTHBONUS;
-char *s_GOTARMBONUS = GOTARMBONUS;
-char *s_GOTSTIM = GOTSTIM;
-char *s_GOTMEDINEED = GOTMEDINEED;
-char *s_GOTMEDINEED2 = "";
-char *s_GOTMEDIKIT = GOTMEDIKIT;
-char *s_GOTSUPER = GOTSUPER;
+char    *s_GOTARMOR = GOTARMOR;
+char    *s_GOTMEGA = GOTMEGA;
+char    *s_GOTHTHBONUS = GOTHTHBONUS;
+char    *s_GOTARMBONUS = GOTARMBONUS;
+char    *s_GOTSTIM = GOTSTIM;
+char    *s_GOTMEDINEED = GOTMEDINEED;
+char    *s_GOTMEDINEED2 = "";
+char    *s_GOTMEDIKIT = GOTMEDIKIT;
+char    *s_GOTSUPER = GOTSUPER;
 
-char *s_GOTBLUECARD = GOTBLUECARD;
-char *s_GOTYELWCARD = GOTYELWCARD;
-char *s_GOTREDCARD = GOTREDCARD;
-char *s_GOTBLUESKUL = GOTBLUESKUL;
-char *s_GOTYELWSKUL = GOTYELWSKUL;
-char *s_GOTREDSKULL = GOTREDSKULL;
+char    *s_GOTBLUECARD = GOTBLUECARD;
+char    *s_GOTYELWCARD = GOTYELWCARD;
+char    *s_GOTREDCARD = GOTREDCARD;
+char    *s_GOTBLUESKUL = GOTBLUESKUL;
+char    *s_GOTYELWSKUL = GOTYELWSKUL;
+char    *s_GOTREDSKULL = GOTREDSKULL;
 
-char *s_GOTINVUL = GOTINVUL;
-char *s_GOTBERSERK = GOTBERSERK;
-char *s_GOTINVIS = GOTINVIS;
-char *s_GOTSUIT = GOTSUIT;
-char *s_GOTMAP = GOTMAP;
-char *s_GOTVISOR = GOTVISOR;
+char    *s_GOTINVUL = GOTINVUL;
+char    *s_GOTBERSERK = GOTBERSERK;
+char    *s_GOTINVIS = GOTINVIS;
+char    *s_GOTSUIT = GOTSUIT;
+char    *s_GOTMAP = GOTMAP;
+char    *s_GOTVISOR = GOTVISOR;
 
-char *s_GOTCLIP = GOTCLIP;
-char *s_GOTCLIPX2 = "";
-char *s_GOTHALFCLIP = "";
-char *s_GOTCLIPBOX = GOTCLIPBOX;
-char *s_GOTROCKET = GOTROCKET;
-char *s_GOTROCKETX2 = "";
-char *s_GOTROCKBOX = GOTROCKBOX;
-char *s_GOTCELL = GOTCELL;
-char *s_GOTCELLX2 = "";
-char *s_GOTCELLBOX = GOTCELLBOX;
-char *s_GOTSHELLS = GOTSHELLS;
-char *s_GOTSHELLSX2 = "";
-char *s_GOTSHELLBOX = GOTSHELLBOX;
-char *s_GOTBACKPACK = GOTBACKPACK;
+char    *s_GOTCLIP = GOTCLIP;
+char    *s_GOTCLIPX2 = "";
+char    *s_GOTHALFCLIP = "";
+char    *s_GOTCLIPBOX = GOTCLIPBOX;
+char    *s_GOTROCKET = GOTROCKET;
+char    *s_GOTROCKETX2 = "";
+char    *s_GOTROCKBOX = GOTROCKBOX;
+char    *s_GOTCELL = GOTCELL;
+char    *s_GOTCELLX2 = "";
+char    *s_GOTCELLBOX = GOTCELLBOX;
+char    *s_GOTSHELLS = GOTSHELLS;
+char    *s_GOTSHELLSX2 = "";
+char    *s_GOTSHELLBOX = GOTSHELLBOX;
+char    *s_GOTBACKPACK = GOTBACKPACK;
 
-char *s_GOTBFG9000 = GOTBFG9000;
-char *s_GOTCHAINGUN = GOTCHAINGUN;
-char *s_GOTCHAINSAW = GOTCHAINSAW;
-char *s_GOTLAUNCHER = GOTLAUNCHER;
-char *s_GOTMSPHERE = GOTMSPHERE;
-char *s_GOTPLASMA = GOTPLASMA;
-char *s_GOTSHOTGUN = GOTSHOTGUN;
-char *s_GOTSHOTGUN2 = GOTSHOTGUN2;
+char    *s_GOTBFG9000 = GOTBFG9000;
+char    *s_GOTCHAINGUN = GOTCHAINGUN;
+char    *s_GOTCHAINSAW = GOTCHAINSAW;
+char    *s_GOTLAUNCHER = GOTLAUNCHER;
+char    *s_GOTMSPHERE = GOTMSPHERE;
+char    *s_GOTPLASMA = GOTPLASMA;
+char    *s_GOTSHOTGUN = GOTSHOTGUN;
+char    *s_GOTSHOTGUN2 = GOTSHOTGUN2;
 
-char *s_PD_BLUEO = PD_BLUEO;
-char *s_PD_BLUEO2 = "";
-char *s_PD_REDO = PD_REDO;
-char *s_PD_REDO2 = "";
-char *s_PD_YELLOWO = PD_YELLOWO;
-char *s_PD_YELLOWO2 = "";
-char *s_PD_BLUEK = PD_BLUEK;
-char *s_PD_BLUEK2 = "";
-char *s_PD_REDK = PD_REDK;
-char *s_PD_REDK2 = "";
-char *s_PD_YELLOWK = PD_YELLOWK;
-char *s_PD_YELLOWK2 = "";
+char    *s_PD_BLUEO = PD_BLUEO;
+char    *s_PD_BLUEO2 = "";
+char    *s_PD_REDO = PD_REDO;
+char    *s_PD_REDO2 = "";
+char    *s_PD_YELLOWO = PD_YELLOWO;
+char    *s_PD_YELLOWO2 = "";
+char    *s_PD_BLUEK = PD_BLUEK;
+char    *s_PD_BLUEK2 = "";
+char    *s_PD_REDK = PD_REDK;
+char    *s_PD_REDK2 = "";
+char    *s_PD_YELLOWK = PD_YELLOWK;
+char    *s_PD_YELLOWK2 = "";
 
-char *s_GGSAVED = GGSAVED;
-char *s_GGLOADED = "";
-char *s_GSCREENSHOT = "";
+char    *s_GGSAVED = GGSAVED;
+char    *s_GGLOADED = "";
+char    *s_GSCREENSHOT = "";
 
-char *s_ALWAYSRUNOFF = "";
-char *s_ALWAYSRUNON = "";
+char    *s_ALWAYSRUNOFF = "";
+char    *s_ALWAYSRUNON = "";
 
-char *s_HUSTR_MSGU = HUSTR_MSGU;
+char    *s_HUSTR_MSGU = HUSTR_MSGU;
 
-char *s_HUSTR_E1M1 = HUSTR_E1M1;
-char *s_HUSTR_E1M2 = HUSTR_E1M2;
-char *s_HUSTR_E1M3 = HUSTR_E1M3;
-char *s_HUSTR_E1M4 = HUSTR_E1M4;
-char *s_HUSTR_E1M5 = HUSTR_E1M5;
-char *s_HUSTR_E1M6 = HUSTR_E1M6;
-char *s_HUSTR_E1M7 = HUSTR_E1M7;
-char *s_HUSTR_E1M8 = HUSTR_E1M8;
-char *s_HUSTR_E1M9 = HUSTR_E1M9;
-char *s_HUSTR_E2M1 = HUSTR_E2M1;
-char *s_HUSTR_E2M2 = HUSTR_E2M2;
-char *s_HUSTR_E2M3 = HUSTR_E2M3;
-char *s_HUSTR_E2M4 = HUSTR_E2M4;
-char *s_HUSTR_E2M5 = HUSTR_E2M5;
-char *s_HUSTR_E2M6 = HUSTR_E2M6;
-char *s_HUSTR_E2M7 = HUSTR_E2M7;
-char *s_HUSTR_E2M8 = HUSTR_E2M8;
-char *s_HUSTR_E2M9 = HUSTR_E2M9;
-char *s_HUSTR_E3M1 = HUSTR_E3M1;
-char *s_HUSTR_E3M2 = HUSTR_E3M2;
-char *s_HUSTR_E3M3 = HUSTR_E3M3;
-char *s_HUSTR_E3M4 = HUSTR_E3M4;
-char *s_HUSTR_E3M5 = HUSTR_E3M5;
-char *s_HUSTR_E3M6 = HUSTR_E3M6;
-char *s_HUSTR_E3M7 = HUSTR_E3M7;
-char *s_HUSTR_E3M8 = HUSTR_E3M8;
-char *s_HUSTR_E3M9 = HUSTR_E3M9;
-char *s_HUSTR_E4M1 = HUSTR_E4M1;
-char *s_HUSTR_E4M2 = HUSTR_E4M2;
-char *s_HUSTR_E4M3 = HUSTR_E4M3;
-char *s_HUSTR_E4M4 = HUSTR_E4M4;
-char *s_HUSTR_E4M5 = HUSTR_E4M5;
-char *s_HUSTR_E4M6 = HUSTR_E4M6;
-char *s_HUSTR_E4M7 = HUSTR_E4M7;
-char *s_HUSTR_E4M8 = HUSTR_E4M8;
-char *s_HUSTR_E4M9 = HUSTR_E4M9;
-char *s_HUSTR_1 = HUSTR_1;
-char *s_HUSTR_2 = HUSTR_2;
-char *s_HUSTR_3 = HUSTR_3;
-char *s_HUSTR_4 = HUSTR_4;
-char *s_HUSTR_5 = HUSTR_5;
-char *s_HUSTR_6 = HUSTR_6;
-char *s_HUSTR_7 = HUSTR_7;
-char *s_HUSTR_8 = HUSTR_8;
-char *s_HUSTR_9 = HUSTR_9;
-char *s_HUSTR_10 = HUSTR_10;
-char *s_HUSTR_11 = HUSTR_11;
-char *s_HUSTR_12 = HUSTR_12;
-char *s_HUSTR_13 = HUSTR_13;
-char *s_HUSTR_14 = HUSTR_14;
-char *s_HUSTR_15 = HUSTR_15;
-char *s_HUSTR_16 = HUSTR_16;
-char *s_HUSTR_17 = HUSTR_17;
-char *s_HUSTR_18 = HUSTR_18;
-char *s_HUSTR_19 = HUSTR_19;
-char *s_HUSTR_20 = HUSTR_20;
-char *s_HUSTR_21 = HUSTR_21;
-char *s_HUSTR_22 = HUSTR_22;
-char *s_HUSTR_23 = HUSTR_23;
-char *s_HUSTR_24 = HUSTR_24;
-char *s_HUSTR_25 = HUSTR_25;
-char *s_HUSTR_26 = HUSTR_26;
-char *s_HUSTR_27 = HUSTR_27;
-char *s_HUSTR_28 = HUSTR_28;
-char *s_HUSTR_29 = HUSTR_29;
-char *s_HUSTR_30 = HUSTR_30;
-char *s_HUSTR_31 = HUSTR_31;
-char *s_HUSTR_32 = HUSTR_32;
-char *s_HUSTR_31_BFG = "";
-char *s_HUSTR_32_BFG = "";
-char *s_HUSTR_33_BFG = "";
-char *s_PHUSTR_1 = PHUSTR_1;
-char *s_PHUSTR_2 = PHUSTR_2;
-char *s_PHUSTR_3 = PHUSTR_3;
-char *s_PHUSTR_4 = PHUSTR_4;
-char *s_PHUSTR_5 = PHUSTR_5;
-char *s_PHUSTR_6 = PHUSTR_6;
-char *s_PHUSTR_7 = PHUSTR_7;
-char *s_PHUSTR_8 = PHUSTR_8;
-char *s_PHUSTR_9 = PHUSTR_9;
-char *s_PHUSTR_10 = PHUSTR_10;
-char *s_PHUSTR_11 = PHUSTR_11;
-char *s_PHUSTR_12 = PHUSTR_12;
-char *s_PHUSTR_13 = PHUSTR_13;
-char *s_PHUSTR_14 = PHUSTR_14;
-char *s_PHUSTR_15 = PHUSTR_15;
-char *s_PHUSTR_16 = PHUSTR_16;
-char *s_PHUSTR_17 = PHUSTR_17;
-char *s_PHUSTR_18 = PHUSTR_18;
-char *s_PHUSTR_19 = PHUSTR_19;
-char *s_PHUSTR_20 = PHUSTR_20;
-char *s_PHUSTR_21 = PHUSTR_21;
-char *s_PHUSTR_22 = PHUSTR_22;
-char *s_PHUSTR_23 = PHUSTR_23;
-char *s_PHUSTR_24 = PHUSTR_24;
-char *s_PHUSTR_25 = PHUSTR_25;
-char *s_PHUSTR_26 = PHUSTR_26;
-char *s_PHUSTR_27 = PHUSTR_27;
-char *s_PHUSTR_28 = PHUSTR_28;
-char *s_PHUSTR_29 = PHUSTR_29;
-char *s_PHUSTR_30 = PHUSTR_30;
-char *s_PHUSTR_31 = PHUSTR_31;
-char *s_PHUSTR_32 = PHUSTR_32;
-char *s_THUSTR_1 = THUSTR_1;
-char *s_THUSTR_2 = THUSTR_2;
-char *s_THUSTR_3 = THUSTR_3;
-char *s_THUSTR_4 = THUSTR_4;
-char *s_THUSTR_5 = THUSTR_5;
-char *s_THUSTR_6 = THUSTR_6;
-char *s_THUSTR_7 = THUSTR_7;
-char *s_THUSTR_8 = THUSTR_8;
-char *s_THUSTR_9 = THUSTR_9;
-char *s_THUSTR_10 = THUSTR_10;
-char *s_THUSTR_11 = THUSTR_11;
-char *s_THUSTR_12 = THUSTR_12;
-char *s_THUSTR_13 = THUSTR_13;
-char *s_THUSTR_14 = THUSTR_14;
-char *s_THUSTR_15 = THUSTR_15;
-char *s_THUSTR_16 = THUSTR_16;
-char *s_THUSTR_17 = THUSTR_17;
-char *s_THUSTR_18 = THUSTR_18;
-char *s_THUSTR_19 = THUSTR_19;
-char *s_THUSTR_20 = THUSTR_20;
-char *s_THUSTR_21 = THUSTR_21;
-char *s_THUSTR_22 = THUSTR_22;
-char *s_THUSTR_23 = THUSTR_23;
-char *s_THUSTR_24 = THUSTR_24;
-char *s_THUSTR_25 = THUSTR_25;
-char *s_THUSTR_26 = THUSTR_26;
-char *s_THUSTR_27 = THUSTR_27;
-char *s_THUSTR_28 = THUSTR_28;
-char *s_THUSTR_29 = THUSTR_29;
-char *s_THUSTR_30 = THUSTR_30;
-char *s_THUSTR_31 = THUSTR_31;
-char *s_THUSTR_32 = THUSTR_32;
-char *s_NHUSTR_1 = "";
-char *s_NHUSTR_2 = "";
-char *s_NHUSTR_3 = "";
-char *s_NHUSTR_4 = "";
-char *s_NHUSTR_5 = "";
-char *s_NHUSTR_6 = "";
-char *s_NHUSTR_7 = "";
-char *s_NHUSTR_8 = "";
-char *s_NHUSTR_9 = "";
+char    *s_HUSTR_E1M1 = HUSTR_E1M1;
+char    *s_HUSTR_E1M2 = HUSTR_E1M2;
+char    *s_HUSTR_E1M3 = HUSTR_E1M3;
+char    *s_HUSTR_E1M4 = HUSTR_E1M4;
+char    *s_HUSTR_E1M5 = HUSTR_E1M5;
+char    *s_HUSTR_E1M6 = HUSTR_E1M6;
+char    *s_HUSTR_E1M7 = HUSTR_E1M7;
+char    *s_HUSTR_E1M8 = HUSTR_E1M8;
+char    *s_HUSTR_E1M9 = HUSTR_E1M9;
+char    *s_HUSTR_E2M1 = HUSTR_E2M1;
+char    *s_HUSTR_E2M2 = HUSTR_E2M2;
+char    *s_HUSTR_E2M3 = HUSTR_E2M3;
+char    *s_HUSTR_E2M4 = HUSTR_E2M4;
+char    *s_HUSTR_E2M5 = HUSTR_E2M5;
+char    *s_HUSTR_E2M6 = HUSTR_E2M6;
+char    *s_HUSTR_E2M7 = HUSTR_E2M7;
+char    *s_HUSTR_E2M8 = HUSTR_E2M8;
+char    *s_HUSTR_E2M9 = HUSTR_E2M9;
+char    *s_HUSTR_E3M1 = HUSTR_E3M1;
+char    *s_HUSTR_E3M2 = HUSTR_E3M2;
+char    *s_HUSTR_E3M3 = HUSTR_E3M3;
+char    *s_HUSTR_E3M4 = HUSTR_E3M4;
+char    *s_HUSTR_E3M5 = HUSTR_E3M5;
+char    *s_HUSTR_E3M6 = HUSTR_E3M6;
+char    *s_HUSTR_E3M7 = HUSTR_E3M7;
+char    *s_HUSTR_E3M8 = HUSTR_E3M8;
+char    *s_HUSTR_E3M9 = HUSTR_E3M9;
+char    *s_HUSTR_E4M1 = HUSTR_E4M1;
+char    *s_HUSTR_E4M2 = HUSTR_E4M2;
+char    *s_HUSTR_E4M3 = HUSTR_E4M3;
+char    *s_HUSTR_E4M4 = HUSTR_E4M4;
+char    *s_HUSTR_E4M5 = HUSTR_E4M5;
+char    *s_HUSTR_E4M6 = HUSTR_E4M6;
+char    *s_HUSTR_E4M7 = HUSTR_E4M7;
+char    *s_HUSTR_E4M8 = HUSTR_E4M8;
+char    *s_HUSTR_E4M9 = HUSTR_E4M9;
+char    *s_HUSTR_1 = HUSTR_1;
+char    *s_HUSTR_2 = HUSTR_2;
+char    *s_HUSTR_3 = HUSTR_3;
+char    *s_HUSTR_4 = HUSTR_4;
+char    *s_HUSTR_5 = HUSTR_5;
+char    *s_HUSTR_6 = HUSTR_6;
+char    *s_HUSTR_7 = HUSTR_7;
+char    *s_HUSTR_8 = HUSTR_8;
+char    *s_HUSTR_9 = HUSTR_9;
+char    *s_HUSTR_10 = HUSTR_10;
+char    *s_HUSTR_11 = HUSTR_11;
+char    *s_HUSTR_12 = HUSTR_12;
+char    *s_HUSTR_13 = HUSTR_13;
+char    *s_HUSTR_14 = HUSTR_14;
+char    *s_HUSTR_15 = HUSTR_15;
+char    *s_HUSTR_16 = HUSTR_16;
+char    *s_HUSTR_17 = HUSTR_17;
+char    *s_HUSTR_18 = HUSTR_18;
+char    *s_HUSTR_19 = HUSTR_19;
+char    *s_HUSTR_20 = HUSTR_20;
+char    *s_HUSTR_21 = HUSTR_21;
+char    *s_HUSTR_22 = HUSTR_22;
+char    *s_HUSTR_23 = HUSTR_23;
+char    *s_HUSTR_24 = HUSTR_24;
+char    *s_HUSTR_25 = HUSTR_25;
+char    *s_HUSTR_26 = HUSTR_26;
+char    *s_HUSTR_27 = HUSTR_27;
+char    *s_HUSTR_28 = HUSTR_28;
+char    *s_HUSTR_29 = HUSTR_29;
+char    *s_HUSTR_30 = HUSTR_30;
+char    *s_HUSTR_31 = HUSTR_31;
+char    *s_HUSTR_32 = HUSTR_32;
+char    *s_HUSTR_31_BFG = "";
+char    *s_HUSTR_32_BFG = "";
+char    *s_HUSTR_33_BFG = "";
+char    *s_PHUSTR_1 = PHUSTR_1;
+char    *s_PHUSTR_2 = PHUSTR_2;
+char    *s_PHUSTR_3 = PHUSTR_3;
+char    *s_PHUSTR_4 = PHUSTR_4;
+char    *s_PHUSTR_5 = PHUSTR_5;
+char    *s_PHUSTR_6 = PHUSTR_6;
+char    *s_PHUSTR_7 = PHUSTR_7;
+char    *s_PHUSTR_8 = PHUSTR_8;
+char    *s_PHUSTR_9 = PHUSTR_9;
+char    *s_PHUSTR_10 = PHUSTR_10;
+char    *s_PHUSTR_11 = PHUSTR_11;
+char    *s_PHUSTR_12 = PHUSTR_12;
+char    *s_PHUSTR_13 = PHUSTR_13;
+char    *s_PHUSTR_14 = PHUSTR_14;
+char    *s_PHUSTR_15 = PHUSTR_15;
+char    *s_PHUSTR_16 = PHUSTR_16;
+char    *s_PHUSTR_17 = PHUSTR_17;
+char    *s_PHUSTR_18 = PHUSTR_18;
+char    *s_PHUSTR_19 = PHUSTR_19;
+char    *s_PHUSTR_20 = PHUSTR_20;
+char    *s_PHUSTR_21 = PHUSTR_21;
+char    *s_PHUSTR_22 = PHUSTR_22;
+char    *s_PHUSTR_23 = PHUSTR_23;
+char    *s_PHUSTR_24 = PHUSTR_24;
+char    *s_PHUSTR_25 = PHUSTR_25;
+char    *s_PHUSTR_26 = PHUSTR_26;
+char    *s_PHUSTR_27 = PHUSTR_27;
+char    *s_PHUSTR_28 = PHUSTR_28;
+char    *s_PHUSTR_29 = PHUSTR_29;
+char    *s_PHUSTR_30 = PHUSTR_30;
+char    *s_PHUSTR_31 = PHUSTR_31;
+char    *s_PHUSTR_32 = PHUSTR_32;
+char    *s_THUSTR_1 = THUSTR_1;
+char    *s_THUSTR_2 = THUSTR_2;
+char    *s_THUSTR_3 = THUSTR_3;
+char    *s_THUSTR_4 = THUSTR_4;
+char    *s_THUSTR_5 = THUSTR_5;
+char    *s_THUSTR_6 = THUSTR_6;
+char    *s_THUSTR_7 = THUSTR_7;
+char    *s_THUSTR_8 = THUSTR_8;
+char    *s_THUSTR_9 = THUSTR_9;
+char    *s_THUSTR_10 = THUSTR_10;
+char    *s_THUSTR_11 = THUSTR_11;
+char    *s_THUSTR_12 = THUSTR_12;
+char    *s_THUSTR_13 = THUSTR_13;
+char    *s_THUSTR_14 = THUSTR_14;
+char    *s_THUSTR_15 = THUSTR_15;
+char    *s_THUSTR_16 = THUSTR_16;
+char    *s_THUSTR_17 = THUSTR_17;
+char    *s_THUSTR_18 = THUSTR_18;
+char    *s_THUSTR_19 = THUSTR_19;
+char    *s_THUSTR_20 = THUSTR_20;
+char    *s_THUSTR_21 = THUSTR_21;
+char    *s_THUSTR_22 = THUSTR_22;
+char    *s_THUSTR_23 = THUSTR_23;
+char    *s_THUSTR_24 = THUSTR_24;
+char    *s_THUSTR_25 = THUSTR_25;
+char    *s_THUSTR_26 = THUSTR_26;
+char    *s_THUSTR_27 = THUSTR_27;
+char    *s_THUSTR_28 = THUSTR_28;
+char    *s_THUSTR_29 = THUSTR_29;
+char    *s_THUSTR_30 = THUSTR_30;
+char    *s_THUSTR_31 = THUSTR_31;
+char    *s_THUSTR_32 = THUSTR_32;
+char    *s_NHUSTR_1 = "";
+char    *s_NHUSTR_2 = "";
+char    *s_NHUSTR_3 = "";
+char    *s_NHUSTR_4 = "";
+char    *s_NHUSTR_5 = "";
+char    *s_NHUSTR_6 = "";
+char    *s_NHUSTR_7 = "";
+char    *s_NHUSTR_8 = "";
+char    *s_NHUSTR_9 = "";
 
-char *s_HUSTR_CHATMACRO1 = HUSTR_CHATMACRO1;
-char *s_HUSTR_CHATMACRO2 = HUSTR_CHATMACRO2;
-char *s_HUSTR_CHATMACRO3 = HUSTR_CHATMACRO3;
-char *s_HUSTR_CHATMACRO4 = HUSTR_CHATMACRO4;
-char *s_HUSTR_CHATMACRO5 = HUSTR_CHATMACRO5;
-char *s_HUSTR_CHATMACRO6 = HUSTR_CHATMACRO6;
-char *s_HUSTR_CHATMACRO7 = HUSTR_CHATMACRO7;
-char *s_HUSTR_CHATMACRO8 = HUSTR_CHATMACRO8;
-char *s_HUSTR_CHATMACRO9 = HUSTR_CHATMACRO9;
-char *s_HUSTR_CHATMACRO0 = HUSTR_CHATMACRO0;
+char    *s_HUSTR_CHATMACRO1 = HUSTR_CHATMACRO1;
+char    *s_HUSTR_CHATMACRO2 = HUSTR_CHATMACRO2;
+char    *s_HUSTR_CHATMACRO3 = HUSTR_CHATMACRO3;
+char    *s_HUSTR_CHATMACRO4 = HUSTR_CHATMACRO4;
+char    *s_HUSTR_CHATMACRO5 = HUSTR_CHATMACRO5;
+char    *s_HUSTR_CHATMACRO6 = HUSTR_CHATMACRO6;
+char    *s_HUSTR_CHATMACRO7 = HUSTR_CHATMACRO7;
+char    *s_HUSTR_CHATMACRO8 = HUSTR_CHATMACRO8;
+char    *s_HUSTR_CHATMACRO9 = HUSTR_CHATMACRO9;
+char    *s_HUSTR_CHATMACRO0 = HUSTR_CHATMACRO0;
 
-char *s_HUSTR_TALKTOSELF1 = HUSTR_TALKTOSELF1;
-char *s_HUSTR_TALKTOSELF2 = HUSTR_TALKTOSELF2;
-char *s_HUSTR_TALKTOSELF3 = HUSTR_TALKTOSELF3;
-char *s_HUSTR_TALKTOSELF4 = HUSTR_TALKTOSELF4;
-char *s_HUSTR_TALKTOSELF5 = HUSTR_TALKTOSELF5;
+char    *s_HUSTR_TALKTOSELF1 = HUSTR_TALKTOSELF1;
+char    *s_HUSTR_TALKTOSELF2 = HUSTR_TALKTOSELF2;
+char    *s_HUSTR_TALKTOSELF3 = HUSTR_TALKTOSELF3;
+char    *s_HUSTR_TALKTOSELF4 = HUSTR_TALKTOSELF4;
+char    *s_HUSTR_TALKTOSELF5 = HUSTR_TALKTOSELF5;
 
-char *s_HUSTR_MESSAGESENT = HUSTR_MESSAGESENT;
+char    *s_HUSTR_MESSAGESENT = HUSTR_MESSAGESENT;
 
-char *s_HUSTR_PLRGREEN = HUSTR_PLRGREEN;
-char *s_HUSTR_PLRINDIGO = HUSTR_PLRINDIGO;
-char *s_HUSTR_PLRBROWN = HUSTR_PLRBROWN;
-char *s_HUSTR_PLRRED = HUSTR_PLRRED;
+char    *s_HUSTR_PLRGREEN = HUSTR_PLRGREEN;
+char    *s_HUSTR_PLRINDIGO = HUSTR_PLRINDIGO;
+char    *s_HUSTR_PLRBROWN = HUSTR_PLRBROWN;
+char    *s_HUSTR_PLRRED = HUSTR_PLRRED;
 
-char *s_AMSTR_FOLLOWON = AMSTR_FOLLOWON;
-char *s_AMSTR_FOLLOWOFF = AMSTR_FOLLOWOFF;
-char *s_AMSTR_GRIDON = AMSTR_GRIDON;
-char *s_AMSTR_GRIDOFF = AMSTR_GRIDOFF;
-char *s_AMSTR_MARKEDSPOT = AMSTR_MARKEDSPOT;
-char *s_AMSTR_MARKCLEARED = "";
-char *s_AMSTR_MARKSCLEARED = AMSTR_MARKSCLEARED;
-char *s_AMSTR_ROTATEON = "";
-char *s_AMSTR_ROTATEOFF = "";
+char    *s_AMSTR_FOLLOWON = AMSTR_FOLLOWON;
+char    *s_AMSTR_FOLLOWOFF = AMSTR_FOLLOWOFF;
+char    *s_AMSTR_GRIDON = AMSTR_GRIDON;
+char    *s_AMSTR_GRIDOFF = AMSTR_GRIDOFF;
+char    *s_AMSTR_MARKEDSPOT = AMSTR_MARKEDSPOT;
+char    *s_AMSTR_MARKCLEARED = "";
+char    *s_AMSTR_MARKSCLEARED = AMSTR_MARKSCLEARED;
+char    *s_AMSTR_ROTATEON = "";
+char    *s_AMSTR_ROTATEOFF = "";
 
-char *s_STSTR_MUS = STSTR_MUS;
-char *s_STSTR_NOMUS = STSTR_NOMUS;
-char *s_STSTR_DQDON = STSTR_DQDON;
-char *s_STSTR_DQDOFF = STSTR_DQDOFF;
-char *s_STSTR_KFAADDED = STSTR_KFAADDED;
-char *s_STSTR_FAADDED = STSTR_FAADDED;
-char *s_STSTR_NCON = STSTR_NCON;
-char *s_STSTR_NCOFF = STSTR_NCOFF;
-char *s_STSTR_BEHOLD = STSTR_BEHOLD;
-char *s_STSTR_BEHOLDX = STSTR_BEHOLDX;
-char *s_STSTR_BEHOLDON = "";
-char *s_STSTR_BEHOLDOFF = "";
-char *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
-char *s_STSTR_CLEV = STSTR_CLEV;
-char *s_STSTR_CLEVSAME = "";
-char *s_STSTR_MYPOS = "";
-char *s_STSTR_NTON = "";
-char *s_STSTR_NTOFF = "";
-char *s_STSTR_GODON = "";
-char *s_STSTR_GODOFF = "";
+char    *s_STSTR_MUS = STSTR_MUS;
+char    *s_STSTR_NOMUS = STSTR_NOMUS;
+char    *s_STSTR_DQDON = STSTR_DQDON;
+char    *s_STSTR_DQDOFF = STSTR_DQDOFF;
+char    *s_STSTR_KFAADDED = STSTR_KFAADDED;
+char    *s_STSTR_FAADDED = STSTR_FAADDED;
+char    *s_STSTR_NCON = STSTR_NCON;
+char    *s_STSTR_NCOFF = STSTR_NCOFF;
+char    *s_STSTR_BEHOLD = STSTR_BEHOLD;
+char    *s_STSTR_BEHOLDX = STSTR_BEHOLDX;
+char    *s_STSTR_BEHOLDON = "";
+char    *s_STSTR_BEHOLDOFF = "";
+char    *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
+char    *s_STSTR_CLEV = STSTR_CLEV;
+char    *s_STSTR_CLEVSAME = "";
+char    *s_STSTR_MYPOS = "";
+char    *s_STSTR_NTON = "";
+char    *s_STSTR_NTOFF = "";
+char    *s_STSTR_GODON = "";
+char    *s_STSTR_GODOFF = "";
 
-char *s_E1TEXT = E1TEXT;
-char *s_E2TEXT = E2TEXT;
-char *s_E3TEXT = E3TEXT;
-char *s_E4TEXT = E4TEXT;
-char *s_C1TEXT = C1TEXT;
-char *s_C2TEXT = C2TEXT;
-char *s_C3TEXT = C3TEXT;
-char *s_C4TEXT = C4TEXT;
-char *s_C5TEXT = C5TEXT;
-char *s_C6TEXT = C6TEXT;
-char *s_P1TEXT = P1TEXT;
-char *s_P2TEXT = P2TEXT;
-char *s_P3TEXT = P3TEXT;
-char *s_P4TEXT = P4TEXT;
-char *s_P5TEXT = P5TEXT;
-char *s_P6TEXT = P6TEXT;
-char *s_T1TEXT = T1TEXT;
-char *s_T2TEXT = T2TEXT;
-char *s_T3TEXT = T3TEXT;
-char *s_T4TEXT = T4TEXT;
-char *s_T5TEXT = T5TEXT;
-char *s_T6TEXT = T6TEXT;
-char *s_N1TEXT = "";
+char    *s_E1TEXT = E1TEXT;
+char    *s_E2TEXT = E2TEXT;
+char    *s_E3TEXT = E3TEXT;
+char    *s_E4TEXT = E4TEXT;
+char    *s_C1TEXT = C1TEXT;
+char    *s_C2TEXT = C2TEXT;
+char    *s_C3TEXT = C3TEXT;
+char    *s_C4TEXT = C4TEXT;
+char    *s_C5TEXT = C5TEXT;
+char    *s_C6TEXT = C6TEXT;
+char    *s_P1TEXT = P1TEXT;
+char    *s_P2TEXT = P2TEXT;
+char    *s_P3TEXT = P3TEXT;
+char    *s_P4TEXT = P4TEXT;
+char    *s_P5TEXT = P5TEXT;
+char    *s_P6TEXT = P6TEXT;
+char    *s_T1TEXT = T1TEXT;
+char    *s_T2TEXT = T2TEXT;
+char    *s_T3TEXT = T3TEXT;
+char    *s_T4TEXT = T4TEXT;
+char    *s_T5TEXT = T5TEXT;
+char    *s_T6TEXT = T6TEXT;
+char    *s_N1TEXT = "";
 
-char *s_CC_ZOMBIE = CC_ZOMBIE;
-char *s_CC_SHOTGUN = CC_SHOTGUN;
-char *s_CC_HEAVY = CC_HEAVY;
-char *s_CC_IMP = CC_IMP;
-char *s_CC_DEMON = CC_DEMON;
-char *s_CC_SPECTRE = "";
-char *s_CC_LOST = CC_LOST;
-char *s_CC_CACO = CC_CACO;
-char *s_CC_HELL = CC_HELL;
-char *s_CC_BARON = CC_BARON;
-char *s_CC_ARACH = CC_ARACH;
-char *s_CC_PAIN = CC_PAIN;
-char *s_CC_REVEN = CC_REVEN;
-char *s_CC_MANCU = CC_MANCU;
-char *s_CC_ARCH = CC_ARCH;
-char *s_CC_SPIDER = CC_SPIDER;
-char *s_CC_CYBER = CC_CYBER;
-char *s_CC_HERO = CC_HERO;
+char    *s_CC_ZOMBIE = CC_ZOMBIE;
+char    *s_CC_SHOTGUN = CC_SHOTGUN;
+char    *s_CC_HEAVY = CC_HEAVY;
+char    *s_CC_IMP = CC_IMP;
+char    *s_CC_DEMON = CC_DEMON;
+char    *s_CC_SPECTRE = "";
+char    *s_CC_LOST = CC_LOST;
+char    *s_CC_CACO = CC_CACO;
+char    *s_CC_HELL = CC_HELL;
+char    *s_CC_BARON = CC_BARON;
+char    *s_CC_ARACH = CC_ARACH;
+char    *s_CC_PAIN = CC_PAIN;
+char    *s_CC_REVEN = CC_REVEN;
+char    *s_CC_MANCU = CC_MANCU;
+char    *s_CC_ARCH = CC_ARCH;
+char    *s_CC_SPIDER = CC_SPIDER;
+char    *s_CC_CYBER = CC_CYBER;
+char    *s_CC_HERO = CC_HERO;
 
-char *s_DOOM_ENDMSG1 = DOOM_ENDMSG1;
-char *s_DOOM_ENDMSG2 = DOOM_ENDMSG2;
-char *s_DOOM_ENDMSG3 = DOOM_ENDMSG3;
-char *s_DOOM_ENDMSG4 = DOOM_ENDMSG4;
-char *s_DOOM_ENDMSG5 = DOOM_ENDMSG5;
-char *s_DOOM_ENDMSG6 = DOOM_ENDMSG6;
-char *s_DOOM_ENDMSG7 = DOOM_ENDMSG7;
-char *s_DOOM2_ENDMSG1 = DOOM2_ENDMSG1;
-char *s_DOOM2_ENDMSG2 = DOOM2_ENDMSG2;
-char *s_DOOM2_ENDMSG3 = DOOM2_ENDMSG3;
-char *s_DOOM2_ENDMSG4 = DOOM2_ENDMSG4;
-char *s_DOOM2_ENDMSG5 = DOOM2_ENDMSG5;
-char *s_DOOM2_ENDMSG6 = DOOM2_ENDMSG6;
-char *s_DOOM2_ENDMSG7 = DOOM2_ENDMSG7;
+char    *s_DOOM_ENDMSG1 = DOOM_ENDMSG1;
+char    *s_DOOM_ENDMSG2 = DOOM_ENDMSG2;
+char    *s_DOOM_ENDMSG3 = DOOM_ENDMSG3;
+char    *s_DOOM_ENDMSG4 = DOOM_ENDMSG4;
+char    *s_DOOM_ENDMSG5 = DOOM_ENDMSG5;
+char    *s_DOOM_ENDMSG6 = DOOM_ENDMSG6;
+char    *s_DOOM_ENDMSG7 = DOOM_ENDMSG7;
+char    *s_DOOM2_ENDMSG1 = DOOM2_ENDMSG1;
+char    *s_DOOM2_ENDMSG2 = DOOM2_ENDMSG2;
+char    *s_DOOM2_ENDMSG3 = DOOM2_ENDMSG3;
+char    *s_DOOM2_ENDMSG4 = DOOM2_ENDMSG4;
+char    *s_DOOM2_ENDMSG5 = DOOM2_ENDMSG5;
+char    *s_DOOM2_ENDMSG6 = DOOM2_ENDMSG6;
+char    *s_DOOM2_ENDMSG7 = DOOM2_ENDMSG7;
 
-char *s_M_NEWGAME = "";
-char *s_M_OPTIONS = "";
-char *s_M_LOADGAME = "";
-char *s_M_SAVEGAME = "";
-char *s_M_QUITGAME = "";
-char *s_M_WHICHEPISODE = "";
-char *s_M_EPISODE1 = "";
-char *s_M_EPISODE2 = "";
-char *s_M_EPISODE3 = "";
-char *s_M_EPISODE4 = "";
-char *s_M_WHICHEXPANSION = "";
-char *s_M_EXPANSION1 = "";
-char *s_M_EXPANSION2 = "";
-char *s_M_CHOOSESKILLLEVEL = "";
-char *s_M_SKILLLEVEL1 = "";
-char *s_M_SKILLLEVEL2 = "";
-char *s_M_SKILLLEVEL3 = "";
-char *s_M_SKILLLEVEL4 = "";
-char *s_M_SKILLLEVEL5 = "";
-char *s_M_ENDGAME = "";
-char *s_M_MESSAGES = "";
-char *s_M_ON = "";
-char *s_M_OFF = "";
-char *s_M_GRAPHICDETAIL = "";
-char *s_M_HIGH = "";
-char *s_M_LOW = "";
-char *s_M_SCREENSIZE = "";
-char *s_M_MOUSESENSITIVITY = "";
-char *s_M_GAMEPADSENSITIVITY = "";
-char *s_M_SOUNDVOLUME = "";
-char *s_M_SFXVOLUME = "";
-char *s_M_MUSICVOLUME = "";
-char *s_M_PAUSED = "";
+char    *s_M_NEWGAME = "";
+char    *s_M_OPTIONS = "";
+char    *s_M_LOADGAME = "";
+char    *s_M_SAVEGAME = "";
+char    *s_M_QUITGAME = "";
+char    *s_M_WHICHEPISODE = "";
+char    *s_M_EPISODE1 = "";
+char    *s_M_EPISODE2 = "";
+char    *s_M_EPISODE3 = "";
+char    *s_M_EPISODE4 = "";
+char    *s_M_WHICHEXPANSION = "";
+char    *s_M_EXPANSION1 = "";
+char    *s_M_EXPANSION2 = "";
+char    *s_M_CHOOSESKILLLEVEL = "";
+char    *s_M_SKILLLEVEL1 = "";
+char    *s_M_SKILLLEVEL2 = "";
+char    *s_M_SKILLLEVEL3 = "";
+char    *s_M_SKILLLEVEL4 = "";
+char    *s_M_SKILLLEVEL5 = "";
+char    *s_M_ENDGAME = "";
+char    *s_M_MESSAGES = "";
+char    *s_M_ON = "";
+char    *s_M_OFF = "";
+char    *s_M_GRAPHICDETAIL = "";
+char    *s_M_HIGH = "";
+char    *s_M_LOW = "";
+char    *s_M_SCREENSIZE = "";
+char    *s_M_MOUSESENSITIVITY = "";
+char    *s_M_GAMEPADSENSITIVITY = "";
+char    *s_M_SOUNDVOLUME = "";
+char    *s_M_SFXVOLUME = "";
+char    *s_M_MUSICVOLUME = "";
+char    *s_M_PAUSED = "";
 
-char *s_CAPTION_SHAREWARE = "";
-char *s_CAPTION_REGISTERED = "";
-char *s_CAPTION_ULTIMATE = "";
-char *s_CAPTION_DOOM2 = "";
-char *s_CAPTION_HELLONEARTH = "";
-char *s_CAPTION_NERVE = "";
-char *s_CAPTION_BFGEDITION = "";
-char *s_CAPTION_PLUTONIA = "";
-char *s_CAPTION_TNT = "";
-char *s_CAPTION_CHEX = "";
-char *s_CAPTION_HACX = "";
-char *s_CAPTION_FREEDOOM1 = "";
-char *s_CAPTION_FREEDOOM2 = "";
-char *s_CAPTION_FREEDM = "";
-char *s_CAPTION_BTSXE1 = "";
-char *s_CAPTION_BTSXE2 = "";
-char *s_CAPTION_BTSXE3 = "";
+char    *s_CAPTION_SHAREWARE = "";
+char    *s_CAPTION_REGISTERED = "";
+char    *s_CAPTION_ULTIMATE = "";
+char    *s_CAPTION_DOOM2 = "";
+char    *s_CAPTION_HELLONEARTH = "";
+char    *s_CAPTION_NERVE = "";
+char    *s_CAPTION_BFGEDITION = "";
+char    *s_CAPTION_PLUTONIA = "";
+char    *s_CAPTION_TNT = "";
+char    *s_CAPTION_CHEX = "";
+char    *s_CAPTION_HACX = "";
+char    *s_CAPTION_FREEDOOM1 = "";
+char    *s_CAPTION_FREEDOOM2 = "";
+char    *s_CAPTION_FREEDM = "";
+char    *s_CAPTION_BTSXE1 = "";
+char    *s_CAPTION_BTSXE2 = "";
+char    *s_CAPTION_BTSXE3 = "";
 
-char *bgflatE1 = "FLOOR4_8";
-char *bgflatE2 = "SFLR6_1";
-char *bgflatE3 = "MFLR8_4";
-char *bgflatE4 = "MFLR8_3";
-char *bgflat06 = "SLIME16";
-char *bgflat11 = "RROCK14";
-char *bgflat20 = "RROCK07";
-char *bgflat30 = "RROCK17";
-char *bgflat15 = "RROCK13";
-char *bgflat31 = "RROCK19";
-char *bgcastcall = "BOSSBACK";
+char    *bgflatE1 = "FLOOR4_8";
+char    *bgflatE2 = "SFLR6_1";
+char    *bgflatE3 = "MFLR8_4";
+char    *bgflatE4 = "MFLR8_3";
+char    *bgflat06 = "SLIME16";
+char    *bgflat11 = "RROCK14";
+char    *bgflat20 = "RROCK07";
+char    *bgflat30 = "RROCK17";
+char    *bgflat15 = "RROCK13";
+char    *bgflat31 = "RROCK19";
+char    *bgcastcall = "BOSSBACK";
 
-char *startup1 = "";    // blank lines are default and are not printed
-char *startup2 = "";
-char *startup3 = "";
-char *startup4 = "";
-char *startup5 = "";
+char    *startup1 = "";
+char    *startup2 = "";
+char    *startup3 = "";
+char    *startup4 = "";
+char    *startup5 = "";
 
-char *s_BANNER1 = BANNER1;
-char *s_BANNER2 = BANNER2;
-char *s_BANNER3 = BANNER3;
-char *s_BANNER4 = BANNER4;
-char *s_BANNER5 = BANNER5;
-char *s_BANNER6 = BANNER6;
-char *s_BANNER7 = BANNER7;
+char    *s_BANNER1 = BANNER1;
+char    *s_BANNER2 = BANNER2;
+char    *s_BANNER3 = BANNER3;
+char    *s_BANNER4 = BANNER4;
+char    *s_BANNER5 = BANNER5;
+char    *s_BANNER6 = BANNER6;
+char    *s_BANNER7 = BANNER7;
 
-char *s_COPYRIGHT1 = COPYRIGHT1;
-char *s_COPYRIGHT2 = COPYRIGHT2;
-char *s_COPYRIGHT3 = COPYRIGHT3;
+char    *s_COPYRIGHT1 = COPYRIGHT1;
+char    *s_COPYRIGHT2 = COPYRIGHT2;
+char    *s_COPYRIGHT3 = COPYRIGHT3;
 
 // end d_deh.h variable declarations
 // ====================================================================
@@ -1013,7 +1014,7 @@ deh_strs deh_strlookup[] =
     { &s_COPYRIGHT3,           "COPYRIGHT3",           false }
 };
 
-static int deh_numstrlookup = arrlen(deh_strlookup);
+static int deh_numstrlookup = sizeof(deh_strlookup) / sizeof(deh_strlookup[0]);
 
 char *deh_newlevel = "NEWLEVEL";
 
@@ -1259,13 +1260,13 @@ typedef struct
 
 #define DEH_BUFFERMAX   1024    // input buffer area size, hardcoded for now
 // killough 8/9/98: make DEH_BLOCKMAX self-adjusting
-#define DEH_BLOCKMAX    (sizeof (deh_blocks) / sizeof (*deh_blocks))    // size of array
-#define DEH_MAXKEYLEN   33      // as much of any key as we'll look at
+#define DEH_BLOCKMAX    (sizeof(deh_blocks) / sizeof(*deh_blocks))      // size of array
+#define DEH_MAXKEYLEN   32      // as much of any key as we'll look at
 #define DEH_MOBJINFOMAX 27      // number of ints in the mobjinfo_t structure (!)
 
 // Put all the block header values, and the function to be called when that
 // one is encountered, in this array:
-deh_block deh_blocks[] =
+static deh_block deh_blocks[] =
 {
     /*  0 */ { "Thing",     deh_procThing           },
     /*  1 */ { "Frame",     deh_procFrame           },
@@ -1294,7 +1295,7 @@ static boolean includenotext = false;
 // within the structure, so we can use index of the string in this
 // array to offset by sizeof(int) into the mobjinfo_t array at [nn]
 // * things are base zero but dehacked considers them to start at #1. ***
-char *deh_mobjinfo[DEH_MOBJINFOMAX] =
+static char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 {
     "ID #",                     // .doomednum
     "Initial frame",            // .spawnstate
@@ -1333,13 +1334,16 @@ char *deh_mobjinfo[DEH_MOBJINFOMAX] =
 // killough 10/98:
 //
 // Convert array to struct to allow multiple values, make array size variable
-#define DEH_MOBJFLAGMAX arrlen(deh_mobjflags)
+#define DEH_MOBJFLAGMAX (sizeof(deh_mobjflags) / sizeof(*deh_mobjflags))
 
-struct
+struct deh_mobjflags_s
 {
     char        *name;
     long        value;
-} deh_mobjflags[] = {
+};
+
+static const struct deh_mobjflags_s deh_mobjflags[] =
+{
     { "SPECIAL",      MF_SPECIAL      },    // call P_Specialthing when touched
     { "SOLID",        MF_SOLID        },    // block movement
     { "SHOOTABLE",    MF_SHOOTABLE    },    // can be hit
@@ -1378,7 +1382,7 @@ struct
 // real place to put this value.  The "Pointer" value is an xref
 // that Dehacked uses and is useless to us.
 // * states are base zero and have a dummy #0 (TROO)
-char *deh_state[] =
+static char *deh_state[] =
 {
     "Sprite number",    // .sprite (spritenum_t) // an enum
     "Sprite subnumber", // .frame (long)
@@ -1398,7 +1402,7 @@ char *deh_state[] =
 // This may not be supported in our -deh option if it doesn't make sense by then.
 
 // * sounds are base zero but have a dummy #0
-char *deh_sfxinfo[] =
+static char *deh_sfxinfo[] =
 {
     "Offset",           // pointer to a name string, changed in text
     "Zero/One",         // .singularity (int, one at a time flag)
@@ -1418,15 +1422,15 @@ char *deh_sfxinfo[] =
 // Usage = Sprite nn
 // Sprite redirection by offset into the text area - unsupported by BOOM
 // * sprites are base zero and dehacked uses it that way.
-char *deh_sprite[] =
-{
-    "Offset"            // supposed to be the offset into the text section
-};
+//static char *deh_sprite[] =
+//{
+//    "Offset"            // supposed to be the offset into the text section
+//};
 
 // AMMO - Dehacked block name = "Ammo"
 // usage = Ammo n (name)
 // Ammo information for the few types of ammo
-char *deh_ammo[] =
+static char *deh_ammo[] =
 {
     "Max ammo",         // maxammo[]
     "Per ammo"          // clipammo[]
@@ -1435,7 +1439,7 @@ char *deh_ammo[] =
 // WEAPONS - Dehacked block name = "Weapon"
 // Usage: Weapon nn (name)
 // Basically a list of frames and what kind of ammo (see above) it uses.
-char *deh_weapon[] =
+static char *deh_weapon[] =
 {
     "Ammo type",        // .ammo
     "Deselect frame",   // .upstate
@@ -1449,7 +1453,7 @@ char *deh_weapon[] =
 // Usage: Cheat 0
 // Always uses a zero in the dehacked file, for consistency.  No meaning.
 // These are just plain funky terms compared with id's
-char *deh_cheat[] =
+static char *deh_cheat[] =
 {
     "Change music",     // idmus
     "Chainsaw",         // idchoppers
@@ -1472,7 +1476,7 @@ char *deh_cheat[] =
 // MISC - Dehacked block name = "Misc"
 // Usage: Misc 0
 // Always uses a zero in the dehacked file, for consistency.  No meaning.
-char *deh_misc[] =
+static char *deh_misc[] =
 {
     "Initial Health",           // initial_health
     "Initial Bullets",          // initial_bullets
@@ -1664,7 +1668,7 @@ static const deh_bexptr deh_bexptrs[] =
 };
 
 // to hold startup code pointers from INFO.C
-actionf_t deh_codeptr[NUMSTATES];
+static actionf_t deh_codeptr[NUMSTATES];
 
 boolean CheckPackageWADVersion(void)
 {
@@ -1708,7 +1712,6 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     static FILE *fileout = NULL;                // In case -dehout was used
     DEHFILE     infile, *filein = &infile;      // killough 10/98
     char        inbuffer[DEH_BUFFERMAX];        // Place to put the primary infostring
-    const char  *file_or_lump;
 
 #if defined(_DEBUG)
     // Open output file if we're writing output
@@ -1729,10 +1732,9 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     // killough 10/98: allow DEH files to come from wad lumps
     if (filename)
     {
-        if (!(infile.inp = (void *)fopen(filename, "rt")))
+        if (!(infile.f = fopen(filename, "rt")))
             return;     // should be checked up front anyway
         infile.lump = NULL;
-        file_or_lump = "file";
         C_Output("Parsed DeHackEd%s file %s.",
             (M_StringEndsWith(filename, "BEX") ? " with BOOM extensions" : ""),
             uppercase(filename));
@@ -1742,7 +1744,6 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
         infile.size = W_LumpLength(lumpnum);
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
         filename = lumpinfo[lumpnum].wad_file->path;
-        file_or_lump = "lump from";
         C_Output("Parsed DEHACKED lump from %s file %s.",
             (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), uppercase(filename));
     }
@@ -1757,10 +1758,10 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
     // loop until end of file
     while (dehfgets(inbuffer, sizeof(inbuffer), filein))
     {
-        boolean         match;
-        int             i;
-        static unsigned last_i = DEH_BLOCKMAX - 1;
-        static long     filepos = 0;
+        boolean                 match;
+        unsigned int            i;
+        static unsigned int     last_i = DEH_BLOCKMAX - 1;
+        static long             filepos = 0;
 
         lfstrip(inbuffer);
         if (devparm)
@@ -1826,7 +1827,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             // process that same line again with the last valid block code handler
             i = last_i;
             if (!filein->lump)
-                fseek((FILE *)filein->inp, filepos, SEEK_SET);
+                fseek(filein->f, filepos, SEEK_SET);
         }
 
         if (devparm)
@@ -1834,13 +1835,13 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
         deh_blocks[i].fptr(filein, fileout, inbuffer);  // call function
 
         if (!filein->lump)                              // back up line start
-            filepos = ftell((FILE *)filein->inp);
+            filepos = ftell(filein->f);
     }
 
     if (infile.lump)
         Z_ChangeTag(infile.lump, PU_CACHE);     // Mark purgable
-    else if (infile.inp)
-        fclose((FILE *)infile.inp);             // Close real file
+    else
+        fclose(infile.f);                       // Close real file
 
     if (outfilename)                            // killough 10/98: only at top recursion level
     {
@@ -1884,7 +1885,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, FILE* fpout, char *line)
             break;      // killough 11/98: really exit on blank line
 
         // killough 8/98: allow hex numbers in input:
-        if ((3 != sscanf(inbuffer, "%32s %10i = %32s", key, &indexnum, mnemonic))
+        if ((3 != sscanf(inbuffer, "%31s %10i = %31s", key, &indexnum, mnemonic))
             || strcasecmp(key, "FRAME"))        // NOTE: different format from normal
         {
             C_Warning("Invalid BEX codepointer line - must start with 'FRAME': \"%s\".", inbuffer);
@@ -1946,7 +1947,7 @@ void deh_procThing(DEHFILE *fpin, FILE* fpout, char *line)
         C_Output("Thing line: \"%s\"", inbuffer);
 
     // killough 8/98: allow hex numbers in input:
-    ix = sscanf(inbuffer, "%32s %10i", key, &indexnum);
+    ix = sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
         C_Output("count = %d, Thing %d", ix, indexnum);
 
@@ -1984,7 +1985,7 @@ void deh_procThing(DEHFILE *fpin, FILE* fpout, char *line)
         {
             if (!strcasecmp(key, deh_mobjinfo[ix]))     // killough 8/98
             {
-                if (!strcasecmp(key, "bits") && !value) // killough 10/98
+                if (!strcasecmp(key, "Bits") && !value) // killough 10/98
                 {
                     // figure out what the bits are
                     value = 0;
@@ -2041,13 +2042,13 @@ void deh_procFrame(DEHFILE *fpin, FILE* fpout, char *line)
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%32s %10i", key, &indexnum);
+    sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
         C_Output("Processing Frame at index %d: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMSTATES)
         C_Warning("Bad frame number %d of %d.", indexnum, NUMSTATES);
 
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2129,7 +2130,7 @@ void deh_procPointer(DEHFILE *fpin, FILE* fpout, char *line)
     // NOTE: different format from normal
 
     // killough 8/98: allow hex numbers in input, fix error case:
-    if (sscanf(inbuffer, "%*s %*i (%32s %10i)", key, &indexnum) != 2)
+    if (sscanf(inbuffer, "%*s %*i (%31s %10i)", key, &indexnum) != 2)
     {
         C_Warning("Bad data pair in \"%s\".", inbuffer);
         return;
@@ -2143,7 +2144,7 @@ void deh_procPointer(DEHFILE *fpin, FILE* fpout, char *line)
         return;
     }
 
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2172,7 +2173,7 @@ void deh_procPointer(DEHFILE *fpin, FILE* fpout, char *line)
             // Write BEX-oriented line to match:
             for (i = 0; i < sizeof(deh_bexptrs) / sizeof(*deh_bexptrs); i++)
             {
-                if (deh_bexptrs[i].cptr.acp1 == deh_codeptr[value].acp1)
+                if (!memcmp(&deh_bexptrs[i].cptr, &deh_codeptr[value], sizeof(actionf_t)))
                 {
                     if (devparm)
                         C_Output("BEX [CODEPTR] -> FRAME %d = %s",
@@ -2206,7 +2207,7 @@ void deh_procSounds(DEHFILE *fpin, FILE* fpout, char *line)
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%32s %10i", key, &indexnum);
+    sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
         C_Output("Processing Sounds at index %d: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMSFX)
@@ -2266,13 +2267,13 @@ void deh_procAmmo(DEHFILE *fpin, FILE* fpout, char *line)
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%32s %10i", key, &indexnum);
+    sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
         C_Output("Processing Ammo at index %d: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMAMMO)
         C_Warning("Bad ammo number %d of %d.", indexnum, NUMAMMO);
 
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2312,13 +2313,13 @@ void deh_procWeapon(DEHFILE *fpin, FILE* fpout, char *line)
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%32s %10i", key, &indexnum);
+    sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
         C_Output("Processing Weapon at index %d: %s", indexnum, key);
     if (indexnum < 0 || indexnum >= NUMWEAPONS)
         C_Warning("Bad weapon number %d of %d.", indexnum, NUMAMMO);
 
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2367,9 +2368,9 @@ void deh_procSprite(DEHFILE *fpin, FILE* fpout, char *line) // Not supported
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%32s %10i", key, &indexnum);
+    sscanf(inbuffer, "%31s %10i", key, &indexnum);
     C_Warning("Ignoring sprite offset change at index %d: \"%s\".", indexnum, key);
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin)) break;
         lfstrip(inbuffer);
@@ -2426,11 +2427,11 @@ void deh_procPars(DEHFILE *fpin, FILE* fpout, char *line) // extension
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(inbuffer, "%32s %10i", key, &indexnum);
+    sscanf(inbuffer, "%31s %10i", key, &indexnum);
     if (devparm)
         C_Output("Processing Par value at index %d: %s", indexnum, key);
 
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2707,7 +2708,7 @@ void deh_procMisc(DEHFILE *fpin, FILE* fpout, char *line)
     long        value;  // All deh values are ints or longs
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
-    while (!dehfeof(fpin) && *inbuffer && (*inbuffer != ' '))
+    while (!dehfeof(fpin) && *inbuffer && *inbuffer != ' ')
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
@@ -2794,7 +2795,7 @@ void deh_procText(DEHFILE *fpin, FILE* fpout, char *line)
     }
 
     // killough 8/98: allow hex numbers in input:
-    sscanf(line, "%32s %10i %10i", key, &fromlen, &tolen);
+    sscanf(line, "%31s %10i %10i", key, &fromlen, &tolen);
     if (devparm)
         C_Output("Processing Text (key = %s, from = %d, to = %d)", key, fromlen, tolen);
 
@@ -2803,7 +2804,8 @@ void deh_procText(DEHFILE *fpin, FILE* fpout, char *line)
         int     c, totlen = 0;
 
         while (totlen < fromlen + tolen && (c = dehfgetc(fpin)) != EOF)
-            inbuffer[totlen++] = c;
+            if (c != '\r')
+                inbuffer[totlen++] = c;
         inbuffer[totlen] = '\0';
     }
 
@@ -2884,7 +2886,7 @@ void deh_procText(DEHFILE *fpin, FILE* fpout, char *line)
         if (devparm)
             C_Output("Checking text area through strings for \"%.12s%s\" from = %d to = %d",
                 inbuffer, (strlen(inbuffer) > 12 ? "..." : ""), fromlen, tolen);
-        if ((unsigned int)fromlen <= strlen(inbuffer))
+        if ((size_t)fromlen <= strlen(inbuffer))
         {
             line2 = strdup(&inbuffer[fromlen]);
             inbuffer[fromlen] = '\0';
@@ -3018,7 +3020,7 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring, FILE *fpout
 
             // Handle embedded \n's in the incoming string, convert to 0x0a's
             {
-                const char      *s;
+                char    *s;
 
                 for (s = *deh_strlookup[i].ppstr; *s; ++s, ++t)
                 {
