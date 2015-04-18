@@ -473,17 +473,40 @@ int gcd(int a, int b)
 
 char *removespaces(const char *input)
 {
-    char *output = strdup(input);
-    char *ptr = output;
+    char        *p = malloc(strlen(input) + 1);
 
-    do
+    if (p)
     {
-        if (isalnum(*input))
-            *ptr++ = *input;
-    } while (*input++ != '\0');
-    *ptr = '\0';
+        char    *p2 = p;
 
-    return output;
+        while (*input != '\0')
+            if (isalnum(*input))
+                *p2++ = *input++;
+            else
+                ++input;
+        *p2 = '\0';
+    }
+
+    return p;
+}
+
+char *removenewlines(const char *input)
+{
+    char        *p = malloc(strlen(input) + 1);
+
+    if (p)
+    {
+        char    *p2 = p;
+
+        while (*input != '\0')
+            if (*input != '\n')
+                *p2++ = *input++;
+            else
+                ++input;
+        *p2 = '\0';
+    }
+
+    return p;
 }
 
 char *M_ExtractFilename(char *path)

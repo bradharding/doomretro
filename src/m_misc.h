@@ -65,6 +65,7 @@ char *commify(int value);
 boolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 char *removespaces(const char *input);
+char *removenewlines(const char *input);
 char *M_ExtractFilename(char *path);
 
 #endif

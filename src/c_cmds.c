@@ -838,7 +838,7 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
 
         for (i = 1; i < consolestrings - 1; ++i)
             fprintf(file, "%s\n",
-                (console[i].type == divider ? DIVIDERSTRING : console[i].string));
+                (console[i].type == divider ? DIVIDERSTRING : removenewlines(console[i].string)));
 
         fclose(file);
 

@@ -1280,7 +1280,7 @@ static void D_DoomMainSetup(void)
     if (fastparm = M_CheckParm("-fast"))
         C_Output("Found -FAST parameter on command-line. Monsters will be faster.");
 
-    devparm = M_CheckParm("-devparm");
+    devparm = true;// M_CheckParm("-devparm");
 
     // turbo option
     p = M_CheckParm("-turbo");
@@ -1717,35 +1717,15 @@ static void D_DoomMainSetup(void)
     {
         C_AddConsoleDivider();
         if (*startup1)
-        {
-            if (startup1[strlen(startup1) - 1] == '\n')
-                startup1[strlen(startup1) - 1] = '\0';
-            C_Output(startup1);
-        }
+            C_Output(removenewlines(startup1));
         if (*startup2)
-        {
-            if (startup2[strlen(startup2) - 1] == '\n')
-                startup2[strlen(startup2) - 1] = '\0';
-            C_Output(startup2);
-        }
+            C_Output(removenewlines(startup2));
         if (*startup3)
-        {
-            if (startup3[strlen(startup3) - 1] == '\n')
-                startup3[strlen(startup3) - 1] = '\0';
-            C_Output(startup3);
-        }
+            C_Output(removenewlines(startup3));
         if (*startup4)
-        {
-            if (startup4[strlen(startup4) - 1] == '\n')
-                startup4[strlen(startup4) - 1] = '\0';
-            C_Output(startup4);
-        }
+            C_Output(removenewlines(startup4));
         if (*startup5)
-        {
-            if (startup5[strlen(startup5) - 1] == '\n')
-                startup5[strlen(startup5) - 1] = '\0';
-            C_Output(startup5);
-        }
+            C_Output(removenewlines(startup5));
     }
 }
 
