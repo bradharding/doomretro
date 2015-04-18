@@ -255,6 +255,7 @@ linefix_t linefix[] =
     { doom2,            1,  10,     901,    1, "",         "-",           "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom2,            1,  10,     902,    1, "",         "-",           "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
 
+    { doom2,            1,  12,     269,    0, "",         "PANEL6",      "",            DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom2,            1,  12,     632,    1, "",         "",            "",            DEFAULT,   DEFAULT, DEFAULT,                 NoSpecial,                                                     DEFAULT },
     { doom2,            1,  12,     648,    1, "",         "",            "PIPES",       DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
     { doom2,            1,  12,     773,    1, "",         "",            "PANCASE2",    DEFAULT,   DEFAULT, DEFAULT,                 DEFAULT,                                                       DEFAULT },
