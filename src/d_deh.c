@@ -42,6 +42,7 @@
 #include "d_deh.h"
 #include "doomdef.h"
 #include "doomstat.h"
+#include "dstrings.h"
 #include "sounds.h"
 #include "info.h"
 #include "m_cheat.h"
@@ -113,17 +114,25 @@ boolean deh_pars = false;       // in wi_stuff to allow pars in modified games
 // ====================================================================
 // Any of these can be changed using the bex extensions
 
-#include "dstrings.h"  // to get the initial values
+char *s_D_DEVSTR = D_DEVSTR;
+char *s_D_CDROM = D_CDROM;
 
 char *s_PRESSKEY = PRESSKEY;
 char *s_PRESSYN = PRESSYN;
 char *s_PRESSA = "";
 char *s_QUITMSG = QUITMSG;
+char *s_LOADNET = LOADNET;
+char *s_QLOADNET = QLOADNET;
+char *s_QSAVESPOT = QSAVESPOT;
+char *s_SAVEDEAD = SAVEDEAD;
+char *s_QSPROMPT = QSPROMPT;
 char *s_QLPROMPT = QLPROMPT;
+char *s_NEWGAME = NEWGAME;
 char *s_NIGHTMARE = NIGHTMARE;
 char *s_SWSTRING = SWSTRING;
 char *s_MSGOFF = MSGOFF;
 char *s_MSGON = MSGON;
+char *s_NETEND = NETEND;
 char *s_ENDGAME = ENDGAME;
 char *s_DOSY = DOSY;
 char *s_DOSA = "";
@@ -131,6 +140,11 @@ char *s_OTHERY = "";
 char *s_OTHERA = "";
 char *s_DETAILHI = DETAILHI;
 char *s_DETAILLO = DETAILLO;
+char *s_GAMMALVL0 = GAMMALVL0;
+char *s_GAMMALVL1 = GAMMALVL1;
+char *s_GAMMALVL2 = GAMMALVL2;
+char *s_GAMMALVL3 = GAMMALVL3;
+char *s_GAMMALVL4 = GAMMALVL4;
 char *s_GAMMALVL = "";
 char *s_GAMMAOFF = "";
 char *s_EMPTYSTRING = EMPTYSTRING;
@@ -202,6 +216,8 @@ char *s_GSCREENSHOT = "";
 
 char *s_ALWAYSRUNOFF = "";
 char *s_ALWAYSRUNON = "";
+
+char *s_HUSTR_MSGU = HUSTR_MSGU;
 
 char *s_HUSTR_E1M1 = HUSTR_E1M1;
 char *s_HUSTR_E1M2 = HUSTR_E1M2;
@@ -348,6 +364,30 @@ char *s_NHUSTR_7 = "";
 char *s_NHUSTR_8 = "";
 char *s_NHUSTR_9 = "";
 
+char *s_HUSTR_CHATMACRO1 = HUSTR_CHATMACRO1;
+char *s_HUSTR_CHATMACRO2 = HUSTR_CHATMACRO2;
+char *s_HUSTR_CHATMACRO3 = HUSTR_CHATMACRO3;
+char *s_HUSTR_CHATMACRO4 = HUSTR_CHATMACRO4;
+char *s_HUSTR_CHATMACRO5 = HUSTR_CHATMACRO5;
+char *s_HUSTR_CHATMACRO6 = HUSTR_CHATMACRO6;
+char *s_HUSTR_CHATMACRO7 = HUSTR_CHATMACRO7;
+char *s_HUSTR_CHATMACRO8 = HUSTR_CHATMACRO8;
+char *s_HUSTR_CHATMACRO9 = HUSTR_CHATMACRO9;
+char *s_HUSTR_CHATMACRO0 = HUSTR_CHATMACRO0;
+
+char *s_HUSTR_TALKTOSELF1 = HUSTR_TALKTOSELF1;
+char *s_HUSTR_TALKTOSELF2 = HUSTR_TALKTOSELF2;
+char *s_HUSTR_TALKTOSELF3 = HUSTR_TALKTOSELF3;
+char *s_HUSTR_TALKTOSELF4 = HUSTR_TALKTOSELF4;
+char *s_HUSTR_TALKTOSELF5 = HUSTR_TALKTOSELF5;
+
+char *s_HUSTR_MESSAGESENT = HUSTR_MESSAGESENT;
+
+char *s_HUSTR_PLRGREEN = HUSTR_PLRGREEN;
+char *s_HUSTR_PLRINDIGO = HUSTR_PLRINDIGO;
+char *s_HUSTR_PLRBROWN = HUSTR_PLRBROWN;
+char *s_HUSTR_PLRRED = HUSTR_PLRRED;
+
 char *s_AMSTR_FOLLOWON = AMSTR_FOLLOWON;
 char *s_AMSTR_FOLLOWOFF = AMSTR_FOLLOWOFF;
 char *s_AMSTR_GRIDON = AMSTR_GRIDON;
@@ -359,6 +399,7 @@ char *s_AMSTR_ROTATEON = "";
 char *s_AMSTR_ROTATEOFF = "";
 
 char *s_STSTR_MUS = STSTR_MUS;
+char *s_STSTR_NOMUS = STSTR_NOMUS;
 char *s_STSTR_DQDON = STSTR_DQDON;
 char *s_STSTR_DQDOFF = STSTR_DQDOFF;
 char *s_STSTR_KFAADDED = STSTR_KFAADDED;
@@ -366,7 +407,7 @@ char *s_STSTR_FAADDED = STSTR_FAADDED;
 char *s_STSTR_NCON = STSTR_NCON;
 char *s_STSTR_NCOFF = STSTR_NCOFF;
 char *s_STSTR_BEHOLD = STSTR_BEHOLD;
-char *s_STSTR_BEHOLDX = "";
+char *s_STSTR_BEHOLDX = STSTR_BEHOLDX;
 char *s_STSTR_BEHOLDON = "";
 char *s_STSTR_BEHOLDOFF = "";
 char *s_STSTR_CHOPPERS = STSTR_CHOPPERS;
@@ -500,23 +541,23 @@ char *bgflat15 = "RROCK13";
 char *bgflat31 = "RROCK19";
 char *bgcastcall = "BOSSBACK";
 
-char *startup1 = "";
+char *startup1 = "";    // blank lines are default and are not printed
 char *startup2 = "";
 char *startup3 = "";
 char *startup4 = "";
 char *startup5 = "";
 
-char *s_BANNER1 = "";
-char *s_BANNER2 = "";
-char *s_BANNER3 = "";
-char *s_BANNER4 = "";
-char *s_BANNER5 = "";
-char *s_BANNER6 = "";
-char *s_BANNER7 = "";
+char *s_BANNER1 = BANNER1;
+char *s_BANNER2 = BANNER2;
+char *s_BANNER3 = BANNER3;
+char *s_BANNER4 = BANNER4;
+char *s_BANNER5 = BANNER5;
+char *s_BANNER6 = BANNER6;
+char *s_BANNER7 = BANNER7;
 
-char *s_COPYRIGHT1 = "";
-char *s_COPYRIGHT2 = "";
-char *s_COPYRIGHT3 = "";
+char *s_COPYRIGHT1 = COPYRIGHT1;
+char *s_COPYRIGHT2 = COPYRIGHT2;
+char *s_COPYRIGHT3 = COPYRIGHT3;
 
 // end d_deh.h variable declarations
 // ====================================================================
@@ -528,15 +569,25 @@ char *s_COPYRIGHT3 = "";
 
 deh_strs deh_strlookup[] =
 {
+    { &s_D_DEVSTR,             "D_DEVSTR",             false },
+    { &s_D_CDROM,              "D_CDROM",              false },
+
     { &s_PRESSKEY,             "PRESSKEY",             false },
     { &s_PRESSYN,              "PRESSYN",              false },
     { &s_PRESSA,               "PRESSA",               false },
     { &s_QUITMSG,              "QUITMSG",              false },
+    { &s_LOADNET,              "LOADNET",              false },
+    { &s_QLOADNET,             "QLOADNET",             false },
+    { &s_QSAVESPOT,            "QSAVESPOT",            false },
+    { &s_SAVEDEAD,             "SAVEDEAD",             false },
+    { &s_QSPROMPT,             "QSPROMPT",             false },
     { &s_QLPROMPT,             "QLPROMPT",             false },
+    { &s_NEWGAME,              "NEWGAME",              false },
     { &s_NIGHTMARE,            "NIGHTMARE",            false },
     { &s_SWSTRING,             "SWSTRING",             false },
     { &s_MSGOFF,               "MSGOFF",               false },
     { &s_MSGON,                "MSGON",                false },
+    { &s_NETEND,               "NETEND",               false },
     { &s_ENDGAME,              "ENDGAME",              false },
     { &s_DOSY,                 "DOSY",                 false },
     { &s_DOSA,                 "DOSA",                 false },
@@ -544,6 +595,11 @@ deh_strs deh_strlookup[] =
     { &s_OTHERA,               "OTHERA",               false },
     { &s_DETAILHI,             "DETAILHI",             false },
     { &s_DETAILLO,             "DETAILLO",             false },
+    { &s_GAMMALVL0,            "GAMMALVL0",            false },
+    { &s_GAMMALVL1,            "GAMMALVL1",            false },
+    { &s_GAMMALVL2,            "GAMMALVL2",            false },
+    { &s_GAMMALVL3,            "GAMMALVL3",            false },
+    { &s_GAMMALVL4,            "GAMMALVL4",            false },
     { &s_GAMMALVL,             "GAMMALVL",             false },
     { &s_GAMMAOFF,             "GAMMAOFF",             false },
     { &s_EMPTYSTRING,          "EMPTYSTRING",          false },
@@ -615,6 +671,8 @@ deh_strs deh_strlookup[] =
 
     { &s_ALWAYSRUNOFF,         "ALWAYSRUNOFF",         false },
     { &s_ALWAYSRUNON,          "ALWAYSRUNON",          false },
+
+    { &s_HUSTR_MSGU,           "HUSTR_MSGU",           false },
 
     { &s_HUSTR_E1M1,           "HUSTR_E1M1",           false },
     { &s_HUSTR_E1M2,           "HUSTR_E1M2",           false },
@@ -761,6 +819,27 @@ deh_strs deh_strlookup[] =
     { &s_NHUSTR_8,             "NHUSTR_8",             false },
     { &s_NHUSTR_9,             "NHUSTR_9",             false },
 
+    { &s_HUSTR_CHATMACRO1,     "HUSTR_CHATMACRO1",     false },
+    { &s_HUSTR_CHATMACRO2,     "HUSTR_CHATMACRO2",     false },
+    { &s_HUSTR_CHATMACRO3,     "HUSTR_CHATMACRO3",     false },
+    { &s_HUSTR_CHATMACRO4,     "HUSTR_CHATMACRO4",     false },
+    { &s_HUSTR_CHATMACRO5,     "HUSTR_CHATMACRO5",     false },
+    { &s_HUSTR_CHATMACRO6,     "HUSTR_CHATMACRO6",     false },
+    { &s_HUSTR_CHATMACRO7,     "HUSTR_CHATMACRO7",     false },
+    { &s_HUSTR_CHATMACRO8,     "HUSTR_CHATMACRO8",     false },
+    { &s_HUSTR_CHATMACRO9,     "HUSTR_CHATMACRO9",     false },
+    { &s_HUSTR_CHATMACRO0,     "HUSTR_CHATMACRO0",     false },
+    { &s_HUSTR_TALKTOSELF1,    "HUSTR_TALKTOSELF1",    false },
+    { &s_HUSTR_TALKTOSELF2,    "HUSTR_TALKTOSELF2",    false },
+    { &s_HUSTR_TALKTOSELF3,    "HUSTR_TALKTOSELF3",    false },
+    { &s_HUSTR_TALKTOSELF4,    "HUSTR_TALKTOSELF4",    false },
+    { &s_HUSTR_TALKTOSELF5,    "HUSTR_TALKTOSELF5",    false },
+    { &s_HUSTR_MESSAGESENT,    "HUSTR_MESSAGESENT",    false },
+    { &s_HUSTR_PLRGREEN,       "HUSTR_PLRGREEN",       false },
+    { &s_HUSTR_PLRINDIGO,      "HUSTR_PLRINDIGO",      false },
+    { &s_HUSTR_PLRBROWN,       "HUSTR_PLRBROWN",       false },
+    { &s_HUSTR_PLRRED,         "HUSTR_PLRRED",         false },
+
     { &s_AMSTR_FOLLOWON,       "AMSTR_FOLLOWON",       false },
     { &s_AMSTR_FOLLOWOFF,      "AMSTR_FOLLOWOFF",      false },
     { &s_AMSTR_GRIDON,         "AMSTR_GRIDON",         false },
@@ -772,6 +851,7 @@ deh_strs deh_strlookup[] =
     { &s_AMSTR_ROTATEOFF,      "AMSTR_ROTATEOFF",      false },
 
     { &s_STSTR_MUS,            "STSTR_MUS",            false },
+    { &s_STSTR_NOMUS,          "STSTR_NOMUS",          false },
     { &s_STSTR_DQDON,          "STSTR_DQDON",          false },
     { &s_STSTR_DQDOFF,         "STSTR_DQDOFF",         false },
     { &s_STSTR_KFAADDED,       "STSTR_KFAADDED",       false },

@@ -46,8 +46,8 @@
 ///
 // d_main.C
 //
-//#define D_DEVSTR              "Development mode ON.\n"
-//#define D_CDROM               "CD-ROM Version: default.cfg from c:\\doomdata\n"
+#define D_DEVSTR                "Development mode ON.\n"
+#define D_CDROM                 "CD-ROM Version: default.cfg from c:\\doomdata\n"
 
 //
 // m_menu.c
@@ -55,15 +55,15 @@
 #define PRESSKEY                "press a key."
 #define PRESSYN                 "press y or n."
 #define QUITMSG                 "are you sure you want to\nquit this great game?"
-//#define LOADNET               "you can't do load while in a net game!\n\n"PRESSKEY
-//#define QLOADNET              "you can't quickload during a netgame!\n\n"PRESSKEY
-//#define QSAVESPOT             "you haven't picked a quicksave slot yet!\n\n"PRESSKEY
-//#define SAVEDEAD              "you can't save if you aren't playing!\n\n"PRESSKEY
-//#define QSPROMPT              "quicksave over your game named\n\n'%s'?\n\n"PRESSYN
+#define LOADNET                 "you can't do load while in a net game!\n\n"PRESSKEY
+#define QLOADNET                "you can't quickload during a netgame!\n\n"PRESSKEY
+#define QSAVESPOT               "you haven't picked a quicksave slot yet!\n\n"PRESSKEY
+#define SAVEDEAD                "you can't save if you aren't playing!\n\n"PRESSKEY
+#define QSPROMPT                "quicksave over your game named\n\n'%s'?\n\n"PRESSYN
 #define QLPROMPT                "do you want to quickload the game named\n\n'%s'?\n\n"PRESSYN
 
-//#define NEWGAME               "you can't start a new game\n"\
-//                              "while in a network game.\n\n"PRESSKEY
+#define NEWGAME                 "you can't start a new game\n"\
+                                "while in a network game.\n\n"PRESSKEY
 
 #define NIGHTMARE               "are you sure? this skill level\n"\
                                 "isn't even remotely fair.\n\n"PRESSYN
@@ -73,18 +73,18 @@
 
 #define MSGOFF                  "Messages OFF"
 #define MSGON                   "Messages ON"
-//#define NETEND                "you can't end a netgame!\n\n"PRESSKEY
+#define NETEND                  "you can't end a netgame!\n\n"PRESSKEY
 #define ENDGAME                 "are you sure you want to end the game?\n\n"PRESSYN
 
 #define DOSY                    "(press y to quit to dos.)"
 
 #define DETAILHI                "High detail"
 #define DETAILLO                "Low detail"
-//#define GAMMALVL0             "Gamma correction OFF"
-//#define GAMMALVL1             "Gamma correction level 1"
-//#define GAMMALVL2             "Gamma correction level 2"
-//#define GAMMALVL3             "Gamma correction level 3"
-//#define GAMMALVL4             "Gamma correction level 4"
+#define GAMMALVL0               "Gamma correction OFF"
+#define GAMMALVL1               "Gamma correction level 1"
+#define GAMMALVL2               "Gamma correction level 2"
+#define GAMMALVL3               "Gamma correction level 3"
+#define GAMMALVL4               "Gamma correction level 4"
 #define EMPTYSTRING             "empty slot"
 
 //
@@ -150,7 +150,7 @@
 //
 //  hu_stuff.c
 //
-//#define HUSTR_MSGU            "[Message unsent]"
+#define HUSTR_MSGU              "[Message unsent]"
 
 #define HUSTR_E1M1              "E1M1: Hangar"
 #define HUSTR_E1M2              "E1M2: Nuclear Plant"
@@ -300,37 +300,32 @@
 #define THUSTR_31               "level 31: pharaoh"
 #define THUSTR_32               "level 32: caribbean"
 
-//#define HUSTR_CHATMACRO1      "I'm ready to kick butt!"
-//#define HUSTR_CHATMACRO2      "I'm OK."
-//#define HUSTR_CHATMACRO3      "I'm not looking too good!"
-//#define HUSTR_CHATMACRO4      "Help!"
-//#define HUSTR_CHATMACRO5      "You suck!"
-//#define HUSTR_CHATMACRO6      "Next time, scumbag..."
-//#define HUSTR_CHATMACRO7      "Come here!"
-//#define HUSTR_CHATMACRO8      "I'll take care of it."
-//#define HUSTR_CHATMACRO9      "Yes"
-//#define HUSTR_CHATMACRO0      "No"
+#define HUSTR_CHATMACRO1      "I'm ready to kick butt!"
+#define HUSTR_CHATMACRO2      "I'm OK."
+#define HUSTR_CHATMACRO3      "I'm not looking too good!"
+#define HUSTR_CHATMACRO4      "Help!"
+#define HUSTR_CHATMACRO5      "You suck!"
+#define HUSTR_CHATMACRO6      "Next time, scumbag..."
+#define HUSTR_CHATMACRO7      "Come here!"
+#define HUSTR_CHATMACRO8      "I'll take care of it."
+#define HUSTR_CHATMACRO9      "Yes"
+#define HUSTR_CHATMACRO0      "No"
 
-//#define HUSTR_TALKTOSELF1     "You mumble to yourself"
-//#define HUSTR_TALKTOSELF2     "Who's there?"
-//#define HUSTR_TALKTOSELF3     "You scare yourself"
-//#define HUSTR_TALKTOSELF4     "You start to rave"
-//#define HUSTR_TALKTOSELF5     "You've lost it..."
+#define HUSTR_TALKTOSELF1     "You mumble to yourself"
+#define HUSTR_TALKTOSELF2     "Who's there?"
+#define HUSTR_TALKTOSELF3     "You scare yourself"
+#define HUSTR_TALKTOSELF4     "You start to rave"
+#define HUSTR_TALKTOSELF5     "You've lost it..."
 
-//#define HUSTR_MESSAGESENT     "[Message Sent]"
+#define HUSTR_MESSAGESENT     "[Message Sent]"
 
 // The following should NOT be changed unless it seems
 // just AWFULLY necessary
 
-//#define HUSTR_PLRGREEN        "Green: "
-//#define HUSTR_PLRINDIGO       "Indigo: "
-//#define HUSTR_PLRBROWN        "Brown: "
-//#define HUSTR_PLRRED          "Red: "
-
-//#define HUSTR_KEYGREEN        'g'
-//#define HUSTR_KEYINDIGO       'i'
-//#define HUSTR_KEYBROWN        'b'
-//#define HUSTR_KEYRED          'r'
+#define HUSTR_PLRGREEN        "Green: "
+#define HUSTR_PLRINDIGO       "Indigo: "
+#define HUSTR_PLRBROWN        "Brown: "
+#define HUSTR_PLRRED          "Red: "
 
 //
 // am_map.c
@@ -348,7 +343,7 @@
 //  st_stuff.c
 //
 #define STSTR_MUS               "Music Change"
-//#define STSTR_NOMUS           "IMPOSSIBLE SELECTION"
+#define STSTR_NOMUS             "IMPOSSIBLE SELECTION"
 
 #define STSTR_DQDON             "Degreelessness Mode On"
 #define STSTR_DQDOFF            "Degreelessness Mode Off"
@@ -360,6 +355,7 @@
 #define STSTR_NCOFF             "No Clipping Mode OFF"
 
 #define STSTR_BEHOLD            "inVuln, Str, Inviso, Rad, Allmap, or Lite-amp"
+#define STSTR_BEHOLDX           "Power-up Toggled"
 
 #define STSTR_CHOPPERS          "... doesn't suck - GM"
 
@@ -672,5 +668,48 @@
 #define CC_SPIDER               "THE SPIDER MASTERMIND"
 #define CC_CYBER                "THE CYBERDEMON"
 #define CC_HERO                 "OUR HERO"
+
+// [BH] Banner strings. Here to avoid errors in DeHackEd parsing. Otherwise ignored.
+#define BANNER1                 "                         " \
+                                "DOOM 2: Hell on Earth v%i.%i" \
+                                "                           "
+#define BANNER2                 "                            " \
+                                "DOOM Shareware Startup v%i.%i" \
+                                "                           "
+#define BANNER3                 "                            " \
+                                "DOOM Registered Startup v%i.%i" \
+                                "                           "
+#define BANNER4                 "                          " \
+                                "DOOM System Startup v%i.%i" \
+                                "                          "
+#define BANNER5                 "                         " \
+                                "The Ultimate DOOM Startup v%i.%i" \
+                                "                        "
+#define BANNER6                 "                     " \
+                                "DOOM 2: TNT - Evilution v%i.%i" \
+                                "                           "
+#define BANNER7                 "                   " \
+                                "DOOM 2: Plutonia Experiment v%i.%i" \
+                                "                           "
+
+// [BH] Copyright strings. Here to avoid errors in DeHackEd parsing. Otherwise ignored.
+#define COPYRIGHT1 \
+    "===========================================================================\n" \
+    "ATTENTION:  This version of DOOM has been modified.  If you would like to\n" \
+    "get a copy of the original game, call 1-800-IDGAMES or see the readme file.\n" \
+    "        You will not receive technical support for modified games.\n" \
+    "                      press enter to continue\n" \
+    "===========================================================================\n"
+
+#define COPYRIGHT2 \
+    "===========================================================================\n" \
+    "                 Commercial product - do not distribute!\n" \
+    "         Please report software piracy to the SPA: 1-800-388-PIR8\n" \
+    "===========================================================================\n"
+
+#define COPYRIGHT3 \
+    "===========================================================================\n" \
+    "                                Shareware!\n" \
+    "===========================================================================\n"
 
 #endif
