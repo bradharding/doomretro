@@ -179,6 +179,7 @@ extern int      pixelheight;
 extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
+extern char     *playername;
 extern int      runcount;
 #if defined(SDL20)
 extern char     *scaledriver;
@@ -311,6 +312,7 @@ static boolean C_IntCondition(char *, char *, char *);
 static boolean C_KillCondition(char *, char *, char *);
 static boolean C_MapCondition(char *, char *, char *);
 static boolean C_NoCondition(char *, char *, char *);
+static boolean C_PlayerNameCondition(char *, char *, char *);
 static boolean C_SpawnCondition(char *, char *, char *);
 static boolean C_ResurrectCondition(char *, char *, char *);
 static boolean C_VolumeCondition(char *, char *, char *);
@@ -468,6 +470,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (messages, C_BoolCondition, C_Bool, messages, MESSAGES, "Toggle messages."),
     CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggle no clipping mode."),
     CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggle no target mode."),
+    CVAR_STR  (playername, C_PlayerNameCondition, C_Str, playername, "The name of the player used in messages."),
     CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN, "Toggle always run."),
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON, "Toggle the centering of the player's weapon when firing."),
     CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, 0, PLAYERBOB, "The amount the player bobs when walking."),
@@ -1514,6 +1517,11 @@ static void C_PixelSize(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output("%10ix%10i", pixelwidth, pixelheight);
+}
+
+static boolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
+{
+    return (parm1[0]);
 }
 
 static void C_Quit(char *cmd, char *parm1, char *parm2)

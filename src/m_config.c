@@ -160,6 +160,7 @@ extern int      pixelheight;
 extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
+extern char     *playername;
 extern int      runcount;
 #if defined(SDL20)
 extern char     *scaledriver;
@@ -288,6 +289,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (m_use,                   mousebuse,                     4),
     CONFIG_VARIABLE_INT          (mapfixes,                mapfixes,                      1),
     CONFIG_VARIABLE_INT          (messages,                messages,                      1),
+    CONFIG_VARIABLE_STRING       (playername,              playername,                    0),
     CONFIG_VARIABLE_INT          (pm_alwaysrun,            alwaysrun,                     1),
     CONFIG_VARIABLE_INT          (pm_centerweapon,         centerweapon,                  1),
     CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,              playerbob,                     0),

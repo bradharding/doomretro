@@ -36,6 +36,8 @@
 ========================================================================
 */
 
+#include <ctype.h>
+
 #include "am_map.h"
 #include "c_console.h"
 #include "d_deh.h"
@@ -75,6 +77,8 @@ boolean                 s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
 int                     message_counter;
+
+char                    *playername = PLAYERNAME_DEFAULT;
 
 int M_StringWidth(char *string);
 
@@ -269,6 +273,9 @@ void HU_Start(void)
     }
 
     s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
+
+    if (strcasecmp(playername, PLAYERNAME_DEFAULT))
+        s_GOTMEDINEED = s_GOTMEDINEED2;
 }
 
 static void DrawHUDNumber(int x, int y, int *xpos, int val, boolean invert,
@@ -609,15 +616,28 @@ void HU_Ticker(void)
 
 void HU_PlayerMessage(char *message, boolean ingame)
 {
-    char        lastchar = message[strlen(message) - 1];
+    static char buffer[1024];
+    char        lastchar;
+
+    if (message[0] == '%' && message[1] == 's')
+    {
+
+        M_snprintf(buffer, sizeof(buffer), message, playername);
+        buffer[0] = toupper(buffer[0]);
+        lastchar = message[strlen(buffer) - 1];
+    }
+    else
+        M_StringCopy(buffer, message, sizeof(buffer));
+    
+    lastchar = buffer[strlen(buffer) - 1];
 
     if (plr && !consoleactive)
-        plr->message = message;
+        plr->message = buffer;
 
     if (ingame)
-        C_PlayerMessage("%s%s", message, (lastchar == '.' || lastchar == '!' ? "" : "."));
+        C_PlayerMessage("%s%s", buffer, (lastchar == '.' || lastchar == '!' ? "" : "."));
     else
-        C_Output("%s%s", message, (lastchar == '.' || lastchar == '!' ? "" : "."));
+        C_Output("%s%s", buffer, (lastchar == '.' || lastchar == '!' ? "" : "."));
 }
 
 boolean message_clearable = false;

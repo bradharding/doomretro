@@ -270,6 +270,8 @@
 #define PLAYERBOB_DEFAULT                       75
 #define PLAYERBOB_MAX                           100
 
+#define PLAYERNAME_DEFAULT                      "you"
+
 #define ROTATEMODE_DEFAULT                      true
 
 #define RUNCOUNT_MAX                            32768

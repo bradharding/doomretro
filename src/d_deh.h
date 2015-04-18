@@ -90,6 +90,7 @@ extern char     *s_GOTHTHBONUS;
 extern char     *s_GOTARMBONUS;
 extern char     *s_GOTSTIM;
 extern char     *s_GOTMEDINEED;
+extern char     *s_GOTMEDINEED2;
 extern char     *s_GOTMEDIKIT;
 extern char     *s_GOTSUPER;
 
