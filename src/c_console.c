@@ -82,7 +82,9 @@
 #define CONSOLEINPUTPIXELWIDTH  500
 
 #define CONSOLESCROLLBARWIDTH   3
+#define CONSOLESCROLLBARHEIGHT  ((CONSOLELINES - 1) * CONSOLELINEHEIGHT - 4)
 #define CONSOLESCROLLBARX       (SCREENWIDTH - CONSOLETEXTX - CONSOLESCROLLBARWIDTH)
+#define CONSOLESCROLLBARY       (CONSOLETEXTY + 1)
 
 #define CONSOLEDIVIDERWIDTH     (SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH)
 
@@ -280,35 +282,26 @@ static void C_DrawScrollbar(void)
 {
     int x, y;
     int trackstart;
-    int tracklength;
+    int trackheight;
     int facestart;
-    int facelength;
+    int faceheight;
     int offset = (CONSOLEHEIGHT - consoleheight);
 
     // Draw scrollbar track
-    trackstart = CONSOLETEXTY + 1;
-    tracklength = CONSOLEHEIGHT - 23 - trackstart;
-    for (y = trackstart; y < trackstart + tracklength; ++y)
+    trackstart = CONSOLESCROLLBARY;
+    trackheight = CONSOLESCROLLBARHEIGHT;
+    for (y = trackstart; y < trackstart + trackheight; ++y)
         if (y - offset >= CONSOLETOP)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
                 screens[0][(y - offset) * SCREENWIDTH + x] = consolescrollbartrackcolor;
 
     // Draw scrollbar face
-    if (outputhistory == -1)
-    {
-        facestart = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23)
-            * MAX(0, consolestrings - CONSOLELINES) / consolestrings;
-        facelength = MAX(2, CONSOLEHEIGHT - 23 - facestart);
-    }
-    else
-    {
-        facestart = CONSOLETEXTY + 1 + (CONSOLEHEIGHT - 23) * outputhistory / consolestrings;
-        facelength = MAX(2, (CONSOLEHEIGHT - 23)
-            * CONSOLELINES / consolestrings - CONSOLETEXTY + 1);
-    }
-    facestart = MIN(facestart, trackstart + tracklength - facelength);
+    facestart = trackstart + trackheight * (outputhistory == -1 ?
+        MAX(0, consolestrings - (CONSOLELINES - 1)) : outputhistory) / consolestrings;
+    faceheight = trackheight - trackheight * MAX(0, consolestrings - (CONSOLELINES - 1))
+        / consolestrings;
 
-    for (y = facestart; y < facestart + facelength; ++y)
+    for (y = facestart; y < facestart + faceheight; ++y)
         if (y - offset >= CONSOLETOP)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
                 screens[0][(y - offset) * SCREENWIDTH + x] = consolescrollbarfacecolor;
