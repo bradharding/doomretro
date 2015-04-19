@@ -123,8 +123,6 @@ boolean                 splashscreen;
 extern int              selectedexpansion;
 extern boolean          alwaysrun;
 
-boolean                 realframe;
-
 int                     startuptimer;
 
 #if defined(SDL20)
@@ -204,10 +202,6 @@ void D_Display(void)
     int                 tics;
     int                 wipestart;
     boolean             done;
-
-    realframe = (capfps || gametic > saved_gametic);
-    if (realframe)
-        saved_gametic = gametic;
 
     // change the view size if needed
     if (setsizeneeded)
