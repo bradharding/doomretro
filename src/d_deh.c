@@ -2427,6 +2427,8 @@ void deh_procPars(DEHFILE *fpin, FILE* fpout, char *line) // extension
     {
         if (!dehfgets(inbuffer, sizeof(inbuffer), fpin))
             break;
+        if (*inbuffer == '#')
+            continue;                           // skip comment lines
         lfstrip(strlwr(inbuffer));              // lowercase it
         if (!*inbuffer)
             break;                              // killough 11/98
