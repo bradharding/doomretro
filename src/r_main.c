@@ -733,8 +733,11 @@ void R_RenderPlayerView(player_t *player)
     }
     else
     {
-        V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
-            homindicator && (gametic % 20) < 9 && !(player->cheats & CF_NOCLIP) ? 176 : 0);
+        if (player->cheats & CF_NOCLIP)
+            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, 0);
+        else if (homindicator)
+            V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
+                ((gametic % 20) < 9 ? 176 : 0));
 
         // The head node is the last node output.
         R_RenderBSPNode(numnodes - 1);
