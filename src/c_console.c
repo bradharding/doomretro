@@ -282,29 +282,29 @@ static void C_DrawScrollbar(void)
 {
     int x, y;
     int trackstart;
-    int trackheight;
+    int trackend;
     int facestart;
-    int faceheight;
-    int offset = (CONSOLEHEIGHT - consoleheight);
+    int faceend;
+    int offset = (CONSOLEHEIGHT - consoleheight) * SCREENWIDTH;
 
     // Draw scrollbar track
-    trackstart = CONSOLESCROLLBARY;
-    trackheight = CONSOLESCROLLBARHEIGHT;
-    for (y = trackstart; y < trackstart + trackheight; ++y)
-        if (y - offset >= CONSOLETOP)
+    trackstart = CONSOLESCROLLBARY * SCREENWIDTH;
+    trackend = trackstart + CONSOLESCROLLBARHEIGHT * SCREENWIDTH;
+    for (y = trackstart; y < trackend; y += SCREENWIDTH)
+        if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
-                screens[0][(y - offset) * SCREENWIDTH + x] = consolescrollbartrackcolor;
+                screens[0][y - offset + x] = consolescrollbartrackcolor;
 
     // Draw scrollbar face
-    facestart = trackstart + trackheight * (outputhistory == -1 ?
-        MAX(0, consolestrings - (CONSOLELINES - 1)) : outputhistory) / consolestrings;
-    faceheight = trackheight - trackheight * MAX(0, consolestrings - (CONSOLELINES - 1))
-        / consolestrings;
+    facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
+        MAX(0, consolestrings - CONSOLELINES) : outputhistory) / consolestrings) * SCREENWIDTH;
+    faceend = facestart + (CONSOLESCROLLBARHEIGHT - CONSOLESCROLLBARHEIGHT
+        * MAX(0, consolestrings - CONSOLELINES) / consolestrings) * SCREENWIDTH;
 
-    for (y = facestart; y < facestart + faceheight; ++y)
-        if (y - offset >= CONSOLETOP)
+    for (y = facestart; y < faceend; y += SCREENWIDTH)
+        if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
-                screens[0][(y - offset) * SCREENWIDTH + x] = consolescrollbarfacecolor;
+                screens[0][y - offset + x] = consolescrollbarfacecolor;
 }
 
 void C_Init(void)
