@@ -606,7 +606,7 @@ void HU_Ticker(void)
             message_on = true;
             message_counter = HU_MSGTIMEOUT;
             message_nottobefuckedwith = message_dontfuckwithme;
-            message_dontfuckwithme = 0;
+            message_dontfuckwithme = false;
 
             Z_Free(s);
         }
@@ -631,7 +631,7 @@ void HU_PlayerMessage(char *message, boolean ingame)
     
     lastchar = buffer[strlen(buffer) - 1];
 
-    if (plr && !consoleactive)
+    if (plr && !consoleactive && !message_dontfuckwithme)
         plr->message = buffer;
 
     if (ingame)
