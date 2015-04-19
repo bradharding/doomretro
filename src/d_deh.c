@@ -548,6 +548,8 @@ char    *startup3 = "";
 char    *startup4 = "";
 char    *startup5 = "";
 
+char    *savegamename = SAVEGAMENAME;
+
 char    *s_BANNER1 = BANNER1;
 char    *s_BANNER2 = BANNER2;
 char    *s_BANNER3 = BANNER3;
@@ -1000,6 +1002,8 @@ deh_strs deh_strlookup[] =
     { &startup3,               "STARTUP3",             false },
     { &startup4,               "STARTUP4",             false },
     { &startup5,               "STARTUP5",             false },
+
+    { &savegamename,           "SAVEGAMENAME",         false },
 
     { &s_BANNER1,              "BANNER1",              false },
     { &s_BANNER2,              "BANNER2",              false },
