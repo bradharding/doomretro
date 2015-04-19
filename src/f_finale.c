@@ -423,6 +423,8 @@ int     castonmelee;
 boolean castattacking;
 boolean firstevent;
 
+extern char *playername;
+
 //
 // F_StartCast
 //
@@ -440,6 +442,8 @@ void F_StartCast(void)
     castframes = 0;
     castonmelee = 0;
     castattacking = false;
+    if (strcasecmp(playername, PLAYERNAME_DEFAULT))
+        s_CC_HERO = playername;
     S_ChangeMusic(mus_evil, true, false);
 }
 
