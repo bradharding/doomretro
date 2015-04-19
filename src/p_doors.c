@@ -204,7 +204,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_bluecard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername, "keycard");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "keycard");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -215,7 +216,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_blueskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername, "skull key");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEO, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "skull key");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -235,7 +237,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_redcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername, "keycard");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "keycard");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -246,7 +249,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_redskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername, "skull key");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_REDO, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "skull key");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -266,7 +270,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_yellowcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername, "keycard");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "keycard");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -277,7 +282,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
                         player->neededcard = it_yellowskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername, "skull key");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWO, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "skull key");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -397,7 +403,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_bluecard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername, "keycard");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "keycard");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -408,7 +415,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_blueskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername, "skull key");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_BLUEK, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "skull key");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -431,7 +439,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_yellowcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername, "keycard");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "keycard");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -442,7 +451,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_yellowskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername, "skull key");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_YELLOWK, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "skull key");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -465,7 +475,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_redcard;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername, "keycard");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "keycard");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
@@ -476,7 +487,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         player->neededcard = it_redskull;
                         player->neededcardflash = NEEDEDCARDFLASH;
                     }
-                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername, "skull key");
+                    M_snprintf(buffer, sizeof(buffer), s_PD_REDK, playername,
+                        (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"), "skull key");
                     buffer[0] = toupper(buffer[0]);
                     HU_PlayerMessage(buffer, true);
                 }
