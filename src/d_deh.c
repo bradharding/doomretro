@@ -199,17 +199,11 @@ char    *s_GOTSHOTGUN = GOTSHOTGUN;
 char    *s_GOTSHOTGUN2 = GOTSHOTGUN2;
 
 char    *s_PD_BLUEO = PD_BLUEO;
-char    *s_PD_BLUEO2 = "";
 char    *s_PD_REDO = PD_REDO;
-char    *s_PD_REDO2 = "";
 char    *s_PD_YELLOWO = PD_YELLOWO;
-char    *s_PD_YELLOWO2 = "";
 char    *s_PD_BLUEK = PD_BLUEK;
-char    *s_PD_BLUEK2 = "";
 char    *s_PD_REDK = PD_REDK;
-char    *s_PD_REDK2 = "";
 char    *s_PD_YELLOWK = PD_YELLOWK;
-char    *s_PD_YELLOWK2 = "";
 
 char    *s_GGSAVED = GGSAVED;
 char    *s_GGLOADED = "";
@@ -656,17 +650,11 @@ deh_strs deh_strlookup[] =
     { &s_GOTSHOTGUN2,          "GOTSHOTGUN2",          false },
 
     { &s_PD_BLUEO,             "PD_BLUEO",             false },
-    { &s_PD_BLUEO2,            "PD_BLUEO2",            false },
     { &s_PD_REDO,              "PD_REDO",              false },
-    { &s_PD_REDO2,             "PD_REDO2",             false },
     { &s_PD_YELLOWO,           "PD_YELLOWO",           false },
-    { &s_PD_YELLOWO2,          "PD_YELLOWO2",          false },
     { &s_PD_BLUEK,             "PD_BLUEK",             false },
-    { &s_PD_BLUEK2,            "PD_BLUEK2",            false },
     { &s_PD_REDK,              "PD_REDK",              false },
-    { &s_PD_REDK2,             "PD_REDK2",             false },
     { &s_PD_YELLOWK,           "PD_YELLOWK",           false },
-    { &s_PD_YELLOWK2,          "PD_YELLOWK2",          false },
 
     { &s_GGSAVED,              "GGSAVED",              false },
     { &s_GGLOADED,             "GGLOADED",             false },

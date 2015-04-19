@@ -509,7 +509,7 @@ consolecmd_t consolecmds[] =
     CMD       (totalmapped, C_GameCondition, C_TotalMapped, 0, "", "Show the amount of the current map that has been mapped."),
     CMD       (totalsecrets, C_GameCondition, C_TotalSecrets, 0, "", "Show the number of secrets in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbind the action from a control."),
-    CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capping of framerate at 35 FPS."),
+    CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capping of the framerate at 35 FPS."),
 #if defined(SDL20)
     CVAR_INT  (vid_display, C_NoCondition, C_Int, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
 #endif

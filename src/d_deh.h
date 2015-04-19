@@ -133,17 +133,11 @@ extern char     *s_GOTSHOTGUN;
 extern char     *s_GOTSHOTGUN2;
 
 extern char     *s_PD_BLUEO;
-extern char     *s_PD_BLUEO2;
 extern char     *s_PD_REDO;
-extern char     *s_PD_REDO2;
 extern char     *s_PD_YELLOWO;
-extern char     *s_PD_YELLOWO2;
 extern char     *s_PD_BLUEK;
-extern char     *s_PD_BLUEK2;
 extern char     *s_PD_REDK;
-extern char     *s_PD_REDK2;
 extern char     *s_PD_YELLOWK;
-extern char     *s_PD_YELLOWK2;
 
 extern char     *s_GGSAVED;
 extern char     *s_GGLOADED;
