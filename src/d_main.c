@@ -1280,7 +1280,7 @@ static void D_DoomMainSetup(void)
     if (fastparm = M_CheckParm("-fast"))
         C_Output("Found -FAST parameter on command-line. Monsters will be faster.");
 
-    devparm = true;// M_CheckParm("-devparm");
+    devparm = M_CheckParm("-devparm");
 
     // turbo option
     p = M_CheckParm("-turbo");
