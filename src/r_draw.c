@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "m_random.h"
 #include "r_local.h"
@@ -221,7 +222,7 @@ void R_DrawSpectreShadowColumn(void)
 
     if (--count)
     {
-        if (!(rand() % 4))
+        if (!(rand() % 4) && !consoleactive)
             *dest = tinttab25[*dest];
         dest += SCREENWIDTH;
     }
@@ -230,7 +231,7 @@ void R_DrawSpectreShadowColumn(void)
         *dest = tinttab25[*dest];
         dest += SCREENWIDTH;
     }
-    if (!(rand() % 4))
+    if (!(rand() % 4) && !consoleactive)
         *dest = tinttab25[*dest];
 }
 
