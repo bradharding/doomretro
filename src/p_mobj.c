@@ -1083,8 +1083,6 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
     {
         mobj_t  *newsplat = Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
 
-        memset(newsplat, 0, sizeof(*newsplat));
-
         newsplat->type = MT_BLOODSPLAT;
         newsplat->sprite = SPR_BLD2;
         newsplat->frame = rand() & 7;
@@ -1115,8 +1113,6 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
     if (!isliquid[floorpic] && sec->floorheight <= maxheight && floorpic != skyflatnum)
     {
         mobj_t  *newsplat = Z_Malloc(sizeof(*newsplat), PU_LEVEL, NULL);
-
-        memset(newsplat, 0, sizeof(*newsplat));
 
         newsplat->type = MT_BLOODSPLAT;
         newsplat->sprite = SPR_BLD2;
@@ -1160,10 +1156,7 @@ void P_SpawnShadow(mobj_t *actor)
 {
     mobj_t      *mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
 
-    memset(mobj, 0, sizeof(*mobj));
-
     mobj->type = MT_SHADOW;
-    mobj->info = &mobjinfo[MT_SHADOW];
     mobj->x = actor->x;
     mobj->y = actor->y;
 
