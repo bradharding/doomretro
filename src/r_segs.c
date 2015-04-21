@@ -139,12 +139,11 @@ typedef struct
     int heightbits;
 } scale_values_t;
 
-static const scale_values_t scale_values[8] =
+static const scale_values_t scale_values[9] =
 {
-    { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 },
-    { 1024 * FRACUNIT, 11 }, {  512 * FRACUNIT, 11 },
-    {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
-    {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }
+    { 2048 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 12 }, { 1024 * FRACUNIT, 11 },
+    {  512 * FRACUNIT, 11 }, {  512 * FRACUNIT, 10 }, {  256 * FRACUNIT, 10 },
+    {  256 * FRACUNIT,  9 }, {  128 * FRACUNIT,  9 }, {   64 * FRACUNIT,  9 }
 };
 
 void R_FixWiggle(sector_t *sector)
