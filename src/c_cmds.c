@@ -1252,6 +1252,9 @@ void A_Fall(mobj_t *actor);
 
 static boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
 {
+    if (!parm1[0] && players[0].health)
+        return true;
+
     if (gamestate == GS_LEVEL)
     {
         int i;
@@ -1301,8 +1304,9 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
     {
-        P_KillMobj(NULL, players[0].mo);
+        P_DamageMobj(players[0].mo, NULL, NULL, players[0].health);
         C_Output("Player killed.");
+        consoledirection = -1;
     }
     else
     {
@@ -1340,10 +1344,13 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
                 }
             }
 
-            if (!kills)
-                C_Output("No monsters killed.");
-            else
+            if (kills)
+            {
                 C_Output("%s monster%s killed.", commify(kills), (kills == 1 ? "" : "s"));
+                consoledirection = -1;
+            }
+            else
+                C_Output("No monsters killed.");
         }
         else
         {
@@ -1376,12 +1383,15 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
                 }
             }
 
-            if (!kills)
-                C_Output("No %s %s.", mobjinfo[type].plural1,
-                    (type == MT_BARREL ? "exploded" : "killed"));
-            else
+            if (kills)
+            {
                 C_Output("%s %s %s.", commify(kills),
                     (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
+                    (type == MT_BARREL ? "exploded" : "killed"));
+                consoledirection = -1;
+            }
+            else
+                C_Output("No %s %s.", mobjinfo[type].plural1,
                     (type == MT_BARREL ? "exploded" : "killed"));
         }
     }
