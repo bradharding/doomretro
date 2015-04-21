@@ -197,7 +197,6 @@ void D_Display(void)
     static boolean      pausedstate = false;
     static gamestate_t  oldgamestate = (gamestate_t)(-1);
     static int          borderdrawcount = 0;
-    static int          saved_gametic = -1;
     int                 nowtime;
     int                 tics;
     int                 wipestart;

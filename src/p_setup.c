@@ -1009,7 +1009,7 @@ static void P_GroupLines(void)
 
 static void P_RemoveSlimeTrails(void)                   // killough 10/98
 {
-    byte        *hit = (byte *)calloc(1, numvertexes);  // Hitlist for vertices
+    byte        *hit = calloc(1, numvertexes);          // Hitlist for vertices
     int         i;
 
     for (i = 0; i < numsegs; i++)                       // Go through each seg

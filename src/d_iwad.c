@@ -325,19 +325,15 @@ void IdentifyIWADByName(char *name)
     char        *p;
 
     // Trim down the name to just the filename, ignoring the path.
-    if (!(p = strrchr(name, '\\')))
+    p = strrchr(name, '\\');
+    if (!p)
         p = strrchr(name, '/');
-    if (p != NULL)
+    if (p)
         name = p + 1;
     gamemission = none;
 
     for (i = 0; i < arrlen(iwads); ++i)
     {
-        char *iwadname = iwads[i].name;
-
-        if (strlen(name) < strlen(iwadname))
-            continue;
-
         // Check if the filename is this IWAD name.
         if (!strcasecmp(name, iwads[i].name))
         {
