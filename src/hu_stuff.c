@@ -320,174 +320,170 @@ static int HUDNumberWidth(int val)
 
 static void HU_DrawHUD(void)
 {
-    int         health = plr->mo->health;
+    int             health = plr->mo->health;
+    int             ammotype = weaponinfo[plr->readyweapon].ammo;
+    int             ammo = plr->ammo[ammotype];
+    int             armor = plr->armorpoints;
+    int             health_x = HUD_HEALTH_X;
+    int             keys = 0;
+    int             i = 0;
+    static int      healthwait = 0;
+    boolean         invert;
+    int             invulnerability = plr->powers[pw_invulnerability];
+    static boolean  healthanim = false;
+    patch_t         *patch;
 
-    if (health > 0)
+    if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
+        || plr->pendingweapon == wp_fist) && plr->powers[pw_strength])
+        patch = berserkpatch;
+    else
+        patch = healthpatch;
+
+    invert = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
+        || menuactive || paused || consoleactive);
+    if (patch)
     {
-        int             ammotype = weaponinfo[plr->readyweapon].ammo;
-        int             ammo = plr->ammo[ammotype];
-        int             armor = plr->armorpoints;
-        int             health_x = HUD_HEALTH_X;
-        int             keys = 0;
-        int             i = 0;
-        static int      healthwait = 0;
-        boolean         invert;
-        int             invulnerability = plr->powers[pw_invulnerability];
-        static boolean  healthanim = false;
-        patch_t         *patch;
-
-        if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
-            || plr->pendingweapon == wp_fist) && plr->powers[pw_strength])
-            patch = berserkpatch;
+        if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
+            godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
         else
-            patch = healthpatch;
+            hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
+        health_x += patch->width + 8;
+    }
+    DrawHUDNumber(health_x, HUD_HEALTH_Y, &health_x, health, invert, hudnumfunc);
+    if (!emptytallpercent)
+        hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, invert);
 
-        invert = ((health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
+    if (health <= HUD_HEALTH_MIN && !menuactive && !paused && !consoleactive)
+    {
+        if (healthwait < I_GetTime())
+        {
+            healthanim = !healthanim;
+            healthwait = I_GetTime() + (int)(HUD_HEALTH_WAIT * (float)health / HUD_HEALTH_MIN) + 4;
+        }
+    }
+    else
+    {
+        healthanim = false;
+        healthwait = 0;
+    }
+
+    if (plr->pendingweapon != wp_nochange)
+    {
+        ammotype = weaponinfo[plr->pendingweapon].ammo;
+        ammo = plr->ammo[ammotype];
+    }
+
+    if (health && ammo && ammotype != am_noammo)
+    {
+        int                 ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
+        static int          ammowait = 0;
+        static boolean      ammoanim = false;
+
+        invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN
             || menuactive || paused || consoleactive);
+        patch = ammopic[ammotype].patch;
         if (patch)
         {
-            if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-                godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
-            else
-                hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
-            health_x += patch->width + 8;
+            hudfunc(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y, patch, invert);
+            ammo_x += patch->width + 8;
         }
-        DrawHUDNumber(health_x, HUD_HEALTH_Y, &health_x, health, invert, hudnumfunc);
-        if (!emptytallpercent)
-            hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, invert);
+        DrawHUDNumber(ammo_x, HUD_AMMO_Y, &ammo_x, ammo, invert, hudnumfunc);
 
-        if (health <= HUD_HEALTH_MIN && !menuactive && !paused && !consoleactive)
+        if (ammo <= HUD_AMMO_MIN && !menuactive && !paused && !consoleactive)
         {
-            if (healthwait < I_GetTime())
+            if (ammowait < I_GetTime())
             {
-                healthanim = !healthanim;
-                healthwait = I_GetTime() + (int)(HUD_HEALTH_WAIT * (float)health / HUD_HEALTH_MIN) + 4;
+                ammoanim = !ammoanim;
+                ammowait = I_GetTime() + (int)(HUD_AMMO_WAIT * (float)ammo / HUD_AMMO_MIN) + 4;
             }
         }
         else
         {
-            healthanim = false;
-            healthwait = 0;
+            ammoanim = false;
+            ammowait = 0;
+        }
+    }
+
+    while (i < NUMCARDS)
+        if (plr->cards[i++] > 0)
+            keys++;
+
+    if (keys || plr->neededcardflash)
+    {
+        int                 keypic_x = HUD_KEYS_X - 20 * (keys - 1);
+        static int          keywait = 0;
+        static boolean      showkey = false;
+
+        if (!armor)
+            keypic_x += 123;
+        else
+        {
+            if (emptytallpercent)
+                keypic_x += SHORT(tallpercent->width);
+            if (armor < 10)
+                keypic_x += 26;
+            else if (armor < 100)
+                keypic_x += 12;
         }
 
-        if (plr->pendingweapon != wp_nochange)
+        if (plr->neededcardflash)
         {
-            ammotype = weaponinfo[plr->pendingweapon].ammo;
-            ammo = plr->ammo[ammotype];
-        }
+            patch_t     *patch = keypic[plr->neededcard].patch;
 
-        if (ammo && ammotype != am_noammo)
-        {
-            int                 ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
-            static int          ammowait = 0;
-            static boolean      ammoanim = false;
-
-            invert = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN
-                || menuactive || paused || consoleactive);
-            patch = ammopic[ammotype].patch;
             if (patch)
             {
-                hudfunc(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y, patch, invert);
-                ammo_x += patch->width + 8;
-            }
-            DrawHUDNumber(ammo_x, HUD_AMMO_Y, &ammo_x, ammo, invert, hudnumfunc);
-
-            if (ammo <= HUD_AMMO_MIN && !menuactive && !paused && !consoleactive)
-            {
-                if (ammowait < I_GetTime())
+                if (!menuactive && !paused && !consoleactive)
                 {
-                    ammoanim = !ammoanim;
-                    ammowait = I_GetTime() + (int)(HUD_AMMO_WAIT * (float)ammo / HUD_AMMO_MIN) + 4;
+                    if (keywait < I_GetTime())
+                    {
+                        showkey = !showkey;
+                        keywait = I_GetTime() + HUD_KEY_WAIT;
+                        plr->neededcardflash--;
+                    }
                 }
-            }
-            else
-            {
-                ammoanim = false;
-                ammowait = 0;
+                if (showkey)
+                    hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
             }
         }
-
-        while (i < NUMCARDS)
-            if (plr->cards[i++] > 0)
-                keys++;
-
-        if (keys || plr->neededcardflash)
+        else
         {
-            int                 keypic_x = HUD_KEYS_X - 20 * (keys - 1);
-            static int          keywait = 0;
-            static boolean      showkey = false;
+            showkey = false;
+            keywait = 0;
+        }
 
-            if (!armor)
-                keypic_x += 123;
-            else
+        for (i = 0; i < NUMCARDS; i++)
+            if (plr->cards[i] > 0)
             {
-                if (emptytallpercent)
-                    keypic_x += SHORT(tallpercent->width);
-                if (armor < 10)
-                    keypic_x += 26;
-                else if (armor < 100)
-                    keypic_x += 12;
-            }
-
-            if (plr->neededcardflash)
-            {
-                patch_t     *patch = keypic[plr->neededcard].patch;
+                patch_t     *patch = keypic[i].patch;
 
                 if (patch)
-                {
-                    if (!menuactive && !paused && !consoleactive)
-                    {
-                        if (keywait < I_GetTime())
-                        {
-                            showkey = !showkey;
-                            keywait = I_GetTime() + HUD_KEY_WAIT;
-                            plr->neededcardflash--;
-                        }
-                    }
-                    if (showkey)
-                        hudfunc(keypic_x - (SHORT(patch->width) + 6), HUD_KEYS_Y, patch, true);
-                }
+                    hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
+                        HUD_KEYS_Y, patch, true);
             }
-            else
-            {
-                showkey = false;
-                keywait = 0;
-            }
+    }
 
-            for (i = 0; i < NUMCARDS; i++)
-                if (plr->cards[i] > 0)
-                {
-                    patch_t     *patch = keypic[i].patch;
+    if (armor)
+    {
+        patch_t     *patch = (plr->armortype == 1 ? greenarmorpatch : bluearmorpatch);
+        int         armor_x = HUD_ARMOR_X;
 
-                    if (patch)
-                        hudfunc(keypic_x + (SHORT(patch->width) + 6) * (cardsfound - plr->cards[i]),
-                            HUD_KEYS_Y, patch, true);
-                }
-        }
-
-        if (armor)
+        if (patch)
         {
-            patch_t     *patch = (plr->armortype == 1 ? greenarmorpatch : bluearmorpatch);
-            int         armor_x = HUD_ARMOR_X;
-
-            if (patch)
-            {
-                armor_x -= SHORT(patch->width);
-                hudfunc(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, true);
-                armor_x -= 7;
-            }
-            if (emptytallpercent)
-            {
-                armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(armor_x, HUD_ARMOR_Y, &armor_x, armor, true, hudnumfunc);
-            }
-            else
-            {
-                armor_x -= SHORT(tallpercent->width);
-                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, true);
-                armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(armor_x, HUD_ARMOR_Y, &armor_x, armor, true, hudnumfunc);
-            }
+            armor_x -= SHORT(patch->width);
+            hudfunc(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, true);
+            armor_x -= 7;
+        }
+        if (emptytallpercent)
+        {
+            armor_x -= HUDNumberWidth(armor);
+            DrawHUDNumber(armor_x, HUD_ARMOR_Y, &armor_x, armor, true, hudnumfunc);
+        }
+        else
+        {
+            armor_x -= SHORT(tallpercent->width);
+            hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, true);
+            armor_x -= HUDNumberWidth(armor);
+            DrawHUDNumber(armor_x, HUD_ARMOR_Y, &armor_x, armor, true, hudnumfunc);
         }
     }
 }
