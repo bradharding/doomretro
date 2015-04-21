@@ -1096,7 +1096,7 @@ static void SetVideoMode(boolean output)
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Staying at desktop resolution of %ix%i with %s aspect ratio.",
+                C_Output("Staying at the desktop resolution of %ix%i with a %s aspect ratio.",
                     displays[display - 1].w, displays[display - 1].h, aspectratio(displays[display - 1].w,
                     displays[display - 1].h));
         }
@@ -1105,7 +1105,7 @@ static void SetVideoMode(boolean output)
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 screenwidth, screenheight, (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
-                    C_Output("Switched to screen resolution of %ix%i with %s aspect ratio.",
+                    C_Output("Switched to a resolution of %ix%i with a %s aspect ratio.",
                     displays[display - 1].w, displays[display - 1].h, aspectratio(displays[display - 1].w,
                     displays[display - 1].h));
         }
@@ -1126,7 +1126,7 @@ static void SetVideoMode(boolean output)
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                 windowwidth, windowheight, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
-                C_Output("Created resizable window with dimensions %ix%i and centered.",
+                C_Output("Created a resizable window with dimensions %ix%i and centered.",
                     windowwidth, windowheight);
         }
         else
@@ -1134,7 +1134,7 @@ static void SetVideoMode(boolean output)
             window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
-                C_Output("Created resizable window with dimensions %ix%i at (%i,%i).",
+                C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
                     windowwidth, windowheight, windowx, windowy);
             windowx = MIN(displays[display - 1].w - windowwidth, windowx);
             windowy = MIN(displays[display - 1].h - windowheight, windowy);
@@ -1173,7 +1173,7 @@ static void SetVideoMode(boolean output)
             C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
 
         if (capfps)
-            C_Output("The framerate is capped to %i FPS.", TICRATE);
+            C_Output("The framerate is capped at %i FPS.", TICRATE);
         else
         {
             if (rendererinfo.flags & SDL_RENDERER_PRESENTVSYNC)
@@ -1181,7 +1181,7 @@ static void SetVideoMode(boolean output)
                 SDL_DisplayMode displaymode;
 
                 SDL_GetWindowDisplayMode(window, &displaymode);
-                C_Output("The framerate is capped to display's refresh rate of %iHz.",
+                C_Output("The framerate is capped at the display's refresh rate of %iHz.",
                     displaymode.refresh_rate);
             }
             else
@@ -1205,7 +1205,7 @@ static void SetVideoMode(boolean output)
         {
             static char     buffer[128];
 
-            M_snprintf(buffer, sizeof(buffer), "Gamma correction level is %.2f.",
+            M_snprintf(buffer, sizeof(buffer), "The gamma correction level is %.2f.",
                 gammalevels[gammaindex]);
             if (buffer[strlen(buffer) - 1] == '0' && buffer[strlen(buffer) - 2] == '0')
                 buffer[strlen(buffer) - 1] = '\0';
