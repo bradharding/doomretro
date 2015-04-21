@@ -511,14 +511,15 @@ char *removenewlines(const char *input)
 
 char *M_ExtractFilename(char *path)
 {
-    int     ch = '\\';
     size_t  len;
     char   *pdest;
     char   *inpfile = NULL;
 
-    pdest = strrchr(path, ch);
+    pdest = strrchr(path, '\\');
 
-    if (pdest == NULL)
+    if (!pdest)
+        pdest = strrchr(path, '/');
+    if (!pdest)
         pdest = path;
     else
         pdest++;
