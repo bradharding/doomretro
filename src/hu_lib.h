@@ -102,9 +102,6 @@ typedef struct
 // textline code
 //
 
-// clear a line of text
-void HUlib_clearTextLine(hu_textline_t *t);
-
 void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
 
 // returns success
@@ -122,9 +119,6 @@ void HUlib_eraseTextLine(hu_textline_t *l);
 
 // ?
 void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, boolean *on);
-
-// add a new line
-void HUlib_addLineToSText(hu_stext_t *s);
 
 // ?
 void HUlib_addMessageToSText(hu_stext_t *s, char *prefix, char *msg);

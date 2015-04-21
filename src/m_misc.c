@@ -58,7 +58,7 @@
 #include "z_zone.h"
 
 #if !defined(MAX_PATH)
-#define MAX_PATH        4096
+#define MAX_PATH        260
 #endif
 
 //

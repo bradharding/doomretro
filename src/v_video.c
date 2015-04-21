@@ -1145,7 +1145,7 @@ void V_Init(void)
 }
 
 #if !defined(MAX_PATH)
-#define MAX_PATH        4096
+#define MAX_PATH        260
 #endif
 
 char                    lbmname[MAX_PATH];

@@ -67,6 +67,10 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#if !defined(MAX_PATH)
+#define MAX_PATH        260
+#endif
+
 #define GIVECMDFORMAT   "~items~"
 #define MAPCMDFORMAT    "E~x~M~y~|MAP~xy~"
 #define SPAWNCMDFORMAT  "~monster~|~item~"
