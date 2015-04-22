@@ -67,7 +67,7 @@ typedef struct
 //
 typedef struct
 {
-    int         istexture;              // if false, it is a flat
+    boolean     istexture;              // if false, it is a flat
     char        endname[9];
     char        startname[9];
     int         speed;
@@ -79,6 +79,8 @@ typedef struct
 #endif
 
 #define MAXANIMS        32
+
+#define ANIMSPEED       8
 
 static anim_t   *lastanim;
 static anim_t   *anims;         // new structure w/o limits -- killough
@@ -99,35 +101,35 @@ static size_t   maxanims;
 //
 animdef_t animdefs[] =
 {
-    { false, "NUKAGE3",  "NUKAGE1",  7, true  },
-    { false, "FWATER4",  "FWATER1",  7, true  },
-    { false, "SWATER4",  "SWATER1",  7, true  },
-    { false, "LAVA4",    "LAVA1",    7, true  },
-    { false, "BLOOD3",   "BLOOD1",   7, true  },
+    { false, "NUKAGE3",  "NUKAGE1",  ANIMSPEED, true  },
+    { false, "FWATER4",  "FWATER1",  ANIMSPEED, true  },
+    { false, "SWATER4",  "SWATER1",  ANIMSPEED, true  },
+    { false, "LAVA4",    "LAVA1",    ANIMSPEED, true  },
+    { false, "BLOOD3",   "BLOOD1",   ANIMSPEED, true  },
 
     // DOOM II flat animations.
-    { false, "RROCK08",  "RROCK05",  7, false },
-    { false, "SLIME04",  "SLIME01",  7, true  },
-    { false, "SLIME08",  "SLIME05",  7, true  },
-    { false, "SLIME12",  "SLIME09",  7, false },
+    { false, "RROCK08",  "RROCK05",  ANIMSPEED, false },
+    { false, "SLIME04",  "SLIME01",  ANIMSPEED, true  },
+    { false, "SLIME08",  "SLIME05",  ANIMSPEED, true  },
+    { false, "SLIME12",  "SLIME09",  ANIMSPEED, false },
 
-    { true,  "BLODGR4",  "BLODGR1",  7, false },
-    { true,  "SLADRIP3", "SLADRIP1", 7, false },
+    { true,  "BLODGR4",  "BLODGR1",  ANIMSPEED, false },
+    { true,  "SLADRIP3", "SLADRIP1", ANIMSPEED, false },
 
-    { true,  "BLODRIP4", "BLODRIP1", 7, false },
-    { true,  "FIREWALL", "FIREWALA", 7, false },
-    { true,  "GSTFONT3", "GSTFONT1", 7, false },
-    { true,  "FIRELAVA", "FIRELAV3", 7, false },
-    { true,  "FIREMAG3", "FIREMAG1", 7, false },
-    { true,  "FIREBLU2", "FIREBLU1", 7, false },
-    { true,  "ROCKRED3", "ROCKRED1", 7, false },
+    { true,  "BLODRIP4", "BLODRIP1", ANIMSPEED, false },
+    { true,  "FIREWALL", "FIREWALA", ANIMSPEED, false },
+    { true,  "GSTFONT3", "GSTFONT1", ANIMSPEED, false },
+    { true,  "FIRELAVA", "FIRELAV3", ANIMSPEED, false },
+    { true,  "FIREMAG3", "FIREMAG1", ANIMSPEED, false },
+    { true,  "FIREBLU2", "FIREBLU1", ANIMSPEED, false },
+    { true,  "ROCKRED3", "ROCKRED1", ANIMSPEED, false },
 
-    { true,  "BFALL4",   "BFALL1",   7, false },
-    { true,  "SFALL4",   "SFALL1",   7, false },
-    { true,  "WFALL4",   "WFALL1",   7, false },
-    { true,  "DBRAIN4",  "DBRAIN1",  7, false },
+    { true,  "BFALL4",   "BFALL1",   ANIMSPEED, false },
+    { true,  "SFALL4",   "SFALL1",   ANIMSPEED, false },
+    { true,  "WFALL4",   "WFALL1",   ANIMSPEED, false },
+    { true,  "DBRAIN4",  "DBRAIN1",  ANIMSPEED, false },
 
-    { -1,    "",         "",         0, false }
+    { false, "",         "",                 0, false }
 };
 
 //
@@ -148,7 +150,7 @@ void P_InitPicAnims(void)
 
     //  Init animation
     lastanim = anims;
-    for (i = 0; animdefs[i].istexture != -1; i++)
+    for (i = 0; animdefs[i].endname[0]; i++)
     {
         char    *startname = animdefs[i].startname;
         char    *endname = animdefs[i].endname;
