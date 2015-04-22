@@ -1254,14 +1254,14 @@ void A_Fall(mobj_t *actor);
 
 static boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
 {
-    if (!parm1[0] && players[0].health)
-        return true;
-
     if (gamestate == GS_LEVEL)
     {
         int i;
 
-        if (!parm1[0] || !strcasecmp(parm1, "monsters") || !strcasecmp(parm1, "all"))
+        if (!parm1[0])
+            return players[0].mo->health;
+
+        if (!strcasecmp(parm1, "monsters") || !strcasecmp(parm1, "all"))
             return true;
 
         for (i = 0; i < NUMMOBJTYPES; i++)
