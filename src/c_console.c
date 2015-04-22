@@ -45,6 +45,7 @@
 
 #include "c_cmds.h"
 #include "c_console.h"
+#include "d_deh.h"
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
@@ -129,6 +130,9 @@ boolean         showmemory = false;
 extern boolean  translucency;
 extern byte     *tinttab75;
 extern int      fps;
+boolean         alwaysrun;
+
+void G_ToggleAlwaysRun(void);
 
 char *upper =
 {
@@ -1023,9 +1027,12 @@ boolean C_Responder(event_t *ev)
                 M_ChangeGamma(modstate & KMOD_SHIFT);
                 break;
 
+            case KEY_CAPSLOCK:
+                G_ToggleAlwaysRun();
+                C_Output("%s.", (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
+                break;
+
             default:
-                if (modstate & (KMOD_SHIFT | KMOD_CAPS))
-                    ch = upper[ch];
                 if (ch >= ' ' && ch < '~' && ch != '`'
                     && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
                     consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
