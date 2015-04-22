@@ -960,11 +960,13 @@ static void C_DeadZone(char *cmd, char *parm1, char *parm2)
 static void C_EndGame(char *cmd, char *parm1, char *parm2)
 {
     M_EndingGame();
+    C_HideConsoleFast();
 }
 
 static void C_ExitMap(char *cmd, char *parm1, char *parm2)
 {
     G_ExitLevel();
+    C_HideConsoleFast();
 }
 
 static boolean C_FloatCondition(char *cmd, char *parm1, char *parm2)
@@ -1179,7 +1181,7 @@ static void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
 
 static void C_Help(char *cmd, char *parm1, char *parm2)
 {
-    C_HideConsole();
+    C_HideConsoleFast();
     M_ShowHelp();
 }
 
@@ -1306,7 +1308,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
     {
         P_DamageMobj(players[0].mo, NULL, NULL, players[0].health);
         C_Output("Player killed.");
-        consoledirection = -1;
+        C_HideConsole();
     }
     else
     {
@@ -1347,7 +1349,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
             if (kills)
             {
                 C_Output("%s monster%s killed.", commify(kills), (kills == 1 ? "" : "s"));
-                consoledirection = -1;
+                C_HideConsole();
             }
             else
                 C_Output("No monsters killed.");
@@ -1388,7 +1390,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
                 C_Output("%s %s %s.", commify(kills),
                     (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                     (type == MT_BARREL ? "exploded" : "killed"));
-                consoledirection = -1;
+                C_HideConsole();
             }
             else
                 C_Output("No %s %s.", mobjinfo[type].plural1,
@@ -1467,6 +1469,7 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
         G_DeferredLoadLevel(selectedskilllevel, gameepisode, gamemap);
     else
         G_DeferredInitNew(selectedskilllevel, gameepisode, gamemap);
+    C_HideConsoleFast();
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)

@@ -352,6 +352,11 @@ void C_Init(void)
 
 void C_HideConsole(void)
 {
+    consoledirection = -1;
+}
+
+void C_HideConsoleFast(void)
+{
     consoleheight = 0;
     consoledirection = -1;
     consoleactive = false;
