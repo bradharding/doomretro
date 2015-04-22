@@ -71,7 +71,7 @@
 
 #define CONSOLESPEED            (CONSOLEHEIGHT / 12)
 
-#define CONSOLEFONTSTART        '!'
+#define CONSOLEFONTSTART        ' '
 #define CONSOLEFONTEND          '~'
 #define CONSOLEFONTSIZE         (CONSOLEFONTEND - CONSOLEFONTSTART + 1)
 
@@ -104,6 +104,7 @@ patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
 patch_t         *ldquote;
 patch_t         *multiply;
+patch_t         *unknown;
 
 char            consoleinput[255] = "";
 int             consolestrings = 0;
@@ -327,6 +328,7 @@ void C_Init(void)
     lsquote = W_CacheLumpName("DRFON145", PU_STATIC);
     ldquote = W_CacheLumpName("DRFON147", PU_STATIC);
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
+    unknown = W_CacheLumpName("DRFON000", PU_STATIC);
 
     caret = consolefont['|' - CONSOLEFONTSTART];
 
@@ -471,7 +473,7 @@ static int C_TextWidth(char *text)
         int     c = letter - CONSOLEFONTSTART;
         int     j = 0;
 
-        w += (c < 0 || c >= CONSOLEFONTSIZE ? SPACEWIDTH : SHORT(consolefont[c]->width));
+        w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? unknown->width : consolefont[c]->width);
 
         while (kern[j].char1)
         {
@@ -530,10 +532,8 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
 
                 x = (x > tab ? x + SPACEWIDTH : tab);
             }
-            else if (c < 0 || c >= CONSOLEFONTSIZE)
-                x += SPACEWIDTH;
             else
-                patch = consolefont[c];
+                patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknown : consolefont[c]);
 
             if (isdigit(prevletter) && letter == 'x' && isdigit(nextletter))
                 patch = multiply;
