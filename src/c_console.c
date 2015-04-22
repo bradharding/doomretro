@@ -1038,6 +1038,8 @@ boolean C_Responder(event_t *ev)
                 break;
 
             default:
+                if (modstate & KMOD_SHIFT)
+                    ch = upper[ch];
                 if (ch >= ' ' && ch < '~' && ch != '`'
                     && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
                     consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
