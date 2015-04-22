@@ -270,11 +270,9 @@ void T_MoveFloor(floormove_t *floor)
                 case donutRaise:
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
+                    P_ChangeSector(sec, false);
                     if (isliquid[sec->floorpic])
-                    {
-                        P_ChangeSector(sec, false);
                         P_StartAnimatedLiquid(sec);
-                    }
                 default:
                     break;
             }
@@ -286,11 +284,9 @@ void T_MoveFloor(floormove_t *floor)
                 case lowerAndChange:
                     sec->special = floor->newspecial;
                     sec->floorpic = floor->texture;
+                    P_ChangeSector(sec, false);
                     if (isliquid[sec->floorpic])
-                    {
-                        P_ChangeSector(sec, false);
                         P_StartAnimatedLiquid(sec);
-                    }
                 default:
                     break;
             }
