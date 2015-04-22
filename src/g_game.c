@@ -629,7 +629,13 @@ void G_DoLoadLevel(void)
 
 void G_ToggleAlwaysRun(void)
 {
-    alwaysrun = !alwaysrun;
+#if defined(SDL20)
+    SDL_Keymod      modstate = SDL_GetModState();
+#else
+    SDLMod          modstate = SDL_GetModState();
+#endif
+
+    alwaysrun = modstate & KMOD_CAPS;
     if (!consoleactive)
         players[0].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
     C_Input("pm_alwaysrun %s", (alwaysrun ? "on" : "off"));
