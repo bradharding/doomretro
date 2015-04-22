@@ -1258,7 +1258,7 @@ static boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
     {
         int i;
 
-        if (!parm1[0])
+        if (!parm1[0] || !strcasecmp(parm1, "player"))
             return players[0].mo->health;
 
         if (!strcasecmp(parm1, "monsters") || !strcasecmp(parm1, "all"))
@@ -1304,7 +1304,7 @@ static boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_Kill(char *cmd, char *parm1, char *parm2)
 {
-    if (!parm1[0])
+    if (!parm1[0] || !strcasecmp(parm1, "player"))
     {
         P_DamageMobj(players[0].mo, NULL, NULL, players[0].health);
         C_Output("Player killed.");
