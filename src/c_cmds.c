@@ -1331,6 +1331,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
                         {
                             A_Fall(thing);
                             P_SetMobjState(thing, S_PAIN_DIE6);
+                            players[0].killcount++;
                             kills++;
                         }
                         else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER
@@ -1371,6 +1372,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
                             {
                                 A_Fall(thing);
                                 P_SetMobjState(thing, S_PAIN_DIE6);
+                                players[0].killcount++;
                                 kills++;
                             }
                             else if (thing->flags & MF_SHOOTABLE)
