@@ -100,11 +100,12 @@ int             consoleheight = 0;
 int             consoledirection = -1;
 static int      consolewait = 0;
 
+patch_t         *unknown;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
 patch_t         *ldquote;
+patch_t         *degree;
 patch_t         *multiply;
-patch_t         *unknown;
 
 char            consoleinput[255] = "";
 int             consolestrings = 0;
@@ -320,6 +321,7 @@ void C_Init(void)
 
     while (consolecmds[numconsolecmds++].name[0]);
 
+    unknown = W_CacheLumpName("DRFON000", PU_STATIC);
     for (i = 0; i < CONSOLEFONTSIZE; i++)
     {
         M_snprintf(buffer, 9, "DRFON%03d", j++);
@@ -327,8 +329,8 @@ void C_Init(void)
     }
     lsquote = W_CacheLumpName("DRFON145", PU_STATIC);
     ldquote = W_CacheLumpName("DRFON147", PU_STATIC);
+    degree = W_CacheLumpName("DRFON176", PU_STATIC);
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
-    unknown = W_CacheLumpName("DRFON000", PU_STATIC);
 
     caret = consolefont['|' - CONSOLEFONTSTART];
 
@@ -471,9 +473,16 @@ static int C_TextWidth(char *text)
     {
         char    letter = text[i];
         int     c = letter - CONSOLEFONTSTART;
+        char    nextletter = text[i + 1];
         int     j = 0;
 
-        w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? unknown->width : consolefont[c]->width);
+        if (letter == '\xc2' && nextletter == '\xb0')
+        {
+            w += SHORT(degree->width);
+            ++i;
+        }
+        else
+            w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? unknown->width : consolefont[c]->width);
 
         while (kern[j].char1)
         {
@@ -531,6 +540,11 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
                 int tab = tabstops[tabs++];
 
                 x = (x > tab ? x + SPACEWIDTH : tab);
+            }
+            else if (letter == '\xc2' && nextletter == '\xb0')
+            {
+                patch = degree;
+                ++i;
             }
             else
                 patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknown : consolefont[c]);
