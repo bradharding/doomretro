@@ -349,7 +349,7 @@ static void HU_DrawHUD(void)
             hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
         health_x += patch->width + 8;
     }
-    DrawHUDNumber(health_x, HUD_HEALTH_Y, &health_x, health, invert, hudnumfunc);
+    DrawHUDNumber(health_x, HUD_HEALTH_Y, &health_x, MAX(0, health), invert, hudnumfunc);
     if (!emptytallpercent)
         hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, invert);
 
