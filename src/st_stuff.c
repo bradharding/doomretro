@@ -1029,7 +1029,7 @@ boolean ST_Responder(event_t *ev)
                         EpiDef.lastOn = selectedepisode;
                     }
                     gamemap = map;
-                    idclevtics = 2 * TICRATE;
+                    idclevtics = MAPCHANGETICS;
                 }
             }
         }
@@ -1266,6 +1266,7 @@ void ST_Ticker(void)
                 S_StopMusic();
 
             G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
+            C_HideConsoleFast();
         }
     }
 }

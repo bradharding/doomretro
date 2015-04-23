@@ -50,6 +50,8 @@
 
 #define ST_STRAIGHTFACECOUNT    (TICRATE / 2)
 
+#define MAPCHANGETICS           TICRATE
+
 //
 // STATUS BAR
 //

@@ -62,6 +62,7 @@
 #include "p_local.h"
 #include "s_sound.h"
 #include "SDL.h"
+#include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
 #include "w_wad.h"
@@ -1406,6 +1407,7 @@ static int      mapcmdmap;
 
 extern boolean  samelevel;
 extern menu_t   EpiDef;
+extern int      idclevtics;
 
 static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
 {
@@ -1468,10 +1470,12 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
     gamemap = mapcmdmap;
     C_Output((samelevel ? "Restarting %s..." : "Warping to %s..."), uppercase(parm1));
     if (gamestate == GS_LEVEL)
-        G_DeferredLoadLevel(selectedskilllevel, gameepisode, gamemap);
+        idclevtics = MAPCHANGETICS;
     else
+    {
         G_DeferredInitNew(selectedskilllevel, gameepisode, gamemap);
-    C_HideConsoleFast();
+        C_HideConsoleFast();
+    }
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
