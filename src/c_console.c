@@ -100,7 +100,7 @@ int             consoleheight = 0;
 int             consoledirection = -1;
 static int      consolewait = 0;
 
-patch_t         *unknown;
+patch_t         *unknownchar;
 patch_t         *consolefont[CONSOLEFONTSIZE];
 patch_t         *lsquote;
 patch_t         *ldquote;
@@ -321,7 +321,7 @@ void C_Init(void)
 
     while (consolecmds[numconsolecmds++].name[0]);
 
-    unknown = W_CacheLumpName("DRFON000", PU_STATIC);
+    unknownchar = W_CacheLumpName("DRFON000", PU_STATIC);
     for (i = 0; i < CONSOLEFONTSIZE; i++)
     {
         M_snprintf(buffer, 9, "DRFON%03d", j++);
@@ -482,7 +482,7 @@ static int C_TextWidth(char *text)
             ++i;
         }
         else
-            w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? unknown->width : consolefont[c]->width);
+            w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? unknownchar->width : consolefont[c]->width);
 
         while (kern[j].char1)
         {
@@ -547,7 +547,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
                 ++i;
             }
             else
-                patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknown : consolefont[c]);
+                patch = (c < 0 || c >= CONSOLEFONTSIZE ? unknownchar : consolefont[c]);
 
             if (isdigit(prevletter) && letter == 'x' && isdigit(nextletter))
                 patch = multiply;
