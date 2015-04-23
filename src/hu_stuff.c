@@ -320,7 +320,7 @@ static int HUDNumberWidth(int val)
 
 static void HU_DrawHUD(void)
 {
-    int             health = plr->mo->health;
+    int             health = MAX(0, plr->mo->health);
     int             ammotype = weaponinfo[plr->readyweapon].ammo;
     int             ammo = plr->ammo[ammotype];
     int             armor = plr->armorpoints;
@@ -349,7 +349,7 @@ static void HU_DrawHUD(void)
             hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
         health_x += patch->width + 8;
     }
-    DrawHUDNumber(health_x, HUD_HEALTH_Y, &health_x, MAX(0, health), invert, hudnumfunc);
+    DrawHUDNumber(health_x, HUD_HEALTH_Y, &health_x, health, invert, hudnumfunc);
     if (!emptytallpercent)
         hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, invert);
 
