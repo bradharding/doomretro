@@ -959,8 +959,8 @@ void WI_drawStats(void)
 
     if (canmodify || deh_pars)
     {
-        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 + 5, SP_TIMEY + 1, par, false);
-        WI_drawTime(ORIGINALWIDTH - SP_TIMEX, SP_TIMEY, cnt_par);
+        V_DrawPatchWithShadow(ORIGINALWIDTH / 2 + SP_TIMEX * 2 + 3, SP_TIMEY + 1, par, false);
+        WI_drawTime(ORIGINALWIDTH - SP_TIMEX - 2, SP_TIMEY, cnt_par);
     }
 }
 
