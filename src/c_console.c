@@ -508,7 +508,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
     size_t      len = strlen(text);
     char        prevletter = '\0';
 
-    while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH)
+    while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 2)
     {
         text[len - 1] = '.';
         text[len] = '.';
