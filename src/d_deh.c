@@ -2008,8 +2008,11 @@ void deh_procThing(DEHFILE *fpin, FILE* fpout, char *line)
                 }
                 pix = (int *)&mobjinfo[indexnum];
                 pix[ix] = (int)value;
-                mobjinfo[indexnum].flags2 = 0;
-                mobjinfo[indexnum].blood = 0;
+                if (!BTSX)
+                {
+                    mobjinfo[indexnum].flags2 = 0;
+                    mobjinfo[indexnum].blood = 0;
+                }
                 if (devparm)
                     C_Output("Assigned %d to %s(%d) at index %d", (int)value, key, indexnum, ix);
             }
