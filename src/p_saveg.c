@@ -1408,7 +1408,7 @@ void P_WriteSaveGameHeader(char *description)
         saveg_write8(0);
 
     memset(name, 0, sizeof(name));
-    strcpy(name, PACKAGE_NAMEANDVERSIONSTRING);
+    strcpy(name, PACKAGE_SAVEGAMEVERSIONSTRING);
 
     for (i = 0; i < VERSIONSIZE; ++i)
         saveg_write8(name[i]);
@@ -1440,7 +1440,7 @@ boolean P_ReadSaveGameHeader(char *description)
         read_vcheck[i] = saveg_read8();
 
     memset(vcheck, 0, sizeof(vcheck));
-    strcpy(vcheck, PACKAGE_NAMEANDVERSIONSTRING);
+    strcpy(vcheck, PACKAGE_SAVEGAMEVERSIONSTRING);
     if (strcmp(read_vcheck, vcheck) != 0)
         return false;   // bad version
 
