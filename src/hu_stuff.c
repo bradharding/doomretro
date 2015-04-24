@@ -321,7 +321,9 @@ static int HUDNumberWidth(int val)
 static void HU_DrawHUD(void)
 {
     int             health = MAX(0, plr->mo->health);
-    int             ammotype = weaponinfo[plr->readyweapon].ammo;
+    weapontype_t    pendingweapon = plr->pendingweapon;
+    weapontype_t    readyweapon = plr->readyweapon;
+    int             ammotype = weaponinfo[readyweapon].ammo;
     int             ammo = plr->ammo[ammotype];
     int             armor = plr->armorpoints;
     int             health_x = HUD_HEALTH_X;
@@ -333,8 +335,8 @@ static void HU_DrawHUD(void)
     static boolean  healthanim = false;
     patch_t         *patch;
 
-    if (((plr->readyweapon == wp_fist && plr->pendingweapon == wp_nochange)
-        || plr->pendingweapon == wp_fist) && plr->powers[pw_strength])
+    if (((readyweapon == wp_fist && pendingweapon == wp_nochange)
+        || pendingweapon == wp_fist) && plr->powers[pw_strength])
         patch = berserkpatch;
     else
         patch = healthpatch;
@@ -358,7 +360,7 @@ static void HU_DrawHUD(void)
         if (healthwait < I_GetTime())
         {
             healthanim = !healthanim;
-            healthwait = I_GetTime() + (int)(HUD_HEALTH_WAIT * (float)health / HUD_HEALTH_MIN) + 4;
+            healthwait = I_GetTime() + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 4;
         }
     }
     else
@@ -367,9 +369,9 @@ static void HU_DrawHUD(void)
         healthwait = 0;
     }
 
-    if (plr->pendingweapon != wp_nochange)
+    if (pendingweapon != wp_nochange)
     {
-        ammotype = weaponinfo[plr->pendingweapon].ammo;
+        ammotype = weaponinfo[pendingweapon].ammo;
         ammo = plr->ammo[ammotype];
     }
 
@@ -394,7 +396,7 @@ static void HU_DrawHUD(void)
             if (ammowait < I_GetTime())
             {
                 ammoanim = !ammoanim;
-                ammowait = I_GetTime() + (int)(HUD_AMMO_WAIT * (float)ammo / HUD_AMMO_MIN) + 4;
+                ammowait = I_GetTime() + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 4;
             }
         }
         else
