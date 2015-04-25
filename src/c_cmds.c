@@ -60,6 +60,7 @@
 #include "m_random.h"
 #include "p_inter.h"
 #include "p_local.h"
+#include "p_setup.h"
 #include "s_sound.h"
 #include "SDL.h"
 #include "st_stuff.h"
@@ -345,6 +346,7 @@ static void C_Hud(char *, char *, char *);
 static void C_Int(char *, char *, char *);
 static void C_Kill(char *, char *, char *);
 static void C_Map(char *, char *, char *);
+static void C_MapList(char *, char *, char *);
 static void C_NoClip(char *, char *, char *);
 static void C_NoTarget(char *, char *, char *);
 static void C_PixelSize(char *, char *, char *);
@@ -471,6 +473,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, mouse_threshold, 0, MOUSETHRESHOLD, "The mouse's acceleration threshold."),
     CMD       (map, C_MapCondition, C_Map, 1, MAPCMDFORMAT, "Warp to a map."),
     CVAR_BOOL (mapfixes, C_BoolCondition, C_Bool, mapfixes, MAPFIXES, "Toggle applying of fixes to maps when they are loaded."),
+    CMD       (maplist, C_NoCondition, C_MapList, 0, "", "Display a list of the available maps."),
     CVAR_TIME (maptime, C_NoCondition, C_Time, leveltime, "The time spent in the current or previous map."),
     CVAR_BOOL (messages, C_BoolCondition, C_Bool, messages, MESSAGES, "Toggle messages."),
     CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggle no clipping mode."),
@@ -1478,6 +1481,65 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
     }
 }
 
+extern int      dehcount;
+
+static void C_MapList(char *cmd, char *parm1, char *parm2)
+{
+    unsigned int        i;
+    int                 count = 0;
+
+    for (i = 0; i < numlumps; ++i)
+    {
+        int     episode = 0;
+        int     map = 0;
+
+        if (gamemode == commercial)
+        {
+            if (strlen(lumpinfo[i].name) == 5)
+            {
+                sscanf(uppercase(lumpinfo[i].name), "MAP0%1i", &map);
+                if (!map)
+                    sscanf(uppercase(lumpinfo[i].name), "MAP%2i", &map);
+                if (map)
+                {
+                    if (W_CheckMultipleLumps(lumpinfo[i].name) > 1 && dehcount == 1 && !chex)
+                    {
+                        if (lumpinfo[i].wad_file->type == IWAD)
+                            continue;
+                        C_Output("%i\t%s\t%s\t-", ++count,
+                            uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
+                            uppercase(lumpinfo[i].name));
+                    }
+                    else
+                        C_Output("%i\t%s\t%s\t%s", ++count,
+                            uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
+                            uppercase(lumpinfo[i].name),
+                            P_GetMapName(0, map, !strcasecmp(M_ExtractFilename(lumpinfo[i].wad_file->path),
+                            "nerve.wad")));
+                }
+            }
+        }
+        else if (strlen(lumpinfo[i].name) == 4)
+        {
+            sscanf(uppercase(lumpinfo[i].name), "E%1iM%1i", &episode, &map);
+            if (episode && map)
+            {
+                if (W_CheckMultipleLumps(lumpinfo[i].name) > 1 && dehcount == 1 && !chex)
+                {
+                    if (lumpinfo[i].wad_file->type == IWAD)
+                        continue;
+                    C_Output("%i\t%s\t%s\t-", ++count,
+                        uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
+                        uppercase(lumpinfo[i].name));
+                }
+                else
+                    C_Output("%i\t%s\t%s\t%s", ++count,
+                        uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
+                        uppercase(lumpinfo[i].name), P_GetMapName(episode, map, false));
+            }
+        }
+    }
+}
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
 {
     player_t    *player = &players[0];

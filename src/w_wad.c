@@ -213,6 +213,7 @@ wad_file_t *W_AddFile(char *filename, boolean automatic)
         if (strncmp(header.identification, "IWAD", 4) &&
             strncmp(header.identification, "PWAD", 4))
             I_Error("Wad file %s doesn't have IWAD or PWAD id\n", filename);
+        wad_file->type = (!strncmp(header.identification, "IWAD", 4) ? IWAD : PWAD);
 
         header.numlumps = LONG(header.numlumps);
         header.infotableofs = LONG(header.infotableofs);

@@ -72,6 +72,8 @@ struct _wad_file_s
     boolean             freedoom;
 
     char                path[260];
+
+    int                 type;
 };
 
 // Open the specified file. Returns a pointer to a new wad_file_t
