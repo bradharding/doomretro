@@ -1074,8 +1074,6 @@ static void SetVideoMode(boolean output)
     else
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "nearest", SDL_HINT_OVERRIDE);
 
-    SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, scalefilter, SDL_HINT_OVERRIDE);
-
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
     if (output)
