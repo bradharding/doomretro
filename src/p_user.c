@@ -81,24 +81,17 @@ void P_CalcHeight(player_t *player)
     mobj_t      *mo = player->mo;
 
     if (!onground)
+        player->viewz = MIN(mo->z + VIEWHEIGHT, mo->ceilingz - 4 * FRACUNIT);
+    else if (player->playerstate == PST_LIVE)
     {
-        player->viewz = MIN(player->mo->z + VIEWHEIGHT, mo->ceilingz - 4 * FRACUNIT);
-        return;
-    }
-
-    if (player->playerstate == PST_LIVE)
-    {
-        int     angle;
-        fixed_t bob;
+        int     angle = (FINEANGLES / 20 * leveltime) & FINEMASK;
+        fixed_t bob = ((FixedMul(mo->momx, mo->momx) + FixedMul(mo->momy, mo->momy)) >> 2);
 
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        bob = ((FixedMul(mo->momx, mo->momx) + FixedMul(mo->momy, mo->momy)) >> 2);
-
         player->bob = MIN(bob, MAXBOB) * playerbob / 100;
-
-        angle = (FINEANGLES / 20 * leveltime) & FINEMASK;
+        
         bob = FixedMul(player->bob / 2, finesine[angle]);
 
         // move viewheight
@@ -124,22 +117,22 @@ void P_CalcHeight(player_t *player)
                 player->deltaviewheight = 1;
         }
         player->viewz = mo->z + player->viewheight + bob;
-
-        if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
-        {
-            boolean                     liquid = true;
-            const struct msecnode_s     *seclist;
-
-            for (seclist = player->mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
-                if (!isliquid[seclist->m_sector->floorpic])
-                    liquid = false;
-
-            if (liquid)
-                player->viewz -= FOOTCLIPSIZE;
-        }
     }
     else
         player->viewz = mo->z + player->viewheight;
+
+    if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
+    {
+        boolean                     liquid = true;
+        const struct msecnode_s     *seclist;
+
+        for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
+            if (!isliquid[seclist->m_sector->floorpic])
+                liquid = false;
+
+        if (liquid)
+            player->viewz -= FOOTCLIPSIZE;
+    }
 
     player->viewz = BETWEEN(mo->floorz + 4 * FRACUNIT, player->viewz, mo->ceilingz - 4 * FRACUNIT);
 }
