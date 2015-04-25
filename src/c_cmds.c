@@ -1605,10 +1605,15 @@ static void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
     {
         if (!strcasecmp(parm1, "desktop"))
         {
-            screenwidth = 0;
-            screenheight = 0;
+            if (screenwidth && screenheight)
+            {
+                screenwidth = 0;
+                screenheight = 0;
 
-            M_SaveDefaults();
+                M_SaveDefaults();
+                if (fullscreen)
+                    I_RestartGraphics();
+            }
         }
         else
         {
