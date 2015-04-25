@@ -1162,6 +1162,10 @@ static void SetVideoMode(boolean output)
             renderername = "OpenGL";
         else if (!strcasecmp(rendererinfo.name, "software"))
             renderername = "software";
+        else if (!strcasecmp(rendererinfo.name, "opengles"))
+            renderername = "OpenGL ES";
+        else if (!strcasecmp(rendererinfo.name, "opengles2"))
+            renderername = "OpenGL ES 2.0";
 
         if (!strcasecmp(scalefilter, "nearest"))
             C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);

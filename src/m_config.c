@@ -1112,7 +1112,8 @@ static void M_CheckDefaults(void)
 
 #if defined(SDL20)
     if (strcasecmp(scaledriver, "opengl") && strcasecmp(scaledriver, "direct3d")
-        && strcasecmp(scaledriver, "software"))
+        && strcasecmp(scaledriver, "software") && strcasecmp(scaledriver, "opengles")
+        && strcasecmp(scaledriver, "opengles2"))
         scaledriver = SCALEDRIVER_DEFAULT;
 
     if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear")
