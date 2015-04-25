@@ -345,6 +345,7 @@ static void C_Help(char *, char *, char *);
 static void C_Hud(char *, char *, char *);
 static void C_Int(char *, char *, char *);
 static void C_Kill(char *, char *, char *);
+static void C_LinedefList(char *, char *, char *);
 static void C_Map(char *, char *, char *);
 static void C_MapList(char *, char *, char *);
 static void C_NoClip(char *, char *, char *);
@@ -358,14 +359,18 @@ static void C_ScaleFilter(char *, char *, char *);
 #endif
 static void C_ScreenSize(char *, char *, char *);
 static void C_ScreenResolution(char *, char *, char *);
+static void C_SectorList(char *, char *, char *);
+static void C_SidedefList(char *, char *, char *);
 static void C_Spawn(char *, char *, char *);
 static void C_Str(char *, char *, char *);
+static void C_ThingList(char *, char *, char *);
 static void C_Time(char *, char *, char *);
 static void C_TotalItems(char *, char *, char *);
 static void C_TotalKills(char *, char *, char *);
 static void C_TotalMapped(char *, char *, char *);
 static void C_TotalSecrets(char *, char *, char *);
 static void C_UnBind(char *, char *, char *);
+static void C_VertexList(char *, char *, char *);
 static void C_Volume(char *, char *, char *);
 #if defined(SDL20)
 static void C_Vsync(char *, char *, char *);
@@ -466,6 +471,7 @@ consolecmd_t consolecmds[] =
     CMD_CHEAT (idspispopd, 0),
     CVAR_STR  (iwadfolder, C_NoCondition, C_Str, iwadfolder, "The folder where an IWAD file was last opened."),
     CMD       (kill, C_KillCondition, C_Kill, 1, "[all|~type~]", "Kill the player, all monsters or a type of monster."),
+    CMD       (linedeflist, C_GameCondition, C_LinedefList, 0, "", "Display a list of linedefs in the current map."),
     CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration, "The amount the mouse accelerates."),
     CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE, "Toggle double-clicking a mouse button for the +use action."),
     CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT, "Toggle no vertical movement of the mouse."),
@@ -508,15 +514,19 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME, "The music volume."),
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
+    CMD       (sectorlist, C_GameCondition, C_SectorList, 0, "", "Display a list of sectors in the current map."),
+    CMD       (sidedeflist, C_GameCondition, C_SidedefList, 0, "", "Display a list of sidedefs in the current map."),
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or item."),
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggle applying fixes to sprite offsets."),
     CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
+    CMD       (thinglist, C_GameCondition, C_ThingList, 0, "", "Display a list of things in the current map."),
     CMD       (totalitems, C_GameCondition, C_TotalItems, 0, "", "Show the number of items in the current map."),
     CMD       (totalkills, C_GameCondition, C_TotalKills, 0, "", "Show the number of monsters to kill in the current map."),
     CMD       (totalmapped, C_GameCondition, C_TotalMapped, 0, "", "Show the amount of the current map that has been mapped."),
     CMD       (totalsecrets, C_GameCondition, C_TotalSecrets, 0, "", "Show the number of secrets in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbind the action from a control."),
+    CMD       (vertexlist, C_GameCondition, C_VertexList, 0, "", "Display a list of vertexes in the current map."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capping of the framerate at 35 FPS."),
 #if defined(SDL20)
     CVAR_INT  (vid_display, C_NoCondition, C_Int, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
@@ -1405,6 +1415,8 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
     }
 }
 
+static void C_LinedefList(char *cmd, char *parm1, char *parm2) {}
+
 static int      mapcmdepisode;
 static int      mapcmdmap;
 
@@ -1749,6 +1761,10 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
         C_Output("%i", screensize);
 }
 
+static void C_SectorList(char *cmd, char *parm1, char *parm2) {}
+
+static void C_SidedefList(char *cmd, char *parm1, char *parm2) {}
+
 static int      spawntype = NUMMOBJTYPES;
 
 static boolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
@@ -1841,6 +1857,8 @@ static void C_Str(char *cmd, char *parm1, char *parm2)
     }
 }
 
+static void C_ThingList(char *cmd, char *parm1, char *parm2) {}
+
 static void C_Time(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
@@ -1912,6 +1930,8 @@ static void C_UnBind(char *cmd, char *parm1, char *parm2)
 {
     C_Bind(cmd, parm1, "none");
 }
+
+static void C_VertexList(char *cmd, char *parm1, char *parm2) {}
 
 static boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 {
