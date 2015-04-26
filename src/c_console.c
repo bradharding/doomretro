@@ -125,6 +125,8 @@ static int      inputhistory = -1;
 
 static int      outputhistory = -1;
 
+static int      notabs[4] = { 0, 0, 0, 0 };
+
 #if defined(WIN32)
 boolean         showmemory = false;
 #endif
@@ -176,6 +178,7 @@ void C_Print(stringtype_t type, char *string, ...)
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = type;
+    memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
     ++consolestrings;
     outputhistory = -1;
 }
@@ -193,6 +196,7 @@ void C_Input(char *string, ...)
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = input;
+    memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
     ++consolestrings;
     outputhistory = -1;
 }
@@ -210,6 +214,25 @@ void C_Output(char *string, ...)
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = output;
+    memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
+    ++consolestrings;
+    outputhistory = -1;
+}
+
+void C_TabbedOutput(int tabs[4], char *string, ...)
+{
+    va_list     argptr;
+    char        buffer[1024];
+
+    va_start(argptr, string);
+    memset(buffer, 0, sizeof(buffer));
+    M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
+    va_end(argptr);
+
+    console = realloc(console, (consolestrings + 1) * sizeof(*console));
+    console[consolestrings].string = strdup(buffer);
+    console[consolestrings].type = output;
+    memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
     ++consolestrings;
     outputhistory = -1;
 }
@@ -227,6 +250,7 @@ void C_Warning(char *string, ...)
     console = realloc(console, (consolestrings + 1) * sizeof(*console));
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = warning;
+    memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
     ++consolestrings;
     outputhistory = -1;
 }
@@ -260,6 +284,7 @@ void C_PlayerMessage(char *string, ...)
         console = realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
         console[consolestrings].type = playermessage;
+        memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
         ++consolestrings;
     }
     outputhistory = -1;
@@ -498,13 +523,11 @@ static int C_TextWidth(char *text)
     return w;
 }
 
-static int      tabstops[] = { 40, 130, 192, 262 };
-
-static void C_DrawConsoleText(int x, int y, char *text, int color, int translucency)
+static void C_DrawConsoleText(int x, int y, char *text, int color, int translucency, int tabs[4])
 {
     boolean     italics = false;
     size_t      i;
-    int         tabs = 0;
+    int         tab = -1;
     size_t      len = strlen(text);
     char        prevletter = '\0';
 
@@ -536,11 +559,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
             if (letter == ITALICS)
                 italics = false;
             if (letter == '\t')
-            {
-                int tab = tabstops[tabs++];
-
-                x = (x > tab ? x + SPACEWIDTH : tab);
-            }
+                x = (x > tabs[++tab] ? x + SPACEWIDTH : tabs[tab]);
             else if (letter == '\xc2' && nextletter == '\xb0')
             {
                 patch = degree;
@@ -658,7 +677,7 @@ void C_Drawer(void)
 
         // draw branding
         C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX + 1,
-            CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, consolebrandingcolor, 1);
+            CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, consolebrandingcolor, 1, notabs);
 
         // draw console text
         if (outputhistory == -1)
@@ -679,14 +698,15 @@ void C_Drawer(void)
             if (console[i].type == divider)
                 C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
             else
-                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string, consolecolors[console[i].type], 0);
+                C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
+                    consolecolors[console[i].type], 0, console[i].tabs);
         }
 
         // draw input text to left of caret
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, ABS(consoleinputcolor), 0);
+        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, ABS(consoleinputcolor), 0, notabs);
 
         // draw caret
         if (caretwait < I_GetTime())
@@ -703,7 +723,7 @@ void C_Drawer(void)
             right[i] = consoleinput[i + caretpos];
         right[i] = 0;
         if (right[0])
-            C_DrawConsoleText(x + 3, CONSOLEHEIGHT - 15, right, ABS(consoleinputcolor), 0);
+            C_DrawConsoleText(x + 3, CONSOLEHEIGHT - 15, right, ABS(consoleinputcolor), 0, notabs);
 
         Z_Free(left);
         Z_Free(right);
