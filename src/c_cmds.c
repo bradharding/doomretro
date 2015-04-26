@@ -591,10 +591,10 @@ static void C_DisplayBinds(char *action, int value, controltype_t type, int coun
             char *control = controls[i].control;
 
             if (strlen(control) == 1)
-                C_TabbedOutput(tabs, "%i\t\'%s\'\t%s", count, (control[0] == '=' ? "+" : control),
+                C_TabbedOutput(tabs, "%i.\t\'%s\'\t%s", count, (control[0] == '=' ? "+" : control),
                     action);
             else
-                C_TabbedOutput(tabs, "%i\t%s\t%s", count, control, action);
+                C_TabbedOutput(tabs, "%i.\t%s\t%s", count, control, action);
             break;
         }
         ++i;
@@ -831,7 +831,7 @@ static void C_CmdList(char *cmd, char *parm1, char *parm2)
     {
         if (consolecmds[i].type == CT_CMD && consolecmds[i].description[0]
             && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
-            C_TabbedOutput(tabs, "%i\t%s %s\t\t%s", count++, consolecmds[i].name,
+            C_TabbedOutput(tabs, "%i.\t%s %s\t\t%s", count++, consolecmds[i].name,
                 consolecmds[i].format, consolecmds[i].description);
         ++i;
     }
@@ -878,48 +878,48 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
         if (consolecmds[i].type == CT_CVAR && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
         {
             if (consolecmds[i].flags & CF_BOOLEAN)
-                C_TabbedOutput(tabs, "%i\t%s\t\t%s\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\t%s\t%s", count++, consolecmds[i].name,
                     C_LookupAliasFromValue(*(boolean *)consolecmds[i].variable,
                     consolecmds[i].aliases), consolecmds[i].description);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
-                C_TabbedOutput(tabs, "%i\t%s\t\t%i%%\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\t%i%%\t%s", count++, consolecmds[i].name,
                     *(int *)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_INTEGER)
             {
                 char *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
                               consolecmds[i].aliases);
 
-                C_TabbedOutput(tabs, "%i\t%s\t\t%s\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\t%s\t%s", count++, consolecmds[i].name,
                     (alias ? alias : commify(*(int *)consolecmds[i].variable)),
                     consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_FLOAT)
-                C_TabbedOutput(tabs, "%i\t%s\t\t%s%s\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\t%s%s\t%s", count++, consolecmds[i].name,
                     striptrailingzero(*(float *)consolecmds[i].variable,
                     ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
                     ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), consolecmds[i].description);
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, "%i\t%s\t\t\"%.7s%s\"\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\t\"%.7s%s\"\t%s", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable,
                     (strlen(*(char **)consolecmds[i].variable) > 7 ? "..." : ""),
                     consolecmds[i].description);
             else if (consolecmds[i].flags & CF_POSITION)
             {
                 if ((*(char **)consolecmds[i].variable)[0])
-                    C_TabbedOutput(tabs, "%i\t%s\t\t(%s)\t%s", count++, consolecmds[i].name,
+                    C_TabbedOutput(tabs, "%i.\t%s\t\t(%s)\t%s", count++, consolecmds[i].name,
                         *(char **)consolecmds[i].variable, consolecmds[i].description);
                 else
-                    C_TabbedOutput(tabs, "%i\t%s\t\tcenter\t%s", count++, consolecmds[i].name,
+                    C_TabbedOutput(tabs, "%i.\t%s\t\tcenter\t%s", count++, consolecmds[i].name,
                         consolecmds[i].description);
             }
             else if (consolecmds[i].flags & CF_SIZE)
-                C_TabbedOutput(tabs, "%i\t%s\t\t%s\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\t%s\t%s", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_TIME)
             {
                 int tics = *(int *)consolecmds[i].variable / TICRATE;
 
-                C_TabbedOutput(tabs, "%i\t%s\t\t%02i:%02i:%02i\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\t%02i:%02i:%02i\t%s", count++, consolecmds[i].name,
                     tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60,
                     consolecmds[i].description);
             }
@@ -1546,7 +1546,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
         {
             case doom:
                 if (!replaced || pwad)
-                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump,
+                    C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", ++count, lump,
                         (replaced ? "-" : *mapnames[episode * 9 + map]), (modifiedgame ? wad : ""));
                 break;
             case doom2:
@@ -1554,26 +1554,26 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
                     if (BTSX)
                     {
                         if (strchr(*mapnames2[map], ':'))
-                            C_TabbedOutput(tabs, "%i\t%s", ++count,
+                            C_TabbedOutput(tabs, "%i.\t%s", ++count,
                                 M_StringReplace(*mapnames2[map], ": ", "\t"));
                     }
                     else
-                        C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump,(replaced && !nerve ?
+                        C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", ++count, lump,(replaced && !nerve ?
                             "-" : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map])),
                             (modifiedgame && !nerve ? wad : ""));
                 break;
             case pack_nerve:
                 if (!strcasecmp(wad, "nerve.wad"))
-                    C_TabbedOutput(tabs, "%i\t%s\t%s", ++count, lump, *mapnamesn[map]);
+                    C_TabbedOutput(tabs, "%i.\t%s\t%s", ++count, lump, *mapnamesn[map]);
                 break;
             case pack_plut:
                 if (!replaced || pwad)
-                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump,
+                    C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", ++count, lump,
                         (replaced ? "-" : *mapnamesp[map]), (modifiedgame ? wad : ""));
                 break;
             case pack_tnt:
                 if (!replaced || pwad)
-                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump,
+                    C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", ++count, lump,
                         (replaced ? "-" : *mapnamest[map]), (modifiedgame ? wad : ""));
                 break;
         }
