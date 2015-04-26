@@ -61,6 +61,7 @@
 #include "p_inter.h"
 #include "p_local.h"
 #include "p_setup.h"
+#include "p_tick.h"
 #include "s_sound.h"
 #include "SDL.h"
 #include "st_stuff.h"
@@ -1885,7 +1886,21 @@ static void C_Str(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_ThingList(char *cmd, char *parm1, char *parm2) {}
+static void C_ThingList(char *cmd, char *parm1, char *parm2)
+{
+    thinker_t   *th;
+    int         count = 0;
+    int         tabs[4] = { 45, 250, 350, 350 };
+
+    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        {
+            mobj_t      *mobj = (mobj_t *)th;
+
+            C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, mobjinfo[mobj->type].name1,
+                mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+        }
+}
 
 static void C_Time(char *cmd, char *parm1, char *parm2)
 {
