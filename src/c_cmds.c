@@ -1564,8 +1564,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
                 break;
             case pack_nerve:
                 if (!strcasecmp(wad, "nerve.wad"))
-                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump, *mapnamesn[map],
-                        (modifiedgame ? wad : ""));
+                    C_TabbedOutput(tabs, "%i\t%s\t%s", ++count, lump, *mapnamesn[map]);
                 break;
             case pack_plut:
                 if (!replaced || pwad)
