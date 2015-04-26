@@ -1728,7 +1728,7 @@ void ProcessDehFile(char *filename, char *outfilename, int lumpnum)
             return;     // should be checked up front anyway
         infile.lump = NULL;
         C_Output("Parsed DeHackEd%s file %s.",
-            (M_StringEndsWith(filename, "BEX") ? " with BOOM extensions" : ""),
+            (M_StringEndsWith(uppercase(filename), "BEX") ? " with BOOM extensions" : ""),
             uppercase(filename));
     }
     else        // DEH file comes from lump indicated by third argument
