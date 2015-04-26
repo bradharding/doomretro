@@ -1509,6 +1509,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
 {
     unsigned int        i;
     int                 count = 0;
+    int                 tabs[4] = { 40, 90, 350, 350 };
 
     for (i = 0; i < numlumps; ++i)
     {
@@ -1545,25 +1546,30 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
         {
             case doom:
                 if (!replaced || pwad)
-                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump,
-                        (replaced ? "-" : *mapnames[episode * 9 + map]));
+                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump,
+                        (replaced ? "-" : *mapnames[episode * 9 + map]),
+                        (modifiedgame && !nerve ? wad : ""));
                 break;
             case doom2:
                 if (strcasecmp(wad, "nerve.wad") && (!replaced || pwad || nerve) && (pwad || !BTSX))
-                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump,
-                        (replaced && !nerve ? "-" : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map])));
+                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump,  (replaced && !nerve ?
+                        "-" : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map])),
+                        (modifiedgame && !nerve ? wad : ""));
                 break;
             case pack_nerve:
                 if (!strcasecmp(wad, "nerve.wad"))
-                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump, *mapnamesn[map]);
+                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump, *mapnamesn[map],
+                        (modifiedgame && !nerve ? wad : ""));
                 break;
             case pack_plut:
                 if (!replaced || pwad)
-                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump, (replaced ? "-" : *mapnamesp[map]));
+                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump,
+                        (replaced ? "-" : *mapnamesp[map]), (modifiedgame && !nerve ? wad : ""));
                 break;
             case pack_tnt:
                 if (!replaced || pwad)
-                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump, (replaced ? "-" : *mapnamest[map]));
+                    C_TabbedOutput(tabs, "%i\t%s\t%s\t%s", ++count, lump,
+                        (replaced ? "-" : *mapnamest[map]), (modifiedgame && !nerve ? wad : ""));
                 break;
         }
     }
