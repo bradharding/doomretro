@@ -1694,6 +1694,8 @@ void M_EndingGame(void)
         ToggleWidescreen(false);
         returntowidescreen = true;
     }
+    if (gamemission == pack_nerve)
+        gamemission = doom2;
     usergame = false;
     C_AddConsoleDivider();
     M_SetWindowCaption();
