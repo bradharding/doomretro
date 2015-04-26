@@ -341,7 +341,7 @@ static void G_PrevWeapon(void)
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
     boolean     strafe;
-    boolean     run;
+    int         run;
     int         forward = 0;
     int         side = 0;
 
@@ -353,7 +353,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
-    run = (!!(gamepadbuttons & gamepadrun) || !!gamekeydown[key_run] || alwaysrun);
+    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + alwaysrun == 1);
 
     // use two stage accelerative turning
     // on the keyboard
