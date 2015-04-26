@@ -1494,6 +1494,12 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
 }
 
 extern int      dehcount;
+extern char     **mapnames[];
+extern char     **mapnames2[];
+extern char     **mapnames2_bfg[];
+extern char     **mapnamesp[];
+extern char     **mapnamest[];
+extern char     **mapnamesn[];
 
 static void C_MapList(char *cmd, char *parm1, char *parm2)
 {
@@ -1504,58 +1510,61 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
     {
         int     episode = 0;
         int     map = 0;
+        char    lump[8];
+        char    wad[MAX_PATH];
+        boolean replaced;
+        boolean pwad;
+
+        M_StringCopy(lump, uppercase(lumpinfo[i].name), 8);
 
         if (gamemode == commercial)
         {
-            if (strlen(lumpinfo[i].name) == 5)
+            if (strlen(lump) == 5)
             {
-                sscanf(uppercase(lumpinfo[i].name), "MAP0%1i", &map);
+                episode = 1;
+                sscanf(lump, "MAP0%1i", &map);
                 if (!map)
-                    sscanf(uppercase(lumpinfo[i].name), "MAP%2i", &map);
-                if (map)
-                {
-                    if (W_CheckMultipleLumps(lumpinfo[i].name) > 1 && dehcount == 1 && !chex)
-                    {
-                        if (lumpinfo[i].wad_file->type == IWAD)
-                            continue;
-                        C_Output("%i\t%s\t%s\t-", ++count,
-                            uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
-                            uppercase(lumpinfo[i].name));
-                    }
-                    else
-                    {
-                        if (BTSX && (lumpinfo[i].wad_file->type == IWAD || lumpinfo[i].name[0] != 'E'))
-                            continue;
-                        C_Output("%i\t%s\t%s\t%s", ++count,
-                            uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
-                            uppercase(lumpinfo[i].name),
-                            P_GetMapName(0, map, !strcasecmp(M_ExtractFilename(lumpinfo[i].wad_file->path),
-                            "nerve.wad")));
-                    }
-                }
+                    sscanf(lump, "MAP%2i", &map);
             }
         }
-        else if (strlen(lumpinfo[i].name) == 4)
+        else if (strlen(lump) == 4)
+            sscanf(lump, "E%1iM%1i", &episode, &map);
+
+        if (!episode-- || !map--)
+            continue;
+
+        M_StringCopy(wad, uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)), MAX_PATH);
+        replaced = (W_CheckMultipleLumps(lump) > 1 && dehcount == 1 && !chex);
+        pwad = (lumpinfo[i].wad_file->type == PWAD);
+
+        switch (gamemission)
         {
-            sscanf(uppercase(lumpinfo[i].name), "E%1iM%1i", &episode, &map);
-            if (episode && map)
-            {
-                if (W_CheckMultipleLumps(lumpinfo[i].name) > 1 && dehcount == 1 && !chex)
-                {
-                    if (lumpinfo[i].wad_file->type == IWAD)
-                        continue;
-                    C_Output("%i\t%s\t%s\t-", ++count,
-                        uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
-                        uppercase(lumpinfo[i].name));
-                }
-                else
-                    C_Output("%i\t%s\t%s\t%s", ++count,
-                        uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
-                        uppercase(lumpinfo[i].name), P_GetMapName(episode, map, false));
-            }
+            case doom:
+                if (!replaced || pwad)
+                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump,
+                        (replaced ? "-" : *mapnames[episode * 9 + map]));
+                break;
+            case doom2:
+                if (strcasecmp(wad, "nerve.wad") && (!replaced || pwad || nerve) && (pwad || !BTSX))
+                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump,
+                        (replaced && !nerve ? "-" : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map])));
+                break;
+            case pack_nerve:
+                if (!strcasecmp(wad, "nerve.wad"))
+                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump, *mapnamesn[map]);
+                break;
+            case pack_plut:
+                if (!replaced || pwad)
+                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump, (replaced ? "-" : *mapnamesp[map]));
+                break;
+            case pack_tnt:
+                if (!replaced || pwad)
+                    C_Output("%i\t%s\t%s\t%s", ++count, wad, lump, (replaced ? "-" : *mapnamest[map]));
+                break;
         }
     }
 }
+
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
 {
     player_t    *player = &players[0];

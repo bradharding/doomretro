@@ -44,6 +44,4 @@ void P_SetupLevel(int episode, int map);
 // Called by startup code.
 void P_Init(void);
 
-char *P_GetMapName(int episode, int map, boolean nerve);
-
 #endif

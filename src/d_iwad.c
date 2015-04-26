@@ -589,9 +589,6 @@ void D_IdentifyVersion(void)
     else
         // Doom 2 of some kind.
         gamemode = commercial;
-
-    if (!bfgedition && nerve)
-        gamemission = pack_nerve;
 }
 
 // Set the gamedescription string

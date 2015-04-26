@@ -1075,24 +1075,6 @@ extern char     **mapnamesn[];
 
 extern int      dehcount;
 
-char *P_GetMapName(int episode, int map, boolean nerve)
-{
-    switch (gamemission)
-    {
-        case doom:
-            return *mapnames[(episode - 1) * 9 + map - 1];
-        case doom2:
-        case pack_nerve:
-            return (nerve ? *mapnamesn[map - 1] : (bfgedition ? *mapnames2_bfg[map - 1] :
-                *mapnames2[map - 1]));
-        case pack_plut:
-            return *mapnamesp[map - 1];
-        case pack_tnt:
-            return *mapnamest[map - 1];
-    }
-    return "";
-}
-
 // Determine map name to use
 void P_MapName(int episode, int map)
 {
