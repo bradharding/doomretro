@@ -1523,11 +1523,15 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
                             uppercase(lumpinfo[i].name));
                     }
                     else
+                    {
+                        if (BTSX && (lumpinfo[i].wad_file->type == IWAD || lumpinfo[i].name[0] != 'E'))
+                            continue;
                         C_Output("%i\t%s\t%s\t%s", ++count,
                             uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)),
                             uppercase(lumpinfo[i].name),
                             P_GetMapName(0, map, !strcasecmp(M_ExtractFilename(lumpinfo[i].wad_file->path),
                             "nerve.wad")));
+                    }
                 }
             }
         }
