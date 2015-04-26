@@ -341,7 +341,7 @@ static void G_PrevWeapon(void)
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
     boolean     strafe;
-    int         run;
+    boolean     run;
     int         forward = 0;
     int         side = 0;
 
@@ -353,7 +353,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
-    run = (!!(gamepadbuttons & gamepadrun) + !!gamekeydown[key_run] + alwaysrun == 1);
+    run = (!!(gamepadbuttons & gamepadrun) || !!gamekeydown[key_run] || alwaysrun);
 
     // use two stage accelerative turning
     // on the keyboard
@@ -629,13 +629,12 @@ void G_DoLoadLevel(void)
 
 void G_ToggleAlwaysRun(void)
 {
-#if defined(SDL20)
-    SDL_Keymod      modstate = SDL_GetModState();
+#if defined(WIN32)
+    alwaysrun = GetKeyState(VK_CAPITAL) & 0x0001;
 #else
-    SDLMod          modstate = SDL_GetModState();
+    alwaysrun = !alwaysrun;
 #endif
 
-    alwaysrun = modstate & KMOD_CAPS;
     if (!consoleactive)
         players[0].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
     C_Input("pm_alwaysrun %s", (alwaysrun ? "on" : "off"));
