@@ -1556,7 +1556,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ MT_BLOOD,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "player",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -1700,7 +1700,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "arch-vile fire",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -1772,7 +1772,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "revenant projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -1808,7 +1808,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "smoke",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -1880,7 +1880,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "mancubus projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2132,7 +2132,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "baron of hell/hell knight projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2492,7 +2492,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "monsters spawner",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2528,7 +2528,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "monsters target",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2564,7 +2564,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "icon of sin projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2600,7 +2600,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "icon of sin teleport fog",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2672,7 +2672,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "imp projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2708,7 +2708,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "cacodemon projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2744,7 +2744,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "rocket launcher projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2780,7 +2780,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "plasma rifle projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2816,7 +2816,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "BFG-9000 projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2852,7 +2852,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "arachnotron projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2888,7 +2888,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "bullet puff",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2924,7 +2924,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ REDBLOOD,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "red blood",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2960,7 +2960,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "teleport fog",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -2996,7 +2996,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "item fog",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -3032,7 +3032,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "teleport destination",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -3068,7 +3068,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "BFG-9000 secondary projectile",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -4148,7 +4148,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "bfg-9000",
+        /* name1                */ "BFG-9000",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -5696,7 +5696,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "dead lost soul",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -6488,7 +6488,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ BLUEBLOOD,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "blue blood",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -6524,7 +6524,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ GREENBLOOD,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "green blood",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -6560,7 +6560,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ FUZZYBLOOD,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "fuzzy blood",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -6596,7 +6596,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "blood splat",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -6632,7 +6632,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "rocket trail",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
@@ -6668,7 +6668,7 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* frames               */ 0,
         /* blood                */ 0,
         /* shadowoffset         */ 0,
-        /* name1                */ "",
+        /* name1                */ "shadow",
         /* plural1              */ "",
         /* name2                */ "",
         /* plural2              */ ""
