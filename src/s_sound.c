@@ -148,9 +148,6 @@ static void InitSfxModule(void)
 
     sound_module = NULL;
 
-    C_Output("SFX playing at a sample rate of %.1fkHz on %i channels.",
-        snd_samplerate / 1000.0f, numChannels);
-
     for (i = 0; sound_modules[i] != NULL; ++i)
     {
         // Is the sfx device in the list of devices supported by
@@ -162,6 +159,9 @@ static void InitSfxModule(void)
             // Initialize the module
             if (sound_modules[i]->Init())
             {
+                C_Output("SFX playing at a sample rate of %.1fkHz on %i channels.",
+                    snd_samplerate / 1000.0f, numChannels);
+
                 sound_module = sound_modules[i];
                 return;
             }
@@ -176,8 +176,6 @@ static void InitMusicModule(void)
 
     music_module = NULL;
 
-    C_Output("Using General MIDI for music.");
-
     for (i = 0; music_modules[i] != NULL; ++i)
     {
         // Is the music device in the list of devices supported
@@ -189,6 +187,8 @@ static void InitMusicModule(void)
             // Initialize the module
             if (music_modules[i]->Init())
             {
+                C_Output("Using General MIDI for music.");
+
                 music_module = music_modules[i];
                 return;
             }
