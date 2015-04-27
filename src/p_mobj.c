@@ -497,8 +497,9 @@ static void PlayerLandedOnThing(mobj_t *mo)
 void P_MobjThinker(mobj_t *mobj)
 {
     int         flags = mobj->flags;
-    int         flags2 = mobj->flags2;
+    int         flags2;
     player_t    *player = mobj->player;
+    sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
     if (!(mobj->player != NULL && mobj == mobj->player->mo))
@@ -522,6 +523,10 @@ void P_MobjThinker(mobj_t *mobj)
         if (mobj->thinker.function.acv == (actionf_v)(-1))
             return;             // mobj was removed
     }
+
+    if (!isliquid[sector->floorpic])
+        mobj->flags2 &= ~MF2_FEETARECLIPPED;
+    flags2 = mobj->flags2;
 
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
         && mobj->z <= mobj->subsector->sector->floorheight && !mobj->momz && animatedliquid)
