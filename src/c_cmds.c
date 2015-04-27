@@ -1508,10 +1508,17 @@ extern char     **mapnamesn[];
 
 static void C_MapList(char *cmd, char *parm1, char *parm2)
 {
-    unsigned int        i;
-    int                 count = 0;
+    unsigned int        i, j;
+    unsigned int        count = 0;
     int                 tabs[4] = { 40, 90, 350, 350 };
+    char                **maplist;
 
+    // initialize map list
+    maplist = malloc(numlumps * sizeof(char *));
+    for (i = 0; i < numlumps; ++i)
+        maplist[i] = malloc(256 * sizeof(char));
+
+    // search through lumps for maps
     for (i = 0; i < numlumps; ++i)
     {
         int     episode = 0;
@@ -1547,7 +1554,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
         {
             case doom:
                 if (!replaced || pwad)
-                    C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", ++count, lump,
+                    M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
                         (replaced ? "-" : *mapnames[episode * 9 + map]), (modifiedgame ? wad : ""));
                 break;
             case doom2:
@@ -1555,30 +1562,50 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
                     if (BTSX)
                     {
                         if (strchr(*mapnames2[map], ':'))
-                            C_TabbedOutput(tabs, "%i.\t%s", ++count,
+                            M_snprintf(maplist[count++], 256, "%s",
                                 M_StringReplace(*mapnames2[map], ": ", "\t"));
                     }
                     else
-                        C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", ++count, lump,(replaced && !nerve ?
+                        M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced && !nerve ?
                             "-" : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map])),
                             (modifiedgame && !nerve ? wad : ""));
                 break;
             case pack_nerve:
                 if (!strcasecmp(wad, "nerve.wad"))
-                    C_TabbedOutput(tabs, "%i.\t%s\t%s", ++count, lump, *mapnamesn[map]);
+                    M_snprintf(maplist[count++], 256, "%s\t%s", lump, *mapnamesn[map]);
                 break;
             case pack_plut:
                 if (!replaced || pwad)
-                    C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", ++count, lump,
+                    M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
                         (replaced ? "-" : *mapnamesp[map]), (modifiedgame ? wad : ""));
                 break;
             case pack_tnt:
                 if (!replaced || pwad)
-                    C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", ++count, lump,
+                    M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
                         (replaced ? "-" : *mapnamest[map]), (modifiedgame ? wad : ""));
                 break;
         }
     }
+
+    // sort the map list
+    for (i = 0; i < count; i++)
+        for (j = i + 1; j < count; j++)
+        {
+            if (strcmp(maplist[i], maplist[j]) > 0)
+            {
+                char    temp[256];
+
+                strcpy(temp, maplist[i]);
+                strcpy(maplist[i], maplist[j]);
+                strcpy(maplist[j], temp);
+            }
+        }
+
+    // display the map list
+    for (i = 0; i < count; ++i)
+        C_TabbedOutput(tabs, "%i.\t%s", i + 1, maplist[i]);
+
+    free(maplist);
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
