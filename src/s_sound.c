@@ -298,6 +298,7 @@ static void S_StopChannel(int cnum)
                 break;
 
         c->sfxinfo = NULL;
+        c->origin = NULL;
     }
 }
 
