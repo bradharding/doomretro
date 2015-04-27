@@ -167,6 +167,8 @@ static void InitSfxModule(void)
             }
         }
     }
+
+    C_Output("The initialization of SFX failed.");
 }
 
 // Initialize music according to snd_musicdevice.
@@ -194,6 +196,8 @@ static void InitMusicModule(void)
             }
         }
     }
+
+    C_Output("The initialization of music failed.");
 }
 
 boolean nosound = false;
