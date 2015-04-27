@@ -107,10 +107,11 @@ void P_InitAnimatedLiquids(void)
     sector_t    *sector;
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
+    {
+        sector->animate = INT_MAX;
         if (isliquid[sector->floorpic])
             P_StartAnimatedLiquid(sector);
-        else
-            sector->animate = INT_MAX;
+    }
 }
 
 //
