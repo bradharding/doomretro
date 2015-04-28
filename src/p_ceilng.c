@@ -182,7 +182,7 @@ boolean EV_DoCeiling(line_t *line, ceiling_e type)
         memset(ceiling, 0, sizeof(*ceiling));
         P_AddThinker(&ceiling->thinker);
         sec->specialdata = ceiling;
-        ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
+        ceiling->thinker.function = T_MoveCeiling;
         ceiling->sector = sec;
         ceiling->crush = false;
 
@@ -270,9 +270,9 @@ boolean P_ActivateInStasisCeiling(line_t *line)
     ceiling_t   *ceiling;
 
     for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
-        if (ceiling->tag == line->tag && ceiling->thinker.function.acp1 == (actionf_p1)NULL)
+        if (ceiling->tag == line->tag && ceiling->thinker.function == NULL)
         {
-            ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
+            ceiling->thinker.function = T_MoveCeiling;
             rtn = true;
         }
 
@@ -289,9 +289,9 @@ boolean EV_CeilingCrushStop(line_t *line)
     ceiling_t   *ceiling;
 
     for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
-        if (ceiling->tag == line->tag && ceiling->thinker.function.acp1 != (actionf_p1)NULL)
+        if (ceiling->tag == line->tag && ceiling->thinker.function != NULL)
         {
-            ceiling->thinker.function.acp1 = (actionf_p1)NULL;
+            ceiling->thinker.function = NULL;
             rtn = true;
         }
 

@@ -317,7 +317,7 @@ boolean EV_DoDoor(line_t *line, vldoor_e type)
         P_AddThinker(&door->thinker);
         sec->specialdata = door;
 
-        door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+        door->thinker.function = T_VerticalDoor;
         door->sector = sec;
         door->type = type;
         door->topwait = VDOORWAIT;
@@ -531,7 +531,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     if (!thing->player)
                         return;
 
-                    if (door->thinker.function.acp1 == (actionf_p1)T_VerticalDoor)
+                    if (door->thinker.function == T_VerticalDoor)
                     {
                         door->direction = -1;   // start going down immediately
 
@@ -540,7 +540,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         else
                             S_StartSound(&door->sector->soundorg, sfx_dorcls);
                     }
-                    else if (door->thinker.function.acp1 == (actionf_p1)T_PlatRaise)
+                    else if (door->thinker.function == T_PlatRaise)
                     {
                         plat_t  *plat = (plat_t *)door;
 
@@ -576,7 +576,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     memset(door, 0, sizeof(*door));
     P_AddThinker(&door->thinker);
     sec->specialdata = door;
-    door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+    door->thinker.function = T_VerticalDoor;
     door->sector = sec;
     door->direction = 1;
     door->speed = VDOORSPEED;
@@ -632,7 +632,7 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
     sec->specialdata = door;
     sec->special = 0;
 
-    door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+    door->thinker.function = T_VerticalDoor;
     door->sector = sec;
     door->direction = 0;
     door->type = doorNormal;
@@ -653,7 +653,7 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
     sec->specialdata = door;
     sec->special = 0;
 
-    door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+    door->thinker.function = T_VerticalDoor;
     door->sector = sec;
     door->direction = 2;
     door->type = doorRaiseIn5Mins;

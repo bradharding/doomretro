@@ -155,7 +155,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
         plat->type = type;
         plat->sector = sec;
         plat->sector->specialdata = plat;
-        plat->thinker.function.acp1 = (actionf_p1)T_PlatRaise;
+        plat->thinker.function = T_PlatRaise;
         plat->crush = false;
         plat->tag = line->tag;
         plat->low = sec->floorheight;
@@ -249,7 +249,7 @@ void P_ActivateInStasis(int tag)
         if (plat->tag == tag && plat->status == in_stasis)
         {
             plat->status = plat->oldstatus;
-            plat->thinker.function.acp1 = (actionf_p1)T_PlatRaise;
+            plat->thinker.function = T_PlatRaise;
         }
 }
 
@@ -262,7 +262,7 @@ int EV_StopPlat(line_t *line)
         {
             plat->oldstatus = plat->status;
             plat->status = in_stasis;
-            plat->thinker.function.acv = (actionf_v)NULL;
+            plat->thinker.function = NULL;
 
             return 1;
         }

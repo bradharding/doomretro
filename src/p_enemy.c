@@ -223,7 +223,7 @@ static boolean P_IsOnLift(const mobj_t *actor)
 
     // Short-circuit: it's on a lift which is active.
     if (sec->specialdata
-        && ((thinker_t *)sec->specialdata)->function.acp1 == (actionf_p1)T_PlatRaise)
+        && ((thinker_t *)sec->specialdata)->function == T_PlatRaise)
         return true;
 
     // Check to see if it's in a sector which can be activated as a lift.
@@ -278,8 +278,7 @@ static int P_IsUnderDamage(mobj_t *actor)
     {
         const ceiling_t          *cl;    // Crushing ceiling
 
-        if ((cl = seclist->m_sector->specialdata)
-            && cl->thinker.function.acp1 == (actionf_p1)T_MoveCeiling)
+        if ((cl = seclist->m_sector->specialdata) && cl->thinker.function == T_MoveCeiling)
             dir |= cl->direction;
     }
     return dir;
@@ -595,7 +594,7 @@ static boolean P_LookForMonsters(mobj_t *actor)
 
     for (think = thinkercap.next; think != &thinkercap; think = think->next)
     {
-        if (think->function.acp1 != (actionf_p1)P_MobjThinker)
+        if (think->function != P_MobjThinker)
             continue;           // not a mobj thinker
 
         mo = (mobj_t *)think;
@@ -701,7 +700,7 @@ void A_KeenDie(mobj_t *mo)
 
     // scan the remaining thinkers to see if all Keens are dead
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (th->function == P_MobjThinker)
         {
             mobj_t      *mo2 = (mobj_t *)th;
 
@@ -1707,7 +1706,7 @@ void A_BossDeath(mobj_t *mo)
     // scan the remaining thinkers to see
     // if all bosses are dead
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (th->function == P_MobjThinker)
         {
             mobj_t      *mo2 = (mobj_t *)th;
 
@@ -1864,7 +1863,7 @@ static mobj_t *A_NextBrainTarget(void)
 
     // find all the target spots
     for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
-        if (thinker->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (thinker->function == P_MobjThinker)
         {
             mobj_t      *mo = (mobj_t *)thinker;
 

@@ -225,14 +225,12 @@ static void saveg_write_mapthing_t(mapthing_t *str)
 //
 static void saveg_read_actionf_t(actionf_t *str)
 {
-    // actionf_p1 acp1
-    str->acp1 = (actionf_p1)saveg_readp();
+    str = saveg_readp();
 }
 
 static void saveg_write_actionf_t(actionf_t *str)
 {
-    // actionf_p1 acp1
-    saveg_writep(str->acp1);
+    saveg_writep(str);
 }
 
 //
@@ -1616,7 +1614,7 @@ void P_ArchiveThinkers(void)
 
     // save off the current thinkers
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (th->function == P_MobjThinker)
         {
             saveg_write8(tc_mobj);
             saveg_write_pad();
@@ -1671,7 +1669,7 @@ void P_UnArchiveThinkers(void)
     {
         next = currentthinker->next;
 
-        if (currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (currentthinker->function == P_MobjThinker)
         {
             P_RemoveMobj((mobj_t *)currentthinker);
             P_RemoveThinkerDelayed(currentthinker);     // fix mobj leak
@@ -1715,7 +1713,7 @@ void P_UnArchiveThinkers(void)
                 P_SetThingPosition(mobj);
                 mobj->info = &mobjinfo[mobj->type];
 
-                mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+                mobj->thinker.function = P_MobjThinker;
                 mobj->colfunc = mobj->info->colfunc;
 
                 if (mobj->flags2 & MF2_SHADOW)
@@ -1761,7 +1759,7 @@ uint32_t P_ThinkerToIndex(thinker_t *thinker)
         return 0;
 
     for (th = thinkercap.next, i = 1; th != &thinkercap; th = th->next, ++i)
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (th->function == P_MobjThinker)
             if (th == thinker)
                 return i;
 
@@ -1777,7 +1775,7 @@ thinker_t *P_IndexToThinker(uint32_t index)
         return NULL;
 
     for (th = thinkercap.next, i = 1; th != &thinkercap; th = th->next, ++i)
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (th->function == P_MobjThinker)
             if (i == index)
                 return th;
 
@@ -1789,7 +1787,7 @@ void P_RestoreTargets(void)
     thinker_t   *th;
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (th->function == P_MobjThinker)
         {
             mobj_t      *mo = (mobj_t *)th;
 
@@ -1827,7 +1825,7 @@ void P_ArchiveSpecials(void)
     // save off the current thinkers
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
     {
-        if (!th->function.acv)
+        if (!th->function)
         {
             boolean     done_one = false;
 
@@ -1856,7 +1854,7 @@ void P_ArchiveSpecials(void)
                 continue;
         }
 
-        if (th->function.acp1 == (actionf_p1)T_MoveCeiling)
+        if (th->function == T_MoveCeiling)
         {
             saveg_write8(tc_ceiling);
             saveg_write_pad();
@@ -1864,7 +1862,7 @@ void P_ArchiveSpecials(void)
             continue;
         }
 
-        if (th->function.acp1 == (actionf_p1)T_VerticalDoor)
+        if (th->function == T_VerticalDoor)
         {
             saveg_write8(tc_door);
             saveg_write_pad();
@@ -1872,7 +1870,7 @@ void P_ArchiveSpecials(void)
             continue;
         }
 
-        if (th->function.acp1 == (actionf_p1)T_MoveFloor)
+        if (th->function == T_MoveFloor)
         {
             saveg_write8(tc_floor);
             saveg_write_pad();
@@ -1880,7 +1878,7 @@ void P_ArchiveSpecials(void)
             continue;
         }
 
-        if (th->function.acp1 == (actionf_p1)T_PlatRaise)
+        if (th->function == T_PlatRaise)
         {
             saveg_write8(tc_plat);
             saveg_write_pad();
@@ -1888,7 +1886,7 @@ void P_ArchiveSpecials(void)
             continue;
         }
 
-        if (th->function.acp1 == (actionf_p1)T_LightFlash)
+        if (th->function == T_LightFlash)
         {
             saveg_write8(tc_flash);
             saveg_write_pad();
@@ -1896,7 +1894,7 @@ void P_ArchiveSpecials(void)
             continue;
         }
 
-        if (th->function.acp1 == (actionf_p1)T_StrobeFlash)
+        if (th->function == T_StrobeFlash)
         {
             saveg_write8(tc_strobe);
             saveg_write_pad();
@@ -1904,7 +1902,7 @@ void P_ArchiveSpecials(void)
             continue;
         }
 
-        if (th->function.acp1 == (actionf_p1)T_Glow)
+        if (th->function == T_Glow)
         {
             saveg_write8(tc_glow);
             saveg_write_pad();
@@ -1912,7 +1910,7 @@ void P_ArchiveSpecials(void)
             continue;
         }
 
-        if (th->function.acp1 == (actionf_p1)T_FireFlicker)
+        if (th->function == T_FireFlicker)
         {
             saveg_write8(tc_fireflicker);
             saveg_write_pad();
@@ -1971,8 +1969,8 @@ void P_UnArchiveSpecials(void)
                 saveg_read_ceiling_t(ceiling);
                 ceiling->sector->specialdata = ceiling;
 
-                if (ceiling->thinker.function.acp1)
-                    ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
+                if (ceiling->thinker.function)
+                    ceiling->thinker.function = T_MoveCeiling;
 
                 P_AddThinker(&ceiling->thinker);
                 P_AddActiveCeiling(ceiling);
@@ -1983,7 +1981,7 @@ void P_UnArchiveSpecials(void)
                 door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVEL, NULL);
                 saveg_read_vldoor_t(door);
                 door->sector->specialdata = door;
-                door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
+                door->thinker.function = T_VerticalDoor;
                 P_AddThinker(&door->thinker);
                 break;
 
@@ -1992,7 +1990,7 @@ void P_UnArchiveSpecials(void)
                 floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVEL, NULL);
                 saveg_read_floormove_t(floor);
                 floor->sector->specialdata = floor;
-                floor->thinker.function.acp1 = (actionf_p1)T_MoveFloor;
+                floor->thinker.function = T_MoveFloor;
                 P_AddThinker(&floor->thinker);
                 break;
 
@@ -2002,8 +2000,8 @@ void P_UnArchiveSpecials(void)
                 saveg_read_plat_t(plat);
                 plat->sector->specialdata = plat;
 
-                if (plat->thinker.function.acp1)
-                    plat->thinker.function.acp1 = (actionf_p1)T_PlatRaise;
+                if (plat->thinker.function)
+                    plat->thinker.function = T_PlatRaise;
 
                 P_AddThinker(&plat->thinker);
                 P_AddActivePlat(plat);
@@ -2013,7 +2011,7 @@ void P_UnArchiveSpecials(void)
                 saveg_read_pad();
                 flash = (lightflash_t *)Z_Malloc(sizeof(*flash), PU_LEVEL, NULL);
                 saveg_read_lightflash_t(flash);
-                flash->thinker.function.acp1 = (actionf_p1)T_LightFlash;
+                flash->thinker.function = T_LightFlash;
                 P_AddThinker(&flash->thinker);
                 break;
 
@@ -2021,7 +2019,7 @@ void P_UnArchiveSpecials(void)
                 saveg_read_pad();
                 strobe = (strobe_t *)Z_Malloc(sizeof(*strobe), PU_LEVEL, NULL);
                 saveg_read_strobe_t(strobe);
-                strobe->thinker.function.acp1 = (actionf_p1)T_StrobeFlash;
+                strobe->thinker.function = T_StrobeFlash;
                 P_AddThinker(&strobe->thinker);
                 break;
 
@@ -2029,7 +2027,7 @@ void P_UnArchiveSpecials(void)
                 saveg_read_pad();
                 glow = (glow_t *)Z_Malloc(sizeof(*glow), PU_LEVEL, NULL);
                 saveg_read_glow_t(glow);
-                glow->thinker.function.acp1 = (actionf_p1)T_Glow;
+                glow->thinker.function = T_Glow;
                 P_AddThinker(&glow->thinker);
                 break;
 
@@ -2037,7 +2035,7 @@ void P_UnArchiveSpecials(void)
                 saveg_read_pad();
                 fireflicker = (fireflicker_t *)Z_Malloc(sizeof(*fireflicker), PU_LEVEL, NULL);
                 saveg_read_fireflicker_t(fireflicker);
-                fireflicker->thinker.function.acp1 = (actionf_p1)T_FireFlicker;
+                fireflicker->thinker.function = T_FireFlicker;
                 P_AddThinker(&fireflicker->thinker);
                 break;
 

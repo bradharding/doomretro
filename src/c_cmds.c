@@ -1920,7 +1920,7 @@ static void C_ThingList(char *cmd, char *parm1, char *parm2)
     int         tabs[4] = { 45, 250, 350, 350 };
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function.acp1 == (actionf_p1)P_MobjThinker)
+        if (th->function == P_MobjThinker)
         {
             mobj_t      *mobj = (mobj_t *)th;
 

@@ -125,8 +125,8 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 
         // Modified handling.
         // Call action functions when the state is set
-        if (st->action.acp1)
-            st->action.acp1(mobj);
+        if (st->action)
+            st->action(mobj);
 
         seenstate[state] = 1 + st->nextstate;                   // killough 4/9/98
 
@@ -520,7 +520,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         P_XYMovement(mobj);
 
-        if (mobj->thinker.function.acv == (actionf_v)(-1))
+        if (mobj->thinker.function != P_MobjThinker)
             return;             // mobj was removed
     }
 
@@ -564,7 +564,7 @@ void P_MobjThinker(mobj_t *mobj)
         else
             P_ZMovement(mobj);
 
-        if (mobj->thinker.function.acv == (actionf_v)(-1))
+        if (mobj->thinker.function != P_MobjThinker)
             return;             // mobj was removed
     }
     else if (!mobj->momx && !mobj->momy && !player)
@@ -686,7 +686,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->oldz = mobj->z;
     mobj->oldangle = mobj->angle;
 
-    mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+    mobj->thinker.function = P_MobjThinker;
     P_AddThinker(&mobj->thinker);
 
     if (mobj->flags2 & MF2_SHADOW)
@@ -1058,7 +1058,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->z = BETWEEN(minz, z + ((P_Random() - P_Random()) << 10), maxz);
 
-        th->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
+        th->thinker.function = (actionf_p1)P_MobjThinker;
         P_AddThinker(&th->thinker);
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);

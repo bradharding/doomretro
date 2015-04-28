@@ -81,8 +81,8 @@ void P_UpdateThinker(thinker_t *thinker)
     thinker_t   *th;
 
     // find the class the thinker belongs to
-    int class = (thinker->function.acp1 == (actionf_p1)P_RemoveThinkerDelayed ? th_delete :
-        (thinker->function.acp1 == (actionf_p1)P_MobjThinker ? th_mobj : th_misc));
+    int class = (thinker->function == P_RemoveThinkerDelayed ? th_delete :
+        (thinker->function == P_MobjThinker ? th_mobj : th_misc));
 
     // Remove from current thread, if in one
     if ((th = thinker->cnext))
@@ -166,7 +166,7 @@ void P_RemoveThinkerDelayed(thinker_t *thinker)
 //
 void P_RemoveThinker(thinker_t *thinker)
 {
-    thinker->function.acp1 = (actionf_p1)P_RemoveThinkerDelayed;
+    thinker->function = P_RemoveThinkerDelayed;
 
     P_UpdateThinker(thinker);
 }
@@ -218,8 +218,8 @@ static void P_RunThinkers(void)
 
     while (currentthinker != &thinkercap)
     {
-        if (currentthinker->function.acp1)
-            currentthinker->function.acp1(currentthinker);
+        if (currentthinker->function)
+            currentthinker->function(currentthinker);
         currentthinker = currentthinker->next;
     }
 }

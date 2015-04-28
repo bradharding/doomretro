@@ -90,14 +90,13 @@ static void P_StartAnimatedLiquid(sector_t *sector)
     floormove_t     *floor;
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function.acp1 == (actionf_p1)T_AnimateLiquid
-            && ((floormove_t *)th)->sector == sector)
+        if (th->function == T_AnimateLiquid && ((floormove_t *)th)->sector == sector)
             return;
 
     floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
     memset(floor, 0, sizeof(*floor));
     P_AddThinker(&floor->thinker);
-    floor->thinker.function.acp1 = (actionf_p1)T_AnimateLiquid;
+    floor->thinker.function = T_AnimateLiquid;
     floor->sector = sector;
 }
 
@@ -323,7 +322,7 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
         memset(floor, 0, sizeof(*floor));
         P_AddThinker(&floor->thinker);
         sec->specialdata = floor;
-        floor->thinker.function.acp1 = (actionf_p1)T_MoveFloor;
+        floor->thinker.function = T_MoveFloor;
         floor->type = floortype;
         floor->crush = false;
 
@@ -535,7 +534,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
         memset(floor, 0, sizeof(*floor));
         P_AddThinker(&floor->thinker);
         sec->specialdata = floor;
-        floor->thinker.function.acp1 = (actionf_p1)T_MoveFloor;
+        floor->thinker.function = T_MoveFloor;
         floor->direction = 1;
         floor->sector = sec;
         switch (type)
@@ -605,7 +604,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
                 P_AddThinker(&floor->thinker);
 
                 sec->specialdata = floor;
-                floor->thinker.function.acp1 = (actionf_p1)T_MoveFloor;
+                floor->thinker.function = T_MoveFloor;
                 floor->direction = 1;
                 floor->sector = sec;
                 floor->speed = speed;

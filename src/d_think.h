@@ -49,16 +49,12 @@
 //  we will need to handle the various
 //  action functions cleanly.
 //
-typedef  void (*actionf_v)();
-typedef  void (*actionf_p1)(void *);
-typedef  void (*actionf_p2)(void *, void *);
+// killough 11/98: convert back to C instead of C++
+typedef void (*actionf_t)();
 
-typedef union
-{
-    actionf_v           acv;
-    actionf_p1          acp1;
-    actionf_p2          acp2;
-} actionf_t;
+typedef void (*actionf_v)();
+typedef void (*actionf_p1)(void *);
+typedef void (*actionf_p2)(void *, void *);
 
 // Historically, "think_t" is yet another
 //  function pointer to a routine to handle
@@ -78,7 +74,7 @@ typedef struct thinker_s
 
     // killough 11/98: count of how many other objects reference
     // this one using pointers. Used for garbage collection.
-    unsigned references;
+    unsigned            references;
 } thinker_t;
 
 #endif

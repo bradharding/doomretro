@@ -59,8 +59,7 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
     {
         mobj_t  *m;
 
-        if (thinker->function.acp1 == (actionf_p1)P_MobjThinker
-            && (m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
+        if (thinker->function == P_MobjThinker && (m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
             && m->subsector->sector->tag == tag)
         {
             fixed_t     oldx = thing->x;
