@@ -902,7 +902,6 @@ void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 
         while (column->topdelta != 0xff)
         {
-            byte        *source = (byte *)column + 3;
             byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
             int         count = (column->length * DY) >> 16;
 
@@ -938,7 +937,6 @@ void V_DrawFlippedFuzzPatch(int x, int y, patch_t *patch)
 
         while (column->topdelta != 0xff)
         {
-            byte        *source = (byte *)column + 3;
             byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
             int         count = (column->length * DY) >> 16;
 

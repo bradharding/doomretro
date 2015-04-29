@@ -1153,7 +1153,7 @@ static void SetVideoMode(boolean output)
     if (output)
     {
         SDL_RendererInfo        rendererinfo;
-        char                    *renderername;
+        char                    *renderername = "unknown renderer";
 
         SDL_GetRendererInfo(renderer, &rendererinfo);
         if (!strcasecmp(rendererinfo.name, "direct3d"))

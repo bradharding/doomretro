@@ -70,7 +70,7 @@ static memblock_t       *blockbytag[PU_MAX];
 // but we only free the blocks we actually end up using; we don't
 // free all the stuff we just pass on the way.
 //
-void *Z_Malloc(size_t size, int32_t tag, void **user)
+void *Z_Malloc(size_t size, int tag, void **user)
 {
     memblock_t  *block = NULL;
 
