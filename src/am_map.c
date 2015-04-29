@@ -397,7 +397,7 @@ static void AM_changeWindowLoc(void)
 void AM_Init(void)
 {
     byte        *priority;
-    int         x;
+    int         x, y;
     int         i;
 
     priority = Z_Malloc(256, PU_STATIC, NULL);
@@ -425,12 +425,8 @@ void AM_Init(void)
 
     priorities = Z_Malloc(65536, PU_STATIC, NULL);
     for (x = 0; x < 256; ++x)
-    {
-        int     y;
-
         for (y = 0; y < 256; ++y)
             *(priorities + (x << 8) + y) = (*(priority + x) > *(priority + y) ? x : y);
-    }
 
     playercolor = priorities + (PLAYERCOLOR << 8);
     thingcolor = priorities + (THINGCOLOR << 8);

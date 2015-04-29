@@ -72,9 +72,9 @@
 #include "wi_stuff.h"
 #include "z_zone.h"
 
-void G_PlayerReborn(int player);
+void G_PlayerReborn(void);
 
-void G_DoReborn(int playernum);
+void G_DoReborn(void);
 
 void G_DoLoadLevel(void);
 void G_DoNewGame(void);
@@ -889,7 +889,7 @@ void G_Ticker(void)
 
     // do player reborn if needed
     if (players[0].playerstate == PST_REBORN)
-        G_DoReborn(0);
+        G_DoReborn();
 
     P_MapEnd();
 
@@ -1066,7 +1066,7 @@ void G_PlayerFinishLevel(int player)
 // Called after a player dies
 // almost everything is cleared and initialized
 //
-void G_PlayerReborn(int player)
+void G_PlayerReborn(void)
 {
     player_t    *p;
     int         i;
@@ -1074,16 +1074,16 @@ void G_PlayerReborn(int player)
     int         itemcount;
     int         secretcount;
 
-    killcount = players[player].killcount;
-    itemcount = players[player].itemcount;
-    secretcount = players[player].secretcount;
+    killcount = players[0].killcount;
+    itemcount = players[0].itemcount;
+    secretcount = players[0].secretcount;
 
-    p = &players[player];
+    p = &players[0];
     memset(p, 0, sizeof(*p));
 
-    players[player].killcount = killcount;
-    players[player].itemcount = itemcount;
-    players[player].secretcount = secretcount;
+    players[0].killcount = killcount;
+    players[0].itemcount = itemcount;
+    players[0].secretcount = secretcount;
 
     p->usedown = p->attackdown = true;          // don't do anything immediately
     p->playerstate = PST_LIVE;
@@ -1190,7 +1190,7 @@ boolean G_CheckSpot(int playernum, mapthing_t *mthing)
 //
 // G_DoReborn
 //
-void G_DoReborn(int playernum)
+void G_DoReborn(void)
 {
     gameaction = (quickSaveSlot < 0 ? ga_loadlevel : ga_reloadgame);
 }

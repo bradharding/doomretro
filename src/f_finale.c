@@ -324,7 +324,7 @@ void F_TextWrite(void)
 
     for (; count; count--)
     {
-        int     c = *ch++;
+        char    c = *ch++;
 
         if (!c)
             break;

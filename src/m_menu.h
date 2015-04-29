@@ -57,7 +57,7 @@ typedef struct menu_s
     void                (*routine)(void);
     short               x;
     short               y;
-    short               lastOn;
+    int                 lastOn;
 } menu_t;
 
 boolean startingnewgame;

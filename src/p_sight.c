@@ -153,13 +153,13 @@ static boolean P_CrossSubsector(int num)
 
         line->validcount = validcount;
 
+        // crosses a two sided line
+        front = seg->frontsector;
+        back = seg->backsector;
+
         // cph - do what we can before forced to check intersection
         if (line->flags & ML_TWOSIDED)
         {
-            // crosses a two sided line
-            front = seg->frontsector;
-            back = seg->backsector;
-
             // no wall to block sight with?
             if (front->floorheight == back->floorheight
                 && front->ceilingheight == back->ceilingheight)
@@ -175,12 +175,13 @@ static boolean P_CrossSubsector(int num)
             // cph - reject if does not intrude in the z-space of the possible LOS
             if (opentop >= los.maxz && openbottom <= los.minz)
                 continue;
-        }
 
-        // cph - if bottom >= top or top < minz or bottom > maxz then it must be
-        // solid wrt this LOS
-        if (!(line->flags & ML_TWOSIDED) || openbottom >= opentop
-            || opentop < los.minz || openbottom > los.maxz)
+            // cph - if bottom >= top or top < minz or bottom > maxz then it must be
+            // solid wrt this LOS
+            if (openbottom >= opentop || opentop < los.minz || openbottom > los.maxz)
+                return false;
+        }
+        else
             return false;
 
         { 

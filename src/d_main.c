@@ -643,8 +643,8 @@ static boolean D_IsUnsupportedPWAD(char *filename)
 static void D_FirstUse(void)
 {
 #if defined(SDL20)
-    char *message = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with "
-        "all DOOM source ports, no actual map data is included\nwith " PACKAGE_NAME ".\n\nIn the "
+    char *msg = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with all "
+        "DOOM source ports, no actual map data is included\nwith " PACKAGE_NAME ".\n\nIn the "
         "dialog box that follows, please navigate to where an official \xe2\x80\x9cIWAD file"
         "\xe2\x80\x9d that\n" PACKAGE_NAME " requires (such as DOOM.WAD or DOOM2.WAD) has been "
         "installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be selected by "
@@ -670,7 +670,7 @@ static void D_FirstUse(void)
         SDL_MESSAGEBOX_INFORMATION,
         NULL,
         PACKAGE_NAME,
-        message,
+        msg,
         SDL_arraysize(buttons),
         buttons,
         NULL

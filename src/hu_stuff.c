@@ -278,7 +278,7 @@ void HU_Start(void)
         s_GOTMEDINEED = s_GOTMEDINEED2;
 }
 
-static void DrawHUDNumber(int x, int y, int *xpos, int val, boolean invert,
+static void DrawHUDNumber(int *x, int y, int val, boolean invert,
                           void (*hudnumfunc)(int, int, patch_t *, boolean))
 {
     int         oldval = val;
@@ -287,20 +287,20 @@ static void DrawHUDNumber(int x, int y, int *xpos, int val, boolean invert,
     if (val > 99)
     {
         patch = tallnum[val / 100];
-        hudnumfunc(*xpos, y, patch, invert);
-        *xpos += SHORT(patch->width);
+        hudnumfunc(*x, y, patch, invert);
+        *x += SHORT(patch->width);
     }
     val %= 100;
     if (val > 9 || oldval > 99)
     {
         patch = tallnum[val / 10];
-        hudnumfunc(*xpos, y, patch, invert);
-        *xpos += SHORT(patch->width);
+        hudnumfunc(*x, y, patch, invert);
+        *x += SHORT(patch->width);
     }
     val %= 10;
     patch = tallnum[val];
-    hudnumfunc(*xpos, y, patch, invert);
-    *xpos += SHORT(patch->width);
+    hudnumfunc(*x, y, patch, invert);
+    *x += SHORT(patch->width);
 }
 
 static int HUDNumberWidth(int val)
@@ -351,7 +351,7 @@ static void HU_DrawHUD(void)
             hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
         health_x += patch->width + 8;
     }
-    DrawHUDNumber(health_x, HUD_HEALTH_Y, &health_x, health, invert, hudnumfunc);
+    DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
     if (!emptytallpercent)
         hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, invert);
 
@@ -389,7 +389,7 @@ static void HU_DrawHUD(void)
             hudfunc(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y, patch, invert);
             ammo_x += patch->width + 8;
         }
-        DrawHUDNumber(ammo_x, HUD_AMMO_Y, &ammo_x, ammo, invert, hudnumfunc);
+        DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
 
         if (ammo <= HUD_AMMO_MIN && !menuactive && !paused && !consoleactive)
         {
@@ -478,14 +478,14 @@ static void HU_DrawHUD(void)
         if (emptytallpercent)
         {
             armor_x -= HUDNumberWidth(armor);
-            DrawHUDNumber(armor_x, HUD_ARMOR_Y, &armor_x, armor, true, hudnumfunc);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, true, hudnumfunc);
         }
         else
         {
             armor_x -= SHORT(tallpercent->width);
             hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, true);
             armor_x -= HUDNumberWidth(armor);
-            DrawHUDNumber(armor_x, HUD_ARMOR_Y, &armor_x, armor, true, hudnumfunc);
+            DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, true, hudnumfunc);
         }
     }
 }

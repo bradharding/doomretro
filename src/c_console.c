@@ -147,23 +147,23 @@ char *upper =
 byte            *c_tempscreen;
 byte            *c_blurredscreen;
 
-int             consolecaretcolor = 4;
-int             consolehighfpscolor = 116;
-int             consoleinputcolor = 4;
-int             consoleinputtooutputcolor = 4;
-int             consolelowfpscolor = 180;
-int             consoletitlecolor = 88;
-int             consolememorycolor = 88;
-int             consoleplayermessagecolor = 161;
-int             consoleoutputcolor = 88;
-int             consolebrandingcolor = 100;
-int             consolewarningcolor = 180;
-int             consoledividercolor = 100;
-int             consoletintcolor = 5;
-int             consolescrollbartrackcolor = 100;
-int             consolescrollbarfacecolor = 88;
+byte            consolecaretcolor = 4;
+byte            consolehighfpscolor = 116;
+byte            consoleinputcolor = 4;
+byte            consoleinputtooutputcolor = 4;
+byte            consolelowfpscolor = 180;
+byte            consoletitlecolor = 88;
+byte            consolememorycolor = 88;
+byte            consoleplayermessagecolor = 161;
+byte            consoleoutputcolor = 88;
+byte            consolebrandingcolor = 100;
+byte            consolewarningcolor = 180;
+byte            consoledividercolor = 100;
+byte            consoletintcolor = 5;
+byte            consolescrollbartrackcolor = 100;
+byte            consolescrollbarfacecolor = 88;
 
-int             consolecolors[STRINGTYPES];
+byte            consolecolors[STRINGTYPES];
 
 void C_Print(stringtype_t type, char *string, ...)
 {
@@ -523,7 +523,7 @@ static int C_TextWidth(char *text)
     return w;
 }
 
-static void C_DrawConsoleText(int x, int y, char *text, int color, int translucency, int tabs[4])
+static void C_DrawConsoleText(int x, int y, char *text, byte color, int translucency, int tabs[4])
 {
     boolean     italics = false;
     size_t      i;
@@ -604,7 +604,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color, int transluce
     }
 }
 
-static void C_DrawOverlayText(int x, int y, char *text, int color)
+static void C_DrawOverlayText(int x, int y, char *text, byte color)
 {
     size_t      i;
     size_t      len = strlen(text);
@@ -706,7 +706,7 @@ void C_Drawer(void)
         for (i = 0; i < caretpos; ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, ABS(consoleinputcolor), 0, notabs);
+        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, consoleinputcolor, 0, notabs);
 
         // draw caret
         if (caretwait < I_GetTime())
@@ -716,14 +716,14 @@ void C_Drawer(void)
         }
         x += C_TextWidth(left);
         if (showcaret)
-            V_DrawConsoleChar(x, consoleheight - 15, caret, ABS(consolecaretcolor), false, 0);
+            V_DrawConsoleChar(x, consoleheight - 15, caret, consolecaretcolor, false, 0);
 
         // draw input text to right of caret
         for (i = 0; (unsigned int)i < strlen(consoleinput) - caretpos; ++i)
             right[i] = consoleinput[i + caretpos];
         right[i] = 0;
         if (right[0])
-            C_DrawConsoleText(x + 3, CONSOLEHEIGHT - 15, right, ABS(consoleinputcolor), 0, notabs);
+            C_DrawConsoleText(x + 3, CONSOLEHEIGHT - 15, right, consoleinputcolor, 0, notabs);
 
         Z_Free(left);
         Z_Free(right);
@@ -739,7 +739,7 @@ void C_Drawer(void)
         if (showfps && fps)
         {
             static char     buffer[16];
-            int             color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
+            byte            color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
             static int      prevfps = 0;
 
             M_snprintf(buffer, 16, "%i FPS", fps);
@@ -786,7 +786,7 @@ boolean C_Responder(event_t *ev)
     if (ev->type == ev_keydown)
     {
         int             key = ev->data1;
-        int             ch = ev->data2;
+        char            ch = (char)ev->data2;
         int             i;
 
 #if defined(SDL20)
@@ -836,7 +836,7 @@ boolean C_Responder(event_t *ev)
 
                             if (consolecmds[i].type == CT_CHEAT)
                             {
-                                int     length = strlen(consoleinput);
+                                size_t  length = strlen(consoleinput);
 
                                 if (isdigit(consoleinput[length - 2])
                                     && isdigit(consoleinput[length - 1]))

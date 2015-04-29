@@ -77,16 +77,6 @@ extern char     consolecheat[255];
 extern char     consolecheatparm[3];
 extern char     consolecmdparm[255];
 
-extern int      consolecaretcolor;
-extern int      consolelowfpscolor;
-extern int      consolehighfpscolor;
-extern int      consoleinputcolor;
-extern int      consoleinputtooutputcolor;
-extern int      consolemaptitlecolor;
-extern int      consoleplayermessagecolor;
-extern int      consoleoutputcolor;
-extern int      consoletitlecolor;
-
 #if defined(WIN32)
 extern boolean  showmemory;
 #endif

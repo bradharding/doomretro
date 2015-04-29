@@ -50,7 +50,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-void G_PlayerReborn(int player);
+void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 void P_SpawnShadow(mobj_t *actor);
 
@@ -793,7 +793,7 @@ void P_SpawnPlayer(const mapthing_t *mthing)
     p = &players[0];
 
     if (p->playerstate == PST_REBORN)
-        G_PlayerReborn(0);
+        G_PlayerReborn();
 
     x = mthing->x << FRACBITS;
     y = mthing->y << FRACBITS;
@@ -1058,7 +1058,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         th->z = BETWEEN(minz, z + ((P_Random() - P_Random()) << 10), maxz);
 
-        th->thinker.function = (actionf_p1)P_MobjThinker;
+        th->thinker.function = P_MobjThinker;
         P_AddThinker(&th->thinker);
 
         th->momx = FixedMul(i * FRACUNIT / 4, finecosine[angle >> ANGLETOFINESHIFT]);
