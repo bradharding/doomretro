@@ -539,7 +539,7 @@ static void InitGameVersion(void)
         gamemission = doom2;
 }
 
-void ProcessDehFile(char *filename, char *outfilename, int lump);
+void ProcessDehFile(char *filename, int lump);
 
 #define MAXDEHFILES 16
 
@@ -566,7 +566,7 @@ static void LoadDehFile(char *path)
         {
             if (chex)
                 chexdeh = true;
-            ProcessDehFile(dehpath, "-", 0);
+            ProcessDehFile(dehpath, 0);
             if (dehfilecount < MAXDEHFILES)
                 M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
         }
@@ -576,7 +576,7 @@ static void LoadDehFile(char *path)
 
             if (M_FileExists(dehpath) && !DehFileProcessed(dehpath))
             {
-                ProcessDehFile(dehpath, "-", 0);
+                ProcessDehFile(dehpath, 0);
                 if (dehfilecount < MAXDEHFILES)
                     M_StringCopy(dehfiles[dehfilecount++], dehpath, MAX_PATH);
             }
@@ -1224,7 +1224,7 @@ static void D_ProcessDehCommandLine(void)
             if (*myargv[p] == '-')
                 deh = (!strcasecmp(myargv[p], "-deh") || !strcasecmp(myargv[p], "-bex"));
             else if (deh)
-                ProcessDehFile(myargv[p], "-", 0);
+                ProcessDehFile(myargv[p], 0);
     }
 }
 
@@ -1237,7 +1237,7 @@ static void D_ProcessDehInWad(void)
 
     for (i = 0; i < numlumps; ++i)
         if (!strncasecmp(lumpinfo[i].name, "DEHACKED", 8))
-            ProcessDehFile(NULL, "-", i);
+            ProcessDehFile(NULL, i);
 }
 
 //
