@@ -380,23 +380,21 @@ boolean PIT_CheckThing(mobj_t *thing)
         return true;
 
     // [BH] check if things are stuck and allow move if it makes them further apart
-    if (thing->flags & MF_SOLID)
-        if (tmx == tmthing->x && tmy == tmthing->y)
-            unblocking = true;
-        else if (ABS(thing->x - tmthing->x) < (thing->radius + tmthing->radius) / 2
-            && ABS(thing->y - tmthing->y) < (thing->radius + tmthing->radius) / 2)
-        {
-            fixed_t     newdist = P_ApproxDistance(thing->x - tmx, thing->y - tmy);
-            fixed_t     olddist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
+    if (tmx == tmthing->x && tmy == tmthing->y)
+        unblocking = true;
+    else
+    {
+        fixed_t     newdist = P_ApproxDistance(thing->x - tmx, thing->y - tmy);
+        fixed_t     olddist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
 
-            if (newdist > olddist)
-                unblocking = (tmthing->z < thing->z + thing->height
-                              && tmthing->z + tmthing->height > thing->z);
-        }
+        if (newdist > olddist)
+            unblocking = (tmthing->z < thing->z + thing->height
+                            && tmthing->z + tmthing->height > thing->z);
+    }
 
     // check if a mobj passed over/under another object
     if (tmthing->flags2 & MF2_PASSMOBJ)
-    {                           
+    {
         if (tmthing->z >= thing->z + thing->height)
             return true;        // over thing
         else if (tmthing->z + tmthing->height <= thing->z)
