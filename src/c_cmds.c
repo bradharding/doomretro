@@ -522,6 +522,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggle applying fixes to sprite offsets."),
     CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
     CMD       (thinglist, C_GameCondition, C_ThingList, 0, "", "Display a list of things in the current map."),
+    CVAR_INT  (totalbloodsplats, C_IntCondition, C_Int, CF_READONLY, totalbloodsplats, 0, NONE, "The total number of blood splats in the current map."),
     CMD       (totalitems, C_GameCondition, C_TotalItems, 0, "", "Show the number of items in the current map."),
     CMD       (totalkills, C_GameCondition, C_TotalKills, 0, "", "Show the number of monsters to kill in the current map."),
     CMD       (totalmapped, C_GameCondition, C_TotalMapped, 0, "", "Show the amount of the current map that has been mapped."),

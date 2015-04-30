@@ -55,8 +55,8 @@ void P_DelSeclist(msecnode_t *node);
 void P_SpawnShadow(mobj_t *actor);
 
 int                     maxbloodsplats = MAXBLOODSPLATS_DEFAULT;
-mobj_t                  *bloodSplatQueue[MAXBLOODSPLATS_MAX];
-int                     bloodSplatQueueSlot;
+mobj_t                  *bloodsplats[MAXBLOODSPLATS_MAX];
+int                     totalbloodsplats;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
 boolean                 corpses_mirror = CORPSES_MIRROR_DEFAULT;
@@ -1108,6 +1108,8 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->y = y;
         newsplat->subsector = subsec;
         P_SetBloodSplatPosition(newsplat);
+
+        ++totalbloodsplats;
     }
 }
 
@@ -1142,15 +1144,15 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->subsector = subsec;
         P_SetBloodSplatPosition(newsplat);
 
-        if (bloodSplatQueueSlot > maxbloodsplats)
+        if (totalbloodsplats > maxbloodsplats)
         {
-            mobj_t      *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % maxbloodsplats];
+            mobj_t      *oldsplat = bloodsplats[totalbloodsplats % maxbloodsplats];
 
             if (oldsplat)
                 P_UnsetThingPosition(oldsplat);
         }
 
-        bloodSplatQueue[bloodSplatQueueSlot++ % maxbloodsplats] = newsplat;
+        bloodsplats[totalbloodsplats++ % maxbloodsplats] = newsplat;
     }
 }
 

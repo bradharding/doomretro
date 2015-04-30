@@ -1869,7 +1869,10 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
                 mobjtype_t  type = mobj->type;
 
                 if (type == MT_BLOODSPLAT)
+                {
                     P_UnsetThingPosition(mobj);
+                    --totalbloodsplats;
+                }
                 else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
                     PIT_ChangeSector(mobj);                     // process it
             }
