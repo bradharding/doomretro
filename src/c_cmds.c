@@ -88,6 +88,7 @@ extern boolean  alwaysrun;
 extern boolean  am_grid;
 extern boolean  am_rotatemode;
 extern boolean  animatedliquid;
+extern boolean  autosave;
 extern boolean  brightmaps;
 extern boolean  capfps;
 extern boolean  centerweapon;
@@ -431,6 +432,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, am_followmode, NONE, "Toggle follow mode in the automap."),
     CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, am_grid, GRID, "Toggle the grid in the automap."),
     CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, am_rotatemode, ROTATEMODE, "Toggle rotate mode in the automap."),
+    CVAR_BOOL (autosave, C_BoolCondition, C_Bool, autosave, AUTOSAVE, "Toggle autosaving at the start of each map."),
     CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),

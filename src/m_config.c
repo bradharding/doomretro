@@ -64,6 +64,7 @@ extern boolean  alwaysrun;
 extern boolean  am_grid;
 extern boolean  am_rotatemode;
 extern boolean  animatedliquid;
+extern boolean  autosave;
 extern boolean  brightmaps;
 extern boolean  capfps;
 extern boolean  centerweapon;
@@ -214,6 +215,7 @@ static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_grid,                 am_grid,                       1),
     CONFIG_VARIABLE_INT          (am_rotatemode,           am_rotatemode,                 1),
+    CONFIG_VARIABLE_INT          (autosave,                autosave,                      1),
     CONFIG_VARIABLE_INT          (episode,                 selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,             9),
     CONFIG_VARIABLE_INT          (gp_automap,              gamepadautomap,                2),
@@ -790,6 +792,9 @@ static void M_CheckDefaults(void)
 
     if (animatedliquid != false && animatedliquid != true)
         animatedliquid = ANIMATEDLIQUID_DEFAULT;
+
+    if (autosave != false && autosave != true)
+        autosave = AUTOSAVE_DEFAULT;
 
     if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;
