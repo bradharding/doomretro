@@ -54,8 +54,8 @@ void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 void P_SpawnShadow(mobj_t *actor);
 
-int                     bloodsplats = BLOODSPLATS_DEFAULT;
-mobj_t                  *bloodSplatQueue[BLOODSPLATS_MAX];
+int                     maxbloodsplats = MAXBLOODSPLATS_DEFAULT;
+mobj_t                  *bloodSplatQueue[MAXBLOODSPLATS_MAX];
 int                     bloodSplatQueueSlot;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
@@ -275,7 +275,7 @@ void P_XYMovement(mobj_t *mo)
         return;         // no friction when airborne
 
     if ((flags & MF_CORPSE) && !(flags & MF_NOBLOOD) && corpses_slide && corpses_smearblood
-        && (mo->momx || mo->momy) && mo->bloodsplats && bloodsplats)
+        && (mo->momx || mo->momy) && mo->bloodsplats && maxbloodsplats)
     {
         int     i;
         int     max = ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12;
@@ -366,7 +366,7 @@ void P_ZMovement(mobj_t *mo)
         if (mo->flags2 & MF2_BLOOD)
         {
             P_RemoveMobj(mo);
-            if (bloodsplats)
+            if (maxbloodsplats)
                 P_BloodSplatSpawner(mo->x + (M_RandomInt(-5, 5) << FRACBITS),
                     mo->y + (M_RandomInt(-5, 5) << FRACBITS), mo->blood, mo->floorz);
             return;
@@ -502,7 +502,7 @@ void P_MobjThinker(mobj_t *mobj)
     sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
-    if (!(mobj->player != NULL && mobj == mobj->player->mo))
+    if (!(player != NULL && mobj == player->mo))
     {
         // Assume we can interpolate at the beginning
         // of the tic.
@@ -529,7 +529,7 @@ void P_MobjThinker(mobj_t *mobj)
     flags2 = mobj->flags2;
 
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOFLOATBOB)
-        && mobj->z <= mobj->subsector->sector->floorheight && !mobj->momz && animatedliquid)
+        && mobj->z <= sector->floorheight && !mobj->momz && animatedliquid)
         mobj->z += animatedliquiddiffs[leveltime & 127];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
@@ -952,7 +952,7 @@ void P_SpawnMapThing(mapthing_t *mthing)
         mobj->flags2 |= MF2_MIRRORED;
 
     if (!(mobj->flags & MF_SHOOTABLE) && !(mobj->flags & MF_NOBLOOD) && mobj->blood && !chex
-        && bloodsplats && !dehacked)
+        && maxbloodsplats && !dehacked)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
         if (corpses_moreblood)
@@ -1142,15 +1142,15 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         newsplat->subsector = subsec;
         P_SetBloodSplatPosition(newsplat);
 
-        if (bloodSplatQueueSlot > bloodsplats)
+        if (bloodSplatQueueSlot > maxbloodsplats)
         {
-            mobj_t      *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % bloodsplats];
+            mobj_t      *oldsplat = bloodSplatQueue[bloodSplatQueueSlot % maxbloodsplats];
 
             if (oldsplat)
                 P_UnsetThingPosition(oldsplat);
         }
 
-        bloodSplatQueue[bloodSplatQueueSlot++ % bloodsplats] = newsplat;
+        bloodSplatQueue[bloodSplatQueueSlot++ % maxbloodsplats] = newsplat;
     }
 }
 

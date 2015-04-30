@@ -64,7 +64,6 @@ extern boolean  alwaysrun;
 extern boolean  am_grid;
 extern boolean  am_rotatemode;
 extern boolean  animatedliquid;
-extern int      bloodsplats;
 extern boolean  brightmaps;
 extern boolean  capfps;
 extern boolean  centerweapon;
@@ -141,6 +140,7 @@ extern int      key_weapon5;
 extern int      key_weapon6;
 extern int      key_weapon7;
 extern boolean  mapfixes;
+extern int      maxbloodsplats;
 extern boolean  messages;
 extern boolean  mirrorweapons;
 #if defined(SDL20)
@@ -294,7 +294,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (pm_centerweapon,         centerweapon,                  1),
     CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,              playerbob,                     0),
     CONFIG_VARIABLE_INT          (runcount,                runcount,                      0),
-    CONFIG_VARIABLE_INT          (r_bloodsplats,           bloodsplats,                   7),
     CONFIG_VARIABLE_INT          (r_brightmaps,            brightmaps,                    1),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,      corpses_mirror,                1),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,     corpses_moreblood,             1),
@@ -309,6 +308,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,    footclip,                      1),
     CONFIG_VARIABLE_INT          (r_lowpixelheight,        pixelheight,                   0),
     CONFIG_VARIABLE_INT          (r_lowpixelwidth,         pixelwidth,                    0),
+    CONFIG_VARIABLE_INT          (r_maxbloodsplats,        maxbloodsplats,                7),
     CONFIG_VARIABLE_INT          (r_mirrorweapons,         mirrorweapons,                 1),
     CONFIG_VARIABLE_INT          (r_rockettrails,          smoketrails,                   1),
     CONFIG_VARIABLE_INT          (r_shadows,               shadows,                       1),
@@ -791,8 +791,6 @@ static void M_CheckDefaults(void)
     if (animatedliquid != false && animatedliquid != true)
         animatedliquid = ANIMATEDLIQUID_DEFAULT;
 
-    bloodsplats = BETWEEN(BLOODSPLATS_MIN, bloodsplats, BLOODSPLATS_MAX);
-
     if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;
 
@@ -1054,6 +1052,8 @@ static void M_CheckDefaults(void)
     if (display < 1 || display > DISPLAY_MAX)
         display = DISPLAY_DEFAULT;
 #endif
+
+    maxbloodsplats = BETWEEN(MAXBLOODSPLATS_MIN, maxbloodsplats, MAXBLOODSPLATS_MAX);
 
     if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
         mousebfire = MOUSEFIRE_DEFAULT;

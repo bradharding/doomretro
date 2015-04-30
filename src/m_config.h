@@ -43,11 +43,6 @@
 
 #define ANIMATEDLIQUID_DEFAULT                  true
 
-#define UNLIMITED                               32768
-#define BLOODSPLATS_MIN                         0
-#define BLOODSPLATS_DEFAULT                     UNLIMITED
-#define BLOODSPLATS_MAX                         UNLIMITED
-
 #define BRIGHTMAPS_DEFAULT                      true
 
 #define CAPFPS_DEFAULT                          false
@@ -213,6 +208,11 @@
 #define KEYWEAPON7_DEFAULT                      '7'
 
 #define MAPFIXES_DEFAULT                        true
+
+#define UNLIMITED                               32768
+#define MAXBLOODSPLATS_MIN                      0
+#define MAXBLOODSPLATS_DEFAULT                  UNLIMITED
+#define MAXBLOODSPLATS_MAX                      UNLIMITED
 
 #define MESSAGES_DEFAULT                        false
 

@@ -1266,7 +1266,7 @@ void P_SetupLevel(int episode, int map)
     P_CalcSegsLength();
 
     bloodSplatQueueSlot = 0;
-    memset(bloodSplatQueue, 0, sizeof(mobj_t *) * bloodsplats);
+    memset(bloodSplatQueue, 0, sizeof(mobj_t *) * maxbloodsplats);
 
     P_LoadThings(lumpnum + ML_THINGS);
 

@@ -1641,8 +1641,8 @@ static void D_DoomMainSetup(void)
     else
         startloadgame = -1;
 
-    P_BloodSplatSpawner = ((bloodsplats == UNLIMITED ? P_SpawnBloodSplat :
-                           (bloodsplats ? P_SpawnBloodSplat2 : P_NullBloodSplatSpawner)));
+    P_BloodSplatSpawner = ((maxbloodsplats == UNLIMITED ? P_SpawnBloodSplat :
+        (maxbloodsplats ? P_SpawnBloodSplat2 : P_NullBloodSplatSpawner)));
 
     M_Init();
 
