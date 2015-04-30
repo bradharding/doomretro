@@ -851,32 +851,6 @@ static byte saveg_read8(FILE *file)
     return result;
 }
 
-boolean G_CheckSaveGame(void)
-{
-    FILE        *handle;
-    int         episode;
-    int         map;
-    int         mission;
-    int         i;
-
-    handle = fopen(savename, "rb");
-
-    for (i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; ++i)
-        saveg_read8(handle);
-    episode = saveg_read8(handle);
-    map = saveg_read8(handle);
-    mission = saveg_read8(handle);
-
-    fclose(handle);
-
-    if (mission != gamemission)
-        return false;
-    if (episode != gameepisode || map != gamemap)
-        return false;
-
-    return true;
-}
-
 void D_Display(void);
 
 //
@@ -903,10 +877,7 @@ void G_Ticker(void)
                 break;
             case ga_reloadgame:
                 M_StringCopy(savename, P_SaveGameFile(quickSaveSlot), sizeof(savename));
-                if (G_CheckSaveGame())
-                    G_DoLoadGame();
-                else
-                    G_DoLoadLevel();
+                G_DoLoadGame();
                 break;
             case ga_newgame:
                 G_DoNewGame();
