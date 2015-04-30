@@ -1693,6 +1693,7 @@ void P_UnArchiveThinkers(void)
             mo = mo->snext;
         }
     }
+    totalbloodsplats = 0;
 
     // read in saved thinkers
     while (1)
@@ -1741,6 +1742,23 @@ void P_UnArchiveThinkers(void)
                 }
                 else
                     mobj->colfunc = bloodsplatcolfunc;
+
+                if (maxbloodsplats < UNLIMITED)
+                {
+                    if (totalbloodsplats > maxbloodsplats)
+                    {
+                        mobj_t      *oldsplat = bloodsplats[totalbloodsplats % maxbloodsplats];
+
+                        if (oldsplat)
+                            P_UnsetThingPosition(oldsplat);
+                    }
+
+                    bloodsplats[totalbloodsplats++ % maxbloodsplats] = mobj;
+
+                }
+                else
+                    ++totalbloodsplats;
+
                 break;
 
             default:
