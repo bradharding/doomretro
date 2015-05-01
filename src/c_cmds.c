@@ -189,6 +189,7 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
 extern int      runcount;
+extern char     *savegamefolder;
 #if defined(SDL20)
 extern char     *scaledriver;
 extern char     *scalefilter;
@@ -523,6 +524,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Save the game to a file."),
+    CVAR_STR  (savegamefolder, C_NoCondition, C_Str, savegamefolder, "The folder where savegames are saved."),
     CMD       (sectorlist, C_GameCondition, C_SectorList, 0, "", "Display a list of sectors in the current map."),
     CMD       (sidedeflist, C_GameCondition, C_SidedefList, 0, "", "Display a list of sidedefs in the current map."),
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
@@ -1402,7 +1404,7 @@ static boolean C_LoadCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_Load(char *cmd, char *parm1, char *parm2)
 {
-    G_LoadGame(M_StringJoin(savegamedir, parm1, NULL));
+    G_LoadGame(M_StringJoin(savegamefolder, parm1, NULL));
 }
 
 static int      mapcmdepisode;
@@ -1718,7 +1720,7 @@ static boolean C_SaveCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_Save(char *cmd, char *parm1, char *parm2)
 {
-    G_SaveGame(-1, "", M_StringJoin(savegamedir, parm1, NULL));
+    G_SaveGame(-1, "", M_StringJoin(savegamefolder, parm1, NULL));
 }
 
 #if defined(SDL20)

@@ -524,11 +524,11 @@ static char *SaveGameIWADName(void)
 }
 
 //
-// SetSaveGameDir
+// SetSaveGameFolder
 //
 // Chooses the directory used to store saved games.
 //
-void D_SetSaveGameDir(void)
+void D_SetSaveGameFolder(void)
 {
     char *iwad_name = SaveGameIWADName();
 
@@ -537,8 +537,8 @@ void D_SetSaveGameDir(void)
 
     M_MakeDirectory("savegames");
 
-    savegamedir = M_StringJoin("savegames", DIR_SEPARATOR_S, iwad_name, DIR_SEPARATOR_S, NULL);
-    M_MakeDirectory(savegamedir);
+    savegamefolder = M_StringJoin("savegames", DIR_SEPARATOR_S, iwad_name, DIR_SEPARATOR_S, NULL);
+    M_MakeDirectory(savegamefolder);
 }
 
 //

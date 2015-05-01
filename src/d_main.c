@@ -95,7 +95,7 @@
 void D_DoomLoop(void);
 
 // Location where savegames are stored
-char                    *savegamedir;
+char                    *savegamefolder;
 
 // location of IWAD and WAD files
 char                    *iwadfile = "";
@@ -1462,7 +1462,7 @@ static void D_DoomMainSetup(void)
     InitGameVersion();
     D_ProcessDehInWad();
     D_SetGameDescription();
-    D_SetSaveGameDir();
+    D_SetSaveGameFolder();
 
     I_InitGamepad();
 

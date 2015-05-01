@@ -202,7 +202,7 @@ extern wbstartstruct_t  wminfo;
 //
 
 // File handling stuff.
-extern char             *savegamedir;
+extern char             *savegamefolder;
 extern char             basedefault[1024];
 
 // if true, load all graphics at level load
