@@ -317,10 +317,12 @@ static boolean C_GodCondition(char *, char *, char *);
 static boolean C_GraphicDetailCondition(char *, char *, char *);
 static boolean C_IntCondition(char *, char *, char *);
 static boolean C_KillCondition(char *, char *, char *);
+static boolean C_LoadCondition(char *, char *, char *);
 static boolean C_MapCondition(char *, char *, char *);
 static boolean C_MaxBloodSplatsCondition(char *, char *, char *);
 static boolean C_NoCondition(char *, char *, char *);
 static boolean C_PlayerNameCondition(char *, char *, char *);
+static boolean C_SaveCondition(char *, char *, char *);
 static boolean C_SpawnCondition(char *, char *, char *);
 static boolean C_ResurrectCondition(char *, char *, char *);
 static boolean C_VolumeCondition(char *, char *, char *);
@@ -477,7 +479,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (iwadfolder, C_NoCondition, C_Str, iwadfolder, "The folder where an IWAD file was last opened."),
     CMD       (kill, C_KillCondition, C_Kill, 1, "[all|~type~]", "Kill the player, all monsters or a type of monster."),
     CMD       (linedeflist, C_GameCondition, C_LinedefList, 0, "", "Display a list of linedefs in the current map."),
-    CMD       (load, C_NoCondition, C_Load, 1, "~filename~.dsg", "Load a game."),
+    CMD       (load, C_LoadCondition, C_Load, 1, "~filename~.save", "Load a game from a file."),
     CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration, "The amount the mouse accelerates."),
     CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE, "Toggle double-clicking a mouse button for the +use action."),
     CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT, "Toggle no vertical movement of the mouse."),
@@ -520,7 +522,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME, "The music volume."),
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
-    CMD       (save, C_GameCondition, C_Save, 1, "~filename~.dsg", "Save the game."),
+    CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Save the game to a file."),
     CMD       (sectorlist, C_GameCondition, C_SectorList, 0, "", "Display a list of sectors in the current map."),
     CMD       (sidedeflist, C_GameCondition, C_SidedefList, 0, "", "Display a list of sidedefs in the current map."),
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
@@ -1393,7 +1395,15 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
 
 static void C_LinedefList(char *cmd, char *parm1, char *parm2) {}
 
-static void C_Load(char *cmd, char *parm1, char *parm2) {}
+static boolean C_LoadCondition(char *cmd, char *parm1, char *parm2)
+{
+    return (parm1[0] != '\0');
+}
+
+static void C_Load(char *cmd, char *parm1, char *parm2)
+{
+    G_LoadGame(parm1);
+}
 
 static int      mapcmdepisode;
 static int      mapcmdmap;
@@ -1701,7 +1711,15 @@ static void C_Resurrect(char *cmd, char *parm1, char *parm2)
     P_ResurrectPlayer(&players[0]);
 }
 
-static void C_Save(char *cmd, char *parm1, char *parm2) {}
+static boolean C_SaveCondition(char *cmd, char *parm1, char *parm2)
+{
+    return (parm1[0] != '\0' && gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
+}
+
+static void C_Save(char *cmd, char *parm1, char *parm2)
+{
+    G_SaveGame(-1, "", parm1);
+}
 
 #if defined(SDL20)
 static void C_ScaleDriver(char *cmd, char *parm1, char *parm2)

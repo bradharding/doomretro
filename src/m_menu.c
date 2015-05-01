@@ -1054,7 +1054,7 @@ void M_DrawSave(void)
 void M_DoSave(int slot)
 {
     M_ClearMenus();
-    G_SaveGame(slot, savegamestrings[slot]);
+    G_SaveGame(slot, savegamestrings[slot], "");
 
     savegames = true;
     functionkey = 0;

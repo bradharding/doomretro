@@ -1510,6 +1510,12 @@ void G_DoLoadGame(void)
     R_FillBackScreen();
 
     loadedgame = true;
+
+    if (consoleactive)
+    {
+        C_Output("%s loaded.", uppercase(savename));
+        C_HideConsoleFast();
+    }
 }
 
 void G_LoadedGameMessage(void)
@@ -1528,8 +1534,9 @@ void G_LoadedGameMessage(void)
 // Called by the menu task.
 // Description is a 256 byte text string
 //
-void G_SaveGame(int slot, char *description)
+void G_SaveGame(int slot, char *description, char *name)
 {
+    M_StringCopy(savename, (consoleactive ? name : ""), sizeof(savename));
     savegameslot = slot;
     M_StringCopy(savedescription, description, sizeof(savedescription));
     sendsave = true;
@@ -1542,7 +1549,7 @@ void G_DoSaveGame(void)
     static char buffer[128];
 
     temp_savegame_file = P_TempSaveGameFile();
-    savegame_file = P_SaveGameFile(savegameslot);
+    savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
 
     // Open the savegame file for writing.  We write to a temporary file
     // and then rename it at the end if it was successfully written.
@@ -1573,11 +1580,15 @@ void G_DoSaveGame(void)
     remove(savegame_file);
     rename(temp_savegame_file, savegame_file);
 
-    // [BH] use the save description in the message displayed
-    M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
-    HU_PlayerMessage(buffer, false);
-    message_dontfuckwithme = true;
-    S_StartSound(NULL, sfx_swtchx);
+    if (consoleactive)
+        C_Output("%s saved.", uppercase(savename));
+    else
+    {
+        M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
+        HU_PlayerMessage(buffer, false);
+        message_dontfuckwithme = true;
+        S_StartSound(NULL, sfx_swtchx);
+    }
 
     gameaction = ga_nothing;
     M_StringCopy(savedescription, "", sizeof(savedescription));
