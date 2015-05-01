@@ -1520,11 +1520,14 @@ void G_DoLoadGame(void)
 
 void G_LoadedGameMessage(void)
 {
-    static char buffer[128];
+    if (savedescription[0])
+    {
+        static char buffer[128];
 
-    M_snprintf(buffer, sizeof(buffer), s_GGLOADED, savedescription);
-    HU_PlayerMessage(buffer, false);
-    message_dontfuckwithme = true;
+        M_snprintf(buffer, sizeof(buffer), s_GGLOADED, savedescription);
+        HU_PlayerMessage(buffer, false);
+        message_dontfuckwithme = true;
+    }
 
     loadedgame = false;
 }
