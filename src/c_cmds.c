@@ -594,7 +594,7 @@ static void C_AlwaysRun(char *cmd, char *parm1, char *parm2)
 static void C_DisplayBinds(char *action, int value, controltype_t type, int count)
 {
     int i = 0;
-    int tabs[4] = { 40, 130, 192, 262 };
+    int tabs[8] = { 40, 130, 0, 0, 0, 0, 0, 0 };
 
     while (controls[i].type)
     {
@@ -847,7 +847,7 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
     int count = 1;
-    int tabs[4] = { 35, 184, 262, 0 };
+    int tabs[8] = { 35, 184, 262, 0, 0, 0, 0, 0 };
 
     while (consolecmds[i].name[0])
     {
@@ -1496,7 +1496,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
 {
     unsigned int        i, j;
     unsigned int        count = 0;
-    int                 tabs[4] = { 40, 90, 350, 350 };
+    int                 tabs[8] = { 40, 90, 350, 0, 0, 0, 0, 0 };
     char                **maplist;
 
     // initialize map list
@@ -1850,7 +1850,20 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
         C_Output("%i", screensize);
 }
 
-static void C_SectorList(char *cmd, char *parm1, char *parm2) {}
+static void C_SectorList(char *cmd, char *parm1, char *parm2)
+{
+    int i;
+    int tabs[8] = { 45, 120, 200, 270, 335, 395, 455, 505 };
+
+    C_TabbedOutput(tabs, "\tfloorheight\tceilingheight\tfloorpic\tceilingpic\tlightlevel\tspecial\ttag");
+    for (i = 0; i < numsectors; ++i)
+        C_TabbedOutput(tabs, "%i.\t%i\t%i\t%.8s\t%.8s\t%i\t%i\t%i",
+            i + 1, sectors[i].floorheight >> FRACBITS, sectors[i].ceilingheight >> FRACBITS,
+            uppercase(lumpinfo[firstflat + sectors[i].floorpic].name),
+            uppercase(lumpinfo[firstflat + sectors[i].ceilingpic].name), sectors[i].lightlevel,
+            sectors[i].special, sectors[i].tag);
+}
+
 
 static void C_SidedefList(char *cmd, char *parm1, char *parm2) {}
 
@@ -1933,7 +1946,7 @@ static void C_Str(char *cmd, char *parm1, char *parm2)
         if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_STRING))
         {
-            if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
+            if (parm1[0])
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
                 M_SaveDefaults();
@@ -1950,7 +1963,7 @@ static void C_ThingList(char *cmd, char *parm1, char *parm2)
 {
     thinker_t   *th;
     int         count = 0;
-    int         tabs[4] = { 45, 250, 350, 350 };
+    int         tabs[8] = { 45, 250, 0, 0, 0, 0, 0, 0 };
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function == P_MobjThinker)
@@ -2037,7 +2050,7 @@ static void C_UnBind(char *cmd, char *parm1, char *parm2)
 static void C_VertexList(char *cmd, char *parm1, char *parm2)
 {
     int i;
-    int tabs[4] = { 45, 0, 0, 0 };
+    int tabs[8] = { 45, 0, 0, 0, 0, 0, 0, 0 };
 
     for (i = 0; i < numvertexes; ++i)
         C_TabbedOutput(tabs, "%i.\t(%i,%i)",

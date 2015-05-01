@@ -64,7 +64,7 @@ typedef struct
 {
     char                *string;
     stringtype_t        type;
-    int                 tabs[4];
+    int                 tabs[8];
 } console_t;
 
 console_t       *console;
@@ -84,7 +84,7 @@ extern boolean  showmemory;
 void C_Print(stringtype_t type, char *string, ...);
 void C_Input(char *string, ...);
 void C_Output(char *string, ...);
-void C_TabbedOutput(int tabs[4], char *string, ...);
+void C_TabbedOutput(int tabs[8], char *string, ...);
 void C_Warning(char *string, ...);
 void C_PlayerMessage(char *string, ...);
 void C_AddConsoleDivider(void);

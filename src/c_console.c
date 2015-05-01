@@ -125,7 +125,7 @@ static int      inputhistory = -1;
 
 static int      outputhistory = -1;
 
-static int      notabs[4] = { 0, 0, 0, 0 };
+static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 #if defined(WIN32)
 boolean         showmemory = false;
@@ -219,7 +219,7 @@ void C_Output(char *string, ...)
     outputhistory = -1;
 }
 
-void C_TabbedOutput(int tabs[4], char *string, ...)
+void C_TabbedOutput(int tabs[8], char *string, ...)
 {
     va_list     argptr;
     char        buffer[1024];
@@ -523,7 +523,7 @@ static int C_TextWidth(char *text)
     return w;
 }
 
-static void C_DrawConsoleText(int x, int y, char *text, byte color, int translucency, int tabs[4])
+static void C_DrawConsoleText(int x, int y, char *text, byte color, int translucency, int tabs[8])
 {
     boolean     italics = false;
     size_t      i;
