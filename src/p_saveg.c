@@ -64,7 +64,7 @@ char *P_TempSaveGameFile(void)
     static char *filename = NULL;
 
     if (filename == NULL)
-        filename = M_StringJoin(savegamefolder, "temp.dsg", NULL);
+        filename = M_StringJoin(savegamefolder, "temp.save", NULL);
 
     return filename;
 }
@@ -82,7 +82,7 @@ char *P_SaveGameFile(int slot)
         filename = malloc(filename_size);
     }
 
-    M_snprintf(basename, 32, SAVEGAMENAME"%d.dsg", slot);
+    M_snprintf(basename, 32, PACKAGE_SAVE, slot);
     M_snprintf(filename, filename_size, "%s%s", savegamefolder, basename);
 
     return filename;
