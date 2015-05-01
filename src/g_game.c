@@ -543,6 +543,8 @@ extern SDL_Window       *window;
 //
 void G_DoLoadLevel(void)
 {
+    int episode;
+
     // Set the sky map.
     // First thing, we have a dummy sky texture name,
     //  a flat. The data is in the WAD only because
@@ -600,9 +602,11 @@ void G_DoLoadLevel(void)
     P_FreeSecNodeList();
 
     C_AddConsoleDivider();
+    episode = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
+    P_MapName(episode, gamemap);
     C_Print(title, mapnumandtitle);
 
-    P_SetupLevel((gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode), gamemap);
+    P_SetupLevel(episode, gamemap);
 
     skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 &&
         (gamemode != commercial || gamemap < 21) ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);

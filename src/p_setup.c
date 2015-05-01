@@ -1240,8 +1240,6 @@ void P_SetupLevel(int episode, int map)
         free(vertexes);
     }
 
-    P_MapName(gameepisode, gamemap);
-
     // note: most of this ordering is important
     if (!samelevel)
         P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
