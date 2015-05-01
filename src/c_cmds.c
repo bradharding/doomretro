@@ -1402,7 +1402,7 @@ static boolean C_LoadCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_Load(char *cmd, char *parm1, char *parm2)
 {
-    G_LoadGame(parm1);
+    G_LoadGame(M_StringJoin(savegamedir, parm1, NULL));
 }
 
 static int      mapcmdepisode;
@@ -1718,7 +1718,7 @@ static boolean C_SaveCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_Save(char *cmd, char *parm1, char *parm2)
 {
-    G_SaveGame(-1, "", parm1);
+    G_SaveGame(-1, "", M_StringJoin(savegamedir, parm1, NULL));
 }
 
 #if defined(SDL20)
