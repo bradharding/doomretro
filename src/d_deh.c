@@ -2997,7 +2997,7 @@ boolean deh_procStringSub(char *key, char *lookfor, char *newstring)
 
             if (key)
                 if (devparm)
-                    C_Output("Assigned key %s => \"%s\"", key, newstring);
+                    C_Output("Assigned key %s to \"%s\"", key, newstring);
 
             if (!key)
                 if (devparm)

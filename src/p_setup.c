@@ -230,7 +230,7 @@ void P_LoadSegs(int lump)
         linedef = (unsigned short)SHORT(ml->linedef);
 
         if (linedef < 0 || linedef >= numlines)
-            I_Error("P_LoadSegs: invalid linedef %i", linedef);
+            I_Error("P_LoadSegs: Linedef %i is invalid.", linedef);
 
         ldef = &lines[linedef];
         li->linedef = ldef;
@@ -240,8 +240,8 @@ void P_LoadSegs(int lump)
         // e6y: fix wrong side index
         if (side != 0 && side != 1)
         {
-            C_Warning("P_LoadSegs: Seg %i contains wrong side index %i. It has been replaced with 1.",
-                i, side);
+            C_Warning("P_LoadSegs: Seg %i contains the wrong side index of %i. "
+                "It has been replaced with 1.", i, side);
             side = 1;
         }
 
@@ -281,7 +281,7 @@ void P_LoadSegs(int lump)
         // http://www.doomworld.com/idgames/index.php?id=12647
         if (v1 >= numvertexes || v2 >= numvertexes)
         {
-            char buffer[] = "P_LoadSegs: Seg %i references non-existent vertex %i.";
+            char buffer[] = "P_LoadSegs: Seg %i references invalid vertex %i.";
 
             if (v1 >= numvertexes)
                 C_Warning(buffer, i, v1);
@@ -512,7 +512,7 @@ void P_LoadNodes(int lump)
                 // haleyjd 11/06/10: check for invalid subsector reference
                 if (no->children[j] >= numsubsectors)
                 {
-                    C_Warning("P_LoadNodes: BSP tree references invalid subsector %i.",
+                    C_Warning("P_LoadNodes: The BSP tree references invalid subsector %i.",
                         no->children[j]);
                     no->children[j] = 0;
                 }
@@ -647,7 +647,7 @@ void P_LoadLineDefs(int lump)
 
         // [crispy] warn about unknown linedef types
         if ((unsigned short)ld->special >= UNKNOWNSPECIAL)
-            C_Warning("P_LoadLineDefs: Linedef %i has unknown special %i.", i, ld->special);
+            C_Warning("P_LoadLineDefs: Linedef %i has an unknown special of %i.", i, ld->special);
 
         if (!ld->dx)
             ld->slopetype = ST_VERTICAL;
@@ -699,20 +699,21 @@ void P_LoadLineDefs(int lump)
                 if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
                 {
                     ld->sidenum[j] = NO_INDEX;
-                    C_Warning("P_LoadLineDefs: Linedef %i has out-of-range sidedef number.", i);
+                    C_Warning("P_LoadLineDefs: Linedef %i has an out-of-range sidedef number.", i);
                 }
 
             // killough 11/98: fix common wad errors (missing sidedefs):
             if (ld->sidenum[0] == NO_INDEX)
             {
                 ld->sidenum[0] = 0;  // Substitute dummy sidedef for missing right side
-                C_Warning("P_LoadLineDefs: Linedef %i is missing first sidedef.", i);
+                C_Warning("P_LoadLineDefs: Linedef %i is missing its first sidedef.", i);
             }
 
             if (ld->sidenum[1] == NO_INDEX && (ld->flags & ML_TWOSIDED))
             {
                 ld->flags &= ~ML_TWOSIDED;  // Clear 2s flag for missing left side
-                C_Warning("P_LoadLineDefs: Linedef %i has two-sided flag set but no second sidedef.", i);
+                C_Warning("P_LoadLineDefs: Linedef %i has the two-sided flag set "
+                    "but has no second sidedef.", i);
             }
         }
 
