@@ -2034,7 +2034,15 @@ static void C_UnBind(char *cmd, char *parm1, char *parm2)
     C_Bind(cmd, parm1, "none");
 }
 
-static void C_VertexList(char *cmd, char *parm1, char *parm2) {}
+static void C_VertexList(char *cmd, char *parm1, char *parm2)
+{
+    int i;
+    int tabs[4] = { 45, 0, 0, 0 };
+
+    for (i = 0; i < numvertexes; ++i)
+        C_TabbedOutput(tabs, "%i.\t(%i,%i)",
+            i + 1, vertexes[i].x >> FRACBITS, vertexes[i].y >> FRACBITS);
+}
 
 static boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 {
