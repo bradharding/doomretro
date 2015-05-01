@@ -599,6 +599,9 @@ void G_DoLoadLevel(void)
     // died.
     P_FreeSecNodeList();
 
+    C_AddConsoleDivider();
+    C_Print(title, mapnumandtitle);
+
     P_SetupLevel((gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode), gamemap);
 
     skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 &&
@@ -618,9 +621,6 @@ void G_DoLoadLevel(void)
 #else
     SDL_WM_SetCaption(mapnumandtitle, NULL);
 #endif
-
-    C_AddConsoleDivider();
-    C_Print(title, mapnumandtitle);
 
     if (automapactive)
         AM_Start();
