@@ -875,9 +875,9 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
                     ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
                     ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), consolecmds[i].description);
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, "%i.\t%s\t\t\"%.7s%s\"\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\t\"%.6s%s\"\t%s", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable,
-                    (strlen(*(char **)consolecmds[i].variable) > 7 ? "..." : ""),
+                    (strlen(*(char **)consolecmds[i].variable) > 6 ? "..." : ""),
                     consolecmds[i].description);
             else if (consolecmds[i].flags & CF_POSITION)
             {
