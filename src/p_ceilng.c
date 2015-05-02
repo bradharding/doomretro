@@ -46,7 +46,8 @@
 // CEILINGS
 //
 
-ceiling_t       *activeceilingshead;
+// the list of ceilings moving currently, including crushers
+ceilinglist_t   *activeceilings;
 
 extern boolean  canmodify;
 
@@ -228,36 +229,46 @@ boolean EV_DoCeiling(line_t *line, ceiling_e type)
 // P_AddActiveCeiling
 // Add an active ceiling
 //
-void P_AddActiveCeiling(ceiling_t *c)
+void P_AddActiveCeiling(ceiling_t *ceiling)
 {
-    ceiling_t   *next = activeceilingshead;
+    ceilinglist_t       *list = malloc(sizeof(*list));
 
-    if (next)
-        next->prev = c;
-    activeceilingshead = c;
-    c->next = next;
-    c->prev = NULL;
+    list->ceiling = ceiling;
+    ceiling->list = list;
+    if ((list->next = activeceilings))
+        list->next->prev = &list->next;
+    list->prev = &activeceilings;
+    activeceilings = list;
 }
 
 //
 // P_RemoveActiveCeiling
 // Remove a ceiling's thinker
 //
-void P_RemoveActiveCeiling(ceiling_t *c)
+void P_RemoveActiveCeiling(ceiling_t *ceiling)
 {
-    ceiling_t   *next = c->next;
-    ceiling_t   *prev = c->prev;
+    ceilinglist_t       *list = ceiling->list;
 
-    if (next)
-        next->prev = prev;
+    ceiling->sector->specialdata = NULL;
+    P_RemoveThinker(&ceiling->thinker);
+    if ((*list->prev = list->next))
+        list->next->prev = list->prev;
+    free(list);
+}
 
-    if (!prev)
-        activeceilingshead = next;
-    else
-        prev->next = next;
+//
+// P_RemoveAllActiveCeilings()
+// Removes all ceilings from the active ceiling list
+//
+void P_RemoveAllActiveCeilings(void)
+{
+    while (activeceilings)
+    {
+        ceilinglist_t   *next = activeceilings->next;
 
-    c->sector->specialdata = NULL;
-    P_RemoveThinker(&c->thinker);
+        free(activeceilings);
+        activeceilings = next;
+    }
 }
 
 //
@@ -266,17 +277,21 @@ void P_RemoveActiveCeiling(ceiling_t *c)
 //
 boolean P_ActivateInStasisCeiling(line_t *line)
 {
-    boolean     rtn = false;
-    ceiling_t   *ceiling;
+    boolean             result = false;
+    ceilinglist_t       *list;
 
-    for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
-        if (ceiling->tag == line->tag && ceiling->thinker.function == NULL)
+    for (list = activeceilings; list; list = list->next)
+    {
+        ceiling_t       *ceiling = list->ceiling;
+
+        if (ceiling->tag == line->tag && ceiling->direction == 0)
         {
+            ceiling->direction = ceiling->olddirection;
             ceiling->thinker.function = T_MoveCeiling;
-            rtn = true;
+            result = true;
         }
-
-    return rtn;
+    }
+    return result;
 }
 
 //
@@ -285,15 +300,20 @@ boolean P_ActivateInStasisCeiling(line_t *line)
 //
 boolean EV_CeilingCrushStop(line_t *line)
 {
-    boolean     rtn = false;
-    ceiling_t   *ceiling;
+    boolean             result = false;
+    ceilinglist_t       *list;
 
-    for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
-        if (ceiling->tag == line->tag && ceiling->thinker.function != NULL)
+    for (list = activeceilings; list; list = list->next)
+    {
+        ceiling_t       *ceiling = list->ceiling;
+
+        if (ceiling->direction != 0 && ceiling->tag == line->tag)
         {
+            ceiling->olddirection = ceiling->direction;
+            ceiling->direction = 0;
             ceiling->thinker.function = NULL;
-            rtn = true;
+            result = true;
         }
-
-    return rtn;
+    }
+    return result;
 }

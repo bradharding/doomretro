@@ -1234,10 +1234,8 @@ void P_SpawnSpecials(void)
         }
     }
 
-    // Init other misc stuff
-    activeceilingshead = NULL;
-    activeplatshead = NULL;
-
+    P_RemoveAllActiveCeilings();
+    P_RemoveAllActivePlats();
     for (i = 0; i < MAXBUTTONS; i++)
         memset(&buttonlist[i], 0, sizeof(button_t));
 

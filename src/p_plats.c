@@ -44,7 +44,7 @@
 #include "s_sound.h"
 #include "doomstat.h"
 
-plat_t *activeplatshead;
+platlist_t *activeplats;        // killough 2/14/98: made global again
 
 //
 // Move a plat up and down
@@ -241,60 +241,99 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
     return rtn;
 }
 
+// The following were all rewritten by Lee Killough
+// to use the new structure which places no limits
+// on active plats. It also avoids spending as much
+// time searching for active plats. Previously a
+// fixed-size array was used, with NULL indicating
+// empty entries, while now a doubly-linked list
+// is used.
+
+//
+// P_ActivateInStasis()
+// Activate a plat that has been put in stasis
+// (stopped perpetual floor, instant floor/ceil toggle)
+//
 void P_ActivateInStasis(int tag)
 {
-    plat_t     *plat;
+    platlist_t  *platlist;
 
-    for (plat = activeplatshead; plat; plat = plat->next)
+    for (platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
+    {
+        plat_t  *plat = platlist->plat;                         // for one in stasis with right tag
+
         if (plat->tag == tag && plat->status == in_stasis)
         {
             plat->status = plat->oldstatus;
             plat->thinker.function = T_PlatRaise;
         }
+    }
 }
 
-int EV_StopPlat(line_t *line)
+//
+// EV_StopPlat()
+// Handler for "stop perpetual floor" linedef type
+//
+boolean EV_StopPlat(line_t *line)
 {
-    plat_t      *plat;
+    platlist_t  *platlist;
 
-    for (plat = activeplatshead; plat; plat = plat->next)
-        if (plat->tag == line->tag && plat->status != in_stasis)
+    for (platlist = activeplats; platlist; platlist = platlist->next)   // search the active plats
+    {
+        plat_t  *plat = platlist->plat;                         // for one with the tag not in stasis
+
+        if (plat->status != in_stasis && plat->tag == line->tag)
         {
-            plat->oldstatus = plat->status;
+            plat->oldstatus = plat->status;                     // put it in stasis
             plat->status = in_stasis;
             plat->thinker.function = NULL;
-
-            return 1;
         }
-
-    return 0;
+    }
+    return true;
 }
 
+//
+// P_AddActivePlat()
+// Add a plat to the head of the active plat list
+//
 void P_AddActivePlat(plat_t *plat)
 {
-    plat_t      *next = activeplatshead;
+    platlist_t  *list = malloc(sizeof(*list));
 
-    if (next)
-        next->prev = plat;
-
-    activeplatshead = plat;
-    plat->next = next;
-    plat->prev = NULL;
+    list->plat = plat;
+    plat->list = list;
+    if ((list->next = activeplats))
+        list->next->prev = &list->next;
+    list->prev = &activeplats;
+    activeplats = list;
 }
 
+//
+// P_RemoveActivePlat()
+// Remove a plat from the active plat list
+//
 void P_RemoveActivePlat(plat_t *plat)
 {
-    plat_t      *next = plat->next;
-    plat_t      *prev = plat->prev;
-
-    if (next)
-        next->prev = prev;
-
-    if (!prev)
-        activeplatshead = next;
-    else
-        prev->next = next;
+    platlist_t  *list = plat->list;
 
     plat->sector->specialdata = NULL;
     P_RemoveThinker(&plat->thinker);
+    if ((*list->prev = list->next))
+        list->next->prev = list->prev;
+    free(list);
+}
+
+//
+// P_RemoveAllActivePlats()
+// Remove all plats from the active plat list
+//
+void P_RemoveAllActivePlats(void)
+{
+    while (activeplats)
+    {
+        platlist_t      *next = activeplats->next;
+
+        free(activeplats);
+        activeplats = next;
+    }
 }

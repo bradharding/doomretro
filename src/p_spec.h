@@ -241,12 +241,21 @@ typedef struct plat_s
     boolean            crush;
     int                tag;
     plattype_e         type;
+
+    struct platlist_s  *list;   // killough
 } plat_t;
 
-#define PLATWAIT                3
-#define PLATSPEED               FRACUNIT
+// New limit-free plat structure -- killough
+typedef struct platlist_s
+{
+    plat_t             *plat;
+    struct platlist_s  *next, **prev;
+} platlist_t;
 
-extern plat_t *activeplatshead;
+#define PLATWAIT       3
+#define PLATSPEED      FRACUNIT
+
+extern platlist_t      *activeplats;
 
 void T_PlatRaise(plat_t *plat);
 
@@ -254,7 +263,8 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount);
 
 void P_AddActivePlat(plat_t *plat);
 void P_RemoveActivePlat(plat_t *plat);
-int EV_StopPlat(line_t *line);
+void P_RemoveAllActivePlats(void);
+boolean EV_StopPlat(line_t *line);
 void P_ActivateInStasis(int tag);
 
 //
@@ -319,34 +329,40 @@ typedef enum
 
 typedef struct ceiling_s
 {
-    thinker_t           thinker;
-    struct ceiling_s    *next;
-    struct ceiling_s    *prev;
-    ceiling_e           type;
-    sector_t            *sector;
-    fixed_t             bottomheight;
-    fixed_t             topheight;
-    fixed_t             speed;
-    boolean             crush;
+    thinker_t                   thinker;
+    ceiling_e                   type;
+    sector_t                    *sector;
+    fixed_t                     bottomheight;
+    fixed_t                     topheight;
+    fixed_t                     speed;
+    boolean                     crush;
 
     // 1 = up, 0 = waiting, -1 = down
-    int                 direction;
+    int                         direction;
 
     // ID
-    int                 tag;
-    int                 olddirection;
+    int                         tag;
+    int                         olddirection;
+    struct ceilinglist_s        *list;  // jff 2/22/98 copied from killough's plats
 } ceiling_t;
+
+typedef struct ceilinglist_s
+{
+    ceiling_t                   *ceiling;
+    struct ceilinglist_s        *next, **prev;
+} ceilinglist_t;
 
 #define CEILSPEED               FRACUNIT
 #define CEILWAIT                150
 
-extern ceiling_t        *activeceilingshead;
+extern ceilinglist_t            *activeceilings;
 
 boolean EV_DoCeiling(line_t *line, ceiling_e type);
 
 void T_MoveCeiling(ceiling_t *ceiling);
-void P_AddActiveCeiling(ceiling_t *c);
-void P_RemoveActiveCeiling(ceiling_t *c);
+void P_AddActiveCeiling(ceiling_t *ceiling);
+void P_RemoveActiveCeiling(ceiling_t *ceiling);
+void P_RemoveAllActiveCeilings(void);
 boolean EV_CeilingCrushStop(line_t *line);
 boolean P_ActivateInStasisCeiling(line_t *line);
 

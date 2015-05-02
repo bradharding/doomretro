@@ -1837,18 +1837,19 @@ void P_ArchiveSpecials(void)
     thinker_t   *th;
     int         i;
     button_t    *button_ptr;
-    plat_t      *plat;
-    ceiling_t   *ceiling;
 
     // save off the current thinkers
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
     {
         if (!th->function)
         {
-            boolean     done_one = false;
+            boolean             done_one = false;
 
-            for (ceiling = activeceilingshead; ceiling; ceiling = ceiling->next)
-                if (ceiling == (ceiling_t *)th)
+            ceilinglist_t       *ceilinglist;
+            platlist_t          *platlist;
+
+            for (ceilinglist = activeceilings; ceilinglist; ceilinglist = ceilinglist->next)
+                if (ceilinglist->ceiling == (ceiling_t *)th)
                 {
                     saveg_write8(tc_ceiling);
                     saveg_write_pad();
@@ -1858,8 +1859,8 @@ void P_ArchiveSpecials(void)
                 }
 
             // [jeff-d] save height of moving platforms
-            for (plat = activeplatshead; plat; plat = plat->next)
-                if (plat == (plat_t*)th)
+            for (platlist = activeplats; platlist; platlist = platlist->next)
+                if (platlist->plat == (plat_t*)th)
                 {
                     saveg_write8(tc_plat);
                     saveg_write_pad();
@@ -1983,7 +1984,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_ceiling:
                 saveg_read_pad();
-                ceiling = (ceiling_t *)Z_Malloc(sizeof(*ceiling), PU_LEVEL, NULL);
+                ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVEL, NULL);
                 saveg_read_ceiling_t(ceiling);
                 ceiling->sector->specialdata = ceiling;
 
@@ -1996,7 +1997,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_door:
                 saveg_read_pad();
-                door = (vldoor_t *)Z_Malloc(sizeof(*door), PU_LEVEL, NULL);
+                door = Z_Malloc(sizeof(*door), PU_LEVEL, NULL);
                 saveg_read_vldoor_t(door);
                 door->sector->specialdata = door;
                 door->thinker.function = T_VerticalDoor;
@@ -2005,7 +2006,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_floor:
                 saveg_read_pad();
-                floor = (floormove_t *)Z_Malloc(sizeof(*floor), PU_LEVEL, NULL);
+                floor = Z_Malloc(sizeof(*floor), PU_LEVEL, NULL);
                 saveg_read_floormove_t(floor);
                 floor->sector->specialdata = floor;
                 floor->thinker.function = T_MoveFloor;
@@ -2014,7 +2015,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_plat:
                 saveg_read_pad();
-                plat = (plat_t *)Z_Malloc(sizeof(*plat), PU_LEVEL, NULL);
+                plat = Z_Malloc(sizeof(*plat), PU_LEVEL, NULL);
                 saveg_read_plat_t(plat);
                 plat->sector->specialdata = plat;
 
@@ -2027,7 +2028,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_flash:
                 saveg_read_pad();
-                flash = (lightflash_t *)Z_Malloc(sizeof(*flash), PU_LEVEL, NULL);
+                flash = Z_Malloc(sizeof(*flash), PU_LEVEL, NULL);
                 saveg_read_lightflash_t(flash);
                 flash->thinker.function = T_LightFlash;
                 P_AddThinker(&flash->thinker);
@@ -2035,7 +2036,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_strobe:
                 saveg_read_pad();
-                strobe = (strobe_t *)Z_Malloc(sizeof(*strobe), PU_LEVEL, NULL);
+                strobe = Z_Malloc(sizeof(*strobe), PU_LEVEL, NULL);
                 saveg_read_strobe_t(strobe);
                 strobe->thinker.function = T_StrobeFlash;
                 P_AddThinker(&strobe->thinker);
@@ -2043,7 +2044,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_glow:
                 saveg_read_pad();
-                glow = (glow_t *)Z_Malloc(sizeof(*glow), PU_LEVEL, NULL);
+                glow = Z_Malloc(sizeof(*glow), PU_LEVEL, NULL);
                 saveg_read_glow_t(glow);
                 glow->thinker.function = T_Glow;
                 P_AddThinker(&glow->thinker);
@@ -2051,7 +2052,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_fireflicker:
                 saveg_read_pad();
-                fireflicker = (fireflicker_t *)Z_Malloc(sizeof(*fireflicker), PU_LEVEL, NULL);
+                fireflicker = Z_Malloc(sizeof(*fireflicker), PU_LEVEL, NULL);
                 saveg_read_fireflicker_t(fireflicker);
                 fireflicker->thinker.function = T_FireFlicker;
                 P_AddThinker(&fireflicker->thinker);
@@ -2059,7 +2060,7 @@ void P_UnArchiveSpecials(void)
 
             case tc_button:
                 saveg_read_pad();
-                button = (button_t *)Z_Malloc(sizeof(*button), PU_LEVEL, NULL);
+                button = Z_Malloc(sizeof(*button), PU_LEVEL, NULL);
                 saveg_read_button_t(button);
                 P_StartButton(button->line, button->where, button->btexture, button->btimer);
                 break;
