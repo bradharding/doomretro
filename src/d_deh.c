@@ -2865,7 +2865,10 @@ void deh_procError(DEHFILE *fpin, char *line)
     char        inbuffer[DEH_BUFFERMAX];
 
     M_StringCopy(inbuffer, line, DEH_BUFFERMAX);
-    C_Warning("Ignoring \"%s\".", inbuffer);
+    if (!M_StringStartsWith(inbuffer, "Patch File for DeHackEd")
+        && !M_StringStartsWith(inbuffer, "Doom version")
+        && !M_StringStartsWith(inbuffer, "Patch format"))
+        C_Warning("Ignoring \"%s\".", inbuffer);
     return;
 }
 

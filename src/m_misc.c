@@ -309,13 +309,13 @@ boolean M_StringCopy(char *dest, char *src, size_t dest_size)
 // Returns true if 's' begins with the specified prefix.
 boolean M_StringStartsWith(char *s, char *prefix)
 {
-    return (strlen(s) > strlen(prefix) && strncmp(s, prefix, strlen(prefix)) == 0);
+    return (strlen(s) > strlen(prefix) && strncasecmp(s, prefix, strlen(prefix)) == 0);
 }
 
 // Returns true if 's' ends with the specified suffix.
 boolean M_StringEndsWith(char *s, char *suffix)
 {
-    return (strlen(s) >= strlen(suffix) && strcmp(s + strlen(s) - strlen(suffix), suffix) == 0);
+    return (strlen(s) >= strlen(suffix) && strcasecmp(s + strlen(s) - strlen(suffix), suffix) == 0);
 }
 
 // Return a newly-malloced string with all the strings given as arguments
