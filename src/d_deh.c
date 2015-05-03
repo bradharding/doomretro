@@ -1946,11 +1946,24 @@ void deh_procThing(DEHFILE *fpin, char *line)
             C_Warning("Bad data pair in \"%s\".", inbuffer);
             continue;
         }
+
         for (ix = 0; ix < DEH_MOBJINFOMAX; ix++)
         {
-            if (!strcasecmp(key, deh_mobjinfo[ix]))     // killough 8/98
+            if (strcasecmp(key, deh_mobjinfo[ix]))
+                continue;
+
+            if (strcasecmp(key, "Bits"))
             {
-                if (!strcasecmp(key, "Bits") && !value) // killough 10/98
+                pix = (int *)&mobjinfo[indexnum];
+                pix[ix] = (int)value;
+            }
+            else
+            {
+                // bit set
+                // e6y: Correction of wrong processing of Bits parameter if its value is equal to zero
+                if (bGetData == 1)
+                    mobjinfo[indexnum].flags = value;
+                else
                 {
                     // figure out what the bits are
                     value = 0;
@@ -1961,34 +1974,35 @@ void deh_procThing(DEHFILE *fpin, char *line)
                     // Use OR logic instead of addition, to allow repetition
                     for (; (strval = strtok(strval, ",+| \t\f\r")); strval = NULL)
                     {
-                        int iy;
+                        size_t  iy;
+
                         for (iy = 0; iy < DEH_MOBJFLAGMAX; iy++)
-                            if (!strcasecmp(strval, deh_mobjflags[iy].name))
-                            {
-                                if (devparm)
-                                    C_Output("ORed value 0x%08lx %s",
-                                        deh_mobjflags[iy].value, strval);
-                                value |= deh_mobjflags[iy].value;
-                                break;
-                            }
+                        {
+                            if (strcasecmp(strval, deh_mobjflags[iy].name))
+                                continue;
+                            if (devparm)
+                                C_Output("ORed value 0x%08lx %s.", deh_mobjflags[iy].value, strval);
+
+                            value |= deh_mobjflags[iy].value;
+                            break;
+                        }
                         if (iy >= DEH_MOBJFLAGMAX)
                             C_Warning("Could not find bit mnemonic \"%s\".", strval);
                     }
 
                     // Don't worry about conversion -- simply print values
                     if (devparm)
-                        C_Output("Bits = 0x%08lX = %ld", value, value);
+                        C_Output("Bits = 0x%08lX = %ld.", value, value);
+                    mobjinfo[indexnum].flags = value; // e6y
                 }
-                pix = (int *)&mobjinfo[indexnum];
-                pix[ix] = (int)value;
                 if (!BTSX)
                 {
                     mobjinfo[indexnum].flags2 = 0;
                     mobjinfo[indexnum].blood = 0;
                 }
-                if (devparm)
-                    C_Output("Assigned %d to %s(%d) at index %d", (int)value, key, indexnum, ix);
             }
+            if (devparm)
+                C_Output("Assigned %d to %s (%d) at index %d.", (int)value, key, indexnum, ix);
         }
     }
     return;
