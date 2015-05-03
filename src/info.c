@@ -1385,124 +1385,124 @@ state_t states[NUMSTATES] =
     { SPR_TLP2,  3 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP,     0,     0     }, // S_TECH2LAMP4
 
     // Null states for DeHackEd compatability
-    { 0,         0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_TNT1
-    { 0,         0,                             1000,               NULL,            S_TECH2LAMP3,    0,     0     }, // S_GRENADE
-    { 0,         0,                                4,               NULL,            S_DETONATE2,     0,     0     }, // S_DETONATE
-    { 0,         0,                                6,               NULL,            S_DETONATE3,     0,     0     }, // S_DETONATE2
-    { 0,         0,                               10,               NULL,            S_NULL,          0,     0     }, // S_DETONATE3
+    { 0,         0,                               -1,               NULL,            S_TNT1,          0,     0     }, // S_TNT1
+    { 0,         0 | FF_FULLBRIGHT,             1000,               NULL,            S_GRENADE,       0,     0     }, // S_GRENADE
+    { 0,         1 | FF_FULLBRIGHT,                4,               NULL,            S_DETONATE2,     0,     0     }, // S_DETONATE
+    { 0,         2 | FF_FULLBRIGHT,                6,               NULL,            S_DETONATE3,     0,     0     }, // S_DETONATE2
+    { 0,         3 | FF_FULLBRIGHT,               10,               NULL,            S_NULL,          0,     0     }, // S_DETONATE3
     { 0,         0,                               10,               NULL,            S_DOGS_STND2,    0,     0     }, // S_DOGS_STND
-    { 0,         0,                               10,               NULL,            S_DOGS_STND,     0,     0     }, // S_DOGS_STND2
+    { 0,         1,                               10,               NULL,            S_DOGS_STND,     0,     0     }, // S_DOGS_STND2
     { 0,         0,                                2,               NULL,            S_DOGS_RUN2,     0,     0     }, // S_DOGS_RUN1
     { 0,         0,                                2,               NULL,            S_DOGS_RUN3,     0,     0     }, // S_DOGS_RUN2
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN4,     0,     0     }, // S_DOGS_RUN3
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN5,     0,     0     }, // S_DOGS_RUN4
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN6,     0,     0     }, // S_DOGS_RUN5
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN7,     0,     0     }, // S_DOGS_RUN6
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN8,     0,     0     }, // S_DOGS_RUN7
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_RUN8
-    { 0,         0,                                8,               NULL,            S_DOGS_ATK2,     0,     0     }, // S_DOGS_ATK1
-    { 0,         0,                                8,               NULL,            S_DOGS_ATK3,     0,     0     }, // S_DOGS_ATK2
-    { 0,         0,                                8,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_ATK3
-    { 0,         0,                                2,               NULL,            S_DOGS_PAIN2,    0,     0     }, // S_DOGS_PAIN
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_PAIN2
-    { 0,         0,                                8,               NULL,            S_DOGS_DIE2,     0,     0     }, // S_DOGS_DIE1
-    { 0,         0,                                8,               NULL,            S_DOGS_DIE3,     0,     0     }, // S_DOGS_DIE2
-    { 0,         0,                                4,               NULL,            S_DOGS_DIE4,     0,     0     }, // S_DOGS_DIE3
-    { 0,         0,                                4,               NULL,            S_DOGS_DIE5,     0,     0     }, // S_DOGS_DIE4
-    { 0,         0,                                4,               NULL,            S_DOGS_DIE6,     0,     0     }, // S_DOGS_DIE5
-    { 0,         0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_DOGS_DIE6
-    { 0,         0,                                5,               NULL,            S_DOGS_RAISE2,   0,     0     }, // S_DOGS_RAISE1
-    { 0,         0,                                5,               NULL,            S_DOGS_RAISE3,   0,     0     }, // S_DOGS_RAISE2
-    { 0,         0,                                5,               NULL,            S_DOGS_RAISE4,   0,     0     }, // S_DOGS_RAISE3
-    { 0,         0,                                5,               NULL,            S_DOGS_RAISE5,   0,     0     }, // S_DOGS_RAISE4
-    { 0,         0,                                5,               NULL,            S_DOGS_RAISE6,   0,     0     }, // S_DOGS_RAISE5
-    { 0,         0,                                5,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_RAISE6
+    { 0,         1,                                2,               NULL,            S_DOGS_RUN4,     0,     0     }, // S_DOGS_RUN3
+    { 0,         1,                                2,               NULL,            S_DOGS_RUN5,     0,     0     }, // S_DOGS_RUN4
+    { 0,         2,                                2,               NULL,            S_DOGS_RUN6,     0,     0     }, // S_DOGS_RUN5
+    { 0,         2,                                2,               NULL,            S_DOGS_RUN7,     0,     0     }, // S_DOGS_RUN6
+    { 0,         3,                                2,               NULL,            S_DOGS_RUN8,     0,     0     }, // S_DOGS_RUN7
+    { 0,         3,                                2,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_RUN8
+    { 0,         4,                                8,               NULL,            S_DOGS_ATK2,     0,     0     }, // S_DOGS_ATK1
+    { 0,         5,                                8,               NULL,            S_DOGS_ATK3,     0,     0     }, // S_DOGS_ATK2
+    { 0,         6,                                8,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_ATK3
+    { 0,         7,                                2,               NULL,            S_DOGS_PAIN2,    0,     0     }, // S_DOGS_PAIN
+    { 0,         7,                                2,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_PAIN2
+    { 0,         8,                                8,               NULL,            S_DOGS_DIE2,     0,     0     }, // S_DOGS_DIE1
+    { 0,         9,                                8,               NULL,            S_DOGS_DIE3,     0,     0     }, // S_DOGS_DIE2
+    { 0,        10,                                4,               NULL,            S_DOGS_DIE4,     0,     0     }, // S_DOGS_DIE3
+    { 0,        11,                                4,               NULL,            S_DOGS_DIE5,     0,     0     }, // S_DOGS_DIE4
+    { 0,        12,                                4,               NULL,            S_DOGS_DIE6,     0,     0     }, // S_DOGS_DIE5
+    { 0,        13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_DOGS_DIE6
+    { 0,        13,                                5,               NULL,            S_DOGS_RAISE2,   0,     0     }, // S_DOGS_RAISE1
+    { 0,        12,                                5,               NULL,            S_DOGS_RAISE3,   0,     0     }, // S_DOGS_RAISE2
+    { 0,        11,                                5,               NULL,            S_DOGS_RAISE4,   0,     0     }, // S_DOGS_RAISE3
+    { 0,        10,                                5,               NULL,            S_DOGS_RAISE5,   0,     0     }, // S_DOGS_RAISE4
+    { 0,         9,                                5,               NULL,            S_DOGS_RAISE6,   0,     0     }, // S_DOGS_RAISE5
+    { 0,         8,                                5,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_RAISE6
     { 0,         0,                               10,               NULL,            S_OLDBFG2,       0,     0     }, // S_OLDBFG1
-    { 0,         0,                                1,               NULL,            S_OLDBFG3,       0,     0     }, // S_OLDBFG2
-    { 0,         0,                                1,               NULL,            S_OLDBFG4,       0,     0     }, // S_OLDBFG3
-    { 0,         0,                                1,               NULL,            S_OLDBFG5,       0,     0     }, // S_OLDBFG4
-    { 0,         0,                                1,               NULL,            S_OLDBFG6,       0,     0     }, // S_OLDBFG5
-    { 0,         0,                                1,               NULL,            S_OLDBFG7,       0,     0     }, // S_OLDBFG6
-    { 0,         0,                                1,               NULL,            S_OLDBFG8,       0,     0     }, // S_OLDBFG7
-    { 0,         0,                                1,               NULL,            S_OLDBFG9,       0,     0     }, // S_OLDBFG8
-    { 0,         0,                                1,               NULL,            S_OLDBFG10,      0,     0     }, // S_OLDBFG9
-    { 0,         0,                                1,               NULL,            S_OLDBFG11,      0,     0     }, // S_OLDBFG10
-    { 0,         0,                                1,               NULL,            S_OLDBFG12,      0,     0     }, // S_OLDBFG11
-    { 0,         0,                                1,               NULL,            S_OLDBFG13,      0,     0     }, // S_OLDBFG12
-    { 0,         0,                                1,               NULL,            S_OLDBFG14,      0,     0     }, // S_OLDBFG13
-    { 0,         0,                                1,               NULL,            S_OLDBFG15,      0,     0     }, // S_OLDBFG14
-    { 0,         0,                                1,               NULL,            S_OLDBFG16,      0,     0     }, // S_OLDBFG15
-    { 0,         0,                                1,               NULL,            S_OLDBFG17,      0,     0     }, // S_OLDBFG16
-    { 0,         0,                                1,               NULL,            S_OLDBFG18,      0,     0     }, // S_OLDBFG17
-    { 0,         0,                                1,               NULL,            S_OLDBFG19,      0,     0     }, // S_OLDBFG18
-    { 0,         0,                                1,               NULL,            S_OLDBFG20,      0,     0     }, // S_OLDBFG19
-    { 0,         0,                                1,               NULL,            S_OLDBFG21,      0,     0     }, // S_OLDBFG20
-    { 0,         0,                                1,               NULL,            S_OLDBFG22,      0,     0     }, // S_OLDBFG21
-    { 0,         0,                                1,               NULL,            S_OLDBFG23,      0,     0     }, // S_OLDBFG22
-    { 0,         0,                                1,               NULL,            S_OLDBFG24,      0,     0     }, // S_OLDBFG23
-    { 0,         0,                                1,               NULL,            S_OLDBFG25,      0,     0     }, // S_OLDBFG24
-    { 0,         0,                                1,               NULL,            S_OLDBFG26,      0,     0     }, // S_OLDBFG25
-    { 0,         0,                                1,               NULL,            S_OLDBFG27,      0,     0     }, // S_OLDBFG26
-    { 0,         0,                                1,               NULL,            S_OLDBFG28,      0,     0     }, // S_OLDBFG27
-    { 0,         0,                                1,               NULL,            S_OLDBFG29,      0,     0     }, // S_OLDBFG28
-    { 0,         0,                                1,               NULL,            S_OLDBFG30,      0,     0     }, // S_OLDBFG29
-    { 0,         0,                                1,               NULL,            S_OLDBFG31,      0,     0     }, // S_OLDBFG30
-    { 0,         0,                                1,               NULL,            S_OLDBFG32,      0,     0     }, // S_OLDBFG31
-    { 0,         0,                                1,               NULL,            S_OLDBFG33,      0,     0     }, // S_OLDBFG32
-    { 0,         0,                                1,               NULL,            S_OLDBFG34,      0,     0     }, // S_OLDBFG33
-    { 0,         0,                                1,               NULL,            S_OLDBFG35,      0,     0     }, // S_OLDBFG34
-    { 0,         0,                                1,               NULL,            S_OLDBFG36,      0,     0     }, // S_OLDBFG35
-    { 0,         0,                                1,               NULL,            S_OLDBFG37,      0,     0     }, // S_OLDBFG36
-    { 0,         0,                                1,               NULL,            S_OLDBFG38,      0,     0     }, // S_OLDBFG37
-    { 0,         0,                                1,               NULL,            S_OLDBFG39,      0,     0     }, // S_OLDBFG38
-    { 0,         0,                                1,               NULL,            S_OLDBFG40,      0,     0     }, // S_OLDBFG39
-    { 0,         0,                                1,               NULL,            S_OLDBFG41,      0,     0     }, // S_OLDBFG40
-    { 0,         0,                                1,               NULL,            S_OLDBFG42,      0,     0     }, // S_OLDBFG41
-    { 0,         0,                                0,               NULL,            S_OLDBFG43,      0,     0     }, // S_OLDBFG42
-    { 0,         0,                               20,               NULL,            S_BFG,           0,     0     }, // S_OLDBFG43
-    { 0,         0,                                6,               NULL,            S_PLS1BALL2,     0,     0     }, // S_PLS1BALL
-    { 0,         0,                                6,               NULL,            S_PLS1BALL,      0,     0     }, // S_PLS1BALL2
-    { 0,         0,                                4,               NULL,            S_PLS1EXP2,      0,     0     }, // S_PLS1EXP
-    { 0,         0,                                4,               NULL,            S_PLS1EXP3,      0,     0     }, // S_PLS1EXP2
-    { 0,         0,                                4,               NULL,            S_PLS1EXP4,      0,     0     }, // S_PLS1EXP3
-    { 0,         0,                                4,               NULL,            S_PLS1EXP5,      0,     0     }, // S_PLS1EXP4
-    { 0,         0,                                4,               NULL,            S_NULL,          0,     0     }, // S_PLS1EXP5
-    { 0,         0,                                4,               NULL,            S_PLS2BALL2,     0,     0     }, // S_PLS2BALL
-    { 0,         0,                                4,               NULL,            S_PLS2BALL,      0,     0     }, // S_PLS2BALL2
-    { 0,         0,                                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX1
-    { 0,         0,                                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX2
-    { 0,         0,                                6,               NULL,            S_NULL,          0,     0     }, // S_PLS2BALLX2
+    { 0,         1,                                1,               NULL,            S_OLDBFG3,       0,     0     }, // S_OLDBFG2
+    { 0,         1,                                1,               NULL,            S_OLDBFG4,       0,     0     }, // S_OLDBFG3
+    { 0,         1,                                1,               NULL,            S_OLDBFG5,       0,     0     }, // S_OLDBFG4
+    { 0,         1,                                1,               NULL,            S_OLDBFG6,       0,     0     }, // S_OLDBFG5
+    { 0,         1,                                1,               NULL,            S_OLDBFG7,       0,     0     }, // S_OLDBFG6
+    { 0,         1,                                1,               NULL,            S_OLDBFG8,       0,     0     }, // S_OLDBFG7
+    { 0,         1,                                1,               NULL,            S_OLDBFG9,       0,     0     }, // S_OLDBFG8
+    { 0,         1,                                1,               NULL,            S_OLDBFG10,      0,     0     }, // S_OLDBFG9
+    { 0,         1,                                1,               NULL,            S_OLDBFG11,      0,     0     }, // S_OLDBFG10
+    { 0,         1,                                1,               NULL,            S_OLDBFG12,      0,     0     }, // S_OLDBFG11
+    { 0,         1,                                1,               NULL,            S_OLDBFG13,      0,     0     }, // S_OLDBFG12
+    { 0,         1,                                1,               NULL,            S_OLDBFG14,      0,     0     }, // S_OLDBFG13
+    { 0,         1,                                1,               NULL,            S_OLDBFG15,      0,     0     }, // S_OLDBFG14
+    { 0,         1,                                1,               NULL,            S_OLDBFG16,      0,     0     }, // S_OLDBFG15
+    { 0,         1,                                1,               NULL,            S_OLDBFG17,      0,     0     }, // S_OLDBFG16
+    { 0,         1,                                1,               NULL,            S_OLDBFG18,      0,     0     }, // S_OLDBFG17
+    { 0,         1,                                1,               NULL,            S_OLDBFG19,      0,     0     }, // S_OLDBFG18
+    { 0,         1,                                1,               NULL,            S_OLDBFG20,      0,     0     }, // S_OLDBFG19
+    { 0,         1,                                1,               NULL,            S_OLDBFG21,      0,     0     }, // S_OLDBFG20
+    { 0,         1,                                1,               NULL,            S_OLDBFG22,      0,     0     }, // S_OLDBFG21
+    { 0,         1,                                1,               NULL,            S_OLDBFG23,      0,     0     }, // S_OLDBFG22
+    { 0,         1,                                1,               NULL,            S_OLDBFG24,      0,     0     }, // S_OLDBFG23
+    { 0,         1,                                1,               NULL,            S_OLDBFG25,      0,     0     }, // S_OLDBFG24
+    { 0,         1,                                1,               NULL,            S_OLDBFG26,      0,     0     }, // S_OLDBFG25
+    { 0,         1,                                1,               NULL,            S_OLDBFG27,      0,     0     }, // S_OLDBFG26
+    { 0,         1,                                1,               NULL,            S_OLDBFG28,      0,     0     }, // S_OLDBFG27
+    { 0,         1,                                1,               NULL,            S_OLDBFG29,      0,     0     }, // S_OLDBFG28
+    { 0,         1,                                1,               NULL,            S_OLDBFG30,      0,     0     }, // S_OLDBFG29
+    { 0,         1,                                1,               NULL,            S_OLDBFG31,      0,     0     }, // S_OLDBFG30
+    { 0,         1,                                1,               NULL,            S_OLDBFG32,      0,     0     }, // S_OLDBFG31
+    { 0,         1,                                1,               NULL,            S_OLDBFG33,      0,     0     }, // S_OLDBFG32
+    { 0,         1,                                1,               NULL,            S_OLDBFG34,      0,     0     }, // S_OLDBFG33
+    { 0,         1,                                1,               NULL,            S_OLDBFG35,      0,     0     }, // S_OLDBFG34
+    { 0,         1,                                1,               NULL,            S_OLDBFG36,      0,     0     }, // S_OLDBFG35
+    { 0,         1,                                1,               NULL,            S_OLDBFG37,      0,     0     }, // S_OLDBFG36
+    { 0,         1,                                1,               NULL,            S_OLDBFG38,      0,     0     }, // S_OLDBFG37
+    { 0,         1,                                1,               NULL,            S_OLDBFG39,      0,     0     }, // S_OLDBFG38
+    { 0,         1,                                1,               NULL,            S_OLDBFG40,      0,     0     }, // S_OLDBFG39
+    { 0,         1,                                1,               NULL,            S_OLDBFG41,      0,     0     }, // S_OLDBFG40
+    { 0,         1,                                1,               NULL,            S_OLDBFG42,      0,     0     }, // S_OLDBFG41
+    { 0,         1,                                0,               NULL,            S_OLDBFG43,      0,     0     }, // S_OLDBFG42
+    { 0,         1,                               20,               NULL,            S_BFG,           0,     0     }, // S_OLDBFG43
+    { 0,         0 | FF_FULLBRIGHT,                6,               NULL,            S_PLS1BALL2,     0,     0     }, // S_PLS1BALL
+    { 0,         1 | FF_FULLBRIGHT,                6,               NULL,            S_PLS1BALL,      0,     0     }, // S_PLS1BALL2
+    { 0,         2 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP2,      0,     0     }, // S_PLS1EXP
+    { 0,         3 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP3,      0,     0     }, // S_PLS1EXP2
+    { 0,         4 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP4,      0,     0     }, // S_PLS1EXP3
+    { 0,         5 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP5,      0,     0     }, // S_PLS1EXP4
+    { 0,         6 | FF_FULLBRIGHT,                4,               NULL,            S_NULL,          0,     0     }, // S_PLS1EXP5
+    { 0,         0 | FF_FULLBRIGHT,                4,               NULL,            S_PLS2BALL2,     0,     0     }, // S_PLS2BALL
+    { 0,         1 | FF_FULLBRIGHT,                4,               NULL,            S_PLS2BALL,      0,     0     }, // S_PLS2BALL2
+    { 0,         2 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX1
+    { 0,         3 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX2
+    { 0,         4 | FF_FULLBRIGHT,                6,               NULL,            S_NULL,          0,     0     }, // S_PLS2BALLX3
     { 0,         0,                                6,               NULL,            S_BON3,          0,     0     }, // S_BON3
     { 0,         0,                                6,               NULL,            S_BON4,          0,     0     }, // S_BON4
     { 0,         0,                               10,               NULL,            S_BSKUL_STND,    0,     0     }, // S_BSKUL_STND
-    { 0,         0,                                5,               NULL,            S_BSKUL_RUN2,    0,     0     }, // S_BSKUL_RUN1
-    { 0,         0,                                5,               NULL,            S_BSKUL_RUN3,    0,     0     }, // S_BSKUL_RUN2
-    { 0,         0,                                5,               NULL,            S_BSKUL_RUN4,    0,     0     }, // S_BSKUL_RUN3
+    { 0,         1,                                5,               NULL,            S_BSKUL_RUN2,    0,     0     }, // S_BSKUL_RUN1
+    { 0,         2,                                5,               NULL,            S_BSKUL_RUN3,    0,     0     }, // S_BSKUL_RUN2
+    { 0,         3,                                5,               NULL,            S_BSKUL_RUN4,    0,     0     }, // S_BSKUL_RUN3
     { 0,         0,                                5,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_RUN4
-    { 0,         0,                                4,               NULL,            S_BSKUL_ATK2,    0,     0     }, // S_BSKUL_ATK1
-    { 0,         0,                                5,               NULL,            S_BSKUL_ATK3,    0,     0     }, // S_BSKUL_ATK2
-    { 0,         0,                                4,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_ATK3
-    { 0,         0,                                4,               NULL,            S_BSKUL_PAIN2,   0,     0     }, // S_BSKUL_PAIN1
-    { 0,         0,                                2,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_PAIN2
-    { 0,         0,                                4,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_PAIN3
-    { 0,         0,                                5,               NULL,            S_BSKUL_DIE2,    0,     0     }, // S_BSKUL_DIE1
-    { 0,         0,                                5,               NULL,            S_BSKUL_DIE3,    0,     0     }, // S_BSKUL_DIE2
-    { 0,         0,                                5,               NULL,            S_BSKUL_DIE4,    0,     0     }, // S_BSKUL_DIE3
-    { 0,         0,                                5,               NULL,            S_BSKUL_DIE5,    0,     0     }, // S_BSKUL_DIE4
-    { 0,         0,                                5,               NULL,            S_BSKUL_DIE6,    0,     0     }, // S_BSKUL_DIE5
-    { 0,         0,                                5,               NULL,            S_BSKUL_DIE7,    0,     0     }, // S_BSKUL_DIE6
-    { 0,         0,                                5,               NULL,            S_BSKUL_DIE8,    0,     0     }, // S_BSKUL_DIE7
-    { 0,         0,                                5,               NULL,            S_BSKUL_DIE8,    0,     0     }, // S_BSKUL_DIE8
-    { 0,         0,                                8,               NULL,            S_EXPLODE2,      0,     0     }, // S_MUSHROOM
-    { 0,         0,                                5,               NULL,            S_PLAY_GDIE2,    0,     0     }, // S_PLAY_GDIE1
-    { 0,         0,                                5,               NULL,            S_PLAY_GDIE3,    0,     0     }, // S_PLAY_GDIE2
-    { 0,         0,                                5,               NULL,            S_PLAY_GDIE4,    0,     0     }, // S_PLAY_GDIE3
-    { 0,         0,                                5,               NULL,            S_PLAY_GDIE5,    0,     0     }, // S_PLAY_GDIE4
-    { 0,         0,                                5,               NULL,            S_PLAY_GDIE6,    0,     0     }, // S_PLAY_GDIE5
-    { 0,         0,                                5,               NULL,            S_PLAY_GDIE7,    0,     0     }, // S_PLAY_GDIE6
-    { 0,         0,                                5,               NULL,            S_PLAY_GDIE8,    0,     0     }, // S_PLAY_GDIE7
-    { 0,         0,                                5,               NULL,            S_PLAY_GDIE9,    0,     0     }, // S_PLAY_GDIE8
-    { 0,         0,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PLAY_GDIE9
+    { 0,         4,                                4,               NULL,            S_BSKUL_ATK2,    0,     0     }, // S_BSKUL_ATK1
+    { 0,         5,                                5,               NULL,            S_BSKUL_ATK3,    0,     0     }, // S_BSKUL_ATK2
+    { 0,         5,                                4,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_ATK3
+    { 0,         6,                                4,               NULL,            S_BSKUL_PAIN2,   0,     0     }, // S_BSKUL_PAIN1
+    { 0,         7,                                2,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_PAIN2
+    { 0,         8,                                4,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_PAIN3
+    { 0,         9,                                5,               NULL,            S_BSKUL_DIE2,    0,     0     }, // S_BSKUL_DIE1
+    { 0,        10,                                5,               NULL,            S_BSKUL_DIE3,    0,     0     }, // S_BSKUL_DIE2
+    { 0,        11,                                5,               NULL,            S_BSKUL_DIE4,    0,     0     }, // S_BSKUL_DIE3
+    { 0,        12,                                5,               NULL,            S_BSKUL_DIE5,    0,     0     }, // S_BSKUL_DIE4
+    { 0,        13,                                5,               NULL,            S_BSKUL_DIE6,    0,     0     }, // S_BSKUL_DIE5
+    { 0,        14,                                5,               NULL,            S_BSKUL_DIE7,    0,     0     }, // S_BSKUL_DIE6
+    { 0,        15,                                5,               NULL,            S_BSKUL_DIE8,    0,     0     }, // S_BSKUL_DIE7
+    { 0,        16,                                5,               NULL,            S_BSKUL_DIE8,    0,     0     }, // S_BSKUL_DIE8
+    { 0,         1 | FF_FULLBRIGHT,                8,               NULL,            S_EXPLODE2,      0,     0     }, // S_MUSHROOM
+    { 0,        14,                                5,               NULL,            S_PLAY_GDIE2,    0,     0     }, // S_PLAY_GDIE1
+    { 0,        15,                                5,               NULL,            S_PLAY_GDIE3,    0,     0     }, // S_PLAY_GDIE2
+    { 0,        16,                                5,               NULL,            S_PLAY_GDIE4,    0,     0     }, // S_PLAY_GDIE3
+    { 0,        17,                                5,               NULL,            S_PLAY_GDIE5,    0,     0     }, // S_PLAY_GDIE4
+    { 0,        18,                                5,               NULL,            S_PLAY_GDIE6,    0,     0     }, // S_PLAY_GDIE5
+    { 0,        19,                                5,               NULL,            S_PLAY_GDIE7,    0,     0     }, // S_PLAY_GDIE6
+    { 0,        20,                                5,               NULL,            S_PLAY_GDIE8,    0,     0     }, // S_PLAY_GDIE7
+    { 0,        21,                                5,               NULL,            S_PLAY_GDIE9,    0,     0     }, // S_PLAY_GDIE8
+    { 0,        22,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PLAY_GDIE9
 
     // Barrel (MT_BARREL)
     { SPR_BEXP,  0,                                6,               NULL,            S_BAR2,          0,     0     }, // S_BAR1
