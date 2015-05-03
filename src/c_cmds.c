@@ -726,7 +726,8 @@ static void C_Bind(char *cmd, char *parm1, char *parm2)
                     {
                         case keyboard:
                             if (controls[i].value != *(int *)actions[action].keyboard1
-                                && controls[i].value != *(int *)actions[action].keyboard2)
+                                && (!actions[action].keyboard2
+                                    || controls[i].value != *(int *)actions[action].keyboard2))
                             {
                                 if (*(int *)actions[action].keyboard1)
                                 {
