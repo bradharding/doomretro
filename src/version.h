@@ -38,6 +38,11 @@
 
 #define PACKAGE_VERSION                 1,7,1,0
 #define PACKAGE_VERSIONSTRING           "1.7.1"
+#if defined (_DEBUG)
+#define PACKAGE_BRANDINGSTRING          "DOOM RETRO v1.7.1 (Debug Build)"
+#else
+#define PACKAGE_BRANDINGSTRING          "DOOM RETRO v1.7.1"
+#endif
 #define PACKAGE_NAMEANDVERSIONSTRING    "DOOM RETRO v1.7.1"
 #define PACKAGE_SAVEGAMEVERSIONSTRING   "DOOM RETRO v1.7.1"
 

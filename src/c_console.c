@@ -676,8 +676,8 @@ void C_Drawer(void)
         C_DrawBackground(consoleheight);
 
         // draw branding
-        C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_NAMEANDVERSIONSTRING) - CONSOLETEXTX + 1,
-            CONSOLEHEIGHT - 15, PACKAGE_NAMEANDVERSIONSTRING, consolebrandingcolor, 1, notabs);
+        C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_BRANDINGSTRING) - CONSOLETEXTX + 1,
+            CONSOLEHEIGHT - 15, PACKAGE_BRANDINGSTRING, consolebrandingcolor, 1, notabs);
 
         // draw console text
         if (outputhistory == -1)
