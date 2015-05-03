@@ -1854,7 +1854,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         if ((3 != sscanf(inbuffer, "%31s %10i = %31s", key, &indexnum, mnemonic))
             || strcasecmp(key, "FRAME"))        // NOTE: different format from normal
         {
-            C_Warning("Invalid BEX codepointer line - must start with 'FRAME': \"%s\".", inbuffer);
+            C_Warning("Invalid BEX codepointer line - must start with \"FRAME\": \"%s\".", inbuffer);
             return;     // early return
         }
 
@@ -1871,11 +1871,11 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         while (!found && deh_bexptrs[i].lookup != NULL)
         {
             if (!strcasecmp(key, deh_bexptrs[i].lookup))
-            {   // Ty 06/01/98  - add  to states[].action for new djgcc version
+            {   // Ty 06/01/98  - add to states[].action for new djgcc version
                 states[indexnum].action = deh_bexptrs[i].cptr;  // assign
                 if (devparm)
-                    C_Output(" - applied %p from codeptr[%d] to states[%d]",
-                        (void *)deh_bexptrs[i].cptr, i, indexnum);
+                    C_Output(" - applied %s from codeptr[%d] to states[%d]",
+                        deh_bexptrs[i].lookup, i, indexnum);
                 found = true;
             }
             ++i;
