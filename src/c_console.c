@@ -946,7 +946,10 @@ boolean C_Responder(event_t *ev)
 
             // move caret to start
             case KEY_HOME:
-                if (caretpos > 0)
+                if ((outputhistory != -1 || !caretpos) && outputhistory
+                    && consolestrings > CONSOLELINES)
+                    outputhistory = 0;
+                else if (caretpos > 0)
                 {
                     caretpos = 0;
                     caretwait = I_GetTime() + CARETWAIT;
@@ -956,7 +959,9 @@ boolean C_Responder(event_t *ev)
 
             // move caret to end
             case KEY_END:
-                if ((unsigned int)caretpos < strlen(consoleinput))
+                if (outputhistory != -1 && consolestrings > CONSOLELINES)
+                    outputhistory = -1;
+                else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
                     caretpos = strlen(consoleinput);
                     caretwait = I_GetTime() + CARETWAIT;
