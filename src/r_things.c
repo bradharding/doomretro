@@ -1189,9 +1189,9 @@ void R_SortVisSprites(void)
 }
 
 //
-// R_DrawOtherSprite
+// R_DrawBloodSprite
 //
-void R_DrawOtherSprite(vissprite_t *spr, void visspritefunc(vissprite_t *))
+void R_DrawBloodSprite(vissprite_t *spr)
 {
     if (spr->x1 > spr->x2)
         return;
@@ -1201,6 +1201,8 @@ void R_DrawOtherSprite(vissprite_t *spr, void visspritefunc(vissprite_t *))
         int             clipbot[SCREENWIDTH];
         int             cliptop[SCREENWIDTH];
         int             x;
+        int             r1;
+        int             r2;
 
         for (x = spr->x1; x <= spr->x2; x++)
             clipbot[x] = cliptop[x] = -2;
@@ -1210,15 +1212,12 @@ void R_DrawOtherSprite(vissprite_t *spr, void visspritefunc(vissprite_t *))
         //  is the clip seg.
         for (ds = ds_p - 1; ds >= drawsegs; ds--)
         {
-            int r1;
-            int r2;
-
             // determine if the drawseg obscures the sprite
             if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
                 continue;           // does not cover sprite
 
-            if (MAX(ds->scale1, ds->scale2) < spr->scale || (MIN(ds->scale1, ds->scale2) < spr->scale
-                && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            if (MAX(ds->scale1, ds->scale2) < spr->scale || (MIN(ds->scale1, ds->scale2) < spr->scale &&
+                !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
                 // seg is behind sprite
                 continue;
 
@@ -1252,11 +1251,14 @@ void R_DrawOtherSprite(vissprite_t *spr, void visspritefunc(vissprite_t *))
 
         mfloorclip = clipbot;
         mceilingclip = cliptop;
-        visspritefunc(spr);
+        R_DrawVisSprite(spr);
     }
 }
 
-void R_DrawSprite(vissprite_t *spr)
+//
+// R_DrawShadowSprite
+//
+void R_DrawShadowSprite(vissprite_t *spr)
 {
     if (spr->x1 > spr->x2)
         return;
@@ -1266,6 +1268,72 @@ void R_DrawSprite(vissprite_t *spr)
         int             clipbot[SCREENWIDTH];
         int             cliptop[SCREENWIDTH];
         int             x;
+        int             r1;
+        int             r2;
+
+        for (x = spr->x1; x <= spr->x2; x++)
+            clipbot[x] = cliptop[x] = -2;
+
+        // Scan drawsegs from end to start for obscuring segs.
+        // The first drawseg that has a greater scale
+        //  is the clip seg.
+        for (ds = ds_p - 1; ds >= drawsegs; ds--)
+        {
+            // determine if the drawseg obscures the sprite
+            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
+                continue;           // does not cover sprite
+
+            if (MAX(ds->scale1, ds->scale2) < spr->scale || (MIN(ds->scale1, ds->scale2) < spr->scale &&
+                !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+                // seg is behind sprite
+                continue;
+
+            r1 = MAX(ds->x1, spr->x1);
+            r2 = MIN(ds->x2, spr->x2);
+
+            // clip this piece of the sprite
+            // killough 3/27/98: optimized and made much shorter
+            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+                for (x = r1; x <= r2; x++)
+                    if (clipbot[x] == -2)
+                        clipbot[x] = ds->sprbottomclip[x];
+
+            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+                for (x = r1; x <= r2; x++)
+                    if (cliptop[x] == -2)
+                        cliptop[x] = ds->sprtopclip[x];
+        }
+
+        // all clipping has been performed, so draw the sprite
+
+        // check for unclipped columns
+        for (x = spr->x1; x <= spr->x2; x++)
+        {
+            if (clipbot[x] == -2)
+                clipbot[x] = viewheight;
+
+            if (cliptop[x] == -2)
+                cliptop[x] = -1;
+        }
+
+        mfloorclip = clipbot;
+        mceilingclip = cliptop;
+        R_DrawShadowVisSprite(spr);
+    }
+}
+
+void R_DrawSprite(vissprite_t *spr)
+{
+    if (spr->x1 > spr->x2)
+        return;
+    else
+    {
+        drawseg_t                       *ds;
+        int                             clipbot[SCREENWIDTH];
+        int                             cliptop[SCREENWIDTH];
+        int                             x;
+        int                             r1;
+        int                             r2;
 
         for (x = spr->x1; x <= spr->x2; x++)
             clipbot[x] = cliptop[x] = -2;
@@ -1274,15 +1342,12 @@ void R_DrawSprite(vissprite_t *spr)
         // The first drawseg that has a greater scale is the clip seg.
         for (ds = ds_p - 1; ds >= drawsegs; ds--)
         {
-            int r1;
-            int r2;
-
             // determine if the drawseg obscures the sprite
             if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
                 continue;           // does not cover sprite
 
-            if (MAX(ds->scale1, ds->scale2) < spr->scale || (MIN(ds->scale1, ds->scale2) < spr->scale
-                && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            if (MAX(ds->scale1, ds->scale2) < spr->scale || (MIN(ds->scale1, ds->scale2) < spr->scale &&
+                !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
             {
                 // masked mid texture?
                 if (ds->maskedtexturecol)
@@ -1348,10 +1413,7 @@ void R_DrawMasked(void)
         if (spr->mobjflags2 & MF2_DRAWFIRST)
         {
             spr->drawn = true;
-            if (spr->type == MT_BLOODSPLAT)
-                R_DrawOtherSprite(spr, R_DrawBloodSplatVisSprite);
-            else
-                R_DrawSprite(spr);
+            R_DrawBloodSprite(spr);
         }
     }
 
@@ -1363,7 +1425,7 @@ void R_DrawMasked(void)
         if (spr->type == MT_SHADOW)
         {
             spr->drawn = true;
-            R_DrawOtherSprite(spr, R_DrawShadowVisSprite);
+            R_DrawShadowSprite(spr);
         }
     }
 
