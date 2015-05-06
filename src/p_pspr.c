@@ -91,8 +91,7 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
         }
 
         stnum = psp->state->nextstate;
-
-    } 
+    }
     while (!psp->tics); // an initial state of 0 could cycle through
 }
 
@@ -296,8 +295,8 @@ void A_ReFire(player_t *player, pspdef_t *psp)
 {
     // check for fire
     //  (if a weaponchange is pending, let it go through instead)
-    if ((player->cmd.buttons & BT_ATTACK)
-        && player->pendingweapon == wp_nochange && player->health)
+    if ((player->cmd.buttons & BT_ATTACK) && player->pendingweapon == wp_nochange
+        && player->health)
     {
         player->refire++;
         P_FireWeapon(player);
