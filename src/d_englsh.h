@@ -146,6 +146,7 @@
 // g_game.c
 //
 #define GGSAVED                 "game saved."
+#define GSCREENSHOT             "screen shot"
 
 //
 //  hu_stuff.c

@@ -207,7 +207,7 @@ char    *s_PD_YELLOWK = PD_YELLOWK;
 
 char    *s_GGSAVED = GGSAVED;
 char    *s_GGLOADED = "";
-char    *s_GSCREENSHOT = "";
+char    *s_GSCREENSHOT = GSCREENSHOT;
 
 char    *s_ALWAYSRUNOFF = "";
 char    *s_ALWAYSRUNON = "";
