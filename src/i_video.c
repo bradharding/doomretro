@@ -1648,11 +1648,22 @@ void I_InitGraphics(void)
     SDL_Event   dummy;
     byte        *doompal = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
-#if defined(_MSC_VER) && defined(_DEBUG)
-    SDL_InitSubSystem(SDL_INIT_NOPARACHUTE);
-#endif
+#if defined(SDL20)
+    SDL_version linked, compiled;
 
-#if !defined(SDL20)
+    SDL_GetVersion(&linked);
+    SDL_VERSION(&compiled);
+
+    if (linked.major != compiled.major || linked.minor != compiled.minor)
+        I_Error("The wrong version of SDL2.dll was found. "PACKAGE_NAME" requires v%d.%d.%d, "
+            "not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch, linked.major,
+            linked.minor, linked.patch);
+
+    if (linked.patch != compiled.patch)
+        C_Warning("The wrong version of SDL2.dll was found. "PACKAGE_NAME" requires v%d.%d.%d, "
+            "not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch, linked.major,
+            linked.minor, linked.patch);
+#else
     putenv("SDL_DISABLE_LOCK_KEYS=1");
 #endif
 
