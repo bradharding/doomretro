@@ -1251,7 +1251,10 @@ void R_DrawBloodSprite(vissprite_t *spr)
 
         mfloorclip = clipbot;
         mceilingclip = cliptop;
-        R_DrawBloodSplatVisSprite(spr);
+        if (spr->type == MT_BLOODSPLAT)
+            R_DrawBloodSplatVisSprite(spr);
+        else
+            R_DrawVisSprite(spr);
     }
 }
 
