@@ -1251,7 +1251,7 @@ void R_DrawBloodSprite(vissprite_t *spr)
 
         mfloorclip = clipbot;
         mceilingclip = cliptop;
-        R_DrawVisSprite(spr);
+        R_DrawBloodSplatVisSprite(spr);
     }
 }
 
