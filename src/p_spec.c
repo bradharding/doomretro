@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "m_random.h"
@@ -890,6 +891,10 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         case WR_RaiseFastFloorToNextFloor:
             EV_DoFloor(line, raiseFloorTurbo);
             break;
+
+        default:
+            C_Warning("P_CrossSpecialLine: Line has an unknown special of %i.", line->special);
+            break;
     }
 }
 
@@ -934,6 +939,10 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         case G1_RaiseFloorToNextFloorChangeFloorTextureAndType:
             if (EV_DoPlat(line, raiseToNearestAndChange, 0))
                 P_ChangeSwitchTexture(line, 0);
+            break;
+
+        default:
+            C_Warning("P_ShootSpecialLine: Line has an unknown special of %i.", line->special);
             break;
     }
 }
@@ -998,6 +1007,8 @@ void P_PlayerInSpecialSector(player_t *player)
             break;
 
         default:
+            C_Warning("P_PlayerInSpecialSector: Sector has an unknown special of %i.",
+                sector->special);
             break;
     }
 }
