@@ -372,7 +372,7 @@ typedef enum
     SR_LightsTo0                                                  = 139,
     S1_RaiseFloorBy512Units                                       = 140,
     W1_StartSlowQuietCrusher                                      = 141,
-    UNKNOWNSPECIAL                                                = 142
+    UNKNOWNLINESPECIAL                                            = 142
 } linespecial_t;
 
 typedef enum
@@ -391,7 +391,8 @@ typedef enum
     SyncStrobeFast       = 13,
     RaiseDoorIn5Minutes  = 14,
     SuperHellslimeDamage = 16,
-    FlickeringFire       = 17
+    FlickeringFire       = 17,
+    UNKNOWNSECTORSPECIAL = 18
 } sectorspecial_t;
 
 typedef enum

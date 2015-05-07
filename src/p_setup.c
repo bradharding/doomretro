@@ -417,7 +417,10 @@ void P_LoadSectors(int lump)
         ss->special = SHORT(ms->special);
         ss->tag = SHORT(ms->tag);
 
-        // [AM] Sector interpolation.  Even if we're
+        if ((unsigned short)ss->special >= UNKNOWNSECTORSPECIAL)
+            C_Warning("P_LoadSectors: Sector %i has an unknown special of %i.", i, ss->special);
+
+        // [AM] Sector interpolation. Even if we're
         //      not running uncapped, the renderer still
         //      uses this data.
         ss->oldfloorheight = ss->floorheight;
@@ -646,7 +649,7 @@ void P_LoadLineDefs(int lump)
         ld->dy = v2->y - v1->y;
 
         // [crispy] warn about unknown linedef types
-        if ((unsigned short)ld->special >= UNKNOWNSPECIAL)
+        if ((unsigned short)ld->special >= UNKNOWNLINESPECIAL)
             C_Warning("P_LoadLineDefs: Linedef %i has an unknown special of %i.", i, ld->special);
 
         if (!ld->dx)
