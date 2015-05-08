@@ -256,7 +256,7 @@ void T_MoveFloor(floormove_t *floor)
     result_e    res = T_MovePlane(sec, floor->speed, floor->floordestheight,
                                   floor->crush, 0, floor->direction);
 
-    if (!(leveltime & 7) && sec->floorheight != floor->floordestheight && !isliquid[sec->floorpic])
+    if (!(leveltime & 7) && sec->floorheight != floor->floordestheight)
         S_StartSound(&sec->soundorg, sfx_stnmov);
 
     if (res == pastdest)
@@ -293,7 +293,7 @@ void T_MoveFloor(floormove_t *floor)
         }
         P_RemoveThinker(&floor->thinker);
 
-        if (floor->stopsound && !isliquid[sec->floorpic])
+        if (floor->stopsound)
             S_StartSound(&sec->soundorg, sfx_pstop);
     }
 }
