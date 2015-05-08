@@ -893,7 +893,8 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         default:
-            C_Warning("P_CrossSpecialLine: Line has an unknown special of %i.", line->special);
+            if ((unsigned short)line->special >= UNKNOWNLINESPECIAL)
+                C_Warning("P_CrossSpecialLine: Line has an unknown special of %i.", line->special);
             break;
     }
 }
@@ -942,7 +943,8 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             break;
 
         default:
-            C_Warning("P_ShootSpecialLine: Line has an unknown special of %i.", line->special);
+            if ((unsigned short)line->special >= UNKNOWNLINESPECIAL)
+                C_Warning("P_ShootSpecialLine: Line has an unknown special of %i.", line->special);
             break;
     }
 }
@@ -1007,8 +1009,9 @@ void P_PlayerInSpecialSector(player_t *player)
             break;
 
         default:
-            C_Warning("P_PlayerInSpecialSector: Sector has an unknown special of %i.",
-                sector->special);
+            if ((unsigned short)sector->special >= UNKNOWNSECTORSPECIAL)
+                C_Warning("P_PlayerInSpecialSector: Sector has an unknown special of %i.",
+                    sector->special);
             break;
     }
 }
