@@ -1349,7 +1349,7 @@ static void D_DoomMainSetup(void)
     {
         for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
         {
-            char        *file = uppercase(D_TryFindWADByName(myargv[p]));
+            char        *file = D_TryFindWADByName(myargv[p]);
 
             if (iwadfile)
             {
