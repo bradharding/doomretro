@@ -1534,7 +1534,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
             continue;
 
         M_StringCopy(wad, uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)), MAX_PATH);
-        replaced = (W_CheckMultipleLumps(lump) > 1 && dehcount == 1 && !chex);
+        replaced = (W_CheckMultipleLumps(lump) > 1 && !chex);
         pwad = (lumpinfo[i].wad_file->type == PWAD);
 
         switch (gamemission)
@@ -1542,7 +1542,8 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
             case doom:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
-                        (replaced ? "-" : *mapnames[episode * 9 + map]), (modifiedgame ? wad : ""));
+                        (replaced && dehcount == 1 ? "-" : *mapnames[episode * 9 + map]),
+                        (modifiedgame ? wad : ""));
                 break;
             case doom2:
                 if (strcasecmp(wad, "nerve.wad") && (!replaced || pwad || nerve) && (pwad || !BTSX))
@@ -1553,9 +1554,9 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
                                 M_StringReplace(*mapnames2[map], ": ", "\t"));
                     }
                     else
-                        M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced && !nerve ?
-                            "-" : (bfgedition ? *mapnames2_bfg[map] : *mapnames2[map])),
-                            (modifiedgame && !nerve ? wad : ""));
+                        M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump, (replaced
+                            && dehcount == 1 && !nerve ? "  -" : (bfgedition ? *mapnames2_bfg[map]
+                            : *mapnames2[map])), (modifiedgame && !nerve ? wad : ""));
                 break;
             case pack_nerve:
                 if (!strcasecmp(wad, "nerve.wad"))
@@ -1564,12 +1565,14 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
             case pack_plut:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
-                        (replaced ? "-" : *mapnamesp[map]), (modifiedgame ? wad : ""));
+                        (replaced && dehcount == 1 ? "-" : *mapnamesp[map]),
+                        (modifiedgame ? wad : ""));
                 break;
             case pack_tnt:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
-                        (replaced ? "-" : *mapnamest[map]), (modifiedgame ? wad : ""));
+                        (replaced && dehcount == 1 ? "-" : *mapnamest[map]),
+                        (modifiedgame ? wad : ""));
                 break;
         }
     }
