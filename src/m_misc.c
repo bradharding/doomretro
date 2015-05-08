@@ -206,14 +206,6 @@ boolean M_StrToInt(const char *str, int *result)
             || sscanf(str, " %10d", result) == 1);
 }
 
-void M_ForceUppercase(char *text)
-{
-    char        *p;
-
-    for (p = text; *p != '\0'; ++p)
-        *p = toupper(*p);
-}
-
 //
 // M_StrCaseStr
 //
