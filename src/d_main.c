@@ -1357,55 +1357,6 @@ static void D_DoomMainSetup(void)
                 if (W_MergeFile(file, false))
                     modifiedgame = true;
             }
-            else
-            {
-                int     iwadrequired = IWADRequiredByPWAD(myargv[p]);
-
-                if (iwadrequired != indetermined)
-                {
-                    static char fullpath[MAX_PATH];
-
-                    // try the current folder first
-                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                        strdup(M_ExtractFolder(file)),
-                        (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                    IdentifyIWADByName(fullpath);
-                    if (D_AddFile(fullpath, true))
-                    {
-                        iwadfolder = strdup(M_ExtractFolder(file));
-                        D_CheckSupportedPWAD(file);
-                        if (W_MergeFile(file, false))
-                            modifiedgame = true;
-                    }
-                    else
-                    {
-                        // otherwise try the iwadfolder setting in doomretro.cfg
-                        M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                        IdentifyIWADByName(fullpath);
-                        if (D_AddFile(fullpath, true))
-                        {
-                            D_CheckSupportedPWAD(file);
-                            if (W_MergeFile(file, false))
-                                modifiedgame = true;
-                        }
-                        else
-                        {
-                            // still nothing? try the DOOMWADDIR environment variable
-                            M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                                getenv("DOOMWADDIR"),
-                                (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
-                            IdentifyIWADByName(fullpath);
-                            if (D_AddFile(fullpath, true))
-                            {
-                                D_CheckSupportedPWAD(file);
-                                if (W_MergeFile(file, false))
-                                    modifiedgame = true;
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
