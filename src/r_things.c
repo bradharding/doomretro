@@ -958,6 +958,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     int                 x1, x2;
     spritenum_t         spr;
     spritedef_t         *sprdef;
+    long                frame;
     spriteframe_t       *sprframe;
     int                 lump;
     boolean             flip;
@@ -969,7 +970,8 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     state = psp->state;
     spr = state->sprite;
     sprdef = &sprites[spr];
-    sprframe = &sprdef->spriteframes[state->frame & FF_FRAMEMASK];
+    frame = state->frame;
+    sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
 
     lump = sprframe->lump[0];
     flip = (boolean)sprframe->flip[0];
@@ -1024,7 +1026,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     }
     else
     {
-        if (state == &states[S_DSGUN])
+        if (spr == SPR_SHT2 && (!frame || frame >= 8))
             vis->colfunc = R_DrawSuperShotgunColumn;
         else
         {
@@ -1054,7 +1056,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
             vis->colormap = fixedcolormap;      // fixed color
         else
         {
-            if (bflash || (state->frame & FF_FULLBRIGHT))
+            if (bflash || (frame & FF_FULLBRIGHT))
                 vis->colormap = colormaps;      // full bright
             else
             {

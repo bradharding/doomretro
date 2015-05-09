@@ -554,11 +554,11 @@ void R_DrawSuperShotgunColumn(void)
         byte    dot = source[frac >> FRACBITS];
 
         if (dot != 71)
-            *dest = colormap[dot];
+            *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[source[frac >> FRACBITS]];
+    *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
 void R_DrawSkyColumn(void)
