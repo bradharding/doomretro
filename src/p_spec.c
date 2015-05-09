@@ -39,6 +39,7 @@
 #include "c_console.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
@@ -894,7 +895,8 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
         default:
             if ((unsigned short)line->special >= UNKNOWNLINESPECIAL)
-                C_Warning("P_CrossSpecialLine: Line has an unknown special of %i.", line->special);
+                C_Warning("The player has crossed a line with an unknown special of %s.",
+                    commify(line->special));
             break;
     }
 }
@@ -944,7 +946,8 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
         default:
             if ((unsigned short)line->special >= UNKNOWNLINESPECIAL)
-                C_Warning("P_ShootSpecialLine: Line has an unknown special of %i.", line->special);
+                C_Warning("The player has shot a wall with an unknown special of %s.",
+                    commify(line->special));
             break;
     }
 }
@@ -1010,8 +1013,8 @@ void P_PlayerInSpecialSector(player_t *player)
 
         default:
             if ((unsigned short)sector->special >= UNKNOWNSECTORSPECIAL)
-                C_Warning("P_PlayerInSpecialSector: Sector has an unknown special of %i.",
-                    sector->special);
+                C_Warning("The player is in a sector with an unknown special of %s.",
+                    commify(sector->special));
             break;
     }
 }

@@ -418,7 +418,7 @@ void P_LoadSectors(int lump)
         ss->tag = SHORT(ms->tag);
 
         if ((unsigned short)ss->special >= UNKNOWNSECTORSPECIAL)
-            C_Warning("P_LoadSectors: Sector %i has an unknown special of %i.", i, ss->special);
+            C_Warning("Sector %s has an unknown special of %s.", commify(i), commify(ss->special));
 
         // [AM] Sector interpolation. Even if we're
         //      not running uncapped, the renderer still
@@ -650,7 +650,7 @@ void P_LoadLineDefs(int lump)
 
         // [crispy] warn about unknown linedef types
         if ((unsigned short)ld->special >= UNKNOWNLINESPECIAL)
-            C_Warning("P_LoadLineDefs: Linedef %i has an unknown special of %i.", i, ld->special);
+            C_Warning("Linedef %s has an unknown special of %s.", commify(i), commify(ld->special));
 
         if (!ld->dx)
             ld->slopetype = ST_VERTICAL;
