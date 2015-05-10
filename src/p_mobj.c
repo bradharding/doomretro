@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
 #include "doomstat.h"
@@ -862,7 +863,7 @@ void P_SpawnMoreBlood(mobj_t *mobj)
 // The fields of the mapthing should
 //  already be in host byte order.
 //
-void P_SpawnMapThing(mapthing_t *mthing)
+void P_SpawnMapThing(mapthing_t *mthing, int index)
 {
     int         i;
     int         bit;
@@ -898,8 +899,16 @@ void P_SpawnMapThing(mapthing_t *mthing)
     // killough 8/23/98: use table for faster lookup
     i = P_FindDoomedNum(type);
 
+    // spawn it
+    x = mthing->x << FRACBITS;
+    y = mthing->y << FRACBITS;
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
+
     if (i == NUMMOBJTYPES)
+    {
+        C_Warning("Thing %i at (%i,%i) has an unknown type of %i.", index, x, y, type);
         return;
+    }
 
     if (mobjinfo[i].flags & MF_COUNTKILL)
     {
@@ -909,11 +918,6 @@ void P_SpawnMapThing(mapthing_t *mthing)
         if (nomonsters && i != MT_KEEN)
             return;
     }
-
-    // spawn it
-    x = mthing->x << FRACBITS;
-    y = mthing->y << FRACBITS;
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;

@@ -52,7 +52,7 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-void P_SpawnMapThing(mapthing_t *mthing);
+void P_SpawnMapThing(mapthing_t *mthing, int index);
 
 //
 // MAP related Lookup tables.
@@ -614,7 +614,7 @@ void P_LoadThings(int lump)
             mt.type = Zombieman;
 
         if (spawn)
-            P_SpawnMapThing(&mt);
+            P_SpawnMapThing(&mt, i);
     }
 
     W_ReleaseLumpNum(lump);
