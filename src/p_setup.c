@@ -427,7 +427,6 @@ void P_LoadSectors(int lump)
         ss->interpfloorheight = ss->floorheight;
         ss->oldceilingheight = ss->ceilingheight;
         ss->interpceilingheight = ss->ceilingheight;
-        ss->oldgametic = 0;
 
         // Apply any level-specific fixes.
         if (canmodify && mapfixes)

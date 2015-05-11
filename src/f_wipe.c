@@ -52,7 +52,7 @@ static byte *wipe_scr;
 void wipe_shittyColMajorXform(short *array)
 {
     int   x, y;
-    short *dest = (short *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, 0);
+    short *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, 0);
 
     for (y = 0; y < SCREENHEIGHT; y++)
         for (x = 0; x < SCREENWIDTH / 2; x++)
@@ -82,7 +82,7 @@ boolean wipe_initMelt(void)
 
     // setup initial column positions
     // (y < 0 => not ready to scroll yet)
-    y = (int *)Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, 0);
+    y = Z_Malloc(SCREENWIDTH * sizeof(int), PU_STATIC, 0);
     y[0] = y[1] = -(rand() % 16);
     for (i = 2; i < SCREENWIDTH - 1; i += 2)
         y[i] = y[i + 1] = BETWEEN(-15, y[i - 1] + (rand() % 3) - 1, 0);
@@ -149,14 +149,14 @@ boolean wipe_exitMelt(void)
 
 boolean wipe_StartScreen(void)
 {
-    wipe_scr_start = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    wipe_scr_start = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     I_ReadScreen(wipe_scr_start);
     return false;
 }
 
 boolean wipe_EndScreen(void)
 {
-    wipe_scr_end = (byte *)Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    wipe_scr_end = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     I_ReadScreen(wipe_scr_end);
     V_DrawBlock(0, 0, SCREENWIDTH, SCREENHEIGHT, wipe_scr_start);
     return false;

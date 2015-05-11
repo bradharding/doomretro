@@ -635,7 +635,7 @@ void W_GenerateHashTable(void)
     {
         unsigned int    i;
 
-        lumphash = (lumpinfo_t **)Z_Malloc(sizeof(lumpinfo_t *) * numlumps, PU_STATIC, NULL);
+        lumphash = Z_Malloc(sizeof(lumpinfo_t *) * numlumps, PU_STATIC, NULL);
         memset(lumphash, 0, sizeof(lumpinfo_t *) * numlumps);
 
         for (i = 0; i < numlumps; ++i)

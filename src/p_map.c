@@ -1910,9 +1910,8 @@ static msecnode_t *P_GetSecnode(void)
 {
     msecnode_t  *node;
 
-    return (headsecnode ?
-        node = headsecnode, headsecnode = node->m_snext, node :
-        (msecnode_t *)Z_Malloc(sizeof(*node), PU_LEVEL, NULL));
+    return (headsecnode ? node = headsecnode, headsecnode = node->m_snext, node :
+        Z_Malloc(sizeof(*node), PU_LEVEL, NULL));
 }
 
 // P_PutSecnode() returns a node to the freelist.

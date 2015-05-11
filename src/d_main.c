@@ -1261,7 +1261,7 @@ static void D_DoomMainSetup(void)
 
     iwadfile = D_FindIWAD();
 
-    iwadfolder = (char *)Z_Malloc(MAX_PATH, PU_STATIC, NULL);
+    iwadfolder = Z_Malloc(MAX_PATH, PU_STATIC, NULL);
 
     modifiedgame = false;
 

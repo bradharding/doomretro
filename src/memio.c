@@ -60,7 +60,7 @@ struct _MEMFILE {
 // Open a memory area for reading
 MEMFILE *mem_fopen_read(void *buf, size_t buflen)
 {
-    MEMFILE     *file = (MEMFILE *)Z_Malloc(sizeof(MEMFILE), PU_STATIC, 0);
+    MEMFILE     *file = Z_Malloc(sizeof(MEMFILE), PU_STATIC, 0);
 
     file->buf = (unsigned char *) buf;
     file->buflen = buflen;
@@ -96,10 +96,10 @@ size_t mem_fread(void *buf, size_t size, size_t nmemb, MEMFILE *stream)
 // Open a memory area for writing
 MEMFILE *mem_fopen_write(void)
 {
-    MEMFILE     *file = (MEMFILE *)Z_Malloc(sizeof(MEMFILE), PU_STATIC, 0);
+    MEMFILE     *file = Z_Malloc(sizeof(MEMFILE), PU_STATIC, 0);
 
     file->alloced = 1024;
-    file->buf = (unsigned char *)Z_Malloc(file->alloced, PU_STATIC, 0);
+    file->buf = Z_Malloc(file->alloced, PU_STATIC, 0);
     file->buflen = 0;
     file->position = 0;
     file->mode = MODE_WRITE;
@@ -121,7 +121,7 @@ size_t mem_fwrite(const void *ptr, size_t size, size_t nmemb, MEMFILE *stream)
 
     while (bytes > stream->alloced - stream->position)
     {
-        unsigned char   *newbuf = (unsigned char *)Z_Malloc(stream->alloced * 2, PU_STATIC, 0);
+        unsigned char   *newbuf = Z_Malloc(stream->alloced * 2, PU_STATIC, 0);
 
         memcpy(newbuf, stream->buf, stream->alloced);
         Z_Free(stream->buf);

@@ -485,7 +485,7 @@ static void GenerateTextureHashTable(void)
 {
     int         i;
 
-    textures_hashtable = (texture_t **)Z_Malloc(sizeof(texture_t *) * numtextures, PU_STATIC, 0);
+    textures_hashtable = Z_Malloc(sizeof(texture_t *) * numtextures, PU_STATIC, 0);
 
     memset(textures_hashtable, 0, sizeof(texture_t *) * numtextures);
 
@@ -583,7 +583,7 @@ static void R_InitTextures(void)
     names = (char *)W_CacheLumpName("PNAMES", PU_STATIC);
     nummappatches = LONG(*((int *)names));
     name_p = names + 4;
-    patchlookup = (int *)Z_Malloc(nummappatches * sizeof(*patchlookup), PU_STATIC, NULL);
+    patchlookup = Z_Malloc(nummappatches * sizeof(*patchlookup), PU_STATIC, NULL);
 
     for (i = 0; i < nummappatches; i++)
     {

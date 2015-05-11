@@ -1708,7 +1708,7 @@ void P_UnArchiveThinkers(void)
 
             case tc_mobj:
                 saveg_read_pad();
-                mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+                mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
                 saveg_read_mobj_t(mobj);
 
                 P_SetThingPosition(mobj);
@@ -1729,7 +1729,7 @@ void P_UnArchiveThinkers(void)
 
             case tc_bloodsplat:
                 saveg_read_pad();
-                mobj = (mobj_t *)Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
+                mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
                 saveg_read_mobj_t(mobj);
 
                 P_SetThingPosition(mobj);

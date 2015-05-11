@@ -1721,7 +1721,7 @@ void I_InitGraphics(void)
 
 #if defined(SDL20)
     numdisplays = SDL_GetNumVideoDisplays();
-    displays = (SDL_Rect *)Z_Malloc(numdisplays, PU_STATIC, NULL);
+    displays = Z_Malloc(numdisplays, PU_STATIC, NULL);
 #endif
 
     SetVideoMode(true);

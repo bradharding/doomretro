@@ -111,7 +111,7 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
 
 static byte *GenerateTintTable(byte *palette, int percent, int colors)
 {
-    byte        *result = (byte *)Z_Malloc(65536, PU_STATIC, NULL);
+    byte        *result = Z_Malloc(65536, PU_STATIC, NULL);
     int         foreground, background;
 
     for (foreground = 0; foreground < 256; ++foreground)

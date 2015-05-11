@@ -1146,10 +1146,10 @@ void WI_loadData(void)
     if (gamemode == commercial)
     {
         NUMCMAPS = 32 + (W_CheckNumForName("CWILV32") >= 0);
-        lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMCMAPS, PU_STATIC, NULL);
+        lnames = Z_Malloc(sizeof(patch_t *) * NUMCMAPS, PU_STATIC, NULL);
     }
     else
-        lnames = (patch_t **)Z_Malloc(sizeof(patch_t *) * NUMMAPS, PU_STATIC, NULL);
+        lnames = Z_Malloc(sizeof(patch_t *) * NUMMAPS, PU_STATIC, NULL);
 
     WI_loadUnloadData(WI_loadCallback);
 
@@ -1222,9 +1222,9 @@ void WI_initVariables(wbstartstruct_t *wbstartstruct)
     if (gamemode != retail && wbs->epsd > 2)
         wbs->epsd -= 3;
 
-    mapname = (char *)Z_Malloc(128, PU_STATIC, NULL);
+    mapname = Z_Malloc(128, PU_STATIC, NULL);
     strcpy(mapname, maptitle);
-    nextmapname = (char *)Z_Malloc(128, PU_STATIC, NULL);
+    nextmapname = Z_Malloc(128, PU_STATIC, NULL);
     P_MapName(wbs->epsd + 1, wbs->next + 1);
     strcpy(nextmapname, maptitle);
 }
