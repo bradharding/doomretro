@@ -877,7 +877,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         P_SpawnPlayer(mthing);
         return;
     }
-    else if (type >= Player2Start && type <= Player4Start)
+    else if ((type >= Player2Start && type <= Player4Start) || type == PlayerDeathmatchStart)
         return;
 
     // check for appropriate skill level
