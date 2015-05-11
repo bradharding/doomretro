@@ -899,14 +899,10 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     // killough 8/23/98: use table for faster lookup
     i = P_FindDoomedNum(type);
 
-    // spawn it
-    x = mthing->x << FRACBITS;
-    y = mthing->y << FRACBITS;
-    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
-
     if (i == NUMMOBJTYPES)
     {
-        C_Warning("Thing %i at (%i,%i) has an unknown type of %i.", index, x, y, type);
+        C_Warning("Thing %i at (%i,%i) has an unknown type of %i.",
+            index, mthing->x, mthing->y, type);
         return;
     }
 
@@ -918,6 +914,11 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         if (nomonsters && i != MT_KEEN)
             return;
     }
+
+    // spawn it
+    x = mthing->x << FRACBITS;
+    y = mthing->y << FRACBITS;
+    z = ((mobjinfo[i].flags & MF_SPAWNCEILING) ? ONCEILINGZ : ONFLOORZ);
 
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;
