@@ -1530,11 +1530,9 @@ static void AM_drawWalls(void)
                     AM_rotatePoint(&l.b);
                 }
 
-                if ((special == W1_TeleportToTaggedSectorContainingTeleportLanding
-                    || special == W1_ExitLevel
-                    || special == WR_TeleportToTaggedSectorContainingTeleportLanding
-                    || (special >= W1_ExitLevelAndGoToSecretLevel
-                    && special <= MR_TeleportToTaggedSectorContainingTeleportLanding))
+                if ((special == W1_Teleport || special == W1_ExitLevel || special == WR_Teleport
+                    || (special >= W1_ExitLevel_GoesToSecretLevel
+                    && special <= WR_Teleport_MonstersOnly))
                     && ((flags & ML_TELEPORTTRIGGERED) || cheating
                     || isteleport(backsector->floorpic)))
                 {

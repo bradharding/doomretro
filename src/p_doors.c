@@ -193,8 +193,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 
     switch (line->special)
     {
-        case SR_OpenFastDoorStayOpenBlueKeyRequired:
-        case S1_OpenFastDoorStayOpenBlueKeyRequired:
+        case SR_Door_Blue_OpenStay_Fast:
+        case S1_Door_Blue_OpenStay_Fast:
             if (player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0)
             {
                 if (player->cards[it_bluecard] == CARDNOTFOUNDYET)
@@ -226,8 +226,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             }
             break;
 
-        case SR_OpenFastDoorStayOpenRedKeyRequired:
-        case S1_OpenFastDoorStayOpenRedKeyRequired:
+        case SR_Door_Red_OpenStay_Fast:
+        case S1_Door_Red_OpenStay_Fast:
             if (player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0)
             {
                 if (player->cards[it_redcard] == CARDNOTFOUNDYET)
@@ -259,8 +259,8 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
             }
             break;
 
-        case SR_OpenFastDoorStayOpenYellowKeyRequired:
-        case S1_OpenFastDoorStayOpenYellowKeyRequired:
+        case SR_Door_Yellow_OpenStay_Fast:
+        case S1_Door_Yellow_OpenStay_Fast:
             if (player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)
             {
                 if (player->cards[it_yellowcard] == CARDNOTFOUNDYET)
@@ -389,8 +389,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
     switch (line->special)
     {
-        case DR_OpenDoorWait4SecondsCloseBlueKeyRequired:
-        case D1_OpenDoorStayOpenBlueKeyRequired:
+        case DR_Door_Blue_OpenWaitClose:
+        case D1_Door_Blue_OpenStay:
             if (!player)
                 return;
 
@@ -425,8 +425,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             }
             break;
 
-        case DR_OpenDoorWait4SecondsCloseYellowKeyRequired:
-        case D1_OpenDoorStayOpenYellowKeyRequired:
+        case DR_Door_Yellow_OpenWaitClose:
+        case D1_Door_Yellow_OpenStay:
             if (!player)
                 return;
 
@@ -461,8 +461,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             }
             break;
 
-        case DR_OpenDoorWait4SecondsCloseRedKeyRequired:
-        case D1_OpenDoorStayOpenRedKeyRequired:
+        case DR_Door_Red_OpenWaitClose:
+        case D1_Door_Red_OpenStay:
             if (!player)
                 return;
 
@@ -512,11 +512,11 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
         door = (vldoor_t *)sec->specialdata;
         switch (line->special)
         {
-            case DR_OpenDoorWait4SecondsClose:
-            case DR_OpenDoorWait4SecondsCloseBlueKeyRequired:
-            case DR_OpenDoorWait4SecondsCloseYellowKeyRequired:
-            case DR_OpenDoorWait4SecondsCloseRedKeyRequired:
-            case DR_OpenFastDoorWait4SecondsClose:
+            case DR_Door_OpenWaitClose_AlsoMonsters:
+            case DR_Door_Blue_OpenWaitClose:
+            case DR_Door_Yellow_OpenWaitClose:
+            case DR_Door_Red_OpenWaitClose:
+            case DR_Door_OpenWaitClose_Fast:
                 if (door->direction == -1)
                 {
                     door->direction = 1;        // go back up
@@ -556,14 +556,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     // for proper sound
     switch (line->special)
     {
-        case DR_OpenFastDoorWait4SecondsClose:
-        case D1_OpenFastDoorStayOpen:
+        case DR_Door_OpenWaitClose_Fast:
+        case D1_Door_OpenStay_Fast:
             S_StartSound(&sec->soundorg, sfx_bdopn);
-            break;
-
-        case DR_OpenDoorWait4SecondsClose:
-        case D1_OpenDoorStayOpen:
-            S_StartSound(&sec->soundorg, sfx_doropn);
             break;
 
         default:        // LOCKED DOOR SOUND
@@ -584,27 +579,27 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
     switch (line->special)
     {
-        case DR_OpenDoorWait4SecondsClose:
-        case DR_OpenDoorWait4SecondsCloseBlueKeyRequired:
-        case DR_OpenDoorWait4SecondsCloseYellowKeyRequired:
-        case DR_OpenDoorWait4SecondsCloseRedKeyRequired:
+        case DR_Door_OpenWaitClose_AlsoMonsters:
+        case DR_Door_Blue_OpenWaitClose:
+        case DR_Door_Yellow_OpenWaitClose:
+        case DR_Door_Red_OpenWaitClose:
             door->type = doorNormal;
             break;
 
-        case D1_OpenDoorStayOpen:
-        case D1_OpenDoorStayOpenBlueKeyRequired:
-        case D1_OpenDoorStayOpenRedKeyRequired:
-        case D1_OpenDoorStayOpenYellowKeyRequired:
+        case D1_Door_OpenStay:
+        case D1_Door_Blue_OpenStay:
+        case D1_Door_Red_OpenStay:
+        case D1_Door_Yellow_OpenStay:
             door->type = doorOpen;
             line->special = 0;
             break;
 
-        case DR_OpenFastDoorWait4SecondsClose:
+        case DR_Door_OpenWaitClose_Fast:
             door->type = doorBlazeRaise;
             door->speed = VDOORSPEED * 4;
             break;
 
-        case D1_OpenFastDoorStayOpen:
+        case D1_Door_OpenStay_Fast:
             door->type = doorBlazeOpen;
             line->special = 0;
             door->speed = VDOORSPEED * 4;

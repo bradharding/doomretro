@@ -390,24 +390,24 @@ void P_InitCards(player_t *player)
 
         switch (line->special)
         {
-            case SR_OpenFastDoorStayOpenBlueKeyRequired:
-            case S1_OpenFastDoorStayOpenBlueKeyRequired:
-            case DR_OpenDoorWait4SecondsCloseBlueKeyRequired:
-            case D1_OpenDoorStayOpenBlueKeyRequired:
+            case DR_Door_Blue_OpenWaitClose:
+            case D1_Door_Blue_OpenStay:
+            case SR_Door_Blue_OpenStay_Fast:
+            case S1_Door_Blue_OpenStay_Fast:
                 if (player->cards[it_blueskull] == CARDNOTINMAP)
                     player->cards[it_bluecard] = CARDNOTFOUNDYET;
                 break;
-            case SR_OpenFastDoorStayOpenRedKeyRequired:
-            case S1_OpenFastDoorStayOpenRedKeyRequired:
-            case DR_OpenDoorWait4SecondsCloseRedKeyRequired:
-            case D1_OpenDoorStayOpenRedKeyRequired:
+            case DR_Door_Red_OpenWaitClose:
+            case D1_Door_Red_OpenStay:
+            case SR_Door_Red_OpenStay_Fast:
+            case S1_Door_Red_OpenStay_Fast:
                 if (player->cards[it_redskull] == CARDNOTINMAP)
                     player->cards[it_redcard] = CARDNOTFOUNDYET;
                 break;
-            case SR_OpenFastDoorStayOpenYellowKeyRequired:
-            case S1_OpenFastDoorStayOpenYellowKeyRequired:
-            case DR_OpenDoorWait4SecondsCloseYellowKeyRequired:
-            case D1_OpenDoorStayOpenYellowKeyRequired:
+            case DR_Door_Yellow_OpenWaitClose:
+            case D1_Door_Yellow_OpenStay:
+            case SR_Door_Yellow_OpenStay_Fast:
+            case S1_Door_Yellow_OpenStay_Fast:
                 if (player->cards[it_yellowskull] == CARDNOTINMAP)
                     player->cards[it_yellowcard] = CARDNOTFOUNDYET;
                 break;

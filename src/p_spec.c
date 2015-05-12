@@ -444,36 +444,36 @@ boolean P_CheckTag(line_t *line)
 
     switch (line->special)
     {
-        case DR_OpenDoorWait4SecondsClose:
+        case DR_Door_OpenWaitClose_AlsoMonsters:
         case S1_ExitLevel:
-        case W1_LightsToMaximumNeighbouringLevel:
-        case W1_LightsTo255:
-        case W1_StartLightsBlinkingEverySecond:
-        case DR_OpenDoorWait4SecondsCloseBlueKeyRequired:
-        case DR_OpenDoorWait4SecondsCloseYellowKeyRequired:
-        case DR_OpenDoorWait4SecondsCloseRedKeyRequired:
-        case D1_OpenDoorStayOpen:
-        case D1_OpenDoorStayOpenBlueKeyRequired:
-        case D1_OpenDoorStayOpenRedKeyRequired:
-        case D1_OpenDoorStayOpenYellowKeyRequired:
-        case W1_LightsTo0:
-        case W1_TeleportToTaggedSectorContainingTeleportLanding:
-        case MovingWallTextureToLeft:
-        case S1_ExitLevelAndGoToSecretLevel:
+        case W1_Light_ChangeToBrightestAdjacent:
+        case W1_Light_ChangeTo255:
+        case W1_Light_StartBlinking:
+        case DR_Door_Blue_OpenWaitClose:
+        case DR_Door_Yellow_OpenWaitClose:
+        case DR_Door_Red_OpenWaitClose:
+        case D1_Door_OpenStay:
+        case D1_Door_Blue_OpenStay:
+        case D1_Door_Red_OpenStay:
+        case D1_Door_Yellow_OpenStay:
+        case W1_Light_ChangeTo35:
+        case W1_Teleport:
+        case ScrollTextureLeft:
+        case S1_ExitLevel_GoesToSecretLevel:
         case W1_ExitLevel:
-        case WR_LightsTo0:
-        case WR_LightsToMaximumNeighbouringLevel:
-        case WR_LightsTo255:
-        case WR_RaiseCeilingToHighestNeighbouringCeiling:
-        case WR_TeleportToTaggedSectorContainingTeleportLanding:
-        case W1_LightsToMinimumNeighbouringLevel:
-        case DR_OpenFastDoorWait4SecondsClose:
-        case D1_OpenFastDoorStayOpen:
-        case W1_ExitLevelAndGoToSecretLevel:
-        case M1_TeleportToTaggedSectorContainingTeleportLanding:
-        case MR_TeleportToTaggedSectorContainingTeleportLanding:
-        case SR_LightsTo255:
-        case SR_LightsTo0:
+        case WR_Light_ChangeTo35:
+        case WR_Light_ChangeToBrightestAdjacent:
+        case WR_Light_ChangeTo255:
+        case ScrollTextureRight:
+        case WR_Teleport:
+        case W1_Light_ChangeToDarkestAdjacent:
+        case DR_Door_OpenWaitClose_Fast:
+        case D1_Door_OpenStay_Fast:
+        case W1_ExitLevel_GoesToSecretLevel:
+        case W1_Teleport_MonstersOnly:
+        case WR_Teleport_MonstersOnly:
+        case SR_Light_ChangeTo255:
+        case SR_Light_ChangeTo35:
             return true;        // zero tag allowed
 
         default:
@@ -516,13 +516,13 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
         switch (line->special)
         {
-            case W1_TeleportToTaggedSectorContainingTeleportLanding:
-            case WR_TeleportToTaggedSectorContainingTeleportLanding:
-            case M1_TeleportToTaggedSectorContainingTeleportLanding:
-            case MR_TeleportToTaggedSectorContainingTeleportLanding:
-            case W1_OpenDoorWait4SecondsClose:
-            case W1_LowerLiftWait3SecondsRise:
-            case WR_LowerLiftWait3SecondsRise:
+            case W1_Door_OpenWaitClose:
+            case W1_Lift_LowerWaitRaise:
+            case W1_Teleport:
+            case WR_Lift_LowerWaitRaise:
+            case WR_Teleport:
+            case W1_Teleport_MonstersOnly:
+            case WR_Teleport_MonstersOnly:
                 ok = true;
                 break;
         }
@@ -537,7 +537,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
     {
         // TRIGGERS.
         // All from here to RETRIGGERS.
-        case W1_OpenDoorStayOpen:
+        case W1_Door_OpenStay:
             if (EV_DoDoor(line, doorOpen))
             {
                 line->special = 0;
@@ -563,17 +563,17 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             }
             break;
 
-        case W1_CloseDoor:
+        case W1_Door_CloseStay:
             if (EV_DoDoor(line, doorClose))
                 line->special = 0;
             break;
 
-        case W1_OpenDoorWait4SecondsClose:
+        case W1_Door_OpenWaitClose:
             if (EV_DoDoor(line, doorNormal))
                 line->special = 0;
             break;
 
-        case W1_SetFloorToLowestNeighbouringCeiling:
+        case W1_Floor_RaiseToLowestCeiling:
             if (gamemission == doom && gameepisode == 4 && gamemap == 3 && canmodify)
             {
                 if (EV_DoFloor(line, raiseFloorCrush))
@@ -583,92 +583,92 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 line->special = 0;
             break;
 
-        case W1_StartFastCrusher:
+        case W1_Crusher_StartWithFastDamage:
             if (EV_DoCeiling(line, fastCrushAndRaise))
                 line->special = 0;
             break;
 
-        case W1_RaiseStairsHeight8Units:
+        case W1_Stairs_RaiseBy8:
             if (EV_BuildStairs(line, build8))
                 line->special = 0;
             break;
 
-        case W1_LowerLiftWait3SecondsRise:
+        case W1_Lift_LowerWaitRaise:
             if (EV_DoPlat(line, downWaitUpStay, 0))
                 line->special = 0;
             break;
 
-        case W1_LightsToMaximumNeighbouringLevel:
+        case W1_Light_ChangeToBrightestAdjacent:
             if (EV_LightTurnOn(line, 0))
                 line->special = 0;
             break;
 
-        case W1_LightsTo255:
+        case W1_Light_ChangeTo255:
             if (EV_LightTurnOn(line, 255))
                 line->special = 0;
             break;
 
-        case W1_CloseDoorWait30SecondsOpen:
+        case W1_Door_CloseWaitOpen:
             if (EV_DoDoor(line, doorClose30ThenOpen))
                 line->special = 0;
             break;
 
-        case W1_StartLightsBlinkingEverySecond:
+        case W1_Light_StartBlinking:
             if (EV_StartLightStrobing(line))
                 line->special = 0;
             break;
 
-        case W1_SetFloorToHighestNeighbouringFloor:
+        case W1_Floor_LowerToHighestFloor:
             if (EV_DoFloor(line, lowerFloor))
                 line->special = 0;
             break;
 
-        case W1_RaiseFloorToNextFloorChangeFloorTextureAndType:
+        case W1_Floor_RaiseToNextHighestFloor_ChangesTexture:
             if (EV_DoPlat(line, raiseToNearestAndChange, 0))
                 line->special = 0;
             break;
 
-        case W1_StartSlowCrusher:
+        case W1_Crusher_StartWithSlowDamage:
             if (EV_DoCeiling(line, crushAndRaise))
                 line->special = 0;
             break;
 
-        case W1_RaiseFloorBy64Units:
+        case W1_Floor_RaiseByShortestLowerTexture:
             if (EV_DoFloor(line, raiseToTexture))
                 line->special = 0;
             break;
 
-        case W1_LightsTo0:
+        case W1_Light_ChangeTo35:
             if (EV_LightTurnOn(line, 35))
                 line->special = 0;
             break;
 
-        case W1_SetFloorTo8UnitsAboveHighestNeighbouringFloor:
+        case W1_Floor_LowerTo8AboveHighestFloor:
             if (EV_DoFloor(line, turboLower))
                 line->special = 0;
             break;
 
-        case W1_SetFloorToLowestNeighbouringFloorChangeFloorTextureAndType:
+        case W1_Floor_LowerToLowestFloor_ChangesTexture:
             if (EV_DoFloor(line, lowerAndChange))
                 line->special = 0;
             break;
 
-        case W1_SetFloorToLowestNeighbouringFloor:
+        case W1_Floor_LowerToLowestFloor:
             if (EV_DoFloor(line, lowerFloorToLowest))
                 line->special = 0;
             break;
 
-        case W1_TeleportToTaggedSectorContainingTeleportLanding:
+        case W1_Teleport:
             if (EV_Teleport(line, side, thing))
                 line->special = 0;
             break;
 
-        case W1_RaiseCeilingToHighestNeighbouringCeiling:
+        case W1_Ceiling_RaiseToHighestCeiling:
             if (EV_DoCeiling(line, raiseToHighest))
                 line->special = 0;
             break;
 
-        case W1_LowerCeilingTo8UnitsAboveFloor:
+        case W1_Ceiling_LowerTo8AboveFloor:
             if (EV_DoCeiling(line, lowerAndCrush))
                 line->special = 0;
             break;
@@ -678,218 +678,218 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 G_ExitLevel();
             break;
 
-        case W1_StartUpDownMovingFloor:
+        case W1_Floor_StartMovingUpAndDown:
             if (EV_DoPlat(line, perpetualRaise, 0))
                 line->special = 0;
             break;
 
-        case W1_StopUpDownMovingFloor:
+        case W1_Floor_StopMoving:
             if (EV_StopPlat(line))
                 line->special = 0;
             break;
 
-        case W1_CrushFloorTo8UnitsUnderCeiling:
+        case W1_Floor_RaiseTo8BelowLowestCeiling_Crushes:
             if (EV_DoFloor(line, raiseFloorCrush))
                 line->special = 0;
             break;
 
-        case W1_StopCrusher:
+        case W1_Crusher_Stop:
             if (EV_CeilingCrushStop(line))
                 line->special = 0;
             break;
 
-        case W1_RaiseFloorBy24Units:
+        case W1_Floor_RaiseBy24:
             if (EV_DoFloor(line, raiseFloor24))
                 line->special = 0;
             break;
 
-        case W1_RaiseFloorBy24UnitsChangeFloorTextureAndType:
+        case W1_Floor_RaiseBy24_ChangesTexture:
             if (EV_DoFloor(line, raiseFloor24AndChange))
                 line->special = 0;
             break;
 
-        case W1_RaiseFastStairsHeight16Units:
+        case W1_Stairs_RaiseBy16_Fast:
             if (EV_BuildStairs(line, turbo16))
                 line->special = 0;
             break;
 
-        case W1_LightsToMinimumNeighbouringLevel:
+        case W1_Light_ChangeToDarkestAdjacent:
             if (EV_TurnTagLightsOff(line))
                 line->special = 0;
             break;
 
-        case W1_OpenFastDoorWait4SecondsClose:
+        case W1_Door_OpenWaitClose_Fast:
             if (EV_DoDoor (line, doorBlazeRaise))
                 line->special = 0;
             break;
 
-        case W1_OpenFastDoorStayOpen:
+        case W1_Door_OpenStay_Fast:
             if (EV_DoDoor (line, doorBlazeOpen))
                 line->special = 0;
             break;
 
-        case W1_CloseFastDoor:
+        case W1_Door_CloseStay_Fast:
             if (EV_DoDoor (line, doorBlazeClose))
                 line->special = 0;
             break;
 
-        case W1_RaiseFloorToNextFloor:
+        case W1_Floor_RaiseToNextHighestFloor:
             if (EV_DoFloor(line, raiseFloorToNearest))
                 line->special = 0;
             break;
 
-        case W1_LowerFastLiftWait3SecondsRise:
+        case W1_Lift_LowerWaitRaise_Fast:
             if (EV_DoPlat(line, blazeDWUS, 0))
                 line->special = 0;
             break;
 
-        case W1_ExitLevelAndGoToSecretLevel:
+        case W1_ExitLevel_GoesToSecretLevel:
             if (!(thing->player && thing->player->health <= 0))
                 G_SecretExitLevel();
             break;
 
-        case M1_TeleportToTaggedSectorContainingTeleportLanding:
+        case W1_Teleport_MonstersOnly:
             if (!thing->player && EV_Teleport(line, side, thing))
                 line->special = 0;
             break;
 
-        case W1_RaiseFastFloorToNextFloor:
+        case W1_Floor_RaiseToNextHighestFloor_Fast:
             if (EV_DoFloor(line, raiseFloorTurbo))
                 line->special = 0;
             break;
 
-        case W1_StartSlowQuietCrusher:
+        case W1_Crusher_StartWithSlowDamage_Silent:
             if (EV_DoCeiling(line, silentCrushAndRaise))
                 line->special = 0;
             break;
 
         // RETRIGGERS.  All from here till end.
-        case WR_LowerCeilingTo8UnitsAboveFloor:
+        case WR_Ceiling_LowerTo8AboveFloor:
             EV_DoCeiling(line, lowerAndCrush);
             break;
 
-        case WR_StartSlowCrusher:
+        case WR_Crusher_StartWithSlowDamage:
             EV_DoCeiling(line, crushAndRaise);
             break;
 
-        case WR_StopCrusher:
+        case WR_Crusher_Stop:
             EV_CeilingCrushStop(line);
             break;
 
-        case WR_CloseDoor:
+        case WR_Door_CloseStay:
             EV_DoDoor(line, doorClose);
             break;
 
-        case WR_CloseDoorWait30SecondsOpen:
+        case WR_Door_CloseStayOpen:
             EV_DoDoor(line, doorClose30ThenOpen);
             break;
 
-        case WR_StartFastCrusher:
+        case WR_Crusher_StartWithFastDamage:
             EV_DoCeiling(line, fastCrushAndRaise);
             break;
 
-        case WR_LightsTo0:
+        case WR_Light_ChangeTo35:
             EV_LightTurnOn(line, 35);
             break;
 
-        case WR_LightsToMaximumNeighbouringLevel:
+        case WR_Light_ChangeToBrightestAdjacent:
             EV_LightTurnOn(line, 0);
             break;
 
-        case WR_LightsTo255:
+        case WR_Light_ChangeTo255:
             EV_LightTurnOn(line, 255);
             break;
 
-        case WR_SetFloorToLowestNeighbouringFloor:
+        case WR_Floor_LowerToLowestFloor:
             EV_DoFloor(line, lowerFloorToLowest);
             break;
 
-        case WR_SetFloorToHighestNeighbouringFloor:
+        case WR_Floor_LowerToHighestFloor:
             EV_DoFloor(line, lowerFloor);
             break;
 
-        case WR_SetFloorToLowestNeighbouringFloorChangeFloorTextureAndType:
+        case WR_Floor_LowerToLowestFloor_ChangesTexture:
             EV_DoFloor(line, lowerAndChange);
             break;
 
-        case WR_OpenDoorStayOpen:
+        case WR_Door_OpenStay:
             EV_DoDoor(line, doorOpen);
             break;
 
-        case WR_StartUpDownMovingFloor:
+        case WR_Floor_StartMovingUpAndDown:
             EV_DoPlat(line, perpetualRaise, 0);
             break;
 
-        case WR_LowerLiftWait3SecondsRise:
+        case WR_Lift_LowerWaitRaise:
             EV_DoPlat(line, downWaitUpStay, 0);
             break;
 
-        case WR_StopUpDownMovingFloor:
+        case WR_Floor_StopMoving:
             EV_StopPlat(line);
             break;
 
-        case WR_OpenDoorWait4SecondsClose:
+        case WR_Door_OpenWaitClose:
             EV_DoDoor(line, doorNormal);
             break;
 
-        case WR_SetFloorToLowestNeighbouringCeiling:
+        case WR_Floor_RaiseToLowestCeiling:
             EV_DoFloor(line, raiseFloor);
             break;
 
-        case WR_RaiseFloorBy24Units:
+        case WR_Floor_RaiseBy24:
             EV_DoFloor(line, raiseFloor24);
             break;
 
-        case WR_RaiseFloorBy24UnitsChangeFloorTextureAndType:
+        case WR_Floor_RaiseBy24_ChangesTexture:
             EV_DoFloor(line, raiseFloor24AndChange);
             break;
 
-        case WR_CrushFloorTo8UnderCeiling:
+        case WR_Floor_RaiseTo8BelowLowestCeiling_Crushes:
             EV_DoFloor(line, raiseFloorCrush);
             break;
 
-        case WR_RaiseFloorToNextFloorChangeFloorTextureAndType:
+        case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
             EV_DoPlat(line, raiseToNearestAndChange, 0);
             break;
 
-        case WR_RaiseFloorBy64Units:
+        case WR_Floor_RaiseByShortestLowerTexture:
             EV_DoFloor(line, raiseToTexture);
             break;
 
-        case WR_TeleportToTaggedSectorContainingTeleportLanding:
+        case WR_Teleport:
             EV_Teleport(line, side, thing);
             break;
 
-        case WR_SetFloorTo8UnitsAboveHighestNeighbouringFloor:
+        case WR_Floor_LowerTo8AboveHighestFloor:
             EV_DoFloor(line, turboLower);
             break;
 
-        case WR_OpenFastDoorWait4SecondsClose:
+        case WR_Door_OpenWaitClose_Fast:
             EV_DoDoor(line, doorBlazeRaise);
             break;
 
-        case WR_OpenFastDoorStayOpen:
+        case WR_Door_OpenStay_Fast:
             EV_DoDoor(line, doorBlazeOpen);
             break;
 
-        case WR_CloseFastDoor:
+        case WR_Door_CloseStay_Fast:
             EV_DoDoor(line, doorBlazeClose);
             break;
 
-        case WR_LowerFastLiftWait3SecondsRise:
+        case WR_Lift_LowerWaitRaise_Fast:
             EV_DoPlat(line, blazeDWUS, 0);
             break;
 
-        case MR_TeleportToTaggedSectorContainingTeleportLanding:
+        case WR_Teleport_MonstersOnly:
             if (!thing->player)
                 EV_Teleport(line, side, thing);
             break;
 
-        case WR_RaiseFloorToNextFloor:
+        case WR_Floor_RaiseToNextHighestFloor:
             EV_DoFloor(line, raiseFloorToNearest);
             break;
 
-        case WR_RaiseFastFloorToNextFloor:
+        case WR_Floor_RaiseToNextHighestFloor_Fast:
             EV_DoFloor(line, raiseFloorTurbo);
             break;
 
@@ -914,7 +914,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
         switch (line->special)
         {
-            case G1_OpenDoorStayOpen:
+            case GR_Door_OpenStay:
                 ok = true;
                 break;
         }
@@ -927,19 +927,19 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 
     switch (line->special)
     {
-        case G1_SetFloorToLowestNeighbouringCeiling:
+        case G1_Floor_RaiseToLowestCeiling:
             if (EV_DoFloor(line, raiseFloor))
                 P_ChangeSwitchTexture(line, 0);
             break;
 
-        case G1_OpenDoorStayOpen:
+        case GR_Door_OpenStay:
             EV_DoDoor(line, doorOpen);
             P_ChangeSwitchTexture(line, 1);
             if (canmodify && gamemission == doom2 && gamemap == 18)
-                line->special = -G1_OpenDoorStayOpen;
+                line->special = -GR_Door_OpenStay;
             break;
 
-        case G1_RaiseFloorToNextFloorChangeFloorTextureAndType:
+        case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
             if (EV_DoPlat(line, raiseToNearestAndChange, 0))
                 P_ChangeSwitchTexture(line, 0);
             break;
@@ -1054,7 +1054,7 @@ void P_UpdateSpecials(void)
 
         switch (line->special)
         {
-            case MovingWallTextureToLeft:
+            case ScrollTextureLeft:
                 sides[line->sidenum[0]].textureoffset += FRACUNIT;
                 break;
         }
@@ -1084,7 +1084,7 @@ void P_UpdateSpecials(void)
                             buttonlist[i].btexture;
                         break;
                 }
-                if (buttonlist[i].line->special != -G1_OpenDoorStayOpen)
+                if (buttonlist[i].line->special != -GR_Door_OpenStay)
                     S_StartSound(buttonlist[i].soundorg, sfx_swtchn);
                 memset(&buttonlist[i], 0, sizeof(button_t));
             }
@@ -1244,7 +1244,7 @@ void P_SpawnSpecials(void)
     {
         switch (lines[i].special)
         {
-            case MovingWallTextureToLeft:
+            case ScrollTextureLeft:
                 linespeciallist[numlinespecials] = &lines[i];
                 numlinespecials++;
                 break;

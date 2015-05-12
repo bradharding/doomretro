@@ -234,25 +234,25 @@ static boolean P_IsOnLift(const mobj_t *actor)
         for (l = -1; (l = P_FindLineFromLineTag(&line, l)) >= 0;)
             switch (lines[l].special)
             {
-                case W1_LowerLiftWait3SecondsRise:
-                case S1_RaiseFloorBy32UnitsChangeFloorTextureAndType:
-                case S1_RaiseFloorBy24UnitsChangeFloorTextureAndType:
-                case S1_RaiseFloorToNextFloorChangeFloorTextureAndType:
-                case S1_LowerLiftWait3SecondsRise:
-                case W1_RaiseFloorToNextFloorChangeFloorTextureAndType:
-                case G1_RaiseFloorToNextFloorChangeFloorTextureAndType:
-                case W1_StartUpDownMovingFloor:
-                case SR_LowerLiftWait3SecondsRise:
-                case SR_RaiseFloorBy24UnitsChangeFloorTextureAndType:
-                case SR_RaiseFloorBy32UnitsChangeFloorTextureAndType:
-                case SR_RaiseFloorToNextFloorChangeFloorTextureAndType:
-                case WR_StartUpDownMovingFloor:
-                case WR_LowerLiftWait3SecondsRise:
-                case WR_RaiseFloorToNextFloorChangeFloorTextureAndType:
-                case WR_LowerFastLiftWait3SecondsRise:
-                case W1_LowerFastLiftWait3SecondsRise:
-                case S1_LowerFastLiftWait3SecondsRise:
-                case SR_LowerFastLiftWait3SecondsRise:
+                case W1_Lift_LowerWaitRaise:
+                case S1_Floor_RaiseBy32_ChangesTexture:
+                case S1_Floor_RaiseBy24_ChangesTexture:
+                case S1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                case S1_Lift_LowerWaitRaise:
+                case W1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                case G1_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                case W1_Floor_StartMovingUpAndDown:
+                case SR_Lift_LowerWaitRaise:
+                case SR_Floor_RaiseBy24_ChangesTexture:
+                case SR_Floor_RaiseBy32_ChangesTexture:
+                case SR_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                case WR_Floor_StartMovingUpAndDown:
+                case WR_Lift_LowerWaitRaise:
+                case WR_Floor_RaiseToNextHighestFloor_ChangesTexture:
+                case WR_Lift_LowerWaitRaise_Fast:
+                case W1_Lift_LowerWaitRaise_Fast:
+                case S1_Lift_LowerWaitRaise_Fast:
+                case SR_Lift_LowerWaitRaise_Fast:
                     return true;
             }
         }
