@@ -47,6 +47,28 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+char *sectorspecials[] =
+{
+    "-",
+    "Light Blinks (randomly)",
+    "Light Blinks (2 Hz)",
+    "Light Blinks (1 Hz)",
+    "Damage -10 or 20% Health and Light Blinks (2 Hz)",
+    "Damage -5 or 10% Health",
+    "-",
+    "Damage -2 or 5% Health",
+    "Light Glows (1+ sec)",
+    "Secret",
+    "Door Close Stay (after 30 sec)",
+    "Damage -10 or 20% Health and End Level",
+    "Light Blinks (1 Hz synchronized)",
+    "Light Blinks (2 Hz synchronized)",
+    "Door Open Close (opens after 5 min)",
+    "-",
+    "Damage -10 or 20% Health",
+    "Light Flickers (randomly)"
+};
+
 //
 // Animating textures and planes
 // There is another anim_t used in wi_stuff, unrelated.
@@ -969,26 +991,26 @@ void P_PlayerInSpecialSector(player_t *player)
     // Has hit ground.
     switch (sector->special)
     {
-        case HellslimeDamage:
+        case DamageNegative5Or10PercentHealth:
             if (!player->powers[pw_ironfeet])
                 if (!(leveltime & 0x1f))
                     P_DamageMobj(player->mo, NULL, NULL, 10);
             break;
 
-        case NukageDamage:
+        case DamageNegative2Or5PercentHealth:
             if (!player->powers[pw_ironfeet])
                 if (!(leveltime & 0x1f))
                       P_DamageMobj(player->mo, NULL, NULL, 5);
             break;
 
-        case StrobeHurt:
-        case SuperHellslimeDamage:
+        case DamageNegative10Or20PercentHealth:
+        case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
             if (!player->powers[pw_ironfeet] || P_Random() < 5)
                 if (!(leveltime & 0x1f))
                     P_DamageMobj(player->mo, NULL, NULL, 20);
             break;
 
-        case SecretSector:
+        case Secret:
             player->secretcount++;
             sector->special = 0;
 
@@ -996,7 +1018,7 @@ void P_PlayerInSpecialSector(player_t *player)
                 sector->lines[i]->flags &= ~ML_SECRET;
             break;
 
-        case ExitSuperDamage:
+        case DamageNegative10Or20PercentHealthAndEndLevel:
             // for E1M8 finale
             player->cheats &= ~CF_GODMODE;
             player->powers[pw_invulnerability] = 0;
@@ -1191,48 +1213,48 @@ void P_SpawnSpecials(void)
 
         switch (sector->special)
         {
-            case FlickeringLights:
+            case LightBlinks_Randomly:
                 P_SpawnLightFlash(sector);
                 break;
 
-            case StrobeFast:
+            case LightBlinks_2Hz:
                 P_SpawnStrobeFlash(sector, FASTDARK, 0);
                 break;
 
-            case StrobeSlow:
+            case LightBlinks_1Hz:
                 P_SpawnStrobeFlash(sector, SLOWDARK, 0);
                 break;
 
-            case StrobeHurt:
+            case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
                 P_SpawnStrobeFlash(sector, FASTDARK, 0);
-                sector->special = StrobeHurt;
+                sector->special = DamageNegative10Or20PercentHealthAndLightBlinks_2Hz;
                 break;
 
-            case GlowingLight:
+            case LightGlows_1PlusSec:
                 P_SpawnGlowingLight(sector);
                 break;
 
-            case SecretSector:
+            case Secret:
                 totalsecret++;
                 break;
 
-            case CloseDoorIn30Seconds:
+            case Door_CloseStay_After30sec:
                 P_SpawnDoorCloseIn30(sector);
                 break;
 
-            case SyncStrobeSlow:
+            case LightBlinks_1HzSynchronized:
                 P_SpawnStrobeFlash(sector, SLOWDARK, 1);
                 break;
 
-            case SyncStrobeFast:
+            case LightBlinks_2HzSynchronized:
                 P_SpawnStrobeFlash(sector, FASTDARK, 1);
                 break;
 
-            case RaiseDoorIn5Minutes:
+            case Door_OpenClose_OpensAfter5Min:
                 P_SpawnDoorRaiseIn5Mins(sector);
                 break;
 
-            case FlickeringFire:
+            case LightFlickers_Randomly:
                 P_SpawnFireFlicker(sector);
                 break;
         }

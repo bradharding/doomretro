@@ -39,6 +39,7 @@
 #if !defined(__P_SPEC__)
 #define __P_SPEC__
 
+extern char     *sectorspecials[];
 extern boolean  *isliquid;
 
 // Define values for map objects

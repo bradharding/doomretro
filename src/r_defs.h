@@ -380,21 +380,22 @@ typedef enum
 
 typedef enum
 {
-    FlickeringLights     =  1,
-    StrobeFast           =  2,
-    StrobeSlow           =  3,
-    StrobeHurt           =  4,
-    HellslimeDamage      =  5,
-    NukageDamage         =  7,
-    GlowingLight         =  8,
-    SecretSector         =  9,
-    CloseDoorIn30Seconds = 10,
-    ExitSuperDamage      = 11,
-    SyncStrobeSlow       = 12,
-    SyncStrobeFast       = 13,
-    RaiseDoorIn5Minutes  = 14,
-    SuperHellslimeDamage = 16,
-    FlickeringFire       = 17,
+    Normal                                              =  0,
+    LightBlinks_Randomly                                =  1,
+    LightBlinks_2Hz                                     =  2,
+    LightBlinks_1Hz                                     =  3,
+    DamageNegative10Or20PercentHealthAndLightBlinks_2Hz =  4,
+    DamageNegative5Or10PercentHealth                    =  5,
+    DamageNegative2Or5PercentHealth                     =  7,
+    LightGlows_1PlusSec                                 =  8,
+    Secret                                              =  9,
+    Door_CloseStay_After30sec                           = 10,
+    DamageNegative10Or20PercentHealthAndEndLevel        = 11,
+    LightBlinks_1HzSynchronized                         = 12,
+    LightBlinks_2HzSynchronized                         = 13,
+    Door_OpenClose_OpensAfter5Min                       = 14,
+    DamageNegative10Or20PercentHealth                   = 16,
+    LightFlickers_Randomly                              = 17,
 
     UNKNOWNSECTORSPECIAL
 } sectorspecial_e;

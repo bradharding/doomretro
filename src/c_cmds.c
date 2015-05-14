@@ -802,7 +802,7 @@ static void C_CmdList(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
     int count = 1;
-    int tabs[4] = { 40, 130, 192, 262 };
+    int tabs[8] = { 40, 130, 192, 262, 0, 0, 0, 0 };
 
     while (consolecmds[i].name[0])
     {
@@ -1857,15 +1857,15 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
 static void C_SectorList(char *cmd, char *parm1, char *parm2)
 {
     int i;
-    int tabs[8] = { 45, 120, 200, 270, 335, 395, 455, 505 };
+    int tabs[8] = { 45, 120, 200, 270, 335, 395, 415, 585 };
 
-    C_TabbedOutput(tabs, "\tfloorheight\tceilingheight\tfloorpic\tceilingpic\tlightlevel\tspecial\ttag");
+    C_TabbedOutput(tabs, "\tfloorheight\tceilingheight\tfloorpic\tceilingpic\tlightlevel\tspecial\t\ttag");
     for (i = 0; i < numsectors; ++i)
-        C_TabbedOutput(tabs, "%i.\t%i\t%i\t%.8s\t%.8s\t%i\t%i\t%i",
+        C_TabbedOutput(tabs, "%i.\t%i\t%i\t%.8s\t%.8s\t%i\t%i\t%s\t%i",
             i + 1, sectors[i].floorheight >> FRACBITS, sectors[i].ceilingheight >> FRACBITS,
             uppercase(lumpinfo[firstflat + sectors[i].floorpic].name),
             uppercase(lumpinfo[firstflat + sectors[i].ceilingpic].name), sectors[i].lightlevel,
-            sectors[i].special, sectors[i].tag);
+            sectors[i].special, sectorspecials[sectors[i].special], sectors[i].tag);
 }
 
 
