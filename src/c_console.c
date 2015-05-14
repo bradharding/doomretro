@@ -247,7 +247,7 @@ void C_Warning(char *string, ...)
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
-    if (consolestrings && !strcasecmp(console[consolestrings - 1].string, buffer))
+    if (consolestrings && strcasecmp(console[consolestrings - 1].string, buffer))
     {
         console = realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
