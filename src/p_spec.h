@@ -74,6 +74,7 @@ fixed_t P_FindLowestFloorSurrounding(sector_t *sec);
 fixed_t P_FindHighestFloorSurrounding(sector_t *sec);
 
 fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight);
+fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight);
 
 fixed_t P_FindLowestCeilingSurrounding(sector_t *sec);
 fixed_t P_FindHighestCeilingSurrounding(sector_t *sec);
