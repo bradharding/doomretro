@@ -1297,8 +1297,10 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
     if (!parm1[0] || !strcasecmp(parm1, "player"))
     {
         P_DamageMobj(players[0].mo, NULL, NULL, players[0].health);
-        M_StringCopy(buffer, "Player killed.", sizeof(buffer));
-        C_Output(buffer);
+        M_snprintf(buffer, sizeof(buffer), "%s killed %s", playername,
+            (!strcasecmp(playername, "you") ? "yourself" : "themselves"));
+        buffer[0] = toupper(buffer[0]);
+        C_Output("%s.", buffer);
         players[0].message = buffer;
         message_dontfuckwithme = true;
         C_HideConsole();
@@ -1342,19 +1344,20 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s monster%s killed.", commify(kills),
+                M_snprintf(buffer, sizeof(buffer), "%s monster%s killed", commify(kills),
                     (kills == 1 ? "" : "s"));
-                C_Output(buffer);
+                C_Output("%s.", buffer);
                 players[0].message = buffer;
                 message_dontfuckwithme = true;
                 C_HideConsole();
             }
             else
-                C_Output("No monsters killed.");
+                C_Output("No monsters %s kill.", (!totalkills ? "to" : "left to"));
         }
         else
         {
             int type = P_FindDoomedNum(killcmdtype);
+            int dead = 0;
 
             for (i = 0; i < numsectors; ++i)
             {
@@ -1362,41 +1365,45 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
 
                 while (thing)
                 {
-                    if (thing->health > 0)
-                    {
-                        if (type == thing->type)
-                            if (type == MT_PAIN)
+                    if (type == thing->type)
+                        if (type == MT_PAIN)
+                        {
+                            if (thing->health > 0)
                             {
                                 A_Fall(thing);
                                 P_SetMobjState(thing, S_PAIN_DIE6);
                                 players[0].killcount++;
                                 kills++;
                             }
-                            else if (thing->flags & MF_SHOOTABLE)
-                            {
-                                P_DamageMobj(thing, NULL, NULL, thing->health);
-                                thing->momx += FRACUNIT * M_RandomInt(-1, 1);
-                                thing->momy += FRACUNIT * M_RandomInt(-1, 1);
-                                kills++;
-                            }
-                    }
+                            else
+                                dead++;
+                        }
+                        else if ((thing->flags & MF_SHOOTABLE) && thing->health > 0)
+                        {
+                            P_DamageMobj(thing, NULL, NULL, thing->health);
+                            thing->momx += FRACUNIT * M_RandomInt(-1, 1);
+                            thing->momy += FRACUNIT * M_RandomInt(-1, 1);
+                            kills++;
+                        }
+                        else if (thing->flags & MF_CORPSE)
+                            dead++;
                     thing = thing->snext;
                 }
             }
 
             if (kills)
             {
-                M_snprintf(buffer, sizeof(buffer), "%s %s %s.", commify(kills),
+                M_snprintf(buffer, sizeof(buffer), "%s %s %s", commify(kills),
                     (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                     (type == MT_BARREL ? "exploded" : "killed"));
-                C_Output(buffer);
+                C_Output("%s.", buffer);
                 players[0].message = buffer;
                 message_dontfuckwithme = true;
                 C_HideConsole();
             }
             else
-                C_Output("No %s %s.", mobjinfo[type].plural1,
-                    (type == MT_BARREL ? "exploded" : "killed"));
+                C_Output("No %s %s %s.", mobjinfo[type].plural1, (dead ? "left to" : "to"),
+                    (type == MT_BARREL ? "explode" : "kill"));
         }
     }
 }
