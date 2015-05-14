@@ -512,7 +512,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS, "Toggle rocket trails behind player and Cyberdemon rockets."),
     CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE, "The screen size."),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS, "Toggle sprites casting shadows."),
-    CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY, "Toggle translucency in sprites."),
+    CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY, "Toggle translucency in sprites and textures."),
     CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrect the player."),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE, "The number of times "PACKAGE_NAME" has been run."),
     CVAR_INT  (s_maxslicetime, C_NoCondition, C_Int, CF_NONE, snd_maxslicetime_ms, 0, SND_MAXSLICETIME_MS, "The maximum slice time of sound effects."),
