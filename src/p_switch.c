@@ -236,7 +236,7 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 P_ChangeSwitchTexture(line, 0);
             break;
 
-        case S1_Floor_RaiseDonutChangesTexture:
+        case S1_Floor_RaiseDonut_ChangesTexture:
             if (EV_DoDonut(line))
                 P_ChangeSwitchTexture(line, 0);
             break;

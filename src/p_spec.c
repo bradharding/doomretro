@@ -47,28 +47,6 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
-char *sectorspecials[] =
-{
-    "-",
-    "Light Blinks (randomly)",
-    "Light Blinks (2 Hz)",
-    "Light Blinks (1 Hz)",
-    "Damage -10 or 20% Health and Light Blinks (2 Hz)",
-    "Damage -5 or 10% Health",
-    "-",
-    "Damage -2 or 5% Health",
-    "Light Glows (1+ sec)",
-    "Secret",
-    "Door Close Stay (after 30 sec)",
-    "Damage -10 or 20% Health and End Level",
-    "Light Blinks (1 Hz synchronized)",
-    "Light Blinks (2 Hz synchronized)",
-    "Door Open Close (opens after 5 min)",
-    "-",
-    "Damage -10 or 20% Health",
-    "Light Flickers (randomly)"
-};
-
 //
 // Animating textures and planes
 // There is another anim_t used in wi_stuff, unrelated.

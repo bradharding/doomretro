@@ -241,7 +241,7 @@ typedef enum
     W1_Crusher_StartWithFastDamage                           =   6,
     S1_Stairs_RaiseBy8                                       =   7,
     W1_Stairs_RaiseBy8                                       =   8,
-    S1_Floor_RaiseDonutChangesTexture                        =   9,
+    S1_Floor_RaiseDonut_ChangesTexture                       =   9,
     W1_Lift_LowerWaitRaise                                   =  10,
     S1_ExitLevel                                             =  11,
     W1_Light_ChangeToBrightestAdjacent                       =  12,
