@@ -429,7 +429,8 @@ typedef enum
     SR_Light_ChangeToDarkestAdjacent                         = 194,
     SR_Teleport_AlsoMonsters                                 = 195,
     SR_Door_CloseWaitOpen_30Seconds                          = 196,
-
+    G1_ExitLevel                                             = 197,
+    G1_ExitLevel_GoesToSecretLevel                           = 198,
     W1_Ceiling_LowerToLowestCeiling                          = 199,
     W1_Ceiling_LowerToHighestFloor                           = 200,
     WR_Ceiling_LowerToLowestCeiling                          = 201,

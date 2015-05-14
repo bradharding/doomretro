@@ -1070,6 +1070,16 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
                 P_ChangeSwitchTexture(line, 0);
             break;
 
+        case G1_ExitLevel:
+            P_ChangeSwitchTexture(line, 0);
+            G_ExitLevel();
+            break;
+
+        case G1_ExitLevel_GoesToSecretLevel:
+            P_ChangeSwitchTexture(line, 0);
+            G_SecretExitLevel();
+            break;
+
         default:
             if ((unsigned short)line->special >= UNKNOWNLINESPECIAL)
                 C_Warning("The player has shot a wall with an unknown special of %s.",
