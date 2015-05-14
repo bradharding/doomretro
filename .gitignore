@@ -211,3 +211,4 @@ savegames/
 xcuserdata/
 project.xcworkspace/
 
+msvc/Release/doomretro.cfg
