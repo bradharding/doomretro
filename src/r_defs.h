@@ -452,6 +452,7 @@ typedef enum
     WR_Stairs_RaiseBy16_Fast                                 = 257,
     SR_Stairs_RaiseBy8                                       = 258,
     SR_Stairs_RaiseBy16_Fast                                 = 259,
+    Translucent_MiddleTexture                                = 260,
 
     UNKNOWNLINESPECIAL
 } linespecial_e;

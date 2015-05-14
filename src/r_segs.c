@@ -101,6 +101,8 @@ static int      *maskedtexturecol;      // dropoff overflow
 
 boolean         brightmaps = BRIGHTMAPS_DEFAULT;
 
+extern boolean  translucency;
+
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"
@@ -255,6 +257,10 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     // Calculate light table.
     // Use different light tables for horizontal / vertical.
     curline = ds->curline;
+
+    colfunc = (curline->linedef->special == Translucent_MiddleTexture && translucency ?
+        R_DrawTranslucentColumn : R_DrawColumn);
+
     frontsector = curline->frontsector;
     backsector = curline->backsector;
     texnum = texturetranslation[curline->sidedef->midtexture];
