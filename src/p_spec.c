@@ -498,6 +498,20 @@ boolean P_CheckTag(line_t *line)
         case WR_Teleport_MonstersOnly:
         case SR_Light_ChangeTo255:
         case SR_Light_ChangeTo35:
+        case WR_Light_StartBlinking:
+        case WR_Light_ChangeToDarkestAdjacent:
+        case S1_Light_ChangeToBrightestAdjacent:
+        case S1_Light_ChangeTo35:
+        case S1_Light_ChangeTo255:
+        case S1_Light_StartBlinking:
+        case S1_Light_ChangeToDarkestAdjacent:
+        case S1_Teleport_AlsoMonsters:
+        case SR_Light_ChangeToBrightestAdjacent:
+        case SR_Light_StartBlinking:
+        case SR_Light_ChangeToDarkestAdjacent:
+        case SR_Teleport_AlsoMonsters:
+        case G1_ExitLevel:
+        case G1_ExitLevel_GoesToSecretLevel:
             return true;        // zero tag allowed
 
         default:
