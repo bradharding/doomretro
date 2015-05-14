@@ -43,7 +43,7 @@
 
 #define ANIMATEDLIQUID_DEFAULT                  true
 
-#define AUTOSAVE_DEFAULT                        true
+//#define AUTOSAVE_DEFAULT                        true
 
 #define BRIGHTMAPS_DEFAULT                      true
 

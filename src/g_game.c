@@ -115,7 +115,7 @@ wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 byte            consistency[MAXPLAYERS][BACKUPTICS];
 
-boolean         autosave = AUTOSAVE_DEFAULT;
+//boolean         autosave = AUTOSAVE_DEFAULT;
 
 //
 // controls (have defaults)
