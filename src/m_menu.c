@@ -124,6 +124,8 @@ boolean         startingnewgame = false;
 
 char            savegamestrings[10][SAVESTRINGSIZE];
 
+patch_t         *pipe;
+
 char            endstring[160];
 
 short           itemOn;                 // menu item skull is on
@@ -977,7 +979,6 @@ void M_DrawSave(void)
     char        *right = Z_Malloc(256, PU_STATIC, NULL);
     int         i;
     int         j;
-    patch_t     *pipe = W_CacheLumpName("STCFN121", PU_CACHE);
 
     // darken background
     M_DarkBackground();
@@ -3360,6 +3361,9 @@ void M_Init(void)
     quickSaveSlot = -1;
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     blurredscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+
+    pipe = W_CacheLumpName((W_CheckNumForName("STCFN121") >= 0 ? "STCFN121" : "STCFN124"),
+        PU_CACHE);
 
     if (autostart)
     {
