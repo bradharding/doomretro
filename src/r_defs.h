@@ -375,6 +375,36 @@ typedef enum
     S1_Floor_RaiseBy512                                      = 140,
     W1_Crusher_StartWithSlowDamage_Silent                    = 141,
 
+    // Extended line specials from BOOM
+    W1_Floor_RaiseBy512                                      = 142,
+    W1_Lift_RaiseBy24_ChangesTexture                         = 143,
+    W1_Lift_RaiseBy32_ChangesTexture                         = 144,
+    W1_CeilingLowerToFloor_Fast                              = 145,
+    W1_Floor_RaiseDonut_ChangesTexture                       = 146,
+    WR_Floor_RaiseBy512                                      = 147,
+    WR_Lift_RaiseBy24_ChangesTexture                         = 148,
+    WR_Lift_RaiseBy32_ChangesTexture                         = 149,
+    WR_Crusher_Start_Silent                                  = 150,
+    WR_Ceiling_RaiseToHighestCeiling                         = 151,
+    WR_Ceiling_LowerToFloor_Fast                             = 152,
+
+    WR_Floor_RaiseDonut_ChangesTexture                       = 155,
+    WR_Light_StartBlinking                                   = 156,
+    WR_Light_ChangeToDarkestAdjacent                         = 157,
+
+    W1_Ceiling_LowerToLowestCeiling                          = 199,
+    W1_Ceiling_LowerToHighestFloor                           = 200,
+    WR_Ceiling_LowerToLowestCeiling                          = 201,
+    WR_Ceiling_LowerToHighestFloor                           = 202,
+
+    WR_Lift_RaiseToCeiling_Instantly                         = 212,
+
+    W1_Floor_LowerToNearestFloor                             = 219,
+    WR_Floor_LowerToNearestFloor                             = 220,
+
+    WR_Stairs_RaiseBy8                                       = 256,
+    WR_Stairs_RaiseBy16_Fast                                 = 257,
+
     UNKNOWNLINESPECIAL
 } linespecial_e;
 

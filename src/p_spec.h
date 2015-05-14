@@ -222,7 +222,8 @@ typedef enum
     downWaitUpStay,
     raiseAndChange,
     raiseToNearestAndChange,
-    blazeDWUS
+    blazeDWUS,
+    toggleUpDn
 } plattype_e;
 
 typedef struct plat_s
@@ -321,6 +322,8 @@ typedef enum
 {
     lowerToFloor,
     raiseToHighest,
+    lowerToLowest,
+    lowerToMaxFloor,
     lowerAndCrush,
     crushAndRaise,
     fastCrushAndRaise,
@@ -386,6 +389,15 @@ typedef enum
     // raise floor to next highest surrounding floor
     raiseFloorToNearest,
 
+    //jff 02/03/98 lower floor to next lowest neighbor
+    lowerFloorToNearest,
+
+    //jff 02/03/98 lower floor 24 absolute
+    lowerFloor24,
+
+    //jff 02/03/98 lower floor 32 absolute
+    lowerFloor32Turbo,
+
     // raise floor to shortest height texture around it
     raiseToTexture,
 
@@ -394,6 +406,10 @@ typedef enum
     lowerAndChange,
 
     raiseFloor24,
+
+    //jff 02/03/98 raise floor 32 absolute
+    raiseFloor32Turbo,
+
     raiseFloor24AndChange,
     raiseFloorCrush,
 

@@ -323,6 +323,30 @@ fixed_t P_FindNextHighestFloor(sector_t *sec, int currentheight)
     return currentheight;
 }
 
+
+//
+// P_FindNextLowestFloor
+// FIND NEXT LOWEST FLOOR IN SURROUNDING SECTORS
+//
+fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
+{
+    int         i;
+    sector_t    *other;
+
+    for (i = 0; i < sec->linecount; i++)
+        if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight < currentheight)
+        {
+            int height = other->floorheight;
+
+            while (++i < sec->linecount)
+                if ((other = getNextSector(sec->lines[i], sec)) && other->floorheight > height
+                    && other->floorheight < currentheight)
+                    height = other->floorheight;
+            return height;
+        }
+    return currentheight;
+}
+
 //
 // FIND LOWEST CEILING IN THE SURROUNDING SECTORS
 //
@@ -535,8 +559,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     switch (line->special)
     {
-        // TRIGGERS.
-        // All from here to RETRIGGERS.
+        // Triggers
         case W1_Door_OpenStay:
             if (EV_DoDoor(line, doorOpen))
             {
@@ -763,7 +786,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 line->special = 0;
             break;
 
-        // RETRIGGERS.  All from here till end.
+        // Retriggers
         case WR_Ceiling_LowerTo8AboveFloor:
             EV_DoCeiling(line, lowerAndCrush);
             break;
@@ -891,6 +914,109 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
         case WR_Floor_RaiseToNextHighestFloor_Fast:
             EV_DoFloor(line, raiseFloorTurbo);
+            break;
+
+        // Extended triggers
+        case W1_Floor_RaiseBy512:
+            if (EV_DoFloor(line, raiseFloor512))
+                line->special = 0;
+            break;
+
+        case W1_Lift_RaiseBy24_ChangesTexture:
+            if (EV_DoPlat(line, raiseAndChange, 24))
+                line->special = 0;
+            break;
+
+        case W1_Lift_RaiseBy32_ChangesTexture:
+            if (EV_DoPlat(line, raiseAndChange, 32))
+                line->special = 0;
+            break;
+
+        case W1_CeilingLowerToFloor_Fast:
+            if (EV_DoCeiling(line, lowerToFloor))
+                line->special = 0;
+            break;
+
+        case W1_Floor_RaiseDonut_ChangesTexture:
+            if (EV_DoDonut(line))
+                line->special = 0;
+            break;
+
+        case W1_Ceiling_LowerToLowestCeiling:
+            if (EV_DoCeiling(line, lowerToLowest))
+                line->special = 0;
+            break;
+
+        case W1_Ceiling_LowerToHighestFloor:
+            if (EV_DoCeiling(line, lowerToMaxFloor))
+                line->special = 0;
+            break;
+
+        case W1_Floor_LowerToNearestFloor:
+            if (EV_DoFloor(line, lowerFloorToNearest))
+                line->special = 0;
+            break;
+
+        // Extended retriggers
+        case WR_Floor_RaiseBy512:
+            EV_DoFloor(line, raiseFloor512);
+            break;
+
+        case WR_Lift_RaiseBy24_ChangesTexture:
+            EV_DoPlat(line, raiseAndChange, 24);
+            break;
+
+        case WR_Lift_RaiseBy32_ChangesTexture:
+            EV_DoPlat(line, raiseAndChange, 32);
+            break;
+
+        case WR_Crusher_Start_Silent:
+            EV_DoCeiling(line, silentCrushAndRaise);
+            break;
+
+        case WR_Ceiling_RaiseToHighestCeiling:
+            EV_DoCeiling(line, raiseToHighest);
+            EV_DoFloor(line, lowerFloorToLowest);
+            break;
+
+        case WR_Ceiling_LowerToFloor_Fast:
+            EV_DoCeiling(line, lowerToFloor);
+            break;
+
+        case WR_Stairs_RaiseBy8:
+            EV_BuildStairs(line, build8);
+            break;
+
+        case WR_Stairs_RaiseBy16_Fast:
+            EV_BuildStairs(line, turbo16);
+            break;
+
+        case WR_Floor_RaiseDonut_ChangesTexture:
+            EV_DoDonut(line);
+            break;
+
+        case WR_Light_StartBlinking:
+            EV_StartLightStrobing(line);
+            break;
+
+        case WR_Light_ChangeToDarkestAdjacent:
+            EV_TurnTagLightsOff(line);
+            break;
+
+        case WR_Ceiling_LowerToLowestCeiling:
+            EV_DoCeiling(line, lowerToLowest);
+            break;
+
+        case WR_Ceiling_LowerToHighestFloor:
+            EV_DoCeiling(line, lowerToMaxFloor);
+            break;
+
+        case WR_Lift_RaiseToCeiling_Instantly:
+            EV_DoPlat(line, toggleUpDn, 0);
+            break;
+
+        case WR_Floor_LowerToNearestFloor:
+            EV_DoFloor(line, lowerFloorToNearest);
             break;
 
         default:

@@ -335,11 +335,32 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->floordestheight = P_FindHighestFloorSurrounding(sec);
                 break;
 
+            case lowerFloor24:
+                floor->direction = -1;
+                floor->sector = sec;
+                floor->speed = FLOORSPEED;
+                floor->floordestheight = floor->sector->floorheight + 24 * FRACUNIT;
+                break;
+
+            case lowerFloor32Turbo:
+                floor->direction = -1;
+                floor->sector = sec;
+                floor->speed = FLOORSPEED * 4;
+                floor->floordestheight = floor->sector->floorheight + 32 * FRACUNIT;
+                break;
+
             case lowerFloorToLowest:
                 floor->direction = -1;
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = P_FindLowestFloorSurrounding(sec);
+                break;
+
+            case lowerFloorToNearest:
+                floor->direction = -1;
+                floor->sector = sec;
+                floor->speed = FLOORSPEED;
+                floor->floordestheight = P_FindNextLowestFloor(sec, floor->sector->floorheight);
                 break;
 
             case turboLower:
@@ -380,6 +401,13 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                 floor->sector = sec;
                 floor->speed = FLOORSPEED;
                 floor->floordestheight = sec->floorheight + 24 * FRACUNIT;
+                break;
+
+            case raiseFloor32Turbo:
+                floor->direction = 1;
+                floor->sector = sec;
+                floor->speed = FLOORSPEED * 4;
+                floor->floordestheight = floor->sector->floorheight + 32 * FRACUNIT;
                 break;
 
             case raiseFloor512:
