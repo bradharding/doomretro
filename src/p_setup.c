@@ -1172,8 +1172,10 @@ void P_MapName(int episode, int map)
                     strcpy(maptitle, &maptitle[1]);
             }
         }
-        else
+        else if (strcasecmp(mapnum, maptitle))
             M_snprintf(mapnumandtitle, sizeof(mapnumandtitle), "%s: %s", mapnum, maptitle);
+        else
+            M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
         M_StringCopy(automaptitle, mapnumandtitle, sizeof(automaptitle));
     }
 }
