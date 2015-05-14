@@ -49,6 +49,7 @@
 #include "d_event.h"
 #include "doomstat.h"
 #include "g_game.h"
+#include "hu_stuff.h"
 #include "i_gamepad.h"
 #include "i_swap.h"
 #include "i_system.h"
@@ -1291,10 +1292,15 @@ static boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_Kill(char *cmd, char *parm1, char *parm2)
 {
+    static char buffer[1024];
+
     if (!parm1[0] || !strcasecmp(parm1, "player"))
     {
         P_DamageMobj(players[0].mo, NULL, NULL, players[0].health);
-        C_Output("Player killed.");
+        M_StringCopy(buffer, "Player killed.", sizeof(buffer));
+        C_Output(buffer);
+        players[0].message = buffer;
+        message_dontfuckwithme = true;
         C_HideConsole();
     }
     else
@@ -1336,7 +1342,11 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
 
             if (kills)
             {
-                C_Output("%s monster%s killed.", commify(kills), (kills == 1 ? "" : "s"));
+                M_snprintf(buffer, sizeof(buffer), "%s monster%s killed.", commify(kills),
+                    (kills == 1 ? "" : "s"));
+                C_Output(buffer);
+                players[0].message = buffer;
+                message_dontfuckwithme = true;
                 C_HideConsole();
             }
             else
@@ -1376,9 +1386,12 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
 
             if (kills)
             {
-                C_Output("%s %s %s.", commify(kills),
+                M_snprintf(buffer, sizeof(buffer), "%s %s %s.", commify(kills),
                     (kills == 1 ? mobjinfo[type].name1 : mobjinfo[type].plural1),
                     (type == MT_BARREL ? "exploded" : "killed"));
+                C_Output(buffer);
+                players[0].message = buffer;
+                message_dontfuckwithme = true;
                 C_HideConsole();
             }
             else
