@@ -494,6 +494,11 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 P_ChangeSwitchTexture(line, 0);
             break;
 
+        case S1_Teleport_AlsoMonsters_Silent_SameAngle:
+            if (EV_SilentTeleport(line, side, thing))
+                P_ChangeSwitchTexture(line, 0);
+            break;
+
         case S1_Floor_LowerToNearestFloor:
             if (EV_DoFloor(line, lowerFloorToNearest))
                 P_ChangeSwitchTexture(line, 0);
@@ -601,6 +606,11 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
         case SR_Ceiling_LowerToHighestFloor:
             if (EV_DoCeiling(line, lowerToMaxFloor))
+                P_ChangeSwitchTexture(line, 1);
+            break;
+
+        case SR_Teleport_AlsoMonsters_Silent_SameAngle:
+            if (EV_SilentTeleport(line, side, thing))
                 P_ChangeSwitchTexture(line, 1);
             break;
 

@@ -512,6 +512,10 @@ boolean P_CheckTag(line_t *line)
         case SR_Teleport_AlsoMonsters:
         case G1_ExitLevel:
         case G1_ExitLevel_GoesToSecretLevel:
+        case W1_Teleport_AlsoMonsters_Silent_SameAngle:
+        case WR_Teleport_AlsoMonsters_Silent_SameAngle:
+        case S1_Teleport_AlsoMonsters_Silent_SameAngle:
+        case SR_Teleport_AlsoMonsters_Silent_SameAngle:
             return true;        // zero tag allowed
 
         default:
@@ -966,8 +970,38 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 line->special = 0;
             break;
 
+        case W1_Teleport_AlsoMonsters_Silent_SameAngle:
+            if (EV_SilentTeleport(line, side, thing))
+                line->special = 0;
+            break;
+
         case W1_Floor_LowerToNearestFloor:
             if (EV_DoFloor(line, lowerFloorToNearest))
+                line->special = 0;
+            break;
+
+        case W1_TeleportToLineWithSameTag_Silent_SameAngle:
+            if (EV_SilentLineTeleport(line, side, thing, false))
+                line->special = 0;
+            break;
+
+        case W1_TeleportToLineWithSameTag_Silent_ReversedAngle:
+            if (EV_SilentLineTeleport(line, side, thing, true))
+                line->special = 0;
+            break;
+
+        case W1_TeleportToLineWithSameTag_MonstersOnly_Silent_ReversedAngle:
+            if (!thing->player && EV_SilentLineTeleport(line, side, thing, true))
+                line->special = 0;
+            break;
+
+        case W1_TeleportToLineWithSameTag_MonstersOnly_Silent:
+            if (!thing->player && EV_SilentLineTeleport(line, side, thing, false))
+                line->special = 0;
+            break;
+
+        case W1_Teleport_MonstersOnly_Silent:
+            if (!thing->player && EV_SilentTeleport(line, side, thing))
                 line->special = 0;
             break;
 
@@ -1025,12 +1059,39 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             EV_DoCeiling(line, lowerToMaxFloor);
             break;
 
+        case WR_Teleport_AlsoMonsters_Silent_SameAngle:
+            EV_SilentTeleport(line, side, thing);
+            break;
+
         case WR_Lift_RaiseToCeiling_Instantly:
             EV_DoPlat(line, toggleUpDn, 0);
             break;
 
         case WR_Floor_LowerToNearestFloor:
             EV_DoFloor(line, lowerFloorToNearest);
+            break;
+
+        case WR_TeleportToLineWithSameTag_Silent_SameAngle:
+            EV_SilentLineTeleport(line, side, thing, false);
+            break;
+
+        case WR_TeleportToLineWithSameTag_Silent_ReversedAngle:
+            EV_SilentLineTeleport(line, side, thing, true);
+            break;
+
+        case WR_TeleportToLineWithSameTag_MonstersOnly_Silent_ReversedAngle:
+            if (!thing->player)
+                EV_SilentLineTeleport(line, side, thing, true);
+            break;
+
+        case WR_TeleportToLineWithSameTag_MonstersOnly_Silent:
+            if (!thing->player)
+                EV_SilentLineTeleport(line, side, thing, false);
+            break;
+
+        case WR_Teleport_MonstersOnly_Silent:
+            if (!thing->player)
+                EV_SilentTeleport(line, side, thing);
             break;
 
         default:
