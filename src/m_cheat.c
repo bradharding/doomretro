@@ -113,14 +113,6 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
     if (cht->chars_read >= strlen(cht->sequence)
         && cht->param_chars_read >= cht->parameter_chars)
     {
-        if (cht != &cheat_clev && cht != &cheat_mus && cht != &cheat_powerup[6])
-        {
-            if (cht->param_chars_read)
-                C_Print(input, "%s%c%c", cht->sequence, cht->parameter_buf[0], cht->parameter_buf[1]);
-            else
-                C_Print(input, cht->sequence);
-        }
-
         cht->chars_read = cht->param_chars_read = cht->timeout = 0;
         return true;
     }
