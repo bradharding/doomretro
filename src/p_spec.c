@@ -1268,6 +1268,10 @@ void P_UpdateSpecials(void)
             case ScrollTextureLeft:
                 sides[line->sidenum[0]].textureoffset += FRACUNIT;
                 break;
+
+            case ScrollTextureRight:
+                sides[line->sidenum[0]].textureoffset -= FRACUNIT;
+                break;
         }
     }
 
@@ -1456,6 +1460,7 @@ void P_SpawnSpecials(void)
         switch (lines[i].special)
         {
             case ScrollTextureLeft:
+            case ScrollTextureRight:
                 linespeciallist[numlinespecials] = &lines[i];
                 numlinespecials++;
                 break;
