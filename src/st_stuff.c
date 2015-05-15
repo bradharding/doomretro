@@ -1013,7 +1013,8 @@ boolean ST_Responder(event_t *ev)
                 {
                     epsd = buf[0] - '0';
                     map = buf[1] - '0';
-                    M_snprintf(lump, sizeof(lump), "E%cM%c", buf[0], buf[1]);
+                    M_snprintf(lump, sizeof(lump), "%c%cM%c", (FREEDOOM ? 'C' : 'E'),
+                        buf[0], buf[1]);
                 }
 
                 if (chex)
