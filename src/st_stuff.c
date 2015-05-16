@@ -1013,6 +1013,7 @@ boolean ST_Responder(event_t *ev)
                 {
                     epsd = buf[0] - '0';
                     map = buf[1] - '0';
+                    M_snprintf(lump, sizeof(lump), "E%cM%c", buf[0], buf[1]);
                 }
 
                 if (chex)
@@ -1023,7 +1024,7 @@ boolean ST_Responder(event_t *ev)
                 // [BH] only allow MAP01 to MAP09 when NERVE.WAD loaded
                 if (W_CheckNumForName(lump) < 0
                     || (gamemission == pack_nerve && map > 9)
-                    || (BTSX && (W_CheckMultipleLumps(lump) == 1)))
+                    || (BTSX && W_CheckMultipleLumps(lump) == 1))
                     idclev = false;
                 else
                 {
@@ -1074,7 +1075,7 @@ boolean ST_Responder(event_t *ev)
 
 int ST_calcPainOffset(void)
 {
-    int         health = (plyr->health > 100 ? 100 : plyr->health);
+    int         health = MIN(plyr->health, 100);
     static int  lastcalc;
     static int  oldhealth = -1;
 
