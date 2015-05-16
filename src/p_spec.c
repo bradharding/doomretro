@@ -565,6 +565,18 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             case WR_Teleport:
             case W1_Teleport_MonstersOnly:
             case WR_Teleport_MonstersOnly:
+            case W1_Teleport_AlsoMonsters_Silent_SameAngle:
+            case WR_Teleport_AlsoMonsters_Silent_SameAngle:
+            case W1_TeleportToLineWithSameTag_Silent_SameAngle:
+            case WR_TeleportToLineWithSameTag_Silent_SameAngle:
+            case W1_TeleportToLineWithSameTag_Silent_ReversedAngle:
+            case WR_TeleportToLineWithSameTag_Silent_ReversedAngle:
+            case W1_TeleportToLineWithSameTag_MonstersOnly_Silent_ReversedAngle:
+            case WR_TeleportToLineWithSameTag_MonstersOnly_Silent_ReversedAngle:
+            case W1_TeleportToLineWithSameTag_MonstersOnly_Silent:
+            case WR_TeleportToLineWithSameTag_MonstersOnly_Silent:
+            case W1_Teleport_MonstersOnly_Silent:
+            case WR_Teleport_MonstersOnly_Silent:
                 ok = true;
                 break;
         }
