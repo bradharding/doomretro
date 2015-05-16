@@ -1013,8 +1013,6 @@ boolean ST_Responder(event_t *ev)
                 {
                     epsd = buf[0] - '0';
                     map = buf[1] - '0';
-                    M_snprintf(lump, sizeof(lump), "%c%cM%c", (FREEDOOM ? 'C' : 'E'),
-                        buf[0], buf[1]);
                 }
 
                 if (chex)
@@ -1036,6 +1034,8 @@ boolean ST_Responder(event_t *ev)
                     if (BTSX)
                         M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : 2),
                             buf[0], buf[1]);
+                    else if (FREEDOOM && gamemode != commercial)
+                        M_snprintf(lump, sizeof(lump), "C%cM%c", buf[0], buf[1]);
 
                     if (epsd == gameepisode && map == gamemap)
                         M_snprintf(message, sizeof(message), s_STSTR_CLEVSAME, lump);
