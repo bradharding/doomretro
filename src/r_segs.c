@@ -253,12 +253,13 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     int         lightnum;
     int         texnum;
     fixed_t     texheight;
+    sector_t    tempsec;        // killough 4/13/98
 
     // Calculate light table.
     // Use different light tables for horizontal / vertical.
     curline = ds->curline;
 
-    colfunc = (curline->linedef->special == Translucent_MiddleTexture && translucency ?
+    colfunc = (curline->linedef->tranlump >= 0 && translucency ?
         R_DrawTranslucent50Column : R_DrawColumn);
 
     frontsector = curline->frontsector;
@@ -266,7 +267,9 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     texnum = texturetranslation[curline->sidedef->midtexture];
     texheight = textureheight[texnum];
 
-    lightnum = (frontsector->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
+    // killough 4/13/98: get correct lightlevel for 2s normal textures
+    lightnum = (R_FakeFlat(frontsector, &tempsec, false)->lightlevel >> LIGHTSEGSHIFT)
+        + extralight * LIGHTBRIGHT;
 
     if (curline->v1->y == curline->v2->y)
         lightnum -= LIGHTBRIGHT;
@@ -372,7 +375,7 @@ void R_RenderSegLoop(void)
             }
 
             // SoM: this should be set here to prevent overdraw
-            ceilingclip[rw_x] = bottom;
+            //ceilingclip[rw_x] = bottom;
         }
 
         bottom = floorclip[rw_x] - 1;
@@ -393,7 +396,7 @@ void R_RenderSegLoop(void)
             }
 
             // SoM: This should be set here to prevent overdraw
-            floorclip[rw_x] = top;
+            //floorclip[rw_x] = top;
         }
 
         // texturecolumn and lighting are independent of wall tiers
@@ -413,7 +416,7 @@ void R_RenderSegLoop(void)
         // draw the wall tiers
         if (midtexture)
         {
-            if (yl < viewheight && yh >= 0 && yh >= yl)
+            //if (yl < viewheight && yh >= 0 && yh >= yl)
             {
                 // single sided line
                 dc_yl = yl;
@@ -459,7 +462,7 @@ void R_RenderSegLoop(void)
 
                 if (mid >= yl)
                 {
-                    if (yl < viewheight && mid >= 0)
+                    //if (yl < viewheight && mid >= 0)
                     {
                         dc_yl = yl;
                         dc_yh = mid;
@@ -509,7 +512,7 @@ void R_RenderSegLoop(void)
 
                 if (mid <= yh)
                 {
-                    if (mid < viewheight && yh >= 0)
+                    //if (mid < viewheight && yh >= 0)
                     {
                         dc_yl = mid;
                         dc_yh = yh;
@@ -654,7 +657,7 @@ void R_StoreWallRange(int start, int stop)
         }
     }
 
-    R_FixWiggle(frontsector);
+    //R_FixWiggle(frontsector);
 
     // calculate scale at both ends and step
     ds_p->scale1 = rw_scale = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start]);
@@ -696,6 +699,12 @@ void R_StoreWallRange(int start, int stop)
         else
             // top of texture at top
             rw_midtexturemid = worldtop + sidedef->rowoffset;
+
+        {      // killough 3/27/98: reduce offset
+            fixed_t h = textureheight[sidedef->midtexture];
+            if (h & (h - FRACUNIT))
+                rw_midtexturemid %= h;
+        }
 
         ds_p->silhouette = SIL_BOTH;
         ds_p->sprtopclip = screenheightarray;
@@ -766,21 +775,22 @@ void R_StoreWallRange(int start, int stop)
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
             worldtop = worldhigh;
 
-        if (worldlow != worldbottom
+        markfloor = (worldlow != worldbottom
             || backsector->floorpic != frontsector->floorpic
-            || backsector->lightlevel != frontsector->lightlevel)
-            markfloor = true;
-        else
-            // same plane on both sides
-            markfloor = false;
+            || backsector->lightlevel != frontsector->lightlevel
 
-        if (worldhigh != worldtop
+            // killough 4/15/98: prevent 2s normals
+            // from bleeding through deep water
+            || frontsector->heightsec != -1);
+
+        markceiling = (worldhigh != worldtop
             || backsector->ceilingpic != frontsector->ceilingpic
-            || backsector->lightlevel != frontsector->lightlevel)
-            markceiling = true;
-        else
-            // same plane on both sides
-            markceiling = false;
+            || backsector->lightlevel != frontsector->lightlevel
+
+            // killough 4/15/98: prevent 2s normals
+            // from bleeding through fake ceilings
+            || (frontsector->heightsec != -1 && frontsector->ceilingpic != skyflatnum));
+
 
         if (backsector->interpceilingheight <= frontsector->interpfloorheight
             || backsector->interpfloorheight >= frontsector->interpceilingheight)
@@ -816,8 +826,23 @@ void R_StoreWallRange(int start, int stop)
         }
 
         rw_toptexturemid += sidedef->rowoffset;
+
+        // killough 3/27/98: reduce offset
+        {
+            fixed_t h = textureheight[sidedef->toptexture];
+            if (h & (h - FRACUNIT))
+                rw_toptexturemid %= h;
+        }
+
         rw_bottomtexturemid += sidedef->rowoffset;
 
+        // killough 3/27/98: reduce offset
+        {
+            fixed_t h;
+            h = textureheight[sidedef->bottomtexture];
+            if (h & (h - FRACUNIT))
+                rw_bottomtexturemid %= h;
+        }
         // allocate space for masked texture tables
         if (sidedef->midtexture)
         {
@@ -859,11 +884,15 @@ void R_StoreWallRange(int start, int stop)
     // if a floor / ceiling plane is on the wrong side
     //  of the view plane, it is definitely invisible
     //  and doesn't need to be marked.
-    if (frontsector->interpfloorheight >= viewz)
-        markfloor = false;      // above view plane
+    // killough 3/7/98: add deep water check
+    if (frontsector->heightsec == -1)
+    {
+        if (frontsector->interpfloorheight >= viewz)
+            markfloor = false;          // above view plane
 
-    if (frontsector->interpceilingheight <= viewz && frontsector->ceilingpic != skyflatnum)
-        markceiling = false;    // below view plane
+        if (frontsector->interpceilingheight <= viewz && frontsector->ceilingpic != skyflatnum)
+            markceiling = false;        // below view plane
+    }
 
     // calculate incremental stepping values for texture edges
     worldtop >>= invhgtbits;
@@ -898,10 +927,16 @@ void R_StoreWallRange(int start, int stop)
 
     // render it
     if (markceiling)
-        ceilingplane = R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1);
+        if (ceilingplane)   // killough 4/11/98: add NULL ptr checks
+            ceilingplane = R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1);
+        else
+            markceiling = 0;
 
     if (markfloor)
-        floorplane = R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
+        if (floorplane)     // killough 4/11/98: add NULL ptr checks
+            floorplane = R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
+        else
+            markfloor = 0;
 
     R_RenderSegLoop();
 
@@ -923,12 +958,12 @@ void R_StoreWallRange(int start, int stop)
     if (maskedtexture && !(ds_p->silhouette & SIL_TOP))
     {
         ds_p->silhouette |= SIL_TOP;
-        ds_p->tsilheight = (sidedef->midtexture ? INT_MIN : INT_MAX);
+        ds_p->tsilheight = INT_MIN;
     }
     if (maskedtexture && !(ds_p->silhouette & SIL_BOTTOM))
     {
         ds_p->silhouette |= SIL_BOTTOM;
-        ds_p->bsilheight = (sidedef->midtexture ? INT_MAX : INT_MIN);
+        ds_p->bsilheight = INT_MAX;
     }
     ++ds_p;
 }

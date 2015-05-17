@@ -1465,6 +1465,8 @@ void P_SpawnSpecials(void)
         }
     }
 
+    P_InitTagLists();
+
     // Init line EFFECTs
     numlinespecials = 0;
     for (i = 0; i < numlines; i++)
@@ -1476,6 +1478,18 @@ void P_SpawnSpecials(void)
                 linespeciallist[numlinespecials] = &lines[i];
                 numlinespecials++;
                 break;
+
+            // killough 3/7/98:
+            // support for drawn heights coming from different sector
+            case CreateFakeCeilingAndFloor:
+            {
+                int sec = sides[*lines[i].sidenum].sector - sectors;
+                int s;
+
+                for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
+                    sectors[s].heightsec = sec;
+                break;
+            }
         }
     }
 
@@ -1483,6 +1497,4 @@ void P_SpawnSpecials(void)
     P_RemoveAllActivePlats();
     for (i = 0; i < MAXBUTTONS; i++)
         memset(&buttonlist[i], 0, sizeof(button_t));
-
-    P_InitTagLists();
 }

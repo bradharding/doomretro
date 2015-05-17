@@ -123,10 +123,10 @@ typedef struct
 
     // list of mobjs that are at least partially in the sector
     // thinglist is a subset of touching_thinglist
-    struct msecnode_s   *touching_thinglist;               // phares 3/14/98  
+    struct msecnode_s   *touching_thinglist;    // phares 3/14/98  
 
     int                 linecount;
-    struct line_s       **lines;  // [linecount] size
+    struct line_s       **lines;                // [linecount] size
 
     int                 cachedheight;
     int                 scaleindex;
@@ -150,6 +150,9 @@ typedef struct
     //      the renderer.
     fixed_t             interpfloorheight;
     fixed_t             interpceilingheight;
+
+    // killough 3/7/98: support flat heights drawn at another sector's heights
+    int                 heightsec;              // other sector, or -1 if no other sector
 } sector_t;
 
 //
@@ -171,6 +174,11 @@ typedef struct
 
     // Sector the SideDef is facing.
     sector_t            *sector;
+
+    // killough 4/4/98, 4/11/98: highest referencing special linedef's type,
+    // or lump number of special effect. Allows texture names to be overloaded
+    // for other functions.
+    int                 special;
 } side_t;
 
 //
@@ -223,6 +231,8 @@ typedef struct line_s
 
     // thinker_t for reversable actions
     void                *specialdata;
+
+    int                 tranlump;       // killough 4/11/98: translucency filter, -1 == none
 
     int                 nexttag, firsttag;
 
@@ -451,6 +461,7 @@ typedef enum
     S1_Floor_LowerToNearestFloor                                   = 221,
     SR_Floor_LowerToNearestFloor                                   = 222,
 
+    CreateFakeCeilingAndFloor                                      = 242,
     W1_TeleportToLineWithSameTag_Silent_SameAngle                  = 243,
     WR_TeleportToLineWithSameTag_Silent_SameAngle                  = 244,
 
@@ -827,6 +838,9 @@ typedef struct vissprite_s
     fixed_t             blood;
 
     boolean             drawn;
+
+    // killough 3/27/98: height sector for underwater/fake ceiling support
+    int                 heightsec;
 } vissprite_t;
 
 //

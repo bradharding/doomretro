@@ -170,7 +170,7 @@ crunch:
         return;                 // Post just extended past the bottom of one post.
 
     while (next++ != newend)
-        *(++start) = *next;     // Remove a post.
+        *++start = *next;     // Remove a post.
 
     newend = start;
 }
@@ -282,6 +282,75 @@ void R_MaybeInterpolateSector(sector_t* sector)
     }
 }
 
+
+//
+// killough 3/7/98: Hack floor/ceiling heights for deep water etc.
+//
+// If player's view height is underneath fake floor, lower the
+// drawn ceiling to be just under the floor height, and replace
+// the drawn floor and ceiling textures, and light level, with
+// the control sector's.
+//
+// Similar for ceiling, only reflected.
+//
+// killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
+//
+
+sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, boolean back)
+{
+    if (sec->heightsec != -1)
+    {
+        const sector_t *s = &sectors[sec->heightsec];
+        int heightsec = viewplayer->mo->subsector->sector->heightsec;
+        int underwater = heightsec != -1 && viewz <= sectors[heightsec].interpfloorheight;
+
+        // Replace sector being drawn, with a copy to be hacked
+        *tempsec = *sec;
+
+        // Replace floor and ceiling height with other sector's heights.
+        tempsec->interpfloorheight = s->interpfloorheight;
+        tempsec->interpceilingheight = s->interpceilingheight;
+
+        // killough 11/98: prevent sudden light changes from non-water sectors:
+        if (underwater && (tempsec->interpfloorheight = sec->interpfloorheight,
+            tempsec->interpceilingheight = s->interpfloorheight - 1, !back))
+        {                   // head-below-floor hack
+            tempsec->floorpic = s->floorpic;
+
+            if (underwater)
+                if (s->ceilingpic == skyflatnum)
+                {
+                    tempsec->interpfloorheight = tempsec->interpceilingheight + 1;
+                    tempsec->ceilingpic = tempsec->floorpic;
+                }
+                else
+                {
+                    tempsec->ceilingpic = s->ceilingpic;
+                }
+
+            tempsec->lightlevel = s->lightlevel;
+        }
+        else
+            if (heightsec != -1 && viewz >= sectors[heightsec].interpceilingheight &&
+                sec->interpceilingheight > s->interpceilingheight)
+            {   // Above-ceiling hack
+                tempsec->interpceilingheight = s->interpceilingheight;
+                tempsec->interpfloorheight = s->interpceilingheight + 1;
+
+                tempsec->floorpic = tempsec->ceilingpic = s->ceilingpic;
+                if (s->floorpic != skyflatnum)
+                {
+                    tempsec->interpceilingheight = sec->interpceilingheight;
+                    tempsec->floorpic = s->floorpic;
+                }
+
+                tempsec->lightlevel = s->lightlevel;
+            }
+        sec = tempsec;               // Use other sector
+    }
+    return sec;
+}
+
 //
 // R_AddLine
 // Clips the given segment
@@ -289,13 +358,13 @@ void R_MaybeInterpolateSector(sector_t* sector)
 //
 static void R_AddLine(seg_t *line)
 {
-    int         x1;
-    int         x2;
-    angle_t     angle1;
-    angle_t     angle2;
-    angle_t     span;
-    angle_t     tspan;
-
+    int                 x1;
+    int                 x2;
+    angle_t             angle1;
+    angle_t             angle2;
+    angle_t             span;
+    angle_t             tspan;
+    static sector_t     tempsec;        // killough 3/8/98: ceiling/water hack
     curline = line;
 
     angle1 = R_GetVertexViewAngle(line->v1);
@@ -359,6 +428,8 @@ static void R_AddLine(seg_t *line)
     //      should already be interpolated.
     R_MaybeInterpolateSector(backsector);
 
+    // killough 3/8/98, 4/4/98: hack for invisible ceilings / deep water
+    backsector = R_FakeFlat(backsector, &tempsec, true);
     doorclosed = false;
 
     // Closed door.
@@ -500,16 +571,21 @@ static boolean R_CheckBBox(const fixed_t *bspcoord)
 static void R_Subsector(int num)
 {
     subsector_t *sub = &subsectors[num];
+    sector_t    tempsec;              // killough 3/7/98: deep water hack
     int         count = sub->numlines;
     seg_t       *line = &segs[sub->firstline];
 
     frontsector = sub->sector;
 
+    // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
+    frontsector = R_FakeFlat(sub->sector, &tempsec, false);   // killough 4/11/98
+
     // [AM] Interpolate sector movement.  Usually only needed
     //      when you're standing inside the sector.
     R_MaybeInterpolateSector(frontsector);
 
-    if (frontsector->interpfloorheight < viewz)
+    if (frontsector->interpfloorheight < viewz
+        || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].ceilingpic == skyflatnum))
     {
         floorplane = R_FindPlane(frontsector->interpfloorheight, frontsector->floorpic,
             frontsector->lightlevel);
@@ -518,7 +594,9 @@ static void R_Subsector(int num)
     else
         floorplane = NULL;
 
-    if (frontsector->interpceilingheight > viewz || frontsector->ceilingpic == skyflatnum)
+    if (frontsector->interpceilingheight > viewz
+        || frontsector->ceilingpic == skyflatnum
+        || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].floorpic == skyflatnum))
         ceilingplane = R_FindPlane(frontsector->interpceilingheight, frontsector->ceilingpic,
             frontsector->lightlevel);
     else

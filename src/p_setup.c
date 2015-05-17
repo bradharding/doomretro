@@ -420,6 +420,8 @@ void P_LoadSectors(int lump)
         if ((unsigned short)ss->special >= UNKNOWNSECTORSPECIAL)
             C_Warning("Sector %s has an unknown special of %s.", commify(i), commify(ss->special));
 
+        // killough 3/7/98:
+        ss->heightsec = -1;       // sector used to get floor and ceiling height
 
         // Apply any level-specific fixes.
         if (canmodify && mapfixes)
@@ -722,6 +724,21 @@ void P_LoadLineDefs(int lump)
 
         ld->frontsector = (ld->sidenum[0] == NO_INDEX ? 0 : sides[ld->sidenum[0]].sector);
         ld->backsector = (ld->sidenum[1] == NO_INDEX ? 0 : sides[ld->sidenum[1]].sector);
+
+        switch (ld->special)
+        {                       // killough 4/11/98: handle special types
+            int lump, j;
+
+            case Translucent_MiddleTexture:               // killough 4/11/98: translucent 2s textures
+                lump = sides[*ld->sidenum].special; // translucency from sidedef
+                if (!ld->tag)                       // if tag==0,
+                    ld->tranlump = lump;              // affect this linedef only
+                else
+                    for (j = 0; j<numlines; j++)          // if tag!=0,
+                        if (lines[j].tag == ld->tag)    // affect all matching linedefs
+                            lines[j].tranlump = lump;
+                break;
+        }
     }
 
     W_ReleaseLumpNum(lump);
@@ -754,9 +771,24 @@ void P_LoadSideDefs(int lump)
             sector_num = 0;
         sd->sector = &sectors[sector_num];
 
-        sd->toptexture = R_TextureNumForName(msd->toptexture);
-        sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
-        sd->midtexture = R_TextureNumForName(msd->midtexture);
+        switch (sd->special)
+        {
+            case Translucent_MiddleTexture: // killough 4/11/98: apply translucency to 2s normal texture
+                sd->midtexture = strncasecmp("TRANMAP", msd->midtexture, 8) ?
+                    (sd->special = W_CheckNumForName(msd->midtexture)) < 0 ||
+                    W_LumpLength(sd->special) != 65536 ?
+                    sd->special = 0, R_TextureNumForName(msd->midtexture) :
+                    (sd->special++, 0) : (sd->special = 0);
+                sd->toptexture = R_TextureNumForName(msd->toptexture);
+                sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
+                break;
+
+            default:                        // normal cases
+                sd->midtexture = R_TextureNumForName(msd->midtexture);
+                sd->toptexture = R_TextureNumForName(msd->toptexture);
+                sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
+                break;
+        }
     }
 
     W_ReleaseLumpNum(lump);
