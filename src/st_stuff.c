@@ -562,7 +562,8 @@ boolean ST_Responder(event_t *ev)
                     oldhealth = plyr->health;
                     P_GiveBody(plyr, 100);
 
-                    C_Input(cheat_god.sequence);
+                    if (!consoleactive)
+                        C_Input(cheat_god.sequence);
 
                     HU_PlayerMessage(s_STSTR_DQDON, false);
 
@@ -574,7 +575,8 @@ boolean ST_Responder(event_t *ev)
                 }
                 else
                 {
-                    C_Input(cheat_god.sequence);
+                    if (!consoleactive)
+                        C_Input(cheat_god.sequence);
 
                     HU_PlayerMessage(s_STSTR_DQDOFF, false);
 
@@ -640,7 +642,8 @@ boolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus(plyr, BONUSADD);
 
-                    C_Input(cheat_ammonokey.sequence);
+                    if (!consoleactive)
+                        C_Input(cheat_ammonokey.sequence);
 
                     HU_PlayerMessage(s_STSTR_FAADDED, false);
 
@@ -696,7 +699,8 @@ boolean ST_Responder(event_t *ev)
                     // [BH] flash screen
                     P_AddBonus(plyr, BONUSADD);
 
-                    C_Input(cheat_ammo.sequence);
+                    if (!consoleactive)
+                        C_Input(cheat_ammo.sequence);
 
                     HU_PlayerMessage(s_STSTR_KFAADDED, false);
 
@@ -742,7 +746,8 @@ boolean ST_Responder(event_t *ev)
 
                             S_ChangeMusic(musnum, 1, true);
 
-                            C_Input("%s%s", cheat_mus_xy.sequence, buf);
+                            if (!consoleactive)
+                                C_Input("%s%c%c", cheat_mus_xy.sequence, buf[0], buf[1]);
 
                             M_snprintf(msg, sizeof(msg), s_STSTR_MUS, S_music[musnum].name);
                             HU_PlayerMessage(msg, false);
@@ -767,7 +772,8 @@ boolean ST_Responder(event_t *ev)
             {
                 plyr->cheats ^= CF_NOCLIP;
 
-                C_Input(cheat_noclip.sequence);
+                if (!consoleactive)
+                    C_Input(cheat_noclip.sequence);
 
                 HU_PlayerMessage(((plyr->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF),
                     false);
@@ -821,7 +827,8 @@ boolean ST_Responder(event_t *ev)
                               }
                         }
 
-                        C_Input(cheat_powerup[i].sequence);
+                        if (!consoleactive)
+                            C_Input(cheat_powerup[i].sequence);
 
                         HU_PlayerMessage((strcasecmp(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
                             s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false);
@@ -852,7 +859,8 @@ boolean ST_Responder(event_t *ev)
                             plyr->powers[i] = STARTFLASHING * (i != pw_allmap);
                         }
 
-                        C_Input(cheat_powerup[i].sequence);
+                        if (!consoleactive)
+                            C_Input(cheat_powerup[i].sequence);
 
                         HU_PlayerMessage((strcasecmp(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
                             s_STSTR_BEHOLDX : s_STSTR_BEHOLDOFF), false);
@@ -930,7 +938,8 @@ boolean ST_Responder(event_t *ev)
                     P_GivePower(plyr, pw_invulnerability);
                     plyr->powers[pw_invulnerability] = -1;
 
-                    C_Input(cheat_choppers.sequence);
+                    if (!consoleactive)
+                        C_Input(cheat_choppers.sequence);
 
                     HU_PlayerMessage(s_STSTR_CHOPPERS, false);
 
@@ -955,14 +964,16 @@ boolean ST_Responder(event_t *ev)
                     plyr->weaponowned[wp_chainsaw] = plyr->chainsawbeforechoppers;
                     oldweaponsowned[wp_chainsaw] = plyr->chainsawbeforechoppers;
 
-                    C_Input(cheat_choppers.sequence);
+                    if (!consoleactive)
+                        C_Input(cheat_choppers.sequence);
                 }
             }
 
             // 'mypos' for player position
             else if (cht_CheckCheat(&cheat_mypos, ev->data2))
             {
-                C_Input(cheat_mypos.sequence);
+                if (!consoleactive)
+                    C_Input(cheat_mypos.sequence);
 
                 // [BH] message stays on screen until toggled off again using
                 //  cheat. Code is in hu_stuff.c.
@@ -1030,7 +1041,8 @@ boolean ST_Responder(event_t *ev)
                 {
                     static char message[128];
 
-                    C_Input("%s%s", cheat_clev_xy.sequence, buf);
+                    if (!consoleactive)
+                        C_Input("%s%c%c", cheat_clev_xy.sequence, buf[0], buf[1]);
 
                     if (BTSX)
                         M_snprintf(lump, sizeof(lump), "E%iM%c%c", (BTSXE1 ? 1 : 2),
