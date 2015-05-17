@@ -682,6 +682,22 @@ static void P_LoadLineDefs(int lump)
         ld->sidenum[0] = SHORT(mld->sidenum[0]);
         ld->sidenum[1] = SHORT(mld->sidenum[1]);
 
+        // killough 4/4/98: support special sidedef interpretation below
+        if (ld->sidenum[0] != NO_INDEX && ld->special)
+            sides[*ld->sidenum].special = ld->special;
+    }
+
+    W_ReleaseLumpNum(lump);
+}
+
+// killough 4/4/98: delay using sidedefs until they are loaded
+static void P_LoadLineDefs2(int lump)
+{
+    int         i = numlines;
+    line_t      *ld = lines;
+
+    for (; i--; ld++)
+    {
         {
             // cph 2006/09/30 - fix sidedef errors right away
             int j;
@@ -709,23 +725,7 @@ static void P_LoadLineDefs(int lump)
             }
         }
 
-        // killough 4/4/98: support special sidedef interpretation below
-        if (ld->sidenum[0] != NO_INDEX && ld->special)
-            sides[*ld->sidenum].special = ld->special;
-    }
-
-    W_ReleaseLumpNum(lump);
-}
-
-// killough 4/4/98: delay using sidedefs until they are loaded
-static void P_LoadLineDefs2(int lump)
-{
-    int         i = numlines;
-    line_t      *ld = lines;
-
-    for (; i--; ld++)
-    {
-        ld->frontsector = sides[ld->sidenum[0]].sector;
+        ld->frontsector = (ld->sidenum[0] != NO_INDEX ? sides[ld->sidenum[0]].sector : 0);
         ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : 0);
 
         // killough 4/11/98: handle special types
@@ -1263,9 +1263,8 @@ void P_SetupLevel(int episode, int map)
     else
         lumpnum = W_GetNumForName(lumpname);
 
-    canmodify = (W_CheckMultipleLumps(lumpname) == 1
-                 || gamemission == pack_nerve
-                 || (nerve && gamemission == doom2));
+    canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || gamemission == pack_nerve
+        || (nerve && gamemission == doom2)) && !FREEDOOM);
 
     leveltime = 0;
 

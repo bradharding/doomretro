@@ -345,9 +345,8 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
                 *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
                     sectors[s->ceilinglightsec].lightlevel);            // killough 4/11/98
         }
-        else
-            if (heightsec != -1 && viewz >= sectors[heightsec].interpceilingheight
-                && sec->interpceilingheight > s->interpceilingheight)
+        else if (heightsec != -1 && viewz >= sectors[heightsec].interpceilingheight
+            && sec->interpceilingheight > s->interpceilingheight)
             {   // Above-ceiling hack
                 tempsec->interpceilingheight = s->interpceilingheight;
                 tempsec->interpfloorheight = s->interpceilingheight + 1;
@@ -606,18 +605,18 @@ static void R_Subsector(int num)
 
     frontsector = sub->sector;
 
-    // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
-    frontsector = R_FakeFlat(sub->sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
-
     // [AM] Interpolate sector movement.  Usually only needed
     //      when you're standing inside the sector.
     R_MaybeInterpolateSector(frontsector);
+
+    // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
+    frontsector = R_FakeFlat(sub->sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
     if (frontsector->interpfloorheight < viewz
         || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].ceilingpic == skyflatnum))
     {
         floorplane = R_FindPlane(frontsector->interpfloorheight, frontsector->floorpic,
-            frontsector->lightlevel);
+            floorlightlevel);
         floorplane->sector = frontsector;
     }
     else
@@ -627,7 +626,7 @@ static void R_Subsector(int num)
         || frontsector->ceilingpic == skyflatnum
         || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].floorpic == skyflatnum))
         ceilingplane = R_FindPlane(frontsector->interpceilingheight, frontsector->ceilingpic,
-            frontsector->lightlevel);
+            ceilinglightlevel);
     else
         ceilingplane = NULL;
 

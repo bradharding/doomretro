@@ -623,7 +623,8 @@ void R_ProjectSprite(mobj_t *thing)
 
     if (heightsec != -1)   // only clip things which are in special sectors
     {
-        int phs = viewplayer->mo->subsector->sector->heightsec;
+        int     phs = viewplayer->mo->subsector->sector->heightsec;
+
         if (phs != -1 && viewz < sectors[phs].floorheight ?
             thing->z >= sectors[heightsec].floorheight :
             gzt < sectors[heightsec].floorheight)
@@ -779,7 +780,8 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     if (heightsec != -1)   // only clip things which are in special sectors
     {
-        int phs = viewplayer->mo->subsector->sector->heightsec;
+        int     phs = viewplayer->mo->subsector->sector->heightsec;
+
         if (phs != -1 && viewz < sectors[phs].floorheight ?
             thing->z >= sectors[heightsec].floorheight :
             gzt < sectors[heightsec].floorheight)
@@ -926,7 +928,8 @@ void R_ProjectShadow(mobj_t *thing)
 
     if (heightsec != -1)   // only clip things which are in special sectors
     {
-        int phs = viewplayer->mo->subsector->sector->heightsec;
+        int     phs = viewplayer->mo->subsector->sector->heightsec;
+
         if (phs != -1 && viewz < sectors[phs].floorheight ?
             thing->z >= sectors[heightsec].floorheight :
             gzt < sectors[heightsec].floorheight)
