@@ -689,8 +689,9 @@ static void P_LoadLineDefs(int lump)
             for (j = 0; j < 2; j++)
                 if (ld->sidenum[j] != NO_INDEX && ld->sidenum[j] >= numsides)
                 {
+                    C_Warning("P_LoadLineDefs: Linedef %i has an out-of-range sidedef number "
+                        "of %i.", i, ld->sidenum[j]);
                     ld->sidenum[j] = NO_INDEX;
-                    C_Warning("P_LoadLineDefs: Linedef %i has an out-of-range sidedef number.", i);
                 }
 
             // killough 11/98: fix common wad errors (missing sidedefs):
@@ -725,7 +726,7 @@ static void P_LoadLineDefs2(int lump)
     for (; i--; ld++)
     {
         ld->frontsector = sides[ld->sidenum[0]].sector;
-        ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : NULL);
+        ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : 0);
 
         // killough 4/11/98: handle special types
         switch (ld->special)
@@ -773,7 +774,11 @@ static void P_LoadSideDefs2(int lump)
 
         // cph 2006/09/30 - catch out-of-range sector numbers; use sector 0 instead
         if (sector_num >= numsectors)
+        {
+            C_Warning("P_LoadSideDefs: Sidedef %i has an out-of-range sector number of %i.",
+                i, sector_num);
             sector_num = 0;
+        }
         sd->sector = &sectors[sector_num];
 
         // killough 4/4/98: allow sidedef texture names to be overloaded
