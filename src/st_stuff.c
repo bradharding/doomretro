@@ -1072,6 +1072,7 @@ boolean ST_Responder(event_t *ev)
                     }
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;
+                    C_HideConsole();
                 }
             }
         }
@@ -1308,7 +1309,6 @@ void ST_Ticker(void)
                 S_StopMusic();
 
             G_DeferredLoadLevel(gameskill, gameepisode, gamemap);
-            C_HideConsoleFast();
         }
     }
 }

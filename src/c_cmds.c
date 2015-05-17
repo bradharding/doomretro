@@ -1487,7 +1487,10 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
     gamemap = mapcmdmap;
     C_Output((samelevel ? "Restarting %s..." : "Warping to %s..."), uppercase(parm1));
     if (gamestate == GS_LEVEL)
+    {
         idclevtics = MAPCHANGETICS;
+        C_HideConsole();
+    }
     else
     {
         G_DeferredInitNew(selectedskilllevel, gameepisode, gamemap);
