@@ -296,13 +296,22 @@ void R_MaybeInterpolateSector(sector_t* sector)
 // killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
 //
 
-sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, boolean back)
+sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
+    int *ceilinglightlevel, boolean back)
 {
+    if (floorlightlevel)
+        *floorlightlevel = (sec->floorlightsec == -1 ? sec->lightlevel :
+            sectors[sec->floorlightsec].lightlevel);
+
+    if (ceilinglightlevel)
+        *ceilinglightlevel = (sec->ceilinglightsec == -1 ? sec->lightlevel :
+            sectors[sec->ceilinglightsec].lightlevel);
+
     if (sec->heightsec != -1)
     {
-        const sector_t *s = &sectors[sec->heightsec];
-        int heightsec = viewplayer->mo->subsector->sector->heightsec;
-        int underwater = heightsec != -1 && viewz <= sectors[heightsec].interpfloorheight;
+        const sector_t  *s = &sectors[sec->heightsec];
+        int             heightsec = viewplayer->mo->subsector->sector->heightsec;
+        int             underwater = (heightsec != -1 && viewz <= sectors[heightsec].interpfloorheight);
 
         // Replace sector being drawn, with a copy to be hacked
         *tempsec = *sec;
@@ -314,7 +323,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, boolean back)
         // killough 11/98: prevent sudden light changes from non-water sectors:
         if (underwater && (tempsec->interpfloorheight = sec->interpfloorheight,
             tempsec->interpceilingheight = s->interpfloorheight - 1, !back))
-        {                   // head-below-floor hack
+        {   // head-below-floor hack
             tempsec->floorpic = s->floorpic;
 
             if (underwater)
@@ -324,15 +333,21 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, boolean back)
                     tempsec->ceilingpic = tempsec->floorpic;
                 }
                 else
-                {
                     tempsec->ceilingpic = s->ceilingpic;
-                }
 
             tempsec->lightlevel = s->lightlevel;
+
+            if (floorlightlevel)
+                *floorlightlevel = (s->floorlightsec == -1 ? s->lightlevel :
+                    sectors[s->floorlightsec].lightlevel);              // killough 3/16/98
+
+            if (ceilinglightlevel)
+                *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
+                    sectors[s->ceilinglightsec].lightlevel);            // killough 4/11/98
         }
         else
-            if (heightsec != -1 && viewz >= sectors[heightsec].interpceilingheight &&
-                sec->interpceilingheight > s->interpceilingheight)
+            if (heightsec != -1 && viewz >= sectors[heightsec].interpceilingheight
+                && sec->interpceilingheight > s->interpceilingheight)
             {   // Above-ceiling hack
                 tempsec->interpceilingheight = s->interpceilingheight;
                 tempsec->interpfloorheight = s->interpceilingheight + 1;
@@ -345,6 +360,14 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, boolean back)
                 }
 
                 tempsec->lightlevel = s->lightlevel;
+
+                if (floorlightlevel)
+                    *floorlightlevel = (s->floorlightsec == -1 ? s->lightlevel :
+                        sectors[s->floorlightsec].lightlevel);          // killough 3/16/98
+
+                if (ceilinglightlevel)
+                    *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
+                        sectors[s->ceilinglightsec].lightlevel);        // killough 4/11/98
             }
         sec = tempsec;               // Use other sector
     }
@@ -429,7 +452,7 @@ static void R_AddLine(seg_t *line)
     R_MaybeInterpolateSector(backsector);
 
     // killough 3/8/98, 4/4/98: hack for invisible ceilings / deep water
-    backsector = R_FakeFlat(backsector, &tempsec, true);
+    backsector = R_FakeFlat(backsector, &tempsec, NULL, NULL, true);
     doorclosed = false;
 
     // Closed door.
@@ -453,7 +476,11 @@ static void R_AddLine(seg_t *line)
     if (backsector->ceilingpic == frontsector->ceilingpic
         && backsector->floorpic == frontsector->floorpic
         && backsector->lightlevel == frontsector->lightlevel
-        && !curline->sidedef->midtexture)
+        && !curline->sidedef->midtexture
+
+        // killough 4/16/98: consider altered lighting
+        && backsector->floorlightsec == frontsector->floorlightsec
+        && backsector->ceilinglightsec == frontsector->ceilinglightsec)
         return;
 
 clippass:
@@ -572,13 +599,15 @@ static void R_Subsector(int num)
 {
     subsector_t *sub = &subsectors[num];
     sector_t    tempsec;              // killough 3/7/98: deep water hack
+    int         floorlightlevel;      // killough 3/16/98: set floor lightlevel
+    int         ceilinglightlevel;    // killough 4/11/98
     int         count = sub->numlines;
     seg_t       *line = &segs[sub->firstline];
 
     frontsector = sub->sector;
 
     // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
-    frontsector = R_FakeFlat(sub->sector, &tempsec, false);   // killough 4/11/98
+    frontsector = R_FakeFlat(sub->sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
     // [AM] Interpolate sector movement.  Usually only needed
     //      when you're standing inside the sector.
@@ -602,7 +631,20 @@ static void R_Subsector(int num)
     else
         ceilingplane = NULL;
 
-    R_AddSprites(frontsector);
+    // killough 9/18/98: Fix underwater slowdown, by passing real sector 
+    // instead of fake one. Improve sprite lighting by basing sprite
+    // lightlevels on floor & ceiling lightlevels in the surrounding area.
+    //
+    // 10/98 killough:
+    //
+    // NOTE: TeamTNT fixed this bug incorrectly, messing up sprite lighting!!!
+    // That is part of the 242 effect!!!  If you simply pass sub->sector to
+    // the old code you will not get correct lighting for underwater sprites!!!
+    // Either you must pass the fake sector and handle validcount here, on the
+    // real sector, or you must account for the lighting in some other way, 
+    // like passing it as an argument.
+
+    R_AddSprites(sub->sector, (floorlightlevel + ceilinglightlevel) / 2);
 
     while (count--)
         R_AddLine(line++);

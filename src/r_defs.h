@@ -153,6 +153,9 @@ typedef struct
 
     // killough 3/7/98: support flat heights drawn at another sector's heights
     int                 heightsec;              // other sector, or -1 if no other sector
+
+    // killough 4/11/98: support for lightlevels coming from another sector
+    int                 floorlightsec, ceilinglightsec;
 } sector_t;
 
 //
@@ -455,6 +458,7 @@ typedef enum
     SR_Teleport_AlsoMonsters_Silent_SameAngle                      = 210,
     SR_Lift_RaiseToCeiling_Instantly                               = 211,
     WR_Lift_RaiseToCeiling_Instantly                               = 212,
+    Floor_ChangeBrightnessToThisBrightness                         = 213,
 
     W1_Floor_LowerToNearestFloor                                   = 219,
     WR_Floor_LowerToNearestFloor                                   = 220,
@@ -470,7 +474,7 @@ typedef enum
     SR_Stairs_RaiseBy8                                             = 258,
     SR_Stairs_RaiseBy16_Fast                                       = 259,
     Translucent_MiddleTexture                                      = 260,
-
+    Ceiling_ChangeBrightnessToThisBrightness                       = 261,
     W1_TeleportToLineWithSameTag_Silent_ReversedAngle              = 262,
     WR_TeleportToLineWithSameTag_Silent_ReversedAngle              = 263,
     W1_TeleportToLineWithSameTag_MonstersOnly_Silent_ReversedAngle = 264,

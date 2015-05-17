@@ -1471,6 +1471,9 @@ void P_SpawnSpecials(void)
     numlinespecials = 0;
     for (i = 0; i < numlines; i++)
     {
+        int sec;
+        int s;
+
         switch (lines[i].special)
         {
             case ScrollTextureLeft:
@@ -1482,14 +1485,26 @@ void P_SpawnSpecials(void)
             // killough 3/7/98:
             // support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
-            {
-                int sec = sides[*lines[i].sidenum].sector - sectors;
-                int s;
-
+                sec = sides[*lines[i].sidenum].sector - sectors;
                 for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
                     sectors[s].heightsec = sec;
                 break;
-            }
+
+            // killough 3/16/98: Add support for setting
+            // floor lighting independently (e.g. lava)
+            case Floor_ChangeBrightnessToThisBrightness:
+                sec = sides[*lines[i].sidenum].sector - sectors;
+                for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
+                    sectors[s].floorlightsec = sec;
+                break;
+
+            // killough 4/11/98: Add support for setting
+            // ceiling lighting independently
+            case Ceiling_ChangeBrightnessToThisBrightness:
+                sec = sides[*lines[i].sidenum].sector - sectors;
+                for (s = -1; (s = P_FindSectorFromLineTag(lines + i, s)) >= 0;)
+                    sectors[s].ceilinglightsec = sec;
+                break;
         }
     }
 

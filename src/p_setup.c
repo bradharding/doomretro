@@ -258,20 +258,9 @@ void P_LoadSegs(int lump)
             li->frontsector = 0;
         }
 
-        if (ldef-> flags & ML_TWOSIDED)
-        {
-            int sidenum = ldef->sidenum[side ^ 1];
-
-            // If the sidenum is out of range, this may be a "glass hack"
-            // impassible window.  Point at side #0 (this may not be
-            // the correct Vanilla behavior; however, it seems to work for
-            // OTTAWAU.WAD, which is the one place I've seen this trick
-            // used).
-            if (sidenum < 0 || sidenum >= numsides)
-                sidenum = 0;
-
-            li->backsector = sides[sidenum].sector;
-        }
+        // killough 5/3/98: ignore 2s flag if second sidedef missing:
+        if (ldef->flags & ML_TWOSIDED && ldef->sidenum[side ^ 1] != -1)
+            li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
             li->backsector = 0;
 
@@ -422,6 +411,8 @@ void P_LoadSectors(int lump)
 
         // killough 3/7/98:
         ss->heightsec = -1;       // sector used to get floor and ceiling height
+        ss->floorlightsec = -1;   // sector used to get floor lighting
+        ss->ceilinglightsec = -1; // sector used to get ceiling lighting
 
         // Apply any level-specific fixes.
         if (canmodify && mapfixes)
@@ -625,8 +616,9 @@ void P_LoadThings(int lump)
 //
 // P_LoadLineDefs
 // Also counts secret lines for intermissions.
+// killough 4/4/98: split into two functions, to allow sidedef overloading
 //
-void P_LoadLineDefs(int lump)
+static void P_LoadLineDefs(int lump)
 {
     const byte  *data = W_CacheLumpNum(lump, PU_STATIC);
     int         i;
@@ -643,28 +635,22 @@ void P_LoadLineDefs(int lump)
 
         ld->flags = (unsigned short)SHORT(mld->flags);
         ld->hidden = false;
+
         ld->special = SHORT(mld->special);
+        // [crispy] warn about unknown linedef types
+        if ((unsigned short)ld->special >= UNKNOWNLINESPECIAL)
+            C_Warning("Linedef %s has an unknown special of %s.", commify(i), commify(ld->special));
+
         ld->tag = SHORT(mld->tag);
         v1 = ld->v1 = &vertexes[(unsigned short)SHORT(mld->v1)];
         v2 = ld->v2 = &vertexes[(unsigned short)SHORT(mld->v2)];
         ld->dx = v2->x - v1->x;
         ld->dy = v2->y - v1->y;
 
-        // [crispy] warn about unknown linedef types
-        if ((unsigned short)ld->special >= UNKNOWNLINESPECIAL)
-            C_Warning("Linedef %s has an unknown special of %s.", commify(i), commify(ld->special));
+        ld->tranlump = -1;   // killough 4/11/98: no translucency by default
 
-        if (!ld->dx)
-            ld->slopetype = ST_VERTICAL;
-        else if (!ld->dy)
-            ld->slopetype = ST_HORIZONTAL;
-        else
-        {
-            if (FixedDiv(ld->dy , ld->dx) > 0)
-                ld->slopetype = ST_POSITIVE;
-            else
-                ld->slopetype = ST_NEGATIVE;
-        }
+        ld->slopetype = !ld->dx ? ST_VERTICAL : !ld->dy ? ST_HORIZONTAL :
+            FixedDiv(ld->dy, ld->dx) > 0 ? ST_POSITIVE : ST_NEGATIVE;
 
         if (v1->x < v2->x)
         {
@@ -722,40 +708,59 @@ void P_LoadLineDefs(int lump)
             }
         }
 
-        ld->frontsector = (ld->sidenum[0] == NO_INDEX ? 0 : sides[ld->sidenum[0]].sector);
-        ld->backsector = (ld->sidenum[1] == NO_INDEX ? 0 : sides[ld->sidenum[1]].sector);
-
-        switch (ld->special)
-        {                       // killough 4/11/98: handle special types
-            int lump, j;
-
-            case Translucent_MiddleTexture:               // killough 4/11/98: translucent 2s textures
-                lump = sides[*ld->sidenum].special; // translucency from sidedef
-                if (!ld->tag)                       // if tag==0,
-                    ld->tranlump = lump;              // affect this linedef only
-                else
-                    for (j = 0; j<numlines; j++)          // if tag!=0,
-                        if (lines[j].tag == ld->tag)    // affect all matching linedefs
-                            lines[j].tranlump = lump;
-                break;
-        }
+        // killough 4/4/98: support special sidedef interpretation below
+        if (ld->sidenum[0] != NO_INDEX && ld->special)
+            sides[*ld->sidenum].special = ld->special;
     }
 
     W_ReleaseLumpNum(lump);
 }
 
+// killough 4/4/98: delay using sidedefs until they are loaded
+static void P_LoadLineDefs2(int lump)
+{
+    int         i = numlines;
+    line_t      *ld = lines;
+
+    for (; i--; ld++)
+    {
+        ld->frontsector = sides[ld->sidenum[0]].sector;
+        ld->backsector = (ld->sidenum[1] != NO_INDEX ? sides[ld->sidenum[1]].sector : NULL);
+
+        // killough 4/11/98: handle special types
+        switch (ld->special)
+        {
+            int lump, j;
+
+            case Translucent_MiddleTexture:             // killough 4/11/98: translucent 2s textures
+                lump = sides[*ld->sidenum].special;     // translucency from sidedef
+                if (!ld->tag)                           // if tag==0,
+                    ld->tranlump = lump;                // affect this linedef only
+                else
+                    for (j = 0; j < numlines; j++)      // if tag!=0,
+                        if (lines[j].tag == ld->tag)    // affect all matching linedefs
+                            lines[j].tranlump = lump;
+                break;
+        }
+    }
+}
+
 //
 // P_LoadSideDefs
 //
-void P_LoadSideDefs(int lump)
+// killough 4/4/98: split into two functions
+static void P_LoadSideDefs(int lump)
 {
-    const byte  *data;
-    int         i;
-
     numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
     sides = calloc_IfSameLevel(sides, numsides, sizeof(side_t));
     memset(sides, 0, numsides * sizeof(side_t));
-    data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+}
+
+// killough 4/4/98: delay using texture names until after linedefs are loaded, to allow overloading.
+static void P_LoadSideDefs2(int lump)
+{
+    const byte  *data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
+    int         i;
 
     for (i = 0; i < numsides; i++)
     {
@@ -771,6 +776,7 @@ void P_LoadSideDefs(int lump)
             sector_num = 0;
         sd->sector = &sectors[sector_num];
 
+        // killough 4/4/98: allow sidedef texture names to be overloaded
         switch (sd->special)
         {
             case Translucent_MiddleTexture: // killough 4/11/98: apply translucency to 2s normal texture
@@ -1267,6 +1273,7 @@ void P_SetupLevel(int episode, int map)
 
     if (!samelevel)
     {
+
         free(segs);
         free(nodes);
         free(subsectors);
@@ -1278,17 +1285,19 @@ void P_SetupLevel(int episode, int map)
         free(vertexes);
     }
 
+    P_LoadVertexes(lumpnum + ML_VERTEXES);
+    P_LoadSectors(lumpnum + ML_SECTORS);
+    P_LoadSideDefs(lumpnum + ML_SIDEDEFS);
+    P_LoadLineDefs(lumpnum + ML_LINEDEFS);
+    P_LoadSideDefs2(lumpnum + ML_SIDEDEFS);
+    P_LoadLineDefs2(lumpnum + ML_LINEDEFS);
+
     // note: most of this ordering is important
     if (!samelevel)
         P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
     else
         memset(blocklinks, 0, bmapwidth * bmapheight * sizeof(*blocklinks));
 
-    P_LoadVertexes(lumpnum + ML_VERTEXES);
-    P_LoadSectors(lumpnum + ML_SECTORS);
-    P_LoadSideDefs(lumpnum + ML_SIDEDEFS);
-
-    P_LoadLineDefs(lumpnum + ML_LINEDEFS);
     P_LoadSubsectors(lumpnum + ML_SSECTORS);
     P_LoadNodes(lumpnum + ML_NODES);
     P_LoadSegs(lumpnum + ML_SEGS);

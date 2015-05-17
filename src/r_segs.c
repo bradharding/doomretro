@@ -268,7 +268,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     texheight = textureheight[texnum];
 
     // killough 4/13/98: get correct lightlevel for 2s normal textures
-    lightnum = (R_FakeFlat(frontsector, &tempsec, false)->lightlevel >> LIGHTSEGSHIFT)
+    lightnum = (R_FakeFlat(frontsector, &tempsec, NULL, NULL, false)->lightlevel >> LIGHTSEGSHIFT)
         + extralight * LIGHTBRIGHT;
 
     if (curline->v1->y == curline->v2->y)
@@ -781,7 +781,10 @@ void R_StoreWallRange(int start, int stop)
 
             // killough 4/15/98: prevent 2s normals
             // from bleeding through deep water
-            || frontsector->heightsec != -1);
+            || frontsector->heightsec != -1
+
+            // killough 4/17/98: draw floors if different light levels
+            || backsector->floorlightsec != frontsector->floorlightsec);
 
         markceiling = (worldhigh != worldtop
             || backsector->ceilingpic != frontsector->ceilingpic
@@ -789,7 +792,10 @@ void R_StoreWallRange(int start, int stop)
 
             // killough 4/15/98: prevent 2s normals
             // from bleeding through fake ceilings
-            || (frontsector->heightsec != -1 && frontsector->ceilingpic != skyflatnum));
+            || (frontsector->heightsec != -1 && frontsector->ceilingpic != skyflatnum)
+
+            // killough 4/17/98: draw ceilings if different light levels
+            || backsector->ceilinglightsec != frontsector->ceilinglightsec);
 
 
         if (backsector->interpceilingheight <= frontsector->interpfloorheight
