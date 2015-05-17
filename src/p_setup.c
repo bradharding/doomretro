@@ -420,13 +420,6 @@ void P_LoadSectors(int lump)
         if ((unsigned short)ss->special >= UNKNOWNSECTORSPECIAL)
             C_Warning("Sector %s has an unknown special of %s.", commify(i), commify(ss->special));
 
-        // [AM] Sector interpolation. Even if we're
-        //      not running uncapped, the renderer still
-        //      uses this data.
-        ss->oldfloorheight = ss->floorheight;
-        ss->interpfloorheight = ss->floorheight;
-        ss->oldceilingheight = ss->ceilingheight;
-        ss->interpceilingheight = ss->ceilingheight;
 
         // Apply any level-specific fixes.
         if (canmodify && mapfixes)
@@ -457,6 +450,14 @@ void P_LoadSectors(int lump)
                 j++;
             }
         }
+
+        // [AM] Sector interpolation. Even if we're
+        //      not running uncapped, the renderer still
+        //      uses this data.
+        ss->oldfloorheight = ss->floorheight;
+        ss->interpfloorheight = ss->floorheight;
+        ss->oldceilingheight = ss->ceilingheight;
+        ss->interpceilingheight = ss->ceilingheight;
     }
 
     W_ReleaseLumpNum(lump);
