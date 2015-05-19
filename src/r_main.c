@@ -101,10 +101,15 @@ angle_t                 xtoviewangle[SCREENWIDTH + 1];
 
 fixed_t                 *finecosine = &finesine[FINEANGLES / 4];
 
-lighttable_t            *scalelight[LIGHTLEVELS][MAXLIGHTSCALE];
-lighttable_t            *psprscalelight[LIGHTLEVELS][MAXLIGHTSCALE];
-lighttable_t            *scalelightfixed[MAXLIGHTSCALE];
-lighttable_t            *zlight[LIGHTLEVELS][MAXLIGHTZ];
+// killough 3/20/98: Support dynamic colormaps, e.g. deep water
+// killough 4/4/98: support dynamic number of them as well
+int                     numcolormaps = 1;
+lighttable_t            *(*c_scalelight)[LIGHTLEVELS][MAXLIGHTSCALE];
+lighttable_t            *(*c_zlight)[LIGHTLEVELS][MAXLIGHTZ];
+lighttable_t            *(*scalelight)[MAXLIGHTSCALE];
+lighttable_t            *(*zlight)[MAXLIGHTZ];
+lighttable_t            *fullcolormap;
+lighttable_t            **colormaps;
 
 // bumped light from gun blasts
 int                     extralight;
@@ -422,6 +427,10 @@ void R_InitLightTables(void)
 {
     int i;
 
+    // killough 4/4/98: dynamic colormaps
+    c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
+    c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
+
     // Calculate the light levels to use
     //  for each level / distance combination.
     for (i = 0; i < LIGHTLEVELS; i++)
@@ -431,9 +440,12 @@ void R_InitLightTables(void)
         for (j = 0; j < MAXLIGHTZ; j++)
         {
             int scale = FixedDiv(SCREENWIDTH / 2 * FRACUNIT, (j + 1) << LIGHTZSHIFT);
+            int t, level = BETWEEN(0, startmap - (scale >>= LIGHTSCALESHIFT) / DISTMAP,
+                NUMCOLORMAPS - 1) * 256;
 
-            zlight[i][j] = colormaps + BETWEEN(0,
-                startmap - (scale >> LIGHTSCALESHIFT) / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            // killough 3/20/98: Initialize multiple colormaps
+            for (t = 0; t < numcolormaps; t++)
+                c_zlight[t][i][j] = colormaps[t] + level;
         }
     }
 }
@@ -522,12 +534,12 @@ void R_ExecuteSetViewSize(void)
 
         for (j = 0; j < MAXLIGHTSCALE; j++)
         {
-            scalelight[i][j] = colormaps + 
-                BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP), NUMCOLORMAPS - 1) * 256;
+            int t, level = BETWEEN(0, startmap - j * SCREENWIDTH / (viewwidth * DISTMAP),
+                NUMCOLORMAPS - 1) * 256;
 
-            // [BH] calculate separate light levels to use when drawing
-            //  player's weapon, so it stays consistent regardless of view size
-            psprscalelight[i][j] = colormaps + BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
+            // killough 3/20/98: initialize multiple colormaps
+            for (t = 0; t < numcolormaps; t++)     // killough 4/4/98
+                c_scalelight[t][i][j] = colormaps[t] + level;
         }
     }
 }
@@ -657,6 +669,8 @@ subsector_t *R_PointInSubsector(fixed_t x, fixed_t y)
 //
 void R_SetupFrame(player_t *player)
 {
+    int cm;
+
     viewplayer = player;
 
     // [AM] Interpolate the player camera if the feature is enabled.
@@ -694,15 +708,35 @@ void R_SetupFrame(player_t *player)
     viewsin = finesine[viewangle >> ANGLETOFINESHIFT];
     viewcos = finecosine[viewangle >> ANGLETOFINESHIFT];
 
+    // killough 3/20/98, 4/4/98: select colormap based on player status
+    if (player->mo->subsector->sector->heightsec != -1)
+    {
+        const sector_t  *s = player->mo->subsector->sector->heightsec + sectors;
+
+        cm = (viewz < s->floorheight ? s->bottommap : viewz > s->ceilingheight ? s->topmap :
+            s->midmap);
+        if (cm < 0 || cm > numcolormaps)
+            cm = 0;
+    }
+    else
+        cm = 0;
+
+    fullcolormap = colormaps[cm];
+    zlight = c_zlight[cm];
+    scalelight = c_scalelight[cm];
+
     if (player->fixedcolormap)
     {
-        int     i;
+        // killough 3/20/98: localize scalelightfixed (readability/optimization)
+        static lighttable_t     *scalelightfixed[MAXLIGHTSCALE];
+        int                     i;
 
-        fixedcolormap = colormaps + player->fixedcolormap * 256 * sizeof(lighttable_t);
+        fixedcolormap = fullcolormap   // killough 3/20/98: use fullcolormap
+            + player->fixedcolormap * 256 * sizeof(lighttable_t);
 
         walllights = scalelightfixed;
 
-        for (i = 0; i < MAXLIGHTSCALE; i++)
+        for (i = 0; i<MAXLIGHTSCALE; i++)
             scalelightfixed[i] = fixedcolormap;
     }
     else

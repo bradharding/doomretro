@@ -140,4 +140,6 @@ int R_CheckFlatNumForName(char *name);
 int R_TextureNumForName(char *name);
 int R_CheckTextureNumForName(char *name);
 
+int R_ColormapNumForName(char *name);   // killough 4/4/98
+
 #endif

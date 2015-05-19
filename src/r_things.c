@@ -698,7 +698,7 @@ void R_ProjectSprite(mobj_t *thing)
     if (fixedcolormap)
         vis->colormap = fixedcolormap;          // fixed map
     else if ((frame & FF_FULLBRIGHT) && (rot <= 3 || rot >= 7))
-        vis->colormap = colormaps;              // full bright
+        vis->colormap = fullcolormap;           // full bright
     else                                        // diminished light
         vis->colormap = spritelights[BETWEEN(0, xscale >> LIGHTSCALESHIFT, MAXLIGHTSCALE - 1)];
 }
@@ -1139,14 +1139,14 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         else
         {
             if (bflash || (frame & FF_FULLBRIGHT))
-                vis->colormap = colormaps;      // full bright
+                vis->colormap = fullcolormap;   // full bright
             else
             {
                 // local light
                 int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
                     + extralight * LIGHTBRIGHT;
 
-                vis->colormap = psprscalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)]
+                vis->colormap = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)]
                     [BETWEEN(0, lightnum + 8, MAXLIGHTSCALE - 1)];
             }
         }

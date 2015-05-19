@@ -76,10 +76,12 @@ extern int              validcount;
 #define MAXLIGHTZ       1024
 #define LIGHTZSHIFT     17
 
-extern lighttable_t     *scalelight[LIGHTLEVELS][MAXLIGHTSCALE];
-extern lighttable_t     *psprscalelight[LIGHTLEVELS][MAXLIGHTSCALE];
-extern lighttable_t     *scalelightfixed[MAXLIGHTSCALE];
-extern lighttable_t     *zlight[LIGHTLEVELS][MAXLIGHTZ];
+// killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
+extern lighttable_t     *(*scalelight)[MAXLIGHTSCALE];
+extern lighttable_t     *(*zlight)[MAXLIGHTZ];
+extern lighttable_t     *fullcolormap;
+extern int              numcolormaps;   // killough 4/4/98: dynamic number of maps
+extern lighttable_t     **colormaps;
 
 extern int              extralight;
 extern lighttable_t     *fixedcolormap;

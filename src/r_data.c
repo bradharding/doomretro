@@ -55,6 +55,9 @@
 // a patch or sprite is composed of zero or more columns.
 //
 
+// killough 4/17/98: make firstcolormaplump, lastcolormaplump external
+int             firstcolormaplump, lastcolormaplump;    // killough 4/17/98
+
 int             firstflat;
 int             lastflat;
 int             numflats;
@@ -92,8 +95,6 @@ fixed_t         *spriteoffset;
 fixed_t         *spritetopoffset;
 
 boolean         spritefixes = SPRITEFIXES_DEFAULT;
-
-lighttable_t    *colormaps;
 
 boolean         *lookuptextures;
 int             lookupprogress;
@@ -836,20 +837,39 @@ void R_InitSpriteLumps(void)
 //
 // R_InitColormaps
 //
+// killough 3/20/98: rewritten to allow dynamic colormaps
+// and to remove unnecessary 256-byte alignment
+//
+// killough 4/4/98: Add support for C_START/C_END markers
+//
 extern int FindNearestColor(byte *palette, int red, int green, int blue);
 
 byte grays[256];
 
 void R_InitColormaps(void)
 {
-    int         lump = W_GetNumForName("COLORMAP");
     boolean     COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     int         i;
     byte        *palsrc, *palette;
 
-    // Load in the light tables,
-    //  256 byte align tables.
-    colormaps = (lighttable_t *)W_CacheLumpNum(lump, PU_STATIC);
+    if (W_CheckNumForName("C_START") >= 0 && W_CheckNumForName("C_END") >= 0)
+    {
+        firstcolormaplump = W_GetNumForName("C_START");
+        lastcolormaplump = W_GetNumForName("C_END");
+        numcolormaps = lastcolormaplump - firstcolormaplump;
+
+        colormaps = Z_Malloc(sizeof(*colormaps) * numcolormaps, PU_STATIC, 0);
+
+        colormaps[0] = W_CacheLumpNum(W_GetNumForName("COLORMAP"), PU_STATIC);
+
+        for (i = 1; i < numcolormaps; i++)
+            colormaps[i] = W_CacheLumpNum(i + firstcolormaplump, PU_STATIC);
+    }
+    else
+    {
+        colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, 0);
+        colormaps[0] = W_CacheLumpNum(W_GetNumForName("COLORMAP"), PU_STATIC);
+    }
 
     // [BH] There's a typo in dcolors.c, the source code of the utility Id
     // Software used to construct the palettes and colormaps for DOOM (see
@@ -875,9 +895,24 @@ void R_InitColormaps(void)
         if (!COLORMAP)
         {
             gray = (1.0f - gray) * 255.0f;
-            colormaps[32 * 256 + i] = FindNearestColor(palette, (int)gray, (int)gray, (int)gray);
+            colormaps[0][32 * 256 + i] = FindNearestColor(palette, (int)gray, (int)gray, (int)gray);
         }
     }
+}
+
+// killough 4/4/98: get colormap number from name
+// killough 4/11/98: changed to return -1 for illegal names
+int R_ColormapNumForName(char *name)
+{
+    register int i = 0;
+
+    if (numcolormaps == 1)
+        return -1;
+
+    if (strncasecmp(name, "COLORMAP", 8))     // COLORMAP predefined to return 0
+        if ((i = W_CheckNumForName(name)) != -1)
+            i -= firstcolormaplump;
+    return i;
 }
 
 //

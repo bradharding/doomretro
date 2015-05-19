@@ -767,6 +767,7 @@ static void P_LoadSideDefs2(int lump)
     {
         mapsidedef_t    *msd = (mapsidedef_t *)data + i;
         side_t          *sd = sides + i;
+        sector_t        *sec;
         unsigned short  sector_num = SHORT(msd->sector);
 
         sd->textureoffset = SHORT(msd->textureoffset) << FRACBITS;
@@ -779,11 +780,23 @@ static void P_LoadSideDefs2(int lump)
                 i, sector_num);
             sector_num = 0;
         }
-        sd->sector = &sectors[sector_num];
+        sd->sector = sec = &sectors[sector_num];
 
         // killough 4/4/98: allow sidedef texture names to be overloaded
         switch (sd->special)
         {
+            case 242:                       // variable colormap via 242 linedef
+                sd->bottomtexture =
+                    (sec->bottommap = R_ColormapNumForName(msd->bottomtexture)) < 0 ?
+                    sec->bottommap = 0, R_TextureNumForName(msd->bottomtexture) : 0;
+                sd->midtexture =
+                    (sec->midmap = R_ColormapNumForName(msd->midtexture)) < 0 ?
+                    sec->midmap = 0, R_TextureNumForName(msd->midtexture) : 0;
+                sd->toptexture =
+                    (sec->topmap = R_ColormapNumForName(msd->toptexture)) < 0 ?
+                    sec->topmap = 0, R_TextureNumForName(msd->toptexture) : 0;
+                break;
+
             case Translucent_MiddleTexture: // killough 4/11/98: apply translucency to 2s normal texture
                 sd->midtexture = strncasecmp("TRANMAP", msd->midtexture, 8) ?
                     (sd->special = W_CheckNumForName(msd->midtexture)) < 0 ||

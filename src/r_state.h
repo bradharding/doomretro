@@ -60,7 +60,8 @@ extern fixed_t          *spriteheight;
 extern fixed_t          *spriteoffset;
 extern fixed_t          *spritetopoffset;
 
-extern lighttable_t     *colormaps;
+extern lighttable_t     **colormaps;    // killough 3/20/98, 4/4/98
+extern lighttable_t     *fullcolormap;  // killough 3/20/98
 
 extern int              viewwidth;
 extern int              scaledviewwidth;

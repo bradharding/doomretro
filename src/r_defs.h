@@ -156,6 +156,9 @@ typedef struct
 
     // killough 4/11/98: support for lightlevels coming from another sector
     int                 floorlightsec, ceilinglightsec;
+
+    // killough 4/4/98: dynamic colormaps
+    int                 bottommap, midmap, topmap;
 } sector_t;
 
 //
