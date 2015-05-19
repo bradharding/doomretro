@@ -1656,6 +1656,7 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
 {
     player_t    *player = &players[0];
+    static char buffer[1024];
 
     if (parm1[0])
     {
@@ -1669,7 +1670,7 @@ static void C_NoClip(char *cmd, char *parm1, char *parm2)
     else
         player->cheats ^= CF_NOCLIP;
 
-    C_Output("%s.", ((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF));
+    HU_PlayerMessage(((player->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF), false);
 }
 
 static void C_NoTarget(char *cmd, char *parm1, char *parm2)
@@ -1688,7 +1689,7 @@ static void C_NoTarget(char *cmd, char *parm1, char *parm2)
     else
         player->cheats ^= CF_NOTARGET;
 
-    C_Output((player->cheats & CF_NOTARGET) ? s_STSTR_NTON : s_STSTR_NTOFF);
+    HU_PlayerMessage(((player->cheats & CF_NOTARGET) ? s_STSTR_NTON : s_STSTR_NTOFF), false);
 }
 
 static void C_PixelSize(char *cmd, char *parm1, char *parm2)
