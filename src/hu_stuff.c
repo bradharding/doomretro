@@ -618,15 +618,11 @@ void HU_PlayerMessage(char *message, boolean ingame)
     char        lastchar;
 
     if (message[0] == '%' && message[1] == 's')
-    {
-
         M_snprintf(buffer, sizeof(buffer), message, playername);
-        buffer[0] = toupper(buffer[0]);
-        lastchar = message[strlen(buffer) - 1];
-    }
     else
         M_StringCopy(buffer, message, sizeof(buffer));
     
+    buffer[0] = toupper(buffer[0]);
     lastchar = buffer[strlen(buffer) - 1];
 
     if (plr && !consoleactive && !message_dontfuckwithme)
