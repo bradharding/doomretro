@@ -1553,7 +1553,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
             continue;
 
         M_StringCopy(wad, uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)), MAX_PATH);
-        replaced = (W_CheckMultipleLumps(lump) > 1 && !chex);
+        replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
         pwad = (lumpinfo[i].wad_file->type == PWAD);
 
         switch (gamemission)
