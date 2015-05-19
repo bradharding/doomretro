@@ -1013,7 +1013,7 @@ boolean C_Responder(event_t *ev)
             case KEY_UPARROW:
                 for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; --i)
                 {
-                    if (console[i].type == input)
+                    if (console[i].type == input && strcasecmp(consoleinput, console[i].string))
                     {
                         inputhistory = i;
                         M_StringCopy(consoleinput, console[i].string, 255);
@@ -1030,7 +1030,8 @@ boolean C_Responder(event_t *ev)
                 if (inputhistory != -1)
                 {
                     for (i = inputhistory + 1; i < consolestrings; ++i)
-                        if (console[i].type == input)
+                        if (console[i].type == input
+                            && strcasecmp(consoleinput, console[i].string))
                         {
                             inputhistory = i;
                             M_StringCopy(consoleinput, console[i].string, 255);
@@ -1107,7 +1108,8 @@ boolean C_Responder(event_t *ev)
         if (ev->data1 > 0)
         {
             if (consolestrings > 10)
-                outputhistory = (outputhistory == -1 ? consolestrings - 11 : MAX(0, outputhistory - 1));
+                outputhistory = (outputhistory == -1 ? consolestrings - 11 :
+                    MAX(0, outputhistory - 1));
         }
 
         // scroll output down
