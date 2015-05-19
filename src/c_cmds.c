@@ -1472,6 +1472,8 @@ static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_Map(char *cmd, char *parm1, char *parm2)
 {
+    static char buffer[1024];
+
     if (!parm1[0])
     {
         C_Output("map "MAPCMDFORMAT);
@@ -1485,7 +1487,11 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
         EpiDef.lastOn = selectedepisode;
     }
     gamemap = mapcmdmap;
-    C_Output((samelevel ? "Restarting %s..." : "Warping to %s..."), uppercase(parm1));
+    M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."),
+        uppercase(parm1));
+    C_Output(buffer);
+    players[0].message = buffer;
+    message_dontfuckwithme = true;
     if (gamestate == GS_LEVEL)
     {
         idclevtics = MAPCHANGETICS;
