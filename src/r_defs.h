@@ -151,6 +151,10 @@ typedef struct
     fixed_t             interpfloorheight;
     fixed_t             interpceilingheight;
 
+    // killough 3/7/98: floor and ceiling texture offsets
+    fixed_t             floor_xoffs, floor_yoffs;
+    fixed_t             ceiling_xoffs, ceiling_yoffs;
+
     // killough 3/7/98: support flat heights drawn at another sector's heights
     int                 heightsec;              // other sector, or -1 if no other sector
 
@@ -296,7 +300,7 @@ typedef enum
     SR_Floor_LowerToHighestFloor                                   =  45,
     GR_Door_OpenStay                                               =  46,
     G1_Floor_RaiseToNextHighestFloor_ChangesTexture                =  47,
-    ScrollTextureLeft                                              =  48,
+    Scroll_ScrollTextureLeft                                       =  48,
     S1_Ceiling_LowerTo8AboveFloor_PerpetualSlowCrusherDamage       =  49,
     S1_Door_CloseStay                                              =  50,
     S1_ExitLevel_GoesToSecretLevel                                 =  51,
@@ -333,7 +337,7 @@ typedef enum
     WR_Floor_LowerToLowestFloor                                    =  82,
     WR_Floor_LowerToHighestFloor                                   =  83,
     WR_Floor_LowerToLowestFloor_ChangesTexture                     =  84,
-    ScrollTextureRight                                             =  85,
+    Scroll_ScrollTextureRight                                      =  85,
     WR_Door_OpenStay                                               =  86,
     WR_Floor_StartMovingUpAndDown                                  =  87,
     WR_Lift_LowerWaitRaise                                         =  88,
@@ -462,7 +466,11 @@ typedef enum
     SR_Lift_RaiseToCeiling_Instantly                               = 211,
     WR_Lift_RaiseToCeiling_Instantly                               = 212,
     Floor_ChangeBrightnessToThisBrightness                         = 213,
-
+    Scroll_CeilingAcceleratesWhenSectorHeightChanges               = 214,
+    Scroll_FloorAcceleratesWhenSectorHeightChanges                 = 215,
+    Scroll_ThingsAccelerateWhenSectorHeightChanges                 = 216,
+    Scroll_FloorAndThingsAccelerateWhenSectorHeightChanges         = 217,
+    Scroll_WallAcceleratesWhenSectorHeightChanges                  = 218,
     W1_Floor_LowerToNearestFloor                                   = 219,
     WR_Floor_LowerToNearestFloor                                   = 220,
     S1_Floor_LowerToNearestFloor                                   = 221,
@@ -471,7 +479,17 @@ typedef enum
     CreateFakeCeilingAndFloor                                      = 242,
     W1_TeleportToLineWithSameTag_Silent_SameAngle                  = 243,
     WR_TeleportToLineWithSameTag_Silent_SameAngle                  = 244,
-
+    Scroll_ScrollCeilingWhenSectorChangesHeight                    = 245,
+    Scroll_ScrollFloorWhenSectorChangesHeight                      = 246,
+    Scroll_MoveThingsWhenSectorChangesHeight                       = 247,
+    Scroll_ScrollFloorAndMoveThingsWhenSectorChangesHeight         = 248,
+    Scroll_ScrollWallWhenSectorChangesHeight                       = 249,
+    Scroll_ScrollCeilingAccordingToLineVector                      = 250,
+    Scroll_ScrollFloorAccordingToLineVector                        = 251,
+    Scroll_MoveThingsAccordingToLineVector                         = 252,
+    Scroll_ScrollFloorAndMoveThings                                = 253,
+    Scroll_ScrollWallAccordingToLineVector                         = 254,
+    Scroll_ScrollWallUsingSidedefOffsets                           = 255,
     WR_Stairs_RaiseBy8                                             = 256,
     WR_Stairs_RaiseBy16_Fast                                       = 257,
     SR_Stairs_RaiseBy8                                             = 258,
@@ -894,26 +912,25 @@ typedef struct
 //
 typedef struct visplane_s
 {
-    fixed_t             height;
+    struct visplane_s   *next;          // Next visplane in hash chain -- killough
     int                 picnum;
     int                 lightlevel;
     int                 minx;
     int                 maxx;
-
+    fixed_t             height;
+    fixed_t             xoffs, yoffs;   // killough 2/28/98: Support scrolling flats
     // leave pads for [minx-1]/[maxx+1]
     unsigned short      pad1;
     // Here lies the rub for all
     //  dynamic resize/change of resolution.
-    unsigned int        top[SCREENWIDTH];
-    unsigned int        pad2;
-    unsigned int        pad3;
+    unsigned short      top[SCREENWIDTH];
+    unsigned short      pad2;
+    unsigned short      pad3;
     // See above.
-    unsigned int        bottom[SCREENWIDTH];
-    unsigned int        pad4;
+    unsigned short      bottom[SCREENWIDTH];
+    unsigned short      pad4;
 
-    struct visplane_s   *next;  // Next visplane in hash chain -- killough
-
-    sector_t            *sector;
+    sector_t            *sector;        // [BH] Support animated liquid sectors
 } visplane_t;
 
 #endif

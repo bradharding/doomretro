@@ -76,6 +76,8 @@ static int              spanstart[SCREENHEIGHT];
 static lighttable_t     **planezlight;
 static fixed_t          planeheight;
 
+static fixed_t          xoffs, yoffs;                   // killough 2/28/98: flat offsets
+
 fixed_t                 yslope[SCREENHEIGHT];
 fixed_t                 distscale[SCREENWIDTH];
 
@@ -95,8 +97,6 @@ extern fixed_t          animatedliquiddiffs[128];
 //
 static void R_MapPlane(int y, int x1, int x2)
 {
-    // [crispy] visplanes with the same flats now match up far better than before
-    // adapted from prboom-plus/src/r_plane.c:191-239, translated to fixed-point math
     fixed_t     distance;
     int         dx, dy;
 
@@ -110,8 +110,8 @@ static void R_MapPlane(int y, int x1, int x2)
     ds_xstep = FixedMul(viewsin, planeheight) / dy;
     ds_ystep = FixedMul(viewcos, planeheight) / dy;
 
-    ds_xfrac = viewx + FixedMul(viewcos, distance) + dx * ds_xstep;
-    ds_yfrac = -viewy - FixedMul(viewsin, distance) + dx * ds_ystep;
+    ds_xfrac = viewx + xoffs + FixedMul(viewcos, distance) + dx * ds_xstep;
+    ds_yfrac = -viewy + yoffs - FixedMul(viewsin, distance) + dx * ds_ystep;
 
     if (fixedcolormap)
         ds_colormap = fixedcolormap;
@@ -164,7 +164,7 @@ static visplane_t *new_visplane(unsigned hash)
 //
 // R_FindPlane
 //
-visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
+visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoffs, fixed_t yoffs)
 {
     visplane_t          *check;
     unsigned int        hash;           // killough
@@ -176,7 +176,8 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
     hash = visplane_hash(picnum, lightlevel, height);
 
     for (check = visplanes[hash]; check; check = check->next)   // killough
-        if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel)
+        if (height == check->height && picnum == check->picnum && lightlevel == check->lightlevel
+            && xoffs == check->xoffs && yoffs == check->yoffs)
             return check;
 
     check = new_visplane(hash);         // killough
@@ -186,6 +187,8 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel)
     check->lightlevel = lightlevel;
     check->minx = viewwidth;
     check->maxx = -1;
+    check->xoffs = xoffs;               // killough 2/28/98: Save offsets
+    check->yoffs = yoffs;
 
     memset(check->top, SHRT_MAX, sizeof(check->top));
 
@@ -225,7 +228,7 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         intrh = stop;
     }
 
-    for (x = intrl; x <= intrh && pl->top[x] == UINT_MAX; x++);
+    for (x = intrl; x <= intrh && pl->top[x] == SHRT_MAX; x++);
 
     // [crispy] fix HOM if ceilingplane and floorplane are the same
     // visplane (e.g. both skies)
@@ -243,10 +246,12 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
         new_pl->picnum = pl->picnum;
         new_pl->lightlevel = pl->lightlevel;
         new_pl->sector = pl->sector;
+        new_pl->xoffs = pl->xoffs;      // killough 2/28/98
+        new_pl->yoffs = pl->yoffs;
         pl = new_pl;
         pl->minx = start;
         pl->maxx = stop;
-        memset(pl->top, UINT_MAX, sizeof(pl->top));
+        memset(pl->top, SHRT_MAX, sizeof(pl->top));
     }
 
     return pl;
@@ -302,7 +307,7 @@ void R_DrawPlanes(void)
                         dc_yl = pl->top[x];
                         dc_yh = pl->bottom[x];
 
-                        if (dc_yl != UINT_MAX && dc_yl <= dc_yh)
+                        if (dc_yl != SHRT_MAX && dc_yl <= dc_yh)
                         {
                             dc_x = x;
                             dc_source = R_GetColumn(skytexture,
@@ -321,6 +326,8 @@ void R_DrawPlanes(void)
 
                     ds_source = W_CacheLumpNum(lumpnum, PU_STATIC);
 
+                    xoffs = pl->xoffs;  // killough 2/28/98: Add offsets
+                    yoffs = pl->yoffs;
                     planeheight = ABS(pl->height - viewz);
 
                     if (isliquid[pl->picnum] && pl->sector && pl->sector->animate != INT_MAX)
@@ -328,7 +335,7 @@ void R_DrawPlanes(void)
 
                     planezlight = zlight[BETWEEN(0, light, LIGHTLEVELS - 1)];
 
-                    pl->top[pl->minx - 1] = pl->top[stop] = UINT_MAX;
+                    pl->top[pl->minx - 1] = pl->top[stop] = SHRT_MAX;
 
                     for (x = pl->minx; x <= stop; x++)
                         R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);

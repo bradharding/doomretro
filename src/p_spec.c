@@ -85,8 +85,11 @@ typedef struct
 #define ANIMSPEED       8
 
 static anim_t   *lastanim;
-static anim_t   *anims;         // new structure w/o limits -- killough
+static anim_t   *anims;                 // new structure w/o limits -- killough
 static size_t   maxanims;
+
+// killough 3/7/98: Initialize generalized scrolling
+static void P_SpawnScrollers(void);
 
 //
 // P_InitPicAnims
@@ -482,13 +485,13 @@ boolean P_CheckTag(line_t *line)
         case D1_Door_Yellow_OpenStay:
         case W1_Light_ChangeTo35:
         case W1_Teleport:
-        case ScrollTextureLeft:
+        case Scroll_ScrollTextureLeft:
         case S1_ExitLevel_GoesToSecretLevel:
         case W1_ExitLevel:
         case WR_Light_ChangeTo35:
         case WR_Light_ChangeToBrightestAdjacent:
         case WR_Light_ChangeTo255:
-        case ScrollTextureRight:
+        case Scroll_ScrollTextureRight:
         case WR_Teleport:
         case W1_Light_ChangeToDarkestAdjacent:
         case DR_Door_OpenWaitClose_Fast:
@@ -1248,7 +1251,6 @@ void P_PlayerInSpecialSector(player_t *player)
 //
 #define MAXLINEANIMS    16384
 
-short   numlinespecials;
 line_t  *linespeciallist[MAXLINEANIMS];
 
 void P_UpdateSpecials(void)
@@ -1267,23 +1269,6 @@ void P_UpdateSpecials(void)
                 texturetranslation[i] = pic;
             else
                 flattranslation[i] = pic;
-        }
-    }
-
-    // ANIMATE LINE SPECIALS
-    for (i = 0; i < numlinespecials; i++)
-    {
-        line_t  *line = linespeciallist[i];
-
-        switch (line->special)
-        {
-            case ScrollTextureLeft:
-                sides[line->sidenum[0]].textureoffset += FRACUNIT;
-                break;
-
-            case ScrollTextureRight:
-                sides[line->sidenum[0]].textureoffset -= FRACUNIT;
-                break;
         }
     }
 
@@ -1465,10 +1450,20 @@ void P_SpawnSpecials(void)
         }
     }
 
-    P_InitTagLists();
+    P_RemoveAllActiveCeilings();        // jff 2/22/98 use killough's scheme
 
-    // Init line EFFECTs
-    numlinespecials = 0;
+    P_RemoveAllActivePlats();           // killough
+
+    for (i = 0; i < MAXBUTTONS; i++)
+        memset(&buttonlist[i], 0, sizeof(button_t));
+
+    // P_InitTagLists() must be called before P_FindSectorFromLineTag()
+    // or P_FindLineFromLineTag() can be called.
+
+    P_InitTagLists();                   // killough 1/30/98: Create xref tables for tags
+
+    P_SpawnScrollers();                 // killough 3/7/98: Add generalized scrollers
+
     for (i = 0; i < numlines; i++)
     {
         int sec;
@@ -1476,12 +1471,6 @@ void P_SpawnSpecials(void)
 
         switch (lines[i].special)
         {
-            case ScrollTextureLeft:
-            case ScrollTextureRight:
-                linespeciallist[numlinespecials] = &lines[i];
-                numlinespecials++;
-                break;
-
             // killough 3/7/98:
             // support for drawn heights coming from different sector
             case CreateFakeCeilingAndFloor:
@@ -1508,8 +1497,247 @@ void P_SpawnSpecials(void)
         }
     }
 
-    P_RemoveAllActiveCeilings();
-    P_RemoveAllActivePlats();
-    for (i = 0; i < MAXBUTTONS; i++)
-        memset(&buttonlist[i], 0, sizeof(button_t));
+}
+
+// killough 2/28/98:
+//
+// This function, with the help of r_plane.c and r_bsp.c, supports generalized
+// scrolling floors and walls, with optional mobj-carrying properties, e.g.
+// conveyor belts, rivers, etc. A linedef with a special type affects all
+// tagged sectors the same way, by creating scrolling and/or object-carrying
+// properties. Multiple linedefs may be used on the same sector and are
+// cumulative, although the special case of scrolling a floor and carrying
+// things on it, requires only one linedef. The linedef's direction determines
+// the scrolling direction, and the linedef's length determines the scrolling
+// speed. This was designed so that an edge around the sector could be used to
+// control the direction of the sector's scrolling, which is usually what is
+// desired.
+//
+// Process the active scrollers.
+//
+// This is the main scrolling code
+// killough 3/7/98
+
+void T_Scroll(scroll_t *s)
+{
+    fixed_t     dx = s->dx, dy = s->dy;
+
+    if (s->control != -1)
+    {
+        // compute scroll amounts based on a sector's height changes
+        fixed_t height = sectors[s->control].floorheight + sectors[s->control].ceilingheight;
+        fixed_t delta = height - s->last_height;
+
+        s->last_height = height;
+        dx = FixedMul(dx, delta);
+        dy = FixedMul(dy, delta);
+    }
+
+    // killough 3/14/98: Add acceleration
+    if (s->accel)
+    {
+        s->vdx = dx += s->vdx;
+        s->vdy = dy += s->vdy;
+    }
+
+    if (!(dx | dy))                             // no-op if both (x,y) offsets 0
+        return;
+
+    switch (s->type)
+    {
+        side_t          *side;
+        sector_t        *sec;
+        fixed_t         height, waterheight;    // killough 4/4/98: add waterheight
+        msecnode_t      *node;
+        mobj_t          *thing;
+
+        case sc_side:                           // killough 3/7/98: Scroll wall texture
+            side = sides + s->affectee;
+            side->textureoffset += dx;
+            side->rowoffset += dy;
+            break;
+
+        case sc_floor:                          // killough 3/7/98: Scroll floor texture
+            sec = sectors + s->affectee;
+            sec->floor_xoffs += dx;
+            sec->floor_yoffs += dy;
+            break;
+
+        case sc_ceiling:                        // killough 3/7/98: Scroll ceiling texture
+            sec = sectors + s->affectee;
+            sec->ceiling_xoffs += dx;
+            sec->ceiling_yoffs += dy;
+            break;
+
+        case sc_carry:
+            // killough 3/7/98: Carry things on floor
+            // killough 3/20/98: use new sector list which reflects true members
+            // killough 3/27/98: fix carrier bug
+            // killough 4/4/98: Underwater, carry things even w/o gravity
+            sec = sectors + s->affectee;
+            height = sec->floorheight;
+            waterheight = (sec->heightsec != -1 && sectors[sec->heightsec].floorheight > height ?
+                sectors[sec->heightsec].floorheight : INT_MIN);
+
+            // Move objects only if on floor or underwater,
+            // non-floating, and clipped.
+            for (node = sec->touching_thinglist; node; node = node->m_snext)
+                if (!((thing = node->m_thing)->flags & MF_NOCLIP)
+                    && (!(thing->flags & MF_NOGRAVITY || thing->z > height)
+                    || thing->z < waterheight))
+                {
+                    thing->momx += dx;
+                    thing->momy += dy;
+                }
+            break;
+
+        case sc_carry_ceiling:       // to be added later
+            break;
+    }
+}
+
+//
+// Add_Scroller()
+//
+// Add a generalized scroller to the thinker list.
+//
+// type: the enumerated type of scrolling: floor, ceiling, floor carrier,
+//   wall, floor carrier & scroller
+//
+// (dx,dy): the direction and speed of the scrolling or its acceleration
+//
+// control: the sector whose heights control this scroller's effect
+//   remotely, or -1 if no control sector
+//
+// affectee: the index of the affected object (sector or sidedef)
+//
+// accel: non-zero if this is an accelerative effect
+//
+static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affectee, int accel)
+{
+    scroll_t    *s = Z_Malloc(sizeof *s, PU_LEVSPEC, 0);
+
+    s->thinker.function = T_Scroll;
+    s->type = type;
+    s->dx = dx;
+    s->dy = dy;
+    s->accel = accel;
+    s->vdx = s->vdy = 0;
+    if ((s->control = control) != -1)
+        s->last_height = sectors[control].floorheight + sectors[control].ceilingheight;
+    s->affectee = affectee;
+    P_AddThinker(&s->thinker);
+}
+
+// Adds wall scroller. Scroll amount is rotated with respect to wall's
+// linedef first, so that scrolling towards the wall in a perpendicular
+// direction is translated into vertical motion, while scrolling along
+// the wall in a parallel direction is translated into horizontal motion.
+//
+// killough 5/25/98: cleaned up arithmetic to avoid drift due to roundoff
+//
+// killough 10/98:
+// fix scrolling aliasing problems, caused by long linedefs causing overflowing
+static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, int accel)
+{
+    fixed_t     x = abs(l->dx), y = abs(l->dy), d;
+
+    if (y > x)
+        d = x, x = y, y = d;
+    d = FixedDiv(x, finesine[(tantoangle[FixedDiv(y, x) >> DBITS] + ANG90) >> ANGLETOFINESHIFT]);
+
+    x = (fixed_t)((dy * -l->dy - dx * l->dx) / d);      // killough 10/98:
+    y = (fixed_t)((dy * l->dx - dx * l->dy) / d);       // Use long long arithmetic
+    Add_Scroller(sc_side, x, y, control, *l->sidenum, accel);
+}
+
+// Amount (dx,dy) vector linedef is shifted right to get scroll amount
+#define SCROLL_SHIFT    5
+
+// Factor to scale scrolling effect into mobj-carrying properties = 3/32.
+// (This is so scrolling floors and objects on them can move at same speed.)
+#define CARRYFACTOR     ((fixed_t)(FRACUNIT * 0.09375))
+
+// Initialize the scrollers
+static void P_SpawnScrollers(void)
+{
+    int         i;
+    line_t      *l = lines;
+
+    for (i = 0; i < numlines; i++, l++)
+    {
+        fixed_t dx = l->dx >> SCROLL_SHIFT;             // direction and speed of scrolling
+        fixed_t dy = l->dy >> SCROLL_SHIFT;
+        int     control = -1, accel = 0;                // no control sector or acceleration
+        int     special = l->special;
+
+        // killough 3/7/98: Types 245-249 are same as 250-254 except that the
+        // first side's sector's heights cause scrolling when they change, and
+        // this linedef controls the direction and speed of the scrolling. The
+        // most complicated linedef since donuts, but powerful :)
+        //
+        // killough 3/15/98: Add acceleration. Types 214-218 are the same but
+        // are accelerative.
+        if (special >= Scroll_ScrollCeilingWhenSectorChangesHeight
+            && special <= Scroll_ScrollWallWhenSectorChangesHeight)      // displacement scrollers
+        {
+            special += Scroll_ScrollCeilingAccordingToLineVector
+                - Scroll_ScrollCeilingWhenSectorChangesHeight;
+            control = sides[*l->sidenum].sector - sectors;
+        }
+        else if (special >= Scroll_CeilingAcceleratesWhenSectorHeightChanges
+            && special <= Scroll_WallAcceleratesWhenSectorHeightChanges) // accelerative scrollers
+        {
+            accel = 1;
+            special += Scroll_ScrollCeilingAccordingToLineVector
+                - Scroll_CeilingAcceleratesWhenSectorHeightChanges;
+            control = sides[*l->sidenum].sector - sectors;
+        }
+
+        switch (special)
+        {
+            int s;
+
+            case Scroll_ScrollCeilingAccordingToLineVector:
+                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                    Add_Scroller(sc_ceiling, -dx, dy, control, s, accel);
+                break;
+
+            case Scroll_ScrollFloorAccordingToLineVector:
+            case Scroll_ScrollFloorAndMoveThings:
+                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                    Add_Scroller(sc_floor, -dx, dy, control, s, accel);
+                if (special != 253)
+                    break;
+
+            case Scroll_MoveThingsAccordingToLineVector:
+                dx = FixedMul(dx, CARRYFACTOR);
+                dy = FixedMul(dy, CARRYFACTOR);
+                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                    Add_Scroller(sc_carry, dx, dy, control, s, accel);
+                break;
+
+            // killough 3/1/98: scroll wall according to linedef
+            // (same direction and speed as scrolling floors)
+            case Scroll_ScrollWallAccordingToLineVector:
+                for (s = -1; (s = P_FindLineFromLineTag(l, s)) >= 0;)
+                    if (s != i)
+                        Add_WallScroller(dx, dy, lines + s, control, accel);
+                break;
+
+            case Scroll_ScrollWallUsingSidedefOffsets:
+                s = lines[i].sidenum[0];
+                Add_Scroller(sc_side, -sides[s].textureoffset,
+                    sides[s].rowoffset, -1, s, accel);
+                break;
+
+            case Scroll_ScrollTextureLeft:
+                Add_Scroller(sc_side, FRACUNIT, 0, -1, lines[i].sidenum[0], accel);
+                break;
+
+            case Scroll_ScrollTextureRight:
+                Add_Scroller(sc_side, -FRACUNIT, 0, -1, lines[i].sidenum[0], accel);
+                break;
+        }
+    }
 }

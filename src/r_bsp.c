@@ -323,17 +323,26 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
         // killough 11/98: prevent sudden light changes from non-water sectors:
         if (underwater && (tempsec->interpfloorheight = sec->interpfloorheight,
             tempsec->interpceilingheight = s->interpfloorheight - 1, !back))
-        {   // head-below-floor hack
+        {
+            // head-below-floor hack
             tempsec->floorpic = s->floorpic;
+            tempsec->floor_xoffs = s->floor_xoffs;
+            tempsec->floor_yoffs = s->floor_yoffs;
 
             if (underwater)
                 if (s->ceilingpic == skyflatnum)
                 {
                     tempsec->interpfloorheight = tempsec->interpceilingheight + 1;
                     tempsec->ceilingpic = tempsec->floorpic;
+                    tempsec->ceiling_xoffs = tempsec->floor_xoffs;
+                    tempsec->ceiling_yoffs = tempsec->floor_yoffs;
                 }
                 else
+                {
                     tempsec->ceilingpic = s->ceilingpic;
+                    tempsec->ceiling_xoffs = s->ceiling_xoffs;
+                    tempsec->ceiling_yoffs = s->ceiling_yoffs;
+                }
 
             tempsec->lightlevel = s->lightlevel;
 
@@ -347,15 +356,21 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
         }
         else if (heightsec != -1 && viewz >= sectors[heightsec].interpceilingheight
             && sec->interpceilingheight > s->interpceilingheight)
-            {   // Above-ceiling hack
+            {
+                // Above-ceiling hack
                 tempsec->interpceilingheight = s->interpceilingheight;
                 tempsec->interpfloorheight = s->interpceilingheight + 1;
 
                 tempsec->floorpic = tempsec->ceilingpic = s->ceilingpic;
+                tempsec->floor_xoffs = tempsec->ceiling_xoffs = s->ceiling_xoffs;
+                tempsec->floor_yoffs = tempsec->ceiling_yoffs = s->ceiling_yoffs;
+
                 if (s->floorpic != skyflatnum)
                 {
                     tempsec->interpceilingheight = sec->interpceilingheight;
                     tempsec->floorpic = s->floorpic;
+                    tempsec->floor_xoffs = s->floor_xoffs;
+                    tempsec->floor_yoffs = s->floor_yoffs;
                 }
 
                 tempsec->lightlevel = s->lightlevel;
@@ -476,6 +491,12 @@ static void R_AddLine(seg_t *line)
         && backsector->floorpic == frontsector->floorpic
         && backsector->lightlevel == frontsector->lightlevel
         && !curline->sidedef->midtexture
+
+        // killough 3/7/98: Take flats offsets into account:
+        && backsector->floor_xoffs == frontsector->floor_xoffs
+        && backsector->floor_yoffs == frontsector->floor_yoffs
+        && backsector->ceiling_xoffs == frontsector->ceiling_xoffs
+        && backsector->ceiling_yoffs == frontsector->ceiling_yoffs
 
         // killough 4/16/98: consider altered lighting
         && backsector->floorlightsec == frontsector->floorlightsec
@@ -616,7 +637,7 @@ static void R_Subsector(int num)
         || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].ceilingpic == skyflatnum))
     {
         floorplane = R_FindPlane(frontsector->interpfloorheight, frontsector->floorpic,
-            floorlightlevel);
+            floorlightlevel, frontsector->floor_xoffs, frontsector->floor_yoffs);
         floorplane->sector = frontsector;
     }
     else
@@ -626,7 +647,7 @@ static void R_Subsector(int num)
         || frontsector->ceilingpic == skyflatnum
         || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].floorpic == skyflatnum))
         ceilingplane = R_FindPlane(frontsector->interpceilingheight, frontsector->ceilingpic,
-            ceilinglightlevel);
+        ceilinglightlevel, frontsector->ceiling_xoffs, frontsector->ceiling_yoffs);
     else
         ceilingplane = NULL;
 

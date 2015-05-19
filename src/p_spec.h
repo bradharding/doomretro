@@ -458,6 +458,27 @@ boolean EV_DoFloor(line_t *line, floor_e floortype);
 void T_MoveFloor(floormove_t *floor);
 void P_InitAnimatedLiquids(void);
 
+// killough 3/7/98: Add generalized scroll effects
+
+typedef struct
+{
+    thinker_t thinker;          // Thinker structure for scrolling
+    fixed_t dx, dy;             // (dx,dy) scroll speeds
+    int affectee;               // Number of affected sidedef, sector, tag, or whatever
+    int control;                // Control sector (-1 if none) used to control scrolling
+    fixed_t last_height;        // Last known height of control sector
+    fixed_t vdx, vdy;           // Accumulated velocity if accelerative
+    int accel;                  // Whether it's accelerative
+    enum
+    {
+        sc_side,
+        sc_floor,
+        sc_ceiling,
+        sc_carry,
+        sc_carry_ceiling,       // killough 4/11/98: carry objects hanging on ceilings
+    } type;                     // Type of scroll effect
+} scroll_t;
+
 //
 // P_TELEPT
 //
