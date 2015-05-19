@@ -1057,6 +1057,7 @@ boolean ST_Responder(event_t *ev)
                     HU_PlayerMessage(message, false);
 
                     // [BH] always display message
+                    plyr->message = message;
                     message_dontfuckwithme = true;
 
                     // [BH] play sound
