@@ -295,7 +295,6 @@ void R_MaybeInterpolateSector(sector_t* sector)
 //
 // killough 4/11/98, 4/13/98: fix bugs, add 'back' parameter
 //
-
 sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
     int *ceilinglightlevel, boolean back)
 {
@@ -356,34 +355,34 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
         }
         else if (heightsec != -1 && viewz >= sectors[heightsec].interpceilingheight
             && sec->interpceilingheight > s->interpceilingheight)
+        {
+            // Above-ceiling hack
+            tempsec->interpceilingheight = s->interpceilingheight;
+            tempsec->interpfloorheight = s->interpceilingheight + 1;
+
+            tempsec->floorpic = tempsec->ceilingpic = s->ceilingpic;
+            tempsec->floor_xoffs = tempsec->ceiling_xoffs = s->ceiling_xoffs;
+            tempsec->floor_yoffs = tempsec->ceiling_yoffs = s->ceiling_yoffs;
+
+            if (s->floorpic != skyflatnum)
             {
-                // Above-ceiling hack
-                tempsec->interpceilingheight = s->interpceilingheight;
-                tempsec->interpfloorheight = s->interpceilingheight + 1;
-
-                tempsec->floorpic = tempsec->ceilingpic = s->ceilingpic;
-                tempsec->floor_xoffs = tempsec->ceiling_xoffs = s->ceiling_xoffs;
-                tempsec->floor_yoffs = tempsec->ceiling_yoffs = s->ceiling_yoffs;
-
-                if (s->floorpic != skyflatnum)
-                {
-                    tempsec->interpceilingheight = sec->interpceilingheight;
-                    tempsec->floorpic = s->floorpic;
-                    tempsec->floor_xoffs = s->floor_xoffs;
-                    tempsec->floor_yoffs = s->floor_yoffs;
-                }
-
-                tempsec->lightlevel = s->lightlevel;
-
-                if (floorlightlevel)
-                    *floorlightlevel = (s->floorlightsec == -1 ? s->lightlevel :
-                        sectors[s->floorlightsec].lightlevel);          // killough 3/16/98
-
-                if (ceilinglightlevel)
-                    *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
-                        sectors[s->ceilinglightsec].lightlevel);        // killough 4/11/98
+                tempsec->interpceilingheight = sec->interpceilingheight;
+                tempsec->floorpic = s->floorpic;
+                tempsec->floor_xoffs = s->floor_xoffs;
+                tempsec->floor_yoffs = s->floor_yoffs;
             }
-        sec = tempsec;               // Use other sector
+
+            tempsec->lightlevel = s->lightlevel;
+
+            if (floorlightlevel)
+                *floorlightlevel = (s->floorlightsec == -1 ? s->lightlevel :
+                    sectors[s->floorlightsec].lightlevel);              // killough 3/16/98
+
+            if (ceilinglightlevel)
+                *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
+                    sectors[s->ceilinglightsec].lightlevel);            // killough 4/11/98
+        }
+        *sec = *tempsec;             // Use other sector
     }
     return sec;
 }
@@ -647,7 +646,7 @@ static void R_Subsector(int num)
         || frontsector->ceilingpic == skyflatnum
         || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].floorpic == skyflatnum))
         ceilingplane = R_FindPlane(frontsector->interpceilingheight, frontsector->ceilingpic,
-        ceilinglightlevel, frontsector->ceiling_xoffs, frontsector->ceiling_yoffs);
+            ceilinglightlevel, frontsector->ceiling_xoffs, frontsector->ceiling_yoffs);
     else
         ceilingplane = NULL;
 
