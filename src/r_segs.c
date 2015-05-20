@@ -657,7 +657,7 @@ void R_StoreWallRange(int start, int stop)
         }
     }
 
-    //R_FixWiggle(frontsector);
+    R_FixWiggle(frontsector);
 
     // calculate scale at both ends and step
     ds_p->scale1 = rw_scale = R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start]);

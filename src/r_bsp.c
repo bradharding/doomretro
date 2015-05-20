@@ -631,7 +631,7 @@ static void R_Subsector(int num)
     R_MaybeInterpolateSector(frontsector);
 
     // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
-    frontsector = R_FakeFlat(sub->sector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
+    frontsector = R_FakeFlat(frontsector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
     if (frontsector->interpfloorheight < viewz
         || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].ceilingpic == skyflatnum))
