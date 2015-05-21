@@ -637,9 +637,6 @@ static void P_LoadLineDefs(int lump)
         ld->hidden = false;
 
         ld->special = SHORT(mld->special);
-        // [crispy] warn about unknown linedef types
-        if ((unsigned short)ld->special >= UNKNOWNLINESPECIAL)
-            C_Warning("Linedef %s has an unknown special of %s.", commify(i), commify(ld->special));
 
         ld->tag = SHORT(mld->tag);
         v1 = ld->v1 = &vertexes[(unsigned short)SHORT(mld->v1)];
@@ -731,16 +728,20 @@ static void P_LoadLineDefs2(int lump)
         // killough 4/11/98: handle special types
         switch (ld->special)
         {
-            int lump, j;
+            int lump;
 
             case Translucent_MiddleTexture:             // killough 4/11/98: translucent 2s textures
                 lump = sides[*ld->sidenum].special;     // translucency from sidedef
                 if (!ld->tag)                           // if tag==0,
                     ld->tranlump = lump;                // affect this linedef only
                 else
+                {
+                    int j;
+
                     for (j = 0; j < numlines; j++)      // if tag!=0,
                         if (lines[j].tag == ld->tag)    // affect all matching linedefs
                             lines[j].tranlump = lump;
+                }
                 break;
         }
     }

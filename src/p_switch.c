@@ -855,12 +855,6 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 EV_LightTurnOn(line, 35);
             P_ChangeSwitchTexture(line, 1);
             break;
-
-        default:
-            if ((unsigned short)line->special >= UNKNOWNLINESPECIAL)
-                C_Warning("The player tried using a switch with an unknown special of %s.",
-                    commify(line->special));
-            break;
     }
 
     return true;

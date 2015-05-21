@@ -1553,7 +1553,6 @@ void G_DoSaveGame(void)
 {
     char        *savegame_file;
     char        *temp_savegame_file;
-    static char buffer[128];
 
     temp_savegame_file = P_TempSaveGameFile();
     savegame_file = (consoleactive ? savename : P_SaveGameFile(savegameslot));
@@ -1591,6 +1590,8 @@ void G_DoSaveGame(void)
         C_Output("%s saved.", uppercase(savename));
     else
     {
+        static char     buffer[128];
+
         M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
         HU_PlayerMessage(buffer, false);
         message_dontfuckwithme = true;

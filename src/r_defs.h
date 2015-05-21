@@ -508,9 +508,7 @@ typedef enum
     W1_TeleportToLineWithSameTag_MonstersOnly_Silent               = 266,
     WR_TeleportToLineWithSameTag_MonstersOnly_Silent               = 267,
     W1_Teleport_MonstersOnly_Silent                                = 268,
-    WR_Teleport_MonstersOnly_Silent                                = 269,
-
-    UNKNOWNLINESPECIAL
+    WR_Teleport_MonstersOnly_Silent                                = 269
 } linespecial_e;
 
 typedef enum

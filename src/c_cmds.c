@@ -1658,7 +1658,6 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
 {
     player_t    *player = &players[0];
-    static char buffer[1024];
 
     if (parm1[0])
     {

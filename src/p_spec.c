@@ -1497,12 +1497,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             if (!thing->player)
                 EV_SilentTeleport(line, side, thing);
             break;
-
-        default:
-            if ((unsigned short)line->special >= UNKNOWNLINESPECIAL)
-                C_Warning("The player has crossed a line with an unknown special of %s.",
-                    commify(line->special));
-            break;
     }
 }
 
@@ -1654,12 +1648,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         case G1_ExitLevel_GoesToSecretLevel:
             P_ChangeSwitchTexture(line, 0);
             G_SecretExitLevel();
-            break;
-
-        default:
-            if ((unsigned short)line->special >= UNKNOWNLINESPECIAL)
-                C_Warning("The player has shot a wall with an unknown special of %s.",
-                    commify(line->special));
             break;
     }
 }

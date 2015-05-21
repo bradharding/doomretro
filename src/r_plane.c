@@ -310,7 +310,7 @@ char *R_DistortedFlat(int flatnum)
             for (y = 0; y < 64; y++)
             {
                 int     x1, y1;
-                int sinvalue, sinvalue2;
+                int     sinvalue, sinvalue2;
 
                 sinvalue = (y * SWIRLFACTOR + leveltic * SPEED * 5 + 900) & 8191;
                 sinvalue2 = (x * SWIRLFACTOR2 + leveltic * SPEED * 4 + 300) & 8191;
