@@ -85,9 +85,6 @@ fixed_t                 distscale[SCREENWIDTH];
 
 boolean                 swirlingliquid = SWIRLINGLIQUID_DEFAULT;
 
-extern boolean          animatedliquid;
-extern fixed_t          animatedliquiddiffs[128];
-
 //
 // R_MapPlane
 //
@@ -276,7 +273,7 @@ static void R_MakeSpans(int x, unsigned int t1, unsigned int b1, unsigned int t2
         spanstart[b2--] = x;
 }
 
-// From Eternity Engine (r_ripple.cpp)
+// Ripple Effect from Eternity Engine (r_ripple.cpp) by Simon Howard
 #define AMP             2
 #define AMP2            2
 #define SPEED           40
