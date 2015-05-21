@@ -151,12 +151,17 @@ typedef struct
     fixed_t             interpfloorheight;
     fixed_t             interpceilingheight;
 
+    // jff 2/26/98 lockout machinery for stairbuilding
+    int                 stairlock;      // -2 on first locked -1 after thinker done 0 normally
+    int                 prevsec;        // -1 or number of sector for previous step
+    int                 nextsec;        // -1 or number of next step sector
+
     // killough 3/7/98: floor and ceiling texture offsets
     fixed_t             floor_xoffs, floor_yoffs;
     fixed_t             ceiling_xoffs, ceiling_yoffs;
 
     // killough 3/7/98: support flat heights drawn at another sector's heights
-    int                 heightsec;              // other sector, or -1 if no other sector
+    int                 heightsec;      // other sector, or -1 if no other sector
 
     // killough 4/11/98: support for lightlevels coming from another sector
     int                 floorlightsec, ceilinglightsec;

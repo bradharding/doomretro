@@ -336,6 +336,7 @@
     <ClCompile Include="..\src\midifile.c" />
     <ClCompile Include="..\src\mus2mid.c" />
     <ClCompile Include="..\src\p_fix.c" />
+    <ClCompile Include="..\src\p_genlin.c" />
     <ClCompile Include="..\src\sounds.c" />
     <ClCompile Include="..\src\s_sound.c" />
     <ClCompile Include="..\src\am_map.c" />

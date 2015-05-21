@@ -351,6 +351,66 @@ fixed_t P_FindNextLowestFloor(sector_t *sec, int currentheight)
 }
 
 //
+// P_FindNextLowestCeiling()
+//
+// Passed a sector and a ceiling height, returns the fixed point value
+// of the largest ceiling height in a surrounding sector smaller than
+// the ceiling height passed. If no such height exists the ceiling height
+// passed is returned.
+//
+// jff 02/03/98 Twiddled Lee's P_FindNextHighestFloor to make this
+
+fixed_t P_FindNextLowestCeiling(sector_t *sec, int currentheight)
+{
+    sector_t *other;
+    int i;
+
+    for (i = 0; i < sec->linecount; i++)
+        if ((other = getNextSector(sec->lines[i], sec)) &&
+            other->ceilingheight < currentheight)
+        {
+            int height = other->ceilingheight;
+            while (++i < sec->linecount)
+                if ((other = getNextSector(sec->lines[i], sec)) &&
+                    other->ceilingheight > height &&
+                    other->ceilingheight < currentheight)
+                    height = other->ceilingheight;
+            return height;
+        }
+    return currentheight;
+}
+
+//
+// P_FindNextHighestCeiling()
+//
+// Passed a sector and a ceiling height, returns the fixed point value
+// of the smallest ceiling height in a surrounding sector larger than
+// the ceiling height passed. If no such height exists the ceiling height
+// passed is returned.
+//
+// jff 02/03/98 Twiddled Lee's P_FindNextHighestFloor to make this
+
+fixed_t P_FindNextHighestCeiling(sector_t *sec, int currentheight)
+{
+    sector_t *other;
+    int i;
+
+    for (i = 0; i < sec->linecount; i++)
+        if ((other = getNextSector(sec->lines[i], sec)) &&
+            other->ceilingheight > currentheight)
+        {
+            int height = other->ceilingheight;
+            while (++i < sec->linecount)
+                if ((other = getNextSector(sec->lines[i], sec)) &&
+                    other->ceilingheight < height &&
+                    other->ceilingheight > currentheight)
+                    height = other->ceilingheight;
+            return height;
+        }
+    return currentheight;
+}
+
+//
 // FIND LOWEST CEILING IN THE SURROUNDING SECTORS
 //
 fixed_t P_FindLowestCeilingSurrounding(sector_t *sec)
@@ -378,6 +438,132 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t *sec)
         if ((other = getNextSector(sec->lines[i], sec)) && other->ceilingheight > height)
             height = other->ceilingheight;
     return height;
+}
+
+//
+// P_FindShortestTextureAround()
+//
+// Passed a sector number, returns the shortest lower texture on a
+// linedef bounding the sector.
+//
+// Note: If no lower texture exists 32000*FRACUNIT is returned.
+//       but if compatibility then MAXINT is returned
+//
+// jff 02/03/98 Add routine to find shortest lower texture
+//
+// killough 11/98: reformatted
+fixed_t P_FindShortestTextureAround(int secnum)
+{
+    const sector_t      *sec = &sectors[secnum];
+    int                 i, minsize = 32000 << FRACBITS;
+
+    for (i = 0; i < sec->linecount; i++)
+        if (twoSided(secnum, i))
+        {
+            const side_t        *side;
+
+            if ((side = getSide(secnum, i, 0))->bottomtexture >= 0
+                && textureheight[side->bottomtexture] < minsize)
+                minsize = textureheight[side->bottomtexture];
+            if ((side = getSide(secnum, i, 1))->bottomtexture >= 0
+                && textureheight[side->bottomtexture] < minsize)
+                minsize = textureheight[side->bottomtexture];
+        }
+
+    return minsize;
+}
+
+//
+// P_FindShortestUpperAround()
+//
+// Passed a sector number, returns the shortest upper texture on a
+// linedef bounding the sector.
+//
+// Note: If no upper texture exists 32000*FRACUNIT is returned.
+//       but if compatibility then MAXINT is returned
+//
+// jff 03/20/98 Add routine to find shortest upper texture
+//
+// killough 11/98: reformatted
+fixed_t P_FindShortestUpperAround(int secnum)
+{
+    const sector_t      *sec = &sectors[secnum];
+    int                 i, minsize = 32000 << FRACBITS;
+
+    // in height calcs
+    for (i = 0; i < sec->linecount; i++)
+        if (twoSided(secnum, i))
+        {
+            const side_t        *side;
+
+            if ((side = getSide(secnum, i, 0))->toptexture >= 0)
+                if (textureheight[side->toptexture] < minsize)
+                    minsize = textureheight[side->toptexture];
+            if ((side = getSide(secnum, i, 1))->toptexture >= 0)
+                if (textureheight[side->toptexture] < minsize)
+                    minsize = textureheight[side->toptexture];
+        }
+
+    return minsize;
+}
+
+//
+// P_FindModelFloorSector()
+//
+// Passed a floor height and a sector number, return a pointer to a
+// a sector with that floor height across the lowest numbered two sided
+// line surrounding the sector.
+//
+// Note: If no sector at that height bounds the sector passed, return NULL
+//
+// jff 02/03/98 Add routine to find numeric model floor
+//  around a sector specified by sector number
+// jff 3/14/98 change first parameter to plain height to allow call
+//  from routine not using floormove_t
+//
+// killough 11/98: reformatted
+sector_t *P_FindModelFloorSector(fixed_t floordestheight, int secnum)
+{
+    sector_t    *sec = &sectors[secnum];
+    int         i, linecount = sec->linecount;
+
+    for (i = 0; i < linecount; i++)
+        if (twoSided(secnum, i)
+            && (sec = getSector(secnum, i,
+            getSide(secnum, i, 0)->sector - sectors == secnum))->floorheight == floordestheight)
+            return sec;
+
+    return NULL;
+}
+
+//
+// P_FindModelCeilingSector()
+//
+// Passed a ceiling height and a sector number, return a pointer to a
+// a sector with that ceiling height across the lowest numbered two sided
+// line surrounding the sector.
+//
+// Note: If no sector at that height bounds the sector passed, return NULL
+//
+// jff 02/03/98 Add routine to find numeric model ceiling
+//  around a sector specified by sector number
+//  used only from generalized ceiling types
+// jff 3/14/98 change first parameter to plain height to allow call
+//  from routine not using ceiling_t
+//
+// killough 11/98: reformatted
+sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum)
+{
+    sector_t    *sec = &sectors[secnum];
+    int         i, linecount = sec->linecount;
+
+    for (i = 0; i < linecount; i++)
+        if (twoSided(secnum, i)
+            && (sec = getSector(secnum, i,
+            getSide(secnum, i, 0)->sector - sectors == secnum))->ceilingheight == ceildestheight)
+            return sec;
+
+    return NULL;
 }
 
 //
@@ -447,10 +633,119 @@ int P_FindMinSurroundingLight(sector_t *sector, int min)
 }
 
 //
-// EVENTS
-// Events are operations triggered by using, crossing,
-// or shooting special lines, or by timed thinkers.
+// P_CanUnlockGenDoor()
 //
+// Passed a generalized locked door linedef and a player, returns whether
+// the player has the keys necessary to unlock that door.
+//
+// Note: The linedef passed MUST be a generalized locked door type
+//       or results are undefined.
+//
+// jff 02/05/98 routine added to test for unlockability of
+//  generalized locked doors
+//
+// killough 11/98: reformatted
+boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
+{
+    // does this line special distinguish between skulls and keys?
+    int skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
+
+    // determine for each case of lock type if player's keys are adequate
+    switch ((line->special & LockedKey) >> LockedKeyShift)
+    {
+        case AnyKey:
+            if (!player->cards[it_redcard] &&
+                !player->cards[it_redskull] &&
+                !player->cards[it_bluecard] &&
+                !player->cards[it_blueskull] &&
+                !player->cards[it_yellowcard] &&
+                !player->cards[it_yellowskull])
+            {
+                //player->message = s_PD_ANY; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            break;
+        case RCard:
+            if (!player->cards[it_redcard] &&
+                (!skulliscard || !player->cards[it_redskull]))
+            {
+                //player->message = skulliscard ? s_PD_REDK : s_PD_REDC; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            break;
+        case BCard:
+            if (!player->cards[it_bluecard] &&
+                (!skulliscard || !player->cards[it_blueskull]))
+            {
+                //player->message = skulliscard ? s_PD_BLUEK : s_PD_BLUEC; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            break;
+        case YCard:
+            if (!player->cards[it_yellowcard] &&
+                (!skulliscard || !player->cards[it_yellowskull]))
+            {
+                //player->message = skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            break;
+        case RSkull:
+            if (!player->cards[it_redskull] &&
+                (!skulliscard || !player->cards[it_redcard]))
+            {
+                //player->message = skulliscard ? s_PD_REDK : s_PD_REDS; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            break;
+        case BSkull:
+            if (!player->cards[it_blueskull] &&
+                (!skulliscard || !player->cards[it_bluecard]))
+            {
+                //player->message = skulliscard ? s_PD_BLUEK : s_PD_BLUES; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            break;
+        case YSkull:
+            if (!player->cards[it_yellowskull] &&
+                (!skulliscard || !player->cards[it_yellowcard]))
+            {
+                //player->message = skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            break;
+        case AllKeys:
+            if (!skulliscard &&
+                (!player->cards[it_redcard] ||
+                !player->cards[it_redskull] ||
+                !player->cards[it_bluecard] ||
+                !player->cards[it_blueskull] ||
+                !player->cards[it_yellowcard] ||
+                !player->cards[it_yellowskull]))
+            {
+                //player->message = s_PD_ALL6; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            if (skulliscard &&
+                (!(player->cards[it_redcard] | player->cards[it_redskull]) ||
+                !(player->cards[it_bluecard] | player->cards[it_blueskull]) ||
+                !(player->cards[it_yellowcard] | !player->cards[it_yellowskull])))
+            {
+                //player->message = s_PD_ALL3; // Ty 03/27/98 - externalized
+                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                return false;
+            }
+            break;
+    }
+    return true;
+}
 
 //
 // P_CheckTag()
@@ -528,6 +823,12 @@ boolean P_CheckTag(line_t *line)
 }
 
 //
+// EVENTS
+// Events are operations triggered by using, crossing,
+// or shooting special lines, or by timed thinkers.
+//
+
+//
 // P_CrossSpecialLine - TRIGGER
 // Called every time a thing origin is about
 //  to cross a line with a non 0 special.
@@ -537,8 +838,6 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
     // Triggers that other things can activate
     if (!thing->player)
     {
-        boolean ok = false;
-
         // Things that should NOT trigger specials...
         switch (thing->type)
         {
@@ -558,6 +857,96 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             default:
                 break;
         }
+    }
+
+    // jff 02/04/98 add check here for generalized lindef types
+    {
+        // pointer to line function is NULL by default, set non-null if
+        // line special is walkover generalized linedef type
+        boolean (*linefunc)(line_t *) = NULL;
+
+        // check each range of generalized linedefs
+        if ((unsigned)line->special >= GenFloorBase)
+        {
+            if (!thing->player)
+                if ((line->special & FloorChange) || !(line->special & FloorModel))
+                    return;     // FloorModel is "Allow Monsters" if FloorChange is 0
+            if (!line->tag) //jff 2/27/98 all walk generalized types require tag
+                return;
+            linefunc = EV_DoGenFloor;
+        }
+        else if ((unsigned)line->special >= GenCeilingBase)
+        {
+            if (!thing->player)
+                if ((line->special & CeilingChange) || !(line->special & CeilingModel))
+                    return;     // CeilingModel is "Allow Monsters" if CeilingChange is 0
+            if (!line->tag) //jff 2/27/98 all walk generalized types require tag
+                return;
+            linefunc = EV_DoGenCeiling;
+        }
+        else if ((unsigned)line->special >= GenDoorBase)
+        {
+            if (!thing->player)
+            {
+                if (!(line->special & DoorMonster))
+                    return;                    // monsters disallowed from this door
+                if (line->flags & ML_SECRET) // they can't open secret doors either
+                    return;
+            }
+            if (!line->tag) //3/2/98 move outside the monster check
+                return;
+            linefunc = EV_DoGenDoor;
+        }
+        else if ((unsigned)line->special >= GenLockedBase)
+        {
+            if (!thing->player)
+                return;                     // monsters disallowed from unlocking doors
+            if (((line->special&TriggerType) == WalkOnce) || ((line->special&TriggerType) == WalkMany))
+            { //jff 4/1/98 check for being a walk type before reporting door type
+                if (!P_CanUnlockGenDoor(line, thing->player))
+                    return;
+            }
+            else
+                return;
+            linefunc = EV_DoGenLockedDoor;
+        }
+        else if ((unsigned)line->special >= GenLiftBase)
+        {
+            if (!thing->player)
+                if (!(line->special & LiftMonster))
+                    return; // monsters disallowed
+            if (!line->tag) //jff 2/27/98 all walk generalized types require tag
+                return;
+            linefunc = EV_DoGenLift;
+        }
+        else if ((unsigned)line->special >= GenStairsBase)
+        {
+            if (!thing->player)
+                if (!(line->special & StairMonster))
+                    return; // monsters disallowed
+            if (!line->tag) //jff 2/27/98 all walk generalized types require tag
+                return;
+            linefunc = EV_DoGenStairs;
+        }
+
+        if (linefunc) // if it was a valid generalized type
+            switch ((line->special & TriggerType) >> TriggerTypeShift)
+            {
+                case WalkOnce:
+                    if (linefunc(line))
+                        line->special = 0;    // clear special if a walk once type
+                    return;
+                case WalkMany:
+                    linefunc(line);
+                    return;
+                default:                  // if not a walk type, do nothing here
+                    return;
+            }
+    }
+
+    if (!thing->player)
+    {
+        boolean ok = false;
 
         switch (line->special)
         {
@@ -1123,6 +1512,103 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 //
 void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 {
+    // jff 02/04/98 add check here for generalized linedef
+    {
+        // pointer to line function is NULL by default, set non-null if
+        // line special is gun triggered generalized linedef type
+        boolean (*linefunc)(line_t *line) = NULL;
+
+        // check each range of generalized linedefs
+        if ((unsigned)line->special >= GenFloorBase)
+        {
+            if (!thing->player)
+                if ((line->special & FloorChange) || !(line->special & FloorModel))
+                    return;   // FloorModel is "Allow Monsters" if FloorChange is 0
+            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                return;
+
+            linefunc = EV_DoGenFloor;
+        }
+        else if ((unsigned)line->special >= GenCeilingBase)
+        {
+            if (!thing->player)
+                if ((line->special & CeilingChange) || !(line->special & CeilingModel))
+                    return;   // CeilingModel is "Allow Monsters" if CeilingChange is 0
+            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                return;
+            linefunc = EV_DoGenCeiling;
+        }
+        else if ((unsigned)line->special >= GenDoorBase)
+        {
+            if (!thing->player)
+            {
+                if (!(line->special & DoorMonster))
+                    return;   // monsters disallowed from this door
+                if (line->flags & ML_SECRET) // they can't open secret doors either
+                    return;
+            }
+            if (!line->tag) //jff 3/2/98 all gun generalized types require tag
+                return;
+            linefunc = EV_DoGenDoor;
+        }
+        else if ((unsigned)line->special >= GenLockedBase)
+        {
+            if (!thing->player)
+                return;   // monsters disallowed from unlocking doors
+            if (((line->special&TriggerType) == GunOnce) || ((line->special&TriggerType) == GunMany))
+            { //jff 4/1/98 check for being a gun type before reporting door type
+                if (!P_CanUnlockGenDoor(line, thing->player))
+                    return;
+            }
+            else
+                return;
+            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                return;
+
+            linefunc = EV_DoGenLockedDoor;
+        }
+        else if ((unsigned)line->special >= GenLiftBase)
+        {
+            if (!thing->player)
+                if (!(line->special & LiftMonster))
+                    return; // monsters disallowed
+            linefunc = EV_DoGenLift;
+        }
+        else if ((unsigned)line->special >= GenStairsBase)
+        {
+            if (!thing->player)
+                if (!(line->special & StairMonster))
+                    return; // monsters disallowed
+            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                return;
+            linefunc = EV_DoGenStairs;
+        }
+        else if ((unsigned)line->special >= GenCrusherBase)
+        {
+            if (!thing->player)
+                if (!(line->special & StairMonster))
+                    return; // monsters disallowed
+            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                return;
+            linefunc = EV_DoGenCrusher;
+        }
+
+        if (linefunc)
+            switch ((line->special & TriggerType) >> TriggerTypeShift)
+            {
+                case GunOnce:
+                    if (linefunc(line))
+                        P_ChangeSwitchTexture(line, 0);
+                    return;
+                case GunMany:
+                    if (linefunc(line))
+                        P_ChangeSwitchTexture(line, 1);
+                    return;
+                default:  // if not a gun type, do nothing here
+                    return;
+            }
+    }
+
     // Impacts that other things can activate.
     if (!thing->player)
     {
@@ -1640,7 +2126,7 @@ static void Add_Scroller(int type, fixed_t dx, fixed_t dy, int control, int affe
 // fix scrolling aliasing problems, caused by long linedefs causing overflowing
 static void Add_WallScroller(int64_t dx, int64_t dy, const line_t *l, int control, int accel)
 {
-    fixed_t     x = abs(l->dx), y = abs(l->dy), d;
+    fixed_t     x = ABS(l->dx), y = ABS(l->dy), d;
 
     if (y > x)
         d = x, x = y, y = d;
