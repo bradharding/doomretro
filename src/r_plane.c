@@ -36,8 +36,10 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "doomstat.h"
 #include "i_system.h"
+#include "i_timer.h"
 #include "p_local.h"
 #include "r_local.h"
 #include "r_sky.h"
@@ -80,6 +82,8 @@ static fixed_t          xoffs, yoffs;                   // killough 2/28/98: fla
 
 fixed_t                 yslope[SCREENHEIGHT];
 fixed_t                 distscale[SCREENWIDTH];
+
+boolean                 swirlingliquid = SWIRLINGLIQUID_DEFAULT;
 
 extern boolean          animatedliquid;
 extern fixed_t          animatedliquiddiffs[128];
@@ -272,6 +276,75 @@ static void R_MakeSpans(int x, unsigned int t1, unsigned int b1, unsigned int t2
         spanstart[b2--] = x;
 }
 
+// From Eternity Engine (r_ripple.cpp)
+#define AMP             2
+#define AMP2            2
+#define SPEED           40
+
+// swirl factors determine the number of waves per flat width
+// 1 cycle per 64 units
+#define SWIRLFACTOR     (8192 / 64)
+
+// 1 cycle per 32 units (2 in 64)
+#define SWIRLFACTOR2    (8192 / 32)
+
+char    *normalflat;
+char    distortedflat[4096];
+
+//
+// R_DistortedFlat
+//
+// Generates a distorted flat from a normal one using a two-dimensional
+// sine wave pattern.
+//
+char *R_DistortedFlat(int flatnum)
+{
+    static int  swirltic = -1;
+    static int  offset[4096];
+    int         i;
+    int         leveltic = I_GetTime();
+
+    // built this tic?
+    if (gametic != swirltic)
+    {
+        int     x, y;
+
+        for (x = 0; x < 64; x++)
+            for (y = 0; y < 64; y++)
+            {
+                int     x1, y1;
+                int sinvalue, sinvalue2;
+
+                sinvalue = (y * SWIRLFACTOR + leveltic * SPEED * 5 + 900) & 8191;
+                sinvalue2 = (x * SWIRLFACTOR2 + leveltic * SPEED * 4 + 300) & 8191;
+                x1 = x + 128 + ((finesine[sinvalue] * AMP) >> FRACBITS)
+                    + ((finesine[sinvalue2] * AMP2) >> FRACBITS);
+
+                sinvalue = (x * SWIRLFACTOR + leveltic * SPEED * 3 + 700) & 8191;
+                sinvalue2 = (y * SWIRLFACTOR2 + leveltic * SPEED * 4 + 1200) & 8191;
+                y1 = y + 128 + ((finesine[sinvalue] * AMP) >> FRACBITS)
+                    + ((finesine[sinvalue2] * AMP2) >> FRACBITS);
+
+                x1 &= 63;
+                y1 &= 63;
+
+                offset[(y << 6) + x] = (y1 << 6) + x1;
+            }
+
+        swirltic = gametic;
+    }
+
+    normalflat = W_CacheLumpNum(firstflat + flatnum, PU_STATIC);
+
+    for (i = 0; i < 4096; i++)
+        distortedflat[i] = normalflat[offset[i]];
+
+    // free the original
+    Z_ChangeTag(normalflat, PU_CACHE);
+
+    return distortedflat;
+}
+
 //
 // R_DrawPlanes
 // At the end of each frame.
@@ -319,18 +392,22 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    int light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-                    int stop = pl->maxx + 1;
-                    int lumpnum = firstflat + flattranslation[pl->picnum];
-                    int x;
+                    int         picnum = pl->picnum;
+                    boolean     liquid = isliquid[picnum];
+                    boolean     swirling = (liquid && swirlingliquid);
+                    int         lumpnum = firstflat + flattranslation[picnum];
+                    int         light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
+                    int         stop = pl->maxx + 1;
+                    int         x;
 
-                    ds_source = W_CacheLumpNum(lumpnum, PU_STATIC);
+                    ds_source = (swirling ? R_DistortedFlat(picnum) :
+                        W_CacheLumpNum(lumpnum, PU_STATIC));
 
                     xoffs = pl->xoffs;  // killough 2/28/98: Add offsets
                     yoffs = pl->yoffs;
                     planeheight = ABS(pl->height - viewz);
 
-                    if (isliquid[pl->picnum] && pl->sector && pl->sector->animate != INT_MAX)
+                    if (liquid && pl->sector && pl->sector->animate != INT_MAX)
                         planeheight -= pl->sector->animate;
 
                     planezlight = zlight[BETWEEN(0, light, LIGHTLEVELS - 1)];
@@ -340,7 +417,8 @@ void R_DrawPlanes(void)
                     for (x = pl->minx; x <= stop; x++)
                         R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
 
-                    W_ReleaseLumpNum(lumpnum);
+                    if (!swirling)
+                        W_ReleaseLumpNum(lumpnum);
                 }
             }
         }

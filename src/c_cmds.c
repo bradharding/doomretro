@@ -209,6 +209,7 @@ extern boolean  showmemory;
 extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
 extern boolean  spritefixes;
+extern boolean  swirlingliquid;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 #if !defined(WIN32) || !defined(SDL20)
@@ -506,6 +507,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD, "Toggle the heads-up display when in widescreen mode."),
     CVAR_BOOL (r_liquid_animatedheight, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID, "Toggle vertically animated liquid sectors."),
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP, "Toggle the bottom of sprites being clipped in liquid sectors."),
+    CVAR_BOOL (r_liquid_swirling, C_BoolCondition, C_Bool, swirlingliquid, ANIMATEDLIQUID, "Toggle the swirling effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize, "The size of pixels when the graphic detail is low."),
     CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxbloodsplats, 7, MAXBLOODSPLATS, "The maximum amount of blood splats in a map."),
     CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS, "Toggle randomly mirroring weapons dropped by monsters."),

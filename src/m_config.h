@@ -318,6 +318,8 @@
 
 #define SPRITEFIXES_DEFAULT                     true
 
+#define SWIRLINGLIQUID_DEFAULT                  true
+
 #define TIMIDITY_CFG_PATH_DEFAULT               ""
 
 #define TRANSLUCENCY_DEFAULT                    true

@@ -64,7 +64,6 @@ extern boolean  alwaysrun;
 extern boolean  am_grid;
 extern boolean  am_rotatemode;
 extern boolean  animatedliquid;
-//extern boolean  autosave;
 extern boolean  brightmaps;
 extern boolean  capfps;
 extern boolean  centerweapon;
@@ -178,6 +177,7 @@ extern boolean  shadows;
 extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
 extern boolean  spritefixes;
+extern boolean  swirlingliquid;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
 #if !defined(WIN32) || !defined(SDL20)
@@ -308,6 +308,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_hud,                   hud,                           1),
     CONFIG_VARIABLE_INT          (r_liquid_animatedheight, animatedliquid,                1),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,    footclip,                      1),
+    CONFIG_VARIABLE_INT          (r_liquid_swirling,       swirlingliquid,                1),
     CONFIG_VARIABLE_INT          (r_lowpixelheight,        pixelheight,                   0),
     CONFIG_VARIABLE_INT          (r_lowpixelwidth,         pixelwidth,                    0),
     CONFIG_VARIABLE_INT          (r_maxbloodsplats,        maxbloodsplats,                7),
@@ -793,9 +794,6 @@ static void M_CheckDefaults(void)
     if (animatedliquid != false && animatedliquid != true)
         animatedliquid = ANIMATEDLIQUID_DEFAULT;
 
-    //if (autosave != false && autosave != true)
-    //    autosave = AUTOSAVE_DEFAULT;
-
     if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;
 
@@ -1153,6 +1151,9 @@ static void M_CheckDefaults(void)
 
     if (spritefixes != false && spritefixes != true)
         spritefixes = SPRITEFIXES_DEFAULT;
+
+    if (swirlingliquid != false && swirlingliquid != true)
+        swirlingliquid = SWIRLINGLIQUID_DEFAULT;
 
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;
