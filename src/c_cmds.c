@@ -1716,7 +1716,7 @@ static void C_PixelSize(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output("%10ix%10i", pixelwidth, pixelheight);
+        C_Output("%ix%i", pixelwidth, pixelheight);
 }
 
 static boolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
@@ -1737,6 +1737,7 @@ static boolean C_ResurrectCondition(char *cmd, char *parm1, char *parm2)
 static void C_Resurrect(char *cmd, char *parm1, char *parm2)
 {
     P_ResurrectPlayer(&players[0]);
+    C_HideConsole();
 }
 
 static boolean C_SaveCondition(char *cmd, char *parm1, char *parm2)
