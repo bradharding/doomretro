@@ -823,10 +823,10 @@ void R_InitSpriteLumps(void)
 
     if (!BTSX)
     {
-        if (mergedcacodemon)
+        if (mergedcacodemon || FREEDOOM)
             mobjinfo[MT_HEAD].blood = MT_BLOOD;
 
-        if (mergednoble)
+        if (mergednoble || FREEDOOM)
         {
             mobjinfo[MT_BRUISER].blood = MT_BLOOD;
             mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
