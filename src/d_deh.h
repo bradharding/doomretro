@@ -137,6 +137,15 @@ extern char     *s_PD_YELLOWO;
 extern char     *s_PD_BLUEK;
 extern char     *s_PD_REDK;
 extern char     *s_PD_YELLOWK;
+extern char     *s_PD_BLUEC;
+extern char     *s_PD_REDC;
+extern char     *s_PD_YELLOWC;
+extern char     *s_PD_BLUES;
+extern char     *s_PD_REDS;
+extern char     *s_PD_YELLOWS;
+extern char     *s_PD_ANY;
+extern char     *s_PD_ALL3;
+extern char     *s_PD_ALL6;
 
 extern char     *s_GGSAVED;
 extern char     *s_GGLOADED;

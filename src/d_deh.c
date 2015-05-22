@@ -204,6 +204,15 @@ char    *s_PD_YELLOWO = PD_YELLOWO;
 char    *s_PD_BLUEK = PD_BLUEK;
 char    *s_PD_REDK = PD_REDK;
 char    *s_PD_YELLOWK = PD_YELLOWK;
+char    *s_PD_BLUEC = "";
+char    *s_PD_REDC = "";
+char    *s_PD_YELLOWC = "";
+char    *s_PD_BLUES = "";
+char    *s_PD_REDS = "";
+char    *s_PD_YELLOWS = "";
+char    *s_PD_ANY = "";
+char    *s_PD_ALL3 = "";
+char    *s_PD_ALL6 = "";
 
 char    *s_GGSAVED = GGSAVED;
 char    *s_GGLOADED = "";
@@ -655,6 +664,15 @@ deh_strs deh_strlookup[] =
     { &s_PD_BLUEK,             "PD_BLUEK",             false },
     { &s_PD_REDK,              "PD_REDK",              false },
     { &s_PD_YELLOWK,           "PD_YELLOWK",           false },
+    { &s_PD_BLUEC,             "PD_BLUEC",             false },
+    { &s_PD_REDC,              "PD_REDC",              false },
+    { &s_PD_YELLOWC,           "PD_YELLOWC",           false },
+    { &s_PD_BLUES,             "PD_BLUES",             false },
+    { &s_PD_REDS,              "PD_REDS",              false },
+    { &s_PD_YELLOWS,           "PD_YELLOWS",           false },
+    { &s_PD_ANY,               "PD_ANY",               false },
+    { &s_PD_ALL3,              "PD_ALL3",              false },
+    { &s_PD_ALL6,              "PD_ALL6",              false },
 
     { &s_GGSAVED,              "GGSAVED",              false },
     { &s_GGLOADED,             "GGLOADED",             false },
