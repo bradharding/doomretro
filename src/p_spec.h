@@ -231,6 +231,13 @@ typedef enum
     in_stasis
 } plat_e;
 
+//jff 3/15/98 pure texture/type change for better generalized support
+typedef enum
+{
+    trigChangeOnly,
+    numChangeOnly
+} change_e;
+
 typedef enum
 {
     perpetualRaise,
@@ -479,6 +486,13 @@ typedef enum
 
 typedef enum
 {
+    elevateUp,
+    elevateDown,
+    elevateCurrent
+} elevator_e;
+
+typedef enum
+{
     build8,     // slowly build by 8
     turbo16     // quickly build by 16
 } stair_e;
@@ -491,12 +505,25 @@ typedef struct
     sector_t    *sector;
     int         direction;
     int         newspecial;
+    int         oldspecial;     // jff 3/14/98 add to fix bug in change transfers
     short       texture;
     fixed_t     floordestheight;
     fixed_t     speed;
     boolean     stopsound;
 } floormove_t;
 
+typedef struct
+{
+    thinker_t   thinker;
+    elevator_e  type;
+    sector_t    *sector;
+    int         direction;
+    fixed_t     floordestheight;
+    fixed_t     ceilingdestheight;
+    fixed_t     speed;
+} elevator_t;
+
+#define ELEVATORSPEED           (FRACUNIT * 4)
 #define FLOORSPEED              FRACUNIT
 
 typedef enum
@@ -510,6 +537,8 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crus
     int floorOrCeiling, int direction);
 boolean EV_BuildStairs(line_t *line, stair_e type);
 boolean EV_DoFloor(line_t *line, floor_e floortype);
+boolean EV_DoChange(line_t *line, change_e changetype);
+boolean EV_DoElevator(line_t *line, elevator_e elevtype);
 void T_MoveFloor(floormove_t *floor);
 void P_InitAnimatedLiquids(void);
 
@@ -517,13 +546,13 @@ void P_InitAnimatedLiquids(void);
 
 typedef struct
 {
-    thinker_t thinker;          // Thinker structure for scrolling
-    fixed_t dx, dy;             // (dx,dy) scroll speeds
-    int affectee;               // Number of affected sidedef, sector, tag, or whatever
-    int control;                // Control sector (-1 if none) used to control scrolling
-    fixed_t last_height;        // Last known height of control sector
-    fixed_t vdx, vdy;           // Accumulated velocity if accelerative
-    int accel;                  // Whether it's accelerative
+    thinker_t   thinker;        // Thinker structure for scrolling
+    fixed_t     dx, dy;         // (dx,dy) scroll speeds
+    int         affectee;       // Number of affected sidedef, sector, tag, or whatever
+    int         control;        // Control sector (-1 if none) used to control scrolling
+    fixed_t     last_height;    // Last known height of control sector
+    fixed_t     vdx, vdy;       // Accumulated velocity if accelerative
+    int         accel;          // Whether it's accelerative
     enum
     {
         sc_side,
@@ -540,6 +569,17 @@ typedef struct
 boolean EV_Teleport(line_t *line, int side, mobj_t *thing);
 boolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
 boolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, boolean reverse);
+
+//jff 3/14/98 add bits and shifts for generalized sector types
+
+#define DAMAGE_MASK     0x60
+#define DAMAGE_SHIFT    5
+#define SECRET_MASK     0x80
+#define SECRET_SHIFT    7
+#define FRICTION_MASK   0x100
+#define FRICTION_SHIFT  8
+#define PUSH_MASK       0x200
+#define PUSH_SHIFT      9
 
 // jff 02/04/98 Define masks, shifts, for fields in 
 // generalized linedef types

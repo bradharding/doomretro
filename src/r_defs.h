@@ -98,6 +98,7 @@ typedef struct
     short               ceilingpic;
     short               lightlevel;
     short               special;
+    short               oldspecial;     // jff 2/16/98 remembers if sector WAS secret (automap)
     short               tag;
 
     // 0 = untraversed, 1,2 = sndlines -1
@@ -412,7 +413,8 @@ typedef enum
     WR_Crusher_Start_Silent                                        = 150,
     WR_Ceiling_RaiseToHighestCeiling                               = 151,
     WR_Ceiling_LowerToFloor_Fast                                   = 152,
-
+    W1_ChangeTextureAndEffect                                      = 153,
+    WR_ChangeTextureAndEffect                                      = 154,
     WR_Floor_RaiseDonut_ChangesTexture                             = 155,
     WR_Light_StartBlinking                                         = 156,
     WR_Light_ChangeToDarkestAdjacent                               = 157,
@@ -481,6 +483,21 @@ typedef enum
     S1_Floor_LowerToNearestFloor                                   = 221,
     SR_Floor_LowerToNearestFloor                                   = 222,
 
+    W1_Lift_RaiseToNextHighestFloor_Fast                           = 227,
+    WR_Lift_RaiseToNextHighestFloor_Fast                           = 228,
+    S1_Lift_RaiseToNextHighestFloor_Fast                           = 229,
+    SR_Lift_RaiseToNextHighestFloor_Fast                           = 230,
+    W1_Lift_LowerToNextLowestFloor_Fast                            = 231,
+    WR_Lift_LowerToNextLowestFloor_Fast                            = 232,
+    S1_Lift_LowerToNextLowestFloor_Fast                            = 233,
+    SR_Lift_LowerToNextLowestFloor_Fast                            = 234,
+    W1_Lift_MoveToSameFloorHeight_Fast                             = 235,
+    WR_Lift_MoveToSameFloorHeight_Fast                             = 236,
+    S1_Lift_MoveToSameFloorHeight_Fast                             = 237,
+    SR_Lift_MoveToSameFloorHeight_Fast                             = 238,
+    W1_ChangeTextureAndEffectToNearest                             = 239,
+    WR_ChangeTextureAndEffectToNearest                             = 240,
+    S1_ChangeTextureAndEffectToNearest                             = 241,
     CreateFakeCeilingAndFloor                                      = 242,
     W1_TeleportToLineWithSameTag_Silent_SameAngle                  = 243,
     WR_TeleportToLineWithSameTag_Silent_SameAngle                  = 244,

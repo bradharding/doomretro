@@ -862,43 +862,45 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         boolean (*linefunc)(line_t *) = NULL;
 
         // check each range of generalized linedefs
-        if ((unsigned)line->special >= GenFloorBase)
+        if ((unsigned int)line->special >= GenFloorBase)
         {
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
-                    return;     // FloorModel is "Allow Monsters" if FloorChange is 0
-            if (!line->tag) //jff 2/27/98 all walk generalized types require tag
+                    return;             // FloorModel is "Allow Monsters" if FloorChange is 0
+            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
                 return;
             linefunc = EV_DoGenFloor;
         }
-        else if ((unsigned)line->special >= GenCeilingBase)
+        else if ((unsigned int)line->special >= GenCeilingBase)
         {
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                    return;     // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag) //jff 2/27/98 all walk generalized types require tag
+                    return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
+            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
                 return;
             linefunc = EV_DoGenCeiling;
         }
-        else if ((unsigned)line->special >= GenDoorBase)
+        else if ((unsigned int)line->special >= GenDoorBase)
         {
             if (!thing->player)
             {
                 if (!(line->special & DoorMonster))
-                    return;                    // monsters disallowed from this door
-                if (line->flags & ML_SECRET) // they can't open secret doors either
+                    return;                     // monsters disallowed from this door
+                if (line->flags & ML_SECRET)    // they can't open secret doors either
                     return;
             }
-            if (!line->tag) //3/2/98 move outside the monster check
+            if (!line->tag)                     // 3/2/98 move outside the monster check
                 return;
             linefunc = EV_DoGenDoor;
         }
-        else if ((unsigned)line->special >= GenLockedBase)
+        else if ((unsigned int)line->special >= GenLockedBase)
         {
             if (!thing->player)
-                return;                     // monsters disallowed from unlocking doors
-            if (((line->special&TriggerType) == WalkOnce) || ((line->special&TriggerType) == WalkMany))
-            { //jff 4/1/98 check for being a walk type before reporting door type
+                return;                 // monsters disallowed from unlocking doors
+            if (((line->special & TriggerType) == WalkOnce)
+                || ((line->special & TriggerType) == WalkMany))
+            {
+                // jff 4/1/98 check for being a walk type before reporting door type
                 if (!P_CanUnlockGenDoor(line, thing->player))
                     return;
             }
@@ -906,36 +908,39 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 return;
             linefunc = EV_DoGenLockedDoor;
         }
-        else if ((unsigned)line->special >= GenLiftBase)
+        else if ((unsigned int)line->special >= GenLiftBase)
         {
             if (!thing->player)
                 if (!(line->special & LiftMonster))
-                    return; // monsters disallowed
-            if (!line->tag) //jff 2/27/98 all walk generalized types require tag
+                    return;             // monsters disallowed
+            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
                 return;
             linefunc = EV_DoGenLift;
         }
-        else if ((unsigned)line->special >= GenStairsBase)
+        else if ((unsigned int)line->special >= GenStairsBase)
         {
             if (!thing->player)
                 if (!(line->special & StairMonster))
-                    return; // monsters disallowed
-            if (!line->tag) //jff 2/27/98 all walk generalized types require tag
+                    return;             // monsters disallowed
+            if (!line->tag)             // jff 2/27/98 all walk generalized types require tag
                 return;
             linefunc = EV_DoGenStairs;
         }
 
-        if (linefunc) // if it was a valid generalized type
+        // if it was a valid generalized type
+        if (linefunc)
             switch ((line->special & TriggerType) >> TriggerTypeShift)
             {
                 case WalkOnce:
                     if (linefunc(line))
-                        line->special = 0;    // clear special if a walk once type
+                        line->special = 0;      // clear special if a walk once type
                     return;
+
                 case WalkMany:
                     linefunc(line);
                     return;
-                default:                  // if not a walk type, do nothing here
+
+                default:                        // if not a walk type, do nothing here
                     return;
             }
     }
@@ -1115,6 +1120,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_ExitLevel:
+            // killough 10/98: prevent zombies from exiting levels
             if (!(thing->player && thing->player->health <= 0))
                 G_ExitLevel();
             break;
@@ -1160,17 +1166,17 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_Door_OpenWaitClose_Fast:
-            if (EV_DoDoor (line, doorBlazeRaise))
+            if (EV_DoDoor(line, doorBlazeRaise))
                 line->special = 0;
             break;
 
         case W1_Door_OpenStay_Fast:
-            if (EV_DoDoor (line, doorBlazeOpen))
+            if (EV_DoDoor(line, doorBlazeOpen))
                 line->special = 0;
             break;
 
         case W1_Door_CloseStay_Fast:
-            if (EV_DoDoor (line, doorBlazeClose))
+            if (EV_DoDoor(line, doorBlazeClose))
                 line->special = 0;
             break;
 
@@ -1185,6 +1191,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             break;
 
         case W1_ExitLevel_GoesToSecretLevel:
+            // killough 10/98: prevent zombies from exiting levels
             if (!(thing->player && thing->player->health <= 0))
                 G_SecretExitLevel();
             break;
@@ -1375,8 +1382,33 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
                 line->special = 0;
             break;
 
+        case W1_ChangeTextureAndEffect:
+            if (EV_DoChange(line, trigChangeOnly))
+                line->special = 0;
+            break;
+
+        case W1_ChangeTextureAndEffectToNearest:
+            if (EV_DoChange(line, numChangeOnly))
+                line->special = 0;
+            break;
+
         case W1_Floor_LowerToNearestFloor:
             if (EV_DoFloor(line, lowerFloorToNearest))
+                line->special = 0;
+            break;
+
+        case W1_Lift_RaiseToNextHighestFloor_Fast:
+            if (EV_DoElevator(line, elevateUp))
+                line->special = 0;
+            break;
+
+        case W1_Lift_LowerToNextLowestFloor_Fast:
+            if (EV_DoElevator(line, elevateDown))
+                line->special = 0;
+            break;
+
+        case W1_Lift_MoveToSameFloorHeight_Fast:
+            if (EV_DoElevator(line, elevateCurrent))
                 line->special = 0;
             break;
 
@@ -1467,8 +1499,28 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
             EV_DoPlat(line, toggleUpDn, 0);
             break;
 
+        case WR_ChangeTextureAndEffect:
+            EV_DoChange(line, trigChangeOnly);
+            break;
+
+        case WR_ChangeTextureAndEffectToNearest:
+            EV_DoChange(line, numChangeOnly);
+            break;
+
         case WR_Floor_LowerToNearestFloor:
             EV_DoFloor(line, lowerFloorToNearest);
+            break;
+
+        case WR_Lift_RaiseToNextHighestFloor_Fast:
+            EV_DoElevator(line, elevateUp);
+            break;
+
+        case WR_Lift_LowerToNextLowestFloor_Fast:
+            EV_DoElevator(line, elevateDown);
+            break;
+
+        case WR_Lift_MoveToSameFloorHeight_Fast:
+            EV_DoElevator(line, elevateCurrent);
             break;
 
         case WR_TeleportToLineWithSameTag_Silent_SameAngle:
@@ -1509,76 +1561,78 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
         boolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
-        if ((unsigned)line->special >= GenFloorBase)
+        if ((unsigned int)line->special >= GenFloorBase)
         {
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
-                    return;   // FloorModel is "Allow Monsters" if FloorChange is 0
-            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                    return;             // FloorModel is "Allow Monsters" if FloorChange is 0
+            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
                 return;
 
             linefunc = EV_DoGenFloor;
         }
-        else if ((unsigned)line->special >= GenCeilingBase)
+        else if ((unsigned int)line->special >= GenCeilingBase)
         {
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                    return;   // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                    return;             // CeilingModel is "Allow Monsters" if CeilingChange is 0
+            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
                 return;
             linefunc = EV_DoGenCeiling;
         }
-        else if ((unsigned)line->special >= GenDoorBase)
+        else if ((unsigned int)line->special >= GenDoorBase)
         {
             if (!thing->player)
             {
                 if (!(line->special & DoorMonster))
-                    return;   // monsters disallowed from this door
-                if (line->flags & ML_SECRET) // they can't open secret doors either
+                    return;                     // monsters disallowed from this door
+                if (line->flags & ML_SECRET)    // they can't open secret doors either
                     return;
             }
-            if (!line->tag) //jff 3/2/98 all gun generalized types require tag
+            if (!line->tag)                     // jff 3/2/98 all gun generalized types require tag
                 return;
             linefunc = EV_DoGenDoor;
         }
-        else if ((unsigned)line->special >= GenLockedBase)
+        else if ((unsigned int)line->special >= GenLockedBase)
         {
             if (!thing->player)
-                return;   // monsters disallowed from unlocking doors
-            if (((line->special&TriggerType) == GunOnce) || ((line->special&TriggerType) == GunMany))
-            { //jff 4/1/98 check for being a gun type before reporting door type
+                return;                 // monsters disallowed from unlocking doors
+            if (((line->special & TriggerType) == GunOnce)
+                || ((line->special & TriggerType) == GunMany))
+            {
+                // jff 4/1/98 check for being a gun type before reporting door type
                 if (!P_CanUnlockGenDoor(line, thing->player))
                     return;
             }
             else
                 return;
-            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
                 return;
 
             linefunc = EV_DoGenLockedDoor;
         }
-        else if ((unsigned)line->special >= GenLiftBase)
+        else if ((unsigned int)line->special >= GenLiftBase)
         {
             if (!thing->player)
                 if (!(line->special & LiftMonster))
-                    return; // monsters disallowed
+                    return;             // monsters disallowed
             linefunc = EV_DoGenLift;
         }
-        else if ((unsigned)line->special >= GenStairsBase)
+        else if ((unsigned int)line->special >= GenStairsBase)
         {
             if (!thing->player)
                 if (!(line->special & StairMonster))
-                    return; // monsters disallowed
-            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                    return;             // monsters disallowed
+            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
                 return;
             linefunc = EV_DoGenStairs;
         }
-        else if ((unsigned)line->special >= GenCrusherBase)
+        else if ((unsigned int)line->special >= GenCrusherBase)
         {
             if (!thing->player)
                 if (!(line->special & StairMonster))
-                    return; // monsters disallowed
-            if (!line->tag) //jff 2/27/98 all gun generalized types require tag
+                    return;             // monsters disallowed
+            if (!line->tag)             // jff 2/27/98 all gun generalized types require tag
                 return;
             linefunc = EV_DoGenCrusher;
         }
@@ -1590,11 +1644,13 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
                     if (linefunc(line))
                         P_ChangeSwitchTexture(line, 0);
                     return;
+
                 case GunMany:
                     if (linefunc(line))
                         P_ChangeSwitchTexture(line, 1);
                     return;
-                default:  // if not a gun type, do nothing here
+
+                default:                // if not a gun type, do nothing here
                     return;
             }
     }
@@ -1637,11 +1693,17 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
             break;
 
         case G1_ExitLevel:
+            // killough 10/98: prevent zombies from exiting levels
+            if (thing->player && thing->player->health <= 0)
+                break;
             P_ChangeSwitchTexture(line, 0);
             G_ExitLevel();
             break;
 
         case G1_ExitLevel_GoesToSecretLevel:
+            // killough 10/98: prevent zombies from exiting levels
+            if (thing->player && thing->player->health <= 0)
+                break;
             P_ChangeSwitchTexture(line, 0);
             G_SecretExitLevel();
             break;
@@ -1655,63 +1717,97 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 //
 void P_PlayerInSpecialSector(player_t *player)
 {
-    int      i;
-    sector_t *sector = player->mo->subsector->sector;
+    int         i;
+    sector_t    *sector = player->mo->subsector->sector;
 
     // Falling, not all the way down yet?
     if (player->mo->z != sector->floorheight)
         return;
 
     // Has hit ground.
-    switch (sector->special)
+    //jff add if to handle old vs generalized types
+    if (sector->special < 32) // regular sector specials
     {
-        case DamageNegative5Or10PercentHealth:
-            if (!player->powers[pw_ironfeet])
-                if (!(leveltime & 0x1f))
-                    P_DamageMobj(player->mo, NULL, NULL, 10);
-            break;
+        switch (sector->special)
+        {
+            case DamageNegative5Or10PercentHealth:
+                if (!player->powers[pw_ironfeet])
+                    if (!(leveltime & 0x1f))
+                        P_DamageMobj(player->mo, NULL, NULL, 10);
+                break;
 
-        case DamageNegative2Or5PercentHealth:
-            if (!player->powers[pw_ironfeet])
-                if (!(leveltime & 0x1f))
-                      P_DamageMobj(player->mo, NULL, NULL, 5);
-            break;
+            case DamageNegative2Or5PercentHealth:
+                if (!player->powers[pw_ironfeet])
+                    if (!(leveltime & 0x1f))
+                        P_DamageMobj(player->mo, NULL, NULL, 5);
+                break;
 
-        case DamageNegative10Or20PercentHealth:
-        case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
-            if (!player->powers[pw_ironfeet] || P_Random() < 5)
+            case DamageNegative10Or20PercentHealth:
+            case DamageNegative10Or20PercentHealthAndLightBlinks_2Hz:
+                if (!player->powers[pw_ironfeet] || P_Random() < 5)
+                    if (!(leveltime & 0x1f))
+                        P_DamageMobj(player->mo, NULL, NULL, 20);
+                break;
+
+            case Secret:
+                player->secretcount++;
+                sector->special = 0;
+
+                for (i = 0; i < sector->linecount; i++)
+                    sector->lines[i]->flags &= ~ML_SECRET;
+                break;
+
+            case DamageNegative10Or20PercentHealthAndEndLevel:
+                // for E1M8 finale
+                player->cheats &= ~CF_GODMODE;
+                player->powers[pw_invulnerability] = 0;
+
                 if (!(leveltime & 0x1f))
                     P_DamageMobj(player->mo, NULL, NULL, 20);
-            break;
 
-        case Secret:
+                if (player->health <= 10)
+                {
+                    player->health = 0;
+                    G_ExitLevel();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+    else
+    {
+        switch ((sector->special & DAMAGE_MASK) >> DAMAGE_SHIFT)
+        {
+            case 0: // no damage
+                break;
+            case 1: // 2/5 damage per 31 ticks
+                if (!player->powers[pw_ironfeet])
+                    if (!(leveltime & 0x1f))
+                        P_DamageMobj(player->mo, NULL, NULL, 5);
+                break;
+            case 2: // 5/10 damage per 31 ticks
+                if (!player->powers[pw_ironfeet])
+                    if (!(leveltime & 0x1f))
+                        P_DamageMobj(player->mo, NULL, NULL, 10);
+                break;
+            case 3: // 10/20 damage per 31 ticks
+                if (!player->powers[pw_ironfeet] || P_Random() < 5)  // take damage even with suit
+                {
+                    if (!(leveltime & 0x1f))
+                        P_DamageMobj(player->mo, NULL, NULL, 20);
+                }
+                break;
+        }
+
+        if (sector->special & SECRET_MASK)
+        {
             player->secretcount++;
-            sector->special = 0;
-
-            for (i = 0; i < sector->linecount; i++)
-                sector->lines[i]->flags &= ~ML_SECRET;
-            break;
-
-        case DamageNegative10Or20PercentHealthAndEndLevel:
-            // for E1M8 finale
-            player->cheats &= ~CF_GODMODE;
-            player->powers[pw_invulnerability] = 0;
-
-            if (!(leveltime & 0x1f))
-                P_DamageMobj(player->mo, NULL, NULL, 20);
-
-            if (player->health <= 10)
-            {
-                player->health = 0;
-                G_ExitLevel();
-            }
-            break;
-
-        default:
-            if ((unsigned short)sector->special >= UNKNOWNSECTORSPECIAL)
-                C_Warning("The player is in a sector with an unknown special of %s.",
-                    commify(sector->special));
-            break;
+            sector->special &= ~SECRET_MASK;
+            if (sector->special < 32)   // if all extended bits clear,
+                sector->special = 0;    // sector is not special anymore
+        }
     }
 }
 
@@ -1774,7 +1870,7 @@ void P_UpdateSpecials(void)
 }
 
 //
-// Special Stuff that can not be categorized
+// Special Stuff that cannot be categorized
 //
 int EV_DoDonut(line_t *line)
 {

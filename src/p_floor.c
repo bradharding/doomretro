@@ -250,6 +250,8 @@ result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
 //
 // MOVE A FLOOR TO IT'S DESTINATION (UP OR DOWN)
 //
+// jff 02/08/98 all cases with labels beginning with gen added to support 
+// generalized line type behaviors.
 void T_MoveFloor(floormove_t *floor)
 {
     sector_t    *sec = floor->sector;
@@ -273,6 +275,21 @@ void T_MoveFloor(floormove_t *floor)
                     P_ChangeSector(sec, false);
                     if (isliquid[sec->floorpic])
                         P_StartAnimatedLiquid(sec);
+
+                case genFloorChgT:
+                case genFloorChg0:
+                    sec->special = floor->newspecial;
+                    // jff add to fix bug in special transfers from changes
+                    sec->oldspecial = floor->oldspecial;
+                    // fall thru
+
+                case genFloorChg:
+                    sec->floorpic = floor->texture;
+                    P_ChangeSector(sec, false);
+                    if (isliquid[sec->floorpic])
+                        P_StartAnimatedLiquid(sec);
+                    break;
+
                 default:
                     break;
             }
@@ -283,18 +300,113 @@ void T_MoveFloor(floormove_t *floor)
             {
                 case lowerAndChange:
                     sec->special = floor->newspecial;
+                    // jff add to fix bug in special transfers from changes
+                    sec->oldspecial = floor->oldspecial;
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
                     if (isliquid[sec->floorpic])
                         P_StartAnimatedLiquid(sec);
+
+                case genFloorChgT:
+                case genFloorChg0:
+                    sec->special = floor->newspecial;
+                    // jff add to fix bug in special transfers from changes
+                    sec->oldspecial = floor->oldspecial;
+                    // fall thru
+
+                case genFloorChg:
+                    sec->floorpic = floor->texture;
+                    P_ChangeSector(sec, false);
+                    if (isliquid[sec->floorpic])
+                        P_StartAnimatedLiquid(sec);
+                    break;
+
                 default:
                     break;
             }
         }
         P_RemoveThinker(&floor->thinker);
 
+        // jff 2/26/98 implement stair retrigger lockout while still building
+        // note this only applies to the retriggerable generalized stairs
+        if (sec->stairlock == -2)               // if this sector is stairlocked
+        {
+            sec->stairlock = -1;                // thinker done, promote lock to -1
+
+            while (sec->prevsec != -1 && sectors[sec->prevsec].stairlock != -2)
+                sec = &sectors[sec->prevsec];   // search for a non-done thinker
+            if (sec->prevsec == -1)             // if all thinkers previous are done
+            {
+                sec = floor->sector;            // search forward
+                while (sec->nextsec != -1 && sectors[sec->nextsec].stairlock != -2)
+                    sec = &sectors[sec->nextsec];
+                if (sec->nextsec == -1)         // if all thinkers ahead are done too
+                {
+                    while (sec->prevsec != -1)  // clear all locks
+                    {
+                        sec->stairlock = 0;
+                        sec = &sectors[sec->prevsec];
+                    }
+                    sec->stairlock = 0;
+                }
+            }
+        }
+
         if (floor->stopsound)
             S_StartSound(&sec->soundorg, sfx_pstop);
+    }
+}
+
+//
+// T_MoveElevator()
+//
+// Move an elevator to it's destination (up or down)
+// Called once per tick for each moving floor.
+//
+// Passed an elevator_t structure that contains all pertinent info about the
+// move. See P_SPEC.H for fields.
+// No return value.
+//
+// jff 02/22/98 added to support parallel floor/ceiling motion
+//
+void T_MoveElevator(elevator_t *elevator)
+{
+    result_e    res;
+
+    if (elevator->direction < 0)                // moving down
+    {
+        // jff 4/7/98 reverse order of ceiling/floor
+        res = T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, 0, 1,
+            elevator->direction);
+
+        // jff 4/7/98 don't move ceil if blocked
+        if (res == ok || res == pastdest)
+            T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, 0, 0,
+                elevator->direction);
+    }
+    else                                        // up
+    {
+        // jff 4/7/98 reverse order of ceiling/floor
+        res = T_MovePlane(elevator->sector, elevator->speed, elevator->floordestheight, 0, 0,
+            elevator->direction);
+
+        // jff 4/7/98 don't move floor if blocked
+        if (res == ok || res == pastdest) 
+            T_MovePlane(elevator->sector, elevator->speed, elevator->ceilingdestheight, 0, 1,
+                elevator->direction);
+    }
+
+    // make floor move sound
+    if (!(leveltime & 7))
+        S_StartSound((mobj_t *)&elevator->sector->soundorg, sfx_stnmov);
+
+    if (res == pastdest)                        // if destination height acheived
+    {
+        elevator->sector->specialdata = NULL;
+        P_RemoveThinker(&elevator->thinker);     // remove elevator from actives
+
+        // make floor stop sound
+        S_StartSound((mobj_t *)&elevator->sector->soundorg, sfx_pstop);
     }
 }
 
@@ -508,6 +620,65 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
 }
 
 //
+// EV_DoChange()
+//
+// Handle pure change types. These change floor texture and sector type
+// by trigger or numeric model without moving the floor.
+//
+// The linedef causing the change and the type of change is passed
+// Returns true if any sector changes
+//
+// jff 3/15/98 added to better support generalized sector types
+//
+boolean EV_DoChange(line_t *line, change_e changetype)
+{
+    int         secnum;
+    boolean     rtn;
+    sector_t    *sec;
+    sector_t    *secm;
+
+    secnum = -1;
+    rtn = false;
+
+    // change all sectors with the same tag as the linedef
+    while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
+    {
+        sec = &sectors[secnum];
+
+        rtn = true;
+
+        // handle trigger or numeric change type
+        switch (changetype)
+        {
+            case trigChangeOnly:
+                sec->floorpic = line->frontsector->floorpic;
+                P_ChangeSector(sec, false);
+                if (isliquid[sec->floorpic])
+                    P_StartAnimatedLiquid(sec);
+                sec->special = line->frontsector->special;
+                sec->oldspecial = line->frontsector->oldspecial;
+                break;
+
+            case numChangeOnly:
+                secm = P_FindModelFloorSector(sec->floorheight, secnum);
+                if (secm) // if no model, no change
+                {
+                    sec->floorpic = secm->floorpic;
+                    P_ChangeSector(sec, false);
+                    if (isliquid[sec->floorpic])
+                        P_StartAnimatedLiquid(sec);
+                    sec->special = secm->special;
+                    sec->oldspecial = secm->oldspecial;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    return rtn;
+}
+
+//
 // BUILD A STAIRCASE!
 //
 
@@ -644,6 +815,82 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
                 break;
             }
         } while (ok);
+    }
+    return rtn;
+}
+
+//
+// EV_DoElevator
+//
+// Handle elevator linedef types
+//
+// Passed the linedef that triggered the elevator and the elevator action
+//
+// jff 2/22/98 new type to move floor and ceiling in parallel
+//
+boolean EV_DoElevator(line_t *line, elevator_e elevtype)
+{
+    int         secnum;
+    boolean     rtn;
+    sector_t    *sec;
+    elevator_t  *elevator;
+
+    secnum = -1;
+    rtn = false;
+
+    // act on all sectors with the same tag as the triggering linedef
+    while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
+    {
+        sec = &sectors[secnum];
+
+        // If either floor or ceiling is already activated, skip it
+        if (sec->specialdata)   // jff 2/22/98
+            continue;
+
+        // create and initialize new elevator thinker
+        rtn = true;
+        elevator = Z_Malloc(sizeof(*elevator), PU_LEVSPEC, 0);
+        P_AddThinker(&elevator->thinker);
+        sec->specialdata = elevator;
+        elevator->thinker.function = T_MoveElevator;
+        elevator->type = elevtype;
+
+        // set up the fields according to the type of elevator action
+        switch (elevtype)
+        {
+            // elevator down to next floor
+            case elevateDown:
+                elevator->direction = -1;
+                elevator->sector = sec;
+                elevator->speed = ELEVATORSPEED;
+                elevator->floordestheight = P_FindNextLowestFloor(sec, sec->floorheight);
+                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight
+                    - sec->floorheight;
+                break;
+
+            // elevator up to next floor
+            case elevateUp:
+                elevator->direction = 1;
+                elevator->sector = sec;
+                elevator->speed = ELEVATORSPEED;
+                elevator->floordestheight = P_FindNextHighestFloor(sec, sec->floorheight);
+                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight
+                    - sec->floorheight;
+                break;
+
+            // elevator to floor height of activating switch's front sector
+            case elevateCurrent:
+                elevator->sector = sec;
+                elevator->speed = ELEVATORSPEED;
+                elevator->floordestheight = line->frontsector->floorheight;
+                elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight
+                    - sec->floorheight;
+                elevator->direction = (elevator->floordestheight>sec->floorheight ? 1 : -1);
+                break;
+
+            default:
+                break;
+        }
     }
     return rtn;
 }
