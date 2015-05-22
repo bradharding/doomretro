@@ -66,24 +66,45 @@ void T_MoveCeiling(ceiling_t *ceiling)
 
         case 1:
             // UP
-            res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->topheight,
-                              false, 1, ceiling->direction);
+            res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->topheight, false, 1,
+                ceiling->direction);
 
             if (!(leveltime & 7) && ceiling->sector->ceilingheight != ceiling->topheight)
-                if (ceiling->type != silentCrushAndRaise)
-                    S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
+                switch (ceiling->type)
+                {
+                    case silentCrushAndRaise:
+                    case genSilentCrusher:
+                        break;
+
+                    default:
+                        S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
+                        break;
+                }
 
             if (res == pastdest)
             {
                 switch (ceiling->type)
                 {
                     case raiseToHighest:
+                    case genCeiling:
+                        P_RemoveActiveCeiling(ceiling);
+                        break;
+
+                    // movers with texture change, change the texture then get removed
+                    case genCeilingChgT:
+                    case genCeilingChg0:
+                        ceiling->sector->special = ceiling->newspecial;
+
+                    case genCeilingChg:
+                        ceiling->sector->ceilingpic = ceiling->texture;
                         P_RemoveActiveCeiling(ceiling);
                         break;
 
                     case silentCrushAndRaise:
                         S_StartSound(&ceiling->sector->soundorg, sfx_pstop);
 
+                    case genSilentCrusher:
+                    case genCrusher:
                     case fastCrushAndRaise:
                     case crushAndRaise:
                         ceiling->direction = -1;
@@ -98,16 +119,31 @@ void T_MoveCeiling(ceiling_t *ceiling)
         case -1:
             // DOWN
             res = T_MovePlane(ceiling->sector, ceiling->speed, ceiling->bottomheight,
-                              ceiling->crush, 1, ceiling->direction);
+                ceiling->crush, 1, ceiling->direction);
 
             if (!(leveltime & 7) && ceiling->sector->ceilingheight != ceiling->bottomheight)
-                if (ceiling->type != silentCrushAndRaise)
-                    S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
+                switch (ceiling->type)
+                {
+                    case silentCrushAndRaise:
+                    case genSilentCrusher:
+                        break;
+                    default:
+                        S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
+                }
 
             if (res == pastdest)
             {
                 switch (ceiling->type)
                 {
+                    // 02/09/98 jff change slow crushers' speed back to normal
+                    // start back up
+                    case genSilentCrusher:
+                    case genCrusher:
+                        if (ceiling->oldspeed < CEILSPEED * 3)
+                            ceiling->speed = ceiling->oldspeed;
+                        ceiling->direction = 1; // jff 2/22/98 make it go back up!
+                        break;
+
                     case silentCrushAndRaise:
                         S_StartSound(&ceiling->sector->soundorg, sfx_pstop);
 
@@ -118,10 +154,22 @@ void T_MoveCeiling(ceiling_t *ceiling)
                         ceiling->direction = 1;
                         break;
 
+                    // in the case of ceiling mover/changer, change the texture
+                    // then remove the active ceiling
+                    case genCeilingChgT:
+                    case genCeilingChg0:
+                        ceiling->sector->special = ceiling->newspecial;
+
+                    case genCeilingChg:
+                        ceiling->sector->ceilingpic = ceiling->texture;
+                        P_RemoveActiveCeiling(ceiling);
+                        break;
+
                     case lowerAndCrush:
                     case lowerToFloor:
                     case lowerToLowest:
                     case lowerToMaxFloor:
+                    case genCeiling:
                         P_RemoveActiveCeiling(ceiling);
                         break;
 
@@ -135,6 +183,13 @@ void T_MoveCeiling(ceiling_t *ceiling)
                 {
                     switch (ceiling->type)
                     {
+                        // jff 02/08/98 slow down slow crushers on obstacle
+                        case genCrusher:
+                        case genSilentCrusher:
+                            if (ceiling->oldspeed < CEILSPEED * 3)
+                                ceiling->speed = CEILSPEED / 8;
+                            break;
+
                         case silentCrushAndRaise:
                         case crushAndRaise:
                         case lowerAndCrush:
@@ -182,7 +237,6 @@ boolean EV_DoCeiling(line_t *line, ceiling_e type)
         // new door thinker
         rtn = true;
         ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
-        memset(ceiling, 0, sizeof(*ceiling));
         P_AddThinker(&ceiling->thinker);
         sec->specialdata = ceiling;
         ceiling->thinker.function = T_MoveCeiling;

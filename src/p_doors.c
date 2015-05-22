@@ -69,18 +69,26 @@ void T_VerticalDoor(vldoor_t *door)
                 switch (door->type)
                 {
                     case doorBlazeRaise:
+                    case genBlazeRaise:
                         door->direction = -1;   // time to go back down
                         S_StartSound(&door->sector->soundorg, sfx_bdcls);
                         break;
 
                     case doorNormal:
+                    case genRaise:
                         door->direction = -1;   // time to go back down
                         S_StartSound(&door->sector->soundorg, sfx_dorcls);
                         break;
 
                     case doorClose30ThenOpen:
+                    case genCdO:
                         door->direction = 1;
                         S_StartSound(&door->sector->soundorg, sfx_doropn);
+                        break;
+
+                    case genBlazeCdO:
+                        door->direction = 1;    // time to go back up
+                        S_StartSound(&door->sector->soundorg, sfx_bdopn);
                         break;
 
                     default:
@@ -108,17 +116,27 @@ void T_VerticalDoor(vldoor_t *door)
             // DOWN
             res = T_MovePlane(door->sector, door->speed, door->sector->floorheight, false, 1,
                 door->direction);
+
+            // killough 10/98: implement gradual lighting effects
+            if (door->lighttag && door->topheight - door->sector->floorheight)
+                EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight
+                    - door->sector->floorheight, door->topheight - door->sector->floorheight));
+
             if (res == pastdest)
                 switch (door->type)
                 {
                     case doorBlazeRaise:
                     case doorBlazeClose:
+                    case genBlazeRaise:
+                    case genBlazeClose:
                         door->sector->specialdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
                         break;
 
                     case doorNormal:
                     case doorClose:
+                    case genRaise:
+                    case genClose:
                         door->sector->specialdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
                         break;
@@ -128,6 +146,12 @@ void T_VerticalDoor(vldoor_t *door)
                         door->topcountdown = TICRATE * 30;
                         break;
 
+                    case genCdO:
+                    case genBlazeCdO:
+                        door->direction = 0;
+                        door->topcountdown = door->topwait;     // jff 5/8/98 insert delay
+                        break;
+
                     default:
                         break;
                 }
@@ -135,7 +159,9 @@ void T_VerticalDoor(vldoor_t *door)
                 switch (door->type)
                 {
                     case doorBlazeClose:
-                    case doorClose:         // DO NOT GO BACK UP!
+                    case doorClose:
+                    case genClose:
+                    case genBlazeClose:                         // DO NOT GO BACK UP!
                         break;
 
                     case doorBlazeRaise:
@@ -154,12 +180,20 @@ void T_VerticalDoor(vldoor_t *door)
             // UP
             res = T_MovePlane(door->sector, door->speed, door->topheight, false, 1,
                 door->direction);
+
+            // killough 10/98: implement gradual lighting effects
+            if (door->lighttag && door->topheight - door->sector->floorheight)
+                EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight
+                    - door->sector->floorheight, door->topheight - door->sector->floorheight));
+
             if (res == pastdest)
             {
                 switch (door->type)
                 {
                     case doorBlazeRaise:
                     case doorNormal:
+                    case genRaise:
+                    case genBlazeRaise:
                         door->direction = 0;                    // wait at top
                         door->topcountdown = door->topwait;
                         break;
@@ -167,6 +201,10 @@ void T_VerticalDoor(vldoor_t *door)
                     case doorClose30ThenOpen:
                     case doorBlazeOpen:
                     case doorOpen:
+                    case genBlazeOpen:
+                    case genOpen:
+                    case genCdO:
+                    case genBlazeCdO:
                         door->sector->specialdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
                         break;
@@ -307,7 +345,6 @@ boolean EV_DoDoor(line_t *line, vldoor_e type)
         // new door thinker
         rtn = true;
         door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
-        memset(door, 0, sizeof(*door));
         P_AddThinker(&door->thinker);
         sec->specialdata = door;
 
@@ -316,6 +353,8 @@ boolean EV_DoDoor(line_t *line, vldoor_e type)
         door->type = type;
         door->topwait = VDOORWAIT;
         door->speed = VDOORSPEED;
+        door->line = line;      // jff 1/31/98 remember line that triggered us
+        door->lighttag = 0;     // killough 10/98: no light effects with tagged doors
 
         for (i = 0; i < door->sector->linecount; i++)
             door->sector->lines[i]->flags &= ~ML_SECRET;
@@ -549,14 +588,13 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             S_StartSound(&sec->soundorg, sfx_bdopn);
             break;
 
-        default:        // LOCKED DOOR SOUND
+        default:                // LOCKED DOOR SOUND
             S_StartSound(&sec->soundorg, sfx_doropn);
             break;
     }
 
     // new door thinker
     door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
-    memset(door, 0, sizeof(*door));
     P_AddThinker(&door->thinker);
     sec->specialdata = door;
     door->thinker.function = T_VerticalDoor;
@@ -564,6 +602,10 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     door->direction = 1;
     door->speed = VDOORSPEED;
     door->topwait = VDOORWAIT;
+    door->line = line;          // jff 1/31/98 remember line that triggered us
+
+    // killough 10/98: use gradual lighting changes if nonzero tag given
+    door->lighttag = line->tag; // killough 10/98
 
     switch (line->special)
     {
@@ -592,11 +634,14 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
             line->special = 0;
             door->speed = VDOORSPEED * 4;
             break;
+
+        default:
+            door->lighttag = 0; // killough 10/98
+            break;
     }
 
     // find the top and bottom of the movement range
-    door->topheight = P_FindLowestCeilingSurrounding(sec);
-    door->topheight -= 4 * FRACUNIT;
+    door->topheight = P_FindLowestCeilingSurrounding(sec) - 4 * FRACUNIT;
 
     for (i = 0; i < sec->linecount; i++)
         sec->lines[i]->flags &= ~ML_SECRET;
@@ -609,7 +654,6 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
 {
     vldoor_t    *door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 
-    memset(door, 0, sizeof(*door));
     P_AddThinker(&door->thinker);
 
     sec->specialdata = door;
@@ -621,6 +665,8 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
     door->type = doorNormal;
     door->speed = VDOORSPEED;
     door->topcountdown = 30 * TICRATE;
+    door->line = NULL;          // jff 1/31/98 remember line that triggered us
+    door->lighttag = 0;         // killough 10/98: no lighting changes
 }
 
 //
@@ -630,7 +676,6 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
 {
     vldoor_t    *door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 
-    memset(door, 0, sizeof(*door));
     P_AddThinker(&door->thinker);
 
     sec->specialdata = door;
@@ -645,4 +690,6 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
     door->topheight -= 4 * FRACUNIT;
     door->topwait = VDOORWAIT;
     door->topcountdown = 5 * 60 * TICRATE;
+    door->line = NULL; // jff 1/31/98 remember line that triggered us
+    door->lighttag = 0;  // killough 10/98: no lighting changes
 }

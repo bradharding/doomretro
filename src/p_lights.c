@@ -296,3 +296,41 @@ void P_SpawnGlowingLight(sector_t *sector)
 
     sector->special &= ~31;     // jff 3/14/98 clear non-generalized sector type
 }
+
+// killough 10/98:
+//
+// EV_LightTurnOnPartway()
+//
+// Turn sectors tagged to line lights on to specified or max neighbor level
+//
+// Passed the activating line, and a light level fraction between 0 and 1.
+// Sets the light to min on 0, max on 1, and interpolates in-between.
+// Used for doors with gradual lighting effects.
+//
+// Returns true
+int EV_LightTurnOnPartway(line_t *line, fixed_t level)
+{
+    int i;
+
+    level = BETWEEN(0, level, FRACUNIT);        // clip at extremes
+
+    // search all sectors for ones with same tag as activating line
+    for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+    {
+        sector_t        *temp, *sector = sectors + i;
+        int             j, bright = 0, min = sector->lightlevel;
+
+        for (j = 0; j < sector->linecount; j++)
+            if ((temp = getNextSector(sector->lines[j], sector)))
+            {
+                if (temp->lightlevel > bright)
+                    bright = temp->lightlevel;
+                if (temp->lightlevel < min)
+                    min = temp->lightlevel;
+            }
+
+        // Set level in-between extremes
+        sector->lightlevel = (level * bright + (FRACUNIT - level) * min) >> FRACBITS;
+    }
+    return 1;
+}

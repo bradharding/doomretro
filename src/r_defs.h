@@ -449,7 +449,8 @@ typedef enum
     SR_Ceiling_RaiseToHighestCeiling                               = 186,
     SR_Ceiling_LowerTo8AboveFloor                                  = 187,
     SR_Crusher_Stop                                                = 188,
-
+    S1_ChangeTextureAndEffect                                      = 189,
+    SR_ChangeTextureAndEffect                                      = 190,
     SR_Floor_RaiseDonut_ChangesTexture                             = 191,
     SR_Light_ChangeToBrightestAdjacent                             = 192,
     SR_Light_StartBlinking                                         = 193,

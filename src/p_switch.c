@@ -189,73 +189,73 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
         boolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
-        if ((unsigned)line->special >= GenFloorBase)
+        if ((unsigned int)line->special >= GenFloorBase)
         {
             if (!thing->player)
                 if ((line->special & FloorChange) || !(line->special & FloorModel))
-                    return false; // FloorModel is "Allow Monsters" if FloorChange is 0
-            if (!line->tag && ((line->special & 6) != 6)) //jff 2/27/98 all non-manual
-                return false;                         // generalized types require tag
+                    return false;       // FloorModel is "Allow Monsters" if FloorChange is 0
+            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
+                return false;                                   // generalized types require tag
             linefunc = EV_DoGenFloor;
         }
-        else if ((unsigned)line->special >= GenCeilingBase)
+        else if ((unsigned int)line->special >= GenCeilingBase)
         {
             if (!thing->player)
                 if ((line->special & CeilingChange) || !(line->special & CeilingModel))
-                    return false;   // CeilingModel is "Allow Monsters" if CeilingChange is 0
-            if (!line->tag && ((line->special & 6) != 6)) //jff 2/27/98 all non-manual
-                return false;                         // generalized types require tag
+                    return false;       // CeilingModel is "Allow Monsters" if CeilingChange is 0
+            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
+                return false;                                   // generalized types require tag
             linefunc = EV_DoGenCeiling;
         }
-        else if ((unsigned)line->special >= GenDoorBase)
+        else if ((unsigned int)line->special >= GenDoorBase)
         {
             if (!thing->player)
             {
                 if (!(line->special & DoorMonster))
-                    return false;   // monsters disallowed from this door
-                if (line->flags & ML_SECRET) // they can't open secret doors either
+                    return false;                       // monsters disallowed from this door
+                if (line->flags & ML_SECRET)            // they can't open secret doors either
                     return false;
             }
-            if (!line->tag && ((line->special & 6) != 6)) //jff 3/2/98 all non-manual
-                return false;                         // generalized types require tag
+            if (!line->tag && ((line->special & 6) != 6))       // jff 3/2/98 all non-manual
+                return false;                                   // generalized types require tag
             linefunc = EV_DoGenDoor;
         }
-        else if ((unsigned)line->special >= GenLockedBase)
+        else if ((unsigned int)line->special >= GenLockedBase)
         {
             if (!thing->player)
-                return false;   // monsters disallowed from unlocking doors
+                return false;                           // monsters disallowed from unlocking doors
             if (!P_CanUnlockGenDoor(line, thing->player))
                 return false;
-            if (!line->tag && ((line->special & 6) != 6)) //jff 2/27/98 all non-manual
-                return false;                         // generalized types require tag
+            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
+                return false;                                   // generalized types require tag
 
             linefunc = EV_DoGenLockedDoor;
         }
-        else if ((unsigned)line->special >= GenLiftBase)
+        else if ((unsigned int)line->special >= GenLiftBase)
         {
             if (!thing->player)
                 if (!(line->special & LiftMonster))
-                    return false; // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6)) //jff 2/27/98 all non-manual
-                return false;                         // generalized types require tag
+                    return false;                               // monsters disallowed
+            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
+                return false;                                   // generalized types require tag
             linefunc = EV_DoGenLift;
         }
-        else if ((unsigned)line->special >= GenStairsBase)
+        else if ((unsigned int)line->special >= GenStairsBase)
         {
             if (!thing->player)
                 if (!(line->special & StairMonster))
-                    return false; // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6)) //jff 2/27/98 all non-manual
-                return false;                         // generalized types require tag
+                    return false;                               // monsters disallowed
+            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
+                return false;                                   // generalized types require tag
             linefunc = EV_DoGenStairs;
         }
-        else if ((unsigned)line->special >= GenCrusherBase)
+        else if ((unsigned int)line->special >= GenCrusherBase)
         {
             if (!thing->player)
                 if (!(line->special & CrusherMonster))
-                    return false; // monsters disallowed
-            if (!line->tag && ((line->special & 6) != 6)) //jff 2/27/98 all non-manual
-                return false;                         // generalized types require tag
+                    return false;                               // monsters disallowed
+            if (!line->tag && ((line->special & 6) != 6))       // jff 2/27/98 all non-manual
+                return false;                                   // generalized types require tag
             linefunc = EV_DoGenCrusher;
         }
 
@@ -279,7 +279,8 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                     if (linefunc(line))
                         P_ChangeSwitchTexture(line, 1);
                     return true;
-                default:  // if not a switch/push type, do nothing here
+                default:
+                    // if not a switch/push type, do nothing here
                     return false;
         }
     }
@@ -301,6 +302,8 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
             //jff 3/5/98 add ability to use teleporters for monsters
             case SR_Teleport_AlsoMonsters:
             case S1_Teleport_AlsoMonsters:
+            case S1_Teleport_AlsoMonsters_Silent_SameAngle:
+            case SR_Teleport_AlsoMonsters_Silent_SameAngle:
                 break;
 
             default:
@@ -588,6 +591,11 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 P_ChangeSwitchTexture(line, 0);
             break;
 
+        case S1_ChangeTextureAndEffect:
+            if (EV_DoChange(line, trigChangeOnly))
+                P_ChangeSwitchTexture(line, 0);
+            break;
+
         case S1_Ceiling_LowerToLowestCeiling:
             if (EV_DoCeiling(line, lowerToLowest))
                 P_ChangeSwitchTexture(line, 0);
@@ -603,9 +611,34 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 P_ChangeSwitchTexture(line, 0);
             break;
 
+        case S1_ChangeTextureAndEffectToNearest:
+            if (EV_DoChange(line, numChangeOnly))
+                P_ChangeSwitchTexture(line, 0);
+            break;
+
         case S1_Floor_LowerToNearestFloor:
             if (EV_DoFloor(line, lowerFloorToNearest))
                 P_ChangeSwitchTexture(line, 0);
+            break;
+
+        case S1_Lift_RaiseToNextHighestFloor_Fast:
+            if (EV_DoElevator(line, elevateUp))
+                P_ChangeSwitchTexture(line, 0);
+            break;
+
+        case S1_Lift_LowerToNextLowestFloor_Fast:
+            if (EV_DoElevator(line, elevateDown))
+                P_ChangeSwitchTexture(line, 0);
+            break;
+
+        case S1_Lift_MoveToSameFloorHeight_Fast:
+            if (EV_DoElevator(line, elevateCurrent))
+                P_ChangeSwitchTexture(line, 0);
+            break;
+
+        case SR_ChangeTextureAndEffectToNearest:
+            if (EV_DoChange(line, numChangeOnly))
+                P_ChangeSwitchTexture(line, 1);
             break;
 
         case SR_Floor_RaiseByShortestLowerTexture:
@@ -725,6 +758,21 @@ boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
         case SR_Floor_LowerToNearestFloor:
             if (EV_DoFloor(line, lowerFloorToNearest))
+                P_ChangeSwitchTexture(line, 1);
+            break;
+
+        case SR_Lift_RaiseToNextHighestFloor_Fast:
+            if (EV_DoElevator(line, elevateUp))
+                P_ChangeSwitchTexture(line, 1);
+            break;
+
+        case SR_Lift_LowerToNextLowestFloor_Fast:
+            if (EV_DoElevator(line, elevateDown))
+                P_ChangeSwitchTexture(line, 1);
+            break;
+
+        case SR_Lift_MoveToSameFloorHeight_Fast:
+            if (EV_DoElevator(line, elevateCurrent))
                 P_ChangeSwitchTexture(line, 1);
             break;
 

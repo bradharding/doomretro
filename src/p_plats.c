@@ -74,9 +74,18 @@ void T_PlatRaise(plat_t *plat)
             {
                 if (res == pastdest)
                 {
-                    plat->count = plat->wait;
-                    plat->status = waiting;
-                    S_StartSound(&plat->sector->soundorg, sfx_pstop);
+                    // if not an instant toggle type, wait, make plat stop sound
+                    if (plat->type != toggleUpDn)
+                    {
+                        plat->count = plat->wait;
+                        plat->status = waiting;
+                        S_StartSound(&plat->sector->soundorg, sfx_pstop);
+                    }
+                    else // else go into stasis awaiting next toggle activation
+                    {
+                        plat->oldstatus = plat->status; // jff 3/14/98 after action wait  
+                        plat->status = in_stasis;       // for reactivation of toggle
+                    }
 
                     switch (plat->type)
                     {
@@ -84,6 +93,7 @@ void T_PlatRaise(plat_t *plat)
                         case downWaitUpStay:
                         case raiseAndChange:
                         case raiseToNearestAndChange:
+                        case genLift:
                             P_RemoveActivePlat(plat);
                             break;
 
@@ -99,9 +109,29 @@ void T_PlatRaise(plat_t *plat)
 
             if (res == pastdest)
             {
-                plat->count = plat->wait;
-                plat->status = waiting;
-                S_StartSound(&plat->sector->soundorg, sfx_pstop);
+                // if not an instant toggle, start waiting, make plat stop sound
+                if (plat->type != toggleUpDn)           // jff 3/14/98 toggle up down
+                {                                       // is silent, instant, no waiting
+                    plat->count = plat->wait;
+                    plat->status = waiting;
+                    S_StartSound(&plat->sector->soundorg, sfx_pstop);
+                }
+                else    // instant toggles go into stasis awaiting next activation
+                {
+                    plat->oldstatus = plat->status;     // jff 3/14/98 after action wait  
+                    plat->status = in_stasis;           // for reactivation of toggle
+                }
+
+                // jff 1/26/98 remove the plat if it bounced so it can be tried again
+                // only affects plats that raise and bounce
+                switch (plat->type)
+                {
+                    case raiseAndChange:
+                    case raiseToNearestAndChange:
+                        P_RemoveActivePlat(plat);
+                    default:
+                        break;
+                }
             }
             break;
 
@@ -135,6 +165,11 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
             P_ActivateInStasis(line->tag);
             break;
 
+        case toggleUpDn:
+            P_ActivateInStasis(line->tag);
+            rtn = 1;
+            break;
+
         default:
             break;
     }
@@ -149,7 +184,6 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
         // Find lowest & highest floors around sector
         rtn = 1;
         plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
-        memset(plat, 0, sizeof(*plat));
         P_AddThinker(&plat->thinker);
 
         plat->type = type;
@@ -225,6 +259,20 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->status = (plat_e)(P_Random() & 1);
 
                 S_StartSound(&sec->soundorg, sfx_pstart);
+                break;
+
+            case toggleUpDn:                    // jff 3/14/98 add new type to support instant toggle
+                plat->speed = PLATSPEED;        // not used
+                plat->wait = 35 * PLATWAIT;     // not used
+                plat->crush = true;             // jff 3/14/98 crush anything in the way
+
+                // set up toggling between ceiling, floor inclusive
+                plat->low = sec->ceilingheight;
+                plat->high = sec->floorheight;
+                plat->status = down;
+                break;
+
+            default:
                 break;
         }
         P_AddActivePlat(plat);
