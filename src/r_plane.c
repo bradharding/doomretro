@@ -302,7 +302,7 @@ char *R_DistortedFlat(int flatnum)
     int         leveltic = I_GetTime();
 
     // built this tic?
-    if (gametic != swirltic)
+    if (gametic != swirltic && !consoleactive && !menuactive && !paused)
     {
         int     x, y;
 
