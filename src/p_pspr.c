@@ -52,6 +52,8 @@
 
 boolean centerweapon = CENTERWEAPON_DEFAULT;
 
+boolean skippsprinterp = false;
+
 //
 // P_SetPsprite
 //
@@ -669,6 +671,7 @@ void P_SetupPsprites(player_t *player)
     // spawn the gun
     player->pendingweapon = player->readyweapon;
     P_BringUpWeapon(player);
+    skippsprinterp = true;
 }
 
 //

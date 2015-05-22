@@ -76,6 +76,7 @@ extern boolean  hud;
 extern boolean  splashscreen;
 
 extern boolean  skipaction;
+extern boolean  skippsprinterp;
 
 //
 // defaulted values
@@ -2015,6 +2016,7 @@ void M_SizeDisplay(int choice)
             break;
     }
     blurred = false;
+    skippsprinterp = true;
 }
 
 //

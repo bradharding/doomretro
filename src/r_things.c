@@ -85,6 +85,7 @@ extern boolean                  inhelpscreens;
 extern boolean                  translucency;
 extern boolean                  dehacked;
 extern boolean                  shadows;
+extern boolean                  skippsprinterp;
 
 //
 // R_InstallSpriteLump
@@ -1175,7 +1176,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         psp_inter.x1_prev = vis->x1;
         psp_inter.texturemid_prev = vis->texturemid;
 
-        if (lump == psp_inter.lump)
+        if (lump == psp_inter.lump && !skippsprinterp)
         {
             int deltax = vis->x2 - vis->x1;
 
@@ -1186,6 +1187,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
         }
         else
         {
+            skippsprinterp = false;
             psp_inter.x1 = vis->x1;
             psp_inter.texturemid = vis->texturemid;
             psp_inter.lump = lump;
