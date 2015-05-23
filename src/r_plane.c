@@ -285,8 +285,8 @@ static void R_MakeSpans(int x, unsigned int t1, unsigned int b1, unsigned int t2
 // 1 cycle per 32 units (2 in 64)
 #define SWIRLFACTOR2    (8192 / 32)
 
-char    *normalflat;
-char    distortedflat[4096];
+static char     *normalflat;
+static char     distortedflat[4096];
 
 //
 // R_DistortedFlat
@@ -294,20 +294,27 @@ char    distortedflat[4096];
 // Generates a distorted flat from a normal one using a two-dimensional
 // sine wave pattern.
 //
-char *R_DistortedFlat(int flatnum)
+static byte *R_DistortedFlat(int flatnum)
 {
+    static int  lastflat = -1;
     static int  swirltic = -1;
     static int  offset[4096];
     int         i;
-    int         leveltic = I_GetTime();
+    int         leveltic = gametic;
+
+    // Already swirled this one?
+    if (gametic == swirltic && lastflat == flatnum)
+        return distortedflat;
+
+    lastflat = flatnum;
 
     // built this tic?
     if (gametic != swirltic && !consoleactive && !menuactive && !paused)
     {
         int     x, y;
 
-        for (x = 0; x < 64; x++)
-            for (y = 0; y < 64; y++)
+        for (x = 0; x < 64; ++x)
+            for (y = 0; y < 64; ++y)
             {
                 int     x1, y1;
                 int     sinvalue, sinvalue2;
@@ -335,9 +342,6 @@ char *R_DistortedFlat(int flatnum)
 
     for (i = 0; i < 4096; i++)
         distortedflat[i] = normalflat[offset[i]];
-
-    // free the original
-    Z_ChangeTag(normalflat, PU_CACHE);
 
     return distortedflat;
 }
