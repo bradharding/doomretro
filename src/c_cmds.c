@@ -1433,6 +1433,7 @@ static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
     if (!parm1[0])
         return true;
 
+    parm1 = uppercase(parm1);
     mapcmdepisode = 0;
     mapcmdmap = 0;
 
@@ -1440,9 +1441,8 @@ static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
     {
         if (BTSX)
         {
-            sscanf(uppercase(parm1), "E%1iM0%1i", &mapcmdepisode, &mapcmdmap);
-            if (!mapcmdmap)
-                sscanf(uppercase(parm1), "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
+            if (sscanf(parm1, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
+                sscanf(parm1, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
             if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
                 || (mapcmdepisode == 3 && BTSXE3)))
             {
@@ -1452,22 +1452,16 @@ static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
                 return (W_CheckMultipleLumps(lump) == 2);
             }
         }
-        sscanf(uppercase(parm1), "MAP0%1i", &mapcmdmap);
-        if (!mapcmdmap)
-            sscanf(uppercase(parm1), "MAP%2i", &mapcmdmap);
-        if (!mapcmdmap)
-            return false;
-        if (BTSX && (W_CheckMultipleLumps(parm1) == 1))
+        if (sscanf(parm1, "MAP0%1i", &mapcmdmap) != 1)
+            if (sscanf(parm1, "MAP%2i", &mapcmdmap) != 1)
+                return false;
+        if (BTSX && W_CheckMultipleLumps(parm1) == 1)
             return false;
         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
             gamemission = doom2;
     }
-    else
-    {
-        sscanf(uppercase(parm1), "E%1iM%1i", &mapcmdepisode, &mapcmdmap);
-        if (!mapcmdepisode || !mapcmdmap)
-            return false;
-    }
+    else if (sscanf(parm1, "E%1iM%1i", &mapcmdepisode, &mapcmdmap) != 2)
+        return false;
 
     return (W_CheckNumForName(parm1) >= 0);
 }
