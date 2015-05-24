@@ -406,9 +406,6 @@ void P_LoadSectors(int lump)
         ss->special = SHORT(ms->special);
         ss->tag = SHORT(ms->tag);
 
-        if ((unsigned short)ss->special >= UNKNOWNSECTORSPECIAL)
-            C_Warning("Sector %s has an unknown special of %s.", commify(i), commify(ss->special));
-
         // killough 3/7/98:
         ss->heightsec = -1;       // sector used to get floor and ceiling height
         ss->floorlightsec = -1;   // sector used to get floor lighting
