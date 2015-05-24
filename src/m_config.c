@@ -692,7 +692,7 @@ static boolean LoadDefaultCollection(void)
     int         i;
     FILE        *f;
     char        defname[80];
-    char        strparm[100];
+    char        strparm[256];
 
     // read the file in, overriding any set defaults
     f = fopen(PACKAGE_CONFIG, "r");
@@ -703,7 +703,7 @@ static boolean LoadDefaultCollection(void)
 
     while (!feof(f))
     {
-        if (fscanf(f, "%79s %256[^\n]\n", defname, strparm) != 2)
+        if (fscanf(f, "%79s %255[^\n]\n", defname, strparm) != 2)
             // This line doesn't match
             continue;
 
