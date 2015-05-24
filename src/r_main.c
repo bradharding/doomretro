@@ -311,24 +311,27 @@ angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
 //
 static void R_InitTables(void)
 {
-    int                 i;
-    const double        pimul = M_PI * 2 / FINEANGLES;
+    int         i;
+    float       a;
+    float       fv;
+    int         t;
 
     // viewangle tangent table
-    finetangent[0] = (fixed_t)(FRACUNIT * tan((0.5 - FINEANGLES / 4) * pimul) + 0.5);
-    for (i = 1; i < FINEANGLES / 2; i++)
-        finetangent[i] = (fixed_t)(FRACUNIT * tan((i - FINEANGLES / 4) * pimul) + 0.5);
+    for (i = 0; i < FINEANGLES / 2; i++)
+    {
+        a = (i - FINEANGLES / 4 + 0.5f) * (float)M_PI * 2 / FINEANGLES;
+        fv = FRACUNIT * tanf(a);
+        t = (int)fv;
+        finetangent[i] = t;
+    }
 
     // finesine table
-    for (i = 0; i < FINEANGLES / 4; i++)
-        finesine[i] = (fixed_t)(FRACUNIT * sin(i * pimul));
-    for (i = 0; i < FINEANGLES / 4; i++)
-        finesine[i + FINEANGLES / 4] = finesine[FINEANGLES / 4 - 1 - i];
-    for (i = 0; i < FINEANGLES / 2; i++)
-        finesine[i + FINEANGLES / 2] = -finesine[i];
-    finesine[FINEANGLES / 4] = FRACUNIT;
-    finesine[FINEANGLES * 3 / 4] = -FRACUNIT;
-    memcpy(&finesine[FINEANGLES], &finesine[0], sizeof(angle_t) * FINEANGLES / 4);
+    for (i = 0; i < 5 * FINEANGLES / 4; i++)
+    {
+        a = (i + 0.5f) * (float)M_PI * 2 / FINEANGLES;
+        t = (int)(FRACUNIT * sinf(a));
+        finesine[i] = t;
+    }
 }
 
 static void R_InitPointToAngle(void)
