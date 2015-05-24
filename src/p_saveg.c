@@ -50,9 +50,9 @@
 
 #define SAVEGAME_EOF    0x1d
 
-FILE            *save_stream;
-int             savegamelength;
-boolean         savegame_error;
+FILE    *save_stream;
+int     savegamelength;
+boolean savegame_error;
 
 void P_SpawnShadow(mobj_t *actor);
 
@@ -254,6 +254,15 @@ static void saveg_read_thinker_t(thinker_t *str)
 
     // think_t function
     saveg_read_think_t(&str->function);
+
+    // struct thinker_s *cprev
+    str->cprev = (thinker_t *)saveg_readp();
+
+    // struct thinker_s *cnext
+    str->cnext = (thinker_t *)saveg_readp();
+
+    // int references
+    str->references = saveg_read32();
 }
 
 static void saveg_write_thinker_t(thinker_t *str)
@@ -266,6 +275,15 @@ static void saveg_write_thinker_t(thinker_t *str)
 
     // think_t function
     saveg_write_think_t(&str->function);
+
+    // struct thinker_s *cprev
+    saveg_writep(str->cprev);
+
+    // struct thinker_s *cnext
+    saveg_writep(str->cnext);
+
+    // int references
+    saveg_write32(str->references);
 }
 
 //
@@ -415,6 +433,21 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // int blood
     str->blood = saveg_read32();
+
+    // boolean interp
+    str->interp = saveg_read32();
+
+    // int oldx
+    str->oldx = saveg_read32();
+
+    // int oldy
+    str->oldy = saveg_read32();
+
+    // int oldz
+    str->oldz = saveg_read32();
+
+    // angle_t oldangle
+    str->oldangle = saveg_read32();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -547,6 +580,21 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // int blood
     saveg_write32(str->blood);
+
+    // boolean interp
+    saveg_write32(str->interp);
+
+    // int oldx
+    saveg_write32(str->oldx);
+
+    // int oldy
+    saveg_write32(str->oldy);
+
+    // int oldz
+    saveg_write32(str->oldz);
+
+    // angle_t oldangle
+    saveg_write32(str->oldangle);
 }
 
 //
@@ -759,17 +807,23 @@ static void saveg_read_player_t(player_t *str)
     // weapontype_t preferredshotgun
     str->preferredshotgun = (weapontype_t)saveg_read_enum();
 
+    // int shotguns
+    str->shotguns = saveg_read32();
+
     // weapontype_t fistorchainsaw
     str->fistorchainsaw = (weapontype_t)saveg_read_enum();
+
+    // boolean invulnbeforechoppers
+    str->invulnbeforechoppers = saveg_read32();
+
+    // boolean chainsawbeforechoppers
+    str->chainsawbeforechoppers = saveg_read32();
 
     // weapontype_t weaponbeforechoppers
     str->weaponbeforechoppers = (weapontype_t)saveg_read_enum();
 
-    // chainsawbeforechoppers
-    str->chainsawbeforechoppers = saveg_read32();
-
-    // invulnbeforechoppers
-    str->invulnbeforechoppers = saveg_read32();
+    // angle_t oldviewz
+    str->oldviewz = saveg_read32();
 }
 
 static void saveg_write_player_t(player_t *str)
@@ -896,17 +950,23 @@ static void saveg_write_player_t(player_t *str)
     // weapontype_t prefferedshotgun
     saveg_write_enum(str->preferredshotgun);
 
+    // int shotguns
+    saveg_write32(str->shotguns);
+
     // int fistorchainsaw
     saveg_write32(str->fistorchainsaw);
+
+    // boolean invulnbeforechoppers
+    saveg_write32(str->invulnbeforechoppers);
+
+    // boolean chainsawbeforechoppers
+    saveg_write32(str->chainsawbeforechoppers);
 
     // weapontype_t weaponbeforechoppers
     saveg_write_enum(str->weaponbeforechoppers);
 
-    // int chainsawbeforechoppers
-    saveg_write32(str->chainsawbeforechoppers);
-
-    // int invulnbeforechoppers
-    saveg_write32(str->invulnbeforechoppers);
+    // angle_t oldviewz
+    saveg_write32(str->oldviewz);
 }
 
 //
@@ -943,6 +1003,8 @@ static void saveg_read_ceiling_t(ceiling_t *str)
 
     // int olddirection
     str->olddirection = saveg_read32();
+
+    // struct ceilinglist_s
 }
 
 static void saveg_write_ceiling_t(ceiling_t *str)
@@ -976,6 +1038,8 @@ static void saveg_write_ceiling_t(ceiling_t *str)
 
     // int olddirection
     saveg_write32(str->olddirection);
+
+    // struct ceilinglist_s
 }
 
 //
@@ -1006,6 +1070,12 @@ static void saveg_read_vldoor_t(vldoor_t *str)
 
     // int topcountdown
     str->topcountdown = saveg_read32();
+
+    // line_t *line
+    str->line = &lines[saveg_read32()];
+
+    // int lighttag
+    str->lighttag = saveg_read32();
 }
 
 static void saveg_write_vldoor_t(vldoor_t *str)
@@ -1033,6 +1103,12 @@ static void saveg_write_vldoor_t(vldoor_t *str)
 
     // int topcountdown
     saveg_write32(str->topcountdown);
+
+    // line_t *line
+    saveg_write32(str->line - lines);
+
+    // int lighttag
+    saveg_write32(str->lighttag);
 }
 
 //
@@ -1144,6 +1220,8 @@ static void saveg_read_plat_t(plat_t *str)
 
     // plattype_e type
     str->type = (plattype_e)saveg_read_enum();
+
+    // struct platlist_s
 }
 
 static void saveg_write_plat_t(plat_t *str)
@@ -1183,6 +1261,8 @@ static void saveg_write_plat_t(plat_t *str)
 
     // plattype_e type
     saveg_write_enum(str->type);
+
+    // struct platlist_s
 }
 
 //
@@ -1360,6 +1440,114 @@ static void saveg_write_fireflicker_t(fireflicker_t *str)
 
     // int maxlight
     saveg_write32(str->maxlight);
+}
+
+static void saveg_read_elevator_t(elevator_t *str)
+{
+    // thinker_t thinker
+    saveg_read_thinker_t(&str->thinker);
+
+    // floor_e type
+    str->type = (floor_e)saveg_read_enum();
+
+    // sector_t *sector
+    str->sector = &sectors[saveg_read32()];
+
+    // int direction
+    str->direction = saveg_read32();
+
+    // fixed_t floordestheight
+    str->floordestheight = saveg_read32();
+
+    // fixed_t ceilingdestheight
+    str->ceilingdestheight = saveg_read32();
+
+    // fixed_t speed
+    str->speed = saveg_read32();
+}
+
+static void saveg_write_elevator_t(elevator_t *str)
+{
+    // thinker_t thinker
+    saveg_write_thinker_t(&str->thinker);
+
+    // floor_e type
+    saveg_write_enum(str->type);
+
+    // sector_t *sector
+    saveg_write32(str->sector - sectors);
+
+    // int direction
+    saveg_write32(str->direction);
+
+    // fixed_t floordestheight
+    saveg_write32(str->floordestheight);
+
+    // fixed_t ceilingdestheight
+    saveg_write32(str->ceilingdestheight);
+
+    // fixed_t speed
+    saveg_write32(str->speed);
+}
+
+static void saveg_read_scroll_t(scroll_t *str)
+{
+    // thinker_t thinker
+    saveg_read_thinker_t(&str->thinker);
+
+    // fixed_t dx
+    str->dx = saveg_read32();
+
+    // fixed_t dy
+    str->dy = saveg_read32();
+
+    // int affectee
+    str->affectee = saveg_read32();
+
+    // int control
+    str->control = saveg_read32();
+
+    // fixed_t last_height
+    str->last_height = saveg_read32();
+
+    // fixed_t vdx
+    str->vdx = saveg_read32();
+
+    // fixed_t vdy
+    str->vdy = saveg_read32();
+
+    // enum type
+    str->type = saveg_read_enum();
+}
+
+static void saveg_write_scroll_t(scroll_t *str)
+{
+    // thinker_t thinker
+    saveg_write_thinker_t(&str->thinker);
+
+    // fixed_t dx
+    saveg_write32(str->dx);
+
+    // fixed_t dy
+    saveg_write32(str->dy);
+
+    // int affectee
+    saveg_write32(str->affectee);
+
+    // int control
+    saveg_write32(str->control);
+
+    // fixed_t last_height
+    saveg_write32(str->last_height);
+
+    // fixed_t vdx
+    saveg_write32(str->vdx);
+
+    // fixed_t vdy
+    saveg_write32(str->vdy);
+
+    // floor_e type
+    saveg_write_enum(str->type);
 }
 
 static void saveg_read_button_t(button_t *str)
@@ -1827,9 +2015,12 @@ enum
     tc_flash,
     tc_strobe,
     tc_glow,
-    tc_endspecials,
-    tc_fireflicker,
-    tc_button
+    tc_elevator,        // jff 2/22/98 new elevator type thinker
+    tc_scroll,          // killough 3/7/98: new scroll effect thinker
+    tc_pusher,          // phares 3/22/98:  new push/pull effect thinker
+    tc_fireflicker,     // killough 10/4/98
+    tc_button,
+    tc_endspecials
 } specials_e;
 
 void P_ArchiveSpecials(void)
@@ -1936,6 +2127,22 @@ void P_ArchiveSpecials(void)
             saveg_write_fireflicker_t((fireflicker_t *)th);
             continue;
         }
+
+        if (th->function == T_MoveElevator)
+        {
+            saveg_write8(tc_elevator);
+            saveg_write_pad();
+            saveg_write_elevator_t((elevator_t *)th);
+            continue;
+        }
+
+        if (th->function == T_Scroll)
+        {
+            saveg_write8(tc_elevator);
+            saveg_write_pad();
+            saveg_write_elevator_t((elevator_t *)th);
+            continue;
+        }
     }
 
     button_ptr = buttonlist;
@@ -1970,6 +2177,8 @@ void P_UnArchiveSpecials(void)
     strobe_t            *strobe;
     glow_t              *glow;
     fireflicker_t       *fireflicker;
+    elevator_t          *elevator;
+    scroll_t            *scroll;
     button_t            *button;
 
     // read in saved thinkers
@@ -2056,6 +2265,22 @@ void P_UnArchiveSpecials(void)
                 saveg_read_fireflicker_t(fireflicker);
                 fireflicker->thinker.function = T_FireFlicker;
                 P_AddThinker(&fireflicker->thinker);
+                break;
+
+            case tc_elevator:
+                saveg_read_pad();
+                elevator = Z_Malloc(sizeof(*elevator), PU_LEVEL, NULL);
+                saveg_read_elevator_t(elevator);
+                elevator->thinker.function = T_MoveElevator;
+                P_AddThinker(&elevator->thinker);
+                break;
+
+            case tc_scroll:
+                saveg_read_pad();
+                scroll = Z_Malloc(sizeof(*scroll), PU_LEVEL, NULL);
+                saveg_read_scroll_t(scroll);
+                scroll->thinker.function = T_Scroll;
+                P_AddThinker(&scroll->thinker);
                 break;
 
             case tc_button:

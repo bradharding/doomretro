@@ -98,7 +98,6 @@ typedef struct
     short               ceilingpic;
     short               lightlevel;
     short               special;
-    short               oldspecial;     // jff 2/16/98 remembers if sector WAS secret (automap)
     short               tag;
 
     // 0 = untraversed, 1,2 = sndlines -1

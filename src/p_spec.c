@@ -2083,7 +2083,6 @@ void P_SpawnSpecials(void)
 //
 // This is the main scrolling code
 // killough 3/7/98
-
 void T_Scroll(scroll_t *s)
 {
     fixed_t     dx = s->dx, dy = s->dy;

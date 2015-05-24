@@ -180,8 +180,8 @@ typedef struct player_s
     weapontype_t        preferredshotgun;
     int                 shotguns;
     weapontype_t        fistorchainsaw;
-    int                 invulnbeforechoppers;
-    int                 chainsawbeforechoppers;
+    boolean             invulnbeforechoppers;
+    boolean             chainsawbeforechoppers;
     weapontype_t        weaponbeforechoppers;
 
     // [AM] Previous position of viewz before think.

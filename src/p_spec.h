@@ -507,7 +507,6 @@ typedef struct
     sector_t    *sector;
     int         direction;
     int         newspecial;
-    int         oldspecial;     // jff 3/14/98 add to fix bug in change transfers
     short       texture;
     fixed_t     floordestheight;
     fixed_t     speed;
@@ -542,10 +541,10 @@ boolean EV_DoFloor(line_t *line, floor_e floortype);
 boolean EV_DoChange(line_t *line, change_e changetype);
 boolean EV_DoElevator(line_t *line, elevator_e elevtype);
 void T_MoveFloor(floormove_t *floor);
+void T_MoveElevator(elevator_t *elevator);
 void P_InitAnimatedLiquids(void);
 
 // killough 3/7/98: Add generalized scroll effects
-
 typedef struct
 {
     thinker_t   thinker;        // Thinker structure for scrolling
@@ -564,6 +563,8 @@ typedef struct
         sc_carry_ceiling,       // killough 4/11/98: carry objects hanging on ceilings
     } type;                     // Type of scroll effect
 } scroll_t;
+
+void T_Scroll(scroll_t *s);
 
 //
 // P_TELEPT

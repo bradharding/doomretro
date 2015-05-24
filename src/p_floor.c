@@ -279,8 +279,6 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChgT:
                 case genFloorChg0:
                     sec->special = floor->newspecial;
-                    // jff add to fix bug in special transfers from changes
-                    sec->oldspecial = floor->oldspecial;
                     // fall thru
 
                 case genFloorChg:
@@ -300,8 +298,6 @@ void T_MoveFloor(floormove_t *floor)
             {
                 case lowerAndChange:
                     sec->special = floor->newspecial;
-                    // jff add to fix bug in special transfers from changes
-                    sec->oldspecial = floor->oldspecial;
                     sec->floorpic = floor->texture;
                     P_ChangeSector(sec, false);
                     if (isliquid[sec->floorpic])
@@ -310,8 +306,6 @@ void T_MoveFloor(floormove_t *floor)
                 case genFloorChgT:
                 case genFloorChg0:
                     sec->special = floor->newspecial;
-                    // jff add to fix bug in special transfers from changes
-                    sec->oldspecial = floor->oldspecial;
                     // fall thru
 
                 case genFloorChg:
@@ -656,7 +650,6 @@ boolean EV_DoChange(line_t *line, change_e changetype)
                 if (isliquid[sec->floorpic])
                     P_StartAnimatedLiquid(sec);
                 sec->special = line->frontsector->special;
-                sec->oldspecial = line->frontsector->oldspecial;
                 break;
 
             case numChangeOnly:
@@ -668,7 +661,6 @@ boolean EV_DoChange(line_t *line, change_e changetype)
                     if (isliquid[sec->floorpic])
                         P_StartAnimatedLiquid(sec);
                     sec->special = secm->special;
-                    sec->oldspecial = secm->oldspecial;
                 }
                 break;
             default:

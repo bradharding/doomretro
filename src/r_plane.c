@@ -285,8 +285,8 @@ static void R_MakeSpans(int x, unsigned int t1, unsigned int b1, unsigned int t2
 // 1 cycle per 32 units (2 in 64)
 #define SWIRLFACTOR2    (8192 / 32)
 
-static char     *normalflat;
-static char     distortedflat[4096];
+static byte     *normalflat;
+static byte     distortedflat[4096];
 
 //
 // R_DistortedFlat
@@ -338,7 +338,7 @@ static byte *R_DistortedFlat(int flatnum)
         swirltic = gametic;
     }
 
-    normalflat = W_CacheLumpNum(firstflat + flatnum, PU_STATIC);
+    normalflat = W_CacheLumpNum(firstflat + flatnum, PU_LEVEL);
 
     for (i = 0; i < 4096; i++)
         distortedflat[i] = normalflat[offset[i]];
