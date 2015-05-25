@@ -168,10 +168,10 @@ static visplane_t *new_visplane(unsigned hash)
 visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoffs, fixed_t yoffs)
 {
     visplane_t          *check;
-    unsigned int        hash;           // killough
+    unsigned int        hash;                                   // killough
 
-    if (picnum == skyflatnum)
-        height = lightlevel = 0;        // all skys map together
+    if (picnum == skyflatnum || (picnum & PL_SKYFLAT))          // killough 10/98
+        height = lightlevel = 0;                                // all skys map together
 
     // New visplane algorithm uses hash table -- killough
     hash = visplane_hash(picnum, lightlevel, height);
@@ -181,14 +181,14 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
             && xoffs == check->xoffs && yoffs == check->yoffs)
             return check;
 
-    check = new_visplane(hash);         // killough
+    check = new_visplane(hash);                                 // killough
 
     check->height = height;
     check->picnum = picnum;
     check->lightlevel = lightlevel;
     check->minx = viewwidth;
     check->maxx = -1;
-    check->xoffs = xoffs;               // killough 2/28/98: Save offsets
+    check->xoffs = xoffs;                                      // killough 2/28/98: Save offsets
     check->yoffs = yoffs;
 
     memset(check->top, SHRT_MAX, sizeof(check->top));
@@ -363,10 +363,52 @@ void R_DrawPlanes(void)
             if (pl->minx <= pl->maxx)
             {
                 // sky flat
-                if (pl->picnum == skyflatnum)
+                if (pl->picnum == skyflatnum || (pl->picnum & PL_SKYFLAT))
                 {
-                    int x;
-                    
+                    int         x;
+                    int         texture;
+                    angle_t     an, flip;
+
+                    // killough 10/98: allow skies to come from sidedefs.
+                    // Allows scrolling and/or animated skies, as well as
+                    // arbitrary multiple skies per level without having
+                    // to use info lumps.
+                    an = viewangle;
+
+                    if (pl->picnum & PL_SKYFLAT)
+                    {
+                        // Sky Linedef
+                        const line_t    *l = &lines[pl->picnum & ~PL_SKYFLAT];
+
+                        // Sky transferred from first sidedef
+                        const side_t    *s = *l->sidenum + sides;
+
+                        // Texture comes from upper texture of reference sidedef
+                        texture = texturetranslation[s->toptexture];
+
+                        // Horizontal offset is turned into an angle offset,
+                        // to allow sky rotation as well as careful positioning.
+                        // However, the offset is scaled very small, so that it
+                        // allows a long-period of sky rotation.
+                        an += s->textureoffset;
+
+                        // Vertical offset allows careful sky positioning.
+                        dc_texturemid = s->rowoffset - 28 * FRACUNIT;
+
+                        // We sometimes flip the picture horizontally.
+                        //
+                        // Doom always flipped the picture, so we make it optional,
+                        // to make it easier to use the new feature, while to still
+                        // allow old sky textures to be used.
+                        flip = (l->special == 272 ? 0u : ~0u);
+                    }
+                    else        // Normal Doom sky, only one allowed per level
+                    {
+                        dc_texturemid = skytexturemid;  // Default y-offset
+                        texture = skytexture;           // Default texture
+                        flip = 0;                       // Doom flips it
+                    }
+
                     dc_iscale = pspriteiscale;
 
                     // Sky is always drawn full bright,
@@ -374,18 +416,20 @@ void R_DrawPlanes(void)
                     // Because of this hack, sky is not affected
                     //  by INVUL inverse mapping.
                     dc_colormap = (fixedcolormap ? fixedcolormap : fullcolormap);
-                    dc_texturemid = skytexturemid;
-                    dc_texheight = textureheight[skytexture] >> FRACBITS;
+
+                    dc_texheight = textureheight[texture] >> FRACBITS;
+                    dc_iscale = pspriteiscale;
+
                     for (x = pl->minx; x <= pl->maxx; x++)
                     {
                         dc_yl = pl->top[x];
                         dc_yh = pl->bottom[x];
 
-                        if (dc_yl != SHRT_MAX && dc_yl <= dc_yh)
+                        if (dc_yl <= dc_yh)
                         {
                             dc_x = x;
-                            dc_source = R_GetColumn(skytexture,
-                                (viewangle + xtoviewangle[x]) >> ANGLETOSKYSHIFT);
+                            dc_source = R_GetColumn(texture,
+                                ((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT);
                             skycolfunc();
                         }
                     }

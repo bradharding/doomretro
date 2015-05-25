@@ -173,6 +173,14 @@ typedef struct
     // these fields used to be in mobj_t, but presented performance problems
     // when processed as mobj properties. Fix is to make them sector properties.
     int                 friction, movefactor;
+
+    // killough 10/98: support skies coming from sidedefs. Allows scrolling
+    // skies and other effects. No "level info" kind of lump is needed, 
+    // because you can use an arbitrary number of skies per level with this
+    // method. This field only applies when skyflatnum is used for floorpic
+    // or ceilingpic, because the rest of Doom needs to know which is sky
+    // and which isn't, etc.
+    int                 sky;
 } sector_t;
 
 //
@@ -533,7 +541,9 @@ typedef enum
     W1_TeleportToLineWithSameTag_MonstersOnly_Silent               = 266,
     WR_TeleportToLineWithSameTag_MonstersOnly_Silent               = 267,
     W1_Teleport_MonstersOnly_Silent                                = 268,
-    WR_Teleport_MonstersOnly_Silent                                = 269
+    WR_Teleport_MonstersOnly_Silent                                = 269,
+    TransferSkyTextureToTaggedSectors                              = 271,
+    TransferSkyTextureToTaggedSectors_Flipped                      = 272
 } linespecial_e;
 
 typedef enum
