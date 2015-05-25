@@ -620,7 +620,7 @@ void R_ProjectSprite(mobj_t *thing)
     // killough 3/27/98: exclude things totally separated
     // from the viewer, by either water or fake ceilings
     // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-    heightsec = thing->subsector->sector->heightsec;
+    heightsec = sector->heightsec;
 
     if (heightsec != -1)   // only clip things which are in special sectors
     {
@@ -659,7 +659,8 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && interpz <= sector->interpfloorheight + FRACUNIT && footclip)
+    if ((flags2 & MF2_FEETARECLIPPED) && interpz <= sector->interpfloorheight + FRACUNIT
+        && heightsec == -1 && footclip)
     {
         fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
 
@@ -719,9 +720,11 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     int                 heightsec;
 
+    sector_t            *sector = thing->subsector->sector;
+
     fixed_t             fx = thing->x;
     fixed_t             fy = thing->y;
-    fixed_t             fz = thing->subsector->sector->interpfloorheight;
+    fixed_t             fz = sector->interpfloorheight;
 
     int                 flags = thing->flags;
     int                 flags2 = thing->flags2;
@@ -777,7 +780,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     // killough 3/27/98: exclude things totally separated
     // from the viewer, by either water or fake ceilings
     // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-    heightsec = thing->subsector->sector->heightsec;
+    heightsec = sector->heightsec;
 
     if (heightsec != -1)   // only clip things which are in special sectors
     {

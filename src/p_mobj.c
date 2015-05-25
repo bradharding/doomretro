@@ -748,7 +748,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     if (mobj->flags2 & MF2_SHADOW)
         P_SpawnShadow(mobj);
 
-    if (!(mobj->flags2 & MF2_NOFOOTCLIP) && isliquid[sector->floorpic])
+    if (!(mobj->flags2 & MF2_NOFOOTCLIP) && isliquid[sector->floorpic] && sector->heightsec == -1)
         mobj->flags2 |= MF2_FEETARECLIPPED;
 
     return mobj;
@@ -1286,7 +1286,7 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     }
 
     z = source->z + 4 * 8 * FRACUNIT;
-    if (source->flags2 & MF2_FEETARECLIPPED)
+    if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1)
         z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(source->x, source->y, z, type);
@@ -1351,7 +1351,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     x = source->x;
     y = source->y;
     z = source->z + 4 * 8 * FRACUNIT;
-    if (source->flags2 & MF2_FEETARECLIPPED)
+    if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1)
         z -= FOOTCLIPSIZE;
 
     th = P_SpawnMobj(x, y, z, type);
