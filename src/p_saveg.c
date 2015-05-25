@@ -2150,9 +2150,9 @@ void P_ArchiveSpecials(void)
 
         if (th->function == T_Scroll)
         {
-            saveg_write8(tc_elevator);
+            saveg_write8(tc_scroll);
             saveg_write_pad();
-            saveg_write_elevator_t((elevator_t *)th);
+            saveg_write_scroll_t((scroll_t *)th);
             continue;
         }
     }
