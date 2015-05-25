@@ -488,7 +488,9 @@ typedef enum
     S1_Floor_LowerToNearestFloor                                   = 221,
     SR_Floor_LowerToNearestFloor                                   = 222,
     FrictionTaggedSector                                           = 223,
-
+    WindAccordingToLineVector                                      = 224,
+    CurrentAccordingToLineVector                                   = 225,
+    WindCurrentByPushPullThingInSector                             = 226,
     W1_Lift_RaiseToNextHighestFloor_Fast                           = 227,
     WR_Lift_RaiseToNextHighestFloor_Fast                           = 228,
     S1_Lift_RaiseToNextHighestFloor_Fast                           = 229,

@@ -1558,8 +1558,68 @@ static void saveg_write_scroll_t(scroll_t *str)
     // fixed_t vdy
     saveg_write32(str->vdy);
 
-    // floor_e type
+    // enum type
     saveg_write_enum(str->type);
+}
+
+static void saveg_read_pusher_t(pusher_t *str)
+{
+    // thinker_t thinker
+    saveg_read_thinker_t(&str->thinker);
+
+    // enum type
+    str->type = saveg_read_enum();
+
+    // int x_mag
+    str->x_mag = saveg_read32();
+
+    // int y_mag
+    str->y_mag = saveg_read32();
+
+    // int magnitude
+    str->magnitude = saveg_read32();
+
+    // int radius
+    str->radius = saveg_read32();
+
+    // int x
+    str->x = saveg_read32();
+
+    // int y
+    str->y = saveg_read32();
+
+    // int affectee
+    str->affectee = saveg_read32();
+}
+
+static void saveg_write_pusher_t(pusher_t *str)
+{
+    // thinker_t thinker
+    saveg_write_thinker_t(&str->thinker);
+
+    // enum type
+    saveg_write_enum(str->type);
+
+    // int x_mag
+    saveg_write32(str->x_mag);
+
+    // int y_mag
+    saveg_write32(str->y_mag);
+
+    // int magnitude
+    saveg_write32(str->magnitude);
+
+    // int radius
+    saveg_write32(str->radius);
+
+    // int x
+    saveg_write32(str->x);
+
+    // int y
+    saveg_write32(str->y);
+
+    // int affectee
+    saveg_write32(str->affectee);
 }
 
 static void saveg_read_button_t(button_t *str)
@@ -2155,6 +2215,14 @@ void P_ArchiveSpecials(void)
             saveg_write_scroll_t((scroll_t *)th);
             continue;
         }
+
+        if (th->function == T_Pusher)
+        {
+            saveg_write8(tc_pusher);
+            saveg_write_pad();
+            saveg_write_pusher_t((pusher_t *)th);
+            continue;
+        }
     }
 
     button_ptr = buttonlist;
@@ -2191,6 +2259,7 @@ void P_UnArchiveSpecials(void)
     fireflicker_t       *fireflicker;
     elevator_t          *elevator;
     scroll_t            *scroll;
+    pusher_t            *pusher;
     button_t            *button;
 
     // read in saved thinkers
@@ -2283,6 +2352,7 @@ void P_UnArchiveSpecials(void)
                 saveg_read_pad();
                 elevator = Z_Malloc(sizeof(*elevator), PU_LEVEL, NULL);
                 saveg_read_elevator_t(elevator);
+                elevator->sector->specialdata = elevator;
                 elevator->thinker.function = T_MoveElevator;
                 P_AddThinker(&elevator->thinker);
                 break;
@@ -2293,6 +2363,15 @@ void P_UnArchiveSpecials(void)
                 saveg_read_scroll_t(scroll);
                 scroll->thinker.function = T_Scroll;
                 P_AddThinker(&scroll->thinker);
+                break;
+
+            case tc_pusher:
+                saveg_read_pad();
+                pusher = Z_Malloc(sizeof(*pusher), PU_LEVEL, NULL);
+                saveg_read_pusher_t(pusher);
+                pusher->thinker.function = T_Pusher;
+                pusher->source = P_GetPushThing(pusher->affectee);
+                P_AddThinker(&pusher->thinker);
                 break;
 
             case tc_button:

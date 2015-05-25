@@ -41,6 +41,7 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "m_bbox.h"
 #include "m_misc.h"
 #include "m_random.h"
 #include "p_local.h"
@@ -93,6 +94,7 @@ static size_t   maxanims;
 // killough 3/7/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
+static void P_SpawnPushers(void);       // phares 3/20/98
 
 //
 // P_InitPicAnims
@@ -2036,6 +2038,8 @@ void P_SpawnSpecials(void)
 
     P_SpawnFriction();                  // phares 3/12/98: New friction model using linedefs
 
+    P_SpawnPushers();                   // phares 3/20/98: New pusher model using linedefs
+
     for (i = 0; i < numlines; i++)
     {
         int sec;
@@ -2409,5 +2413,300 @@ static void P_SpawnFriction(void)
                 sectors[s].friction = friction;
                 sectors[s].movefactor = movefactor;
             }
+        }
+}
+
+//
+// PUSH/PULL EFFECT
+//
+// phares 3/20/98: Start of push/pull effects
+//
+// This is where push/pull effects are applied to objects in the sectors.
+//
+// There are four kinds of push effects
+//
+// 1) Pushing Away
+//
+//    Pushes you away from a point source defined by the location of an
+//    MT_PUSH Thing. The force decreases linearly with distance from the
+//    source. This force crosses sector boundaries and is felt w/in a circle
+//    whose center is at the MT_PUSH. The force is felt only if the point
+//    MT_PUSH can see the target object.
+//
+// 2) Pulling toward
+//
+//    Same as Pushing Away except you're pulled toward an MT_PULL point
+//    source. This force crosses sector boundaries and is felt w/in a circle
+//    whose center is at the MT_PULL. The force is felt only if the point
+//    MT_PULL can see the target object.
+//
+// 3) Wind
+//
+//    Pushes you in a constant direction. Full force above ground, half
+//    force on the ground, nothing if you're below it (water).
+//
+// 4) Current
+//
+//    Pushes you in a constant direction. No force above ground, full
+//    force if on the ground or below it (water).
+//
+// The magnitude of the force is controlled by the length of a controlling
+// linedef. The force vector for types 3 & 4 is determined by the angle
+// of the linedef, and is constant.
+//
+// For each sector where these effects occur, the sector special type has
+// to have the PUSH_MASK bit set. If this bit is turned off by a switch
+// at run-time, the effect will not occur. The controlling sector for
+// types 1 & 2 is the sector containing the MT_PUSH/MT_PULL Thing.
+
+#define PUSH_FACTOR     7
+
+//
+// Add a push thinker to the thinker list
+static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affectee)
+{
+    pusher_t *p = Z_Malloc(sizeof *p, PU_LEVSPEC, 0);
+
+    p->thinker.function = T_Pusher;
+    p->source = source;
+    p->type = type;
+    p->x_mag = x_mag >> FRACBITS;
+    p->y_mag = y_mag >> FRACBITS;
+    p->magnitude = P_ApproxDistance(p->x_mag, p->y_mag);
+    if (source)                                         // point source exist?
+    {
+        p->radius = (p->magnitude) << (FRACBITS + 1);   // where force goes to zero
+        p->x = p->source->x;
+        p->y = p->source->y;
+    }
+    p->affectee = affectee;
+    P_AddThinker(&p->thinker);
+}
+
+//
+// PIT_PushThing determines the angle and magnitude of the effect.
+// The object's x and y momentum values are changed.
+//
+// tmpusher belongs to the point source (MT_PUSH/MT_PULL).
+//
+// killough 10/98: allow to affect things besides players
+
+pusher_t        *tmpusher;      // pusher structure for blockmap searches
+
+boolean PIT_PushThing(mobj_t* thing)
+{
+    if ((thing->flags & MF_SHOOTABLE) && !(thing->flags & MF_NOCLIP))
+    {
+        angle_t pushangle;
+        fixed_t speed;
+        fixed_t sx = tmpusher->x;
+        fixed_t sy = tmpusher->y;
+
+        speed = (tmpusher->magnitude - ((P_ApproxDistance(thing->x - sx, thing->y - sy)
+            >> FRACBITS) >> 1)) << (FRACBITS - PUSH_FACTOR - 1);
+
+        // killough 10/98: make magnitude decrease with square
+        // of distance, making it more in line with real nature,
+        // so long as it's still in range with original formula.
+        //
+        // Removes angular distortion, and makes effort required
+        // to stay close to source, grow increasingly hard as you
+        // get closer, as expected. Still, it doesn't consider z :(
+        {
+            int x = (thing->x - sx) >> FRACBITS;
+            int y = (thing->y - sy) >> FRACBITS;
+            speed = (fixed_t)(((int64_t)tmpusher->magnitude << 23) / (x * x + y * y + 1));
+        }
+
+        // If speed <= 0, you're outside the effective radius. You also have
+        // to be able to see the push/pull source point.
+        if (speed > 0 && P_CheckSight(thing, tmpusher->source))
+        {
+            pushangle = R_PointToAngle2(thing->x, thing->y, sx, sy);
+            if (tmpusher->source->type == MT_PUSH)
+                pushangle += ANG180;    // away
+            pushangle >>= ANGLETOFINESHIFT;
+            thing->momx += FixedMul(speed, finecosine[pushangle]);
+            thing->momy += FixedMul(speed, finesine[pushangle]);
+        }
+    }
+    return true;
+}
+
+//
+// T_Pusher looks for all objects that are inside the radius of
+// the effect.
+//
+void T_Pusher(pusher_t *p)
+{
+    sector_t    *sec;
+    mobj_t      *thing;
+    msecnode_t  *node;
+    int         xspeed, yspeed;
+    int         xl, xh, yl, yh, bx, by;
+    int         radius;
+    int         ht = 0;
+
+    sec = sectors + p->affectee;
+
+    // Be sure the special sector type is still turned on. If so, proceed.
+    // Else, bail out; the sector type has been changed on us.
+    if (!(sec->special & PUSH_MASK))
+        return;
+
+    // For constant pushers (wind/current) there are 3 situations:
+    //
+    // 1) Affected Thing is above the floor.
+    //
+    //    Apply the full force if wind, no force if current.
+    //
+    // 2) Affected Thing is on the ground.
+    //
+    //    Apply half force if wind, full force if current.
+    //
+    // 3) Affected Thing is below the ground (underwater effect).
+    //
+    //    Apply no force if wind, full force if current.
+    if (p->type == p_push)
+    {
+        // Seek out all pushable things within the force radius of this
+        // point pusher. Crosses sectors, so use blockmap.
+        tmpusher = p;                                   // MT_PUSH/MT_PULL point source
+        radius = p->radius;                             // where force goes to zero
+        tmbbox[BOXTOP] = p->y + radius;
+        tmbbox[BOXBOTTOM] = p->y - radius;
+        tmbbox[BOXRIGHT] = p->x + radius;
+        tmbbox[BOXLEFT] = p->x - radius;
+
+        xl = (tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS) >> MAPBLOCKSHIFT;
+        xh = (tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS) >> MAPBLOCKSHIFT;
+        yl = (tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS) >> MAPBLOCKSHIFT;
+        yh = (tmbbox[BOXTOP] - bmaporgy + MAXRADIUS) >> MAPBLOCKSHIFT;
+        for (bx = xl; bx <= xh; bx++)
+            for (by = yl; by <= yh; by++)
+                P_BlockThingsIterator(bx, by, PIT_PushThing);
+        return;
+    }
+
+    // constant pushers p_wind and p_current
+    if (sec->heightsec != -1)                           // special water sector?
+        ht = sectors[sec->heightsec].floorheight;
+    node = sec->touching_thinglist;                     // things touching this sector
+    for (; node; node = node->m_snext)
+    {
+        thing = node->m_thing;
+        if (!thing->player || (thing->flags & (MF_NOGRAVITY | MF_NOCLIP)))
+            continue;
+        if (p->type == p_wind)
+        {
+            if (sec->heightsec == -1)                   // NOT special water sector
+                if (thing->z > thing->floorz)           // above ground
+                {
+                    xspeed = p->x_mag;                  // full force
+                    yspeed = p->y_mag;
+                }
+                else                                    // on ground
+                {
+                    xspeed = (p->x_mag) >> 1;           // half force
+                    yspeed = (p->y_mag) >> 1;
+                }
+            else                                        // special water sector
+            {
+                if (thing->z > ht)                      // above ground
+                {
+                    xspeed = p->x_mag;                  // full force
+                    yspeed = p->y_mag;
+                }
+                else
+                    if (thing->player->viewz < ht)      // underwater
+                        xspeed = yspeed = 0;            // no force
+                    else                                // wading in water
+                    {
+                        xspeed = (p->x_mag) >> 1;       // half force
+                        yspeed = (p->y_mag) >> 1;
+                    }
+            }
+        }
+        else                                            // p_current
+        {
+            if (sec->heightsec == -1)                   // NOT special water sector
+                if (thing->z > sec->floorheight)        // above ground
+                    xspeed = yspeed = 0;                // no force
+                else                                    // on ground
+                {
+                    xspeed = p->x_mag;                  // full force
+                    yspeed = p->y_mag;
+                }
+            else                                        // special water sector
+                if (thing->z > ht)                      // above ground
+                    xspeed = yspeed = 0;                // no force
+                else                                    // underwater
+                {
+                    xspeed = p->x_mag;                  // full force
+                    yspeed = p->y_mag;
+                }
+        }
+        thing->momx += xspeed << (FRACBITS - PUSH_FACTOR);
+        thing->momy += yspeed << (FRACBITS - PUSH_FACTOR);
+    }
+}
+
+//
+// P_GetPushThing() returns a pointer to an MT_PUSH or MT_PULL thing,
+// NULL otherwise.
+mobj_t *P_GetPushThing(int s)
+{
+    mobj_t      *thing;
+    sector_t    *sec;
+
+    sec = sectors + s;
+    thing = sec->thinglist;
+    while (thing)
+    {
+        switch (thing->type)
+        {
+            case MT_PUSH:
+            case MT_PULL:
+                return thing;
+
+            default:
+                break;
+        }
+        thing = thing->snext;
+    }
+    return NULL;
+}
+
+//
+// Initialize the sectors where pushers are present
+//
+static void P_SpawnPushers(void)
+{
+    int         i;
+    line_t      *l = lines;
+    int         s;
+    mobj_t      *thing;
+
+    for (i = 0; i < numlines; i++, l++)
+        switch (l->special)
+        {
+            case WindAccordingToLineVector:
+                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                    Add_Pusher(p_wind, l->dx, l->dy, NULL, s);
+                break;
+
+            case CurrentAccordingToLineVector:
+                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                    Add_Pusher(p_current, l->dx, l->dy, NULL, s);
+                break;
+
+            case WindCurrentByPushPullThingInSector:
+                for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+                {
+                    thing = P_GetPushThing(s);
+                    if (thing)  // No MT_P* means no effect
+                        Add_Pusher(p_push, l->dx, l->dy, thing, s);
+                }
+                break;
         }
 }

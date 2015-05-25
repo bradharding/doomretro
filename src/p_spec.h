@@ -560,11 +560,36 @@ typedef struct
         sc_floor,
         sc_ceiling,
         sc_carry,
-        sc_carry_ceiling,       // killough 4/11/98: carry objects hanging on ceilings
+        sc_carry_ceiling        // killough 4/11/98: carry objects hanging on ceilings
     } type;                     // Type of scroll effect
 } scroll_t;
 
-void T_Scroll(scroll_t *s);
+void T_Scroll(scroll_t *);
+
+// phares 3/20/98: added new model of Pushers for push/pull effects
+
+typedef struct
+{
+    thinker_t   thinker;        // Thinker structure for Pusher
+    enum
+    {
+        p_push,
+        p_pull,
+        p_wind,
+        p_current 
+    } type;
+    mobj_t      *source;        // Point source if point pusher
+    int         x_mag;          // X Strength
+    int         y_mag;          // Y Strength
+    int         magnitude;      // Vector strength for point pusher
+    int         radius;         // Effective radius for point pusher
+    int         x;              // X of point source if point pusher
+    int         y;              // Y of point source if point pusher
+    int         affectee;       // Number of affected sector
+} pusher_t;
+
+void T_Pusher(pusher_t *);      // phares 3/20/98: Push thinker
+mobj_t *P_GetPushThing(int);
 
 //
 // P_TELEPT

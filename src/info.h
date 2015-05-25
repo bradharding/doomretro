@@ -1448,6 +1448,8 @@ typedef enum
     MT_MISC84,
     MT_MISC85,
     MT_MISC86,
+    MT_PUSH,    // controls push source                     // phares
+    MT_PULL,    // controls pull source                     // phares 3/20/98
     MT_BLUEBLOOD,
     MT_GREENBLOOD,
     MT_FUZZYBLOOD,
