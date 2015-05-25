@@ -92,6 +92,7 @@ static size_t   maxanims;
 
 // killough 3/7/98: Initialize generalized scrolling
 static void P_SpawnScrollers(void);
+static void P_SpawnFriction(void);      // phares 3/16/98
 
 //
 // P_InitPicAnims
@@ -1782,16 +1783,19 @@ void P_PlayerInSpecialSector(player_t *player)
         {
             case 0: // no damage
                 break;
+
             case 1: // 2/5 damage per 31 ticks
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1f))
                         P_DamageMobj(player->mo, NULL, NULL, 5);
                 break;
+
             case 2: // 5/10 damage per 31 ticks
                 if (!player->powers[pw_ironfeet])
                     if (!(leveltime & 0x1f))
                         P_DamageMobj(player->mo, NULL, NULL, 10);
                 break;
+
             case 3: // 10/20 damage per 31 ticks
                 if (!player->powers[pw_ironfeet] || P_Random() < 5)  // take damage even with suit
                 {
@@ -2029,6 +2033,8 @@ void P_SpawnSpecials(void)
     P_InitTagLists();                   // killough 1/30/98: Create xref tables for tags
 
     P_SpawnScrollers();                 // killough 3/7/98: Add generalized scrollers
+
+    P_SpawnFriction();                  // phares 3/12/98: New friction model using linedefs
 
     for (i = 0; i < numlines; i++)
     {
@@ -2305,4 +2311,103 @@ static void P_SpawnScrollers(void)
                 break;
         }
     }
+}
+
+//
+// FRICTION EFFECTS
+//
+// phares 3/12/98: Start of friction effects
+//
+// As the player moves, friction is applied by decreasing the x and y
+// momentum values on each tic. By varying the percentage of decrease,
+// we can simulate muddy or icy conditions. In mud, the player slows
+// down faster. In ice, the player slows down more slowly.
+//
+// The amount of friction change is controlled by the length of a linedef
+// with type 223. A length < 100 gives you mud. A length > 100 gives you ice.
+//
+// Also, each sector where these effects are to take place is given a
+// new special type _______. Changing the type value at runtime allows
+// these effects to be turned on or off.
+//
+// Sector boundaries present problems. The player should experience these
+// friction changes only when his feet are touching the sector floor. At
+// sector boundaries where floor height changes, the player can find
+// himself still 'in' one sector, but with his feet at the floor level
+// of the next sector (steps up or down). To handle this, Thinkers are used
+// in icy/muddy sectors. These thinkers examine each object that is touching
+// their sectors, looking for players whose feet are at the same level as
+// their floors. Players satisfying this condition are given new friction
+// values that are applied by the player movement code later.
+//
+// killough 8/28/98:
+//
+// Completely redid code, which did not need thinkers, and which put a heavy
+// drag on CPU. Friction is now a property of sectors, NOT objects inside
+// them. All objects, not just players, are affected by it, if they touch
+// the sector's floor. Code simpler and faster, only calling on friction
+// calculations when an object needs friction considered, instead of doing
+// friction calculations on every sector during every tic.
+//
+// Although this -might- ruin Boom demo sync involving friction, it's the only
+// way, short of code explosion, to fix the original design bug. Fixing the
+// design bug in Boom's original friction code, while maintaining demo sync
+// under every conceivable circumstance, would double or triple code size, and
+// would require maintenance of buggy legacy code which is only useful for old
+// demos. Doom demos, which are more important IMO, are not affected by this
+// change.
+//
+
+//
+// Initialize the sectors where friction is increased or decreased
+static void P_SpawnFriction(void)
+{
+    int         i;
+    line_t      *l = lines;
+
+    // killough 8/28/98: initialize all sectors to normal friction first
+    for (i = 0; i < numsectors; i++)
+    {
+        sectors[i].friction = ORIG_FRICTION;
+        sectors[i].movefactor = ORIG_FRICTION_FACTOR;
+    }
+
+    for (i = 0; i < numlines; i++, l++)
+        if (l->special == FrictionTaggedSector)
+        {
+            int length = P_ApproxDistance(l->dx, l->dy) >> FRACBITS;
+            int friction = (0x1EB8 * length) / 0x80 + 0xD000;
+            int movefactor, s;
+
+            // The following check might seem odd. At the time of movement,
+            // the move distance is multiplied by 'friction/0x10000', so a
+            // higher friction value actually means 'less friction'.
+            if (friction > ORIG_FRICTION)       // ice
+                movefactor = ((0x10092 - friction) * 0x70) / 0x158;
+            else
+                movefactor = ((friction - 0xDB34) *0xA) / 0x80;
+
+            // killough 8/28/98: prevent odd situations
+            if (friction > FRACUNIT)
+                friction = FRACUNIT;
+            if (friction < 0)
+                friction = 0;
+            if (movefactor < 32)
+                movefactor = 32;
+
+            for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
+            {
+                // killough 8/28/98:
+                //
+                // Instead of spawning thinkers, which are slow and expensive,
+                // modify the sector's own friction values. Friction should be
+                // a property of sectors, not objects which reside inside them.
+                // Original code scanned every object in every friction sector
+                // on every tic, adjusting its friction, putting unnecessary
+                // drag on CPU. New code adjusts friction of sector only once
+                // at level startup, and then uses this friction value.
+                sectors[s].friction = friction;
+                sectors[s].movefactor = movefactor;
+            }
+        }
 }

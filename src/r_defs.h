@@ -168,6 +168,11 @@ typedef struct
 
     // killough 4/4/98: dynamic colormaps
     int                 bottommap, midmap, topmap;
+
+    // killough 8/28/98: friction is a sector property, not an mobj property.
+    // these fields used to be in mobj_t, but presented performance problems
+    // when processed as mobj properties. Fix is to make them sector properties.
+    int                 friction, movefactor;
 } sector_t;
 
 //
@@ -482,6 +487,7 @@ typedef enum
     WR_Floor_LowerToNearestFloor                                   = 220,
     S1_Floor_LowerToNearestFloor                                   = 221,
     SR_Floor_LowerToNearestFloor                                   = 222,
+    FrictionTaggedSector                                           = 223,
 
     W1_Lift_RaiseToNextHighestFloor_Fast                           = 227,
     WR_Lift_RaiseToNextHighestFloor_Fast                           = 228,

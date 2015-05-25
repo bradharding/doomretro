@@ -73,6 +73,22 @@ void P_Thrust(player_t *player, angle_t angle, fixed_t move)
 }
 
 //
+// P_Bob
+// Same as P_Thrust, but only affects bobbing.
+//
+// killough 10/98: We apply thrust separately between the real physical player
+// and the part which affects bobbing. This way, bobbing only comes from player
+// motion, nothing external, avoiding many problems, e.g. bobbing should not
+// occur on conveyors, unless the player walks on one, and bobbing should be
+// reduced at a regular rate, even on ice (where the player coasts).
+//
+void P_Bob(player_t *player, angle_t angle, fixed_t move)
+{
+    player->momx += FixedMul(move, finecosine[angle >>= ANGLETOFINESHIFT]);
+    player->momy += FixedMul(move, finesine[angle]);
+}
+
+//
 // P_CalcHeight
 // Calculate the walking / running height adjustment
 //
@@ -85,7 +101,8 @@ void P_CalcHeight(player_t *player)
     else if (player->playerstate == PST_LIVE)
     {
         int     angle = (FINEANGLES / 20 * leveltime) & FINEMASK;
-        fixed_t bob = ((FixedMul(mo->momx, mo->momx) + FixedMul(mo->momy, mo->momy)) >> 2);
+        fixed_t bob = ((FixedMul(player->momx, player->momx)
+            + FixedMul(player->momy, player->momy)) >> 2);
 
         // Regular movement bobbing
         // (needs to be calculated for gun swing
@@ -145,25 +162,44 @@ void P_MovePlayer(player_t *player)
     ticcmd_t    *cmd = &player->cmd;
     mobj_t      *mo = player->mo;
 
-    mo->angle += (cmd->angleturn << 16);
+    mo->angle += cmd->angleturn << 16;
+    onground = (mo->z <= mo->floorz);
 
-    // Do not let the player control movement
-    //  if not onground.
-    onground = (mo->z <= mo->floorz || (mo->flags2 & MF2_ONMOBJ));
+    // killough 10/98:
+    //
+    // We must apply thrust to the player and bobbing separately, to avoid
+    // anomalies. The thrust applied to bobbing is always the same strength on
+    // ice, because the player still "works just as hard" to move, while the
+    // thrust applied to the movement varies with 'movefactor'.
 
-    if (onground)
+    if (cmd->forwardmove | cmd->sidemove)       // killough 10/98
     {
-        if (cmd->forwardmove)
-            P_Thrust(player, mo->angle, cmd->forwardmove * 2048);
+        if (onground)                           // killough 8/9/98
+        {
+            int friction, movefactor = P_GetMoveFactor(mo, &friction);
 
-        if (cmd->sidemove)
-            P_Thrust(player, mo->angle - ANG90, cmd->sidemove * 2048);
+            // killough 11/98:
+            // On sludge, make bobbing depend on efficiency.
+            // On ice, make it depend on effort.
+            int bobfactor = (friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR);
+
+            if (cmd->forwardmove)
+            {
+                P_Bob(player, mo->angle, cmd->forwardmove * bobfactor);
+                P_Thrust(player, mo->angle, cmd->forwardmove * movefactor);
+            }
+
+            if (cmd->sidemove)
+            {
+                P_Bob(player, mo->angle - ANG90, cmd->sidemove * bobfactor);
+                P_Thrust(player, mo->angle - ANG90, cmd->sidemove * movefactor);
+            }
+        }
+
+        if (mo->state == states + S_PLAY)
+            P_SetMobjState(mo, S_PLAY_RUN1);
     }
-
-    if ((cmd->forwardmove || cmd->sidemove) && mo->state == states + S_PLAY)
-        P_SetMobjState(mo, S_PLAY_RUN1);
 }
-
 //
 // P_DeathThink
 // Fall on your face when dying.

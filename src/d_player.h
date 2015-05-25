@@ -111,6 +111,12 @@ typedef struct player_s
     // bounded/scaled total momentum.
     fixed_t             bob;
 
+    // killough 10/98: used for realistic bobbing (i.e. not simply overall speed)
+    // mo->momx and mo->momy represent true momenta experienced by player.
+    // This only represents the thrust that the player applies himself.
+    // This avoids anomolies with such things as Boom ice and conveyors.
+    fixed_t             momx, momy;     // killough 10/98
+
     // This is only used between levels,
     // mo->health is used during levels.
     int                 health;

@@ -877,7 +877,7 @@ boolean EV_DoElevator(line_t *line, elevator_e elevtype)
                 elevator->floordestheight = line->frontsector->floorheight;
                 elevator->ceilingdestheight = elevator->floordestheight + sec->ceilingheight
                     - sec->floorheight;
-                elevator->direction = (elevator->floordestheight>sec->floorheight ? 1 : -1);
+                elevator->direction = (elevator->floordestheight > sec->floorheight ? 1 : -1);
                 break;
 
             default:

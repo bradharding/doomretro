@@ -703,6 +703,12 @@ static void saveg_read_player_t(player_t *str)
     // fixed_t bob
     str->bob = saveg_read32();
 
+    // fixed_t momx
+    str->momx = saveg_read32();
+
+    // fixed_t momy
+    str->momy = saveg_read32();
+
     // int health
     str->health = saveg_read32();
 
@@ -850,6 +856,12 @@ static void saveg_write_player_t(player_t *str)
 
     // fixed_t bob
     saveg_write32(str->bob);
+
+    // fixed_t momx
+    saveg_write32(str->momx);
+
+    // fixed_t momy
+    saveg_write32(str->momy);
 
     // int health
     saveg_write32(str->health);

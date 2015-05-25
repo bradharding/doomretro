@@ -298,8 +298,11 @@ extern int      numspechit;
 
 static boolean P_Move(mobj_t *actor, boolean dropoff)   // killough 9/12/98
 {
+    fixed_t     tryx, tryy, deltax, deltay;
+    boolean     try_ok;
+    int         movefactor = ORIG_FRICTION_FACTOR;      // killough 10/98
+    int         friction = ORIG_FRICTION;
     int         speed;
-    fixed_t     tryx, tryy;
 
     if (!actor->subsector)
         return false;
@@ -318,25 +321,62 @@ static boolean P_Move(mobj_t *actor, boolean dropoff)   // killough 9/12/98
             actor->z = actor->floorz;
     }
 
+    // killough 10/98: make monsters get affected by ice and sludge too:
+    movefactor = P_GetMoveFactor(actor, &friction);
     speed = actor->info->speed;
 
-    tryx = actor->x + speed * xspeed[actor->movedir];
-    tryy = actor->y + speed * yspeed[actor->movedir];
+    if (friction < ORIG_FRICTION        // sludge
+        && !(speed = ((ORIG_FRICTION_FACTOR - (ORIG_FRICTION_FACTOR - movefactor) / 2)
+        * speed) / ORIG_FRICTION_FACTOR))
+        speed = 1;                      // always give the monster a little bit of speed
 
-    if (!P_TryMove(actor, tryx, tryy, dropoff))
+    tryx = actor->x + (deltax = speed * xspeed[actor->movedir]);
+    tryy = actor->y + (deltay = speed * yspeed[actor->movedir]);
+
+    // killough 12/98: rearrange, fix potential for stickiness on ice
+    if (friction <= ORIG_FRICTION)
+        try_ok = P_TryMove(actor, tryx, tryy, dropoff);
+    else
     {
+        fixed_t x = actor->x;
+        fixed_t y = actor->y;
+        fixed_t floorz = actor->floorz;
+        fixed_t ceilingz = actor->ceilingz;
+        fixed_t dropoffz = actor->dropoffz;
+
+        try_ok = P_TryMove(actor, tryx, tryy, dropoff);
+
+        // killough 10/98:
+        // Let normal momentum carry them, instead of steptoeing them across ice.
+        if (try_ok)
+        {
+            P_UnsetThingPosition(actor);
+            actor->x = x;
+            actor->y = y;
+            actor->floorz = floorz;
+            actor->ceilingz = ceilingz;
+            actor->dropoffz = dropoffz;
+            P_SetThingPosition(actor);
+            movefactor *= FRACUNIT / ORIG_FRICTION_FACTOR / 4;
+            actor->momx += FixedMul(deltax, movefactor);
+            actor->momy += FixedMul(deltay, movefactor);
+        }
+    }
+
+    if (!try_ok)
+    {
+        // open any specials
         int     good;
 
-        // open any specials
-        if ((actor->flags & MF_FLOAT) && floatok)
+        if (actor->flags & MF_FLOAT && floatok)
         {
-            // must adjust height
-            if (actor->z < tmfloorz)
+            if (actor->z < tmfloorz)          // must adjust height
                 actor->z += FLOATSPEED;
             else
                 actor->z -= FLOATSPEED;
 
             actor->flags |= MF_INFLOAT;
+
             return true;
         }
 
@@ -362,12 +402,16 @@ static boolean P_Move(mobj_t *actor, boolean dropoff)   // killough 9/12/98
         // back out when they shouldn't, and creates secondary stickiness).
         for (good = false; numspechit--;)
             if (P_UseSpecialLine(actor, spechit[numspechit], 0))
-                good |= (spechit[numspechit] == blockline ? 1 : 2);
+                good |= spechit[numspechit] == blockline ? 1 : 2;
 
-        return (good && ((P_Random() >= 230) ^ (good & 1)));
+        return good && ((P_Random() >= 230) ^ (good & 1));
     }
     else
         actor->flags &= ~MF_INFLOAT;
+
+    // killough 11/98: fall more slowly, under gravity, if felldown==true
+    if (!(actor->flags & MF_FLOAT) && !felldown)
+        actor->z = actor->floorz;
 
     return true;
 }

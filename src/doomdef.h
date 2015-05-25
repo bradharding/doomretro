@@ -224,9 +224,18 @@ typedef enum
     IRONTICS    = (60 * TICRATE)
 } powerduration_t;
 
-#define STARTFLASHING   127
+#define STARTFLASHING           127
 
 // Index of the special effects (INVUL inverse) map.
-#define INVERSECOLORMAP 32
+#define INVERSECOLORMAP         32
+
+// phares 3/20/98:
+//
+// Player friction is variable, based on controlling
+// linedefs. More friction can create mud, sludge,
+// magnetized floors, etc. Less friction can create ice.
+#define MORE_FRICTION_MOMENTUM  15000   // mud factor based on momentum
+#define ORIG_FRICTION           0xE800  // original value
+#define ORIG_FRICTION_FACTOR    2048    // original value
 
 #endif

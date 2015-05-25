@@ -104,6 +104,8 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     player->psprites[ps_weapon].sx = 0;
                     player->psprites[ps_weapon].sy = WEAPONTOP;
+
+                    player->momx = player->momy = 0;
                 }
 
                 thing->angle = m->angle;

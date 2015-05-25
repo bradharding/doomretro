@@ -135,6 +135,75 @@ boolean PIT_StompThing(mobj_t *thing)
 }
 
 //
+// killough 8/28/98:
+//
+// P_GetFriction()
+//
+// Returns the friction associated with a particular mobj.
+int P_GetFriction(const mobj_t *mo, int *frictionfactor)
+{
+    int                 friction = ORIG_FRICTION;
+    int                 movefactor = ORIG_FRICTION_FACTOR;
+    const msecnode_t    *m;
+    const sector_t      *sec;
+
+    // Assign the friction value to objects on the floor, non-floating,
+    // and clipped. Normally the object's friction value is kept at
+    // ORIG_FRICTION and this thinker changes it for icy or muddy floors.
+    //
+    // When the object is straddling sectors with the same
+    // floorheight that have different frictions, use the lowest
+    // friction value (muddy has precedence over icy).
+    if (!(mo->flags & (MF_NOCLIP | MF_NOGRAVITY)))
+        for (m = mo->touching_sectorlist; m; m = m->m_tnext)
+            if ((sec = m->m_sector)->special & FRICTION_MASK
+                && (sec->friction < friction || friction == ORIG_FRICTION)
+                && (mo->z <= sec->floorheight || (sec->heightsec != -1
+                && mo->z <= sectors[sec->heightsec].floorheight)))
+            {
+                friction = sec->friction;
+                movefactor = sec->movefactor;
+            }
+
+    if (frictionfactor)
+        *frictionfactor = movefactor;
+
+    return friction;
+}
+
+// phares 3/19/98
+// P_GetMoveFactor() returns the value by which the x,y
+// movements are multiplied to add to player movement.
+//
+// killough 8/28/98: rewritten
+int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
+{
+    int movefactor, friction;
+
+    // If the floor is icy or muddy, it's harder to get moving. This is where
+    // the different friction factors are applied to 'trying to move'. In
+    // p_mobj.c, the friction factors are applied as you coast and slow down.
+    if ((friction = P_GetFriction(mo, &movefactor)) < ORIG_FRICTION)
+    {
+        // phares 3/11/98: you start off slowly, then increase as
+        // you get better footing
+        int     momentum = P_ApproxDistance(mo->momx, mo->momy);
+
+        if (momentum > MORE_FRICTION_MOMENTUM << 2)
+            movefactor <<= 3;
+        else if (momentum > MORE_FRICTION_MOMENTUM << 1)
+            movefactor <<= 2;
+        else if (momentum > MORE_FRICTION_MOMENTUM)
+            movefactor <<= 1;
+    }
+
+    if (frictionp)
+        *frictionp = friction;
+
+    return movefactor;
+}
+
+//
 // P_TeleportMove
 //
 boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean boss)
@@ -1101,16 +1170,43 @@ void P_HitSlideLine(line_t *ld)
     angle_t     deltaangle;
     fixed_t     movelen;
     fixed_t     newlen;
+    boolean     icyfloor;       // is floor icy?
+
+    // phares:
+    // Under icy conditions, if the angle of approach to the wall
+    // is more than 45 degrees, then you'll bounce and lose half
+    // your momentum. If less than 45 degrees, you'll slide along
+    // the wall. 45 is arbitrary and is believable.
+    //
+    // Check for the special cases of horz or vert walls.
+
+    // killough 10/98: only bounce if hit hard (prevents wobbling)
+    icyfloor = (P_ApproxDistance(tmxmove, tmymove) > 4 * FRACUNIT && slidemo->z <= slidemo->floorz
+        && P_GetFriction(slidemo, NULL) > ORIG_FRICTION);
 
     if (ld->slopetype == ST_HORIZONTAL)
     {
-        tmymove = 0;
+        if (icyfloor && ABS(tmymove) > ABS(tmxmove))
+        {
+            S_StartSound(slidemo, sfx_oof);     // oooff!
+            tmxmove /= 2;                       // absorb half the momentum
+            tmymove = -tmymove / 2;
+        }
+        else
+            tmymove = 0;                        // no more movement in the Y direction
         return;
     }
 
     if (ld->slopetype == ST_VERTICAL)
     {
-        tmxmove = 0;
+        if (icyfloor && ABS(tmxmove) > ABS(tmymove))
+        {
+            S_StartSound(slidemo, sfx_oof);     // oooff!
+            tmxmove = -tmxmove / 2;             // absorb half the momentum
+            tmymove /= 2;
+        }
+        else
+            tmxmove = 0;                        // no more movement in the X direction
         return;
     }
 
@@ -1281,6 +1377,14 @@ void P_SlideMove(mobj_t *mo)
         mo->momx = tmxmove;
         mo->momy = tmymove;
 
+        // killough 10/98: affect the bobbing the same way (but not voodoo dolls)
+        if (mo->player && mo->player->mo == mo)
+        {
+            if (ABS(mo->player->momx) > ABS(tmxmove))
+                mo->player->momx = tmxmove;
+            if (ABS(mo->player->momy) > ABS(tmymove))
+                mo->player->momy = tmymove;
+        }
     }  // killough 3/15/98: Allow objects to drop off ledges:
     while (!P_TryMove(mo, mo->x + tmxmove, mo->y + tmymove, true));
 }

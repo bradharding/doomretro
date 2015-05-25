@@ -237,7 +237,9 @@ void P_LineAttack(mobj_t *t1, angle_t angle, fixed_t distance, fixed_t slope, in
 
 void P_RadiusAttack(mobj_t *spot, mobj_t *source, int damage);
 
-void P_ApplyTorque(mobj_t *mo); // killough 9/12/98
+int P_GetMoveFactor(const mobj_t *mo, int *friction);   // killough 8/28/98
+int P_GetFriction(const mobj_t *mo, int *factor);       // killough 8/28/98
+void P_ApplyTorque(mobj_t *mo);                         // killough 9/12/98
 
 void P_MapEnd(void);
 

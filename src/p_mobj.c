@@ -241,7 +241,37 @@ void P_XYMovement(mobj_t *mo)
         if (!P_TryMove(mo, ptryx, ptryy, true))
         {
             // blocked move
-            if (player)
+            // killough 8/11/98: bouncing off walls
+            // killough 10/98:
+            // Add ability for objects other than players to bounce on ice
+            if (!(mo->flags & MF_MISSILE) && !player && blockline && mo->z <= mo->floorz
+                && P_GetFriction(mo, NULL) > ORIG_FRICTION)
+            {
+                if (blockline)
+                {
+                    fixed_t     r = ((blockline->dx >> FRACBITS) * mo->momx
+                        + (blockline->dy >> FRACBITS) * mo->momy)
+                        / ((blockline->dx >> FRACBITS) * (blockline->dx >> FRACBITS)
+                        + (blockline->dy >> FRACBITS) * (blockline->dy >> FRACBITS));
+                    fixed_t     x = FixedMul(r, blockline->dx);
+                    fixed_t     y = FixedMul(r, blockline->dy);
+
+                    // reflect momentum away from wall
+                    mo->momx = x * 2 - mo->momx;
+                    mo->momy = y * 2 - mo->momy;
+
+                    // if under gravity, slow down in
+                    // direction perpendicular to wall.
+                    if (!(mo->flags & MF_NOGRAVITY))
+                    {
+                        mo->momx = (mo->momx + x) / 2;
+                        mo->momy = (mo->momy + y) / 2;
+                    }
+                }
+                else
+                    mo->momx = mo->momy = 0;
+            }
+            else if (player)
                 // try to slide along it
                 P_SlideMove(mo);
             else if (flags & MF_MISSILE)
@@ -313,18 +343,43 @@ void P_XYMovement(mobj_t *mo)
             P_SetMobjState(player->mo, S_PLAY);
 
         mo->momx = mo->momy = 0;
+
+        // killough 10/98: kill any bobbing momentum too (except in voodoo dolls)
+        if (player && player->mo == mo)
+            player->momx = player->momy = 0;
+    }
+    else if ((flags2 & MF2_FEETARECLIPPED) && !player)
+    {
+        mo->momx = FixedMul(mo->momx, WATERFRICTION);
+        mo->momy = FixedMul(mo->momy, WATERFRICTION);
     }
     else
     {
-        if ((flags2 & MF2_FEETARECLIPPED) && !player)
+        // phares 3/17/98
+        //
+        // Friction will have been adjusted by friction thinkers for
+        // icy or muddy floors. Otherwise it was never touched and
+        // remained set at ORIG_FRICTION
+        //
+        // killough 8/28/98: removed inefficient thinker algorithm,
+        // instead using touching_sectorlist in P_GetFriction() to
+        // determine friction (and thus only when it is needed).
+        //
+        // killough 10/98: changed to work with new bobbing method.
+        // Reducing player momentum is no longer needed to reduce
+        // bobbing, so ice works much better now.
+        fixed_t friction = P_GetFriction(mo, NULL);
+
+        mo->momx = FixedMul(mo->momx, friction);
+        mo->momy = FixedMul(mo->momy, friction);
+
+        // killough 10/98: Always decrease player bobbing by ORIG_FRICTION.
+        // This prevents problems with bobbing on ice, where it was not being
+        // reduced fast enough, leading to all sorts of kludges being developed.
+        if (player && player->mo == mo)     //  Not voodoo dolls
         {
-            mo->momx = FixedMul(mo->momx, WATERFRICTION);
-            mo->momy = FixedMul(mo->momy, WATERFRICTION);
-        }
-        else
-        {
-            mo->momx = FixedMul(mo->momx, FRICTION);
-            mo->momy = FixedMul(mo->momy, FRICTION);
+            player->momx = FixedMul(player->momx, ORIG_FRICTION);
+            player->momy = FixedMul(player->momy, ORIG_FRICTION);
         }
     }
 }
