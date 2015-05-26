@@ -151,13 +151,18 @@ typedef struct
 // Set if already seen, thus drawn in automap.
 #define ML_MAPPED               256
 
-#define ML_DRAWASWALL           512
+//jff 3/21/98 Set if line absorbs use by player
+//allow multiple push/switch triggers to be used on one push
+#define ML_PASSUSE              512
 
-// Line will trigger sector 666 if no monsters.
-#define ML_TRIGGER666           1024
+// [BH] Line will be shown as a wall in automap.
+#define ML_DRAWASWALL           1024
 
-// Line won't be shown as teleporter in automap.
-#define ML_TELEPORTTRIGGERED    2048
+// [BH] Line will trigger sector 666 if no monsters.
+#define ML_TRIGGER666           2048
+
+// [BH] Line won't be shown as teleporter in automap.
+#define ML_TELEPORTTRIGGERED    4096
 
 // Sector definition, from editing.
 typedef struct

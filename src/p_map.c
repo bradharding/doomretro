@@ -1682,11 +1682,12 @@ static mobj_t *usething;
 
 static boolean PTR_UseTraverse(intercept_t *in)
 {
-    int side;
+    int         side = 0;
+    line_t      *line = in->d.line;
 
-    if (!in->d.line->special)
+    if (!line->special)
     {
-        P_LineOpening(in->d.line);
+        P_LineOpening(line);
         if (openrange <= 0)
         {
             S_StartSound(usething, sfx_noway);
@@ -1699,15 +1700,14 @@ static boolean PTR_UseTraverse(intercept_t *in)
         return true;
     }
 
-    side = 0;
-    if (P_PointOnLineSide(usething->x, usething->y, in->d.line) == 1)
+    if (P_PointOnLineSide(usething->x, usething->y, line) == 1)
         side = 1;
 
-    P_UseSpecialLine(usething, in->d.line, side);
+    P_UseSpecialLine(usething, line, side);
 
     // can't use for more than one special line in a row
     // [BH] unless its the wrong side
-    return side;
+    return (side || (line->flags & ML_PASSUSE));
 }
 
 // Returns false if a "oof" sound should be made because of a blocking
