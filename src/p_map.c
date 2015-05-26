@@ -1706,7 +1706,8 @@ static boolean PTR_UseTraverse(intercept_t *in)
     P_UseSpecialLine(usething, in->d.line, side);
 
     // can't use for more than one special line in a row
-    return false;
+    // [BH] unless its the wrong side
+    return side;
 }
 
 // Returns false if a "oof" sound should be made because of a blocking
