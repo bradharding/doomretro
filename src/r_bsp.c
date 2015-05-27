@@ -282,7 +282,6 @@ void R_MaybeInterpolateSector(sector_t* sector)
     }
 }
 
-
 //
 // killough 3/7/98: Hack floor/ceiling heights for deep water etc.
 //
@@ -382,7 +381,7 @@ sector_t *R_FakeFlat(sector_t *sec, sector_t *tempsec, int *floorlightlevel,
                 *ceilinglightlevel = (s->ceilinglightsec == -1 ? s->lightlevel :
                     sectors[s->ceilinglightsec].lightlevel);            // killough 4/11/98
         }
-        *sec = *tempsec;             // Use other sector
+        sec = tempsec;        // Use other sector
     }
     return sec;
 }
@@ -401,6 +400,7 @@ static void R_AddLine(seg_t *line)
     angle_t             span;
     angle_t             tspan;
     static sector_t     tempsec;        // killough 3/8/98: ceiling/water hack
+
     curline = line;
 
     angle1 = R_GetVertexViewAngle(line->v1);
@@ -632,25 +632,26 @@ static void R_Subsector(int num)
     // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
     frontsector = R_FakeFlat(frontsector, &tempsec, &floorlightlevel, &ceilinglightlevel, false);
 
-    if (frontsector->interpfloorheight < viewz
-        || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].ceilingpic == skyflatnum))
-    {
-        floorplane = R_FindPlane(frontsector->interpfloorheight,
-            ((frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->floorpic),
-            floorlightlevel, frontsector->floor_xoffs, frontsector->floor_yoffs);
-        floorplane->sector = frontsector;
-    }
-    else
-        floorplane = NULL;
+    floorplane = (frontsector->interpfloorheight < viewz        // killough 3/7/98
+        || (frontsector->heightsec != -1
+        && sectors[frontsector->heightsec].ceilingpic == skyflatnum) ?
+        R_FindPlane(frontsector->interpfloorheight,
+            (frontsector->floorpic == skyflatnum                // killough 10/98
+                && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->floorpic),
+            floorlightlevel,                                    // killough 3/16/98
+            frontsector->floor_xoffs,                           // killough 3/7/98
+            frontsector->floor_yoffs) : NULL);
 
-    if (frontsector->interpceilingheight > viewz
+    ceilingplane = (frontsector->interpceilingheight > viewz
         || frontsector->ceilingpic == skyflatnum
-        || (frontsector->heightsec != -1 && sectors[frontsector->heightsec].floorpic == skyflatnum))
-        ceilingplane = R_FindPlane(frontsector->interpceilingheight,
-            ((frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
-            ceilinglightlevel, frontsector->ceiling_xoffs, frontsector->ceiling_yoffs);
-    else
-        ceilingplane = NULL;
+        || (frontsector->heightsec != -1
+        && sectors[frontsector->heightsec].floorpic == skyflatnum) ?
+        R_FindPlane(frontsector->interpceilingheight,           // killough 3/8/98
+            (frontsector->ceilingpic == skyflatnum              // killough 10/98
+            && (frontsector->sky & PL_SKYFLAT) ? frontsector->sky : frontsector->ceilingpic),
+            ceilinglightlevel,                                  // killough 4/11/98
+            frontsector->ceiling_xoffs,                         // killough 3/7/98
+            frontsector->ceiling_yoffs) : NULL);
 
     // killough 9/18/98: Fix underwater slowdown, by passing real sector 
     // instead of fake one. Improve sprite lighting by basing sprite
