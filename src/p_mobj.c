@@ -874,6 +874,7 @@ void P_SpawnPlayer(const mapthing_t *mthing)
     p->viewz = p->mo->z + p->viewheight;
     p->psprites[ps_weapon].sx = 0;
     p->mo->momx = p->mo->momy = 0;
+    p->momx = p->momy = 0;
 
     // setup gun psprite
     P_SetupPsprites(p);
