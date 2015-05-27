@@ -170,9 +170,9 @@ crunch:
         return;                 // Post just extended past the bottom of one post.
 
     while (next++ != newend)
-        *++start = *next;     // Remove a post.
+        *++start = *next;       // Remove a post.
 
-    newend = start;
+    newend = start + 1;
 }
 
 //
@@ -466,13 +466,16 @@ static void R_AddLine(seg_t *line)
 
     // killough 3/8/98, 4/4/98: hack for invisible ceilings / deep water
     backsector = R_FakeFlat(backsector, &tempsec, NULL, NULL, true);
-    doorclosed = false;
+
+    doorclosed = false; // killough 4/16/98
 
     // Closed door.
     if (backsector->interpceilingheight <= frontsector->interpfloorheight
         || backsector->interpfloorheight >= frontsector->interpceilingheight)
         goto clipsolid;
 
+    // This fixes the automap floor height bug -- killough 1/18/98:
+    // killough 4/7/98: optimize: save result in doorclosed for use in r_segs.c
     if ((doorclosed = R_DoorClosed()))
         goto clipsolid;
 
@@ -665,7 +668,6 @@ static void R_Subsector(int num)
     // Either you must pass the fake sector and handle validcount here, on the
     // real sector, or you must account for the lighting in some other way, 
     // like passing it as an argument.
-
     R_AddSprites(sub->sector, (floorlightlevel + ceilinglightlevel) / 2);
 
     while (count--)
