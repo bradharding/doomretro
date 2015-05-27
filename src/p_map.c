@@ -98,7 +98,7 @@ mobj_t          *onmobj;
 //
 // PIT_StompThing
 //
-static boolean telefrag;        // killough 8/9/98: whether to telefrag at exit
+static boolean  telefrag;       // killough 8/9/98: whether to telefrag at exit
 
 boolean PIT_StompThing(mobj_t *thing)
 {
@@ -189,9 +189,9 @@ int P_GetMoveFactor(const mobj_t *mo, int *frictionp)
         // you get better footing
         int     momentum = P_ApproxDistance(mo->momx, mo->momy);
 
-        if (momentum > MORE_FRICTION_MOMENTUM << 2)
+        if (momentum > (MORE_FRICTION_MOMENTUM << 2))
             movefactor <<= 3;
-        else if (momentum > MORE_FRICTION_MOMENTUM << 1)
+        else if (momentum > (MORE_FRICTION_MOMENTUM << 1))
             movefactor <<= 2;
         else if (momentum > MORE_FRICTION_MOMENTUM)
             movefactor <<= 1;
@@ -311,16 +311,16 @@ boolean P_TeleportMove(mobj_t *thing, fixed_t x, fixed_t y, fixed_t z, boolean b
 // intersection of the trajectory and the line, but that takes
 // longer and probably really isn't worth the effort.
 //
+//
+// killough 11/98: reformatted
 static boolean PIT_CrossLine(line_t *ld)
 {
-    if (!(ld->flags & ML_TWOSIDED) || (ld->flags & (ML_BLOCKING | ML_BLOCKMONSTERS)))
-        if (!(tmbbox[BOXLEFT] > ld->bbox[BOXRIGHT]
-            || tmbbox[BOXRIGHT] < ld->bbox[BOXLEFT]
-            || tmbbox[BOXTOP] < ld->bbox[BOXBOTTOM]
-            || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]))
-            if (P_PointOnLineSide(pe_x, pe_y, ld) != P_PointOnLineSide(ls_x, ls_y, ld))
-                return false;   // line blocks trajectory
-    return true;                // line doesn't block trajectory
+    return (!((ld->flags ^ ML_TWOSIDED) & (ML_TWOSIDED | ML_BLOCKING | ML_BLOCKMONSTERS))
+        || tmbbox[BOXLEFT]   > ld->bbox[BOXRIGHT]
+        || tmbbox[BOXRIGHT]  < ld->bbox[BOXLEFT]
+        || tmbbox[BOXTOP]    < ld->bbox[BOXBOTTOM]
+        || tmbbox[BOXBOTTOM] > ld->bbox[BOXTOP]
+        || P_PointOnLineSide(pe_x, pe_y, ld) == P_PointOnLineSide(ls_x, ls_y, ld));
 }
 
 // killough 8/1/98: used to test intersection between thing and line

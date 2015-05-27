@@ -260,7 +260,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     curline = ds->curline;
 
     colfunc = (curline->linedef->tranlump >= 0 && translucency ?
-        R_DrawTranslucentColumn : R_DrawColumn);
+        R_DrawTranslucent50Column : R_DrawColumn);
 
     frontsector = curline->frontsector;
     backsector = curline->backsector;

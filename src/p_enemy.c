@@ -304,9 +304,6 @@ static boolean P_Move(mobj_t *actor, boolean dropoff)   // killough 9/12/98
     int         friction = ORIG_FRICTION;
     int         speed;
 
-    if (!actor->subsector)
-        return false;
-
     if (actor->movedir == DI_NODIR)
         return false;
 
