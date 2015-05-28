@@ -187,7 +187,7 @@ void P_XYMovement(mobj_t *mo)
     mobjtype_t  type;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
-
+    boolean     corpse = (flags & MF_CORPSE);
 
     if (!(mo->momx | mo->momy))
     {
@@ -305,7 +305,7 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
-    if ((flags & MF_CORPSE) && !(flags & MF_NOBLOOD) && corpses_slide && corpses_smearblood
+    if (corpse && !(flags & MF_NOBLOOD) && corpses_slide && corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && maxbloodsplats)
     {
         int     i;
@@ -328,7 +328,7 @@ void P_XYMovement(mobj_t *mo)
         }
     }
 
-    if (((flags & MF_CORPSE) || (flags2 & MF2_FALLING))
+    if ((corpse || (flags2 & MF2_FALLING))
         && (mo->momx > FRACUNIT / 4 || mo->momx < -FRACUNIT / 4
             || mo->momy > FRACUNIT / 4 || mo->momy < -FRACUNIT / 4)
         && mo->floorz != mo->subsector->sector->floorheight)
@@ -348,7 +348,7 @@ void P_XYMovement(mobj_t *mo)
         if (player && player->mo == mo)
             player->momx = player->momy = 0;
     }
-    else if ((flags2 & MF2_FEETARECLIPPED) && !player)
+    else if ((flags2 & MF2_FEETARECLIPPED) && corpse && !player)
     {
         mo->momx = FixedMul(mo->momx, WATERFRICTION);
         mo->momy = FixedMul(mo->momy, WATERFRICTION);
