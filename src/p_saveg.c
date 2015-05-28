@@ -2297,10 +2297,7 @@ void P_UnArchiveSpecials(void)
                 ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVEL, NULL);
                 saveg_read_ceiling_t(ceiling);
                 ceiling->sector->ceilingdata = ceiling;
-
-                if (ceiling->thinker.function)
-                    ceiling->thinker.function = T_MoveCeiling;
-
+                ceiling->thinker.function = T_MoveCeiling;
                 P_AddThinker(&ceiling->thinker);
                 P_AddActiveCeiling(ceiling);
                 break;
