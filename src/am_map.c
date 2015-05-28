@@ -1531,8 +1531,13 @@ static void AM_drawWalls(void)
                 }
 
                 if ((special == W1_Teleport || special == W1_ExitLevel || special == WR_Teleport
-                    || (special >= W1_ExitLevel_GoesToSecretLevel
-                    && special <= WR_Teleport_MonstersOnly))
+                    || special == W1_ExitLevel_GoesToSecretLevel
+                    || special == W1_Teleport_AlsoMonsters_Silent_SameAngle
+                    || special == WR_Teleport_AlsoMonsters_Silent_SameAngle
+                    || special == W1_TeleportToLineWithSameTag_Silent_SameAngle
+                    || special == WR_TeleportToLineWithSameTag_Silent_SameAngle
+                    || special == W1_TeleportToLineWithSameTag_Silent_ReversedAngle
+                    || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle)
                     && ((flags & ML_TELEPORTTRIGGERED) || cheating
                     || isteleport(backsector->floorpic)))
                 {
