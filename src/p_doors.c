@@ -129,7 +129,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case doorBlazeClose:
                     case genBlazeRaise:
                     case genBlazeClose:
-                        door->sector->specialdata = NULL;
+                        door->sector->ceilingdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
                         break;
 
@@ -137,7 +137,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case doorClose:
                     case genRaise:
                     case genClose:
-                        door->sector->specialdata = NULL;
+                        door->sector->ceilingdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
                         break;
 
@@ -205,7 +205,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case genOpen:
                     case genCdO:
                     case genBlazeCdO:
-                        door->sector->specialdata = NULL;
+                        door->sector->ceilingdata = NULL;
                         P_RemoveThinker(&door->thinker);        // unlink and free
                         break;
 
@@ -339,14 +339,14 @@ boolean EV_DoDoor(line_t *line, vldoor_e type)
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         sec = &sectors[secnum];
-        if (sec->specialdata)
+        if (P_SectorActive(ceiling_special, sec))
             continue;
 
         // new door thinker
         rtn = true;
         door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
-        sec->specialdata = door;
+        sec->ceilingdata = door;
 
         door->thinker.function = T_VerticalDoor;
         door->sector = sec;
@@ -534,9 +534,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
 
     sec = sides[line->sidenum[1]].sector;
 
-    if (sec->specialdata)
+    if (sec->ceilingdata)
     {
-        door = (vldoor_t *)sec->specialdata;
+        door = sec->ceilingdata;
         switch (line->special)
         {
             case DR_Door_OpenWaitClose_AlsoMonsters:
@@ -596,7 +596,7 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     // new door thinker
     door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
     P_AddThinker(&door->thinker);
-    sec->specialdata = door;
+    sec->ceilingdata = door;
     door->thinker.function = T_VerticalDoor;
     door->sector = sec;
     door->direction = 1;
@@ -656,7 +656,7 @@ void P_SpawnDoorCloseIn30(sector_t *sec)
 
     P_AddThinker(&door->thinker);
 
-    sec->specialdata = door;
+    sec->ceilingdata = door;
     sec->special = 0;
 
     door->thinker.function = T_VerticalDoor;
@@ -678,7 +678,7 @@ void P_SpawnDoorRaiseIn5Mins(sector_t *sec)
 
     P_AddThinker(&door->thinker);
 
-    sec->specialdata = door;
+    sec->ceilingdata = door;
     sec->special = 0;
 
     door->thinker.function = T_VerticalDoor;

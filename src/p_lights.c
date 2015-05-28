@@ -189,7 +189,7 @@ int EV_StartLightStrobing(line_t *line)
     {
         sector_t        *sec = &sectors[secnum];
 
-        if (sec->specialdata)
+        if (P_SectorActive(lighting_special, sec))
             continue;
 
         P_SpawnStrobeFlash(sec, SLOWDARK, 0);

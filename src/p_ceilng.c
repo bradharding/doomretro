@@ -127,6 +127,7 @@ void T_MoveCeiling(ceiling_t *ceiling)
                     case silentCrushAndRaise:
                     case genSilentCrusher:
                         break;
+
                     default:
                         S_StartSound(&ceiling->sector->soundorg, sfx_stnmov);
                 }
@@ -216,6 +217,7 @@ boolean EV_DoCeiling(line_t *line, ceiling_e type)
     sector_t    *sec;
     ceiling_t   *ceiling;
 
+
     // Reactivate in-stasis ceilings...for certain types.
     switch (type)
     {
@@ -231,14 +233,15 @@ boolean EV_DoCeiling(line_t *line, ceiling_e type)
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         sec = &sectors[secnum];
-        if (sec->specialdata)
+        if (P_SectorActive(ceiling_special, sec))
             continue;
 
         // new door thinker
         rtn = true;
         ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
+        memset(ceiling, 0, sizeof(*ceiling));
         P_AddThinker(&ceiling->thinker);
-        sec->specialdata = ceiling;
+        sec->ceilingdata = ceiling;
         ceiling->thinker.function = T_MoveCeiling;
         ceiling->sector = sec;
         ceiling->crush = false;
@@ -317,7 +320,7 @@ void P_RemoveActiveCeiling(ceiling_t *ceiling)
 {
     ceilinglist_t       *list = ceiling->list;
 
-    ceiling->sector->specialdata = NULL;
+    ceiling->sector->ceilingdata = NULL;
     P_RemoveThinker(&ceiling->thinker);
     if ((*list->prev = list->next))
         list->next->prev = list->prev;

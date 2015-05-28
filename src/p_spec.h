@@ -39,6 +39,14 @@
 #if !defined(__P_SPEC__)
 #define __P_SPEC__
 
+//jff 2/23/98 identify the special classes that can share sectors
+typedef enum
+{
+    floor_special,
+    ceiling_special,
+    lighting_special
+} special_e;
+
 extern boolean  *isliquid;
 
 // Define values for map objects
@@ -52,6 +60,8 @@ void P_SpawnSpecials(void);
 
 // every tic
 void P_UpdateSpecials(void);
+
+boolean P_SectorActive(special_e t, sector_t *sec);
 
 boolean P_CheckTag(line_t *line);
 
@@ -103,7 +113,7 @@ sector_t *getNextSector(line_t *line, sector_t *sec);
 //
 // SPECIAL
 //
-int EV_DoDonut(line_t *line);
+boolean EV_DoDonut(line_t *line);
 
 //
 // P_LIGHTS
@@ -817,14 +827,6 @@ typedef enum
     YSkull,
     AllKeys
 } keykind_e;
-
-//jff 2/23/98 identify the special classes that can share sectors
-typedef enum
-{
-    floor_special,
-    ceiling_special,
-    lighting_special
-} special_e;
 
 boolean EV_DoGenFloor(line_t *line);
 

@@ -747,6 +747,27 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 }
 
 //
+// P_SectorActive()
+//
+// Passed a linedef special class (floor, ceiling, lighting) and a sector
+// returns whether the sector is already busy with a linedef special of the
+// same class. If old demo compatibility true, all linedef special classes
+// are the same.
+//
+// jff 2/23/98 added to prevent old demos from
+//  succeeding in starting multiple specials on one sector
+//
+// killough 11/98: reformatted
+
+boolean P_SectorActive(special_e t, sector_t *sec)
+{
+    return (t == floor_special ? !!sec->floordata :     // return whether
+        (t == ceiling_special ? !!sec->ceilingdata :     // thinker of same
+        (t == lighting_special ? !!sec->lightingdata :   // type is active
+        true)));        // don't know which special, must be active, shouldn't be here
+}
+
+//
 // P_CheckTag()
 //
 // Passed a line, returns true if the tag is non-zero or the line special
@@ -1878,73 +1899,67 @@ void P_UpdateSpecials(void)
 //
 // Special Stuff that cannot be categorized
 //
-int EV_DoDonut(line_t *line)
+boolean EV_DoDonut(line_t *line)
 {
     sector_t    *s1;
     sector_t    *s2;
     sector_t    *s3;
     int         secnum = -1;
-    int         rtn = 0;
+    boolean     rtn = false;
     int         i;
     floormove_t *floor;
-    fixed_t     s3_floorheight;
-    short       s3_floorpic;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
         s1 = &sectors[secnum];
 
         // ALREADY MOVING?  IF SO, KEEP GOING...
-        if (s1->specialdata)
+        if (P_SectorActive(floor_special, s1))
             continue;
 
-        rtn = 1;
         s2 = getNextSector(s1->lines[0], s1);
 
-        if (s2 == NULL)
+        if (!s2)
             continue;
+
+        if (P_SectorActive(floor_special, s2))
+            continue;  
 
         for (i = 0; i < s2->linecount; i++)
         {
             s3 = s2->lines[i]->backsector;
 
-            if (s3 == s1)
+            if (!s3 || s3 == s1)
                 continue;
 
-            if (s3 == NULL)
-                continue;
-            else
-            {
-                s3_floorheight = s3->floorheight;
-                s3_floorpic = s3->floorpic;
-            }
+            rtn = true;
 
             // Spawn rising slime
             floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
             P_AddThinker(&floor->thinker);
-            s2->specialdata = floor;
+            s2->floordata = floor;
             floor->thinker.function = T_MoveFloor;
             floor->type = donutRaise;
             floor->crush = false;
             floor->direction = 1;
             floor->sector = s2;
             floor->speed = FLOORSPEED / 2;
-            floor->texture = s3_floorpic;
+            floor->texture = s3->floorpic;
             floor->newspecial = 0;
-            floor->floordestheight = s3_floorheight;
+            floor->floordestheight = s3->floorheight;
             floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
 
             // Spawn lowering donut-hole
             floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
             P_AddThinker(&floor->thinker);
-            s1->specialdata = floor;
+            s1->floordata = floor;
             floor->thinker.function = T_MoveFloor;
             floor->type = lowerFloor;
             floor->crush = false;
             floor->direction = -1;
             floor->sector = s1;
             floor->speed = FLOORSPEED / 2;
-            floor->floordestheight = s3_floorheight;
+            floor->floordestheight = s3->floorheight;
             floor->stopsound = (floor->sector->floorheight != floor->floordestheight);
             break;
         }

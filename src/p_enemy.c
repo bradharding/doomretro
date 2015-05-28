@@ -222,8 +222,7 @@ static boolean P_IsOnLift(const mobj_t *actor)
     line_t              line;
 
     // Short-circuit: it's on a lift which is active.
-    if (sec->specialdata
-        && ((thinker_t *)sec->specialdata)->function == T_PlatRaise)
+    if (sec->floordata && ((thinker_t *)sec->floordata)->function == T_PlatRaise)
         return true;
 
     // Check to see if it's in a sector which can be activated as a lift.
@@ -278,7 +277,7 @@ static int P_IsUnderDamage(mobj_t *actor)
     {
         const ceiling_t          *cl;    // Crushing ceiling
 
-        if ((cl = seclist->m_sector->specialdata) && cl->thinker.function == T_MoveCeiling)
+        if ((cl = seclist->m_sector->ceilingdata) && cl->thinker.function == T_MoveCeiling)
             dir |= cl->direction;
     }
     return dir;

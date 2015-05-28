@@ -263,8 +263,6 @@ void T_MoveFloor(floormove_t *floor)
 
     if (res == pastdest)
     {
-        sec->specialdata = NULL;
-
         if (floor->direction == 1)
         {
             switch (floor->type)
@@ -319,6 +317,7 @@ void T_MoveFloor(floormove_t *floor)
                     break;
             }
         }
+        floor->sector->floordata = NULL;
         P_RemoveThinker(&floor->thinker);
 
         // jff 2/26/98 implement stair retrigger lockout while still building
@@ -396,7 +395,8 @@ void T_MoveElevator(elevator_t *elevator)
 
     if (res == pastdest)                        // if destination height acheived
     {
-        elevator->sector->specialdata = NULL;
+        elevator->sector->floordata = NULL;
+        elevator->sector->ceilingdata = NULL;
         P_RemoveThinker(&elevator->thinker);     // remove elevator from actives
 
         // make floor stop sound
@@ -419,7 +419,7 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
         sector_t        *sec = &sectors[secnum];
 
         // ALREADY MOVING? IF SO, KEEP GOING...
-        if (sec->specialdata)
+        if (P_SectorActive(floor_special, sec))
             continue;
 
         // new floor thinker
@@ -427,7 +427,7 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
         floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
         memset(floor, 0, sizeof(*floor));
         P_AddThinker(&floor->thinker);
-        sec->specialdata = floor;
+        sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
         floor->type = floortype;
         floor->crush = false;
@@ -716,7 +716,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
         int             texture;
 
         // ALREADY MOVING?  IF SO, KEEP GOING...
-        if (sec->specialdata)
+        if (P_SectorActive(floor_special, sec))
             continue;
 
         // new floor thinker
@@ -724,7 +724,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
         floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
         memset(floor, 0, sizeof(*floor));
         P_AddThinker(&floor->thinker);
-        sec->specialdata = floor;
+        sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
         floor->direction = 1;
         floor->sector = sec;
@@ -785,7 +785,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
 
                 height += stairsize;
 
-                if (tsec->specialdata)
+                if (P_SectorActive(floor_special, tsec))
                     continue;
 
                 sec = tsec;
@@ -794,7 +794,7 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
                 memset(floor, 0, sizeof(*floor));
                 P_AddThinker(&floor->thinker);
 
-                sec->specialdata = floor;
+                sec->floordata = floor;
                 floor->thinker.function = T_MoveFloor;
                 floor->direction = 1;
                 floor->sector = sec;
@@ -836,14 +836,15 @@ boolean EV_DoElevator(line_t *line, elevator_e elevtype)
         sec = &sectors[secnum];
 
         // If either floor or ceiling is already activated, skip it
-        if (sec->specialdata)   // jff 2/22/98
+        if (sec->floordata || sec->ceilingdata)
             continue;
 
         // create and initialize new elevator thinker
         rtn = true;
         elevator = Z_Malloc(sizeof(*elevator), PU_LEVSPEC, 0);
         P_AddThinker(&elevator->thinker);
-        sec->specialdata = elevator;
+        sec->floordata = elevator;
+        sec->ceilingdata = elevator;
         elevator->thinker.function = T_MoveElevator;
         elevator->type = elevtype;
 

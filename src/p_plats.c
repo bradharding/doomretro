@@ -178,7 +178,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
     {
         sec = &sectors[secnum];
 
-        if (sec->specialdata)
+        if (P_SectorActive(floor_special, sec))
             continue;
 
         // Find lowest & highest floors around sector
@@ -188,7 +188,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
 
         plat->type = type;
         plat->sector = sec;
-        plat->sector->specialdata = plat;
+        plat->sector->floordata = plat;
         plat->thinker.function = T_PlatRaise;
         plat->crush = false;
         plat->tag = line->tag;
@@ -364,7 +364,7 @@ void P_RemoveActivePlat(plat_t *plat)
 {
     platlist_t  *list = plat->list;
 
-    plat->sector->specialdata = NULL;
+    plat->sector->floordata = NULL;
     P_RemoveThinker(&plat->thinker);
     if ((*list->prev = list->next))
         list->next->prev = list->prev;

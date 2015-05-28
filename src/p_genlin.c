@@ -95,7 +95,7 @@ boolean EV_DoGenFloor(line_t *line)
 
 manual_floor:
         // Do not start another function if floor already moving
-        if (sec->specialdata)
+        if (P_SectorActive(floor_special, sec))
         {
             if (!manual)
                 continue;
@@ -107,7 +107,7 @@ manual_floor:
         rtn = true;
         floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
-        sec->specialdata = floor;
+        sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
         floor->crush = Crsh;
         floor->direction = (Dirn ? 1 : -1);
@@ -305,7 +305,7 @@ boolean EV_DoGenCeiling(line_t *line)
 
 manual_ceiling:
         // Do not start another function if ceiling already moving
-        if (sec->specialdata)
+        if (P_SectorActive(ceiling_special, sec))
         {
             if (!manual)
                 continue;
@@ -317,7 +317,7 @@ manual_ceiling:
         rtn = true;
         ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
         P_AddThinker(&ceiling->thinker);
-        sec->specialdata = ceiling;
+        sec->ceilingdata = ceiling;
         ceiling->thinker.function = T_MoveCeiling;
         ceiling->crush = Crsh;
         ceiling->direction = (Dirn ? 1 : -1);
@@ -516,7 +516,7 @@ boolean EV_DoGenLift(line_t *line)
 
 manual_lift:
         // Do not start another function if floor already moving
-        if (sec->specialdata)
+        if (P_SectorActive(floor_special, sec))
         {
             if (!manual)
                 continue;
@@ -529,7 +529,7 @@ manual_lift:
         plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
         P_AddThinker(&plat->thinker);
         plat->sector = sec;
-        plat->sector->specialdata = plat;
+        plat->sector->floordata = plat;
         plat->thinker.function = T_PlatRaise;
         plat->crush = false;
         plat->tag = line->tag;
@@ -684,7 +684,7 @@ manual_stair:
         // Do not start another function if floor already moving
         // jff 2/26/98 add special lockout condition to wait for entire
         // staircase to build before retriggering
-        if (sec->specialdata || sec->stairlock)
+        if (P_SectorActive(floor_special, sec) || sec->stairlock)
         {
             if (!manual)
                 continue;
@@ -696,7 +696,7 @@ manual_stair:
         rtn = true;
         floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
         P_AddThinker(&floor->thinker);
-        sec->specialdata = floor;
+        sec->floordata = floor;
         floor->thinker.function = T_MoveFloor;
         floor->direction = (Dirn ? 1 : -1);
         floor->sector = sec;
@@ -781,7 +781,7 @@ manual_stair:
                 // jff 6/19/98 prevent double stepsize
 
                 // jff 2/26/98 special lockout condition for retriggering
-                if (tsec->specialdata || tsec->stairlock)
+                if (P_SectorActive(floor_special, tsec) || tsec->stairlock)
                     continue;
 
                 // jff 6/19/98 increase height AFTER continue
@@ -801,9 +801,9 @@ manual_stair:
 
                 P_AddThinker(&floor->thinker);
 
-                sec->specialdata = floor;
+                sec->floordata = floor;
                 floor->thinker.function = T_MoveFloor;
-                floor->direction = Dirn ? 1 : -1;
+                floor->direction = (Dirn ? 1 : -1);
                 floor->sector = sec;
                 floor->speed = speed;
                 floor->floordestheight = height;
@@ -869,7 +869,7 @@ boolean EV_DoGenCrusher(line_t *line)
 
 manual_crusher:
         // Do not start another function if ceiling already moving
-        if (sec->specialdata)
+        if (P_SectorActive(ceiling_special, sec))
         {
             if (!manual)
                 continue;
@@ -881,7 +881,7 @@ manual_crusher:
         rtn = true;
         ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
         P_AddThinker(&ceiling->thinker);
-        sec->specialdata = ceiling;     // jff 2/22/98
+        sec->ceilingdata = ceiling;     // jff 2/22/98
         ceiling->thinker.function = T_MoveCeiling;
         ceiling->crush = true;
         ceiling->direction = -1;
@@ -968,7 +968,7 @@ boolean EV_DoGenLockedDoor(line_t *line)
         sec = &sectors[secnum];
 manual_locked:
         // Do not start another function if ceiling already moving
-        if (sec->specialdata)   // jff 2/22/98
+        if (P_SectorActive(ceiling_special, sec))   // jff 2/22/98
         {
             if (!manual)
                 continue;
@@ -980,7 +980,7 @@ manual_locked:
         rtn = true;
         door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
-        sec->specialdata = door;        //jff 2/22/98
+        sec->ceilingdata = door;        //jff 2/22/98
 
         door->thinker.function = T_VerticalDoor;
         door->sector = sec;
@@ -1074,7 +1074,7 @@ boolean EV_DoGenDoor(line_t *line)
         sec = &sectors[secnum];
 manual_door:
         // Do not start another function if ceiling already moving
-        if (sec->specialdata)           // jff 2/22/98
+        if (P_SectorActive(ceiling_special, sec))
         {
             if (!manual)
                 continue;
@@ -1086,7 +1086,8 @@ manual_door:
         rtn = true;
         door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
-        sec->specialdata = door;        // jff 2/22/98
+        sec->ceilingdata = door;
+
         door->thinker.function = T_VerticalDoor;
         door->sector = sec;
 

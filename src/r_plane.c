@@ -114,10 +114,8 @@ static void R_MapPlane(int y, int x1, int x2)
     ds_xfrac = viewx + xoffs + FixedMul(viewcos, distance) + dx * ds_xstep;
     ds_yfrac = -viewy + yoffs - FixedMul(viewsin, distance) + dx * ds_ystep;
 
-    if (fixedcolormap)
-        ds_colormap = fixedcolormap;
-    else
-        ds_colormap = planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)];
+    ds_colormap = (fixedcolormap ? fixedcolormap :
+        planezlight[BETWEEN(0, distance >> LIGHTZSHIFT, MAXLIGHTZ - 1)]);
 
     ds_y = y;
     ds_x1 = x1;
@@ -134,7 +132,7 @@ void R_ClearPlanes(void)
 {
     int i;
 
-    // opening / clipping determination
+    // opening/clipping determination
     for (i = 0; i < viewwidth; i++)
     {
         floorclip[i] = viewheight;
@@ -261,16 +259,26 @@ visplane_t *R_CheckPlane(visplane_t *pl, int start, int stop)
 //
 // R_MakeSpans
 //
-static void R_MakeSpans(int x, unsigned int t1, unsigned int b1, unsigned int t2, unsigned int b2)
+static void R_MakeSpans(visplane_t *pl)
 {
-    for (; t1 < t2 && t1 <= b1; t1++)
-        R_MapPlane(t1, spanstart[t1], x - 1);
-    for (; b1 > b2 && b1 >= t1; b1--)
-        R_MapPlane(b1, spanstart[b1], x - 1);
-    while (t2 < t1 && t2 <= b2)
-        spanstart[t2++] = x;
-    while (b2 > b1 && b2 >= t2)
-        spanstart[b2--] = x;
+    int x;
+
+    for (x = pl->minx; x <= pl->maxx + 1; ++x)
+    {
+        unsigned short  t1 = pl->top[x - 1];
+        unsigned short  b1 = pl->bottom[x - 1];
+        unsigned short  t2 = pl->top[x];
+        unsigned short  b2 = pl->bottom[x];
+
+        for (; t1 < t2 && t1 <= b1; ++t1)
+            R_MapPlane(t1, spanstart[t1], x - 1);
+        for (; b1 > b2 && b1 >= t1; --b1)
+            R_MapPlane(b1, spanstart[b1], x - 1);
+        while (t2 < t1 && t2 <= b2)
+            spanstart[t2++] = x;
+        while (b2 > b1 && b2 >= t2)
+            spanstart[b2--] = x;
+    }
 }
 
 // Ripple Effect from Eternity Engine (r_ripple.cpp) by Simon Howard
@@ -441,9 +449,6 @@ void R_DrawPlanes(void)
                     boolean     liquid = isliquid[picnum];
                     boolean     swirling = (liquid && swirlingliquid);
                     int         lumpnum = firstflat + flattranslation[picnum];
-                    int         light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT;
-                    int         stop = pl->maxx + 1;
-                    int         x;
 
                     ds_source = (swirling ? R_DistortedFlat(picnum) :
                         W_CacheLumpNum(lumpnum, PU_STATIC));
@@ -455,12 +460,12 @@ void R_DrawPlanes(void)
                     if (liquid && pl->sector && pl->sector->animate != INT_MAX)
                         planeheight -= pl->sector->animate;
 
-                    planezlight = zlight[BETWEEN(0, light, LIGHTLEVELS - 1)];
+                    planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT)
+                        + extralight * LIGHTBRIGHT, LIGHTLEVELS - 1)];
 
-                    pl->top[pl->minx - 1] = pl->top[stop] = SHRT_MAX;
+                    pl->top[pl->minx - 1] = pl->top[pl->maxx + 1] = SHRT_MAX;
 
-                    for (x = pl->minx; x <= stop; x++)
-                        R_MakeSpans(x, pl->top[x - 1], pl->bottom[x - 1], pl->top[x], pl->bottom[x]);
+                    R_MakeSpans(pl);
 
                     if (!swirling)
                         W_ReleaseLumpNum(lumpnum);
