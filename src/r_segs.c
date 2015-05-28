@@ -676,7 +676,8 @@ void R_StoreWallRange(int start, int stop)
     worldbottom = frontsector->interpfloorheight - viewz;
 
     // [BH] animate liquid sectors
-    if (frontsector->animate != INT_MAX)
+    if (frontsector->animate != INT_MAX && (frontsector->heightsec == -1
+        || viewz > sectors[frontsector->heightsec].interpfloorheight))
         worldbottom += frontsector->animate + 2 * FRACUNIT;
 
     midtexture = toptexture = bottomtexture = maskedtexture = 0;
@@ -768,7 +769,10 @@ void R_StoreWallRange(int start, int stop)
         worldlow = backsector->interpfloorheight - viewz;
 
         // [BH] animate liquid sectors
-        if (backsector->animate != INT_MAX && backsector->interpfloorheight > frontsector->interpfloorheight)
+        if (backsector->animate != INT_MAX
+            && backsector->interpfloorheight > frontsector->interpfloorheight
+            && (backsector->heightsec == -1
+            || viewz > sectors[backsector->heightsec].interpfloorheight))
             worldlow += backsector->animate + 2 * FRACUNIT;
 
         // hack to allow height changes in outdoor areas
