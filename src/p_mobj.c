@@ -623,7 +623,7 @@ void P_MobjThinker(mobj_t *mobj)
         if (mobj->thinker.function == P_RemoveThinkerDelayed)   // killough
             return;             // mobj was removed
     }
-    else if (!mobj->momx && !mobj->momy && !player)
+    else if (!(mobj->momx | mobj->momy) && !sentient(mobj))
     {
         // killough 9/12/98: objects fall off ledges if they are hanging off
         // slightly push off of ledge if hanging more than halfway off

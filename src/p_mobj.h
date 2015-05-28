@@ -50,9 +50,12 @@
 
 // killough 11/98:
 // For torque simulation:
-
 #define OVERDRIVE               6
 #define MAXGEAR                 (OVERDRIVE + 16)
+
+// killough 11/98:
+// Whether an object is "sentient" or not. Used for environmental influences.
+#define sentient(mobj)          ((mobj)->health > 0 && (mobj)->info->seestate)
 
 #define CORPSEBLOODSPLATS       512
 
