@@ -404,16 +404,14 @@ void P_ZMovement(mobj_t *mo)
     // adjust height
     mo->z += mo->momz;
 
-    if ((flags & MF_FLOAT) && mo->target)
+    // float down towards target if too close
+    if (!((mo->flags ^ MF_FLOAT) & (MF_FLOAT | MF_SKULLFLY | MF_INFLOAT))
+        && mo->target)  // killough 11/98: simplify
     {
-        // float down towards target if too close
-        if (!(flags & MF_SKULLFLY) && !(flags & MF_INFLOAT))
-        {
-            fixed_t     delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
+        fixed_t     delta = (mo->target->z + (mo->height >> 1) - mo->z) * 3;
 
-            if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
-                mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
-        }
+        if (P_ApproxDistance(mo->x - mo->target->x, mo->y - mo->target->y) < ABS(delta))
+            mo->z += (delta < 0 ? -FLOATSPEED : FLOATSPEED);
     }
 
     // clip movement
@@ -451,7 +449,7 @@ void P_ZMovement(mobj_t *mo)
         }
         mo->z = mo->floorz;
 
-        if ((flags & MF_MISSILE) && !(flags & MF_NOCLIP))
+        if (!((mo->flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
         {
             P_ExplodeMissile(mo);
             return;
@@ -475,7 +473,7 @@ void P_ZMovement(mobj_t *mo)
 
         mo->z = mo->ceilingz - mo->height;
 
-        if ((flags & MF_MISSILE) && !(flags & MF_NOCLIP))
+        if (!((mo->flags ^ MF_MISSILE) & (MF_MISSILE | MF_NOCLIP)))
         {
             P_ExplodeMissile(mo);
             return;
@@ -560,7 +558,7 @@ void P_MobjThinker(mobj_t *mobj)
     sector_t    *sector = mobj->subsector->sector;
 
     // [AM] Handle interpolation unless we're an active player.
-    if (!(player != NULL && mobj == player->mo))
+    if (!(player && mobj == player->mo))
     {
         // Assume we can interpolate at the beginning
         // of the tic.
@@ -578,7 +576,7 @@ void P_MobjThinker(mobj_t *mobj)
     {
         P_XYMovement(mobj);
 
-        if (mobj->thinker.function != P_MobjThinker)
+        if (mobj->thinker.function == P_RemoveThinkerDelayed)   // killough
             return;             // mobj was removed
     }
 
@@ -622,7 +620,7 @@ void P_MobjThinker(mobj_t *mobj)
         else
             P_ZMovement(mobj);
 
-        if (mobj->thinker.function != P_MobjThinker)
+        if (mobj->thinker.function == P_RemoveThinkerDelayed)   // killough
             return;             // mobj was removed
     }
     else if (!mobj->momx && !mobj->momy && !player)

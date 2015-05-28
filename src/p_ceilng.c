@@ -355,7 +355,7 @@ boolean P_ActivateInStasisCeiling(line_t *line)
     {
         ceiling_t       *ceiling = list->ceiling;
 
-        if (ceiling->tag == line->tag && ceiling->direction == 0)
+        if (ceiling->tag == line->tag && !ceiling->direction)
         {
             ceiling->direction = ceiling->olddirection;
             ceiling->thinker.function = T_MoveCeiling;
@@ -378,7 +378,7 @@ boolean EV_CeilingCrushStop(line_t *line)
     {
         ceiling_t       *ceiling = list->ceiling;
 
-        if (ceiling->direction != 0 && ceiling->tag == line->tag)
+        if (ceiling->direction && ceiling->tag == line->tag)
         {
             ceiling->olddirection = ceiling->direction;
             ceiling->direction = 0;
