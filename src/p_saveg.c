@@ -221,80 +221,11 @@ static void saveg_write_mapthing_t(mapthing_t *str)
 }
 
 //
-// actionf_t
-//
-static void saveg_read_actionf_t(actionf_t *str)
-{
-    str = saveg_readp();
-}
-
-static void saveg_write_actionf_t(actionf_t *str)
-{
-    saveg_writep(str);
-}
-
-//
-// think_t
-//
-// This is just an actionf_t.
-//
-#define saveg_read_think_t      saveg_read_actionf_t
-#define saveg_write_think_t     saveg_write_actionf_t
-
-//
-// thinker_t
-//
-static void saveg_read_thinker_t(thinker_t *str)
-{
-    // struct thinker_s *prev
-    str->prev = (thinker_t *)saveg_readp();
-
-    // struct thinker_s *next
-    str->next = (thinker_t *)saveg_readp();
-
-    // think_t function
-    saveg_read_think_t(&str->function);
-
-    // struct thinker_s *cprev
-    str->cprev = (thinker_t *)saveg_readp();
-
-    // struct thinker_s *cnext
-    str->cnext = (thinker_t *)saveg_readp();
-
-    // int references
-    str->references = saveg_read32();
-}
-
-static void saveg_write_thinker_t(thinker_t *str)
-{
-    // struct thinker_s *prev
-    saveg_writep(str->prev);
-
-    // struct thinker_s *next
-    saveg_writep(str->next);
-
-    // think_t function
-    saveg_write_think_t(&str->function);
-
-    // struct thinker_s *cprev
-    saveg_writep(str->cprev);
-
-    // struct thinker_s *cnext
-    saveg_writep(str->cnext);
-
-    // int references
-    saveg_write32(str->references);
-}
-
-//
 // mobj_t
 //
 static void saveg_read_mobj_t(mobj_t *str)
 {
     int pl;
-
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
 
     // fixed_t x
     str->x = saveg_read32();
@@ -452,9 +383,6 @@ static void saveg_read_mobj_t(mobj_t *str)
 
 static void saveg_write_mobj_t(mobj_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // fixed_t x
     saveg_write32(str->x);
 
@@ -986,9 +914,6 @@ static void saveg_write_player_t(player_t *str)
 //
 static void saveg_read_ceiling_t(ceiling_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // ceiling_e type
     str->type = (ceiling_e)saveg_read_enum();
 
@@ -1030,9 +955,6 @@ static void saveg_read_ceiling_t(ceiling_t *str)
 
 static void saveg_write_ceiling_t(ceiling_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // ceiling_e type
     saveg_write_enum(str->type);
 
@@ -1077,9 +999,6 @@ static void saveg_write_ceiling_t(ceiling_t *str)
 //
 static void saveg_read_vldoor_t(vldoor_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // vldoor_e type
     str->type = (vldoor_e)saveg_read_enum();
 
@@ -1110,9 +1029,6 @@ static void saveg_read_vldoor_t(vldoor_t *str)
 
 static void saveg_write_vldoor_t(vldoor_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // vldoor_e type
     saveg_write_enum(str->type);
 
@@ -1146,9 +1062,6 @@ static void saveg_write_vldoor_t(vldoor_t *str)
 //
 static void saveg_read_floormove_t(floormove_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // floor_e type
     str->type = (floor_e)saveg_read_enum();
 
@@ -1179,9 +1092,6 @@ static void saveg_read_floormove_t(floormove_t *str)
 
 static void saveg_write_floormove_t(floormove_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // floor_e type
     saveg_write_enum(str->type);
 
@@ -1215,9 +1125,6 @@ static void saveg_write_floormove_t(floormove_t *str)
 //
 static void saveg_read_plat_t(plat_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // sector_t *sector
     str->sector = &sectors[saveg_read32()];
 
@@ -1256,9 +1163,6 @@ static void saveg_read_plat_t(plat_t *str)
 
 static void saveg_write_plat_t(plat_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // sector_t *sector
     saveg_write32(str->sector - sectors);
 
@@ -1300,9 +1204,6 @@ static void saveg_write_plat_t(plat_t *str)
 //
 static void saveg_read_lightflash_t(lightflash_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // sector_t *sector
     str->sector = &sectors[saveg_read32()];
 
@@ -1324,9 +1225,6 @@ static void saveg_read_lightflash_t(lightflash_t *str)
 
 static void saveg_write_lightflash_t(lightflash_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // sector_t *sector
     saveg_write32(str->sector - sectors);
 
@@ -1351,9 +1249,6 @@ static void saveg_write_lightflash_t(lightflash_t *str)
 //
 static void saveg_read_strobe_t(strobe_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // sector_t *sector
     str->sector = &sectors[saveg_read32()];
 
@@ -1375,9 +1270,6 @@ static void saveg_read_strobe_t(strobe_t *str)
 
 static void saveg_write_strobe_t(strobe_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // sector_t *sector
     saveg_write32(str->sector - sectors);
 
@@ -1402,9 +1294,6 @@ static void saveg_write_strobe_t(strobe_t *str)
 //
 static void saveg_read_glow_t(glow_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // sector_t *sector
     str->sector = &sectors[saveg_read32()];
 
@@ -1420,9 +1309,6 @@ static void saveg_read_glow_t(glow_t *str)
 
 static void saveg_write_glow_t(glow_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // sector_t *sector
     saveg_write32(str->sector - sectors);
 
@@ -1438,9 +1324,6 @@ static void saveg_write_glow_t(glow_t *str)
 
 static void saveg_read_fireflicker_t(fireflicker_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // sector_t *sector
     str->sector = &sectors[saveg_read32()];
 
@@ -1456,9 +1339,6 @@ static void saveg_read_fireflicker_t(fireflicker_t *str)
 
 static void saveg_write_fireflicker_t(fireflicker_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // sector_t *sector
     saveg_write32(str->sector - sectors);
 
@@ -1474,9 +1354,6 @@ static void saveg_write_fireflicker_t(fireflicker_t *str)
 
 static void saveg_read_elevator_t(elevator_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // floor_e type
     str->type = (floor_e)saveg_read_enum();
 
@@ -1498,9 +1375,6 @@ static void saveg_read_elevator_t(elevator_t *str)
 
 static void saveg_write_elevator_t(elevator_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // floor_e type
     saveg_write_enum(str->type);
 
@@ -1522,9 +1396,6 @@ static void saveg_write_elevator_t(elevator_t *str)
 
 static void saveg_read_scroll_t(scroll_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // fixed_t dx
     str->dx = saveg_read32();
 
@@ -1552,9 +1423,6 @@ static void saveg_read_scroll_t(scroll_t *str)
 
 static void saveg_write_scroll_t(scroll_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // fixed_t dx
     saveg_write32(str->dx);
 
@@ -1582,9 +1450,6 @@ static void saveg_write_scroll_t(scroll_t *str)
 
 static void saveg_read_pusher_t(pusher_t *str)
 {
-    // thinker_t thinker
-    saveg_read_thinker_t(&str->thinker);
-
     // enum type
     str->type = saveg_read_enum();
 
@@ -1612,9 +1477,6 @@ static void saveg_read_pusher_t(pusher_t *str)
 
 static void saveg_write_pusher_t(pusher_t *str)
 {
-    // thinker_t thinker
-    saveg_write_thinker_t(&str->thinker);
-
     // enum type
     saveg_write_enum(str->type);
 
