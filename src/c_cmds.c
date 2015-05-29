@@ -89,12 +89,12 @@ extern boolean  alwaysrun;
 extern boolean  am_grid;
 extern boolean  am_rotatemode;
 extern boolean  animatedliquid;
-//extern boolean  autosave;
 extern boolean  brightmaps;
 extern boolean  capfps;
 extern boolean  centerweapon;
 extern boolean  corpses_mirror;
 extern boolean  corpses_moreblood;
+extern boolean  corpses_nudge;
 extern boolean  corpses_slide;
 extern boolean  corpses_smearblood;
 extern boolean  dclick_use;
@@ -435,7 +435,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, am_followmode, NONE, "Toggle follow mode in the automap."),
     CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, am_grid, GRID, "Toggle the grid in the automap."),
     CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, am_rotatemode, ROTATEMODE, "Toggle rotate mode in the automap."),
-    //CVAR_BOOL (autosave, C_BoolCondition, C_Bool, autosave, AUTOSAVE, "Toggle autosaving at the start of each map."),
     CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),
@@ -498,6 +497,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS, "Toggle brightmaps on certain wall textures."),
     CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, corpses_mirror, CORPSES_MIRROR, "Toggle corpses being randomly mirrored."),
     CVAR_BOOL (r_corpses_moreblood, C_BoolCondition, C_Bool, corpses_moreblood, CORPSES_MOREBLOOD, "Toggle blood splats around corpses when a map is loaded."),
+    CVAR_BOOL (r_corpses_nudge, C_BoolCondition, C_Bool, corpses_nudge, CORPSES_NUDGE, "Toggle corpses being nudged when monsters walk over them."),
     CVAR_BOOL (r_corpses_slide, C_BoolCondition, C_Bool, corpses_slide, CORPSES_SLIDE, "Toggle corpses reacting to barrel and rocket explosions."),
     CVAR_BOOL (r_corpses_smearblood, C_BoolCondition, C_Bool, corpses_smearblood, CORPSES_SMEARBLOOD, "Toggle corpses producing blood splats as they slide."),
     CVAR_BOOL (r_detail, C_GraphicDetailCondition, C_GraphicDetail, graphicdetail, GRAPHICDETAIL, "Toggle the graphic detail."),

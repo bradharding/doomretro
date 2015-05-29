@@ -69,6 +69,7 @@ extern boolean  capfps;
 extern boolean  centerweapon;
 extern boolean  corpses_mirror;
 extern boolean  corpses_moreblood;
+extern boolean  corpses_nudge;
 extern boolean  corpses_slide;
 extern boolean  corpses_smearblood;
 extern boolean  dclick_use;
@@ -215,7 +216,6 @@ static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_grid,                 am_grid,                       1),
     CONFIG_VARIABLE_INT          (am_rotatemode,           am_rotatemode,                 1),
-    //CONFIG_VARIABLE_INT          (autosave,                autosave,                      1),
     CONFIG_VARIABLE_INT          (episode,                 selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,             9),
     CONFIG_VARIABLE_INT          (gp_automap,              gamepadautomap,                2),
@@ -299,6 +299,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_brightmaps,            brightmaps,                    1),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,      corpses_mirror,                1),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,     corpses_moreblood,             1),
+    CONFIG_VARIABLE_INT          (r_corpses_nudge,         corpses_nudge,                 1),
     CONFIG_VARIABLE_INT          (r_corpses_slide,         corpses_slide,                 1),
     CONFIG_VARIABLE_INT          (r_corpses_smearblood,    corpses_smearblood,            1),
     CONFIG_VARIABLE_INT          (r_detail,                graphicdetail,                 6),
@@ -808,6 +809,9 @@ static void M_CheckDefaults(void)
 
     if (corpses_moreblood != false && corpses_moreblood != true)
         corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
+
+    if (corpses_nudge != false && corpses_nudge != true)
+        corpses_nudge = CORPSES_NUDGE_DEFAULT;
 
     if (corpses_slide != false && corpses_slide != true)
         corpses_slide = CORPSES_SLIDE_DEFAULT;

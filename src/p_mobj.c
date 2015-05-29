@@ -62,6 +62,7 @@ void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
 boolean                 corpses_mirror = CORPSES_MIRROR_DEFAULT;
 boolean                 corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
+boolean                 corpses_nudge = CORPSES_NUDGE_DEFAULT;
 boolean                 corpses_slide = CORPSES_SLIDE_DEFAULT;
 boolean                 corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
 boolean                 floatbob = FLOATBOB_DEFAULT;
@@ -570,6 +571,9 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->oldz = mobj->z;
         mobj->oldangle = mobj->angle;
     }
+
+    if (mobj->push > 0)
+        mobj->push--;
 
     // momentum movement
     if (mobj->momx || mobj->momy || (flags & MF_SKULLFLY))

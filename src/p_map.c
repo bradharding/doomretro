@@ -91,6 +91,8 @@ boolean         infight;
 
 mobj_t          *onmobj;
 
+extern boolean  corpses_nudge;
+
 //
 // TELEPORT MOVE
 //
@@ -428,6 +430,15 @@ boolean PIT_CheckThing(mobj_t *thing)
     bool        unblocking = false;
     int         flags = thing->flags;
     int         tmflags = tmthing->flags;
+    fixed_t     dist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
+
+    if (corpses_nudge && (flags & MF_CORPSE) && (tmflags & MF_SHOOTABLE) && !thing->push
+        && dist < 16 * FRACUNIT && !(thing->z - tmthing->z))
+    {
+        thing->push = TICRATE;
+        thing->momx = M_RandomInt(-1, 1) * FRACUNIT;
+        thing->momy = M_RandomInt(-1, 1) * FRACUNIT;
+    }
 
     if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
         return true;
@@ -451,15 +462,9 @@ boolean PIT_CheckThing(mobj_t *thing)
     // [BH] check if things are stuck and allow move if it makes them further apart
     if (tmx == tmthing->x && tmy == tmthing->y)
         unblocking = true;
-    else
-    {
-        fixed_t     newdist = P_ApproxDistance(thing->x - tmx, thing->y - tmy);
-        fixed_t     olddist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
-
-        if (newdist > olddist)
-            unblocking = (tmthing->z < thing->z + thing->height
-                            && tmthing->z + tmthing->height > thing->z);
-    }
+    else if (P_ApproxDistance(thing->x - tmx, thing->y - tmy) > dist)
+        unblocking = (tmthing->z < thing->z + thing->height
+            && tmthing->z + tmthing->height > thing->z);
 
     // check if a mobj passed over/under another object
     if (tmthing->flags2 & MF2_PASSMOBJ)

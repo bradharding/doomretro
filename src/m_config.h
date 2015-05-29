@@ -55,6 +55,8 @@
 
 #define CORPSES_MOREBLOOD_DEFAULT               true
 
+#define CORPSES_NUDGE_DEFAULT                   true
+
 #define CORPSES_SLIDE_DEFAULT                   true
 
 #define CORPSES_SMEARBLOOD_DEFAULT              true
