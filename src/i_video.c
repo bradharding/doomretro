@@ -164,9 +164,9 @@ static int              blitheight = SCREENHEIGHT << FRACBITS;
 
 static int              pitch;
 byte                    *pixels;
-#endif
 
 byte                    *rows[SCREENHEIGHT];
+#endif
 
 boolean                 keys[UCHAR_MAX];
 
@@ -1307,9 +1307,6 @@ static void SetVideoMode(boolean output)
 void ToggleWidescreen(boolean toggle)
 {
 #if defined(SDL20)
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-
     if (toggle)
     {
         widescreen = true;
@@ -1756,10 +1753,10 @@ void I_InitGraphics(void)
 #else
     screens[0] = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
-#endif
 
     for (i = 0; i < SCREENHEIGHT; i++)
         rows[i] = *screens + i * SCREENWIDTH;
+#endif
 
     I_FinishUpdate();
 
