@@ -85,8 +85,10 @@ typedef BOOL(WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 void I_PrintWindowsVersion(void)
 {
-    PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(GetModuleHandle("ntdll.dll"), "RtlGetVersion");
-    PGETPRODUCTINFO     pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetProductInfo");
+    PRTLGETVERSION      pRtlGetVersion = (PRTLGETVERSION)GetProcAddress(
+                            GetModuleHandle("ntdll.dll"), "RtlGetVersion");
+    PGETPRODUCTINFO     pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(
+                            GetModuleHandle("kernel32.dll"), "GetProductInfo");
     OSVERSIONINFOEXW    info;
     DWORD               type;
 
@@ -103,29 +105,71 @@ void I_PrintWindowsVersion(void)
         pGetProductInfo(info.dwMajorVersion, info.dwMinorVersion, 0, 0, &type);
         switch (type)
         {
-            case PRODUCT_ULTIMATE:                     typename = "Ultimate";                      break;
-            case PRODUCT_PROFESSIONAL:                 typename = "Professional";                  break;
-            case PRODUCT_HOME_PREMIUM:                 typename = "Home Premium";                  break;
-            case PRODUCT_HOME_BASIC:                   typename = "Home Basic";                    break;
-            case PRODUCT_ENTERPRISE:                   typename = "Enterprise";                    break;
-            case PRODUCT_BUSINESS:                     typename = "Business";                      break;
-            case PRODUCT_STARTER:                      typename = "Starter";                       break;
-            case PRODUCT_CLUSTER_SERVER:               typename = "Cluster Server";                break;
+            case PRODUCT_ULTIMATE:
+                typename = "Ultimate";
+                break;
+
+            case PRODUCT_PROFESSIONAL:
+                typename = "Professional";
+                break;
+
+            case PRODUCT_HOME_PREMIUM:
+                typename = "Home Premium";
+                break;
+
+            case PRODUCT_HOME_BASIC:
+                typename = "Home Basic";
+                break;
+
+            case PRODUCT_ENTERPRISE:
+                typename = "Enterprise";
+                break;
+
+            case PRODUCT_BUSINESS:
+                typename = "Business";
+                break;
+
+            case PRODUCT_STARTER:
+                typename = "Starter";
+                break;
+
+            case PRODUCT_CLUSTER_SERVER:
+                typename = "Cluster Server";
+                break;
+
             case PRODUCT_DATACENTER_SERVER:
-            case PRODUCT_DATACENTER_SERVER_CORE:       typename = "Datacenter Edition";            break;
+            case PRODUCT_DATACENTER_SERVER_CORE:
+                typename = "Datacenter Edition";
+                break;
+
             case PRODUCT_ENTERPRISE_SERVER:
             case PRODUCT_ENTERPRISE_SERVER_CORE:
-            case PRODUCT_ENTERPRISE_SERVER_IA64:       typename = "Enterprise";                    break;
-            case PRODUCT_SMALLBUSINESS_SERVER:         typename = "Small Business Server";         break;
-            case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM: typename = "Small Business Server Premium"; break;
+            case PRODUCT_ENTERPRISE_SERVER_IA64:
+                typename = "Enterprise";
+                break;
+
+            case PRODUCT_SMALLBUSINESS_SERVER:
+                typename = "Small Business Server";
+                break;
+
+            case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM:
+                typename = "Small Business Server Premium";
+                break;
+
             case PRODUCT_STANDARD_SERVER:
-            case PRODUCT_STANDARD_SERVER_CORE:         typename = "Standard";                      break;
-            case PRODUCT_WEB_SERVER:                   typename = "Web Server";                    break;
+            case PRODUCT_STANDARD_SERVER_CORE:
+                typename = "Standard";
+                break;
+
+            case PRODUCT_WEB_SERVER:
+                typename = "Web Server";
+                break;
         }
 
         if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
         {
-            infoname = (info.dwMinorVersion < 10 ? "95" : (info.dwMinorVersion < 90 ? "98" : "Me"));
+            infoname = (info.dwMinorVersion < 10 ? "95" :
+                (info.dwMinorVersion < 90 ? "98" : "Me"));
 
             C_Output("Running on Microsoft Windows %s%s%s%s%ws%s.",
                 infoname, (strlen(typename) ? " " : ""), (strlen(typename) ? typename : ""),

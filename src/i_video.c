@@ -56,7 +56,6 @@
 #include "z_zone.h"
 
 #if defined(WIN32)
-#define SDL_VIDEO_DRIVER_WINDOWS
 #include "SDL_syswm.h"
 #endif
 
@@ -1092,21 +1091,23 @@ static void SetVideoMode(boolean output)
 
         if (!screenwidth && !screenheight)
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                0, 0, (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED,
+                SDL_WINDOWPOS_UNDEFINED, 0, 0,
+                (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
                 C_Output("Staying at the desktop resolution of %ix%i with a %s aspect ratio.",
-                    displays[display - 1].w, displays[display - 1].h, aspectratio(displays[display - 1].w,
-                    displays[display - 1].h));
+                    displays[display - 1].w, displays[display - 1].h,
+                    aspectratio(displays[display - 1].w, displays[display - 1].h));
         }
         else
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                screenwidth, screenheight, (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED,
+                SDL_WINDOWPOS_UNDEFINED, screenwidth, screenheight,
+                (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
                     C_Output("Switched to a resolution of %ix%i with a %s aspect ratio.",
-                    displays[display - 1].w, displays[display - 1].h, aspectratio(displays[display - 1].w,
-                    displays[display - 1].h));
+                    displays[display - 1].w, displays[display - 1].h,
+                    aspectratio(displays[display - 1].w, displays[display - 1].h));
         }
     }
     else
@@ -1239,8 +1240,8 @@ static void SetVideoMode(boolean output)
             M_SaveDefaults();
         }
 
-        screen = SDL_SetVideoMode(width, height, 0, SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF |
-            SDL_FULLSCREEN);
+        screen = SDL_SetVideoMode(width, height, 0,
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
         if (!screen)
             I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 5, SDL_GetError());
@@ -1275,8 +1276,8 @@ static void SetVideoMode(boolean output)
 
         SetWindowPositionVars();
 
-        screen = SDL_SetVideoMode(windowwidth, windowheight, 0, SDL_HWSURFACE | SDL_HWPALETTE |
-            SDL_DOUBLEBUF | SDL_RESIZABLE);
+        screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
         if (!screen)
             I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 5, SDL_GetError());
@@ -1379,8 +1380,8 @@ void ToggleWidescreen(boolean toggle)
 
         widescreenresize = true;
 
-        screen = SDL_SetVideoMode(width, screen->h, 0, SDL_HWSURFACE | SDL_HWPALETTE |
-            SDL_DOUBLEBUF | SDL_RESIZABLE);
+        screen = SDL_SetVideoMode(width, screen->h, 0,
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
         if (!screenbuffer)
             I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
@@ -1459,8 +1460,8 @@ void ToggleFullscreen(void)
             M_SaveDefaults();
         }
 
-        screen = SDL_SetVideoMode(width, height, 0, SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF |
-            SDL_FULLSCREEN);
+        screen = SDL_SetVideoMode(width, height, 0,
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
 
         if (!screen)
             I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
@@ -1512,8 +1513,8 @@ void ToggleFullscreen(void)
 
         SetWindowPositionVars();
 
-        screen = SDL_SetVideoMode(width, height, 0, SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF |
-            SDL_RESIZABLE);
+        screen = SDL_SetVideoMode(width, height, 0,
+            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
         if (!screen)
             I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
@@ -1562,8 +1563,8 @@ void ApplyWindowResize(int resize_h)
     if (widescreen)
         height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);
 
-    screen = SDL_SetVideoMode(windowwidth, windowheight, 0, SDL_HWSURFACE | SDL_HWPALETTE |
-        SDL_DOUBLEBUF | SDL_RESIZABLE);
+    screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
+        SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
 
     if (!screen)
         I_Error("ApplyWindowResize, line %i: %s\n", __LINE__ - 5, SDL_GetError());

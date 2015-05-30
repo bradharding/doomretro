@@ -1741,7 +1741,6 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
 //
 void P_PlayerInSpecialSector(player_t *player)
 {
-    int         i;
     sector_t    *sector = player->mo->subsector->sector;
 
     // Falling, not all the way down yet?
@@ -1752,6 +1751,8 @@ void P_PlayerInSpecialSector(player_t *player)
     //jff add if to handle old vs generalized types
     if (sector->special < 32) // regular sector specials
     {
+        int     i;
+
         switch (sector->special)
         {
             case DamageNegative5Or10PercentHealth:
@@ -2523,7 +2524,7 @@ pusher_t        *tmpusher;      // pusher structure for blockmap searches
 
 boolean PIT_PushThing(mobj_t* thing)
 {
-    if ((thing->flags & MF_SHOOTABLE) && !(thing->flags & MF_NOCLIP))
+    if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {
         angle_t pushangle;
         fixed_t speed;
@@ -2571,8 +2572,6 @@ void T_Pusher(pusher_t *p)
     mobj_t      *thing;
     msecnode_t  *node;
     int         xspeed, yspeed;
-    int         xl, xh, yl, yh, bx, by;
-    int         radius;
     int         ht = 0;
 
     sec = sectors + p->affectee;
@@ -2599,6 +2598,9 @@ void T_Pusher(pusher_t *p)
     {
         // Seek out all pushable things within the force radius of this
         // point pusher. Crosses sectors, so use blockmap.
+        int     xl, xh, yl, yh, bx, by;
+        int     radius;
+
         tmpusher = p;                                   // MT_PUSH/MT_PULL point source
         radius = p->radius;                             // where force goes to zero
         tmbbox[BOXTOP] = p->y + radius;

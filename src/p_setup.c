@@ -727,16 +727,16 @@ static void P_LoadLineDefs2(int lump)
         {
             int lump;
 
-            case Translucent_MiddleTexture:             // killough 4/11/98: translucent 2s textures
-                lump = sides[*ld->sidenum].special;     // translucency from sidedef
-                if (!ld->tag)                           // if tag==0,
-                    ld->tranlump = lump;                // affect this linedef only
+            case Translucent_MiddleTexture:            // killough 4/11/98: translucent 2s textures
+                lump = sides[*ld->sidenum].special;    // translucency from sidedef
+                if (!ld->tag)                          // if tag==0,
+                    ld->tranlump = lump;               // affect this linedef only
                 else
                 {
                     int j;
 
-                    for (j = 0; j < numlines; j++)      // if tag!=0,
-                        if (lines[j].tag == ld->tag)    // affect all matching linedefs
+                    for (j = 0; j < numlines; j++)     // if tag!=0,
+                        if (lines[j].tag == ld->tag)   // affect all matching linedefs
                             lines[j].tranlump = lump;
                 }
                 break;
@@ -755,7 +755,7 @@ static void P_LoadSideDefs(int lump)
     memset(sides, 0, numsides * sizeof(side_t));
 }
 
-// killough 4/4/98: delay using texture names until after linedefs are loaded, to allow overloading.
+// killough 4/4/98: delay using texture names until after linedefs are loaded, to allow overloading
 static void P_LoadSideDefs2(int lump)
 {
     const byte  *data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
@@ -783,7 +783,8 @@ static void P_LoadSideDefs2(int lump)
         // killough 4/4/98: allow sidedef texture names to be overloaded
         switch (sd->special)
         {
-            case 242:                       // variable colormap via 242 linedef
+            case CreateFakeCeilingAndFloor:
+                // variable colormap via 242 linedef
                 sd->bottomtexture =
                     (sec->bottommap = R_ColormapNumForName(msd->bottomtexture)) < 0 ?
                     sec->bottommap = 0, R_TextureNumForName(msd->bottomtexture) : 0;
@@ -795,7 +796,8 @@ static void P_LoadSideDefs2(int lump)
                     sec->topmap = 0, R_TextureNumForName(msd->toptexture) : 0;
                 break;
 
-            case Translucent_MiddleTexture: // killough 4/11/98: apply translucency to 2s normal texture
+            case Translucent_MiddleTexture:
+                // killough 4/11/98: apply translucency to 2s normal texture
                 sd->midtexture = strncasecmp("TRANMAP", msd->midtexture, 8) ?
                     (sd->special = W_CheckNumForName(msd->midtexture)) < 0 ||
                     W_LumpLength(sd->special) != 65536 ?
@@ -805,7 +807,8 @@ static void P_LoadSideDefs2(int lump)
                 sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
                 break;
 
-            default:                        // normal cases
+            default:
+                // normal cases
                 sd->midtexture = R_TextureNumForName(msd->midtexture);
                 sd->toptexture = R_TextureNumForName(msd->toptexture);
                 sd->bottomtexture = R_TextureNumForName(msd->bottomtexture);
@@ -862,7 +865,7 @@ void P_LoadBlockMap(int lump)
         I_Error("Blockmap corrupt, must run node builder on wad.\n");
 
     // read blockmap index array
-    for (i = 4; i < firstlist; i++)                             // for all entries in wad offset index
+    for (i = 4; i < firstlist; i++)                     // for all entries in wad offset index
     {
         uint32_t        bme = LE_SWAP16(wadblockmaplump[i]);    // offset
 
@@ -1165,8 +1168,8 @@ void P_MapName(int episode, int map)
                     M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] : *mapnames2[map - 1]),
-                    sizeof(maptitle));
+                M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] :
+                    *mapnames2[map - 1]), sizeof(maptitle));
             break;
 
         case pack_nerve:

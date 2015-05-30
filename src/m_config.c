@@ -448,7 +448,8 @@ char *striptrailingzero(float value, int precision)
     size_t      len;
     static char result[100];
 
-    M_snprintf(result, sizeof(result), "%.*f", (precision == 2 ? 2 : (value != floor(value))), value);
+    M_snprintf(result, sizeof(result), "%.*f",
+        (precision == 2 ? 2 : (value != floor(value))), value);
     len = strlen(result);
     if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
         result[len - 1] = '\0';
@@ -905,25 +906,32 @@ static void M_CheckDefaults(void)
     if (gamepadvibrate != false && gamepadvibrate != true)
         gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 
-    if (gamepadweapon1 < 0 || gamepadweapon1 > GAMEPAD_Y || (gamepadweapon1 & (gamepadweapon1 - 1)))
+    if (gamepadweapon1 < 0 || gamepadweapon1 > GAMEPAD_Y
+        || (gamepadweapon1 & (gamepadweapon1 - 1)))
         gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
 
-    if (gamepadweapon2 < 0 || gamepadweapon2 > GAMEPAD_Y || (gamepadweapon2 & (gamepadweapon2 - 1)))
+    if (gamepadweapon2 < 0 || gamepadweapon2 > GAMEPAD_Y
+        || (gamepadweapon2 & (gamepadweapon2 - 1)))
         gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
 
-    if (gamepadweapon3 < 0 || gamepadweapon3 > GAMEPAD_Y || (gamepadweapon3 & (gamepadweapon3 - 1)))
+    if (gamepadweapon3 < 0 || gamepadweapon3 > GAMEPAD_Y
+        || (gamepadweapon3 & (gamepadweapon3 - 1)))
         gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
 
-    if (gamepadweapon4 < 0 || gamepadweapon4 > GAMEPAD_Y || (gamepadweapon4 & (gamepadweapon4 - 1)))
+    if (gamepadweapon4 < 0 || gamepadweapon4 > GAMEPAD_Y
+        || (gamepadweapon4 & (gamepadweapon4 - 1)))
         gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
 
-    if (gamepadweapon5 < 0 || gamepadweapon5 > GAMEPAD_Y || (gamepadweapon5 & (gamepadweapon5 - 1)))
+    if (gamepadweapon5 < 0 || gamepadweapon5 > GAMEPAD_Y
+        || (gamepadweapon5 & (gamepadweapon5 - 1)))
         gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
 
-    if (gamepadweapon6 < 0 || gamepadweapon6 > GAMEPAD_Y || (gamepadweapon6 & (gamepadweapon6 - 1)))
+    if (gamepadweapon6 < 0 || gamepadweapon6 > GAMEPAD_Y
+        || (gamepadweapon6 & (gamepadweapon6 - 1)))
         gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
 
-    if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y || (gamepadweapon7 & (gamepadweapon7 - 1)))
+    if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y
+        || (gamepadweapon7 & (gamepadweapon7 - 1)))
         gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
     gammalevel = BETWEENF(GAMMALEVEL_MIN, gammalevel, GAMMALEVEL_MAX);
@@ -1137,7 +1145,8 @@ static void M_CheckDefaults(void)
         screenheight = SCREENHEIGHT_DEFAULT;
     }
 
-    selectedepisode = BETWEEN(EPISODE_MIN, selectedepisode, EPISODE_MAX - (gamemode == registered));
+    selectedepisode = BETWEEN(EPISODE_MIN, selectedepisode,
+        EPISODE_MAX - (gamemode == registered));
 
     selectedexpansion = BETWEEN(EXPANSION_MIN, selectedexpansion, EXPANSION_MAX);
 

@@ -1259,7 +1259,8 @@ static boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
             if (!strcasecmp(parm1, removespaces(mobjinfo[i].name1))
                 || !strcasecmp(parm1, removespaces(mobjinfo[i].plural1))
                 || (mobjinfo[i].name2[0] && !strcasecmp(parm1, removespaces(mobjinfo[i].name2)))
-                || (mobjinfo[i].plural2[0] && !strcasecmp(parm1, removespaces(mobjinfo[i].plural2))))
+                || (mobjinfo[i].plural2[0] && !strcasecmp(parm1,
+                removespaces(mobjinfo[i].plural2))))
             {
                 boolean     kill = true;
 
@@ -1562,7 +1563,8 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
                         (modifiedgame ? wad : ""));
                 break;
             case doom2:
-                if (strcasecmp(wad, "nerve.wad") && (!replaced || pwad || nerve) && (pwad || !BTSX))
+                if (strcasecmp(wad, "nerve.wad") && (!replaced || pwad || nerve)
+                    && (pwad || !BTSX))
                     if (BTSX)
                     {
                         if (strchr(*mapnames2[map], ':'))

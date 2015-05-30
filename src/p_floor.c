@@ -552,10 +552,12 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
                     {
                         side_t  *side = getSide(secnum, i, 0);
 
-                        if (side->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
+                        if (side->bottomtexture > 0
+                            && textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
                         side = getSide(secnum, i, 1);
-                        if (side->bottomtexture > 0 && textureheight[side->bottomtexture] < minsize)
+                        if (side->bottomtexture > 0
+                            && textureheight[side->bottomtexture] < minsize)
                             minsize = textureheight[side->bottomtexture];
                     }
                 }
@@ -628,7 +630,6 @@ boolean EV_DoChange(line_t *line, change_e changetype)
 {
     int         secnum;
     boolean     rtn;
-    sector_t    *sec;
     sector_t    *secm;
 
     secnum = -1;
@@ -637,7 +638,7 @@ boolean EV_DoChange(line_t *line, change_e changetype)
     // change all sectors with the same tag as the linedef
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
     {
-        sec = &sectors[secnum];
+        sector_t        *sec = &sectors[secnum];
 
         rtn = true;
 

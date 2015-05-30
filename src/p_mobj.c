@@ -137,7 +137,7 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 
     if (!--recursion)
         for (; (state = seenstate[i]); i = state - 1)
-            seenstate[i] = 0;                                   // killough 4/9/98: erase memory of states
+            seenstate[i] = 0;                           // killough 4/9/98: erase memory of states
 
     if (ret && shadow)
     {
@@ -311,7 +311,8 @@ void P_XYMovement(mobj_t *mo)
     {
         int     i;
         int     max = ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12;
-        int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1;
+        int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS)
+                    >> 1;
         int     blood = mobjinfo[mo->blood].blood;
 
         for (i = 0; i < max; i++)
@@ -892,7 +893,8 @@ void P_SpawnPlayer(const mapthing_t *mthing)
 
 void P_SpawnMoreBlood(mobj_t *mobj)
 {
-    int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1) + 12;
+    int radius = ((spritewidth[sprites[mobj->sprite].spriteframes[0].lump[0]] >> FRACBITS) >> 1)
+            + 12;
     int i;
     int max = M_RandomInt(50, 100) + radius;
     int shiftx = 0;
@@ -908,8 +910,10 @@ void P_SpawnMoreBlood(mobj_t *mobj)
     for (i = 0; i < max; i++)
     {
         int     angle = M_RandomInt(0, FINEANGLES - 1);
-        int     x = mobj->x + shiftx + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
-        int     y = mobj->y + shifty + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+        int     x = mobj->x + shiftx
+                    + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
+        int     y = mobj->y + shifty
+                    + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
 
         if (!--mobj->bloodsplats)
             break;
@@ -1281,14 +1285,6 @@ mobj_t *P_SpawnMissile(mobj_t *source, mobj_t *dest, mobjtype_t type)
     angle_t     an;
     int         dist;
     int         speed;
-
-    if (!dest)
-    {
-        dest->x = 0;
-        dest->y = 0;
-        dest->z = 0;
-        dest->flags = 0;
-    }
 
     z = source->z + 4 * 8 * FRACUNIT;
     if ((source->flags2 & MF2_FEETARECLIPPED) && source->subsector->sector->heightsec == -1)

@@ -311,27 +311,16 @@ angle_t R_InterpolateAngle(angle_t oangle, angle_t nangle, fixed_t scale)
 //
 static void R_InitTables(void)
 {
-    int         i;
-    float       a;
-    float       fv;
-    int         t;
+    int i;
 
     // viewangle tangent table
     for (i = 0; i < FINEANGLES / 2; i++)
-    {
-        a = (i - FINEANGLES / 4 + 0.5f) * (float)M_PI * 2 / FINEANGLES;
-        fv = FRACUNIT * tanf(a);
-        t = (int)fv;
-        finetangent[i] = t;
-    }
+        finetangent[i] = (int)(FRACUNIT * tanf((i - FINEANGLES / 4 + 0.5f) * (float)M_PI * 2
+            / FINEANGLES));
 
     // finesine table
     for (i = 0; i < 5 * FINEANGLES / 4; i++)
-    {
-        a = (i + 0.5f) * (float)M_PI * 2 / FINEANGLES;
-        t = (int)(FRACUNIT * sinf(a));
-        finesine[i] = t;
-    }
+        finesine[i] = (int)(FRACUNIT * sinf((i + 0.5f) * (float)M_PI * 2 / FINEANGLES));
 }
 
 static void R_InitPointToAngle(void)
@@ -499,7 +488,8 @@ void R_ExecuteSetViewSize(void)
     centerxfrac = centerx << FRACBITS;
     centeryfrac = centery << FRACBITS;
     projection = centerxfrac;
-    projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH * FRACUNIT;
+    projectiony = ((SCREENHEIGHT * centerx * ORIGINALWIDTH) / ORIGINALHEIGHT) / SCREENWIDTH
+        * FRACUNIT;
 
     R_InitBuffer(scaledviewwidth, viewheight);
 

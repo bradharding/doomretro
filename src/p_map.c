@@ -493,7 +493,8 @@ boolean PIT_CheckThing(mobj_t *thing)
     // missiles can hit other things
     if (tmflags & MF_MISSILE)
     {
-        int clipheight = (thing->projectilepassheight ? thing->projectilepassheight : thing->height);
+        int clipheight = (thing->projectilepassheight ?
+                thing->projectilepassheight : thing->height);
 
         // see if it went over / under
         if (tmthing->z > thing->z + clipheight)
@@ -693,7 +694,8 @@ boolean P_CheckPosition(mobj_t *thing, fixed_t x, fixed_t y)
     int          bx;
     int          by;
     subsector_t  *newsubsec;
-    fixed_t      radius = ((thing->flags & MF_SPECIAL) ? MIN(20 * FRACUNIT, thing->radius) : thing->radius);
+    fixed_t      radius = ((thing->flags & MF_SPECIAL) ?
+                     MIN(20 * FRACUNIT, thing->radius) : thing->radius);
 
     tmthing = thing;
 
@@ -1970,33 +1972,25 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
     if (isliquidsector)
         for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
         {
-            mobj_t  *mobj = n->m_thing;
+            mobj_t      *mobj = n->m_thing;
+            mobjtype_t  type = mobj->type;
 
-            if (mobj)
+            if (type == MT_BLOODSPLAT)
             {
-                mobjtype_t  type = mobj->type;
-
-                if (type == MT_BLOODSPLAT)
-                {
-                    P_UnsetThingPosition(mobj);
-                    --totalbloodsplats;
-                }
-                else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                    PIT_ChangeSector(mobj);                     // process it
+                P_UnsetThingPosition(mobj);
+                --totalbloodsplats;
             }
+            else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
+                PIT_ChangeSector(mobj);                     // process it
         }
     else
         for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
         {
-            mobj_t  *mobj = n->m_thing;
+            mobj_t      *mobj = n->m_thing;
+            mobjtype_t  type = mobj->type;
 
-            if (mobj)
-            {
-                mobjtype_t  type = mobj->type;
-
-                if (type != MT_BLOODSPLAT && type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
-                    PIT_ChangeSector(mobj);                     // process it
-            }
+            if (type != MT_BLOODSPLAT && type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
+                PIT_ChangeSector(mobj);                     // process it
         }
 
     return nofit;
