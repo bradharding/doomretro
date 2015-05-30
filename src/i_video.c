@@ -56,6 +56,7 @@
 #include "z_zone.h"
 
 #if defined(WIN32)
+#define SDL_VIDEO_DRIVER_WINDOWS
 #include "SDL_syswm.h"
 #endif
 
