@@ -553,6 +553,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN, "Toggle widescreen mode."),
     CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),
     CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, windowsize, "The size of the window on the desktop."),
+    CMD       (warp, C_MapCondition, C_Map, 1, "", ""),
 
     { "", C_NoCondition, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
 };
