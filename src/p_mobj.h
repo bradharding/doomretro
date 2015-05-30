@@ -402,7 +402,7 @@ typedef struct mobj_s
     fixed_t             oldz;
     angle_t             oldangle;
 
-    fixed_t             push;
+    fixed_t             nudge;
 } mobj_t;
 
 #endif

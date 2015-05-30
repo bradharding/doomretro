@@ -572,8 +572,8 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->oldangle = mobj->angle;
     }
 
-    if (mobj->push > 0)
-        mobj->push--;
+    if (mobj->nudge > 0)
+        mobj->nudge--;
 
     // momentum movement
     if (mobj->momx || mobj->momy || (flags & MF_SKULLFLY))
