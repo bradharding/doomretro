@@ -433,11 +433,11 @@ boolean PIT_CheckThing(mobj_t *thing)
     fixed_t     dist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
 
     if (corpses_nudge && (flags & MF_CORPSE) && (tmflags & MF_SHOOTABLE) && !thing->nudge
-        && dist < 16 * FRACUNIT && !(thing->z - tmthing->z) && (tmthing->momx || tmthing->momy))
+        && dist < 16 * FRACUNIT && !(thing->z - tmthing->z))
     {
         thing->nudge = TICRATE;
-        thing->momx = SIGN(tmthing->momx) * FRACUNIT;
-        thing->momy = SIGN(tmthing->momy) * FRACUNIT;
+        thing->momx = M_RandomInt(-1, 1) * FRACUNIT / 2;
+        thing->momy = M_RandomInt(-1, 1) * FRACUNIT / 2;
     }
 
     if (!(flags & (MF_SOLID | MF_SPECIAL | MF_SHOOTABLE)))
