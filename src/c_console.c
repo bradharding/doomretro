@@ -114,6 +114,8 @@ patch_t         *caret;
 int             caretpos = 0;
 static boolean  showcaret = true;
 static int      caretwait = 0;
+int             selectstart = 0;
+int             selectend = 0;
 
 char            consolecheat[255] = "";
 char            consolecheatparm[3] = "";
@@ -526,7 +528,8 @@ static int C_TextWidth(char *text)
     return w;
 }
 
-static void C_DrawConsoleText(int x, int y, char *text, byte color, int translucency, int tabs[8])
+static void C_DrawConsoleText(int x, int y, char *text, byte color, int translucency, int tabs[8],
+    boolean inverted)
 {
     boolean     italics = false;
     size_t      i;
@@ -599,7 +602,7 @@ static void C_DrawConsoleText(int x, int y, char *text, byte color, int transluc
             if (patch)
             {
                 V_DrawConsoleChar(x, y - (CONSOLEHEIGHT - consoleheight), patch, color, italics,
-                    translucency);
+                    translucency, inverted);
                 x += SHORT(patch->width);
             }
         }
@@ -636,7 +639,7 @@ static void C_DrawOverlayText(int x, int y, char *text, byte color)
 
         if (patch)
         {
-            V_DrawConsoleChar(x, y, patch, color, false, 2);
+            V_DrawConsoleChar(x, y, patch, color, false, 2, false);
             x += SHORT(patch->width);
         }
         prevletter = letter;
@@ -652,12 +655,14 @@ void C_Drawer(void)
         int     start;
         int     end;
         char    *left = Z_Malloc(512, PU_STATIC, NULL);
+        char    *middle = Z_Malloc(512, PU_STATIC, NULL);
         char    *right = Z_Malloc(512, PU_STATIC, NULL);
         boolean prevconsoleactive = consoleactive;
 
         if (consolewait < I_GetTime())
         {
-            consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection, CONSOLEHEIGHT);
+            consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection,
+                CONSOLEHEIGHT);
             consolewait = I_GetTime();
         }
 
@@ -680,7 +685,7 @@ void C_Drawer(void)
 
         // draw branding
         C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_BRANDINGSTRING) - CONSOLETEXTX + 1,
-            CONSOLEHEIGHT - 15, PACKAGE_BRANDINGSTRING, consolebrandingcolor, 1, notabs);
+            CONSOLEHEIGHT - 15, PACKAGE_BRANDINGSTRING, consolebrandingcolor, 1, notabs, false);
 
         // draw console text
         if (outputhistory == -1)
@@ -702,14 +707,29 @@ void C_Drawer(void)
                 C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
             else
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
-                    consolecolors[console[i].type], 0, console[i].tabs);
+                    consolecolors[console[i].type], 0, console[i].tabs, false);
         }
 
         // draw input text to left of caret
-        for (i = 0; i < caretpos; ++i)
+        for (i = 0; i < MIN(selectstart, caretpos); ++i)
             left[i] = consoleinput[i];
         left[i] = 0;
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, consoleinputcolor, 0, notabs);
+        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, consoleinputcolor, 0, notabs, false);
+        x += C_TextWidth(left);
+
+        // draw any selected text to left of caret
+        if (selectstart < caretpos)
+        {
+            for (i = selectstart; i < selectend; ++i)
+                middle[i - selectstart] = consoleinput[i];
+            middle[i - selectstart] = 0;
+            if (middle[0])
+            {
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 15, middle, consoleinputcolor, 0, notabs,
+                    true);
+                x += C_TextWidth(middle);
+            }
+        }
 
         // draw caret
         if (caretwait < I_GetTime())
@@ -717,18 +737,37 @@ void C_Drawer(void)
             showcaret = !showcaret;
             caretwait = I_GetTime() + CARETWAIT;
         }
-        x += C_TextWidth(left);
         if (showcaret)
-            V_DrawConsoleChar(x, consoleheight - 15, caret, consolecaretcolor, false, 0);
+            V_DrawConsoleChar(x, consoleheight - 15, caret, consolecaretcolor, false, 0, false);
+        x += 3;
+
+        // draw any selected text to right of caret
+        if (selectend > caretpos)
+        {
+            for (i = selectstart; i < selectend; ++i)
+                middle[i - selectstart] = consoleinput[i];
+            middle[i - selectstart] = 0;
+            if (middle[0])
+            {
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 15, middle, consoleinputcolor, 0, notabs,
+                    true);
+                x += C_TextWidth(middle);
+            }
+        }
 
         // draw input text to right of caret
-        for (i = 0; (unsigned int)i < strlen(consoleinput) - caretpos; ++i)
-            right[i] = consoleinput[i + caretpos];
-        right[i] = 0;
-        if (right[0])
-            C_DrawConsoleText(x + 3, CONSOLEHEIGHT - 15, right, consoleinputcolor, 0, notabs);
+        if ((unsigned int)caretpos < strlen(consoleinput))
+        {
+            for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
+                right[i - selectend] = consoleinput[i];
+            right[i - selectend] = 0;
+            if (right[0])
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 15, right, consoleinputcolor, 0, notabs,
+                    false);
+        }
 
         Z_Free(left);
+        Z_Free(middle);
         Z_Free(right);
 
         // draw the scrollbar
@@ -935,6 +974,9 @@ boolean C_Responder(event_t *ev)
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
+                selectstart = caretpos;
+                if (!(modstate & KMOD_SHIFT))
+                    selectend = caretpos;
                 break;
 
             // move caret right
@@ -945,6 +987,9 @@ boolean C_Responder(event_t *ev)
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
+                selectend = caretpos;
+                if (!(modstate & KMOD_SHIFT))
+                    selectstart = caretpos;
                 break;
 
             // move caret to start
@@ -954,7 +999,7 @@ boolean C_Responder(event_t *ev)
                     outputhistory = 0;
                 else if (caretpos > 0)
                 {
-                    caretpos = 0;
+                    caretpos = selectstart = selectend = 0;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
@@ -966,7 +1011,7 @@ boolean C_Responder(event_t *ev)
                     outputhistory = -1;
                 else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
-                    caretpos = strlen(consoleinput);
+                    caretpos = selectstart = selectend = strlen(consoleinput);
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
@@ -999,7 +1044,7 @@ boolean C_Responder(event_t *ev)
                                 consoleinput[length] = ' ';
                                 consoleinput[length + 1] = 0;
                             }
-                            caretpos = strlen(consoleinput);
+                            caretpos = selectstart = selectend = strlen(consoleinput);
                             caretwait = I_GetTime() + CARETWAIT;
                             showcaret = true;
                             return true;
@@ -1017,7 +1062,7 @@ boolean C_Responder(event_t *ev)
                     {
                         inputhistory = i;
                         M_StringCopy(consoleinput, console[i].string, 255);
-                        caretpos = strlen(consoleinput);
+                        caretpos = selectstart = selectend = strlen(consoleinput);
                         caretwait = I_GetTime() + CARETWAIT;
                         showcaret = true;
                         break;
@@ -1042,7 +1087,7 @@ boolean C_Responder(event_t *ev)
                         inputhistory = -1;
                         consoleinput[0] = 0;
                     }
-                    caretpos = strlen(consoleinput);
+                    caretpos = selectstart = selectend = strlen(consoleinput);
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
@@ -1092,6 +1137,7 @@ boolean C_Responder(event_t *ev)
                     for (i = strlen(consoleinput); i > caretpos; --i)
                         consoleinput[i] = consoleinput[i - 1];
                     consoleinput[caretpos++] = ch;
+                    selectstart = selectend = caretpos;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                     autocomplete = -1;
@@ -1130,7 +1176,8 @@ boolean C_Responder(event_t *ev)
         if (ev->data1 == MOUSE_WHEELUP)
         {
             if (consolestrings > 10)
-                outputhistory = (outputhistory == -1 ? consolestrings - 11 : MAX(0, outputhistory - 1));
+                outputhistory = (outputhistory == -1 ? consolestrings - 11 :
+                    MAX(0, outputhistory - 1));
         }
 
         // scroll output down

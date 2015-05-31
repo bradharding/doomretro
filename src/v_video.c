@@ -314,7 +314,8 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 int     italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics, int translucency)
+void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics, int translucency,
+    boolean inverted)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -327,6 +328,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
+            byte        *source = (byte *)column + 3;
             byte        *dest = desttop + column->topdelta * SCREENWIDTH;
             int         count = column->length;
 
@@ -334,12 +336,14 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics
             {
                 if (y + column->topdelta + column->length - count > CONSOLETOP)
                 {
-                    if (italics)
-                        *(dest + italicize[column->topdelta + column->length - count]) = color;
-                    else
-                        *dest = (translucency == 1 ? tinttab25[(color << 8) + *dest] :
+                    if ((*source && !inverted) || (!*source && inverted))
+                        if (italics)
+                            *(dest + italicize[column->topdelta + column->length - count]) = color;
+                        else
+                            *dest = (translucency == 1 ? tinttab25[(color << 8) + *dest] :
                             (translucency == 2 ? tinttab25[(*dest << 8) + color] : color));
                 }
+                *(source++);
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);
