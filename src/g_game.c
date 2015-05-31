@@ -273,6 +273,8 @@ extern int      st_palette;
 
 extern int      pagetic;
 
+extern boolean  transferredsky;
+
 void G_RemoveChoppers(void)
 {
     player_t            *player = &players[0];
@@ -608,8 +610,8 @@ void G_DoLoadLevel(void)
 
     P_SetupLevel(episode, gamemap);
 
-    skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 &&
-        (gamemode != commercial || gamemap < 21) ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
+    skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 && !transferredsky
+        && (gamemode != commercial || gamemap < 21) ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
 
     gameaction = ga_nothing;
 

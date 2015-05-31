@@ -563,62 +563,129 @@ void R_DrawSuperShotgunColumn(void)
 
 void R_DrawSkyColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl;
-    byte                *dest;
-    fixed_t             frac;
-    const fixed_t       fracstep = dc_iscale;
+    int32_t     count = dc_yh - dc_yl + 1;
 
-    if (count++ < 0)
+    if (count <= 0)
         return;
-
-    dest = R_ADDRESS(0, dc_x, dc_yl);
-
-    frac = dc_texturemid + (dc_yl - centery) * fracstep;
-
+    else
     {
+        byte                    *dest = R_ADDRESS(0, dc_x, dc_yl);
+        const fixed_t           fracstep = dc_iscale;
+        fixed_t                 frac = dc_texturemid + (dc_yl - centery) * fracstep;
         const byte              *source = dc_source;
         const lighttable_t      *colormap = dc_colormap;
-        const fixed_t           heightmask = dc_texheight - 1;
+        const fixed_t           texheight = dc_texheight;
+        fixed_t                 heightmask = texheight - 1;
 
-        while (--count)
+        // [SL] Properly tile textures whose heights are not a power-of-2,
+        // avoiding a tutti-frutti effect. From Eternity Engine.
+        if (texheight & heightmask)
         {
-            *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-            dest += SCREENWIDTH;
-            frac += fracstep;
+            heightmask++;
+            heightmask <<= FRACBITS;
+
+            if (frac < 0)
+                while ((frac += heightmask) <  0);
+            else
+                while (frac >= heightmask)
+                    frac -= heightmask;
+
+            while (count--)
+            {
+                *dest = colormap[source[frac >> FRACBITS]];
+                dest += SCREENWIDTH;
+                if ((frac += fracstep) >= heightmask)
+                    frac -= heightmask;
+            }
         }
-        *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+        else
+        {
+            // texture height is a power-of-2
+            // do some loop unrolling
+            while (count >= 8)
+            {
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                count -= 8;
+            }
+
+            if (count & 1)
+            {
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+            }
+
+            if (count & 2)
+            {
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+            }
+
+            if (count & 4)
+            {
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+                *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
+                dest += SCREENWIDTH;
+                frac += fracstep;
+            }
+        }
     }
 }
 
 void R_DrawFlippedSkyColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl;
-    byte                *dest;
-    fixed_t             frac;
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
+    fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+    fixed_t             i;
 
-    if (count++ < 0)
-        return;
-
-    dest = R_ADDRESS(0, dc_x, dc_yl);
-
-    frac = dc_texturemid + (dc_yl - centery) * fracstep;
-
+    while (--count)
     {
-        fixed_t                 i;
-        const byte              *source = dc_source;
-        const lighttable_t      *colormap = dc_colormap;
-
-        while (--count)
-        {
-            i = frac >> FRACBITS;
-            *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
-            dest += SCREENWIDTH;
-            frac += fracstep;
-        }
         i = frac >> FRACBITS;
         *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
     }
+    i = frac >> FRACBITS;
+    *dest = colormap[source[i > 127 ? 126 - (i & 127) : i]];
 }
 
 void R_DrawRedToBlueColumn(void)

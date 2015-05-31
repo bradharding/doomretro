@@ -117,6 +117,7 @@ int             rejectmatrixsize;
 mapthing_t      playerstarts[MAXPLAYERS];
 
 boolean         canmodify;
+boolean         transferredsky;
 
 boolean         mapfixes = MAPFIXES_DEFAULT;
 
@@ -690,6 +691,8 @@ static void P_LoadLineDefs2(int lump)
     int         i = numlines;
     line_t      *ld = lines;
 
+    transferredsky = false;
+
     for (; i--; ld++)
     {
         {
@@ -739,6 +742,11 @@ static void P_LoadLineDefs2(int lump)
                         if (lines[j].tag == ld->tag)   // affect all matching linedefs
                             lines[j].tranlump = lump;
                 }
+                break;
+
+            case TransferSkyTextureToTaggedSectors:
+            case TransferSkyTextureToTaggedSectors_Flipped:
+                transferredsky = true;
                 break;
         }
     }

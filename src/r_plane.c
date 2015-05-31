@@ -169,7 +169,7 @@ visplane_t *R_FindPlane(fixed_t height, int picnum, int lightlevel, fixed_t xoff
     unsigned int        hash;                                   // killough
 
     if (picnum == skyflatnum || (picnum & PL_SKYFLAT))          // killough 10/98
-        height = lightlevel = 0;                                // all skys map together
+        height = lightlevel = 0;                // killough 7/19/98: most skies map together
 
     // New visplane algorithm uses hash table -- killough
     hash = visplane_hash(picnum, lightlevel, height);
@@ -408,7 +408,8 @@ void R_DrawPlanes(void)
                         // Doom always flipped the picture, so we make it optional,
                         // to make it easier to use the new feature, while to still
                         // allow old sky textures to be used.
-                        flip = (l->special == 272 ? 0u : ~0u);
+                        flip = (l->special == TransferSkyTextureToTaggedSectors_Flipped ?
+                            0u : ~0u);
                     }
                     else        // Normal Doom sky, only one allowed per level
                     {
