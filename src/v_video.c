@@ -327,7 +327,6 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics
         // step through the posts in a column
         while (column->topdelta != 0xff)
         {
-            byte        *source = (byte *)column + 3;
             byte        *dest = desttop + column->topdelta * SCREENWIDTH;
             int         count = column->length;
 
@@ -335,13 +334,11 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics
             {
                 if (y + column->topdelta + column->length - count > CONSOLETOP)
                 {
-                    if (*source == 160)
-                        if (italics)
-                            *(dest + italicize[column->topdelta + column->length - count]) = color;
-                        else
-                            *dest = (translucency == 1 ? tinttab25[(color << 8) + *dest] :
-                                (translucency == 2 ? tinttab25[(*dest << 8) + color] : color));
-                    *(source++);
+                    if (italics)
+                        *(dest + italicize[column->topdelta + column->length - count]) = color;
+                    else
+                        *dest = (translucency == 1 ? tinttab25[(color << 8) + *dest] :
+                            (translucency == 2 ? tinttab25[(*dest << 8) + color] : color));
                 }
                 dest += SCREENWIDTH;
             }
