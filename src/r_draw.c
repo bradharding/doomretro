@@ -671,8 +671,8 @@ void R_DrawFlippedSkyColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    fixed_t             frac = dc_texturefrac;
     const fixed_t       fracstep = dc_iscale;
+    fixed_t             frac = dc_texturemid + (dc_yl - centery) * fracstep;
     const byte          *source = dc_source;
     const lighttable_t  *colormap = dc_colormap;
     fixed_t             i;
