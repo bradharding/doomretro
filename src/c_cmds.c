@@ -1474,7 +1474,7 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
 
     if (!parm1[0])
     {
-        C_Output("map "MAPCMDFORMAT);
+        C_Output("%s %s", cmd, MAPCMDFORMAT);
         return;
     }
     samelevel = (gameepisode == mapcmdepisode && gamemap == mapcmdmap);
