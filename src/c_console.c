@@ -973,10 +973,16 @@ boolean C_Responder(event_t *ev)
                     --caretpos;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
+                    if (modstate & KMOD_SHIFT)
+                    {
+                        if (selectstart < caretpos)
+                            selectend = caretpos;
+                        else
+                            selectstart = caretpos;
+                    }
+                    else
+                        selectstart = selectend = caretpos;
                 }
-                selectstart = caretpos;
-                if (!(modstate & KMOD_SHIFT))
-                    selectend = caretpos;
                 break;
 
             // move caret right
@@ -986,10 +992,16 @@ boolean C_Responder(event_t *ev)
                     ++caretpos;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
+                    if (modstate & KMOD_SHIFT)
+                    {
+                        if (selectend > caretpos)
+                            selectstart = caretpos;
+                        else
+                            selectend = caretpos;
+                    }
+                    else
+                        selectstart = selectend = caretpos;
                 }
-                selectend = caretpos;
-                if (!(modstate & KMOD_SHIFT))
-                    selectstart = caretpos;
                 break;
 
             // move caret to start
