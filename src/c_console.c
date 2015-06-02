@@ -1138,22 +1138,34 @@ boolean C_Responder(event_t *ev)
                 break;
 
             default:
-                if (modstate & KMOD_SHIFT)
-                    ch = upper[ch];
-                if (ch >= ' ' && ch < '~' && ch != '`'
-                    && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
-                    consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
-                    && !(modstate & (KMOD_ALT | KMOD_CTRL)))
+                if (modstate & KMOD_CTRL)
                 {
-                    consoleinput[strlen(consoleinput) + 1] = '\0';
-                    for (i = strlen(consoleinput); i > caretpos; --i)
-                        consoleinput[i] = consoleinput[i - 1];
-                    consoleinput[caretpos++] = ch;
-                    selectstart = selectend = caretpos;
-                    caretwait = I_GetTime() + CARETWAIT;
-                    showcaret = true;
-                    autocomplete = -1;
-                    inputhistory = -1;
+                    // select all
+                    if (ch == 'a')
+                    {
+                        selectstart = 0;
+                        selectend = caretpos = strlen(consoleinput);
+                    }
+                }
+                else
+                {
+                    if (modstate & KMOD_SHIFT)
+                        ch = upper[ch];
+                    if (ch >= ' ' && ch < '~' && ch != '`'
+                        && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
+                        consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
+                        && !(modstate & KMOD_ALT))
+                    {
+                        consoleinput[strlen(consoleinput) + 1] = '\0';
+                        for (i = strlen(consoleinput); i > caretpos; --i)
+                            consoleinput[i] = consoleinput[i - 1];
+                        consoleinput[caretpos++] = ch;
+                        selectstart = selectend = caretpos;
+                        caretwait = I_GetTime() + CARETWAIT;
+                        showcaret = true;
+                        autocomplete = -1;
+                        inputhistory = -1;
+                    }
                 }
         }
     }
