@@ -314,8 +314,8 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 int     italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics, int translucency,
-    boolean inverted)
+void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, boolean italics,
+    int translucency)
 {
     int         col = 0;
     byte        *desttop = screens[0] + y * SCREENWIDTH + x;
@@ -334,14 +334,24 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, byte color, boolean italics
 
             while (count--)
             {
-                if (y + column->topdelta + column->length - count > CONSOLETOP)
+                int     height = column->topdelta + column->length - count;
+
+                if (y + height > CONSOLETOP)
                 {
-                    if ((*source && !inverted) || (!*source && inverted))
-                        if (italics)
-                            *(dest + italicize[column->topdelta + column->length - count]) = color;
-                        else
-                            *dest = (translucency == 1 ? tinttab25[(color << 8) + *dest] :
-                            (translucency == 2 ? tinttab25[(*dest << 8) + color] : color));
+                    if (color2 == -1)
+                    {
+                        if (*source)
+                            if (italics)
+                                *(dest + italicize[height]) = color1;
+                            else
+                                *dest = (translucency == 1 ? tinttab25[(color1 << 8) + *dest] :
+                                    (translucency == 2 ? tinttab25[(*dest << 8) + color1] :
+                                    color1));
+                    }
+                    else if (*source == color2)
+                        *dest = color1;
+                    else if (*dest != color1)
+                        *dest = color2;
                 }
                 *(source++);
                 dest += SCREENWIDTH;
