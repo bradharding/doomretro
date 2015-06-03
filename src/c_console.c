@@ -997,18 +997,25 @@ boolean C_Responder(event_t *ev)
             case KEY_LEFTARROW:
                 if (caretpos > 0)
                 {
-                    --caretpos;
-                    caretwait = I_GetTime() + CARETWAIT;
-                    showcaret = true;
                     if (modstate & KMOD_SHIFT)
                     {
+                        --caretpos;
+                        caretwait = I_GetTime() + CARETWAIT;
+                        showcaret = true;
                         if (selectstart <= caretpos)
                             selectend = caretpos;
                         else
                             selectstart = caretpos;
                     }
                     else
-                        selectstart = selectend = caretpos;
+                    {
+                        if (selectstart < selectend)
+                            caretpos = selectend = selectstart;
+                        else
+                            selectstart = selectend = --caretpos;
+                        caretwait = I_GetTime() + CARETWAIT;
+                        showcaret = true;
+                    }
                 }
                 break;
 
@@ -1016,18 +1023,25 @@ boolean C_Responder(event_t *ev)
             case KEY_RIGHTARROW:
                 if ((unsigned int)caretpos < strlen(consoleinput))
                 {
-                    ++caretpos;
-                    caretwait = I_GetTime() + CARETWAIT;
-                    showcaret = true;
                     if (modstate & KMOD_SHIFT)
                     {
+                        ++caretpos;
+                        caretwait = I_GetTime() + CARETWAIT;
+                        showcaret = true;
                         if (selectend >= caretpos)
                             selectstart = caretpos;
                         else
                             selectend = caretpos;
                     }
                     else
-                        selectstart = selectend = caretpos;
+                    {
+                        if (selectstart < selectend)
+                            caretpos = selectstart = selectend;
+                        else
+                            selectstart = selectend = ++caretpos;
+                        caretwait = I_GetTime() + CARETWAIT;
+                        showcaret = true;
+                    }
                 }
                 break;
 
