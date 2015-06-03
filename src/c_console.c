@@ -366,7 +366,7 @@ void C_Init(void)
     degree = W_CacheLumpName("DRFON176", PU_STATIC);
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
 
-    caret = consolefont['|' - CONSOLEFONTSTART];
+    caret = W_CacheLumpName("CARET", PU_STATIC);
 
     if (BTSXE1)
         consoleplayermessagecolor = 196;
