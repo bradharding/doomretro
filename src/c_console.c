@@ -839,10 +839,20 @@ boolean C_Responder(event_t *ev)
 
         switch (key)
         {
-            // delete character left of caret
             case KEY_BACKSPACE:
-                if (caretpos > 0)
+                if (selectstart < selectend)
                 {
+                    // delete selected text
+                    for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
+                        consoleinput[selectstart + i - selectend] = consoleinput[i];
+                    consoleinput[selectstart + i - selectend] = 0;
+                    caretpos = selectend = selectstart;
+                    caretwait = I_GetTime() + CARETWAIT;
+                    showcaret = true;
+                }
+                else if (caretpos > 0)
+                {
+                    // delete character left of caret
                     for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
                     --caretpos;
@@ -851,10 +861,20 @@ boolean C_Responder(event_t *ev)
                 }
                 break;
 
-            // delete character right of caret
             case KEY_DEL:
-                if ((unsigned int)caretpos < strlen(consoleinput))
+                if (selectstart < selectend)
                 {
+                    // delete selected text
+                    for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
+                        consoleinput[selectstart + i - selectend] = consoleinput[i];
+                    consoleinput[selectstart + i - selectend] = 0;
+                    caretpos = selectend = selectstart;
+                    caretwait = I_GetTime() + CARETWAIT;
+                    showcaret = true;
+                }
+                else if ((unsigned int)caretpos < strlen(consoleinput))
+                {
+                    // delete character right of caret
                     for (i = caretpos; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
                     caretwait = I_GetTime() + CARETWAIT;
