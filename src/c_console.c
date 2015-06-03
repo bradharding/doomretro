@@ -1155,10 +1155,12 @@ boolean C_Responder(event_t *ev)
                 consoledirection = -1;
                 break;
 
+            // change gamma correction level
             case KEY_F11:
                 M_ChangeGamma(modstate & KMOD_SHIFT);
                 break;
 
+            // toggle "always run"
             case KEY_CAPSLOCK:
                 G_ToggleAlwaysRun();
                 C_Output("%s.", (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
@@ -1172,6 +1174,33 @@ boolean C_Responder(event_t *ev)
                     {
                         selectstart = 0;
                         selectend = caretpos = strlen(consoleinput);
+                    }
+
+                    // copy
+                    else if (ch == 'c')
+                        if (selectstart < selectend)
+                            SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
+                                selectend - selectstart));
+
+                    // paste
+                    else if (ch == 'v')
+                    {
+                    }
+
+                    // cut
+                    else if (ch == 'x')
+                    {
+                        if (selectstart < selectend)
+                        {
+                            SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
+                                selectend - selectstart));
+                            for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
+                                consoleinput[selectstart + i - selectend] = consoleinput[i];
+                            consoleinput[selectstart + i - selectend] = '\0';
+                            caretpos = selectend = selectstart;
+                            caretwait = I_GetTime() + CARETWAIT;
+                            showcaret = true;
+                        }
                     }
                 }
                 else
