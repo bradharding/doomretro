@@ -1178,9 +1178,11 @@ boolean C_Responder(event_t *ev)
 
                     // copy
                     else if (ch == 'c')
+                    {
                         if (selectstart < selectend)
                             SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
                                 selectend - selectstart));
+                    }
 
                     // paste
                     else if (ch == 'v')
