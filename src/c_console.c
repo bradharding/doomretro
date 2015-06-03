@@ -1002,7 +1002,7 @@ boolean C_Responder(event_t *ev)
                     showcaret = true;
                     if (modstate & KMOD_SHIFT)
                     {
-                        if (selectstart < caretpos)
+                        if (selectstart <= caretpos)
                             selectend = caretpos;
                         else
                             selectstart = caretpos;
@@ -1021,7 +1021,7 @@ boolean C_Responder(event_t *ev)
                     showcaret = true;
                     if (modstate & KMOD_SHIFT)
                     {
-                        if (selectend > caretpos)
+                        if (selectend >= caretpos)
                             selectstart = caretpos;
                         else
                             selectend = caretpos;
