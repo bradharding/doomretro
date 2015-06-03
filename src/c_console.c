@@ -852,7 +852,7 @@ boolean C_Responder(event_t *ev)
                     // delete selected text
                     for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
-                    consoleinput[selectstart + i - selectend] = 0;
+                    consoleinput[selectstart + i - selectend] = '\0';
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
@@ -874,7 +874,7 @@ boolean C_Responder(event_t *ev)
                     // delete selected text
                     for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
-                    consoleinput[selectstart + i - selectend] = 0;
+                    consoleinput[selectstart + i - selectend] = '\0';
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
@@ -979,7 +979,7 @@ boolean C_Responder(event_t *ev)
                     if (validcmd)
                     {
                         // clear input
-                        consoleinput[0] = 0;
+                        consoleinput[0] = '\0';
                         caretpos = 0;
                         caretwait = I_GetTime() + CARETWAIT;
                         showcaret = true;
@@ -1081,7 +1081,7 @@ boolean C_Responder(event_t *ev)
                                 int     length = strlen(consoleinput);
 
                                 consoleinput[length] = ' ';
-                                consoleinput[length + 1] = 0;
+                                consoleinput[length + 1] = '\0';
                             }
                             caretpos = selectstart = selectend = strlen(consoleinput);
                             caretwait = I_GetTime() + CARETWAIT;
@@ -1124,7 +1124,7 @@ boolean C_Responder(event_t *ev)
                     if (i == consolestrings)
                     {
                         inputhistory = -1;
-                        consoleinput[0] = 0;
+                        consoleinput[0] = '\0';
                     }
                     caretpos = selectstart = selectend = strlen(consoleinput);
                     caretwait = I_GetTime() + CARETWAIT;
@@ -1183,10 +1183,25 @@ boolean C_Responder(event_t *ev)
                         consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
                         && !(modstate & KMOD_ALT))
                     {
-                        consoleinput[strlen(consoleinput) + 1] = '\0';
-                        for (i = strlen(consoleinput); i > caretpos; --i)
-                            consoleinput[i] = consoleinput[i - 1];
-                        consoleinput[caretpos++] = ch;
+                        if (selectstart < selectend)
+                        {
+                            // replace selected text with a character
+                            consoleinput[selectstart] = ch;
+                            for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
+                                consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
+                            consoleinput[selectstart + i - selectend + 1] = '\0';
+                            caretpos = selectend = selectstart + 1;
+                            caretwait = I_GetTime() + CARETWAIT;
+                            showcaret = true;
+                        }
+                        else
+                        {
+                            // insert a character
+                            consoleinput[strlen(consoleinput) + 1] = '\0';
+                            for (i = strlen(consoleinput); i > caretpos; --i)
+                                consoleinput[i] = consoleinput[i - 1];
+                            consoleinput[caretpos++] = ch;
+                        }
                         selectstart = selectend = caretpos;
                         caretwait = I_GetTime() + CARETWAIT;
                         showcaret = true;
