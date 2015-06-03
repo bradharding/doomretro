@@ -283,7 +283,7 @@ void C_PlayerMessage(char *string, ...)
     {
         char    *count = strrchr(console[consolestrings - 1].string, '(') + 1;
 
-        count[strlen(count) - 1] = 0;
+        count[strlen(count) - 1] = '\0';
 
         M_snprintf(buffer, sizeof(buffer), "%s (%i)", buffer, atoi(count) + 1);
         console[consolestrings - 1].string = strdup(buffer);
@@ -689,7 +689,7 @@ void C_Drawer(void)
 
         // draw branding
         C_DrawConsoleText(SCREENWIDTH - C_TextWidth(PACKAGE_BRANDINGSTRING) - CONSOLETEXTX + 1,
-            CONSOLEHEIGHT - 15, PACKAGE_BRANDINGSTRING, consolebrandingcolor, NOBACKGROUNDCOLOR,
+            CONSOLEHEIGHT - 17, PACKAGE_BRANDINGSTRING, consolebrandingcolor, NOBACKGROUNDCOLOR,
             1, notabs);
 
         // draw console text
@@ -718,8 +718,8 @@ void C_Drawer(void)
         // draw input text to left of caret
         for (i = 0; i < MIN(selectstart, caretpos); ++i)
             left[i] = consoleinput[i];
-        left[i] = 0;
-        C_DrawConsoleText(x, CONSOLEHEIGHT - 15, left, consoleinputcolor, NOBACKGROUNDCOLOR, 0,
+        left[i] = '\0';
+        C_DrawConsoleText(x, CONSOLEHEIGHT - 17, left, consoleinputcolor, NOBACKGROUNDCOLOR, 0,
             notabs);
         x += C_TextWidth(left);
 
@@ -728,10 +728,10 @@ void C_Drawer(void)
         {
             for (i = selectstart; i < selectend; ++i)
                 middle[i - selectstart] = consoleinput[i];
-            middle[i - selectstart] = 0;
+            middle[i - selectstart] = '\0';
             if (middle[0])
             {
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 15, middle, consoleselectedinputcolor,
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middle, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, 0, notabs);
                 x += C_TextWidth(middle);
             }
@@ -744,7 +744,7 @@ void C_Drawer(void)
             caretwait = I_GetTime() + CARETWAIT;
         }
         if (showcaret)
-            V_DrawConsoleChar(x, consoleheight - 15, caret, consolecaretcolor, NOBACKGROUNDCOLOR,
+            V_DrawConsoleChar(x, consoleheight - 17, caret, consolecaretcolor, NOBACKGROUNDCOLOR,
                 false, 0);
         x += 3;
 
@@ -753,10 +753,10 @@ void C_Drawer(void)
         {
             for (i = selectstart; i < selectend; ++i)
                 middle[i - selectstart] = consoleinput[i];
-            middle[i - selectstart] = 0;
+            middle[i - selectstart] = '\0';
             if (middle[0])
             {
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 15, middle, consoleselectedinputcolor,
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, middle, consoleselectedinputcolor,
                     consoleselectedinputbackgroundcolor, 0, notabs);
                 x += C_TextWidth(middle);
             }
@@ -767,9 +767,9 @@ void C_Drawer(void)
         {
             for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                 right[i - selectend] = consoleinput[i];
-            right[i - selectend] = 0;
+            right[i - selectend] = '\0';
             if (right[0])
-                C_DrawConsoleText(x, CONSOLEHEIGHT - 15, right, consoleinputcolor,
+                C_DrawConsoleText(x, CONSOLEHEIGHT - 17, right, consoleinputcolor,
                     NOBACKGROUNDCOLOR, 0, notabs);
         }
 
@@ -912,10 +912,10 @@ boolean C_Responder(event_t *ev)
                                 {
                                     consolecheatparm[0] = consoleinput[length - 2];
                                     consolecheatparm[1] = consoleinput[length - 1];
-                                    consolecheatparm[2] = 0;
+                                    consolecheatparm[2] = '\0';
 
                                     M_StringCopy(cmd, consoleinput, 255);
-                                    cmd[length - 2] = 0;
+                                    cmd[length - 2] = '\0';
 
                                     if (!strcasecmp(cmd, consolecmds[i].name)
                                         && length == strlen(cmd) + 2
@@ -1183,14 +1183,14 @@ boolean C_Responder(event_t *ev)
             default:
                 if (modstate & KMOD_CTRL)
                 {
-                    // select all
+                    // select all text
                     if (ch == 'a')
                     {
                         selectstart = 0;
                         selectend = caretpos = strlen(consoleinput);
                     }
 
-                    // copy
+                    // copy selected text to clipboard
                     else if (ch == 'c')
                     {
                         if (selectstart < selectend)
@@ -1198,12 +1198,12 @@ boolean C_Responder(event_t *ev)
                                 selectend - selectstart));
                     }
 
-                    // paste
+                    // paste text from clipboard
                     else if (ch == 'v')
                     {
                     }
 
-                    // cut
+                    // cut selected text to clipboard
                     else if (ch == 'x')
                     {
                         if (selectstart < selectend)
@@ -1217,6 +1217,16 @@ boolean C_Responder(event_t *ev)
                             caretwait = I_GetTime() + CARETWAIT;
                             showcaret = true;
                         }
+                    }
+
+                    // redo last action
+                    else if (ch == 'y')
+                    {
+                    }
+
+                    // undo last action
+                    else if (ch == 'z')
+                    {
                     }
                 }
                 else
