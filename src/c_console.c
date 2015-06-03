@@ -155,7 +155,7 @@ int             consolecaretcolor = 4;
 int             consolehighfpscolor = 116;
 int             consoleinputcolor = 4;
 int             consoleselectedinputcolor = 4;
-int             consoleselectedinputbackgroundcolor = 161;
+int             consoleselectedinputbackgroundcolor = 100;
 int             consoleinputtooutputcolor = 4;
 int             consolelowfpscolor = 180;
 int             consoletitlecolor = 88;
@@ -369,13 +369,13 @@ void C_Init(void)
     caret = consolefont['|' - CONSOLEFONTSTART];
 
     if (BTSXE1)
-        consoleplayermessagecolor = consoleselectedinputbackgroundcolor = 196;
+        consoleplayermessagecolor = 196;
     else if (BTSXE2)
-        consoleplayermessagecolor = consoleselectedinputbackgroundcolor = 214;
+        consoleplayermessagecolor = 214;
     else if (chex)
-        consoleplayermessagecolor = consoleselectedinputbackgroundcolor = 114;
+        consoleplayermessagecolor = 114;
     else if (hacx)
-        consoleplayermessagecolor = consoleselectedinputbackgroundcolor = 198;
+        consoleplayermessagecolor = 198;
 
     consolecolors[input] = consoleinputtooutputcolor;
     consolecolors[output] = consoleoutputcolor;
