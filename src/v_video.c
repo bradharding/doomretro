@@ -52,6 +52,8 @@
 #include "version.h"
 #include "z_zone.h"
 
+#define WHITE   4
+
 // Each screen is [SCREENWIDTH * SCREENHEIGHT];
 byte            *screens[5];
 
@@ -348,7 +350,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, boo
                                     (translucency == 2 ? tinttab25[(*dest << 8) + color1] :
                                     color1));
                     }
-                    else if (*source == color2)
+                    else if (*source == WHITE)
                         *dest = color1;
                     else if (*dest != color1)
                         *dest = color2;
