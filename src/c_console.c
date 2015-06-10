@@ -871,7 +871,7 @@ boolean C_Responder(event_t *ev)
                     // delete character left of caret
                     for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
-                    --caretpos;
+                    selectend = selectstart = --caretpos;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
                 }
