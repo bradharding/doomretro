@@ -1208,6 +1208,11 @@ boolean C_Responder(event_t *ev)
                     // paste text from clipboard
                     else if (ch == 'v')
                     {
+                        M_snprintf(consoleinput, sizeof(consoleinput), "%s%s%s",
+                            M_SubString(consoleinput, 0, selectstart), SDL_GetClipboardText(),
+                            M_SubString(consoleinput, selectend, strlen(consoleinput) - selectend));
+                        selectstart += strlen(SDL_GetClipboardText());
+                        selectend = caretpos = selectstart;
                     }
 
                     // cut selected text to clipboard
@@ -1224,16 +1229,6 @@ boolean C_Responder(event_t *ev)
                             caretwait = I_GetTime() + CARETWAIT;
                             showcaret = true;
                         }
-                    }
-
-                    // redo last action
-                    else if (ch == 'y')
-                    {
-                    }
-
-                    // undo last action
-                    else if (ch == 'z')
-                    {
                     }
                 }
                 else

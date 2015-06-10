@@ -47,7 +47,8 @@
 
 #define CONSOLETOP      0
 
-#define DIVIDERSTRING   "==========================================================================="
+#define DIVIDERSTRING   "======================================" \
+                        "====================================="
 
 typedef enum
 {
@@ -67,18 +68,18 @@ typedef struct
     int                 tabs[8];
 } console_t;
 
-console_t       *console;
+console_t               *console;
 
-extern boolean  consoleactive;
-extern int      consoleheight;
-extern int      consoledirection;
+extern boolean          consoleactive;
+extern int              consoleheight;
+extern int              consoledirection;
 
-extern char     consolecheat[255];
-extern char     consolecheatparm[3];
-extern char     consolecmdparm[255];
+extern char             consolecheat[255];
+extern char             consolecheatparm[3];
+extern char             consolecmdparm[255];
 
 #if defined(WIN32)
-extern boolean  showmemory;
+extern boolean          showmemory;
 #endif
 
 void C_Print(stringtype_t type, char *string, ...);
