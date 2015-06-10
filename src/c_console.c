@@ -77,7 +77,7 @@
 
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
-#define CONSOLELINES            11
+#define CONSOLELINES            (gamestate == GS_LEVEL ? 11 : 27)
 #define CONSOLELINEHEIGHT       14
 
 #define CONSOLEINPUTPIXELWIDTH  500
@@ -666,6 +666,7 @@ void C_Drawer(void)
         char    *right = Z_Malloc(512, PU_STATIC, NULL);
         boolean prevconsoleactive = consoleactive;
 
+        // adjust console height
         if (consolewait < I_GetTime())
         {
             consoleheight = BETWEEN(0, consoleheight + CONSOLESPEED * consoledirection,
@@ -675,6 +676,7 @@ void C_Drawer(void)
 
         consoleactive = (consoledirection == 1);
 
+        // cancel any gamepad vibrations
         if (!prevconsoleactive && gamepadvibrate && vibrate)
         {
             if (consoleactive)
@@ -687,7 +689,7 @@ void C_Drawer(void)
             XInputVibration(idlemotorspeed);
         }
 
-        // draw tiled background and bottom edge
+        // draw background and bottom edge
         C_DrawBackground(consoleheight);
 
         // draw branding

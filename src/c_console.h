@@ -43,7 +43,8 @@
 #include "doomtype.h"
 #include "d_event.h"
 
-#define CONSOLEHEIGHT   ((SCREENHEIGHT - SBARHEIGHT) / 2)
+#define CONSOLEHEIGHT   (gamestate == GS_LEVEL ? (SCREENHEIGHT - SBARHEIGHT) / 2 : \
+                        SCREENHEIGHT - 5)
 
 #define CONSOLETOP      0
 
