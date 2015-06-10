@@ -225,7 +225,6 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
     {
         gaveweapon = true;
         player->weaponowned[weapon] = true;
-        oldweaponsowned[weapon] = true;
         player->pendingweapon = weapon;
     }
 
