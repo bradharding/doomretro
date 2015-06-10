@@ -1063,8 +1063,6 @@ static void SetVideoMode(boolean output)
 
     if (!strcasecmp(scalefilter, "linear"))
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "linear", SDL_HINT_OVERRIDE);
-    else if (!strcasecmp(scalefilter, "anisotropic"))
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "best", SDL_HINT_OVERRIDE);
     else
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "nearest", SDL_HINT_OVERRIDE);
 
@@ -1163,12 +1161,10 @@ static void SetVideoMode(boolean output)
         else if (!strcasecmp(rendererinfo.name, "opengles2"))
             renderername = "OpenGL ES 2.0";
 
-        if (!strcasecmp(scalefilter, "nearest"))
-            C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);
-        else if (!strcasecmp(scalefilter, "linear"))
+        if (!strcasecmp(scalefilter, "linear"))
             C_Output("Scaling screen using linear filtering in %s.", renderername);
-        else if (!strcasecmp(scalefilter, "anisotropic"))
-            C_Output("Scaling screen using anisotropic filtering in %s.", renderername);
+        else
+            C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);
 
         if (capfps)
             C_Output("The framerate is capped at %i FPS.", TICRATE);

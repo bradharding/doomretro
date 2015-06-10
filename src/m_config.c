@@ -1131,8 +1131,7 @@ static void M_CheckDefaults(void)
         && strcasecmp(scaledriver, "opengles2"))
         scaledriver = SCALEDRIVER_DEFAULT;
 
-    if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear")
-        && strcasecmp(scalefilter, "anisotropic"))
+    if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear"))
         scalefilter = SCALEFILTER_DEFAULT;
 #endif
 
