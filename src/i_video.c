@@ -875,7 +875,7 @@ void I_FinishUpdate(void)
 
 #if defined(SDL20)
     SDL_LowerBlit(screenbuffer, &screenbuffer_rect, rgbbuffer, &rgbbuffer_rect);
-    SDL_UpdateTexture(texture, NULL, rgbbuffer->pixels, pitch);
+    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
