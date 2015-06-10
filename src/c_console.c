@@ -747,9 +747,13 @@ void C_Drawer(void)
             caretwait = I_GetTime() + CARETWAIT;
         }
         if (showcaret)
-            V_DrawConsoleChar(x, consoleheight - 17, caret, consolecaretcolor, NOBACKGROUNDCOLOR,
-                false, 0);
-        x += 3;
+            if (selectend > caretpos)
+                V_DrawConsoleChar(x, consoleheight - 17, caret, consoleselectedinputcolor,
+                    consoleselectedinputbackgroundcolor, false, 0);
+            else
+                V_DrawConsoleChar(x, consoleheight - 17, caret, consolecaretcolor,
+                    NOBACKGROUNDCOLOR, false, 0);
+        x += caret->width;
 
         // draw any selected text to right of caret
         if (selectend > caretpos)
