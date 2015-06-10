@@ -1589,6 +1589,16 @@ extern void A_BrainSpit();
 extern void A_SpawnSound();
 extern void A_SpawnFly();
 extern void A_BrainExplode();
+extern void A_Detonate();
+extern void A_Mushroom();
+extern void A_Die();
+extern void A_Spawn();
+extern void A_Turn();
+extern void A_Face();
+extern void A_Scratch();
+extern void A_PlaySound();
+extern void A_RandomJump();
+extern void A_LineEffect();
 
 typedef struct
 {
@@ -1672,6 +1682,16 @@ static const deh_bexptr deh_bexptrs[] =
   { A_SpawnSound,    "A_SpawnSound"    },
   { A_SpawnFly,      "A_SpawnFly"      },
   { A_BrainExplode,  "A_BrainExplode"  },
+  { A_Detonate,      "A_Detonate"      },       // killough 8/9/98
+  { A_Mushroom,      "A_Mushroom"      },       // killough 10/98
+  { A_Die,           "A_Die"           },       // killough 11/98
+  { A_Spawn,         "A_Spawn"         },       // killough 11/98
+  { A_Turn,          "A_Turn"          },       // killough 11/98
+  { A_Face,          "A_Face"          },       // killough 11/98
+  { A_Scratch,       "A_Scratch"       },       // killough 11/98
+  { A_PlaySound,     "A_PlaySound"     },       // killough 11/98
+  { A_RandomJump,    "A_RandomJump"    },       // killough 11/98
+  { A_LineEffect,    "A_LineEffect"    },       // killough 11/98
 
   // This NULL entry must be the last in the list
   { NULL,            "A_NULL"          }        // Ty 05/16/98

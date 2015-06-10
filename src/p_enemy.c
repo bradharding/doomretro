@@ -2054,3 +2054,113 @@ void A_PlayerScream(mobj_t *mo)
 
     S_StartSound(mo, sound);
 }
+
+// killough 11/98: kill an object
+void A_Die(mobj_t *actor)
+{
+    P_DamageMobj(actor, NULL, NULL, actor->health);
+}
+
+//
+// A_Detonate
+// killough 8/9/98: same as A_Explode, except that the damage is variable
+//
+void A_Detonate(mobj_t *mo)
+{
+    P_RadiusAttack(mo, mo->target, mo->info->damage);
+}
+
+//
+// killough 9/98: a mushroom explosion effect, sorta :)
+// Original idea: Linguica
+//
+void A_Mushroom(mobj_t *actor)
+{
+    int         i, j, n = actor->info->damage;
+
+    // Mushroom parameters are part of code pointer's state
+    fixed_t     misc1 = (actor->state->misc1 ? actor->state->misc1 : FRACUNIT * 4);
+    fixed_t     misc2 = (actor->state->misc2 ? actor->state->misc2 : FRACUNIT / 2);
+
+    A_Explode(actor);                                           // First make normal explosion
+
+    // Now launch mushroom cloud
+    for (i = -n; i <= n; i += 8)
+        for (j = -n; j <= n; j += 8)
+        {
+            mobj_t target = *actor, *mo;
+
+            target.x += i << FRACBITS;                          // Aim in many directions from source
+            target.y += j << FRACBITS;
+            target.z += P_ApproxDistance(i, j) * misc1;         // Aim up fairly high
+            mo = P_SpawnMissile(actor, &target, MT_FATSHOT);    // Launch fireball
+            mo->momx = FixedMul(mo->momx, misc2);
+            mo->momy = FixedMul(mo->momy, misc2);               // Slow down a bit
+            mo->momz = FixedMul(mo->momz, misc2);
+            mo->flags &= ~MF_NOGRAVITY;                         // Make debris fall under gravity
+        }
+}
+
+//
+// killough 11/98
+//
+// The following were inspired by Len Pitre
+//
+// A small set of highly-sought-after code pointers
+//
+void A_Spawn(mobj_t *mo)
+{
+    if (mo->state->misc1)
+        P_SpawnMobj(mo->x, mo->y, (mo->state->misc2 << FRACBITS) + mo->z, mo->state->misc1 - 1);
+}
+
+void A_Turn(mobj_t *mo)
+{
+    mo->angle += (unsigned int)(((uint64_t)mo->state->misc1 << 32) / 360);
+}
+
+void A_Face(mobj_t *mo)
+{
+    mo->angle = (unsigned int)(((uint64_t)mo->state->misc1 << 32) / 360);
+}
+
+void A_Scratch(mobj_t *mo)
+{
+    mo->target && (A_FaceTarget(mo), P_CheckMeleeRange(mo)) ?
+        mo->state->misc2 ? S_StartSound(mo, mo->state->misc2) : (void)0,
+        P_DamageMobj(mo->target, mo, mo, mo->state->misc1) : (void)0;
+}
+
+void A_PlaySound(mobj_t *mo)
+{
+    S_StartSound(mo->state->misc2 ? NULL : mo, mo->state->misc1);
+}
+
+void A_RandomJump(mobj_t *mo)
+{
+    if (P_Random() < mo->state->misc2)
+        P_SetMobjState(mo, mo->state->misc1);
+}
+
+//
+// This allows linedef effects to be activated inside deh frames.
+//
+void A_LineEffect(mobj_t *mo)
+{
+    static line_t       junk;
+    player_t            player;
+    player_t            *oldplayer;
+
+    junk = *lines;
+    oldplayer = mo->player;
+    mo->player = &player;
+    player.health = 100;
+    junk.special = (short)mo->state->misc1;
+    if (!junk.special)
+        return;
+    junk.tag = (short)mo->state->misc2;
+    if (!P_UseSpecialLine(mo, &junk, 0))
+        P_CrossSpecialLine(&junk, 0, mo);
+    mo->state->misc1 = junk.special;
+    mo->player = oldplayer;
+}
