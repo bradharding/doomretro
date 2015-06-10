@@ -1099,7 +1099,7 @@ static void SetVideoMode(boolean output)
                 SDL_WINDOWPOS_UNDEFINED, screenwidth, screenheight,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
-                    C_Output("Switched to a resolution of %ix%i with a %s aspect ratio.",
+                C_Output("Switched to a resolution of %ix%i with a %s aspect ratio.",
                     displays[display - 1].w, displays[display - 1].h,
                     aspectratio(displays[display - 1].w, displays[display - 1].h));
         }

@@ -89,7 +89,6 @@
 
 #define CONSOLEDIVIDERWIDTH     (SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH)
 
-#define SPACEWIDTH              3
 #define DIVIDER                 "~~~"
 #define ITALICS                 '~'
 
@@ -108,6 +107,8 @@ patch_t         *lsquote;
 patch_t         *ldquote;
 patch_t         *degree;
 patch_t         *multiply;
+
+int             spacewidth;
 
 char            consoleinput[255] = "";
 int             consolestrings = 0;
@@ -142,10 +143,10 @@ boolean         alwaysrun;
 
 void G_ToggleAlwaysRun(void);
 
-char *upper =
+static const char *shiftxform =
 {
-    "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+,_>?)!@#$%^&*(:"
-    ":<+>?\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0{\\}^_`ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0 !\"#$%&\"()*+<_>?"
+    ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[!]\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
 };
 
 byte            *c_tempscreen;
@@ -368,6 +369,8 @@ void C_Init(void)
 
     caret = W_CacheLumpName("CARET", PU_STATIC);
 
+    spacewidth = consolefont[' ' - CONSOLEFONTSTART]->width;
+
     if (BTSXE1)
         consoleplayermessagecolor = 196;
     else if (BTSXE2)
@@ -569,7 +572,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
             if (letter == ITALICS)
                 italics = false;
             if (letter == '\t')
-                x = (x > tabs[++tab] ? x + SPACEWIDTH : tabs[tab]);
+                x = (x > tabs[++tab] ? x + spacewidth : tabs[tab]);
             else if (letter == '\xc2' && nextletter == '\xb0')
             {
                 patch = degree;
@@ -627,7 +630,7 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
         int     k = 0;
 
         if (letter == ' ')
-            x += SPACEWIDTH;
+            x += spacewidth;
         else
             patch = consolefont[letter - CONSOLEFONTSTART];
 
@@ -1232,9 +1235,9 @@ boolean C_Responder(event_t *ev)
                 else
                 {
                     if (modstate & KMOD_SHIFT)
-                        ch = upper[ch];
+                        ch = shiftxform[ch];
                     if (ch >= ' ' && ch < '~' && ch != '`'
-                        && C_TextWidth(consoleinput) + (ch == ' ' ? SPACEWIDTH :
+                        && C_TextWidth(consoleinput) + (ch == ' ' ? spacewidth :
                         consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
                         && !(modstate & KMOD_ALT))
                     {

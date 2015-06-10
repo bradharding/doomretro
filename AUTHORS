@@ -1,61 +1,38 @@
-==========================================================================
+========================================================================
 
-      DOZZZZZZZZZZD~   =DZZZZZZZZD?   ~DZZZZZZZZ8Z DDZZD:     IDZZD:
-      D+++++++++++~OD~DZ~++++++++~$D:DO~++++++++=+DD=++~8D  ~D7=++D:
-      D+++++++++++++~D~++++++++++++~D~++++++++++++~D+++++~DDO~++++D:
-      D+++?ZZZZZZ?++$D7++?ZZZZZZ?+++D+++?ZZZZZZI++?D$?++++~~=+++++D:
-      D==+ZZZZZZZ$?,+D=:?ZZZZZZZ$===D===$ZZZZZZZ?I:D+,I??+===+?==+D:
-      D===8     :D,++D++,D      D===D===8=     D,++D++:+ZZ+=+ZZ===D:
-      8===8     :8+++D===D      D===D===8=     8===D===7DZZZZ8D===8:
-      8===8     :8===8===8      8~~~D~~~8=     8===8~~~7ODDZ8=D===8:
-      8~~~8    +8,===8~~~,8,   8,?=~8~~+:87   8=~~~8~~~IZ  8  8~~~8:
-      8~~=8   87:===+8=~~~,OOZ8,~:I+8+$,~:I8$D:~~~~8=::IZ     8+~~8:
-      8~+I8 $8:~===+Z8$+~~~:~=:~~~+$8Z+~~~~:=:~~~+$8Z?:IZ     8=+~8:
-      87~~88+~~~~+7ZO8OZ7=::::::=7ZO8OZ7+::::::=IZZ8OZ$7Z     8+,78:
-      8:~~?:~~~=?ZZ8? 78ZZ+::::+ZZ8$ +8ZZ?~:::+$ZO8 ?8ZOZ     8++~8:
-      8~~~~~~~+$ZO8     8OZ7==IZO8,    8OZ$+~IZO8=    O8Z     8===8:
-      8:::::~?ZZ8O       O8ZZZZ8O       Z8ZZ$Z8O              8~~~8:
-      8::::+ZZOO           8OZ8           OOZ8                8~~~8:
-      8::~?ZZ8:             ?7   DDI       ,O                 8+::O:
-      8:+ZZO8                    8DI                          8Z+:O:
-      O$ZZO     :888888 D888888D 88888   D88888:I8888888      OOZZO:
-      OZO7      :8D    ,88    88 88?     88     88    $8Z      ,OZO:
-      OO        :88    ,88888888 88?     88     88    78Z        OO,
-                :88    ,OO       O8O     88     88O   88Z
-                :OO     ,OOOOOZ  ,OOOOOO OO      OOOOOO?
+                               DOOM RETRO
+         The classic, refined DOOM source port. For Windows PC.
 
-                                Doom Retro
-          The classic, refined Doom source port. For Windows PC.
-
-==========================================================================
+========================================================================
 
   Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
   Copyright (C) 2013-2015 Brad Harding.
 
-  Doom Retro is a fork of Chocolate Doom by Simon Howard. For a complete
-  list of credits, see the accompanying AUTHORS file.
+  DOOM RETRO is a fork of CHOCOLATE DOOM by Simon Howard.
+  For a complete list of credits, see the accompanying AUTHORS file.
 
-  This file is part of Doom Retro.
+  This file is part of DOOM RETRO.
 
-  Doom Retro is free software: you can redistribute it and/or modify it
+  DOOM RETRO is free software: you can redistribute it and/or modify it
   under the terms of the GNU General Public License as published by the
   Free Software Foundation, either version 3 of the License, or (at your
   option) any later version.
 
-  Doom Retro is distributed in the hope that it will be useful, but
+  DOOM RETRO is distributed in the hope that it will be useful, but
   WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
   General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with Doom Retro. If not, see <http://www.gnu.org/licenses/>.
-  Doom is a registered trademark of id Software LLC, a ZeniMax Media
+  along with DOOM RETRO. If not, see <http://www.gnu.org/licenses/>.
+
+  DOOM is a registered trademark of id Software LLC, a ZeniMax Media
   company, in the US and/or other countries and is used without
   permission. All other trademarks are the property of their respective
-  holders. Doom Retro is in no way affiliated with nor endorsed by
+  holders. DOOM RETRO is in no way affiliated with nor endorsed by
   id Software LLC.
 
-==========================================================================
+========================================================================
 
 
 Based On Works
