@@ -83,6 +83,16 @@ extern char             consolecmdparm[255];
 extern boolean          showmemory;
 #endif
 
+typedef struct
+{
+    char                *input;
+    int                 caretpos;
+    int                 selectstart;
+    int                 selectend;
+} undohistory_t;
+
+undohistory_t           *undohistory;
+
 void C_Print(stringtype_t type, char *string, ...);
 void C_Input(char *string, ...);
 void C_Output(char *string, ...);

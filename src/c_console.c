@@ -113,6 +113,8 @@ int             spacewidth;
 char            consoleinput[255] = "";
 int             consolestrings = 0;
 
+int             undolevels = 0;
+
 patch_t         *caret;
 int             caretpos = 0;
 static boolean  showcaret = true;
@@ -298,6 +300,16 @@ void C_PlayerMessage(char *string, ...)
         ++consolestrings;
     }
     outputhistory = -1;
+}
+
+static void C_AddToUndoHistory(void)
+{
+    undohistory = realloc(undohistory, (undolevels + 1) * sizeof(*undohistory));
+    undohistory[undolevels].input = strdup(consoleinput);
+    undohistory[undolevels].caretpos = caretpos;
+    undohistory[undolevels].selectstart = selectstart;
+    undohistory[undolevels].selectend = selectend;
+    ++undolevels;
 }
 
 void C_AddConsoleDivider(void)
@@ -806,9 +818,10 @@ void C_Drawer(void)
                 buffer, color);
 
             if (fps != prevfps)
+            {
                 blurred = false;
-
-            prevfps = fps;
+                prevfps = fps;
+            }
         }
 
 #if defined(WIN32)
@@ -859,6 +872,7 @@ boolean C_Responder(event_t *ev)
                 if (selectstart < selectend)
                 {
                     // delete selected text
+                    C_AddToUndoHistory();
                     for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
                     consoleinput[selectstart + i - selectend] = '\0';
@@ -869,6 +883,7 @@ boolean C_Responder(event_t *ev)
                 else if (caretpos > 0)
                 {
                     // delete character left of caret
+                    C_AddToUndoHistory();
                     for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
                     selectend = selectstart = --caretpos;
@@ -881,6 +896,7 @@ boolean C_Responder(event_t *ev)
                 if (selectstart < selectend)
                 {
                     // delete selected text
+                    C_AddToUndoHistory();
                     for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
                     consoleinput[selectstart + i - selectend] = '\0';
@@ -891,6 +907,7 @@ boolean C_Responder(event_t *ev)
                 else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
                     // delete character right of caret
+                    C_AddToUndoHistory();
                     for (i = caretpos; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
                     caretwait = I_GetTime() + CARETWAIT;
@@ -1210,6 +1227,7 @@ boolean C_Responder(event_t *ev)
                     // paste text from clipboard
                     else if (ch == 'v')
                     {
+                        C_AddToUndoHistory();
                         M_snprintf(consoleinput, sizeof(consoleinput), "%s%s%s",
                             M_SubString(consoleinput, 0, selectstart), SDL_GetClipboardText(),
                             M_SubString(consoleinput, selectend, strlen(consoleinput) - selectend));
@@ -1222,6 +1240,7 @@ boolean C_Responder(event_t *ev)
                     {
                         if (selectstart < selectend)
                         {
+                            C_AddToUndoHistory();
                             SDL_SetClipboardText(M_SubString(consoleinput, selectstart,
                                 selectend - selectstart));
                             for (i = selectend; (unsigned int)i < strlen(consoleinput); ++i)
@@ -1232,6 +1251,18 @@ boolean C_Responder(event_t *ev)
                             showcaret = true;
                         }
                     }
+
+                    // undo
+                    else if (ch == 'z')
+                        if (undolevels)
+                        {
+                            --undolevels;
+                            M_StringCopy(consoleinput, undohistory[undolevels].input,
+                                sizeof(consoleinput));
+                            caretpos = undohistory[undolevels].caretpos;
+                            selectstart = undohistory[undolevels].selectstart;
+                            selectend = undohistory[undolevels].selectend;
+                        }
                 }
                 else
                 {
@@ -1242,6 +1273,7 @@ boolean C_Responder(event_t *ev)
                         consolefont[ch - CONSOLEFONTSTART]->width) <= CONSOLEINPUTPIXELWIDTH
                         && !(modstate & KMOD_ALT))
                     {
+                        C_AddToUndoHistory();
                         if (selectstart < selectend)
                         {
                             // replace selected text with a character
