@@ -1687,7 +1687,31 @@ static void C_NoTarget(char *cmd, char *parm1, char *parm2)
     else
         player->cheats ^= CF_NOTARGET;
 
-    HU_PlayerMessage(((player->cheats & CF_NOTARGET) ? s_STSTR_NTON : s_STSTR_NTOFF), false);
+    if (player->cheats & CF_NOTARGET)
+    {
+        int     i;
+
+        for (i = 0; i < numsectors; ++i)
+        {
+            mobj_t   *mo = sectors[i].thinglist;
+
+            while (mo)
+            {
+                if (mo->target && mo->target->player)
+                    P_SetTarget(&mo->target, NULL);
+                if (mo->tracer && mo->target->tracer)
+                    P_SetTarget(&mo->tracer, NULL);
+                if (mo->lastenemy && mo->target->lastenemy)
+                    P_SetTarget(&mo->lastenemy, NULL);
+                mo = mo->snext;
+            }
+
+            P_SetTarget(&sectors[i].soundtarget, NULL);
+        }
+        HU_PlayerMessage(s_STSTR_NTON, false);
+    }
+    else
+        HU_PlayerMessage(s_STSTR_NTOFF, false);
 }
 
 static void C_PixelSize(char *cmd, char *parm1, char *parm2)
