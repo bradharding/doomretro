@@ -381,7 +381,7 @@ void C_Init(void)
 
     caret = W_CacheLumpName("CARET", PU_STATIC);
 
-    spacewidth = consolefont[' ' - CONSOLEFONTSTART]->width;
+    spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
 
     if (BTSXE1)
         consoleplayermessagecolor = 196;
@@ -767,7 +767,7 @@ void C_Drawer(void)
             else
                 V_DrawConsoleChar(x, consoleheight - 17, caret, consolecaretcolor,
                     NOBACKGROUNDCOLOR, false, 0);
-        x += caret->width;
+        x += SHORT(caret->width);
 
         // draw any selected text to right of caret
         if (selectend > caretpos)
