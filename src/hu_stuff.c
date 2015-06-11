@@ -349,7 +349,7 @@ static void HU_DrawHUD(void)
             godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
         else
             hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, invert);
-        health_x += patch->width + 8;
+        health_x += SHORT(patch->width) + 8;
     }
     DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, invert, hudnumfunc);
     if (!emptytallpercent)
@@ -387,7 +387,7 @@ static void HU_DrawHUD(void)
         if (patch)
         {
             hudfunc(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y, patch, invert);
-            ammo_x += patch->width + 8;
+            ammo_x += SHORT(patch->width) + 8;
         }
         DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, invert, hudnumfunc);
 
