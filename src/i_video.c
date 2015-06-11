@@ -768,15 +768,12 @@ static void I_ReadMouse(void)
 
     SDL_GetRelativeMouseState(&x, &y);
 
-    if (x || y)
-    {
-        ev.type = ev_mouse;
-        ev.data1 = mouse_button_state;
-        ev.data2 = AccelerateMouse(x);
-        ev.data3 = (novert ? 0 : -AccelerateMouse(y));
+    ev.type = ev_mouse;
+    ev.data1 = mouse_button_state;
+    ev.data2 = AccelerateMouse(x);
+    ev.data3 = (novert ? 0 : -AccelerateMouse(y));
 
-        D_PostEvent(&ev);
-    }
+    D_PostEvent(&ev);
 
     if (MouseShouldBeGrabbed())
         CenterMouse();
