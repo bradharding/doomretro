@@ -77,6 +77,7 @@ SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
 static SDL_Surface      *rgbbuffer = NULL;
 static SDL_Texture      *texture = NULL; 
+SDL_Palette             *sdlpalette;
 
 int                     display = DISPLAY_DEFAULT;
 int                     numdisplays;
@@ -862,7 +863,7 @@ void I_FinishUpdate(void)
     if (palette_to_set)
     {
 #if defined(SDL20)
-        SDL_SetPaletteColors(screenbuffer->format->palette, palette, 0, 256);
+        SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
 #else
         SDL_SetColors(screenbuffer, palette, 0, 256);
 #endif
@@ -1209,6 +1210,8 @@ static void SetVideoMode(boolean output)
     SDL_FillRect(rgbbuffer, NULL, 0);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT);
+    sdlpalette = SDL_AllocPalette(256);
+    SDL_SetSurfacePalette(screenbuffer, sdlpalette);
 
     SetupScreenRects();
 #else
@@ -1728,7 +1731,7 @@ void I_InitGraphics(void)
     I_SetPalette(doompal);
 
 #if defined(SDL20)
-    SDL_SetPaletteColors(screenbuffer->format->palette, palette, 0, 256);
+    SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
 #else
     SDL_SetColors(screenbuffer, palette, 0, 256);
 #endif
