@@ -1417,6 +1417,9 @@ static void saveg_read_scroll_t(scroll_t *str)
     // fixed_t vdy
     str->vdy = saveg_read32();
 
+    // int accel
+    str->accel = saveg_read32();
+
     // enum type
     str->type = saveg_read_enum();
 }
@@ -1443,6 +1446,9 @@ static void saveg_write_scroll_t(scroll_t *str)
 
     // fixed_t vdy
     saveg_write32(str->vdy);
+
+    // int accel
+    saveg_write32(str->accel);
 
     // enum type
     saveg_write_enum(str->type);
