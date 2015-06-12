@@ -562,13 +562,58 @@ static boolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
 {
     if (gamestate != GS_LEVEL)
         return false;
-    if (!strcasecmp(cmd, "iddt") && !automapactive)
-        return false;
-    if (!strcasecmp(cmd, "idclip") && gamemode != commercial)
-        return false;
-    if (!strcasecmp(cmd, "idspispopd") && gamemode == commercial)
-        return false;
-    return true;
+    else if (!strcasecmp(cmd, cheat_god.sequence))
+        return (gameskill != sk_nightmare);
+    else if (!strcasecmp(cmd, cheat_ammonokey.sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_ammo.sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_mus.sequence))
+        return (!nomusic && musicVolume);
+    else if (!strcasecmp(cmd, cheat_noclip.sequence))
+        return (gamemode != commercial && gameskill != sk_nightmare);
+    else if (!strcasecmp(cmd, cheat_commercial_noclip.sequence))
+        return (gamemode == commercial && gameskill != sk_nightmare);
+    else if (!strcasecmp(cmd, cheat_powerup[0].sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_powerup[1].sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_powerup[2].sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_powerup[3].sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_powerup[4].sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_powerup[5].sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_powerup[6].sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_choppers.sequence))
+        return (gameskill != sk_nightmare && players[0].health > 0);
+    else if (!strcasecmp(cmd, cheat_mypos.sequence))
+        return true;
+    else if (!strcasecmp(cmd, cheat_clev.sequence))
+    {
+        char   lump[6];
+        int    map;
+
+        if (gamemode == commercial)
+        {
+            map = (parm1[0] - '0') * 10 + parm1[1] - '0';
+            M_snprintf(lump, sizeof(lump), "MAP%c%c", parm1[0], parm1[1]);
+        }
+        else
+        {
+            map = parm1[1] - '0';
+            M_snprintf(lump, sizeof(lump), "E%cM%c", parm1[0], parm1[1]);
+        }
+
+        return (W_CheckNumForName(lump) >= 0 && (gamemission != pack_nerve || map <= 9)
+            && (!BTSX || W_CheckMultipleLumps(lump) > 1));
+    }
+    else if (!strcasecmp(cmd, cheat_amap.sequence))
+        return automapactive;
+    return false;
 }
 
 static boolean C_GameCondition(char *cmd, char *parm1, char *parm2)

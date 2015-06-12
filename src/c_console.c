@@ -948,7 +948,6 @@ boolean C_Responder(event_t *ev)
                                         && consolecmds[i].condition(cmd, consolecheatparm, ""))
                                     {
                                         validcmd = true;
-                                        C_Input(consoleinput);
                                         M_StringCopy(consolecheat, cmd, 255);
                                         break;
                                     }
@@ -992,11 +991,13 @@ boolean C_Responder(event_t *ev)
                             && consolecmds[i].condition(consoleinput, "", ""))
                         {
                             validcmd = true;
-                            C_Input(consoleinput);
                             if (consolecmds[i].type == CT_CHEAT)
                                 M_StringCopy(consolecheat, consoleinput, 255);
                             else
+                            {
+                                C_Input(consoleinput);
                                 consolecmds[i].function(consoleinput, "", "");
+                            }
                             break;
                         }
                         ++i;
