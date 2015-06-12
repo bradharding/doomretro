@@ -91,6 +91,7 @@ boolean         infight;
 
 mobj_t          *onmobj;
 
+extern boolean  animatedliquid;
 extern boolean  corpses_nudge;
 
 //
@@ -1126,8 +1127,9 @@ boolean P_ThingHeightClip(mobj_t *thing)
     thing->ceilingz = tmceilingz;
     thing->dropoffz = tmdropoffz;         // killough 11/98: remember dropoffs
 
-    // haleyjd 09/19/06: floatbobbers require special treatment here now
-    if (flags2 & MF2_FLOATBOB || ((flags2 & MF2_FEETARECLIPPED) && !thing->player))
+    if ((flags2 & MF2_FEETARECLIPPED) && animatedliquid && !thing->player)
+        thing->z = thing->floorz;
+    else if (flags2 & MF2_FLOATBOB)
     {
         if (thing->floorz > oldfloorz || !(thing->flags & MF_NOGRAVITY))
             thing->z = thing->z - oldfloorz + thing->floorz;
