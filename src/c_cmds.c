@@ -204,7 +204,7 @@ extern int      selectedsavegame;
 extern int      selectedskilllevel;
 extern boolean  shadows;
 #if defined(WIN32)
-extern boolean  showmemory;
+extern boolean  showmemoryusage;
 #endif
 extern boolean  smoketrails;
 extern int      snd_maxslicetime_ms;
@@ -438,9 +438,6 @@ consolecmd_t consolecmds[] =
     CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),
-#if defined(WIN32)
-    CVAR_BOOL(com_showmemoryusage, C_BoolCondition, C_Bool, showmemory, NONE, "Toggle showing the memory usage."),
-#endif
     CMD       (condump, C_NoCondition, C_ConDump, 1, "[~filename~.txt]", "Dump the console to a file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Display a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "End a game."),
@@ -522,6 +519,9 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Save the game to a file."),
     CVAR_STR  (savegamefolder, C_NoCondition, C_Str, savegamefolder, "The folder where savegames are saved."),
+#if defined(WIN32)
+    CVAR_BOOL (showmemoryusage, C_BoolCondition, C_Bool, showmemoryusage, NONE, "Toggle showing the memory usage."),
+#endif
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawn a monster or item."),
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggle applying fixes to sprite offsets."),

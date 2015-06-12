@@ -273,7 +273,7 @@ void D_Display(void)
             {
                 if (menuactive || menuactivestate || !viewactivestate || vid_showfps
 #if defined(WIN32)
-                    || showmemory
+                    || showmemoryusage
 #endif
                     || paused || pausedstate || message_on || consoleheight > CONSOLETOP)
                     borderdrawcount = 3;

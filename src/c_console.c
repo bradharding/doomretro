@@ -135,7 +135,7 @@ static int      outputhistory = -1;
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 #if defined(WIN32)
-boolean         showmemory = false;
+boolean         showmemoryusage = false;
 #endif
 
 extern boolean  translucency;
@@ -825,7 +825,7 @@ void C_Drawer(void)
         }
 
 #if defined(WIN32)
-        if (showmemory)
+        if (showmemoryusage)
         {
             HANDLE                  hProcess = GetCurrentProcess();
             PROCESS_MEMORY_COUNTERS pmc;

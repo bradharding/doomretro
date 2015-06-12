@@ -80,7 +80,7 @@ extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];
 
 #if defined(WIN32)
-extern boolean          showmemory;
+extern boolean          showmemoryusage;
 #endif
 
 typedef struct
