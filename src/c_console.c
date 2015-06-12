@@ -1006,7 +1006,7 @@ boolean C_Responder(event_t *ev)
                     {
                         // clear input
                         consoleinput[0] = '\0';
-                        caretpos = 0;
+                        caretpos = selectstart = selectend = 0;
                         caretwait = I_GetTime() + CARETWAIT;
                         showcaret = true;
                         undolevels = 0;
