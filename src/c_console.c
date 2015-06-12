@@ -814,7 +814,7 @@ void C_Drawer(void)
 
             M_snprintf(buffer, 16, "%i FPS", fps);
 
-            C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 2, CONSOLETEXTY,
+            C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
                 buffer, color);
 
             if (fps != prevfps)
@@ -836,7 +836,7 @@ void C_Drawer(void)
 
                 M_snprintf(buffer, 16, "%s KB", commify(pmc.WorkingSetSize / 1024));
 
-                C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 2,
+                C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1,
                     CONSOLETEXTY + (showfps && fps ? CONSOLELINEHEIGHT : 0), buffer,
                     consolememorycolor);
 
