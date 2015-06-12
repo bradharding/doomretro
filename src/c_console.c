@@ -806,7 +806,7 @@ void C_Drawer(void)
 
     if (!wipe)
     {
-        if (showfps && fps)
+        if (vid_showfps && fps)
         {
             static char     buffer[16];
             byte            color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
@@ -837,7 +837,7 @@ void C_Drawer(void)
                 M_snprintf(buffer, 16, "%s KB", commify(pmc.WorkingSetSize / 1024));
 
                 C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1,
-                    CONSOLETEXTY + (showfps && fps ? CONSOLELINEHEIGHT : 0), buffer,
+                    CONSOLETEXTY + (vid_showfps && fps ? CONSOLELINEHEIGHT : 0), buffer,
                     consolememorycolor);
 
                 blurred = false;

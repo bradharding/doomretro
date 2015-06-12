@@ -107,7 +107,7 @@ extern boolean  blurred;
 extern boolean  splashscreen;
 extern boolean  noinput;
 
-extern boolean  showfps;
+extern boolean  vid_showfps;
 extern boolean  wipe;
 
 #if defined(SDL20)

@@ -438,7 +438,6 @@ consolecmd_t consolecmds[] =
     CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Bind an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clear the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Display a list of console commands."),
-    CVAR_BOOL (com_showfps, C_BoolCondition, C_Bool, showfps, NONE, "Toggle showing the average frames per second."),
 #if defined(WIN32)
     CVAR_BOOL(com_showmemoryusage, C_BoolCondition, C_Bool, showmemory, NONE, "Toggle showing the memory usage."),
 #endif
@@ -547,6 +546,7 @@ consolecmd_t consolecmds[] =
 #if !defined(WIN32) || !defined(SDL20)
     CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
 #endif
+    CVAR_BOOL (vid_showfps, C_BoolCondition, C_Bool, vid_showfps, NONE, "Toggle showing the average frames per second."),
 #if defined(SDL20)
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggle vertical synchronization with display's refresh rate."),
 #endif

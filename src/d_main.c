@@ -271,7 +271,7 @@ void D_Display(void)
         {
             if (scaledviewwidth != SCREENWIDTH)
             {
-                if (menuactive || menuactivestate || !viewactivestate || showfps
+                if (menuactive || menuactivestate || !viewactivestate || vid_showfps
 #if defined(WIN32)
                     || showmemory
 #endif

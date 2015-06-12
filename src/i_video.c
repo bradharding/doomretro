@@ -199,7 +199,7 @@ SDL_Rect                rgbbuffer_rect;
 SDL_Rect                dest_rect = { 0, 0, 0, 0 };
 #endif
 
-boolean                 showfps = false;
+boolean                 vid_showfps = false;
 int                     fps = 0;
 
 // Mouse acceleration
@@ -888,7 +888,7 @@ void I_FinishUpdate(void)
     SDL_Flip(screen);
 #endif
 
-    if (showfps)
+    if (vid_showfps)
     {
         static int  frames = -1;
         static int  starttime = 0;
