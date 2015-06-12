@@ -812,7 +812,7 @@ void C_Drawer(void)
             byte            color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
             static int      prevfps = 0;
 
-            M_snprintf(buffer, 16, "%i FPS", fps);
+            M_snprintf(buffer, 16, "%i FPS", (capfps ? MIN(fps, TICRATE) : fps));
 
             C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
                 buffer, color);
