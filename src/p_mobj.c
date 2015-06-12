@@ -589,7 +589,8 @@ void P_MobjThinker(mobj_t *mobj)
         mobj->flags2 &= ~MF2_FEETARECLIPPED;
     flags2 = mobj->flags2;
 
-    if ((flags2 & MF2_FEETARECLIPPED) && !mobj->momz && animatedliquid)
+    if ((flags2 & MF2_FEETARECLIPPED) && !player && mobj->z <= sector->floorheight && !mobj->momz
+        && animatedliquid)
         mobj->z += animatedliquiddiffs[leveltime & 127];
     else if ((flags2 & MF2_FLOATBOB) && floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
