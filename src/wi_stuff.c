@@ -51,7 +51,7 @@
 #include "z_zone.h"
 
 // Ty 03/17/98: flag that new par times have been loaded in d_deh
-extern boolean deh_pars;  
+extern boolean  deh_pars;
 
 //
 // Data needed to add patches to full screen intermission pics.

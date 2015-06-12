@@ -2469,7 +2469,7 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
                 {
                     oldpar = cpars[level - 1];
                     if (devparm)
-                        C_Output("Changed par time for MAP%02d from %d to %d",
+                        C_Output("Changed par time for MAP%02d from %d to %d seconds",
                             level, oldpar, partime);
                     cpars[level - 1] = partime;
                     deh_pars = true;
@@ -2490,7 +2490,7 @@ void deh_procPars(DEHFILE *fpin, char *line) // extension
                 oldpar = pars[episode][level];
                 pars[episode][level] = partime;
                 if (devparm)
-                    C_Output("Changed par time for E%dM%d from %d to %d",
+                    C_Output("Changed par time for E%dM%d from %d to %d seconds",
                         episode, level, oldpar, partime);
                 deh_pars = true;
             }
