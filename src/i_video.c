@@ -192,10 +192,7 @@ float                   gammalevel = GAMMALEVEL_DEFAULT;
 
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
 
-#if defined(SDL20)
-SDL_Rect                screenbuffer_rect;
-SDL_Rect                rgbbuffer_rect;
-#else
+#if !defined(SDL20)
 SDL_Rect                dest_rect = { 0, 0, 0, 0 };
 #endif
 
@@ -872,7 +869,7 @@ void I_FinishUpdate(void)
     }
 
 #if defined(SDL20)
-    SDL_LowerBlit(screenbuffer, &screenbuffer_rect, rgbbuffer, &rgbbuffer_rect);
+    SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
@@ -994,8 +991,6 @@ static void SetupScreenRects(void)
 #if defined(SDL20)
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
-    screenbuffer_rect = screenbuffer->clip_rect;
-    rgbbuffer_rect = rgbbuffer->clip_rect;
 #else
     int w = screenbuffer->w;
     int h = screenbuffer->h;
