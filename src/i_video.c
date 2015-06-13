@@ -816,11 +816,18 @@ static void UpdateGrab(void)
 }
 
 #if defined(SDL20)
-static void ClearScreen(void)
+SDL_Rect pillarboxes[2] =
 {
-    SDL_RenderClear(renderer);
+    { 0, 0, 54, 400 },
+    { SCREENWIDTH - 54, 0, 54, 400 }
+};
+
+static void ClearPillarboxes(void)
+{
+    SDL_RenderFillRects(renderer, pillarboxes, 2);
     SDL_RenderPresent(renderer);
-    SDL_RenderClear(renderer);
+
+    SDL_RenderFillRects(renderer, pillarboxes, 2);
     SDL_RenderPresent(renderer);
 }
 #else
@@ -1319,7 +1326,7 @@ void ToggleWidescreen(boolean toggle)
     {
         widescreen = false;
 
-        ClearScreen();
+        ClearPillarboxes();
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
