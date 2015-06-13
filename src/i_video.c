@@ -815,7 +815,15 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-#if !defined(SDL20)
+#if defined(SDL20)
+static void ClearScreen(void)
+{
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+}
+#else
 static __forceinline void StretchBlit(void)
 {
     fixed_t     i = 0;
@@ -871,7 +879,6 @@ void I_FinishUpdate(void)
 #if defined(SDL20)
     SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
-    SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 #else
@@ -1311,6 +1318,8 @@ void ToggleWidescreen(boolean toggle)
     else
     {
         widescreen = false;
+
+        ClearScreen();
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
