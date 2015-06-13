@@ -262,7 +262,7 @@ typedef enum
     MF2_NOFOOTCLIP                = 0x00040000,
 
     // Object won't bob in liquid
-    MF2_NOFLOATBOB                = 0x00080000,
+    MF2_NOLIQUIDBOB               = 0x00080000,
 
     // Object's feet are now being clipped
     // (when applied to object's shadow, shadow isn't drawn)

@@ -898,7 +898,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
             AM_Stop();          // don't die in auto map, switch view prior to dying
     }
     else
-        target->flags2 &= ~MF2_NOFLOATBOB;
+        target->flags2 &= ~MF2_NOLIQUIDBOB;
 
     if (target->health < -target->info->spawnhealth && target->info->xdeathstate)
         P_SetMobjState(target, target->info->xdeathstate);
