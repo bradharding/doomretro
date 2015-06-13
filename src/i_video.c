@@ -583,19 +583,22 @@ void I_GetEvent(void)
 
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
 
-                if (altdown && event.data1 == KEY_TAB)
-                    event.data1 = event.data2 = 0;
-
-                if (!isdigit(event.data2))
-                    idclev = idmus = false;
-
-                if (idbehold && keys[event.data2])
+                if (event.data1)
                 {
-                    HU_clearMessages();
-                    idbehold = false;
-                }
+                    if (altdown && event.data1 == KEY_TAB)
+                        event.data1 = event.data2 = 0;
 
-                D_PostEvent(&event);
+                    if (!isdigit(event.data2))
+                        idclev = idmus = false;
+
+                    if (idbehold && keys[event.data2])
+                    {
+                        HU_clearMessages();
+                        idbehold = false;
+                    }
+
+                    D_PostEvent(&event);
+                }
                 break;
 
             case SDL_KEYUP:
@@ -610,7 +613,8 @@ void I_GetEvent(void)
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
 
-                D_PostEvent(&event);
+                if (event.data1)
+                    D_PostEvent(&event);
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
