@@ -358,6 +358,7 @@ static void C_MaxBloodSplats(char *, char *, char *);
 static void C_NoClip(char *, char *, char *);
 static void C_NoTarget(char *, char *, char *);
 static void C_PixelSize(char *, char *, char *);
+static void C_PlayerStats(char *, char *, char *);
 static void C_Quit(char *, char *, char *);
 static void C_Resurrect(char *, char *, char *);
 static void C_Save(char *, char *, char *);
@@ -371,10 +372,6 @@ static void C_Spawn(char *, char *, char *);
 static void C_Str(char *, char *, char *);
 static void C_ThingList(char *, char *, char *);
 static void C_Time(char *, char *, char *);
-static void C_TotalItems(char *, char *, char *);
-static void C_TotalKills(char *, char *, char *);
-static void C_TotalMapped(char *, char *, char *);
-static void C_TotalSecrets(char *, char *, char *);
 static void C_UnBind(char *, char *, char *);
 static void C_Volume(char *, char *, char *);
 #if defined(SDL20)
@@ -486,6 +483,7 @@ consolecmd_t consolecmds[] =
     CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggle no clipping mode."),
     CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggle no target mode."),
     CVAR_STR  (playername, C_PlayerNameCondition, C_Str, playername, "The name of the player used in messages."),
+    CMD       (playerstats, C_GameCondition, C_PlayerStats, 0, "", "Show the player's stats."),
     CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN, "Toggle always run."),
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON, "Toggle the centering of the player's weapon when firing."),
     CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, 0, PLAYERBOB, "The amount the player bobs when walking."),
@@ -528,10 +526,6 @@ consolecmd_t consolecmds[] =
     CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
     CMD       (thinglist, C_GameCondition, C_ThingList, 0, "", "Display a list of things in the current map."),
     CVAR_INT  (totalbloodsplats, C_IntCondition, C_Int, CF_READONLY, totalbloodsplats, 0, NONE, "The total number of blood splats in the current map."),
-    CMD       (totalitems, C_GameCondition, C_TotalItems, 0, "", "Show the number of items in the current map."),
-    CMD       (totalkills, C_GameCondition, C_TotalKills, 0, "", "Show the number of monsters to kill in the current map."),
-    CMD       (totalmapped, C_GameCondition, C_TotalMapped, 0, "", "Show the amount of the current map that has been mapped."),
-    CMD       (totalsecrets, C_GameCondition, C_TotalSecrets, 0, "", "Show the number of secrets in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbind the action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capping of the framerate at 35 FPS."),
 #if defined(SDL20)
@@ -2067,54 +2061,39 @@ static void C_Time(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static void C_TotalItems(char *cmd, char *parm1, char *parm2)
+static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
 {
-    if (!totalitems)
-        C_Output("0 of 0 (0%%) items picked up.");
-    else
-        C_Output("%s of %s (%i%%) item%s picked up.", commify(players[0].itemcount),
-            commify(totalitems), players[0].itemcount * 100 / totalitems,
-            (totalitems == 1 ? "" : "s"));
-}
+    int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
 
-static void C_TotalKills(char *cmd, char *parm1, char *parm2)
-{
-    if (!totalkills)
-        C_Output("0 of 0 (0%%) monsters killed.");
+    if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
+        C_TabbedOutput(tabs, "Amount of map revealed\t100%%");
     else
-        C_Output("%s of %s (%i%%) monster%s killed.", commify(players[0].killcount),
-            commify(totalkills), players[0].killcount * 100 / totalkills,
-            (totalkills == 1 ? "" : "s"));
-}
-
-static void C_TotalMapped(char *cmd, char *parm1, char *parm2)
-{
-    if (gamestate == GS_LEVEL)
     {
-        if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
-            C_Output("100%% mapped.");
-        else
-        {
-            int i = 0;
+        int i = 0;
 
-            totalmapped = 0;
-            while (i < numlines)
-                totalmapped += !!(lines[i++].flags & ML_MAPPED);
-            C_Output("%i%% mapped.", totalmapped * 100 / numlines);
-        }
+        totalmapped = 0;
+        while (i < numlines)
+            totalmapped += !!(lines[i++].flags & ML_MAPPED);
+        C_TabbedOutput(tabs, "Amount of map revealed\t%i%%", totalmapped * 100 / numlines);
     }
-    else
-        C_Output("0%% mapped.");
-}
 
-static void C_TotalSecrets(char *cmd, char *parm1, char *parm2)
-{
-    if (!totalsecret)
-        C_Output("0 of 0 (0%%) secrets revealed.");
+    if (!totalkills)
+        C_TabbedOutput(tabs, "Monsters killed\t0 of 0 (0%%)");
     else
-        C_Output("%s of %s (%i%%) secret%s revealed.", commify(players[0].secretcount),
-            commify(totalsecret), players[0].secretcount * 100 / totalsecret,
-            (totalsecret == 1 ? "" : "s"));
+        C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)", commify(players[0].killcount),
+            commify(totalkills), players[0].killcount * 100 / totalkills);
+
+    if (!totalitems)
+        C_TabbedOutput(tabs, "Items picked up\t0 of 0 (0%%)");
+    else
+        C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)", commify(players[0].itemcount),
+            commify(totalitems), players[0].itemcount * 100 / totalitems);
+
+    if (!totalsecret)
+        C_TabbedOutput(tabs, "Secrets revealed\t0 of 0 (0%%)");
+    else
+        C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)", commify(players[0].secretcount),
+            commify(totalsecret), players[0].secretcount * 100 / totalsecret);
 }
 
 static void C_UnBind(char *cmd, char *parm1, char *parm2)
