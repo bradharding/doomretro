@@ -396,7 +396,7 @@ boolean waspaused = false;
 
 boolean noinput = true;
 
-void I_GetEvent(void)
+static void I_GetEvent(void)
 {
     event_t     event;
     SDL_Event   SDLEvent;
@@ -608,7 +608,7 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-SDL_Rect pillarboxes[2] =
+static const SDL_Rect   pillarboxes[2] =
 {
     {                            0, 0, PILLARBOXWIDTH, SCREENHEIGHT },
     { SCREENWIDTH - PILLARBOXWIDTH, 0, PILLARBOXWIDTH, SCREENHEIGHT }
@@ -620,6 +620,15 @@ static void ClearPillarboxes(void)
     SDL_RenderPresent(renderer);
 
     SDL_RenderFillRects(renderer, pillarboxes, 2);
+    SDL_RenderPresent(renderer);
+}
+
+static void ClearWindow(void)
+{
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+
+    SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 }
 
@@ -941,6 +950,9 @@ void ToggleWidescreen(boolean toggle)
             R_SetViewSize(screensize);
         }
 
+        if (!fullscreen)
+            ClearWindow();
+
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
         src_rect.h = SCREENHEIGHT - SBARHEIGHT - !!strcasecmp(scalefilter, "nearest");
     }
@@ -948,7 +960,10 @@ void ToggleWidescreen(boolean toggle)
     {
         widescreen = false;
 
-        ClearPillarboxes();
+        if (fullscreen)
+            ClearPillarboxes();
+        else
+            ClearWindow();
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
