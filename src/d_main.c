@@ -127,10 +127,6 @@ int                     startuptimer;
 
 boolean                 realframe;
 
-#if defined(SDL20)
-extern SDL_Window       *sdl_window;
-#endif
-
 void D_CheckNetGame(void);
 
 //
@@ -649,7 +645,6 @@ static boolean D_IsUnsupportedPWAD(char *filename)
 
 static void D_FirstUse(void)
 {
-#if defined(SDL20)
     char *msg = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with all "
         "DOOM source ports, no actual map data is included\nwith " PACKAGE_NAME ".\n\nIn the "
         "dialog box that follows, please navigate to where an official \xe2\x80\x9cIWAD file"
@@ -696,44 +691,6 @@ static void D_FirstUse(void)
         else if (buttons[buttonid].buttonid == 1)
             I_Quit(false);
     }
-
-#elif defined(WIN32)
-    LPCWSTR msg = L"Thank you for downloading " PACKAGE_NAME_W L"!\n\n"
-        L"Please note that, as with all DOOM source ports, no actual map data is "
-        L"distributed with " PACKAGE_NAME_W L".\n\n"
-        L"In the dialog box that follows, please navigate to where an official "
-        L"\u201cIWAD file\u201d that " PACKAGE_NAME_W L" requires (such as DOOM.WAD or "
-        L"DOOM2.WAD) has been installed.\n\n"
-        L"Additional \u201cPWAD files\u201d may then be selected by clicking or "
-        L"CTRL-clicking on them. Go to the DOOM RETRO Wiki for more information.";
-
-    if (MessageBoxW(NULL, msg, PACKAGE_NAME_W, MB_ICONINFORMATION | MB_OKCANCEL) == IDCANCEL)
-        I_Quit(false);
-
-#elif defined(__MACOSX__)
-    NSMutableString     *msg = [[NSMutableString alloc]init];
-
-    [msg appendString:@"Thank you for downloading "];
-    [msg appendString:@PACKAGE_NAME];
-    [msg appendString:@"!\n\n"];
-    [msg appendString:@"Please note that, as with all DOOM source ports, no actual map data is "];
-    [msg appendString:@"distributed with "];
-    [msg appendString:@PACKAGE_NAME];
-    [msg appendString:@"!\n\n"];
-    [msg appendString:@"In the dialog box that follows, please navigate to where an official "];
-    [msg appendString:@"\"IWAD file\" that "];
-    [msg appendString:@PACKAGE_NAME];
-    [msg appendString:@" requires (such as DOOM.WAD or "];
-    [msg appendString:@"DOOM2.WAD) has been installed.\n\n"];
-    [msg appendString:@"Additional \"PWAD files\" may then be selected by clicking or "];
-    [msg appendString:@"CMD-clicking on them. Go to the DOOM RETRO Wiki for more information."];
-
-    NSAlert     *alert = [[NSAlert alloc] init];
-
-    [alert setMessageText:msg];
-    [alert addButtonWithTitle:@"OK"];
-    [alert runModal];
-#endif
 }
 
 #if defined(WIN32) || defined(__MACOSX__)

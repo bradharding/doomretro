@@ -859,12 +859,7 @@ boolean C_Responder(event_t *ev)
         int             key = ev->data1;
         char            ch = (char)ev->data2;
         int             i;
-
-#if defined(SDL20)
         SDL_Keymod      modstate = SDL_GetModState();
-#else
-        SDLMod          modstate = SDL_GetModState();
-#endif
 
         switch (key)
         {
@@ -1306,7 +1301,6 @@ boolean C_Responder(event_t *ev)
     }
     else if (ev->type == ev_keyup)
         return false;
-#if defined(SDL20)
     else if (ev->type == ev_mousewheel)
     {
         // scroll output up
@@ -1328,29 +1322,6 @@ boolean C_Responder(event_t *ev)
             }
         }
     }
-#else
-    else if (ev->type == ev_mouse)
-    {
-        // scroll output up
-        if (ev->data1 == MOUSE_WHEELUP)
-        {
-            if (consolestrings > 10)
-                outputhistory = (outputhistory == -1 ? consolestrings - 11 :
-                    MAX(0, outputhistory - 1));
-        }
-
-        // scroll output down
-        else if (ev->data1 == MOUSE_WHEELDOWN)
-        {
-            if (outputhistory != -1)
-            {
-                ++outputhistory;
-                if (outputhistory + 10 == consolestrings)
-                    outputhistory = -1;
-            }
-        }
-    }
-#endif
     return true;
 }
 
@@ -1398,21 +1369,9 @@ void C_PrintCompileDate(void)
 
 void C_PrintSDLVersions(void)
 {
-    C_Output("Using version %i.%i.%i of %s.",
-        SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL,
-#if defined(SDL20)
-        "SDL2.DLL"
-#else
-        "SDL.DLL"
-#endif
-        );
+    C_Output("Using version %i.%i.%i of SDL2.DLL.",
+        SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
-    C_Output("Using version %i.%i.%i of %s.",
-        SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL,
-#if defined(SDL20)
-        "SDL2_MIXER.DLL"
-#else
-        "SDL_MIXER.DLL"
-#endif
-        );
+    C_Output("Using version %i.%i.%i of SDL2_MIXER.DLL.",
+        SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
 }

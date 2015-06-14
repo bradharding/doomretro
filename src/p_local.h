@@ -77,13 +77,9 @@
 #define MOUSE_LEFTBUTTON        1
 #define MOUSE_RIGHTBUTTON       2
 #define MOUSE_MIDDLEBUTTON      4
-#if defined(SDL20)
+
 #define MOUSE_WHEELUP           8
 #define MOUSE_WHEELDOWN         9
-#else
-#define MOUSE_WHEELUP           8
-#define MOUSE_WHEELDOWN         16
-#endif
 
 #define NEEDEDCARDFLASH         8
 

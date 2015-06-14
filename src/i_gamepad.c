@@ -140,21 +140,11 @@ void I_InitGamepad(void)
                     FreeLibrary(pXInputDLL);
             }
             else
-                C_Output("DirectInput gamepad \"%s\" detected.",
-#if defined(SDL20)
-                    SDL_JoystickName(gamepad));
-#else
-                    SDL_JoystickName(i));
-#endif
+                C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 
             free(XInputDLL);
 #else
-            C_Output("DirectInput gamepad \"%s\" detected.",
-#if defined(SDL20)
-                SDL_JoystickName(gamepad));
-#else
-                SDL_JoystickName(i));
-#endif
+            C_Output("DirectInput gamepad \"%s\" detected.", SDL_JoystickName(gamepad));
 #endif
 
             SDL_JoystickEventState(SDL_ENABLE);

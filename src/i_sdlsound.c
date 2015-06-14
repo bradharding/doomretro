@@ -428,7 +428,6 @@ static boolean I_SDL_InitSound(void)
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
         return false;
 
-#if defined(SDL20)
     {
         const SDL_version       *linked = Mix_Linked_Version();
 
@@ -442,7 +441,6 @@ static boolean I_SDL_InitSound(void)
                 "v%d.%d.%d, not v%d.%d.%d.", linked->major, linked->minor, linked->patch,
                 MIX_MAJOR_VERSION, MIX_MINOR_VERSION, MIX_PATCHLEVEL);
     }
-#endif
 
     if (Mix_OpenAudio(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize()) < 0)
         return false;

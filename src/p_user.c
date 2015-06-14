@@ -218,12 +218,7 @@ void P_DeathThink(player_t *player)
     static boolean      facingkiller = false;
     mobj_t              *mo = player->mo;
     mobj_t              *attacker = player->attacker;
-
-#if defined(SDL20)
     const Uint8         *keystate = SDL_GetKeyboardState(NULL);
-#else
-    Uint8               *keystate = SDL_GetKeyState(NULL);
-#endif
 
     weaponvibrationtics = 1;
     idlemotorspeed = 0;
@@ -273,11 +268,7 @@ void P_DeathThink(player_t *player)
 
     if (((player->cmd.buttons & BT_USE)
         || ((player->cmd.buttons & BT_ATTACK) && !player->damagecount && count > TICRATE * 2)
-#if defined(SDL20)
         || keystate[SDL_SCANCODE_RETURN] || keystate[SDL_SCANCODE_KP_ENTER]))
-#else
-        || keystate[SDLK_RETURN] || keystate[SDLK_KP_ENTER]))
-#endif
     {
         count = 0;
         damagevibrationtics = 1;

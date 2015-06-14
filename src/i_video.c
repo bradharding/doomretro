@@ -66,13 +66,8 @@
 // Window position:
 char                    *windowposition = WINDOWPOSITION_DEFAULT;
 
-#if !defined(SDL20)
-SDL_Surface             *screen = NULL;
-#endif
-
 SDL_Surface             *screenbuffer = NULL;
 
-#if defined(SDL20)
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
 static SDL_Surface      *rgbbuffer = NULL;
@@ -85,7 +80,6 @@ SDL_Rect                *displays;
 char                    *scaledriver = SCALEDRIVER_DEFAULT;
 char                    *scalefilter = SCALEFILTER_DEFAULT;
 boolean                 vsync = VSYNC_DEFAULT;
-#endif
 
 // palette
 SDL_Color               palette[256];
@@ -108,10 +102,8 @@ int                     windowwidth;
 int                     windowheight;
 char                    *windowsize = WINDOWSIZE_DEFAULT;
 
-#if defined(SDL20)
 int                     windowx = 0;
 int                     windowy = 0;
-#endif
 
 int                     displaywidth;
 int                     displayheight;
@@ -123,10 +115,6 @@ boolean                 fullscreen = FULLSCREEN_DEFAULT;
 
 boolean                 widescreen = WIDESCREEN_DEFAULT;
 boolean                 returntowidescreen = false;
-
-#if !defined(SDL20)
-boolean                 widescreenresize = false;
-#endif
 
 boolean                 hud = HUD_DEFAULT;
 
@@ -141,33 +129,11 @@ boolean                 window_focused;
 // Empty mouse cursor
 static SDL_Cursor       *cursors[2];
 
-#if !defined(SDL20)
-// Window resize state.
-static boolean          need_resize = false;
-static unsigned int     resize_h;
-#endif
-
 int                     desktopwidth;
 int                     desktopheight;
 
 char                    *videodriver = VIDEODRIVER_DEFAULT;
 char                    envstring[255];
-
-#if !defined(SDL20)
-static int              width;
-static int              height;
-static int              stepx;
-static int              stepy;
-static int              startx;
-static int              starty;
-
-static int              blitheight = SCREENHEIGHT << FRACBITS;
-
-static int              pitch;
-byte                    *pixels;
-
-byte                    *rows[SCREENHEIGHT];
-#endif
 
 boolean                 keys[UCHAR_MAX];
 
@@ -191,10 +157,6 @@ int                     gammaindex;
 float                   gammalevel = GAMMALEVEL_DEFAULT;
 
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
-
-#if !defined(SDL20)
-SDL_Rect                dest_rect = { 0, 0, 0, 0 };
-#endif
 
 boolean                 vid_showfps = false;
 int                     fps = 0;
@@ -241,7 +203,6 @@ boolean MouseShouldBeGrabbed(void)
 // and we dont move the mouse around if we aren't focused either.
 static void UpdateFocus(void)
 {
-#if defined(SDL20)
     Uint32              state = SDL_GetWindowFlags(window);
 
     // Should the screen be grabbed?
@@ -250,16 +211,6 @@ static void UpdateFocus(void)
     // We should have input (keyboard) focus and be visible
     // (not minimized)
     window_focused = ((state & SDL_WINDOW_INPUT_FOCUS) && screenvisible);
-#else
-    Uint8               state = SDL_GetAppState();
-
-    // Should the screen be grabbed?
-    screenvisible = (state & SDL_APPACTIVE);
-
-    // We should have input (keyboard) focus and be visible
-    // (not minimized)
-    window_focused = ((state & SDL_APPINPUTFOCUS) && screenvisible);
-#endif
 
     if (!window_focused && !menuactive && gamestate == GS_LEVEL && !paused && !consoleactive)
     {
@@ -283,16 +234,11 @@ static void SetShowCursor(boolean show)
 #endif
 
     // When the cursor is hidden, grab the input.
-#if defined(SDL20)
     SDL_SetRelativeMouseMode(!show);
-#else
-    SDL_WM_GrabInput(!show);
-#endif
 }
 
 int translatekey[] =
 {
-#if defined(SDL20)
     0, 0, 0, 0, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
     'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1',
     '2', '3', '4', '5', '6', '7', '8', '9', '0', KEY_ENTER, KEY_ESCAPE,
@@ -321,37 +267,12 @@ int translatekey[] =
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-#else
-    0, 0, 0, 0, 0, 0, 0, 0, KEY_BACKSPACE, KEY_TAB, 0, 0, 0, KEY_ENTER, 0, 0,
-    0, 0, 0, KEY_PAUSE, 0, 0, 0, 0, 0, 0, 0, KEY_ESCAPE, 0, 0, 0, 0, ' ', '!',
-    '\"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', KEY_MINUS, '.',
-    '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '<',
-    KEY_EQUALS, '>', '?', '@', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-    'y', 'z', '[', '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
-    'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-    'w', 'x', 'y', 'z', 0, 0, 0, 0, KEY_DEL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, KEYP_0, KEYP_1, KEYP_2,
-    KEYP_3, KEYP_4, KEYP_5, KEYP_6, KEYP_7, KEYP_8, KEYP_9, KEYP_PERIOD,
-    KEYP_DIVIDE, KEYP_MULTIPLY, KEYP_MINUS, KEYP_PLUS, KEYP_ENTER, KEYP_EQUALS,
-    KEY_UPARROW, KEY_DOWNARROW, KEY_RIGHTARROW, KEY_LEFTARROW, KEY_INS,
-    KEY_HOME, KEY_END, KEY_PGUP, KEY_PGDN, KEY_F1, KEY_F2, KEY_F3, KEY_F4,
-    KEY_F5, KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10, KEY_F11, KEY_F12, 0, 0, 0,
-    0, 0, 0, KEY_NUMLOCK, KEY_CAPSLOCK, KEY_SCRLCK, KEY_RSHIFT, KEY_RSHIFT,
-    KEY_RCTRL, KEY_RCTRL, KEY_RALT, KEY_RALT, KEY_RALT, KEY_RALT, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0
-#endif
 };
 
 int TranslateKey2(int key)
 {
     switch (key)
     {
-#if defined(SDL20)
         case KEY_LEFTARROW:    return SDL_SCANCODE_LEFT;
         case KEY_RIGHTARROW:   return SDL_SCANCODE_RIGHT;
         case KEY_DOWNARROW:    return SDL_SCANCODE_DOWN;
@@ -392,83 +313,16 @@ int TranslateKey2(int key)
         case KEYP_DIVIDE:      return SDL_SCANCODE_KP_DIVIDE;
         case KEY_INS:          return SDL_SCANCODE_INSERT;
         case KEY_NUMLOCK:      return SDL_SCANCODE_NUMLOCKCLEAR;
-#else
-        case KEY_LEFTARROW:    return SDLK_LEFT;
-        case KEY_RIGHTARROW:   return SDLK_RIGHT;
-        case KEY_DOWNARROW:    return SDLK_DOWN;
-        case KEY_UPARROW:      return SDLK_UP;
-        case KEY_ESCAPE:       return SDLK_ESCAPE;
-        case KEY_ENTER:        return SDLK_RETURN;
-        case KEY_TAB:          return SDLK_TAB;
-        case KEY_F1:           return SDLK_F1;
-        case KEY_F2:           return SDLK_F2;
-        case KEY_F3:           return SDLK_F3;
-        case KEY_F4:           return SDLK_F4;
-        case KEY_F5:           return SDLK_F5;
-        case KEY_F6:           return SDLK_F6;
-        case KEY_F7:           return SDLK_F7;
-        case KEY_F8:           return SDLK_F8;
-        case KEY_F9:           return SDLK_F9;
-        case KEY_F10:          return SDLK_F10;
-        case KEY_F11:          return SDLK_F11;
-        case KEY_F12:          return SDLK_F12;
-        case KEY_BACKSPACE:    return SDLK_BACKSPACE;
-        case KEY_DEL:          return SDLK_DELETE;
-        case KEY_PAUSE:        return SDLK_PAUSE;
-        case KEY_EQUALS:       return SDLK_EQUALS;
-        case KEY_MINUS:        return SDLK_MINUS;
-        case KEY_RSHIFT:       return SDLK_RSHIFT;
-        case KEY_RCTRL:        return SDLK_RCTRL;
-        case KEY_RALT:         return SDLK_RALT;
-        case KEY_CAPSLOCK:     return SDLK_CAPSLOCK;
-        case KEY_SCRLCK:       return SDLK_SCROLLOCK;
-        case KEYP_0:           return SDLK_KP0;
-        case KEYP_1:           return SDLK_KP1;
-        case KEYP_3:           return SDLK_KP3;
-        case KEYP_5:           return SDLK_KP5;
-        case KEYP_7:           return SDLK_KP7;
-        case KEYP_9:           return SDLK_KP9;
-        case KEYP_PERIOD:      return SDLK_KP_PERIOD;
-        case KEYP_MULTIPLY:    return SDLK_KP_MULTIPLY;
-        case KEYP_DIVIDE:      return SDLK_KP_DIVIDE;
-        case KEY_INS:          return SDLK_INSERT;
-        case KEY_NUMLOCK:      return SDLK_NUMLOCK;
-#endif
         default:               return key;
     }
 }
 
 boolean keystate(int key)
 {
-#if defined(SDL20)
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-#else
-    Uint8       *keystate = SDL_GetKeyState(NULL);
-#endif
 
     return keystate[TranslateKey2(key)];
 }
-
-#if !defined(SDL20)
-void I_SaveWindowPosition(void)
-{
-#if defined(WIN32)
-    SDL_SysWMinfo       info;
-
-    SDL_VERSION(&info.version);
-
-    if (SDL_GetWMInfo(&info))
-    {
-        HWND    hwnd = info.window;
-        RECT    r;
-
-        GetWindowRect(hwnd, &r);
-        sprintf(windowposition, "%i,%i", r.left + 8, r.top + 30);
-        M_SaveDefaults();
-    }
-#endif
-}
-#endif
 
 void RepositionWindow(int amount)
 {
@@ -477,15 +331,9 @@ void RepositionWindow(int amount)
 
     SDL_VERSION(&info.version);
 
-#if defined(SDL20)
     if (SDL_GetWindowWMInfo(window, &info))
     {
         HWND    hwnd = info.info.win.window;
-#else
-    if (SDL_GetWMInfo(&info))
-    {
-        HWND    hwnd = info.window;
-#endif
         RECT    r;
 
         GetWindowRect(hwnd, &r);
@@ -497,13 +345,10 @@ void RepositionWindow(int amount)
 static void FreeSurfaces(void)
 {
     SDL_FreeSurface(screenbuffer);
-
-#if defined(SDL20)
     SDL_FreeSurface(rgbbuffer);
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-#endif
 }
 
 void I_ShutdownGraphics(void)
@@ -539,11 +384,7 @@ static int AccelerateMouse(int val)
 static void CenterMouse(void)
 {
     // Warp to the screen center
-#if defined(SDL20)
     SDL_WarpMouseInWindow(window, displaycenterx, displaycentery);
-#else
-    SDL_WarpMouse(displaycenterx, displaycentery);
-#endif
 
     // Clear any relative movement caused by warping
     SDL_PumpEvents();
@@ -571,15 +412,10 @@ void I_GetEvent(void)
 
                 event.type = ev_keydown;
 
-#if defined(SDL20)
                 event.data1 = translatekey[Event->key.keysym.scancode];
                 event.data2 = Event->key.keysym.sym;
                 if (event.data2 < SDLK_SPACE || event.data2 > SDLK_z)
                     event.data2 = 0;
-#else
-                event.data1 = translatekey[Event->key.keysym.sym];
-                event.data2 = tolower(Event->key.keysym.unicode);
-#endif
 
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
 
@@ -604,11 +440,7 @@ void I_GetEvent(void)
             case SDL_KEYUP:
                 event.type = ev_keyup;
 
-#if defined(SDL20)
                 event.data1 = translatekey[Event->key.keysym.scancode];
-#else
-                event.data1 = translatekey[Event->key.keysym.sym];
-#endif
 
                 altdown = (Event->key.keysym.mod & KMOD_ALT);
                 keydown = 0;
@@ -649,7 +481,6 @@ void I_GetEvent(void)
                 }
                 break;
 
-#if defined(SDL20)
             case SDL_MOUSEWHEEL:
                 if (mousesensitivity || menuactive || consoleactive)
                 {
@@ -661,7 +492,6 @@ void I_GetEvent(void)
                     D_PostEvent(&event);
                 }
                 break;
-#endif
 
             case SDL_JOYBUTTONUP:
                 keydown = 0;
@@ -681,42 +511,6 @@ void I_GetEvent(void)
                 }
                 break;
 
-#if !defined(SDL20)
-            case SDL_ACTIVEEVENT:
-                // need to update our focus state
-                UpdateFocus();
-                break;
-
-            case SDL_VIDEOEXPOSE:
-                palette_to_set = true;
-                break;
-
-            case SDL_VIDEORESIZE:
-                if (!fullscreen && !widescreenresize)
-                {
-                    need_resize = true;
-                    resize_h = Event->resize.h;
-                }
-                widescreenresize = false;
-                break;
-#endif
-
-#if defined(WIN32)
-#if !defined(SDL20)
-            case SDL_SYSWMEVENT:
-                if (!fullscreen)
-                {
-                    if (Event->syswm.msg->msg == WM_MOVE)
-                    {
-                        I_SaveWindowPosition();
-                        SetWindowPositionVars();
-                    }
-                }
-                break;
-#endif
-#endif
-
-#if defined(SDL20)
             case SDL_WINDOWEVENT:
                 switch (Event->window.event)
                 {
@@ -755,7 +549,6 @@ void I_GetEvent(void)
                         break;
                 }
                 break;
-#endif
 
             default:
                 break;
@@ -805,12 +598,8 @@ static void UpdateGrab(void)
     }
     else if (!grab && currently_grabbed)
     {
-#if defined(SDL20)
         SDL_WarpMouseInWindow(window,
             displaywidth - 10 * displaywidth / SCREENWIDTH, displayheight - 16);
-#else
-        SDL_WarpMouse(displaywidth - 10 * displaywidth / SCREENWIDTH, displayheight - 16);
-#endif
         SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
         SetShowCursor(true);
@@ -819,7 +608,6 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-#if defined(SDL20)
 SDL_Rect pillarboxes[2] =
 {
     { 0, 0, 54, 400 },
@@ -834,42 +622,13 @@ static void ClearPillarboxes(void)
     SDL_RenderFillRects(renderer, pillarboxes, 2);
     SDL_RenderPresent(renderer);
 }
-#else
-static __forceinline void StretchBlit(void)
-{
-    fixed_t     i = 0;
-    fixed_t     y = starty;
-
-    do
-    {
-        byte    *dest = pixels + i;
-        byte    *src = *(rows + (y >> FRACBITS));
-        fixed_t x = startx;
-
-        do
-            *dest++ = *(src + (x >> FRACBITS));
-        while ((x += stepx) < (SCREENWIDTH << FRACBITS));
-
-        i += pitch;
-    } while ((y += stepy) < blitheight);
-}
-#endif
 
 //
 // I_FinishUpdate
 //
 void I_FinishUpdate(void)
 {
-#if defined(SDL20)
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
-#else
-    if (need_resize)
-    {
-        ApplyWindowResize(resize_h);
-        need_resize = false;
-        palette_to_set = true;
-    }
-#endif
 
     UpdateGrab();
 
@@ -878,30 +637,14 @@ void I_FinishUpdate(void)
 
     if (palette_to_set)
     {
-#if defined(SDL20)
         SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
-#else
-        SDL_SetColors(screenbuffer, palette, 0, 256);
-#endif
-
         palette_to_set = false;
     }
 
-#if defined(SDL20)
     SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
-#else
-    StretchBlit();
-
-#if defined(WIN32)
-    SDL_FillRect(screen, NULL, 0);
-#endif
-
-    SDL_LowerBlit(screenbuffer, &src_rect, screen, &dest_rect);
-    SDL_Flip(screen);
-#endif
 
     if (vid_showfps)
     {
@@ -962,10 +705,6 @@ void SetWindowPositionVars(void)
 
     if (sscanf(windowposition, "%10i,%10i", &x, &y) == 2)
     {
-#if !defined(SDL20)
-        char    buf[64];
-#endif
-
         if (x < 0)
             x = 0;
         else if (x > desktopwidth)
@@ -974,55 +713,24 @@ void SetWindowPositionVars(void)
             y = 0;
         else if (y > desktopheight)
             y = desktopheight - 16;
-#if defined(SDL20)
         windowx = x;
         windowy = y;
-#else
-        sprintf(buf, "SDL_VIDEO_WINDOW_POS=%i,%i", x, y);
-        putenv(buf);
-#endif
     }
-#if !defined(SDL20)
-    else
-        putenv("SDL_VIDEO_CENTERED=1");
-#endif
 }
 
 static void GetDesktopDimensions(void)
 {
-#if defined(SDL20)
     SDL_Rect            displaybounds;
 
     SDL_GetDisplayBounds(0, &displaybounds);
     desktopwidth = displaybounds.w;
     desktopheight = displaybounds.h;
-#else
-    SDL_VideoInfo       *videoinfo = (SDL_VideoInfo *)SDL_GetVideoInfo();
-
-    desktopwidth = videoinfo->current_w;
-    desktopheight = videoinfo->current_h;
-#endif
 }
 
 static void SetupScreenRects(void)
 {
-#if defined(SDL20)
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
-#else
-    int w = screenbuffer->w;
-    int h = screenbuffer->h;
-    int dy;
-
-    dest_rect.x = (screen->w - w) / 2;
-    dest_rect.y = (widescreen ? 0 : (screen->h - h) / 2);
-    dy = dest_rect.y + h - screen->clip_rect.y - screen->clip_rect.h;
-    if (dy > 0)
-        h -= dy;
-
-    src_rect.w = dest_rect.w = w;
-    src_rect.h = dest_rect.h = h;
-#endif
 }
 
 static char *aspectratio(int width, int height)
@@ -1043,7 +751,6 @@ static char *aspectratio(int width, int height)
     }
 }
 
-#if defined(SDL20)
 static void PositionOnCurrentDisplay(void)
 {
     if (fullscreen)
@@ -1056,11 +763,9 @@ static void PositionOnCurrentDisplay(void)
         SDL_SetWindowPosition(window,
             displays[display - 1].x + windowx, displays[display - 1].y + windowy);
 }
-#endif
 
 static void SetVideoMode(boolean output)
 {
-#if defined(SDL20)
     int                 i;
     int                 flags = SDL_RENDERER_TARGETTEXTURE;
 
@@ -1227,92 +932,10 @@ static void SetVideoMode(boolean output)
     SDL_SetSurfacePalette(screenbuffer, sdlpalette);
 
     SetupScreenRects();
-#else
-    int width;
-    int height;
-
-    if (fullscreen)
-    {
-        width = screenwidth;
-        height = screenheight;
-        if (!width || !height)
-        {
-            width = desktopwidth;
-            height = desktopheight;
-            screenwidth = 0;
-            screenheight = 0;
-            M_SaveDefaults();
-        }
-
-        screen = SDL_SetVideoMode(width, height, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-
-        if (!screen)
-            I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 5, SDL_GetError());
-
-        height = screen->h;
-        width = height * 4 / 3;
-        width += (width & 1);
-
-        if (width > screen->w)
-        {
-            width = screen->w;
-            height = width * 3 / 4;
-            height += (height & 1);
-        }
-    }
-    else
-    {
-        if (windowheight > desktopheight)
-        {
-            windowheight = desktopheight;
-            windowwidth = windowheight * 4 / 3;
-            M_SaveDefaults();
-        }
-        height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
-        width = height * 4 / 3;
-
-        if (width > windowwidth)
-        {
-            width = windowwidth;
-            height = width * 3 / 4;
-        }
-
-        SetWindowPositionVars();
-
-        screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
-
-        if (!screen)
-            I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 5, SDL_GetError());
-
-        widescreen = false;
-    }
-
-    displaycenterx = screen->w / 2;
-    displaycentery = screen->h / 2;
-
-    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
-
-    if (!screenbuffer)
-        I_Error("SetVideoMode, line %i: %s\n", __LINE__ - 3, SDL_GetError());
-
-    SetupScreenRects();
-
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / width;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
-#endif
 }
 
 void ToggleWidescreen(boolean toggle)
 {
-#if defined(SDL20)
     if (toggle)
     {
         widescreen = true;
@@ -1339,83 +962,6 @@ void ToggleWidescreen(boolean toggle)
     returntowidescreen = false;
 
     palette_to_set = true;
-#else
-    if (fullscreen && (double)screenwidth / screenheight < (double)16 / 10)
-    {
-        widescreen = returntowidescreen = false;
-        return;
-    }
-
-    height = screen->h;
-
-    if (toggle)
-    {
-        widescreen = true;
-
-        if (returntowidescreen && screensize == 8)
-        {
-            screensize = 7;
-            R_SetViewSize(screensize);
-        }
-
-        height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);
-        blitheight = (SCREENHEIGHT - SBARHEIGHT) << FRACBITS;
-    }
-    else
-    {
-        widescreen = false;
-
-        blitheight = SCREENHEIGHT << FRACBITS;
-    }
-
-    returntowidescreen = false;
-
-    width = height * 4 / 3;
-
-    if (fullscreen)
-    {
-        width += (width & 1);
-
-        if ((double)width / screen->w >= 0.99)
-            width = screen->w;
-    }
-
-    if (!fullscreen)
-    {
-        int     diff = (screen->w - width) / 2;
-
-        widescreenresize = true;
-
-        screen = SDL_SetVideoMode(width, screen->h, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
-
-        if (!screenbuffer)
-            I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
-
-        RepositionWindow(diff);
-        windowwidth = screen->w;
-        windowheight = screen->h;
-    }
-
-    SDL_FreeSurface(screenbuffer);
-    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
-
-    if (!screenbuffer)
-        I_Error("ToggleWidescreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
-
-    SetupScreenRects();
-
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / width;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
-
-    palette_to_set = true;
-#endif
 }
 
 void I_RestartGraphics(void)
@@ -1434,7 +980,6 @@ void ToggleFullscreen(void)
 {
     fullscreen = !fullscreen;
     M_SaveDefaults();
-#if defined(SDL20)
     if (fullscreen)
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -1452,154 +997,7 @@ void ToggleFullscreen(void)
     displaycentery = displayheight / 2;
 
     PositionOnCurrentDisplay();
-#else
-    if (fullscreen)
-    {
-        width = screenwidth;
-        height = screenheight;
-        if (!width || !height)
-        {
-            width = desktopwidth;
-            height = desktopheight;
-            screenwidth = 0;
-            screenheight = 0;
-            M_SaveDefaults();
-        }
-
-        screen = SDL_SetVideoMode(width, height, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
-
-        if (!screen)
-            I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
-
-        if (widescreen)
-        {
-            if (gamestate != GS_LEVEL)
-                returntowidescreen = true;
-            else
-            {
-                ToggleWidescreen(true);
-                if (widescreen)
-                    screensize = 7;
-                R_SetViewSize(screensize);
-                M_SaveDefaults();
-                if (widescreen)
-                    return;
-            }
-        }
-
-        height = screen->h;
-        width = height * 4 / 3;
-        width += (width & 1);
-
-        if (width > screen->w)
-        {
-            width = screen->w;
-            height = width * 3 / 4;
-            height += (height & 1);
-        }
-    }
-    else
-    {
-        if (windowheight > desktopheight)
-        {
-            windowheight = desktopheight;
-            windowwidth = windowheight * 4 / 3;
-            M_SaveDefaults();
-        }
-
-        height = MAX(ORIGINALWIDTH * 3 / 4, windowheight);
-        width = height * 4 / 3;
-
-        if (width > windowwidth)
-        {
-            width = windowwidth;
-            height = width * 3 / 4;
-        }
-
-        SetWindowPositionVars();
-
-        screen = SDL_SetVideoMode(width, height, 0,
-            SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
-
-        if (!screen)
-            I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 5, SDL_GetError());
-
-        if (widescreen)
-        {
-            if (gamestate != GS_LEVEL)
-                returntowidescreen = true;
-            else
-            {
-                ToggleWidescreen(true);
-                if (widescreen)
-                    screensize = 7;
-                R_SetViewSize(screensize);
-                M_SaveDefaults();
-                return;
-            }
-        }
-    }
-
-    SDL_FreeSurface(screenbuffer);
-    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 8, 0, 0, 0, 0);
-
-    if (!screenbuffer)
-        I_Error("ToggleFullscreen, line %i: %s\n", __LINE__ - 3, SDL_GetError());
-
-    SetupScreenRects();
-
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / width;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
-#endif
 }
-
-#if !defined(SDL20)
-void ApplyWindowResize(int resize_h)
-{
-    windowheight = height = MAX(SCREENWIDTH * 3 / 4, MIN(resize_h, desktopheight));
-    windowwidth = windowheight * 4 / 3;
-
-    if (widescreen)
-        height += (int)((double)height * SBARHEIGHT / (SCREENHEIGHT - SBARHEIGHT) + 1.5);
-
-    screen = SDL_SetVideoMode(windowwidth, windowheight, 0,
-        SDL_HWSURFACE | SDL_HWPALETTE | SDL_DOUBLEBUF | SDL_RESIZABLE);
-
-    if (!screen)
-        I_Error("ApplyWindowResize, line %i: %s\n", __LINE__ - 5, SDL_GetError());
-
-    SDL_FreeSurface(screenbuffer);
-    screenbuffer = SDL_CreateRGBSurface(SDL_SWSURFACE, windowwidth, height, 8, 0, 0, 0, 0);
-
-    if (!screenbuffer)
-        I_Error("ApplyWindowResize, line %i: %s\n", __LINE__ - 3, SDL_GetError());
-
-    SetupScreenRects();
-
-    pitch = screenbuffer->pitch;
-    pixels = (byte *)screenbuffer->pixels;
-
-    stepx = (SCREENWIDTH << FRACBITS) / windowwidth;
-    stepy = (SCREENHEIGHT << FRACBITS) / height;
-
-    startx = stepx - 1;
-    starty = stepy - 1;
-
-    M_SaveDefaults();
-
-    displaywidth = windowwidth;
-    displayheight = windowheight;
-    displaycenterx = displaywidth / 2;
-    displaycentery = displayheight / 2;
-}
-#endif
 
 void I_InitGammaTables(void)
 {
@@ -1617,7 +1015,6 @@ void I_InitGammaTables(void)
 
 boolean I_ValidScreenMode(int width, int height)
 {
-#if defined(SDL20)
     SDL_DisplayMode     mode;
     const int           modecount = SDL_GetNumDisplayModes(0);
     int                 i;
@@ -1629,9 +1026,6 @@ boolean I_ValidScreenMode(int width, int height)
             return true;
     }
     return false;
-#else
-    return SDL_VideoModeOK(width, height, 32, SDL_FULLSCREEN);
-#endif
 }
 
 void I_InitKeyboard(void)
@@ -1652,8 +1046,6 @@ void I_InitGraphics(void)
     int         i = 0;
     SDL_Event   dummy;
     byte        *doompal = W_CacheLumpName("PLAYPAL", PU_CACHE);
-
-#if defined(SDL20)
     SDL_version linked, compiled;
 
     SDL_GetVersion(&linked);
@@ -1668,9 +1060,6 @@ void I_InitGraphics(void)
         C_Warning("The wrong version of SDL2.DLL was found. "PACKAGE_NAME" requires v%d.%d.%d, "
             "not v%d.%d.%d.", compiled.major, compiled.minor, compiled.patch, linked.major,
             linked.minor, linked.patch);
-#else
-    putenv("SDL_DISABLE_LOCK_KEYS=1");
-#endif
 
     while (i < UCHAR_MAX)
         keys[i++] = true;
@@ -1694,15 +1083,8 @@ void I_InitGraphics(void)
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
     {
 #if defined(WIN32)
-#if defined(SDL20)
         if (strcasecmp(videodriver, "windows"))
             M_StringCopy(videodriver, "windows", 8);
-#else
-        if (!strcasecmp(videodriver, "directx"))
-            M_StringCopy(videodriver, "windib", 7);
-        else
-            M_StringCopy(videodriver, "directx", 8);
-#endif
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
         putenv(envstring);
         M_SaveDefaults();
@@ -1724,10 +1106,8 @@ void I_InitGraphics(void)
 
     GetDesktopDimensions();
 
-#if defined(SDL20)
     numdisplays = SDL_GetNumVideoDisplays();
     displays = Z_Malloc(numdisplays, PU_STATIC, NULL);
-#endif
 
     SetVideoMode(true);
 
@@ -1737,41 +1117,20 @@ void I_InitGraphics(void)
 
     SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
-#if defined(SDL20)
     SDL_SetWindowTitle(window, PACKAGE_NAME);
-#else
-    SDL_WM_SetCaption(PACKAGE_NAME, NULL);
-#endif
 
     I_SetPalette(doompal);
 
-#if defined(SDL20)
     SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
-#else
-    SDL_SetColors(screenbuffer, palette, 0, 256);
-#endif
 
     if (!fullscreen)
         currently_grabbed = true;
     UpdateFocus();
     UpdateGrab();
 
-#if defined(SDL20)
     screens[0] = screenbuffer->pixels;
-#else
-    screens[0] = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    memset(screens[0], 0, SCREENWIDTH * SCREENHEIGHT);
-
-    for (i = 0; i < SCREENHEIGHT; i++)
-        rows[i] = *screens + i * SCREENWIDTH;
-#endif
 
     I_FinishUpdate();
-
-#if !defined(SDL20)
-    SDL_EnableUNICODE(1);
-    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-#endif
 
     while (SDL_PollEvent(&dummy));
 

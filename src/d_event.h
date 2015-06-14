@@ -52,9 +52,7 @@ typedef enum
     ev_keydown,
     ev_keyup,
     ev_mouse,
-#if defined(SDL20)
     ev_mousewheel,
-#endif
     ev_gamepad
 } evtype_t;
 

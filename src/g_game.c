@@ -536,9 +536,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     }
 }
 
-#if defined(SDL20)
 extern SDL_Window       *window;
-#endif
 
 //
 // G_DoLoadLevel
@@ -622,11 +620,7 @@ void G_DoLoadLevel(void)
     sendpause = sendsave = paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
-#if defined(SDL20)
     SDL_SetWindowTitle(window, mapnumandtitle);
-#else
-    SDL_WM_SetCaption(mapnumandtitle, NULL);
-#endif
 
     if (automapactive)
         AM_Start();
@@ -681,11 +675,7 @@ boolean G_Responder(event_t *ev)
                  && !((ev->data1 == KEY_ENTER || ev->data1 == KEY_TAB) && altdown))
                  || (ev->type == ev_mouse
                      && mousewait < I_GetTime()
-#if defined(SDL20)
                      && ev->data1)
-#else
-                     && ev->data1 && !(ev->data1 & (MOUSE_WHEELUP | MOUSE_WHEELDOWN)))
-#endif
                  || (ev->type == ev_gamepad
                      && gamepadwait < I_GetTime()
                      && gamepadbuttons
@@ -774,10 +764,8 @@ boolean G_Responder(event_t *ev)
             mousebuttons[0] = mousebutton & MOUSE_LEFTBUTTON;
             mousebuttons[1] = mousebutton & MOUSE_RIGHTBUTTON;
             mousebuttons[2] = mousebutton & MOUSE_MIDDLEBUTTON;
-#if !defined(SDL20)
             mousebuttons[3] = mousebutton & MOUSE_WHEELUP;
             mousebuttons[4] = mousebutton & MOUSE_WHEELDOWN;
-#endif
             if (vibrate && mousebutton)
             {
                 vibrate = false;
@@ -798,7 +786,6 @@ boolean G_Responder(event_t *ev)
             }
             return true;            // eat events
 
-#if defined(SDL20)
         case ev_mousewheel:
             if (vibrate)
             {
@@ -814,7 +801,6 @@ boolean G_Responder(event_t *ev)
                     G_PrevWeapon();
             }
             return true;
-#endif
 
         case ev_gamepad:
             if (!automapactive && !menuactive && !paused)

@@ -98,9 +98,7 @@ extern boolean  corpses_nudge;
 extern boolean  corpses_slide;
 extern boolean  corpses_smearblood;
 extern boolean  dclick_use;
-#if defined(SDL20)
 extern int      display;
-#endif
 extern boolean  floatbob;
 extern boolean  footclip;
 extern boolean  fullscreen;
@@ -191,10 +189,8 @@ extern int      playerbob;
 extern char     *playername;
 extern int      runcount;
 extern char     *savegamefolder;
-#if defined(SDL20)
 extern char     *scaledriver;
 extern char     *scalefilter;
-#endif
 extern int      screenheight;
 extern char     *screenresolution;
 extern int      screenwidth;
@@ -212,12 +208,10 @@ extern boolean  spritefixes;
 extern boolean  swirlingliquid;
 extern char     *timidity_cfg_path;
 extern boolean  translucency;
-#if !defined(WIN32) || !defined(SDL20)
+#if !defined(WIN32)
 extern char     *videodriver;
 #endif
-#if defined(SDL20)
 extern boolean  vsync;
-#endif
 extern boolean  widescreen;
 extern int      windowheight;
 extern char     *windowposition;
@@ -362,10 +356,8 @@ static void C_PlayerStats(char *, char *, char *);
 static void C_Quit(char *, char *, char *);
 static void C_Resurrect(char *, char *, char *);
 static void C_Save(char *, char *, char *);
-#if defined(SDL20)
 static void C_ScaleDriver(char *, char *, char *);
 static void C_ScaleFilter(char *, char *, char *);
-#endif
 static void C_ScreenSize(char *, char *, char *);
 static void C_ScreenResolution(char *, char *, char *);
 static void C_Spawn(char *, char *, char *);
@@ -374,9 +366,7 @@ static void C_ThingList(char *, char *, char *);
 static void C_Time(char *, char *, char *);
 static void C_UnBind(char *, char *, char *);
 static void C_Volume(char *, char *, char *);
-#if defined(SDL20)
 static void C_Vsync(char *, char *, char *);
-#endif
 static void C_WindowPosition(char *, char *, char *);
 static void C_WindowSize(char *, char *, char *);
 
@@ -528,22 +518,16 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (totalbloodsplats, C_IntCondition, C_Int, CF_READONLY, totalbloodsplats, 0, NONE, "The total number of blood splats in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbind the action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggle capping of the framerate at 35 FPS."),
-#if defined(SDL20)
     CVAR_INT  (vid_display, C_NoCondition, C_Int, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
-#endif
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggle between fullscreen and a window."),
-#if defined(SDL20)
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver used to scale the display."),
     CVAR_STR  (vid_scalefilter, C_NoCondition, C_ScaleFilter, scalefilter, "The filter used to scale the display."),
-#endif
     CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
-#if !defined(WIN32) || !defined(SDL20)
+#if !defined(WIN32)
     CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
 #endif
     CVAR_BOOL (vid_showfps, C_BoolCondition, C_Bool, vid_showfps, NONE, "Toggle showing the average frames per second."),
-#if defined(SDL20)
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggle vertical synchronization with display's refresh rate."),
-#endif
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN, "Toggle widescreen mode."),
     CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),
     CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, windowsize, "The size of the window on the desktop."),
@@ -1811,7 +1795,6 @@ static void C_Save(char *cmd, char *parm1, char *parm2)
         (M_StringEndsWith(parm1, ".save") ? "" : ".save"), NULL));
 }
 
-#if defined(SDL20)
 static void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
@@ -1843,7 +1826,6 @@ static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
     else
         C_Output("\"%s\"", scalefilter);
 }
-#endif
 
 extern int      desktopwidth;
 extern int      desktopheight;
@@ -2148,7 +2130,6 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
             (!strcasecmp(cmd, "s_musicvolume") ? musicvolume_percent : sfxvolume_percent));
 }
 
-#if defined(SDL20)
 static void C_Vsync(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
@@ -2165,11 +2146,8 @@ static void C_Vsync(char *cmd, char *parm1, char *parm2)
     else
         C_Output(vsync ? "on" : "off");
 }
-#endif
 
-#if defined(SDL20)
 extern SDL_Window       *window;
-#endif
 
 static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
 {
@@ -2180,9 +2158,7 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
         if (!fullscreen)
         {
             SetWindowPositionVars();
-#if defined(SDL20)
             SDL_SetWindowPosition(window, windowx, windowy);
-#endif
         }
 
         M_SaveDefaults();
@@ -2211,11 +2187,7 @@ static void C_WindowSize(char *cmd, char *parm1, char *parm2)
             windowheight = height;
 
             if (!fullscreen)
-#if defined(SDL20)
                 SDL_SetWindowSize(window, windowwidth, windowheight);
-#else
-                ApplyWindowResize(windowheight);
-#endif
 
             M_SaveDefaults();
         }

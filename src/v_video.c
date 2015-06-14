@@ -1168,14 +1168,8 @@ extern char             maptitle[128];
 extern boolean          splashscreen;
 extern int              titlesequence;
 
-#if defined(SDL20)
 extern SDL_Window       *window;
 extern SDL_Renderer     *renderer;
-#else
-extern SDL_Surface      *screen;
-extern SDL_Surface      *screenbuffer;
-extern SDL_Color        palette[256];
-#endif
 
 boolean V_ScreenShot(void)
 {
@@ -1184,10 +1178,7 @@ boolean V_ScreenShot(void)
     char        folder[MAX_PATH] = "";
     int         count = 0;
     SDL_Surface *screenshot = NULL;
-
-#if defined(SDL20)
     SDL_Surface *surface;
-#endif
 
 #if defined(WIN32)
     HRESULT     hr = SHGetFolderPath(NULL, CSIDL_MYPICTURES, NULL, SHGFP_TYPE_CURRENT, folder);
@@ -1233,7 +1224,6 @@ boolean V_ScreenShot(void)
         M_snprintf(lbmpath, sizeof(lbmpath), "%s" DIR_SEPARATOR_S "%s", lbmpath, lbmname);
     } while (M_FileExists(lbmpath));
 
-#if defined(SDL20)
     surface = SDL_GetWindowSurface(window);
     if (surface)
     {
@@ -1261,16 +1251,5 @@ boolean V_ScreenShot(void)
             }
         }
     }
-#else
-    screenshot = SDL_CreateRGBSurface(screenbuffer->flags, screenbuffer->w,
-        (widescreen ? screen->h : screenbuffer->h), screenbuffer->format->BitsPerPixel,
-        screenbuffer->format->Rmask, screenbuffer->format->Gmask, screenbuffer->format->Bmask,
-        screenbuffer->format->Amask);
-
-    SDL_SetColors(screenshot, palette, 0, 256);
-    SDL_BlitSurface(screenbuffer, NULL, screenshot, NULL);
-    result = !SDL_SaveBMP(screenshot, lbmpath);
-    SDL_FreeSurface(screenshot);
-#endif
     return result;
 }
