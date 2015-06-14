@@ -363,42 +363,6 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, boo
     }
 }
 
-void V_DrawTranslucentConsolePatch(int x, int y, patch_t *patch)
-{
-    int         col = 0;
-    byte        *desttop;
-    int         w = SHORT(patch->width) << 16;
-
-    y -= SHORT(patch->topoffset);
-    x -= SHORT(patch->leftoffset);
-
-    desttop = screens[0] + ((y * DY) >> 16) * SCREENWIDTH + ((x * DX) >> 16);
-
-    for (; col < w; col += DXI, desttop++)
-    {
-        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col >> 16]));
-
-        // step through the posts in a column
-        while (column->topdelta != 0xff)
-        {
-            byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + ((column->topdelta * DY) >> 16) * SCREENWIDTH;
-            int         count = (column->length * DY) >> 16;
-            int         srccol = 0;
-
-            while (count--)
-            {
-                if ((((y + column->topdelta + column->length) * DY) >> 16) - count > CONSOLETOP)
-                    *dest = tinttab25[(*dest << 8) + source[srccol >> 16]];
-                dest += SCREENWIDTH;
-                srccol += DYI;
-            }
-
-            column = (column_t *)((byte *)column + column->length + 4);
-        }
-    }
-}
-
 boolean V_EmptyPatch(patch_t *patch)
 {
     int col = 0;
