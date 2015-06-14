@@ -610,8 +610,8 @@ static void UpdateGrab(void)
 
 SDL_Rect pillarboxes[2] =
 {
-    { 0, 0, 54, 400 },
-    { SCREENWIDTH - 54, 0, 54, 400 }
+    {                            0, 0, PILLARBOXWIDTH, SCREENHEIGHT },
+    { SCREENWIDTH - PILLARBOXWIDTH, 0, PILLARBOXWIDTH, SCREENHEIGHT }
 };
 
 static void ClearPillarboxes(void)
@@ -725,12 +725,6 @@ static void GetDesktopDimensions(void)
     SDL_GetDisplayBounds(0, &displaybounds);
     desktopwidth = displaybounds.w;
     desktopheight = displaybounds.h;
-}
-
-static void SetupScreenRects(void)
-{
-    src_rect.w = SCREENWIDTH;
-    src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
 }
 
 static char *aspectratio(int width, int height)
@@ -931,7 +925,8 @@ static void SetVideoMode(boolean output)
     sdlpalette = SDL_AllocPalette(256);
     SDL_SetSurfacePalette(screenbuffer, sdlpalette);
 
-    SetupScreenRects();
+    src_rect.w = SCREENWIDTH;
+    src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
 }
 
 void ToggleWidescreen(boolean toggle)
