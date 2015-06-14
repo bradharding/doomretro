@@ -448,13 +448,18 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, boolean flag)
 
             while (count--)
             {
-                byte    *shadow;
+                int     height = (((y + column->topdelta + column->length) * DY) >> 16) - count;
 
-                *dest = source[srccol >> 16];
+                if (height > 0)
+                    *dest = source[srccol >> 16];
                 dest += SCREENWIDTH;
-                shadow = dest + SCREENWIDTH + 2;
-                if (!flag || (*shadow != 47 && *shadow != 191))
-                    *shadow = (translucency ? tinttab50[*shadow] : 0);
+                if (height + 2 > 0)
+                {
+                    byte        *shadow = dest + SCREENWIDTH + 2;
+
+                    if (!flag || (*shadow != 47 && *shadow != 191))
+                        *shadow = (translucency ? tinttab50[*shadow] : 0);
+                }
                 srccol += DYI;
             }
 
