@@ -1722,9 +1722,9 @@ static void C_NoTarget(char *cmd, char *parm1, char *parm2)
             {
                 if (mo->target && mo->target->player)
                     P_SetTarget(&mo->target, NULL);
-                if (mo->tracer && mo->target->tracer)
+                if (mo->tracer && mo->tracer->player)
                     P_SetTarget(&mo->tracer, NULL);
-                if (mo->lastenemy && mo->target->lastenemy)
+                if (mo->lastenemy && mo->lastenemy->player)
                     P_SetTarget(&mo->lastenemy, NULL);
                 mo = mo->snext;
             }
