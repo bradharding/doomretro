@@ -651,8 +651,6 @@ void I_FinishUpdate(void)
 
 void I_ClearAndFinishUpdate(void)
 {
-    SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, SCREENWIDTH * sizeof(Uint32));
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
