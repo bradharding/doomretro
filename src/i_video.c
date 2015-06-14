@@ -608,30 +608,6 @@ static void UpdateGrab(void)
     currently_grabbed = grab;
 }
 
-static const SDL_Rect   pillarboxes[2] =
-{
-    {                            0, 0, PILLARBOXWIDTH, SCREENHEIGHT },
-    { SCREENWIDTH - PILLARBOXWIDTH, 0, PILLARBOXWIDTH, SCREENHEIGHT }
-};
-
-static void ClearPillarboxes(void)
-{
-    SDL_RenderFillRects(renderer, pillarboxes, 2);
-    SDL_RenderPresent(renderer);
-
-    SDL_RenderFillRects(renderer, pillarboxes, 2);
-    SDL_RenderPresent(renderer);
-}
-
-static void ClearWindow(void)
-{
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-}
-
 //
 // I_FinishUpdate
 //
@@ -670,6 +646,18 @@ void I_FinishUpdate(void)
             starttime = currenttime;
         }
     }
+}
+
+void I_ClearAndFinishUpdate(void)
+{
+    SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, SCREENWIDTH * sizeof(Uint32));
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_RenderPresent(renderer);
 }
 
 //
@@ -950,20 +938,12 @@ void ToggleWidescreen(boolean toggle)
             R_SetViewSize(screensize);
         }
 
-        if (!fullscreen)
-            ClearWindow();
-
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
         src_rect.h = SCREENHEIGHT - SBARHEIGHT - !!strcasecmp(scalefilter, "nearest");
     }
     else
     {
         widescreen = false;
-
-        if (fullscreen)
-            ClearPillarboxes();
-        else
-            ClearWindow();
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
@@ -972,6 +952,8 @@ void ToggleWidescreen(boolean toggle)
     returntowidescreen = false;
 
     palette_to_set = true;
+
+    I_ClearAndFinishUpdate();
 }
 
 void I_RestartGraphics(void)
