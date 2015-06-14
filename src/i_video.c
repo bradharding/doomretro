@@ -176,6 +176,7 @@ int                     capslock;
 boolean                 alwaysrun = ALWAYSRUN_DEFAULT;
 
 void SetWindowPositionVars(void);
+void ST_doRefresh(void);
 
 boolean MouseShouldBeGrabbed(void)
 {
@@ -944,6 +945,8 @@ void ToggleWidescreen(boolean toggle)
     else
     {
         widescreen = false;
+
+        ST_doRefresh();
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENWIDTH * 3 / 4);
         src_rect.h = SCREENHEIGHT;
