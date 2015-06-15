@@ -375,10 +375,10 @@ boolean P_BlockLinesIterator(int x, int y, boolean (*func)(line_t *))
         return true;
     else
     {
-        int             offset = blockmapindex[y * bmapwidth + x];
-        const int       *list;
+        int             offset = *(blockmap + y * bmapwidth + x);
+        int64_t         *list;
 
-        for (list = &blockmaphead[offset]; *list != -1; list++)
+        for (list = blockmaplump + offset; *list != -1; list++)
         {
             line_t          *ld = &lines[*list];
 
