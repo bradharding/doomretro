@@ -104,8 +104,6 @@ fixed_t         bmaporgy;
 // for thing chains
 mobj_t          **blocklinks;
 
-boolean         createblockmap;
-
 // REJECT
 // For fast sight rejection.
 // Speeds up enemy AI by skipping detailed
@@ -1020,11 +1018,10 @@ void P_LoadBlockMap(int lump)
     int         lumplen;
     short       *wadblockmaplump;
 
-    // [crispy] (re-)create BLOCKMAP if necessary
     if ((unsigned int)lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8
         || (count = lumplen / 2) >= 0x10000)
     {
-        createblockmap = true;
+        P_CreateBlockMap();
         C_Warning("The BLOCKMAP lump for this map has been recreated.");
         return;
     }
@@ -1058,9 +1055,8 @@ void P_LoadBlockMap(int lump)
     bmapheight = blockmaplump[3];
 
     // Clear out mobj chains
-    count = sizeof(*blocklinks) * bmapwidth * bmapheight;
-    blocklinks = Z_Malloc(count, PU_LEVEL, 0);
-    memset(blocklinks, 0, count);
+    blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
+    blockmap = blockmaplump + 4;
 }
 
 //
@@ -1457,16 +1453,11 @@ void P_SetupLevel(int episode, int map)
     P_LoadSideDefs2(lumpnum + ML_SIDEDEFS);
     P_LoadLineDefs2(lumpnum + ML_LINEDEFS);
 
-    createblockmap = false;
-
     // note: most of this ordering is important
     if (!samelevel)
         P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
     else
         memset(blocklinks, 0, bmapwidth * bmapheight * sizeof(*blocklinks));
-
-    if (createblockmap)
-        P_CreateBlockMap();
 
     P_LoadSubsectors(lumpnum + ML_SSECTORS);
     P_LoadNodes(lumpnum + ML_NODES);
