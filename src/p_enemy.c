@@ -85,6 +85,9 @@ static void P_RecursiveSound(sector_t *sec, int soundblocks, mobj_t *soundtarget
 {
     int i;
 
+    if (players[0].cheats & CF_NOTARGET)
+        return;
+
     // wake up all monsters in this sector
     if (sec->validcount == validcount && sec->soundtraversed <= soundblocks + 1)
         return;         // already flooded
