@@ -172,7 +172,6 @@ extern int      selectedsavegame;
 extern int      selectedskilllevel;
 extern boolean  shadows;
 extern boolean  smoketrails;
-extern int      snd_maxslicetime_ms;
 extern boolean  spritefixes;
 extern boolean  swirlingliquid;
 extern char     *timidity_cfg_path;
@@ -312,7 +311,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_shadows,               shadows,                       1),
     CONFIG_VARIABLE_INT          (r_translucency,          translucency,                  1),
     CONFIG_VARIABLE_INT          (r_viewsize,              screensize,                    0),
-    CONFIG_VARIABLE_INT          (s_maxslicetime,          snd_maxslicetime_ms,           0),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,           musicvolume_percent,           0),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,             sfxvolume_percent,             0),
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,       timidity_cfg_path,             0),

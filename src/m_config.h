@@ -302,10 +302,6 @@
 
 #define SMOKETRAILS_DEFAULT                     true
 
-#define SND_MAXSLICETIME_MS_MIN                 0
-#define SND_MAXSLICETIME_MS_DEFAULT             28
-#define SND_MAXSLICETIME_MS_MAX                 INT_MAX
-
 #define SPRITEFIXES_DEFAULT                     true
 
 #define SWIRLINGLIQUID_DEFAULT                  true

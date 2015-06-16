@@ -203,7 +203,6 @@ extern boolean  shadows;
 extern boolean  showmemoryusage;
 #endif
 extern boolean  smoketrails;
-extern int      snd_maxslicetime_ms;
 extern boolean  spritefixes;
 extern boolean  swirlingliquid;
 extern char     *timidity_cfg_path;
@@ -501,7 +500,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY, "Toggle translucency in sprites and textures."),
     CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrect the player."),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE, "The number of times "PACKAGE_NAME" has been run."),
-    CVAR_INT  (s_maxslicetime, C_NoCondition, C_Int, CF_NONE, snd_maxslicetime_ms, 0, SND_MAXSLICETIME_MS, "The maximum slice time of sound effects."),
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME, "The music volume."),
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
