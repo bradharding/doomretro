@@ -1011,12 +1011,16 @@ static void P_CreateBlockMap(void)
 //
 // P_LoadBlockMap
 //
+// killough 3/1/98: substantially modified to work
+// towards removing blockmap limit (a wad limitation)
+//
+// killough 3/30/98: Rewritten to remove blockmap limit,
+// though current algorithm is brute-force and unoptimal.
+//
 void P_LoadBlockMap(int lump)
 {
-    int         i;
-    int         count;
-    int         lumplen;
-    short       *wadblockmaplump;
+    int count;
+    int lumplen;
 
     if ((unsigned int)lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8
         || (count = lumplen / 2) >= 0x10000)
@@ -1025,38 +1029,42 @@ void P_LoadBlockMap(int lump)
         C_Warning("The BLOCKMAP lump for this map has been recreated.");
         return;
     }
-
-    // [crispy] remove BLOCKMAP limit
-    // adapted from boom202s/P_SETUP.C:1025-1076
-    wadblockmaplump = Z_Malloc(lumplen, PU_LEVEL, NULL);
-    W_ReadLump(lump, wadblockmaplump);
-    blockmaplump = Z_Malloc(sizeof(*blockmaplump) * count, PU_LEVEL, NULL);
-    blockmap = blockmaplump + 4;
-
-    blockmaplump[0] = SHORT(wadblockmaplump[0]);
-    blockmaplump[1] = SHORT(wadblockmaplump[1]);
-    blockmaplump[2] = (int64_t)(SHORT(wadblockmaplump[2])) & 0xffff;
-    blockmaplump[3] = (int64_t)(SHORT(wadblockmaplump[3])) & 0xffff;
-
-    // Swap all short integers to native byte ordering.
-    for (i = 4; i < count; i++)
+    else
     {
-        short   t = SHORT(wadblockmaplump[i]);
+        short   *wadblockmaplump = W_CacheLumpNum(lump, PU_LEVEL);
+        int      i;
 
-        blockmaplump[i] = (t == -1 ? -1l : ((int64_t)t & 0xffff));
+        blockmaplump = malloc_IfSameLevel(blockmaplump, sizeof(*blockmaplump) * count);
+
+        // killough 3/1/98: Expand wad blockmap into larger internal one,
+        // by treating all offsets except -1 as unsigned and zero-extending
+        // them. This potentially doubles the size of blockmaps allowed,
+        // because Doom originally considered the offsets as always signed.
+        blockmaplump[0] = SHORT(wadblockmaplump[0]);
+        blockmaplump[1] = SHORT(wadblockmaplump[1]);
+        blockmaplump[2] = (int64_t)(SHORT(wadblockmaplump[2])) & 0xffff;
+        blockmaplump[3] = (int64_t)(SHORT(wadblockmaplump[3])) & 0xffff;
+
+        // Swap all short integers to native byte ordering.
+        for (i = 4; i < count; i++)
+        {
+            short   t = SHORT(wadblockmaplump[i]);
+
+            blockmaplump[i] = (t == -1 ? -1l : ((int64_t)t & 0xffff));
+        }
+
+        Z_Free(wadblockmaplump);
+
+        // Read the header
+        bmaporgx = blockmaplump[0] << FRACBITS;
+        bmaporgy = blockmaplump[1] << FRACBITS;
+        bmapwidth = blockmaplump[2];
+        bmapheight = blockmaplump[3];
+
+        // Clear out mobj chains
+        blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
+        blockmap = blockmaplump + 4;
     }
-
-    Z_Free(wadblockmaplump);
-
-    // Read the header
-    bmaporgx = blockmaplump[0] << FRACBITS;
-    bmaporgy = blockmaplump[1] << FRACBITS;
-    bmapwidth = blockmaplump[2];
-    bmapheight = blockmaplump[3];
-
-    // Clear out mobj chains
-    blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
-    blockmap = blockmaplump + 4;
 }
 
 //
@@ -1118,8 +1126,6 @@ static void P_GroupLines(void)
     {
         line_t  **linebuffer = Z_Malloc(total * sizeof(line_t *), PU_LEVEL, 0);
 
-        // e6y: REJECT overrun emulation code
-        // moved to P_LoadReject
         for (i = 0, sector = sectors; i < numsectors; i++, sector++)
         {
             sector->lines = linebuffer;
