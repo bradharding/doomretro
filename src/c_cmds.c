@@ -1323,7 +1323,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
 
     if (!parm1[0] || !strcasecmp(parm1, "player"))
     {
-        players[0].mo->health = 0;
+        players[0].health = 0;
         P_KillMobj(players[0].mo, players[0].mo);
         M_snprintf(buffer, sizeof(buffer), "%s killed %s", playername,
             (!strcasecmp(playername, "you") ? "yourself" : "themselves"));

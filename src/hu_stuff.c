@@ -320,7 +320,7 @@ static int HUDNumberWidth(int val)
 
 static void HU_DrawHUD(void)
 {
-    int             health = MAX(0, plr->mo->health);
+    int             health = MAX(0, plr->health);
     weapontype_t    pendingweapon = plr->pendingweapon;
     weapontype_t    readyweapon = plr->readyweapon;
     int             ammotype = weaponinfo[readyweapon].ammo;
