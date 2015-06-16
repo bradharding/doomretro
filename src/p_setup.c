@@ -970,7 +970,7 @@ static void P_CreateBlockMap(void)
                     count += bmap[i].n + 2;     // 1 header word + 1 trailer word + blocklist
 
             // Allocate blockmap lump with computed count
-            blockmaplump = Z_Malloc(sizeof(*blockmaplump) * count, PU_LEVEL, 0);
+            blockmaplump = malloc_IfSameLevel(blockmaplump, sizeof(*blockmaplump) * count);
         }
 
         // Now compress the blockmap.
@@ -998,14 +998,6 @@ static void P_CreateBlockMap(void)
             free(bmap);                 // Free uncompressed blockmap
         }
     }
-
-    // [crispy] copied over from P_LoadBlockMap()
-    {
-        int count = sizeof(*blocklinks) * bmapwidth * bmapheight;
-        blocklinks = Z_Malloc(count, PU_LEVEL, 0);
-        memset(blocklinks, 0, count);
-        blockmap = blockmaplump + 4;
-    }
 }
 
 //
@@ -1027,7 +1019,6 @@ void P_LoadBlockMap(int lump)
     {
         P_CreateBlockMap();
         C_Warning("The BLOCKMAP lump for this map has been recreated.");
-        return;
     }
     else
     {
@@ -1060,11 +1051,11 @@ void P_LoadBlockMap(int lump)
         bmaporgy = blockmaplump[1] << FRACBITS;
         bmapwidth = blockmaplump[2];
         bmapheight = blockmaplump[3];
-
-        // Clear out mobj chains
-        blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
-        blockmap = blockmaplump + 4;
     }
+
+    // Clear out mobj chains
+    blocklinks = calloc_IfSameLevel(blocklinks, bmapwidth * bmapheight, sizeof(*blocklinks));
+    blockmap = blockmaplump + 4;
 }
 
 //
