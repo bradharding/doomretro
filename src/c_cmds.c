@@ -1481,6 +1481,7 @@ static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
                 return false;
         if (BTSX && W_CheckMultipleLumps(parm1) == 1)
             return false;
+        mapcmdepisode = 1;
         if (gamestate != GS_LEVEL && gamemission == pack_nerve)
             gamemission = doom2;
     }
