@@ -1096,7 +1096,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
     angle += ANG180;
 
-    for (i = damage >> 2; i; i--)
+    for (i = (damage >> 2) + 1; i; i--)
     {
         mobj_t      *th = Z_Malloc(sizeof(*th), PU_LEVEL, NULL);
         state_t     *st;
