@@ -113,15 +113,15 @@ void (*godhudfunc)(int, int, patch_t *, boolean);
 #define HUD_HEALTH_MIN  20
 #define HUD_HEALTH_WAIT 8
 
-#define HUD_AMMO_X      (HUD_HEALTH_X + 108 * SCREENSCALE / 2)
+#define HUD_AMMO_X      (HUD_X + 100 * SCREENSCALE / 2)
 #define HUD_AMMO_Y      HUD_HEALTH_Y
 #define HUD_AMMO_MIN    20
 #define HUD_AMMO_WAIT   8
 
-#define HUD_KEYS_X      (HUD_HEALTH_X + 484 * SCREENSCALE / 2)
+#define HUD_KEYS_X      (SCREENWIDTH - HUD_X - 128 * SCREENSCALE / 2)
 #define HUD_KEYS_Y      HUD_HEALTH_Y
 
-#define HUD_ARMOR_X     (SCREENWIDTH - 10 * SCREENSCALE / 2)
+#define HUD_ARMOR_X     (SCREENWIDTH - HUD_X)
 #define HUD_ARMOR_Y     HUD_HEALTH_Y
 
 #define HUD_KEY_WAIT    8
@@ -417,7 +417,7 @@ static void HU_DrawHUD(void)
         static boolean      showkey = false;
 
         if (!armor)
-            keypic_x += 123;
+            keypic_x += 114;
         else
         {
             if (emptytallpercent)
