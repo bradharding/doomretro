@@ -160,6 +160,7 @@ extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
+extern boolean  playersprites;
 extern int      runcount;
 extern char     *scaledriver;
 extern char     *scalefilter;
@@ -307,6 +308,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_lowpixelwidth,         pixelwidth,                    0),
     CONFIG_VARIABLE_INT          (r_maxbloodsplats,        maxbloodsplats,                7),
     CONFIG_VARIABLE_INT          (r_mirrorweapons,         mirrorweapons,                 1),
+    CONFIG_VARIABLE_INT          (r_playersprites,         playersprites,                 1),
     CONFIG_VARIABLE_INT          (r_rockettrails,          smoketrails,                   1),
     CONFIG_VARIABLE_INT          (r_shadows,               shadows,                       1),
     CONFIG_VARIABLE_INT          (r_translucency,          translucency,                  1),
@@ -1089,6 +1091,9 @@ static void M_CheckDefaults(void)
         --pixelheight;
 
     playerbob = BETWEEN(PLAYERBOB_MIN, playerbob, PLAYERBOB_MAX);
+
+    if (playersprites != false && playersprites != true)
+        playersprites = PLAYERSPRITES_DEFAULT;
 
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = ROTATEMODE_DEFAULT;

@@ -187,6 +187,7 @@ extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
+extern boolean  playersprites;
 extern int      runcount;
 extern char     *savegamefolder;
 extern char     *scaledriver;
@@ -494,6 +495,7 @@ consolecmd_t consolecmds[] =
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize, "The size of pixels when the graphic detail is low."),
     CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxbloodsplats, 7, MAXBLOODSPLATS, "The maximum amount of blood splats in a map."),
     CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS, "Toggles randomly mirroring weapons dropped by monsters."),
+    CVAR_BOOL (r_playersprites, C_BoolCondition, C_Bool, playersprites, PLAYERSPRITES, "Toggles the display of the player's weapon."),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS, "Toggles rocket trails behind player and Cyberdemon rockets."),
     CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE, "The screen size."),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS, "Toggles sprites casting shadows."),

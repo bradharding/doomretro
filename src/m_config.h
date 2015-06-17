@@ -266,6 +266,8 @@
 
 #define PLAYERNAME_DEFAULT                      "you"
 
+#define PLAYERSPRITES_DEFAULT                   true
+
 #define ROTATEMODE_DEFAULT                      true
 
 #define RUNCOUNT_MAX                            32768

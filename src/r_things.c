@@ -81,6 +81,8 @@ static int                      maxframe;
 
 boolean                         footclip = FOOTCLIP_DEFAULT;
 
+boolean                         playersprites = PLAYERSPRITES_DEFAULT;
+
 extern boolean                  inhelpscreens;
 extern boolean                  translucency;
 extern boolean                  dehacked;
@@ -1695,6 +1697,6 @@ void R_DrawMasked(void)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
     // draw the psprites on top of everything
-    if (!inhelpscreens)
+    if (playersprites && !inhelpscreens)
         R_DrawPlayerSprites();
 }
