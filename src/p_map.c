@@ -1975,9 +1975,12 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
 
     if (isliquidsector)
         for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
-            if ((mobj = n->m_thing))
+        {
+            mobj = n->m_thing;
+            if (mobj)
             {
-                if ((type = mobj->type) == MT_BLOODSPLAT)
+                type = mobj->type;
+                if (type == MT_BLOODSPLAT)
                 {
                     P_UnsetThingPosition(mobj);
                     --totalbloodsplats;
@@ -1985,11 +1988,18 @@ boolean P_ChangeSector(sector_t *sector, boolean crunch)
                 else if (type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
                     PIT_ChangeSector(mobj);                     // process it
             }
+        }
     else
         for (n = sector->touching_thinglist; n; n = n->m_snext) // go through list
-            if ((mobj = n->m_thing) && (type = mobj->type) != MT_BLOODSPLAT && type != MT_SHADOW
-                && !(mobj->flags & MF_NOBLOCKMAP))
-                PIT_ChangeSector(mobj);                         // process it
+        {
+            mobj = n->m_thing;
+            if (mobj)
+            {
+                type = mobj->type;
+                if (type != MT_BLOODSPLAT && type != MT_SHADOW && !(mobj->flags & MF_NOBLOCKMAP))
+                    PIT_ChangeSector(mobj);                     // process it
+            }
+        }
 
     return nofit;
 }
