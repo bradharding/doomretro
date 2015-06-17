@@ -129,6 +129,7 @@ static int      autocomplete = -1;
 static char     autocompletetext[255] = "";
 
 static int      inputhistory = -1;
+char            currentinput[255] = "";
 
 static int      outputhistory = -1;
 
@@ -1132,6 +1133,8 @@ boolean C_Responder(event_t *ev)
 
             // previous input
             case KEY_UPARROW:
+                if (inputhistory == -1)
+                    M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
                 for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; --i)
                 {
                     if (console[i].type == input && strcasecmp(consoleinput, console[i].string))
@@ -1161,7 +1164,7 @@ boolean C_Responder(event_t *ev)
                     if (i == consolestrings)
                     {
                         inputhistory = -1;
-                        consoleinput[0] = '\0';
+                        M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                     }
                     caretpos = selectstart = selectend = strlen(consoleinput);
                     caretwait = I_GetTime() + CARETWAIT;
