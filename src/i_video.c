@@ -365,7 +365,7 @@ void I_ShutdownKeyboard(void)
     if ((GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
     {
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
     }
 #endif
 }
@@ -634,9 +634,9 @@ void I_FinishUpdate(void)
 
     if (vid_showfps)
     {
-        static int  frames = -1;
-        static int  starttime = 0;
-        static int  currenttime;
+        static int      frames = -1;
+        static Uint32   starttime = 0;
+        static Uint32   currenttime;
 
         ++frames;
         currenttime = SDL_GetTicks();
@@ -651,6 +651,8 @@ void I_FinishUpdate(void)
 
 void I_ClearAndFinishUpdate(void)
 {
+    SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, SCREENWIDTH * sizeof(Uint32));
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -1029,7 +1031,7 @@ void I_InitKeyboard(void)
     if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
     {
         keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, (uintptr_t)0);
+        keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
     }
 #endif
 }
