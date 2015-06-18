@@ -125,7 +125,7 @@ boolean         startingnewgame = false;
 
 char            savegamestrings[10][SAVESTRINGSIZE];
 
-patch_t         *pipe;
+patch_t         *pipechar;
 
 char            endstring[160];
 
@@ -1011,7 +1011,7 @@ void M_DrawSave(void)
             for (j = 0; (unsigned int)j < strlen(savegamestrings[i]) - saveCharIndex; ++j)
                 right[j] = savegamestrings[i][j + saveCharIndex];
             right[j] = 0;
-            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + (STCFN121 ? pipe->width : 3),
+            M_WriteText(LoadDef.x - 2 + M_StringWidth(left) + (STCFN121 ? pipechar->width : 3),
                 y - !M_LSCNTR, right, false);
         }
         else
@@ -1034,7 +1034,7 @@ void M_DrawSave(void)
             int y = LoadDef.y + saveSlot * LINEHEIGHT - !M_LSCNTR + OFFSET;
 
             if (STCFN121)
-                V_DrawPatch(x, y, 0, pipe);
+                V_DrawPatch(x, y, 0, pipechar);
             else
             {
                 int     xx, yy;
@@ -3330,7 +3330,7 @@ void M_Init(void)
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
     blurredscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
-    pipe = W_CacheLumpName((W_CheckNumForName("STCFN121") >= 0 ? "STCFN121" : "STCFN124"),
+    pipechar = W_CacheLumpName((W_CheckNumForName("STCFN121") >= 0 ? "STCFN121" : "STCFN124"),
         PU_CACHE);
 
     if (autostart)
