@@ -107,6 +107,7 @@ extern float    gammalevel;
 extern int      graphicdetail;
 extern boolean  homindicator;
 extern boolean  hud;
+extern int      hud_x;
 extern char     *iwadfolder;
 extern int      key_automap;
 extern int      key_automap_clearmark;
@@ -939,6 +940,8 @@ static void M_CheckDefaults(void)
 
     if (hud != false && hud != true)
         hud = HUD_DEFAULT;
+
+    hud_x = BETWEEN(HUDX_MIN, hud_x, HUDX_MAX);
 
     if (key_automap == INVALIDKEY)
         key_automap = KEYAUTOMAP_DEFAULT;

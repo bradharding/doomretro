@@ -1136,7 +1136,6 @@ boolean C_Responder(event_t *ev)
                 if (inputhistory == -1)
                     M_StringCopy(currentinput, consoleinput, sizeof(currentinput));
                 for (i = (inputhistory == -1 ? consolestrings : inputhistory) - 1; i >= 0; --i)
-                {
                     if (console[i].type == input && strcasecmp(consoleinput, console[i].string))
                     {
                         inputhistory = i;
@@ -1146,7 +1145,6 @@ boolean C_Responder(event_t *ev)
                         showcaret = true;
                         break;
                     }
-                }
                 break;
 
             // next input

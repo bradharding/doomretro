@@ -94,6 +94,7 @@ extern boolean          emptytallpercent;
 static boolean          headsupactive = false;
 
 byte                    *tempscreen;
+int                     hud_x = HUDX_DEFAULT;
 int                     hud_y;
 
 static patch_t          *healthpatch = NULL;
@@ -105,7 +106,7 @@ void (*hudfunc)(int, int, patch_t *, byte *);
 void (*hudnumfunc)(int, int, patch_t *, byte *);
 void (*godhudfunc)(int, int, patch_t *, byte *);
 
-#define HUD_X           10 * SCREENSCALE / 2
+#define HUD_X           hud_x * SCREENSCALE / 2
 #define HUD_Y           311 * SCREENSCALE / 2
 
 #define HUD_HEALTH_X    HUD_X

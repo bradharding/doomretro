@@ -135,6 +135,7 @@ extern float    gammalevel;
 extern int      graphicdetail;
 extern boolean  homindicator;
 extern boolean  hud;
+extern int      hud_x;
 extern char     *iwadfolder;
 extern int      key_automap;
 extern int      key_automap_clearmark;
@@ -441,6 +442,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED, "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE, "Toggles vibration for XInput gamepads."),
     CMD       (help, C_NoCondition, C_Help, 0, "", "Shows the help screen."),
+    CVAR_INT  (hud_x, C_NoCondition, C_Int, CF_NONE, hud_x, 0, HUDX, "The horizontal position of the widescreen HUD."),
     CMD_CHEAT (idbeholda, 0),
     CMD_CHEAT (idbeholdl, 0),
     CMD_CHEAT (idbeholdi, 0),
@@ -508,7 +510,7 @@ consolecmd_t consolecmds[] =
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Saves the game to a file."),
     CVAR_STR  (savegamefolder, C_NoCondition, C_Str, savegamefolder, "The folder where savegames are saved."),
 #if defined(WIN32)
-    CVAR_BOOL (showmemoryusage, C_BoolCondition, C_Bool, showmemoryusage, NONE, "Toggles showing the memory usage."),
+    CVAR_BOOL (showmemoryusage, C_BoolCondition, C_Bool, showmemoryusage, NONE, "Toggles the display of "PACKAGE_NAME"'s memory usage."),
 #endif
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
@@ -526,7 +528,7 @@ consolecmd_t consolecmds[] =
 #if !defined(WIN32)
     CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
 #endif
-    CVAR_BOOL (vid_showfps, C_BoolCondition, C_Bool, vid_showfps, NONE, "Toggles showing the average frames per second."),
+    CVAR_BOOL (vid_showfps, C_BoolCondition, C_Bool, vid_showfps, NONE, "Toggles the display of the average frames per second."),
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggles vertical synchronization with display's refresh rate."),
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN, "Toggles widescreen mode."),
     CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),
