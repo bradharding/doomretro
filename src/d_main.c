@@ -687,8 +687,9 @@ static void D_FirstUse(void)
             ShellExecute(GetActiveWindow(), "open", PACKAGE_WIKI_URL, NULL, NULL, SW_SHOWNORMAL);
             I_Quit(false);
         }
+        else
 #endif
-        else if (buttons[buttonid].buttonid == 1)
+        if (buttons[buttonid].buttonid == 1)
             I_Quit(false);
     }
 }
@@ -1331,7 +1332,7 @@ static void D_DoomMainSetup(void)
 #if !defined(__MACOSX__)
     if (!W_MergeFile(PACKAGE_WAD, true))
 #else
-    if (!W_MergeFile((char*)[packageWadFullpath UTF8String]))
+    if (!W_MergeFile((char*)[packageWadFullpath UTF8String], true))
 #endif
         I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
 
