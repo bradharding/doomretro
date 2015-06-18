@@ -280,6 +280,7 @@
 				AB5A80C31A8DABE100AF539F /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		AB5A80C31A8DABE100AF539F /* Products */ = {
 			isa = PBXGroup;
