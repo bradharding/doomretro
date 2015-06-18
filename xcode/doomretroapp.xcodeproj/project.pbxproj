@@ -96,8 +96,8 @@
 		AB5A80C21A8DABE100AF539F /* doomretroapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = doomretroapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5A80C61A8DABE100AF539F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5A81D21A8DAEB600AF539F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		AB5A81D41A8DB00A00AF539F /* libSDL_mixer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL_mixer.a; path = ../../../../../usr/local/Cellar/sdl_mixer/1.2.12/lib/libSDL_mixer.a; sourceTree = "<group>"; };
-		AB5A81D61A8DB02F00AF539F /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = ../../../../../usr/local/Cellar/sdl2/2.0.3/lib/libSDL2.a; sourceTree = "<group>"; };
+		AB5A81D41A8DB00A00AF539F /* libSDL_mixer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL_mixer.a; path = /usr/local/lib/libSDL_mixer.a; sourceTree = "<group>"; };
+		AB5A81D61A8DB02F00AF539F /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /usr/local/lib/libSDL2.a; sourceTree = "<group>"; };
 		AB5A81DA1A8DB9EB00AF539F /* am_map.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = am_map.c; path = ../src/am_map.c; sourceTree = SOURCE_ROOT; };
 		AB5A81DB1A8DB9EB00AF539F /* am_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = am_map.h; path = ../src/am_map.h; sourceTree = SOURCE_ROOT; };
 		AB5A81DC1A8DB9EB00AF539F /* c_cmds.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = c_cmds.c; path = ../src/c_cmds.c; sourceTree = SOURCE_ROOT; };
@@ -699,11 +699,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/sdl_mixer/1.2.12/lib,
-					/usr/local/Cellar/sdl2/2.0.3/lib,
+					/usr/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/sdl2/2.0.3/include/SDL2 /usr/local/Cellar/sdl_mixer/1.2.12/include/SDL";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) /usr/local/include/SDL2 /usr/local/include/SDL";
 			};
 			name = Debug;
 		};
@@ -717,11 +716,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/local/Cellar/sdl_mixer/1.2.12/lib,
-					/usr/local/Cellar/sdl2/2.0.3/lib,
+					/usr/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/usr/local/Cellar/sdl2/2.0.3/include/SDL2 /usr/local/Cellar/sdl_mixer/1.2.12/include/SDL";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) /usr/local/include/SDL2 /usr/local/include/SDL";
 			};
 			name = Release;
 		};
