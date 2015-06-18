@@ -848,19 +848,26 @@ static void P_CreateBlockMap(void)
     fixed_t     miny = INT_MAX;
     fixed_t     maxx = INT_MIN;
     fixed_t     maxy = INT_MIN;
+    vertex_t    *vertex;
 
     // First find limits of map
-    for (i = 0; i < numvertexes; i++)
+    vertex = vertexes;
+    i = numvertexes;
+    do
     {
-        if ((vertexes[i].x >> FRACBITS) < minx)
-            minx = vertexes[i].x >> FRACBITS;
-        else if ((vertexes[i].x >> FRACBITS) > maxx)
-            maxx = vertexes[i].x >> FRACBITS;
-        if ((vertexes[i].y >> FRACBITS) < miny)
-            miny = vertexes[i].y >> FRACBITS;
-        else if ((vertexes[i].y >> FRACBITS) > maxy)
-            maxy = vertexes[i].y >> FRACBITS;
-    }
+        fixed_t j = vertex->x >> FRACBITS;
+
+        if (j < minx)
+            minx = j;
+        if (j > maxx)
+            maxx = j;
+        j = vertex->y >> FRACBITS;
+        if (j < miny)
+            miny = j;
+        if (j > maxy)
+            maxy = j;
+        ++vertex;
+    } while (--i);
 
     // Save blockmap parameters
     bmaporgx = minx << FRACBITS;
