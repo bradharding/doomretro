@@ -937,13 +937,15 @@ static void P_CreateBlockMap(void)
             // Now we simply iterate block-by-block until we reach the end block.
             while ((unsigned int)b < tot)       // failsafe -- should ALWAYS be true
             {
+                bmap_t  *bp = &bmap[b];
+
                 // Increase size of allocated list if necessary
-                if (bmap[b].n >= bmap[b].nalloc)
-                    bmap[b].list = realloc(bmap[b].list, (bmap[b].nalloc = bmap[b].nalloc ?
-                        bmap[b].nalloc * 2 : 8)*sizeof*bmap->list);
+                if (bp->n >= bp->nalloc && (bp->list = realloc(bp->list, (bp->nalloc = bp->nalloc ?
+                    bp->nalloc * 2 : 8) * sizeof(*bp->list))) == NULL)
+                    I_Error("P_CreateBlockMap: Unable to claim bmap");
 
                 // Add linedef to end of list
-                bmap[b].list[bmap[b].n++] = i;
+                bp->list[bp->n++] = i;
 
                 // If we have reached the last block, exit
                 if (b == bend)
