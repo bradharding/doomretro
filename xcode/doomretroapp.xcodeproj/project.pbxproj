@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8AD637331B33390400605ECA /* p_genlin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AD637321B3338E400605ECA /* p_genlin.c */; };
 		AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D21A8DAEB600AF539F /* Cocoa.framework */; };
 		AB5A81D51A8DB00A00AF539F /* libSDL_mixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D41A8DB00A00AF539F /* libSDL_mixer.a */; };
 		AB5A81D71A8DB02F00AF539F /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D61A8DB02F00AF539F /* libSDL2.a */; };
@@ -91,6 +92,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8AD637321B3338E400605ECA /* p_genlin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_genlin.c; path = ../../src/p_genlin.c; sourceTree = "<group>"; };
 		AB5A80C21A8DABE100AF539F /* doomretroapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = doomretroapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5A80C61A8DABE100AF539F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5A81D21A8DAEB600AF539F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -383,6 +385,7 @@
 				AB5A822F1A8DB9EB00AF539F /* p_fix.c */,
 				AB5A82301A8DB9EB00AF539F /* p_fix.h */,
 				AB5A82311A8DB9EB00AF539F /* p_floor.c */,
+				8AD637321B3338E400605ECA /* p_genlin.c */,
 				AB5A82321A8DB9EB00AF539F /* p_inter.c */,
 				AB5A82331A8DB9EB00AF539F /* p_inter.h */,
 				AB5A82341A8DB9EB00AF539F /* p_lights.c */,
@@ -603,6 +606,7 @@
 				AB5A82C01A8DB9EB00AF539F /* v_data.c in Sources */,
 				AB5A82AF1A8DB9EB00AF539F /* p_spec.c in Sources */,
 				AB5A82BD1A8DB9EB00AF539F /* sounds.c in Sources */,
+				8AD637331B33390400605ECA /* p_genlin.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
