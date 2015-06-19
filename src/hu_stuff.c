@@ -335,15 +335,13 @@ static void HU_DrawHUD(void)
     int             invulnerability = plr->powers[pw_invulnerability];
     static boolean  healthanim = false;
     patch_t         *patch;
-
-    if (((readyweapon == wp_fist && pendingweapon == wp_nochange)
-        || pendingweapon == wp_fist) && plr->powers[pw_strength])
-        patch = berserkpatch;
-    else
-        patch = healthpatch;
+    boolean         gamepaused = (menuactive || paused || consoleactive);
 
     tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
-        || menuactive || paused || consoleactive ? tinttab75 : tinttab25);
+        || gamepaused ? tinttab75 : tinttab25);
+
+    patch = (((readyweapon == wp_fist && pendingweapon == wp_nochange)
+        || pendingweapon == wp_fist) && plr->powers[pw_strength] ? berserkpatch : healthpatch);
     if (patch)
     {
         if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
@@ -356,7 +354,7 @@ static void HU_DrawHUD(void)
     if (!emptytallpercent)
         hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
 
-    if (health <= HUD_HEALTH_MIN && !menuactive && !paused && !consoleactive)
+    if (health <= HUD_HEALTH_MIN && !gamepaused)
     {
         if (healthwait < I_GetTime())
         {
@@ -382,8 +380,8 @@ static void HU_DrawHUD(void)
         static int          ammowait = 0;
         static boolean      ammoanim = false;
 
-        tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN
-            || menuactive || paused || consoleactive ? tinttab75 : tinttab25);
+        tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN || gamepaused ?
+            tinttab75 : tinttab25);
         patch = ammopic[ammotype].patch;
         if (patch)
         {
@@ -392,7 +390,7 @@ static void HU_DrawHUD(void)
         }
         DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, hudnumfunc);
 
-        if (ammo <= HUD_AMMO_MIN && !menuactive && !paused && !consoleactive)
+        if (ammo <= HUD_AMMO_MIN && !gamepaused)
         {
             if (ammowait < I_GetTime())
             {
@@ -435,7 +433,7 @@ static void HU_DrawHUD(void)
 
             if (patch)
             {
-                if (!menuactive && !paused && !consoleactive)
+                if (!gamepaused)
                 {
                     if (keywait < I_GetTime())
                     {
