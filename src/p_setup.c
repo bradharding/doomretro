@@ -901,6 +901,9 @@ static void P_CreateBlockMap(void)
         unsigned int    tot = bmapwidth * bmapheight;           // size of blockmap
         bmap_t          *bmap = calloc(sizeof(*bmap), tot);     // array of blocklists
 
+        if (bmap == NULL)
+            I_Error("P_CreateBlockMap: Unable to create blockmap");
+
         for (i = 0; i < numlines; i++)
         {
             // starting coordinates
@@ -942,7 +945,7 @@ static void P_CreateBlockMap(void)
                 // Increase size of allocated list if necessary
                 if (bp->n >= bp->nalloc && (bp->list = realloc(bp->list, (bp->nalloc = bp->nalloc ?
                     bp->nalloc * 2 : 8) * sizeof(*bp->list))) == NULL)
-                    I_Error("P_CreateBlockMap: Unable to claim bmap");
+                    I_Error("P_CreateBlockMap: Unable to create blockmap");
 
                 // Add linedef to end of list
                 bp->list[bp->n++] = i;
