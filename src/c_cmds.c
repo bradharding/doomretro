@@ -83,8 +83,6 @@
 #define NONE_MAX        0
 #define NONE_DEFAULT    0
 
-static int      totalmapped = 0;
-
 extern boolean  alwaysrun;
 extern boolean  am_grid;
 extern boolean  am_rotatemode;
@@ -1772,6 +1770,45 @@ static boolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
     return (parm1[0]);
 }
 
+static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
+{
+    int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
+
+    if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
+        C_TabbedOutput(tabs, "Amount of map revealed\t100%%");
+    else
+    {
+        int i = 0;
+        int totallines = numlines;
+        int totallinesmapped = 0;
+
+        while (i < numlines)
+            totallines -= !!(lines[i++].flags & ML_DONTDRAW);
+        i = 0;
+        while (i < numlines)
+            totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
+        C_TabbedOutput(tabs, "Amount of map revealed\t%i%%", totallinesmapped * 100 / totallines);
+    }
+
+    if (!totalkills)
+        C_TabbedOutput(tabs, "Monsters killed\t0 of 0 (0%%)");
+    else
+        C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)", commify(players[0].killcount),
+        commify(totalkills), players[0].killcount * 100 / totalkills);
+
+    if (!totalitems)
+        C_TabbedOutput(tabs, "Items picked up\t0 of 0 (0%%)");
+    else
+        C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)", commify(players[0].itemcount),
+        commify(totalitems), players[0].itemcount * 100 / totalitems);
+
+    if (!totalsecret)
+        C_TabbedOutput(tabs, "Secrets revealed\t0 of 0 (0%%)");
+    else
+        C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)", commify(players[0].secretcount),
+            commify(totalsecret), players[0].secretcount * 100 / totalsecret);
+}
+
 static void C_Quit(char *cmd, char *parm1, char *parm2)
 {
     I_Quit(true);
@@ -2045,41 +2082,6 @@ static void C_Time(char *cmd, char *parm1, char *parm2)
         }
         ++i;
     }
-}
-
-static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
-{
-    int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
-
-    if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
-        C_TabbedOutput(tabs, "Amount of map revealed\t100%%");
-    else
-    {
-        int i = 0;
-
-        totalmapped = 0;
-        while (i < numlines)
-            totalmapped += !!(lines[i++].flags & ML_MAPPED);
-        C_TabbedOutput(tabs, "Amount of map revealed\t%i%%", totalmapped * 100 / numlines);
-    }
-
-    if (!totalkills)
-        C_TabbedOutput(tabs, "Monsters killed\t0 of 0 (0%%)");
-    else
-        C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)", commify(players[0].killcount),
-            commify(totalkills), players[0].killcount * 100 / totalkills);
-
-    if (!totalitems)
-        C_TabbedOutput(tabs, "Items picked up\t0 of 0 (0%%)");
-    else
-        C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)", commify(players[0].itemcount),
-            commify(totalitems), players[0].itemcount * 100 / totalitems);
-
-    if (!totalsecret)
-        C_TabbedOutput(tabs, "Secrets revealed\t0 of 0 (0%%)");
-    else
-        C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)", commify(players[0].secretcount),
-            commify(totalsecret), players[0].secretcount * 100 / totalsecret);
 }
 
 static void C_UnBind(char *cmd, char *parm1, char *parm2)
