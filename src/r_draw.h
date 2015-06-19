@@ -52,7 +52,7 @@ extern fixed_t          dc_texheight;
 extern fixed_t          dc_texturefrac;
 extern boolean          dc_topsparkle;
 extern boolean          dc_bottomsparkle;
-extern fixed_t          dc_blood;
+extern byte             *dc_blood;
 extern byte             *dc_colormask;
 extern int              dc_baseclip;
 

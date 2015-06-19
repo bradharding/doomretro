@@ -164,7 +164,7 @@ fixed_t         dc_texheight;
 fixed_t         dc_texturefrac;
 boolean         dc_topsparkle;
 boolean         dc_bottomsparkle;
-fixed_t         dc_blood;
+byte            *dc_blood;
 byte            *dc_colormask;
 int             dc_baseclip;
 
@@ -252,28 +252,28 @@ void R_DrawBloodSplatColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    const fixed_t       blood = dc_blood;
+    byte                *blood = dc_blood;
 
     while (--count > 0)
     {
-        *dest = tinttab75[*dest + blood];
+        *dest = *(*dest + blood);
         dest += SCREENWIDTH;
     }
-    *dest = tinttab75[*dest + blood];
+    *dest = *(*dest + blood);
 }
 
 void R_DrawSolidBloodSplatColumn(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    const fixed_t       blood = dc_blood;
+    const fixed_t       blood = *dc_blood;
 
     while (--count > 0)
     {
-        *dest = blood >> 8;
+        *dest = blood;
         dest += SCREENWIDTH;
     }
-    *dest = blood >> 8;
+    *dest = blood;
 }
 
 void R_DrawWallColumn(void)
