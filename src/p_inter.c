@@ -46,6 +46,7 @@
 #include "dstrings.h"
 #include "hu_stuff.h"
 #include "i_gamepad.h"
+#include "i_timer.h"
 #include "m_config.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -132,6 +133,9 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     if (player->ammo[ammo] > player->maxammo[ammo])
         player->ammo[ammo] = player->maxammo[ammo];
 
+    if (num && ammo == weaponinfo[player->readyweapon].ammo)
+        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+
     // If non zero ammo, don't change up weapons, player was lower on purpose.
     if (oldammo)
         return num;
@@ -173,6 +177,7 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
         default:
             break;
     }
+
     return num;
 }
 
@@ -185,6 +190,8 @@ void P_GiveBackpack(player_t *player)
         for (i = 0; i < NUMAMMO; i++)
             player->maxammo[i] *= 2;
         player->backpack = true;
+
+        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
     }
 }
 
@@ -199,7 +206,14 @@ boolean P_GiveFullAmmo(player_t *player)
             player->ammo[i] = player->maxammo[i];
             result = true;
         }
-    return result;
+
+    if (result)
+    {
+        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+        return true;
+    }
+    else
+        return false;
 }
 
 void P_AddBonus(player_t *player, int amount)
@@ -228,7 +242,13 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
         player->pendingweapon = weapon;
     }
 
-    return (gaveweapon || gaveammo);
+    if (gaveweapon || gaveammo)
+    {
+        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+        return true;
+    }
+    else
+        return false;
 }
 
 boolean P_GiveAllWeapons(player_t *player)
@@ -291,7 +311,13 @@ boolean P_GiveAllWeapons(player_t *player)
     player->shotguns = (player->weaponowned[wp_shotgun]
         || player->weaponowned[wp_supershotgun]);
 
-    return result;
+    if (result)
+    {
+        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+        return true;
+    }
+    else
+        return false;
 }
 
 //
@@ -306,6 +332,8 @@ boolean P_GiveBody(player_t *player, int num)
     player->health = MIN(player->health + num, maxhealth);
     player->mo->health = player->health;
 
+    healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
+
     return true;
 }
 
@@ -313,8 +341,8 @@ void P_GiveMegaHealth(player_t *player)
 {
     if (!(player->cheats & CF_GODMODE))
     {
-        player->health = mega_health;
-        player->mo->health = player->health;
+        player->health = player->mo->health = mega_health;
+        healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
     }
 }
 
@@ -332,6 +360,7 @@ boolean P_GiveArmor(player_t *player, int armortype)
 
     player->armortype = armortype;
     player->armorpoints = hits;
+    armorhighlight = I_GetTime() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
     return true;
 }
@@ -522,6 +551,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 player->health++;       // can go over 100%
                 if (player->health > maxhealth * 2)
                     player->health = maxhealth * 2;
+                else
+                    healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 player->mo->health = player->health;
             }
             HU_PlayerMessage(s_GOTHTHBONUS, true);
@@ -531,6 +562,8 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             player->armorpoints++;      // can go over 100%
             if (player->armorpoints > max_armor)
                 player->armorpoints = max_armor;
+            else
+                armorhighlight = I_GetTime() + HUD_ARMOR_HIGHLIGHT_WAIT;
             if (!player->armortype)
                 player->armortype = 1;
             HU_PlayerMessage(s_GOTARMBONUS, true);
@@ -543,6 +576,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (player->health > max_soul)
                     player->health = max_soul;
                 player->mo->health = player->health;
+                healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
             HU_PlayerMessage(s_GOTSUPER, true);
             sound = sfx_getpow;
