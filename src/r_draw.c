@@ -250,9 +250,9 @@ void R_DrawSolidShadowColumn(void)
 
 void R_DrawBloodSplatColumn(void)
 {
-    int32_t             count = dc_yh - dc_yl + 1;
-    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
-    byte                *blood = dc_blood;
+    int32_t     count = dc_yh - dc_yl + 1;
+    byte        *dest = R_ADDRESS(0, dc_x, dc_yl);
+    byte        *blood = dc_blood;
 
     while (--count > 0)
     {

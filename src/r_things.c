@@ -363,14 +363,11 @@ static void R_DrawMaskedBloodSplatColumn(column_t *column)
         // calculate unclipped screen coordinates for post
         int64_t topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
-        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), mceilingclip[dc_x] + 1);
+        dc_yl = MAX((int)(topscreen >> FRACBITS) + 1, mceilingclip[dc_x] + 1);
         dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), mfloorclip[dc_x] - 1);
 
         if (dc_yl <= dc_yh && dc_yh < viewheight)
-        {
-            dc_source = (byte *)column + 3;
             colfunc();
-        }
         column = (column_t *)((byte *)column + length + 4);
     }
 }
@@ -384,15 +381,12 @@ static void R_DrawMaskedShadowColumn(column_t *column)
         // calculate unclipped screen coordinates for post
         int64_t topscreen = sprtopscreen + spryscale * column->topdelta + 1;
 
-        dc_yl = MAX((int)(((topscreen + FRACUNIT) >> FRACBITS) / 10 + shift), mceilingclip[dc_x] + 1);
+        dc_yl = MAX((int)(((topscreen >> FRACBITS) + 1) / 10 + shift), mceilingclip[dc_x] + 1);
         dc_yh = MIN((int)(((topscreen + spryscale * length) >> FRACBITS) / 10 + shift),
             mfloorclip[dc_x] - 1);
 
         if (dc_yl <= dc_yh && dc_yh < viewheight)
-        {
-            dc_source = (byte *)column + 3;
             colfunc();
-        }
         column = (column_t *)((byte *)column + length + 4);
     }
 }
