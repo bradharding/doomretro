@@ -82,6 +82,7 @@ byte            **texturefullbright;
 int             *texturecompositesize;
 short           **texturecolumnlump;
 unsigned int    **texturecolumnofs;
+unsigned int    **texturecolumnofs2; // [crispy] original column offsets for single-patched textures
 byte            **texturecomposite;
 
 // for global animation
@@ -277,6 +278,9 @@ static void R_GenerateComposite(int texnum)
 
     boolean             tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
 
+    // [crispy] initialize composite background to black (index 0)
+    memset(block, 0, texturecompositesize[texnum]);
+
     for (; --i >= 0; patch++)
     {
         patch_t         *realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
@@ -285,11 +289,12 @@ static void R_GenerateComposite(int texnum)
         const int       *cofs = realpatch->columnofs - x1;
 
         for (; x1 < x2 ; x1++)
-            if (collump[x1] == -1)      // Column has multiple patches?
-                // killough 1/25/98, 4/9/98: Fix medusa bug.
-                R_DrawColumnInCache((column_t *)((byte *)realpatch + LONG(cofs[x1])),
-                    block + colofs[x1], patch->originy, texture->height,
-                    marks + x1 * texture->height, tekwall1);
+            // [crispy] generate composites for single-patched textures as well
+            //        if (collump[x] == -1)      // Column has multiple patches?
+            // killough 1/25/98, 4/9/98: Fix medusa bug.
+            R_DrawColumnInCache((column_t *)((byte *)realpatch + LONG(cofs[x1])),
+                block + colofs[x1], patch->originy, texture->height,
+                marks + x1 * texture->height, tekwall1);
     }
 
     // killough 4/9/98: Next, convert multipatched columns into true columns,
@@ -353,6 +358,7 @@ static void R_GenerateLookup(int texnum)
     // Composited texture not created yet.
     short               *collump = texturecolumnlump[texnum];
     unsigned int        *colofs = texturecolumnofs[texnum];
+    unsigned int        *colofs2 = texturecolumnofs2[texnum];   // [crispy] original column offsets
 
     // killough 4/9/98: keep count of posts in addition to patches.
     // Part of fix for medusa bug for multipatched 2s normals.
@@ -376,7 +382,7 @@ static void R_GenerateLookup(int texnum)
         {
             count[x].patches++;
             collump[x] = pat;
-            colofs[x] = LONG(cofs[x]) + 3;
+            colofs[x] = colofs2[x] = LONG(cofs[x]) + 3;
         }
     }
 
@@ -435,21 +441,23 @@ static void R_GenerateLookup(int texnum)
         while (--x >= 0)
         {
             if (count[x].patches > 1)                   // killough 4/9/98
-            {
-                // killough 1/25/98, 4/9/98:
-                //
-                // Fix Medusa bug, by adding room for column header
-                // and trailer bytes for each post in merged column.
-                // For now, just allocate conservatively 4 bytes
-                // per post per patch per column, since we don't
-                // yet know how many posts the merged column will
-                // require, and it's bounded above by this limit.
+                // [crispy] moved up here, the rest in this loop
+                // applies to single-patched textures as well
                 collump[x] = -1;                        // mark lump as multipatched
-                colofs[x] = csize + 3;                  // three header bytes in a column
 
-                // killough 12/98: add room for one extra post
-                csize += 4 * count[x].posts + 5;        // 1 stop byte plus 4 bytes per post
-            }
+            // killough 1/25/98, 4/9/98:
+            //
+            // Fix Medusa bug, by adding room for column header
+            // and trailer bytes for each post in merged column.
+            // For now, just allocate conservatively 4 bytes
+            // per post per patch per column, since we don't
+            // yet know how many posts the merged column will
+            // require, and it's bounded above by this limit.
+            colofs[x] = csize + 3;                      // three header bytes in a column
+
+            // killough 12/98: add room for one extra post
+            csize += 4 * count[x].posts + 5;            // 1 stop byte plus 4 bytes per post
+
             csize += height;                            // height bytes of texture data
         }
 
@@ -461,10 +469,11 @@ static void R_GenerateLookup(int texnum)
 //
 // R_GetColumn
 //
-byte *R_GetColumn(int tex, int col)
+byte *R_GetColumn(int tex, int col, boolean opaque)
 {
     int         lump;
     int         ofs;
+    int         ofs2;
 
     if (lookuptextures[tex] == false)
         R_GenerateLookup(tex);
@@ -472,8 +481,10 @@ byte *R_GetColumn(int tex, int col)
     col &= texturewidthmask[tex];
     lump = texturecolumnlump[tex][col];
     ofs = texturecolumnofs[tex][col];
+    ofs2 = texturecolumnofs[tex][col];
 
-    if (lump > 0)
+    // [crispy] single-patched mid-textures on two-sided walls
+    if (lump > 0 && !opaque)
         return ((byte *)W_CacheLumpNum(lump, PU_CACHE) + ofs);
 
     if (!texturecomposite[tex])
@@ -618,6 +629,7 @@ static void R_InitTextures(void)
     textures = Z_Malloc(numtextures * sizeof(*textures), PU_STATIC, 0);
     texturecolumnlump = Z_Malloc(numtextures * sizeof(*texturecolumnlump), PU_STATIC, 0);
     texturecolumnofs = Z_Malloc(numtextures * sizeof(*texturecolumnofs), PU_STATIC, 0);
+    texturecolumnofs2 = Z_Malloc(numtextures * sizeof(*texturecolumnofs2), PU_STATIC, 0);
     texturecomposite = Z_Malloc(numtextures * sizeof(*texturecomposite), PU_STATIC, 0);
     texturecompositesize = Z_Malloc(numtextures * sizeof(*texturecompositesize), PU_STATIC, 0);
     texturewidthmask = Z_Malloc(numtextures * sizeof(*texturewidthmask), PU_STATIC, 0);
@@ -667,6 +679,7 @@ static void R_InitTextures(void)
         }
         texturecolumnlump[i] = Z_Malloc(texture->width * sizeof(**texturecolumnlump),  PU_STATIC, 0);
         texturecolumnofs[i] = Z_Malloc(texture->width * sizeof(**texturecolumnofs), PU_STATIC, 0);
+        texturecolumnofs2[i] = Z_Malloc(texture->width*sizeof(**texturecolumnofs2), PU_STATIC, 0);
 
         for (j = 1; j * 2 <= texture->width; j <<= 1);
 

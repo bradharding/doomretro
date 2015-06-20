@@ -329,7 +329,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
             // draw the texture
             R_DrawMaskedColumn((column_t *)((byte *)R_GetColumn(texnum,
-                maskedtexturecol[dc_x]) - 3));
+                maskedtexturecol[dc_x], false) - 3));
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
     }
@@ -428,7 +428,7 @@ void R_RenderSegLoop(void)
                     && rw_distance < (512 << FRACBITS));
 
                 dc_texturemid = rw_midtexturemid;
-                dc_source = R_GetColumn(midtexture, texturecolumn);
+                dc_source = R_GetColumn(midtexture, texturecolumn, true);
                 dc_texheight = midtexheight;
 
                 // [BH] apply brightmap
@@ -473,7 +473,7 @@ void R_RenderSegLoop(void)
                             && rw_distance < (512 << FRACBITS));
 
                         dc_texturemid = rw_toptexturemid;
-                        dc_source = R_GetColumn(toptexture, texturecolumn);
+                        dc_source = R_GetColumn(toptexture, texturecolumn, true);
                         dc_texheight = toptexheight;
 
                         // [BH] apply brightmap
@@ -524,7 +524,7 @@ void R_RenderSegLoop(void)
                             && rw_distance < (512 << FRACBITS));
 
                         dc_texturemid = rw_bottomtexturemid;
-                        dc_source = R_GetColumn(bottomtexture, texturecolumn);
+                        dc_source = R_GetColumn(bottomtexture, texturecolumn, true);
                         dc_texheight = bottomtexheight;
 
                         // [BH] apply brightmap
