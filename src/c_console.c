@@ -1356,16 +1356,9 @@ void C_PrintCompileDate(void)
 
     C_Output("");
     C_Output("This %i-bit %s binary of %s was built on %s, %s %i, %i at %i:%02i%s.",
-        (sizeof(intptr_t) == 4 ? 32 : 64),
-#if defined(WIN32)
-        "Windows",
-#elif defined(__MACOSX__)
-        "OS X",
-#else
-        "Linux",
-#endif
-        PACKAGE_NAMEANDVERSIONSTRING, days[dayofweek(day, month + 1, year)], months[month], day,
-        year, (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
+        (sizeof(intptr_t) == 4 ? 32 : 64), SDL_GetPlatform(), PACKAGE_NAMEANDVERSIONSTRING,
+        days[dayofweek(day, month + 1, year)], months[month], day, year,
+        (hour > 12 ? hour - 12 : hour), minute, (hour < 12 ? "am" : "pm"));
 }
 
 void C_PrintSDLVersions(void)
