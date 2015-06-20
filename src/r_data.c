@@ -481,11 +481,11 @@ byte *R_GetColumn(int tex, int col, boolean opaque)
     col &= texturewidthmask[tex];
     lump = texturecolumnlump[tex][col];
     ofs = texturecolumnofs[tex][col];
-    ofs2 = texturecolumnofs[tex][col];
+    ofs2 = texturecolumnofs2[tex][col];
 
     // [crispy] single-patched mid-textures on two-sided walls
     if (lump > 0 && !opaque)
-        return ((byte *)W_CacheLumpNum(lump, PU_CACHE) + ofs);
+        return ((byte *)W_CacheLumpNum(lump, PU_CACHE) + ofs2);
 
     if (!texturecomposite[tex])
         R_GenerateComposite(tex);
