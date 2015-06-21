@@ -323,25 +323,36 @@ static void HU_DrawHUD(void)
 
     patch = (((readyweapon == wp_fist && pendingweapon == wp_nochange)
         || pendingweapon == wp_fist) && plr->powers[pw_strength] ? berserkpatch : healthpatch);
-    if (patch)
-    {
-        if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-            godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
-        else
-            hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
-        health_x += SHORT(patch->width) + 8;
-    }
+
     if (healthhighlight)
     {
         if (healthhighlight < I_GetTime())
             healthhighlight = 0;
 
+        if (patch)
+        {
+            if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
+                V_DrawYellowHUDPatch(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
+                    tinttab);
+            else
+                V_DrawHUDPatch(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
+                    tinttab);
+            health_x += SHORT(patch->width) + 8;
+        }
         DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, V_DrawHUDPatch);
         if (!emptytallpercent)
             V_DrawHUDPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
     }
     else
     {
+        if (patch)
+        {
+            if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
+                godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
+            else
+                hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
+            health_x += SHORT(patch->width) + 8;
+        }
         DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
         if (!emptytallpercent)
             hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
