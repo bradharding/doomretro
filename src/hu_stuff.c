@@ -332,16 +332,16 @@ static void HU_DrawHUD(void)
         if (patch)
         {
             if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-                V_DrawYellowHUDPatch(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
+                V_DrawYellowHUDPatch(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17) - 1, patch,
                     tinttab);
             else
-                V_DrawHUDPatch(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch,
+                V_DrawHUDPatch(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17) - 1, patch,
                     tinttab);
             health_x += SHORT(patch->width) + 8;
         }
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, V_DrawHUDPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y - 1, health, tinttab, V_DrawHUDPatch);
         if (!emptytallpercent)
-            V_DrawHUDPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+            V_DrawHUDPatch(health_x, HUD_HEALTH_Y - 1, tallpercent, tinttab);
     }
     else
     {
@@ -395,10 +395,10 @@ static void HU_DrawHUD(void)
 
             if (patch)
             {
-                V_DrawHUDPatch(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y, patch, tinttab);
+                V_DrawHUDPatch(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y - 1, patch, tinttab);
                 ammo_x += SHORT(patch->width) + 8;
             }
-            DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, V_DrawHUDPatch);
+            DrawHUDNumber(&ammo_x, HUD_AMMO_Y - 1, ammo, tinttab, V_DrawHUDPatch);
         }
         else
         {
@@ -497,21 +497,21 @@ static void HU_DrawHUD(void)
             if (patch)
             {
                 armor_x -= SHORT(patch->width);
-                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch,
+                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16) - 1, patch,
                     tinttab66);
                 armor_x -= 7;
             }
             if (emptytallpercent)
             {
                 armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHUDPatch);
+                DrawHUDNumber(&armor_x, HUD_ARMOR_Y - 1, armor, tinttab66, V_DrawHUDPatch);
             }
             else
             {
                 armor_x -= SHORT(tallpercent->width);
-                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
+                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y - 1, tallpercent, tinttab66);
                 armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHUDPatch);
+                DrawHUDNumber(&armor_x, HUD_ARMOR_Y - 1, armor, tinttab66, V_DrawHUDPatch);
             }
         }
         else
