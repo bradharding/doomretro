@@ -795,10 +795,20 @@ boolean G_Responder(event_t *ev)
             }
             if (!automapactive && !menuactive && !paused)
             {
-                if (mousebnextweapon == MOUSE_WHEELDOWN && ev->data1 > 0)
-                    G_NextWeapon();
-                else if (mousebprevweapon == MOUSE_WHEELUP && ev->data1 < 0)
-                    G_PrevWeapon();
+                if (ev->data1 > 0)
+                {
+                    if (mousebnextweapon == MOUSE_WHEELDOWN)
+                        G_NextWeapon();
+                    else if (mousebprevweapon == MOUSE_WHEELDOWN)
+                        G_PrevWeapon();
+                }
+                else if (ev->data1 < 0)
+                {
+                    if (mousebnextweapon == MOUSE_WHEELUP)
+                        G_NextWeapon();
+                    else if (mousebprevweapon == MOUSE_WHEELUP)
+                        G_PrevWeapon();
+                }
             }
             return true;
 
