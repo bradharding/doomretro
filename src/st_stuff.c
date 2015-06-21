@@ -757,9 +757,7 @@ boolean ST_Responder(event_t *ev)
             }
 
             // no clipping mode cheat
-            else if (((cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial)
-                      || (cht_CheckCheat(&cheat_commercial_noclip, ev->data2)
-                          && gamemode == commercial))
+            else if (cht_CheckCheat(&cheat_noclip, ev->data2) && gamemode != commercial
                      && gameskill != sk_nightmare
                      // [BH] can only enter cheat while player is alive
                      && plyr->health)
@@ -767,6 +765,26 @@ boolean ST_Responder(event_t *ev)
                 plyr->cheats ^= CF_NOCLIP;
 
                 C_Input(cheat_noclip.sequence);
+
+                HU_PlayerMessage(((plyr->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF),
+                    false);
+
+                // [BH] always display message
+                message_dontfuckwithme = true;
+
+                // [BH] play sound
+                S_StartSound(NULL, sfx_getpow);
+            }
+
+            // no clipping mode cheat
+            else if (cht_CheckCheat(&cheat_commercial_noclip, ev->data2) && gamemode == commercial
+                && gameskill != sk_nightmare
+                // [BH] can only enter cheat while player is alive
+                && plyr->health)
+            {
+                plyr->cheats ^= CF_NOCLIP;
+
+                C_Input(cheat_commercial_noclip.sequence);
 
                 HU_PlayerMessage(((plyr->cheats & CF_NOCLIP) ? s_STSTR_NCON : s_STSTR_NCOFF),
                     false);
