@@ -47,75 +47,80 @@ void P_CalcHeight(player_t *player);
 //
 boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 {
-    int         tag;
     thinker_t   *thinker;
+    int         i;
 
     // Don't teleport missiles.
     // Don't teleport if hit back of line, so you can get out of teleporter.
     if (side || (thing->flags & MF_MISSILE))
         return false;
 
-    tag = line->tag;
-
-    for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
-    {
-        mobj_t  *m;
-
-        if (thinker->function == P_MobjThinker && (m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
-            && m->subsector->sector->tag == tag)
+    // killough 1/31/98: improve performance by using
+    // P_FindSectorFromLineTag instead of simple linear search.
+    for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
+        for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
         {
-            fixed_t     oldx = thing->x;
-            fixed_t     oldy = thing->y;
-            fixed_t     oldz = thing->z;
-            player_t    *player = thing->player;
+            mobj_t  *m;
 
-            if (P_TeleportMove(thing, m->x, m->y, m->z, false)) // killough 8/9/98
+            if (thinker->function == P_MobjThinker && (m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
+                && m->subsector->sector - sectors == i)
             {
-                mobj_t          *fog;
-                unsigned int    an;
+                fixed_t     oldx = thing->x;
+                fixed_t     oldy = thing->y;
+                fixed_t     oldz = thing->z;
+                player_t    *player = thing->player;
 
-                thing->z = thing->floorz;
+                // killough 5/12/98: exclude voodoo dolls:
+                if (player && player->mo != thing)
+                    player = NULL;
 
-                if (player)
-                    player->viewz = thing->z + player->viewheight;
-
-                // spawn teleport fog at source and destination
-                fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
-                fog->angle = thing->angle;
-                S_StartSound(fog, sfx_telept);
-                an = (m->angle >> ANGLETOFINESHIFT);
-                fog = P_SpawnMobj(m->x + 20 * finecosine[an],
-                    m->y + 20 * finesine[an], thing->z, MT_TFOG);
-                fog->angle = m->angle;
-
-                // emit sound, where?
-                S_StartSound(fog, sfx_telept);
-
-                if (player)
+                if (P_TeleportMove(thing, m->x, m->y, m->z, false))     // killough 8/9/98
                 {
-                    int i;
+                    mobj_t          *fog;
+                    unsigned int    an;
 
-                    // [BH] teleport can be drawn on automap now
-                    for (i = 0; i < line->backsector->linecount; i++)
-                        line->backsector->lines[i]->flags |= ML_TELEPORTTRIGGERED;
+                    thing->z = thing->floorz;
 
-                    // don't move for a bit
-                    thing->reactiontime = 18;
+                    if (player)
+                        player->viewz = thing->z + player->viewheight;
 
-                    player->psprites[ps_weapon].sx = 0;
-                    player->psprites[ps_weapon].sy = WEAPONTOP;
+                    // spawn teleport fog at source and destination
+                    fog = P_SpawnMobj(oldx, oldy, oldz, MT_TFOG);
+                    fog->angle = thing->angle;
+                    S_StartSound(fog, sfx_telept);
+                    an = (m->angle >> ANGLETOFINESHIFT);
+                    fog = P_SpawnMobj(m->x + 20 * finecosine[an],
+                        m->y + 20 * finesine[an], thing->z, MT_TFOG);
+                    fog->angle = m->angle;
 
-                    player->momx = player->momy = 0;
+                    // emit sound, where?
+                    S_StartSound(fog, sfx_telept);
+
+                    if (player)
+                    {
+                        int j;
+
+                        // [BH] teleport can be drawn on automap now
+                        for (j = 0; j < line->backsector->linecount; j++)
+                            line->backsector->lines[j]->flags |= ML_TELEPORTTRIGGERED;
+
+                        // don't move for a bit
+                        thing->reactiontime = 18;
+
+                        player->psprites[ps_weapon].sx = 0;
+                        player->psprites[ps_weapon].sy = WEAPONTOP;
+
+                        player->momx = player->momy = 0;
+                    }
+
+                    thing->angle = m->angle;
+
+                    thing->momx = thing->momy = thing->momz = 0;
+
+                    return true;
                 }
-
-                thing->angle = m->angle;
-
-                thing->momx = thing->momy = thing->momz = 0;
-
-                return true;
             }
         }
-    }
 
     return false;
 }
@@ -276,9 +281,9 @@ boolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, boolean rev
             // Make sure we are on correct side of exit linedef.
             while (P_PointOnLineSide(x, y, l) != side && --fudge >= 0)
                 if (abs(l->dx) > abs(l->dy))
-                    y -= (l->dx < 0) != side ? -1 : 1;
+                    y -= ((l->dx < 0) != side ? -1 : 1);
                 else
-                    x += (l->dy < 0) != side ? -1 : 1;
+                    x += ((l->dy < 0) != side ? -1 : 1);
 
             // Attempt to teleport, aborting if blocked
             if (!P_TeleportMove(thing, x, y, z, false)) // killough 8/9/98
