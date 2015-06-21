@@ -371,6 +371,10 @@ void P_LoadSubsectors(int lump)
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
     data = (const mapsubsector_t *)W_CacheLumpNum(lump, PU_STATIC);
 
+    // [crispy] fail on missing subsectors
+    if (!data || !numsubsectors)
+        I_Error("P_LoadSubsectors: No subsectors in map!");
+
     memset(subsectors, 0, numsubsectors * sizeof(subsector_t));
 
     for (i = 0; i < numsubsectors; i++)
