@@ -66,10 +66,10 @@ typedef enum
 static finalestage_t    finalestage;
 static int              finalecount;
 
-#define TEXTSPEED       3       // original value               // phares
-#define TEXTWAIT        250     // original value               // phares
-#define NEWTEXTSPEED    0.01f   // new value                    // phares
-#define NEWTEXTWAIT     1000    // new value                    // phares
+#define TEXTSPEED       (3 * FRACUNIT)          // original value       // phares
+#define TEXTWAIT        (250 * FRACUNIT)        // original value       // phares
+#define NEWTEXTSPEED    ((FRACUNIT + 50) / 100) // new value            // phares
+#define NEWTEXTWAIT     (1000 * FRACUNIT)       // new value            // phares
 
 static char     *finaletext;
 static char     *finaleflat;
@@ -205,7 +205,7 @@ boolean F_Responder(event_t *ev)
     return false;
 }
 
-static float TextSpeed(void)
+static fixed_t TextSpeed(void)
 {
     return (midstage ? NEWTEXTSPEED : (midstage = acceleratestage) ?
             acceleratestage = 0, NEWTEXTSPEED : TEXTSPEED);
@@ -229,8 +229,8 @@ void F_Ticker(void)
 
     if (finalestage == F_STAGE_TEXT)
     {
-        if (finalecount > strlen(finaletext) * TextSpeed() + (midstage ? NEWTEXTWAIT : TEXTWAIT)
-            || (midstage && acceleratestage))
+        if (finalecount > FixedMul(strlen(finaletext) * FRACUNIT, TextSpeed())
+            + (midstage ? NEWTEXTWAIT : TEXTWAIT) || (midstage && acceleratestage))
         {
             if (gamemode != commercial)
             {
@@ -276,6 +276,7 @@ static struct
 // F_TextWrite
 //
 extern patch_t *hu_font[HU_FONTSIZE];
+
 void M_DrawSmallChar(int x, int y, int i, boolean shadow);
 
 void F_TextWrite(void)
@@ -284,7 +285,7 @@ void F_TextWrite(void)
     byte        *src;
     byte        *dest;
     int         x, y, w;
-    int         count = (int)((float)(finalecount - 10) / TextSpeed());
+    int         count = FixedDiv(((finalecount - 10) * FRACUNIT), TextSpeed()) >> FRACBITS;
     const char  *ch = finaletext;
     int         cx = 12;
     int         cy = 10;
@@ -301,8 +302,8 @@ void F_TextWrite(void)
         {
             for (i = 0; i < 64; i++)
             {
-                int j = i * 2;
-                byte dot = *(src + (((y / 2) & 63) << 6) + i);
+                int     j = i * 2;
+                byte    dot = *(src + (((y / 2) & 63) << 6) + i);
 
                 if (y * SCREENWIDTH + x + j < SCREENWIDTH * (SCREENHEIGHT - 1))
                     *(dest + j) = dot;
