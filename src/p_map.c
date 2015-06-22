@@ -159,7 +159,7 @@ int P_GetFriction(const mobj_t *mo, int *frictionfactor)
     // friction value (muddy has precedence over icy).
     if (!(mo->flags & (MF_NOCLIP | MF_NOGRAVITY)))
         for (m = mo->touching_sectorlist; m; m = m->m_tnext)
-            if ((sec = m->m_sector)->special & FRICTION_MASK
+            if (((sec = m->m_sector)->special & FRICTION_MASK)
                 && (sec->friction < friction || friction == ORIG_FRICTION)
                 && (mo->z <= sec->floorheight || (sec->heightsec != -1
                 && mo->z <= sectors[sec->heightsec].floorheight)))

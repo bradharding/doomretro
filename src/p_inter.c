@@ -181,17 +181,27 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     return num;
 }
 
-void P_GiveBackpack(player_t *player)
+boolean P_GiveBackpack(player_t *player)
 {
+    int         i;
+    boolean     result = false;
+
     if (!player->backpack)
     {
-        int     i;
-
         for (i = 0; i < NUMAMMO; i++)
             player->maxammo[i] *= 2;
         player->backpack = true;
 
-        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+    }
+    for (i = 0; i < NUMAMMO; i++)
+    {
+        if (player->ammo[i] < player->maxammo[i])
+        {
+            result = true;
+            if ((ammotype_t)i == weaponinfo[player->readyweapon].ammo)
+                ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+        }
+        P_GiveAmmo(player, (ammotype_t)i, 1);
     }
 }
 
@@ -766,20 +776,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             break;
 
         case SPR_BPAK:
-            if (!player->backpack)
-            {
-                for (i = 0; i < NUMAMMO; i++)
-                    player->maxammo[i] *= 2;
-                player->backpack = true;
-                ammogiven = true;
-            }
-            for (i = 0; i < NUMAMMO; i++)
-            {
-                if (player->ammo[i] < player->maxammo[i])
-                    ammogiven = true;
-                P_GiveAmmo(player, (ammotype_t)i, 1);
-            }
-            if (!ammogiven)
+            if (!P_GiveBackpack(player))
                 return;
             HU_PlayerMessage(s_GOTBACKPACK, true);
             break;

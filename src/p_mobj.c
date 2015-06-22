@@ -86,6 +86,11 @@ extern fixed_t          animatedliquiddiffs[128];
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern boolean          mirrorweapons;
 
+boolean P_IsVoodooDoll(mobj_t *mobj)
+{
+    return (mobj->player && mobj->player->mo != mobj);
+}
+
 //
 //
 // P_SetMobjState
@@ -338,10 +343,11 @@ void P_XYMovement(mobj_t *mo)
 
     if (mo->momx > -STOPSPEED && mo->momx < STOPSPEED
         && mo->momy > -STOPSPEED && mo->momy < STOPSPEED
-        && (!player || (!player->cmd.forwardmove && !player->cmd.sidemove)))
+        && (!player || (!player->cmd.forwardmove && !player->cmd.sidemove) || P_IsVoodooDoll(mo)))
     {
         // if in a walking frame, stop moving
-        if (player && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4)
+        if (player && !P_IsVoodooDoll(mo)
+            && (unsigned int)((player->mo->state - states) - S_PLAY_RUN1) < 4)
             P_SetMobjState(player->mo, S_PLAY);
 
         mo->momx = mo->momy = 0;
