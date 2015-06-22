@@ -203,6 +203,7 @@ boolean P_GiveBackpack(player_t *player)
         }
         P_GiveAmmo(player, (ammotype_t)i, 1);
     }
+    return result;
 }
 
 boolean P_GiveFullAmmo(player_t *player)
@@ -351,8 +352,9 @@ void P_GiveMegaHealth(player_t *player)
 {
     if (!(player->cheats & CF_GODMODE))
     {
+        if (player->health < mega_health)
+            healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
         player->health = player->mo->health = mega_health;
-        healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
     }
 }
 
@@ -518,7 +520,6 @@ boolean P_GivePower(player_t *player, int power)
 void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 {
     player_t    *player;
-    int         i;
     fixed_t     delta = special->z - toucher->z;
     int         sound;
     int         weaponowned;
