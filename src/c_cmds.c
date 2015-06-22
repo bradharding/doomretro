@@ -1467,15 +1467,20 @@ static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
     {
         if (BTSX)
         {
-            if (sscanf(parm1, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
-                sscanf(parm1, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
-            if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
-                || (mapcmdepisode == 3 && BTSXE3)))
+            if (sscanf(parm1, "MAP%02iC", &mapcmdmap) == 1)
+                return (W_CheckNumForName(parm1) >= 0);
+            else
             {
-                static char     lump[6];
+                if (sscanf(parm1, "E%1iM0%1i", &mapcmdepisode, &mapcmdmap) != 2)
+                    sscanf(parm1, "E%1iM%2i", &mapcmdepisode, &mapcmdmap);
+                if (mapcmdmap && ((mapcmdepisode == 1 && BTSXE1) || (mapcmdepisode == 2 && BTSXE2)
+                    || (mapcmdepisode == 3 && BTSXE3)))
+                {
+                    static char     lump[6];
 
-                M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
-                return (W_CheckMultipleLumps(lump) == 2);
+                    M_snprintf(lump, sizeof(lump), "MAP%02i", mapcmdmap);
+                    return (W_CheckMultipleLumps(lump) == 2);
+                }
             }
         }
         if (sscanf(parm1, "MAP0%1i", &mapcmdmap) != 1)
@@ -1561,15 +1566,12 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
 
         if (gamemode == commercial)
         {
-            if (strlen(lump) == 5)
-            {
-                episode = 1;
-                sscanf(lump, "MAP0%1i", &map);
-                if (!map)
-                    sscanf(lump, "MAP%2i", &map);
-            }
+            episode = 1;
+            sscanf(lump, "MAP0%1i", &map);
+            if (!map)
+                sscanf(lump, "MAP%2i", &map);
         }
-        else if (strlen(lump) == 4)
+        else
             sscanf(lump, "E%1iM%1i", &episode, &map);
 
         if (!episode-- || !map--)
@@ -1794,13 +1796,13 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         C_TabbedOutput(tabs, "Monsters killed\t0 of 0 (0%%)");
     else
         C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)", commify(players[0].killcount),
-        commify(totalkills), players[0].killcount * 100 / totalkills);
+            commify(totalkills), players[0].killcount * 100 / totalkills);
 
     if (!totalitems)
         C_TabbedOutput(tabs, "Items picked up\t0 of 0 (0%%)");
     else
         C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)", commify(players[0].itemcount),
-        commify(totalitems), players[0].itemcount * 100 / totalitems);
+            commify(totalitems), players[0].itemcount * 100 / totalitems);
 
     if (!totalsecret)
         C_TabbedOutput(tabs, "Secrets revealed\t0 of 0 (0%%)");
