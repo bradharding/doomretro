@@ -323,36 +323,26 @@ static void HU_DrawHUD(void)
 
     patch = (((readyweapon == wp_fist && pendingweapon == wp_nochange)
         || pendingweapon == wp_fist) && plr->powers[pw_strength] ? berserkpatch : healthpatch);
+    if (patch)
+    {
+        if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
+            godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
+        else
+            hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
+        health_x += SHORT(patch->width) + 8;
+    }
 
     if (healthhighlight)
     {
         if (healthhighlight < I_GetTime())
             healthhighlight = 0;
 
-        if (patch)
-        {
-            if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-                V_DrawYellowHUDPatch(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17) - 1, patch,
-                    tinttab);
-            else
-                V_DrawHUDPatch(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17) - 1, patch,
-                    tinttab);
-            health_x += SHORT(patch->width) + 8;
-        }
         DrawHUDNumber(&health_x, HUD_HEALTH_Y - 1, health, tinttab, V_DrawHUDPatch);
         if (!emptytallpercent)
             V_DrawHUDPatch(health_x, HUD_HEALTH_Y - 1, tallpercent, tinttab);
     }
     else
     {
-        if (patch)
-        {
-            if ((plr->cheats & CF_GODMODE) || invulnerability > 128 || (invulnerability & 8))
-                godhudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
-            else
-                hudfunc(health_x, HUD_HEALTH_Y - (SHORT(patch->height) - 17), patch, tinttab);
-            health_x += SHORT(patch->width) + 8;
-        }
         DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
         if (!emptytallpercent)
             hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
@@ -388,28 +378,20 @@ static void HU_DrawHUD(void)
             tinttab66 : tinttab25);
 
         patch = ammopic[ammotype].patch;
+        if (patch)
+        {
+            hudfunc(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y, patch, tinttab);
+            ammo_x += SHORT(patch->width) + 8;
+        }
+
         if (ammohighlight)
         {
             if (ammohighlight < I_GetTime())
                 ammohighlight = 0;
-
-            if (patch)
-            {
-                V_DrawHUDPatch(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y - 1, patch, tinttab);
-                ammo_x += SHORT(patch->width) + 8;
-            }
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y - 1, ammo, tinttab, V_DrawHUDPatch);
         }
         else
-        {
-            if (patch)
-            {
-                hudfunc(ammo_x, HUD_AMMO_Y + ammopic[ammotype].y, patch, tinttab);
-                ammo_x += SHORT(patch->width) + 8;
-            }
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, hudnumfunc);
-        }
-
 
         if (ammo <= HUD_AMMO_MIN && !gamepaused)
         {
@@ -489,18 +471,18 @@ static void HU_DrawHUD(void)
         patch_t     *patch = (plr->armortype == 1 ? greenarmorpatch : bluearmorpatch);
         int         armor_x = HUD_ARMOR_X;
 
+        if (patch)
+        {
+            armor_x -= SHORT(patch->width);
+            hudfunc(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, tinttab66);
+            armor_x -= 7;
+        }
+
         if (armorhighlight)
         {
             if (armorhighlight < I_GetTime())
                 armorhighlight = 0;
 
-            if (patch)
-            {
-                armor_x -= SHORT(patch->width);
-                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16) - 1, patch,
-                    tinttab66);
-                armor_x -= 7;
-            }
             if (emptytallpercent)
             {
                 armor_x -= HUDNumberWidth(armor);
@@ -516,12 +498,6 @@ static void HU_DrawHUD(void)
         }
         else
         {
-            if (patch)
-            {
-                armor_x -= SHORT(patch->width);
-                hudfunc(armor_x, HUD_ARMOR_Y - (SHORT(patch->height) - 16), patch, tinttab66);
-                armor_x -= 7;
-            }
             if (emptytallpercent)
             {
                 armor_x -= HUDNumberWidth(armor);
