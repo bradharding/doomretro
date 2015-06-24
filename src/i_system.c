@@ -76,6 +76,7 @@ extern boolean  returntowidescreen;
 #if defined(WIN32)
 typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
 typedef BOOL(WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+typedef BOOL(WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
 #define PRODUCT_PROFESSIONAL    0x00000030
 
@@ -85,13 +86,24 @@ void I_PrintWindowsVersion(void)
                             GetModuleHandle("ntdll.dll"), "RtlGetVersion");
     PGETPRODUCTINFO     pGetProductInfo = (PGETPRODUCTINFO)GetProcAddress(
                             GetModuleHandle("kernel32.dll"), "GetProductInfo");
+    PISWOW64PROCESS     pIsWow64Process = (PISWOW64PROCESS)GetProcAddress(
+                            GetModuleHandle("kernel32.dll"), "IsWow64Process");
     OSVERSIONINFOEXW    info;
     DWORD               type;
 
     if (pRtlGetVersion && pGetProductInfo)
     {
-        const char      *infoname;
-        const char      *typename = "";
+        char      bits[9] = "";
+        char      *infoname;
+        char      *typename = "";
+
+        if (pIsWow64Process)
+        {
+            BOOL Wow64Process = FALSE;
+
+            pIsWow64Process(GetCurrentProcess(), &Wow64Process);
+            strcpy(bits, (Wow64Process ? " 64-bit" : " 32-bit"));
+        }
 
         ZeroMemory(&info, sizeof(&info));
         info.dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
@@ -167,11 +179,11 @@ void I_PrintWindowsVersion(void)
             infoname = (info.dwMinorVersion < 10 ? "95" :
                 (info.dwMinorVersion < 90 ? "98" : "Me"));
 
-            C_Output("Running on Microsoft Windows %s%s%s%s%ws%s.",
+            C_Output("Running on Microsoft Windows %s%s%s%s%ws%s%s.",
                 infoname, (strlen(typename) ? " " : ""), (strlen(typename) ? typename : ""),
                 (wcslen(info.szCSDVersion) ? " (" : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""),
-                (wcslen(info.szCSDVersion) ? ")" : ""));
+                (wcslen(info.szCSDVersion) ? ")" : ""), bits);
         }
         else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
         {
@@ -199,11 +211,11 @@ void I_PrintWindowsVersion(void)
             else if (info.dwMajorVersion == 10 && info.dwMinorVersion == 0)
                 infoname = "10";
 
-            C_Output("Running on Microsoft Windows %s%s%s%s%ws%s.",
+            C_Output("Running on Microsoft Windows %s%s%s%s%ws%s%s.",
                 infoname, (strlen(typename) ? " " : ""), (strlen(typename) ? typename : ""),
                 (wcslen(info.szCSDVersion) ? " (" : ""),
                 (wcslen(info.szCSDVersion) ? info.szCSDVersion : L""),
-                (wcslen(info.szCSDVersion) ? ")" : ""));
+                (wcslen(info.szCSDVersion) ? ")" : ""), bits);
         }
     }
 }
