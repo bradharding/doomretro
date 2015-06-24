@@ -732,7 +732,9 @@ static char *aspectratio(int width, int height)
     width /= hcf;
     height /= hcf;
 
-    if (width == 8 && height == 5)
+    if (width >= 100 || height >= 100)
+        return "";
+    else if (width == 8 && height == 5)
         return "16:10";
     else
     {
@@ -782,6 +784,8 @@ static void SetVideoMode(boolean output)
 
     if (fullscreen)
     {
+        char    *ratio = aspectratio(displays[display - 1].w, displays[display - 1].h);
+
         if (!screenwidth || !screenheight)
         {
             screenwidth = 0;
@@ -795,9 +799,9 @@ static void SetVideoMode(boolean output)
                 SDL_WINDOWPOS_UNDEFINED, 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Staying at the desktop resolution of %ix%i with a %s aspect ratio.",
+                C_Output("Staying at the desktop resolution of %ix%i%s%s%s.",
                     displays[display - 1].w, displays[display - 1].h,
-                    aspectratio(displays[display - 1].w, displays[display - 1].h));
+                    (ratio[0] ? " with a " : ""), ratio, (ratio[0] ? " aspect ratio" : ""));
         }
         else
         {
@@ -805,9 +809,9 @@ static void SetVideoMode(boolean output)
                 SDL_WINDOWPOS_UNDEFINED, screenwidth, screenheight,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Switched to a resolution of %ix%i with a %s aspect ratio.",
+                C_Output("Switched to a resolution of %ix%i%s%s%s.",
                     displays[display - 1].w, displays[display - 1].h,
-                    aspectratio(displays[display - 1].w, displays[display - 1].h));
+                    (ratio[0] ? " with a " : ""), ratio, (ratio[0] ? " aspect ratio" : ""));
         }
     }
     else
