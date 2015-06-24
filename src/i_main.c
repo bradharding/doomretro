@@ -194,6 +194,20 @@ void I_AccessibilityShortcutKeys(boolean bAllowKeys)
     }
 }
 
+#ifdef WIN32
+void I_LoadResources(void)
+{
+    HRSRC               myResource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
+    unsigned int        myResourceSize = SizeofResource(NULL, myResource);
+    HGLOBAL             myResourceData = LoadResource(NULL, myResource);
+    void                *pMyBinaryData = LockResource(myResourceData);
+    FILE                *stream = fopen(PACKAGE_WAD, "wb");
+
+    fwrite((char *)pMyBinaryData, sizeof(char), myResourceSize, stream);
+    fclose(stream);
+}
+#endif
+
 extern SDL_Window       *window;
 
 void I_InitWindows32(void)
@@ -237,7 +251,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
+    g_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc,
+        GetModuleHandle(NULL), 0);
 
     // Save the current sticky/toggle/filter key settings so they can be restored them later
     SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
@@ -255,6 +270,8 @@ int main(int argc, char **argv)
         I_SetProcessPriority(hProcess);
 
     I_SetProcessDPIAware();
+
+    I_LoadResources();
 #endif
 
     D_DoomMain();

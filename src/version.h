@@ -57,4 +57,5 @@
 #define PACKAGE_NAME                    PACKAGE_NAME_A
 #define PACKAGE_SAVE                    "doomretro%d.save"
 #define PACKAGE_WAD                     "doomretro.wad"
+#define PACKAGE_WAD_PATH                "..\\res\\doomretro.wad"
 #define PACKAGE_WIKI_URL                "http:\\\\wiki.doomretro.com"

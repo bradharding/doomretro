@@ -243,6 +243,8 @@ void I_Quit(boolean shutdown)
     }
 
 #if defined(WIN32)
+    remove(PACKAGE_WAD);
+
     I_ShutdownWindows32();
 #endif
 
@@ -282,6 +284,12 @@ void I_Error(char *error, ...)
     I_ShutdownKeyboard();
 
     I_ShutdownGamepad();
+
+#if defined(WIN32)
+    remove(PACKAGE_WAD);
+
+    I_ShutdownWindows32();
+#endif
 
     va_start(argptr, error);
     vfprintf(stderr, error, argptr);
