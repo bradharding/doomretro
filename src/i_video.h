@@ -46,6 +46,14 @@
 
 #define GAMMALEVELS             31
 
+typedef struct
+{
+    int         width;
+    int         height;
+    char        *acronym;
+    char        *aspectratio;
+} resolution_t;
+
 void I_InitKeyboard(void);
 
 // Called by D_DoomMain,
