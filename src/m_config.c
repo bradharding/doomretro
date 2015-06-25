@@ -1108,7 +1108,8 @@ static void M_CheckDefaults(void)
         && strcasecmp(scaledriver, "opengles2"))
         scaledriver = SCALEDRIVER_DEFAULT;
 
-    if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear"))
+    if (strcasecmp(scalefilter, "auto") && strcasecmp(scalefilter, "nearest")
+        && strcasecmp(scalefilter, "linear"))
         scalefilter = SCALEFILTER_DEFAULT;
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
