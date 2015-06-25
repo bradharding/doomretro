@@ -143,10 +143,6 @@
 
 #define HUD_DEFAULT                             true
 
-#define HUDX_MIN                                10
-#define HUDX_DEFAULT                            40
-#define HUDX_MAX                                100
-
 #define IWADFOLDER_DEFAULT                      "."
 
 #define KEYAUTOMAP_DEFAULT                      KEY_TAB

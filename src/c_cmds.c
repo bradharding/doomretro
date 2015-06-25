@@ -133,7 +133,6 @@ extern float    gammalevel;
 extern int      graphicdetail;
 extern boolean  homindicator;
 extern boolean  hud;
-extern int      hud_x;
 extern char     *iwadfolder;
 extern int      key_automap;
 extern int      key_automap_clearmark;
@@ -441,7 +440,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED, "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE, "Toggles vibration for XInput gamepads."),
     CMD       (help, C_NoCondition, C_Help, 0, "", "Shows the help screen."),
-    CVAR_INT  (hud_x, C_NoCondition, C_Int, CF_NONE, hud_x, 0, HUDX, "The horizontal position of the widescreen HUD."),
     CMD_CHEAT (idbeholda, 0),
     CMD_CHEAT (idbeholdl, 0),
     CMD_CHEAT (idbeholdi, 0),

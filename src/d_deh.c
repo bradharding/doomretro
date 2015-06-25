@@ -3188,11 +3188,10 @@ boolean deh_GetData(char *s, char *k, long *l, char **strval)
             break;
         buffer[i] = *t;                 // copy it
     }
-    buffer[--i] = '\0';                 // terminate the key before the '='
+    if (i)
+        buffer[--i] = '\0';             // terminate the key before the '='
     if (!*t)                            // end of string with no equal sign
-    {
         okrc = false;
-    }
     else
     {
         if (!*++t)

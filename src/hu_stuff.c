@@ -94,7 +94,6 @@ extern boolean          emptytallpercent;
 static boolean          headsupactive = false;
 
 byte                    *tempscreen;
-int                     hud_x = HUDX_DEFAULT;
 int                     hud_y;
 
 static patch_t          *healthpatch = NULL;
@@ -337,9 +336,9 @@ static void HU_DrawHUD(void)
         if (healthhighlight < I_GetTime())
             healthhighlight = 0;
 
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y - 1, health, tinttab, V_DrawHUDPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, V_DrawHUDPatch);
         if (!emptytallpercent)
-            V_DrawHUDPatch(health_x, HUD_HEALTH_Y - 1, tallpercent, tinttab);
+            V_DrawHUDPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
     }
     else
     {
@@ -388,7 +387,7 @@ static void HU_DrawHUD(void)
         {
             if (ammohighlight < I_GetTime())
                 ammohighlight = 0;
-            DrawHUDNumber(&ammo_x, HUD_AMMO_Y - 1, ammo, tinttab, V_DrawHUDPatch);
+            DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, V_DrawHUDPatch);
         }
         else
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, hudnumfunc);
@@ -486,14 +485,14 @@ static void HU_DrawHUD(void)
             if (emptytallpercent)
             {
                 armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(&armor_x, HUD_ARMOR_Y - 1, armor, tinttab66, V_DrawHUDPatch);
+                DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHUDPatch);
             }
             else
             {
                 armor_x -= SHORT(tallpercent->width);
-                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y - 1, tallpercent, tinttab66);
+                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
                 armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(&armor_x, HUD_ARMOR_Y - 1, armor, tinttab66, V_DrawHUDPatch);
+                DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHUDPatch);
             }
         }
         else
