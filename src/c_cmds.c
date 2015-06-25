@@ -331,6 +331,7 @@ static void C_CmdList(char *, char *, char *);
 static void C_ConDump(char *, char *, char *);
 static void C_CvarList(char *, char *, char *);
 static void C_DeadZone(char *, char *, char *);
+static void C_Display(char *, char *, char *);
 static void C_EndGame(char *, char *, char *);
 static void C_ExitMap(char *, char *, char *);
 static void C_Float(char *, char *, char *);
@@ -518,7 +519,7 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (totalbloodsplats, C_IntCondition, C_Int, CF_READONLY, totalbloodsplats, 0, NONE, "The total number of blood splats in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbinds an action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggles capping of the framerate at 35 FPS."),
-    CVAR_INT  (vid_display, C_NoCondition, C_Int, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
+    CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggles between fullscreen and a window."),
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver used to scale the display."),
     CVAR_STR  (vid_scalefilter, C_NoCondition, C_ScaleFilter, scalefilter, "The filter used to scale the display."),
@@ -969,6 +970,25 @@ static void C_DeadZone(char *cmd, char *parm1, char *parm2)
         C_Output("%s %s%%", cmd, striptrailingzero(gamepadleftdeadzone_percent, 1));
     else
         C_Output("%s %s%%", cmd, striptrailingzero(gamepadrightdeadzone_percent, 1));
+}
+
+static void C_Display(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     value = -1;
+
+        sscanf(parm1, "%10i", &value);
+
+        if (value >= DISPLAY_MIN && value <= DISPLAY_MAX && value != display)
+        {
+            display = value;
+            M_SaveDefaults();
+            I_RestartGraphics();
+        }
+    }
+    else
+        C_Output("%i", display);
 }
 
 static void C_EndGame(char *cmd, char *parm1, char *parm2)
