@@ -36,6 +36,7 @@
 ========================================================================
 */
 
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "i_swap.h"
@@ -953,7 +954,10 @@ int R_FlatNumForName(char *name)
     i = W_RangeCheckNumForName(firstflat, lastflat, name);
 
     if (i == -1)
+    {
+        C_Warning("%.8s flat not found.", uppercase(name));
         return 0;
+    }
     return (i - firstflat);
 }
 
@@ -1011,7 +1015,10 @@ int R_TextureNumForName(char *name)
     int i = R_CheckTextureNumForName(name);
 
     if (i == -1)
-        return 0;       // [crispy] make non-fatal
+    {
+        C_Warning("%.8s texture not found.", uppercase(name));
+        return 0;
+    }
     return i;
 }
 
