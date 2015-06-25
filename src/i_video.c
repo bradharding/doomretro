@@ -75,6 +75,7 @@ static SDL_Texture      *texture = NULL;
 SDL_Palette             *sdlpalette;
 
 int                     display = DISPLAY_DEFAULT;
+int                     displayindex;
 int                     numdisplays;
 SDL_Rect                *displays;
 char                    *scaledriver = SCALEDRIVER_DEFAULT;
@@ -796,14 +797,14 @@ static char *getaspectratio(int width, int height)
 static void PositionOnCurrentDisplay(void)
 {
     if (fullscreen)
-        SDL_SetWindowPosition(window, displays[display - 1].x, displays[display - 1].y);
+        SDL_SetWindowPosition(window, displays[displayindex].x, displays[displayindex].y);
     else if (!windowx && !windowy)
         SDL_SetWindowPosition(window,
-            displays[display - 1].x + (displays[display - 1].w - windowwidth) / 2,
-            displays[display - 1].y + (displays[display - 1].h - windowheight) / 2);
+            displays[displayindex].x + (displays[displayindex].w - windowwidth) / 2,
+            displays[displayindex].y + (displays[displayindex].h - windowheight) / 2);
     else
         SDL_SetWindowPosition(window,
-            displays[display - 1].x + windowx, displays[display - 1].y + windowy);
+            displays[displayindex].x + windowx, displays[displayindex].y + windowy);
 }
 
 static void SetVideoMode(boolean output)
@@ -813,8 +814,17 @@ static void SetVideoMode(boolean output)
 
     for (i = 0; i < numdisplays; ++i)
         SDL_GetDisplayBounds(i, &displays[i]);
-    if (display < 1 || display > numdisplays)
-        display = DISPLAY_DEFAULT;
+    displayindex = display - 1;
+    if (displayindex < 0 || displayindex >= numdisplays)
+    {
+        if (output)
+            C_Warning("Unable to find display %i.", display);
+        displayindex = DISPLAY_DEFAULT;
+    }
+    if (output)
+        C_Output("Using display %i of %i called \"%s\".",
+            displayindex, numdisplays, SDL_GetDisplayName(displayindex));
+
 
     if (vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
@@ -826,14 +836,10 @@ static void SetVideoMode(boolean output)
 
     SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
-    if (output)
-        C_Output("Using display %i of %i called \"%s\".",
-            display, numdisplays, SDL_GetDisplayName(display - 1));
-
     if (fullscreen)
     {
-        char    *acronym = getacronym(displays[display - 1].w, displays[display - 1].h);
-        char    *ratio = getaspectratio(displays[display - 1].w, displays[display - 1].h);
+        char    *acronym = getacronym(displays[displayindex].w, displays[displayindex].h);
+        char    *ratio = getaspectratio(displays[displayindex].w, displays[displayindex].h);
 
         if (!screenwidth || !screenheight)
         {
@@ -848,10 +854,9 @@ static void SetVideoMode(boolean output)
                 SDL_WINDOWPOS_UNDEFINED, 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Staying at the desktop resolution of %ix%i%s%s%s%s%s%s.",
-                    displays[display - 1].w, displays[display - 1].h, 
-                    (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""),
-                    (ratio[0] ? " with a " : ""), ratio, (ratio[0] ? " aspect ratio" : ""));
+                C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect ratio.",
+                    displays[displayindex].w, displays[displayindex].h,
+                    (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
         }
         else
         {
@@ -859,10 +864,9 @@ static void SetVideoMode(boolean output)
                 SDL_WINDOWPOS_UNDEFINED, screenwidth, screenheight,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Switched to a resolution of %ix%i%s%s%s%s%s%s.",
-                    displays[display - 1].w, displays[display - 1].h,
-                    (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""),
-                    (ratio[0] ? " with a " : ""), ratio, (ratio[0] ? " aspect ratio" : ""));
+                C_Output("Switched to a resolution of %ix%i%s%s%s with a %s aspect ratio.",
+                    displays[displayindex].w, displays[displayindex].h,
+                    (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
         }
     }
     else
@@ -891,8 +895,8 @@ static void SetVideoMode(boolean output)
             if (output)
                 C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
                     windowwidth, windowheight, windowx, windowy);
-            windowx = MIN(displays[display - 1].w - windowwidth, windowx);
-            windowy = MIN(displays[display - 1].h - windowheight, windowy);
+            windowx = MIN(displays[displayindex].w - windowwidth, windowx);
+            windowy = MIN(displays[displayindex].h - windowheight, windowy);
             M_SaveDefaults();
         }
     }
