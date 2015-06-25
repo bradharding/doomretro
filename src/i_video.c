@@ -732,10 +732,12 @@ static char *aspectratio(int width, int height)
     width /= hcf;
     height /= hcf;
 
-    if (width >= 100 || height >= 100)
-        return "";
+    if (width == 683 || height == 384)
+        return "16:9";
     else if (width == 8 && height == 5)
         return "16:10";
+    else if (width >= 100 || height >= 100)
+        return "";
     else
     {
         static char     ratio[10];
