@@ -823,7 +823,7 @@ static void SetVideoMode(boolean output)
     }
     if (output)
         C_Output("Using display %i of %i called \"%s\".",
-            displayindex, numdisplays, SDL_GetDisplayName(displayindex));
+            displayindex + 1, numdisplays, SDL_GetDisplayName(displayindex));
 
 
     if (vsync)
