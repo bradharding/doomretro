@@ -1557,6 +1557,23 @@ void A_SkullAttack(mobj_t *actor)
     actor->momz = (dest->z + (dest->height >> 1) - actor->z) / dist;
 }
 
+void A_BetaSkullAttack(mobj_t *actor)
+{
+    int damage;
+
+    if (!actor->target || actor->target->type == MT_SKULL)
+        return;
+    S_StartSound(actor, actor->info->attacksound);
+    A_FaceTarget(actor);
+    damage = (P_Random() % 8 + 1) * actor->info->damage;
+    P_DamageMobj(actor->target, actor, actor, damage);
+}
+
+void A_Stop(mobj_t *actor)
+{
+    actor->momx = actor->momy = actor->momz = 0;
+}
+
 //
 // A_PainShootSkull
 // Spawn a lost soul and launch it at the target

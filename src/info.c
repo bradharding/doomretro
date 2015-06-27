@@ -61,7 +61,7 @@ char *sprnames[] =
 
     "TNT1",     // invisible sprite     phares 3/9/98
     "DOGS",     // killough 7/19/98: Marine's best friend :)
-    "PLS1",     // killough 7/19/98: first  of two plasma fireballs in the beta
+    "PLS1",     // killough 7/19/98: first of two plasma fireballs in the beta
     "PLS2",     // killough 7/19/98: second of two plasma fireballs in the beta
     "BON3",     // killough 7/11/98: evil sceptre in the beta version
     "BON4",     // killough 7/11/98: unholy bible in the beta version
@@ -93,6 +93,7 @@ void A_Saw();
 void A_FirePlasma();
 void A_BFGsound();
 void A_FireBFG();
+void A_FireOldBFG();
 void A_BFGSpray();
 void A_Explode();
 void A_Pain();
@@ -127,6 +128,8 @@ void A_TroopAttack();
 void A_SargAttack();
 void A_HeadAttack();
 void A_BruisAttack();
+void A_BetaSkullAttack();
+void A_Stop();
 void A_SkullAttack();
 void A_Metal();
 void A_SpidRefire();
@@ -145,6 +148,9 @@ void A_BrainSpit();
 void A_SpawnSound();
 void A_SpawnFly();
 void A_BrainExplode();
+void A_Die();
+void A_Detonate();
+void A_Mushroom();
 
 state_t states[NUMSTATES] =
 {
@@ -1395,125 +1401,143 @@ state_t states[NUMSTATES] =
     { SPR_TLP2,  2 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP4,    0,     0     }, // S_TECH2LAMP3
     { SPR_TLP2,  3 | FF_FULLBRIGHT,                4,               NULL,            S_TECH2LAMP,     0,     0     }, // S_TECH2LAMP4
 
-    // Null states for DeHackEd compatability
-    { 0,         0,                               -1,               NULL,            S_TNT1,          0,     0     }, // S_TNT1
-    { 0,         0 | FF_FULLBRIGHT,             1000,               NULL,            S_GRENADE,       0,     0     }, // S_GRENADE
-    { 0,         1 | FF_FULLBRIGHT,                4,               NULL,            S_DETONATE2,     0,     0     }, // S_DETONATE
-    { 0,         2 | FF_FULLBRIGHT,                6,               NULL,            S_DETONATE3,     0,     0     }, // S_DETONATE2
-    { 0,         3 | FF_FULLBRIGHT,               10,               NULL,            S_NULL,          0,     0     }, // S_DETONATE3
-    { 0,         0,                               10,               NULL,            S_DOGS_STND2,    0,     0     }, // S_DOGS_STND
-    { 0,         1,                               10,               NULL,            S_DOGS_STND,     0,     0     }, // S_DOGS_STND2
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN2,     0,     0     }, // S_DOGS_RUN1
-    { 0,         0,                                2,               NULL,            S_DOGS_RUN3,     0,     0     }, // S_DOGS_RUN2
-    { 0,         1,                                2,               NULL,            S_DOGS_RUN4,     0,     0     }, // S_DOGS_RUN3
-    { 0,         1,                                2,               NULL,            S_DOGS_RUN5,     0,     0     }, // S_DOGS_RUN4
-    { 0,         2,                                2,               NULL,            S_DOGS_RUN6,     0,     0     }, // S_DOGS_RUN5
-    { 0,         2,                                2,               NULL,            S_DOGS_RUN7,     0,     0     }, // S_DOGS_RUN6
-    { 0,         3,                                2,               NULL,            S_DOGS_RUN8,     0,     0     }, // S_DOGS_RUN7
-    { 0,         3,                                2,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_RUN8
-    { 0,         4,                                8,               NULL,            S_DOGS_ATK2,     0,     0     }, // S_DOGS_ATK1
-    { 0,         5,                                8,               NULL,            S_DOGS_ATK3,     0,     0     }, // S_DOGS_ATK2
-    { 0,         6,                                8,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_ATK3
-    { 0,         7,                                2,               NULL,            S_DOGS_PAIN2,    0,     0     }, // S_DOGS_PAIN
-    { 0,         7,                                2,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_PAIN2
-    { 0,         8,                                8,               NULL,            S_DOGS_DIE2,     0,     0     }, // S_DOGS_DIE1
-    { 0,         9,                                8,               NULL,            S_DOGS_DIE3,     0,     0     }, // S_DOGS_DIE2
-    { 0,        10,                                4,               NULL,            S_DOGS_DIE4,     0,     0     }, // S_DOGS_DIE3
-    { 0,        11,                                4,               NULL,            S_DOGS_DIE5,     0,     0     }, // S_DOGS_DIE4
-    { 0,        12,                                4,               NULL,            S_DOGS_DIE6,     0,     0     }, // S_DOGS_DIE5
-    { 0,        13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_DOGS_DIE6
-    { 0,        13,                                5,               NULL,            S_DOGS_RAISE2,   0,     0     }, // S_DOGS_RAISE1
-    { 0,        12,                                5,               NULL,            S_DOGS_RAISE3,   0,     0     }, // S_DOGS_RAISE2
-    { 0,        11,                                5,               NULL,            S_DOGS_RAISE4,   0,     0     }, // S_DOGS_RAISE3
-    { 0,        10,                                5,               NULL,            S_DOGS_RAISE5,   0,     0     }, // S_DOGS_RAISE4
-    { 0,         9,                                5,               NULL,            S_DOGS_RAISE6,   0,     0     }, // S_DOGS_RAISE5
-    { 0,         8,                                5,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_RAISE6
-    { 0,         0,                               10,               NULL,            S_OLDBFG2,       0,     0     }, // S_OLDBFG1
-    { 0,         1,                                1,               NULL,            S_OLDBFG3,       0,     0     }, // S_OLDBFG2
-    { 0,         1,                                1,               NULL,            S_OLDBFG4,       0,     0     }, // S_OLDBFG3
-    { 0,         1,                                1,               NULL,            S_OLDBFG5,       0,     0     }, // S_OLDBFG4
-    { 0,         1,                                1,               NULL,            S_OLDBFG6,       0,     0     }, // S_OLDBFG5
-    { 0,         1,                                1,               NULL,            S_OLDBFG7,       0,     0     }, // S_OLDBFG6
-    { 0,         1,                                1,               NULL,            S_OLDBFG8,       0,     0     }, // S_OLDBFG7
-    { 0,         1,                                1,               NULL,            S_OLDBFG9,       0,     0     }, // S_OLDBFG8
-    { 0,         1,                                1,               NULL,            S_OLDBFG10,      0,     0     }, // S_OLDBFG9
-    { 0,         1,                                1,               NULL,            S_OLDBFG11,      0,     0     }, // S_OLDBFG10
-    { 0,         1,                                1,               NULL,            S_OLDBFG12,      0,     0     }, // S_OLDBFG11
-    { 0,         1,                                1,               NULL,            S_OLDBFG13,      0,     0     }, // S_OLDBFG12
-    { 0,         1,                                1,               NULL,            S_OLDBFG14,      0,     0     }, // S_OLDBFG13
-    { 0,         1,                                1,               NULL,            S_OLDBFG15,      0,     0     }, // S_OLDBFG14
-    { 0,         1,                                1,               NULL,            S_OLDBFG16,      0,     0     }, // S_OLDBFG15
-    { 0,         1,                                1,               NULL,            S_OLDBFG17,      0,     0     }, // S_OLDBFG16
-    { 0,         1,                                1,               NULL,            S_OLDBFG18,      0,     0     }, // S_OLDBFG17
-    { 0,         1,                                1,               NULL,            S_OLDBFG19,      0,     0     }, // S_OLDBFG18
-    { 0,         1,                                1,               NULL,            S_OLDBFG20,      0,     0     }, // S_OLDBFG19
-    { 0,         1,                                1,               NULL,            S_OLDBFG21,      0,     0     }, // S_OLDBFG20
-    { 0,         1,                                1,               NULL,            S_OLDBFG22,      0,     0     }, // S_OLDBFG21
-    { 0,         1,                                1,               NULL,            S_OLDBFG23,      0,     0     }, // S_OLDBFG22
-    { 0,         1,                                1,               NULL,            S_OLDBFG24,      0,     0     }, // S_OLDBFG23
-    { 0,         1,                                1,               NULL,            S_OLDBFG25,      0,     0     }, // S_OLDBFG24
-    { 0,         1,                                1,               NULL,            S_OLDBFG26,      0,     0     }, // S_OLDBFG25
-    { 0,         1,                                1,               NULL,            S_OLDBFG27,      0,     0     }, // S_OLDBFG26
-    { 0,         1,                                1,               NULL,            S_OLDBFG28,      0,     0     }, // S_OLDBFG27
-    { 0,         1,                                1,               NULL,            S_OLDBFG29,      0,     0     }, // S_OLDBFG28
-    { 0,         1,                                1,               NULL,            S_OLDBFG30,      0,     0     }, // S_OLDBFG29
-    { 0,         1,                                1,               NULL,            S_OLDBFG31,      0,     0     }, // S_OLDBFG30
-    { 0,         1,                                1,               NULL,            S_OLDBFG32,      0,     0     }, // S_OLDBFG31
-    { 0,         1,                                1,               NULL,            S_OLDBFG33,      0,     0     }, // S_OLDBFG32
-    { 0,         1,                                1,               NULL,            S_OLDBFG34,      0,     0     }, // S_OLDBFG33
-    { 0,         1,                                1,               NULL,            S_OLDBFG35,      0,     0     }, // S_OLDBFG34
-    { 0,         1,                                1,               NULL,            S_OLDBFG36,      0,     0     }, // S_OLDBFG35
-    { 0,         1,                                1,               NULL,            S_OLDBFG37,      0,     0     }, // S_OLDBFG36
-    { 0,         1,                                1,               NULL,            S_OLDBFG38,      0,     0     }, // S_OLDBFG37
-    { 0,         1,                                1,               NULL,            S_OLDBFG39,      0,     0     }, // S_OLDBFG38
-    { 0,         1,                                1,               NULL,            S_OLDBFG40,      0,     0     }, // S_OLDBFG39
-    { 0,         1,                                1,               NULL,            S_OLDBFG41,      0,     0     }, // S_OLDBFG40
-    { 0,         1,                                1,               NULL,            S_OLDBFG42,      0,     0     }, // S_OLDBFG41
-    { 0,         1,                                0,               NULL,            S_OLDBFG43,      0,     0     }, // S_OLDBFG42
-    { 0,         1,                               20,               NULL,            S_BFG,           0,     0     }, // S_OLDBFG43
-    { 0,         0 | FF_FULLBRIGHT,                6,               NULL,            S_PLS1BALL2,     0,     0     }, // S_PLS1BALL
-    { 0,         1 | FF_FULLBRIGHT,                6,               NULL,            S_PLS1BALL,      0,     0     }, // S_PLS1BALL2
-    { 0,         2 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP2,      0,     0     }, // S_PLS1EXP
-    { 0,         3 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP3,      0,     0     }, // S_PLS1EXP2
-    { 0,         4 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP4,      0,     0     }, // S_PLS1EXP3
-    { 0,         5 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP5,      0,     0     }, // S_PLS1EXP4
-    { 0,         6 | FF_FULLBRIGHT,                4,               NULL,            S_NULL,          0,     0     }, // S_PLS1EXP5
-    { 0,         0 | FF_FULLBRIGHT,                4,               NULL,            S_PLS2BALL2,     0,     0     }, // S_PLS2BALL
-    { 0,         1 | FF_FULLBRIGHT,                4,               NULL,            S_PLS2BALL,      0,     0     }, // S_PLS2BALL2
-    { 0,         2 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX1
-    { 0,         3 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX2
-    { 0,         4 | FF_FULLBRIGHT,                6,               NULL,            S_NULL,          0,     0     }, // S_PLS2BALLX3
-    { 0,         0,                                6,               NULL,            S_BON3,          0,     0     }, // S_BON3
-    { 0,         0,                                6,               NULL,            S_BON4,          0,     0     }, // S_BON4
-    { 0,         0,                               10,               NULL,            S_BSKUL_STND,    0,     0     }, // S_BSKUL_STND
-    { 0,         1,                                5,               NULL,            S_BSKUL_RUN2,    0,     0     }, // S_BSKUL_RUN1
-    { 0,         2,                                5,               NULL,            S_BSKUL_RUN3,    0,     0     }, // S_BSKUL_RUN2
-    { 0,         3,                                5,               NULL,            S_BSKUL_RUN4,    0,     0     }, // S_BSKUL_RUN3
-    { 0,         0,                                5,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_RUN4
-    { 0,         4,                                4,               NULL,            S_BSKUL_ATK2,    0,     0     }, // S_BSKUL_ATK1
-    { 0,         5,                                5,               NULL,            S_BSKUL_ATK3,    0,     0     }, // S_BSKUL_ATK2
-    { 0,         5,                                4,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_ATK3
-    { 0,         6,                                4,               NULL,            S_BSKUL_PAIN2,   0,     0     }, // S_BSKUL_PAIN1
-    { 0,         7,                                2,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_PAIN2
-    { 0,         8,                                4,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_PAIN3
-    { 0,         9,                                5,               NULL,            S_BSKUL_DIE2,    0,     0     }, // S_BSKUL_DIE1
-    { 0,        10,                                5,               NULL,            S_BSKUL_DIE3,    0,     0     }, // S_BSKUL_DIE2
-    { 0,        11,                                5,               NULL,            S_BSKUL_DIE4,    0,     0     }, // S_BSKUL_DIE3
-    { 0,        12,                                5,               NULL,            S_BSKUL_DIE5,    0,     0     }, // S_BSKUL_DIE4
-    { 0,        13,                                5,               NULL,            S_BSKUL_DIE6,    0,     0     }, // S_BSKUL_DIE5
-    { 0,        14,                                5,               NULL,            S_BSKUL_DIE7,    0,     0     }, // S_BSKUL_DIE6
-    { 0,        15,                                5,               NULL,            S_BSKUL_DIE8,    0,     0     }, // S_BSKUL_DIE7
-    { 0,        16,                                5,               NULL,            S_BSKUL_DIE8,    0,     0     }, // S_BSKUL_DIE8
-    { 0,         1 | FF_FULLBRIGHT,                8,               NULL,            S_EXPLODE2,      0,     0     }, // S_MUSHROOM
-    { 0,        14,                                5,               NULL,            S_PLAY_GDIE2,    0,     0     }, // S_PLAY_GDIE1
-    { 0,        15,                                5,               NULL,            S_PLAY_GDIE3,    0,     0     }, // S_PLAY_GDIE2
-    { 0,        16,                                5,               NULL,            S_PLAY_GDIE4,    0,     0     }, // S_PLAY_GDIE3
-    { 0,        17,                                5,               NULL,            S_PLAY_GDIE5,    0,     0     }, // S_PLAY_GDIE4
-    { 0,        18,                                5,               NULL,            S_PLAY_GDIE6,    0,     0     }, // S_PLAY_GDIE5
-    { 0,        19,                                5,               NULL,            S_PLAY_GDIE7,    0,     0     }, // S_PLAY_GDIE6
-    { 0,        20,                                5,               NULL,            S_PLAY_GDIE8,    0,     0     }, // S_PLAY_GDIE7
-    { 0,        21,                                5,               NULL,            S_PLAY_GDIE9,    0,     0     }, // S_PLAY_GDIE8
-    { 0,        22,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PLAY_GDIE9
+    { SPR_TNT1,  0,                               -1,               NULL,            S_TNT1,          0,     0     }, // S_TNT1
+
+    // killough 8/9/98: grenade
+    { SPR_MISL,  0 | FF_FULLBRIGHT,             1000,               A_Die,           S_GRENADE,       0,     0     }, // S_GRENADE
+
+    { SPR_MISL,  1 | FF_FULLBRIGHT,                4,               A_Scream,        S_DETONATE2,     0,     0     }, // S_DETONATE
+    { SPR_MISL,  2 | FF_FULLBRIGHT,                6,               A_Detonate,      S_DETONATE3,     0,     0     }, // S_DETONATE2
+    { SPR_MISL,  3 | FF_FULLBRIGHT,               10,               NULL,            S_NULL,          0,     0     }, // S_DETONATE3
+
+    // killough 7/19/98: Marine's best friend :)
+    { SPR_DOGS,  0,                               10,               A_Look,          S_DOGS_STND2,    0,     0     }, // S_DOGS_STND
+    { SPR_DOGS,  1,                               10,               A_Look,          S_DOGS_STND,     0,     0     }, // S_DOGS_STND2
+    { SPR_DOGS,  0,                                2,               A_Chase,         S_DOGS_RUN2,     0,     0     }, // S_DOGS_RUN1
+    { SPR_DOGS,  0,                                2,               A_Chase,         S_DOGS_RUN3,     0,     0     }, // S_DOGS_RUN2
+    { SPR_DOGS,  1,                                2,               A_Chase,         S_DOGS_RUN4,     0,     0     }, // S_DOGS_RUN3
+    { SPR_DOGS,  1,                                2,               A_Chase,         S_DOGS_RUN5,     0,     0     }, // S_DOGS_RUN4
+    { SPR_DOGS,  2,                                2,               A_Chase,         S_DOGS_RUN6,     0,     0     }, // S_DOGS_RUN5
+    { SPR_DOGS,  2,                                2,               A_Chase,         S_DOGS_RUN7,     0,     0     }, // S_DOGS_RUN6
+    { SPR_DOGS,  3,                                2,               A_Chase,         S_DOGS_RUN8,     0,     0     }, // S_DOGS_RUN7
+    { SPR_DOGS,  3,                                2,               A_Chase,         S_DOGS_RUN1,     0,     0     }, // S_DOGS_RUN8
+    { SPR_DOGS,  4,                                8,               A_FaceTarget,    S_DOGS_ATK2,     0,     0     }, // S_DOGS_ATK1
+    { SPR_DOGS,  5,                                8,               A_FaceTarget,    S_DOGS_ATK3,     0,     0     }, // S_DOGS_ATK2
+    { SPR_DOGS,  6,                                8,               A_SargAttack,    S_DOGS_RUN1,     0,     0     }, // S_DOGS_ATK3
+    { SPR_DOGS,  7,                                2,               NULL,            S_DOGS_PAIN2,    0,     0     }, // S_DOGS_PAIN
+    { SPR_DOGS,  7,                                2,               A_Pain,          S_DOGS_RUN1,     0,     0     }, // S_DOGS_PAIN2
+    { SPR_DOGS,  8,                                8,               NULL,            S_DOGS_DIE2,     0,     0     }, // S_DOGS_DIE1
+    { SPR_DOGS,  9,                                8,               A_Scream,        S_DOGS_DIE3,     0,     0     }, // S_DOGS_DIE2
+    { SPR_DOGS, 10,                                4,               NULL,            S_DOGS_DIE4,     0,     0     }, // S_DOGS_DIE3
+    { SPR_DOGS, 11,                                4,               A_Fall,          S_DOGS_DIE5,     0,     0     }, // S_DOGS_DIE4
+    { SPR_DOGS, 12,                                4,               NULL,            S_DOGS_DIE6,     0,     0     }, // S_DOGS_DIE5
+    { SPR_DOGS, 13,                               -1,               NULL,            S_NULL,          0,     0     }, // S_DOGS_DIE6
+    { SPR_DOGS, 13,                                5,               NULL,            S_DOGS_RAISE2,   0,     0     }, // S_DOGS_RAISE1
+    { SPR_DOGS, 12,                                5,               NULL,            S_DOGS_RAISE3,   0,     0     }, // S_DOGS_RAISE2
+    { SPR_DOGS, 11,                                5,               NULL,            S_DOGS_RAISE4,   0,     0     }, // S_DOGS_RAISE3
+    { SPR_DOGS, 10,                                5,               NULL,            S_DOGS_RAISE5,   0,     0     }, // S_DOGS_RAISE4
+    { SPR_DOGS,  9,                                5,               NULL,            S_DOGS_RAISE6,   0,     0     }, // S_DOGS_RAISE5
+    { SPR_DOGS,  8,                                5,               NULL,            S_DOGS_RUN1,     0,     0     }, // S_DOGS_RAISE6
+
+    // add dummy beta bfg / lost soul frames for dehacked compatibility
+    { SPR_BFGG,  0,                               10,               A_BFGsound,      S_OLDBFG2,       0,     0     }, // S_OLDBFG1
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG3,       0,     0     }, // S_OLDBFG2
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG4,       0,     0     }, // S_OLDBFG3
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG5,       0,     0     }, // S_OLDBFG4
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG6,       0,     0     }, // S_OLDBFG5
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG7,       0,     0     }, // S_OLDBFG6
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG8,       0,     0     }, // S_OLDBFG7
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG9,       0,     0     }, // S_OLDBFG8
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG10,      0,     0     }, // S_OLDBFG9
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG11,      0,     0     }, // S_OLDBFG10
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG12,      0,     0     }, // S_OLDBFG11
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG13,      0,     0     }, // S_OLDBFG12
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG14,      0,     0     }, // S_OLDBFG13
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG15,      0,     0     }, // S_OLDBFG14
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG16,      0,     0     }, // S_OLDBFG15
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG17,      0,     0     }, // S_OLDBFG16
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG18,      0,     0     }, // S_OLDBFG17
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG19,      0,     0     }, // S_OLDBFG18
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG20,      0,     0     }, // S_OLDBFG19
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG21,      0,     0     }, // S_OLDBFG20
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG22,      0,     0     }, // S_OLDBFG21
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG23,      0,     0     }, // S_OLDBFG22
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG24,      0,     0     }, // S_OLDBFG23
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG25,      0,     0     }, // S_OLDBFG24
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG26,      0,     0     }, // S_OLDBFG25
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG27,      0,     0     }, // S_OLDBFG26
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG28,      0,     0     }, // S_OLDBFG27
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG29,      0,     0     }, // S_OLDBFG28
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG30,      0,     0     }, // S_OLDBFG29
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG31,      0,     0     }, // S_OLDBFG30
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG32,      0,     0     }, // S_OLDBFG31
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG33,      0,     0     }, // S_OLDBFG32
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG34,      0,     0     }, // S_OLDBFG33
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG35,      0,     0     }, // S_OLDBFG34
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG36,      0,     0     }, // S_OLDBFG35
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG37,      0,     0     }, // S_OLDBFG36
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG38,      0,     0     }, // S_OLDBFG37
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG39,      0,     0     }, // S_OLDBFG38
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG40,      0,     0     }, // S_OLDBFG39
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG41,      0,     0     }, // S_OLDBFG40
+    { SPR_BFGG,  1,                                1,               A_FireOldBFG,    S_OLDBFG42,      0,     0     }, // S_OLDBFG41
+    { SPR_BFGG,  1,                                0,               A_Light0,        S_OLDBFG43,      0,     0     }, // S_OLDBFG42
+    { SPR_BFGG,  1,                               20,               A_ReFire,        S_BFG,           0,     0     }, // S_OLDBFG43
+
+    // killough 7/19/98: First plasma fireball in the beta:
+    { SPR_PLS1,  0 | FF_FULLBRIGHT,                6,               NULL,            S_PLS1BALL2,     0,     0     }, // S_PLS1BALL
+    { SPR_PLS1,  1 | FF_FULLBRIGHT,                6,               NULL,            S_PLS1BALL,      0,     0     }, // S_PLS1BALL2
+    { SPR_PLS1,  2 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP2,      0,     0     }, // S_PLS1EXP
+    { SPR_PLS1,  3 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP3,      0,     0     }, // S_PLS1EXP2
+    { SPR_PLS1,  4 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP4,      0,     0     }, // S_PLS1EXP3
+    { SPR_PLS1,  5 | FF_FULLBRIGHT,                4,               NULL,            S_PLS1EXP5,      0,     0     }, // S_PLS1EXP4
+    { SPR_PLS1,  6 | FF_FULLBRIGHT,                4,               NULL,            S_NULL,          0,     0     }, // S_PLS1EXP5
+
+    // killough 7/19/98: Second plasma fireball in the beta:
+    { SPR_PLS2,  0 | FF_FULLBRIGHT,                4,               NULL,            S_PLS2BALL2,     0,     0     }, // S_PLS2BALL
+    { SPR_PLS2,  1 | FF_FULLBRIGHT,                4,               NULL,            S_PLS2BALL,      0,     0     }, // S_PLS2BALL2
+    { SPR_PLS2,  2 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX1
+    { SPR_PLS2,  3 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX2
+    { SPR_PLS2,  4 | FF_FULLBRIGHT,                6,               NULL,            S_NULL,          0,     0     }, // S_PLS2BALLX3
+
+    // killough 7/11/98: beta bonus items
+    { SPR_BON3,  0,                                6,               NULL,            S_BON3,          0,     0     }, // S_BON3
+    { SPR_BON4,  0,                                6,               NULL,            S_BON4,          0,     0     }, // S_BON4
+
+    // killough 10/98: beta lost souls attacked from a distance, 
+    // animated with colors, and stayed in the air when killed.
+    { SPR_SKUL,  0,                               10,               A_Look,          S_BSKUL_STND,    0,     0     }, // S_BSKUL_STND
+    { SPR_SKUL,  1,                                5,               A_Chase,         S_BSKUL_RUN2,    0,     0     }, // S_BSKUL_RUN1
+    { SPR_SKUL,  2,                                5,               A_Chase,         S_BSKUL_RUN3,    0,     0     }, // S_BSKUL_RUN2
+    { SPR_SKUL,  3,                                5,               A_Chase,         S_BSKUL_RUN4,    0,     0     }, // S_BSKUL_RUN3
+    { SPR_SKUL,  0,                                5,               A_Chase,         S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_RUN4
+    { SPR_SKUL,  4,                                4,               A_FaceTarget,    S_BSKUL_ATK2,    0,     0     }, // S_BSKUL_ATK1
+    { SPR_SKUL,  5,                                5,               A_BetaSkullAttack, S_BSKUL_ATK3,    0,     0     }, // S_BSKUL_ATK2
+    { SPR_SKUL,  5,                                4,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_ATK3
+    { SPR_SKUL,  6,                                4,               NULL,            S_BSKUL_PAIN2,   0,     0     }, // S_BSKUL_PAIN1
+    { SPR_SKUL,  7,                                2,               A_Pain,          S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_PAIN2
+    { SPR_SKUL,  8,                                4,               NULL,            S_BSKUL_RUN1,    0,     0     }, // S_BSKUL_PAIN3
+    { SPR_SKUL,  9,                                5,               NULL,            S_BSKUL_DIE2,    0,     0     }, // S_BSKUL_DIE1
+    { SPR_SKUL, 10,                                5,               NULL,            S_BSKUL_DIE3,    0,     0     }, // S_BSKUL_DIE2
+    { SPR_SKUL, 11,                                5,               NULL,            S_BSKUL_DIE4,    0,     0     }, // S_BSKUL_DIE3
+    { SPR_SKUL, 12,                                5,               NULL,            S_BSKUL_DIE5,    0,     0     }, // S_BSKUL_DIE4
+    { SPR_SKUL, 13,                                5,               A_Scream,        S_BSKUL_DIE6,    0,     0     }, // S_BSKUL_DIE5
+    { SPR_SKUL, 14,                                5,               NULL,            S_BSKUL_DIE7,    0,     0     }, // S_BSKUL_DIE6
+    { SPR_SKUL, 15,                                5,               A_Fall,          S_BSKUL_DIE8,    0,     0     }, // S_BSKUL_DIE7
+    { SPR_SKUL, 16,                                5,               A_Stop,          S_BSKUL_DIE8,    0,     0     }, // S_BSKUL_DIE8
+
+    // killough 10/98: mushroom effect
+    { SPR_MISL,  1 | FF_FULLBRIGHT,                8,               A_Mushroom,      S_EXPLODE2,      0,     0     }, // S_MUSHROOM
+
+    { SPR_PLAY, 14,                                5,               NULL,            S_PLAY_GDIE2,    0,     0     }, // S_PLAY_GDIE1
+    { SPR_PLAY, 15,                                5,               NULL,            S_PLAY_GDIE3,    0,     0     }, // S_PLAY_GDIE2
+    { SPR_PLAY, 16,                                5,               NULL,            S_PLAY_GDIE4,    0,     0     }, // S_PLAY_GDIE3
+    { SPR_PLAY, 17,                                5,               NULL,            S_PLAY_GDIE5,    0,     0     }, // S_PLAY_GDIE4
+    { SPR_PLAY, 18,                                5,               NULL,            S_PLAY_GDIE6,    0,     0     }, // S_PLAY_GDIE5
+    { SPR_PLAY, 19,                                5,               NULL,            S_PLAY_GDIE7,    0,     0     }, // S_PLAY_GDIE6
+    { SPR_PLAY, 20,                                5,               NULL,            S_PLAY_GDIE8,    0,     0     }, // S_PLAY_GDIE7
+    { SPR_PLAY, 21,                                5,               NULL,            S_PLAY_GDIE9,    0,     0     }, // S_PLAY_GDIE8
+    { SPR_PLAY, 22,                               -1,               NULL,            S_NULL,          0,     0     }, // S_PLAY_GDIE9
 
     // Barrel (MT_BARREL)
     { SPR_BEXP,  0,                                6,               NULL,            S_BAR2,          0,     0     }, // S_BAR1
@@ -6530,6 +6554,258 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] =
         /* damage               */ 0,
         /* activesound          */ sfx_None,
         /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ ""
+    },
+
+    // MT_DOGS
+    {
+        /* doomednum            */ 888,
+        /* spawnstate           */ S_DOGS_STND,
+        /* spawnhealth          */ 500,
+        /* seestate             */ S_DOGS_RUN1,
+        /* seesound             */ sfx_dgsit,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_dgatk,
+        /* painstate            */ S_DOGS_PAIN,
+        /* painchance           */ 180,
+        /* painsound            */ sfx_dgpain,
+        /* meleestate           */ S_DOGS_ATK1,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_DOGS_DIE1,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_dgdth,
+        /* speed                */ 10,
+        /* radius               */ 12 * FRACUNIT,
+        /* height               */ 28 * FRACUNIT,
+        /* projectilepassheight */ 28 * FRACUNIT,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_dgact,
+        /* flags                */ MF_SOLID | MF_SHOOTABLE | MF_COUNTKILL,
+        /* flags2               */ 0,
+        /* raisestate           */ S_DOGS_RAISE1,
+        /* frames               */ 0,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ ""
+    },
+
+    // MT_PLASMA1
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ S_PLS1BALL,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_plasma,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_PLS1EXP,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_firxpl,
+        /* speed                */ 25 * FRACUNIT,
+        /* radius               */ 13 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 8 * FRACUNIT,
+        /* mass                 */ 100,
+        /* damage               */ 4,
+        /* activesound          */ sfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ ""
+    },
+
+    // MT_PLASMA2
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ S_PLS2BALL,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_plasma,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_PLS2BALLX1,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_firxpl,
+        /* speed                */ 25 * FRACUNIT,
+        /* radius               */ 6 * FRACUNIT,
+        /* height               */ 8 * FRACUNIT,
+        /* projectilepassheight */ 8 * FRACUNIT,
+        /* mass                 */ 100,
+        /* damage               */ 4,
+        /* activesound          */ sfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_MISSILE | MF_DROPOFF | MF_NOGRAVITY,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ ""
+    },
+
+    // MT_SCEPTRE
+    {
+        /* doomednum            */ 2016,
+        /* spawnstate           */ S_BON3,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 10 * FRACUNIT,
+        /* height               */ 16 * FRACUNIT,
+        /* projectilepassheight */ 16 * FRACUNIT,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ ""
+    },
+
+    // MT_BIBLE
+    {
+        /* doomednum            */ 2017,
+        /* spawnstate           */ S_BON4,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 20 * FRACUNIT,
+        /* height               */ 10 * FRACUNIT,
+        /* projectilepassheight */ 10 * FRACUNIT,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ MF_SPECIAL | MF_COUNTITEM,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ ""
+    },
+
+    // MT_MUSICSOURCE
+    {
+        /* doomednum            */ 14164,
+        /* spawnstate           */ S_TNT1,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 16,
+        /* height               */ 16,
+        /* projectilepassheight */ 16,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ MF_NOBLOCKMAP,
+        /* flags2               */ 0,
+        /* raisestate           */ S_NULL,
+        /* frames               */ 0,
+        /* blood                */ 0,
+        /* shadowoffset         */ 0,
+        /* name1                */ "",
+        /* plural1              */ "",
+        /* name2                */ "",
+        /* plural2              */ ""
+    },
+
+    // MT_GIBDTH
+    {
+        /* doomednum            */ -1,
+        /* spawnstate           */ S_TNT1,
+        /* spawnhealth          */ 1000,
+        /* seestate             */ S_NULL,
+        /* seesound             */ sfx_None,
+        /* reactiontime         */ 8,
+        /* attacksound          */ sfx_None,
+        /* painstate            */ S_NULL,
+        /* painchance           */ 0,
+        /* painsound            */ sfx_None,
+        /* meleestate           */ S_NULL,
+        /* missilestate         */ S_NULL,
+        /* deathstate           */ S_NULL,
+        /* xdeathstate          */ S_NULL,
+        /* deathsound           */ sfx_None,
+        /* speed                */ 0,
+        /* radius               */ 4 * FRACUNIT,
+        /* height               */ 4 * FRACUNIT,
+        /* projectilepassheight */ 4 * FRACUNIT,
+        /* mass                 */ 100,
+        /* damage               */ 0,
+        /* activesound          */ sfx_None,
+        /* flags                */ MF_NOBLOCKMAP | MF_DROPOFF,
         /* flags2               */ 0,
         /* raisestate           */ S_NULL,
         /* frames               */ 0,
