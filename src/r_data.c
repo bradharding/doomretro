@@ -1028,43 +1028,36 @@ int R_TextureNumForName(char *name)
 //
 void R_PrecacheLevel(void)
 {
-    char          *flatpresent;
-    char          *texturepresent;
-    char          *spritepresent;
+    byte        *hitlist;
+    int         size = MAX(numflats, numsprites);
+    thinker_t   *th;
+    int         i;
+    int         j;
+    int         k;
 
-    int           i;
-    int           j;
-    int           k;
-
-    texture_t     *texture;
-    thinker_t     *th;
-    spriteframe_t *sf;
+    hitlist = malloc(MAX(numtextures, MAX(numflats, numsprites)));
 
     // Precache flats.
-    flatpresent = Z_Malloc(numflats, PU_STATIC, NULL);
-    memset(flatpresent, 0, numflats);
+    memset(hitlist, 0, numflats);
 
     for (i = 0; i < numsectors; i++)
     {
-        flatpresent[sectors[i].floorpic] = 1;
-        flatpresent[sectors[i].ceilingpic] = 1;
+        hitlist[sectors[i].floorpic] = 1;
+        hitlist[sectors[i].ceilingpic] = 1;
     }
 
     for (i = 0; i < numflats; i++)
-        if (flatpresent[i])
+        if (hitlist[i])
             W_CacheLumpNum(firstflat + i, PU_CACHE);
 
-    Z_Free(flatpresent);
-
     // Precache textures.
-    texturepresent = Z_Malloc(numtextures, PU_STATIC, NULL);
-    memset(texturepresent, 0, numtextures);
+    memset(hitlist, 0, numtextures);
 
     for (i = 0; i < numsides; i++)
     {
-        texturepresent[sides[i].toptexture] = 1;
-        texturepresent[sides[i].midtexture] = 1;
-        texturepresent[sides[i].bottomtexture] = 1;
+        hitlist[sides[i].toptexture] = 1;
+        hitlist[sides[i].midtexture] = 1;
+        hitlist[sides[i].bottomtexture] = 1;
     }
 
     // Sky texture is always present.
@@ -1073,41 +1066,33 @@ void R_PrecacheLevel(void)
     //  while the sky texture is stored like
     //  a wall texture, with an episode dependend
     //  name.
-    texturepresent[skytexture] = 1;
+    hitlist[skytexture] = 1;
 
     for (i = 0; i < numtextures; i++)
-    {
-        if (!texturepresent[i])
-            continue;
+        if (hitlist[i])
+        {
+            texture_t       *texture = textures[i];
 
-        texture = textures[i];
-
-        for (j = 0; j < texture->patchcount; j++)
-            W_CacheLumpNum(texture->patches[j].patch, PU_CACHE);
-    }
-
-    Z_Free(texturepresent);
+            for (j = 0; j < texture->patchcount; j++)
+                W_CacheLumpNum(texture->patches[j].patch, PU_CACHE);
+        }
 
     // Precache sprites.
-    spritepresent = Z_Malloc(numsprites, PU_STATIC, NULL);
-    memset(spritepresent, 0, numsprites);
+    memset(hitlist, 0, numsprites);
 
     for (th = thinkercap.next; th != &thinkercap; th = th->next)
         if (th->function == P_MobjThinker)
-            spritepresent[((mobj_t *)th)->sprite] = 1;
+            hitlist[((mobj_t *)th)->sprite] = 1;
 
     for (i = 0; i < numsprites; i++)
-    {
-        if (!spritepresent[i])
-            continue;
+        if (hitlist[i])
+            for (j = 0; j < sprites[i].numframes; j++)
+            {
+                short   *lump = sprites[i].spriteframes[j].lump;
 
-        for (j = 0; j < sprites[i].numframes; j++)
-        {
-            sf = &sprites[i].spriteframes[j];
-            for (k = 0; k < 8; k++)
-                W_CacheLumpNum(firstspritelump + sf->lump[k], PU_CACHE);
-        }
-    }
+                for (k = 0; k < 8; k++)
+                    W_CacheLumpNum(firstspritelump + lump[k], PU_CACHE);
+            }
 
-    Z_Free(spritepresent);
+    free(hitlist);
 }

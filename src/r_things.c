@@ -93,7 +93,7 @@ extern boolean                  skippsprinterp;
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int frame, char rot,
+static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int frame, char rot,
     boolean flipped)
 {
     unsigned int        rotation;
@@ -161,12 +161,13 @@ void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int frame, char
 // properties across standard Doom sprites:
 #define R_SpriteNameHash(s) ((unsigned int)((s)[0] - ((s)[1] * 3 - (s)[3] * 2 - (s)[2]) * 2))
 
-void R_InitSpriteDefs(char **namelist)
+static void R_InitSpriteDefs(const char *const *namelist)
 {
     size_t              numentries = lastspritelump - firstspritelump + 1;
     unsigned int        i;
 
-    struct {
+    struct
+    {
         int     index;
         int     next;
     } *hash;
@@ -175,7 +176,7 @@ void R_InitSpriteDefs(char **namelist)
         return;
 
     // count the number of sprite names
-    for (i = 0; namelist[i]; i++);
+    for (i = 0; namelist[i]; ++i);
 
     numsprites = (signed int)i;
 
@@ -198,7 +199,7 @@ void R_InitSpriteDefs(char **namelist)
 
     // scan all the lump names for each of the names,
     //  noting the highest frame letter.
-    for (i = 0; i < (unsigned int)numsprites; i++)
+    for (i = 0; i < (unsigned int)numsprites; ++i)
     {
         const char      *spritename = namelist[i];
         int             j = hash[R_SpriteNameHash(spritename) % numentries].index;
@@ -208,7 +209,7 @@ void R_InitSpriteDefs(char **namelist)
             int k;
 
             memset(sprtemp, -1, sizeof(sprtemp));
-            for (k = 0; k < MAX_SPRITE_FRAMES; k++)
+            for (k = 0; k < MAX_SPRITE_FRAMES; ++k)
                 sprtemp[k].flip = 0;
 
             maxframe = -1;
@@ -235,8 +236,8 @@ void R_InitSpriteDefs(char **namelist)
                 int     frame;
                 int     rot;
 
-                for (frame = 0; frame < maxframe; frame++)
-                    switch ((int)sprtemp[frame].rotate)
+                for (frame = 0; frame < maxframe; ++frame)
+                    switch (sprtemp[frame].rotate)
                     {
                         case -1:
                             // no rotations were found for that frame at all
@@ -244,7 +245,7 @@ void R_InitSpriteDefs(char **namelist)
 
                         case 0:
                             // only the first rotation is needed
-                            for (rot = 1; rot < 16; rot++)
+                            for (rot = 1; rot < 16; ++rot)
                                 sprtemp[frame].lump[rot] = sprtemp[frame].lump[0];
 
                             // If the frame is flipped, they all should be
@@ -254,7 +255,7 @@ void R_InitSpriteDefs(char **namelist)
 
                         case 1:
                             // must have all 8 frames
-                            for (rot = 0; rot < 8; rot++)
+                            for (rot = 0; rot < 8; ++rot)
                             {
                                 if (sprtemp[frame].lump[rot * 2 + 1] == -1)
                                 {
@@ -269,14 +270,14 @@ void R_InitSpriteDefs(char **namelist)
                                         sprtemp[frame].flip |= 1 << (rot * 2);
                                 }
                             }
-                            for (rot = 0; rot < 16; rot++)
+                            for (rot = 0; rot < 16; ++rot)
                                 if (sprtemp[frame].lump[rot] == -1)
                                     I_Error("R_InitSprites: Frame %c of sprite %.8s frame %c is "
                                         "missing rotations", frame + 'A', namelist[i]);
                             break;
                     }
 
-                for (frame = 0; frame < maxframe; frame++)
+                for (frame = 0; frame < maxframe; ++frame)
                     if (sprtemp[frame].rotate == -1)
                     {
                         memset(&sprtemp[frame].lump, 0, sizeof(sprtemp[0].lump));
@@ -572,10 +573,10 @@ void R_ProjectSprite(mobj_t *thing)
 
     sector_t            *sector = thing->subsector->sector;
 
-    fixed_t             interpx;
-    fixed_t             interpy;
-    fixed_t             interpz;
-    fixed_t             interpangle;
+    fixed_t             fx;
+    fixed_t             fy;
+    fixed_t             fz;
+    fixed_t             fangle;
 
     // [AM] Interpolate between current and last position, if prudent.
     if (!capfps
@@ -585,21 +586,21 @@ void R_ProjectSprite(mobj_t *thing)
         // Don't interpolate during a paused state.
         && !paused && !menuactive && !consoleactive)
     {
-        interpx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
-        interpy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
-        interpz = thing->oldz + FixedMul(thing->z - thing->oldz, fractionaltic);
-        interpangle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
+        fx = thing->oldx + FixedMul(thing->x - thing->oldx, fractionaltic);
+        fy = thing->oldy + FixedMul(thing->y - thing->oldy, fractionaltic);
+        fz = thing->oldz + FixedMul(thing->z - thing->oldz, fractionaltic);
+        fangle = R_InterpolateAngle(thing->oldangle, thing->angle, fractionaltic);
     }
     else
     {
-        interpx = thing->x;
-        interpy = thing->y;
-        interpz = thing->z;
-        interpangle = thing->angle;
+        fx = thing->x;
+        fy = thing->y;
+        fz = thing->z;
+        fangle = thing->angle;
     }
 
-    tr_x = interpx - viewx;
-    tr_y = interpy - viewy;
+    tr_x = fx - viewx;
+    tr_y = fy - viewy;
 
     gxt = FixedMul(tr_x, viewcos);
     gyt = -FixedMul(tr_y, viewsin);
@@ -628,12 +629,12 @@ void R_ProjectSprite(mobj_t *thing)
     {
         // choose a different rotation based on player view
         angle_t rot;
-        angle_t ang = R_PointToAngle(interpx, interpy);
+        angle_t ang = R_PointToAngle(fx, fy);
 
         if (sprframe->lump[0] == sprframe->lump[1])
-            rot = (ang - interpangle + (angle_t)(ANG45 / 2) * 9) >> 28;
+            rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9) >> 28;
         else
-            rot = (ang - interpangle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
+            rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
         flip = (boolean)(sprframe->flip & (1 << rot));
     }
@@ -658,9 +659,9 @@ void R_ProjectSprite(mobj_t *thing)
     if (x2 < 0)
         return;
 
-    gzt = interpz + spritetopoffset[lump];
+    gzt = fz + spritetopoffset[lump];
 
-    if (interpz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
+    if (fz > viewz + FixedDiv(viewheight << FRACBITS, xscale)
         || gzt < viewz - FixedDiv((viewheight << FRACBITS) - viewheight, xscale))
         return;
 
@@ -694,9 +695,9 @@ void R_ProjectSprite(mobj_t *thing)
     vis->mobjflags2 = flags2;
     vis->type = type;
     vis->scale = xscale;
-    vis->gx = interpx;
-    vis->gy = interpy;
-    vis->gz = interpz;
+    vis->gx = fx;
+    vis->gy = fy;
+    vis->gz = fz;
     vis->gzt = gzt;
     vis->blood = thing->blood;
 
@@ -706,7 +707,7 @@ void R_ProjectSprite(mobj_t *thing)
         vis->colfunc = thing->colfunc;
 
     // foot clipping
-    if ((flags2 & MF2_FEETARECLIPPED) && interpz <= sector->interpfloorheight + FRACUNIT
+    if ((flags2 & MF2_FEETARECLIPPED) && fz <= sector->interpfloorheight + FRACUNIT
         && heightsec == -1 && footclip)
     {
         fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
