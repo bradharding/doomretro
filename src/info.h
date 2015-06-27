@@ -1531,12 +1531,11 @@ typedef struct
     int         frames;
     int         blood;
     int         shadowoffset;
-    char        *name1;
-    char        *plural1;
-    char        *name2;
-    char        *plural2;
+    char        name1[100];
+    char        plural1[100];
+    char        name2[100];
+    char        plural2[100];
     void        (*colfunc)(void);
-    boolean     canmodify;
 } mobjinfo_t;
 
 extern mobjinfo_t       mobjinfo[NUMMOBJTYPES];

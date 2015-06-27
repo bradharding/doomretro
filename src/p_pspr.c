@@ -41,6 +41,7 @@
 #include "m_random.h"
 #include "m_menu.h"
 #include "p_local.h"
+#include "p_tick.h"
 #include "s_sound.h"
 #include "doomstat.h"
 
@@ -53,6 +54,8 @@
 boolean centerweapon = CENTERWEAPON_DEFAULT;
 
 boolean skippsprinterp = false;
+
+void P_CheckMissileSpawn(mobj_t *th);
 
 //
 // P_SetPsprite
@@ -479,7 +482,8 @@ void A_FireOldBFG(player_t *player, pspdef_t *psp)
 
     do
     {
-        mobj_t *th, *mo = player->mo;
+        mobj_t  *th;
+        mobj_t  *mo = player->mo;
         angle_t an = mo->angle;
         angle_t an1 = ((P_Random() & 127) - 64) * (ANG90 / 768) + an;
         angle_t an2 = ((P_Random() & 127) - 64) * (ANG90 / 640) + ANG90;
@@ -506,7 +510,7 @@ void A_FireOldBFG(player_t *player, pspdef_t *psp)
         th->momy = finesine[an1 >> ANGLETOFINESHIFT] * 25;
         th->momz = finetangent[an2 >> ANGLETOFINESHIFT] * 25;
         P_CheckMissileSpawn(th);
-    } while ((type != MT_PLASMA2) && (type = MT_PLASMA2)); //killough: obfuscated!
+    } while (type != MT_PLASMA2 && (type = MT_PLASMA2)); // killough: obfuscated!
 }
 
 //

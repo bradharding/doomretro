@@ -140,7 +140,7 @@ boolean nomusic = false;
 // Sets channels, SFX and music volume,
 //  allocates channel buffer, sets S_sfx lookup.
 //
-void S_Init(int sfxVolume, int musicVolume)
+void S_Init(int sfxvol, int musicvol)
 {
     if (M_CheckParm("-nosound") > 0)
     {
@@ -174,7 +174,7 @@ void S_Init(int sfxVolume, int musicVolume)
             int i;
 
             InitSfxModule();
-            S_SetSfxVolume(sfxVolume);
+            S_SetSfxVolume(sfxvol);
 
             // Allocating the internal channels for mixing
             // (the maximum numer of sounds rendered
@@ -193,7 +193,7 @@ void S_Init(int sfxVolume, int musicVolume)
         if (!nomusic)
         {
             InitMusicModule();
-            S_SetMusicVolume(musicVolume);
+            S_SetMusicVolume(musicvol);
 
             // no sounds are playing, and they are not mus_paused
             mus_paused = false;

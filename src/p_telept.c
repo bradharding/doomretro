@@ -280,7 +280,7 @@ boolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, boolean rev
 
             // Make sure we are on correct side of exit linedef.
             while (P_PointOnLineSide(x, y, l) != side && --fudge >= 0)
-                if (abs(l->dx) > abs(l->dy))
+                if (ABS(l->dx) > ABS(l->dy))
                     y -= ((l->dx < 0) != side ? -1 : 1);
                 else
                     x += ((l->dy < 0) != side ? -1 : 1);

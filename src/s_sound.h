@@ -68,7 +68,7 @@ boolean I_SDL_MusicIsPlaying(void);
 // Sets channels, SFX and music volume,
 //  allocates channel buffer, sets S_sfx lookup.
 //
-void S_Init(int sfxVolume, int musicVolume);
+void S_Init(int sfxvol, int musicvol);
 
 // Shut down sound
 void S_Shutdown(void);
