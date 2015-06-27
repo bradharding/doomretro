@@ -636,13 +636,13 @@ void R_ProjectSprite(mobj_t *thing)
         else
             rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
-        flip = (boolean)(sprframe->flip & (1 << rot));
+        flip = ((boolean)(sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = (boolean)(sprframe->flip & 1);
+        flip = ((boolean)(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
     // calculate edges of the shape
@@ -961,13 +961,13 @@ void R_ProjectShadow(mobj_t *thing)
         else
             rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
-        flip = (boolean)(sprframe->flip & (1 << rot));
+        flip = ((boolean)(sprframe->flip & (1 << rot)) || (thing->flags2 & MF2_MIRRORED));
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = (boolean)(sprframe->flip & 1);
+        flip = ((boolean)(sprframe->flip & 1) || (thing->flags2 & MF2_MIRRORED));
     }
 
     // calculate edges of the shape
