@@ -57,7 +57,18 @@ char *sprnames[] =
     "POL3", "POL1", "POL6", "GOR2", "GOR3", "GOR4", "GOR5", "SMIT", "COL1", "COL2",
     "COL3", "COL4", "CAND", "CBRA", "COL6", "TRE1", "TRE2", "ELEC", "CEYE", "FSKU",
     "COL5", "TBLU", "TGRN", "TRED", "SMBT", "SMGT", "SMRT", "HDB1", "HDB2", "HDB3",
-    "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2", "BLD2", NULL
+    "HDB4", "HDB5", "HDB6", "POB1", "POB2", "BRS1", "TLMP", "TLP2",
+
+    "TNT1",     // invisible sprite     phares 3/9/98
+    "DOGS",     // killough 7/19/98: Marine's best friend :)
+    "PLS1",     // killough 7/19/98: first  of two plasma fireballs in the beta
+    "PLS2",     // killough 7/19/98: second of two plasma fireballs in the beta
+    "BON3",     // killough 7/11/98: evil sceptre in the beta version
+    "BON4",     // killough 7/11/98: unholy bible in the beta version
+
+    "BLD2",     // [BH] blood splats
+
+    NULL
 };
 
 void A_Light0();

@@ -182,7 +182,16 @@ typedef enum
     SPR_BRS1,
     SPR_TLMP,
     SPR_TLP2,
-    SPR_BLD2,
+
+    SPR_TNT1,   // add invisible sprite phares 3/8/98
+    SPR_DOGS,   // killough 7/19/98: Marine's best friend :)
+    SPR_PLS1,   // killough 7/19/98: first  of two plasma fireballs in the beta
+    SPR_PLS2,   // killough 7/19/98: second of two plasma fireballs in the beta
+    SPR_BON3,   // killough 7/11/98: evil sceptre in beta version
+    SPR_BON4,   // killough 7/11/98: unholy bible in beta version
+
+    SPR_BLD2,   // [BH] blood splats
+
     NUMSPRITES
 } spritenum_t;
 
