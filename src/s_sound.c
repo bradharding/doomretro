@@ -168,7 +168,7 @@ static void InitSfxModule(void)
         }
     }
 
-    C_Output("The initialization of SFX failed.");
+    C_Warning("The initialization of SFX failed.");
 }
 
 // Initialize music according to snd_musicdevice.
