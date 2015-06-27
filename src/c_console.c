@@ -152,8 +152,8 @@ static const char *shiftxform =
     ")!@#$%^&*(::<+>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[!]\"_'ABCDEFGHIJKLMNOPQRSTUVWXYZ{|}~\0"
 };
 
-byte            *c_tempscreen;
-byte            *c_blurredscreen;
+byte            c_tempscreen[SCREENWIDTH * SCREENHEIGHT];
+byte            c_blurredscreen[SCREENWIDTH * SCREENHEIGHT];
 
 int             consolecaretcolor = 4;
 int             consolehighfpscolor = 116;
@@ -170,6 +170,8 @@ int             consolebrandingcolor = 100;
 int             consolewarningcolor = 180;
 int             consoledividercolor = 100;
 int             consoletintcolor = 5;
+int             consoleedgecolor1 = 105;
+int             consoleedgecolor2 = 100;
 int             consolescrollbartrackcolor = 100;
 int             consolescrollbarfacecolor = 88;
 
@@ -400,8 +402,9 @@ void C_Init(void)
     consolecolors[warning] = consolewarningcolor;
     consolecolors[playermessage] = consoleplayermessagecolor;
 
-    c_tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-    c_blurredscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+    consoletintcolor <<= 8;
+    consoleedgecolor1 <<= 8;
+    consoleedgecolor2 <<= 8;
 }
 
 void C_HideConsole(void)
@@ -465,13 +468,13 @@ static void C_DrawBackground(int height)
     blurred = (consoleheight == CONSOLEHEIGHT && !wipe);
 
     for (i = 0; i < height; ++i)
-        screens[0][i] = tinttab50[c_blurredscreen[i] + (consoletintcolor << 8)];
+        screens[0][i] = tinttab50[c_blurredscreen[i] + consoletintcolor];
 
     for (i = height - SCREENWIDTH * 3; i < height - SCREENWIDTH * 2; ++i)
-        screens[0][i] = tinttab25[((consolebrandingcolor + 5) << 8) + screens[0][i]];
+        screens[0][i] = tinttab25[consoleedgecolor1 + screens[0][i]];
 
     for (i = height - SCREENWIDTH * 2; i < height; ++i)
-        screens[0][i] = tinttab25[(consolebrandingcolor << 8) + screens[0][i]];
+        screens[0][i] = tinttab25[consoleedgecolor2 + screens[0][i]];
 }
 
 static struct
