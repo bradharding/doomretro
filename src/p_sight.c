@@ -242,7 +242,7 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
     // First check for trivial rejection.
     // Determine subsector entries in REJECT table.
     // Check in REJECT table.
-    if ((pnum >> 3) < rejectmatrixsize && (rejectmatrix[pnum >> 3] & (1 << (pnum & 7))))
+    if (rejectmatrix[pnum >> 3] & (1 << (pnum & 7)))
         return false;
 
     // killough 4/19/98: make fake floors and ceilings block monster view
@@ -251,8 +251,7 @@ boolean P_CheckSight(mobj_t *t1, mobj_t *t2)
         t2->z >= sectors[s1->heightsec].floorheight) ||
         (t1->z >= sectors[s1->heightsec].ceilingheight &&
         t2->z + t1->height <= sectors[s1->heightsec].ceilingheight)))
-        ||
-        (s2->heightsec != -1 &&
+        || (s2->heightsec != -1 &&
         ((t2->z + t2->height <= sectors[s2->heightsec].floorheight &&
         t1->z >= sectors[s2->heightsec].floorheight) ||
         (t2->z >= sectors[s2->heightsec].ceilingheight &&

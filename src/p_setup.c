@@ -111,8 +111,8 @@ mobj_t          **blocklinks;
 // Without special effect, this could be
 //  used as a PVS lookup as well.
 //
-byte            *rejectmatrix;
-int             rejectmatrixsize;
+static int      rejectlump = -1;        // cph - store reject lump num if cached
+const byte      *rejectmatrix;          // cph - const*
 
 // Maintain single and multi player starting spots.
 mapthing_t      playerstarts[MAXPLAYERS];
@@ -125,6 +125,21 @@ boolean         mapfixes = MAPFIXES_DEFAULT;
 static int      current_episode = -1;
 static int      current_map = -1;
 static int      samelevel = false;
+
+typedef enum
+{
+    DOOMBSP = 0,
+    DEEPBSP = 1,
+    ZDBSPX  = 2
+} mapformat_t;
+
+static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
+{
+    fixed_t     dx = (v1->x - v2->x) >> FRACBITS;
+    fixed_t     dy = (v1->y - v2->y) >> FRACBITS;
+
+    return ((fixed_t)(sqrt(dx * dx + dy * dy)) << FRACBITS);
+}
 
 // e6y: Smart malloc
 // Used by P_SetupLevel() for smart data loading
@@ -227,8 +242,6 @@ void P_LoadSegs(int lump)
 
         v1 = (unsigned short)SHORT(ml->v1);
         v2 = (unsigned short)SHORT(ml->v2);
-
-        li->angle = SHORT(ml->angle) << 16;
         linedef = (unsigned short)SHORT(ml->linedef);
 
         if (linedef < 0 || linedef >= numlines)
@@ -296,19 +309,8 @@ void P_LoadSegs(int lump)
             li->v2 = &vertexes[v2];
         }
 
-        // From Odamex:
-        {
-            // Recalculate seg offsets. Values in wads are untrustworthy.
-            vertex_t *from = (side == 0)
-                ? ldef->v1         // right side: offset is from start of linedef
-                : ldef->v2;        // left side: offset is from end of linedef
-            vertex_t *to = li->v1; // end point is start of seg, in both cases
-
-            float dx = (float)(to->x - from->x);
-            float dy = (float)(to->y - from->y);
-
-            li->offset = (fixed_t)sqrt(dx * dx + dy * dy);
-        }
+        li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
+        li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
 
         // Apply any map-specific fixes.
         if (canmodify && mapfixes)
@@ -471,7 +473,6 @@ void P_LoadNodes(int lump)
     nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
-    // [crispy] warn about unsupported nodes
     if (!data || !numnodes)
     {
         if (numsubsectors == 1)
@@ -479,10 +480,6 @@ void P_LoadNodes(int lump)
         else
             I_Error("P_LoadNodes: No nodes in map");
     }
-    else if (!memcmp(data, "xNd4\0\0\0\0", 8))
-        I_Error("P_LoadNodes: DeePBSP nodes are not supported");
-    else if (!memcmp(data, "XNOD", 4) ||!memcmp(data, "ZNOD", 4))
-        I_Error("P_LoadNodes: ZDBSP nodes are not supported");
 
     for (i = 0; i < numnodes; i++)
     {
@@ -518,6 +515,206 @@ void P_LoadNodes(int lump)
 
                 no->children[j] |= NF_SUBSECTOR;
             }
+
+            for (k = 0; k < 4; k++)
+                no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+        }
+    }
+
+    W_ReleaseLumpNum(lump);
+}
+
+static void P_LoadZSegs(const byte *data)
+{
+    int i;
+
+    for (i = 0; i < numsegs; i++)
+    {
+        line_t                  *ldef;
+        unsigned int            v1, v2;
+        unsigned int            linedef;
+        unsigned char           side;
+        seg_t                   *li = segs + i;
+        const mapseg_znod_t     *ml = (const mapseg_znod_t *)data + i;
+
+        v1 = ml->v1;
+        v2 = ml->v2;
+
+        linedef = (unsigned short)SHORT(ml->linedef);
+
+        // e6y: check for wrong indexes
+        if ((unsigned int)linedef >= (unsigned int)numlines)
+        {
+            I_Error("P_LoadZSegs: seg %d references a non-existent linedef %d",
+                i, (unsigned int)linedef);
+        }
+
+        ldef = &lines[linedef];
+        li->linedef = ldef;
+        side = ml->side;
+
+        // e6y: fix wrong side index
+        if (side != 0 && side != 1)
+        {
+            C_Warning("P_LoadZSegs: seg %d contains wrong side index %d. Replaced with 1.",
+                i, side);
+            side = 1;
+        }
+
+        // e6y: check for wrong indexes
+        if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
+        {
+            I_Error("P_LoadZSegs: linedef %d for seg %d references a non-existent sidedef %d",
+                linedef, i, (unsigned int)ldef->sidenum[side]);
+        }
+
+        li->sidedef = &sides[ldef->sidenum[side]];
+
+        // cph 2006/09/30 - our frontsector can be the second side of the
+        // linedef, so must check for NO_INDEX in case we are incorrectly
+        // referencing the back of a 1S line
+        if (ldef->sidenum[side] != NO_INDEX)
+            li->frontsector = sides[ldef->sidenum[side]].sector;
+        else
+        {
+            li->frontsector = 0;
+            C_Warning("P_LoadZSegs: front of seg %i has no sidedef.", i);
+        }
+
+        if ((ldef->flags & ML_TWOSIDED) && (ldef->sidenum[side ^ 1] != NO_INDEX))
+            li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
+        else
+            li->backsector = 0;
+
+        li->v1 = &vertexes[v1];
+        li->v2 = &vertexes[v2];
+
+        li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
+        li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
+    }
+}
+
+static void P_LoadZNodes(int lump)
+{
+    byte                *data;
+    unsigned int        i;
+    int                 len;
+
+    unsigned int        orgVerts, newVerts;
+    unsigned int        numSubs, currSeg;
+    unsigned int        numSegs;
+    unsigned int        numNodes;
+    vertex_t            *newvertarray = NULL;
+
+    data = W_CacheLumpNum(lump, PU_LEVEL);
+    len = W_LumpLength(lump);
+
+    // skip header
+    data += 4;
+
+    // Read extra vertices added during node building
+    orgVerts = *((const unsigned int *)data);
+    data += sizeof(orgVerts);
+
+    newVerts = *((const unsigned int *)data);
+    data += sizeof(newVerts);
+
+    if (!samelevel)
+    {
+        if (orgVerts + newVerts == (unsigned int)numvertexes)
+            newvertarray = vertexes;
+        else
+        {
+            newvertarray = calloc(orgVerts + newVerts, sizeof(vertex_t));
+            memcpy(newvertarray, vertexes, orgVerts * sizeof(vertex_t));
+        }
+
+        for (i = 0; i < newVerts; i++)
+        {
+            newvertarray[i + orgVerts].x = *((const unsigned int *)data);
+            data += sizeof(newvertarray[0].x);
+
+            newvertarray[i + orgVerts].y = *((const unsigned int *)data);
+            data += sizeof(newvertarray[0].y);
+        }
+
+        if (vertexes != newvertarray)
+        {
+            for (i = 0; i < (unsigned int)numlines; i++)
+            {
+                lines[i].v1 = lines[i].v1 - vertexes + newvertarray;
+                lines[i].v2 = lines[i].v2 - vertexes + newvertarray;
+            }
+            free(vertexes);
+            vertexes = newvertarray;
+            numvertexes = orgVerts + newVerts;
+        }
+    }
+    else
+    {
+        int     size = newVerts * (sizeof(newvertarray[0].x) + sizeof(newvertarray[0].y));
+
+        data += size;
+
+        // P_LoadVertexes reset numvertexes, need to increase it again
+        numvertexes = orgVerts + newVerts;
+    }
+
+    // Read the subsectors
+    numSubs = *((const unsigned int*)data);
+    data += sizeof(numSubs);
+
+    numsubsectors = numSubs;
+    if (numsubsectors <= 0)
+        I_Error("P_LoadZNodes: no subsectors in level");
+    subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
+
+    for (i = currSeg = 0; i < numSubs; i++)
+    {
+        const mapsubsector_znod_t       *mseg = (const mapsubsector_znod_t *)data + i;
+
+        subsectors[i].firstline = currSeg;
+        subsectors[i].numlines = mseg->numsegs;
+        currSeg += mseg->numsegs;
+    }
+    data += numSubs * sizeof(mapsubsector_znod_t);
+
+    // Read the segs
+    numSegs = *((const unsigned int*)data);
+    data += sizeof(numSegs);
+
+    // The number of segs stored should match the number of
+    // segs used by subsectors.
+    if (numSegs != currSeg)
+        I_Error("P_LoadZNodes: Incorrect number of segs in nodes.");
+
+    numsegs = numSegs;
+    segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
+
+    P_LoadZSegs(data);
+    data += numsegs * sizeof(mapseg_znod_t);
+
+    // Read nodes
+    numNodes = *((const unsigned int*)data);
+    data += sizeof(numNodes);
+
+    numnodes = numNodes;
+    nodes = calloc_IfSameLevel(nodes, numNodes, sizeof(node_t));
+
+    for (i = 0; i < numNodes; i++)
+    {
+        int                     j, k;
+        node_t                  *no = nodes + i;
+        const mapnode_znod_t    *mn = (const mapnode_znod_t *)data + i;
+
+        no->x = SHORT(mn->x) << FRACBITS;
+        no->y = SHORT(mn->y) << FRACBITS;
+        no->dx = SHORT(mn->dx) << FRACBITS;
+        no->dy = SHORT(mn->dy) << FRACBITS;
+
+        for (j = 0; j < 2; j++)
+        {
+            no->children[j] = (unsigned int)(mn->children[j]);
 
             for (k = 0; k < 4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
@@ -1075,6 +1272,46 @@ void P_LoadBlockMap(int lump)
 }
 
 //
+// reject overrun emulation
+//
+void RejectOverrun(int rejectlump, const byte **rejectmatrix, int totallines)
+{
+    unsigned int length, required;
+    byte *newreject;
+    unsigned char pad;
+
+    required = (numsectors * numsectors + 7) / 8;
+    length = W_LumpLength(rejectlump);
+
+    if (length < required)
+    {
+        // allocate a new block and copy the reject table into it; zero the rest
+        // PU_LEVEL => will be freed on level exit
+        newreject = Z_Malloc(required, PU_LEVEL, NULL);
+        *rejectmatrix = memmove(newreject, *rejectmatrix, length);
+
+        memset(newreject + length, 0, required - length);
+        // unlock the original lump, it is no longer needed
+        W_ReleaseLumpNum(rejectlump);
+        rejectlump = -1;
+    }
+}
+//
+// P_LoadReject - load the reject table
+//
+static void P_LoadReject(int lumpnum, int totallines)
+{
+    // dump any old cached reject lump, then cache the new one
+    if (rejectlump != -1)
+        W_ReleaseLumpNum(rejectlump);
+    rejectlump = lumpnum + ML_REJECT;
+    rejectmatrix = W_CacheLumpNum(rejectlump, PU_STATIC);
+
+    //e6y: check for overflow
+    RejectOverrun(rejectlump, &rejectmatrix, totallines);
+}
+
+//
 // P_GroupLines
 // Builds sector line lists and subsector sector numbers.
 // Finds block bounding boxes for sectors.
@@ -1093,7 +1330,8 @@ static void P_AddLineToSector(line_t *li, sector_t *sector)
     M_AddToBox(bbox, li->v2->x, li->v2->y);
 }
 
-static void P_GroupLines(void)
+// modified to return totallines (needed by P_LoadReject)
+static int P_GroupLines(void)
 {
     line_t      *li;
     sector_t    *sector;
@@ -1176,6 +1414,8 @@ static void P_GroupLines(void)
         block = (block < 0 ? 0 : block);
         sector->blockbox[BOXLEFT] = block;
     }
+
+    return total;       // this value is needed by the reject overrun emulation code
 }
 
 //
@@ -1394,6 +1634,37 @@ void P_MapName(int episode, int map)
     }
 }
 
+// [crispy] support maps with NODES in compressed or uncompressed ZDBSP
+// format or DeePBSP format and/or LINEDEFS and THINGS lumps in Hexen format
+static mapformat_t P_CheckMapFormat(int lumpnum)
+{
+    mapformat_t format = DOOMBSP;
+    byte        *nodes = NULL;
+    int         b;
+
+    if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b, PU_CACHE))
+        && W_LumpLength(b) > 0)
+    {
+        if (!memcmp(nodes, "xNd4\0\0\0\0", 8))
+        {
+            C_Output("This map has DeePBSP v4 Extended nodes.");
+            format = DEEPBSP;
+        }
+        else if (!memcmp(nodes, "XNOD", 4))
+        {
+                C_Output("This map has ZDoom uncompressed normal nodes.");
+                format = ZDBSPX;
+        }
+        else if (!memcmp(nodes, "ZNOD", 4))
+            I_Error("Compressed ZDoom nodes are not supported yet.");
+    }
+
+    if (nodes)
+        W_ReleaseLumpNum(b);
+
+    return format;
+}
+
 extern boolean idclev;
 extern boolean oldweaponsowned[];
 
@@ -1402,8 +1673,9 @@ extern boolean oldweaponsowned[];
 //
 void P_SetupLevel(int episode, int map)
 {
-    char lumpname[6];
-    int  lumpnum;
+    char        lumpname[6];
+    int         lumpnum;
+    mapformat_t mapformat;
 
     totalkills = totalitems = totalsecret = 0;
     wminfo.partime = 0;
@@ -1420,6 +1692,13 @@ void P_SetupLevel(int episode, int map)
 
     Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
+    if (rejectlump != -1)
+    {
+        // cph - unlock the reject table
+        W_ReleaseLumpNum(rejectlump);
+        rejectlump = -1;
+    }
+
     P_InitThinkers();
 
     // find map name
@@ -1432,6 +1711,8 @@ void P_SetupLevel(int episode, int map)
         lumpnum = W_GetNumForName2(lumpname);
     else
         lumpnum = W_GetNumForName(lumpname);
+
+    mapformat = P_CheckMapFormat(lumpnum);
 
     canmodify = ((W_CheckMultipleLumps(lumpname) == 1 || gamemission == pack_nerve
         || (nerve && gamemission == doom2)) && !FREEDOOM);
@@ -1459,6 +1740,7 @@ void P_SetupLevel(int episode, int map)
         free(vertexes);
     }
 
+    // note: most of this ordering is important
     P_LoadVertexes(lumpnum + ML_VERTEXES);
     P_LoadSectors(lumpnum + ML_SECTORS);
     P_LoadSideDefs(lumpnum + ML_SIDEDEFS);
@@ -1466,19 +1748,30 @@ void P_SetupLevel(int episode, int map)
     P_LoadSideDefs2(lumpnum + ML_SIDEDEFS);
     P_LoadLineDefs2(lumpnum + ML_LINEDEFS);
 
-    // note: most of this ordering is important
     if (!samelevel)
         P_LoadBlockMap(lumpnum + ML_BLOCKMAP);
     else
         memset(blocklinks, 0, bmapwidth * bmapheight * sizeof(*blocklinks));
 
-    P_LoadSubsectors(lumpnum + ML_SSECTORS);
-    P_LoadNodes(lumpnum + ML_NODES);
-    P_LoadSegs(lumpnum + ML_SEGS);
 
-    rejectmatrix = (byte *)W_CacheLumpNum(lumpnum + ML_REJECT, PU_LEVEL);
-    rejectmatrixsize = W_LumpLength(lumpnum + ML_REJECT);
-    P_GroupLines();
+    if (mapformat == ZDBSPX)
+        P_LoadZNodes(lumpnum + ML_NODES);
+    //else if (mapformat == DEEPBSP)
+    //{
+    //    P_LoadSubsectors_DeePBSP(lumpnum + ML_SSECTORS);
+    //    P_LoadNodes_DeePBSP(lumpnum + ML_NODES);
+    //    P_LoadSegs_DeePBSP(lumpnum + ML_SEGS);
+    //}
+    else
+    {
+        P_LoadSubsectors(lumpnum + ML_SSECTORS);
+        P_LoadNodes(lumpnum + ML_NODES);
+        P_LoadSegs(lumpnum + ML_SEGS);
+    }
+
+    // reject loading and underflow padding separated out into new function
+    // P_GroupLines modified to return a number the underflow padding needs
+    P_LoadReject(lumpnum, P_GroupLines());
 
     P_RemoveSlimeTrails();
 
