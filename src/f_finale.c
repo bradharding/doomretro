@@ -745,7 +745,7 @@ void F_CastDrawer(void)
     if (sprframe->rotate)
         rot = castrot;
     lump = sprframe->lump[rot];
-    flip = (boolean)sprframe->flip[rot];
+    flip = (boolean)(sprframe->flip & (1 << rot));
 
     patch = W_CacheLumpNum(lump + firstspritelump, PU_CACHE);
 
