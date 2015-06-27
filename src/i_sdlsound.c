@@ -56,22 +56,22 @@
 #define NUM_CHANNELS            32
 #define MAX_SOUND_SLICE_TIME    28
 
-static boolean sound_initialized = false;
+static boolean          sound_initialized = false;
 
-static Mix_Chunk sound_chunks[NUMSFX];
-static int channels_playing[NUM_CHANNELS];
+static Mix_Chunk        sound_chunks[NUMSFX];
+static int              channels_playing[NUM_CHANNELS];
 
-static int mixer_freq;
-static Uint16 mixer_format;
-static int mixer_channels;
+static int              mixer_freq;
+static Uint16           mixer_format;
+static int              mixer_channels;
 
 // When a sound stops, check if it is still playing. If it is not,
 // we can mark the sound data as CACHE to be freed back for other
 // means.
 static void ReleaseSoundOnChannel(int channel)
 {
-    int         i;
-    int         id = channels_playing[channel];
+    int i;
+    int id = channels_playing[channel];
 
     if (!id)
         return;
@@ -89,13 +89,12 @@ static void ReleaseSoundOnChannel(int channel)
 
 static boolean ConvertibleRatio(int freq1, int freq2)
 {
-    int         ratio;
+    int ratio;
 
     if (freq1 > freq2)
         return ConvertibleRatio(freq2, freq1);
     else if (freq2 % freq1)
-        // Not in a direct ratio
-        return false;
+        return false;   // Not in a direct ratio
     else
     {
         // Check the ratio is a power of 2
@@ -109,8 +108,7 @@ static boolean ConvertibleRatio(int freq1, int freq2)
 }
 
 // Generic sound expansion function for any sample rate.
-static void ExpandSoundData_SDL(byte *data, int samplerate,
-                                uint32_t length, Mix_Chunk *destination)
+static void ExpandSoundData_SDL(byte *data, int samplerate, uint32_t length, Mix_Chunk *destination)
 {
     SDL_AudioCVT        convertor;
     uint32_t            expanded_length;
@@ -124,10 +122,9 @@ static void ExpandSoundData_SDL(byte *data, int samplerate,
     destination->abuf = Z_Malloc(expanded_length, PU_STATIC, (void **)&destination->abuf);
 
     // If we can, use the standard / optimized SDL conversion routines.
-    if (samplerate <= mixer_freq
-        && ConvertibleRatio(samplerate, mixer_freq)
-        && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, 
-                             mixer_format, mixer_channels, mixer_freq))
+    if (samplerate <= mixer_freq && ConvertibleRatio(samplerate, mixer_freq)
+        && SDL_BuildAudioCVT(&convertor, AUDIO_U8, 1, samplerate, mixer_format, mixer_channels,
+        mixer_freq))
     {
         convertor.buf = destination->abuf;
         convertor.len = length;
@@ -198,8 +195,8 @@ static void ExpandSoundData_SDL(byte *data, int samplerate,
 //     returns false
 //     starred parameters are garbage
 //     lump already released
-static boolean LoadSoundLump(int sound, int *lumpnum, int *samplerate,
-                             uint32_t *length, byte **data_ref)
+static boolean LoadSoundLump(int sound, int *lumpnum, int *samplerate, uint32_t *length,
+    byte **data_ref)
 {
     int         lumplen;
     byte        *data;
@@ -293,7 +290,7 @@ static Mix_Chunk *GetSFXChunk(int sound_id)
 // Retrieve the raw data lump index
 //  for a given SFX name.
 //
-static int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
+int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
 {
     char        namebuf[9];
 
@@ -302,7 +299,7 @@ static int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
     return W_GetNumForName(namebuf);
 }
 
-static void I_SDL_UpdateSoundParams(int handle, int vol, int sep)
+void I_SDL_UpdateSoundParams(int handle, int vol, int sep)
 {
     int         left, right;
 
@@ -327,7 +324,7 @@ static void I_SDL_UpdateSoundParams(int handle, int vol, int sep)
 // Pitching (that is, increased speed of playback)
 //  is set, but currently not used by mixing.
 //
-static int I_SDL_StartSound(int id, int channel, int vol, int sep)
+int I_SDL_StartSound(int id, int channel, int vol, int sep)
 {
     Mix_Chunk   *chunk;
 
@@ -355,7 +352,7 @@ static int I_SDL_StartSound(int id, int channel, int vol, int sep)
     return channel;
 }
 
-static void I_SDL_StopSound(int handle)
+void I_SDL_StopSound(int handle)
 {
     if (!sound_initialized)
         return;
@@ -367,7 +364,7 @@ static void I_SDL_StopSound(int handle)
     ReleaseSoundOnChannel(handle);
 }
 
-static boolean I_SDL_SoundIsPlaying(int handle)
+boolean I_SDL_SoundIsPlaying(int handle)
 {
     if (handle < 0)
         return false;
@@ -386,7 +383,7 @@ boolean I_AnySoundStillPlaying(void)
     return result;
 }
 
-static void I_SDL_ShutdownSound(void)
+void I_SDL_ShutdownSound(void)
 {
     if (!sound_initialized)
         return;
@@ -413,7 +410,7 @@ static int GetSliceSize(void)
             return (1 << n);
 }
 
-static boolean I_SDL_InitSound(void)
+boolean I_SDL_InitSound(void)
 {
     int i;
 
@@ -458,21 +455,3 @@ static boolean I_SDL_InitSound(void)
 
     return true;
 }
-
-static snddevice_t sound_sdl_devices[] =
-{
-    SNDDEVICE_SB
-};
-
-sound_module_t sound_sdl_module =
-{
-    sound_sdl_devices,
-    arrlen(sound_sdl_devices),
-    I_SDL_InitSound,
-    I_SDL_ShutdownSound,
-    I_SDL_GetSfxLumpNum,
-    I_SDL_UpdateSoundParams,
-    I_SDL_StartSound,
-    I_SDL_StopSound,
-    I_SDL_SoundIsPlaying
-};

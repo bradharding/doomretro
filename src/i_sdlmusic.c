@@ -135,7 +135,7 @@ static void RemoveTimidityConfig(void)
 }
 
 // Shutdown music
-static void I_SDL_ShutdownMusic(void)
+void I_SDL_ShutdownMusic(void)
 {
     if (music_initialized)
     {
@@ -160,7 +160,7 @@ static boolean SDLIsInitialized(void)
 }
 
 // Initialize music subsystem
-static boolean I_SDL_InitMusic(void)
+boolean I_SDL_InitMusic(void)
 {
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
@@ -201,7 +201,7 @@ static void UpdateMusicVolume(void)
 }
 
 // Set music volume (0 - 127)
-static void I_SDL_SetMusicVolume(int volume)
+void I_SDL_SetMusicVolume(int volume)
 {
     // Internal state variable.
     current_music_volume = volume;
@@ -210,7 +210,7 @@ static void I_SDL_SetMusicVolume(int volume)
 }
 
 // Start playing a mid
-static void I_SDL_PlaySong(void *handle, int looping)
+void I_SDL_PlaySong(void *handle, int looping)
 {
     if (!music_initialized || handle == NULL)
         return;
@@ -218,7 +218,7 @@ static void I_SDL_PlaySong(void *handle, int looping)
     Mix_PlayMusic((Mix_Music *)handle, looping ? -1 : 1);
 }
 
-static void I_SDL_PauseSong(void)
+void I_SDL_PauseSong(void)
 {
     if (!music_initialized)
         return;
@@ -228,7 +228,7 @@ static void I_SDL_PauseSong(void)
     UpdateMusicVolume();
 }
 
-static void I_SDL_ResumeSong(void)
+void I_SDL_ResumeSong(void)
 {
     if (!music_initialized)
         return;
@@ -238,7 +238,7 @@ static void I_SDL_ResumeSong(void)
     UpdateMusicVolume();
 }
 
-static void I_SDL_StopSong(void)
+void I_SDL_StopSong(void)
 {
     if (!music_initialized)
         return;
@@ -246,7 +246,7 @@ static void I_SDL_StopSong(void)
     Mix_HaltMusic();
 }
 
-static void I_SDL_UnRegisterSong(void *handle)
+void I_SDL_UnRegisterSong(void *handle)
 {
     if (!music_initialized || handle == NULL)
         return;
@@ -280,7 +280,7 @@ static boolean ConvertMus(byte *musdata, int len, char *filename)
     return result;
 }
 
-static void *I_SDL_RegisterSong(void *data, int len)
+void *I_SDL_RegisterSong(void *data, int len)
 {
     char        *filename;
     Mix_Music   *music;
@@ -310,36 +310,10 @@ static void *I_SDL_RegisterSong(void *data, int len)
 }
 
 // Is the song playing?
-static boolean I_SDL_MusicIsPlaying(void)
+boolean I_SDL_MusicIsPlaying(void)
 {
     if (!music_initialized)
         return false;
 
     return Mix_PlayingMusic();
 }
-
-static snddevice_t music_sdl_devices[] =
-{
-    SNDDEVICE_PAS,
-    SNDDEVICE_GUS,
-    SNDDEVICE_WAVEBLASTER,
-    SNDDEVICE_SOUNDCANVAS,
-    SNDDEVICE_GENMIDI,
-    SNDDEVICE_AWE32
-};
-
-music_module_t music_sdl_module =
-{
-    music_sdl_devices,
-    arrlen(music_sdl_devices),
-    I_SDL_InitMusic,
-    I_SDL_ShutdownMusic,
-    I_SDL_SetMusicVolume,
-    I_SDL_PauseSong,
-    I_SDL_ResumeSong,
-    I_SDL_RegisterSong,
-    I_SDL_UnRegisterSong,
-    I_SDL_PlaySong,
-    I_SDL_StopSong,
-    I_SDL_MusicIsPlaying
-};
