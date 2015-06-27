@@ -1360,7 +1360,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     sfxvolume_percent = sfxVolume * 100 / 15;
-                    C_Input("snd_sfxvolume %i%%", sfxvolume_percent);
+                    C_Input("s_sfxvolume %i%%", sfxvolume_percent);
                     M_SaveDefaults();
                 }
                 break;
@@ -1370,7 +1370,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     sfxvolume_percent = sfxVolume * 100 / 15;
-                    C_Input("snd_sfxvolume %i%%", sfxvolume_percent);
+                    C_Input("s_sfxvolume %i%%", sfxvolume_percent);
                     M_SaveDefaults();
                 }
                 break;

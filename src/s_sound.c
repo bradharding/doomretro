@@ -78,10 +78,6 @@ typedef struct
 }
 channel_t;
 
-// Low-level sound and music modules we are using
-//static sound_module_t   *sound_module;
-//static music_module_t   *music_module;
-
 // The set of channels available
 static channel_t        *channels;
 
@@ -105,7 +101,7 @@ static boolean          mus_paused;
 static musicinfo_t      *mus_playing = NULL;
 
 // Number of channels to use
-int numChannels = 32;
+int                     numChannels = 32;
 
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
