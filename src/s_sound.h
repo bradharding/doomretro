@@ -48,9 +48,10 @@ boolean I_SDL_InitSound(void);
 void I_SDL_ShutdownSound(void);
 int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx);
 void I_SDL_UpdateSoundParams(int handle, int vol, int sep);
-int I_SDL_StartSound(int id, int channel, int vol, int sep);
+int I_SDL_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 void I_SDL_StopSound(int handle);
 boolean I_SDL_SoundIsPlaying(int handle);
+void I_SDL_UpdateSound(void);
 
 boolean I_SDL_InitMusic(void);
 void I_SDL_ShutdownMusic(void);
@@ -86,8 +87,6 @@ void S_Start(void);
 //
 void S_StartSound(void *origin, int sound_id);
 
-// Stop sound for thing at <origin>
-void S_StopSound(mobj_t *origin);
 void S_StopSounds(void);
 
 // Start music using <music_id> from sounds.h
@@ -96,9 +95,6 @@ void S_StartMusic(int music_id);
 // Start music using <music_id> from sounds.h,
 //  and set whether looping
 void S_ChangeMusic(int music_id, int looping, int cheating);
-
-// query if music is playing
-boolean S_MusicPlaying(void);
 
 // Stops the music fer sure.
 void S_StopMusic(void);

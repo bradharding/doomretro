@@ -2264,9 +2264,9 @@ void deh_procSounds(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_sfxinfo[5]))      // Zero 3
             S_sfx[indexnum].volume = value;
         else if (!strcasecmp(key, deh_sfxinfo[6]))      // Zero 4
-            S_sfx[indexnum].data = (void *)value;       // killough 5/3/98: changed cast
+            S_sfx[indexnum].driver_data = (void *)value;        // killough 5/3/98: changed cast
         else if (!strcasecmp(key, deh_sfxinfo[7]))      // Neg. One 1
-            S_sfx[indexnum].usefulness = value;
+            /* nop */;
         else if (!strcasecmp(key, deh_sfxinfo[8]))      // Neg. One 2
             S_sfx[indexnum].lumpnum = value;
         else if (devparm)
@@ -2875,7 +2875,7 @@ void deh_procText(DEHFILE *fpin, char *line)
                     C_Output("Changing name of sfx from %s to %*s",
                         S_sfx[i].name, usedlen, &inbuffer[fromlen]);
 
-                S_sfx[i].name = strdup(&inbuffer[fromlen]);
+                M_StringCopy(S_sfx[i].name, &inbuffer[fromlen], 9);
                 found = true;
                 break;          // only one matches, quit early
             }

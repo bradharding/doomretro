@@ -39,6 +39,9 @@
 #if !defined(__SOUNDS__)
 #define __SOUNDS__
 
+// so that the individual game logic and sound driver code agree
+#define NORM_PITCH      127
+
 //
 // SoundFX struct.
 //
@@ -57,7 +60,7 @@ enum
 struct sfxinfo_struct
 {
     // up to 6-character name
-    char        *name;
+    char        name[9];
 
     // Sfx singularity (only one at a time)
     int         singularity;
@@ -74,16 +77,11 @@ struct sfxinfo_struct
     // volume if a link
     int         volume;
 
-    // sound data
-    void        *data;
-
-    // this is checked every second to see if sound
-    // can be thrown out (if 0, then decrement, if -1,
-    // then throw out, if > 0, then it is in use)
-    int         usefulness;
-
     // lump number of sfx
     int         lumpnum;
+
+    // data used by the low level code
+    void *driver_data;
 };
 
 //
