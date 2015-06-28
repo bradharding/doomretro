@@ -606,7 +606,7 @@ static void P_LoadZNodes(int lump)
     unsigned int        numNodes;
     vertex_t            *newvertarray = NULL;
 
-    data = W_CacheLumpNum(lump, PU_LEVEL);
+    data = W_CacheLumpNum(lump, PU_STATIC);
     len = W_LumpLength(lump);
 
     // skip header
@@ -1276,9 +1276,8 @@ void P_LoadBlockMap(int lump)
 //
 void RejectOverrun(int rejectlump, const byte **rejectmatrix, int totallines)
 {
-    unsigned int length, required;
-    byte *newreject;
-    unsigned char pad;
+    unsigned int        length, required;
+    byte                *newreject;
 
     required = (numsectors * numsectors + 7) / 8;
     length = W_LumpLength(rejectlump);
@@ -1753,15 +1752,8 @@ void P_SetupLevel(int episode, int map)
     else
         memset(blocklinks, 0, bmapwidth * bmapheight * sizeof(*blocklinks));
 
-
     if (mapformat == ZDBSPX)
         P_LoadZNodes(lumpnum + ML_NODES);
-    //else if (mapformat == DEEPBSP)
-    //{
-    //    P_LoadSubsectors_DeePBSP(lumpnum + ML_SSECTORS);
-    //    P_LoadNodes_DeePBSP(lumpnum + ML_NODES);
-    //    P_LoadSegs_DeePBSP(lumpnum + ML_SEGS);
-    //}
     else
     {
         P_LoadSubsectors(lumpnum + ML_SSECTORS);
