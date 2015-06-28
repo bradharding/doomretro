@@ -878,6 +878,8 @@ boolean C_Responder(event_t *ev)
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
+                    autocomplete = -1;
+                    inputhistory = -1;
                 }
                 else if (caretpos > 0)
                 {
@@ -888,6 +890,8 @@ boolean C_Responder(event_t *ev)
                     selectend = selectstart = --caretpos;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
+                    autocomplete = -1;
+                    inputhistory = -1;
                 }
                 break;
 
@@ -902,6 +906,8 @@ boolean C_Responder(event_t *ev)
                     caretpos = selectend = selectstart;
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
+                    autocomplete = -1;
+                    inputhistory = -1;
                 }
                 else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
@@ -911,6 +917,8 @@ boolean C_Responder(event_t *ev)
                         consoleinput[i] = consoleinput[i + 1];
                     caretwait = I_GetTime() + CARETWAIT;
                     showcaret = true;
+                    autocomplete = -1;
+                    inputhistory = -1;
                 }
                 break;
 
