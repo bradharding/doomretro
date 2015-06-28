@@ -276,7 +276,7 @@
 
 #define SCALEDRIVER_DEFAULT                     "opengl"
 
-#define SCALEFILTER_DEFAULT                     "auto"
+#define SCALEFILTER_DEFAULT                     "nearest"
 
 #define SCREENSIZE_MIN                          0
 #define SCREENSIZE_DEFAULT                      7
