@@ -1123,6 +1123,7 @@ boolean C_Responder(event_t *ev)
                             && consolecmds[autocomplete].type != CT_CHEAT
                             && consolecmds[autocomplete].description[0])
                         {
+                            selectstart = strlen(autocompletetext);
                             M_StringCopy(consoleinput, consolecmds[autocomplete].name,
                                 sizeof(consoleinput));
                             if (consolecmds[autocomplete].parameters)
@@ -1132,7 +1133,7 @@ boolean C_Responder(event_t *ev)
                                 consoleinput[length] = ' ';
                                 consoleinput[length + 1] = '\0';
                             }
-                            caretpos = selectstart = selectend = strlen(consoleinput);
+                            caretpos = selectend = strlen(consoleinput);
                             caretwait = I_GetTime() + CARETWAIT;
                             showcaret = true;
                             return true;
