@@ -414,6 +414,7 @@ static void R_AddLine(seg_t *line)
         return;
 
     // Global angle needed by segcalc.
+    rw_angle1 = angle1;
     angle1 -= viewangle;
     angle2 -= viewangle;
 
