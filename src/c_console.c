@@ -1052,6 +1052,8 @@ boolean C_Responder(event_t *ev)
                         showcaret = true;
                     }
                 }
+                else if (!(modstate & KMOD_SHIFT))
+                    caretpos = selectend = selectstart = 0;
                 break;
 
             // move caret right
@@ -1078,6 +1080,8 @@ boolean C_Responder(event_t *ev)
                         showcaret = true;
                     }
                 }
+                else if (!(modstate & KMOD_SHIFT))
+                    caretpos = selectend = selectstart = strlen(consoleinput);
                 break;
 
             // move caret to start
