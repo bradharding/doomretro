@@ -659,9 +659,9 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
     switch ((line->special & LockedKey) >> LockedKeyShift)
     {
         case AnyKey:
-            if (!player->cards[it_redcard] && !player->cards[it_redskull]
-                && !player->cards[it_bluecard] && !player->cards[it_blueskull]
-                && !player->cards[it_yellowcard] && !player->cards[it_yellowskull])
+            if (player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0
+                && player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0
+                && player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)
             {
                 HU_PlayerMessage(s_PD_ANY, true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
@@ -670,7 +670,8 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             break;
 
         case RCard:
-            if (!player->cards[it_redcard] && (!skulliscard || !player->cards[it_redskull]))
+            if (player->cards[it_redcard] <= 0
+                && (!skulliscard || player->cards[it_redskull] <= 0))
             {
                 HU_PlayerMessage((skulliscard ? s_PD_REDK : s_PD_REDC), true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
@@ -679,7 +680,8 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             break;
 
         case BCard:
-            if (!player->cards[it_bluecard] && (!skulliscard || !player->cards[it_blueskull]))
+            if (player->cards[it_bluecard] <= 0
+                && (!skulliscard || player->cards[it_blueskull] <= 0))
             {
                 HU_PlayerMessage((skulliscard ? s_PD_BLUEK : s_PD_BLUEC), true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
@@ -688,7 +690,8 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             break;
 
         case YCard:
-            if (!player->cards[it_yellowcard] && (!skulliscard || !player->cards[it_yellowskull]))
+            if (player->cards[it_yellowcard] <= 0
+                && (!skulliscard || player->cards[it_yellowskull] <= 0))
             {
                 HU_PlayerMessage((skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC), true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
@@ -697,7 +700,8 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             break;
 
         case RSkull:
-            if (!player->cards[it_redskull] && (!skulliscard || !player->cards[it_redcard]))
+            if (player->cards[it_redskull] <= 0
+                && (!skulliscard || player->cards[it_redcard] <= 0))
             {
                 HU_PlayerMessage((skulliscard ? s_PD_REDK : s_PD_REDS), true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
@@ -706,7 +710,8 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             break;
 
         case BSkull:
-            if (!player->cards[it_blueskull] && (!skulliscard || !player->cards[it_bluecard]))
+            if (player->cards[it_blueskull] <= 0
+                && (!skulliscard || player->cards[it_bluecard] <= 0))
             {
                 HU_PlayerMessage((skulliscard ? s_PD_BLUEK : s_PD_BLUES), true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
@@ -715,7 +720,8 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             break;
 
         case YSkull:
-            if (!player->cards[it_yellowskull] && (!skulliscard || !player->cards[it_yellowcard]))
+            if (player->cards[it_yellowskull] <= 0
+                && (!skulliscard || player->cards[it_yellowcard] <= 0))
             {
                 HU_PlayerMessage((skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS), true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
@@ -724,18 +730,17 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             break;
 
         case AllKeys:
-            if (!skulliscard && (!player->cards[it_redcard] || !player->cards[it_redskull]
-                || !player->cards[it_bluecard] || !player->cards[it_blueskull]
-                || !player->cards[it_yellowcard] || !player->cards[it_yellowskull]))
+            if (!skulliscard && (player->cards[it_redcard] <= 0 || player->cards[it_redskull] <= 0
+                || player->cards[it_bluecard] <= 0 || player->cards[it_blueskull] <= 0
+                || player->cards[it_yellowcard] <= 0 || player->cards[it_yellowskull] <= 0))
             {
                 HU_PlayerMessage(s_PD_ALL6, true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
                 return false;
             }
-            if (skulliscard &&
-                (!(player->cards[it_redcard] | player->cards[it_redskull]) ||
-                !(player->cards[it_bluecard] | player->cards[it_blueskull]) ||
-                !(player->cards[it_yellowcard] | !player->cards[it_yellowskull])))
+            if (skulliscard && ((player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0)
+                || (player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0)
+                || (player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)))
             {
                 HU_PlayerMessage(s_PD_ALL3, true);
                 S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
