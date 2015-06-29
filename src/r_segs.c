@@ -579,9 +579,6 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 //
 void R_StoreWallRange(int start, int stop)
 {
-    fixed_t     hyp;
-    angle_t     offsetangle;
-    boolean     longwallerrorfix = false;
     int64_t     dx, dy, dx1, dy1, len;
 
     linedef = curline->linedef;
@@ -609,29 +606,14 @@ void R_StoreWallRange(int start, int stop)
     // calculate rw_distance for scale calculation
     rw_normalangle = curline->angle + ANG90;
 
+    // [Linguica] Fix long wall error
+    // shift right to avoid possibility of int64 overflow in rw_distance calculation
+    dx = curline->v2->x - curline->v1->x;
+    dy = curline->v2->y - curline->v1->y;
+    dx1 = viewx - curline->v1->x;
+    dy1 = viewy - curline->v1->y;
     len = curline->length;
-    if (!maskedtexture && len >= 16 * FRACUNIT)
-    {
-        // [Linguica] Fix long wall error
-        // shift right to avoid possibility of int64 overflow in rw_distance calculation
-        longwallerrorfix = true;
-        dx = curline->v2->x - curline->v1->x;
-        dy = curline->v2->y - curline->v1->y;
-        dx1 = viewx - curline->v1->x;
-        dy1 = viewy - curline->v1->y;
-        rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len);
-    }
-    else
-    {
-        offsetangle = rw_normalangle - rw_angle1;
-
-        if (ABS(offsetangle) > ANG90)
-            offsetangle = ANG90;
-
-        hyp = (viewx == curline->v1->x && viewy == curline->v1->y ? 0 :
-            R_PointToDist(curline->v1->x, curline->v1->y));
-        rw_distance = FixedMul(hyp, finecosine[offsetangle >> ANGLETOFINESHIFT]);
-    }
+    rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len);
 
     ds_p->x1 = rw_x = start;
     ds_p->x2 = stop;
@@ -900,12 +882,8 @@ void R_StoreWallRange(int start, int stop)
 
     if (segtextured)
     {
-        if (longwallerrorfix)
-            rw_offset = (fixed_t)((dx * dx1 + dy * dy1) / len)
-                + sidedef->textureoffset + curline->offset;
-        else
-            rw_offset = FixedMul(hyp, -finesine[offsetangle >> ANGLETOFINESHIFT])
-                + sidedef->textureoffset + curline->offset;
+        rw_offset = (fixed_t)((dx * dx1 + dy * dy1) / len) + sidedef->textureoffset
+            + curline->offset;
 
         rw_centerangle = ANG90 + viewangle - rw_normalangle;
 
