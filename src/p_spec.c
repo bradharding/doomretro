@@ -96,6 +96,8 @@ static void P_SpawnScrollers(void);
 static void P_SpawnFriction(void);      // phares 3/16/98
 static void P_SpawnPushers(void);       // phares 3/20/98
 
+extern char     *playername;
+
 //
 // P_InitPicAnims
 //
@@ -652,8 +654,10 @@ int P_FindMinSurroundingLight(sector_t *sector, int min)
 // killough 11/98: reformatted
 boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 {
+    static char buffer[1024];
+
     // does this line special distinguish between skulls and keys?
-    int skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
+    int         skulliscard = (line->special & LockedNKeys) >> LockedNKeysShift;
 
     // determine for each case of lock type if player's keys are adequate
     switch ((line->special & LockedKey) >> LockedKeyShift)
@@ -663,8 +667,10 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 && player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0
                 && player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)
             {
-                HU_PlayerMessage(s_PD_ANY, true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                M_snprintf(buffer, sizeof(buffer), s_PD_ANY, playername,
+                    (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
@@ -673,8 +679,15 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             if (player->cards[it_redcard] <= 0
                 && (!skulliscard || player->cards[it_redskull] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_REDK : s_PD_REDC), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_redcard)
+                {
+                    player->neededcard = it_redcard;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDC),
+                    playername, (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
@@ -683,8 +696,15 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             if (player->cards[it_bluecard] <= 0
                 && (!skulliscard || player->cards[it_blueskull] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_BLUEK : s_PD_BLUEC), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_bluecard)
+                {
+                    player->neededcard = it_bluecard;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUEC),
+                    playername,  (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
@@ -693,8 +713,15 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             if (player->cards[it_yellowcard] <= 0
                 && (!skulliscard || player->cards[it_yellowskull] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_yellowcard)
+                {
+                    player->neededcard = it_yellowcard;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWC),
+                    playername, (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
@@ -703,8 +730,15 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             if (player->cards[it_redskull] <= 0
                 && (!skulliscard || player->cards[it_redcard] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_REDK : s_PD_REDS), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_redskull)
+                {
+                    player->neededcard = it_redskull;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_REDK : s_PD_REDS),
+                    playername, (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
@@ -713,8 +747,15 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             if (player->cards[it_blueskull] <= 0
                 && (!skulliscard || player->cards[it_bluecard] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_BLUEK : s_PD_BLUES), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_blueskull)
+                {
+                    player->neededcard = it_blueskull;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_BLUEK : s_PD_BLUES),
+                    playername, (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
@@ -723,8 +764,15 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
             if (player->cards[it_yellowskull] <= 0
                 && (!skulliscard || player->cards[it_yellowcard] <= 0))
             {
-                HU_PlayerMessage((skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS), true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                if (!player->neededcardflash || player->neededcard != it_yellowskull)
+                {
+                    player->neededcard = it_yellowskull;
+                    player->neededcardflash = NEEDEDCARDFLASH;
+                }
+                M_snprintf(buffer, sizeof(buffer), (skulliscard ? s_PD_YELLOWK : s_PD_YELLOWS),
+                    playername, (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
@@ -734,16 +782,20 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
                 || player->cards[it_bluecard] <= 0 || player->cards[it_blueskull] <= 0
                 || player->cards[it_yellowcard] <= 0 || player->cards[it_yellowskull] <= 0))
             {
-                HU_PlayerMessage(s_PD_ALL6, true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
+                    (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             if (skulliscard && ((player->cards[it_redcard] <= 0 && player->cards[it_redskull] <= 0)
                 || (player->cards[it_bluecard] <= 0 && player->cards[it_blueskull] <= 0)
                 || (player->cards[it_yellowcard] <= 0 && player->cards[it_yellowskull] <= 0)))
             {
-                HU_PlayerMessage(s_PD_ALL3, true);
-                S_StartSound(player->mo, sfx_oof);             // killough 3/20/98
+                M_snprintf(buffer, sizeof(buffer), s_PD_ALL3, playername,
+                    (!strcasecmp(playername, PLAYERNAME_DEFAULT) ? "" : "s"));
+                HU_PlayerMessage(buffer, true);
+                S_StartSound(player->mo, sfx_noway);
                 return false;
             }
             break;
