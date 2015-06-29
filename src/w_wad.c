@@ -456,9 +456,7 @@ int W_RangeCheckNumForName(int min, int max, char *name)
         if (!strncasecmp(lumpinfo[i].name, name, 8))
             return i;
 
-    I_Error("W_RangeCheckNumForName: %s not found!", name);
-
-    return 0;
+    return -1;
 }
 
 //

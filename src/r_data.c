@@ -954,7 +954,7 @@ int R_FlatNumForName(char *name)
     if (i == -1)
     {
         C_Warning("%.8s flat not found.", uppercase(name));
-        return 0;
+        return skyflatnum;
     }
     return (i - firstflat);
 }
