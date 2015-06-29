@@ -100,9 +100,9 @@ lighttable_t    **walllights;
 static int      *maskedtexturecol;      // dropoff overflow
 
 boolean         brightmaps = BRIGHTMAPS_DEFAULT;
-int		rw_angle1;
-extern boolean  translucency;
 
+extern boolean  translucency;
+int		rw_angle1;
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"
@@ -319,7 +319,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
                                 - (int64_t)dc_texturemid * spryscale;
 
                 if (t + (int64_t)texheight * spryscale < 0
-                    || t >(int64_t)SCREENHEIGHT << FRACBITS * 2)
+                    || t > (int64_t)SCREENHEIGHT << FRACBITS * 2)
                     continue;                       // skip if the texture is out of screen's range
 
                 sprtopscreen = (int64_t)(t >> FRACBITS);
@@ -375,7 +375,7 @@ void R_RenderSegLoop(void)
             }
 
             // SoM: this should be set here to prevent overdraw
-            //ceilingclip[rw_x] = bottom;
+            ceilingclip[rw_x] = bottom;
         }
 
         bottom = floorclip[rw_x] - 1;
@@ -396,7 +396,7 @@ void R_RenderSegLoop(void)
             }
 
             // SoM: This should be set here to prevent overdraw
-            //floorclip[rw_x] = top;
+            floorclip[rw_x] = top;
         }
 
         // texturecolumn and lighting are independent of wall tiers
@@ -416,7 +416,7 @@ void R_RenderSegLoop(void)
         // draw the wall tiers
         if (midtexture)
         {
-            //if (yl < viewheight && yh >= 0 && yh >= yl)
+            if (yl < viewheight && yh >= 0 && yh >= yl)
             {
                 // single sided line
                 dc_yl = yl;
@@ -462,7 +462,7 @@ void R_RenderSegLoop(void)
 
                 if (mid >= yl)
                 {
-                    //if (yl < viewheight && mid >= 0)
+                    if (yl < viewheight && mid >= 0)
                     {
                         dc_yl = yl;
                         dc_yh = mid;
@@ -675,6 +675,14 @@ void R_StoreWallRange(int start, int stop)
         }
     }
 
+    worldtop = frontsector->interpceilingheight - viewz;
+    worldbottom = frontsector->interpfloorheight - viewz;
+
+    // [BH] animate liquid sectors
+    if (frontsector->animate != INT_MAX && (frontsector->heightsec == -1
+        || viewz > sectors[frontsector->heightsec].interpfloorheight))
+        worldbottom += frontsector->animate + 2 * FRACUNIT;
+
     R_FixWiggle(frontsector);
 
     // calculate scale at both ends and step
@@ -690,13 +698,6 @@ void R_StoreWallRange(int start, int stop)
 
     // calculate texture boundaries
     //  and decide if floor / ceiling marks are needed
-    worldtop = frontsector->interpceilingheight - viewz;
-    worldbottom = frontsector->interpfloorheight - viewz;
-
-    // [BH] animate liquid sectors
-    if (frontsector->animate != INT_MAX && (frontsector->heightsec == -1
-        || viewz > sectors[frontsector->heightsec].interpfloorheight))
-        worldbottom += frontsector->animate + 2 * FRACUNIT;
 
     midtexture = toptexture = bottomtexture = maskedtexture = 0;
     ds_p->maskedtexturecol = NULL;
@@ -713,14 +714,16 @@ void R_StoreWallRange(int start, int stop)
 
         if (linedef->flags & ML_DONTPEGBOTTOM)
             // bottom of texture at bottom
-            rw_midtexturemid = frontsector->interpfloorheight + midtexheight
+            rw_midtexturemid = frontsector->interpfloorheight + textureheight[sidedef->midtexture]
                 - viewz + sidedef->rowoffset;
         else
             // top of texture at top
             rw_midtexturemid = worldtop + sidedef->rowoffset;
 
-        {      // killough 3/27/98: reduce offset
-            fixed_t h = textureheight[sidedef->midtexture];
+        {
+            // killough 3/27/98: reduce offset
+            fixed_t     h = textureheight[sidedef->midtexture];
+
             if (h & (h - FRACUNIT))
                 rw_midtexturemid %= h;
         }
@@ -847,6 +850,7 @@ void R_StoreWallRange(int start, int stop)
                 // bottom of texture
                 rw_toptexturemid = backsector->interpceilingheight + toptexheight - viewz;
         }
+
         if (worldlow > worldbottom)
         {
             // bottom texture
@@ -865,7 +869,8 @@ void R_StoreWallRange(int start, int stop)
 
         // killough 3/27/98: reduce offset
         {
-            fixed_t h = textureheight[sidedef->toptexture];
+            fixed_t     h = textureheight[sidedef->toptexture];
+
             if (h & (h - FRACUNIT))
                 rw_toptexturemid %= h;
         }
@@ -874,11 +879,12 @@ void R_StoreWallRange(int start, int stop)
 
         // killough 3/27/98: reduce offset
         {
-            fixed_t h;
-            h = textureheight[sidedef->bottomtexture];
+            fixed_t     h = textureheight[sidedef->bottomtexture];
+
             if (h & (h - FRACUNIT))
                 rw_bottomtexturemid %= h;
         }
+
         // allocate space for masked texture tables
         if (sidedef->midtexture)
         {

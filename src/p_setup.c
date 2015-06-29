@@ -596,18 +596,14 @@ static void P_LoadZSegs(const byte *data)
 
 static void P_LoadZNodes(int lump)
 {
-    byte                *data;
+    byte                *data = W_CacheLumpNum(lump, PU_STATIC);
+    int                 len = W_LumpLength(lump);
     unsigned int        i;
-    int                 len;
-
     unsigned int        orgVerts, newVerts;
     unsigned int        numSubs, currSeg;
     unsigned int        numSegs;
     unsigned int        numNodes;
     vertex_t            *newvertarray = NULL;
-
-    data = W_CacheLumpNum(lump, PU_STATIC);
-    len = W_LumpLength(lump);
 
     // skip header
     data += 4;
@@ -703,7 +699,7 @@ static void P_LoadZNodes(int lump)
 
     for (i = 0; i < numNodes; i++)
     {
-        int                     j, k;
+        int                     j;
         node_t                  *no = nodes + i;
         const mapnode_znod_t    *mn = (const mapnode_znod_t *)data + i;
 
@@ -712,11 +708,13 @@ static void P_LoadZNodes(int lump)
         no->dx = SHORT(mn->dx) << FRACBITS;
         no->dy = SHORT(mn->dy) << FRACBITS;
 
-        for (j = 0; j < 2; j++)
+        for (j = 0; j < 2; ++j)
         {
+            int k;
+
             no->children[j] = (unsigned int)(mn->children[j]);
 
-            for (k = 0; k < 4; k++)
+            for (k = 0; k < 4; ++k)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
         }
     }
@@ -729,12 +727,9 @@ static void P_LoadZNodes(int lump)
 //
 void P_LoadThings(int lump)
 {
-    const mapthing_t    *data;
+    const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump, PU_STATIC);
+    int                 numthings = W_LumpLength(lump) / sizeof(mapthing_t);
     int                 i;
-    int                 numthings;
-
-    data = (const mapthing_t *)W_CacheLumpNum(lump, PU_STATIC);
-    numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
     for (i = 0; i < numthings; i++)
     {

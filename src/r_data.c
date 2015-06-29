@@ -246,7 +246,7 @@ void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy,
             // killough 4/9/98: remember which cells in column have been drawn,
             // so that column can later be converted into a series of posts, to
             // fix the Medusa bug.
-            memset(marks + position, 0xff, count);
+            memset(marks + position, 0xFF, count);
         }
 
         patch = (column_t *)((byte *)patch + patch->length + 4);
@@ -271,7 +271,7 @@ static void R_GenerateComposite(int texnum)
     texpatch_t          *patch = texture->patches;
     short               *collump = texturecolumnlump[texnum];
     unsigned int        *colofs = texturecolumnofs[texnum];
-    int                 i = texture->patchcount;
+    int                 i;
 
     // killough 4/9/98: marks to identify transparent regions in merged textures
     byte                *marks = calloc(texture->width, texture->height);
@@ -279,10 +279,12 @@ static void R_GenerateComposite(int texnum)
 
     boolean             tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
 
+    memset(marks, 0, texture->width * texture->height);
+
     // [crispy] initialize composite background to black (index 0)
     memset(block, 0, texturecompositesize[texnum]);
 
-    for (; --i >= 0; patch++)
+    for (i = texture->patchcount; --i >= 0; patch++)
     {
         patch_t         *realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
         int             x1 = MAX(0, patch->originx);
@@ -328,7 +330,6 @@ static void R_GenerateComposite(int texnum)
 
                 // killough 12/98:
                 // Use 32-bit len counter, to support tall 1s multipatched textures
-
                 for (len = 0; j < texture->height && mark[j]; j++)
                     len++;                              // count opaque cells
 
@@ -363,8 +364,10 @@ static void R_GenerateLookup(int texnum)
 
     // killough 4/9/98: keep count of posts in addition to patches.
     // Part of fix for medusa bug for multipatched 2s normals.
-    struct {
-        unsigned int    patches, posts;
+    struct
+    {
+        unsigned int    patches;
+        unsigned int    posts;
     } *count = calloc(sizeof(*count), texture->width);
 
     // killough 12/98: First count the number of patches per column.
