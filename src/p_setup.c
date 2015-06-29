@@ -242,6 +242,7 @@ void P_LoadSegs(int lump)
 
         v1 = (unsigned short)SHORT(ml->v1);
         v2 = (unsigned short)SHORT(ml->v2);
+        li->angle = SHORT(ml->angle) << 16;
         linedef = (unsigned short)SHORT(ml->linedef);
 
         if (linedef < 0 || linedef >= numlines)
@@ -309,7 +310,6 @@ void P_LoadSegs(int lump)
             li->v2 = &vertexes[v2];
         }
 
-        li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
         li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
 
         // Apply any map-specific fixes.
