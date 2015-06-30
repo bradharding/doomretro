@@ -1146,7 +1146,7 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
 
         if (!strcasecmp(parm1, "all"))
         {
-            P_GiveBackpack(player);
+            P_GiveBackpack(player, false);
             P_GiveMegaHealth(player);
             P_GiveAllWeapons(player);
             P_GiveFullAmmo(player);
@@ -1154,7 +1154,7 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
             P_GiveAllCards(player);
         }
         else if (!strcasecmp(parm1, "backpack"))
-            P_GiveBackpack(player);
+            P_GiveBackpack(player, true);
         else if (!strcasecmp(parm1, "health"))
             P_GiveMegaHealth(player);
         else if (!strcasecmp(parm1, "weapons"))

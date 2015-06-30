@@ -621,7 +621,7 @@ boolean ST_Responder(event_t *ev)
                 weaponsgiven = P_GiveAllWeapons(plyr);
 
                 // [BH] give player a backpack if they don't have one
-                P_GiveBackpack(plyr);
+                P_GiveBackpack(plyr, false);
 
                 ammogiven = P_GiveFullAmmo(plyr);
 
@@ -674,7 +674,7 @@ boolean ST_Responder(event_t *ev)
                 weaponsgiven = P_GiveAllWeapons(plyr);
 
                 // [BH] give player a backpack if they don't have one
-                P_GiveBackpack(plyr);
+                P_GiveBackpack(plyr, false);
 
                 ammogiven = P_GiveFullAmmo(plyr);
 
