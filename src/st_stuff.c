@@ -985,7 +985,10 @@ boolean ST_Responder(event_t *ev)
                 //  cheat. Code is in hu_stuff.c.
                 plyr->cheats ^= CF_MYPOS;
                 if (!(plyr->cheats & CF_MYPOS))
+                {
+                    message_clearable = true;
                     HU_clearMessages();
+                }
 
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);

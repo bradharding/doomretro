@@ -98,6 +98,7 @@ extern int      keydown;
 extern boolean  idclev;
 extern boolean  idmus;
 extern boolean  idbehold;
+extern boolean  message_clearable;
 
 extern int      gammaindex;
 extern float    gammalevel;

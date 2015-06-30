@@ -72,6 +72,7 @@ extern boolean          idclev;
 extern boolean          idmus;
 extern boolean          idbehold;
 extern boolean          menuactive;
+extern boolean          message_clearable;
 
 #if defined(WIN32)
 HMODULE                 pXInputDLL;
@@ -215,6 +216,7 @@ void I_PollDirectInputGamepad(void)
             idmus = false;
             if (idbehold)
             {
+                message_clearable = true;
                 HU_clearMessages();
                 idbehold = false;
             }
@@ -302,6 +304,7 @@ void I_PollXInputGamepad(void)
             idmus = false;
             if (idbehold)
             {
+                message_clearable = true;
                 HU_clearMessages();
                 idbehold = false;
             }
