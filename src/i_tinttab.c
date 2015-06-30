@@ -45,16 +45,17 @@
 #define W               2
 #define G               4
 #define B               8
+#define X              16
 
 static byte cfilter[256] =
 {
-    0,0,0,0,R|B,0,0,0,0,0,0,0,0,0,0,0,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,
+    0,X,0,0,R|B,0,0,0,0,0,0,0,0,0,0,0,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,
     R,R,R,R,R,R,R,R,R,R,R,R,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,0,0,0,0,0,0,0,0,0,
-    0,0,0,0,0,0,0,R,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,X,X,X,R,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,G,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,
     R,R,R,R,R,R,R,R,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,B,R,R,R,R,R,R,R,R,R,R,R,R,R,
-    R,R,R,R|B,R|B,R,R,R,R,R,R,0,0,0,0,0,0,0,0,B,B,B,B,B,B,B,B,R,R,0,0,0,0,0,0
+    R,R,R,R|B,R|B,R,R,R,R,R,R,X,X,X,X,0,0,0,0,B,B,B,B,B,B,B,B,R,R,0,0,0,0,0,0
 };
 
 #define ALL             0
@@ -62,6 +63,7 @@ static byte cfilter[256] =
 #define WHITES          W
 #define GREENS          G
 #define BLUES           B
+#define EXTRAS          X
 
 byte    *tinttab;
 
@@ -179,12 +181,12 @@ void I_InitTintTables(byte *palette)
     tinttab80 = GenerateTintTable(palette, 80, ALL);
 
     tinttabred = GenerateTintTable(palette, ADDITIVE, REDS);
-    tinttabredwhite = GenerateTintTable(palette, ADDITIVE, REDS | WHITES);
+    tinttabredwhite = GenerateTintTable(palette, ADDITIVE, (REDS | WHITES | EXTRAS));
     tinttabgreen = GenerateTintTable(palette, ADDITIVE, GREENS);
     tinttabblue = GenerateTintTable(palette, ADDITIVE, BLUES);
 
     tinttabred50 = GenerateTintTable(palette, 50, REDS);
-    tinttabredwhite50 = GenerateTintTable(palette, 50, REDS | WHITES);
+    tinttabredwhite50 = GenerateTintTable(palette, 50, (REDS | WHITES));
     tinttabgreen50 = GenerateTintTable(palette, 50, GREENS);
     tinttabblue50 = GenerateTintTable(palette, 50, BLUES);
 }
