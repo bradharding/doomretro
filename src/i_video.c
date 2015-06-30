@@ -176,6 +176,8 @@ int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 int                     capslock;
 boolean                 alwaysrun = ALWAYSRUN_DEFAULT;
 
+extern int              key_alwaysrun;
+
 void SetWindowPositionVars(void);
 void ST_doRefresh(void);
 
@@ -363,11 +365,12 @@ void I_ShutdownGraphics(void)
 void I_ShutdownKeyboard(void)
 {
 #if defined(WIN32)
-    if ((GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
-    {
-        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-        keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
-    }
+    if (key_alwaysrun == KEY_CAPSLOCK)
+        if ((GetKeyState(VK_CAPITAL) & 0x0001) && !capslock)
+        {
+            keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
+            keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
+        }
 #endif
 }
 
@@ -1089,12 +1092,15 @@ boolean I_ValidScreenMode(int width, int height)
 void I_InitKeyboard(void)
 {
 #if defined(WIN32)
-    capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
-
-    if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
+    if (key_alwaysrun == KEY_CAPSLOCK)
     {
-        keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
-        keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
+        capslock = (GetKeyState(VK_CAPITAL) & 0x0001);
+
+        if ((alwaysrun && !capslock) || (!alwaysrun && capslock))
+        {
+            keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, (uintptr_t)0);
+            keybd_event(VK_CAPITAL, 0x45, (KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP), (uintptr_t)0);
+        }
     }
 #endif
 }

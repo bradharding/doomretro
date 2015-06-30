@@ -134,6 +134,7 @@ extern int      graphicdetail;
 extern boolean  homindicator;
 extern boolean  hud;
 extern char     *iwadfolder;
+extern int      key_alwaysrun;
 extern int      key_automap;
 extern int      key_automap_clearmark;
 extern int      key_automap_followmode;
@@ -245,30 +246,31 @@ static control_t controls[] =
     { "m",             keyboard, 'm'            }, { ",",             keyboard, ','            },
     { ".",             keyboard, '.'            }, { "/",             keyboard, '/'            },
     { "alt",           keyboard, KEY_RALT       }, { "space",         keyboard, ' '            },
-    { "numlock",       keyboard, KEY_NUMLOCK    }, { "scrolllock",    keyboard, KEY_SCRLCK     },
-    { "home",          keyboard, KEY_HOME       }, { "up",            keyboard, KEY_UPARROW    },
-    { "pageup",        keyboard, KEY_PGUP       }, { "left",          keyboard, KEY_LEFTARROW  },
-    { "right",         keyboard, KEY_RIGHTARROW }, { "end",           keyboard, KEY_END        },
-    { "down",          keyboard, KEY_DOWNARROW  }, { "pagedown",      keyboard, KEY_PGDN       },
-    { "insert",        keyboard, KEY_INS        }, { "delete",        keyboard, KEY_DEL        },
-    { "mouse1",        mouse,    0              }, { "mouse2",        mouse,    1              },
-    { "mouse3",        mouse,    2              }, { "mouse4",        mouse,    3              },
-    { "mouse5",        mouse,    4              }, { "mouse6",        mouse,    5              },
-    { "mouse7",        mouse,    6              }, { "mouse8",        mouse,    7              },
-    { "wheelup",       mouse,    8              }, { "wheeldown",     mouse,    9              },
-    { "dpadup",        gamepad,  1              }, { "dpaddown",      gamepad,  2              },
-    { "dpadleft",      gamepad,  4              }, { "dpadright",     gamepad,  8              },
-    { "start",         gamepad,  16             }, { "back",          gamepad,  32             },
-    { "leftthumb",     gamepad,  64             }, { "rightthumb",    gamepad,  128            },
-    { "leftshoulder",  gamepad,  256            }, { "rightshoulder", gamepad,  512            },
-    { "lefttrigger",   gamepad,  1024           }, { "righttrigger",  gamepad,  2048           },
-    { "gamepad1",      gamepad,  4096           }, { "gamepad2",      gamepad,  8192           },
-    { "gamepad3",      gamepad,  16384          }, { "gamepad4",      gamepad,  32768          },
-    { "",              0,        0              }
+    { "numlock",       keyboard, KEY_NUMLOCK    }, { "capslock",      keyboard, KEY_CAPSLOCK   },
+    { "scrolllock",    keyboard, KEY_SCRLCK     }, { "home",          keyboard, KEY_HOME       },
+    { "up",            keyboard, KEY_UPARROW    }, { "pageup",        keyboard, KEY_PGUP       },
+    { "left",          keyboard, KEY_LEFTARROW  }, { "right",         keyboard, KEY_RIGHTARROW },
+    { "end",           keyboard, KEY_END        }, { "down",          keyboard, KEY_DOWNARROW  },
+    { "pagedown",      keyboard, KEY_PGDN       }, { "insert",        keyboard, KEY_INS        },
+    { "delete",        keyboard, KEY_DEL        }, { "mouse1",        mouse,    0              },
+    { "mouse2",        mouse,    1              }, { "mouse3",        mouse,    2              },
+    { "mouse4",        mouse,    3              }, { "mouse5",        mouse,    4              },
+    { "mouse6",        mouse,    5              }, { "mouse7",        mouse,    6              },
+    { "mouse8",        mouse,    7              }, { "wheelup",       mouse,    8              },
+    { "wheeldown",     mouse,    9              }, { "dpadup",        gamepad,  1              },
+    { "dpaddown",      gamepad,  2              }, { "dpadleft",      gamepad,  4              },
+    { "dpadright",     gamepad,  8              }, { "start",         gamepad,  16             },
+    { "back",          gamepad,  32             }, { "leftthumb",     gamepad,  64             },
+    { "rightthumb",    gamepad,  128            }, { "leftshoulder",  gamepad,  256            },
+    { "rightshoulder", gamepad,  512            }, { "lefttrigger",   gamepad,  1024           },
+    { "righttrigger",  gamepad,  2048           }, { "gamepad1",      gamepad,  4096           },
+    { "gamepad2",      gamepad,  8192           }, { "gamepad3",      gamepad,  16384          },
+    { "gamepad4",      gamepad,  32768          }, { "",              0,        0              }
 };
 
 static action_t actions[] = 
 {
+    { "+alwaysrun",   &key_alwaysrun,          NULL,              NULL,              NULL                      },
     { "+automap",     &key_automap,            NULL,              NULL,              &gamepadautomap           },
     { "+back",        &key_down,               &key_down2,        NULL,              NULL                      },
     { "+clearmark",   &key_automap_clearmark,  NULL,              NULL,              &gamepadautomapclearmark  },

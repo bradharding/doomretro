@@ -152,6 +152,7 @@ int             key_weapon6 = KEYWEAPON6_DEFAULT;
 int             key_weapon7 = KEYWEAPON7_DEFAULT;
 int             key_prevweapon = KEYPREVWEAPON_DEFAULT;
 int             key_nextweapon = KEYNEXTWEAPON_DEFAULT;
+int             key_alwaysrun = KEYALWAYSRUN_DEFAULT;
 
 int             mousebfire = MOUSEFIRE_DEFAULT;
 int             mousebstrafe = MOUSESTRAFE_DEFAULT;
@@ -632,7 +633,7 @@ void G_DoLoadLevel(void)
 void G_ToggleAlwaysRun(void)
 {
 #if defined(WIN32)
-    alwaysrun = GetKeyState(VK_CAPITAL) & 0x0001;
+    alwaysrun = (key_alwaysrun == KEY_CAPSLOCK ? (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
 #else
     alwaysrun = !alwaysrun;
 #endif
@@ -699,7 +700,8 @@ boolean G_Responder(event_t *ev)
             }
             return true;
         }
-        else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && !keydown)
+        else if (ev->type == ev_keydown && ev->data1 == KEY_CAPSLOCK && ev->data1 == key_alwaysrun
+            && !keydown)
         {
             keydown = KEY_CAPSLOCK;
             G_ToggleAlwaysRun();
@@ -736,9 +738,9 @@ boolean G_Responder(event_t *ev)
                 sendpause = true;
                 blurred = false;
             }
-            else if (key == KEY_CAPSLOCK && !keydown)
+            else if (key == key_alwaysrun && !keydown)
             {
-                keydown = KEY_CAPSLOCK;
+                keydown = key_alwaysrun;
                 G_ToggleAlwaysRun();
             }
             else if (key < NUMKEYS)

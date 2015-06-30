@@ -145,6 +145,8 @@
 
 #define IWADFOLDER_DEFAULT                      "."
 
+#define KEYALWAYSRUN_DEFAULT                    KEY_CAPSLOCK
+
 #define KEYAUTOMAP_DEFAULT                      KEY_TAB
 
 #define KEYAUTOMAPCLEARMARK_DEFAULT             'c'

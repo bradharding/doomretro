@@ -142,7 +142,8 @@ boolean         showmemoryusage = false;
 extern boolean  translucency;
 extern byte     *tinttab75;
 extern int      fps;
-boolean         alwaysrun;
+extern boolean  alwaysrun;
+extern int      key_alwaysrun;
 
 void G_ToggleAlwaysRun(void);
 
@@ -1216,8 +1217,11 @@ boolean C_Responder(event_t *ev)
 
             // toggle "always run"
             case KEY_CAPSLOCK:
-                G_ToggleAlwaysRun();
-                C_Output("%s.", (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
+                if (key_alwaysrun == KEY_CAPSLOCK)
+                {
+                    G_ToggleAlwaysRun();
+                    C_Output("%s.", (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
+                }
                 break;
 
             default:

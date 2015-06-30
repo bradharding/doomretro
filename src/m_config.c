@@ -108,6 +108,7 @@ extern int      graphicdetail;
 extern boolean  homindicator;
 extern boolean  hud;
 extern char     *iwadfolder;
+extern int      key_alwaysrun;
 extern int      key_automap;
 extern int      key_automap_clearmark;
 extern int      key_automap_followmode;
@@ -240,6 +241,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (gp_weapon6,              gamepadweapon6,                2),
     CONFIG_VARIABLE_INT          (gp_weapon7,              gamepadweapon7,                2),
     CONFIG_VARIABLE_STRING       (iwadfolder,              iwadfolder,                    0),
+    CONFIG_VARIABLE_KEY          (key_alwaysrun,           key_alwaysrun,                 3),
     CONFIG_VARIABLE_KEY          (key_automap,             key_automap,                   3),
     CONFIG_VARIABLE_KEY          (key_automap_clearmark,   key_automap_clearmark,         3),
     CONFIG_VARIABLE_KEY          (key_automap_followmode,  key_automap_followmode,        3),
@@ -354,7 +356,7 @@ static const int scantokey[128] =
     'z',           'x',            'c',           'v',
     'b',           'n',            'm',           ',',
     '.',           '/',            KEY_RSHIFT,    KEYP_MULTIPLY,
-    KEY_RALT,      ' ',            INVALIDKEY,    INVALIDKEY,
+    KEY_RALT,      ' ',            KEY_CAPSLOCK,  INVALIDKEY,
     INVALIDKEY,    INVALIDKEY,     INVALIDKEY,    INVALIDKEY,
     INVALIDKEY,    INVALIDKEY,     INVALIDKEY,    INVALIDKEY,
     INVALIDKEY,    KEY_PAUSE,      KEY_SCRLCK,    KEY_HOME,
@@ -398,31 +400,32 @@ alias_t aliases[] =
     { "tab",                           15,  3 }, { "enter",                         28,  3 },
     { "ctrl",                          29,  3 }, { "shift",                         42,  3 },
     { "alt",                           56,  3 }, { "space",                         57,  3 },
-    { "home",                          71,  3 }, { "up",                            72,  3 },
-    { "pageup",                        73,  3 }, { "left",                          75,  3 },
-    { "right",                         77,  3 }, { "end",                           79,  3 },
-    { "down",                          80,  3 }, { "pagedown",                      81,  3 },
-    { "insert",                        82,  3 }, { "del",                           83,  3 },
-    { "-",                             -1,  4 }, { "none",                          -1,  4 },
-    { "left",                           0,  4 }, { "mouse1",                         0,  4 },
-    { "middle",                         1,  4 }, { "mouse2",                         1,  4 },
-    { "right",                          2,  4 }, { "mouse3",                         2,  4 },
-    { "mouse4",                         3,  4 }, { "mouse5",                         4,  4 },
-    { "mouse6",                         5,  4 }, { "mouse7",                         6,  4 },
-    { "mouse8",                         7,  4 }, { "wheelup",                        8,  4 },
-    { "wheeldown",                      9,  4 }, { "desktop",                        0,  5 },
-    { "low",                            0,  6 }, { "high",                           1,  6 },
-    { "-",                              0,  7 }, { "none",                           0,  7 },
-    { "off",                            0,  7 }, { "no",                             0,  7 },
-    { "false",                          0,  7 }, { "unlimited",                  32768,  7 },
-    { "on",                         32768,  7 }, { "yes",                        32768,  7 },
-    { "true",                       32768,  7 }, { "\"Knee-Deep in the Dead\"",      0,  8 },
-    { "\"The Shores of Hell\"",         1,  8 }, { "\"Inferno\"",                    2,  8 },
-    { "\"Thy Flesh Consumed\"",         3,  8 }, { "\"Hell on Earth\"",              0,  9 },
-    { "\"No Rest for the Living\"",     1,  9 }, { "\"I\'m too young to die.\"",     0, 10 },
-    { "\"Hey, not too rough.\"",        1, 10 }, { "\"Hurt me plenty.\"",            2, 10 },
-    { "\"Ultra-Violence.\"",            3, 10 }, { "\"Nightmare!\"",                 4, 10 },
-    { "off",                            1, 11 }, { "",                               0,  0 }
+    { "capslock",                      58,  3 }, { "home",                          71,  3 },
+    { "up",                            72,  3 }, { "pageup",                        73,  3 },
+    { "left",                          75,  3 }, { "right",                         77,  3 },
+    { "end",                           79,  3 }, { "down",                          80,  3 },
+    { "pagedown",                      81,  3 }, { "insert",                        82,  3 },
+    { "del",                           83,  3 }, { "-",                             -1,  4 },
+    { "none",                          -1,  4 }, { "left",                           0,  4 },
+    { "mouse1",                         0,  4 }, { "middle",                         1,  4 },
+    { "mouse2",                         1,  4 }, { "right",                          2,  4 },
+    { "mouse3",                         2,  4 }, { "mouse4",                         3,  4 },
+    { "mouse5",                         4,  4 }, { "mouse6",                         5,  4 },
+    { "mouse7",                         6,  4 }, { "mouse8",                         7,  4 },
+    { "wheelup",                        8,  4 }, { "wheeldown",                      9,  4 },
+    { "desktop",                        0,  5 }, { "low",                            0,  6 },
+    { "high",                           1,  6 }, { "-",                              0,  7 },
+    { "none",                           0,  7 }, { "off",                            0,  7 },
+    { "no",                             0,  7 }, { "false",                          0,  7 },
+    { "unlimited",                  32768,  7 }, { "on",                         32768,  7 },
+    { "yes",                        32768,  7 }, { "true",                       32768,  7 },
+    { "\"Knee-Deep in the Dead\"",      0,  8 }, { "\"The Shores of Hell\"",         1,  8 },
+    { "\"Inferno\"",                    2,  8 }, { "\"Thy Flesh Consumed\"",         3,  8 },
+    { "\"Hell on Earth\"",              0,  9 }, { "\"No Rest for the Living\"",     1,  9 },
+    { "\"I\'m too young to die.\"",     0, 10 }, { "\"Hey, not too rough.\"",        1, 10 },
+    { "\"Hurt me plenty.\"",            2, 10 }, { "\"Ultra-Violence.\"",            3, 10 },
+    { "\"Nightmare!\"",                 4, 10 }, { "off",                            1, 11 },
+    { "",                               0,  0 }
 };
 
 char *striptrailingzero(float value, int precision)
@@ -939,6 +942,9 @@ static void M_CheckDefaults(void)
 
     if (hud != false && hud != true)
         hud = HUD_DEFAULT;
+
+    if (key_alwaysrun == INVALIDKEY)
+        key_alwaysrun = KEYALWAYSRUN_DEFAULT;
 
     if (key_automap == INVALIDKEY)
         key_automap = KEYAUTOMAP_DEFAULT;
