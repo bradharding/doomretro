@@ -1284,7 +1284,8 @@ boolean C_Responder(event_t *ev)
                 }
                 else
                 {
-                    if (modstate & KMOD_SHIFT)
+                    if ((modstate & KMOD_SHIFT)
+                        || (key_alwaysrun != KEY_CAPSLOCK && (modstate & KMOD_CAPS)))
                         ch = shiftxform[ch];
                     if (ch >= ' ' && ch < '~' && ch != '`'
                         && C_TextWidth(consoleinput) + (ch == ' ' ? spacewidth :
