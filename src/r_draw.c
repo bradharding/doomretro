@@ -554,11 +554,11 @@ void R_DrawSuperShotgunColumn(void)
         byte    dot = source[frac >> FRACBITS];
 
         if (dot != 71)
-            *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
+            *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
 void R_DrawSkyColumn(void)
@@ -868,7 +868,7 @@ void R_DrawTranslucentRedColumn(void)
     *dest = tinttabred[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
-void R_DrawTranslucentRedWhiteColumn(void)
+void R_DrawTranslucentRedWhiteColumn1(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
@@ -879,11 +879,29 @@ void R_DrawTranslucentRedWhiteColumn(void)
     
     while (--count)
     {
-        *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabredwhite[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabredwhite1[(*dest << 8) + source[frac >> FRACBITS]]];
+}
+
+void R_DrawTranslucentRedWhiteColumn2(void)
+{
+    int32_t             count = dc_yh - dc_yl + 1;
+    byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
+    fixed_t             frac = dc_texturefrac;
+    const fixed_t       fracstep = dc_iscale;
+    const byte          *source = dc_source;
+    const lighttable_t  *colormap = dc_colormap;
+
+    while (--count)
+    {
+        *dest = colormap[tinttabredwhite2[(*dest << 8) + source[frac >> FRACBITS]]];
+        dest += SCREENWIDTH;
+        frac += fracstep;
+    }
+    *dest = colormap[tinttabredwhite2[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
 void R_DrawTranslucentRedWhite50Column(void)

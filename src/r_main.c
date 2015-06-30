@@ -134,7 +134,8 @@ void (*tl50colfunc)(void);
 void (*tl33colfunc)(void);
 void (*tlgreencolfunc)(void);
 void (*tlredcolfunc)(void);
-void (*tlredwhitecolfunc)(void);
+void (*tlredwhitecolfunc1)(void);
+void (*tlredwhitecolfunc2)(void);
 void (*tlredwhite50colfunc)(void);
 void (*tlbluecolfunc)(void);
 void (*tlgreen50colfunc)(void);
@@ -552,7 +553,8 @@ void R_InitColumnFunctions(void)
         tl33colfunc = R_DrawTranslucent33Column;
         tlgreencolfunc = R_DrawTranslucentGreenColumn;
         tlredcolfunc = R_DrawTranslucentRedColumn;
-        tlredwhitecolfunc = R_DrawTranslucentRedWhiteColumn;
+        tlredwhitecolfunc1 = R_DrawTranslucentRedWhiteColumn1;
+        tlredwhitecolfunc2 = R_DrawTranslucentRedWhiteColumn2;
         tlredwhite50colfunc = R_DrawTranslucentRedWhite50Column;
         tlbluecolfunc = R_DrawTranslucentBlueColumn;
         tlgreen50colfunc = R_DrawTranslucentGreen50Column;
@@ -570,7 +572,8 @@ void R_InitColumnFunctions(void)
         tl33colfunc = R_DrawColumn;
         tlgreencolfunc = R_DrawColumn;
         tlredcolfunc = R_DrawColumn;
-        tlredwhitecolfunc = R_DrawColumn;
+        tlredwhitecolfunc1 = R_DrawColumn;
+        tlredwhitecolfunc2 = R_DrawColumn;
         tlredwhite50colfunc = R_DrawColumn;
         tlbluecolfunc = R_DrawColumn;
         tlgreen50colfunc = R_DrawColumn;
@@ -611,7 +614,7 @@ void R_InitColumnFunctions(void)
         else if (flags2 & MF2_TRANSLUCENT_50)
             info->colfunc = tl50colfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
-            info->colfunc = tlredwhitecolfunc;
+            info->colfunc = tlredwhitecolfunc1;
         else if (flags2 & MF2_TRANSLUCENT_REDTOGREEN_33)
             info->colfunc = tlredtogreen33colfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)

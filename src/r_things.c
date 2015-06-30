@@ -468,7 +468,7 @@ void R_DrawVisSprite(vissprite_t *vis)
             colfunc = tlgreen50colfunc;
         else if (colfunc == tlbluecolfunc)
             colfunc = tlblue50colfunc;
-        else if (colfunc == tlredwhitecolfunc)
+        else if (colfunc == tlredwhitecolfunc1 || colfunc == tlredwhitecolfunc2)
             colfunc = tlredwhite50colfunc;
     }
 
@@ -1185,9 +1185,9 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
                 /* SPR_PISG */ basecolfunc,
                 /* SPR_PISF */ tlcolfunc,
                 /* SPR_SHTF */ tlcolfunc,
-                /* SPR_SHT2 */ tlredwhitecolfunc,
+                /* SPR_SHT2 */ tlredwhitecolfunc1,
                 /* SPR_CHGG */ basecolfunc,
-                /* SPR_CHGF */ tlredwhitecolfunc,
+                /* SPR_CHGF */ tlredwhitecolfunc2,
                 /* SPR_MISG */ basecolfunc,
                 /* SPR_MISF */ tlcolfunc,
                 /* SPR_SAWG */ basecolfunc,

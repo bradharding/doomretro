@@ -47,7 +47,7 @@
 #define B               8
 #define X              16
 
-static byte cfilter[256] =
+static byte general[256] =
 {
     0,X,0,0,R|B,0,0,0,0,0,0,0,0,0,0,0,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,R,
     R,R,R,R,R,R,R,R,R,R,R,R,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,0,0,0,0,0,0,0,0,0,
@@ -58,12 +58,26 @@ static byte cfilter[256] =
     R,R,R,R|B,R|B,R,R,R,R,R,R,X,X,X,X,0,0,0,0,B,B,B,B,B,B,B,B,R,R,0,0,0,0,0,0
 };
 
+static byte CHGF[256] =
+{
+    0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0
+};
+
 #define ALL             0
 #define REDS            R
 #define WHITES          W
 #define GREENS          G
 #define BLUES           B
 #define EXTRAS          X
+
+byte    *tranmap_solid;
 
 byte    *tinttab;
 
@@ -77,7 +91,8 @@ byte    *tinttab75;
 byte    *tinttab80;
 
 byte    *tinttabred;
-byte    *tinttabredwhite;
+byte    *tinttabredwhite1;
+byte    *tinttabredwhite2;
 byte    *tinttabgreen;
 byte    *tinttabblue;
 
@@ -85,6 +100,8 @@ byte    *tinttabred50;
 byte    *tinttabredwhite50;
 byte    *tinttabgreen50;
 byte    *tinttabblue50;
+
+byte    *tinttabchgf;
 
 int FindNearestColor(byte *palette, int red, int green, int blue)
 {
@@ -111,14 +128,14 @@ int FindNearestColor(byte *palette, int red, int green, int blue)
     return best_color;
 }
 
-static byte *GenerateTintTable(byte *palette, int percent, int colors)
+static byte *GenerateTintTable(byte *palette, int percent, byte filter[256], int colors)
 {
     byte        *result = Z_Malloc(65536, PU_STATIC, NULL);
     int         foreground, background;
 
     for (foreground = 0; foreground < 256; ++foreground)
     {
-        if ((cfilter[foreground] & colors) || colors == ALL)
+        if ((filter[foreground] & colors) || colors == ALL)
         {
             for (background = 0; background < 256; ++background)
             {
@@ -128,7 +145,7 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
 
                 if (percent == ADDITIVE)
                 {
-                    if ((cfilter[background] & BLUES) && !(cfilter[foreground] & WHITES))
+                    if ((filter[background] & BLUES) && !(filter[foreground] & WHITES))
                     {
                         r = ((int)color1[0] * 25 + (int)color2[0] * 75) / 100;
                         g = ((int)color1[1] * 25 + (int)color2[1] * 75) / 100;
@@ -154,10 +171,8 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
             }
         }
         else
-        {
             for (background = 0; background < 256; ++background)
                 *(result + (background << 8) + foreground) = foreground;
-        }
     }
     if (colors == ALL && percent != ADDITIVE)
     {
@@ -169,24 +184,25 @@ static byte *GenerateTintTable(byte *palette, int percent, int colors)
 
 void I_InitTintTables(byte *palette)
 {
-    tinttab = GenerateTintTable(palette, ADDITIVE, ALL);
+    tinttab = GenerateTintTable(palette, ADDITIVE, general, ALL);
 
-    tinttab25 = GenerateTintTable(palette, 25, ALL);
-    tinttab33 = GenerateTintTable(palette, 33, ALL);
-    tinttab40 = GenerateTintTable(palette, 40, ALL);
-    tinttab50 = GenerateTintTable(palette, 50, ALL);
-    tinttab60 = GenerateTintTable(palette, 60, ALL);
-    tinttab66 = GenerateTintTable(palette, 66, ALL);
-    tinttab75 = GenerateTintTable(palette, 75, ALL);
-    tinttab80 = GenerateTintTable(palette, 80, ALL);
+    tinttab25 = GenerateTintTable(palette, 25, general, ALL);
+    tinttab33 = GenerateTintTable(palette, 33, general, ALL);
+    tinttab40 = GenerateTintTable(palette, 40, general, ALL);
+    tinttab50 = GenerateTintTable(palette, 50, general, ALL);
+    tinttab60 = GenerateTintTable(palette, 60, general, ALL);
+    tinttab66 = GenerateTintTable(palette, 66, general, ALL);
+    tinttab75 = GenerateTintTable(palette, 75, general, ALL);
+    tinttab80 = GenerateTintTable(palette, 80, general, ALL);
 
-    tinttabred = GenerateTintTable(palette, ADDITIVE, REDS);
-    tinttabredwhite = GenerateTintTable(palette, ADDITIVE, (REDS | WHITES | EXTRAS));
-    tinttabgreen = GenerateTintTable(palette, ADDITIVE, GREENS);
-    tinttabblue = GenerateTintTable(palette, ADDITIVE, BLUES);
+    tinttabred = GenerateTintTable(palette, ADDITIVE, general, REDS);
+    tinttabredwhite1 = GenerateTintTable(palette, ADDITIVE, general, (REDS | WHITES));
+    tinttabredwhite2 = GenerateTintTable(palette, ADDITIVE, general, (REDS | WHITES | EXTRAS));
+    tinttabgreen = GenerateTintTable(palette, ADDITIVE, general, GREENS);
+    tinttabblue = GenerateTintTable(palette, ADDITIVE, general, BLUES);
 
-    tinttabred50 = GenerateTintTable(palette, 50, REDS);
-    tinttabredwhite50 = GenerateTintTable(palette, 50, (REDS | WHITES));
-    tinttabgreen50 = GenerateTintTable(palette, 50, GREENS);
-    tinttabblue50 = GenerateTintTable(palette, 50, BLUES);
+    tinttabred50 = GenerateTintTable(palette, 50, general, REDS);
+    tinttabredwhite50 = GenerateTintTable(palette, 50, general, (REDS | WHITES));
+    tinttabgreen50 = GenerateTintTable(palette, 50, general, GREENS);
+    tinttabblue50 = GenerateTintTable(palette, 50, general, BLUES);
 }

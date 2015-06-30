@@ -54,10 +54,13 @@ extern boolean          dc_topsparkle;
 extern boolean          dc_bottomsparkle;
 extern byte             *dc_blood;
 extern byte             *dc_colormask;
+extern byte             *dc_tranmap;
 extern int              dc_baseclip;
 
 // first pixel in a column
 extern byte             *dc_source;
+
+extern byte             *tranmap_solid;
 
 extern byte             *tinttab;
 extern byte             *tinttab25;
@@ -66,13 +69,22 @@ extern byte             *tinttab40;
 extern byte             *tinttab50;
 extern byte             *tinttab66;
 extern byte             *tinttabred;
-extern byte             *tinttabredwhite;
+extern byte             *tinttabredwhite1;
+extern byte             *tinttabredwhite2;
 extern byte             *tinttabgreen;
 extern byte             *tinttabblue;
 extern byte             *tinttabred50;
 extern byte             *tinttabredwhite50;
 extern byte             *tinttabgreen50;
 extern byte             *tinttabblue50;
+
+extern byte             *tranmap_pistol;
+extern byte             *tranmap_shotgun;
+extern byte             *tranmap_supershotgun;
+extern byte             *tranmap_chaingun;
+extern byte             *tranmap_rocketlauncher;
+extern byte             *tranmap_plasmarifle;
+extern byte             *tranmap_bfg9000;
 
 // The span blitting interface.
 // Hook in assembler or system specific BLT
@@ -87,7 +99,8 @@ void R_DrawTranslucent50Column(void);
 void R_DrawTranslucent33Column(void);
 void R_DrawTranslucentGreenColumn(void);
 void R_DrawTranslucentRedColumn(void);
-void R_DrawTranslucentRedWhiteColumn(void);
+void R_DrawTranslucentRedWhiteColumn1(void);
+void R_DrawTranslucentRedWhiteColumn2(void);
 void R_DrawTranslucentRedWhite50Column(void);
 void R_DrawTranslucentBlueColumn(void);
 void R_DrawTranslucentGreen50Column(void);
