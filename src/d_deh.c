@@ -3179,12 +3179,12 @@ char *ptr_lstrip(char *p)       // point past leading whitespace
 //          as a long just in case.  The passed pointer to hold
 //          the key must be DEH_MAXKEYLEN in size.
 //
-boolean deh_GetData(char *s, char *k, long *l, char **strval)
+int deh_GetData(char *s, char *k, long *l, char **strval)
 {
     char        *t;                     // current char
-    long        val;                    // to hold value of pair
+    int         val;                    // to hold value of pair
     char        buffer[DEH_MAXKEYLEN];  // to hold key in progress
-    boolean     okrc = true;            // assume good unless we have problems
+    int         okrc = 1;               // assume good unless we have problems
     int         i;                      // iterator
 
     *buffer = '\0';
@@ -3195,8 +3195,7 @@ boolean deh_GetData(char *s, char *k, long *l, char **strval)
             break;
         buffer[i] = *t;                 // copy it
     }
-    if (i)
-        buffer[--i] = '\0';             // terminate the key before the '='
+    buffer[--i] = '\0';                 // terminate the key before the '='
     if (!*t)                            // end of string with no equal sign
         okrc = false;
     else
@@ -3204,10 +3203,15 @@ boolean deh_GetData(char *s, char *k, long *l, char **strval)
         if (!*++t)
         {
             val = 0;                    // in case "thiskey =" with no value
-            okrc = false;
+            okrc = 0;
         }
+
         // we've incremented t
-        val = strtol(t, NULL, 0);       // killough 8/9/98: allow hex or octal input
+        if (!M_StrToInt(t, &val))
+        {
+            val = 0;
+            okrc = 2;
+        }
     }
 
     // go put the results in the passed pointers
