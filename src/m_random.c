@@ -41,8 +41,6 @@
 
 #include "m_random.h"
 
-#define SEED 755481600
-
 //
 // M_Random
 // Returns a 0-255 number
@@ -97,5 +95,5 @@ void M_ClearRandom(void)
     // Seed the M_Random counter from the system time
     rndindex = time(NULL) & 0xff;
 
-    srand((unsigned int)SEED);
+    srand((unsigned int)time(NULL));
 }
