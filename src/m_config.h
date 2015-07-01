@@ -270,6 +270,8 @@
 
 #define PLAYERSPRITES_DEFAULT                   true
 
+#define RANDOMPITCH_DEFAULT                     false
+
 #define ROTATEMODE_DEFAULT                      true
 
 #define RUNCOUNT_MAX                            32768

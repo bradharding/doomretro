@@ -188,6 +188,7 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
 extern boolean  playersprites;
+extern boolean  randompitch;
 extern int      runcount;
 extern char     *savegamefolder;
 extern char     *scaledriver;
@@ -507,6 +508,7 @@ consolecmd_t consolecmds[] =
     CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrects the player."),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE, "The number of times "PACKAGE_NAME" has been run."),
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME, "The music volume."),
+    CVAR_BOOL (s_randompitch, C_BoolCondition, C_Bool, randompitch, RANDOMPITCH, "Toggles randomizing the pitch of sound effects."),
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Saves the game to a file."),

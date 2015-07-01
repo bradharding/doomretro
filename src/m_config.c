@@ -162,6 +162,7 @@ extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
 extern boolean  playersprites;
+extern boolean  randompitch;
 extern int      runcount;
 extern char     *scaledriver;
 extern char     *scalefilter;
@@ -316,6 +317,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_translucency,          translucency,                  1),
     CONFIG_VARIABLE_INT          (r_viewsize,              screensize,                    0),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,           musicvolume_percent,           0),
+    CONFIG_VARIABLE_INT          (s_randompitch,           randompitch,                   1),
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,             sfxvolume_percent,             0),
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,       timidity_cfg_path,             0),
     CONFIG_VARIABLE_INT          (savegame,                selectedsavegame,              0),
@@ -1100,6 +1102,9 @@ static void M_CheckDefaults(void)
 
     if (playersprites != false && playersprites != true)
         playersprites = PLAYERSPRITES_DEFAULT;
+
+    if (randompitch != false && randompitch != true)
+        randompitch = RANDOMPITCH_DEFAULT;
 
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = ROTATEMODE_DEFAULT;
