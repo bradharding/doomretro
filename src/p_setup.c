@@ -128,12 +128,7 @@ static int      current_episode = -1;
 static int      current_map = -1;
 static int      samelevel = false;
 
-typedef enum
-{
-    DOOMBSP = 0,
-    DEEPBSP = 1,
-    ZDBSPX  = 2
-} mapformat_t;
+mapformat_t     mapformat;
 
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
@@ -1645,15 +1640,9 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
         && W_LumpLength(b) > 0)
     {
         if (!memcmp(nodes, "xNd4\0\0\0\0", 8))
-        {
-            C_Output("This map has DeePBSP v4 Extended nodes.");
             format = DEEPBSP;
-        }
         else if (!memcmp(nodes, "XNOD", 4))
-        {
-                C_Output("This map has ZDoom uncompressed normal nodes.");
                 format = ZDBSPX;
-        }
         else if (!memcmp(nodes, "ZNOD", 4))
             I_Error("Compressed ZDoom nodes are not supported yet.");
     }
@@ -1674,7 +1663,6 @@ void P_SetupLevel(int episode, int map)
 {
     char        lumpname[6];
     int         lumpnum;
-    mapformat_t mapformat;
 
     totalkills = totalitems = totalsecret = 0;
     wminfo.partime = 0;
@@ -1727,7 +1715,6 @@ void P_SetupLevel(int episode, int map)
 
     if (!samelevel)
     {
-
         free(segs);
         free(nodes);
         free(subsectors);

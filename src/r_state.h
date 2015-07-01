@@ -109,6 +109,15 @@ extern side_t           *sides;
 
 extern int              numthings;
 
+typedef enum
+{
+    DOOMBSP = 0,
+    DEEPBSP = 1,
+    ZDBSPX  = 2
+} mapformat_t;
+
+extern mapformat_t      mapformat;
+
 //
 // POV data.
 //

@@ -1669,11 +1669,15 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
 {
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
 
-    C_TabbedOutput(tabs, "Vertices\t%s", commify(numvertexes));
-    C_TabbedOutput(tabs, "Sides\t%s", commify(numsides));
-    C_TabbedOutput(tabs, "Lines\t%s", commify(numlines));
-    C_TabbedOutput(tabs, "Sectors\t%s", commify(numsectors));
-    C_TabbedOutput(tabs, "Things\t%s", commify(numthings));
+    C_TabbedOutput(tabs, "Name\t%s", mapnumandtitle);
+    C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :
+        (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
+        "ZDoom uncompressed extended nodes")));
+    C_TabbedOutput(tabs, "Number of vertices\t%s", commify(numvertexes));
+    C_TabbedOutput(tabs, "Number of sides\t%s", commify(numsides));
+    C_TabbedOutput(tabs, "Number of lines\t%s", commify(numlines));
+    C_TabbedOutput(tabs, "Number of sectors\t%s", commify(numsectors));
+    C_TabbedOutput(tabs, "Number of things\t%s", commify(numthings));
 }
 
 void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
