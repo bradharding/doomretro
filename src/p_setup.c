@@ -80,6 +80,8 @@ line_t          *lines;
 int             numsides;
 side_t          *sides;
 
+int             numthings;
+
 // BLOCKMAP
 // Created from axis aligned bounding box
 // of the map, a rectangular array of
@@ -728,9 +730,9 @@ static void P_LoadZNodes(int lump)
 void P_LoadThings(int lump)
 {
     const mapthing_t    *data = (const mapthing_t *)W_CacheLumpNum(lump, PU_STATIC);
-    int                 numthings = W_LumpLength(lump) / sizeof(mapthing_t);
     int                 i;
 
+    numthings = W_LumpLength(lump) / sizeof(mapthing_t);
     for (i = 0; i < numthings; i++)
     {
         mapthing_t      mt = data[i];

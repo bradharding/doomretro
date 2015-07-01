@@ -349,6 +349,7 @@ static void C_Kill(char *, char *, char *);
 static void C_Load(char *, char *, char *);
 static void C_Map(char *, char *, char *);
 static void C_MapList(char *, char *, char *);
+static void C_MapStats(char *, char *, char *);
 static void C_MaxBloodSplats(char *, char *, char *);
 static void C_NoClip(char *, char *, char *);
 static void C_NoTarget(char *, char *, char *);
@@ -469,6 +470,7 @@ consolecmd_t consolecmds[] =
     CMD       (map, C_MapCondition, C_Map, 1, MAPCMDFORMAT, "Warps to a map."),
     CVAR_BOOL (mapfixes, C_BoolCondition, C_Bool, mapfixes, MAPFIXES, "Toggles the fixing of mapping errors."),
     CMD       (maplist, C_NoCondition, C_MapList, 0, "", "Shows a list of the available maps."),
+    CMD       (mapstats, C_GameCondition, C_MapStats, 0, "", "Shows stats on the current map."),
     CVAR_TIME (maptime, C_NoCondition, C_Time, leveltime, "The time spent in the current or previous map."),
     CVAR_BOOL (messages, C_BoolCondition, C_Bool, messages, MESSAGES, "Toggles messages."),
     CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggles collision detection for the player."),
@@ -1661,6 +1663,17 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
         C_TabbedOutput(tabs, "%i.\t%s", i + 1, maplist[i]);
 
     free(maplist);
+}
+
+static void C_MapStats(char *cmd, char *parm1, char *parm2)
+{
+    int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
+
+    C_TabbedOutput(tabs, "Vertices\t%s", commify(numvertexes));
+    C_TabbedOutput(tabs, "Sides\t%s", commify(numsides));
+    C_TabbedOutput(tabs, "Lines\t%s", commify(numlines));
+    C_TabbedOutput(tabs, "Sectors\t%s", commify(numsectors));
+    C_TabbedOutput(tabs, "Things\t%s", commify(numthings));
 }
 
 void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);

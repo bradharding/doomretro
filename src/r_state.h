@@ -107,6 +107,8 @@ extern line_t           *lines;
 extern int              numsides;
 extern side_t           *sides;
 
+extern int              numthings;
+
 //
 // POV data.
 //
