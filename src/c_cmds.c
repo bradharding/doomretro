@@ -65,6 +65,7 @@
 #include "p_tick.h"
 #include "s_sound.h"
 #include "SDL.h"
+#include "sounds.h"
 #include "st_stuff.h"
 #include "v_video.h"
 #include "version.h"
@@ -1669,7 +1670,7 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
 {
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
 
-    C_TabbedOutput(tabs, "Name\t%s", mapnumandtitle);
+    C_TabbedOutput(tabs, "Title\t%s", mapnumandtitle);
     C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :
         (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
         "ZDoom uncompressed extended nodes")));
@@ -1678,6 +1679,8 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
     C_TabbedOutput(tabs, "Number of lines\t%s", commify(numlines));
     C_TabbedOutput(tabs, "Number of sectors\t%s", commify(numsectors));
     C_TabbedOutput(tabs, "Number of things\t%s", commify(numthings));
+    if (mus_playing)
+        C_TabbedOutput(tabs, "Music title\t%s", mus_playing->title);
 }
 
 void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);

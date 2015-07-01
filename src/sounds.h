@@ -92,6 +92,8 @@ typedef struct
     // up to 6-character name
     char        *name;
 
+    char        *title;
+
     // lump number of music
     int         lumpnum;
 
@@ -108,6 +110,7 @@ extern sfxinfo_t        S_sfx[];
 // the complete set of music
 extern musicinfo_t      S_music[];
 
+extern musicinfo_t      *mus_playing;
 //
 // Identifiers for all music in game.
 //

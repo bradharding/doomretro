@@ -101,7 +101,7 @@ static int              snd_SfxVolume;
 static boolean          mus_paused;
 
 // Music currently being played
-static musicinfo_t      *mus_playing = NULL;
+musicinfo_t             *mus_playing = NULL;
 
 // Number of channels to use
 int                     numChannels = 32;
