@@ -171,13 +171,13 @@ int R_PointOnSegSide(fixed_t x, fixed_t y, seg_t *line)
 
 int SlopeDiv(unsigned int num, unsigned int den)
 {
-    unsigned int        ans;
+    uint64_t    ans;
 
     if (den < 512)
         return SLOPERANGE;
 
-    ans = (num << 3) / (den >> 8);
-    return (ans <= SLOPERANGE ? ans : SLOPERANGE);
+    ans = ((uint64_t)num << 3) / (den >> 8);
+    return (ans <= SLOPERANGE ? (int)ans : SLOPERANGE);
 }
 
 //
