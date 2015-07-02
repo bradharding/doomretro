@@ -358,13 +358,111 @@ void P_LoadSegs(int lump)
     W_ReleaseLumpNum(lump);
 }
 
+static void P_LoadSegs_V4(int lump)
+{
+    const mapseg_v4_t   *data;
+    int                 i;
+
+    numsegs = W_LumpLength(lump) / sizeof(mapseg_v4_t);
+    segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
+    data = (const mapseg_v4_t *)W_CacheLumpNum(lump, PU_STATIC);
+
+    if ((!data) || (!numsegs))
+        I_Error("P_LoadSegs_V4: No segs in map.");
+
+    for (i = 0; i < numsegs; i++)
+    {
+        seg_t                   *li = segs + i;
+        const mapseg_v4_t       *ml = data + i;
+        int                     v1, v2;
+        int                     side, linedef;
+        line_t                  *ldef;
+
+        v1 = ml->v1;
+        v2 = ml->v2;
+
+        li->angle = SHORT(ml->angle) << FRACBITS;
+        li->offset = SHORT(ml->offset) << FRACBITS;
+        linedef = (unsigned short)SHORT(ml->linedef);
+
+        //e6y: check for wrong indexes
+        if ((unsigned int)linedef >= (unsigned int)numlines)
+            I_Error("P_LoadSegs_V4: Linedef %i is invalid.", linedef);
+
+        ldef = &lines[linedef];
+        li->linedef = ldef;
+        side = SHORT(ml->side);
+
+        // e6y: fix wrong side index
+        if (side != 0 && side != 1)
+        {
+            C_Warning("P_LoadSegs_V4: Seg %i contains the wrong side index of %i. "
+                "It has been replaced with 1.", i, side);
+            side = 1;
+        }
+
+        li->sidedef = &sides[ldef->sidenum[side]];
+
+        // cph 2006/09/30 - our frontsector can be the second side of the
+        // linedef, so must check for NO_INDEX in case we are incorrectly
+        // referencing the back of a 1S line
+        if (ldef->sidenum[side] != NO_INDEX)
+            li->frontsector = sides[ldef->sidenum[side]].sector;
+        else
+        {
+            C_Warning("P_LoadSegs_V4: The front of seg %i has no sidedef.", i);
+            li->frontsector = 0;
+        }
+
+        // killough 5/3/98: ignore 2s flag if second sidedef missing:
+        if ((ldef->flags & ML_TWOSIDED) && ldef->sidenum[side ^ 1] != -1)
+            li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
+        else
+            li->backsector = 0;
+
+        // e6y
+        // check and fix wrong references to non-existent vertexes
+        // see e1m9 @ NIVELES.WAD
+        // http://www.doomworld.com/idgames/index.php?id=12647
+        if (v1 >= numvertexes || v2 >= numvertexes)
+        {
+            char buffer[] = "P_LoadSegs_V4: Seg %i references invalid vertex %i.";
+
+            if (v1 >= numvertexes)
+                C_Warning(buffer, i, v1);
+            if (v2 >= numvertexes)
+                C_Warning(buffer, i, v2);
+
+            if (li->sidedef == &sides[li->linedef->sidenum[0]])
+            {
+                li->v1 = lines[ml->linedef].v1;
+                li->v2 = lines[ml->linedef].v2;
+            }
+            else
+            {
+                li->v1 = lines[ml->linedef].v2;
+                li->v2 = lines[ml->linedef].v1;
+            }
+        }
+        else
+        {
+            li->v1 = &vertexes[v1];
+            li->v2 = &vertexes[v2];
+        }
+
+        li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
+    }
+
+    W_ReleaseLumpNum(lump);
+}
+
 //
 // P_LoadSubsectors
 //
 void P_LoadSubsectors(int lump)
 {
-    const mapsubsector_t *data;
-    int                  i;
+    const mapsubsector_t        *data;
+    int                         i;
 
     numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
     subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
@@ -380,6 +478,27 @@ void P_LoadSubsectors(int lump)
     {
         subsectors[i].numlines = (unsigned short)SHORT(data[i].numsegs);
         subsectors[i].firstline = (unsigned short)SHORT(data[i].firstseg);
+    }
+
+    W_ReleaseLumpNum(lump);
+}
+
+static void P_LoadSubsectors_V4(int lump)
+{
+    const mapsubsector_v4_t     *data;
+    int                         i;
+
+    numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_v4_t);
+    subsectors = calloc_IfSameLevel(subsectors, numsubsectors, sizeof(subsector_t));
+    data = (const mapsubsector_v4_t *)W_CacheLumpNum(lump, PU_STATIC);
+
+    if (!data || !numsubsectors)
+        I_Error("P_LoadSubsectors_V4: No subsectors in map!");
+
+    for (i = 0; i < numsubsectors; i++)
+    {
+        subsectors[i].numlines = (int)data[i].numsegs;
+        subsectors[i].firstline = (int)data[i].firstseg;
     }
 
     W_ReleaseLumpNum(lump);
@@ -475,7 +594,7 @@ void P_LoadNodes(int lump)
         if (numsubsectors == 1)
             C_Warning("P_LoadNodes: This map has no nodes and only one subsector.");
         else
-            I_Error("P_LoadNodes: No nodes in map");
+            I_Error("P_LoadNodes: This map has no nodes.");
     }
 
     for (i = 0; i < numnodes; i++)
@@ -514,6 +633,50 @@ void P_LoadNodes(int lump)
             }
 
             for (k = 0; k < 4; k++)
+                no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
+        }
+    }
+
+    W_ReleaseLumpNum(lump);
+}
+
+static void P_LoadNodes_V4(int lump)
+{
+    const byte  *data;
+    int         i;
+
+    numnodes = (W_LumpLength(lump) - 8) / sizeof(mapnode_v4_t);
+    nodes = malloc_IfSameLevel(nodes, numnodes * sizeof(node_t));
+    data = W_CacheLumpNum(lump, PU_STATIC);
+
+    // skip header
+    data = data + 8;
+
+    if (!data || !numnodes)
+    {
+        if (numsubsectors == 1)
+            C_Warning("P_LoadNodes_V4: This map has no nodes and only one subsector.");
+        else
+            I_Error("P_LoadNodes_V4: This map has no nodes.");
+    }
+
+    for (i = 0; i < numnodes; i++)
+    {
+        node_t                  *no = nodes + i;
+        const mapnode_v4_t      *mn = (const mapnode_v4_t *)data + i;
+        int                     j;
+
+        no->x = SHORT(mn->x) << FRACBITS;
+        no->y = SHORT(mn->y) << FRACBITS;
+        no->dx = SHORT(mn->dx) << FRACBITS;
+        no->dy = SHORT(mn->dy) << FRACBITS;
+
+        for (j = 0; j < 2; j++)
+        {
+            int k;
+            no->children[j] = (unsigned int)(mn->children[j]);
+
+            for (k = 0; k<4; k++)
                 no->bbox[j][k] = SHORT(mn->bbox[j][k]) << FRACBITS;
         }
     }
@@ -1741,6 +1904,12 @@ void P_SetupLevel(int episode, int map)
 
     if (mapformat == ZDBSPX)
         P_LoadZNodes(lumpnum + ML_NODES);
+    else if (mapformat == DEEPBSP)
+    {
+        P_LoadSubsectors_V4(lumpnum + ML_SSECTORS);
+        P_LoadNodes_V4(lumpnum + ML_NODES);
+        P_LoadSegs_V4(lumpnum + ML_SEGS);
+    }
     else
     {
         P_LoadSubsectors(lumpnum + ML_SSECTORS);

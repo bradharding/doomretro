@@ -180,12 +180,17 @@ typedef struct
 typedef struct
 {
     unsigned short      numsegs;
+
     // Index of first one, segs are stored sequentially.
     unsigned short      firstseg;
 } PACKEDATTR mapsubsector_t;
 
-// [crispy] allow loading of maps with ZDBSP nodes
-// taken from prboom-plus/src/doomdata.h:168-170
+typedef struct
+{
+    unsigned short      numsegs;
+    int                 firstseg;
+} PACKEDATTR mapsubsector_v4_t;
+
 typedef struct
 {
     unsigned int        numsegs;
@@ -203,8 +208,16 @@ typedef struct
     short               offset;
 } PACKEDATTR mapseg_t;
 
-// [crispy] allow loading of maps with ZDBSP nodes
-// taken from prboom-plus/src/doomdata.h:192-196
+typedef struct
+{
+    int                 v1;
+    int                 v2;
+    unsigned short      angle;
+    unsigned short      linedef;
+    short               side;
+    unsigned short      offset;
+} PACKEDATTR mapseg_v4_t;
+
 typedef struct
 {
     unsigned int        v1;
@@ -235,8 +248,16 @@ typedef struct
     unsigned short      children[2];
 } PACKEDATTR mapnode_t;
 
-// [crispy] allow loading of maps with ZDBSP nodes
-// taken from prboom-plus/src/doomdata.h:227-136
+typedef struct
+{
+    short               x;
+    short               y;
+    short               dx;
+    short               dy;
+    short               bbox[2][4];
+    int                 children[2];
+} PACKEDATTR mapnode_v4_t;
+
 typedef struct
 {
     short               x;
