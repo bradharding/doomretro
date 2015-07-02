@@ -226,7 +226,6 @@ void P_LoadSegs(int lump)
 
     numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
-    memset(segs, 0, numsegs * sizeof(seg_t));
     data = (const mapseg_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     for (i = 0; i < numsegs; i++)
@@ -472,8 +471,6 @@ void P_LoadSubsectors(int lump)
     if (!data || !numsubsectors)
         I_Error("P_LoadSubsectors: No subsectors in map!");
 
-    memset(subsectors, 0, numsubsectors * sizeof(subsector_t));
-
     for (i = 0; i < numsubsectors; i++)
     {
         subsectors[i].numlines = (unsigned short)SHORT(data[i].numsegs);
@@ -514,7 +511,6 @@ void P_LoadSectors(int lump)
 
     numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
     sectors = calloc_IfSameLevel(sectors, numsectors, sizeof(sector_t));
-    memset(sectors, 0, numsectors * sizeof(sector_t));
     data = (byte *)W_CacheLumpNum(lump, PU_STATIC);
 
     for (i = 0; i < numsectors; i++)
@@ -980,7 +976,6 @@ static void P_LoadLineDefs(int lump)
 
     numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
     lines = calloc_IfSameLevel(lines, numlines, sizeof(line_t));
-    memset(lines, 0, numlines * sizeof(line_t));
 
     for (i = 0; i < numlines; i++)
     {
@@ -1117,7 +1112,6 @@ static void P_LoadSideDefs(int lump)
 {
     numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
     sides = calloc_IfSameLevel(sides, numsides, sizeof(side_t));
-    memset(sides, 0, numsides * sizeof(side_t));
 }
 
 // killough 4/4/98: delay using texture names until after linedefs are loaded, to allow overloading
