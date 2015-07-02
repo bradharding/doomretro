@@ -444,7 +444,7 @@ void S_StartSound(void *origin_p, int sfx_id)
         sep = NORM_SEP;
 
     // hacks to vary the sfx pitches
-    if (randompitch)
+    if (randompitch && !menuactive)
     {
         if (sfx_id >= sfx_sawup && sfx_id <= sfx_sawhit)
             pitch += 8 - (M_Random() & 15);
