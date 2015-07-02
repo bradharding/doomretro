@@ -370,8 +370,10 @@ void R_DrawPlanes(void)
         {
             if (pl->minx <= pl->maxx)
             {
+                int     picnum = pl->picnum;
+
                 // sky flat
-                if (pl->picnum == skyflatnum || (pl->picnum & PL_SKYFLAT))
+                if (picnum == skyflatnum || (picnum & PL_SKYFLAT))
                 {
                     int         x;
                     int         texture;
@@ -383,10 +385,10 @@ void R_DrawPlanes(void)
                     // to use info lumps.
                     an = viewangle;
 
-                    if (pl->picnum & PL_SKYFLAT)
+                    if (picnum & PL_SKYFLAT)
                     {
                         // Sky Linedef
-                        const line_t    *l = &lines[pl->picnum & ~PL_SKYFLAT];
+                        const line_t    *l = &lines[picnum & ~PL_SKYFLAT];
 
                         // Sky transferred from first sidedef
                         const side_t    *s = *l->sidenum + sides;

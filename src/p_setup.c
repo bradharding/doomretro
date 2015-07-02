@@ -753,7 +753,6 @@ static void P_LoadZSegs(const byte *data)
 static void P_LoadZNodes(int lump)
 {
     byte                *data = W_CacheLumpNum(lump, PU_STATIC);
-    int                 len = W_LumpLength(lump);
     unsigned int        i;
     unsigned int        orgVerts, newVerts;
     unsigned int        numSubs, currSeg;
