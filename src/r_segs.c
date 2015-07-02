@@ -198,25 +198,24 @@ void R_FixWiggle(sector_t *sector)
     }
 }
 
-static void R_DrawMaskedColumn(column_t *column)
+static void R_DrawMaskedColumn(const rpatch_t *patch, const rcolumn_t *column)
 {
-    while (column->topdelta != 0xff)
-    {
-        int64_t topscreen;
+    int i;
 
-        if (column->length == 0)
-        {
-            column = (column_t *)((byte *)column + 4);
-            continue;
-        }
+    for (i = 0; i < column->numPosts; ++i)
+    {
+        const rpost_t   *post = &column->posts[i];
+        int64_t         topscreen;
+        int             length = post->length;
+        int             topdelta = post->topdelta;
 
         // calculate unclipped screen coordinates for post
-        topscreen = sprtopscreen + spryscale * column->topdelta + 1;
+        topscreen = sprtopscreen + spryscale * topdelta + 1;
 
         dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), mceilingclip[dc_x] + 1);
-        dc_yh = MIN((int)((topscreen + spryscale * column->length) >> FRACBITS), mfloorclip[dc_x] - 1);
+        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), mfloorclip[dc_x] - 1);
 
-        dc_texturefrac = dc_texturemid - (column->topdelta << FRACBITS) +
+        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS) +
             FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
 
         if (dc_texturefrac < 0)
@@ -229,19 +228,17 @@ static void R_DrawMaskedColumn(column_t *column)
 
         {
             const fixed_t       endfrac = dc_texturefrac + (dc_yh - dc_yl) * dc_iscale;
-            const fixed_t       maxfrac = column->length << FRACBITS;
+            const fixed_t       maxfrac = length << FRACBITS;
 
             if (endfrac >= maxfrac)
                 dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
         }
 
-        if (dc_yl >= 0 && dc_yh < viewheight && dc_yl <= dc_yh)
+        if (dc_yl <= dc_yh && dc_yh < viewheight)
         {
-            dc_source = (byte *)column + 3;
+            dc_source = column->pixels + post->topdelta;
             colfunc();
         }
-
-        column = (column_t *)((byte *)column + column->length + 4);
     }
 }
 
@@ -252,6 +249,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 {
     int         lightnum;
     int         texnum;
+    rpatch_t    *patch;
     fixed_t     texheight;
     sector_t    tempsec;        // killough 4/13/98
 
@@ -295,6 +293,8 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 
     dc_colormap = fixedcolormap;
 
+    patch = R_CacheTextureCompositePatchNum(texnum);
+
     // draw the columns
     for (dc_x = x1; dc_x <= x2; ++dc_x, spryscale += rw_scalestep)
     {
@@ -325,14 +325,16 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
                 sprtopscreen = (int64_t)(t >> FRACBITS);
             }
 
-            dc_iscale = 0xffffffffu / (unsigned int)spryscale;
+            dc_iscale = 0xFFFFFFFFu / (unsigned int)spryscale;
 
             // draw the texture
-            R_DrawMaskedColumn((column_t *)((byte *)R_GetColumn(texnum,
-                maskedtexturecol[dc_x], false) - 3));
+            R_DrawMaskedColumn(patch, R_GetPatchColumnWrapped(patch, maskedtexturecol[dc_x]));
+
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
     }
+
+    R_UnlockTextureCompositePatchNum(texnum);
 }
 
 //
@@ -345,6 +347,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 //
 void R_RenderSegLoop(void)
 {
+    rpatch_t    *tex_patch;
     fixed_t     texturecolumn;
 
     for (; rw_x < rw_stopx; ++rw_x)
@@ -428,7 +431,8 @@ void R_RenderSegLoop(void)
                     && rw_distance < (512 << FRACBITS));
 
                 dc_texturemid = rw_midtexturemid;
-                dc_source = R_GetColumn(midtexture, texturecolumn, true);
+                tex_patch = R_CacheTextureCompositePatchNum(midtexture);
+                dc_source = R_GetTextureColumn(tex_patch, texturecolumn);
                 dc_texheight = midtexheight;
 
                 // [BH] apply brightmap
@@ -438,6 +442,8 @@ void R_RenderSegLoop(void)
                     fbwallcolfunc();
                 else
                     wallcolfunc();
+                R_UnlockTextureCompositePatchNum(midtexture);
+                tex_patch = NULL;
             }
             ceilingclip[rw_x] = viewheight;
             floorclip[rw_x] = -1;
@@ -473,7 +479,8 @@ void R_RenderSegLoop(void)
                             && rw_distance < (512 << FRACBITS));
 
                         dc_texturemid = rw_toptexturemid;
-                        dc_source = R_GetColumn(toptexture, texturecolumn, true);
+                        tex_patch = R_CacheTextureCompositePatchNum(toptexture);
+                        dc_source = R_GetTextureColumn(tex_patch, texturecolumn);
                         dc_texheight = toptexheight;
 
                         // [BH] apply brightmap
@@ -483,6 +490,8 @@ void R_RenderSegLoop(void)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
+                        R_UnlockTextureCompositePatchNum(toptexture);
+                        tex_patch = NULL;
                     }
                     ceilingclip[rw_x] = mid;
                 }
@@ -524,7 +533,8 @@ void R_RenderSegLoop(void)
                             && rw_distance < (512 << FRACBITS));
 
                         dc_texturemid = rw_bottomtexturemid;
-                        dc_source = R_GetColumn(bottomtexture, texturecolumn, true);
+                        tex_patch = R_CacheTextureCompositePatchNum(bottomtexture);
+                        dc_source = R_GetTextureColumn(tex_patch, texturecolumn);
                         dc_texheight = bottomtexheight;
 
                         // [BH] apply brightmap
@@ -534,6 +544,8 @@ void R_RenderSegLoop(void)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
+                        R_UnlockTextureCompositePatchNum(bottomtexture);
+                        tex_patch = NULL;
                     }
                     floorclip[rw_x] = mid;
                 }
