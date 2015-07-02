@@ -1717,8 +1717,7 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output(!maxbloodsplats ? "off" : (maxbloodsplats == UNLIMITED ? "unlimited" :
-            commify(maxbloodsplats)));
+        C_Output(maxbloodsplats == UNLIMITED ? "unlimited" : commify(maxbloodsplats));
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)

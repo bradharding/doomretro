@@ -417,17 +417,13 @@ alias_t aliases[] =
     { "wheelup",                        8,  4 }, { "wheeldown",                      9,  4 },
     { "desktop",                        0,  5 }, { "low",                            0,  6 },
     { "high",                           1,  6 }, { "-",                              0,  7 },
-    { "none",                           0,  7 }, { "off",                            0,  7 },
-    { "no",                             0,  7 }, { "false",                          0,  7 },
-    { "unlimited",                  32768,  7 }, { "on",                         32768,  7 },
-    { "yes",                        32768,  7 }, { "true",                       32768,  7 },
-    { "\"Knee-Deep in the Dead\"",      0,  8 }, { "\"The Shores of Hell\"",         1,  8 },
-    { "\"Inferno\"",                    2,  8 }, { "\"Thy Flesh Consumed\"",         3,  8 },
-    { "\"Hell on Earth\"",              0,  9 }, { "\"No Rest for the Living\"",     1,  9 },
-    { "\"I\'m too young to die.\"",     0, 10 }, { "\"Hey, not too rough.\"",        1, 10 },
-    { "\"Hurt me plenty.\"",            2, 10 }, { "\"Ultra-Violence.\"",            3, 10 },
-    { "\"Nightmare!\"",                 4, 10 }, { "off",                            1, 11 },
-    { "",                               0,  0 }
+    { "unlimited",                  32768,  7 }, { "\"Knee-Deep in the Dead\"",      0,  8 },
+    { "\"The Shores of Hell\"",         1,  8 }, { "\"Inferno\"",                    2,  8 },
+    { "\"Thy Flesh Consumed\"",         3,  8 }, { "\"Hell on Earth\"",              0,  9 },
+    { "\"No Rest for the Living\"",     1,  9 }, { "\"I\'m too young to die.\"",     0, 10 },
+    { "\"Hey, not too rough.\"",        1, 10 }, { "\"Hurt me plenty.\"",            2, 10 },
+    { "\"Ultra-Violence.\"",            3, 10 }, { "\"Nightmare!\"",                 4, 10 },
+    { "off",                            1, 11 }, { "",                               0,  0 }
 };
 
 char *striptrailingzero(float value, int precision)
