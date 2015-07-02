@@ -106,6 +106,8 @@ musicinfo_t             *mus_playing = NULL;
 // Number of channels to use
 int                     numChannels = 32;
 
+boolean                 randompitch = RANDOMPITCH_DEFAULT;
+
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
 static void InitSfxModule(void)
@@ -442,11 +444,14 @@ void S_StartSound(void *origin_p, int sfx_id)
         sep = NORM_SEP;
 
     // hacks to vary the sfx pitches
-    if (sfx_id >= sfx_sawup && sfx_id <= sfx_sawhit)
-        pitch += 8 - (M_Random()&15);
-    else if (sfx_id != sfx_itemup && sfx_id != sfx_tink)
-        pitch += 16 - (M_Random()&31);
-    pitch = BETWEEN(0, pitch, 255);
+    if (randompitch)
+    {
+        if (sfx_id >= sfx_sawup && sfx_id <= sfx_sawhit)
+            pitch += 8 - (M_Random() & 15);
+        else if (sfx_id != sfx_itemup && sfx_id != sfx_tink)
+            pitch += 16 - (M_Random() & 31);
+        pitch = BETWEEN(0, pitch, 255);
+    }
 
     // kill old sound
     for (cnum = 0; cnum < numChannels; cnum++)
