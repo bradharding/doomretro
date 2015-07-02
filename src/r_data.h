@@ -40,7 +40,6 @@
 #define __R_DATA__
 
 #include "r_defs.h"
-#include "r_patch.h"
 #include "r_state.h"
 
 #if defined(_MSC_VER)
@@ -93,9 +92,9 @@ typedef struct
     // Block origin (allways UL),
     // which has allready accounted
     // for the internal origin of the patch.
-    short               originx;
-    short               originy;
-    int                 patch;
+    short       originx;
+    short       originy;
+    int         patch;
 } texpatch_t;
 
 // A maptexturedef_t describes a rectangular texture,
@@ -107,26 +106,24 @@ typedef struct texture_s texture_t;
 struct texture_s
 {
     // Keep name for switch changing, etc.
-    char                name[8];
-    short               width;
-    short               height;
+    char        name[8];
+    short       width;
+    short       height;
 
     // Index in textures list
-    int                 index;
+    int         index;
 
     // Next in hash table chain
-    int                 next;
+    texture_t   *next;
 
-    unsigned int        widthmask;
-    
     // All the patches[patchcount]
     //  are drawn back to front into the cached texture.
-    short               patchcount;
-    texpatch_t          patches[1];
+    short       patchcount;
+    texpatch_t  patches[1];
 };
 
 // Retrieve column data for span blitting.
-byte *R_GetTextureColumn(rpatch_t *texpatch, int col);
+byte *R_GetColumn(int tex, int col, boolean opaque);
 
 // I/O, setting up the stuff.
 void R_InitData(void);
@@ -137,8 +134,6 @@ void R_PrecacheLevel(void);
 // lookup by name. For animation?
 int R_FlatNumForName(char *name);
 int R_CheckFlatNumForName(char *name);
-
-#define NO_TEXTURE 0
 
 // Called by P_Ticker for switches and animations,
 // returns the texture number for the texture name.

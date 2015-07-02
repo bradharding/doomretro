@@ -376,7 +376,6 @@ void R_DrawPlanes(void)
                     int         x;
                     int         texture;
                     angle_t     an, flip;
-                    rpatch_t    *tex_patch;
 
                     // killough 10/98: allow skies to come from sidedefs.
                     // Allows scrolling and/or animated skies, as well as
@@ -430,8 +429,6 @@ void R_DrawPlanes(void)
                     dc_texheight = textureheight[texture] >> FRACBITS;
                     dc_iscale = pspriteiscale;
 
-                    tex_patch = R_CacheTextureCompositePatchNum(texture);
-
                     for (x = pl->minx; x <= pl->maxx; x++)
                     {
                         dc_yl = pl->top[x];
@@ -440,13 +437,11 @@ void R_DrawPlanes(void)
                         if (dc_yl <= dc_yh)
                         {
                             dc_x = x;
-                            dc_source = R_GetTextureColumn(tex_patch,
-                                ((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT);
+                            dc_source = R_GetColumn(texture,
+                                ((an + xtoviewangle[x]) ^ flip) >> ANGLETOSKYSHIFT, false);
                             skycolfunc();
                         }
                     }
-
-                    R_UnlockTextureCompositePatchNum(texture);
                 }
                 else
                 {
