@@ -89,7 +89,7 @@ struct sfxinfo_struct
 //
 typedef struct
 {
-    // up to 6-character name
+    // up to 8-character name
     char        *name;
 
     char        *title;

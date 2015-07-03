@@ -447,16 +447,14 @@ void S_StartSound(void *origin_p, int sfx_id)
     if (randompitch && !menuactive)
     {
         if (sfx_id >= sfx_sawup && sfx_id <= sfx_sawhit)
-            pitch += 8 - (M_Random() & 15);
+            pitch = BETWEEN(0, pitch + 8 - (M_Random() & 15), 255);
         else if (sfx_id != sfx_itemup && sfx_id != sfx_tink)
-            pitch += 16 - (M_Random() & 31);
-        pitch = BETWEEN(0, pitch, 255);
+            pitch = BETWEEN(0, pitch + 16 - (M_Random() & 15), 255);
     }
 
     // kill old sound
     for (cnum = 0; cnum < numChannels; cnum++)
-        if (channels[cnum].sfxinfo
-            && channels[cnum].sfxinfo->singularity == sfx->singularity
+        if (channels[cnum].sfxinfo && channels[cnum].sfxinfo->singularity == sfx->singularity
             && channels[cnum].origin == origin)
         {
             S_StopChannel(cnum);
@@ -587,12 +585,7 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
 
     // get lumpnum if neccessary
     if (!music->lumpnum)
-    {
-        char    namebuf[9];
-
-        M_snprintf(namebuf, sizeof(namebuf), "d_%s", music->name);
-        music->lumpnum = W_GetNumForName(namebuf);
-    }
+        music->lumpnum = W_GetNumForName(music->name);
 
     // Load & register it
     music->data = W_CacheLumpNum(music->lumpnum, PU_STATIC);

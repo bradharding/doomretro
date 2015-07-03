@@ -1681,7 +1681,7 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
     C_TabbedOutput(tabs, "Number of lines\t%s", commify(numlines));
     C_TabbedOutput(tabs, "Number of sectors\t%s", commify(numsectors));
     C_TabbedOutput(tabs, "Number of things\t%s", commify(numthings));
-    if (mus_playing)
+    if (mus_playing && W_CheckMultipleLumps(mus_playing->name) == 1)
         C_TabbedOutput(tabs, "Music title\t%s", mus_playing->title);
 }
 
