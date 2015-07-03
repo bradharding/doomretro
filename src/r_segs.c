@@ -676,7 +676,7 @@ void R_StoreWallRange(int start, int stop)
     // [BH] animate liquid sectors
     if (frontsector->animate != INT_MAX && (frontsector->heightsec == -1
         || viewz > sectors[frontsector->heightsec].interpfloorheight))
-        worldbottom += frontsector->animate + 2 * FRACUNIT;
+        worldbottom += frontsector->animate;
 
     R_FixWiggle(frontsector);
 
@@ -790,7 +790,7 @@ void R_StoreWallRange(int start, int stop)
             && (backsector->heightsec == -1
             || viewz > sectors[backsector->heightsec].interpfloorheight))
         {
-            liquidoffset = backsector->animate + 2 * FRACUNIT;
+            liquidoffset = backsector->animate;
             worldlow += liquidoffset;
         }
 
