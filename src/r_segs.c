@@ -592,6 +592,7 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 void R_StoreWallRange(int start, int stop)
 {
     int64_t     dx, dy, dx1, dy1, len;
+    int         liquidoffset = 0;
 
     linedef = curline->linedef;
 
@@ -788,7 +789,10 @@ void R_StoreWallRange(int start, int stop)
             && backsector->interpfloorheight > frontsector->interpfloorheight
             && (backsector->heightsec == -1
             || viewz > sectors[backsector->heightsec].interpfloorheight))
-            worldlow += backsector->animate + 2 * FRACUNIT;
+        {
+            liquidoffset = backsector->animate + 2 * FRACUNIT;
+            worldlow += liquidoffset;
+        }
 
         // hack to allow height changes in outdoor areas
         if (frontsector->ceilingpic == skyflatnum && backsector->ceilingpic == skyflatnum)
@@ -856,7 +860,7 @@ void R_StoreWallRange(int start, int stop)
                 // bottom of texture at bottom, top of texture at top
                 rw_bottomtexturemid = worldtop;
             else        // top of texture at top
-                rw_bottomtexturemid = worldlow;
+                rw_bottomtexturemid = worldlow - liquidoffset;
         }
 
         rw_toptexturemid += sidedef->rowoffset;
