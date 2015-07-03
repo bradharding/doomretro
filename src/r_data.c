@@ -1177,9 +1177,8 @@ void R_PrecacheLevel(void)
     // Precache sprites.
     memset(hitlist, 0, numsprites);
 
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function == P_MobjThinker)
-            hitlist[((mobj_t *)th)->sprite] = 1;
+    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+        hitlist[((mobj_t *)th)->sprite] = 1;
 
     for (i = 0; i < numsprites; i++)
         if (hitlist[i])

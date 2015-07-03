@@ -635,11 +635,9 @@ static boolean P_LookForMonsters(mobj_t *actor)
     if (!P_CheckSight(players[0].mo, actor))
         return false;           // player can't see monster
 
-    for (think = thinkercap.next; think != &thinkercap; think = think->next)
+    for (think = thinkerclasscap[th_mobj].cnext; think != &thinkerclasscap[th_mobj];
+        think = think->cnext)
     {
-        if (think->function != P_MobjThinker)
-            continue;           // not a mobj thinker
-
         mo = (mobj_t *)think;
         if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
@@ -742,14 +740,13 @@ void A_KeenDie(mobj_t *mo)
     A_Fall(mo);
 
     // scan the remaining thinkers to see if all Keens are dead
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function == P_MobjThinker)
-        {
-            mobj_t      *mo2 = (mobj_t *)th;
+    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    {
+        mobj_t      *mo2 = (mobj_t *)th;
 
-            if (mo2 != mo && mo2->type == mo->type && mo2->health > 0)
-                return;         // other Keen not dead
-        }
+        if (mo2 != mo && mo2->type == mo->type && mo2->health > 0)
+            return;         // other Keen not dead
+    }
 
     junk.tag = 666;
     EV_DoDoor(&junk, doorOpen);
@@ -1765,14 +1762,13 @@ void A_BossDeath(mobj_t *mo)
 
     // scan the remaining thinkers to see
     // if all bosses are dead
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function == P_MobjThinker)
-        {
-            mobj_t      *mo2 = (mobj_t *)th;
+    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    {
+        mobj_t      *mo2 = (mobj_t *)th;
 
-            if (mo2 != mo && mo2->type == mo->type && mo2->health > 0)
-                return;     // other boss not dead
-        }
+        if (mo2 != mo && mo2->type == mo->type && mo2->health > 0)
+            return;     // other boss not dead
+    }
 
     // victory!
     if (gamemode == commercial)
@@ -1922,23 +1918,23 @@ static mobj_t *A_NextBrainTarget(void)
     mobj_t              *found = NULL;
 
     // find all the target spots
-    for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
-        if (thinker->function == P_MobjThinker)
-        {
-            mobj_t      *mo = (mobj_t *)thinker;
+    for (thinker = thinkerclasscap[th_mobj].cnext; thinker != &thinkerclasscap[th_mobj];
+        thinker = thinker->cnext)
+    {
+        mobj_t      *mo = (mobj_t *)thinker;
 
-            if (mo->type == MT_BOSSTARGET)
+        if (mo->type == MT_BOSSTARGET)
+        {
+            if (count == braintargeted) // This one the one that we want?
             {
-                if (count == braintargeted) // This one the one that we want?
-                {
-                    braintargeted++;        // Yes.
-                    return mo;
-                }
-                count++;
-                if (!found)                 // Remember first one in case we wrap.
-                    found = mo;
+                braintargeted++;        // Yes.
+                return mo;
             }
+            count++;
+            if (!found)                 // Remember first one in case we wrap.
+                found = mo;
         }
+    }
 
     braintargeted = 1;                  // Start again.
     return found;

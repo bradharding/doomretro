@@ -58,11 +58,12 @@ boolean EV_Teleport(line_t *line, int side, mobj_t *thing)
     // killough 1/31/98: improve performance by using
     // P_FindSectorFromLineTag instead of simple linear search.
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
-        for (thinker = thinkercap.next; thinker != &thinkercap; thinker = thinker->next)
+        for (thinker = thinkerclasscap[th_mobj].cnext; thinker != &thinkerclasscap[th_mobj];
+            thinker = thinker->cnext)
         {
             mobj_t  *m;
 
-            if (thinker->function == P_MobjThinker && (m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
+            if ((m = (mobj_t *)thinker)->type == MT_TELEPORTMAN
                 && m->subsector->sector - sectors == i)
             {
                 fixed_t     oldx = thing->x;
@@ -142,8 +143,8 @@ boolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing)
         return false;
 
     for (i = -1; (i = P_FindSectorFromLineTag(line, i)) >= 0;)
-        for (th = thinkercap.next; th != &thinkercap; th = th->next)
-            if (th->function == P_MobjThinker && (m = (mobj_t *)th)->type == MT_TELEPORTMAN
+        for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+            if ((m = (mobj_t *)th)->type == MT_TELEPORTMAN
                 && m->subsector->sector - sectors == i)
             {
                 // Height of thing above ground, in case of mid-air teleports:

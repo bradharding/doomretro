@@ -89,7 +89,7 @@ static void P_StartAnimatedLiquid(sector_t *sector)
     thinker_t       *th;
     floormove_t     *floor;
 
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+    for (th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
         if (th->function == T_AnimateLiquid && ((floormove_t *)th)->sector == sector)
             return;
 

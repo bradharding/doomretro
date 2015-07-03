@@ -1761,13 +1761,12 @@ void P_ArchiveThinkers(void)
     int         i;
 
     // save off the current thinkers
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function == P_MobjThinker)
-        {
-            saveg_write8(tc_mobj);
-            saveg_write_pad();
-            saveg_write_mobj_t((mobj_t *)th);
-        }
+    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    {
+        saveg_write8(tc_mobj);
+        saveg_write_pad();
+        saveg_write_mobj_t((mobj_t *)th);
+    }
 
     // save off the bloodsplats
     for (i = 0; i < numsectors; ++i)
@@ -1924,10 +1923,10 @@ uint32_t P_ThinkerToIndex(thinker_t *thinker)
     if (!thinker)
         return 0;
 
-    for (th = thinkercap.next, i = 1; th != &thinkercap; th = th->next, ++i)
-        if (th->function == P_MobjThinker)
-            if (th == thinker)
-                return i;
+    for (th = thinkerclasscap[th_mobj].cnext, i = 1; th != &thinkerclasscap[th_mobj];
+        th = th->cnext, ++i)
+        if (th == thinker)
+            return i;
 
     return 0;
 }
@@ -1940,10 +1939,10 @@ thinker_t *P_IndexToThinker(uint32_t index)
     if (!index)
         return NULL;
 
-    for (th = thinkercap.next, i = 1; th != &thinkercap; th = th->next, ++i)
-        if (th->function == P_MobjThinker)
-            if (i == index)
-                return th;
+    for (th = thinkerclasscap[th_mobj].cnext, i = 1; th != &thinkerclasscap[th_mobj];
+        th = th->cnext, ++i)
+        if (i == index)
+            return th;
 
     return NULL;
 }
@@ -1952,15 +1951,14 @@ void P_RestoreTargets(void)
 {
     thinker_t   *th;
 
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function == P_MobjThinker)
-        {
-            mobj_t      *mo = (mobj_t *)th;
+    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    {
+        mobj_t      *mo = (mobj_t *)th;
 
-            P_SetNewTarget(&mo->target, (mobj_t *)P_IndexToThinker((uintptr_t)mo->target));
-            P_SetNewTarget(&mo->tracer, (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer));
-            P_SetNewTarget(&mo->lastenemy, (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy));
-        }
+        P_SetNewTarget(&mo->target, (mobj_t *)P_IndexToThinker((uintptr_t)mo->target));
+        P_SetNewTarget(&mo->tracer, (mobj_t *)P_IndexToThinker((uintptr_t)mo->tracer));
+        P_SetNewTarget(&mo->lastenemy, (mobj_t *)P_IndexToThinker((uintptr_t)mo->lastenemy));
+    }
 }
 
 //
@@ -1990,7 +1988,7 @@ void P_ArchiveSpecials(void)
     button_t    *button_ptr;
 
     // save off the current thinkers
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
+    for (th = thinkerclasscap[th_misc].cnext; th != &thinkerclasscap[th_misc]; th = th->cnext)
     {
         if (!th->function)
         {

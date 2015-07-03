@@ -2100,14 +2100,13 @@ static void C_ThingList(char *cmd, char *parm1, char *parm2)
     int         count = 0;
     int         tabs[8] = { 45, 250, 0, 0, 0, 0, 0, 0 };
 
-    for (th = thinkercap.next; th != &thinkercap; th = th->next)
-        if (th->function == P_MobjThinker)
-        {
-            mobj_t      *mobj = (mobj_t *)th;
+    for (th = thinkerclasscap[th_mobj].cnext; th != &thinkerclasscap[th_mobj]; th = th->cnext)
+    {
+        mobj_t      *mobj = (mobj_t *)th;
 
-            C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, mobjinfo[mobj->type].name1,
-                mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
-        }
+        C_TabbedOutput(tabs, "%i.\t%s\t(%i,%i,%i)", ++count, mobjinfo[mobj->type].name1,
+            mobj->x >> FRACBITS, mobj->y >> FRACBITS, mobj->z >> FRACBITS);
+    }
 }
 
 static void C_Time(char *cmd, char *parm1, char *parm2)
