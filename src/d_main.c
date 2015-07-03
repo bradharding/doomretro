@@ -387,11 +387,10 @@ int             titlesequence;
 int             pagetic;
 static int      pagewait = 0;
 static patch_t  *pagelump;
-static patch_t  *splshttl;
-static patch_t  *splshtxt;
+static patch_t  *splashlump;
 static patch_t  *titlelump;
 static patch_t  *creditlump;
-static byte     *splshpal;
+static byte     *splashpal;
 static byte     *playpal;
 
 //
@@ -420,13 +419,10 @@ void D_PageDrawer(void)
 {
     if (splashscreen)
     {
-        I_SetPalette(splshpal + (pagetic >= 95 ? pagetic - 95 :
+        I_SetPalette(splashpal + (pagetic >= 95 ? pagetic - 95 :
             (pagetic < 10 ? 10 - pagetic - 1 : 0)) * 768);
 
-        V_DrawBigPatch((SCREENWIDTH - splshttl->width) / 2,
-            (SCREENHEIGHT - splshttl->height) / 2, 0, splshttl);
-        V_DrawBigPatch((SCREENWIDTH - splshtxt->width) / 2,
-            SCREENHEIGHT - splshtxt->height - 2, 0, splshtxt);
+        V_DrawBigPatch(0, 0, 0, splashlump);
     }
     else if (pagelump)
         V_DrawPatch(0, 0, 0, pagelump);
@@ -1587,12 +1583,11 @@ static void D_DoomMainSetup(void)
         G_LoadGame(P_SaveGameFile(startloadgame));
     }
 
-    splshttl = W_CacheLumpName("SPLSHTTL", PU_CACHE);
-    splshtxt = W_CacheLumpName("SPLSHTXT", PU_CACHE);
-    splshpal = (byte *)W_CacheLumpName("SPLSHPAL", PU_CACHE);
+    splashlump = W_CacheLumpName("SPLASH", PU_CACHE);
+    splashpal = W_CacheLumpName("SPLSHPAL", PU_CACHE);
     titlelump = W_CacheLumpName(TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"), PU_CACHE);
     creditlump = W_CacheLumpName("CREDIT", PU_CACHE);
-    playpal = (byte *)W_CacheLumpName("PLAYPAL", PU_CACHE);
+    playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
     if (gameaction != ga_loadgame)
     {

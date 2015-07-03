@@ -292,17 +292,27 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     int         col = 0;
     byte        *desttop = screens[scrn] + y * SCREENWIDTH + x;
     int         w = SHORT(patch->width);
+    int         td;
+    int         topdelta;
+    int         lastlength;
 
     for (; col < w; col++, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
 
+        topdelta = -1;
+        lastlength = 0;
+
         // step through the posts in a column
-        while (column->topdelta != 0xff)
+        while ((td = column->topdelta) != 0xFF)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
-            int         count = column->length;
+            byte        *dest;
+            int         count;
+
+            topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
+            dest = desttop + topdelta * SCREENWIDTH;
+            count = lastlength = column->length;
 
             while (count--)
             {
