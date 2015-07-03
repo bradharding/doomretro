@@ -130,6 +130,8 @@ static int      samelevel = false;
 
 mapformat_t     mapformat;
 
+boolean         BOOM;
+
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
     fixed_t     dx = (v1->x - v2->x) >> FRACBITS;
@@ -228,6 +230,7 @@ void P_LoadSegs(int lump)
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
     data = (const mapseg_t *)W_CacheLumpNum(lump, PU_STATIC);
 
+    BOOM = false;
     for (i = 0; i < numsegs; i++)
     {
         seg_t           *li = segs + i;
@@ -307,6 +310,9 @@ void P_LoadSegs(int lump)
         }
 
         li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
+
+        if (li->linedef->special >= BOOMLINESPECIALS)
+            BOOM = true;
 
         // Apply any map-specific fixes.
         if (canmodify && mapfixes)
@@ -684,6 +690,7 @@ static void P_LoadZSegs(const byte *data)
 {
     int i;
 
+    BOOM = false;
     for (i = 0; i < numsegs; i++)
     {
         line_t                  *ldef;
@@ -747,6 +754,9 @@ static void P_LoadZSegs(const byte *data)
 
         li->offset = GetOffset(li->v1, (side ? ldef->v2 : ldef->v1));
         li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
+
+        if (li->linedef->special >= BOOMLINESPECIALS)
+            BOOM = true;
     }
 }
 

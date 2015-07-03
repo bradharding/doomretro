@@ -118,6 +118,7 @@ typedef enum
 
 extern mapformat_t      mapformat;
 
+extern boolean          BOOM;
 //
 // POV data.
 //

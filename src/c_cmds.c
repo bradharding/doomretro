@@ -1676,6 +1676,7 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
     C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :
         (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
         "ZDoom uncompressed extended nodes")));
+    C_TabbedOutput(tabs, "BOOM compatible\t%s", (BOOM ? "yes" : "no"));
     C_TabbedOutput(tabs, "Number of vertices\t%s", commify(numvertexes));
     C_TabbedOutput(tabs, "Number of sides\t%s", commify(numsides));
     C_TabbedOutput(tabs, "Number of lines\t%s", commify(numlines));

@@ -270,6 +270,8 @@ typedef struct line_s
     degenmobj_t         soundorg;
 } line_t;
 
+#define BOOMLINESPECIALS        142
+
 typedef enum
 {
     NoSpecial                                                      =   0,
