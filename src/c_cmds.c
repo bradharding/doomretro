@@ -1673,17 +1673,52 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
 
     C_TabbedOutput(tabs, "Title\t%s", mapnumandtitle);
+
     C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :
         (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
         "ZDoom uncompressed extended nodes")));
-    C_TabbedOutput(tabs, "BOOM compatible\t%s", (BOOM ? "yes" : "no"));
-    C_TabbedOutput(tabs, "Number of vertices\t%s", commify(numvertexes));
-    C_TabbedOutput(tabs, "Number of sides\t%s", commify(numsides));
-    C_TabbedOutput(tabs, "Number of lines\t%s", commify(numlines));
-    C_TabbedOutput(tabs, "Number of sectors\t%s", commify(numsectors));
-    C_TabbedOutput(tabs, "Number of things\t%s", commify(numthings));
-    if (mus_playing && W_CheckMultipleLumps(mus_playing->name) == 1)
-        C_TabbedOutput(tabs, "Music title\t%s", mus_playing->title);
+
+    C_TabbedOutput(tabs, "Total vertices\t%s", commify(numvertexes));
+
+    C_TabbedOutput(tabs, "Total sides\t%s", commify(numsides));
+
+    C_TabbedOutput(tabs, "Total lines\t%s", commify(numlines));
+
+    C_TabbedOutput(tabs, "Total sectors\t%s", commify(numsectors));
+
+    C_TabbedOutput(tabs, "Total things\t%s", commify(numthings));
+
+    C_TabbedOutput(tabs, "Line specials\t%s", (BOOM ? "BOOM" : "Vanilla"));
+
+    {
+        int i, min_x = INT_MAX, max_x = INT_MIN, min_y = INT_MAX, max_y = INT_MIN;
+
+        for (i = 0; i < numvertexes; ++i)
+        {
+            fixed_t x = vertexes[i].x;
+            fixed_t y = vertexes[i].y;
+
+            if (x < min_x)
+                min_x = x;
+            else if (x > max_x)
+                max_x = x;
+            if (y < min_y)
+                min_y = y;
+            else if (y > max_y)
+                max_y = y;
+        }
+        C_TabbedOutput(tabs, "Size\t%sx%s",
+            commify((max_x - min_x) >> FRACBITS), commify((max_y - min_y) >> FRACBITS));
+    }
+
+    if (mus_playing)
+    {
+        int     lumps = W_CheckMultipleLumps(mus_playing->name);
+
+        if (((gamemode == commercial || gameepisode > 1) && lumps == 1)
+            || (gamemode != commercial && gameepisode == 1 && lumps == 2))
+            C_TabbedOutput(tabs, "Music title\t%s", mus_playing->title);
+    }
 }
 
 void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
