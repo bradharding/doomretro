@@ -286,7 +286,8 @@ static void R_InitSpriteDefs(const char *const *namelist)
                     }
 
                 // allocate space for the frames present and copy sprtemp to it
-                sprites[i].spriteframes = Z_Malloc(maxframe * sizeof(spriteframe_t), PU_STATIC, NULL);
+                sprites[i].spriteframes = Z_Malloc(maxframe * sizeof(spriteframe_t),
+                    PU_STATIC, NULL);
                 memcpy(sprites[i].spriteframes, sprtemp, maxframe * sizeof(spriteframe_t));
             }
         }
@@ -297,8 +298,15 @@ static void R_InitSpriteDefs(const char *const *namelist)
 //
 // GAME FUNCTIONS
 //
-static vissprite_t      *vissprites, **vissprite_ptrs;          // killough
-static int              num_vissprite, num_vissprite_alloc, num_vissprite_ptrs;
+typedef enum
+{
+    REGULAR,
+    BLOODSPLAT,
+    SHADOW
+} visspritetype_t;
+
+static vissprite_t      *vissprites[3], **vissprite_ptrs;
+static int              num_vissprite[3], num_vissprite_alloc[3], num_vissprite_ptrs;
 
 //
 // R_InitSprites
@@ -320,20 +328,24 @@ void R_InitSprites(char **namelist)
 //
 void R_ClearSprites(void)
 {
-    num_vissprite = 0;          // killough
+    num_vissprite[REGULAR] = 0;
+    num_vissprite[BLOODSPLAT] = 0;
+    num_vissprite[SHADOW] = 0;
 }
 
 //
 // R_NewVisSprite
 //
-vissprite_t *R_NewVisSprite(void)
+vissprite_t *R_NewVisSprite(visspritetype_t type)
 {
-    if (num_vissprite >= num_vissprite_alloc)           // killough
+    if (num_vissprite[type] >= num_vissprite_alloc[type])
     {
-        num_vissprite_alloc = (num_vissprite_alloc ? num_vissprite_alloc * 2 : 128);
-        vissprites = realloc(vissprites, num_vissprite_alloc * sizeof(*vissprites));
+        num_vissprite_alloc[type] = (num_vissprite_alloc[type] ?
+            num_vissprite_alloc[type] * 2 : 128);
+        vissprites[type] = realloc(vissprites[type],
+            num_vissprite_alloc[type] * sizeof(*vissprites[type]));
     }
-    return (vissprites + num_vissprite++);
+    return (vissprites[type] + num_vissprite[type]++);
 }
 
 //
@@ -678,7 +690,7 @@ void R_ProjectSprite(mobj_t *thing)
     }
 
     // store information in a vissprite
-    vis = R_NewVisSprite();
+    vis = R_NewVisSprite(REGULAR);
 
     // killough 3/27/98: save sector for special clipping later
     vis->heightsec = heightsec;
@@ -751,13 +763,9 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     vissprite_t         *vis;
 
-    int                 heightsec;
-
-    sector_t            *sector = thing->subsector->sector;
-
     fixed_t             fx = thing->x;
     fixed_t             fy = thing->y;
-    fixed_t             fz = sector->interpfloorheight;
+    fixed_t             fz = thing->subsector->sector->interpfloorheight;
 
     int                 flags = thing->flags;
     int                 flags2 = thing->flags2;
@@ -810,32 +818,10 @@ void R_ProjectBloodSplat(mobj_t *thing)
 
     gzt = fz + spritetopoffset[lump];
 
-    // killough 3/27/98: exclude things totally separated
-    // from the viewer, by either water or fake ceilings
-    // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-    heightsec = sector->heightsec;
-
-    if (heightsec != -1)   // only clip things which are in special sectors
-    {
-        int     phs = viewplayer->mo->subsector->sector->heightsec;
-
-        if (phs != -1 && viewz < sectors[phs].floorheight ?
-            thing->z >= sectors[heightsec].floorheight :
-            gzt < sectors[heightsec].floorheight)
-            return;
-        if (phs != -1 && viewz > sectors[phs].ceilingheight ?
-            gzt < sectors[heightsec].ceilingheight &&
-            viewz >= sectors[heightsec].ceilingheight :
-            thing->z >= sectors[heightsec].ceilingheight)
-            return;
-    }
-
     // store information in a vissprite
-    vis = R_NewVisSprite();
+    vis = R_NewVisSprite(BLOODSPLAT);
 
-    // killough 3/27/98: save sector for special clipping later
-    vis->heightsec = heightsec;
-
+    vis->heightsec = -1;
     vis->mobjflags = flags;
     vis->mobjflags2 = flags2;
     vis->type = MT_BLOODSPLAT;
@@ -894,8 +880,6 @@ void R_ProjectShadow(mobj_t *thing)
     boolean             flip;
 
     vissprite_t         *vis;
-
-    int                 heightsec;
 
     fixed_t             fx = thing->x;
     fixed_t             fy = thing->y;
@@ -971,32 +955,10 @@ void R_ProjectShadow(mobj_t *thing)
 
     gzt = fz + spritetopoffset[lump];
 
-    // killough 3/27/98: exclude things totally separated
-    // from the viewer, by either water or fake ceilings
-    // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-    heightsec = thing->subsector->sector->heightsec;
-
-    if (heightsec != -1)   // only clip things which are in special sectors
-    {
-        int     phs = viewplayer->mo->subsector->sector->heightsec;
-
-        if (phs != -1 && viewz < sectors[phs].floorheight ?
-            thing->z >= sectors[heightsec].floorheight :
-            gzt < sectors[heightsec].floorheight)
-            return;
-        if (phs != -1 && viewz > sectors[phs].ceilingheight ?
-            gzt < sectors[heightsec].ceilingheight &&
-            viewz >= sectors[heightsec].ceilingheight :
-            thing->z >= sectors[heightsec].ceilingheight)
-            return;
-    }
-
     // store information in a vissprite
-    vis = R_NewVisSprite();
+    vis = R_NewVisSprite(SHADOW);
 
-    // killough 3/27/98: save sector for special clipping later
-    vis->heightsec = heightsec;
-
+    vis->heightsec = -1;
     vis->mobjflags = 0;
     vis->mobjflags2 = 0;
     vis->type = MT_SHADOW;
@@ -1335,31 +1297,26 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
 
 void R_SortVisSprites(void)
 {
-    if (num_vissprite)
+    if (num_vissprite[REGULAR])
     {
         int     i;
 
         // If we need to allocate more pointers for the vissprites,
         // allocate as many as were allocated for sprites -- killough
         // killough 9/22/98: allocate twice as many
-        if (num_vissprite_ptrs < num_vissprite * 2)
+        if (num_vissprite_ptrs < num_vissprite[REGULAR] * 2)
         {
             free(vissprite_ptrs);
-            vissprite_ptrs = (vissprite_t **)malloc((num_vissprite_ptrs = num_vissprite_alloc * 2)
-                * sizeof(*vissprite_ptrs));
+            vissprite_ptrs = (vissprite_t **)malloc((num_vissprite_ptrs =
+                num_vissprite_alloc[REGULAR] * 2) * sizeof(*vissprite_ptrs));
         }
 
-        for (i = num_vissprite; --i >= 0;)
-        {
-            vissprite_t     *spr = vissprites + i;
-
-            spr->drawn = false;
-            vissprite_ptrs[i] = spr;
-        }
+        for (i = num_vissprite[REGULAR]; --i >= 0;)
+            vissprite_ptrs[i] = vissprites[REGULAR] + i;
 
         // killough 9/22/98: replace qsort with merge sort, since the keys
         // are roughly in order to begin with, due to BSP rendering.
-        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite, num_vissprite);
+        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite[REGULAR], num_vissprite[REGULAR]);
     }
 }
 
@@ -1622,40 +1579,19 @@ void R_DrawMasked(void)
     drawseg_t   *ds;
     int         i;
 
-    R_SortVisSprites();
-
     // draw all sprites with MF2_DRAWFIRST flag (blood splats and pools of blood)
-    for (i = 0; i < num_vissprite; i++)
-    {
-        vissprite_t     *spr = vissprite_ptrs[i];
-
-        if (spr->mobjflags2 & MF2_DRAWFIRST)
-        {
-            spr->drawn = true;
-            R_DrawBloodSprite(spr);
-        }
-    }
+    for (i = 0; i < num_vissprite[BLOODSPLAT]; ++i)
+        R_DrawBloodSprite(&vissprites[BLOODSPLAT][i]);
 
     // draw all shadows
-    for (i = num_vissprite; --i >= 0;)
-    {
-        vissprite_t     *spr = vissprite_ptrs[i];
+    for (i = num_vissprite[SHADOW]; --i >= 0;)
+        R_DrawShadowSprite(&vissprites[SHADOW][i]);
 
-        if (spr->type == MT_SHADOW)
-        {
-            spr->drawn = true;
-            R_DrawShadowSprite(spr);
-        }
-    }
+    R_SortVisSprites();
 
     // draw all other vissprites, back to front
-    for (i = num_vissprite; --i >= 0;)
-    {
-        vissprite_t     *spr = vissprite_ptrs[i];
-
-        if (!spr->drawn)
-            R_DrawSprite(spr);
-    }
+    for (i = num_vissprite[REGULAR]; --i >= 0;)
+        R_DrawSprite(vissprite_ptrs[i]);
 
     // render any remaining masked mid textures
     for (ds = ds_p; ds-- > drawsegs;)

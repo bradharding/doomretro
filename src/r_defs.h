@@ -904,8 +904,6 @@ typedef struct vissprite_s
 
     fixed_t             blood;
 
-    boolean             drawn;
-
     // killough 3/27/98: height sector for underwater/fake ceiling support
     int                 heightsec;
 } vissprite_t;
