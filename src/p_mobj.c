@@ -931,6 +931,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     mobj_t      *mobj;
     fixed_t     x, y, z;
     short       type = mthing->type;
+    int         flags;
 
     // check for players specially
     if (type == Player1Start)
@@ -984,10 +985,15 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     mobj = P_SpawnMobj(x, y, z, (mobjtype_t)i);
     mobj->spawnpoint = *mthing;
 
+    if (mthing->options & MTF_AMBUSH)
+        mobj->flags |= MF_AMBUSH;
+
+    flags = mobj->flags;
+
     if (mobj->tics > 0)
         mobj->tics = 1 + (P_Random() % mobj->tics);
 
-    if (mobj->flags & MF_COUNTITEM)
+    if (flags & MF_COUNTITEM)
         totalitems++;
 
     mobj->angle = ((mthing->angle % 45) ? mthing->angle * (ANG45 / 45) :
@@ -995,10 +1001,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     if (mobj->shadow)
         mobj->shadow->angle = mobj->angle;
 
-    if (mthing->options & MTF_AMBUSH)
-        mobj->flags |= MF_AMBUSH;
-
-    if ((mobj->flags & MF_CORPSE) && corpses_mirror)
+    if ((flags & MF_CORPSE) && corpses_mirror)
     {
         static int      prev = 0;
         int             r = M_RandomInt(1, 10);
@@ -1013,12 +1016,10 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         else
             prev++;
     }
-    else if (mirrorweapons && (mobj->flags & MF_PICKUP)
-        && !(mobj->flags2 & MF2_FLOATBOB) && (rand() & 1))
+    else if (mirrorweapons && (flags & MF_PICKUP) && !(mobj->flags2 & MF2_FLOATBOB) && (rand() & 1))
         mobj->flags2 |= MF2_MIRRORED;
 
-    if (!(mobj->flags & MF_SHOOTABLE) && !(mobj->flags & MF_NOBLOOD) && mobj->blood && !chex
-        && maxbloodsplats && !dehacked)
+    if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD)) && mobj->blood && !chex && maxbloodsplats)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
         if (corpses_moreblood)
