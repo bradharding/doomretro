@@ -1412,45 +1412,6 @@ void R_DrawBloodSprite(vissprite_t *spr)
                         cliptop[x] = ds->sprtopclip[x];
         }
 
-        // killough 3/27/98:
-        // Clip the sprite against deep water and/or fake ceilings.
-        // killough 4/9/98: optimize by adding mh
-        // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-        // killough 11/98: fix disappearing sprites
-        if (spr->heightsec != -1)  // only things in specially marked sectors
-        {
-            fixed_t h, mh;
-            int phs = viewplayer->mo->subsector->sector->heightsec;
-            if ((mh = sectors[spr->heightsec].floorheight) > spr->gz &&
-                (h = centeryfrac - FixedMul(mh -= viewz, spr->scale)) >= 0 &&
-                (h >>= FRACBITS) < viewheight)
-                if (mh <= 0 || (phs != -1 && viewz > sectors[phs].floorheight))
-                {                          // clip bottom
-                    for (x = spr->x1; x <= spr->x2; x++)
-                        if (clipbot[x] == -2 || h < clipbot[x])
-                            clipbot[x] = h;
-                }
-                else                        // clip top
-                    if (phs != -1 && viewz <= sectors[phs].floorheight) // killough 11/98
-                        for (x = spr->x1; x <= spr->x2; x++)
-                            if (cliptop[x] == -2 || h > cliptop[x])
-                                cliptop[x] = h;
-
-            if ((mh = sectors[spr->heightsec].ceilingheight) < spr->gzt &&
-                (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0 &&
-                (h >>= FRACBITS) < viewheight)
-                if (phs != -1 && viewz >= sectors[phs].ceilingheight)
-                {                         // clip bottom
-                    for (x = spr->x1; x <= spr->x2; x++)
-                        if (clipbot[x] == -2 || h < clipbot[x])
-                            clipbot[x] = h;
-                }
-                else                       // clip top
-                    for (x = spr->x1; x <= spr->x2; x++)
-                        if (cliptop[x] == -2 || h > cliptop[x])
-                            cliptop[x] = h;
-        }
-
         // all clipping has been performed, so draw the sprite
 
         // check for unclipped columns
@@ -1519,46 +1480,6 @@ void R_DrawShadowSprite(vissprite_t *spr)
                 for (x = r1; x <= r2; x++)
                     if (cliptop[x] == -2)
                         cliptop[x] = ds->sprtopclip[x];
-        }
-
-
-        // killough 3/27/98:
-        // Clip the sprite against deep water and/or fake ceilings.
-        // killough 4/9/98: optimize by adding mh
-        // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-        // killough 11/98: fix disappearing sprites
-        if (spr->heightsec != -1)  // only things in specially marked sectors
-        {
-            fixed_t h, mh;
-            int phs = viewplayer->mo->subsector->sector->heightsec;
-            if ((mh = sectors[spr->heightsec].floorheight) > spr->gz &&
-                (h = centeryfrac - FixedMul(mh -= viewz, spr->scale)) >= 0 &&
-                (h >>= FRACBITS) < viewheight)
-                if (mh <= 0 || (phs != -1 && viewz > sectors[phs].floorheight))
-                {                          // clip bottom
-                    for (x = spr->x1; x <= spr->x2; x++)
-                        if (clipbot[x] == -2 || h < clipbot[x])
-                            clipbot[x] = h;
-                }
-                else                        // clip top
-                    if (phs != -1 && viewz <= sectors[phs].floorheight) // killough 11/98
-                        for (x = spr->x1; x <= spr->x2; x++)
-                            if (cliptop[x] == -2 || h > cliptop[x])
-                                cliptop[x] = h;
-
-            if ((mh = sectors[spr->heightsec].ceilingheight) < spr->gzt &&
-                (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0 &&
-                (h >>= FRACBITS) < viewheight)
-                if (phs != -1 && viewz >= sectors[phs].ceilingheight)
-                {                         // clip bottom
-                    for (x = spr->x1; x <= spr->x2; x++)
-                        if (clipbot[x] == -2 || h < clipbot[x])
-                            clipbot[x] = h;
-                }
-                else                       // clip top
-                    for (x = spr->x1; x <= spr->x2; x++)
-                        if (cliptop[x] == -2 || h > cliptop[x])
-                            cliptop[x] = h;
         }
 
         // all clipping has been performed, so draw the sprite
