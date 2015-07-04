@@ -37,6 +37,7 @@
 */
 
 #include <math.h>
+#include <time.h>
 
 #include "c_console.h"
 #include "doomstat.h"
@@ -896,6 +897,9 @@ void P_LoadThings(int lump)
     int                 i;
 
     numthings = W_LumpLength(lump) / sizeof(mapthing_t);
+
+    srand(numthings);
+
     for (i = 0; i < numthings; i++)
     {
         mapthing_t      mt = data[i];
@@ -969,6 +973,8 @@ void P_LoadThings(int lump)
         if (spawn)
             P_SpawnMapThing(&mt, i);
     }
+
+    srand((unsigned int)time(NULL));
 
     W_ReleaseLumpNum(lump);
 }

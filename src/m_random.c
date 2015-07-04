@@ -93,7 +93,5 @@ void M_ClearRandom(void)
     prndindex = 0;
 
     // Seed the M_Random counter from the system time
-    rndindex = time(NULL) & 0xff;
-
-    srand((unsigned int)time(NULL));
+    rndindex = time(NULL) & 0xFF;
 }
