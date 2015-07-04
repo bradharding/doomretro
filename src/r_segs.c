@@ -42,7 +42,6 @@
 #include "doomstat.h"
 #include "m_config.h"
 #include "r_local.h"
-#include "r_things.h"
 
 // killough 1/6/98: replaced globals with statics where appropriate
 
@@ -197,6 +196,40 @@ void R_FixWiggle(sector_t *sector)
         heightunit = (1 << heightbits);
         invhgtbits = FRACBITS - heightbits;
     }
+}
+
+static void R_DrawMaskedColumn(column_t *column)
+{
+    int         td;
+    int         topdelta = -1;
+    int         lastlength = 0;
+    fixed_t     basetexturemid = dc_texturemid;
+
+    while ((td = column->topdelta) != 0xFF)
+    {
+        int64_t topscreen;
+
+        topdelta = (td < topdelta + lastlength - 1) * topdelta + td;
+        lastlength = column->length;
+
+        // calculate unclipped screen coordinates for post
+        topscreen = sprtopscreen + spryscale * topdelta;
+
+        dc_yl = MAX((int)((topscreen + FRACUNIT - 1) >> FRACBITS), mceilingclip[dc_x] + 1);
+        dc_yh = MIN((int)((topscreen + spryscale * lastlength) >> FRACBITS),
+            mfloorclip[dc_x] - 1);
+
+        if (dc_yh < viewheight && dc_yl <= dc_yh)
+        {
+            dc_texturemid = basetexturemid - (topdelta << FRACBITS);
+            dc_source = (byte *)column + 3;
+            colfunc();
+        }
+
+        column = (column_t *)((byte *)column + lastlength + 4);
+    }
+
+    dc_texturemid = basetexturemid;
 }
 
 //

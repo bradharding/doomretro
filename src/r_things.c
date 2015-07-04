@@ -349,7 +349,7 @@ fixed_t spryscale;
 int64_t sprtopscreen;
 int64_t shift;
 
-void R_DrawMaskedColumn(column_t *column)
+static void R_DrawMaskedSpriteColumn(column_t *column)
 {
     int         td;
     int         topdelta = -1;
@@ -369,6 +369,9 @@ void R_DrawMaskedColumn(column_t *column)
         dc_yl = MAX((int)((topscreen + FRACUNIT - 1) >> FRACBITS), mceilingclip[dc_x] + 1);
         dc_yh = MIN((int)((topscreen + spryscale * lastlength) >> FRACBITS),
             mfloorclip[dc_x] - 1);
+
+        if (dc_baseclip != -1)
+            dc_yh = MIN(dc_baseclip, dc_yh);
 
         if (dc_yh < viewheight && dc_yl <= dc_yh)
         {
@@ -471,7 +474,8 @@ void R_DrawVisSprite(vissprite_t *vis)
     fuzzpos = 0;
 
     for (dc_x = vis->x1; dc_x <= x2; dc_x++, frac += xiscale)
-        R_DrawMaskedColumn((column_t *)((byte *)patch + LONG(patch->columnofs[frac >> FRACBITS])));
+        R_DrawMaskedSpriteColumn((column_t *)((byte *)patch
+            + LONG(patch->columnofs[frac >> FRACBITS])));
 
     colfunc = basecolfunc;
 }
