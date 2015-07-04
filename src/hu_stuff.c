@@ -95,6 +95,7 @@ static boolean          headsupactive = false;
 
 byte                    *tempscreen;
 int                     hud_y;
+int                     hudnumoffset;
 
 static patch_t          *healthpatch = NULL;
 static patch_t          *berserkpatch = NULL;
@@ -222,6 +223,8 @@ void HU_Start(void)
         godhudfunc = V_DrawYellowHUDPatch;
     }
 
+    hudnumoffset = (16 - SHORT(tallnum[0]->height)) / 2;
+
     if (W_CheckNumForName("MEDIA0"))
         healthpatch = W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE);
     if (gamemode != shareware && W_CheckNumForName("PSTRA0"))
@@ -336,15 +339,15 @@ static void HU_DrawHUD(void)
         if (healthhighlight < I_GetTime())
             healthhighlight = 0;
 
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, V_DrawHUDPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, health, tinttab, V_DrawHUDPatch);
         if (!emptytallpercent)
-            V_DrawHUDPatch(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+            V_DrawHUDPatch(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
     }
     else
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y, health, tinttab, hudnumfunc);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, health, tinttab, hudnumfunc);
         if (!emptytallpercent)
-            hudnumfunc(health_x, HUD_HEALTH_Y, tallpercent, tinttab);
+            hudnumfunc(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
     }
 
     if (health <= HUD_HEALTH_MIN && !gamepaused)
@@ -387,10 +390,10 @@ static void HU_DrawHUD(void)
         {
             if (ammohighlight < I_GetTime())
                 ammohighlight = 0;
-            DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, V_DrawHUDPatch);
+            DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, V_DrawHUDPatch);
         }
         else
-            DrawHUDNumber(&ammo_x, HUD_AMMO_Y, ammo, tinttab, hudnumfunc);
+            DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, hudnumfunc);
 
         if (ammo <= HUD_AMMO_MIN && !gamepaused)
         {
@@ -485,14 +488,16 @@ static void HU_DrawHUD(void)
             if (emptytallpercent)
             {
                 armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHUDPatch);
+                DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66,
+                    V_DrawHUDPatch);
             }
             else
             {
                 armor_x -= SHORT(tallpercent->width);
-                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
+                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y + hudnumoffset, tallpercent, tinttab66);
                 armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, V_DrawHUDPatch);
+                DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66,
+                    V_DrawHUDPatch);
             }
         }
         else
@@ -500,14 +505,14 @@ static void HU_DrawHUD(void)
             if (emptytallpercent)
             {
                 armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, hudnumfunc);
+                DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66, hudnumfunc);
             }
             else
             {
                 armor_x -= SHORT(tallpercent->width);
-                hudnumfunc(armor_x, HUD_ARMOR_Y, tallpercent, tinttab66);
+                hudnumfunc(armor_x, HUD_ARMOR_Y + hudnumoffset, tallpercent, tinttab66);
                 armor_x -= HUDNumberWidth(armor);
-                DrawHUDNumber(&armor_x, HUD_ARMOR_Y, armor, tinttab66, hudnumfunc);
+                DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66, hudnumfunc);
             }
         }
     }
