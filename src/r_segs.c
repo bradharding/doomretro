@@ -203,7 +203,7 @@ static void R_DrawMaskedColumn(column_t *column)
     int         td;
     int         topdelta = -1;
     int         lastlength = 0;
-    fixed_t     basetexturemid = dc_texturemid;
+    fixed_t     texturemid = dc_texturemid;
 
     while ((td = column->topdelta) != 0xFF)
     {
@@ -221,15 +221,14 @@ static void R_DrawMaskedColumn(column_t *column)
 
         if (dc_yh < viewheight && dc_yl <= dc_yh)
         {
-            dc_texturemid = basetexturemid - (topdelta << FRACBITS);
+            dc_texturefrac = texturemid - (topdelta << FRACBITS)
+                + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
             dc_source = (byte *)column + 3;
             colfunc();
         }
 
         column = (column_t *)((byte *)column + lastlength + 4);
     }
-
-    dc_texturemid = basetexturemid;
 }
 
 //
