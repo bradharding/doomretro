@@ -1869,21 +1869,15 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         C_TabbedOutput(tabs, "Amount of map revealed\t%i%%", totallinesmapped * 100 / totallines);
     }
 
-    if (!totalkills)
-        C_TabbedOutput(tabs, "Monsters killed\t0 of 0 (0%%)");
-    else
+    if (totalkills)
         C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)", commify(players[0].killcount),
             commify(totalkills), players[0].killcount * 100 / totalkills);
 
-    if (!totalitems)
-        C_TabbedOutput(tabs, "Items picked up\t0 of 0 (0%%)");
-    else
+    if (totalitems)
         C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)", commify(players[0].itemcount),
             commify(totalitems), players[0].itemcount * 100 / totalitems);
 
-    if (!totalsecret)
-        C_TabbedOutput(tabs, "Secrets revealed\t0 of 0 (0%%)");
-    else
+    if (totalsecret)
         C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)", commify(players[0].secretcount),
             commify(totalsecret), players[0].secretcount * 100 / totalsecret);
 }
