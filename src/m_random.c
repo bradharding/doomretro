@@ -73,13 +73,13 @@ int     prndindex = 0;
 // Which one is deterministic?
 int P_Random(void)
 {
-    prndindex = (prndindex + 1) & 0xff;
+    prndindex = (prndindex + 1) & 0xFF;
     return rndtable[prndindex];
 }
 
 int M_Random(void)
 {
-    rndindex = (rndindex + 1) & 0xff;
+    rndindex = (rndindex + 1) & 0xFF;
     return rndtable[rndindex];
 }
 

@@ -165,8 +165,6 @@ static void *calloc_IfSameLevel(void *p, size_t n1, size_t n2)
     }
 }
 
-#define DEFAULT 0x7fff
-
 //
 // P_LoadVertexes
 //

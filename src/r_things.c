@@ -385,7 +385,7 @@ void R_DrawMaskedColumn(column_t *column)
 
 static void R_DrawMaskedBloodSplatColumn(column_t *column)
 {
-    while (column->topdelta != 0xff)
+    while (column->topdelta != 0xFF)
     {
         int     length = column->length;
 
@@ -403,7 +403,7 @@ static void R_DrawMaskedBloodSplatColumn(column_t *column)
 
 static void R_DrawMaskedShadowColumn(column_t *column)
 {
-    while (column->topdelta != 0xff)
+    while (column->topdelta != 0xFF)
     {
         int     length = column->length;
 

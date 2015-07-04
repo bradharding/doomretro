@@ -2546,7 +2546,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         if (!strcasecmp(key, deh_cheat[0]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2557,7 +2557,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[1]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2567,7 +2567,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[2]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2577,7 +2577,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[3]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2587,7 +2587,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[4]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2597,7 +2597,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[5]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2607,7 +2607,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[6]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2617,7 +2617,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[7]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2627,7 +2627,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[8]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2637,7 +2637,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[9]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2647,7 +2647,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[10]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2657,7 +2657,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[11]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2667,7 +2667,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[12]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2677,7 +2677,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[13]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2687,7 +2687,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[14]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;
@@ -2698,7 +2698,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
         else if (!strcasecmp(key, deh_cheat[15]))
         {
             for (iy = 0; strval[iy]; iy++)
-                strval[iy] = (strval[iy] == (char)0xff ? '\0' : strval[iy]);
+                strval[iy] = (strval[iy] == (char)0xFF ? '\0' : strval[iy]);
             p = strval;
             while (*p == ' ')
                 ++p;

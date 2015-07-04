@@ -39,7 +39,7 @@
 #if !defined(__P_FIX__)
 #define __P_FIX__
 
-#define DEFAULT 0x7fff
+#define DEFAULT 0x7FFF
 #define REMOVE  0
 
 #define E2M2    (gamemission == doom && gameepisode == 2 && gamemap == 2 && canmodify)

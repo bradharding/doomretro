@@ -1225,12 +1225,12 @@ void R_InitTranslationTables(void)
 
     // translate just the 16 green colors
     for (i = 0; i < 256; i++)
-        if (i >= 0x70 && i <= 0x7f)
+        if (i >= 0x70 && i <= 0x7F)
         {
             // map green ramp to gray, brown, red
-            translationtables[i] = 0x60 + (i & 0xf);
-            translationtables[i + 256] = 0x40 + (i & 0xf);
-            translationtables[i + 512] = 0x20 + (i & 0xf);
+            translationtables[i] = 0x60 + (i & 0xF);
+            translationtables[i + 256] = 0x40 + (i & 0xF);
+            translationtables[i + 512] = 0x20 + (i & 0xF);
         }
         else
             // Keep all other colors as is.
