@@ -190,11 +190,11 @@ void R_DrawColumn(void)
 
     while (--count)
     {
-        *dest = colormap[source[(frac >> FRACBITS) & 127]];
+        *dest = colormap[source[frac >> FRACBITS]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[source[(frac >> FRACBITS) & 127]];
+    *dest = colormap[source[frac >> FRACBITS]];
 }
 
 void R_DrawShadowColumn(void)
