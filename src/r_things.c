@@ -298,15 +298,20 @@ static void R_InitSpriteDefs(const char *const *namelist)
 //
 // GAME FUNCTIONS
 //
+
 typedef enum
 {
-    REGULAR,
-    BLOODSPLAT,
-    SHADOW
+    VST_THING,
+    VST_BLOODSPLAT,
+    VST_SHADOW,
+    NUMVISSPRITETYPES
 } visspritetype_t;
 
-static vissprite_t      *vissprites[3], **vissprite_ptrs;
-static int              num_vissprite[3], num_vissprite_alloc[3], num_vissprite_ptrs;
+static vissprite_t      *vissprites[NUMVISSPRITETYPES];
+static vissprite_t      **vissprite_ptrs;
+static int              num_vissprite[NUMVISSPRITETYPES];
+static int              num_vissprite_alloc[NUMVISSPRITETYPES];
+static int              num_vissprite_ptrs;
 
 //
 // R_InitSprites
@@ -328,9 +333,10 @@ void R_InitSprites(char **namelist)
 //
 void R_ClearSprites(void)
 {
-    num_vissprite[REGULAR] = 0;
-    num_vissprite[BLOODSPLAT] = 0;
-    num_vissprite[SHADOW] = 0;
+    int i;
+
+    for (i = 0; i < NUMVISSPRITETYPES; ++i)
+        num_vissprite[i] = 0;
 }
 
 //
@@ -690,7 +696,7 @@ void R_ProjectSprite(mobj_t *thing)
     }
 
     // store information in a vissprite
-    vis = R_NewVisSprite(REGULAR);
+    vis = R_NewVisSprite(VST_THING);
 
     // killough 3/27/98: save sector for special clipping later
     vis->heightsec = heightsec;
@@ -819,7 +825,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     gzt = fz + spritetopoffset[lump];
 
     // store information in a vissprite
-    vis = R_NewVisSprite(BLOODSPLAT);
+    vis = R_NewVisSprite(VST_BLOODSPLAT);
 
     vis->heightsec = -1;
     vis->mobjflags = flags;
@@ -956,7 +962,7 @@ void R_ProjectShadow(mobj_t *thing)
     gzt = fz + spritetopoffset[lump];
 
     // store information in a vissprite
-    vis = R_NewVisSprite(SHADOW);
+    vis = R_NewVisSprite(VST_SHADOW);
 
     vis->heightsec = -1;
     vis->mobjflags = 0;
@@ -1297,278 +1303,266 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
 
 void R_SortVisSprites(void)
 {
-    if (num_vissprite[REGULAR])
+    if (num_vissprite[VST_THING])
     {
         int     i;
 
         // If we need to allocate more pointers for the vissprites,
         // allocate as many as were allocated for sprites -- killough
         // killough 9/22/98: allocate twice as many
-        if (num_vissprite_ptrs < num_vissprite[REGULAR] * 2)
+        if (num_vissprite_ptrs < num_vissprite[VST_THING] * 2)
         {
             free(vissprite_ptrs);
             vissprite_ptrs = (vissprite_t **)malloc((num_vissprite_ptrs =
-                num_vissprite_alloc[REGULAR] * 2) * sizeof(*vissprite_ptrs));
+                num_vissprite_alloc[VST_THING] * 2) * sizeof(*vissprite_ptrs));
         }
 
-        for (i = num_vissprite[REGULAR]; --i >= 0;)
-            vissprite_ptrs[i] = vissprites[REGULAR] + i;
+        for (i = num_vissprite[VST_THING]; --i >= 0;)
+            vissprite_ptrs[i] = vissprites[VST_THING] + i;
 
         // killough 9/22/98: replace qsort with merge sort, since the keys
         // are roughly in order to begin with, due to BSP rendering.
-        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite[REGULAR], num_vissprite[REGULAR]);
+        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite[VST_THING], num_vissprite[VST_THING]);
     }
 }
 
 //
 // R_DrawBloodSprite
 //
-void R_DrawBloodSprite(vissprite_t *spr)
+static void R_DrawBloodSprite(vissprite_t *spr)
 {
-    if (spr->x1 > spr->x2)
-        return;
-    else
+    drawseg_t   *ds;
+    int         clipbot[SCREENWIDTH];
+    int         cliptop[SCREENWIDTH];
+    int         x;
+
+    for (x = spr->x1; x <= spr->x2; x++)
+        clipbot[x] = cliptop[x] = -2;
+
+    // Scan drawsegs from end to start for obscuring segs.
+    // The first drawseg that has a greater scale
+    //  is the clip seg.
+    for (ds = ds_p; ds-- > drawsegs;)
     {
-        drawseg_t       *ds;
-        int             clipbot[SCREENWIDTH];
-        int             cliptop[SCREENWIDTH];
-        int             x;
-        int             r1;
-        int             r2;
+        int     r1;
+        int     r2;
 
-        for (x = spr->x1; x <= spr->x2; x++)
-            clipbot[x] = cliptop[x] = -2;
+        // determine if the drawseg obscures the sprite
+        if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
+            continue;       // does not cover sprite
 
-        // Scan drawsegs from end to start for obscuring segs.
-        // The first drawseg that has a greater scale
-        //  is the clip seg.
-        for (ds = ds_p - 1; ds >= drawsegs; ds--)
-        {
-            // determine if the drawseg obscures the sprite
-            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
-                continue;       // does not cover sprite
+        if (MAX(ds->scale1, ds->scale2) < spr->scale
+            || (MIN(ds->scale1, ds->scale2) < spr->scale
+            && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            continue;       // seg is behind sprite
 
-            if (MAX(ds->scale1, ds->scale2) < spr->scale
-                || (MIN(ds->scale1, ds->scale2) < spr->scale
-                && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
-                continue;       // seg is behind sprite
+        r1 = MAX(ds->x1, spr->x1);
+        r2 = MIN(ds->x2, spr->x2);
 
-            r1 = MAX(ds->x1, spr->x1);
-            r2 = MIN(ds->x2, spr->x2);
+        // clip this piece of the sprite
+        // killough 3/27/98: optimized and made much shorter
+        if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+            for (x = r1; x <= r2; x++)
+                if (clipbot[x] == -2)
+                    clipbot[x] = ds->sprbottomclip[x];
 
-            // clip this piece of the sprite
-            // killough 3/27/98: optimized and made much shorter
-            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
-                for (x = r1; x <= r2; x++)
-                    if (clipbot[x] == -2)
-                        clipbot[x] = ds->sprbottomclip[x];
-
-            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
-                for (x = r1; x <= r2; x++)
-                    if (cliptop[x] == -2)
-                        cliptop[x] = ds->sprtopclip[x];
-        }
-
-        // all clipping has been performed, so draw the sprite
-
-        // check for unclipped columns
-        for (x = spr->x1; x <= spr->x2; x++)
-        {
-            if (clipbot[x] == -2)
-                clipbot[x] = viewheight;
-
-            if (cliptop[x] == -2)
-                cliptop[x] = -1;
-        }
-
-        mfloorclip = clipbot;
-        mceilingclip = cliptop;
-        if (spr->type == MT_BLOODSPLAT)
-            R_DrawBloodSplatVisSprite(spr);
-        else
-            R_DrawVisSprite(spr);
+        if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+            for (x = r1; x <= r2; x++)
+                if (cliptop[x] == -2)
+                    cliptop[x] = ds->sprtopclip[x];
     }
+
+    // all clipping has been performed, so draw the sprite
+
+    // check for unclipped columns
+    for (x = spr->x1; x <= spr->x2; x++)
+    {
+        if (clipbot[x] == -2)
+            clipbot[x] = viewheight;
+
+        if (cliptop[x] == -2)
+            cliptop[x] = -1;
+    }
+
+    mfloorclip = clipbot;
+    mceilingclip = cliptop;
+    if (spr->type == MT_BLOODSPLAT)
+        R_DrawBloodSplatVisSprite(spr);
+    else
+        R_DrawVisSprite(spr);
 }
 
 //
 // R_DrawShadowSprite
 //
-void R_DrawShadowSprite(vissprite_t *spr)
+static void R_DrawShadowSprite(vissprite_t *spr)
 {
-    if (spr->x1 > spr->x2)
-        return;
-    else
+    drawseg_t   *ds;
+    int         clipbot[SCREENWIDTH];
+    int         cliptop[SCREENWIDTH];
+    int         x;
+
+    for (x = spr->x1; x <= spr->x2; x++)
+        clipbot[x] = cliptop[x] = -2;
+
+    // Scan drawsegs from end to start for obscuring segs.
+    // The first drawseg that has a greater scale
+    //  is the clip seg.
+    for (ds = ds_p; ds-- > drawsegs;)
     {
-        drawseg_t       *ds;
-        int             clipbot[SCREENWIDTH];
-        int             cliptop[SCREENWIDTH];
-        int             x;
-        int             r1;
-        int             r2;
+        int     r1;
+        int     r2;
 
-        for (x = spr->x1; x <= spr->x2; x++)
-            clipbot[x] = cliptop[x] = -2;
+        // determine if the drawseg obscures the sprite
+        if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
+            continue;       // does not cover sprite
 
-        // Scan drawsegs from end to start for obscuring segs.
-        // The first drawseg that has a greater scale
-        //  is the clip seg.
-        for (ds = ds_p - 1; ds >= drawsegs; ds--)
-        {
-            // determine if the drawseg obscures the sprite
-            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
-                continue;       // does not cover sprite
+        if (MAX(ds->scale1, ds->scale2) < spr->scale
+            || (MIN(ds->scale1, ds->scale2) < spr->scale
+            && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            continue;       // seg is behind sprite
 
-            if (MAX(ds->scale1, ds->scale2) < spr->scale
-                || (MIN(ds->scale1, ds->scale2) < spr->scale
-                && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
-                continue;       // seg is behind sprite
+        r1 = MAX(ds->x1, spr->x1);
+        r2 = MIN(ds->x2, spr->x2);
 
-            r1 = MAX(ds->x1, spr->x1);
-            r2 = MIN(ds->x2, spr->x2);
+        // clip this piece of the sprite
+        // killough 3/27/98: optimized and made much shorter
+        if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+            for (x = r1; x <= r2; x++)
+                if (clipbot[x] == -2)
+                    clipbot[x] = ds->sprbottomclip[x];
 
-            // clip this piece of the sprite
-            // killough 3/27/98: optimized and made much shorter
-            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
-                for (x = r1; x <= r2; x++)
-                    if (clipbot[x] == -2)
-                        clipbot[x] = ds->sprbottomclip[x];
-
-            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
-                for (x = r1; x <= r2; x++)
-                    if (cliptop[x] == -2)
-                        cliptop[x] = ds->sprtopclip[x];
-        }
-
-        // all clipping has been performed, so draw the sprite
-
-        // check for unclipped columns
-        for (x = spr->x1; x <= spr->x2; x++)
-        {
-            if (clipbot[x] == -2)
-                clipbot[x] = viewheight;
-
-            if (cliptop[x] == -2)
-                cliptop[x] = -1;
-        }
-
-        mfloorclip = clipbot;
-        mceilingclip = cliptop;
-        R_DrawShadowVisSprite(spr);
+        if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+            for (x = r1; x <= r2; x++)
+                if (cliptop[x] == -2)
+                    cliptop[x] = ds->sprtopclip[x];
     }
+
+    // all clipping has been performed, so draw the sprite
+
+    // check for unclipped columns
+    for (x = spr->x1; x <= spr->x2; x++)
+    {
+        if (clipbot[x] == -2)
+            clipbot[x] = viewheight;
+
+        if (cliptop[x] == -2)
+            cliptop[x] = -1;
+    }
+
+    mfloorclip = clipbot;
+    mceilingclip = cliptop;
+    R_DrawShadowVisSprite(spr);
 }
 
-void R_DrawSprite(vissprite_t *spr)
+static void R_DrawSprite(vissprite_t *spr)
 {
-    if (spr->x1 > spr->x2)
-        return;
-    else
+    drawseg_t   *ds;
+    int         clipbot[SCREENWIDTH];
+    int         cliptop[SCREENWIDTH];
+    int         x;
+
+    for (x = spr->x1; x <= spr->x2; x++)
+        clipbot[x] = cliptop[x] = -2;
+
+    // Scan drawsegs from end to start for obscuring segs.
+    // The first drawseg that has a greater scale is the clip seg.
+    for (ds = ds_p; ds-- > drawsegs;)
     {
-        drawseg_t       *ds;
-        int             clipbot[SCREENWIDTH];
-        int             cliptop[SCREENWIDTH];
-        int             x;
-        int             r1;
-        int             r2;
+        int     r1;
+        int     r2;
 
-        for (x = spr->x1; x <= spr->x2; x++)
-            clipbot[x] = cliptop[x] = -2;
+        // determine if the drawseg obscures the sprite
+        if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
+            continue;       // does not cover sprite
 
-        // Scan drawsegs from end to start for obscuring segs.
-        // The first drawseg that has a greater scale is the clip seg.
-        for (ds = ds_p - 1; ds >= drawsegs; ds--)
+        if (MAX(ds->scale1, ds->scale2) < spr->scale
+            || (MIN(ds->scale1, ds->scale2) < spr->scale
+            && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
         {
-            // determine if the drawseg obscures the sprite
-            if (ds->x1 > spr->x2 || ds->x2 < spr->x1 || (!ds->silhouette && !ds->maskedtexturecol))
-                continue;       // does not cover sprite
-
-            if (MAX(ds->scale1, ds->scale2) < spr->scale
-                || (MIN(ds->scale1, ds->scale2) < spr->scale
-                && !R_PointOnSegSide(spr->gx, spr->gy, ds->curline)))
+            // masked mid texture?
+            if (ds->maskedtexturecol)
             {
-                // masked mid texture?
-                if (ds->maskedtexturecol)
-                {
-                    r1 = MAX(ds->x1, spr->x1);
-                    r2 = MIN(ds->x2, spr->x2);
-                    R_RenderMaskedSegRange(ds, r1, r2);
-                }
-
-                // seg is behind sprite
-                continue;
+                r1 = MAX(ds->x1, spr->x1);
+                r2 = MIN(ds->x2, spr->x2);
+                R_RenderMaskedSegRange(ds, r1, r2);
             }
 
-            r1 = MAX(ds->x1, spr->x1);
-            r2 = MIN(ds->x2, spr->x2);
-
-            // clip this piece of the sprite
-            // killough 3/27/98: optimized and made much shorter
-            if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
-                for (x = r1; x <= r2; x++)
-                    if (clipbot[x] == -2)
-                        clipbot[x] = ds->sprbottomclip[x];
-
-            if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
-                for (x = r1; x <= r2; x++)
-                    if (cliptop[x] == -2)
-                        cliptop[x] = ds->sprtopclip[x];
+            // seg is behind sprite
+            continue;
         }
 
-        // killough 3/27/98:
-        // Clip the sprite against deep water and/or fake ceilings.
-        // killough 4/9/98: optimize by adding mh
-        // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-        // killough 11/98: fix disappearing sprites
-        if (spr->heightsec != -1)  // only things in specially marked sectors
-        {
-            fixed_t     h, mh;
-            int         phs = viewplayer->mo->subsector->sector->heightsec;
+        r1 = MAX(ds->x1, spr->x1);
+        r2 = MIN(ds->x2, spr->x2);
 
-            if ((mh = sectors[spr->heightsec].floorheight) > spr->gz
-                && (h = centeryfrac - FixedMul(mh -= viewz, spr->scale)) >= 0
-                && (h >>= FRACBITS) < viewheight)
-                if (mh <= 0 || (phs != -1 && viewz > sectors[phs].floorheight))
-                {                          // clip bottom
-                    for (x = spr->x1; x <= spr->x2; x++)
-                        if (clipbot[x] == -2 || h < clipbot[x])
-                            clipbot[x] = h;
-                }
-                else                        // clip top
-                    if (phs != -1 && viewz <= sectors[phs].floorheight) // killough 11/98
-                        for (x = spr->x1; x <= spr->x2; x++)
-                            if (cliptop[x] == -2 || h > cliptop[x])
-                                cliptop[x] = h;
+        // clip this piece of the sprite
+        // killough 3/27/98: optimized and made much shorter
+        if ((ds->silhouette & SIL_BOTTOM) && spr->gz < ds->bsilheight)  // bottom sil
+            for (x = r1; x <= r2; x++)
+                if (clipbot[x] == -2)
+                    clipbot[x] = ds->sprbottomclip[x];
 
-            if ((mh = sectors[spr->heightsec].ceilingheight) < spr->gzt
-                && (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0
-                && (h >>= FRACBITS) < viewheight)
-                if (phs != -1 && viewz >= sectors[phs].ceilingheight)
-                {                         // clip bottom
-                    for (x = spr->x1; x <= spr->x2; x++)
-                        if (clipbot[x] == -2 || h < clipbot[x])
-                            clipbot[x] = h;
-                }
-                else                       // clip top
+        if ((ds->silhouette & SIL_TOP) && spr->gzt > ds->tsilheight)    // top sil
+            for (x = r1; x <= r2; x++)
+                if (cliptop[x] == -2)
+                    cliptop[x] = ds->sprtopclip[x];
+    }
+
+    // killough 3/27/98:
+    // Clip the sprite against deep water and/or fake ceilings.
+    // killough 4/9/98: optimize by adding mh
+    // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
+    // killough 11/98: fix disappearing sprites
+    if (spr->heightsec != -1)  // only things in specially marked sectors
+    {
+        fixed_t     h, mh;
+        int         phs = viewplayer->mo->subsector->sector->heightsec;
+
+        if ((mh = sectors[spr->heightsec].interpfloorheight) > spr->gz
+            && (h = centeryfrac - FixedMul(mh -= viewz, spr->scale)) >= 0
+            && (h >>= FRACBITS) < viewheight)
+            if (mh <= 0 || (phs != -1 && viewz > sectors[phs].interpfloorheight))
+            {                          // clip bottom
+                for (x = spr->x1; x <= spr->x2; x++)
+                    if (clipbot[x] == -2 || h < clipbot[x])
+                        clipbot[x] = h;
+            }
+            else                        // clip top
+                if (phs != -1 && viewz <= sectors[phs].interpfloorheight)       // killough 11/98
                     for (x = spr->x1; x <= spr->x2; x++)
                         if (cliptop[x] == -2 || h > cliptop[x])
                             cliptop[x] = h;
-        }
 
-        // all clipping has been performed, so draw the sprite
-
-        // check for unclipped columns
-        for (x = spr->x1; x <= spr->x2; x++)
-        {
-            if (clipbot[x] == -2)
-                clipbot[x] = viewheight;
-
-            if (cliptop[x] == -2)
-                cliptop[x] = -1;
-        }
-
-        mfloorclip = clipbot;
-        mceilingclip = cliptop;
-        R_DrawVisSprite(spr);
+        if ((mh = sectors[spr->heightsec].ceilingheight) < spr->gzt
+            && (h = centeryfrac - FixedMul(mh - viewz, spr->scale)) >= 0
+            && (h >>= FRACBITS) < viewheight)
+            if (phs != -1 && viewz >= sectors[phs].ceilingheight)
+            {                         // clip bottom
+                for (x = spr->x1; x <= spr->x2; x++)
+                    if (clipbot[x] == -2 || h < clipbot[x])
+                        clipbot[x] = h;
+            }
+            else                       // clip top
+                for (x = spr->x1; x <= spr->x2; x++)
+                    if (cliptop[x] == -2 || h > cliptop[x])
+                        cliptop[x] = h;
     }
+
+    // all clipping has been performed, so draw the sprite
+
+    // check for unclipped columns
+    for (x = spr->x1; x <= spr->x2; x++)
+    {
+        if (clipbot[x] == -2)
+            clipbot[x] = viewheight;
+
+        if (cliptop[x] == -2)
+            cliptop[x] = -1;
+    }
+
+    mfloorclip = clipbot;
+    mceilingclip = cliptop;
+    R_DrawVisSprite(spr);
 }
 
 //
@@ -1580,17 +1574,17 @@ void R_DrawMasked(void)
     int         i;
 
     // draw all sprites with MF2_DRAWFIRST flag (blood splats and pools of blood)
-    for (i = 0; i < num_vissprite[BLOODSPLAT]; ++i)
-        R_DrawBloodSprite(&vissprites[BLOODSPLAT][i]);
+    for (i = 0; i < num_vissprite[VST_BLOODSPLAT]; ++i)
+        R_DrawBloodSprite(&vissprites[VST_BLOODSPLAT][i]);
 
     // draw all shadows
-    for (i = num_vissprite[SHADOW]; --i >= 0;)
-        R_DrawShadowSprite(&vissprites[SHADOW][i]);
+    for (i = num_vissprite[VST_SHADOW]; --i >= 0;)
+        R_DrawShadowSprite(&vissprites[VST_SHADOW][i]);
 
     R_SortVisSprites();
 
     // draw all other vissprites, back to front
-    for (i = num_vissprite[REGULAR]; --i >= 0;)
+    for (i = num_vissprite[VST_THING]; --i >= 0;)
         R_DrawSprite(vissprite_ptrs[i]);
 
     // render any remaining masked mid textures
