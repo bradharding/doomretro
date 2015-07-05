@@ -170,6 +170,7 @@ extern int      key_weapon6;
 extern int      key_weapon7;
 extern boolean  mapfixes;
 extern int      maxbloodsplats;
+extern int      maxvisbloodsplats;
 extern boolean  messages;
 extern boolean  mirrorweapons;
 extern int      mousesensitivity;
@@ -498,7 +499,8 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP, "Toggles the bottom of sprites being clipped in liquid sectors."),
     CVAR_BOOL (r_liquid_ripple, C_BoolCondition, C_Bool, swirlingliquid, ANIMATEDLIQUID, "Toggles the ripple effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize, "The size of pixels when the graphic detail is low."),
-    CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxbloodsplats, 7, MAXBLOODSPLATS, "The maximum amount of blood splats in a map."),
+    CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxbloodsplats, 7, MAXBLOODSPLATS, "The maximum number of blood splats spawned in a map."),
+    CVAR_INT  (r_maxvisbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxvisbloodsplats, 7, MAXVISBLOODSPLATS, "The maximum number of blood splats on the screen at once."),
     CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS, "Toggles randomly mirroring weapons dropped by monsters."),
     CVAR_BOOL (r_playersprites, C_BoolCondition, C_Bool, playersprites, PLAYERSPRITES, "Toggles the display of the player's weapon."),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS, "Toggles rocket trails behind player and Cyberdemon rockets."),
@@ -1741,19 +1743,28 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
             sscanf(parm1, "%10i", &value);
         if (value >= 0)
         {
-            maxbloodsplats = value;
-            M_SaveDefaults();
+            if (!strcasecmp(cmd, "r_maxbloodsplats"))
+            {
+                maxbloodsplats = value;
 
-            if (!maxbloodsplats)
-                P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-            else if (maxbloodsplats == UNLIMITED)
-                P_BloodSplatSpawner = P_SpawnBloodSplat;
+                if (!maxbloodsplats)
+                    P_BloodSplatSpawner = P_NullBloodSplatSpawner;
+                else if (maxbloodsplats == UNLIMITED)
+                    P_BloodSplatSpawner = P_SpawnBloodSplat;
+                else
+                    P_BloodSplatSpawner = P_SpawnBloodSplat2;
+            }
             else
-                P_BloodSplatSpawner = P_SpawnBloodSplat2;
+                maxvisbloodsplats = value;
+
+            M_SaveDefaults();
         }
     }
-    else
+    else if (!strcasecmp(cmd, "r_maxbloodsplats"))
         C_Output(maxbloodsplats == UNLIMITED ? "unlimited" : commify(maxbloodsplats));
+    else
+        C_Output(maxvisbloodsplats == UNLIMITED ? "unlimited" : commify(maxvisbloodsplats));
+
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)

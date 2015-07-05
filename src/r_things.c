@@ -83,6 +83,8 @@ boolean                         footclip = FOOTCLIP_DEFAULT;
 
 boolean                         playersprites = PLAYERSPRITES_DEFAULT;
 
+int                             maxvisbloodsplats = MAXVISBLOODSPLATS_DEFAULT;
+
 extern boolean                  inhelpscreens;
 extern boolean                  translucency;
 extern boolean                  dehacked;
@@ -299,19 +301,11 @@ static void R_InitSpriteDefs(const char *const *namelist)
 // GAME FUNCTIONS
 //
 
-typedef enum
-{
-    VST_THING,
-    VST_BLOODSPLAT,
-    VST_SHADOW,
-    NUMVISSPRITETYPES
-} visspritetype_t;
-
 static vissprite_t      *vissprites[NUMVISSPRITETYPES];
-static vissprite_t      **vissprite_ptrs;
+static vissprite_t      **vissprite_ptrs[NUMVISSPRITETYPES];
 static int              num_vissprite[NUMVISSPRITETYPES];
 static int              num_vissprite_alloc[NUMVISSPRITETYPES];
-static int              num_vissprite_ptrs;
+static int              num_vissprite_ptrs[NUMVISSPRITETYPES];
 
 //
 // R_InitSprites
@@ -1301,28 +1295,28 @@ static void msort(vissprite_t **s, vissprite_t **t, int n)
     }
 }
 
-void R_SortVisSprites(void)
+void R_SortVisSprites(visspritetype_t type)
 {
-    if (num_vissprite[VST_THING])
+    if (num_vissprite[type])
     {
         int     i;
 
         // If we need to allocate more pointers for the vissprites,
         // allocate as many as were allocated for sprites -- killough
         // killough 9/22/98: allocate twice as many
-        if (num_vissprite_ptrs < num_vissprite[VST_THING] * 2)
+        if (num_vissprite_ptrs[type] < num_vissprite[type] * 2)
         {
-            free(vissprite_ptrs);
-            vissprite_ptrs = (vissprite_t **)malloc((num_vissprite_ptrs =
-                num_vissprite_alloc[VST_THING] * 2) * sizeof(*vissprite_ptrs));
+            free(vissprite_ptrs[type]);
+            vissprite_ptrs[type] = (vissprite_t **)malloc((num_vissprite_ptrs[type] =
+                num_vissprite_alloc[type] * 2) * sizeof(*vissprite_ptrs[type]));
         }
 
-        for (i = num_vissprite[VST_THING]; --i >= 0;)
-            vissprite_ptrs[i] = vissprites[VST_THING] + i;
+        for (i = num_vissprite[type]; --i >= 0;)
+            vissprite_ptrs[type][i] = vissprites[type] + i;
 
         // killough 9/22/98: replace qsort with merge sort, since the keys
         // are roughly in order to begin with, due to BSP rendering.
-        msort(vissprite_ptrs, vissprite_ptrs + num_vissprite[VST_THING], num_vissprite[VST_THING]);
+        msort(vissprite_ptrs[type], vissprite_ptrs[type] + num_vissprite[type], num_vissprite[type]);
     }
 }
 
@@ -1573,19 +1567,21 @@ void R_DrawMasked(void)
     drawseg_t   *ds;
     int         i;
 
+    R_SortVisSprites(VST_BLOODSPLAT);
+
     // draw all sprites with MF2_DRAWFIRST flag (blood splats and pools of blood)
-    for (i = 0; i < num_vissprite[VST_BLOODSPLAT]; ++i)
-        R_DrawBloodSprite(&vissprites[VST_BLOODSPLAT][i]);
+    for (i = MIN(maxvisbloodsplats, num_vissprite[VST_BLOODSPLAT]); --i >= 0;)
+        R_DrawBloodSprite(vissprite_ptrs[VST_BLOODSPLAT][i]);
 
     // draw all shadows
     for (i = num_vissprite[VST_SHADOW]; --i >= 0;)
         R_DrawShadowSprite(&vissprites[VST_SHADOW][i]);
 
-    R_SortVisSprites();
+    R_SortVisSprites(VST_THING);
 
     // draw all other vissprites, back to front
     for (i = num_vissprite[VST_THING]; --i >= 0;)
-        R_DrawSprite(vissprite_ptrs[i]);
+        R_DrawSprite(vissprite_ptrs[VST_THING][i]);
 
     // render any remaining masked mid textures
     for (ds = ds_p; ds-- > drawsegs;)

@@ -39,6 +39,14 @@
 #if !defined(__R_THINGS__)
 #define __R_THINGS__
 
+typedef enum
+{
+    VST_THING,
+    VST_BLOODSPLAT,
+    VST_SHADOW,
+    NUMVISSPRITETYPES
+} visspritetype_t;
+
 // Constant arrays used for psprite clipping
 //  and initializing clipping.
 extern int      negonearray[SCREENWIDTH];
@@ -56,7 +64,7 @@ extern fixed_t  pspriteiscale;
 
 extern fixed_t  viewheightfrac;
 
-void R_SortVisSprites(void);
+void R_SortVisSprites(visspritetype_t type);
 
 void R_AddSprites(sector_t *sec, int lightlevel);
 void R_AddPSprites(void);

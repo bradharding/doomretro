@@ -43,8 +43,6 @@
 
 #define ANIMATEDLIQUID_DEFAULT                  true
 
-//#define AUTOSAVE_DEFAULT                        true
-
 #define BRIGHTMAPS_DEFAULT                      true
 
 #define CAPFPS_DEFAULT                          false
@@ -217,6 +215,10 @@
 #define MAXBLOODSPLATS_MIN                      0
 #define MAXBLOODSPLATS_DEFAULT                  UNLIMITED
 #define MAXBLOODSPLATS_MAX                      UNLIMITED
+
+#define MAXVISBLOODSPLATS_MIN                   0
+#define MAXVISBLOODSPLATS_DEFAULT               2048
+#define MAXVISBLOODSPLATS_MAX                   UNLIMITED
 
 #define MESSAGES_DEFAULT                        false
 
