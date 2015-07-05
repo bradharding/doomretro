@@ -1239,7 +1239,7 @@ char **mapnamesn[] =    // Nerve WAD map names.
 void lfstrip(char *);           // strip the \r and/or \n off of a line
 void rstrip(char *);            // strip trailing whitespace
 char *ptr_lstrip(char *);       // point past leading whitespace
-boolean deh_GetData(char *, char *, long *, char **);
+int deh_GetData(char *, char *, long *, char **);
 boolean deh_procStringSub(char *, char *, char *);
 char *dehReformatStr(char *);
 
