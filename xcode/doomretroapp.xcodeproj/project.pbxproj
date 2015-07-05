@@ -252,7 +252,7 @@
 		AB5A82751A8DB9EB00AF539F /* wi_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wi_stuff.h; path = ../src/wi_stuff.h; sourceTree = SOURCE_ROOT; };
 		AB5A82771A8DB9EB00AF539F /* z_zone.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = z_zone.c; path = ../src/z_zone.c; sourceTree = SOURCE_ROOT; };
 		AB5A82781A8DB9EB00AF539F /* z_zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = z_zone.h; path = ../src/z_zone.h; sourceTree = SOURCE_ROOT; };
-		AB5A82CB1A8DBAF700AF539F /* doomretro.wad */ = {isa = PBXFileReference; lastKnownFileType = file; name = doomretro.wad; path = ../msvc/Release/doomretro.wad; sourceTree = "<group>"; };
+		AB5A82CB1A8DBAF700AF539F /* doomretro.wad */ = {isa = PBXFileReference; lastKnownFileType = file; name = doomretro.wad; path = ../res/doomretro.wad; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
