@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8AD637331B33390400605ECA /* p_genlin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AD637321B3338E400605ECA /* p_genlin.c */; };
 		AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D21A8DAEB600AF539F /* Cocoa.framework */; };
-		AB5A81D51A8DB00A00AF539F /* libSDL_mixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D41A8DB00A00AF539F /* libSDL_mixer.a */; };
+		AB5A81D51A8DB00A00AF539F /* libSDL2_mixer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D41A8DB00A00AF539F /* libSDL2_mixer.a */; };
 		AB5A81D71A8DB02F00AF539F /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D61A8DB02F00AF539F /* libSDL2.a */; };
 		AB5A82791A8DB9EB00AF539F /* am_map.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81DA1A8DB9EB00AF539F /* am_map.c */; };
 		AB5A827A1A8DB9EB00AF539F /* c_cmds.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81DC1A8DB9EB00AF539F /* c_cmds.c */; };
@@ -96,7 +96,7 @@
 		AB5A80C21A8DABE100AF539F /* doomretroapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = doomretroapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5A80C61A8DABE100AF539F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5A81D21A8DAEB600AF539F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		AB5A81D41A8DB00A00AF539F /* libSDL_mixer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL_mixer.a; path = /usr/local/lib/libSDL_mixer.a; sourceTree = "<group>"; };
+		AB5A81D41A8DB00A00AF539F /* libSDL2_mixer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2_mixer.a; path = /usr/local/lib/libSDL2_mixer.a; sourceTree = "<group>"; };
 		AB5A81D61A8DB02F00AF539F /* libSDL2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSDL2.a; path = /usr/local/lib/libSDL2.a; sourceTree = "<group>"; };
 		AB5A81DA1A8DB9EB00AF539F /* am_map.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = am_map.c; path = ../src/am_map.c; sourceTree = SOURCE_ROOT; };
 		AB5A81DB1A8DB9EB00AF539F /* am_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = am_map.h; path = ../src/am_map.h; sourceTree = SOURCE_ROOT; };
@@ -261,7 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB5A81D71A8DB02F00AF539F /* libSDL2.a in Frameworks */,
-				AB5A81D51A8DB00A00AF539F /* libSDL_mixer.a in Frameworks */,
+				AB5A81D51A8DB00A00AF539F /* libSDL2_mixer.a in Frameworks */,
 				AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,7 +274,7 @@
 			children = (
 				AB5A82CB1A8DBAF700AF539F /* doomretro.wad */,
 				AB5A81D61A8DB02F00AF539F /* libSDL2.a */,
-				AB5A81D41A8DB00A00AF539F /* libSDL_mixer.a */,
+				AB5A81D41A8DB00A00AF539F /* libSDL2_mixer.a */,
 				AB5A81D21A8DAEB600AF539F /* Cocoa.framework */,
 				AB5A80C41A8DABE100AF539F /* doomretroapp */,
 				AB5A80C31A8DABE100AF539F /* Products */,
@@ -703,7 +703,7 @@
 					/usr/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) /usr/local/include/SDL2 /usr/local/include/SDL";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) /usr/local/include/SDL2";
 			};
 			name = Debug;
 		};
@@ -720,7 +720,7 @@
 					/usr/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) /usr/local/include/SDL2 /usr/local/include/SDL";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) /usr/local/include/SDL2";
 			};
 			name = Release;
 		};
