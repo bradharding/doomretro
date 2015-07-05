@@ -77,7 +77,7 @@
 
 #define CONSOLETEXTX            10
 #define CONSOLETEXTY            8
-#define CONSOLELINES            (gamestate == GS_LEVEL ? 11 : 27)
+#define CONSOLELINES            11
 #define CONSOLELINEHEIGHT       14
 
 #define CONSOLEINPUTPIXELWIDTH  500
