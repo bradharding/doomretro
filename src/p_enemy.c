@@ -1663,6 +1663,32 @@ void A_XScream(mobj_t *actor)
     S_StartSound(actor, sfx_slop);
 }
 
+void A_SkullPop(mobj_t *actor)
+{
+    mobj_t      *mo;
+    player_t    *player;
+
+    S_StartSound(actor, sfx_pldeth);
+
+    actor->flags &= ~MF_SOLID;
+    mo = P_SpawnMobj(actor->x, actor->y, actor->z + 48 * FRACUNIT, MT_GIBDTH);
+    mo->momx = (P_Random() - P_Random()) << 9;
+    mo->momy = (P_Random() - P_Random()) << 9;
+    mo->momz = FRACUNIT * 2 + (P_Random() << 6);
+
+    // Attach player mobj to bloody skull
+    player = actor->player;
+    actor->player = NULL;
+    mo->player = player;
+    mo->health = actor->health;
+    mo->angle = actor->angle;
+    if (player)
+    {
+        player->mo = mo;
+        player->damagecount = 32;
+    }
+}
+
 void A_Pain(mobj_t *actor)
 {
     if (actor->info->painsound)

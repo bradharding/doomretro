@@ -151,6 +151,7 @@ void A_BrainExplode();
 void A_Die();
 void A_Detonate();
 void A_Mushroom();
+void A_SkullPop();
 
 state_t states[NUMSTATES] =
 {
@@ -1530,8 +1531,8 @@ state_t states[NUMSTATES] =
     { SPR_MISL,  1 | FF_FULLBRIGHT,                8,               A_Mushroom,      S_EXPLODE2,      0,     0     }, // S_MUSHROOM
 
     { SPR_PLAY, 14,                                5,               NULL,            S_PLAY_GDIE2,    0,     0     }, // S_PLAY_GDIE1
-    { SPR_PLAY, 15,                                5,               NULL,            S_PLAY_GDIE3,    0,     0     }, // S_PLAY_GDIE2
-    { SPR_PLAY, 16,                                5,               NULL,            S_PLAY_GDIE4,    0,     0     }, // S_PLAY_GDIE3
+    { SPR_PLAY, 15,                                5,               A_SkullPop,      S_PLAY_GDIE3,    0,     0     }, // S_PLAY_GDIE2
+    { SPR_PLAY, 16,                                5,               A_Fall,          S_PLAY_GDIE4,    0,     0     }, // S_PLAY_GDIE3
     { SPR_PLAY, 17,                                5,               NULL,            S_PLAY_GDIE5,    0,     0     }, // S_PLAY_GDIE4
     { SPR_PLAY, 18,                                5,               NULL,            S_PLAY_GDIE6,    0,     0     }, // S_PLAY_GDIE5
     { SPR_PLAY, 19,                                5,               NULL,            S_PLAY_GDIE7,    0,     0     }, // S_PLAY_GDIE6

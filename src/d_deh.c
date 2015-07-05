@@ -1591,6 +1591,7 @@ extern void A_SpawnFly();
 extern void A_BrainExplode();
 extern void A_Detonate();
 extern void A_Mushroom();
+extern void A_SkullPop();
 extern void A_Die();
 extern void A_Spawn();
 extern void A_Turn();
@@ -1687,6 +1688,7 @@ static const deh_bexptr deh_bexptrs[] =
   { A_BrainExplode,    "A_BrainExplode"    },
   { A_Detonate,        "A_Detonate"        },   // killough 8/9/98
   { A_Mushroom,        "A_Mushroom"        },   // killough 10/98
+  { A_SkullPop,        "A_SkullPop"        },
   { A_Die,             "A_Die"             },   // killough 11/98
   { A_Spawn,           "A_Spawn"           },   // killough 11/98
   { A_Turn,            "A_Turn"            },   // killough 11/98
