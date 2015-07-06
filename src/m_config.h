@@ -216,10 +216,6 @@
 #define MAXBLOODSPLATS_DEFAULT                  UNLIMITED
 #define MAXBLOODSPLATS_MAX                      UNLIMITED
 
-#define MAXVISBLOODSPLATS_MIN                   0
-#define MAXVISBLOODSPLATS_DEFAULT               2048
-#define MAXVISBLOODSPLATS_MAX                   UNLIMITED
-
 #define MESSAGES_DEFAULT                        false
 
 #define MIRRORWEAPONS_DEFAULT                   false

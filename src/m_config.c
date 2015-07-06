@@ -144,7 +144,6 @@ extern int      key_weapon6;
 extern int      key_weapon7;
 extern boolean  mapfixes;
 extern int      maxbloodsplats;
-extern int      maxvisbloodsplats;
 extern boolean  messages;
 extern boolean  mirrorweapons;
 extern int      mousesensitivity;
@@ -311,7 +310,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_lowpixelheight,        pixelheight,                   0),
     CONFIG_VARIABLE_INT          (r_lowpixelwidth,         pixelwidth,                    0),
     CONFIG_VARIABLE_INT          (r_maxbloodsplats,        maxbloodsplats,                7),
-    CONFIG_VARIABLE_INT          (r_maxvisbloodsplats,     maxvisbloodsplats,             7),
     CONFIG_VARIABLE_INT          (r_mirrorweapons,         mirrorweapons,                 1),
     CONFIG_VARIABLE_INT          (r_playersprites,         playersprites,                 1),
     CONFIG_VARIABLE_INT          (r_rockettrails,          smoketrails,                   1),
@@ -1055,8 +1053,6 @@ static void M_CheckDefaults(void)
         display = DISPLAY_DEFAULT;
 
     maxbloodsplats = BETWEEN(MAXBLOODSPLATS_MIN, maxbloodsplats, MAXBLOODSPLATS_MAX);
-
-    maxvisbloodsplats = BETWEEN(MAXVISBLOODSPLATS_MIN, maxvisbloodsplats, MAXVISBLOODSPLATS_MAX);
 
     if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
         mousebfire = MOUSEFIRE_DEFAULT;
