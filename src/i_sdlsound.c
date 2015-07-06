@@ -249,7 +249,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     dstlen = insnd->chunk.alen * ((pitch + 1) * 100 / NORM_PITCH) / 100;
 
     // ensure that the new buffer is an even length
-    if ((dstlen & 1) == 1)
+    if (!(dstlen % 2))
         ++dstlen;
 
     outsnd = AllocateSound(insnd->sfxinfo, dstlen);
@@ -284,6 +284,10 @@ static void ReleaseSoundOnChannel(int channel)
     channels_playing[channel] = NULL;
 
     UnlockAllocatedSound(snd);
+
+    // if the sound is a pitch-shift and it's not in use, immediately free it
+    if (snd->pitch != NORM_PITCH && snd->use_count <= 0)
+        FreeAllocatedSound(snd);
 }
 
 static boolean ConvertibleRatio(int freq1, int freq2)
@@ -526,12 +530,15 @@ int I_SDL_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitc
         if (!snd)
             return -1;
 
-        newsnd = PitchShift(snd, pitch);
-        if (newsnd)
+        if (randompitch)
         {
-            LockAllocatedSound(newsnd);
-            UnlockAllocatedSound(snd);
-            snd = newsnd;
+            newsnd = PitchShift(snd, pitch);
+            if (newsnd)
+            {
+                LockAllocatedSound(newsnd);
+                UnlockAllocatedSound(snd);
+                snd = newsnd;
+            }
         }
     }
     else

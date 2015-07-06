@@ -42,7 +42,8 @@
 #include "p_mobj.h"
 #include "sounds.h"
 
-extern int snd_samplerate;
+extern int      snd_samplerate;
+extern boolean  randompitch;
 
 boolean I_SDL_InitSound(void);
 void I_SDL_ShutdownSound(void);
