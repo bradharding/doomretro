@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A6AB8171B49BE8100E0666A /* doomretro.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8A6AB8161B49BE8100E0666A /* doomretro.icns */; };
 		8AD637331B33390400605ECA /* p_genlin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AD637321B3338E400605ECA /* p_genlin.c */; };
 		AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D21A8DAEB600AF539F /* Cocoa.framework */; };
 		AB5A81D51A8DB00A00AF539F /* libSDL2_mixer.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D41A8DB00A00AF539F /* libSDL2_mixer.dylib */; };
@@ -92,6 +93,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A6AB8161B49BE8100E0666A /* doomretro.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = doomretro.icns; sourceTree = "<group>"; };
 		8AD637321B3338E400605ECA /* p_genlin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_genlin.c; path = ../../src/p_genlin.c; sourceTree = "<group>"; };
 		AB5A80C21A8DABE100AF539F /* doomretroapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = doomretroapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5A80C61A8DABE100AF539F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5A80E81A8DAD0100AF539F /* doomretro */,
+				8A6AB8161B49BE8100E0666A /* doomretro.icns */,
 				AB5A80C61A8DABE100AF539F /* Info.plist */,
 			);
 			path = doomretroapp;
@@ -519,6 +522,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A6AB8171B49BE8100E0666A /* doomretro.icns in Resources */,
 				AB5A82CC1A8DBAF700AF539F /* doomretro.wad in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
