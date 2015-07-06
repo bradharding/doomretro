@@ -59,10 +59,6 @@
 #include "SDL_syswm.h"
 #endif
 
-#if !defined(_MSC_VER)
-#define __forceinline inline __attribute__((always_inline))
-#endif
-
 // Window position:
 char                    *windowposition = WINDOWPOSITION_DEFAULT;
 
