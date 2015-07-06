@@ -1014,31 +1014,14 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 
     // Handle all things in sector.
     if (fixedcolormap || isliquid[floorpic] || floorpic == skyflatnum || !shadows)
-    {
         for (thing = sec->thinglist; thing; thing = thing->snext)
         {
-            mobjtype_t  type = thing->type;
-
-            if (type == MT_BLOODSPLAT)
-                R_ProjectBloodSplat(thing);
-            else if (type != MT_SHADOW)
-                R_ProjectSprite(thing);
+            if (thing->type != MT_SHADOW)
+                thing->projectfunc((mobj_t *)thing);
         }
-    }
     else
-    {
         for (thing = sec->thinglist; thing; thing = thing->snext)
-        {
-            mobjtype_t  type = thing->type;
-
-            if (type == MT_BLOODSPLAT)
-                R_ProjectBloodSplat(thing); 
-            else if (type == MT_SHADOW)
-                R_ProjectShadow(thing);
-            else
-                R_ProjectSprite(thing);
-        }
-    }
+            thing->projectfunc((mobj_t *)thing);
 }
 
 //

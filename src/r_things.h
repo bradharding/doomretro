@@ -64,13 +64,15 @@ extern fixed_t  pspriteiscale;
 
 extern fixed_t  viewheightfrac;
 
-void R_SortVisSprites(visspritetype_t type);
-
 void R_AddSprites(sector_t *sec, int lightlevel);
 void R_AddPSprites(void);
 void R_DrawSprites(void);
 void R_InitSprites(char **namelist);
 void R_ClearSprites(void);
 void R_DrawMasked(void);
+
+void R_ProjectSprite(mobj_t *thing);
+void R_ProjectBloodSplat(mobj_t *thing);
+void R_ProjectShadow(mobj_t *thing);
 
 #endif

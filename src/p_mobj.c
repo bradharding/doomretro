@@ -719,6 +719,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->sprite = st->sprite;
     mobj->frame = st->frame;
     mobj->colfunc = info->colfunc;
+    mobj->projectfunc = R_ProjectSprite;
     mobj->blood = info->blood;
 
     // set subsector and/or block links
@@ -1116,6 +1117,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
         th->frame = st->frame;
 
         th->colfunc = info->colfunc;
+        th->projectfunc = R_ProjectSprite;
         th->blood = info->blood;
 
         P_SetThingPosition(th);
@@ -1169,6 +1171,7 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         }
         else
             newsplat->colfunc = bloodsplatcolfunc;
+        newsplat->projectfunc = R_ProjectBloodSplat;
         newsplat->blood = blood;
 
         newsplat->x = x;
@@ -1204,6 +1207,7 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         }
         else
             newsplat->colfunc = bloodsplatcolfunc;
+        newsplat->projectfunc = R_ProjectBloodSplat;
         newsplat->blood = blood;
 
         newsplat->x = x;
@@ -1247,6 +1251,7 @@ void P_SpawnShadow(mobj_t *actor)
     mobj->flags2 = MF2_DONOTMAP;
 
     mobj->colfunc = (actor->type == MT_SHADOWS ? R_DrawSpectreShadowColumn : R_DrawShadowColumn);
+    mobj->projectfunc = R_ProjectShadow;
 
     P_SetThingPosition(mobj);
 
