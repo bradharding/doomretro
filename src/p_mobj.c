@@ -315,7 +315,7 @@ void P_XYMovement(mobj_t *mo)
         && (mo->momx || mo->momy) && mo->bloodsplats && maxbloodsplats)
     {
         int     i;
-        int     max = ((MAXMOVE - (ABS(mo->momx) + ABS(mo->momy)) / 2) >> FRACBITS) / 12;
+        int     max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
         int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS)
                     >> 1;
         int     blood = mobjinfo[mo->blood].blood;
