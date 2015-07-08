@@ -87,7 +87,6 @@ typedef struct
 #define MAXANIMS        32
 
 #define ANIMSPEED       8
-#define SWIRL           65536
 
 static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
@@ -110,14 +109,14 @@ dboolean        *isliquid;
 void P_InitPicAnims(void)
 {
     int         i;
-    int         lump = W_GetNumForName("ANIMATED");
+    int         lump = W_GetNumForName2("ANIMATED");
     animdef_t   *animdefs = W_CacheLumpNum(lump, PU_STATIC);
     int         size = (numflats + 1) * sizeof(dboolean);
 
     isliquid = Z_Malloc(size, PU_STATIC, 0);
     memset(isliquid, false, size);
 
-    //  Init animation
+    // Init animation
     lastanim = anims;
     for (i = 0; animdefs[i].istexture != -1; i++)
     {
@@ -142,7 +141,6 @@ void P_InitPicAnims(void)
 
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
             lastanim->istexture = true;
-            lastanim->speed = LONG(animdefs[i].speed);
         }
         else
         {
@@ -154,19 +152,20 @@ void P_InitPicAnims(void)
 
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
             lastanim->istexture = false;
-            lastanim->speed = LONG(animdefs[i].speed);
-            C_Output("%s,%i", animdefs[i].startname, lastanim->speed);
-            if (lastanim->speed == SWIRL)
+
+            if (strcasecmp(animdefs[i].startname, "RROCK05")
+                && strcasecmp(animdefs[i].startname, "SLIME05"))
             {
                 int     j;
 
                 for (j = 0; j < lastanim->numpics; j++)
                     isliquid[lastanim->basepic + j] = true;
-                lastanim->speed = ANIMSPEED;
             }
         }
 
-        if (lastanim->speed < SWIRL && lastanim->numpics != 1 && lastanim->numpics < 2)
+        lastanim->speed = LONG(animdefs[i].speed);
+
+        if (lastanim->speed < 65536 && lastanim->numpics != 1 && lastanim->numpics < 2)
             I_Error("P_InitPicAnims: bad cycle from %s to %s",
                 animdefs[i].startname, animdefs[i].endname);
 
