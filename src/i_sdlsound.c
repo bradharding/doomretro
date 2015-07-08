@@ -244,25 +244,26 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     Sint16              *srcbuf, *dstbuf;
     Uint32              srclen, dstlen;
 
-    // determine ratio of pitch to NORM_PITCH and apply to srclen to get dstlen
-    // (pitch + 1) is a crude way to rounds up the division
-    dstlen = insnd->chunk.alen * ((pitch + 1) * 100 / NORM_PITCH) / 100;
+    srcbuf = (Sint16 *)insnd->chunk.abuf;
+    srclen = insnd->chunk.alen;
+
+    // determine ratio pitch:NORM_PITCH and apply to srclen, then invert.
+    // This is an approximation of vanilla behaviour based on measurements
+    dstlen = (int)((1 + (1 - (float)pitch / NORM_PITCH)) * srclen);
 
     // ensure that the new buffer is an even length
     if (!(dstlen % 2))
         ++dstlen;
 
     outsnd = AllocateSound(insnd->sfxinfo, dstlen);
-    if(!outsnd)
+    if (!outsnd)
         return NULL;
     outsnd->pitch = pitch;
 
-    srcbuf = (Sint16 *)insnd->chunk.abuf;
-    srclen = insnd->chunk.alen;
     dstbuf = (Sint16 *)outsnd->chunk.abuf;
 
     // loop over output buffer. find corresponding input cell, copy over
-    for(outp = dstbuf; outp < dstbuf + dstlen / 2; ++outp)
+    for (outp = dstbuf; outp < dstbuf + dstlen / 2; ++outp)
     {
         inp = srcbuf + (int)((float)(outp - dstbuf) / dstlen * srclen);
         *outp = *inp;
@@ -346,9 +347,9 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     }
     else
     {
-        Sint16  *expanded = (Sint16 *)chunk->abuf;
-        int     expand_ratio;
-        int     i;
+        Sint16          *expanded = (Sint16 *)chunk->abuf;
+        int             expand_ratio;
+        unsigned int    i;
 
         // Generic expansion if conversion does not work:
         //
