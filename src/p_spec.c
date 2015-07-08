@@ -41,6 +41,8 @@
 #include "doomstat.h"
 #include "g_game.h"
 #include "hu_stuff.h"
+#include "i_swap.h"
+#include "i_system.h"
 #include "m_bbox.h"
 #include "m_misc.h"
 #include "m_random.h"
@@ -72,12 +74,11 @@ typedef struct
 //
 typedef struct
 {
-    dboolean    istexture;              // if false, it is a flat
+    signed char istexture;              // if false, it is a flat
     char        endname[9];
     char        startname[9];
     int         speed;
-    dboolean    isliquid;
-} animdef_t;
+} PACKEDATTR animdef_t;
 
 #if defined(_MSC_VER)
 #pragma pack(pop)
@@ -86,6 +87,7 @@ typedef struct
 #define MAXANIMS        32
 
 #define ANIMSPEED       8
+#define SWIRL           65536
 
 static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
@@ -97,76 +99,28 @@ static void P_SpawnFriction(void);      // phares 3/16/98
 static void P_SpawnPushers(void);       // phares 3/20/98
 
 extern char     *playername;
-
-//
-// P_InitPicAnims
-//
-
-// Floor/ceiling animation sequences,
-//  defined by first and last frame,
-//  i.e. the flat (64x64 tile) name to
-//  be used.
-// The full animation sequence is given
-//  using all the flats between the start
-//  and end entry, in the order found in
-//  the WAD file.
-//
-animdef_t animdefs[] =
-{
-    { false, "NUKAGE3",  "NUKAGE1",  ANIMSPEED, true  },
-    { false, "FWATER4",  "FWATER1",  ANIMSPEED, true  },
-    { false, "SWATER4",  "SWATER1",  ANIMSPEED, true  },
-    { false, "LAVA4",    "LAVA1",    ANIMSPEED, true  },
-    { false, "BLOOD3",   "BLOOD1",   ANIMSPEED, true  },
-
-    // DOOM II flat animations.
-    { false, "RROCK08",  "RROCK05",  ANIMSPEED, false },
-    { false, "SLIME04",  "SLIME01",  ANIMSPEED, true  },
-    { false, "SLIME08",  "SLIME05",  ANIMSPEED, true  },
-    { false, "SLIME12",  "SLIME09",  ANIMSPEED, false },
-
-    { true,  "BLODGR4",  "BLODGR1",  ANIMSPEED, false },
-    { true,  "SLADRIP3", "SLADRIP1", ANIMSPEED, false },
-
-    { true,  "BLODRIP4", "BLODRIP1", ANIMSPEED, false },
-    { true,  "FIREWALL", "FIREWALA", ANIMSPEED, false },
-    { true,  "GSTFONT3", "GSTFONT1", ANIMSPEED, false },
-    { true,  "FIRELAVA", "FIRELAV3", ANIMSPEED, false },
-    { true,  "FIREMAG3", "FIREMAG1", ANIMSPEED, false },
-    { true,  "FIREBLU2", "FIREBLU1", ANIMSPEED, false },
-    { true,  "ROCKRED3", "ROCKRED1", ANIMSPEED, false },
-
-    { true,  "BFALL4",   "BFALL1",   ANIMSPEED, false },
-    { true,  "SFALL4",   "SFALL1",   ANIMSPEED, false },
-    { true,  "WFALL4",   "WFALL1",   ANIMSPEED, false },
-    { true,  "DBRAIN4",  "DBRAIN1",  ANIMSPEED, false },
-
-    { false, "",         "",                 0, false }
-};
-
-//
-// Animating line specials
-//
 extern int      numflats;
 extern dboolean canmodify;
 
 dboolean        *isliquid;
 
+//
+// P_InitPicAnims
+//
 void P_InitPicAnims(void)
 {
-    int i;
-    int size = (numflats + 1) * sizeof(dboolean);
+    int         i;
+    int         lump = W_GetNumForName("ANIMATED");
+    animdef_t   *animdefs = W_CacheLumpNum(lump, PU_STATIC);
+    int         size = (numflats + 1) * sizeof(dboolean);
 
     isliquid = Z_Malloc(size, PU_STATIC, 0);
     memset(isliquid, false, size);
 
     //  Init animation
     lastanim = anims;
-    for (i = 0; animdefs[i].endname[0]; i++)
+    for (i = 0; animdefs[i].istexture != -1; i++)
     {
-        char    *startname = animdefs[i].startname;
-        char    *endname = animdefs[i].endname;
-
         // 1/11/98 killough -- removed limit by array-doubling
         if (lastanim >= anims + maxanims)
         {
@@ -180,38 +134,45 @@ void P_InitPicAnims(void)
         if (animdefs[i].istexture)
         {
             // different episode?
-            if (R_CheckTextureNumForName(startname) == -1)
+            if (R_CheckTextureNumForName(animdefs[i].startname) == -1)
                 continue;
 
-            lastanim->picnum = R_TextureNumForName(endname);
-            lastanim->basepic = R_TextureNumForName(startname);
+            lastanim->picnum = R_TextureNumForName(animdefs[i].endname);
+            lastanim->basepic = R_TextureNumForName(animdefs[i].startname);
 
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
+            lastanim->istexture = true;
+            lastanim->speed = LONG(animdefs[i].speed);
         }
         else
         {
-            if (W_CheckNumForName(startname) == -1)
+            if (W_CheckNumForName(animdefs[i].startname) == -1)
                 continue;
 
-            lastanim->picnum = R_FlatNumForName(endname);
-            lastanim->basepic = R_FlatNumForName(startname);
+            lastanim->picnum = R_FlatNumForName(animdefs[i].endname);
+            lastanim->basepic = R_FlatNumForName(animdefs[i].startname);
 
             lastanim->numpics = lastanim->picnum - lastanim->basepic + 1;
-
-            if (animdefs[i].isliquid)
+            lastanim->istexture = false;
+            lastanim->speed = LONG(animdefs[i].speed);
+            C_Output("%s,%i", animdefs[i].startname, lastanim->speed);
+            if (lastanim->speed == SWIRL)
             {
                 int     j;
 
                 for (j = 0; j < lastanim->numpics; j++)
                     isliquid[lastanim->basepic + j] = true;
+                lastanim->speed = ANIMSPEED;
             }
         }
 
-        lastanim->istexture = animdefs[i].istexture;
+        if (lastanim->speed < SWIRL && lastanim->numpics != 1 && lastanim->numpics < 2)
+            I_Error("P_InitPicAnims: bad cycle from %s to %s",
+                animdefs[i].startname, animdefs[i].endname);
 
-        lastanim->speed = animdefs[i].speed;
-        lastanim++;
+        ++lastanim;
     }
+    W_ReleaseLumpNum(lump);
 
     if (BTSX)
     {
