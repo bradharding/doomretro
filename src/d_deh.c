@@ -1418,9 +1418,7 @@ static char *deh_sfxinfo[] =
     "Zero/One",         // .singularity (int, one at a time flag)
     "Value",            // .priority
     "Zero 1",           // .link (sfxinfo_t*) referenced sound if linked
-    "Zero 2",           // .pitch
     "Zero 3",           // .volume
-    "Zero 4",           // .data (SAMPLE*) sound data
     "Neg. One 1",       // .usefulness
     "Neg. One 2"        // .lumpnum
 };
@@ -2261,15 +2259,11 @@ void deh_procSounds(DEHFILE *fpin, char *line)
             S_sfx[indexnum].priority = value;
         else if (!strcasecmp(key, deh_sfxinfo[3]))      // Zero 1
             S_sfx[indexnum].link = (sfxinfo_t *)value;
-        else if (!strcasecmp(key, deh_sfxinfo[4]))      // Zero 2
-            S_sfx[indexnum].pitch = value;
-        else if (!strcasecmp(key, deh_sfxinfo[5]))      // Zero 3
+        else if (!strcasecmp(key, deh_sfxinfo[4]))      // Zero 3
             S_sfx[indexnum].volume = value;
-        else if (!strcasecmp(key, deh_sfxinfo[6]))      // Zero 4
-            S_sfx[indexnum].driver_data = (void *)value;        // killough 5/3/98: changed cast
-        else if (!strcasecmp(key, deh_sfxinfo[7]))      // Neg. One 1
+        else if (!strcasecmp(key, deh_sfxinfo[5]))      // Neg. One 1
             /* nop */;
-        else if (!strcasecmp(key, deh_sfxinfo[8]))      // Neg. One 2
+        else if (!strcasecmp(key, deh_sfxinfo[6]))      // Neg. One 2
             S_sfx[indexnum].lumpnum = value;
         else if (devparm)
             C_Output("Invalid sound string index for \"%s\"", key);

@@ -146,7 +146,7 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
 
         if (swtex == texTop)
         {
-            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            S_StartMapSound(&line->soundorg, sfx_swtchn);
             if (useAgain)
                 P_StartButton(line, top, swtex, BUTTONTIME);
             side->toptexture = switchlist[i ^ 1];
@@ -154,7 +154,7 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
         }
         else if (swtex == texMid)
         {
-            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            S_StartMapSound(&line->soundorg, sfx_swtchn);
             if (useAgain)
                 P_StartButton(line, middle, swtex, BUTTONTIME);
             side->midtexture = switchlist[i ^ 1];
@@ -162,7 +162,7 @@ void P_ChangeSwitchTexture(line_t *line, int useAgain)
         }
         else if (swtex == texBot)
         {
-            S_StartSound((mobj_t *)&line->soundorg, sfx_swtchn);
+            S_StartMapSound(&line->soundorg, sfx_swtchn);
             if (useAgain)
                 P_StartButton(line, bottom, swtex, BUTTONTIME);
             side->bottomtexture = switchlist[i ^ 1];

@@ -404,6 +404,8 @@ typedef struct mobj_s
     angle_t             oldangle;
 
     fixed_t             nudge;
+
+    int                 pitch;
 } mobj_t;
 
 #endif

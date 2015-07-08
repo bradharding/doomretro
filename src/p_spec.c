@@ -1948,7 +1948,7 @@ void P_UpdateSpecials(void)
                         break;
                 }
                 if (buttonlist[i].line->special != -GR_Door_OpenStay)
-                    S_StartSound(buttonlist[i].soundorg, sfx_swtchn);
+                    S_StartMapSound(buttonlist[i].soundorg, sfx_swtchn);
                 memset(&buttonlist[i], 0, sizeof(button_t));
             }
         }

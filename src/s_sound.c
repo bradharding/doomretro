@@ -406,26 +406,19 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
 
 void S_StartSound(void *origin_p, int sfx_id)
 {
-    sfxinfo_t   *sfx;
-    mobj_t      *origin;
+    sfxinfo_t   *sfx = &S_sfx[sfx_id];
+    mobj_t      *origin = (mobj_t *)origin_p;
     mobj_t      *player = players[0].mo;
     int         sep;
-    int         pitch;
+    int         pitch = (origin ? origin->pitch : NORM_PITCH);
     int         cnum;
-    int         volume;
+    int         volume = snd_SfxVolume;
     int         handle;
 
-    origin = (mobj_t *)origin_p;
-    volume = snd_SfxVolume;
-
-    sfx = &S_sfx[sfx_id];
-
     // Initialize sound parameters
-    pitch = NORM_PITCH;
     if (sfx->link)
     {
         volume += sfx->volume;
-        pitch = sfx->pitch;
 
         if (volume < 1)
             return;
@@ -442,15 +435,6 @@ void S_StartSound(void *origin_p, int sfx_id)
         return;
     else if (origin->x == player->x && origin->y == player->y)
         sep = NORM_SEP;
-
-    // hacks to vary the sfx pitches
-    if (randompitch && !menuactive)
-    {
-        if (sfx_id >= sfx_sawup && sfx_id <= sfx_sawhit)
-            pitch = BETWEEN(0, pitch + 8 - (M_Random() & 15), 255);
-        else if (sfx_id != sfx_itemup && sfx_id != sfx_tink)
-            pitch = BETWEEN(0, pitch + 16 - (M_Random() & 15), 255);
-    }
 
     // kill old sound
     for (cnum = 0; cnum < numChannels; cnum++)
@@ -480,6 +464,14 @@ void S_StartSound(void *origin_p, int sfx_id)
         channels[cnum].handle = handle;
         channels[cnum].pitch = pitch;
     }
+}
+
+void S_StartMapSound(void *origin_p, int sfx_id)
+{
+    mobj_t      *origin = (mobj_t *)origin_p;
+
+    origin->pitch = NORM_PITCH;
+    S_StartSound(origin, sfx_id);
 }
 
 //

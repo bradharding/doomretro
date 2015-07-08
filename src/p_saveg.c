@@ -379,6 +379,9 @@ static void saveg_read_mobj_t(mobj_t *str)
 
     // angle_t oldangle
     str->oldangle = saveg_read32();
+
+    // int pitch
+    str->pitch = saveg_read32();
 }
 
 static void saveg_write_mobj_t(mobj_t *str)
@@ -523,6 +526,9 @@ static void saveg_write_mobj_t(mobj_t *str)
 
     // angle_t oldangle
     saveg_write32(str->oldangle);
+
+    // int pitch
+    saveg_write32(str->pitch);
 }
 
 //

@@ -61,14 +61,14 @@ void T_PlatRaise(plat_t *plat)
             if (plat->type == raiseAndChange || plat->type == raiseToNearestAndChange)
             {
                 if (!(leveltime & 7) && plat->sector->floorheight != plat->high)
-                    S_StartSound(&plat->sector->soundorg, sfx_stnmov);
+                    S_StartMapSound(&plat->sector->soundorg, sfx_stnmov);
             }
 
             if (res == crushed && !plat->crush)
             {
                 plat->count = plat->wait;
                 plat->status = down;
-                S_StartSound(&plat->sector->soundorg, sfx_pstart);
+                S_StartMapSound(&plat->sector->soundorg, sfx_pstart);
             }
             else
             {
@@ -79,7 +79,7 @@ void T_PlatRaise(plat_t *plat)
                     {
                         plat->count = plat->wait;
                         plat->status = waiting;
-                        S_StartSound(&plat->sector->soundorg, sfx_pstop);
+                        S_StartMapSound(&plat->sector->soundorg, sfx_pstop);
                     }
                     else // else go into stasis awaiting next toggle activation
                     {
@@ -114,7 +114,7 @@ void T_PlatRaise(plat_t *plat)
                 {                                       // is silent, instant, no waiting
                     plat->count = plat->wait;
                     plat->status = waiting;
-                    S_StartSound(&plat->sector->soundorg, sfx_pstop);
+                    S_StartMapSound(&plat->sector->soundorg, sfx_pstop);
                 }
                 else    // instant toggles go into stasis awaiting next activation
                 {
@@ -139,7 +139,7 @@ void T_PlatRaise(plat_t *plat)
             if (!--plat->count)
             {
                 plat->status = (plat->sector->floorheight == plat->low ? up : down);
-                S_StartSound(&plat->sector->soundorg, sfx_pstart);
+                S_StartMapSound(&plat->sector->soundorg, sfx_pstart);
             }
 
         case in_stasis:
@@ -204,7 +204,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->status = up;
                 sec->special = 0;
 
-                S_StartSound(&sec->soundorg, sfx_stnmov);
+                S_StartMapSound(&sec->soundorg, sfx_stnmov);
                 break;
 
             case raiseAndChange:
@@ -214,7 +214,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->wait = 0;
                 plat->status = up;
 
-                S_StartSound(&sec->soundorg, sfx_stnmov);
+                S_StartMapSound(&sec->soundorg, sfx_stnmov);
                 break;
 
             case downWaitUpStay:
@@ -227,7 +227,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->high = sec->floorheight;
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
-                S_StartSound(&sec->soundorg, sfx_pstart);
+                S_StartMapSound(&sec->soundorg, sfx_pstart);
                 break;
 
             case blazeDWUS:
@@ -240,7 +240,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->high = sec->floorheight;
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
-                S_StartSound(&sec->soundorg, sfx_pstart);
+                S_StartMapSound(&sec->soundorg, sfx_pstart);
                 break;
 
             case perpetualRaise:
@@ -258,7 +258,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = (plat_e)(P_Random() & 1);
 
-                S_StartSound(&sec->soundorg, sfx_pstart);
+                S_StartMapSound(&sec->soundorg, sfx_pstart);
                 break;
 
             case toggleUpDn:                    // jff 3/14/98 add new type to support instant toggle

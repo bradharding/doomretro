@@ -83,10 +83,11 @@ void S_Shutdown(void);
 void S_Start(void);
 
 //
-// Start sound for thing at <origin>
-//  using <sound_id> from sounds.h
+// Start sound for thing at <origin_p>
+//  using <sfx_id> from sounds.h
 //
-void S_StartSound(void *origin, int sound_id);
+void S_StartSound(void *origin_p, int sfx_id);
+void S_StartMapSound(void *origin_p, int sfx_id);
 
 void S_StopSounds(void);
 
