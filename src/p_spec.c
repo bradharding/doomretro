@@ -179,8 +179,6 @@ void P_InitPicAnims(void)
 
         for (i = 0; i < 13; ++i)
             isliquid[SHNPRT02 + i] = false;
-        isliquid[R_FlatNumForName("SLIME05")] = false;
-        isliquid[R_FlatNumForName("SLIME08")] = false;
     }
 }
 
