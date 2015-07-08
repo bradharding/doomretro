@@ -894,8 +894,6 @@ void R_ProjectShadow(mobj_t *thing)
 
     fixed_t             tz = gxt - gyt;
 
-    unsigned int        rot = 0;
-
     // thing is behind view plane?
     if (tz < MINZ)
         return;

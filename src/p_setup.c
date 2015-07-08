@@ -706,10 +706,8 @@ static void P_LoadZSegs(const byte *data)
 
         // e6y: check for wrong indexes
         if ((unsigned int)linedef >= (unsigned int)numlines)
-        {
             I_Error("P_LoadZSegs: seg %d references a non-existent linedef %d",
                 i, (unsigned int)linedef);
-        }
 
         ldef = &lines[linedef];
         li->linedef = ldef;
@@ -725,10 +723,8 @@ static void P_LoadZSegs(const byte *data)
 
         // e6y: check for wrong indexes
         if ((unsigned int)ldef->sidenum[side] >= (unsigned int)numsides)
-        {
             I_Error("P_LoadZSegs: linedef %d for seg %d references a non-existent sidedef %d",
                 linedef, i, (unsigned int)ldef->sidenum[side]);
-        }
 
         li->sidedef = &sides[ldef->sidenum[side]];
 

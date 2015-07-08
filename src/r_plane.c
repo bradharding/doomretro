@@ -448,7 +448,6 @@ void R_DrawPlanes(void)
                 else
                 {
                     // regular flat
-                    int         picnum = pl->picnum;
                     dboolean    liquid = isliquid[picnum];
                     dboolean    swirling = (liquid && swirlingliquid);
                     int         lumpnum = firstflat + flattranslation[picnum];

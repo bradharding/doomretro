@@ -105,9 +105,8 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
     return (bEatKeystroke ? 1 : CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam));
 }
 
-WNDPROC         oldProc;
-HICON           icon;
-HWND            hwnd;
+WNDPROC oldProc;
+HICON   icon;
 
 dboolean MouseShouldBeGrabbed(void);
 void I_InitGamepad(void);
@@ -214,6 +213,7 @@ void I_InitWindows32(void)
 {
     HINSTANCE           handle = GetModuleHandle(NULL);
     SDL_SysWMinfo       info;
+    HWND                hwnd;
 
     SDL_VERSION(&info.version);
 

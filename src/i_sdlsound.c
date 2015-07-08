@@ -347,7 +347,6 @@ static dboolean ExpandSoundData(sfxinfo_t *sfxinfo, byte *data, int samplerate, 
     else
     {
         Sint16  *expanded = (Sint16 *)chunk->abuf;
-        int     expanded_length;
         int     expand_ratio;
         int     i;
 

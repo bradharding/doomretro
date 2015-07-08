@@ -571,7 +571,7 @@ static void LoadDehFile(char *path)
         }
         else
         {
-            char    *dehpath = M_StringReplace(path, ".wad", ".deh");
+            char        *dehpath = M_StringReplace(path, ".wad", ".deh");
 
             if (M_FileExists(dehpath) && !DehFileProcessed(dehpath))
             {

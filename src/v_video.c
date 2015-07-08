@@ -365,7 +365,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, dbo
                     else if (*dest != color1)
                         *dest = color2;
                 }
-                *(source++);
+                ++source;
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);

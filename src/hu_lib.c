@@ -92,15 +92,15 @@ static void HU_drawDot(int x, int y, char src)
 }
 
 // [BH] draw an individual character to temporary buffer
-static void HU_drawChar(int x, int y, int i)
+static void HU_drawChar(int x, int y, int ch)
 {
-    int w = strlen(smallcharset[i]) / 10;
+    int w = strlen(smallcharset[ch]) / 10;
     int x1, y1;
 
     for (y1 = 0; y1 < 10; y1++)
         for (x1 = 0; x1 < w; x1++)
         {
-            char        src = smallcharset[i][y1 * w + x1];
+            char        src = smallcharset[ch][y1 * w + x1];
             int         i = (x + x1) * SCREENSCALE;
             int         j = (y + y1) * SCREENSCALE;
             int         xx, yy;
