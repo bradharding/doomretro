@@ -57,14 +57,14 @@
 //
 
 // Called by main loop.
-boolean ST_Responder(event_t *ev);
+dboolean ST_Responder(event_t *ev);
 void ST_AutomapEvent(int type);
 
 // Called by main loop.
 void ST_Ticker(void);
 
 // Called by main loop.
-void ST_Drawer(boolean fullscreen, boolean refresh);
+void ST_Drawer(dboolean fullscreen, dboolean refresh);
 
 // Called when the console player is spawned on each level.
 void ST_Start(void);
@@ -93,8 +93,8 @@ extern cheatseq_t       cheat_clev_xy;
 extern cheatseq_t       cheat_mypos;
 extern cheatseq_t       cheat_amap;
 
-extern boolean          widescreen;
-extern boolean          returntowidescreen;
+extern dboolean         widescreen;
+extern dboolean         returntowidescreen;
 
 extern patch_t          *grnrock;
 extern patch_t          *brdr_t;

@@ -90,32 +90,32 @@ gamestate_t     oldgamestate;
 gameaction_t    gameaction;
 gamestate_t     gamestate = GS_TITLESCREEN;
 skill_t         gameskill;
-boolean         respawnmonsters;
+dboolean        respawnmonsters;
 int             gameepisode;
 int             gamemap;
 
-boolean         paused;
-boolean         sendpause;              // send a pause event next tic
-boolean         sendsave;               // send a save event next tic
-boolean         usergame;               // ok to save / end game
+dboolean        paused;
+dboolean        sendpause;              // send a pause event next tic
+dboolean        sendsave;               // send a save event next tic
+dboolean        usergame;               // ok to save / end game
 
-boolean         viewactive;
+dboolean        viewactive;
 
 player_t        players[MAXPLAYERS];
 
-boolean         turbodetected[MAXPLAYERS];
+dboolean        turbodetected[MAXPLAYERS];
 
 int             gametic;
 int             levelstarttic;          // gametic at level start
 int             totalkills, totalitems, totalsecret;    // for intermission
 
-boolean         precache = true;        // if true, load all graphics at start
+dboolean        precache = true;        // if true, load all graphics at start
 
 wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 byte            consistency[MAXPLAYERS][BACKUPTICS];
 
-//boolean         autosave = AUTOSAVE_DEFAULT;
+//dboolean        autosave = AUTOSAVE_DEFAULT;
 
 //
 // controls (have defaults)
@@ -174,12 +174,12 @@ int             gamepadfire = GAMEPADFIRE_DEFAULT;
 int             gamepadmenu = GAMEPADMENU_DEFAULT;
 int             gamepadleftdeadzone;
 int             gamepadrightdeadzone;
-boolean         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
+dboolean        gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
 int             gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 int             gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 int             gamepadrun = GAMEPADRUN_DEFAULT;
 int             gamepaduse = GAMEPADUSE_DEFAULT;
-boolean         gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
+dboolean        gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 int             gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
@@ -243,38 +243,38 @@ struct
 
 #define NUMKEYS         256
 
-boolean         gamekeydown[NUMKEYS];
+dboolean        gamekeydown[NUMKEYS];
 static int      turnheld;                       // for accelerative turning
 
-static boolean  mousearray[MAX_MOUSE_BUTTONS + 1];
-static boolean  *mousebuttons = &mousearray[1]; // allow [-1]
+static dboolean mousearray[MAX_MOUSE_BUTTONS + 1];
+static dboolean *mousebuttons = &mousearray[1]; // allow [-1]
 
-boolean         skipaction;
+dboolean        skipaction;
 
 int             mousex;
 int             mousey;
 
-boolean         dclick_use = DCLICKUSE_DEFAULT;
+dboolean        dclick_use = DCLICKUSE_DEFAULT;
 
 static int      dclicktime;
-static boolean  dclickstate;
+static dboolean dclickstate;
 static int      dclicks;
 static int      dclicktime2;
-static boolean  dclickstate2;
+static dboolean dclickstate2;
 static int      dclicks2;
 
 static int      savegameslot;
 static char     savedescription[SAVESTRINGSIZE];
 
-boolean         loadedgame = false;
+dboolean        loadedgame = false;
 
-extern boolean  alwaysrun;
+extern dboolean alwaysrun;
 
 extern int      st_palette;
 
 extern int      pagetic;
 
-extern boolean  transferredsky;
+extern dboolean transferredsky;
 
 void G_RemoveChoppers(void)
 {
@@ -345,7 +345,7 @@ static void G_PrevWeapon(void)
 //
 void G_BuildTiccmd(ticcmd_t *cmd)
 {
-    boolean     strafe;
+    dboolean    strafe;
     int         run;
     int         forward = 0;
     int         side = 0;
@@ -458,7 +458,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     if (dclick_use)
     {
-        boolean bstrafe;
+        dboolean bstrafe;
 
         // forward double click
         if (mousebuttons[mousebforward] != dclickstate && dclicktime > 1)
@@ -650,13 +650,13 @@ void G_ToggleAlwaysRun(void)
     M_SaveDefaults();
 }
 
-extern boolean  splashscreen;
+extern dboolean splashscreen;
 
 //
 // G_Responder
 // Get info needed to make ticcmd_ts for the players.
 //
-boolean G_Responder(event_t *ev)
+dboolean G_Responder(event_t *ev)
 {
     int key;
     int mousebutton;
@@ -1088,7 +1088,7 @@ void G_PlayerReborn(void)
 //
 void P_SpawnPlayer(mapthing_t *mthing);
 
-boolean G_CheckSpot(int playernum, mapthing_t *mthing)
+dboolean G_CheckSpot(int playernum, mapthing_t *mthing)
 {
     fixed_t             x;
     fixed_t             y;
@@ -1206,7 +1206,7 @@ int npars[9] =
 //
 // G_DoCompleted
 //
-boolean         secretexit;
+dboolean        secretexit;
 
 void G_ExitLevel(void)
 {
@@ -1450,7 +1450,7 @@ void G_DoWorldDone(void)
 // G_InitFromSavegame
 // Can be called by the startup code or the menu task.
 //
-extern boolean  setsizeneeded;
+extern dboolean setsizeneeded;
 
 void R_ExecuteSetViewSize(void);
 

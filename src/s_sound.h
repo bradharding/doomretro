@@ -43,18 +43,18 @@
 #include "sounds.h"
 
 extern int      snd_samplerate;
-extern boolean  randompitch;
+extern dboolean randompitch;
 
-boolean I_SDL_InitSound(void);
+dboolean I_SDL_InitSound(void);
 void I_SDL_ShutdownSound(void);
 int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx);
 void I_SDL_UpdateSoundParams(int handle, int vol, int sep);
 int I_SDL_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitch);
 void I_SDL_StopSound(int handle);
-boolean I_SDL_SoundIsPlaying(int handle);
+dboolean I_SDL_SoundIsPlaying(int handle);
 void I_SDL_UpdateSound(void);
 
-boolean I_SDL_InitMusic(void);
+dboolean I_SDL_InitMusic(void);
 void I_SDL_ShutdownMusic(void);
 void I_SDL_SetMusicVolume(int volume);
 void I_SDL_PauseSong(void);
@@ -63,7 +63,7 @@ void *I_SDL_RegisterSong(void *data, int len);
 void I_SDL_UnRegisterSong(void *handle);
 void I_SDL_PlaySong(void *handle, int looping);
 void I_SDL_StopSong(void);
-boolean I_SDL_MusicIsPlaying(void);
+dboolean I_SDL_MusicIsPlaying(void);
 
 //
 // Initializes sound stuff, including volume
@@ -116,6 +116,6 @@ void S_SetSfxVolume(int volume);
 void I_InitTimidityConfig(void);
 void CheckTimidityConfig(void);
 
-boolean I_AnySoundStillPlaying(void);
+dboolean I_AnySoundStillPlaying(void);
 
 #endif

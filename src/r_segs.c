@@ -45,12 +45,12 @@
 
 // killough 1/6/98: replaced globals with statics where appropriate
 
-static boolean  segtextured;            // True if any of the segs textures might be visible.
+static dboolean segtextured;            // True if any of the segs textures might be visible.
 
-static boolean  markfloor;              // False if the back side is the same plane.
-boolean         markceiling;
+static dboolean markfloor;              // False if the back side is the same plane.
+dboolean        markceiling;
 
-static boolean  maskedtexture;
+static dboolean maskedtexture;
 static int      toptexture;
 static int      midtexture;
 static int      bottomtexture;
@@ -99,9 +99,9 @@ lighttable_t    **walllights;
 
 static int      *maskedtexturecol;      // dropoff overflow
 
-boolean         brightmaps = BRIGHTMAPS_DEFAULT;
+dboolean        brightmaps = BRIGHTMAPS_DEFAULT;
 
-extern boolean  translucency;
+extern dboolean translucency;
 
 //
 // R_FixWiggle()
@@ -342,7 +342,7 @@ void R_RenderSegLoop(void)
         // no space above wall?
         int     bottom;
         int     top = ceilingclip[rw_x] + 1;
-        boolean bottomclipped = false;
+        dboolean bottomclipped = false;
 
         if (yl < top)
             yl = top;
@@ -739,7 +739,7 @@ void R_StoreWallRange(int start, int stop)
         //
         // killough 4/7/98: make doorclosed external variable
         {
-            extern boolean      doorclosed;
+            extern dboolean     doorclosed;
 
             if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
             {

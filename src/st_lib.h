@@ -67,9 +67,9 @@ typedef struct
     // pointer to current value
     int         *num;
 
-    // pointer to boolean stating
+    // pointer to dboolean stating
     //  whether to update number
-    boolean     *on;
+    dboolean    *on;
 
     // list of patches for 0-9
     patch_t     **p;
@@ -101,9 +101,9 @@ typedef struct
     // pointer to current icon
     int         *inum;
 
-    // pointer to boolean stating
+    // pointer to dboolean stating
     //  whether to update icon
-    boolean     *on;
+    dboolean    *on;
 
     // list of icons
     patch_t     **p;
@@ -119,14 +119,14 @@ typedef struct
     int         x, y;
 
     // last icon value
-    boolean     oldval;
+    dboolean    oldval;
 
     // pointer to current icon status
-    boolean     *val;
+    dboolean    *val;
 
-    // pointer to boolean
+    // pointer to dboolean
     //  stating whether to update icon
-    boolean     *on;
+    dboolean    *on;
 
     // icon
     patch_t     *p;
@@ -146,28 +146,28 @@ typedef struct
 void STlib_init(void);
 
 // Number widget routines
-void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, boolean *on, int width);
+void STlib_initNum(st_number_t *n, int x, int y, patch_t **pl, int *num, dboolean *on, int width);
 
 void STlib_updateNum(st_number_t *n);
 
 // Percent widget routines
 void STlib_initPercent(st_percent_t *p, int x, int y, patch_t **pl,
-                       int *num, boolean *on, patch_t *percent);
+                       int *num, dboolean *on, patch_t *percent);
 
 void STlib_updatePercent(st_percent_t *per, int refresh);
 
 // Multiple Icon widget routines
-void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum, boolean *on);
+void STlib_initMultIcon(st_multicon_t *mi, int x, int y, patch_t **il, int *inum, dboolean *on);
 
-void STlib_updateMultIcon(st_multicon_t *mi, boolean refresh);
+void STlib_updateMultIcon(st_multicon_t *mi, dboolean refresh);
 
-void STlib_updateArmsIcon(st_multicon_t *mi, boolean refresh, int i);
+void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i);
 
 // Binary Icon widget routines
-void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, boolean *val, boolean *on);
+void STlib_initBinIcon(st_binicon_t *b, int x, int y, patch_t *i, dboolean *val, dboolean *on);
 
-void STlib_updateBinIcon(st_binicon_t *bi, boolean refresh);
-void STlib_updateBigBinIcon(st_binicon_t *bi, boolean refresh);
+void STlib_updateBinIcon(st_binicon_t *bi, dboolean refresh);
+void STlib_updateBigBinIcon(st_binicon_t *bi, dboolean refresh);
 
 void STlib_DrawNumber(st_number_t *n);
 

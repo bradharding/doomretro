@@ -47,7 +47,7 @@ typedef enum
     lighting_special
 } special_e;
 
-extern boolean  *isliquid;
+extern dboolean *isliquid;
 
 // Define values for map objects
 #define MO_TELEPORTMAN          14
@@ -61,12 +61,12 @@ void P_SpawnSpecials(void);
 // every tic
 void P_UpdateSpecials(void);
 
-boolean P_SectorActive(special_e t, sector_t *sec);
+dboolean P_SectorActive(special_e t, sector_t *sec);
 
-boolean P_CheckTag(line_t *line);
+dboolean P_CheckTag(line_t *line);
 
 // when needed
-boolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
+dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side);
 
 void P_ShootSpecialLine(mobj_t *thing, line_t *line);
 
@@ -106,14 +106,14 @@ int P_FindLineFromLineTag(const line_t *line, int start);
 
 int P_FindMinSurroundingLight(sector_t *sector, int max);
 
-boolean P_CanUnlockGenDoor(line_t *line, player_t *player);
+dboolean P_CanUnlockGenDoor(line_t *line, player_t *player);
 
 sector_t *getNextSector(line_t *line, sector_t *sec);
 
 //
 // SPECIAL
 //
-boolean EV_DoDonut(line_t *line);
+dboolean EV_DoDonut(line_t *line);
 
 //
 // P_LIGHTS
@@ -275,7 +275,7 @@ typedef struct plat_s
     int                count;
     plat_e             status;
     plat_e             oldstatus;
-    boolean            crush;
+    dboolean           crush;
     int                tag;
     plattype_e         type;
 
@@ -301,7 +301,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount);
 void P_AddActivePlat(plat_t *plat);
 void P_RemoveActivePlat(plat_t *plat);
 void P_RemoveAllActivePlats(void);
-boolean EV_StopPlat(line_t *line);
+dboolean EV_StopPlat(line_t *line);
 void P_ActivateInStasis(int tag);
 
 //
@@ -359,9 +359,9 @@ typedef struct
 
 void EV_VerticalDoor(line_t *line, mobj_t *thing);
 
-boolean EV_DoDoor(line_t *line, vldoor_e type);
+dboolean EV_DoDoor(line_t *line, vldoor_e type);
 
-boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing);
+dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing);
 
 void T_VerticalDoor(vldoor_t *door);
 void P_SpawnDoorCloseIn30(sector_t *sec);
@@ -402,7 +402,7 @@ typedef struct ceiling_s
     fixed_t                     topheight;
     fixed_t                     speed;
     fixed_t                     oldspeed;
-    boolean                     crush;
+    dboolean                    crush;
 
     //jff 02/04/98 add these to support ceiling changers
     int                         newspecial;
@@ -428,14 +428,14 @@ typedef struct ceilinglist_s
 
 extern ceilinglist_t            *activeceilings;
 
-boolean EV_DoCeiling(line_t *line, ceiling_e type);
+dboolean EV_DoCeiling(line_t *line, ceiling_e type);
 
 void T_MoveCeiling(ceiling_t *ceiling);
 void P_AddActiveCeiling(ceiling_t *ceiling);
 void P_RemoveActiveCeiling(ceiling_t *ceiling);
 void P_RemoveAllActiveCeilings(void);
-boolean EV_CeilingCrushStop(line_t *line);
-boolean P_ActivateInStasisCeiling(line_t *line);
+dboolean EV_CeilingCrushStop(line_t *line);
+dboolean P_ActivateInStasisCeiling(line_t *line);
 
 //
 // P_FLOOR
@@ -513,14 +513,14 @@ typedef struct
 {
     thinker_t   thinker;
     floor_e     type;
-    boolean     crush;
+    dboolean    crush;
     sector_t    *sector;
     int         direction;
     int         newspecial;
     short       texture;
     fixed_t     floordestheight;
     fixed_t     speed;
-    boolean     stopsound;
+    dboolean    stopsound;
 } floormove_t;
 
 typedef struct
@@ -544,12 +544,12 @@ typedef enum
     pastdest
 } result_e;
 
-result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, boolean crush,
+result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest, dboolean crush,
     int floorOrCeiling, int direction);
-boolean EV_BuildStairs(line_t *line, stair_e type);
-boolean EV_DoFloor(line_t *line, floor_e floortype);
-boolean EV_DoChange(line_t *line, change_e changetype);
-boolean EV_DoElevator(line_t *line, elevator_e elevtype);
+dboolean EV_BuildStairs(line_t *line, stair_e type);
+dboolean EV_DoFloor(line_t *line, floor_e floortype);
+dboolean EV_DoChange(line_t *line, change_e changetype);
+dboolean EV_DoElevator(line_t *line, elevator_e elevtype);
 void T_MoveFloor(floormove_t *floor);
 void T_MoveElevator(elevator_t *elevator);
 void P_InitAnimatedLiquids(void);
@@ -604,9 +604,9 @@ mobj_t *P_GetPushThing(int);
 //
 // P_TELEPT
 //
-boolean EV_Teleport(line_t *line, int side, mobj_t *thing);
-boolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
-boolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, boolean reverse);
+dboolean EV_Teleport(line_t *line, int side, mobj_t *thing);
+dboolean EV_SilentTeleport(line_t *line, int side, mobj_t *thing);
+dboolean EV_SilentLineTeleport(line_t *line, int side, mobj_t *thing, dboolean reverse);
 
 //jff 3/14/98 add bits and shifts for generalized sector types
 
@@ -828,17 +828,17 @@ typedef enum
     AllKeys
 } keykind_e;
 
-boolean EV_DoGenFloor(line_t *line);
+dboolean EV_DoGenFloor(line_t *line);
 
-boolean EV_DoGenCeiling(line_t *line);
+dboolean EV_DoGenCeiling(line_t *line);
 
-boolean EV_DoGenLift(line_t *line);
+dboolean EV_DoGenLift(line_t *line);
 
-boolean EV_DoGenStairs(line_t *line);
+dboolean EV_DoGenStairs(line_t *line);
 
-boolean EV_DoGenCrusher(line_t *line);
+dboolean EV_DoGenCrusher(line_t *line);
 
-boolean EV_DoGenDoor(line_t *line);
+dboolean EV_DoGenDoor(line_t *line);
 
-boolean EV_DoGenLockedDoor(line_t *line);
+dboolean EV_DoGenLockedDoor(line_t *line);
 #endif

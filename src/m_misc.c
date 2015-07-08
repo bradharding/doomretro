@@ -53,7 +53,6 @@
 
 #include "doomdef.h"
 #include "m_fixed.h"
-#include "m_misc.h"
 #include "i_system.h"
 #include "z_zone.h"
 
@@ -74,7 +73,7 @@ void M_MakeDirectory(char *path)
 }
 
 // Check if a file exists
-boolean M_FileExists(char *filename)
+dboolean M_FileExists(char *filename)
 {
     FILE        *fstream;
 
@@ -112,6 +111,20 @@ long M_FileLength(FILE *handle)
     return length;
 }
 
+// Safe string copy function that works like OpenBSD's strlcpy().
+// Returns true if the string was not truncated.
+dboolean M_StringCopy(char *dest, char *src, size_t dest_size)
+{
+    if (dest_size >= 1)
+    {
+        dest[dest_size - 1] = '\0';
+        strncpy(dest, src, dest_size - 1);
+        return (src[strlen(dest)] == '\0');
+    }
+    else
+        return false;
+}
+
 char *M_ExtractFolder(char *path)
 {
     char        *pos;
@@ -129,7 +142,7 @@ char *M_ExtractFolder(char *path)
 //
 // M_WriteFile
 //
-boolean M_WriteFile(char *name, void *source, int length)
+dboolean M_WriteFile(char *name, void *source, int length)
 {
     FILE        *handle;
     int         count;
@@ -176,6 +189,51 @@ int M_ReadFile(char *name, byte **buffer)
     return length;
 }
 
+// Return a newly-malloced string with all the strings given as arguments
+// concatenated together.
+char *M_StringJoin(char *s, ...)
+{
+    char *result, *v;
+    va_list args;
+    size_t result_len;
+
+    result_len = strlen(s) + 1;
+
+    va_start(args, s);
+    for (;;)
+    {
+        v = va_arg(args, char *);
+        if (v == NULL)
+            break;
+
+        result_len += strlen(v);
+    }
+    va_end(args);
+
+    result = malloc(result_len);
+
+    if (result == NULL)
+    {
+        I_Error("M_StringJoin: Failed to allocate new string.");
+        return NULL;
+    }
+
+    M_StringCopy(result, s, result_len);
+
+    va_start(args, s);
+    for (;;)
+    {
+        v = va_arg(args, char *);
+        if (v == NULL)
+            break;
+
+        strncat(result, v, result_len);
+    }
+    va_end(args);
+
+    return result;
+}
+
 // Returns the path to a temporary file of the given name, stored
 // inside the system temporary directory.
 //
@@ -198,7 +256,7 @@ char *M_TempFile(char *s)
     return M_StringJoin(tempdir, DIR_SEPARATOR_S, s, NULL);
 }
 
-boolean M_StrToInt(const char *str, int *result)
+dboolean M_StrToInt(const char *str, int *result)
 {
     return (sscanf(str, " 0x%2x", result) == 1
             || sscanf(str, " 0X%2x", result) == 1
@@ -284,75 +342,16 @@ char *M_StringReplace(char *haystack, char *needle, char *replacement)
     return buffer;
 }
 
-// Safe string copy function that works like OpenBSD's strlcpy().
-// Returns true if the string was not truncated.
-boolean M_StringCopy(char *dest, char *src, size_t dest_size)
-{
-    if (dest_size >= 1)
-    {
-        dest[dest_size - 1] = '\0';
-        strncpy(dest, src, dest_size - 1);
-        return (src[strlen(dest)] == '\0');
-    }
-    else
-        return false;
-}
-
 // Returns true if 's' begins with the specified prefix.
-boolean M_StringStartsWith(char *s, char *prefix)
+dboolean M_StringStartsWith(char *s, char *prefix)
 {
     return (strlen(s) > strlen(prefix) && strncasecmp(s, prefix, strlen(prefix)) == 0);
 }
 
 // Returns true if 's' ends with the specified suffix.
-boolean M_StringEndsWith(char *s, char *suffix)
+dboolean M_StringEndsWith(char *s, char *suffix)
 {
     return (strlen(s) >= strlen(suffix) && strcasecmp(s + strlen(s) - strlen(suffix), suffix) == 0);
-}
-
-// Return a newly-malloced string with all the strings given as arguments
-// concatenated together.
-char *M_StringJoin(char *s, ...)
-{
-    char *result, *v;
-    va_list args;
-    size_t result_len;
-
-    result_len = strlen(s) + 1;
-
-    va_start(args, s);
-    for (;;)
-    {
-        v = va_arg(args, char *);
-        if (v == NULL)
-            break;
-
-        result_len += strlen(v);
-    }
-    va_end(args);
-
-    result = malloc(result_len);
-
-    if (result == NULL)
-    {
-        I_Error("M_StringJoin: Failed to allocate new string.");
-        return NULL;
-    }
-
-    M_StringCopy(result, s, result_len);
-
-    va_start(args, s);
-    for (;;)
-    {
-        v = va_arg(args, char *);
-        if (v == NULL)
-            break;
-
-        strncat(result, v, result_len);
-    }
-    va_end(args);
-
-    return result;
 }
 
 // Safe, portable vsnprintf().
@@ -452,7 +451,7 @@ char *commify(int value)
     return strdup(result);
 }
 
-boolean wildcard(char *input, char *pattern)
+dboolean wildcard(char *input, char *pattern)
 {
     int i, z;
 

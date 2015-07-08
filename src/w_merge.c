@@ -93,8 +93,8 @@ static int FindInList(searchlist_t *list, char *name)
     return -1;
 }
 
-static boolean SetupList(searchlist_t *list, searchlist_t *src_list,
-                         char *startname, char *endname, char *startname2, char *endname2)
+static dboolean SetupList(searchlist_t *list, searchlist_t *src_list,
+    char *startname, char *endname, char *startname2, char *endname2)
 {
     int startlump;
 
@@ -192,7 +192,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
 }
 
 // Check if sprite lump is needed in the new wad
-static boolean SpriteLumpNeeded(lumpinfo_t *lump)
+static dboolean SpriteLumpNeeded(lumpinfo_t *lump)
 {
     sprite_frame_t      *sprite;
     int                 angle_num;
@@ -508,7 +508,7 @@ static void DoMerge(void)
 }
 
 // Merge in a file by name
-boolean W_MergeFile(char *filename, boolean automatic)
+dboolean W_MergeFile(char *filename, dboolean automatic)
 {
     int old_numlumps;
 

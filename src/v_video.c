@@ -61,7 +61,7 @@ int             pixelwidth;
 int             pixelheight;
 char            *pixelsize = PIXELSIZE_DEFAULT;
 
-extern boolean  translucency;
+extern dboolean translucency;
 
 //
 // V_CopyRect
@@ -326,7 +326,7 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
 
 int     italicize[15] = { 0, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1 };
 
-void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, boolean italics,
+void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, dboolean italics,
     int translucency)
 {
     int         col = 0;
@@ -373,7 +373,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, boo
     }
 }
 
-boolean V_EmptyPatch(patch_t *patch)
+dboolean V_EmptyPatch(patch_t *patch)
 {
     int col = 0;
     int w = SHORT(patch->width);
@@ -433,7 +433,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch)
     }
 }
 
-void V_DrawPatchWithShadow(int x, int y, patch_t *patch, boolean flag)
+void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
 {
     int         col = 0;
     byte        *desttop;
@@ -873,8 +873,8 @@ void V_DrawFlippedTranslucentRedPatch(int x, int y, patch_t *patch)
 const int       _fuzzrange[3] = { -SCREENWIDTH, 0, SCREENWIDTH };
 
 extern int      fuzztable[SCREENWIDTH * SCREENHEIGHT];
-extern boolean  menuactive;
-extern boolean  paused;
+extern dboolean menuactive;
+extern dboolean paused;
 
 void V_DrawFuzzPatch(int x, int y, patch_t *patch)
 {
@@ -1064,7 +1064,7 @@ void V_DrawBlock(int x, int y, int width, int height, byte *src)
     }
 }
 
-void V_DrawPixel(int x, int y, byte color, boolean shadow)
+void V_DrawPixel(int x, int y, byte color, dboolean shadow)
 {
     byte        *dest = &screens[0][y * SCREENSCALE * SCREENWIDTH + x * SCREENSCALE];
 
@@ -1141,18 +1141,18 @@ void V_Init(void)
 char                    lbmname[MAX_PATH];
 char                    lbmpath[MAX_PATH];
 
-extern boolean          widescreen;
-extern boolean          inhelpscreens;
+extern dboolean        widescreen;
+extern dboolean        inhelpscreens;
 extern char             maptitle[128];
-extern boolean          splashscreen;
+extern dboolean        splashscreen;
 extern int              titlesequence;
 
 extern SDL_Window       *window;
 extern SDL_Renderer     *renderer;
 
-boolean V_ScreenShot(void)
+dboolean V_ScreenShot(void)
 {
-    boolean     result = false;
+    dboolean    result = false;
     char        mapname[128];
     char        folder[MAX_PATH] = "";
     int         count = 0;

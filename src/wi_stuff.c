@@ -51,7 +51,7 @@
 #include "z_zone.h"
 
 // Ty 03/17/98: flag that new par times have been loaded in d_deh
-extern boolean  deh_pars;
+extern dboolean deh_pars;
 
 //
 // Data needed to add patches to full screen intermission pics.
@@ -464,7 +464,7 @@ void WI_drawEL(void)
 
 void WI_drawOnLnode(int n, patch_t *c[])
 {
-    boolean     fits = false;
+    dboolean    fits = false;
     int         i = 0;
 
     do
@@ -712,7 +712,7 @@ void WI_updateNoState(void)
         G_WorldDone();
 }
 
-static boolean snl_pointeron = false;
+static dboolean snl_pointeron = false;
 
 void WI_initShowNextLoc(void)
 {
@@ -802,7 +802,7 @@ void WI_initStats(void)
 void WI_updateStats(void)
 {
     //e6y
-    static boolean      play_early_explosion = true;
+    static dboolean     play_early_explosion = true;
 
     WI_updateAnimatedBack();
 
@@ -924,7 +924,7 @@ void WI_updateStats(void)
 }
 
 extern void M_DrawString(int x, int y, char *str);
-extern boolean canmodify;
+extern dboolean canmodify;
 
 void WI_drawStats(void)
 {

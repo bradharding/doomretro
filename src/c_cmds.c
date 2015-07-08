@@ -84,23 +84,23 @@
 #define NONE_MAX        0
 #define NONE_DEFAULT    0
 
-extern boolean  alwaysrun;
-extern boolean  am_grid;
-extern boolean  am_rotatemode;
-extern boolean  animatedliquid;
-extern boolean  brightmaps;
-extern boolean  capfps;
-extern boolean  centerweapon;
-extern boolean  corpses_mirror;
-extern boolean  corpses_moreblood;
-extern boolean  corpses_nudge;
-extern boolean  corpses_slide;
-extern boolean  corpses_smearblood;
-extern boolean  dclick_use;
+extern dboolean alwaysrun;
+extern dboolean am_grid;
+extern dboolean am_rotatemode;
+extern dboolean animatedliquid;
+extern dboolean brightmaps;
+extern dboolean capfps;
+extern dboolean centerweapon;
+extern dboolean corpses_mirror;
+extern dboolean corpses_moreblood;
+extern dboolean corpses_nudge;
+extern dboolean corpses_slide;
+extern dboolean corpses_smearblood;
+extern dboolean dclick_use;
 extern int      display;
-extern boolean  floatbob;
-extern boolean  footclip;
-extern boolean  fullscreen;
+extern dboolean floatbob;
+extern dboolean footclip;
+extern dboolean fullscreen;
 extern int      gamepadautomap;
 extern int      gamepadautomapclearmark;
 extern int      gamepadautomapfollowmode;
@@ -115,14 +115,14 @@ extern int      gamepadleftdeadzone;
 extern float    gamepadleftdeadzone_percent;
 extern int      gamepadrightdeadzone;
 extern float    gamepadrightdeadzone_percent;
-extern boolean  gamepadlefthanded;
+extern dboolean gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
 extern int      gamepadrun;
 extern int      gamepadsensitivity;
 extern int      gamepaduse;
-extern boolean  gamepadvibrate;
+extern dboolean gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -132,8 +132,8 @@ extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 extern float    gammalevel;
 extern int      graphicdetail;
-extern boolean  homindicator;
-extern boolean  hud;
+extern dboolean homindicator;
+extern dboolean hud;
 extern char     *iwadfolder;
 extern int      key_alwaysrun;
 extern int      key_automap;
@@ -168,10 +168,10 @@ extern int      key_weapon4;
 extern int      key_weapon5;
 extern int      key_weapon6;
 extern int      key_weapon7;
-extern boolean  mapfixes;
+extern dboolean mapfixes;
 extern int      maxbloodsplats;
-extern boolean  messages;
-extern boolean  mirrorweapons;
+extern dboolean messages;
+extern dboolean mirrorweapons;
 extern int      mousesensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
@@ -181,14 +181,14 @@ extern int      mousebprevweapon;
 extern int      mousebnextweapon;
 extern int      mousebstrafe;
 extern int      mousebuse;
-extern boolean  novert;
+extern dboolean novert;
 extern int      pixelheight;
 extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
-extern boolean  playersprites;
-extern boolean  randompitch;
+extern dboolean playersprites;
+extern dboolean randompitch;
 extern int      runcount;
 extern char     *savegamefolder;
 extern char     *scaledriver;
@@ -200,20 +200,20 @@ extern int      selectedepisode;
 extern int      selectedexpansion;
 extern int      selectedsavegame;
 extern int      selectedskilllevel;
-extern boolean  shadows;
+extern dboolean shadows;
 #if defined(WIN32)
-extern boolean  showmemoryusage;
+extern dboolean showmemoryusage;
 #endif
-extern boolean  smoketrails;
-extern boolean  spritefixes;
-extern boolean  swirlingliquid;
+extern dboolean smoketrails;
+extern dboolean spritefixes;
+extern dboolean swirlingliquid;
 extern char     *timidity_cfg_path;
-extern boolean  translucency;
+extern dboolean translucency;
 #if !defined(WIN32)
 extern char     *videodriver;
 #endif
-extern boolean  vsync;
-extern boolean  widescreen;
+extern dboolean vsync;
+extern dboolean widescreen;
 extern int      windowheight;
 extern char     *windowposition;
 extern char     *windowsize;
@@ -305,26 +305,26 @@ static action_t actions[] =
     { "",             NULL,                    NULL,              NULL,              NULL                      }
 };
 
-static boolean C_BoolCondition(char *, char *, char *);
-static boolean C_CheatCondition(char *, char *, char *);
-static boolean C_DeadZoneCondition(char *, char *, char *);
-static boolean C_FloatCondition(char *, char *, char *);
-static boolean C_GameCondition(char *, char *, char *);
-static boolean C_GammaCondition(char *, char *, char *);
-static boolean C_GiveCondition(char *, char *, char *);
-static boolean C_GodCondition(char *, char *, char *);
-static boolean C_GraphicDetailCondition(char *, char *, char *);
-static boolean C_IntCondition(char *, char *, char *);
-static boolean C_KillCondition(char *, char *, char *);
-static boolean C_LoadCondition(char *, char *, char *);
-static boolean C_MapCondition(char *, char *, char *);
-static boolean C_MaxBloodSplatsCondition(char *, char *, char *);
-static boolean C_NoCondition(char *, char *, char *);
-static boolean C_PlayerNameCondition(char *, char *, char *);
-static boolean C_SaveCondition(char *, char *, char *);
-static boolean C_SpawnCondition(char *, char *, char *);
-static boolean C_ResurrectCondition(char *, char *, char *);
-static boolean C_VolumeCondition(char *, char *, char *);
+static dboolean C_BoolCondition(char *, char *, char *);
+static dboolean C_CheatCondition(char *, char *, char *);
+static dboolean C_DeadZoneCondition(char *, char *, char *);
+static dboolean C_FloatCondition(char *, char *, char *);
+static dboolean C_GameCondition(char *, char *, char *);
+static dboolean C_GammaCondition(char *, char *, char *);
+static dboolean C_GiveCondition(char *, char *, char *);
+static dboolean C_GodCondition(char *, char *, char *);
+static dboolean C_GraphicDetailCondition(char *, char *, char *);
+static dboolean C_IntCondition(char *, char *, char *);
+static dboolean C_KillCondition(char *, char *, char *);
+static dboolean C_LoadCondition(char *, char *, char *);
+static dboolean C_MapCondition(char *, char *, char *);
+static dboolean C_MaxBloodSplatsCondition(char *, char *, char *);
+static dboolean C_NoCondition(char *, char *, char *);
+static dboolean C_PlayerNameCondition(char *, char *, char *);
+static dboolean C_SaveCondition(char *, char *, char *);
+static dboolean C_SpawnCondition(char *, char *, char *);
+static dboolean C_ResurrectCondition(char *, char *, char *);
+static dboolean C_VolumeCondition(char *, char *, char *);
 
 static void C_AlwaysRun(char *, char *, char *);
 static void C_Bind(char *, char *, char *);
@@ -405,7 +405,7 @@ static char *C_LookupAliasFromValue(int value, int set)
 #define CMD_CHEAT(name, parms) \
     { #name, C_CheatCondition, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
 #define CVAR_BOOL(name, cond, func, var, val, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_BOOLEAN, &var, 1, false, true, val##_DEFAULT, "", desc }
+    { #name, cond, func, 1, CT_CVAR, CF_dboolean, &var, 1, false, true, val##_DEFAULT, "", desc }
 #define CVAR_INT(name, cond, func, flags, var, aliases, val, desc) \
     { #name, cond, func, 1, CT_CVAR, CF_INTEGER | flags, &var, aliases, val##_MIN, val##_MAX, val##_DEFAULT, "", desc }
 #define CVAR_FLOAT(name, cond, func, flags, var, desc) \
@@ -542,7 +542,7 @@ consolecmd_t consolecmds[] =
     { "", C_NoCondition, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
 };
 
-static boolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
 {
     if (gamestate != GS_LEVEL)
         return false;
@@ -600,12 +600,12 @@ static boolean C_CheatCondition(char *cmd, char *parm1, char *parm2)
     return false;
 }
 
-static boolean C_GameCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GameCondition(char *cmd, char *parm1, char *parm2)
 {
     return (gamestate == GS_LEVEL);
 }
 
-static boolean C_NoCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_NoCondition(char *cmd, char *parm1, char *parm2)
 {
     return true;
 }
@@ -784,7 +784,7 @@ static void C_Bind(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static boolean C_BoolCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_BoolCondition(char *cmd, char *parm1, char *parm2)
 {
     return (!parm1[0] || C_LookupValueFromAlias(parm1, 1) >= 0);
 }
@@ -796,7 +796,7 @@ static void C_Bool(char *cmd, char *parm1, char *parm2)
     while (consolecmds[i].name[0])
     {
         if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_BOOLEAN))
+            && (consolecmds[i].flags & CF_dboolean))
         {
             if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
             {
@@ -804,12 +804,12 @@ static void C_Bool(char *cmd, char *parm1, char *parm2)
 
                 if (value == 0 || value == 1)
                 {
-                    *(boolean *)consolecmds[i].variable = !!value;
+                    *(dboolean *)consolecmds[i].variable = !!value;
                     M_SaveDefaults();
                 }
             }
             else
-                C_Output(*(boolean *)consolecmds[i].variable ? "on" : "off");
+                C_Output(*(dboolean *)consolecmds[i].variable ? "on" : "off");
         }
         ++i;
     }
@@ -879,9 +879,9 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
     {
         if (consolecmds[i].type == CT_CVAR && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
         {
-            if (consolecmds[i].flags & CF_BOOLEAN)
+            if (consolecmds[i].flags & CF_dboolean)
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
-                    C_LookupAliasFromValue(*(boolean *)consolecmds[i].variable,
+                    C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
                     consolecmds[i].aliases), consolecmds[i].description);
             else if ((consolecmds[i].flags & CF_INTEGER) && (consolecmds[i].flags & CF_PERCENT))
                 C_TabbedOutput(tabs, "%i.\t%s\t%i%%\t%s", count++, consolecmds[i].name,
@@ -931,7 +931,7 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static boolean C_DeadZoneCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_DeadZoneCondition(char *cmd, char *parm1, char *parm2)
 {
     float value;
 
@@ -1008,7 +1008,7 @@ static void C_ExitMap(char *cmd, char *parm1, char *parm2)
     C_HideConsoleFast();
 }
 
-static boolean C_FloatCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_FloatCondition(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
 
@@ -1074,7 +1074,7 @@ static void C_Fullscreen(char *cmd, char *parm1, char *parm2)
 
 extern int      st_palette;
 
-static boolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GammaCondition(char *cmd, char *parm1, char *parm2)
 {
     float       value = -1.0f;
 
@@ -1121,7 +1121,7 @@ static void C_Gamma(char *cmd, char *parm1, char *parm2)
 
 extern int      cardsfound;
 
-static boolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GiveCondition(char *cmd, char *parm1, char *parm2)
 {
     if (gamestate != GS_LEVEL)
         return false;
@@ -1173,7 +1173,7 @@ static void C_Give(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static boolean C_GodCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GodCondition(char *cmd, char *parm1, char *parm2)
 {
     return (gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
@@ -1197,7 +1197,7 @@ static void C_God(char *cmd, char *parm1, char *parm2)
     C_Output((player->cheats & CF_GODMODE) ? s_STSTR_GODON : s_STSTR_GODOFF);
 }
 
-static boolean C_GraphicDetailCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_GraphicDetailCondition(char *cmd, char *parm1, char *parm2)
 {
     return (!parm1[0] || C_LookupValueFromAlias(parm1, 6) >= 0);
 }
@@ -1230,7 +1230,7 @@ static void C_Hud(char *cmd, char *parm1, char *parm2)
         C_Bool(cmd, parm1, "");
 }
 
-static boolean C_IntCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_IntCondition(char *cmd, char *parm1, char *parm2)
 {
     int i = 0;
 
@@ -1291,7 +1291,7 @@ static int      killcmdtype = NUMMOBJTYPES;
 
 void A_Fall(mobj_t *actor);
 
-static boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_KillCondition(char *cmd, char *parm1, char *parm2)
 {
     if (gamestate == GS_LEVEL)
     {
@@ -1310,7 +1310,7 @@ static boolean C_KillCondition(char *cmd, char *parm1, char *parm2)
                 || (mobjinfo[i].plural2[0] && !strcasecmp(parm1,
                 removespaces(mobjinfo[i].plural2))))
             {
-                boolean     kill = true;
+                dboolean    kill = true;
 
                 killcmdtype = mobjinfo[i].doomednum;
                 if (gamemode != commercial)
@@ -1461,7 +1461,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
     }
 }
 
-static boolean C_LoadCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_LoadCondition(char *cmd, char *parm1, char *parm2)
 {
     return (parm1[0] != '\0');
 }
@@ -1475,11 +1475,11 @@ static void C_Load(char *cmd, char *parm1, char *parm2)
 static int      mapcmdepisode;
 static int      mapcmdmap;
 
-extern boolean  samelevel;
+extern dboolean samelevel;
 extern menu_t   EpiDef;
 extern int      idclevtics;
 
-static boolean C_MapCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_MapCondition(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
         return true;
@@ -1584,8 +1584,8 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
         int     map = 0;
         char    lump[8];
         char    wad[MAX_PATH];
-        boolean replaced;
-        boolean pwad;
+        dboolean replaced;
+        dboolean pwad;
 
         M_StringCopy(lump, uppercase(lumpinfo[i].name), 8);
 
@@ -1723,7 +1723,7 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
 
 void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
-static boolean C_MaxBloodSplatsCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_MaxBloodSplatsCondition(char *cmd, char *parm1, char *parm2)
 {
     int value = 0;
 
@@ -1845,7 +1845,7 @@ static void C_PixelSize(char *cmd, char *parm1, char *parm2)
         C_Output("%ix%i", pixelwidth, pixelheight);
 }
 
-static boolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
 {
     return (parm1[0]);
 }
@@ -1888,7 +1888,7 @@ static void C_Quit(char *cmd, char *parm1, char *parm2)
     I_Quit(true);
 }
 
-static boolean C_ResurrectCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_ResurrectCondition(char *cmd, char *parm1, char *parm2)
 {
     return (gamestate == GS_LEVEL && players[0].playerstate == PST_DEAD);
 }
@@ -1899,7 +1899,7 @@ static void C_Resurrect(char *cmd, char *parm1, char *parm2)
     C_HideConsole();
 }
 
-static boolean C_SaveCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_SaveCondition(char *cmd, char *parm1, char *parm2)
 {
     return (parm1[0] != '\0' && gamestate == GS_LEVEL && players[0].playerstate == PST_LIVE);
 }
@@ -2035,7 +2035,7 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
 
 static int      spawntype = NUMMOBJTYPES;
 
-static boolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
         return true;
@@ -2048,7 +2048,7 @@ static boolean C_SpawnCondition(char *cmd, char *parm1, char *parm2)
             if (!strcasecmp(parm1, removespaces(mobjinfo[i].name1))
                 || (mobjinfo[i].name2[0] && !strcasecmp(parm1, removespaces(mobjinfo[i].name2))))
             {
-                boolean     spawn = true;
+                dboolean    spawn = true;
 
                 spawntype = mobjinfo[i].doomednum;
                 if (gamemode != commercial)
@@ -2162,7 +2162,7 @@ static void C_UnBind(char *cmd, char *parm1, char *parm2)
     C_Bind(cmd, parm1, "none");
 }
 
-static boolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
+static dboolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 {
     int value = -1;
 

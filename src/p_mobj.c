@@ -60,14 +60,14 @@ mobj_t                  *bloodsplats[MAXBLOODSPLATS_MAX];
 int                     totalbloodsplats;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
-boolean                 corpses_mirror = CORPSES_MIRROR_DEFAULT;
-boolean                 corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
-boolean                 corpses_nudge = CORPSES_NUDGE_DEFAULT;
-boolean                 corpses_slide = CORPSES_SLIDE_DEFAULT;
-boolean                 corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
-boolean                 floatbob = FLOATBOB_DEFAULT;
-boolean                 shadows = SHADOWS_DEFAULT;
-boolean                 smoketrails = SMOKETRAILS_DEFAULT;
+dboolean                corpses_mirror = CORPSES_MIRROR_DEFAULT;
+dboolean                corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
+dboolean                corpses_nudge = CORPSES_NUDGE_DEFAULT;
+dboolean                corpses_slide = CORPSES_SLIDE_DEFAULT;
+dboolean                corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
+dboolean                floatbob = FLOATBOB_DEFAULT;
+dboolean                shadows = SHADOWS_DEFAULT;
+dboolean                smoketrails = SMOKETRAILS_DEFAULT;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -81,12 +81,12 @@ static fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-extern boolean          animatedliquid;
+extern dboolean         animatedliquid;
 extern fixed_t          animatedliquiddiffs[128];
 extern msecnode_t       *sector_list;   // phares 3/16/98
-extern boolean          mirrorweapons;
+extern dboolean         mirrorweapons;
 
-boolean P_IsVoodooDoll(mobj_t *mobj)
+dboolean P_IsVoodooDoll(mobj_t *mobj)
 {
     return (mobj->player && mobj->player->mo != mobj);
 }
@@ -96,7 +96,7 @@ boolean P_IsVoodooDoll(mobj_t *mobj)
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
-boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
+dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
 {
     state_t             *st;
 
@@ -105,7 +105,7 @@ boolean P_SetMobjState(mobj_t *mobj, statenum_t state)
     statenum_t          *seenstate = seenstate_tab;             // pointer to table
     static int          recursion;                              // detects recursion
     statenum_t          i = state;                              // initial state
-    boolean             ret = true;                             // return value
+    dboolean            ret = true;                             // return value
     statenum_t          tempstate[NUMSTATES];                   // for use with recursion
     mobj_t              *shadow = mobj->shadow;
 
@@ -193,7 +193,7 @@ void P_XYMovement(mobj_t *mo)
     mobjtype_t  type;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
-    boolean     corpse = (flags & MF_CORPSE);
+    dboolean    corpse = (flags & MF_CORPSE);
 
     if (!(mo->momx | mo->momy))
     {
@@ -1040,7 +1040,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
 extern fixed_t  attackrange;
 extern angle_t  shootangle;
 
-void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, boolean sound)
+void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, dboolean sound)
 {
     mobj_t      *th = P_SpawnMobj(x, y, z + ((P_Random() - P_Random()) << 10), MT_PUFF);
 

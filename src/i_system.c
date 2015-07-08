@@ -69,9 +69,9 @@ void I_ShutdownWindows32(void);
 #include "w_wad.h"
 #include "z_zone.h"
 
-extern boolean  widescreen;
-extern boolean  hud;
-extern boolean  returntowidescreen;
+extern dboolean widescreen;
+extern dboolean hud;
+extern dboolean returntowidescreen;
 
 #if defined(WIN32)
 typedef long(__stdcall *PRTLGETVERSION)(PRTL_OSVERSIONINFOEXW);
@@ -224,7 +224,7 @@ void I_PrintWindowsVersion(void)
 //
 // I_Quit
 //
-void I_Quit(boolean shutdown)
+void I_Quit(dboolean shutdown)
 {
     if (shutdown)
     {
@@ -261,7 +261,7 @@ void I_WaitVBL(int count)
 //
 // I_Error
 //
-static boolean already_quitting = false;
+static dboolean already_quitting = false;
 
 void I_Error(char *error, ...)
 {

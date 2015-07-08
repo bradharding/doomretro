@@ -97,7 +97,7 @@ fixed_t         *spriteheight;
 fixed_t         *spriteoffset;
 fixed_t         *spritetopoffset;
 
-boolean         spritefixes = SPRITEFIXES_DEFAULT;
+dboolean        spritefixes = SPRITEFIXES_DEFAULT;
 
 static byte notgray[256] =
 {
@@ -198,7 +198,7 @@ static struct
     { "ZELDOOR",  redonly        }, { "",         0              }
 };
 
-extern boolean  brightmaps;
+extern dboolean brightmaps;
 
 //
 // MAPTEXTURE_T CACHING
@@ -218,7 +218,7 @@ extern boolean  brightmaps;
 //  from a patch into a cached post.
 //
 void R_DrawColumnInCache(const column_t *patch, byte *cache, int originy, int cacheheight,
-    byte *marks, boolean oldmethod)
+    byte *marks, dboolean oldmethod)
 {
     int td;
     int topdelta = -1;
@@ -287,7 +287,7 @@ static void R_GenerateComposite(int texnum)
     byte                *marks = calloc(texture->width, texture->height);
     byte                *source;
 
-    boolean             tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
+    dboolean            tekwall1 = (texnum == R_CheckTextureNumForName("TEKWALL1"));
 
     // [crispy] initialize composite background to black (index 0)
     memset(block, 0, texturecompositesize[texnum]);
@@ -478,7 +478,7 @@ static void R_GenerateLookup(int texnum)
 //
 // R_GetColumn
 //
-byte *R_GetColumn(int tex, int col, boolean opaque)
+byte *R_GetColumn(int tex, int col, dboolean opaque)
 {
     int lump;
     int ofs;
@@ -959,7 +959,7 @@ byte grays[256];
 
 void R_InitColormaps(void)
 {
-    boolean     COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
+    dboolean    COLORMAP = (W_CheckMultipleLumps("COLORMAP") > 1);
     int         i;
     byte        *palsrc, *palette;
 

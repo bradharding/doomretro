@@ -68,14 +68,14 @@ typedef struct
 
     int         timeout;
 
-    boolean     actionkey;
+    dboolean    actionkey;
 } cheatseq_t;
 
 int cht_CheckCheat(cheatseq_t *cht, char key);
 
 void cht_GetParam(cheatseq_t *cht, char *buffer);
 
-extern boolean  idbehold;
+extern dboolean idbehold;
 extern int      leveltime;
 
 extern int      key_right;

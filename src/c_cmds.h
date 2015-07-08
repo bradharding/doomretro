@@ -75,7 +75,7 @@ typedef enum
 typedef enum
 {
     CF_NONE            =   0,
-    CF_BOOLEAN         =   1,
+    CF_dboolean        =   1,
     CF_FLOAT           =   2,
     CF_INTEGER         =   4,
     CF_PERCENT         =   8,
@@ -89,7 +89,7 @@ typedef enum
 typedef struct
 {
     char                *name;
-    boolean             (*condition)(char *cmd, char *parm1, char *parm2);
+    dboolean            (*condition)(char *cmd, char *parm1, char *parm2);
     void                (*function)(char *cmd, char *parm1, char *parm2);
     int                 parameters;
     cmdtype_t           type;

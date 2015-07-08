@@ -60,23 +60,23 @@ int             sfxvolume_percent = SFXVOLUME_DEFAULT;
 //
 // DEFAULTS
 //
-extern boolean  alwaysrun;
-extern boolean  am_grid;
-extern boolean  am_rotatemode;
-extern boolean  animatedliquid;
-extern boolean  brightmaps;
-extern boolean  capfps;
-extern boolean  centerweapon;
-extern boolean  corpses_mirror;
-extern boolean  corpses_moreblood;
-extern boolean  corpses_nudge;
-extern boolean  corpses_slide;
-extern boolean  corpses_smearblood;
-extern boolean  dclick_use;
+extern dboolean alwaysrun;
+extern dboolean am_grid;
+extern dboolean am_rotatemode;
+extern dboolean animatedliquid;
+extern dboolean brightmaps;
+extern dboolean capfps;
+extern dboolean centerweapon;
+extern dboolean corpses_mirror;
+extern dboolean corpses_moreblood;
+extern dboolean corpses_nudge;
+extern dboolean corpses_slide;
+extern dboolean corpses_smearblood;
+extern dboolean dclick_use;
 extern int      display;
-extern boolean  floatbob;
-extern boolean  footclip;
-extern boolean  fullscreen;
+extern dboolean floatbob;
+extern dboolean footclip;
+extern dboolean fullscreen;
 extern int      gamepadautomap;
 extern int      gamepadautomapclearmark;
 extern int      gamepadautomapfollowmode;
@@ -89,14 +89,14 @@ extern int      gamepadautomapzoomout;
 extern int      gamepadfire;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
-extern boolean  gamepadlefthanded;
+extern dboolean gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
 extern int      gamepadrun;
 extern int      gamepadsensitivity;
 extern int      gamepaduse;
-extern boolean  gamepadvibrate;
+extern dboolean gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -106,8 +106,8 @@ extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 extern float    gammalevel;
 extern int      graphicdetail;
-extern boolean  homindicator;
-extern boolean  hud;
+extern dboolean homindicator;
+extern dboolean hud;
 extern char     *iwadfolder;
 extern int      key_alwaysrun;
 extern int      key_automap;
@@ -142,10 +142,10 @@ extern int      key_weapon4;
 extern int      key_weapon5;
 extern int      key_weapon6;
 extern int      key_weapon7;
-extern boolean  mapfixes;
+extern dboolean mapfixes;
 extern int      maxbloodsplats;
-extern boolean  messages;
-extern boolean  mirrorweapons;
+extern dboolean messages;
+extern dboolean mirrorweapons;
 extern int      mousesensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
@@ -155,14 +155,14 @@ extern int      mousebprevweapon;
 extern int      mousebnextweapon;
 extern int      mousebstrafe;
 extern int      mousebuse;
-extern boolean  novert;
+extern dboolean novert;
 extern int      pixelheight;
 extern char     *pixelsize;
 extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
-extern boolean  playersprites;
-extern boolean  randompitch;
+extern dboolean playersprites;
+extern dboolean randompitch;
 extern int      runcount;
 extern char     *scaledriver;
 extern char     *scalefilter;
@@ -173,22 +173,22 @@ extern int      selectedepisode;
 extern int      selectedexpansion;
 extern int      selectedsavegame;
 extern int      selectedskilllevel;
-extern boolean  shadows;
-extern boolean  smoketrails;
-extern boolean  spritefixes;
-extern boolean  swirlingliquid;
+extern dboolean shadows;
+extern dboolean smoketrails;
+extern dboolean spritefixes;
+extern dboolean swirlingliquid;
 extern char     *timidity_cfg_path;
-extern boolean  translucency;
+extern dboolean translucency;
 #if !defined(WIN32)
 extern char     *videodriver;
 #endif
-extern boolean  vsync;
-extern boolean  widescreen;
+extern dboolean vsync;
+extern dboolean widescreen;
 extern int      windowheight;
 extern char     *windowposition;
 extern int      windowwidth;
 
-extern boolean  returntowidescreen;
+extern dboolean returntowidescreen;
 
 #define CONFIG_VARIABLE_GENERIC(name, variable, type, set) \
     { #name, &variable, type, 0, 0, set }
@@ -472,7 +472,7 @@ static void SaveDefaultCollection(void)
                     // Has not been changed since the last time we
                     // read the config file.
                     int         j = 0;
-                    boolean     flag = false;
+                    dboolean    flag = false;
 
                     v = cvars[i].untranslated;
                     while (aliases[j].text[0])
@@ -504,7 +504,7 @@ static void SaveDefaultCollection(void)
                         if (scantokey[s] == v)
                         {
                             int         j = 0;
-                            boolean     flag = false;
+                            dboolean    flag = false;
 
                             v = s;
                             while (aliases[j].text[0])
@@ -535,7 +535,7 @@ static void SaveDefaultCollection(void)
             case DEFAULT_INT:
             {
                 int         j = 0;
-                boolean     flag = false;
+                dboolean    flag = false;
                 int         v = *(int *)cvars[i].location;
 
                 while (aliases[j].text[0])
@@ -560,7 +560,7 @@ static void SaveDefaultCollection(void)
             case DEFAULT_INT_PERCENT:
             {
                 int         j = 0;
-                boolean     flag = false;
+                dboolean    flag = false;
                 int         v = *(int *)cvars[i].location;
 
                 while (aliases[j].text[0])
@@ -581,7 +581,7 @@ static void SaveDefaultCollection(void)
             case DEFAULT_FLOAT:
             {
                 int         j = 0;
-                boolean     flag = false;
+                dboolean    flag = false;
                 float       v = *(float *)cvars[i].location;
 
                 while (aliases[j].text[0])
@@ -602,7 +602,7 @@ static void SaveDefaultCollection(void)
             case DEFAULT_FLOAT_PERCENT:
             {
                 int         j = 0;
-                boolean     flag = false;
+                dboolean    flag = false;
                 float       v = *(float *)cvars[i].location;
 
                 while (aliases[j].text[0])
@@ -672,7 +672,7 @@ static float ParseFloatParameter(char *strparm, int set)
     return (float)atof(strparm);
 }
 
-static boolean LoadDefaultCollection(void)
+static dboolean LoadDefaultCollection(void)
 {
     int         i;
     FILE        *f;

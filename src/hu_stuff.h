@@ -90,7 +90,7 @@ void HU_Ticker(void);
 void HU_Drawer(void);
 void HU_Erase(void);
 
-void HU_PlayerMessage(char *message, boolean ingame);
+void HU_PlayerMessage(char *message, dboolean ingame);
 
 void HU_clearMessages(void);
 
@@ -98,6 +98,6 @@ extern int      healthhighlight;
 extern int      ammohighlight;
 extern int      armorhighlight;
 extern char     automaptitle[133];
-extern boolean  fullscreen;
+extern dboolean fullscreen;
 
 #endif

@@ -66,13 +66,13 @@ short                   gamepadthumbLX;
 short                   gamepadthumbLY;
 short                   gamepadthumbRX;
 
-boolean                 vibrate = false;
+dboolean                vibrate = false;
 
-extern boolean          idclev;
-extern boolean          idmus;
-extern boolean          idbehold;
-extern boolean          menuactive;
-extern boolean          message_clearable;
+extern dboolean         idclev;
+extern dboolean         idmus;
+extern dboolean         idbehold;
+extern dboolean         menuactive;
+extern dboolean         message_clearable;
 
 #if defined(WIN32)
 HMODULE                 pXInputDLL;

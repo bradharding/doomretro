@@ -94,9 +94,9 @@ char *weapondescription[] =
     "super shotgun"
 };
 
-boolean mirrorweapons = MIRRORWEAPONS_DEFAULT;
+dboolean mirrorweapons = MIRRORWEAPONS_DEFAULT;
 
-boolean obituaries = true;
+dboolean obituaries = true;
 
 //
 // GET STUFF
@@ -181,10 +181,10 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
     return num;
 }
 
-boolean P_GiveBackpack(player_t *player, boolean giveammo)
+dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
 {
     int         i;
-    boolean     result = false;
+    dboolean    result = false;
 
     if (!player->backpack)
     {
@@ -207,10 +207,10 @@ boolean P_GiveBackpack(player_t *player, boolean giveammo)
     return result;
 }
 
-boolean P_GiveFullAmmo(player_t *player)
+dboolean P_GiveFullAmmo(player_t *player)
 {
     int         i;
-    boolean     result = false;
+    dboolean    result = false;
 
     for (i = 0; i < NUMAMMO; i++)
         if (player->ammo[i] < player->maxammo[i])
@@ -238,10 +238,10 @@ void P_AddBonus(player_t *player, int amount)
 // P_GiveWeapon
 // The weapon name may have a MF_DROPPED flag ored in.
 //
-boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
+dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 {
-    boolean     gaveammo = false;
-    boolean     gaveweapon = false;
+    dboolean    gaveammo = false;
+    dboolean    gaveweapon = false;
 
     if (weaponinfo[weapon].ammo != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
@@ -263,9 +263,9 @@ boolean P_GiveWeapon(player_t *player, weapontype_t weapon, boolean dropped)
         return false;
 }
 
-boolean P_GiveAllWeapons(player_t *player)
+dboolean P_GiveAllWeapons(player_t *player)
 {
-    boolean result = false;
+    dboolean result = false;
 
     if (!oldweaponsowned[wp_shotgun])
     {
@@ -336,7 +336,7 @@ boolean P_GiveAllWeapons(player_t *player)
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
-boolean P_GiveBody(player_t *player, int num)
+dboolean P_GiveBody(player_t *player, int num)
 {
     if (player->health >= maxhealth)
         return false;
@@ -364,7 +364,7 @@ void P_GiveMegaHealth(player_t *player)
 // Returns false if the armor is worse
 // than the current armor.
 //
-boolean P_GiveArmor(player_t *player, int armortype)
+dboolean P_GiveArmor(player_t *player, int armortype)
 {
     int hits = armortype * 100;
 
@@ -466,10 +466,10 @@ void P_GiveCard(player_t *player, card_t card)
         player->neededcard = player->neededcardflash = 0;
 }
 
-boolean P_GiveAllCards(player_t *player)
+dboolean P_GiveAllCards(player_t *player)
 {
     int         i;
-    boolean     result = false;
+    dboolean    result = false;
 
     cardsfound = 0;
     for (i = NUMCARDS - 1; i >= 0; i--)
@@ -486,7 +486,7 @@ boolean P_GiveAllCards(player_t *player)
 //
 // P_GivePower
 //
-boolean P_GivePower(player_t *player, int power)
+dboolean P_GivePower(player_t *player, int power)
 {
     static const int tics[NUMPOWERS] =
     {
@@ -525,7 +525,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     int         sound;
     int         weaponowned;
     int         ammo;
-    boolean     ammogiven = false;
+    dboolean    ammogiven = false;
     static int  prevsound = 0;
     static int  prevtic = 0;
 
@@ -981,7 +981,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     }
 }
 
-boolean P_CheckMeleeRange(mobj_t *actor);
+dboolean P_CheckMeleeRange(mobj_t *actor);
 
 //
 // P_DamageMobj

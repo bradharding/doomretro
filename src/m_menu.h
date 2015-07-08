@@ -60,7 +60,7 @@ typedef struct menu_s
     int                 lastOn;
 } menu_t;
 
-boolean startingnewgame;
+dboolean startingnewgame;
 
 //
 // MENUS
@@ -70,7 +70,7 @@ boolean startingnewgame;
 // Even when the menu is not displayed,
 // this can resize the view and change game parameters.
 // Does all the real work of the menu interaction.
-boolean M_Responder(event_t *ev);
+dboolean M_Responder(event_t *ev);
 
 // Called by main loop,
 // only used for menu (skull cursor) animation.
@@ -89,7 +89,7 @@ void M_Init(void);
 void M_StartControlPanel(void);
 void M_ShowHelp(void);
 void M_EndingGame(void);
-void M_ChangeGamma(boolean shift);
+void M_ChangeGamma(dboolean shift);
 
 void M_DarkBackground(void);
 void M_DrawCenteredString(int y, char *str);
@@ -98,16 +98,16 @@ void M_SetWindowCaption(void);
 
 extern int      screensize;
 extern int      gamepadmenu;
-extern boolean  nomusic;
-extern boolean  nosound;
-extern boolean  nosfx;
-extern boolean  firstevent;
+extern dboolean nomusic;
+extern dboolean nosound;
+extern dboolean nosfx;
+extern dboolean firstevent;
 extern byte     grays[256];
 extern int      musicvolume_percent;
 extern int      sfxvolume_percent;
-extern boolean  widescreen;
-extern boolean  hud;
-extern boolean  returntowidescreen;
+extern dboolean widescreen;
+extern dboolean hud;
+extern dboolean returntowidescreen;
 extern int      selectedepisode;
 extern int      selectedexpansion;
 extern int      selectedsavegame;

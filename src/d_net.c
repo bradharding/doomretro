@@ -167,7 +167,7 @@ void D_CheckNetGame(void)
 //
 // TryRunTics
 //
-extern boolean advancetitle;
+extern dboolean advancetitle;
 
 void TryRunTics(void)
 {

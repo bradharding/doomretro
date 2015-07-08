@@ -39,7 +39,6 @@
 #if !defined(__C_CONSOLE__)
 #define __C_CONSOLE__
 
-#include "doomstat.h"
 #include "doomtype.h"
 #include "d_event.h"
 
@@ -70,7 +69,7 @@ typedef struct
 
 console_t               *console;
 
-extern boolean          consoleactive;
+extern dboolean         consoleactive;
 extern int              consoleheight;
 extern int              consoledirection;
 
@@ -79,7 +78,7 @@ extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];
 
 #if defined(WIN32)
-extern boolean          showmemoryusage;
+extern dboolean         showmemoryusage;
 #endif
 
 typedef struct
@@ -103,7 +102,7 @@ void C_Init(void);
 void C_HideConsole(void);
 void C_HideConsoleFast(void);
 void C_Drawer(void);
-boolean C_Responder(event_t *ev);
+dboolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 

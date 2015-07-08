@@ -53,11 +53,11 @@ char *P_TempSaveGameFile(void);
 char *P_SaveGameFile(int slot);
 
 // Savegame file header read/write functions
-boolean P_ReadSaveGameHeader(char *description);
+dboolean P_ReadSaveGameHeader(char *description);
 void P_WriteSaveGameHeader(char *description);
 
 // Savegame end-of-file read/write functions
-boolean P_ReadSaveGameEOF(void);
+dboolean P_ReadSaveGameEOF(void);
 void P_WriteSaveGameEOF(void);
 
 // Persistent storage/archiving.
@@ -78,6 +78,6 @@ thinker_t *P_IndexToThinker(uint32_t index);
 void P_RestoreTargets(void);
 
 extern FILE *save_stream;
-extern boolean savegame_error;
+extern dboolean savegame_error;
 
 #endif

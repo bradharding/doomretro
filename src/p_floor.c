@@ -44,7 +44,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-boolean animatedliquid = ANIMATEDLIQUID_DEFAULT;
+dboolean animatedliquid = ANIMATEDLIQUID_DEFAULT;
 
 fixed_t animatedliquiddiffs[128] =
 {
@@ -66,7 +66,7 @@ fixed_t animatedliquiddiffs[128] =
      2907,  2907,  3027,  3027,  3119,  3119,  3180,  3180
 };
 
-extern boolean  canmodify;
+extern dboolean canmodify;
 
 static void T_AnimateLiquid(floormove_t *floor)
 {
@@ -121,7 +121,7 @@ void P_InitAnimatedLiquids(void)
 // Move a plane (floor or ceiling) and check for crushing
 //
 result_e T_MovePlane(sector_t *sector, fixed_t speed, fixed_t dest,
-                     boolean crush, int floorOrCeiling, int direction)
+                     dboolean crush, int floorOrCeiling, int direction)
 {
     fixed_t     lastpos;
     fixed_t     destheight;
@@ -407,11 +407,11 @@ void T_MoveElevator(elevator_t *elevator)
 //
 // HANDLE FLOOR TYPES
 //
-boolean EV_DoFloor(line_t *line, floor_e floortype)
+dboolean EV_DoFloor(line_t *line, floor_e floortype)
 {
     int         secnum = -1;
     int         i;
-    boolean     rtn = false;
+    dboolean    rtn = false;
     floormove_t *floor;
 
     while ((secnum = P_FindSectorFromLineTag(line, secnum)) >= 0)
@@ -626,10 +626,10 @@ boolean EV_DoFloor(line_t *line, floor_e floortype)
 //
 // jff 3/15/98 added to better support generalized sector types
 //
-boolean EV_DoChange(line_t *line, change_e changetype)
+dboolean EV_DoChange(line_t *line, change_e changetype)
 {
     int         secnum;
-    boolean     rtn;
+    dboolean    rtn;
     sector_t    *secm;
 
     secnum = -1;
@@ -698,11 +698,11 @@ static int P_FindSectorFromLineTagWithLowerBound(line_t *l, int start, int min)
   return start;
 }
 
-boolean EV_BuildStairs(line_t *line, stair_e type)
+dboolean EV_BuildStairs(line_t *line, stair_e type)
 {
     int         ssec = -1;
     int         minssec = -1;
-    boolean     rtn = false;
+    dboolean    rtn = false;
 
     while ((ssec = P_FindSectorFromLineTagWithLowerBound(line, ssec, minssec)) >= 0)
     {
@@ -711,8 +711,8 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
         floormove_t     *floor;
         fixed_t         stairsize = 0;
         fixed_t         speed = 0;
-        boolean         crushing = false;
-        boolean         ok;
+        dboolean        crushing = false;
+        dboolean        ok;
         int             height;
         int             texture;
 
@@ -821,10 +821,10 @@ boolean EV_BuildStairs(line_t *line, stair_e type)
 //
 // jff 2/22/98 new type to move floor and ceiling in parallel
 //
-boolean EV_DoElevator(line_t *line, elevator_e elevtype)
+dboolean EV_DoElevator(line_t *line, elevator_e elevtype)
 {
     int         secnum;
-    boolean     rtn;
+    dboolean    rtn;
     sector_t    *sec;
     elevator_t  *elevator;
 

@@ -50,10 +50,10 @@
 // ------------------------
 // Command line parameters.
 //
-extern  boolean         nomonsters;     // checkparm of -nomonsters
-extern  boolean         fastparm;       // checkparm of -fast
+extern  dboolean        nomonsters;     // checkparm of -nomonsters
+extern  dboolean        fastparm;       // checkparm of -fast
 
-extern  boolean         devparm;        // DEBUG: launched with -devparm
+extern  dboolean        devparm;        // DEBUG: launched with -devparm
 
 // -----------------------------------------------------
 // Game Mode - identify IWAD as shareware, retail etc.
@@ -64,7 +64,7 @@ extern GameVersion_t    gameversion;
 extern char             *gamedescription;
 
 // Set if homebrew PWAD stuff has been added.
-extern  boolean         modifiedgame;
+extern  dboolean        modifiedgame;
 
 // -------------------------------------------
 // Selected skill type, map etc.
@@ -79,62 +79,62 @@ extern int              startmap;
 // the -loadgame option.  If this has not been provided, this is -1.
 extern int              startloadgame;
 
-extern boolean          autostart;
+extern dboolean         autostart;
 
 // Selected by user.
 extern skill_t          gameskill;
 extern int              gameepisode;
 extern int              gamemap;
 
-extern boolean          nerve;
-extern boolean          bfgedition;
+extern dboolean         nerve;
+extern dboolean         bfgedition;
 
-extern boolean          mergedcacodemon;
-extern boolean          mergednoble;
+extern dboolean         mergedcacodemon;
+extern dboolean         mergednoble;
 
-extern boolean          chex;
-extern boolean          chexdeh;
-extern boolean          hacx;
-extern boolean          BTSX;
-extern boolean          BTSXE1;
-extern boolean          BTSXE2;
-extern boolean          BTSXE2A;
-extern boolean          BTSXE2B;
-extern boolean          BTSXE3;
-extern boolean          BTSXE3A;
-extern boolean          BTSXE3B;
+extern dboolean         chex;
+extern dboolean         chexdeh;
+extern dboolean         hacx;
+extern dboolean         BTSX;
+extern dboolean         BTSXE1;
+extern dboolean         BTSXE2;
+extern dboolean         BTSXE2A;
+extern dboolean         BTSXE2B;
+extern dboolean         BTSXE3;
+extern dboolean         BTSXE3A;
+extern dboolean         BTSXE3B;
 
-extern boolean          DMENUPIC;
-extern boolean          FREEDOOM;
-extern boolean          FREEDM;
-extern boolean          M_DOOM;
-extern boolean          M_EPISOD;
-extern boolean          M_GDHIGH;
-extern boolean          M_GDLOW;
-extern boolean          M_LOADG;
-extern boolean          M_LSCNTR;
-extern boolean          M_MSENS;
-extern boolean          M_MSGOFF;
-extern boolean          M_MSGON;
-extern boolean          M_NEWG;
-extern boolean          M_NMARE;
-extern boolean          M_OPTTTL;
-extern boolean          M_PAUSE;
-extern boolean          M_SAVEG;
-extern boolean          M_SKILL;
-extern boolean          M_SKULL1;
-extern boolean          M_SVOL;
-extern boolean          STARMS;
-extern boolean          STBAR;
-extern boolean          STCFN034;
-extern boolean          STCFN039;
-extern boolean          STCFN121;
-extern boolean          STYSNUM0;
-extern boolean          TITLEPIC;
-extern boolean          WISCRT2;
+extern dboolean         DMENUPIC;
+extern dboolean         FREEDOOM;
+extern dboolean         FREEDM;
+extern dboolean         M_DOOM;
+extern dboolean         M_EPISOD;
+extern dboolean         M_GDHIGH;
+extern dboolean         M_GDLOW;
+extern dboolean         M_LOADG;
+extern dboolean         M_LSCNTR;
+extern dboolean         M_MSENS;
+extern dboolean         M_MSGOFF;
+extern dboolean         M_MSGON;
+extern dboolean         M_NEWG;
+extern dboolean         M_NMARE;
+extern dboolean         M_OPTTTL;
+extern dboolean         M_PAUSE;
+extern dboolean         M_SAVEG;
+extern dboolean         M_SKILL;
+extern dboolean         M_SKULL1;
+extern dboolean         M_SVOL;
+extern dboolean         STARMS;
+extern dboolean         STBAR;
+extern dboolean         STCFN034;
+extern dboolean         STCFN039;
+extern dboolean         STCFN121;
+extern dboolean         STYSNUM0;
+extern dboolean         TITLEPIC;
+extern dboolean         WISCRT2;
 
 // Nightmare mode flag, single player.
-extern boolean          respawnmonsters;
+extern dboolean         respawnmonsters;
 
 // -------------------------
 // Internal parameters for sound rendering.
@@ -153,12 +153,12 @@ extern int              musicVolume;
 // Status flags for refresh.
 //
 
-extern boolean          automapactive;  // In AutoMap mode?
-extern boolean          am_followmode;  // Following player in AutoMap mode?
-extern boolean          menuactive;     // Menu overlayed?
-extern boolean          paused;         // Game Pause?
+extern dboolean         automapactive;  // In AutoMap mode?
+extern dboolean         am_followmode;  // Following player in AutoMap mode?
+extern dboolean         menuactive;     // Menu overlayed?
+extern dboolean         paused;         // Game Pause?
 
-extern boolean          viewactive;
+extern dboolean         viewactive;
 
 // -------------------------------------
 // Scores, rating.
@@ -172,7 +172,7 @@ extern int              totalsecret;
 extern int              levelstarttic;  // gametic at level start
 extern int              leveltime;      // tics in game play for par
 
-extern boolean          usergame;
+extern dboolean         usergame;
 
 //?
 extern gamestate_t      gamestate;
@@ -185,8 +185,8 @@ extern gamestate_t      gamestate;
 
 extern int              gametic;
 
-extern boolean          capfps;
-extern boolean          realframe;
+extern dboolean         capfps;
+extern dboolean         realframe;
 
 // Bookkeeping on players - state.
 extern player_t         players[MAXPLAYERS];
@@ -207,7 +207,7 @@ extern char             *savegamefolder;
 extern char             basedefault[1024];
 
 // if true, load all graphics at level load
-extern boolean          precache;
+extern dboolean         precache;
 
 // wipegamestate can be set to -1
 //  to force a wipe on the next draw

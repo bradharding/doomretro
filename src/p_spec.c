@@ -56,7 +56,7 @@
 //
 typedef struct
 {
-    boolean     istexture;
+    dboolean    istexture;
     int         picnum;
     int         basepic;
     int         numpics;
@@ -72,11 +72,11 @@ typedef struct
 //
 typedef struct
 {
-    boolean     istexture;              // if false, it is a flat
+    dboolean    istexture;              // if false, it is a flat
     char        endname[9];
     char        startname[9];
     int         speed;
-    boolean     isliquid;
+    dboolean    isliquid;
 } animdef_t;
 
 #if defined(_MSC_VER)
@@ -148,14 +148,14 @@ animdef_t animdefs[] =
 // Animating line specials
 //
 extern int      numflats;
-extern boolean  canmodify;
+extern dboolean canmodify;
 
-boolean         *isliquid;
+dboolean        *isliquid;
 
 void P_InitPicAnims(void)
 {
     int i;
-    int size = (numflats + 1) * sizeof(boolean);
+    int size = (numflats + 1) * sizeof(dboolean);
 
     isliquid = Z_Malloc(size, PU_STATIC, 0);
     memset(isliquid, false, size);
@@ -652,7 +652,7 @@ int P_FindMinSurroundingLight(sector_t *sector, int min)
 //  generalized locked doors
 //
 // killough 11/98: reformatted
-boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
+dboolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 {
     static char buffer[1024];
 
@@ -816,7 +816,7 @@ boolean P_CanUnlockGenDoor(line_t *line, player_t *player)
 //
 // killough 11/98: reformatted
 
-boolean P_SectorActive(special_e t, sector_t *sec)
+dboolean P_SectorActive(special_e t, sector_t *sec)
 {
     return (t == floor_special ? !!sec->floordata :     // return whether
         (t == ceiling_special ? !!sec->ceilingdata :     // thinker of same
@@ -835,7 +835,7 @@ boolean P_SectorActive(special_e t, sector_t *sec)
 //
 // jff 2/27/98 Added to check for zero tag allowed for regular special types
 //
-boolean P_CheckTag(line_t *line)
+dboolean P_CheckTag(line_t *line)
 {
     // tag not zero, allowed
     if (line->tag)
@@ -940,7 +940,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is walkover generalized linedef type
-        boolean (*linefunc)(line_t *) = NULL;
+        dboolean (*linefunc)(line_t *) = NULL;
 
         // check each range of generalized linedefs
         if ((unsigned int)line->special >= GenFloorBase)
@@ -1028,7 +1028,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
 
     if (!thing->player)
     {
-        boolean ok = false;
+        dboolean ok = false;
 
         switch (line->special)
         {
@@ -1639,7 +1639,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is gun triggered generalized linedef type
-        boolean (*linefunc)(line_t *line) = NULL;
+        dboolean (*linefunc)(line_t *line) = NULL;
 
         // check each range of generalized linedefs
         if ((unsigned int)line->special >= GenFloorBase)
@@ -1739,7 +1739,7 @@ void P_ShootSpecialLine(mobj_t *thing, line_t *line)
     // Impacts that other things can activate.
     if (!thing->player)
     {
-        boolean ok = false;
+        dboolean ok = false;
 
         switch (line->special)
         {
@@ -1957,13 +1957,13 @@ void P_UpdateSpecials(void)
 //
 // Special Stuff that cannot be categorized
 //
-boolean EV_DoDonut(line_t *line)
+dboolean EV_DoDonut(line_t *line)
 {
     sector_t    *s1;
     sector_t    *s2;
     sector_t    *s3;
     int         secnum = -1;
-    boolean     rtn = false;
+    dboolean    rtn = false;
     int         i;
     floormove_t *floor;
 
@@ -2579,7 +2579,7 @@ static void Add_Pusher(int type, int x_mag, int y_mag, mobj_t *source, int affec
 
 pusher_t        *tmpusher;      // pusher structure for blockmap searches
 
-boolean PIT_PushThing(mobj_t* thing)
+dboolean PIT_PushThing(mobj_t* thing)
 {
     if ((sentient(thing) || (thing->flags & MF_SHOOTABLE)) && !(thing->flags & MF_NOCLIP))
     {

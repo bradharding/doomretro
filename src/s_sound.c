@@ -98,7 +98,7 @@ int                     snd_samplerate = 44100;
 static int              snd_SfxVolume;
 
 // Whether songs are mus_paused
-static boolean          mus_paused;
+static dboolean         mus_paused;
 
 // Music currently being played
 musicinfo_t             *mus_playing = NULL;
@@ -106,7 +106,7 @@ musicinfo_t             *mus_playing = NULL;
 // Number of channels to use
 int                     numChannels = 32;
 
-boolean                 randompitch = RANDOMPITCH_DEFAULT;
+dboolean                randompitch = RANDOMPITCH_DEFAULT;
 
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.
@@ -136,9 +136,9 @@ static void InitMusicModule(void)
     C_Warning("The initialization of music failed.");
 }
 
-boolean nosound = false;
-boolean nosfx = false;
-boolean nomusic = false;
+dboolean nosound = false;
+dboolean nosfx = false;
+dboolean nomusic = false;
 
 //
 // Initializes sound stuff, including volume

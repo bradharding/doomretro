@@ -222,9 +222,9 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-boolean         am_grid = GRID_DEFAULT;
+dboolean        am_grid = GRID_DEFAULT;
 
-boolean         automapactive = false;
+dboolean        automapactive = false;
 
 static unsigned int     mapwidth;
 static unsigned int     mapheight;
@@ -268,14 +268,14 @@ mpoint_t        *markpoints = NULL;             // where the points are
 int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
-boolean         am_followmode = true;           // specifies whether to follow the player around
-boolean         am_rotatemode = ROTATEMODE_DEFAULT;
+dboolean        am_followmode = true;           // specifies whether to follow the player around
+dboolean        am_rotatemode = ROTATEMODE_DEFAULT;
 
-static boolean  stopped = true;
+static dboolean stopped = true;
 
-boolean         bigstate = false;
+dboolean        bigstate = false;
 byte            *area;
-static boolean  movement = false;
+static dboolean movement = false;
 int             keydown;
 int             direction;
 
@@ -580,9 +580,9 @@ static void AM_maxOutWindowScale(void)
 }
 
 SDL_Keymod      modstate;
-boolean         speedtoggle;
+dboolean        speedtoggle;
 
-static boolean AM_getSpeedToggle(void)
+static dboolean AM_getSpeedToggle(void)
 {
     return (!!(gamepadbuttons & GAMEPAD_LEFT_TRIGGER) + !!(modstate & KMOD_SHIFT) == 1);
 }
@@ -705,7 +705,7 @@ static void AM_toggleRotateMode(void)
 //
 // Handle events (user inputs) in automap mode
 //
-boolean AM_Responder(event_t *ev)
+dboolean AM_Responder(event_t *ev)
 {
     int                 rc = false;
 
@@ -714,7 +714,7 @@ boolean AM_Responder(event_t *ev)
 
     if (!menuactive && !paused)
     {
-        static boolean  backbuttondown = false;
+        static dboolean backbuttondown = false;
 
         if (!(gamepadbuttons & gamepadautomap))
             backbuttondown = false;
@@ -1189,7 +1189,7 @@ static void AM_clearFB(void)
 // Based on Cohen-Sutherland clipping algorithm but with a slightly
 // faster reject and precalculated slopes. If the speed is needed,
 // use a hash algorithm to handle the common cases.
-static boolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
+static dboolean AM_clipMline(int *x0, int *y0, int *x1, int *y1)
 {
     enum
     {
@@ -1243,8 +1243,8 @@ static __inline void PUTBIGDOT(unsigned int x, unsigned int y, byte *color)
     if (x < mapwidth)
     {
         byte    *dot = *screens + y + x;
-        boolean top = (y < maparea);
-        boolean bottom = (y < mapbottom);
+        dboolean top = (y < maparea);
+        dboolean bottom = (y < mapbottom);
 
         if (top)
             _PUTDOT(dot, color);
@@ -1445,7 +1445,7 @@ static void AM_drawGrid(void)
     }
 }
 
-boolean isteleport(int floorpic)
+dboolean isteleport(int floorpic)
 {
     int i;
 
@@ -1462,8 +1462,8 @@ boolean isteleport(int floorpic)
 //
 static void AM_drawWalls(void)
 {
-    boolean     allmap = plr->powers[pw_allmap];
-    boolean     cheating = (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS));
+    dboolean    allmap = plr->powers[pw_allmap];
+    dboolean    cheating = (plr->cheats & (CF_ALLMAP | CF_ALLMAP_THINGS));
     int         i = 0;
 
     while (i < numlines)

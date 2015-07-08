@@ -54,10 +54,10 @@ enum
     wipe_NUMWIPES
 };
 
-boolean wipe_StartScreen(void);
-boolean wipe_EndScreen(void);
-boolean wipe_ScreenWipe(int tics);
+dboolean wipe_StartScreen(void);
+dboolean wipe_EndScreen(void);
+dboolean wipe_ScreenWipe(int tics);
 
-extern boolean widescreen;
+extern dboolean widescreen;
 
 #endif

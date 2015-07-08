@@ -79,22 +79,22 @@ int                             numsprites;
 static spriteframe_t            sprtemp[MAX_SPRITE_FRAMES];
 static int                      maxframe;
 
-boolean                         footclip = FOOTCLIP_DEFAULT;
+dboolean                        footclip = FOOTCLIP_DEFAULT;
 
-boolean                         playersprites = PLAYERSPRITES_DEFAULT;
+dboolean                        playersprites = PLAYERSPRITES_DEFAULT;
 
-extern boolean                  inhelpscreens;
-extern boolean                  translucency;
-extern boolean                  dehacked;
-extern boolean                  shadows;
-extern boolean                  skippsprinterp;
+extern dboolean                 inhelpscreens;
+extern dboolean                 translucency;
+extern dboolean                 dehacked;
+extern dboolean                 shadows;
+extern dboolean                 skippsprinterp;
 
 //
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
 static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int frame, char rot,
-    boolean flipped)
+    dboolean flipped)
 {
     unsigned int        rotation;
 
@@ -551,7 +551,7 @@ void R_ProjectSprite(mobj_t *thing)
     spriteframe_t       *sprframe;
     int                 lump;
 
-    boolean             flip;
+    dboolean            flip;
 
     vissprite_t         *vis;
 
@@ -639,13 +639,13 @@ void R_ProjectSprite(mobj_t *thing)
         else
             rot = (ang - fangle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
-        flip = ((boolean)(sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
+        flip = ((dboolean)(sprframe->flip & (1 << rot)) || (flags2 & MF2_MIRRORED));
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = ((boolean)(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
+        flip = ((dboolean)(sprframe->flip & 1) || (flags2 & MF2_MIRRORED));
     }
 
     // calculate edges of the shape
@@ -769,7 +769,7 @@ void R_ProjectBloodSplat(mobj_t *thing)
     int                 flags = thing->flags;
     int                 flags2 = thing->flags2;
 
-    boolean             flip = (flags2 & MF2_MIRRORED);
+    dboolean            flip = (flags2 & MF2_MIRRORED);
 
     // transform the origin point
     fixed_t             tr_x = fx - viewx;
@@ -876,7 +876,7 @@ void R_ProjectShadow(mobj_t *thing)
     spriteframe_t       *sprframe;
     int                 lump;
 
-    boolean             flip;
+    dboolean            flip;
 
     vissprite_t         *vis;
 
@@ -929,13 +929,13 @@ void R_ProjectShadow(mobj_t *thing)
         else
             rot = (ang - thing->angle + (angle_t)(ANG45 / 2) * 9 - (angle_t)(ANG180 / 16)) >> 28;
         lump = sprframe->lump[rot];
-        flip = ((boolean)(sprframe->flip & (1 << rot)) || (thing->flags2 & MF2_MIRRORED));
+        flip = ((dboolean)(sprframe->flip & (1 << rot)) || (thing->flags2 & MF2_MIRRORED));
     }
     else
     {
         // use single rotation for all views
         lump = sprframe->lump[0];
-        flip = ((boolean)(sprframe->flip & 1) || (thing->flags2 & MF2_MIRRORED));
+        flip = ((dboolean)(sprframe->flip & 1) || (thing->flags2 & MF2_MIRRORED));
     }
 
     // calculate edges of the shape
@@ -1026,9 +1026,9 @@ void R_AddSprites(sector_t *sec, int lightlevel)
 //
 // R_DrawPSprite
 //
-static boolean  bflash;
+static dboolean bflash;
 
-static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
+static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
 {
     fixed_t             tx;
     int                 x1, x2;
@@ -1037,7 +1037,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     long                frame;
     spriteframe_t       *sprframe;
     int                 lump;
-    boolean             flip;
+    dboolean            flip;
     vissprite_t         *vis;
     vissprite_t         avis;
     state_t             *state;
@@ -1050,7 +1050,7 @@ static void R_DrawPSprite(pspdef_t *psp, boolean invisibility)
     sprframe = &sprdef->spriteframes[frame & FF_FRAMEMASK];
 
     lump = sprframe->lump[0];
-    flip = (boolean)(sprframe->flip & 1);
+    flip = (dboolean)(sprframe->flip & 1);
 
     // calculate edges of the shape
     tx = psp->sx - ORIGINALWIDTH / 2 * FRACUNIT - spriteoffset[lump];

@@ -55,9 +55,9 @@ void R_ClearClipSegs(void);
 void R_ClearDrawSegs(void);
 
 void R_RenderBSPNode(int bspnum);
-boolean R_DoorClosed(void);
+dboolean R_DoorClosed(void);
 
 // killough 4/13/98: fake floors/ceilings for deep water / fake ceilings:
-sector_t *R_FakeFlat(sector_t *, sector_t *, int *, int *, boolean);
+sector_t *R_FakeFlat(sector_t *, sector_t *, int *, int *, dboolean);
 
 #endif

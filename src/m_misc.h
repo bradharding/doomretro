@@ -44,26 +44,26 @@
 
 #include "doomtype.h"
 
-boolean M_WriteFile(char *name, void *source, int length);
+dboolean M_WriteFile(char *name, void *source, int length);
 int M_ReadFile(char *name, byte **buffer);
 void M_MakeDirectory(char *dir);
 char *M_TempFile(char *s);
-boolean M_FileExists(char *file);
+dboolean M_FileExists(char *file);
 long M_FileLength(FILE *handle);
 char *M_ExtractFolder(char *path);
-boolean M_StrToInt(const char *str, int *result);
+dboolean M_StrToInt(const char *str, int *result);
 char *M_StrCaseStr(char *haystack, char *needle);
-boolean M_StringCopy(char *dest, char *src, size_t dest_size);
+dboolean M_StringCopy(char *dest, char *src, size_t dest_size);
 char *M_StringReplace(char *haystack, char *needle, char *replacement);
 char *M_StringJoin(char *s, ...);
-boolean M_StringStartsWith(char *s, char *prefix);
-boolean M_StringEndsWith(char *s, char *suffix);
+dboolean M_StringStartsWith(char *s, char *prefix);
+dboolean M_StringEndsWith(char *s, char *suffix);
 int M_vsnprintf(char *buf, size_t buf_len, const char *s, va_list args);
 int M_snprintf(char *buf, size_t buf_len, const char *s, ...);
 char *M_SubString(const char *str, size_t begin, size_t len);
 char *uppercase(char *str);
 char *commify(int value);
-boolean wildcard(char *input, char *pattern);
+dboolean wildcard(char *input, char *pattern);
 int gcd(int a, int b);
 char *removespaces(const char *input);
 char *removenewlines(const char *input);

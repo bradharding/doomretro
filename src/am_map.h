@@ -56,7 +56,7 @@ typedef struct
 } mpoint_t;
 
 // Called by main loop.
-boolean AM_Responder(event_t *ev);
+dboolean AM_Responder(event_t *ev);
 
 // Called by main loop.
 void AM_Ticker(void);
@@ -109,11 +109,11 @@ extern int      gamepadautomapzoomout;
 extern byte     *tinttab60;
 extern byte     *tinttab80;
 
-extern boolean  message_dontfuckwithme;
-extern boolean  message_clearable;
-extern boolean  idbehold;
-extern boolean  idclev;
-extern boolean  idmus;
+extern dboolean message_dontfuckwithme;
+extern dboolean message_clearable;
+extern dboolean idbehold;
+extern dboolean idclev;
+extern dboolean idmus;
 
 extern int      viewheight2;
 
@@ -121,7 +121,7 @@ extern mpoint_t *markpoints;
 extern int      markpointnum;
 extern int      markpointnum_max;
 
-boolean keystate(int key);
+dboolean keystate(int key);
 
 typedef struct am_frame_s
 {

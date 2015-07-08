@@ -120,10 +120,10 @@ const byte      *rejectmatrix;          // cph - const*
 // Maintain single and multi player starting spots.
 mapthing_t      playerstarts[MAXPLAYERS];
 
-boolean         canmodify;
-boolean         transferredsky;
+dboolean        canmodify;
+dboolean        transferredsky;
 
-boolean         mapfixes = MAPFIXES_DEFAULT;
+dboolean        mapfixes = MAPFIXES_DEFAULT;
 
 static int      current_episode = -1;
 static int      current_map = -1;
@@ -131,7 +131,7 @@ static int      samelevel = false;
 
 mapformat_t     mapformat;
 
-boolean         BOOM;
+dboolean        BOOM;
 
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
@@ -901,7 +901,7 @@ void P_LoadThings(int lump)
     for (i = 0; i < numthings; i++)
     {
         mapthing_t      mt = data[i];
-        boolean         spawn = true;
+        dboolean        spawn = true;
 
         // Do not spawn cool, new monsters if !commercial
         if (gamemode != commercial)
@@ -1699,7 +1699,7 @@ extern int      dehcount;
 // Determine map name to use
 void P_MapName(int episode, int map)
 {
-    boolean     mapnumonly = false;
+    dboolean    mapnumonly = false;
 
     switch (gamemission)
     {
@@ -1823,8 +1823,8 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
     return format;
 }
 
-extern boolean idclev;
-extern boolean oldweaponsowned[];
+extern dboolean idclev;
+extern dboolean oldweaponsowned[];
 
 //
 // P_SetupLevel

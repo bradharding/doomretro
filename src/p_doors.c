@@ -47,7 +47,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-extern boolean  animatedliquid;
+extern dboolean animatedliquid;
 extern char     *playername;
 
 //
@@ -221,7 +221,7 @@ void T_VerticalDoor(vldoor_t *door)
 // EV_DoLockedDoor
 // Move a locked door up/down
 //
-boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
+dboolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
 {
     player_t    *player = thing->player;
     static char buffer[1024];
@@ -328,10 +328,10 @@ boolean EV_DoLockedDoor(line_t *line, vldoor_e type, mobj_t *thing)
     return EV_DoDoor(line, type);
 }
 
-boolean EV_DoDoor(line_t *line, vldoor_e type)
+dboolean EV_DoDoor(line_t *line, vldoor_e type)
 {
     int         secnum = -1;
-    boolean     rtn = false;
+    dboolean    rtn = false;
     int         i;
     sector_t    *sec;
     vldoor_t    *door;

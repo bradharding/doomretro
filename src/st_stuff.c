@@ -238,7 +238,7 @@
 static player_t                 *plyr;
 
 // ST_Start() has just been called
-static boolean                  st_firsttime;
+static dboolean                 st_firsttime;
 
 // lump number for PLAYPAL
 static int                      lu_palette;
@@ -253,7 +253,7 @@ static int                      st_msgcounter = 0;
 static st_stateenum_t           st_gamestate;
 
 // whether left-side main status bar is active
-static boolean                  st_statusbaron;
+static dboolean                 st_statusbaron;
 
 // main bar left
 static patch_t                  *sbar;
@@ -264,7 +264,7 @@ patch_t                         *tallnum[10];
 
 // tall % sign
 patch_t                         *tallpercent;
-boolean                         emptytallpercent;
+dboolean                        emptytallpercent;
 
 // 0-9, short, yellow (,different!) numbers
 static patch_t                  *shortnum[10];
@@ -328,7 +328,7 @@ patch_t                         *brdr_br;
 static int                      st_oldhealth = -1;
 
 // used for evil grin
-boolean                         oldweaponsowned[NUMWEAPONS];
+dboolean                        oldweaponsowned[NUMWEAPONS];
 
 // count until face changes
 int                             st_facecount = 0;
@@ -344,13 +344,13 @@ static int                      st_randomnumber;
 
 int                             oldhealth = 100;
 
-boolean                         idclev = false;
+dboolean                        idclev = false;
 
 int                             idclevtics = 0;
 
-boolean                         idmus = false;
+dboolean                        idmus = false;
 
-boolean                         samelevel;
+dboolean                        samelevel;
 
 cheatseq_t cheat_mus = CHEAT("idmus", 0);
 cheatseq_t cheat_mus_xy = CHEAT("idmus", 2);
@@ -377,7 +377,7 @@ cheatseq_t cheat_clev_xy = CHEAT("idclev", 2);
 cheatseq_t cheat_mypos = CHEAT("idmypos", 0);
 cheatseq_t cheat_amap = CHEAT("iddt", 0);
 
-static boolean actionkey(char key)
+static dboolean actionkey(char key)
 {
     return (key == key_right
         || key == key_left
@@ -534,7 +534,7 @@ extern int      cardsfound;
 
 // Respond to keyboard input events,
 //  intercept cheats.
-boolean ST_Responder(event_t *ev)
+dboolean ST_Responder(event_t *ev)
 {
     // if a user keypress...
     if (ev->type == ev_keydown || consolecheat[0])
@@ -605,9 +605,9 @@ boolean ST_Responder(event_t *ev)
                      // [BH] can only enter cheat while player is alive
                      && plyr->health)
             {
-                boolean    ammogiven = false;
-                boolean    armorgiven = false;
-                boolean    weaponsgiven = false;
+                dboolean        ammogiven = false;
+                dboolean        armorgiven = false;
+                dboolean        weaponsgiven = false;
 
                 // [BH] note if doesn't have full armor before giving it
                 if (plyr->armorpoints < idfa_armor || plyr->armortype < idfa_armor_class)
@@ -657,10 +657,10 @@ boolean ST_Responder(event_t *ev)
                      // [BH] can only enter cheat while player is alive
                      && plyr->health)
             {
-                boolean    ammogiven = false;
-                boolean    armorgiven = false;
-                boolean    keysgiven = false;
-                boolean    weaponsgiven = false;
+                dboolean        ammogiven = false;
+                dboolean        armorgiven = false;
+                dboolean        keysgiven = false;
+                dboolean        weaponsgiven = false;
 
                 // [BH] note if doesn't have full armor before giving it
                 if (plyr->armorpoints < idkfa_armor || plyr->armortype < idkfa_armor_class)
@@ -1138,7 +1138,7 @@ void ST_updateFaceWidget(void)
         if (plyr->bonuscount)
         {
             // picking up bonus
-            boolean     doevilgrin = false;
+            dboolean    doevilgrin = false;
 
             for (i = 0; i < NUMWEAPONS; i++)
             {
@@ -1355,7 +1355,7 @@ void ST_doPaletteStuff(void)
     }
 }
 
-void ST_drawWidgets(boolean refresh)
+void ST_drawWidgets(dboolean refresh)
 {
     int i;
 
@@ -1407,7 +1407,7 @@ void ST_diffDraw(void)
     ST_drawWidgets(false);
 }
 
-void ST_Drawer(boolean fullscreen, boolean refresh)
+void ST_Drawer(dboolean fullscreen, dboolean refresh)
 {
     // Do red-/gold-shifts from damage/items
     ST_doPaletteStuff();
@@ -1735,7 +1735,7 @@ void ST_createWidgets(void)
                   ST_MAXAMMO3WIDTH);
 }
 
-static boolean st_stopped = true;
+static dboolean st_stopped = true;
 
 void ST_Start(void)
 {

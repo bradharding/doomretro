@@ -45,7 +45,7 @@
 #if defined(__cplusplus)
 
 // Use builtin bool type with C++.
-typedef bool boolean;
+typedef bool dboolean;
 
 #elif defined(__MACOSX__)
 
@@ -53,7 +53,7 @@ typedef enum
 {
     false,
     true
-} boolean;
+} dboolean;
 
 #else
 
@@ -61,9 +61,7 @@ typedef enum
 {
     false,
     true
-} bool;
-
-#define boolean bool
+} dboolean;
 
 #endif
 

@@ -46,13 +46,13 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-static boolean  music_initialized = false;
+static dboolean music_initialized = false;
 
 // If this is true, this module initialized SDL sound and has the
 // responsibility to shut it down
-static boolean  sdl_was_initialized = false;
+static dboolean sdl_was_initialized = false;
 
-static boolean  musicpaused = false;
+static dboolean musicpaused = false;
 static int      current_music_volume;
 
 char            *timidity_cfg_path = TIMIDITY_CFG_PATH_DEFAULT;
@@ -63,7 +63,7 @@ static char     *temp_timidity_cfg = NULL;
 // config file for Timidity to point to the actual config file. This
 // is needed to inject a "dir" command so that the patches are read
 // relative to the actual config file.
-static boolean WriteWrapperTimidityConfig(char *write_path)
+static dboolean WriteWrapperTimidityConfig(char *write_path)
 {
     char        *p;
     FILE        *fstream;
@@ -94,7 +94,7 @@ static boolean WriteWrapperTimidityConfig(char *write_path)
 
 void I_InitTimidityConfig(void)
 {
-    boolean     success;
+    dboolean    success;
 
     temp_timidity_cfg = M_TempFile("timidity.cfg");
 
@@ -151,7 +151,7 @@ void I_SDL_ShutdownMusic(void)
     }
 }
 
-static boolean SDLIsInitialized(void)
+static dboolean SDLIsInitialized(void)
 {
     int         freq, channels;
     Uint16      format;
@@ -160,7 +160,7 @@ static boolean SDLIsInitialized(void)
 }
 
 // Initialize music subsystem
-boolean I_SDL_InitMusic(void)
+dboolean I_SDL_InitMusic(void)
 {
     // If SDL_mixer is not initialized, we have to initialize it
     // and have the responsibility to shut it down later on.
@@ -255,12 +255,12 @@ void I_SDL_UnRegisterSong(void *handle)
 }
 
 // Determine whether memory block is a .mid file
-static boolean IsMid(byte *mem, int len)
+static dboolean IsMid(byte *mem, int len)
 {
     return (len > 4 && !memcmp(mem, "MThd", 4));
 }
 
-static boolean ConvertMus(byte *musdata, int len, char *filename)
+static dboolean ConvertMus(byte *musdata, int len, char *filename)
 {
     MEMFILE     *instream = mem_fopen_read(musdata, len);
     MEMFILE     *outstream = mem_fopen_write();
@@ -310,7 +310,7 @@ void *I_SDL_RegisterSong(void *data, int len)
 }
 
 // Is the song playing?
-boolean I_SDL_MusicIsPlaying(void)
+dboolean I_SDL_MusicIsPlaying(void)
 {
     if (!music_initialized)
         return false;

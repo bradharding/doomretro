@@ -114,15 +114,15 @@ lighttable_t            **colormaps;
 // bumped light from gun blasts
 int                     extralight;
 
-boolean                 translucency = TRANSLUCENCY_DEFAULT;
+dboolean                translucency = TRANSLUCENCY_DEFAULT;
 
-boolean                 homindicator = HOMINDICATOR_DEFAULT;
+dboolean                homindicator = HOMINDICATOR_DEFAULT;
 
 int                     r_frame_count;
 
 extern int              viewheight2;
 extern int              gametic;
-extern boolean          canmodify;
+extern dboolean         canmodify;
 
 void (*colfunc)(void);
 void (*wallcolfunc)(void);
@@ -449,7 +449,7 @@ void R_InitLightTables(void)
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-boolean setsizeneeded;
+dboolean setsizeneeded;
 int     setblocks;
 
 void R_SetViewSize(int blocks)

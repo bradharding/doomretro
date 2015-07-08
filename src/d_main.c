@@ -102,30 +102,30 @@ char                    *iwadfile = "";
 
 char                    *iwadfolder = IWADFOLDER_DEFAULT;
 
-boolean                 devparm;        // started game with -devparm
-boolean                 nomonsters;     // checkparm of -nomonsters
-boolean                 fastparm;       // checkparm of -fast
+dboolean                devparm;        // started game with -devparm
+dboolean                nomonsters;     // checkparm of -nomonsters
+dboolean                fastparm;       // checkparm of -fast
 
 int                     runcount = 0;
 
 skill_t                 startskill;
 int                     startepisode;
 int                     startmap;
-boolean                 autostart;
+dboolean                autostart;
 int                     startloadgame;
 
-boolean                 advancetitle;
-boolean                 wipe = true;
-boolean                 forcewipe = false;
+dboolean                advancetitle;
+dboolean                wipe = true;
+dboolean                forcewipe = false;
 
-boolean                 splashscreen;
+dboolean                splashscreen;
 
 extern int              selectedexpansion;
-extern boolean          alwaysrun;
+extern dboolean         alwaysrun;
 
 int                     startuptimer;
 
-boolean                 realframe;
+dboolean                realframe;
 
 void D_CheckNetGame(void);
 
@@ -179,27 +179,27 @@ void D_ProcessEvents(void)
 // wipegamestate can be set to -1 to force a wipe on the next draw
 gamestate_t     wipegamestate = GS_TITLESCREEN;
 
-extern boolean  setsizeneeded;
-extern boolean  message_on;
+extern dboolean setsizeneeded;
+extern dboolean message_on;
 extern int      graphicdetail;
 extern int      viewheight2;
-extern boolean  loadedgame;
+extern dboolean loadedgame;
 
 void R_ExecuteSetViewSize(void);
 void G_LoadedGameMessage(void);
 
 void D_Display(void)
 {
-    static boolean      viewactivestate = false;
-    static boolean      menuactivestate = false;
-    static boolean      pausedstate = false;
+    static dboolean     viewactivestate = false;
+    static dboolean     menuactivestate = false;
+    static dboolean     pausedstate = false;
     static gamestate_t  oldgamestate = (gamestate_t)(-1);
     static int          borderdrawcount = 0;
     static int          saved_gametic = -1;
     int                 nowtime;
     int                 tics;
     int                 wipestart;
-    boolean             done;
+    dboolean            done;
 
     realframe = (capfps || gametic > saved_gametic);
     if (realframe)
@@ -442,7 +442,7 @@ void D_AdvanceTitle(void)
 //
 void D_DoAdvanceTitle(void)
 {
-    static boolean      flag = true;
+    static dboolean     flag = true;
 
     players[0].playerstate = PST_LIVE;      // not reborn
     advancetitle = false;
@@ -506,7 +506,7 @@ void D_StartTitle(int page)
     D_AdvanceTitle();
 }
 
-static boolean D_AddFile(char *filename, boolean automatic)
+static dboolean D_AddFile(char *filename, dboolean automatic)
 {
     return (W_AddFile(filename, automatic) != NULL);
 }
@@ -545,7 +545,7 @@ void ProcessDehFile(char *filename, int lump);
 static char     dehfiles[MAXDEHFILES][MAX_PATH];
 static int      dehfilecount = 0;
 
-boolean DehFileProcessed(char *path)
+dboolean DehFileProcessed(char *path)
 {
     int i;
 
@@ -583,7 +583,7 @@ static void LoadDehFile(char *path)
     }
 }
 
-static boolean D_IsDOOMIWAD(char *filename)
+static dboolean D_IsDOOMIWAD(char *filename)
 {
     return (D_CheckFilename(filename, "DOOM.WAD")
         || D_CheckFilename(filename, "DOOM1.WAD")
@@ -593,7 +593,7 @@ static boolean D_IsDOOMIWAD(char *filename)
         || (hacx = D_CheckFilename(filename, "HACX.WAD")));
 }
 
-static boolean D_IsUnsupportedIWAD(char *filename)
+static dboolean D_IsUnsupportedIWAD(char *filename)
 {
     return (D_CheckFilename(filename, "HERETIC1.WAD")
         || D_CheckFilename(filename, "HERETIC.WAD")
@@ -603,7 +603,7 @@ static boolean D_IsUnsupportedIWAD(char *filename)
         || D_CheckFilename(filename, "STRIFE1.WAD"));
 }
 
-static boolean D_IsDehFile(char *filename)
+static dboolean D_IsDehFile(char *filename)
 {
     return (!strcasecmp(filename + strlen(filename) - 4, ".deh")
         || !strcasecmp(filename + strlen(filename) - 4, ".bex"));
@@ -630,7 +630,7 @@ static void D_CheckSupportedPWAD(char *filename)
         BTSX = BTSXE3 = BTSXE3B = true;
 }
 
-static boolean D_IsUnsupportedPWAD(char *filename)
+static dboolean D_IsUnsupportedPWAD(char *filename)
 {
     return (D_CheckFilename(filename, "VOICES.WAD"));
 }
@@ -694,7 +694,7 @@ static void D_FirstUse(void)
 static int D_ChooseIWAD(void)
 {
     int                 iwadfound = -1;
-    boolean             fileopenedok = false;
+    dboolean            fileopenedok = false;
 
 #if defined(WIN32)
     OPENFILENAME        ofn;
@@ -732,7 +732,7 @@ static int D_ChooseIWAD(void)
 
     if (fileopenedok)
     {
-        boolean onlyoneselected;
+        dboolean onlyoneselected;
 
         iwadfound = 0;
         startuptimer = I_GetTimeMS();
@@ -885,7 +885,7 @@ static int D_ChooseIWAD(void)
         else
         {
             bool        isDOOM2 = false;
-            boolean     sharewareiwad = false;
+            dboolean    sharewareiwad = false;
 
 #if defined(WIN32)
             LPSTR       iwadpass = ofn.lpstrFile;
@@ -1171,7 +1171,7 @@ static int D_ChooseIWAD(void)
 
 void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
-boolean CheckPackageWADVersion(void);
+dboolean CheckPackageWADVersion(void);
 
 static void D_ProcessDehCommandLine(void)
 {
@@ -1179,7 +1179,7 @@ static void D_ProcessDehCommandLine(void)
 
     if (p || (p = M_CheckParm("-bex")))
     {
-        boolean deh = true;
+        dboolean deh = true;
 
         while (++p < myargc)
             if (*myargv[p] == '-')
@@ -1601,7 +1601,7 @@ static void D_DoomMainSetup(void)
             G_DeferredInitNew(startskill, startepisode, startmap);
         }
         else
-            D_StartTitle((boolean)M_CheckParm("-nosplash"));    // start up intro loop
+            D_StartTitle((dboolean)M_CheckParm("-nosplash"));    // start up intro loop
     }
 
     startuptimer = I_GetTimeMS() - startuptimer;

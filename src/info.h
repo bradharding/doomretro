@@ -1546,7 +1546,7 @@ typedef struct
     short       x;
     short       y;
     mobjtype_t  type;
-    boolean     canmodify;
+    dboolean    canmodify;
 } offset_t;
 
 extern offset_t sproffsets[];

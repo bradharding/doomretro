@@ -123,7 +123,7 @@ struct texture_s
 };
 
 // Retrieve column data for span blitting.
-byte *R_GetColumn(int tex, int col, boolean opaque);
+byte *R_GetColumn(int tex, int col, dboolean opaque);
 
 // I/O, setting up the stuff.
 void R_InitData(void);

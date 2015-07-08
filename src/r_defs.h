@@ -235,7 +235,7 @@ typedef struct line_s
     // Animation related.
     unsigned short      flags;
 
-    boolean             hidden;
+    dboolean            hidden;
 
     short               special;
     short               tag;

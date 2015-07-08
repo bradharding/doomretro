@@ -76,16 +76,16 @@ int                     numdisplays;
 SDL_Rect                *displays;
 char                    *scaledriver = SCALEDRIVER_DEFAULT;
 char                    *scalefilter = SCALEFILTER_DEFAULT;
-boolean                 vsync = VSYNC_DEFAULT;
+dboolean                vsync = VSYNC_DEFAULT;
 
 // palette
 SDL_Color               palette[256];
-static boolean          palette_to_set;
+static dboolean         palette_to_set;
 
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
 
-boolean                 novert = NOVERT_DEFAULT;
+dboolean                novert = NOVERT_DEFAULT;
 
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
@@ -108,20 +108,20 @@ int                     displaycenterx;
 int                     displaycentery;
 
 // Run in full screen mode?
-boolean                 fullscreen = FULLSCREEN_DEFAULT;
+dboolean                fullscreen = FULLSCREEN_DEFAULT;
 
-boolean                 widescreen = WIDESCREEN_DEFAULT;
-boolean                 returntowidescreen = false;
+dboolean                widescreen = WIDESCREEN_DEFAULT;
+dboolean                returntowidescreen = false;
 
-boolean                 hud = HUD_DEFAULT;
+dboolean                hud = HUD_DEFAULT;
 
-boolean                 capfps = CAPFPS_DEFAULT;
+dboolean                capfps = CAPFPS_DEFAULT;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
-boolean                 screenvisible;
+dboolean                screenvisible;
 
-boolean                 window_focused;
+dboolean                window_focused;
 
 // Empty mouse cursor
 static SDL_Cursor       *cursors[2];
@@ -132,7 +132,7 @@ int                     desktopheight;
 char                    *videodriver = VIDEODRIVER_DEFAULT;
 char                    envstring[255];
 
-boolean                 keys[UCHAR_MAX];
+dboolean                keys[UCHAR_MAX];
 
 byte                    gammatable[GAMMALEVELS][256];
 
@@ -155,7 +155,7 @@ float                   gammalevel = GAMMALEVEL_DEFAULT;
 
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
 
-boolean                 vid_showfps = false;
+dboolean                vid_showfps = false;
 int                     fps = 0;
 
 // Mouse acceleration
@@ -170,14 +170,14 @@ float                   mouse_acceleration = MOUSEACCELERATION_DEFAULT;
 int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
 
 int                     capslock;
-boolean                 alwaysrun = ALWAYSRUN_DEFAULT;
+dboolean                alwaysrun = ALWAYSRUN_DEFAULT;
 
 extern int              key_alwaysrun;
 
 void SetWindowPositionVars(void);
 void ST_doRefresh(void);
 
-boolean MouseShouldBeGrabbed(void)
+dboolean MouseShouldBeGrabbed(void)
 {
     // if the window doesn't have focus, never grab it
     if (!window_focused)
@@ -221,7 +221,7 @@ static void UpdateFocus(void)
 
 // Show or hide the mouse cursor. We have to use different techniques
 // depending on the OS.
-static void SetShowCursor(boolean show)
+static void SetShowCursor(dboolean show)
 {
     // On Windows, using SDL_ShowCursor() adds lag to the mouse input,
     // so work around this by setting an invisible cursor instead. On
@@ -317,7 +317,7 @@ int TranslateKey2(int key)
     }
 }
 
-boolean keystate(int key)
+dboolean keystate(int key)
 {
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
@@ -392,10 +392,10 @@ static void CenterMouse(void)
     SDL_GetRelativeMouseState(NULL, NULL);
 }
 
-boolean altdown = false;
-boolean waspaused = false;
+dboolean altdown = false;
+dboolean waspaused = false;
 
-boolean noinput = true;
+dboolean noinput = true;
 
 static void I_GetEvent(void)
 {
@@ -588,11 +588,11 @@ void I_StartTic(void)
     gamepadfunc();
 }
 
-boolean currently_grabbed = false;
+dboolean currently_grabbed = false;
 
 static void UpdateGrab(void)
 {
-    boolean     grab = MouseShouldBeGrabbed();
+    dboolean    grab = MouseShouldBeGrabbed();
 
     if (grab && !currently_grabbed)
     {
@@ -808,7 +808,7 @@ static void PositionOnCurrentDisplay(void)
             displays[displayindex].x + windowx, displays[displayindex].y + windowy);
 }
 
-static void SetVideoMode(boolean output)
+static void SetVideoMode(dboolean output)
 {
     int                 i;
     int                 flags = SDL_RENDERER_TARGETTEXTURE;
@@ -991,7 +991,7 @@ static void SetVideoMode(boolean output)
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
 }
 
-void ToggleWidescreen(boolean toggle)
+void ToggleWidescreen(dboolean toggle)
 {
     if (toggle)
     {
@@ -1072,7 +1072,7 @@ void I_InitGammaTables(void)
                 gammatable[i][j] = (byte)(pow((j + 1) / 256.0, 1.0 / gammalevels[i]) * 255.0);
 }
 
-boolean I_ValidScreenMode(int width, int height)
+dboolean I_ValidScreenMode(int width, int height)
 {
     SDL_DisplayMode     mode;
     const int           modecount = SDL_GetNumDisplayModes(0);

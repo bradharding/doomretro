@@ -76,14 +76,14 @@ static char     *finaleflat;
 
 void F_StartCast(void);
 void F_CastTicker(void);
-boolean F_CastResponder(event_t *ev);
+dboolean F_CastResponder(event_t *ev);
 void F_CastDrawer(void);
 
 void WI_checkForAccelerate(void);    // killough 3/28/98: used to
 extern int acceleratestage;          // accelerate intermission screens
 static int midstage;                 // whether we're in "mid-stage"
 
-extern boolean shadows;
+extern dboolean shadows;
 
 //
 // F_StartFinale
@@ -197,7 +197,7 @@ void F_StartFinale(void)
     finalecount = 0;
 }
 
-boolean F_Responder(event_t *ev)
+dboolean F_Responder(event_t *ev)
 {
     if (finalestage == F_STAGE_CAST)
         return F_CastResponder(ev);
@@ -277,7 +277,7 @@ static struct
 //
 extern patch_t *hu_font[HU_FONTSIZE];
 
-void M_DrawSmallChar(int x, int y, int i, boolean shadow);
+void M_DrawSmallChar(int x, int y, int i, dboolean shadow);
 
 void F_TextWrite(void)
 {
@@ -417,12 +417,12 @@ int     castnum;
 int     casttics;
 state_t *caststate;
 int     castrot;
-boolean castdeath;
-boolean castdeathflip;
+dboolean castdeath;
+dboolean castdeathflip;
 int     castframes;
 int     castonmelee;
-boolean castattacking;
-boolean firstevent;
+dboolean castattacking;
+dboolean firstevent;
 
 extern char *playername;
 
@@ -596,7 +596,7 @@ stopattack:
 extern int key_use;
 extern int key_fire;
 
-boolean F_CastResponder(event_t *ev)
+dboolean F_CastResponder(event_t *ev)
 {
     mobjtype_t  type;
 
@@ -721,7 +721,7 @@ void F_CastPrint(char *text)
 //
 // F_CastDrawer
 //
-extern boolean translucency;
+extern dboolean translucency;
 
 void F_CastDrawer(void)
 {
@@ -729,7 +729,7 @@ void F_CastDrawer(void)
     spriteframe_t       *sprframe;
     int                 lump;
     int                 rot = 0;
-    boolean             flip;
+    dboolean            flip;
     patch_t             *patch;
     int                 y = ORIGINALHEIGHT - 30;
     mobjtype_t          type = castorder[castnum].type;
@@ -745,7 +745,7 @@ void F_CastDrawer(void)
     if (sprframe->rotate)
         rot = castrot;
     lump = sprframe->lump[rot];
-    flip = (boolean)(sprframe->flip & (1 << rot));
+    flip = (dboolean)(sprframe->flip & (1 << rot));
 
     patch = W_CacheLumpNum(lump + firstspritelump, PU_CACHE);
 

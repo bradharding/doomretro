@@ -45,9 +45,9 @@
 #include "p_local.h"
 #include "s_sound.h"
 
-extern boolean  oldweaponsowned[];
-extern boolean  skipaction;
-extern boolean  footclip;
+extern dboolean oldweaponsowned[];
+extern dboolean skipaction;
+extern dboolean footclip;
 
 void G_RemoveChoppers(void);
 
@@ -60,7 +60,7 @@ void G_RemoveChoppers(void);
 
 int     playerbob = PLAYERBOB_DEFAULT;
 
-boolean onground;
+dboolean onground;
 
 //
 // P_Thrust
@@ -140,7 +140,7 @@ void P_CalcHeight(player_t *player)
 
     if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
     {
-        boolean                     liquid = true;
+        dboolean                    liquid = true;
         const struct msecnode_s     *seclist;
 
         for (seclist = mo->touching_sectorlist; seclist; seclist = seclist->m_tnext)
@@ -215,7 +215,7 @@ void P_DeathThink(player_t *player)
     angle_t             angle;
     angle_t             delta;
     static int          count = 0;
-    static boolean      facingkiller = false;
+    static dboolean     facingkiller = false;
     mobj_t              *mo = player->mo;
     mobj_t              *attacker = player->attacker;
     const Uint8         *keystate = SDL_GetKeyboardState(NULL);

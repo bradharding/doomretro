@@ -66,17 +66,17 @@
 #include "z_zone.h"
 
 extern patch_t  *hu_font[HU_FONTSIZE];
-extern boolean  message_dontfuckwithme;
+extern dboolean message_dontfuckwithme;
 
 extern int      st_palette;
 
-extern boolean  wipe;
-extern boolean  hud;
+extern dboolean wipe;
+extern dboolean hud;
 
-extern boolean  splashscreen;
+extern dboolean splashscreen;
 
-extern boolean  skipaction;
-extern boolean  skippsprinterp;
+extern dboolean skipaction;
+extern dboolean skippsprinterp;
 
 //
 // defaulted values
@@ -86,7 +86,7 @@ int             gamepadsensitivity = GAMEPADSENSITIVITY_DEFAULT;
 float           gamepadsensitivityf;
 
 // Show messages has default, false = off, true = on
-boolean         messages = MESSAGES_DEFAULT;
+dboolean        messages = MESSAGES_DEFAULT;
 
 int             graphicdetail = GRAPHICDETAIL_DEFAULT;
 
@@ -96,14 +96,14 @@ int             screensize = SCREENSIZE_DEFAULT;
 int             quickSaveSlot;
 
 // true = message to be printed
-boolean         messageToPrint;
+dboolean        messageToPrint;
 // ...and here is the message string!
 char            *messageString;
 
 int             messageLastMenuActive;
 
 // timed message = no input from user
-boolean         messageNeedsInput;
+dboolean        messageNeedsInput;
 
 void (*messageRoutine)(int response);
 
@@ -114,10 +114,10 @@ int             saveCharIndex;          // which char we're editing
 // old save description before edit
 char            saveOldString[SAVESTRINGSIZE];
 
-boolean         inhelpscreens;
-boolean         menuactive;
-boolean         savegames = false;
-boolean         startingnewgame = false;
+dboolean        inhelpscreens;
+dboolean        menuactive;
+dboolean        savegames = false;
+dboolean        startingnewgame = false;
 
 #define SKULLXOFF       -32
 #define LINEHEIGHT      17
@@ -140,7 +140,7 @@ int             selectedsavegame = SAVEGAME_DEFAULT;
 
 static int      functionkey = 0;
 
-static boolean  usinggamepad = false;
+static dboolean usinggamepad = false;
 
 // graphic name of skulls
 char            *skullName[2] = { "M_SKULL1", "M_SKULL2" };
@@ -151,7 +151,7 @@ menu_t          *currentMenu;
 byte            *tempscreen;
 byte            *blurredscreen;
 
-boolean         blurred = false;
+dboolean        blurred = false;
 
 //
 // PROTOTYPES
@@ -194,10 +194,10 @@ void M_DrawSave(void);
 void M_DrawSaveLoadBorder(int x, int y);
 void M_SetupNextMenu(menu_t *menudef);
 void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor);
-void M_WriteText(int x, int y, char *string, boolean shadow);
+void M_WriteText(int x, int y, char *string, dboolean shadow);
 int M_StringWidth(char *string);
 int M_StringHeight(char *string);
-void M_StartMessage(char *string, void *routine, boolean input);
+void M_StartMessage(char *string, void *routine, dboolean input);
 void M_ClearMenus(void);
 
 //
@@ -581,7 +581,7 @@ void M_DarkBlueBackground(void)
 // M_DrawChar
 //  draw a character on screen
 //
-void M_DrawChar(int x, int y, int i, boolean overlapping)
+void M_DrawChar(int x, int y, int i, dboolean overlapping)
 {
     int x1, y1;
     int w = strlen(redcharset[i]) / 18;
@@ -662,7 +662,7 @@ void M_DrawString(int x, int y, char *str)
     {
         int     j = -1;
         int     k = 0;
-        boolean overlapping = false;
+        dboolean overlapping = false;
 
         if (str[i] < 123)
             j = chartoi[(int)str[i]];
@@ -815,7 +815,7 @@ static byte saveg_read8(FILE *file)
 //
 // M_CheckSaveGame
 //
-boolean M_CheckSaveGame(int choice)
+dboolean M_CheckSaveGame(int choice)
 {
     FILE        *handle;
     int         episode;
@@ -968,7 +968,7 @@ void M_LoadGame(int choice)
 
 #define CARETWAIT       10
 
-static boolean  showcaret = false;
+static dboolean showcaret = false;
 static int      caretwait = 0;
 
 //
@@ -1090,7 +1090,7 @@ const char *RemoveMapNum(const char *str)
 
 void M_UpdateSaveGameName(int i)
 {
-    boolean     match = false;
+    dboolean    match = false;
 
     if (!strcmp(savegamestrings[i], s_EMPTYSTRING))
         match = true;
@@ -1663,7 +1663,7 @@ void M_Options(int choice)
 //
 // Toggle messages on/off
 //
-boolean message_dontpause = false;
+dboolean message_dontpause = false;
 
 void M_ChangeMessages(int choice)
 {
@@ -1680,7 +1680,7 @@ void M_ChangeMessages(int choice)
 //
 // M_EndGame
 //
-boolean endinggame = false;
+dboolean endinggame = false;
 
 void M_EndingGame(void)
 {
@@ -1774,9 +1774,9 @@ int quitsounds2[8] =
     sfx_sgtatk
 };
 
-boolean         quitting;
+dboolean        quitting;
 
-extern boolean  waspaused;
+extern dboolean waspaused;
 
 void M_QuitResponse(int key)
 {
@@ -2040,7 +2040,7 @@ void M_DrawThermo(int x, int y, int thermWidth, float thermDot, float factor)
     V_DrawPatch(x + 8 + (int)(thermDot * factor), y, 0, W_CacheLumpName("M_THERMO", PU_CACHE));
 }
 
-void M_StartMessage(char *string, void *routine, boolean input)
+void M_StartMessage(char *string, void *routine, dboolean input)
 {
     messageLastMenuActive = menuactive;
     messageToPrint = true;
@@ -2094,7 +2094,7 @@ int M_StringHeight(char *string)
 //
 //  Write a char
 //
-void M_DrawSmallChar(int x, int y, int i, boolean shadow)
+void M_DrawSmallChar(int x, int y, int i, dboolean shadow)
 {
     int w;
     int x1, y1;
@@ -2109,7 +2109,7 @@ void M_DrawSmallChar(int x, int y, int i, boolean shadow)
 //
 // Write a string
 //
-void M_WriteText(int x, int y, char *string, boolean shadow)
+void M_WriteText(int x, int y, char *string, dboolean shadow)
 {
     int         w;
     char        *ch = string;
@@ -2186,7 +2186,7 @@ void M_ShowHelp(void)
         R_SetViewSize(8);
 }
 
-void M_ChangeGamma(boolean shift)
+void M_ChangeGamma(dboolean shift)
 {
     static int  gammawait = 0;
 
@@ -2249,9 +2249,9 @@ void M_ChangeGamma(boolean shift)
 //
 int     gamepadwait = 0;
 int     mousewait = 0;
-boolean gamepadpress = false;
+dboolean gamepadpress = false;
 
-boolean M_Responder(event_t *ev)
+dboolean M_Responder(event_t *ev)
 {
     // key is the key pressed, ch is the actual character typed
     int         ch = 0;
@@ -2444,7 +2444,7 @@ boolean M_Responder(event_t *ev)
             case KEY_ENTER:
                 if (!keydown)
                 {
-                    boolean     allspaces = true;
+                    dboolean    allspaces = true;
 
                     keydown = key;
                     for (i = 0; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)

@@ -65,15 +65,15 @@ char                    chat_char;
 static player_t         *plr;
 patch_t                 *hu_font[HU_FONTSIZE];
 static hu_textline_t    w_title;
-static boolean          always_off = false;
+static dboolean         always_off = false;
 
-boolean                 message_on;
-boolean                 message_dontfuckwithme;
-static boolean          message_nottobefuckedwith;
+dboolean                message_on;
+dboolean                message_dontfuckwithme;
+static dboolean         message_nottobefuckedwith;
 
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
-boolean                 idbehold = false;
-boolean                 s_STSTR_BEHOLD2;
+dboolean                idbehold = false;
+dboolean                s_STSTR_BEHOLD2;
 
 static hu_stext_t       w_message;
 int                     message_counter;
@@ -82,16 +82,16 @@ char                    *playername = PLAYERNAME_DEFAULT;
 
 int M_StringWidth(char *string);
 
-extern boolean          messages;
-extern boolean          widescreen;
-extern boolean          hud;
+extern dboolean         messages;
+extern dboolean         widescreen;
+extern dboolean         hud;
 extern int              translucency;
 extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
-extern boolean          emptytallpercent;
+extern dboolean         emptytallpercent;
 
-static boolean          headsupactive = false;
+static dboolean         headsupactive = false;
 
 byte                    *tempscreen;
 int                     hud_y;
@@ -316,9 +316,9 @@ static void HU_DrawHUD(void)
     static int      healthwait = 0;
     byte            *tinttab;
     int             invulnerability = plr->powers[pw_invulnerability];
-    static boolean  healthanim = false;
+    static dboolean healthanim = false;
     patch_t         *patch;
-    boolean         gamepaused = (menuactive || paused || consoleactive);
+    dboolean        gamepaused = (menuactive || paused || consoleactive);
 
     tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
         || gamepaused ? tinttab66 : tinttab25);
@@ -374,7 +374,7 @@ static void HU_DrawHUD(void)
     {
         int                 ammo_x = HUD_AMMO_X + ammopic[ammotype].x;
         static int          ammowait = 0;
-        static boolean      ammoanim = false;
+        static dboolean     ammoanim = false;
 
         tinttab = ((ammo <= HUD_AMMO_MIN && ammoanim) || ammo > HUD_AMMO_MIN || gamepaused ?
             tinttab66 : tinttab25);
@@ -418,7 +418,7 @@ static void HU_DrawHUD(void)
     {
         int                 keypic_x = HUD_KEYS_X - 20 * (keys - 1);
         static int          keywait = 0;
-        static boolean      showkey = false;
+        static dboolean     showkey = false;
 
         if (!armor)
             keypic_x += 114;
@@ -543,14 +543,14 @@ void HU_Erase(void)
 }
 
 extern fixed_t  m_x, m_y, m_h, m_w;
-extern boolean  message_dontpause;
-extern boolean  blurred;
-extern boolean  inhelpscreens;
+extern dboolean message_dontpause;
+extern dboolean blurred;
+extern dboolean inhelpscreens;
 extern int      direction;
 
 void HU_Ticker(void)
 {
-    boolean     idmypos = (players[0].cheats & CF_MYPOS);
+    dboolean    idmypos = (players[0].cheats & CF_MYPOS);
 
     // tick down message counter if message is up
     if (((!menuactive && !paused) || inhelpscreens || message_dontpause) &&
@@ -640,7 +640,7 @@ void HU_Ticker(void)
     }
 }
 
-void HU_PlayerMessage(char *message, boolean ingame)
+void HU_PlayerMessage(char *message, dboolean ingame)
 {
     static char buffer[1024];
     char        lastchar;
@@ -662,7 +662,7 @@ void HU_PlayerMessage(char *message, boolean ingame)
         C_Output("%s%s", buffer, (lastchar == '.' || lastchar == '!' ? "" : "."));
 }
 
-boolean message_clearable = false;
+dboolean message_clearable = false;
 
 void HU_clearMessages(void)
 {

@@ -96,7 +96,7 @@
 
 #define NOBACKGROUNDCOLOR       -1
 
-boolean         consoleactive = false;
+dboolean        consoleactive = false;
 int             consoleheight = 0;
 int             consoledirection = -1;
 static int      consolewait = 0;
@@ -117,7 +117,7 @@ int             undolevels = 0;
 
 patch_t         *caret;
 int             caretpos = 0;
-static boolean  showcaret = true;
+static dboolean showcaret = true;
 static int      caretwait = 0;
 int             selectstart = 0;
 int             selectend = 0;
@@ -136,13 +136,13 @@ static int      outputhistory = -1;
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 #if defined(WIN32)
-boolean         showmemoryusage = false;
+dboolean        showmemoryusage = false;
 #endif
 
-extern boolean  translucency;
+extern dboolean translucency;
 extern byte     *tinttab75;
 extern int      fps;
-extern boolean  alwaysrun;
+extern dboolean alwaysrun;
 extern int      key_alwaysrun;
 
 void G_ToggleAlwaysRun(void);
@@ -446,7 +446,7 @@ static void c_blurscreen(int x1, int y1, int x2, int y2, int i)
 
 static void C_DrawBackground(int height)
 {
-    static boolean      blurred = false;
+    static dboolean     blurred = false;
     int                 i;
 
     height = (height + 5) * SCREENWIDTH;
@@ -555,7 +555,7 @@ static int C_TextWidth(char *text)
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int translucency,
     int tabs[8])
 {
-    boolean     italics = false;
+    dboolean    italics = false;
     size_t      i;
     int         tab = -1;
     size_t      len = strlen(text);
@@ -681,7 +681,7 @@ void C_Drawer(void)
         char    *left = Z_Malloc(512, PU_STATIC, NULL);
         char    *middle = Z_Malloc(512, PU_STATIC, NULL);
         char    *right = Z_Malloc(512, PU_STATIC, NULL);
-        boolean prevconsoleactive = consoleactive;
+        dboolean prevconsoleactive = consoleactive;
 
         // adjust console height
         if (consolewait < I_GetTime())
@@ -854,7 +854,7 @@ void C_Drawer(void)
     }
 }
 
-boolean C_Responder(event_t *ev)
+dboolean C_Responder(event_t *ev)
 {
     if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)
         return false;
@@ -927,7 +927,7 @@ boolean C_Responder(event_t *ev)
             case KEY_ENTER:
                 if (consoleinput[0])
                 {
-                    boolean     validcmd = false;
+                    dboolean    validcmd = false;
 
                     // process cmd
                     i = 0;

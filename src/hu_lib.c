@@ -48,9 +48,9 @@
 #include "v_data.h"
 #include "v_video.h"
 
-extern boolean  automapactive;
-extern boolean  widescreen;
-extern boolean  translucency;
+extern dboolean automapactive;
+extern dboolean widescreen;
+extern dboolean translucency;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
 {
@@ -68,7 +68,7 @@ void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc)
     HUlib_clearTextLine(t);
 }
 
-boolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
+dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch)
 {
     if (t->len == HU_MAXLINELENGTH)
         return false;
@@ -289,7 +289,7 @@ void HUlib_eraseTextLine(hu_textline_t *l)
         l->needsupdate--;
 }
 
-void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, boolean *on)
+void HUlib_initSText(hu_stext_t *s, int x, int y, int h, patch_t **font, int startchar, dboolean *on)
 {
     int i;
 

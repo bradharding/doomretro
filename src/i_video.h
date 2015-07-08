@@ -84,32 +84,32 @@ void done_win32(void);
 void M_QuitDOOM(int choice);
 void R_SetViewSize(int blocks);
 
-extern boolean  screenvisible;
+extern dboolean screenvisible;
 
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
 
-extern boolean  sendpause;
-extern boolean  quitting;
+extern dboolean sendpause;
+extern dboolean quitting;
 extern int      screensize;
 
 extern int      keydown;
 
-extern boolean  idclev;
-extern boolean  idmus;
-extern boolean  idbehold;
-extern boolean  message_clearable;
+extern dboolean idclev;
+extern dboolean idmus;
+extern dboolean idbehold;
+extern dboolean message_clearable;
 
 extern int      gammaindex;
 extern float    gammalevel;
 extern float    gammalevels[GAMMALEVELS];
 
-extern boolean  blurred;
-extern boolean  splashscreen;
-extern boolean  noinput;
+extern dboolean blurred;
+extern dboolean splashscreen;
+extern dboolean noinput;
 
-extern boolean  vid_showfps;
-extern boolean  wipe;
+extern dboolean vid_showfps;
+extern dboolean wipe;
 
 extern int      windowx;
 extern int      windowy;
