@@ -572,7 +572,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     fixed_t             tz;
 
-    unsigned int        rot = 0;
+    angle_t             rot = 0;
 
     sector_t            *sector = thing->subsector->sector;
 
@@ -631,7 +631,6 @@ void R_ProjectSprite(mobj_t *thing)
     if (sprframe->rotate)
     {
         // choose a different rotation based on player view
-        angle_t rot;
         angle_t ang = R_PointToAngle(fx, fy);
 
         if (sprframe->lump[0] == sprframe->lump[1])
