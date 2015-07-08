@@ -597,7 +597,11 @@ void D_SetGameDescription(void)
     gamedescription = (char *)malloc(64);
     gamedescription = PACKAGE_NAME;
 
-    if (chex)
+    if (TITLEPIC)
+        gamedescription = strdup(M_ExtractFilename(lumpinfo[W_GetNumForName("TITLEPIC")].wad_file->path));
+    else if (M_DOOM)
+        gamedescription = strdup(M_ExtractFilename(lumpinfo[W_GetNumForName("M_DOOM")].wad_file->path));
+    else if (chex)
         gamedescription = s_CAPTION_CHEX;
     else if (hacx)
         gamedescription = s_CAPTION_HACX;
