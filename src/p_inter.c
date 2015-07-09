@@ -134,7 +134,7 @@ int P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
         player->ammo[ammo] = player->maxammo[ammo];
 
     if (num && ammo == weaponinfo[player->readyweapon].ammo)
-        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
 
     // If non zero ammo, don't change up weapons, player was lower on purpose.
     if (oldammo)
@@ -199,7 +199,7 @@ dboolean P_GiveBackpack(player_t *player, dboolean giveammo)
         {
             result = true;
             if ((ammotype_t)i == weaponinfo[player->readyweapon].ammo)
-                ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+                ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         }
         if (giveammo)
             P_GiveAmmo(player, (ammotype_t)i, 1);
@@ -221,7 +221,7 @@ dboolean P_GiveFullAmmo(player_t *player)
 
     if (result)
     {
-        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         return true;
     }
     else
@@ -256,7 +256,7 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 
     if (gaveweapon || gaveammo)
     {
-        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         return true;
     }
     else
@@ -325,7 +325,7 @@ dboolean P_GiveAllWeapons(player_t *player)
 
     if (result)
     {
-        ammohighlight = I_GetTime() + HUD_AMMO_HIGHLIGHT_WAIT;
+        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         return true;
     }
     else
@@ -344,7 +344,7 @@ dboolean P_GiveBody(player_t *player, int num)
     player->health = MIN(player->health + num, maxhealth);
     player->mo->health = player->health;
 
-    healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
+    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
 
     return true;
 }
@@ -354,7 +354,7 @@ void P_GiveMegaHealth(player_t *player)
     if (!(player->cheats & CF_GODMODE))
     {
         if (player->health < mega_health)
-            healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
+            healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
         player->health = player->mo->health = mega_health;
     }
 }
@@ -373,7 +373,7 @@ dboolean P_GiveArmor(player_t *player, int armortype)
 
     player->armortype = armortype;
     player->armorpoints = hits;
-    armorhighlight = I_GetTime() + HUD_ARMOR_HIGHLIGHT_WAIT;
+    armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
 
     return true;
 }
@@ -564,7 +564,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (player->health > maxhealth * 2)
                     player->health = maxhealth * 2;
                 else
-                    healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                    healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
                 player->mo->health = player->health;
             }
             HU_PlayerMessage(s_GOTHTHBONUS, true);
@@ -575,7 +575,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
             if (player->armorpoints > max_armor)
                 player->armorpoints = max_armor;
             else
-                armorhighlight = I_GetTime() + HUD_ARMOR_HIGHLIGHT_WAIT;
+                armorhighlight = I_GetTimeMS() + HUD_ARMOR_HIGHLIGHT_WAIT;
             if (!player->armortype)
                 player->armortype = 1;
             HU_PlayerMessage(s_GOTARMBONUS, true);
@@ -588,7 +588,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
                 if (player->health > max_soul)
                     player->health = max_soul;
                 player->mo->health = player->health;
-                healthhighlight = I_GetTime() + HUD_HEALTH_HIGHLIGHT_WAIT;
+                healthhighlight = I_GetTimeMS() + HUD_HEALTH_HIGHLIGHT_WAIT;
             }
             HU_PlayerMessage(s_GOTSUPER, true);
             sound = sfx_getpow;

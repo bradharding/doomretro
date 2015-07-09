@@ -319,7 +319,7 @@ static void HU_DrawHUD(void)
     static dboolean healthanim = false;
     patch_t         *patch;
     dboolean        gamepaused = (menuactive || paused || consoleactive);
-    int             currenttics = I_GetTime();
+    int             currenttime = I_GetTimeMS();
 
     tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
         || gamepaused ? tinttab66 : tinttab25);
@@ -335,10 +335,8 @@ static void HU_DrawHUD(void)
         health_x += SHORT(patch->width) + 8;
     }
 
-    if (healthhighlight)
+    if (healthhighlight > currenttime)
     {
-        if (healthhighlight < currenttics)
-            healthhighlight = 0;
         DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, health, tinttab, V_DrawHUDPatch);
         if (!emptytallpercent)
             V_DrawHUDPatch(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
@@ -352,10 +350,10 @@ static void HU_DrawHUD(void)
 
     if (health <= HUD_HEALTH_MIN && !gamepaused)
     {
-        if (healthwait < currenttics)
+        if (healthwait < currenttime)
         {
             healthanim = !healthanim;
-            healthwait = currenttics + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 4;
+            healthwait = currenttime + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 115;
         }
     }
     else
@@ -386,21 +384,17 @@ static void HU_DrawHUD(void)
             ammo_x += SHORT(patch->width) + 8;
         }
 
-        if (ammohighlight)
-        {
-            if (ammohighlight < currenttics)
-                ammohighlight = 0;
+        if (ammohighlight > currenttime)
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, V_DrawHUDPatch);
-        }
         else
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, hudnumfunc);
 
         if (ammo <= HUD_AMMO_MIN && !gamepaused)
         {
-            if (ammowait < currenttics)
+            if (ammowait < currenttime)
             {
                 ammoanim = !ammoanim;
-                ammowait = currenttics + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 4;
+                ammowait = currenttime + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 115;
             }
         }
         else
@@ -440,10 +434,10 @@ static void HU_DrawHUD(void)
             {
                 if (!gamepaused)
                 {
-                    if (keywait < currenttics)
+                    if (keywait < currenttime)
                     {
                         showkey = !showkey;
-                        keywait = currenttics + HUD_KEY_WAIT;
+                        keywait = currenttime + HUD_KEY_WAIT;
                         plr->neededcardflash--;
                     }
                 }
@@ -480,11 +474,8 @@ static void HU_DrawHUD(void)
             armor_x -= 7;
         }
 
-        if (armorhighlight)
+        if (armorhighlight > currenttime)
         {
-            if (armorhighlight < currenttics)
-                armorhighlight = 0;
-
             if (emptytallpercent)
             {
                 armor_x -= HUDNumberWidth(armor);
