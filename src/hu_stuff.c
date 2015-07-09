@@ -319,6 +319,7 @@ static void HU_DrawHUD(void)
     static dboolean healthanim = false;
     patch_t         *patch;
     dboolean        gamepaused = (menuactive || paused || consoleactive);
+    int             currenttics = I_GetTime();
 
     tinttab = (!health || (health <= HUD_HEALTH_MIN && healthanim) || health > HUD_HEALTH_MIN
         || gamepaused ? tinttab66 : tinttab25);
@@ -336,9 +337,8 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight)
     {
-        if (healthhighlight < I_GetTime())
+        if (healthhighlight < currenttics)
             healthhighlight = 0;
-
         DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, health, tinttab, V_DrawHUDPatch);
         if (!emptytallpercent)
             V_DrawHUDPatch(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
@@ -352,10 +352,10 @@ static void HU_DrawHUD(void)
 
     if (health <= HUD_HEALTH_MIN && !gamepaused)
     {
-        if (healthwait < I_GetTime())
+        if (healthwait < currenttics)
         {
             healthanim = !healthanim;
-            healthwait = I_GetTime() + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 4;
+            healthwait = currenttics + HUD_HEALTH_WAIT * health / HUD_HEALTH_MIN + 4;
         }
     }
     else
@@ -388,7 +388,7 @@ static void HU_DrawHUD(void)
 
         if (ammohighlight)
         {
-            if (ammohighlight < I_GetTime())
+            if (ammohighlight < currenttics)
                 ammohighlight = 0;
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, V_DrawHUDPatch);
         }
@@ -397,10 +397,10 @@ static void HU_DrawHUD(void)
 
         if (ammo <= HUD_AMMO_MIN && !gamepaused)
         {
-            if (ammowait < I_GetTime())
+            if (ammowait < currenttics)
             {
                 ammoanim = !ammoanim;
-                ammowait = I_GetTime() + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 4;
+                ammowait = currenttics + HUD_AMMO_WAIT * ammo / HUD_AMMO_MIN + 4;
             }
         }
         else
@@ -440,10 +440,10 @@ static void HU_DrawHUD(void)
             {
                 if (!gamepaused)
                 {
-                    if (keywait < I_GetTime())
+                    if (keywait < currenttics)
                     {
                         showkey = !showkey;
-                        keywait = I_GetTime() + HUD_KEY_WAIT;
+                        keywait = currenttics + HUD_KEY_WAIT;
                         plr->neededcardflash--;
                     }
                 }
@@ -482,7 +482,7 @@ static void HU_DrawHUD(void)
 
         if (armorhighlight)
         {
-            if (armorhighlight < I_GetTime())
+            if (armorhighlight < currenttics)
                 armorhighlight = 0;
 
             if (emptytallpercent)
