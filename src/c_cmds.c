@@ -1678,17 +1678,20 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
         (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
         "ZDoom uncompressed extended nodes")));
 
+    if (blockmaprecreated)
+        C_TabbedOutput(tabs, "Blockmap\tRecreated");
+
     C_TabbedOutput(tabs, "Total vertices\t%s", commify(numvertexes));
 
     C_TabbedOutput(tabs, "Total sides\t%s", commify(numsides));
 
     C_TabbedOutput(tabs, "Total lines\t%s", commify(numlines));
 
+    C_TabbedOutput(tabs, "Line specials\t%s-compatible", (boomlinespecials ? "Boom" : "Vanilla"));
+
     C_TabbedOutput(tabs, "Total sectors\t%s", commify(numsectors));
 
     C_TabbedOutput(tabs, "Total things\t%s", commify(numthings));
-
-    C_TabbedOutput(tabs, "Line specials\t%s", (BOOM ? "BOOM" : "Vanilla"));
 
     {
         int i, min_x = INT_MAX, max_x = INT_MIN, min_y = INT_MAX, max_y = INT_MIN;

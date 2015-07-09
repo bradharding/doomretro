@@ -131,7 +131,8 @@ static int      samelevel = false;
 
 mapformat_t     mapformat;
 
-dboolean        BOOM;
+dboolean        boomlinespecials;
+dboolean        blockmaprecreated;
 
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
@@ -229,7 +230,7 @@ void P_LoadSegs(int lump)
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
     data = (const mapseg_t *)W_CacheLumpNum(lump, PU_STATIC);
 
-    BOOM = false;
+    boomlinespecials = false;
     for (i = 0; i < numsegs; i++)
     {
         seg_t           *li = segs + i;
@@ -311,7 +312,7 @@ void P_LoadSegs(int lump)
         li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
 
         if (li->linedef->special >= BOOMLINESPECIALS)
-            BOOM = true;
+            boomlinespecials = true;
 
         // Apply any map-specific fixes.
         if (canmodify && mapfixes)
@@ -689,7 +690,7 @@ static void P_LoadZSegs(const byte *data)
 {
     int i;
 
-    BOOM = false;
+    boomlinespecials = false;
     for (i = 0; i < numsegs; i++)
     {
         line_t                  *ldef;
@@ -751,7 +752,7 @@ static void P_LoadZSegs(const byte *data)
         li->angle = R_PointToAngle2(segs[i].v1->x, segs[i].v1->y, segs[i].v2->x, segs[i].v2->y);
 
         if (li->linedef->special >= BOOMLINESPECIALS)
-            BOOM = true;
+            boomlinespecials = true;
     }
 }
 
@@ -1385,11 +1386,12 @@ void P_LoadBlockMap(int lump)
     int count;
     int lumplen;
 
+    blockmaprecreated = false;
     if ((unsigned int)lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8
         || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
-        C_Warning("The BLOCKMAP lump for this map has been recreated.");
+        blockmaprecreated = true;
     }
     else
     {
