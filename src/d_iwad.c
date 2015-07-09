@@ -597,11 +597,7 @@ void D_SetGameDescription(void)
     gamedescription = (char *)malloc(64);
     gamedescription = PACKAGE_NAME;
 
-    if (TITLEPIC)
-        gamedescription = strdup(M_ExtractFilename(lumpinfo[W_GetNumForName("TITLEPIC")].wad_file->path));
-    else if (M_DOOM)
-        gamedescription = strdup(M_ExtractFilename(lumpinfo[W_GetNumForName("M_DOOM")].wad_file->path));
-    else if (chex)
+    if (chex)
         gamedescription = s_CAPTION_CHEX;
     else if (hacx)
         gamedescription = s_CAPTION_HACX;
@@ -616,6 +612,12 @@ void D_SetGameDescription(void)
         // Doom 1. But which version?
         if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
+        else if (TITLEPIC)
+            gamedescription = strdup(M_ExtractFilename(
+                lumpinfo[W_GetNumForName("TITLEPIC")].wad_file->path));
+        else if (M_DOOM)
+            gamedescription = strdup(M_ExtractFilename(
+                lumpinfo[W_GetNumForName("M_DOOM")].wad_file->path));
         else if (gamemode == retail)
             gamedescription = s_CAPTION_ULTIMATE;
         else if (gamemode == registered)
@@ -635,6 +637,12 @@ void D_SetGameDescription(void)
         }
         else if (nerve)
             gamedescription = s_CAPTION_DOOM2;
+        else if (TITLEPIC)
+            gamedescription = strdup(M_ExtractFilename(
+                lumpinfo[W_GetNumForName("TITLEPIC")].wad_file->path));
+        else if (M_DOOM)
+            gamedescription = strdup(M_ExtractFilename(
+                lumpinfo[W_GetNumForName("M_DOOM")].wad_file->path));
         else if (gamemission == doom2)
             gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH, NULL);
         else if (gamemission == pack_plut)
