@@ -323,10 +323,10 @@ static void C_DrawDivider(int y)
     y *= SCREENWIDTH;
     if (y >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
-            screens[0][i] = consoledividercolor;
+            screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
     if ((y += SCREENWIDTH) >= CONSOLETOP * SCREENWIDTH)
         for (i = y + CONSOLETEXTX; i < y + CONSOLETEXTX + CONSOLEDIVIDERWIDTH; ++i)
-            screens[0][i] = consoledividercolor;
+        screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
 }
 
 static void C_DrawScrollbar(void)
@@ -344,7 +344,7 @@ static void C_DrawScrollbar(void)
     for (y = trackstart; y < trackend; y += SCREENWIDTH)
         if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
-                screens[0][y - offset + x] = consolescrollbartrackcolor;
+                screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
 
     // Draw scrollbar face
     facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
@@ -400,6 +400,8 @@ void C_Init(void)
     consoletintcolor <<= 8;
     consoleedgecolor1 <<= 8;
     consoleedgecolor2 <<= 8;
+    consolescrollbartrackcolor <<= 8;
+    consoledividercolor <<= 8;
 }
 
 void C_HideConsole(void)
