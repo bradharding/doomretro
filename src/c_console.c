@@ -181,10 +181,9 @@ int             consolecolors[STRINGTYPES];
 void C_Print(stringtype_t type, char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024];
+    char        buffer[1024] = "";
 
     va_start(argptr, string);
-    memset(buffer, 0, sizeof(buffer));
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
@@ -199,10 +198,9 @@ void C_Print(stringtype_t type, char *string, ...)
 void C_Input(char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024];
+    char        buffer[1024] = "";
 
     va_start(argptr, string);
-    memset(buffer, 0, sizeof(buffer));
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
@@ -217,10 +215,9 @@ void C_Input(char *string, ...)
 void C_Output(char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024];
+    char        buffer[1024] = "";
 
     va_start(argptr, string);
-    memset(buffer, 0, sizeof(buffer));
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
@@ -235,10 +232,9 @@ void C_Output(char *string, ...)
 void C_TabbedOutput(int tabs[8], char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024];
+    char        buffer[1024] = "";
 
     va_start(argptr, string);
-    memset(buffer, 0, sizeof(buffer));
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
@@ -253,10 +249,9 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
 void C_Warning(char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024];
+    char        buffer[1024] = "";
 
     va_start(argptr, string);
-    memset(buffer, 0, sizeof(buffer));
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 
@@ -274,10 +269,9 @@ void C_Warning(char *string, ...)
 void C_PlayerMessage(char *string, ...)
 {
     va_list     argptr;
-    char        buffer[1024];
+    char        buffer[1024] = "";
 
     va_start(argptr, string);
-    memset(buffer, 0, sizeof(buffer));
     M_vsnprintf(buffer, sizeof(buffer) - 1, string, argptr);
     va_end(argptr);
 

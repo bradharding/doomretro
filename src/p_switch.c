@@ -261,7 +261,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
 
         if (linefunc)
             switch ((line->special & TriggerType) >> TriggerTypeShift)
-        {
+            {
                 case PushOnce:
                     if (!side)
                         if (linefunc(line))
@@ -282,7 +282,7 @@ dboolean P_UseSpecialLine(mobj_t *thing, line_t *line, int side)
                 default:
                     // if not a switch/push type, do nothing here
                     return false;
-        }
+            }
     }
 
     // Switches that other things can activate.

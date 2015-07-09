@@ -481,22 +481,18 @@ static void R_GenerateLookup(int texnum)
 byte *R_GetColumn(int tex, int col, dboolean opaque)
 {
     int lump;
-    int ofs;
-    int ofs2;
 
     col &= texturewidthmask[tex];
     lump = texturecolumnlump[tex][col];
-    ofs = texturecolumnofs[tex][col];
-    ofs2 = texturecolumnofs2[tex][col];
 
     // [crispy] single-patched mid-textures on two-sided walls
     if (lump > 0 && !opaque)
-        return ((byte *)W_CacheLumpNum(lump, PU_CACHE) + ofs2);
+        return ((byte *)W_CacheLumpNum(lump, PU_CACHE) + texturecolumnofs2[tex][col]);
 
     if (!texturecomposite[tex])
         R_GenerateComposite(tex);
 
-    return (texturecomposite[tex] + ofs);
+    return (texturecomposite[tex] + texturecolumnofs[tex][col]);
 }
 
 static void GenerateTextureHashTable(void)
@@ -582,7 +578,7 @@ void R_InitTextures(void)
     {
         int             lumpnum;
         void            *names;
-        short           nummappatches;
+        int             nummappatches;
         short           summappatches;
         char            *name_p;
     } pnameslump_t;
@@ -592,7 +588,7 @@ void R_InitTextures(void)
         int             lumpnum;
         int             *maptex;
         int             maxoff;
-        short           numtextures;
+        int             numtextures;
         short           sumtextures;
         short           pnamesoffset;
     } texturelump_t;
