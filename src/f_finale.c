@@ -634,18 +634,18 @@ dboolean F_CastResponder(event_t *ev)
         // rotate (taken from Eternity Engine)
         if (ev->data1 == KEY_LEFTARROW)
         {
-            if (castrot == 7)
+            if (castrot == 14)
                 castrot = 0;
             else
-                ++castrot;
+                castrot += 2;
             return true;
         }
         if (ev->data1 == KEY_RIGHTARROW)
         {
             if (castrot == 0)
-                castrot = 7;
+                castrot = 14;
             else
-                --castrot;
+                castrot -= 2;
             return true;
         }
     }
