@@ -371,6 +371,7 @@ static void C_Time(char *, char *, char *);
 static void C_UnBind(char *, char *, char *);
 static void C_Volume(char *, char *, char *);
 static void C_Vsync(char *, char *, char *);
+static void C_Widescreen(char *, char *, char *);
 static void C_WindowPosition(char *, char *, char *);
 static void C_WindowSize(char *, char *, char *);
 
@@ -534,7 +535,7 @@ consolecmd_t consolecmds[] =
 #endif
     CVAR_BOOL (vid_showfps, C_BoolCondition, C_Bool, vid_showfps, NONE, "Toggles the display of the average frames per second."),
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggles vertical synchronization with display's refresh rate."),
-    CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Bool, widescreen, WIDESCREEN, "Toggles widescreen mode."),
+    CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Widescreen, widescreen, WIDESCREEN, "Toggles widescreen mode."),
     CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),
     CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, windowsize, "The size of the window on the desktop."),
     CMD       (warp, C_MapCondition, C_Map, 1, "", ""),
@@ -2227,6 +2228,42 @@ static void C_Vsync(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output(vsync ? "on" : "off");
+}
+
+static void C_Widescreen(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if ((value == 0 || value == 1) && value != widescreen)
+        {
+            widescreen = !!value;
+            if (widescreen)
+            {
+                if (gamestate == GS_LEVEL)
+                {
+                    ToggleWidescreen(true);
+                    if (widescreen)
+                        S_StartSound(NULL, sfx_stnmov);
+                }
+                else
+                {
+                    returntowidescreen = true;
+                    hud = true;
+                }
+            }
+            else
+            {
+                ToggleWidescreen(false);
+                if (!widescreen)
+                    S_StartSound(NULL, sfx_stnmov);
+            }
+            M_SaveDefaults();
+        }
+    }
+    else
+        C_Output(widescreen ? "on" : "off");
 }
 
 extern SDL_Window       *window;
