@@ -369,23 +369,38 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
         int     length = column->length;
 
         // calculate unclipped screen coordinates for post
-        int64_t topscreen = sprtopscreen + spryscale * topdelta;
+        int64_t topscreen = sprtopscreen + spryscale * topdelta + 1;
 
-        dc_yl = MAX((int)((topscreen + FRACUNIT - 1) >> FRACBITS), mceilingclip[dc_x] + 1);
-        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS),
-            mfloorclip[dc_x] - 1);
+        dc_yl = MAX((int)((topscreen + FRACUNIT) >> FRACBITS), mceilingclip[dc_x] + 1);
+        dc_yh = MIN((int)((topscreen + spryscale * length) >> FRACBITS), mfloorclip[dc_x] - 1);
 
         if (dc_baseclip != -1)
             dc_yh = MIN(dc_baseclip, dc_yh);
 
-        if (dc_yh < viewheight && dc_yl <= dc_yh)
+        dc_texturefrac = dc_texturemid - (topdelta << FRACBITS)
+            + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+
+        if (dc_texturefrac < 0)
         {
-            dc_texturefrac = texturemid - (column->topdelta << FRACBITS)
-                + FixedMul((dc_yl - centery) << FRACBITS, dc_iscale);
+            int cnt = (FixedDiv(-dc_texturefrac, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
+
+            dc_yl += cnt;
+            dc_texturefrac += cnt * dc_iscale;
+        }
+
+        {
+            const fixed_t       endfrac = dc_texturefrac + (dc_yh - dc_yl) * dc_iscale;
+            const fixed_t       maxfrac = length << FRACBITS;
+
+            if (endfrac >= maxfrac)
+                dc_yh -= (FixedDiv(endfrac - maxfrac - 1, dc_iscale) + FRACUNIT - 1) >> FRACBITS;
+        }
+
+        if (dc_yl <= dc_yh && dc_yh < viewheight)
+        {
             dc_source = (byte *)column + 3;
             colfunc();
         }
-
         column = (column_t *)((byte *)column + length + 4);
     }
 }
