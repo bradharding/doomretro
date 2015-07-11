@@ -82,7 +82,7 @@ wad_file_t *W_OpenFile(char *path)
     {
         result = wad_file_classes[i]->OpenFile(path);
 
-        if (result != NULL)
+        if (result)
             break;
     }
 

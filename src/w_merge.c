@@ -101,14 +101,14 @@ static dboolean SetupList(searchlist_t *list, searchlist_t *src_list,
     list->numlumps = 0;
     startlump = FindInList(src_list, startname);
 
-    if (startname2 != NULL && startlump < 0)
+    if (startname2 && startlump < 0)
         startlump = FindInList(src_list, startname2);
 
     if (startlump >= 0)
     {
         int     endlump = FindInList(src_list, endname);
 
-        if (endname2 != NULL && endlump < 0)
+        if (endname2 && endlump < 0)
             endlump = FindInList(src_list, endname2);
 
         if (endlump > startlump)
@@ -140,7 +140,7 @@ static void SetupLists(void)
 // Initialize the replace list
 static void InitSpriteList(void)
 {
-    if (sprite_frames == NULL)
+    if (!sprite_frames)
     {
         sprite_frames_alloced = 128;
         sprite_frames = Z_Malloc(sizeof(*sprite_frames) * sprite_frames_alloced, PU_STATIC, NULL);
@@ -515,7 +515,7 @@ dboolean W_MergeFile(char *filename, dboolean automatic)
     old_numlumps = numlumps;
 
     // Load PWAD
-    if (W_AddFile(filename, automatic) == NULL)
+    if (!W_AddFile(filename, automatic))
         return false;
 
     // IWAD is at the start, PWAD was appended to the end

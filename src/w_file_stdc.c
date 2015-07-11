@@ -57,7 +57,7 @@ static wad_file_t *W_StdC_OpenFile(char *path)
 
     fstream = fopen(path, "rb");
 
-    if (fstream == NULL)
+    if (!fstream)
         return NULL;
 
     // Create a new stdc_wad_file_t to hold the file handle.

@@ -1474,7 +1474,7 @@ void G_DoLoadGame(void)
 
     save_stream = fopen(savename, "rb");
 
-    if (save_stream == NULL)
+    if (!save_stream)
         return;
 
     savegame_error = false;
@@ -1570,7 +1570,7 @@ void G_DoSaveGame(void)
     // a corrupted one, or if a savegame buffer overrun occurs.
     save_stream = fopen(temp_savegame_file, "wb");
 
-    if (save_stream == NULL)
+    if (!save_stream)
         return;
 
     savegame_error = false;

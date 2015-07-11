@@ -429,7 +429,7 @@ static void R_GenerateLookup(int texnum)
                     const byte          *base = (const byte *)col;
 
                     // count posts
-                    for (; col->topdelta != 0xff; count[x1].posts++)
+                    for (; col->topdelta != 0xFF; count[x1].posts++)
                         if ((unsigned int)((byte *)col - base) <= limit)
                             col = (column_t *)((byte *)col + col->length + 4);
                 }
@@ -1087,7 +1087,7 @@ int R_CheckTextureNumForName(char *name)
 
     texture = textures_hashtable[key];
 
-    while (texture != NULL)
+    while (texture)
     {
         if (!strncasecmp(texture->name, name, 8))
             return texture->index;

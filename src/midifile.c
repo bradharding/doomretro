@@ -141,7 +141,7 @@ static dboolean ReadVariableLength(unsigned int *result, FILE *stream)
 
         // Insert the bottom seven bits from this byte.
         *result <<= 7;
-        *result |= b & 0x7f;
+        *result |= b & 0x7F;
 
         // If the top bit is not set, this is the end.
         if ((b & 0x80) == 0)
@@ -164,7 +164,7 @@ static void *ReadByteSequence(unsigned int num_bytes, FILE *stream)
     // Allocate a buffer:
     result = (byte *)malloc(num_bytes + 1);
 
-    if (result == NULL)
+    if (!result)
         return NULL;
 
     // Read the data:
@@ -188,8 +188,8 @@ static dboolean ReadChannelEvent(midi_event_t *event, byte event_type, dboolean 
     byte        b;
 
     // Set basics:
-    event->event_type = (midi_event_type_t)(event_type & 0xf0);
-    event->data.channel.channel = event_type & 0x0f;
+    event->event_type = (midi_event_type_t)(event_type & 0xF0);
+    event->data.channel.channel = event_type & 0x0F;
 
     // Read parameters:
     if (!ReadByte(&b, stream))
@@ -220,7 +220,7 @@ static dboolean ReadSysExEvent(midi_event_t *event, int event_type, FILE *stream
     // Read the byte sequence:
     event->data.sysex.data = (byte *)ReadByteSequence(event->data.sysex.length, stream);
 
-    if (event->data.sysex.data == NULL)
+    if (!event->data.sysex.data)
         return false;
 
     return true;
@@ -246,7 +246,7 @@ static dboolean ReadMetaEvent(midi_event_t *event, FILE *stream)
     // Read the byte sequence:
     event->data.meta.data = (byte *)ReadByteSequence(event->data.meta.length, stream);
 
-    if (event->data.meta.data == NULL)
+    if (!event->data.meta.data)
         return false;
 
     return true;
@@ -277,7 +277,7 @@ static dboolean ReadEvent(midi_event_t *event, unsigned int *last_event_type, FI
         *last_event_type = event_type;
 
     // Check event type:
-    switch (event_type & 0xf0)
+    switch (event_type & 0xF0)
     {
         // Two parameter channel events:
         case MIDI_EVENT_NOTE_OFF:
@@ -383,7 +383,7 @@ static dboolean ReadTrack(midi_track_t *track, FILE *stream)
             new_events = realloc(track->events, sizeof(midi_event_t) * track->num_event_mem);
         }
 
-        if (new_events == NULL)
+        if (!new_events)
             return false;
 
         track->events = new_events;
@@ -422,7 +422,7 @@ static dboolean ReadAllTracks(midi_file_t *file, FILE *stream)
     // Allocate list of tracks and read each track:
     file->tracks = malloc(sizeof(midi_track_t) * file->num_tracks);
 
-    if (file->tracks == NULL)
+    if (!file->tracks)
         return false;
 
     memset(file->tracks, 0, sizeof(midi_track_t) * file->num_tracks);
@@ -461,7 +461,7 @@ static dboolean ReadFileHeader(midi_file_t *file, FILE *stream)
 
 void MIDI_FreeFile(midi_file_t *file)
 {
-    if (file->tracks != NULL)
+    if (file->tracks)
     {
         unsigned int    i;
 
@@ -481,7 +481,7 @@ midi_file_t *MIDI_LoadFile(char *filename)
 
     file = malloc(sizeof(midi_file_t));
 
-    if (file == NULL)
+    if (!file)
         return NULL;
 
     file->tracks = NULL;
@@ -492,7 +492,7 @@ midi_file_t *MIDI_LoadFile(char *filename)
     // Open file
     stream = fopen(filename, "rb");
 
-    if (stream == NULL)
+    if (!stream)
     {
         MIDI_FreeFile(file);
         return NULL;

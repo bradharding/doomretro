@@ -79,7 +79,7 @@ dboolean M_FileExists(char *filename)
 
     fstream = fopen(filename, "r");
 
-    if (fstream != NULL)
+    if (fstream)
     {
         fclose(fstream);
         return true;
@@ -149,7 +149,7 @@ dboolean M_WriteFile(char *name, void *source, int length)
 
     handle = fopen(name, "wb");
 
-    if (handle == NULL)
+    if (!handle)
         return false;
 
     count = fwrite(source, 1, length, handle);
@@ -171,7 +171,7 @@ int M_ReadFile(char *name, byte **buffer)
     byte        *buf;
 
     handle = fopen(name, "rb");
-    if (handle == NULL)
+    if (!handle)
         I_Error("Couldn't read file %s", name);
 
     // find the size of the file by seeking to the end and
@@ -203,7 +203,7 @@ char *M_StringJoin(char *s, ...)
     for (;;)
     {
         v = va_arg(args, char *);
-        if (v == NULL)
+        if (!v)
             break;
 
         result_len += strlen(v);
@@ -212,7 +212,7 @@ char *M_StringJoin(char *s, ...)
 
     result = malloc(result_len);
 
-    if (result == NULL)
+    if (!result)
     {
         I_Error("M_StringJoin: Failed to allocate new string.");
         return NULL;
@@ -224,7 +224,7 @@ char *M_StringJoin(char *s, ...)
     for (;;)
     {
         v = va_arg(args, char *);
-        if (v == NULL)
+        if (!v)
             break;
 
         strncat(result, v, result_len);
@@ -246,7 +246,7 @@ char *M_TempFile(char *s)
     // Check the TEMP environment variable to find the location.
     tempdir = getenv("TEMP");
 
-    if (tempdir == NULL)
+    if (!tempdir)
         tempdir = ".";
 #else
     // In Unix, just use /tmp.
@@ -397,7 +397,7 @@ char *strndup(const char *s, size_t n)
     size_t      len = strnlen(s, n);
     char        *new = malloc(len + 1);
 
-    if (new == NULL)
+    if (!new)
         return NULL;
 
     new[len] = '\0';

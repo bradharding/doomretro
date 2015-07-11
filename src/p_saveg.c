@@ -48,7 +48,7 @@
 #include "version.h"
 #include "z_zone.h"
 
-#define SAVEGAME_EOF    0x1d
+#define SAVEGAME_EOF    0x1D
 
 FILE    *save_stream;
 int     savegamelength;
@@ -63,7 +63,7 @@ char *P_TempSaveGameFile(void)
 {
     static char *filename = NULL;
 
-    if (filename == NULL)
+    if (!filename)
         filename = M_StringJoin(savegamefolder, "temp.save", NULL);
 
     return filename;
@@ -76,7 +76,7 @@ char *P_SaveGameFile(int slot)
     static size_t       filename_size = 0;
     char                basename[32];
 
-    if (filename == NULL)
+    if (!filename)
     {
         filename_size = strlen(savegamefolder) + 32;
         filename = malloc(filename_size);
@@ -117,8 +117,8 @@ static short saveg_read16(void)
 
 static void saveg_write16(short value)
 {
-    saveg_write8(value & 0xff);
-    saveg_write8((value >> 8) & 0xff);
+    saveg_write8(value & 0xFF);
+    saveg_write8((value >> 8) & 0xFF);
 }
 
 static int saveg_read32(void)
@@ -135,10 +135,10 @@ static int saveg_read32(void)
 
 static void saveg_write32(int value)
 {
-    saveg_write8(value & 0xff);
-    saveg_write8((value >> 8) & 0xff);
-    saveg_write8((value >> 16) & 0xff);
-    saveg_write8((value >> 24) & 0xff);
+    saveg_write8(value & 0xFF);
+    saveg_write8((value >> 8) & 0xFF);
+    saveg_write8((value >> 16) & 0xFF);
+    saveg_write8((value >> 24) & 0xFF);
 }
 
 // Pad to 4-byte boundaries
@@ -1568,9 +1568,9 @@ void P_WriteSaveGameHeader(char *description)
     saveg_write8(gamemap);
     saveg_write8(gamemission);
 
-    saveg_write8((leveltime >> 16) & 0xff);
-    saveg_write8((leveltime >> 8) & 0xff);
-    saveg_write8(leveltime & 0xff);
+    saveg_write8((leveltime >> 16) & 0xFF);
+    saveg_write8((leveltime >> 8) & 0xFF);
+    saveg_write8(leveltime & 0xFF);
 }
 
 //

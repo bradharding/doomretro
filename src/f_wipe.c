@@ -45,14 +45,14 @@
 // SCREEN WIPE PACKAGE
 //
 
-static byte *wipe_scr_start;
-static byte *wipe_scr_end;
-static byte *wipe_scr;
+static byte     *wipe_scr_start;
+static byte     *wipe_scr_end;
+static byte     *wipe_scr;
 
 void wipe_shittyColMajorXform(short *array)
 {
-    int   x, y;
-    short *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, 0);
+    int         x, y;
+    short       *dest = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, 0);
 
     for (y = 0; y < SCREENHEIGHT; y++)
         for (x = 0; x < SCREENWIDTH / 2; x++)
@@ -63,8 +63,8 @@ void wipe_shittyColMajorXform(short *array)
     Z_Free(dest);
 }
 
-static int *y;
-static int speed;
+static int      *y;
+static int      speed;
 
 dboolean wipe_initMelt(void)
 {
@@ -92,11 +92,11 @@ dboolean wipe_initMelt(void)
 
 dboolean wipe_doMelt(int tics)
 {
-    dboolean done = true;
+    dboolean    done = true;
 
     while (tics--)
     {
-        int i;
+        int     i;
 
         for (i = 0; i < SCREENWIDTH / 2; i++)
         {
@@ -108,12 +108,11 @@ dboolean wipe_doMelt(int tics)
             }
             if (y[i] < SCREENHEIGHT)
             {
-                int   j;
-                int   dy = (y[i] < 16 ? y[i] + 1 : speed);
-                int   idx = 0;
-
-                short *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + y[i]];
-                short *d = &((short *)wipe_scr)[y[i] * SCREENWIDTH / 2 + i];
+                int     j;
+                int     dy = (y[i] < 16 ? y[i] + 1 : speed);
+                int     idx = 0;
+                short   *s = &((short *)wipe_scr_end)[i * SCREENHEIGHT + y[i]];
+                short   *d = &((short *)wipe_scr)[y[i] * SCREENWIDTH / 2 + i];
 
                 if (y[i] + dy >= SCREENHEIGHT)
                     dy = SCREENHEIGHT - y[i];
@@ -165,7 +164,7 @@ dboolean wipe_EndScreen(void)
 dboolean wipe_ScreenWipe(int tics)
 {
     // when zero, stop the wipe
-    static dboolean go = false;
+    static dboolean     go = false;
 
     // initial stuff
     if (!go)

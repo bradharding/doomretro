@@ -1261,7 +1261,7 @@ static void P_CreateBlockMap(void)
         unsigned int    tot = bmapwidth * bmapheight;           // size of blockmap
         bmap_t          *bmap = calloc(sizeof(*bmap), tot);     // array of blocklists
 
-        if (bmap == NULL)
+        if (!bmap)
             I_Error("P_CreateBlockMap: Unable to create blockmap");
 
         for (i = 0; i < numlines; i++)
@@ -1303,8 +1303,8 @@ static void P_CreateBlockMap(void)
                 bmap_t  *bp = &bmap[b];
 
                 // Increase size of allocated list if necessary
-                if (bp->n >= bp->nalloc && (bp->list = realloc(bp->list, (bp->nalloc = bp->nalloc ?
-                    bp->nalloc * 2 : 8) * sizeof(*bp->list))) == NULL)
+                if (bp->n >= bp->nalloc && !(bp->list = realloc(bp->list, (bp->nalloc = bp->nalloc ?
+                    bp->nalloc * 2 : 8) * sizeof(*bp->list))))
                     I_Error("P_CreateBlockMap: Unable to create blockmap");
 
                 // Add linedef to end of list
@@ -1406,15 +1406,15 @@ void P_LoadBlockMap(int lump)
         // because Doom originally considered the offsets as always signed.
         blockmaplump[0] = SHORT(wadblockmaplump[0]);
         blockmaplump[1] = SHORT(wadblockmaplump[1]);
-        blockmaplump[2] = (int64_t)(SHORT(wadblockmaplump[2])) & 0xffff;
-        blockmaplump[3] = (int64_t)(SHORT(wadblockmaplump[3])) & 0xffff;
+        blockmaplump[2] = (int64_t)(SHORT(wadblockmaplump[2])) & 0xFFFF;
+        blockmaplump[3] = (int64_t)(SHORT(wadblockmaplump[3])) & 0xFFFF;
 
         // Swap all short integers to native byte ordering.
         for (i = 4; i < count; i++)
         {
             short   t = SHORT(wadblockmaplump[i]);
 
-            blockmaplump[i] = (t == -1 ? -1l : ((int64_t)t & 0xffff));
+            blockmaplump[i] = (t == -1 ? -1l : ((int64_t)t & 0xFFFF));
         }
 
         Z_Free(wadblockmaplump);
@@ -1511,7 +1511,7 @@ static int P_GroupLines(void)
             }
             seg++;
         }
-        if (subsectors[i].sector == NULL)
+        if (!subsectors[i].sector)
             I_Error("P_GroupLines: Subsector a part of no sector!");
     }
 

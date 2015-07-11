@@ -1136,7 +1136,7 @@ void I_InitGraphics(void)
 
     I_InitGammaTables();
 
-    if (videodriver != NULL && strlen(videodriver) > 0)
+    if (videodriver && strlen(videodriver) > 0)
     {
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
         putenv(envstring);

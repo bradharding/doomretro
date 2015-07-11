@@ -92,7 +92,7 @@ static void AllocatedSoundLink(allocated_sound_t *snd)
     snd->next = allocated_sounds_head;
     allocated_sounds_head = snd;
 
-    if (allocated_sounds_tail == NULL)
+    if (!allocated_sounds_tail)
         allocated_sounds_tail = snd;
     else
         snd->next->prev = snd;
@@ -101,12 +101,12 @@ static void AllocatedSoundLink(allocated_sound_t *snd)
 // Unlink a sound from the linked list.
 static void AllocatedSoundUnlink(allocated_sound_t *snd)
 {
-    if (snd->prev == NULL)
+    if (!snd->prev)
         allocated_sounds_head = snd->next;
     else
         snd->prev->next = snd->next;
 
-    if (snd->next == NULL)
+    if (!snd->next)
         allocated_sounds_tail = snd->prev;
     else
         snd->next->prev = snd->prev;
@@ -132,7 +132,7 @@ static dboolean FindAndFreeSound(void)
 
     snd = allocated_sounds_tail;
 
-    while (snd != NULL)
+    while (snd)
     {
         if (snd->use_count == 0)
         {
@@ -226,7 +226,7 @@ static allocated_sound_t *GetAllocatedSoundBySfxInfoAndPitch(sfxinfo_t *sfxinfo,
 {
     allocated_sound_t   *p = allocated_sounds_head;
 
-    while (p != NULL)
+    while (p)
     {
         if (p->sfxinfo == sfxinfo && p->pitch == pitch)
             return p;
@@ -471,7 +471,7 @@ int I_SDL_GetSfxLumpNum(sfxinfo_t *sfx)
 {
     char        namebuf[9];
 
-    if (sfx->link != NULL)
+    if (sfx->link)
         sfx = sfx->link;
 
     M_snprintf(namebuf, 9, "ds%s", sfx->name);
@@ -583,7 +583,7 @@ void I_SDL_UpdateSound(void)
     int i;
 
     // Check all channels to see if a sound has finished
-    for (i = 0; i<NUM_CHANNELS; ++i)
+    for (i = 0; i < NUM_CHANNELS; ++i)
         if (channels_playing[i] && !I_SDL_SoundIsPlaying(i))
             // Sound has finished playing on this channel,
             // but sound data has not been released to cache

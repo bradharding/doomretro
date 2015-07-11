@@ -50,7 +50,7 @@
 
 // This constant doesn't exist in VC6:
 #if !defined(INVALID_SET_FILE_POINTER)
-#define INVALID_SET_FILE_POINTER        0xffffffff
+#define INVALID_SET_FILE_POINTER        0xFFFFFFFF
 #endif
 
 typedef struct
@@ -66,7 +66,7 @@ static void MapFile(win32_wad_file_t *wad)
 {
     wad->handle_map = CreateFileMapping(wad->handle, NULL, PAGE_WRITECOPY, 0, 0, NULL);
 
-    if (wad->handle_map == NULL)
+    if (!wad->handle_map)
         return;
 
     wad->wad.mapped = MapViewOfFile(wad->handle_map, FILE_MAP_COPY, 0, 0, 0);
@@ -114,14 +114,14 @@ static void W_Win32_CloseFile(wad_file_t *wad)
     win32_wad_file_t    *win32_wad = (win32_wad_file_t *)wad;
 
     // If mapped, unmap it.
-    if (win32_wad->wad.mapped != NULL)
+    if (win32_wad->wad.mapped)
         UnmapViewOfFile(win32_wad->wad.mapped);
 
-    if (win32_wad->handle_map != NULL)
+    if (win32_wad->handle_map)
         CloseHandle(win32_wad->handle_map);
 
     // Close the file
-    if (win32_wad->handle != NULL)
+    if (win32_wad->handle)
         CloseHandle(win32_wad->handle);
 
     Z_Free(win32_wad);

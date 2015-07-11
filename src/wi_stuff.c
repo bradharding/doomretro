@@ -478,7 +478,7 @@ void WI_drawOnLnode(int n, patch_t *c[])
             fits = true;
         else
             i++;
-    } while (!fits && i != 2 && c[i] != NULL);
+    } while (!fits && i != 2 && c[i]);
 
     if (fits && i < 2)
     {

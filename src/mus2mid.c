@@ -117,8 +117,8 @@ static unsigned int tracksize;
 
 static const byte controller_map[] =
 {
-    0x00, 0x20, 0x01, 0x07, 0x0a, 0x0b, 0x5b, 0x5d,
-    0x40, 0x43, 0x78, 0x7b, 0x7e, 0x7f, 0x79
+    0x00, 0x20, 0x01, 0x07, 0x0A, 0x0B, 0x5B, 0x5D,
+    0x40, 0x43, 0x78, 0x7B, 0x7E, 0x7F, 0x79
 };
 
 static int channel_map[NUM_CHANNELS];
@@ -126,18 +126,18 @@ static int channel_map[NUM_CHANNELS];
 // Write timestamp to a MIDI file.
 static dboolean WriteTime(unsigned int time, MEMFILE *midioutput)
 {
-    unsigned int        buffer = time & 0x7f;
+    unsigned int        buffer = time & 0x7F;
     byte                writeval;
 
     while ((time >>= 7) != 0)
     {
         buffer <<= 8;
-        buffer |= ((time & 0x7f) | 0x80);
+        buffer |= ((time & 0x7F) | 0x80);
     }
 
     for (;;)
     {
-        writeval = (byte)(buffer & 0xff);
+        writeval = (byte)(buffer & 0xFF);
 
         if (mem_fwrite(&writeval, 1, 1, midioutput) != 1)
             return true;
@@ -157,7 +157,7 @@ static dboolean WriteTime(unsigned int time, MEMFILE *midioutput)
 // Write end track
 static dboolean WriteEndTrack(MEMFILE *midioutput)
 {
-    byte        endtrack[] = { 0xff, 0x2f, 0x00 };
+    byte        endtrack[] = { 0xFF, 0x2F, 0x00 };
 
     if (WriteTime(queuedtime, midioutput))
         return true;
@@ -180,12 +180,12 @@ static dboolean WritePressKey(byte channel, byte key, byte velocity, MEMFILE *mi
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
 
-    working = key & 0x7f;
+    working = key & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
 
-    working = velocity & 0x7f;
+    working = velocity & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
@@ -205,7 +205,7 @@ static dboolean WriteReleaseKey(byte channel, byte key, MEMFILE *midioutput)
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
 
-    working = key & 0x7f;
+    working = key & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
@@ -230,12 +230,12 @@ static dboolean WritePitchWheel(byte channel, short wheel, MEMFILE *midioutput)
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
 
-    working = wheel & 0x7f;
+    working = wheel & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
 
-    working = (wheel >> 7) & 0x7f;
+    working = (wheel >> 7) & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
@@ -255,7 +255,7 @@ static dboolean WriteChangePatch(byte channel, byte patch, MEMFILE *midioutput)
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
 
-    working = patch & 0x7f;
+    working = patch & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
@@ -275,7 +275,7 @@ static dboolean WriteChangeController_Valued(byte channel, byte control, byte va
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
 
-    working = control & 0x7f;
+    working = control & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
@@ -287,7 +287,7 @@ static dboolean WriteChangeController_Valued(byte channel, byte control, byte va
     // Fix on said quirk to stop MIDI players from complaining that
     // the value is out of range:
     if (working & 0x80)
-        working = 0x7f;
+        working = 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
         return true;
@@ -342,7 +342,7 @@ static int GetMIDIChannel(int mus_channel, MEMFILE *midioutput)
         if (channel_map[mus_channel] == -1)
         {
             channel_map[mus_channel] = AllocateMIDIChannel();
-            WriteChangeController_Valueless(channel_map[mus_channel], 0x7b, midioutput);
+            WriteChangeController_Valueless(channel_map[mus_channel], 0x7B, midioutput);
         }
 
         return channel_map[mus_channel];
@@ -353,12 +353,12 @@ static dboolean ReadMusHeader(MEMFILE *file, musheader *header)
 {
     dboolean    result;
 
-    result = (mem_fread(&header->id, sizeof(byte), 4, file) == 4 &&
-              mem_fread(&header->scorelength, sizeof(short), 1, file) == 1 &&
-              mem_fread(&header->scorestart, sizeof(short), 1, file) == 1 &&
-              mem_fread(&header->primarychannels, sizeof(short), 1, file) == 1 &&
-              mem_fread(&header->secondarychannels, sizeof(short), 1, file) == 1 &&
-              mem_fread(&header->instrumentcount, sizeof(short), 1, file) == 1);
+    result = (mem_fread(&header->id, sizeof(byte), 4, file) == 4
+        && mem_fread(&header->scorelength, sizeof(short), 1, file) == 1
+        && mem_fread(&header->scorestart, sizeof(short), 1, file) == 1
+        && mem_fread(&header->primarychannels, sizeof(short), 1, file) == 1
+        && mem_fread(&header->secondarychannels, sizeof(short), 1, file) == 1
+        && mem_fread(&header->instrumentcount, sizeof(short), 1, file) == 1);
 
     if (result)
     {
@@ -430,7 +430,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
             if (mem_fread(&eventdescriptor, 1, 1, musinput) != 1)
                 return true;
 
-            channel = GetMIDIChannel(eventdescriptor & 0x0f, midioutput);
+            channel = GetMIDIChannel(eventdescriptor & 0x0F, midioutput);
             event = (musevent)(eventdescriptor & 0x70);
 
             switch (event)
@@ -453,7 +453,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                         if (mem_fread(&channelvelocities[channel], 1, 1, musinput) != 1)
                             return true;
 
-                        channelvelocities[channel] &= 0x7f;
+                        channelvelocities[channel] &= 0x7F;
                     }
 
                     if (WritePressKey(channel, key, channelvelocities[channel], midioutput))
@@ -527,7 +527,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                 if (mem_fread(&working, 1, 1, musinput) != 1)
                     return true;
 
-                timedelay = timedelay * 128 + (working & 0x7f);
+                timedelay = timedelay * 128 + (working & 0x7F);
                 if ((working & 0x80) == 0)
                     break;
             }
@@ -543,10 +543,10 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
     if (mem_fseek(midioutput, 18, MEM_SEEK_SET))
         return true;
 
-    tracksizebuffer[0] = (tracksize >> 24) & 0xff;
-    tracksizebuffer[1] = (tracksize >> 16) & 0xff;
-    tracksizebuffer[2] = (tracksize >> 8) & 0xff;
-    tracksizebuffer[3] = tracksize & 0xff;
+    tracksizebuffer[0] = (tracksize >> 24) & 0xFF;
+    tracksizebuffer[1] = (tracksize >> 16) & 0xFF;
+    tracksizebuffer[2] = (tracksize >> 8) & 0xFF;
+    tracksizebuffer[3] = tracksize & 0xFF;
 
     if (mem_fwrite(tracksizebuffer, 1, 4, midioutput) != 4)
         return true;

@@ -2217,7 +2217,7 @@ void P_CreateSecNodeList(mobj_t *thing, fixed_t x, fixed_t y)
     node = sector_list;
     while (node)
     {
-        if (node->m_thing == NULL)
+        if (!node->m_thing)
         {
             if (node == sector_list)
                 sector_list = node->m_tnext;

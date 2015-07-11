@@ -1915,7 +1915,7 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         strcpy(key, "A_");      // reusing the key area to prefix the mnemonic
         strcat(key, ptr_lstrip(mnemonic));
 
-        while (!found && deh_bexptrs[i].lookup != NULL)
+        while (!found && deh_bexptrs[i].lookup)
         {
             if (!strcasecmp(key, deh_bexptrs[i].lookup))
             {   // Ty 06/01/98  - add to states[].action for new djgcc version
@@ -3218,7 +3218,7 @@ int deh_GetData(char *s, char *k, long *l, char **strval)
     // if spaces between key and equal sign, strip them
     strcpy(k, ptr_lstrip(buffer));      // could be a zero-length string
 
-    if (strval != NULL)                 // pass NULL if you don't want this back
+    if (strval)                         // pass NULL if you don't want this back
         *strval = t;                    // pointer, has to be somewhere in s,
     // even if pointing at the zero byte.
 

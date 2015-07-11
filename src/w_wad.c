@@ -125,7 +125,7 @@ static void ExtendLumpInfo(int newnumlumps)
 
     newlumpinfo = calloc(newnumlumps, sizeof(lumpinfo_t));
 
-    if (newlumpinfo == NULL)
+    if (!newlumpinfo)
         I_Error("Couldn't realloc lumpinfo");
 
     // Copy over lumpinfo_t structures from the old array. If any of
@@ -135,12 +135,12 @@ static void ExtendLumpInfo(int newnumlumps)
     {
         memcpy(&newlumpinfo[i], &lumpinfo[i], sizeof(lumpinfo_t));
 
-        if (newlumpinfo[i].cache != NULL)
+        if (newlumpinfo[i].cache)
             Z_ChangeUser(newlumpinfo[i].cache, &newlumpinfo[i].cache);
 
         // We shouldn't be generating a hash table until after all WADs have
         // been loaded, but just in case...
-        if (lumpinfo[i].next != NULL)
+        if (lumpinfo[i].next)
             newlumpinfo[i].next = &newlumpinfo[lumpinfo[i].next - lumpinfo];
     }
 
@@ -176,7 +176,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
     // open the file and add to directory
     wad_file = W_OpenFile(filename);
 
-    if (wad_file == NULL)
+    if (!wad_file)
         return NULL;
 
     M_StringCopy(wad_file->path, filename, sizeof(wad_file->path));
@@ -246,7 +246,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
 
     Z_Free(fileinfo);
 
-    if (lumphash != NULL)
+    if (lumphash)
     {
         Z_Free(lumphash);
         lumphash = NULL;
@@ -398,14 +398,14 @@ int W_CheckNumForName(char *name)
     lumpinfo_t  *lump_p;
 
     // Do we have a hash table yet?
-    if (lumphash != NULL)
+    if (lumphash)
     {
         int     hash;
 
         // We do! Excellent.
         hash = W_LumpNameHash(name) % numlumps;
 
-        for (lump_p = lumphash[hash]; lump_p != NULL; lump_p = lump_p->next)
+        for (lump_p = lumphash[hash]; lump_p; lump_p = lump_p->next)
             if (!strncasecmp(lump_p->name, name, 8))
                 return lump_p - lumpinfo;
     }
@@ -564,12 +564,12 @@ void *W_CacheLumpNum(int lumpnum, int tag)
     // region.  If the lump is in an ordinary file, we may already
     // have it cached; otherwise, load it into memory.
 
-    if (lump->wad_file->mapped != NULL)
+    if (lump->wad_file->mapped)
     {
         // Memory mapped file, return from the mmapped region.
         result = lump->wad_file->mapped + lump->position;
     }
-    else if (lump->cache != NULL)
+    else if (lump->cache)
     {
         // Already cached, so just switch the zone tag.
         result = (byte *)lump->cache;
@@ -625,7 +625,7 @@ void W_ReleaseLumpName(char *name)
 void W_GenerateHashTable(void)
 {
     // Free the old hash table, if there is one
-    if (lumphash != NULL)
+    if (lumphash)
         Z_Free(lumphash);
 
     // Generate hash table

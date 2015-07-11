@@ -211,12 +211,12 @@ static void CheckUninstallStrings(void)
         char            *val = GetRegistryString(&uninstall_values[i]);
         char            *unstr;
 
-        if (val == NULL)
+        if (!val)
             continue;
 
         unstr = strstr(val, UNINSTALLER_STRING);
 
-        if (unstr == NULL)
+        if (!unstr)
             free(val);
         else
         {
@@ -237,7 +237,7 @@ static void CheckCollectorsEdition(void)
 
     install_path = GetRegistryString(&collectors_edition_value);
 
-    if (install_path == NULL)
+    if (!install_path)
         return;
 
     for (i = 0; i < arrlen(collectors_edition_subdirs); ++i)
@@ -259,7 +259,7 @@ static void CheckSteamEdition(void)
     char        *install_path = GetRegistryString(&steam_install_location);
     size_t      i;
 
-    if (install_path == NULL)
+    if (!install_path)
         return;
 
     for (i = 0; i < arrlen(steam_install_subdirs); ++i)
@@ -351,7 +351,7 @@ static void AddDoomWadPath(void)
     char        *doomwadpath = getenv("DOOMWADPATH");
     char        *p;
 
-    if (doomwadpath == NULL)
+    if (!doomwadpath)
         return;
 
     // Add the initial directory
@@ -364,11 +364,10 @@ static void AddDoomWadPath(void)
     {
         p = strchr(p, PATH_SEPARATOR);
 
-        if (p != NULL)
+        if (p)
         {
             // Break at the separator and store the right hand side
             // as another iwad dir
-
             *p = '\0';
             p += 1;
 
@@ -395,7 +394,7 @@ static void BuildIWADDirList(void)
     // Add DOOMWADDIR if it is in the environment
     doomwaddir = getenv("DOOMWADDIR");
 
-    if (doomwaddir != NULL)
+    if (doomwaddir)
         AddIWADDir(doomwaddir);
 
     // Add dirs from DOOMWADPATH
@@ -483,7 +482,7 @@ char *D_FindIWAD(void)
 
         result = D_FindWADByName(iwadfile);
 
-        if (result == NULL)
+        if (!result)
             I_Error("The IWAD file \"%s\" wasn't found!", iwadfile);
 
         IdentifyIWADByName(result);
@@ -534,7 +533,7 @@ void D_SetSaveGameFolder(void)
 {
     char *iwad_name = SaveGameIWADName();
 
-    if (iwad_name == NULL)
+    if (!iwad_name)
         iwad_name = "unknown.wad";
 
     M_MakeDirectory("savegames");

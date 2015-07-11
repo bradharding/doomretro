@@ -790,7 +790,7 @@ void M_ReadSaveStrings(void)
         M_StringCopy(name, P_SaveGameFile(i), sizeof(name));
 
         handle = fopen(name, "rb");
-        if (handle == NULL)
+        if (!handle)
         {
             M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, SAVESTRINGSIZE);
             LoadMenu[i].status = 0;
@@ -1079,7 +1079,7 @@ const char *RemoveMapNum(const char *str)
 {
     char        *pos;
 
-    if ((pos = strchr(str, ':')) != NULL)
+    if ((pos = strchr(str, ':')))
     {
         str = pos + 1;
         while (str[0] == ' ')
