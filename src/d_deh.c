@@ -532,6 +532,7 @@ char    *s_CAPTION_FREEDM = "";
 char    *s_CAPTION_BTSXE1 = "";
 char    *s_CAPTION_BTSXE2 = "";
 char    *s_CAPTION_BTSXE3 = "";
+char    *s_CAPTION_VALIANT = "";
 
 char    *bgflatE1 = "FLOOR4_8";
 char    *bgflatE2 = "SFLR6_1";
@@ -988,6 +989,7 @@ deh_strs deh_strlookup[] =
     { &s_CAPTION_BTSXE1,       "CAPTION_BTSXE1",       false },
     { &s_CAPTION_BTSXE2,       "CAPTION_BTSXE2",       false },
     { &s_CAPTION_BTSXE3,       "CAPTION_BTSXE3",       false },
+    { &s_CAPTION_VALIANT,      "CAPTION_VALIANT",      false },
 
     { &bgflatE1,               "BGFLATE1",             false },
     { &bgflatE2,               "BGFLATE2",             false },

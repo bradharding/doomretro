@@ -389,6 +389,8 @@ void C_Init(void)
         consoleplayermessagecolor = 114;
     else if (hacx)
         consoleplayermessagecolor = 198;
+    else if (valiant)
+        consoleplayermessagecolor = 114;
 
     consolecolors[input] = consoleinputtooutputcolor;
     consolecolors[output] = consoleoutputcolor;
