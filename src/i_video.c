@@ -504,6 +504,7 @@ static void I_GetEvent(void)
                 if (!quitting && !splashscreen)
                 {
                     keydown = 0;
+                    C_HideConsoleFast();
                     if (paused)
                     {
                         paused = false;
