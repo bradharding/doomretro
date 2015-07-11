@@ -532,12 +532,6 @@ static void I_GetEvent(void)
                         {
                             windowwidth = Event->window.data1;
                             windowheight = Event->window.data2;
-                            if (windowwidth < ORIGINALWIDTH || windowheight < ORIGINALHEIGHT)
-                            {
-                                windowwidth = ORIGINALWIDTH;
-                                windowheight = ORIGINALHEIGHT;
-                                SDL_SetWindowSize(window, windowwidth, windowheight);
-                            }
                             M_SaveDefaults();
 
                             displaywidth = windowwidth;

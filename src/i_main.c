@@ -49,8 +49,8 @@
 #include <windows.h>
 
 #include "d_main.h"
+#include "doomdef.h"
 #include "m_argv.h"
-
 #include "SDL_syswm.h"
 
 void I_SetProcessPriority(HANDLE hProcess)
@@ -138,6 +138,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     else if (msg == WM_DEVICECHANGE)
         I_InitGamepad();
+    else if (msg == WM_SIZE)
+        I_FinishUpdate();
+    else if (msg == WM_GETMINMAXINFO)
+    {
+        LPMINMAXINFO    minmaxinfo = (LPMINMAXINFO)lParam;
+
+        minmaxinfo->ptMinTrackSize.x = ORIGINALWIDTH;
+        minmaxinfo->ptMinTrackSize.y = ORIGINALHEIGHT;
+
+        return false;
+    }
 
     return CallWindowProc(oldProc, hwnd, msg, wParam, lParam);
 }
