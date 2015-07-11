@@ -50,6 +50,7 @@
 #include "m_random.h"
 #include "v_video.h"
 #include "version.h"
+#include "w_wad.h"
 #include "z_zone.h"
 
 #define WHITE   4
@@ -1231,4 +1232,57 @@ dboolean V_ScreenShot(void)
         }
     }
     return result;
+}
+
+void V_AverageColorInPatch(patch_t *patch, int *red, int *green, int *blue, int *total)
+{
+    int         col = 0;
+    int         w = SHORT(patch->width);
+    int         td;
+    int         topdelta;
+    int         lastlength;
+    int         red1 = 0, blue1 = 0, green1 = 0;
+    byte        *playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
+
+    for (; col < w; col++)
+    {
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        topdelta = -1;
+        lastlength = 0;
+
+        // step through the posts in a column
+        while ((td = column->topdelta) != 0xFF)
+        {
+            byte        *source = (byte *)column + 3;
+            int         count;
+
+            topdelta = (td < topdelta + lastlength - 1 ? topdelta + td : td);
+            count = lastlength = column->length;
+
+            while (count--)
+            {
+                byte    color = *source++;
+                byte    r = playpal[color * 3];
+                byte    g = playpal[color * 3 + 1];
+                byte    b = playpal[color * 3 + 2];
+
+                if (!red1)
+                {
+                    red1 = r;
+                    blue1 = g;
+                    green1 = b;
+                    continue;
+                }
+                else if (r == red1 && g == green1 && b == blue1)
+                    continue;
+
+                *red += r;
+                *green += g;
+                *blue += b;
+                (*total)++;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
 }

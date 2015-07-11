@@ -106,4 +106,6 @@ void V_DrawBlock(int x, int y, int width, int height, byte *src);
 
 dboolean V_ScreenShot(void);
 
+void V_AverageColorInPatch(patch_t *patch, int *red, int *green, int *blue, int *total);
+
 #endif

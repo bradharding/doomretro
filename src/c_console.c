@@ -146,6 +146,7 @@ extern dboolean alwaysrun;
 extern int      key_alwaysrun;
 
 void G_ToggleAlwaysRun(void);
+int FindNearestColor(byte *palette, int red, int green, int blue);
 
 static const char *shiftxform =
 {
@@ -381,16 +382,18 @@ void C_Init(void)
 
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
 
-    if (BTSXE1)
-        consoleplayermessagecolor = 196;
-    else if (BTSXE2)
-        consoleplayermessagecolor = 214;
-    else if (chex)
-        consoleplayermessagecolor = 114;
-    else if (hacx)
-        consoleplayermessagecolor = 198;
-    else if (valiant)
-        consoleplayermessagecolor = 114;
+    if (W_CheckMultipleLumps("STCFN065") > 1)
+    {
+        byte    *playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
+        int     red = 0, green = 0, blue = 0, total = 0;
+
+        V_AverageColorInPatch(W_CacheLumpName("STCFN065", PU_STATIC), &red, &green, &blue, &total);
+        V_AverageColorInPatch(W_CacheLumpName("STCFN066", PU_STATIC), &red, &green, &blue, &total);
+        V_AverageColorInPatch(W_CacheLumpName("STCFN067", PU_STATIC), &red, &green, &blue, &total);
+        if (total > 0)
+            consoleplayermessagecolor = FindNearestColor(playpal, red / total, green / total,
+                blue / total);
+    }
 
     consolecolors[input] = consoleinputtooutputcolor;
     consolecolors[output] = consoleoutputcolor;
