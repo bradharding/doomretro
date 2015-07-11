@@ -1093,7 +1093,7 @@ dboolean G_CheckSpot(int playernum, mapthing_t *mthing)
     fixed_t             x;
     fixed_t             y;
     subsector_t         *ss;
-    unsigned int        an;
+    signed int          an;
     mobj_t              *mo;
     int                 i;
     fixed_t             xa;
@@ -1123,36 +1123,42 @@ dboolean G_CheckSpot(int playernum, mapthing_t *mthing)
 
     // spawn a teleport fog
     ss = R_PointInSubsector(x, y);
-    an = (ANG45 * ((signed int)mthing->angle / 45)) >> ANGLETOFINESHIFT;
+
+    // This calculation overflows in Vanilla Doom, but here we deliberately
+    // avoid integer overflow as it is undefined behavior, so the value of
+    // 'an' will always be positive.
+    an = (ANG45 >> ANGLETOFINESHIFT) * ((signed int)mthing->angle / 45);
+
     xa = finecosine[an];
     ya = finesine[an];
 
     switch (an)
     {
-        case -4096:
+        case 4096:      // -4096:
             xa = finetangent[2048];
             ya = finetangent[0];
             break;
-        case -3072:
+        case 5120:     // -3072:
             xa = finetangent[3072];
             ya = finetangent[1024];
             break;
-        case -2048:
+        case 6144:     // -2048:
             xa = finesine[0];
             ya = finetangent[2048];
             break;
-        case -1024:
+        case 7168:     // -1024:
             xa = finesine[1024];
             ya = finetangent[3072];
             break;
+        case 0:
         case 1024:
         case 2048:
         case 3072:
-        case 4096:
-        case 0:
+            xa = finecosine[an];
+            ya = finesine[an];
             break;
         default:
-            I_Error("G_CheckSpot: unexpected angle %d\n", an);
+            I_Error("G_CheckSpot: unexpected angle %d", an);
     }
 
     mo = P_SpawnMobj(x + 20 * xa, y + 20 * ya, ss->sector->floorheight, MT_TFOG);
