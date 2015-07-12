@@ -2302,15 +2302,19 @@ static void C_WindowSize(char *cmd, char *parm1, char *parm2)
 
         if (width >= 0 && height >= 0)
         {
+            char        buffer[16] = "";
+
             windowwidth = width;
             windowheight = height;
+            M_SaveDefaults();
 
             if (!fullscreen)
                 SDL_SetWindowSize(window, windowwidth, windowheight);
 
-            M_SaveDefaults();
+            M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
+            windowsize = strdup(buffer);
         }
     }
     else
-        C_Output("%ix%i", windowwidth, windowheight);
+        C_Output(windowsize);
 }

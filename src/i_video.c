@@ -527,9 +527,14 @@ static void I_GetEvent(void)
                     case SDL_WINDOWEVENT_SIZE_CHANGED:
                         if (!fullscreen)
                         {
+                            char        buffer[16] = "";
+
                             windowwidth = Event->window.data1;
                             windowheight = Event->window.data2;
                             M_SaveDefaults();
+
+                            M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
+                            windowsize = strdup(buffer);
 
                             displaywidth = windowwidth;
                             displayheight = windowheight;
@@ -541,8 +546,11 @@ static void I_GetEvent(void)
                     case SDL_WINDOWEVENT_MOVED:
                         if (!fullscreen)
                         {
-                            M_snprintf(windowposition, 10, "%i,%i",
-                                Event->window.data1, Event->window.data2);
+                            char        buffer[16] = "";
+
+                            M_snprintf(buffer, sizeof(buffer), "%i,%i", Event->window.data1, Event->window.data2);
+                            windowposition = strdup(buffer);
+
                             display = SDL_GetWindowDisplayIndex(window) + 1;
                             M_SaveDefaults();
                         }
