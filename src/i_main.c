@@ -53,6 +53,10 @@
 #include "m_argv.h"
 #include "SDL_syswm.h"
 
+#if !defined(SM_CXPADDEDBORDER)
+#define SM_CXPADDEDBORDER       92
+#endif
+
 void I_SetProcessPriority(HANDLE hProcess)
 {
     SetPriorityClass(hProcess, ABOVE_NORMAL_PRIORITY_CLASS);
@@ -143,12 +147,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     else if (msg == WM_GETMINMAXINFO)
     {
         LPMINMAXINFO    minmaxinfo = (LPMINMAXINFO)lParam;
+        int             addedborder = GetSystemMetrics(SM_CXPADDEDBORDER);
 
         minmaxinfo->ptMinTrackSize.x = ORIGINALWIDTH
-            + (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
+            + (GetSystemMetrics(SM_CXFRAME) + addedborder) * 2;
         minmaxinfo->ptMinTrackSize.y = ORIGINALWIDTH * 3 / 4
-            + (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
-            + GetSystemMetrics(SM_CYCAPTION);
+            + (GetSystemMetrics(SM_CYFRAME) + addedborder) * 2 + GetSystemMetrics(SM_CYCAPTION);
 
         return false;
     }
