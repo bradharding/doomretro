@@ -92,7 +92,7 @@
 #define DIVIDER                 "~~~"
 #define ITALICS                 '~'
 
-#define CARETWAIT               10
+#define CARETBLINKTIME          530
 
 #define NOBACKGROUNDCOLOR       -1
 
@@ -119,6 +119,7 @@ patch_t         *caret;
 int             caretpos = 0;
 static dboolean showcaret = true;
 static int      caretwait = 0;
+static int      caretblinktime;
 int             selectstart = 0;
 int             selectend = 0;
 
@@ -379,6 +380,12 @@ void C_Init(void)
     multiply = W_CacheLumpName("DRFON215", PU_STATIC);
 
     caret = W_CacheLumpName("CARET", PU_STATIC);
+
+#if defined(WIN32)
+    caretblinktime = GetCaretBlinkTime();
+#else
+    caretblinktime = CARETBLINKTIME;
+#endif
 
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
 
@@ -767,10 +774,10 @@ void C_Drawer(void)
         }
 
         // draw caret
-        if (caretwait < I_GetTime())
+        if (caretwait < I_GetTimeMS())
         {
             showcaret = !showcaret;
-            caretwait = I_GetTime() + CARETWAIT;
+            caretwait = I_GetTimeMS() + caretblinktime;
         }
         if (showcaret)
             if (selectend > caretpos)
@@ -965,7 +972,7 @@ dboolean C_Responder(event_t *ev)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
                     consoleinput[selectstart + i - selectend] = '\0';
                     caretpos = selectend = selectstart;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                     autocomplete = -1;
                     inputhistory = -1;
@@ -977,7 +984,7 @@ dboolean C_Responder(event_t *ev)
                     for (i = caretpos - 1; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
                     selectend = selectstart = --caretpos;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                     autocomplete = -1;
                     inputhistory = -1;
@@ -993,7 +1000,7 @@ dboolean C_Responder(event_t *ev)
                         consoleinput[selectstart + i - selectend] = consoleinput[i];
                     consoleinput[selectstart + i - selectend] = '\0';
                     caretpos = selectend = selectstart;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                     autocomplete = -1;
                     inputhistory = -1;
@@ -1004,7 +1011,7 @@ dboolean C_Responder(event_t *ev)
                     C_AddToUndoHistory();
                     for (i = caretpos; (unsigned int)i < strlen(consoleinput); ++i)
                         consoleinput[i] = consoleinput[i + 1];
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                     autocomplete = -1;
                     inputhistory = -1;
@@ -1020,7 +1027,7 @@ dboolean C_Responder(event_t *ev)
                         // clear input
                         consoleinput[0] = '\0';
                         caretpos = selectstart = selectend = 0;
-                        caretwait = I_GetTime() + CARETWAIT;
+                        caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                         undolevels = 0;
                     }
@@ -1040,7 +1047,7 @@ dboolean C_Responder(event_t *ev)
                     if (modstate & KMOD_SHIFT)
                     {
                         --caretpos;
-                        caretwait = I_GetTime() + CARETWAIT;
+                        caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                         if (selectstart <= caretpos)
                             selectend = caretpos;
@@ -1053,7 +1060,7 @@ dboolean C_Responder(event_t *ev)
                             caretpos = selectend = selectstart;
                         else
                             selectstart = selectend = --caretpos;
-                        caretwait = I_GetTime() + CARETWAIT;
+                        caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                     }
                 }
@@ -1068,7 +1075,7 @@ dboolean C_Responder(event_t *ev)
                     if (modstate & KMOD_SHIFT)
                     {
                         ++caretpos;
-                        caretwait = I_GetTime() + CARETWAIT;
+                        caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                         if (selectend >= caretpos)
                             selectstart = caretpos;
@@ -1081,7 +1088,7 @@ dboolean C_Responder(event_t *ev)
                             caretpos = selectstart = selectend;
                         else
                             selectstart = selectend = ++caretpos;
-                        caretwait = I_GetTime() + CARETWAIT;
+                        caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                     }
                 }
@@ -1097,7 +1104,7 @@ dboolean C_Responder(event_t *ev)
                 else if (caretpos > 0)
                 {
                     caretpos = selectstart = selectend = 0;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -1109,7 +1116,7 @@ dboolean C_Responder(event_t *ev)
                 else if ((unsigned int)caretpos < strlen(consoleinput))
                 {
                     caretpos = selectstart = selectend = strlen(consoleinput);
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -1142,7 +1149,7 @@ dboolean C_Responder(event_t *ev)
                                 consoleinput[length + 1] = '\0';
                             }
                             caretpos = selectstart = selectend = strlen(consoleinput);
-                            caretwait = I_GetTime() + CARETWAIT;
+                            caretwait = I_GetTimeMS() + caretblinktime;
                             showcaret = true;
                             return true;
                         }
@@ -1161,7 +1168,7 @@ dboolean C_Responder(event_t *ev)
                         inputhistory = i;
                         M_StringCopy(consoleinput, console[i].string, 255);
                         caretpos = selectstart = selectend = strlen(consoleinput);
-                        caretwait = I_GetTime() + CARETWAIT;
+                        caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                         break;
                     }
@@ -1185,7 +1192,7 @@ dboolean C_Responder(event_t *ev)
                         M_StringCopy(consoleinput, currentinput, sizeof(consoleinput));
                     }
                     caretpos = selectstart = selectend = strlen(consoleinput);
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -1268,7 +1275,7 @@ dboolean C_Responder(event_t *ev)
                                 consoleinput[selectstart + i - selectend] = consoleinput[i];
                             consoleinput[selectstart + i - selectend] = '\0';
                             caretpos = selectend = selectstart;
-                            caretwait = I_GetTime() + CARETWAIT;
+                            caretwait = I_GetTimeMS() + caretblinktime;
                             showcaret = true;
                         }
                     }
@@ -1304,7 +1311,7 @@ dboolean C_Responder(event_t *ev)
                                 consoleinput[selectstart + i - selectend + 1] = consoleinput[i];
                             consoleinput[selectstart + i - selectend + 1] = '\0';
                             caretpos = selectend = selectstart + 1;
-                            caretwait = I_GetTime() + CARETWAIT;
+                            caretwait = I_GetTimeMS() + caretblinktime;
                             showcaret = true;
                         }
                         else
@@ -1316,7 +1323,7 @@ dboolean C_Responder(event_t *ev)
                             consoleinput[caretpos++] = ch;
                         }
                         selectstart = selectend = caretpos;
-                        caretwait = I_GetTime() + CARETWAIT;
+                        caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                         autocomplete = -1;
                         inputhistory = -1;
