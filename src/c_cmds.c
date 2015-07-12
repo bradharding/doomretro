@@ -1715,7 +1715,7 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
             commify((max_x - min_x) >> FRACBITS), commify((max_y - min_y) >> FRACBITS));
     }
 
-    if (mus_playing)
+    if (mus_playing && !nomusic)
     {
         int     lumps = W_CheckMultipleLumps(mus_playing->name);
 
