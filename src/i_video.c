@@ -126,9 +126,6 @@ dboolean                window_focused;
 // Empty mouse cursor
 static SDL_Cursor       *cursors[2];
 
-int                     desktopwidth;
-int                     desktopheight;
-
 char                    *videodriver = VIDEODRIVER_DEFAULT;
 char                    envstring[255];
 
@@ -174,7 +171,6 @@ dboolean                alwaysrun = ALWAYSRUN_DEFAULT;
 
 extern int              key_alwaysrun;
 
-void SetWindowPositionVars(void);
 void ST_doRefresh(void);
 
 dboolean MouseShouldBeGrabbed(void)
@@ -702,18 +698,10 @@ static void CreateCursors(void)
 
 void SetWindowPositionVars(void)
 {
-    int         x, y;
+    int x = 0, y = 0;
 
     if (sscanf(windowposition, "%10i,%10i", &x, &y) == 2)
     {
-        if (x < 0)
-            x = 0;
-        else if (x > desktopwidth)
-            x = desktopwidth - 16;
-        if (y < 0)
-            y = 0;
-        else if (y > desktopheight)
-            y = desktopheight - 16;
         windowx = x;
         windowy = y;
     }
@@ -752,15 +740,6 @@ static resolution_t resolutions[] =
     { 7680, 4320, "FUHD",   "16:9"  }, { 7680, 4800, "WHUXGA", "16:10" },
     { 8192, 5120, "FUHD",   "16:10" }, {    0,    0, "",       ""      }
 };
-
-static void GetDesktopDimensions(void)
-{
-    SDL_Rect            displaybounds;
-
-    SDL_GetDisplayBounds(0, &displaybounds);
-    desktopwidth = displaybounds.w;
-    desktopheight = displaybounds.h;
-}
 
 static char *getacronym(int width, int height)
 {
@@ -805,8 +784,7 @@ static void PositionOnCurrentDisplay(void)
             displays[displayindex].x + (displays[displayindex].w - windowwidth) / 2,
             displays[displayindex].y + (displays[displayindex].h - windowheight) / 2);
     else
-        SDL_SetWindowPosition(window,
-            displays[displayindex].x + windowx, displays[displayindex].y + windowy);
+        SDL_SetWindowPosition(window, windowx, windowy);
 }
 
 static void SetVideoMode(dboolean output)
@@ -877,9 +855,9 @@ static void SetVideoMode(dboolean output)
     }
     else
     {
-        if (windowheight > desktopheight)
+        if (windowheight > displays[displayindex].h)
         {
-            windowheight = desktopheight;
+            windowheight = displays[displayindex].h;
             windowwidth = windowheight * 4 / 3;
             M_SaveDefaults();
         }
@@ -901,8 +879,6 @@ static void SetVideoMode(dboolean output)
             if (output)
                 C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
                     windowwidth, windowheight, windowx, windowy);
-            windowx = MIN(displays[displayindex].w - windowwidth, windowx);
-            windowy = MIN(displays[displayindex].h - windowheight, windowy);
             M_SaveDefaults();
         }
     }
@@ -1054,13 +1030,15 @@ void ToggleFullscreen(void)
         SDL_SetWindowFullscreen(window, SDL_FALSE);
         SDL_SetWindowSize(window, windowwidth, windowheight);
         C_Input("vid_fullscreen off");
+
+        SDL_GetWindowSize(window, &displaywidth, &displayheight);
+        displaycenterx = displaywidth / 2;
+        displaycentery = displayheight / 2;
+
+        SetWindowPositionVars();
+
+        PositionOnCurrentDisplay();
     }
-
-    SDL_GetWindowSize(window, &displaywidth, &displayheight);
-    displaycenterx = displaywidth / 2;
-    displaycentery = displayheight / 2;
-
-    PositionOnCurrentDisplay();
 }
 
 void I_InitGammaTables(void)
@@ -1158,7 +1136,7 @@ void I_InitGraphics(void)
 
         if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 #endif
-            I_Error("I_InitGraphics, line %i: %s\n", __LINE__ - 2, SDL_GetError());
+            I_Error("I_InitGraphics: %s", SDL_GetError());
     }
 
     CreateCursors();
@@ -1170,8 +1148,6 @@ void I_InitGraphics(void)
             screenwidth = 0;
             screenheight = 0;
         }
-
-    GetDesktopDimensions();
 
     numdisplays = SDL_GetNumVideoDisplays();
     displays = Z_Malloc(numdisplays, PU_STATIC, NULL);
