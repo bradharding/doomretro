@@ -1022,6 +1022,8 @@ void I_RestartGraphics(void)
 #if defined(WIN32)
     I_InitWindows32();
 #endif
+
+    M_SetWindowCaption();
 }
 
 void ToggleFullscreen(void)
