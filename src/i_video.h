@@ -72,6 +72,7 @@ void I_ShutdownKeyboard(void);
 void I_SetPalette(byte *palette);
 
 void I_FinishUpdate(void);
+void I_ClearAndFinishUpdate(void);
 
 void ToggleFullscreen(void);
 

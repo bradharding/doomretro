@@ -1047,6 +1047,8 @@ void ToggleFullscreen(void)
 
         PositionOnCurrentDisplay();
     }
+
+    I_ClearAndFinishUpdate();
 }
 
 void I_InitGammaTables(void)
