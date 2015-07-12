@@ -1024,17 +1024,21 @@ void ToggleWidescreen(dboolean toggle)
     I_ClearAndFinishUpdate();
 }
 
+#if defined(WIN32)
+void I_InitWindows32(void);
+#endif
+
 void I_RestartGraphics(void)
 {
     FreeSurfaces();
     SetVideoMode(false);
     if (widescreen)
         ToggleWidescreen(true);
-}
 
 #if defined(WIN32)
-void I_InitWindows32(void);
+    I_InitWindows32();
 #endif
+}
 
 void ToggleFullscreen(void)
 {
