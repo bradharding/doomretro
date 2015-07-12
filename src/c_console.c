@@ -861,6 +861,87 @@ void C_Drawer(void)
     }
 }
 
+dboolean C_ValidateInput(char *input)
+{
+    int i = 0;
+
+    while (consolecmds[i].name[0])
+    {
+        if (consolecmds[i].parameters == 1)
+        {
+            char        cmd[256] = "";
+
+            if (consolecmds[i].type == CT_CHEAT)
+            {
+                size_t  length = strlen(input);
+
+                if (isdigit(input[length - 2]) && isdigit(input[length - 1]))
+                {
+                    consolecheatparm[0] = input[length - 2];
+                    consolecheatparm[1] = input[length - 1];
+                    consolecheatparm[2] = '\0';
+
+                    M_StringCopy(cmd, input, 255);
+                    cmd[length - 2] = '\0';
+
+                    if (!strcasecmp(cmd, consolecmds[i].name)
+                        && length == strlen(cmd) + 2
+                        && consolecmds[i].condition(cmd, consolecheatparm, ""))
+                    {
+                        M_StringCopy(consolecheat, cmd, 255);
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                char    parm[256] = "";
+
+                sscanf(input, "%255s %255s", cmd, parm);
+                C_StripQuotes(parm);
+                if (!strcasecmp(cmd, consolecmds[i].name)
+                    && consolecmds[i].condition(cmd, parm, ""))
+                {
+                    C_Input(input);
+                    consolecmds[i].function(cmd, parm, "");
+                    return true;
+                }
+            }
+        }
+        else if (consolecmds[i].parameters == 2)
+        {
+            char        cmd[256] = "";
+            char        parm1[256] = "";
+            char        parm2[256] = "";
+
+            sscanf(input, "%255s %255s %255s", cmd, parm1, parm2);
+            C_StripQuotes(parm1);
+            C_StripQuotes(parm2);
+            if (!strcasecmp(cmd, consolecmds[i].name)
+                && consolecmds[i].condition(cmd, parm1, parm2))
+            {
+                C_Input(input);
+                consolecmds[i].function(cmd, parm1, parm2);
+                return true;
+            }
+        }
+        else if (!strcasecmp(input, consolecmds[i].name)
+            && consolecmds[i].condition(input, "", ""))
+        {
+            if (consolecmds[i].type == CT_CHEAT)
+                M_StringCopy(consolecheat, input, 255);
+            else
+            {
+                C_Input(input);
+                consolecmds[i].function(input, "", "");
+            }
+            return true;
+        }
+        ++i;
+    }
+    return false;
+}
+
 dboolean C_Responder(event_t *ev)
 {
     if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)
@@ -934,91 +1015,7 @@ dboolean C_Responder(event_t *ev)
             case KEY_ENTER:
                 if (consoleinput[0])
                 {
-                    dboolean    validcmd = false;
-
-                    // process cmd
-                    i = 0;
-                    while (consolecmds[i].name[0])
-                    {
-                        if (consolecmds[i].parameters == 1)
-                        {
-                            char        cmd[256] = "";
-
-                            if (consolecmds[i].type == CT_CHEAT)
-                            {
-                                size_t  length = strlen(consoleinput);
-
-                                if (isdigit(consoleinput[length - 2])
-                                    && isdigit(consoleinput[length - 1]))
-                                {
-                                    consolecheatparm[0] = consoleinput[length - 2];
-                                    consolecheatparm[1] = consoleinput[length - 1];
-                                    consolecheatparm[2] = '\0';
-
-                                    M_StringCopy(cmd, consoleinput, 255);
-                                    cmd[length - 2] = '\0';
-
-                                    if (!strcasecmp(cmd, consolecmds[i].name)
-                                        && length == strlen(cmd) + 2
-                                        && consolecmds[i].condition(cmd, consolecheatparm, ""))
-                                    {
-                                        validcmd = true;
-                                        M_StringCopy(consolecheat, cmd, 255);
-                                        break;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                char    parm[256] = "";
-
-                                sscanf(consoleinput, "%255s %255s", cmd, parm);
-                                C_StripQuotes(parm);
-                                if (!strcasecmp(cmd, consolecmds[i].name)
-                                    && consolecmds[i].condition(cmd, parm, ""))
-                                {
-                                    validcmd = true;
-                                    C_Input(consoleinput);
-                                    consolecmds[i].function(cmd, parm, "");
-                                    break;
-                                }
-                            }
-                        }
-                        else if (consolecmds[i].parameters == 2)
-                        {
-                            char        cmd[256] = "";
-                            char        parm1[256] = "";
-                            char        parm2[256] = "";
-
-                            sscanf(consoleinput, "%255s %255s %255s", cmd, parm1, parm2);
-                            C_StripQuotes(parm1);
-                            C_StripQuotes(parm2);
-                            if (!strcasecmp(cmd, consolecmds[i].name)
-                                && consolecmds[i].condition(cmd, parm1, parm2))
-                            {
-                                validcmd = true;
-                                C_Input(consoleinput);
-                                consolecmds[i].function(cmd, parm1, parm2);
-                                break;
-                            }
-                        }
-                        else if (!strcasecmp(consoleinput, consolecmds[i].name)
-                            && consolecmds[i].condition(consoleinput, "", ""))
-                        {
-                            validcmd = true;
-                            if (consolecmds[i].type == CT_CHEAT)
-                                M_StringCopy(consolecheat, consoleinput, 255);
-                            else
-                            {
-                                C_Input(consoleinput);
-                                consolecmds[i].function(consoleinput, "", "");
-                            }
-                            break;
-                        }
-                        ++i;
-                    }
-
-                    if (validcmd)
+                    if (C_ValidateInput(consoleinput))
                     {
                         // clear input
                         consoleinput[0] = '\0';
