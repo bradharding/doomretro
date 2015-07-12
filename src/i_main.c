@@ -144,8 +144,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
         LPMINMAXINFO    minmaxinfo = (LPMINMAXINFO)lParam;
 
-        minmaxinfo->ptMinTrackSize.x = ORIGINALWIDTH;
-        minmaxinfo->ptMinTrackSize.y = ORIGINALHEIGHT;
+        minmaxinfo->ptMinTrackSize.x = ORIGINALWIDTH
+            + (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
+        minmaxinfo->ptMinTrackSize.y = ORIGINALWIDTH * 3 / 4
+            + (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
+            + GetSystemMetrics(SM_CYCAPTION);
 
         return false;
     }
