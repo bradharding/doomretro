@@ -616,10 +616,10 @@ void D_SetGameDescription(void)
         if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
         else if (TITLEPIC)
-            gamedescription = strdup(M_ExtractFilename(
+            gamedescription = uppercase(M_ExtractFilename(
                 lumpinfo[W_GetNumForName("TITLEPIC")].wad_file->path));
         else if (M_DOOM)
-            gamedescription = strdup(M_ExtractFilename(
+            gamedescription = uppercase(M_ExtractFilename(
                 lumpinfo[W_GetNumForName("M_DOOM")].wad_file->path));
         else if (gamemode == retail)
             gamedescription = s_CAPTION_ULTIMATE;
@@ -641,10 +641,10 @@ void D_SetGameDescription(void)
         else if (nerve)
             gamedescription = s_CAPTION_DOOM2;
         else if (TITLEPIC)
-            gamedescription = strdup(M_ExtractFilename(
+            gamedescription = uppercase(M_ExtractFilename(
                 lumpinfo[W_GetNumForName("TITLEPIC")].wad_file->path));
         else if (M_DOOM)
-            gamedescription = strdup(M_ExtractFilename(
+            gamedescription = uppercase(M_ExtractFilename(
                 lumpinfo[W_GetNumForName("M_DOOM")].wad_file->path));
         else if (gamemission == doom2)
             gamedescription = M_StringJoin(s_CAPTION_DOOM2, ": ", s_CAPTION_HELLONEARTH, NULL);
