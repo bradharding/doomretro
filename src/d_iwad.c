@@ -615,10 +615,10 @@ void D_SetGameDescription(void)
         // Doom 1. But which version?
         if (FREEDOOM)
             gamedescription = s_CAPTION_FREEDOOM1;
-        else if (TITLEPIC)
+        else if (W_CheckMultipleLumps("TITLEPIC") > 1)
             gamedescription = uppercase(M_ExtractFilename(
                 lumpinfo[W_GetNumForName("TITLEPIC")].wad_file->path));
-        else if (M_DOOM)
+        else if (W_CheckMultipleLumps("M_DOOM") > 1)
             gamedescription = uppercase(M_ExtractFilename(
                 lumpinfo[W_GetNumForName("M_DOOM")].wad_file->path));
         else if (gamemode == retail)
@@ -640,10 +640,10 @@ void D_SetGameDescription(void)
         }
         else if (nerve)
             gamedescription = s_CAPTION_DOOM2;
-        else if (TITLEPIC)
+        else if (W_CheckMultipleLumps("TITLEPIC") > 1)
             gamedescription = uppercase(M_ExtractFilename(
                 lumpinfo[W_GetNumForName("TITLEPIC")].wad_file->path));
-        else if (M_DOOM)
+        else if (W_CheckMultipleLumps("M_DOOM") > 1)
             gamedescription = uppercase(M_ExtractFilename(
                 lumpinfo[W_GetNumForName("M_DOOM")].wad_file->path));
         else if (gamemission == doom2)
