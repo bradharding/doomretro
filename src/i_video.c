@@ -185,7 +185,7 @@ dboolean MouseShouldBeGrabbed(void)
         return true;
 
     // when menu is active or game is paused, release the mouse
-    if (menuactive || paused)
+    if (menuactive || consoleactive || paused)
         return false;
 
     // only grab mouse when playing levels
