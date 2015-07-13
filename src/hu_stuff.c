@@ -337,9 +337,11 @@ static void HU_DrawHUD(void)
 
     if (healthhighlight > currenttime)
     {
-        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, health, tinttab, V_DrawHUDPatch);
+        DrawHUDNumber(&health_x, HUD_HEALTH_Y + hudnumoffset, health, tinttab,
+            V_DrawHighlightedHUDNumberPatch);
         if (!emptytallpercent)
-            V_DrawHUDPatch(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent, tinttab);
+            V_DrawHighlightedHUDNumberPatch(health_x, HUD_HEALTH_Y + hudnumoffset, tallpercent,
+                tinttab);
     }
     else
     {
@@ -385,7 +387,8 @@ static void HU_DrawHUD(void)
         }
 
         if (ammohighlight > currenttime)
-            DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, V_DrawHUDPatch);
+            DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab,
+                V_DrawHighlightedHUDNumberPatch);
         else
             DrawHUDNumber(&ammo_x, HUD_AMMO_Y + hudnumoffset, ammo, tinttab, hudnumfunc);
 
@@ -480,15 +483,16 @@ static void HU_DrawHUD(void)
             {
                 armor_x -= HUDNumberWidth(armor);
                 DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66,
-                    V_DrawHUDPatch);
+                    V_DrawHighlightedHUDNumberPatch);
             }
             else
             {
                 armor_x -= SHORT(tallpercent->width);
-                V_DrawHUDPatch(armor_x, HUD_ARMOR_Y + hudnumoffset, tallpercent, tinttab66);
+                V_DrawHighlightedHUDNumberPatch(armor_x, HUD_ARMOR_Y + hudnumoffset, tallpercent,
+                    tinttab66);
                 armor_x -= HUDNumberWidth(armor);
                 DrawHUDNumber(&armor_x, HUD_ARMOR_Y + hudnumoffset, armor, tinttab66,
-                    V_DrawHUDPatch);
+                    V_DrawHighlightedHUDNumberPatch);
             }
         }
         else

@@ -512,6 +512,44 @@ void V_DrawHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
     }
 }
 
+void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab)
+{
+    int         col = 0;
+    byte        *desttop;
+    int         w;
+
+    if (!tinttab)
+        return;
+
+    desttop = screens[0] + y * SCREENWIDTH + x;
+    w = SHORT(patch->width);
+
+    for (; col < w; col++, desttop++)
+    {
+        column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+
+        // step through the posts in a column
+        while (column->topdelta != 0xff)
+        {
+            byte        *source = (byte *)column + 3;
+            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
+            int         count = column->length;
+
+            while (count--)
+            {
+                byte    dot = *source++;
+
+                if (dot == 109 && tinttab)
+                    *dest = tinttab33[*dest];
+                else
+                    *dest = tinttab25[(4 << 8) + dot];
+                dest += SCREENWIDTH;
+            }
+            column = (column_t *)((byte *)column + column->length + 4);
+        }
+    }
+}
+
 void V_DrawYellowHUDPatch(int x, int y, patch_t *patch, byte *tinttab)
 {
     int         col = 0;
