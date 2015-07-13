@@ -141,7 +141,7 @@
 
 #define HUD_DEFAULT                             true
 
-#define IWADFOLDER_DEFAULT                      "."
+#define IWADFOLDER_DEFAULT                      "C:\\"
 
 #define KEYALWAYSRUN_DEFAULT                    KEY_CAPSLOCK
 
