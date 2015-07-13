@@ -242,10 +242,11 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 {
     dboolean    gaveammo = false;
     dboolean    gaveweapon = false;
+    ammotype_t  ammotype = weaponinfo[weapon].ammo;
 
-    if (weaponinfo[weapon].ammo != am_noammo)
+    if (ammotype != am_noammo)
         // give one clip with a dropped weapon, two clips with a found weapon
-        gaveammo = P_GiveAmmo(player, weaponinfo[weapon].ammo, dropped ? 1 : 2);
+        gaveammo = P_GiveAmmo(player, ammotype, (dropped ? 1 : 2));
 
     if (!player->weaponowned[weapon])
     {
@@ -254,13 +255,13 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
         player->pendingweapon = weapon;
     }
 
-    if (gaveweapon || gaveammo)
+    if (gaveammo && ammotype == weaponinfo[player->readyweapon].ammo)
     {
         ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
         return true;
     }
     else
-        return false;
+        return (gaveweapon || gaveammo);
 }
 
 dboolean P_GiveAllWeapons(player_t *player)
@@ -323,13 +324,7 @@ dboolean P_GiveAllWeapons(player_t *player)
     player->shotguns = (player->weaponowned[wp_shotgun]
         || player->weaponowned[wp_supershotgun]);
 
-    if (result)
-    {
-        ammohighlight = I_GetTimeMS() + HUD_AMMO_HIGHLIGHT_WAIT;
-        return true;
-    }
-    else
-        return false;
+    return result;
 }
 
 //
