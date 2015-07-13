@@ -113,8 +113,6 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 WNDPROC                 oldProc;
 HICON                   icon;
 
-extern SDL_Window       *window;
-
 dboolean MouseShouldBeGrabbed(void);
 void I_InitGamepad(void);
 
@@ -146,16 +144,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     else if (msg == WM_DEVICECHANGE)
         I_InitGamepad();
     else if (msg == WM_SIZE && !fullscreen)
-    {
-        int     width = LOWORD(lParam);
-        int     height = HIWORD(lParam);
-        int     snapheight = width * 3 / 4;
-
-        if (ABS(height - snapheight) < 20)
-            SDL_SetWindowSize(window, width, snapheight);
-
         I_ClearAndFinishUpdate();
-    }
     else if (msg == WM_GETMINMAXINFO)
     {
         LPMINMAXINFO    minmaxinfo = (LPMINMAXINFO)lParam;
@@ -223,7 +212,6 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
     }
 }
 
-#ifdef WIN32
 void I_LoadResources(void)
 {
     HRSRC               myResource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
@@ -235,7 +223,8 @@ void I_LoadResources(void)
     fwrite((char *)pMyBinaryData, sizeof(char), myResourceSize, stream);
     fclose(stream);
 }
-#endif
+
+extern SDL_Window       *window;
 
 void I_InitWindows32(void)
 {
