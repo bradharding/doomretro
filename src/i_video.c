@@ -606,11 +606,12 @@ static void UpdateGrab(void)
     }
     else if (!grab && currently_grabbed)
     {
+        SetShowCursor(true);
+
         SDL_WarpMouseInWindow(window,
             displaywidth - 10 * displaywidth / SCREENWIDTH, displayheight - 16);
         SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
-        SetShowCursor(true);
     }
 
     currently_grabbed = grab;
