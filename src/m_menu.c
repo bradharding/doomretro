@@ -40,6 +40,10 @@
 #include <stdio.h>
 #include <time.h>
 
+#if defined(WIN32)
+#include <Windows.h>
+#endif
+
 #include "c_console.h"
 #include "d_deh.h"
 #include "d_main.h"
@@ -430,7 +434,7 @@ enum
     load_end
 } load_e;
 
-menuitem_t LoadMenu[] =
+menuitem_t LoadGameMenu[] =
 {
     { 1, "", M_LoadSelect, NULL },
     { 1, "", M_LoadSelect, NULL },
@@ -444,7 +448,7 @@ menu_t LoadDef =
 {
     load_end,
     &MainDef,
-    LoadMenu,
+    LoadGameMenu,
     M_DrawLoad,
     67, 51,
     0
@@ -454,7 +458,7 @@ menu_t LoadDef =
 // SAVE GAME MENU
 //
 
-menuitem_t SaveMenu[] =
+menuitem_t SaveGameMenu[] =
 {
     { 1, "", M_SaveSelect, NULL },
     { 1, "", M_SaveSelect, NULL },
@@ -468,7 +472,7 @@ menu_t SaveDef =
 {
     load_end,
     &MainDef,
-    SaveMenu,
+    SaveGameMenu,
     M_DrawSave,
     67, 51,
     0
@@ -793,13 +797,13 @@ void M_ReadSaveStrings(void)
         if (!handle)
         {
             M_StringCopy(&savegamestrings[i][0], s_EMPTYSTRING, SAVESTRINGSIZE);
-            LoadMenu[i].status = 0;
+            LoadGameMenu[i].status = 0;
             continue;
         }
         savegames = true;
         fread(&savegamestrings[i], 1, SAVESTRINGSIZE, handle);
         fclose(handle);
-        LoadMenu[i].status = 1;
+        LoadGameMenu[i].status = 1;
     }
 }
 
@@ -966,8 +970,9 @@ void M_LoadGame(int choice)
     M_ReadSaveStrings();
 }
 
-#define CARETWAIT       10
+#define CARETBLINKTIME  530
 
+static int      caretblinktime;
 static dboolean showcaret = false;
 static int      caretwait = 0;
 
@@ -1023,10 +1028,10 @@ void M_DrawSave(void)
     // draw text caret
     if (saveStringEnter)
     {
-        if (caretwait < I_GetTime())
+        if (caretwait < I_GetTimeMS())
         {
             showcaret = !showcaret;
-            caretwait = I_GetTime() + CARETWAIT;
+            caretwait = I_GetTimeMS() + caretblinktime;
         }
         if (showcaret)
         {
@@ -2410,7 +2415,7 @@ dboolean M_Responder(event_t *ev)
                     for (i = saveCharIndex - 1; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i + 1];
                     saveCharIndex--;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -2422,7 +2427,7 @@ dboolean M_Responder(event_t *ev)
                 {
                     for (i = saveCharIndex; (unsigned int)i < strlen(savegamestrings[saveSlot]); ++i)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i + 1];
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -2453,7 +2458,7 @@ dboolean M_Responder(event_t *ev)
                     if (savegamestrings[saveSlot][0] && !allspaces)
                     {
                         saveStringEnter = 0;
-                        caretwait = I_GetTime() + CARETWAIT;
+                        caretwait = I_GetTimeMS() + caretblinktime;
                         showcaret = true;
                         M_DoSave(saveSlot);
                     }
@@ -2465,7 +2470,7 @@ dboolean M_Responder(event_t *ev)
                 if (saveCharIndex > 0)
                 {
                     saveCharIndex--;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -2475,7 +2480,7 @@ dboolean M_Responder(event_t *ev)
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
                     saveCharIndex++;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -2485,7 +2490,7 @@ dboolean M_Responder(event_t *ev)
                 if (saveCharIndex > 0)
                 {
                     saveCharIndex = 0;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -2495,7 +2500,7 @@ dboolean M_Responder(event_t *ev)
                 if ((unsigned int)saveCharIndex < strlen(savegamestrings[saveSlot]))
                 {
                     saveCharIndex = strlen(savegamestrings[saveSlot]);
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
                 break;
@@ -2511,7 +2516,7 @@ dboolean M_Responder(event_t *ev)
                     for (i = strlen(savegamestrings[saveSlot]); i > saveCharIndex; --i)
                         savegamestrings[saveSlot][i] = savegamestrings[saveSlot][i - 1];
                     savegamestrings[saveSlot][saveCharIndex++] = ch;
-                    caretwait = I_GetTime() + CARETWAIT;
+                    caretwait = I_GetTimeMS() + caretblinktime;
                     showcaret = true;
                 }
         }
@@ -3332,6 +3337,12 @@ void M_Init(void)
 
     pipechar = W_CacheLumpName((W_CheckNumForName("STCFN121") >= 0 ? "STCFN121" : "STCFN124"),
         PU_CACHE);
+
+#if defined(WIN32)
+    caretblinktime = GetCaretBlinkTime();
+#else
+    caretblinktime = CARETBLINKTIME;
+#endif
 
     if (autostart)
     {
