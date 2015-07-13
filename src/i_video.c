@@ -79,7 +79,6 @@ dboolean                vsync = VSYNC_DEFAULT;
 
 // palette
 SDL_Color               palette[256];
-static dboolean         palette_to_set;
 
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
@@ -520,7 +519,7 @@ static void I_GetEvent(void)
                         break;
 
                     case SDL_WINDOWEVENT_EXPOSED:
-                        palette_to_set = true;
+                        SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
                         break;
 
                     case SDL_WINDOWEVENT_SIZE_CHANGED:
@@ -629,12 +628,6 @@ void I_FinishUpdate(void)
     if (!screenvisible)
         return;
 
-    if (palette_to_set)
-    {
-        SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
-        palette_to_set = false;
-    }
-
     SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
@@ -691,7 +684,7 @@ void I_SetPalette(byte *doompalette)
         palette[i].b = gammatable[gammaindex][*doompalette++];
     }
 
-    palette_to_set = true;
+    SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
 }
 
 static void CreateCursors(void)
@@ -1005,7 +998,7 @@ void ToggleWidescreen(dboolean toggle)
 
     returntowidescreen = false;
 
-    palette_to_set = true;
+    SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
 
     I_ClearAndFinishUpdate();
 }
