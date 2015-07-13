@@ -150,6 +150,8 @@ float                   gammalevel = GAMMALEVEL_DEFAULT;
 
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
 
+void                    (*updatefunc)(void);
+
 dboolean                vid_showfps = false;
 int                     fps = 0;
 
@@ -625,35 +627,43 @@ void I_FinishUpdate(void)
 
     UpdateGrab();
 
-    if (!screenvisible)
-        return;
+    SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
+    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
+    SDL_RenderPresent(renderer);
+}
+
+void I_FinishUpdateShowFPS(void)
+{
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+    static int      frames = -1;
+    static Uint32   starttime = 0;
+    static Uint32   currenttime;
+
+    UpdateGrab();
+
+    ++frames;
+    currenttime = SDL_GetTicks();
+    if (currenttime - starttime >= 1000)
+    {
+        fps = frames;
+        frames = 0;
+        starttime = currenttime;
+    }
+    C_UpdateFPS();
 
     SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
-
-    if (vid_showfps)
-    {
-        static int      frames = -1;
-        static Uint32   starttime = 0;
-        static Uint32   currenttime;
-
-        ++frames;
-        currenttime = SDL_GetTicks();
-        if (currenttime - starttime >= 1000)
-        {
-            fps = frames;
-            frames = 0;
-            starttime = currenttime;
-        }
-    }
 }
 
 void I_ClearAndFinishUpdate(void)
 {
+    static int      pitch = SCREENWIDTH * sizeof(Uint32);
+
     SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, SCREENWIDTH * sizeof(Uint32));
+    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -1177,7 +1187,8 @@ void I_InitGraphics(void)
 
     screens[0] = screenbuffer->pixels;
 
-    I_FinishUpdate();
+    updatefunc = I_FinishUpdate;
+    updatefunc();
 
     while (SDL_PollEvent(&dummy));
 

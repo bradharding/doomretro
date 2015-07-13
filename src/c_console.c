@@ -684,18 +684,39 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
     }
 }
 
+void C_UpdateFPS(void)
+{
+    if (fps && !wipe)
+    {
+        static char     buffer[16];
+        byte            color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
+        static int      prevfps = 0;
+
+        M_snprintf(buffer, 16, "%i FPS", (capfps ? MIN(fps, TICRATE) : fps));
+
+        C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
+            buffer, color);
+
+        if (fps != prevfps)
+        {
+            blurred = false;
+            prevfps = fps;
+        }
+    }
+}
+
 void C_Drawer(void)
 {
     if (consoleheight)
     {
-        int     i;
-        int     x = CONSOLETEXTX;
-        int     start;
-        int     end;
-        char    *left = Z_Malloc(512, PU_STATIC, NULL);
-        char    *middle = Z_Malloc(512, PU_STATIC, NULL);
-        char    *right = Z_Malloc(512, PU_STATIC, NULL);
-        dboolean prevconsoleactive = consoleactive;
+        int             i;
+        int             x = CONSOLETEXTX;
+        int             start;
+        int             end;
+        char            *left = Z_Malloc(512, PU_STATIC, NULL);
+        char            *middle = Z_Malloc(512, PU_STATIC, NULL);
+        char            *right = Z_Malloc(512, PU_STATIC, NULL);
+        dboolean        prevconsoleactive = consoleactive;
 
         // adjust console height
         if (consolewait < I_GetTime())
@@ -822,50 +843,6 @@ void C_Drawer(void)
     }
     else
         consoleactive = false;
-
-    if (!wipe)
-    {
-        if (vid_showfps && fps)
-        {
-            static char     buffer[16];
-            byte            color = (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor);
-            static int      prevfps = 0;
-
-            M_snprintf(buffer, 16, "%i FPS", (capfps ? MIN(fps, TICRATE) : fps));
-
-            C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
-                buffer, color);
-
-            if (fps != prevfps)
-            {
-                blurred = false;
-                prevfps = fps;
-            }
-        }
-
-#if defined(WIN32)
-        if (showmemoryusage)
-        {
-            HANDLE                  hProcess = GetCurrentProcess();
-            PROCESS_MEMORY_COUNTERS pmc;
-
-            if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
-            {
-                static char buffer[16];
-
-                M_snprintf(buffer, 16, "%s KB", commify(pmc.WorkingSetSize / 1024));
-
-                C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1,
-                    CONSOLETEXTY + (vid_showfps && fps ? CONSOLELINEHEIGHT : 0), buffer,
-                    consolememorycolor);
-
-                blurred = false;
-            }
-
-            CloseHandle(hProcess);
-        }
-#endif
-    }
 }
 
 dboolean C_ValidateInput(char *input)

@@ -105,5 +105,7 @@ void C_Drawer(void);
 dboolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
+void C_UpdateFPS(void);
+void C_UpdateMemoryUsage(void);
 
 #endif

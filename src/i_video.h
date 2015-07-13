@@ -72,6 +72,7 @@ void I_ShutdownKeyboard(void);
 void I_SetPalette(byte *palette);
 
 void I_FinishUpdate(void);
+void I_FinishUpdateShowFPS(void);
 void I_ClearAndFinishUpdate(void);
 
 void ToggleFullscreen(void);
@@ -108,6 +109,8 @@ extern float    gammalevels[GAMMALEVELS];
 extern dboolean blurred;
 extern dboolean splashscreen;
 extern dboolean noinput;
+
+extern void(*updatefunc)(void);
 
 extern dboolean vid_showfps;
 extern dboolean wipe;

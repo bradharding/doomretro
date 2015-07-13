@@ -322,7 +322,7 @@ void D_Display(void)
     // normal update
     if (!wipe)
     {
-        I_FinishUpdate();       // page flip or blit buffer
+        updatefunc();           // page flip or blit buffer
         return;
     }
 
@@ -348,7 +348,7 @@ void D_Display(void)
         C_Drawer();
 
         M_Drawer();             // menu is drawn even on top of wipes
-        I_FinishUpdate();       // page flip or blit buffer
+        updatefunc();           // page flip or blit buffer
     }
     while (!done);
 

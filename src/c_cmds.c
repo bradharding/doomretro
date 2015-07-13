@@ -364,6 +364,7 @@ static void C_ScaleDriver(char *, char *, char *);
 static void C_ScaleFilter(char *, char *, char *);
 static void C_ScreenSize(char *, char *, char *);
 static void C_ScreenResolution(char *, char *, char *);
+static void C_ShowFPS(char *, char *, char *);
 static void C_Spawn(char *, char *, char *);
 static void C_Str(char *, char *, char *);
 static void C_ThingList(char *, char *, char *);
@@ -533,7 +534,7 @@ consolecmd_t consolecmds[] =
 #if !defined(WIN32)
     CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
 #endif
-    CVAR_BOOL (vid_showfps, C_BoolCondition, C_Bool, vid_showfps, NONE, "Toggles the display of the average frames per second."),
+    CVAR_BOOL (vid_showfps, C_BoolCondition, C_ShowFPS, vid_showfps, NONE, "Toggles the display of the average frames per second."),
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggles vertical synchronization with display's refresh rate."),
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Widescreen, widescreen, WIDESCREEN, "Toggles widescreen mode."),
     CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),
@@ -2035,6 +2036,22 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output("%i", screensize);
+}
+
+static void C_ShowFPS(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 1);
+
+        if ((value == 0 || value == 1) && value != vid_showfps)
+        {
+            vid_showfps = !!value;
+            updatefunc = (vid_showfps ? I_FinishUpdateShowFPS : I_FinishUpdate);
+        }
+    }
+    else
+        C_Output(widescreen ? "on" : "off");
 }
 
 static int      spawntype = NUMMOBJTYPES;
