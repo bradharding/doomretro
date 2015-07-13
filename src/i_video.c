@@ -59,7 +59,6 @@
 #include "SDL_syswm.h"
 #endif
 
-// Window position:
 char                    *windowposition = WINDOWPOSITION_DEFAULT;
 
 SDL_Surface             *screenbuffer = NULL;
@@ -815,7 +814,6 @@ static void SetVideoMode(dboolean output)
         C_Output("Using display %i of %i called \"%s\".",
             displayindex + 1, numdisplays, SDL_GetDisplayName(displayindex));
 
-
     if (vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
@@ -1183,6 +1181,8 @@ void I_InitGraphics(void)
     UpdateFocus();
 
     screens[0] = screenbuffer->pixels;
+
+    I_FinishUpdate();
 
     while (SDL_PollEvent(&dummy));
 
