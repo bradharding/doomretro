@@ -548,7 +548,8 @@ static void I_GetEvent(void)
                         {
                             char        buffer[16] = "";
 
-                            M_snprintf(buffer, sizeof(buffer), "%i,%i", Event->window.data1, Event->window.data2);
+                            M_snprintf(buffer, sizeof(buffer), "%i,%i",
+                                Event->window.data1, Event->window.data2);
                             windowposition = strdup(buffer);
 
                             display = SDL_GetWindowDisplayIndex(window) + 1;
@@ -1179,17 +1180,14 @@ void I_InitGraphics(void)
 
     SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
 
-    if (!fullscreen)
-        currently_grabbed = true;
     UpdateFocus();
-    UpdateGrab();
 
     screens[0] = screenbuffer->pixels;
-
-    I_FinishUpdate();
 
     while (SDL_PollEvent(&dummy));
 
     if (fullscreen)
         CenterMouse();
+    else
+        SetShowCursor(true);
 }
