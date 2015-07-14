@@ -1670,11 +1670,89 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
     free(maplist);
 }
 
+#define AM      "American McGee"
+#define JA      "John Anderson"
+#define JR      "John Romero"
+#define MB      "Michael Bukowski"
+#define RH      "Richard Heath"
+#define RM      "Russell Meakim"
+#define SG      "Shawn Green"
+#define SP      "Sandy Petersen"
+#define TH      "Tom Hall"
+#define TW      "Tim Willits"
+#define AMSP    AM" and "SP
+#define JRTH    JR" and "TH
+#define SPTH    SP" and "TH
+
+char *authors[][6] =
+{
+    /* 00 */ { "",   "",   "",   "",    "",   "" },
+    /* 01 */ { "",   "",   SP,   "",    SP,   RM },
+    /* 02 */ { "",   "",   AM,   "",    AM,   RH },
+    /* 03 */ { "",   "",   AM,   "",    AM,   RM },
+    /* 04 */ { "",   "",   AM,   "",    AM,   RM },
+    /* 05 */ { "",   "",   AM,   "",    AM,   RH },
+    /* 06 */ { "",   "",   AM,   "",    AM,   RH },
+    /* 07 */ { "",   "",   AMSP, "",    AMSP, RH },
+    /* 08 */ { "",   "",   SP,   "",    SP,   RH },
+    /* 09 */ { "",   "",   SP,   "",    SP,   RM },
+    /* 10 */ { "",   "",   SPTH, "",    SPTH, "" },
+    /* 11 */ { JR,   JR,   JR,   JR,    JR,   "" },
+    /* 12 */ { JR,   JR,   SP,   JR,    SP,   "" },
+    /* 13 */ { JR,   JR,   SP,   JR,    SP,   "" },
+    /* 14 */ { JRTH, JRTH, AM,   JRTH,  AM,   "" },
+    /* 15 */ { JR,   JR,   JR,   JR,    JR,   "" },
+    /* 16 */ { JR,   JR,   SP,   JR,    SP,   "" },
+    /* 17 */ { JR,   JR,   JR,   JR,    JR,   "" },
+    /* 18 */ { SPTH, SPTH, SP,   SPTH,  SP,   "" },
+    /* 19 */ { JR,   JR,   SP,   JR,    SP,   "" },
+    /* 20 */ { "",   "",   JR,   "",    JR,   "" },
+    /* 21 */ { "",   SPTH, SP,   SPTH,  SP,   "" },
+    /* 22 */ { "",   SPTH, AM,   SPTH,  AM,   "" },
+    /* 23 */ { "",   SPTH, SP,   SPTH,  SP,   "" },
+    /* 24 */ { "",   SPTH, SP,   SPTH,  SP,   "" },
+    /* 25 */ { "",   SP,   SG,   SP,    SG,   "" },
+    /* 26 */ { "",   SP,   JR,   SP,    JR,   "" },
+    /* 27 */ { "",   SPTH, SP,   SPTH,  SP,   "" },
+    /* 28 */ { "",   SP,   SP,   SP,    SP,   "" },
+    /* 29 */ { "",   SP,   JR,   SP,    JR,   "" },
+    /* 30 */ { "",   "",   SP,   "",    SP,   "" },
+    /* 31 */ { "",   "",   SP,   "",    SP,   "" },
+    /* 32 */ { "",   "",   SP,   "",    SP,   "" },
+    /* 33 */ { "",   SPTH, "",   SPTH,  MB,   "" },
+    /* 34 */ { "",   "",   "",   "",    "",   "" },
+    /* 35 */ { "",   "",   "",   "",    "",   "" },
+    /* 36 */ { "",   "",   "",   "",    "",   "" },
+    /* 37 */ { "",   "",   "",   "",    "",   "" },
+    /* 38 */ { "",   "",   "",   "",    "",   "" },
+    /* 39 */ { "",   "",   "",   "",    "",   "" },
+    /* 40 */ { "",   "",   "",   "",    "",   "" },
+    /* 41 */ { "",   "",   "",   AM,    "",   "" },
+    /* 42 */ { "",   "",   "",   JR,    "",   "" },
+    /* 43 */ { "",   "",   "",   SG,    "",   "" },
+    /* 44 */ { "",   "",   "",   AM,    "",   "" },
+    /* 45 */ { "",   "",   "",   TW,    "",   "" },
+    /* 46 */ { "",   "",   "",   JR,    "",   "" },
+    /* 47 */ { "",   "",   "",   JA,    "",   "" },
+    /* 48 */ { "",   "",   "",   SG,    "",   "" },
+    /* 49 */ { "",   "",   "",   TW,    "",   "" }
+};
+
 static void C_MapStats(char *cmd, char *parm1, char *parm2)
 {
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
 
     C_TabbedOutput(tabs, "Title\t%s", mapnumandtitle);
+
+    if (canmodify)
+    {
+        if (gamemission == pack_nerve && authors[gamemap][5])
+            C_TabbedOutput(tabs, "Author\t%s", authors[gamemap][5]);
+        else if (bfgedition && gamemission == doom2 && authors[gamemap][4])
+            C_TabbedOutput(tabs, "Author\t%s", authors[gamemap][4]);
+        else if (authors[gameepisode * 10 + gamemap][gamemode])
+            C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode * 10 + gamemap][gamemode]);
+    }
 
     C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :
         (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
