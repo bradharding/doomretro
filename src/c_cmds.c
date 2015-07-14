@@ -1965,7 +1965,7 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)", commify(players[0].secretcount),
             commify(totalsecret), players[0].secretcount * 100 / totalsecret);
 
-    C_TabbedOutput("Time spent in map\t%02i:%02i:%02i", tics / 3600, (tics % 3600) / 60,
+    C_TabbedOutput(tabs, "Time spent in map\t%02i:%02i:%02i", tics / 3600, (tics % 3600) / 60,
         (tics % 3600) % 60);
 
 }
