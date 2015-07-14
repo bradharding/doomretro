@@ -475,7 +475,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (mapfixes, C_BoolCondition, C_Bool, mapfixes, MAPFIXES, "Toggles the fixing of mapping errors."),
     CMD       (maplist, C_NoCondition, C_MapList, 0, "", "Shows a list of the available maps."),
     CMD       (mapstats, C_GameCondition, C_MapStats, 0, "", "Shows stats on the current map."),
-    CVAR_TIME (maptime, C_NoCondition, C_Time, leveltime, "The time spent in the current or previous map."),
     CVAR_BOOL (messages, C_BoolCondition, C_Bool, messages, MESSAGES, "Toggles messages."),
     CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggles collision detection for the player."),
     CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggles the player as a target."),
@@ -1936,6 +1935,7 @@ static dboolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
 static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
 {
     int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
+    int tics = leveltime / TICRATE;
 
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
         C_TabbedOutput(tabs, "Amount of map revealed\t100%%");
@@ -1964,6 +1964,10 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
     if (totalsecret)
         C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)", commify(players[0].secretcount),
             commify(totalsecret), players[0].secretcount * 100 / totalsecret);
+
+    C_Output("Time spent in map\t%02i:%02i:%02i", tics / 3600, (tics % 3600) / 60,
+        (tics % 3600) % 60);
+
 }
 
 static void C_Quit(char *cmd, char *parm1, char *parm2)
