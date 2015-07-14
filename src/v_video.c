@@ -539,10 +539,7 @@ void V_DrawHighlightedHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
             {
                 byte    dot = *source++;
 
-                if (dot == 109 && tinttab)
-                    *dest = tinttab33[*dest];
-                else
-                    *dest = tinttab25[(4 << 8) + dot];
+                *dest = (dot == 109 && tinttab ? tinttab33[*dest] : dot);
                 dest += SCREENWIDTH;
             }
             column = (column_t *)((byte *)column + column->length + 4);
