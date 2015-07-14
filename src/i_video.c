@@ -65,7 +65,7 @@ SDL_Surface             *screenbuffer = NULL;
 
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
-static SDL_Surface      *rgbbuffer = NULL;
+static SDL_Surface      *helperbuffer = NULL;
 static SDL_Texture      *texture = NULL; 
 SDL_Palette             *sdlpalette;
 
@@ -341,7 +341,7 @@ void RepositionWindow(int amount)
 static void FreeSurfaces(void)
 {
     SDL_FreeSurface(screenbuffer);
-    SDL_FreeSurface(rgbbuffer);
+    SDL_FreeSurface(helperbuffer);
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -627,8 +627,8 @@ void I_FinishUpdate(void)
 
     UpdateGrab();
 
-    SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
+    SDL_LowerBlit(screenbuffer, &src_rect, helperbuffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, helperbuffer->pixels, pitch);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -652,8 +652,8 @@ void I_FinishUpdateShowFPS(void)
     }
     C_UpdateFPS();
 
-    SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
+    SDL_LowerBlit(screenbuffer, &src_rect, helperbuffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, helperbuffer->pixels, pitch);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -662,8 +662,8 @@ void I_ClearAndFinishUpdate(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
-    SDL_LowerBlit(screenbuffer, &src_rect, rgbbuffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, rgbbuffer->pixels, pitch);
+    SDL_LowerBlit(screenbuffer, &src_rect, helperbuffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, helperbuffer->pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -969,9 +969,9 @@ static void SetVideoMode(dboolean output)
         }
     }
     screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
-    rgbbuffer = SDL_ConvertSurfaceFormat(SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32, 0,
-        0, 0, 0), SDL_PIXELFORMAT_ARGB8888, 0);
-    SDL_FillRect(rgbbuffer, NULL, 0);
+    helperbuffer = SDL_ConvertSurfaceFormat(SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32,
+        0, 0, 0, 0), SDL_PIXELFORMAT_ARGB8888, 0);
+    SDL_FillRect(helperbuffer, NULL, 0);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT);
     sdlpalette = SDL_AllocPalette(256);

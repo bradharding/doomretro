@@ -136,10 +136,6 @@ static int      outputhistory = -1;
 
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-#if defined(WIN32)
-dboolean        showmemoryusage = false;
-#endif
-
 extern dboolean translucency;
 extern byte     *tinttab75;
 extern int      fps;

@@ -104,9 +104,6 @@ void NetUpdate(void)
 
     lasttime = nowtime;
 
-    //if (newtics <= 0)   // nothing new to update
-    //    return;
-
     if (skiptics <= newtics)
     {
         newtics -= skiptics;
@@ -172,7 +169,6 @@ extern dboolean advancetitle;
 void TryRunTics(void)
 {
     int         i;
-    int         lowtic;
     int         entertic;
     static int  oldentertics;
     int         realtics;
@@ -187,9 +183,7 @@ void TryRunTics(void)
     // get available tics
     NetUpdate();
 
-    lowtic = maketic;
-
-    availabletics = lowtic - gametic / ticdup;
+    availabletics = maketic - gametic / ticdup;
 
     // decide how many tics to run
     if (realtics < availabletics - 1)
@@ -199,21 +193,19 @@ void TryRunTics(void)
     else
         counts = availabletics;
 
-    if (!capfps && !counts)
+    if (!counts && !capfps)
         return;
 
     if (counts < 1)
         counts = 1;
 
     // wait for new tics if needed
-    while (lowtic < gametic / ticdup + counts)
+    while (maketic < gametic / ticdup + counts)
     {
         NetUpdate();
 
-        lowtic = maketic;
-
         // Still no tics to run? Sleep until some are available.
-        if (lowtic < gametic/ticdup + counts)
+        if (maketic < gametic/ticdup + counts)
         {
             // If we're in a netgame, we might spin forever waiting for
             // new network data to be received. So don't stay in here
@@ -245,5 +237,6 @@ void TryRunTics(void)
                     cmd->buttons = 0;
             }
         }
+        NetUpdate();
     }
 }

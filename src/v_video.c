@@ -337,17 +337,19 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, dbo
     for (; col < w; col++, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+        byte            topdelta;
 
         // step through the posts in a column
-        while (column->topdelta != 0xff)
+        while ((topdelta = column->topdelta) != 0xff)
         {
             byte        *source = (byte *)column + 3;
-            byte        *dest = desttop + column->topdelta * SCREENWIDTH;
-            int         count = column->length;
+            byte        *dest = desttop + topdelta * SCREENWIDTH;
+            byte        length = column->length;
+            int         count = length;
 
             while (count--)
             {
-                int     height = column->topdelta + column->length - count;
+                int     height = topdelta + length - count;
 
                 if (y + height > CONSOLETOP)
                 {
@@ -369,7 +371,7 @@ void V_DrawConsoleChar(int x, int y, patch_t *patch, int color1, int color2, dbo
                 ++source;
                 dest += SCREENWIDTH;
             }
-            column = (column_t *)((byte *)column + column->length + 4);
+            column = (column_t *)((byte *)column + length + 4);
         }
     }
 }

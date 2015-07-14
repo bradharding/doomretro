@@ -77,10 +77,6 @@ extern char             consolecheat[255];
 extern char             consolecheatparm[3];
 extern char             consolecmdparm[255];
 
-#if defined(WIN32)
-extern dboolean         showmemoryusage;
-#endif
-
 typedef struct
 {
     char                *input;

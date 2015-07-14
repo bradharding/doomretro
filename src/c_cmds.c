@@ -201,9 +201,6 @@ extern int      selectedexpansion;
 extern int      selectedsavegame;
 extern int      selectedskilllevel;
 extern dboolean shadows;
-#if defined(WIN32)
-extern dboolean showmemoryusage;
-#endif
 extern dboolean smoketrails;
 extern dboolean spritefixes;
 extern dboolean swirlingliquid;
@@ -514,9 +511,6 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Saves the game to a file."),
     CVAR_STR  (savegamefolder, C_NoCondition, C_Str, savegamefolder, "The folder where savegames are saved."),
-#if defined(WIN32)
-    CVAR_BOOL (showmemoryusage, C_BoolCondition, C_Bool, showmemoryusage, NONE, "Toggles the display of "PACKAGE_NAME"'s memory usage."),
-#endif
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CVAR_BOOL (spritefixes, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggles the fixing of sprite offsets."),

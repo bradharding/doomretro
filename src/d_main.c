@@ -243,7 +243,7 @@ void D_Display(void)
                 break;
         }
     }
-    else if (gametic)
+    else
     {
         HU_Erase();
 
@@ -268,9 +268,6 @@ void D_Display(void)
             if (scaledviewwidth != SCREENWIDTH)
             {
                 if (menuactive || menuactivestate || !viewactivestate || vid_showfps
-#if defined(WIN32)
-                    || showmemoryusage
-#endif
                     || paused || pausedstate || message_on || consoleheight > CONSOLETOP)
                     borderdrawcount = 3;
                 if (borderdrawcount)
@@ -282,6 +279,7 @@ void D_Display(void)
             if (graphicdetail == LOW)
                 V_LowGraphicDetail(viewheight2);
         }
+
         HU_Drawer();
     }
 
@@ -314,14 +312,13 @@ void D_Display(void)
     }
 
     if (!wipe)
+    {
         C_Drawer();
 
-    // menus go directly to the screen
-    M_Drawer();                 // menu is drawn even on top of everything
+        // menus go directly to the screen
+        M_Drawer();             // menu is drawn even on top of everything
 
-    // normal update
-    if (!wipe)
-    {
+        // normal update
         updatefunc();           // page flip or blit buffer
         return;
     }
