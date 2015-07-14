@@ -1336,11 +1336,11 @@ void ST_doPaletteStuff(void)
         count = MAX(12, count);
 
     if (count)
-        palette = MIN((count + 7) >> 3, NUMREDPALS);
+        palette = STARTREDPALS + MIN((count + 7) >> 3, NUMREDPALS - 1);
     else if (plyr->health > 0)
     {
         if (plyr->bonuscount)
-            palette = MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS) + STARTBONUSPALS - 1;
+            palette = STARTBONUSPALS + MIN((plyr->bonuscount + 7) >> 3, NUMBONUSPALS - 1);
         else if (plyr->powers[pw_ironfeet] > STARTFLASHING || (plyr->powers[pw_ironfeet] & 8))
             palette = RADIATIONPAL;
     }
