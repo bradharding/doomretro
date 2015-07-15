@@ -61,24 +61,22 @@
 
 char                    *windowposition = WINDOWPOSITION_DEFAULT;
 
-SDL_Surface             *screenbuffer = NULL;
 
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
-static SDL_Surface      *helperbuffer = NULL;
 static SDL_Texture      *texture = NULL; 
-SDL_Palette             *sdlpalette;
+static SDL_Surface      *surface = NULL;
+static SDL_Surface      *buffer = NULL;
+static SDL_Palette      *palette;
+static SDL_Color        colors[256];
 
 int                     display = DISPLAY_DEFAULT;
-int                     displayindex;
-int                     numdisplays;
-SDL_Rect                *displays;
+static int              displayindex;
+static int              numdisplays;
+static SDL_Rect         *displays;
 char                    *scaledriver = SCALEDRIVER_DEFAULT;
 char                    *scalefilter = SCALEFILTER_DEFAULT;
 dboolean                vsync = VSYNC_DEFAULT;
-
-// palette
-SDL_Color               palette[256];
 
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
@@ -340,8 +338,8 @@ void RepositionWindow(int amount)
 
 static void FreeSurfaces(void)
 {
-    SDL_FreeSurface(screenbuffer);
-    SDL_FreeSurface(helperbuffer);
+    SDL_FreeSurface(surface);
+    SDL_FreeSurface(buffer);
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -521,7 +519,7 @@ static void I_GetEvent(void)
                         break;
 
                     case SDL_WINDOWEVENT_EXPOSED:
-                        SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
+                        SDL_SetPaletteColors(palette, colors, 0, 256);
                         break;
 
                     case SDL_WINDOWEVENT_SIZE_CHANGED:
@@ -627,8 +625,8 @@ void I_FinishUpdate(void)
 
     UpdateGrab();
 
-    SDL_LowerBlit(screenbuffer, &src_rect, helperbuffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, helperbuffer->pixels, pitch);
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -652,8 +650,8 @@ void I_FinishUpdateShowFPS(void)
     }
     C_UpdateFPS();
 
-    SDL_LowerBlit(screenbuffer, &src_rect, helperbuffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, helperbuffer->pixels, pitch);
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -662,8 +660,8 @@ void I_ClearAndFinishUpdate(void)
 {
     static int      pitch = SCREENWIDTH * sizeof(Uint32);
 
-    SDL_LowerBlit(screenbuffer, &src_rect, helperbuffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, helperbuffer->pixels, pitch);
+    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
+    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -683,18 +681,18 @@ void I_ReadScreen(byte *scr)
 //
 // I_SetPalette
 //
-void I_SetPalette(byte *doompalette)
+void I_SetPalette(byte *playpal)
 {
     int i;
 
     for (i = 0; i < 256; ++i)
     {
-        palette[i].r = gammatable[gammaindex][*doompalette++];
-        palette[i].g = gammatable[gammaindex][*doompalette++];
-        palette[i].b = gammatable[gammaindex][*doompalette++];
+        colors[i].r = gammatable[gammaindex][*playpal++];
+        colors[i].g = gammatable[gammaindex][*playpal++];
+        colors[i].b = gammatable[gammaindex][*playpal++];
     }
 
-    SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
+    SDL_SetPaletteColors(palette, colors, 0, 256);
 }
 
 static void CreateCursors(void)
@@ -968,14 +966,14 @@ static void SetVideoMode(dboolean output)
             C_Output(buffer);
         }
     }
-    screenbuffer = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
-    helperbuffer = SDL_ConvertSurfaceFormat(SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32,
+    surface = SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 8, 0, 0, 0, 0);
+    buffer = SDL_ConvertSurfaceFormat(SDL_CreateRGBSurface(0, SCREENWIDTH, SCREENHEIGHT, 32,
         0, 0, 0, 0), SDL_PIXELFORMAT_ARGB8888, 0);
-    SDL_FillRect(helperbuffer, NULL, 0);
+    SDL_FillRect(buffer, NULL, 0);
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
         SCREENWIDTH, SCREENHEIGHT);
-    sdlpalette = SDL_AllocPalette(256);
-    SDL_SetSurfacePalette(screenbuffer, sdlpalette);
+    palette = SDL_AllocPalette(256);
+    SDL_SetSurfacePalette(surface, palette);
 
     src_rect.w = SCREENWIDTH;
     src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
@@ -1008,7 +1006,7 @@ void ToggleWidescreen(dboolean toggle)
 
     returntowidescreen = false;
 
-    SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
+    SDL_SetPaletteColors(palette, colors, 0, 256);
 
     I_ClearAndFinishUpdate();
 }
@@ -1181,11 +1179,11 @@ void I_InitGraphics(void)
 
     I_SetPalette(doompal);
 
-    SDL_SetPaletteColors(sdlpalette, palette, 0, 256);
+    SDL_SetPaletteColors(palette, colors, 0, 256);
 
     UpdateFocus();
 
-    screens[0] = screenbuffer->pixels;
+    screens[0] = surface->pixels;
 
     updatefunc = I_FinishUpdate;
     updatefunc();
