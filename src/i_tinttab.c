@@ -96,10 +96,10 @@ byte    *tinttabredwhite2;
 byte    *tinttabgreen;
 byte    *tinttabblue;
 
-byte    *tinttabred50;
+byte    *tinttabred33;
 byte    *tinttabredwhite50;
-byte    *tinttabgreen50;
-byte    *tinttabblue50;
+byte    *tinttabgreen33;
+byte    *tinttabblue33;
 
 byte    *tinttabchgf;
 
@@ -201,8 +201,8 @@ void I_InitTintTables(byte *palette)
     tinttabgreen = GenerateTintTable(palette, ADDITIVE, general, GREENS);
     tinttabblue = GenerateTintTable(palette, ADDITIVE, general, BLUES);
 
-    tinttabred50 = GenerateTintTable(palette, 50, general, REDS);
+    tinttabred33 = GenerateTintTable(palette, 33, general, REDS);
     tinttabredwhite50 = GenerateTintTable(palette, 50, general, (REDS | WHITES));
-    tinttabgreen50 = GenerateTintTable(palette, 50, general, GREENS);
-    tinttabblue50 = GenerateTintTable(palette, 50, general, BLUES);
+    tinttabgreen33 = GenerateTintTable(palette, 33, general, GREENS);
+    tinttabblue33 = GenerateTintTable(palette, 33, general, BLUES);
 }

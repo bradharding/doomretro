@@ -958,7 +958,7 @@ void R_DrawTranslucentBlueColumn(void)
     *dest = tinttabblue[(*dest << 8) + colormap[source[frac >> FRACBITS]]];
 }
 
-void R_DrawTranslucentRed50Column(void)
+void R_DrawTranslucentRed33Column(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
@@ -969,14 +969,14 @@ void R_DrawTranslucentRed50Column(void)
 
     while (--count)
     {
-        *dest = colormap[tinttabred50[(*dest << 8) + source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabred33[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabred50[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabred33[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
-void R_DrawTranslucentGreen50Column(void)
+void R_DrawTranslucentGreen33Column(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
@@ -987,14 +987,14 @@ void R_DrawTranslucentGreen50Column(void)
 
     while (--count)
     {
-        *dest = colormap[tinttabgreen50[(*dest << 8) + source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabgreen33[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabgreen50[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabgreen33[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
-void R_DrawTranslucentBlue50Column(void)
+void R_DrawTranslucentBlue33Column(void)
 {
     int32_t             count = dc_yh - dc_yl + 1;
     byte                *dest = R_ADDRESS(0, dc_x, dc_yl);
@@ -1005,11 +1005,11 @@ void R_DrawTranslucentBlue50Column(void)
 
     while (--count)
     {
-        *dest = colormap[tinttabblue50[(*dest << 8) + source[frac >> FRACBITS]]];
+        *dest = colormap[tinttabblue33[(*dest << 8) + source[frac >> FRACBITS]]];
         dest += SCREENWIDTH;
         frac += fracstep;
     }
-    *dest = colormap[tinttabblue50[(*dest << 8) + source[frac >> FRACBITS]]];
+    *dest = colormap[tinttabblue33[(*dest << 8) + source[frac >> FRACBITS]]];
 }
 
 //

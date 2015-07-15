@@ -229,62 +229,64 @@ typedef enum
     MF2_TRANSLUCENT_50            = 0x00000020,
     // Apply additive translucency on all red to white
     MF2_TRANSLUCENT_REDWHITEONLY  = 0x00000040,
-    // Convert all red to green, then apply 50% alpha translucency
+    // Convert all red to green, then apply 33% alpha translucency
     MF2_TRANSLUCENT_REDTOGREEN_33 = 0x00000080,
-    // Convert all red to blue, then apply 50% alpha translucency
+    // Convert all red to blue, then apply 33% alpha translucency
     MF2_TRANSLUCENT_REDTOBLUE_33  = 0x00000100,
+    // Apply 33% alpha translucency on all blue
+    MF2_TRANSLUCENT_BLUE_33       = 0x00000200,
 
     // Convert all red to green
-    MF2_REDTOGREEN                = 0x00000200,
+    MF2_REDTOGREEN                = 0x00000400,
     // Convert all green to red
-    MF2_GREENTORED                = 0x00000400,
+    MF2_GREENTORED                = 0x00000800,
     // Convert all red to blue
-    MF2_REDTOBLUE                 = 0x00000800,
+    MF2_REDTOBLUE                 = 0x00001000,
 
     // Object bobs up and down
-    MF2_FLOATBOB                  = 0x00001000,
+    MF2_FLOATBOB                  = 0x00002000,
 
     // Mirrored horizontally
-    MF2_MIRRORED                  = 0x00002000,
+    MF2_MIRRORED                  = 0x00004000,
 
-    MF2_FALLING                   = 0x00004000,
+    MF2_FALLING                   = 0x00008000,
 
     // Object is resting on top of another object
-    MF2_ONMOBJ                    = 0x00008000,
+    MF2_ONMOBJ                    = 0x00010000,
 
     // Object is allowed to pass over/under other objects
-    MF2_PASSMOBJ                  = 0x00010000,
+    MF2_PASSMOBJ                  = 0x00020000,
 
     // Object is a corpse and being resurrected
-    MF2_RESURRECTING              = 0x00020000,
+    MF2_RESURRECTING              = 0x00040000,
 
     // Object's feet won't be clipped in liquid
-    MF2_NOFOOTCLIP                = 0x00040000,
+    MF2_NOFOOTCLIP                = 0x00080000,
 
     // Object won't bob in liquid
-    MF2_NOLIQUIDBOB               = 0x00080000,
+    MF2_NOLIQUIDBOB               = 0x00100000,
 
     // Object's feet are now being clipped
     // (when applied to object's shadow, shadow isn't drawn)
-    MF2_FEETARECLIPPED            = 0x00100000,
+    MF2_FEETARECLIPPED            = 0x00200000,
 
     // Object has a shadow
-    MF2_SHADOW                    = 0x00200000,
+    MF2_SHADOW                    = 0x00400000,
 
     // Object is blood
-    MF2_BLOOD                     = 0x00400000,
+    MF2_BLOOD                     = 0x00800000,
 
     // Object is drawn first
-    MF2_DRAWFIRST                 = 0x00800000,
+    MF2_DRAWFIRST                 = 0x01000000,
 
     // Object's thing triangle is not displayed in automap
-    MF2_DONOTMAP                  = 0x01000000,
+    MF2_DONOTMAP                  = 0x02000000,
 
     // Object has smoke trail
-    MF2_SMOKETRAIL                = 0x02000000,
+    MF2_SMOKETRAIL                = 0x04000000,
 
     // Object can be crushed into blood splats by moving sectors
-    MF2_CRUSHABLE                 = 0x04000000
+    MF2_CRUSHABLE                 = 0x08000000
 } mobjflag2_t;
 
 // Map Object definition.

@@ -138,9 +138,9 @@ void (*tlredwhitecolfunc1)(void);
 void (*tlredwhitecolfunc2)(void);
 void (*tlredwhite50colfunc)(void);
 void (*tlbluecolfunc)(void);
-void (*tlgreen50colfunc)(void);
-void (*tlred50colfunc)(void);
-void (*tlblue50colfunc)(void);
+void (*tlgreen33colfunc)(void);
+void (*tlred33colfunc)(void);
+void (*tlblue33colfunc)(void);
 void (*redtobluecolfunc)(void);
 void (*transcolfunc)(void);
 void (*spanfunc)(void);
@@ -557,9 +557,9 @@ void R_InitColumnFunctions(void)
         tlredwhitecolfunc2 = R_DrawTranslucentRedWhiteColumn2;
         tlredwhite50colfunc = R_DrawTranslucentRedWhite50Column;
         tlbluecolfunc = R_DrawTranslucentBlueColumn;
-        tlgreen50colfunc = R_DrawTranslucentGreen50Column;
-        tlred50colfunc = R_DrawTranslucentRed50Column;
-        tlblue50colfunc = R_DrawTranslucentBlue50Column;
+        tlgreen33colfunc = R_DrawTranslucentGreen33Column;
+        tlred33colfunc = R_DrawTranslucentRed33Column;
+        tlblue33colfunc = R_DrawTranslucentBlue33Column;
         tlredtoblue33colfunc = R_DrawTranslucentRedToBlue33Column;
         tlredtogreen33colfunc = R_DrawTranslucentRedToGreen33Column;
         bloodsplatcolfunc = R_DrawBloodSplatColumn;
@@ -576,9 +576,9 @@ void R_InitColumnFunctions(void)
         tlredwhitecolfunc2 = R_DrawColumn;
         tlredwhite50colfunc = R_DrawColumn;
         tlbluecolfunc = R_DrawColumn;
-        tlgreen50colfunc = R_DrawColumn;
-        tlred50colfunc = R_DrawColumn;
-        tlblue50colfunc = R_DrawColumn;
+        tlgreen33colfunc = R_DrawColumn;
+        tlred33colfunc = R_DrawColumn;
+        tlblue33colfunc = R_DrawColumn;
         tlredtoblue33colfunc = R_DrawRedToBlueColumn;
         tlredtogreen33colfunc = R_DrawRedToGreenColumn;
         bloodsplatcolfunc = R_DrawSolidBloodSplatColumn;
@@ -619,6 +619,8 @@ void R_InitColumnFunctions(void)
             info->colfunc = tlredtogreen33colfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDTOBLUE_33)
             info->colfunc = tlredtoblue33colfunc;
+        else if (flags2 & MF2_TRANSLUCENT_BLUE_33)
+            info->colfunc = tlblue33colfunc;
         else if (flags2 & MF2_REDTOGREEN)
             info->colfunc = redtogreencolfunc;
         else if (flags2 & MF2_REDTOBLUE)

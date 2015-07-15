@@ -73,18 +73,10 @@ extern byte             *tinttabredwhite1;
 extern byte             *tinttabredwhite2;
 extern byte             *tinttabgreen;
 extern byte             *tinttabblue;
-extern byte             *tinttabred50;
+extern byte             *tinttabred33;
 extern byte             *tinttabredwhite50;
-extern byte             *tinttabgreen50;
-extern byte             *tinttabblue50;
-
-extern byte             *tranmap_pistol;
-extern byte             *tranmap_shotgun;
-extern byte             *tranmap_supershotgun;
-extern byte             *tranmap_chaingun;
-extern byte             *tranmap_rocketlauncher;
-extern byte             *tranmap_plasmarifle;
-extern byte             *tranmap_bfg9000;
+extern byte             *tinttabgreen33;
+extern byte             *tinttabblue33;
 
 // The span blitting interface.
 // Hook in assembler or system specific BLT
@@ -103,9 +95,9 @@ void R_DrawTranslucentRedWhiteColumn1(void);
 void R_DrawTranslucentRedWhiteColumn2(void);
 void R_DrawTranslucentRedWhite50Column(void);
 void R_DrawTranslucentBlueColumn(void);
-void R_DrawTranslucentGreen50Column(void);
-void R_DrawTranslucentRed50Column(void);
-void R_DrawTranslucentBlue50Column(void);
+void R_DrawTranslucentGreen33Column(void);
+void R_DrawTranslucentRed33Column(void);
+void R_DrawTranslucentBlue33Column(void);
 void R_DrawRedToBlueColumn(void);
 void R_DrawTranslucentRedToBlue33Column(void);
 void R_DrawRedToGreenColumn(void);
