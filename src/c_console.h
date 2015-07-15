@@ -102,5 +102,6 @@ dboolean C_Responder(event_t *ev);
 void C_PrintCompileDate(void);
 void C_PrintSDLVersions(void);
 void C_StripQuotes(char *string);
+void C_UpdateFPS(void);
 
 #endif
