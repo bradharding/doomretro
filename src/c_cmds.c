@@ -216,7 +216,7 @@ extern char     *windowposition;
 extern char     *windowsize;
 extern int      windowwidth;
 
-static control_t controls[] =
+control_t controls[] =
 {
     { "1",             keyboard, '1'            }, { "2",             keyboard, '2'            },
     { "3",             keyboard, '3'            }, { "4",             keyboard, '4'            },
@@ -267,7 +267,7 @@ static control_t controls[] =
     { "gamepad4",      gamepad,  32768          }, { "",              0,        0              }
 };
 
-static action_t actions[] = 
+action_t actions[] = 
 {
     { "+alwaysrun",   &key_alwaysrun,          NULL,              NULL,              NULL                      },
     { "+automap",     &key_automap,            NULL,              NULL,              &gamepadautomap           },

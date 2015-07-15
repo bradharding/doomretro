@@ -41,6 +41,7 @@
 #include <Xinput.h>
 #endif
 
+#include "c_cmds.h"
 #include "c_console.h"
 #include "doomstat.h"
 #include "i_gamepad.h"
@@ -214,78 +215,17 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_rotatemode,           am_rotatemode,                 1),
     CONFIG_VARIABLE_INT          (episode,                 selectedepisode,               8),
     CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,             9),
-    CONFIG_VARIABLE_INT          (gp_automap,              gamepadautomap,                2),
-    CONFIG_VARIABLE_INT          (gp_automap_clearmark,    gamepadautomapclearmark,       2),
-    CONFIG_VARIABLE_INT          (gp_automap_followmode,   gamepadautomapfollowmode,      2),
-    CONFIG_VARIABLE_INT          (gp_automap_grid,         gamepadautomapgrid,            2),
-    CONFIG_VARIABLE_INT          (gp_automap_mark,         gamepadautomapmark,            2),
-    CONFIG_VARIABLE_INT          (gp_automap_maxzoom,      gamepadautomapmaxzoom,         2),
-    CONFIG_VARIABLE_INT          (gp_automap_rotatemode,   gamepadautomaprotatemode,      2),
-    CONFIG_VARIABLE_INT          (gp_automap_zoomin,       gamepadautomapzoomin,          2),
-    CONFIG_VARIABLE_INT          (gp_automap_zoomout,      gamepadautomapzoomout,         2),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,        gamepadleftdeadzone_percent,   0),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,       gamepadrightdeadzone_percent,  0),
-    CONFIG_VARIABLE_INT          (gp_fire,                 gamepadfire,                   2),
-    CONFIG_VARIABLE_INT          (gp_menu,                 gamepadmenu,                   2),
-    CONFIG_VARIABLE_INT          (gp_nextweapon,           gamepadnextweapon,             2),
-    CONFIG_VARIABLE_INT          (gp_prevweapon,           gamepadprevweapon,             2),
-    CONFIG_VARIABLE_INT          (gp_run,                  gamepadrun,                    2),
     CONFIG_VARIABLE_INT          (gp_sensitivity,          gamepadsensitivity,            0),
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,      gamepadlefthanded,             1),
-    CONFIG_VARIABLE_INT          (gp_use,                  gamepaduse,                    2),
     CONFIG_VARIABLE_INT          (gp_vibrate,              gamepadvibrate,                1),
-    CONFIG_VARIABLE_INT          (gp_weapon1,              gamepadweapon1,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon2,              gamepadweapon2,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon3,              gamepadweapon3,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon4,              gamepadweapon4,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon5,              gamepadweapon5,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon6,              gamepadweapon6,                2),
-    CONFIG_VARIABLE_INT          (gp_weapon7,              gamepadweapon7,                2),
     CONFIG_VARIABLE_STRING       (iwadfolder,              iwadfolder,                    0),
-    CONFIG_VARIABLE_KEY          (key_alwaysrun,           key_alwaysrun,                 3),
-    CONFIG_VARIABLE_KEY          (key_automap,             key_automap,                   3),
-    CONFIG_VARIABLE_KEY          (key_automap_clearmark,   key_automap_clearmark,         3),
-    CONFIG_VARIABLE_KEY          (key_automap_followmode,  key_automap_followmode,        3),
-    CONFIG_VARIABLE_KEY          (key_automap_grid,        key_automap_grid,              3),
-    CONFIG_VARIABLE_KEY          (key_automap_mark,        key_automap_mark,              3),
-    CONFIG_VARIABLE_KEY          (key_automap_maxzoom,     key_automap_maxzoom,           3),
-    CONFIG_VARIABLE_KEY          (key_automap_rotatemode,  key_automap_rotatemode,        3),
-    CONFIG_VARIABLE_KEY          (key_automap_zoomin,      key_automap_zoomin,            3),
-    CONFIG_VARIABLE_KEY          (key_automap_zoomout,     key_automap_zoomout,           3),
-    CONFIG_VARIABLE_KEY          (key_down,                key_down,                      3),
-    CONFIG_VARIABLE_KEY          (key_down2,               key_down2,                     3),
-    CONFIG_VARIABLE_KEY          (key_fire,                key_fire,                      3),
-    CONFIG_VARIABLE_KEY          (key_left,                key_left,                      3),
-    CONFIG_VARIABLE_KEY          (key_prevweapon,          key_prevweapon,                3),
-    CONFIG_VARIABLE_KEY          (key_nextweapon,          key_nextweapon,                3),
-    CONFIG_VARIABLE_KEY          (key_right,               key_right,                     3),
-    CONFIG_VARIABLE_KEY          (key_run,                 key_run,                       3),
-    CONFIG_VARIABLE_KEY          (key_strafe,              key_strafe,                    3),
-    CONFIG_VARIABLE_KEY          (key_strafeleft,          key_strafeleft,                3),
-    CONFIG_VARIABLE_KEY          (key_strafeleft2,         key_strafeleft2,               3),
-    CONFIG_VARIABLE_KEY          (key_straferight,         key_straferight,               3),
-    CONFIG_VARIABLE_KEY          (key_straferight2,        key_straferight2,              3),
-    CONFIG_VARIABLE_KEY          (key_up,                  key_up,                        3),
-    CONFIG_VARIABLE_KEY          (key_up2,                 key_up2,                       3),
-    CONFIG_VARIABLE_KEY          (key_use,                 key_use,                       3),
-    CONFIG_VARIABLE_KEY          (key_weapon1,             key_weapon1,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon2,             key_weapon2,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon3,             key_weapon3,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon4,             key_weapon4,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon5,             key_weapon5,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon6,             key_weapon6,                   3),
-    CONFIG_VARIABLE_KEY          (key_weapon7,             key_weapon7,                   3),
     CONFIG_VARIABLE_FLOAT        (m_acceleration,          mouse_acceleration,            0),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,       dclick_use,                    1),
-    CONFIG_VARIABLE_INT          (m_fire,                  mousebfire,                    4),
-    CONFIG_VARIABLE_INT          (m_forward,               mousebforward,                 4),
-    CONFIG_VARIABLE_INT          (m_nextweapon,            mousebnextweapon,              4),
     CONFIG_VARIABLE_INT          (m_novertical,            novert,                        1),
-    CONFIG_VARIABLE_INT          (m_prevweapon,            mousebprevweapon,              4),
     CONFIG_VARIABLE_INT          (m_sensitivity,           mousesensitivity,              0),
-    CONFIG_VARIABLE_INT          (m_strafe,                mousebstrafe,                  4),
     CONFIG_VARIABLE_INT          (m_threshold,             mouse_threshold,               0),
-    CONFIG_VARIABLE_INT          (m_use,                   mousebuse,                     4),
     CONFIG_VARIABLE_INT          (mapfixes,                mapfixes,                      1),
     CONFIG_VARIABLE_INT          (messages,                messages,                      1),
     CONFIG_VARIABLE_STRING       (playername,              playername,                    0),
@@ -437,6 +377,26 @@ char *striptrailingzero(float value, int precision)
     if (len >= 4 && result[len - 3] == '.' && result[len - 1] == '0')
         result[len - 1] = '\0';
     return result;
+}
+
+static void SaveBind(FILE *file, char *action, int value, controltype_t type)
+{
+    int i = 0;
+
+    while (controls[i].type)
+    {
+        if (controls[i].type == type && controls[i].value == value)
+        {
+            char *control = controls[i].control;
+
+            if (strlen(control) == 1)
+                fprintf(file, "bind '%s' %s\n", (control[0] == '=' ? "+" : control), action);
+            else
+                fprintf(file, "bind %s %s\n", control, action);
+            break;
+        }
+        ++i;
+    }
 }
 
 static void SaveDefaultCollection(void)
@@ -626,6 +586,20 @@ static void SaveDefaultCollection(void)
         }
 
         fprintf(f, "\n");
+    }
+
+    i = 0;
+    while (actions[i].action[0])
+    {
+        if (actions[i].keyboard1)
+            SaveBind(f, actions[i].action, *(int *)actions[i].keyboard1, keyboard);
+        if (actions[i].keyboard2)
+            SaveBind(f, actions[i].action, *(int *)actions[i].keyboard2, keyboard);
+        if (actions[i].mouse)
+            SaveBind(f, actions[i].action, *(int *)actions[i].mouse, mouse);
+        if (actions[i].gamepad)
+            SaveBind(f, actions[i].action, *(int *)actions[i].gamepad, gamepad);
+        ++i;
     }
 
     fclose(f);
