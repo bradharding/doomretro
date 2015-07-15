@@ -414,9 +414,6 @@ static void SaveDefaultCollection(void)
         // Print the name and line up all values at 30 characters
         chars_written = fprintf(f, "%s ", cvars[i].name);
 
-        for (; chars_written < 30; ++chars_written)
-            fprintf(f, " ");
-
         // Print the value
         switch (cvars[i].type)
         {
