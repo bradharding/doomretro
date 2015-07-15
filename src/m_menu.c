@@ -2573,12 +2573,13 @@ dboolean M_Responder(event_t *ev)
         else if (key == KEY_TILDE && !keydown)
         {
             keydown = key;
-            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1)
+            if (consoleheight < CONSOLEHEIGHT && consoledirection == -1 && !inhelpscreens)
             {
                 consoleheight = MAX(1, consoleheight);
                 consoledirection = 1;
                 return true;
             }
+            return false;
         }
 
         // Help key
