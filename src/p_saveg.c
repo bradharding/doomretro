@@ -1869,6 +1869,7 @@ void P_UnArchiveThinkers(void)
 
                 mobj->thinker.function = P_MobjThinker;
                 mobj->colfunc = mobj->info->colfunc;
+                mobj->projectfunc = R_ProjectSprite;
 
                 if (mobj->flags2 & MF2_SHADOW)
                 {
@@ -1895,6 +1896,7 @@ void P_UnArchiveThinkers(void)
                 }
                 else
                     mobj->colfunc = bloodsplatcolfunc;
+                mobj->projectfunc = R_ProjectBloodSplat;
 
                 if (maxbloodsplats < UNLIMITED)
                 {
