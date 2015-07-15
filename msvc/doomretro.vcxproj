@@ -262,7 +262,7 @@
     <ClInclude Include="..\src\d_items.h" />
     <ClInclude Include="..\src\d_iwad.h" />
     <ClInclude Include="..\src\d_main.h" />
-    <ClInclude Include="..\src\d_net.h" />
+    <ClInclude Include="..\src\d_loop.h" />
     <ClInclude Include="..\src\d_player.h" />
     <ClInclude Include="..\src\d_think.h" />
     <ClInclude Include="..\src\d_ticcmd.h" />
@@ -344,7 +344,7 @@
     <ClCompile Include="..\src\d_items.c" />
     <ClCompile Include="..\src\d_iwad.c" />
     <ClCompile Include="..\src\d_main.c" />
-    <ClCompile Include="..\src\d_net.c" />
+    <ClCompile Include="..\src\d_loop.c" />
     <ClCompile Include="..\src\f_finale.c" />
     <ClCompile Include="..\src\f_wipe.c" />
     <ClCompile Include="..\src\g_game.c" />

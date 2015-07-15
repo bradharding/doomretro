@@ -52,7 +52,7 @@ void I_ShutdownWindows32(void);
 #endif
 
 #include "c_console.h"
-#include "d_net.h"
+#include "d_loop.h"
 #include "doomdef.h"
 #include "doomstat.h"
 #include "g_game.h"

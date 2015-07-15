@@ -36,14 +36,10 @@
 ========================================================================
 */
 
-#if !defined(__D_NET__)
-#define __D_NET__
+#if !defined(__D_LOOP__)
+#define __D_LOOP__
 
-#include "d_player.h"
-
-#define MAXNETNODES     8
-
-// Networking and tick handling related.
+// Networking and tic handling related.
 #define BACKUPTICS      128
 
 extern int extratics;
@@ -51,7 +47,7 @@ extern int extratics;
 // Create any new ticcmds and broadcast to other players.
 void NetUpdate(void);
 
-//? how many ticks to run?
+// ? how many ticks to run?
 void TryRunTics(void);
 
 // Called at start of game loop to initialize timers

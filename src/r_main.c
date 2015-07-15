@@ -41,7 +41,7 @@
 #include <math.h>
 
 #include "c_console.h"
-#include "d_net.h"
+#include "d_loop.h"
 #include "doomstat.h"
 #include "i_timer.h"
 #include "m_config.h"
