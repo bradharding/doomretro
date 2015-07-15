@@ -590,10 +590,8 @@ static void SaveDefaultCollection(void)
     i = 0;
     while (actions[i].action[0])
     {
-        if (actions[i].keyboard1)
-            SaveBind(f, actions[i].action, *(int *)actions[i].keyboard1, keyboard);
-        if (actions[i].keyboard2)
-            SaveBind(f, actions[i].action, *(int *)actions[i].keyboard2, keyboard);
+        if (actions[i].keyboard)
+            SaveBind(f, actions[i].action, *(int *)actions[i].keyboard, keyboard);
         if (actions[i].mouse)
             SaveBind(f, actions[i].action, *(int *)actions[i].mouse, mouse);
         if (actions[i].gamepad)

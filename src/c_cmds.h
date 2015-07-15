@@ -59,8 +59,7 @@ typedef struct
 typedef struct
 {
     char                *action;
-    void                *keyboard1;
-    void                *keyboard2;
+    void                *keyboard;
     void                *mouse;
     void                *gamepad;
 } action_t;
