@@ -585,6 +585,8 @@ static void SaveDefaultCollection(void)
         fprintf(f, "\n");
     }
 
+    fprintf(f, "\n");
+
     i = 0;
     while (actions[i].action[0])
     {
