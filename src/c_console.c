@@ -424,7 +424,7 @@ void C_HideConsoleFast(void)
     consoleactive = false;
 }
 
-static void C_StripQuotes(char *string)
+void C_StripQuotes(char *string)
 {
     size_t len = strlen(string);
 

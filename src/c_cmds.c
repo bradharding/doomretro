@@ -323,8 +323,9 @@ static dboolean C_SpawnCondition(char *, char *, char *);
 static dboolean C_ResurrectCondition(char *, char *, char *);
 static dboolean C_VolumeCondition(char *, char *, char *);
 
+void C_Bind(char *, char *, char *);
+
 static void C_AlwaysRun(char *, char *, char *);
-static void C_Bind(char *, char *, char *);
 static void C_Bool(char *, char *, char *);
 static void C_Clear(char *, char *, char *);
 static void C_CmdList(char *, char *, char *);
@@ -633,7 +634,7 @@ static void C_DisplayBinds(char *action, int value, controltype_t type, int coun
     }
 }
 
-static void C_Bind(char *cmd, char *parm1, char *parm2)
+void C_Bind(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
     {
@@ -772,7 +773,8 @@ static void C_Bind(char *cmd, char *parm1, char *parm2)
                             *(int *)actions[action].gamepad = controls[i].value;
                             break;
                     }
-                    M_SaveDefaults();
+                    if (cmd[0])
+                        M_SaveDefaults();
                 }
             }
         }

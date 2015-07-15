@@ -645,11 +645,15 @@ static float ParseFloatParameter(char *strparm, int set)
     return (float)atof(strparm);
 }
 
+void C_Bind(char *cmd, char *parm1, char *parm2);
+
 static dboolean LoadDefaultCollection(void)
 {
     int         i;
     FILE        *f;
-    char        defname[80];
+    char        control[32];
+    char        action[32];
+    char        defname[32];
     char        strparm[256];
 
     // read the file in, overriding any set defaults
@@ -661,7 +665,14 @@ static dboolean LoadDefaultCollection(void)
 
     while (!feof(f))
     {
-        if (fscanf(f, "%79s %255[^\n]\n", defname, strparm) != 2)
+        if (fscanf(f, "bind %31s %31[^\n]\n", control, action) == 2)
+        {
+            C_StripQuotes(control);
+            C_StripQuotes(action);
+            C_Bind("", control, action);
+            continue;
+        }
+        else if (fscanf(f, "%31s %255[^\n]\n", defname, strparm) != 2)
             // This line doesn't match
             continue;
 
