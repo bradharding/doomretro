@@ -1174,8 +1174,6 @@ void I_InitGraphics(void)
 
     I_SetPalette(doompal);
 
-    SDL_SetPaletteColors(palette, colors, 0, 256);
-
     UpdateFocus();
 
     screens[0] = surface->pixels;
