@@ -834,13 +834,6 @@ static void SetVideoMode(dboolean output)
         char    *acronym = getacronym(displays[displayindex].w, displays[displayindex].h);
         char    *ratio = getaspectratio(displays[displayindex].w, displays[displayindex].h);
 
-        if (!screenwidth || !screenheight)
-        {
-            screenwidth = 0;
-            screenheight = 0;
-            M_SaveDefaults();
-        }
-
         if (!screenwidth && !screenheight)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED,
@@ -888,7 +881,6 @@ static void SetVideoMode(dboolean output)
             if (output)
                 C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
                     windowwidth, windowheight, windowx, windowy);
-            M_SaveDefaults();
         }
     }
 
