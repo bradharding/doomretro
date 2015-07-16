@@ -727,8 +727,14 @@ void R_ProjectSprite(mobj_t *thing)
     if ((flags2 & MF2_FEETARECLIPPED) && fz <= sector->interpfloorheight + FRACUNIT
         && heightsec == -1 && footclip)
     {
-        vis->footclip = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
-        vis->texturemid = gzt - viewz - vis->footclip;
+        fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
+
+        vis->texturemid = gzt - viewz - clipfeet;
+
+        if ((flags2 & MF2_NOLIQUIDBOB) && sector->animate != INT_MAX)
+            clipfeet += sector->animate;
+
+        vis->footclip = clipfeet;
     }
     else
     {
