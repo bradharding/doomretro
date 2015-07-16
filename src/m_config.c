@@ -78,71 +78,16 @@ extern int      display;
 extern dboolean floatbob;
 extern dboolean footclip;
 extern dboolean fullscreen;
-extern int      gamepadautomap;
-extern int      gamepadautomapclearmark;
-extern int      gamepadautomapfollowmode;
-extern int      gamepadautomapgrid;
-extern int      gamepadautomapmark;
-extern int      gamepadautomapmaxzoom;
-extern int      gamepadautomaprotatemode;
-extern int      gamepadautomapzoomin;
-extern int      gamepadautomapzoomout;
-extern int      gamepadfire;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
 extern dboolean gamepadlefthanded;
-extern int      gamepadmenu;
-extern int      gamepadnextweapon;
-extern int      gamepadprevweapon;
-extern int      gamepadrun;
 extern int      gamepadsensitivity;
-extern int      gamepaduse;
 extern dboolean gamepadvibrate;
-extern int      gamepadweapon1;
-extern int      gamepadweapon2;
-extern int      gamepadweapon3;
-extern int      gamepadweapon4;
-extern int      gamepadweapon5;
-extern int      gamepadweapon6;
-extern int      gamepadweapon7;
 extern float    gammalevel;
 extern int      graphicdetail;
 extern dboolean homindicator;
 extern dboolean hud;
 extern char     *iwadfolder;
-extern int      key_alwaysrun;
-extern int      key_automap;
-extern int      key_automap_clearmark;
-extern int      key_automap_followmode;
-extern int      key_automap_grid;
-extern int      key_automap_mark;
-extern int      key_automap_maxzoom;
-extern int      key_automap_rotatemode;
-extern int      key_automap_zoomin;
-extern int      key_automap_zoomout;
-extern int      key_down;
-extern int      key_down2;
-extern int      key_fire;
-extern int      key_left;
-extern int      key_nextweapon;
-extern int      key_prevweapon;
-extern int      key_right;
-extern int      key_run;
-extern int      key_strafe;
-extern int      key_strafeleft;
-extern int      key_strafeleft2;
-extern int      key_straferight;
-extern int      key_straferight2;
-extern int      key_up;
-extern int      key_up2;
-extern int      key_use;
-extern int      key_weapon1;
-extern int      key_weapon2;
-extern int      key_weapon3;
-extern int      key_weapon4;
-extern int      key_weapon5;
-extern int      key_weapon6;
-extern int      key_weapon7;
 extern dboolean mapfixes;
 extern int      maxbloodsplats;
 extern dboolean messages;
@@ -150,12 +95,6 @@ extern dboolean mirrorweapons;
 extern int      mousesensitivity;
 extern float    mouse_acceleration;
 extern int      mouse_threshold;
-extern int      mousebfire;
-extern int      mousebforward;
-extern int      mousebprevweapon;
-extern int      mousebnextweapon;
-extern int      mousebstrafe;
-extern int      mousebuse;
 extern dboolean novert;
 extern int      pixelheight;
 extern char     *pixelsize;
@@ -797,45 +736,6 @@ static void M_CheckDefaults(void)
     if (fullscreen != false && fullscreen != true)
         fullscreen = FULLSCREEN_DEFAULT;
 
-    if (gamepadautomap < 0 || gamepadautomap > GAMEPAD_Y
-        || (gamepadautomap & (gamepadautomap - 1)))
-        gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
-
-    if (gamepadautomapclearmark < 0 || gamepadautomapclearmark > GAMEPAD_Y
-        || (gamepadautomapclearmark & (gamepadautomapclearmark - 1)))
-        gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
-
-    if (gamepadautomapfollowmode < 0 || gamepadautomapfollowmode > GAMEPAD_Y
-        || (gamepadautomapfollowmode & (gamepadautomapfollowmode - 1)))
-        gamepadautomapfollowmode = GAMEPADAUTOMAPFOLLOWMODE_DEFAULT;
-
-    if (gamepadautomapgrid < 0 || gamepadautomapgrid > GAMEPAD_Y
-        || (gamepadautomapgrid & (gamepadautomapgrid - 1)))
-        gamepadautomapgrid = GAMEPADAUTOMAPGRID_DEFAULT;
-
-    if (gamepadautomapmark < 0 || gamepadautomapmark > GAMEPAD_Y
-        || (gamepadautomapmark & (gamepadautomapmark - 1)))
-        gamepadautomapmark = GAMEPADAUTOMAPMARK_DEFAULT;
-
-    if (gamepadautomapmaxzoom < 0 || gamepadautomapmaxzoom > GAMEPAD_Y
-        || (gamepadautomapmaxzoom & (gamepadautomapmaxzoom - 1)))
-        gamepadautomapmaxzoom = GAMEPADAUTOMAPMAXZOOM_DEFAULT;
-
-    if (gamepadautomaprotatemode < 0 || gamepadautomaprotatemode > GAMEPAD_Y
-        || (gamepadautomaprotatemode & (gamepadautomaprotatemode - 1)))
-        gamepadautomaprotatemode = GAMEPADAUTOMAPROTATEMODE_DEFAULT;
-
-    if (gamepadautomapzoomin < 0 || gamepadautomapzoomin > GAMEPAD_Y
-        || (gamepadautomapzoomin & (gamepadautomapzoomin - 1)))
-        gamepadautomapzoomin = GAMEPADAUTOMAPZOOMIN_DEFAULT;
-
-    if (gamepadautomapzoomout < 0 || gamepadautomapzoomout > GAMEPAD_Y
-        || (gamepadautomapzoomout & (gamepadautomapzoomout - 1)))
-        gamepadautomapzoomout = GAMEPADAUTOMAPZOOMOUT_DEFAULT;
-
-    if (gamepadfire < 0 || gamepadfire > GAMEPAD_Y || (gamepadfire & (gamepadfire - 1)))
-        gamepadfire = GAMEPADFIRE_DEFAULT;
-
     gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone_percent,
         GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
 
@@ -845,59 +745,14 @@ static void M_CheckDefaults(void)
     if (gamepadlefthanded != false && gamepadlefthanded != true)
         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
 
-    if (gamepadmenu < 0 || gamepadmenu > GAMEPAD_Y || (gamepadmenu & (gamepadmenu - 1)))
-        gamepadmenu = GAMEPADMENU_DEFAULT;
-
-    if (gamepadnextweapon < 0 || gamepadnextweapon > GAMEPAD_Y
-        || (gamepadnextweapon & (gamepadnextweapon - 1)))
-        gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
-
-    if (gamepadprevweapon < 0 || gamepadprevweapon > GAMEPAD_Y
-        || (gamepadprevweapon & (gamepadprevweapon - 1)))
-        gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
-
     gamepadsensitivity = BETWEEN(GAMEPADSENSITIVITY_MIN, gamepadsensitivity,
         GAMEPADSENSITIVITY_MAX);
     gamepadsensitivityf = (!gamepadsensitivity ? 0.0f :
         GAMEPADSENSITIVITY_OFFSET + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX *
         GAMEPADSENSITIVITY_FACTOR);
 
-    if (gamepadrun < 0 || gamepadrun > GAMEPAD_Y || (gamepadrun & (gamepadrun - 1)))
-        gamepadrun = GAMEPADRUN_DEFAULT;
-
-    if (gamepaduse < 0 || gamepaduse > GAMEPAD_Y || (gamepaduse & (gamepaduse - 1)))
-        gamepaduse = GAMEPADUSE_DEFAULT;
-
     if (gamepadvibrate != false && gamepadvibrate != true)
         gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
-
-    if (gamepadweapon1 < 0 || gamepadweapon1 > GAMEPAD_Y
-        || (gamepadweapon1 & (gamepadweapon1 - 1)))
-        gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon2 < 0 || gamepadweapon2 > GAMEPAD_Y
-        || (gamepadweapon2 & (gamepadweapon2 - 1)))
-        gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon3 < 0 || gamepadweapon3 > GAMEPAD_Y
-        || (gamepadweapon3 & (gamepadweapon3 - 1)))
-        gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon4 < 0 || gamepadweapon4 > GAMEPAD_Y
-        || (gamepadweapon4 & (gamepadweapon4 - 1)))
-        gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon5 < 0 || gamepadweapon5 > GAMEPAD_Y
-        || (gamepadweapon5 & (gamepadweapon5 - 1)))
-        gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon6 < 0 || gamepadweapon6 > GAMEPAD_Y
-        || (gamepadweapon6 & (gamepadweapon6 - 1)))
-        gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
-
-    if (gamepadweapon7 < 0 || gamepadweapon7 > GAMEPAD_Y
-        || (gamepadweapon7 & (gamepadweapon7 - 1)))
-        gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
     gammalevel = BETWEENF(GAMMALEVEL_MIN, gammalevel, GAMMALEVEL_MAX);
     gammaindex = 0;
@@ -923,108 +778,6 @@ static void M_CheckDefaults(void)
     if (hud != false && hud != true)
         hud = HUD_DEFAULT;
 
-    if (key_alwaysrun == INVALIDKEY)
-        key_alwaysrun = KEYALWAYSRUN_DEFAULT;
-
-    if (key_automap == INVALIDKEY)
-        key_automap = KEYAUTOMAP_DEFAULT;
-
-    if (key_automap_clearmark == INVALIDKEY)
-        key_automap_clearmark = KEYAUTOMAPCLEARMARK_DEFAULT;
-
-    if (key_automap_followmode == INVALIDKEY)
-        key_automap_followmode = KEYAUTOMAPFOLLOWMODE_DEFAULT;
-
-    if (key_automap_grid == INVALIDKEY)
-        key_automap_grid = KEYAUTOMAPGRID_DEFAULT;
-
-    if (key_automap_mark == INVALIDKEY)
-        key_automap_mark = KEYAUTOMAPMARK_DEFAULT;
-
-    if (key_automap_maxzoom == INVALIDKEY)
-        key_automap_maxzoom = KEYAUTOMAPMAXZOOM_DEFAULT;
-
-    if (key_automap_rotatemode == INVALIDKEY)
-        key_automap_rotatemode = KEYAUTOMAPROTATEMODE_DEFAULT;
-
-    if (key_automap_zoomin == INVALIDKEY)
-        key_automap_zoomin = KEYAUTOMAPZOOMIN_DEFAULT;
-
-    if (key_automap_zoomout == INVALIDKEY)
-        key_automap_zoomout = KEYAUTOMAPZOOMOUT_DEFAULT;
-
-    if (key_down == INVALIDKEY)
-        key_down = KEYDOWN_DEFAULT;
-
-    if (key_down2 == INVALIDKEY)
-        key_down2 = KEYDOWN2_DEFAULT;
-
-    if (key_fire == INVALIDKEY)
-        key_fire = KEYFIRE_DEFAULT;
-
-    if (key_left == INVALIDKEY)
-        key_left = KEYLEFT_DEFAULT;
-
-    if (key_nextweapon == INVALIDKEY)
-        key_nextweapon = KEYNEXTWEAPON_DEFAULT;
-
-    if (key_prevweapon == INVALIDKEY)
-        key_prevweapon = KEYPREVWEAPON_DEFAULT;
-
-    if (key_right == INVALIDKEY)
-        key_right = KEYRIGHT_DEFAULT;
-
-    if (key_run == INVALIDKEY)
-        key_run = KEYRUN_DEFAULT;
-
-    if (key_strafe == INVALIDKEY)
-        key_strafe = KEYSTRAFE_DEFAULT;
-
-    if (key_strafeleft == INVALIDKEY)
-        key_strafeleft = KEYSTRAFELEFT_DEFAULT;
-
-    if (key_strafeleft2 == INVALIDKEY)
-        key_strafeleft2 = KEYSTRAFELEFT2_DEFAULT;
-
-    if (key_straferight == INVALIDKEY)
-        key_straferight = KEYSTRAFERIGHT_DEFAULT;
-
-    if (key_straferight2 == INVALIDKEY)
-        key_straferight2 = KEYSTRAFERIGHT2_DEFAULT;
-
-    if (key_up == INVALIDKEY)
-        key_up = KEYUP_DEFAULT;
-
-    if (key_up2 == INVALIDKEY)
-        key_up2 = KEYUP2_DEFAULT;
-
-    if (key_use == INVALIDKEY)
-        key_use = KEYUSE_DEFAULT;
-
-    if (key_weapon1 == INVALIDKEY)
-        key_weapon1 = KEYWEAPON1_DEFAULT;
-
-    if (key_weapon2 == INVALIDKEY)
-        key_weapon2 = KEYWEAPON2_DEFAULT;
-
-    if (key_weapon3 == INVALIDKEY)
-        key_weapon3 = KEYWEAPON3_DEFAULT;
-
-    if (key_weapon4 == INVALIDKEY)
-        key_weapon4 = KEYWEAPON4_DEFAULT;
-
-    if (key_weapon5 == INVALIDKEY)
-        key_weapon5 = KEYWEAPON5_DEFAULT;
-
-    if (key_weapon6 == INVALIDKEY)
-        key_weapon6 = KEYWEAPON6_DEFAULT;
-
-    if (key_weapon7 == INVALIDKEY)
-        key_weapon7 = KEYWEAPON7_DEFAULT;
-
-    if (mapfixes != false && mapfixes != true)
-        mapfixes = MAPFIXES_DEFAULT;
-
     if (messages != false && messages != true)
         messages = MESSAGES_DEFAULT;
 
@@ -1036,32 +789,7 @@ static void M_CheckDefaults(void)
 
     maxbloodsplats = BETWEEN(MAXBLOODSPLATS_MIN, maxbloodsplats, MAXBLOODSPLATS_MAX);
 
-    if (mousebfire < -1 || mousebfire > MAX_MOUSE_BUTTONS)
-        mousebfire = MOUSEFIRE_DEFAULT;
-
-    if (mousebforward < -1 || mousebforward > MAX_MOUSE_BUTTONS || mousebforward == mousebfire)
-        mousebforward = MOUSEFORWARD_DEFAULT;
-
-    if (mousebprevweapon < -1 || mousebprevweapon > MAX_MOUSE_BUTTONS + 2
-        || mousebprevweapon == mousebfire || mousebprevweapon == mousebforward)
-        mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
-
-    if (mousebnextweapon < -1 || mousebnextweapon > MAX_MOUSE_BUTTONS + 2
-        || mousebnextweapon == mousebfire || mousebnextweapon == mousebforward
-        || mousebnextweapon == mousebprevweapon)
-        mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
-
     mousesensitivity = BETWEEN(MOUSESENSITIVITY_MIN, mousesensitivity, MOUSESENSITIVITY_MAX);
-
-    if (mousebstrafe < -1 || mousebstrafe > MAX_MOUSE_BUTTONS || mousebstrafe == mousebfire
-        || mousebstrafe == mousebforward || mousebstrafe == mousebprevweapon
-        || mousebstrafe == mousebnextweapon)
-        mousebstrafe = MOUSESTRAFE_DEFAULT;
-
-    if (mousebuse < -1 || mousebuse > MAX_MOUSE_BUTTONS || mousebuse == mousebfire
-        || mousebuse == mousebforward || mousebuse == mousebprevweapon
-        || mousebuse == mousebnextweapon || mousebuse == mousebstrafe)
-        mousebuse = MOUSEUSE_DEFAULT;
 
     musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX) * 15 + 50) / 100;
 
