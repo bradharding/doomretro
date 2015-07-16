@@ -831,28 +831,31 @@ static void SetVideoMode(dboolean output)
 
     if (fullscreen)
     {
-        char    *acronym = getacronym(displays[displayindex].w, displays[displayindex].h);
-        char    *ratio = getaspectratio(displays[displayindex].w, displays[displayindex].h);
-
         if (!screenwidth && !screenheight)
         {
+            char    *acronym = getacronym(displays[displayindex].w, displays[displayindex].h);
+            char    *ratio = getaspectratio(displays[displayindex].w, displays[displayindex].h);
+
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED,
                 SDL_WINDOWPOS_UNDEFINED, 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
                 C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect ratio.",
-                    displays[displayindex].w, displays[displayindex].h,
-                    (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
+                    displays[displayindex].w, displays[displayindex].h, (acronym[0] ? " (" : " "),
+                    acronym, (acronym[0] ? ")" : ""), ratio);
         }
         else
         {
+            char    *acronym = getacronym(screenwidth, screenheight);
+            char    *ratio = getaspectratio(screenwidth, screenheight);
+
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED,
                 SDL_WINDOWPOS_UNDEFINED, screenwidth, screenheight,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
                 C_Output("Switched to a resolution of %ix%i%s%s%s with a %s aspect ratio.",
-                    displays[displayindex].w, displays[displayindex].h,
-                    (acronym[0] ? " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
+                    screenwidth, screenheight, (acronym[0] ? " (" : " "), acronym,
+                    (acronym[0] ? ")" : ""), ratio);
         }
     }
     else
