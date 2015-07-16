@@ -701,7 +701,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                                 && controls[i].value == *(int *)actions[action].keyboard)
                             {
                                 *(int *)actions[action].keyboard = 0;
-                                M_SaveDefaults();
+                                M_SaveCVARs();
                             }
                             break;
                         case mouse:
@@ -709,7 +709,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                                 && controls[i].value == *(int *)actions[action].mouse)
                             {
                                 *(int *)actions[action].mouse = 0;
-                                M_SaveDefaults();
+                                M_SaveCVARs();
                             }
                             break;
                         case gamepad:
@@ -717,7 +717,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                                 && controls[i].value == *(int *)actions[action].gamepad)
                             {
                                 *(int *)actions[action].gamepad = 0;
-                                M_SaveDefaults();
+                                M_SaveCVARs();
                             }
                             break;
                     }
@@ -749,7 +749,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                     }
 
                     if (cmd[0])
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                 }
             }
         }
@@ -777,7 +777,7 @@ static void C_Bool(char *cmd, char *parm1, char *parm2)
                 if (value == 0 || value == 1)
                 {
                     *(dboolean *)consolecmds[i].variable = !!value;
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
             }
             else
@@ -940,7 +940,7 @@ static void C_DeadZone(char *cmd, char *parm1, char *parm2)
                     gamepadrightdeadzone_percent,
                     GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
             }
-            M_SaveDefaults();
+            M_SaveCVARs();
         }
     }
     else if (!strcasecmp(cmd, "gp_deadzone_left"))
@@ -960,7 +960,7 @@ static void C_Display(char *cmd, char *parm1, char *parm2)
         if (value >= DISPLAY_MIN && value <= DISPLAY_MAX && value != display)
         {
             display = value;
-            M_SaveDefaults();
+            M_SaveCVARs();
             I_RestartGraphics();
         }
     }
@@ -1021,7 +1021,7 @@ static void C_Float(char *cmd, char *parm1, char *parm2)
                 if (value >= 0.0f)
                 {
                     *(float *)consolecmds[i].variable = value;
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
             }
             else
@@ -1084,7 +1084,7 @@ static void C_Gamma(char *cmd, char *parm1, char *parm2)
             --gammaindex;
 
             I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
-            M_SaveDefaults();
+            M_SaveCVARs();
         }
     }
     else
@@ -1183,7 +1183,7 @@ static void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         if (value == 0 || value == 1)
         {
             graphicdetail = !!value;
-            M_SaveDefaults();
+            M_SaveCVARs();
         }
     }
     else
@@ -1244,7 +1244,7 @@ static void C_Int(char *cmd, char *parm1, char *parm2)
                 if (value >= 0)
                 {
                     *(int *)consolecmds[i].variable = value;
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
             }
             else
@@ -1795,7 +1795,7 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
         if (value >= 0)
         {
             maxbloodsplats = value;
-            M_SaveDefaults();
+            M_SaveCVARs();
 
             if (!maxbloodsplats)
                 P_BloodSplatSpawner = P_NullBloodSplatSpawner;
@@ -1891,7 +1891,7 @@ static void C_PixelSize(char *cmd, char *parm1, char *parm2)
             while (SCREENHEIGHT % pixelheight)
                 --pixelheight;
 
-            M_SaveDefaults();
+            M_SaveCVARs();
         }
     }
     else
@@ -1976,7 +1976,7 @@ static void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
             || !strcasecmp(parm1, "software")) && strcasecmp(parm1, scaledriver))
         {
             scaledriver = strdup(parm1);
-            M_SaveDefaults();
+            M_SaveCVARs();
             I_RestartGraphics();
         }
     }
@@ -1992,7 +1992,7 @@ static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
             && strcasecmp(parm1, scalefilter))
         {
             scalefilter = strdup(parm1);
-            M_SaveDefaults();
+            M_SaveCVARs();
             I_RestartGraphics();
         }
     }
@@ -2014,7 +2014,7 @@ static void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
                 screenwidth = 0;
                 screenheight = 0;
 
-                M_SaveDefaults();
+                M_SaveCVARs();
                 if (fullscreen)
                     I_RestartGraphics();
             }
@@ -2033,7 +2033,7 @@ static void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
             {
                 screenwidth = width;
                 screenheight = height;
-                M_SaveDefaults();
+                M_SaveCVARs();
                 if (fullscreen)
                     I_RestartGraphics();
             }
@@ -2083,7 +2083,7 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
                 }
             }
             screensize = value;
-            M_SaveDefaults();
+            M_SaveCVARs();
             R_SetViewSize(screensize);
         }
     }
@@ -2189,7 +2189,7 @@ static void C_Str(char *cmd, char *parm1, char *parm2)
             if (parm1[0])
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else
                 C_Output("\"%s\"", *(char **)consolecmds[i].variable);
@@ -2276,7 +2276,7 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
             S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
         }
 
-        M_SaveDefaults();
+        M_SaveCVARs();
     }
     else
         C_Output("%i%%",
@@ -2292,7 +2292,7 @@ static void C_Vsync(char *cmd, char *parm1, char *parm2)
         if ((value == 0 || value == 1) && value != vsync)
         {
             vsync = !!value;
-            M_SaveDefaults();
+            M_SaveCVARs();
             I_RestartGraphics();
         }
     }
@@ -2329,7 +2329,7 @@ static void C_Widescreen(char *cmd, char *parm1, char *parm2)
                 if (!widescreen)
                     S_StartSound(NULL, sfx_stnmov);
             }
-            M_SaveDefaults();
+            M_SaveCVARs();
         }
     }
     else
@@ -2350,7 +2350,7 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
             SDL_SetWindowPosition(window, windowx, windowy);
         }
 
-        M_SaveDefaults();
+        M_SaveCVARs();
     }
     else if (!windowposition[0])
         C_Output("center");
@@ -2376,7 +2376,7 @@ static void C_WindowSize(char *cmd, char *parm1, char *parm2)
 
             windowwidth = width;
             windowheight = height;
-            M_SaveDefaults();
+            M_SaveCVARs();
 
             if (!fullscreen)
                 SDL_SetWindowSize(window, windowwidth, windowheight);

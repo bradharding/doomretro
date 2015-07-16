@@ -529,7 +529,7 @@ static void I_GetEvent(void)
 
                             windowwidth = Event->window.data1;
                             windowheight = Event->window.data2;
-                            M_SaveDefaults();
+                            M_SaveCVARs();
 
                             M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
                             windowsize = strdup(buffer);
@@ -551,7 +551,7 @@ static void I_GetEvent(void)
                             windowposition = strdup(buffer);
 
                             display = SDL_GetWindowDisplayIndex(window) + 1;
-                            M_SaveDefaults();
+                            M_SaveCVARs();
                         }
                         break;
                 }
@@ -823,7 +823,7 @@ static void SetVideoMode(dboolean output)
     else
     {
         scalefilter = "nearest";
-        M_SaveDefaults();
+        M_SaveCVARs();
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "nearest", SDL_HINT_OVERRIDE);
     }
 
@@ -864,7 +864,7 @@ static void SetVideoMode(dboolean output)
         {
             windowheight = displays[displayindex].h;
             windowwidth = windowheight * 4 / 3;
-            M_SaveDefaults();
+            M_SaveCVARs();
         }
 
         SetWindowPositionVars();
@@ -1027,7 +1027,7 @@ void I_RestartGraphics(void)
 void ToggleFullscreen(void)
 {
     fullscreen = !fullscreen;
-    M_SaveDefaults();
+    M_SaveCVARs();
     if (fullscreen)
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -1142,7 +1142,7 @@ void I_InitGraphics(void)
             M_StringCopy(videodriver, "windows", 8);
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
         putenv(envstring);
-        M_SaveDefaults();
+        M_SaveCVARs();
 
         if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 #endif

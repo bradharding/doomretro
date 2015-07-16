@@ -233,7 +233,7 @@ void I_Quit(dboolean shutdown)
         if (returntowidescreen)
             widescreen = true;
 
-        M_SaveDefaults();
+        M_SaveCVARs();
 
         I_ShutdownGraphics();
 

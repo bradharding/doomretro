@@ -647,7 +647,7 @@ void G_ToggleAlwaysRun(void)
         message_dontpause = true;
         blurred = false;
     }
-    M_SaveDefaults();
+    M_SaveCVARs();
 }
 
 extern dboolean splashscreen;

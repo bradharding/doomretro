@@ -635,7 +635,7 @@ static void AM_toggleGrid(void)
     HU_PlayerMessage((am_grid ? s_AMSTR_GRIDON : s_AMSTR_GRIDOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
-    M_SaveDefaults();
+    M_SaveCVARs();
 }
 
 //
@@ -699,7 +699,7 @@ static void AM_toggleRotateMode(void)
     HU_PlayerMessage((am_rotatemode ? s_AMSTR_ROTATEON : s_AMSTR_ROTATEOFF), false);
     message_dontfuckwithme = true;
     message_clearable = true;
-    M_SaveDefaults();
+    M_SaveCVARs();
 }
 
 //

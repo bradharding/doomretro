@@ -1366,7 +1366,7 @@ void M_SfxVol(int choice)
                     S_StartSound(NULL, sfx_stnmov);
                     sfxvolume_percent = sfxVolume * 100 / 15;
                     C_Input("s_sfxvolume %i%%", sfxvolume_percent);
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
                 break;
             case 1:
@@ -1376,7 +1376,7 @@ void M_SfxVol(int choice)
                     S_StartSound(NULL, sfx_stnmov);
                     sfxvolume_percent = sfxVolume * 100 / 15;
                     C_Input("s_sfxvolume %i%%", sfxvolume_percent);
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
                 break;
         }
@@ -1396,7 +1396,7 @@ void M_MusicVol(int choice)
                     S_StartSound(NULL, sfx_stnmov);
                     musicvolume_percent = musicVolume * 100 / 15;
                     C_Input("snd_musicvolume %i%%", musicvolume_percent);
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
                 break;
             case 1:
@@ -1406,7 +1406,7 @@ void M_MusicVol(int choice)
                     S_StartSound(NULL, sfx_stnmov);
                     musicvolume_percent = musicVolume * 100 / 15;
                     C_Input("snd_musicvolume %i%%", musicvolume_percent);
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
                 break;
         }
@@ -1679,7 +1679,7 @@ void M_ChangeMessages(int choice)
     C_Input("messages %s", (messages ? "on" : "off"));
     HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false);
     message_dontfuckwithme = true;
-    M_SaveDefaults();
+    M_SaveCVARs();
 }
 
 //
@@ -1861,7 +1861,7 @@ void M_ChangeSensitivity(int choice)
                         * GAMEPADSENSITIVITY_FACTOR);
                     C_Input("gp_sensitivity %i", gamepadsensitivity);
                     M_SliderSound();
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
                 break;
             case 1:
@@ -1875,7 +1875,7 @@ void M_ChangeSensitivity(int choice)
                         * GAMEPADSENSITIVITY_FACTOR;
                     C_Input("gp_sensitivity %i", gamepadsensitivity);
                     M_SliderSound();
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
                 break;
         }
@@ -1892,7 +1892,7 @@ void M_ChangeSensitivity(int choice)
                     mousesensitivity -= 2;
                     C_Input("m_sensitivity %i", mousesensitivity);
                     M_SliderSound();
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
                 break;
             case 1:
@@ -1903,7 +1903,7 @@ void M_ChangeSensitivity(int choice)
                     mousesensitivity += 2;
                     C_Input("m_sensitivity %i", mousesensitivity);
                     M_SliderSound();
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
                 break;
         }
@@ -1922,7 +1922,7 @@ void M_ChangeDetail(int choice)
     }
     else
         C_Output(graphicdetail == HIGH ? s_DETAILHI : s_DETAILLO);
-    M_SaveDefaults();
+    M_SaveCVARs();
 }
 
 void M_SizeDisplay(int choice)
@@ -1943,7 +1943,7 @@ void M_SizeDisplay(int choice)
                     C_Input("r_screensize %i", screensize);
                 }
                 S_StartSound(NULL, sfx_stnmov);
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
@@ -1959,14 +1959,14 @@ void M_SizeDisplay(int choice)
                     ToggleWidescreen(false);
                 }
                 S_StartSound(NULL, sfx_stnmov);
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (screensize > SCREENSIZE_MIN)
             {
                 R_SetViewSize(--screensize);
                 C_Input("r_screensize %i", screensize);
                 S_StartSound(NULL, sfx_stnmov);
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             break;
         case 1:
@@ -1978,7 +1978,7 @@ void M_SizeDisplay(int choice)
                     hud = false;
                     C_Input("r_hud off");
                     S_StartSound(NULL, sfx_stnmov);
-                    M_SaveDefaults();
+                    M_SaveCVARs();
                 }
             }
             else if (screensize == SCREENSIZE_MAX - 1)
@@ -2003,14 +2003,14 @@ void M_SizeDisplay(int choice)
                     }
                 }
                 S_StartSound(NULL, sfx_stnmov);
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (screensize < SCREENSIZE_MAX)
             {
                 R_SetViewSize(++screensize);
                 C_Input("r_screensize %i", screensize);
                 S_StartSound(NULL, sfx_stnmov);
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             break;
     }
@@ -2242,7 +2242,7 @@ void M_ChangeGamma(dboolean shift)
     message_dontfuckwithme = true;
 
     I_SetPalette((byte *)W_CacheLumpName("PLAYPAL", PU_CACHE) + st_palette * 768);
-    M_SaveDefaults();
+    M_SaveCVARs();
 }
 
 //
@@ -2794,7 +2794,7 @@ dboolean M_Responder(event_t *ev)
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
                 SaveDef.lastOn = selectedsavegame = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else
             {
@@ -2819,22 +2819,22 @@ dboolean M_Responder(event_t *ev)
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
                 selectedepisode = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (currentMenu == &ExpDef)
             {
                 selectedexpansion = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (currentMenu == &NewDef)
             {
                 selectedskilllevel = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (currentMenu == &SaveDef)
             {
                 LoadDef.lastOn = selectedsavegame = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
@@ -2857,7 +2857,7 @@ dboolean M_Responder(event_t *ev)
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
                 SaveDef.lastOn = selectedsavegame = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else
             {
@@ -2882,22 +2882,22 @@ dboolean M_Responder(event_t *ev)
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
                 selectedepisode = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (currentMenu == &ExpDef)
             {
                 selectedexpansion = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (currentMenu == &NewDef)
             {
                 selectedskilllevel = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             else if (currentMenu == &SaveDef)
             {
                 LoadDef.lastOn = selectedsavegame = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
             keywait = I_GetTime() + 2;
             M_SetWindowCaption();
@@ -3031,27 +3031,27 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu == &EpiDef && gamemode != shareware)
                     {
                         selectedepisode = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     else if (currentMenu == &ExpDef)
                     {
                         selectedexpansion = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     else if (currentMenu == &NewDef)
                     {
                         selectedskilllevel = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     else if (currentMenu == &SaveDef)
                     {
                         LoadDef.lastOn = selectedsavegame = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     else if (currentMenu == &LoadDef)
                     {
                         SaveDef.lastOn = selectedsavegame = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     M_SetWindowCaption();
                     return false;
@@ -3080,27 +3080,27 @@ dboolean M_Responder(event_t *ev)
                     if (currentMenu == &EpiDef && gamemode != shareware)
                     {
                         selectedepisode = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     else if (currentMenu == &ExpDef)
                     {
                         selectedexpansion = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     else if (currentMenu == &NewDef)
                     {
                         selectedskilllevel = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     else if (currentMenu == &SaveDef)
                     {
                         LoadDef.lastOn = selectedsavegame = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     else if (currentMenu == &LoadDef)
                     {
                         SaveDef.lastOn = selectedsavegame = itemOn;
-                        M_SaveDefaults();
+                        M_SaveCVARs();
                     }
                     M_SetWindowCaption();
                     return false;
@@ -3257,7 +3257,7 @@ void M_Drawer(void)
             if (itemOn != old)
             {
                 SaveDef.lastOn = selectedsavegame = itemOn;
-                M_SaveDefaults();
+                M_SaveCVARs();
             }
         }
 

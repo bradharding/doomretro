@@ -339,12 +339,10 @@
 typedef enum
 {
     DEFAULT_INT,
-    DEFAULT_INT_HEX,
     DEFAULT_INT_PERCENT,
     DEFAULT_STRING,
     DEFAULT_FLOAT,
-    DEFAULT_FLOAT_PERCENT,
-    DEFAULT_KEY
+    DEFAULT_FLOAT_PERCENT
 } default_type_t;
 
 typedef struct
@@ -358,17 +356,6 @@ typedef struct
     // Type of the variable
     default_type_t      type;
 
-    // If this is a key value, the original integer scancode we read from
-    // the config file before translating it to the internal key value.
-    // If zero, we didn't read this value from a config file.
-    int                 untranslated;
-
-    // The value we translated the scancode into when we read the
-    // config file on startup.  If the variable value is different from
-    // this, it has been changed and needs to be converted; otherwise,
-    // use the 'untranslated' value.
-    int                 original_translated;
-
     int                 set;
 } default_t;
 
@@ -381,8 +368,8 @@ typedef struct
 
 extern alias_t          aliases[];
 
-void M_LoadDefaults(void);
-void M_SaveDefaults(void);
+void M_LoadCVARs(void);
+void M_SaveCVARs(void);
 char *striptrailingzero(float value, int precision);
 
 #endif

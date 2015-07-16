@@ -1257,7 +1257,7 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     // Load configuration files before initialising other subsystems.
-    M_LoadDefaults();
+    M_LoadCVARs();
 
     if (runcount < 2)
         C_Output(PACKAGE_NAME" has been run %s.", (!runcount ? "once" : "twice"));
@@ -1303,7 +1303,7 @@ static void D_DoomMainSetup(void)
         if (runcount < RUNCOUNT_MAX)
             ++runcount;
     }
-    M_SaveDefaults();
+    M_SaveCVARs();
 
     if (p > 0)
     {
@@ -1429,7 +1429,7 @@ static void D_DoomMainSetup(void)
             };
 
             selectedskilllevel = startskill = (skill_t)temp;
-            M_SaveDefaults();
+            M_SaveCVARs();
             C_Output("Found -SKILL parameter on command-line. Skill level is now \"%s\".",
                 skilllevels[startskill]);
         }
@@ -1455,7 +1455,7 @@ static void D_DoomMainSetup(void)
 
             startepisode = temp;
             selectedepisode = temp - 1;
-            M_SaveDefaults();
+            M_SaveCVARs();
             startmap = 1;
             if (gamemode == commercial)
                 M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
@@ -1482,7 +1482,7 @@ static void D_DoomMainSetup(void)
 
             gamemission = (temp == 1 ? doom2 : pack_nerve);
             selectedexpansion = temp - 1;
-            M_SaveDefaults();
+            M_SaveCVARs();
             startepisode = 1;
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
