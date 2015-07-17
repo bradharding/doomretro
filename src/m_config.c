@@ -53,10 +53,12 @@
 #include "p_local.h"
 #include "version.h"
 
-float           gamepadleftdeadzone_percent = GAMEPADLEFTDEADZONE_DEFAULT;
-float           gamepadrightdeadzone_percent = GAMEPADRIGHTDEADZONE_DEFAULT;
-int             musicvolume_percent = MUSICVOLUME_DEFAULT;
-int             sfxvolume_percent = SFXVOLUME_DEFAULT;
+char    *configfile = PACKAGE_CONFIG;
+
+float   gamepadleftdeadzone_percent = GAMEPADLEFTDEADZONE_DEFAULT;
+float   gamepadrightdeadzone_percent = GAMEPADRIGHTDEADZONE_DEFAULT;
+int     musicvolume_percent = MUSICVOLUME_DEFAULT;
+int     sfxvolume_percent = SFXVOLUME_DEFAULT;
 
 //
 // DEFAULTS
@@ -265,7 +267,7 @@ static void SaveBind(FILE *file, char *action, int value, controltype_t type)
 void M_SaveCVARs(void)
 {
     int         i;
-    FILE        *file = fopen(PACKAGE_CONFIG, "w");
+    FILE        *file = fopen(configfile, "w");
 
     if (!file)
         return; // can't write the file, but don't complain
@@ -619,18 +621,16 @@ static void M_CheckCVARs(void)
 //
 // M_LoadCVARs
 //
-void M_LoadCVARs(void)
+void M_LoadCVARs(char *filename)
 {
     int         i;
     FILE        *file;
     char        control[32];
-    char        filename[MAX_PATH] = PACKAGE_CONFIG;
     char        action[32];
     char        defname[32];
     char        strparm[256];
 
-    if ((i = M_CheckParmWithArgs("-config", 1)))
-        M_StringCopy(filename, myargv[i + 1], MAX_PATH);
+    configfile = strdup(filename);
 
     // read the file in, overriding any set defaults
     file = fopen(filename, "r");

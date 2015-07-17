@@ -368,7 +368,7 @@ typedef struct
 
 extern alias_t          aliases[];
 
-void M_LoadCVARs(void);
+void M_LoadCVARs(char *filename);
 void M_SaveCVARs(void);
 char *striptrailingzero(float value, int precision);
 

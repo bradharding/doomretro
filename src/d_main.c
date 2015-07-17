@@ -600,6 +600,11 @@ static dboolean D_IsUnsupportedIWAD(char *filename)
         || D_CheckFilename(filename, "STRIFE1.WAD"));
 }
 
+static dboolean D_IsCfgFile(char *filename)
+{
+    return (!strcasecmp(filename + strlen(filename) - 4, ".cfg"));
+}
+
 static dboolean D_IsDehFile(char *filename)
 {
     return (!strcasecmp(filename + strlen(filename) - 4, ".deh")
@@ -890,6 +895,7 @@ static int D_ChooseIWAD(void)
             LPSTR       iwadpass = ofn.lpstrFile;
             LPSTR       pwadpass1 = ofn.lpstrFile;
             LPSTR       pwadpass2 = ofn.lpstrFile;
+            LPSTR       cfgpass = ofn.lpstrFile;
             LPSTR       dehpass = ofn.lpstrFile;
             
             iwadpass += lstrlen(iwadpass) + 1;
@@ -1140,6 +1146,30 @@ static int D_ChooseIWAD(void)
             }
 
 #if defined(WIN32)
+            // process any config files
+            cfgpass += lstrlen(cfgpass) + 1;
+
+            while (cfgpass[0])
+            {
+                static char     fullpath[MAX_PATH];
+
+                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
+                    cfgpass);
+
+#elif defined(__MACOSX__)
+            for (NSURL *url in urls)
+            {
+                char    *fullpath = (char *)[url fileSystemRepresentation];
+#endif
+
+                if (D_IsCfgFile(fullpath))
+                    M_LoadCVARs(fullpath);
+#if defined(WIN32)
+                cfgpass += lstrlen(cfgpass) + 1;
+#endif
+            }
+
+#if defined(WIN32)
             // process any dehacked files last of all
             dehpass += lstrlen(dehpass) + 1;
 
@@ -1257,7 +1287,8 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     // Load configuration files before initialising other subsystems.
-    M_LoadCVARs();
+    p = M_CheckParmWithArgs("-config", 1);
+    M_LoadCVARs(p ? myargv[p + 1] : PACKAGE_CONFIG);
 
     if (runcount < 2)
         C_Output(PACKAGE_NAME" has been run %s.", (!runcount ? "once" : "twice"));
