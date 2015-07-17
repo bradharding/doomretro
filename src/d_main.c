@@ -1157,52 +1157,55 @@ static int D_ChooseIWAD(void)
                 }
             }
 
-#if defined(WIN32)
-            // process any config files
-            cfgpass += lstrlen(cfgpass) + 1;
-
-            while (cfgpass[0])
+            if (iwadfound)
             {
-                static char     fullpath[MAX_PATH];
+#if defined(WIN32)
+                // process any config files
+                cfgpass += lstrlen(cfgpass) + 1;
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
-                    cfgpass);
+                while (cfgpass[0])
+                {
+                    static char     fullpath[MAX_PATH];
+
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
+                        cfgpass);
 
 #elif defined(__MACOSX__)
-            for (NSURL *url in urls)
-            {
-                char    *fullpath = (char *)[url fileSystemRepresentation];
+                for (NSURL *url in urls)
+                {
+                    char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
 
-                if (D_IsCfgFile(fullpath))
-                    M_LoadCVARs(fullpath);
+                    if (D_IsCfgFile(fullpath))
+                        M_LoadCVARs(fullpath);
 #if defined(WIN32)
-                cfgpass += lstrlen(cfgpass) + 1;
+                    cfgpass += lstrlen(cfgpass) + 1;
 #endif
             }
 
 #if defined(WIN32)
-            // process any dehacked files last of all
-            dehpass += lstrlen(dehpass) + 1;
+                // process any dehacked files last of all
+                dehpass += lstrlen(dehpass) + 1;
 
-            while (dehpass[0])
-            {
-                static char     fullpath[MAX_PATH];
+                while (dehpass[0])
+                {
+                    static char     fullpath[MAX_PATH];
 
-                M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
-                    dehpass);
+                    M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", strdup(szFile),
+                        dehpass);
 
 #elif defined(__MACOSX__)
-            for (NSURL *url in urls)
-            {
-                char    *fullpath = (char *)[url fileSystemRepresentation];
+                for (NSURL *url in urls)
+                {
+                    char    *fullpath = (char *)[url fileSystemRepresentation];
 #endif
 
-                if (D_IsDehFile(fullpath))
-                    LoadDehFile(fullpath);
+                    if (D_IsDehFile(fullpath))
+                        LoadDehFile(fullpath);
 #if defined(WIN32)
-                dehpass += lstrlen(dehpass) + 1;
+                    dehpass += lstrlen(dehpass) + 1;
 #endif
+                }
             }
         }
     }
