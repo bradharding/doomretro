@@ -404,7 +404,7 @@ static char *C_LookupAliasFromValue(int value, int set)
             return aliases[i].text;
         ++i;
     }
-    return NULL;
+    return commify(value);
 }
 
 #define CMD(name, cond, func, parms, form, desc) \
@@ -412,7 +412,7 @@ static char *C_LookupAliasFromValue(int value, int set)
 #define CMD_CHEAT(name, parms) \
     { #name, C_CheatCondition, NULL, parms, CT_CHEAT, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
 #define CVAR_BOOL(name, cond, func, var, val, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_dboolean, &var, 1, false, true, val##_DEFAULT, "", desc }
+    { #name, cond, func, 1, CT_CVAR, CF_BOOLEAN, &var, 1, false, true, val##_DEFAULT, "", desc }
 #define CVAR_INT(name, cond, func, flags, var, aliases, val, desc) \
     { #name, cond, func, 1, CT_CVAR, CF_INTEGER | flags, &var, aliases, val##_MIN, val##_MAX, val##_DEFAULT, "", desc }
 #define CVAR_FLOAT(name, cond, func, flags, var, desc) \
@@ -439,16 +439,16 @@ consolecmd_t consolecmds[] =
     CMD       (condump, C_NoCondition, C_ConDump, 1, "[~filename~.txt]", "Dumps the console to a file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Shows a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "Ends a game."),
-    CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, 0, EPISODE, "The currently selected episode in the menu."),
+    CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, NOALIAS, EPISODE, "The currently selected episode in the menu."),
     CMD       (exit, C_NoCondition, C_Quit, 0, "", ""),
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exits the current map."),
-    CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, 0, EXPANSION, "The currently selected expansion in the menu."),
+    CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, NOALIAS, EXPANSION, "The currently selected expansion in the menu."),
     CVAR_TIME (gametime, C_NoCondition, C_Time, gametic, "The amount of time since "PACKAGE_NAME" started."),
     CMD       (give, C_GiveCondition, C_Give, 1, GIVECMDFORMAT, "Gives items to the player."),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadleftdeadzone_percent, "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadrightdeadzone_percent, "The dead zone of the gamepad's right thumbstick."),
-    CVAR_INT  (gp_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, 0, GAMEPADSENSITIVITY, "The gamepad's sensitivity."),
+    CVAR_INT  (gp_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, NOALIAS, GAMEPADSENSITIVITY, "The gamepad's sensitivity."),
     CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED, "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE, "Toggles vibration for XInput gamepads."),
     CMD       (help, C_NoCondition, C_Help, 0, "", "Shows the help screen."),
@@ -474,8 +474,8 @@ consolecmd_t consolecmds[] =
     CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration, "The amount the mouse accelerates."),
     CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE, "Toggles double-clicking a mouse button for the +use action."),
     CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT, "Toggles no vertical movement of the mouse."),
-    CVAR_INT  (m_sensitivity, C_IntCondition, C_Int, CF_NONE, mousesensitivity, 0, MOUSESENSITIVITY, "The mouse's sensitivity."),
-    CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, mouse_threshold, 0, MOUSETHRESHOLD, "The mouse's acceleration threshold."),
+    CVAR_INT  (m_sensitivity, C_IntCondition, C_Int, CF_NONE, mousesensitivity, NOALIAS, MOUSESENSITIVITY, "The mouse's sensitivity."),
+    CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, mouse_threshold, NOALIAS, MOUSETHRESHOLD, "The mouse's acceleration threshold."),
     CMD       (map, C_MapCondition, C_Map, 1, MAPCMDFORMAT, "Warps to a map."),
     CMD       (maplist, C_NoCondition, C_MapList, 0, "", "Shows a list of the available maps."),
     CMD       (mapstats, C_GameCondition, C_MapStats, 0, "", "Shows stats on the current map."),
@@ -486,9 +486,9 @@ consolecmd_t consolecmds[] =
     CMD       (playerstats, C_GameCondition, C_PlayerStats, 0, "", "Shows the player's stats."),
     CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN, "Toggles always run."),
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON, "Toggles the centering of the player's weapon when firing."),
-    CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, 0, PLAYERBOB, "The amount the player bobs when walking."),
+    CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, NOALIAS, PLAYERBOB, "The amount the player bobs when walking."),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quits "PACKAGE_NAME"."),
-    CVAR_INT  (r_blood, C_BloodCondition, C_Blood, CF_NONE, blood, 6, NONE, "The color of the blood of the player and monsters."),
+    CVAR_INT  (r_blood, C_BloodCondition, C_Blood, CF_NONE, blood, BLOODALIAS, NONE, "The color of the blood of the player and monsters."),
     CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS, "Toggles brightmaps on certain wall textures."),
     CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, corpses_mirror, CORPSES_MIRROR, "Toggles corpses being randomly mirrored."),
     CVAR_BOOL (r_corpses_moreblood, C_BoolCondition, C_Bool, corpses_moreblood, CORPSES_MOREBLOOD, "Toggles blood splats around corpses when a map is loaded."),
@@ -506,29 +506,29 @@ consolecmd_t consolecmds[] =
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize, "The size of pixels when the graphic detail is low."),
     CVAR_BOOL (r_fixmaperrors, C_BoolCondition, C_Bool, mapfixes, MAPFIXES, "Toggles the fixing of mapping errors in the DOOM IWADs."),
     CVAR_BOOL (r_fixspriteoffsets, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggles the fixing of sprite offsets."),
-    CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxbloodsplats, 7, MAXBLOODSPLATS, "The maximum number of blood splats spawned in a map."),
+    CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxbloodsplats, SPLATALIAS, MAXBLOODSPLATS, "The maximum number of blood splats spawned in a map."),
     CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS, "Toggles randomly mirroring weapons dropped by monsters."),
     CVAR_BOOL (r_playersprites, C_BoolCondition, C_Bool, playersprites, PLAYERSPRITES, "Toggles the display of the player's weapon."),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS, "Toggles rocket trails behind player and Cyberdemon rockets."),
-    CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, 0, SCREENSIZE, "The screen size."),
+    CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, NOALIAS, SCREENSIZE, "The screen size."),
     CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS, "Toggles sprites casting shadows."),
     CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY, "Toggles translucency in sprites and textures."),
     CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrects the player."),
-    CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, 0, NONE, "The number of times "PACKAGE_NAME" has been run."),
-    CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, 0, MUSICVOLUME, "The music volume."),
+    CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, NOALIAS, NONE, "The number of times "PACKAGE_NAME" has been run."),
+    CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, NOALIAS, MUSICVOLUME, "The music volume."),
     CVAR_BOOL (s_randompitch, C_BoolCondition, C_Bool, randompitch, RANDOMPITCH, "Toggles randomizing the pitch of sound effects."),
-    CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, 0, SFXVOLUME, "The sound effects volume."),
+    CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, NOALIAS, SFXVOLUME, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Saves the game to a file."),
     CVAR_STR  (savegamefolder, C_NoCondition, C_Str, savegamefolder, "The folder where savegames are saved."),
-    CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, 0, SKILLLEVEL, "The currently selected skill level in the menu."),
+    CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, NOALIAS, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
     CMD       (thinglist, C_GameCondition, C_ThingList, 0, "", "Shows a list of things in the current map."),
-    CVAR_INT  (totalbloodsplats, C_IntCondition, C_Int, CF_READONLY, totalbloodsplats, 0, NONE, "The total number of blood splats in the current map."),
+    CVAR_INT  (totalbloodsplats, C_IntCondition, C_Int, CF_READONLY, totalbloodsplats, NOALIAS, NONE, "The total number of blood splats in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbinds an action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggles capping of the framerate at 35 FPS."),
-    CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, display, 0, DISPLAY, "The display used to render the game."),
+    CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, display, NOALIAS, DISPLAY, "The display used to render the game."),
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggles between fullscreen and a window."),
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver used to scale the display."),
     CVAR_STR  (vid_scalefilter, C_NoCondition, C_ScaleFilter, scalefilter, "The filter used to scale the display."),
@@ -764,7 +764,7 @@ static dboolean C_BloodCondition(char *cmd, char *parm1, char *parm2)
 {
     int value = 0;
 
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 6) >= 0);
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
 }
 
 void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
@@ -773,7 +773,7 @@ static void C_Blood(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     value = C_LookupValueFromAlias(parm1, 6);
+        int     value = C_LookupValueFromAlias(parm1, BLOODALIAS);
 
         if (value >= 0)
         {
@@ -784,12 +784,12 @@ static void C_Blood(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(blood, 6));
+        C_Output(C_LookupAliasFromValue(blood, BLOODALIAS));
 }
 
 static dboolean C_BoolCondition(char *cmd, char *parm1, char *parm2)
 {
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 1) >= 0);
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, BOOLALIAS) >= 0);
 }
 
 static void C_Bool(char *cmd, char *parm1, char *parm2)
@@ -799,11 +799,11 @@ static void C_Bool(char *cmd, char *parm1, char *parm2)
     while (consolecmds[i].name[0])
     {
         if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
-            && (consolecmds[i].flags & CF_dboolean))
+            && (consolecmds[i].flags & CF_BOOLEAN))
         {
             if (parm1[0] && !(consolecmds[i].flags & CF_READONLY))
             {
-                int     value = C_LookupValueFromAlias(parm1, 1);
+                int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
                 if (value == 0 || value == 1)
                 {
@@ -812,7 +812,7 @@ static void C_Bool(char *cmd, char *parm1, char *parm2)
                 }
             }
             else
-                C_Output(*(dboolean *)consolecmds[i].variable ? "on" : "off");
+                C_Output(C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable, BOOLALIAS));
         }
         ++i;
     }
@@ -882,7 +882,7 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
     {
         if (consolecmds[i].type == CT_CVAR && (!parm1[0] || wildcard(consolecmds[i].name, parm1)))
         {
-            if (consolecmds[i].flags & CF_dboolean)
+            if (consolecmds[i].flags & CF_BOOLEAN)
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
                     C_LookupAliasFromValue(*(dboolean *)consolecmds[i].variable,
                     consolecmds[i].aliases), consolecmds[i].description);
@@ -890,14 +890,9 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
                 C_TabbedOutput(tabs, "%i.\t%s\t%i%%\t%s", count++, consolecmds[i].name,
                     *(int *)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_INTEGER)
-            {
-                char *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
-                              consolecmds[i].aliases);
-
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
-                    (alias ? alias : commify(*(int *)consolecmds[i].variable)),
-                    consolecmds[i].description);
-            }
+                    C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
+                    consolecmds[i].aliases), consolecmds[i].description);
             else if (consolecmds[i].flags & CF_FLOAT)
                 C_TabbedOutput(tabs, "%i.\t%s\t%s%s\t%s", count++, consolecmds[i].name,
                     striptrailingzero(*(float *)consolecmds[i].variable,
@@ -1066,13 +1061,13 @@ static void C_Fullscreen(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if ((value == 0 || value == 1) && value != fullscreen)
             ToggleFullscreen();
     }
     else
-        C_Output(fullscreen ? "on" : "off");
+        C_Output(C_LookupAliasFromValue(fullscreen, BOOLALIAS));
 }
 
 extern int      st_palette;
@@ -1187,7 +1182,7 @@ static void C_God(char *cmd, char *parm1, char *parm2)
 
     if (parm1[0])
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if (value == 0)
             player->cheats &= ~CF_GODMODE;
@@ -1202,14 +1197,14 @@ static void C_God(char *cmd, char *parm1, char *parm2)
 
 static dboolean C_GraphicDetailCondition(char *cmd, char *parm1, char *parm2)
 {
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 6) >= 0);
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, DETAILALIAS) >= 0);
 }
 
 static void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int value = C_LookupValueFromAlias(parm1, 6);
+        int value = C_LookupValueFromAlias(parm1, DETAILALIAS);
 
         if (value == 0 || value == 1)
         {
@@ -1218,7 +1213,7 @@ static void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(graphicdetail, 6));
+        C_Output(C_LookupAliasFromValue(graphicdetail, DETAILALIAS));
 }
 
 static void C_Help(char *cmd, char *parm1, char *parm2)
@@ -1279,12 +1274,8 @@ static void C_Int(char *cmd, char *parm1, char *parm2)
                 }
             }
             else
-            {
-                char    *alias = C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
-                                 consolecmds[i].aliases);
-
-                C_Output(alias ? alias : commify(*(int *)consolecmds[i].variable));
-            }
+                C_Output(C_LookupAliasFromValue(*(int *)consolecmds[i].variable,
+                    consolecmds[i].aliases));
         }
         ++i;
     }
@@ -1809,7 +1800,7 @@ static dboolean C_MaxBloodSplatsCondition(char *cmd, char *parm1, char *parm2)
 {
     int value = 0;
 
-    return (!parm1[0] || C_LookupValueFromAlias(parm1, 7) >= 0
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, SPLATALIAS) >= 0
         || sscanf(parm1, "%10i", &value));
 }
 
@@ -1817,7 +1808,7 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     value = C_LookupValueFromAlias(parm1, 7);
+        int     value = C_LookupValueFromAlias(parm1, SPLATALIAS);
 
         if (value < 0)
             sscanf(parm1, "%10i", &value);
@@ -1835,7 +1826,7 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output(maxbloodsplats == UNLIMITED ? "unlimited" : commify(maxbloodsplats));
+        C_Output(C_LookupAliasFromValue(maxbloodsplats, SPLATALIAS));
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
@@ -2123,7 +2114,7 @@ static void C_ShowFPS(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if ((value == 0 || value == 1) && value != vid_showfps)
         {
@@ -2132,7 +2123,7 @@ static void C_ShowFPS(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output(widescreen ? "on" : "off");
+        C_Output(C_LookupAliasFromValue(vid_showfps, BOOLALIAS));
 }
 
 static int      spawntype = NUMMOBJTYPES;
@@ -2315,7 +2306,7 @@ static void C_Vsync(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if ((value == 0 || value == 1) && value != vsync)
         {
@@ -2325,14 +2316,14 @@ static void C_Vsync(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output(vsync ? "on" : "off");
+        C_Output(C_LookupAliasFromValue(vsync, BOOLALIAS));
 }
 
 static void C_Widescreen(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     value = C_LookupValueFromAlias(parm1, 1);
+        int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
         if ((value == 0 || value == 1) && value != widescreen)
         {
@@ -2361,7 +2352,7 @@ static void C_Widescreen(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output(widescreen ? "on" : "off");
+        C_Output(C_LookupAliasFromValue(widescreen, BOOLALIAS));
 }
 
 extern SDL_Window       *window;

@@ -74,7 +74,7 @@ typedef enum
 typedef enum
 {
     CF_NONE            =   0,
-    CF_dboolean        =   1,
+    CF_BOOLEAN        =   1,
     CF_FLOAT           =   2,
     CF_INTEGER         =   4,
     CF_PERCENT         =   8,

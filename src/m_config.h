@@ -364,6 +364,14 @@ typedef struct
     int                 set;
 } default_t;
 
+#define NOALIAS         0
+#define BOOLALIAS       1
+#define SCREENALIAS     2
+#define DETAILALIAS     3
+#define SPLATALIAS      4
+#define GAMMAALIAS      5
+#define BLOODALIAS      6
+
 typedef struct
 {
     char                *text;
