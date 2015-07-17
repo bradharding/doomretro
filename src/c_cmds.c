@@ -767,6 +767,8 @@ static dboolean C_BloodCondition(char *cmd, char *parm1, char *parm2)
     return (!parm1[0] || C_LookupValueFromAlias(parm1, 6) >= 0);
 }
 
+void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
+
 static void C_Blood(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
@@ -776,6 +778,8 @@ static void C_Blood(char *cmd, char *parm1, char *parm2)
         if (value >= 0)
         {
             blood = value;
+            P_BloodSplatSpawner = (blood == NOBLOOD ? P_NullBloodSplatSpawner :
+                (maxbloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
             M_SaveCVARs();
         }
     }
@@ -1800,8 +1804,6 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
             C_TabbedOutput(tabs, "Music title\t%s", mus_playing->title);
     }
 }
-
-void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
 
 static dboolean C_MaxBloodSplatsCondition(char *cmd, char *parm1, char *parm2)
 {
