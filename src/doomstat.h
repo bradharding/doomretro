@@ -89,9 +89,6 @@ extern int              gamemap;
 extern dboolean         nerve;
 extern dboolean         bfgedition;
 
-extern dboolean         mergedcacodemon;
-extern dboolean         mergednoble;
-
 extern dboolean         chex;
 extern dboolean         chexdeh;
 extern dboolean         hacx;

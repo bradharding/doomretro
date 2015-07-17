@@ -292,57 +292,7 @@ static void GenerateSpriteList(void)
     // Add all sprites from the PWAD
     // (replaces IWAD sprites)
     for (i = 0; i < pwad_sprites.numlumps; ++i)
-    {
-        lumpinfo_t      *lump = &pwad_sprites.lumps[i];
-
-        if (M_StringStartsWith(lump->name, "HEAD"))
-            mergedcacodemon = true;
-        else if (M_StringStartsWith(lump->name, "BOSS") || M_StringStartsWith(lump->name, "BOS2"))
-            mergednoble = true;
-        else if (!BTSX && (M_StringStartsWith(lump->name, "BAR1")
-            || M_StringStartsWith(lump->name, "BEXP")))
-        {
-            states[S_BAR1].tics = 0;
-            mobjinfo[MT_BARREL].spawnstate = S_BAR2;
-            mobjinfo[MT_BARREL].frames = 0;
-        }
-
-        if (i < iwad_sprites.numlumps)
-        {
-            int j = 0;
-
-            while (sproffsets[j].name[0])
-            {
-                if (!strcasecmp(sproffsets[j].name, lump->name) && sproffsets[j].canmodify)
-                {
-                    int         k = 0;
-                    char        name1[9];
-
-                    sproffsets[j].canmodify = false;
-
-                    M_StringCopy(name1, sproffsets[j].name, 9);
-                    name1[4] = '\0';
-
-                    while (sproffsets[k].name[0])
-                    {
-                        char    name2[9];
-
-                        M_StringCopy(name2, sproffsets[k].name, 9);
-                        name2[4] = '\0';
-
-                        if (!strcasecmp(name1, name2) ||
-                            (!strcasecmp(name1, "BAR1") && !strcasecmp(name2, "BEXP")))
-                            sproffsets[k].canmodify = false;
-
-                        k++;
-                    }
-                }
-                j++;
-            }
-        }
-
-        AddSpriteLump(lump);
-    }
+        AddSpriteLump(&pwad_sprites.lumps[i]);
 }
 
 // Perform the merge.

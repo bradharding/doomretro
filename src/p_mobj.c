@@ -1371,7 +1371,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     th->momy = FixedMul(th->info->speed, finesine[an >> ANGLETOFINESHIFT]);
     th->momz = FixedMul(th->info->speed, slope);
 
-    if (type == MT_ROCKET && smoketrails && !dehacked)
+    if (type == MT_ROCKET && smoketrails)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         puffcount = 0;

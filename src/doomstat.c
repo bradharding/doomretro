@@ -47,9 +47,6 @@ char            *gamedescription;
 dboolean        nerve = false;
 dboolean        bfgedition = false;
 
-dboolean        mergedcacodemon = false;
-dboolean        mergednoble = false;
-
 dboolean        chex = false;
 dboolean        chexdeh = false;
 dboolean        hacx = false;

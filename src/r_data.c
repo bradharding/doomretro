@@ -888,14 +888,11 @@ void R_InitSpriteLumps(void)
 
                 while (sproffsets[j].name[0])
                 {
-                    if (sproffsets[j].canmodify || BTSX)
+                    if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
                     {
-                        if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
-                        {
-                            spriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
-                            spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
-                            break;
-                        }
+                        spriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
+                        spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;
+                        break;
                     }
                     j++;
                 }
@@ -908,6 +905,10 @@ void R_InitSpriteLumps(void)
         states[S_BAR1].tics = 0;
         mobjinfo[MT_BARREL].spawnstate = S_BAR2;
         mobjinfo[MT_BARREL].frames = 0;
+
+        mobjinfo[MT_HEAD].blood = MT_BLOOD;
+        mobjinfo[MT_BRUISER].blood = MT_BLOOD;
+        mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
     }
     else if (chex)
     {
@@ -926,18 +927,6 @@ void R_InitSpriteLumps(void)
         mobjinfo[MT_INV].flags2 &= ~MF2_TRANSLUCENT_33;
         mobjinfo[MT_INS].flags2 &= ~(MF2_TRANSLUCENT_33 | MF2_FLOATBOB | MF2_NOFOOTCLIP);
         mobjinfo[MT_MISC14].flags2 &= ~(MF2_FLOATBOB | MF2_NOFOOTCLIP);
-    }
-
-    if (!BTSX)
-    {
-        if (mergedcacodemon || FREEDOOM)
-            mobjinfo[MT_HEAD].blood = MT_BLOOD;
-
-        if (mergednoble || FREEDOOM)
-        {
-            mobjinfo[MT_BRUISER].blood = MT_BLOOD;
-            mobjinfo[MT_KNIGHT].blood = MT_BLOOD;
-        }
     }
 }
 
