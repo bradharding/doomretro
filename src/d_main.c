@@ -580,6 +580,14 @@ static void LoadDehFile(char *path)
     }
 }
 
+static void LoadCfgFile(char *path)
+{
+    char        *cfgpath = M_StringReplace(path, ".wad", ".cfg");
+
+    if (M_FileExists(cfgpath))
+        M_LoadCVARs(cfgpath);
+}
+
 static dboolean D_IsDOOMIWAD(char *filename)
 {
     return (D_CheckFilename(filename, "DOOM.WAD")
@@ -809,6 +817,7 @@ static int D_ChooseIWAD(void)
                     if (W_MergeFile(file, false))
                     {
                         modifiedgame = true;
+                        LoadCfgFile(file);
                         LoadDehFile(file);
                     }
                 }
@@ -825,6 +834,7 @@ static int D_ChooseIWAD(void)
                         if (W_MergeFile(file, false))
                         {
                             modifiedgame = true;
+                            LoadCfgFile(file);
                             LoadDehFile(file);
                         }
                     }
@@ -841,6 +851,7 @@ static int D_ChooseIWAD(void)
                             if (W_MergeFile(file, false))
                             {
                                 modifiedgame = true;
+                                LoadCfgFile(file);
                                 LoadDehFile(file);
                             }
                         }
@@ -1117,6 +1128,7 @@ static int D_ChooseIWAD(void)
                             if (W_MergeFile(fullpath, false))
                             {
                                 modifiedgame = true;
+                                LoadCfgFile(fullpath);
                                 LoadDehFile(fullpath);
                             }
                             if (IWADRequiredByPWAD(fullpath) != indetermined)
