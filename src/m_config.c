@@ -624,17 +624,21 @@ void M_LoadCVARs(void)
     int         i;
     FILE        *file;
     char        control[32];
+    char        filename[MAX_PATH] = PACKAGE_CONFIG;
     char        action[32];
     char        defname[32];
     char        strparm[256];
 
+    if ((i = M_CheckParmWithArgs("-config", 1)))
+        M_StringCopy(filename, myargv[i + 1], MAX_PATH);
+
     // read the file in, overriding any set defaults
-    file = fopen(PACKAGE_CONFIG, "r");
+    file = fopen(filename, "r");
 
     if (!file)
     {
         C_Output("%s not found. Using defaults for all CVARs and creating %s.",
-            uppercase(PACKAGE_CONFIG), uppercase(PACKAGE_CONFIG));
+            uppercase(filename), uppercase(PACKAGE_CONFIG));
         return;
     }
 
@@ -703,6 +707,6 @@ void M_LoadCVARs(void)
 
     fclose(file);
 
-    C_Output("Loaded CVARs from %s.", uppercase(PACKAGE_CONFIG));
+    C_Output("Loaded CVARs from %s.", uppercase(filename));
     M_CheckCVARs();
 }
