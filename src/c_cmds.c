@@ -92,6 +92,7 @@ extern int      blood;
 extern dboolean brightmaps;
 extern dboolean capfps;
 extern dboolean centerweapon;
+extern char     *configfile;
 extern dboolean corpses_mirror;
 extern dboolean corpses_moreblood;
 extern dboolean corpses_nudge;
@@ -437,6 +438,7 @@ consolecmd_t consolecmds[] =
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clears the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Shows a list of console commands."),
     CMD       (condump, C_NoCondition, C_ConDump, 1, "[~filename~.txt]", "Dumps the console to a file."),
+    CVAR_STR  (configfile, C_NoCondition, C_Str, configfile, "The path of the configuration file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Shows a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "Ends a game."),
     CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, NOALIAS, EPISODE, "The currently selected episode in the menu."),
