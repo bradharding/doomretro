@@ -67,6 +67,7 @@ extern dboolean alwaysrun;
 extern dboolean am_grid;
 extern dboolean am_rotatemode;
 extern dboolean animatedliquid;
+extern int      blood;
 extern dboolean brightmaps;
 extern dboolean capfps;
 extern dboolean centerweapon;
@@ -172,6 +173,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (pm_centerweapon,         centerweapon,                 1),
     CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,              playerbob,                    0),
     CONFIG_VARIABLE_INT          (runcount,                runcount,                     0),
+    CONFIG_VARIABLE_INT          (r_blood,                 blood,                        6),
     CONFIG_VARIABLE_INT          (r_brightmaps,            brightmaps,                   1),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,      corpses_mirror,               1),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,     corpses_moreblood,            1),
@@ -225,7 +227,8 @@ alias_t aliases[] =
     { "1",             1, 1 }, { "no",            0, 1 }, { "yes",           1, 1 },
     { "false",         0, 1 }, { "true",          1, 1 }, { "desktop",       0, 2 },
     { "low",           0, 3 }, { "high",          1, 3 }, { "unlimited", 32768, 4 },
-    { "off",           1, 5 }, { "",              0, 0 }
+    { "off",           1, 5 }, { "none",          0, 6 }, { "red",           1, 6 },
+    { "all",           2, 6 }, { "",              0, 0 }
 };
 
 char *striptrailingzero(float value, int precision)
@@ -437,6 +440,9 @@ static void M_CheckCVARs(void)
 
     if (animatedliquid != false && animatedliquid != true)
         animatedliquid = ANIMATEDLIQUID_DEFAULT;
+
+    if (blood != NOBLOOD && blood != REDBLOODONLY && blood != ALLBLOODCOLORS)
+        blood = BLOOD_DEFAULT;
 
     if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;

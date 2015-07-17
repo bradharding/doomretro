@@ -88,6 +88,7 @@ extern dboolean alwaysrun;
 extern dboolean am_grid;
 extern dboolean am_rotatemode;
 extern dboolean animatedliquid;
+extern int      blood;
 extern dboolean brightmaps;
 extern dboolean capfps;
 extern dboolean centerweapon;
@@ -306,6 +307,7 @@ action_t actions[] =
     { "",              NULL,                    NULL,              NULL                      }
 };
 
+static dboolean C_BloodCondition(char *, char *, char *);
 static dboolean C_BoolCondition(char *, char *, char *);
 static dboolean C_CheatCondition(char *, char *, char *);
 static dboolean C_DeadZoneCondition(char *, char *, char *);
@@ -330,6 +332,7 @@ static dboolean C_VolumeCondition(char *, char *, char *);
 void C_Bind(char *, char *, char *);
 
 static void C_AlwaysRun(char *, char *, char *);
+static void C_Blood(char *, char *, char *);
 static void C_Bool(char *, char *, char *);
 static void C_Clear(char *, char *, char *);
 static void C_CmdList(char *, char *, char *);
@@ -486,6 +489,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON, "Toggles the centering of the player's weapon when firing."),
     CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, 0, PLAYERBOB, "The amount the player bobs when walking."),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quits "PACKAGE_NAME"."),
+    CVAR_INT  (r_blood, C_BloodCondition, C_Blood, CF_NONE, blood, 6, NONE, "The color of the blood of the player and monsters."),
     CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS, "Toggles brightmaps on certain wall textures."),
     CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, corpses_mirror, CORPSES_MIRROR, "Toggles corpses being randomly mirrored."),
     CVAR_BOOL (r_corpses_moreblood, C_BoolCondition, C_Bool, corpses_moreblood, CORPSES_MOREBLOOD, "Toggles blood splats around corpses when a map is loaded."),
@@ -754,6 +758,29 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
             }
         }
     }
+}
+
+static dboolean C_BloodCondition(char *cmd, char *parm1, char *parm2)
+{
+    int value = 0;
+
+    return (!parm1[0] || C_LookupValueFromAlias(parm1, 6) >= 0);
+}
+
+static void C_Blood(char *cmd, char *parm1, char *parm2)
+{
+    if (parm1[0])
+    {
+        int     value = C_LookupValueFromAlias(parm1, 6);
+
+        if (value >= 0)
+        {
+            blood = value;
+            M_SaveCVARs();
+        }
+    }
+    else
+        C_Output(C_LookupAliasFromValue(blood, 6));
 }
 
 static dboolean C_BoolCondition(char *cmd, char *parm1, char *parm2)
@@ -1807,7 +1834,6 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output(maxbloodsplats == UNLIMITED ? "unlimited" : commify(maxbloodsplats));
-
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)

@@ -43,6 +43,11 @@
 
 #define ANIMATEDLIQUID_DEFAULT                  true
 
+#define NOBLOOD                                 0
+#define REDBLOODONLY                            1
+#define ALLBLOODCOLORS                          2
+#define BLOOD_DEFAULT                           ALLBLOODCOLORS
+
 #define BRIGHTMAPS_DEFAULT                      true
 
 #define CAPFPS_DEFAULT                          false

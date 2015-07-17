@@ -1610,14 +1610,17 @@ hitline:
 
         if (type == MT_SKULL)
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle, true);
-        else if (type != MT_PLAYER)
-            P_SpawnBlood(x, y, z, shootangle, la_damage, th);
-        else
+        else if (blood != NOBLOOD)
         {
-            player_t *player = &players[0];
+            if (type != MT_PLAYER)
+                P_SpawnBlood(x, y, z, shootangle, la_damage, th);
+            else
+            {
+                player_t *player = &players[0];
 
-            if (!player->powers[pw_invulnerability] && !(player->cheats & CF_GODMODE))
-                P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
+                if (!player->powers[pw_invulnerability] && !(player->cheats & CF_GODMODE))
+                    P_SpawnBlood(x, y, z + FRACUNIT * M_RandomInt(4, 16), shootangle, la_damage, th);
+            }
         }
     }
 

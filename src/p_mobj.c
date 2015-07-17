@@ -55,6 +55,7 @@ void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 void P_SpawnShadow(mobj_t *actor);
 
+int                     blood = BLOOD_DEFAULT;
 int                     maxbloodsplats = MAXBLOODSPLATS_DEFAULT;
 mobj_t                  *bloodsplats[MAXBLOODSPLATS_MAX];
 int                     totalbloodsplats;
@@ -1092,8 +1093,8 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     int         i;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    int         blood = target->blood;
-    mobjinfo_t  *info = &mobjinfo[blood];
+    int         color = (blood == ALLBLOODCOLORS ? target->blood : MT_BLOOD);
+    mobjinfo_t  *info = &mobjinfo[color];
 
     angle += ANG180;
 
@@ -1104,7 +1105,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 
         memset(th, 0, sizeof(*th));
 
-        th->type = blood;
+        th->type = color;
         th->info = info;
         th->x = x;
         th->y = y;

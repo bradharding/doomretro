@@ -111,6 +111,7 @@ void P_ResurrectPlayer(player_t *player);
 #define CARDNOTFOUNDYET         -1
 #define CARDNOTINMAP            0
 
+extern int                      blood;
 extern mobj_t                   *bloodsplats[MAXBLOODSPLATS_MAX];
 extern int                      totalbloodsplats;
 extern int                      maxbloodsplats;
