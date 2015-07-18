@@ -338,6 +338,7 @@ void RepositionWindow(int amount)
 
 static void FreeSurfaces(void)
 {
+    SDL_FreePalette(palette);
     SDL_FreeSurface(surface);
     SDL_FreeSurface(buffer);
     SDL_DestroyTexture(texture);
