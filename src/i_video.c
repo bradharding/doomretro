@@ -787,9 +787,7 @@ static char *getaspectratio(int width, int height)
 
 static void PositionOnCurrentDisplay(void)
 {
-    if (fullscreen)
-        SDL_SetWindowPosition(window, displays[displayindex].x, displays[displayindex].y);
-    else if (!windowx && !windowy)
+    if (!windowx && !windowy)
         SDL_SetWindowPosition(window,
             displays[displayindex].x + (displays[displayindex].w - windowwidth) / 2,
             displays[displayindex].y + (displays[displayindex].h - windowheight) / 2);
@@ -891,7 +889,8 @@ static void SetVideoMode(dboolean output)
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
 
-    PositionOnCurrentDisplay();
+    if (!fullscreen)
+        PositionOnCurrentDisplay();
 
     renderer = SDL_CreateRenderer(window, -1, flags);
 
