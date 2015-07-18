@@ -826,7 +826,8 @@ static void SetVideoMode(dboolean output)
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "nearest", SDL_HINT_OVERRIDE);
     }
 
-    SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
+    if (scaledriver[0])
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
     if (fullscreen)
     {
@@ -910,10 +911,6 @@ static void SetVideoMode(dboolean output)
             renderername = "OpenGL";
         else if (!strcasecmp(rendererinfo.name, "software"))
             renderername = "software";
-        else if (!strcasecmp(rendererinfo.name, "opengles"))
-            renderername = "OpenGL ES";
-        else if (!strcasecmp(rendererinfo.name, "opengles2"))
-            renderername = "OpenGL ES 2.0";
 
         if (!strcasecmp(scalefilter, "linear"))
             C_Output("Scaling screen using linear filtering in %s.", renderername);

@@ -281,7 +281,7 @@
 
 #define SAVEGAME_DEFAULT                        0
 
-#define SCALEDRIVER_DEFAULT                     "opengl"
+#define SCALEDRIVER_DEFAULT                     ""
 
 #define SCALEFILTER_DEFAULT                     "nearest"
 
