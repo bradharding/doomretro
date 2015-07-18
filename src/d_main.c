@@ -899,7 +899,7 @@ static int D_ChooseIWAD(void)
         // more than one file was selected
         else
         {
-            bool        isDOOM2 = false;
+            dboolean    isDOOM2 = false;
             dboolean    sharewareiwad = false;
 
 #if defined(WIN32)
@@ -1106,7 +1106,7 @@ static int D_ChooseIWAD(void)
                 // if an iwad has now been found, make a second pass through the pwads to merge them
                 if (iwadfound)
                 {
-                    bool     mapspresent = false;
+                    dboolean    mapspresent = false;
 #if defined(WIN32)
                     pwadpass2 += lstrlen(pwadpass2) + 1;
 

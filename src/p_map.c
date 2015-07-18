@@ -428,7 +428,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
 {
     fixed_t     blockdist;
     int         damage;
-    bool        unblocking = false;
+    dboolean    unblocking = false;
     int         flags = thing->flags;
     int         tmflags = tmthing->flags;
     fixed_t     dist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
