@@ -766,8 +766,6 @@ dboolean G_Responder(event_t *ev)
             mousebuttons[0] = mousebutton & MOUSE_LEFTBUTTON;
             mousebuttons[1] = mousebutton & MOUSE_RIGHTBUTTON;
             mousebuttons[2] = mousebutton & MOUSE_MIDDLEBUTTON;
-            mousebuttons[3] = mousebutton & MOUSE_WHEELUP;
-            mousebuttons[4] = mousebutton & MOUSE_WHEELDOWN;
             if (vibrate && mousebutton)
             {
                 vibrate = false;
