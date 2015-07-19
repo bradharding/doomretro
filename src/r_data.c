@@ -888,7 +888,9 @@ void R_InitSpriteLumps(void)
 
                 while (sproffsets[j].name[0])
                 {
-                    if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump)
+                    if (i == W_CheckNumForName(sproffsets[j].name) - firstspritelump
+                        && spritewidth[i] == (SHORT(sproffsets[j].width) << FRACBITS)
+                        && spriteheight[i] == (SHORT(sproffsets[j].height) << FRACBITS))
                     {
                         spriteoffset[i] = SHORT(sproffsets[j].x) << FRACBITS;
                         spritetopoffset[i] = SHORT(sproffsets[j].y) << FRACBITS;

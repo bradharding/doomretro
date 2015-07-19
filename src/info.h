@@ -1545,6 +1545,8 @@ typedef struct
     char        name[9];
     short       x;
     short       y;
+    short       width;
+    short       height;
     mobjtype_t  type;
 } offset_t;
 
