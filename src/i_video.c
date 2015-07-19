@@ -713,8 +713,10 @@ void SetWindowPositionVars(void)
 
     if (sscanf(windowposition, "%10i,%10i", &x, &y) == 2)
     {
-        windowx = x;
-        windowy = y;
+        windowx = BETWEEN(displays[displayindex].x, x,
+            displays[displayindex].x + displays[displayindex].w - 50);
+        windowy = BETWEEN(displays[displayindex].y, y,
+            displays[displayindex].y + displays[displayindex].h - 50);
     }
 }
 
