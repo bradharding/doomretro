@@ -630,7 +630,7 @@ void V_DrawTranslucentHUDNumberPatch(int x, int y, patch_t *patch, byte *tinttab
             {
                 byte    dot = *source++;
 
-                if (dot == 109 && tinttab)
+                if (dot == 109)
                     *dest = tinttab33[*dest];
                 else
                     *dest = tinttab[(dot << 8) + *dest];

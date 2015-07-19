@@ -520,7 +520,6 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     int         sound;
     int         weaponowned;
     int         ammo;
-    dboolean    ammogiven = false;
     static int  prevsound = 0;
     static int  prevtic = 0;
 

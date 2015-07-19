@@ -284,7 +284,7 @@ void M_SaveCVARs(void)
     for (i = 0; i < arrlen(cvars); i++)
     {
         // Print the name and line up all values at 30 characters
-        int     chars_written = fprintf(file, "%s ", cvars[i].name);
+        fprintf(file, "%s ", cvars[i].name);
 
         // Print the value
         switch (cvars[i].type)

@@ -567,7 +567,6 @@ void R_InitTextures(void)
 
     int                 *patchlookup;
 
-    int                 totalwidth;
     int                 nummappatches;
     int                 offset;
     int                 maxoff = 0;
@@ -721,8 +720,6 @@ void R_InitTextures(void)
     textureheight = Z_Malloc(numtextures * sizeof(*textureheight), PU_STATIC, 0);
     texturefullbright = Z_Malloc(numtextures * sizeof(*texturefullbright), PU_STATIC, 0);
 
-    totalwidth = 0;
-
     for (i = 0; i < numtextures; ++i, ++directory)
     {
         if (!i || i == texturelump->sumtextures)
@@ -788,8 +785,6 @@ void R_InitTextures(void)
 
         texturewidthmask[i] = j - 1;
         textureheight[i] = texture->height << FRACBITS;
-
-        totalwidth += texture->width;
 
         R_DoomTextureHacks(texture);
     }
@@ -1113,7 +1108,6 @@ int R_TextureNumForName(char *name)
 void R_PrecacheLevel(void)
 {
     byte        *hitlist;
-    int         size = MAX(numflats, numsprites);
     thinker_t   *th;
     int         i;
     int         j;

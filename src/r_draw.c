@@ -660,8 +660,6 @@ void R_DrawSkyColumn(void)
                 dest += SCREENWIDTH;
                 frac += fracstep;
                 *dest = colormap[source[(frac >> FRACBITS) & heightmask]];
-                dest += SCREENWIDTH;
-                frac += fracstep;
             }
         }
     }

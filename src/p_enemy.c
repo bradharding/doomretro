@@ -629,7 +629,6 @@ static void P_NewChaseDir(mobj_t *actor)
 
 static dboolean P_LookForMonsters(mobj_t *actor)
 {
-    mobj_t      *mo;
     thinker_t   *think;
 
     if (!P_CheckSight(players[0].mo, actor))
@@ -638,7 +637,8 @@ static dboolean P_LookForMonsters(mobj_t *actor)
     for (think = thinkerclasscap[th_mobj].cnext; think != &thinkerclasscap[th_mobj];
         think = think->cnext)
     {
-        mo = (mobj_t *)think;
+        mobj_t  *mo = (mobj_t *)think;
+
         if (!(mo->flags & MF_COUNTKILL) || mo == actor || mo->health <= 0)
             continue;           // not a valid monster
 

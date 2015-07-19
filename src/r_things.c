@@ -361,7 +361,6 @@ int64_t shift;
 
 static void R_DrawMaskedSpriteColumn(column_t *column)
 {
-    fixed_t     texturemid = dc_texturemid;
     byte        topdelta;
 
     while ((topdelta = column->topdelta) != 0xFF)
@@ -407,7 +406,6 @@ static void R_DrawMaskedSpriteColumn(column_t *column)
 
 static void R_DrawMaskedBloodSplatColumn(column_t *column)
 {
-    fixed_t     texturemid = dc_texturemid;
     byte        topdelta;
 
     while ((topdelta = column->topdelta) != 0xFF)
@@ -428,7 +426,6 @@ static void R_DrawMaskedBloodSplatColumn(column_t *column)
 
 static void R_DrawMaskedShadowColumn(column_t *column)
 {
-    fixed_t     texturemid = dc_texturemid;
     byte        topdelta;
 
     while ((topdelta = column->topdelta) != 0xFF)
@@ -911,7 +908,6 @@ void R_ProjectShadow(mobj_t *thing)
 
     fixed_t             gxt = FixedMul(tr_x, viewcos);
     fixed_t             gyt = -FixedMul(tr_y, viewsin);
-    fixed_t             gzt;
 
     fixed_t             tz = gxt - gyt;
 
@@ -969,8 +965,6 @@ void R_ProjectShadow(mobj_t *thing)
     // off the left side
     if (x2 < 0)
         return;
-
-    gzt = fz + spritetopoffset[lump];
 
     // store information in a vissprite
     vis = R_NewVisSprite(VST_SHADOW);

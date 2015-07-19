@@ -764,8 +764,6 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
 
 static dboolean C_BloodCondition(char *cmd, char *parm1, char *parm2)
 {
-    int value = 0;
-
     return (!parm1[0] || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
 }
 
