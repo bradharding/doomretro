@@ -913,9 +913,9 @@ static void SetVideoMode(dboolean output)
             renderername = "software";
 
         if (!strcasecmp(scalefilter, "linear"))
-            C_Output("Scaling screen using linear filtering in %s.", renderername);
+            C_Output("Scaling the screen using linear filtering in %s.", renderername);
         else
-            C_Output("Scaling screen using nearest-neighbor interpolation in %s.", renderername);
+            C_Output("Scaling the screen using nearest-neighbor interpolation in %s.", renderername);
 
         if (capfps)
             C_Output("The framerate is capped at %i FPS.", TICRATE);
@@ -942,7 +942,7 @@ static void SetVideoMode(dboolean output)
             }
         }
 
-        C_Output("Using 256-color palette from PLAYPAL lump in %s file %s.",
+        C_Output("Using the 256-color palette from the PLAYPAL lump in %s file %s.",
             (playpalwad->type == IWAD ? "IWAD" : "PWAD"), uppercase(playpalwad->path));
 
         if (gammaindex == 10)

@@ -564,9 +564,8 @@ static void M_CheckCVARs(void)
 
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
 
-    if (strcasecmp(scaledriver, "opengl") && strcasecmp(scaledriver, "direct3d")
-        && strcasecmp(scaledriver, "software") && strcasecmp(scaledriver, "opengles")
-        && strcasecmp(scaledriver, "opengles2"))
+    if (strcasecmp(scaledriver, "direct3d") && strcasecmp(scaledriver, "opengl")
+        && strcasecmp(scaledriver, "software"))
         scaledriver = SCALEDRIVER_DEFAULT;
 
     if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear"))

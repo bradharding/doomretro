@@ -156,8 +156,8 @@ byte    *gridcolor;
 #define PLAYERRADIUS            (16 * (1 << MAPBITS))
 
 // translates between frame-buffer and map distances
-#define FTOM(x)                 (fixed_t)(((int64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
-#define MTOF(x)                 (fixed_t)((((int64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
+#define FTOM(x)                 (fixed_t)(((uint64_t)((x) << FRACBITS) * scale_ftom) >> FRACBITS)
+#define MTOF(x)                 (fixed_t)((((uint64_t)(x) * scale_mtof) >> FRACBITS) >> FRACBITS)
 // translates between frame-buffer and map coordinates
 #define CXMTOF(x)               MTOF(x - m_x)
 #define CYMTOF(y)               (mapheight - MTOF(y - m_y))
