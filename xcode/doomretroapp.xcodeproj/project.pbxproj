@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8A6AB8171B49BE8100E0666A /* doomretro.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8A6AB8161B49BE8100E0666A /* doomretro.icns */; };
+		8A97F56C1B5BD909009FA1D9 /* d_loop.c in Sources */ = {isa = PBXBuildFile; fileRef = 8A97F56A1B5BD909009FA1D9 /* d_loop.c */; };
 		8AD637331B33390400605ECA /* p_genlin.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AD637321B3338E400605ECA /* p_genlin.c */; };
 		AB5A81D31A8DAEB600AF539F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D21A8DAEB600AF539F /* Cocoa.framework */; };
 		AB5A81D51A8DB00A00AF539F /* libSDL2_mixer.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5A81D41A8DB00A00AF539F /* libSDL2_mixer.dylib */; };
@@ -19,7 +20,6 @@
 		AB5A827D1A8DB9EB00AF539F /* d_items.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E41A8DB9EB00AF539F /* d_items.c */; };
 		AB5A827E1A8DB9EB00AF539F /* d_iwad.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E61A8DB9EB00AF539F /* d_iwad.c */; };
 		AB5A827F1A8DB9EB00AF539F /* d_main.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81E81A8DB9EB00AF539F /* d_main.c */; };
-		AB5A82801A8DB9EB00AF539F /* d_net.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81EA1A8DB9EB00AF539F /* d_net.c */; };
 		AB5A82811A8DB9EB00AF539F /* doomstat.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F21A8DB9EB00AF539F /* doomstat.c */; };
 		AB5A82821A8DB9EB00AF539F /* dstrings.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F51A8DB9EB00AF539F /* dstrings.c */; };
 		AB5A82831A8DB9EB00AF539F /* f_finale.c in Sources */ = {isa = PBXBuildFile; fileRef = AB5A81F71A8DB9EB00AF539F /* f_finale.c */; };
@@ -94,6 +94,8 @@
 
 /* Begin PBXFileReference section */
 		8A6AB8161B49BE8100E0666A /* doomretro.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = doomretro.icns; sourceTree = "<group>"; };
+		8A97F56A1B5BD909009FA1D9 /* d_loop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = d_loop.c; path = ../../src/d_loop.c; sourceTree = "<group>"; };
+		8A97F56B1B5BD909009FA1D9 /* d_loop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_loop.h; path = ../../src/d_loop.h; sourceTree = "<group>"; };
 		8AD637321B3338E400605ECA /* p_genlin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = p_genlin.c; path = ../../src/p_genlin.c; sourceTree = "<group>"; };
 		AB5A80C21A8DABE100AF539F /* doomretroapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = doomretroapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB5A80C61A8DABE100AF539F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,8 +118,6 @@
 		AB5A81E71A8DB9EB00AF539F /* d_iwad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_iwad.h; path = ../src/d_iwad.h; sourceTree = SOURCE_ROOT; };
 		AB5A81E81A8DB9EB00AF539F /* d_main.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = d_main.c; path = ../src/d_main.c; sourceTree = SOURCE_ROOT; };
 		AB5A81E91A8DB9EB00AF539F /* d_main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_main.h; path = ../src/d_main.h; sourceTree = SOURCE_ROOT; };
-		AB5A81EA1A8DB9EB00AF539F /* d_net.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = d_net.c; path = ../src/d_net.c; sourceTree = SOURCE_ROOT; };
-		AB5A81EB1A8DB9EB00AF539F /* d_net.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_net.h; path = ../src/d_net.h; sourceTree = SOURCE_ROOT; };
 		AB5A81EC1A8DB9EB00AF539F /* d_player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_player.h; path = ../src/d_player.h; sourceTree = SOURCE_ROOT; };
 		AB5A81ED1A8DB9EB00AF539F /* d_think.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_think.h; path = ../src/d_think.h; sourceTree = SOURCE_ROOT; };
 		AB5A81EE1A8DB9EB00AF539F /* d_ticcmd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = d_ticcmd.h; path = ../src/d_ticcmd.h; sourceTree = SOURCE_ROOT; };
@@ -319,10 +319,10 @@
 				AB5A81E51A8DB9EB00AF539F /* d_items.h */,
 				AB5A81E61A8DB9EB00AF539F /* d_iwad.c */,
 				AB5A81E71A8DB9EB00AF539F /* d_iwad.h */,
+				8A97F56A1B5BD909009FA1D9 /* d_loop.c */,
+				8A97F56B1B5BD909009FA1D9 /* d_loop.h */,
 				AB5A81E81A8DB9EB00AF539F /* d_main.c */,
 				AB5A81E91A8DB9EB00AF539F /* d_main.h */,
-				AB5A81EA1A8DB9EB00AF539F /* d_net.c */,
-				AB5A81EB1A8DB9EB00AF539F /* d_net.h */,
 				AB5A81EC1A8DB9EB00AF539F /* d_player.h */,
 				AB5A81ED1A8DB9EB00AF539F /* d_think.h */,
 				AB5A81EE1A8DB9EB00AF539F /* d_ticcmd.h */,
@@ -566,7 +566,6 @@
 				AB5A82C41A8DB9EB00AF539F /* w_file_win32.c in Sources */,
 				AB5A82C61A8DB9EB00AF539F /* w_merge.c in Sources */,
 				AB5A82B41A8DB9EB00AF539F /* r_bsp.c in Sources */,
-				AB5A82801A8DB9EB00AF539F /* d_net.c in Sources */,
 				AB5A82831A8DB9EB00AF539F /* f_finale.c in Sources */,
 				AB5A82821A8DB9EB00AF539F /* dstrings.c in Sources */,
 				AB5A82A41A8DB9EB00AF539F /* p_floor.c in Sources */,
@@ -581,6 +580,7 @@
 				AB5A82A61A8DB9EB00AF539F /* p_lights.c in Sources */,
 				AB5A82BA1A8DB9EB00AF539F /* r_sky.c in Sources */,
 				AB5A82901A8DB9EB00AF539F /* info.c in Sources */,
+				8A97F56C1B5BD909009FA1D9 /* d_loop.c in Sources */,
 				AB5A82AD1A8DB9EB00AF539F /* p_setup.c in Sources */,
 				AB5A82961A8DB9EB00AF539F /* m_menu.c in Sources */,
 				AB5A82B51A8DB9EB00AF539F /* r_data.c in Sources */,
