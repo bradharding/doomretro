@@ -831,8 +831,6 @@ static void SetVideoMode(dboolean output)
     if (scaledriver[0])
         SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
-    sscanf(windowsize, "%10ix%10i", &windowwidth, &windowheight);
-
     if (fullscreen)
     {
         if (!screenwidth && !screenheight)

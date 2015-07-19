@@ -647,6 +647,7 @@ void M_LoadCVARs(char *filename)
     {
         C_Output("%s not found. Using defaults for all CVARs and creating %s.",
             uppercase(filename), uppercase(PACKAGE_CONFIG));
+        M_CheckCVARs();
         return;
     }
 
