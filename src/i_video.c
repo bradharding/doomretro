@@ -831,6 +831,8 @@ static void SetVideoMode(dboolean output)
     if (scaledriver[0])
         SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
+    sscanf(windowsize, "%10ix%10i", &windowwidth, &windowheight);
+
     if (fullscreen)
     {
         if (!screenwidth && !screenheight)
@@ -1035,10 +1037,12 @@ void ToggleFullscreen(void)
     else
     {
         SDL_SetWindowFullscreen(window, SDL_FALSE);
-        SDL_SetWindowSize(window, windowwidth, windowheight);
         C_Input("vid_fullscreen off");
+        C_Output("%i,%i", windowwidth, windowheight);
+        SDL_SetWindowSize(window, windowwidth, windowheight);
 
-        SDL_GetWindowSize(window, &displaywidth, &displayheight);
+        displaywidth = windowwidth;
+        displayheight = windowheight;
         displaycenterx = displaywidth / 2;
         displaycentery = displayheight / 2;
 
