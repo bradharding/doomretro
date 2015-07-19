@@ -2363,11 +2363,10 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
     {
         windowposition = (!strcasecmp(parm1, "center") ? "" : strdup(parm1));
  
+        SetWindowPositionVars();
+
         if (!fullscreen)
-        {
-            SetWindowPositionVars();
             SDL_SetWindowPosition(window, windowx, windowy);
-        }
 
         M_SaveCVARs();
     }

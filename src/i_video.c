@@ -321,24 +321,6 @@ dboolean keystate(int key)
     return keystate[TranslateKey2(key)];
 }
 
-void RepositionWindow(int amount)
-{
-#if defined(WIN32)
-    SDL_SysWMinfo       info;
-
-    SDL_VERSION(&info.version);
-
-    if (SDL_GetWindowWMInfo(window, &info))
-    {
-        HWND    hwnd = info.info.win.window;
-        RECT    r;
-
-        GetWindowRect(hwnd, &r);
-        SetWindowPos(hwnd, NULL, r.left + amount, r.top, 0, 0, SWP_NOSIZE);
-    }
-#endif
-}
-
 static void FreeSurfaces(void)
 {
     SDL_FreePalette(palette);
@@ -550,8 +532,9 @@ static void I_GetEvent(void)
                         {
                             char        buffer[16] = "";
 
-                            M_snprintf(buffer, sizeof(buffer), "%i,%i",
-                                Event->window.data1, Event->window.data2);
+                            windowx = Event->window.data1;
+                            windowy = Event->window.data2;
+                            M_snprintf(buffer, sizeof(buffer), "%i,%i", windowx, windowy);
                             windowposition = strdup(buffer);
 
                             display = SDL_GetWindowDisplayIndex(window) + 1;
@@ -834,6 +817,8 @@ static void SetVideoMode(dboolean output)
     if (scaledriver[0])
         SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
+    SetWindowPositionVars();
+
     if (fullscreen)
     {
         if (!screenwidth && !screenheight)
@@ -872,8 +857,6 @@ static void SetVideoMode(dboolean output)
             M_SaveCVARs();
         }
 
-        SetWindowPositionVars();
-
         if (!windowx && !windowy)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -897,9 +880,6 @@ static void SetVideoMode(dboolean output)
     SDL_GetWindowSize(window, &displaywidth, &displayheight);
     displaycenterx = displaywidth / 2;
     displaycentery = displayheight / 2;
-
-    if (!fullscreen)
-        PositionOnCurrentDisplay();
 
     renderer = SDL_CreateRenderer(window, -1, flags);
 
@@ -1041,15 +1021,13 @@ void ToggleFullscreen(void)
     {
         SDL_SetWindowFullscreen(window, SDL_FALSE);
         C_Input("vid_fullscreen off");
-        C_Output("%i,%i", windowwidth, windowheight);
+
         SDL_SetWindowSize(window, windowwidth, windowheight);
 
         displaywidth = windowwidth;
         displayheight = windowheight;
         displaycenterx = displaywidth / 2;
         displaycentery = displayheight / 2;
-
-        SetWindowPositionVars();
 
         PositionOnCurrentDisplay();
     }
