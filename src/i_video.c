@@ -808,7 +808,7 @@ static void SetVideoMode(dboolean output)
     {
         if (output)
             C_Warning("Unable to find display %i.", display);
-        displayindex = DISPLAY_DEFAULT;
+        displayindex = DISPLAY_DEFAULT - 1;
     }
     if (output)
         C_Output("Using display %i of %i called \"%s\".",
