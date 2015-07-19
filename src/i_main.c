@@ -44,6 +44,9 @@
 #include "m_misc.h"
 #include "version.h"
 
+int     windowborderwidth = 0;
+int     windowborderheight = 0;
+
 #if defined(WIN32)
 #define WIN32_LEAN_AND_MEAN
 
@@ -148,12 +151,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     else if (msg == WM_GETMINMAXINFO)
     {
         LPMINMAXINFO    minmaxinfo = (LPMINMAXINFO)lParam;
-        int             addedborder = GetSystemMetrics(SM_CXPADDEDBORDER);
 
-        minmaxinfo->ptMinTrackSize.x = ORIGINALWIDTH
-            + (GetSystemMetrics(SM_CXFRAME) + addedborder) * 2;
-        minmaxinfo->ptMinTrackSize.y = ORIGINALWIDTH * 3 / 4
-            + (GetSystemMetrics(SM_CYFRAME) + addedborder) * 2 + GetSystemMetrics(SM_CYCAPTION);
+        minmaxinfo->ptMinTrackSize.x = ORIGINALWIDTH + windowborderwidth;
+        minmaxinfo->ptMinTrackSize.y = ORIGINALWIDTH * 3 / 4 + windowborderheight;
 
         return false;
     }
@@ -241,6 +241,10 @@ void I_InitWindows32(void)
     SetClassLongPtr(hwnd, GCLP_HICON, (LONG)icon);
 
     oldProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG)WndProc);
+
+    windowborderwidth = (GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2;
+    windowborderheight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER)) * 2
+        + GetSystemMetrics(SM_CYCAPTION);
 }
 
 void I_ShutdownWindows32(void)

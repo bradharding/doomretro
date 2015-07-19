@@ -169,6 +169,9 @@ dboolean                alwaysrun = ALWAYSRUN_DEFAULT;
 
 extern int              key_alwaysrun;
 
+extern int              windowborderwidth;
+extern int              windowborderheight;
+
 void ST_doRefresh(void);
 
 dboolean MouseShouldBeGrabbed(void)
@@ -864,7 +867,7 @@ static void SetVideoMode(dboolean output)
     {
         if (windowheight > displays[displayindex].h)
         {
-            windowheight = displays[displayindex].h;
+            windowheight = displays[displayindex].h - windowborderheight;
             windowwidth = windowheight * 4 / 3;
             M_SaveCVARs();
         }
@@ -874,14 +877,16 @@ static void SetVideoMode(dboolean output)
         if (!windowx && !windowy)
         {
             window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                windowwidth, windowheight, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
+                windowwidth + windowborderwidth, windowheight + windowborderheight,
+                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
                 C_Output("Created a resizable window with dimensions %ix%i and centered.",
                     windowwidth, windowheight);
         }
         else
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
+            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy,
+                windowwidth + windowborderwidth, windowheight + windowborderheight,
                 (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
                 C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
