@@ -515,19 +515,6 @@ void M_DarkBackground(void)
         blurscreen(1, 0, SCREENWIDTH, height - SCREENWIDTH, SCREENWIDTH - 1);
         blurscreen(0, SCREENWIDTH, SCREENWIDTH - 1, height, -(SCREENWIDTH - 1));
 
-        if (fullscreen && !widescreen)
-        {
-            int j;
-
-            for (i = 0, j = SCREENWIDTH - 1; i < height; i += SCREENWIDTH, j += SCREENWIDTH)
-            {
-                blurredscreen[i] = tinttab50[blurredscreen[i]];
-                blurredscreen[i + 1] = tinttab50[blurredscreen[i] + (blurredscreen[i + 1] << 8)];
-                blurredscreen[j] = tinttab50[blurredscreen[j]];
-                blurredscreen[j - 1] = tinttab50[blurredscreen[j] + (blurredscreen[j - 1] << 8)];
-            }
-        }
-
         blurred = true;
     }
 
