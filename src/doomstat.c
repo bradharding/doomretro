@@ -58,7 +58,6 @@ dboolean        BTSXE2B = false;
 dboolean        BTSXE3 = false;
 dboolean        BTSXE3A = false;
 dboolean        BTSXE3B = false;
-dboolean        valiant = false;
 
 // Set if homebrew PWAD stuff has been added.
 dboolean        modifiedgame;
