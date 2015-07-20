@@ -2004,7 +2004,13 @@ static void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        if ((!strcasecmp(parm1, "direct3d") || !strcasecmp(parm1, "opengl")
+        if (!strcasecmp(parm1, EMPTYVALUE))
+        {
+            scaledriver = "";
+            M_SaveCVARs();
+            I_RestartGraphics();
+        }
+        else if ((!strcasecmp(parm1, "direct3d") || !strcasecmp(parm1, "opengl")
             || !strcasecmp(parm1, "software")) && strcasecmp(parm1, scaledriver))
         {
             scaledriver = strdup(parm1);
@@ -2218,7 +2224,12 @@ static void C_Str(char *cmd, char *parm1, char *parm2)
         if (!strcasecmp(cmd, consolecmds[i].name) && consolecmds[i].type == CT_CVAR
             && (consolecmds[i].flags & CF_STRING))
         {
-            if (parm1[0])
+            if (!strcasecmp(parm1, EMPTYVALUE))
+            {
+                *(char **)consolecmds[i].variable = "";
+                M_SaveCVARs();
+            }
+            else if (parm1[0])
             {
                 *(char **)consolecmds[i].variable = strdup(parm1);
                 M_SaveCVARs();

@@ -428,7 +428,7 @@ void C_StripQuotes(char *string)
 {
     size_t len = strlen(string);
 
-    if (len >= 2 && ((string[0] == '\"' && string[len - 1] == '\"')
+    if (len > 2 && ((string[0] == '\"' && string[len - 1] == '\"')
         || (string[0] == '\'' && string[len - 1] == '\'')))
     {
         len -= 2;

@@ -49,6 +49,8 @@
 #define DIVIDERSTRING   "======================================" \
                         "====================================="
 
+#define EMPTYVALUE      "\"\""
+
 typedef enum
 {
     input,
