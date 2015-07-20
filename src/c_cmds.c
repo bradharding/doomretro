@@ -1746,6 +1746,19 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
             C_TabbedOutput(tabs, "Author\t%s", authors[gameepisode * 10 + gamemap][gamemode]);
     }
 
+    {
+        static char     lumpname[6];
+        int             i;
+
+        if (gamemode == commercial)
+            M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
+        else
+            M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
+        i = W_CheckNumForName(lumpname);
+        C_TabbedOutput(tabs, "%s\t%s", (lumpinfo[i].wad_file->type == IWAD ? "IWAD" : "PWAD"),
+            uppercase(lumpinfo[i].wad_file->path));
+    }
+
     C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :
         (mapformat == DEEPBSP ? "DeePBSP v4 extended nodes" :
         "ZDoom uncompressed extended nodes")));
