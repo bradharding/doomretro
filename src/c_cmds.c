@@ -767,7 +767,7 @@ static dboolean C_BloodCondition(char *cmd, char *parm1, char *parm2)
     return (!parm1[0] || C_LookupValueFromAlias(parm1, BLOODALIAS) >= 0);
 }
 
-void(*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
 static void C_Blood(char *cmd, char *parm1, char *parm2)
 {

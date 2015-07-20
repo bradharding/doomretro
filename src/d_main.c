@@ -1213,7 +1213,7 @@ static int D_ChooseIWAD(void)
 }
 #endif
 
-void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
 dboolean CheckPackageWADVersion(void);
 
@@ -1223,7 +1223,7 @@ static void D_ProcessDehCommandLine(void)
 
     if (p || (p = M_CheckParm("-bex")))
     {
-        dboolean deh = true;
+        dboolean        deh = true;
 
         while (++p < myargc)
             if (*myargv[p] == '-')

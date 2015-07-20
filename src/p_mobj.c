@@ -59,7 +59,7 @@ int                     blood = BLOOD_DEFAULT;
 int                     maxbloodsplats = MAXBLOODSPLATS_DEFAULT;
 mobj_t                  *bloodsplats[MAXBLOODSPLATS_MAX];
 int                     totalbloodsplats;
-void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
+void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
 dboolean                corpses_mirror = CORPSES_MIRROR_DEFAULT;
 dboolean                corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
@@ -315,24 +315,27 @@ void P_XYMovement(mobj_t *mo)
     if (corpse && !(flags & MF_NOBLOOD) && corpses_slide && corpses_smearblood
         && (mo->momx || mo->momy) && mo->bloodsplats && maxbloodsplats)
     {
-        int     i;
-        int     max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
         int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS)
                     >> 1;
+        int     i;
+        int     max = MIN((ABS(mo->momx) + ABS(mo->momy)) >> (FRACBITS - 2), 8);
+        int     x = mo->x;
+        int     y = mo->y;
         int     blood = mobjinfo[mo->blood].blood;
+        int     floorz = mo->floorz;
 
         for (i = 0; i < max; i++)
         {
-            int x, y;
+            int fx, fy;
 
-            if (!--mo->bloodsplats)
+            if (!mo->bloodsplats)
                 break;
 
-            x = mo->x + (M_RandomInt(-radius, radius) << FRACBITS);
-            y = mo->y + (M_RandomInt(-radius, radius) << FRACBITS);
+            fx = x + (M_RandomInt(-radius, radius) << FRACBITS);
+            fy = y + (M_RandomInt(-radius, radius) << FRACBITS);
 
-            if (mo->floorz == R_PointInSubsector(x, y)->sector->floorheight)
-                P_BloodSplatSpawner(x, y, blood, mo->floorz);
+            if (floorz == R_PointInSubsector(x, y)->sector->floorheight)
+                P_BloodSplatSpawner(fx, fy, blood, floorz, mo);
         }
     }
 
@@ -433,7 +436,7 @@ void P_ZMovement(mobj_t *mo)
             P_RemoveMobj(mo);
             if (maxbloodsplats)
                 P_BloodSplatSpawner(mo->x + (M_RandomInt(-5, 5) << FRACBITS),
-                    mo->y + (M_RandomInt(-5, 5) << FRACBITS), mo->blood, mo->floorz);
+                    mo->y + (M_RandomInt(-5, 5) << FRACBITS), mo->blood, mo->floorz, NULL);
             return;
         }
 
@@ -898,28 +901,30 @@ void P_SpawnMoreBlood(mobj_t *mobj)
             + 12;
     int i;
     int max = M_RandomInt(50, 100) + radius;
-    int shiftx = 0;
-    int shifty = 0;
+    int x = mobj->x;
+    int y = mobj->y;
     int blood = mobjinfo[mobj->blood].blood;
+    int floorz = mobj->floorz;
 
     if (!(mobj->flags & MF_SPAWNCEILING))
     {
-        shiftx = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
-        shifty = M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+        x += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
+        y += M_RandomInt(-radius / 3, radius / 3) << FRACBITS;
     }
 
     for (i = 0; i < max; i++)
     {
-        int     angle = M_RandomInt(0, FINEANGLES - 1);
-        int     x = mobj->x + shiftx
-                    + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
-        int     y = mobj->y + shifty
-                    + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+        int     angle;
+        int     fx, fy;
 
-        if (!--mobj->bloodsplats)
+        if (!mobj->bloodsplats)
             break;
 
-        P_BloodSplatSpawner(x, y, blood, mobj->floorz);
+        angle = M_RandomInt(0, FINEANGLES - 1);
+        fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
+        fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
+
+        P_BloodSplatSpawner(fx, fy, blood, floorz, mobj);
     }
 }
 
@@ -1150,7 +1155,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
 //
 // P_SpawnBloodSplat
 //
-void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
+void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target)
 {
     subsector_t *subsec = R_PointInSubsector(x, y);
     sector_t    *sec = subsec->sector;
@@ -1183,10 +1188,13 @@ void P_SpawnBloodSplat(fixed_t x, fixed_t y, int blood, int maxheight)
         P_SetBloodSplatPosition(newsplat);
 
         ++totalbloodsplats;
+
+        if (target)
+            target->bloodsplats--;
     }
 }
 
-void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
+void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target)
 {
     subsector_t *subsec = R_PointInSubsector(x, y);
     sector_t    *sec = subsec->sector;
@@ -1227,12 +1235,13 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight)
         }
 
         bloodsplats[totalbloodsplats++ % maxbloodsplats] = newsplat;
+
+        if (target)
+            target->bloodsplats--;
     }
 }
 
-void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int blood, int maxheight)
-{
-}
+void P_NullBloodSplatSpawner(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *target) {}
 
 //
 // P_SpawnShadow

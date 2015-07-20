@@ -1874,7 +1874,7 @@ static dboolean crushchange;
 static dboolean nofit;
 static dboolean isliquidsector;
 
-void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int);
+void (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
 //
 // PIT_ChangeSector
@@ -1912,17 +1912,18 @@ dboolean PIT_ChangeSector(mobj_t *thing)
                          >> FRACBITS) >> 1) + 12;
             int i;
             int max = M_RandomInt(50, 100) + radius;
+            int x = thing->x;
+            int y = thing->y;
             int blood = mobjinfo[thing->blood].blood;
+            int floorz = thing->floorz;
 
             for (i = 0; i < max; i++)
             {
                 int     angle = M_RandomInt(0, FINEANGLES - 1);
-                int     x = thing->x + FixedMul(M_RandomInt(0, radius) << FRACBITS,
-                            finecosine[angle]);
-                int     y = thing->y + FixedMul(M_RandomInt(0, radius) << FRACBITS,
-                            finesine[angle]);
+                int     fx = x + FixedMul(M_RandomInt(0, radius) << FRACBITS, finecosine[angle]);
+                int     fy = y + FixedMul(M_RandomInt(0, radius) << FRACBITS, finesine[angle]);
 
-                P_BloodSplatSpawner(x, y, blood, thing->floorz);
+                P_BloodSplatSpawner(fx, fy, blood, floorz, NULL);
             }
         }
 
