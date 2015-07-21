@@ -531,13 +531,13 @@ consolecmd_t consolecmds[] =
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbinds an action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, display, NOALIAS, DISPLAY, "The display used to render the game."),
+#if !defined(WIN32)
+    CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
+#endif
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggles between fullscreen and a window."),
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver used to scale the display."),
     CVAR_STR  (vid_scalefilter, C_NoCondition, C_ScaleFilter, scalefilter, "The filter used to scale the display."),
     CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
-#if !defined(WIN32)
-    CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
-#endif
     CVAR_BOOL (vid_showfps, C_BoolCondition, C_ShowFPS, vid_showfps, NONE, "Toggles the display of the average frames per second."),
     CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggles vertical synchronization with display's refresh rate."),
     CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Widescreen, widescreen, WIDESCREEN, "Toggles widescreen mode."),

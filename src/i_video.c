@@ -122,8 +122,10 @@ dboolean                window_focused;
 // Empty mouse cursor
 static SDL_Cursor       *cursors[2];
 
+#if !defined(WIN32)
 char                    *videodriver = VIDEODRIVER_DEFAULT;
 char                    envstring[255];
+#endif
 
 dboolean                keys[UCHAR_MAX];
 
@@ -1113,25 +1115,16 @@ void I_InitGraphics(void)
 
     I_InitGammaTables();
 
+#if !defined(WIN32)
     if (videodriver && strlen(videodriver) > 0)
     {
         M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
         putenv(envstring);
     }
+#endif
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-    {
-#if defined(WIN32)
-        if (strcasecmp(videodriver, "windows"))
-            M_StringCopy(videodriver, "windows", 8);
-        M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
-        putenv(envstring);
-        M_SaveCVARs();
-
-        if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-#endif
             I_Error("I_InitGraphics: %s", SDL_GetError());
-    }
 
     CreateCursors();
     SDL_SetCursor(cursors[0]);

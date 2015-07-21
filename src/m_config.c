@@ -206,14 +206,14 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (skilllevel,              selectedskilllevel,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,              capfps,                       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,             display,                      NOALIAS    ),
+#if !defined(WIN32)
+    CONFIG_VARIABLE_STRING       (vid_driver,              videodriver,                  NOALIAS    ),
+#endif
     CONFIG_VARIABLE_INT          (vid_fullscreen,          fullscreen,                   BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_scaledriver,         scaledriver,                  NOALIAS    ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,         scalefilter,                  NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_screenheight,        screenheight,                 SCREENALIAS),
     CONFIG_VARIABLE_INT          (vid_screenwidth,         screenwidth,                  SCREENALIAS),
-#if !defined(WIN32)
-    CONFIG_VARIABLE_STRING       (vid_videodriver,         videodriver,                  NOALIAS    ),
-#endif
     CONFIG_VARIABLE_INT          (vid_vsync,               vsync,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_widescreen,          widescreen,                   BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_windowposition,      windowposition,               NOALIAS    ),

@@ -319,9 +319,7 @@
 
 #define TRANSLUCENCY_DEFAULT                    true
 
-#if defined(WIN32)
-#define VIDEODRIVER_DEFAULT                     "windows"
-#else
+#if !defined(WIN32)
 #define VIDEODRIVER_DEFAULT                     ""
 #endif
 
