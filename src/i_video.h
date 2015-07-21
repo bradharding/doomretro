@@ -61,10 +61,10 @@ void I_InitKeyboard(void);
 // and sets up the video mode
 void I_InitGraphics(void);
 void I_RestartGraphics(void);
-
 void I_ShutdownGraphics(void);
-void I_SaveWindowPosition(void);
-void SetWindowPositionVars(void);
+
+void GetWindowPosition(void);
+void GetWindowSize(void);
 
 void I_ShutdownKeyboard(void);
 
@@ -115,5 +115,7 @@ extern dboolean wipe;
 
 extern int      windowx;
 extern int      windowy;
+extern int      windowheight;
+extern int      windowwidth;
 
 #endif

@@ -213,10 +213,8 @@ extern char     *videodriver;
 #endif
 extern dboolean vsync;
 extern dboolean widescreen;
-extern int      windowheight;
 extern char     *windowposition;
 extern char     *windowsize;
-extern int      windowwidth;
 
 control_t controls[] =
 {
@@ -2387,12 +2385,12 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
     {
         windowposition = (!strcasecmp(parm1, "center") ? "" : strdup(parm1));
  
-        SetWindowPositionVars();
+        GetWindowPosition();
+
+        M_SaveCVARs();
 
         if (!fullscreen)
             SDL_SetWindowPosition(window, windowx, windowy);
-
-        M_SaveCVARs();
     }
     else if (!windowposition[0])
         C_Output("center");
@@ -2404,28 +2402,14 @@ static void C_WindowSize(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     width = -1;
-        int     height = -1;
-        char    *left = strtok(parm1, "x");
-        char    *right = strtok(NULL, "x");
+        windowsize = strdup(parm1);
 
-        sscanf(left, "%10i", &width);
-        sscanf(right, "%10i", &height);
+        GetWindowSize();
 
-        if (width >= 0 && height >= 0)
-        {
-            char        buffer[16] = "";
+        M_SaveCVARs();
 
-            windowwidth = width;
-            windowheight = height;
-            M_SaveCVARs();
-
-            if (!fullscreen)
-                SDL_SetWindowSize(window, windowwidth, windowheight);
-
-            M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
-            windowsize = strdup(buffer);
-        }
+        if (!fullscreen)
+            SDL_SetWindowSize(window, windowwidth, windowheight);
     }
     else
         C_Output(windowsize);

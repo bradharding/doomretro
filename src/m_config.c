@@ -127,9 +127,8 @@ extern char     *videodriver;
 #endif
 extern dboolean vsync;
 extern dboolean widescreen;
-extern int      windowheight;
 extern char     *windowposition;
-extern int      windowwidth;
+extern char     *windowsize;
 
 extern dboolean returntowidescreen;
 
@@ -217,8 +216,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (vid_vsync,               vsync,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_widescreen,          widescreen,                   BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_windowposition,      windowposition,               NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_windowheight,        windowheight,                 NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_windowwidth,         windowwidth,                  NOALIAS    )
+    CONFIG_VARIABLE_STRING       (vid_windowsize,          windowsize,                   NOALIAS    )
 };
 
 alias_t aliases[] =
@@ -679,8 +677,8 @@ void M_LoadCVARs(char *filename)
             switch (cvars[i].type)
             {
                 case DEFAULT_STRING:
-                    s = strdup(strparm);
-                    C_StripQuotes(s);
+                    s = strdup(strparm + 1);
+                    s[strlen(s) - 1] = '\0';
                     *(char **)cvars[i].location = s;
                     break;
 

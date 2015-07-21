@@ -517,10 +517,9 @@ static void I_GetEvent(void)
 
                             windowwidth = Event->window.data1;
                             windowheight = Event->window.data2;
-                            M_SaveCVARs();
-
                             M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
                             windowsize = strdup(buffer);
+                            M_SaveCVARs();
 
                             displaywidth = windowwidth;
                             displayheight = windowheight;
@@ -683,16 +682,56 @@ static void CreateCursors(void)
     cursors[0] = SDL_CreateCursor(&empty_cursor_data, &empty_cursor_data, 1, 1, 0, 0);
 }
 
-void SetWindowPositionVars(void)
+void GetWindowPosition(void)
 {
     int x = 0, y = 0;
 
-    if (sscanf(windowposition, "%10i,%10i", &x, &y) == 2)
+    if (!sscanf(windowposition, "%10i,%10i", &x, &y))
+    {
+        windowx = 0;
+        windowy = 0;
+        windowposition = "";
+
+        M_SaveCVARs();
+    }
+    else
     {
         windowx = BETWEEN(displays[displayindex].x, x,
             displays[displayindex].x + displays[displayindex].w - 50);
         windowy = BETWEEN(displays[displayindex].y, y,
             displays[displayindex].y + displays[displayindex].h - 50);
+    }
+}
+
+void GetWindowSize(void)
+{
+    int     width = -1;
+    int     height = -1;
+    char    *left = strtok(strdup(windowsize), "x");
+    char    *right = strtok(NULL, "x");
+
+    if (!right)
+        right = "";
+
+    sscanf(left, "%10i", &width);
+    sscanf(right, "%10i", &height);
+
+    if (width < ORIGINALWIDTH + windowborderwidth
+        || height < ORIGINALWIDTH * 3 / 4 + windowborderheight)
+    {
+        char    buffer[16] = "";
+
+        windowwidth = ORIGINALWIDTH + windowborderwidth;
+        windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight;
+        M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
+        windowsize = strdup(buffer);
+
+        M_SaveCVARs();
+    }
+    else
+    {
+        windowwidth = width;
+        windowheight = height;
     }
 }
 
@@ -807,7 +846,8 @@ static void SetVideoMode(dboolean output)
     if (scaledriver[0])
         SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
 
-    SetWindowPositionVars();
+    GetWindowPosition();
+    GetWindowSize();
 
     if (fullscreen)
     {

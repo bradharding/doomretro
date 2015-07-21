@@ -329,14 +329,6 @@
 
 #define WINDOWPOSITION_DEFAULT                  ""
 
-#define WINDOWWIDTH_MIN                         ORIGINALWIDTH
-#define WINDOWWIDTH_DEFAULT                     SCREENWIDTH
-#define WINDOWWIDTH_MAX                         INT_MAX
-
-#define WINDOWHEIGHT_MIN                        (ORIGINALWIDTH * 3 / 4)
-#define WINDOWHEIGHT_DEFAULT                    (SCREENWIDTH * 3 / 4)
-#define WINDOWHEIGHT_MAX                        INT_MAX
-
 #define WINDOWSIZE_DEFAULT                      "640x480"
 
 typedef enum

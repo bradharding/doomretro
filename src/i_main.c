@@ -113,8 +113,8 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
     return (bEatKeystroke ? 1 : CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam));
 }
 
-WNDPROC                 oldProc;
-HICON                   icon;
+WNDPROC oldProc;
+HICON   icon;
 
 dboolean MouseShouldBeGrabbed(void);
 void I_InitGamepad(void);
