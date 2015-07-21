@@ -671,6 +671,8 @@ void M_LoadCVARs(char *filename)
         // Find the setting in the list
         for (i = 0; i < arrlen(cvars); ++i)
         {
+            char        *s;
+
             if (strcasecmp(defname, cvars[i].name))
                 continue;       // not this one
 
@@ -678,8 +680,9 @@ void M_LoadCVARs(char *filename)
             switch (cvars[i].type)
             {
                 case DEFAULT_STRING:
-                    C_StripQuotes(strparm);
-                    *(char **)cvars[i].location = strparm;
+                    s = strdup(strparm);
+                    C_StripQuotes(s);
+                    *(char **)cvars[i].location = s;
                     break;
 
                 case DEFAULT_INT:
@@ -687,9 +690,10 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_INT_PERCENT:
-                    if (strlen(strparm) >= 1 && strparm[strlen(strparm) - 1] == '%')
-                        strparm[strlen(strparm) - 1] = '\0';
-                    *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].set);
+                    s = strdup(strparm);
+                    if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
+                        s[strlen(s) - 1] = '\0';
+                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].set);
                     break;
 
                 case DEFAULT_FLOAT:
@@ -697,9 +701,10 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
-                    if (strlen(strparm) >= 1 && strparm[strlen(strparm) - 1] == '%')
-                        strparm[strlen(strparm) - 1] = '\0';
-                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].set);
+                    s = strdup(s);
+                    if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
+                        s[strlen(s) - 1] = '\0';
+                    *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].set);
                     break;
             }
 
