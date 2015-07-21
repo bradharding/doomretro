@@ -1179,10 +1179,10 @@ void V_Init(void)
 char                    lbmname[MAX_PATH];
 char                    lbmpath[MAX_PATH];
 
-extern dboolean        widescreen;
-extern dboolean        inhelpscreens;
+extern dboolean         vid_widescreen;
+extern dboolean         inhelpscreens;
 extern char             maptitle[128];
-extern dboolean        splashscreen;
+extern dboolean         splashscreen;
 extern int              titlesequence;
 
 extern SDL_Window       *window;

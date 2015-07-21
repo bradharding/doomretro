@@ -259,9 +259,9 @@ dboolean R_DoorClosed(void)
 // [AM] Interpolate the passed sector, if prudent.
 void R_MaybeInterpolateSector(sector_t* sector)
 {
-    if (!capfps &&
+    if (!vid_capfps
         // Only if we moved the sector last tic.
-        sector->oldgametic == gametic - 1)
+        && sector->oldgametic == gametic - 1)
     {
         // Interpolate between current and last floor/ceiling position.
         if (sector->floorheight != sector->oldfloorheight)

@@ -50,7 +50,7 @@
 // Calculate # of glyphs in font.
 #define HU_FONTSIZE                     (HU_FONTEND - HU_FONTSTART + 1)
 
-#define HU_MSGX                         (automapactive && fullscreen && !widescreen ? 0 : 3)
+#define HU_MSGX                         (automapactive && vid_fullscreen && !vid_widescreen ? 0 : 3)
 #define HU_MSGY                         2
 #define HU_MSGHEIGHT                    1       // in lines
 
@@ -98,6 +98,6 @@ extern int      healthhighlight;
 extern int      ammohighlight;
 extern int      armorhighlight;
 extern char     automaptitle[133];
-extern dboolean fullscreen;
+extern dboolean vid_fullscreen;
 
 #endif

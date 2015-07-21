@@ -93,7 +93,7 @@ extern cheatseq_t       cheat_clev_xy;
 extern cheatseq_t       cheat_mypos;
 extern cheatseq_t       cheat_amap;
 
-extern dboolean         widescreen;
+extern dboolean         vid_widescreen;
 extern dboolean         returntowidescreen;
 
 extern patch_t          *grnrock;

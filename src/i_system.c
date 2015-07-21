@@ -69,7 +69,7 @@ void I_ShutdownWindows32(void);
 #include "w_wad.h"
 #include "z_zone.h"
 
-extern dboolean widescreen;
+extern dboolean vid_widescreen;
 extern dboolean hud;
 extern dboolean returntowidescreen;
 
@@ -231,7 +231,7 @@ void I_Quit(dboolean shutdown)
         S_Shutdown();
 
         if (returntowidescreen)
-            widescreen = true;
+            vid_widescreen = true;
 
         M_SaveCVARs();
 
@@ -277,7 +277,9 @@ void I_Error(char *error, ...)
     S_Shutdown();
 
     if (returntowidescreen)
-        widescreen = true;
+        vid_widescreen = true;
+
+    M_SaveCVARs();
 
     I_ShutdownGraphics();
 

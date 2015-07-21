@@ -193,7 +193,7 @@ void TryRunTics(void)
     else
         counts = availabletics;
 
-    if (!counts && !capfps)
+    if (!counts && !vid_capfps)
         return;
 
     if (counts < 1)

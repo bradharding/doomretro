@@ -50,8 +50,6 @@
 
 #define BRIGHTMAPS_DEFAULT                      true
 
-#define CAPFPS_DEFAULT                          false
-
 #define CENTERWEAPON_DEFAULT                    true
 
 #define CORPSES_MIRROR_DEFAULT                  true
@@ -66,10 +64,6 @@
 
 #define DCLICKUSE_DEFAULT                       false
 
-#define DISPLAY_MIN                             1
-#define DISPLAY_DEFAULT                         1
-#define DISPLAY_MAX                             INT_MAX
-
 #define EPISODE_MIN                             0
 #define EPISODE_DEFAULT                         0
 #define EPISODE_MAX                             3
@@ -81,8 +75,6 @@
 #define FLOATBOB_DEFAULT                        true
 
 #define FOOTCLIP_DEFAULT                        true
-
-#define FULLSCREEN_DEFAULT                      true
 
 #define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
 
@@ -281,10 +273,6 @@
 
 #define SAVEGAME_DEFAULT                        0
 
-#define SCALEDRIVER_DEFAULT                     ""
-
-#define SCALEFILTER_DEFAULT                     "nearest"
-
 #define SCREENSIZE_MIN                          0
 #define SCREENSIZE_DEFAULT                      7
 #define SCREENSIZE_MAX                          8
@@ -296,8 +284,6 @@
 #define SCREENHEIGHT_MIN                        0
 #define SCREENHEIGHT_DEFAULT                    0
 #define SCREENHEIGHT_MAX                        INT_MAX
-
-#define SCREENRESOLUTION_DEFAULT                "desktop"
 
 #define SFXVOLUME_MIN                           0
 #define SFXVOLUME_DEFAULT                       100
@@ -319,17 +305,31 @@
 
 #define TRANSLUCENCY_DEFAULT                    true
 
+#define VID_CAPFPS_DEFAULT                      false
+
+#define VID_DISPLAY_MIN                         1
+#define VID_DISPLAY_DEFAULT                     1
+#define VID_DISPLAY_MAX                         INT_MAX
+
 #if !defined(WIN32)
-#define VIDEODRIVER_DEFAULT                     ""
+#define VID_DRIVER_DEFAULT                      ""
 #endif
 
-#define VSYNC_DEFAULT                           false
+#define VID_FULLSCREEN_DEFAULT                  true
 
-#define WIDESCREEN_DEFAULT                      false
+#define VID_SCALEDRIVER_DEFAULT                 ""
 
-#define WINDOWPOSITION_DEFAULT                  ""
+#define VID_SCALEFILTER_DEFAULT                 "nearest"
 
-#define WINDOWSIZE_DEFAULT                      "640x480"
+#define VID_SCREENRESOLUTION_DEFAULT            "desktop"
+
+#define VID_VSYNC_DEFAULT                       false
+
+#define VID_WIDESCREEN_DEFAULT                  false
+
+#define VID_WINDOWPOSITION_DEFAULT              ""
+
+#define VID_WINDOWSIZE_DEFAULT                  "640x480"
 
 typedef enum
 {

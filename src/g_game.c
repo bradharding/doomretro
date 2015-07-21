@@ -626,7 +626,7 @@ void G_DoLoadLevel(void)
     if (automapactive)
         AM_Start();
 
-    if (widescreen || returntowidescreen)
+    if (vid_widescreen || returntowidescreen)
         ToggleWidescreen(true);
 }
 
@@ -1243,7 +1243,7 @@ void G_DoCompleted(void)
     // [BH] allow the exit switch to turn on before the screen wipes
     R_RenderPlayerView(&players[0]);
 
-    if (widescreen)
+    if (vid_widescreen)
     {
         ToggleWidescreen(false);
         returntowidescreen = true;
@@ -1511,7 +1511,7 @@ void G_DoLoadGame(void)
     if (setsizeneeded)
         R_ExecuteSetViewSize();
 
-    if (widescreen)
+    if (vid_widescreen)
         ToggleWidescreen(true);
 
     // draw the pattern into the back screen
@@ -1650,7 +1650,7 @@ void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 
 void G_DoNewGame(void)
 {
-    if (widescreen)
+    if (vid_widescreen)
         ToggleWidescreen(true);
 
     st_facecount = ST_STRAIGHTFACECOUNT;

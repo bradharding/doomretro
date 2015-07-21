@@ -70,7 +70,7 @@ dboolean wipe_initMelt(void)
 {
     int i;
 
-    speed = (SCREENHEIGHT - (SBARHEIGHT * widescreen)) / 16;
+    speed = (SCREENHEIGHT - (SBARHEIGHT * vid_widescreen)) / 16;
 
     // copy start screen to main screen
     memcpy(wipe_scr, wipe_scr_start, SCREENWIDTH * SCREENHEIGHT);

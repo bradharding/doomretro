@@ -90,7 +90,6 @@ extern dboolean am_rotatemode;
 extern dboolean animatedliquid;
 extern int      blood;
 extern dboolean brightmaps;
-extern dboolean capfps;
 extern dboolean centerweapon;
 extern char     *configfile;
 extern dboolean corpses_mirror;
@@ -99,12 +98,10 @@ extern dboolean corpses_nudge;
 extern dboolean corpses_slide;
 extern dboolean corpses_smearblood;
 extern dboolean dclick_use;
-extern int      display;
 extern int      episode;
 extern int      expansion;
 extern dboolean floatbob;
 extern dboolean footclip;
-extern dboolean fullscreen;
 extern int      gamepadautomap;
 extern int      gamepadautomapclearmark;
 extern int      gamepadautomapfollowmode;
@@ -195,10 +192,7 @@ extern dboolean playersprites;
 extern dboolean randompitch;
 extern int      runcount;
 extern char     *savegamefolder;
-extern char     *scaledriver;
-extern char     *scalefilter;
 extern int      screenheight;
-extern char     *screenresolution;
 extern int      screenwidth;
 extern int      selectedsavegame;
 extern dboolean shadows;
@@ -208,13 +202,19 @@ extern dboolean spritefixes;
 extern dboolean swirlingliquid;
 extern char     *timidity_cfg_path;
 extern dboolean translucency;
+extern dboolean vid_capfps;
+extern int      vid_display;
 #if !defined(WIN32)
-extern char     *videodriver;
+extern char     *vid_driver;
 #endif
-extern dboolean vsync;
-extern dboolean widescreen;
-extern char     *windowposition;
-extern char     *windowsize;
+extern dboolean vid_fullscreen;
+extern char     *vid_scaledriver;
+extern char     *vid_scalefilter;
+extern char     *vid_screenresolution;
+extern dboolean vid_vsync;
+extern dboolean vid_widescreen;
+extern char     *vid_windowposition;
+extern char     *vid_windowsize;
 
 control_t controls[] =
 {
@@ -527,20 +527,20 @@ consolecmd_t consolecmds[] =
     CMD       (thinglist, C_GameCondition, C_ThingList, 0, "", "Shows a list of things in the current map."),
     CVAR_INT  (totalbloodsplats, C_IntCondition, C_Int, CF_READONLY, totalbloodsplats, NOALIAS, NONE, "The total number of blood splats in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbinds an action from a control."),
-    CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, capfps, CAPFPS, "Toggles capping of the framerate at 35 FPS."),
-    CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, display, NOALIAS, DISPLAY, "The display used to render the game."),
+    CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, vid_capfps, VID_CAPFPS, "Toggles capping of the framerate at 35 FPS."),
+    CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, vid_display, NOALIAS, VID_DISPLAY, "The display used to render the game."),
 #if !defined(WIN32)
-    CVAR_STR  (vid_driver, C_NoCondition, C_Str, videodriver, "The video driver used to render the game."),
+    CVAR_STR  (vid_driver, C_NoCondition, C_Str, vid_driver, "The video driver used to render the game."),
 #endif
-    CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, fullscreen, FULLSCREEN, "Toggles between fullscreen and a window."),
-    CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, scaledriver, "The driver used to scale the display."),
-    CVAR_STR  (vid_scalefilter, C_NoCondition, C_ScaleFilter, scalefilter, "The filter used to scale the display."),
-    CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, screenresolution, "The screen's resolution when fullscreen."),
+    CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, vid_fullscreen, VID_FULLSCREEN, "Toggles between fullscreen and a window."),
+    CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, vid_scaledriver, "The driver used to scale the display."),
+    CVAR_STR  (vid_scalefilter, C_NoCondition, C_ScaleFilter, vid_scalefilter, "The filter used to scale the display."),
+    CVAR_SIZE (vid_screenresolution, C_NoCondition, C_ScreenResolution, vid_screenresolution, "The screen's resolution when fullscreen."),
     CVAR_BOOL (vid_showfps, C_BoolCondition, C_ShowFPS, vid_showfps, NONE, "Toggles the display of the average frames per second."),
-    CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vsync, VSYNC, "Toggles vertical synchronization with display's refresh rate."),
-    CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Widescreen, widescreen, WIDESCREEN, "Toggles widescreen mode."),
-    CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, windowposition, "The position of the window on the desktop."),
-    CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, windowsize, "The size of the window on the desktop."),
+    CVAR_BOOL (vid_vsync, C_BoolCondition, C_Vsync, vid_vsync, VID_VSYNC, "Toggles vertical synchronization with display's refresh rate."),
+    CVAR_BOOL (vid_widescreen, C_BoolCondition, C_Widescreen, vid_widescreen, VID_WIDESCREEN, "Toggles widescreen mode."),
+    CVAR_POS  (vid_windowposition, C_NoCondition, C_WindowPosition, vid_windowposition, "The position of the window on the desktop."),
+    CVAR_SIZE (vid_windowsize, C_NoCondition, C_WindowSize, vid_windowsize, "The size of the window on the desktop."),
     CMD       (warp, C_MapCondition, C_Map, 1, "", ""),
 
     { "", C_NoCondition, NULL, 0, 0, CF_NONE, NULL, 0, 0, 0, 0, "", "" }
@@ -981,15 +981,15 @@ static void C_Display(char *cmd, char *parm1, char *parm2)
 
         sscanf(parm1, "%10i", &value);
 
-        if (value >= DISPLAY_MIN && value <= DISPLAY_MAX && value != display)
+        if (value >= VID_DISPLAY_MIN && value <= VID_DISPLAY_MAX && value != vid_display)
         {
-            display = value;
+            vid_display = value;
             M_SaveCVARs();
             I_RestartGraphics();
         }
     }
     else
-        C_Output("%i", display);
+        C_Output("%i", vid_display);
 }
 
 static void C_EndGame(char *cmd, char *parm1, char *parm2)
@@ -1061,11 +1061,11 @@ static void C_Fullscreen(char *cmd, char *parm1, char *parm2)
     {
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
-        if ((value == 0 || value == 1) && value != fullscreen)
+        if ((value == 0 || value == 1) && value != vid_fullscreen)
             ToggleFullscreen();
     }
     else
-        C_Output(C_LookupAliasFromValue(fullscreen, BOOLALIAS));
+        C_Output(C_LookupAliasFromValue(vid_fullscreen, BOOLALIAS));
 }
 
 extern int      st_palette;
@@ -1222,7 +1222,7 @@ static void C_Help(char *cmd, char *parm1, char *parm2)
 
 static void C_Hud(char *cmd, char *parm1, char *parm2)
 {
-    if (widescreen || screensize == 8)
+    if (vid_widescreen || screensize == 8)
         C_Bool(cmd, parm1, "");
 }
 
@@ -2004,20 +2004,20 @@ static void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
     {
         if (!strcasecmp(parm1, EMPTYVALUE))
         {
-            scaledriver = "";
+            vid_scaledriver = "";
             M_SaveCVARs();
             I_RestartGraphics();
         }
         else if ((!strcasecmp(parm1, "direct3d") || !strcasecmp(parm1, "opengl")
-            || !strcasecmp(parm1, "software")) && strcasecmp(parm1, scaledriver))
+            || !strcasecmp(parm1, "software")) && strcasecmp(parm1, vid_scaledriver))
         {
-            scaledriver = strdup(parm1);
+            vid_scaledriver = strdup(parm1);
             M_SaveCVARs();
             I_RestartGraphics();
         }
     }
     else
-        C_Output("\"%s\"", scaledriver);
+        C_Output("\"%s\"", vid_scaledriver);
 }
 
 static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
@@ -2025,15 +2025,15 @@ static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
     if (parm1[0])
     {
         if ((!strcasecmp(parm1, "nearest") || !strcasecmp(parm1, "linear"))
-            && strcasecmp(parm1, scalefilter))
+            && strcasecmp(parm1, vid_scalefilter))
         {
-            scalefilter = strdup(parm1);
+            vid_scalefilter = strdup(parm1);
             M_SaveCVARs();
             I_RestartGraphics();
         }
     }
     else
-        C_Output("\"%s\"", scalefilter);
+        C_Output("\"%s\"", vid_scalefilter);
 }
 
 extern int      desktopwidth;
@@ -2051,7 +2051,7 @@ static void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
                 screenheight = 0;
 
                 M_SaveCVARs();
-                if (fullscreen)
+                if (vid_fullscreen)
                     I_RestartGraphics();
             }
         }
@@ -2070,7 +2070,7 @@ static void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
                 screenwidth = width;
                 screenheight = height;
                 M_SaveCVARs();
-                if (fullscreen)
+                if (vid_fullscreen)
                     I_RestartGraphics();
             }
         }
@@ -2091,7 +2091,7 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
 
         if (value >= SCREENSIZE_MIN && value <= SCREENSIZE_MAX)
         {
-            if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 if (value == SCREENSIZE_MAX)
                     --value;
@@ -2113,7 +2113,7 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
                     else
                     {
                         ToggleWidescreen(true);
-                        if (widescreen)
+                        if (vid_widescreen)
                             value = SCREENSIZE_MAX - 1;
                     }
                 }
@@ -2330,15 +2330,15 @@ static void C_Vsync(char *cmd, char *parm1, char *parm2)
     {
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
-        if ((value == 0 || value == 1) && value != vsync)
+        if ((value == 0 || value == 1) && value != vid_vsync)
         {
-            vsync = !!value;
+            vid_vsync = !!value;
             M_SaveCVARs();
             I_RestartGraphics();
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(vsync, BOOLALIAS));
+        C_Output(C_LookupAliasFromValue(vid_vsync, BOOLALIAS));
 }
 
 static void C_Widescreen(char *cmd, char *parm1, char *parm2)
@@ -2347,15 +2347,15 @@ static void C_Widescreen(char *cmd, char *parm1, char *parm2)
     {
         int     value = C_LookupValueFromAlias(parm1, BOOLALIAS);
 
-        if ((value == 0 || value == 1) && value != widescreen)
+        if ((value == 0 || value == 1) && value != vid_widescreen)
         {
-            widescreen = !!value;
-            if (widescreen)
+            vid_widescreen = !!value;
+            if (vid_widescreen)
             {
                 if (gamestate == GS_LEVEL)
                 {
                     ToggleWidescreen(true);
-                    if (widescreen)
+                    if (vid_widescreen)
                         S_StartSound(NULL, sfx_stnmov);
                 }
                 else
@@ -2367,14 +2367,14 @@ static void C_Widescreen(char *cmd, char *parm1, char *parm2)
             else
             {
                 ToggleWidescreen(false);
-                if (!widescreen)
+                if (!vid_widescreen)
                     S_StartSound(NULL, sfx_stnmov);
             }
             M_SaveCVARs();
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(widescreen, BOOLALIAS));
+        C_Output(C_LookupAliasFromValue(vid_widescreen, BOOLALIAS));
 }
 
 extern SDL_Window       *window;
@@ -2383,34 +2383,34 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        windowposition = (!strcasecmp(parm1, "center") ? "" : strdup(parm1));
+        vid_windowposition = (!strcasecmp(parm1, "center") ? "" : strdup(parm1));
  
         GetWindowPosition();
 
         M_SaveCVARs();
 
-        if (!fullscreen)
+        if (!vid_fullscreen)
             SDL_SetWindowPosition(window, windowx, windowy);
     }
-    else if (!windowposition[0])
+    else if (!vid_windowposition[0])
         C_Output("center");
     else
-        C_Output("(%s)", windowposition);
+        C_Output("(%s)", vid_windowposition);
 }
 
 static void C_WindowSize(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        windowsize = strdup(parm1);
+        vid_windowsize = strdup(parm1);
 
         GetWindowSize();
 
         M_SaveCVARs();
 
-        if (!fullscreen)
+        if (!vid_fullscreen)
             SDL_SetWindowSize(window, windowwidth, windowheight);
     }
     else
-        C_Output(windowsize);
+        C_Output(vid_windowsize);
 }

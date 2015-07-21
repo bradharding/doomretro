@@ -49,7 +49,7 @@
 #include "v_video.h"
 
 extern dboolean automapactive;
-extern dboolean widescreen;
+extern dboolean vid_widescreen;
 extern dboolean translucency;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
@@ -218,8 +218,8 @@ void HUlib_drawTextLine(hu_textline_t *l)
         for (y1 = 0; y1 < 4; y1++)
             for (x1 = 0; x1 < ORIGINALWIDTH; x1++)
             {
-                char    src = (automapactive && !widescreen ? underscores2[y1 * ORIGINALWIDTH + x1] :
-                                                              underscores1[y1 * ORIGINALWIDTH + x1]);
+                char    src = (automapactive && !vid_widescreen ?
+                    underscores2[y1 * ORIGINALWIDTH + x1] : underscores1[y1 * ORIGINALWIDTH + x1]);
 
                 for (y2 = 0; y2 < SCREENSCALE; y2++)
                     for (x2 = 0; x2 < SCREENSCALE; x2++)

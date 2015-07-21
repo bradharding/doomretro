@@ -63,6 +63,6 @@ void WI_Start(wbstartstruct_t *wbstartstruct);
 // Shut down the intermission screen
 void WI_End(void);
 
-extern dboolean widescreen;
+extern dboolean vid_widescreen;
 
 #endif

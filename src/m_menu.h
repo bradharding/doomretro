@@ -105,7 +105,7 @@ extern dboolean firstevent;
 extern byte     grays[256];
 extern int      musicvolume_percent;
 extern int      sfxvolume_percent;
-extern dboolean widescreen;
+extern dboolean vid_widescreen;
 extern dboolean hud;
 extern dboolean returntowidescreen;
 extern int      episode;

@@ -58,7 +58,7 @@
 //
 // Locally used constants, shortcuts.
 //
-#define HU_TITLEX       (fullscreen && !widescreen ? 0 : 3)
+#define HU_TITLEX       (vid_fullscreen && !vid_widescreen ? 0 : 3)
 #define HU_TITLEY       (ORIGINALHEIGHT - 32 * (screensize < SCREENSIZE_MAX) - 9)
 
 char                    chat_char;
@@ -83,7 +83,7 @@ char                    *playername = PLAYERNAME_DEFAULT;
 int M_StringWidth(char *string);
 
 extern dboolean         messages;
-extern dboolean         widescreen;
+extern dboolean         vid_widescreen;
 extern dboolean         hud;
 extern int              translucency;
 extern int              cardsfound;
@@ -524,9 +524,9 @@ void HU_Drawer(void)
         w_title.y = HU_TITLEY;
         HUlib_drawTextLine(&w_title);
     }
-    else if ((widescreen || screensize == SCREENSIZE_MAX) && hud)
+    else if ((vid_widescreen || screensize == SCREENSIZE_MAX) && hud)
     {
-        hud_y = (widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
+        hud_y = (vid_widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
         HU_DrawHUD();
     }
 }

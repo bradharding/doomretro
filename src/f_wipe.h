@@ -58,6 +58,6 @@ dboolean wipe_StartScreen(void);
 dboolean wipe_EndScreen(void);
 dboolean wipe_ScreenWipe(int tics);
 
-extern dboolean widescreen;
+extern dboolean vid_widescreen;
 
 #endif

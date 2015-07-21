@@ -201,7 +201,7 @@ void D_Display(void)
     int                 wipestart;
     dboolean            done;
 
-    realframe = (capfps || gametic > saved_gametic);
+    realframe = (vid_capfps || gametic > saved_gametic);
     if (realframe)
         saved_gametic = gametic;
 
@@ -295,7 +295,7 @@ void D_Display(void)
         {
             patch_t     *patch = W_CacheLumpName("M_PAUSE", PU_CACHE);
 
-            if (widescreen)
+            if (vid_widescreen)
                 V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2,
                     viewwindowy / 2 + (viewheight / 2 - SHORT(patch->height)) / 2, patch, false);
             else
@@ -304,7 +304,7 @@ void D_Display(void)
         }
         else
         {
-            if (widescreen)
+            if (vid_widescreen)
                 M_DrawCenteredString(viewwindowy / 2 + (viewheight / 2 - 16) / 2, s_M_PAUSED);
             else
                 M_DrawCenteredString((ORIGINALHEIGHT - 16) / 2, s_M_PAUSED);

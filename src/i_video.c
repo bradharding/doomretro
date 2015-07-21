@@ -59,8 +59,7 @@
 #include "SDL_syswm.h"
 #endif
 
-char                    *windowposition = WINDOWPOSITION_DEFAULT;
-
+char                    *vid_windowposition = VID_WINDOWPOSITION_DEFAULT;
 
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
@@ -70,13 +69,13 @@ static SDL_Surface      *buffer = NULL;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
 
-int                     display = DISPLAY_DEFAULT;
+int                     vid_display = VID_DISPLAY_DEFAULT;
 static int              displayindex;
 static int              numdisplays;
 static SDL_Rect         *displays;
-char                    *scaledriver = SCALEDRIVER_DEFAULT;
-char                    *scalefilter = SCALEFILTER_DEFAULT;
-dboolean                vsync = VSYNC_DEFAULT;
+char                    *vid_scaledriver = VID_SCALEDRIVER_DEFAULT;
+char                    *vid_scalefilter = VID_SCALEFILTER_DEFAULT;
+dboolean                vid_vsync = VID_VSYNC_DEFAULT;
 
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
@@ -88,12 +87,12 @@ static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32
 // Fullscreen width and height
 int                     screenwidth;
 int                     screenheight;
-char                    *screenresolution = SCREENRESOLUTION_DEFAULT;
+char                    *vid_screenresolution = VID_SCREENRESOLUTION_DEFAULT;
 
 // Window width and height
 int                     windowwidth;
 int                     windowheight;
-char                    *windowsize = WINDOWSIZE_DEFAULT;
+char                    *vid_windowsize = VID_WINDOWSIZE_DEFAULT;
 
 int                     windowx = 0;
 int                     windowy = 0;
@@ -104,14 +103,14 @@ int                     displaycenterx;
 int                     displaycentery;
 
 // Run in full screen mode?
-dboolean                fullscreen = FULLSCREEN_DEFAULT;
+dboolean                vid_fullscreen = VID_FULLSCREEN_DEFAULT;
 
-dboolean                widescreen = WIDESCREEN_DEFAULT;
+dboolean                vid_widescreen = VID_WIDESCREEN_DEFAULT;
 dboolean                returntowidescreen = false;
 
 dboolean                hud = HUD_DEFAULT;
 
-dboolean                capfps = CAPFPS_DEFAULT;
+dboolean                vid_capfps = VID_CAPFPS_DEFAULT;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
@@ -123,7 +122,7 @@ dboolean                window_focused;
 static SDL_Cursor       *cursors[2];
 
 #if !defined(WIN32)
-char                    *videodriver = VIDEODRIVER_DEFAULT;
+char                    *vid_driver = VID_DRIVER_DEFAULT;
 char                    envstring[255];
 #endif
 
@@ -184,7 +183,7 @@ dboolean MouseShouldBeGrabbed(void)
 
     // always grab the mouse when full screen (dont want to
     // see the mouse pointer)
-    if (fullscreen)
+    if (vid_fullscreen)
         return true;
 
     // when menu is active or game is paused, release the mouse
@@ -511,14 +510,14 @@ static void I_GetEvent(void)
                         break;
 
                     case SDL_WINDOWEVENT_SIZE_CHANGED:
-                        if (!fullscreen)
+                        if (!vid_fullscreen)
                         {
                             char        buffer[16] = "";
 
                             windowwidth = Event->window.data1;
                             windowheight = Event->window.data2;
                             M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
-                            windowsize = strdup(buffer);
+                            vid_windowsize = strdup(buffer);
                             M_SaveCVARs();
 
                             displaywidth = windowwidth;
@@ -529,16 +528,16 @@ static void I_GetEvent(void)
                         break;
 
                     case SDL_WINDOWEVENT_MOVED:
-                        if (!fullscreen)
+                        if (!vid_fullscreen)
                         {
                             char        buffer[16] = "";
 
                             windowx = Event->window.data1;
                             windowy = Event->window.data2;
                             M_snprintf(buffer, sizeof(buffer), "%i,%i", windowx, windowy);
-                            windowposition = strdup(buffer);
+                            vid_windowposition = strdup(buffer);
 
-                            display = SDL_GetWindowDisplayIndex(window) + 1;
+                            vid_display = SDL_GetWindowDisplayIndex(window) + 1;
                             M_SaveCVARs();
                         }
                         break;
@@ -686,11 +685,11 @@ void GetWindowPosition(void)
 {
     int x = 0, y = 0;
 
-    if (!sscanf(windowposition, "%10i,%10i", &x, &y))
+    if (!sscanf(vid_windowposition, "%10i,%10i", &x, &y))
     {
         windowx = 0;
         windowy = 0;
-        windowposition = "";
+        vid_windowposition = "";
 
         M_SaveCVARs();
     }
@@ -707,7 +706,7 @@ void GetWindowSize(void)
 {
     int     width = -1;
     int     height = -1;
-    char    *left = strtok(strdup(windowsize), "x");
+    char    *left = strtok(strdup(vid_windowsize), "x");
     char    *right = strtok(NULL, "x");
 
     if (!right)
@@ -724,7 +723,7 @@ void GetWindowSize(void)
         windowwidth = ORIGINALWIDTH + windowborderwidth;
         windowheight = ORIGINALWIDTH * 3 / 4 + windowborderheight;
         M_snprintf(buffer, sizeof(buffer), "%ix%i", windowwidth, windowheight);
-        windowsize = strdup(buffer);
+        vid_windowsize = strdup(buffer);
 
         M_SaveCVARs();
     }
@@ -815,41 +814,41 @@ static void PositionOnCurrentDisplay(void)
 
 static void SetVideoMode(dboolean output)
 {
-    int                 i;
-    int                 flags = SDL_RENDERER_TARGETTEXTURE;
+    int i;
+    int flags = SDL_RENDERER_TARGETTEXTURE;
 
     for (i = 0; i < numdisplays; ++i)
         SDL_GetDisplayBounds(i, &displays[i]);
-    displayindex = display - 1;
+    displayindex = vid_display - 1;
     if (displayindex < 0 || displayindex >= numdisplays)
     {
         if (output)
-            C_Warning("Unable to find display %i.", display);
-        displayindex = DISPLAY_DEFAULT - 1;
+            C_Warning("Unable to find display %i.", vid_display);
+        displayindex = VID_DISPLAY_DEFAULT - 1;
     }
     if (output)
         C_Output("Using display %i of %i called \"%s\".",
             displayindex + 1, numdisplays, SDL_GetDisplayName(displayindex));
 
-    if (vsync)
+    if (vid_vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
-    if (!strcasecmp(scalefilter, "linear"))
+    if (!strcasecmp(vid_scalefilter, "linear"))
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "linear", SDL_HINT_OVERRIDE);
     else
     {
-        scalefilter = "nearest";
+        vid_scalefilter = "nearest";
         M_SaveCVARs();
         SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "nearest", SDL_HINT_OVERRIDE);
     }
 
-    if (scaledriver[0])
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, scaledriver, SDL_HINT_OVERRIDE);
+    if (vid_scaledriver[0])
+        SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaledriver, SDL_HINT_OVERRIDE);
 
     GetWindowPosition();
     GetWindowSize();
 
-    if (fullscreen)
+    if (vid_fullscreen)
     {
         if (!screenwidth && !screenheight)
         {
@@ -929,12 +928,12 @@ static void SetVideoMode(dboolean output)
         else if (!strcasecmp(rendererinfo.name, "software"))
             renderername = "software";
 
-        if (!strcasecmp(scalefilter, "linear"))
+        if (!strcasecmp(vid_scalefilter, "linear"))
             C_Output("Scaling the screen using linear filtering in %s.", renderername);
         else
             C_Output("Scaling the screen using nearest-neighbor interpolation in %s.", renderername);
 
-        if (capfps)
+        if (vid_capfps)
             C_Output("The framerate is capped at %i FPS.", TICRATE);
         else
         {
@@ -948,7 +947,7 @@ static void SetVideoMode(dboolean output)
             }
             else
             {
-                if (vsync)
+                if (vid_vsync)
                 {
                     if (!strcasecmp(rendererinfo.name, "software"))
                         C_Warning("Vertical synchronization can't be enabled in software.");
@@ -985,14 +984,14 @@ static void SetVideoMode(dboolean output)
     SDL_SetSurfacePalette(surface, palette);
 
     src_rect.w = SCREENWIDTH;
-    src_rect.h = SCREENHEIGHT - SBARHEIGHT * widescreen;
+    src_rect.h = SCREENHEIGHT - SBARHEIGHT * vid_widescreen;
 }
 
 void ToggleWidescreen(dboolean toggle)
 {
     if (toggle)
     {
-        widescreen = true;
+        vid_widescreen = true;
 
         if (returntowidescreen && screensize == 8)
         {
@@ -1001,11 +1000,11 @@ void ToggleWidescreen(dboolean toggle)
         }
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);
-        src_rect.h = SCREENHEIGHT - SBARHEIGHT - !!strcasecmp(scalefilter, "nearest");
+        src_rect.h = SCREENHEIGHT - SBARHEIGHT - !!strcasecmp(vid_scalefilter, "nearest");
     }
     else
     {
-        widescreen = false;
+        vid_widescreen = false;
 
         ST_doRefresh();
 
@@ -1026,7 +1025,7 @@ void I_RestartGraphics(void)
 {
     FreeSurfaces();
     SetVideoMode(false);
-    if (widescreen)
+    if (vid_widescreen)
         ToggleWidescreen(true);
 
 #if defined(WIN32)
@@ -1038,9 +1037,9 @@ void I_RestartGraphics(void)
 
 void ToggleFullscreen(void)
 {
-    fullscreen = !fullscreen;
+    vid_fullscreen = !vid_fullscreen;
     M_SaveCVARs();
-    if (fullscreen)
+    if (vid_fullscreen)
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
         C_Input("vid_fullscreen on");
@@ -1140,9 +1139,9 @@ void I_InitGraphics(void)
     I_InitGammaTables();
 
 #if !defined(WIN32)
-    if (videodriver && strlen(videodriver) > 0)
+    if (vid_driver && strlen(vid_driver) > 0)
     {
-        M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", videodriver);
+        M_snprintf(envstring, sizeof(envstring), "SDL_VIDEODRIVER=%s", vid_driver);
         putenv(envstring);
     }
 #endif
@@ -1153,7 +1152,7 @@ void I_InitGraphics(void)
     CreateCursors();
     SDL_SetCursor(cursors[0]);
 
-    if (fullscreen && (screenwidth || screenheight))
+    if (vid_fullscreen && (screenwidth || screenheight))
         if (!I_ValidScreenMode(screenwidth, screenheight))
         {
             screenwidth = 0;
@@ -1184,7 +1183,7 @@ void I_InitGraphics(void)
 
     while (SDL_PollEvent(&dummy));
 
-    if (fullscreen)
+    if (vid_fullscreen)
         CenterMouse();
     else
         SetShowCursor(true);

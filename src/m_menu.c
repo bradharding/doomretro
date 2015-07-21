@@ -125,7 +125,7 @@ dboolean        startingnewgame = false;
 
 #define SKULLXOFF       -32
 #define LINEHEIGHT      17
-#define OFFSET          (widescreen ? 0 : 17)
+#define OFFSET          (vid_widescreen ? 0 : 17)
 
 char            savegamestrings[10][SAVESTRINGSIZE];
 
@@ -499,7 +499,7 @@ void M_DarkBackground(void)
 {
     int i;
 
-    height = (SCREENHEIGHT - widescreen * SBARHEIGHT) * SCREENWIDTH;
+    height = (SCREENHEIGHT - vid_widescreen * SBARHEIGHT) * SCREENWIDTH;
 
     if (!blurred)
     {
@@ -1636,8 +1636,8 @@ void M_DrawOptions(void)
     }
 
     M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (scrnsize + 1) + OFFSET + !hacx, 9,
-        (float)(screensize + (widescreen || (returntowidescreen && gamestate != GS_LEVEL)) + !hud),
-        7.2f);
+        (float)(screensize + (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            + !hud), 7.2f);
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + 1, 9,
@@ -1677,7 +1677,7 @@ dboolean endinggame = false;
 void M_EndingGame(void)
 {
     endinggame = true;
-    if (widescreen)
+    if (vid_widescreen)
     {
         ToggleWidescreen(false);
         returntowidescreen = true;
@@ -1932,7 +1932,7 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
-            else if (widescreen || (returntowidescreen && gamestate != GS_LEVEL))
+            else if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
                 if (!hud)
                 {
@@ -1941,7 +1941,7 @@ void M_SizeDisplay(int choice)
                 }
                 else
                 {
-                    if (widescreen)
+                    if (vid_widescreen)
                         C_Input("vid_widescreen off");
                     ToggleWidescreen(false);
                 }
@@ -1957,8 +1957,8 @@ void M_SizeDisplay(int choice)
             }
             break;
         case 1:
-            if (widescreen || (returntowidescreen && gamestate != GS_LEVEL) ||
-                screensize == SCREENSIZE_MAX)
+            if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL)
+                || screensize == SCREENSIZE_MAX)
             {
                 if (hud)
                 {
@@ -1970,7 +1970,7 @@ void M_SizeDisplay(int choice)
             }
             else if (screensize == SCREENSIZE_MAX - 1)
             {
-                if (!widescreen)
+                if (!vid_widescreen)
                 {
                     if (gamestate != GS_LEVEL)
                     {
@@ -1980,7 +1980,7 @@ void M_SizeDisplay(int choice)
                     else
                     {
                         ToggleWidescreen(true);
-                        if (widescreen)
+                        if (vid_widescreen)
                             C_Input("vid_widescreen on");
                         else
                         {
@@ -2169,7 +2169,7 @@ void M_ShowHelp(void)
     itemOn = 0;
     S_StartSound(NULL, sfx_swtchn);
     inhelpscreens = true;
-    if (widescreen)
+    if (vid_widescreen)
     {
         ToggleWidescreen(false);
         returntowidescreen = true;
@@ -3157,7 +3157,7 @@ void M_Drawer(void)
 
         M_DarkBackground();
 
-        if (widescreen)
+        if (vid_widescreen)
             y = viewwindowy / 2 + (viewheight / 2 - M_StringHeight(messageString)) / 2 - 1;
         else
             y = (ORIGINALHEIGHT - M_StringHeight(messageString)) / 2 - 1;

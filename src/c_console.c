@@ -687,7 +687,7 @@ void C_UpdateFPS(void)
     {
         static char     buffer[16];
 
-        M_snprintf(buffer, 16, "%i FPS", (capfps ? MIN(fps, TICRATE) : fps));
+        M_snprintf(buffer, 16, "%i FPS", (vid_capfps ? MIN(fps, TICRATE) : fps));
 
         C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
             buffer, (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor));

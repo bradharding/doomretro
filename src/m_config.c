@@ -69,7 +69,6 @@ extern dboolean am_rotatemode;
 extern dboolean animatedliquid;
 extern int      blood;
 extern dboolean brightmaps;
-extern dboolean capfps;
 extern dboolean centerweapon;
 extern dboolean corpses_mirror;
 extern dboolean corpses_moreblood;
@@ -77,12 +76,10 @@ extern dboolean corpses_nudge;
 extern dboolean corpses_slide;
 extern dboolean corpses_smearblood;
 extern dboolean dclick_use;
-extern int      display;
 extern int      episode;
 extern int      expansion;
 extern dboolean floatbob;
 extern dboolean footclip;
-extern dboolean fullscreen;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
 extern dboolean gamepadlefthanded;
@@ -109,10 +106,7 @@ extern char     *playername;
 extern dboolean playersprites;
 extern dboolean randompitch;
 extern int      runcount;
-extern char     *scaledriver;
-extern char     *scalefilter;
 extern int      screenheight;
-extern char     *screenresolution;
 extern int      screenwidth;
 extern int      selectedsavegame;
 extern dboolean shadows;
@@ -122,13 +116,19 @@ extern dboolean spritefixes;
 extern dboolean swirlingliquid;
 extern char     *timidity_cfg_path;
 extern dboolean translucency;
+extern dboolean vid_capfps;
+extern int      vid_display;
 #if !defined(WIN32)
-extern char     *videodriver;
+extern char     *vid_driver;
 #endif
-extern dboolean vsync;
-extern dboolean widescreen;
-extern char     *windowposition;
-extern char     *windowsize;
+extern dboolean vid_fullscreen;
+extern char     *vid_scaledriver;
+extern char     *vid_scalefilter;
+extern char     *vid_screenresolution;
+extern dboolean vid_vsync;
+extern dboolean vid_widescreen;
+extern char     *vid_windowposition;
+extern char     *vid_windowsize;
 
 extern dboolean returntowidescreen;
 
@@ -203,20 +203,20 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,       timidity_cfg_path,            NOALIAS    ),
     CONFIG_VARIABLE_INT          (savegame,                selectedsavegame,             NOALIAS    ),
     CONFIG_VARIABLE_INT          (skilllevel,              skilllevel,                   NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_capfps,              capfps,                       BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (vid_display,             display,                      NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_capfps,              vid_capfps,                   BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_display,             vid_display,                  NOALIAS    ),
 #if !defined(WIN32)
-    CONFIG_VARIABLE_STRING       (vid_driver,              videodriver,                  NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_driver,              vid_driver,                   NOALIAS    ),
 #endif
-    CONFIG_VARIABLE_INT          (vid_fullscreen,          fullscreen,                   BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (vid_scaledriver,         scaledriver,                  NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (vid_scalefilter,         scalefilter,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_fullscreen,          vid_fullscreen,               BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (vid_scaledriver,         vid_scaledriver,              NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_scalefilter,         vid_scalefilter,              NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_screenheight,        screenheight,                 SCREENALIAS),
     CONFIG_VARIABLE_INT          (vid_screenwidth,         screenwidth,                  SCREENALIAS),
-    CONFIG_VARIABLE_INT          (vid_vsync,               vsync,                        BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (vid_widescreen,          widescreen,                   BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (vid_windowposition,      windowposition,               NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (vid_windowsize,          windowsize,                   NOALIAS    )
+    CONFIG_VARIABLE_INT          (vid_vsync,               vid_vsync,                    BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_widescreen,          vid_widescreen,               BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (vid_windowposition,      vid_windowposition,           NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_windowsize,          vid_windowsize,               NOALIAS    )
 };
 
 alias_t aliases[] =
@@ -277,7 +277,7 @@ void M_SaveCVARs(void)
         return; // can't write the file, but don't complain
 
     if (returntowidescreen)
-        widescreen = true;
+        vid_widescreen = true;
 
     for (i = 0; i < arrlen(cvars); i++)
     {
@@ -396,7 +396,7 @@ void M_SaveCVARs(void)
     fclose(file);
 
     if (returntowidescreen)
-        widescreen = false;
+        vid_widescreen = false;
 }
 
 // Parses integer values in the configuration file
@@ -448,8 +448,8 @@ static void M_CheckCVARs(void)
     if (brightmaps != false && brightmaps != true)
         brightmaps = BRIGHTMAPS_DEFAULT;
 
-    if (capfps != false && capfps != true)
-        capfps = CAPFPS_DEFAULT;
+    if (vid_capfps != false && vid_capfps != true)
+        vid_capfps = VID_CAPFPS_DEFAULT;
 
     if (centerweapon != false && centerweapon != true)
         centerweapon = CENTERWEAPON_DEFAULT;
@@ -478,8 +478,8 @@ static void M_CheckCVARs(void)
     if (footclip != false && footclip != true)
         footclip = FOOTCLIP_DEFAULT;
 
-    if (fullscreen != false && fullscreen != true)
-        fullscreen = FULLSCREEN_DEFAULT;
+    if (vid_fullscreen != false && vid_fullscreen != true)
+        vid_fullscreen = VID_FULLSCREEN_DEFAULT;
 
     gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone_percent,
         GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
@@ -529,9 +529,6 @@ static void M_CheckCVARs(void)
     if (mirrorweapons != false && mirrorweapons != true)
         mirrorweapons = MIRRORWEAPONS_DEFAULT;
 
-    if (display < 1 || display > DISPLAY_MAX)
-        display = DISPLAY_DEFAULT;
-
     maxbloodsplats = BETWEEN(MAXBLOODSPLATS_MIN, maxbloodsplats, MAXBLOODSPLATS_MAX);
 
     mousesensitivity = BETWEEN(MOUSESENSITIVITY_MIN, mousesensitivity, MOUSESENSITIVITY_MAX);
@@ -562,12 +559,12 @@ static void M_CheckCVARs(void)
 
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
 
-    if (strcasecmp(scaledriver, "direct3d") && strcasecmp(scaledriver, "opengl")
-        && strcasecmp(scaledriver, "software"))
-        scaledriver = SCALEDRIVER_DEFAULT;
+    if (strcasecmp(vid_scaledriver, "direct3d") && strcasecmp(vid_scaledriver, "opengl")
+        && strcasecmp(vid_scaledriver, "software"))
+        vid_scaledriver = VID_SCALEDRIVER_DEFAULT;
 
-    if (strcasecmp(scalefilter, "nearest") && strcasecmp(scalefilter, "linear"))
-        scalefilter = SCALEFILTER_DEFAULT;
+    if (strcasecmp(vid_scalefilter, "nearest") && strcasecmp(vid_scalefilter, "linear"))
+        vid_scalefilter = VID_SCALEFILTER_DEFAULT;
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
 
@@ -603,15 +600,15 @@ static void M_CheckCVARs(void)
     if (translucency != false && translucency != true)
         translucency = TRANSLUCENCY_DEFAULT;
 
-    if (vsync != false && vsync != true)
-        vsync = VSYNC_DEFAULT;
+    if (vid_vsync != false && vid_vsync != true)
+        vid_vsync = VID_VSYNC_DEFAULT;
 
-    if (widescreen != false && widescreen != true)
-        widescreen = WIDESCREEN_DEFAULT;
-    if (widescreen || screensize == SCREENSIZE_MAX)
+    if (vid_widescreen != false && vid_widescreen != true)
+        vid_widescreen = VID_WIDESCREEN_DEFAULT;
+    if (vid_widescreen || screensize == SCREENSIZE_MAX)
     {
         returntowidescreen = true;
-        widescreen = false;
+        vid_widescreen = false;
     }
     else
         hud = true;

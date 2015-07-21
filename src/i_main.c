@@ -77,7 +77,7 @@ void I_SetProcessDPIAware(void)
         pSetProcessDPIAware();
 }
 
-extern int      fullscreen;
+extern int      vid_fullscreen;
 extern dboolean window_focused;
 HHOOK           g_hKeyboardHook;
 
@@ -146,7 +146,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     else if (msg == WM_DEVICECHANGE)
         I_InitGamepad();
-    else if (msg == WM_SIZE && !fullscreen)
+    else if (msg == WM_SIZE && !vid_fullscreen)
         updatefunc();
     else if (msg == WM_GETMINMAXINFO)
     {
