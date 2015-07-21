@@ -616,6 +616,7 @@ void I_FinishUpdate(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
+    SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
 }
@@ -641,19 +642,6 @@ void I_FinishUpdateShowFPS(void)
 
     SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
     SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-    SDL_RenderPresent(renderer);
-}
-
-void I_ClearAndFinishUpdate(void)
-{
-    static int      pitch = SCREENWIDTH * sizeof(Uint32);
-
-    SDL_LowerBlit(surface, &src_rect, buffer, &src_rect);
-    SDL_UpdateTexture(texture, &src_rect, buffer->pixels, pitch);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, &src_rect, NULL);
-    SDL_RenderPresent(renderer);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, &src_rect, NULL);
     SDL_RenderPresent(renderer);
@@ -988,8 +976,6 @@ void ToggleWidescreen(dboolean toggle)
     returntowidescreen = false;
 
     SDL_SetPaletteColors(palette, colors, 0, 256);
-
-    I_ClearAndFinishUpdate();
 }
 
 #if defined(WIN32)
@@ -1033,8 +1019,6 @@ void ToggleFullscreen(void)
 
         PositionOnCurrentDisplay();
     }
-
-    I_ClearAndFinishUpdate();
 }
 
 void I_InitGammaTables(void)
@@ -1124,7 +1108,7 @@ void I_InitGraphics(void)
 #endif
 
     if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-            I_Error("I_InitGraphics: %s", SDL_GetError());
+        I_Error("I_InitGraphics: %s", SDL_GetError());
 
     CreateCursors();
     SDL_SetCursor(cursors[0]);

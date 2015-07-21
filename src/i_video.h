@@ -73,7 +73,6 @@ void I_SetPalette(byte *palette);
 
 void I_FinishUpdate(void);
 void I_FinishUpdateShowFPS(void);
-void I_ClearAndFinishUpdate(void);
 
 void ToggleFullscreen(void);
 
@@ -82,7 +81,6 @@ void I_WaitVBL(int count);
 
 void I_ReadScreen(byte *scr);
 
-void done_win32(void);
 void M_QuitDOOM(int choice);
 void R_SetViewSize(int blocks);
 

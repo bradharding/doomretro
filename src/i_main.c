@@ -147,7 +147,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     else if (msg == WM_DEVICECHANGE)
         I_InitGamepad();
     else if (msg == WM_SIZE && !fullscreen)
-        I_ClearAndFinishUpdate();
+        updatefunc();
     else if (msg == WM_GETMINMAXINFO)
     {
         LPMINMAXINFO    minmaxinfo = (LPMINMAXINFO)lParam;
