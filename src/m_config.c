@@ -616,10 +616,6 @@ static void M_CheckCVARs(void)
     else
         hud = true;
 
-    if (windowwidth < ORIGINALWIDTH || windowheight < ORIGINALWIDTH * 3 / 4)
-        windowheight = WINDOWHEIGHT_DEFAULT;
-    windowwidth = windowheight * 4 / 3;
-
     M_SaveCVARs();
 }
 
