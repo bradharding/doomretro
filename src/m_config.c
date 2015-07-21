@@ -664,26 +664,22 @@ void M_LoadCVARs(char *filename)
             // This line doesn't match
             continue;
 
-        // Strip off trailing non-printable characters (\r characters
-        // from DOS text files)
+        // Strip off trailing non-printable characters (\r characters from DOS text files)
         while (strlen(strparm) > 0 && !isprint(strparm[strlen(strparm) - 1]))
             strparm[strlen(strparm) - 1] = '\0';
 
         // Find the setting in the list
         for (i = 0; i < arrlen(cvars); ++i)
         {
-            char        *s;
-
-            if (strcmp(defname, cvars[i].name) != 0)
+            if (strcasecmp(defname, cvars[i].name))
                 continue;       // not this one
 
             // parameter found
             switch (cvars[i].type)
             {
                 case DEFAULT_STRING:
-                    s = strdup(strparm + 1);
-                    s[strlen(s) - 1] = '\0';
-                    *(char **)cvars[i].location = s;
+                    C_StripQuotes(strparm);
+                    *(char **)cvars[i].location = strparm;
                     break;
 
                 case DEFAULT_INT:
@@ -691,10 +687,9 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_INT_PERCENT:
-                    s = strdup(strparm);
-                    if (s[strlen(s) - 1] == '%')
-                        s[strlen(s) - 1] = '\0';
-                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].set);
+                    if (strlen(strparm) >= 1 && strparm[strlen(strparm) - 1] == '%')
+                        strparm[strlen(strparm) - 1] = '\0';
+                    *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].set);
                     break;
 
                 case DEFAULT_FLOAT:
@@ -702,9 +697,8 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
-                    s = strdup(strparm);
-                    if (s[strlen(s) - 1] == '%')
-                        s[strlen(s) - 1] = '\0';
+                    if (strlen(strparm) >= 1 && strparm[strlen(strparm) - 1] == '%')
+                        strparm[strlen(strparm) - 1] = '\0';
                     *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].set);
                     break;
             }
