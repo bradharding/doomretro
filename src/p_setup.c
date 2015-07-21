@@ -1695,14 +1695,14 @@ extern char     **mapnamesn[];
 extern int      dehcount;
 
 // Determine map name to use
-void P_MapName(int episode, int map)
+void P_MapName(int ep, int map)
 {
     dboolean    mapnumonly = false;
 
     switch (gamemission)
     {
         case doom:
-            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", episode, map);
+            M_snprintf(mapnum, sizeof(mapnum), "E%iM%i", ep, map);
             if (W_CheckMultipleLumps(mapnum) > 1 && dehcount == 1 && !chex)
             {
                 mapnumonly = true;
@@ -1712,7 +1712,7 @@ void P_MapName(int episode, int map)
                     M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
-                M_StringCopy(maptitle, *mapnames[(episode - 1) * 9 + map - 1], sizeof(maptitle));
+                M_StringCopy(maptitle, *mapnames[(ep - 1) * 9 + map - 1], sizeof(maptitle));
             break;
 
         case doom2:
@@ -1827,7 +1827,7 @@ extern dboolean oldweaponsowned[];
 //
 // P_SetupLevel
 //
-void P_SetupLevel(int episode, int map)
+void P_SetupLevel(int ep, int map)
 {
     char        lumpname[6];
     int         lumpnum;
@@ -1860,7 +1860,7 @@ void P_SetupLevel(int episode, int map)
     if (gamemode == commercial)
         M_snprintf(lumpname, 6, "MAP%02i", map);
     else
-        M_snprintf(lumpname, 5, "E%iM%i", episode, map);
+        M_snprintf(lumpname, 5, "E%iM%i", ep, map);
 
     if (nerve && gamemission == doom2)
         lumpnum = W_GetNumForName2(lumpname);
@@ -1876,9 +1876,9 @@ void P_SetupLevel(int episode, int map)
 
     // e6y: speedup of level reloading
     // Most of level's structures now are allocated with PU_STATIC instead of PU_LEVEL
-    samelevel = (map == current_map && episode == current_episode);
+    samelevel = (map == current_map && ep == current_episode);
 
-    current_episode = episode;
+    current_episode = ep;
     current_map = map;
 
     if (!samelevel)

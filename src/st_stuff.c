@@ -528,7 +528,7 @@ void ST_AutomapEvent(int type)
 }
 
 extern char     cheatkey;
-extern int      selectedepisode;
+extern int      episode;
 extern menu_t   EpiDef;
 extern int      cardsfound;
 
@@ -1076,8 +1076,8 @@ dboolean ST_Responder(event_t *ev)
                     gameepisode = epsd;
                     if (gamemission == doom && epsd <= 4)
                     {
-                        selectedepisode = gameepisode - 1;
-                        EpiDef.lastOn = selectedepisode;
+                        episode = gameepisode - 1;
+                        EpiDef.lastOn = episode;
                     }
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;

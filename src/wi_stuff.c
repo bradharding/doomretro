@@ -1190,7 +1190,7 @@ void WI_Drawer(void)
     }
 }
 
-extern void P_MapName(int episode, int map);
+extern void P_MapName(int ep, int map);
 extern char maptitle[128];
 
 void WI_initVariables(wbstartstruct_t *wbstartstruct)

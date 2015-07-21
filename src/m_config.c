@@ -78,6 +78,8 @@ extern dboolean corpses_slide;
 extern dboolean corpses_smearblood;
 extern dboolean dclick_use;
 extern int      display;
+extern int      episode;
+extern int      expansion;
 extern dboolean floatbob;
 extern dboolean footclip;
 extern dboolean fullscreen;
@@ -112,11 +114,9 @@ extern char     *scalefilter;
 extern int      screenheight;
 extern char     *screenresolution;
 extern int      screenwidth;
-extern int      selectedepisode;
-extern int      selectedexpansion;
 extern int      selectedsavegame;
-extern int      selectedskilllevel;
 extern dboolean shadows;
+extern int      skilllevel;
 extern dboolean smoketrails;
 extern dboolean spritefixes;
 extern dboolean swirlingliquid;
@@ -153,8 +153,8 @@ static default_t cvars[] =
 {
     CONFIG_VARIABLE_INT          (am_grid,                 am_grid,                      BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (am_rotatemode,           am_rotatemode,                BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (episode,                 selectedepisode,              NOALIAS    ),
-    CONFIG_VARIABLE_INT          (expansion,               selectedexpansion,            NOALIAS    ),
+    CONFIG_VARIABLE_INT          (episode,                 episode,                      NOALIAS    ),
+    CONFIG_VARIABLE_INT          (expansion,               expansion,                    NOALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,        gamepadleftdeadzone_percent,  NOALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,       gamepadrightdeadzone_percent, NOALIAS    ),
     CONFIG_VARIABLE_INT          (gp_sensitivity,          gamepadsensitivity,           NOALIAS    ),
@@ -203,7 +203,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,             sfxvolume_percent,            NOALIAS    ),
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,       timidity_cfg_path,            NOALIAS    ),
     CONFIG_VARIABLE_INT          (savegame,                selectedsavegame,             NOALIAS    ),
-    CONFIG_VARIABLE_INT          (skilllevel,              selectedskilllevel,           NOALIAS    ),
+    CONFIG_VARIABLE_INT          (skilllevel,              skilllevel,                   NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,              capfps,                       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,             display,                      NOALIAS    ),
 #if !defined(WIN32)
@@ -580,14 +580,13 @@ static void M_CheckCVARs(void)
         screenheight = SCREENHEIGHT_DEFAULT;
     }
 
-    selectedepisode = BETWEEN(EPISODE_MIN, selectedepisode,
-        EPISODE_MAX - (gamemode == registered));
+    episode = BETWEEN(EPISODE_MIN, episode, EPISODE_MAX - (gamemode == registered));
 
-    selectedexpansion = BETWEEN(EXPANSION_MIN, selectedexpansion, EXPANSION_MAX);
+    expansion = BETWEEN(EXPANSION_MIN, expansion, EXPANSION_MAX);
 
     selectedsavegame = BETWEEN(0, selectedsavegame, 5);
 
-    selectedskilllevel = BETWEEN(SKILLLEVEL_MIN, selectedskilllevel, SKILLLEVEL_MAX);
+    skilllevel = BETWEEN(SKILLLEVEL_MIN, skilllevel, SKILLLEVEL_MAX);
 
     sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
 

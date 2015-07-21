@@ -120,7 +120,7 @@ dboolean                forcewipe = false;
 
 dboolean                splashscreen;
 
-extern int              selectedexpansion;
+extern int              expansion;
 extern dboolean         alwaysrun;
 
 int                     startuptimer;
@@ -624,7 +624,7 @@ static void D_CheckSupportedPWAD(char *filename)
     if (D_CheckFilename(filename, "NERVE.WAD"))
     {
         nerve = true;
-        selectedexpansion = 1;
+        expansion = 1;
     }
     else if (D_CheckFilename(filename, "CHEX.WAD"))
         chex = true;
@@ -788,7 +788,7 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
-                            selectedexpansion = 0;
+                            expansion = 0;
                         }
                     }
                 }
@@ -962,7 +962,7 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
-                            selectedexpansion = 1;
+                            expansion = 1;
                         }
                         break;
                     }
@@ -979,7 +979,7 @@ static int D_ChooseIWAD(void)
                             {
                                 modifiedgame = true;
                                 nerve = true;
-                                selectedexpansion = 1;
+                                expansion = 1;
                             }
                             break;
                         }
@@ -996,7 +996,7 @@ static int D_ChooseIWAD(void)
                                 {
                                     modifiedgame = true;
                                     nerve = true;
-                                    selectedexpansion = 1;
+                                    expansion = 1;
                                 }
                                 break;
                             }
@@ -1149,7 +1149,7 @@ static int D_ChooseIWAD(void)
                         {
                             modifiedgame = true;
                             nerve = true;
-                            selectedexpansion = 0;
+                            expansion = 0;
                         }
                     }
                 }
@@ -1472,7 +1472,7 @@ static void D_DoomMainSetup(void)
                 { "Nightmare"             }
             };
 
-            selectedskilllevel = startskill = (skill_t)temp;
+            skilllevel = startskill = (skill_t)temp;
             M_SaveCVARs();
             C_Output("Found -SKILL parameter on command-line. Skill level is now \"%s\".",
                 skilllevels[startskill]);
@@ -1498,7 +1498,7 @@ static void D_DoomMainSetup(void)
             };
 
             startepisode = temp;
-            selectedepisode = temp - 1;
+            episode = temp - 1;
             M_SaveCVARs();
             startmap = 1;
             if (gamemode == commercial)
@@ -1507,7 +1507,7 @@ static void D_DoomMainSetup(void)
                 M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
             autostart = true;
             C_Output("Found -EPISODE parameter on command-line. Episode is now \"%s\".",
-                episodes[selectedepisode]);
+                episodes[episode]);
         }
     }
 
@@ -1525,14 +1525,14 @@ static void D_DoomMainSetup(void)
             };
 
             gamemission = (temp == 1 ? doom2 : pack_nerve);
-            selectedexpansion = temp - 1;
+            expansion = temp - 1;
             M_SaveCVARs();
             startepisode = 1;
             startmap = 1;
             M_snprintf(lumpname, sizeof(lumpname), "MAP%02i", startmap);
             autostart = true;
             C_Output("Found -EXPANSION parameter on command-line. Expansion is now \"%s\".",
-                expansions[selectedexpansion]);
+                expansions[expansion]);
         }
     }
 

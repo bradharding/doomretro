@@ -100,6 +100,8 @@ extern dboolean corpses_slide;
 extern dboolean corpses_smearblood;
 extern dboolean dclick_use;
 extern int      display;
+extern int      episode;
+extern int      expansion;
 extern dboolean floatbob;
 extern dboolean footclip;
 extern dboolean fullscreen;
@@ -198,11 +200,9 @@ extern char     *scalefilter;
 extern int      screenheight;
 extern char     *screenresolution;
 extern int      screenwidth;
-extern int      selectedepisode;
-extern int      selectedexpansion;
 extern int      selectedsavegame;
-extern int      selectedskilllevel;
 extern dboolean shadows;
+extern int      skilllevel;
 extern dboolean smoketrails;
 extern dboolean spritefixes;
 extern dboolean swirlingliquid;
@@ -441,10 +441,10 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (configfile, C_NoCondition, C_Str, configfile, "The path of the configuration file."),
     CMD       (cvarlist, C_NoCondition, C_CvarList, 1, "[~searchstring~]", "Shows a list of console variables."),
     CMD       (endgame, C_GameCondition, C_EndGame, 0, "", "Ends a game."),
-    CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, selectedepisode, NOALIAS, EPISODE, "The currently selected episode in the menu."),
+    CVAR_INT  (episode, C_IntCondition, C_Int, CF_NONE, episode, NOALIAS, EPISODE, "The currently selected episode in the menu."),
     CMD       (exit, C_NoCondition, C_Quit, 0, "", ""),
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exits the current map."),
-    CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, selectedexpansion, NOALIAS, EXPANSION, "The currently selected expansion in the menu."),
+    CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, expansion, NOALIAS, EXPANSION, "The currently selected expansion in the menu."),
     CVAR_TIME (gametime, C_NoCondition, C_Time, gametic, "The amount of time since "PACKAGE_NAME" started."),
     CMD       (give, C_GiveCondition, C_Give, 1, GIVECMDFORMAT, "Gives items to the player."),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggles god mode."),
@@ -523,7 +523,7 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Saves the game to a file."),
     CVAR_STR  (savegamefolder, C_NoCondition, C_Str, savegamefolder, "The folder where savegames are saved."),
-    CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, selectedskilllevel, NOALIAS, SKILLLEVEL, "The currently selected skill level in the menu."),
+    CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, skilllevel, NOALIAS, SKILLLEVEL, "The currently selected skill level in the menu."),
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
     CMD       (thinglist, C_GameCondition, C_ThingList, 0, "", "Shows a list of things in the current map."),
@@ -1530,8 +1530,8 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
     gameepisode = mapcmdepisode;
     if (gamemission == doom && gameepisode <= 4)
     {
-        selectedepisode = gameepisode - 1;
-        EpiDef.lastOn = selectedepisode;
+        episode = gameepisode - 1;
+        EpiDef.lastOn = episode;
     }
     gamemap = mapcmdmap;
     M_snprintf(buffer, sizeof(buffer), (samelevel ? "Restarting %s..." : "Warping to %s..."),
@@ -1546,7 +1546,7 @@ static void C_Map(char *cmd, char *parm1, char *parm2)
     }
     else
     {
-        G_DeferredInitNew(selectedskilllevel, gameepisode, gamemap);
+        G_DeferredInitNew(skilllevel, gameepisode, gamemap);
         C_HideConsoleFast();
     }
 }
@@ -1574,7 +1574,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
     // search through lumps for maps
     for (i = 0; i < numlumps; ++i)
     {
-        int     episode = 0;
+        int     ep = 0;
         int     map = 0;
         char    lump[8];
         char    wad[MAX_PATH];
@@ -1585,15 +1585,15 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
 
         if (gamemode == commercial)
         {
-            episode = 1;
+            ep = 1;
             sscanf(lump, "MAP0%1i", &map);
             if (!map)
                 sscanf(lump, "MAP%2i", &map);
         }
         else
-            sscanf(lump, "E%1iM%1i", &episode, &map);
+            sscanf(lump, "E%1iM%1i", &ep, &map);
 
-        if (!episode-- || !map--)
+        if (!ep-- || !map--)
             continue;
 
         M_StringCopy(wad, uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)), MAX_PATH);
@@ -1605,7 +1605,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
             case doom:
                 if (!replaced || pwad)
                     M_snprintf(maplist[count++], 256, "%s\t%s\t%s", lump,
-                        (replaced && dehcount == 1 ? "-" : *mapnames[episode * 9 + map]),
+                        (replaced && dehcount == 1 ? "-" : *mapnames[ep * 9 + map]),
                         (modifiedgame ? wad : ""));
                 break;
             case doom2:

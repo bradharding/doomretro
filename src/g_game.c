@@ -544,7 +544,7 @@ extern SDL_Window       *window;
 //
 void G_DoLoadLevel(void)
 {
-    int episode;
+    int ep;
 
     // Set the sky map.
     // First thing, we have a dummy sky texture name,
@@ -603,11 +603,11 @@ void G_DoLoadLevel(void)
     P_FreeSecNodeList();
 
     C_AddConsoleDivider();
-    episode = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
-    P_MapName(episode, gamemap);
+    ep = (gamemode == commercial ? (gamemission == pack_nerve ? 2 : 1) : gameepisode);
+    P_MapName(ep, gamemap);
     C_Print(title, mapnumandtitle);
 
-    P_SetupLevel(episode, gamemap);
+    P_SetupLevel(ep, gamemap);
 
     skycolfunc = (canmodify && (textureheight[skytexture] >> FRACBITS) == 128 && !transferredsky
         && (gamemode != commercial || gamemap < 21) ? R_DrawFlippedSkyColumn : R_DrawSkyColumn);
@@ -1229,7 +1229,7 @@ void G_SecretExitLevel(void)
     gameaction = ga_completed;
 }
 
-extern int      selectedepisode;
+extern int      episode;
 extern menu_t   EpiDef;
 
 void ST_doRefresh(void);
@@ -1272,8 +1272,8 @@ void G_DoCompleted(void)
                 if ((gamemode == registered && gameepisode < 3)
                     || (gamemode == retail && gameepisode < 4))
                 {
-                    selectedepisode = gameepisode;
-                    EpiDef.lastOn = selectedepisode;
+                    episode = gameepisode;
+                    EpiDef.lastOn = episode;
                 }
                 break;
             case 9:
@@ -1616,10 +1616,10 @@ skill_t         d_skill;
 int             d_episode;
 int             d_map;
 
-void G_DeferredInitNew(skill_t skill, int episode, int map)
+void G_DeferredInitNew(skill_t skill, int ep, int map)
 {
     d_skill = skill;
-    d_episode = episode;
+    d_episode = ep;
     d_map = map;
     gameaction = ga_newgame;
     markpointnum = 0;
@@ -1631,13 +1631,13 @@ void G_DeferredInitNew(skill_t skill, int episode, int map)
 // G_DeferredLoadLevel
 // [BH] Called when the IDCLEV cheat is used.
 //
-void G_DeferredLoadLevel(skill_t skill, int episode, int map)
+void G_DeferredLoadLevel(skill_t skill, int ep, int map)
 {
     int         i;
     player_t    *player = &players[0];
 
     d_skill = skill;
-    d_episode = episode;
+    d_episode = ep;
     d_map = map;
     gameaction = ga_loadlevel;
     markpointnum = 0;
@@ -1688,7 +1688,7 @@ void G_SetFastParms(int fast_pending)
     }
 }
 
-void G_InitNew(skill_t skill, int episode, int map)
+void G_InitNew(skill_t skill, int ep, int map)
 {
     if (paused)
     {
@@ -1699,18 +1699,18 @@ void G_InitNew(skill_t skill, int episode, int map)
     if (skill > sk_nightmare)
         skill = sk_nightmare;
 
-    if (episode < 1)
-        episode = 1;
+    if (ep < 1)
+        ep = 1;
 
     if (gamemode == retail)
     {
-        if (episode > 4)
-            episode = 4;
+        if (ep > 4)
+            ep = 4;
     }
     else if (gamemode == shareware)
     {
-        if (episode > 1)
-            episode = 1;        // only start episode 1 on shareware
+        if (ep > 1)
+            ep = 1;     // only start episode 1 on shareware
     }
 
     if (map < 1)
@@ -1731,7 +1731,7 @@ void G_InitNew(skill_t skill, int episode, int map)
     paused = false;
     automapactive = false;
     viewactive = true;
-    gameepisode = episode;
+    gameepisode = ep;
     gamemap = map;
     gameskill = skill;
 

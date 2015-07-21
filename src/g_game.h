@@ -46,14 +46,14 @@
 //
 // GAME
 //
-void G_InitNew(skill_t skill, int episode, int map);
+void G_InitNew(skill_t skill, int ep, int map);
 
 // Can be called by the startup code or M_Responder.
 // A normal game starts at map 1,
 // but a warp test can start elsewhere
-void G_DeferredInitNew(skill_t skill, int episode, int map);
+void G_DeferredInitNew(skill_t skill, int ep, int map);
 
-void G_DeferredLoadLevel(skill_t skill, int episode, int map); // [BH]
+void G_DeferredLoadLevel(skill_t skill, int ep, int map); // [BH]
 
 // Can be called by the startup code or M_Responder,
 // calls P_SetupLevel.

@@ -39,8 +39,8 @@
 #if !defined(__P_SETUP__)
 #define __P_SETUP__
 
-void P_SetupLevel(int episode, int map);
-void P_MapName(int episode, int map);
+void P_SetupLevel(int ep, int map);
+void P_MapName(int ep, int map);
 
 // Called by startup code.
 void P_Init(void);

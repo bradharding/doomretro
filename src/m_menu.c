@@ -137,9 +137,9 @@ short           itemOn;                 // menu item skull is on
 short           skullAnimCounter;       // skull animation counter
 short           whichSkull;             // which skull to draw
 
-int             selectedskilllevel = SKILLLEVEL_DEFAULT;
-int             selectedepisode = EPISODE_DEFAULT;
-int             selectedexpansion = EXPANSION_DEFAULT;
+int             skilllevel = SKILLLEVEL_DEFAULT;
+int             episode = EPISODE_DEFAULT;
+int             expansion = EXPANSION_DEFAULT;
 int             selectedsavegame = SAVEGAME_DEFAULT;
 
 static int      functionkey = 0;
@@ -809,7 +809,7 @@ static byte saveg_read8(FILE *file)
 dboolean M_CheckSaveGame(int choice)
 {
     FILE        *handle;
-    int         episode;
+    int         ep;
     int         mission;
     int         i;
 
@@ -817,7 +817,7 @@ dboolean M_CheckSaveGame(int choice)
 
     for (i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
         saveg_read8(handle);
-    episode = saveg_read8(handle);
+    ep = saveg_read8(handle);
     saveg_read8(handle);
     mission = saveg_read8(handle);
 
@@ -830,7 +830,7 @@ dboolean M_CheckSaveGame(int choice)
             return true;
         if (gamemission == pack_nerve)
         {
-            ExpDef.lastOn = selectedexpansion = ex1;
+            ExpDef.lastOn = expansion = ex1;
             gamemission = doom2;
             return true;
         }
@@ -843,7 +843,7 @@ dboolean M_CheckSaveGame(int choice)
             return true;
         if (gamemission == doom2 && nerve)
         {
-            ExpDef.lastOn = selectedexpansion = ex2;
+            ExpDef.lastOn = expansion = ex2;
             gamemission = pack_nerve;
             return true;
         }
@@ -852,9 +852,9 @@ dboolean M_CheckSaveGame(int choice)
     }
     if (mission != gamemission)
         return false;
-    if (episode > 1 && gamemode == shareware)
+    if (ep > 1 && gamemode == shareware)
         return false;
-    if (episode > 3 && gamemode == registered)
+    if (ep > 3 && gamemode == registered)
         return false;
 
     return true;
@@ -1504,7 +1504,7 @@ void M_SetWindowCaption(void)
     {
         if (nerve && (currentMenu == &ExpDef || currentMenu == &NewDef))
             M_snprintf(caption, sizeof(caption), "%s: %s", gamedescription,
-            (selectedexpansion == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
+            (expansion == ex1 ? s_CAPTION_HELLONEARTH : s_CAPTION_NERVE));
         else
             M_StringCopy(caption, gamedescription, sizeof(caption));
         if (bfgedition)
@@ -2805,17 +2805,17 @@ dboolean M_Responder(event_t *ev)
 
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
-                selectedepisode = itemOn;
+                episode = itemOn;
                 M_SaveCVARs();
             }
             else if (currentMenu == &ExpDef)
             {
-                selectedexpansion = itemOn;
+                expansion = itemOn;
                 M_SaveCVARs();
             }
             else if (currentMenu == &NewDef)
             {
-                selectedskilllevel = itemOn;
+                skilllevel = itemOn;
                 M_SaveCVARs();
             }
             else if (currentMenu == &SaveDef)
@@ -2868,17 +2868,17 @@ dboolean M_Responder(event_t *ev)
 
             if (currentMenu == &EpiDef && gamemode != shareware)
             {
-                selectedepisode = itemOn;
+                episode = itemOn;
                 M_SaveCVARs();
             }
             else if (currentMenu == &ExpDef)
             {
-                selectedexpansion = itemOn;
+                expansion = itemOn;
                 M_SaveCVARs();
             }
             else if (currentMenu == &NewDef)
             {
-                selectedskilllevel = itemOn;
+                skilllevel = itemOn;
                 M_SaveCVARs();
             }
             else if (currentMenu == &SaveDef)
@@ -3017,17 +3017,17 @@ dboolean M_Responder(event_t *ev)
                     itemOn = i;
                     if (currentMenu == &EpiDef && gamemode != shareware)
                     {
-                        selectedepisode = itemOn;
+                        episode = itemOn;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &ExpDef)
                     {
-                        selectedexpansion = itemOn;
+                        expansion = itemOn;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &NewDef)
                     {
-                        selectedskilllevel = itemOn;
+                        skilllevel = itemOn;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &SaveDef)
@@ -3066,17 +3066,17 @@ dboolean M_Responder(event_t *ev)
                     itemOn = i;
                     if (currentMenu == &EpiDef && gamemode != shareware)
                     {
-                        selectedepisode = itemOn;
+                        episode = itemOn;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &ExpDef)
                     {
-                        selectedexpansion = itemOn;
+                        expansion = itemOn;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &NewDef)
                     {
-                        selectedskilllevel = itemOn;
+                        skilllevel = itemOn;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &SaveDef)
@@ -3334,13 +3334,13 @@ void M_Init(void)
 
     if (autostart)
     {
-        selectedepisode = startepisode - 1;
-        selectedskilllevel = startskill;
+        episode = startepisode - 1;
+        skilllevel = startskill;
     }
     if (gamemode != shareware)
-        EpiDef.lastOn = selectedepisode;
-    ExpDef.lastOn = selectedexpansion;
-    NewDef.lastOn = selectedskilllevel;
+        EpiDef.lastOn = episode;
+    ExpDef.lastOn = expansion;
+    NewDef.lastOn = skilllevel;
     SaveDef.lastOn = LoadDef.lastOn = selectedsavegame;
     M_ReadSaveStrings();
 
