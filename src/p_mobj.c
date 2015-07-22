@@ -1065,7 +1065,7 @@ void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z, angle_t angle, dboolean sound)
         {
             S_StartSound(th, sfx_punch);
 
-            if (gamepadvibrate && vibrate)
+            if (gp_vibrate && vibrate)
             {
                 int motorspeed = weaponinfo[wp_fist].motorspeed;
 

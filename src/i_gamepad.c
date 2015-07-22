@@ -88,7 +88,7 @@ void (*gamepadthumbsfunc)(short, short, short, short);
 void I_InitGamepad(void)
 {
     gamepadfunc = I_PollDirectInputGamepad;
-    gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_DirectInput_LeftHanded :
+    gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_DirectInput_LeftHanded :
         I_PollThumbs_DirectInput_RightHanded);
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
@@ -136,7 +136,7 @@ void I_InitGamepad(void)
                     if (pXInputGetState(0, &state) == ERROR_SUCCESS)
                     {
                         gamepadfunc = I_PollXInputGamepad;
-                        gamepadthumbsfunc = (gamepadlefthanded ? I_PollThumbs_XInput_LeftHanded :
+                        gamepadthumbsfunc = (gp_swapthumbsticks ? I_PollThumbs_XInput_LeftHanded :
                             I_PollThumbs_XInput_RightHanded);
                         C_Output("XInput gamepad detected. Using %s.", XInputDLL);
                     }
@@ -226,7 +226,7 @@ void I_PollDirectInputGamepad(void)
             }
         }
 
-        if (gamepadsensitivity || menuactive || (gamepadbuttons & gamepadmenu))
+        if (gp_sensitivity || menuactive || (gamepadbuttons & gamepadmenu))
         {
             event_t     ev;
 
@@ -314,7 +314,7 @@ void I_PollXInputGamepad(void)
             }
         }
 
-        if (gamepadsensitivity || menuactive || (gamepadbuttons & gamepadmenu))
+        if (gp_sensitivity || menuactive || (gamepadbuttons & gamepadmenu))
         {
             event_t      ev;
 

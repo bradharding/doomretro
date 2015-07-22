@@ -115,8 +115,6 @@ wbstartstruct_t wminfo;                 // parms for world map / intermission
 
 byte            consistency[MAXPLAYERS][BACKUPTICS];
 
-//dboolean        autosave = AUTOSAVE_DEFAULT;
-
 //
 // controls (have defaults)
 //
@@ -174,12 +172,10 @@ int             gamepadfire = GAMEPADFIRE_DEFAULT;
 int             gamepadmenu = GAMEPADMENU_DEFAULT;
 int             gamepadleftdeadzone;
 int             gamepadrightdeadzone;
-dboolean        gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
 int             gamepadnextweapon = GAMEPADNEXTWEAPON_DEFAULT;
 int             gamepadprevweapon = GAMEPADPREVWEAPON_DEFAULT;
 int             gamepadrun = GAMEPADRUN_DEFAULT;
 int             gamepaduse = GAMEPADUSE_DEFAULT;
-dboolean        gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
 int             gamepadweapon1 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon2 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon3 = GAMEPADWEAPON_DEFAULT;
@@ -187,6 +183,9 @@ int             gamepadweapon4 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
+
+dboolean        gp_swapthumbsticks = GP_SWAPTHUMBSTICKS_DEFAULT;
+dboolean        gp_vibrate = GP_VIBRATE_DEFAULT;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -948,7 +947,7 @@ void G_Ticker(void)
                 {
                     S_PauseSound();
 
-                    if (gamepadvibrate && vibrate)
+                    if (gp_vibrate && vibrate)
                     {
                         restoremotorspeed = idlemotorspeed;
                         idlemotorspeed = 0;
@@ -963,7 +962,7 @@ void G_Ticker(void)
                     S_ResumeSound();
                     S_StartSound(NULL, sfx_swtchx);
 
-                    if (gamepadvibrate && vibrate)
+                    if (gp_vibrate && vibrate)
                     {
                         idlemotorspeed = restoremotorspeed;
                         XInputVibration(idlemotorspeed);

@@ -86,7 +86,7 @@ extern dboolean skippsprinterp;
 // defaulted values
 //
 int             mousesensitivity = MOUSESENSITIVITY_DEFAULT;
-int             gamepadsensitivity = GAMEPADSENSITIVITY_DEFAULT;
+int             gp_sensitivity = GP_SENSITIVITY_DEFAULT;
 float           gamepadsensitivityf;
 
 // Show messages has default, false = off, true = on
@@ -1641,7 +1641,7 @@ void M_DrawOptions(void)
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + 1, 9,
-            gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX * 8.0f, 8.0f);
+            gp_sensitivity / (float)GP_SENSITIVITY_MAX * 8.0f, 8.0f);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
             mousesensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
@@ -1838,29 +1838,27 @@ void M_ChangeSensitivity(int choice)
         switch (choice)
         {
             case 0:
-                if (gamepadsensitivity > GAMEPADSENSITIVITY_MIN)
+                if (gp_sensitivity > GP_SENSITIVITY_MIN)
                 {
-                    if (gamepadsensitivity & 1)
-                        ++gamepadsensitivity;
-                    gamepadsensitivity -= 2;
-                    gamepadsensitivityf = (!gamepadsensitivity ? 0.0f : GAMEPADSENSITIVITY_OFFSET
-                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX
-                        * GAMEPADSENSITIVITY_FACTOR);
-                    C_Input("gp_sensitivity %i", gamepadsensitivity);
+                    if (gp_sensitivity & 1)
+                        ++gp_sensitivity;
+                    gp_sensitivity -= 2;
+                    gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
+                        + gp_sensitivity / (float)GP_SENSITIVITY_MAX * GP_SENSITIVITY_FACTOR);
+                    C_Input("gp_sensitivity %i", gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
                 break;
             case 1:
-                if (gamepadsensitivity < GAMEPADSENSITIVITY_MAX)
+                if (gp_sensitivity < GP_SENSITIVITY_MAX)
                 {
-                    if (gamepadsensitivity & 1)
-                        --gamepadsensitivity;
-                    gamepadsensitivity += 2;
-                    gamepadsensitivityf = GAMEPADSENSITIVITY_OFFSET
-                        + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX
-                        * GAMEPADSENSITIVITY_FACTOR;
-                    C_Input("gp_sensitivity %i", gamepadsensitivity);
+                    if (gp_sensitivity & 1)
+                        --gp_sensitivity;
+                    gp_sensitivity += 2;
+                    gamepadsensitivityf = GP_SENSITIVITY_OFFSET
+                        + gp_sensitivity / (float)GP_SENSITIVITY_MAX * GP_SENSITIVITY_FACTOR;
+                    C_Input("gp_sensitivity %i", gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -3114,7 +3112,7 @@ void M_StartControlPanel(void)
 
     S_StopSounds();
 
-    if (gamepadvibrate && vibrate)
+    if (gp_vibrate && vibrate)
     {
         restoremotorspeed = idlemotorspeed;
         idlemotorspeed = 0;
@@ -3273,7 +3271,7 @@ void M_ClearMenus(void)
 {
     menuactive = false;
 
-    if (gamepadvibrate && vibrate)
+    if (gp_vibrate && vibrate)
     {
         idlemotorspeed = restoremotorspeed;
         XInputVibration(idlemotorspeed);

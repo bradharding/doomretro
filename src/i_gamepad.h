@@ -79,8 +79,8 @@
 #define gamepadthumbRXright             pow((gamepadthumbRX - gamepadrightdeadzone) /\
                                         ((float)SHRT_MAX - gamepadrightdeadzone), 3.0f)
 
-#define GAMEPADSENSITIVITY_OFFSET       1.0f
-#define GAMEPADSENSITIVITY_FACTOR       3.0f
+#define GP_SENSITIVITY_OFFSET           1.0f
+#define GP_SENSITIVITY_FACTOR           3.0f
 
 int damagevibrationtics;
 int weaponvibrationtics;
@@ -98,13 +98,11 @@ extern int      gamepadautomap;
 extern int      gamepadfire;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
-extern dboolean gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
 extern int      gamepadrun;
 extern int      gamepaduse;
-extern dboolean gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -113,7 +111,9 @@ extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 
-extern int      gamepadsensitivity;
+extern int      gp_sensitivity;
+extern dboolean gp_swapthumbsticks;
+extern dboolean gp_vibrate;
 
 void I_InitGamepad(void);
 void I_ShutdownGamepad(void);

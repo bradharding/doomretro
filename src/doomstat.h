@@ -211,7 +211,7 @@ extern dboolean         precache;
 extern gamestate_t      wipegamestate;
 
 extern int              mousesensitivity;
-extern int              gamepadsensitivity;
+extern int              gp_sensitivity;
 extern float            gamepadsensitivityf;
 
 // Needed to store the number of the dummy sky flat.

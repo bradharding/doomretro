@@ -96,6 +96,22 @@
 
 #define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
 
+#define GAMEPADMENU_DEFAULT                     GAMEPAD_START
+
+#define GAMEPADNEXTWEAPON_DEFAULT               GAMEPAD_B
+
+#define GAMEPADPREVWEAPON_DEFAULT               GAMEPAD_Y
+
+#define GAMEPADRUN_DEFAULT                      GAMEPAD_LEFT_TRIGGER
+
+#define GAMEPADUSE_DEFAULT                      GAMEPAD_A
+
+#define GAMEPADWEAPON_DEFAULT                   0
+
+#define GAMMALEVEL_MIN                          gammalevels[0]
+#define GAMMALEVEL_DEFAULT                      0.75
+#define GAMMALEVEL_MAX                          gammalevels[GAMMALEVELS - 1]
+
 #define GP_DEADZONE_LEFT_MIN                    0.0f
 #define GP_DEADZONE_LEFT_DEFAULT                (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
 #define GP_DEADZONE_LEFT_MAX                    (float)SHRT_MAX
@@ -104,29 +120,13 @@
 #define GP_DEADZONE_RIGHT_DEFAULT               (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
 #define GP_DEADZONE_RIGHT_MAX                   (float)SHRT_MAX
 
-#define GAMEPADMENU_DEFAULT                     GAMEPAD_START
+#define GP_SENSITIVITY_MIN                      0
+#define GP_SENSITIVITY_DEFAULT                  32
+#define GP_SENSITIVITY_MAX                      128
 
-#define GAMEPADNEXTWEAPON_DEFAULT               GAMEPAD_B
+#define GP_SWAPTHUMBSTICKS_DEFAULT              false
 
-#define GAMEPADPREVWEAPON_DEFAULT               GAMEPAD_Y
-
-#define GAMEPADSENSITIVITY_MIN                  0
-#define GAMEPADSENSITIVITY_DEFAULT              32
-#define GAMEPADSENSITIVITY_MAX                  128
-
-#define GAMEPADRUN_DEFAULT                      GAMEPAD_LEFT_TRIGGER
-
-#define GAMEPADUSE_DEFAULT                      GAMEPAD_A
-
-#define GAMEPADWEAPON_DEFAULT                   0
-
-#define GAMEPADLEFTHANDED_DEFAULT               false
-
-#define GAMEPADVIBRATE_DEFAULT                  true
-
-#define GAMMALEVEL_MIN                          gammalevels[0]
-#define GAMMALEVEL_DEFAULT                      0.75
-#define GAMMALEVEL_MAX                          gammalevels[GAMMALEVELS - 1]
+#define GP_VIBRATE_DEFAULT                      true
 
 #define LOW                                     0
 #define HIGH                                    1

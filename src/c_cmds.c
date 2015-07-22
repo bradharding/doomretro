@@ -114,14 +114,11 @@ extern int      gamepadautomapzoomout;
 extern int      gamepadfire;
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
-extern dboolean gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
 extern int      gamepadprevweapon;
 extern int      gamepadrun;
-extern int      gamepadsensitivity;
 extern int      gamepaduse;
-extern dboolean gamepadvibrate;
 extern int      gamepadweapon1;
 extern int      gamepadweapon2;
 extern int      gamepadweapon3;
@@ -132,6 +129,9 @@ extern int      gamepadweapon7;
 extern float    gammalevel;
 extern float    gp_deadzone_left;
 extern float    gp_deadzone_right;
+extern int      gp_sensitivity;
+extern dboolean gp_swapthumbsticks;
+extern dboolean gp_vibrate;
 extern int      graphicdetail;
 extern dboolean homindicator;
 extern dboolean hud;
@@ -448,9 +448,9 @@ consolecmd_t consolecmds[] =
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gp_deadzone_left, "The dead zone of the gamepad's left thumbstick."),
     CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gp_deadzone_right, "The dead zone of the gamepad's right thumbstick."),
-    CVAR_INT  (gp_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, NOALIAS, GAMEPADSENSITIVITY, "The gamepad's sensitivity."),
-    CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED, "Toggles swapping the gamepad's left and right thumbsticks."),
-    CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE, "Toggles vibration for XInput gamepads."),
+    CVAR_INT  (gp_sensitivity, C_NoCondition, C_Int, CF_NONE, gp_sensitivity, NOALIAS, GP_SENSITIVITY, "The gamepad's sensitivity."),
+    CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gp_swapthumbsticks, GP_SWAPTHUMBSTICKS, "Toggles swapping the gamepad's left and right thumbsticks."),
+    CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gp_vibrate, GP_VIBRATE, "Toggles vibration for XInput gamepads."),
     CMD       (help, C_NoCondition, C_Help, 0, "", "Shows the help screen."),
     CMD_CHEAT (idbeholda, 0),
     CMD_CHEAT (idbeholdl, 0),

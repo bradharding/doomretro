@@ -718,7 +718,7 @@ void C_Drawer(void)
         consoleactive = (consoledirection == 1);
 
         // cancel any gamepad vibrations
-        if (!prevconsoleactive && gamepadvibrate && vibrate)
+        if (!prevconsoleactive && gp_vibrate && vibrate)
         {
             if (consoleactive)
             {

@@ -75,12 +75,12 @@ extern int      episode;
 extern int      expansion;
 extern dboolean floatbob;
 extern dboolean footclip;
-extern dboolean gamepadlefthanded;
-extern int      gamepadsensitivity;
-extern dboolean gamepadvibrate;
 extern float    gammalevel;
 extern float    gp_deadzone_left;
 extern float    gp_deadzone_right;
+extern int      gp_sensitivity;
+extern dboolean gp_swapthumbsticks;
+extern dboolean gp_vibrate;
 extern int      graphicdetail;
 extern dboolean homindicator;
 extern dboolean hud;
@@ -153,9 +153,9 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (expansion,               expansion,                    NOALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,        gp_deadzone_left,             NOALIAS    ),
     CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,       gp_deadzone_right,            NOALIAS    ),
-    CONFIG_VARIABLE_INT          (gp_sensitivity,          gamepadsensitivity,           NOALIAS    ),
-    CONFIG_VARIABLE_INT          (gp_swapthumbsticks,      gamepadlefthanded,            BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (gp_vibrate,              gamepadvibrate,               BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (gp_sensitivity,          gp_sensitivity,               NOALIAS    ),
+    CONFIG_VARIABLE_INT          (gp_swapthumbsticks,      gp_swapthumbsticks,           BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (gp_vibrate,              gp_vibrate,                   BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (iwadfolder,              iwadfolder,                   NOALIAS    ),
     CONFIG_VARIABLE_FLOAT        (m_acceleration,          mouse_acceleration,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (m_doubleclick_use,       dclick_use,                   BOOLALIAS  ),
@@ -484,17 +484,15 @@ static void M_CheckCVARs(void)
     gp_deadzone_right = BETWEENF(GP_DEADZONE_RIGHT_MIN, gp_deadzone_right, GP_DEADZONE_RIGHT_MAX);
     gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
 
-    if (gamepadlefthanded != false && gamepadlefthanded != true)
-        gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
+    if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
+        gp_swapthumbsticks = GP_SWAPTHUMBSTICKS_DEFAULT;
 
-    gamepadsensitivity = BETWEEN(GAMEPADSENSITIVITY_MIN, gamepadsensitivity,
-        GAMEPADSENSITIVITY_MAX);
-    gamepadsensitivityf = (!gamepadsensitivity ? 0.0f :
-        GAMEPADSENSITIVITY_OFFSET + gamepadsensitivity / (float)GAMEPADSENSITIVITY_MAX *
-        GAMEPADSENSITIVITY_FACTOR);
+    gp_sensitivity = BETWEEN(GP_SENSITIVITY_MIN, gp_sensitivity, GP_SENSITIVITY_MAX);
+    gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
+        + gp_sensitivity / (float)GP_SENSITIVITY_MAX * GP_SENSITIVITY_FACTOR);
 
-    if (gamepadvibrate != false && gamepadvibrate != true)
-        gamepadvibrate = GAMEPADVIBRATE_DEFAULT;
+    if (gp_vibrate != false && gp_vibrate != true)
+        gp_vibrate = GP_VIBRATE_DEFAULT;
 
     gammalevel = BETWEENF(GAMMALEVEL_MIN, gammalevel, GAMMALEVEL_MAX);
     gammaindex = 0;
