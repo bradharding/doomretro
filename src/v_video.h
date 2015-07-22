@@ -100,6 +100,7 @@ void V_DrawPatchToTempScreen(int x, int y, patch_t *patch);
 
 void V_DrawPixel(int x, int y, byte color, dboolean shadow);
 
+void GetPixelSize(void);
 void V_LowGraphicDetail(int height);
 
 // Draw a linear block of pixels into the view buffer.

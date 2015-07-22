@@ -247,16 +247,6 @@
 #define MUSICVOLUME_DEFAULT                     100
 #define MUSICVOLUME_MAX                         100
 
-#define PIXELWIDTH_MIN                          2
-#define PIXELWIDTH_DEFAULT                      2
-#define PIXELWIDTH_MAX                          SCREENWIDTH
-
-#define PIXELHEIGHT_MIN                         2
-#define PIXELHEIGHT_DEFAULT                     2
-#define PIXELHEIGHT_MAX                         SCREENHEIGHT
-
-#define PIXELSIZE_DEFAULT                       "2x2"
-
 #define PLAYERBOB_MIN                           0
 #define PLAYERBOB_DEFAULT                       75
 #define PLAYERBOB_MAX                           100
@@ -264,6 +254,8 @@
 #define PLAYERNAME_DEFAULT                      "you"
 
 #define PLAYERSPRITES_DEFAULT                   true
+
+#define R_LOWPIXELSIZE_DEFAULT                  "2x2"
 
 #define RANDOMPITCH_DEFAULT                     false
 

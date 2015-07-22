@@ -61,7 +61,7 @@ byte            *screens[5];
 
 int             pixelwidth;
 int             pixelheight;
-char            *pixelsize = PIXELSIZE_DEFAULT;
+char            *r_lowpixelsize = R_LOWPIXELSIZE_DEFAULT;
 
 extern dboolean translucency;
 
@@ -1137,6 +1137,34 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
     }
 }
 
+void GetPixelSize(void)
+{
+    int     width = -1;
+    int     height = -1;
+    char    *left = strtok(strdup(r_lowpixelsize), "x");
+    char    *right = strtok(NULL, "x");
+
+    if (!right)
+        right = "";
+
+    sscanf(left, "%10i", &width);
+    sscanf(right, "%10i", &height);
+
+    if (width >= 2 && width <= SCREENWIDTH && height >= 2 && height <= SCREENHEIGHT)
+    {
+        pixelwidth = width;
+        pixelheight = height;
+    }
+    else
+    {
+        pixelwidth = 2;
+        pixelheight = 2;
+        r_lowpixelsize = R_LOWPIXELSIZE_DEFAULT;
+
+        M_SaveCVARs();
+    }
+}
+
 void V_LowGraphicDetail(int height)
 {
     int x, y;
@@ -1171,6 +1199,8 @@ void V_Init(void)
     DXI = (ORIGINALWIDTH << 16) / SCREENWIDTH;
     DY = (SCREENHEIGHT << 16) / ORIGINALHEIGHT;
     DYI = (ORIGINALHEIGHT << 16) / SCREENHEIGHT;
+
+    GetPixelSize();
 }
 
 #if !defined(MAX_PATH)

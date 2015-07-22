@@ -184,12 +184,10 @@ extern int      mousebprevweapon;
 extern int      mousebnextweapon;
 extern int      mousebstrafe;
 extern int      mousebuse;
-extern int      pixelheight;
-extern char     *pixelsize;
-extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
 extern dboolean playersprites;
+extern char     *r_lowpixelsize;
 extern dboolean randompitch;
 extern int      runcount;
 extern char     *savegamefolder;
@@ -216,6 +214,9 @@ extern dboolean vid_vsync;
 extern dboolean vid_widescreen;
 extern char     *vid_windowposition;
 extern char     *vid_windowsize;
+
+extern int      pixelwidth;
+extern int      pixelheight;
 
 control_t controls[] =
 {
@@ -504,7 +505,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_liquid_bob, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID, "Toggles the bobbing effect of liquid sectors."),
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP, "Toggles the bottom of sprites being clipped in liquid sectors."),
     CVAR_BOOL (r_liquid_ripple, C_BoolCondition, C_Bool, swirlingliquid, ANIMATEDLIQUID, "Toggles the ripple effect of liquid sectors."),
-    CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, pixelsize, "The size of pixels when the graphic detail is low."),
+    CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, r_lowpixelsize, "The size of pixels when the graphic detail is low."),
     CVAR_BOOL (r_fixmaperrors, C_BoolCondition, C_Bool, mapfixes, MAPFIXES, "Toggles the fixing of mapping errors in the DOOM IWADs."),
     CVAR_BOOL (r_fixspriteoffsets, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggles the fixing of sprite offsets."),
     CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxbloodsplats, SPLATALIAS, MAXBLOODSPLATS, "The maximum number of blood splats spawned in a map."),
@@ -1903,26 +1904,15 @@ static void C_PixelSize(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        int     width = -1;
-        int     height = -1;
+        r_lowpixelsize = strdup(parm1);
 
-        sscanf(parm1, "%10ix%10i", &width, &height);
+        GetPixelSize();
 
-        if (width >= 0 && height >= 0)
-        {
-            pixelwidth = BETWEEN(PIXELWIDTH_MIN, width, PIXELWIDTH_MAX);
-            while (SCREENWIDTH % pixelwidth)
-                --pixelwidth;
-
-            pixelheight = BETWEEN(PIXELHEIGHT_MIN, height, PIXELHEIGHT_MAX);
-            while (SCREENHEIGHT % pixelheight)
-                --pixelheight;
-
+        if (strcasecmp(r_lowpixelsize, parm1))
             M_SaveCVARs();
-        }
     }
     else
-        C_Output("%ix%i", pixelwidth, pixelheight);
+        C_Output(r_lowpixelsize);
 }
 
 static dboolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)

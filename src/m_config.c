@@ -94,12 +94,10 @@ extern dboolean m_doubleclick_use;
 extern dboolean m_novertical;
 extern int      m_sensitivity;
 extern int      m_threshold;
-extern int      pixelheight;
-extern char     *pixelsize;
-extern int      pixelwidth;
 extern int      playerbob;
 extern char     *playername;
 extern dboolean playersprites;
+extern char     *r_lowpixelsize;
 extern dboolean randompitch;
 extern int      runcount;
 extern int      selectedsavegame;
@@ -126,6 +124,8 @@ extern char     *vid_windowsize;
 
 extern int      gamepadleftdeadzone;
 extern int      gamepadrightdeadzone;
+extern int      pixelwidth;
+extern int      pixelheight;
 extern dboolean returntowidescreen;
 
 #define CONFIG_VARIABLE_GENERIC(name, variable, type, set) \
@@ -184,8 +184,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_liquid_bob,            animatedliquid,               BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,    footclip,                     BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_ripple,         swirlingliquid,               BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_lowpixelheight,        pixelheight,                  NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_lowpixelwidth,         pixelwidth,                   NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (r_lowpixelsize,          r_lowpixelsize,               NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_maxbloodsplats,        maxbloodsplats,               SPLATALIAS ),
     CONFIG_VARIABLE_INT          (r_mirrorweapons,         mirrorweapons,                BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_playersprites,         playersprites,                BOOLALIAS  ),
@@ -529,14 +528,6 @@ static void M_CheckCVARs(void)
 
     if (m_novertical != false && m_novertical != true)
         m_novertical = M_NOVERTICAL_DEFAULT;
-
-    pixelwidth = BETWEEN(PIXELWIDTH_MIN, pixelwidth, PIXELWIDTH_MAX);
-    while (SCREENWIDTH % pixelwidth)
-        --pixelwidth;
-
-    pixelheight = BETWEEN(PIXELHEIGHT_MIN, pixelheight, PIXELHEIGHT_MAX);
-    while (SCREENHEIGHT % pixelheight)
-        --pixelheight;
 
     playerbob = BETWEEN(PLAYERBOB_MIN, playerbob, PLAYERBOB_MAX);
 
