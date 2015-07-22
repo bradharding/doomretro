@@ -37,6 +37,7 @@
 */
 
 #if defined(WIN32)
+#pragma warning( disable : 4091 )
 #include <Shlobj.h>
 #endif
 
