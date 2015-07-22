@@ -96,13 +96,13 @@
 
 #define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
 
-#define GAMEPADLEFTDEADZONE_MIN                 0.0f
-#define GAMEPADLEFTDEADZONE_DEFAULT             GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f
-#define GAMEPADLEFTDEADZONE_MAX                 (float)SHRT_MAX
+#define GP_DEADZONE_LEFT_MIN                    0.0f
+#define GP_DEADZONE_LEFT_DEFAULT                (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
+#define GP_DEADZONE_LEFT_MAX                    (float)SHRT_MAX
 
-#define GAMEPADRIGHTDEADZONE_MIN                0.0f
-#define GAMEPADRIGHTDEADZONE_DEFAULT            GAMEPAD_RIGHT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f
-#define GAMEPADRIGHTDEADZONE_MAX                (float)SHRT_MAX
+#define GP_DEADZONE_RIGHT_MIN                   0.0f
+#define GP_DEADZONE_RIGHT_DEFAULT               (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
+#define GP_DEADZONE_RIGHT_MAX                   (float)SHRT_MAX
 
 #define GAMEPADMENU_DEFAULT                     GAMEPAD_START
 

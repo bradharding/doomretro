@@ -113,9 +113,7 @@ extern int      gamepadautomapzoomin;
 extern int      gamepadautomapzoomout;
 extern int      gamepadfire;
 extern int      gamepadleftdeadzone;
-extern float    gamepadleftdeadzone_percent;
 extern int      gamepadrightdeadzone;
-extern float    gamepadrightdeadzone_percent;
 extern dboolean gamepadlefthanded;
 extern int      gamepadmenu;
 extern int      gamepadnextweapon;
@@ -132,6 +130,8 @@ extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 extern float    gammalevel;
+extern float    gp_deadzone_left;
+extern float    gp_deadzone_right;
 extern int      graphicdetail;
 extern dboolean homindicator;
 extern dboolean hud;
@@ -446,8 +446,8 @@ consolecmd_t consolecmds[] =
     CVAR_TIME (gametime, C_NoCondition, C_Time, gametic, "The amount of time since "PACKAGE_NAME" started."),
     CMD       (give, C_GiveCondition, C_Give, 1, GIVECMDFORMAT, "Gives items to the player."),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggles god mode."),
-    CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadleftdeadzone_percent, "The dead zone of the gamepad's left thumbstick."),
-    CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gamepadrightdeadzone_percent, "The dead zone of the gamepad's right thumbstick."),
+    CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gp_deadzone_left, "The dead zone of the gamepad's left thumbstick."),
+    CVAR_FLOAT(gp_deadzone_right, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gp_deadzone_right, "The dead zone of the gamepad's right thumbstick."),
     CVAR_INT  (gp_sensitivity, C_NoCondition, C_Int, CF_NONE, gamepadsensitivity, NOALIAS, GAMEPADSENSITIVITY, "The gamepad's sensitivity."),
     CVAR_BOOL (gp_swapthumbsticks, C_BoolCondition, C_Bool, gamepadlefthanded, GAMEPADLEFTHANDED, "Toggles swapping the gamepad's left and right thumbsticks."),
     CVAR_BOOL (gp_vibrate, C_BoolCondition, C_Bool, gamepadvibrate, GAMEPADVIBRATE, "Toggles vibration for XInput gamepads."),
@@ -952,25 +952,21 @@ static void C_DeadZone(char *cmd, char *parm1, char *parm2)
         {
             if (!strcasecmp(cmd, "gp_deadzone_left"))
             {
-                gamepadleftdeadzone_percent = value;
-                gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN,
-                    gamepadleftdeadzone_percent,
-                    GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
+                gp_deadzone_left = BETWEENF(GP_DEADZONE_LEFT_MIN, value, GP_DEADZONE_LEFT_MAX);
+                gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
             }
             else
             {
-                gamepadrightdeadzone_percent = value;
-                gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN,
-                    gamepadrightdeadzone_percent,
-                    GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
+                gp_deadzone_right = BETWEENF(GP_DEADZONE_RIGHT_MIN, value, GP_DEADZONE_RIGHT_MAX);
+                gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
             }
             M_SaveCVARs();
         }
     }
     else if (!strcasecmp(cmd, "gp_deadzone_left"))
-        C_Output("%s %s%%", cmd, striptrailingzero(gamepadleftdeadzone_percent, 1));
+        C_Output("%s %s%%", cmd, striptrailingzero(gp_deadzone_left, 1));
     else
-        C_Output("%s %s%%", cmd, striptrailingzero(gamepadrightdeadzone_percent, 1));
+        C_Output("%s %s%%", cmd, striptrailingzero(gp_deadzone_right, 1));
 }
 
 static void C_Display(char *cmd, char *parm1, char *parm2)

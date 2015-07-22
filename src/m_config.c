@@ -55,14 +55,9 @@
 
 char    *configfile = PACKAGE_CONFIG;
 
-float   gamepadleftdeadzone_percent = GAMEPADLEFTDEADZONE_DEFAULT;
-float   gamepadrightdeadzone_percent = GAMEPADRIGHTDEADZONE_DEFAULT;
 int     musicvolume_percent = MUSICVOLUME_DEFAULT;
 int     sfxvolume_percent = SFXVOLUME_DEFAULT;
 
-//
-// DEFAULTS
-//
 extern dboolean alwaysrun;
 extern dboolean am_grid;
 extern dboolean am_rotatemode;
@@ -80,12 +75,12 @@ extern int      episode;
 extern int      expansion;
 extern dboolean floatbob;
 extern dboolean footclip;
-extern int      gamepadleftdeadzone;
-extern int      gamepadrightdeadzone;
 extern dboolean gamepadlefthanded;
 extern int      gamepadsensitivity;
 extern dboolean gamepadvibrate;
 extern float    gammalevel;
+extern float    gp_deadzone_left;
+extern float    gp_deadzone_right;
 extern int      graphicdetail;
 extern dboolean homindicator;
 extern dboolean hud;
@@ -130,6 +125,8 @@ extern dboolean vid_widescreen;
 extern char     *vid_windowposition;
 extern char     *vid_windowsize;
 
+extern int      gamepadleftdeadzone;
+extern int      gamepadrightdeadzone;
 extern dboolean returntowidescreen;
 
 #define CONFIG_VARIABLE_GENERIC(name, variable, type, set) \
@@ -154,8 +151,8 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (am_rotatemode,           am_rotatemode,                BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (episode,                 episode,                      NOALIAS    ),
     CONFIG_VARIABLE_INT          (expansion,               expansion,                    NOALIAS    ),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,        gamepadleftdeadzone_percent,  NOALIAS    ),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,       gamepadrightdeadzone_percent, NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,        gp_deadzone_left,             NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,       gp_deadzone_right,            NOALIAS    ),
     CONFIG_VARIABLE_INT          (gp_sensitivity,          gamepadsensitivity,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,      gamepadlefthanded,            BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (gp_vibrate,              gamepadvibrate,               BOOLALIAS  ),
@@ -481,11 +478,11 @@ static void M_CheckCVARs(void)
     if (vid_fullscreen != false && vid_fullscreen != true)
         vid_fullscreen = VID_FULLSCREEN_DEFAULT;
 
-    gamepadleftdeadzone = (int)(BETWEENF(GAMEPADLEFTDEADZONE_MIN, gamepadleftdeadzone_percent,
-        GAMEPADLEFTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
+    gp_deadzone_left = BETWEENF(GP_DEADZONE_LEFT_MIN, gp_deadzone_left, GP_DEADZONE_LEFT_MAX);
+    gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
 
-    gamepadrightdeadzone = (int)(BETWEENF(GAMEPADRIGHTDEADZONE_MIN, gamepadrightdeadzone_percent,
-        GAMEPADRIGHTDEADZONE_MAX) * (float)SHRT_MAX / 100.0f);
+    gp_deadzone_right = BETWEENF(GP_DEADZONE_RIGHT_MIN, gp_deadzone_right, GP_DEADZONE_RIGHT_MAX);
+    gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
 
     if (gamepadlefthanded != false && gamepadlefthanded != true)
         gamepadlefthanded = GAMEPADLEFTHANDED_DEFAULT;
