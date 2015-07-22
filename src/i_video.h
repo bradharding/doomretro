@@ -65,6 +65,7 @@ void I_ShutdownGraphics(void);
 
 void GetWindowPosition(void);
 void GetWindowSize(void);
+void GetScreenResolution(void);
 
 void I_ShutdownKeyboard(void);
 

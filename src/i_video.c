@@ -734,6 +734,42 @@ void GetWindowSize(void)
     }
 }
 
+void GetScreenResolution(void)
+{
+    if (!strcasecmp(vid_screenresolution, "desktop"))
+    {
+        screenwidth = 0;
+        screenheight = 0;
+    }
+    else
+    {
+        int     width = -1;
+        int     height = -1;
+        char    *left = strtok(strdup(vid_screenresolution), "x");
+        char    *right = strtok(NULL, "x");
+
+        if (!right)
+            right = "";
+
+        sscanf(left, "%10i", &width);
+        sscanf(right, "%10i", &height);
+
+        if (width >= 0 && height >= 0)
+        {
+            screenwidth = width;
+            screenheight = height;
+        }
+        else
+        {
+            screenwidth = 0;
+            screenheight = 0;
+            vid_screenresolution = "desktop";
+
+            M_SaveCVARs();
+        }
+    }
+}
+
 static resolution_t resolutions[] =
 {
     {  960,  640, "DVGA",   "3:2"   }, {  960,  720, "",       "4:3"   },
@@ -847,6 +883,7 @@ static void SetVideoMode(dboolean output)
 
     GetWindowPosition();
     GetWindowSize();
+    GetScreenResolution();
 
     if (vid_fullscreen)
     {

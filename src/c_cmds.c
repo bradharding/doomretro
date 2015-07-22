@@ -2033,49 +2033,24 @@ static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
         C_Output("\"%s\"", vid_scalefilter);
 }
 
-extern int      desktopwidth;
-extern int      desktopheight;
-
 static void C_ScreenResolution(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        if (!strcasecmp(parm1, "desktop"))
+        vid_screenresolution = strdup(parm1);
+
+        GetScreenResolution();
+
+        if (strcasecmp(vid_screenresolution, parm1))
         {
-            if (screenwidth && screenheight)
-            {
-                screenwidth = 0;
-                screenheight = 0;
+            M_SaveCVARs();
 
-                M_SaveCVARs();
-                if (vid_fullscreen)
-                    I_RestartGraphics();
-            }
-        }
-        else
-        {
-            int     width = -1;
-            int     height = -1;
-            char    *left = strtok(parm1, "x");
-            char    *right = strtok(NULL, "x");
-
-            sscanf(left, "%10i", &width);
-            sscanf(right, "%10i", &height);
-
-            if (width >= 0 && height >= 0 && (width != screenwidth || height != screenheight))
-            {
-                screenwidth = width;
-                screenheight = height;
-                M_SaveCVARs();
-                if (vid_fullscreen)
-                    I_RestartGraphics();
-            }
+            if (vid_fullscreen)
+                I_RestartGraphics();
         }
     }
-    else if (!screenwidth || !screenheight)
-        C_Output("desktop");
     else
-        C_Output("%ix%i", screenwidth, screenheight);
+        C_Output(vid_screenresolution);
 }
 
 static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
@@ -2384,10 +2359,13 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
  
         GetWindowPosition();
 
-        M_SaveCVARs();
+        if (strcasecmp(vid_windowposition, parm1))
+        {
+            M_SaveCVARs();
 
-        if (!vid_fullscreen)
-            SDL_SetWindowPosition(window, windowx, windowy);
+            if (!vid_fullscreen)
+                SDL_SetWindowPosition(window, windowx, windowy);
+        }
     }
     else if (!vid_windowposition[0])
         C_Output("center");
@@ -2403,10 +2381,13 @@ static void C_WindowSize(char *cmd, char *parm1, char *parm2)
 
         GetWindowSize();
 
-        M_SaveCVARs();
+        if (strcasecmp(vid_windowsize, parm1))
+        {
+            M_SaveCVARs();
 
-        if (!vid_fullscreen)
-            SDL_SetWindowSize(window, windowwidth, windowheight);
+            if (!vid_fullscreen)
+                SDL_SetWindowSize(window, windowwidth, windowheight);
+        }
     }
     else
         C_Output(vid_windowsize);

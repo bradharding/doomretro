@@ -102,8 +102,6 @@ extern char     *playername;
 extern dboolean playersprites;
 extern dboolean randompitch;
 extern int      runcount;
-extern int      screenheight;
-extern int      screenwidth;
 extern int      selectedsavegame;
 extern dboolean shadows;
 extern int      skilllevel;
@@ -209,8 +207,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (vid_fullscreen,          vid_fullscreen,               BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_scaledriver,         vid_scaledriver,              NOALIAS    ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,         vid_scalefilter,              NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_screenheight,        screenheight,                 SCREENALIAS),
-    CONFIG_VARIABLE_INT          (vid_screenwidth,         screenwidth,                  SCREENALIAS),
+    CONFIG_VARIABLE_STRING       (vid_screenresolution,    vid_screenresolution,         NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_vsync,               vid_vsync,                    BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_widescreen,          vid_widescreen,               BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_windowposition,      vid_windowposition,           NOALIAS    ),
@@ -223,11 +220,10 @@ alias_t aliases[] =
     { "0",             0, BOOLALIAS   }, { "1",             1, BOOLALIAS   },
     { "no",            0, BOOLALIAS   }, { "yes",           1, BOOLALIAS   },
     { "false",         0, BOOLALIAS   }, { "true",          1, BOOLALIAS   },
-    { "desktop",       0, SCREENALIAS }, { "low",           0, DETAILALIAS },
-    { "high",          1, DETAILALIAS }, { "unlimited", 32768, SPLATALIAS  },
-    { "off",           1, GAMMAALIAS  }, { "none",          0, BLOODALIAS  },
-    { "red",           1, BLOODALIAS  }, { "all",           2, BLOODALIAS  }, 
-    { "",              0, NOALIAS     }
+    { "low",           0, DETAILALIAS }, { "high",          1, DETAILALIAS },
+    { "unlimited", 32768, SPLATALIAS  }, { "off",           1, GAMMAALIAS  },
+    { "none",          0, BLOODALIAS  }, { "red",           1, BLOODALIAS  },
+    { "all",           2, BLOODALIAS  }, { "",              0, NOALIAS     }
 };
 
 char *striptrailingzero(float value, int precision)
@@ -563,13 +559,6 @@ static void M_CheckCVARs(void)
         vid_scalefilter = VID_SCALEFILTER_DEFAULT;
 
     screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
-
-    if (screenwidth && screenheight
-        && (screenwidth < SCREENWIDTH || screenheight < SCREENHEIGHT * 3 / 4))
-    {
-        screenwidth = SCREENWIDTH_DEFAULT;
-        screenheight = SCREENHEIGHT_DEFAULT;
-    }
 
     episode = BETWEEN(EPISODE_MIN, episode, EPISODE_MAX - (gamemode == registered));
 
