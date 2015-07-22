@@ -275,7 +275,6 @@
     <ClInclude Include="..\src\hu_lib.h" />
     <ClInclude Include="..\src\hu_stuff.h" />
     <ClInclude Include="..\src\info.h" />
-    <ClInclude Include="..\src\inttypes.h" />
     <ClInclude Include="..\src\i_gamepad.h" />
     <ClInclude Include="..\src\i_tinttab.h" />
     <ClInclude Include="..\src\i_swap.h" />
@@ -314,7 +313,6 @@
     <ClInclude Include="..\src\r_state.h" />
     <ClInclude Include="..\src\r_things.h" />
     <ClInclude Include="..\src\sounds.h" />
-    <ClInclude Include="..\src\stdint.h" />
     <ClInclude Include="..\src\st_lib.h" />
     <ClInclude Include="..\src\st_stuff.h" />
     <ClInclude Include="..\src\s_sound.h" />
