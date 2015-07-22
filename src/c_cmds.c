@@ -97,7 +97,6 @@ extern dboolean corpses_moreblood;
 extern dboolean corpses_nudge;
 extern dboolean corpses_slide;
 extern dboolean corpses_smearblood;
-extern dboolean dclick_use;
 extern int      episode;
 extern int      expansion;
 extern dboolean floatbob;
@@ -126,6 +125,7 @@ extern int      gamepadweapon4;
 extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
+extern int      gametime;
 extern float    gammalevel;
 extern float    gp_deadzone_left;
 extern float    gp_deadzone_right;
@@ -173,16 +173,17 @@ extern dboolean mapfixes;
 extern int      maxbloodsplats;
 extern dboolean messages;
 extern dboolean mirrorweapons;
-extern int      mousesensitivity;
-extern float    mouse_acceleration;
-extern int      mouse_threshold;
+extern float    m_acceleration;
+extern dboolean m_doubleclick_use;
+extern dboolean m_novertical;
+extern int      m_sensitivity;
+extern int      m_threshold;
 extern int      mousebfire;
 extern int      mousebforward;
 extern int      mousebprevweapon;
 extern int      mousebnextweapon;
 extern int      mousebstrafe;
 extern int      mousebuse;
-extern dboolean novert;
 extern int      pixelheight;
 extern char     *pixelsize;
 extern int      pixelwidth;
@@ -443,7 +444,7 @@ consolecmd_t consolecmds[] =
     CMD       (exit, C_NoCondition, C_Quit, 0, "", ""),
     CMD       (exitmap, C_GameCondition, C_ExitMap, 0, "", "Exits the current map."),
     CVAR_INT  (expansion, C_IntCondition, C_Int, CF_NONE, expansion, NOALIAS, EXPANSION, "The currently selected expansion in the menu."),
-    CVAR_TIME (gametime, C_NoCondition, C_Time, gametic, "The amount of time since "PACKAGE_NAME" started."),
+    CVAR_TIME (gametime, C_NoCondition, C_Time, gametime, "The amount of time since "PACKAGE_NAME" started."),
     CMD       (give, C_GiveCondition, C_Give, 1, GIVECMDFORMAT, "Gives items to the player."),
     CMD       (god, C_GodCondition, C_God, 1, "[on|off]", "Toggles god mode."),
     CVAR_FLOAT(gp_deadzone_left, C_DeadZoneCondition, C_DeadZone, CF_PERCENT, gp_deadzone_left, "The dead zone of the gamepad's left thumbstick."),
@@ -471,11 +472,11 @@ consolecmd_t consolecmds[] =
     CVAR_STR  (iwadfolder, C_NoCondition, C_Str, iwadfolder, "The folder where an IWAD file was last opened."),
     CMD       (kill, C_KillCondition, C_Kill, 1, "[all|~type~]", "Kills the player, all monsters or a type of monster."),
     CMD       (load, C_LoadCondition, C_Load, 1, "~filename~.save", "Loads a game from a file."),
-    CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, mouse_acceleration, "The amount the mouse accelerates."),
-    CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, dclick_use, DCLICKUSE, "Toggles double-clicking a mouse button for the +use action."),
-    CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, novert, NOVERT, "Toggles no vertical movement of the mouse."),
-    CVAR_INT  (m_sensitivity, C_IntCondition, C_Int, CF_NONE, mousesensitivity, NOALIAS, MOUSESENSITIVITY, "The mouse's sensitivity."),
-    CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, mouse_threshold, NOALIAS, MOUSETHRESHOLD, "The mouse's acceleration threshold."),
+    CVAR_FLOAT(m_acceleration, C_FloatCondition, C_Float, CF_NONE, m_acceleration, "The amount the mouse accelerates."),
+    CVAR_BOOL (m_doubleclick_use, C_BoolCondition, C_Bool, m_doubleclick_use, M_DOUBLECLICK_USE, "Toggles double-clicking a mouse button for the +use action."),
+    CVAR_BOOL (m_novertical, C_BoolCondition, C_Bool, m_novertical, M_NOVERTICAL, "Toggles no vertical movement of the mouse."),
+    CVAR_INT  (m_sensitivity, C_IntCondition, C_Int, CF_NONE, m_sensitivity, NOALIAS, M_SENSITIVITY, "The mouse's sensitivity."),
+    CVAR_INT  (m_threshold, C_IntCondition, C_Int, CF_NONE, m_threshold, NOALIAS, M_THRESHOLD, "The mouse's acceleration threshold."),
     CMD       (map, C_MapCondition, C_Map, 1, MAPCMDFORMAT, "Warps to a map."),
     CMD       (maplist, C_NoCondition, C_MapList, 0, "", "Shows a list of the available maps."),
     CMD       (mapstats, C_GameCondition, C_MapStats, 0, "", "Shows stats on the current map."),

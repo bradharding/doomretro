@@ -105,7 +105,8 @@ player_t        players[MAXPLAYERS];
 
 dboolean        turbodetected[MAXPLAYERS];
 
-int             gametic;
+int             gametic = 0;
+int             gametime = 0;
 int             levelstarttic;          // gametic at level start
 int             totalkills, totalitems, totalsecret;    // for intermission
 
@@ -253,7 +254,7 @@ dboolean        skipaction;
 int             mousex;
 int             mousey;
 
-dboolean        dclick_use = DCLICKUSE_DEFAULT;
+dboolean        m_doubleclick_use = M_DOUBLECLICK_USE_DEFAULT;
 
 static int      dclicktime;
 static dboolean dclickstate;
@@ -455,9 +456,9 @@ void G_BuildTiccmd(ticcmd_t *cmd)
     if (mousebuttons[mousebforward])
         forward += forwardmove[run];
 
-    if (dclick_use)
+    if (m_doubleclick_use)
     {
-        dboolean bstrafe;
+        dboolean        bstrafe;
 
         // forward double click
         if (mousebuttons[mousebforward] != dclickstate && dclicktime > 1)
@@ -780,8 +781,8 @@ dboolean G_Responder(event_t *ev)
             }
             if (!automapactive || (automapactive && am_followmode))
             {
-                mousex = ev->data2 * mousesensitivity / 10;
-                mousey = ev->data3 * mousesensitivity / 10;
+                mousex = ev->data2 * m_sensitivity / 10;
+                mousey = ev->data3 * m_sensitivity / 10;
             }
             return true;            // eat events
 

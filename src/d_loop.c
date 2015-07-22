@@ -227,6 +227,7 @@ void TryRunTics(void)
 
             G_Ticker();
             gametic++;
+            gametime++;
 
             // modify command for duplicated tics
             if (i != ticdup - 1)

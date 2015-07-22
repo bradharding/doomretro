@@ -70,7 +70,6 @@ extern dboolean corpses_moreblood;
 extern dboolean corpses_nudge;
 extern dboolean corpses_slide;
 extern dboolean corpses_smearblood;
-extern dboolean dclick_use;
 extern int      episode;
 extern int      expansion;
 extern dboolean floatbob;
@@ -89,10 +88,11 @@ extern dboolean mapfixes;
 extern int      maxbloodsplats;
 extern dboolean messages;
 extern dboolean mirrorweapons;
-extern int      mousesensitivity;
-extern float    mouse_acceleration;
-extern int      mouse_threshold;
-extern dboolean novert;
+extern float    m_acceleration;
+extern dboolean m_doubleclick_use;
+extern dboolean m_novertical;
+extern int      m_sensitivity;
+extern int      m_threshold;
 extern int      pixelheight;
 extern char     *pixelsize;
 extern int      pixelwidth;
@@ -157,11 +157,11 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (gp_swapthumbsticks,      gp_swapthumbsticks,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (gp_vibrate,              gp_vibrate,                   BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (iwadfolder,              iwadfolder,                   NOALIAS    ),
-    CONFIG_VARIABLE_FLOAT        (m_acceleration,          mouse_acceleration,           NOALIAS    ),
-    CONFIG_VARIABLE_INT          (m_doubleclick_use,       dclick_use,                   BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (m_novertical,            novert,                       BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (m_sensitivity,           mousesensitivity,             NOALIAS    ),
-    CONFIG_VARIABLE_INT          (m_threshold,             mouse_threshold,              NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT        (m_acceleration,          m_acceleration,               NOALIAS    ),
+    CONFIG_VARIABLE_INT          (m_doubleclick_use,       m_doubleclick_use,            BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (m_novertical,            m_novertical,                 BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (m_sensitivity,           m_sensitivity,                NOALIAS    ),
+    CONFIG_VARIABLE_INT          (m_threshold,             m_threshold,                  NOALIAS    ),
     CONFIG_VARIABLE_INT          (messages,                messages,                     BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (playername,              playername,                   NOALIAS    ),
     CONFIG_VARIABLE_INT          (pm_alwaysrun,            alwaysrun,                    BOOLALIAS  ),
@@ -466,8 +466,8 @@ static void M_CheckCVARs(void)
     if (corpses_smearblood != false && corpses_smearblood != true)
         corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
 
-    if (dclick_use != false && dclick_use != true)
-        dclick_use = DCLICKUSE_DEFAULT;
+    if (m_doubleclick_use != false && m_doubleclick_use != true)
+        m_doubleclick_use = M_DOUBLECLICK_USE_DEFAULT;
 
     if (floatbob != false && floatbob != true)
         floatbob = FLOATBOB_DEFAULT;
@@ -526,12 +526,12 @@ static void M_CheckCVARs(void)
 
     maxbloodsplats = BETWEEN(MAXBLOODSPLATS_MIN, maxbloodsplats, MAXBLOODSPLATS_MAX);
 
-    mousesensitivity = BETWEEN(MOUSESENSITIVITY_MIN, mousesensitivity, MOUSESENSITIVITY_MAX);
+    m_sensitivity = BETWEEN(M_SENSITIVITY_MIN, m_sensitivity, M_SENSITIVITY_MAX);
 
     musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX) * 15 + 50) / 100;
 
-    if (novert != false && novert != true)
-        novert = NOVERT_DEFAULT;
+    if (m_novertical != false && m_novertical != true)
+        m_novertical = M_NOVERTICAL_DEFAULT;
 
     pixelwidth = BETWEEN(PIXELWIDTH_MIN, pixelwidth, PIXELWIDTH_MAX);
     while (SCREENWIDTH % pixelwidth)

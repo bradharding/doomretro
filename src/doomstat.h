@@ -181,6 +181,7 @@ extern gamestate_t      gamestate;
 //  WAD, partly set at startup time.
 
 extern int              gametic;
+extern int              gametime;
 
 extern dboolean         vid_capfps;
 extern dboolean         realframe;
@@ -210,7 +211,7 @@ extern dboolean         precache;
 //  to force a wipe on the next draw
 extern gamestate_t      wipegamestate;
 
-extern int              mousesensitivity;
+extern int              m_sensitivity;
 extern int              gp_sensitivity;
 extern float            gamepadsensitivityf;
 

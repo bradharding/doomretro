@@ -80,7 +80,7 @@ dboolean                vid_vsync = VID_VSYNC_DEFAULT;
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
 
-dboolean                novert = NOVERT_DEFAULT;
+dboolean                m_novertical = M_NOVERTICAL_DEFAULT;
 
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
@@ -160,10 +160,10 @@ int                     fps = 0;
 // the speed when the mouse is moved fast.
 //
 // The mouse input values are input directly to the game, but when
-// the values exceed the value of mouse_threshold, they are multiplied
-// by mouse_acceleration to increase the speed.
-float                   mouse_acceleration = MOUSEACCELERATION_DEFAULT;
-int                     mouse_threshold = MOUSETHRESHOLD_DEFAULT;
+// the values exceed the value of m_threshold, they are multiplied
+// by m_acceleration to increase the speed.
+float                   m_acceleration = M_ACCELERATION_DEFAULT;
+int                     m_threshold = M_THRESHOLD_DEFAULT;
 
 int                     capslock;
 dboolean                alwaysrun = ALWAYSRUN_DEFAULT;
@@ -356,8 +356,8 @@ static int AccelerateMouse(int val)
     if (val < 0)
         return -AccelerateMouse(-val);
 
-    if (val > mouse_threshold)
-        return (int)((val - mouse_threshold) * mouse_acceleration + mouse_threshold);
+    if (val > m_threshold)
+        return (int)((val - m_threshold) * m_acceleration + m_threshold);
     else
         return val;
 }
@@ -433,7 +433,7 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                if (mousesensitivity || menuactive)
+                if (m_sensitivity || menuactive)
                 {
                     idclev = false;
                     idmus = false;
@@ -453,7 +453,7 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEBUTTONUP:
-                if (mousesensitivity || menuactive)
+                if (m_sensitivity || menuactive)
                 {
                     keydown = 0;
                     event.type = ev_mouse;
@@ -466,7 +466,7 @@ static void I_GetEvent(void)
                 break;
 
             case SDL_MOUSEWHEEL:
-                if (mousesensitivity || menuactive || consoleactive)
+                if (m_sensitivity || menuactive || consoleactive)
                 {
                     keydown = 0;
                     event.type = ev_mousewheel;
@@ -560,7 +560,7 @@ static void I_ReadMouse(void)
     ev.type = ev_mouse;
     ev.data1 = mouse_button_state;
     ev.data2 = AccelerateMouse(x);
-    ev.data3 = (novert ? 0 : -AccelerateMouse(y));
+    ev.data3 = (m_novertical ? 0 : -AccelerateMouse(y));
 
     D_PostEvent(&ev);
 
@@ -574,7 +574,7 @@ static void I_ReadMouse(void)
 void I_StartTic(void)
 {
     I_GetEvent();
-    if (mousesensitivity)
+    if (m_sensitivity)
         I_ReadMouse();
     gamepadfunc();
 }

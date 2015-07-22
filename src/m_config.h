@@ -62,8 +62,6 @@
 
 #define CORPSES_SMEARBLOOD_DEFAULT              true
 
-#define DCLICKUSE_DEFAULT                       false
-
 #define EPISODE_MIN                             0
 #define EPISODE_DEFAULT                         0
 #define EPISODE_MAX                             3
@@ -217,9 +215,21 @@
 
 #define MIRRORWEAPONS_DEFAULT                   false
 
-#define MOUSEACCELERATION_MIN                   0
-#define MOUSEACCELERATION_DEFAULT               2.0
-#define MOUSEACCELERATION_MAX                   INT_MAX
+#define M_ACCELERATION_MIN                      0
+#define M_ACCELERATION_DEFAULT                  2.0
+#define M_ACCELERATION_MAX                      INT_MAX
+
+#define M_DOUBLECLICK_USE_DEFAULT               false
+
+#define M_NOVERTICAL_DEFAULT                    true
+
+#define M_SENSITIVITY_MIN                       0
+#define M_SENSITIVITY_DEFAULT                   16
+#define M_SENSITIVITY_MAX                       128
+
+#define M_THRESHOLD_MIN                         0
+#define M_THRESHOLD_DEFAULT                     10
+#define M_THRESHOLD_MAX                         INT_MAX
 
 #define MOUSEFIRE_DEFAULT                       0
 
@@ -229,23 +239,13 @@
 
 #define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
 
-#define MOUSESENSITIVITY_MIN                    0
-#define MOUSESENSITIVITY_DEFAULT                16
-#define MOUSESENSITIVITY_MAX                    128
-
 #define MOUSESTRAFE_DEFAULT                     -1
-
-#define MOUSETHRESHOLD_MIN                      0
-#define MOUSETHRESHOLD_DEFAULT                  10
-#define MOUSETHRESHOLD_MAX                      INT_MAX
 
 #define MOUSEUSE_DEFAULT                        -1
 
 #define MUSICVOLUME_MIN                         0
 #define MUSICVOLUME_DEFAULT                     100
 #define MUSICVOLUME_MAX                         100
-
-#define NOVERT_DEFAULT                          true
 
 #define PIXELWIDTH_MIN                          2
 #define PIXELWIDTH_DEFAULT                      2

@@ -86,8 +86,8 @@ void R_SetViewSize(int blocks);
 
 extern dboolean screenvisible;
 
-extern float    mouse_acceleration;
-extern int      mouse_threshold;
+extern float    m_acceleration;
+extern int      m_threshold;
 
 extern dboolean sendpause;
 extern dboolean quitting;

@@ -85,7 +85,7 @@ extern dboolean skippsprinterp;
 //
 // defaulted values
 //
-int             mousesensitivity = MOUSESENSITIVITY_DEFAULT;
+int             m_sensitivity = M_SENSITIVITY_DEFAULT;
 int             gp_sensitivity = GP_SENSITIVITY_DEFAULT;
 float           gamepadsensitivityf;
 
@@ -1644,7 +1644,7 @@ void M_DrawOptions(void)
             gp_sensitivity / (float)GP_SENSITIVITY_MAX * 8.0f, 8.0f);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            mousesensitivity / (float)MOUSESENSITIVITY_MAX * 8.0f, 8.0f);
+            m_sensitivity / (float)M_SENSITIVITY_MAX * 8.0f, 8.0f);
 }
 
 void M_Options(int choice)
@@ -1870,23 +1870,23 @@ void M_ChangeSensitivity(int choice)
         switch (choice)
         {
             case 0:
-                if (mousesensitivity > MOUSESENSITIVITY_MIN)
+                if (m_sensitivity > M_SENSITIVITY_MIN)
                 {
-                    if (mousesensitivity & 1)
-                        ++mousesensitivity;
-                    mousesensitivity -= 2;
-                    C_Input("m_sensitivity %i", mousesensitivity);
+                    if (m_sensitivity & 1)
+                        ++m_sensitivity;
+                    m_sensitivity -= 2;
+                    C_Input("m_sensitivity %i", m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
                 break;
             case 1:
-                if (mousesensitivity < MOUSESENSITIVITY_MAX)
+                if (m_sensitivity < M_SENSITIVITY_MAX)
                 {
-                    if (mousesensitivity & 1)
-                        --mousesensitivity;
-                    mousesensitivity += 2;
-                    C_Input("m_sensitivity %i", mousesensitivity);
+                    if (m_sensitivity & 1)
+                        --m_sensitivity;
+                    m_sensitivity += 2;
+                    C_Input("m_sensitivity %i", m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
