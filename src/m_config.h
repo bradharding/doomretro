@@ -244,7 +244,7 @@
 
 #define R_LIQUID_BOB_DEFAULT                    true
 
-#define R_LIQUID_RIPPLE_DEFAULT                 true
+#define R_LIQUID_SWIRL_DEFAULT                 true
 
 #define R_LIQUID_CLIPSPRITES_DEFAULT            true
 

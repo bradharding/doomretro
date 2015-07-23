@@ -92,7 +92,7 @@ extern dboolean r_homindicator;
 extern dboolean r_hud;
 extern dboolean r_liquid_bob;
 extern dboolean r_liquid_clipsprites;
-extern dboolean r_liquid_ripple;
+extern dboolean r_liquid_swirl;
 extern char     *r_lowpixelsize;
 extern int      r_maxbloodsplats;
 extern dboolean r_mirrorweapons;
@@ -181,7 +181,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_hud,                   r_hud,                        BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_bob,            r_liquid_bob,                 BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites,    r_liquid_clipsprites,         BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_liquid_ripple,         r_liquid_ripple,              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_swirl,          r_liquid_swirl,               BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (r_lowpixelsize,          r_lowpixelsize,               NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_maxbloodsplats,        r_maxbloodsplats,             SPLATALIAS ),
     CONFIG_VARIABLE_INT          (r_mirrorweapons,         r_mirrorweapons,              BOOLALIAS  ),
@@ -569,8 +569,8 @@ static void M_CheckCVARs(void)
     if (r_fixspriteoffsets != false && r_fixspriteoffsets != true)
         r_fixspriteoffsets = R_FIXSPRITEOFFSETS_DEFAULT;
 
-    if (r_liquid_ripple != false && r_liquid_ripple != true)
-        r_liquid_ripple = R_LIQUID_RIPPLE_DEFAULT;
+    if (r_liquid_swirl != false && r_liquid_swirl != true)
+        r_liquid_swirl = R_LIQUID_SWIRL_DEFAULT;
 
     if (r_translucency != false && r_translucency != true)
         r_translucency = R_TRANSLUCENCY_DEFAULT;

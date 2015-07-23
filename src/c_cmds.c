@@ -185,7 +185,7 @@ extern dboolean r_homindicator;
 extern dboolean r_hud;
 extern dboolean r_liquid_bob;
 extern dboolean r_liquid_clipsprites;
-extern dboolean r_liquid_ripple;
+extern dboolean r_liquid_swirl;
 extern char     *r_lowpixelsize;
 extern int      r_maxbloodsplats;
 extern dboolean r_mirrorweapons;
@@ -509,7 +509,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, r_hud, R_HUD, "Toggles the heads-up display when in widescreen mode."),
     CVAR_BOOL (r_liquid_bob, C_BoolCondition, C_Bool, r_liquid_bob, R_LIQUID_BOB, "Toggles the bobbing effect of liquid sectors."),
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, r_liquid_clipsprites, R_LIQUID_CLIPSPRITES, "Toggles the bottom of sprites being clipped in liquid sectors."),
-    CVAR_BOOL (r_liquid_ripple, C_BoolCondition, C_Bool, r_liquid_ripple, R_LIQUID_RIPPLE, "Toggles the ripple effect of liquid sectors."),
+    CVAR_BOOL (r_liquid_swirl, C_BoolCondition, C_Bool, r_liquid_swirl, R_LIQUID_SWIRL, "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, r_lowpixelsize, "The size of pixels when the graphic detail is low."),
     CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, r_maxbloodsplats, SPLATALIAS, R_MAXBLOODSPLATS, "The maximum number of blood splats spawned in a map."),
     CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, r_mirrorweapons, R_MIRRORWEAPONS, "Toggles randomly mirroring weapons dropped by monsters."),
