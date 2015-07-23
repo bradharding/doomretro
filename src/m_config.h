@@ -69,11 +69,11 @@ typedef enum
 
 #define gp_deadzone_left_min                    0.0f
 #define gp_deadzone_left_default                (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
-#define gp_deadzone_left_max                    (float)SHRT_MAX
+#define gp_deadzone_left_max                    100.0f
 
 #define gp_deadzone_right_min                   0.0f
-#define gp_deadzone_right_default               (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
-#define gp_deadzone_right_max                   (float)SHRT_MAX
+#define gp_deadzone_right_default               (GAMEPAD_RIGHT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
+#define gp_deadzone_right_max                   100.0f
 
 #define gp_sensitivity_min                      0
 #define gp_sensitivity_default                  32
