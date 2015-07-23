@@ -68,17 +68,26 @@ extern int              validcount;
 //
 
 // Lighting constants.
-#define LIGHTLEVELS     128
-#define LIGHTSEGSHIFT   1
-#define LIGHTBRIGHT     2
-#define MAXLIGHTSCALE   384
-#define LIGHTSCALESHIFT 12
-#define MAXLIGHTZ       1024
-#define LIGHTZSHIFT     17
+#define LIGHTLEVELS             128
+#define LIGHTSEGSHIFT           1
+#define LIGHTBRIGHT             2
+#define MAXLIGHTSCALE           384
+#define LIGHTSCALESHIFT         12
+#define MAXLIGHTZ               1024
+#define LIGHTZSHIFT             17
+
+#define OLDLIGHTLEVELS          32
+#define OLDLIGHTSEGSHIFT        3
+#define OLDLIGHTBRIGHT          2
+#define OLDMAXLIGHTSCALE        48
+#define OLDLIGHTSCALESHIFT      13
+#define OLDMAXLIGHTZ            2048
+#define OLDLIGHTZSHIFT          16
 
 // killough 3/20/98: Allow colormaps to be dynamic (e.g. underwater)
 extern lighttable_t     *(*scalelight)[MAXLIGHTSCALE];
 extern lighttable_t     *(*zlight)[MAXLIGHTZ];
+extern lighttable_t     *(*psprscalelight)[OLDMAXLIGHTSCALE]; 
 extern lighttable_t     *fullcolormap;
 extern int              numcolormaps;   // killough 4/4/98: dynamic number of maps
 extern lighttable_t     **colormaps;

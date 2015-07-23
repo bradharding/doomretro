@@ -106,7 +106,9 @@ fixed_t                 *finecosine = &finesine[FINEANGLES / 4];
 int                     numcolormaps = 1;
 lighttable_t            *(*c_scalelight)[LIGHTLEVELS][MAXLIGHTSCALE];
 lighttable_t            *(*c_zlight)[LIGHTLEVELS][MAXLIGHTZ];
+lighttable_t            *(*c_psprscalelight)[OLDLIGHTLEVELS][OLDMAXLIGHTSCALE];
 lighttable_t            *(*scalelight)[MAXLIGHTSCALE];
+lighttable_t            *(*psprscalelight)[OLDMAXLIGHTSCALE];
 lighttable_t            *(*zlight)[MAXLIGHTZ];
 lighttable_t            *fullcolormap;
 lighttable_t            **colormaps;
@@ -423,6 +425,7 @@ void R_InitLightTables(void)
     // killough 4/4/98: dynamic colormaps
     c_zlight = malloc(sizeof(*c_zlight) * numcolormaps);
     c_scalelight = malloc(sizeof(*c_scalelight) * numcolormaps);
+    c_psprscalelight = malloc(sizeof(*c_psprscalelight) * numcolormaps);
 
     // Calculate the light levels to use
     //  for each level / distance combination.
@@ -524,7 +527,7 @@ void R_ExecuteSetViewSize(void)
     //  for each level / scale combination.
     for (i = 0; i < LIGHTLEVELS; i++)
     {
-        int startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
+        int     startmap = ((LIGHTLEVELS - LIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / LIGHTLEVELS;
 
         for (j = 0; j < MAXLIGHTSCALE; j++)
         {
@@ -534,6 +537,21 @@ void R_ExecuteSetViewSize(void)
             // killough 3/20/98: initialize multiple colormaps
             for (t = 0; t < numcolormaps; t++)     // killough 4/4/98
                 c_scalelight[t][i][j] = colormaps[t] + level;
+        }
+    }
+
+    // [BH] calculate separate light levels to use when drawing
+    //  player's weapon, so it stays consistent regardless of view size
+    for (i = 0; i < OLDLIGHTLEVELS; i++)
+    {
+        int     startmap = ((OLDLIGHTLEVELS - OLDLIGHTBRIGHT - i) * 2) * NUMCOLORMAPS / OLDLIGHTLEVELS;
+
+        for (j = 0; j < OLDMAXLIGHTSCALE; j++)
+        {
+            int t, level = BETWEEN(0, startmap - j / DISTMAP, NUMCOLORMAPS - 1) * 256;
+
+            for (t = 0; t < numcolormaps; t++)
+                c_psprscalelight[t][i][j] = colormaps[t] + level;
         }
     }
 }
@@ -722,6 +740,7 @@ void R_SetupFrame(player_t *player)
     fullcolormap = colormaps[cm];
     zlight = c_zlight[cm];
     scalelight = c_scalelight[cm];
+    psprscalelight = c_psprscalelight[cm];
 
     if (player->fixedcolormap)
     {
@@ -734,7 +753,7 @@ void R_SetupFrame(player_t *player)
 
         walllights = scalelightfixed;
 
-        for (i = 0; i<MAXLIGHTSCALE; i++)
+        for (i = 0; i < MAXLIGHTSCALE; i++)
             scalelightfixed[i] = fixedcolormap;
     }
     else

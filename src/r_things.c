@@ -1149,11 +1149,11 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
             else
             {
                 // local light
-                int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> LIGHTSEGSHIFT)
-                    + extralight * LIGHTBRIGHT;
+                int lightnum = (viewplayer->mo->subsector->sector->lightlevel >> OLDLIGHTSEGSHIFT)
+                    + extralight * OLDLIGHTBRIGHT;
 
-                vis->colormap = scalelight[BETWEEN(0, lightnum, LIGHTLEVELS - 1)]
-                    [BETWEEN(0, lightnum + 8, MAXLIGHTSCALE - 1)];
+                vis->colormap = psprscalelight[BETWEEN(0, lightnum, OLDLIGHTLEVELS - 1)]
+                    [BETWEEN(0, lightnum + 8, OLDMAXLIGHTSCALE - 1)];
             }
         }
     }
