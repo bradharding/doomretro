@@ -139,7 +139,7 @@ static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 extern dboolean r_translucency;
 extern byte     *tinttab75;
 extern int      fps;
-extern dboolean alwaysrun;
+extern dboolean pm_alwaysrun;
 extern int      key_alwaysrun;
 
 void G_ToggleAlwaysRun(void);
@@ -1196,7 +1196,7 @@ dboolean C_Responder(event_t *ev)
                 if (key_alwaysrun == KEY_CAPSLOCK)
                 {
                     G_ToggleAlwaysRun();
-                    C_Output("%s.", (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
+                    C_Output("%s.", (pm_alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
                 }
                 break;
 

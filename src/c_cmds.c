@@ -84,10 +84,8 @@
 #define NONE_MAX        0
 #define NONE_DEFAULT    0
 
-extern dboolean alwaysrun;
 extern dboolean am_grid;
 extern dboolean am_rotatemode;
-extern dboolean centerweapon;
 extern char     *configfile;
 extern int      episode;
 extern int      expansion;
@@ -167,8 +165,10 @@ extern int      mousebprevweapon;
 extern int      mousebnextweapon;
 extern int      mousebstrafe;
 extern int      mousebuse;
-extern int      playerbob;
 extern char     *playername;
+extern dboolean pm_alwaysrun;
+extern dboolean pm_centerweapon;
+extern int      pm_walkbob;
 extern int      r_blood;
 extern dboolean r_brightmaps;
 extern dboolean r_corpses_mirrored;
@@ -487,9 +487,9 @@ consolecmd_t consolecmds[] =
     CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggles the player as a target."),
     CVAR_STR  (playername, C_PlayerNameCondition, C_Str, playername, "The name of the player used in messages."),
     CMD       (playerstats, C_GameCondition, C_PlayerStats, 0, "", "Shows the player's stats."),
-    CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, alwaysrun, ALWAYSRUN, "Toggles always run."),
-    CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON, "Toggles the centering of the player's weapon when firing."),
-    CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, NOALIAS, PLAYERBOB, "The amount the player bobs when walking."),
+    CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, pm_alwaysrun, PM_ALWAYSRUN, "Toggles always run."),
+    CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, pm_centerweapon, PM_CENTERWEAPON, "Toggles the centering of the player's weapon when firing."),
+    CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, pm_walkbob, NOALIAS, PM_WALKBOB, "The amount the player bobs when walking."),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quits "PACKAGE_NAME"."),
     CVAR_INT  (r_blood, C_BloodCondition, C_Blood, CF_NONE, r_blood, BLOODALIAS, NONE, "The color of the blood of the player and monsters."),
     CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, r_brightmaps, R_BRIGHTMAPS, "Toggles brightmaps on certain wall textures."),

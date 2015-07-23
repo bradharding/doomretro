@@ -39,13 +39,9 @@
 #if !defined(__M_CONFIG__)
 #define __M_CONFIG__
 
-#define ALWAYSRUN_DEFAULT                       false
-
 #define AM_GRID_DEFAULT                         false
 
 #define AM_ROTATEMODE_DEFAULT                   true
-
-#define CENTERWEAPON_DEFAULT                    true
 
 #define EPISODE_MIN                             0
 #define EPISODE_DEFAULT                         0
@@ -205,11 +201,15 @@
 #define MUSICVOLUME_DEFAULT                     100
 #define MUSICVOLUME_MAX                         100
 
-#define PLAYERBOB_MIN                           0
-#define PLAYERBOB_DEFAULT                       75
-#define PLAYERBOB_MAX                           100
-
 #define PLAYERNAME_DEFAULT                      "you"
+
+#define PM_ALWAYSRUN_DEFAULT                    false
+
+#define PM_CENTERWEAPON_DEFAULT                 true
+
+#define PM_WALKBOB_MIN                          0
+#define PM_WALKBOB_DEFAULT                      75
+#define PM_WALKBOB_MAX                          100
 
 #define NOBLOOD                                 0
 #define REDBLOODONLY                            1

@@ -59,10 +59,8 @@ char    *configfile = PACKAGE_CONFIG;
 int     musicvolume_percent = MUSICVOLUME_DEFAULT;
 int     sfxvolume_percent = SFXVOLUME_DEFAULT;
 
-extern dboolean alwaysrun;
 extern dboolean am_grid;
 extern dboolean am_rotatemode;
-extern dboolean centerweapon;
 extern int      episode;
 extern int      expansion;
 extern float    gp_deadzone_left;
@@ -77,8 +75,10 @@ extern dboolean m_doubleclick_use;
 extern dboolean m_novertical;
 extern int      m_sensitivity;
 extern int      m_threshold;
-extern int      playerbob;
 extern char     *playername;
+extern dboolean pm_alwaysrun;
+extern dboolean pm_centerweapon;
+extern int      pm_walkbob;
 extern int      r_blood;
 extern dboolean r_brightmaps;
 extern dboolean r_corpses_mirrored;
@@ -163,9 +163,9 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (m_threshold,             m_threshold,                  NOALIAS    ),
     CONFIG_VARIABLE_INT          (messages,                messages,                     BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (playername,              playername,                   NOALIAS    ),
-    CONFIG_VARIABLE_INT          (pm_alwaysrun,            alwaysrun,                    BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (pm_centerweapon,         centerweapon,                 BOOLALIAS  ),
-    CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,              playerbob,                    NOALIAS    ),
+    CONFIG_VARIABLE_INT          (pm_alwaysrun,            pm_alwaysrun,                 BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (pm_centerweapon,         pm_centerweapon,              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,              pm_walkbob,                   NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_blood,                 r_blood,                      BLOODALIAS ),
     CONFIG_VARIABLE_INT          (r_brightmaps,            r_brightmaps,                 BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,      r_corpses_mirrored,           BOOLALIAS  ),
@@ -429,8 +429,8 @@ void C_Bind(char *cmd, char *parm1, char *parm2);
 
 static void M_CheckCVARs(void)
 {
-    if (alwaysrun != false && alwaysrun != true)
-        alwaysrun = ALWAYSRUN_DEFAULT;
+    if (pm_alwaysrun != false && pm_alwaysrun != true)
+        pm_alwaysrun = PM_ALWAYSRUN_DEFAULT;
 
     if (r_liquid_bob != false && r_liquid_bob != true)
         r_liquid_bob = R_LIQUID_BOB_DEFAULT;
@@ -444,8 +444,8 @@ static void M_CheckCVARs(void)
     if (vid_capfps != false && vid_capfps != true)
         vid_capfps = VID_CAPFPS_DEFAULT;
 
-    if (centerweapon != false && centerweapon != true)
-        centerweapon = CENTERWEAPON_DEFAULT;
+    if (pm_centerweapon != false && pm_centerweapon != true)
+        pm_centerweapon = PM_CENTERWEAPON_DEFAULT;
 
     if (r_corpses_mirrored != false && r_corpses_mirrored != true)
         r_corpses_mirrored = R_CORPSES_MIRRORED_DEFAULT;
@@ -529,7 +529,7 @@ static void M_CheckCVARs(void)
     if (m_novertical != false && m_novertical != true)
         m_novertical = M_NOVERTICAL_DEFAULT;
 
-    playerbob = BETWEEN(PLAYERBOB_MIN, playerbob, PLAYERBOB_MAX);
+    pm_walkbob = BETWEEN(PM_WALKBOB_MIN, pm_walkbob, PM_WALKBOB_MAX);
 
     if (r_playersprites != false && r_playersprites != true)
         r_playersprites = R_PLAYERSPRITES_DEFAULT;

@@ -268,7 +268,7 @@ static char     savedescription[SAVESTRINGSIZE];
 
 dboolean        loadedgame = false;
 
-extern dboolean alwaysrun;
+extern dboolean pm_alwaysrun;
 
 extern int      st_palette;
 
@@ -358,7 +358,7 @@ void G_BuildTiccmd(ticcmd_t *cmd)
 
     strafe = (gamekeydown[key_strafe] || mousebuttons[mousebstrafe]);
 
-    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + alwaysrun == 1);
+    run = (!!(gamepadbuttons & gamepadrun) + gamekeydown[key_run] + pm_alwaysrun == 1);
 
     // use two stage accelerative turning
     // on the keyboard
@@ -633,14 +633,15 @@ void G_DoLoadLevel(void)
 void G_ToggleAlwaysRun(void)
 {
 #if defined(WIN32)
-    alwaysrun = (key_alwaysrun == KEY_CAPSLOCK ? (GetKeyState(VK_CAPITAL) & 0x0001) : !alwaysrun);
+    pm_alwaysrun = (key_alwaysrun == KEY_CAPSLOCK ?
+        (GetKeyState(VK_CAPITAL) & 0x0001) : !pm_alwaysrun);
 #else
-    alwaysrun = !alwaysrun;
+    pm_alwaysrun = !pm_alwaysrun;
 #endif
 
     if (!consoleactive)
-        players[0].message = (alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
-    C_Input("pm_alwaysrun %s", (alwaysrun ? "on" : "off"));
+        players[0].message = (pm_alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF);
+    C_Input("pm_alwaysrun %s", (pm_alwaysrun ? "on" : "off"));
     message_dontfuckwithme = true;
     if (menuactive)
     {

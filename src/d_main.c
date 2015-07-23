@@ -121,7 +121,7 @@ dboolean                forcewipe = false;
 dboolean                splashscreen;
 
 extern int              expansion;
-extern dboolean         alwaysrun;
+extern dboolean         pm_alwaysrun;
 
 int                     startuptimer;
 
@@ -462,7 +462,7 @@ void D_DoAdvanceTitle(void)
             {
                 flag = false;
                 I_InitKeyboard();
-                if (alwaysrun)
+                if (pm_alwaysrun)
                     C_Input("pm_alwaysrun on");
             }
 
@@ -1620,7 +1620,7 @@ static void D_DoomMainSetup(void)
     if (startloadgame >= 0)
     {
         I_InitKeyboard();
-        if (alwaysrun)
+        if (pm_alwaysrun)
             C_Input("pm_alwaysrun on");
         noinput = false;
         G_LoadGame(P_SaveGameFile(startloadgame));
@@ -1637,7 +1637,7 @@ static void D_DoomMainSetup(void)
         if (autostart)
         {
             I_InitKeyboard();
-            if (alwaysrun)
+            if (pm_alwaysrun)
                 C_Input("pm_alwaysrun on");
             C_Output("Warping to %s...", lumpname);
             noinput = false;

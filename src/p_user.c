@@ -58,7 +58,7 @@ void G_RemoveChoppers(void);
 // 16 pixels of bob
 #define MAXBOB  0x100000
 
-int     playerbob = PLAYERBOB_DEFAULT;
+int     pm_walkbob = PM_WALKBOB_DEFAULT;
 
 dboolean onground;
 
@@ -107,7 +107,7 @@ void P_CalcHeight(player_t *player)
         // Regular movement bobbing
         // (needs to be calculated for gun swing
         // even if not on ground)
-        player->bob = MIN(bob, MAXBOB) * playerbob / 100;
+        player->bob = MIN(bob, MAXBOB) * pm_walkbob / 100;
         
         bob = FixedMul(player->bob / 2, finesine[angle]);
 
