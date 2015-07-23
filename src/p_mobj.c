@@ -1025,7 +1025,9 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         else
             prev++;
     }
-    else if (r_mirrorweapons && (flags & MF_PICKUP) && !(mobj->flags2 & MF2_FLOATBOB) && (rand() & 1))
+
+    if (r_mirrorweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000))
+        && (rand() & 1))
         mobj->flags2 |= MF2_MIRRORED;
 
     if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD)) && mobj->blood && !chex && r_maxbloodsplats)
