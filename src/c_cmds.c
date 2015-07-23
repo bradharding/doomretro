@@ -950,22 +950,19 @@ static void C_DeadZone(char *cmd, char *parm1, char *parm2)
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%10f", &value);
 
-        if (value >= 0.0f && value <= 100.0f)
+        if (!strcasecmp(cmd, stringize(gp_deadzone_left)))
         {
-            if (!strcasecmp(cmd, "gp_deadzone_left"))
-            {
-                gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
-                gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
-            }
-            else
-            {
-                gp_deadzone_right = BETWEENF(gp_deadzone_right_min, value, gp_deadzone_right_max);
-                gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
-            }
-            M_SaveCVARs();
+            gp_deadzone_left = BETWEENF(gp_deadzone_left_min, value, gp_deadzone_left_max);
+            gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
         }
+        else
+        {
+            gp_deadzone_right = BETWEENF(gp_deadzone_right_min, value, gp_deadzone_right_max);
+            gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
+        }
+        M_SaveCVARs();
     }
-    else if (!strcasecmp(cmd, "gp_deadzone_left"))
+    else if (!strcasecmp(cmd, stringize(gp_deadzone_left)))
         C_Output("%s %s%%", cmd, striptrailingzero(gp_deadzone_left, 1));
     else
         C_Output("%s %s%%", cmd, striptrailingzero(gp_deadzone_right, 1));
@@ -2250,8 +2247,8 @@ static dboolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 
     sscanf(parm1, "%10i", &value);
 
-    return ((!strcasecmp(cmd, "s_musicvolume") && value >= s_musicvolume_min
-        && value <= s_musicvolume_max) || (!strcasecmp(cmd, "s_sfxvolume")
+    return ((!strcasecmp(cmd, stringize(s_musicvolume)) && value >= s_musicvolume_min
+        && value <= s_musicvolume_max) || (!strcasecmp(cmd, stringize(s_sfxvolume))
         && value >= s_sfxvolume_min && value <= s_sfxvolume_max));
 }
 
@@ -2265,7 +2262,7 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
             parm1[strlen(parm1) - 1] = 0;
         sscanf(parm1, "%10i", &value);
 
-        if (!strcasecmp(cmd, "s_musicvolume"))
+        if (!strcasecmp(cmd, stringize(s_musicvolume)))
         {
             s_musicvolume = value;
             musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume,
@@ -2282,8 +2279,8 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
         M_SaveCVARs();
     }
     else
-        C_Output("%i%%",
-            (!strcasecmp(cmd, "s_musicvolume") ? s_musicvolume : s_sfxvolume));
+        C_Output("%i%%", (!strcasecmp(cmd, stringize(s_musicvolume)) ? s_musicvolume :
+            s_sfxvolume));
 }
 
 static void C_Vsync(char *cmd, char *parm1, char *parm2)
