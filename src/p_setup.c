@@ -1930,8 +1930,8 @@ void P_SetupLevel(int ep, int map)
 
     P_CalcSegsLength();
 
-    totalbloodsplats = 0;
-    memset(bloodsplats, 0, sizeof(mobj_t *) * r_maxbloodsplats);
+    r_bloodsplats_total = 0;
+    memset(bloodsplats, 0, sizeof(mobj_t *) * r_bloodsplats_max);
 
     P_LoadThings(lumpnum + ML_THINGS);
 

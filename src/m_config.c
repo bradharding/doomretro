@@ -77,6 +77,7 @@ extern dboolean pm_alwaysrun;
 extern dboolean pm_centerweapon;
 extern int      pm_walkbob;
 extern int      r_blood;
+extern int      r_bloodsplats_max;
 extern dboolean r_brightmaps;
 extern dboolean r_corpses_mirrored;
 extern dboolean r_corpses_moreblood;
@@ -94,7 +95,6 @@ extern dboolean r_liquid_bob;
 extern dboolean r_liquid_clipsprites;
 extern dboolean r_liquid_swirl;
 extern char     *r_lowpixelsize;
-extern int      r_maxbloodsplats;
 extern dboolean r_mirroredweapons;
 extern dboolean r_playersprites;
 extern dboolean r_rockettrails;
@@ -166,6 +166,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (pm_centerweapon,      BOOLALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_blood,              BLOODALIAS ),
+    CONFIG_VARIABLE_INT          (r_bloodsplats_max,    SPLATALIAS ),
     CONFIG_VARIABLE_INT          (r_brightmaps,         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_mirrored,   BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_moreblood,  BOOLALIAS  ),
@@ -183,7 +184,6 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites, BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_swirl,       BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (r_lowpixelsize,       NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_maxbloodsplats,     SPLATALIAS ),
     CONFIG_VARIABLE_INT          (r_mirroredweapons,    BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_playersprites,      BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_rockettrails,       BOOLALIAS  ),
@@ -519,7 +519,7 @@ static void M_CheckCVARs(void)
     if (r_mirroredweapons != false && r_mirroredweapons != true)
         r_mirroredweapons = r_mirroredweapons_default;
 
-    r_maxbloodsplats = BETWEEN(r_maxbloodsplats_min, r_maxbloodsplats, r_maxbloodsplats_max);
+    r_bloodsplats_max = BETWEEN(r_bloodsplats_max_min, r_bloodsplats_max, r_bloodsplats_max_max);
 
     m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
 

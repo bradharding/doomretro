@@ -166,6 +166,8 @@ extern dboolean pm_alwaysrun;
 extern dboolean pm_centerweapon;
 extern int      pm_walkbob;
 extern int      r_blood;
+extern int      r_bloodsplats_max;
+extern int      r_bloodsplats_total;
 extern dboolean r_brightmaps;
 extern dboolean r_corpses_mirrored;
 extern dboolean r_corpses_moreblood;
@@ -183,7 +185,6 @@ extern dboolean r_liquid_bob;
 extern dboolean r_liquid_clipsprites;
 extern dboolean r_liquid_swirl;
 extern char     *r_lowpixelsize;
-extern int      r_maxbloodsplats;
 extern dboolean r_mirroredweapons;
 extern dboolean r_playersprites;
 extern dboolean r_rockettrails;
@@ -490,6 +491,8 @@ consolecmd_t consolecmds[] =
     CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, NOALIAS, "The amount the player bobs when walking."),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quits "PACKAGE_NAME"."),
     CVAR_INT  (r_blood, C_BloodCondition, C_Blood, CF_NONE, BLOODALIAS, "The color of the blood of the player and monsters."),
+    CVAR_INT  (r_bloodsplats_max, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, SPLATALIAS, "The maximum number of blood splats allowed in a map."),
+    CVAR_INT  (r_bloodsplats_total, C_IntCondition, C_Int, CF_READONLY, NOALIAS, "The total number of blood splats in the current map."),
     CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, "Toggles brightmaps on certain wall textures."),
     CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, "Toggles corpses being randomly mirrored."),
     CVAR_BOOL (r_corpses_moreblood, C_BoolCondition, C_Bool, "Toggles blood splats around corpses when a map is loaded."),
@@ -507,7 +510,6 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, "Toggles the bottom of sprites being clipped in liquid sectors."),
     CVAR_BOOL (r_liquid_swirl, C_BoolCondition, C_Bool, "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, "The size of pixels when the graphic detail is low."),
-    CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, SPLATALIAS, "The maximum number of blood splats spawned in a map."),
     CVAR_BOOL (r_mirroredweapons, C_BoolCondition, C_Bool, "Toggles randomly mirroring weapons dropped by monsters."),
     CVAR_BOOL (r_playersprites, C_BoolCondition, C_Bool,"Toggles the display of the player's weapon."),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, "Toggles rocket trails behind player and Cyberdemon rockets."),
@@ -526,7 +528,6 @@ consolecmd_t consolecmds[] =
     CMD       (spawn, C_SpawnCondition, C_Spawn, 1, SPAWNCMDFORMAT, "Spawns a monster or item."),
     CMD       (summon, C_SpawnCondition, C_Spawn, 1, "", ""),
     CMD       (thinglist, C_GameCondition, C_ThingList, 0, "", "Shows a list of things in the current map."),
-    CVAR_INT  (totalbloodsplats, C_IntCondition, C_Int, CF_READONLY, NOALIAS, "The total number of blood splats in the current map."),
     CMD       (unbind, C_NoCondition, C_UnBind, 1, "~control~", "Unbinds an action from a control."),
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, NOALIAS, "The display used to render the game."),
@@ -778,7 +779,7 @@ static void C_Blood(char *cmd, char *parm1, char *parm2)
         {
             r_blood = value;
             P_BloodSplatSpawner = (r_blood == noblood ? P_NullBloodSplatSpawner :
-                (r_maxbloodsplats == unlimited ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
+                (r_bloodsplats_max == unlimited ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
             M_SaveCVARs();
         }
     }
@@ -1822,19 +1823,19 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
             sscanf(parm1, "%10i", &value);
         if (value >= 0)
         {
-            r_maxbloodsplats = value;
+            r_bloodsplats_max = value;
             M_SaveCVARs();
 
-            if (!r_maxbloodsplats)
+            if (!r_bloodsplats_max)
                 P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-            else if (r_maxbloodsplats == unlimited)
+            else if (r_bloodsplats_max == unlimited)
                 P_BloodSplatSpawner = P_SpawnBloodSplat;
             else
                 P_BloodSplatSpawner = P_SpawnBloodSplat2;
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(r_maxbloodsplats, SPLATALIAS));
+        C_Output(C_LookupAliasFromValue(r_bloodsplats_max, SPLATALIAS));
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)

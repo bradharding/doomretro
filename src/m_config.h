@@ -117,6 +117,15 @@ typedef enum
 #define r_blood_default                         allbloodcolors
 #define r_blood_max                             allbloodcolors
 
+#define unlimited                               32768
+#define r_bloodsplats_max_min                   0
+#define r_bloodsplats_max_default               unlimited
+#define r_bloodsplats_max_max                   unlimited
+
+#define r_bloodsplats_total_min                 0
+#define r_bloodsplats_total_default             0
+#define r_bloodsplats_total_max                 0
+
 #define r_brightmaps_default                    true
 
 #define r_corpses_mirrored_default              true
@@ -153,11 +162,6 @@ typedef enum
 
 #define r_lowpixelsize_default                  "2x2"
 
-#define unlimited                               32768
-#define r_maxbloodsplats_min                    0
-#define r_maxbloodsplats_default                unlimited
-#define r_maxbloodsplats_max                    unlimited
-
 #define r_mirroredweapons_default               false
 
 #define r_playersprites_default                 true
@@ -193,10 +197,6 @@ typedef enum
 #define skilllevel_min                          sk_baby
 #define skilllevel_default                      sk_medium
 #define skilllevel_max                          sk_nightmare
-
-#define totalbloodsplats_min                    0
-#define totalbloodsplats_default                0
-#define totalbloodsplats_max                    0
 
 #define vid_capfps_default                      false
 

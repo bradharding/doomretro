@@ -1596,8 +1596,8 @@ static void D_DoomMainSetup(void)
     else
         startloadgame = -1;
 
-    P_BloodSplatSpawner = (r_blood == noblood || !r_maxbloodsplats ? P_NullBloodSplatSpawner :
-        (r_maxbloodsplats == unlimited ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
+    P_BloodSplatSpawner = (r_blood == noblood || !r_bloodsplats_max ? P_NullBloodSplatSpawner :
+        (r_bloodsplats_max == unlimited ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
 
     M_Init();
 

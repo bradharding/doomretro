@@ -1846,7 +1846,7 @@ void P_UnArchiveThinkers(void)
             mo = mo->snext;
         }
     }
-    totalbloodsplats = 0;
+    r_bloodsplats_total = 0;
 
     // read in saved thinkers
     while (1)
@@ -1898,21 +1898,21 @@ void P_UnArchiveThinkers(void)
                     mobj->colfunc = bloodsplatcolfunc;
                 mobj->projectfunc = R_ProjectBloodSplat;
 
-                if (r_maxbloodsplats < unlimited)
+                if (r_bloodsplats_max < unlimited)
                 {
-                    if (totalbloodsplats > r_maxbloodsplats)
+                    if (r_bloodsplats_total > r_bloodsplats_max)
                     {
-                        mobj_t      *oldsplat = bloodsplats[totalbloodsplats % r_maxbloodsplats];
+                        mobj_t      *oldsplat = bloodsplats[r_bloodsplats_total % r_bloodsplats_max];
 
                         if (oldsplat)
                             P_UnsetThingPosition(oldsplat);
                     }
 
-                    bloodsplats[totalbloodsplats++ % r_maxbloodsplats] = mobj;
+                    bloodsplats[r_bloodsplats_total++ % r_bloodsplats_max] = mobj;
 
                 }
                 else
-                    ++totalbloodsplats;
+                    ++r_bloodsplats_total;
 
                 break;
 
