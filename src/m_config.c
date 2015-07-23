@@ -666,7 +666,7 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
-                    s = strdup(s);
+                    s = strdup(strparm);
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
                     *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].set);
