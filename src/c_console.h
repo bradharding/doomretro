@@ -51,6 +51,8 @@
 
 #define EMPTYVALUE      "\"\""
 
+#define stringize(x)    #x
+
 typedef enum
 {
     input,

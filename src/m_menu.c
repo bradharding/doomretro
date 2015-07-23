@@ -1352,7 +1352,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 15;
-                    C_Input("s_sfxvolume %i%%", s_sfxvolume);
+                    C_Input("%s %i%%", stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1362,7 +1362,7 @@ void M_SfxVol(int choice)
                     S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     s_sfxvolume = sfxVolume * 100 / 15;
-                    C_Input("s_sfxvolume %i%%", s_sfxvolume);
+                    C_Input("%s %i%%", stringize(s_sfxvolume), s_sfxvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1663,7 +1663,7 @@ void M_ChangeMessages(int choice)
     messages = !messages;
     if (menuactive)
         message_dontpause = true;
-    C_Input("messages %s", (messages ? "on" : "off"));
+    C_Input("%s %s", stringize(messages), (messages ? "on" : "off"));
     HU_PlayerMessage((messages ? s_MSGON : s_MSGOFF), false);
     message_dontfuckwithme = true;
     M_SaveCVARs();
@@ -1845,7 +1845,7 @@ void M_ChangeSensitivity(int choice)
                     gp_sensitivity -= 2;
                     gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
                         + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
-                    C_Input("gp_sensitivity %i", gp_sensitivity);
+                    C_Input("%s %i", stringize(gp_sensitivity), gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -1859,7 +1859,7 @@ void M_ChangeSensitivity(int choice)
                     gp_sensitivity += 2;
                     gamepadsensitivityf = GP_SENSITIVITY_OFFSET
                         + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR;
-                    C_Input("gp_sensitivity %i", gp_sensitivity);
+                    C_Input("%s %i", stringize(gp_sensitivity), gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -1876,7 +1876,7 @@ void M_ChangeSensitivity(int choice)
                     if (m_sensitivity & 1)
                         ++m_sensitivity;
                     m_sensitivity -= 2;
-                    C_Input("m_sensitivity %i", m_sensitivity);
+                    C_Input("%s %i", stringize(m_sensitivity), m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -1888,7 +1888,7 @@ void M_ChangeSensitivity(int choice)
                     if (m_sensitivity & 1)
                         --m_sensitivity;
                     m_sensitivity += 2;
-                    C_Input("m_sensitivity %i", m_sensitivity);
+                    C_Input("%s %i", stringize(m_sensitivity), m_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
                 }
@@ -1901,7 +1901,7 @@ void M_ChangeDetail(int choice)
 {
     blurred = false;
     r_detail = !r_detail;
-    C_Input("r_graphicdetail %s", (r_detail == high ? "high" : "low"));
+    C_Input("%s %s", stringize(r_detail), (r_detail == high ? "high" : "low"));
     if (!menuactive)
     {
         HU_PlayerMessage((r_detail == high ? s_DETAILHI : s_DETAILLO), false);
@@ -1922,12 +1922,12 @@ void M_SizeDisplay(int choice)
                 if (!r_hud)
                 {
                     r_hud = true;
-                    C_Input("r_hud on");
+                    C_Input("%s on", stringize(r_hud));
                 }
                 else
                 {
                     R_SetViewSize(--r_screensize);
-                    C_Input("r_screensize %i", r_screensize);
+                    C_Input("%s %i", stringize(r_screensize), r_screensize);
                 }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
@@ -1937,13 +1937,15 @@ void M_SizeDisplay(int choice)
                 if (!r_hud)
                 {
                     r_hud = true;
-                    C_Input("r_hud on");
+                    C_Input("%s on", stringize(r_hud));
                 }
                 else
                 {
                     if (vid_widescreen)
-                        C_Input("vid_widescreen off");
-                    ToggleWidescreen(false);
+                    {
+                        ToggleWidescreen(false);
+                        C_Input("%s off", stringize(vid_widescreen));
+                    }
                 }
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
@@ -1951,7 +1953,7 @@ void M_SizeDisplay(int choice)
             else if (r_screensize > r_screensize_min)
             {
                 R_SetViewSize(--r_screensize);
-                C_Input("r_screensize %i", r_screensize);
+                C_Input("%s %i", stringize(r_screensize), r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
@@ -1964,7 +1966,7 @@ void M_SizeDisplay(int choice)
                 if (r_hud)
                 {
                     r_hud = false;
-                    C_Input("r_hud off");
+                    C_Input("%s off", stringize(r_hud));
                     S_StartSound(NULL, sfx_stnmov);
                     M_SaveCVARs();
                 }
@@ -1982,11 +1984,11 @@ void M_SizeDisplay(int choice)
                     {
                         ToggleWidescreen(true);
                         if (vid_widescreen)
-                            C_Input("vid_widescreen on");
+                            C_Input("%s on", stringize(vid_widescreen));
                         else
                         {
                             R_SetViewSize(++r_screensize);
-                            C_Input("r_screensize %i", r_screensize);
+                            C_Input("%s %i", stringize(r_screensize), r_screensize);
                         }
                     }
                 }
@@ -1996,7 +1998,7 @@ void M_SizeDisplay(int choice)
             else if (r_screensize < r_screensize_max)
             {
                 R_SetViewSize(++r_screensize);
-                C_Input("r_screensize %i", r_screensize);
+                C_Input("%s %i", stringize(r_screensize), r_screensize);
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
@@ -2200,12 +2202,12 @@ void M_ChangeGamma(dboolean shift)
         S_StartSound(NULL, sfx_stnmov);
 
         if (r_gamma == 1.0f)
-            C_Input("r_gamma off");
+            C_Input("%s off", stringize(r_gamma));
         else
         {
             static char buf[128];
 
-            M_snprintf(buf, sizeof(buf), "r_gamma %.2f", r_gamma);
+            M_snprintf(buf, sizeof(buf), "%s %.2f", stringize(r_gamma), r_gamma);
             if (buf[strlen(buf) - 1] == '0' && buf[strlen(buf) - 2] == '0')
                 buf[strlen(buf) - 1] = '\0';
             C_Input(buf);

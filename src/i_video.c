@@ -1079,12 +1079,12 @@ void ToggleFullscreen(void)
     if (vid_fullscreen)
     {
         SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-        C_Input("vid_fullscreen on");
+        C_Input("%s on", stringize(vid_fullscreen));
     }
     else
     {
         SDL_SetWindowFullscreen(window, SDL_FALSE);
-        C_Input("vid_fullscreen off");
+        C_Input("%s off", stringize(vid_fullscreen));
 
         SDL_SetWindowSize(window, windowwidth, windowheight);
 
