@@ -137,10 +137,10 @@ short           itemOn;                 // menu item skull is on
 short           skullAnimCounter;       // skull animation counter
 short           whichSkull;             // which skull to draw
 
-int             skilllevel = SKILLLEVEL_DEFAULT;
 int             episode = EPISODE_DEFAULT;
 int             expansion = EXPANSION_DEFAULT;
-int             selectedsavegame = SAVEGAME_DEFAULT;
+int             savegame = SAVEGAME_DEFAULT;
+int             skilllevel = SKILLLEVEL_DEFAULT;
 
 static int      functionkey = 0;
 
@@ -210,11 +210,11 @@ void M_ClearMenus(void);
 
 enum
 {
-    newgame = 0,
+    new_game = 0,
     options,
-    loadgame,
-    savegame,
-    quitdoom,
+    load_game,
+    save_game,
+    quit_doom,
     main_end
 } main_e;
 
@@ -1351,8 +1351,8 @@ void M_SfxVol(int choice)
                 {
                     S_SetSfxVolume((int)(--sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
-                    sfxvolume_percent = sfxVolume * 100 / 15;
-                    C_Input("s_sfxvolume %i%%", sfxvolume_percent);
+                    s_sfxvolume = sfxVolume * 100 / 15;
+                    C_Input("s_sfxvolume %i%%", s_sfxvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1361,8 +1361,8 @@ void M_SfxVol(int choice)
                 {
                     S_SetSfxVolume((int)(++sfxVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
-                    sfxvolume_percent = sfxVolume * 100 / 15;
-                    C_Input("s_sfxvolume %i%%", sfxvolume_percent);
+                    s_sfxvolume = sfxVolume * 100 / 15;
+                    C_Input("s_sfxvolume %i%%", s_sfxvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1381,8 +1381,8 @@ void M_MusicVol(int choice)
                 {
                     S_SetMusicVolume((int)(--musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
-                    musicvolume_percent = musicVolume * 100 / 15;
-                    C_Input("snd_musicvolume %i%%", musicvolume_percent);
+                    s_musicvolume = musicVolume * 100 / 15;
+                    C_Input("s_musicvolume %i%%", s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1391,8 +1391,8 @@ void M_MusicVol(int choice)
                 {
                     S_SetMusicVolume((int)(++musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
-                    musicvolume_percent = musicVolume * 100 / 15;
-                    C_Input("snd_musicvolume %i%%", musicvolume_percent);
+                    s_musicvolume = musicVolume * 100 / 15;
+                    C_Input("s_musicvolume %i%%", s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -2781,7 +2781,7 @@ dboolean M_Responder(event_t *ev)
                 } while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING));
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
-                SaveDef.lastOn = selectedsavegame = itemOn;
+                SaveDef.lastOn = savegame = itemOn;
                 M_SaveCVARs();
             }
             else
@@ -2821,7 +2821,7 @@ dboolean M_Responder(event_t *ev)
             }
             else if (currentMenu == &SaveDef)
             {
-                LoadDef.lastOn = selectedsavegame = itemOn;
+                LoadDef.lastOn = savegame = itemOn;
                 M_SaveCVARs();
             }
             keywait = I_GetTime() + 2;
@@ -2844,7 +2844,7 @@ dboolean M_Responder(event_t *ev)
                 } while (!strcasecmp(savegamestrings[itemOn], s_EMPTYSTRING));
                 if (itemOn != old)
                     S_StartSound(NULL, sfx_pstop);
-                SaveDef.lastOn = selectedsavegame = itemOn;
+                SaveDef.lastOn = savegame = itemOn;
                 M_SaveCVARs();
             }
             else
@@ -2884,7 +2884,7 @@ dboolean M_Responder(event_t *ev)
             }
             else if (currentMenu == &SaveDef)
             {
-                LoadDef.lastOn = selectedsavegame = itemOn;
+                LoadDef.lastOn = savegame = itemOn;
                 M_SaveCVARs();
             }
             keywait = I_GetTime() + 2;
@@ -3033,12 +3033,12 @@ dboolean M_Responder(event_t *ev)
                     }
                     else if (currentMenu == &SaveDef)
                     {
-                        LoadDef.lastOn = selectedsavegame = itemOn;
+                        LoadDef.lastOn = savegame = itemOn;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &LoadDef)
                     {
-                        SaveDef.lastOn = selectedsavegame = itemOn;
+                        SaveDef.lastOn = savegame = itemOn;
                         M_SaveCVARs();
                     }
                     M_SetWindowCaption();
@@ -3082,12 +3082,12 @@ dboolean M_Responder(event_t *ev)
                     }
                     else if (currentMenu == &SaveDef)
                     {
-                        LoadDef.lastOn = selectedsavegame = itemOn;
+                        LoadDef.lastOn = savegame = itemOn;
                         M_SaveCVARs();
                     }
                     else if (currentMenu == &LoadDef)
                     {
-                        SaveDef.lastOn = selectedsavegame = itemOn;
+                        SaveDef.lastOn = savegame = itemOn;
                         M_SaveCVARs();
                     }
                     M_SetWindowCaption();
@@ -3244,7 +3244,7 @@ void M_Drawer(void)
                 itemOn = (!itemOn ? currentMenu->numitems - 1 : itemOn - 1);
             if (itemOn != old)
             {
-                SaveDef.lastOn = selectedsavegame = itemOn;
+                SaveDef.lastOn = savegame = itemOn;
                 M_SaveCVARs();
             }
         }
@@ -3342,7 +3342,7 @@ void M_Init(void)
         EpiDef.lastOn = episode;
     ExpDef.lastOn = expansion;
     NewDef.lastOn = skilllevel;
-    SaveDef.lastOn = LoadDef.lastOn = selectedsavegame;
+    SaveDef.lastOn = LoadDef.lastOn = savegame;
     M_ReadSaveStrings();
 
     if (chex)

@@ -56,9 +56,6 @@
 
 char    *configfile = PACKAGE_CONFIG;
 
-int     musicvolume_percent = MUSICVOLUME_DEFAULT;
-int     sfxvolume_percent = SFXVOLUME_DEFAULT;
-
 extern dboolean am_grid;
 extern dboolean am_rotatemode;
 extern int      episode;
@@ -102,11 +99,13 @@ extern dboolean r_mirrorweapons;
 extern dboolean r_playersprites;
 extern dboolean r_rockettrails;
 extern dboolean r_shadows;
-extern dboolean randompitch;
 extern int      runcount;
-extern int      selectedsavegame;
+extern int      s_musicvolume;
+extern dboolean s_randompitch;
+extern int      s_sfxvolume;
+extern char     *s_timiditycfgpath;
+extern int      savegame;
 extern int      skilllevel;
-extern char     *timidity_cfg_path;
 extern dboolean r_translucency;
 extern dboolean vid_capfps;
 extern int      vid_display;
@@ -192,11 +191,11 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_shadows,               r_shadows,                    BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_translucency,          r_translucency,               BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (runcount,                runcount,                     NOALIAS    ),
-    CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,           musicvolume_percent,          NOALIAS    ),
-    CONFIG_VARIABLE_INT          (s_randompitch,           randompitch,                  BOOLALIAS  ),
-    CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,             sfxvolume_percent,            NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (s_timiditycfgpath,       timidity_cfg_path,            NOALIAS    ),
-    CONFIG_VARIABLE_INT          (savegame,                selectedsavegame,             NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,           s_musicvolume,                NOALIAS    ),
+    CONFIG_VARIABLE_INT          (s_randompitch,           s_randompitch,                BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,             s_sfxvolume,                  NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (s_timiditycfgpath,       s_timiditycfgpath,            NOALIAS    ),
+    CONFIG_VARIABLE_INT          (savegame,                savegame,                     NOALIAS    ),
     CONFIG_VARIABLE_INT          (skilllevel,              skilllevel,                   NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,              vid_capfps,                   BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,             vid_display,                  NOALIAS    ),
@@ -524,7 +523,7 @@ static void M_CheckCVARs(void)
 
     m_sensitivity = BETWEEN(M_SENSITIVITY_MIN, m_sensitivity, M_SENSITIVITY_MAX);
 
-    musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent, MUSICVOLUME_MAX) * 15 + 50) / 100;
+    musicVolume = (BETWEEN(S_MUSICVOLUME_MIN, s_musicvolume, S_MUSICVOLUME_MAX) * 15 + 50) / 100;
 
     if (m_novertical != false && m_novertical != true)
         m_novertical = M_NOVERTICAL_DEFAULT;
@@ -534,8 +533,8 @@ static void M_CheckCVARs(void)
     if (r_playersprites != false && r_playersprites != true)
         r_playersprites = R_PLAYERSPRITES_DEFAULT;
 
-    if (randompitch != false && randompitch != true)
-        randompitch = RANDOMPITCH_DEFAULT;
+    if (s_randompitch != false && s_randompitch != true)
+        s_randompitch = S_RANDOMPITCH_DEFAULT;
 
     if (am_rotatemode != false && am_rotatemode != true)
         am_rotatemode = AM_ROTATEMODE_DEFAULT;
@@ -555,11 +554,11 @@ static void M_CheckCVARs(void)
 
     expansion = BETWEEN(EXPANSION_MIN, expansion, EXPANSION_MAX);
 
-    selectedsavegame = BETWEEN(0, selectedsavegame, 5);
+    savegame = BETWEEN(0, savegame, 5);
 
     skilllevel = BETWEEN(SKILLLEVEL_MIN, skilllevel, SKILLLEVEL_MAX);
 
-    sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
+    sfxVolume = (BETWEEN(S_SFXVOLUME_MIN, s_sfxvolume, S_SFXVOLUME_MAX) * 15 + 50) / 100;
 
     if (r_shadows != false && r_shadows != true)
         r_shadows = R_SHADOWS_DEFAULT;

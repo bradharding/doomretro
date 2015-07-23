@@ -197,10 +197,6 @@
 
 #define MOUSEUSE_DEFAULT                        -1
 
-#define MUSICVOLUME_MIN                         0
-#define MUSICVOLUME_DEFAULT                     100
-#define MUSICVOLUME_MAX                         100
-
 #define PLAYERNAME_DEFAULT                      "you"
 
 #define PM_ALWAYSRUN_DEFAULT                    false
@@ -273,21 +269,25 @@
 
 #define R_TRANSLUCENCY_DEFAULT                  true
 
-#define RANDOMPITCH_DEFAULT                     false
-
 #define RUNCOUNT_MAX                            32768
 
-#define SAVEGAME_DEFAULT                        0
+#define S_MUSICVOLUME_MIN                       0
+#define S_MUSICVOLUME_DEFAULT                   100
+#define S_MUSICVOLUME_MAX                       100
 
-#define SFXVOLUME_MIN                           0
-#define SFXVOLUME_DEFAULT                       100
-#define SFXVOLUME_MAX                           100
+#define S_RANDOMPITCH_DEFAULT                   false
+
+#define S_SFXVOLUME_MIN                         0
+#define S_SFXVOLUME_DEFAULT                     100
+#define S_SFXVOLUME_MAX                         100
+
+#define S_TIMIDITYCFGPATH_DEFAULT               ""
+
+#define SAVEGAME_DEFAULT                        0
 
 #define SKILLLEVEL_MIN                          sk_baby
 #define SKILLLEVEL_DEFAULT                      sk_medium
 #define SKILLLEVEL_MAX                          sk_nightmare
-
-#define TIMIDITY_CFG_PATH_DEFAULT               ""
 
 #define VID_CAPFPS_DEFAULT                      false
 

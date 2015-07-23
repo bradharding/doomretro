@@ -530,7 +530,7 @@ int I_SDL_StartSound(sfxinfo_t *sfxinfo, int channel, int vol, int sep, int pitc
         if (!snd)
             return -1;
 
-        if (randompitch)
+        if (s_randompitch)
         {
             newsnd = PitchShift(snd, pitch);
             if (newsnd)

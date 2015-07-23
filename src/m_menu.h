@@ -103,14 +103,14 @@ extern dboolean nosound;
 extern dboolean nosfx;
 extern dboolean firstevent;
 extern byte     grays[256];
-extern int      musicvolume_percent;
-extern int      sfxvolume_percent;
+extern int      s_musicvolume;
+extern int      s_sfxvolume;
 extern dboolean vid_widescreen;
 extern dboolean r_hud;
 extern dboolean returntowidescreen;
 extern int      episode;
 extern int      expansion;
-extern int      selectedsavegame;
+extern int      savegame;
 extern int      skilllevel;
 
 #endif

@@ -43,7 +43,7 @@
 #include "sounds.h"
 
 extern int      snd_samplerate;
-extern dboolean randompitch;
+extern dboolean s_randompitch;
 
 dboolean I_SDL_InitSound(void);
 void I_SDL_ShutdownSound(void);

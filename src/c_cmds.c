@@ -194,12 +194,14 @@ extern dboolean r_rockettrails;
 extern int      r_screensize;
 extern dboolean r_shadows;
 extern dboolean r_translucency;
-extern dboolean randompitch;
 extern int      runcount;
 extern char     *savegamefolder;
-extern int      selectedsavegame;
+extern int      s_musicvolume;
+extern dboolean s_randompitch;
+extern int      s_sfxvolume;
+extern char     *s_timiditycfgpath;
+extern int      savegame;
 extern int      skilllevel;
-extern char     *timidity_cfg_path;
 extern dboolean vid_capfps;
 extern int      vid_display;
 #if !defined(WIN32)
@@ -518,10 +520,10 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, r_translucency, R_TRANSLUCENCY, "Toggles translucency in sprites and textures."),
     CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrects the player."),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, NOALIAS, NONE, "The number of times "PACKAGE_NAME" has been run."),
-    CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, NOALIAS, MUSICVOLUME, "The music volume."),
-    CVAR_BOOL (s_randompitch, C_BoolCondition, C_Bool, randompitch, RANDOMPITCH, "Toggles randomizing the pitch of sound effects."),
-    CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, sfxvolume_percent, NOALIAS, SFXVOLUME, "The sound effects volume."),
-    CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, timidity_cfg_path, "The path of Timidity's configuration file."),
+    CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, s_musicvolume, NOALIAS, S_MUSICVOLUME, "The music volume."),
+    CVAR_BOOL (s_randompitch, C_BoolCondition, C_Bool, s_randompitch, S_RANDOMPITCH, "Toggles randomizing the pitch of sound effects."),
+    CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, s_sfxvolume, NOALIAS, S_SFXVOLUME, "The sound effects volume."),
+    CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, s_timiditycfgpath, "The path of Timidity's configuration file."),
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Saves the game to a file."),
     CVAR_STR  (savegamefolder, C_NoCondition, C_Str, savegamefolder, "The folder where savegames are saved."),
     CVAR_INT  (skilllevel, C_IntCondition, C_Int, CF_NONE, skilllevel, NOALIAS, SKILLLEVEL, "The currently selected skill level in the menu."),
@@ -2251,9 +2253,9 @@ static dboolean C_VolumeCondition(char *cmd, char *parm1, char *parm2)
 
     sscanf(parm1, "%10i", &value);
 
-    return ((!strcasecmp(cmd, "s_musicvolume") && value >= MUSICVOLUME_MIN
-        && value <= MUSICVOLUME_MAX) || (!strcasecmp(cmd, "s_sfxvolume")
-        && value >= SFXVOLUME_MIN && value <= SFXVOLUME_MAX));
+    return ((!strcasecmp(cmd, "s_musicvolume") && value >= S_MUSICVOLUME_MIN
+        && value <= S_MUSICVOLUME_MAX) || (!strcasecmp(cmd, "s_sfxvolume")
+        && value >= S_SFXVOLUME_MIN && value <= S_SFXVOLUME_MAX));
 }
 
 static void C_Volume(char *cmd, char *parm1, char *parm2)
@@ -2268,15 +2270,15 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
 
         if (!strcasecmp(cmd, "s_musicvolume"))
         {
-            musicvolume_percent = value;
-            musicVolume = (BETWEEN(MUSICVOLUME_MIN, musicvolume_percent,
-                MUSICVOLUME_MAX) * 15 + 50) / 100;
+            s_musicvolume = value;
+            musicVolume = (BETWEEN(S_MUSICVOLUME_MIN, s_musicvolume,
+                S_MUSICVOLUME_MAX) * 15 + 50) / 100;
             S_SetMusicVolume((int)(musicVolume * (127.0f / 15.0f)));
         }
         else
         {
-            sfxvolume_percent = value;
-            sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
+            s_sfxvolume = value;
+            sfxVolume = (BETWEEN(S_SFXVOLUME_MIN, s_sfxvolume, S_SFXVOLUME_MAX) * 15 + 50) / 100;
             S_SetSfxVolume((int)(sfxVolume * (127.0f / 15.0f)));
         }
 
@@ -2284,7 +2286,7 @@ static void C_Volume(char *cmd, char *parm1, char *parm2)
     }
     else
         C_Output("%i%%",
-            (!strcasecmp(cmd, "s_musicvolume") ? musicvolume_percent : sfxvolume_percent));
+            (!strcasecmp(cmd, "s_musicvolume") ? s_musicvolume : s_sfxvolume));
 }
 
 static void C_Vsync(char *cmd, char *parm1, char *parm2)
