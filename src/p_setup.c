@@ -123,7 +123,7 @@ mapthing_t      playerstarts[MAXPLAYERS];
 dboolean        canmodify;
 dboolean        transferredsky;
 
-dboolean        mapfixes = MAPFIXES_DEFAULT;
+dboolean        r_fixmaperrors = R_FIXMAPERRORS_DEFAULT;
 
 static int      current_episode = -1;
 static int      current_map = -1;
@@ -192,7 +192,7 @@ void P_LoadVertexes(int lump)
         vertexes[i].y = SHORT(data[i].y) << FRACBITS;
 
         // Apply any map-specific fixes.
-        if (canmodify && mapfixes)
+        if (canmodify && r_fixmaperrors)
         {
             int j = 0;
 
@@ -315,7 +315,7 @@ void P_LoadSegs(int lump)
             boomlinespecials = true;
 
         // Apply any map-specific fixes.
-        if (canmodify && mapfixes)
+        if (canmodify && r_fixmaperrors)
         {
             int j = 0;
 
@@ -538,7 +538,7 @@ void P_LoadSectors(int lump)
         ss->ceilinglightsec = -1; // sector used to get ceiling lighting
 
         // Apply any level-specific fixes.
-        if (canmodify && mapfixes)
+        if (canmodify && r_fixmaperrors)
         {
             int j = 0;
 
@@ -930,7 +930,7 @@ void P_LoadThings(int lump)
         mt.options = SHORT(mt.options);
 
         // Apply any level-specific fixes.
-        if (canmodify && mapfixes)
+        if (canmodify && r_fixmaperrors)
         {
             int j = 0;
 
@@ -1931,7 +1931,7 @@ void P_SetupLevel(int ep, int map)
     P_CalcSegsLength();
 
     totalbloodsplats = 0;
-    memset(bloodsplats, 0, sizeof(mobj_t *) * maxbloodsplats);
+    memset(bloodsplats, 0, sizeof(mobj_t *) * r_maxbloodsplats);
 
     P_LoadThings(lumpnum + ML_THINGS);
 

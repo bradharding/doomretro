@@ -63,7 +63,7 @@ typedef enum
 
 void A_Fall(mobj_t *actor);
 
-extern dboolean smoketrails;
+extern dboolean r_rockettrails;
 
 //
 // ENEMY THINKING
@@ -1091,7 +1091,7 @@ void A_CyberAttack(mobj_t *actor)
     A_FaceTarget(actor);
     mo = P_SpawnMissile(actor, actor->target, MT_ROCKET);
 
-    if (smoketrails)
+    if (r_rockettrails)
         mo->flags2 |= MF2_SMOKETRAIL;
 }
 

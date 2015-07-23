@@ -91,8 +91,8 @@ dboolean        infight;
 
 mobj_t          *onmobj;
 
-extern dboolean animatedliquid;
-extern dboolean corpses_nudge;
+extern dboolean r_liquid_bob;
+extern dboolean r_corpses_nudge;
 
 //
 // TELEPORT MOVE
@@ -433,7 +433,7 @@ dboolean PIT_CheckThing(mobj_t *thing)
     int         tmflags = tmthing->flags;
     fixed_t     dist = P_ApproxDistance(thing->x - tmthing->x, thing->y - tmthing->y);
 
-    if (corpses_nudge && (flags & MF_CORPSE) && (tmflags & MF_SHOOTABLE) && !thing->nudge
+    if (r_corpses_nudge && (flags & MF_CORPSE) && (tmflags & MF_SHOOTABLE) && !thing->nudge
         && dist < 16 * FRACUNIT && !(thing->z - tmthing->z))
     {
         thing->nudge = TICRATE;
@@ -1127,7 +1127,7 @@ dboolean P_ThingHeightClip(mobj_t *thing)
     thing->ceilingz = tmceilingz;
     thing->dropoffz = tmdropoffz;         // killough 11/98: remember dropoffs
 
-    if ((flags2 & MF2_FEETARECLIPPED) && animatedliquid && !thing->player)
+    if ((flags2 & MF2_FEETARECLIPPED) && r_liquid_bob && !thing->player)
         thing->z = thing->floorz;
     else if (flags2 & MF2_FLOATBOB)
     {
@@ -1610,7 +1610,7 @@ hitline:
 
         if (type == MT_SKULL)
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle, true);
-        else if (blood != NOBLOOD)
+        else if (r_blood != NOBLOOD)
         {
             if (type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);

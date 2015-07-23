@@ -222,7 +222,7 @@ mline_t thingtriangle[] =
 
 #define THINGTRIANGLELINES      3
 
-dboolean        am_grid = GRID_DEFAULT;
+dboolean        am_grid = AM_GRID_DEFAULT;
 
 dboolean        automapactive = false;
 
@@ -269,7 +269,7 @@ int             markpointnum = 0;               // next point to be assigned
 int             markpointnum_max = 0;
 
 dboolean        am_followmode = true;           // specifies whether to follow the player around
-dboolean        am_rotatemode = ROTATEMODE_DEFAULT;
+dboolean        am_rotatemode = AM_ROTATEMODE_DEFAULT;
 
 static dboolean stopped = true;
 

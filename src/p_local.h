@@ -111,15 +111,15 @@ void P_ResurrectPlayer(player_t *player);
 #define CARDNOTFOUNDYET         -1
 #define CARDNOTINMAP            0
 
-extern int                      blood;
-extern mobj_t                   *bloodsplats[MAXBLOODSPLATS_MAX];
+extern int                      r_blood;
+extern mobj_t                   *bloodsplats[R_MAXBLOODSPLATS_MAX];
 extern int                      totalbloodsplats;
-extern int                      maxbloodsplats;
+extern int                      r_maxbloodsplats;
 
-extern dboolean                 corpses_mirror;
-extern dboolean                 corpses_moreblood;
-extern dboolean                 corpses_slide;
-extern dboolean                 corpses_smearblood;
+extern dboolean                 r_corpses_mirrored;
+extern dboolean                 r_corpses_moreblood;
+extern dboolean                 r_corpses_slide;
+extern dboolean                 r_corpses_smearblood;
 
 void P_InitCards(player_t *player);
 

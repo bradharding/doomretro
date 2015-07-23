@@ -108,7 +108,7 @@ dboolean                vid_fullscreen = VID_FULLSCREEN_DEFAULT;
 dboolean                vid_widescreen = VID_WIDESCREEN_DEFAULT;
 dboolean                returntowidescreen = false;
 
-dboolean                hud = HUD_DEFAULT;
+dboolean                r_hud = R_HUD_DEFAULT;
 
 dboolean                vid_capfps = VID_CAPFPS_DEFAULT;
 
@@ -145,7 +145,7 @@ float                   gammalevels[GAMMALEVELS] =
 
 // Gamma correction level to use
 int                     gammaindex;
-float                   gammalevel = GAMMALEVEL_DEFAULT;
+float                   r_gamma = R_GAMMA_DEFAULT;
 
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
 
@@ -1030,10 +1030,10 @@ void ToggleWidescreen(dboolean toggle)
     {
         vid_widescreen = true;
 
-        if (returntowidescreen && screensize == 8)
+        if (returntowidescreen && r_screensize == R_SCREENSIZE_MAX)
         {
-            screensize = 7;
-            R_SetViewSize(screensize);
+            r_screensize = R_SCREENSIZE_MAX - 1;
+            R_SetViewSize(r_screensize);
         }
 
         SDL_RenderSetLogicalSize(renderer, SCREENWIDTH, SCREENHEIGHT);

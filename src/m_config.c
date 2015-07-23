@@ -62,33 +62,16 @@ int     sfxvolume_percent = SFXVOLUME_DEFAULT;
 extern dboolean alwaysrun;
 extern dboolean am_grid;
 extern dboolean am_rotatemode;
-extern dboolean animatedliquid;
-extern int      blood;
-extern dboolean brightmaps;
 extern dboolean centerweapon;
-extern dboolean corpses_mirror;
-extern dboolean corpses_moreblood;
-extern dboolean corpses_nudge;
-extern dboolean corpses_slide;
-extern dboolean corpses_smearblood;
 extern int      episode;
 extern int      expansion;
-extern dboolean floatbob;
-extern dboolean footclip;
-extern float    gammalevel;
 extern float    gp_deadzone_left;
 extern float    gp_deadzone_right;
 extern int      gp_sensitivity;
 extern dboolean gp_swapthumbsticks;
 extern dboolean gp_vibrate;
-extern int      graphicdetail;
-extern dboolean homindicator;
-extern dboolean hud;
 extern char     *iwadfolder;
-extern dboolean mapfixes;
-extern int      maxbloodsplats;
 extern dboolean messages;
-extern dboolean mirrorweapons;
 extern float    m_acceleration;
 extern dboolean m_doubleclick_use;
 extern dboolean m_novertical;
@@ -96,18 +79,35 @@ extern int      m_sensitivity;
 extern int      m_threshold;
 extern int      playerbob;
 extern char     *playername;
-extern dboolean playersprites;
+extern int      r_blood;
+extern dboolean r_brightmaps;
+extern dboolean r_corpses_mirrored;
+extern dboolean r_corpses_moreblood;
+extern dboolean r_corpses_nudge;
+extern dboolean r_corpses_slide;
+extern dboolean r_corpses_smearblood;
+extern int      r_detail;
+extern dboolean r_fixmaperrors;
+extern dboolean r_fixspriteoffsets;
+extern dboolean r_floatbob;
+extern float    r_gamma;
+extern dboolean r_homindicator;
+extern dboolean r_hud;
+extern dboolean r_liquid_bob;
+extern dboolean r_liquid_clipsprites;
+extern dboolean r_liquid_ripple;
 extern char     *r_lowpixelsize;
+extern int      r_maxbloodsplats;
+extern dboolean r_mirrorweapons;
+extern dboolean r_playersprites;
+extern dboolean r_rockettrails;
+extern dboolean r_shadows;
 extern dboolean randompitch;
 extern int      runcount;
 extern int      selectedsavegame;
-extern dboolean shadows;
 extern int      skilllevel;
-extern dboolean smoketrails;
-extern dboolean spritefixes;
-extern dboolean swirlingliquid;
 extern char     *timidity_cfg_path;
-extern dboolean translucency;
+extern dboolean r_translucency;
 extern dboolean vid_capfps;
 extern int      vid_display;
 #if !defined(WIN32)
@@ -166,31 +166,31 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (pm_alwaysrun,            alwaysrun,                    BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (pm_centerweapon,         centerweapon,                 BOOLALIAS  ),
     CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,              playerbob,                    NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_blood,                 blood,                        BLOODALIAS ),
-    CONFIG_VARIABLE_INT          (r_brightmaps,            brightmaps,                   BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_mirrored,      corpses_mirror,               BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_moreblood,     corpses_moreblood,            BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_nudge,         corpses_nudge,                BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_slide,         corpses_slide,                BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_smearblood,    corpses_smearblood,           BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_detail,                graphicdetail,                DETAILALIAS),
-    CONFIG_VARIABLE_INT          (r_fixmaperrors,          mapfixes,                     BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_fixspriteoffsets,      spritefixes,                  BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_floatbob,              floatbob,                     BOOLALIAS  ),
-    CONFIG_VARIABLE_FLOAT        (r_gamma,                 gammalevel,                   GAMMAALIAS ),
-    CONFIG_VARIABLE_INT          (r_homindicator,          homindicator,                 BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_hud,                   hud,                          BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_liquid_bob,            animatedliquid,               BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_liquid_clipsprites,    footclip,                     BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_liquid_ripple,         swirlingliquid,               BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_blood,                 r_blood,                      BLOODALIAS ),
+    CONFIG_VARIABLE_INT          (r_brightmaps,            r_brightmaps,                 BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_mirrored,      r_corpses_mirrored,           BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_moreblood,     r_corpses_moreblood,          BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_nudge,         r_corpses_nudge,              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_slide,         r_corpses_slide,              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_smearblood,    r_corpses_smearblood,         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_detail,                r_detail,                     DETAILALIAS),
+    CONFIG_VARIABLE_INT          (r_fixmaperrors,          r_fixmaperrors,               BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_fixspriteoffsets,      r_fixspriteoffsets,           BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_floatbob,              r_floatbob,                   BOOLALIAS  ),
+    CONFIG_VARIABLE_FLOAT        (r_gamma,                 r_gamma,                      GAMMAALIAS ),
+    CONFIG_VARIABLE_INT          (r_homindicator,          r_homindicator,               BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_hud,                   r_hud,                        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_bob,            r_liquid_bob,                 BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_clipsprites,    r_liquid_clipsprites,         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_ripple,         r_liquid_ripple,              BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (r_lowpixelsize,          r_lowpixelsize,               NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_maxbloodsplats,        maxbloodsplats,               SPLATALIAS ),
-    CONFIG_VARIABLE_INT          (r_mirrorweapons,         mirrorweapons,                BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_playersprites,         playersprites,                BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_rockettrails,          smoketrails,                  BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_screensize,            screensize,                   NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_shadows,               shadows,                      BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_translucency,          translucency,                 BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_maxbloodsplats,        r_maxbloodsplats,             SPLATALIAS ),
+    CONFIG_VARIABLE_INT          (r_mirrorweapons,         r_mirrorweapons,              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_playersprites,         r_playersprites,              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_rockettrails,          r_rockettrails,               BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_screensize,            r_screensize,                 NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_shadows,               r_shadows,                    BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_translucency,          r_translucency,               BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (runcount,                runcount,                     NOALIAS    ),
     CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,           musicvolume_percent,          NOALIAS    ),
     CONFIG_VARIABLE_INT          (s_randompitch,           randompitch,                  BOOLALIAS  ),
@@ -432,14 +432,14 @@ static void M_CheckCVARs(void)
     if (alwaysrun != false && alwaysrun != true)
         alwaysrun = ALWAYSRUN_DEFAULT;
 
-    if (animatedliquid != false && animatedliquid != true)
-        animatedliquid = ANIMATEDLIQUID_DEFAULT;
+    if (r_liquid_bob != false && r_liquid_bob != true)
+        r_liquid_bob = R_LIQUID_BOB_DEFAULT;
 
-    if (blood != NOBLOOD && blood != REDBLOODONLY && blood != ALLBLOODCOLORS)
-        blood = BLOOD_DEFAULT;
+    if (r_blood != NOBLOOD && r_blood != REDBLOODONLY && r_blood != ALLBLOODCOLORS)
+        r_blood = R_BLOOD_DEFAULT;
 
-    if (brightmaps != false && brightmaps != true)
-        brightmaps = BRIGHTMAPS_DEFAULT;
+    if (r_brightmaps != false && r_brightmaps != true)
+        r_brightmaps = R_BRIGHTMAPS_DEFAULT;
 
     if (vid_capfps != false && vid_capfps != true)
         vid_capfps = VID_CAPFPS_DEFAULT;
@@ -447,29 +447,29 @@ static void M_CheckCVARs(void)
     if (centerweapon != false && centerweapon != true)
         centerweapon = CENTERWEAPON_DEFAULT;
 
-    if (corpses_mirror != false && corpses_mirror != true)
-        corpses_mirror = CORPSES_MIRROR_DEFAULT;
+    if (r_corpses_mirrored != false && r_corpses_mirrored != true)
+        r_corpses_mirrored = R_CORPSES_MIRRORED_DEFAULT;
 
-    if (corpses_moreblood != false && corpses_moreblood != true)
-        corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
+    if (r_corpses_moreblood != false && r_corpses_moreblood != true)
+        r_corpses_moreblood = R_CORPSES_MOREBLOOD_DEFAULT;
 
-    if (corpses_nudge != false && corpses_nudge != true)
-        corpses_nudge = CORPSES_NUDGE_DEFAULT;
+    if (r_corpses_nudge != false && r_corpses_nudge != true)
+        r_corpses_nudge = R_CORPSES_NUDGE_DEFAULT;
 
-    if (corpses_slide != false && corpses_slide != true)
-        corpses_slide = CORPSES_SLIDE_DEFAULT;
+    if (r_corpses_slide != false && r_corpses_slide != true)
+        r_corpses_slide = R_CORPSES_SLIDE_DEFAULT;
 
-    if (corpses_smearblood != false && corpses_smearblood != true)
-        corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
+    if (r_corpses_smearblood != false && r_corpses_smearblood != true)
+        r_corpses_smearblood = R_CORPSES_SMEARBLOOD_DEFAULT;
 
     if (m_doubleclick_use != false && m_doubleclick_use != true)
         m_doubleclick_use = M_DOUBLECLICK_USE_DEFAULT;
 
-    if (floatbob != false && floatbob != true)
-        floatbob = FLOATBOB_DEFAULT;
+    if (r_floatbob != false && r_floatbob != true)
+        r_floatbob = R_FLOATBOB_DEFAULT;
 
-    if (footclip != false && footclip != true)
-        footclip = FOOTCLIP_DEFAULT;
+    if (r_liquid_clipsprites != false && r_liquid_clipsprites != true)
+        r_liquid_clipsprites = R_LIQUID_CLIPSPRITES_DEFAULT;
 
     if (vid_fullscreen != false && vid_fullscreen != true)
         vid_fullscreen = VID_FULLSCREEN_DEFAULT;
@@ -490,37 +490,37 @@ static void M_CheckCVARs(void)
     if (gp_vibrate != false && gp_vibrate != true)
         gp_vibrate = GP_VIBRATE_DEFAULT;
 
-    gammalevel = BETWEENF(GAMMALEVEL_MIN, gammalevel, GAMMALEVEL_MAX);
+    r_gamma = BETWEENF(R_GAMMA_MIN, r_gamma, R_GAMMA_MAX);
     gammaindex = 0;
     while (gammaindex < GAMMALEVELS)
-        if (gammalevels[gammaindex++] == gammalevel)
+        if (gammalevels[gammaindex++] == r_gamma)
         break;
     if (gammaindex == GAMMALEVELS)
     {
         gammaindex = 0;
-        while (gammalevels[gammaindex++] != GAMMALEVEL_DEFAULT);
+        while (gammalevels[gammaindex++] != R_GAMMA_DEFAULT);
     }
     --gammaindex;
 
-    if (graphicdetail != LOW && graphicdetail != HIGH)
-        graphicdetail = GRAPHICDETAIL_DEFAULT;
+    if (r_detail != LOW && r_detail != HIGH)
+        r_detail = R_DETAIL_DEFAULT;
 
     if (am_grid != false && am_grid != true)
-        am_grid = GRID_DEFAULT;
+        am_grid = AM_GRID_DEFAULT;
 
-    if (homindicator != false && homindicator != true)
-        homindicator = HOMINDICATOR_DEFAULT;
+    if (r_homindicator != false && r_homindicator != true)
+        r_homindicator = R_HOMINDICATOR_DEFAULT;
 
-    if (hud != false && hud != true)
-        hud = HUD_DEFAULT;
+    if (r_hud != false && r_hud != true)
+        r_hud = R_HUD_DEFAULT;
 
     if (messages != false && messages != true)
         messages = MESSAGES_DEFAULT;
 
-    if (mirrorweapons != false && mirrorweapons != true)
-        mirrorweapons = MIRRORWEAPONS_DEFAULT;
+    if (r_mirrorweapons != false && r_mirrorweapons != true)
+        r_mirrorweapons = R_MIRRORWEAPONS_DEFAULT;
 
-    maxbloodsplats = BETWEEN(MAXBLOODSPLATS_MIN, maxbloodsplats, MAXBLOODSPLATS_MAX);
+    r_maxbloodsplats = BETWEEN(R_MAXBLOODSPLATS_MIN, r_maxbloodsplats, R_MAXBLOODSPLATS_MAX);
 
     m_sensitivity = BETWEEN(M_SENSITIVITY_MIN, m_sensitivity, M_SENSITIVITY_MAX);
 
@@ -531,14 +531,14 @@ static void M_CheckCVARs(void)
 
     playerbob = BETWEEN(PLAYERBOB_MIN, playerbob, PLAYERBOB_MAX);
 
-    if (playersprites != false && playersprites != true)
-        playersprites = PLAYERSPRITES_DEFAULT;
+    if (r_playersprites != false && r_playersprites != true)
+        r_playersprites = R_PLAYERSPRITES_DEFAULT;
 
     if (randompitch != false && randompitch != true)
         randompitch = RANDOMPITCH_DEFAULT;
 
     if (am_rotatemode != false && am_rotatemode != true)
-        am_rotatemode = ROTATEMODE_DEFAULT;
+        am_rotatemode = AM_ROTATEMODE_DEFAULT;
 
     runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
 
@@ -549,7 +549,7 @@ static void M_CheckCVARs(void)
     if (strcasecmp(vid_scalefilter, "nearest") && strcasecmp(vid_scalefilter, "linear"))
         vid_scalefilter = VID_SCALEFILTER_DEFAULT;
 
-    screensize = BETWEEN(SCREENSIZE_MIN, screensize, SCREENSIZE_MAX);
+    r_screensize = BETWEEN(R_SCREENSIZE_MIN, r_screensize, R_SCREENSIZE_MAX);
 
     episode = BETWEEN(EPISODE_MIN, episode, EPISODE_MAX - (gamemode == registered));
 
@@ -561,33 +561,33 @@ static void M_CheckCVARs(void)
 
     sfxVolume = (BETWEEN(SFXVOLUME_MIN, sfxvolume_percent, SFXVOLUME_MAX) * 15 + 50) / 100;
 
-    if (shadows != false && shadows != true)
-        shadows = SHADOWS_DEFAULT;
+    if (r_shadows != false && r_shadows != true)
+        r_shadows = R_SHADOWS_DEFAULT;
 
-    if (smoketrails != false && smoketrails != true)
-        smoketrails = SMOKETRAILS_DEFAULT;
+    if (r_rockettrails != false && r_rockettrails != true)
+        r_rockettrails = R_ROCKETTRAILS_DEFAULT;
 
-    if (spritefixes != false && spritefixes != true)
-        spritefixes = SPRITEFIXES_DEFAULT;
+    if (r_fixspriteoffsets != false && r_fixspriteoffsets != true)
+        r_fixspriteoffsets = R_FIXSPRITEOFFSETS_DEFAULT;
 
-    if (swirlingliquid != false && swirlingliquid != true)
-        swirlingliquid = SWIRLINGLIQUID_DEFAULT;
+    if (r_liquid_ripple != false && r_liquid_ripple != true)
+        r_liquid_ripple = R_LIQUID_RIPPLE_DEFAULT;
 
-    if (translucency != false && translucency != true)
-        translucency = TRANSLUCENCY_DEFAULT;
+    if (r_translucency != false && r_translucency != true)
+        r_translucency = R_TRANSLUCENCY_DEFAULT;
 
     if (vid_vsync != false && vid_vsync != true)
         vid_vsync = VID_VSYNC_DEFAULT;
 
     if (vid_widescreen != false && vid_widescreen != true)
         vid_widescreen = VID_WIDESCREEN_DEFAULT;
-    if (vid_widescreen || screensize == SCREENSIZE_MAX)
+    if (vid_widescreen || r_screensize == R_SCREENSIZE_MAX)
     {
         returntowidescreen = true;
         vid_widescreen = false;
     }
     else
-        hud = true;
+        r_hud = true;
 
     M_SaveCVARs();
 }

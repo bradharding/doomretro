@@ -92,7 +92,7 @@ extern int      m_threshold;
 
 extern dboolean sendpause;
 extern dboolean quitting;
-extern int      screensize;
+extern int      r_screensize;
 
 extern int      keydown;
 
@@ -102,7 +102,7 @@ extern dboolean idbehold;
 extern dboolean message_clearable;
 
 extern int      gammaindex;
-extern float    gammalevel;
+extern float    r_gamma;
 extern float    gammalevels[GAMMALEVELS];
 
 extern dboolean blurred;

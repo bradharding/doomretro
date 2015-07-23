@@ -62,7 +62,7 @@ int     viewwindowx;
 int     viewwindowy;
 int     fuzztable[SCREENWIDTH * SCREENHEIGHT];
 
-extern int      screensize;
+extern int      r_screensize;
 
 // Color tables for different players,
 //  translate a limited part to another
@@ -1370,11 +1370,11 @@ void R_FillBackScreen(void)
 
     for (y = 0; y < height - 8; y += 8)
         V_DrawPatch(windowx - 8, windowy + y, 1, brdr_l);
-    V_DrawPatch(windowx - 8, windowy + y - 2 * (screensize >= 2), 1, brdr_l);
+    V_DrawPatch(windowx - 8, windowy + y - 2 * (r_screensize >= 2), 1, brdr_l);
 
     for (y = 0; y < height - 8; y += 8)
         V_DrawPatch(windowx + width, windowy + y, 1, brdr_r);
-    V_DrawPatch(windowx + width, windowy + y - 2 * (screensize >= 2), 1, brdr_r);
+    V_DrawPatch(windowx + width, windowy + y - 2 * (r_screensize >= 2), 1, brdr_r);
 
     // Draw beveled edge.
     V_DrawPatch(windowx - 8, windowy - 8, 1, brdr_tl);

@@ -44,7 +44,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-dboolean animatedliquid = ANIMATEDLIQUID_DEFAULT;
+dboolean r_liquid_bob = R_LIQUID_BOB_DEFAULT;
 
 fixed_t animatedliquiddiffs[128] =
 {
@@ -72,8 +72,7 @@ static void T_AnimateLiquid(floormove_t *floor)
 {
     sector_t    *sector = floor->sector;
 
-    if (animatedliquid && isliquid[sector->floorpic]
-        && sector->ceilingheight != sector->floorheight)
+    if (r_liquid_bob && isliquid[sector->floorpic] && sector->ceilingheight != sector->floorheight)
     {
         if (sector->animate == INT_MAX)
             sector->animate = 2 * FRACUNIT + animatedliquiddiffs[leveltime & 127];

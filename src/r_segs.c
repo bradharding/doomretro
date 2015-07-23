@@ -99,9 +99,9 @@ lighttable_t    **walllights;
 
 static int      *maskedtexturecol;      // dropoff overflow
 
-dboolean        brightmaps = BRIGHTMAPS_DEFAULT;
+dboolean        r_brightmaps = R_BRIGHTMAPS_DEFAULT;
 
-extern dboolean translucency;
+extern dboolean r_translucency;
 
 //
 // R_FixWiggle()
@@ -245,7 +245,7 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
     // Use different light tables for horizontal / vertical.
     curline = ds->curline;
 
-    colfunc = (curline->linedef->tranlump >= 0 && translucency ?
+    colfunc = (curline->linedef->tranlump >= 0 && r_translucency ?
         R_DrawTranslucent50Column : R_DrawColumn);
 
     frontsector = curline->frontsector;
@@ -420,7 +420,7 @@ void R_RenderSegLoop(void)
                 // [BH] apply brightmap
                 dc_colormask = midtexfullbright;
 
-                if (dc_colormask && brightmaps)
+                if (dc_colormask && r_brightmaps)
                     fbwallcolfunc();
                 else
                     wallcolfunc();
@@ -465,7 +465,7 @@ void R_RenderSegLoop(void)
                         // [BH] apply brightmap
                         dc_colormask = toptexfullbright;
 
-                        if (dc_colormask && brightmaps)
+                        if (dc_colormask && r_brightmaps)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
@@ -516,7 +516,7 @@ void R_RenderSegLoop(void)
                         // [BH] apply brightmap
                         dc_colormask = bottomtexfullbright;
 
-                        if (dc_colormask && brightmaps)
+                        if (dc_colormask && r_brightmaps)
                             fbwallcolfunc();
                         else
                             wallcolfunc();

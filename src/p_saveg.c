@@ -1898,17 +1898,17 @@ void P_UnArchiveThinkers(void)
                     mobj->colfunc = bloodsplatcolfunc;
                 mobj->projectfunc = R_ProjectBloodSplat;
 
-                if (maxbloodsplats < UNLIMITED)
+                if (r_maxbloodsplats < UNLIMITED)
                 {
-                    if (totalbloodsplats > maxbloodsplats)
+                    if (totalbloodsplats > r_maxbloodsplats)
                     {
-                        mobj_t      *oldsplat = bloodsplats[totalbloodsplats % maxbloodsplats];
+                        mobj_t      *oldsplat = bloodsplats[totalbloodsplats % r_maxbloodsplats];
 
                         if (oldsplat)
                             P_UnsetThingPosition(oldsplat);
                     }
 
-                    bloodsplats[totalbloodsplats++ % maxbloodsplats] = mobj;
+                    bloodsplats[totalbloodsplats++ % r_maxbloodsplats] = mobj;
 
                 }
                 else

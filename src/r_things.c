@@ -79,14 +79,14 @@ int                             numsprites;
 static spriteframe_t            sprtemp[MAX_SPRITE_FRAMES];
 static int                      maxframe;
 
-dboolean                        footclip = FOOTCLIP_DEFAULT;
+dboolean                        r_liquid_clipsprites = R_LIQUID_CLIPSPRITES_DEFAULT;
 
-dboolean                        playersprites = PLAYERSPRITES_DEFAULT;
+dboolean                        r_playersprites = R_PLAYERSPRITES_DEFAULT;
 
 extern dboolean                 inhelpscreens;
-extern dboolean                 translucency;
+extern dboolean                 r_translucency;
 extern dboolean                 dehacked;
-extern dboolean                 shadows;
+extern dboolean                 r_shadows;
 extern dboolean                 skippsprinterp;
 
 //
@@ -473,7 +473,7 @@ void R_DrawVisSprite(vissprite_t *vis)
     spryscale = vis->scale;
     sprtopscreen = centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-    if (viewplayer->fixedcolormap == INVERSECOLORMAP && translucency)
+    if (viewplayer->fixedcolormap == INVERSECOLORMAP && r_translucency)
     {
         if (colfunc == tlcolfunc)
             colfunc = tl50colfunc;
@@ -722,7 +722,7 @@ void R_ProjectSprite(mobj_t *thing)
 
     // foot clipping
     if ((flags2 & MF2_FEETARECLIPPED) && fz <= sector->interpfloorheight + FRACUNIT
-        && heightsec == -1 && footclip)
+        && heightsec == -1 && r_liquid_clipsprites)
     {
         fixed_t clipfeet = MIN((spriteheight[lump] >> FRACBITS) / 4, 10) << FRACBITS;
 
@@ -1024,7 +1024,7 @@ void R_AddSprites(sector_t *sec, int lightlevel)
         LIGHTLEVELS - 1)];
 
     // Handle all things in sector.
-    if (fixedcolormap || isliquid[floorpic] || floorpic == skyflatnum || !shadows)
+    if (fixedcolormap || isliquid[floorpic] || floorpic == skyflatnum || !r_shadows)
         for (thing = sec->thinglist; thing; thing = thing->snext)
         {
             if (thing->type != MT_SHADOW)
@@ -1581,6 +1581,6 @@ void R_DrawMasked(void)
             R_RenderMaskedSegRange(ds, ds->x1, ds->x2);
 
     // draw the psprites on top of everything
-    if (playersprites && !inhelpscreens)
+    if (r_playersprites && !inhelpscreens)
         R_DrawPlayerSprites();
 }

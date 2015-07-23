@@ -96,7 +96,7 @@ void M_DrawCenteredString(int y, char *str);
 
 void M_SetWindowCaption(void);
 
-extern int      screensize;
+extern int      r_screensize;
 extern int      gamepadmenu;
 extern dboolean nomusic;
 extern dboolean nosound;
@@ -106,7 +106,7 @@ extern byte     grays[256];
 extern int      musicvolume_percent;
 extern int      sfxvolume_percent;
 extern dboolean vid_widescreen;
-extern dboolean hud;
+extern dboolean r_hud;
 extern dboolean returntowidescreen;
 extern int      episode;
 extern int      expansion;

@@ -59,7 +59,7 @@
 // Locally used constants, shortcuts.
 //
 #define HU_TITLEX       (vid_fullscreen && !vid_widescreen ? 0 : 3)
-#define HU_TITLEY       (ORIGINALHEIGHT - 32 * (screensize < SCREENSIZE_MAX) - 9)
+#define HU_TITLEY       (ORIGINALHEIGHT - 32 * (r_screensize < R_SCREENSIZE_MAX) - 9)
 
 char                    chat_char;
 static player_t         *plr;
@@ -84,8 +84,8 @@ int M_StringWidth(char *string);
 
 extern dboolean         messages;
 extern dboolean         vid_widescreen;
-extern dboolean         hud;
-extern int              translucency;
+extern dboolean         r_hud;
+extern dboolean         r_translucency;
 extern int              cardsfound;
 extern patch_t          *tallnum[10];
 extern patch_t          *tallpercent;
@@ -210,7 +210,7 @@ void HU_Start(void)
 
     tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
 
-    if (translucency)
+    if (r_translucency)
     {
         hudfunc = V_DrawTranslucentHUDPatch;
         hudnumfunc = V_DrawTranslucentHUDNumberPatch;
@@ -524,7 +524,7 @@ void HU_Drawer(void)
         w_title.y = HU_TITLEY;
         HUlib_drawTextLine(&w_title);
     }
-    else if ((vid_widescreen || screensize == SCREENSIZE_MAX) && hud)
+    else if ((vid_widescreen || r_screensize == R_SCREENSIZE_MAX) && r_hud)
     {
         hud_y = (vid_widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
         HU_DrawHUD();

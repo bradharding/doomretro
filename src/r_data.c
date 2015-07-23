@@ -97,7 +97,7 @@ fixed_t         *spriteheight;
 fixed_t         *spriteoffset;
 fixed_t         *spritetopoffset;
 
-dboolean        spritefixes = SPRITEFIXES_DEFAULT;
+dboolean        r_fixspriteoffsets = R_FIXSPRITEOFFSETS_DEFAULT;
 
 static byte notgray[256] =
 {
@@ -198,7 +198,7 @@ static struct
     { "ZELDOOR",  redonly        }, { "",         0              }
 };
 
-extern dboolean brightmaps;
+extern dboolean r_brightmaps;
 
 //
 // MAPTEXTURE_T CACHING
@@ -810,7 +810,7 @@ void R_InitTextures(void)
 
     // [BH] Initialize partially fullbright textures.
     memset(texturefullbright, 0, numtextures * sizeof(*texturefullbright));
-    if (brightmaps)
+    if (r_brightmaps)
     {
         i = 0;
         while (fullbright[i].colormask)
@@ -877,7 +877,7 @@ void R_InitSpriteLumps(void)
             spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
 
             // [BH] override sprite offsets in WAD with those in sproffsets[] in info.c
-            if (spritefixes && !FREEDOOM && !hacx)
+            if (r_fixspriteoffsets && !FREEDOOM && !hacx)
             {
                 int j = 0;
 

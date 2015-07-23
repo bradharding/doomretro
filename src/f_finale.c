@@ -83,7 +83,7 @@ void WI_checkForAccelerate(void);    // killough 3/28/98: used to
 extern int acceleratestage;          // accelerate intermission screens
 static int midstage;                 // whether we're in "mid-stage"
 
-extern dboolean shadows;
+extern dboolean r_shadows;
 
 //
 // F_StartFinale
@@ -656,7 +656,7 @@ dboolean F_CastResponder(event_t *ev)
     
     // go into death frame
     castdeath = true;
-    if (corpses_mirror && type != MT_CHAINGUY && type != MT_CYBORG)
+    if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG)
         castdeathflip = rand() & 1;
     caststate = &states[mobjinfo[type].deathstate];
     casttics = caststate->tics;
@@ -721,7 +721,7 @@ void F_CastPrint(char *text)
 //
 // F_CastDrawer
 //
-extern dboolean translucency;
+extern dboolean r_translucency;
 
 void F_CastDrawer(void)
 {
@@ -760,9 +760,9 @@ void F_CastDrawer(void)
     {
         patch->leftoffset = (spritewidth[lump] - spriteoffset[lump]) >> FRACBITS;
 
-        if (shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
+        if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
         {
-            if (translucency)
+            if (r_translucency)
             {
                 if (type == MT_SHADOWS)
                     V_DrawFlippedSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
@@ -773,7 +773,7 @@ void F_CastDrawer(void)
                 V_DrawFlippedSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
         }
 
-        if (translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
+        if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawFlippedTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
         else if (type == MT_SHADOWS)
             V_DrawFlippedFuzzPatch(ORIGINALWIDTH / 2, y, patch);
@@ -784,9 +784,9 @@ void F_CastDrawer(void)
     {
         patch->leftoffset = spriteoffset[lump] >> FRACBITS;
 
-        if (shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
+        if (r_shadows && ((type != MT_SKULL && type != MT_PAIN) || !castdeath))
         {
-            if (translucency)
+            if (r_translucency)
             {
                 if (type == MT_SHADOWS)
                     V_DrawSpectreShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
@@ -797,7 +797,7 @@ void F_CastDrawer(void)
                 V_DrawSolidShadowPatch(ORIGINALWIDTH / 2, ORIGINALHEIGHT - 28, patch);
         }
 
-        if (translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
+        if (r_translucency && (type == MT_SKULL || (type == MT_PAIN && castdeath)))
             V_DrawTranslucentRedPatch(ORIGINALWIDTH / 2, y, patch);
         else if (type == MT_SHADOWS)
             V_DrawFuzzPatch(ORIGINALWIDTH / 2, y, patch);

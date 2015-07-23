@@ -70,7 +70,7 @@ void I_ShutdownWindows32(void);
 #include "z_zone.h"
 
 extern dboolean vid_widescreen;
-extern dboolean hud;
+extern dboolean r_hud;
 extern dboolean returntowidescreen;
 
 #if defined(WIN32)

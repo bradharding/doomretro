@@ -94,7 +94,7 @@ char *weapondescription[] =
     "super shotgun"
 };
 
-dboolean mirrorweapons = MIRRORWEAPONS_DEFAULT;
+dboolean r_mirrorweapons = R_MIRRORWEAPONS_DEFAULT;
 
 dboolean obituaries = true;
 
@@ -884,7 +884,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (!(target->flags & MF_FUZZ))
             target->bloodsplats = CORPSEBLOODSPLATS;
 
-        if (corpses_mirror && type != MT_CHAINGUY && type != MT_CYBORG)
+        if (r_corpses_mirrored && type != MT_CHAINGUY && type != MT_CYBORG)
         {
             static int prev = 0;
             int        r = M_RandomInt(1, 10);
@@ -967,7 +967,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mo->momz = FRACUNIT * 5 + (P_Random() << 10);
     mo->angle = target->angle + ((P_Random() - P_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
-    if (mirrorweapons && (rand() & 1))
+    if (r_mirrorweapons && (rand() & 1))
     {
         mo->flags2 |= MF2_MIRRORED;
         if (mo->shadow)
@@ -995,7 +995,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     int         flags = target->flags;
     int         type = target->type;
 
-    if (!(flags & MF_SHOOTABLE) && (!(flags & MF_CORPSE) || !corpses_slide))
+    if (!(flags & MF_SHOOTABLE) && (!(flags & MF_CORPSE) || !r_corpses_slide))
         return;
 
     if (type == MT_BARREL && (flags & MF_CORPSE))

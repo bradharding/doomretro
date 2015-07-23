@@ -63,7 +63,7 @@ int             pixelwidth;
 int             pixelheight;
 char            *r_lowpixelsize = R_LOWPIXELSIZE_DEFAULT;
 
-extern dboolean translucency;
+extern dboolean r_translucency;
 
 //
 // V_CopyRect
@@ -472,7 +472,7 @@ void V_DrawPatchWithShadow(int x, int y, patch_t *patch, dboolean flag)
                     byte        *shadow = dest + SCREENWIDTH + 2;
 
                     if (!flag || (*shadow != 47 && *shadow != 191))
-                        *shadow = (translucency ? tinttab50[*shadow] : 0);
+                        *shadow = (r_translucency ? tinttab50[*shadow] : 0);
                 }
                 srccol += DYI;
             }
@@ -1075,7 +1075,7 @@ void V_DrawTranslucentNoGreenPatch(int x, int y, patch_t *patch)
                 byte src = source[srccol >> 16];
 
                 if (nogreen[src])
-                    *dest = (translucency ? tinttab33[(*dest << 8) + src] : src);
+                    *dest = (r_translucency ? tinttab33[(*dest << 8) + src] : src);
                 dest += SCREENWIDTH;
                 srccol += DYI;
             }
@@ -1113,7 +1113,7 @@ void V_DrawPixel(int x, int y, byte color, dboolean shadow)
         {
             int xx, yy;
 
-            if (translucency)
+            if (r_translucency)
             {
                 for (yy = 0; yy < SCREENSCALE; ++yy)
                     for (xx = 0; xx < SCREENSCALE; ++xx)

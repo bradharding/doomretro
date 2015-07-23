@@ -41,26 +41,11 @@
 
 #define ALWAYSRUN_DEFAULT                       false
 
-#define ANIMATEDLIQUID_DEFAULT                  true
+#define AM_GRID_DEFAULT                         false
 
-#define NOBLOOD                                 0
-#define REDBLOODONLY                            1
-#define ALLBLOODCOLORS                          2
-#define BLOOD_DEFAULT                           ALLBLOODCOLORS
-
-#define BRIGHTMAPS_DEFAULT                      true
+#define AM_ROTATEMODE_DEFAULT                   true
 
 #define CENTERWEAPON_DEFAULT                    true
-
-#define CORPSES_MIRROR_DEFAULT                  true
-
-#define CORPSES_MOREBLOOD_DEFAULT               true
-
-#define CORPSES_NUDGE_DEFAULT                   true
-
-#define CORPSES_SLIDE_DEFAULT                   true
-
-#define CORPSES_SMEARBLOOD_DEFAULT              true
 
 #define EPISODE_MIN                             0
 #define EPISODE_DEFAULT                         0
@@ -69,10 +54,6 @@
 #define EXPANSION_MIN                           0
 #define EXPANSION_DEFAULT                       0
 #define EXPANSION_MAX                           1
-
-#define FLOATBOB_DEFAULT                        true
-
-#define FOOTCLIP_DEFAULT                        true
 
 #define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
 
@@ -106,10 +87,6 @@
 
 #define GAMEPADWEAPON_DEFAULT                   0
 
-#define GAMMALEVEL_MIN                          gammalevels[0]
-#define GAMMALEVEL_DEFAULT                      0.75
-#define GAMMALEVEL_MAX                          gammalevels[GAMMALEVELS - 1]
-
 #define GP_DEADZONE_LEFT_MIN                    0.0f
 #define GP_DEADZONE_LEFT_DEFAULT                (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
 #define GP_DEADZONE_LEFT_MAX                    (float)SHRT_MAX
@@ -125,16 +102,6 @@
 #define GP_SWAPTHUMBSTICKS_DEFAULT              false
 
 #define GP_VIBRATE_DEFAULT                      true
-
-#define LOW                                     0
-#define HIGH                                    1
-#define GRAPHICDETAIL_DEFAULT                   HIGH
-
-#define GRID_DEFAULT                            false
-
-#define HOMINDICATOR_DEFAULT                    false
-
-#define HUD_DEFAULT                             true
 
 #define IWADFOLDER_DEFAULT                      "C:\\"
 
@@ -204,16 +171,7 @@
 
 #define KEYWEAPON7_DEFAULT                      '7'
 
-#define MAPFIXES_DEFAULT                        true
-
-#define UNLIMITED                               32768
-#define MAXBLOODSPLATS_MIN                      0
-#define MAXBLOODSPLATS_DEFAULT                  UNLIMITED
-#define MAXBLOODSPLATS_MAX                      UNLIMITED
-
 #define MESSAGES_DEFAULT                        false
-
-#define MIRRORWEAPONS_DEFAULT                   false
 
 #define M_ACCELERATION_MIN                      0
 #define M_ACCELERATION_DEFAULT                  2.0
@@ -253,49 +211,83 @@
 
 #define PLAYERNAME_DEFAULT                      "you"
 
-#define PLAYERSPRITES_DEFAULT                   true
+#define NOBLOOD                                 0
+#define REDBLOODONLY                            1
+#define ALLBLOODCOLORS                          2
+#define R_BLOOD_DEFAULT                         ALLBLOODCOLORS
+
+#define R_BRIGHTMAPS_DEFAULT                    true
+
+#define R_CORPSES_MIRRORED_DEFAULT              true
+
+#define R_CORPSES_MOREBLOOD_DEFAULT             true
+
+#define R_CORPSES_NUDGE_DEFAULT                 true
+
+#define R_CORPSES_SLIDE_DEFAULT                 true
+
+#define R_CORPSES_SMEARBLOOD_DEFAULT            true
+
+#define LOW                                     0
+#define HIGH                                    1
+#define R_DETAIL_DEFAULT                        HIGH
+
+#define R_FIXMAPERRORS_DEFAULT                  true
+
+#define R_FIXSPRITEOFFSETS_DEFAULT              true
+
+#define R_FLOATBOB_DEFAULT                      true
+
+#define R_GAMMA_MIN                             gammalevels[0]
+#define R_GAMMA_DEFAULT                         0.75
+#define R_GAMMA_MAX                             gammalevels[GAMMALEVELS - 1]
+
+#define R_HOMINDICATOR_DEFAULT                  false
+
+#define R_HUD_DEFAULT                           true
+
+#define R_LIQUID_BOB_DEFAULT                    true
+
+#define R_LIQUID_RIPPLE_DEFAULT                 true
+
+#define R_LIQUID_CLIPSPRITES_DEFAULT            true
 
 #define R_LOWPIXELSIZE_DEFAULT                  "2x2"
 
-#define RANDOMPITCH_DEFAULT                     false
+#define UNLIMITED                               32768
+#define R_MAXBLOODSPLATS_MIN                    0
+#define R_MAXBLOODSPLATS_DEFAULT                UNLIMITED
+#define R_MAXBLOODSPLATS_MAX                    UNLIMITED
 
-#define ROTATEMODE_DEFAULT                      true
+#define R_MIRRORWEAPONS_DEFAULT                 false
+
+#define R_PLAYERSPRITES_DEFAULT                 true
+
+#define R_ROCKETTRAILS_DEFAULT                  true
+
+#define R_SCREENSIZE_MIN                        0
+#define R_SCREENSIZE_DEFAULT                    7
+#define R_SCREENSIZE_MAX                        8
+
+#define R_SHADOWS_DEFAULT                       true
+
+#define R_TRANSLUCENCY_DEFAULT                  true
+
+#define RANDOMPITCH_DEFAULT                     false
 
 #define RUNCOUNT_MAX                            32768
 
 #define SAVEGAME_DEFAULT                        0
 
-#define SCREENSIZE_MIN                          0
-#define SCREENSIZE_DEFAULT                      7
-#define SCREENSIZE_MAX                          8
-
-#define SCREENWIDTH_MIN                         0
-#define SCREENWIDTH_DEFAULT                     0
-#define SCREENWIDTH_MAX                         INT_MAX
-
-#define SCREENHEIGHT_MIN                        0
-#define SCREENHEIGHT_DEFAULT                    0
-#define SCREENHEIGHT_MAX                        INT_MAX
-
 #define SFXVOLUME_MIN                           0
 #define SFXVOLUME_DEFAULT                       100
 #define SFXVOLUME_MAX                           100
-
-#define SHADOWS_DEFAULT                         true
 
 #define SKILLLEVEL_MIN                          sk_baby
 #define SKILLLEVEL_DEFAULT                      sk_medium
 #define SKILLLEVEL_MAX                          sk_nightmare
 
-#define SMOKETRAILS_DEFAULT                     true
-
-#define SPRITEFIXES_DEFAULT                     true
-
-#define SWIRLINGLIQUID_DEFAULT                  true
-
 #define TIMIDITY_CFG_PATH_DEFAULT               ""
-
-#define TRANSLUCENCY_DEFAULT                    true
 
 #define VID_CAPFPS_DEFAULT                      false
 

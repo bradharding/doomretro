@@ -136,7 +136,7 @@ static int      outputhistory = -1;
 
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-extern dboolean translucency;
+extern dboolean r_translucency;
 extern byte     *tinttab75;
 extern int      fps;
 extern dboolean alwaysrun;

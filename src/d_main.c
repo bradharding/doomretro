@@ -181,7 +181,7 @@ gamestate_t     wipegamestate = GS_TITLESCREEN;
 
 extern dboolean setsizeneeded;
 extern dboolean message_on;
-extern int      graphicdetail;
+extern int      r_detail;
 extern int      viewheight2;
 extern dboolean loadedgame;
 
@@ -276,7 +276,7 @@ void D_Display(void)
                     --borderdrawcount;
                 }
             }
-            if (graphicdetail == LOW)
+            if (r_detail == LOW)
                 V_LowGraphicDetail(viewheight2);
         }
 
@@ -1596,8 +1596,8 @@ static void D_DoomMainSetup(void)
     else
         startloadgame = -1;
 
-    P_BloodSplatSpawner = (blood == NOBLOOD || !maxbloodsplats ? P_NullBloodSplatSpawner :
-        (maxbloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
+    P_BloodSplatSpawner = (r_blood == NOBLOOD || !r_maxbloodsplats ? P_NullBloodSplatSpawner :
+        (r_maxbloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
 
     M_Init();
 

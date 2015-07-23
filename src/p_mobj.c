@@ -55,20 +55,20 @@ void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 void P_SpawnShadow(mobj_t *actor);
 
-int                     blood = BLOOD_DEFAULT;
-int                     maxbloodsplats = MAXBLOODSPLATS_DEFAULT;
-mobj_t                  *bloodsplats[MAXBLOODSPLATS_MAX];
+int                     r_blood = R_BLOOD_DEFAULT;
+int                     r_maxbloodsplats = R_MAXBLOODSPLATS_DEFAULT;
+mobj_t                  *bloodsplats[R_MAXBLOODSPLATS_MAX];
 int                     totalbloodsplats;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
-dboolean                corpses_mirror = CORPSES_MIRROR_DEFAULT;
-dboolean                corpses_moreblood = CORPSES_MOREBLOOD_DEFAULT;
-dboolean                corpses_nudge = CORPSES_NUDGE_DEFAULT;
-dboolean                corpses_slide = CORPSES_SLIDE_DEFAULT;
-dboolean                corpses_smearblood = CORPSES_SMEARBLOOD_DEFAULT;
-dboolean                floatbob = FLOATBOB_DEFAULT;
-dboolean                shadows = SHADOWS_DEFAULT;
-dboolean                smoketrails = SMOKETRAILS_DEFAULT;
+dboolean                r_corpses_mirrored = R_CORPSES_MIRRORED_DEFAULT;
+dboolean                r_corpses_moreblood = R_CORPSES_MOREBLOOD_DEFAULT;
+dboolean                r_corpses_nudge = R_CORPSES_NUDGE_DEFAULT;
+dboolean                r_corpses_slide = R_CORPSES_SLIDE_DEFAULT;
+dboolean                r_corpses_smearblood = R_CORPSES_SMEARBLOOD_DEFAULT;
+dboolean                r_floatbob = R_FLOATBOB_DEFAULT;
+dboolean                r_shadows = R_SHADOWS_DEFAULT;
+dboolean                r_rockettrails = R_ROCKETTRAILS_DEFAULT;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -82,10 +82,10 @@ static fixed_t floatbobdiffs[64] =
      17277,  19062,  20663,  22066,  23256,  24222,  24955,  25447
 };
 
-extern dboolean         animatedliquid;
+extern dboolean         r_liquid_bob;
 extern fixed_t          animatedliquiddiffs[128];
 extern msecnode_t       *sector_list;   // phares 3/16/98
-extern dboolean         mirrorweapons;
+extern dboolean         r_mirrorweapons;
 
 dboolean P_IsVoodooDoll(mobj_t *mobj)
 {
@@ -312,8 +312,8 @@ void P_XYMovement(mobj_t *mo)
     if (mo->z > mo->floorz && !(flags2 & MF2_ONMOBJ))
         return;         // no friction when airborne
 
-    if (corpse && !(flags & MF_NOBLOOD) && corpses_slide && corpses_smearblood
-        && (mo->momx || mo->momy) && mo->bloodsplats && maxbloodsplats)
+    if (corpse && !(flags & MF_NOBLOOD) && r_corpses_slide && r_corpses_smearblood
+        && (mo->momx || mo->momy) && mo->bloodsplats && r_maxbloodsplats)
     {
         int     radius = (spritewidth[sprites[mo->sprite].spriteframes[0].lump[0]] >> FRACBITS)
                     >> 1;
@@ -434,7 +434,7 @@ void P_ZMovement(mobj_t *mo)
         if (mo->flags2 & MF2_BLOOD)
         {
             P_RemoveMobj(mo);
-            if (maxbloodsplats)
+            if (r_maxbloodsplats)
                 P_BloodSplatSpawner(mo->x + (M_RandomInt(-5, 5) << FRACBITS),
                     mo->y + (M_RandomInt(-5, 5) << FRACBITS), mo->blood, mo->floorz, NULL);
             return;
@@ -600,9 +600,9 @@ void P_MobjThinker(mobj_t *mobj)
     flags2 = mobj->flags2;
 
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB)
-        && mobj->z <= sector->floorheight && !mobj->momz && animatedliquid)
+        && mobj->z <= sector->floorheight && !mobj->momz && r_liquid_bob)
         mobj->z += animatedliquiddiffs[leveltime & 127];
-    else if ((flags2 & MF2_FLOATBOB) && floatbob)
+    else if ((flags2 & MF2_FLOATBOB) && r_floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)
     {
@@ -736,7 +736,7 @@ mobj_t *P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type)
     mobj->floorz = sector->floorheight;
     mobj->ceilingz = sector->ceilingheight;
 
-    if (floatbob)
+    if (r_floatbob)
         mobj->floatbob = P_Random();
 
     mobj->z = (z == ONFLOORZ ? mobj->floorz : 
@@ -1010,7 +1010,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
     if (mobj->shadow)
         mobj->shadow->angle = mobj->angle;
 
-    if ((flags & MF_CORPSE) && corpses_mirror)
+    if ((flags & MF_CORPSE) && r_corpses_mirrored)
     {
         static int      prev = 0;
         int             r = M_RandomInt(1, 10);
@@ -1025,13 +1025,13 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
         else
             prev++;
     }
-    else if (mirrorweapons && (flags & MF_PICKUP) && !(mobj->flags2 & MF2_FLOATBOB) && (rand() & 1))
+    else if (r_mirrorweapons && (flags & MF_PICKUP) && !(mobj->flags2 & MF2_FLOATBOB) && (rand() & 1))
         mobj->flags2 |= MF2_MIRRORED;
 
-    if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD)) && mobj->blood && !chex && maxbloodsplats)
+    if (!(flags & (MF_SHOOTABLE | MF_NOBLOOD)) && mobj->blood && !chex && r_maxbloodsplats)
     {
         mobj->bloodsplats = CORPSEBLOODSPLATS;
-        if (corpses_moreblood)
+        if (r_corpses_moreblood)
             P_SpawnMoreBlood(mobj);
     }
 }
@@ -1098,7 +1098,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     int         i;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    int         color = (blood == ALLBLOODCOLORS ? target->blood : MT_BLOOD);
+    int         color = (r_blood == ALLBLOODCOLORS ? target->blood : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[color];
 
     angle += ANG180;
@@ -1226,15 +1226,15 @@ void P_SpawnBloodSplat2(fixed_t x, fixed_t y, int blood, int maxheight, mobj_t *
         newsplat->subsector = subsec;
         P_SetBloodSplatPosition(newsplat);
 
-        if (totalbloodsplats > maxbloodsplats)
+        if (totalbloodsplats > r_maxbloodsplats)
         {
-            mobj_t      *oldsplat = bloodsplats[totalbloodsplats % maxbloodsplats];
+            mobj_t      *oldsplat = bloodsplats[totalbloodsplats % r_maxbloodsplats];
 
             if (oldsplat)
                 P_UnsetThingPosition(oldsplat);
         }
 
-        bloodsplats[totalbloodsplats++ % maxbloodsplats] = newsplat;
+        bloodsplats[totalbloodsplats++ % r_maxbloodsplats] = newsplat;
 
         if (target)
             target->bloodsplats--;
@@ -1381,7 +1381,7 @@ void P_SpawnPlayerMissile(mobj_t *source, mobjtype_t type)
     th->momy = FixedMul(th->info->speed, finesine[an >> ANGLETOFINESHIFT]);
     th->momz = FixedMul(th->info->speed, slope);
 
-    if (type == MT_ROCKET && smoketrails)
+    if (type == MT_ROCKET && r_rockettrails)
     {
         th->flags2 |= MF2_SMOKETRAIL;
         puffcount = 0;

@@ -50,7 +50,7 @@
 
 extern dboolean automapactive;
 extern dboolean vid_widescreen;
-extern dboolean translucency;
+extern dboolean r_translucency;
 
 static void HUlib_clearTextLine(hu_textline_t *t)
 {
@@ -242,15 +242,15 @@ void HUlib_drawTextLine(hu_textline_t *l)
             int         dot = yy * SCREENWIDTH + xx;
             byte        *source = &tempscreen[dot];
             byte        *dest1 = &screens[0][dot];
-            byte        *dest2 = &screens[screensize < 7 && !automapactive][dot];
+            byte        *dest2 = &screens[r_screensize < 7 && !automapactive][dot];
 
             if (!*source)
-                *dest1 = (translucency ? tinttab50[*dest2] : 0);
+                *dest1 = (r_translucency ? tinttab50[*dest2] : 0);
             else if (*source != 251)
             {
                 byte color = *source;
 
-                if (translucency && !hacx)
+                if (r_translucency && !hacx)
                 {
                     color = tinttab33[(*dest2 << 8) + color];
                     if (color >= 168 && color <= 175)

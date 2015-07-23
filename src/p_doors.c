@@ -47,7 +47,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-extern dboolean animatedliquid;
+extern dboolean r_liquid_bob;
 extern char     *playername;
 
 //

@@ -114,9 +114,9 @@ lighttable_t            **colormaps;
 // bumped light from gun blasts
 int                     extralight;
 
-dboolean                translucency = TRANSLUCENCY_DEFAULT;
+dboolean                r_translucency = R_TRANSLUCENCY_DEFAULT;
 
-dboolean                homindicator = HOMINDICATOR_DEFAULT;
+dboolean                r_homindicator = R_HOMINDICATOR_DEFAULT;
 
 int                     r_frame_count;
 
@@ -546,7 +546,7 @@ void R_InitColumnFunctions(void)
     fuzzcolfunc = R_DrawFuzzColumn;
     transcolfunc = R_DrawTranslatedColumn;
 
-    if (translucency)
+    if (r_translucency)
     {
         tlcolfunc = R_DrawTranslucentColumn;
         tl50colfunc = R_DrawTranslucent50Column;
@@ -642,7 +642,7 @@ void R_Init(void)
     R_InitPointToAngle();
     R_InitTables();
 
-    R_SetViewSize(screensize);
+    R_SetViewSize(r_screensize);
     R_InitLightTables();
     R_InitSkyMap();
     R_InitTranslationTables();
@@ -767,7 +767,7 @@ void R_RenderPlayerView(player_t *player)
     {
         if (player->cheats & CF_NOCLIP)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight, 0);
-        else if (homindicator)
+        else if (r_homindicator)
             V_FillRect(0, viewwindowx, viewwindowy, viewwidth, viewheight,
                 ((gametic % 20) < 9 && !consoleactive && !menuactive && !paused ? 176 : 0));
 

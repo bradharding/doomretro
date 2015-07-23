@@ -87,20 +87,10 @@
 extern dboolean alwaysrun;
 extern dboolean am_grid;
 extern dboolean am_rotatemode;
-extern dboolean animatedliquid;
-extern int      blood;
-extern dboolean brightmaps;
 extern dboolean centerweapon;
 extern char     *configfile;
-extern dboolean corpses_mirror;
-extern dboolean corpses_moreblood;
-extern dboolean corpses_nudge;
-extern dboolean corpses_slide;
-extern dboolean corpses_smearblood;
 extern int      episode;
 extern int      expansion;
-extern dboolean floatbob;
-extern dboolean footclip;
 extern int      gamepadautomap;
 extern int      gamepadautomapclearmark;
 extern int      gamepadautomapfollowmode;
@@ -126,15 +116,11 @@ extern int      gamepadweapon5;
 extern int      gamepadweapon6;
 extern int      gamepadweapon7;
 extern int      gametime;
-extern float    gammalevel;
 extern float    gp_deadzone_left;
 extern float    gp_deadzone_right;
 extern int      gp_sensitivity;
 extern dboolean gp_swapthumbsticks;
 extern dboolean gp_vibrate;
-extern int      graphicdetail;
-extern dboolean homindicator;
-extern dboolean hud;
 extern char     *iwadfolder;
 extern int      key_alwaysrun;
 extern int      key_automap;
@@ -169,10 +155,7 @@ extern int      key_weapon4;
 extern int      key_weapon5;
 extern int      key_weapon6;
 extern int      key_weapon7;
-extern dboolean mapfixes;
-extern int      maxbloodsplats;
 extern dboolean messages;
-extern dboolean mirrorweapons;
 extern float    m_acceleration;
 extern dboolean m_doubleclick_use;
 extern dboolean m_novertical;
@@ -186,21 +169,37 @@ extern int      mousebstrafe;
 extern int      mousebuse;
 extern int      playerbob;
 extern char     *playername;
-extern dboolean playersprites;
+extern int      r_blood;
+extern dboolean r_brightmaps;
+extern dboolean r_corpses_mirrored;
+extern dboolean r_corpses_moreblood;
+extern dboolean r_corpses_nudge;
+extern dboolean r_corpses_slide;
+extern dboolean r_corpses_smearblood;
+extern int      r_detail;
+extern dboolean r_fixmaperrors;
+extern dboolean r_fixspriteoffsets;
+extern dboolean r_floatbob;
+extern float    r_gamma;
+extern dboolean r_homindicator;
+extern dboolean r_hud;
+extern dboolean r_liquid_bob;
+extern dboolean r_liquid_clipsprites;
+extern dboolean r_liquid_ripple;
 extern char     *r_lowpixelsize;
+extern int      r_maxbloodsplats;
+extern dboolean r_mirrorweapons;
+extern dboolean r_playersprites;
+extern dboolean r_rockettrails;
+extern int      r_screensize;
+extern dboolean r_shadows;
+extern dboolean r_translucency;
 extern dboolean randompitch;
 extern int      runcount;
 extern char     *savegamefolder;
-extern int      screenheight;
-extern int      screenwidth;
 extern int      selectedsavegame;
-extern dboolean shadows;
 extern int      skilllevel;
-extern dboolean smoketrails;
-extern dboolean spritefixes;
-extern dboolean swirlingliquid;
 extern char     *timidity_cfg_path;
-extern dboolean translucency;
 extern dboolean vid_capfps;
 extern int      vid_display;
 #if !defined(WIN32)
@@ -217,6 +216,8 @@ extern char     *vid_windowsize;
 
 extern int      pixelwidth;
 extern int      pixelheight;
+extern int      screenheight;
+extern int      screenwidth;
 
 control_t controls[] =
 {
@@ -432,8 +433,8 @@ int     numconsolecmds;
 consolecmd_t consolecmds[] =
 {
     CVAR_BOOL (am_followmode, C_BoolCondition, C_Bool, am_followmode, NONE, "Toggles follow mode in the automap."),
-    CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, am_grid, GRID, "Toggles the grid in the automap."),
-    CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, am_rotatemode, ROTATEMODE, "Toggles rotate mode in the automap."),
+    CVAR_BOOL (am_grid, C_BoolCondition, C_Bool, am_grid, AM_GRID, "Toggles the grid in the automap."),
+    CVAR_BOOL (am_rotatemode, C_BoolCondition, C_Bool, am_rotatemode, AM_ROTATEMODE, "Toggles rotate mode in the automap."),
     CMD       (bind, C_NoCondition, C_Bind, 2, "[~control~ [+~action~]]", "Binds an action to a control."),
     CMD       (clear, C_NoCondition, C_Clear, 0, "", "Clears the console."),
     CMD       (cmdlist, C_NoCondition, C_CmdList, 1, "[~searchstring~]", "Shows a list of console commands."),
@@ -490,31 +491,31 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, centerweapon, CENTERWEAPON, "Toggles the centering of the player's weapon when firing."),
     CVAR_INT  (pm_walkbob, C_NoCondition, C_Int, CF_PERCENT, playerbob, NOALIAS, PLAYERBOB, "The amount the player bobs when walking."),
     CMD       (quit, C_NoCondition, C_Quit, 0, "", "Quits "PACKAGE_NAME"."),
-    CVAR_INT  (r_blood, C_BloodCondition, C_Blood, CF_NONE, blood, BLOODALIAS, NONE, "The color of the blood of the player and monsters."),
-    CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, brightmaps, BRIGHTMAPS, "Toggles brightmaps on certain wall textures."),
-    CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, corpses_mirror, CORPSES_MIRROR, "Toggles corpses being randomly mirrored."),
-    CVAR_BOOL (r_corpses_moreblood, C_BoolCondition, C_Bool, corpses_moreblood, CORPSES_MOREBLOOD, "Toggles blood splats around corpses when a map is loaded."),
-    CVAR_BOOL (r_corpses_nudge, C_BoolCondition, C_Bool, corpses_nudge, CORPSES_NUDGE, "Toggles corpses being nudged when monsters walk over them."),
-    CVAR_BOOL (r_corpses_slide, C_BoolCondition, C_Bool, corpses_slide, CORPSES_SLIDE, "Toggles corpses reacting to barrel and rocket explosions."),
-    CVAR_BOOL (r_corpses_smearblood, C_BoolCondition, C_Bool, corpses_smearblood, CORPSES_SMEARBLOOD, "Toggles corpses producing blood splats as they slide."),
-    CVAR_BOOL (r_detail, C_GraphicDetailCondition, C_GraphicDetail, graphicdetail, GRAPHICDETAIL, "Toggles the graphic detail."),
-    CVAR_BOOL (r_floatbob, C_BoolCondition, C_Bool, floatbob, FLOATBOB, "Toggles powerups bobbing up and down."),
-    CVAR_FLOAT(r_gamma, C_GammaCondition, C_Gamma, CF_NONE, gammalevel, "The gamma correction level."),
-    CVAR_BOOL (r_homindicator, C_BoolCondition, C_Bool, homindicator, HOMINDICATOR, "Toggles the flashing \"Hall of Mirrors\" indicator."),
-    CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, hud, HUD, "Toggles the heads-up display when in widescreen mode."),
-    CVAR_BOOL (r_liquid_bob, C_BoolCondition, C_Bool, animatedliquid, ANIMATEDLIQUID, "Toggles the bobbing effect of liquid sectors."),
-    CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, footclip, FOOTCLIP, "Toggles the bottom of sprites being clipped in liquid sectors."),
-    CVAR_BOOL (r_liquid_ripple, C_BoolCondition, C_Bool, swirlingliquid, ANIMATEDLIQUID, "Toggles the ripple effect of liquid sectors."),
+    CVAR_INT  (r_blood, C_BloodCondition, C_Blood, CF_NONE, r_blood, BLOODALIAS, NONE, "The color of the blood of the player and monsters."),
+    CVAR_BOOL (r_brightmaps, C_BoolCondition, C_Bool, r_brightmaps, R_BRIGHTMAPS, "Toggles brightmaps on certain wall textures."),
+    CVAR_BOOL (r_corpses_mirrored, C_BoolCondition, C_Bool, r_corpses_mirrored, R_CORPSES_MIRRORED, "Toggles corpses being randomly mirrored."),
+    CVAR_BOOL (r_corpses_moreblood, C_BoolCondition, C_Bool, r_corpses_moreblood, R_CORPSES_MOREBLOOD, "Toggles blood splats around corpses when a map is loaded."),
+    CVAR_BOOL (r_corpses_nudge, C_BoolCondition, C_Bool, r_corpses_nudge, R_CORPSES_NUDGE, "Toggles corpses being nudged when monsters walk over them."),
+    CVAR_BOOL (r_corpses_slide, C_BoolCondition, C_Bool, r_corpses_slide, R_CORPSES_SLIDE, "Toggles corpses reacting to barrel and rocket explosions."),
+    CVAR_BOOL (r_corpses_smearblood, C_BoolCondition, C_Bool, r_corpses_smearblood, R_CORPSES_SMEARBLOOD, "Toggles corpses producing blood splats as they slide."),
+    CVAR_BOOL (r_detail, C_GraphicDetailCondition, C_GraphicDetail, r_detail, R_DETAIL, "Toggles the graphic detail."),
+    CVAR_BOOL (r_fixmaperrors, C_BoolCondition, C_Bool, r_fixmaperrors, R_FIXMAPERRORS, "Toggles the fixing of mapping errors in the DOOM IWADs."),
+    CVAR_BOOL (r_fixspriteoffsets, C_BoolCondition, C_Bool, r_fixspriteoffsets, R_FIXSPRITEOFFSETS, "Toggles the fixing of sprite offsets."),
+    CVAR_BOOL (r_floatbob, C_BoolCondition, C_Bool, r_floatbob, R_FLOATBOB, "Toggles powerups bobbing up and down."),
+    CVAR_FLOAT(r_gamma, C_GammaCondition, C_Gamma, CF_NONE, r_gamma, "The gamma correction level."),
+    CVAR_BOOL (r_homindicator, C_BoolCondition, C_Bool, r_homindicator, R_HOMINDICATOR, "Toggles the flashing \"Hall of Mirrors\" indicator."),
+    CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, r_hud, R_HUD, "Toggles the heads-up display when in widescreen mode."),
+    CVAR_BOOL (r_liquid_bob, C_BoolCondition, C_Bool, r_liquid_bob, R_LIQUID_BOB, "Toggles the bobbing effect of liquid sectors."),
+    CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, r_liquid_clipsprites, R_LIQUID_CLIPSPRITES, "Toggles the bottom of sprites being clipped in liquid sectors."),
+    CVAR_BOOL (r_liquid_ripple, C_BoolCondition, C_Bool, r_liquid_ripple, R_LIQUID_RIPPLE, "Toggles the ripple effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, r_lowpixelsize, "The size of pixels when the graphic detail is low."),
-    CVAR_BOOL (r_fixmaperrors, C_BoolCondition, C_Bool, mapfixes, MAPFIXES, "Toggles the fixing of mapping errors in the DOOM IWADs."),
-    CVAR_BOOL (r_fixspriteoffsets, C_BoolCondition, C_Bool, spritefixes, SPRITEFIXES, "Toggles the fixing of sprite offsets."),
-    CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, maxbloodsplats, SPLATALIAS, MAXBLOODSPLATS, "The maximum number of blood splats spawned in a map."),
-    CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, mirrorweapons, MIRRORWEAPONS, "Toggles randomly mirroring weapons dropped by monsters."),
-    CVAR_BOOL (r_playersprites, C_BoolCondition, C_Bool, playersprites, PLAYERSPRITES, "Toggles the display of the player's weapon."),
-    CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, smoketrails, SMOKETRAILS, "Toggles rocket trails behind player and Cyberdemon rockets."),
-    CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, screensize, NOALIAS, SCREENSIZE, "The screen size."),
-    CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, shadows, SHADOWS, "Toggles sprites casting shadows."),
-    CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, translucency, TRANSLUCENCY, "Toggles translucency in sprites and textures."),
+    CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, r_maxbloodsplats, SPLATALIAS, R_MAXBLOODSPLATS, "The maximum number of blood splats spawned in a map."),
+    CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, r_mirrorweapons, R_MIRRORWEAPONS, "Toggles randomly mirroring weapons dropped by monsters."),
+    CVAR_BOOL (r_playersprites, C_BoolCondition, C_Bool, r_playersprites, R_PLAYERSPRITES, "Toggles the display of the player's weapon."),
+    CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, r_rockettrails, R_ROCKETTRAILS, "Toggles rocket trails behind player and Cyberdemon rockets."),
+    CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, r_screensize, NOALIAS, R_SCREENSIZE, "The screen size."),
+    CVAR_BOOL (r_shadows, C_BoolCondition, C_Bool, r_shadows, R_SHADOWS, "Toggles sprites casting shadows."),
+    CVAR_BOOL (r_translucency, C_BoolCondition, C_Bool, r_translucency, R_TRANSLUCENCY, "Toggles translucency in sprites and textures."),
     CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrects the player."),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, runcount, NOALIAS, NONE, "The number of times "PACKAGE_NAME" has been run."),
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT, musicvolume_percent, NOALIAS, MUSICVOLUME, "The music volume."),
@@ -777,14 +778,14 @@ static void C_Blood(char *cmd, char *parm1, char *parm2)
 
         if (value >= 0)
         {
-            blood = value;
-            P_BloodSplatSpawner = (blood == NOBLOOD ? P_NullBloodSplatSpawner :
-                (maxbloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
+            r_blood = value;
+            P_BloodSplatSpawner = (r_blood == NOBLOOD ? P_NullBloodSplatSpawner :
+                (r_maxbloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
             M_SaveCVARs();
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(blood, BLOODALIAS));
+        C_Output(C_LookupAliasFromValue(r_blood, BLOODALIAS));
 }
 
 static dboolean C_BoolCondition(char *cmd, char *parm1, char *parm2)
@@ -1087,21 +1088,21 @@ static void C_Gamma(char *cmd, char *parm1, char *parm2)
         float   value = -1.0f;
 
         if (!strcasecmp(parm1, "off"))
-            gammalevel = 1.0f;
+            r_gamma = 1.0f;
         else
             sscanf(parm1, "%10f", &value);
 
         if (value >= 0.0f)
         {
-            gammalevel = BETWEENF(GAMMALEVEL_MIN, value, GAMMALEVEL_MAX);
+            r_gamma = BETWEENF(R_GAMMA_MIN, value, R_GAMMA_MAX);
             gammaindex = 0;
             while (gammaindex < GAMMALEVELS)
-                if (gammalevels[gammaindex++] == gammalevel)
+                if (gammalevels[gammaindex++] == r_gamma)
                     break;
             if (gammaindex == GAMMALEVELS)
             {
                 gammaindex = 0;
-                while (gammalevels[gammaindex++] != GAMMALEVEL_DEFAULT);
+                while (gammalevels[gammaindex++] != R_GAMMA_DEFAULT);
             }
             --gammaindex;
 
@@ -1110,7 +1111,7 @@ static void C_Gamma(char *cmd, char *parm1, char *parm2)
         }
     }
     else
-        C_Output(gammalevel == 1.0f ? "off" : striptrailingzero(gammalevel, 2));
+        C_Output(r_gamma == 1.0f ? "off" : striptrailingzero(r_gamma, 2));
 }
 
 extern int      cardsfound;
@@ -1204,12 +1205,12 @@ static void C_GraphicDetail(char *cmd, char *parm1, char *parm2)
 
         if (value == 0 || value == 1)
         {
-            graphicdetail = !!value;
+            r_detail = !!value;
             M_SaveCVARs();
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(graphicdetail, DETAILALIAS));
+        C_Output(C_LookupAliasFromValue(r_detail, DETAILALIAS));
 }
 
 static void C_Help(char *cmd, char *parm1, char *parm2)
@@ -1220,7 +1221,7 @@ static void C_Help(char *cmd, char *parm1, char *parm2)
 
 static void C_Hud(char *cmd, char *parm1, char *parm2)
 {
-    if (vid_widescreen || screensize == 8)
+    if (vid_widescreen || r_screensize == R_SCREENSIZE_MAX)
         C_Bool(cmd, parm1, "");
 }
 
@@ -1823,19 +1824,19 @@ static void C_MaxBloodSplats(char *cmd, char *parm1, char *parm2)
             sscanf(parm1, "%10i", &value);
         if (value >= 0)
         {
-            maxbloodsplats = value;
+            r_maxbloodsplats = value;
             M_SaveCVARs();
 
-            if (!maxbloodsplats)
+            if (!r_maxbloodsplats)
                 P_BloodSplatSpawner = P_NullBloodSplatSpawner;
-            else if (maxbloodsplats == UNLIMITED)
+            else if (r_maxbloodsplats == UNLIMITED)
                 P_BloodSplatSpawner = P_SpawnBloodSplat;
             else
                 P_BloodSplatSpawner = P_SpawnBloodSplat2;
         }
     }
     else
-        C_Output(C_LookupAliasFromValue(maxbloodsplats, SPLATALIAS));
+        C_Output(C_LookupAliasFromValue(r_maxbloodsplats, SPLATALIAS));
 }
 
 static void C_NoClip(char *cmd, char *parm1, char *parm2)
@@ -2051,42 +2052,42 @@ static void C_ScreenSize(char *cmd, char *parm1, char *parm2)
 
         sscanf(parm1, "%10i", &value);
 
-        if (value >= SCREENSIZE_MIN && value <= SCREENSIZE_MAX)
+        if (value >= R_SCREENSIZE_MIN && value <= R_SCREENSIZE_MAX)
         {
             if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL))
             {
-                if (value == SCREENSIZE_MAX)
+                if (value == R_SCREENSIZE_MAX)
                     --value;
-                else if (value <= SCREENSIZE_MAX - 1)
+                else if (value <= R_SCREENSIZE_MAX - 1)
                 {
-                    hud = true;
+                    r_hud = true;
                     ToggleWidescreen(false);
                 }
             }
             else
             {
-                if (value >= SCREENSIZE_MAX - 1)
+                if (value >= R_SCREENSIZE_MAX - 1)
                 {
                     if (gamestate != GS_LEVEL)
                     {
                         returntowidescreen = true;
-                        hud = true;
+                        r_hud = true;
                     }
                     else
                     {
                         ToggleWidescreen(true);
                         if (vid_widescreen)
-                            value = SCREENSIZE_MAX - 1;
+                            value = R_SCREENSIZE_MAX - 1;
                     }
                 }
             }
-            screensize = value;
+            r_screensize = value;
             M_SaveCVARs();
-            R_SetViewSize(screensize);
+            R_SetViewSize(r_screensize);
         }
     }
     else
-        C_Output("%i", screensize);
+        C_Output("%i", r_screensize);
 }
 
 static void C_ShowFPS(char *cmd, char *parm1, char *parm2)
@@ -2323,7 +2324,7 @@ static void C_Widescreen(char *cmd, char *parm1, char *parm2)
                 else
                 {
                     returntowidescreen = true;
-                    hud = true;
+                    r_hud = true;
                 }
             }
             else

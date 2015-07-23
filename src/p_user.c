@@ -47,7 +47,7 @@
 
 extern dboolean oldweaponsowned[];
 extern dboolean skipaction;
-extern dboolean footclip;
+extern dboolean r_liquid_clipsprites;
 
 void G_RemoveChoppers(void);
 
@@ -138,7 +138,7 @@ void P_CalcHeight(player_t *player)
     else
         player->viewz = mo->z + player->viewheight;
 
-    if ((mo->flags2 & MF2_FEETARECLIPPED) && footclip)
+    if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_clipsprites)
     {
         dboolean                    liquid = true;
         const struct msecnode_s     *seclist;
