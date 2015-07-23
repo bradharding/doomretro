@@ -85,16 +85,16 @@ extern dboolean skippsprinterp;
 //
 // defaulted values
 //
-int             m_sensitivity = M_SENSITIVITY_DEFAULT;
-int             gp_sensitivity = GP_SENSITIVITY_DEFAULT;
+int             m_sensitivity = m_sensitivity_default;
+int             gp_sensitivity = gp_sensitivity_default;
 float           gamepadsensitivityf;
 
 // Show messages has default, false = off, true = on
-dboolean        messages = MESSAGES_DEFAULT;
+dboolean        messages = messages_default;
 
-int             r_detail = R_DETAIL_DEFAULT;
+int             r_detail = r_detail_default;
 
-int             r_screensize = R_SCREENSIZE_DEFAULT;
+int             r_screensize = r_screensize_default;
 
 // -1 = no quicksave slot picked!
 int             quickSaveSlot;
@@ -137,10 +137,10 @@ short           itemOn;                 // menu item skull is on
 short           skullAnimCounter;       // skull animation counter
 short           whichSkull;             // which skull to draw
 
-int             episode = EPISODE_DEFAULT;
-int             expansion = EXPANSION_DEFAULT;
-int             savegame = SAVEGAME_DEFAULT;
-int             skilllevel = SKILLLEVEL_DEFAULT;
+int             episode = episode_default;
+int             expansion = expansion_default;
+int             savegame = savegame_default;
+int             skilllevel = skilllevel_default;
 
 static int      functionkey = 0;
 
@@ -521,7 +521,7 @@ void M_DarkBackground(void)
     for (i = 0; i < height; ++i)
         screens[0][i] = tinttab50[blurredscreen[i]];
 
-    if (r_detail == LOW)
+    if (r_detail == low)
         V_LowGraphicDetail(SCREENHEIGHT);
 }
 
@@ -1618,7 +1618,7 @@ void M_DrawOptions(void)
             M_DrawString(OptionsDef.x + 125, OptionsDef.y + 16 * msgs + OFFSET, s_M_OFF);
     }
 
-    if (r_detail == HIGH)
+    if (r_detail == high)
     {
         if (M_GDHIGH)
             M_DrawPatchWithShadow(OptionsDef.x + 180, OptionsDef.y + 16 * detail + OFFSET,
@@ -1641,10 +1641,10 @@ void M_DrawOptions(void)
 
     if (usinggamepad && !M_MSENS)
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + 1, 9,
-            gp_sensitivity / (float)GP_SENSITIVITY_MAX * 8.0f, 8.0f);
+            gp_sensitivity / (float)gp_sensitivity_max * 8.0f, 8.0f);
     else
         M_DrawThermo(OptionsDef.x - 1, OptionsDef.y + 16 * (mousesens + 1) + OFFSET + !hacx, 9,
-            m_sensitivity / (float)M_SENSITIVITY_MAX * 8.0f, 8.0f);
+            m_sensitivity / (float)m_sensitivity_max * 8.0f, 8.0f);
 }
 
 void M_Options(int choice)
@@ -1838,13 +1838,13 @@ void M_ChangeSensitivity(int choice)
         switch (choice)
         {
             case 0:
-                if (gp_sensitivity > GP_SENSITIVITY_MIN)
+                if (gp_sensitivity > gp_sensitivity_min)
                 {
                     if (gp_sensitivity & 1)
                         ++gp_sensitivity;
                     gp_sensitivity -= 2;
                     gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
-                        + gp_sensitivity / (float)GP_SENSITIVITY_MAX * GP_SENSITIVITY_FACTOR);
+                        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
                     C_Input("gp_sensitivity %i", gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
@@ -1852,13 +1852,13 @@ void M_ChangeSensitivity(int choice)
                 break;
 
             case 1:
-                if (gp_sensitivity < GP_SENSITIVITY_MAX)
+                if (gp_sensitivity < gp_sensitivity_max)
                 {
                     if (gp_sensitivity & 1)
                         --gp_sensitivity;
                     gp_sensitivity += 2;
                     gamepadsensitivityf = GP_SENSITIVITY_OFFSET
-                        + gp_sensitivity / (float)GP_SENSITIVITY_MAX * GP_SENSITIVITY_FACTOR;
+                        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR;
                     C_Input("gp_sensitivity %i", gp_sensitivity);
                     M_SliderSound();
                     M_SaveCVARs();
@@ -1871,7 +1871,7 @@ void M_ChangeSensitivity(int choice)
         switch (choice)
         {
             case 0:
-                if (m_sensitivity > M_SENSITIVITY_MIN)
+                if (m_sensitivity > m_sensitivity_min)
                 {
                     if (m_sensitivity & 1)
                         ++m_sensitivity;
@@ -1883,7 +1883,7 @@ void M_ChangeSensitivity(int choice)
                 break;
 
             case 1:
-                if (m_sensitivity < M_SENSITIVITY_MAX)
+                if (m_sensitivity < m_sensitivity_max)
                 {
                     if (m_sensitivity & 1)
                         --m_sensitivity;
@@ -1901,14 +1901,14 @@ void M_ChangeDetail(int choice)
 {
     blurred = false;
     r_detail = !r_detail;
-    C_Input("r_graphicdetail %s", (r_detail == HIGH ? "high" : "low"));
+    C_Input("r_graphicdetail %s", (r_detail == high ? "high" : "low"));
     if (!menuactive)
     {
-        HU_PlayerMessage((r_detail == HIGH ? s_DETAILHI : s_DETAILLO), false);
+        HU_PlayerMessage((r_detail == high ? s_DETAILHI : s_DETAILLO), false);
         message_dontfuckwithme = true;
     }
     else
-        C_Output(r_detail == HIGH ? s_DETAILHI : s_DETAILLO);
+        C_Output(r_detail == high ? s_DETAILHI : s_DETAILLO);
     M_SaveCVARs();
 }
 
@@ -1917,7 +1917,7 @@ void M_SizeDisplay(int choice)
     switch (choice)
     {
         case 0:
-            if (r_screensize == R_SCREENSIZE_MAX)
+            if (r_screensize == r_screensize_max)
             {
                 if (!r_hud)
                 {
@@ -1948,7 +1948,7 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
-            else if (r_screensize > R_SCREENSIZE_MIN)
+            else if (r_screensize > r_screensize_min)
             {
                 R_SetViewSize(--r_screensize);
                 C_Input("r_screensize %i", r_screensize);
@@ -1959,7 +1959,7 @@ void M_SizeDisplay(int choice)
 
         case 1:
             if (vid_widescreen || (returntowidescreen && gamestate != GS_LEVEL)
-                || r_screensize == R_SCREENSIZE_MAX)
+                || r_screensize == r_screensize_max)
             {
                 if (r_hud)
                 {
@@ -1969,7 +1969,7 @@ void M_SizeDisplay(int choice)
                     M_SaveCVARs();
                 }
             }
-            else if (r_screensize == R_SCREENSIZE_MAX - 1)
+            else if (r_screensize == r_screensize_max - 1)
             {
                 if (!vid_widescreen)
                 {
@@ -1993,7 +1993,7 @@ void M_SizeDisplay(int choice)
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
-            else if (r_screensize < R_SCREENSIZE_MAX)
+            else if (r_screensize < r_screensize_max)
             {
                 R_SetViewSize(++r_screensize);
                 C_Input("r_screensize %i", r_screensize);

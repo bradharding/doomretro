@@ -59,7 +59,7 @@
 #include "SDL_syswm.h"
 #endif
 
-char                    *vid_windowposition = VID_WINDOWPOSITION_DEFAULT;
+char                    *vid_windowposition = vid_windowposition_default;
 
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
@@ -69,30 +69,30 @@ static SDL_Surface      *buffer = NULL;
 static SDL_Palette      *palette;
 static SDL_Color        colors[256];
 
-int                     vid_display = VID_DISPLAY_DEFAULT;
+int                     vid_display = vid_display_default;
 static int              displayindex;
 static int              numdisplays;
 static SDL_Rect         *displays;
-char                    *vid_scaledriver = VID_SCALEDRIVER_DEFAULT;
-char                    *vid_scalefilter = VID_SCALEFILTER_DEFAULT;
-dboolean                vid_vsync = VID_VSYNC_DEFAULT;
+char                    *vid_scaledriver = vid_scaledriver_default;
+char                    *vid_scalefilter = vid_scalefilter_default;
+dboolean                vid_vsync = vid_vsync_default;
 
 // Bit mask of mouse button state
 static unsigned int     mouse_button_state = 0;
 
-dboolean                m_novertical = M_NOVERTICAL_DEFAULT;
+dboolean                m_novertical = m_novertical_default;
 
 static int              buttons[MAX_MOUSE_BUTTONS + 1] = { 0, 1, 4, 2, 8, 16, 32, 64, 128 };
 
 // Fullscreen width and height
 int                     screenwidth;
 int                     screenheight;
-char                    *vid_screenresolution = VID_SCREENRESOLUTION_DEFAULT;
+char                    *vid_screenresolution = vid_screenresolution_default;
 
 // Window width and height
 int                     windowwidth;
 int                     windowheight;
-char                    *vid_windowsize = VID_WINDOWSIZE_DEFAULT;
+char                    *vid_windowsize = vid_windowsize_default;
 
 int                     windowx = 0;
 int                     windowy = 0;
@@ -103,14 +103,14 @@ int                     displaycenterx;
 int                     displaycentery;
 
 // Run in full screen mode?
-dboolean                vid_fullscreen = VID_FULLSCREEN_DEFAULT;
+dboolean                vid_fullscreen = vid_fullscreen_default;
 
-dboolean                vid_widescreen = VID_WIDESCREEN_DEFAULT;
+dboolean                vid_widescreen = vid_widescreen_default;
 dboolean                returntowidescreen = false;
 
-dboolean                r_hud = R_HUD_DEFAULT;
+dboolean                r_hud = r_hud_default;
 
-dboolean                vid_capfps = VID_CAPFPS_DEFAULT;
+dboolean                vid_capfps = vid_capfps_default;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isn't visible, don't render the screen
@@ -122,7 +122,7 @@ dboolean                window_focused;
 static SDL_Cursor       *cursors[2];
 
 #if !defined(WIN32)
-char                    *vid_driver = VID_DRIVER_DEFAULT;
+char                    *vid_driver = vid_driver_default;
 char                    envstring[255];
 #endif
 
@@ -145,7 +145,7 @@ float                   gammalevels[GAMMALEVELS] =
 
 // Gamma correction level to use
 int                     gammaindex;
-float                   r_gamma = R_GAMMA_DEFAULT;
+float                   r_gamma = r_gamma_default;
 
 SDL_Rect                src_rect = { 0, 0, 0, 0 };
 
@@ -162,11 +162,11 @@ int                     fps = 0;
 // The mouse input values are input directly to the game, but when
 // the values exceed the value of m_threshold, they are multiplied
 // by m_acceleration to increase the speed.
-float                   m_acceleration = M_ACCELERATION_DEFAULT;
-int                     m_threshold = M_THRESHOLD_DEFAULT;
+float                   m_acceleration = m_acceleration_default;
+int                     m_threshold = m_threshold_default;
 
 int                     capslock;
-dboolean                pm_alwaysrun = PM_ALWAYSRUN_DEFAULT;
+dboolean                pm_alwaysrun = pm_alwaysrun_default;
 
 extern int              key_alwaysrun;
 
@@ -860,7 +860,7 @@ static void SetVideoMode(dboolean output)
     {
         if (output)
             C_Warning("Unable to find display %i.", vid_display);
-        displayindex = VID_DISPLAY_DEFAULT - 1;
+        displayindex = vid_display_default - 1;
     }
     if (output)
         C_Output("Using display %i of %i called \"%s\".",
@@ -1030,9 +1030,9 @@ void ToggleWidescreen(dboolean toggle)
     {
         vid_widescreen = true;
 
-        if (returntowidescreen && r_screensize == R_SCREENSIZE_MAX)
+        if (returntowidescreen && r_screensize == r_screensize_max)
         {
-            r_screensize = R_SCREENSIZE_MAX - 1;
+            r_screensize = r_screensize_max - 1;
             R_SetViewSize(r_screensize);
         }
 

@@ -97,7 +97,7 @@ fixed_t         *spriteheight;
 fixed_t         *spriteoffset;
 fixed_t         *spritetopoffset;
 
-dboolean        r_fixspriteoffsets = R_FIXSPRITEOFFSETS_DEFAULT;
+dboolean        r_fixspriteoffsets = r_fixspriteoffsets_default;
 
 static byte notgray[256] =
 {

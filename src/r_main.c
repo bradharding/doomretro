@@ -114,9 +114,9 @@ lighttable_t            **colormaps;
 // bumped light from gun blasts
 int                     extralight;
 
-dboolean                r_translucency = R_TRANSLUCENCY_DEFAULT;
+dboolean                r_translucency = r_translucency_default;
 
-dboolean                r_homindicator = R_HOMINDICATOR_DEFAULT;
+dboolean                r_homindicator = r_homindicator_default;
 
 int                     r_frame_count;
 

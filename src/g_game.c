@@ -185,8 +185,8 @@ int             gamepadweapon5 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon6 = GAMEPADWEAPON_DEFAULT;
 int             gamepadweapon7 = GAMEPADWEAPON_DEFAULT;
 
-dboolean        gp_swapthumbsticks = GP_SWAPTHUMBSTICKS_DEFAULT;
-dboolean        gp_vibrate = GP_VIBRATE_DEFAULT;
+dboolean        gp_swapthumbsticks = gp_swapthumbsticks_default;
+dboolean        gp_vibrate = gp_vibrate_default;
 
 #define MAXPLMOVE       forwardmove[1]
 
@@ -254,7 +254,7 @@ dboolean        skipaction;
 int             mousex;
 int             mousey;
 
-dboolean        m_doubleclick_use = M_DOUBLECLICK_USE_DEFAULT;
+dboolean        m_doubleclick_use = m_doubleclick_use_default;
 
 static int      dclicktime;
 static dboolean dclickstate;

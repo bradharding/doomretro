@@ -51,7 +51,7 @@
 #define CHAINSAWIDLEMOTORSPEED  15000
 #define MAXMOTORSPEED           65535
 
-dboolean pm_centerweapon = PM_CENTERWEAPON_DEFAULT;
+dboolean pm_centerweapon = pm_centerweapon_default;
 
 dboolean skippsprinterp = false;
 

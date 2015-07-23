@@ -443,7 +443,7 @@ void F_StartCast(void)
     castframes = 0;
     castonmelee = 0;
     castattacking = false;
-    if (strcasecmp(playername, PLAYERNAME_DEFAULT))
+    if (strcasecmp(playername, playername_default))
         s_CC_HERO = playername;
     S_ChangeMusic(mus_evil, true, false);
 }

@@ -123,7 +123,7 @@ mapthing_t      playerstarts[MAXPLAYERS];
 dboolean        canmodify;
 dboolean        transferredsky;
 
-dboolean        r_fixmaperrors = R_FIXMAPERRORS_DEFAULT;
+dboolean        r_fixmaperrors = r_fixmaperrors_default;
 
 static int      current_episode = -1;
 static int      current_map = -1;

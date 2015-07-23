@@ -99,7 +99,7 @@ lighttable_t    **walllights;
 
 static int      *maskedtexturecol;      // dropoff overflow
 
-dboolean        r_brightmaps = R_BRIGHTMAPS_DEFAULT;
+dboolean        r_brightmaps = r_brightmaps_default;
 
 extern dboolean r_translucency;
 

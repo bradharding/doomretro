@@ -39,281 +39,250 @@
 #if !defined(__M_CONFIG__)
 #define __M_CONFIG__
 
-#define AM_GRID_DEFAULT                         false
+typedef enum
+{
+    noblood,
+    redbloodonly,
+    allbloodcolors
+} r_blood_values_e;
 
-#define AM_ROTATEMODE_DEFAULT                   true
+typedef enum
+{
+    low,
+    high
+} r_detail_values_e;
 
-#define EPISODE_MIN                             0
-#define EPISODE_DEFAULT                         0
-#define EPISODE_MAX                             3
 
-#define EXPANSION_MIN                           0
-#define EXPANSION_DEFAULT                       0
-#define EXPANSION_MAX                           1
+#define am_followmode_default                   true
 
-#define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
+#define am_grid_default                         false
 
-#define GAMEPADAUTOMAPCLEARMARK_DEFAULT         0
+#define am_rotatemode_default                   true
 
-#define GAMEPADAUTOMAPFOLLOWMODE_DEFAULT        0
+#define episode_min                             0
+#define episode_default                         0
+#define episode_max                             3
 
-#define GAMEPADAUTOMAPGRID_DEFAULT              0
+#define expansion_min                           0
+#define expansion_default                       0
+#define expansion_max                           1
 
-#define GAMEPADAUTOMAPMARK_DEFAULT              0
+#define gp_deadzone_left_min                    0.0f
+#define gp_deadzone_left_default                (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
+#define gp_deadzone_left_max                    (float)SHRT_MAX
 
-#define GAMEPADAUTOMAPMAXZOOM_DEFAULT           0
+#define gp_deadzone_right_min                   0.0f
+#define gp_deadzone_right_default               (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
+#define gp_deadzone_right_max                   (float)SHRT_MAX
 
-#define GAMEPADAUTOMAPROTATEMODE_DEFAULT        0
+#define gp_sensitivity_min                      0
+#define gp_sensitivity_default                  32
+#define gp_sensitivity_max                      128
 
-#define GAMEPADAUTOMAPZOOMIN_DEFAULT            GAMEPAD_RIGHT_SHOULDER
+#define gp_swapthumbsticks_default              false
 
-#define GAMEPADAUTOMAPZOOMOUT_DEFAULT           GAMEPAD_LEFT_SHOULDER
+#define gp_vibrate_default                      true
 
-#define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
+#define iwadfolder_default                      "C:\\"
 
-#define GAMEPADMENU_DEFAULT                     GAMEPAD_START
+#define messages_default                        false
 
-#define GAMEPADNEXTWEAPON_DEFAULT               GAMEPAD_B
+#define m_acceleration_min                      0
+#define m_acceleration_default                  2.0
+#define m_acceleration_max                      INT_MAX
 
-#define GAMEPADPREVWEAPON_DEFAULT               GAMEPAD_Y
+#define m_doubleclick_use_default               false
 
-#define GAMEPADRUN_DEFAULT                      GAMEPAD_LEFT_TRIGGER
+#define m_novertical_default                    true
 
-#define GAMEPADUSE_DEFAULT                      GAMEPAD_A
+#define m_sensitivity_min                       0
+#define m_sensitivity_default                   16
+#define m_sensitivity_max                       128
 
-#define GAMEPADWEAPON_DEFAULT                   0
+#define m_threshold_min                         0
+#define m_threshold_default                     10
+#define m_threshold_max                         INT_MAX
 
-#define GP_DEADZONE_LEFT_MIN                    0.0f
-#define GP_DEADZONE_LEFT_DEFAULT                (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
-#define GP_DEADZONE_LEFT_MAX                    (float)SHRT_MAX
+#define playername_default                      "you"
 
-#define GP_DEADZONE_RIGHT_MIN                   0.0f
-#define GP_DEADZONE_RIGHT_DEFAULT               (GAMEPAD_LEFT_THUMB_DEADZONE / (float)SHRT_MAX * 100.0f)
-#define GP_DEADZONE_RIGHT_MAX                   (float)SHRT_MAX
+#define pm_alwaysrun_default                    false
 
-#define GP_SENSITIVITY_MIN                      0
-#define GP_SENSITIVITY_DEFAULT                  32
-#define GP_SENSITIVITY_MAX                      128
+#define pm_centerweapon_default                 true
 
-#define GP_SWAPTHUMBSTICKS_DEFAULT              false
+#define pm_walkbob_min                          0
+#define pm_walkbob_default                      75
+#define pm_walkbob_max                          100
 
-#define GP_VIBRATE_DEFAULT                      true
+#define r_blood_min                             noblood
+#define r_blood_default                         allbloodcolors
+#define r_blood_max                             allbloodcolors
 
-#define IWADFOLDER_DEFAULT                      "C:\\"
+#define r_brightmaps_default                    true
 
-#define KEYALWAYSRUN_DEFAULT                    KEY_CAPSLOCK
+#define r_corpses_mirrored_default              true
 
-#define KEYAUTOMAP_DEFAULT                      KEY_TAB
+#define r_corpses_moreblood_default             true
 
-#define KEYAUTOMAPCLEARMARK_DEFAULT             'c'
+#define r_corpses_nudge_default                 true
 
-#define KEYAUTOMAPFOLLOWMODE_DEFAULT            'f'
+#define r_corpses_slide_default                 true
 
-#define KEYAUTOMAPGRID_DEFAULT                  'g'
+#define r_corpses_smearblood_default            true
 
-#define KEYAUTOMAPMARK_DEFAULT                  'm'
+#define r_detail_default                        high
 
-#define KEYAUTOMAPMAXZOOM_DEFAULT               '0'
+#define r_fixmaperrors_default                  true
 
-#define KEYAUTOMAPROTATEMODE_DEFAULT            'r'
+#define r_fixspriteoffsets_default              true
 
-#define KEYAUTOMAPZOOMIN_DEFAULT                KEY_EQUALS
+#define r_floatbob_default                      true
 
-#define KEYAUTOMAPZOOMOUT_DEFAULT               KEY_MINUS
+#define r_gamma_min                             gammalevels[0]
+#define r_gamma_default                         0.75
+#define r_gamma_max                             gammalevels[GAMMALEVELS - 1]
 
-#define KEYDOWN_DEFAULT                         KEY_DOWNARROW
+#define r_homindicator_default                  false
 
-#define KEYDOWN2_DEFAULT                        's'
+#define r_hud_default                           true
 
-#define KEYFIRE_DEFAULT                         KEY_RCTRL
+#define r_liquid_bob_default                    true
 
-#define KEYLEFT_DEFAULT                         KEY_LEFTARROW
+#define r_liquid_swirl_default                 true
 
-#define KEYNEXTWEAPON_DEFAULT                   0
+#define r_liquid_clipsprites_default            true
 
-#define KEYPREVWEAPON_DEFAULT                   0
+#define r_lowpixelsize_default                  "2x2"
 
-#define KEYRIGHT_DEFAULT                        KEY_RIGHTARROW
+#define unlimited                               32768
+#define r_maxbloodsplats_min                    0
+#define r_maxbloodsplats_default                unlimited
+#define r_maxbloodsplats_max                    unlimited
 
-#define KEYRUN_DEFAULT                          KEY_RSHIFT
+#define r_mirrorweapons_default                 false
 
-#define KEYSTRAFE_DEFAULT                       KEY_RALT
+#define r_playersprites_default                 true
 
-#define KEYSTRAFELEFT_DEFAULT                   'a'
+#define r_rockettrails_default                  true
 
-#define KEYSTRAFELEFT2_DEFAULT                  ','
+#define r_screensize_min                        0
+#define r_screensize_default                    7
+#define r_screensize_max                        8
 
-#define KEYSTRAFERIGHT_DEFAULT                  'd'
+#define r_shadows_default                       true
 
-#define KEYSTRAFERIGHT2_DEFAULT                  '.'
+#define r_translucency_default                  true
 
-#define KEYUP_DEFAULT                           KEY_UPARROW
+#define runcount_min                            0
+#define runcount_default                        0
+#define runcount_max                            32768
 
-#define KEYUP2_DEFAULT                          'w'
+#define s_musicvolume_min                       0
+#define s_musicvolume_default                   100
+#define s_musicvolume_max                       100
 
-#define KEYUSE_DEFAULT                          ' '
+#define s_randompitch_default                   false
 
-#define KEYWEAPON1_DEFAULT                      '1'
+#define s_sfxvolume_min                         0
+#define s_sfxvolume_default                     100
+#define s_sfxvolume_max                         100
 
-#define KEYWEAPON2_DEFAULT                      '2'
+#define s_timiditycfgpath_default               ""
 
-#define KEYWEAPON3_DEFAULT                      '3'
+#define savegame_default                        0
 
-#define KEYWEAPON4_DEFAULT                      '4'
+#define skilllevel_min                          sk_baby
+#define skilllevel_default                      sk_medium
+#define skilllevel_max                          sk_nightmare
 
-#define KEYWEAPON5_DEFAULT                      '5'
+#define totalbloodsplats_min                    0
+#define totalbloodsplats_default                0
+#define totalbloodsplats_max                    0
 
-#define KEYWEAPON6_DEFAULT                      '6'
+#define vid_capfps_default                      false
 
-#define KEYWEAPON7_DEFAULT                      '7'
+#define vid_display_min                         1
+#define vid_display_default                     1
+#define vid_display_max                         INT_MAX
 
-#define MESSAGES_DEFAULT                        false
-
-#define M_ACCELERATION_MIN                      0
-#define M_ACCELERATION_DEFAULT                  2.0
-#define M_ACCELERATION_MAX                      INT_MAX
-
-#define M_DOUBLECLICK_USE_DEFAULT               false
-
-#define M_NOVERTICAL_DEFAULT                    true
-
-#define M_SENSITIVITY_MIN                       0
-#define M_SENSITIVITY_DEFAULT                   16
-#define M_SENSITIVITY_MAX                       128
-
-#define M_THRESHOLD_MIN                         0
-#define M_THRESHOLD_DEFAULT                     10
-#define M_THRESHOLD_MAX                         INT_MAX
-
-#define MOUSEFIRE_DEFAULT                       0
-
-#define MOUSEFORWARD_DEFAULT                    -1
-
-#define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
-
-#define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
-
-#define MOUSESTRAFE_DEFAULT                     -1
-
-#define MOUSEUSE_DEFAULT                        -1
-
-#define PLAYERNAME_DEFAULT                      "you"
-
-#define PM_ALWAYSRUN_DEFAULT                    false
-
-#define PM_CENTERWEAPON_DEFAULT                 true
-
-#define PM_WALKBOB_MIN                          0
-#define PM_WALKBOB_DEFAULT                      75
-#define PM_WALKBOB_MAX                          100
-
-#define NOBLOOD                                 0
-#define REDBLOODONLY                            1
-#define ALLBLOODCOLORS                          2
-#define R_BLOOD_DEFAULT                         ALLBLOODCOLORS
-
-#define R_BRIGHTMAPS_DEFAULT                    true
-
-#define R_CORPSES_MIRRORED_DEFAULT              true
-
-#define R_CORPSES_MOREBLOOD_DEFAULT             true
-
-#define R_CORPSES_NUDGE_DEFAULT                 true
-
-#define R_CORPSES_SLIDE_DEFAULT                 true
-
-#define R_CORPSES_SMEARBLOOD_DEFAULT            true
-
-#define LOW                                     0
-#define HIGH                                    1
-#define R_DETAIL_DEFAULT                        HIGH
-
-#define R_FIXMAPERRORS_DEFAULT                  true
-
-#define R_FIXSPRITEOFFSETS_DEFAULT              true
-
-#define R_FLOATBOB_DEFAULT                      true
-
-#define R_GAMMA_MIN                             gammalevels[0]
-#define R_GAMMA_DEFAULT                         0.75
-#define R_GAMMA_MAX                             gammalevels[GAMMALEVELS - 1]
-
-#define R_HOMINDICATOR_DEFAULT                  false
-
-#define R_HUD_DEFAULT                           true
-
-#define R_LIQUID_BOB_DEFAULT                    true
-
-#define R_LIQUID_SWIRL_DEFAULT                 true
-
-#define R_LIQUID_CLIPSPRITES_DEFAULT            true
-
-#define R_LOWPIXELSIZE_DEFAULT                  "2x2"
-
-#define UNLIMITED                               32768
-#define R_MAXBLOODSPLATS_MIN                    0
-#define R_MAXBLOODSPLATS_DEFAULT                UNLIMITED
-#define R_MAXBLOODSPLATS_MAX                    UNLIMITED
-
-#define R_MIRRORWEAPONS_DEFAULT                 false
-
-#define R_PLAYERSPRITES_DEFAULT                 true
-
-#define R_ROCKETTRAILS_DEFAULT                  true
-
-#define R_SCREENSIZE_MIN                        0
-#define R_SCREENSIZE_DEFAULT                    7
-#define R_SCREENSIZE_MAX                        8
-
-#define R_SHADOWS_DEFAULT                       true
-
-#define R_TRANSLUCENCY_DEFAULT                  true
-
-#define RUNCOUNT_MAX                            32768
-
-#define S_MUSICVOLUME_MIN                       0
-#define S_MUSICVOLUME_DEFAULT                   100
-#define S_MUSICVOLUME_MAX                       100
-
-#define S_RANDOMPITCH_DEFAULT                   false
-
-#define S_SFXVOLUME_MIN                         0
-#define S_SFXVOLUME_DEFAULT                     100
-#define S_SFXVOLUME_MAX                         100
-
-#define S_TIMIDITYCFGPATH_DEFAULT               ""
-
-#define SAVEGAME_DEFAULT                        0
-
-#define SKILLLEVEL_MIN                          sk_baby
-#define SKILLLEVEL_DEFAULT                      sk_medium
-#define SKILLLEVEL_MAX                          sk_nightmare
-
-#define VID_CAPFPS_DEFAULT                      false
-
-#define VID_DISPLAY_MIN                         1
-#define VID_DISPLAY_DEFAULT                     1
-#define VID_DISPLAY_MAX                         INT_MAX
-
-#if !defined(WIN32)
-#define VID_DRIVER_DEFAULT                      ""
+#if !defined(win32)
+#define vid_driver_default                      ""
 #endif
 
-#define VID_FULLSCREEN_DEFAULT                  true
+#define vid_fullscreen_default                  true
 
-#define VID_SCALEDRIVER_DEFAULT                 ""
+#define vid_scaledriver_default                 ""
 
-#define VID_SCALEFILTER_DEFAULT                 "nearest"
+#define vid_scalefilter_default                 "nearest"
 
-#define VID_SCREENRESOLUTION_DEFAULT            "desktop"
+#define vid_screenresolution_default            "desktop"
 
-#define VID_VSYNC_DEFAULT                       false
+#define vid_showfps_default                     false
 
-#define VID_WIDESCREEN_DEFAULT                  false
+#define vid_vsync_default                       false
 
-#define VID_WINDOWPOSITION_DEFAULT              ""
+#define vid_widescreen_default                  false
 
-#define VID_WINDOWSIZE_DEFAULT                  "640x480"
+#define vid_windowposition_default              ""
+
+#define vid_windowsize_default                  "640x480"
+
+#define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
+#define GAMEPADAUTOMAPCLEARMARK_DEFAULT         0
+#define GAMEPADAUTOMAPFOLLOWMODE_DEFAULT        0
+#define GAMEPADAUTOMAPGRID_DEFAULT              0
+#define GAMEPADAUTOMAPMARK_DEFAULT              0
+#define GAMEPADAUTOMAPMAXZOOM_DEFAULT           0
+#define GAMEPADAUTOMAPROTATEMODE_DEFAULT        0
+#define GAMEPADAUTOMAPZOOMIN_DEFAULT            GAMEPAD_RIGHT_SHOULDER
+#define GAMEPADAUTOMAPZOOMOUT_DEFAULT           GAMEPAD_LEFT_SHOULDER
+#define GAMEPADFIRE_DEFAULT                     GAMEPAD_RIGHT_TRIGGER
+#define GAMEPADMENU_DEFAULT                     GAMEPAD_START
+#define GAMEPADNEXTWEAPON_DEFAULT               GAMEPAD_B
+#define GAMEPADPREVWEAPON_DEFAULT               GAMEPAD_Y
+#define GAMEPADRUN_DEFAULT                      GAMEPAD_LEFT_TRIGGER
+#define GAMEPADUSE_DEFAULT                      GAMEPAD_A
+#define GAMEPADWEAPON_DEFAULT                   0
+
+#define KEYALWAYSRUN_DEFAULT                    KEY_CAPSLOCK
+#define KEYAUTOMAP_DEFAULT                      KEY_TAB
+#define KEYAUTOMAPCLEARMARK_DEFAULT             'c'
+#define KEYAUTOMAPFOLLOWMODE_DEFAULT            'f'
+#define KEYAUTOMAPGRID_DEFAULT                  'g'
+#define KEYAUTOMAPMARK_DEFAULT                  'm'
+#define KEYAUTOMAPMAXZOOM_DEFAULT               '0'
+#define KEYAUTOMAPROTATEMODE_DEFAULT            'r'
+#define KEYAUTOMAPZOOMIN_DEFAULT                KEY_EQUALS
+#define KEYAUTOMAPZOOMOUT_DEFAULT               KEY_MINUS
+#define KEYDOWN_DEFAULT                         KEY_DOWNARROW
+#define KEYDOWN2_DEFAULT                        's'
+#define KEYFIRE_DEFAULT                         KEY_RCTRL
+#define KEYLEFT_DEFAULT                         KEY_LEFTARROW
+#define KEYNEXTWEAPON_DEFAULT                   0
+#define KEYPREVWEAPON_DEFAULT                   0
+#define KEYRIGHT_DEFAULT                        KEY_RIGHTARROW
+#define KEYRUN_DEFAULT                          KEY_RSHIFT
+#define KEYSTRAFE_DEFAULT                       KEY_RALT
+#define KEYSTRAFELEFT_DEFAULT                   'a'
+#define KEYSTRAFELEFT2_DEFAULT                  ','
+#define KEYSTRAFERIGHT_DEFAULT                  'd'
+#define KEYSTRAFERIGHT2_DEFAULT                  '.'
+#define KEYUP_DEFAULT                           KEY_UPARROW
+#define KEYUP2_DEFAULT                          'w'
+#define KEYUSE_DEFAULT                          ' '
+#define KEYWEAPON1_DEFAULT                      '1'
+#define KEYWEAPON2_DEFAULT                      '2'
+#define KEYWEAPON3_DEFAULT                      '3'
+#define KEYWEAPON4_DEFAULT                      '4'
+#define KEYWEAPON5_DEFAULT                      '5'
+#define KEYWEAPON6_DEFAULT                      '6'
+#define KEYWEAPON7_DEFAULT                      '7'
+
+#define MOUSEFIRE_DEFAULT                       0
+#define MOUSEFORWARD_DEFAULT                    -1
+#define MOUSEPREVWEAPON_DEFAULT                 MOUSE_WHEELUP
+#define MOUSENEXTWEAPON_DEFAULT                 MOUSE_WHEELDOWN
+#define MOUSESTRAFE_DEFAULT                     -1
+#define MOUSEUSE_DEFAULT                        -1
 
 typedef enum
 {

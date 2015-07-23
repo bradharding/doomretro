@@ -84,8 +84,8 @@ channel_t;
 // The set of channels available
 static channel_t        *channels;
 
-int                     s_musicvolume = S_MUSICVOLUME_DEFAULT;
-int                     s_sfxvolume = S_SFXVOLUME_DEFAULT;
+int                     s_musicvolume = s_musicvolume_default;
+int                     s_sfxvolume = s_sfxvolume_default;
 
 // Maximum volume of a sound effect.
 // Internal default is max out of 0-15.
@@ -109,7 +109,7 @@ musicinfo_t             *mus_playing = NULL;
 // Number of channels to use
 int                     numChannels = 32;
 
-dboolean                s_randompitch = S_RANDOMPITCH_DEFAULT;
+dboolean                s_randompitch = s_randompitch_default;
 
 // Find and initialize a sound_module_t appropriate for the setting
 // in snd_sfxdevice.

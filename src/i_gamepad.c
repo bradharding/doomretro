@@ -59,8 +59,8 @@ static XINPUTSETSTATE pXInputSetState;
 #include "SDL.h"
 #include "SDL_joystick.h"
 
-float                   gp_deadzone_left = GP_DEADZONE_LEFT_DEFAULT;
-float                   gp_deadzone_right = GP_DEADZONE_RIGHT_DEFAULT;
+float                   gp_deadzone_left = gp_deadzone_left_default;
+float                   gp_deadzone_right = gp_deadzone_right_default;
 
 
 static SDL_Joystick     *gamepad = NULL;

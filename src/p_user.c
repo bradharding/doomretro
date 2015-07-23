@@ -58,7 +58,7 @@ void G_RemoveChoppers(void);
 // 16 pixels of bob
 #define MAXBOB  0x100000
 
-int     pm_walkbob = PM_WALKBOB_DEFAULT;
+int     pm_walkbob = pm_walkbob_default;
 
 dboolean onground;
 

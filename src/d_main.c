@@ -100,7 +100,7 @@ char                    *savegamefolder;
 // location of IWAD and WAD files
 char                    *iwadfile = "";
 
-char                    *iwadfolder = IWADFOLDER_DEFAULT;
+char                    *iwadfolder = iwadfolder_default;
 
 dboolean                devparm;        // started game with -devparm
 dboolean                nomonsters;     // checkparm of -nomonsters
@@ -276,7 +276,7 @@ void D_Display(void)
                     --borderdrawcount;
                 }
             }
-            if (r_detail == LOW)
+            if (r_detail == low)
                 V_LowGraphicDetail(viewheight2);
         }
 
@@ -1324,7 +1324,7 @@ static void D_DoomMainSetup(void)
     {
         startuptimer = I_GetTimeMS();
         if (D_AddFile(iwadfile, false))
-            if (runcount < RUNCOUNT_MAX)
+            if (runcount < runcount_max)
                 runcount++;
     }
     else if (!p)
@@ -1344,7 +1344,7 @@ static void D_DoomMainSetup(void)
         } while (!choseniwad);
 #endif
 
-        if (runcount < RUNCOUNT_MAX)
+        if (runcount < runcount_max)
             ++runcount;
     }
     M_SaveCVARs();
@@ -1596,8 +1596,8 @@ static void D_DoomMainSetup(void)
     else
         startloadgame = -1;
 
-    P_BloodSplatSpawner = (r_blood == NOBLOOD || !r_maxbloodsplats ? P_NullBloodSplatSpawner :
-        (r_maxbloodsplats == UNLIMITED ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
+    P_BloodSplatSpawner = (r_blood == noblood || !r_maxbloodsplats ? P_NullBloodSplatSpawner :
+        (r_maxbloodsplats == unlimited ? P_SpawnBloodSplat : P_SpawnBloodSplat2));
 
     M_Init();
 

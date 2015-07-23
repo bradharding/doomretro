@@ -94,7 +94,7 @@ char *weapondescription[] =
     "super shotgun"
 };
 
-dboolean r_mirrorweapons = R_MIRRORWEAPONS_DEFAULT;
+dboolean r_mirrorweapons = r_mirrorweapons_default;
 
 dboolean obituaries = true;
 

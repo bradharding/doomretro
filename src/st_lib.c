@@ -203,7 +203,7 @@ void STlib_drawNum(st_number_t *n)
     {
         if (SHORT(n->p[0]->height) == 6 && !STYSNUM0)
         {
-            if (r_detail == LOW)
+            if (r_detail == low)
                 STlib_drawLowNum(0, 160, 47, x - w, n->y);
             else
                 STlib_drawHighNum(0, 160, 47, x - w, n->y);
@@ -218,7 +218,7 @@ void STlib_drawNum(st_number_t *n)
         x -= w;
         if (SHORT(n->p[0]->height) == 6 && !STYSNUM0)
         {
-            if (r_detail == LOW)
+            if (r_detail == low)
                 STlib_drawLowNum(num % 10, 160, 47, x, n->y);
             else
                 STlib_drawHighNum(num % 10, 160, 47, x, n->y);
@@ -336,7 +336,7 @@ void STlib_updateArmsIcon(st_multicon_t *mi, dboolean refresh, int i)
             V_DrawPatch(mi->x, mi->y, FG, mi->p[*mi->inum]);
         else
         {
-            if (r_detail == LOW)
+            if (r_detail == low)
                 STlib_drawLowNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);
             else
                 STlib_drawHighNum(i + 2, (*mi->inum ? 160 : 93), 47, mi->x, mi->y);

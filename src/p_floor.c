@@ -44,7 +44,7 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-dboolean r_liquid_bob = R_LIQUID_BOB_DEFAULT;
+dboolean r_liquid_bob = r_liquid_bob_default;
 
 fixed_t animatedliquiddiffs[128] =
 {

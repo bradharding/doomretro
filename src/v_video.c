@@ -61,7 +61,7 @@ byte            *screens[5];
 
 int             pixelwidth;
 int             pixelheight;
-char            *r_lowpixelsize = R_LOWPIXELSIZE_DEFAULT;
+char            *r_lowpixelsize = r_lowpixelsize_default;
 
 extern dboolean r_translucency;
 
@@ -1159,7 +1159,7 @@ void GetPixelSize(void)
     {
         pixelwidth = 2;
         pixelheight = 2;
-        r_lowpixelsize = R_LOWPIXELSIZE_DEFAULT;
+        r_lowpixelsize = r_lowpixelsize_default;
 
         M_SaveCVARs();
     }

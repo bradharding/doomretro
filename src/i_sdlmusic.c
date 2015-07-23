@@ -55,7 +55,7 @@ static dboolean sdl_was_initialized = false;
 static dboolean musicpaused = false;
 static int      current_music_volume;
 
-char            *s_timiditycfgpath = S_TIMIDITYCFGPATH_DEFAULT;
+char            *s_timiditycfgpath = s_timiditycfgpath_default;
 
 static char     *temp_timidity_cfg = NULL;
 

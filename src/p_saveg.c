@@ -1898,7 +1898,7 @@ void P_UnArchiveThinkers(void)
                     mobj->colfunc = bloodsplatcolfunc;
                 mobj->projectfunc = R_ProjectBloodSplat;
 
-                if (r_maxbloodsplats < UNLIMITED)
+                if (r_maxbloodsplats < unlimited)
                 {
                     if (totalbloodsplats > r_maxbloodsplats)
                     {

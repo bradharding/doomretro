@@ -99,6 +99,7 @@ extern dboolean r_mirrorweapons;
 extern dboolean r_playersprites;
 extern dboolean r_rockettrails;
 extern dboolean r_shadows;
+extern dboolean r_translucency;
 extern int      runcount;
 extern int      s_musicvolume;
 extern dboolean s_randompitch;
@@ -106,7 +107,6 @@ extern int      s_sfxvolume;
 extern char     *s_timiditycfgpath;
 extern int      savegame;
 extern int      skilllevel;
-extern dboolean r_translucency;
 extern dboolean vid_capfps;
 extern int      vid_display;
 #if !defined(WIN32)
@@ -127,89 +127,89 @@ extern int      pixelwidth;
 extern int      pixelheight;
 extern dboolean returntowidescreen;
 
-#define CONFIG_VARIABLE_GENERIC(name, variable, type, set) \
-    { #name, &variable, type, set }
+#define CONFIG_VARIABLE_GENERIC(name, type, set) \
+    { #name, &name, type, set }
 
-#define CONFIG_VARIABLE_INT(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_INT, set)
-#define CONFIG_VARIABLE_INT_HEX(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_INT_HEX, set)
-#define CONFIG_VARIABLE_INT_PERCENT(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_INT_PERCENT, set)
-#define CONFIG_VARIABLE_FLOAT(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_FLOAT, set)
-#define CONFIG_VARIABLE_FLOAT_PERCENT(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_FLOAT_PERCENT, set)
-#define CONFIG_VARIABLE_STRING(name, variable, set) \
-    CONFIG_VARIABLE_GENERIC(name, variable, DEFAULT_STRING, set)
+#define CONFIG_VARIABLE_INT(name, set) \
+    CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT, set)
+#define CONFIG_VARIABLE_INT_HEX(name, set) \
+    CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT_HEX, set)
+#define CONFIG_VARIABLE_INT_PERCENT(name, set) \
+    CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT_PERCENT, set)
+#define CONFIG_VARIABLE_FLOAT(name, set) \
+    CONFIG_VARIABLE_GENERIC(name, DEFAULT_FLOAT, set)
+#define CONFIG_VARIABLE_FLOAT_PERCENT(name, set) \
+    CONFIG_VARIABLE_GENERIC(name, DEFAULT_FLOAT_PERCENT, set)
+#define CONFIG_VARIABLE_STRING(name, set) \
+    CONFIG_VARIABLE_GENERIC(name, DEFAULT_STRING, set)
 
 static default_t cvars[] =
 {
-    CONFIG_VARIABLE_INT          (am_grid,                 am_grid,                      BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (am_rotatemode,           am_rotatemode,                BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (episode,                 episode,                      NOALIAS    ),
-    CONFIG_VARIABLE_INT          (expansion,               expansion,                    NOALIAS    ),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,        gp_deadzone_left,             NOALIAS    ),
-    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,       gp_deadzone_right,            NOALIAS    ),
-    CONFIG_VARIABLE_INT          (gp_sensitivity,          gp_sensitivity,               NOALIAS    ),
-    CONFIG_VARIABLE_INT          (gp_swapthumbsticks,      gp_swapthumbsticks,           BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (gp_vibrate,              gp_vibrate,                   BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (iwadfolder,              iwadfolder,                   NOALIAS    ),
-    CONFIG_VARIABLE_FLOAT        (m_acceleration,          m_acceleration,               NOALIAS    ),
-    CONFIG_VARIABLE_INT          (m_doubleclick_use,       m_doubleclick_use,            BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (m_novertical,            m_novertical,                 BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (m_sensitivity,           m_sensitivity,                NOALIAS    ),
-    CONFIG_VARIABLE_INT          (m_threshold,             m_threshold,                  NOALIAS    ),
-    CONFIG_VARIABLE_INT          (messages,                messages,                     BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (playername,              playername,                   NOALIAS    ),
-    CONFIG_VARIABLE_INT          (pm_alwaysrun,            pm_alwaysrun,                 BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (pm_centerweapon,         pm_centerweapon,              BOOLALIAS  ),
-    CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,              pm_walkbob,                   NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_blood,                 r_blood,                      BLOODALIAS ),
-    CONFIG_VARIABLE_INT          (r_brightmaps,            r_brightmaps,                 BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_mirrored,      r_corpses_mirrored,           BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_moreblood,     r_corpses_moreblood,          BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_nudge,         r_corpses_nudge,              BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_slide,         r_corpses_slide,              BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_corpses_smearblood,    r_corpses_smearblood,         BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_detail,                r_detail,                     DETAILALIAS),
-    CONFIG_VARIABLE_INT          (r_fixmaperrors,          r_fixmaperrors,               BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_fixspriteoffsets,      r_fixspriteoffsets,           BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_floatbob,              r_floatbob,                   BOOLALIAS  ),
-    CONFIG_VARIABLE_FLOAT        (r_gamma,                 r_gamma,                      GAMMAALIAS ),
-    CONFIG_VARIABLE_INT          (r_homindicator,          r_homindicator,               BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_hud,                   r_hud,                        BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_liquid_bob,            r_liquid_bob,                 BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_liquid_clipsprites,    r_liquid_clipsprites,         BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_liquid_swirl,          r_liquid_swirl,               BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (r_lowpixelsize,          r_lowpixelsize,               NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_maxbloodsplats,        r_maxbloodsplats,             SPLATALIAS ),
-    CONFIG_VARIABLE_INT          (r_mirrorweapons,         r_mirrorweapons,              BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_playersprites,         r_playersprites,              BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_rockettrails,          r_rockettrails,               BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_screensize,            r_screensize,                 NOALIAS    ),
-    CONFIG_VARIABLE_INT          (r_shadows,               r_shadows,                    BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_translucency,          r_translucency,               BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (runcount,                runcount,                     NOALIAS    ),
-    CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,           s_musicvolume,                NOALIAS    ),
-    CONFIG_VARIABLE_INT          (s_randompitch,           s_randompitch,                BOOLALIAS  ),
-    CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,             s_sfxvolume,                  NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (s_timiditycfgpath,       s_timiditycfgpath,            NOALIAS    ),
-    CONFIG_VARIABLE_INT          (savegame,                savegame,                     NOALIAS    ),
-    CONFIG_VARIABLE_INT          (skilllevel,              skilllevel,                   NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_capfps,              vid_capfps,                   BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (vid_display,             vid_display,                  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (am_grid,              BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (am_rotatemode,        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (episode,              NOALIAS    ),
+    CONFIG_VARIABLE_INT          (expansion,            NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_left,     NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT_PERCENT(gp_deadzone_right,    NOALIAS    ),
+    CONFIG_VARIABLE_INT          (gp_sensitivity,       NOALIAS    ),
+    CONFIG_VARIABLE_INT          (gp_swapthumbsticks,   BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (gp_vibrate,           BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (iwadfolder,           NOALIAS    ),
+    CONFIG_VARIABLE_FLOAT        (m_acceleration,       NOALIAS    ),
+    CONFIG_VARIABLE_INT          (m_doubleclick_use,    BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (m_novertical,         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (m_sensitivity,        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (m_threshold,          NOALIAS    ),
+    CONFIG_VARIABLE_INT          (messages,             BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (playername,           NOALIAS    ),
+    CONFIG_VARIABLE_INT          (pm_alwaysrun,         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (pm_centerweapon,      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (pm_walkbob,           NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_blood,              BLOODALIAS ),
+    CONFIG_VARIABLE_INT          (r_brightmaps,         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_mirrored,   BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_moreblood,  BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_nudge,      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_slide,      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_corpses_smearblood, BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_detail,             DETAILALIAS),
+    CONFIG_VARIABLE_INT          (r_fixmaperrors,       BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_fixspriteoffsets,   BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_floatbob,           BOOLALIAS  ),
+    CONFIG_VARIABLE_FLOAT        (r_gamma,              GAMMAALIAS ),
+    CONFIG_VARIABLE_INT          (r_homindicator,       BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_hud,                BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_bob,         BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_clipsprites, BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_swirl,       BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (r_lowpixelsize,       NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_maxbloodsplats,     SPLATALIAS ),
+    CONFIG_VARIABLE_INT          (r_mirrorweapons,      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_playersprites,      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_rockettrails,       BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_screensize,         NOALIAS    ),
+    CONFIG_VARIABLE_INT          (r_shadows,            BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_translucency,       BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (runcount,             NOALIAS    ),
+    CONFIG_VARIABLE_INT_PERCENT  (s_musicvolume,        NOALIAS    ),
+    CONFIG_VARIABLE_INT          (s_randompitch,        BOOLALIAS  ),
+    CONFIG_VARIABLE_INT_PERCENT  (s_sfxvolume,          NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (s_timiditycfgpath,    NOALIAS    ),
+    CONFIG_VARIABLE_INT          (savegame,             NOALIAS    ),
+    CONFIG_VARIABLE_INT          (skilllevel,           NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_display,          NOALIAS    ),
 #if !defined(WIN32)
-    CONFIG_VARIABLE_STRING       (vid_driver,              vid_driver,                   NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_driver,           NOALIAS    ),
 #endif
-    CONFIG_VARIABLE_INT          (vid_fullscreen,          vid_fullscreen,               BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (vid_scaledriver,         vid_scaledriver,              NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (vid_scalefilter,         vid_scalefilter,              NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (vid_screenresolution,    vid_screenresolution,         NOALIAS    ),
-    CONFIG_VARIABLE_INT          (vid_vsync,               vid_vsync,                    BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (vid_widescreen,          vid_widescreen,               BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (vid_windowposition,      vid_windowposition,           NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (vid_windowsize,          vid_windowsize,               NOALIAS    )
+    CONFIG_VARIABLE_INT          (vid_fullscreen,       BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (vid_scaledriver,      NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_scalefilter,      NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_screenresolution, NOALIAS    ),
+    CONFIG_VARIABLE_INT          (vid_vsync,            BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (vid_widescreen,       BOOLALIAS  ),
+    CONFIG_VARIABLE_STRING       (vid_windowposition,   NOALIAS    ),
+    CONFIG_VARIABLE_STRING       (vid_windowsize,       NOALIAS    )
 };
 
 alias_t aliases[] =
@@ -429,67 +429,67 @@ void C_Bind(char *cmd, char *parm1, char *parm2);
 static void M_CheckCVARs(void)
 {
     if (pm_alwaysrun != false && pm_alwaysrun != true)
-        pm_alwaysrun = PM_ALWAYSRUN_DEFAULT;
+        pm_alwaysrun = pm_alwaysrun_default;
 
     if (r_liquid_bob != false && r_liquid_bob != true)
-        r_liquid_bob = R_LIQUID_BOB_DEFAULT;
+        r_liquid_bob = r_liquid_bob_default;
 
-    if (r_blood != NOBLOOD && r_blood != REDBLOODONLY && r_blood != ALLBLOODCOLORS)
-        r_blood = R_BLOOD_DEFAULT;
+    if (r_blood != noblood && r_blood != redbloodonly && r_blood != allbloodcolors)
+        r_blood = r_blood_default;
 
     if (r_brightmaps != false && r_brightmaps != true)
-        r_brightmaps = R_BRIGHTMAPS_DEFAULT;
+        r_brightmaps = r_brightmaps_default;
 
     if (vid_capfps != false && vid_capfps != true)
-        vid_capfps = VID_CAPFPS_DEFAULT;
+        vid_capfps = vid_capfps_default;
 
     if (pm_centerweapon != false && pm_centerweapon != true)
-        pm_centerweapon = PM_CENTERWEAPON_DEFAULT;
+        pm_centerweapon = pm_centerweapon_default;
 
     if (r_corpses_mirrored != false && r_corpses_mirrored != true)
-        r_corpses_mirrored = R_CORPSES_MIRRORED_DEFAULT;
+        r_corpses_mirrored = r_corpses_mirrored_default;
 
     if (r_corpses_moreblood != false && r_corpses_moreblood != true)
-        r_corpses_moreblood = R_CORPSES_MOREBLOOD_DEFAULT;
+        r_corpses_moreblood = r_corpses_moreblood_default;
 
     if (r_corpses_nudge != false && r_corpses_nudge != true)
-        r_corpses_nudge = R_CORPSES_NUDGE_DEFAULT;
+        r_corpses_nudge = r_corpses_nudge_default;
 
     if (r_corpses_slide != false && r_corpses_slide != true)
-        r_corpses_slide = R_CORPSES_SLIDE_DEFAULT;
+        r_corpses_slide = r_corpses_slide_default;
 
     if (r_corpses_smearblood != false && r_corpses_smearblood != true)
-        r_corpses_smearblood = R_CORPSES_SMEARBLOOD_DEFAULT;
+        r_corpses_smearblood = r_corpses_smearblood_default;
 
     if (m_doubleclick_use != false && m_doubleclick_use != true)
-        m_doubleclick_use = M_DOUBLECLICK_USE_DEFAULT;
+        m_doubleclick_use = m_doubleclick_use_default;
 
     if (r_floatbob != false && r_floatbob != true)
-        r_floatbob = R_FLOATBOB_DEFAULT;
+        r_floatbob = r_floatbob_default;
 
     if (r_liquid_clipsprites != false && r_liquid_clipsprites != true)
-        r_liquid_clipsprites = R_LIQUID_CLIPSPRITES_DEFAULT;
+        r_liquid_clipsprites = r_liquid_clipsprites_default;
 
     if (vid_fullscreen != false && vid_fullscreen != true)
-        vid_fullscreen = VID_FULLSCREEN_DEFAULT;
+        vid_fullscreen = vid_fullscreen_default;
 
-    gp_deadzone_left = BETWEENF(GP_DEADZONE_LEFT_MIN, gp_deadzone_left, GP_DEADZONE_LEFT_MAX);
+    gp_deadzone_left = BETWEENF(gp_deadzone_left_min, gp_deadzone_left, gp_deadzone_left_max);
     gamepadleftdeadzone = (int)(gp_deadzone_left * (float)SHRT_MAX / 100.0f);
 
-    gp_deadzone_right = BETWEENF(GP_DEADZONE_RIGHT_MIN, gp_deadzone_right, GP_DEADZONE_RIGHT_MAX);
+    gp_deadzone_right = BETWEENF(gp_deadzone_right_min, gp_deadzone_right, gp_deadzone_right_max);
     gamepadrightdeadzone = (int)(gp_deadzone_right * (float)SHRT_MAX / 100.0f);
 
     if (gp_swapthumbsticks != false && gp_swapthumbsticks != true)
-        gp_swapthumbsticks = GP_SWAPTHUMBSTICKS_DEFAULT;
+        gp_swapthumbsticks = gp_swapthumbsticks_default;
 
-    gp_sensitivity = BETWEEN(GP_SENSITIVITY_MIN, gp_sensitivity, GP_SENSITIVITY_MAX);
+    gp_sensitivity = BETWEEN(gp_sensitivity_min, gp_sensitivity, gp_sensitivity_max);
     gamepadsensitivityf = (!gp_sensitivity ? 0.0f : GP_SENSITIVITY_OFFSET
-        + gp_sensitivity / (float)GP_SENSITIVITY_MAX * GP_SENSITIVITY_FACTOR);
+        + gp_sensitivity / (float)gp_sensitivity_max * GP_SENSITIVITY_FACTOR);
 
     if (gp_vibrate != false && gp_vibrate != true)
-        gp_vibrate = GP_VIBRATE_DEFAULT;
+        gp_vibrate = gp_vibrate_default;
 
-    r_gamma = BETWEENF(R_GAMMA_MIN, r_gamma, R_GAMMA_MAX);
+    r_gamma = BETWEENF(r_gamma_min, r_gamma, r_gamma_max);
     gammaindex = 0;
     while (gammaindex < GAMMALEVELS)
         if (gammalevels[gammaindex++] == r_gamma)
@@ -497,90 +497,90 @@ static void M_CheckCVARs(void)
     if (gammaindex == GAMMALEVELS)
     {
         gammaindex = 0;
-        while (gammalevels[gammaindex++] != R_GAMMA_DEFAULT);
+        while (gammalevels[gammaindex++] != r_gamma_default);
     }
     --gammaindex;
 
-    if (r_detail != LOW && r_detail != HIGH)
-        r_detail = R_DETAIL_DEFAULT;
+    if (r_detail != low && r_detail != high)
+        r_detail = r_detail_default;
 
     if (am_grid != false && am_grid != true)
-        am_grid = AM_GRID_DEFAULT;
+        am_grid = am_grid_default;
 
     if (r_homindicator != false && r_homindicator != true)
-        r_homindicator = R_HOMINDICATOR_DEFAULT;
+        r_homindicator = r_homindicator_default;
 
     if (r_hud != false && r_hud != true)
-        r_hud = R_HUD_DEFAULT;
+        r_hud = r_hud_default;
 
     if (messages != false && messages != true)
-        messages = MESSAGES_DEFAULT;
+        messages = messages_default;
 
     if (r_mirrorweapons != false && r_mirrorweapons != true)
-        r_mirrorweapons = R_MIRRORWEAPONS_DEFAULT;
+        r_mirrorweapons = r_mirrorweapons_default;
 
-    r_maxbloodsplats = BETWEEN(R_MAXBLOODSPLATS_MIN, r_maxbloodsplats, R_MAXBLOODSPLATS_MAX);
+    r_maxbloodsplats = BETWEEN(r_maxbloodsplats_min, r_maxbloodsplats, r_maxbloodsplats_max);
 
-    m_sensitivity = BETWEEN(M_SENSITIVITY_MIN, m_sensitivity, M_SENSITIVITY_MAX);
+    m_sensitivity = BETWEEN(m_sensitivity_min, m_sensitivity, m_sensitivity_max);
 
-    musicVolume = (BETWEEN(S_MUSICVOLUME_MIN, s_musicvolume, S_MUSICVOLUME_MAX) * 15 + 50) / 100;
+    musicVolume = (BETWEEN(s_musicvolume_min, s_musicvolume, s_musicvolume_max) * 15 + 50) / 100;
 
     if (m_novertical != false && m_novertical != true)
-        m_novertical = M_NOVERTICAL_DEFAULT;
+        m_novertical = m_novertical_default;
 
-    pm_walkbob = BETWEEN(PM_WALKBOB_MIN, pm_walkbob, PM_WALKBOB_MAX);
+    pm_walkbob = BETWEEN(pm_walkbob_min, pm_walkbob, pm_walkbob_max);
 
     if (r_playersprites != false && r_playersprites != true)
-        r_playersprites = R_PLAYERSPRITES_DEFAULT;
+        r_playersprites = r_playersprites_default;
 
     if (s_randompitch != false && s_randompitch != true)
-        s_randompitch = S_RANDOMPITCH_DEFAULT;
+        s_randompitch = s_randompitch_default;
 
     if (am_rotatemode != false && am_rotatemode != true)
-        am_rotatemode = AM_ROTATEMODE_DEFAULT;
+        am_rotatemode = am_rotatemode_default;
 
-    runcount = BETWEEN(0, runcount, RUNCOUNT_MAX);
+    runcount = BETWEEN(0, runcount, runcount_max);
 
     if (strcasecmp(vid_scaledriver, "direct3d") && strcasecmp(vid_scaledriver, "opengl")
         && strcasecmp(vid_scaledriver, "software"))
-        vid_scaledriver = VID_SCALEDRIVER_DEFAULT;
+        vid_scaledriver = vid_scaledriver_default;
 
     if (strcasecmp(vid_scalefilter, "nearest") && strcasecmp(vid_scalefilter, "linear"))
-        vid_scalefilter = VID_SCALEFILTER_DEFAULT;
+        vid_scalefilter = vid_scalefilter_default;
 
-    r_screensize = BETWEEN(R_SCREENSIZE_MIN, r_screensize, R_SCREENSIZE_MAX);
+    r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);
 
-    episode = BETWEEN(EPISODE_MIN, episode, EPISODE_MAX - (gamemode == registered));
+    episode = BETWEEN(episode_min, episode, episode_max - (gamemode == registered));
 
-    expansion = BETWEEN(EXPANSION_MIN, expansion, EXPANSION_MAX);
+    expansion = BETWEEN(expansion_min, expansion, expansion_max);
 
     savegame = BETWEEN(0, savegame, 5);
 
-    skilllevel = BETWEEN(SKILLLEVEL_MIN, skilllevel, SKILLLEVEL_MAX);
+    skilllevel = BETWEEN(skilllevel_min, skilllevel, skilllevel_max);
 
-    sfxVolume = (BETWEEN(S_SFXVOLUME_MIN, s_sfxvolume, S_SFXVOLUME_MAX) * 15 + 50) / 100;
+    sfxVolume = (BETWEEN(s_sfxvolume_min, s_sfxvolume, s_sfxvolume_max) * 15 + 50) / 100;
 
     if (r_shadows != false && r_shadows != true)
-        r_shadows = R_SHADOWS_DEFAULT;
+        r_shadows = r_shadows_default;
 
     if (r_rockettrails != false && r_rockettrails != true)
-        r_rockettrails = R_ROCKETTRAILS_DEFAULT;
+        r_rockettrails = r_rockettrails_default;
 
     if (r_fixspriteoffsets != false && r_fixspriteoffsets != true)
-        r_fixspriteoffsets = R_FIXSPRITEOFFSETS_DEFAULT;
+        r_fixspriteoffsets = r_fixspriteoffsets_default;
 
     if (r_liquid_swirl != false && r_liquid_swirl != true)
-        r_liquid_swirl = R_LIQUID_SWIRL_DEFAULT;
+        r_liquid_swirl = r_liquid_swirl_default;
 
     if (r_translucency != false && r_translucency != true)
-        r_translucency = R_TRANSLUCENCY_DEFAULT;
+        r_translucency = r_translucency_default;
 
     if (vid_vsync != false && vid_vsync != true)
-        vid_vsync = VID_VSYNC_DEFAULT;
+        vid_vsync = vid_vsync_default;
 
     if (vid_widescreen != false && vid_widescreen != true)
-        vid_widescreen = VID_WIDESCREEN_DEFAULT;
-    if (vid_widescreen || r_screensize == R_SCREENSIZE_MAX)
+        vid_widescreen = vid_widescreen_default;
+    if (vid_widescreen || r_screensize == r_screensize_max)
     {
         returntowidescreen = true;
         vid_widescreen = false;

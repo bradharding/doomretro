@@ -55,20 +55,20 @@ void G_PlayerReborn(void);
 void P_DelSeclist(msecnode_t *node);
 void P_SpawnShadow(mobj_t *actor);
 
-int                     r_blood = R_BLOOD_DEFAULT;
-int                     r_maxbloodsplats = R_MAXBLOODSPLATS_DEFAULT;
-mobj_t                  *bloodsplats[R_MAXBLOODSPLATS_MAX];
+int                     r_blood = r_blood_default;
+int                     r_maxbloodsplats = r_maxbloodsplats_default;
+mobj_t                  *bloodsplats[r_maxbloodsplats_max];
 int                     totalbloodsplats;
 void                    (*P_BloodSplatSpawner)(fixed_t, fixed_t, int, int, mobj_t *);
 
-dboolean                r_corpses_mirrored = R_CORPSES_MIRRORED_DEFAULT;
-dboolean                r_corpses_moreblood = R_CORPSES_MOREBLOOD_DEFAULT;
-dboolean                r_corpses_nudge = R_CORPSES_NUDGE_DEFAULT;
-dboolean                r_corpses_slide = R_CORPSES_SLIDE_DEFAULT;
-dboolean                r_corpses_smearblood = R_CORPSES_SMEARBLOOD_DEFAULT;
-dboolean                r_floatbob = R_FLOATBOB_DEFAULT;
-dboolean                r_shadows = R_SHADOWS_DEFAULT;
-dboolean                r_rockettrails = R_ROCKETTRAILS_DEFAULT;
+dboolean                r_corpses_mirrored = r_corpses_mirrored_default;
+dboolean                r_corpses_moreblood = r_corpses_moreblood_default;
+dboolean                r_corpses_nudge = r_corpses_nudge_default;
+dboolean                r_corpses_slide = r_corpses_slide_default;
+dboolean                r_corpses_smearblood = r_corpses_smearblood_default;
+dboolean                r_floatbob = r_floatbob_default;
+dboolean                r_shadows = r_shadows_default;
+dboolean                r_rockettrails = r_rockettrails_default;
 
 static fixed_t floatbobdiffs[64] =
 {
@@ -1098,7 +1098,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, angle_t angle, int damage, mo
     int         i;
     int         minz = target->z;
     int         maxz = minz + spriteheight[sprites[target->sprite].spriteframes[0].lump[0]];
-    int         color = (r_blood == ALLBLOODCOLORS ? target->blood : MT_BLOOD);
+    int         color = (r_blood == allbloodcolors ? target->blood : MT_BLOOD);
     mobjinfo_t  *info = &mobjinfo[color];
 
     angle += ANG180;

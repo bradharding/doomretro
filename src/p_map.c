@@ -1610,7 +1610,7 @@ hitline:
 
         if (type == MT_SKULL)
             P_SpawnPuff(x, y, z - FRACUNIT * 8, shootangle, true);
-        else if (r_blood != NOBLOOD)
+        else if (r_blood != noblood)
         {
             if (type != MT_PLAYER)
                 P_SpawnBlood(x, y, z, shootangle, la_damage, th);

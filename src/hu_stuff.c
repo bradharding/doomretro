@@ -59,7 +59,7 @@
 // Locally used constants, shortcuts.
 //
 #define HU_TITLEX       (vid_fullscreen && !vid_widescreen ? 0 : 3)
-#define HU_TITLEY       (ORIGINALHEIGHT - 32 * (r_screensize < R_SCREENSIZE_MAX) - 9)
+#define HU_TITLEY       (ORIGINALHEIGHT - 32 * (r_screensize < r_screensize_max) - 9)
 
 char                    chat_char;
 static player_t         *plr;
@@ -78,7 +78,7 @@ dboolean                s_STSTR_BEHOLD2;
 static hu_stext_t       w_message;
 int                     message_counter;
 
-char                    *playername = PLAYERNAME_DEFAULT;
+char                    *playername = playername_default;
 
 int M_StringWidth(char *string);
 
@@ -254,7 +254,7 @@ void HU_Start(void)
 
     s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
-    if (strcasecmp(playername, PLAYERNAME_DEFAULT))
+    if (strcasecmp(playername, playername_default))
         s_GOTMEDINEED = s_GOTMEDINEED2;
 }
 
@@ -524,7 +524,7 @@ void HU_Drawer(void)
         w_title.y = HU_TITLEY;
         HUlib_drawTextLine(&w_title);
     }
-    else if ((vid_widescreen || r_screensize == R_SCREENSIZE_MAX) && r_hud)
+    else if ((vid_widescreen || r_screensize == r_screensize_max) && r_hud)
     {
         hud_y = (vid_widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
         HU_DrawHUD();

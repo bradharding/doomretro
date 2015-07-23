@@ -79,9 +79,9 @@ int                             numsprites;
 static spriteframe_t            sprtemp[MAX_SPRITE_FRAMES];
 static int                      maxframe;
 
-dboolean                        r_liquid_clipsprites = R_LIQUID_CLIPSPRITES_DEFAULT;
+dboolean                        r_liquid_clipsprites = r_liquid_clipsprites_default;
 
-dboolean                        r_playersprites = R_PLAYERSPRITES_DEFAULT;
+dboolean                        r_playersprites = r_playersprites_default;
 
 extern dboolean                 inhelpscreens;
 extern dboolean                 r_translucency;

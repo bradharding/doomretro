@@ -83,7 +83,7 @@ static fixed_t          xoffs, yoffs;                   // killough 2/28/98: fla
 fixed_t                 yslope[SCREENHEIGHT];
 fixed_t                 distscale[SCREENWIDTH];
 
-dboolean                r_liquid_swirl = R_LIQUID_SWIRL_DEFAULT;
+dboolean                r_liquid_swirl = r_liquid_swirl_default;
 
 //
 // R_MapPlane
