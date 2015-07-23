@@ -415,7 +415,8 @@ static char *C_LookupAliasFromValue(int value, int set)
 #define CVAR_BOOL(name, cond, func, desc) \
     { #name, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, 1, false, true, name##_default, "", desc }
 #define CVAR_INT(name, cond, func, flags, aliases, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_INTEGER | flags, &name, aliases, name##_min, name##_max, name##_default, "", desc }
+    { #name, cond, func, 1, CT_CVAR, CF_INTEGER | flags, &name, aliases, name##_min, name##_max, \
+      name##_default, "", desc }
 #define CVAR_FLOAT(name, cond, func, flags, desc) \
     { #name, cond, func, 1, CT_CVAR, CF_FLOAT | flags, &name, 0, 0, 0, 0, "", desc }
 #define CVAR_POS(name, cond, func, desc) \

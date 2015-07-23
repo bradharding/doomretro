@@ -394,8 +394,12 @@ void C_Init(void)
         V_AverageColorInPatch(W_CacheLumpName("STCFN066", PU_STATIC), &red, &green, &blue, &total);
         V_AverageColorInPatch(W_CacheLumpName("STCFN067", PU_STATIC), &red, &green, &blue, &total);
         if (total > 0)
-            consoleplayermessagecolor = FindNearestColor(playpal, red / total, green / total,
-                blue / total);
+        {
+            int color = FindNearestColor(playpal, red / total, green / total, blue / total);
+
+            if (color < 176 && color > 191)
+                consoleplayermessagecolor = color;
+        }
     }
 
     consolecolors[input] = consoleinputtooutputcolor;
