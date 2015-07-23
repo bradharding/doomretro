@@ -85,7 +85,7 @@ static fixed_t floatbobdiffs[64] =
 extern dboolean         r_liquid_bob;
 extern fixed_t          animatedliquiddiffs[128];
 extern msecnode_t       *sector_list;   // phares 3/16/98
-extern dboolean         r_mirrorweapons;
+extern dboolean         r_mirroredweapons;
 
 dboolean P_IsVoodooDoll(mobj_t *mobj)
 {
@@ -1026,7 +1026,7 @@ void P_SpawnMapThing(mapthing_t *mthing, int index)
             prev++;
     }
 
-    if (r_mirrorweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000))
+    if (r_mirroredweapons && (type == SuperShotgun || (type >= Shotgun && type <= BFG9000))
         && (rand() & 1))
         mobj->flags2 |= MF2_MIRRORED;
 

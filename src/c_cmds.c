@@ -184,7 +184,7 @@ extern dboolean r_liquid_clipsprites;
 extern dboolean r_liquid_swirl;
 extern char     *r_lowpixelsize;
 extern int      r_maxbloodsplats;
-extern dboolean r_mirrorweapons;
+extern dboolean r_mirroredweapons;
 extern dboolean r_playersprites;
 extern dboolean r_rockettrails;
 extern int      r_screensize;
@@ -508,7 +508,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_liquid_swirl, C_BoolCondition, C_Bool, "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, "The size of pixels when the graphic detail is low."),
     CVAR_INT  (r_maxbloodsplats, C_MaxBloodSplatsCondition, C_MaxBloodSplats, CF_NONE, SPLATALIAS, "The maximum number of blood splats spawned in a map."),
-    CVAR_BOOL (r_mirrorweapons, C_BoolCondition, C_Bool, "Toggles randomly mirroring weapons dropped by monsters."),
+    CVAR_BOOL (r_mirroredweapons, C_BoolCondition, C_Bool, "Toggles randomly mirroring weapons dropped by monsters."),
     CVAR_BOOL (r_playersprites, C_BoolCondition, C_Bool,"Toggles the display of the player's weapon."),
     CVAR_BOOL (r_rockettrails, C_BoolCondition, C_Bool, "Toggles rocket trails behind player and Cyberdemon rockets."),
     CVAR_INT  (r_screensize, C_IntCondition, C_ScreenSize, CF_NONE, NOALIAS, "The screen size."),

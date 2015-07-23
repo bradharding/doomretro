@@ -81,22 +81,7 @@ int species_infighting = 0;
 int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
 int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
-char *weapondescription[] =
-{
-    "fist",
-    "pistol",
-    "shotgun",
-    "chaingun",
-    "rocket launcher",
-    "plasma rifle",
-    "BFG-9000",
-    "chainsaw",
-    "super shotgun"
-};
-
-dboolean r_mirrorweapons = r_mirrorweapons_default;
-
-dboolean obituaries = true;
+dboolean r_mirroredweapons = r_mirroredweapons_default;
 
 //
 // GET STUFF
@@ -967,7 +952,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     mo->momz = FRACUNIT * 5 + (P_Random() << 10);
     mo->angle = target->angle + ((P_Random() - P_Random()) << 20);
     mo->flags |= MF_DROPPED;    // special versions of items
-    if (r_mirrorweapons && (rand() & 1))
+    if (r_mirroredweapons && (rand() & 1))
     {
         mo->flags2 |= MF2_MIRRORED;
         if (mo->shadow)

@@ -95,7 +95,7 @@ extern dboolean r_liquid_clipsprites;
 extern dboolean r_liquid_swirl;
 extern char     *r_lowpixelsize;
 extern int      r_maxbloodsplats;
-extern dboolean r_mirrorweapons;
+extern dboolean r_mirroredweapons;
 extern dboolean r_playersprites;
 extern dboolean r_rockettrails;
 extern dboolean r_shadows;
@@ -184,7 +184,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_liquid_swirl,       BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (r_lowpixelsize,       NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_maxbloodsplats,     SPLATALIAS ),
-    CONFIG_VARIABLE_INT          (r_mirrorweapons,      BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_mirroredweapons,    BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_playersprites,      BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_rockettrails,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_screensize,         NOALIAS    ),
@@ -516,8 +516,8 @@ static void M_CheckCVARs(void)
     if (messages != false && messages != true)
         messages = messages_default;
 
-    if (r_mirrorweapons != false && r_mirrorweapons != true)
-        r_mirrorweapons = r_mirrorweapons_default;
+    if (r_mirroredweapons != false && r_mirroredweapons != true)
+        r_mirroredweapons = r_mirroredweapons_default;
 
     r_maxbloodsplats = BETWEEN(r_maxbloodsplats_min, r_maxbloodsplats, r_maxbloodsplats_max);
 

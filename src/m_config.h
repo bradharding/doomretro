@@ -158,7 +158,7 @@ typedef enum
 #define r_maxbloodsplats_default                unlimited
 #define r_maxbloodsplats_max                    unlimited
 
-#define r_mirrorweapons_default                 false
+#define r_mirroredweapons_default               false
 
 #define r_playersprites_default                 true
 
