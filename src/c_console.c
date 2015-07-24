@@ -397,7 +397,7 @@ void C_Init(void)
         {
             int color = FindNearestColor(playpal, red / total, green / total, blue / total);
 
-            if (color < 176 && color > 191)
+            if (color < 176 || color > 191)
                 consoleplayermessagecolor = color;
         }
     }
