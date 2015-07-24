@@ -41,7 +41,6 @@
 #include "info.h"
 #include "i_system.h"
 #include "m_misc.h"
-#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 

@@ -243,8 +243,6 @@ void I_Quit(dboolean shutdown)
     }
 
 #if defined(WIN32)
-    remove(PACKAGE_WAD);
-
     I_ShutdownWindows32();
 #endif
 
@@ -288,8 +286,6 @@ void I_Error(char *error, ...)
     I_ShutdownGamepad();
 
 #if defined(WIN32)
-    remove(PACKAGE_WAD);
-
     I_ShutdownWindows32();
 #endif
 

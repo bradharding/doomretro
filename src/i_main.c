@@ -212,18 +212,6 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
     }
 }
 
-void I_LoadResources(void)
-{
-    HRSRC               myResource = FindResource(NULL, "IDR_RCDATA1", RT_RCDATA);
-    unsigned int        myResourceSize = SizeofResource(NULL, myResource);
-    HGLOBAL             myResourceData = LoadResource(NULL, myResource);
-    void                *pMyBinaryData = LockResource(myResourceData);
-    FILE                *stream = fopen(PACKAGE_WAD, "wb");
-
-    fwrite((char *)pMyBinaryData, sizeof(char), myResourceSize, stream);
-    fclose(stream);
-}
-
 extern SDL_Window       *window;
 
 void I_InitWindows32(void)
@@ -291,8 +279,6 @@ int main(int argc, char **argv)
         I_SetProcessPriority(hProcess);
 
     I_SetProcessDPIAware();
-
-    I_LoadResources();
 #endif
 
     D_DoomMain();
