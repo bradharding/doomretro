@@ -83,7 +83,7 @@ static fixed_t floatbobdiffs[64] =
 };
 
 extern dboolean         r_liquid_bob;
-extern fixed_t          animatedliquiddiffs[128];
+extern fixed_t          animatedliquiddiffs[64];
 extern msecnode_t       *sector_list;   // phares 3/16/98
 extern dboolean         r_mirroredweapons;
 
@@ -601,7 +601,7 @@ void P_MobjThinker(mobj_t *mobj)
 
     if ((flags2 & MF2_FEETARECLIPPED) && !(flags2 & MF2_NOLIQUIDBOB)
         && mobj->z <= sector->floorheight && !mobj->momz && r_liquid_bob)
-        mobj->z += animatedliquiddiffs[leveltime & 127];
+        mobj->z += animatedliquiddiffs[leveltime & 63];
     else if ((flags2 & MF2_FLOATBOB) && r_floatbob)
         mobj->z += floatbobdiffs[(mobj->floatbob + leveltime) & 63];
     else if (mobj->z != mobj->floorz || mobj->momz)
