@@ -60,6 +60,7 @@
 #endif
 
 char                    *vid_windowposition = vid_windowposition_default;
+dboolean                manuallypositioning = false;
 
 SDL_Window              *window = NULL;
 SDL_Renderer            *renderer;
@@ -528,7 +529,7 @@ static void I_GetEvent(void)
                         break;
 
                     case SDL_WINDOWEVENT_MOVED:
-                        if (!vid_fullscreen)
+                        if (!vid_fullscreen && !manuallypositioning)
                         {
                             char        buffer[16] = "";
 
@@ -540,6 +541,7 @@ static void I_GetEvent(void)
                             vid_display = SDL_GetWindowDisplayIndex(window) + 1;
                             M_SaveCVARs();
                         }
+                        manuallypositioning = false;
                         break;
                 }
                 break;
@@ -840,6 +842,7 @@ static char *getaspectratio(int width, int height)
 
 static void PositionOnCurrentDisplay(void)
 {
+    manuallypositioning = true;
     if (!windowx && !windowy)
         SDL_SetWindowPosition(window,
             displays[displayindex].x + (displays[displayindex].w - windowwidth) / 2,
