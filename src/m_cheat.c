@@ -101,7 +101,10 @@ int cht_CheckCheat(cheatseq_t *cht, char key)
         // we have passed the end of the cheat sequence and are
         // entering parameters now
         if (!isdigit(key))
-            cht->param_chars_read = 0;
+        {
+            cht->chars_read = cht->param_chars_read = cht->timeout = 0;
+            return false;
+        }
         else
         {
             cht->parameter_buf[cht->param_chars_read] = key;
