@@ -736,6 +736,21 @@ void GetWindowSize(void)
     }
 }
 
+dboolean ValidScreenMode(int width, int height)
+{
+    SDL_DisplayMode     mode;
+    const int           modecount = SDL_GetNumDisplayModes(displayindex);
+    int                 i;
+
+    for (i = 0; i < modecount; i++)
+    {
+        SDL_GetDisplayMode(displayindex, i, &mode);
+        if (width == mode.w && height == mode.h)
+            return true;
+    }
+    return false;
+}
+
 void GetScreenResolution(void)
 {
     if (!strcasecmp(vid_screenresolution, "desktop"))
@@ -756,7 +771,7 @@ void GetScreenResolution(void)
         sscanf(left, "%10i", &width);
         sscanf(right, "%10i", &height);
 
-        if (width >= 0 && height >= 0)
+        if (width >= 0 && height >= 0 && ValidScreenMode(width, height))
         {
             screenwidth = width;
             screenheight = height;
@@ -1112,21 +1127,6 @@ void I_InitGammaTables(void)
                 gammatable[i][j] = (byte)(pow((j + 1) / 256.0, 1.0 / gammalevels[i]) * 255.0);
 }
 
-dboolean I_ValidScreenMode(int width, int height)
-{
-    SDL_DisplayMode     mode;
-    const int           modecount = SDL_GetNumDisplayModes(0);
-    int                 i;
-
-    for (i = 0; i < modecount; i++)
-    {
-        SDL_GetDisplayMode(0, i, &mode);
-        if (!mode.w || !mode.h || (width >= mode.w && height >= mode.h))
-            return true;
-    }
-    return false;
-}
-
 void I_InitKeyboard(void)
 {
 #if defined(WIN32)
@@ -1189,13 +1189,6 @@ void I_InitGraphics(void)
 
     CreateCursors();
     SDL_SetCursor(cursors[0]);
-
-    if (vid_fullscreen && (screenwidth || screenheight))
-        if (!I_ValidScreenMode(screenwidth, screenheight))
-        {
-            screenwidth = 0;
-            screenheight = 0;
-        }
 
     numdisplays = SDL_GetNumVideoDisplays();
     displays = Z_Malloc(numdisplays, PU_STATIC, NULL);
