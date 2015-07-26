@@ -482,7 +482,8 @@ static void C_DrawBackground(int height)
     for (i = height - 2; i >= 0; i -= 3)
     {
         screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
-        screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
+        if (((i - 1) % SCREENWIDTH) < SCREENWIDTH - 2)
+            screens[0][i + 1] = colormaps[0][256 * 6 + screens[0][i - 1]];
     }
 
     for (i = height - SCREENWIDTH * 3; i < height - SCREENWIDTH * 2; ++i)
