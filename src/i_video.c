@@ -596,8 +596,8 @@ static void UpdateGrab(void)
     {
         SetShowCursor(true);
 
-        SDL_WarpMouseInWindow(window,
-            displaywidth - 10 * displaywidth / SCREENWIDTH, displayheight - 16);
+        SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH,
+            windowheight - 16);
         SDL_PumpEvents();
         SDL_GetRelativeMouseState(NULL, NULL);
     }
@@ -1110,6 +1110,10 @@ void ToggleFullscreen(void)
         displaycentery = displayheight / 2;
 
         PositionOnCurrentDisplay();
+
+        if (menuactive || consoleactive || paused || gamestate != GS_LEVEL)
+            SDL_WarpMouseInWindow(window, windowwidth - 10 * windowwidth / SCREENWIDTH,
+                windowheight - 16);
     }
 }
 
@@ -1213,9 +1217,4 @@ void I_InitGraphics(void)
     updatefunc();
 
     while (SDL_PollEvent(&dummy));
-
-    if (vid_fullscreen)
-        CenterMouse();
-    else
-        SetShowCursor(true);
 }
