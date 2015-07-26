@@ -1939,14 +1939,13 @@ void M_SizeDisplay(int choice)
                     r_hud = true;
                     C_Input("%s on", stringize(r_hud));
                 }
-                else
+                else if (vid_widescreen)
                 {
-                    if (vid_widescreen)
-                    {
-                        ToggleWidescreen(false);
-                        C_Input("%s off", stringize(vid_widescreen));
-                    }
+                    ToggleWidescreen(false);
+                    C_Input("%s off", stringize(vid_widescreen));
                 }
+                else
+                    returntowidescreen = false;
                 S_StartSound(NULL, sfx_stnmov);
                 M_SaveCVARs();
             }
