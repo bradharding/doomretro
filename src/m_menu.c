@@ -1382,7 +1382,7 @@ void M_MusicVol(int choice)
                     S_SetMusicVolume((int)(--musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     s_musicvolume = musicVolume * 100 / 15;
-                    C_Input("s_musicvolume %i%%", s_musicvolume);
+                    C_Input("%s %i%%", stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
@@ -1392,7 +1392,7 @@ void M_MusicVol(int choice)
                     S_SetMusicVolume((int)(++musicVolume * (127.0f / 15.0f)));
                     S_StartSound(NULL, sfx_stnmov);
                     s_musicvolume = musicVolume * 100 / 15;
-                    C_Input("s_musicvolume %i%%", s_musicvolume);
+                    C_Input("%s %i%%", stringize(s_musicvolume), s_musicvolume);
                     M_SaveCVARs();
                 }
                 break;
