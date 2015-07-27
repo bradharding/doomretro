@@ -142,6 +142,8 @@ extern dboolean returntowidescreen;
     CONFIG_VARIABLE_GENERIC(name, DEFAULT_FLOAT_PERCENT, set)
 #define CONFIG_VARIABLE_STRING(name, set) \
     CONFIG_VARIABLE_GENERIC(name, DEFAULT_STRING, set)
+#define CONFIG_VARIABLE_OTHER(name, set) \
+    CONFIG_VARIABLE_GENERIC(name, DEFAULT_OTHER, set)
 
 static default_t cvars[] =
 {
@@ -183,7 +185,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_liquid_bob,         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites, BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_swirl,       BOOLALIAS  ),
-    CONFIG_VARIABLE_STRING       (r_lowpixelsize,       NOALIAS    ),
+    CONFIG_VARIABLE_OTHER        (r_lowpixelsize,       NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_mirroredweapons,    BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_playersprites,      BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_rockettrails,       BOOLALIAS  ),
@@ -205,11 +207,11 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (vid_fullscreen,       BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_scaledriver,      NOALIAS    ),
     CONFIG_VARIABLE_STRING       (vid_scalefilter,      NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (vid_screenresolution, NOALIAS    ),
+    CONFIG_VARIABLE_OTHER        (vid_screenresolution, NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_vsync,            BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_widescreen,       BOOLALIAS  ),
     CONFIG_VARIABLE_STRING       (vid_windowposition,   NOALIAS    ),
-    CONFIG_VARIABLE_STRING       (vid_windowsize,       NOALIAS    )
+    CONFIG_VARIABLE_OTHER        (vid_windowsize,       NOALIAS    )
 };
 
 alias_t aliases[] =
@@ -365,6 +367,10 @@ void M_SaveCVARs(void)
 
             case DEFAULT_STRING:
                 fprintf(file, "\"%s\"", *(char **)cvars[i].location);
+                break;
+
+            case DEFAULT_OTHER:
+                fprintf(file, "%s", *(char **)cvars[i].location);
                 break;
         }
 

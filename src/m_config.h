@@ -290,7 +290,8 @@ typedef enum
     DEFAULT_INT_PERCENT,
     DEFAULT_STRING,
     DEFAULT_FLOAT,
-    DEFAULT_FLOAT_PERCENT
+    DEFAULT_FLOAT_PERCENT,
+    DEFAULT_OTHER
 } default_type_t;
 
 typedef struct
