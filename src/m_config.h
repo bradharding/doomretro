@@ -222,7 +222,7 @@ typedef enum
 
 #define vid_widescreen_default                  false
 
-#define vid_windowposition_default              ""
+#define vid_windowposition_default              "center"
 
 #define vid_windowsize_default                  "640x480"
 

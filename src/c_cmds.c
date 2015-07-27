@@ -904,16 +904,7 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
                     *(char **)consolecmds[i].variable,
                     (strlen(*(char **)consolecmds[i].variable) > 7 ? "..." : ""),
                     consolecmds[i].description);
-            else if (consolecmds[i].flags & CF_POSITION)
-            {
-                if ((*(char **)consolecmds[i].variable)[0])
-                    C_TabbedOutput(tabs, "%i.\t%s\t(%s)\t%s", count++, consolecmds[i].name,
-                        *(char **)consolecmds[i].variable, consolecmds[i].description);
-                else
-                    C_TabbedOutput(tabs, "%i.\t%s\tcenter\t%s", count++, consolecmds[i].name,
-                        consolecmds[i].description);
-            }
-            else if (consolecmds[i].flags & CF_SIZE)
+            else if ((consolecmds[i].flags & CF_POSITION) || (consolecmds[i].flags & CF_SIZE))
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable, consolecmds[i].description);
             else if (consolecmds[i].flags & CF_TIME)
@@ -2343,7 +2334,7 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        vid_windowposition = (!strcasecmp(parm1, "center") ? "" : strdup(parm1));
+        vid_windowposition = strdup(parm1);
  
         GetWindowPosition();
 
@@ -2355,10 +2346,8 @@ static void C_WindowPosition(char *cmd, char *parm1, char *parm2)
                 SDL_SetWindowPosition(window, windowx, windowy);
         }
     }
-    else if (!vid_windowposition[0])
-        C_Output("center");
     else
-        C_Output("(%s)", vid_windowposition);
+        C_Output("%s", vid_windowposition);
 }
 
 static void C_WindowSize(char *cmd, char *parm1, char *parm2)

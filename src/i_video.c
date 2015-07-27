@@ -535,7 +535,7 @@ static void I_GetEvent(void)
 
                             windowx = Event->window.data1;
                             windowy = Event->window.data2;
-                            M_snprintf(buffer, sizeof(buffer), "%i,%i", windowx, windowy);
+                            M_snprintf(buffer, sizeof(buffer), "(%i,%i)", windowx, windowy);
                             vid_windowposition = strdup(buffer);
 
                             vid_display = SDL_GetWindowDisplayIndex(window) + 1;
@@ -687,11 +687,16 @@ void GetWindowPosition(void)
 {
     int x = 0, y = 0;
 
-    if (!sscanf(vid_windowposition, "%10i,%10i", &x, &y))
+    if (!strcasecmp(vid_windowposition, "center"))
     {
         windowx = 0;
         windowy = 0;
-        vid_windowposition = "";
+    }
+    else if (!sscanf(vid_windowposition, "(%10i,%10i)", &x, &y))
+    {
+        windowx = 0;
+        windowy = 0;
+        vid_windowposition = "center";
 
         M_SaveCVARs();
     }
