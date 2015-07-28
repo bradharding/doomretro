@@ -915,8 +915,8 @@ static void SetVideoMode(dboolean output)
             char    *acronym = getacronym(displays[displayindex].w, displays[displayindex].h);
             char    *ratio = getaspectratio(displays[displayindex].w, displays[displayindex].h);
 
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED,
-                SDL_WINDOWPOS_UNDEFINED, 0, 0,
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
                 C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect ratio.",
@@ -928,8 +928,8 @@ static void SetVideoMode(dboolean output)
             char    *acronym = getacronym(screenwidth, screenheight);
             char    *ratio = getaspectratio(screenwidth, screenheight);
 
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED,
-                SDL_WINDOWPOS_UNDEFINED, screenwidth, screenheight,
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex),
+                SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), screenwidth, screenheight,
                 (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE));
             if (output)
                 C_Output("Switched to a resolution of %ix%i%s%s%s with a %s aspect ratio.",
@@ -948,16 +948,17 @@ static void SetVideoMode(dboolean output)
 
         if (!windowx && !windowy)
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                windowwidth, windowheight, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
+            window = SDL_CreateWindow(PACKAGE_NAME, SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex),
+                SDL_WINDOWPOS_CENTERED_DISPLAY(displayindex), windowwidth, windowheight,
+                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
                 C_Output("Created a resizable window with dimensions %ix%i and centered.",
                     windowwidth, windowheight);
         }
         else
         {
-            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy,
-                windowwidth, windowheight, (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
+            window = SDL_CreateWindow(PACKAGE_NAME, windowx, windowy, windowwidth, windowheight,
+                (SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL));
             if (output)
                 C_Output("Created a resizable window with dimensions %ix%i at (%i,%i).",
                     windowwidth, windowheight, windowx, windowy);
