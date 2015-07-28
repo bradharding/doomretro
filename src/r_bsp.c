@@ -668,10 +668,17 @@ static void R_Subsector(int num)
     // Either you must pass the fake sector and handle validcount here, on the
     // real sector, or you must account for the lighting in some other way, 
     // like passing it as an argument.
-    R_AddSprites(sub->sector, (floorlightlevel + ceilinglightlevel) / 2);
+    if (sub->sector->validcount != validcount)
+    {
+        sub->sector->validcount = validcount;
+        R_AddSprites(sub->sector, (floorlightlevel + ceilinglightlevel) / 2);
+    }
 
     while (count--)
+    {
         R_AddLine(line++);
+        curline = NULL;
+    }
 }
 
 //

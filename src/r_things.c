@@ -1010,16 +1010,6 @@ void R_AddSprites(sector_t *sec, int lightlevel)
     mobj_t      *thing;
     short       floorpic = sec->floorpic;
 
-    // BSP is traversed by subsector.
-    // A sector might have been split into several
-    //  subsectors during BSP building.
-    // Thus we check whether its already added.
-    if (sec->validcount == validcount)
-        return;
-
-    // Well, now it will be done.
-    sec->validcount = validcount;
-
     spritelights = scalelight[BETWEEN(0, (lightlevel >> LIGHTSEGSHIFT) + extralight * LIGHTBRIGHT,
         LIGHTLEVELS - 1)];
 
