@@ -677,6 +677,10 @@ void M_LoadCVARs(char *filename)
                         s[strlen(s) - 1] = '\0';
                     *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].set);
                     break;
+
+                case DEFAULT_OTHER:
+                    *(char **)cvars[i].location = strdup(strparm);
+                    break;
             }
 
             // finish
