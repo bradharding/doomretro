@@ -38,6 +38,8 @@
 
 #include <stdio.h>
 
+#include "c_console.h"
+#include "doomstat.h"
 #include "i_video.h"
 #include "m_argv.h"
 #include "m_fixed.h"
@@ -77,9 +79,10 @@ void I_SetProcessDPIAware(void)
         pSetProcessDPIAware();
 }
 
+HHOOK           g_hKeyboardHook;
+
 extern int      vid_fullscreen;
 extern dboolean window_focused;
-HHOOK           g_hKeyboardHook;
 
 void G_ScreenShot(void);
 
@@ -89,25 +92,26 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 
     if (nCode == HC_ACTION)
         switch (wParam)
-    {
-        case WM_KEYDOWN:
-        case WM_SYSKEYDOWN:
-        case WM_KEYUP:
-        case WM_SYSKEYUP:
-            if (window_focused)
-            {
-                KBDLLHOOKSTRUCT *p = (KBDLLHOOKSTRUCT *)lParam;
-
-                if (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN)
-                    bEatKeystroke = true;
-                else if (p->vkCode == VK_SNAPSHOT)
+        {
+            case WM_KEYDOWN:
+            case WM_SYSKEYDOWN:
+            case WM_KEYUP:
+            case WM_SYSKEYUP:
+                if (window_focused)
                 {
-                    if (wParam == WM_KEYDOWN)
-                        G_ScreenShot();
-                    bEatKeystroke = true;
+                    KBDLLHOOKSTRUCT *p = (KBDLLHOOKSTRUCT *)lParam;
+
+                    if (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN)
+                        bEatKeystroke = (gamestate == GS_LEVEL && !menuactive && !paused
+                            && !consoleactive);
+                    else if (p->vkCode == VK_SNAPSHOT)
+                    {
+                        if (wParam == WM_KEYDOWN)
+                            G_ScreenShot();
+                        bEatKeystroke = true;
+                    }
                 }
-            }
-            break;
+                break;
         }
 
     return (bEatKeystroke ? 1 : CallNextHookEx(g_hKeyboardHook, nCode, wParam, lParam));
@@ -161,11 +165,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return CallWindowProc(oldProc, hwnd, msg, wParam, lParam);
 }
 
-HANDLE hInstanceMutex;
+HANDLE          hInstanceMutex;
 
-STICKYKEYS g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
-TOGGLEKEYS g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
-FILTERKEYS g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
+STICKYKEYS      g_StartupStickyKeys = { sizeof(STICKYKEYS), 0 };
+TOGGLEKEYS      g_StartupToggleKeys = { sizeof(TOGGLEKEYS), 0 };
+FILTERKEYS      g_StartupFilterKeys = { sizeof(FILTERKEYS), 0 };
 
 void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
 {
@@ -179,11 +183,11 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
     else
     {
         // Disable StickyKeys/etc shortcuts
-        STICKYKEYS skOff = g_StartupStickyKeys;
-        TOGGLEKEYS tkOff = g_StartupToggleKeys;
-        FILTERKEYS fkOff = g_StartupFilterKeys;
+        STICKYKEYS      skOff = g_StartupStickyKeys;
+        TOGGLEKEYS      tkOff = g_StartupToggleKeys;
+        FILTERKEYS      fkOff = g_StartupFilterKeys;
 
-        if ((skOff.dwFlags & SKF_STICKYKEYSON) == 0)
+        if (!(skOff.dwFlags & SKF_STICKYKEYSON))
         {
             // Disable the hotkey and the confirmation
             skOff.dwFlags &= ~SKF_HOTKEYACTIVE;
@@ -192,7 +196,7 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
             SystemParametersInfo(SPI_SETSTICKYKEYS, sizeof(STICKYKEYS), &skOff, 0);
         }
 
-        if ((tkOff.dwFlags & TKF_TOGGLEKEYSON) == 0)
+        if (!(tkOff.dwFlags & TKF_TOGGLEKEYSON))
         {
             // Disable the hotkey and the confirmation
             tkOff.dwFlags &= ~TKF_HOTKEYACTIVE;
@@ -201,7 +205,7 @@ void I_AccessibilityShortcutKeys(dboolean bAllowKeys)
             SystemParametersInfo(SPI_SETTOGGLEKEYS, sizeof(TOGGLEKEYS), &tkOff, 0);
         }
 
-        if ((fkOff.dwFlags & FKF_FILTERKEYSON) == 0)
+        if (!(fkOff.dwFlags & FKF_FILTERKEYSON))
         {
             // Disable the hotkey and the confirmation
             fkOff.dwFlags &= ~FKF_HOTKEYACTIVE;
@@ -248,7 +252,7 @@ void I_ShutdownWindows32(void)
 int main(int argc, char **argv)
 {
 #if defined(WIN32)
-    HANDLE hProcess = GetCurrentProcess();
+    HANDLE      hProcess = GetCurrentProcess();
 
     hInstanceMutex = CreateMutex(NULL, true, PACKAGE_MUTEX);
 
