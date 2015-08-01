@@ -547,11 +547,13 @@ static void M_CheckCVARs(void)
 
     runcount = BETWEEN(0, runcount, runcount_max);
 
-    if (strcasecmp(vid_scaledriver, "direct3d") && strcasecmp(vid_scaledriver, "opengl")
-        && strcasecmp(vid_scaledriver, "software"))
+    if (strcasecmp(vid_scaledriver, vid_scaledriver_direct3d)
+        && strcasecmp(vid_scaledriver, vid_scaledriver_opengl)
+        && strcasecmp(vid_scaledriver, vid_scaledriver_software))
         vid_scaledriver = vid_scaledriver_default;
 
-    if (strcasecmp(vid_scalefilter, "nearest") && strcasecmp(vid_scalefilter, "linear"))
+    if (strcasecmp(vid_scalefilter, vid_scalefilter_nearest)
+        && strcasecmp(vid_scalefilter, vid_scalefilter_linear))
         vid_scalefilter = vid_scalefilter_default;
 
     r_screensize = BETWEEN(r_screensize_min, r_screensize, r_screensize_max);

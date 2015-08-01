@@ -70,7 +70,7 @@ void I_SetProcessPriority(HANDLE hProcess)
 
 void I_SetProcessDPIAware(void)
 {
-    typedef BOOL(*SETPROCESSDPIAWARE)();
+    typedef BOOL (*SETPROCESSDPIAWARE)();
 
     SETPROCESSDPIAWARE pSetProcessDPIAware =
         (SETPROCESSDPIAWARE)GetProcAddress(LoadLibrary("user32.dll"), "SetProcessDPIAware");
@@ -99,12 +99,12 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
             case WM_SYSKEYUP:
                 if (window_focused)
                 {
-                    KBDLLHOOKSTRUCT *p = (KBDLLHOOKSTRUCT *)lParam;
+                    DWORD       vkCode = ((KBDLLHOOKSTRUCT *)lParam)->vkCode;
 
-                    if (p->vkCode == VK_LWIN || p->vkCode == VK_RWIN)
+                    if (vkCode == VK_LWIN || vkCode == VK_RWIN)
                         bEatKeystroke = (gamestate == GS_LEVEL && !menuactive && !paused
                             && !consoleactive);
-                    else if (p->vkCode == VK_SNAPSHOT)
+                    else if (vkCode == VK_SNAPSHOT)
                     {
                         if (wParam == WM_KEYDOWN)
                             G_ScreenShot();

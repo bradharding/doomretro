@@ -1800,9 +1800,9 @@ void P_MapName(int ep, int map)
 // format or DeePBSP format and/or LINEDEFS and THINGS lumps in Hexen format
 static mapformat_t P_CheckMapFormat(int lumpnum)
 {
-    mapformat_t format = DOOMBSP;
-    byte        *nodes = NULL;
-    int         b;
+    mapformat_t         format = DOOMBSP;
+    byte                *nodes = NULL;
+    unsigned int        b;
 
     if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b, PU_CACHE))
         && W_LumpLength(b) > 0)
@@ -1812,7 +1812,7 @@ static mapformat_t P_CheckMapFormat(int lumpnum)
         else if (!memcmp(nodes, "XNOD", 4))
                 format = ZDBSPX;
         else if (!memcmp(nodes, "ZNOD", 4))
-            I_Error("Compressed ZDoom nodes are not supported yet.");
+            I_Error("Compressed ZDoom nodes are not supported.");
     }
 
     if (nodes)

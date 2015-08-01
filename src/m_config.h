@@ -156,7 +156,7 @@ typedef enum
 
 #define r_liquid_bob_default                    true
 
-#define r_liquid_swirl_default                 true
+#define r_liquid_swirl_default                  true
 
 #define r_liquid_clipsprites_default            true
 
@@ -210,11 +210,17 @@ typedef enum
 
 #define vid_fullscreen_default                  true
 
+#define vid_scaledriver_direct3d                "direct3d"
+#define vid_scaledriver_opengl                  "opengl"
+#define vid_scaledriver_software                "software"
 #define vid_scaledriver_default                 ""
 
-#define vid_scalefilter_default                 "nearest"
+#define vid_scalefilter_linear                  "linear"
+#define vid_scalefilter_nearest                 "nearest"
+#define vid_scalefilter_default                 vid_scalefilter_nearest
 
-#define vid_screenresolution_default            "desktop"
+#define vid_screenresolution_desktop            "desktop"
+#define vid_screenresolution_default            vid_screenresolution_desktop
 
 #define vid_showfps_default                     false
 
@@ -222,7 +228,8 @@ typedef enum
 
 #define vid_widescreen_default                  false
 
-#define vid_windowposition_default              "center"
+#define vid_windowposition_centered             "centered"
+#define vid_windowposition_default              vid_windowposition_centered
 
 #define vid_windowsize_default                  "640x480"
 

@@ -1984,8 +1984,10 @@ static void C_ScaleDriver(char *cmd, char *parm1, char *parm2)
             M_SaveCVARs();
             I_RestartGraphics();
         }
-        else if ((!strcasecmp(parm1, "direct3d") || !strcasecmp(parm1, "opengl")
-            || !strcasecmp(parm1, "software")) && strcasecmp(parm1, vid_scaledriver))
+        else if ((!strcasecmp(parm1, vid_scaledriver_direct3d)
+            || !strcasecmp(parm1, vid_scaledriver_opengl)
+            || !strcasecmp(parm1, vid_scaledriver_software))
+            && strcasecmp(parm1, vid_scaledriver))
         {
             vid_scaledriver = strdup(parm1);
             M_SaveCVARs();
@@ -2000,7 +2002,8 @@ static void C_ScaleFilter(char *cmd, char *parm1, char *parm2)
 {
     if (parm1[0])
     {
-        if ((!strcasecmp(parm1, "nearest") || !strcasecmp(parm1, "linear"))
+        if ((!strcasecmp(parm1, vid_scalefilter_nearest)
+            || !strcasecmp(parm1, vid_scalefilter_linear))
             && strcasecmp(parm1, vid_scalefilter))
         {
             vid_scalefilter = strdup(parm1);

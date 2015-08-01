@@ -687,7 +687,7 @@ void GetWindowPosition(void)
 {
     int x = 0, y = 0;
 
-    if (!strcasecmp(vid_windowposition, "center"))
+    if (!strcasecmp(vid_windowposition, vid_windowposition_centered))
     {
         windowx = 0;
         windowy = 0;
@@ -696,7 +696,7 @@ void GetWindowPosition(void)
     {
         windowx = 0;
         windowy = 0;
-        vid_windowposition = "center";
+        vid_windowposition = vid_windowposition_centered;
 
         M_SaveCVARs();
     }
@@ -892,14 +892,12 @@ static void SetVideoMode(dboolean output)
     if (vid_vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
 
-    if (!strcasecmp(vid_scalefilter, "linear"))
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "linear", SDL_HINT_OVERRIDE);
-    else
+    if (strcasecmp(vid_scalefilter, vid_scalefilter_linear))
     {
-        vid_scalefilter = "nearest";
+        vid_scalefilter = vid_scalefilter_nearest;
         M_SaveCVARs();
-        SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, "nearest", SDL_HINT_OVERRIDE);
     }
+    SDL_SetHintWithPriority(SDL_HINT_RENDER_SCALE_QUALITY, vid_scalefilter, SDL_HINT_OVERRIDE);
 
     if (vid_scaledriver[0])
         SDL_SetHintWithPriority(SDL_HINT_RENDER_DRIVER, vid_scaledriver, SDL_HINT_OVERRIDE);
@@ -980,14 +978,14 @@ static void SetVideoMode(dboolean output)
         wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")].wad_file;
 
         SDL_GetRendererInfo(renderer, &rendererinfo);
-        if (!strcasecmp(rendererinfo.name, "direct3d"))
+        if (!strcasecmp(rendererinfo.name, vid_scaledriver_direct3d))
             renderername = "Direct3D";
-        else if (!strcasecmp(rendererinfo.name, "opengl"))
+        else if (!strcasecmp(rendererinfo.name, vid_scaledriver_opengl))
             renderername = "OpenGL";
-        else if (!strcasecmp(rendererinfo.name, "software"))
+        else if (!strcasecmp(rendererinfo.name, vid_scaledriver_software))
             renderername = "software";
 
-        if (!strcasecmp(vid_scalefilter, "linear"))
+        if (!strcasecmp(vid_scalefilter, vid_scalefilter_linear))
             C_Output("Scaling the screen using linear filtering in %s.", renderername);
         else
             C_Output("Scaling the screen using nearest-neighbor interpolation in %s.", renderername);
