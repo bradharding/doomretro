@@ -886,8 +886,15 @@ static void SetVideoMode(dboolean output)
         displayindex = vid_display_default - 1;
     }
     if (output)
-        C_Output("Using display %i of %i called \"%s\".",
-            displayindex + 1, numdisplays, SDL_GetDisplayName(displayindex));
+    {
+        const char      *displayname = SDL_GetDisplayName(displayindex);
+
+        if (strlen(displayname) > 1)
+            C_Output("Using display %i of %i called \"%s\".", displayindex + 1, numdisplays,
+                displayname);
+        else
+            C_Output("Using display %i of %i.", displayindex + 1, numdisplays);
+    }
 
     if (vid_vsync)
         flags |= SDL_RENDERER_PRESENTVSYNC;
