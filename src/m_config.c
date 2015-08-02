@@ -638,7 +638,7 @@ void M_LoadCVARs(char *filename)
             continue;
 
         // Strip off trailing non-printable characters (\r characters from DOS text files)
-        while (strlen(strparm) > 0 && !isprint(strparm[strlen(strparm) - 1]))
+        while (strlen(strparm) > 0 && !isprint((unsigned char)strparm[strlen(strparm) - 1]))
             strparm[strlen(strparm) - 1] = '\0';
 
         // Find the setting in the list
