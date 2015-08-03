@@ -420,7 +420,7 @@ void R_RenderSegLoop(void)
                 // [BH] apply brightmap
                 dc_colormask = midtexfullbright;
 
-                if (dc_colormask && r_brightmaps)
+                if (dc_colormask && r_brightmaps && !fixedcolormap)
                     fbwallcolfunc();
                 else
                     wallcolfunc();
@@ -465,7 +465,7 @@ void R_RenderSegLoop(void)
                         // [BH] apply brightmap
                         dc_colormask = toptexfullbright;
 
-                        if (dc_colormask && r_brightmaps)
+                        if (dc_colormask && r_brightmaps && !fixedcolormap)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
@@ -516,7 +516,7 @@ void R_RenderSegLoop(void)
                         // [BH] apply brightmap
                         dc_colormask = bottomtexfullbright;
 
-                        if (dc_colormask && r_brightmaps)
+                        if (dc_colormask && r_brightmaps && !fixedcolormap)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
