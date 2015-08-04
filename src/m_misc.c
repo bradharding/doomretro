@@ -392,6 +392,7 @@ int M_snprintf(char *buf, size_t buf_len, const char *s, ...)
     return result;
 }
 
+#if !defined(strndup)
 char *strndup(const char *s, size_t n)
 {
     size_t      len = strnlen(s, n);
@@ -403,6 +404,7 @@ char *strndup(const char *s, size_t n)
     new[len] = '\0';
     return memcpy(new, s, len);
 }
+#endif
 
 char *M_SubString(const char *str, size_t begin, size_t len)
 {
