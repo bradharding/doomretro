@@ -533,7 +533,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (vid_capfps, C_BoolCondition, C_Bool, "Toggles capping of the framerate at 35 FPS."),
     CVAR_INT  (vid_display, C_IntCondition, C_Display, CF_NONE, NOALIAS, "The display used to render the game."),
 #if !defined(WIN32)
-    CVAR_STR  (vid_driver, C_NoCondition, C_Str, vid_driver, "The video driver used to render the game."),
+    CVAR_STR  (vid_driver, C_NoCondition, C_Str, "The video driver used to render the game."),
 #endif
     CVAR_BOOL (vid_fullscreen, C_BoolCondition, C_Fullscreen, "Toggles between fullscreen and a window."),
     CVAR_STR  (vid_scaledriver, C_NoCondition, C_ScaleDriver, "The driver used to scale the display."),
