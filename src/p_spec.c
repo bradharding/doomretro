@@ -154,7 +154,7 @@ void P_InitPicAnims(void)
             lastanim->istexture = false;
 
             if (strcasecmp(animdefs[i].startname, "RROCK05")
-                && strcasecmp(animdefs[i].startname, "SLIME05"))
+                && strcasecmp(animdefs[i].startname, "SLIME09"))
             {
                 int     j;
 
