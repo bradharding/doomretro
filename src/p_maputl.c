@@ -369,7 +369,7 @@ void P_SetBloodSplatPosition(mobj_t *splat)
 // to P_BlockLinesIterator, then make one or more calls
 // to it.
 //
-dboolean P_BlockLinesIterator(int x, int y, dboolean (*func)(line_t *))
+dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
 {
     if (x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight)
         return true;
@@ -397,7 +397,7 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean (*func)(line_t *))
 //
 // P_BlockThingsIterator
 //
-dboolean P_BlockThingsIterator(int x, int y, dboolean (*func)(mobj_t *))
+dboolean P_BlockThingsIterator(int x, int y, dboolean func(mobj_t *))
 {
     if (!(x < 0 || y < 0 || x >= bmapwidth || y >= bmapheight))
     {

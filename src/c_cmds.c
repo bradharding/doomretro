@@ -382,26 +382,26 @@ static void C_Widescreen(char *, char *, char *);
 static void C_WindowPosition(char *, char *, char *);
 static void C_WindowSize(char *, char *, char *);
 
-static int C_LookupValueFromAlias(char *text, int set)
+static int C_LookupValueFromAlias(char *text, int aliastype)
 {
     int i = 0;
 
     while (aliases[i].text[0])
     {
-        if (set == aliases[i].set && !strcasecmp(text, aliases[i].text))
+        if (aliastype == aliases[i].type && !strcasecmp(text, aliases[i].text))
             return aliases[i].value;
         ++i;
     }
     return -1;
 }
 
-static char *C_LookupAliasFromValue(int value, int set)
+static char *C_LookupAliasFromValue(int value, int aliastype)
 {
     int         i = 0;
 
     while (aliases[i].text[0])
     {
-        if (set == aliases[i].set && value == aliases[i].value)
+        if (aliastype == aliases[i].type && value == aliases[i].value)
             return aliases[i].text;
         ++i;
     }
@@ -415,10 +415,10 @@ static char *C_LookupAliasFromValue(int value, int set)
 #define CVAR_BOOL(name, cond, func, desc) \
     { #name, cond, func, 1, CT_CVAR, CF_BOOLEAN, &name, 1, false, true, name##_default, "", desc }
 #define CVAR_INT(name, cond, func, flags, aliases, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_INTEGER | flags, &name, aliases, name##_min, name##_max, \
-      name##_default, "", desc }
+    { #name, cond, func, 1, CT_CVAR, (CF_INTEGER | flags), &name, aliases, name##_min, \
+      name##_max, name##_default, "", desc }
 #define CVAR_FLOAT(name, cond, func, flags, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_FLOAT | flags, &name, 0, 0, 0, 0, "", desc }
+    { #name, cond, func, 1, CT_CVAR, (CF_FLOAT | flags), &name, 0, 0, 0, 0, "", desc }
 #define CVAR_POS(name, cond, func, desc) \
     { #name, cond, func, 1, CT_CVAR, CF_POSITION, &name, 0, 0, 0, 0, "", desc }
 #define CVAR_SIZE(name, cond, func, desc) \
@@ -426,7 +426,7 @@ static char *C_LookupAliasFromValue(int value, int set)
 #define CVAR_STR(name, cond, func, desc) \
     { #name, cond, func, 1, CT_CVAR, CF_STRING, &name, 0, 0, 0, 0, "", desc }
 #define CVAR_TIME(name, cond, func, desc) \
-    { #name, cond, func, 1, CT_CVAR, CF_TIME | CF_READONLY, &name, 0, 0, 0, 0, "", desc }
+    { #name, cond, func, 1, CT_CVAR, (CF_TIME | CF_READONLY), &name, 0, 0, 0, 0, "", desc }
 
 int     numconsolecmds;
 

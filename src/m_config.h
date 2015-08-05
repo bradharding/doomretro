@@ -52,7 +52,6 @@ typedef enum
     high
 } r_detail_values_e;
 
-
 #define am_followmode_default                   true
 
 #define am_grid_default                         false
@@ -301,6 +300,17 @@ typedef enum
     DEFAULT_OTHER
 } default_type_t;
 
+typedef enum
+{
+    NOALIAS,
+    BOOLALIAS,
+    SCREENALIAS,
+    DETAILALIAS,
+    SPLATALIAS,
+    GAMMAALIAS,
+    BLOODALIAS
+} alias_type_t;
+
 typedef struct
 {
     // Name of the variable
@@ -312,22 +322,14 @@ typedef struct
     // Type of the variable
     default_type_t      type;
 
-    int                 set;
+    alias_type_t        aliastype;
 } default_t;
-
-#define NOALIAS         0
-#define BOOLALIAS       1
-#define SCREENALIAS     2
-#define DETAILALIAS     3
-#define SPLATALIAS      4
-#define GAMMAALIAS      5
-#define BLOODALIAS      6
 
 typedef struct
 {
     char                *text;
     int                 value;
-    int                 set;
+    alias_type_t        type;
 } alias_t;
 
 extern alias_t          aliases[];

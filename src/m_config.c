@@ -289,7 +289,7 @@ void M_SaveCVARs(void)
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
                         fprintf(file, "%s", aliases[j].text);
                         flag = true;
@@ -310,7 +310,7 @@ void M_SaveCVARs(void)
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
                         fprintf(file, "%s", aliases[j].text);
                         flag = true;
@@ -331,7 +331,7 @@ void M_SaveCVARs(void)
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
                         fprintf(file, "%s", aliases[j].text);
                         flag = true;
@@ -352,7 +352,7 @@ void M_SaveCVARs(void)
 
                 while (aliases[j].text[0])
                 {
-                    if (v == aliases[j].value && cvars[i].set == aliases[j].set)
+                    if (v == aliases[j].value && cvars[i].aliastype == aliases[j].type)
                     {
                         fprintf(file, "%s", aliases[j].text);
                         flag = true;
@@ -398,14 +398,14 @@ void M_SaveCVARs(void)
 }
 
 // Parses integer values in the configuration file
-static int ParseIntParameter(char *strparm, int set)
+static int ParseIntParameter(char *strparm, int aliastype)
 {
     int parm = 0;
     int i = 0;
 
     while (aliases[i].text[0])
     {
-        if (!strcasecmp(strparm, aliases[i].text) && set == aliases[i].set)
+        if (!strcasecmp(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return aliases[i].value;
         i++;
     }
@@ -416,13 +416,13 @@ static int ParseIntParameter(char *strparm, int set)
 }
 
 // Parses float values in the configuration file
-static float ParseFloatParameter(char *strparm, int set)
+static float ParseFloatParameter(char *strparm, int aliastype)
 {
     int     i = 0;
 
     while (aliases[i].text[0])
     {
-        if (!strcasecmp(strparm, aliases[i].text) && set == aliases[i].set)
+        if (!strcasecmp(strparm, aliases[i].text) && aliastype == aliases[i].type)
             return (float)aliases[i].value;
         i++;
     }
@@ -659,25 +659,25 @@ void M_LoadCVARs(char *filename)
                     break;
 
                 case DEFAULT_INT:
-                    *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].set);
+                    *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].aliastype);
                     break;
 
                 case DEFAULT_INT_PERCENT:
                     s = strdup(strparm);
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
-                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].set);
+                    *(int *)cvars[i].location = ParseIntParameter(s, cvars[i].aliastype);
                     break;
 
                 case DEFAULT_FLOAT:
-                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].set);
+                    *(float *)cvars[i].location = ParseFloatParameter(strparm, cvars[i].aliastype);
                     break;
 
                 case DEFAULT_FLOAT_PERCENT:
                     s = strdup(strparm);
                     if (strlen(s) >= 1 && s[strlen(s) - 1] == '%')
                         s[strlen(s) - 1] = '\0';
-                    *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].set);
+                    *(float *)cvars[i].location = ParseFloatParameter(s, cvars[i].aliastype);
                     break;
 
                 case DEFAULT_OTHER:
