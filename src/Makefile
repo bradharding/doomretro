@@ -36,17 +36,16 @@
 #========================================================================
 #
 
-MACHINE = -m32
-OPTIMIZE = -O2
-CFLAGS = $(MACHINE) $(OPTIMIZE) -g `sdl-config --cflags ` $(INCLUDES)
-LDFLAGS = -g `sdl-config --libs` -lSDL_mixer -lm
+OPTFLAGS = -O2
+CFLAGS = $(OPTFLAGS) -g `sdl2-config --cflags`
+LDFLAGS = -g `sdl2-config --libs` -lSDL2_mixer -lm
 
 SRCS := $(shell find . -name '*.c')
 
 OBJS = $(patsubst %.c,%.o,$(SRCS))
 
 doomretro : $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
