@@ -213,3 +213,7 @@ project.xcworkspace/
 DerivedData/
 
 msvc/Release/doomretro.cfg
+
+# Files built on Unix systems
+*.[oa]
+src/doomretro
