@@ -67,7 +67,7 @@ static void T_AnimateLiquid(floormove_t *floor)
     if (r_liquid_bob && isliquid[sector->floorpic] && sector->ceilingheight != sector->floorheight)
     {
         if (sector->animate == INT_MAX)
-            sector->animate = 2 * FRACUNIT + animatedliquiddiffs[leveltime & 63];
+            sector->animate = FRACUNIT + animatedliquiddiffs[leveltime & 63];
         else
             sector->animate += animatedliquiddiffs[leveltime & 63];
     }
