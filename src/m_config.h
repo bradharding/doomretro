@@ -231,7 +231,7 @@ typedef enum
 #define vid_windowposition_centered             "centered"
 #define vid_windowposition_default              vid_windowposition_centered
 
-#define vid_windowsize_default                  "640x480"
+#define vid_windowsize_default                  "768x480"
 
 #define GAMEPADAUTOMAP_DEFAULT                  GAMEPAD_BACK
 #define GAMEPADAUTOMAPCLEARMARK_DEFAULT         0
