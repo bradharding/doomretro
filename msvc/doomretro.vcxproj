@@ -418,7 +418,6 @@
     <None Include="..\res\doomretro.ico" />
     <None Include="..\res\VERSION" />
     <None Include="..\src\Makefile" />
-    <None Include="..\src\Makefile.linux64" />
     <None Include="..\src\Makefile.osx" />
     <None Include="..\src\Makefile.rpi" />
     <None Include="..\src\manifest.xml" />
