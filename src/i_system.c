@@ -36,11 +36,10 @@
 ========================================================================
 */
 
+#include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-#include <stdarg.h>
 
 #if defined(WIN32)
 #define WIN32_LEAN_AND_MEAN
@@ -79,6 +78,7 @@ typedef BOOL(WINAPI *PGETPRODUCTINFO)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef BOOL(WINAPI *PISWOW64PROCESS)(HANDLE, PBOOL);
 
 #define PRODUCT_PROFESSIONAL    0x00000030
+#define PRODUCT_CORE            0x00000065
 
 void I_PrintWindowsVersion(void)
 {
@@ -102,7 +102,7 @@ void I_PrintWindowsVersion(void)
             BOOL Wow64Process = FALSE;
 
             pIsWow64Process(GetCurrentProcess(), &Wow64Process);
-            strcpy(bits, (Wow64Process ? " 64-bit" : " 32-bit"));
+            strcpy(bits, (Wow64Process ? " (64-bit)" : " (32-bit)"));
         }
 
         ZeroMemory(&info, sizeof(&info));
@@ -172,6 +172,9 @@ void I_PrintWindowsVersion(void)
             case PRODUCT_WEB_SERVER:
                 typename = "Web Server";
                 break;
+
+            case PRODUCT_CORE:
+                typename = "Home";
         }
 
         if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
