@@ -332,17 +332,18 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
 void R_RenderSegLoop(void)
 {
     fixed_t     texturecolumn;
+    dboolean    usebrightmaps = (r_brightmaps && !fixedcolormap && fullcolormap == colormaps[0]);
 
     for (; rw_x < rw_stopx; ++rw_x)
     {
         // mark floor / ceiling areas
-        int     yl = (int)((topfrac + heightunit - 1) >> heightbits);
-        int     yh = (int)(bottomfrac >> heightbits);
+        int             yl = (int)((topfrac + heightunit - 1) >> heightbits);
+        int             yh = (int)(bottomfrac >> heightbits);
 
         // no space above wall?
-        int     bottom;
-        int     top = ceilingclip[rw_x] + 1;
-        dboolean bottomclipped = false;
+        int             bottom;
+        int             top = ceilingclip[rw_x] + 1;
+        dboolean        bottomclipped = false;
 
         if (yl < top)
             yl = top;
@@ -420,7 +421,7 @@ void R_RenderSegLoop(void)
                 // [BH] apply brightmap
                 dc_colormask = midtexfullbright;
 
-                if (dc_colormask && r_brightmaps && !fixedcolormap)
+                if (dc_colormask && usebrightmaps)
                     fbwallcolfunc();
                 else
                     wallcolfunc();
@@ -465,7 +466,7 @@ void R_RenderSegLoop(void)
                         // [BH] apply brightmap
                         dc_colormask = toptexfullbright;
 
-                        if (dc_colormask && r_brightmaps && !fixedcolormap)
+                        if (dc_colormask && usebrightmaps)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
@@ -516,7 +517,7 @@ void R_RenderSegLoop(void)
                         // [BH] apply brightmap
                         dc_colormask = bottomtexfullbright;
 
-                        if (dc_colormask && r_brightmaps && !fixedcolormap)
+                        if (dc_colormask && usebrightmaps)
                             fbwallcolfunc();
                         else
                             wallcolfunc();
