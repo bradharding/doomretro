@@ -775,9 +775,9 @@ dboolean G_Responder(event_t *ev)
             }
             if (!automapactive && !menuactive && !paused)
             {
-                if (mousebuttons[mousebnextweapon])
+                if (mousebnextweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousebnextweapon])
                     G_NextWeapon();
-                else if (mousebuttons[mousebprevweapon])
+                else if (mousebprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousebprevweapon])
                     G_PrevWeapon();
             }
             if (!automapactive || (automapactive && am_followmode))
