@@ -102,7 +102,7 @@ static int      *maskedtexturecol;      // dropoff overflow
 dboolean        r_brightmaps = r_brightmaps_default;
 
 extern dboolean r_translucency;
-
+extern dboolean doorclosed;
 //
 // R_FixWiggle()
 // Dynamic wall/texture rescaler, AKA "WiggleHack II"
@@ -184,7 +184,7 @@ void R_FixWiggle(sector_t *sector)
 
             // calculate adjustment
             while ((height >>= 1))
-                scaleindex++;
+                ++scaleindex;
 
             sector->scaleindex = scaleindex;
         }
@@ -193,7 +193,7 @@ void R_FixWiggle(sector_t *sector)
         svp = &scale_values[sector->scaleindex];
         max_rwscale = svp->clamp;
         heightbits = svp->heightbits;
-        heightunit = (1 << heightbits);
+        heightunit = 1 << heightbits;
         invhgtbits = FRACBITS - heightbits;
     }
 }
@@ -319,14 +319,13 @@ void R_RenderMaskedSegRange(drawseg_t *ds, int x1, int x2)
             maskedtexturecol[dc_x] = INT_MAX;   // dropoff overflow
         }
     }
+    curline = NULL;
 }
 
 //
 // R_RenderSegLoop
-// Draws zero, one, or two textures (and possibly a masked
-//  texture) for walls.
-// Can draw or mark the starting pixel of floor and ceiling
-//  textures.
+// Draws zero, one, or two textures (and possibly a masked texture) for walls.
+// Can draw or mark the starting pixel of floor and ceiling textures.
 // CALLED: CORE LOOPING ROUTINE.
 //
 void R_RenderSegLoop(void)
@@ -345,15 +344,11 @@ void R_RenderSegLoop(void)
         int             top = ceilingclip[rw_x] + 1;
         dboolean        bottomclipped = false;
 
-        if (yl < top)
-            yl = top;
+        yl = MAX(yl, top);
 
         if (markceiling)
         {
-            bottom = yl - 1;
-
-            if (bottom >= floorclip[rw_x])
-                bottom = floorclip[rw_x] - 1;
+            bottom = MIN(yl - 1, floorclip[rw_x] - 1);
 
             if (top <= bottom)
             {
@@ -596,12 +591,12 @@ void R_StoreWallRange(int start, int stop)
 
     // [Linguica] Fix long wall error
     // shift right to avoid possibility of int64 overflow in rw_distance calculation
-    dx = curline->v2->x - curline->v1->x;
-    dy = curline->v2->y - curline->v1->y;
-    dx1 = viewx - curline->v1->x;
-    dy1 = viewy - curline->v1->y;
-    len = curline->length;
-    rw_distance = (fixed_t)((dy * dx1 - dx * dy1) / len);
+    dx = (curline->v2->x - curline->v1->x) >> 1;
+    dy = (curline->v2->y - curline->v1->y) >> 1;
+    dx1 = (viewx - curline->v1->x) >> 1;
+    dy1 = (viewy - curline->v1->y) >> 1;
+    len = curline->length >> 1;
+    rw_distance = (fixed_t)(((dy * dx1 - dx * dy1) / len) << 1);
 
     ds_p->x1 = rw_x = start;
     ds_p->x2 = stop;
@@ -668,7 +663,6 @@ void R_StoreWallRange(int start, int stop)
 
     // calculate texture boundaries
     //  and decide if floor / ceiling marks are needed
-
     midtexture = toptexture = bottomtexture = maskedtexture = 0;
     ds_p->maskedtexturecol = NULL;
 
@@ -692,7 +686,7 @@ void R_StoreWallRange(int start, int stop)
 
         {
             // killough 3/27/98: reduce offset
-            fixed_t     h = textureheight[sidedef->midtexture];
+            fixed_t     h = textureheight[midtexture];
 
             if (h & (h - FRACUNIT))
                 rw_midtexturemid %= h;
@@ -710,49 +704,41 @@ void R_StoreWallRange(int start, int stop)
         ds_p->sprtopclip = ds_p->sprbottomclip = NULL;
         ds_p->silhouette = 0;
 
-        if (frontsector->interpfloorheight > backsector->interpfloorheight)
-        {
-            ds_p->silhouette = SIL_BOTTOM;
-            ds_p->bsilheight = frontsector->interpfloorheight;
-        }
-        else if (backsector->interpfloorheight > viewz)
-        {
-            ds_p->silhouette = SIL_BOTTOM;
-            ds_p->bsilheight = INT_MAX;
-        }
-
-        if (frontsector->interpceilingheight < backsector->interpceilingheight)
-        {
-            ds_p->silhouette |= SIL_TOP;
-            ds_p->tsilheight = frontsector->interpceilingheight;
-        }
-        else if (backsector->interpceilingheight < viewz)
-        {
-            ds_p->silhouette |= SIL_TOP;
-            ds_p->tsilheight = INT_MIN;
-        }
-
         // killough 1/17/98: this test is required if the fix
         // for the automap bug (r_bsp.c) is used, or else some
         // sprites will be displayed behind closed doors. That
         // fix prevents lines behind closed doors with dropoffs
         // from being displayed on the automap.
-        //
-        // killough 4/7/98: make doorclosed external variable
+        if (doorclosed)
         {
-            extern dboolean     doorclosed;
-
-            if (doorclosed || backsector->interpceilingheight <= frontsector->interpfloorheight)
+            ds_p->silhouette = SIL_BOTH;
+            ds_p->sprbottomclip = negonearray;
+            ds_p->bsilheight = INT_MAX;
+            ds_p->sprtopclip = screenheightarray;
+            ds_p->tsilheight = INT_MIN;
+        }
+        else
+        {
+            if (frontsector->interpfloorheight > backsector->interpfloorheight)
             {
-                ds_p->sprbottomclip = negonearray;
-                ds_p->bsilheight = INT_MAX;
-                ds_p->silhouette |= SIL_BOTTOM;
+                ds_p->silhouette = SIL_BOTTOM;
+                ds_p->bsilheight = frontsector->interpfloorheight;
             }
-            if (doorclosed || backsector->interpfloorheight >= frontsector->interpceilingheight)
+            else if (backsector->interpfloorheight > viewz)
             {
-                ds_p->sprtopclip = screenheightarray;
-                ds_p->tsilheight = INT_MIN;
+                ds_p->silhouette = SIL_BOTTOM;
+                ds_p->bsilheight = INT_MAX;
+            }
+
+            if (frontsector->interpceilingheight < backsector->interpceilingheight)
+            {
                 ds_p->silhouette |= SIL_TOP;
+                ds_p->tsilheight = frontsector->interpceilingheight;
+            }
+            else if (backsector->interpceilingheight < viewz)
+            {
+                ds_p->silhouette |= SIL_TOP;
+                ds_p->tsilheight = INT_MIN;
             }
         }
 
@@ -803,7 +789,6 @@ void R_StoreWallRange(int start, int stop)
             // killough 4/17/98: draw ceilings if different light levels
             || backsector->ceilinglightsec != frontsector->ceilinglightsec);
 
-
         if (backsector->interpceilingheight <= frontsector->interpfloorheight
             || backsector->interpfloorheight >= frontsector->interpceilingheight)
             // closed door
@@ -822,6 +807,16 @@ void R_StoreWallRange(int start, int stop)
             else
                 // bottom of texture
                 rw_toptexturemid = backsector->interpceilingheight + toptexheight - viewz;
+
+            rw_toptexturemid += sidedef->rowoffset;
+
+            // killough 3/27/98: reduce offset
+            {
+                fixed_t     h = textureheight[toptexture];
+
+                if (h & (h - FRACUNIT))
+                    rw_toptexturemid %= h;
+            }
         }
 
         if (worldlow > worldbottom)
@@ -836,26 +831,16 @@ void R_StoreWallRange(int start, int stop)
                 rw_bottomtexturemid = worldtop;
             else        // top of texture at top
                 rw_bottomtexturemid = worldlow - liquidoffset;
-        }
 
-        rw_toptexturemid += sidedef->rowoffset;
+            rw_bottomtexturemid += sidedef->rowoffset;
 
-        // killough 3/27/98: reduce offset
-        {
-            fixed_t     h = textureheight[sidedef->toptexture];
+            // killough 3/27/98: reduce offset
+            {
+                fixed_t     h = textureheight[bottomtexture];
 
-            if (h & (h - FRACUNIT))
-                rw_toptexturemid %= h;
-        }
-
-        rw_bottomtexturemid += sidedef->rowoffset;
-
-        // killough 3/27/98: reduce offset
-        {
-            fixed_t     h = textureheight[sidedef->bottomtexture];
-
-            if (h & (h - FRACUNIT))
-                rw_bottomtexturemid %= h;
+                if (h & (h - FRACUNIT))
+                    rw_bottomtexturemid %= h;
+            }
         }
 
         // allocate space for masked texture tables
@@ -873,7 +858,7 @@ void R_StoreWallRange(int start, int stop)
 
     if (segtextured)
     {
-        rw_offset = (fixed_t)((dx * dx1 + dy * dy1) / len) + sidedef->textureoffset
+        rw_offset = (fixed_t)(((dx * dx1 + dy * dy1) / len) << 1) + sidedef->textureoffset
             + curline->offset;
 
         rw_centerangle = ANG90 + viewangle - rw_normalangle;
