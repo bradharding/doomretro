@@ -139,6 +139,26 @@ char *M_ExtractFolder(char *path)
     return folder;
 }
 
+char *M_GetExecutableFolder(void)
+{
+#if defined(WIN32)
+    char        *pos;
+    char        *folder = (char *)malloc(MAX_PATH);
+    TCHAR       buffer[MAX_PATH];
+
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    M_StringCopy(folder, buffer, MAX_PATH);
+
+    pos = strrchr(folder, '\\');
+    if (pos)
+        *pos = '\0';
+
+    return folder;
+#else
+    return ".";
+#endif
+}
+
 //
 // M_WriteFile
 //

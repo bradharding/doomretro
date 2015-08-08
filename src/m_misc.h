@@ -51,6 +51,7 @@ char *M_TempFile(char *s);
 dboolean M_FileExists(char *file);
 long M_FileLength(FILE *handle);
 char *M_ExtractFolder(char *path);
+char *M_GetExecutableFolder(void);
 dboolean M_StrToInt(const char *str, int *result);
 char *M_StrCaseStr(char *haystack, char *needle);
 dboolean M_StringCopy(char *dest, char *src, size_t dest_size);

@@ -1253,6 +1253,8 @@ static void D_DoomMainSetup(void)
     int         p;
     int         choseniwad = 0;
     static char lumpname[6];
+    char        *exefolder = M_GetExecutableFolder();
+    char        *packagewad = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
 
     C_PrintCompileDate();
 
@@ -1301,7 +1303,7 @@ static void D_DoomMainSetup(void)
 
     // Load configuration files before initializing other subsystems.
     p = M_CheckParmWithArgs("-config", 1);
-    M_LoadCVARs(p ? myargv[p + 1] : PACKAGE_CONFIG);
+    M_LoadCVARs(p ? myargv[p + 1] : M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL));
 
     if (runcount < 2)
         C_Output(PACKAGE_NAME" has been run %s.", (!runcount ? "once" : "twice"));
@@ -1309,14 +1311,14 @@ static void D_DoomMainSetup(void)
         C_Output(PACKAGE_NAME" has been run %s times.", commify(runcount + 1));
 
 #if !defined(__MACOSX__)
-    if (!M_FileExists(PACKAGE_WAD))
+    if (!M_FileExists(packagewad))
 #else
     NSString *packageWadFullpath =
         [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@PACKAGE_WAD];
 
     if (!M_FileExists((char *)[packageWadFullpath UTF8String]))
 #endif
-        I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
+        I_Error("Can't find %s.", uppercase(packagewad));
 
     p = M_CheckParmsWithArgs("-file", "-pwad", 1);
 
@@ -1369,14 +1371,14 @@ static void D_DoomMainSetup(void)
                 "specifying one with the '-iwad' command-line parameter.");
 
 #if !defined(__MACOSX__)
-    if (!W_MergeFile(PACKAGE_WAD, true))
+    if (!W_MergeFile(packagewad, true))
 #else
     if (!W_MergeFile((char*)[packageWadFullpath UTF8String], true))
 #endif
-        I_Error("Can't find %s.", uppercase(PACKAGE_WAD));
+        I_Error("Can't find %s.", uppercase(packagewad));
 
     if (!CheckPackageWADVersion())
-        I_Error("Wrong version of %s.", uppercase(PACKAGE_WAD));
+        I_Error("Wrong version of %s.", uppercase(packagewad));
 
     FREEDOOM = (W_CheckNumForName("FREEDOOM") >= 0);
     FREEDM = (W_CheckNumForName("FREEDM") >= 0);
