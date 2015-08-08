@@ -50,7 +50,7 @@
 // Does not fit the large outdoor areas.
 #define S_CLIPPING_DIST (1200 << FRACBITS)
 
-// Distance tp origin when sounds should be maxed out.
+// Distance to origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
 // (see BLOCKMAP handling).
 // In the source code release: (160*FRACUNIT).  Changed back to the
@@ -185,7 +185,7 @@ void S_Init(int sfxvol, int musicvol)
             S_SetSfxVolume(sfxvol);
 
             // Allocating the internal channels for mixing
-            // (the maximum numer of sounds rendered
+            // (the maximum number of sounds rendered
             // simultaneously) within zone memory.
             channels = Z_Malloc(numChannels * sizeof(channel_t), PU_STATIC, 0);
 
@@ -578,7 +578,7 @@ void S_ChangeMusic(int musicnum, int looping, int cheating)
     // shutdown old music
     S_StopMusic();
 
-    // get lumpnum if neccessary
+    // get lumpnum if necessary
     if (!music->lumpnum)
     {
         char    namebuf[9];

@@ -83,7 +83,7 @@ void G_DoVictory(void);
 void G_DoWorldDone(void);
 void G_DoSaveGame(void);
 
-// Gamestate the last time G_Ticker was called.
+// Game state the last time G_Ticker was called.
 
 gamestate_t     oldgamestate;
 
@@ -1224,7 +1224,7 @@ void G_ExitLevel(void)
     gameaction = ga_completed;
 }
 
-// Here's for the german edition.
+// Here's for the German edition.
 void G_SecretExitLevel(void)
 {
     // IF NO WOLF3D LEVELS, NO SECRET EXIT!
@@ -1496,7 +1496,7 @@ void G_DoLoadGame(void)
 
     leveltime = savedleveltime;
 
-    // dearchive all the modifications
+    // unarchive all the modifications
     P_UnArchivePlayers();
     P_UnArchiveWorld();
     P_UnArchiveThinkers();

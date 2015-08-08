@@ -184,7 +184,7 @@ int SlopeDiv(unsigned int num, unsigned int den)
 
 //
 // R_PointToAngle
-// To get a global angle from cartesian coordinates,
+// To get a global angle from Cartesian coordinates,
 // the coordinates are flipped until they are in the first octant of
 // the coordinate system, then the y (<=x) is scaled and divided by x
 // to get a tangent (slope) value which is looked up in the

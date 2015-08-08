@@ -118,7 +118,7 @@ typedef struct
     // list of mobjs in sector
     mobj_t              *thinglist;
 
-    // thinker_t for reversable actions
+    // thinker_t for reversible actions
     void                *floordata;             // jff 2/22/98 make thinkers on
     void                *ceilingdata;           // floors, ceilings, lighting,
     void                *lightingdata;          // independent of one another
@@ -259,7 +259,7 @@ typedef struct line_s
     // if == validcount, already checked
     int                 validcount;
 
-    // thinker_t for reversable actions
+    // thinker_t for reversible actions
     void                *specialdata;
 
     int                 tranlump;       // killough 4/11/98: translucency filter, -1 == none
@@ -917,7 +917,7 @@ typedef struct vissprite_s
 //  is range checked at run time.
 // A sprite is a patch_t that is assumed to represent
 //  a three dimensional object and may have multiple
-//  rotations pre drawn.
+//  rotations pre-drawn.
 // Horizontal flipping is used to save space,
 //  thus NNNNF2F5 defines a mirrored patch.
 // Some sprites will only have one picture used

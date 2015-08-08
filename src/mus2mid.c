@@ -331,7 +331,7 @@ static int AllocateMIDIChannel(void)
 static int GetMIDIChannel(int mus_channel, MEMFILE *midioutput)
 {
     // Find the MIDI channel to use for this MUS channel.
-    // MUS channel 15 is the percusssion channel.
+    // MUS channel 15 is the percussion channel.
 
     if (mus_channel == MUS_PERCUSSION_CHAN)
         return MIDI_PERCUSSION_CHAN;
@@ -403,7 +403,7 @@ dboolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
     // Used in building up time delays
     unsigned int        timedelay;
 
-    // Initialise channel map to mark all channels as unused.
+    // Initialize channel map to mark all channels as unused.
     for (channel = 0; channel < NUM_CHANNELS; ++channel)
         channel_map[channel] = -1;
 

@@ -51,7 +51,7 @@ typedef struct los_s
     divline_t   strace;                 // from t1 to t2
     fixed_t     topslope, bottomslope;  // slopes to top and bottom of target
     fixed_t     bbox[4];
-    fixed_t     maxz, minz;             // cph - z optimisations for 2sided lines
+    fixed_t     maxz, minz;             // cph - z optimizations for 2sided lines
 } los_t;
 
 static los_t    los; // cph - made static

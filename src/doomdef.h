@@ -73,7 +73,7 @@
 //
 
 // Game mode handling - identify IWAD version
-//  to handle IWAD dependend animations etc.
+//  to handle IWAD dependent animations etc.
 typedef enum
 {
     shareware,          // DOOM 1 shareware, E1, M9

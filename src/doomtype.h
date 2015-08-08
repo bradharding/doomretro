@@ -44,7 +44,7 @@
 
 #if defined(__cplusplus)
 
-// Use builtin bool type with C++.
+// Use built in bool type with C++.
 typedef bool dboolean;
 
 #else

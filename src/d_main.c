@@ -1299,7 +1299,7 @@ static void D_DoomMainSetup(void)
     V_Init();
     I_InitTimer();
 
-    // Load configuration files before initialising other subsystems.
+    // Load configuration files before initializing other subsystems.
     p = M_CheckParmWithArgs("-config", 1);
     M_LoadCVARs(p ? myargv[p + 1] : PACKAGE_CONFIG);
 

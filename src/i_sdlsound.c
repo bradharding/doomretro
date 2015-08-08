@@ -248,7 +248,7 @@ static allocated_sound_t *PitchShift(allocated_sound_t *insnd, int pitch)
     srclen = insnd->chunk.alen;
 
     // determine ratio pitch:NORM_PITCH and apply to srclen, then invert.
-    // This is an approximation of vanilla behaviour based on measurements
+    // This is an approximation of vanilla behavior based on measurements
     dstlen = (int)((1 + (1 - (float)pitch / NORM_PITCH)) * srclen);
 
     // ensure that the new buffer is an even length

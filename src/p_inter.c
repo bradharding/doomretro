@@ -221,7 +221,7 @@ void P_AddBonus(player_t *player, int amount)
 
 //
 // P_GiveWeapon
-// The weapon name may have a MF_DROPPED flag ored in.
+// The weapon name may have a MF_DROPPED flag ORed in.
 //
 dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 {
@@ -965,15 +965,15 @@ dboolean P_CheckMeleeRange(mobj_t *actor);
 //
 // P_DamageMobj
 // Damages both enemies and players
-// "inflictor" is the thing that caused the damage
+// "inflicter" is the thing that caused the damage
 //  creature or missile, can be NULL (slime, etc)
 // "source" is the thing to target after taking damage
 //  creature or NULL
-// Source and inflictor are the same for melee attacks.
+// Source and inflicter are the same for melee attacks.
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
+void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 {
     player_t    *splayer = NULL;
     player_t    *tplayer;
@@ -1000,14 +1000,14 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
     // thus kick away unless using the chainsaw.
-    if (inflictor && !(flags & MF_NOCLIP) && (!splayer || splayer->readyweapon != wp_chainsaw))
+    if (inflicter && !(flags & MF_NOCLIP) && (!splayer || splayer->readyweapon != wp_chainsaw))
     {
-        unsigned int    ang = R_PointToAngle2(inflictor->x, inflictor->y, target->x, target->y);
+        unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
         fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
 
         // make fall forwards sometimes
         if (damage < 40 && damage > target->health
-            && target->z - inflictor->z > 64 * FRACUNIT && (P_Random() & 1))
+            && target->z - inflicter->z > 64 * FRACUNIT && (P_Random() & 1))
         {
             ang += ANG180;
             thrust *= 4;
@@ -1028,9 +1028,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflictor, mobj_t *source, int damage)
 
             if (source == target)
             {
-                viewx = inflictor->x;
-                viewy = inflictor->y;
-                z = inflictor->z;
+                viewx = inflicter->x;
+                viewy = inflicter->y;
+                z = inflicter->z;
             }
             else
             {

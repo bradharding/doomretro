@@ -143,7 +143,7 @@ static void R_InstallSpriteLump(lumpinfo_t *lump, int lumpnum, unsigned int fram
 // Pass a null terminated list of sprite names
 // (4 chars exactly) to be used.
 //
-// Builds the sprite rotation matrixes to account
+// Builds the sprite rotation matrices to account
 // for horizontally flipped sprites.
 //
 // Will report an error if the lumps are inconsistent.

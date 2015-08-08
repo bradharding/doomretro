@@ -41,12 +41,12 @@
 
 #include "SDL_endian.h"
 
-// Endianess handling.
+// Endianness handling.
 // WAD files are stored little endian.
 
 // Just use SDL's endianness swapping functions.
 
-// These are deliberately cast to signed values; this is the behaviour
+// These are deliberately cast to signed values; this is the behavior
 // of the macros in the original source and some code relies on it.
 
 #define LE_SWAP16(x)    (SDL_SwapLE16(x))

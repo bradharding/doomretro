@@ -89,8 +89,8 @@ typedef struct
 //  the texture rectangle.
 typedef struct
 {
-    // Block origin (allways UL),
-    // which has allready accounted
+    // Block origin (always UL),
+    // which has already accounted
     // for the internal origin of the patch.
     short       originx;
     short       originy;

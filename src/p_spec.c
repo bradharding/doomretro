@@ -455,7 +455,6 @@ fixed_t P_FindShortestUpperAround(int secnum)
     const sector_t      *sec = &sectors[secnum];
     int                 i, minsize = 32000 << FRACBITS;
 
-    // in height calcs
     for (i = 0; i < sec->linecount; i++)
         if (twoSided(secnum, i))
         {
@@ -894,7 +893,7 @@ void P_CrossSpecialLine(line_t *line, int side, mobj_t *thing)
         }
     }
 
-    // jff 02/04/98 add check here for generalized lindef types
+    // jff 02/04/98 add check here for generalized linedef types
     {
         // pointer to line function is NULL by default, set non-null if
         // line special is walkover generalized linedef type

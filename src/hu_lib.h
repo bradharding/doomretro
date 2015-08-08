@@ -63,7 +63,7 @@ typedef struct
     char        l[HU_MAXLINELENGTH + 1];        // line of text
     int         len;                            // current line length
 
-    // whether this line needs to be udpated
+    // whether this line needs to be updated
     int         needsupdate;
 } hu_textline_t;
 
@@ -107,7 +107,7 @@ void HUlib_initTextLine(hu_textline_t *t, int x, int y, patch_t **f, int sc);
 // returns success
 dboolean HUlib_addCharToTextLine(hu_textline_t *t, char ch);
 
-// draws tline
+// draws text line
 void HUlib_drawTextLine(hu_textline_t *l);
 
 // erases text line

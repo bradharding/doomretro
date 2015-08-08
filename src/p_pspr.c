@@ -527,7 +527,7 @@ void A_FirePlasma(player_t *player, pspdef_t *psp)
 
 //
 // P_BulletSlope
-// Sets a slope so a near miss is at aproximately
+// Sets a slope so a near miss is at approximately
 // the height of the intended target
 //
 fixed_t bulletslope;

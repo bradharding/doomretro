@@ -126,7 +126,7 @@ static void R_MapPlane(int y, int x1, int x2)
 
 //
 // R_ClearPlanes
-// At begining of frame.
+// At beginning of frame.
 //
 void R_ClearPlanes(void)
 {

@@ -192,7 +192,7 @@ void P_LineOpening(line_t *linedef)
 // P_UnsetThingPosition
 // Unlinks a thing from block map and sectors.
 // On each position change, BLOCKMAP and other
-// lookups maintaining lists ot things inside
+// lookups maintaining lists of things inside
 // these structures need to be updated.
 //
 void P_UnsetThingPosition(mobj_t *thing)
@@ -498,7 +498,7 @@ static dboolean PIT_AddThingIntercepts(mobj_t *thing)
     fixed_t     x = thing->x;
     fixed_t     y = thing->y;
 
-    // check a corner to corner crossection for hit
+    // check a corner to corner crosssection for hit
     if ((dlTrace.dx ^ dlTrace.dy) > 0)
     {
         x1 = x - radius;

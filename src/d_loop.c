@@ -217,7 +217,7 @@ void TryRunTics(void)
         }
     }
 
-    // run the count * ticdup dics
+    // run the count * ticdup tics
     while (counts--)
     {
         for (i = 0; i < ticdup; i++)

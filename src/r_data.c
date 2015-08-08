@@ -91,7 +91,7 @@ byte            **texturecomposite;
 int             *flattranslation;
 int             *texturetranslation;
 
-// needed for pre rendering
+// needed for prerendering
 fixed_t         *spritewidth;
 fixed_t         *spriteheight;
 fixed_t         *spriteoffset;
@@ -302,7 +302,7 @@ static void R_GenerateComposite(int texnum)
         for (; x1 < x2 ; ++x1)
             // [crispy] generate composites for single-patched textures as well
             //        if (collump[x1] == -1)     // Column has multiple patches?
-            // killough 1/25/98, 4/9/98: Fix medusa bug.
+            // killough 1/25/98, 4/9/98: Fix Medusa bug.
             R_DrawColumnInCache((column_t *)((byte *)realpatch + LONG(cofs[x1])),
                 block + colofs[x1], patch->originy, texture->height,
                 marks + x1 * texture->height, tekwall1);
@@ -352,7 +352,7 @@ static void R_GenerateComposite(int texnum)
     free(marks);        // free transparency marks
 
     // Now that the texture has been built in column cache,
-    // it is purgable from zone memory.
+    // it is purgeable from zone memory.
     Z_ChangeTag(block, PU_CACHE);
 }
 
@@ -371,7 +371,7 @@ static void R_GenerateLookup(int texnum)
     unsigned int        *colofs2 = texturecolumnofs2[texnum];   // [crispy] original column offsets
 
     // killough 4/9/98: keep count of posts in addition to patches.
-    // Part of fix for medusa bug for multipatched 2s normals.
+    // Part of fix for Medusa bug for multipatched 2s normals.
     struct
     {
         unsigned int    patches;
@@ -512,7 +512,7 @@ static void GenerateTextureHashTable(void)
         // Store index
         textures[i]->index = i;
 
-        // Vanilla Doom does a linear search of the texures array
+        // Vanilla Doom does a linear search of the textures array
         // and stops at the first entry it finds.  If there are two
         // entries with the same name, the first one in the array
         // wins. The new entry must therefore be added at the end
@@ -968,7 +968,7 @@ void R_InitColormaps(void)
     // Software used to construct the palettes and colormaps for DOOM (see
     // http://www.doomworld.com/idgames/?id=16644). When constructing colormap
     // 32, which is used for the invulnerability powerup, the traditional
-    // Y luminence values are used (see http://en.wikipedia.org/wiki/YIQ), but a
+    // Y luminance values are used (see http://en.wikipedia.org/wiki/YIQ), but a
     // value of 0.144 is used when it should be 0.114. So I've grabbed the
     // offending code from dcolor.c, corrected it, put it here, and now colormap
     // 32 is manually calculated rather than grabbing it from the colormap lump.
@@ -1142,7 +1142,7 @@ void R_PrecacheLevel(void)
     // Note that F_SKY1 is the name used to
     //  indicate a sky floor/ceiling as a flat,
     //  while the sky texture is stored like
-    //  a wall texture, with an episode dependend
+    //  a wall texture, with an episode dependent
     //  name.
     hitlist[skytexture] = 1;
 

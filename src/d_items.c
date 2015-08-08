@@ -40,11 +40,11 @@
 #include "info.h"
 
 //
-// PSPRITE ACTIONS for waepons.
+// PSPRITE ACTIONS for weapons.
 // This struct controls the weapon animations.
 //
 // Each entry is:
-//  ammo/amunition type
+//  ammo/ammunition type
 //  upstate
 //  downstate
 //  readystate

@@ -45,7 +45,7 @@
 // D_DoomMain()
 // Not a globally visible function, just included for source reference,
 // calls all startup code, parses command line options.
-// If not overrided by user input, calls D_AdvanceTitle.
+// If not overridden by user input, calls D_AdvanceTitle.
 //
 void D_DoomMain(void);
 

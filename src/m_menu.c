@@ -115,6 +115,7 @@ void (*messageRoutine)(int response);
 int             saveStringEnter;
 int             saveSlot;               // which slot to save in
 int             saveCharIndex;          // which char we're editing
+
 // old save description before edit
 char            saveOldString[SAVESTRINGSIZE];
 

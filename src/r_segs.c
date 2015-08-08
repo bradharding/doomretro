@@ -140,7 +140,7 @@ extern dboolean doorclosed;
 //   still be seen, and some texture strips may be slightly misaligned in
 //   extreme cases. These effects cannot be corrected further, without
 //   increasing the precision of various renderer variables, and,
-//   possibly, creating a noticable performance penalty.
+//   possibly, creating a noticeable performance penalty.
 //
 static int      max_rwscale = 64 * FRACUNIT;
 static int      heightbits = 12;

@@ -324,7 +324,7 @@ patch_t                         *brdr_tr;
 patch_t                         *brdr_bl;
 patch_t                         *brdr_br;
 
-// used to use appopriately pained face
+// used to use appropriately pained face
 static int                      st_oldhealth = -1;
 
 // used for evil grin
@@ -587,7 +587,7 @@ dboolean ST_Responder(event_t *ev)
                     if (!oldhealth)
                     {
                         // [BH] The player originally used this cheat to
-                        // ressurect themselves, and now they have the audacity
+                        // resurrect themselves, and now they have the audacity
                         // to disable it. Kill them!
                         plyr->attacker = NULL;
                         P_KillMobj(NULL, plyr->mo);
@@ -1191,7 +1191,7 @@ void ST_updateFaceWidget(void)
                     // whether left or right
                     diffang = plyr->mo->angle - badguyangle;
                     i = (diffang <= ANG180);
-                }       // confusing, aint it?
+                }       // confusing, ain't it?
 
                 st_facecount = ST_TURNCOUNT;
                 st_faceindex = ST_calcPainOffset();

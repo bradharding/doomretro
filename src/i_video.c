@@ -182,7 +182,7 @@ dboolean MouseShouldBeGrabbed(void)
     if (!window_focused)
         return false;
 
-    // always grab the mouse when full screen (dont want to
+    // always grab the mouse when full screen (don't want to
     // see the mouse pointer)
     if (vid_fullscreen)
         return true;
@@ -199,7 +199,7 @@ dboolean MouseShouldBeGrabbed(void)
 //
 // We try to make ourselves be well-behaved: the grab on the mouse
 // is removed if we lose focus (such as a popup window appearing),
-// and we dont move the mouse around if we aren't focused either.
+// and we don't move the mouse around if we aren't focused either.
 static void UpdateFocus(void)
 {
     Uint32              state = SDL_GetWindowFlags(window);

@@ -56,7 +56,7 @@ extern fixed_t *finecosine;
 // Effective size is 4096.
 fixed_t finetangent[FINEANGLES / 2];
 
-// Binary Angle Measument, BAM.
+// Binary Angle Measurement, BAM.
 #define ANG45                   0x20000000
 #define ANG90                   0x40000000
 #define ANG180                  0x80000000

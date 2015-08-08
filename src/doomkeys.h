@@ -42,7 +42,7 @@
 //
 // DOOM keyboard definition.
 // This is the stuff configured by Setup.Exe.
-// Most key data are simple ascii (uppercased).
+// Most key data are simple ASCII (uppercased).
 //
 #define KEY_RIGHTARROW  0xAE
 #define KEY_LEFTARROW   0xAC

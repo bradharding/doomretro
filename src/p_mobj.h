@@ -83,7 +83,7 @@
 // it is standing on.
 //
 // The sound code uses the x,y, and subsector fields
-// to do stereo positioning of any sound effited by the mobj_t.
+// to do stereo positioning of any sound emitted by the mobj_t.
 //
 // The play simulation uses the blocklinks, x,y,z, radius, height
 // to determine when mobj_ts are touching each other,

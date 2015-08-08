@@ -48,7 +48,7 @@
 extern int r_detail;
 
 //
-//  Loads and store the stminus lump.
+//  Loads and store the sttminus lump.
 //
 patch_t *sttminus;
 

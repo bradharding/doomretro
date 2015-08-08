@@ -707,7 +707,7 @@ void V_DrawTranslucentRedPatch(int x, int y, patch_t *patch)
 // The co-ordinates for this procedure are always based upon a
 // 320x200 screen and multiplies the size of the patch by the
 // scaledwidth & scaledheight. The purpose of this is to produce
-// a clean and undistorted patch opon the screen, The scaled screen
+// a clean and undistorted patch upon the screen, The scaled screen
 // size is based upon the nearest whole number ratio from the
 // current screen size to 320x200.
 //

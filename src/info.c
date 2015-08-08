@@ -36,11 +36,11 @@
 ========================================================================
 */
 
-#include "sounds.h"
 #include "info.h"
 #include "p_mobj.h"
 #include "p_pspr.h"
 #include "r_defs.h"
+#include "sounds.h"
 
 char *sprnames[] =
 {

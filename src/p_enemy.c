@@ -67,7 +67,7 @@ extern dboolean r_rockettrails;
 
 //
 // ENEMY THINKING
-// Enemies are allways spawned
+// Enemies are always spawned
 // with targetplayer = -1, threshold = 0
 // Most monsters are spawned unaware of all players,
 // but some can be made preaware
@@ -1265,7 +1265,7 @@ dboolean PIT_VileCheck(mobj_t *thing)
 
 //
 // A_VileChase
-// Check for ressurecting a body
+// Check for resurrecting a body
 //
 void A_VileChase(mobj_t *actor)
 {
@@ -2075,7 +2075,7 @@ void A_SpawnFly(mobj_t* mo)
     P_RemoveMobj(mo);
 }
 
-// travelling cube sound
+// traveling cube sound
 void A_SpawnSound(mobj_t *mo)
 {
     S_StartSound(mo, sfx_boscub);

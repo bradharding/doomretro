@@ -383,7 +383,7 @@ void T_MoveElevator(elevator_t *elevator)
     if (!(leveltime & 7))
         S_StartMapSound(&elevator->sector->soundorg, sfx_stnmov);
 
-    if (res == pastdest)                        // if destination height acheived
+    if (res == pastdest)                        // if destination height achieved
     {
         elevator->sector->floordata = NULL;
         elevator->sector->ceilingdata = NULL;

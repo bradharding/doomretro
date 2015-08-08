@@ -1406,7 +1406,7 @@ static char *deh_state[] =
 
 // SFXINFO_STRUCT - Dehacked block name = "Sounds"
 // Sound effects, typically not changed (redirected, and new sfx put
-// into the pwad, but not changed here.  Can you tell that Gregdidn't
+// into the pwad, but not changed here.  Can you tell that Greg didn't
 // know what they were for, mostly?  Can you tell that I don't either?
 // Mostly I just put these into the same slots as they are in the struct.
 // This may not be supported in our -deh option if it doesn't make sense by then.
@@ -1858,7 +1858,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     }
 
     if (infile.lump)
-        Z_ChangeTag(infile.lump, PU_CACHE);     // Mark purgable
+        Z_ChangeTag(infile.lump, PU_CACHE);     // Mark purgeable
     else
         fclose(infile.f);                       // Close real file
 
@@ -2514,7 +2514,7 @@ void deh_procCheat(DEHFILE *fpin, char *line)
     char        key[DEH_MAXKEYLEN];
     char        inbuffer[DEH_BUFFERMAX];
     long        value;          // All deh values are ints or longs
-    char        ch = 0;         // CPhipps - `writable' null string to initialise...
+    char        ch = 0;         // CPhipps - `writable' null string to initialize...
     char        *strval = &ch;  // pointer to the value area
     int         iy;             // array index
     char        *p;             // utility pointer
@@ -2981,7 +2981,7 @@ void deh_procStrings(DEHFILE *fpin, char *line)
                     maxstrlen, (int)strlen(inbuffer));
             holdstring = realloc(holdstring, maxstrlen * sizeof(*holdstring));
         }
-        // concatenate the whole buffer if continuation or the value iffirst
+        // concatenate the whole buffer if continuation or the value if first
         strcat(holdstring, ptr_lstrip(((*holdstring) ? inbuffer : strval)));
         rstrip(holdstring);
         // delete any trailing blanks past the backslash

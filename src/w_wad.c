@@ -224,7 +224,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic)
         newnumlumps += header.numlumps;
     }
 
-    // Increase size of numlumps array to accomodate the new file.
+    // Increase size of numlumps array to accommodate the new file.
     startlump = numlumps;
     ExtendLumpInfo(newnumlumps);
 

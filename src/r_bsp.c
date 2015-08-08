@@ -566,7 +566,7 @@ static dboolean R_CheckBBox(const fixed_t *bspcoord)
     if ((signed int)angle1 < (signed int)angle2) 
     {
         // Either angle1 or angle2 is behind us, so it doesn't matter if we
-        // change it to the corect sign
+        // change it to the correct sign
         if (angle1 >= ANG180 && angle1 < ANG270)
             angle1 = INT_MAX;           // which is ANG180 - 1
         else

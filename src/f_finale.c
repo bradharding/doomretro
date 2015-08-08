@@ -98,8 +98,8 @@ void F_StartFinale(void)
     // killough 3/28/98: clear accelerative text flags
     acceleratestage = midstage = 0;
 
-    // Okay - IWAD dependend stuff.
-    // This has been changed severly, and
+    // Okay - IWAD dependent stuff.
+    // This has been changed severely, and
     //  some stuff might have changed in the process.
     switch (gamemode)
     {

@@ -1198,7 +1198,7 @@ static void P_LoadSideDefs2(int lump)
 //
 // The algorithm's complexity is on the order of nlines*total_linedef_length.
 //
-// Please note: This section of code is not interchangable with TeamTNT's
+// Please note: This section of code is not interchangeable with TeamTNT's
 // code which attempts to fix the same problem.
 //
 static void P_CreateBlockMap(void)
@@ -1379,7 +1379,7 @@ static void P_CreateBlockMap(void)
 // towards removing blockmap limit (a wad limitation)
 //
 // killough 3/30/98: Rewritten to remove blockmap limit,
-// though current algorithm is brute-force and unoptimal.
+// though current algorithm is brute-force and non-optimal.
 //
 void P_LoadBlockMap(int lump)
 {
@@ -1436,23 +1436,21 @@ void P_LoadBlockMap(int lump)
 //
 void RejectOverrun(int rejectlump, const byte **rejectmatrix, int totallines)
 {
-    unsigned int        length, required;
-    byte                *newreject;
-
-    required = (numsectors * numsectors + 7) / 8;
-    length = W_LumpLength(rejectlump);
+    unsigned int        required = (numsectors * numsectors + 7) / 8;
+    unsigned int        length = W_LumpLength(rejectlump);
 
     if (length < required)
     {
         // allocate a new block and copy the reject table into it; zero the rest
         // PU_LEVEL => will be freed on level exit
-        newreject = Z_Malloc(required, PU_LEVEL, NULL);
+        byte    *newreject = Z_Malloc(required, PU_LEVEL, NULL);
+
         *rejectmatrix = memmove(newreject, *rejectmatrix, length);
 
         memset(newreject + length, 0, required - length);
+
         // unlock the original lump, it is no longer needed
         W_ReleaseLumpNum(rejectlump);
-        rejectlump = -1;
     }
 }
 //
@@ -1584,7 +1582,7 @@ static int P_GroupLines(void)
 //
 // Slime trails are inherent to Doom's coordinate system -- i.e. there is
 // nothing that a node builder can do to prevent slime trails ALL of the time,
-// because it's a product of the integer coodinate system, and just because
+// because it's a product of the integer coordinate system, and just because
 // two lines pass through exact integer coordinates, doesn't necessarily mean
 // that they will intersect at integer coordinates. Thus we must allow for
 // fractional coordinates if we are to be able to split segs with node lines,
@@ -1617,10 +1615,10 @@ static int P_GroupLines(void)
 // (because then any roundoff error is parallel to the linedef, which doesn't
 // cause slime). Skipping simple orthogonal lines lets the code finish quicker.
 //
-// Please note: This section of code is not interchangable with TeamTNT's
+// Please note: This section of code is not interchangeable with TeamTNT's
 // code which attempts to fix the same problem.
 //
-// Firelines (TM) is a Rezistered Trademark of MBF Productions
+// Firelines (TM) is a Registered Trademark of MBF Productions
 //
 
 static void P_RemoveSlimeTrails(void)                   // killough 10/98
@@ -1654,7 +1652,7 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
                         v->x = (int)((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) / s);
                         v->y = (int)((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) / s);
                     }
-                }  // Obsfucated C contest entry:   :)
+                }  // Obfuscated C contest entry:   :)
             }
             while (v != segs[i].v2 && (v = segs[i].v2));
         }
@@ -1662,7 +1660,7 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
     free(hit);
 }
 
-// precalc values for use later in long wall error fix in R_StoreWallRange()
+// Precalc values for use later in long wall error fix in R_StoreWallRange()
 static void P_CalcSegsLength(void)
 {
     int i;
@@ -1796,8 +1794,6 @@ void P_MapName(int ep, int map)
     }
 }
 
-// [crispy] support maps with NODES in compressed or uncompressed ZDBSP
-// format or DeePBSP format and/or LINEDEFS and THINGS lumps in Hexen format
 static mapformat_t P_CheckMapFormat(int lumpnum)
 {
     mapformat_t         format = DOOMBSP;

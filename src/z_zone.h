@@ -63,7 +63,7 @@ enum
     PU_MAX         // Must always be last -- killough
 };
 
-#define PU_PURGELEVEL    PU_CACHE    // First purgable tag's level
+#define PU_PURGELEVEL    PU_CACHE    // First purgeable tag's level
 
 void *Z_Malloc(size_t size, int32_t tag, void **user);
 void Z_Free(void *ptr);

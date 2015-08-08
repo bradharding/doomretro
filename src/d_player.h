@@ -114,7 +114,7 @@ typedef struct player_s
     // killough 10/98: used for realistic bobbing (i.e. not simply overall speed)
     // mo->momx and mo->momy represent true momenta experienced by player.
     // This only represents the thrust that the player applies himself.
-    // This avoids anomolies with such things as Boom ice and conveyors.
+    // This avoids anomalies with such things as Boom ice and conveyors.
     fixed_t             momx, momy;     // killough 10/98
 
     // This is only used between levels,

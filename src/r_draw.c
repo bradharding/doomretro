@@ -47,7 +47,7 @@
 
 //
 // All drawing to the view buffer is accomplished in this file.
-// The other refresh files only know about ccordinates,
+// The other refresh files only know about coordinates,
 //  not the architecture of the frame buffer.
 // Conveniently, the frame buffer is a linear one,
 //  and we need only the base address,
@@ -1302,7 +1302,7 @@ void R_DrawSpan(void)
 //
 // R_InitBuffer
 // Creates lookup tables that avoid
-//  multiplies and other hazzles
+//  multiplies and other hassles
 //  for getting the framebuffer address
 //  of a pixel to draw.
 //
@@ -1390,7 +1390,7 @@ void R_VideoErase(unsigned int ofs, int count)
 {
     // LFB copy.
     // This might not be a good idea if memcpy
-    //  is not optiomal, e.g. byte by byte on
+    //  is not optimal, e.g. byte by byte on
     //  a 32bit CPU, as GNU GCC/Linux libc did
     //  at one point.
     memcpy(screens[0] + ofs, screens[1] + ofs, count);

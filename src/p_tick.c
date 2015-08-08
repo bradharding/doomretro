@@ -129,7 +129,7 @@ static thinker_t        *currentthinker;
 // on nodes which are pending deletion.
 //
 // If this thinker has no more pointers referencing it indirectly,
-// remove it, and set currentthinker to one node preceeding it, so
+// remove it, and set currentthinker to one node preceding it, so
 // that the next step in P_RunThinkers() will get its successor.
 //
 void P_RemoveThinkerDelayed(thinker_t *thinker)
