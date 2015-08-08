@@ -540,10 +540,11 @@ static struct
 static int C_TextWidth(char *text)
 {
     size_t      i;
+    size_t      len = strlen(text);
     char        prevletter = '\0';
     int         w = 0;
 
-    for (i = 0; i < strlen(text); ++i)
+    for (i = 0; i < len; ++i)
     {
         char    letter = text[i];
         int     c = letter - CONSOLEFONTSTART;
@@ -581,14 +582,15 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     size_t      len = strlen(text);
     char        prevletter = '\0';
 
-    while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 2)
-    {
-        text[len - 1] = '.';
-        text[len] = '.';
-        text[len + 1] = '.';
-        text[len + 2] = '\0';
-        --len;
-    }
+    if (len > 80)
+        while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 2)
+        {
+            text[len - 1] = '.';
+            text[len] = '.';
+            text[len + 1] = '.';
+            text[len + 2] = '\0';
+            --len;
+        }
 
     for (i = 0; i < len; ++i)
     {
