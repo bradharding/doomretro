@@ -1144,7 +1144,7 @@ static void R_DrawPSprite(pspdef_t *psp, dboolean invisibility)
                     + extralight * OLDLIGHTBRIGHT;
 
                 vis->colormap = psprscalelight[BETWEEN(0, lightnum, OLDLIGHTLEVELS - 1)]
-                    [BETWEEN(0, lightnum + 8, OLDMAXLIGHTSCALE - 1)];
+                    [BETWEEN(0, lightnum + 16, OLDMAXLIGHTSCALE - 1)];
             }
             else
             {
