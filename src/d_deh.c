@@ -2001,6 +2001,8 @@ void deh_procThing(DEHFILE *fpin, char *line)
             {
                 pix = (int *)&mobjinfo[indexnum];
                 pix[ix] = (int)value;
+                if (!strcasecmp(key, "Height"))
+                    mobjinfo[indexnum].projectilepassheight = 0;
             }
             else
             {
