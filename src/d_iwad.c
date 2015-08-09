@@ -534,9 +534,11 @@ void D_SetSaveGameFolder(void)
     if (!iwad_name)
         iwad_name = "unknown.wad";
 
-    M_MakeDirectory("savegames");
+    savegamefolder = M_StringJoin(M_GetExecutableFolder(), DIR_SEPARATOR_S, "savegames",
+        DIR_SEPARATOR_S, NULL);
+    M_MakeDirectory(savegamefolder);
 
-    savegamefolder = M_StringJoin("savegames", DIR_SEPARATOR_S, iwad_name, DIR_SEPARATOR_S, NULL);
+    savegamefolder = M_StringJoin(savegamefolder, iwad_name, DIR_SEPARATOR_S, NULL);
     M_MakeDirectory(savegamefolder);
 }
 
