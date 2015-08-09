@@ -986,7 +986,7 @@ static void SetVideoMode(dboolean output)
 
         SDL_GetRendererInfo(renderer, &rendererinfo);
         if (!strcasecmp(rendererinfo.name, vid_scaledriver_direct3d))
-            renderername = "Direct3D";
+            renderername = "Direct3D 9";
         else if (!strcasecmp(rendererinfo.name, vid_scaledriver_opengl))
             renderername = "OpenGL";
         else if (!strcasecmp(rendererinfo.name, vid_scaledriver_software))
