@@ -1232,12 +1232,18 @@ dboolean C_Responder(event_t *ev)
                     // paste text from clipboard
                     else if (ch == 'v')
                     {
-                        C_AddToUndoHistory();
-                        M_snprintf(consoleinput, sizeof(consoleinput), "%s%s%s",
+                        char    buffer[255];
+
+                        M_snprintf(buffer, sizeof(buffer), "%s%s%s",
                             M_SubString(consoleinput, 0, selectstart), SDL_GetClipboardText(),
                             M_SubString(consoleinput, selectend, strlen(consoleinput) - selectend));
-                        selectstart += strlen(SDL_GetClipboardText());
-                        selectend = caretpos = selectstart;
+                        if (C_TextWidth(buffer) <= CONSOLEINPUTPIXELWIDTH)
+                        {
+                            C_AddToUndoHistory();
+                            M_StringCopy(consoleinput, buffer, sizeof(consoleinput));
+                            selectstart += strlen(SDL_GetClipboardText());
+                            selectend = caretpos = selectstart;
+                        }
                     }
 
                     // cut selected text to clipboard
