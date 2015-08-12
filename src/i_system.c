@@ -93,7 +93,7 @@ void I_PrintWindowsVersion(void)
 
     if (pRtlGetVersion && pGetProductInfo)
     {
-        char      bits[9] = "";
+        char      bits[10] = "";
         char      *infoname;
         char      *typename = "";
 
