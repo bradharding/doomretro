@@ -1056,7 +1056,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     }
 
     // player specific
-    if (splayer)
+    if (splayer && type != MT_BARREL)
     {
         players[0].damageinflicted += damage;
         stat_damageinflicted += damage;
@@ -1067,9 +1067,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 
         if (tplayer->health <= 0)
             return;
-
-        players[0].damagereceived += damage;
-        stat_damagereceived += damage;
 
         // end of game hell hack
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel
@@ -1096,6 +1093,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
             damage -= saved;
         }
         tplayer->health = MAX(0, tplayer->health - damage);     // mirror mobj health here for Dave
+
+        players[0].damagereceived += damage;
+        stat_damagereceived += damage;
 
         tplayer->attacker = source;
         damagecount = tplayer->damagecount + damage;            // add damage after armor / invuln
