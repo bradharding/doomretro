@@ -200,6 +200,10 @@ extern int      s_sfxvolume;
 extern char     *s_timiditycfgpath;
 extern int      savegame;
 extern int      skilllevel;
+extern int      stat_damageinflicted;
+extern int      stat_damageinflicted_total;
+extern int      stat_damagereceived;
+extern int      stat_damagereceived_total;
 extern dboolean vid_capfps;
 extern int      vid_display;
 #if !defined(WIN32)
@@ -1947,6 +1951,10 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
     C_TabbedOutput(tabs, "Time spent in map\t%02i:%02i:%02i", tics / 3600, (tics % 3600) / 60,
         (tics % 3600) % 60);
 
+    C_TabbedOutput(tabs, "Damage received\t%s", commify(stat_damagereceived));
+    C_TabbedOutput(tabs, "Damage received (total)\t%s", commify(stat_damagereceived_total));
+    C_TabbedOutput(tabs, "Damage received\t%s", commify(stat_damageinflicted));
+    C_TabbedOutput(tabs, "Damage received (total)\t%s", commify(stat_damageinflicted_total));
 }
 
 static void C_Quit(char *cmd, char *parm1, char *parm2)

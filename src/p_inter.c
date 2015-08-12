@@ -81,7 +81,12 @@ int species_infighting = 0;
 int maxammo[NUMAMMO] = { 200, 50, 300, 50 };
 int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
-dboolean r_mirroredweapons = r_mirroredweapons_default;
+dboolean        r_mirroredweapons = r_mirroredweapons_default;
+
+int             stat_damageinflicted = 0;
+int             stat_damageinflicted_total = 0;
+int             stat_damagereceived = 0;
+int             stat_damagereceived_total = 0;
 
 //
 // GET STUFF
@@ -1053,12 +1058,20 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     }
 
     // player specific
+    if (inflicter->player)
+    {
+        stat_damageinflicted += damage;
+        stat_damageinflicted_total += damage;
+    }
     if (tplayer)
     {
         int     damagecount;
 
         if (tplayer->health <= 0)
             return;
+
+        stat_damagereceived += damage;
+        stat_damagereceived_total += damage;
 
         // end of game hell hack
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel
