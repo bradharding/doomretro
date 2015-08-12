@@ -1917,11 +1917,13 @@ static dboolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
 {
-    int tabs[8] = { 160, 0, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 160, 260, 0, 0, 0, 0, 0, 0 };
     int tics = leveltime / TICRATE;
 
+    C_TabbedOutput(tabs, "\t~Current Map~\t~Total~");
+
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
-        C_TabbedOutput(tabs, "Amount of map revealed\t100%%");
+        C_TabbedOutput(tabs, "Amount of map revealed\t100%%\t-");
     else
     {
         int i = 0;
@@ -1933,28 +1935,32 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         i = 0;
         while (i < numlines)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
-        C_TabbedOutput(tabs, "Amount of map revealed\t%i%%", totallinesmapped * 100 / totallines);
+        C_TabbedOutput(tabs, "Amount of map revealed\t%i%%\t-",
+            totallinesmapped * 100 / totallines);
     }
 
     if (totalkills)
-        C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)", commify(players[0].killcount),
-            commify(totalkills), players[0].killcount * 100 / totalkills);
+        C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t-",
+            commify(players[0].killcount), commify(totalkills),
+            players[0].killcount * 100 / totalkills);
 
     if (totalitems)
-        C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)", commify(players[0].itemcount),
-            commify(totalitems), players[0].itemcount * 100 / totalitems);
+        C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)\t-",
+            commify(players[0].itemcount), commify(totalitems),
+            players[0].itemcount * 100 / totalitems);
 
     if (totalsecret)
-        C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)", commify(players[0].secretcount),
-            commify(totalsecret), players[0].secretcount * 100 / totalsecret);
+        C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)\t-",
+            commify(players[0].secretcount), commify(totalsecret),
+            players[0].secretcount * 100 / totalsecret);
 
-    C_TabbedOutput(tabs, "Time spent in map\t%02i:%02i:%02i", tics / 3600, (tics % 3600) / 60,
-        (tics % 3600) % 60);
+    C_TabbedOutput(tabs, "Time spent in map\t%02i:%02i:%02i\t-",
+        tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
 
-    C_TabbedOutput(tabs, "Damage received\t%s", commify(stat_damagereceived));
-    C_TabbedOutput(tabs, "Damage received (total)\t%s", commify(stat_damagereceived_total));
-    C_TabbedOutput(tabs, "Damage received\t%s", commify(stat_damageinflicted));
-    C_TabbedOutput(tabs, "Damage received (total)\t%s", commify(stat_damageinflicted_total));
+    C_TabbedOutput(tabs, "Damage received\t%s\t%s",
+        commify(stat_damagereceived), commify(stat_damagereceived_total));
+    C_TabbedOutput(tabs, "Damage inflicted\t%s\t%s",
+        commify(stat_damageinflicted), commify(stat_damageinflicted_total));
 }
 
 static void C_Quit(char *cmd, char *parm1, char *parm2)
