@@ -193,6 +193,10 @@ typedef struct player_s
     // [AM] Previous position of viewz before think.
     //      Used to interpolate between camera positions.
     angle_t             oldviewz;
+
+    // For playerstats cmd
+    int                 damageinflicted;
+    int                 damagereceived;
 } player_t;
 
 //

@@ -594,6 +594,9 @@ void G_DoLoadLevel(void)
     if (players[0].playerstate == PST_DEAD)
         players[0].playerstate = PST_REBORN;
 
+    players[0].damageinflicted = 0;
+    players[0].damagereceived = 0;
+
     M_ClearRandom();
 
     // initialize the msecnode_t freelist.                     phares 3/25/98

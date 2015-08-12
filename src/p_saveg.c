@@ -764,6 +764,12 @@ static void saveg_read_player_t(player_t *str)
 
     // angle_t oldviewz
     str->oldviewz = saveg_read32();
+
+    // int damageinflicted
+    str->damageinflicted = saveg_read32();
+
+    // int damagereceived
+    str->damagereceived = saveg_read32();
 }
 
 static void saveg_write_player_t(player_t *str)
@@ -913,6 +919,12 @@ static void saveg_write_player_t(player_t *str)
 
     // angle_t oldviewz
     saveg_write32(str->oldviewz);
+
+    // int damageinflicted
+    saveg_write32(str->damageinflicted);
+
+    // int damagereceived
+    saveg_write32(str->damagereceived);
 }
 
 //
@@ -1646,7 +1658,7 @@ void P_UnArchivePlayers(void)
 
     saveg_read_player_t(&players[0]);
 
-    // will be set when unarc thinker
+    // will be set when unarchiving thinker
     players[0].mo = NULL;
     players[0].message = NULL;
     players[0].attacker = NULL;

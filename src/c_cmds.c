@@ -201,9 +201,7 @@ extern char     *s_timiditycfgpath;
 extern int      savegame;
 extern int      skilllevel;
 extern int      stat_damageinflicted;
-extern int      stat_damageinflicted_total;
 extern int      stat_damagereceived;
-extern int      stat_damagereceived_total;
 extern dboolean vid_capfps;
 extern int      vid_display;
 #if !defined(WIN32)
@@ -1958,9 +1956,9 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
 
     C_TabbedOutput(tabs, "Damage received\t%s\t%s",
-        commify(stat_damagereceived), commify(stat_damagereceived_total));
+        commify(players[0].damagereceived), commify(stat_damagereceived));
     C_TabbedOutput(tabs, "Damage inflicted\t%s\t%s",
-        commify(stat_damageinflicted), commify(stat_damageinflicted_total));
+        commify(players[0].damageinflicted), commify(stat_damageinflicted));
 }
 
 static void C_Quit(char *cmd, char *parm1, char *parm2)

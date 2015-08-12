@@ -84,9 +84,7 @@ int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
 
 int             stat_damageinflicted = 0;
-int             stat_damageinflicted_total = 0;
 int             stat_damagereceived = 0;
-int             stat_damagereceived_total = 0;
 
 //
 // GET STUFF
@@ -1058,10 +1056,10 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     }
 
     // player specific
-    if (inflicter->player)
+    if (splayer)
     {
+        players[0].damageinflicted += damage;
         stat_damageinflicted += damage;
-        stat_damageinflicted_total += damage;
     }
     if (tplayer)
     {
@@ -1070,8 +1068,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         if (tplayer->health <= 0)
             return;
 
+        players[0].damagereceived += damage;
         stat_damagereceived += damage;
-        stat_damagereceived_total += damage;
 
         // end of game hell hack
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel
@@ -1080,7 +1078,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
 
         // Below certain threshold,
         // ignore damage in GOD mode, or with INVUL power.
-        if ((tplayer->cheats & CF_GODMODE) || (damage < 1000 && tplayer->powers[pw_invulnerability]))
+        if ((tplayer->cheats & CF_GODMODE)
+            || (damage < 1000 && tplayer->powers[pw_invulnerability]))
             return;
 
         if (tplayer->armortype)
