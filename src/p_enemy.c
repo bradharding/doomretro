@@ -64,6 +64,7 @@ typedef enum
 void A_Fall(mobj_t *actor);
 
 extern dboolean r_rockettrails;
+extern int      stat_monsterskilled;
 
 //
 // ENEMY THINKING
@@ -1321,6 +1322,7 @@ void A_VileChase(mobj_t *actor)
                     P_SetTarget(&corpsehit->lastenemy, NULL);
 
                     players[0].killcount--;
+                    stat_monsterskilled--;
 
                     // killough 8/29/98: add to appropriate thread
                     P_UpdateThinker(&corpsehit->thinker);

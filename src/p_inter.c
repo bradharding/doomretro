@@ -85,6 +85,8 @@ dboolean        r_mirroredweapons = r_mirroredweapons_default;
 
 int             stat_damageinflicted = 0;
 int             stat_damagereceived = 0;
+int             stat_itemspickedup = 0;
+int             stat_monsterskilled = 0;
 
 //
 // GET STUFF
@@ -831,7 +833,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     }
 
     if (special->flags & MF_COUNTITEM)
+    {
         player->itemcount++;
+        stat_itemspickedup++;
+    }
     if (special->shadow)
         P_RemoveMobjShadow(special);
     P_RemoveMobj(special);
@@ -893,11 +898,17 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
     {
         // count for intermission
         if (target->flags & MF_COUNTKILL)
+        {
             source->player->killcount++;
+            stat_monsterskilled++;
+        }
     }
     else if (target->flags & MF_COUNTKILL)
+    {
         // count all monster deaths, even those caused by other monsters
         players[0].killcount++;
+        stat_monsterskilled++;
+    }
 
     if (type == MT_BARREL && source && source->player)
         target->target = source;

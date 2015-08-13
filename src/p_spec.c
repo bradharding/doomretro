@@ -88,6 +88,8 @@ typedef struct
 
 #define ANIMSPEED       8
 
+int             stat_secretsrevealed = 0;
+
 static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
 static size_t   maxanims;
@@ -1790,6 +1792,7 @@ void P_PlayerInSpecialSector(player_t *player)
 
             case Secret:
                 player->secretcount++;
+                stat_secretsrevealed++;
                 sector->special = 0;
 
                 for (i = 0; i < sector->linecount; i++)
@@ -1846,6 +1849,7 @@ void P_PlayerInSpecialSector(player_t *player)
         if (sector->special & SECRET_MASK)
         {
             player->secretcount++;
+            stat_secretsrevealed++;
             sector->special &= ~SECRET_MASK;
             if (sector->special < 32)   // if all extended bits clear,
                 sector->special = 0;    // sector is not special anymore

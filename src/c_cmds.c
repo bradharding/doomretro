@@ -202,6 +202,9 @@ extern int      savegame;
 extern int      skilllevel;
 extern int      stat_damageinflicted;
 extern int      stat_damagereceived;
+extern int      stat_itemspickedup;
+extern int      stat_monsterskilled;
+extern int      stat_secretsrevealed;
 extern dboolean vid_capfps;
 extern int      vid_display;
 #if !defined(WIN32)
@@ -1363,6 +1366,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
                             A_Fall(thing);
                             P_SetMobjState(thing, S_PAIN_DIE6);
                             players[0].killcount++;
+                            stat_monsterskilled++;
                             kills++;
                         }
                         else if ((thing->flags & MF_SHOOTABLE) && type != MT_PLAYER
@@ -1409,6 +1413,7 @@ static void C_Kill(char *cmd, char *parm1, char *parm2)
                                 A_Fall(thing);
                                 P_SetMobjState(thing, S_PAIN_DIE6);
                                 players[0].killcount++;
+                                stat_monsterskilled++;
                                 kills++;
                             }
                             else
@@ -1915,7 +1920,7 @@ static dboolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
 
 static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
 {
-    int tabs[8] = { 160, 260, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 170, 270, 0, 0, 0, 0, 0, 0 };
     int tics = leveltime / TICRATE;
 
     C_TabbedOutput(tabs, "\t~Current Map~\t~Total~");
@@ -1937,20 +1942,18 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
             totallinesmapped * 100 / totallines);
     }
 
-    if (totalkills)
-        C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t-",
-            commify(players[0].killcount), commify(totalkills),
-            players[0].killcount * 100 / totalkills);
+    C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t%s",
+        commify(players[0].killcount), commify(totalkills),
+        (totalkills ? players[0].killcount * 100 / totalkills : 0), commify(stat_monsterskilled));
 
-    if (totalitems)
-        C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)\t-",
-            commify(players[0].itemcount), commify(totalitems),
-            players[0].itemcount * 100 / totalitems);
+    C_TabbedOutput(tabs, "Items picked up\t%s of %s (%i%%)\t%s",
+        commify(players[0].itemcount), commify(totalitems),
+        (totalitems ? players[0].itemcount * 100 / totalitems : 0), commify(stat_itemspickedup));
 
-    if (totalsecret)
-        C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)\t-",
-            commify(players[0].secretcount), commify(totalsecret),
-            players[0].secretcount * 100 / totalsecret);
+    C_TabbedOutput(tabs, "Secrets revealed\t%s of %s (%i%%)\t%s",
+        commify(players[0].secretcount), commify(totalsecret),
+        (totalsecret ? players[0].secretcount * 100 / totalsecret : 0),
+        commify(stat_secretsrevealed));
 
     C_TabbedOutput(tabs, "Time spent in map\t%02i:%02i:%02i\t-",
         tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);

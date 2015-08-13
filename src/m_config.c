@@ -110,6 +110,9 @@ extern int      savegame;
 extern int      skilllevel;
 extern int      stat_damageinflicted;
 extern int      stat_damagereceived;
+extern int      stat_itemspickedup;
+extern int      stat_monsterskilled;
+extern int      stat_secretsrevealed;
 extern dboolean vid_capfps;
 extern int      vid_display;
 #if !defined(WIN32)
@@ -205,6 +208,9 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (skilllevel,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (stat_damageinflicted, NOALIAS    ),
     CONFIG_VARIABLE_INT          (stat_damagereceived,  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (stat_itemspickedup,   NOALIAS    ),
+    CONFIG_VARIABLE_INT          (stat_monsterskilled,  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (stat_secretsrevealed, NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,          NOALIAS    ),
 #if !defined(WIN32)
