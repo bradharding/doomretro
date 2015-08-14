@@ -365,13 +365,15 @@ int IWADRequiredByPWAD(const char *pwadname)
 //
 int W_WadType(char *filename)
 {
-    wadinfo_t  header;
-    wad_file_t *wad_file = W_OpenFile(filename);
+    wadinfo_t   header;
+    wad_file_t  *wad_file = W_OpenFile(filename);
 
     if (!wad_file)
         return 0;
 
     W_Read(wad_file, 0, &header, sizeof(header));
+
+    W_CloseFile(wad_file);
 
     if (!strncmp(header.identification, "IWAD", 4))
         return IWAD;
