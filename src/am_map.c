@@ -1510,9 +1510,9 @@ static void AM_drawWalls(void)
                     || special == W1_TeleportToLineWithSameTag_Silent_ReversedAngle
                     || special == WR_TeleportToLineWithSameTag_Silent_ReversedAngle)
                     && ((flags & ML_TELEPORTTRIGGERED) || cheating
-                    || isteleport(backsector->floorpic)))
+                    || (backsector && isteleport(backsector->floorpic))))
                 {
-                    if (cheating || (mapped && !secret
+                    if (cheating || (mapped && !secret && backsector
                         && backsector->ceilingheight != backsector->floorheight))
                     {
                         AM_drawMline(l.a.x, l.a.y, l.b.x, l.b.y, teleportercolor);
