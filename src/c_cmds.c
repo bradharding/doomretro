@@ -870,13 +870,16 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
 
         file = fopen(filename, "wt");
 
-        for (i = 1; i < consolestrings - 1; ++i)
-            fprintf(file, "%s\n",
-                (console[i].type == divider ? DIVIDERSTRING : removenewlines(console[i].string)));
+        if (file)
+        {
+            for (i = 1; i < consolestrings - 1; ++i)
+                fprintf(file, "%s\n",
+                    (console[i].type == divider ? DIVIDERSTRING : removenewlines(console[i].string)));
 
-        fclose(file);
+            fclose(file);
 
-        C_Output("Dumped the console to the file %s.", uppercase(filename));
+            C_Output("Dumped the console to the file %s.", uppercase(filename));
+        }
     }
 }
 
