@@ -816,6 +816,9 @@ dboolean M_CheckSaveGame(int choice)
 
     handle = fopen(P_SaveGameFile(itemOn), "rb");
 
+    if (!handle)
+        return true;
+
     for (i = 0; i < SAVESTRINGSIZE + VERSIONSIZE + 1; i++)
         saveg_read8(handle);
     ep = saveg_read8(handle);
