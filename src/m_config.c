@@ -110,6 +110,7 @@ extern int      savegame;
 extern int      skilllevel;
 extern int      stat_damageinflicted;
 extern int      stat_damagereceived;
+extern int      stat_deaths;
 extern int      stat_itemspickedup;
 extern int      stat_monsterskilled;
 extern int      stat_secretsrevealed;
@@ -208,6 +209,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (skilllevel,           NOALIAS    ),
     CONFIG_VARIABLE_INT          (stat_damageinflicted, NOALIAS    ),
     CONFIG_VARIABLE_INT          (stat_damagereceived,  NOALIAS    ),
+    CONFIG_VARIABLE_INT          (stat_deaths,          NOALIAS    ),
     CONFIG_VARIABLE_INT          (stat_itemspickedup,   NOALIAS    ),
     CONFIG_VARIABLE_INT          (stat_monsterskilled,  NOALIAS    ),
     CONFIG_VARIABLE_INT          (stat_secretsrevealed, NOALIAS    ),

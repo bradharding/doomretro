@@ -87,6 +87,7 @@ int             stat_damageinflicted = 0;
 int             stat_damagereceived = 0;
 int             stat_itemspickedup = 0;
 int             stat_monsterskilled = 0;
+int             stat_deaths = 0;
 
 //
 // GET STUFF
@@ -922,6 +923,8 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
 
         if (target->player == &players[0] && automapactive)
             AM_Stop();          // don't die in auto map, switch view prior to dying
+
+        stat_deaths++;
     }
     else
         target->flags2 &= ~MF2_NOLIQUIDBOB;
