@@ -2042,11 +2042,6 @@ void deh_procThing(DEHFILE *fpin, char *line)
                         C_Output("Bits = 0x%08lX = %ld.", value, value);
                     mobjinfo[indexnum].flags = value; // e6y
                 }
-                if (!BTSX)
-                {
-                    mobjinfo[indexnum].flags2 = 0;
-                    mobjinfo[indexnum].blood = 0;
-                }
             }
             if (devparm)
                 C_Output("Assigned %d to %s (%d) at index %d.", (int)value, key, indexnum, ix);
