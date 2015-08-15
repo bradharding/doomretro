@@ -265,7 +265,7 @@ typedef enum
 typedef struct plat_s
 {
     thinker_t          thinker;
-    struct plat_s       *next;
+    struct plat_s      *next;
     struct plat_s      *prev;
     sector_t           *sector;
     fixed_t            speed;

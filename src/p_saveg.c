@@ -1175,8 +1175,6 @@ static void saveg_read_plat_t(plat_t *str)
 
     // plattype_e type
     str->type = (plattype_e)saveg_read_enum();
-
-    // struct platlist_s
 }
 
 static void saveg_write_plat_t(plat_t *str)
@@ -1213,8 +1211,6 @@ static void saveg_write_plat_t(plat_t *str)
 
     // plattype_e type
     saveg_write_enum(str->type);
-
-    // struct platlist_s
 }
 
 //
@@ -2029,7 +2025,7 @@ void P_ArchiveSpecials(void)
 
             // [jeff-d] save height of moving platforms
             for (platlist = activeplats; platlist; platlist = platlist->next)
-                if (platlist->plat == (plat_t*)th)
+                if (platlist->plat == (plat_t *)th)
                 {
                     saveg_write8(tc_plat);
                     saveg_write_pad();
