@@ -372,8 +372,7 @@ void D_DoomLoop(void)
             S_UpdateSounds(players[0].mo);  // move positional sounds
 
         // Update display, next frame, with current state.
-        if (screenvisible)
-            D_Display();
+        D_Display();
     }
 }
 
@@ -1254,6 +1253,7 @@ static void D_DoomMainSetup(void)
     int         choseniwad = 0;
     static char lumpname[6];
     char        *exefolder = M_GetExecutableFolder();
+    char        *packageconfig = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL);
     char        *packagewad = M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_WAD, NULL);
 
     C_PrintCompileDate();
@@ -1303,7 +1303,7 @@ static void D_DoomMainSetup(void)
 
     // Load configuration files before initializing other subsystems.
     p = M_CheckParmWithArgs("-config", 1);
-    M_LoadCVARs(p ? myargv[p + 1] : M_StringJoin(exefolder, DIR_SEPARATOR_S, PACKAGE_CONFIG, NULL));
+    M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
 
     if (runcount < 2)
         C_Output(PACKAGE_NAME" has been run %s.", (!runcount ? "once" : "twice"));

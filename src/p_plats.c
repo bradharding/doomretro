@@ -44,7 +44,7 @@
 #include "s_sound.h"
 #include "doomstat.h"
 
-platlist_t *activeplats;        // killough 2/14/98: made global again
+platlist_t      *activeplats;   // killough 2/14/98: made global again
 
 //
 // Move a plat up and down
