@@ -1208,6 +1208,10 @@ void I_InitGraphics(void)
     numdisplays = SDL_GetNumVideoDisplays();
     displays = Z_Malloc(numdisplays, PU_STATIC, NULL);
 
+#if defined (_DEBUG)
+    vid_fullscreen = false;
+#endif
+
     SetVideoMode(true);
 
 #if defined(WIN32)
