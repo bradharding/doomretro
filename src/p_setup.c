@@ -1838,9 +1838,6 @@ void P_SetupLevel(int ep, int map)
 
     idclev = false;
 
-    // Make sure all sounds are stopped before Z_FreeTags.
-    S_Start();
-
     Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
     if (rejectlump != -1)
@@ -1941,6 +1938,8 @@ void P_SetupLevel(int ep, int map)
 
     // preload graphics
     R_PrecacheLevel();
+
+    S_Start();
 }
 
 //
