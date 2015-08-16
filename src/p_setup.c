@@ -1706,7 +1706,7 @@ void P_MapName(int ep, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s's %s",
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
@@ -1720,7 +1720,7 @@ void P_MapName(int ep, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s's %s",
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
@@ -1740,7 +1740,7 @@ void P_MapName(int ep, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s's %s",
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
@@ -1754,7 +1754,7 @@ void P_MapName(int ep, int map)
                 mapnumonly = true;
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
-                M_snprintf(automaptitle, sizeof(automaptitle), "%s's %s",
+                M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
                     M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
             }
             else
