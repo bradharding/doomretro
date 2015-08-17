@@ -191,10 +191,10 @@ void P_XYMovement(mobj_t *mo)
 {
     player_t    *player;
     fixed_t     xmove, ymove;
-    mobjtype_t  type;
+    mobjtype_t  type = mo->type;
     int         flags = mo->flags;
     int         flags2 = mo->flags2;
-    dboolean    corpse = (flags & MF_CORPSE);
+    dboolean    corpse = ((flags & MF_CORPSE) && type != MT_BARREL);
 
     if (!(mo->momx | mo->momy))
     {
@@ -209,7 +209,6 @@ void P_XYMovement(mobj_t *mo)
     }
 
     player = mo->player;
-    type = mo->type;
 
     if (flags2 & MF2_SMOKETRAIL)
         if (puffcount++ > 1)
