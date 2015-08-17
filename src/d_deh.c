@@ -1714,7 +1714,7 @@ dboolean CheckPackageWADVersion(void)
     unsigned int        i;
 
     for (i = 0; i < numlumps; ++i)
-        if (!strncasecmp(lumpinfo[i].name, "VERSION", 7))
+        if (!strncasecmp(lumpinfo[i]->name, "VERSION", 7))
         {
             infile.size = W_LumpLength(i);
             infile.inp = infile.lump = W_CacheLumpNum(i, PU_STATIC);
@@ -1765,7 +1765,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     {
         infile.size = W_LumpLength(lumpnum);
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
-        filename = lumpinfo[lumpnum].wad_file->path;
+        filename = lumpinfo[lumpnum]->wad_file->path;
         C_Output("Parsed DEHACKED lump from %s file %s.",
             (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), uppercase(filename));
     }
@@ -2950,6 +2950,7 @@ void deh_procStrings(DEHFILE *fpin, char *line)
 
     *holdstring = '\0';                 // empty string to start with
     strncpy(inbuffer, line, DEH_BUFFERMAX);
+
     // Ty 04/24/98 - have to allow inbuffer to start with a blank for
     // the continuations of C1TEXT etc.
     while (!dehfeof(fpin) && *inbuffer)
@@ -2978,9 +2979,11 @@ void deh_procStrings(DEHFILE *fpin, char *line)
                     maxstrlen, (int)strlen(inbuffer));
             holdstring = realloc(holdstring, maxstrlen * sizeof(*holdstring));
         }
+
         // concatenate the whole buffer if continuation or the value if first
-        strcat(holdstring, ptr_lstrip(((*holdstring) ? inbuffer : strval)));
+        strcat(holdstring, ptr_lstrip((*holdstring ? inbuffer : strval)));
         rstrip(holdstring);
+
         // delete any trailing blanks past the backslash
         // note that blanks before the backslash will be concatenated
         // but ones at the beginning of the next line will not, allowing

@@ -1579,7 +1579,7 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
         dboolean replaced;
         dboolean pwad;
 
-        M_StringCopy(lump, uppercase(lumpinfo[i].name), 8);
+        M_StringCopy(lump, uppercase(lumpinfo[i]->name), 8);
 
         if (gamemode == commercial)
         {
@@ -1594,9 +1594,9 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
         if (!ep-- || !map--)
             continue;
 
-        M_StringCopy(wad, uppercase(M_ExtractFilename(lumpinfo[i].wad_file->path)), MAX_PATH);
+        M_StringCopy(wad, uppercase(M_ExtractFilename(lumpinfo[i]->wad_file->path)), MAX_PATH);
         replaced = (W_CheckMultipleLumps(lump) > 1 && !chex && !FREEDOOM);
-        pwad = (lumpinfo[i].wad_file->type == PWAD);
+        pwad = (lumpinfo[i]->wad_file->type == PWAD);
 
         switch (gamemission)
         {
@@ -1753,8 +1753,8 @@ static void C_MapStats(char *cmd, char *parm1, char *parm2)
         else
             M_snprintf(lumpname, sizeof(lumpname), "E%iM%i", startepisode, startmap);
         i = W_CheckNumForName(lumpname);
-        C_TabbedOutput(tabs, "%s\t%s", (lumpinfo[i].wad_file->type == IWAD ? "IWAD" : "PWAD"),
-            uppercase(lumpinfo[i].wad_file->path));
+        C_TabbedOutput(tabs, "%s\t%s", (lumpinfo[i]->wad_file->type == IWAD ? "IWAD" : "PWAD"),
+            uppercase(lumpinfo[i]->wad_file->path));
     }
 
     C_TabbedOutput(tabs, "Node format\t%s", (mapformat == DOOMBSP ? "Regular nodes" :

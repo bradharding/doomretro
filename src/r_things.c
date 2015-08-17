@@ -193,7 +193,7 @@ static void R_InitSpriteDefs(const char *const *namelist)
 
     for (i = 0; i < numentries; i++)            // Prepend each sprite to hash chain
     {                                           // prepend so that later ones win
-        int     j = R_SpriteNameHash(lumpinfo[i + firstspritelump].name) % numentries;
+        int     j = R_SpriteNameHash(lumpinfo[i + firstspritelump]->name) % numentries;
 
         hash[i].next = hash[j].index;
         hash[j].index = i;
@@ -217,7 +217,7 @@ static void R_InitSpriteDefs(const char *const *namelist)
             maxframe = -1;
             do
             {
-                lumpinfo_t      *lump = lumpinfo + j + firstspritelump;
+                lumpinfo_t      *lump = lumpinfo[j + firstspritelump];
 
                 // Fast portable comparison -- killough
                 // (using int pointer cast is nonportable):

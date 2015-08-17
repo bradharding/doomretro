@@ -918,9 +918,9 @@ static void SetVideoMode(dboolean output)
                 SDL_WINDOWPOS_UNDEFINED_DISPLAY(displayindex), 0, 0,
                 (SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_RESIZABLE));
             if (output)
-                C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect ratio.",
-                    displays[displayindex].w, displays[displayindex].h, (acronym[0] ? " (" : " "),
-                    acronym, (acronym[0] ? ")" : ""), ratio);
+                C_Output("Staying at the desktop resolution of %ix%i%s%s%s with a %s aspect "
+                    "ratio.", displays[displayindex].w, displays[displayindex].h, (acronym[0] ?
+                    " (" : " "), acronym, (acronym[0] ? ")" : ""), ratio);
         }
         else
         {
@@ -976,7 +976,7 @@ static void SetVideoMode(dboolean output)
     {
         SDL_RendererInfo        rendererinfo;
         char                    *renderername = "unknown renderer";
-        wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")].wad_file;
+        wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
 
         SDL_GetRendererInfo(renderer, &rendererinfo);
         if (!strcasecmp(rendererinfo.name, vid_scaledriver_direct3d))
@@ -989,7 +989,8 @@ static void SetVideoMode(dboolean output)
         if (!strcasecmp(vid_scalefilter, vid_scalefilter_linear))
             C_Output("Scaling the screen using linear filtering in %s.", renderername);
         else
-            C_Output("Scaling the screen using nearest-neighbor interpolation in %s.", renderername);
+            C_Output("Scaling the screen using nearest-neighbor interpolation in %s.",
+                renderername);
 
         if (vid_capfps)
             C_Output("The framerate is capped at %i FPS.", TICRATE);

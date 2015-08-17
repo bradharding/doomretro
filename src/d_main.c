@@ -1238,7 +1238,7 @@ static void D_ProcessDehInWad(void)
         return;
 
     for (i = 0; i < numlumps; ++i)
-        if (!strncasecmp(lumpinfo[i].name, "DEHACKED", 8))
+        if (!strncasecmp(lumpinfo[i]->name, "DEHACKED", 8))
             ProcessDehFile(NULL, i);
 }
 
