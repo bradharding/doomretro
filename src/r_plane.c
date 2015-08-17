@@ -459,7 +459,7 @@ void R_DrawPlanes(void)
                     yoffs = pl->yoffs;
                     planeheight = ABS(pl->height - viewz);
 
-                    if (liquid && pl->sector && pl->sector->animate != INT_MAX)
+                    if (liquid && pl->sector && pl->sector->animate)
                         planeheight -= pl->sector->animate;
 
                     planezlight = zlight[BETWEEN(0, (pl->lightlevel >> LIGHTSEGSHIFT)

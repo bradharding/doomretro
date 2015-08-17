@@ -44,19 +44,9 @@
 #include "s_sound.h"
 #include "z_zone.h"
 
-dboolean r_liquid_bob = r_liquid_bob_default;
+dboolean        r_liquid_bob = r_liquid_bob_default;
 
-fixed_t animatedliquiddiffs[64] =
-{
-     6422,  6422,  6360,  6238,  6054,  5814,  5516,  5164,
-     4764,  4318,  3830,  3306,  2748,  2166,  1562,   942,
-      314,  -314,  -942, -1562, -2166, -2748, -3306, -3830,
-    -4318, -4764, -5164, -5516, -5814, -6054, -6238, -6360,
-    -6422, -6422, -6360, -6238, -6054, -5814, -5516, -5164,
-    -4764, -4318, -3830, -3306, -2748, -2166, -1562,  -942,
-     -314,   314,   942,  1562,  2166,  2748,  3306,  3830,
-     4318,  4764,  5164,  5516,  5814,  6054,  6238,  6360
-};
+fixed_t         animatedliquiddiff;
 
 extern dboolean canmodify;
 
@@ -64,15 +54,8 @@ static void T_AnimateLiquid(floormove_t *floor)
 {
     sector_t    *sector = floor->sector;
 
-    if (r_liquid_bob && isliquid[sector->floorpic] && sector->ceilingheight != sector->floorheight)
-    {
-        if (sector->animate == INT_MAX)
-            sector->animate = FRACUNIT + animatedliquiddiffs[leveltime & 63];
-        else
-            sector->animate += animatedliquiddiffs[leveltime & 63];
-    }
-    else
-        sector->animate = INT_MAX;
+    sector->animate = (r_liquid_bob && isliquid[sector->floorpic]
+        && sector->ceilingheight != sector->floorheight ? animatedliquiddiff : 0);
 }
 
 static void P_StartAnimatedLiquid(sector_t *sector)
@@ -89,6 +72,7 @@ static void P_StartAnimatedLiquid(sector_t *sector)
     P_AddThinker(&floor->thinker);
     floor->thinker.function = T_AnimateLiquid;
     floor->sector = sector;
+    T_AnimateLiquid(floor);
 }
 
 void P_InitAnimatedLiquids(void)
@@ -97,11 +81,8 @@ void P_InitAnimatedLiquids(void)
     sector_t    *sector;
 
     for (i = 0, sector = sectors; i < numsectors; i++, sector++)
-    {
-        sector->animate = INT_MAX;
         if (isliquid[sector->floorpic])
             P_StartAnimatedLiquid(sector);
-    }
 }
 
 //

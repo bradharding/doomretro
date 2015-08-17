@@ -90,6 +90,18 @@ typedef struct
 
 int             stat_secretsrevealed = 0;
 
+fixed_t animatedliquiddiffs[64] =
+{
+     6422,  6422,  6360,  6238,  6054,  5814,  5516,  5164,
+     4764,  4318,  3830,  3306,  2748,  2166,  1562,   942,
+      314,  -314,  -942, -1562, -2166, -2748, -3306, -3830,
+    -4318, -4764, -5164, -5516, -5814, -6054, -6238, -6360,
+    -6422, -6422, -6360, -6238, -6054, -5814, -5516, -5164,
+    -4764, -4318, -3830, -3306, -2748, -2166, -1562,  -942,
+     -314,   314,   942,  1562,  2166,  2748,  3306,  3830,
+     4318,  4764,  5164,  5516,  5814,  6054,  6238,  6360
+};
+
 static anim_t   *lastanim;
 static anim_t   *anims;                 // new structure w/o limits -- killough
 static size_t   maxanims;
@@ -102,6 +114,7 @@ static void P_SpawnPushers(void);       // phares 3/20/98
 extern char     *playername;
 extern int      numflats;
 extern dboolean canmodify;
+extern fixed_t  animatedliquiddiff;
 
 dboolean        *isliquid;
 
@@ -1883,6 +1896,8 @@ void P_UpdateSpecials(void)
                 flattranslation[i] = pic;
         }
     }
+
+    animatedliquiddiff += animatedliquiddiffs[leveltime & 63];
 
     // DO BUTTONS
     for (i = 0; i < MAXBUTTONS; i++)

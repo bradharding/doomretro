@@ -134,6 +134,8 @@ mapformat_t     mapformat;
 dboolean        boomlinespecials;
 dboolean        blockmaprecreated;
 
+extern fixed_t  animatedliquiddiff;
+
 static fixed_t GetOffset(vertex_t *v1, vertex_t *v2)
 {
     fixed_t     dx = (v1->x - v2->x) >> FRACBITS;
@@ -1866,6 +1868,7 @@ void P_SetupLevel(int ep, int map)
         || (nerve && gamemission == doom2)) && !FREEDOOM);
 
     leveltime = 0;
+    animatedliquiddiff = FRACUNIT;
 
     // e6y: speedup of level reloading
     // Most of level's structures now are allocated with PU_STATIC instead of PU_LEVEL
