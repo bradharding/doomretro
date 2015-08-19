@@ -1143,6 +1143,9 @@ static void saveg_write_floormove_t(floormove_t *str)
 //
 static void saveg_read_plat_t(plat_t *str)
 {
+    // thinker_t thinker;
+    str->thinker.function = (saveg_read32() ? T_PlatRaise : NULL);
+
     // sector_t *sector
     str->sector = &sectors[saveg_read32()];
 
@@ -1179,6 +1182,9 @@ static void saveg_read_plat_t(plat_t *str)
 
 static void saveg_write_plat_t(plat_t *str)
 {
+    // thinker_t thinker;
+    saveg_write32(!!str->thinker.function);
+
     // sector_t *sector
     saveg_write32(str->sector - sectors);
 
@@ -2207,10 +2213,6 @@ void P_UnArchiveSpecials(void)
                 plat = Z_Malloc(sizeof(*plat), PU_LEVEL, NULL);
                 saveg_read_plat_t(plat);
                 plat->sector->floordata = plat;
-
-                if (plat->thinker.function)
-                    plat->thinker.function = T_PlatRaise;
-
                 P_AddThinker(&plat->thinker);
                 P_AddActivePlat(plat);
                 break;
