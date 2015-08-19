@@ -1000,6 +1000,9 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     if (!(flags & MF_SHOOTABLE) && (!(flags & MF_CORPSE) || !r_corpses_slide))
         return;
 
+    if (target->health <= 0)
+        return;
+
     if (type == MT_BARREL && (flags & MF_CORPSE))
         return;
 
@@ -1017,7 +1020,8 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     // Some close combat weapons should not
     // inflict thrust and push the victim out of reach,
     // thus kick away unless using the chainsaw.
-    if (inflicter && !(flags & MF_NOCLIP) && (!splayer || splayer->readyweapon != wp_chainsaw))
+    if (inflicter && !(flags & MF_NOCLIP) && (!source || !splayer
+        || splayer->readyweapon != wp_chainsaw))
     {
         unsigned int    ang = R_PointToAngle2(inflicter->x, inflicter->y, target->x, target->y);
         fixed_t         thrust = damage * (FRACUNIT >> 3) * 100 / target->info->mass;
@@ -1079,9 +1083,6 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     {
         int     damagecount;
 
-        if (tplayer->health <= 0)
-            return;
-
         // end of game hell hack
         if (target->subsector->sector->special == DamageNegative10Or20PercentHealthAndEndLevel
             && damage >= target->health)
@@ -1128,48 +1129,45 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     }
 
     // do the damage
-    if (!(flags & MF_CORPSE))
+    target->health -= damage;
+    if (target->health <= 0)
     {
-        target->health -= damage;
-        if (target->health <= 0)
-        {
-            if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
-                target->colfunc = tlredcolfunc;
-            else if (type == MT_BRUISER || type == MT_KNIGHT)
-                target->colfunc = redtogreencolfunc;
+        if (type == MT_BARREL || type == MT_PAIN || type == MT_SKULL)
+            target->colfunc = tlredcolfunc;
+        else if (type == MT_BRUISER || type == MT_KNIGHT)
+            target->colfunc = redtogreencolfunc;
 
-            // [crispy] the lethal pellet of a point-blank SSG blast
-            // gets an extra damage boost for the occasional gib chance
-            if (splayer && splayer->readyweapon == wp_supershotgun && target->info->xdeathstate
-                && P_CheckMeleeRange(target) && damage >= 10)
-                target->health -= target->info->spawnhealth;
+        // [crispy] the lethal pellet of a point-blank SSG blast
+        // gets an extra damage boost for the occasional gib chance
+        if (splayer && splayer->readyweapon == wp_supershotgun && target->info->xdeathstate
+            && P_CheckMeleeRange(target) && damage >= 10)
+            target->health -= target->info->spawnhealth;
 
-            P_KillMobj(source, target);
-            return;
-        }
+        P_KillMobj(source, target);
+        return;
+    }
 
-        if (P_Random() < target->info->painchance && !(flags & MF_SKULLFLY))
-        {
-            target->flags |= MF_JUSTHIT;        // fight back!
+    if (P_Random() < target->info->painchance && !(flags & MF_SKULLFLY))
+    {
+        target->flags |= MF_JUSTHIT;                            // fight back!
 
-            P_SetMobjState(target, target->info->painstate);
-        }
+        P_SetMobjState(target, target->info->painstate);
+    }
 
-        target->reactiontime = 0;               // we're awake now...
+    target->reactiontime = 0;                                   // we're awake now...
 
-        if ((!target->threshold || type == MT_VILE)
-            && source && source != target && source->type != MT_VILE)
-        {
-            // if not intent on another player,
-            // chase after this one
-            if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
-                target->lastenemy = target->target;     // remember last enemy - killough
+    if ((!target->threshold || type == MT_VILE)
+        && source && source != target && source->type != MT_VILE)
+    {
+        // if not intent on another player,
+        // chase after this one
+        if (!target->lastenemy || target->lastenemy->health <= 0 || !target->lastenemy->player)
+            P_SetTarget(&target->lastenemy, target->target);    // remember last enemy - killough
 
-            target->target = source;
-            target->threshold = BASETHRESHOLD;
-            if (target->state == &states[target->info->spawnstate]
-                && target->info->seestate != S_NULL)
-                P_SetMobjState(target, target->info->seestate);
-        }
+        P_SetTarget(&target->target, source);                   // killough 11/98
+        target->threshold = BASETHRESHOLD;
+        if (target->state == &states[target->info->spawnstate]
+            && target->info->seestate != S_NULL)
+            P_SetMobjState(target, target->info->seestate);
     }
 }
