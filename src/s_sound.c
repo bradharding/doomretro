@@ -407,13 +407,11 @@ static int S_AdjustSoundParams(mobj_t *listener, mobj_t *source, int *vol, int *
     return (*vol > 0);
 }
 
-void S_StartSound(void *origin_p, int sfx_id)
+void S_StartNewSound(mobj_t *origin, int sfx_id, int pitch)
 {
     sfxinfo_t   *sfx = &S_sfx[sfx_id];
-    mobj_t      *origin = (mobj_t *)origin_p;
     mobj_t      *player = players[0].mo;
     int         sep;
-    int         pitch = (origin ? origin->pitch : NORM_PITCH);
     int         cnum;
     int         volume = snd_SfxVolume;
     int         handle;
@@ -469,12 +467,14 @@ void S_StartSound(void *origin_p, int sfx_id)
     }
 }
 
-void S_StartMapSound(void *origin_p, int sfx_id)
+void S_StartSound(mobj_t *origin, int sfx_id)
 {
-    mobj_t      *origin = (mobj_t *)origin_p;
+    S_StartNewSound(origin, sfx_id, (origin ? origin->pitch : NORM_PITCH));
+}
 
-    origin->pitch = NORM_PITCH;
-    S_StartSound(origin, sfx_id);
+void S_StartMapSound(void *origin, int sfx_id)
+{
+    S_StartNewSound((mobj_t *)origin, sfx_id, NORM_PITCH);
 }
 
 //
