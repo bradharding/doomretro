@@ -1377,8 +1377,14 @@ void C_PrintCompileDate(void)
 
 void C_PrintSDLVersions(void)
 {
-    C_Output("Using version %i.%i.%i (Revision %i) of SDL2.DLL.",
-        SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, SDL_GetRevisionNumber());
+    int revision = SDL_GetRevisionNumber();
+
+    if (revision)
+        C_Output("Using version %i.%i.%i (Revision %i) of SDL2.DLL.",
+            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL, revision);
+    else
+        C_Output("Using version %i.%i.%i of SDL2.DLL.",
+            SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 
     C_Output("Using version %i.%i.%i of SDL2_MIXER.DLL.",
         SDL_MIXER_MAJOR_VERSION, SDL_MIXER_MINOR_VERSION, SDL_MIXER_PATCHLEVEL);
