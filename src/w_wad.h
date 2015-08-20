@@ -56,8 +56,7 @@
 #define IWAD 1
 #define PWAD 2
 
-typedef struct          lumpinfo_s lumpinfo_t;
-typedef unsigned int    lumpindex_t;
+typedef struct lumpinfo_s lumpinfo_t;
 
 struct lumpinfo_s
 {
@@ -68,34 +67,34 @@ struct lumpinfo_s
     void        *cache;
 
     // Used for hash table lookups
-    lumpindex_t next;
+    lumpinfo_t  *next;
 };
 
-extern lumpinfo_t       **lumpinfo;
+extern lumpinfo_t       *lumpinfo;
 extern unsigned int     numlumps;
 
 wad_file_t *W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);
 
-lumpindex_t W_CheckNumForName(char *name);
-lumpindex_t W_RangeCheckNumForName(unsigned int min, unsigned int max, char *name);
-lumpindex_t W_GetNumForName(char *name);
-lumpindex_t W_GetNumForName2(char *name);
-lumpindex_t W_GetNumForNameX(char *name, unsigned int count);
+int W_CheckNumForName(char *name);
+int W_RangeCheckNumForName(int min, int max, char *name);
+int W_GetNumForName(char *name);
+int W_GetNumForName2(char *name);
+int W_GetNumForNameX(char *name, unsigned int count);
 
 int W_CheckMultipleLumps(char *name);
 
-int W_LumpLength(lumpindex_t lump);
-void W_ReadLump(lumpindex_t lump, void *dest);
+int W_LumpLength(unsigned int lump);
+void W_ReadLump(unsigned int lump, void *dest);
 
-void *W_CacheLumpNum(lumpindex_t lump, int tag);
+void *W_CacheLumpNum(int lump, int tag);
 void *W_CacheLumpName(char *name, int tag);
 
 void W_GenerateHashTable(void);
 
 extern unsigned int W_LumpNameHash(const char *s);
 
-void W_ReleaseLumpNum(lumpindex_t lump);
+void W_ReleaseLumpNum(int lump);
 void W_ReleaseLumpName(char *name);
 
 int IWADRequiredByPWAD(const char *pwadname);

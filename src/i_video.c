@@ -976,7 +976,7 @@ static void SetVideoMode(dboolean output)
     {
         SDL_RendererInfo        rendererinfo;
         char                    *renderername = "unknown renderer";
-        wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")]->wad_file;
+        wad_file_t              *playpalwad = lumpinfo[W_CheckNumForName("PLAYPAL")].wad_file;
 
         SDL_GetRendererInfo(renderer, &rendererinfo);
         if (!strcasecmp(rendererinfo.name, vid_scaledriver_direct3d))
