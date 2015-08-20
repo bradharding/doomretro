@@ -1896,13 +1896,8 @@ dboolean PIT_ChangeSector(mobj_t *thing)
     {
         if (thing->type == MT_PLAYER)
         {
-            player_t    *player = thing->player;
-
-            if (player->powers[pw_invulnerability] || (player->cheats & CF_GODMODE))
-            {
-                nofit = true;
-                return true;
-            }
+            nofit = true;
+            return true;
         }
 
         if (!(flags & MF_FUZZ) && !(flags & MF_NOBLOOD))
