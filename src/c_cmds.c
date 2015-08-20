@@ -528,7 +528,7 @@ consolecmd_t consolecmds[] =
     CMD       (resurrect, C_ResurrectCondition, C_Resurrect, 0, "", "Resurrects the player."),
     CVAR_INT  (runcount, C_NoCondition, C_Int, CF_READONLY, NOALIAS, "The number of times "PACKAGE_NAME" has been run."),
     CVAR_INT  (s_musicvolume, C_VolumeCondition, C_Volume, CF_PERCENT,  NOALIAS, "The music volume."),
-    CVAR_BOOL (s_randompitch, C_BoolCondition, C_Bool, "Toggles randomizing the pitch of sound effects."),
+    CVAR_BOOL (s_randompitch, C_BoolCondition, C_Bool, "Toggles randomizing the pitch of monster sound effects."),
     CVAR_INT  (s_sfxvolume, C_VolumeCondition, C_Volume, CF_PERCENT, NOALIAS, "The sound effects volume."),
     CVAR_STR  (s_timiditycfgpath, C_NoCondition, C_Str, "The path of Timidity's configuration file."),
     CMD       (save, C_SaveCondition, C_Save, 1, "~filename~.save", "Saves the game to a file."),
