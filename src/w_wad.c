@@ -420,7 +420,7 @@ int W_CheckMultipleLumps(char *name)
 // Linear Search that checks for a lump number ONLY
 // inside a range, not all lumps.
 //
-lumpindex_t W_RangeCheckNumForName(int min, int max, char *name)
+lumpindex_t W_RangeCheckNumForName(unsigned int min, unsigned int max, char *name)
 {
     lumpindex_t i;
 

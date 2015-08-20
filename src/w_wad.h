@@ -56,8 +56,8 @@
 #define IWAD 1
 #define PWAD 2
 
-typedef struct lumpinfo_s lumpinfo_t;
-typedef int lumpindex_t;
+typedef struct          lumpinfo_s lumpinfo_t;
+typedef unsigned int    lumpindex_t;
 
 struct lumpinfo_s
 {
@@ -78,7 +78,7 @@ wad_file_t *W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);
 
 lumpindex_t W_CheckNumForName(char *name);
-lumpindex_t W_RangeCheckNumForName(int min, int max, char *name);
+lumpindex_t W_RangeCheckNumForName(unsigned int min, unsigned int max, char *name);
 lumpindex_t W_GetNumForName(char *name);
 lumpindex_t W_GetNumForName2(char *name);
 lumpindex_t W_GetNumForNameX(char *name, unsigned int count);
