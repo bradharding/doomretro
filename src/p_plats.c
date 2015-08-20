@@ -60,15 +60,15 @@ void T_PlatRaise(plat_t *plat)
 
             if (plat->type == raiseAndChange || plat->type == raiseToNearestAndChange)
             {
-                if (!(leveltime & 7) && plat->sector->interpfloorheight != plat->high)
-                    S_StartMapSound(&plat->sector->soundorg, sfx_stnmov);
+                if (!(leveltime & 7) && plat->sector->floorheight != plat->high)
+                    S_StartSectorSound(&plat->sector->soundorg, sfx_stnmov);
             }
 
             if (res == crushed && !plat->crush)
             {
                 plat->count = plat->wait;
                 plat->status = down;
-                S_StartMapSound(&plat->sector->soundorg, sfx_pstart);
+                S_StartSectorSound(&plat->sector->soundorg, sfx_pstart);
             }
             else
             {
@@ -79,7 +79,7 @@ void T_PlatRaise(plat_t *plat)
                     {
                         plat->count = plat->wait;
                         plat->status = waiting;
-                        S_StartMapSound(&plat->sector->soundorg, sfx_pstop);
+                        S_StartSectorSound(&plat->sector->soundorg, sfx_pstop);
                     }
                     else // else go into stasis awaiting next toggle activation
                     {
@@ -114,7 +114,7 @@ void T_PlatRaise(plat_t *plat)
                 {                                       // is silent, instant, no waiting
                     plat->count = plat->wait;
                     plat->status = waiting;
-                    S_StartMapSound(&plat->sector->soundorg, sfx_pstop);
+                    S_StartSectorSound(&plat->sector->soundorg, sfx_pstop);
                 }
                 else    // instant toggles go into stasis awaiting next activation
                 {
@@ -138,9 +138,10 @@ void T_PlatRaise(plat_t *plat)
         case waiting:
             if (!--plat->count)
             {
-                plat->status = (plat->sector->interpfloorheight == plat->low ? up : down);
-                S_StartMapSound(&plat->sector->soundorg, sfx_pstart);
+                plat->status = (plat->sector->floorheight == plat->low ? up : down);
+                S_StartSectorSound(&plat->sector->soundorg, sfx_pstart);
             }
+            break;
 
         case in_stasis:
             break;
@@ -184,6 +185,7 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
         // Find lowest & highest floors around sector
         rtn = 1;
         plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
+        memset(plat, 0, sizeof(*plat));
         P_AddThinker(&plat->thinker);
 
         plat->type = type;
@@ -192,73 +194,73 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
         plat->thinker.function = T_PlatRaise;
         plat->crush = false;
         plat->tag = line->tag;
-        plat->low = sec->interpfloorheight;
+        plat->low = sec->floorheight;
 
         switch (type)
         {
             case raiseToNearestAndChange:
                 plat->speed = PLATSPEED / 2;
                 sec->floorpic = sides[line->sidenum[0]].sector->floorpic;
-                plat->high = P_FindNextHighestFloor(sec, sec->interpfloorheight);
+                plat->high = P_FindNextHighestFloor(sec, sec->floorheight);
                 plat->wait = 0;
                 plat->status = up;
                 sec->special = 0;
 
-                S_StartMapSound(&sec->soundorg, sfx_stnmov);
+                S_StartSectorSound(&sec->soundorg, sfx_stnmov);
                 break;
 
             case raiseAndChange:
                 plat->speed = PLATSPEED / 2;
                 sec->floorpic = sides[line->sidenum[0]].sector->floorpic;
-                plat->high = sec->interpfloorheight + amount * FRACUNIT;
+                plat->high = sec->floorheight + amount * FRACUNIT;
                 plat->wait = 0;
                 plat->status = up;
 
-                S_StartMapSound(&sec->soundorg, sfx_stnmov);
+                S_StartSectorSound(&sec->soundorg, sfx_stnmov);
                 break;
 
             case downWaitUpStay:
                 plat->speed = PLATSPEED * 4;
                 plat->low = P_FindLowestFloorSurrounding(sec);
 
-                if (plat->low > sec->interpfloorheight)
-                    plat->low = sec->interpfloorheight;
+                if (plat->low > sec->floorheight)
+                    plat->low = sec->floorheight;
 
-                plat->high = sec->interpfloorheight;
+                plat->high = sec->floorheight;
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
-                S_StartMapSound(&sec->soundorg, sfx_pstart);
+                S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;
 
             case blazeDWUS:
                 plat->speed = PLATSPEED * 8;
                 plat->low = P_FindLowestFloorSurrounding(sec);
 
-                if (plat->low > sec->interpfloorheight)
-                    plat->low = sec->interpfloorheight;
+                if (plat->low > sec->floorheight)
+                    plat->low = sec->floorheight;
 
-                plat->high = sec->interpfloorheight;
+                plat->high = sec->floorheight;
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = down;
-                S_StartMapSound(&sec->soundorg, sfx_pstart);
+                S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;
 
             case perpetualRaise:
                 plat->speed = PLATSPEED;
                 plat->low = P_FindLowestFloorSurrounding(sec);
 
-                if (plat->low > sec->interpfloorheight)
-                    plat->low = sec->interpfloorheight;
+                if (plat->low > sec->floorheight)
+                    plat->low = sec->floorheight;
 
                 plat->high = P_FindHighestFloorSurrounding(sec);
 
-                if (plat->high < sec->interpfloorheight)
-                    plat->high = sec->interpfloorheight;
+                if (plat->high < sec->floorheight)
+                    plat->high = sec->floorheight;
 
                 plat->wait = TICRATE * PLATWAIT;
                 plat->status = (plat_e)(P_Random() & 1);
 
-                S_StartMapSound(&sec->soundorg, sfx_pstart);
+                S_StartSectorSound(&sec->soundorg, sfx_pstart);
                 break;
 
             case toggleUpDn:            // jff 3/14/98 add new type to support instant toggle
@@ -267,8 +269,8 @@ int EV_DoPlat(line_t *line, plattype_e type, int amount)
                 plat->crush = true;                     // jff 3/14/98 crush anything in the way
 
                 // set up toggling between ceiling, floor inclusive
-                plat->low = sec->interpceilingheight;
-                plat->high = sec->interpfloorheight;
+                plat->low = sec->ceilingheight;
+                plat->high = sec->floorheight;
                 plat->status = down;
                 break;
 

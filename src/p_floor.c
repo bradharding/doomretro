@@ -230,7 +230,7 @@ void T_MoveFloor(floormove_t *floor)
                                   floor->crush, 0, floor->direction);
 
     if (!(leveltime & 7) && sec->floorheight != floor->floordestheight)
-        S_StartMapSound(&sec->soundorg, sfx_stnmov);
+        S_StartSectorSound(&sec->soundorg, sfx_stnmov);
 
     if (res == pastdest)
     {
@@ -317,7 +317,7 @@ void T_MoveFloor(floormove_t *floor)
         }
 
         if (floor->stopsound)
-            S_StartMapSound(&sec->soundorg, sfx_pstop);
+            S_StartSectorSound(&sec->soundorg, sfx_pstop);
     }
 }
 
@@ -362,7 +362,7 @@ void T_MoveElevator(elevator_t *elevator)
 
     // make floor move sound
     if (!(leveltime & 7))
-        S_StartMapSound(&elevator->sector->soundorg, sfx_stnmov);
+        S_StartSectorSound(&elevator->sector->soundorg, sfx_stnmov);
 
     if (res == pastdest)                        // if destination height achieved
     {
@@ -371,7 +371,7 @@ void T_MoveElevator(elevator_t *elevator)
         P_RemoveThinker(&elevator->thinker);     // remove elevator from actives
 
         // make floor stop sound
-        S_StartMapSound(&elevator->sector->soundorg, sfx_pstop);
+        S_StartSectorSound(&elevator->sector->soundorg, sfx_pstop);
     }
 }
 
@@ -774,7 +774,7 @@ dboolean EV_BuildStairs(line_t *line, stair_e type)
                 floor->floordestheight = height;
                 floor->type = buildStair;
                 floor->crush = (type != build8);
-                floor->stopsound = (sec->floorheight != floor->floordestheight);
+                floor->stopsound = (sec->floorheight != height);
                 ok = true;
                 break;
             }

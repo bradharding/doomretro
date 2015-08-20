@@ -467,14 +467,14 @@ void S_StartNewSound(mobj_t *origin, int sfx_id, int pitch)
     }
 }
 
-void S_StartSound(mobj_t *origin, int sfx_id)
+void S_StartSound(mobj_t *mobj, int sfx_id)
 {
-    S_StartNewSound(origin, sfx_id, (origin ? origin->pitch : NORM_PITCH));
+    S_StartNewSound(mobj, sfx_id, (mobj ? mobj->pitch : NORM_PITCH));
 }
 
-void S_StartMapSound(void *origin, int sfx_id)
+void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id)
 {
-    S_StartNewSound((mobj_t *)origin, sfx_id, NORM_PITCH);
+    S_StartNewSound((mobj_t *)degenmobj, sfx_id, NORM_PITCH);
 }
 
 //

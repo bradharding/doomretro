@@ -40,6 +40,7 @@
 #define __S_SOUND__
 
 #include "p_mobj.h"
+#include "r_defs.h"
 #include "sounds.h"
 
 extern int      snd_samplerate;
@@ -86,8 +87,8 @@ void S_Start(void);
 // Start sound for thing at <origin_p>
 //  using <sfx_id> from sounds.h
 //
-void S_StartSound(void *origin_p, int sfx_id);
-void S_StartMapSound(void *origin_p, int sfx_id);
+void S_StartSound(mobj_t *mobj, int sfx_id);
+void S_StartSectorSound(degenmobj_t *degenmobj, int sfx_id);
 
 void S_StopSounds(void);
 

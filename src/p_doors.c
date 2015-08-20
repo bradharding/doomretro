@@ -71,24 +71,24 @@ void T_VerticalDoor(vldoor_t *door)
                     case doorBlazeRaise:
                     case genBlazeRaise:
                         door->direction = -1;   // time to go back down
-                        S_StartMapSound(&door->sector->soundorg, sfx_bdcls);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_bdcls);
                         break;
 
                     case doorNormal:
                     case genRaise:
                         door->direction = -1;   // time to go back down
-                        S_StartMapSound(&door->sector->soundorg, sfx_dorcls);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                         break;
 
                     case doorClose30ThenOpen:
                     case genCdO:
                         door->direction = 1;
-                        S_StartMapSound(&door->sector->soundorg, sfx_doropn);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
                         break;
 
                     case genBlazeCdO:
                         door->direction = 1;    // time to go back up
-                        S_StartMapSound(&door->sector->soundorg, sfx_bdopn);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
                         break;
 
                     default:
@@ -104,7 +104,7 @@ void T_VerticalDoor(vldoor_t *door)
                     case doorRaiseIn5Mins:
                         door->direction = 1;
                         door->type = doorNormal;
-                        S_StartMapSound(&door->sector->soundorg, sfx_doropn);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
                         break;
 
                     default:
@@ -166,12 +166,12 @@ void T_VerticalDoor(vldoor_t *door)
 
                     case doorBlazeRaise:
                         door->direction = 1;
-                        S_StartMapSound(&door->sector->soundorg, sfx_bdopn);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
                         break;
 
                     default:
                         door->direction = 1;
-                        S_StartMapSound(&door->sector->soundorg, sfx_doropn);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
                         break;
                 }
             break;
@@ -366,20 +366,20 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
                 door->topheight -= 4 * FRACUNIT;
                 door->direction = -1;
                 door->speed = VDOORSPEED * 4;
-                S_StartMapSound(&door->sector->soundorg, sfx_bdcls);
+                S_StartSectorSound(&door->sector->soundorg, sfx_bdcls);
                 break;
 
             case doorClose:
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 door->direction = -1;
-                S_StartMapSound(&door->sector->soundorg, sfx_dorcls);
+                S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                 break;
 
             case doorClose30ThenOpen:
                 door->topheight = sec->ceilingheight;
                 door->direction = -1;
-                S_StartMapSound(&door->sector->soundorg, sfx_dorcls);
+                S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                 break;
 
             case doorBlazeRaise:
@@ -389,7 +389,7 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
                 door->topheight -= 4 * FRACUNIT;
                 door->speed = VDOORSPEED * 4;
                 if (door->topheight != sec->ceilingheight)
-                    S_StartMapSound(&door->sector->soundorg, sfx_bdopn);
+                    S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
                 break;
 
             case doorNormal:
@@ -398,7 +398,7 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
                 door->topheight = P_FindLowestCeilingSurrounding(sec);
                 door->topheight -= 4 * FRACUNIT;
                 if (door->topheight != sec->ceilingheight)
-                    S_StartMapSound(&door->sector->soundorg, sfx_doropn);
+                    S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
                 break;
 
             default:
@@ -549,9 +549,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                     door->direction = 1;        // go back up
 
                     if (door->type == doorBlazeRaise)
-                        S_StartMapSound(&door->sector->soundorg, sfx_bdopn);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_bdopn);
                     else
-                        S_StartMapSound(&door->sector->soundorg, sfx_doropn);
+                        S_StartSectorSound(&door->sector->soundorg, sfx_doropn);
                 }
                 else
                 {
@@ -563,9 +563,9 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
                         door->direction = -1;   // start going down immediately
 
                         if (door->type == doorBlazeRaise)
-                            S_StartMapSound(&door->sector->soundorg, sfx_bdcls);
+                            S_StartSectorSound(&door->sector->soundorg, sfx_bdcls);
                         else
-                            S_StartMapSound(&door->sector->soundorg, sfx_dorcls);
+                            S_StartSectorSound(&door->sector->soundorg, sfx_dorcls);
                     }
                     else if (door->thinker.function == T_PlatRaise)
                     {
@@ -585,11 +585,11 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     {
         case DR_Door_OpenWaitClose_Fast:
         case D1_Door_OpenStay_Fast:
-            S_StartMapSound(&sec->soundorg, sfx_bdopn);
+            S_StartSectorSound(&sec->soundorg, sfx_bdopn);
             break;
 
         default:                // LOCKED DOOR SOUND
-            S_StartMapSound(&sec->soundorg, sfx_doropn);
+            S_StartSectorSound(&sec->soundorg, sfx_doropn);
             break;
     }
 
