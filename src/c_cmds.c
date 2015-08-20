@@ -331,7 +331,6 @@ static dboolean C_LoadCondition(char *, char *, char *);
 static dboolean C_MapCondition(char *, char *, char *);
 static dboolean C_MaxBloodSplatsCondition(char *, char *, char *);
 static dboolean C_NoCondition(char *, char *, char *);
-static dboolean C_PlayerNameCondition(char *, char *, char *);
 static dboolean C_SaveCondition(char *, char *, char *);
 static dboolean C_SpawnCondition(char *, char *, char *);
 static dboolean C_ResurrectCondition(char *, char *, char *);
@@ -369,6 +368,7 @@ static void C_MaxBloodSplats(char *, char *, char *);
 static void C_NoClip(char *, char *, char *);
 static void C_NoTarget(char *, char *, char *);
 static void C_PixelSize(char *, char *, char *);
+static void C_PlayerName(char *, char *, char *);
 static void C_PlayerStats(char *, char *, char *);
 static void C_Quit(char *, char *, char *);
 static void C_Resurrect(char *, char *, char *);
@@ -492,7 +492,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (messages, C_BoolCondition, C_Bool, "Toggles messages."),
     CMD       (noclip, C_GameCondition, C_NoClip, 1, "[on|off]", "Toggles collision detection for the player."),
     CMD       (notarget, C_GameCondition, C_NoTarget, 1, "[on|off]", "Toggles the player as a target."),
-    CVAR_STR  (playername, C_PlayerNameCondition, C_Str, "The name of the player used in messages."),
+    CVAR_STR  (playername, C_NoCondition, C_PlayerName, "The name of the player used in messages."),
     CMD       (playerstats, C_GameCondition, C_PlayerStats, 0, "", "Shows the player's stats."),
     CVAR_BOOL (pm_alwaysrun, C_BoolCondition, C_AlwaysRun, "Toggles always run."),
     CVAR_BOOL (pm_centerweapon, C_BoolCondition, C_Bool, "Toggles the centering of the player's weapon when firing."),
@@ -1917,9 +1917,18 @@ static void C_PixelSize(char *cmd, char *parm1, char *parm2)
         C_Output(r_lowpixelsize);
 }
 
-static dboolean C_PlayerNameCondition(char *cmd, char *parm1, char *parm2)
+static void C_PlayerName(char *cmd, char *parm1, char *parm2)
 {
-    return (parm1[0]);
+    if (parm1[0])
+    {
+        if (strcasecmp(parm1, EMPTYVALUE))
+        {
+            playername = strdup(parm1);
+            M_SaveCVARs();
+        }
+    }
+    else
+        C_Output("\"%s\"", playername);
 }
 
 static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
