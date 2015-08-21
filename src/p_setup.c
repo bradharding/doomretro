@@ -233,6 +233,7 @@ void P_LoadSegs(int lump)
     data = (const mapseg_t *)W_CacheLumpNum(lump, PU_STATIC);
 
     boomlinespecials = false;
+
     for (i = 0; i < numsegs; i++)
     {
         seg_t           *li = segs + i;
@@ -374,8 +375,10 @@ static void P_LoadSegs_V4(int lump)
     segs = calloc_IfSameLevel(segs, numsegs, sizeof(seg_t));
     data = (const mapseg_v4_t *)W_CacheLumpNum(lump, PU_STATIC);
 
-    if ((!data) || (!numsegs))
+    if (!data || !numsegs)
         I_Error("P_LoadSegs_V4: No segs in map.");
+
+    boomlinespecials = false;
 
     for (i = 0; i < numsegs; i++)
     {
@@ -458,6 +461,9 @@ static void P_LoadSegs_V4(int lump)
         }
 
         li->offset = GetOffset(li->v1, (ml->side ? ldef->v2 : ldef->v1));
+
+        if (li->linedef->special >= BOOMLINESPECIALS)
+            boomlinespecials = true;
     }
 
     W_ReleaseLumpNum(lump);
@@ -693,6 +699,7 @@ static void P_LoadZSegs(const byte *data)
     int i;
 
     boomlinespecials = false;
+
     for (i = 0; i < numsegs; i++)
     {
         line_t                  *ldef;
