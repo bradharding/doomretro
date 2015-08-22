@@ -295,6 +295,7 @@ typedef enum
 typedef enum
 {
     DEFAULT_INT,
+    DEFAULT_INT_UNSIGNED,
     DEFAULT_INT_PERCENT,
     DEFAULT_STRING,
     DEFAULT_FLOAT,

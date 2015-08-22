@@ -56,5 +56,6 @@ float BETWEENF(float a, float b, float c);
 int SIGN(int a);
 fixed_t FixedMul(fixed_t a, fixed_t b);
 fixed_t FixedDiv(fixed_t a, fixed_t b);
+unsigned int SafeAdd(unsigned int a, unsigned int b);
 
 #endif

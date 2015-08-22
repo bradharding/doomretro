@@ -83,11 +83,11 @@ int clipammo[NUMAMMO] = { 10, 4, 20, 1 };
 
 dboolean        r_mirroredweapons = r_mirroredweapons_default;
 
-int             stat_damageinflicted = 0;
-int             stat_damagereceived = 0;
-int             stat_itemspickedup = 0;
-int             stat_monsterskilled = 0;
-int             stat_deaths = 0;
+unsigned int    stat_damageinflicted = 0;
+unsigned int    stat_damagereceived = 0;
+unsigned int    stat_itemspickedup = 0;
+unsigned int    stat_monsterskilled = 0;
+unsigned int    stat_deaths = 0;
 
 //
 // GET STUFF
@@ -836,7 +836,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     if (special->flags & MF_COUNTITEM)
     {
         player->itemcount++;
-        stat_itemspickedup++;
+        stat_itemspickedup = SafeAdd(stat_itemspickedup, 1);
     }
     if (special->shadow)
         P_RemoveMobjShadow(special);
@@ -901,14 +901,14 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (target->flags & MF_COUNTKILL)
         {
             source->player->killcount++;
-            stat_monsterskilled++;
+            stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
         }
     }
     else if (target->flags & MF_COUNTKILL)
     {
         // count all monster deaths, even those caused by other monsters
         players[0].killcount++;
-        stat_monsterskilled++;
+        stat_monsterskilled = SafeAdd(stat_monsterskilled, 1);
     }
 
     if (type == MT_BARREL && source && source->player)
@@ -924,7 +924,7 @@ void P_KillMobj(mobj_t *source, mobj_t *target)
         if (target->player == &players[0] && automapactive)
             AM_Stop();          // don't die in auto map, switch view prior to dying
 
-        stat_deaths++;
+        stat_deaths = SafeAdd(stat_deaths, 1);
     }
     else
         target->flags2 &= ~MF2_NOLIQUIDBOB;
@@ -1077,7 +1077,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
     if (splayer && type != MT_BARREL)
     {
         players[0].damageinflicted += damage;
-        stat_damageinflicted += damage;
+        stat_damageinflicted = SafeAdd(stat_damageinflicted, damage);
     }
     if (tplayer)
     {
@@ -1110,7 +1110,7 @@ void P_DamageMobj(mobj_t *target, mobj_t *inflicter, mobj_t *source, int damage)
         tplayer->health = MAX(0, tplayer->health - damage);     // mirror mobj health here for Dave
 
         players[0].damagereceived += damage;
-        stat_damagereceived += damage;
+        stat_damagereceived = SafeAdd(stat_damagereceived, damage);
 
         tplayer->attacker = source;
         damagecount = tplayer->damagecount + damage;            // add damage after armor / invuln

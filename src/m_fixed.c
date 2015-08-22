@@ -85,3 +85,8 @@ fixed_t FixedDiv(fixed_t a, fixed_t b)
     else
         return (fixed_t)(((int64_t) a << FRACBITS) / b);
 }
+
+unsigned int SafeAdd(unsigned int a, unsigned int b)
+{
+    return (b > UINT_MAX - a ? UINT_MAX : a + b);
+}

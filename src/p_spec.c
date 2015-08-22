@@ -1805,7 +1805,7 @@ void P_PlayerInSpecialSector(player_t *player)
 
             case Secret:
                 player->secretcount++;
-                stat_secretsrevealed++;
+                stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
                 sector->special = 0;
 
                 for (i = 0; i < sector->linecount; i++)
@@ -1862,7 +1862,7 @@ void P_PlayerInSpecialSector(player_t *player)
         if (sector->special & SECRET_MASK)
         {
             player->secretcount++;
-            stat_secretsrevealed++;
+            stat_secretsrevealed = SafeAdd(stat_secretsrevealed, 1);
             sector->special &= ~SECRET_MASK;
             if (sector->special < 32)   // if all extended bits clear,
                 sector->special = 0;    // sector is not special anymore

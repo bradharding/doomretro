@@ -54,93 +54,93 @@
 #include "p_local.h"
 #include "version.h"
 
-char    *configfile = PACKAGE_CONFIG;
+char                    *configfile = PACKAGE_CONFIG;
 
-extern dboolean am_grid;
-extern dboolean am_rotatemode;
-extern int      episode;
-extern int      expansion;
-extern float    gp_deadzone_left;
-extern float    gp_deadzone_right;
-extern int      gp_sensitivity;
-extern dboolean gp_swapthumbsticks;
-extern dboolean gp_vibrate;
-extern char     *iwadfolder;
-extern dboolean messages;
-extern float    m_acceleration;
-extern dboolean m_doubleclick_use;
-extern dboolean m_novertical;
-extern int      m_sensitivity;
-extern int      m_threshold;
-extern char     *playername;
-extern dboolean pm_alwaysrun;
-extern dboolean pm_centerweapon;
-extern int      pm_walkbob;
-extern dboolean r_altlighting;
-extern int      r_blood;
-extern int      r_bloodsplats_max;
-extern dboolean r_brightmaps;
-extern dboolean r_corpses_mirrored;
-extern dboolean r_corpses_moreblood;
-extern dboolean r_corpses_nudge;
-extern dboolean r_corpses_slide;
-extern dboolean r_corpses_smearblood;
-extern int      r_detail;
-extern dboolean r_fixmaperrors;
-extern dboolean r_fixspriteoffsets;
-extern dboolean r_floatbob;
-extern float    r_gamma;
-extern dboolean r_homindicator;
-extern dboolean r_hud;
-extern dboolean r_liquid_bob;
-extern dboolean r_liquid_clipsprites;
-extern dboolean r_liquid_swirl;
-extern char     *r_lowpixelsize;
-extern dboolean r_mirroredweapons;
-extern dboolean r_playersprites;
-extern dboolean r_rockettrails;
-extern dboolean r_shadows;
-extern dboolean r_translucency;
-extern int      runcount;
-extern int      s_musicvolume;
-extern dboolean s_randompitch;
-extern int      s_sfxvolume;
-extern char     *s_timiditycfgpath;
-extern int      savegame;
-extern int      skilllevel;
-extern int      stat_damageinflicted;
-extern int      stat_damagereceived;
-extern int      stat_deaths;
-extern int      stat_itemspickedup;
-extern int      stat_monsterskilled;
-extern int      stat_secretsrevealed;
-extern dboolean vid_capfps;
-extern int      vid_display;
+extern dboolean         am_grid;
+extern dboolean         am_rotatemode;
+extern int              episode;
+extern int              expansion;
+extern float            gp_deadzone_left;
+extern float            gp_deadzone_right;
+extern int              gp_sensitivity;
+extern dboolean         gp_swapthumbsticks;
+extern dboolean         gp_vibrate;
+extern char             *iwadfolder;
+extern dboolean         messages;
+extern float            m_acceleration;
+extern dboolean         m_doubleclick_use;
+extern dboolean         m_novertical;
+extern int              m_sensitivity;
+extern int              m_threshold;
+extern char             *playername;
+extern dboolean         pm_alwaysrun;
+extern dboolean         pm_centerweapon;
+extern int              pm_walkbob;
+extern dboolean         r_altlighting;
+extern int              r_blood;
+extern int              r_bloodsplats_max;
+extern dboolean         r_brightmaps;
+extern dboolean         r_corpses_mirrored;
+extern dboolean         r_corpses_moreblood;
+extern dboolean         r_corpses_nudge;
+extern dboolean         r_corpses_slide;
+extern dboolean         r_corpses_smearblood;
+extern int              r_detail;
+extern dboolean         r_fixmaperrors;
+extern dboolean         r_fixspriteoffsets;
+extern dboolean         r_floatbob;
+extern float            r_gamma;
+extern dboolean         r_homindicator;
+extern dboolean         r_hud;
+extern dboolean         r_liquid_bob;
+extern dboolean         r_liquid_clipsprites;
+extern dboolean         r_liquid_swirl;
+extern char             *r_lowpixelsize;
+extern dboolean         r_mirroredweapons;
+extern dboolean         r_playersprites;
+extern dboolean         r_rockettrails;
+extern dboolean         r_shadows;
+extern dboolean         r_translucency;
+extern int              runcount;
+extern int              s_musicvolume;
+extern dboolean         s_randompitch;
+extern int              s_sfxvolume;
+extern char             *s_timiditycfgpath;
+extern int              savegame;
+extern int              skilllevel;
+extern unsigned int     stat_damageinflicted;
+extern unsigned int     stat_damagereceived;
+extern unsigned int     stat_deaths;
+extern unsigned int     stat_itemspickedup;
+extern unsigned int     stat_monsterskilled;
+extern unsigned int     stat_secretsrevealed;
+extern dboolean         vid_capfps;
+extern int              vid_display;
 #if !defined(WIN32)
-extern char     *vid_driver;
+extern char             *vid_driver;
 #endif
-extern dboolean vid_fullscreen;
-extern char     *vid_scaledriver;
-extern char     *vid_scalefilter;
-extern char     *vid_screenresolution;
-extern dboolean vid_vsync;
-extern dboolean vid_widescreen;
-extern char     *vid_windowposition;
-extern char     *vid_windowsize;
+extern dboolean         vid_fullscreen;
+extern char             *vid_scaledriver;
+extern char             *vid_scalefilter;
+extern char             *vid_screenresolution;
+extern dboolean         vid_vsync;
+extern dboolean         vid_widescreen;
+extern char             *vid_windowposition;
+extern char             *vid_windowsize;
 
-extern int      gamepadleftdeadzone;
-extern int      gamepadrightdeadzone;
-extern int      pixelwidth;
-extern int      pixelheight;
-extern dboolean returntowidescreen;
+extern int              gamepadleftdeadzone;
+extern int              gamepadrightdeadzone;
+extern int              pixelwidth;
+extern int              pixelheight;
+extern dboolean         returntowidescreen;
 
 #define CONFIG_VARIABLE_GENERIC(name, type, set) \
     { #name, &name, type, set }
 
 #define CONFIG_VARIABLE_INT(name, set) \
     CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT, set)
-#define CONFIG_VARIABLE_INT_HEX(name, set) \
-    CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT_HEX, set)
+#define CONFIG_VARIABLE_INT_UNSIGNED(name, set) \
+    CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT_UNSIGNED, set)
 #define CONFIG_VARIABLE_INT_PERCENT(name, set) \
     CONFIG_VARIABLE_GENERIC(name, DEFAULT_INT_PERCENT, set)
 #define CONFIG_VARIABLE_FLOAT(name, set) \
@@ -207,12 +207,12 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,    NOALIAS    ),
     CONFIG_VARIABLE_INT          (savegame,             NOALIAS    ),
     CONFIG_VARIABLE_INT          (skilllevel,           NOALIAS    ),
-    CONFIG_VARIABLE_INT          (stat_damageinflicted, NOALIAS    ),
-    CONFIG_VARIABLE_INT          (stat_damagereceived,  NOALIAS    ),
-    CONFIG_VARIABLE_INT          (stat_deaths,          NOALIAS    ),
-    CONFIG_VARIABLE_INT          (stat_itemspickedup,   NOALIAS    ),
-    CONFIG_VARIABLE_INT          (stat_monsterskilled,  NOALIAS    ),
-    CONFIG_VARIABLE_INT          (stat_secretsrevealed, NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_damageinflicted, NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,  NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,          NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,   NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,  NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed, NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,          NOALIAS    ),
 #if !defined(WIN32)
@@ -313,6 +313,12 @@ void M_SaveCVARs(void)
                 }
                 if (!flag)
                     fprintf(file, "%i", *(int *)cvars[i].location);
+                break;
+            }
+
+            case DEFAULT_INT_UNSIGNED:
+            {
+                fprintf(file, "%u", *(unsigned int *)cvars[i].location);
                 break;
             }
 
@@ -674,6 +680,10 @@ void M_LoadCVARs(char *filename)
 
                 case DEFAULT_INT:
                     *(int *)cvars[i].location = ParseIntParameter(strparm, cvars[i].aliastype);
+                    break;
+
+                case DEFAULT_INT_UNSIGNED:
+                    sscanf(strparm, "%10u", (unsigned int *)cvars[i].location);
                     break;
 
                 case DEFAULT_INT_PERCENT:
