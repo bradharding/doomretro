@@ -186,6 +186,9 @@ void P_LoadVertexes(int lump)
     // Load data into cache.
     data = (const mapvertex_t *)W_CacheLumpNum(lump, PU_STATIC);
 
+    if (!data || !numvertexes)
+        I_Error("There are no vertices in this map.");
+
     // Copy and convert vertex coordinates,
     // internal representation as fixed.
     for (i = 0; i < numvertexes; i++)
