@@ -375,8 +375,8 @@ dboolean P_BlockLinesIterator(int x, int y, dboolean func(line_t *))
         return true;
     else
     {
-        int64_t         offset = *(blockmap + y * bmapwidth + x);
-        const int64_t   *list;
+        int             offset = *(blockmap + y * bmapwidth + x);
+        const int       *list;
 
         for (list = blockmaplump + offset + 1; *list != -1; list++)
         {

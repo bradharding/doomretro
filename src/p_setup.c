@@ -95,10 +95,10 @@ int             bmapwidth;
 int             bmapheight;
 
 // for large maps, wad is 16bit
-int64_t         *blockmap;
+int             *blockmap;
 
 // offsets in blockmap are from here
-int64_t         *blockmaplump;
+int             *blockmaplump;
 
 // origin of block map
 fixed_t         bmaporgx;
@@ -280,7 +280,7 @@ void P_LoadSegs(int lump)
         else
         {
             C_Warning("The front of seg %s has no sidedef.", commify(i));
-            li->frontsector = 0;
+            li->frontsector = NULL;
         }
 
         // killough 5/3/98: ignore 2s flag if second sidedef missing:
@@ -288,7 +288,7 @@ void P_LoadSegs(int lump)
             li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
         {
-            li->backsector = 0;
+            li->backsector = NULL;
             ldef->flags &= ~ML_TWOSIDED;
         }
 
@@ -431,7 +431,7 @@ static void P_LoadSegs_V4(int lump)
         else
         {
             C_Warning("The front of seg %s has no sidedef.", commify(i));
-            li->frontsector = 0;
+            li->frontsector = NULL;
         }
 
         // killough 5/3/98: ignore 2s flag if second sidedef missing:
@@ -439,7 +439,7 @@ static void P_LoadSegs_V4(int lump)
             li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
         {
-            li->backsector = 0;
+            li->backsector = NULL;
             ldef->flags &= ~ML_TWOSIDED;
         }
 
@@ -753,14 +753,14 @@ static void P_LoadZSegs(const byte *data)
         else
         {
             C_Warning("The front of seg %s has no sidedef.", commify(i));
-            li->frontsector = 0;
+            li->frontsector = NULL;
         }
 
         if ((ldef->flags & ML_TWOSIDED) && (ldef->sidenum[side ^ 1] != NO_INDEX))
             li->backsector = sides[ldef->sidenum[side ^ 1]].sector;
         else
         {
-            li->backsector = 0;
+            li->backsector = NULL;
             ldef->flags &= ~ML_TWOSIDED;
         }
 
@@ -1426,15 +1426,15 @@ void P_LoadBlockMap(int lump)
         // because Doom originally considered the offsets as always signed.
         blockmaplump[0] = SHORT(wadblockmaplump[0]);
         blockmaplump[1] = SHORT(wadblockmaplump[1]);
-        blockmaplump[2] = (int64_t)(SHORT(wadblockmaplump[2])) & 0xFFFF;
-        blockmaplump[3] = (int64_t)(SHORT(wadblockmaplump[3])) & 0xFFFF;
+        blockmaplump[2] = (uint32_t)(SHORT(wadblockmaplump[2])) & 0xFFFF;
+        blockmaplump[3] = (uint32_t)(SHORT(wadblockmaplump[3])) & 0xFFFF;
 
         // Swap all short integers to native byte ordering.
         for (i = 4; i < count; i++)
         {
             short   t = SHORT(wadblockmaplump[i]);
 
-            blockmaplump[i] = (t == -1 ? -1l : ((int64_t)t & 0xFFFF));
+            blockmaplump[i] = (t == -1 ? -1l : ((uint32_t)t & 0xFFFF));
         }
 
         Z_Free(wadblockmaplump);

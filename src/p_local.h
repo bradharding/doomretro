@@ -244,8 +244,8 @@ void P_MapEnd(void);
 // P_SETUP
 //
 extern const byte       *rejectmatrix;  // for fast sight rejection
-extern int64_t          *blockmaplump;
-extern int64_t          *blockmap;
+extern int              *blockmaplump;
+extern int              *blockmap;
 extern int              bmapwidth;
 extern int              bmapheight;     // in mapblocks
 extern fixed_t          bmaporgx;
