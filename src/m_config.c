@@ -94,7 +94,7 @@ extern dboolean         r_homindicator;
 extern dboolean         r_hud;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_liquid_clipsprites;
-extern dboolean         r_liquid_lowerplayer;
+extern dboolean         r_liquid_lowerview;
 extern dboolean         r_liquid_swirl;
 extern char             *r_lowpixelsize;
 extern dboolean         r_mirroredweapons;
@@ -193,7 +193,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_hud,                BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_bob,         BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_clipsprites, BOOLALIAS  ),
-    CONFIG_VARIABLE_INT          (r_liquid_lowerplayer, BOOLALIAS  ),
+    CONFIG_VARIABLE_INT          (r_liquid_lowerview,   BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_liquid_swirl,       BOOLALIAS  ),
     CONFIG_VARIABLE_OTHER        (r_lowpixelsize,       NOALIAS    ),
     CONFIG_VARIABLE_INT          (r_mirroredweapons,    BOOLALIAS  ),

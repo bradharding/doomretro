@@ -184,7 +184,7 @@ extern dboolean         r_homindicator;
 extern dboolean         r_hud;
 extern dboolean         r_liquid_bob;
 extern dboolean         r_liquid_clipsprites;
-extern dboolean         r_liquid_lowerplayer;
+extern dboolean         r_liquid_lowerview;
 extern dboolean         r_liquid_swirl;
 extern char             *r_lowpixelsize;
 extern dboolean         r_mirroredweapons;
@@ -518,7 +518,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_hud, C_BoolCondition, C_Hud, "Toggles the heads-up display when in widescreen mode."),
     CVAR_BOOL (r_liquid_bob, C_BoolCondition, C_Bool, "Toggles the bobbing effect of liquid sectors."),
     CVAR_BOOL (r_liquid_clipsprites, C_BoolCondition, C_Bool, "Toggles the bottom of sprites being clipped in liquid sectors."),
-    CVAR_BOOL (r_liquid_lowerplayer, C_BoolCondition, C_Bool, "Toggles lowering the player's view in liquid sectors."),
+    CVAR_BOOL (r_liquid_lowerview, C_BoolCondition, C_Bool, "Toggles lowering the player's view in liquid sectors."),
     CVAR_BOOL (r_liquid_swirl, C_BoolCondition, C_Bool, "Toggles the swirl effect of liquid sectors."),
     CVAR_SIZE (r_lowpixelsize, C_NoCondition, C_PixelSize, "The size of pixels when the graphic detail is low."),
     CVAR_BOOL (r_mirroredweapons, C_BoolCondition, C_Bool, "Toggles randomly mirroring weapons dropped by monsters."),
