@@ -1957,7 +1957,7 @@ static void C_PlayerName(char *cmd, char *parm1, char *parm2)
 
 static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
 {
-    int tabs[8] = { 170, 270, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 170, 280, 0, 0, 0, 0, 0, 0 };
     int tics = leveltime / TICRATE;
 
     C_TabbedOutput(tabs, "\t~Current Map~\t~Total~");
