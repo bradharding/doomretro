@@ -58,7 +58,8 @@ void G_RemoveChoppers(void);
 // 16 pixels of bob
 #define MAXBOB  0x100000
 
-int     pm_walkbob = pm_walkbob_default;
+int             pm_walkbob = pm_walkbob_default;
+int             r_liquid_lowerplayer = r_liquid_lowerplayer_default;
 
 dboolean onground;
 
@@ -138,7 +139,7 @@ void P_CalcHeight(player_t *player)
     else
         player->viewz = mo->z + player->viewheight;
 
-    if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_clipsprites)
+    if ((mo->flags2 & MF2_FEETARECLIPPED) && r_liquid_lowerplayer)
     {
         dboolean                    liquid = true;
         const struct msecnode_s     *seclist;

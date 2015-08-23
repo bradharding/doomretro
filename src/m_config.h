@@ -161,6 +161,8 @@ typedef enum
 
 #define r_liquid_clipsprites_default            true
 
+#define r_liquid_lowerplayer_default            true
+
 #define r_lowpixelsize_default                  "2x2"
 
 #define r_mirroredweapons_default               false
