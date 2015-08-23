@@ -69,6 +69,7 @@ static dboolean         always_off = false;
 
 dboolean                message_on;
 dboolean                message_dontfuckwithme;
+dboolean                message_clearable = false;
 static dboolean         message_nottobefuckedwith;
 
 #define STSTR_BEHOLD2   "inVuln, bSrk, Inviso, Rad, Allmap or Lite-amp?"
@@ -657,17 +658,16 @@ void HU_PlayerMessage(char *message, dboolean ingame)
         C_Output("%s%s", buffer, (lastchar == '.' || lastchar == '!' ? "" : "."));
 }
 
-dboolean message_clearable = false;
-
 void HU_clearMessages(void)
 {
-    if (idbehold || (plr->cheats & CF_MYPOS) || !message_clearable)
+    if ((idbehold || (plr->cheats & CF_MYPOS)) && !message_clearable)
         return;
 
     plr->message = 0;
     message_counter = 0;
     message_on = false;
     message_nottobefuckedwith = false;
+    message_dontfuckwithme = false;
     message_dontpause = false;
     message_clearable = false;
 }
