@@ -37,6 +37,7 @@
 */
 
 #include <ctype.h>
+#include <time.h>
 
 #if defined(WIN32)
 #include <windows.h>
@@ -164,6 +165,7 @@ int             consolelowfpscolor = 180;
 int             consoletitlecolor = 88;
 int             consolememorycolor = 88;
 int             consoleplayermessagecolor = 161;
+int             consoletimestampcolor = 100;
 int             consoleoutputcolor = 88;
 int             consolebrandingcolor = 100;
 int             consolewarningcolor = 180;
@@ -189,6 +191,7 @@ void C_Print(stringtype_t type, char *string, ...)
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = type;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
+    console[consolestrings].timestamp = "";
     ++consolestrings;
     outputhistory = -1;
 }
@@ -206,6 +209,7 @@ void C_Input(char *string, ...)
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = input;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
+    console[consolestrings].timestamp = "";
     ++consolestrings;
     outputhistory = -1;
 }
@@ -223,6 +227,7 @@ void C_Output(char *string, ...)
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = output;
     memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
+    console[consolestrings].timestamp = "";
     ++consolestrings;
     outputhistory = -1;
 }
@@ -240,6 +245,7 @@ void C_TabbedOutput(int tabs[8], char *string, ...)
     console[consolestrings].string = strdup(buffer);
     console[consolestrings].type = output;
     memcpy(console[consolestrings].tabs, tabs, sizeof(console[consolestrings].tabs));
+    console[consolestrings].timestamp = "";
     ++consolestrings;
     outputhistory = -1;
 }
@@ -259,6 +265,7 @@ void C_Warning(char *string, ...)
         console[consolestrings].string = strdup(buffer);
         console[consolestrings].type = warning;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
+        console[consolestrings].timestamp = "";
         ++consolestrings;
         outputhistory = -1;
     }
@@ -289,10 +296,19 @@ void C_PlayerMessage(char *string, ...)
     }
     else
     {
+        time_t          rawtime;
+        struct tm       *timeinfo;
+
         console = realloc(console, (consolestrings + 1) * sizeof(*console));
         console[consolestrings].string = strdup(buffer);
         console[consolestrings].type = playermessage;
         memset(console[consolestrings].tabs, 0, sizeof(console[consolestrings].tabs));
+
+        time(&rawtime);
+        timeinfo = localtime(&rawtime);
+        strftime(buffer, sizeof(buffer), "%T", timeinfo);
+        console[consolestrings].timestamp = strdup(buffer);
+
         ++consolestrings;
     }
     outputhistory = -1;
@@ -768,8 +784,14 @@ void C_Drawer(void)
             if (console[i].type == divider)
                 C_DrawDivider(y + 5 - (CONSOLEHEIGHT - consoleheight));
             else
+            {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
                     consolecolors[console[i].type], NOBACKGROUNDCOLOR, 0, console[i].tabs);
+                if (console[i].timestamp[0])
+                    C_DrawConsoleText(SCREENWIDTH - C_TextWidth(console[i].timestamp)
+                        - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, console[i].timestamp,
+                        consoletimestampcolor, NOBACKGROUNDCOLOR, 0, notabs);
+            }
         }
 
         // draw input text to left of caret
