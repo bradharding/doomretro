@@ -58,6 +58,8 @@ typedef enum
 
 #define am_rotatemode_default                   true
 
+#define con_timestamps_default                  true
+
 #define episode_min                             0
 #define episode_default                         0
 #define episode_max                             3

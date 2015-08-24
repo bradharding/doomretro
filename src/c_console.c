@@ -137,6 +137,8 @@ static int      outputhistory = -1;
 
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
+dboolean        con_timestamps = con_timestamps_default;
+
 extern dboolean r_translucency;
 extern byte     *tinttab75;
 extern int      fps;
@@ -787,7 +789,7 @@ void C_Drawer(void)
             {
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
                     consolecolors[console[i].type], NOBACKGROUNDCOLOR, 0, console[i].tabs);
-                if (console[i].timestamp[0])
+                if (con_timestamps && console[i].timestamp[0])
                     C_DrawConsoleText(SCREENWIDTH - C_TextWidth(console[i].timestamp)
                         - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, console[i].timestamp,
                         consoletimestampcolor, NOBACKGROUNDCOLOR, 0, notabs);
