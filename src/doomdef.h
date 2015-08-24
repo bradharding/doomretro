@@ -63,7 +63,7 @@
 // to disk.
 //
 #if defined(__GNUC__)
-#define PACKEDATTR      __attribute__((packed))
+#define PACKEDATTR      __attribute__((packed,gcc_struct))
 #else
 #define PACKEDATTR
 #endif
