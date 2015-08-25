@@ -878,8 +878,47 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
         if (file)
         {
             for (i = 1; i < consolestrings - 1; ++i)
-                fprintf(file, "%s\n",
-                    (console[i].type == divider ? DIVIDERSTRING : removenewlines(console[i].string)));
+                if (console[i].type == divider)
+                    fprintf(file, "%s\n", DIVIDERSTRING);
+                else
+                {
+                    unsigned int        inpos;
+                    unsigned int        len = strlen(console[i].string);
+                    unsigned int        outpos = 0;
+                    int                 tabcount = 0;
+
+                    for (inpos = 0; inpos < len; ++inpos)
+                    {
+                        char    ch = console[i].string[inpos];
+
+                        if (ch != '\n')
+                            if (ch == '\t')
+                            {
+                                unsigned int    tabstop = console[i].tabs[tabcount] / 5;
+
+                                if (outpos < tabstop)
+                                {
+                                    unsigned int       spaces;
+
+                                    for (spaces = 0; spaces < tabstop - outpos; ++spaces)
+                                        fputc(' ', file);
+                                    outpos = tabstop;
+                                    ++tabcount;
+                                }
+                                else
+                                {
+                                    fputc(' ', file);
+                                    ++outpos;
+                                }
+                            }
+                            else
+                            {
+                                fputc(ch, file);
+                                ++outpos;
+                            }
+                    }
+                    fputc('\n', file);
+                }
 
             fclose(file);
 
