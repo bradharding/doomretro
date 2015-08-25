@@ -138,6 +138,8 @@ static int      outputhistory = -1;
 static int      notabs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 dboolean        con_timestamps = con_timestamps_default;
+int             timestampx;
+int             zerowidth;
 
 extern dboolean r_translucency;
 extern byte     *tinttab75;
@@ -345,6 +347,82 @@ static void C_DrawDivider(int y)
         screens[0][i] = tinttab50[screens[0][i] + consoledividercolor];
 }
 
+static struct
+{
+    char        char1;
+    char        char2;
+    int         adjust;
+} kern[] = {
+    { ' ',  '(',  -1 }, { '\\', 'V',  -1 }, { '\"', '+',  -1 }, { '\"', '.',  -1 },
+    { '\"', 'a',  -1 }, { '\"', 'c',  -1 }, { '\"', 'd',  -1 }, { '\"', 'e',  -1 },
+    { '\"', 'g',  -1 }, { '\"', 'j',  -2 }, { '\"', 'o',  -1 }, { '\"', 'q',  -1 },
+    { '\"', 's',  -1 }, { '\'', 'a',  -1 }, { '\'', 'c',  -1 }, { '\'', 'd',  -1 },
+    { '\'', 'e',  -1 }, { '\'', 'g',  -1 }, { '\'', 'j',  -2 }, { '\'', 'o',  -1 },
+    { '\"', 'q',  -1 }, { '\'', 's',  -1 }, { '.',  '\\', -1 }, { '.',  '7',  -1 },
+    { '/',  'o',  -1 }, { ':', '\\',  -1 }, { '_',  'f',  -1 }, { '0',  ',',  -1 },
+    { '0',  'j',  -2 }, { '1',  '\"', -1 }, { '1',  '\'', -1 }, { '1',  'j',  -2 },
+    { '2',  'j',  -2 }, { '3',  ',',  -1 }, { '3',  'j',  -2 }, { '4',  'j',  -2 },
+    { '5',  ',',  -1 }, { '5',  'j',  -2 }, { '6',  ',',  -1 }, { '6',  'j',  -2 },
+    { '7',  ',',  -2 }, { '7',  'j',  -2 }, { '8',  ',',  -1 }, { '8',  'j',  -2 },
+    { '9',  ',',  -1 }, { '9',  'j',  -2 }, { 'F',  '.',  -1 }, { 'F',  ',',  -1 },
+    { 'L',  '\\', -1 }, { 'L',  '\"', -1 }, { 'L',  '\'', -1 }, { 'P',  '.',  -1 },
+    { 'P',  ',',  -1 }, { 'T',  '.',  -1 }, { 'T',  ',',  -1 }, { 'V',  '.',  -1 },
+    { 'V',  ',',  -1 }, { 'Y',  '.',  -1 }, { 'Y',  ',',  -1 }, { 'a',  '\"', -1 },
+    { 'a',  '\'', -1 }, { 'a',  'j',  -2 }, { 'b',  ',',  -1 }, { 'b',  '\"', -1 },
+    { 'b',  '\\', -1 }, { 'b',  '\'', -1 }, { 'b',  'j',  -2 }, { 'c',  '\\', -1 },
+    { 'c',  ',',  -1 }, { 'c',  '\"', -1 }, { 'c',  '\'', -1 }, { 'c',  'j',  -2 },
+    { 'd',  'j',  -2 }, { 'e',  '\\', -1 }, { 'e',  ',',  -1 }, { 'e',  '\"', -1 },
+    { 'e',  '\'', -1 }, { 'e',  '_',  -1 }, { 'e',  'j',  -2 }, { 'f',  ',',  -2 },
+    { 'f',  '_',  -1 }, { 'f',  'j',  -2 }, { 'h',  '\\', -1 }, { 'h',  '\"', -1 },
+    { 'h',  '\'', -1 }, { 'h',  'j',  -2 }, { 'i',  'j',  -2 }, { 'k',  'j',  -2 },
+    { 'l',  'j',  -2 }, { 'm',  '\"', -1 }, { 'm',  '\\', -1 }, { 'm',  '\'', -1 },
+    { 'm',  'j',  -2 }, { 'n',  '\\', -1 }, { 'n',  '\"', -1 }, { 'n',  '\'', -1 },
+    { 'n',  'j',  -2 }, { 'o',  '\\', -1 }, { 'o',  ',',  -1 }, { 'o',  '\"', -1 },
+    { 'o',  '\'', -1 }, { 'o',  'j',  -2 }, { 'p',  '\\', -1 }, { 'p',  ',',  -1 },
+    { 'p',  '\"', -1 }, { 'p',  '\'', -1 }, { 'p',  'j',  -2 }, { 'r',  ' ',  -1 },
+    { 'r',  '\\', -1 }, { 'r',  '.',  -2 }, { 'r',  ',',  -2 }, { 'r',  '\"', -1 },
+    { 'r',  '\'', -1 }, { 'r',  '_',  -1 }, { 'r',  'a',  -1 }, { 'r',  'j',  -2 },
+    { 's',  ',',  -1 }, { 's',  'j',  -2 }, { 't',  'j',  -2 }, { 'u',  'j',  -2 },
+    { 'v',  ',',  -1 }, { 'v',  'j',  -2 }, { 'w',  'j',  -2 }, { 'x',  'j',  -2 },
+    { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
+};
+
+static int C_TextWidth(char *text)
+{
+    size_t      i;
+    size_t      len = strlen(text);
+    char        prevletter = '\0';
+    int         w = 0;
+
+    for (i = 0; i < len; ++i)
+    {
+        char    letter = text[i];
+        int     c = letter - CONSOLEFONTSTART;
+        char    nextletter = text[i + 1];
+        int     j = 0;
+
+        if (letter == '\xc2' && nextletter == '\xb0')
+        {
+            w += SHORT(degree->width);
+            ++i;
+        }
+        else
+            w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? unknownchar->width : consolefont[c]->width);
+
+        while (kern[j].char1)
+        {
+            if (prevletter == kern[j].char1 && letter == kern[j].char2)
+            {
+                w += kern[j].adjust;
+                break;
+            }
+            ++j;
+        }
+        prevletter = letter;
+    }
+    return w;
+}
+
 static void C_DrawScrollbar(void)
 {
     int x, y;
@@ -360,7 +438,8 @@ static void C_DrawScrollbar(void)
     for (y = trackstart; y < trackend; y += SCREENWIDTH)
         if (y - offset >= 0)
             for (x = CONSOLESCROLLBARX; x < CONSOLESCROLLBARX + CONSOLESCROLLBARWIDTH; ++x)
-                screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x] + consolescrollbartrackcolor];
+                screens[0][y - offset + x] = tinttab50[screens[0][y - offset + x]
+                    + consolescrollbartrackcolor];
 
     // Draw scrollbar face
     facestart = (CONSOLESCROLLBARY + CONSOLESCROLLBARHEIGHT * (outputhistory == -1 ?
@@ -402,6 +481,9 @@ void C_Init(void)
 #endif
 
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
+    timestampx = SCREENWIDTH - C_TextWidth("00:00:00") - CONSOLETEXTX * 2
+        - CONSOLESCROLLBARWIDTH + 1;
+    zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
     if (W_CheckMultipleLumps("STCFN065") > 1)
     {
@@ -515,82 +597,6 @@ static void C_DrawBackground(int height)
             screens[0][i] = colormaps[0][256 * 4 + screens[0][i]];
 }
 
-static struct
-{
-    char        char1;
-    char        char2;
-    int         adjust;
-} kern[] = {
-    { ' ',  '(',  -1 }, { '\\', 'V',  -1 }, { '\"', '+',  -1 }, { '\"', '.',  -1 },
-    { '\"', 'a',  -1 }, { '\"', 'c',  -1 }, { '\"', 'd',  -1 }, { '\"', 'e',  -1 },
-    { '\"', 'g',  -1 }, { '\"', 'j',  -2 }, { '\"', 'o',  -1 }, { '\"', 'q',  -1 },
-    { '\"', 's',  -1 }, { '\'', 'a',  -1 }, { '\'', 'c',  -1 }, { '\'', 'd',  -1 },
-    { '\'', 'e',  -1 }, { '\'', 'g',  -1 }, { '\'', 'j',  -2 }, { '\'', 'o',  -1 },
-    { '\"', 'q',  -1 }, { '\'', 's',  -1 }, { '.',  '\\', -1 }, { '.',  '7',  -1 },
-    { '/',  'o',  -1 }, { ':', '\\',  -1 }, { '_',  'f',  -1 }, { '0',  ',',  -1 },
-    { '0',  'j',  -2 }, { '1',  '\"', -1 }, { '1',  '\'', -1 }, { '1',  'j',  -2 },
-    { '2',  'j',  -2 }, { '3',  ',',  -1 }, { '3',  'j',  -2 }, { '4',  'j',  -2 },
-    { '5',  ',',  -1 }, { '5',  'j',  -2 }, { '6',  ',',  -1 }, { '6',  'j',  -2 },
-    { '7',  ',',  -2 }, { '7',  'j',  -2 }, { '8',  ',',  -1 }, { '8',  'j',  -2 },
-    { '9',  ',',  -1 }, { '9',  'j',  -2 }, { 'F',  '.',  -1 }, { 'F',  ',',  -1 },
-    { 'L',  '\\', -1 }, { 'L',  '\"', -1 }, { 'L',  '\'', -1 }, { 'P',  '.',  -1 },
-    { 'P',  ',',  -1 }, { 'T',  '.',  -1 }, { 'T',  ',',  -1 }, { 'V',  '.',  -1 },
-    { 'V',  ',',  -1 }, { 'Y',  '.',  -1 }, { 'Y',  ',',  -1 }, { 'a',  '\"', -1 },
-    { 'a',  '\'', -1 }, { 'a',  'j',  -2 }, { 'b',  ',',  -1 }, { 'b',  '\"', -1 },
-    { 'b',  '\\', -1 }, { 'b',  '\'', -1 }, { 'b',  'j',  -2 }, { 'c',  '\\', -1 },
-    { 'c',  ',',  -1 }, { 'c',  '\"', -1 }, { 'c',  '\'', -1 }, { 'c',  'j',  -2 },
-    { 'd',  'j',  -2 }, { 'e',  '\\', -1 }, { 'e',  ',',  -1 }, { 'e',  '\"', -1 },
-    { 'e',  '\'', -1 }, { 'e',  '_',  -1 }, { 'e',  'j',  -2 }, { 'f',  ',',  -2 },
-    { 'f',  '_',  -1 }, { 'f',  'j',  -2 }, { 'h',  '\\', -1 }, { 'h',  '\"', -1 },
-    { 'h',  '\'', -1 }, { 'h',  'j',  -2 }, { 'i',  'j',  -2 }, { 'k',  'j',  -2 },
-    { 'l',  'j',  -2 }, { 'm',  '\"', -1 }, { 'm',  '\\', -1 }, { 'm',  '\'', -1 },
-    { 'm',  'j',  -2 }, { 'n',  '\\', -1 }, { 'n',  '\"', -1 }, { 'n',  '\'', -1 },
-    { 'n',  'j',  -2 }, { 'o',  '\\', -1 }, { 'o',  ',',  -1 }, { 'o',  '\"', -1 },
-    { 'o',  '\'', -1 }, { 'o',  'j',  -2 }, { 'p',  '\\', -1 }, { 'p',  ',',  -1 },
-    { 'p',  '\"', -1 }, { 'p',  '\'', -1 }, { 'p',  'j',  -2 }, { 'r',  ' ',  -1 },
-    { 'r',  '\\', -1 }, { 'r',  '.',  -2 }, { 'r',  ',',  -2 }, { 'r',  '\"', -1 },
-    { 'r',  '\'', -1 }, { 'r',  '_',  -1 }, { 'r',  'a',  -1 }, { 'r',  'j',  -2 },
-    { 's',  ',',  -1 }, { 's',  'j',  -2 }, { 't',  'j',  -2 }, { 'u',  'j',  -2 },
-    { 'v',  ',',  -1 }, { 'v',  'j',  -2 }, { 'w',  'j',  -2 }, { 'x',  'j',  -2 },
-    { 'z',  'j',  -2 }, {  0 ,   0 ,   0 }
-};
-
-static int C_TextWidth(char *text)
-{
-    size_t      i;
-    size_t      len = strlen(text);
-    char        prevletter = '\0';
-    int         w = 0;
-
-    for (i = 0; i < len; ++i)
-    {
-        char    letter = text[i];
-        int     c = letter - CONSOLEFONTSTART;
-        char    nextletter = text[i + 1];
-        int     j = 0;
-
-        if (letter == '\xc2' && nextletter == '\xb0')
-        {
-            w += SHORT(degree->width);
-            ++i;
-        }
-        else
-            w += SHORT(c < 0 || c >= CONSOLEFONTSIZE ? unknownchar->width : consolefont[c]->width);
-
-        while (kern[j].char1)
-        {
-            if (prevletter == kern[j].char1 && letter == kern[j].char2)
-            {
-                w += kern[j].adjust;
-                break;
-            }
-            ++j;
-        }
-        prevletter = letter;
-    }
-    return w;
-}
-
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int translucency,
     int tabs[8])
 {
@@ -599,6 +605,8 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
     int         tab = -1;
     size_t      len = strlen(text);
     char        prevletter = '\0';
+
+    y -= (CONSOLEHEIGHT - consoleheight);
 
     if (len > 80)
         while (C_TextWidth(text) > SCREENWIDTH - CONSOLETEXTX * 3 - CONSOLESCROLLBARWIDTH + 2)
@@ -665,8 +673,7 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
             if (patch)
             {
-                V_DrawConsoleChar(x, y - (CONSOLEHEIGHT - consoleheight), patch, color1, color2,
-                    italics, translucency);
+                V_DrawConsoleChar(x, y, patch, color1, color2, italics, translucency);
                 x += SHORT(patch->width);
             }
         }
@@ -707,6 +714,27 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
             x += SHORT(patch->width);
         }
         prevletter = letter;
+    }
+}
+
+static void C_DrawTimeStamp(int x, int y, char *text)
+{
+    size_t      i;
+    size_t      len = strlen(text);
+
+    y -= (CONSOLEHEIGHT - consoleheight);
+
+    for (i = 0; i < len; ++i)
+    {
+        patch_t *patch = consolefont[text[i] - CONSOLEFONTSTART];
+
+        if (patch)
+        {
+            if (text[i] == '1')
+                x += (zerowidth - patch->width) / 2;
+            V_DrawConsoleChar(x, y, patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, 0);
+            x += (isdigit(text[i]) ? zerowidth : patch->width);
+        }
     }
 }
 
@@ -790,9 +818,7 @@ void C_Drawer(void)
                 C_DrawConsoleText(CONSOLETEXTX, y, console[i].string,
                     consolecolors[console[i].type], NOBACKGROUNDCOLOR, 0, console[i].tabs);
                 if (con_timestamps && console[i].timestamp[0])
-                    C_DrawConsoleText(SCREENWIDTH - C_TextWidth(console[i].timestamp)
-                        - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH + 1, y, console[i].timestamp,
-                        consoletimestampcolor, NOBACKGROUNDCOLOR, 0, notabs);
+                    C_DrawTimeStamp(timestampx, y, console[i].timestamp);
             }
         }
 
@@ -1260,7 +1286,8 @@ dboolean C_Responder(event_t *ev)
 
                         M_snprintf(buffer, sizeof(buffer), "%s%s%s",
                             M_SubString(consoleinput, 0, selectstart), SDL_GetClipboardText(),
-                            M_SubString(consoleinput, selectend, strlen(consoleinput) - selectend));
+                            M_SubString(consoleinput, selectend, strlen(consoleinput)
+                                - selectend));
                         if (C_TextWidth(buffer) <= CONSOLEINPUTPIXELWIDTH)
                         {
                             C_AddToUndoHistory();
