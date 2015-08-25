@@ -1413,7 +1413,7 @@ void M_DrawMainMenu(void)
 
     M_DarkBackground();
 
-    if (M_DOOM && patch->height > 125)
+    if (M_DOOM && SHORT(patch->height) > 125)
     {
         M_DrawPatchWithShadow(94, 2 + OFFSET, patch);
         MainDef.x = 97;
