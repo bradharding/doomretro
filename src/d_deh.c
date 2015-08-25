@@ -1709,9 +1709,9 @@ static actionf_t deh_codeptr[NUMSTATES];
 
 dboolean CheckPackageWADVersion(void)
 {
-    DEHFILE             infile, *filein = &infile;
-    char                inbuffer[DEH_BUFFERMAX];
-    unsigned int        i;
+    DEHFILE     infile, *filein = &infile;
+    char        inbuffer[DEH_BUFFERMAX];
+    int         i;
 
     for (i = 0; i < numlumps; ++i)
         if (!strncasecmp(lumpinfo[i]->name, "VERSION", 7))

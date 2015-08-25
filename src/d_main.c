@@ -766,9 +766,7 @@ static int D_ChooseIWAD(void)
 #endif
 
             // check if it's a valid and supported IWAD
-            if (D_IsDOOMIWAD(file)
-                || (W_WadType(file) == IWAD
-                    && !D_IsUnsupportedIWAD(file)))
+            if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
             {
                 IdentifyIWADByName(file);
                 if (D_AddFile(file, false))
@@ -1235,7 +1233,7 @@ static void D_ProcessDehCommandLine(void)
 
 static void D_ProcessDehInWad(void)
 {
-    unsigned int        i;
+    int i;
 
     if (chexdeh || M_ParmExists("-nodeh"))
         return;

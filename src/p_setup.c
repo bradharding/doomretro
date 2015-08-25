@@ -1410,8 +1410,7 @@ void P_LoadBlockMap(int lump)
     int lumplen;
 
     blockmaprecreated = false;
-    if ((unsigned int)lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8
-        || (count = lumplen / 2) >= 0x10000)
+    if (lump >= numlumps || (lumplen = W_LumpLength(lump)) < 8 || (count = lumplen / 2) >= 0x10000)
     {
         P_CreateBlockMap();
         blockmaprecreated = true;
@@ -1819,9 +1818,9 @@ void P_MapName(int ep, int map)
 
 static mapformat_t P_CheckMapFormat(int lumpnum)
 {
-    mapformat_t         format = DOOMBSP;
-    byte                *nodes = NULL;
-    unsigned int        b;
+    mapformat_t format = DOOMBSP;
+    byte        *nodes = NULL;
+    int         b;
 
     if ((b = lumpnum + ML_NODES) < numlumps && (nodes = W_CacheLumpNum(b, PU_CACHE))
         && W_LumpLength(b) > 0)

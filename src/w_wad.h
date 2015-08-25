@@ -72,7 +72,7 @@ struct lumpinfo_s
 };
 
 extern lumpinfo_t       **lumpinfo;
-extern unsigned int     numlumps;
+extern int              numlumps;
 
 wad_file_t *W_AddFile(char *filename, dboolean automatic);
 int W_WadType(char *filename);

@@ -1613,10 +1613,10 @@ extern char     **mapnamesn[];
 
 static void C_MapList(char *cmd, char *parm1, char *parm2)
 {
-    unsigned int        i, j;
-    unsigned int        count = 0;
-    int                 tabs[8] = { 40, 90, 350, 0, 0, 0, 0, 0 };
-    char                **maplist;
+    int         i, j;
+    int         count = 0;
+    int         tabs[8] = { 40, 90, 350, 0, 0, 0, 0, 0 };
+    char        **maplist;
 
     // initialize map list
     maplist = malloc(numlumps * sizeof(char *));
@@ -1626,12 +1626,12 @@ static void C_MapList(char *cmd, char *parm1, char *parm2)
     // search through lumps for maps
     for (i = 0; i < numlumps; ++i)
     {
-        int     ep = 0;
-        int     map = 0;
-        char    lump[8];
-        char    wad[MAX_PATH];
-        dboolean replaced;
-        dboolean pwad;
+        int             ep = 0;
+        int             map = 0;
+        char            lump[8];
+        char            wad[MAX_PATH];
+        dboolean        replaced;
+        dboolean        pwad;
 
         M_StringCopy(lump, uppercase(lumpinfo[i]->name), 8);
 

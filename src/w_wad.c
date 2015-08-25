@@ -77,7 +77,7 @@ typedef struct
 
 // Location of each lump on disk.
 lumpinfo_t              **lumpinfo;
-unsigned int            numlumps = 0;
+int                     numlumps = 0;
 
 // Hash table for fast lookups
 static lumpindex_t      *lumphash;
@@ -354,14 +354,6 @@ int W_WadType(char *filename)
         return PWAD;
     else
         return 0;
-}
-
-//
-// W_NumLumps
-//
-int W_NumLumps(void)
-{
-    return numlumps;
 }
 
 //

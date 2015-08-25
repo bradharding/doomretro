@@ -554,7 +554,7 @@ void D_IdentifyVersion(void)
     // identify by its contents.
     if (gamemission == none)
     {
-        unsigned int i;
+        int     i;
 
         for (i = 0; i < numlumps; ++i)
         {
