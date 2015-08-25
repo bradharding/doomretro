@@ -481,8 +481,7 @@ void C_Init(void)
 #endif
 
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timestampx = SCREENWIDTH - C_TextWidth("00:00:00") - CONSOLETEXTX * 2
-        - CONSOLESCROLLBARWIDTH + 1;
+    timestampx = SCREENWIDTH - C_TextWidth("00:00:00") - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
     if (W_CheckMultipleLumps("STCFN065") > 1)
