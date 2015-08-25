@@ -421,7 +421,7 @@ void D_PageDrawer(void)
         V_DrawBigPatch(0, 0, 0, splashlump);
     }
     else if (pagelump)
-        V_DrawPatch(0, 0, 0, pagelump);
+        V_DrawPagePatch(pagelump);
 }
 
 //

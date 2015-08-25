@@ -138,6 +138,24 @@ void V_DrawPatch(int x, int y, int scrn, patch_t *patch)
     }
 }
 
+void V_DrawPagePatch(patch_t *patch)
+{
+    short       width = SHORT(patch->width);
+    short       height = SHORT(patch->height);
+
+    DX = (SCREENWIDTH << 16) / width;
+    DXI = (width << 16) / SCREENWIDTH;
+    DY = (SCREENHEIGHT << 16) / height;
+    DYI = (height << 16) / SCREENHEIGHT;
+
+    V_DrawPatch(0, 0, 0, patch);
+
+    DX = (SCREENWIDTH << 16) / ORIGINALWIDTH;
+    DXI = (ORIGINALWIDTH << 16) / SCREENWIDTH;
+    DY = (SCREENHEIGHT << 16) / ORIGINALHEIGHT;
+    DYI = (ORIGINALHEIGHT << 16) / SCREENHEIGHT;
+}
+
 void V_DrawTranslucentPatch(int x, int y, int scrn, patch_t *patch)
 {
     int         col = 0;
