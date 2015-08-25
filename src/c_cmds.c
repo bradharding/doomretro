@@ -859,24 +859,28 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
 {
     if (consolestrings)
     {
-        char    filename[MAX_PATH] = "condump.txt";
+        char    filename[MAX_PATH];
         FILE    *file;
-        int     i;
+        char    *exefolder = M_GetExecutableFolder();
 
         if (!parm1[0])
         {
             int count = 0;
 
+            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump.txt", exefolder);
             while (M_FileExists(filename))
-                M_snprintf(filename, sizeof(filename), "condump (%i).txt", ++count);
+                M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"condump (%i).txt",
+                    exefolder, ++count);
         }
         else
-            M_StringCopy(filename, parm1, sizeof(filename));
+            M_snprintf(filename, sizeof(filename), "%s"DIR_SEPARATOR_S"%s", exefolder, parm1);
 
         file = fopen(filename, "wt");
 
         if (file)
         {
+            int i;
+
             for (i = 1; i < consolestrings - 1; ++i)
                 if (console[i].type == divider)
                     fprintf(file, "%s\n", DIVIDERSTRING);
