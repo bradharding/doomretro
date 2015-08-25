@@ -1730,7 +1730,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
+                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnames[(ep - 1) * 9 + map - 1], sizeof(maptitle));
@@ -1744,7 +1744,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
+                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, (bfgedition ? *mapnames2_bfg[map - 1] :
@@ -1764,7 +1764,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
+                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnamesp[map - 1], sizeof(maptitle));
@@ -1778,7 +1778,7 @@ void P_MapName(int ep, int map)
                 M_StringCopy(maptitle, mapnum, sizeof(maptitle));
                 M_StringCopy(mapnumandtitle, mapnum, sizeof(mapnumandtitle));
                 M_snprintf(automaptitle, sizeof(automaptitle), "%s: %s",
-                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)].wad_file->path), mapnum);
+                    M_ExtractFilename(lumpinfo[W_GetNumForName(mapnum)]->wad_file->path), mapnum);
             }
             else
                 M_StringCopy(maptitle, *mapnamest[map - 1], sizeof(maptitle));

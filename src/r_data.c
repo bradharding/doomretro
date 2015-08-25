@@ -619,7 +619,7 @@ void R_InitTextures(void)
     nummappatches = 0;
     for (i = numlumps - 1; i >= 0; --i)
     {
-        if (!strncasecmp(lumpinfo[i].name, "PNAMES", 6))
+        if (!strncasecmp(lumpinfo[i]->name, "PNAMES", 6))
         {
             if (numpnameslumps == maxpnameslumps)
             {
@@ -642,10 +642,10 @@ void R_InitTextures(void)
             nummappatches += pnameslumps[numpnameslumps].nummappatches;
             ++numpnameslumps;
         }
-        else if (!strncasecmp(lumpinfo[i].name, "TEXTURE", 7))
+        else if (!strncasecmp(lumpinfo[i]->name, "TEXTURE", 7))
         {
             // [crispy] support only TEXTURE1/2 lumps, not TEXTURE3 etc.
-            if (lumpinfo[i].name[7] != '1' && lumpinfo[i].name[7] != '2')
+            if (lumpinfo[i]->name[7] != '1' && lumpinfo[i]->name[7] != '2')
                 continue;
 
             // [crispy] make sure the first available TEXTURE1/2 lumps
@@ -694,8 +694,8 @@ void R_InitTextures(void)
         texturelumps[i].pnamesoffset = 0;
         for (j = 0; j < numpnameslumps; ++j)
             // [crispy] both point to the same WAD file name string?
-            if (lumpinfo[texturelumps[i].lumpnum].wad_file->path ==
-                lumpinfo[pnameslumps[j].lumpnum].wad_file->path)
+            if (lumpinfo[texturelumps[i].lumpnum]->wad_file->path ==
+                lumpinfo[pnameslumps[j].lumpnum]->wad_file->path)
             {
                 texturelumps[i].pnamesoffset = pnameslumps[j].summappatches;
                 break;
@@ -1049,7 +1049,7 @@ int R_CheckFlatNumForName(char *name)
     int i;
 
     for (i = firstflat; i <= lastflat; i++)
-        if (!strncasecmp(lumpinfo[i].name, name, 8))
+        if (!strncasecmp(lumpinfo[i]->name, name, 8))
             return (i - firstflat);
 
     return -1;

@@ -53,7 +53,7 @@ typedef enum
 
 typedef struct
 {
-    lumpinfo_t          *lumps;
+    lumpinfo_t          **lumps;
     int                 numlumps;
 } searchlist_t;
 
@@ -86,7 +86,7 @@ static int FindInList(searchlist_t *list, char *name)
     int i;
 
     for (i = 0; i < list->numlumps; ++i)
-        if (!strncasecmp(list->lumps[i].name, name, 8))
+        if (!strncasecmp(list->lumps[i]->name, name, 8))
             return i;
 
     return -1;
@@ -157,7 +157,7 @@ static sprite_frame_t *FindSpriteFrame(char *name, char frame)
     // Search the list and try to find the frame
     for (i = 0; i < num_sprite_frames; ++i)
     {
-        sprite_frame_t *cur = &sprite_frames[i];
+        sprite_frame_t  *cur = &sprite_frames[i];
 
         if (!strncasecmp(cur->sprname, name, 4) && cur->frame == frame)
             return cur;
@@ -286,12 +286,12 @@ static void GenerateSpriteList(void)
 
     // Add all sprites from the IWAD
     for (i = 0; i < iwad_sprites.numlumps; ++i)
-        AddSpriteLump(&iwad_sprites.lumps[i]);
+        AddSpriteLump(iwad_sprites.lumps[i]);
 
     // Add all sprites from the PWAD
     // (replaces IWAD sprites)
     for (i = 0; i < pwad_sprites.numlumps; ++i)
-        AddSpriteLump(&pwad_sprites.lumps[i]);
+        AddSpriteLump(pwad_sprites.lumps[i]);
 }
 
 // Perform the merge.
@@ -315,13 +315,13 @@ static void GenerateSpriteList(void)
 static void DoMerge(void)
 {
     section_t   current_section;
-    lumpinfo_t  *newlumps;
+    lumpinfo_t  **newlumps;
     int         num_newlumps;
     int         lumpindex;
     int         i, n;
 
     // Can't ever have more lumps than we already have
-    newlumps = malloc(sizeof(lumpinfo_t) * numlumps);
+    newlumps = calloc(numlumps, sizeof(lumpinfo_t *));
     num_newlumps = 0;
 
     // Add IWAD lumps
@@ -329,7 +329,7 @@ static void DoMerge(void)
 
     for (i = 0; i < iwad.numlumps; ++i)
     {
-        lumpinfo_t      *lump = &iwad.lumps[i];
+        lumpinfo_t      *lump = iwad.lumps[i];
 
         switch (current_section)
         {
@@ -339,7 +339,7 @@ static void DoMerge(void)
                 else if (!strncasecmp(lump->name, "S_START", 8))
                     current_section = SECTION_SPRITES;
 
-                newlumps[num_newlumps++] = *lump;
+                newlumps[num_newlumps++] = lump;
 
                 break;
 
@@ -352,7 +352,7 @@ static void DoMerge(void)
                     for (n = 0; n < pwad_flats.numlumps; ++n)
                         newlumps[num_newlumps++] = pwad_flats.lumps[n];
 
-                    newlumps[num_newlumps++] = *lump;
+                    newlumps[num_newlumps++] = lump;
 
                     // back to normal reading
                     current_section = SECTION_NORMAL;
@@ -366,7 +366,7 @@ static void DoMerge(void)
                     lumpindex = FindInList(&pwad_flats, lump->name);
 
                     if (lumpindex < 0)
-                        newlumps[num_newlumps++] = *lump;
+                        newlumps[num_newlumps++] = lump;
                 }
 
                 break;
@@ -378,12 +378,12 @@ static void DoMerge(void)
                     // add all the PWAD sprites
                     for (n = 0; n < pwad_sprites.numlumps; ++n)
                     {
-                        if (SpriteLumpNeeded(&pwad_sprites.lumps[n]))
+                        if (SpriteLumpNeeded(pwad_sprites.lumps[n]))
                             newlumps[num_newlumps++] = pwad_sprites.lumps[n];
                     }
 
                     // copy the ending
-                    newlumps[num_newlumps++] = *lump;
+                    newlumps[num_newlumps++] = lump;
 
                     // back to normal reading
                     current_section = SECTION_NORMAL;
@@ -393,7 +393,7 @@ static void DoMerge(void)
                     // Is this lump holding a sprite to be replaced in the
                     // PWAD? If so, wait until the end to add it.
                     if (SpriteLumpNeeded(lump))
-                        newlumps[num_newlumps++] = *lump;
+                        newlumps[num_newlumps++] = lump;
                 }
 
                 break;
@@ -405,7 +405,7 @@ static void DoMerge(void)
 
     for (i = 0; i < pwad.numlumps; ++i)
     {
-        lumpinfo_t      *lump = &pwad.lumps[i];
+        lumpinfo_t      *lump = pwad.lumps[i];
 
         switch (current_section)
         {
@@ -419,7 +419,7 @@ static void DoMerge(void)
                 else
                 {
                     // Don't include the headers of sections
-                    newlumps[num_newlumps++] = *lump;
+                    newlumps[num_newlumps++] = lump;
                 }
                 break;
 

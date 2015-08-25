@@ -1714,7 +1714,7 @@ dboolean CheckPackageWADVersion(void)
     unsigned int        i;
 
     for (i = 0; i < numlumps; ++i)
-        if (!strncasecmp(lumpinfo[i].name, "VERSION", 7))
+        if (!strncasecmp(lumpinfo[i]->name, "VERSION", 7))
         {
             infile.size = W_LumpLength(i);
             infile.inp = infile.lump = W_CacheLumpNum(i, PU_STATIC);
@@ -1765,7 +1765,7 @@ void ProcessDehFile(char *filename, int lumpnum)
     {
         infile.size = W_LumpLength(lumpnum);
         infile.inp = infile.lump = W_CacheLumpNum(lumpnum, PU_STATIC);
-        filename = lumpinfo[lumpnum].wad_file->path;
+        filename = lumpinfo[lumpnum]->wad_file->path;
         C_Output("Parsed DEHACKED lump from %s file %s.",
             (W_WadType(filename) == IWAD ? "IWAD" : "PWAD"), uppercase(filename));
     }
