@@ -113,10 +113,6 @@ dboolean                r_hud = r_hud_default;
 
 dboolean                vid_capfps = vid_capfps_default;
 
-// Flag indicating whether the screen is currently visible:
-// when the screen isn't visible, don't render the screen
-dboolean                screenvisible;
-
 dboolean                window_focused;
 
 // Empty mouse cursor
@@ -202,14 +198,11 @@ dboolean MouseShouldBeGrabbed(void)
 // and we don't move the mouse around if we aren't focused either.
 static void UpdateFocus(void)
 {
-    Uint32              state = SDL_GetWindowFlags(window);
-
-    // Should the screen be grabbed?
-    screenvisible = (state & SDL_WINDOW_SHOWN);
+    Uint32      state = SDL_GetWindowFlags(window);
 
     // We should have input (keyboard) focus and be visible
     // (not minimized)
-    window_focused = ((state & SDL_WINDOW_INPUT_FOCUS) && screenvisible);
+    window_focused = (state & (SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_SHOWN));
 
     if (!window_focused && !menuactive && gamestate == GS_LEVEL && !paused && !consoleactive)
     {

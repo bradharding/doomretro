@@ -440,9 +440,9 @@ void D_DoAdvanceTitle(void)
 {
     static dboolean     flag = true;
 
-    players[0].playerstate = PST_LIVE;      // not reborn
+    players[0].playerstate = PST_LIVE;  // not reborn
     advancetitle = false;
-    usergame = false;                                   // no save / end game here
+    usergame = false;                   // no save / end game here
     paused = false;
     gameaction = ga_nothing;
     gamestate = GS_TITLESCREEN;
@@ -804,7 +804,8 @@ static int D_ChooseIWAD(void)
 
                 // try the current folder first
                 M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                    strdup(M_ExtractFolder(file)), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                    strdup(M_ExtractFolder(file)), (iwadrequired == doom ? "DOOM.WAD" :
+                    "DOOM2.WAD"));
                 IdentifyIWADByName(fullpath);
                 if (D_AddFile(fullpath, true))
                 {
@@ -839,7 +840,8 @@ static int D_ChooseIWAD(void)
                     {
                         // still nothing? try the DOOMWADDIR environment variable
                         M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s",
-                            getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                            getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
+                            "DOOM2.WAD"));
                         IdentifyIWADByName(fullpath);
                         if (D_AddFile(fullpath, true))
                         {
@@ -985,8 +987,8 @@ static int D_ChooseIWAD(void)
                         else
                         {
                             // still nothing? try the DOOMWADDIR environment variable
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
-                                getenv("DOOMWADDIR"));
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S
+                                "DOOM2.WAD", getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
                             if (D_AddFile(fullpath2, true))
                             {
@@ -1057,8 +1059,9 @@ static int D_ChooseIWAD(void)
                                 else
                                 {
                                     // still nothing? try the DOOMWADDIR environment variable
-                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
-                                        getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
+                                    M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S
+                                        "%s", getenv("DOOMWADDIR"), (iwadrequired == doom ?
+                                        "DOOM.WAD" : "DOOM2.WAD"));
                                     IdentifyIWADByName(fullpath2);
                                     if (D_AddFile(fullpath2, true))
                                         iwadfound = 1;
@@ -1091,8 +1094,8 @@ static int D_ChooseIWAD(void)
                         else
                         {
                             // still nothing? try the DOOMWADDIR environment variable
-                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
-                                getenv("DOOMWADDIR"));
+                            M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S
+                                "DOOM2.WAD", getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
                             if (D_AddFile(fullpath2, true))
                                 iwadfound = 1;
@@ -1100,7 +1103,7 @@ static int D_ChooseIWAD(void)
                     }
                 }
 
-                // if an iwad has now been found, make a second pass through the pwads to merge them
+                // if an iwad has now been found, make second pass through the pwads to merge them
                 if (iwadfound)
                 {
                     dboolean    mapspresent = false;
@@ -1630,7 +1633,8 @@ static void D_DoomMainSetup(void)
 
     splashlump = W_CacheLumpName("SPLASH", PU_CACHE);
     splashpal = W_CacheLumpName("SPLSHPAL", PU_CACHE);
-    titlelump = W_CacheLumpName(TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC"), PU_CACHE);
+    titlelump = W_CacheLumpName((TITLEPIC ? "TITLEPIC" : (DMENUPIC ? "DMENUPIC" : "INTERPIC")),
+        PU_CACHE);
     creditlump = W_CacheLumpName("CREDIT", PU_CACHE);
     playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
