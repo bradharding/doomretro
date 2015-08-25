@@ -887,6 +887,7 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
                 else
                 {
                     unsigned int        inpos;
+                    unsigned int        spaces;
                     unsigned int        len = strlen(console[i].string);
                     unsigned int        outpos = 0;
                     int                 tabcount = 0;
@@ -902,8 +903,6 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
 
                                 if (outpos < tabstop)
                                 {
-                                    unsigned int       spaces;
-
                                     for (spaces = 0; spaces < tabstop - outpos; ++spaces)
                                         fputc(' ', file);
                                     outpos = tabstop;
@@ -921,6 +920,14 @@ static void C_ConDump(char *cmd, char *parm1, char *parm2)
                                 ++outpos;
                             }
                     }
+
+                    if (con_timestamps && console[i].timestamp[0])
+                    {
+                        for (spaces = 0; spaces < 91 - outpos; ++spaces)
+                            fputc(' ', file);
+                        fputs(console[i].timestamp, file);
+                    }
+
                     fputc('\n', file);
                 }
 
