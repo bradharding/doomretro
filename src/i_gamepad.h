@@ -94,6 +94,7 @@ extern int      currentmotorspeed;
 extern int      idlemotorspeed;
 extern int      restoremotorspeed;
 
+extern int      gamepadalwaysrun;
 extern int      gamepadautomap;
 extern int      gamepadfire;
 extern int      gamepadleftdeadzone;

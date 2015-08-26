@@ -86,6 +86,7 @@ extern dboolean         con_timestamps;
 extern char             *configfile;
 extern int              episode;
 extern int              expansion;
+extern int              gamepadalwaysrun;
 extern int              gamepadautomap;
 extern int              gamepadautomapclearmark;
 extern int              gamepadautomapfollowmode;
@@ -280,7 +281,7 @@ control_t controls[] =
 
 action_t actions[] = 
 {
-    { "+alwaysrun",    &key_alwaysrun,          NULL,              NULL                      },
+    { "+alwaysrun",    &key_alwaysrun,          NULL,              &gamepadalwaysrun         },
     { "+automap",      &key_automap,            NULL,              &gamepadautomap           },
     { "+back",         &key_down,               NULL,              NULL                      },
     { "+back2",        &key_down2,              NULL,              NULL                      },

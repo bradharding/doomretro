@@ -147,7 +147,7 @@ extern int      fps;
 extern dboolean pm_alwaysrun;
 extern int      key_alwaysrun;
 
-void G_ToggleAlwaysRun(void);
+void G_ToggleAlwaysRun(evtype_t type);
 int FindNearestColor(byte *palette, int red, int green, int blue);
 
 static const char *shiftxform =
@@ -1255,7 +1255,7 @@ dboolean C_Responder(event_t *ev)
             case KEY_CAPSLOCK:
                 if (key_alwaysrun == KEY_CAPSLOCK)
                 {
-                    G_ToggleAlwaysRun();
+                    G_ToggleAlwaysRun(ev_keydown);
                     C_Output("%s.", (pm_alwaysrun ? s_ALWAYSRUNON : s_ALWAYSRUNOFF));
                 }
                 break;

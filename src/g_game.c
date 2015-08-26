@@ -160,6 +160,7 @@ int             mousebuse = MOUSEUSE_DEFAULT;
 int             mousebprevweapon = MOUSEPREVWEAPON_DEFAULT;
 int             mousebnextweapon = MOUSENEXTWEAPON_DEFAULT;
 
+int             gamepadalwaysrun = GAMEPADALWAYSRUN_DEFAULT;
 int             gamepadautomap = GAMEPADAUTOMAP_DEFAULT;
 int             gamepadautomapclearmark = GAMEPADAUTOMAPCLEARMARK_DEFAULT;
 int             gamepadautomapfollowmode = GAMEPADAUTOMAPFOLLOWMODE_DEFAULT;
@@ -633,10 +634,10 @@ void G_DoLoadLevel(void)
         ToggleWidescreen(true);
 }
 
-void G_ToggleAlwaysRun(void)
+void G_ToggleAlwaysRun(evtype_t type)
 {
 #if defined(WIN32)
-    pm_alwaysrun = (key_alwaysrun == KEY_CAPSLOCK ?
+    pm_alwaysrun = (key_alwaysrun == KEY_CAPSLOCK && type == ev_keydown ?
         (GetKeyState(VK_CAPITAL) & 0x0001) : !pm_alwaysrun);
 #else
     pm_alwaysrun = !pm_alwaysrun;
@@ -708,7 +709,7 @@ dboolean G_Responder(event_t *ev)
             && !keydown)
         {
             keydown = KEY_CAPSLOCK;
-            G_ToggleAlwaysRun();
+            G_ToggleAlwaysRun(ev_keydown);
             return true;
         }
         return false;
@@ -745,7 +746,7 @@ dboolean G_Responder(event_t *ev)
             else if (key == key_alwaysrun && !keydown)
             {
                 keydown = key_alwaysrun;
-                G_ToggleAlwaysRun();
+                G_ToggleAlwaysRun(ev_keydown);
             }
             else if (key < NUMKEYS)
             {
@@ -841,6 +842,15 @@ dboolean G_Responder(event_t *ev)
                     if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
                     {
                         G_PrevWeapon();
+                        gamepadpress = false;
+                    }
+                }
+                else if ((gamepadbuttons & gamepadalwaysrun) && wait < I_GetTime())
+                {
+                    wait = I_GetTime() + 7;
+                    if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
+                    {
+                        G_ToggleAlwaysRun(ev_gamepad);
                         gamepadpress = false;
                     }
                 }
