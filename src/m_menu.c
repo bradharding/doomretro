@@ -752,7 +752,17 @@ void M_SplitString(char *string)
 //
 void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 {
-    V_DrawPatchWithShadow(x, y, patch, false);
+    short       width = SHORT(patch->width);
+    short       height = SHORT(patch->height);
+
+    if (width >= ORIGINALWIDTH || height >= ORIGINALHEIGHT)
+    {
+        patch->leftoffset = 0;
+        patch->topoffset = 0;
+        V_DrawPagePatch(patch);
+    }
+    else
+        V_DrawPatchWithShadow(x, y, patch, false);
 }
 
 //
@@ -761,8 +771,18 @@ void M_DrawPatchWithShadow(int x, int y, patch_t *patch)
 //
 void M_DrawCenteredPatchWithShadow(int y, patch_t *patch)
 {
-    V_DrawPatchWithShadow((ORIGINALWIDTH - SHORT(patch->width)) / 2 + SHORT(patch->leftoffset),
-        y, patch, false);
+    short       width = SHORT(patch->width);
+    short       height = SHORT(patch->height);
+
+    if (width >= ORIGINALWIDTH || height >= ORIGINALHEIGHT)
+    {
+        patch->leftoffset = 0;
+        patch->topoffset = 0;
+        V_DrawPagePatch(patch);
+    }
+    else
+        V_DrawPatchWithShadow((ORIGINALWIDTH - width) / 2 + SHORT(patch->leftoffset), y, patch,
+            false);
 }
 
 
