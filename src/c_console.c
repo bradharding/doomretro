@@ -481,7 +481,8 @@ void C_Init(void)
 #endif
 
     spacewidth = SHORT(consolefont[' ' - CONSOLEFONTSTART]->width);
-    timestampx = SCREENWIDTH - C_TextWidth("00:00:00") - CONSOLETEXTX * 2 - CONSOLESCROLLBARWIDTH;
+    timestampx = SCREENWIDTH - C_TextWidth("00:00:00") - CONSOLETEXTX * 2
+        - CONSOLESCROLLBARWIDTH + 1;
     zerowidth = SHORT(consolefont['0' - CONSOLEFONTSTART]->width);
 
     if (W_CheckMultipleLumps("STCFN065") > 1)
@@ -729,9 +730,8 @@ static void C_DrawTimeStamp(int x, int y, char *text)
 
         if (patch)
         {
-            if (text[i] == '1')
-                x += (zerowidth - SHORT(patch->width)) / 2;
-            V_DrawConsoleChar(x, y, patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, 1);
+            V_DrawConsoleChar(x + (text[i] == '1' ? (zerowidth - SHORT(patch->width)) / 2 : 0), y,
+                patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, 1);
             x += (isdigit(text[i]) ? zerowidth : SHORT(patch->width));
         }
     }
