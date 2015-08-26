@@ -428,7 +428,7 @@ char *strndup(const char *s, size_t n)
 
 char *M_SubString(const char *str, size_t begin, size_t len)
 {
-    if (str == 0 || strlen(str) == 0 || strlen(str) < begin || strlen(str) < (begin + len))
+    if (!str|| !strlen(str) || strlen(str) < begin || strlen(str) < begin + len)
         return 0;
 
     return strndup(str + begin, len);
@@ -447,7 +447,7 @@ char *uppercase(char *str)
 
 char *commify(int value)
 {
-    char result[64];
+    char        result[64];
 
     M_snprintf(result, sizeof(result), "%i", value);
     if (ABS(value) >= 1000)
