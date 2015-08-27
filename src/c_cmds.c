@@ -744,6 +744,8 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
             }
             else
             {
+                dboolean        bound = false;
+
                 while (actions[action].action[0])
                 {
                     if (!strcasecmp(parm2, actions[action].action))
@@ -757,21 +759,34 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                     {
                         case keyboard:
                             if (actions[action].keyboard)
+                            {
                                 *(int *)actions[action].keyboard = controls[i].value;
+                                bound = true;
+                            }
                             break;
                         case mouse:
                             if (actions[action].mouse)
+                            {
                                 *(int *)actions[action].mouse = controls[i].value;
+                                bound = true;
+                            }
                             break;
                         case gamepad:
                             if (actions[action].gamepad)
+                            {
                                 *(int *)actions[action].gamepad = controls[i].value;
+                                bound = true;
+                            }
                             break;
                     }
 
                     if (cmd[0])
                         M_SaveCVARs();
                 }
+
+                if (!bound)
+                    C_Warning("The %s action can't be bound to %s.", actions[action].action,
+                        controls[i].control);
             }
         }
     }
