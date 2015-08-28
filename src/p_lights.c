@@ -334,3 +334,25 @@ int EV_LightTurnOnPartway(line_t *line, fixed_t level)
     }
     return 1;
 }
+
+// [BH] similar to EV_LightTurnOnPartway(), but instead of using a line tag, looks at adjacent
+//  sectors of the sector itself.
+int EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
+{
+    sector_t    *temp;
+    int         i, bright = 0, min = sector->lightlevel;
+
+    level = BETWEEN(0, level, FRACUNIT);        // clip at extremes
+
+    for (i = 0; i < sector->linecount; i++)
+        if ((temp = getNextSector(sector->lines[i], sector)))
+        {
+            if (temp->lightlevel > bright)
+                bright = temp->lightlevel;
+            if (temp->lightlevel < min)
+                min = temp->lightlevel;
+        }
+
+    sector->lightlevel = (level * bright + (FRACUNIT - level) * min) >> FRACBITS;
+    return 1;
+}

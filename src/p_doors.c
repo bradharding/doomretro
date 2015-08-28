@@ -118,9 +118,17 @@ void T_VerticalDoor(vldoor_t *door)
                 door->direction);
 
             // killough 10/98: implement gradual lighting effects
-            if (door->lighttag && door->topheight - door->sector->floorheight)
-                EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight
-                    - door->sector->floorheight, door->topheight - door->sector->floorheight));
+            // [BH] enhanced to apply effects to all doors
+            if (door->topheight - door->sector->floorheight)
+            {
+                fixed_t level = FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
+                    door->topheight - door->sector->floorheight);
+
+                if (door->lighttag)
+                    EV_LightTurnOnPartway(door->line, level);
+                else
+                    EV_LightByAdjacentSectors(door->sector, level);
+            }
 
             if (res == pastdest)
                 switch (door->type)
@@ -182,9 +190,17 @@ void T_VerticalDoor(vldoor_t *door)
                 door->direction);
 
             // killough 10/98: implement gradual lighting effects
-            if (door->lighttag && door->topheight - door->sector->floorheight)
-                EV_LightTurnOnPartway(door->line, FixedDiv(door->sector->ceilingheight
-                    - door->sector->floorheight, door->topheight - door->sector->floorheight));
+            // [BH] enhanced to apply effects to all doors
+            if (door->topheight - door->sector->floorheight)
+            {
+                fixed_t level = FixedDiv(door->sector->ceilingheight - door->sector->floorheight,
+                    door->topheight - door->sector->floorheight);
+
+                if (door->lighttag)
+                    EV_LightTurnOnPartway(door->line, level);
+                else
+                    EV_LightByAdjacentSectors(door->sector, level);
+            }
 
             if (res == pastdest)
             {
@@ -354,7 +370,7 @@ dboolean EV_DoDoor(line_t *line, vldoor_e type)
         door->topwait = VDOORWAIT;
         door->speed = VDOORSPEED;
         door->line = line;      // jff 1/31/98 remember line that triggered us
-        door->lighttag = 0;     // killough 10/98: no light effects with tagged doors
+        door->lighttag = 0;
 
         for (i = 0; i < door->sector->linecount; i++)
             door->sector->lines[i]->flags &= ~ML_SECRET;
@@ -605,7 +621,8 @@ void EV_VerticalDoor(line_t *line, mobj_t *thing)
     door->line = line;          // jff 1/31/98 remember line that triggered us
 
     // killough 10/98: use gradual lighting changes if nonzero tag given
-    door->lighttag = line->tag; // killough 10/98
+    // [BH] check if tag is valid
+    door->lighttag = (P_FindLineFromLineTag(line, 0) ? line->tag : 0);  // killough 10/98
 
     switch (line->special)
     {

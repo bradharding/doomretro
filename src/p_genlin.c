@@ -980,7 +980,7 @@ manual_locked:
         rtn = true;
         door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
         P_AddThinker(&door->thinker);
-        sec->ceilingdata = door;        //jff 2/22/98
+        sec->ceilingdata = door;        // jff 2/22/98
 
         door->thinker.function = T_VerticalDoor;
         door->sector = sec;
@@ -991,7 +991,8 @@ manual_locked:
         door->direction = 1;
 
         // killough 10/98: implement gradual lighting
-        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ? line->tag : 0);
+        door->lighttag = ((line->special & 6) == 6 && line->special > GenLockedBase ?
+            line->tag : 0);
 
         // setup speed of door motion
         switch (Sped)

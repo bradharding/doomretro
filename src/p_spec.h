@@ -104,7 +104,7 @@ sector_t *P_FindModelCeilingSector(fixed_t ceildestheight, int secnum); //jff 02
 int P_FindSectorFromLineTag(const line_t *line, int start);
 int P_FindLineFromLineTag(const line_t *line, int start);
 
-int P_FindMinSurroundingLight(sector_t *sector, int max);
+int P_FindMinSurroundingLight(sector_t *sector, int min);
 
 dboolean P_CanUnlockGenDoor(line_t *line, player_t *player);
 
@@ -176,6 +176,7 @@ int EV_TurnTagLightsOff(line_t *line);
 int EV_LightTurnOn(line_t *line, int bright);
 
 int EV_LightTurnOnPartway(line_t *line, fixed_t level);  // killough 10/10/98
+int EV_LightByAdjacentSectors(sector_t *sector, fixed_t level);
 
 void T_Glow(glow_t *g);
 void P_SpawnGlowingLight(sector_t *sector);
