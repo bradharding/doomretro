@@ -1068,13 +1068,19 @@ void R_DrawPausedFuzzColumn(void)
     {
         // top
         if (!dc_yl)
+        {
             *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+            if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
+                fuzzpos = 0;
+        }
         dest += SCREENWIDTH;
 
         while (--count)
         {
             // middle
             *dest = fullcolormap[6 * 256 + dest[fuzztable[fuzzpos++]]];
+            if (fuzzpos == SCREENWIDTH * SCREENHEIGHT)
+                fuzzpos = 0;
             dest += SCREENWIDTH;
         }
 
