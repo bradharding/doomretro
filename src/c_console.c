@@ -310,7 +310,7 @@ void C_PlayerMessage(char *string, ...)
 
         time(&rawtime);
         timeinfo = localtime(&rawtime);
-        strftime(buffer, sizeof(buffer), "%T", timeinfo);
+        strftime(buffer, sizeof(buffer), "%H:%M:%S", timeinfo);
         console[consolestrings].timestamp = strdup(buffer);
 
         ++consolestrings;
