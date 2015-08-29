@@ -982,9 +982,9 @@ static void C_CvarList(char *cmd, char *parm1, char *parm2)
                     ((consolecmds[i].flags & CF_PERCENT) ? 1 : 2)),
                     ((consolecmds[i].flags & CF_PERCENT) ? "%" : ""), consolecmds[i].description);
             else if (consolecmds[i].flags & CF_STRING)
-                C_TabbedOutput(tabs, "%i.\t%s\t\"%.9s%s\"\t%s", count++, consolecmds[i].name,
+                C_TabbedOutput(tabs, "%i.\t%s\t\"%.8s%s\"\t%s", count++, consolecmds[i].name,
                     *(char **)consolecmds[i].variable,
-                    (strlen(*(char **)consolecmds[i].variable) > 9 ? "..." : ""),
+                    (strlen(*(char **)consolecmds[i].variable) > 8 ? "..." : ""),
                     consolecmds[i].description);
             else if ((consolecmds[i].flags & CF_POSITION) || (consolecmds[i].flags & CF_SIZE))
                 C_TabbedOutput(tabs, "%i.\t%s\t%s\t%s", count++, consolecmds[i].name,
