@@ -200,9 +200,8 @@ static void UpdateFocus(void)
 {
     Uint32      state = SDL_GetWindowFlags(window);
 
-    // We should have input (keyboard) focus and be visible
-    // (not minimized)
-    window_focused = (state & (SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_SHOWN));
+    // We should have input (keyboard) focus and be visible (not minimized)
+    window_focused = ((state & SDL_WINDOW_INPUT_FOCUS) && (state & SDL_WINDOW_SHOWN));
 
     if (!window_focused && !menuactive && gamestate == GS_LEVEL && !paused && !consoleactive)
     {
