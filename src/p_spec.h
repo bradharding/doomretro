@@ -175,8 +175,8 @@ int EV_TurnTagLightsOff(line_t *line);
 
 int EV_LightTurnOn(line_t *line, int bright);
 
-int EV_LightTurnOnPartway(line_t *line, fixed_t level);  // killough 10/10/98
-int EV_LightByAdjacentSectors(sector_t *sector, fixed_t level);
+void EV_LightTurnOnPartway(line_t *line, fixed_t level);        // killough 10/10/98
+void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level);
 
 void T_Glow(glow_t *g);
 void P_SpawnGlowingLight(sector_t *sector);

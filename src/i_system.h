@@ -41,9 +41,6 @@
 
 #include "d_event.h"
 
-// Called by DoomMain.
-void I_Init(void);
-
 //
 // Called by D_DoomLoop,
 // called before processing each tic in a frame.

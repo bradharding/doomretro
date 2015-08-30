@@ -36,10 +36,10 @@
 ========================================================================
 */
 
-#include "z_zone.h"
 #include "m_random.h"
 #include "p_local.h"
 #include "p_tick.h"
+#include "z_zone.h"
 
 //
 // FIRELIGHT FLICKER
@@ -307,8 +307,7 @@ void P_SpawnGlowingLight(sector_t *sector)
 // Sets the light to min on 0, max on 1, and interpolates in-between.
 // Used for doors with gradual lighting effects.
 //
-// Returns true
-int EV_LightTurnOnPartway(line_t *line, fixed_t level)
+void EV_LightTurnOnPartway(line_t *line, fixed_t level)
 {
     int i;
 
@@ -332,12 +331,11 @@ int EV_LightTurnOnPartway(line_t *line, fixed_t level)
         // Set level in-between extremes
         sector->lightlevel = (level * bright + (FRACUNIT - level) * min) >> FRACBITS;
     }
-    return 1;
 }
 
 // [BH] similar to EV_LightTurnOnPartway(), but instead of using a line tag, looks at adjacent
 //  sectors of the sector itself.
-int EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
+void EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
 {
     sector_t    *temp;
     int         i, bright = 0, min = sector->lightlevel;
@@ -354,5 +352,4 @@ int EV_LightByAdjacentSectors(sector_t *sector, fixed_t level)
         }
 
     sector->lightlevel = (level * bright + (FRACUNIT - level) * min) >> FRACBITS;
-    return 1;
 }

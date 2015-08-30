@@ -502,11 +502,6 @@ void D_StartTitle(int page)
     D_AdvanceTitle();
 }
 
-static dboolean D_AddFile(char *filename, dboolean automatic)
-{
-    return (W_AddFile(filename, automatic) != NULL);
-}
-
 // Initialize the game version
 static void InitGameVersion(void)
 {
@@ -769,7 +764,7 @@ static int D_ChooseIWAD(void)
             if (D_IsDOOMIWAD(file) || (W_WadType(file) == IWAD && !D_IsUnsupportedIWAD(file)))
             {
                 IdentifyIWADByName(file);
-                if (D_AddFile(file, false))
+                if (W_AddFile(file, false))
                 {
                     iwadfound = 1;
                     iwadfolder = strdup(M_ExtractFolder(file));
@@ -805,7 +800,7 @@ static int D_ChooseIWAD(void)
                     strdup(M_ExtractFolder(file)), (iwadrequired == doom ? "DOOM.WAD" :
                     "DOOM2.WAD"));
                 IdentifyIWADByName(fullpath);
-                if (D_AddFile(fullpath, true))
+                if (W_AddFile(fullpath, true))
                 {
                     iwadfound = 1;
                     iwadfolder = strdup(M_ExtractFolder(file));
@@ -823,7 +818,7 @@ static int D_ChooseIWAD(void)
                     M_snprintf(fullpath, sizeof(fullpath), "%s"DIR_SEPARATOR_S"%s", iwadfolder,
                         (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                     IdentifyIWADByName(fullpath);
-                    if (D_AddFile(fullpath, true))
+                    if (W_AddFile(fullpath, true))
                     {
                         iwadfound = 1;
                         D_CheckSupportedPWAD(file);
@@ -841,7 +836,7 @@ static int D_ChooseIWAD(void)
                             getenv("DOOMWADDIR"), (iwadrequired == doom ? "DOOM.WAD" :
                             "DOOM2.WAD"));
                         IdentifyIWADByName(fullpath);
-                        if (D_AddFile(fullpath, true))
+                        if (W_AddFile(fullpath, true))
                         {
                             iwadfound = 1;
                             D_CheckSupportedPWAD(file);
@@ -934,7 +929,7 @@ static int D_ChooseIWAD(void)
                     if (!iwadfound)
                     {
                         IdentifyIWADByName(fullpath);
-                        if (D_AddFile(fullpath, false))
+                        if (W_AddFile(fullpath, false))
                         {
                             iwadfound = 1;
                             sharewareiwad = !strcasecmp(iwadpass, "DOOM1.WAD");
@@ -954,7 +949,7 @@ static int D_ChooseIWAD(void)
                     M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
                         strdup(szFile));
                     IdentifyIWADByName(fullpath2);
-                    if (D_AddFile(fullpath2, true))
+                    if (W_AddFile(fullpath2, true))
                     {
                         iwadfound = 1;
                         if (W_MergeFile(fullpath, false))
@@ -971,7 +966,7 @@ static int D_ChooseIWAD(void)
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
                             iwadfolder);
                         IdentifyIWADByName(fullpath2);
-                        if (D_AddFile(fullpath2, true))
+                        if (W_AddFile(fullpath2, true))
                         {
                             iwadfound = 1;
                             if (W_MergeFile(fullpath, false))
@@ -988,7 +983,7 @@ static int D_ChooseIWAD(void)
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S
                                 "DOOM2.WAD", getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
-                            if (D_AddFile(fullpath2, true))
+                            if (W_AddFile(fullpath2, true))
                             {
                                 iwadfound = 1;
                                 if (W_MergeFile(fullpath, false))
@@ -1041,7 +1036,7 @@ static int D_ChooseIWAD(void)
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                 strdup(szFile), (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                             IdentifyIWADByName(fullpath2);
-                            if (D_AddFile(fullpath2, true))
+                            if (W_AddFile(fullpath2, true))
                             {
                                 iwadfound = 1;
                                 iwadfolder = strdup(M_ExtractFolder(pwadpass1));
@@ -1052,7 +1047,7 @@ static int D_ChooseIWAD(void)
                                 M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"%s",
                                     iwadfolder, (iwadrequired == doom ? "DOOM.WAD" : "DOOM2.WAD"));
                                 IdentifyIWADByName(fullpath2);
-                                if (D_AddFile(fullpath2, true))
+                                if (W_AddFile(fullpath2, true))
                                     iwadfound = 1;
                                 else
                                 {
@@ -1061,7 +1056,7 @@ static int D_ChooseIWAD(void)
                                         "%s", getenv("DOOMWADDIR"), (iwadrequired == doom ?
                                         "DOOM.WAD" : "DOOM2.WAD"));
                                     IdentifyIWADByName(fullpath2);
-                                    if (D_AddFile(fullpath2, true))
+                                    if (W_AddFile(fullpath2, true))
                                         iwadfound = 1;
                                 }
                             }
@@ -1077,7 +1072,7 @@ static int D_ChooseIWAD(void)
                 {
                     // try the current folder first
                     IdentifyIWADByName("DOOM2.WAD");
-                    if (D_AddFile("DOOM2.WAD", true))
+                    if (W_AddFile("DOOM2.WAD", true))
                         iwadfound = 1;
                     else
                     {
@@ -1087,7 +1082,7 @@ static int D_ChooseIWAD(void)
                         M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S"DOOM2.WAD",
                             iwadfolder);
                         IdentifyIWADByName(fullpath2);
-                        if (D_AddFile(fullpath2, true))
+                        if (W_AddFile(fullpath2, true))
                             iwadfound = 1;
                         else
                         {
@@ -1095,7 +1090,7 @@ static int D_ChooseIWAD(void)
                             M_snprintf(fullpath2, sizeof(fullpath2), "%s"DIR_SEPARATOR_S
                                 "DOOM2.WAD", getenv("DOOMWADDIR"));
                             IdentifyIWADByName(fullpath2);
-                            if (D_AddFile(fullpath2, true))
+                            if (W_AddFile(fullpath2, true))
                                 iwadfound = 1;
                         }
                     }
@@ -1326,7 +1321,7 @@ static void D_DoomMainSetup(void)
     if (iwadfile)
     {
         startuptimer = I_GetTimeMS();
-        if (D_AddFile(iwadfile, false))
+        if (W_AddFile(iwadfile, false))
             if (runcount < runcount_max)
                 runcount++;
     }
