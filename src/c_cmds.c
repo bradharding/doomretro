@@ -287,7 +287,7 @@ action_t actions[] =
     { "+fire",         &key_fire,               &mousebfire,       &gamepadfire              },
     { "+followmode",   &key_automap_followmode, NULL,              &gamepadautomapfollowmode },
     { "+forward",      &key_up,                 &mousebforward,    NULL                      },
-    { "+forward2",     &key_up2,                &mousebforward,    NULL                      },
+    { "+forward2",     &key_up2,                NULL,              NULL                      },
     { "+grid",         &key_automap_grid,       NULL,              &gamepadautomapgrid       },
     { "+left",         &key_left,               NULL,              NULL                      },
     { "+mark",         &key_automap_mark,       NULL,              &gamepadautomapmark       },
