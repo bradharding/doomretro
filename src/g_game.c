@@ -1261,6 +1261,7 @@ void G_DoCompleted(void)
 
     // [BH] allow the exit switch to turn on before the screen wipes
     R_RenderPlayerView(&players[0]);
+    I_Sleep(700);
 
     if (vid_widescreen)
     {
