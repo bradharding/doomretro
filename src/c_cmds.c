@@ -277,7 +277,7 @@ control_t controls[] =
     { "gamepad4",      gamepad,  32768          }, { "",              0,        0              }
 };
 
-action_t actions[] = 
+action_t actions[] =
 {
     { "+alwaysrun",    &key_alwaysrun,          NULL,              &gamepadalwaysrun         },
     { "+automap",      &key_automap,            NULL,              &gamepadautomap           },
@@ -656,6 +656,27 @@ static void C_DisplayBinds(char *action, int value, controltype_t type, int coun
     }
 }
 
+static void C_UnbindDuplicates(int keep, controltype_t type, int value)
+{
+    int i = 0;
+
+    while (actions[i].action[0])
+    {
+        if (i != keep)
+        {
+            if (type == keyboard && actions[i].keyboard && value == *(int *)actions[i].keyboard)
+                *(int *)actions[i].keyboard = 0;
+            else if (type == mouse && actions[i].mouse && value == *(int *)actions[i].mouse)
+                *(int *)actions[i].mouse = -1;
+            else if (type == gamepad && actions[i].gamepad && value == *(int *)actions[i].gamepad)
+                *(int *)actions[i].gamepad = 0;
+        }
+
+        ++i;
+    }
+    M_SaveCVARs();
+}
+
 void C_Bind(char *cmd, char *parm1, char *parm2)
 {
     if (!parm1[0])
@@ -726,7 +747,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                             if (actions[action].mouse
                                 && controls[i].value == *(int *)actions[action].mouse)
                             {
-                                *(int *)actions[action].mouse = 0;
+                                *(int *)actions[action].mouse = -1;
                                 M_SaveCVARs();
                             }
                             break;
@@ -762,6 +783,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                             {
                                 *(int *)actions[action].keyboard = controls[i].value;
                                 bound = true;
+                                C_UnbindDuplicates(action, keyboard, controls[i].value);
                             }
                             break;
                         case mouse:
@@ -769,6 +791,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                             {
                                 *(int *)actions[action].mouse = controls[i].value;
                                 bound = true;
+                                C_UnbindDuplicates(action, mouse, controls[i].value);
                             }
                             break;
                         case gamepad:
@@ -776,6 +799,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                             {
                                 *(int *)actions[action].gamepad = controls[i].value;
                                 bound = true;
+                                C_UnbindDuplicates(action, gamepad, controls[i].value);
                             }
                             break;
                     }
