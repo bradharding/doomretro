@@ -579,7 +579,7 @@ static void C_DrawBackground(int height)
     for (i = 0; i < height; ++i)
         screens[0][i] = tinttab50[c_blurredscreen[i] + consoletintcolor];
 
-    for (i = height - 2; i >= 0; i -= 3)
+    for (i = height - 2; i > 1; i -= 3)
     {
         screens[0][i] = colormaps[0][256 * 6 + screens[0][i]];
         if (((i - 1) % SCREENWIDTH) < SCREENWIDTH - 2)
