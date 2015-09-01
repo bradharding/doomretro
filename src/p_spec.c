@@ -2220,7 +2220,7 @@ void T_Scroll(scroll_t *s)
             // non-floating, and clipped.
             for (node = sec->touching_thinglist; node; node = node->m_snext)
                 if (!((thing = node->m_thing)->flags & MF_NOCLIP)
-                    && (!(thing->flags & MF_NOGRAVITY || thing->z > height)
+                    && (!((thing->flags & MF_NOGRAVITY) || thing->z > height)
                     || thing->z < waterheight))
                 {
                     thing->momx += dx;
@@ -2344,7 +2344,7 @@ static void P_SpawnScrollers(void)
             case Scroll_ScrollFloorAndMoveThings:
                 for (s = -1; (s = P_FindSectorFromLineTag(l, s)) >= 0;)
                     Add_Scroller(sc_floor, -dx, dy, control, s, accel);
-                if (special != 253)
+                if (special != Scroll_ScrollFloorAndMoveThings)
                     break;
 
             case Scroll_MoveThingsAccordingToLineVector:
@@ -2364,8 +2364,7 @@ static void P_SpawnScrollers(void)
 
             case Scroll_ScrollWallUsingSidedefOffsets:
                 s = lines[i].sidenum[0];
-                Add_Scroller(sc_side, -sides[s].textureoffset,
-                    sides[s].rowoffset, -1, s, accel);
+                Add_Scroller(sc_side, -sides[s].textureoffset, sides[s].rowoffset, -1, s, accel);
                 break;
 
             case Scroll_ScrollTextureLeft:

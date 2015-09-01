@@ -685,35 +685,20 @@ static void C_DrawOverlayText(int x, int y, char *text, int color)
 {
     size_t      i;
     size_t      len = strlen(text);
-    char        prevletter = '\0';
 
     for (i = 0; i < len; ++i)
     {
         char    letter = text[i];
-        patch_t *patch = NULL;
-        int     k = 0;
 
         if (letter == ' ')
             x += spacewidth;
         else
-            patch = consolefont[letter - CONSOLEFONTSTART];
-
-        while (kern[k].char1)
         {
-            if (prevletter == kern[k].char1 && letter == kern[k].char2)
-            {
-                x += kern[k].adjust;
-                break;
-            }
-            ++k;
-        }
+            patch_t     *patch = consolefont[letter - CONSOLEFONTSTART];
 
-        if (patch)
-        {
             V_DrawConsoleChar(x, y, patch, color, NOBACKGROUNDCOLOR, false, 2);
             x += SHORT(patch->width);
         }
-        prevletter = letter;
     }
 }
 
@@ -728,12 +713,9 @@ static void C_DrawTimeStamp(int x, int y, char *text)
     {
         patch_t *patch = consolefont[text[i] - CONSOLEFONTSTART];
 
-        if (patch)
-        {
-            V_DrawConsoleChar(x + (text[i] == '1' ? (zerowidth - SHORT(patch->width)) / 2 : 0), y,
-                patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, 1);
-            x += (isdigit(text[i]) ? zerowidth : SHORT(patch->width));
-        }
+        V_DrawConsoleChar(x + (text[i] == '1' ? (zerowidth - SHORT(patch->width)) / 2 : 0), y,
+            patch, consoletimestampcolor, NOBACKGROUNDCOLOR, false, 1);
+        x += (isdigit(text[i]) ? zerowidth : SHORT(patch->width));
     }
 }
 
@@ -743,7 +725,7 @@ void C_UpdateFPS(void)
     {
         static char     buffer[16];
 
-        M_snprintf(buffer, 16, "%i FPS", (vid_capfps ? MIN(fps, TICRATE) : fps));
+        M_snprintf(buffer, 16, "%i FPS", fps);
 
         C_DrawOverlayText(SCREENWIDTH - C_TextWidth(buffer) - CONSOLETEXTX + 1, CONSOLETEXTY,
             buffer, (fps < TICRATE ? consolelowfpscolor : consolehighfpscolor));

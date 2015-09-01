@@ -719,7 +719,7 @@ void C_Bind(char *cmd, char *parm1, char *parm2)
                 {
                     if (controls[i].type == keyboard && actions[action].keyboard
                         && controls[i].value == *(int *)actions[action].keyboard)
-                            C_Output(actions[action].action);
+                        C_Output(actions[action].action);
                     else if (controls[i].type == mouse && actions[action].mouse
                         && controls[i].value == *(int *)actions[action].mouse)
                         C_Output(actions[action].action);
