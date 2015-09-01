@@ -641,22 +641,21 @@ static dboolean D_IsUnsupportedPWAD(char *filename)
 
 #if defined(__MACOSX__)
 #import <Cocoa/Cocoa.h>
+
+#define CTRL    "CMD"
+#else
+#define CTRL    "CTRL"
 #endif
 
 static void D_FirstUse(void)
 {
     char *msg = "Thank you for downloading " PACKAGE_NAME "!\n\nPlease note that, as with all "
         "DOOM source ports, no actual map data is included\nwith " PACKAGE_NAME ".\n\nIn the "
-        "dialog box that follows, please navigate to where an official \xe2\x80\x9cIWAD file"
-        "\xe2\x80\x9d that\n" PACKAGE_NAME " requires (such as DOOM.WAD or DOOM2.WAD) has been "
-        "installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be selected by "
-        "clicking or "
-#if defined(__MACOSX__)
-        "CMD"
-#else
-        "CTRL"
-#endif
-        "-clicking on them.\nGo to the DOOM RETRO Wiki for more information.";
+        "following window, please navigate to where one of the official \xe2\x80\x9cIWAD files"
+        "\xe2\x80\x9d\nthat " PACKAGE_NAME " requires (such as DOOM.WAD or DOOM2.WAD) has "
+        "previously\nbeen installed.\n\nAdditional \xe2\x80\x9cPWAD files\xe2\x80\x9d may then be "
+        "selected by clicking or " CTRL "-clicking on them.\nGo to the " PACKAGE_NAME " Wiki for "
+        "more information.";
 
     const SDL_MessageBoxButtonData buttons[] = 
     {
