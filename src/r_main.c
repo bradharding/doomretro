@@ -629,7 +629,7 @@ void R_InitColumnFunctions(void)
             info->colfunc = tlbluecolfunc;
         else if (flags2 & MF2_TRANSLUCENT_33)
             info->colfunc = tl33colfunc;
-        else if (flags2 & MF2_TRANSLUCENT_50)
+        else if ((info->flags & MF_TRANSLUCENT) || (flags2 & MF2_TRANSLUCENT_50))
             info->colfunc = tl50colfunc;
         else if (flags2 & MF2_TRANSLUCENT_REDWHITEONLY)
             info->colfunc = tlredwhitecolfunc1;

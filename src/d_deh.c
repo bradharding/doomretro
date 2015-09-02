@@ -1380,7 +1380,21 @@ static const struct deh_mobjflags_s deh_mobjflags[] =
     { "COUNTITEM",    MF_COUNTITEM    },    // count toward the items total
     { "SKULLFLY",     MF_SKULLFLY     },    // special handling for flying skulls
     { "NOTDMATCH",    MF_NOTDMATCH    },    // do not spawn in deathmatch
-    { "TRANSLATION",  MF_TRANSLATION  }     // color translation
+
+    // killough 10/98: TRANSLATION consists of 2 bits, not 1:
+    { "TRANSLATION",  0x04000000      },    // for BOOM bug-compatibility
+    { "TRANSLATION1", 0x04000000      },    // use translation table for color (players)
+    { "TRANSLATION2", 0x08000000      },    // use translation table for color (players)
+
+    { "UNUSED1",      0x08000000      },    // unused bit # 1 -- For BOOM bug-compatibility
+    { "UNUSED2",      0x10000000      },    // unused bit # 2 -- For BOOM compatibility
+    { "UNUSED3",      0x20000000      },    // unused bit # 3 -- For BOOM compatibility
+    { "UNUSED4",      0x40000000      },    // unused bit # 4 -- For BOOM compatibility
+
+    { "TOUCHY",       MF_TOUCHY       },    // dies on contact with solid objects (MBF)
+    { "BOUNCES",      MF_BOUNCES      },    // bounces off floors, ceilings and maybe walls
+    { "FRIEND",       MF_FRIEND       },    // a friend of the player(s) (MBF)
+    { "TRANSLUCENT",  MF_TRANSLUCENT  }     // apply translucency to sprite (BOOM)
 };
 
 // STATE - Dehacked block name = "Frame" and "Pointer"
