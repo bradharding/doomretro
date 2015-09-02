@@ -2052,13 +2052,13 @@ static void C_PlayerName(char *cmd, char *parm1, char *parm2)
 
 static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
 {
-    int tabs[8] = { 170, 280, 0, 0, 0, 0, 0, 0 };
+    int tabs[8] = { 140, 250, 0, 0, 0, 0, 0, 0 };
     int tics = leveltime / TICRATE;
 
     C_TabbedOutput(tabs, "\t~Current Map~\t~Total~");
 
     if ((players[0].cheats & CF_ALLMAP) || (players[0].cheats & CF_ALLMAP_THINGS))
-        C_TabbedOutput(tabs, "Amount of map revealed\t100%%\t-");
+        C_TabbedOutput(tabs, "Map revealed\t100%%\t-");
     else
     {
         int     i = 0;
@@ -2070,7 +2070,7 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         i = 0;
         while (i < totallines)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
-        C_TabbedOutput(tabs, "Amount of map revealed\t%i%%\t-",
+        C_TabbedOutput(tabs, "Map revealed\t%i%%\t-",
             totallinesmapped * 100 / totallines);
     }
 
