@@ -2061,14 +2061,14 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         C_TabbedOutput(tabs, "Amount of map revealed\t100%%\t-");
     else
     {
-        int i = 0;
-        int totallines = numlines;
-        int totallinesmapped = 0;
+        int     i = 0;
+        int     totallines = numlines;
+        int     totallinesmapped = 0;
 
         while (i < numlines)
             totallines -= !!(lines[i++].flags & ML_DONTDRAW);
         i = 0;
-        while (i < numlines)
+        while (i < totallines)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
         C_TabbedOutput(tabs, "Amount of map revealed\t%i%%\t-",
             totallinesmapped * 100 / totallines);
