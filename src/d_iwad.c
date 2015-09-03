@@ -471,7 +471,7 @@ char *D_TryFindWADByName(char *filename)
 char *D_FindIWAD(void)
 {
     char        *result = NULL;
-    int         iwadparm = M_CheckParmWithArgs("-iwad", 1);
+    int         iwadparm = M_CheckParmWithArgs("-iwad", 1, 1);
 
     if (iwadparm)
     {

@@ -1297,7 +1297,7 @@ static void D_DoomMainSetup(void)
     I_InitTimer();
 
     // Load configuration files before initializing other subsystems.
-    p = M_CheckParmWithArgs("-config", 1);
+    p = M_CheckParmWithArgs("-config", 1, 1);
     M_LoadCVARs(p ? myargv[p + 1] : packageconfig);
 
     if (runcount < 2)
@@ -1315,7 +1315,7 @@ static void D_DoomMainSetup(void)
 #endif
         I_Error("Can't find %s.", uppercase(packagewad));
 
-    p = M_CheckParmsWithArgs("-file", "-pwad", 1);
+    p = M_CheckParmsWithArgs("-file", "-pwad", 1, 1);
 
     if (iwadfile)
     {
@@ -1348,17 +1348,21 @@ static void D_DoomMainSetup(void)
 
     if (p > 0)
     {
-        for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
+        do
         {
-            char        *file = D_TryFindWADByName(myargv[p]);
-
-            if (iwadfile)
+            for (p = p + 1; p < myargc && myargv[p][0] != '-'; ++p)
             {
-                D_CheckSupportedPWAD(file);
-                if (W_MergeFile(file, false))
-                    modifiedgame = true;
+                char        *file = D_TryFindWADByName(myargv[p]);
+
+                if (iwadfile)
+                {
+                    D_CheckSupportedPWAD(file);
+                    if (W_MergeFile(file, false))
+                        modifiedgame = true;
+                }
             }
         }
+        while ((p = M_CheckParmsWithArgs("-file", "-pwad", 1, p)));
     }
 
     if (!iwadfile && !modifiedgame && !choseniwad)
@@ -1453,7 +1457,7 @@ static void D_DoomMainSetup(void)
     startmap = 1;
     autostart = false;
 
-    p = M_CheckParmWithArgs("-skill", 1);
+    p = M_CheckParmWithArgs("-skill", 1, 1);
     if (p)
     {
         int     temp = myargv[p + 1][0] - '1';
@@ -1476,7 +1480,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    p = M_CheckParmWithArgs("-episode", 1);
+    p = M_CheckParmWithArgs("-episode", 1, 1);
     if (p)
     {
         int     temp = myargv[p + 1][0] - '0';
@@ -1508,7 +1512,7 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    p = M_CheckParmWithArgs("-expansion", 1);
+    p = M_CheckParmWithArgs("-expansion", 1, 1);
     if (p)
     {
         int     temp = myargv[p + 1][0] - '0';
@@ -1533,12 +1537,12 @@ static void D_DoomMainSetup(void)
         }
     }
 
-    p = M_CheckParmWithArgs("-warp", 1);
+    p = M_CheckParmWithArgs("-warp", 1, 1);
     if (p)
         C_Output("Found -WARP parameter on command-line.");
     else
     {
-        p = M_CheckParmWithArgs("+map", 1);
+        p = M_CheckParmWithArgs("+map", 1, 1);
         if (p)
             C_Output("Found +MAP parameter on command-line.");
     }
@@ -1587,7 +1591,7 @@ static void D_DoomMainSetup(void)
             autostart = true;
     }
 
-    p = M_CheckParmWithArgs("-loadgame", 1);
+    p = M_CheckParmWithArgs("-loadgame", 1, 1);
     if (p)
         startloadgame = atoi(myargv[p + 1]);
     else

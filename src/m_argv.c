@@ -55,22 +55,22 @@ char    **myargv;
 // Returns the argument number (1 to argc-1)
 // or 0 if not present
 //
-int M_CheckParmWithArgs(char *check, int num_args)
+int M_CheckParmWithArgs(char *check, int num_args, int start)
 {
     int i;
 
-    for (i = 1; i < myargc - num_args; i++)
+    for (i = start; i < myargc - num_args; i++)
         if (!strcasecmp(check, myargv[i]))
             return i;
 
     return 0;
 }
 
-int M_CheckParmsWithArgs(char *check1, char *check2, int num_args)
+int M_CheckParmsWithArgs(char *check1, char *check2, int num_args, int start)
 {
     int i;
 
-    for (i = 1; i < myargc - num_args; i++)
+    for (i = start; i < myargc - num_args; i++)
         if (!strcasecmp(check1, myargv[i]) || !strcasecmp(check2, myargv[i]))
             return i;
 
@@ -79,7 +79,7 @@ int M_CheckParmsWithArgs(char *check1, char *check2, int num_args)
 
 int M_CheckParm(char *check)
 {
-    return M_CheckParmWithArgs(check, 0);
+    return M_CheckParmWithArgs(check, 0, 1);
 }
 
 dboolean M_ParmExists(char *check)
