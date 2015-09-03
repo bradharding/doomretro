@@ -1671,8 +1671,16 @@ static void P_RemoveSlimeTrails(void)                   // killough 10/98
                         int64_t s = dx2 + dy2;
                         int     x0 = v->x, y0 = v->y, x1 = l->v1->x, y1 = l->v1->y;
 
-                        v->x = (int)((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) / s);
-                        v->y = (int)((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) / s);
+                        v->x = (fixed_t)((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) / s);
+                        v->y = (fixed_t)((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) / s);
+
+                        // [crispy] wait a minute... moved more than 8 map units?
+                        // maybe that's a linguortal then, back to the original coordinates
+                        if (ABS(v->x - x0) > 8 * FRACUNIT || ABS(v->y - y0) > 8 * FRACUNIT)
+                        {
+                            v->x = x0;
+                            v->y = y0;
+                        }
                     }
                 }  // Obfuscated C contest entry:   :)
             }
