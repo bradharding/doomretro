@@ -138,6 +138,7 @@ extern dboolean         s_randompitch;
 extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern int              skilllevel;
+extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
@@ -2070,8 +2071,7 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         i = 0;
         while (i < totallines)
             totallinesmapped += !!(lines[i++].flags & ML_MAPPED);
-        C_TabbedOutput(tabs, "Map revealed\t%i%%\t-",
-            totallinesmapped * 100 / totallines);
+        C_TabbedOutput(tabs, "Map revealed\t%i%%\t-", totallinesmapped * 100 / totallines);
     }
 
     C_TabbedOutput(tabs, "Monsters killed\t%s of %s (%i%%)\t%s",
@@ -2087,7 +2087,7 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         (totalsecret ? players[0].secretcount * 100 / totalsecret : 0),
         commify(stat_secretsrevealed));
 
-    C_TabbedOutput(tabs, "Time spent in map\t%02i:%02i:%02i\t-",
+    C_TabbedOutput(tabs, "Time\t%02i:%02i:%02i\t-",
         tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
 
     C_TabbedOutput(tabs, "Damage inflicted\t%s\t%s",
@@ -2097,6 +2097,8 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         commify(players[0].damagereceived), commify(stat_damagereceived));
 
     C_TabbedOutput(tabs, "Deaths\t-\t%s", commify(stat_deaths));
+
+    C_TabbedOutput(tabs, "Cheated\t-\t%s", commify(stat_cheated));
 }
 
 static void C_Quit(char *cmd, char *parm1, char *parm2)

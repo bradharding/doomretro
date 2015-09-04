@@ -110,6 +110,7 @@ extern int              s_sfxvolume;
 extern char             *s_timiditycfgpath;
 extern int              savegame;
 extern int              skilllevel;
+extern unsigned int     stat_cheated;
 extern unsigned int     stat_damageinflicted;
 extern unsigned int     stat_damagereceived;
 extern unsigned int     stat_deaths;
@@ -211,6 +212,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_STRING       (s_timiditycfgpath,    NOALIAS    ),
     CONFIG_VARIABLE_INT          (savegame,             NOALIAS    ),
     CONFIG_VARIABLE_INT          (skilllevel,           NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_cheated,         NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damageinflicted, NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_damagereceived,  NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_deaths,          NOALIAS    ),
