@@ -213,7 +213,7 @@ state_t states[NUMSTATES] =
     { SPR_SHT2,  1,                                7,               NULL,            S_DSNR2,         0,     0     }, // S_DSNR1
     { SPR_SHT2,  0,                                3,               NULL,            S_DSGUNDOWN,     0,     0     }, // S_DSNR2
     { SPR_SHT2,  8 | FF_FULLBRIGHT,                4,               A_Light1,        S_DSGUNFLASH2,   0,     0     }, // S_DSGUNFLASH1
-    { SPR_SHT2,  9 | FF_FULLBRIGHT,                4,               A_Light2,        S_LIGHTDONE,     0,     0     }, // S_DSGUNFLASH2
+    { SPR_SHT2,  9 | FF_FULLBRIGHT,                3,               A_Light2,        S_LIGHTDONE,     0,     0     }, // S_DSGUNFLASH2
 
     // Chaingun
     { SPR_CHGG,  0,                                1,               A_WeaponReady,   S_CHAIN,         0,     0     }, // S_CHAIN
