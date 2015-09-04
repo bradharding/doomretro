@@ -2098,7 +2098,7 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
 
     C_TabbedOutput(tabs, "Deaths\t-\t%s", commify(stat_deaths));
 
-    C_TabbedOutput(tabs, "Cheated\t-\t%s", commify(stat_cheated));
+    C_TabbedOutput(tabs, "Cheated\t%s\t%s", commify(players[0].cheated), commify(stat_cheated));
 }
 
 static void C_Quit(char *cmd, char *parm1, char *parm2)

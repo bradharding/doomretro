@@ -574,7 +574,8 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
 
-                    ++stat_cheated;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
                 }
                 else
                 {
@@ -654,7 +655,8 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
 
-                    ++stat_cheated;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
                 }
             }
 
@@ -712,7 +714,8 @@ dboolean ST_Responder(event_t *ev)
                     // [BH] play sound
                     S_StartSound(NULL, sfx_getpow);
 
-                    ++stat_cheated;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
                 }
             }
 
@@ -760,7 +763,8 @@ dboolean ST_Responder(event_t *ev)
                             // [BH] play sound
                             S_StartSound(NULL, sfx_getpow);
 
-                            ++stat_cheated;
+                            stat_cheated = SafeAdd(stat_cheated, 1);
+                            players[0].cheated++;
                         }
                     }
                 }
@@ -786,7 +790,10 @@ dboolean ST_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_getpow);
 
                 if (plyr->cheats & CF_NOCLIP)
-                    ++stat_cheated;
+                {
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
+                }
             }
 
             // no clipping mode cheat
@@ -809,7 +816,10 @@ dboolean ST_Responder(event_t *ev)
                 S_StartSound(NULL, sfx_getpow);
 
                 if (plyr->cheats & CF_NOCLIP)
-                    ++stat_cheated;
+                {
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
+                }
             }
 
             // 'behold?' power-up cheats
@@ -859,7 +869,8 @@ dboolean ST_Responder(event_t *ev)
                         HU_PlayerMessage((strcasecmp(s_STSTR_BEHOLDX, STSTR_BEHOLDX) ?
                             s_STSTR_BEHOLDX : s_STSTR_BEHOLDON), false);
 
-                        ++stat_cheated;
+                        stat_cheated = SafeAdd(stat_cheated, 1);
+                        players[0].cheated++;
                     }
                     else
                     {
@@ -977,7 +988,8 @@ dboolean ST_Responder(event_t *ev)
 
                     plyr->cheats |= CF_CHOPPERS;
 
-                    ++stat_cheated;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
                 }
                 else
                 {
@@ -1013,7 +1025,8 @@ dboolean ST_Responder(event_t *ev)
                 // [BH] play sound
                 S_StartSound(NULL, sfx_getpow);
 
-                ++stat_cheated;
+                stat_cheated = SafeAdd(stat_cheated, 1);
+                players[0].cheated++;
             }
 
             else if (automapactive && cht_CheckCheat(&cheat_amap, ev->data2))
@@ -1022,14 +1035,16 @@ dboolean ST_Responder(event_t *ev)
               {
                   plyr->cheats ^= CF_ALLMAP;
                   plyr->cheats ^= CF_ALLMAP_THINGS;
-                  ++stat_cheated;
+                  stat_cheated = SafeAdd(stat_cheated, 1);
+                  players[0].cheated++;
               }
               else if (plyr->cheats & CF_ALLMAP_THINGS)
                   plyr->cheats ^= CF_ALLMAP_THINGS;
               else
               {
                   plyr->cheats ^= CF_ALLMAP;
-                  ++stat_cheated;
+                  stat_cheated = SafeAdd(stat_cheated, 1);
+                  players[0].cheated++;
               }
               
               S_StartSound(NULL, sfx_getpow);
@@ -1109,7 +1124,8 @@ dboolean ST_Responder(event_t *ev)
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;
                     C_HideConsole();
-                    ++stat_cheated;
+                    stat_cheated = SafeAdd(stat_cheated, 1);
+                    players[0].cheated++;
                 }
             }
         }

@@ -197,6 +197,7 @@ typedef struct player_s
     // For playerstats cmd
     int                 damageinflicted;
     int                 damagereceived;
+    int                 cheated;
 } player_t;
 
 //

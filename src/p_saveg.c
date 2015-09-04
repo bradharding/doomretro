@@ -770,6 +770,9 @@ static void saveg_read_player_t(player_t *str)
 
     // int damagereceived
     str->damagereceived = saveg_read32();
+
+    // int cheated
+    str->cheated = saveg_read32();
 }
 
 static void saveg_write_player_t(player_t *str)
@@ -925,6 +928,9 @@ static void saveg_write_player_t(player_t *str)
 
     // int damagereceived
     saveg_write32(str->damagereceived);
+
+    // int cheated
+    saveg_write32(str->cheated);
 }
 
 //

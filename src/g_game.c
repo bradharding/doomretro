@@ -597,6 +597,7 @@ void G_DoLoadLevel(void)
 
     players[0].damageinflicted = 0;
     players[0].damagereceived = 0;
+    players[0].cheated = 0;
 
     M_ClearRandom();
 
