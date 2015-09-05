@@ -562,7 +562,6 @@ static fixed_t R_ScaleFromGlobalAngle(angle_t visangle)
 void R_StoreWallRange(int start, int stop)
 {
     int64_t     dx, dy, dx1, dy1, len;
-    int         liquidoffset = 0;
 
     linedef = curline->linedef;
 
@@ -700,6 +699,8 @@ void R_StoreWallRange(int start, int stop)
     }
     else
     {
+        int     liquidoffset = 0;
+
         // two sided line
         ds_p->sprtopclip = ds_p->sprbottomclip = NULL;
         ds_p->silhouette = 0;

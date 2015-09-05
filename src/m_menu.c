@@ -2977,8 +2977,7 @@ dboolean M_Responder(event_t *ev)
                         return true;
                     if (!usergame && currentMenu == &OptionsDef && !itemOn)
                         return true;
-                    if (currentMenu != &LoadDef && (currentMenu != &NewDef ||
-                        (currentMenu == &NewDef && itemOn == 4)))
+                    if (currentMenu != &LoadDef && (currentMenu != &NewDef || itemOn == 4))
                         S_StartSound(NULL, sfx_pistol);
                     currentMenu->menuitems[itemOn].routine(itemOn);
                 }

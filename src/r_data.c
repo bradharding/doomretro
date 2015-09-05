@@ -554,8 +554,6 @@ void R_InitTextures(void)
 {
     maptexture_t        *mtexture;
     texture_t           *texture;
-    mappatch_t          *mpatch;
-    texpatch_t          *patch;
 
     int                 i;
     int                 j;
@@ -568,7 +566,6 @@ void R_InitTextures(void)
     int                 *patchlookup;
 
     int                 nummappatches;
-    int                 offset;
     int                 maxoff = 0;
 
     int                 *directory = NULL;
@@ -722,6 +719,10 @@ void R_InitTextures(void)
 
     for (i = 0; i < numtextures; ++i, ++directory)
     {
+        mappatch_t      *mpatch;
+        texpatch_t      *patch;
+        int             offset;
+
         if (!i || i == texturelump->sumtextures)
         {
             // [crispy] start looking in next texture file

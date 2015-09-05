@@ -99,12 +99,14 @@ dboolean EV_Teleport(line_t *line, int side, mobj_t *thing)
 
                     if (player)
                     {
-                        int j;
-
                         // [BH] teleport can be drawn on automap 
                         if (line->backsector)
+                        {
+                            int j;
+
                             for (j = 0; j < line->backsector->linecount; j++)
                                 line->backsector->lines[j]->flags |= ML_TELEPORTTRIGGERED;
+                        }
 
                         // don't move for a bit
                         thing->reactiontime = 18;

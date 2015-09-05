@@ -790,7 +790,7 @@ dboolean G_Responder(event_t *ev)
                 else if (mousebprevweapon < MAX_MOUSE_BUTTONS && mousebuttons[mousebprevweapon])
                     G_PrevWeapon();
             }
-            if (!automapactive || (automapactive && am_followmode))
+            if (!automapactive || am_followmode)
             {
                 mousex = ev->data2 * m_sensitivity / 10;
                 mousey = ev->data3 * m_sensitivity / 10;
@@ -831,7 +831,7 @@ dboolean G_Responder(event_t *ev)
                 if ((gamepadbuttons & gamepadnextweapon) && wait < I_GetTime())
                 {
                     wait = I_GetTime() + 7;
-                    if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
+                    if (!gamepadpress || gamepadwait < I_GetTime())
                     {
                         G_NextWeapon();
                         gamepadpress = false;
@@ -840,7 +840,7 @@ dboolean G_Responder(event_t *ev)
                 else if ((gamepadbuttons & gamepadprevweapon) && wait < I_GetTime())
                 {
                     wait = I_GetTime() + 7;
-                    if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
+                    if (!gamepadpress || gamepadwait < I_GetTime())
                     {
                         G_PrevWeapon();
                         gamepadpress = false;
@@ -849,7 +849,7 @@ dboolean G_Responder(event_t *ev)
                 else if ((gamepadbuttons & gamepadalwaysrun) && wait < I_GetTime())
                 {
                     wait = I_GetTime() + 7;
-                    if (!gamepadpress || (gamepadpress && gamepadwait < I_GetTime()))
+                    if (!gamepadpress || gamepadwait < I_GetTime())
                     {
                         G_ToggleAlwaysRun(ev_gamepad);
                         gamepadpress = false;

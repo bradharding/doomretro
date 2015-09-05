@@ -312,16 +312,13 @@ void V_DrawBigPatch(int x, int y, int scrn, patch_t *patch)
     int         col = 0;
     byte        *desttop = screens[scrn] + y * SCREENWIDTH + x;
     int         w = SHORT(patch->width);
-    int         td;
-    int         topdelta;
-    int         lastlength;
 
     for (; col < w; col++, desttop++)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-
-        topdelta = -1;
-        lastlength = 0;
+        int             td;
+        int             topdelta = -1;
+        int             lastlength = 0;
 
         // step through the posts in a column
         while ((td = column->topdelta) != 0xFF)
@@ -1240,7 +1237,6 @@ dboolean V_ScreenShot(void)
     char        mapname[128];
     char        folder[MAX_PATH] = "";
     int         count = 0;
-    SDL_Surface *screenshot = NULL;
     SDL_Surface *surface;
 
 #if defined(WIN32)
@@ -1297,10 +1293,10 @@ dboolean V_ScreenShot(void)
             if (!SDL_RenderReadPixels(renderer, &surface->clip_rect, surface->format->format,
                 pixels, surface->w * surface->format->BytesPerPixel))
             {
-                screenshot = SDL_CreateRGBSurfaceFrom(pixels, surface->w, surface->h,
-                    surface->format->BitsPerPixel, surface->w * surface->format->BytesPerPixel,
-                    surface->format->Rmask, surface->format->Gmask, surface->format->Bmask,
-                    surface->format->Amask);
+                SDL_Surface     *screenshot = SDL_CreateRGBSurfaceFrom(pixels, surface->w,
+                    surface->h, surface->format->BitsPerPixel,
+                    surface->w * surface->format->BytesPerPixel, surface->format->Rmask,
+                    surface->format->Gmask, surface->format->Bmask, surface->format->Amask);
 
                 if (screenshot)
                 {
@@ -1321,18 +1317,15 @@ void V_AverageColorInPatch(patch_t *patch, int *red, int *green, int *blue, int 
 {
     int         col = 0;
     int         w = SHORT(patch->width);
-    int         td;
-    int         topdelta;
-    int         lastlength;
     int         red1 = 0, blue1 = 0, green1 = 0;
     byte        *playpal = W_CacheLumpName("PLAYPAL", PU_CACHE);
 
     for (; col < w; col++)
     {
         column_t        *column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
-
-        topdelta = -1;
-        lastlength = 0;
+        int             td;
+        int             topdelta = -1;
+        int             lastlength = 0;
 
         // step through the posts in a column
         while ((td = column->topdelta) != 0xFF)

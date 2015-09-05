@@ -374,7 +374,7 @@ void P_PlayerThink(player_t *player)
     if (cmd->buttons & BT_SPECIAL)
         cmd->buttons = 0;
 
-    if ((cmd->buttons & BT_CHANGE) && (!automapactive || (automapactive && am_followmode)))
+    if ((cmd->buttons & BT_CHANGE) && (!automapactive || am_followmode))
     {
         // The actual changing of the weapon is done when the weapon psprite can do it
         //  (read: not in the middle of an attack).
