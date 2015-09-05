@@ -145,6 +145,7 @@ extern unsigned int     stat_deaths;
 extern unsigned int     stat_itemspickedup;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_secretsrevealed;
+extern unsigned int     stat_time;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -2054,7 +2055,8 @@ static void C_PlayerName(char *cmd, char *parm1, char *parm2)
 static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
 {
     int tabs[8] = { 140, 250, 0, 0, 0, 0, 0, 0 };
-    int tics = leveltime / TICRATE;
+    int time1 = leveltime / TICRATE;
+    int time2 = stat_time / TICRATE;
 
     C_TabbedOutput(tabs, "\t~Current Map~\t~Total~");
 
@@ -2087,8 +2089,9 @@ static void C_PlayerStats(char *cmd, char *parm1, char *parm2)
         (totalsecret ? players[0].secretcount * 100 / totalsecret : 0),
         commify(stat_secretsrevealed));
 
-    C_TabbedOutput(tabs, "Time\t%02i:%02i:%02i\t-",
-        tics / 3600, (tics % 3600) / 60, (tics % 3600) % 60);
+    C_TabbedOutput(tabs, "Time\t%02i:%02i:%02i\t%02i:%02i:%02i",
+        time1 / 3600, (time1 % 3600) / 60, (time1 % 3600) % 60,
+        time2 / 3600, (time2 % 3600) / 60, (time2 % 3600) % 60);
 
     C_TabbedOutput(tabs, "Damage inflicted\t%s\t%s",
         commify(players[0].damageinflicted), commify(stat_damageinflicted));

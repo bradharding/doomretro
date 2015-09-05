@@ -117,6 +117,7 @@ extern unsigned int     stat_deaths;
 extern unsigned int     stat_itemspickedup;
 extern unsigned int     stat_monsterskilled;
 extern unsigned int     stat_secretsrevealed;
+extern unsigned int     stat_time;
 extern dboolean         vid_capfps;
 extern int              vid_display;
 #if !defined(WIN32)
@@ -219,6 +220,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT_UNSIGNED (stat_itemspickedup,   NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_monsterskilled,  NOALIAS    ),
     CONFIG_VARIABLE_INT_UNSIGNED (stat_secretsrevealed, NOALIAS    ),
+    CONFIG_VARIABLE_INT_UNSIGNED (stat_time,            NOALIAS    ),
     CONFIG_VARIABLE_INT          (vid_capfps,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (vid_display,          NOALIAS    ),
 #if !defined(WIN32)

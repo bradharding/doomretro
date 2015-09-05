@@ -43,6 +43,7 @@
 #include "z_zone.h"
 
 int     leveltime;
+int     stat_time = 0;
 
 //
 // THINKERS
@@ -242,4 +243,5 @@ void P_Ticker(void)
 
     // for par times
     leveltime++;
+    stat_time = SafeAdd(stat_time, 1);
 }
