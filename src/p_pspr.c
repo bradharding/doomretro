@@ -638,8 +638,7 @@ void A_FireCGun(player_t *player, pspdef_t *psp)
 {
     if (player->ammo[weaponinfo[player->readyweapon].ammo])
         S_StartSound(player->mo, sfx_pistol);
-
-    if (!player->ammo[weaponinfo[player->readyweapon].ammo])
+    else
         return;
 
     P_SetMobjState(player->mo, S_PLAY_ATK2);

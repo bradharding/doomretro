@@ -1715,7 +1715,7 @@ static const deh_bexptr deh_bexptrs[] =
   { A_Stop,            "A_Stop"            },
 
   // This NULL entry must be the last in the list
-  { NULL,            "A_NULL"          }        // Ty 05/16/98
+  { NULL,              "A_NULL"            }    // Ty 05/16/98
 };
 
 // to hold startup code pointers from INFO.C
@@ -2210,7 +2210,6 @@ void deh_procPointer(DEHFILE *fpin, char *line)
 
             // Write BEX-oriented line to match:
             for (i = 0; i < sizeof(deh_bexptrs) / sizeof(*deh_bexptrs); i++)
-            {
                 if (!memcmp(&deh_bexptrs[i].cptr, &deh_codeptr[value], sizeof(actionf_t)))
                 {
                     if (devparm)
@@ -2218,7 +2217,6 @@ void deh_procPointer(DEHFILE *fpin, char *line)
                             indexnum, &deh_bexptrs[i].lookup[2]);
                     break;
                 }
-            }
         }
         else
             C_Warning("Invalid frame pointer index for \"%s\" at %ld, xref %p.",
