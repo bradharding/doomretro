@@ -71,7 +71,7 @@ typedef struct
     dboolean    actionkey;
 } cheatseq_t;
 
-int cht_CheckCheat(cheatseq_t *cht, char key);
+int cht_CheckCheat(cheatseq_t *cht, unsigned char key);
 
 void cht_GetParam(cheatseq_t *cht, char *buffer);
 

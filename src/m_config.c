@@ -636,8 +636,8 @@ void M_LoadCVARs(char *filename)
     FILE        *file;
     char        control[32];
     char        action[32];
-    char        defname[32];
-    char        strparm[256];
+    char        defname[32] = "";
+    char        strparm[256] = "";
 
     configfile = strdup(filename);
 

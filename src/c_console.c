@@ -600,11 +600,11 @@ static void C_DrawBackground(int height)
 static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, int translucency,
     int tabs[8])
 {
-    dboolean    italics = false;
-    size_t      i;
-    int         tab = -1;
-    size_t      len = strlen(text);
-    char        prevletter = '\0';
+    dboolean            italics = false;
+    size_t              i;
+    int                 tab = -1;
+    size_t              len = strlen(text);
+    unsigned char       prevletter = '\0';
 
     y -= (CONSOLEHEIGHT - consoleheight);
 
@@ -620,9 +620,9 @@ static void C_DrawConsoleText(int x, int y, char *text, int color1, int color2, 
 
     for (i = 0; i < len; ++i)
     {
-        char    letter = text[i];
-        int     c = letter - CONSOLEFONTSTART;
-        char    nextletter = text[i + 1];
+        unsigned char   letter = text[i];
+        int             c = letter - CONSOLEFONTSTART;
+        unsigned char   nextletter = text[i + 1];
 
         if (letter == ITALICS && prevletter != ITALICS)
         {
@@ -1394,7 +1394,7 @@ void C_PrintCompileDate(void)
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     };
-    static char         mth[4];
+    static char         mth[4] = "";
 
     sscanf(__DATE__, "%3s %2d %4d", mth, &day, &year);
     sscanf(__TIME__, "%2d:%2d:%*d", &hour, &minute);

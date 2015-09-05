@@ -130,6 +130,9 @@ char *M_ExtractFolder(char *path)
     char        *pos;
     char        *folder = (char *)malloc(MAX_PATH);
 
+    if (!path[0])
+        return "";
+
     M_StringCopy(folder, path, MAX_PATH);
 
     pos = strrchr(folder, '\\');
@@ -192,7 +195,10 @@ int M_ReadFile(char *name, byte **buffer)
 
     handle = fopen(name, "rb");
     if (!handle)
+    {
         I_Error("Couldn't read file %s", name);
+        return 0;
+    }
 
     // find the size of the file by seeking to the end and
     // reading the current position
@@ -513,7 +519,7 @@ char *removespaces(const char *input)
         char    *p2 = p;
 
         while (*input != '\0')
-            if (isalnum(*input))
+            if (isalnum((unsigned char)*input))
                 *p2++ = *input++;
             else
                 ++input;
@@ -544,9 +550,9 @@ char *removenewlines(const char *input)
 
 char *M_ExtractFilename(char *path)
 {
-    size_t  len;
-    char   *pdest;
-    char   *inpfile = NULL;
+    size_t      len;
+    char        *pdest;
+    char        *inpfile = NULL;
 
     pdest = strrchr(path, '\\');
 

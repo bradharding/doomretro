@@ -70,13 +70,16 @@ void I_SetProcessPriority(HANDLE hProcess)
 
 void I_SetProcessDPIAware(void)
 {
+    HMODULE hLibrary = LoadLibrary("user32.dll");
     typedef BOOL (*SETPROCESSDPIAWARE)();
 
     SETPROCESSDPIAWARE pSetProcessDPIAware =
-        (SETPROCESSDPIAWARE)GetProcAddress(LoadLibrary("user32.dll"), "SetProcessDPIAware");
+        (SETPROCESSDPIAWARE)GetProcAddress(hLibrary, "SetProcessDPIAware");
 
     if (pSetProcessDPIAware)
         pSetProcessDPIAware();
+
+    FreeLibrary(hLibrary);
 }
 
 HHOOK           g_hKeyboardHook;

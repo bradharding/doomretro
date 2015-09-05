@@ -1108,14 +1108,14 @@ void M_UpdateSaveGameName(int i)
 {
     dboolean    match = false;
 
-    if (!strcmp(savegamestrings[i], s_EMPTYSTRING))
+    if (!strcasecmp(savegamestrings[i], s_EMPTYSTRING))
         match = true;
     else if (gamemission == doom
         && strlen(savegamestrings[i]) == 4
         && savegamestrings[i][0] == 'E'
-        && isdigit(savegamestrings[i][1])
+        && isdigit((unsigned char)savegamestrings[i][1])
         && savegamestrings[i][2] == 'M'
-        && isdigit(savegamestrings[i][3])
+        && isdigit((unsigned char)savegamestrings[i][3])
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
     else if (gamemission != doom
@@ -1123,8 +1123,8 @@ void M_UpdateSaveGameName(int i)
         && savegamestrings[i][0] == 'M' 
         && savegamestrings[i][1] == 'A'
         && savegamestrings[i][2] == 'P'
-        && isdigit(savegamestrings[i][3])
-        && isdigit(savegamestrings[i][4])
+        && isdigit((unsigned char)savegamestrings[i][3])
+        && isdigit((unsigned char)savegamestrings[i][4])
         && W_CheckNumForName(savegamestrings[i]) >= 0)
         match = true;
 

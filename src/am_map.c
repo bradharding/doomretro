@@ -939,15 +939,18 @@ dboolean AM_Responder(event_t *ev)
                     if (key == AM_PANLEFTKEY || key == AM_PANLEFTKEY2 || key == AM_PANLEFTKEY3)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2) || keystate(AM_PANRIGHTKEY3))
+                        if (keystate(AM_PANRIGHTKEY) || keystate(AM_PANRIGHTKEY2)
+                            || keystate(AM_PANRIGHTKEY3))
                             m_paninc.x = FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
                     }
-                    else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2 || key == AM_PANRIGHTKEY3)
+                    else if (key == AM_PANRIGHTKEY || key == AM_PANRIGHTKEY2
+                        || key == AM_PANRIGHTKEY3)
                     {
                         speedtoggle = AM_getSpeedToggle();
-                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2) || keystate(AM_PANLEFTKEY3))
+                        if (keystate(AM_PANLEFTKEY) || keystate(AM_PANLEFTKEY2)
+                            || keystate(AM_PANLEFTKEY3))
                             m_paninc.x = -FTOM(F_PANINC);
                         else
                             m_paninc.x = 0;
@@ -1047,7 +1050,8 @@ dboolean AM_Responder(event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_getSpeedToggle();
-                        m_paninc.x = FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLXright * 1.2f)));
+                        m_paninc.x = FTOM(MTOF((fixed_t)(FTOM(F_PANINC)
+                            * gamepadthumbLXright * 1.2f)));
                     }
 
                     // pan left
@@ -1055,7 +1059,8 @@ dboolean AM_Responder(event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_getSpeedToggle();
-                        m_paninc.x = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLXleft * 1.2f)));
+                        m_paninc.x = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC)
+                            * gamepadthumbLXleft * 1.2f)));
                     }
 
                     // pan up
@@ -1063,7 +1068,8 @@ dboolean AM_Responder(event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_getSpeedToggle();
-                        m_paninc.y = FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLYup * 1.2f)));
+                        m_paninc.y = FTOM(MTOF((fixed_t)(FTOM(F_PANINC)
+                            * gamepadthumbLYup * 1.2f)));
                     }
 
                     // pan down
@@ -1071,7 +1077,8 @@ dboolean AM_Responder(event_t *ev)
                     {
                         movement = true;
                         speedtoggle = AM_getSpeedToggle();
-                        m_paninc.y = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC) * gamepadthumbLYdown * 1.2f)));
+                        m_paninc.y = -FTOM(MTOF((fixed_t)(FTOM(F_PANINC)
+                            * gamepadthumbLYdown * 1.2f)));
                     }
                 }
             }

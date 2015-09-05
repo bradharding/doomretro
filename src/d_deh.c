@@ -1741,11 +1741,14 @@ dboolean CheckPackageWADVersion(void)
                     continue;   // Blank line or comment line
 
                 if (!strcasecmp(inbuffer, PACKAGE_NAMEANDVERSIONSTRING))
+                {
+                    Z_ChangeTag(infile.lump, PU_CACHE);
                     return true;
+                }
             }
-        }
 
-    Z_ChangeTag(infile.lump, PU_CACHE);
+            Z_ChangeTag(infile.lump, PU_CACHE);
+        }
     return false;
 }
 
@@ -1889,10 +1892,10 @@ void ProcessDehFile(char *filename, int lumpnum)
 //
 void deh_procBexCodePointers(DEHFILE *fpin, char *line)
 {
-    char        key[DEH_MAXKEYLEN];
-    char        inbuffer[DEH_BUFFERMAX];
+    char        key[DEH_MAXKEYLEN] = "";
+    char        inbuffer[DEH_BUFFERMAX] = "";
     int         indexnum;
-    char        mnemonic[DEH_MAXKEYLEN];        // to hold the codepointer mnemonic
+    char        mnemonic[DEH_MAXKEYLEN] = "";   // to hold the codepointer mnemonic
 
     // Ty 05/16/98 - initialize it to something, dummy!
     strncpy(inbuffer, line, DEH_BUFFERMAX);
@@ -1913,7 +1916,8 @@ void deh_procBexCodePointers(DEHFILE *fpin, char *line)
         if ((3 != sscanf(inbuffer, "%31s %10i = %31s", key, &indexnum, mnemonic))
             || strcasecmp(key, "FRAME"))        // NOTE: different format from normal
         {
-            C_Warning("Invalid BEX codepointer line - must start with \"FRAME\": \"%s\".", inbuffer);
+            C_Warning("Invalid BEX codepointer line - must start with \"FRAME\": \"%s\".",
+                inbuffer);
             return;     // early return
         }
 

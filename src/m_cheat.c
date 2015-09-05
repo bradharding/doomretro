@@ -55,7 +55,7 @@
 //
 char    cheatkey = '\0';
 
-int cht_CheckCheat(cheatseq_t *cht, char key)
+int cht_CheckCheat(cheatseq_t *cht, unsigned char key)
 {
     if (consolecheat[0] && !strcasecmp(consolecheat, cht->sequence))
     {

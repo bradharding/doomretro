@@ -302,8 +302,9 @@ dboolean EV_DoCeiling(line_t *line, ceiling_e type)
 //
 void P_AddActiveCeiling(ceiling_t *ceiling)
 {
-    ceilinglist_t       *list = malloc(sizeof(*list));
-
+    ceilinglist_t       *list;
+        
+    list = malloc(sizeof(*list));
     list->ceiling = ceiling;
     ceiling->list = list;
     if ((list->next = activeceilings))
