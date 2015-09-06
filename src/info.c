@@ -1498,7 +1498,7 @@ state_t states[NUMSTATES] =
     { SPR_PLS2,  0 | FF_FULLBRIGHT,                4,               NULL,            S_PLS2BALL2,     0,     0     }, // S_PLS2BALL
     { SPR_PLS2,  1 | FF_FULLBRIGHT,                4,               NULL,            S_PLS2BALL,      0,     0     }, // S_PLS2BALL2
     { SPR_PLS2,  2 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX1
-    { SPR_PLS2,  3 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX2,    0,     0     }, // S_PLS2BALLX2
+    { SPR_PLS2,  3 | FF_FULLBRIGHT,                6,               NULL,            S_PLS2BALLX3,    0,     0     }, // S_PLS2BALLX2
     { SPR_PLS2,  4 | FF_FULLBRIGHT,                6,               NULL,            S_NULL,          0,     0     }, // S_PLS2BALLX3
 
     // killough 7/11/98: beta bonus items
