@@ -104,6 +104,7 @@ static patch_t          *greenarmorpatch = NULL;
 static patch_t          *bluearmorpatch = NULL;
 
 static patch_t          *stdisk;
+dboolean                 drawdisk = false;
 
 void (*hudfunc)(int, int, patch_t *, byte *);
 void (*hudnumfunc)(int, int, patch_t *, byte *);
@@ -137,26 +138,6 @@ static struct
     { "RSKUA0", "RSKUB0", NULL }
 };
 
-void HU_Init(void)
-{
-    int         i;
-    int         j;
-    char        buffer[9];
-
-    // load the heads-up font
-    j = HU_FONTSTART;
-    for (i = 0; i < HU_FONTSIZE; i++)
-    {
-        M_snprintf(buffer, 9, "STCFN%.3d", j++);
-        hu_font[i] = W_CacheLumpName(buffer, PU_STATIC);
-    }
-}
-
-void HU_Stop(void)
-{
-    headsupactive = false;
-}
-
 patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
     if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
@@ -174,6 +155,75 @@ patch_t *HU_LoadHUDKeyPatch(int keypicnum)
         return W_CacheLumpName(keypic[keypicnum].patchnameb, PU_CACHE);
     else
         return NULL;
+}
+
+void HU_Init(void)
+{
+    int         i;
+    int         j;
+    char        buffer[9];
+
+    // load the heads-up font
+    j = HU_FONTSTART;
+    for (i = 0; i < HU_FONTSIZE; i++)
+    {
+        M_snprintf(buffer, 9, "STCFN%.3d", j++);
+        hu_font[i] = W_CacheLumpName(buffer, PU_STATIC);
+    }
+
+    tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
+
+    if (W_CheckNumForName("MEDIA0"))
+        healthpatch = W_CacheLumpName("MEDIA0", PU_CACHE);
+    if (gamemode != shareware && W_CheckNumForName("PSTRA0"))
+        berserkpatch = W_CacheLumpName("PSTRA0", PU_CACHE);
+    else
+        berserkpatch = healthpatch;
+    if (W_CheckNumForName("ARM1A0"))
+        greenarmorpatch = W_CacheLumpName("ARM1A0", PU_CACHE);
+    if (W_CheckNumForName("ARM2A0"))
+        bluearmorpatch = W_CacheLumpName("ARM2A0", PU_CACHE);
+
+    ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
+    ammopic[am_shell].patch = HU_LoadHUDAmmoPatch(am_shell);
+    if (gamemode != shareware)
+        ammopic[am_cell].patch = HU_LoadHUDAmmoPatch(am_cell);
+    ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
+
+    keypic[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
+    keypic[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
+    keypic[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
+    if (gamemode != shareware)
+    {
+        keypic[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
+        keypic[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
+        keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
+    }
+
+    if (r_translucency)
+    {
+        hudfunc = V_DrawTranslucentHUDPatch;
+        hudnumfunc = V_DrawTranslucentHUDNumberPatch;
+        godhudfunc = V_DrawTranslucentYellowHUDPatch;
+    }
+    else
+    {
+        hudfunc = V_DrawHUDPatch;
+        hudnumfunc = V_DrawHUDPatch;
+        godhudfunc = V_DrawYellowHUDPatch;
+    }
+
+    stdisk = W_CacheLumpName("STDISK", PU_CACHE);
+
+    s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
+
+    if (strcasecmp(playername, playername_default))
+        s_GOTMEDINEED = s_GOTMEDINEED2;
+}
+
+void HU_Stop(void)
+{
+    headsupactive = false;
 }
 
 void HU_Start(void)
@@ -211,56 +261,7 @@ void HU_Start(void)
 
     headsupactive = true;
 
-    tempscreen = Z_Malloc(SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);
-
-    if (r_translucency)
-    {
-        hudfunc = V_DrawTranslucentHUDPatch;
-        hudnumfunc = V_DrawTranslucentHUDNumberPatch;
-        godhudfunc = V_DrawTranslucentYellowHUDPatch;
-    }
-    else
-    {
-        hudfunc = V_DrawHUDPatch;
-        hudnumfunc = V_DrawHUDPatch;
-        godhudfunc = V_DrawYellowHUDPatch;
-    }
-
     hudnumoffset = (16 - SHORT(tallnum[0]->height)) / 2;
-
-    if (W_CheckNumForName("MEDIA0"))
-        healthpatch = W_CacheLumpName("MEDIA0", PU_CACHE);
-    if (gamemode != shareware && W_CheckNumForName("PSTRA0"))
-        berserkpatch = W_CacheLumpName("PSTRA0", PU_CACHE);
-    else
-        berserkpatch = healthpatch;
-    if (W_CheckNumForName("ARM1A0"))
-        greenarmorpatch = W_CacheLumpName("ARM1A0", PU_CACHE);
-    if (W_CheckNumForName("ARM2A0"))
-        bluearmorpatch = W_CacheLumpName("ARM2A0", PU_CACHE);
-
-    ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
-    ammopic[am_shell].patch = HU_LoadHUDAmmoPatch(am_shell);
-    if (gamemode != shareware)
-        ammopic[am_cell].patch = HU_LoadHUDAmmoPatch(am_cell);
-    ammopic[am_misl].patch = HU_LoadHUDAmmoPatch(am_misl);
-
-    keypic[it_bluecard].patch = HU_LoadHUDKeyPatch(it_bluecard);
-    keypic[it_yellowcard].patch = HU_LoadHUDKeyPatch(hacx ? it_yellowskull : it_yellowcard);
-    keypic[it_redcard].patch = HU_LoadHUDKeyPatch(it_redcard);
-    if (gamemode != shareware)
-    {
-        keypic[it_blueskull].patch = HU_LoadHUDKeyPatch(it_blueskull);
-        keypic[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
-        keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
-    }
-
-    stdisk = W_CacheLumpName("STDISK", PU_CACHE);
-
-    s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
-
-    if (strcasecmp(playername, playername_default))
-        s_GOTMEDINEED = s_GOTMEDINEED2;
 }
 
 static void DrawHUDNumber(int *x, int y, int val, byte *tinttab,
@@ -524,8 +525,6 @@ void HU_DrawDisk(void)
         HU_MSGY * SCREENSCALE, stdisk, tinttab66);
 }
 
-extern dboolean savinggame;
-
 void HU_Drawer(void)
 {
     w_message.l->x = HU_MSGX;
@@ -543,7 +542,7 @@ void HU_Drawer(void)
         HU_DrawHUD();
     }
 
-    if (savinggame)
+    if (drawdisk)
         HU_DrawDisk();
 }
 

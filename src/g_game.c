@@ -270,12 +270,11 @@ static char     savedescription[SAVESTRINGSIZE];
 dboolean        loadedgame = false;
 
 extern dboolean pm_alwaysrun;
-
 extern int      st_palette;
-
 extern int      pagetic;
-
 extern dboolean transferredsky;
+extern dboolean messages;
+
 
 void G_RemoveChoppers(void)
 {
@@ -1561,10 +1560,6 @@ void G_LoadedGameMessage(void)
     loadedgame = false;
 }
 
-dboolean savinggame = false;
-
-extern dboolean messages;
-
 //
 // G_SaveGame
 // Called by the menu task.
@@ -1576,7 +1571,7 @@ void G_SaveGame(int slot, char *description, char *name)
     savegameslot = slot;
     M_StringCopy(savedescription, description, sizeof(savedescription));
     sendsave = true;
-    savinggame = true;
+    drawdisk = true;
 }
 
 void G_DoSaveGame(void)
@@ -1625,7 +1620,7 @@ void G_DoSaveGame(void)
     // draw the pattern into the back screen
     R_FillBackScreen();
 
-    savinggame = false;
+    drawdisk = false;
 }
 
 //
