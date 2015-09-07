@@ -103,6 +103,8 @@ static patch_t          *berserkpatch = NULL;
 static patch_t          *greenarmorpatch = NULL;
 static patch_t          *bluearmorpatch = NULL;
 
+static patch_t          *stdisk;
+
 void (*hudfunc)(int, int, patch_t *, byte *);
 void (*hudnumfunc)(int, int, patch_t *, byte *);
 void (*godhudfunc)(int, int, patch_t *, byte *);
@@ -252,6 +254,8 @@ void HU_Start(void)
         keypic[it_yellowskull].patch = HU_LoadHUDKeyPatch(it_yellowskull);
         keypic[it_redskull].patch = HU_LoadHUDKeyPatch(it_redskull);
     }
+
+    stdisk = W_CacheLumpName("STDISK", PU_CACHE);
 
     s_STSTR_BEHOLD2 = !strcasecmp(s_STSTR_BEHOLD, STSTR_BEHOLD2);
 
@@ -514,6 +518,14 @@ static void HU_DrawHUD(void)
     }
 }
 
+void HU_DrawDisk(void)
+{
+    V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
+        HU_MSGY * SCREENSCALE, 0, stdisk);
+}
+
+extern dboolean savinggame;
+
 void HU_Drawer(void)
 {
     w_message.l->x = HU_MSGX;
@@ -530,6 +542,9 @@ void HU_Drawer(void)
         hud_y = (vid_widescreen ? HUD_Y : HUD_Y + SBARHEIGHT);
         HU_DrawHUD();
     }
+
+    if (savinggame)
+        HU_DrawDisk();
 }
 
 void HU_Erase(void)
