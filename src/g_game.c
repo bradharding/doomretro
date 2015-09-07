@@ -1563,6 +1563,8 @@ void G_LoadedGameMessage(void)
 
 dboolean savinggame = false;
 
+extern dboolean messages;
+
 //
 // G_SaveGame
 // Called by the menu task.
@@ -1615,15 +1617,7 @@ void G_DoSaveGame(void)
     remove(savegame_file);
     rename(temp_savegame_file, savegame_file);
 
-    if (consoleactive)
-        C_Output("%s saved.", uppercase(savename));
-    else
-    {
-        M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
-        HU_PlayerMessage(buffer, false);
-        message_dontfuckwithme = true;
-        S_StartSound(NULL, sfx_swtchx);
-    }
+    C_Output("%s saved.", uppercase(savename));
 
     gameaction = ga_nothing;
     M_StringCopy(savedescription, "", sizeof(savedescription));
