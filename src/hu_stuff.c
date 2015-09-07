@@ -520,8 +520,8 @@ static void HU_DrawHUD(void)
 
 void HU_DrawDisk(void)
 {
-    V_DrawBigPatch(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
-        HU_MSGY * SCREENSCALE, 0, stdisk);
+    hudfunc(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
+        HU_MSGY * SCREENSCALE, stdisk, tinttab66);
 }
 
 extern dboolean savinggame;
