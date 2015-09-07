@@ -927,7 +927,7 @@ void G_Ticker(void)
                     if ((usergame || gamestate == GS_LEVEL)
                         && !idbehold && !(players[0].cheats & CF_MYPOS))
                     {
-                        HU_clearMessages();
+                        HU_ClearMessages();
                         D_Display();
                     }
                     if (V_ScreenShot())

@@ -161,7 +161,7 @@ patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 {
     if ((mobjinfo[ammopic[ammopicnum].mobjnum].flags & MF_SPECIAL)
         && W_CheckNumForName(ammopic[ammopicnum].patchname) >= 0)
-        return W_CacheLumpNum(W_GetNumForName(ammopic[ammopicnum].patchname), PU_CACHE);
+        return W_CacheLumpName(ammopic[ammopicnum].patchname, PU_CACHE);
     else
         return NULL;
 }
@@ -169,9 +169,9 @@ patch_t *HU_LoadHUDAmmoPatch(int ammopicnum)
 patch_t *HU_LoadHUDKeyPatch(int keypicnum)
 {
     if (dehacked && W_CheckNumForName(keypic[keypicnum].patchnamea) >= 0)
-        return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchnamea), PU_CACHE);
+        return W_CacheLumpName(keypic[keypicnum].patchnamea, PU_CACHE);
     else if (W_CheckNumForName(keypic[keypicnum].patchnameb) >= 0)
-        return W_CacheLumpNum(W_GetNumForName(keypic[keypicnum].patchnameb), PU_CACHE);
+        return W_CacheLumpName(keypic[keypicnum].patchnameb, PU_CACHE);
     else
         return NULL;
 }
@@ -229,15 +229,15 @@ void HU_Start(void)
     hudnumoffset = (16 - SHORT(tallnum[0]->height)) / 2;
 
     if (W_CheckNumForName("MEDIA0"))
-        healthpatch = W_CacheLumpNum(W_GetNumForName("MEDIA0"), PU_CACHE);
+        healthpatch = W_CacheLumpName("MEDIA0", PU_CACHE);
     if (gamemode != shareware && W_CheckNumForName("PSTRA0"))
-        berserkpatch = W_CacheLumpNum(W_GetNumForName("PSTRA0"), PU_CACHE);
+        berserkpatch = W_CacheLumpName("PSTRA0", PU_CACHE);
     else
         berserkpatch = healthpatch;
     if (W_CheckNumForName("ARM1A0"))
-        greenarmorpatch = W_CacheLumpNum(W_GetNumForName("ARM1A0"), PU_CACHE);
+        greenarmorpatch = W_CacheLumpName("ARM1A0", PU_CACHE);
     if (W_CheckNumForName("ARM2A0"))
-        bluearmorpatch = W_CacheLumpNum(W_GetNumForName("ARM2A0"), PU_CACHE);
+        bluearmorpatch = W_CacheLumpName("ARM2A0", PU_CACHE);
 
     ammopic[am_clip].patch = HU_LoadHUDAmmoPatch(am_clip);
     ammopic[am_shell].patch = HU_LoadHUDAmmoPatch(am_shell);
@@ -673,7 +673,7 @@ void HU_PlayerMessage(char *message, dboolean ingame)
         C_Output("%s%s", buffer, (lastchar == '.' || lastchar == '!' ? "" : "."));
 }
 
-void HU_clearMessages(void)
+void HU_ClearMessages(void)
 {
     if ((idbehold || (plr->cheats & CF_MYPOS)) && !message_clearable)
         return;

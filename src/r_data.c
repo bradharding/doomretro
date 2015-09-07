@@ -954,7 +954,7 @@ void R_InitColormaps(void)
 
         colormaps = Z_Malloc(sizeof(*colormaps) * numcolormaps, PU_STATIC, 0);
 
-        colormaps[0] = W_CacheLumpNum(W_GetNumForName("COLORMAP"), PU_STATIC);
+        colormaps[0] = W_CacheLumpName("COLORMAP", PU_STATIC);
 
         for (i = 1; i < numcolormaps; i++)
             colormaps[i] = W_CacheLumpNum(i + firstcolormaplump, PU_STATIC);
@@ -962,7 +962,7 @@ void R_InitColormaps(void)
     else
     {
         colormaps = Z_Malloc(sizeof(*colormaps), PU_STATIC, 0);
-        colormaps[0] = W_CacheLumpNum(W_GetNumForName("COLORMAP"), PU_STATIC);
+        colormaps[0] = W_CacheLumpName("COLORMAP", PU_STATIC);
     }
 
     // [BH] There's a typo in dcolors.c, the source code of the utility Id

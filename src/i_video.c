@@ -400,7 +400,7 @@ static void I_GetEvent(void)
                     {
                         message_clearable = true;
                         idbehold = false;
-                        HU_clearMessages();
+                        HU_ClearMessages();
                     }
 
                     D_PostEvent(&event);
@@ -427,7 +427,7 @@ static void I_GetEvent(void)
                     if (idbehold)
                     {
                         message_clearable = true;
-                        HU_clearMessages();
+                        HU_ClearMessages();
                         idbehold = false;
                     }
                     event.type = ev_mouse;

@@ -92,7 +92,7 @@ void HU_Erase(void);
 
 void HU_PlayerMessage(char *message, dboolean ingame);
 
-void HU_clearMessages(void);
+void HU_ClearMessages(void);
 
 extern int      healthhighlight;
 extern int      ammohighlight;

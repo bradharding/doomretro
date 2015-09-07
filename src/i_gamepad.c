@@ -221,7 +221,7 @@ void I_PollDirectInputGamepad(void)
             if (idbehold)
             {
                 message_clearable = true;
-                HU_clearMessages();
+                HU_ClearMessages();
                 idbehold = false;
             }
         }
@@ -309,7 +309,7 @@ void I_PollXInputGamepad(void)
             if (idbehold)
             {
                 message_clearable = true;
-                HU_clearMessages();
+                HU_ClearMessages();
                 idbehold = false;
             }
         }

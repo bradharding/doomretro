@@ -1019,7 +1019,7 @@ dboolean ST_Responder(event_t *ev)
                 if (!(plyr->cheats & CF_MYPOS))
                 {
                     message_clearable = true;
-                    HU_clearMessages();
+                    HU_ClearMessages();
                 }
 
                 // [BH] play sound

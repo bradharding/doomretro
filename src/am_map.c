@@ -531,7 +531,7 @@ static void AM_LevelInit(void)
 void AM_Stop(void)
 {
     automapactive = false;
-    HU_clearMessages();
+    HU_ClearMessages();
     ST_AutomapEvent(AM_MSGEXITED);
     stopped = true;
 }
