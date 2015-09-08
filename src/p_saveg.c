@@ -37,6 +37,7 @@
 */
 
 #include "am_map.h"
+#include "c_console.h"
 #include "d_deh.h"
 #include "doomstat.h"
 #include "dstrings.h"
@@ -1611,8 +1612,14 @@ dboolean P_ReadSaveGameHeader(char *description)
 
     memset(vcheck, 0, sizeof(vcheck));
     strcpy(vcheck, PACKAGE_SAVEGAMEVERSIONSTRING);
-    if (strcmp(read_vcheck, vcheck) != 0)
+    if (strcmp(read_vcheck, vcheck))
+    {
+        menuactive = false;
+        consoleheight = 1;
+        consoledirection = 1;
+        C_Warning("This savegame requires %s.", read_vcheck);
         return false;   // bad version
+    }
 
     gameskill = (skill_t)saveg_read8();
     gameepisode = saveg_read8();

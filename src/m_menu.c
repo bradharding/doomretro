@@ -976,7 +976,7 @@ void M_LoadSelect(int choice)
         menuactive = false;
         consoleheight = 1;
         consoledirection = 1;
-        C_Warning("This savegame requires an earlier version of " PACKAGE_NAME ".");
+        C_Warning("This savegame requires a different IWAD.");
     }
 }
 
