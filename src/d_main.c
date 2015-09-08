@@ -216,6 +216,7 @@ void D_Display(void)
     // save the current screen if about to wipe
     if ((wipe = (gamestate != wipegamestate || forcewipe)))
     {
+        drawdisk = false;
         wipe_StartScreen();
         if (forcewipe)
             forcewipe = false;
