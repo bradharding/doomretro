@@ -87,6 +87,7 @@ extern dboolean         r_corpses_nudge;
 extern dboolean         r_corpses_slide;
 extern dboolean         r_corpses_smearblood;
 extern int              r_detail;
+extern dboolean         r_diskicon;
 extern dboolean         r_fixmaperrors;
 extern dboolean         r_fixspriteoffsets;
 extern dboolean         r_floatbob;
@@ -189,6 +190,7 @@ static default_t cvars[] =
     CONFIG_VARIABLE_INT          (r_corpses_slide,      BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_corpses_smearblood, BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_detail,             DETAILALIAS),
+    CONFIG_VARIABLE_INT          (r_diskicon,           BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_fixmaperrors,       BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_fixspriteoffsets,   BOOLALIAS  ),
     CONFIG_VARIABLE_INT          (r_floatbob,           BOOLALIAS  ),

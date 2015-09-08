@@ -114,6 +114,7 @@ extern dboolean         r_corpses_nudge;
 extern dboolean         r_corpses_slide;
 extern dboolean         r_corpses_smearblood;
 extern int              r_detail;
+extern int              r_diskicon;
 extern dboolean         r_fixmaperrors;
 extern dboolean         r_fixspriteoffsets;
 extern dboolean         r_floatbob;
@@ -513,6 +514,7 @@ consolecmd_t consolecmds[] =
     CVAR_BOOL (r_corpses_slide, C_BoolCondition, C_Bool, "Toggles corpses reacting to barrel and rocket explosions."),
     CVAR_BOOL (r_corpses_smearblood, C_BoolCondition, C_Bool, "Toggles corpses producing blood splats as they slide."),
     CVAR_BOOL (r_detail, C_GraphicDetailCondition, C_GraphicDetail, "Toggles the graphic detail."),
+    CVAR_BOOL (r_diskicon, C_BoolCondition, C_Bool, "Toggles showing a disk icon when loading and saving."),
     CVAR_BOOL (r_fixmaperrors, C_BoolCondition, C_Bool, "Toggles the fixing of mapping errors in the DOOM IWADs."),
     CVAR_BOOL (r_fixspriteoffsets, C_BoolCondition, C_Bool, "Toggles the fixing of sprite offsets."),
     CVAR_BOOL (r_floatbob, C_BoolCondition, C_Bool, "Toggles powerups bobbing up and down."),

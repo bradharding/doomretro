@@ -103,8 +103,9 @@ static patch_t          *berserkpatch = NULL;
 static patch_t          *greenarmorpatch = NULL;
 static patch_t          *bluearmorpatch = NULL;
 
+dboolean                r_diskicon = r_diskicon_default;
 static patch_t          *stdisk;
-dboolean                 drawdisk = false;
+dboolean                drawdisk = false;
 
 void (*hudfunc)(int, int, patch_t *, byte *);
 void (*hudnumfunc)(int, int, patch_t *, byte *);
@@ -521,9 +522,12 @@ static void HU_DrawHUD(void)
 
 void HU_DrawDisk(void)
 {
-    hudfunc(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
-        HU_MSGY * SCREENSCALE, stdisk, tinttab66);
-    updatefunc();
+    if (r_diskicon)
+    {
+        hudfunc(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width), HU_MSGY * SCREENSCALE,
+            stdisk, tinttab66);
+        updatefunc();
+    }
 }
 
 void HU_Drawer(void)

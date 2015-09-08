@@ -143,6 +143,8 @@ typedef enum
 
 #define r_detail_default                        high
 
+#define r_diskicon_default                      true
+
 #define r_fixmaperrors_default                  true
 
 #define r_fixspriteoffsets_default              true
