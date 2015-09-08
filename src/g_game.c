@@ -1617,7 +1617,12 @@ void G_DoSaveGame(void)
     if (consoleactive)
         C_Output("%s saved.", uppercase(savename));
     else
-        C_Output("\"%s\" saved.", savedescription);
+    {
+        M_snprintf(buffer, sizeof(buffer), s_GGSAVED, savedescription);
+        HU_PlayerMessage(buffer, false);
+        message_dontfuckwithme = true;
+        S_StartSound(NULL, sfx_swtchx);
+    }
 
     gameaction = ga_nothing;
     M_StringCopy(savedescription, "", sizeof(savedescription));
