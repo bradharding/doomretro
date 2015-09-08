@@ -546,6 +546,8 @@ void G_DoLoadLevel(void)
 {
     int ep;
 
+    HU_DrawDisk();
+
     // Set the sky map.
     // First thing, we have a dummy sky texture name,
     //  a flat. The data is in the WAD only because

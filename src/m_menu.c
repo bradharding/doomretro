@@ -1575,6 +1575,7 @@ void M_ChooseSkill(int choice)
         return;
     }
 
+    HU_DrawDisk();
     S_StartSound(NULL, sfx_pistol);
     I_WaitVBL(2 * TICRATE);
     quickSaveSlot = -1;

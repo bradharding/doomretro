@@ -523,6 +523,7 @@ void HU_DrawDisk(void)
 {
     hudfunc(SCREENWIDTH - HU_MSGX * SCREENSCALE - SHORT(stdisk->width),
         HU_MSGY * SCREENSCALE, stdisk, tinttab66);
+    updatefunc();
 }
 
 void HU_Drawer(void)

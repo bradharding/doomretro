@@ -1123,6 +1123,7 @@ dboolean ST_Responder(event_t *ev)
                     }
                     gamemap = map;
                     idclevtics = MAPCHANGETICS;
+                    drawdisk = true;
                     C_HideConsole();
                     stat_cheated = SafeAdd(stat_cheated, 1);
                     players[0].cheated++;
