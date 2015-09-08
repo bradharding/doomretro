@@ -66,6 +66,7 @@
 #include "SDL.h"
 #include "v_data.h"
 #include "v_video.h"
+#include "version.h"
 #include "w_wad.h"
 #include "z_zone.h"
 
@@ -969,6 +970,13 @@ void M_LoadSelect(int choice)
         quickSaveSlot = choice;
         M_ClearMenus();
         G_LoadGame(name);
+    }
+    else
+    {
+        menuactive = false;
+        consoleheight = 1;
+        consoledirection = 1;
+        C_Warning("This savegame requires an earlier version of " PACKAGE_NAME ".");
     }
 }
 
