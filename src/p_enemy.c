@@ -1428,8 +1428,9 @@ void A_FireCrackle(actionargs_t *actionargs)
 //
 void A_VileTarget(actionargs_t *actionargs)
 {
-    mobj_t      *actor = actionargs->actor;
-    mobj_t      *fog;
+    mobj_t              *actor = actionargs->actor;
+    mobj_t              *fog;
+    actionargs_t        fogaction;
 
     if (!actor->target)
         return;
@@ -1441,7 +1442,11 @@ void A_VileTarget(actionargs_t *actionargs)
     P_SetTarget(&actor->tracer, fog);
     P_SetTarget(&fog->target, actor);
     P_SetTarget(&fog->tracer, actor->target);
-    A_Fire(actionargs);
+
+    fogaction.actiontype = MOBJFRAME;
+    fogaction.actor = fog;
+    fogaction.pspr = NULL;
+    A_Fire(&fogaction);
 }
 
 //
