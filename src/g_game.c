@@ -1614,7 +1614,10 @@ void G_DoSaveGame(void)
     remove(savegame_file);
     rename(temp_savegame_file, savegame_file);
 
-    C_Output("%s saved.", uppercase(savename));
+    if (consoleactive)
+        C_Output("%s saved.", uppercase(savename));
+    else
+        C_Output("\"%s\" saved.", savedescription);
 
     gameaction = ga_nothing;
     M_StringCopy(savedescription, "", sizeof(savedescription));
