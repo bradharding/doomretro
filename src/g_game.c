@@ -619,7 +619,9 @@ void G_DoLoadLevel(void)
     memset(gamekeydown, 0, sizeof(gamekeydown));
     mousex = 0;
     mousey = 0;
-    sendpause = sendsave = paused = false;
+    sendpause = false;
+    sendsave = false;
+    paused = false;
     memset(mousearray, 0, sizeof(mousearray));
 
     SDL_SetWindowTitle(window, mapnumandtitle);

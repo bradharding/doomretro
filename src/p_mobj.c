@@ -137,9 +137,10 @@ dboolean P_SetMobjState(mobj_t *mobj, statenum_t state)
         {
             actionargs_t        actionargs;
 
-            actionargs.actiontype = MOBJFRAME;
+            actionargs.type = MOBJFRAME;
             actionargs.actor = mobj;
-            actionargs.pspr = NULL;
+            actionargs.psp = NULL;
+            actionargs.position = 0;
 
             st->action(&actionargs);
         }

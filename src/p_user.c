@@ -322,8 +322,8 @@ void P_ResurrectPlayer(player_t *player)
 //
 void P_PlayerThink(player_t *player)
 {
-    ticcmd_t            *cmd = &player->cmd;
-    mobj_t              *mo = player->mo;
+    ticcmd_t    *cmd = &player->cmd;
+    mobj_t      *mo = player->mo;
 
     // [AM] Assume we can interpolate at the beginning
     //      of the tic.

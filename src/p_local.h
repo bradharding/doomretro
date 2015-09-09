@@ -92,6 +92,7 @@
 void P_SetupPsprites(player_t *player);
 void P_MovePsprites(player_t *player);
 void P_DropWeapon(player_t *player);
+void P_SetPsprite(player_t *player, int position, statenum_t stnum);
 
 //
 // P_USER
@@ -295,10 +296,11 @@ typedef struct actionargs_s
     {
         MOBJFRAME,      // invoked from P_SetMobjState
         WEAPONFRAME     // invoked from P_SetPsprite
-    } actiontype;
+    } type;
 
     mobj_t      *actor; // Actor for either type of invocation; use mo->player when needed
-    pspdef_t    *pspr;  // psprite, only valid if actiontype is WEAPONFRAME
+    pspdef_t    *psp;   // psprite, only valid if actiontype is WEAPONFRAME
+    int         position;
 } actionargs_t;
 
 #endif

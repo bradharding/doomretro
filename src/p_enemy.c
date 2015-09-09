@@ -1443,9 +1443,11 @@ void A_VileTarget(actionargs_t *actionargs)
     P_SetTarget(&fog->target, actor);
     P_SetTarget(&fog->tracer, actor->target);
 
-    fogaction.actiontype = MOBJFRAME;
+    fogaction.type = MOBJFRAME;
     fogaction.actor = fog;
-    fogaction.pspr = NULL;
+    fogaction.psp = NULL;
+    fogaction.position = 0;
+
     A_Fire(&fogaction);
 }
 
@@ -1652,9 +1654,10 @@ void A_PainShootSkull(mobj_t *actor, angle_t angle)
 
         P_SetTarget(&newmobj->target, actor->target);
 
-        skullaction.actiontype = MOBJFRAME;
+        skullaction.type = MOBJFRAME;
         skullaction.actor = newmobj;
-        skullaction.pspr = NULL;
+        skullaction.psp = NULL;
+        skullaction.position = 0;
 
         A_SkullAttack(&skullaction);
     }
@@ -2250,10 +2253,20 @@ void A_PlaySound(actionargs_t *actionargs)
 
 void A_RandomJump(actionargs_t *actionargs)
 {
-    mobj_t      *mo = actionargs->actor;
+    if (actionargs->type == WEAPONFRAME)
+    {
+        state_t *state = actionargs->psp->state;
 
-    if (P_Random() < mo->state->misc2)
-        P_SetMobjState(mo, mo->state->misc1);
+        if (P_Random() < state->misc2)
+            P_SetPsprite(actionargs->actor->player, actionargs->position, state->misc1);
+    }
+    else
+    {
+        mobj_t      *mo = actionargs->actor;
+
+        if (P_Random() < mo->state->misc2)
+            P_SetMobjState(mo, mo->state->misc1);
+    }
 }
 
 //

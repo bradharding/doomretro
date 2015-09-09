@@ -92,9 +92,10 @@ void P_SetPsprite(player_t *player, int position, statenum_t stnum)
         {
             actionargs_t        actionargs;
 
-            actionargs.actiontype = WEAPONFRAME;
+            actionargs.type = WEAPONFRAME;
             actionargs.actor = player->mo;
-            actionargs.pspr = psp;
+            actionargs.psp = psp;
+            actionargs.position = position;
 
             state->action(&actionargs);
 
@@ -241,7 +242,7 @@ void A_WeaponReady(actionargs_t *actionargs)
     if (!(player = mo->player))
         return;
 
-    if (!(psp = actionargs->pspr))
+    if (!(psp = actionargs->psp))
         return;
 
     // get out of attack state
@@ -337,8 +338,7 @@ void A_CheckReload(actionargs_t *actionargs)
     if (!player)
         return;
 
-    if (!P_CheckAmmo(player))
-        P_SetPsprite(player, ps_weapon, weaponinfo[player->readyweapon].downstate);
+    P_CheckAmmo(player);
 }
 
 //
@@ -354,7 +354,7 @@ void A_Lower(actionargs_t *actionargs)
     if (!(player = actionargs->actor->player))
         return;
 
-    if (!(psp = actionargs->pspr))
+    if (!(psp = actionargs->psp))
         return;
 
     psp->sy += LOWERSPEED;
@@ -396,7 +396,7 @@ void A_Raise(actionargs_t *actionargs)
     if (!(player = actionargs->actor->player))
         return;
 
-    if (!(psp = actionargs->pspr))
+    if (!(psp = actionargs->psp))
         return;
 
     psp->sy -= RAISESPEED;
@@ -751,7 +751,7 @@ void A_FireCGun(actionargs_t *actionargs)
     if (!(player = mo->player))
         return;
 
-    if (!(psp = actionargs->pspr))
+    if (!(psp = actionargs->psp))
         return;
 
     if (player->ammo[weaponinfo[player->readyweapon].ammo])
