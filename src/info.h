@@ -1296,16 +1296,6 @@ typedef enum
     // killough 10/98: mushroom explosion effect
     S_MUSHROOM,
 
-    S_PLAY_GDIE1,
-    S_PLAY_GDIE2,
-    S_PLAY_GDIE3,
-    S_PLAY_GDIE4,
-    S_PLAY_GDIE5,
-    S_PLAY_GDIE6,
-    S_PLAY_GDIE7,
-    S_PLAY_GDIE8,
-    S_PLAY_GDIE9,
-
     // [BH] DOOM RETRO states
     S_BAR1,
     S_BLOODSPLAT,
